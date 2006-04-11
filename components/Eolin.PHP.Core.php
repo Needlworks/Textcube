@@ -1,0 +1,1028 @@
+<?
+class UTF8 {
+	/*@static@*/
+	function validate($str) {
+		$length = strlen($str);
+		for ($i = 0; $i < $length; $i ++) {
+			$high = ord($str{$i});
+			if (($high == 0xC0) || ($high == 0xC1)) {
+				return false;
+			}
+			else if ($high < 0x80) {
+				continue;
+			} else if ($high < 0xC0) {
+				return false;
+			} else if ($high < 0xE0) {
+				if (++$i >= $length)
+					return true;
+				else if (($str{$i} & "\xC0") == "\x80")
+					continue;
+			} else if ($high < 0xF0) {
+				if (++$i >= $length) {
+					return true;
+				} else if (($str{$i} & "\xC0") == "\x80") {
+					if (++$i >= $length)
+						return true;
+					else if (($str{$i} & "\xC0") == "\x80")
+						continue;
+				}
+			} else if ($high < 0xF5) {
+				if (++$i >= $length) {
+					return true;
+				} else if (($str{$i} & "\xC0") == "\x80") {
+					if (++$i >= $length) {
+						return true;
+					} else if (($str{$i} & "\xC0") == "\x80")  {
+						if (++$i >= $length)
+							return true;
+						else if (($str{$i} & "\xC0") == "\x80")
+							continue;
+					}
+				}
+			} // F5~FF is invalid by RFC 3629
+			return false;
+		}
+		return true;
+	}
+	
+	/*@static@*/
+	function adapt($str) {
+		$strlen = strlen($str);
+		for ($i = 0; $i < $strlen; $i ++) {
+			$high = ord($str{$i});
+			if (($high == 0xC0) || ($high == 0xC1)) {
+				$str{$i} = '?';
+			} else if ($high < 0x80) { // 1byte
+				// considering about characters that less 32
+				if (($high < 0x20) || ($high == 0x7f)) { // Special Characters
+					if (($high != 0x0a) && ($high != 0x0d) && ($high != 0x09)) // LR, CR, HT
+					{ 
+						$str{$i} = '?';
+					} 
+				}
+				continue;
+			} else if ($high < 0xC0) {
+				$str{$i} = '?';
+			} else if ($high < 0xE0) { // 2byte
+				if (($i + 1 >= $strlen) || (($str{$i + 1} & "\xC0") != "\x80"))
+					$str{$i} = '?';
+				else
+					$i += 1;
+			} else if ($high < 0xF0) { // 3byte
+				if (($i + 2 >= $strlen) || (($str{$i + 1} & "\xC0") != "\x80") || (($str{$i + 2} & "\xC0") != "\x80"))
+					$str{$i} = '?';
+				else
+					$i += 2;
+			} else if ($high < 0xF5) { // 4byte
+				if (($i + 3>= $strlen) || (($str{$i + 1} & "\xC0") != "\x80") || (($str{$i + 2} & "\xC0") != "\x80") || (($str{$i + 3} & "\xC0") != "\x80"))
+					$str{$i} = '?';
+				else
+					$i += 3;
+			} else { // F5~FF is invalid
+				$str{$i} = '?';
+			}
+		}
+		return $str;
+		}
+	
+	/*@lessen@*/
+	function lessen($str, $length, $tail = '..') {
+		$l = strlen($str);
+		for ($i = $n = 0; $i < $l; $i ++, $n ++) {
+			if ($n >= $length)
+				return substr($str, 0, $i) . $tail;
+			$c = ord($str{$i});
+			if (($c & 0xF0) == 0xF0)
+				$i += 3;
+			else if (($c & 0xE0) == 0xE0)
+				$i += 2;
+			else if (($c & 0xC0) == 0xC0)
+				$i += 1;
+		}
+		return $str;
+	}
+}
+
+
+class Validator {
+	/**
+		Date-Time		::= RFC-1123 (the modification of RFC-822)
+		Language Code	::= ISO-639 2-letter
+		Country Code	::= ISO-3166 alpha-2 country codes
+		Language		::= RFC-1766 language tag & RFC-3066
+							The used syntax in RFC-822 EBNF is:
+								2*2ALPHA *( "-" 2*2ALPHA )
+		Timezone		::= RFC-2822
+							The used syntax in RFC-822 EBNF is:
+								( "+" / "-" ) 4DIGIT
+	**/
+
+	/*@static@*/
+	function number($number, $min = null, $max = null) {
+		if (!is_numeric($number))
+			return false;
+		if (isset($min) && ($number < $min))
+			return false;
+		if (isset($max) && ($number > $max))
+			return false;
+		return true;
+	}
+	
+	/*@static@*/
+	function timestamp($timestamp) {
+		return (is_numeric($timestamp) && ($timestamp > 315500399) && ($timestamp < 2145884400));
+	}
+
+	/*@static@*/
+	function domain($domain) {
+		return preg_match('/^([[:alnum:]]+(-[[:alnum:]]+)*\\.)+[[:alnum:]]+(-[[:alnum:]]+)*$/', $domain);
+	}
+	
+	/*@static@*/
+	function ip($ip) {
+		return preg_match('/^\d{1,3}(\.\d{1,3}){3}$/', $ip);
+	}
+
+	/*@static@*/
+	function language($language) {
+		return preg_match('/^[[:alpha:]]{2}(-[[:alpha:]]{2})?$/', $language);
+	}
+
+	/*@static@*/
+	function period($period, $length) {
+		if (is_numeric($period)) {
+			if (isset($length) && (strlen($period) != $length))
+				return false;
+			$year = 0;
+			$month = 1;
+			$day = 1;	
+			switch (strlen($period)) {
+				case 8:
+					$day = substr($period, 6, 2);
+				case 6:
+					$month = substr($period, 4, 2);
+				case 4:
+					$year = substr($period, 0, 4);
+					return checkdate($month, $day, $year);
+			}
+		}
+		return false;
+	}
+
+	/*@static@*/
+	function filename($name) {
+		//if ($secure && preg_match('/\.(php|exe|com|sh|bat)$/i', $name))
+		//	return false;
+		return preg_match('/^\w+(\.\w+)*$/', $name);
+	}
+	
+	/*@static@*/
+	function directory($name) {
+		return preg_match('/^[-\w]+( [-\w]+)*$/', $name);
+	}
+	
+	/*@static@*/
+	function path($name) {
+		return preg_match('/^[-\w]+( [-\w]+)*(\/[-\w]+( [-\w]+)*)*$/', $name);
+	}
+	
+	/*@static@*/
+	function getBit($value) {
+		return (Validator::getBool($value) ? 1 : 0);
+	}
+	
+	/*@static@*/
+	function getBool($value) {
+		return (!empty($value) && (!is_string($value) || (strcasecmp('false', $value) && strcasecmp('off', $value) && strcasecmp('no', $value))));
+	}
+	
+	/*@static@*/
+	function escapeXML($string, $escape = true) {
+		if ($string === null)
+			return null;
+		return ($escape ? htmlspecialchars($string) : str_replace('&amp;', '&', preg_replace(array('&quot;', '&lt;', '&gt;'), array('"', '<', '>'), $string)));
+	}
+}
+
+
+class Locale {
+	function setLocale($locale) {
+		global $__locale, $__text;
+		list($common) = explode('_', $locale, 2);
+		if (file_exists($__locale['directory'] . '/' . $locale . '.php')) {
+			include($__locale['directory'] . '/' . $locale . '.php');
+			$__locale['locale'] = $locale;
+			return true;
+		} else if (($common != $locale) && file_exists($__locale['directory'] . '/' . $common . '.php')) {
+			include($__locale['directory'] . '/' . $common . '.php');
+			$__locale['locale'] = $common;
+			return true;
+		}
+		return false;
+	}
+	
+	function setDirectory($directory) {
+		global $__locale;
+		if (!is_dir($directory))
+			return false;
+		$__locale['directory'] = $directory;
+		return true;
+	}
+	
+	function setDomain($domain) {
+		global $__locale;
+		$__locale['domain'] = $domain;
+		return true;
+	}
+	
+	function getSupportedLocales() {
+		global $__locale;
+		$locales = array();
+		if ($dir = dir($__locale['directory'])) {
+			while (($entry = $dir->read()) !== false) {
+				if (!is_file($__locale['directory'] . '/' . $entry))
+					continue;
+				$locale = substr($entry, 0, strpos($entry, '.'));
+				if (empty($locale))
+					continue;
+				echo $entry, CRLF;
+				if ($fp = fopen($__locale['directory'] . '/' . $entry, 'r')) {
+					$desc = fgets($fp);
+					if (preg_match('/<\?(php)?\s*\/\/\s*(.+)/', $desc, $matches))
+						$locales[$locale] = _t(trim($matches[2]));
+					else
+						$locales[$locale] = $locale;
+					fclose($fp);
+				}
+			}
+			$dir->close();
+		}
+		return $locales;
+	}
+}
+
+$__locale = array(
+	'locale' => null,
+	'directory' => './locale',
+	'domain' => null,
+);
+
+function _t($t) {
+	global $__locale, $__text;
+	if (isset($__locale['domain']) && isset($__text[$__locale['domain']][$t]))
+		return $__text[$__locale['domain']][$t];
+	else if (isset($__text[$t]))
+		return $__text[$t];
+	return $t;
+}
+
+function _f($t) {
+	$t = _t($t);
+	if (func_num_args() <= 1)
+		return $t;
+	for ($i = 1; $i < func_num_args(); $i++) {
+		$arg = func_get_arg($i);
+		$t = str_replace('%' . $i, $arg, $t);
+	}
+	return $t;
+}
+
+
+class Timezone {
+	/*@static@*/
+	function isGMT() {
+		return (date('Z') == 0);
+	}
+	
+	/*@static@*/
+	function get() {
+		$timezone = getenv('TZ');
+		if (empty($timezone))
+			$timezone = date('T');
+		return (empty($timezone) ? 'UTC' : $timezone);
+	}
+	
+	/*@static@*/
+	function getOffset() {
+		return (int)date('Z');
+	}
+	
+	/*@static@*/
+	function getCanonical() {
+		return sprintf("%+03d:%02d", intval(Timezone::getOffset() / 3600), abs((Timezone::getOffset() / 60) % 60));
+	}
+	
+	/*@static@*/
+	function getRFC822() {
+		if (Timezone::isGMT())
+			return 'GMT';
+		else
+			return sprintf("%+05d", intval(Timezone::getOffset() / 3600) * 100 + ((Timezone::getOffset() / 60) % 60));
+	}
+	
+	/*@static@*/
+	function getISO8601($timezone = null) {
+		if (Timezone::isGMT())
+			return 'Z';
+		else
+			return sprintf("%+03d:%02d", intval(Timezone::getOffset() / 3600), abs((Timezone::getOffset() / 60) % 60));
+	}
+
+	/*@static@*/
+	function set($timezone) {
+		if (@strncmp($_ENV['OS'], 'Windows', 7) == 0)
+			$timezone = Timezone::getAlternative();
+			
+		return putenv('TZ=' . $timezone);
+	}
+
+	/*@static@*/
+	function setOffset($offset) {
+		return Timezone::setISO8601(sprintf("%+02d:%02d", floor($offset / 3600), abs(($offset / 60) % 60)));
+	}
+
+	/*@static@*/
+	function setRFC822($timezone) {
+		if (($timezone == 'GMT') || ($timezone == 'UT'))
+			return Timezone::set('GMT');
+		else if (!is_numeric($timezone) || (strlen($timezone) != 5))
+			return false;
+		else if ($timezone{0} == '+')
+			return Timezone::set('UTC-' . substr($timezone, 1, 2) . ':' . substr($timezone, 3, 2));
+		else if ($timezone{0} == '-')
+			return Timezone::set('UTC+' . substr($timezone, 1, 2) . ':' . substr($timezone, 3, 2));
+		else
+			return false;
+	}
+
+	/*@static@*/
+	function setISO8601($timezone) {
+		if ($timezone == 'Z')
+			return Timezone::set('GMT');
+		if (!preg_match('/^([-+])(\d{1,2})(:)?(\d{2})?$/', $timezone, $matches))
+			return false;
+		$matches[0] = 'GMT';
+		$matches[1] = ($matches[1] == '+' ? '-' : '+');
+		if (strlen($matches[2]) == 1)
+			$matches[2] = '0' . $matches[2];
+		if (empty($matches[3]))
+			$matches[3] = ':';
+		if (empty($matches[4]))
+			$matches[4] = '00';
+		return Timezone::set(implode('', $matches));
+	}
+	
+	/*@static@*/
+	function getList() {
+		return array(
+			'GMT' => _t('Greenwich Mean Time'),
+			'Asia/Seoul' => _t('Republic Of Korea'),
+			'America/New_York' => _t('Eastern Time (US & Canada)'),
+		);
+	}
+
+	/*@static@*/
+	function getAlternative() {	
+		switch ($timezone) {
+			case 'Asia/Seoul':
+				return 'KST-9';
+			case 'America/New_York':
+				return 'EST5EDT';
+		}
+		return $timezone;
+	}
+}
+
+
+class Timestamp {
+	/*@static@*/
+	function format($format = '%c', $time = null) {
+		if (isset($time))
+			return strftime(_t($format), $time);
+		else
+			return strftime(_t($format));
+	}
+	
+	/*@static@*/
+	function formatGMT($format = '%c', $time = null) {
+		if (isset($time))
+			return gmstrftime(_t($format), $time);
+		else
+			return gmstrftime(_t($format));
+	}
+	
+	/*@static@*/
+	function format2($time) {
+		if (date('Ymd', $time) == date('Ymd'))
+			return strftime(_t('%H:%M'), $time);
+		else if (date('Y', $time) == date('Y', time()))
+			return strftime(_t('%m/%d'), $time);
+		else
+			return strftime(_t('%Y'), $time);
+	}
+	
+	/*@static@*/
+	function format3($time) {
+		if (date('Ymd', $time) == date('Ymd'))
+			return strftime(_t('%H:%M:%S'), $time);
+		else
+			return strftime(_t('%Y/%m/%d'), $time);
+	}
+	
+	/*@static@*/
+	function format5($time = null) {
+		return (isset($time) ? strftime(_t('%Y/%m/%d %H:%M'), $time) : strftime(_t('%Y/%m/%d %H:%M')));
+	}
+	
+	/*@static@*/
+	function formatDate($time = null) {
+		return (isset($time) ? strftime(_t('%Y/%m/%d'), $time) : strftime(_t('%Y/%m/%d')));
+	}
+	
+	/*@static@*/
+	function formatDate2($time = null) {
+		return (isset($time) ? strftime(_t('%Y/%m'), $time) : strftime(_t('%Y/%m')));
+	}
+	
+	/*@static@*/
+	function formatTime($time = null) {
+		return (isset($time) ? strftime(_t('%H:%M:%S'), $time) : strftime(_t('%H:%M:%S')));
+	}
+	
+	/*@static@*/
+	function get($format = 'YmdHis', $time = null) {
+		return (isset($time) ? date($format, $time) : date($format));
+	}
+	
+	/*@static@*/
+	function getGMT($format = 'YmdHis', $time = null) {
+		return (isset($time) ? gmdate($format, $time) : gmdate($format));
+	}
+	
+	/*@static@*/
+	function getDate($time = null) {
+		return (isset($time) ? date('Ymd', $time) : date('Ymd'));
+	}
+	
+	/*@static@*/
+	function getYearMonth($time = null) {
+		return (isset($time) ? date('Ym', $time) : date('Ym'));
+	}
+	
+	/*@static@*/
+	function getYear($time = null) {
+		return (isset($time) ? date('Y', $time) : date('Y'));
+	}
+	
+	/*@static@*/
+	function getTime($time = null) {
+		return (isset($time) ? date('His', $time) : date('His'));
+	}
+	
+	/*@static@*/
+	function getRFC1123($time = null) {
+		return (isset($time) ? date('r', $time) : date('r'));
+	}
+	
+	/*@static@*/
+	function getRFC1123GMT($time = null) {
+		return (isset($time) ? gmdate('D, d M Y H:i:s \G\M\T', $time) : gmdate('D, d M Y H:i:s \G\M\T'));
+	}
+	
+	/*@static@*/
+	function getRFC1036($time = null) {
+		return ((isset($time) ? date('l, d-M-Y H:i:s ', $time) : date('l, d-M-Y H:i:s ')) . Timezone::getRFC822());
+	}
+	
+	/*@static@*/
+	function getISO8601($time = null) {
+		return ((isset($time) ? date('Y-m-d\TH:i:s', $time) : date('Y-m-d\TH:i:s')) . Timezone::getISO8601());
+	}
+}
+
+
+class DBQuery {	
+	/*@static@*/ 
+	function queryExistence($query) {
+		if ($result = mysql_query($query)) {
+			if (mysql_num_rows($result) > 0) {
+				mysql_free_result($result);
+				return true;
+			}
+			mysql_free_result($result);
+		}
+		return false;
+	}
+	
+	/*@static@*/
+	function queryCount($query) {
+		$count = 0;
+		if ($result = mysql_query($query)) {
+			$count = mysql_num_rows($result);
+			mysql_free_result($result);
+		}
+		return $count;
+	}
+	
+	/*@static@*/
+	function queryCell($query, $field = 0) {
+		if ($result = mysql_query($query)) {
+			if (is_numeric($field)) {
+				$row = mysql_fetch_row($result);
+				$cell = @$row[$field];
+			} else {
+				$row = mysql_fetch_assoc($result);
+				$cell = @$row[$field];
+			}
+			mysql_free_result($result);
+			return $cell;
+		}
+		return null;
+	}
+	
+	/*@static@*/
+	function queryRow($query, $type = MYSQL_BOTH) {
+		if ($result = mysql_query($query)) {
+			if ($row = mysql_fetch_array($result, $type)) {
+				mysql_free_result($result);
+				return $row;
+			}
+			mysql_free_result($result);
+		}
+		return null;
+	}
+
+	/*@static@*/
+	function queryColumn($query) {
+		$column = array();
+		if ($result = mysql_query($query)) {
+			while ($row = mysql_fetch_row($result))
+				array_push($column, $row[0]);
+			mysql_free_result($result);
+			return $column;
+		}
+		return null;
+	}
+
+	/*@static@*/
+	function queryAll($query, $type = MYSQL_BOTH) {
+		$all = array();
+		if ($result = mysql_query($query)) {
+			while ($row = mysql_fetch_array($result, $type))
+				array_push($all, $row);
+			mysql_free_result($result);
+			return $all;
+		}
+		return null;
+	}
+
+	/*@static@*/
+	function execute($query) {
+		return mysql_query($query) ? true : false;
+	}
+}
+
+
+class TableQuery {
+	function TableQuery($table = null) {
+		$this->reset($table);
+	}
+	
+	function reset($table = null) {
+		$this->table = $table;
+		$this->id = null;
+		$this->_attributes = array();
+		$this->_qualifiers = array();
+	}
+	
+	function resetAttributes() {
+		$this->_attributes = array();
+	}
+	
+	function getAttributesCount() {
+		return count($this->_attributes);
+	}
+	
+	function hasAttribute($name) {
+		return isset($this->_attributes[$name]);
+	}
+	
+	function getAttribute($name) {
+		return $this->_attributes[$name];
+	}
+
+	function setAttribute($name, $value, $escape = null) {
+		if ($value === null)
+			$this->_attributes[$name] = 'NULL';
+		else
+			$this->_attributes[$name] = ($escape === null ? $value : ($escape ? '\'' . mysql_escape_string($value) . '\'' : "'" . $value . "'"));
+	}
+	
+	function unsetAttribute($name) {
+		unset($this->_attributes[$name]);
+	}
+	
+	function resetQualifiers() {
+		$this->_qualifiers = array();
+	}
+	
+	function getQualifiersCount() {
+		return count($this->_qualifiers);
+	}
+	
+	function hasQualifier($name) {
+		return isset($this->_qualifiers[$name]);
+	}
+	
+	function getQualifier($name) {
+		return $this->_qualifiers[$name];
+	}
+
+	function setQualifier($name, $value, $escape = null) {
+		if ($value === null)
+			$this->_qualifiers[$name] = 'NULL';
+		else
+			$this->_qualifiers[$name] = ($escape === null ? $value : ($escape ? '\'' . mysql_escape_string($value) . '\'' : "'" . $value . "'"));
+	}
+	
+	function unsetQualifier($name) {
+		unset($this->_qualifiers[$name]);
+	}
+	
+	function doesExist() {
+		return DBQuery::queryExistence('SELECT * FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+	}
+	
+	function getCell($field = '*') {
+		return DBQuery::queryCell('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+	}
+	
+	function getRow($field = '*') {
+		return DBQuery::queryRow('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
+	}
+	
+	function getColumn($field = '*') {
+		return DBQuery::queryColumn('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+	}
+	
+	function getAll($field = '*') {
+		return DBQuery::queryAll('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
+	}
+	
+	function insert() {
+		$this->id = null;
+		if (empty($this->table))
+			return false;
+		$attributes = array_merge($this->_qualifiers, $this->_attributes);
+		if (empty($attributes))
+			return false;
+		$this->_query = 'INSERT INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
+		if (mysql_query($this->_query)) {
+			$this->id = mysql_insert_id();
+			return true;
+		}
+		return false;
+	}
+	
+	function update() {
+		if (empty($this->table) || empty($this->_attributes))
+			return false;
+		$attributes = array();
+		foreach ($this->_attributes as $name => $value)
+			array_push($attributes, $name . '=' . $value);
+		$this->_query = 'UPDATE ' . $this->table . ' SET ' . implode(',', $attributes) . $this->_makeWhereClause();
+		if (mysql_query($this->_query))
+			return true;
+		return false;
+	}
+	
+	function delete() {
+		if (empty($this->table))
+			return false;
+		$this->_query = 'DELETE FROM ' . $this->table . $this->_makeWhereClause();
+		if (mysql_query($this->_query))
+			return true;
+		return false;
+	}
+	
+	function _makeWhereClause() {
+		$clause = '';
+		foreach ($this->_qualifiers as $name => $value)
+			$clause .= (strlen($clause) ? ' AND ' : '') . $name . '=' . $value;
+		return (strlen($clause) ? ' WHERE ' . $clause : '');
+	}
+}
+
+
+class Path {
+	/*@static@*/
+	function getBaseName($path) {
+		return basename($path);
+	}
+	
+	/*@static@*/
+	function getExtension($path) {
+		if (preg_match('/.{1}(\.[[:alnum:]]+)$/', $path, $matches))
+			return strtolower($matches[1]);
+		else
+			return '';
+	}
+	
+	/*@static@*/
+	function getExtension2($path) {
+		if (preg_match('/.{1}(\.[[:alnum:]]+(\.[[:alnum:]]+)?)$/', $path, $matches))
+			return strtolower($matches[1]);
+		else
+			return '';
+	}
+	
+	/*@static@*/
+	function combine($path) {
+		$args = func_get_args();
+		return implode('/', $args);
+	}
+
+	/*@static@*/
+	function removeFiles($directory) {
+		if (!$dir = dir($directory))
+			return false;
+		while ($file = $dir->read()) {
+			if (is_file(Path::combine($directory, $file)))
+				unlink(Path::combine($directory, $file));
+		}
+		return true;
+	}
+}
+
+
+class XMLStruct {
+	var $struct, $error;
+	
+	function XMLStruct() {
+	}
+	
+	function open($xml, $encoding = null) {
+		if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !isUTF8($xml)) {
+			if (strncmp($xml, '<?xml ', 6) == 0) {
+				if (ereg('encoding[ \t]*=[ \t]*["\']([^"\']+)["\']', substr($xml, 6, strpos($xml, '?>')), $registers))
+					$encoding = $registers[1];
+			}
+			if (strcasecmp($encoding, 'utf-8')) {
+				$xml = iconvWrapper($encoding, 'utf-8', $xml);
+				if ($xml === null) {
+					$this->error = XML_ERROR_UNKNOWN_ENCODING;
+					return false;
+				}
+			}
+		}
+		$p = xml_parser_create();
+		xml_set_object($p, $this);
+		xml_parser_set_option($p, XML_OPTION_CASE_FOLDING, 0);
+		xml_set_element_handler($p, 'o', 'c');
+		xml_set_character_data_handler($p, 'd');
+		xml_set_default_handler($p, 'x');
+		$this->struct = array();
+		$this->_cursor = &$this->struct;
+		$this->_path = array('');
+		$this->_cdata = false;
+		if (!xml_parse($p, $xml))
+			return $this->_error($p);
+		unset($this->_cursor);
+		unset($this->_cdata);
+		if (xml_get_error_code($p) != XML_ERROR_NONE)
+			return $this->_error($p);
+		xml_parser_free($p);
+		return true;
+	}
+	
+	function openFile($filename) {
+		if (!$fp = fopen($filename, 'r'))
+			return false;
+		$p = xml_parser_create();
+		xml_set_object($p, $this);
+		xml_parser_set_option($p, XML_OPTION_CASE_FOLDING, 0);
+		xml_set_element_handler($p, 'o', 'c');
+		xml_set_character_data_handler($p, 'd');
+		xml_set_default_handler($p, 'x');
+		$this->struct = array();
+		$this->_cursor = &$this->struct;
+		$this->_path = array('');
+		$this->_cdata = false;
+		while (!feof($fp)) {
+			if (!xml_parse($p, fread($fp, 10240), false)) {
+				fclose($fp);
+				return $this->_error($p);
+			}
+		}
+		fclose($fp);
+		if (!xml_parse($p, '', true))
+			return $this->_error($p);
+		unset($this->_cursor);
+		unset($this->_cdata);
+		if (xml_get_error_code($p) != XML_ERROR_NONE)
+			return $this->_error($p);
+		xml_parser_free($p);
+		return true;
+	}
+	
+	function openGZip($filename) {
+		if (!function_exists('gzopen'))
+			return $this->openFile($filename);
+		if (!$fp = gzopen($filename, 'r'))
+			return false;
+		$p = xml_parser_create();
+		xml_set_object($p, $this);
+		xml_parser_set_option($p, XML_OPTION_CASE_FOLDING, 0);
+		xml_set_element_handler($p, 'o', 'c');
+		xml_set_character_data_handler($p, 'd');
+		xml_set_default_handler($p, 'x');
+		$this->struct = array();
+		$this->_cursor = &$this->struct;
+		$this->_path = array('');
+		$this->_cdata = false;
+		while (!gzeof($fp)) {
+			if (!xml_parse($p, gzread($fp, 10240), false)) {
+				gzclose($fp);
+				return $this->_error($p);
+			}
+		}
+		gzclose($fp);
+		if (!xml_parse($p, '', true))
+			return $this->_error($p);
+		unset($this->_cursor);
+		unset($this->_cdata);
+		if (xml_get_error_code($p) != XML_ERROR_NONE)
+			return $this->_error($p);
+		xml_parser_free($p);
+		return true;
+	}
+	
+	function close() {
+	}
+	
+	function setStream($path) {
+		$this->_streams[$path] = true;
+	}
+	
+	function setConsumer($consumer) {
+		$this->_consumer = $consumer;
+	}
+	
+	function & selectNode($path) {
+		$p = explode('/', $path);
+		if (array_shift($p) != '') {
+			$null = null;
+			return $null;
+		}
+		$c = &$this->struct;
+		
+		while ($d = array_shift($p)) {
+			$o = 0;
+			if ($d{strlen($d) - 1} == ']') {
+				@list($d, $o) = split('\[', $d, 2);
+				if ($o === null) {
+					$null = null;
+					return $null;
+				}
+				$o = substr($o, 0, strlen($o) - 1);
+				if (!is_numeric($o)) {
+					$null = null;
+					return $null;
+				}
+			}
+			if (isset($c[$d][$o]))
+				$c = &$c[$d][$o];
+			else {
+				$null = null;
+				return $null;
+			}
+		}
+		return $c;
+	}
+	
+	function & selectNodes($path) {
+		if ($path{strlen($path) - 1} == ']') {
+			$null = null;
+			return $null;
+		}
+		$p = explode('/', $path);
+		if (array_shift($p) != '') {
+			$null = null;
+			return $null;
+		}
+		$c = &$this->struct;
+		
+		while ($d = array_shift($p)) {
+			$o = 0;
+			if ($d{strlen($d) - 1} == ']') {
+				@list($d, $o) = split('\[', $d, 2);
+				if ($o === null) {
+					$null = null;
+					return $null;
+				}
+				$o = substr($o, 0, strlen($o) - 1);
+				if (!is_numeric($o)) {
+					$null = null;
+					return $null;
+				}
+			}
+			if (empty($p))
+				return (isset($c[$d]) ? $c[$d] : null);
+			if (isset($c[$d][$o]))
+				$c = &$c[$d][$o];
+			else
+				break;
+		}
+		$null = null;
+		return $null;
+	}
+	
+	function doesExist($path) {
+		return ($this->selectNode($path) !== null);
+	}
+	
+	function getAttribute($path, $name, $default = null) {
+		$n = &$this->selectNode($path);
+		if (($n !== null) && isset($n['.attributes'][$name]))
+			return $n['.attributes'][$name];
+		else
+			return $default;
+	}
+
+	function getValue($path) {
+		$n = &$this->selectNode($path);
+		return (isset($n['.value']) ? $n['.value'] : null);
+	}
+	
+	function getNodeCount($path) {
+		return count($this->selectNodes($path));
+	}
+
+	function o($p, $n, $a) {
+		if (!isset($this->_cursor[$n]))
+			$this->_cursor[$n] = array();
+		if (empty($a))
+			$this->_cursor = &$this->_cursor[$n][array_push($this->_cursor[$n], array('.value' => '', '_' => &$this->_cursor)) - 1];
+		else
+			$this->_cursor = &$this->_cursor[$n][array_push($this->_cursor[$n], array('.attributes' => $a, '.value' => '', '_' => &$this->_cursor)) - 1];
+		$this->_cdata = null;
+		array_push($this->_path, $n);
+		if (isset($this->_streams[implode('/', $this->_path)]))
+			$this->_cursor['.stream'] = tmpfile();
+	}
+
+	function c($p, $n) {
+		if (count($this->_cursor) != (2 + isset($this->_cursor['.attributes'])))
+			unset($this->_cursor['.value']);
+		else
+			$this->_cursor['.value'] = rtrim($this->_cursor['.value']);
+		$c = &$this->_cursor;
+		$this->_cursor = &$this->_cursor['_'];
+		unset($c['_']);
+		if (isset($this->_consumer)) {
+			if (call_user_func($this->_consumer, implode('/', $this->_path), $c, xml_get_current_line_number($p))) {
+				if (count($this->_cursor[$n]) == 1)
+					unset($this->_cursor[$n]);
+				else
+					array_pop($this->_cursor[$n]);
+			}
+		}
+		array_pop($this->_path);
+	}
+	
+	function d($p, $d) {
+		if (count($this->_cursor) != (1 + isset($this->_cursor['.value']) + isset($this->_cursor['.attributes']) + isset($this->_cursor['.stream'])))
+			return;
+		if (!$this->_cdata) {
+			if (isset($this->_cdata))
+				$this->_cursor['.value'] = rtrim($this->_cursor['.value']);
+			$this->_cdata = true;
+			$d = ltrim($d);
+		}
+		if (strlen($d) == 0)
+			return;
+		if (empty($this->_cursor['.stream']))
+			$this->_cursor['.value'] .= $d;
+		else
+			fwrite($this->_cursor['.stream'], $d);
+	}
+	
+	function x($p, $d) {
+		if ($d == '<![CDATA[')
+			$this->_cdata = true;
+		else if (($d == ']]>') && $this->_cdata)
+			$this->_cdata = false;
+	}
+	
+	function _error($p) {
+		$this->error = array(
+			'code' => xml_get_error_code($p),
+			'offset' => xml_get_current_byte_index($p),
+			'line' => xml_get_current_line_number($p),
+			'column' => xml_get_current_column_number($p)
+		);
+		xml_parser_free($p);
+		return false;
+	}
+}
+?>

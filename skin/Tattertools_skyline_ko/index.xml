@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin version="1.01 " language="ko">
+	<information>
+		<name>한글기본스킨_XHTML</name> 
+		<version>1.01</version>
+		<description><![CDATA[웹표준을 준수한 XHTML 기반의 태터툴즈 기본 스킨입니다.
+		시맨틱한 웹을 유지하기 위해 디자인 부분을 style.css 파일에 독립시켜 적용하였으며 
+		자유롭게 디자인을 수정하실 수 있습니다. 
+		]]></description>
+		<license><![CDATA[수정, 재배포 가능합니다.]]></license>
+	</information> 
+	<author>
+		<name>leezche</name>
+		<homepage>http://www.plyfly.net</homepage>
+		<email>leezche@gmail.com</email>
+	</author> 
+	<default>
+		<recentEntries>5</recentEntries>   
+		<recentComments>5</recentComments>
+		<recentTrackbacks>5</recentTrackbacks>
+		<itemsOnGuestbook>10</itemsOnGuestbook>
+		<tagsInCloud>30</tagsInCloud>
+		<sortInCloud>3</sortInCloud> 
+		<expandComment>1</expandComment>
+		<expandTrackback>1</expandTrackback> 
+		<lengthOfRecentNotice>16</lengthOfRecentNotice>
+		<lengthOfRecentEntry>16</lengthOfRecentEntry>
+		<lengthOfRecentComment>30</lengthOfRecentComment> 
+		<lengthOfRecentTrackback>30</lengthOfRecentTrackback> 
+		<lengthOfLink>30</lengthOfLink>
+		<showListOnCategory>1</showListOnCategory>
+		<showListOnArchive>1</showListOnArchive> 
+		<tree>
+			<color>000000</color> 
+			<bgColor>ffffff</bgColor>
+			<activeColor>000000</activeColor> 
+			<activeBgColor>eeeeee</activeBgColor>
+			<labelLength>20</labelLength> 
+			<showValue>1</showValue>
+		</tree>
+		<contentWidth>500</contentWidth>
+	</default>
+</skin>

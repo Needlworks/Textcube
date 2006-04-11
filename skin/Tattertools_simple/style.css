@@ -1,0 +1,535 @@
+@charset "utf-8";
+<!--
+
+/* 반드시 들어가야 하는 스타일 시작 */
+
+/* 1. 본문 전체  */
+
+	body,td {
+                font-size:12px; 
+                font-family: Verdana, 돋움, 굴림, Arial, Tahoma ; 
+                color:#666666; 
+                line-height:18px; 
+                
+
+                scrollbar-face-color: #eeeeee;
+                scrollbar-shadow-color:#eeeeee; 
+                scrollbar-highlight-color: #eeeeee;
+                scrollbar-3dlight-color: #ffffff; 
+                scrollbar-darkshadow-color: #ffffff;      
+                scrollbar-track-color: #ffffff;
+                scrollbar-arrow-color: #ffffff;
+	}
+
+/* 2. 기본 링크 */
+	A:link    {color:336699;text-decoration:none;font-family: Verdana, 돋움;}
+	A:visited {color:336699;text-decoration:none;font-family: Verdana, 돋움;}
+	A:active  {color:336699;text-decoration:none;font-family: Verdana, 돋움;}
+	A:hover  {color:222222;text-decoration:underline;font-family: Verdana, 돋움;}
+
+
+/* 3. 이미지 */
+
+	img {
+		border-width:0px;
+	}
+
+/* 4. 이미지 버튼 */
+
+	.ib {
+		cursor:pointer;
+	}
+
+/* 5. 입력 텍스트 */
+
+	.text {
+	        border: 1px solid #cccccc; 
+	        background-color:ffffff;	
+	        height:18px; 
+	        color: #666666; 
+	        font-size: 11px; 
+	        padding: 2px 2px 0px 4px;
+	}
+
+/* 6. 트리 테이블 */
+
+	.branch2 {
+		font-size:11px;
+		font-family:돋움;	
+	}
+	
+	
+
+/* 7. 트리 셀 */
+
+	.branch3 {
+		line-height:14px;
+		cursor:pointer;
+		height:17px;
+		padding:2 2 0 2;
+	}
+
+/* 8. 달력 월 표시 */
+
+	.cal_month {
+		vertical-align:top;
+		height:18px;
+		font-size:11px;
+		font-family:verdana;
+		text-align:center;
+		font-weight:bold;
+		color:#f00;
+	       	
+	}
+
+/* 9. 달력 요일 표시 */
+
+	.cal_week1 {
+		text-align:center;
+		font-size:10px;
+		font-family:verdana;
+		font-weight:bold;
+	}
+
+/* 10. 달력 일요일 표시 */
+
+	.cal_week2 {
+		color:#c00;
+		text-align:center;
+		font-size:10px;
+		font-family:verdana;
+		font-weight:bold;
+		
+	}
+
+/* 11. 달력 지난 달 날짜 표시 */
+
+	.cal_day1 {
+		color:#FAFAFA;
+		font-size:10px;
+		font-family:verdana;
+		text-align:center;
+	}
+
+/* 12. 달력 다음 달 날짜 표시 */
+
+	.cal_day2 {
+		color:#FAFAFA;
+		font-size:10px;
+		font-family:verdana;
+		text-align:center;
+	}
+
+/* 13. 달력 이번 달 날짜 표시 */
+
+	.cal_day3 {
+		font-size:10px;
+		font-family:verdana;
+		text-align:center;	
+	}
+
+/* 14. 달력 오늘 날짜 표시 */
+
+	.cal_day4 {
+		font-size:10px;
+		font-family:verdana;
+		text-align:center;
+		font-weight:bold;
+                background-color:eeeeee	
+	}
+
+/* 15. 달력 글쓴 날 링크 스타일 */
+
+	A.cal_click:link {
+		font-weight:bold;
+	}
+
+	A.cal_click:visited {
+		font-weight:bold;
+	}
+
+	A.cal_click:hover {
+		font-weight:bold;
+	}
+
+/* 16. 이미지 아래 캡션 스타일 */
+
+	.cap1 {
+		text-align:center;
+		color:#300099;
+		word-break:break-all;
+	}
+
+/* 16. 키워드 스타일 */
+
+	.key1 {
+		cursor:pointer;
+		text-decoration:none;
+		border-bottom: 1px solid gray;
+	}
+
+/* 16. 카테고리 옆 개수 스타일 */
+
+	.c_cnt {
+		font-size:10px;
+		font-family:tahoma;
+		letter-spacing:0px;
+	}
+
+/* 17. 최신글 옆 개수 스타일 */
+
+	.ps_cnt {
+		font-size:10px;
+		font-family:tahoma;
+		letter-spacing:0px;
+		color:#336699;
+	}
+	
+	/* 태그클라우드 */
+.cloud1 {
+  font-size : 14px;
+  color : #ff6600 !important ;
+  }
+
+.cloud2 {
+  font-size : 13px;
+  color : #ff9900 !important ;
+  }
+
+.cloud3 {
+  font-size : 10pt;
+  color : #669900 !important ;
+  }
+
+.cloud4 {
+  font-size : 10pt;
+  color : #0099CC !important ;
+  }
+
+.cloud5 {
+  font-size : 11px;
+  color : #999999 !important ;
+  }
+	
+/*******************************
+* PLYFLY.NET
+* coding by leezche
+* leezche@nate.com 
+
+* BASE rule
+********************************/
+h1 {font-size:18px; font-family:verdana, 돋움; padding:0; margin:0;}
+
+
+.sthm {font-size:10px; font-family:tahoma;}
+A.sthm:link {font-size:10px; font-family:tahoma;}
+A.sthm:visited {font-size:10px; font-family:tahoma;}
+A.sthm:active {font-size:10px; font-family:tahoma;}
+A.sthm:hover {font-size:10px; font-family:tahoma;}
+
+.sver {font-size:10px; font-family:verdana;}
+A.sver:link {font-size:10px; font-family:verdana;}
+A.sver:visited {font-size:10px; font-family:verdana;}
+A.sver:active {font-size:10px; font-family:verdana;}
+A.sver:hover {font-size:10px; font-family:verdana;}
+
+
+.sdot {font-size:11px; font-family:돋움;}
+A.sdot:link {font-size:11px; font-family:돋움; }
+A.sdot:visited {font-size:11px; font-family:돋움; }
+A.sdot:active {font-size:11px; font-family:돋움;}
+A.sdot:hover {font-size:11px; font-family:돋움;}
+
+.sidebar_title {font-size:10px; font-family:Verdana; color:#666; font-weight:bold;}
+
+
+.head_title {font-size:14px; font-family:돋움; color:336699; font-weight:bold;}
+A.head_title:link {font-size:14px; font-family:돋움; color:336699; font-weight:bold;}
+A.head_title:visited {font-size:14px; font-family:돋움; color:336699; font-weight:bold;}
+A.head_title:active {font-size:14px; font-family:돋움; color:336699; font-weight:bold;}
+A.head_title:hover {font-size:14px; font-family:돋움; color:336699; font-weight:bold;}
+
+
+.gbtn_kor {font-size:11px; font-family:돋움; color:666666;}
+A.gbtn_kor:link {font-size:11px; font-family:돋움; color:666666;}
+A.gbtn_kor:visited {font-size:11px; font-family:돋움; color:666666;}
+A.gbtn_kor:active {font-size:11px; font-family:돋움; color:666666;}
+A.gbtn_kor:hover {font-size:11px; font-family:돋움; color:336699;}
+
+.gbtn_eng : {font-size:10px; font-family:verdana; color:666666;}
+A.gbtn_eng:link {font-size:10px; font-family:verdana; color:666666;}
+A.gbtn_eng:visited {font-size:10px; font-family:verdana; color:666666;}
+A.gbtn_eng:active {font-size:10px; font-family:verdana; color:666666;}
+A.gbtn_eng:hover {font-size:10px; font-family:verdana; color:336699;}
+
+.keyword {font-size:12px; font-family:verdana, 돋움; color:666666;}
+A.keyword:link {font-size:12px; font-family:verdana, 돋움; color:666666;}
+A.keyword:visited {font-size:12px; font-family:verdana, 돋움; color:666666;}
+A.keyword:active {font-size:12px; font-family:verdana, 돋움; color:666666;}
+A.keyword:hover {font-size:12px; font-family:verdana, 돋움; color:336699;}
+
+
+.sbtn_kor {font-size:11px; font-family:돋움; color:336699;}
+A.sbtn_kor:link {font-size:11px; font-family:돋움; color:336699;}
+A.sbtn_kor:visited {font-size:11px; font-family:돋움; color:336699;}
+A.sbtn_kor:active {font-size:11px; font-family:돋움; color:336699;}
+A.sbtn_kor:hover {font-size:11px; font-family:돋움; color:336699;}
+
+
+.sbtn_eng : {font-size:10px; font-family:verdana; color:336699;}
+A.sbtn_eng:link {font-size:10px; font-family:verdana; color:336699;}
+A.sbtn_eng:visited {font-size:10px; font-family:verdana; color:336699;}
+A.sbtn_eng:active {font-size:10px; font-family:verdana; color:336699;}
+A.sbtn_eng:hover {font-size:10px; font-family:verdana; color:336699;}
+
+
+
+.info_link {font-size:11px; font-family:돋움; color:666666;}
+A.info_link:link {font-size:11px; font-family:돋움; color:666666;}
+A.info_link:visited {font-size:11px; font-family:돋움; color:666666;}
+A.info_link:active {font-size:11px; font-family:돋움; color:666666;}
+A.info_link:hover {font-size:11px; font-family:돋움; color:336699;}
+
+
+.td_bodyt {padding:10px 10px 5px 10px;}
+.td_body {padding:10px 10px 5px 10px;}
+
+.td_info {padding:3px 3px 3px 10px;}
+
+
+
+
+
+.input 
+	{
+	border: 1px solid #cccccc; 
+	background-color:ffffff;	
+	height:16px; 
+	color: #666666; 
+	font-size: 12px; 
+	font-family: Tahoma, Verdana; 
+	 padding: 2px 2px 0px 4px;
+	}
+		
+.submit 
+	{
+	border:solid 1;
+	border-color:777777;
+	background-color:white;
+	width:100%;
+	padding: 2px 2px 0px 4px;	
+	}
+
+.textarea 
+	{
+	border:solid 1;
+	border-color:cccccc;
+	background-color:white;
+	width:100%;
+	padding: 2px 2px 0px 4px;	
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*********************************************************************************************
+* COMMON rule_txt  :  수정하지 말고 카피해서 쓰자!!!
+**********************************************************************************************/
+A.base_txt:link    {color:333333;text-decoration:none;font-size:10pt; font-family: Tahoma, Verdana, Arial;}
+A.base_txt:visited {color:333333;text-decoration:none;font-size:10pt; font-family: Tahoma, Verdana, Arial;}
+A.base_txt:active  {color:333333;text-decoration:none;font-size:10pt; font-family: Tahoma, Verdana, Arial;}
+A.base_txt:hover   {color:000000;text-decoration:underline;font-size:10pt; font-weight:bold; font-family: Tahoma, Verdana, Arial;}
+
+.num {font-size:7pt; font-family: Tahoma;letter-spacing:0px}
+.copyright {color:333333; font-size:7pt; font-family:Tahoma; color:999999;}
+.lh10 {line-height:100%;}
+.lh13 {line-height:130%;}
+.lh15 {line-height:150%;}
+.ever1px {letter-spacing:-1px} /* 자간을 좁게 */
+.ever0px {letter-spacing:0px}
+
+
+
+.kgul7 {font-size:7pt; font-family:굴림;}
+.kgul8 {font-size:8pt; font-family:굴림;}
+.kgul9 {font-size:9pt; font-family:굴림;}
+
+
+.etah6 {font-size:6pt; font-family:Tahoma;}
+.evar6 {font-size:6pt; font-family:Verdana;}
+
+.etah7 {font-size:7pt; font-family:Tahoma;}
+.evar7 {font-size:7pt; font-family:Verdana;}
+
+.etah8 {font-size:8pt; font-family:Tahoma;}
+.evar8 {font-size:8pt; font-family:Verdana;}
+
+.etah9 {font-size:9pt; font-family:Tahoma;}
+.evar9 {font-size:9pt; font-family:Verdana;}
+
+
+
+
+/*********************************************************************************************
+* FORM
+**********************************************************************************************/
+/* input */
+.input_gray {border:1px solid #ffffff;font-family:Tahoma,돋움,verdana;font-size:9pt;color:333333;background-color:dddddd;height:18px}
+.input_line {border:1px solid #333333;font-family:Tahoma,돋움,verdana;font-size:9pt;color:333333;background-color:ffffff;height:18px}
+.input_orange {border:1px solid #999999;font-family:Tahoma,돋움,verdana;font-size:9pt;color:333333;background-color:ffffff;height:18px}
+
+
+/* button */
+.button_gray {border:solid 0 #333333;font-family:Tahoma,verdana;font-size:7pt;font-weight:bold; color:white;background-color:eeeeee;height:17px}
+.button_blue {border:solid 0 #ffffff;font-family:Tahoma,verdana;font-size:7pt;font-weight:bold; color:white;background-color:336699;height:18px}
+
+
+/* textarea */
+.ta_gray {border:1px solid #ffffff;background-color:#dddddd;color:333333;font-size:9pt;font-family:Tahoma,돋움,verdana;}
+.ta_line {border:1px solid #333333;background-color:ffffff; color:333333;font-size:9pt;font-family:Tahoma,돋움,verdana;}
+
+
+/***********************************************************************************************************
+* common : TABLES
+***********************************************************************************************************/
+.fixed {table-layout:fixed;}
+.tbYellowOuter {border:1px solid #C5C5A7;border-left:1px solid #D3D3B9;border-top:1px solid #D3D3B9;background-color:FFFFEF}
+.tbYellowInner {border:1px solid white;padding:4px;padding-top:0px}
+
+
+
+/***********************************************************************************************************
+* common : CURSORS
+***********************************************************************************************************/
+.curHand {cursor:hand}
+.curWait {cursor:wait}
+.curCross {cursor:crosshair}
+.curMove {cursor:move}
+
+
+.title {font-size:20px; color:333333; font-weight:bold;}
+A.title:link {font-size:20px; color:333333; font-weight:bold;}
+A.title:visited {font-size:20px;  color:333333; font-weight:bold;}
+A.title:active {font-size:20px;  color:333333; font-weight:bold;}
+A.title:hover {font-size:20px;  color:333333; font-weight:bold;}
+
+
+ 
+
+.search_input {
+	border: 1px solid #ccc; 
+	background-color:#fff;	
+	height:18px; 
+	color: #666; 
+	font-size: 10pt; 
+	font-family: Tahoma, Verdana; 
+	padding: 2px 2px 0px 4px;
+	}
+
+.search_btn 
+	{
+	border:solid 1px;
+	border-color:#888;
+	background-color:#ccc;
+	color:#333;
+	width:50px;
+	height:18px;
+	font-size:10px;
+	font-weight:bold;
+	font-family:tahoma;
+		
+}
+
+.input 
+	{
+	border: 1px solid #cccccc; 
+	background-color:ffffff;	
+	height:16px; 
+	color: #666666; 
+	font-size: 10pt; 
+	font-family: Tahoma, Verdana; 
+	 padding: 2px 2px 0px 4px;
+	}
+		
+.submit 
+	{
+	border:solid 1px;
+	border-color:888888;
+	background-color:cccccc;
+	width:50px;
+	height:18px;
+	font-size:10px;
+	font-weight:bold;
+		}
+
+.textarea 
+	{
+	border:solid 1px;
+	border-color:cccccc;
+	background-color:white;
+	width:400px;
+	height:100px;
+	padding: 2px 2px 0px 4px;	
+	}
+
+
+
+
+.guest_submit 
+	{
+  border: 1px solid #999999;
+  font-family:Tahoma,verdana;
+  font-size:11px;
+  font-weight:bold; 
+  color:666666;
+  background:#cccccc;
+  height:20px;
+  width : 200px;
+	} 
+
+
+
+
+.input_protect 
+{
+  border: 1px solid #ccc;
+  font-family:Tahoma,verdana;
+  font-size:10pt;
+  background:#fff;
+  height:20px;
+  width : 100px;
+	}   
+
+
+
+.submit_protect 
+	{
+  border: 1px solid #999;
+  font-family:Tahoma,verdana;
+  font-size:10pt;
+  font-weight:bold; 
+  color:#666;
+  background:#ccc;
+  height:20px;
+  width : 50px;
+
+	} 

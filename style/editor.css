@@ -1,0 +1,102 @@
+body {
+	background-color: #fff;
+}
+
+blockquote {
+	border: 1px dashed #ddd;
+	padding: 5px;
+}
+
+img.tatterImageLeft,
+img.tatterImageCenter,
+img.tatterImageRight,
+img.tatterImageDual,
+img.tatterImageTriple,
+img.tatterImageFree,
+img.tatterImazing,
+img.tatterGallery,
+img.tatterJukebox,
+img.tatterEmbed,
+img.tatterFlash {
+	cursor: move;
+	background-position: center;
+	background-repeat: no-repeat;
+	border: 1px solid #fff;
+}
+
+img.tatterImageLeft:hover,
+img.tatterImageCenter:hover,
+img.tatterImageRight:hover,
+img.tatterImageFree:hover,
+img.tatterImageDual,
+img.tatterImageTriple,
+img.tatterImazing,
+img.tatterGallery,
+img.tatterJukebox,
+img.tatterEmbed,
+img.tatterFlash {
+	background-color: #ffe;
+	border: 1px dashed #aaa;
+}
+
+img.tatterImageLeft {
+	float: left;
+	margin-right: 10px;
+}
+
+img.tatterImageCenter, img.tatterImageDual, img.tatterImageTriple, img.tatterImazing, img.tatterGallery, img.tatterJukebox {
+	display: block;
+	margin: 5px auto;
+}
+
+img.tatterImageDual, img.tatterImageTriple {
+	background-image: url("../image/owner/edit/attachAlignCenter.gif");
+}
+
+img.tatterImazing {
+	background-image: url("../image/owner/edit/attachAlignImazing.gif");
+}
+
+img.tatterGallery {
+	background-image: url("../image/owner/edit/attachAlignSequence.gif");
+}
+
+img.tatterJukebox {
+	background-image: url("../image/owner/edit/attachMP3.gif");
+}
+
+img.tatterImageRight {
+	float: right;
+	margin-left: 10px;
+}
+
+img.tatterImageDual {
+	background-image: url("../image/owner/edit/attachAlign2Center.gif");
+}
+
+img.tatterImageTriple {
+	background-image: url("../image/owner/edit/attachAlign3Center.gif");
+}
+
+img.tatterEmbed, img.tatterFlash {
+	background-image: url("../image/owner/edit/setEmbed_over.gif");
+	margin: 5px;
+	min-width: 200px;
+	min-height: 200px;
+}
+
+img.tatterFlash {
+	background-image: url("../image/owner/edit/setFlash_over.gif");
+}
+
+* html img.tatterEmbed, * html img.tatterFlash {
+	width: 200px;
+	height: 200px;
+}
+
+div.tattermoreless {
+	background-color: #efa;
+	border: 1px dashed #006;
+	margin: 0px;
+	padding: 8px;
+}

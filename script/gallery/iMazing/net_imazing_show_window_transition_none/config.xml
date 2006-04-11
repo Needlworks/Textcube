@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<info>
+	<meta>
+		<sort>transition</sort>	
+		<name>효과없음</name>
+		<namespace>net_imazing_show_window_transition_none</namespace>
+		<template>show_window</template>
+		<description>효과사용안함</description>
+		<author>김태경</author>
+		<email>egoing@gmail.com</email>
+		<homepage>http://www.imazing.net</homepage>
+	</meta> 
+	<config> 
+	</config>
+</info>

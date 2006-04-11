@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<info>
+	<meta>
+		<sort>navigation</sort>	
+		<name>Side Bar</name>
+		<namespace>net_imazing_show_window_navigation_sidebar</namespace>
+		<template>show_window</template>
+		<description>			길죽한 버튼	</description>
+		<author>김태경</author>
+		<email>egoing@gmail.com</email>
+		<homepage>http://www.imazing.net</homepage>
+	</meta>
+	<config>
+		<!--워터마크효과를 지정한다-->
+		<thickness>15</thickness> 
+		<btnAlpha>100</btnAlpha>
+		<sidebarAlpha>30</sidebarAlpha>
+		<btnColor>26112</btnColor>
+		<sidebarColor>26163</sidebarColor>
+	</config>
+</info>

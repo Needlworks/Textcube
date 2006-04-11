@@ -1,0 +1,267 @@
+<!--
+body {
+	background-color: #FFFFFF;
+	margin: 0px;
+	padding: 0px;
+	width:100%;
+	height:100%;
+	font : 12px Verdana, Sans-serif ;
+}
+ 
+input,textArea,select {
+	font : 12px Verdana, Sans-serif ;
+}
+
+.menuItem1 {
+	margin:7px 3px 0 3px;
+	height:24px;
+	background-image:url('../image/owner/mainMenuActiveCenter.gif');
+	cursor: pointer;
+}
+
+.menuItem2 {
+	padding:2px 2px 0 2px;
+	font-size:13px;
+	color:#FFFFFF;
+	font-weight:bold;
+}
+
+.menuItem3 {
+	padding:12px 6px 0 6px;
+	font-size:13px;
+	color:#FFFFFF;
+	font-weight:bold;
+	cursor: pointer;
+}
+
+.sectionNumber {
+	font-size:20pt;
+	font-family: arial;
+	font-weight:bold;
+	color:#FF890B;	
+	line-height:22pt;
+}
+
+.sectionSubject {
+	color:#FFFFFF;
+}
+
+.pointerCursor {
+	cursor: pointer;
+}
+
+
+.help {
+	color: #FFFFFF;
+	padding: 0px 4px 7px 0px;
+}
+
+div, td {
+	padding: 0px;
+	font-size: 12px;
+	line-height:12pt;
+	color:#213141;
+}
+
+img {
+	border-width:0px;
+}
+
+a:link {
+	color: #308FC9;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #308FC9;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+select {
+	font-size:12px;
+	font-family:arial;
+}
+
+.entryEditTableLeftCell {
+	width: 130px;
+	height: 24px;
+	padding: 0px 5px 0px 0px;
+	text-align: right;
+	color: #000000;
+}
+
+.row {
+	padding:2px 7px 0px 7px;
+	font-size:12px;
+}
+
+.rowDate {
+	font-size:11px;
+	font-family:verdana;
+}
+
+.rowLink {
+	cursor:pointer;
+	color:#000099;
+	text-decoration: none;
+}
+
+input.button {
+	font-size:9pt;
+	padding-top:3px;
+	
+}
+.buttonTop {
+	padding:2px 4px 0px 4px;
+	font-size:9pt;
+	text-decoration:none;
+	cursor:pointer;
+	margin:2px;
+}
+
+.branch0 {
+	cursor:pointer;
+	padding:3px 3px 1px 2px;
+}
+
+.branch3 {
+	cursor:pointer;
+	padding:2px 3px 0px 2px;
+}
+
+
+.pad1 {
+	padding: 4px 6px 2px 6px; 
+}
+
+.text1 {
+	font-size:9pt;
+	padding:4px;
+}
+
+.text2 {
+	font-size: 100%;
+	line-height: 140%;
+	border: 1px solid #92B5E8;
+	height: 18px;
+	padding: 1px 4px 0px;
+}
+
+.col1 {
+	padding:3px 0px 0px 0px;
+	font-size:9pt;
+}
+
+.col2 {
+	padding:3px 0px 0px 0px;
+	font-size:10pt;
+	font-weight:bold;
+	color:#617181;
+	text-align:center;
+}
+
+.pageLink {
+	cursor:pointer;
+	color:#000099;
+	text-decoration:none;
+}
+
+
+
+.rowHeader {
+	color:#FFFFFF;
+	padding:0px 7px 0px 7px;
+	font-size:13px;
+	font-weight:bold;
+}
+
+#location ul, #tag ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+#location li, #tag li {
+	background: url("../image/separator.gif") no-repeat 0% 50%;
+	display: inline;
+	margin-right: 10px;
+	padding-left: 15px;
+	vertical-align: middle;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+#tag li {
+	background: url("../image/comma.gif") no-repeat 0% 80%;
+	padding-left: 9px;
+	margin-right: 2px;
+}
+
+#location li.firstChild, #tag li.firstChild {
+	background: none;
+	padding-left: 0px;
+}
+
+.eolinSuggest {
+	border: 1px solid #bbb;
+	background-color: #fff;
+}
+
+.eolinSuggest li {
+	margin: 3px;
+	cursor: pointer;
+}
+
+.eolinSuggest li.hover {
+	background-color: #edf !important;
+}
+
+.eolinSuggest li.disabled {
+	color: #777;
+}
+
+.eolinSuggest {
+	font-size: 9pt;
+}
+
+samp {
+	padding-left: 10px;
+	color: #666666;
+}
+
+.MimeImage {
+	color: #ff3300;
+}
+
+.MimeApplication {
+	color: #004178;
+}
+
+.MimeAudio {
+	color: #AF5416;
+}
+
+.MimeMessage {
+	color: #6633cc;
+}
+
+.MimeModel {
+	color: #5eae00;
+}
+
+.MimeMultipart {
+	color: #006bc6;
+}
+
+.MimeText {
+	color: #004178;
+}
+
+.MimeVideo {
+	color: #ff6600;
+}
+
+-->

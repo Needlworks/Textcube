@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<info>
+	<meta>
+		<sort>transition</sort>	
+		<name>플래쉬</name>
+		<namespace>net_imazing_show_window_transition_contrast</namespace>
+		<template>show_window</template>
+		<description>플래쉬가 터지는 것과 같은 섬광효과</description>
+		<author>김태경</author>
+		<email>egoing@gmail.com</email>
+		<homepage>http://www.imazing.net</homepage>
+	</meta> 
+	<config> 
+		<!--도입 효과-->
+		<start_effect>size</start_effect>
+		<!--슬라이드 가속도 0보다 크고 10보다 작아야 한다-->
+		<acceleration>3.8</acceleration>
+	</config>
+</info>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<info>
+	<meta>
+		<sort>frame</sort>	
+		<name>사용안함</name>
+		<namespace>net_imazing_frame_none</namespace>
+		<template>all</template>
+		<description>하위호환성을 위해 제공</description>
+		<author>김태경</author>
+		<email>egoing@gmail.com</email>
+		<homepage>http://imazing.net</homepage>
+	</meta>
+	<config>
+	</config>
+</info>

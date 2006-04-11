@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<info>
+	<meta>
+		<sort>navigation</sort>	
+		<name>simple</name>
+		<namespace>net_imazing_show_window_navigation_simple</namespace>
+		<template>show_window</template>
+		<description></description>
+		<author>김태경</author>
+		<email>egoing@gmail.com</email>
+		<homepage>http://www.imazing.net</homepage>
+	</meta>
+	<config>
+	</config>
+</info>

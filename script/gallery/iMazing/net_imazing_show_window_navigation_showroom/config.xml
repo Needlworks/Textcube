@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<info>
+	<meta>
+		<sort>navigation</sort>	
+		<name>쇼룸</name>
+		<namespace>net_imazing_show_window_navigation_showroom</namespace>
+		<template>show_window</template>
+		<description>이미지 클릭->해당 링크로 이동
+캡션 클릭->원본이미지를 팝업으로 실행</description>
+		<author>김태경</author>
+		<email>egoing@gmail.com</email>
+		<homepage>http://www.imazing.net</homepage>
+	</meta>
+	<config>
+		<alpha>70</alpha> 
+
+		<color>0xCCCCCC</color>
+
+		<size>2</size>
+
+	</config>
+
+</info>
