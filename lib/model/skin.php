@@ -154,6 +154,7 @@ function setSkinSetting($owner, $setting) {
 		entriesOnRecent			= " . $setting['entriesOnRecent'] . ',
 		commentsOnRecent			= ' . $setting['commentsOnRecent'] . ',
 		commentsOnGuestbook		= ' . $setting['commentsOnGuestbook'] . ',
+		archivesOnPage	 		= ' . $setting['archivesOnPage'] . ',
 		tagsOnTagbox			= ' . $setting['tagsOnTagbox'] . ',
 		tagboxAlign				= ' . $setting['tagboxAlign'] . ',
 		trackbacksOnRecent		= ' . $setting['trackbacksOnRecent'] . ',

@@ -344,6 +344,7 @@ $__text['아래로 스크롤'] = 'Page scroll down';
 $__text['아이디 또는 비밀번호가 틀렸습니다.'] = 'Your e-mail or password is not correct';
 $__text['아직 저장되지 않았습니다'] = 'post not saved properly !!';
 $__text['아카이브 클릭 시'] = 'When click archive';
+$__text['아카이브를 %1달 보여줍니다'] = 'Print %1 archives on page';
 $__text['안읽은 글로 표시'] = 'Mark as unread';
 $__text['안읽은 글만 보기'] = 'Show Unread';
 $__text['알 수 없는 에러가 발생했습니다'] = 'Unknown Error Occured';

@@ -4,7 +4,10 @@ function getArchives($owner) {
 	global $database;
 	$archives = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$result = mysql_query("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(published)) period, COUNT(*) count FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 GROUP BY period ORDER BY period DESC LIMIT 5");
+	$query = mysql_query("SELECT archivesOnPage FROM {$database['prefix']}SkinSettings WHERE owner = $owner");
+	$row = mysql_fetch_row($query);
+	$archivesOnPage = $row[0];
+	$result = mysql_query("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(published)) period, COUNT(*) count FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 GROUP BY period ORDER BY period DESC LIMIT $archivesOnPage");
 	if ($result) {
 		while ($archive = mysql_fetch_array($result))
 			array_push($archives, $archive);

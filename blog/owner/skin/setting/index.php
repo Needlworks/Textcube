@@ -48,6 +48,7 @@ $selected = 0;
 				param += 'entriesOnRecent='+getValueById('entriesOnRecent') +'&';
 				param += 'commentsOnRecent='+getValueById('commentsOnRecent') +'&';
 				param += 'commentsOnGuestbook='+getValueById('commentsOnGuestbook') +'&';
+				param += 'archivesOnPage='+getValueById('archivesOnPage') +'&';
 				param += 'tagboxAlign='+tagboxAlign +'&';
 				param += 'tagsOnTagbox='+getValueById('tagsOnTagbox') +'&';
 				param += 'trackbacksOnRecent='+getValueById('trackbacksOnRecent') +'&';
@@ -187,7 +188,8 @@ ob_end_clean();
                             <td>- <?=_f('최신 댓글을 %1개 보여줍니다', $arg)?></td>
                         </tr>
                     </table>
-                    <table>
+
+		    <table>
                         <tr>
 <?
 ob_start();
@@ -217,7 +219,37 @@ ob_end_clean();
                             <td>- <?=_f('최신 트랙백을 %1개 보여줍니다', $arg)?></td>
                         </tr>
                     </table>
-                </div>
+                    <table>
+                        <tr>
+<?
+ob_start();
+?>
+                            </td>
+                            <td style="padding-left:3px"><select name="archivesOnPage" id="archivesOnPage">
+                                    <?
+for ($i = 1; $i < 30; $i++) {
+	if ($i == $skinSetting['archivesOnPage'])
+		$checked = ' selected="selected"';
+	else
+		$checked = '';
+?>
+                                    <option value="<?=$i?>" <?=$checked?>>
+                                    <?=$i?>
+                                    </option>
+                                    <?
+}
+?>
+                                </select>
+                            </td>
+                            <td>
+<?
+$arg = ob_get_contents();
+ob_end_clean();
+?>
+                            <td>- <?=_f('아카이브를 %1달 보여줍니다', $arg)?></td>
+                        </tr>
+                    </table>
+		    </div>
                 <table style="width:100%; margin:7px 0px 5px 0px;">
                     <tr>
                         <td style="background-image:url('<?=$service['path']?>/image/owner/dotHorizontalStyle2.gif')"><img alt=""  src="<?=$service['path']?>/image/owner/spacer.gif" style="width:1px; height:1px;" /></td>

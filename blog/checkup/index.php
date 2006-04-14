@@ -179,6 +179,14 @@ if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings timezone", 'Type'
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 	}
 }
+if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings archivesOnPage")) {
+	$changed = true;
+	echo '<li>', _t('스킨 설정 테이블에 아카이브 출력 설정 필드를 추가합니다'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD archivesOnPage INT DEFAULT 5 NOT NULL AFTER commentsOnGuestbook"))
+		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
+}
 ?>
 </ul>
 <?=($changed ? _t('완료되었습니다.') : _t('확인되었습니다.'))?>
