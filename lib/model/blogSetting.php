@@ -113,6 +113,20 @@ function useBlogSlogan($owner, $useSlogan) {
 	return true;
 }
 
+function publishPostEolinSyncOnRSS($owner, $publishEolinSyncOnRSS) {
+	global $database;
+	global $blog;
+	$publishEolinSyncOnRSS = $publishEolinSyncOnRSS ? 1 : 0;
+	if ($publishEolinSyncOnRSS == $blog['publishEolinSyncOnRSS'])
+		return true;
+	mysql_query("update {$database['prefix']}BlogSettings set publishEolinSyncOnRSS = $publishEolinSyncOnRSS where owner = $owner");
+	if (mysql_affected_rows() != 1)
+		return false;
+	$blog['publishEolinSyncOnRSS'] = $publishEolinSyncOnRSS;
+	clearRSS();
+	return true;
+}
+
 function setEntriesOnRSS($owner, $entriesOnRSS) {
 	global $database;
 	global $blog;

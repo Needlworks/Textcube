@@ -144,6 +144,7 @@ if ($service['type'] != 'single') {
 	}
 
 	var useSlogan = "<?=$blog['useSlogan']?>";
+	var publishEolinSyncOnRSS = "<?=$blog['publishEolinSyncOnRSS']?>";
 	var entriesOnRSS = "<?=$blog['entriesOnRSS']?>";
 	var publishWholeOnRSS = "<?=$blog['publishWholeOnRSS']?>";
 	var allowCommentGuestbook = <?=$blog['allowWriteDoubleCommentOnGuestbook']?>;
@@ -159,6 +160,19 @@ if ($service['type'] != 'single') {
 				}
 				request.onError = function() {
 					alert("<?=_t('글 주소 표기법을 변경할 수 없습니다')?>");
+				}
+				request.send();
+			}
+		}
+		if (document.forms[0].publishEolinSyncOnRSS[publishEolinSyncOnRSS].checked == true) {
+			if (document.forms[0].publishEolinSyncOnRSS.value != publishEolinSyncOnRSS) {
+				var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/publishRSS/" + (document.forms[0].publishEolinSyncOnRSS[0].checked ? 1 : 0));
+				request.onSuccess = function() {
+					publishEolinSyncOnRSS = document.forms[0].publishEolinSyncOnRSS[0].checked ? 1 : 0;
+					PM.showMessage("<?=_t('저장되었습니다')?>", "center", "bottom");
+				}
+				request.onError = function() {
+					alert("<?=_t('RSS 공개 정도를 변경할 수 없습니다')?>");
 				}
 				request.send();
 			}
@@ -469,6 +483,21 @@ if ($service['type'] != 'single') {
                     </tr>
                   </table>
                   <table cellspacing="0">
+                    <tr>
+                      <td class="entryEditTableLeftCell"><?=_t('공개 정도')?> |</td>
+                      <td>
+                        <table>
+                          <tr>
+                            <td><input type="radio" id="publishEolinSyncOnRSS1" name="publishEolinSyncOnRSS"<?=($blog['useSlogan'] ? ' checked="checked"' : '')?> /><?=_t('공개된 모든 글을 RSS로 내보냅니다')?></td>
+                          </tr>
+                          <tr>
+                            <td><input type="radio" id="publishEolinSyncOnRSS0" name="publishEolinSyncOnRSS"<?=($blog['publishEolinSyncOnRSS'] ? '' : ' checked="checked"')?> /><?=_t('이올린에 발행된 글만을 RSS로 내보냅니다')?></td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+		  <table cellspacing="0">
                     <tr>
                       <td class="entryEditTableLeftCell"><?=_t('글 개수')?> |</td>
                       <td>
