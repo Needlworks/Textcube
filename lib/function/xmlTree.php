@@ -1,4 +1,5 @@
 <?
+// Obsoleted
 
 class XmlTree {
 	var $parser;
