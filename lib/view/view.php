@@ -1389,7 +1389,7 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 		  <tr>
 			<td><a href="<?=htmlspecialchars($entry['permalink'])?>" target="_blank" style="text-decoration: none"><span style="color:#0047B6; font-size:16px; font-weight:bold"><?=htmlspecialchars($entry['entry_title'])?></span></a><br />
 			  by <?=htmlspecialchars($entry['author'] ? $entry['author'] : $entry['blog_title'])?> : <span style="font-size:10px; font-family:Tahoma"><?=date('Y-m-d H:i:s', $entry['written'])?></span> </td>
-			<td align="right" valign="top"><a id="entryPermalink" href="<?=htmlspecialchars($entry['permalink'])?>" target="_blank"><img src="<?=$service['path']?>/image/owner/reader/viewNewwindow.gif" align="absmiddle" /><?=_t('새 창으로 보기')?></a></td>
+			<td align="right" valign="top"><a id="entryPermalink" href="<?=htmlspecialchars(rawurldecode($entry['permalink']))?>" target="_blank"><img src="<?=$service['path']?>/image/owner/reader/viewNewwindow.gif" align="absmiddle" /><?=_t('새 창으로 보기')?></a></td>
 		  </tr>
 		  <tr height="1">
 			<td colspan="2" background="<?=$service['path']?>/image/owner/reader/dotline.gif"></td>

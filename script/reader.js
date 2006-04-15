@@ -707,7 +707,7 @@ TTReader.prototype.setListPosition = function(setTop)
 
 TTReader.prototype.openEntryInNewWindow = function()
 {
-	window.open(document.getElementById("entryPermalink"));
+	window.open(document.getElementById("entryPermalink").href);
 }
 
 TTReader.prototype.updateAllFeeds = function()

@@ -29,10 +29,8 @@ if (defined('__TATTERTOOLS_POST__')) {
 	printOwnerEditorScript($entry['id']);
 }
 ?>
-<script type="text/javascript" src="http://eolin.com/api/tatter/generaltag.js"></script>
-<script type="text/javascript" src="http://eolin.com/api/tatter/locationtag.js"></script>
-<?
-?>
+<script type="text/javascript" src="<?=$service['path']?>/script/generaltag.js"></script>
+<script type="text/javascript" src="<?=$service['path']?>/script/locationtag.js"></script>
 <script type="text/javascript">
 //<![CDATA[
 	var enclosured = "<?=fetchQueryCell("SELECT name FROM {$database['prefix']}Entries e, {$database['prefix']}Attachments a WHERE e.owner = $owner AND e.id = {$suri['value']} AND a.parent = e.id AND a.enclosure = 1")?>";
