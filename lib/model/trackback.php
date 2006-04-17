@@ -56,7 +56,7 @@ function receiveTrackback($owner, $entry, $title, $url, $excerpt, $blog_name) {
 	if (mysql_num_rows($result) == 0)
 		return 3;
 	if (Filter::isFiltered('content', $excerpt))
-		return 4;
+		return 1;
 	$trackbacks = mysql_fetch_array($result);
 	if (fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Trackbacks WHERE entry=$entry AND url='$url' AND owner=$owner") == 0) {
 		mysql_query("INSERT INTO {$database['prefix']}Trackbacks VALUES ('', $owner, $entry, '$url', NULL, '$blog_name', '$title', '$excerpt', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP())");

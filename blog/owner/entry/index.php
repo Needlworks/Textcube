@@ -192,15 +192,9 @@ require ROOT . '/lib/piece/owner/contentMeta0End.php';
 		document.getElementById('trackbackForm_'+id).select();
 		printTrackbackLog(id);		
 	}
-	
+
 	function sendTrackback(id) {
 		var trackbackField = document.getElementById('trackbackForm_'+id);
-		if (trackbackField.value.length < 10) {
-			alert('Retype an URL to receive');
-			trackbackField.focus();
-			trackbackField.select();
-			return;
-		}
 		var request = new HTTPRequest("<?=$blogURL?>/owner/entry/trackback/send/" + id + "?url=" + encodeURIComponent(trackbackField.value));
 		request.onSuccess = function () {
 			document.getElementById('trackbackForm_'+id).value = "http://";

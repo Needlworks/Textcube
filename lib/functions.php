@@ -25,9 +25,15 @@ function requestHttp($method, $url, $content = false, $contentType = 'applicatio
 }
 
 function checkResponseXML($responseText) {
-	if ((($start = strpos($responseText, '<error>')) !== false) && (($end = strpos($responseText, '</error>', $start + 7)) !== false))
-		return intval(substr($responseText, $start + 7, $end - $start - 7));
-	return false;
+	global $service;
+
+	$xmls = new XMLStruct();
+	if(!$xmls->open($responseText, $service['encoding']))
+		return false;
+	if(($error = $xmls->getValue('/response/error')) !== null)
+		return intval($error);
+	else
+		return false;
 }
 
 function str_innerHTML($str) {
