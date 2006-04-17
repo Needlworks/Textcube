@@ -33,15 +33,7 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 	function sendTrackback(id) {
 		try {
 			var trackbackField = document.getElementById('url');
-			if (trackbackField.value.length < 10) {
-				alert('Retype an URL to receive');
-				trackbackField.focus();
-				trackbackField.select();
-				return;
-			}
-			
 			var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/trackback/send/" + id + "?url=" + encodeURIComponent(trackbackField.value));
-			
 			request.onSuccess = function() {
 				showTrackbackSender(id);
 				trackbackField.value ='';
@@ -162,7 +154,9 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
             </table>
           </td>
         </tr>
-      </table></td>
+      </table>
+	  <div style="text-align: center"><input onclick="window.close()" type="button" value="<?=_t('닫기')?>"  style="border: 1px solid #6297D1; background-color:#83AFE0; color:#fff; width:180px; height:20px; font-size:11px; font-family:tahoma; font-weight:bold; margin-top: 10px" /></div>
+	  </td>
   </tr>
 </table>
 </form>
