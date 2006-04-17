@@ -13,7 +13,7 @@ foreach ($locatives as $locative) {
 	}
 	$entryView = $skin->locativeEntry;
 	dress('local_info_depth', $depth + 20, $entryView);
-	dress('local_info_link', "$blogURL/" . ($blog['useSlogan'] ? "entry/{$locative['slogan']}" : $locative['id']), $entryView);
+	dress('local_info_link', "$blogURL/" . urlencode($blog['useSlogan'] ? "entry/{$locative['slogan']}" : $locative['id']), $entryView);
 	dress('local_info_title', htmlspecialchars($locative['title']), $entryView);
 	$locativeView .= $entryView;
 	$prevPath = $path;
