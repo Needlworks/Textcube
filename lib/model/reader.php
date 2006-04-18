@@ -417,7 +417,7 @@ function saveFeedItems($feedId, $xml) {
 		return false;
 	if ($xmls->getAttribute('/rss', 'version')) {
 		for ($i = 0; $link = $xmls->getValue("/rss/channel/item[$i]/link"); $i++) {
-			$item = array('permalink' => mysql_escape_string($link));
+			$item = array('permalink' => mysql_escape_string(rawurldecode($link)));
 			if (!$item['author'] = mysql_escape_string(str_trans_rev($xmls->getValue("/rss/channel/item[$i]/author"))))
 				$item['author'] = mysql_escape_string(str_trans_rev($xmls->getValue("/rss/channel/item[$i]/dc:creator")));
 			$item['title'] = mysql_escape_string(str_trans_rev($xmls->getValue("/rss/channel/item[$i]/title")));
@@ -444,7 +444,7 @@ function saveFeedItems($feedId, $xml) {
 		}
 	} else if ($xmls->getAttribute('/feed', 'version')) {
 		for ($i = 0; $link = $xmls->getValue("/feed/entry[$i]/id"); $i++) {
-			$item = array('permalink' => mysql_escape_string($link));
+			$item = array('permalink' => mysql_escape_string(rawurldecode($link)));
 			$item['author'] = mysql_escape_string(str_trans_rev($xmls->getValue("/feed/entry[$i]/author/name")));
 			$item['title'] = mysql_escape_string(str_trans_rev($xmls->getValue("/feed/entry[$i]/title")));
 			$item['description'] = mysql_escape_string(str_trans_rev($xmls->getValue("/feed/entry[$i]/content")));
@@ -461,7 +461,7 @@ function saveFeedItems($feedId, $xml) {
 		}
 	} else if ($xmls->getAttribute('/rdf:RDF', 'xmlns')) {
 		for ($i = 0; $link = $xmls->getValue("/rdf:RDF/item[$i]/link"); $i++) {
-			$item = array('permalink' => mysql_escape_string(str_trans_rev($link)));
+			$item = array('permalink' => mysql_escape_string(rawurldecode(str_trans_rev($link))));
 			$item['author'] = mysql_escape_string(str_trans_rev($xmls->getValue("/rdf:RDF/item[$i]/dc:creator")));
 			$item['title'] = mysql_escape_string(str_trans_rev($xmls->getValue("/rdf:RDF/item[$i]/title")));
 			if (!$item['description'] = mysql_escape_string(str_trans_rev($xmls->getValue("/rdf:RDF/item[$i]/content:encoded"))))
@@ -576,11 +576,8 @@ function parseDate($str) {
 	if (!$s)
 		$s = "00";
 	$h += $gmt;
-	$time = mktime($h, $i, $s, $m, $d, $y);
-	if ($time < 315500400)
-		return time();
-	else
-		return $time;
+
+	return mktime($h, $i, $s, $m, $d, $y);
 }
 
 function str_month_check($str) {
