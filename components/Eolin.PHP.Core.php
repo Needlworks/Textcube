@@ -717,7 +717,10 @@ class TableQuery {
 class Path {
 	/*@static@*/
 	function getBaseName($path) {
-		return basename($path);
+		$pattern = (strncasecmp(PHP_OS, 'WIN', 3) ? '/([^\/]+)[\/]*$/' : '/([^\/\\\\]+)[\/\\\\]*$/');
+		if (preg_match($pattern, $path, $matches))
+			return $matches[1];
+		return '';
 	}
 	
 	/*@static@*/
