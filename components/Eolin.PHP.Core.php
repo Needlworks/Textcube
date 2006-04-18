@@ -766,9 +766,9 @@ class XMLStruct {
 	
 	function open($xml, $encoding = null) {
 		if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !isUTF8($xml)) {
-			if (strncmp($xml, '<?xml ', 6) == 0) {
-				if (ereg('encoding[ \t]*=[ \t]*["\']([^"\']+)["\']', substr($xml, 6, strpos($xml, '?>')), $registers))
-					$encoding = $registers[1];
+			if (preg_match('/^<\?xml[^<]*\s+encoding=["\']?([\w-]+)["\']?/', $xml, $matches)) {
+				$encoding = $matches[1];
+				$xml = preg_replace('/^(<\?xml[^<]*\s+encoding=)["\']?[\w-]+["\']?/', '$1"utf-8"', $xml, 1);
 			}
 			if (strcasecmp($encoding, 'utf-8')) {
 				$xml = iconvWrapper($encoding, 'utf-8', $xml);
