@@ -77,7 +77,7 @@ function size($sql) {
 }
 
 function copyRecusive($source, $target, $chkPrint = false) {
-	if (basename($source) == "." || basename($source) == "..") {
+	if (Path::getBaseName($source) == "." || Path::getBaseName($source) == "..") {
 		return;
 	}
 	if (!is_dir($source)) {

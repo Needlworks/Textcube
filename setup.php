@@ -324,7 +324,6 @@ array_push
 array_shift
 array_slice
 base64_encode
-basename
 ceil
 checkdate
 closedir

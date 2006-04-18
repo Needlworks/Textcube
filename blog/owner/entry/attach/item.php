@@ -48,7 +48,7 @@ function checkUploadMode(oEvent) {
 <?
 if (count($_FILES) == 1) {
 	$file = array_pop($_FILES);
-	if (getAttachmentByLabel($owner, $suri['id'], basename($file['name']))) {
+	if (getAttachmentByLabel($owner, $suri['id'], Path::getBaseName($file['name']))) {
 		print ('alert("' . _t('동일한 이름을 가진 파일이 이미 첨부되었습니다.') . '");');
 ?>
 
