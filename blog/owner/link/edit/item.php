@@ -124,7 +124,7 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
                     </table>
                   </td>
                   <td>
-                    <table class="buttonTop" cellspacing="0" onclick="window.location.href='<?=$service['path']?>/owner/link'; return false">
+                    <table class="buttonTop" cellspacing="0" onclick="window.location.href='<?=$blogURL?>/owner/link'; return false">
                       <tr>
                         <td><img width="4" height="24" src="<?=$service['path']?>/image/owner/buttonLeft.gif" alt="" /></td>
                         <td class="buttonTop" style="work-break:keep-all;background-image:url('<?=$service['path']?>/image/owner/buttonCenter.gif')"><?=_t('취소하기')?></td>
