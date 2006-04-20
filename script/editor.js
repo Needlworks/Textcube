@@ -26,13 +26,13 @@ var TTEditor = function() {
 }
 
 // 각종 환경 초기화
-TTEditor.prototype.initialize = function(textarea, imageFilePath) {
+TTEditor.prototype.initialize = function(textarea, imageFilePath, mode) {
 	// execCommand가 사용가능한 경우에만 위지윅을 쓸 수 있다. (지금은 Internet Explorer, Firefox만 지원한다)
 	if(typeof(document.execCommand) == "undefined" || !(STD.isIE || STD.isFirefox))
 		return;
 
 	// 위지윅모드로 시작
-	this.editMode = "WYSIWYG";
+	this.editMode = mode;
 
 	this.propertyFilePath = imageFilePath;
 
@@ -43,10 +43,12 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath) {
 	this.textarea = textarea;
 	this.textarea.style.fontFamily = "Monospace";
 	this.textarea.style.wordBreak = "keep-all";
-	this.textarea.style.lineHeight = "1.5em";
+	this.textarea.style.lineHeight = "1.5";
 	this.textarea.style.color = "#222";
-	this.textarea.style.display = "none";
-	this.textarea.style.height = "440px";
+	this.textarea.style.border = "2px solid #7ac";
+	if(this.editMode == "WYSIWYG")
+		this.textarea.style.display = "none";
+	this.textarea.style.height = "440px";	
 
 	// 디자인모드의 IFRAME을 생성한다
 	this.iframe = document.createElement("iframe");
@@ -60,6 +62,8 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath) {
 	this.iframe.setAttribute("allowtransparency", "true");
 	this.iframe.style.border = "1px solid #ddd";
 	this.iframe.style.height = STD.isIE ? "448px" : "452px";
+	if(this.editMode == "TEXTAREA")
+		this.iframe.style.display = "none";
 	this.iframe.style.width = Math.min(skinContentWidth + (STD.isIE ? 36 : 39), 650) + "px";
 
 	// IFRAME을 감싸는 DIV
@@ -1515,6 +1519,7 @@ TTEditor.prototype.moveDownFileList = function(id)
 // WYSIWYG <-> TEXTAREA 전환
 TTEditor.prototype.toggleMode = function() {
 	if(this.editMode == "WYSIWYG") {
+//		setPersonalization("defaultEditingMode", 1);
 		this.iframe.style.display = "none";
 		this.textarea.style.display = "block";
 		this.editMode = "TEXTAREA";
@@ -1522,6 +1527,7 @@ TTEditor.prototype.toggleMode = function() {
 		this.textarea.focus();
 	}
 	else {
+//		setPersonalization("defaultEditingMode", 0);
 		this.iframe.style.display = "block";
 		this.textarea.style.display = "none";
 		try { this.contentDocument.designMode = "on"; }
