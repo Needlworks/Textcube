@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title>태터툴즈 생일 표시</title>
-  <link></link>
+  <title xml:lang="ko">태터툴즈 생일 표시</title>
+  <title xml:lang="en">Show the birthday of Tattertools</title>
+  <link>http://www.tattertools.com/plugins</link>
   <version>1.0</version>
-  <description>태터툴즈의 생일과 D-Day를 블로그 페이지에 출력합니다. TattertoolsBirthday 태크가 스킨에 있어야 합니다.</description>
+  <description xml:lang="en">This plugin displays Tattertools birthday and D-day. To enable this, skin's HTML should contain [##_TattertoolsBirthday_##] tag.</description>
+  <description xml:lang="ko">태터툴즈의 생일과 D-Day를 블로그 페이지에 출력합니다. [##_TattertoolsBirthday_##] 태크가 스킨에 있어야 합니다.</description>
   <license>GPL</license>
-  <author link="http://www.tattertools.com">Tatter &amp; Company</author>
+  <author xml:lang="ko" link="http://www.tattertools.com">태터앤컴퍼니</author>
+  <author xml:lang="en" link="http://www.tattertools.com">Tatter &amp; Company</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
     <tattertools>1.0.2</tattertools>

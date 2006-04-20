@@ -32,16 +32,10 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
                 </td>
               </tr>
             </table>
-			
-			
-			
-			
-			
-			
             <table cellspacing="0" border="0" style="width:100%; margin-bottom:1px; table-layout:fixed; border-bottom:solid 2px #00A6ED" id="list">
               <tr style="background-color:#00A6ED; height:24px; background-image: url('<?=$service['path']?>/image/owner/subTabCenter.gif')" >
-                <td width="200" align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('이름')?></td>
-                <td width="40" align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('버전')?></td>
+                <td width="200" align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('제목')?></td>
+                <td width="50" align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('버전')?></td>
 			 	<td align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('설명')?></td>
 			 	<td width="160" align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('만든이')?></td>
                 <td width="50" align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('상태')?></td>
@@ -68,17 +62,17 @@ while ($plugin = $dir->read()) {
 	} else {
 		$more = true;
 	}
-	$title = $xmls->getValue('/plugin/link');
-	$title = ($title ? '<a href="' . htmlspecialchars($title) . '">' . htmlspecialchars($xmls->getValue('/plugin/title')) . '</a>' : htmlspecialchars($xmls->getValue('/plugin/title')));
-	$author = $xmls->getAttribute('/plugin/author', 'link');
-	$author = ($author ? '<a href="' . htmlspecialchars($author) . '">' . htmlspecialchars($xmls->getValue('/plugin/author')) . '</a>' : htmlspecialchars($xmls->getValue('/plugin/author')));
+	$link = $xmls->getValue('/plugin/link[lang()]');
+	$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
+	$authorLink = $xmls->getAttribute('/plugin/author[lang()]', 'link');
+	$author = htmlspecialchars($xmls->getValue('/plugin/author[lang()]'));
 	$active = in_array($plugin, $activePlugins);
 ?>
               <tr style="height:22px" onmouseover="this.style.backgroundColor='#EEEEEE'" onmouseout="this.style.backgroundColor='white'">
-                <td align="center" class="row"><?=$title?></td>
-                <td align="center" class="row"><?=htmlspecialchars($xmls->getValue('/plugin/version'))?></td>
-			 	<td class="row"><?=htmlspecialchars($xmls->getValue('/plugin/description'))?></td>
-			 	<td align="center" class="row"><?=$author?></td>
+                <td align="center" class="row"><?=($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title)?></td>
+                <td align="center" class="row"><?=htmlspecialchars($xmls->getValue('/plugin/version[lang()]'))?></td>
+			 	<td class="row"><?=htmlspecialchars($xmls->getValue('/plugin/description[lang()]'))?></td>
+			 	<td align="center" class="row"><?=($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author)?></td>
                 <td align="center" class="row" nowrap="nowrap"><span id="plugin<?=$plugin?>IsActive" style="cursor:pointer; display:<?=($active ? 'inline' : 'none')?>" onclick="deactivatePlugin('<?=$plugin?>')"><img src="<?=$service['path']?>/image/pluginUsed.gif" /></span><span id="plugin<?=$plugin?>IsInactive" style="cursor:pointer; display:<?=($active ? 'none' : 'inline')?>" onclick="activatePlugin('<?=$plugin?>')"><img src="<?=$service['path']?>/image/pluginUnused.gif" /></span></td>
               </tr>
 <?
