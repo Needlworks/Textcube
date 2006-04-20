@@ -206,7 +206,12 @@ class Validator {
 
 
 class Locale {
-	function setLocale($locale) {
+	function get() {
+		global $__locale;
+		return $__locale['locale'];
+	}
+	
+	function set($locale) {
 		global $__locale, $__text;
 		list($common) = explode('_', $locale, 2);
 		if (file_exists($__locale['directory'] . '/' . $locale . '.php')) {
@@ -233,6 +238,17 @@ class Locale {
 		global $__locale;
 		$__locale['domain'] = $domain;
 		return true;
+	}
+	
+	function match($locale) {
+		global $__locale;
+		if (strcasecmp($locale, $__locale['locale']) == 0)
+			return 3;
+		else if (strncasecmp($locale, $__locale['locale'], 2) == 0)
+			return 2;
+		else if (strncasecmp($locale, 'en', 2) == 0)
+			return 1;
+		return 0;
 	}
 	
 	function getSupportedLocales() {
@@ -871,36 +887,68 @@ class XMLStruct {
 		$this->_consumer = $consumer;
 	}
 	
-	function & selectNode($path) {
-		$p = explode('/', $path);
-		if (array_shift($p) != '') {
+	function & selectNode($path, $lang = null) {
+		$path = explode('/', $path);
+		if (array_shift($path) != '') {
 			$null = null;
 			return $null;
 		}
-		$c = &$this->struct;
+		$cursor = &$this->struct;
 		
-		while ($d = array_shift($p)) {
-			$o = 0;
-			if ($d{strlen($d) - 1} == ']') {
-				@list($d, $o) = split('\[', $d, 2);
-				if ($o === null) {
-					$null = null;
-					return $null;
-				}
-				$o = substr($o, 0, strlen($o) - 1);
-				if (!is_numeric($o)) {
-					$null = null;
-					return $null;
-				}
-			}
-			if (isset($c[$d][$o]))
-				$c = &$c[$d][$o];
-			else {
+		while (is_array($cursor) && ($step = array_shift($path))) {
+			if (!preg_match('/^([^[]+)(\[(\d+|lang\(\))\])?$/', $step, $matches)) {
 				$null = null;
 				return $null;
 			}
+			$name = $matches[1];
+			if (!isset($cursor[$name][0])) {
+				$null = null;
+				return $null;
+			}
+			
+			if (count($matches) != 4) { // Node name only.
+				if (isset($cursor[$name][0])) {
+					$cursor = &$cursor[$name][0];
+				} else {
+					$null = null;
+					return $null;
+				}
+			} else if ($matches[3] != 'lang()') { // Position.
+				if (isset($cursor[$name][$matches[3]])) {
+					$cursor = &$cursor[$name][$matches[3]];
+				} else {
+					$null = null;
+					return $null;
+				}
+			} else { // lang() expression.
+				for ($i = 0; $i < count($cursor[$name]); $i++) {
+					switch (Locale::match(@$cursor[$name][$i]['.attributes']['xml:lang'])) {
+						case 3:
+							$cursor = &$cursor[$name][$i];
+							return $cursor;
+						case 2:
+							$secondBest = &$cursor[$name][$i];
+							break;
+						case 1:
+							$thirdBest = &$cursor[$name][$i];
+							break;
+						case 0:
+							if (!isset($thirdBest))
+								$thirdBest = &$cursor[$name][$i];
+							break;
+					}
+				}
+				if (isset($secondBest)) {
+					$cursor = &$secondBest;
+				} else if (isset($thirdBest)) {
+					$cursor = &$thirdBest;
+				} else {
+					$null = null;
+					return $null;
+				}
+			}
 		}
-		return $c;
+		return $cursor;
 	}
 	
 	function & selectNodes($path) {
