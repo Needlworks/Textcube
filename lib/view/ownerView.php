@@ -521,7 +521,10 @@ function printOwnerEditorScript($entryId = false) {
 
 function printEntryFileList($attachments, $entryId) {
 	global $owner, $service, $blogURL;
-	if (empty($attachments) || (strpos($attachments[0]['name'], '.gif') === false && strpos($attachments[0]['name'], '.jpg') === false && strpos($attachments[0]['name'], '.png') === false)) {
+	if(empty($attachments) || (
+	strpos($attachments[0]['name'] ,'.gif') === false &&
+	strpos($attachments[0]['name'] ,'.jpg') === false &&
+	strpos($attachments[0]['name'] ,'.png') === false)) {
 		$fileName = "{$service['path']}/image/spacer.gif";
 	} else {
 		$fileName = "{$service['path']}/attach/$owner/{$attachments[0]['name']}";
@@ -834,6 +837,8 @@ function printEntryFileUploadButton($entryId) {
 			}
 		}
 	  </script>
+					</tr>
+			</table>	
 	  </td>
 	  <td><span id="fileDownload" style="display: none"></span></td>
 	  <td>
