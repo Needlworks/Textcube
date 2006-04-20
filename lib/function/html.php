@@ -2,6 +2,7 @@
 
 function stripHTML($text, $allowTags = array()) {
 	$text = eregi_replace('<script[^>]*>([^<]|<[^/]|</[^s]|</s[^c])*</script>', '', $text);
+	$text = eregi_replace('<style[^>]*>([^<]|<[^/]|</[^s]|</s[^t])*</style>', '', $text);
 	if (count($allowTags) == 0)
 		$text = ereg_replace('<[[:alpha:]/!][^>]*>', '', $text);
 	else {

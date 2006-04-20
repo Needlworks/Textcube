@@ -406,7 +406,13 @@ printEntryEditorPalette();
 						<script type="text/javascript" src="<?=$service['path']?>/script/editor.js"></script>
 						<script type="text/javascript">
 							var editor = new TTEditor();
-							editor.initialize(document.getElementById("editWindow"), "<?=$service['path']?>/attach/<?=$owner?>/");
+							<?
+								/* TODO : Personalization 테이블에 `defaultEditingMode` TINYINT NOT NULL 컬럼 추가해야함
+								 * DB 변경 정책이 결정될때까지 막아둠..
+							?>
+							editor.initialize(document.getElementById("editWindow"), "<?=$service['path']?>/attach/<?=$owner?>/", "<?=(getPersonalization($owner, 'defaultEditingMode')==0) ? 'WYSIWYG' : 'TEXTAREA'?>");
+							<? */ ?>
+							editor.initialize(document.getElementById("editWindow"), "<?=$service['path']?>/attach/<?=$owner?>/", "<?=true ? 'WYSIWYG' : 'TEXTAREA'?>");
 						</script>
 <?
 if (!defined('__TATTERTOOLS_KEYWORD__')) {
@@ -450,12 +456,12 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 		if (!defined('__TATTERTOOLS_POST__')) {
 			foreach (getTags($entry['id']) as $tag) {
 				array_push($tags, $tag['name']);
-				echo 'oTag.setValue("' . str_replace('"', '\\"', $tag['name']) . '");';
+				echo 'oTag.setValue("' . addslashes($tag['name']) . '");';
 			}
 		}
 ?>
 							} catch(e) {		
-								document.getElementById("tag").innerHTML = '<input class="text1" type="text" name="tag" style="width:520px" value="<?=addslashes(implode(', ', $tags))?>" /><br/><?=_t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해주세요 (예: 태터툴즈, BLOG, 테스트)')?>';
+								document.getElementById("tag").innerHTML = '<input class="text1" type="text" name="tag" style="width:520px" value="<?=addslashes(str_replace('"', '&quot;', implode(', ', $tags)))?>" /><br/><?=_t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해주세요 (예: 태터툴즈, BLOG, 테스트)')?>';
 							}
 						  //]]> 
 						  </script> 

@@ -37,6 +37,18 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	obj = opener.document.getElementById("recentComments");
 	obj.innerHTML = "<?=str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
 	} catch(e) { }
+	try {
+	<?
+		$commentCount = getCommentCount($owner, $comment['entry']);
+		$commentCount = ($commentCount > 0) ? "($commentCount)" : '';
+	?>
+	obj = opener.document.getElementById("commentCount<?=$comment['entry']?>");
+	obj.innerHTML = "<?=$commentCount?>";
+	} catch(e) { }
+	try {
+	obj = opener.document.getElementById("commentCountOnRecentEntries<?=$comment['entry']?>");
+	obj.innerHTML = "<?=$commentCount?>";
+	} catch(e) { }
 	window.close();
 </script>
 <?

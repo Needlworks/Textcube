@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title>블로그 아이콘 표시</title>
+  <title xml:lang="ko">블로그 아이콘 표시</title>
+  <title xml:lang="en">Show blog icon on comments or guestbook</title>
+  <link>http://www.tattertools.com/plugins</link>
   <version>1.0</version>
-  <description>댓글과 방명록의 작성자 홈페이지에 블로그 아이콘(index.gif)이 있으면 같이 표시됩니다.</description>
+  <description xml:lang="ko">댓글과 방명록의 작성자 홈페이지에 블로그 아이콘(index.gif)이 있으면 같이 표시됩니다.</description>
+  <description xml:lang="en">This plugin displays blog icon (index.gif) along with comments or guestbook.</description>
   <license>GPL</license>
-  <link>http://www.tattertools.com/plugins/BlogIcon</link>
-  <author link="http://www.tattertools.com">Tatter &amp; Company</author>
+  <author xml:lang="ko" link="http://www.tattertools.com">태터앤컴퍼니</author>
+  <author xml:lang="en" link="http://www.tattertools.com">Tatter &amp; Company</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
     <tattertools>1.0</tattertools>

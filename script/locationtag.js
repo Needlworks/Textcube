@@ -43,6 +43,7 @@ function eolinLocationTagFunction_showSuggestion()
 	{
 		for(var i=3; i<arguments.length; i++)
 		{
+			arguments[i] = arguments[i].replaceAll("&quot;", '"');
 			htmlText.append("<li onmouseover=\"this.className='hover'\" onmouseout=\"this.className=''\" onmousedown=\"this.parentNode.instance.suggestionMouseClick(this)\">");
 			htmlText.append(arguments[i].replace(new RegExp("(" + instance.input.value + ")", "gi"), "<strong>$1</strong>"));
 			htmlText.append("</li>");
@@ -264,7 +265,7 @@ LocationTag.prototype.setInputClassName = function(str)
 // suggestion window의 항목을 클릭하면 값을 세팅한다
 LocationTag.prototype.suggestionMouseClick = function(obj)
 {
-	this.setValue(obj.innerHTML.replace(new RegExp("</?strong>", "gi"), "").replace("&amp;", "&"), true);
+	this.setValue(obj.innerHTML.replace(new RegExp("</?strong>", "gi"), "").replaceAll("&amp;", "&"), true);
 	this.hideSuggestion();
 }
 
@@ -445,12 +446,12 @@ if(!String.prototype.trim) {
 
 if(!String.prototype.htmlspecialchars) {
 	String.prototype.htmlspecialchars = function()
-	{ return this.replace("&", "&amp;").replace("<", "&lt;").replace("<", "&gt;"); }
+	{ return this.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll("<", "&gt;"); }
 }
 
 if(!String.prototype.unhtmlspecialchars) {
 	String.prototype.unhtmlspecialchars = function()
-	{ return this.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">"); }
+	{ return this.replaceAll("&amp;", "&").replaceAll("&lt;", "<").replaceAll("&gt;", ">"); }
 }
 
 var x=0;

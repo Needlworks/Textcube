@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title>댓글/방명록 이모티콘 표시</title>
+  <title xml:lang="ko">댓글/방명록 이모티콘 표시</title>
+  <title xml:lang="en">Show emoticons on comments or guestbook</title>
+  <link>http://www.tattertools.com/plugins</link>
   <version>1.0</version>
-  <description>댓글 및 방명록 내용에 포함된 이모티콘 기호를 아이콘으로 바꿔서 보여줍니다. 지원되는 이모티콘은 :) ;) :P $D :( --; 입니다.</description>
+  <description xml:lang="ko">댓글 및 방명록 내용에 포함된 이모티콘 기호를 아이콘으로 바꿔서 보여줍니다. 지원되는 이모티콘은 :) ;) :P $D :( --; 입니다.</description>
+  <description xml:lang="en">This plugin automatically converts certain character strings to relevant emoticons. 
+The strings are :) ;) :P $D :( --;</description>
   <license>GPL</license>
-  <link>http://www.tattertools.com/plugins/EmoticonOnComment</link>
-  <author link="http://www.tattertools.com">Tatter &amp; Company</author>
+  <author xml:lang="ko" link="http://www.tattertools.com">태터앤컴퍼니</author>
+  <author xml:lang="en" link="http://www.tattertools.com">Tatter &amp; Company</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
     <tattertools>1.0</tattertools>

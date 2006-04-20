@@ -42,13 +42,16 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	} else {
 		$skin = new Skin($skinSetting['skin']);
 		if ($entryId > 0) {
+			$commentCount = getCommentCount($owner, $entryId);
+			$commentCount = ($commentCount > 0) ? "($commentCount)" : '';
 			$commentBlock = escapeCData(removeAllTags(getCommentView($entryId, $skin)));
 			$recentCommentBlock = escapeCData(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));
 		} else {
+			$commentCount = '';
 			$commentBlock = escapeCData(removeAllTags(getCommentView($entryId, $skin)));
 			$recentCommentBlock = escapeCData(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));
 		}
-		echo '<?xml version="1.0" encoding="utf-8"?><response><error>0</error><commentBlock><![CDATA[', $commentBlock, ']]></commentBlock><recentCommentBlock><![CDATA[', $recentCommentBlock, ']]></recentCommentBlock></response>';
+		echo '<?xml version="1.0" encoding="utf-8"?><response><error>0</error><commentCount>'.$commentCount.'</commentCount><commentBlock><![CDATA[', $commentBlock, ']]></commentBlock><recentCommentBlock><![CDATA[', $recentCommentBlock, ']]></recentCommentBlock></response>';
 	}
 }
 ?>

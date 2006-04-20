@@ -57,8 +57,7 @@ foreach ($entries as $entry) {
 			dress('article_rep_rp_link', "toggleLayer('entry{$entry['id']}Comment'); return false", $entryView);
 		else
 			dress('article_rep_rp_link', "alert('" . _t('이 글에는 댓글을 달 수 없습니다') . "\\t'); return false", $entryView);
-		if ($entry['comments'] > 0)
-			dress('article_rep_rp_cnt', "({$entry['comments']})", $entryView);
+		dress('article_rep_rp_cnt', "<span id=\"commentCount{$entry['id']}\">".($entry['comments']>0 ? "({$entry['comments']})" : '')."</span>", $entryView);
 		if ($entry['acceptTrackback'])
 			dress('article_rep_tb_link', "toggleLayer('entry{$entry['id']}Trackback'); return false", $entryView);
 		else

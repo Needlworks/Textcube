@@ -521,7 +521,10 @@ function printOwnerEditorScript($entryId = false) {
 
 function printEntryFileList($attachments, $entryId) {
 	global $owner, $service, $blogURL;
-	if (empty($attachments) || (strpos($attachments[0]['name'], '.gif') === false && strpos($attachments[0]['name'], '.jpg') === false && strpos($attachments[0]['name'], '.png') === false)) {
+	if(empty($attachments) || (
+	strpos($attachments[0]['name'] ,'.gif') === false &&
+	strpos($attachments[0]['name'] ,'.jpg') === false &&
+	strpos($attachments[0]['name'] ,'.png') === false)) {
 		$fileName = "{$service['path']}/image/spacer.gif";
 	} else {
 		$fileName = "{$service['path']}/attach/$owner/{$attachments[0]['name']}";
@@ -531,7 +534,9 @@ function printEntryFileList($attachments, $entryId) {
 		<div id="previewSelected" style="width:120px; height:90px; background:#FFFFFF"><table width="100%" height="100%"><tr><td valign="middle" align="center"><?=_t('미리보기')?></td></tr></table></div>
 	</td>
 	<td valign="top" align="center" width="415">	
-		<p>
+		<table>
+			<tr>
+				<td>				
 			<span id="attachManagerSelect">
 		    <select size="8" name="fileList" id="fileList" multiple="multiple" style="width:415px;" onchange="selectAttachment();" ondblclick="downloadAttachment()">
                 <?
@@ -576,6 +581,10 @@ function printEntryFileList($attachments, $entryId) {
 ?>
 	        </select>
 			</span>
+				</td>
+			</tr>
+			<tr>
+				<td>			
 		    <script type="text/javascript">
 				function stripLabelToValue(fileLabel) {
 					var pos = fileLabel.lastIndexOf('(');
@@ -594,6 +603,9 @@ function printEntryFileList($attachments, $entryId) {
 						var fileListObj = document.getElementById("attachManagerSelect");
 						fileListObj.innerHTML = this.getText();
 						refreshAttachFormSize();
+						getUploadObj().setAttribute('width',1)
+						getUploadObj().setAttribute('height',1)
+						document.getElementById('uploadBtn').disabled=false;						
 					}
 					request.onError = function() {
 					}
@@ -631,7 +643,8 @@ function printEntryFileList($attachments, $entryId) {
 					var fileValue = listTemp[1];
 					var fileListObj = document.getElementById("fileList");
 					for(var i=0; i<fileListObj.length; i++) {
-						if (stripLabelToValue(fileLabel).indexOf(fileListObj[i].getAttribute("value")) != -1) {							var oOption = document.createElement("option");
+						if (stripLabelToValue(fileLabel).indexOf(fileListObj[i].getAttribute("value")) != -1) {
+							var oOption = document.createElement("option");
 							oOption.innerHTML= fileLabel;
 							oOption.setAttribute("value",fileValue);
 							fileListObj.replaceChild(oOption,fileListObj[i]);
@@ -651,10 +664,18 @@ function printEntryFileList($attachments, $entryId) {
 					}
 				}
 				
+				function getUploadObj() {
+					if(isIE) {
+						return document.getElementById("uploader");
+					} else {
+						return document.getElementById("uploader2")
+					}
+				}
+				
 				function setFileList() {
 					var uploaderObj = document.getElementById("uploader");
 					try {
-						list = uploaderObj.GetVariable("/:listStr");
+						list = getUploadObj().GetVariable("/:listStr");						
 					} catch(e) {
 						
 					}
@@ -673,7 +694,10 @@ function printEntryFileList($attachments, $entryId) {
 
 						fileListObj.insertBefore(oOption,fileListObj[i]);
 					}
-					fileListObj.setAttribute("size",fileListObj.getAttribute("length"));
+					fileListObj.setAttribute('size',Math.max(8,Math.min(fileListObj.length,30)));
+					getUploadObj().setAttribute('width',414)
+					getUploadObj().setAttribute('height',25)
+					document.getElementById('uploadBtn').disabled=true;					
 				}
 				
 				function selectFileList(value) {
@@ -692,6 +716,13 @@ function printEntryFileList($attachments, $entryId) {
 					}
 					refreshAttachFormSize();
 				}
+
+				function disabledDeleteBtn() {
+					if(document.getElementById('fileList').length>0)
+						document.getElementById('deleteBtn').disabled = false;
+					else
+						document.getElementById('deleteBtn').disabled = true;
+				}
 				
 				function removeUploadList(list) {
 					selectedFiles = list.split("!^|");
@@ -708,6 +739,11 @@ function printEntryFileList($attachments, $entryId) {
 					}
 					refreshAttachFormSize();
 				}
+
+				function browser() {
+					getUploadObj().SetVariable('/:openBroswer','true');
+				}
+				
 				refreshAttachFormSize();
 			</script>
 			<script language="JavaScript" type="text/javascript">
@@ -724,13 +760,14 @@ function printEntryFileList($attachments, $entryId) {
 		<!-- 
 		var hasRightVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
 		//if(hasRightVersion && isIE) {  
-		if(false) {  
+		if(hasRightVersion) {  
+		//if(<?=!empty($service['flashuploader']) ? $service['flashuploader'] : 'false'?> ) {  		
 			var oeTags = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
-			+ 'width="414" height="25"'
+			+ 'width="0" height="0"'
 			+ 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
-			+ '<param name="movie" value="<?=$service['path']?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="path=<?=$service['path']?>&owner=<?=$owner?>&entryid=<?=$entryId?>&initialFileListForFlash=<?=$initialFileListForFlash?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>" />'
-			+ '<embed id="uploader2" src="<?=$service['path']?>/script/uploader/uploader.swf" flashvars="path=<?=$service['path']?>&owner=<?=$owner?>&entryid=<?=$entryId?>&initialFileListForFlash=<?=$initialFileListForFlash?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>" width="414" height="25" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
-			document.write(oeTags);   // embed the flash movie
+			+ '<param name="movie" value="<?=$service['path']?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="path=<?=$service['path']?>&owner=<?=$owner?>&entryid=<?=$entryId?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" />'
+			+ '<embed id="uploader2" src="<?=$service['path']?>/script/uploader/uploader.swf" flashvars="path=<?=$service['path']?>&owner=<?=$owner?>&entryid=<?=$entryId?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
+			writeCode(oeTags);   // embed the flash movie 
 		  } else {  // flash is too old or we can't detect the plugin
 			var alternateContent = '';
 			document.write(alternateContent);  // insert non-flash content
@@ -738,18 +775,23 @@ function printEntryFileList($attachments, $entryId) {
 		// -->
 		</script>
 	        </td>
+			</tr>
+		</table>
+	</td>			
 	<?
 }
 
 function printEntryFileUploadButton($entryId) {
 	global $owner, $service;
 ?>
-	<table>
-	<tr>
-	<td>
 	<table cellsapcing="0" cellpadding="0">
-		<tr id="fileUploadNest"></tr>
-	</table>
+		<tr>
+			<td>
+				<table cellsapcing="0" cellpadding="0">
+					<tr>
+						<td id="fileUploadNest" align="center">
+							
+						</td>		
 	<script type="text/javascript">
 		attachId = 0;
 		function makeCrossDamainSubmit(uri,userAgent) {
@@ -767,9 +809,9 @@ function printEntryFileUploadButton($entryId) {
 			property['etc']['width'] = '240px';
 			property['etc']['height'] = '22px';
 			
-			var str='<tr><iframe src="'+uri+'" id="attachHiddenNest_'+(attachId)+'"  style="display:block; height:'+property[userAgent]['height']+'; width:'+property[userAgent]['width']+'" frameborder="no" scrolling="no"></iframe></td>'
+			var str='<iframe src="'+uri+'" id="attachHiddenNest_'+(attachId)+'"  style="display:block; height:'+property[userAgent]['height']+'; width:'+property[userAgent]['width']+'" frameborder="no" scrolling="no"></iframe>'
 			var td = document.createElement('td');
-			td.innerHTML= str;									
+			td.innerHTML= str;
 
 			document.getElementById('fileUploadNest').appendChild(td);
 			var td = document.getElementById('td');
@@ -782,19 +824,25 @@ function printEntryFileUploadButton($entryId) {
 			attachId++;
 			
 		}
-	
-		if(isIE) {
-			makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?=$entryId?>","ie");
-		} else if(isMoz) {
-			makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?=$entryId?>","moz");
+		//if(<?=!empty($service['flashuploader']) ? $service['flashuploader'] : 'false'?> ) { 
+		if(hasRightVersion) {
+			document.getElementById('fileUploadNest').innerHTML = ('<input id="uploadBtn" type="button" class="button" value="<?=_t('업로드')?>" onclick="browser();" style="margin-top: 1px"/>');
 		} else {
-			makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?=$entryId?>","etc");
+			if(isIE) {
+				makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?=$entryId?>","ie");
+			} else if(isMoz) {
+				makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?=$entryId?>","moz");
+			} else {
+				makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?=$entryId?>","etc");
+			}
 		}
 	  </script>
+					</tr>
+			</table>	
 	  </td>
 	  <td><span id="fileDownload" style="display: none"></span></td>
 	  <td>
-		  <input type="button" class="button" value="<?=_t('삭제하기')?>" onclick="deleteAttachment();" style="margin-top: 1px"/>
+  		<input type="button" class="button" id="deleteBtn" value="<?=_t('삭제하기')?>" onclick="deleteAttachment();" style="margin-top: 1px" />		  
 	  </td>
 	  </tr>
 </table>
