@@ -450,7 +450,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 		if (!defined('__TATTERTOOLS_POST__')) {
 			foreach (getTags($entry['id']) as $tag) {
 				array_push($tags, $tag['name']);
-				echo 'oTag.setValue("' . str_replace('"', '\\"', $tag['name']) . '");';
+				echo 'oTag.setValue("' . addslashes($tag['name']) . '");';
 			}
 		}
 ?>
