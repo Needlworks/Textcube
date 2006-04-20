@@ -83,9 +83,9 @@ function eolinTagFunction_showLocalSuggestion(id, cursor, filter)
 						for(var i=0; i<tags.length; i++)
 						{
 							htmlText.append("<li onmouseover=\"this.className='hover'\" onmouseout=\"this.className=''\" onmousedown=\"this.parentNode.instance.suggestionMouseClick(this)\" style=\"background-color: #ccb\"><strong>");
-							htmlText.append(tags[i].substring(0, input.value.length).htmlspecialchars().replace("&amp;", "&"));
+							htmlText.append(tags[i].substring(0, input.value.length).htmlspecialchars().replaceAll("&amp;", "&"));
 							htmlText.append("</strong>");
-							htmlText.append(tags[i].substring(input.value.length).htmlspecialchars().replace("&amp;", "&"));
+							htmlText.append(tags[i].substring(input.value.length).htmlspecialchars().replaceAll("&amp;", "&"));
 							htmlText.append("</li>");
 						}
 
@@ -140,6 +140,7 @@ function eolinTagFunction_showSuggestion()
 	{
 		for(var i=3; i<arguments.length; i++)
 		{
+			arguments[i] = arguments[i].replaceAll("&quot;", '"');
 			htmlText.append("<li onmouseover=\"this.className='hover'\" onmouseout=\"this.className=''\" onmousedown=\"this.parentNode.instance.suggestionMouseClick(this)\"><strong>");
 			htmlText.append(arguments[i].substring(0, input.value.length).htmlspecialchars().replace("&amp;", "&"));
 			htmlText.append("</strong>");
@@ -321,7 +322,7 @@ Tag.prototype.suggestionMouseClick = function(obj)
 	var input = this.getInput();
 
 	this.hideSuggestion();
-	this.setValue(obj.innerHTML.replace(new RegExp("</?strong>", "gi"), "").replace("&amp;", "&"));
+	this.setValue(obj.innerHTML.replace(new RegExp("</?strong>", "gi"), "").replaceAll("&amp;", "&"));
 }
 
 // script의 src를 변경해 서버로부터 tag 리스트를 전송받는다
@@ -521,12 +522,12 @@ if(!String.prototype.trim) {
 
 if(!String.prototype.htmlspecialchars) {
 	String.prototype.htmlspecialchars = function()
-	{ return this.replace("&", "&amp;").replace("<", "&lt;").replace("<", "&gt;"); }
+	{ return this.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll("<", "&gt;"); }
 }
 
 if(!String.prototype.unhtmlspecialchars) {
 	String.prototype.unhtmlspecialchars = function()
-	{ return this.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">"); }
+	{ return this.replaceAll("&amp;", "&").replaceAll("&lt;", "<").replaceAll("&gt;", ">"); }
 }
 
 var x=0;
