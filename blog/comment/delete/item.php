@@ -19,6 +19,18 @@ if (!empty($_POST['mode'])) {
 	obj = opener.document.getElementById("recentComments");
 	if(obj)
 		obj.innerHTML = "<?=str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
+	<?
+		$commentCount = getCommentCount($owner, $entryId);
+		$commentCount = ($commentCount > 0) ? "($commentCount)" : '';
+	?>
+	try {
+		obj = opener.document.getElementById("commentCount<?=$entryId?>");
+		obj.innerHTML = "<?=$commentCount?>";
+	} catch(e) { }		
+	try {
+		obj = opener.document.getElementById("commentCountOnRecentEntries<?=$entryId?>");
+		obj.innerHTML = "<?=$commentCount?>";
+	} catch(e) { }		
 	window.close();
 //]]>
 </script>

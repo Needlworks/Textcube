@@ -152,6 +152,10 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 			document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
 			if(document.getElementById("recentComments"))
 				document.getElementById("recentComments").innerHTML = this.getText("/response/recentCommentBlock");
+			if(document.getElementById("commentCount" + entryId))
+				document.getElementById("commentCount" + entryId).innerHTML = this.getText("/response/commentCount");
+			if(document.getElementById("commentCountOnRecentEntries" + entryId))
+				document.getElementById("commentCountOnRecentEntries" + entryId).innerHTML = this.getText("/response/commentCount");
 		}
 		request.onError = function() {
 			alert(this.getText("/response/description"));
@@ -837,10 +841,7 @@ function getRecentEntriesView($entries, & $template) {
 		$view = "$template";
 		dress('rctps_rep_link', "$blogURL/{$entry['id']}", $view);
 		dress('rctps_rep_title', htmlspecialchars(utf8Lessen($entry['title'], $skinSetting['recentEntryLength'])), $view);
-		if ($entry['comments'] == 0)
-			dress('rctps_rep_rp_cnt', "&nbsp;", $view);
-		else
-			dress('rctps_rep_rp_cnt', "({$entry['comments']})", $view);
+		dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments'] > 0 ? "({$entry['comments']})" : '').'</span>', $view);
 		print $view;
 	}
 	$view = ob_get_contents();

@@ -1,7 +1,7 @@
 <?
 if (empty($comment['name']) && isset($_COOKIE['guestName']))
 	$comment['name'] = $_COOKIE['guestName'];
-if (empty($comment['homepage']) || ($comment['homepage'] == 'http://' && isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://'))
+if ((empty($comment['homepage']) || $comment['homepage'] == 'http://') && isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://')
 	$comment['homepage'] = $_COOKIE['guestHomepage'];
 ?>
 <html>
