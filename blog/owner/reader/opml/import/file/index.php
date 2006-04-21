@@ -27,7 +27,7 @@ if ($xml = @file_get_contents($_FILES['opmlFile']['tmp_name'])) {
 	} else if ($status == 1) {
 		echo 'alert("' . _t('올바른 XML 파일이 아닙니다') . '");';
 	} else if ($status == 2) {
-		echo 'alert("' . _t('올바른 XML 파일이 아닙니다') . '");';
+		echo 'alert("' . _t('올바른 OPML 파일이 아닙니다') . '");';
 	}
 } else
 	echo 'alert("' . _t('파일 업로드에 실패했습니다') . '");';

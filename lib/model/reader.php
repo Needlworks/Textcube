@@ -601,18 +601,11 @@ function importOPMLFromURL($owner, $url) {
 	$request = new HTTPRequest($url);
 	if (!$request->send())
 		return array('error' => 1);
-	$xml = $request->responseText;
-	$xmls = new XMLStruct();
-	if (!$xmls->open($xml, $service['encoding']))
-		return array('error' => 2);
-	if ($xmls->getAttribute('/opml', 'version')) {
-		$result = array(0, 0);
-		for ($i = 0; $link = $xmls->getAttribute("/opml/body/outline[$i]", 'xmlUrl'); $i++) {
-			$result[addFeed($owner, $group = 0, $link, false, $xmls->getAttribute("/opml/body/outline[$i]", 'htmlUrl'), $xmls->getAttribute("/opml/body/outline[$i]", 'title'), $xmls->getAttribute("/opml/body/outline[$i]", 'description'))] += 1;
-		}
-	} else
-		return array('error' => 3);
-	return array('error' => 0, 'total' => array_sum($result), 'success' => $result[0]);
+	$result = importOPMLFromFile($owner, $request->responseText);
+	if($result[0] == 0)
+		return array('error' => 0, 'total' => $result[1]['total'], 'success' => $result[1]['success']);
+	else
+		return array('error' => $result[0] + 1);
 }
 
 function importOPMLFromFile($owner, $xml) {
@@ -620,12 +613,14 @@ function importOPMLFromFile($owner, $xml) {
 	$xmls = new XMLStruct();
 	if (!$xmls->open($xml, $service['encoding']))
 		return array(1, null);
-	if ($xmls->getAttribute('/opml', 'version')) {
+	if ($xmls->getAttribute('/opml/body/outline', 'title')) {
 		$result = array(0, 0);
 		for ($i = 0; $xmls->getAttribute("/opml/body/outline[$i]", 'title'); $i++) {
-			$result[addFeed($owner, $group = 0, $xmls->getAttribute("/opml/body/outline[$i]", 'xmlUrl'), false, $xmls->getAttribute("/opml/body/outline[$i]", 'htmlUrl'), $xmls->getAttribute("/opml/body/outline[$i]", 'title'), $xmls->getAttribute("/opml/body/outline[$i]", 'description'))] += 1;
+			if($xmls->getAttribute("/opml/body/outline[$i]", 'xmlUrl'))
+				$result[addFeed($owner, $group = 0, $xmls->getAttribute("/opml/body/outline[$i]", 'xmlUrl'), false, $xmls->getAttribute("/opml/body/outline[$i]", 'htmlUrl'), $xmls->getAttribute("/opml/body/outline[$i]", 'title'), $xmls->getAttribute("/opml/body/outline[$i]", 'description'))] += 1;
 			for ($j = 0; $xmls->getAttribute("/opml/body/outline[$i]/outline[$j]", 'title'); $j++)
-				$result[addFeed($owner, $group = 0, $xmls->getAttribute("/opml/body/outline[$i]/outline[$j]", 'xmlUrl'), false, $xmls->getAttribute("/opml/body/outline[$i]", 'htmlUrl'), $xmls->getAttribute("/opml/body/outline[$i]", 'title'), $xmls->getAttribute("/opml/body/outline[$i]", 'description'))] += 1;
+				if($xmls->getAttribute("/opml/body/outline[$i]/outline[$j]", 'xmlUrl'))
+					$result[addFeed($owner, $group = 0, $xmls->getAttribute("/opml/body/outline[$i]/outline[$j]", 'xmlUrl'), false, $xmls->getAttribute("/opml/body/outline[$i]/outline[$j]", 'htmlUrl'), $xmls->getAttribute("/opml/body/outline[$i]/outline[$j]", 'title'), $xmls->getAttribute("/opml/body/outline[$i]/outline[$j]", 'description'))] += 1;
 		}
 	} else
 		return array(2, null);

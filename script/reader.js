@@ -207,7 +207,7 @@ TTReader.prototype.refreshFeedGroup = function()
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				alert(s_unknownError + " (refreshFeedGroup)");
+				PM.showMessage(s_unknownError + " (refreshFeedGroup)", "center", "bottom");
 		}
 	}
 	request.send("group=0&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
@@ -225,7 +225,7 @@ TTReader.prototype.refreshFeedList = function(group)
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				alert(s_unknownError + " (refreshFeedList)");
+				PM.showMessage(s_unknownError + " (refreshFeedList)", "center", "bottom");
 		}
 	}
 	request.send("group=" + group + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
@@ -247,7 +247,7 @@ TTReader.prototype.refreshEntryList = function(group, feed)
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				alert(s_unknownError + " (refreshEntryList)");
+				PM.showMessage(s_unknownError + " (refreshEntryList)", "center", "bottom");
 		}
 	}
 	request.send("group=" + group + "&feed=" + feed + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
@@ -305,7 +305,7 @@ TTReader.prototype.refreshEntry = function(group, feed, entry)
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				alert(s_unknownError + " (refreshEntry)");
+				PM.showMessage(s_unknownError + " (refreshEntry)", "center", "bottom");
 		}
 	}
 	request.send("group=" + group + "&feed=" + feed + "&entry=" + entry + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
@@ -327,7 +327,7 @@ TTReader.prototype.prevEntry = function()
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				alert(s_unknownError + " (prevEntry)");
+				PM.showMessage(s_unknownError + " (prevEntry)", "center", "bottom");
 		}
 	}
 	request.send("group=" + this.selectedGroup + "&feed=" + this.selectedFeed + "&entry=" + this.selectedEntry + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
@@ -351,7 +351,7 @@ TTReader.prototype.nextEntry = function()
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				alert(s_unknownError + " (nextEntry)");
+				PM.showMessage(s_unknownError + " (nextEntry)", "center", "bottom");
 		}
 	}
 	request.send("group=" + this.selectedGroup + "&feed=" + this.selectedFeed + "&entry=" + this.selectedEntry + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
@@ -378,7 +378,7 @@ TTReader.prototype.addGroup = function(title)
 				alert(s_groupExists);
 				break;
 			default:
-				alert(s_unknownError + " (addGroup)");
+				PM.showMessage(s_unknownError + " (addGroup)", "center", "bottom");
 		}
 	}
 	PM.addRequest(request, s_addingGroup);
@@ -416,7 +416,7 @@ TTReader.prototype.editGroupExecute = function()
 			case 2:
 				break;
 			default:
-				alert(s_unknownError + " (editGroupExecute)");
+				PM.showMessage(s_unknownError + " (editGroupExecute)", "center", "bottom");
 		}
 	}
 	PM.addRequest(request, s_editingGroup);
@@ -443,7 +443,7 @@ TTReader.prototype.deleteGroup = function()
 				alert(s_groupNotFound);
 				break;
 			default:
-				alert(s_unknownError + " (deleteGroup)");
+				PM.showMessage(s_unknownError + " (deleteGroup)", "center", "bottom");
 		}
 	}
 	PM.addRequest(request, s_removingGroup);
@@ -476,7 +476,7 @@ TTReader.prototype.addFeed = function(url)
 				alert(s_feedBroken);
 				break;
 			default:
-				alert(s_unknownError + " (addFeed)");
+				PM.showMessage(s_unknownError + " (addFeed)", "center", "bottom");
 		}
 	}
 	PM.addRequest(request, s_requestFeed);
@@ -515,7 +515,7 @@ TTReader.prototype.editFeedExecute = function()
 			case 2:
 				break;
 			default:
-				alert(s_unknownError + " (editFeedExecute)");
+				PM.showMessage(s_unknownError + " (editFeedExecute)", "center", "bottom");
 		}
 	}
 	PM.addRequest(request, s_editingFeed);
@@ -541,7 +541,7 @@ TTReader.prototype.deleteFeed = function()
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				alert(s_unknownError + " (deleteFeed)");
+				PM.showMessage(s_unknownError + " (deleteFeed)", "center", "bottom");
 		}
 	}
 	PM.addRequest(request, s_removingFeed);
@@ -561,7 +561,7 @@ TTReader.prototype.saveSetting = function()
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				alert(s_unknownError + " (saveSetting)");
+				PM.showMessage(s_unknownError + " (saveSetting)", "center", "bottom");
 		}
 	}
 	var f = document.forms[0];
@@ -680,7 +680,7 @@ TTReader.prototype.listScroll = function(force)
 			switch(parseInt(this.getText("/response/error")))
 			{
 				default:
-					alert(s_unknownError + " (listScroll)");
+					PM.showMessage(s_unknownError + " (listScroll)", "center", "bottom");
 			}
 		}
 		PM.addRequest(request, s_loadingList);
@@ -746,7 +746,7 @@ TTReader.prototype.importOPMLURL = function()
 				alert(s_opmlBroken);
 				break;
 			default:
-				alert(s_unknownError + " (importOPMLURL)");
+				PM.showMessage(s_unknownError + " (importOPMLURL)", "center", "bottom");
 		}
 	}
 	PM.addRequest(request, s_loadingOPML);
