@@ -399,10 +399,8 @@ printEntryEditorProperty();
 					  </tr>
 					  <tr>
 						<td style="padding: 0px 0px 5px 5px; background:#BCD2E5 ;">
-							<?
-printEntryEditorPalette();
-?>
-						    <textarea class="text1" cols="" name="content" id="editWindow" rows="20" onselect="savePosition();editorChanged()" onclick="savePosition();editorChanged()" onkeyup="savePosition();editorChanged()" style="width: 645px"><?=htmlspecialchars($entry['content'])?></textarea>
+						<? printEntryEditorPalette(); ?>
+					    <textarea class="text1" cols="" name="content" id="editWindow" rows="20" onselect="savePosition();editorChanged()" onclick="savePosition();editorChanged()" onkeyup="savePosition();editorChanged()" style="width: 645px; font-family: monospace; word-break: keep-all; line-height: 1.5; color: #222; border: 2px solid #7ac; height: 440px"><?=htmlspecialchars($entry['content'])?></textarea>
 						<script type="text/javascript" src="<?=$service['path']?>/script/editor.js"></script>
 						<script type="text/javascript">
 							var editor = new TTEditor();
@@ -412,7 +410,7 @@ printEntryEditorPalette();
 							?>
 							editor.initialize(document.getElementById("editWindow"), "<?=$service['path']?>/attach/<?=$owner?>/", "<?=(getPersonalization($owner, 'defaultEditingMode')==0) ? 'WYSIWYG' : 'TEXTAREA'?>");
 							<? */ ?>
-							editor.initialize(document.getElementById("editWindow"), "<?=$service['path']?>/attach/<?=$owner?>/", "<?=true ? 'WYSIWYG' : 'TEXTAREA'?>");
+							editor.initialize(document.getElementById("editWindow"), "<?=$service['path']?>/attach/<?=$owner?>/", "<?=true ? 'WYSIWYG' : 'TEXTAREA'?>", "<?=true ? 'BR' : 'P'?>");
 						</script>
 <?
 if (!defined('__TATTERTOOLS_KEYWORD__')) {
@@ -503,9 +501,7 @@ printEntryFileList(getAttachments($owner, $entry['id']), $entry['id']);
 							  <tr>
 								<td height="31" align="center"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/attachAlign2Center.gif" width="27" height="25" onclick="linkImage2()" alt="<?=_t('선택한 두개의 파일을 글의 중앙에 정렬합니다')?>" title="<?=_t('선택한 두개의 파일을 글의 중앙에 정렬합니다')?>"/></td>
 								<td align="center"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/attachAlign3Center.gif" width="27" height="25" onclick="linkImage3()" alt="<?=_t('선택한 세개의 파일을 글의 중앙에 정렬합니다')?>" title="<?=_t('선택한 세개의 파일을 글의 중앙에 정렬합니다')?>"/></td>
-								<td align="center"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/attachAlignFree.gif" width="27" height="25" onclick="linkImageFree()" alt="<?=_t('선택한 파일을 글에 삽입합니다.
-문단의 모양에 영향을 주지 않습니다')?>" title="<?=_t('선택한 파일을 글에 삽입합니다.
-문단의 모양에 영향을 주지 않습니다')?>"/></td>
+								<td align="center"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/attachAlignFree.gif" width="27" height="25" onclick="linkImageFree()" alt="<?=_t('선택한 파일을 글에 삽입합니다.\n문단의 모양에 영향을 주지 않습니다')?>" title="<?=_t('선택한 파일을 글에 삽입합니다.\n문단의 모양에 영향을 주지 않습니다')?>"/></td>
 							  </tr>
 							  <tr>
 								<td colspan="3" background="<?=$service['path']?>/image/owner/edit/dotted_attach.gif"></td>
