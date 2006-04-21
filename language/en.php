@@ -594,4 +594,6 @@ $__text['카테고리'] = 'Category';
 $__text['최근에 달린 답글'] = 'Recent comments';
 $__text['최근에 달린 트랙백'] = 'Recent trackbacks';
 $__text['글 보관함'] = 'Archives';
+
+$__text['로고 이미지를 삭제하시겠습니까?'] = '로고 이미지를 삭제하시겠습니까?';
 ?>

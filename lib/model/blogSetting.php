@@ -26,6 +26,18 @@ function setBlogDescription($owner, $description) {
 	return true;
 }
 
+function removeBlogLogo($owner) {
+	global $database, $blog;
+
+	$result = mysql_query("update {$database['prefix']}BlogSettings set logo = '' where owner = $owner");
+	if ($result && (mysql_affected_rows() == 1)) {
+		deleteAttachment($owner, - 1, $blog['logo']);
+		$blog['logo'] = '';
+		return true;
+	}
+	return false;
+}
+
 function changeBlogLogo($owner, $file) {
 	global $database;
 	global $blog;

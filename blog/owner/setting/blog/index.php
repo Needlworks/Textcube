@@ -389,7 +389,7 @@ if ($service['type'] != 'single') {
                       <td><img id="logo" width="92" height="93" style="border-style:solid; border-width:1px; border-color:#404040" src="<?=(empty($blog['logo']) ? "{$service['path']}/image/spacer.gif" : "{$service['path']}/attach/$owner/{$blog['logo']}")?>" alt="" /></td>           
 					           
    					<td valign="middle">
-						<iframe src="<?=$blogURL?>/owner/setting/blog/logo" style="margin:opx; padding:0px;display:block; border-color:#FFFFFF\" frameborder="0" scrolling="no"  height="30"></iframe>
+						<iframe src="<?=$blogURL?>/owner/setting/blog/logo" style="margin:opx; padding:0px;display:block; border-color:#FFFFFF\" frameborder="0" scrolling="no" width="400" height="30"></iframe>
 					</td>
 					</tr> 
 <?
