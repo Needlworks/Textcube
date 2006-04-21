@@ -35,7 +35,7 @@ function checkUploadMode(oEvent) {
 		else 
 			uploader = window.parent.document.getElementById("uploader2");
 	} catch(e) {		
-		uploader = new Object();		
+		uploader = null;	
 	}
 	
 	

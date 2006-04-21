@@ -261,7 +261,6 @@ class Locale {
 				$locale = substr($entry, 0, strpos($entry, '.'));
 				if (empty($locale))
 					continue;
-				echo $entry, CRLF;
 				if ($fp = fopen($__locale['directory'] . '/' . $entry, 'r')) {
 					$desc = fgets($fp);
 					if (preg_match('/<\?(php)?\s*\/\/\s*(.+)/', $desc, $matches))

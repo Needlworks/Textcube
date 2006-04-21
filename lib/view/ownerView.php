@@ -760,7 +760,7 @@ function printEntryFileList($attachments, $entryId) {
 		<!-- 
 		var hasRightVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
 		//if(hasRightVersion && isIE) {  
-		if(hasRightVersion) {  
+		if(hasRightVersion && isWin) {  
 		//if(<?=!empty($service['flashuploader']) ? $service['flashuploader'] : 'false'?> ) {  		
 			var oeTags = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
 			+ 'width="0" height="0"'
@@ -825,8 +825,8 @@ function printEntryFileUploadButton($entryId) {
 			
 		}
 		//if(<?=!empty($service['flashuploader']) ? $service['flashuploader'] : 'false'?> ) { 
-		if(hasRightVersion) {
-			document.getElementById('fileUploadNest').innerHTML = ('<input id="uploadBtn" type="button" class="button" value="<?=_t('업로드')?>" onclick="browser();" style="margin-top: 1px"/>');
+		if(hasRightVersion  && isWin) {
+			document.getElementById('fileUploadNest').innerHTML = ('<input id="uploadBtn" type="button" class="button" value="<?=_t('파일 업로드')?>" onclick="browser();" style="margin-top: 1px"/>');
 		} else {
 			if(isIE) {
 				makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?=$entryId?>","ie");
@@ -1683,8 +1683,11 @@ function getAttachmentValue($attachment) {
 
 function getPrettyAttachmentLabel($attachment) {
 	if (strpos($attachment['mime'], 'image') === 0)
-		return "{$attachment['label']} ({$attachment['width']}x{$attachment['height']} / " . getSizeHumanReadable($attachment['size']) . ')';
-	else
+				return "{$attachment['label']} ({$attachment['width']}x{$attachment['height']} / ".getSizeHumanReadable($attachment['size']).')';
+	else if(strpos($attachment['mime'], 'audio') !== 0 && strpos($attachment['mime'], 'video') !== 0) {
+		if ($attachment['downloads']>0)
+			return "{$attachment['label']} (".getSizeHumanReadable($attachment['size']).' / '._t('다운로드').':'.$attachment['downloads'].')';		
+	}
 		return "{$attachment['label']} (" . getSizeHumanReadable($attachment['size']) . ')';
 }
 ?>

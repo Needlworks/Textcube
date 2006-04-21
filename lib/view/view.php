@@ -951,7 +951,7 @@ function bindKeywords($keywords, $content) {
 
 function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolutePath = false) {
 	global $service, $owner, $hostURL, $blogURL;
-	$view = str_replace('[##_ATTACH_PATH_##]', $folderURL, $content);
+	$view = str_replace('[##_ATTACH_PATH_##]', ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$owner" : $folderURL), $content);
 	$count = 0;
 	while ((($start = strpos($view, '[##_')) !== false) && (($end = strpos($view, '_##]', $start + 4)) !== false)) {
 		$count++;
