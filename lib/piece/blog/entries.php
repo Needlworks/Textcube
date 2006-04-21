@@ -22,7 +22,7 @@ foreach ($entries as $entry) {
 		if (sizeof($entryTags) > 0) {
 			$tags = array();
 			foreach ($entryTags as $entryTag)
-				array_push($tags, "<a href=\"$blogURL/tag/" . urlencode(htmlspecialchars(escapeURL($entryTag['name']))) . '" rel="tag">' . htmlspecialchars($entryTag['name']) . '</a>');
+				array_push($tags, "<a href=\"$blogURL/tag/" . rawurlencode(htmlspecialchars(escapeURL($entryTag['name']))) . '" rel="tag">' . htmlspecialchars($entryTag['name']) . '</a>');
 			dress('tag_label_rep', implode(",\r\n", $tags), $tagLabelView);
 			dress('tag_label', $tagLabelView, $entryView);
 		}
@@ -50,7 +50,7 @@ foreach ($entries as $entry) {
 		dress('article_rep_title', htmlspecialchars($entry['title']), $entryView);
 		dress('article_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], getKeywordNames($owner)), $entryView);
 		dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _t('분류없음') : $entry['categoryLabel']), $entryView);
-		dress('article_rep_category_link', "$blogURL/category/" . urlencode(htmlspecialchars(escapeURL($entry['categoryLabel']))), $entryView);
+		dress('article_rep_category_link', "$blogURL/category/" . str_replace("%2F","/",rawurlencode(htmlspecialchars(escapeURL($entry['categoryLabel'])))), $entryView);
 		dress('article_rep_date', Timestamp::format5($entry['published']), $entryView);
 		dress('entry_archive_link', "$blogURL/archive/" . Timestamp::getDate($entry['published']), $entryView);
 		if ($entry['acceptComment'])

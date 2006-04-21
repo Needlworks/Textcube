@@ -448,9 +448,9 @@ function getCategoriesView($categories, $selected, $skin, $xhtml = false) {
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
-			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => $category2[$entriesSign], 'link' => "$blogURL/category/" . urlencode(escapeURL("{$category1['name']}"))."/".urlencode(escapeURL("{$category2['name']}")), 'children' => array()));
+			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => $category2[$entriesSign], 'link' => "$blogURL/category/" . rawurlencode(escapeURL("{$category1['name']}"))."/".rawurlencode(escapeURL("{$category2['name']}")), 'children' => array()));
 		}
-		array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $category1[$entriesSign], 'link' => "$blogURL/category/" . urlencode(escapeURL($category1['name'])), 'children' => $children));
+		array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $category1[$entriesSign], 'link' => "$blogURL/category/" . rawurlencode(escapeURL($category1['name'])), 'children' => $children));
 	}
 	ob_start();
 	printTreeView($tree, $selected, $skin, $xhtml);

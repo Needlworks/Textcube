@@ -5,7 +5,7 @@ if (isset($list)) {
 	foreach ($list['items'] as $item) {
 		$itemView = $skin->listItem;
 		dress('list_rep_regdate', Timestamp::format3($item['published']), $itemView);
-		dress('list_rep_link', "$blogURL/" . ($blog['useSlogan'] ? "entry/{$item['slogan']}" : $item['id']), $itemView);
+		dress('list_rep_link', "$blogURL/" . ($blog['useSlogan'] ? "entry/".rawurlencode($item['slogan']) : $item['id']), $itemView);
 		dress('list_rep_title', htmlspecialchars($item['title']), $itemView);
 		if ($item['comments'] > 0)
 			dress('list_rep_rp_cnt', "({$item['comments']})", $itemView);
