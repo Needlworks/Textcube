@@ -19,24 +19,31 @@ while ($file = $dirHandler->read()) {
 }
 
 function writeValue($value, $label) {
-	global $service;
 ?>
 	<tr>
-		<td style="color:#516575; text-align:right; width:70px;"><?=$label?> &nbsp;:&nbsp; </td>
-		<td style="color:#516575;"><?=nl2br($value)?> </td>
+		<td style="color:#516575; text-align:right; width:90px;"><?=$label?> &nbsp;:&nbsp; </td>
+		<td style="color:#516575;"><?=nl2br(addLinkSense($value, ' target="_blank"'))?> </td>
 	</tr>
 	<tr>
-		<td colspan="2" bgcolor="#bdd4ec"></td>
+		<td colspan="2" height="1" bgcolor="#bdd4ec"></td>
 	</tr>
 <?
 }
 ?>
 <script type="text/javascript">
 	//<![CDATA[
+		var isSkinModified = <?=($skinSetting['skin'] == "customize/$owner") ? 'true' : 'false'?>;
+
 		function selectSkin(name) {
+			if(isSkinModified) {
+				if(!confirm("<?=_t('수정된 스킨을 사용중입니다. 새로운 스킨을 선택하면 수정된 스킨의 내용은 모두 지워집니다.\n스킨을 적용하시겠습니까?')?>"))
+					return;
+			}
+
 			try {
 			var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/skin/change/");
 			request.onSuccess = function() {
+				isSkinModified = false;
 				PM.showMessage("<?=_t('성공적으로 변경했습니다')?>", "center", "bottom");
 				document.getElementById('currentPreview').innerHTML = document.getElementById('preview_'+name).innerHTML;
 				document.getElementById('currentInfo').innerHTML = document.getElementById('info_'+name).innerHTML;
