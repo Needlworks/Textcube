@@ -397,6 +397,7 @@ $__text['이미 존재하는 피드 주소입니다'] = 'Already Subscribed Feed
 $__text['이미지 갤러리를 삽입합니다'] = 'Insert with image-gallery';
 $__text['이미지 파일만 삽입 가능 합니다'] = 'Only image can be uploaded';
 $__text['이올린에 발행된 글만을 RSS로 내보냅니다'] = 'Publish RSS only if the post is synchronized with Eolin';
+$__text['이전'] = 'PREV';
 $__text['이전 글'] = 'Previous';
 $__text['이전 포스트가 없습니다'] = 'Beginning of List';
 $__text['인기도순으로 표시합니다'] = 'By use-hits';
