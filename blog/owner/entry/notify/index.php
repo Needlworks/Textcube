@@ -220,31 +220,27 @@ foreach ($mergedComments as $comment) {
 										<td class="row" style="word-break: break-all">
 <?
 		if ($lastVisitNotifiedPage > time() - 86400)
-			echo "<img src=\"{$service['path']}/image/owner/iconNew.gif\">";
-?>
+			echo "<img src=\"{$service['path']}/image/owner/iconNew.gif\" alt=\"New\"/>";
+	}
+	else {
+?>										
+										<td class="row" style="word-break: break-all"><a class="rowLink" href="<?=$comment['entryUrl']?>" target="_blank"> <strong>
 										
-<?
-	} else {
-?>
-										
-										<td class="row" style="word-break: break-all"><p> <a class="rowLink" href="<?=$comment['entryUrl']?>" target="_blank"> <strong>
-										
-										<?=($comment['entryTitle'] == '' ? '' : $comment['entryTitle'])?>
+										<?=$comment['entryTitle']?>
 										<?
 		if ($comment['entryTitle'] != '' && $comment['parent'] != '')
 			echo ' | ';
 ?>										
 										<?=(empty($comment['parent']) ? '' : "<a href=\"" . $comment['parentUrl'] . "\" target=\"_blank\">" . $comment['parentName'] . _t('님의 댓글에 대한 댓글') . "</a>")?></a>
 										</strong>
-										<?=((!empty($comment['title']) || !empty($comment['parent'])) ? '</br>' : '')?>
+										<?=((!empty($comment['title']) || !empty($comment['parent'])) ? '<br/>' : '')?>
 										</a>
 <?
 	}
 ?>
 										<a href="<?=$comment['url']?>" target="_blank">
 											<?=htmlspecialchars($comment['comment'])?>
-										</a>
-										</p></td>
+										</a></td>
 										</tr>
                                     </table>
 								</td>
@@ -284,7 +280,7 @@ foreach ($mergedComments as $comment) {
                                 </table>
                                 <table cellspacing="0" width="100%">
                                   <tr style="height:22px;">
-                                    <td style="padding:0px 7px 0px 7px; font-size:12px;" width="55"><?=_t('총')?><?=$paging['total']?><?=_t('건')?></td>
+                                    <td style="padding:0px 7px 0px 7px; font-size:12px;" width="55"><?=_t('총')?> <?=$paging['total']?><?=_t('건')?></td>
                                     <td style="padding:0px 7px 0px 7px; font-size:12px;">
 <?
 $paging['url'] = 'javascript: document.forms[0].page.value=';

@@ -26,7 +26,7 @@ var TTEditor = function() {
 }
 
 // 각종 환경 초기화
-TTEditor.prototype.initialize = function(textarea, imageFilePath, mode) {
+TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine) {
 	// execCommand가 사용가능한 경우에만 위지윅을 쓸 수 있다. (지금은 Internet Explorer, Firefox만 지원한다)
 	if(typeof(document.execCommand) == "undefined" || !(STD.isIE || STD.isFirefox))
 		return;
@@ -35,20 +35,15 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode) {
 	this.editMode = mode;
 
 	this.propertyFilePath = imageFilePath;
+	this.newLineToParagraph = (newLine == "P");
 
 	// 마우스로 클릭했을때 클릭한 위치의 오브젝트의 인스턴스를 저장할 변수
 	this.selectedElement = null;
 
 	// 원래 있던 TEXTAREA의 핸들을 저장해둔다
 	this.textarea = textarea;
-	this.textarea.style.fontFamily = "Monospace";
-	this.textarea.style.wordBreak = "keep-all";
-	this.textarea.style.lineHeight = "1.5";
-	this.textarea.style.color = "#222";
-	this.textarea.style.border = "2px solid #7ac";
 	if(this.editMode == "WYSIWYG")
 		this.textarea.style.display = "none";
-	this.textarea.style.height = "440px";	
 
 	// 디자인모드의 IFRAME을 생성한다
 	this.iframe = document.createElement("iframe");
@@ -62,6 +57,7 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode) {
 	this.iframe.setAttribute("allowtransparency", "true");
 	this.iframe.style.border = "1px solid #ddd";
 	this.iframe.style.height = STD.isIE ? "448px" : "452px";
+	this.iframe.style.margin = "0px auto";
 	if(this.editMode == "TEXTAREA")
 		this.iframe.style.display = "none";
 	this.iframe.style.width = Math.min(skinContentWidth + (STD.isIE ? 36 : 39), 650) + "px";
@@ -606,6 +602,9 @@ TTEditor.prototype.showProperty = function(obj)
 	else if(obj.tagName && obj.tagName.toLowerCase() == "img" && attribute) {
 		var values = attribute.split("|");
 
+		if(values.length == 1)
+			return;
+
 		editor.propertyHeader = values[0];
 
 		if(values[0] == "iMazing" || values[0] == "Gallery" || values[0] == "Jukebox") {
@@ -1091,8 +1090,8 @@ function TTCommand(command, value1, value2) {
 						try { var node = editor.activeButton(editor.getSelectionRange().commonAncestorContainer.parentNode); }
 						catch(e) { }
 					}
-					
-					if(new RegExp("^[UO]L$", "i").test(node.tagName)) {
+
+					if(node && new RegExp("^[UO]L$", "i").test(node.tagName)) {
 						if(STD.isIE)
 							;
 						else
@@ -1131,8 +1130,8 @@ function TTCommand(command, value1, value2) {
 						try { var node = editor.activeButton(editor.getSelectionRange().commonAncestorContainer.parentNode); }
 						catch(e) { }
 					}
-					
-					if(new RegExp("^[UO]L$", "").test(node.tagName)) {
+
+					if(node && new RegExp("^[UO]L$", "").test(node.tagName)) {
 						if(STD.isIE)
 							;
 						else
@@ -1244,9 +1243,9 @@ function TTCommand(command, value1, value2) {
 					}
 					else
 						var range = editor.getSelectionRange();
-					var dummyNode = document.createElement("div");
-					dummyNode.appendChild(range.extractContents());
-					range.insertNode(range.createContextualFragment(value1 + dummyNode.innerHTML + value2));
+						var dummyNode = document.createElement("div");
+						dummyNode.appendChild(range.extractContents());
+						range.insertNode(range.createContextualFragment(value1 + dummyNode.innerHTML + value2));
 				}
 			} else
 				insertTag(value1, value2);
@@ -1290,16 +1289,20 @@ TTEditor.prototype.eventHandler = function(event) {
 			var range = editor.getSelectionRange();
 
 			if(event.keyCode == 13) {
-				if(event.shiftKey) {
-					// TODO : put p tag
+				if(editor.newLineToParagraph) {
+					if(STD.isFirefox && !event.shiftKey) {
+						// TODO : put a p tag
+					}
 				}
-				else if(STD.isIE && range.parentElement().tagName != "LI") {
-					event.returnValue = false;
-					event.cancelBubble = true;
-					range.pasteHTML("<br/>");
-					range.collapse(false);
-					range.select();
-					return false;
+				else {
+					if(STD.isIE && range.parentElement().tagName != "LI") {
+						event.returnValue = false;
+						event.cancelBubble = true;
+						range.pasteHTML("<br/>");
+						range.collapse(false);
+						range.select();
+						return false;
+					}
 				}
 			}
 	}
