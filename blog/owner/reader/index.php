@@ -295,7 +295,7 @@ if (getUserId() == 1) {
           <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td valign="bottom" style="padding-left:10px;"><span id="blogTitle" style="font-size:13px; font-weight:bold; color:#333;"></span> </td>
-                <td width="100" align="right" valign="bottom"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/pagePrev.gif" width="36" height="15" onclick="Reader.prevEntry()"/><img src="<?=$service['path']?>/image/owner/reader/pageSp.gif" width="5" height="15" hspace="2" /><img class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/pageNext.gif" width="36" height="15" onclick="Reader.nextEntry()"/></td>
+                <td width="120" align="right" valign="bottom"><a href="javascript:Reader.prevEntry()" style="color: #000"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/pagePrev.gif" width="12" height="12"/><?=_t('이전')?></a> <img src="<?=$service['path']?>/image/owner/reader/pageSp.gif" width="5" height="15" hspace="2" /> <a href="javascript:Reader.nextEntry()" style="color: #000"><?=_t('다음')?><img class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/pageNext.gif" width="12" height="12"/></a></td>
                 <td width="10" align="right"><img src="<?=$service['path']?>/image/owner/reader/boxRound02.gif" /></td>
               </tr>
           </table></td>

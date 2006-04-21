@@ -226,16 +226,16 @@ require ROOT . '/lib/piece/owner/contentMeta0End.php';
                 <td width="20">
                   <input type="checkbox" name="allChecked" onclick="checkAll(this.checked)" />
                 </td>
-                <td width="70" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('등록일자')?></td>			
+                <td width="60" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('등록일자')?></td>			
                 <td width="60" align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('상태')?></td>
 <?
 ?>	
-			 	<td width="30" align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('발행')?></td>
+			 	<td width="75" align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('발행')?></td>
 <?
 ?>				
                 <td width="150" align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('분류')?></td>
-                <td width="100%"  nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('제목')?></td>
-                <td width="50"></td>
+                <td nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('제목')?></td>
+                <td width="30"></td>
                 <td width="20"></td>
 				<td width="20"></td>
               </tr>
@@ -267,11 +267,11 @@ foreach ($entries as $entry) {
 ?>				
                 <td align="center" class="row"><a class="rowLink" onclick="document.forms[0].category.value='<?=$entry['category']?>'; document.forms[0].submit()"><?=htmlspecialchars($entry['categoryLabel'])?></a></td> 
                 <td class="row"><?=($entry['draft'] ? ('<img src="' . $service['path'] . '/image/owner/hasTemp.gif" alt="' . _t('임시 저장본이 있습니다') . '" />') : '')?> <a class="rowLink" style="text-decoration:none" onclick="document.forms[0].action='<?=$blogURL?>/owner/entry/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?\t') . "') ? '?draft' : '')") : '')?>; document.forms[0].submit()"><?=htmlspecialchars($entry['title'])?></a></td>
-                <td align="right" style="padding-top:2px">
+                <td style="padding-top:2px">
 					<img id="entry<?=$entry['id']?>protectedSetting" src="<?=$service['path']?>/image/owner/protectedInvite.gif" alt="<?=_t('보호')?>" class="pointerCursor" style="display:<?=(abs($entry['visibility']) == 1 ? 'inline' : 'none')?>" onclick="toggleLayer('entry<?=$entry['id']?>Protection')" />
 
 				</td>
-                <td align="right" style="padding-top:2px">
+                <td align="center" style="padding-top:2px">
 					<img src="<?=$service['path']?>/image/owner/trackback.gif" alt="<?=_t('트랙백')?>" class="pointerCursor" onclick="showTrackbackSender(<?=$entry['id']?>,event)" />
 				</td>
 				<td align="right" style="padding-top:2px; width:35px;>

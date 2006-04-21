@@ -224,7 +224,7 @@ foreach ($trackbacks as $trackback) {
 									</table>
 									<table cellspacing="0" width="100%">
 									  <tr style="height:22px;">
-										<td style="padding:0px 7px 0px 7px; font-size:12px;" width="55"><?=_t('총')?><?=$paging['total']?><?=_t('건')?></td>
+										<td style="padding:0px 7px 0px 7px; font-size:12px;" width="55"><?=_t('총')?> <?=$paging['total']?><?=_t('건')?></td>
 										<td style="padding:0px 7px 0px 7px; font-size:12px;">
 <?
 $paging['url'] = 'javascript: document.forms[0].page.value=';

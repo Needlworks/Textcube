@@ -541,7 +541,7 @@ printEntryFileUploadButton($entry['id']);
 							<tr>
 							  <td><table border="0" cellspacing="0" cellpadding="2">
 								  <tr>
-									<td width="70" height="22" align="right"><?=_t('등록일자')?> | </td>
+									<td width="80" height="22" align="right"><?=_t('등록일자')?> | </td>
 									<td>
 <?
 if (defined('__TATTERTOOLS_POST__')) {
@@ -603,7 +603,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 							<tr>
 							  <td><table border="0" cellspacing="0" cellpadding="2">
 								  <tr>
-									<td width="70" height="22" align="right"><?=_t('권한')?> | </td>
+									<td width="80" height="22" align="right"><?=_t('권한')?> | </td>
 									<td><input type="checkbox" name="acceptComment"<?=($entry['acceptComment'] ? ' checked="checked"' : '')?> />
 										<?=_t('이 글에 댓글을 쓸 수 있습니다')?></td>
 								  </tr>

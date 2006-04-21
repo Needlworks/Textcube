@@ -124,7 +124,7 @@ require ROOT . '/lib/piece/owner/contentMeta0End.php';
 								<th class="rowHeader" align="left" width="70"><?=_t('등록일자')?></th>
 								<th class="rowHeader" align="left" width="70" nowrap="nowrap"><?=_t('이름')?></th>
 								<th class="rowHeader" align="left"><?=_t('내용')?></th>
-								<th class="rowHeader" align="left" width="100">IP</th>
+								<th class="rowHeader" align="left" width="110">IP</th>
 								<th class="rowHeader" align="left" width="15"></th>
                             </tr>
 <?
@@ -289,7 +289,7 @@ foreach ($comments as $comment) {
                                 </table>
                                 <table cellspacing="0" width="100%">
                                   <tr style="height:22px;">
-                                    <td style="padding:0px 7px 0px 7px; font-size:12px;" width="55"><?=_t('총')?><?=$paging['total']?><?=_t('건')?></td>
+                                    <td style="padding:0px 7px 0px 7px; font-size:12px;" width="55"><?=_t('총')?> <?=$paging['total']?><?=_t('건')?></td>
                                     <td style="padding:0px 7px 0px 7px; font-size:12px;">
 <?
 $paging['url'] = 'javascript: document.forms[0].page.value=';

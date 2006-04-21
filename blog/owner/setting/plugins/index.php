@@ -38,7 +38,7 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
                 <td width="50" align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('버전')?></td>
 			 	<td align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('설명')?></td>
 			 	<td width="160" align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('만든이')?></td>
-                <td width="50" align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('상태')?></td>
+                <td width="70" align="center" nowrap="nowrap" style="color:#FFFFFF; padding:2px 7px 0px 7px; font-size:13px; font-weight:bold"><?=_t('상태')?></td>
               </tr>
 <?
 $more = false;
@@ -73,7 +73,10 @@ while ($plugin = $dir->read()) {
                 <td align="center" class="row"><?=htmlspecialchars($xmls->getValue('/plugin/version[lang()]'))?></td>
 			 	<td class="row"><?=htmlspecialchars($xmls->getValue('/plugin/description[lang()]'))?></td>
 			 	<td align="center" class="row"><?=($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author)?></td>
-                <td align="center" class="row" nowrap="nowrap"><span id="plugin<?=$plugin?>IsActive" style="cursor:pointer; display:<?=($active ? 'inline' : 'none')?>" onclick="deactivatePlugin('<?=$plugin?>')"><img src="<?=$service['path']?>/image/pluginUsed.gif" /></span><span id="plugin<?=$plugin?>IsInactive" style="cursor:pointer; display:<?=($active ? 'none' : 'inline')?>" onclick="activatePlugin('<?=$plugin?>')"><img src="<?=$service['path']?>/image/pluginUnused.gif" /></span></td>
+                <td align="center" class="row" nowrap="nowrap">
+					<span id="plugin<?=$plugin?>IsActive" style="cursor:pointer; display:<?=($active ? 'inline' : 'none')?>" onclick="deactivatePlugin('<?=$plugin?>')"><img src="<?=$service['path']?>/image/pluginUsed.gif" alt="<?=_t('사용중')?>"/> <?=_t('사용중')?></span>
+					<span id="plugin<?=$plugin?>IsInactive" style="cursor:pointer; display:<?=($active ? 'none' : 'inline')?>" onclick="activatePlugin('<?=$plugin?>')"><img src="<?=$service['path']?>/image/pluginUnused.gif" alt="<?=_t('미사용')?>"/> <?=_t('미사용')?></span>
+				</td>
               </tr>
 <?
 }
