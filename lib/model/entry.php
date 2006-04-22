@@ -67,7 +67,10 @@ function getEntryListByCategory($owner, $category) {
 	} else
 		$cond = 'AND category >= 0';
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$sql = "SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility $cond ORDER BY published DESC";
+	$sql = "SELECT owner,id,draft,visibility,category,title,slogan,
+                  location,password,acceptComment,acceptTrackback,
+                  published,created,modified,comments,trackbacks 
+             FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility $cond ORDER BY published DESC";
 	return fetchQueryAll($sql);
 }
 
