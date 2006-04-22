@@ -46,7 +46,7 @@ foreach ($entries as $entry) {
 			dress('ad_div', $managementView, $entryView);
 		}
 		dress('article_rep_id', $entry['id'], $entryView);
-		dress('article_rep_link', $permalink, $entryView);
+		dress('article_rep_link', rawurlencode($permalink), $entryView);
 		dress('article_rep_title', htmlspecialchars($entry['title']), $entryView);
 		dress('article_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], getKeywordNames($owner)), $entryView);
 		dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _t('분류없음') : $entry['categoryLabel']), $entryView);

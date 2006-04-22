@@ -901,7 +901,7 @@ function getRandomTagsView($tags, & $template) {
 	list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();
 	foreach ($tags as $tag) {
 		$view = $template;
-		dress('tag_link', "$blogURL/tag/" . htmlspecialchars(escapeURL($tag)), $view);
+		dress('tag_link', "$blogURL/tag/" . rawurlencode(htmlspecialchars(escapeURL($tag))), $view);
 		dress('tag_name', htmlspecialchars($tag), $view);
 		dress('tag_class', "cloud" . getTagFrequency($tag, $maxTagFreq, $minTagFreq), $view);
 		print $view;
