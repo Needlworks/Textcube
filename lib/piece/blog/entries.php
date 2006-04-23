@@ -29,10 +29,10 @@ foreach ($entries as $entry) {
 		if ($suri['directive'] == '/notice')
 			$permalink = "$blogURL/notice/{$entry['id']}";
 		else
-			$permalink = "$blogURL/" . ($blog['useSlogan'] ? "entry/{$entry['slogan']}" : $entry['id']);
+			$permalink = "$blogURL/" . ($blog['useSlogan'] ? "entry/".rawurlencode($entry['slogan']) : $entry['id']);
 		if (doesHaveOwnership()) {
 			$managementView = $skin->management;
-			dress('s_ad_m_link', "$blogURL/owner/entry/edit/{$entry['id']}?returnURL=" . rawurlencode($permalink), $managementView);
+			dress('s_ad_m_link', "$blogURL/owner/entry/edit/{$entry['id']}?returnURL=" . $permalink, $managementView);
 			dress('s_ad_s1_label', getEntryVisibilityName($entry['visibility']), $managementView);
 			if ($entry['visibility'] < 2) {
 				dress('s_ad_s2_label', _t('공개로 변경합니다'), $managementView);
@@ -46,7 +46,7 @@ foreach ($entries as $entry) {
 			dress('ad_div', $managementView, $entryView);
 		}
 		dress('article_rep_id', $entry['id'], $entryView);
-		dress('article_rep_link', rawurlencode($permalink), $entryView);
+		dress('article_rep_link', $permalink, $entryView);
 		dress('article_rep_title', htmlspecialchars($entry['title']), $entryView);
 		dress('article_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], getKeywordNames($owner)), $entryView);
 		dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _t('분류없음') : $entry['categoryLabel']), $entryView);
