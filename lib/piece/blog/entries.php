@@ -51,6 +51,7 @@ foreach ($entries as $entry) {
 		dress('article_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], getKeywordNames($owner)), $entryView);
 		dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _t('분류없음') : $entry['categoryLabel']), $entryView);
 		dress('article_rep_category_link', "$blogURL/category/" . str_replace("%2F","/",rawurlencode(htmlspecialchars(escapeURL($entry['categoryLabel'])))), $entryView);
+		//dress('article_rep_category_link', "$blogURL/category/" .getCategoryLinkById($owner, $entry['id']) , $entryView);
 		dress('article_rep_date', Timestamp::format5($entry['published']), $entryView);
 		dress('entry_archive_link', "$blogURL/archive/" . Timestamp::getDate($entry['published']), $entryView);
 		if ($entry['acceptComment'])

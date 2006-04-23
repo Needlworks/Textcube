@@ -35,6 +35,19 @@ function getCategoryLabelById($owner, $id) {
 	return fetchQueryCell("SELECT label FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
 }
 
+function getCategoryLinkById($owner, $id) {
+	global $database;
+	if (($id === null) || ($id === 0))
+		return '';
+	$result = getCategoryNameById($owner,$id);
+	if($children = getParentCategoryId($owner, $id)) {
+		$result = rawurlencode(htmlspecialchars(escapeURL(getCategoryNameById($owner,$children)))).'/'.rawurlencode(htmlspecialchars(escapeURL($result)));
+	} else {
+		$result = rawurlencode(htmlspecialchars(escapeURL($result)));
+	}
+	return $result;
+}	
+
 function getCategories($owner) {
 	global $database;
 	$rows = fetchQueryAll("SELECT * FROM {$database['prefix']}Categories WHERE owner = $owner ORDER BY parent, priority");
