@@ -722,10 +722,13 @@ if(!String.prototype.trim) {
 
 if(!String.prototype.replaceAll) {
 	String.prototype.replaceAll = function(source, target) {
+		return this.replace(new RegExp(source, "gi"), target);
+		/*
 		var buffer = this;
 		if(source != target)
 			while(buffer.indexOf(source) != -1)
 				buffer = buffer.replace(source, target);
 		return buffer;
+		*/
 	}
 }
