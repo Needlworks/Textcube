@@ -721,11 +721,8 @@ if(!String.prototype.trim) {
 }
 
 if(!String.prototype.replaceAll) {
-	String.prototype.replaceAll = function(source, target) {
-		var buffer = this;
-		if(source != target)
-			while(buffer.indexOf(source) != -1)
-				buffer = buffer.replace(source, target);
-		return buffer;
-	}
+    String.prototype.replaceAll = function(source, target) {
+        source = source.replace(new RegExp("(\\W)", "g"), "\\$1");
+        return this.replace(new RegExp(source, "gm"), target);
+    }
 }
