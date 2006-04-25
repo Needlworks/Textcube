@@ -768,18 +768,19 @@ function printEntryFileList($attachments, $entryId) {
 		<script language="JavaScript" type="text/javascript">
 		<!-- 
 		var hasRightVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
-		//if(hasRightVersion && isIE) {  
-		if(hasRightVersion  && isWin) {  
-		//if(<?=!empty($service['flashuploader']) ? $service['flashuploader'] : 'false'?> ) {  		
+		if(hasRightVersion && isWin) {  
+		//if(<?=!empty($service['flashuploader']) ? $service['flashuploader'] : 'false'?> ) {  
 			var oeTags = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
 			+ 'width="0" height="0"'
 			+ 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
-			+ '<param name="movie" value="<?=$service['path']?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="path=<?=$service['path']?>&owner=<?=$owner?>&entryid=<?=$entryId?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" />'
-			+ '<embed id="uploader2" src="<?=$service['path']?>/script/uploader/uploader.swf" flashvars="path=<?=$service['path']?>&owner=<?=$owner?>&entryid=<?=$entryId?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
+			+ '<param name="movie" value="<?=$service['path']?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="path=<?=$blogURL?>&owner=<?=$owner?>&entryid=<?=$entryId?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" />'
+			+ '<embed id="uploader2" src="<?=$service['path']?>/script/uploader/uploader.swf" flashvars="path=<?=$blogURL?>&owner=<?=$owner?>&entryid=<?=$entryId?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
 			writeCode(oeTags);   // embed the flash movie 
+			//document.getElementById('uploadProgressBar').style.display="none";
+
 		  } else {  // flash is too old or we can't detect the plugin
 			var alternateContent = '';
-			document.write(alternateContent);  // insert non-flash content
+			document.write(alternateContent);  // insert non-flash content			
 		  }
 		// -->
 		</script>
