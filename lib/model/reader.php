@@ -473,6 +473,13 @@ function saveFeedItems($feedId, $xml) {
 		}
 	} else
 		return false;
+	$deadLine = gmmktime() - fetchQueryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings") * 86400;
+	if($result = mysql_query("SELECT id FROM {$database['prefix']}FeedItems LEFT JOIN {$database['prefix']}FeedStarred ON id = item WHERE item IS NULL AND written < $deadLine"))
+		while(list($id) = mysql_fetch_row($result))
+			mysql_query("DELETE FROM {$database['prefix']}FeedItems WHERE id = $id");
+	if($result = mysql_query("SELECT owner, item FROM FeedReads LEFT JOIN FeedItems ON id = item WHERE id IS NULL"))
+		while(list($readsOwner, $readsItem) = mysql_fetch_row($result))
+			mysql_query("DELETE FROM FeedReads WHERE owner = $readsOwner AND item = $readsItem");
 	return true;
 }
 
@@ -482,11 +489,15 @@ function saveFeedItem($feedId, $item) {
 		return false;
 	$tagString = implode(', ', $item['tags']);
 	$enclosureString = implode('|', $item['enclosures']);
+	$deadLine = gmmktime() - fetchQueryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings") * 86400;
 	if ($id = fetchQueryCell("SELECT id FROM {$database['prefix']}FeedItems WHERE permalink='{$item['permalink']}'")) {
 		mysql_query("UPDATE {$database['prefix']}FeedItems SET author = '{$item['author']}', title = '{$item['title']}', description = '{$item['description']}', tags = '$tagString', enclosure = '$enclosureString', written = {$item['written']} WHERE id = $id");
+		/*
+		TODO : 읽은글이 읽지않은 글로 표시되는 문제 원인이 찾아질때 까지 막아둠
 		if (mysql_affected_rows() > 0)
 			mysql_query("DELETE FROM {$database['prefix']}FeedReads WHERE item = $id");
-	} else
+		*/
+	} else if($item['written'] > $deadLine)
 		mysql_query("INSERT INTO {$database['prefix']}FeedItems VALUES(null, $feedId, '{$item['author']}', '{$item['permalink']}', '{$item['title']}', '{$item['description']}', '$tagString', '$enclosureString', {$item['written']})");
 	return true;
 }
