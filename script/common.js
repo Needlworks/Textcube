@@ -721,8 +721,8 @@ if(!String.prototype.trim) {
 }
 
 if(!String.prototype.replaceAll) {
-	String.prototype.replaceAll = function(source, target) {
-		source = source.replace(/(\W)/g, "\\$1");
-		return this.replace(new RegExp(source, "gi"), target);
-	}
+    String.prototype.replaceAll = function(source, target) {
+        source = source.replace(new RegExp("(\\W)", "g"), "\\$1");
+        return this.replace(new RegExp(source, "gm"), target);
+    }
 }

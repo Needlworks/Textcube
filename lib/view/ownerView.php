@@ -665,12 +665,21 @@ function printEntryFileList($attachments, $entryId) {
 				}
 				
 				function getUploadObj() {
-					if(isIE) {
-						return document.getElementById("uploader");
-					} else {
-						return document.getElementById("uploader2")
+					try {		
+						var result;			
+						if(isIE) 
+							result = document.getElementById("uploader");
+						else
+							result = document.getElementById("uploader2");
+						if (result == null)
+							return false;
+						else
+							return result;
+					} catch(e) {
+						return false;
 					}
 				}
+
 				
 				function setFileList() {
 					var uploaderObj = document.getElementById("uploader");
@@ -759,18 +768,19 @@ function printEntryFileList($attachments, $entryId) {
 		<script language="JavaScript" type="text/javascript">
 		<!-- 
 		var hasRightVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
-		//if(hasRightVersion && isIE) {  
 		if(hasRightVersion && isWin) {  
-		//if(<?=!empty($service['flashuploader']) ? $service['flashuploader'] : 'false'?> ) {  		
+		//if(<?=!empty($service['flashuploader']) ? $service['flashuploader'] : 'false'?> ) {  
 			var oeTags = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
 			+ 'width="0" height="0"'
 			+ 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
-			+ '<param name="movie" value="<?=$service['path']?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="path=<?=$service['path']?>&owner=<?=$owner?>&entryid=<?=$entryId?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" />'
-			+ '<embed id="uploader2" src="<?=$service['path']?>/script/uploader/uploader.swf" flashvars="path=<?=$service['path']?>&owner=<?=$owner?>&entryid=<?=$entryId?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
+			+ '<param name="movie" value="<?=$service['path']?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="path=<?=$blogURL?>&owner=<?=$owner?>&entryid=<?=$entryId?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" />'
+			+ '<embed id="uploader2" src="<?=$service['path']?>/script/uploader/uploader.swf" flashvars="path=<?=$blogURL?>&owner=<?=$owner?>&entryid=<?=$entryId?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
 			writeCode(oeTags);   // embed the flash movie 
+			//document.getElementById('uploadProgressBar').style.display="none";
+
 		  } else {  // flash is too old or we can't detect the plugin
 			var alternateContent = '';
-			document.write(alternateContent);  // insert non-flash content
+			document.write(alternateContent);  // insert non-flash content			
 		  }
 		// -->
 		</script>
@@ -783,16 +793,28 @@ function printEntryFileList($attachments, $entryId) {
 
 function printEntryFileUploadButton($entryId) {
 	global $owner, $service;
-?>
-	<table cellsapcing="0" cellpadding="0">
+	?>
+	<table  cellsapcing="0" cellpadding="0">
 		<tr>
 			<td>
 				<table cellsapcing="0" cellpadding="0">
 					<tr>
-						<td id="fileUploadNest" align="center">
-							
-						</td>		
-	<script type="text/javascript">
+						<td>
+							<table>
+								<tr id="fileUploadNest" >
+									<script>
+										if(getUploadObj()) {		
+											try{
+												document.write('<td><input id="uploadBtn" type="button" class="button" value="<?=_t('파일 업로드')?>" onclick="browser();" style="margin-top: 1px"/></td>');			
+											} catch(e) {
+												
+											}								
+										}
+									</script>
+								</tr>
+							</table>
+						</td>
+	<script type="text/javascript">	
 		attachId = 0;
 		function makeCrossDamainSubmit(uri,userAgent) {
 		
@@ -811,7 +833,7 @@ function printEntryFileUploadButton($entryId) {
 			
 			var str='<iframe src="'+uri+'" id="attachHiddenNest_'+(attachId)+'"  style="display:block; height:'+property[userAgent]['height']+'; width:'+property[userAgent]['width']+'" frameborder="no" scrolling="no"></iframe>'
 			var td = document.createElement('td');
-			td.innerHTML= str;
+			td.innerHTML= str;									
 
 			document.getElementById('fileUploadNest').appendChild(td);
 			var td = document.getElementById('td');
@@ -820,14 +842,13 @@ function printEntryFileUploadButton($entryId) {
 				document.getElementById('attachHiddenNest_'+(attachId-1)+'').style.width = 0;
 				document.getElementById('attachHiddenNest_'+(attachId-1)+'').style.height = 0;
 			}
-
+			
 			attachId++;
 			
 		}
+		
 		//if(<?=!empty($service['flashuploader']) ? $service['flashuploader'] : 'false'?> ) { 
-		if(hasRightVersion  && isWin) {
-			document.getElementById('fileUploadNest').innerHTML = ('<input id="uploadBtn" type="button" class="button" value="<?=_t('파일 업로드')?>" onclick="browser();" style="margin-top: 1px"/>');
-		} else {
+		 if(!getUploadObj()) {
 			if(isIE) {
 				makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?=$entryId?>","ie");
 			} else if(isMoz) {
@@ -836,14 +857,14 @@ function printEntryFileUploadButton($entryId) {
 				makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?=$entryId?>","etc");
 			}
 		}
-	  </script>
+	  </script>						
 					</tr>
-			</table>	
-	  </td>
-	  <td><span id="fileDownload" style="display: none"></span></td>
-	  <td>
-  		<input type="button" class="button" id="deleteBtn" value="<?=_t('삭제하기')?>" onclick="deleteAttachment();" style="margin-top: 1px" />		  
-	  </td>
+				</table>	
+			</td>			
+			<td><span id="fileDownload" style="display: none"></span></td>
+			<td>
+		  		<input type="button" class="button" id="deleteBtn" value="<?=_t('삭제하기')?>" onclick="deleteAttachment();" style="margin-top: 1px" />
+			</td>
 	  </tr>
 </table>
 	<?

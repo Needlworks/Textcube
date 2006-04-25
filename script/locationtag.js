@@ -77,10 +77,12 @@ function eolinLocationTagFunction_showSuggestion()
 	document.body.appendChild(instance.suggestion);
 }
 
-function LocationTag(container, language)
+function LocationTag(container, language, disable)
 {
 	this.name = "Eolin Location Tag Object";
 	this.copyright = "Tatter & Company";
+
+	this.allowEolinSuggestion = (typeof(disable) == "undefined") ? false : !disable;
 
 	this.isFocused = false;
 	this.isSettingValue = false;	// setValue가 짧은 시간에 여러번 실행될때 Safari가 죽어버리는 문제 해결
@@ -375,6 +377,9 @@ LocationTag.prototype.getPath = function()
 LocationTag.prototype.requestSuggestion = function()
 {
 	var instance = this.instance;
+
+	if(!instance.allowEolinSuggestion)
+		return;
 
 	instance.isTyping = true;
 	instance.cursor++;

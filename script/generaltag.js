@@ -61,6 +61,10 @@ function eolinTagFunction_showLocalSuggestion(id, cursor, filter)
 						var tags = new Array();
 
 						var tagItems = root.getElementsByTagName("tag");
+						if(!instance.allowEolinSuggestion && tagItems.length == 0) {
+							instance.hideSuggestion();
+							return;
+						}
 
 						for(var i=0; i<tagItems.length; i++)
 							tags[tags.length] = tagItems[i].firstChild.nodeValue;
@@ -89,9 +93,21 @@ function eolinTagFunction_showLocalSuggestion(id, cursor, filter)
 							htmlText.append("</li>");
 						}
 
-						htmlText.append(instance.suggestion.innerHTML);
-
+						if(instance.allowEolinSuggestion)
+							htmlText.append(instance.suggestion.innerHTML);
+							
 						instance.suggestion.innerHTML = htmlText.toString();
+
+						if(!instance.allowEolinSuggestion) {
+							instance.suggestion.style.left = getOffsetLeft(input) + "px";
+							instance.suggestion.style.top = getOffsetTop(input) + input.offsetHeight + "px";
+							instance.suggestion.style.display = "block";
+							instance.isSuggestionShown = true;
+
+							try { document.getElementById("fileList").style.visibility = "hidden"; } catch(e) { }							
+							try { document.body.removeChild(instance.suggestion) } catch(e) { };
+							document.body.appendChild(instance.suggestion);
+						}
 
 						while(instance.suggestion.childNodes.length > 10)
 							instance.suggestion.removeChild(instance.suggestion.childNodes[instance.suggestion.childNodes.length-1]);
@@ -171,10 +187,12 @@ function eolinTagFunction_showSuggestion()
 	document.body.appendChild(instance.suggestion);
 }
 
-function Tag(container, language)
+function Tag(container, language, disable)
 {
 	this.name = "Eolin Tag Object";
 	this.copyright = "Tatter & Company";
+
+	this.allowEolinSuggestion = (typeof(disable) == "undefined") ? false : !disable;
 
 	this.isSettingValue = false;	// setValue가 짧은 시간에 여러번 실행될때 Safari가 죽어버리는 문제 해결
 
@@ -332,6 +350,11 @@ Tag.prototype.requestSuggestion = function()
 
 	instance.isTyping = true;
 	instance.cursor++;
+
+	if(!instance.allowEolinSuggestion) {
+		eolinTagFunction_showLocalSuggestion(instance.container.getAttribute("id"), instance.cursor, "name like '" + instance.getInput().value + "%'")
+		return;
+	}
 
 	debug("Request " + instance.cursor);
 

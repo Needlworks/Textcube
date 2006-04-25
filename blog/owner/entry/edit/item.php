@@ -437,7 +437,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 						  <script type="text/javascript">
 						  //<![CDATA[
 							try {
-								var oLocationTag = new LocationTag(document.getElementById("location"), "<?=$blog['language']?>");
+								var oLocationTag = new LocationTag(document.getElementById("location"), "<?=$blog['language']?>", <?=isset($service['disableEolinSuggestion']) && $service['disableEolinSuggestion'] ? 'true' : 'false'?>);
 								oLocationTag.setInputClassName("text2");
 								oLocationTag.setValue("<?=addslashes($entry['location'])?>");
 								
@@ -447,7 +447,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 							}
 
 							try {
-								var oTag = new Tag(document.getElementById("tag"), "<?=$blog['language']?>");
+								var oTag = new Tag(document.getElementById("tag"), "<?=$blog['language']?>", <?=isset($service['disableEolinSuggestion']) && $service['disableEolinSuggestion'] ? 'true' : 'false'?>);
 								oTag.setInputClassName("text2");
 <?
 		$tags = array();
