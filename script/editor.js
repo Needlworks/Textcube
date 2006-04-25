@@ -485,8 +485,8 @@ TTEditor.prototype.html2ttml = function() {
 
 			str = str.replaceAll(body, "<embed autostart=\"0\" src=\"" + this.parseAttribute(body, "longdesc") + "\"" + this.parseImageSize(body, "string", "css") + "></embed>");
 		}
-
-		break;
+		else
+			break;
 	}
 
 	// Flash 처리
@@ -498,8 +498,8 @@ TTEditor.prototype.html2ttml = function() {
 
 			str = str.replaceAll(body, '<embed loop="true" menu="false" quality="high" ' + this.parseImageSize(body, "string") + ' type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" src="' + this.parseAttribute(body, "longdesc") + '"></embed>');
 		}
-
-		break;
+		else
+			break;
 	}
 
 	// <b> -> <strong>, <i> -> <em>, <u> -> <ins>, <strike> -> <del>
