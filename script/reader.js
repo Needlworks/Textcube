@@ -38,18 +38,18 @@ function TTReader()
 TTReader.prototype.setShownEntries = function(count)
 {
 	this.entriesShown = count;
-	document.getElementById("entriesShown").innerHTML = count;
+	getObject("entriesShown").innerHTML = count;
 }
 
 TTReader.prototype.setTotalEntries = function(count)
 {
 	this.entriesTotal = count;
-	document.getElementById("entriesTotal").innerHTML = count;
+	getObject("entriesTotal").innerHTML = count;
 }
 
 TTReader.prototype.setBlogTitle = function(title)
 {
-	document.getElementById("blogTitle").innerHTML = title;
+	getObject("blogTitle").innerHTML = title;
 }
 
 TTReader.prototype.togglePannel = function(event)
@@ -62,35 +62,35 @@ TTReader.prototype.togglePannel = function(event)
 
 	if(this.isPannelCollapsed)
 	{
-		document.getElementById("pannel").style.display = "block";
-		document.getElementById("toggleButton").src = this.servicePath + "/image/owner/reader/barHide.gif";
+		getObject("pannel").style.display = "block";
+		getObject("toggleButton").src = this.servicePath + "/image/owner/reader/barHide.gif";
 		setPersonalization("readerPannelVisibility", 1);
 	}
 	else
 	{
-		document.getElementById("pannel").style.display = "none";
-		document.getElementById("toggleButton").src = this.servicePath + "/image/owner/reader/barShow.gif";
+		getObject("pannel").style.display = "none";
+		getObject("toggleButton").src = this.servicePath + "/image/owner/reader/barShow.gif";
 		setPersonalization("readerPannelVisibility", 0);
 	}
-	document.getElementById("floatingList").style.top = "0px";
-	this.floatingListOffset = document.getElementById("floatingList").offsetTop;
+	getObject("floatingList").style.top = "0px";
+	this.floatingListOffset = getObject("floatingList").offsetTop;
 	this.isPannelCollapsed = !this.isPannelCollapsed;
 }
 
 TTReader.prototype.toggleConfigure = function()
 {
-	if(document.getElementById("groupsAndFeeds").style.display == "none") {
-		document.getElementById("groupsAndFeeds").style.display = "block";
-		document.getElementById("configure").style.display = "none";
+	if(getObject("groupsAndFeeds").style.display == "none") {
+		getObject("groupsAndFeeds").style.display = "block";
+		getObject("configure").style.display = "none";
 	}
 	else {
 		if(this.isPannelCollapsed)
 			this.togglePannel();
-		document.getElementById("groupsAndFeeds").style.display = "none";
-		document.getElementById("configure").style.display = "block";
+		getObject("groupsAndFeeds").style.display = "none";
+		getObject("configure").style.display = "block";
 	}
-	document.getElementById("floatingList").style.top = "0px";
-	this.floatingListOffset = document.getElementById("floatingList").offsetTop;
+	getObject("floatingList").style.top = "0px";
+	this.floatingListOffset = getObject("floatingList").offsetTop;
 }
 
 TTReader.prototype.startResizing = function(event)
@@ -102,7 +102,7 @@ TTReader.prototype.startResizing = function(event)
 		document.addEventListener("mousemove", Reader.doResizing, false);
 		Reader.resizeStart = event.clientY;
 		Reader.resizeScroll = STD.getScrollTop();
-		Reader.resizeHeight = parseInt(document.getElementById("groupBox").style.height);
+		Reader.resizeHeight = parseInt(getObject("groupBox").style.height);
 	}
 }
 
@@ -117,10 +117,10 @@ TTReader.prototype.finishResizing = function()
 		STD.removeEventListener(document);
 		document.removeEventListener("mousemove", Reader.doResizing, false);
 		document.removeEventListener("selectstart", Reader.returnFalse, false);
-		setPersonalization("readerPannelHeight", parseInt(document.getElementById("groupBox").style.height));
+		setPersonalization("readerPannelHeight", parseInt(getObject("groupBox").style.height));
 		Reader.resizeStart = 0;
-		document.getElementById("floatingList").style.top = "0px";
-		this.floatingListOffset = document.getElementById("floatingList").offsetTop;
+		getObject("floatingList").style.top = "0px";
+		this.floatingListOffset = getObject("floatingList").offsetTop;
 	}
 }
 
@@ -129,8 +129,8 @@ TTReader.prototype.doResizing = function(event)
 	event = STD.event(event);
 	var height = Reader.resizeHeight + (event.clientY - Reader.resizeStart) + (STD.getScrollTop() - Reader.resizeScroll);
 	if(height >= 100) {
-		document.getElementById("groupBox").style.height = height + "px";
-		document.getElementById("feedBox").style.height = height + "px";
+		getObject("groupBox").style.height = height + "px";
+		getObject("feedBox").style.height = height + "px";
 	}
 }
 
@@ -140,7 +140,7 @@ TTReader.prototype.selectGroup = function(caller, id)
 	this.refreshEntryList(id, 0);
 	this.refreshEntry(id, 0, 0);
 	this.selectedGroup = id;
-	document.getElementById("groupList0").style.backgroundColor = "";
+	getObject("groupList0").style.backgroundColor = "";
 	if(this.selectedGroupObject != null)
 		this.selectedGroupObject.style.backgroundColor = "";
 	this.selectedGroupObject = caller.parentNode;
@@ -169,11 +169,11 @@ TTReader.prototype.selectEntry = function(id)
 
 TTReader.prototype.selectEntryObject = function(id)
 {
-	var caller = document.getElementById("entryTitleList" + id);
+	var caller = getObject("entryTitleList" + id);
 	if(caller) {
 		this.selectedEntryObject = caller.parentNode;
 		this.selectedEntryObject.style.backgroundColor = "#FFFFFF";
-		var list = document.getElementById("listup");
+		var list = getObject("listup");
 		if(this.floatingListOffset == 0)
 			this.setListPosition();
 		this.startScroll("listup", getOffsetTop(caller) - getOffsetTop(list) - (list.offsetHeight / 4));
@@ -184,7 +184,7 @@ TTReader.prototype.selectEntryObject = function(id)
 
 TTReader.prototype.startScroll = function(id, offset)
 {
-	var obj = document.getElementById(id);
+	var obj = getObject(id);
 	if(typeof(offset) != "undefined")
 		obj.scrollTarget = Math.min(Math.max(parseInt(offset), 0), obj.scrollHeight);
 	if(obj.scrollTop != obj.scrollTarget) {
@@ -201,7 +201,7 @@ TTReader.prototype.refreshFeedGroup = function()
 	request.onSuccess = function () {
 		Reader.selectedGroup = 0;
 		Reader.selectedGroupObject = null;
-		document.getElementById("groupBox").innerHTML = this.getText("/response/view");
+		getObject("groupBox").innerHTML = this.getText("/response/view");
 	}
 	request.onError= function () {
 		switch(parseInt(this.getText("/response/error")))
@@ -219,7 +219,7 @@ TTReader.prototype.refreshFeedList = function(group)
 	request.onSuccess = function () {
 		Reader.selectedFeed = 0;
 		Reader.selectedFeedObject = null;
-		document.getElementById("feedBox").innerHTML = this.getText("/response/view");
+		getObject("feedBox").innerHTML = this.getText("/response/view");
 	}
 	request.onError= function () {
 		switch(parseInt(this.getText("/response/error")))
@@ -235,13 +235,15 @@ TTReader.prototype.refreshEntryList = function(group, feed)
 {	
 	var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/view/entries/");
 	request.onSuccess = function () {
-		document.getElementById("listup").innerHTML = this.getText("/response/view");
+		getObject("listup").innerHTML = this.getText("/response/view");
 		Reader.selectedEntry = this.getText("/response/firstEntryId");
 		try {
-			Reader.selectedEntryObject = document.getElementById("entryTitleList" + Reader.selectedEntry).parentNode;
+			Reader.selectedEntryObject = getObject("entryTitleList" + Reader.selectedEntry).parentNode;
 		} catch(e) {
 			Reader.selectedEntryObject = null;
 		}
+		Reader.setShownEntries(this.getText("/response/entriesShown"));
+		Reader.setTotalEntries(this.getText("/response/entriesTotal"));
 	}
 	request.onError= function () {
 		switch(parseInt(this.getText("/response/error")))
@@ -269,7 +271,7 @@ TTReader.prototype.imageLoadingFailed = function(event)
 TTReader.prototype.doPostProcessingOnEntry = function()
 {
 	if(Reader.optionForceLoadImage) {
-		var nodes = searchChildNodes(document.getElementById("entryBody"), "img");
+		var nodes = searchChildNodes(getObject("entryBody"), "img");
 		for(var i=0; i<nodes.length; i++) {
 			if(nodes[i].getAttribute("trying") != "trying") {
 				nodes[i].setAttribute("trying", "trying");
@@ -279,7 +281,7 @@ TTReader.prototype.doPostProcessingOnEntry = function()
 		}
 	}
 	if(Reader.optionForceNewWindow) {
-		var nodes = searchChildNodes(document.getElementById("entryBody"), "a");
+		var nodes = searchChildNodes(getObject("entryBody"), "a");
 		for(var i=0; i<nodes.length; i++) {
 			nodes[i].target = "_blank";
 		}
@@ -291,15 +293,15 @@ TTReader.prototype.refreshEntry = function(group, feed, entry)
 	var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/view/entry/");
 	request.onSuccess = function () {
 		Reader.selectedEntry = this.getText("/response/id");
-		document.getElementById("blogTitle").innerHTML = this.getText("/response/blog");
-		document.getElementById("entry").innerHTML = this.getText("/response/view");
+		getObject("blogTitle").innerHTML = this.getText("/response/blog");
+		getObject("entry").innerHTML = this.getText("/response/view");
 		try {
-			document.getElementById("entryTitleList" + Reader.selectedEntry).className = "read";
+			getObject("entryTitleList" + Reader.selectedEntry).className = "read";
 		} catch(e) { }
 		
 		Reader.setListPosition(true);
 		Reader.doPostProcessingOnEntry();
-		window.scrollTo(0, getOffsetTop(document.getElementById("scrollPoint")));
+		window.scrollTo(0, getOffsetTop(getObject("scrollPoint")));
 	}
 	request.onError= function () {
 		switch(parseInt(this.getText("/response/error")))
@@ -338,7 +340,7 @@ TTReader.prototype.nextEntry = function()
 	var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/view/entry/previous/");
 	request.onSuccess = function () {
 		if(this.getText("/response/id") != 0) {
-			if(document.getElementById("entryTitleList" + this.getText("/response/id")) == null)
+			if(getObject("entryTitleList" + this.getText("/response/id")) == null)
 				Reader.listScroll(true);
 			Reader.selectedEntry = this.getText("/response/id");
 			Reader.selectEntry(Reader.selectedEntry);
@@ -363,7 +365,7 @@ TTReader.prototype.addGroup = function(title)
 	request.onSuccess = function () {
 		Reader.selectedGroup = 0;
 		Reader.selectedGroupObject = null;
-		document.getElementById("groupBox").innerHTML = this.getText("/response/view");
+		getObject("groupBox").innerHTML = this.getText("/response/view");
 		PM.removeRequest(this);
 		PM.showMessage(s_groupAdded, "center", "bottom");
 	}
@@ -389,11 +391,11 @@ TTReader.prototype.editGroup = function(id, title)
 {
 	this.editingGroupId = id;
 
-	document.getElementById("groupList").style.display = "none";
-	document.getElementById("groupAdder").style.display = "none";
-	document.getElementById("groupEditor").style.display = "block";
-	document.getElementById("changeGroupTitle").value = title;
-	document.getElementById("changeGroupTitle").select();
+	getObject("groupList").style.display = "none";
+	getObject("groupAdder").style.display = "none";
+	getObject("groupEditor").style.display = "block";
+	getObject("changeGroupTitle").value = title;
+	getObject("changeGroupTitle").select();
 }
 
 TTReader.prototype.editGroupExecute = function()
@@ -402,7 +404,7 @@ TTReader.prototype.editGroupExecute = function()
 	request.onSuccess = function () {
 		Reader.selectedGroup = 0;
 		Reader.selectedGroupObject = null;
-		document.getElementById("groupBox").innerHTML = this.getText("/response/view");
+		getObject("groupBox").innerHTML = this.getText("/response/view");
 		PM.removeRequest(this);
 		PM.showMessage(s_groupModified, "center", "bottom");
 	}
@@ -420,7 +422,7 @@ TTReader.prototype.editGroupExecute = function()
 		}
 	}
 	PM.addRequest(request, s_editingGroup);
-	request.send("id=" + this.editingGroupId + "&title=" + encodeURIComponent(document.getElementById("changeGroupTitle").value) + "&current=" + this.selectedGroup);
+	request.send("id=" + this.editingGroupId + "&title=" + encodeURIComponent(getObject("changeGroupTitle").value) + "&current=" + this.selectedGroup);
 }
 
 TTReader.prototype.deleteGroup = function()
@@ -431,7 +433,7 @@ TTReader.prototype.deleteGroup = function()
 	request.onSuccess = function () {
 		Reader.selectedGroup = 0;
 		Reader.selectedGroupObject = null;
-		document.getElementById("groupBox").innerHTML = this.getText("/response/view");
+		getObject("groupBox").innerHTML = this.getText("/response/view");
 		PM.removeRequest(this);
 		PM.showMessage(s_groupRemoved, "center", "bottom");
 	}
@@ -456,7 +458,7 @@ TTReader.prototype.addFeed = function(url)
 	request.onSuccess = function () {
 		Reader.selectedFeed = 0;
 		Reader.selectedFeedObject = null;
-		document.getElementById("feedBox").innerHTML = this.getText("/response/view");
+		getObject("feedBox").innerHTML = this.getText("/response/view");
 		PM.showMessage(s_feedAdded, "center", "bottom");
 		PM.removeRequest(this);
 		Reader.refreshEntryList(this.selectedGroup, this.selectedFeed);
@@ -487,12 +489,12 @@ TTReader.prototype.editFeed = function(id, url)
 {
 	this.editingFeedId = id;
 
-	document.getElementById("feedList").style.display = "none";
-	document.getElementById("feedAdder").style.display = "none";
-	document.getElementById("feedEditor").style.display = "block";
-	document.getElementById("changeFeedGroup").value = this.selectedGroup;
-	document.getElementById("changeFeedURL").value = url;
-	document.getElementById("changeFeedURL").select();	
+	getObject("feedList").style.display = "none";
+	getObject("feedAdder").style.display = "none";
+	getObject("feedEditor").style.display = "block";
+	getObject("changeFeedGroup").value = this.selectedGroup;
+	getObject("changeFeedURL").value = url;
+	getObject("changeFeedURL").select();	
 }
 
 TTReader.prototype.editFeedExecute = function()
@@ -501,7 +503,7 @@ TTReader.prototype.editFeedExecute = function()
 	request.onSuccess = function () {
 		Reader.selectedFeed = 0;
 		Reader.selectedFeedObject = null;
-		document.getElementById("feedBox").innerHTML = this.getText("/response/view");
+		getObject("feedBox").innerHTML = this.getText("/response/view");
 		PM.removeRequest(this);
 		PM.showMessage(s_feedModified, "center", "bottom");
 	}
@@ -519,7 +521,7 @@ TTReader.prototype.editFeedExecute = function()
 		}
 	}
 	PM.addRequest(request, s_editingFeed);
-	request.send("id=" + this.editingFeedId + "&old_group=" + this.selectedGroup + "&new_group=" + document.getElementById("changeFeedGroup").value + "&url=" + encodeURIComponent(document.getElementById("changeFeedURL").value));
+	request.send("id=" + this.editingFeedId + "&old_group=" + this.selectedGroup + "&new_group=" + getObject("changeFeedGroup").value + "&url=" + encodeURIComponent(getObject("changeFeedURL").value));
 }
 
 TTReader.prototype.deleteFeed = function()
@@ -530,7 +532,7 @@ TTReader.prototype.deleteFeed = function()
 	request.onSuccess = function () {
 		Reader.selectedFeed = 0;
 		Reader.selectedFeedObject = null;
-		document.getElementById("feedBox").innerHTML = this.getText("/response/view");
+		getObject("feedBox").innerHTML = this.getText("/response/view");
 		PM.removeRequest(this);
 		PM.showMessage(s_feedRemoved, "center", "bottom");
 		Reader.refreshEntryList(this.selectedGroup, this.selectedFeed);
@@ -552,8 +554,8 @@ TTReader.prototype.saveSetting = function()
 {
 	var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/config/save/");
 	request.onSuccess = function () {
-		document.getElementById("groupsAndFeeds").style.display = "block";
-		document.getElementById("configure").style.display = "none";
+		getObject("groupsAndFeeds").style.display = "block";
+		getObject("configure").style.display = "none";
 		PM.showMessage(s_saved, "center", "bottom");
 	}
 	request.onError= function () {
@@ -578,7 +580,7 @@ TTReader.prototype.saveSetting = function()
 TTReader.prototype.markAsUnread = function(id)
 {
 	var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/mark/unread/");
-	request.presetProperty(document.getElementById("entryTitleList" + id), "className", "unread");
+	request.presetProperty(getObject("entryTitleList" + id), "className", "unread");
 	request.onSuccess = function () {
 		PM.showMessage(s_markedAsUnread, "center", "bottom");
 	}
@@ -590,14 +592,14 @@ TTReader.prototype.toggleStarred = function(id)
 	if(typeof(id) == "undefined")
 		id = this.selectedEntry;
 
-	if(document.getElementById("star" + id)) {
-		if(document.getElementById("star" + id).starred == "On") {
+	if(getObject("star" + id)) {
+		if(getObject("star" + id).starred == "On") {
 			var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/mark/unstar/");
 			request._ttreader = this;
 			request.onSuccess = function() {
-				if(document.getElementById("star" + id)) {
-					document.getElementById("star" + id).src = this._ttreader.servicePath + "/image/owner/reader/iconStarOff.gif";
-					document.getElementById("star" + id).starred = "Off";
+				if(getObject("star" + id)) {
+					getObject("star" + id).src = this._ttreader.servicePath + "/image/owner/reader/iconStarOff.gif";
+					getObject("star" + id).starred = "Off";
 				}
 			}
 		}
@@ -605,9 +607,9 @@ TTReader.prototype.toggleStarred = function(id)
 			var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/mark/star/");
 			request._ttreader = this;
 			request.onSuccess = function() {
-				if(document.getElementById("star" + id)) {
-					document.getElementById("star" + id).src = this._ttreader.servicePath + "/image/owner/reader/iconStarOn.gif";
-					document.getElementById("star" + id).starred = "On";
+				if(getObject("star" + id)) {
+					getObject("star" + id).src = this._ttreader.servicePath + "/image/owner/reader/iconStarOn.gif";
+					getObject("star" + id).starred = "On";
 				}
 			}
 		}
@@ -633,11 +635,11 @@ TTReader.prototype.showStarredOnly = function()
 
 	if(this.starredOnly) {
 		this.starredOnly = false;
-		document.getElementById("starredOnlyIndicator").src = this.servicePath + "/image/owner/reader/iconStarOff.gif";
+		getObject("starredOnlyIndicator").src = this.servicePath + "/image/owner/reader/iconStarOff.gif";
 	}
 	else {
 		this.starredOnly = true;
-		document.getElementById("starredOnlyIndicator").src = this.servicePath + "/image/owner/reader/iconStarOn.gif";
+		getObject("starredOnlyIndicator").src = this.servicePath + "/image/owner/reader/iconStarOn.gif";
 	}
 	this.refreshFeedGroup();
 	this.refreshFeedList(0);
@@ -648,7 +650,7 @@ TTReader.prototype.showStarredOnly = function()
 TTReader.prototype.showSearch = function()
 {
 	this.starredOnly = false;
-	this.searchKeyword = document.getElementById("keyword").value;
+	this.searchKeyword = getObject("keyword").value;
 	this.refreshFeedGroup();
 	this.refreshFeedList(0);
 	this.refreshEntryList(0, 0);
@@ -657,26 +659,26 @@ TTReader.prototype.showSearch = function()
 
 TTReader.prototype.listScroll = function(force)
 {
-	var caller = document.getElementById("listup");
+	var caller = getObject("listup");
 	if((caller.offsetHeight + caller.scrollTop > caller.scrollHeight - 100 || force == 1) && this.entriesShown < this.entriesTotal && !this.areEntriesLoading) {
 		this.areEntriesLoading = true;
-		document.getElementById("feedLoadingIndicator").style.display = "block";
+		getObject("feedLoadingIndicator").style.display = "block";
 		var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/view/entries/more/");
 		request.onSuccess = function () {
 			PM.removeRequest(this);
 			Reader.areEntriesLoading = false;
 			Reader.setShownEntries(Reader.entriesShown + parseInt(this.getText("/response/count")));
-			document.getElementById("feedLoadingIndicator").style.display = "none";
+			getObject("feedLoadingIndicator").style.display = "none";
 			var div = document.createElement("div");
 			div.innerHTML = this.getText("/response/view");
-			document.getElementById("additionalFeedContainer").appendChild(div);
+			getObject("additionalFeedContainer").appendChild(div);
 			if(Reader.entriesShown == Reader.entriesTotal)			
-				document.getElementById("iconMoreEntries").style.display = "none";
+				getObject("iconMoreEntries").style.display = "none";
 		}
 		request.onError= function () {
 			PM.removeRequest(this);
 			Reader.areEntriesLoading = false;
-			document.getElementById("feedLoadingIndicator").style.display = "none";
+			getObject("feedLoadingIndicator").style.display = "none";
 			switch(parseInt(this.getText("/response/error")))
 			{
 				default:
@@ -690,7 +692,7 @@ TTReader.prototype.listScroll = function(force)
 
 TTReader.prototype.setListPosition = function(setTop)
 {
-	var list = document.getElementById("floatingList");
+	var list = getObject("floatingList");
 	if(setTop == true) {
 		list.style.top = "0px";
 		this.setListPosition();
@@ -707,12 +709,12 @@ TTReader.prototype.setListPosition = function(setTop)
 
 TTReader.prototype.openEntryInNewWindow = function()
 {
-	window.open(document.getElementById("entryPermalink").href);
+	window.open(getObject("entryPermalink").href);
 }
 
 TTReader.prototype.updateAllFeeds = function()
 {
-	var frame = document.getElementById("hiddenFrame");
+	var frame = getObject("hiddenFrame");
 	frame.src = this.blogURL + "/owner/reader/update/?__T__=" + (new Date().getTime());
 }
 
@@ -750,7 +752,7 @@ TTReader.prototype.importOPMLURL = function()
 		}
 	}
 	PM.addRequest(request, s_loadingOPML);
-	request.send("url=" + encodeURIComponent(document.getElementById("opmlRequestValue").value));
+	request.send("url=" + encodeURIComponent(getObject("opmlRequestValue").value));
 }
 
 TTReader.prototype.exportOPML = function()
