@@ -355,8 +355,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 									<?=$urlRule[0]?><input id="invitation_identify" name="text" type="text" style=" border:hidden; background-image:url(<?=$service['path']?>/image/owner/invitationBg.gif); border:0px; overflow:visible;"/><?=$urlRule[1]?></td>
 							</tr>
 							<tr>
-								<td align="center" background="<?=$service['path']?>/image/owner/Invite_bg.gif"><textarea id="invitation_comment" name="textarea" style="border:0px; line-height:17px; overflow:visible; width:460px; height:300px; background-image:url(<?=$service['path']?>/image/owner/invitationBg.gif)" ><?=_t("블로그를 준비해 두었습니다.\n
-지금 바로 입주하실 수 있습니다.")?></textarea></td>
+								<td align="center" background="<?=$service['path']?>/image/owner/Invite_bg.gif"><textarea id="invitation_comment" name="textarea" style="border:0px; line-height:17px; overflow:visible; width:460px; height:300px; background-image:url(<?=$service['path']?>/image/owner/invitationBg.gif)" ><?=_t("블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다.")?></textarea></td>
 							</tr>
 
 							<tr>
