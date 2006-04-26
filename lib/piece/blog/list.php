@@ -11,7 +11,7 @@ if (isset($list)) {
 		);				
 		$lo_tar = array(
 			Timestamp::format3($item['published']),
-			"$blogURL/" . ($blog['useSlogan'] ? "entry/{$item['slogan']}" : $item['id']),
+			"$blogURL/" . ($blog['useSlogan'] ? "entry/".urlencoder($item['slogan']) : $item['id']),
 			htmlspecialchars($item['title']),
 			($item['comments'] > 0) ? "(".$item['comments'].")" : ""
 		);		
