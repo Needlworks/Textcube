@@ -94,7 +94,12 @@ function printOwnerEditorScript($entryId = false) {
 		}
 
 		var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/detach/multi<?=($entryId ? "/$entryId" : '/0')?>");
+		request.onVerify = function () { 
+			window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);						
+			return true 
+		}
 		request.onSuccess = function() {
+			window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);							
 			for(var i=deleteFileList.length-1; i>=0; i--) {
 				fileList.remove(deleteFileList[i]);	
 			}
@@ -111,6 +116,8 @@ function printOwnerEditorScript($entryId = false) {
 		request.onError = function() {
 			alert("<?=_t('파일을 삭제하지 못했습니다')?>");
 		}
+		STD.removeEventListener(window);
+		window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);
 		request.send("names="+targetStr);
 	}
 	
@@ -600,8 +607,7 @@ function printEntryFileList($attachments, $entryId) {
 				function refreshAttachList() {
 					var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/attachmulti/refresh<?=($entryId ? "/$entryId" : '/0')?>");
 					request.onVerify = function () { 
-						STD.removeEventListener(window);
-						window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);
+						window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);						
 						return true 
 					}
 
@@ -618,7 +624,8 @@ function printEntryFileList($attachments, $entryId) {
 					}
 					request.onError = function() {
 					}
-					window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);										
+					STD.removeEventListener(window);
+					window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);										
 					request.send();
 				}
 				
