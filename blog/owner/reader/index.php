@@ -285,7 +285,7 @@ if (getUserId() == 1) {
 								<a href="<?=$blogURL?>/owner/reader"><span style="font-size:14px; font-weight:bold; color:#333;"><?=_t('전체 목록')?></span></a> <span style="font-size:10px; font-family:Tahoma; color:#333">(<span id="entriesShown">0</span> / <span id="entriesTotal">0</span>) </span>
 							</td>
 							<td width="70" align="right">
-								<a id="iconMoreEntries" href="#" onclick="Reader.listScroll(1); return false" style="color: #fff"><img src="<?=$service['path']?>/image/owner/reader/iconMoreRead.gif" alt="Load more entries"/></a>
+								<a id="iconMoreEntries" href="#" onclick="Reader.listScroll(1); return false" style="color: #fff"><?=_t('더 읽어오기')?></a>
 							</td>
 						</tr>
 					</table>
