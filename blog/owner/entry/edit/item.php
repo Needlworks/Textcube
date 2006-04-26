@@ -35,6 +35,11 @@ if (defined('__TATTERTOOLS_POST__')) {
 //<![CDATA[
 	var enclosured = "<?=fetchQueryCell("SELECT name FROM {$database['prefix']}Entries e, {$database['prefix']}Attachments a WHERE e.owner = $owner AND e.id = {$suri['value']} AND a.parent = e.id AND a.enclosure = 1")?>";
 
+	window.onerror = function(errType, errURL,errLineNum) {
+		window.status = "Error: " + errType +" (on line " + errLineNum + " of " + errURL + ")";
+		return true;
+	}
+
 	function setEnclosure(value) {
 		var filename = value.substring(0, value.indexOf("|"));
 
