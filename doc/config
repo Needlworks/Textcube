@@ -1,0 +1,14 @@
+//This document explains about the available options at config.php
+
+ini_set('display_errors', 'off');
+$database['server'] = 'localhost';
+$database['database'] = 'noname';
+$database['username'] = 'noname';
+$database['password'] = 'noname';
+$database['prefix'] = 'tt_';
+$service['type'] = 'path';
+$service['domain'] = 'domain.ext';
+$service['path'] = '/path1/path2';
+$service['skin'] = 'skin_name';
+$service['disableEolinSuggestion'] = false;
+$service['useEncodedURL'] = false;
