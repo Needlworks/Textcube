@@ -1637,6 +1637,7 @@ function printEntryEditorPalette() {
 		  <td bgcolor="#006699"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#006699')" width="16" height="16" alt="" /></td>
 		  <td bgcolor="#003366"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#003366')" width="16" height="16" alt="" /></td>
 		  <td bgcolor="#333333"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#333333')" width="16" height="16" alt="" /></td>
+		  <td bgcolor="#000000"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#000000')" width="16" height="16" alt="" /></td>
 		  <td bgcolor="#8E8E8E"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#8E8E8E')" width="16" height="16" alt="" /></td>
 		  <td bgcolor="#C1C1C1"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#C1C1C1')" width="16" height="16" alt="" /></td>
 		</tr>

@@ -1233,7 +1233,12 @@ function TTCommand(command, value1, value2) {
 				if(STD.isIE) {
 					editor.contentWindow.focus();
 					var range = editor.getSelectionRange();
-					range.pasteHTML(value1 + range.htmlText + value2);
+					if(range.pasteHTML)
+						range.pasteHTML(value1 + range.htmlText + value2);
+					else if(editor.selectedElement) {
+						editor.selectedElement.insertAdjacentHTML("beforeBegin", value1);
+						editor.selectedElement.insertAdjacentHTML("afterEnd", value2);
+					}
 				}
 				else {
 					if(editor.contentWindow.getSelection().focusNode.tagName == "HTML") {
