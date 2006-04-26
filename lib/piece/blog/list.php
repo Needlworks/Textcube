@@ -12,7 +12,7 @@ if (isset($list)) {
 			),
 			array(
 				Timestamp::format3($item['published']),
-				"$blogURL/" . ($blog['useSlogan'] ? "entry/".urlencoder($item['slogan']) : $item['id']),
+				"$blogURL/" . ($blog['useSlogan'] ? 'entry/' . encodeURL($item['slogan']) : $item['id']),
 				htmlspecialchars($item['title']),
 				($item['comments'] > 0) ? "({$item['comments']})" : ''
 			),

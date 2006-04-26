@@ -446,9 +446,9 @@ function getCategoriesView($categories, $selected, $skin, $xhtml = false) {
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
-			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => $category2[$entriesSign], 'link' => "$blogURL/category/" . urlencoder(escapeURL($category1['name']))."/".urlencoder(escapeURL($category2['name'])), 'children' => array()));
+			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => $category2[$entriesSign], 'link' => "$blogURL/category/" . encodeURL($category1['name'] . '/' . $category2['name']), 'children' => array()));
 		}
-		array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $category1[$entriesSign], 'link' => "$blogURL/category/" . urlencoder(escapeURL($category1['name'])), 'children' => $children));
+		array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $category1[$entriesSign], 'link' => "$blogURL/category/" . encodeURL($category1['name']), 'children' => $children));
 	}
 	ob_start();
 	printTreeView($tree, $selected, $skin, $xhtml);
@@ -899,7 +899,7 @@ function getRandomTagsView($tags, & $template) {
 	list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();
 	foreach ($tags as $tag) {
 		$view = $template;
-		dress('tag_link', "$blogURL/tag/" . urlencoder(htmlspecialchars(escapeURL($tag))), $view);
+		dress('tag_link', "$blogURL/tag/" . encodeURL($tag), $view);
 		dress('tag_name', htmlspecialchars($tag), $view);
 		dress('tag_class', "cloud" . getTagFrequency($tag, $maxTagFreq, $minTagFreq), $view);
 		print $view;
@@ -1389,7 +1389,7 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 		  <tr>
 			<td><a href="<?=htmlspecialchars($entry['permalink'])?>" target="_blank" style="text-decoration: none"><span style="color:#0047B6; font-size:16px; font-weight:bold"><?=htmlspecialchars($entry['entry_title'])?></span></a><br />
 			  by <?=htmlspecialchars($entry['author'] ? $entry['author'] : $entry['blog_title'])?> : <span style="font-size:10px; font-family:Tahoma"><?=date('Y-m-d H:i:s', $entry['written'])?></span> </td>
-			<td align="right" valign="top"><a id="entryPermalink" href="<?=htmlspecialchars(rawurldecode($entry['permalink']))?>" target="_blank"><img src="<?=$service['path']?>/image/owner/reader/viewNewwindow.gif" align="absmiddle" /><?=_t('새 창으로 보기')?></a></td>
+			<td align="right" valign="top"><a id="entryPermalink" href="<?=htmlspecialchars(rawurldecode($entry['permalink']))?>" target="_blank"><img src="<?=$service['path']?>/image/owner/reader/viewNewwindow.gif" vspace="5" /></a></td>
 		  </tr>
 		  <tr height="1">
 			<td colspan="2" background="<?=$service['path']?>/image/owner/reader/dotline.gif"></td>

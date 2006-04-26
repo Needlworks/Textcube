@@ -1,4 +1,12 @@
 <?
+function encodeURL($url) {
+	global $service;
+	if (@$service['useEncodedURL'])
+		return str_replace('%2F', '/', rawurlencode($url));
+	else
+		return str_replace(array('%', ' ', '"', '#', '&', '\'', '<', '>', '?'), array('%25', '%20', '%22', '%23', '%26', '%27', '%3C', '%3E', '%3F'), $url);
+}
+
 class User {
 	/*@static@*/
 	function getName($userid = null) {
