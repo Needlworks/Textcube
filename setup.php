@@ -21,6 +21,8 @@ if (!empty($_GET['test'])) {
     exit;
 }
 
+include 'components/Eolin.PHP.Core.php';
+
 $root = substr($_SERVER['SCRIPT_FILENAME'], 0, strlen($_SERVER['SCRIPT_FILENAME']) - 10);
 $path = stripPath(substr($_SERVER['PHP_SELF'], 0, strlen($_SERVER['PHP_SELF']) - 10));
 
@@ -34,9 +36,7 @@ if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0))
 <title>Tattertools 1.0 Setup</title>
 </head>
 <body>
-<p>
-다시 설정하시려면 config.php를 먼저 삭제하셔야 합니다.
-</p>
+<p><?=_t('다시 설정하시려면 config.php를 먼저 삭제하셔야 합니다.')?></p>
 </body>
 </html>
 <?
@@ -86,20 +86,20 @@ if (empty($_POST['step'])) {
 ?>
   <div id="inner">
     <input type="hidden" name="step" value="1" />
-    <h2><span class="step">1단계</span> : 태터툴즈 설치를 시작합니다.</h2>
-    <div id="info"><b>Tattertools 1.0.4</b><br />
+    <h2><span class="step"><?=_f('%1단계', 1)?></span> : <?=_t('태터툴즈 설치를 시작합니다.')?></h2>
+    <div id="info"><b>Tattertools 1.0.5</b><br />
       Copyright &copy; 2004-2006, Tatter &amp; Company. All rights reserved.<br />
       Homepage: <a href="http://www.tattertools.com">http://www.tattertools.com</a></div>
     <div id="content">
       <ol>
-        <li>소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 태터툴즈)의 저작권자는 Tatter &amp; Company입니다.</li>
-        <li>태터툴즈는 GPL 라이선스로 제공되며, 모든 사람이 자유롭게 이용할 수 있습니다.</li>
-        <li>프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고에 책임은 모두 사용자에게 있습니다.</li>
-        <li>스킨 및 트리, 플러그인의 저작권은 각 제작자에게 있습니다.</li>
+        <li><?=_t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 태터툴즈)의 저작권자는 Tatter &amp; Company입니다.')?></li>
+        <li><?=_t('태터툴즈는 GPL 라이선스로 제공되며, 모든 사람이 자유롭게 이용할 수 있습니다.')?></li>
+        <li><?=_t('프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고에 책임은 모두 사용자에게 있습니다.')?></li>
+        <li><?=_t('스킨 및 트리, 플러그인의 저작권은 각 제작자에게 있습니다.')?></li>
       </ol>
     </div>
   <div id="navigation">
-    <a href="#" onclick="next(); return false;" title="다음"><img src="style/setup/icon_next.gif" width="74" height="24" alt="다음" /></a>
+    <a href="#" onclick="next(); return false;" title="<?=_t('다음')?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?=_t('다음')?>" /></a>
   </div>
   </div>
 <?
@@ -137,12 +137,12 @@ function checkStep($step, $check = true) {
   <input type="hidden" name="step" value="2" />
   <input id="setupMode" type="hidden" name="mode" value="" />
   <div id="inner">
-    <h2><span class="step">2단계</span> : 작업 유형을 선택해 주십시오.</h2>
+    <h2><span class="step"><?=_f('%1단계', 2)?></span> : <?=_t('작업 유형을 선택해 주십시오.')?></h2>
     <div style="text-align:center">
       <div style="width:300px; padding:40px 0px 40px 0px">
-        <div style="margin:20px;"><input type="button" value="새로운 태터툴즈를 설정합니다" style="width:100%; height:40px; font-size:14px" onclick="next('install');return false;" /></div>
-        <div style="margin:20px;"><input type="button" value="태터툴즈를 다시 설정합니다" style="width:100%; height:40px; font-size:14px" onclick="next('setup');return false;" /></div>
-        <div style="margin:20px;"><input type="button" value="태터툴즈 테이블을 삭제합니다" style="width:100%; height:40px; font-size:14px" onclick="next('uninstall');return false;" /></div>
+        <div style="margin:20px;"><input type="button" value="<?=_t('새로운 태터툴즈를 설정합니다')?>" style="width:100%; height:40px; font-size:14px" onclick="next('install');return false;" /></div>
+        <div style="margin:20px;"><input type="button" value="<?=_t('태터툴즈를 다시 설정합니다')?>" style="width:100%; height:40px; font-size:14px" onclick="next('setup');return false;" /></div>
+        <div style="margin:20px;"><input type="button" value="<?=_t('태터툴즈 테이블을 삭제합니다')?>" style="width:100%; height:40px; font-size:14px" onclick="next('uninstall');return false;" /></div>
       </div>
     </div>
   </div>
@@ -180,7 +180,7 @@ function checkStep($step, $check = true) {
   <input type="hidden" name="step" value="3" />
   <input type="hidden" name="mode" value="<?=$_POST['mode']?>" />
   <div id="inner">
-    <h2><span class="step">3단계</span> : 작업 정보를 입력해 주십시오.</h2>
+    <h2><span class="step"><?=_f('%1단계', 3)?></span> : <?=_t('작업 정보를 입력해 주십시오.')?></h2>
     <div id="userinput">
     <table class="inputs">
 <?
@@ -189,31 +189,31 @@ function checkStep($step, $check = true) {
 			case 'setup':
 ?>
       <tr>
-        <th>데이터베이스 서버 :</th>
+        <th><?=_t('데이터베이스 서버')?> :</th>
         <td>
           <input type="text" name="dbServer" value="<?=(isset($_POST['dbServer']) ? $_POST['dbServer'] : 'localhost')?>" class="input<?=($check && (empty($_POST['dbServer']) || ($error == 1)) ? ' input_error' : '')?>" />
         </td>
       </tr>
       <tr>
-        <th>데이터베이스 이름 :</th>
+        <th><?=_t('데이터베이스 이름')?> :</th>
         <td>
           <input type="text" name="dbName" value="<?=(isset($_POST['dbName']) ? $_POST['dbName'] : 'tattertools')?>" class="input<?=($check && (empty($_POST['dbName']) || ($error == 2)) ? ' input_error' : '')?>" />
         </td>
       </tr>
       <tr>
-        <th>데이터베이스 사용자명 :</th>
+        <th><?=_t('데이터베이스 사용자명')?> :</th>
         <td>
           <input type="text" name="dbUser" value="<?=(isset($_POST['dbUser']) ? $_POST['dbUser'] : '')?>" class="input<?=($check && (empty($_POST['dbUser']) || $error) ? ' input_error' : '')?>" />
         </td>
       </tr>
       <tr>
-        <th>데이터베이스 암호 :</th>
+        <th><?=_t('데이터베이스 암호')?> :</th>
         <td>
           <input type="password" name="dbPassword" value="<?=(isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '')?>" class="input<?=($check && ($error == 1) ? ' input_error' : '')?>" />
         </td>
       </tr>
       <tr>
-        <th>테이블 식별자 :</th>
+        <th><?=_t('테이블 식별자')?> :</th>
         <td>
           <input type="text" name="dbPrefix" value="<?=(isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : 'tt_')?>" class="input <?=($check && ($error == 3) ? ' input_error' : '')?>" />
         </td>
@@ -223,25 +223,25 @@ function checkStep($step, $check = true) {
 			case 'uninstall':
 ?>
       <tr>
-        <th>데이터베이스 서버 :</th>
+        <th><?=_t('데이터베이스 서버')?> :</th>
         <td>
           <input type="text" name="dbServer" value="<?=(isset($_POST['dbServer']) ? $_POST['dbServer'] : 'localhost')?>" class="input<?=($check && (empty($_POST['dbServer']) || ($error == 1)) ? ' input_error' : '')?>" />
         </td>
       </tr>
       <tr>
-        <th>데이터베이스 이름 :</th>
+        <th><?=_t('데이터베이스 이름')?> :</th>
         <td>
           <input type="text" name="dbName" value="<?=(isset($_POST['dbName']) ? $_POST['dbName'] : 'tattertools')?>" class="input<?=($check && (empty($_POST['dbName']) || ($error == 2)) ? ' input_error' : '')?>" />
         </td>
       </tr>
       <tr>
-        <th>데이터베이스 사용자명 :</th>
+        <th><?=_t('데이터베이스 사용자명')?> :</th>
         <td>
           <input type="text" name="dbUser" value="<?=(isset($_POST['dbUser']) ? $_POST['dbUser'] : '')?>" class="input<?=($check && (empty($_POST['dbUser']) || $error) ? ' input_error' : '')?>" />
         </td>
       </tr>
       <tr>
-        <th>데이터베이스 암호 :</th>
+        <th><?=_t('데이터베이스 암호')?> :</th>
         <td>
           <input type="password" name="dbPassword" value="<?=(isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '')?>" class="input<?=($check && ($error == 1) ? ' input_error' : '')?>" />
         </td>
@@ -253,25 +253,25 @@ function checkStep($step, $check = true) {
     </div>
     <div id="warning"><?
         if ($error == 1)
-            echo '데이터베이스 서버에 연결할 수 없습니다. 정보를 다시 입력해 주십시오.';
+            echo _t('데이터베이스 서버에 연결할 수 없습니다. 정보를 다시 입력해 주십시오.');
         else if ($error == 2)
-            echo '데이터베이스를 사용할 수가 없습니다. 정보를 다시 입력해 주십시오.';
+            echo _t('데이터베이스를 사용할 수가 없습니다. 정보를 다시 입력해 주십시오.');
         else if ($error == 3)
-            echo '테이블 식별자가 올바르지 않습니다. 다시 입력해 주십시오.';
+            echo _t('테이블 식별자가 올바르지 않습니다. 다시 입력해 주십시오.');
         else if ($error == 6)
-            echo '데이터베이스에 연결할 수 없습니다.';
+            echo _t('데이터베이스에 연결할 수 없습니다.');
         else if ($error == 7)
-            echo '데이터베이스에 접근할 수 없습니다.';
+            echo _t('데이터베이스에 접근할 수 없습니다.');
         else if ($error == 8)
-            echo '새로운 테이블 식별자가 올바르지 않습니다. 다시 입력해 주십시오.';
+            echo _t('새로운 테이블 식별자가 올바르지 않습니다. 다시 입력해 주십시오.');
         else if ($check)
-            echo '표시된 정보가 부족합니다.';
+            echo _t('표시된 정보가 부족합니다.');
         else
             echo '&nbsp;';
 ?></div>
   <div id="navigation">
-    <a href="#" onclick="window.history.back()" title="이전"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="이전" /></a>
-    <a href="#" onclick="next(); return false;" title="다음"><img src="style/setup/icon_next.gif" width="74" height="24" alt="다음" /></a>
+    <a href="#" onclick="window.history.back()" title="<?=_t('이전')?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?=_t('이전')?>" /></a>
+    <a href="#" onclick="next(); return false;" title="<?=_t('다음')?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?=_t('다음')?>" /></a>
   </div>
   </div>
 <?
@@ -302,15 +302,15 @@ function checkStep($step, $check = true) {
   <input type="hidden" name="dbPassword" value="<?=(isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '')?>" />
   <input type="hidden" name="dbPrefix" value="<?=(isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : '')?>" />
   <div id="inner">
-    <h2><span class="step">4단계</span> : 설치 요구 사항을 확인하고 있습니다. </h2>
+    <h2><span class="step"><?=_f('%1단계', 4)?></span> : <?=_t('설치 요구 사항을 확인하고 있습니다.')?> </h2>
     <div id="content-box">
-    <h3>환경</h3>
+    <h3><?=_t('환경')?></h3>
     <ul>
-      <li>하드웨어: <?=@exec('uname -mp')?></li>
-      <li>운영체제: <?=@exec('uname -sir')?></li>
-      <li>웹서버: <?=$_SERVER['SERVER_SOFTWARE']?> <?=$_SERVER['SERVER_SIGNATURE']?></li>
-      <li>PHP 버전: <?=phpversion()?></li>
-      <li>MySQL 버전: <?=mysql_get_server_info()?></li>
+      <li><?=_t('하드웨어')?>: <?=@exec('uname -mp')?></li>
+      <li><?=_t('운영체제')?>: <?=@exec('uname -sir')?></li>
+      <li><?=_t('웹서버')?>: <?=$_SERVER['SERVER_SOFTWARE']?> <?=$_SERVER['SERVER_SIGNATURE']?></li>
+      <li><?=_t('PHP 버전')?>: <?=phpversion()?></li>
+      <li><?=_t('MySQL 버전')?>: <?=mysql_get_server_info()?></li>
     </ul>
     <h3>PHP</h3>
     <ul>
@@ -450,7 +450,7 @@ EOS;
         else {
             $error = 4;
 ?>
-                <span style="color:red">함수가 설치되어야 합니다</span>
+                <span style="color:red"><?=_t('함수가 설치되어야 합니다')?></span>
 <?
             foreach ($required as $function) {
 ?>
@@ -466,20 +466,20 @@ EOS;
         if (mysql_query('SET CHARACTER SET utf8'))
             echo '<li>Character Set: OK</li>';
         else {
-            echo '<li style="color:navy">Character Set: UTF8 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)</li>';
+            echo '<li style="color:navy">Character Set: ', _t('UTF8 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'), '</li>';
         }
         if (mysql_query('SET SESSION collation_connection = \'utf8_general_ci\''))
             echo '<li>Collation: OK</li>';
         else {
-            echo '<li style="color:navy">Collation: UTF8 General 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)</li>';
+            echo '<li style="color:navy">Collation: ', _t('UTF8 General 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'), '</li>';
         }
         if (mysql_query("CREATE TABLE {$_POST['dbPrefix']}Setup (a INT NOT NULL)")) {
             mysql_query("DROP TABLE {$_POST['dbPrefix']}Setup");
-            echo '<li>테이블 생성 권한: OK</li>';
+            echo '<li>', _t('테이블 생성 권한'), ': OK</li>';
         }
         else {
             $error = 6;
-            echo '<li style="color:red">테이블 생성 권한: 없음</li>';
+            echo '<li style="color:red">', _t('테이블 생성 권한'), ': ', _t('없음'), '</li>';
         }
 ?>
     </ul>
@@ -530,119 +530,119 @@ EOS;
 		
 		switch ($_POST['mode']) {
 			case 'install':
-				echo '<h3>새 데이터베이스 테이블</h3>';
+				echo '<h3>', _t('새 데이터베이스 테이블'), '</h3>';
 				if (count($tables) == 0) {
 					echo '<ul><li>OK</li></ul>';
 				} else {
 					$error = 7;
-					echo '<ul style="color:red">테이블이 이미 존재합니다';
+					echo '<ul style="color:red">', _t('테이블이 이미 존재합니다');
 					foreach ($tables as $table)
 						echo '<li>', $table, '</li>';
 					echo '</ul>';
 				}
 				break;
 			case 'setup':
-				echo '<h3>데이터베이스 테이블 확인</h3>';
+				echo '<h3>', _t('데이터베이스 테이블 확인'), '</h3>';
 				if ((count($tables) == 32) || ((count($tables) == 31) && !in_array('Filters', $tables))) {
 					echo '<ul><li>OK</li></ul>';
 				} else {
 					$error = 7;
-					echo '<ul style="color:red">테이블이 존재하지 않습니다';
+					echo '<ul style="color:red">', _t('테이블이 존재하지 않습니다');
 					foreach ($tables as $table)
 						echo '<li>', $table, '</li>';
 					echo '</ul>';
 				}
 		}
 ?>
-    <h3>파일 시스템 권한</h3>
+    <h3><?=_t('파일 시스템 권한')?></h3>
     <ul>
 <?
         $filename = $root . '/.htaccess';
         if (file_exists($filename)) {
             if (is_writable($filename)) {
                 if (filesize($filename))
-                    echo '<li style="color:navy">웹 설정 파일: OK (경고: "', $filename, '" 파일을 덮어 쓰게 됩니다)</li>';
+                    echo '<li style="color:navy">', _t('웹 설정 파일'), ': OK (', _t('경고'), ': ', _f('"%1" 파일을 덮어 쓰게 됩니다', $filename), ')</li>';
                 else
-                    echo '<li>웹 설정 파일: OK</li>';
+                    echo '<li>', _t('웹 설정 파일'), ': OK</li>';
             }
             else {
                 $error = 8;
-                echo '<li style="color:red">웹 설정 파일: "', $filename, '"에 접근할 수 없습니다. 퍼미션을 0666으로 수정해 주십시오.</li>';
+                echo '<li style="color:red">', _t('웹 설정 파일'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0666'), '</li>';
             }
         }
         else if (is_writable($root))
-            echo '<li>웹 설정 파일: OK</li>';
+            echo '<li>', _t('웹 설정 파일'), ': OK</li>';
         else {
             $error = 9;
-            echo '<li style="color:red">웹 설정 파일: "', $root, '"에 .htaccess 파일을 생성할 수 없습니다. "', $root, '"의 퍼미션을 0777로 수정해 주십시오.</li>';
+            echo '<li style="color:red">', _t('웹 설정 파일'), ': ', _f('"%1"에 %2 파일을 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, '.htaccess', '0777'), '</li>';
         }
         
         $filename = $root . '/config.php';
         if (file_exists($filename)) {
             if (is_writable($filename)) {
                 if (filesize($filename))
-                    echo '<li style="color:navy">설정 파일: OK (경고: "', $filename, '" 파일을 덮어 쓰게 됩니다)</li>';
+                    echo '<li style="color:navy">', _t('설정 파일'), ': OK (경고: "', $filename, '" 파일을 덮어 쓰게 됩니다)</li>';
                 else
-                    echo '<li>설정 파일: OK</li>';
+                    echo '<li>', _t('설정 파일'), ': OK</li>';
             }
             else {
                 $error = 10;
-                echo '<li style="color:red">설정 파일: "', $filename, '"에 접근할 수 없습니다. 퍼미션을 0666으로 수정해 주십시오.</li>';
+                echo '<li style="color:red">', _t('설정 파일'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0666'), '</li>';
             }
         }
         else if (is_writable($root))
-            echo '<li>설정 파일: OK</li>';
+            echo '<li>', _t('설정 파일'), ': OK</li>';
         else {
             $error = 11;
-            echo '<li style="color:red">설정 파일: "', $root, '"에 config.php 파일을 생성할 수 없습니다. "', $root, '"의 퍼미션을 0777로 수정해 주십시오.</li>';
+            echo '<li style="color:red">', _t('설정 파일'), ': ', _f('"%1"에 %2 파일을 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'config.php', '0777'), '</li>';
         }
         
         $filename = $root . '/attach';
         if (file_exists($filename)) {
             if (is_dir($filename) && is_writable($filename))
-                echo '<li>첨부 디렉토리: OK</li>';
+                echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
             else {
                 $error = 12;
-                echo '<li style="color:red">첨부 디렉토리: "', $filename, '"에 접근할 수 없습니다. 퍼미션을 0777으로 수정해 주십시오.</li>';
+                echo '<li style="color:red">', _t('첨부 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '</li>';
             }
         } else if (mkdir($filename)) {
 			@chmod($filename, 0777);
-            echo '<li>첨부 디렉토리: OK</li>';
+            echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
         } else {
             $error = 13;
-            echo '<li style="color:red">첨부 디렉토리: "', $root, '"에 attach 디렉토리를 생성할 수 없습니다. "', $root, '"의 퍼미션을 0777로 수정해 주십시오.</li>';
+            echo '<li style="color:red">', _t('첨부 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'attach', '0777'), '</li>';
         }
         
         $filename = $root . '/cache';
         if (is_dir($filename)) {
             if (is_writable($filename))
-                echo '<li>캐시 디렉토리: OK</li>';
+                echo '<li>', _t('캐시 디렉토리'), ': OK</li>';
             else {
                 $error = 12;
-                echo '<li style="color:red">캐시 디렉토리: "', $filename, '"에 접근할 수 없습니다. 퍼미션을 0777으로 수정해 주십시오.</li>';
+                echo '<li style="color:red">', _t('캐시 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '</li>';
             }
         } else if (mkdir($filename)) {
 			@chmod($filename, 0777);
-            echo '<li>캐시 디렉토리: OK</li>';
+            echo '<li>', _t('캐시 디렉토리'), ': OK</li>';
         } else {
             $error = 13;
-            echo '<li style="color:red">캐시 디렉토리: "', $root, '"에 cache 디렉토리를 생성할 수 없습니다. "', $root, '"의 퍼미션을 0777로 수정해 주십시오.</li>';
+            echo '<li style="color:red">', _t('캐시 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'cache', '0777'), '</li>';
         }
         
         $filename = $root . '/skin/customize';
         if (is_dir($filename)) {
             if (is_writable($filename))
-                echo '<li>스킨 디렉토리: OK</li>';
+                echo '<li>', _t('스킨 디렉토리'), ': OK</li>';
             else {
                 $error = 14;
-                echo '<li style="color:red">스킨 디렉토리: "', $filename, '"에 접근할 수 없습니다. 퍼미션을 0777으로 수정해 주십시오.</li>';
+                echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '</li>';
             }
         } else if (mkdir($filename)) {
 			@chmod($filename, 0777);
-            echo '<li>스킨 디렉토리: OK</li>';
+            echo '<li>', _t('스킨 디렉토리'), ': OK</li>';
         } else {
             $error = 15;
-            echo '<li style="color:red">스킨 디렉토리: "', $root, '/skin"에 customize 디렉토리를 생성할 수 없습니다. "', $root, '/skin"의 퍼미션을 0777로 수정해 주십시오.</li>';
+            echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', "$root/skin", 'customize', '0777'), '</li>';
         }
 ?>
     </ul>
@@ -650,22 +650,22 @@ EOS;
         if ($step == 33) {
             $error = 16;
 ?>
-    <h3>Apache Rewrite Engine</h3>
+    <h3><?=_t('Apache Rewrite Engine')?></h3>
     <ul style="color:red">
-      <li>Rewrite를 사용할 수 없습니다.<br /><span style="color:black">다음 항목을 확인하십시오.</span></li>
+      <li><?=_t('Rewrite를 사용할 수 없습니다.')?><br /><span style="color:black"><?=_t('다음 항목을 확인하십시오.')?></span></li>
       <ol style="color:blue">
-        <li>웹서버 설정에 <b>mod_rewrite</b>의 로딩이 포함되어야 합니다.<br />
-          <samp>예: LoadModule <b>rewrite_module</b> modules/<b>mod_rewrite</b>.so</samp>
+        <li><?=_t('웹서버 설정에 <b>mod_rewrite</b>의 로딩이 포함되어야 합니다.')?><br />
+          <samp><?=_t('예')?>: LoadModule <b>rewrite_module</b> modules/<b>mod_rewrite</b>.so</samp>
         </li>
-        <li>웹서버 설정의 이 디렉토리에 대한 <em>Options</em> 항목에 <b>FollowSymLinks</b>가 포함되거나 <b>All</b>이어야 합니다.
-          <samp><br />예: Options <b>FollowSymLinks</b></samp>
-          <samp><br />예: Options <b>All</b></samp>
+        <li><?=_t('웹서버 설정의 이 디렉토리에 대한 <em>Options</em> 항목에 <b>FollowSymLinks</b>가 포함되거나 <b>All</b>이어야 합니다.')?>
+          <samp><br /><?=_t('예')?>: Options <b>FollowSymLinks</b></samp>
+          <samp><br /><?=_t('예')?>: Options <b>All</b></samp>
         </li>
-        <li>웹서버 설정의 이 디렉토리에 대한 <em>AllowOverride</em> 항목에 <b>FileInfo</b>가 포함되거나 <b>All</b>이어야 합니다.
-          <samp><br />예: AllowOverride <b>FileInfo</b></samp>
-          <samp><br />예: AllowOverride <b>All</b></samp>
+        <li><?=_t('웹서버 설정의 이 디렉토리에 대한 <em>AllowOverride</em> 항목에 <b>FileInfo</b>가 포함되거나 <b>All</b>이어야 합니다.')?>
+          <samp><br /><?=_t('예')?>: AllowOverride <b>FileInfo</b></samp>
+          <samp><br /><?=_t('예')?>: AllowOverride <b>All</b></samp>
         </li>
-        <li><b>위 2와 3의 문제는 아래 내용을 웹서버 설정에 포함시켜 해결할 수 있습니다.</b>
+        <li><b><?=_t('위 2와 3의 문제는 아래 내용을 웹서버 설정에 포함시켜 해결할 수 있습니다.')?></b>
           <samp style="color:black"><br />
           &lt;Directory &quot;<?=$root?>&quot;&gt;<br />
           &nbsp;&nbsp;Options FollowSymLinks<br />
@@ -680,8 +680,8 @@ EOS;
 ?>
   </div>
   <div id="navigation">
-    <a href="#" onclick="window.history.back()" title="이전"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="이전" /></a>
-    <a href="#" onclick="next(); return false;" title="다음"><img src="style/setup/icon_next.gif" width="74" height="24" alt="다음" /></a>
+    <a href="#" onclick="window.history.back()" title="<?=_t('이전')?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?=_t('이전')?>" /></a>
+    <a href="#" onclick="next(); return false;" title="<?=_t('다음')?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?=_t('다음')?>" /></a>
   </div>
   </div>
   <input type="hidden" name="checked" value="<?=($error ? '' : 'checked')?>" />
@@ -702,16 +702,16 @@ EOS;
         fwrite($fp,
 "RewriteEngine On
 RewriteBase $path/
-RewriteRule ^test$ setup.php [L]"
+RewriteRule ^testrewrite$ setup.php [L]"
         );
         fclose($fp);
 		@chmod($filename, 0666);
         
-        if (testMyself(substr(getFingerPrint(), 0, 6) . substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')), $path . '/test?test=now', $_SERVER['SERVER_PORT']))
+        if (testMyself(substr(getFingerPrint(), 0, 6) . substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')), $path . '/testrewrite?test=now', $_SERVER['SERVER_PORT']))
             $rewrite = 3;
-        else if (testMyself(substr(getFingerPrint(), 0, 6) . '.' . $_SERVER['HTTP_HOST'], $path . '/test?test=now', $_SERVER['SERVER_PORT']))
+        else if (testMyself(substr(getFingerPrint(), 0, 6) . '.' . $_SERVER['HTTP_HOST'], $path . '/testrewrite?test=now', $_SERVER['SERVER_PORT']))
             $rewrite = 2;
-        else if (testMyself($_SERVER['HTTP_HOST'], $path . '/test?test=now', $_SERVER['SERVER_PORT']))
+        else if (testMyself($_SERVER['HTTP_HOST'], $path . '/testrewrite?test=now', $_SERVER['SERVER_PORT']))
             $rewrite = 1;
         else {
             $rewrite = 0;
@@ -730,37 +730,37 @@ RewriteRule ^test$ setup.php [L]"
   <input type="hidden" name="checked" value="<?=(isset($_POST['checked']) ? $_POST['checked'] : '')?>" />
   <input type="hidden" name="domain" value="<?=$domain?>" />
   <div id="inner">
-  <h2><span class="step"><?=$step?>단계</span> : 사용 가능한 운영 방법은 다음과 같습니다. 선택하여 주십시오.</h2>
+  <h2><span class="step"><?=_f('%1단계', $step)?></span> : <?=_t('사용 가능한 운영 방법은 다음과 같습니다. 선택하여 주십시오.')?></h2>
   <div id="userinput">
     <table class="inputs">
 <?
         if ($rewrite >= 1) {
 ?>
       <tr>
-        <th width="120"><strong>다중 사용자 : </strong></th>
+        <th width="120"><strong><?=_t('다중 사용자')?> : </strong></th>
         <td>
 <?
             if ($rewrite >= 2) {
 ?>
         <label for="type1"><input type="radio" id="type1" name="type" value="domain" checked="checked" onclick="show('typeDomain')" />
-                      도메인네임(DNS)으로 블로그 식별</label>
+                      <?=_t('도메인네임(DNS)으로 블로그 식별')?></label>
         <br />
 <?
             }
 ?>
         <label for="type2"><input type="radio" id="type2" name="type" value="path"<?=($rewrite == 1 ? ' checked="checked"' : '')?> onclick="show('typePath')" />
-        하위 경로(Path)로 블로그 식별</label></td>
+        <?=_t('하위 경로(Path)로 블로그 식별')?></label></td>
       </tr>
       <tr>
-        <th style="padding-top:10px"><strong>단일 사용자 : </strong></th>
+        <th style="padding-top:10px"><strong><?=_t('단일 사용자')?> : </strong></th>
         <td style="padding-top:10px">
-          <label for="type3"><input type="radio" id="type3" name="type" value="single" onclick="show('typeSingle')" /> 단일 블로그</label></td>
+          <label for="type3"><input type="radio" id="type3" name="type" value="single" onclick="show('typeSingle')" /><?=_t('단일 블로그')?></label></td>
       </tr>
 <?
         }
 ?>
       <tr>
-        <th style="padding-top:20px">블로그 주소 예</th>
+        <th style="padding-top:20px"><?=_t('블로그 주소 예')?></th>
         <td style="padding-top:20px; height:100px">
         <ul id="typeDomain"<?=($rewrite >= 2 ? '' : ' style="display:none"')?>>
           <li>http://<b>blog1</b>.<?=$domain?><?=($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}")?><?=$path?>/</li>
@@ -778,8 +778,8 @@ RewriteRule ^test$ setup.php [L]"
     </table>
   </div>
   <div id="navigation">
-    <a href="#" onclick="window.history.back()" title="이전"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="이전" /></a>
-    <a href="#" onclick="next(); return false;" title="다음"><img src="style/setup/icon_next.gif" width="74" height="24" alt="다음" /></a>
+    <a href="#" onclick="window.history.back()" title="<?=_t('이전')?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?=_t('이전')?>" /></a>
+    <a href="#" onclick="next(); return false;" title="<?=_t('다음')?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?=_t('다음')?>" /></a>
   </div>
   </div>
 <?
@@ -821,35 +821,35 @@ RewriteRule ^test$ setup.php [L]"
   <input type="hidden" name="domain" value="<?=(isset($_POST['domain']) ? $_POST['domain'] : '')?>" />
   <input type="hidden" name="type" value="<?=(isset($_POST['type']) ? $_POST['type'] : '')?>" />
   <div id="inner">
-    <h2><span class="step"><?=$step?>단계</span> : 관리자 정보 입력 </h2>
+    <h2><span class="step"><?=_f('%1단계', $step)?></span> : <?=_t('관리자 정보 입력')?></h2>
     <div id="userinput">
       <table class="inputs">
         <tr>
-          <th style="width:100px">이메일 : </th>
+          <th style="width:100px"><?=_t('이메일')?> : </th>
           <td>
             <input type="text" name="email" value="<?=(isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '')?>" class="input_email"<?=($check && (empty($_POST['email']) || ($error == 51)) ? ' style="border-color:red"' : '')?> />
           </td>
         </tr>
         <tr>
-          <th>비밀번호 : </th>
+          <th><?=_t('비밀번호')?> : </th>
           <td>
             <input type="password" name="password" value="<?=(isset($_POST['password']) ? htmlspecialchars($_POST['password']) : '')?>" class="input_password"<?=($check && empty($_POST['password']) ? ' style="border-color:red"' : '')?> />
           </td>
         </tr>
         <tr>
-          <th>비밀번호 확인: </th>
+          <th><?=_t('비밀번호 확인')?> : </th>
           <td>
             <input type="password" name="password2" value="<?=(isset($_POST['password2']) ? htmlspecialchars($_POST['password2']) : '')?>" class="input_password"<?=($check && empty($_POST['password2']) ? ' style="border-color:red"' : '')?> />
           </td>
         </tr>
         <tr>
-          <th>블로그 식별자 : </th>
+          <th><?=_t('블로그 식별자')?> : </th>
           <td>
             <input type="text" name="blog" value="<?=(isset($_POST['blog']) ? htmlspecialchars($_POST['blog']) : '')?>" class="input_password"<?=($check && (empty($_POST['blog']) || ($error == 53)) ? ' style="border-color:red"' : '')?> />
           </td>
         </tr>
         <tr>
-          <th>필명 : </th>
+          <th><?=_t('필명')?> : </th>
           <td>
             <input type="text" name="name" value="<?=(isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '')?>" class="input_password" />
           </td>
@@ -857,20 +857,20 @@ RewriteRule ^test$ setup.php [L]"
       </table>
       <div id="warning"><?
         if ($error == 51)
-            echo '이메일이 올바르지 않습니다.';
+            echo _t('이메일이 올바르지 않습니다.');
         else if ($error == 52)
-            echo '비밀번호가 일치하지 않습니다.';
+            echo _t('비밀번호가 일치하지 않습니다.');
         else if ($error == 53)
-            echo '블로그 식별자가 올바르지 않습니다.';
+            echo _t('블로그 식별자가 올바르지 않습니다.');
         else if ($check)
-            echo '표시된 정보가 부족합니다.';
+            echo _t('표시된 정보가 부족합니다.');
         else
             echo '&nbsp;';
 ?></div>
     </div>
   <div id="navigation">
-    <a href="#" onclick="window.history.back()" title="이전"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="이전" /></a>
-    <a href="#" onclick="next(); return false;" title="다음"><img src="style/setup/icon_next.gif" width="74" height="24" alt="다음" /></a>
+    <a href="#" onclick="window.history.back()" title="<?=_t('이전')?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?=_t('이전')?>" /></a>
+    <a href="#" onclick="next(); return false;" title="<?=_t('다음')?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?=_t('다음')?>" /></a>
   </div>
   </div>
 <?
@@ -892,7 +892,7 @@ RewriteRule ^test$ setup.php [L]"
   <input type="hidden" name="type" value="<?=(isset($_POST['type']) ? $_POST['type'] : '')?>" />
   <input type="hidden" name="blog" value="<?=(isset($_POST['blog']) ? $_POST['blog'] : '')?>" />
   <div id="inner">
-    <h2><span class="step"><?=$step?>단계</span> : 데이터베이스를 준비하고 있습니다. 잠시만 기다려 주십시오.</h2>
+    <h2><span class="step"><?=_f('%1단계', $step)?></span> : <?=_t('데이터베이스를 준비하고 있습니다. 잠시만 기다려 주십시오.')?></h2>
     <div id="content-box" style="text-align:center">
 	<p></p>
     </div>
@@ -953,7 +953,7 @@ CREATE TABLE {$_POST['dbPrefix']}BlogSettings (
   allowWriteOnGuestbook int(1) NOT NULL default '1',
   allowWriteDoubleCommentOnGuestbook char(1) NOT NULL default '1',
   language varchar(2) NOT NULL default 'ko',
-  timezone int(11) NOT NULL default '32400',
+  timezone VARCHAR(32) NOT NULL DEFAULT 'GMT',
   PRIMARY KEY  (owner),
   UNIQUE KEY name (name)
 ) $charset;
@@ -1305,7 +1305,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
 							{$_POST['dbPrefix']}Trackbacks,
 							{$_POST['dbPrefix']}Users"
 					);
-					echo '<script type="text/javascript">alert("테이블을 생성하지 못했습니다.")</script>';
+					echo '<script type="text/javascript">alert("', _t('테이블을 생성하지 못했습니다.'), '")</script>';
 					$error = 1;
 					break;
 				}
@@ -1320,7 +1320,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
                 if (!mysql_query($sub)) {
-					echo '<script type="text/javascript">alert("정보를 갱신하지 못했습니다.")</script>';
+					echo '<script type="text/javascript">alert("', _t('정보를 갱신하지 못했습니다.'), '")</script>';
 					$error = 2;
 					break;
 				}
@@ -1424,22 +1424,22 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
         }
 ?>
   <div id="inner">
-    <h2><span class="step">설치완료</span> : 테터툴즈가 성공적으로 설치되었습니다. </h2>
+    <h2><span class="step"><?=_t('설치완료')?></span> : <?=_t('테터툴즈가 성공적으로 설치되었습니다.')?></h2>
     <div id="content-box">
       <p>
         
       </p>
       <ul>
-        <li>태터툴즈 주소 <br />
+        <li><?=_t('태터툴즈 주소')?><br />
           <a href="<?=$blogURL?>/"><?=$blogURL?>/</a><br />
           <br />
         </li>
-        <li>태터툴즈 관리 툴 주소<br />
+        <li><?=_t('태터툴즈 관리 툴 주소')?><br />
           <a href="<?=$blogURL?>/owner"><?=$blogURL?>/owner</a></li>
       </ul>
       <p>
-        태터툴즈 관리 툴로 로그인 하신 후 필요사항을 수정해 주세요.<br />
-        태터툴즈를 이용해 주셔서 감사합니다.
+        <?=_t('태터툴즈 관리 툴로 로그인 하신 후 필요사항을 수정해 주세요.')?><br />
+        <?=_t('태터툴즈를 이용해 주셔서 감사합니다.')?>
       </p>
     </div>
   </div>
@@ -1454,13 +1454,13 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
   <input type="hidden" name="dbUser" value="<?=(isset($_POST['dbUser']) ? $_POST['dbUser'] : '')?>" />
   <input type="hidden" name="dbPassword" value="<?=(isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '')?>" />
   <div id="inner">
-    <h2><span class="step">4단계</span> : 삭제하고자 하는 테이블을 선택하여 주십시오.</h2>
+    <h2><span class="step"><?=_f('%1단계', 4)?></span> : <?=_t('삭제하고자 하는 테이블을 선택하여 주십시오.')?></h2>
     <div id="userinput">
     <table id="info">
       <tr>
-        <th>식별자</th>
-        <th>버전</th>
-        <th>테이블</th>
+        <th><?=_t('식별자')?></th>
+        <th><?=_t('버전')?></th>
+        <th><?=_t('테이블')?></th>
  	    <th></th>
      </tr>
 <?
@@ -1490,7 +1490,7 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
 ?>
       <tr>
         <th><?=$prefix?></th>
-        <th>1.0 베타 2</th>
+        <th>1.0 Beta 2</th>
         <td><?=implode(', ', getTables('1.0.b2', $prefix))?></td>
 	    <th><input type="radio" name="target" value="1.0.b2_<?=$prefix?>" /></th>
       </tr>
@@ -1499,7 +1499,7 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
 ?>
       <tr>
         <th><?=$prefix?></th>
-        <th>0.97 (클래식)</th>
+        <th>0.97 (Classic)</th>
         <td><?=implode(', ', getTables('0.97', $prefix))?></td>
 	    <th><input type="radio" name="target" value="0.97_<?=$prefix?>" /></th>
       </tr>
@@ -1520,8 +1520,8 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
     </table>
     </div>
   <div id="navigation">
-    <a href="#" onclick="window.history.back()" title="이전"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="이전" /></a>
-    <a href="#" onclick="if (confirm('삭제하시겠습니까?') && confirm('정말 삭제하시겠습니까?'))next(); return false;" title="다음"><img src="style/setup/icon_next.gif" width="74" height="24" alt="다음" /></a>
+    <a href="#" onclick="window.history.back()" title="<?=_t('이전')?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?=_t('이전')?>" /></a>
+    <a href="#" onclick="if (confirm('<?=_t('삭제하시겠습니까?')?>') && confirm('<?=_t('정말 삭제하시겠습니까?')?>')) next(); return false;" title="<?=_t('다음')?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?=_t('다음')?>" /></a>
   </div>
   </div>
 <?
@@ -1530,13 +1530,13 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
 ?>
   <input type="hidden" name="step" value="1" />
   <div id="inner">
-    <h2><span class="step">5단계</span> : 선택된 테이블을 삭제하고 있습니다.</h2>
+    <h2><span class="step"><?=_f('%1단계', 5)?></span> : <?=_t('선택된 테이블을 삭제하고 있습니다.')?></h2>
     <div id="userinput">
     <table id="info">
       <tr>
-        <th>식별자</th>
-        <th>버전</th>
-        <th>테이블</th>
+        <th><?=_t('식별자')?></th>
+        <th><?=_t('버전')?></th>
+        <th><?=_t('테이블')?></th>
      </tr>
 <?
 		list($version, $prefix) = explode('_', $_POST['target'], 2);
@@ -1553,11 +1553,11 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
 		}
 ?>
     </table>
-	<p><?=($result ? '삭제하였습니다' : '<span style="color:red">삭제하지 못 했습니다</span>')?></p>
+	<p><?=($result ? _t('삭제하였습니다') : '<span style="color:red">' . _t('삭제하지 못 했습니다') . '</span>')?></p>
     </div>
   <div id="navigation">
-    <a href="#" onclick="window.history.back()" title="이전"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="이전" /></a>
-    <a href="#" onclick="next(); return false;" title="다음"><img src="style/setup/icon_next.gif" width="74" height="24" alt="다음" /></a>
+    <a href="#" onclick="window.history.back()" title="<?=_t('이전')?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?=_t('이전')?>" /></a>
+    <a href="#" onclick="next(); return false;" title="<?=_t('다음')?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?=_t('다음')?>" /></a>
   </div>
   </div>
 <?
