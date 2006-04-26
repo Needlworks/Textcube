@@ -2,14 +2,22 @@
 if (isset($list)) {
 	$listView = $skin->list;
 	$itemsView = '';
-	foreach ($list['items'] as $item) {
-		$itemView = $skin->listItem;
-		dress('list_rep_regdate', Timestamp::format3($item['published']), $itemView);
-		dress('list_rep_link', "$blogURL/" . ($blog['useSlogan'] ? "entry/{$item['slogan']}" : $item['id']), $itemView);
-		dress('list_rep_title', htmlspecialchars($item['title']), $itemView);
-		if ($item['comments'] > 0)
-			dress('list_rep_rp_cnt', "({$item['comments']})", $itemView);
-		$itemsView .= $itemView;
+	foreach ($list['items'] as $item) {	
+		$itemsView .= str_replace(
+			array(
+				'[##_list_rep_regdate_##]',
+				'[##_list_rep_link_##]',
+				'[##_list_rep_title_##]',
+				'[##_list_rep_rp_cnt_##]'
+			),
+			array(
+				Timestamp::format3($item['published']),
+				"$blogURL/" . ($blog['useSlogan'] ? "entry/{$item['slogan']}" : $item['id']),
+				htmlspecialchars($item['title']),
+				($item['comments'] > 0) ? "({$item['comments']})" : ''
+			),
+			$skin->listItem
+		);
 	}
 	dress('list_rep', $itemsView, $listView);
 	dress('list_conform', htmlspecialchars($list['title']), $listView);
