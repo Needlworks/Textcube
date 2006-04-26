@@ -15,10 +15,11 @@ $service['type'] = 'single';
 $service['domain'] = '';
 $service['path'] = '';
 $service['language'] = 'ko';
-$service['timezone'] = 'UTC';
+$service['timezone'] = 'GMT';
 $service['encoding'] = 'EUC-KR';
 $service['umask'] = 0;
 $service['skin'] = 'Tattertools_skyline_ko';
+ini_set('session.use_trans_sid', '0');
 if (get_magic_quotes_gpc()) {
 	foreach ($_GET as $key => $value)
 		$_GET[$key] = stripslashes($value);
