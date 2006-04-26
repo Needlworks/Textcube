@@ -106,6 +106,7 @@ function printOwnerEditorScript($entryId = false) {
 				selectAttachment();
 			}
 			refreshAttachFormSize();
+			refreshFileSize();
 		}
 		request.onError = function() {
 			alert("<?=_t('파일을 삭제하지 못했습니다')?>");
@@ -598,17 +599,26 @@ function printEntryFileList($attachments, $entryId) {
 				
 				function refreshAttachList() {
 					var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/attachmulti/refresh<?=($entryId ? "/$entryId" : '/0')?>");
-					request.onVerify = function () { return true }
+					request.onVerify = function () { 
+						STD.removeEventListener(window);
+						window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);
+						return true 
+					}
+
 					request.onSuccess = function() {
 						var fileListObj = document.getElementById("attachManagerSelect");
 						fileListObj.innerHTML = this.getText();
 						refreshAttachFormSize();
 						getUploadObj().setAttribute('width',1)
 						getUploadObj().setAttribute('height',1)
-						document.getElementById('uploadBtn').disabled=false;						
+						//document.getElementById('uploadBtn').disabled=false;						
+						document.getElementById('uploadBtn').style.display  = 'block'			
+						document.getElementById('stopUploadBtn').style.display  = 'none'			
+						refreshFileSize();
 					}
 					request.onError = function() {
 					}
+					window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);										
 					request.send();
 				}
 				
@@ -682,7 +692,7 @@ function printEntryFileList($attachments, $entryId) {
 
 				
 				function setFileList() {
-					var uploaderObj = document.getElementById("uploader");
+				
 					try {
 						list = getUploadObj().GetVariable("/:listStr");						
 					} catch(e) {
@@ -702,11 +712,16 @@ function printEntryFileList($attachments, $entryId) {
 						oOption.style.backgroundColor="#A4C3F0";
 
 						fileListObj.insertBefore(oOption,fileListObj[i]);
+						if(i == 0) {
+							newLoadItem(fileName);
+						}						
 					}
 					fileListObj.setAttribute('size',Math.max(8,Math.min(fileListObj.length,30)));
 					getUploadObj().setAttribute('width',414)
 					getUploadObj().setAttribute('height',25)
-					document.getElementById('uploadBtn').disabled=true;					
+					//document.getElementById('uploadBtn').disabled=true;		
+					document.getElementById('uploadBtn').style.display  = 'none';		
+					document.getElementById('stopUploadBtn').style.display  = 'block';
 				}
 				
 				function selectFileList(value) {
@@ -727,10 +742,11 @@ function printEntryFileList($attachments, $entryId) {
 				}
 
 				function disabledDeleteBtn() {
-					if(document.getElementById('fileList').length>0)
+					if(document.getElementById('fileList').length>0) {					
 						document.getElementById('deleteBtn').disabled = false;
-					else
+					} else {
 						document.getElementById('deleteBtn').disabled = true;
+					}
 				}
 				
 				function removeUploadList(list) {
@@ -753,6 +769,32 @@ function printEntryFileList($attachments, $entryId) {
 					getUploadObj().SetVariable('/:openBroswer','true');
 				}
 				
+				function stopUpload() {
+					getUploadObj().SetVariable('/:stopUpload','true');
+				}
+				
+				function refreshFileSize() {
+					try {
+						var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/size?owner=<?=$owner?>&parent=<?=$entryId?>");
+						request.onVerify = function () {
+							window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);
+							return true;
+						}
+						
+						request.onSuccess = function() {
+							var result = this.getText("/response/result");
+							document.getElementById('fileSize').innerHTML = result;
+						}
+						request.onError = function() {
+						}
+						STD.removeEventListener(window);
+						window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);
+						request.send();
+					} catch(e) {
+						alert(e.message);
+					}
+				}
+				
 				refreshAttachFormSize();
 			</script>
 			<script language="JavaScript" type="text/javascript">
@@ -768,7 +810,7 @@ function printEntryFileList($attachments, $entryId) {
 		<script language="JavaScript" type="text/javascript">
 		<!-- 
 		var hasRightVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
-		if(hasRightVersion && isWin) {  
+		if(hasRightVersion && isWin && isIE) {  
 		//if(<?=!empty($service['flashuploader']) ? $service['flashuploader'] : 'false'?> ) {  
 			var oeTags = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
 			+ 'width="0" height="0"'
@@ -794,7 +836,7 @@ function printEntryFileList($attachments, $entryId) {
 function printEntryFileUploadButton($entryId) {
 	global $owner, $service;
 	?>
-	<table  cellsapcing="0" cellpadding="0">
+	<table  cellsapcing="0" cellpadding="0" style="margin-top:-6px; margin-left:-4px">
 		<tr>
 			<td>
 				<table cellsapcing="0" cellpadding="0">
@@ -805,7 +847,7 @@ function printEntryFileUploadButton($entryId) {
 									<script>
 										if(getUploadObj()) {		
 											try{
-												document.write('<td><input id="uploadBtn" type="button" class="button" value="<?=_t('파일 업로드')?>" onclick="browser();" style="margin-top: 1px"/></td>');			
+												document.write('<td><input id="uploadBtn" type="button" class="button" value="<?=_t('파일 업로드')?>" onclick="browser();" style="margin-top: 1px"/><input id="stopUploadBtn" type="button" class="button" value="<?=_t('업로드 중지')?>" onclick="stopUpload();" style="margin-top: 1px; display:none"/></td>');			
 											} catch(e) {
 												
 											}								
@@ -865,6 +907,9 @@ function printEntryFileUploadButton($entryId) {
 			<td>
 		  		<input type="button" class="button" id="deleteBtn" value="<?=_t('삭제하기')?>" onclick="deleteAttachment();" style="margin-top: 1px" />
 			</td>
+			<td align="right" width="100%" valign="middle" id="fileSize">
+				<?=getAttachmentSizeLabel($owner, $entryId)?>
+			</td>			
 	  </tr>
 </table>
 	<?
@@ -1705,11 +1750,11 @@ function getAttachmentValue($attachment) {
 
 function getPrettyAttachmentLabel($attachment) {
 	if (strpos($attachment['mime'], 'image') === 0)
-				return "{$attachment['label']} ({$attachment['width']}x{$attachment['height']} / ".getSizeHumanReadable($attachment['size']).')';
+		return "{$attachment['label']} ({$attachment['width']}×{$attachment['height']} / ".getSizeHumanReadable($attachment['size']).')';
 	else if(strpos($attachment['mime'], 'audio') !== 0 && strpos($attachment['mime'], 'video') !== 0) {
 		if ($attachment['downloads']>0)
 			return "{$attachment['label']} (".getSizeHumanReadable($attachment['size']).' / '._t('다운로드').':'.$attachment['downloads'].')';		
 	}
-		return "{$attachment['label']} (" . getSizeHumanReadable($attachment['size']) . ')';
+	return "{$attachment['label']} (".getSizeHumanReadable($attachment['size']).')';
 }
 ?>

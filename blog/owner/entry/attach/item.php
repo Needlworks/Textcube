@@ -90,7 +90,7 @@ if (count($_FILES) == 1) {
 		oSelect.appendChild(oOption);
 		//oSelect.selectedIndex = oSelect.options.length - 1;
 		//window.parent.document.getElementById("selectedImage").src = "<?=(strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$service['path']}/attach/$owner/{$attachment['name']}" : "{$service['path']}/image/spacer.gif")?>";
-		
+			window.parent.refreshFileSize();
 		} catch(e) {
 		alert('['+e.message+']');
 	}

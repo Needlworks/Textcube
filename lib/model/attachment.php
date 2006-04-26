@@ -30,6 +30,20 @@ function getAttachmentByLabel($owner, $parent, $label) {
 	return fetchQueryRow("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent and label = '$label'");
 }
 
+function getAttachmentSize($owner=null, $parent = null) {
+	global $database;	
+	if (!empty($owner))
+		$ownerStr = "owner = $owner ";
+	if (!empty($parent))
+		$parentStr = "and parent = $parent";
+	return fetchQueryCell("select sum(size) from {$database['prefix']}Attachments where $ownerStr $parentStr");
+}
+
+function getAttachmentSizeLabel($owner=null, $parent = null) {
+	//return number_format(ceil(getAttachmentSize($owner,$parent)/1024)).' / '.number_format(ceil(getAttachmentSize($owner)/1024)).' (KByte)';
+	return number_format(ceil(getAttachmentSize($owner,$parent)/1024)).' (KByte)';
+}
+
 function addAttachment($owner, $parent, $file) {
 	global $database;
 	if (empty($file['name']) || ($file['error'] != 0))
@@ -90,6 +104,17 @@ function deleteAttachment($owner, $parent, $name) {
 	return false;
 }
 
+function deleteTotalAttachment($userid) {
+	$d = dir(ROOT."/attach/$userid");
+	while($file = $d->read()) {
+		if(is_file(ROOT."/attach/$userid/$file"))
+			unlink(ROOT."/attach/$userid/$file");
+	}
+	rmdir(ROOT."/attach/$userid/");
+	clearRSS();
+	return true;
+}
+
 function deleteAttachmentMulti($owner, $parent, $names) {
 	global $database;
 	$files = explode('!^|', $names);
@@ -108,6 +133,8 @@ function deleteAttachmentMulti($owner, $parent, $names) {
 	clearRSS();
 	return true;
 }
+
+
 
 function deleteAttachments($owner, $parent) {
 	$attachments = getAttachments($owner, $parent);
