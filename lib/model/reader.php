@@ -550,6 +550,9 @@ function updateFeed($feedRow) {
 function parseDate($str) {
 	if (empty($str))
 		return 0;
+	$time = strtotime($str);
+	if($time !== -1)
+		return $time;
 	$gmt = (substr($str, strpos($str, "GMT")) == "GMT") ? 9 : 0;
 	$str = str_replace("년 ", "-", $str);
 	$str = str_replace("월 ", "-", $str);
