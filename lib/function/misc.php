@@ -112,4 +112,10 @@ function getNumericValue($value) {
 	}
 	return $value;
 }
+
+function urlencoder($value) {
+	global $service;
+    	if ($service['useEncodedURL']) return rawurlencode($value);
+	else return $value;
+}
 ?>
