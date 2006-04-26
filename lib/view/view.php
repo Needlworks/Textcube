@@ -302,10 +302,8 @@ function getLowerView() {
 }
 
 function getScriptsOnFoot() {
-	if (!doesHaveOwnership())
-		return '';
 	ob_start();
-?>
+	?>
 	<script type="text/javascript">
 		//<![CDATA[
 		updateFeed();
