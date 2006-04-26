@@ -88,7 +88,7 @@ function sendTrackback($owner, $entryId, $url) {
 		return false;
 	$link = "$hostURL$blogURL/$entryId";
 	$title = $entry['title'];
-	$excerpt = utf8Lessen(removeAllTags(stripHTML($entry['content'])), 255);
+	$excerpt = utf8Lessen(removeAllTags(stripHTML(nl2brWithHTML($entry['content']))), 255);
 	$blogTitle = $blog['title'];
 	$blogURL = "$hostURL$blogURL/";
 	$isNeedConvert = strpos($url, '/rserver.php?') !== false || strpos($url, 'blog.naver.com') !== false || strpos($url, '.egloos.com/tb/') !== false;
