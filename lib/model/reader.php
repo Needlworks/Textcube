@@ -485,7 +485,7 @@ function saveFeedItems($feedId, $xml) {
 
 function saveFeedItem($feedId, $item) {
 	global $database;
-	if ($item['written'] > time())
+	if ($item['written'] > gmmktime() + 86400)
 		return false;
 	$tagString = implode(', ', $item['tags']);
 	$enclosureString = implode('|', $item['enclosures']);
