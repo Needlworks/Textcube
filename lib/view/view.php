@@ -1342,6 +1342,7 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 	//]]>
 	</script>
 	<?
+	return $count;
 }
 
 function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $offset) {
