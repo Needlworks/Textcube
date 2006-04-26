@@ -91,7 +91,7 @@ function addCategory($owner, $parent, $name) {
 		return false;
 	$name = mysql_escape_string($name);
 	$newPriority = fetchQueryCell("SELECT MAX(priority) FROM {$database['prefix']}Categories WHERE owner = $owner") + 1;
-	$result = mysql_query("INSERT INTO {$database['prefix']}Categories (owner, id, parent, name, priority, entries, entriesInLogin, label) VALUES ($owner, '', $parent, '$name', $newPriority, 0, 0, '$label')");
+	$result = mysql_query("INSERT INTO {$database['prefix']}Categories (owner, id, parent, name, priority, entries, entriesInLogin, label) VALUES ($owner, NULL, $parent, '$name', $newPriority, 0, 0, '$label')");
 	updateEntriesOfCategory($owner);
 	return $result ? true : false;
 }
