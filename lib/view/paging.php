@@ -3,7 +3,7 @@
 function getPagingView( & $paging, & $template, & $itemTemplate) {
 	if (($paging === false) || empty($paging['page']))
 		return '';
-	$url = htmlspecialchars(escapeURL($paging['url']));
+	$url = encodeURL($paging['url']);
 	$prefix = $paging['prefix'];
 	$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
 	ob_start();

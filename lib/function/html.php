@@ -57,10 +57,6 @@ function addProtocolSense($url, $protocol = 'http://') {
 	return ereg('^[[:alnum:]]+:', $url) ? $url : $protocol . $url;
 }
 
-function escapeURL($url) {
-	return str_replace('#', '%23', str_replace('?', '%3F', str_replace('%', '%25', $url)));
-}
-
 function str_tag_on($str) {
 	$str = str_replace("&amp;", "&", $str);
 	$str = str_replace("&lt;", "<", $str);
