@@ -11,13 +11,15 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n";
 <head>
 <title>Tattertools 1.0 Reader Feeds</title>
 <ownerName><?=htmlspecialchars($writer)?></ownerName>
-<ownerEmail></ownerEmail>
+<ownerEmail><?=User::getEmail()?></ownerEmail>
 </head>
 <body>
 <?
 foreach (getFeeds($owner) as $feed) {
+$feed['title'] = str_replace('\\\'', '\'', escapeJSInAttribute($feed['title']));
+$feed['description'] = str_replace('\\\'', '\'', escapeJSInAttribute($feed['description']));
 ?>
-<outline text="<?=escapeJSInAttribute($feed['title'])?>" description="<?=escapeJSInAttribute($feed['description'])?>" htmlUrl="<?=escapeJSInAttribute($feed['blogURL'])?>" title="<?=escapeJSInAttribute($feed['title'])?>" type="rss" version="RSS" xmlUrl="<?=escapeJSInAttribute($feed['xmlURL'])?>" />
+<outline text="<?=$feed['title']?>" description="<?=$feed['description']?>" htmlUrl="<?=escapeJSInAttribute($feed['blogURL'])?>" title="<?=$feed['title']?>" type="rss" version="RSS" xmlUrl="<?=escapeJSInAttribute($feed['xmlURL'])?>" />
 <?
 }
 ?>
