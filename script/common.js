@@ -647,7 +647,7 @@ function updateFeed()
 		catch(e) { return; }
 	}
 	http.open("GET", blogURL + "/feeder?" + (new Date()).getTime(), true);
-	http.send();
+	http.send("");
 }
 
 // obj 객체의 자식을 모두 탐색해 tagName을 가진 노드를 배열로 리턴
