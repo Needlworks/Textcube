@@ -1229,6 +1229,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 					<input id="changeGroupTitle" type="text" class="text2" style="border:1px #999 solid;height:20px; width:180px" />
 					<input type="button" value="<?=_t('수정하기')?>" style="border:1px #5788C4 solid; background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px" onclick="Reader.editGroupExecute()"/>
 					<input type="button" value="<?=_t('삭제하기')?>" style="border:1px #5788C4 solid; background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px" onclick="Reader.deleteGroup()"/>
+					<input type="button" value="<?=_t('취소하기')?>" style="border:1px #5788C4 solid; background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px" onclick="Reader.cancelEditGroup()"/>
 				</td>
 			</tr>
 		</table>
@@ -1286,6 +1287,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 					<input id="changeFeedURL" class="text2" type="text" style="border:1px #999 solid; width: 60%" disabled="disabled" /><br/>
 					<input type="button" value="<?=_t('수정하기')?>" style="border:1px #5788C4 solid;background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px;" onclick="Reader.editFeedExecute()"/>
 					<input type="button" value="<?=_t('삭제하기')?>" style="border:1px #5788C4 solid;background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px;" onclick="Reader.deleteFeed()"/>
+					<input type="button" value="<?=_t('취소하기')?>" style="border:1px #5788C4 solid;background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px;" onclick="Reader.cancelEditFeed()"/>
 				</td>
 			</tr>
 		</table>

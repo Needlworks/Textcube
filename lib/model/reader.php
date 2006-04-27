@@ -190,7 +190,7 @@ function getFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $sta
 					$condition
 				GROUP BY i.id
 				ORDER BY i.written DESC, i.id DESC";
-	$sql .= " LIMIT $offset, " . ($offset == 0 ? 100 : $offset);
+	$sql .= " LIMIT $offset, " . ($offset == 0 ? 100 : min($offset, 400));
 	return fetchQueryAll($sql);
 }
 
