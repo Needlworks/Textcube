@@ -388,7 +388,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 						      <td align="center" nowrap="nowrap" bgcolor="#D0E5F1" style="padding:5px; font-family:Verdana; font-size:11px; color:#2E5B74; font-weight:bold;"><?=_t('초대일')?></td>
 						      <td align="center" nowrap="nowrap" bgcolor="#D0E5F1" style="padding:5px; font-family:Verdana; font-size:11px; color:#2E5B74; font-weight:bold;"><?=_t('경과')?></td>
 							   <td align="center" nowrap="nowrap" bgcolor="#D0E5F1" style="padding:5px; font-family:Verdana; font-size:11px; color:#2E5B74; font-weight:bold;"><?=_t('비밀번호')?></td>
-							    <td align="center" nowrap="nowrap" bgcolor="#D0E5F1" style="padding:5px; font-family:Verdana; font-size:11px; color:#2E5B74; font-weight:bold;"><?=_t('경과')?></td>
+							    <td align="center" nowrap="nowrap" bgcolor="#D0E5F1" style="padding:5px; font-family:Verdana; font-size:11px; color:#2E5B74; font-weight:bold;"></td>
 						  </tr>
 							<tr>
 							  <td colspan="6" bgcolor="#BCD2E5"></td>
