@@ -371,6 +371,7 @@ function getRemoteFeed($url) {
 	if (empty($xml)) {
 		requireComponent('Eolin.PHP.HTTPRequest');
 		$request = new HTTPRequest($url);
+		$request->timeout = 3;
 		if (!$request->send())
 			return array(2, null, null);
 		$xml = $request->responseText;
@@ -397,7 +398,12 @@ function getRemoteFeed($url) {
 		$feed['language'] = mysql_escape_string(stripHTML($xmls->getAttribute('/feed', 'xml:lang')));
 		$feed['modified'] = time();
 	} else if ($xmls->getAttribute('/rdf:RDF', 'xmlns')) {
-		$feed['blogURL'] = mysql_escape_string(stripHTML($xmls->getAttribute('/rdf:RDF/channel/link', 'href')));
+		if($xmls->getAttribute('/rdf:RDF/channel/link', 'href')) {
+			$feed['blogURL'] = mysql_escape_string(stripHTML($xmls->getAttribute('/rdf:RDF/channel/link', 'href')));
+		} else if($xmls->getValue('/rdf:RDF/channel/link')) {
+			$feed['blogURL'] = mysql_escape_string(stripHTML($xmls->getValue('/rdf:RDF/channel/link')));
+		} else
+			$feed['blogURL'] = '';
 		$feed['title'] = mysql_escape_string(stripHTML($xmls->getValue('/rdf:RDF/channel/title')));
 		$feed['description'] = mysql_escape_string(stripHTML($xmls->getValue('/rdf:RDF/channel/description')));
 		if (!$feed['language'] = mysql_escape_string(stripHTML($xmls->getValue('/rdf:RDF/channel/dc:language'))))

@@ -1248,12 +1248,11 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 			$status = 'UpdateNo';
 ?>
 		<tr height="20" feedid="<?=$feed['id']?>">
-			<td nowrap width="25%" class="pointerCursor" onclick="Reader.selectFeed(this, <?=$feed['id']?>)"><img id="iconFeedStatus<?=$feed['id']?>" src="<?=$service['path']?>/image/owner/reader/icon<?=$status?>.gif" width="10" height="10" /> <?=$feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" target="_blank">' : ''?><?=utf8Lessen(htmlspecialchars($feed['title']), 15)?><?=$feed['blogURL'] ? '</a>' : ''?></td>
-			<td nowrap class="pointerCursor" onclick="Reader.selectFeed(this, <?=$feed['id']?>)"><?=htmlspecialchars(utf8Lessen($feed['description'], 40))?></td>
+			<td class="pointerCursor" onclick="Reader.selectFeed(this, <?=$feed['id']?>)" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"><img id="iconFeedStatus<?=$feed['id']?>" src="<?=$service['path']?>/image/owner/reader/icon<?=$status?>.gif" width="10" height="10" /> <?=$feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" target="_blank">' : ''?><strong><?=htmlspecialchars($feed['title'])?></strong><?=$feed['blogURL'] ? '</a>' : ''?> <span style="color: #888" title="<?=escapeJSInAttribute($feed['description'])?>"><?=$feed['description']?'| ':''?><?=htmlspecialchars($feed['description'])?></span></td>
 			<td align="right" width="30"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/btnModify.gif" onclick="Reader.editFeed(<?=$feed['id']?>, '<?=htmlspecialchars($feed['xmlURL'])?>')"/></td>
 		</tr>
 		<tr height="1">
-			<td colspan="3" background="<?=$service['path']?>/image/owner/reader/dotline.gif"></td>
+			<td colspan="2" background="<?=$service['path']?>/image/owner/reader/dotline.gif"></td>
 		</tr>
 		<?
 	}
