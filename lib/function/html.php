@@ -1,21 +1,22 @@
 <?
 
 function stripHTML($text, $allowTags = array()) {
-	$text = eregi_replace('<script[^>]*>([^<]|<[^/]|</[^s]|</s[^c])*</script>', '', $text);
-	$text = eregi_replace('<style[^>]*>([^<]|<[^/]|</[^s]|</s[^t])*</style>', '', $text);
-	if (count($allowTags) == 0)
-		$text = ereg_replace('<[[:alpha:]/!][^>]*>', '', $text);
+	$text = preg_replace('/<(script|style)[^>]*>.*?<\/\1>/i', '', $text);
+	if(count($allowTags) == 0)
+		$text = preg_replace('/<[\w\/!]+[^>]*>/', '', $text);
 	else {
-		preg_match_all('/<\/?([[:alpha:]]+)[^>]*?>/s', $text, $matches);
-		for ($i = 0; $i < count($matches[0]); $i++) {
+		preg_match_all('/<\/?([\w!]+)[^>]*?>/s', $text, $matches);
+		for($i=0; $i<count($matches[0]); $i++) {
 			if (!in_array(strtolower($matches[1][$i]), $allowTags))
 				$text = str_replace($matches[0][$i], '', $text);
 		}
 	}
-	$text = ereg_replace('&nbsp;', ' ', $text);
-	$text = ereg_replace('[[:space:]]+', ' ', $text);
-	if (!empty($text))
-		$text = html_entity_decode($text);
+	$text = preg_replace('/&nbsp;?/', ' ', $text);
+	$text = trim(preg_replace('/\s+/', ' ', $text));
+	if(!empty($text)) {
+		$text = preg_replace('/&apos;?/', '\'', $text);
+		$text = html_entity_decode($text, ENT_QUOTES);
+	}
 	return $text;
 }
 
