@@ -2,7 +2,8 @@
 /* 반드시 들어가야 하는 스타일 시작 */
 /* 1. 본문 전체  */
 body, td, input, textarea {
-	font: 12px/1.5 Dotum, Verdana, AppleGothic, Sans-serif;
+	background: white;
+	font: 12px/1.5 Dotum, Verdana, AppleGothic, sans-serif;
 	color : #666;
 }
 /* 2. 기본 링크 */
@@ -178,7 +179,7 @@ display:none;
 	list-style:none;	
 	}
 #sidebar .name {
-	font:11px dotum;
+	font:11px Dotum, sans-serif;
 	color:#999;
 }
 #sidebar .date {
@@ -186,11 +187,11 @@ display:none;
 	color:#999;	
 }	
 #sidebar .cnt {
-	font :10px Tahoma;
+	font :10px Tahoma, sans-serif;
 	color:#333;
 }
 #sidebar h3 {
-	font:12px Tahoma;
+	font:12px Tahoma, sans-serif;
 	font-weight:bold;
 	background:#eee;
 	border-top:1px solid #ccc;
@@ -247,7 +248,7 @@ padding-left:38px;
 #sidebar .search .submit{
 	border:1px solid #999;
 	background-color:#ddd;
-	font:11px Verdana;
+	font:11px Verdana, sans-serif;
 	color:#222;
 	width:50px;	
 }
@@ -299,8 +300,8 @@ padding-left:38px;
   }	
 #sidebar .tagbox a:hover{
 	background-color:#cce5ff;
-  color:#000;
-  }	
+	color:#000;
+}	
 /* recent posts, recent comment, recent trackback, archive, link */
 #sidebar .listbox {
 	padding:5px 0;
@@ -319,7 +320,7 @@ padding-left:38px;
 	background-color:#eee;
 	padding:5px 0;
 	text-align:center;
-	font:10px verdana;
+	font:10px Verdana, sans-serif;
 }
 #sidebar .ad{
 	text-align:center;
@@ -356,11 +357,11 @@ padding-left:38px;
 	letter-spacing:-1px;
 }
 #content .cnt {
-	font:10px Verdana;
+	font:10px Verdana, sans-serif;
 	color:#666;
 }
 #content .date {
-	font:10px Verdana;
+	font:10px Verdana, sans-serif;
 	letter-spacing:-1px;	
 	color:#666;	
 }
@@ -452,7 +453,7 @@ padding-left:38px;
 	color:#333;
 }
 .guestbook .write label{
-	font:10px Verdana;
+	font:10px Verdana, sans-serif;
 }
 .guestbook .write textarea{
 	width:98%;
@@ -483,7 +484,7 @@ padding-left:38px;
 	background:url("images/icon_homepage.gif") no-repeat top right;
 }
 .guestbook .control a{
-	font:9px tahoma;
+	font:9px Tahoma, sans-serif;
 	background:url("images/iconControl.gif") no-repeat center right;	
 	padding-right:10px;
 	color:#999;
@@ -510,7 +511,7 @@ padding-left:38px;
 }
 .entry_protected input {
 	border:1px solid #999;
-	font:10px Tahoma;
+	font:10px Tahoma, sans-serif;
 }
 .entry_protected .submit {
 	border:1px solid #bbb;
@@ -554,7 +555,7 @@ padding-left:38px;
 	padding:5px;
 }
 .entry .tagtext{
-	font:9px verdana;
+	font:9px Verdana, sans-serif;
 	font-weight:bold;
 	background-color:#369;
 	color:#fff;
@@ -566,22 +567,22 @@ padding-left:38px;
 	border-top:1px dotted #ccc;
 	border-bottom:1px solid #999;
 	padding:7px 8px;
-	font:11px verdana;
+	font:11px Verdana, sans-serif;
 }
 .entry .tbrp_box .cnt{
-	font:10px verdana;
+	font:10px Verdana, sans-serif;
 	color:#666;
 }
 /* entry trackback */
 .entry .trackback {
-	font-family:verdana, dotum;
+	font-family:Verdana, Dotum, sans-serif;
 	background-color:#f5f5f5;
 	padding:10px;
 	margin-bottom:4px;
 }	
 .entry .trackback .add {
 	margin:5px;
-	font:11px Verdana;
+	font:11px Verdana, sans-serif;
 	color:#333;
 }	
 .entry  .trackback li{
@@ -589,7 +590,7 @@ padding-left:38px;
 	padding:10px 0;
 }
 .entry .trackback h4{
-	font:12px Verdana;
+	font:12px Verdana, sans-serif;
 	font-weight:normal;
 	margin:0;
 }
@@ -611,7 +612,7 @@ padding-left:38px;
 	background-color:#f5f5f5;
 }
 .entry .control a{
-	font:9px tahoma;
+	font:9px Tahoma, sans-serif;
 	background:url("images/iconControl.gif") no-repeat center right;	
 	padding-right:8px;
 	color:#999;
@@ -643,7 +644,7 @@ padding-left:38px;
 	color:#333;
 }
 .comment .write label{
-	font:10px Verdana;
+	font:10px Verdana, sans-serif;
 }
 .comment .write textarea{
 	width:98%;
@@ -662,12 +663,12 @@ padding-left:38px;
 .paging{
 	padding-top:10px;
 	text-align:center;
-	font:10px Tahoma;
+	font:10px Tahoma, sans-serif;
 }
 
 /* footer */
 #footer {
 	text-align:center;
 	padding:50px 10px 10px 10px;
-	font:11px Verdana, dotum;
+	font:11px Verdana, Dotum, sans-serif;
 }
