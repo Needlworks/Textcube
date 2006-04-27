@@ -346,7 +346,7 @@ class Timezone {
 	/*@static@*/
 	function set($timezone) {
 		if (@strncmp($_ENV['OS'], 'Windows', 7) == 0)
-			$timezone = Timezone::getAlternative();
+			$timezone = Timezone::getAlternative($timezone);
 			
 		return putenv('TZ=' . $timezone);
 	}
@@ -397,7 +397,7 @@ class Timezone {
 	}
 
 	/*@static@*/
-	function getAlternative() {	
+	function getAlternative($timezone) {	
 		switch ($timezone) {
 			case 'Asia/Seoul':
 				return 'KST-9';
