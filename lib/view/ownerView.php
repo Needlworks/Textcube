@@ -94,12 +94,10 @@ function printOwnerEditorScript($entryId = false) {
 		}
 
 		var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/detach/multi<?=($entryId ? "/$entryId" : '/0')?>");
-		request.onVerify = function () { 
-			window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);						
+		request.onVerify = function () { 			
 			return true 
 		}
 		request.onSuccess = function() {
-			window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);							
 			for(var i=deleteFileList.length-1; i>=0; i--) {
 				fileList.remove(deleteFileList[i]);	
 			}
@@ -116,8 +114,6 @@ function printOwnerEditorScript($entryId = false) {
 		request.onError = function() {
 			alert("<?=_t('파일을 삭제하지 못했습니다')?>");
 		}
-		STD.removeEventListener(window);
-		window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);
 		request.send("names="+targetStr);
 	}
 	
@@ -594,6 +590,32 @@ function printEntryFileList($attachments, $entryId) {
 			<tr>
 				<td>			
 		    <script type="text/javascript">
+
+				function disablePageManager() {
+					try {
+						pageHolding  = entryManager.pageHolder.isHolding;
+						entryManager.pageHolder.isHolding = function () {
+							return false;
+						}
+						STD.removeEventListener(window);					
+						window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);					
+					} catch(e) {
+						alert(e.message);
+					}
+				}
+				
+				function enablePageManager() {
+					try {
+						entryManager.pageHolder.isHolding = pageHolding ;
+						STD.removeEventListener(window);
+						window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);				
+					} catch(e) {
+						alert(e.message);					
+					}
+					
+				}
+
+		    
 				function stripLabelToValue(fileLabel) {
 					var pos = fileLabel.lastIndexOf('(');
 					return fileLabel.substring(0,pos-1);	
@@ -607,7 +629,6 @@ function printEntryFileList($attachments, $entryId) {
 				function refreshAttachList() {
 					var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/attachmulti/refresh<?=($entryId ? "/$entryId" : '/0')?>");
 					request.onVerify = function () { 
-						window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);						
 						return true 
 					}
 
@@ -621,11 +642,10 @@ function printEntryFileList($attachments, $entryId) {
 						document.getElementById('uploadBtn').style.display  = 'block'			
 						document.getElementById('stopUploadBtn').style.display  = 'none'			
 						refreshFileSize();
+						setTimeout("enablePageManager()", 2000);						
 					}
 					request.onError = function() {
 					}
-					STD.removeEventListener(window);
-					window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);										
 					request.send();
 				}
 				
@@ -703,7 +723,7 @@ function printEntryFileList($attachments, $entryId) {
 					try {
 						list = getUploadObj().GetVariable("/:listStr");						
 					} catch(e) {
-						
+						alert(e.message);						
 					}
 					var fileListObj = document.getElementById("fileList");										
 					var listTemp = list.split("!^|");					
@@ -773,6 +793,7 @@ function printEntryFileList($attachments, $entryId) {
 				}
 
 				function browser() {
+					disablePageManager();				
 					getUploadObj().SetVariable('/:openBroswer','true');
 				}
 				
@@ -784,7 +805,6 @@ function printEntryFileList($attachments, $entryId) {
 					try {
 						var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/size?owner=<?=$owner?>&parent=<?=$entryId?>");
 						request.onVerify = function () {
-							window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);
 							return true;
 						}
 						
@@ -794,8 +814,6 @@ function printEntryFileList($attachments, $entryId) {
 						}
 						request.onError = function() {
 						}
-						STD.removeEventListener(window);
-						window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);
 						request.send();
 					} catch(e) {
 						alert(e.message);
@@ -812,7 +830,7 @@ function printEntryFileList($attachments, $entryId) {
 			</script>			
 <?
 	require_once ROOT . '/script/detectFlash.inc';
-	$maxSize = min(ini_get('upload_max_filesize'), ini_get('post_max_size'));
+	$maxSize = min( return_bytes(ini_get('upload_max_filesize')) , return_bytes(ini_get('post_max_size')) );
 ?>	
 		<script language="JavaScript" type="text/javascript">
 		<!-- 

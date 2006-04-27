@@ -32,9 +32,12 @@ function getAttachmentByLabel($owner, $parent, $label) {
 
 function getAttachmentSize($owner=null, $parent = null) {
 	global $database;	
+	$ownerStr = '';
+	$parentStr = '';	
+
 	if (!empty($owner))
 		$ownerStr = "owner = $owner ";
-	if (!empty($parent))
+	if ($parent == 0 || !empty($parent))
 		$parentStr = "and parent = $parent";
 	return fetchQueryCell("select sum(size) from {$database['prefix']}Attachments where $ownerStr $parentStr");
 }
@@ -45,9 +48,13 @@ function getAttachmentSizeLabel($owner=null, $parent = null) {
 }
 
 function addAttachment($owner, $parent, $file) {
-	global $database;
+	global $database;	
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
+	if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$parent AND label='{$file['name']}'")>0) {
+		return false;
+	};
+		
 	$attachment = array();
 	$attachment['parent'] = $parent ? $parent : 0;
 	$attachment['label'] = Path::getBaseName($file['name']);
@@ -165,5 +172,21 @@ function setEnclosure($name, $order) {
 function getEnclosure($owner, $entry) {
 	global $database, $owner;
 	return fetchQueryAll("SELECT name {$database['prefix']}Attachments SET enclosure = $order WHERE owner = $owner AND name = '$name'");
+}
+
+function return_bytes($val) {
+    $val = trim($val);
+    $last = strtolower($val{strlen($val)-1});
+    switch($last) {
+        // The 'G' modifier is available since PHP 5.1.0
+        case 'g':
+            $val *= 1024;
+        case 'm':
+            $val *= 1024;
+        case 'k':
+            $val *= 1024;
+    }
+
+    return $val;
 }
 ?>
