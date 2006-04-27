@@ -473,7 +473,10 @@ function saveFeedItems($feedId, $xml) {
 		}
 	} else
 		return false;
-	$deadLine = gmmktime() - fetchQueryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings") * 86400;
+	$deadLine = 0;
+	$feedLife = fetchQueryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings");
+	if($feedLife > 0)
+		$deadLine = gmmktime() - $feedLife * 86400;
 	if($result = mysql_query("SELECT id FROM {$database['prefix']}FeedItems LEFT JOIN {$database['prefix']}FeedStarred ON id = item WHERE item IS NULL AND written < $deadLine"))
 		while(list($id) = mysql_fetch_row($result))
 			mysql_query("DELETE FROM {$database['prefix']}FeedItems WHERE id = $id");
@@ -489,7 +492,10 @@ function saveFeedItem($feedId, $item) {
 		return false;
 	$tagString = implode(', ', $item['tags']);
 	$enclosureString = implode('|', $item['enclosures']);
-	$deadLine = gmmktime() - fetchQueryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings") * 86400;
+	$deadLine = 0;
+	$feedLife = fetchQueryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings");
+	if($feedLife > 0)
+		$deadLine = gmmktime() - $feedLife * 86400;
 	if ($id = fetchQueryCell("SELECT id FROM {$database['prefix']}FeedItems WHERE permalink='{$item['permalink']}'")) {
 		mysql_query("UPDATE {$database['prefix']}FeedItems SET author = '{$item['author']}', title = '{$item['title']}', description = '{$item['description']}', tags = '$tagString', enclosure = '$enclosureString', written = {$item['written']} WHERE id = $id");
 		/*
