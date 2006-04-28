@@ -64,8 +64,10 @@ function getParentCategoryId($owner, $id) {
 }
 
 function getNumberChildCategory($id = null) {
-	global $database;
-	return fetchQueryCell("SELECT COUNT(*) FROM {$database['prefix']}Categories WHERE parent " . ($id == null ? 'IS NULL' : "= $id"));
+	global $database, $owner;
+	$sql = "SELECT * FROM {$database['prefix']}Categories WHERE owner = $owner AND parent " . ($id == null ? 'IS NULL' : "= $id");
+	$result = fetchQueryRow($sql);
+	return fetchQueryCell($sql);
 }
 
 function getNumberEntryInCategories($id) {
@@ -86,9 +88,20 @@ function addCategory($owner, $parent, $name) {
 		$parent = 'NULL';
 		$label = $name;
 	}
+	
 	$label = mysql_escape_string($label);
-	if (fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND label = '$label'") > 0)
+	
+	if($parent == 'NULL') {
+		$parentStr = 'AND parent is null';
+	} else {
+		$parentStr = "AND parent = $parent";
+	}
+	
+	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND name = '$name' $parentStr";
+	
+	if (fetchQueryCell($sql) > 0)
 		return false;
+		
 	$name = mysql_escape_string($name);
 	$newPriority = fetchQueryCell("SELECT MAX(priority) FROM {$database['prefix']}Categories WHERE owner = $owner") + 1;
 	$result = mysql_query("INSERT INTO {$database['prefix']}Categories (owner, id, parent, name, priority, entries, entriesInLogin, label) VALUES ($owner, NULL, $parent, '$name', $newPriority, 0, 0, '$label')");
@@ -105,10 +118,23 @@ function modifyCategory($owner, $id, $name) {
 	global $database;
 	if (empty($name))
 		return false;
-	$label = fetchQueryCell("SELECT p.name FROM {$database['prefix']}Categories c JEFT JOIN {$database['prefix']}Categories p ON c.owner = p.owner AND c.parent = p.id WHERE owner = $owner AND id = $id");
-	$label = empty($label) ? $name : "$label/$name";
+
+	$sql = "SELECT p.name, p.id FROM {$database['prefix']}Categories c LEFT JOIN {$database['prefix']}Categories p ON c.parent = p.id WHERE c.owner = $owner AND c.id = $id";
+	$row = fetchQueryRow($sql);	
+	$label = $row['name'];
+	$parentId = $row['id'];	
+	if (!empty($parentId)) {
+		$parentStr = "AND parent=$parentId";
+	} else
+		$parentStr = 'AND parent is null';
+	
+	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND name='$name' $parentStr";	
+	if(fetchQueryCell($sql) >0)
+		return false;	
+		
+	$label = mysql_escape_string(empty($label) ? $name : "$label/$name");
 	$name = mysql_escape_string($name);
-	$label = mysql_escape_string($label);
+	
 	$result = mysql_query("UPDATE {$database['prefix']}Categories SET name = '$name', label = '$label' WHERE owner = $owner AND id = $id");
 	if ($result && (mysql_affected_rows() > 0))
 		clearRSS();
