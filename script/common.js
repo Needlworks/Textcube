@@ -343,31 +343,21 @@ if(isMoz) {
 } 
 
 function createHttp() {
-	
-	var arrSignatures = [
-		"MSXML2.XMLHTTP.5.0",
-		"MSXML2.XMLHTTP.4.0",
-		"MSXML2.XMLHTTP.3.0",
-		"MSXML2.XMLHTTP",
-		"Microsoft.XMLHTTP"
-	];
-	
-	for ( var i=0; i < arrSignatures.length ; i++) {
-		try {
-			return new ActiveXObject(arrSignatures[i]);
-		}catch(e) {
-			
-		}
-	}
-	
 	try {
 		return new XMLHttpRequest();
 	}
 	catch (e) {
+		var objectNames = ["MSXML2.XMLHTTP.5.0", "MSXML2.XMLHTTP.4.0", "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP"];
+		for (var i = 0; i < objectNames.length; i ++) {
+			try {
+				return new ActiveXObject(objectNames[i]);
+				break;
+			}
+			catch (e) {
+			}
+		}
 		return null;
 	}
-	
-	return new Error("This userAgent isn't support HTTP request");
 }
 
 /*
@@ -641,13 +631,11 @@ function getOffsetLeft(obj)
 
 function updateFeed()
 {
-	try { var http = new ActiveXObject("Microsoft.XMLHTTP"); }
-	catch(e) {
-		try { var http = new XMLHttpRequest(); }
-		catch(e) { return; }
+	var http = createHttp();
+	if(http) {
+		http.open("GET", blogURL + "/feeder?" + (new Date()).getTime(), true);
+		http.send();
 	}
-	http.open("GET", blogURL + "/feeder?" + (new Date()).getTime(), true);
-	http.send();
 }
 
 // obj 객체의 자식을 모두 탐색해 tagName을 가진 노드를 배열로 리턴
