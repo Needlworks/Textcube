@@ -56,4 +56,8 @@ function fetchQueryCell($query) {
 function executeQuery($query) {
 	return mysql_query($query) ? true : false;
 }
+
+function escapeMysqlSearchString($str) {
+	return str_replace('_', '\_', str_replace('%', '\%', mysql_escape_string($str)));
+}
 ?>

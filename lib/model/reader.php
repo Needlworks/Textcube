@@ -42,6 +42,7 @@ function markAsStar($owner, $id, $flag) {
 
 function getFeedGroups($owner, $starredOnly = false, $searchKeyword = null) {
 	global $database;
+	$searchKeyword = escapeMysqlSearchString($searchKeyword);
 	if ($starredOnly !== false) {
 		$condition = "AND s.item IS NOT NULL";
 	} else if ($searchKeyword !== null) {
@@ -77,6 +78,7 @@ function getFeedGroups($owner, $starredOnly = false, $searchKeyword = null) {
 
 function getFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = null) {
 	global $database;
+	$searchKeyword = escapeMysqlSearchString($searchKeyword);
 	if ($starredOnly !== false) {
 		$condition = "AND s.item IS NOT NULL";
 	} else if ($searchKeyword !== null) {
@@ -113,6 +115,7 @@ function getFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = nul
 
 function getFeedEntriesTotalCount($owner, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null) {
 	global $database;
+	$searchKeyword = escapeMysqlSearchString($searchKeyword);
 	if ($starredOnly !== false) {
 		$condition = 'AND s.item IS NOT NULL';
 	} else if ($searchKeyword !== null) {
@@ -154,6 +157,7 @@ function getFeedEntriesTotalCount($owner, $group = 0, $feed = 0, $unreadOnly = f
 
 function getFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $offset = 0) {
 	global $database;
+	$searchKeyword = escapeMysqlSearchString($searchKeyword);
 	if ($starredOnly !== false) {
 		$condition = 'AND s.item IS NOT NULL';
 	} else if ($searchKeyword !== null) {
@@ -197,6 +201,7 @@ function getFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $sta
 function getFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $position = 'current', $markAsRead = 'read') {
 	global $database;
 	$setting = getReaderSetting($owner);
+	$searchKeyword = escapeMysqlSearchString($searchKeyword);
 	if ($entry == 0 || $position != 'current') {
 		if ($starredOnly !== false) {
 			$condition = 'AND s.item IS NOT NULL';

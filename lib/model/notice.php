@@ -4,7 +4,7 @@ function getNoticesWithPaging($owner, $search, $page, $count) {
 	global $database, $folderURL, $suri;
 	$aux = '';
 	if (($search !== true) && $search) {
-		$search = mysql_escape_string($search);
+		$search = escapeMysqlSearchString($search);
 		$aux = "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	}
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';

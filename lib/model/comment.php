@@ -14,7 +14,7 @@ function getCommentsWithPagingForOwner($owner, $category, $name, $ip, $search, $
 	if (!empty($ip))
 		$sql .= ' AND c.ip = \'' . mysql_escape_string($ip) . '\'';
 	if (!empty($search)) {
-		$search = mysql_escape_string($search);
+		$search = escapeMysqlSearchString($search);
 		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
 	}
 	$sql .= ' ORDER BY c.written DESC';
@@ -67,7 +67,7 @@ function getCommentsNotifiedWithPagingForOwner($owner, $category, $name, $ip, $s
 		if (!empty($ip))
 			$sql .= ' AND c.ip = \'' . mysql_escape_string($ip) . '\'';
 		if (!empty($search)) {
-			$search = mysql_escape_string($search);
+			$search = escapeMysqlSearchString($search);
 			$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
 		}
 		$sql .= ' ORDER BY c.modified ASC';
@@ -185,7 +185,7 @@ function getComment($owner, $id, $password) {
 function getCommentList($owner, $search) {
 	global $database;
 	$list = array('title' => "'$search'", 'items' => array());
-	$search = mysql_escape_string($search);
+	$search = escapeMysqlSearchString($search);
 	$authorized = doesHaveOwnership() ? '' : 'and secret = 0';
 	if ($result = mysql_query("select id, entry, parent, name, comment, written from {$database['prefix']}Comments where entry > 0 AND owner = $owner $authorized and comment like '%$search%'")) {
 		while ($comment = mysql_fetch_array($result))

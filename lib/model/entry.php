@@ -93,7 +93,7 @@ function getEntryListByPeriod($owner, $period) {
 
 function getEntryListBySearch($owner, $search) {
 	global $database;
-	$search = mysql_escape_string($search);
+	$search = escapeMysqlSearchString($search);
 	$cond = empty($search) ? '' : "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	$sql = "SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 $cond ORDER BY published DESC";
@@ -148,7 +148,7 @@ function getEntriesWithPagingByPeriod($owner, $period, $page, $count) {
 
 function getEntriesWithPagingBySearch($owner, $search, $page, $count) {
 	global $database, $folderURL, $suri;
-	$search = mysql_escape_string($search);
+	$search = escapeMysqlSearchString($search);
 	$cond = empty($search) ? '' : "AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1';
 	$sql = "SELECT e.*, c.label categoryLabel FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 $cond ORDER BY e.published DESC";
@@ -165,7 +165,7 @@ function getEntriesWithPagingForOwner($owner, $category, $search, $page, $count)
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($search)) {
-		$search = mysql_escape_string($search);
+		$search = escapeMysqlSearchString($search);
 		$sql .= " AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
 	}
 	$sql .= ' ORDER BY e.published DESC';
