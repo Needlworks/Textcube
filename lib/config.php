@@ -1,6 +1,6 @@
 <?
 define('TATTERTOOLS_NAME', 'Tattertools');
-define('TATTERTOOLS_VERSION', '1.0.4');
+define('TATTERTOOLS_VERSION', '1.0.5 beta1');
 define('TATTERTOOLS_COPYRIGHT', 'Copyright © 2004-2006, Tatter & Company');
 define('TATTERTOOLS_HOMEPAGE', 'http://www.tattertools.com/');
 define('TATTERTOOLS_SYNC_URL', 'http://sync.eolin.com/');
