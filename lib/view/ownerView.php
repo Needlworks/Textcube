@@ -16,6 +16,9 @@ function printOwnerEditorScript($entryId = false) {
 ?>
 <script type="text/javascript">
 //<![CDATA[
+
+	
+
 	var skinContentWidth = <?=$contentWidth?>;
 	var s_notSupportHTMLBlock = "<?=_t('위지윅 모드에서는 [HTML][/HTML] 블럭을 사용할 수 없습니다.')?>";
 	var s_enterURL = "<?=_t('URL을 입력하세요')?>";
@@ -75,10 +78,12 @@ function printOwnerEditorScript($entryId = false) {
 	
 	function deleteAttachment() {
 		var fileList = document.getElementById('fileList');		
+		
 		if (fileList.selectedIndex < 0) {
 			alert("<?=_t('삭제할 파일을 선택해 주십시오\t')?>");
 			return false;
 		}
+		
 		try {
 			
 			var targetStr = '';
@@ -113,6 +118,7 @@ function printOwnerEditorScript($entryId = false) {
 			refreshAttachFormSize();
 			refreshFileSize();
 		}
+		
 		request.onError = function() {
 			alert("<?=_t('파일을 삭제하지 못했습니다')?>");
 		}
@@ -543,7 +549,7 @@ function printEntryFileList($attachments, $entryId) {
 	<td valign="top" align="center" width="415">	
 		<table>
 			<tr>
-				<td>				
+				<td id="attachManagerSelectNest">				
 					<span id="attachManagerSelect">
 						<select size="8" name="fileList" id="fileList" multiple="multiple" style="width:415px;" onchange="selectAttachment();" ondblclick="downloadAttachment()">
 <? 
@@ -595,7 +601,9 @@ function printEntryFileList($attachments, $entryId) {
 			</tr>
 			<tr>
 				<td>
+
 		    <script type="text/javascript">
+				
 				
 				function disablePageManager() {
 					try {
@@ -631,6 +639,7 @@ function printEntryFileList($attachments, $entryId) {
 				function refreshAttachFormSize () {				
 					fileListObj = document.getElementById('fileList');
 					fileListObj.setAttribute('size',Math.max(8,Math.min(fileListObj.length,30)));
+
 				}
 				
 				function refreshAttachList() {
@@ -642,14 +651,19 @@ function printEntryFileList($attachments, $entryId) {
 						var fileListObj = document.getElementById("attachManagerSelect");
 						fileListObj.innerHTML = this.getText();
 						refreshAttachFormSize();
-						getUploadObj().setAttribute('width',1)
-						getUploadObj().setAttribute('height',1)
-						//document.getElementById('uploadBtn').disabled=false;
-						document.getElementById('uploadBtn').style.display  = 'block'			
-						document.getElementById('stopUploadBtn').style.display  = 'none'			
-						refreshFileSize();						
-						setTimeout("enablePageManager()", 2000);
+						//getUploadObj().setAttribute('width',1)
+						//getUploadObj().setAttribute('height',1)
+	
+						if (isIE) {
+							document.getElementById('uploadBtn').style.display  = 'block'			
+							document.getElementById('stopUploadBtn').style.display  = 'none'			
+						} else {
+							document.getElementById('uploadBtn').disabled=false;					
+						}
 						
+						document.getElementById('uploaderNest').innerHTML = uploaderStr
+						refreshFileSize();						
+						setTimeout("enablePageManager()", 2000);						
 					}
 					request.onError = function() {
 					}
@@ -754,8 +768,12 @@ function printEntryFileList($attachments, $entryId) {
 					getUploadObj().setAttribute('width',416)
 					getUploadObj().setAttribute('height',25)
 					//document.getElementById('uploadBtn').disabled=true;		
-					document.getElementById('uploadBtn').style.display  = 'none'			
-					document.getElementById('stopUploadBtn').style.display  = 'block'			
+					if(isIE) {
+						document.getElementById('uploadBtn').style.display  = 'none'			
+						document.getElementById('stopUploadBtn').style.display  = 'block'			
+					} else {
+						document.getElementById('uploadBtn').disabled=true;		
+					}
 					
 				}
 				
@@ -832,37 +850,29 @@ function printEntryFileList($attachments, $entryId) {
 				}
 				
 				refreshAttachFormSize();
-			</script>
-			<script language="JavaScript" type="text/javascript">
+			</script>				
+		
+<?
+	require_once ROOT.'/script/detectFlash.inc';
+	$maxSize = min( return_bytes(ini_get('upload_max_filesize')) , return_bytes(ini_get('post_max_size')) );
+?>	
+			<script type="text/javascript">
 				var requiredMajorVersion = 8;
 				var requiredMinorVersion = 0;
 				var requiredRevision = 0;
 				var jsVersion = 1.0;
+		
+				var hasRightVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
+				uploaderStr = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
+					+ 'width="0" height="0"'
+					+ 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
+					+ '<param name="movie" value="<?=$service['path']?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="path=<?=$blogURL?>&owner=<?=$owner?>&entryid=<?=$entryId?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" />'
+					+ '<embed id="uploader2" src="<?=$service['path']?>/script/uploader/uploader.swf" flashvars="path=<?=$blogURL?>&owner=<?=$owner?>&entryid=<?=$entryId?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
+				  
 			</script>			
-<?
-	
-	require_once ROOT.'/script/detectFlash.inc';
-	$maxSize = min( return_bytes(ini_get('upload_max_filesize')) , return_bytes(ini_get('post_max_size')) );
-?>	
-		<script language="JavaScript" type="text/javascript">
-		<!-- 
-		var hasRightVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
-		if(hasRightVersion && isWin && isIE) {  
-		//if(<?=!empty($service['flashuploader']) ? $service['flashuploader'] : 'false'?> ) {  
-			var oeTags = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
-			+ 'width="0" height="0"'
-			+ 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
-			+ '<param name="movie" value="<?=$service['path']?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="path=<?=$blogURL?>&owner=<?=$owner?>&entryid=<?=$entryId?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" />'
-			+ '<embed id="uploader2" src="<?=$service['path']?>/script/uploader/uploader.swf" flashvars="path=<?=$blogURL?>&owner=<?=$owner?>&entryid=<?=$entryId?>&enclosure=<?=$enclosureFileName?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
-			writeCode(oeTags);   // embed the flash movie 
-			//document.getElementById('uploadProgressBar').style.display="none";
-
-		  } else {  // flash is too old or we can't detect the plugin
-			var alternateContent = '';
-			document.write(alternateContent);  // insert non-flash content			
-		  }
-		// -->
-		</script>	
+				<span id="uploaderNest">
+					<script type="text/javascript">if(hasRightVersion && isWin){ writeCode(uploaderStr); }</script>
+				</span>
 				</td>
 			</tr>
 		</table>

@@ -145,7 +145,7 @@ if ($depth <= 1) {
                     <tr>
                       <td class="entryEditTableLeftCell"><?=_t('레이블 변경')?> |</td>
                       <td>
-                        <input name="modifyCategoryName" type="text" class="text1" id="modifyCategoryName" style="width:140px;" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?=htmlspecialchars(empty($_POST['modifyCategoryName']) ? $name : trim($_POST['modifyCategoryName']))?>" />
+				<input name="modifyCategoryName" type="text" class="text1" id="modifyCategoryName" style="width:140px;" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?=$name?>" />
                       </td>
                       <td style="padding-left:5px;" onclick="modifyCategory(); return false;">
                         <table class="buttonTop" cellspacing="0">
