@@ -80,6 +80,17 @@ TTGallery.prototype.getCaption = function()
 
 TTGallery.prototype.show = function(offset)
 {
+	if(this.numImages == 0) {
+		var div = document.createElement("div");
+		div.style.textAlign = "center";
+		div.style.color = "#888";
+		div.style.margin = "10px auto";
+		div.style.font = "bold 2em/1 Verdana, Sans-serif";
+		div.innerHTML = "NO IMAGES";
+		this.container.appendChild(div);	
+		return;
+	}
+
 	if(typeof offset == "undefined")
 		this.offset = 0;
 	else
