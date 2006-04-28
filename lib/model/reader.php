@@ -539,10 +539,10 @@ function deleteFeed($owner, $feedId) {
 function updateRandomFeed() {
 	global $database;
 	$updateCycle = fetchQueryCell("SELECT updateCycle FROM {$database['prefix']}FeedSettings");
-	if ($feed = fetchQueryRow("SELECT * FROM {$database['prefix']}Feeds WHERE modified < " . (time() - ($updateCycle * 60)) . " ORDER BY RAND() LIMIT 1")) {
+	if ($feed = fetchQueryRow("SELECT * FROM {$database['prefix']}Feeds WHERE modified < " . (gmmktime() - ($updateCycle * 60)) . " ORDER BY RAND() LIMIT 1")) {
 		return array(updateFeed($feed), $feed['xmlURL']);
 	}
-	return array(1, '');
+	return array(1, 'No feeds to update');
 }
 
 function updateFeed($feedRow) {
