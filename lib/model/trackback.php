@@ -15,7 +15,7 @@ function getTrackbacksWithPagingForOwner($owner, $category, $site, $ip, $search,
 	if (!empty($ip))
 		$sql .= ' AND t.ip = \'' . mysql_escape_string($ip) . '\'';
 	if (!empty($search)) {
-		$search = mysql_escape_string($search);
+		$search = escapeMysqlSearchString($search);
 		$sql .= " AND (t.site LIKE '%$search%' OR t.subject LIKE '%$search%' OR t.excerpt LIKE '%$search%')";
 	}
 	$sql .= ' ORDER BY t.written DESC';

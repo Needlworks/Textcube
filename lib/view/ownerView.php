@@ -1,13 +1,14 @@
 <?
-
 function printOwnerEditorScript($entryId = false) {
 	global $owner, $database, $skin, $blogURL, $service;
+	
 	$contentWidth = 500;
-	if ($skin = fetchQueryCell("SELECT skin FROM {$database['prefix']}SkinSettings WHERE owner = $owner")) {
-		if ($xml = @file_get_contents(ROOT . "/skin/$skin/index.xml")) {
+	
+	if($skin = fetchQueryCell("SELECT skin FROM {$database['prefix']}SkinSettings WHERE owner = $owner")) {
+		if($xml = @file_get_contents(ROOT."/skin/$skin/index.xml")) {
 			$xmls = new XMLStruct();
 			$xmls->open($xml, $service['encoding']);
-			if ($xmls->getValue('/skin/default/contentWidth')) {
+			if($xmls->getValue('/skin/default/contentWidth')) {
 				$contentWidth = $xmls->getValue('/skin/default/contentWidth');
 			}
 		}
@@ -95,11 +96,10 @@ function printOwnerEditorScript($entryId = false) {
 
 		var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/detach/multi<?=($entryId ? "/$entryId" : '/0')?>");
 		request.onVerify = function () { 
-			window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);						
 			return true 
 		}
-		request.onSuccess = function() {
-			window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);							
+
+		request.onSuccess = function() {				
 			for(var i=deleteFileList.length-1; i>=0; i--) {
 				fileList.remove(deleteFileList[i]);	
 			}
@@ -116,8 +116,6 @@ function printOwnerEditorScript($entryId = false) {
 		request.onError = function() {
 			alert("<?=_t('파일을 삭제하지 못했습니다')?>");
 		}
-		STD.removeEventListener(window);
-		window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);
 		request.send("names="+targetStr);
 	}
 	
@@ -533,11 +531,12 @@ function printEntryFileList($attachments, $entryId) {
 	strpos($attachments[0]['name'] ,'.gif') === false &&
 	strpos($attachments[0]['name'] ,'.jpg') === false &&
 	strpos($attachments[0]['name'] ,'.png') === false)) {
-		$fileName = "{$service['path']}/image/spacer.gif";
+		$fileName =  "{$service['path']}/image/spacer.gif";
 	} else {
 		$fileName = "{$service['path']}/attach/$owner/{$attachments[0]['name']}";
 	}
-?>				  
+	 
+	?>				  
 	<td width="130" valign="top" align="center">
 		<div id="previewSelected" style="width:120px; height:90px; background:#FFFFFF"><table width="100%" height="100%"><tr><td valign="middle" align="center"><?=_t('미리보기')?></td></tr></table></div>
 	</td>
@@ -545,91 +544,120 @@ function printEntryFileList($attachments, $entryId) {
 		<table>
 			<tr>
 				<td>				
-			<span id="attachManagerSelect">
-		    <select size="8" name="fileList" id="fileList" multiple="multiple" style="width:415px;" onchange="selectAttachment();" ondblclick="downloadAttachment()">
-                <?
+					<span id="attachManagerSelect">
+						<select size="8" name="fileList" id="fileList" multiple="multiple" style="width:415px;" onchange="selectAttachment();" ondblclick="downloadAttachment()">
+<? 
 	$initialFileListForFlash = '';
 	$enclosureFileName = '';
 	foreach ($attachments as $i => $attachment) {
-		if (strpos($attachment['mime'], 'application') !== false) {
+		
+		if (strpos ($attachment['mime'], 'application') !== false ) {
 			$class = 'class="MimeApplication"';
-		} else if (strpos($attachment['mime'], 'audio') !== false) {
+		} else if (strpos ($attachment['mime'], 'audio') !== false ) {
 			$class = 'class="MimeAudio"';
-		} else if (strpos($attachment['mime'], 'image') !== false) {
+		} else if (strpos ($attachment['mime'], 'image') !== false ) {
 			$class = 'class="MimeImage"';
-		} else if (strpos($attachment['mime'], 'message') !== false) {
+		} else if (strpos ($attachment['mime'], 'message') !== false ) {
 			$class = 'class="MimeMessage"';
-		} else if (strpos($attachment['mime'], 'model') !== false) {
+		} else if (strpos ($attachment['mime'], 'model') !== false ) {
 			$class = 'class="MimeModel"';
-		} else if (strpos($attachment['mime'], 'multipart') !== false) {
+		} else if (strpos ($attachment['mime'], 'multipart') !== false ) {
 			$class = 'class="MimeMultipart"';
-		} else if (strpos($attachment['mime'], 'text') !== false) {
+		}  else if (strpos ($attachment['mime'], 'text') !== false ) {
 			$class = 'class="MimeText"';
-		} else if (strpos($attachment['mime'], 'video') !== false) {
+		}  else if (strpos ($attachment['mime'], 'video') !== false ) {
 			$class = 'class="MimeVideo"';
 		} else {
 			$class = '';
 		}
-		if ($attachment['enclosure'] == 1) {
-			$style = 'style="background-color:#c6a6e7; color:#000000"';
+		if ( $attachment['enclosure'] == 1)  {
+			$style = 'style="background-color:#c6a6e7; color:#000000"';		
 			$enclosureFileName = $attachment['name'];
 		} else {
 			$style = '';
 			$prefix = '';
 		}
+		
 		$value = htmlspecialchars(getAttachmentValue($attachment));
-		$label = $prefix . htmlspecialchars(getPrettyAttachmentLabel($attachment));
-		$initialFileListForFlash .= escapeJSInAttribute($value . '(_!' . $label . '!^|');
+		$label = $prefix.htmlspecialchars(getPrettyAttachmentLabel($attachment));
+		
+		$initialFileListForFlash .= escapeJSInAttribute($value.'(_!'.$label.'!^|');
 ?>
-		        <option  <?=$style?> value="<?=$value?>">
-	            <?=$label?>
-	            </option>
-                <?
+							<option  <?=$style?> value="<?=$value?>">
+								<?=$label?>
+							</option>
+<?
 	}
 ?>
-	        </select>
-			</span>
+						</select>
+					</span>
 				</td>
 			</tr>
 			<tr>
-				<td>			
+				<td>
 		    <script type="text/javascript">
+				
+				function disablePageManager() {
+					try {
+						pageHolding  = entryManager.pageHolder.isHolding;
+						entryManager.pageHolder.isHolding = function () {
+							return false;
+						}
+						STD.removeEventListener(window);					
+						window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);					
+					} catch(e) {
+						alert(e.message);
+					}
+				}
+				window.onLoad = function() {
+					disablePageManager()
+				}
+				function enablePageManager() {
+					try {
+						entryManager.pageHolder.isHolding = pageHolding ;
+						STD.addEventListener(window);
+						window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);				
+					} catch(e) {
+						alert(e.message);					
+					}
+					
+				}
+								
 				function stripLabelToValue(fileLabel) {
 					var pos = fileLabel.lastIndexOf('(');
 					return fileLabel.substring(0,pos-1);	
 				}
 			
-				function refreshAttachFormSize () {
+				function refreshAttachFormSize () {				
 					fileListObj = document.getElementById('fileList');
 					fileListObj.setAttribute('size',Math.max(8,Math.min(fileListObj.length,30)));
 				}
 				
 				function refreshAttachList() {
 					var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/attachmulti/refresh<?=($entryId ? "/$entryId" : '/0')?>");
-					request.onVerify = function () { 
-						window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);						
+					request.onVerify = function () { 	
 						return true 
 					}
-
 					request.onSuccess = function() {
 						var fileListObj = document.getElementById("attachManagerSelect");
 						fileListObj.innerHTML = this.getText();
 						refreshAttachFormSize();
 						getUploadObj().setAttribute('width',1)
 						getUploadObj().setAttribute('height',1)
-						//document.getElementById('uploadBtn').disabled=false;						
+						//document.getElementById('uploadBtn').disabled=false;
 						document.getElementById('uploadBtn').style.display  = 'block'			
 						document.getElementById('stopUploadBtn').style.display  = 'none'			
-						refreshFileSize();
+						refreshFileSize();						
+						setTimeout("enablePageManager()", 2000);
+						
 					}
 					request.onError = function() {
 					}
-					STD.removeEventListener(window);
-					window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);										
-					request.send();
+					
+					request.send();					
 				}
 				
-				function uploadProgress(target,loaded, total) {					
+				function uploadProgress(target,loaded, total) {
 					loaded = Number(loaded);
 					total = Number(total);
 					var fileListObj = document.getElementById("fileList");					
@@ -679,6 +707,7 @@ function printEntryFileList($attachments, $entryId) {
 							break;
 						}
 					}
+					
 				}
 				
 				function getUploadObj() {
@@ -696,14 +725,12 @@ function printEntryFileList($attachments, $entryId) {
 						return false;
 					}
 				}
-
 				
 				function setFileList() {
-				
 					try {
 						list = getUploadObj().GetVariable("/:listStr");						
 					} catch(e) {
-						
+						alert(e.message);
 					}
 					var fileListObj = document.getElementById("fileList");										
 					var listTemp = list.split("!^|");					
@@ -721,17 +748,19 @@ function printEntryFileList($attachments, $entryId) {
 						fileListObj.insertBefore(oOption,fileListObj[i]);
 						if(i == 0) {
 							newLoadItem(fileName);
-						}						
+						}
 					}
 					fileListObj.setAttribute('size',Math.max(8,Math.min(fileListObj.length,30)));
-					getUploadObj().setAttribute('width',414)
+					getUploadObj().setAttribute('width',416)
 					getUploadObj().setAttribute('height',25)
 					//document.getElementById('uploadBtn').disabled=true;		
-					document.getElementById('uploadBtn').style.display  = 'none';		
-					document.getElementById('stopUploadBtn').style.display  = 'block';
+					document.getElementById('uploadBtn').style.display  = 'none'			
+					document.getElementById('stopUploadBtn').style.display  = 'block'			
+					
 				}
 				
 				function selectFileList(value) {
+					
 					selectedFiles = value.split("!^|");
 					var fileListObj = document.getElementById("fileList");
 					for(var i=0; i<fileListObj.length; i++) {
@@ -747,9 +776,9 @@ function printEntryFileList($attachments, $entryId) {
 					}
 					refreshAttachFormSize();
 				}
-
+				
 				function disabledDeleteBtn() {
-					if(document.getElementById('fileList').length>0) {					
+					if(document.getElementById('fileList').length>0) {
 						document.getElementById('deleteBtn').disabled = false;
 					} else {
 						document.getElementById('deleteBtn').disabled = true;
@@ -771,8 +800,9 @@ function printEntryFileList($attachments, $entryId) {
 					}
 					refreshAttachFormSize();
 				}
-
+				
 				function browser() {
+					disablePageManager();
 					getUploadObj().SetVariable('/:openBroswer','true');
 				}
 				
@@ -784,7 +814,6 @@ function printEntryFileList($attachments, $entryId) {
 					try {
 						var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/size?owner=<?=$owner?>&parent=<?=$entryId?>");
 						request.onVerify = function () {
-							window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);
 							return true;
 						}
 						
@@ -794,9 +823,9 @@ function printEntryFileList($attachments, $entryId) {
 						}
 						request.onError = function() {
 						}
-						STD.removeEventListener(window);
-						window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);
+						//disablePageManager();
 						request.send();
+						
 					} catch(e) {
 						alert(e.message);
 					}
@@ -805,14 +834,15 @@ function printEntryFileList($attachments, $entryId) {
 				refreshAttachFormSize();
 			</script>
 			<script language="JavaScript" type="text/javascript">
-			var requiredMajorVersion = 8;
-			var requiredMinorVersion = 0;
-			var requiredRevision = 0;
-			var jsVersion = 1.0;
+				var requiredMajorVersion = 8;
+				var requiredMinorVersion = 0;
+				var requiredRevision = 0;
+				var jsVersion = 1.0;
 			</script>			
 <?
-	require_once ROOT . '/script/detectFlash.inc';
-	$maxSize = min(ini_get('upload_max_filesize'), ini_get('post_max_size'));
+	
+	require_once ROOT.'/script/detectFlash.inc';
+	$maxSize = min( return_bytes(ini_get('upload_max_filesize')) , return_bytes(ini_get('post_max_size')) );
 ?>	
 		<script language="JavaScript" type="text/javascript">
 		<!-- 
@@ -832,11 +862,11 @@ function printEntryFileList($attachments, $entryId) {
 			document.write(alternateContent);  // insert non-flash content			
 		  }
 		// -->
-		</script>
-	        </td>
+		</script>	
+				</td>
 			</tr>
 		</table>
-	</td>			
+	</td>
 	<?
 }
 
@@ -860,7 +890,7 @@ function printEntryFileUploadButton($entryId) {
 											}								
 										}
 									</script>
-								</tr>
+								</tr>								
 							</table>
 						</td>
 	<script type="text/javascript">	
@@ -915,8 +945,8 @@ function printEntryFileUploadButton($entryId) {
 		  		<input type="button" class="button" id="deleteBtn" value="<?=_t('삭제하기')?>" onclick="deleteAttachment();" style="margin-top: 1px" />
 			</td>
 			<td align="right" width="100%" valign="middle" id="fileSize">
-				<?=getAttachmentSizeLabel($owner, $entryId)?>
-			</td>			
+				<?=getAttachmentSizeLabel($owner, $entryId)?> 
+			</td>
 	  </tr>
 </table>
 	<?
@@ -1582,7 +1612,6 @@ function printEntryEditorProperty() {
 </table>
 <?
 }
-
 function printEntryEditorPalette() {
 	global $owner, $service;
 	$p_box1_style = 'padding:10; background-color:#F0F0F0;';
@@ -1689,7 +1718,7 @@ function printEntryEditorPalette() {
 		  <td bgcolor="#006699"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#006699')" width="16" height="16" alt="" /></td>
 		  <td bgcolor="#003366"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#003366')" width="16" height="16" alt="" /></td>
 		  <td bgcolor="#333333"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#333333')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#000000"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#000000')" width="16" height="16" alt="" /></td>
+		  <td bgcolor="#000000"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#000000')" width="16" height="16" alt="" /></td>		  
 		  <td bgcolor="#8E8E8E"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#8E8E8E')" width="16" height="16" alt="" /></td>
 		  <td bgcolor="#C1C1C1"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#C1C1C1')" width="16" height="16" alt="" /></td>
 		</tr>
@@ -1750,7 +1779,7 @@ function printInputBlock() {
 function getAttachmentValue($attachment) {
 	global $g_attachmentFolderPath;
 	if (strpos($attachment['mime'], 'image') === 0)
-		return "{$attachment['name']}|width=\"{$attachment['width']}\" height=\"{$attachment['height']}\" alt=\"\"";
+		return "{$attachment['name']}|width=\"{$attachment['width']}\" height=\"{$attachment['height']}\" alt=\"\"";		
 	else
 		return "{$attachment['name']}|";
 }
@@ -1764,4 +1793,5 @@ function getPrettyAttachmentLabel($attachment) {
 	}
 	return "{$attachment['label']} (".getSizeHumanReadable($attachment['size']).')';
 }
+
 ?>

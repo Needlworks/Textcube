@@ -1229,6 +1229,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 					<input id="changeGroupTitle" type="text" class="text2" style="border:1px #999 solid;height:20px; width:180px" />
 					<input type="button" value="<?=_t('수정하기')?>" style="border:1px #5788C4 solid; background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px" onclick="Reader.editGroupExecute()"/>
 					<input type="button" value="<?=_t('삭제하기')?>" style="border:1px #5788C4 solid; background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px" onclick="Reader.deleteGroup()"/>
+					<input type="button" value="<?=_t('취소하기')?>" style="border:1px #5788C4 solid; background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px" onclick="Reader.cancelEditGroup()"/>
 				</td>
 			</tr>
 		</table>
@@ -1248,12 +1249,11 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 			$status = 'UpdateNo';
 ?>
 		<tr height="20" feedid="<?=$feed['id']?>">
-			<td nowrap width="25%" class="pointerCursor" onclick="Reader.selectFeed(this, <?=$feed['id']?>)"><img id="iconFeedStatus<?=$feed['id']?>" src="<?=$service['path']?>/image/owner/reader/icon<?=$status?>.gif" width="10" height="10" /> <?=$feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" target="_blank">' : ''?><?=utf8Lessen(htmlspecialchars($feed['title']), 15)?><?=$feed['blogURL'] ? '</a>' : ''?></td>
-			<td nowrap class="pointerCursor" onclick="Reader.selectFeed(this, <?=$feed['id']?>)"><?=htmlspecialchars(utf8Lessen($feed['description'], 40))?></td>
+			<td class="pointerCursor" onclick="Reader.selectFeed(this, <?=$feed['id']?>)" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"><img id="iconFeedStatus<?=$feed['id']?>" src="<?=$service['path']?>/image/owner/reader/icon<?=$status?>.gif" width="10" height="10" /> <?=$feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" target="_blank">' : ''?><strong><?=htmlspecialchars($feed['title'])?></strong><?=$feed['blogURL'] ? '</a>' : ''?> <span style="color: #888" title="<?=escapeJSInAttribute($feed['description'])?>"><?=$feed['description']?'| ':''?><?=htmlspecialchars($feed['description'])?></span></td>
 			<td align="right" width="30"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/btnModify.gif" onclick="Reader.editFeed(<?=$feed['id']?>, '<?=htmlspecialchars($feed['xmlURL'])?>')"/></td>
 		</tr>
 		<tr height="1">
-			<td colspan="3" background="<?=$service['path']?>/image/owner/reader/dotline.gif"></td>
+			<td colspan="2" background="<?=$service['path']?>/image/owner/reader/dotline.gif"></td>
 		</tr>
 		<?
 	}
@@ -1287,6 +1287,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 					<input id="changeFeedURL" class="text2" type="text" style="border:1px #999 solid; width: 60%" disabled="disabled" /><br/>
 					<input type="button" value="<?=_t('수정하기')?>" style="border:1px #5788C4 solid;background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px;" onclick="Reader.editFeedExecute()"/>
 					<input type="button" value="<?=_t('삭제하기')?>" style="border:1px #5788C4 solid;background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px;" onclick="Reader.deleteFeed()"/>
+					<input type="button" value="<?=_t('취소하기')?>" style="border:1px #5788C4 solid;background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px;" onclick="Reader.cancelEditFeed()"/>
 				</td>
 			</tr>
 		</table>

@@ -61,6 +61,7 @@ foreach ($feeds as $feed) {
 ?>
 		<script type="text/javascript">
 		//<![CDATA[
+			parent.Reader.refreshFeedList(parent.Reader.selectedGroup);
 			parent.Reader.refreshEntryList(parent.Reader.selectedGroup, parent.Reader.selectedFeed);
 			setTimeout("parent.document.getElementById('progress').innerHTML = ''", 1000);
 		//]]>

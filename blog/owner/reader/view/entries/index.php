@@ -9,6 +9,6 @@ ob_end_clean();
 $entry = getFeedEntry($owner, $_POST['group'], $_POST['feed'], 0, $_POST['unread'] == '1', $_POST['starred'] == '1', $_POST['keyword'] == '' ? null : $_POST['keyword']);
 $result['firstEntryId'] = $entry['id'];
 $result['entriesShown'] = $count;
-$result['entriesTotal'] = GetFeedEntriesTotalCount($owner, $_POST['group'], $_POST['feed'], $_POST['unread'] == '1', $_POST['starred'] == '1', $_POST['keyword'] == '' ? null : $_POST['keyword']);
+$result['entriesTotal'] = getFeedEntriesTotalCount($owner, $_POST['group'], $_POST['feed'], $_POST['unread'] == '1', $_POST['starred'] == '1', $_POST['keyword'] == '' ? null : $_POST['keyword']);
 printRespond($result);
 ?>

@@ -242,8 +242,8 @@ TTReader.prototype.refreshEntryList = function(group, feed)
 		} catch(e) {
 			Reader.selectedEntryObject = null;
 		}
-		Reader.setShownEntries(this.getText("/response/entriesShown"));
-		Reader.setTotalEntries(this.getText("/response/entriesTotal"));
+		Reader.setShownEntries(parseInt(this.getText("/response/entriesShown")));
+		Reader.setTotalEntries(parseInt(this.getText("/response/entriesTotal")));
 	}
 	request.onError= function () {
 		switch(parseInt(this.getText("/response/error")))
@@ -398,6 +398,13 @@ TTReader.prototype.editGroup = function(id, title)
 	getObject("changeGroupTitle").select();
 }
 
+TTReader.prototype.cancelEditGroup = function()
+{
+	getObject("groupList").style.display = "block";
+	getObject("groupAdder").style.display = "block";
+	getObject("groupEditor").style.display = "none";
+}
+
 TTReader.prototype.editGroupExecute = function()
 {
 	var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/group/edit/");
@@ -495,6 +502,13 @@ TTReader.prototype.editFeed = function(id, url)
 	getObject("changeFeedGroup").value = this.selectedGroup;
 	getObject("changeFeedURL").value = url;
 	getObject("changeFeedURL").select();	
+}
+
+TTReader.prototype.cancelEditFeed = function()
+{
+	getObject("feedList").style.display = "block";
+	getObject("feedAdder").style.display = "block";
+	getObject("feedEditor").style.display = "none";
 }
 
 TTReader.prototype.editFeedExecute = function()

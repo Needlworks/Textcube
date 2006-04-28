@@ -10,5 +10,6 @@ $service['type'] = 'path';
 $service['domain'] = 'domain.ext';
 $service['path'] = '/path1/path2';
 $service['skin'] = 'skin_name';
+$service['timeout'] = 3600;
 $service['disableEolinSuggestion'] = false;
 $service['useEncodedURL'] = false;
