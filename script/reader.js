@@ -242,8 +242,8 @@ TTReader.prototype.refreshEntryList = function(group, feed)
 		} catch(e) {
 			Reader.selectedEntryObject = null;
 		}
-		Reader.setShownEntries(Integer.parseInt(this.getText("/response/entriesShown")));
-		Reader.setTotalEntries(Integer.parseInt(this.getText("/response/entriesTotal")));
+		Reader.setShownEntries(parseInt(this.getText("/response/entriesShown")));
+		Reader.setTotalEntries(parseInt(this.getText("/response/entriesTotal")));
 	}
 	request.onError= function () {
 		switch(parseInt(this.getText("/response/error")))
