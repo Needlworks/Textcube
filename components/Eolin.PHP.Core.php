@@ -976,8 +976,14 @@ class XMLStruct {
 					return $null;
 				}
 			}
-			if (empty($p))
-				return (isset($c[$d]) ? $c[$d] : null);
+			if (empty($p)) {
+				if (isset($c[$d])) {
+					return $c[$d];
+				} else {
+					$null = null;
+					return $null;
+				}
+			}
 			if (isset($c[$d][$o]))
 				$c = &$c[$d][$o];
 			else
