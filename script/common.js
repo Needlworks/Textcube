@@ -634,7 +634,7 @@ function updateFeed()
 	var http = createHttp();
 	if(http) {
 		http.open("GET", blogURL + "/feeder?" + (new Date()).getTime(), true);
-		http.send();
+		http.send("");
 	}
 }
 
