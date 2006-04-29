@@ -28,8 +28,8 @@
 //$__text['Apache Rewrite Engine'] = '';
 //$__text['E-mail'] = '';
 //$__text['EXPORT'] = '';
-//$__text['Eastern Time (US & Canada)'] = '';
-//$__text['Greenwich Mean Time'] = '';
+$__text['Eastern Time (US & Canada)'] = '동부 표준 시간 (미국,캐나다)';
+$__text['Greenwich Mean Time'] = '세계 표준 시간';
 //$__text['HTML 코드 직접 쓰기'] = '';
 //$__text['IMPORT'] = '';
 //$__text['IP 필터링'] = '';
@@ -51,7 +51,7 @@
 //$__text['RSS를 읽어올 수 없습니다'] = '';
 //$__text['RSS파일의 글 본문은&nbsp;%1를 원칙으로 합니다'] = '';
 //$__text['RSS파일의 블로그 글은 최신&nbsp;%1개로 갱신됩니다'] = '';
-//$__text['Republic Of Korea'] = '';
+$__text['Republic Of Korea'] = '대한민국';
 //$__text['Rewrite를 사용할 수 없습니다.'] = '';
 //$__text['URL 입력'] = '';
 //$__text['URL로 읽어오기'] = '';

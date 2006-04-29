@@ -792,6 +792,9 @@ class XMLStruct {
 					return false;
 				}
 			}
+		} else {
+			if (substr($xml, 0, 3) == "\xEF\xBB\xBF")
+				$xml = substr($xml, 3);
 		}
 		$p = xml_parser_create();
 		xml_set_object($p, $this);
@@ -976,8 +979,14 @@ class XMLStruct {
 					return $null;
 				}
 			}
-			if (empty($p))
-				return (isset($c[$d]) ? $c[$d] : null);
+			if (empty($p)) {
+				if (isset($c[$d])) {
+					return $c[$d];
+				} else {
+					$null = null;
+					return $null;
+				}
+			}
 			if (isset($c[$d][$o]))
 				$c = &$c[$d][$o];
 			else

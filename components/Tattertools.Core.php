@@ -31,4 +31,9 @@ class User {
 		return DBQuery::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = $owner AND password = '$password'");
 	}
 }
+
+/// Backward-Compatibility
+function getTimestamp3($time) {
+	return Timestamp::format3($time);
+}
 ?>
