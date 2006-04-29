@@ -792,6 +792,9 @@ class XMLStruct {
 					return false;
 				}
 			}
+		} else {
+			if (substr($xml, 0, 3) == "\xEF\xBB\xBF")
+				$xml = substr($xml, 3);
 		}
 		$p = xml_parser_create();
 		xml_set_object($p, $this);
