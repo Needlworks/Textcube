@@ -58,6 +58,6 @@ function executeQuery($query) {
 }
 
 function escapeMysqlSearchString($str) {
-	return str_replace('_', '\_', str_replace('%', '\%', mysql_escape_string($str)));
+	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', mysql_escape_string($str))) : $str;
 }
 ?>
