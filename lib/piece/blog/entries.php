@@ -32,7 +32,7 @@ foreach ($entries as $entry) {
 			$permalink = "$blogURL/" . ($blog['useSlogan'] ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
 		if (doesHaveOwnership()) {
 			$managementView = $skin->management;
-			dress('s_ad_m_link', "$blogURL/owner/entry/edit/{$entry['id']}?returnURL=" . $permalink, $managementView);
+			dress('s_ad_m_link', "$blogURL/owner/entry/edit/{$entry['id']}?returnURL=" . (@$service['useEncodedURL'] ? $permalink : str_replace('%2F', '/', rawurlencode($permalink))), $managementView);
 			dress('s_ad_s1_label', getEntryVisibilityName($entry['visibility']), $managementView);
 			if ($entry['visibility'] < 2) {
 				dress('s_ad_s2_label', _t('공개로 변경합니다'), $managementView);
