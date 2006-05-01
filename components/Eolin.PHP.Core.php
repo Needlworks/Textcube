@@ -85,21 +85,110 @@ class UTF8 {
 		return $str;
 		}
 	
-	/*@lessen@*/
-	function lessen($str, $length, $tail = '..') {
-		$l = strlen($str);
-		for ($i = $n = 0; $i < $l; $i ++, $n ++) {
-			if ($n >= $length)
-				return substr($str, 0, $i) . $tail;
-			$c = ord($str{$i});
-			if (($c & 0xF0) == 0xF0)
-				$i += 3;
-			else if (($c & 0xE0) == 0xE0)
-				$i += 2;
-			else if (($c & 0xC0) == 0xC0)
+	/*@static@*/
+	function length($str) {
+		for ($i = $length = 0; $i < strlen($str); $length++) {
+			$high = ord($str{$i});
+			if ($high < 0x80)
 				$i += 1;
+			else if ($high < 0xE0)
+				$i += 2;
+			else if ($high < 0xF0)
+				$i += 3;
+			else
+				$i += 4;
 		}
-		return $str;
+		return $length;
+	}
+	
+	/*@static@*/
+	function lengthAsEm($str) {
+		for ($i = $length = 0; $i < strlen($str); ) {
+			$high = ord($str{$i});
+			if ($high < 0x80) {
+				$i += 1;
+				$length += 1;
+			} else {
+				if ($high < 0xE0)
+					$i += 2;
+				else if ($high < 0xF0)
+					$i += 3;
+				else
+					$i += 4;
+				$length += 2;
+			}
+		}
+		return $length;
+	}
+	
+	/*@static@*/
+	function lessen($str, $chars, $tail = '..') {
+		if (UTF8::length($str) <= $chars)
+			$tail = '';
+		else
+			$chars -= UTF8::length($tail);
+		for ($i = $adapted = 0; $i < strlen($str); $adapted = $i) {
+			$high = ord($str{$i});
+			if ($high < 0x80)
+				$i += 1;
+			else if ($high < 0xE0)
+				$i += 2;
+			else if ($high < 0xF0)
+				$i += 3;
+			else
+				$i += 4;
+			if (--$chars < 0)
+				break;
+		}
+		return substr($str, 0, $adapted) . $tail;
+	}
+	
+	/*@static@*/
+	function lessenAsByte($str, $bytes, $tail = '..') {
+		if (strlen($str) <= $bytes)
+			$tail = '';
+		else
+			$bytes -= strlen($tail);
+		for ($i = $adapted = 0; $i < strlen($str); $adapted = $i) {
+			$high = ord($str{$i});
+			if ($high < 0x80)
+				$i += 1;
+			else if ($high < 0xE0)
+				$i += 2;
+			else if ($high < 0xF0)
+				$i += 3;
+			else
+				$i += 4;
+			if ($i > $bytes)
+				break;
+		}
+		return substr($str, 0, $adapted) . $tail;
+	}
+	
+	/*@static@*/
+	function lessenAsEm($str, $ems, $tail = '..') {
+		if (UTF8::lengthAsEm($str) <= $ems)
+			$tail = '';
+		else
+			$ems -= strlen($tail);
+		for ($i = $adapted = 0; $i < strlen($str); $adapted = $i) {
+			$high = ord($str{$i});
+			if ($high < 0x80) {
+				$i += 1;
+				$ems -= 1;
+			} else {
+				if ($high < 0xE0)
+					$i += 2;
+				else if ($high < 0xF0)
+					$i += 3;
+				else
+					$i += 4;
+				$ems -= 2;
+			}
+			if ($ems < 0)
+				break;
+		}
+		return substr($str, 0, $adapted) . $tail;
 	}
 }
 

@@ -282,14 +282,26 @@ TTEditor.prototype.ttml2html = function() {
 
 
 	// Flash 처리
-	var regEmbed = new RegExp("<embed([^<]*?)application/x-shockwave-flash(.*?)></embed>", "gi");
-	while(result = regEmbed.exec(str))
-		str = str.replaceAll(result[0], '<img class="tatterFlash" src="' + servicePath + '/image/spacer.gif"' + this.parseImageSize(result[0], "string", "css") + ' longDesc="' + this.parseAttribute(result[0], "src") + '"/>');
+	while(true) {
+		var regEmbed = new RegExp("<embed([^<]*?)application/x-shockwave-flash(.*?)></embed>", "gi");
+		if(result = regEmbed.exec(str)) {
+			var body = result[0];
+			str = str.replaceAll(body, '<img class="tatterFlash" src="' + servicePath + '/image/spacer.gif"' + this.parseImageSize(body, "string", "css") + ' longDesc="' + this.parseAttribute(body, "src") + '"/>');
+		}
+		else
+			break;
+	}
 
 	// Embed 처리
-	var regEmbed = new RegExp("<embed([^<]*?)></embed>", "gi");
-	while(result = regEmbed.exec(str))
-		str = str.replaceAll(result[0], '<img class="tatterEmbed" src="' + servicePath + '/image/spacer.gif"' + this.parseImageSize(result[0], "string", "css") + ' longDesc="' + this.parseAttribute(result[0], "src") + '"/>');
+	while(true) {
+		var regEmbed = new RegExp("<embed([^<]*?)></embed>", "gi");
+		if(result = regEmbed.exec(str)) {
+			var body = result[0];
+			str = str.replaceAll(body, '<img class="tatterEmbed" src="' + servicePath + '/image/spacer.gif"' + this.parseImageSize(body, "string", "css") + ' longDesc="' + this.parseAttribute(body, "src") + '"/>');
+		}
+		else
+			break;
+	}
 
 	return str;
 }
