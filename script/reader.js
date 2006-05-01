@@ -400,8 +400,8 @@ TTReader.prototype.editGroup = function(id, title)
 
 TTReader.prototype.cancelEditGroup = function()
 {
-	getObject("groupList").style.display = "block";
-	getObject("groupAdder").style.display = "block";
+	getObject("groupList").style.display = "";
+	getObject("groupAdder").style.display = "";
 	getObject("groupEditor").style.display = "none";
 }
 
@@ -506,8 +506,8 @@ TTReader.prototype.editFeed = function(id, url)
 
 TTReader.prototype.cancelEditFeed = function()
 {
-	getObject("feedList").style.display = "block";
-	getObject("feedAdder").style.display = "block";
+	getObject("feedList").style.display = "";
+	getObject("feedAdder").style.display = "";
 	getObject("feedEditor").style.display = "none";
 }
 
