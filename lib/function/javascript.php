@@ -1,11 +1,11 @@
 <?
 
 function escapeJSInAttribute($str) {
-	return htmlspecialchars(ereg_replace("([\r]*\n)", '\\\\0', addslashes($str)));
+	return htmlspecialchars(preg_replace(array('/\\\\/', '/\r/', '/\n/'), array('\\\\\\', '\\r', '\\n'), $str));
 }
 
 function escapeJSInCData($str) {
-	return str_replace('<', '\x3c', str_replace('>', '\x3e', ereg_replace("([\r]*\n)", '\\\\0', addslashes($str))));
+	return preg_replace(array('/</', '/>/', '/\r*\n|\r/'), array('\x3C', '\x3E', '\\\\$0'), addslashes($str));
 }
 
 function escapeCData($str) {

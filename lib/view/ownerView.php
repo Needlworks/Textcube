@@ -821,7 +821,7 @@ function printEntryFileList($attachments, $entryId) {
 				
 				function browser() {
 					disablePageManager();
-					getUploadObj().SetVariable('/:openBroswer','true');
+					getUploadObj().SetVariable('/:openBrowser','true');
 				}
 				
 				function stopUpload() {
