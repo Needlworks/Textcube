@@ -50,7 +50,7 @@ function receiveTrackback($owner, $entry, $title, $url, $excerpt, $blog_name) {
 	$excerpt = mysql_escape_string(correctTTForXmlText($excerpt));
 	$blog_name = mysql_escape_string($blog_name);
 	requireComponent('Tattertools.Data.Filter');
-	if (Filter::isFiltered('url', $url))
+	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $url))
 		return 1;
 	$result = mysql_query("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entry AND draft = 0 AND visibility > 0 AND acceptTrackback = 1");
 	if (mysql_num_rows($result) == 0)
