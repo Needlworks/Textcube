@@ -127,7 +127,7 @@ class UTF8 {
 			$tail = '';
 		else
 			$chars -= UTF8::length($tail);
-		for ($i = 0; $i < strlen($str); $adapted = $i) {
+		for ($i = $adapted = 0; $i < strlen($str); $adapted = $i) {
 			$high = ord($str{$i});
 			if ($high < 0x80)
 				$i += 1;
@@ -149,7 +149,7 @@ class UTF8 {
 			$tail = '';
 		else
 			$bytes -= strlen($tail);
-		for ($i = 0; $i < strlen($str); $adapted = $i) {
+		for ($i = $adapted = 0; $i < strlen($str); $adapted = $i) {
 			$high = ord($str{$i});
 			if ($high < 0x80)
 				$i += 1;
@@ -171,7 +171,7 @@ class UTF8 {
 			$tail = '';
 		else
 			$ems -= strlen($tail);
-		for ($i = 0; $i < strlen($str); $adapted = $i) {
+		for ($i = $adapted = 0; $i < strlen($str); $adapted = $i) {
 			$high = ord($str{$i});
 			if ($high < 0x80) {
 				$i += 1;
