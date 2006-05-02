@@ -301,7 +301,7 @@ function getFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = f
 
 function addFeedGroup($owner, $title) {
 	global $database;
-	$title = mysql_escape_string(stripHTML($title));
+	$title = mysql_escape_string(mysql_lessen(stripHTML($title)));
 	if (empty($title))
 		return 1;
 	if (fetchQueryCell("SELECT id FROM {$database['prefix']}FeedGroups WHERE owner = $owner AND title = '$title'") !== null) {
@@ -360,9 +360,9 @@ function addFeed($owner, $group = 0, $url, $getEntireFeed = true, $htmlURL = '',
 		mysql_query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($owner, $id, $group)");
 		saveFeedItems($id, $xml);
 	} else {
-		$htmlURL = mysql_escape_string(stripHTML($htmlURL));
-		$blogTitle = mysql_escape_string(stripHTML($blogTitle));
-		$blogDescription = mysql_escape_string(stripHTML($blogDescription));
+		$htmlURL = mysql_escape_string(mysql_lessen(stripHTML($htmlURL)));
+		$blogTitle = mysql_escape_string(mysql_lessen(stripHTML($blogTitle)));
+		$blogDescription = mysql_escape_string(mysql_lessen(stripHTML($blogDescription)));
 		mysql_query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '$url', '$htmlURL', '$blogTitle', '$blogDescription', 'en-US', 0)");
 		$id = mysql_insert_id();
 		mysql_query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($owner, $id, $group)");
@@ -386,34 +386,41 @@ function getRemoteFeed($url) {
 	if (!$xmls->open($xml, $service['encoding']))
 		return array(3, null, null);
 	if ($xmls->getAttribute('/rss', 'version')) {
-		$feed['blogURL'] = mysql_escape_string(stripHTML($xmls->getValue('/rss/channel/link')));
-		$feed['title'] = mysql_escape_string(stripHTML($xmls->getValue('/rss/channel/title')));
-		$feed['description'] = mysql_escape_string(stripHTML($xmls->getValue('/rss/channel/description')));
-		if ($xmls->getValue('/rss/channel/language')) {
-			$feed['language'] = mysql_escape_string($xmls->getValue('/rss/channel/language'));
-		} else if ($xmls->getValue('/rss/channel/dc:language')) {
-			$feed['language'] = mysql_escape_string($xmls->getValue('/rss/channel/dc:language'));
+		$feed['blogURL'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rss/channel/link'))));
+		$feed['title'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rss/channel/title'))));
+		$feed['description'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rss/channel/description'))));
+		if (Validator::language($xmls->getValue('/rss/channel/language'))) {
+			$feed['language'] = $xmls->getValue('/rss/channel/language');
+		} else if (Validator::language($xmls->getValue('/rss/channel/dc:language'))) {
+			$feed['language'] = $xmls->getValue('/rss/channel/dc:language');
 		} else
 			$feed['language'] = 'en-US';
-		$feed['modified'] = time();
+		$feed['modified'] = gmmktime();
 	} else if ($xmls->getAttribute('/feed', 'version')) {
-		$feed['blogURL'] = mysql_escape_string(stripHTML($xmls->getAttribute('/feed/link', 'href')));
-		$feed['title'] = mysql_escape_string(stripHTML($xmls->getValue('/feed/title')));
-		$feed['description'] = mysql_escape_string(stripHTML($xmls->getValue('/feed/tagline')));
-		$feed['language'] = mysql_escape_string(stripHTML($xmls->getAttribute('/feed', 'xml:lang')));
-		$feed['modified'] = time();
+		$feed['blogURL'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getAttribute('/feed/link', 'href'))));
+		$feed['title'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/feed/title'))));
+		$feed['description'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/feed/tagline'))));
+		if(Validator::language($xmls->getAttribute('/feed', 'xml:lang')))
+			$feed['language'] = $xmls->getAttribute('/feed', 'xml:lang');
+		else
+			$feed['language'] = 'en-US';
+		$feed['modified'] = gmmktime();
 	} else if ($xmls->getAttribute('/rdf:RDF', 'xmlns')) {
 		if($xmls->getAttribute('/rdf:RDF/channel/link', 'href')) {
-			$feed['blogURL'] = mysql_escape_string(stripHTML($xmls->getAttribute('/rdf:RDF/channel/link', 'href')));
+			$feed['blogURL'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getAttribute('/rdf:RDF/channel/link', 'href'))));
 		} else if($xmls->getValue('/rdf:RDF/channel/link')) {
-			$feed['blogURL'] = mysql_escape_string(stripHTML($xmls->getValue('/rdf:RDF/channel/link')));
+			$feed['blogURL'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rdf:RDF/channel/link'))));
 		} else
 			$feed['blogURL'] = '';
-		$feed['title'] = mysql_escape_string(stripHTML($xmls->getValue('/rdf:RDF/channel/title')));
-		$feed['description'] = mysql_escape_string(stripHTML($xmls->getValue('/rdf:RDF/channel/description')));
-		if (!$feed['language'] = mysql_escape_string(stripHTML($xmls->getValue('/rdf:RDF/channel/dc:language'))))
-			$feed['language'] = mysql_escape_string(stripHTML($xmls->getAttribute('/rdf:RDF', 'xml:lang')));
-		$feed['modified'] = time();
+		$feed['title'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rdf:RDF/channel/title'))));
+		$feed['description'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rdf:RDF/channel/description'))));
+		if(Validator::language($xmls->getValue('/rdf:RDF/channel/dc:language')))
+			$feed['language'] = $xmls->getValue('/rdf:RDF/channel/dc:language');
+		else if(Validator::language($xmls->getAttribute('/rdf:RDF', 'xml:lang')))
+			$feed['language'] = $xmls->getAttribute('/rdf:RDF', 'xml:lang');
+		else
+			$feed['language'] = 'en-US';
+		$feed['modified'] = gmmktime();
 	} else
 		return array(3, null, null);
 	return array(0, $feed, $xml);
@@ -426,12 +433,12 @@ function saveFeedItems($feedId, $xml) {
 		return false;
 	if ($xmls->getAttribute('/rss', 'version')) {
 		for ($i = 0; $link = $xmls->getValue("/rss/channel/item[$i]/link"); $i++) {
-			$item = array('permalink' => mysql_escape_string(rawurldecode($link)));
-			if (!$item['author'] = mysql_escape_string(stripHTML($xmls->getValue("/rss/channel/item[$i]/author"))))
-				$item['author'] = mysql_escape_string(stripHTML($xmls->getValue("/rss/channel/item[$i]/dc:creator")));
-			$item['title'] = mysql_escape_string(stripHTML($xmls->getValue("/rss/channel/item[$i]/title")));
-			if (!$item['description'] = mysql_escape_string($xmls->getValue("/rss/channel/item[$i]/content:encoded")))
-				$item['description'] = mysql_escape_string($xmls->getValue("/rss/channel/item[$i]/description"));
+			$item = array('permalink' => mysql_escape_string(mysql_lessen(rawurldecode($link))));
+			if (!$item['author'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue("/rss/channel/item[$i]/author")))))
+				$item['author'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue("/rss/channel/item[$i]/dc:creator"))));
+			$item['title'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue("/rss/channel/item[$i]/title"))));
+			if (!$item['description'] = mysql_escape_string(mysql_lessen($xmls->getValue("/rss/channel/item[$i]/content:encoded"), 65535)))
+				$item['description'] = mysql_escape_string(mysql_lessen($xmls->getValue("/rss/channel/item[$i]/description"), 65535));
 			$item['tags'] = array();
 			for ($j = 0; $tag = $xmls->getValue("/rss/channel/item[$i]/category[$j]"); $j++) {
 				array_push($item['tags'], mysql_escape_string(stripHTML($tag)));
@@ -453,10 +460,10 @@ function saveFeedItems($feedId, $xml) {
 		}
 	} else if ($xmls->getAttribute('/feed', 'version')) {
 		for ($i = 0; $link = $xmls->getValue("/feed/entry[$i]/id"); $i++) {
-			$item = array('permalink' => mysql_escape_string(rawurldecode($link)));
-			$item['author'] = mysql_escape_string(stripHTML($xmls->getValue("/feed/entry[$i]/author/name")));
-			$item['title'] = mysql_escape_string(stripHTML($xmls->getValue("/feed/entry[$i]/title")));
-			$item['description'] = mysql_escape_string($xmls->getValue("/feed/entry[$i]/content"));
+			$item = array('permalink' => mysql_escape_string(mysql_lessen(rawurldecode($link))));
+			$item['author'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue("/feed/entry[$i]/author/name"))));
+			$item['title'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue("/feed/entry[$i]/title"))));
+			$item['description'] = mysql_escape_string(mysql_lessen($xmls->getValue("/feed/entry[$i]/content"), 65535));
 			$item['tags'] = array();
 			for ($j = 0; $tag = $xmls->getValue("/feed/entry[$i]/dc:subject[$j]"); $j++) {
 				array_push($item['tags'], mysql_escape_string(stripHTML($tag)));
@@ -470,11 +477,11 @@ function saveFeedItems($feedId, $xml) {
 		}
 	} else if ($xmls->getAttribute('/rdf:RDF', 'xmlns')) {
 		for ($i = 0; $link = $xmls->getValue("/rdf:RDF/item[$i]/link"); $i++) {
-			$item = array('permalink' => mysql_escape_string(rawurldecode($link)));
-			$item['author'] = mysql_escape_string(stripHTML($xmls->getValue("/rdf:RDF/item[$i]/dc:creator")));
-			$item['title'] = mysql_escape_string(stripHTML($xmls->getValue("/rdf:RDF/item[$i]/title")));
-			if (!$item['description'] = mysql_escape_string($xmls->getValue("/rdf:RDF/item[$i]/content:encoded")))
-				$item['description'] = mysql_escape_string($xmls->getValue("/rdf:RDF/item[$i]/description"));
+			$item = array('permalink' => mysql_escape_string(mysql_lessen(rawurldecode($link))));
+			$item['author'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue("/rdf:RDF/item[$i]/dc:creator"))));
+			$item['title'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue("/rdf:RDF/item[$i]/title"))));
+			if (!$item['description'] = mysql_escape_string(mysql_lessen($xmls->getValue("/rdf:RDF/item[$i]/content:encoded"), 65535)))
+				$item['description'] = mysql_escape_string(mysql_lessen($xmls->getValue("/rdf:RDF/item[$i]/description"), 65535));
 			$item['tags'] = array();
 			$item['enclosures'] = array();
 			$item['written'] = parseDate($xmls->getValue("/rdf:RDF/item[$i]/dc:date"));
@@ -499,8 +506,8 @@ function saveFeedItem($feedId, $item) {
 	global $database;
 	if ($item['written'] > gmmktime() + 86400)
 		return false;
-	$tagString = implode(', ', $item['tags']);
-	$enclosureString = implode('|', $item['enclosures']);
+	$tagString = mysql_lessen(implode(', ', $item['tags']));
+	$enclosureString = mysql_lessen(implode('|', $item['enclosures']));
 	$deadLine = 0;
 	$feedLife = fetchQueryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings");
 	if($feedLife > 0)
@@ -557,7 +564,7 @@ function updateFeed($feedRow) {
 		executeQuery("UPDATE {$database['prefix']}Feeds SET modified = 0 WHERE xmlURL = '{$feedRow['xmlURL']}'");
 		return $status;
 	} else {
-		executeQuery("UPDATE {$database['prefix']}Feeds SET blogURL = '{$feed['blogURL']}', title = '{$feed['title']}', description = '{$feed['description']}', language = '{$feed['language']}', modified = " . time() . " WHERE xmlURL = '{$feedRow['xmlURL']}'");
+		executeQuery("UPDATE {$database['prefix']}Feeds SET blogURL = '{$feed['blogURL']}', title = '{$feed['title']}', description = '{$feed['description']}', language = '{$feed['language']}', modified = " . gmmktime() . " WHERE xmlURL = '{$feedRow['xmlURL']}'");
 		return saveFeedItems($feedRow['id'], $xml) ? 0 : 1;
 	}
 }
@@ -596,7 +603,7 @@ function parseDate($str) {
 		list($d, $m, $y, $time) = explode(" ", $str);
 		list($h, $i, $s) = explode(":", $time);
 	} else {
-		return time();
+		return gmmktime();
 	}
 	if (!$h)
 		$h = "00";
