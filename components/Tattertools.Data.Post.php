@@ -387,9 +387,9 @@ class Post {
 		if (isset($this->password))
 			$query->setAttribute('password', $this->password, false);
 		if (isset($this->acceptComment))
-			$query->setAttribute('acceptComment', $this->acceptComment);
+			$query->setAttribute('acceptComment', Validator::getBit($this->acceptComment));
 		if (isset($this->acceptTrackback))
-			$query->setAttribute('acceptTrackback', $this->acceptTrackback);
+			$query->setAttribute('acceptTrackback', Validator::getBit($this->acceptTrackback));
 		if (isset($this->published)) {
 			if (!Validator::number($this->published, 1))
 				return $this->_error('published');
