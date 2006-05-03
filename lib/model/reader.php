@@ -570,6 +570,10 @@ function updateFeed($feedRow) {
 }
 
 function parseDate($str) {
+	if(preg_match('/^(\d{4})년 (\d{2})월 (\d{2})일  (\d{2}):(\d{2}):(\d{2})$/', $str, $matches))
+		return parseDate("{$matches[1]}-{$matches[2]}-{$matches[3]} {$matches[4]}:{$matches[5]}:{$matches[6]}");
+	if(preg_match('/^(\d{2})-(\d{2})-(\d{4}) (\d{2}):(\d{2})$/', $str, $matches))
+		return parseDate("{$matches[3]}-{$matches[1]}-{$matches[2]} {$matches[4]}:{$matches[5]}:00}");
 	if (empty($str))
 		return 0;
 	$time = strtotime($str);
