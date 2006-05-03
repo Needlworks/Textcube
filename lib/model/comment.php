@@ -214,6 +214,8 @@ function addComment($owner, & $comment) {
 			return 'blocked';
 		if (Filter::isFiltered('content', $comment['comment']))
 			return 'blocked';
+		if (!fireEvent('AddingComment', true, $comment))
+			return 'blocked';
 	}
 	if (!doesHaveOwnership() && $comment['entry'] != 0) {
 		$result = mysql_query("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = {$comment['entry']} AND draft = 0 AND visibility > 0 AND acceptComment = 1");
@@ -276,6 +278,8 @@ function updateComment($owner, $comment, $password) {
 		if (Filter::isFiltered('url', $comment['homepage']))
 			return 'blocked';
 		if (Filter::isFiltered('content', $comment['comment']))
+			return 'blocked';
+		if (!fireEvent('ModifyingComment', true, $comment))
 			return 'blocked';
 	}
 	$setPassword = '';

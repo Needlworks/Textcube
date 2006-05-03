@@ -43,27 +43,36 @@ function getRecentTrackbacks($owner) {
 	return $trackbacks;
 }
 
-function receiveTrackback($owner, $entry, $title, $url, $excerpt, $blog_name) {
+function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 	global $database;
-	$title = mysql_escape_string(correctTTForXmlText($title));
-	$url = mysql_escape_string($url);
-	$excerpt = mysql_escape_string(correctTTForXmlText($excerpt));
-	$blog_name = mysql_escape_string($blog_name);
+
+	requireComponent('Tattertools.Data.Post');
+	if (!Post::doesAcceptTrackback($entry))
+		return 3;
+	
+	$title = correctTTForXmlText($title);
+	$excerpt = correctTTForXmlText($excerpt);
+
 	requireComponent('Tattertools.Data.Filter');
 	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $url))
 		return 1;
-	$result = mysql_query("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entry AND draft = 0 AND visibility > 0 AND acceptTrackback = 1");
-	if (mysql_num_rows($result) == 0)
-		return 3;
 	if (Filter::isFiltered('content', $excerpt))
 		return 1;
-	$trackbacks = mysql_fetch_array($result);
-	if (fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Trackbacks WHERE entry=$entry AND url='$url' AND owner=$owner") == 0) {
-		mysql_query("INSERT INTO {$database['prefix']}Trackbacks VALUES ('', $owner, $entry, '$url', NULL, '$blog_name', '$title', '$excerpt', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP())");
-	} else {
+
+	if (!fireEvent('AddingTrackback', true, array('entry' => $entry, 'url' => $url, 'site' => $site, 'title' => $title, 'excerpt' => $excerpt)))
+		return 1;
+
+	requireComponent('Tattertools.Data.Trackback');
+	$trackback = new Trackback();
+	$trackback->entry = $entry;
+	$trackback->url = $url;
+	$trackback->site = $site;
+	$trackback->title = $title;
+	$trackback->excerpt = $excerpt;
+	if ($trackback->add())
+		return 0;
+	else
 		return 4;
-	}
-	updateTrackbacksOfEntry($owner, $entry);
 	return 0;
 }
 

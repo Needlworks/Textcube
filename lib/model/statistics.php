@@ -69,11 +69,13 @@ function updateVisitorStatistics($owner) {
 		if (!empty($_SERVER['HTTP_REFERER'])) {
 			$referer = parse_url($_SERVER['HTTP_REFERER']);
 			if (!empty($referer['host']) && (($referer['host'] != $_SERVER['HTTP_HOST']) || (strncmp($referer['path'], $blogURL, strlen($blogURL)) != 0))) {
+				requireComponent('Tattertools.Data.Filter');
+				if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $_SERVER['HTTP_REFERER']))
+					return;
+				if (!fireEvent('AddingRefererLog', true, array('host' => $referer['host'], 'url' => $_SERVER['HTTP_REFERER'])))
+					return;
 				$host = mysql_escape_string($referer['host']);
 				$url = mysql_escape_string($_SERVER['HTTP_REFERER']);
-				requireComponent('Tattertools.Data.Filter');
-				if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $url))
-					return;
 				mysql_query("insert into {$database['prefix']}RefererLogs values($owner, '$host', '$url', UNIX_TIMESTAMP())");
 				mysql_query("delete from {$database['prefix']}RefererLogs where referred < UNIX_TIMESTAMP() - 5184000");
 				if (!mysql_query("update {$database['prefix']}RefererStatistics set count = count + 1 where owner = $owner and host = '$host'") || (mysql_affected_rows() == 0))
