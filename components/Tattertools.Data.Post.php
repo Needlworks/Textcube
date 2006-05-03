@@ -307,6 +307,14 @@ class Post {
 	}
 	
 	/*@static@*/
+	function doesAcceptTrackback($id) {
+		global $database, $owner;
+		if (!Validator::number($id, 1))
+			return false;
+		return DBQuery::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0 AND visibility > 0 AND category >= 0 AND acceptTrackback = 1");
+	}
+	
+	/*@static@*/
 	function updateComments($id = null) {
 		global $database, $owner;
 		$posts = ($id === null ? DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND category >= 0 AND draft = 0") : array($id));
