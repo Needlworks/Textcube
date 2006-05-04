@@ -49,7 +49,7 @@ $writer->write('<blog type="tattertools/1.0" migrational="false">');
 $setting = new BlogSetting();
 if ($setting->load()) {
 	$setting->escape();
-	$writer->write('<setting>' . '<name>' . $setting->name . '</name>' . '<secondaryDomain>' . $setting->secondaryDomain . '</secondaryDomain>' . '<defaultDomain>' . Validator::getBit($setting->defaultDomain) . '</defaultDomain>' . '<title>' . $setting->title . '</title>' . '<description>' . UTF8::adapt($setting->description) . '</description>' . '<banner><name>' . $setting->banner . '</name>');
+	$writer->write('<setting>' . '<name>' . $setting->name . '</name>' . '<secondaryDomain>' . $setting->secondaryDomain . '</secondaryDomain>' . '<defaultDomain>' . Validator::getBit($setting->defaultDomain) . '</defaultDomain>' . '<title>' . $setting->title . '</title>' . '<description>' . UTF8::correct($setting->description) . '</description>' . '<banner><name>' . $setting->banner . '</name>');
 	if ($includeFileContents && file_exists(ROOT . "/attach/$owner/{$setting->banner}")) {
 		$writer->write('<content>');
 		Base64Stream::encode(ROOT . "/attach/$owner/{$setting->banner}", $writer);
@@ -78,7 +78,7 @@ if ($category->open()) {
 $post = new Post();
 if ($post->open('', '*', 'published, id')) {
 	do {
-		$writer->write('<post' . ' slogan="' . $post->slogan . '"' . '>' . '<id>' . $post->id . '</id>' . '<visibility>' . $post->visibility . '</visibility>' . '<title>' . htmlspecialchars($post->title) . '</title>' . '<content>' . htmlspecialchars(UTF8::adapt($post->content)) . '</content>' . '<location>' . htmlspecialchars($post->location) . '</location>' . ($post->password !== null ? '<password>' . htmlspecialchars($post->password) . '</password>' : '') . '<acceptComment>' . $post->acceptComment . '</acceptComment>' . '<acceptTrackback>' . $post->acceptTrackback . '</acceptTrackback>' . '<published>' . $post->published . '</published>' . '<created>' . $post->created . '</created>' . '<modified>' . $post->modified . '</modified>');
+		$writer->write('<post' . ' slogan="' . $post->slogan . '"' . '>' . '<id>' . $post->id . '</id>' . '<visibility>' . $post->visibility . '</visibility>' . '<title>' . htmlspecialchars($post->title) . '</title>' . '<content>' . htmlspecialchars(UTF8::correct($post->content)) . '</content>' . '<location>' . htmlspecialchars($post->location) . '</location>' . ($post->password !== null ? '<password>' . htmlspecialchars($post->password) . '</password>' : '') . '<acceptComment>' . $post->acceptComment . '</acceptComment>' . '<acceptTrackback>' . $post->acceptTrackback . '</acceptTrackback>' . '<published>' . $post->published . '</published>' . '<created>' . $post->created . '</created>' . '<modified>' . $post->modified . '</modified>');
 		if ($post->category)
 			$writer->write('<category>' . htmlspecialchars(Category::getLabel($post->category)) . '</category>');
 		if ($post->loadTags()) {
@@ -101,11 +101,11 @@ if ($post->open('', '*', 'published, id')) {
 		}
 		if ($comment = $post->getComments()) {
 			do {
-				$writer->write('<comment>' . '<commenter' . ' id="' . $comment->commenter . '"' . ' email="' . User::getEmail($comment->commenter) . '"' . '>' . '<name>' . htmlspecialchars(UTF8::adapt($comment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::adapt($comment->homepage)) . '</homepage>' . '<ip>' . $comment->ip . '</ip>' . '</commenter>' . '<content>' . htmlspecialchars($comment->content) . '</content>' . '<password>' . htmlspecialchars($comment->password) . '</password>' . '<secret>' . htmlspecialchars($comment->secret) . '</secret>' . '<written>' . $comment->written . '</written>');
+				$writer->write('<comment>' . '<commenter' . ' id="' . $comment->commenter . '"' . ' email="' . User::getEmail($comment->commenter) . '"' . '>' . '<name>' . htmlspecialchars(UTF8::correct($comment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($comment->homepage)) . '</homepage>' . '<ip>' . $comment->ip . '</ip>' . '</commenter>' . '<content>' . htmlspecialchars($comment->content) . '</content>' . '<password>' . htmlspecialchars($comment->password) . '</password>' . '<secret>' . htmlspecialchars($comment->secret) . '</secret>' . '<written>' . $comment->written . '</written>');
 				$writer->write(CRLF);
 				if ($childComment = $comment->getChildren()) {
 					do {
-						$writer->write('<comment>' . '<commenter' . ' id="' . $childComment->commenter . '"' . ' email="' . User::getEmail($childComment->commenter) . '"' . '>' . '<name>' . htmlspecialchars(UTF8::adapt($childComment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::adapt($childComment->homepage)) . '</homepage>' . '<ip>' . $childComment->ip . '</ip>' . '</commenter>' . '<content>' . htmlspecialchars($childComment->content) . '</content>' . '<password>' . htmlspecialchars($childComment->password) . '</password>' . '<secret>' . htmlspecialchars($childComment->secret) . '</secret>' . '<written>' . $childComment->written . '</written>' . '</comment>');
+						$writer->write('<comment>' . '<commenter' . ' id="' . $childComment->commenter . '"' . ' email="' . User::getEmail($childComment->commenter) . '"' . '>' . '<name>' . htmlspecialchars(UTF8::correct($childComment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($childComment->homepage)) . '</homepage>' . '<ip>' . $childComment->ip . '</ip>' . '</commenter>' . '<content>' . htmlspecialchars($childComment->content) . '</content>' . '<password>' . htmlspecialchars($childComment->password) . '</password>' . '<secret>' . htmlspecialchars($childComment->secret) . '</secret>' . '<written>' . $childComment->written . '</written>' . '</comment>');
 						$writer->write(CRLF);
 					} while ($childComment->shift());
 					$childComment->close();
@@ -117,7 +117,7 @@ if ($post->open('', '*', 'published, id')) {
 		}
 		if ($trackback = $post->getTrackbacks()) {
 			do {
-				$writer->write('<trackback>' . '<url>' . htmlspecialchars(UTF8::adapt($trackback->url)) . '</url>' . '<site>' . htmlspecialchars(UTF8::adapt($trackback->site)) . '</site>' . '<title>' . htmlspecialchars(UTF8::adapt($trackback->title)) . '</title>' . '<excerpt>' . htmlspecialchars(UTF8::adapt($trackback->excerpt)) . '</excerpt>' . '<ip>' . $trackback->ip . '</ip>' . '<received>' . $trackback->received . '</received>' . '</trackback>');
+				$writer->write('<trackback>' . '<url>' . htmlspecialchars(UTF8::correct($trackback->url)) . '</url>' . '<site>' . htmlspecialchars(UTF8::correct($trackback->site)) . '</site>' . '<title>' . htmlspecialchars(UTF8::correct($trackback->title)) . '</title>' . '<excerpt>' . htmlspecialchars(UTF8::correct($trackback->excerpt)) . '</excerpt>' . '<ip>' . $trackback->ip . '</ip>' . '<received>' . $trackback->received . '</received>' . '</trackback>');
 				$writer->write(CRLF);
 			} while ($trackback->shift());
 			$trackback->close();
@@ -125,7 +125,7 @@ if ($post->open('', '*', 'published, id')) {
 		if ($log = $post->getTrackbackLogs()) {
 			$writer->write('<logs>');
 			do {
-				$writer->write('<trackback>' . '<url>' . htmlspecialchars(UTF8::adapt($log->url)) . '</url>' . '<sent>' . $log->sent . '</sent>' . '</trackback>');
+				$writer->write('<trackback>' . '<url>' . htmlspecialchars(UTF8::correct($log->url)) . '</url>' . '<sent>' . $log->sent . '</sent>' . '</trackback>');
 				$writer->write(CRLF);
 			} while ($log->shift());
 			$writer->write('</logs>');
@@ -138,7 +138,7 @@ if ($post->open('', '*', 'published, id')) {
 $notice = new Notice();
 if ($notice->open()) {
 	do {
-		$writer->write('<notice>' . '<visibility>' . $notice->visibility . '</visibility>' . '<title>' . htmlspecialchars(UTF8::adapt($notice->title)) . '</title>' . '<content>' . htmlspecialchars(UTF8::adapt($notice->content)) . '</content>' . '<published>' . $notice->published . '</published>' . '<created>' . $notice->created . '</created>' . '<modified>' . $notice->modified . '</modified>');
+		$writer->write('<notice>' . '<visibility>' . $notice->visibility . '</visibility>' . '<title>' . htmlspecialchars(UTF8::correct($notice->title)) . '</title>' . '<content>' . htmlspecialchars(UTF8::correct($notice->content)) . '</content>' . '<published>' . $notice->published . '</published>' . '<created>' . $notice->created . '</created>' . '<modified>' . $notice->modified . '</modified>');
 		$writer->write(CRLF);
 		if ($attachment = $notice->getAttachments()) {
 			do {
@@ -161,7 +161,7 @@ if ($notice->open()) {
 $keyword = new Keyword();
 if ($keyword->open()) {
 	do {
-		$writer->write('<keyword>' . '<visibility>' . $keyword->visibility . '</visibility>' . '<name>' . htmlspecialchars(UTF8::adapt($keyword->name)) . '</name>' . '<description>' . htmlspecialchars(UTF8::adapt($keyword->description)) . '</description>' . '<published>' . $keyword->published . '</published>' . '<created>' . $keyword->created . '</created>' . '<modified>' . $keyword->modified . '</modified>');
+		$writer->write('<keyword>' . '<visibility>' . $keyword->visibility . '</visibility>' . '<name>' . htmlspecialchars(UTF8::correct($keyword->name)) . '</name>' . '<description>' . htmlspecialchars(UTF8::correct($keyword->description)) . '</description>' . '<published>' . $keyword->published . '</published>' . '<created>' . $keyword->created . '</created>' . '<modified>' . $keyword->modified . '</modified>');
 		$writer->write(CRLF);
 		if ($attachment = $keyword->getAttachments()) {
 			do {
@@ -184,7 +184,7 @@ if ($keyword->open()) {
 $link = new Link();
 if ($link->open()) {
 	do {
-		$writer->write('<link>' . '<url>' . htmlspecialchars(UTF8::adapt($link->url)) . '</url>' . '<title>' . htmlspecialchars(UTF8::adapt($link->title)) . '</title>' . '<feed>' . htmlspecialchars(UTF8::adapt($link->feed)) . '</feed>' . '<registered>' . $link->registered . '</registered>' . '</link>');
+		$writer->write('<link>' . '<url>' . htmlspecialchars(UTF8::correct($link->url)) . '</url>' . '<title>' . htmlspecialchars(UTF8::correct($link->title)) . '</title>' . '<feed>' . htmlspecialchars(UTF8::correct($link->feed)) . '</feed>' . '<registered>' . $link->registered . '</registered>' . '</link>');
 		$writer->write(CRLF);
 	} while ($link->shift());
 	$link->close();
@@ -193,7 +193,7 @@ $log = new RefererLog();
 if ($log->open()) {
 	$writer->write('<logs>');
 	do {
-		$writer->write('<referer>' . '<url>' . htmlspecialchars(UTF8::adapt($log->url)) . '</url>' . '<referred>' . $log->referred . '</referred>' . '</referer>');
+		$writer->write('<referer>' . '<url>' . htmlspecialchars(UTF8::correct($log->url)) . '</url>' . '<referred>' . $log->referred . '</referred>' . '</referer>');
 	} while ($log->shift());
 	$writer->write('</logs>');
 	$log->close();
@@ -202,7 +202,7 @@ $statistics = new RefererStatistics();
 if ($statistics->open()) {
 	$writer->write('<statistics>');
 	do {
-		$writer->write('<referer>' . '<host>' . htmlspecialchars(UTF8::adapt($statistics->host)) . '</host>' . '<count>' . $statistics->count . '</count>' . '</referer>');
+		$writer->write('<referer>' . '<host>' . htmlspecialchars(UTF8::correct($statistics->host)) . '</host>' . '<count>' . $statistics->count . '</count>' . '</referer>');
 		$writer->write(CRLF);
 	} while ($statistics->shift());
 	$writer->write('</statistics>');
@@ -245,11 +245,11 @@ $comment = new GuestComment();
 if ($comment->open('parent IS NULL')) {
 	$writer->write('<guestbook>');
 	do {
-		$writer->write('<comment>' . '<commenter' . ' id="' . $comment->commenter . '"' . ' email="' . User::getEmail($comment->commenter) . '"' . '>' . '<name>' . htmlspecialchars(UTF8::adapt($comment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::adapt($comment->homepage)) . '</homepage>' . '<ip>' . $comment->ip . '</ip>' . '</commenter>' . '<content>' . htmlspecialchars(UTF8::adapt($comment->content)) . '</content>' . '<password>' . htmlspecialchars($comment->password) . '</password>' . '<secret>' . htmlspecialchars($comment->secret) . '</secret>' . '<written>' . $comment->written . '</written>');
+		$writer->write('<comment>' . '<commenter' . ' id="' . $comment->commenter . '"' . ' email="' . User::getEmail($comment->commenter) . '"' . '>' . '<name>' . htmlspecialchars(UTF8::correct($comment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($comment->homepage)) . '</homepage>' . '<ip>' . $comment->ip . '</ip>' . '</commenter>' . '<content>' . htmlspecialchars(UTF8::correct($comment->content)) . '</content>' . '<password>' . htmlspecialchars($comment->password) . '</password>' . '<secret>' . htmlspecialchars($comment->secret) . '</secret>' . '<written>' . $comment->written . '</written>');
 		$writer->write(CRLF);
 		if ($childComment = $comment->getChildren()) {
 			do {
-				$writer->write('<comment>' . '<commenter' . ' id="' . $childComment->commenter . '"' . ' email="' . User::getEmail($childComment->commenter) . '"' . '>' . '<name>' . htmlspecialchars(UTF8::adapt($childComment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::adapt($childComment->homepage)) . '</homepage>' . '<ip>' . $childComment->ip . '</ip>' . '</commenter>' . '<content>' . htmlspecialchars(UTF8::adapt($childComment->content)) . '</content>' . '<password>' . htmlspecialchars($childComment->password) . '</password>' . '<secret>' . htmlspecialchars($childComment->secret) . '</secret>' . '<written>' . $childComment->written . '</written>' . '</comment>');
+				$writer->write('<comment>' . '<commenter' . ' id="' . $childComment->commenter . '"' . ' email="' . User::getEmail($childComment->commenter) . '"' . '>' . '<name>' . htmlspecialchars(UTF8::correct($childComment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($childComment->homepage)) . '</homepage>' . '<ip>' . $childComment->ip . '</ip>' . '</commenter>' . '<content>' . htmlspecialchars(UTF8::correct($childComment->content)) . '</content>' . '<password>' . htmlspecialchars($childComment->password) . '</password>' . '<secret>' . htmlspecialchars($childComment->secret) . '</secret>' . '<written>' . $childComment->written . '</written>' . '</comment>');
 				$writer->write(CRLF);
 			} while ($childComment->shift());
 			$childComment->close();
@@ -271,7 +271,7 @@ if ($filter->open()) {
 $feed = new Feed();
 if ($feed->open()) {
 	do {
-		$writer->write('<feed>' . '<group>' . htmlspecialchars($feed->getGroupName()) . '</group>' . '<url>' . htmlspecialchars(UTF8::adapt($feed->url)) . '</url>' . '</feed>');
+		$writer->write('<feed>' . '<group>' . htmlspecialchars($feed->getGroupName()) . '</group>' . '<url>' . htmlspecialchars(UTF8::correct($feed->url)) . '</url>' . '</feed>');
 		$writer->write(CRLF);
 	} while ($feed->shift());
 	$feed->close();
