@@ -328,7 +328,8 @@ function getTrackbacksView($entryId, & $skin) {
 	global $suri, $hostURL, $blogURL, $skinSetting;
 	$trackbacksView = '';
 	foreach (getTrackbacks($entryId) as $trackback) {
-		$trackbackView = "<a id=\"trackback{$trackback['id']}\"></a>" . $skin->trackback;
+		if (!$trackback['sender']) {
+	    	$trackbackView = "<a id=\"trackback{$trackback['id']}\"></a>" . $skin->trackback;
 		dress('tb_rep_title', htmlspecialchars($trackback['subject']), $trackbackView);
 		dress('tb_rep_site', htmlspecialchars($trackback['site']), $trackbackView);
 		dress('tb_rep_url', htmlspecialchars($trackback['url']), $trackbackView);
@@ -336,6 +337,7 @@ function getTrackbacksView($entryId, & $skin) {
 		dress('tb_rep_onclick_delete', "deleteTrackback({$trackback['id']}, $entryId)", $trackbackView);
 		dress('tb_rep_date', Timestamp::format5($trackback['written']), $trackbackView);
 		$trackbacksView .= $trackbackView;
+		}
 	}
 	if ($skinSetting['expandTrackback'] == 1 || (($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
 		$style = 'block';
