@@ -200,6 +200,15 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 		alignCenter(openWindow,width,height);
 	}
 	
+	function editEntry(parent,child) {	
+		width =  825;
+		height = 550;
+		if(openWindow != '') openWindow.close();
+		openWindow = window.open("<?=$blogURL?>/owner/entry/edit/" + parent + "?returnURL=" + child,"tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=1,status=0,toolbar=0");
+		openWindow.focus();
+		alignCenter(openWindow,width,height);
+	}
+	
 	function guestbookComment(parent) {	
 		width = 450;
 		height = 360;

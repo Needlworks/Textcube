@@ -11,21 +11,22 @@ if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
 		respondErrorPage('');
 }
 if (defined('__TATTERTOOLS_NOTICE__')) {
-	$entry['category'] = - 2;
-	require ROOT . '/lib/piece/owner/header7.php';
-} else
-	require ROOT . '/lib/piece/owner/header0.php';
+	$entry['category'] = -2;
+	require ROOT . (isset($_GET['popupEditor']) ? '/lib/piece/owner/header8.php' : '/lib/piece/owner/header7.php');
+} else {
+	require ROOT . (isset($_GET['popupEditor']) ? '/lib/piece/owner/header8.php' : '/lib/piece/owner/header0.php');
+}
 if (defined('__TATTERTOOLS_POST__')) {
 	if (defined('__TATTERTOOLS_NOTICE__'))
-		require ROOT . '/lib/piece/owner/contentMenu71.php';
+		require ROOT . (isset($_GET['popupEditor']) ? '/lib/piece/owner/contentMenu81.php' : '/lib/piece/owner/contentMenu71,php');
 	else
-		require ROOT . '/lib/piece/owner/contentMenu04.php';
+		require ROOT . (isset($_GET['popupEditor']) ? '/lib/piece/owner/contentMenu81.php' : '/lib/piece/owner/contentMenu04.php');
 	printOwnerEditorScript();
 } else {
 	if (defined('__TATTERTOOLS_NOTICE__'))
-		require ROOT . '/lib/piece/owner/contentMenu70.php';
+		require ROOT . (isset($_GET['popupEditor']) ? '/lib/piece/owner/contentMenu81.php' : '/lib/piece/owner/contentMenu70.php');
 	else
-		require ROOT . '/lib/piece/owner/contentMenu00.php';
+		require ROOT . (isset($_GET['popupEditor']) ? '/lib/piece/owner/contentMenu81.php' : '/lib/piece/owner/contentMenu00.php');
 	printOwnerEditorScript($entry['id']);
 }
 ?>
@@ -213,7 +214,9 @@ if (defined('__TATTERTOOLS_POST__')) {
 				}
 				PM.removeRequest(this);
 <?
-if (isset($_GET['returnURL'])) {
+if (isset($_GET['popupEditor'])) {
+	echo "window.close();";
+} else if (isset($_GET['returnURL'])) {
 	echo "window.location = \"{$_GET['returnURL']}\";";
 } else {
 	if (defined('__TATTERTOOLS_NOTICE__')) {
@@ -351,7 +354,7 @@ if (defined('__TATTERTOOLS_POST__')) {
             <table cellspacing="0" style="width:100%; border-style:solid; border-width:2px 0px 2px 0px; border-color:#00A6ED">
               <tr>
                 <td style="background-color:#EBF2F8; padding:10px 5px 10px 5px">
-				<table width="950" border="0" cellspacing="0" cellpadding="0">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				  <tr>
 					<td style="padding: 16px 20px; background :#EBF2F8 ;"><table border="0" cellspacing="0" cellpadding="0">
 					  <tr>
@@ -696,5 +699,5 @@ if (!defined('__TATTERTOOLS_NOTICE__')) {
 	<input type="hidden" name="withSearch" value="<?=(empty($_POST['search']) ? '' : 'on')?>" />
 	<input type="hidden" name="search" value="<?=(isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '')?>" />
 <?
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . (isset($_GET['popupEditor']) ? '/lib/piece/owner/footer8.php' : '/lib/piece/owner/footer.php');
 ?>
