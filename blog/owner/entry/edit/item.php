@@ -215,9 +215,14 @@ if (defined('__TATTERTOOLS_POST__')) {
 				PM.removeRequest(this);
 <?
 if (isset($_GET['popupEditor'])) {
-	echo "window.close();";
+?>
+				opener.location.href = opener.location.href;
+				window.close();
+<?
 } else if (isset($_GET['returnURL'])) {
-	echo "window.location = \"{$_GET['returnURL']}\";";
+?>
+				window.location = "<?=escapeJSInCData($_GET['returnURL'])?>";
+<?
 } else {
 	if (defined('__TATTERTOOLS_NOTICE__')) {
 ?>
