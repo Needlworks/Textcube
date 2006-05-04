@@ -1321,7 +1321,7 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-left: 6px">
 					<tr<?=($count == 1) ? ' style="background-color: #fff"' : ''?>>
 						<td width="16" valign="top" style="padding: 6px 0px"><img id="star<?=$entry['id']?>" class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/iconStar<?=$starred?>.gif" starred="<?=$starred?>" onclick="Reader.toggleStarred(<?=$entry['id']?>)"/><br/><?=$podcast?></td>
-						<td id="entryTitleList<?=$entry['id']?>" class="<?=$class?>" onclick="Reader.selectEntry(<?=$entry['id']?>)" style="padding:6px 0px; cursor: pointer"><span><?=htmlspecialchars($entry['entry_title'])?></span><br /><?=htmlspecialchars($entry['blog_title'])?></td>
+						<td id="entryTitleList<?=$entry['id']?>" class="<?=$class?>" onclick="Reader.selectEntry(<?=$entry['id']?>)" style="padding:6px 0px; cursor: pointer; word-break: break-all"><span><?=htmlspecialchars($entry['entry_title'])?></span><br /><?=htmlspecialchars($entry['blog_title'])?></td>
 					</tr>
 					<tr height="1">
 						<td colspan="2" background="<?=$service['path']?>/image/owner/reader/dotline02.gif"></td>

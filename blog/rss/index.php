@@ -8,5 +8,5 @@ header('Content-Type: text/xml; charset=utf-8');
 $fileHandle = fopen(ROOT . "/cache/rss/$owner.xml", 'r+');
 $result = fread($fileHandle, filesize(ROOT . "/cache/rss/$owner.xml"));
 fclose($fileHandle);
-echo $result;
+echo fireEvent('ViewRSS', $result);
 ?>
