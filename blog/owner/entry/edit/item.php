@@ -12,21 +12,41 @@ if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
 }
 if (defined('__TATTERTOOLS_NOTICE__')) {
 	$entry['category'] = -2;
-	require ROOT . (isset($_GET['popupEditor']) ? '/lib/piece/owner/header8.php' : '/lib/piece/owner/header7.php');
+	if (isset($_GET['popupEditor']))
+		require ROOT . '/lib/piece/owner/header8.php';
+	else
+		require ROOT . '/lib/piece/owner/header7.php';
 } else {
-	require ROOT . (isset($_GET['popupEditor']) ? '/lib/piece/owner/header8.php' : '/lib/piece/owner/header0.php');
+	if (isset($_GET['popupEditor']))
+		require ROOT . '/lib/piece/owner/header8.php';
+	else
+		require ROOT . '/lib/piece/owner/header0.php';
 }
 if (defined('__TATTERTOOLS_POST__')) {
-	if (defined('__TATTERTOOLS_NOTICE__'))
-		require ROOT . (isset($_GET['popupEditor']) ? '/lib/piece/owner/contentMenu81.php' : '/lib/piece/owner/contentMenu71,php');
-	else
-		require ROOT . (isset($_GET['popupEditor']) ? '/lib/piece/owner/contentMenu81.php' : '/lib/piece/owner/contentMenu04.php');
+	if (defined('__TATTERTOOLS_NOTICE__')) {
+		if (isset($_GET['popupEditor']))
+			require ROOT . '/lib/piece/owner/contentMenu81.php';
+		else
+			require ROOT . '/lib/piece/owner/contentMenu71.php';
+	} else {
+		if (isset($_GET['popupEditor']))
+			require ROOT . '/lib/piece/owner/contentMenu81.php';
+		else
+			require ROOT . '/lib/piece/owner/contentMenu04.php';
+	}
 	printOwnerEditorScript();
 } else {
-	if (defined('__TATTERTOOLS_NOTICE__'))
-		require ROOT . (isset($_GET['popupEditor']) ? '/lib/piece/owner/contentMenu81.php' : '/lib/piece/owner/contentMenu70.php');
-	else
-		require ROOT . (isset($_GET['popupEditor']) ? '/lib/piece/owner/contentMenu81.php' : '/lib/piece/owner/contentMenu00.php');
+	if (defined('__TATTERTOOLS_NOTICE__')) {
+		if (isset($_GET['popupEditor']))
+			require ROOT . '/lib/piece/owner/contentMenu81.php';
+		else
+			require ROOT . '/lib/piece/owner/contentMenu70.php';
+	} else {
+		if (isset($_GET['popupEditor']))
+			require ROOT . '/lib/piece/owner/contentMenu81.php';
+		else
+			require ROOT . '/lib/piece/owner/contentMenu00.php';
+	}
 	printOwnerEditorScript($entry['id']);
 }
 ?>
@@ -704,5 +724,8 @@ if (!defined('__TATTERTOOLS_NOTICE__')) {
 	<input type="hidden" name="withSearch" value="<?=(empty($_POST['search']) ? '' : 'on')?>" />
 	<input type="hidden" name="search" value="<?=(isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '')?>" />
 <?
-require ROOT . (isset($_GET['popupEditor']) ? '/lib/piece/owner/footer8.php' : '/lib/piece/owner/footer.php');
+if (isset($_GET['popupEditor']))
+	require ROOT . '/lib/piece/owner/footer8.php';
+else
+	require ROOT . '/lib/piece/owner/footer.php';
 ?>
