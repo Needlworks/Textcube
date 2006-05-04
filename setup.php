@@ -1263,7 +1263,7 @@ CREATE TABLE {$_POST['dbPrefix']}Users (
   UNIQUE KEY loginid (loginid)
 ) $charset;
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
-INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name) VALUES (1, '{$_POST['blog']}');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, timezone) VALUES (1, '{$_POST['blog']}', 'Asia/Seoul');
 INSERT INTO {$_POST['dbPrefix']}SkinSettings (owner) VALUES (1);
 INSERT INTO {$_POST['dbPrefix']}FeedSettings (owner) values(1);
 INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";

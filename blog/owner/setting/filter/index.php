@@ -40,7 +40,7 @@ function printFilterBox($mode, $title) {
 				<tr  onmouseover="this.style.backgroundColor='#EEEEEE'" onmouseout="this.style.backgroundColor='white'">
 					<td width="*">
 <?
-			$filteredName = utf8Lessen($entity, 30);
+			$filteredName = UTF8::lessen($entity, 30);
 			if (strlen($filteredName) < strlen($entity))
 				$filteredName = '<span title = "' . $entity . '">' . $filteredName . '</span>';
 			echo $filteredName;

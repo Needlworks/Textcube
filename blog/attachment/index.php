@@ -18,7 +18,7 @@ if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 		exit;
 	}
 }
-header('Content-Disposition: attachment; filename="' . iconvWrapper('utf-8', $service['encoding'], $attachment['label']) . '"');
+header('Content-Disposition: attachment; filename="' . UTF8::convert($attachment['label']) . '"');
 header('Content-Transfer-Encoding: binary');
 header('Last-Modified: ' . Timestamp::getRFC1123GMT($fstat['mtime']));
 header('Content-Length: ' . $fstat['size']);

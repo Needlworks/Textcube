@@ -102,14 +102,14 @@ function sendTrackback($owner, $entryId, $url) {
 		return false;
 	$link = "$hostURL$blogURL/$entryId";
 	$title = $entry['title'];
-	$excerpt = utf8Lessen(removeAllTags(stripHTML(nl2brWithHTML($entry['content']))), 255);
+	$excerpt = UTF8::lessen(removeAllTags(stripHTML(nl2brWithHTML($entry['content']))), 255);
 	$blogTitle = $blog['title'];
 	$blogURL = "$hostURL$blogURL/";
 	$isNeedConvert = strpos($url, '/rserver.php?') !== false || strpos($url, 'blog.naver.com') !== false || strpos($url, '.egloos.com/tb/') !== false;
 	if ($isNeedConvert) {
-		$title = iconvWrapper('UTF-8', 'EUC-KR', $title);
-		$excerpt = iconvWrapper('UTF-8', 'EUC-KR', $excerpt);
-		$blogTitle = iconvWrapper('UTF-8', 'EUC-KR', $blogTitle);
+		$title = UTF8::convert($title);
+		$excerpt = UTF8::convert($excerpt);
+		$blogTitle = UTF8::convert($blogTitle);
 		$content = "url=" . rawurlencode($link) . "&title=" . rawurlencode($title) . "&blog_name=" . rawurlencode($blogTitle) . "&excerpt=" . rawurlencode($excerpt);
 		$request = new HTTPRequest('POST', $url);
 		$request->contentType = 'application/x-www-form-urlencoded; charset=euc-kr';

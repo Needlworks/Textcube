@@ -1,4 +1,6 @@
 <?
+/// Copyright © 2004-2006, Tatter & Company. All rights reserved.
+
 function encodeURL($url) {
 	global $service;
 	if (@$service['useEncodedURL'])
@@ -30,10 +32,5 @@ class User {
 		$password = md5($password);
 		return DBQuery::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = $owner AND password = '$password'");
 	}
-}
-
-/// Backward-Compatibility
-function getTimestamp3($time) {
-	return Timestamp::format3($time);
 }
 ?>

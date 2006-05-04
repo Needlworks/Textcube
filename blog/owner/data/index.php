@@ -24,6 +24,11 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 			dialog = null;
 		}
 	}
+	function correctData() {
+		document.getElementById("correctingIndicator").style.width = "0%";
+		PM.showPanel("correctingDataDialog");
+		dataCorrector.submit();
+	}
 	function backupData() {
 		var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/data/backup?includeFileContents=" + document.getElementById("includeFileContents").checked);
 		PM.addRequest(request, "<?=_t('백업을 저장하고 있습니다...')?>");
@@ -93,6 +98,68 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 	}
 //]]>
 </script>   
+<table cellspacing="0" width="100%">
+  <tr>
+    <td>
+      <table cellspacing="0" style="width:100%; height:28px">
+        <tr>
+          <td style="width:18px"><img src="<?=$service['path']?>/image/owner/sectionDescriptionIcon.gif" width="18" height="18" alt="" /></td>
+          <td style="padding:3px 0px 0px 4px"><?=_t('데이터 교정')?></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="0" style="width:100%; border-style:solid; border-width:2px 0px 2px 0px; border-color:#00A6ED">
+  <tr style="background-color:#EBF2F8">
+    <td valign="top" style="padding:10px 5px 10px 5px">
+      <table border="0" cellpadding="0" cellspacing="0" style="width:100%; margin-bottom:5px;">
+        <tr>
+          <td style="width:100px; padding:10px;">
+            <table style="width:100px; height:60px; border:1px solid #536576; padding:10px; background-color:#fff;">
+              <tr>
+                <td onclick="correctData()" style="cursor:pointer; text-align:center; background-color:#fff; font:10px verdana;"><img src="<?=$service['path']?>/style/image/dbCorrect.gif" style="margin-bottom:5px;" alt="" /><br />
+                  <?=_t('CORRECT')?></td>
+              </tr>
+            </table>
+          </td>
+          <td style="line-height:18px; color:#536576; padding:10px;"><?=_t('비정상적인 데이터를 교정합니다.<br />동적인 캐쉬 데이터는 재계산하여 저장합니다.<br />')?></td>
+        </tr>
+      </table>
+	  <form id="dataCorrector" name="dataCorrector" method="get" action="<?=$blogURL?>/owner/data/correct" target="_blackhole">
+	  </form>
+	  <div id="correctingDataDialog" style="width:550px; position:absolute; display:none; z-index:10;">
+      <table style="width:550px; border:5px solid #BCD2E5; margin-left:10px; background-color:#fff;">
+        <tr>
+          <td style="padding:10px;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td style="font-size:14px; font-weight:bold; color:#333; padding:0 0 10px 5px;"><?=_t('데이터를 교정하고 있습니다. 잠시만 기다려 주십시오...')?></td>
+              </tr>
+              <tr>
+                <td style="padding:2px 5px 10px 5px; color:#666;">
+                  <table style="width:100%; margin:0 5px;">
+                    <tr>
+                      <td style="color:#666; padding:15px;">
+					    <div style="display:block; width:100%; height:18px; background-color:#eee;">
+					      <div style="display:block; position:absolute; width:465px; text-align:center; padding-top:2px"><span id="correctingText"></span><span id="correctingTextSub"></span></div>
+						  <div id="correctingIndicator" style="display:block; width:0%; height:18px; background-color:#66DDFF;"></div>
+						</div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+	  </div>
+    </td>
+  </tr>
+</table>
+<br />
+<br />
 <table cellspacing="0" width="100%">
   <tr>
     <td>
@@ -247,7 +314,10 @@ if ($backup) {
                 <td style="height:1px; padding:0; background:url(<?=$service['path']?>/style/image/lineDotted.gif);"></td>
               </tr>
               <tr>
-                <td style="padding:20px 5px 10px 5px; color:#666;">
+                <td style="padding:20px 5px 10px 5px; color:#333;" title="<?=_t('백업파일에 비정상적인 글자가 포함된 경우 복원에 실패할 수 있습니다. 비정상적인 글자를 교정하여 복원이 가능하도록 합니다. 이를 사용할 경우 복원에 많은 시간이 소요될 수 있습니다.')?>"><input id="correctData" type="checkbox" name="correctData" value="on" /> <label for="correctData"><?=_t('백업파일에 포함된 비정상적인 글자를 교정합니다.')?></label></td>
+              </tr>
+              <tr>
+                <td style="padding:5px 5px 10px 5px; color:#666;">
 <?
 if ($backup) {
 ?>

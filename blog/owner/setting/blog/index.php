@@ -280,13 +280,13 @@ if ($service['type'] != 'single') {
                           <tr>
                             <td class="entryEditTableLeftCell"><?=_t('블로그 제목')?> |</td>
                             <td>
-                              <input type="text" class="text1" style="width:200px" name="title" value="<?=htmlspecialchars(utf8Lessen($blog['title'], 30))?>" />
+                              <input type="text" class="text1" style="width:200px" name="title" value="<?=htmlspecialchars($blog['title'])?>" />
                             </td>
                           </tr>
                           <tr>
                             <td class="entryEditTableLeftCell"><?=_t('블로그 설명')?> |</td>
                             <td>
-                              <textarea class="text1" style="width:202px" name="description" rows="5"><?=htmlspecialchars(utf8Lessen($blog['description'], 250))?></textarea>
+                              <textarea class="text1" style="width:202px" name="description" rows="5"><?=htmlspecialchars($blog['description'])?></textarea>
                             </td>
                           </tr>
                           <tr>

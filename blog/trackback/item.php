@@ -14,12 +14,7 @@ if (!empty($_SERVER["CONTENT_TYPE"]) && strpos($_SERVER["CONTENT_TYPE"], 'charse
 	$charset = $charsetArray[1];
 	$ary[] = trim($charset);
 }
-if (!isUTF8($title))
-	$title = iconvWrapper($service['encoding'], 'UTF-8', $title);
-if (!isUTF8($blog_name))
-	$blog_name = iconvWrapper($service['encoding'], 'UTF-8', $blog_name);
-if (!isUTF8($excerpt))
-	$excerpt = iconvWrapper($service['encoding'], 'UTF-8', $excerpt);
+
 $result = receiveTrackback($owner, $suri['id'], $title, $url, $excerpt, $blog_name);
 if ($result == 0) {
 	respondResultPage(0);

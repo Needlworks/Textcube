@@ -204,7 +204,7 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 		width =  825;
 		height = 550;
 		if(openWindow != '') openWindow.close();
-		openWindow = window.open("<?=$blogURL?>/owner/entry/edit/" + parent + "?popupEditor=true&returnURL=" + child,"tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=1,status=0,toolbar=0");
+		openWindow = window.open("<?=$blogURL?>/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child,"tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
 		openWindow.focus();
 		alignCenter(openWindow,width,height);
 	}
@@ -328,8 +328,7 @@ function getTrackbacksView($entryId, & $skin) {
 	global $suri, $hostURL, $blogURL, $skinSetting;
 	$trackbacksView = '';
 	foreach (getTrackbacks($entryId) as $trackback) {
-		if (!$trackback['sender']) {
-	    	$trackbackView = "<a id=\"trackback{$trackback['id']}\"></a>" . $skin->trackback;
+		$trackbackView = "<a id=\"trackback{$trackback['id']}\"></a>" . $skin->trackback;
 		dress('tb_rep_title', htmlspecialchars($trackback['subject']), $trackbackView);
 		dress('tb_rep_site', htmlspecialchars($trackback['site']), $trackbackView);
 		dress('tb_rep_url', htmlspecialchars($trackback['url']), $trackbackView);
@@ -337,7 +336,6 @@ function getTrackbacksView($entryId, & $skin) {
 		dress('tb_rep_onclick_delete', "deleteTrackback({$trackback['id']}, $entryId)", $trackbackView);
 		dress('tb_rep_date', Timestamp::format5($trackback['written']), $trackbackView);
 		$trackbacksView .= $trackbackView;
-		}
 	}
 	if ($skinSetting['expandTrackback'] == 1 || (($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
 		$style = 'block';
@@ -702,7 +700,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 			<td class="ib" style="width:39px; font-size: 1px; background-image: url('<?=$skin['url']?>/navi_back_noactive<?=($i ? '' : '_end')?>.gif')"><a class="click" onclick="toggleFolder('<?=$row['id']?>')"><img src="<?=$skin['url']?>/tab_<?=(count($row['children']) ? 'closed' : 'isleaf')?>.gif" width="39" alt=""/></a></td>
 			<td>
 				<table cellpadding="0" cellspacing="0" style="<?=$itemBgColor?>"><tr>
-					<td class="branch3" <?=$link?>><div id="text_<?=$row['id']?>" style="color: #<?=$skin['itemColor']?>;"><?=htmlspecialchars(utf8Lessen($row['label'], $skin['labelLength']))?> <?
+					<td class="branch3" <?=$link?>><div id="text_<?=$row['id']?>" style="color: #<?=$skin['itemColor']?>;"><?=htmlspecialchars(UTF8::lessen($row['label'], $skin['labelLength']))?> <?
 		if ($skin['showValue'])
 			print "<span class=\"c_cnt\">({$row['value']})</span>";
 ?></div></td>
@@ -732,7 +730,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 ?>.gif" width="22" alt=""/></td>
 				<td>
 					<table <?=$link?> cellpadding="0" cellspacing="0" style="<?=$itemBgColor?>"><tr>
-					<td class="branch3"><div id="text_<?=$irow['id']?>" style="color: #<?=$skin['itemColor']?>;"><?=htmlspecialchars(utf8Lessen($irow['label'], $skin['labelLength']))?> <?=($skin['showValue'] ? "<span class=\"c_cnt\">({$irow['value']})</span>" : '')?></div></td>
+					<td class="branch3"><div id="text_<?=$irow['id']?>" style="color: #<?=$skin['itemColor']?>;"><?=htmlspecialchars(UTF8::lessen($irow['label'], $skin['labelLength']))?> <?=($skin['showValue'] ? "<span class=\"c_cnt\">({$irow['value']})</span>" : '')?></div></td>
 					</tr></table>
 				</td>
 				</tr></table>
@@ -849,7 +847,7 @@ function getRecentEntriesView($entries, & $template) {
 	foreach ($entries as $entry) {
 		$view = "$template";
 		dress('rctps_rep_link', "$blogURL/{$entry['id']}", $view);
-		dress('rctps_rep_title', htmlspecialchars(utf8Lessen($entry['title'], $skinSetting['recentEntryLength'])), $view);
+		dress('rctps_rep_title', htmlspecialchars(UTF8::lessen($entry['title'], $skinSetting['recentEntryLength'])), $view);
 		dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments'] > 0 ? "({$entry['comments']})" : '').'</span>', $view);
 		print $view;
 	}
@@ -864,7 +862,7 @@ function getRecentCommentsView($comments, & $template) {
 	foreach ($comments as $comment) {
 		$view = "$template";
 		dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
-		dress('rctrp_rep_desc', htmlspecialchars(utf8Lessen($comment['comment'], $skinSetting['recentCommentLength'])), $view);
+		dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessen($comment['comment'], $skinSetting['recentCommentLength'])), $view);
 		dress('rctrp_rep_time', Timestamp::format2($comment['written']), $view);
 		dress('rctrp_rep_name', htmlspecialchars($comment['name']), $view);
 		print $view;
@@ -880,9 +878,9 @@ function getRecentTrackbacksView($trackbacks, & $template) {
 	foreach ($trackbacks as $trackback) {
 		$view = "$template";
 		dress('rcttb_rep_link', "$blogURL/{$trackback['entry']}#trackback{$trackback['id']}", $view);
-		dress('rcttb_rep_desc', htmlspecialchars(utf8Lessen($trackback['subject'], $skinSetting['recentTrackbackLength'])), $view);
+		dress('rcttb_rep_desc', htmlspecialchars(UTF8::lessen($trackback['subject'], $skinSetting['recentTrackbackLength'])), $view);
 		dress('rcttb_rep_time', Timestamp::format2($trackback['written']), $view);
-		dress('rcttb_rep_name', htmlspecialchars(utf8Lessen($trackback['site'], $skinSetting['recentTrackbackLength'] - 2)), $view);
+		dress('rcttb_rep_name', htmlspecialchars(UTF8::lessen($trackback['site'], $skinSetting['recentTrackbackLength'])), $view);
 		print $view;
 	}
 	$view = ob_get_contents();
@@ -896,7 +894,7 @@ function getLinksView($links, & $template) {
 	foreach ($links as $link) {
 		$view = "$template";
 		dress('link_url', htmlspecialchars($link['url']), $view);
-		dress('link_site', fireEvent('ViewLink', htmlspecialchars(utf8Lessen($link['name'], $skinSetting['linkLength']))), $view);
+		dress('link_site', fireEvent('ViewLink', htmlspecialchars(UTF8::lessen($link['name'], $skinSetting['linkLength']))), $view);
 		print $view;
 	}
 	$view = ob_get_contents();

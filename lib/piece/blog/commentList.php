@@ -6,7 +6,7 @@ foreach ($commentList['items'] as $item) {
 	dress('rplist_rep_regdate', Timestamp::format3($item['written']), $itemView);
 	dress('rplist_rep_link', "$blogURL/{$item['entry']}#comment{$item['id']}", $itemView);
 	dress('rplist_rep_name', htmlspecialchars($item['name']), $itemView);
-	dress('rplist_rep_body', htmlspecialchars(utf8Lessen($item['comment'], 40)), $itemView);
+	dress('rplist_rep_body', htmlspecialchars(UTF8::lessen($item['comment'], 40)), $itemView);
 	$itemsView .= $itemView;
 }
 dress('rplist_rep', $itemsView, $commentListView);

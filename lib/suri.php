@@ -55,8 +55,6 @@ if ($depth > 0) {
 }
 if (is_numeric($suri['value']))
 	$suri['id'] = $suri['value'];
-else if (!isUTF8($suri['value']))
-	$suri['value'] = iconvWrapper($service['encoding'], 'UTF-8', $suri['value']);
 $suri['page'] = empty($_POST['page']) ? (empty($_GET['page']) ? true : $_GET['page']) : $_POST['page'];
 $hostURL = "http://{$_SERVER['HTTP_HOST']}" . (isset($service['port']) ? ":{$service['port']}" : '');
 $blogURL = $service['type'] == 'path' ? "{$service['path']}/{$blog['name']}" : $service['path'];
