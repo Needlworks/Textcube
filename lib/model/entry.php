@@ -268,6 +268,8 @@ function getRecentEntries($owner) {
 
 function addEntry($owner, $entry) {
 	global $database, $blog;
+	$entry['title'] = mysql_lessen(trim($entry['title']));
+	$entry['location'] = mysql_lessen(trim($entry['location']));
 	if ($entry['category'] == - 1) {
 		if (($entry['visibility'] == 1) || ($entry['visibility'] == 3) || $entry['acceptComment'] || $entry['acceptTrackback'])
 			return false;
@@ -283,7 +285,7 @@ function addEntry($owner, $entry) {
 	$title = mysql_escape_string($entry['title']);
 	$content = mysql_escape_string(filterJavaScript($entry['content']));
 	$password = generatePassword();
-	$location = mysql_escape_string(trim($entry['location']));
+	$location = mysql_escape_string($entry['location']);
 	if (isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
 		$published = $entry['published'];
 		$entry['visibility'] = 0 - $entry['visibility'];
@@ -339,6 +341,8 @@ function updateEntry($owner, $entry) {
 	global $blog;
 	if (($entry['category'] == - 1) && (($entry['visibility'] == 1) || ($entry['visibility'] == 3)))
 		return false;
+	$entry['title'] = mysql_lessen(trim($entry['title']));
+	$entry['location'] = mysql_lessen(trim($entry['location']));
 	saveTags($owner, $entry, $entry['id']);
 	$location = mysql_escape_string($entry['location']);
 	$title = mysql_escape_string($entry['title']);
@@ -382,6 +386,8 @@ function saveDraftEntry($entry) {
 	global $database, $owner;
 	if ($entry['category'] == - 1)
 		return false;
+	$entry['title'] = mysql_lessen(trim($entry['title']));
+	$entry['location'] = mysql_lessen(trim($entry['location']));
 	$location = mysql_escape_string($entry['location']);
 	$title = mysql_escape_string($entry['title']);
 	$content = mysql_escape_string(filterJavaScript($entry['content']));
@@ -528,6 +534,7 @@ function saveTags($owner, $entry, $entryId) {
 	$tags = explode(',', $entry['tag']);
 	mysql_query("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $owner and entry = $entryId");
 	foreach ($tags as $tag) {
+		$tag = mysql_lessen($tag, 255, '');
 		$tag = str_replace('&quot;', '"', $tag);
 		$tag = str_replace('&#39;', '\'', $tag);
 		$tag = preg_replace('/ +/', ' ', $tag);

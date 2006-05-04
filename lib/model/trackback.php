@@ -52,6 +52,11 @@ function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 	
 	$title = correctTTForXmlText($title);
 	$excerpt = correctTTForXmlText($excerpt);
+	
+	$url = mysql_lessen($url);
+	$site = mysql_lessen($site);
+	$title = mysql_lessen($title);
+	$excerpt = mysql_lessen($excerpt);
 
 	requireComponent('Tattertools.Data.Filter');
 	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $url))
