@@ -65,7 +65,7 @@ foreach (getRefererLogs() as $record) {
                           <tr onmouseover="this.style.backgroundColor='#EEEEEE'" onmouseout="this.style.backgroundColor='white'">
                             <td style="padding:2px" width="75"><?=Timestamp::formatDate($record['referred'])?></td>
                             <td style="padding:2px" width="150" class="pointerCursor" onclick="window.open('http://<?=escapeJSInAttribute($record['host'])?>')"><?=htmlspecialchars($record['host'])?></td>
-                            <td style="padding:2px" class="pointerCursor" title="<?=htmlspecialchars($record['url'], 40)?>" onclick="window.open('<?=escapeJSInAttribute($record['url'])?>')"><?=htmlspecialchars(utf8Lessen($record['url'], 40))?></td>
+                            <td style="padding:2px" class="pointerCursor" title="<?=htmlspecialchars($record['url'], 40)?>" onclick="window.open('<?=escapeJSInAttribute($record['url'])?>')"><?=htmlspecialchars(UTF8::lessen($record['url'], 40))?></td>
                           </tr>
 <?
 }

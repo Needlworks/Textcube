@@ -144,7 +144,7 @@ $xmls->setStream('/blog/post/attachment/content');
 $xmls->setStream('/blog/notice/attachment/content');
 $xmls->setStream('/blog/keyword/attachment/content');
 $xmls->setConsumer('scanner');
-if (!$xmls->openFile($backup)) {
+if (!$xmls->openFile($backup, Validator::getBool($_POST['correctData']))) {
 	finish(_f('백업파일의 %1번째 줄이 올바르지 않습니다.', $xmls->error['line']));
 }
 $xmls->close();
@@ -155,7 +155,7 @@ if (!$migrational) {
 	DataMaintenance::removeAll(false);
 }
 $xmls->setConsumer('importer');
-if (!$xmls->openFile($backup)) {
+if (!$xmls->openFile($backup, Validator::getBool($_POST['correctData']))) {
 	finish(_t('백업파일이 올바르지 않습니다.'));
 }
 $xmls->close();
@@ -178,7 +178,22 @@ function scanner($path, $node, $line) {
 				unset($node['.stream']);
 			}
 			return true;
-		case '/blog/setting':case '/blog/category':case '/blog/post':case '/blog/notice':case '/blog/keyword':case '/blog/link':case '/blog/logs/referer':case '/blog/statistics/referer':case '/blog/statistics/visits':case '/blog/statistics/daily':case '/blog/skin':case '/blog/plugin':case '/blog/personalization':case '/blog/guestbook/comment':case '/blog/filter':case '/blog/feed':
+		case '/blog/setting':
+		case '/blog/category':
+		case '/blog/post':
+		case '/blog/notice':
+		case '/blog/keyword':
+		case '/blog/link':
+		case '/blog/logs/referer':
+		case '/blog/statistics/referer':
+		case '/blog/statistics/visits':
+		case '/blog/statistics/daily':
+		case '/blog/skin':
+		case '/blog/plugin':
+		case '/blog/personalization':
+		case '/blog/guestbook/comment':
+		case '/blog/filter':
+		case '/blog/feed':
 			$items++;
 			if (!strpos($path, 'referer'))
 				setProgress(null, _t('백업파일을 확인하고 있습니다'), $line);
@@ -641,9 +656,5 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $feed->error);
 			return true;
 	}
-}
-if (false) {
-	scanner();
-	importer();
 }
 ?>

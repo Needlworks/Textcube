@@ -51,9 +51,9 @@ function addAttachment($owner, $parent, $file) {
 	global $database;	
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
-	if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$parent AND label='{$file['name']}'")>0) {
+	if (fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$parent AND label='{$file['name']}'")>0) {
 		return false;
-	};
+	}
 		
 	$attachment = array();
 	$attachment['parent'] = $parent ? $parent : 0;

@@ -14,18 +14,12 @@ if (defined('__TATTERTOOLS_BACKUP__')) {
 	if (!is_dir(ROOT . '/cache/backup')) {
 		exit;
 	}
-	if (false && $writer->openGZip(ROOT . "/cache/backup/$owner.xml.gz")) {
-	} else if ($writer->openFile(ROOT . "/cache/backup/$owner.xml")) {
+	if ($writer->openFile(ROOT . "/cache/backup/$owner.xml")) {
 	} else {
 		exit;
 	}
 } else {
-	if (false && $writer->openGZipStdout()) {
-		header('Content-Disposition: attachment; filename="Tattertools-Backup-' . Timestamp::getDate() . '.xml.gz"');
-		header('Content-Description: Tattertools Backup Data');
-		header('Content-Transfer-Encoding: binary');
-		header('Content-Type: application/x-gzip');
-	} else if ($writer->openStdout()) {
+	if ($writer->openStdout()) {
 		header('Content-Disposition: attachment; filename="Tattertools-Backup-' . Timestamp::getDate() . '.xml"');
 		header('Content-Description: Tattertools Backup Data');
 		header('Content-Transfer-Encoding: binary');

@@ -1,40 +1,61 @@
 <?
+/// Copyright © 2004-2006, Tatter & Company. All rights reserved.
+
+function correctUTF8Recursively($value) {
+	if (is_array($value)) {
+		return array_map('correctUTF8Recursively', $value);
+	} else if (is_string($value)) {
+		if (UTF8::validate($value, true))
+			return UTF8::correct($value);
+		else
+			return UTF8::correct(UTF8::bring($value));
+	} else {
+		return $value;
+	}
+}
+
+$_GET = array_map('correctUTF8Recursively', $_GET);
+$_POST = array_map('correctUTF8Recursively', $_POST);
+$_FILES = array_map('correctUTF8Recursively', $_FILES);
+$_SERVER = array_map('correctUTF8Recursively', $_SERVER);
+$_REQUEST = array_map('correctUTF8Recursively', $_REQUEST);
+
+
 class UTF8 {
 	/*@static@*/
-	function validate($str) {
+	function validate($str, $truncated = false) {
 		$length = strlen($str);
-		for ($i = 0; $i < $length; $i ++) {
+		if ($length == 0)
+			return true;
+		for ($i = 0; $i < $length; $i++) {
 			$high = ord($str{$i});
-			if (($high == 0xC0) || ($high == 0xC1)) {
-				return false;
-			}
-			else if ($high < 0x80) {
+			if ($high < 0x80) {
 				continue;
-			} else if ($high < 0xC0) {
+			} else if ($high <= 0xC1) {
 				return false;
 			} else if ($high < 0xE0) {
 				if (++$i >= $length)
-					return true;
+					return $truncated;
 				else if (($str{$i} & "\xC0") == "\x80")
 					continue;
 			} else if ($high < 0xF0) {
 				if (++$i >= $length) {
-					return true;
+					return $truncated;
 				} else if (($str{$i} & "\xC0") == "\x80") {
 					if (++$i >= $length)
-						return true;
+						return $truncated;
 					else if (($str{$i} & "\xC0") == "\x80")
 						continue;
 				}
 			} else if ($high < 0xF5) {
 				if (++$i >= $length) {
-					return true;
+					return $truncated;
 				} else if (($str{$i} & "\xC0") == "\x80") {
 					if (++$i >= $length) {
-						return true;
+						return $truncated;
 					} else if (($str{$i} & "\xC0") == "\x80")  {
 						if (++$i >= $length)
-							return true;
+							return $truncated;
 						else if (($str{$i} & "\xC0") == "\x80")
 							continue;
 					}
@@ -46,44 +67,65 @@ class UTF8 {
 	}
 	
 	/*@static@*/
-	function adapt($str) {
+	function correct($str, $broken = '') {
+		$corrected = '';
 		$strlen = strlen($str);
-		for ($i = 0; $i < $strlen; $i ++) {
-			$high = ord($str{$i});
-			if (($high == 0xC0) || ($high == 0xC1)) {
-				$str{$i} = '?';
-			} else if ($high < 0x80) { // 1byte
-				// considering about characters that less 32
-				if (($high < 0x20) || ($high == 0x7f)) { // Special Characters
-					if (($high != 0x0a) && ($high != 0x0d) && ($high != 0x09)) // LR, CR, HT
-					{ 
-						$str{$i} = '?';
-					} 
-				}
-				continue;
-			} else if ($high < 0xC0) {
-				$str{$i} = '?';
-			} else if ($high < 0xE0) { // 2byte
-				if (($i + 1 >= $strlen) || (($str{$i + 1} & "\xC0") != "\x80"))
-					$str{$i} = '?';
-				else
-					$i += 1;
-			} else if ($high < 0xF0) { // 3byte
-				if (($i + 2 >= $strlen) || (($str{$i + 1} & "\xC0") != "\x80") || (($str{$i + 2} & "\xC0") != "\x80"))
-					$str{$i} = '?';
-				else
-					$i += 2;
-			} else if ($high < 0xF5) { // 4byte
-				if (($i + 3>= $strlen) || (($str{$i + 1} & "\xC0") != "\x80") || (($str{$i + 2} & "\xC0") != "\x80") || (($str{$i + 3} & "\xC0") != "\x80"))
-					$str{$i} = '?';
-				else
-					$i += 3;
-			} else { // F5~FF is invalid
-				$str{$i} = '?';
+		for ($i = 0; $i < $strlen; $i++) {
+			switch ($str{$i}) {
+				case "\x09":
+				case "\x0A":
+				case "\x0D":
+					$corrected .= $str{$i};
+					break;
+				case "\x7F":
+					$corrected .= $broken;
+					break;
+				default:
+					$high = ord($str{$i});
+					if ($high < 0x20) { // Special Characters.
+						$corrected .= $broken;
+					} else if ($high < 0x80) { // 1byte.
+						$corrected .= $str{$i};
+					} else if ($high <= 0xC1) {
+						$corrected .= $broken;
+					} else if ($high < 0xE0) { // 2byte.
+						if (($i + 1 >= $strlen) || (($str{$i + 1} & "\xC0") != "\x80"))
+							$corrected .= $broken;
+						else
+							$corrected .= $str{$i} . $str{$i + 1};
+						$i += 1;
+					} else if ($high < 0xF0) { // 3byte.
+						if (($i + 2 >= $strlen) || (($str{$i + 1} & "\xC0") != "\x80") || (($str{$i + 2} & "\xC0") != "\x80"))
+							$corrected .= $broken;
+						else
+							$corrected .= $str{$i} . $str{$i + 1} . $str{$i + 2};
+						$i += 2;
+					} else if ($high < 0xF5) { // 4byte.
+						if (($i + 3 >= $strlen) || (($str{$i + 1} & "\xC0") != "\x80") || (($str{$i + 2} & "\xC0") != "\x80") || (($str{$i + 3} & "\xC0") != "\x80"))
+							$corrected .= $broken;
+						else
+							$corrected .= $str{$i} . $str{$i + 1} . $str{$i + 2} . $str{$i + 3};
+						$i += 3;
+					} else { // F5~FF is invalid by RFC3629.
+						$corrected .= $broken;
+					}
+					break;
 			}
 		}
-		return $str;
-		}
+		return $corrected;
+	}
+
+	/*@static@*/
+	function bring($str, $encoding = null) {
+		global $service;
+		return @iconv((isset($encoding) ? $encoding : $service['encoding']), 'UTF-8', $str);
+	}
+	
+	/*@static@*/
+	function convert($str, $encoding = null) {
+		global $service;
+		return @iconv('UTF-8', (isset($encoding) ? $encoding : $service['encoding']), $str);
+	}
 	
 	/*@static@*/
 	function length($str) {
@@ -869,13 +911,13 @@ class XMLStruct {
 	}
 	
 	function open($xml, $encoding = null) {
-		if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !isUTF8($xml)) {
+		if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !UTF8::validate($xml)) {
 			if (preg_match('/^<\?xml[^<]*\s+encoding=["\']?([\w-]+)["\']?/', $xml, $matches)) {
 				$encoding = $matches[1];
 				$xml = preg_replace('/^(<\?xml[^<]*\s+encoding=)["\']?[\w-]+["\']?/', '$1"utf-8"', $xml, 1);
 			}
 			if (strcasecmp($encoding, 'utf-8')) {
-				$xml = iconvWrapper($encoding, 'utf-8', $xml);
+				$xml = UTF8::bring($xml, $encoding);
 				if ($xml === null) {
 					$this->error = XML_ERROR_UNKNOWN_ENCODING;
 					return false;
@@ -905,7 +947,7 @@ class XMLStruct {
 		return true;
 	}
 	
-	function openFile($filename) {
+	function openFile($filename, $correct = false) {
 		if (!$fp = fopen($filename, 'r'))
 			return false;
 		$p = xml_parser_create();
@@ -918,45 +960,44 @@ class XMLStruct {
 		$this->_cursor = &$this->struct;
 		$this->_path = array('');
 		$this->_cdata = false;
-		while (!feof($fp)) {
-			if (!xml_parse($p, fread($fp, 10240), false)) {
-				fclose($fp);
-				return $this->_error($p);
+		if ($correct) {
+			$remains = '';
+			while (!feof($fp)) {
+				$chunk = $remains . fread($fp, 10240);
+				$remains = '';
+				if (strlen($chunk) >= 10240) {
+					for ($c = 1; $c <= 4; $c++) {
+						switch ($chunk{strlen($chunk) - $c} & "\xC0") {
+							case "\x00":
+							case "\x40":
+								if ($c > 1) {
+									$remains = substr($chunk, strlen($chunk) - $c + 1);
+									$chunk = substr($chunk, 0, strlen($chunk) - $c + 1);
+								}
+								$c = 5;
+								break;
+							case "\xC0":
+								$remains = substr($chunk, strlen($chunk) - $c);
+								$chunk = substr($chunk, 0, strlen($chunk) - $c);
+								$c = 5;
+								break;
+						}
+					}
+				}
+				if (!xml_parse($p, UTF8::correct($chunk, '?'), false)) {
+					fclose($fp);
+					return $this->_error($p);
+				}
+			}
+		} else {
+			while (!feof($fp)) {
+				if (!xml_parse($p, fread($fp, 10240), false)) {
+					fclose($fp);
+					return $this->_error($p);
+				}
 			}
 		}
 		fclose($fp);
-		if (!xml_parse($p, '', true))
-			return $this->_error($p);
-		unset($this->_cursor);
-		unset($this->_cdata);
-		if (xml_get_error_code($p) != XML_ERROR_NONE)
-			return $this->_error($p);
-		xml_parser_free($p);
-		return true;
-	}
-	
-	function openGZip($filename) {
-		if (!function_exists('gzopen'))
-			return $this->openFile($filename);
-		if (!$fp = gzopen($filename, 'r'))
-			return false;
-		$p = xml_parser_create();
-		xml_set_object($p, $this);
-		xml_parser_set_option($p, XML_OPTION_CASE_FOLDING, 0);
-		xml_set_element_handler($p, 'o', 'c');
-		xml_set_character_data_handler($p, 'd');
-		xml_set_default_handler($p, 'x');
-		$this->struct = array();
-		$this->_cursor = &$this->struct;
-		$this->_path = array('');
-		$this->_cdata = false;
-		while (!gzeof($fp)) {
-			if (!xml_parse($p, gzread($fp, 10240), false)) {
-				gzclose($fp);
-				return $this->_error($p);
-			}
-		}
-		gzclose($fp);
 		if (!xml_parse($p, '', true))
 			return $this->_error($p);
 		unset($this->_cursor);

@@ -1,4 +1,6 @@
 <?
+/// Copyright © 2004-2006, Tatter & Company. All rights reserved.
+
 class XMLTree {
 	var $tree, $error;
 	
@@ -8,18 +10,21 @@ class XMLTree {
 	}
 	
 	function open($xml, $encoding = null) {
-		if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !isUTF8($xml)) {
-			if (strncmp($xml, '<?xml ', 6) == 0) {
-				if (ereg('encoding[ \t]*=[ \t]*["\']([^"\']+)["\']', substr($xml, 6, strpos($xml, '?>')), $registers))
-					$encoding = $registers[1];
+		if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !UTF8::validate($xml)) {
+			if (preg_match('/^<\?xml[^<]*\s+encoding=["\']?([\w-]+)["\']?/', $xml, $matches)) {
+				$encoding = $matches[1];
+				$xml = preg_replace('/^(<\?xml[^<]*\s+encoding=)["\']?[\w-]+["\']?/', '$1"utf-8"', $xml, 1);
 			}
 			if (strcasecmp($encoding, 'utf-8')) {
-				$xml = iconvWrapper($encoding, 'utf-8', $xml);
+				$xml = UTF8::bring($xml, $encoding);
 				if ($xml === null) {
 					$this->error = XML_ERROR_UNKNOWN_ENCODING;
 					return false;
 				}
 			}
+		} else {
+			if (substr($xml, 0, 3) == "\xEF\xBB\xBF")
+				$xml = substr($xml, 3);
 		}
 		$p = xml_parser_create();
 		xml_set_object($p, $this);
