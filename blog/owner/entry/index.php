@@ -22,6 +22,16 @@ require ROOT . '/lib/piece/owner/contentMeta0End.php';
 ?>
 <script type="text/javascript">
 //<![CDATA[
+<?
+if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION)) {
+?>
+	window.onload = function () {
+		if (confirm("<?=_t("시스템 점검이 필요합니다. 지금 점검하시겠습니까?")?>"))
+			window.location.href = "<?=$blogURL?>/checkup";
+	}
+<?
+}
+?>
 	function setEntryVisibility(entry, visibility) {
 		if ((visibility < 0) || (visibility > 3))
 			return false;

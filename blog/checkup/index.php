@@ -1,6 +1,13 @@
 <?
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
+if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION)) {
+	if ($fp = fopen(ROOT . '/cache/CHECKUP', 'w')) {
+		fwrite($fp, TATTERTOOLS_VERSION);
+		fclose($fp);
+		@chmod(ROOT . '/cache/CHECKUP', 0666);
+	}
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
