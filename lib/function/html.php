@@ -51,7 +51,7 @@ function nl2brWithHTML($str) {
 }
 
 function addLinkSense($text, $attributes = '') {
-	return ereg_replace("(^| |\t|\r|\n|\"|')(http://[^ \t\r\n\"']+)", "\\1<a href=\"\\2\"$attributes>\\2</a>", $text);
+	return ereg_replace("(^| |\t|\r|\n|\"|')(http://[^ \t\r\n\"']+)", "\\1<a href=\"\\2\"$attributes rel=\"external nofollow\">\\2</a>", $text);
 }
 
 function addProtocolSense($url, $protocol = 'http://') {
