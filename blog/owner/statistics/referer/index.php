@@ -31,9 +31,9 @@ foreach (getRefererStatistics($owner) as $record) {
 	} else
 		$more = true;
 ?>
-                          <tr onmouseover="this.style.backgroundColor='#EEEEEE'" onmouseout="this.style.backgroundColor='white'">
+                          <tr>
                             <td style="padding:2px" width="20" align="right"><?=$i?>.</td>
-                            <td style="padding:2px" class="pointerCursor" onclick="window.open('http://<?=escapeJSInAttribute($record['host'])?>')"><?=htmlspecialchars($record['host'])?> (<?=$record['count']?>)</td>
+                            <td style="padding:2px"><a href="http://<?=escapeJSInAttribute($record['host'])?>" target="_blank"><?=htmlspecialchars($record['host'])?></a> (<?=$record['count']?>)</td>
                           </tr>
 <?
 }
@@ -56,16 +56,15 @@ foreach (getRefererLogs() as $record) {
 	if ($more) {
 ?>
                           <tr style="background-image:url('<?=$service['path']?>/image/owner/dotHorizontalStyle1.gif')">
-                            <td height="1" colspan="3"></td>
+                            <td height="1" colspan="2"></td>
                           </tr>
 <?
 	} else
 		$more = true;
 ?>
-                          <tr onmouseover="this.style.backgroundColor='#EEEEEE'" onmouseout="this.style.backgroundColor='white'">
+                          <tr>
                             <td style="padding:2px" width="75"><?=Timestamp::formatDate($record['referred'])?></td>
-                            <td style="padding:2px" width="150" class="pointerCursor" onclick="window.open('http://<?=escapeJSInAttribute($record['host'])?>')"><?=htmlspecialchars($record['host'])?></td>
-                            <td style="padding:2px" class="pointerCursor" title="<?=htmlspecialchars($record['url'], 40)?>" onclick="window.open('<?=escapeJSInAttribute($record['url'])?>')"><?=htmlspecialchars(UTF8::lessen($record['url'], 40))?></td>
+                            <td style="padding:2px" title="<?=htmlspecialchars($record['url'])?>"><a href="<?=escapeJSInAttribute($record['url'])?>" target="_blank"><?=fireEvent('ViewRefererURL', htmlspecialchars(UTF8::lessenAsEm($record['url'], 70)), $record)?></a></td>
                           </tr>
 <?
 }
