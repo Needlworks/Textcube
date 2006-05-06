@@ -64,7 +64,7 @@ foreach (getRefererLogs() as $record) {
 ?>
                           <tr>
                             <td style="padding:2px" width="75"><?=Timestamp::formatDate($record['referred'])?></td>
-                            <td style="padding:2px" title="<?=htmlspecialchars($record['url'])?>"><a href="<?=escapeJSInAttribute($record['url'])?>" target="_blank"><?=fireEvent('ViewRefererURL', htmlspecialchars(UTF8::lessenAsEm($record['url'], 70)), $record)?></a></td>
+                            <td style="padding:2px" title="<?=htmlspecialchars($record['url'])?>" style="word-break: break-all"><a href="<?=escapeJSInAttribute($record['url'])?>" target="_blank"><?=fireEvent('ViewRefererURL', htmlspecialchars(UTF8::lessenAsEm($record['url'], 70)), $record)?></a></td>
                           </tr>
 <?
 }
