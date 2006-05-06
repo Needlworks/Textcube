@@ -386,34 +386,34 @@ function getRemoteFeed($url) {
 	if (!$xmls->open($xml, $service['encoding']))
 		return array(3, null, null);
 	if ($xmls->getAttribute('/rss', 'version')) {
-		$feed['blogURL'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rss/channel/link'))));
-		$feed['title'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rss/channel/title'))));
-		$feed['description'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rss/channel/description'))));
-		if (Validator::language($xmls->getValue('/rss/channel/language'))) {
+		$feed['blogURL'] = $xmls->getValue('/rss/channel/link');
+		$feed['title'] = $xmls->getValue('/rss/channel/title');
+		$feed['description'] = $xmls->getValue('/rss/channel/description');
+		if (Validator::language($xmls->getValue('/rss/channel/language')))
 			$feed['language'] = $xmls->getValue('/rss/channel/language');
-		} else if (Validator::language($xmls->getValue('/rss/channel/dc:language'))) {
+		else if (Validator::language($xmls->getValue('/rss/channel/dc:language')))
 			$feed['language'] = $xmls->getValue('/rss/channel/dc:language');
-		} else
+		else
 			$feed['language'] = 'en-US';
 		$feed['modified'] = gmmktime();
 	} else if ($xmls->getAttribute('/feed', 'version')) {
-		$feed['blogURL'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getAttribute('/feed/link', 'href'))));
-		$feed['title'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/feed/title'))));
-		$feed['description'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/feed/tagline'))));
+		$feed['blogURL'] = $xmls->getAttribute('/feed/link', 'href');
+		$feed['title'] = $xmls->getValue('/feed/title');
+		$feed['description'] = $xmls->getValue('/feed/tagline');
 		if(Validator::language($xmls->getAttribute('/feed', 'xml:lang')))
 			$feed['language'] = $xmls->getAttribute('/feed', 'xml:lang');
 		else
 			$feed['language'] = 'en-US';
 		$feed['modified'] = gmmktime();
 	} else if ($xmls->getAttribute('/rdf:RDF', 'xmlns')) {
-		if($xmls->getAttribute('/rdf:RDF/channel/link', 'href')) {
-			$feed['blogURL'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getAttribute('/rdf:RDF/channel/link', 'href'))));
-		} else if($xmls->getValue('/rdf:RDF/channel/link')) {
-			$feed['blogURL'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rdf:RDF/channel/link'))));
-		} else
+		if($xmls->getAttribute('/rdf:RDF/channel/link', 'href'))
+			$feed['blogURL'] = $xmls->getAttribute('/rdf:RDF/channel/link', 'href');
+		else if($xmls->getValue('/rdf:RDF/channel/link'))
+			$feed['blogURL'] = $xmls->getValue('/rdf:RDF/channel/link');
+		else
 			$feed['blogURL'] = '';
-		$feed['title'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rdf:RDF/channel/title'))));
-		$feed['description'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rdf:RDF/channel/description'))));
+		$feed['title'] = $xmls->getValue('/rdf:RDF/channel/title');
+		$feed['description'] = $xmls->getValue('/rdf:RDF/channel/description');
 		if(Validator::language($xmls->getValue('/rdf:RDF/channel/dc:language')))
 			$feed['language'] = $xmls->getValue('/rdf:RDF/channel/dc:language');
 		else if(Validator::language($xmls->getAttribute('/rdf:RDF', 'xml:lang')))
@@ -423,6 +423,19 @@ function getRemoteFeed($url) {
 		$feed['modified'] = gmmktime();
 	} else
 		return array(3, null, null);
+
+	$feed['blogURL'] = stripHTML($feed['blogURL']);
+	$feed['title'] = stripHTML($feed['title']);
+	$feed['description'] = stripHTML($feed['description']);
+
+	$feed['blogURL'] = UTF8::validate($feed['blogURL']) ? $feed['blogURL'] : UTF8::correct($feed['blogURL']);
+	$feed['title'] = UTF8::validate($feed['title']) ? $feed['title'] : UTF8::correct($feed['title']);
+	$feed['description'] = UTF8::validate($feed['description']) ? $feed['description'] : UTF8::correct($feed['description']);
+
+	$feed['blogURL'] = mysql_escape_string(mysql_lessen($feed['blogURL']));
+	$feed['title'] = mysql_escape_string(mysql_lessen($feed['title']));
+	$feed['description'] = mysql_escape_string(mysql_lessen($feed['description']));
+
 	return array(0, $feed, $xml);
 }
 
@@ -460,10 +473,17 @@ function saveFeedItems($feedId, $xml) {
 		}
 	} else if ($xmls->getAttribute('/feed', 'version')) {
 		for ($i = 0; $link = $xmls->getValue("/feed/entry[$i]/id"); $i++) {
+			for ($j = 0; $rel = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'rel'); $j++) {
+				if($rel == 'alternate') {
+					$link = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'href');
+					break;
+				}
+			}
 			$item = array('permalink' => rawurldecode($link));
 			$item['author'] = $xmls->getValue("/feed/entry[$i]/author/name");
 			$item['title'] = $xmls->getValue("/feed/entry[$i]/title");
-			$item['description'] = $xmls->getValue("/feed/entry[$i]/content");
+			if(!$item['description'] = $xmls->getValue("/feed/entry[$i]/content"))
+				$item['description'] = $xmls->getValue("/feed/entry[$i]/summary");
 			$item['tags'] = array();
 			for ($j = 0; $tag = $xmls->getValue("/feed/entry[$i]/dc:subject[$j]"); $j++)
 				if(stripHTML($tag) != '')
@@ -506,12 +526,26 @@ function saveFeedItem($feedId, $item) {
 	global $database;
 
 	$item = fireEvent('SaveFeedItem', $item);
+	$item['permalink'] = $item['permalink'];
+	$item['author'] = stripHTML($item['author']);
+	$item['title'] = stripHTML($item['title']);
+	$item['description'] = $item['description'];
+	$tagString = implode(', ', $item['tags']);
+	$enclosureString = implode('|', $item['enclosures']);
+
+	$item['permalink'] = UTF8::validate($item['permalink']) ? $item['permalink'] : UTF8::correct($item['permalink']);
+	$item['author'] = UTF8::validate($item['author']) ? $item['author'] : UTF8::correct($item['author']);
+	$item['title'] = UTF8::validate($item['title']) ? $item['title'] : UTF8::correct($item['title']);
+	$item['description'] = UTF8::validate($item['description']) ? $item['description'] : UTF8::correct($item['description']);
+	$tagString = UTF8::validate($tagString) ? $tagString : UTF8::correct($tagString);
+	$enclosureString = UTF8::validate($enclosureString) ? $enclosureString : UTF8::correct($enclosureString);
+
 	$item['permalink'] = mysql_escape_string(mysql_lessen($item['permalink']));
-	$item['author'] = mysql_escape_string(mysql_lessen(stripHTML($item['author'])));
-	$item['title'] = mysql_escape_string(mysql_lessen(stripHTML($item['title'])));
+	$item['author'] = mysql_escape_string(mysql_lessen($item['author']));
+	$item['title'] = mysql_escape_string(mysql_lessen($item['title']));
 	$item['description'] = mysql_escape_string(mysql_lessen($item['description'], 65535));
-	$tagString = mysql_escape_string(mysql_lessen(implode(', ', $item['tags'])));
-	$enclosureString = mysql_escape_string(mysql_lessen(implode('|', $item['enclosures'])));
+	$tagString = mysql_escape_string(mysql_lessen($tagString));
+	$enclosureString = mysql_escape_string(mysql_lessen($enclosureString));
 
 	if ($item['written'] > gmmktime() + 86400)
 		return false;

@@ -42,12 +42,13 @@ function getRefererStatistics($owner) {
 
 function getRefererLogs() {
 	global $database, $owner;
-	return DBQuery::queryAll("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE owner = $owner ORDER BY referred DESC LIMIT 100");
+	return DBQuery::queryAll("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE owner = $owner ORDER BY referred LIMIT 1500");
 }
 
 function updateVisitorStatistics($owner) {
-	global $database;
-	global $blogURL;
+	global $database, $blogURL;
+	if (!fireEvent('UpdateVisitorStatistics', true))
+		return;
 	if (doesHaveOwnership())
 		return;
 	$id = session_id();
@@ -77,7 +78,7 @@ function updateVisitorStatistics($owner) {
 				$host = mysql_escape_string($referer['host']);
 				$url = mysql_escape_string($_SERVER['HTTP_REFERER']);
 				mysql_query("insert into {$database['prefix']}RefererLogs values($owner, '$host', '$url', UNIX_TIMESTAMP())");
-				mysql_query("delete from {$database['prefix']}RefererLogs where referred < UNIX_TIMESTAMP() - 5184000");
+				mysql_query("delete from {$database['prefix']}RefererLogs where referred < UNIX_TIMESTAMP() - 604800");
 				if (!mysql_query("update {$database['prefix']}RefererStatistics set count = count + 1 where owner = $owner and host = '$host'") || (mysql_affected_rows() == 0))
 					mysql_query("insert into {$database['prefix']}RefererStatistics values($owner, '$host', 1)");
 			}

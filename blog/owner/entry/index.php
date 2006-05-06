@@ -284,8 +284,8 @@ foreach ($entries as $entry) {
                 <td align="center" style="padding-top:2px">
 					<img src="<?=$service['path']?>/image/owner/trackback.gif" alt="<?=_t('트랙백')?>" class="pointerCursor" onclick="showTrackbackSender(<?=$entry['id']?>,event)" />
 				</td>
-				<td align="right" style="padding-top:2px; width:35px;>
-					<a class="rowlink" onclick="deleteEntry(<?=$entry['id']?>)"> <img src="<?=$service['path']?>/image/owner/delete.gif" alt="<?=_t('삭제')?>"/> </a> &nbsp; 
+				<td style="padding-top:2px">
+					<img src="<?=$service['path']?>/image/owner/delete.gif" alt="<?=_t('삭제')?>" class="pointerCursor" onclick="deleteEntry(<?=$entry['id']?>)"/>
 				</td>
               </tr>
 				<tr>
