@@ -23,10 +23,10 @@
 		<sortInCloud>3</sortInCloud> 
 		<expandComment>1</expandComment>
 		<expandTrackback>1</expandTrackback> 
-		<lengthOfRecentNotice>16</lengthOfRecentNotice>
-		<lengthOfRecentEntry>16</lengthOfRecentEntry>
-		<lengthOfRecentComment>30</lengthOfRecentComment> 
-		<lengthOfRecentTrackback>30</lengthOfRecentTrackback> 
+		<lengthOfRecentNotice>27</lengthOfRecentNotice>
+		<lengthOfRecentEntry>27</lengthOfRecentEntry>
+		<lengthOfRecentComment>45</lengthOfRecentComment> 
+		<lengthOfRecentTrackback>45</lengthOfRecentTrackback> 
 		<lengthOfLink>30</lengthOfLink>
 		<showListOnCategory>1</showListOnCategory>
 		<showListOnArchive>1</showListOnArchive> 
@@ -35,7 +35,7 @@
 			<bgColor>ffffff</bgColor>
 			<activeColor>000000</activeColor> 
 			<activeBgColor>eeeeee</activeBgColor>
-			<labelLength>20</labelLength> 
+			<labelLength>27</labelLength> 
 			<showValue>1</showValue>
 		</tree>
 		<contentWidth>500</contentWidth>
