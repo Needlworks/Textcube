@@ -30,23 +30,17 @@ function printFilterBox($mode, $title) {
 	<tr >
 	  <td valign="top" width="200" > <?=$title?>
 		<div style="margin:2px 0 2px 0;padding: 5px 5px 5px 5px;color: #000000; background-color:#FCFCFC; border-width:1px; border-color:#A0A0C0; border-style:solid;">
-		  <table width="100%" cellpadding="0" cellspacing="0" border="0" > 
+		  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="table-layout: fixed"> 
 <?
 	if ($filtersList) {
 		$id = 0;
 		foreach ($filtersList as $key => $value) {
 			$entity = $value[1];
 ?>
-				<tr  onmouseover="this.style.backgroundColor='#EEEEEE'" onmouseout="this.style.backgroundColor='white'">
-					<td width="*">
-<?
-			$filteredName = UTF8::lessen($entity, 30);
-			if (strlen($filteredName) < strlen($entity))
-				$filteredName = '<span title = "' . $entity . '">' . $filteredName . '</span>';
-			echo $filteredName;
-?>																					
+	<tr  onmouseover="this.style.backgroundColor='#EEEEEE'" onmouseout="this.style.backgroundColor='white'">
+	<td width="*" class="overflowCell">
+		<span title="<?=escapeJSInAttribute($entity)?>"><?=UTF8::lessenAsEm($entity, 30)?></span>
 	</td>
-	
 	<td align="left" width="13"><a class="rowLink" onclick="deleteFilter(parentNode.parentNode,'<?=$mode?>', '<?=urlencode($entity)?>',<?=$value[0]?>);"><img src="<?=$service['path']?>/image/owner/delete.gif" align="absmiddle"/></a></td>
 </tr>
 <?

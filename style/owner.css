@@ -264,4 +264,9 @@ samp {
 	color: #ff6600;
 }
 
+.overflowCell {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 -->
