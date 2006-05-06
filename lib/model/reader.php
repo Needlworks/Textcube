@@ -460,10 +460,17 @@ function saveFeedItems($feedId, $xml) {
 		}
 	} else if ($xmls->getAttribute('/feed', 'version')) {
 		for ($i = 0; $link = $xmls->getValue("/feed/entry[$i]/id"); $i++) {
+			for ($j = 0; $rel = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'rel'); $j++) {
+				if($rel == 'alternate') {
+					$link = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'href');
+					break;
+				}
+			}
 			$item = array('permalink' => rawurldecode($link));
 			$item['author'] = $xmls->getValue("/feed/entry[$i]/author/name");
 			$item['title'] = $xmls->getValue("/feed/entry[$i]/title");
-			$item['description'] = $xmls->getValue("/feed/entry[$i]/content");
+			if(!$item['description'] = $xmls->getValue("/feed/entry[$i]/content"))
+				$item['description'] = $xmls->getValue("/feed/entry[$i]/summary");
 			$item['tags'] = array();
 			for ($j = 0; $tag = $xmls->getValue("/feed/entry[$i]/dc:subject[$j]"); $j++)
 				if(stripHTML($tag) != '')
