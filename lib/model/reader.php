@@ -386,9 +386,9 @@ function getRemoteFeed($url) {
 	if (!$xmls->open($xml, $service['encoding']))
 		return array(3, null, null);
 	if ($xmls->getAttribute('/rss', 'version')) {
-		$feed['blogURL'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rss/channel/link'))));
-		$feed['title'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rss/channel/title'))));
-		$feed['description'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rss/channel/description'))));
+		$feed['blogURL'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($xmls->getValue('/rss/channel/link')))));
+		$feed['title'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($xmls->getValue('/rss/channel/title')))));
+		$feed['description'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($xmls->getValue('/rss/channel/description')))));
 		if (Validator::language($xmls->getValue('/rss/channel/language'))) {
 			$feed['language'] = $xmls->getValue('/rss/channel/language');
 		} else if (Validator::language($xmls->getValue('/rss/channel/dc:language'))) {
@@ -397,9 +397,9 @@ function getRemoteFeed($url) {
 			$feed['language'] = 'en-US';
 		$feed['modified'] = gmmktime();
 	} else if ($xmls->getAttribute('/feed', 'version')) {
-		$feed['blogURL'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getAttribute('/feed/link', 'href'))));
-		$feed['title'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/feed/title'))));
-		$feed['description'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/feed/tagline'))));
+		$feed['blogURL'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($xmls->getAttribute('/feed/link', 'href')))));
+		$feed['title'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($xmls->getValue('/feed/title')))));
+		$feed['description'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($xmls->getValue('/feed/tagline')))));
 		if(Validator::language($xmls->getAttribute('/feed', 'xml:lang')))
 			$feed['language'] = $xmls->getAttribute('/feed', 'xml:lang');
 		else
@@ -407,13 +407,13 @@ function getRemoteFeed($url) {
 		$feed['modified'] = gmmktime();
 	} else if ($xmls->getAttribute('/rdf:RDF', 'xmlns')) {
 		if($xmls->getAttribute('/rdf:RDF/channel/link', 'href')) {
-			$feed['blogURL'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getAttribute('/rdf:RDF/channel/link', 'href'))));
+			$feed['blogURL'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($xmls->getAttribute('/rdf:RDF/channel/link', 'href')))));
 		} else if($xmls->getValue('/rdf:RDF/channel/link')) {
-			$feed['blogURL'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rdf:RDF/channel/link'))));
+			$feed['blogURL'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($xmls->getValue('/rdf:RDF/channel/link')))));
 		} else
 			$feed['blogURL'] = '';
-		$feed['title'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rdf:RDF/channel/title'))));
-		$feed['description'] = mysql_escape_string(mysql_lessen(stripHTML($xmls->getValue('/rdf:RDF/channel/description'))));
+		$feed['title'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($xmls->getValue('/rdf:RDF/channel/title')))));
+		$feed['description'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($xmls->getValue('/rdf:RDF/channel/description')))));
 		if(Validator::language($xmls->getValue('/rdf:RDF/channel/dc:language')))
 			$feed['language'] = $xmls->getValue('/rdf:RDF/channel/dc:language');
 		else if(Validator::language($xmls->getAttribute('/rdf:RDF', 'xml:lang')))
@@ -433,21 +433,21 @@ function saveFeedItems($feedId, $xml) {
 		return false;
 	if ($xmls->getAttribute('/rss', 'version')) {
 		for ($i = 0; $link = $xmls->getValue("/rss/channel/item[$i]/link"); $i++) {
-			$item = array('permalink' => rawurldecode($link));
-			if (!$item['author'] = $xmls->getValue("/rss/channel/item[$i]/author"))
-				$item['author'] = $xmls->getValue("/rss/channel/item[$i]/dc:creator");
-			$item['title'] = $xmls->getValue("/rss/channel/item[$i]/title");
-			if (!$item['description'] = $xmls->getValue("/rss/channel/item[$i]/content:encoded"))
-				$item['description'] = $xmls->getValue("/rss/channel/item[$i]/description");
+			$item = array('permalink' => rawurldecode(UTF8::correct($link)));
+			if (!$item['author'] = UTF8::correct($xmls->getValue("/rss/channel/item[$i]/author")))
+				$item['author'] = UTF8::correct($xmls->getValue("/rss/channel/item[$i]/dc:creator"));
+			$item['title'] = UTF8::correct($xmls->getValue("/rss/channel/item[$i]/title"));
+			if (!$item['description'] = UTF8::correct($xmls->getValue("/rss/channel/item[$i]/content:encoded")))
+				$item['description'] = UTF8::correct($xmls->getValue("/rss/channel/item[$i]/description"));
 			$item['tags'] = array();
-			for ($j = 0; $tag = $xmls->getValue("/rss/channel/item[$i]/category[$j]"); $j++)
+			for ($j = 0; $tag = UTF8::correct($xmls->getValue("/rss/channel/item[$i]/category[$j]")); $j++)
 				if(stripHTML($tag) != '')
 					array_push($item['tags'], stripHTML($tag));
-			for ($j = 0; $tag = $xmls->getValue("/rss/channel/item[$i]/subject[$j]"); $j++)
+			for ($j = 0; $tag = UTF8::correct($xmls->getValue("/rss/channel/item[$i]/subject[$j]")); $j++)
 				if(stripHTML($tag) != '')
 					array_push($item['tags'], stripHTML($tag));
 			$item['enclosures'] = array();
-			for ($j = 0; $url = $xmls->getAttribute("/rss/channel/item[$i]/enclosure[$j]", 'url'); $j++)
+			for ($j = 0; $url = UTF8::correct($xmls->getAttribute("/rss/channel/item[$i]/enclosure[$j]", 'url')); $j++)
 				if(stripHTML($url) != '')
 					array_push($item['enclosures'], stripHTML($url));
 			if ($xmls->getValue("/rss/channel/item[$i]/pubDate"))
@@ -459,24 +459,24 @@ function saveFeedItems($feedId, $xml) {
 			saveFeedItem($feedId, $item);
 		}
 	} else if ($xmls->getAttribute('/feed', 'version')) {
-		for ($i = 0; $link = $xmls->getValue("/feed/entry[$i]/id"); $i++) {
-			for ($j = 0; $rel = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'rel'); $j++) {
+		for ($i = 0; $link = UTF8::correct($xmls->getValue("/feed/entry[$i]/id")); $i++) {
+			for ($j = 0; $rel = UTF8::correct($xmls->getAttribute("/feed/entry[$i]/link[$j]", 'rel')); $j++) {
 				if($rel == 'alternate') {
-					$link = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'href');
+					$link = UTF8::correct($xmls->getAttribute("/feed/entry[$i]/link[$j]", 'href'));
 					break;
 				}
 			}
-			$item = array('permalink' => rawurldecode($link));
-			$item['author'] = $xmls->getValue("/feed/entry[$i]/author/name");
-			$item['title'] = $xmls->getValue("/feed/entry[$i]/title");
-			if(!$item['description'] = $xmls->getValue("/feed/entry[$i]/content"))
-				$item['description'] = $xmls->getValue("/feed/entry[$i]/summary");
+			$item = array('permalink' => rawurldecode(UTF8::correct($link)));
+			$item['author'] = UTF8::correct($xmls->getValue("/feed/entry[$i]/author/name"));
+			$item['title'] = UTF8::correct($xmls->getValue("/feed/entry[$i]/title"));
+			if(!$item['description'] = UTF8::correct($xmls->getValue("/feed/entry[$i]/content")))
+				$item['description'] = UTF8::correct($xmls->getValue("/feed/entry[$i]/summary"));
 			$item['tags'] = array();
-			for ($j = 0; $tag = $xmls->getValue("/feed/entry[$i]/dc:subject[$j]"); $j++)
+			for ($j = 0; $tag = UTF8::correct($xmls->getValue("/feed/entry[$i]/dc:subject[$j]")); $j++)
 				if(stripHTML($tag) != '')
 					array_push($item['tags'], stripHTML($tag));
 			$item['enclosures'] = array();
-			for ($j = 0; $url = $xmls->getAttribute("/feed/entry[$i]/enclosure[$j]", 'url'); $j++)
+			for ($j = 0; $url = UTF8::correct($xmls->getAttribute("/feed/entry[$i]/enclosure[$j]", 'url')); $j++)
 				if(stripHTML($url) != '')
 					array_push($item['enclosures'], stripHTML($url));
 			$item['written'] = parseDate($xmls->getValue("/feed/entry[$i]/issued"));
@@ -484,11 +484,11 @@ function saveFeedItems($feedId, $xml) {
 		}
 	} else if ($xmls->getAttribute('/rdf:RDF', 'xmlns')) {
 		for ($i = 0; $link = $xmls->getValue("/rdf:RDF/item[$i]/link"); $i++) {
-			$item = array('permalink' => rawurldecode($link));
-			$item['author'] = $xmls->getValue("/rdf:RDF/item[$i]/dc:creator");
-			$item['title'] = $xmls->getValue("/rdf:RDF/item[$i]/title");
-			if (!$item['description'] = $xmls->getValue("/rdf:RDF/item[$i]/content:encoded"))
-				$item['description'] = $xmls->getValue("/rdf:RDF/item[$i]/description");
+			$item = array('permalink' => rawurldecode(UTF8::correct($link)));
+			$item['author'] = UTF8::correct($xmls->getValue("/rdf:RDF/item[$i]/dc:creator"));
+			$item['title'] = UTF8::correct($xmls->getValue("/rdf:RDF/item[$i]/title"));
+			if (!$item['description'] = UTF8::correct($xmls->getValue("/rdf:RDF/item[$i]/content:encoded")))
+				$item['description'] = UTF8::correct($xmls->getValue("/rdf:RDF/item[$i]/description"));
 			$item['tags'] = array();
 			$item['enclosures'] = array();
 			$item['written'] = parseDate($xmls->getValue("/rdf:RDF/item[$i]/dc:date"));
