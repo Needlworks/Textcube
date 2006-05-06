@@ -46,8 +46,9 @@ function getRefererLogs() {
 }
 
 function updateVisitorStatistics($owner) {
-	global $database;
-	global $blogURL;
+	global $database, $blogURL;
+	if (!fireEvent('UpdateVisitorStatistics', true))
+		return;
 	if (doesHaveOwnership())
 		return;
 	$id = session_id();
