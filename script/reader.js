@@ -726,6 +726,36 @@ TTReader.prototype.openEntryInNewWindow = function()
 	window.open(getObject("entryPermalink").href);
 }
 
+TTReader.prototype.updateFeed = function(id)
+{
+	getObject("iconFeedStatus" + id).src = servicePath + "/image/owner/reader/iconUpdateIng.gif";
+	var request = new HTTPRequest("GET", this.blogURL + "/owner/reader/update/" + id);
+	request.onSuccess = function () {
+		getObject("iconFeedStatus" + id).src = servicePath + "/image/owner/reader/iconUpdate.gif";
+		Reader.refreshFeedList(Reader.selectedGroup);
+		Reader.refreshEntryList(Reader.selectedGroup, Reader.selectedFeed);
+		PM.showMessage("피드를 업데이트 했습니다", "center", "bottom");
+	}
+	request.onError= function () {
+		getObject("iconFeedStatus" + id).src = servicePath + "/image/owner/reader/iconFailure.gif";
+		switch(parseInt(this.getText("/response/error")))
+		{
+			case 1:
+				alert(s_xmlBroken);
+				break;
+			case 2:
+				alert(s_conNotConnect);
+				break;
+			case 3:
+				alert(s_feedBroken);
+				break;
+			default:
+				PM.showMessage(s_unknownError + " (updateFeed)", "center", "bottom");
+		}
+	}
+	request.send();
+}
+
 TTReader.prototype.updateAllFeeds = function()
 {
 	var frame = getObject("hiddenFrame");
