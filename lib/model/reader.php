@@ -424,17 +424,9 @@ function getRemoteFeed($url) {
 	} else
 		return array(3, null, null);
 
-	$feed['blogURL'] = stripHTML($feed['blogURL']);
-	$feed['title'] = stripHTML($feed['title']);
-	$feed['description'] = stripHTML($feed['description']);
-
-	$feed['blogURL'] = UTF8::validate($feed['blogURL']) ? $feed['blogURL'] : UTF8::correct($feed['blogURL']);
-	$feed['title'] = UTF8::validate($feed['title']) ? $feed['title'] : UTF8::correct($feed['title']);
-	$feed['description'] = UTF8::validate($feed['description']) ? $feed['description'] : UTF8::correct($feed['description']);
-
-	$feed['blogURL'] = mysql_escape_string(mysql_lessen($feed['blogURL']));
-	$feed['title'] = mysql_escape_string(mysql_lessen($feed['title']));
-	$feed['description'] = mysql_escape_string(mysql_lessen($feed['description']));
+	$feed['blogURL'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['blogURL']))));
+	$feed['title'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['title']))));
+	$feed['description'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['description']))));
 
 	return array(0, $feed, $xml);
 }
@@ -526,26 +518,13 @@ function saveFeedItem($feedId, $item) {
 	global $database;
 
 	$item = fireEvent('SaveFeedItem', $item);
-	$item['permalink'] = $item['permalink'];
-	$item['author'] = stripHTML($item['author']);
-	$item['title'] = stripHTML($item['title']);
-	$item['description'] = $item['description'];
-	$tagString = implode(', ', $item['tags']);
-	$enclosureString = implode('|', $item['enclosures']);
 
-	$item['permalink'] = UTF8::validate($item['permalink']) ? $item['permalink'] : UTF8::correct($item['permalink']);
-	$item['author'] = UTF8::validate($item['author']) ? $item['author'] : UTF8::correct($item['author']);
-	$item['title'] = UTF8::validate($item['title']) ? $item['title'] : UTF8::correct($item['title']);
-	$item['description'] = UTF8::validate($item['description']) ? $item['description'] : UTF8::correct($item['description']);
-	$tagString = UTF8::validate($tagString) ? $tagString : UTF8::correct($tagString);
-	$enclosureString = UTF8::validate($enclosureString) ? $enclosureString : UTF8::correct($enclosureString);
-
-	$item['permalink'] = mysql_escape_string(mysql_lessen($item['permalink']));
-	$item['author'] = mysql_escape_string(mysql_lessen($item['author']));
-	$item['title'] = mysql_escape_string(mysql_lessen($item['title']));
-	$item['description'] = mysql_escape_string(mysql_lessen($item['description'], 65535));
-	$tagString = mysql_escape_string(mysql_lessen($tagString));
-	$enclosureString = mysql_escape_string(mysql_lessen($enclosureString));
+	$item['permalink'] = mysql_escape_string(mysql_lessen(UTF8::correct($item['permalink'])));
+	$item['author'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($item['author']))));
+	$item['title'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($item['title']))));
+	$item['description'] = mysql_escape_string(mysql_lessen(UTF8::correct($item['description']), 65535));
+	$tagString = mysql_escape_string(mysql_lessen(UTF8::correct(implode(', ', $item['tags']))));
+	$enclosureString = mysql_escape_string(mysql_lessen(UTF8::correct(implode('|', $item['enclosures']))));
 
 	if ($item['written'] > gmmktime() + 86400)
 		return false;
