@@ -42,7 +42,7 @@ function getRefererStatistics($owner) {
 
 function getRefererLogs() {
 	global $database, $owner;
-	return DBQuery::queryAll("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE owner = $owner ORDER BY referred LIMIT 1500");
+	return DBQuery::queryAll("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE owner = $owner ORDER BY referred DESC LIMIT 1500");
 }
 
 function updateVisitorStatistics($owner) {
