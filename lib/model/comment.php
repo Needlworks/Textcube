@@ -1,4 +1,4 @@
-<?
+<?php
 
 function getCommentsWithPagingForOwner($owner, $category, $name, $ip, $search, $page, $count) {
 	global $database;

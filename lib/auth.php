@@ -1,4 +1,4 @@
-<?
+<?php
 
 function login($loginid, $password) {
 	global $database;

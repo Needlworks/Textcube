@@ -1,4 +1,4 @@
-<?
+<?php
 
 function printSimpleHtmlHeader($title) {
 ?>
@@ -6,30 +6,30 @@ function printSimpleHtmlHeader($title) {
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title><?=$title?></title>
+  <title><?php echo $title?></title>
 </head>
 <body>
-<?
+<?php
 }
 
 function printSimpleHtmlFooter() {
 ?>
 </body>
 </html>
-<?
+<?php
 }
 
 function printScriptStart() {
 ?>
 <script type="text/javascript">
 //<![CDATA[
-<?
+<?php
 }
 
 function printScriptEnd() {
 ?>
 //]]>
 </script>
-<?
+<?php
 }
 ?>

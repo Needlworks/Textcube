@@ -1,4 +1,4 @@
-<?
+<?php 
 
 function getPagingView( & $paging, & $template, & $itemTemplate) {
 	if (($paging === false) || empty($paging['page']))

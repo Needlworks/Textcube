@@ -1,4 +1,4 @@
-<?
+<?php
 require 'config.php';
 include_once ROOT . '/config.php';
 require 'function/string.php';

@@ -1,4 +1,4 @@
-<?
+<?php 
 updateVisitorStatistics($owner);
 $stats = getStatistics($owner);
 if (!empty($entries) && (count($entries) == 1))

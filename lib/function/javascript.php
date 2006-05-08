@@ -1,4 +1,4 @@
-<?
+<?php
 
 function escapeJSInAttribute($str) {
 	return htmlspecialchars(str_replace(array('\\', '\r', '\n', '\''), array('\\\\', '\\r', '\\n', '\\\''), $str));

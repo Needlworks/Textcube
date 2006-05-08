@@ -1,4 +1,4 @@
-<?
+<?php
 
 function getLinks($owner) {
 	global $database;

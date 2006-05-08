@@ -1,4 +1,4 @@
-<?
+<?php
 if (doesHaveMembership()) {
 	$user = array('id' => getUserId());
 	list($user['loginid'], $user['name']) = fetchQueryRow("select loginid, name from {$database['prefix']}Users where userid = {$user['id']}");

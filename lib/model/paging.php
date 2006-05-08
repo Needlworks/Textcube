@@ -1,4 +1,4 @@
-<?
+<?php
 
 function initPaging($url, $prefix = '?page=') {
 	return array('url' => $url, 'prefix' => $prefix, 'postfix' => '', 'total' => 0, 'pages' => 0, 'page' => 0, 'before' => array(), 'after' => array());

@@ -1,4 +1,4 @@
-<?
+<?php
 require 'correctTT.php';
 
 function getTrackbacksWithPagingForOwner($owner, $category, $site, $ip, $search, $page, $count) {

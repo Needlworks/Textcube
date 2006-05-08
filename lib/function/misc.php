@@ -1,4 +1,4 @@
-<?
+<?php
 
 function getFileExtension($path) {
 	for ($i = strlen($path) - 1; $i >= 0; $i--) {

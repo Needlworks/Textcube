@@ -1,4 +1,4 @@
-<?
+<?php
 
 function activatePlugin($name) {
 	global $database, $owner, $activePlugins;

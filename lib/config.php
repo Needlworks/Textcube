@@ -1,4 +1,4 @@
-<?
+<?php
 define('TATTERTOOLS_NAME', 'Tattertools');
 define('TATTERTOOLS_VERSION', '1.0.4');
 define('TATTERTOOLS_COPYRIGHT', 'Copyright © 2004-2006, Tatter & Company');

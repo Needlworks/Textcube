@@ -1,4 +1,4 @@
-<?
+<?php
 $keywordView = $skin->keyword;
 $previousGroup = '';
 $itemsView = '';

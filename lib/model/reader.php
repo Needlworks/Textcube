@@ -1,4 +1,4 @@
-<?
+<?php
 
 function getReaderSetting($owner) {
 	global $database;

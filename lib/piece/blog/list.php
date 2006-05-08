@@ -1,4 +1,4 @@
-<?
+<?php
 if (isset($list)) {
 	$listView = $skin->list;
 	$itemsView = '';

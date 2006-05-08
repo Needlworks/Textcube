@@ -1,4 +1,4 @@
-<?
+<?php
 
 function xml_parser($url, $mdate) {
 	if ($mdate == "0")

@@ -1,4 +1,4 @@
-<?
+<?php
 $activePlugins = array();
 $eventMappings = array();
 $tagMappings = array();

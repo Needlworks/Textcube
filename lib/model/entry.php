@@ -1,4 +1,4 @@
-<?
+<?php
 
 function getEntriesTotalCount($owner) {
 	global $database;

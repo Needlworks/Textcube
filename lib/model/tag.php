@@ -1,4 +1,4 @@
-<?
+<?php
 
 function getTagId($owner, $name) {
 	global $database;

@@ -1,4 +1,4 @@
-<?
+<?php
 
 function isLarge($target, $maxX, $maxY) {
 	$size = getImageSize($target);

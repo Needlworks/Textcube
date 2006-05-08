@@ -1,4 +1,4 @@
-<?
+<?php 
 
 function setBlogTitle($owner, $title) {
 	global $database;

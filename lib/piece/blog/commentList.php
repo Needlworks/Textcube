@@ -1,4 +1,4 @@
-<?
+<?php 
 $commentListView = $skin->commentList;
 $itemsView = '';
 foreach ($commentList['items'] as $item) {

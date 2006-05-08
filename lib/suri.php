@@ -1,4 +1,4 @@
-<?
+<?php
 //$url = isset($_SERVER['REQUEST_URI']) ? urldecode($_SERVER['REQUEST_URI']) : $_SERVER['SCRIPT_NAME'];
 $url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'];
 $suri = array('url' => $url, 'value' => '');

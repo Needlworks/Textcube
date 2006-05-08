@@ -1,4 +1,4 @@
-<?
+<?php
 
 function setTreeSetting($owner, $setting) {
 	global $database;

@@ -1,4 +1,4 @@
-<?
+<?php
 
 function mysql_multi_query() {
 	$result = false;

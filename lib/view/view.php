@@ -1,21 +1,21 @@
-<?
+<?php 
 
 function printHtmlHeader($title = '') {
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title><?=$title?></title>
+  <title><?php echo $title?></title>
 </head>
 <body>
-<?
+<?php 
 }
 
 function printHtmlFooter() {
 ?>
 </body>
 </html>
-<?
+<?php 
 }
 
 function dress($tag, $value, & $contents) {
@@ -27,22 +27,22 @@ function getUpperView($paging) {
 	ob_start();
 ?>
 <!--
-	<?=$g_version?>
+	<?php echo $g_version?>
 	
 	Homepage: http://www.tattertools.com
 	Copyright (c) 2005 Tatter & Company, LLP. All rights reserved.
 -->
 <script type="text/javascript">
-var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
+var servicePath = "<?php echo $service['path']?>"; var blogURL = "<?php echo $blogURL?>";
 </script>
-<script type="text/javascript" src="<?=$service['path']?>/script/EAF.js"></script>
-<script type="text/javascript" src="<?=$service['path']?>/script/common.js"></script>
-<script type="text/javascript" src="<?=$service['path']?>/script/gallery.js" ></script>
-<?
+<script type="text/javascript" src="<?php echo $service['path']?>/script/EAF.js"></script>
+<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>
+<script type="text/javascript" src="<?php echo $service['path']?>/script/gallery.js" ></script>
+<?php 
 	if (doesHaveOwnership()) {
 ?>
-<script type="text/javascript" src="<?=$service['path']?>/script/owner.js" ></script>
-<?
+<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js" ></script>
+<?php 
 	}
 ?>
 <script type="text/javascript">
@@ -64,28 +64,28 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 		}
 		switch (event.keyCode) {
 			case 81: //Q
-				window.location = "<?=$blogURL?>/owner";
+				window.location = "<?php echo $blogURL?>/owner";
 				break;
 			case 82: //R
-				window.location = "<?=$blogURL?>/owner/reader";
+				window.location = "<?php echo $blogURL?>/owner/reader";
 				break;
 			case 84: //T
-				window.location = "<?=$blogURL?>/owner/reader/?forceRefresh";
+				window.location = "<?php echo $blogURL?>/owner/reader/?forceRefresh";
 				break;
-<?
+<?php 
 	if (isset($paging['prev'])) {
 ?>
 			case 65: //A
-				window.location = "<?=escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}")?>";
+				window.location = "<?php echo escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}")?>";
 				break;
-<?
+<?php 
 	}
 	if (isset($paging['next'])) {
 ?>
 			case 83: //S
-				window.location = "<?=escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}")?>";
+				window.location = "<?php echo escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}")?>";
 				break;
-<?
+<?php 
 	}
 ?>
 			case 90: //Z
@@ -115,29 +115,29 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 		try { secretValue = document.getElementById("secret_guest").checked ? "on" : ""; } catch(e) { secretValue = ""; }
 		try { commentValue = document.getElementById("comment_guest").value; } catch(e) { commentValue = ""; }	
 		
-		<?
+		<?php 
 	if (!doesHaveMembership()) {
 ?>
-		if (!checkValue(document.getElementById("name_guest"), "<?=_t('이름을 입력해 주십시오')?>")) return false;
-		<?
+		if (!checkValue(document.getElementById("name_guest"), "<?php echo _t('이름을 입력해 주십시오')?>")) return false;
+		<?php 
 	}
 ?>
-		if (!checkValue(document.getElementById("comment_guest"), "<?=_t('댓글을 입력해 주십시오')?>")) return false;
+		if (!checkValue(document.getElementById("comment_guest"), "<?php echo _t('댓글을 입력해 주십시오')?>")) return false;
 		
-		<?
+		<?php 
 	if (doesHaveOwnership()) {
 ?>
 		// TODO : EAF HTTPRequest 클래스를 이용할 것
 		result = getResponse(oForm.action , "comment_" + entryId + "=" + encodeURIComponent(commentValue));
-		<?
+		<?php 
 	} else if (doesHaveMembership()) {
 ?>
 		result = getResponse(oForm.action , "comment_" + entryId + "=" + encodeURIComponent(commentValue) + "&secret_" + entryId + "=" + secretValue)
-		<?
+		<?php 
 	} else {
 ?>
 		result = getResponse(oForm.action , "name_" + entryId + "=" + encodeURIComponent(nameValue) + "&password_" + entryId + "=" + encodeURIComponent(passwordValue) + "&homepage_" + entryId + "=" + encodeURIComponent(homepageValue) + "&comment_" + entryId + "=" + encodeURIComponent(commentValue) + "&secret_" + entryId + "=" + secretValue);
-		<?
+		<?php 
 	}
 ?>
 		trace(result);
@@ -160,7 +160,7 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 		request.onError = function() {
 			alert(this.getText("/response/description"));
 		}
-		var queryString = "key=<?=md5(filemtime(ROOT . '/config.php'))?>";
+		var queryString = "key=<?php echo md5(filemtime(ROOT . '/config.php'))?>";
 		if(oForm["name"])
 			queryString += "&name_" + entryId +"=" + encodeURIComponent(oForm["name"].value);
 		if(oForm["password"])
@@ -184,7 +184,7 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 		width = 450;
 		height = 400;
 		if(openWindow != '') openWindow.close();
-		openWindow = window.open("<?=$blogURL?>/comment/delete/" + id, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+		openWindow = window.open("<?php echo $blogURL?>/comment/delete/" + id, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
 		openWindow.focus();
 		alignCenter(openWindow,width,height);
 	}
@@ -195,7 +195,7 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 		width = 450;
 		height = 360;
 		if(openWindow != '') openWindow.close();
-		openWindow = window.open("<?=$blogURL?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+		openWindow = window.open("<?php echo $blogURL?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
 		openWindow.focus();
 		alignCenter(openWindow,width,height);
 	}
@@ -204,7 +204,7 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 		width =  825;
 		height = 550;
 		if(openWindow != '') openWindow.close();
-		openWindow = window.open("<?=$blogURL?>/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child,"tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+		openWindow = window.open("<?php echo $blogURL?>/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child,"tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
 		openWindow.focus();
 		alignCenter(openWindow,width,height);
 	}
@@ -213,7 +213,7 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 		width = 450;
 		height = 360;
 		if(openWindow != '') openWindow.close();
-		openWindow = window.open("<?=$blogURL?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+		openWindow = window.open("<?php echo $blogURL?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
 		openWindow.focus();
 		alignCenter(openWindow,width,height);
 	}
@@ -222,7 +222,7 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 		width = 700;
 		height = 500;
 		if(openWindow != '') openWindow.close();
-		openWindow = window.open("<?=$blogURL?>/trackback/send/" + id, "tatter", "width=580,height=400,location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+		openWindow = window.open("<?php echo $blogURL?>/trackback/send/" + id, "tatter", "width=580,height=400,location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
 		openWindow.focus();
 		alignCenter(openWindow,width,height);
 	}
@@ -230,39 +230,39 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 	function copyUrl(url){		
 		if(isIE) {
 			window.clipboardData.setData('Text',url);
-			window.alert("<?=_t('엮인글 주소가 복사되었습니다')?>");
+			window.alert("<?php echo _t('엮인글 주소가 복사되었습니다')?>");
 		}
 	}
 	
 	
 	function deleteTrackback(id,entryId) {
-<?
+<?php 
 	if (doesHaveOwnership()) {
 ?> 
-		if (!confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?\t')?>"))
+		if (!confirm("<?php echo _t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?\t')?>"))
 			return;
 
-		var request = new HTTPRequest("GET", "<?=$blogURL?>/trackback/delete/" + id);
+		var request = new HTTPRequest("GET", "<?php echo $blogURL?>/trackback/delete/" + id);
 		request.onSuccess = function() {
 			document.getElementById('entry'+entryId+'Trackback').innerHTML= this.getText("/response/result");
 		}
 		request.onError = function() {
-			alert('<?=_t('실패 했습니다')?>');
+			alert('<?php echo _t('실패 했습니다')?>');
 		}
 		request.send();
-<?
+<?php 
 	} else {
 ?>
-		alert('<?=_t('실패 했습니다')?>');
-<?
+		alert('<?php echo _t('실패 했습니다')?>');
+<?php 
 	}
 ?>
 	}
-<?
+<?php 
 	if (doesHaveOwnership()) {
 ?>
 	function changeVisibility(id, visibility) {
-		var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/visibility/" + id + "?visibility=" + visibility);
+		var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/entry/visibility/" + id + "?visibility=" + visibility);
 		request.onSuccess = function() {
 			window.location.reload();
 		}
@@ -270,15 +270,15 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 	}
 	
 	function deleteEntry(id) {
-		if (!confirm("<?=_t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?\t')?>"))
+		if (!confirm("<?php echo _t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?\t')?>"))
 			return;
-		var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/delete/" + id);
+		var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/entry/delete/" + id);
 		request.onSuccess = function() {
 			window.location.reload();
 		}
 		request.send();
 	}	
-<?
+<?php 
 	}
 ?>
 
@@ -286,9 +286,9 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 		var password = document.getElementById("entry" + id + "password");
 		if (!password)
 			return;
-		document.cookie = "GUEST_PASSWORD=" + escape(password.value) + ";path=<?=$blogURL?>";
+		document.cookie = "GUEST_PASSWORD=" + escape(password.value) + ";path=<?php echo $blogURL?>";
 		
-		var request = new HTTPRequest("POST", "<?=$blogURL?>/" + id);
+		var request = new HTTPRequest("POST", "<?php echo $blogURL?>/" + id);
 		request.async = false;
 		request.send("partial=");
 		var entry = document.getElementById("entry" + id);
@@ -297,7 +297,7 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 	}
 //]]>
 </script>
-<?
+<?php 
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;
@@ -318,7 +318,7 @@ function getScriptsOnFoot() {
 		updateFeed();
 		//]]>
 	</script>
-	<?
+	<?php 
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;
@@ -541,12 +541,12 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 //<![CDATA[
 	var expanded = false;
 	function expandTree() {
-<?
+<?php 
 	foreach ($tree['children'] as $level1) {
 		if (!empty($level1['children'])) {
 ?>
-		expandFolder(<?=$level1['id']?>, true);
-<?
+		expandFolder(<?php echo $level1['id']?>, true);
+<?php 
 		}
 	}
 ?>
@@ -557,11 +557,11 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 		var oImg = oLevel1.getElementsByTagName("img")[0];
 		switch (expand) {
 			case true:
-				oImg.src = "<?=$skin['url']?>/tab_opened.gif";
+				oImg.src = "<?php echo $skin['url']?>/tab_opened.gif";
 				showLayer("category_" + category + "_children");
 				return true;
 			case false:
-				oImg.src = "<?=$skin['url']?>/tab_closed.gif";
+				oImg.src = "<?php echo $skin['url']?>/tab_closed.gif";
 				hideLayer("category_" + category + "_children");
 				return true;
 		}
@@ -575,12 +575,12 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 			case "isleaf":
 				return true;
 			case "closed":
-				oImg.src = "<?=$skin['url']?>/tab_opened.gif";
+				oImg.src = "<?php echo $skin['url']?>/tab_opened.gif";
 				showLayer("category_" + category + "_children");
 				expanded = true;
 				return true;
 			case "opened":
-				oImg.src = "<?=$skin['url']?>/tab_closed.gif";
+				oImg.src = "<?php echo $skin['url']?>/tab_closed.gif";
 				hideLayer("category_" + category + "_children");
 				expanded = false;
 				return true;
@@ -596,8 +596,8 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 			var oLevel = document.getElementById("category_" + selectedNode);
 			var oChild = oLevel.getElementsByTagName("table")[0];
 			
-			oChild.style.color = "#<?=$skin['itemColor']?>";			
-<?
+			oChild.style.color = "#<?php echo $skin['itemColor']?>";			
+<?php 
 	if ($skin['itemBgColor'] != '')
 		echo "			oChild.style.backgroundColor = \"#{$skin['itemBgColor']}\"";
 	else
@@ -605,19 +605,19 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 ?>			
 						
 			root.setAttribute('currentSelectedNode',category);
-			document.getElementById('text_'+selectedNode).style.color="#<?=$skin['itemColor']?>";
+			document.getElementById('text_'+selectedNode).style.color="#<?php echo $skin['itemColor']?>";
 			
 			var oLevel = document.getElementById("category_" + category);
 			var oChild = oLevel.getElementsByTagName("table")[0];
-			oChild.style.color = "#<?=$skin['activeItemColor']?>";
-<?
+			oChild.style.color = "#<?php echo $skin['activeItemColor']?>";
+<?php 
 	if ($skin['activeItemBgColor'] != '')
 		echo "			oChild.style.backgroundColor = \"#{$skin['activeItemBgColor']}\"";
 	else
 		echo "			oChild.style.backgroundColor = \"\"";
 ?>			
 			
-			document.getElementById('text_'+category).style.color="#<?=$skin['activeItemColor']?>";
+			document.getElementById('text_'+category).style.color="#<?php echo $skin['activeItemColor']?>";
 			
 			selectedNode = category;
 		} catch(e) {
@@ -655,30 +655,30 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 	}
 //]]>
 </script>
-	<?
+	<?php 
 	if ($skin['itemBgColor'] == "") {
 		$itemBgColor = '';
 	} else {
 		$itemBgColor = 'background-color: #' . $skin['itemBgColor'] . ';';
 	}
 ?>
-	<table id="treeComponent" currentselectednode="<?=$selected?>" cellpadding="0" cellspacing="0" style="width: 100%;"><tr>
+	<table id="treeComponent" currentselectednode="<?php echo $selected?>" cellpadding="0" cellspacing="0" style="width: 100%;"><tr>
 	<td>
 		<table id="category_0" name="treeNode" cellpadding="0" cellspacing="0"><tr>
-			<td class="ib" style="font-size: 1px"><img src="<?=$skin['url']?>/tab_top.gif" width="16" onclick="expandTree()" alt=""/></td>
+			<td class="ib" style="font-size: 1px"><img src="<?php echo $skin['url']?>/tab_top.gif" width="16" onclick="expandTree()" alt=""/></td>
 			<td valign="top" style="font-size:9pt; padding-left:3px">
-				<table onclick="<?
+				<table onclick="<?php 
 	if ($action == 1) {
-?> alert(3);onclick_setimp(window, this, c_ary, t_ary); <?
+?> alert(3);onclick_setimp(window, this, c_ary, t_ary); <?php 
 	}
-?>" id="imp0" cellpadding="0" cellspacing="0" style="<?=$itemBgColor?>"><tr>
-					<?
+?>" id="imp0" cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor?>"><tr>
+					<?php 
 	if (empty($tree['link']))
 		$link = 'onclick="selectNode(0)"';
 	else
 		$link = 'onclick="window.location.href=\'' . escapeJSInAttribute($tree['link']) . '\'"';
 ?>
-					<td class="branch3" <?=$link?>><div id="text_0" style=" color: #<?=$skin['itemColor']?>;"><?=htmlspecialchars($tree['label'])?> <?
+					<td class="branch3" <?php echo $link?>><div id="text_0" style=" color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars($tree['label'])?> <?php 
 	if ($skin['showValue'])
 		print "<span class=\"c_cnt\">({$tree['value']})</span>";
 ?></div></td>
@@ -686,7 +686,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 			</td>
 		</tr></table>
 
-<?
+<?php 
 	$parentOfSelected = false;
 	$i = count($tree['children']);
 	foreach ($tree['children'] as $row) {
@@ -696,19 +696,19 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 		else
 			$link = 'onclick="window.location.href=\'' . escapeJSInAttribute($row['link']) . '\'"';
 ?>
-		<table name="treeNode"  id="category_<?=$row['id']?>" cellpadding="0" cellspacing="0"><tr>
-			<td class="ib" style="width:39px; font-size: 1px; background-image: url('<?=$skin['url']?>/navi_back_noactive<?=($i ? '' : '_end')?>.gif')"><a class="click" onclick="toggleFolder('<?=$row['id']?>')"><img src="<?=$skin['url']?>/tab_<?=(count($row['children']) ? 'closed' : 'isleaf')?>.gif" width="39" alt=""/></a></td>
+		<table name="treeNode"  id="category_<?php echo $row['id']?>" cellpadding="0" cellspacing="0"><tr>
+			<td class="ib" style="width:39px; font-size: 1px; background-image: url('<?php echo $skin['url']?>/navi_back_noactive<?php echo ($i ? '' : '_end')?>.gif')"><a class="click" onclick="toggleFolder('<?php echo $row['id']?>')"><img src="<?php echo $skin['url']?>/tab_<?php echo (count($row['children']) ? 'closed' : 'isleaf')?>.gif" width="39" alt=""/></a></td>
 			<td>
-				<table cellpadding="0" cellspacing="0" style="<?=$itemBgColor?>"><tr>
-					<td class="branch3" <?=$link?>><div id="text_<?=$row['id']?>" style="color: #<?=$skin['itemColor']?>;"><?=htmlspecialchars(UTF8::lessenAsEm($row['label'], $skin['labelLength']))?> <?
+				<table cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor?>"><tr>
+					<td class="branch3" <?php echo $link?>><div id="text_<?php echo $row['id']?>" style="color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($row['label'], $skin['labelLength']))?> <?php 
 		if ($skin['showValue'])
 			print "<span class=\"c_cnt\">({$row['value']})</span>";
 ?></div></td>
 				</tr></table>
 			</td>
 		</tr></table>
-		<div id="category_<?=$row['id']?>_children" style="display:none">
-<?
+		<div id="category_<?php echo $row['id']?>_children" style="display:none">
+<?php 
 		$j = count($row['children']);
 		foreach ($row['children'] as $irow) {
 			if ($irow['id'] == $selected)
@@ -723,41 +723,41 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 			else
 				$link = 'onclick="window.location.href=\'' . escapeJSInAttribute($irow['link']) . '\'"';
 ?>
-				<table id="category_<?=$irow['id']?>" name="treeNode" cellpadding="0" cellspacing="0"><tr>
-				<td style="width:39px; font-size: 1px"><img src="<?=$skin['url']?>/navi_back_active<?=($i ? '' : '_end')?>.gif" width="17" height="18" alt=""/><img src="<?=$skin['url']?>/tab_treed<?
+				<table id="category_<?php echo $irow['id']?>" name="treeNode" cellpadding="0" cellspacing="0"><tr>
+				<td style="width:39px; font-size: 1px"><img src="<?php echo $skin['url']?>/navi_back_active<?php echo ($i ? '' : '_end')?>.gif" width="17" height="18" alt=""/><img src="<?php echo $skin['url']?>/tab_treed<?php 
 			if (!$j)
 				print "_end";
 ?>.gif" width="22" alt=""/></td>
 				<td>
-					<table <?=$link?> cellpadding="0" cellspacing="0" style="<?=$itemBgColor?>"><tr>
-					<td class="branch3"><div id="text_<?=$irow['id']?>" style="color: #<?=$skin['itemColor']?>;"><?=htmlspecialchars(UTF8::lessenAsEm($irow['label'], $skin['labelLength']))?> <?=($skin['showValue'] ? "<span class=\"c_cnt\">({$irow['value']})</span>" : '')?></div></td>
+					<table <?php echo $link?> cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor?>"><tr>
+					<td class="branch3"><div id="text_<?php echo $irow['id']?>" style="color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($irow['label'], $skin['labelLength']))?> <?php echo ($skin['showValue'] ? "<span class=\"c_cnt\">({$irow['value']})</span>" : '')?></div></td>
 					</tr></table>
 				</td>
 				</tr></table>
-<?
+<?php 
 		}
 ?>
 		</div>
-<?
+<?php 
 	}
 ?>
 	</td></tr></table>
-<?
+<?php 
 	if (is_numeric($selected)) {
 ?>
 <script type="text/javascript">
 //<![CDATA[
-<?
+<?php 
 		if ($parentOfSelected) {
 ?>
-	expandFolder(<?=$parentOfSelected?>, true);
-<?
+	expandFolder(<?php echo $parentOfSelected?>, true);
+<?php 
 		}
 ?>
-	selectNode(<?=$selected?>);
+	selectNode(<?php echo $selected?>);
 //]]>
 </script>
-<?
+<?php 
 	}
 }
 
@@ -788,11 +788,11 @@ function getCalendarView($calendar) {
 ?>
 <table cellpadding="0" cellspacing="1" style="width: 100%; table-layout: fixed">
 <caption class="cal_month">
-<a href="<?=$blogURL?>/archive/<?=$previous?>">&lt;&lt;</a>
+<a href="<?php echo $blogURL?>/archive/<?php echo $previous?>">&lt;&lt;</a>
 &nbsp;
-<a href="<?=$blogURL?>/archive/<?=$current?>"><?=Timestamp::format('%Y/%m', getTimeFromPeriod($current))?></a>
+<a href="<?php echo $blogURL?>/archive/<?php echo $current?>"><?php echo Timestamp::format('%Y/%m', getTimeFromPeriod($current))?></a>
 &nbsp;
-<a href="<?=$blogURL?>/archive/<?=$next?>">&gt;&gt;</a>
+<a href="<?php echo $blogURL?>/archive/<?php echo $next?>">&gt;&gt;</a>
 </caption>
 <thead>
   <tr>
@@ -807,7 +807,7 @@ function getCalendarView($calendar) {
 </thead>
 <tbody>
   <tr>
-<?
+<?php 
 	for ($weekday = 0; $weekday < $firstWeekday; $weekday++)
 		echo '    <td class="cal_day1"></td>', CRLF;
 	for ($day = 1; $weekday < 7; $weekday++, $day++) {
@@ -835,7 +835,7 @@ function getCalendarView($calendar) {
 ?>
 </tbody>
 </table>
-<?
+<?php 
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;
@@ -1207,43 +1207,43 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 			$group['title'] = _t('전체보기');
 		$highlight = ($selectedGroup == $group['id']) ? ' style="background-color: #CDE3FF"' : '';
 ?>
-		<tr id="groupList<?=$group['id']?>" height="20" groupid="<?=$group['id']?>"<?=$highlight?>>
-			<td class="pointerCursor" onclick="Reader.selectGroup(this, <?=$group['id']?>)"><img src="<?=$service['path']?>/image/owner/reader/iconCategory<?=$group['id'] ? 'Open' : 'T'?>.gif" /> <?=htmlspecialchars($group['title'])?></td>
-			<td align="right" width="30"><?
+		<tr id="groupList<?php echo $group['id']?>" height="20" groupid="<?php echo $group['id']?>"<?php echo $highlight?>>
+			<td class="pointerCursor" onclick="Reader.selectGroup(this, <?php echo $group['id']?>)"><img src="<?php echo $service['path']?>/image/owner/reader/iconCategory<?php echo $group['id'] ? 'Open' : 'T'?>.gif" /> <?php echo htmlspecialchars($group['title'])?></td>
+			<td align="right" width="30"><?php 
 		if ($group['id']) {
-?><img class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/btnModify.gif" onclick="Reader.editGroup(<?=$group['id']?>, '<?=$group['title']?>')"/><?
+?><img class="pointerCursor" src="<?php echo $service['path']?>/image/owner/reader/btnModify.gif" onclick="Reader.editGroup(<?php echo $group['id']?>, '<?php echo $group['title']?>')"/><?php 
 		}
 ?></td>
 		</tr>
 		<tr height="1">
-			<td colspan="2" background="<?=$service['path']?>/image/owner/reader/dotline.gif"></td>
+			<td colspan="2" background="<?php echo $service['path']?>/image/owner/reader/dotline.gif"></td>
 		</tr>
-		<?
+		<?php 
 	}
 ?>
 	</table>
 	<table id="groupAdder" width="217" border="0" cellspacing="0" cellpadding="3" style="margin: 30px 10px 10px">
 		<tr>
 			<td align="center">
-				<input id="newGroupTitle" type="text" class="text2" value="<?=_t('카테고리를 추가하세요')?>" style="border:1px #999 solid; width: 150px" onfocus="if(this.value == '<?=_t('카테고리를 추가하세요')?>') this.value = ''" onkeydown="if(event.keyCode==13) Reader.addGroup(this.value)"/>
-				<input type="button" value="<?=_t('추가')?>" style="border: 1px #999 solid; background: #ddd; font-size: 11px;padding-top:2px" onclick="Reader.addGroup(document.getElementById('newGroupTitle').value)"/>
+				<input id="newGroupTitle" type="text" class="text2" value="<?php echo _t('카테고리를 추가하세요')?>" style="border:1px #999 solid; width: 150px" onfocus="if(this.value == '<?php echo _t('카테고리를 추가하세요')?>') this.value = ''" onkeydown="if(event.keyCode==13) Reader.addGroup(this.value)"/>
+				<input type="button" value="<?php echo _t('추가')?>" style="border: 1px #999 solid; background: #ddd; font-size: 11px;padding-top:2px" onclick="Reader.addGroup(document.getElementById('newGroupTitle').value)"/>
 			</td>
 		</tr>
 	</table>
 	<div id="groupEditor" style="display: none">
-		<div style="font-size:14px; font-weight:bold; margin: 10px 0px 0px 30px"><?=_t('카테고리 수정하기')?></div>
+		<div style="font-size:14px; font-weight:bold; margin: 10px 0px 0px 30px"><?php echo _t('카테고리 수정하기')?></div>
 		<table align="center" width="80%" border="0" cellpadding="0" cellspacing="0" bgcolor="#e3effe">
 			<tr>
 				<td align="center" style="padding:15px 10px">
 					<input id="changeGroupTitle" type="text" class="text2" style="border:1px #999 solid;height:20px; width:180px" />
-					<input type="button" value="<?=_t('수정하기')?>" style="border:1px #5788C4 solid; background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px" onclick="Reader.editGroupExecute()"/>
-					<input type="button" value="<?=_t('삭제하기')?>" style="border:1px #5788C4 solid; background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px" onclick="Reader.deleteGroup()"/>
-					<input type="button" value="<?=_t('취소하기')?>" style="border:1px #5788C4 solid; background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px" onclick="Reader.cancelEditGroup()"/>
+					<input type="button" value="<?php echo _t('수정하기')?>" style="border:1px #5788C4 solid; background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px" onclick="Reader.editGroupExecute()"/>
+					<input type="button" value="<?php echo _t('삭제하기')?>" style="border:1px #5788C4 solid; background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px" onclick="Reader.deleteGroup()"/>
+					<input type="button" value="<?php echo _t('취소하기')?>" style="border:1px #5788C4 solid; background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px" onclick="Reader.cancelEditGroup()"/>
 				</td>
 			</tr>
 		</table>
 	</div>
-<?
+<?php 
 }
 
 function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = null) {
@@ -1257,51 +1257,51 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 		else
 			$status = 'UpdateNo';
 ?>
-		<tr height="20" feedid="<?=$feed['id']?>">
-			<td class="pointerCursor overflowCell" onclick="Reader.selectFeed(this, <?=$feed['id']?>)"><img id="iconFeedStatus<?=$feed['id']?>" class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/icon<?=$status?>.gif" width="10" height="10" alt="Refresh this feed" onclick="Reader.updateFeed(<?=$feed['id']?>); event.cancelBubble=true;return false"/> <?=$feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" onclick="window.open(this.href); event.cancelBubble=true; return false">' : ''?><strong><?=htmlspecialchars($feed['title'])?></strong><?=$feed['blogURL'] ? '</a>' : ''?> <span style="color: #888" title="<?=escapeJSInAttribute($feed['description'])?>"><?=$feed['description']?'| ':''?><?=htmlspecialchars($feed['description'])?></span></td>
-			<td align="right" width="30"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/btnModify.gif" onclick="Reader.editFeed(<?=$feed['id']?>, '<?=htmlspecialchars($feed['xmlURL'])?>')"/></td>
+		<tr height="20" feedid="<?php echo $feed['id']?>">
+			<td class="pointerCursor overflowCell" onclick="Reader.selectFeed(this, <?php echo $feed['id']?>)"><img id="iconFeedStatus<?php echo $feed['id']?>" class="pointerCursor" src="<?php echo $service['path']?>/image/owner/reader/icon<?php echo $status?>.gif" width="10" height="10" alt="Refresh this feed" onclick="Reader.updateFeed(<?php echo $feed['id']?>); event.cancelBubble=true;return false"/> <?php echo $feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" onclick="window.open(this.href); event.cancelBubble=true; return false">' : ''?><strong><?php echo htmlspecialchars($feed['title'])?></strong><?php echo $feed['blogURL'] ? '</a>' : ''?> <span style="color: #888" title="<?php echo escapeJSInAttribute($feed['description'])?>"><?php echo $feed['description']?'| ':''?><?php echo htmlspecialchars($feed['description'])?></span></td>
+			<td align="right" width="30"><img class="pointerCursor" src="<?php echo $service['path']?>/image/owner/reader/btnModify.gif" onclick="Reader.editFeed(<?php echo $feed['id']?>, '<?php echo htmlspecialchars($feed['xmlURL'])?>')"/></td>
 		</tr>
 		<tr height="1">
-			<td colspan="2" background="<?=$service['path']?>/image/owner/reader/dotline.gif"></td>
+			<td colspan="2" background="<?php echo $service['path']?>/image/owner/reader/dotline.gif"></td>
 		</tr>
-		<?
+		<?php 
 	}
 ?>
 	</table>
 	<table id="feedAdder" border="0" cellspacing="0" cellpadding="3" style="margin-top: 30px">
 		<tr>
 			<td align="center">
-				<input id="newFeedURL" type="text" class="text2" value="<?=_t('피드 주소를 입력하세요')?>" style="border:1px #999 solid; width:480px" onkeydown="if(event.keyCode==13) Reader.addFeed(this.value)" onfocus="if(this.value == '<?=_t('피드 주소를 입력하세요')?>') this.value = ''"/>
-				<input type="button" value="<?=_t('추가')?>" style="border: 1px #999 solid; background: #ddd; font-size: 11px;padding-top:2px" onclick="Reader.addFeed(document.getElementById('newFeedURL').value)"/>
-				<?=fireEvent('AddFeedURLToolbox', '')?>
+				<input id="newFeedURL" type="text" class="text2" value="<?php echo _t('피드 주소를 입력하세요')?>" style="border:1px #999 solid; width:480px" onkeydown="if(event.keyCode==13) Reader.addFeed(this.value)" onfocus="if(this.value == '<?php echo _t('피드 주소를 입력하세요')?>') this.value = ''"/>
+				<input type="button" value="<?php echo _t('추가')?>" style="border: 1px #999 solid; background: #ddd; font-size: 11px;padding-top:2px" onclick="Reader.addFeed(document.getElementById('newFeedURL').value)"/>
+				<?php echo fireEvent('AddFeedURLToolbox', '')?>
 			</td>
 		</tr>
 	</table>
 	<div id="feedEditor" style="display: none">
-		<div style="font-size:14px; font-weight:bold; margin: 10px 0px 0px 30px"><?=_t('피드 수정하기')?></div>
+		<div style="font-size:14px; font-weight:bold; margin: 10px 0px 0px 30px"><?php echo _t('피드 수정하기')?></div>
 		<table align="center" width="90%" border="0" cellpadding="0" cellspacing="0" bgcolor="#e3effe">
 			<tr>
 				<td align="center" style="padding:15px 10px;">
 					<select id="changeFeedGroup" style="width: 30%">
-					<?
+					<?php 
 	foreach (getFeedGroups($owner) as $group) {
 		if ($group['id'] == 0)
 			$group['title'] = _t('그룹 없음');
 ?>
-					<option value="<?=$group['id']?>"><?=htmlspecialchars($group['title'])?></option>
-					<?
+					<option value="<?php echo $group['id']?>"><?php echo htmlspecialchars($group['title'])?></option>
+					<?php 
 	}
 ?>
 					</select>
 					<input id="changeFeedURL" class="text2" type="text" style="border:1px #999 solid; width: 60%" disabled="disabled" /><br/>
-					<input type="button" value="<?=_t('수정하기')?>" style="border:1px #5788C4 solid;background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px;" onclick="Reader.editFeedExecute()"/>
-					<input type="button" value="<?=_t('삭제하기')?>" style="border:1px #5788C4 solid;background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px;" onclick="Reader.deleteFeed()"/>
-					<input type="button" value="<?=_t('취소하기')?>" style="border:1px #5788C4 solid;background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px;" onclick="Reader.cancelEditFeed()"/>
+					<input type="button" value="<?php echo _t('수정하기')?>" style="border:1px #5788C4 solid;background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px;" onclick="Reader.editFeedExecute()"/>
+					<input type="button" value="<?php echo _t('삭제하기')?>" style="border:1px #5788C4 solid;background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px;" onclick="Reader.deleteFeed()"/>
+					<input type="button" value="<?php echo _t('취소하기')?>" style="border:1px #5788C4 solid;background:#8DB0DC;padding-top:2px;color:#fff; margin-top:5px;" onclick="Reader.cancelEditFeed()"/>
 				</td>
 			</tr>
 		</table>
 	</div>
-	<?
+	<?php 
 }
 
 function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null) {
@@ -1316,42 +1316,42 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 		$starred = $entry['item'] ? 'On' : 'Off';
 		$podcast = $entry['enclosure'] ? '<img src="' . $service['path'] . '/image/owner/reader/iconPodcast.gif" vspace="4" />' : '';
 ?>
-		<tr entryid="<?=$entry['id']?>">
+		<tr entryid="<?php echo $entry['id']?>">
 			<td>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-left: 6px">
-					<tr<?=($count == 1) ? ' style="background-color: #fff"' : ''?>>
-						<td width="16" valign="top" style="padding: 6px 0px"><img id="star<?=$entry['id']?>" class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/iconStar<?=$starred?>.gif" starred="<?=$starred?>" onclick="Reader.toggleStarred(<?=$entry['id']?>)"/><br/><?=$podcast?></td>
-						<td id="entryTitleList<?=$entry['id']?>" class="<?=$class?>" onclick="Reader.selectEntry(<?=$entry['id']?>)" style="padding:6px 0px; cursor: pointer; word-break: break-all"><span><?=htmlspecialchars($entry['entry_title'])?></span><br /><?=htmlspecialchars($entry['blog_title'])?></td>
+					<tr<?php echo ($count == 1) ? ' style="background-color: #fff"' : ''?>>
+						<td width="16" valign="top" style="padding: 6px 0px"><img id="star<?php echo $entry['id']?>" class="pointerCursor" src="<?php echo $service['path']?>/image/owner/reader/iconStar<?php echo $starred?>.gif" starred="<?php echo $starred?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"/><br/><?php echo $podcast?></td>
+						<td id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onclick="Reader.selectEntry(<?php echo $entry['id']?>)" style="padding:6px 0px; cursor: pointer; word-break: break-all"><span><?php echo htmlspecialchars($entry['entry_title'])?></span><br /><?php echo htmlspecialchars($entry['blog_title'])?></td>
 					</tr>
 					<tr height="1">
-						<td colspan="2" background="<?=$service['path']?>/image/owner/reader/dotline02.gif"></td>
+						<td colspan="2" background="<?php echo $service['path']?>/image/owner/reader/dotline02.gif"></td>
 					</tr>
 				</table>
 			</td>
 		</tr>
-		<?
+		<?php 
 	}
 ?>
 	</table>
 	<div id="additionalFeedContainer"></div>
 	<div id="feedLoadingIndicator" style="background-color: #b5e1f4; text-align: center; border: 2px solid #a4d8eb; color: #1d5d81; padding: 8px 5px 5px; margin: 10px; font-size: 10px; display: none">
-		<img src="<?=$service['path']?>/image/owner/reader/feedLoading.gif" style="vertical-align: 0%; margin-right: 5px"/>
-		<?=_t('피드를 읽어오고 있습니다')?>
+		<img src="<?php echo $service['path']?>/image/owner/reader/feedLoading.gif" style="vertical-align: 0%; margin-right: 5px"/>
+		<?php echo _t('피드를 읽어오고 있습니다')?>
 	</div>
 	<script type="text/javascript">
 	//<![CDATA[
-		Reader.setShownEntries(<?=$count?>);
-		Reader.setTotalEntries(<?=getFeedEntriesTotalCount($owner, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword)?>);
-<?
+		Reader.setShownEntries(<?php echo $count?>);
+		Reader.setTotalEntries(<?php echo getFeedEntriesTotalCount($owner, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword)?>);
+<?php 
 	if (isset($firstEntryId)) {
 ?>
-		Reader.selectedEntryObject = document.getElementById("entryTitleList<?=$firstEntryId?>").parentNode;
-<?
+		Reader.selectedEntryObject = document.getElementById("entryTitleList<?php echo $firstEntryId?>").parentNode;
+<?php 
 	}
 ?>
 	//]]>
 	</script>
-	<?
+	<?php 
 	return $count;
 }
 
@@ -1365,24 +1365,24 @@ function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false
 		$starred = $entry['item'] ? 'On' : 'Off';
 		$podcast = $entry['enclosure'] ? '<img src="' . $service['path'] . '/image/owner/reader/iconPodcast.gif" vspace="4" />' : '';
 ?>
-		<tr entryid="<?=$entry['id']?>">
+		<tr entryid="<?php echo $entry['id']?>">
 			<td>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-left: 6px">
 					<tr>
-						<td width="16" valign="top" style="padding: 6px 0px"><img id="star<?=$entry['id']?>" class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/iconStar<?=$starred?>.gif" starred="<?=$starred?>" onclick="Reader.toggleStarred(<?=$entry['id']?>)"/><br/><?=$podcast?></td>
-						<td id="entryTitleList<?=$entry['id']?>" class="<?=$class?>" onclick="Reader.selectEntry(<?=$entry['id']?>)" style="padding:6px 0px; cursor: pointer"><span><?=htmlspecialchars($entry['entry_title'])?></span><br /><?=htmlspecialchars($entry['blog_title'])?></td>
+						<td width="16" valign="top" style="padding: 6px 0px"><img id="star<?php echo $entry['id']?>" class="pointerCursor" src="<?php echo $service['path']?>/image/owner/reader/iconStar<?php echo $starred?>.gif" starred="<?php echo $starred?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"/><br/><?php echo $podcast?></td>
+						<td id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onclick="Reader.selectEntry(<?php echo $entry['id']?>)" style="padding:6px 0px; cursor: pointer"><span><?php echo htmlspecialchars($entry['entry_title'])?></span><br /><?php echo htmlspecialchars($entry['blog_title'])?></td>
 					</tr>
 					<tr height="1">
-						<td colspan="2" background="<?=$service['path']?>/image/owner/reader/dotline02.gif"></td>
+						<td colspan="2" background="<?php echo $service['path']?>/image/owner/reader/dotline02.gif"></td>
 					</tr>
 				</table>
 			</td>
 		</tr>
-		<?
+		<?php 
 	}
 ?>
 	</table>
-	<?
+	<?php 
 	return $count;
 }
 
@@ -1397,33 +1397,33 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 	<td>
 	  <table width="100%" border="0" cellspacing="0" cellpadding="0">
 		  <tr>
-			<td><a href="<?=htmlspecialchars($entry['permalink'])?>" target="_blank" style="text-decoration: none"><span style="color:#0047B6; font-size:16px; font-weight:bold"><?=htmlspecialchars($entry['entry_title'])?></span></a><br />
-			  by <?=htmlspecialchars($entry['author'] ? $entry['author'] : $entry['blog_title'])?> : <span style="font-size:10px; font-family:Tahoma"><?=date('Y-m-d H:i:s', $entry['written'])?></span> </td>
-			<td align="right" valign="top"><a id="entryPermalink" href="<?=htmlspecialchars($entry['permalink'])?>" target="_blank"><img src="<?=$service['path']?>/image/owner/reader/viewNewwindow.gif" align="absmiddle" /><?=_t('새 창으로 보기')?></a></td>
+			<td><a href="<?php echo htmlspecialchars($entry['permalink'])?>" target="_blank" style="text-decoration: none"><span style="color:#0047B6; font-size:16px; font-weight:bold"><?php echo htmlspecialchars($entry['entry_title'])?></span></a><br />
+			  by <?php echo htmlspecialchars($entry['author'] ? $entry['author'] : $entry['blog_title'])?> : <span style="font-size:10px; font-family:Tahoma"><?php echo date('Y-m-d H:i:s', $entry['written'])?></span> </td>
+			<td align="right" valign="top"><a id="entryPermalink" href="<?php echo htmlspecialchars($entry['permalink'])?>" target="_blank"><img src="<?php echo $service['path']?>/image/owner/reader/viewNewwindow.gif" align="absmiddle" /><?php echo _t('새 창으로 보기')?></a></td>
 		  </tr>
 		  <tr height="1">
-			<td colspan="2" background="<?=$service['path']?>/image/owner/reader/dotline.gif"></td>
+			<td colspan="2" background="<?php echo $service['path']?>/image/owner/reader/dotline.gif"></td>
 		  </tr>
 		</table>
 		  <table width="100%" border="0" cellspacing="0">
 			<tr>
-			  <td id="entryBody" style="padding: 10px 0px" lang="<?=htmlspecialchars($entry['language'])?>" xml:lang="<?=htmlspecialchars($entry['language'])?>">
-			  	<?
+			  <td id="entryBody" style="padding: 10px 0px" lang="<?php echo htmlspecialchars($entry['language'])?>" xml:lang="<?php echo htmlspecialchars($entry['language'])?>">
+			  	<?php 
 	if ($entry['enclosure']) {
 		if (preg_match('/\.mp3$/i', $entry['enclosure'])) {
 ?>
-						<p><img src="<?=$service['path']?>/image/owner/reader/iconPodcast.gif" style="vertical-align: 0%"/>
-				<a href="<?=htmlspecialchars($entry['enclosure'])?>"><?=htmlspecialchars($entry['enclosure'])?></a></p>
-						<?
+						<p><img src="<?php echo $service['path']?>/image/owner/reader/iconPodcast.gif" style="vertical-align: 0%"/>
+				<a href="<?php echo htmlspecialchars($entry['enclosure'])?>"><?php echo htmlspecialchars($entry['enclosure'])?></a></p>
+						<?php 
 		} else {
 ?>
-						<p><img src="<?=$service['path']?>/image/owner/reader/iconPodcast.gif" style="vertical-align: 0%"/>
-				<a href="<?=htmlspecialchars($entry['enclosure'])?>"><?=htmlspecialchars($entry['enclosure'])?></a></p>
-						<?
+						<p><img src="<?php echo $service['path']?>/image/owner/reader/iconPodcast.gif" style="vertical-align: 0%"/>
+				<a href="<?php echo htmlspecialchars($entry['enclosure'])?>"><?php echo htmlspecialchars($entry['enclosure'])?></a></p>
+						<?php 
 		}
 	}
 ?>
-				<?=$entry['description']?>
+				<?php echo $entry['description']?>
 			  </td>
 			  </tr>
 		  </table>
@@ -1432,8 +1432,8 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
   </table>
 	<script type="text/javascript">
 	//<![CDATA[
-		Reader.selectedEntry = <?=escapeJSInAttribute($entry['id'])?>;
-		Reader.setBlogTitle('<?=escapeJSInAttribute($entry['blog_title'])?>');
+		Reader.selectedEntry = <?php echo escapeJSInAttribute($entry['id'])?>;
+		Reader.setBlogTitle('<?php echo escapeJSInAttribute($entry['blog_title'])?>');
 		Reader.doPostProcessingOnEntry();
 	//]]>
 	</script>
@@ -1443,7 +1443,7 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 	  </tr>
 	  <tr>
 		<td bgcolor="#f5f5f5" style="padding: 10px">
-		<?
+		<?php 
 	if ($entry['tags'])
 		echo '<span style="color:#0047B6">' . htmlspecialchars(_t('태그')) . ' : ' . htmlspecialchars($entry['tags']) . '</span>';
 ?>
@@ -1451,8 +1451,8 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 	  </tr>
 	  <tr>
 		<td align="right" bgcolor="#f5f5f5" style="padding: 10px">
-			<span class="pointerCursor" style="border:1px #999 solid;background:#fff;font-size:11px; height:18px; padding: 4px 1px 1px 4px" onclick="Reader.markAsUnread(<?=$entry['id']?>)">
-				<?=_t('안읽은 글로 표시')?>
+			<span class="pointerCursor" style="border:1px #999 solid;background:#fff;font-size:11px; height:18px; padding: 4px 1px 1px 4px" onclick="Reader.markAsUnread(<?php echo $entry['id']?>)">
+				<?php echo _t('안읽은 글로 표시')?>
 			</span>
 		</td>
 	  </tr>
@@ -1460,7 +1460,7 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 	</td>
   </tr>
 </table>
-	<?
+	<?php 
 }
 
 function printScript($filename, $obfuscate = true) {

@@ -1,4 +1,4 @@
-<?
+<?php
 
 function getNoticesWithPaging($owner, $search, $page, $count) {
 	global $database, $folderURL, $suri;

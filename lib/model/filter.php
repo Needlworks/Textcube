@@ -1,4 +1,4 @@
-<?
+<?php
 
 function closeFilter($owner, $mode, $value) {
 	global $database;

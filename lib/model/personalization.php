@@ -1,4 +1,4 @@
-<?
+<?php
 
 function getPersonalization($owner, $column) {
 	global $database;

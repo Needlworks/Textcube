@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Skin {
 	var $outter;

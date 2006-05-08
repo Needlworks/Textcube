@@ -1,4 +1,4 @@
-<?
+<?php
 
 function setDomainAddress($domain, $address, $server, $ttl = 86400) {
 	$process = proc_open('/usr/bin/nsupdate', array(array('pipe', 'r'), array('pipe', 'w'), array('pipe', 'w')), $pipes);

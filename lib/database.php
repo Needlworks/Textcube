@@ -1,4 +1,4 @@
-<?
+<?php
 mysql_connect($database['server'], $database['username'], $database['password']);
 mysql_select_db($database['database']);
 if (mysql_query('SET CHARACTER SET utf8')) {

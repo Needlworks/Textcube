@@ -1,4 +1,4 @@
-<?
+<?php
 
 function checkPeriod($period) {
 	if (is_numeric($period)) {

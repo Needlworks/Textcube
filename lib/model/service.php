@@ -1,4 +1,4 @@
-<?
+<?php
 
 function getOwner($name) {
 	global $database;

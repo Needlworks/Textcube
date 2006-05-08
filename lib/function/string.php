@@ -1,4 +1,4 @@
-<?
+<?php
 
 function str_trans($str) {
 	return str_replace("'", "&#39;", str_replace("\"", "&quot;", $str));

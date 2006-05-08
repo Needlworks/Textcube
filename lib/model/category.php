@@ -1,4 +1,4 @@
-<?
+<?php 
 
 function getCategoryId($owner, $name, $parentName = false) {
 	global $database;

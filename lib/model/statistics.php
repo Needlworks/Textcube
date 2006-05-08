@@ -1,4 +1,4 @@
-<?
+<?php
 
 function getStatistics($owner) {
 	global $database;

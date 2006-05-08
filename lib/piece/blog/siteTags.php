@@ -1,4 +1,4 @@
-<?
+<?php
 $tagView = $skin->siteTag;
 list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();
 $itemsView = '';

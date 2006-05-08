@@ -1,4 +1,4 @@
-<?
+<?php
 $locativeView = '';
 $prevPath = array();
 foreach ($locatives as $locative) {

@@ -1,4 +1,4 @@
-<?
+<?php
 
 function refreshRSS($owner) {
 	global $database;

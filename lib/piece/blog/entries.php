@@ -1,4 +1,4 @@
-<?
+<?php
 $entriesView = '';
 foreach ($entries as $entry) {
 	if ($entry['category'] == - 2) {

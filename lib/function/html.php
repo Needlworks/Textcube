@@ -1,4 +1,4 @@
-<?
+<?php
 
 function stripHTML($text, $allowTags = array()) {
 	$text = preg_replace('/<(script|style)[^>]*>.*?<\/\1>/i', '', $text);

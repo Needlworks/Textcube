@@ -1,4 +1,4 @@
-<?
+<?php 
 
 function getAttachments($owner, $parent) {
 	global $database;

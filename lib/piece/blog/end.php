@@ -1,4 +1,4 @@
-<?
+<?php
 $writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
 dress('page_title', htmlspecialchars($pageTitle), $view);
 dress('blogger', htmlspecialchars($writer), $view);

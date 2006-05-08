@@ -1,4 +1,4 @@
-<?
+<?php
 
 function requestHttp($method, $url, $content = false, $contentType = 'application/x-www-form-urlencoded') {
 	$info = parse_url($url);

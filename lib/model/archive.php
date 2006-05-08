@@ -1,4 +1,4 @@
-<?
+<?php 
 
 function getArchives($owner) {
 	global $database;
