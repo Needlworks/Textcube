@@ -379,7 +379,7 @@ function getRemoteFeed($url) {
 		$request->timeout = 3;
 		if (!$request->send())
 			return array(2, null, null);
-		$xml = UTF8::correct($request->responseText);
+		$xml = $request->responseText;
 	}
 	$feed = array('xmlURL' => $url);
 	$xmls = new XMLStruct();
@@ -671,7 +671,7 @@ function importOPMLFromURL($owner, $url) {
 function importOPMLFromFile($owner, $xml) {
 	global $database, $service;
 	$xmls = new XMLStruct();
-	if (!$xmls->open(UTF8::correct($xml), $service['encoding']))
+	if (!$xmls->open($xml, $service['encoding']))
 		return array(1, null);
 	if ($xmls->getAttribute('/opml/body/outline', 'title')) {
 		$result = array(0, 0);
