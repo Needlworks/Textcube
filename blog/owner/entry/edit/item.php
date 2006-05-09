@@ -693,15 +693,16 @@ if (!defined('__TATTERTOOLS_NOTICE__')) {
                   </td>
                   <td>
 <?
-if (defined('__TATTERTOOLS_NOTICE__')) {
+if (!isset($_GET['popupEditor'])) {
+	if (defined('__TATTERTOOLS_NOTICE__')) {
 ?>
                     <table class="buttonTop" cellspacing="0" onclick="document.forms[0].action='<?=$blogURL?>/owner/notice'; document.forms[0].submit()">
 <?
-} else {
+	} else {
 ?>
                     <table class="buttonTop" cellspacing="0" onclick="document.forms[0].action='<?=$blogURL?>/owner/entry'; document.forms[0].submit()">
 <?
-}
+	}
 ?>
                       <tr>
                         <td><img width="4" height="24" src="<?=$service['path']?>/image/owner/buttonLeft.gif" alt="" /></td>
@@ -709,6 +710,9 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
                         <td><img width="5" height="24" src="<?=$service['path']?>/image/owner/buttonRight.gif" alt="" /></td>
                       </tr>
                     </table>
+<?
+}
+?>
                   </td>
                 </tr>
               </table>
