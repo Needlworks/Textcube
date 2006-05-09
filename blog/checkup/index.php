@@ -186,7 +186,7 @@ if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings timezone", 'Type'
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 	}
 }
-if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type') == 'varchar(2)') { // Since 1.0.5
+if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type') != 'varchar(5)') { // Since 1.0.5
 	$changed = true;
 	echo '<li>', _t('블로그 설정 테이블의 언어 필드 속성을 변경합니다'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings CHANGE language language VARCHAR(5) NOT NULL DEFAULT 'en'"))
