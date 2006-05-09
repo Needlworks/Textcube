@@ -2,14 +2,11 @@
 <html>
 <head profile="http://gmpg.org/xfn/11">
 <meta http-equiv=Content-Type content="text/html; charset=utf-8" />
-<title>[##_title_##] | [##_page_title_##]</title>
+<link rel="alternate" type="application/rss+xml" title="[##_title_##]" href="[##_rss_url_##]">
 <link rel="stylesheet" media="screen" type="text/css" href="./style.css" />
-</head>
-<title>[##_title_##]</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" href="./style.css">
-<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="index.xml">
+<link rel="shortcut icon" href="[##_blog_link_##]favicon.ico" />
 
+<title>[##_title_##] | [##_page_title_##]</title>
 
 <script>    
 function clickshow(num){
@@ -245,7 +242,7 @@ function clickshow(num){
 										[##_article_rep_date_##]</td>
                   </tr>
                   <tr>
-                    <td class="td_body"><p>보호되어 있는 글입니다. 내용을 보실려면 비밀번호를 입력하세요.</p>
+                    <td class="td_body"><p>보호되어 있는 글입니다. 내용을 보시려면 비밀번호를 입력하세요.</p>
                       <label for="[##_article_password_##]">비밀번호 ::</label>
                       <input type="password" maxlength="16" id="[##_article_password_##]" name="[##_article_password_##]" class="input_protect" value="" onKeyPress="if (event.keyCode == 13) { [##_article_dissolve_##] }" />
                       <input type="button" class="submit_protect" value="보기" onClick="[##_article_dissolve_##]" />
@@ -301,9 +298,13 @@ function clickshow(num){
                   </tr>
                   <tr>
                     <td align="right" class="td_body">
-										<s_ad_div> 
-										<a href="[##_s_ad_m_link_##]">수정</a> : ([##_s_ad_s1_label_##])→<a href="#" onClick="[##_s_ad_s2_onclick_##]">[##_s_ad_s2_label_##]</a> : <a href="#" onClick="[##_s_ad_t_onclick_##]">관련글(트랙백)</a> : <a href="#" onClick="[##_s_ad_d_onclick_##]">삭제</a> 
-										</s_ad_div>					
+										<s_ad_div>
+											<a href="[##_s_ad_m_link_##]">수정</a> 
+											: <a href="#" onClick="[##_s_ad_m_onclick_##]">수정(창으로)</a> 
+											| ([##_s_ad_s1_label_##])→<a href="#" onClick="[##_s_ad_s2_onclick_##]">[##_s_ad_s2_label_##]</a> 
+											| <a href="#" onClick="[##_s_ad_t_onclick_##]">관련글(트랙백)</a> 
+											| <a href="#" onClick="[##_s_ad_d_onclick_##]">삭제</a> 
+										</s_ad_div>				
                     </td>
                   </tr>
                   <tr>
@@ -358,7 +359,7 @@ function clickshow(num){
                             <td bgcolor="#f9f9f9"><s_rp_rep>
                                 <table width="100%" border="0" cellspacing="0" cellpadding="5">
                                   <tr>
-                                    <td style="width:500px; overflow: hidden; border-bottom:1px dotted #ccc;"><b>[##_rp_rep_name_##]</b> [##_rp_rep_date_##] <a href="#" onClick="[##_rp_rep_onclick_reply_##]">R</a> <a href="#" onClick="[##_rp_rep_onclick_delete_##]">X</a><br />
+                                    <td style="width:500px; overflow: hidden; border-bottom:1px dotted #ccc;"><b>[##_rp_rep_name_##]</b> [##_rp_rep_date_##] <a href="[##_rp_rep_link_##]">L</a> <a href="#" onClick="[##_rp_rep_onclick_reply_##]">R</a> <a href="#" onClick="[##_rp_rep_onclick_delete_##]">X</a><br />
                                       [##_rp_rep_desc_##] <br />
                                       <s_rp2_rep>
                                         <table border="0" cellpadding="0" cellspacing="0" style="margin:5 0 0 0;">
@@ -366,7 +367,7 @@ function clickshow(num){
                                             <td width="40px" align="right" valign="top"><img src="./images/mark_reply.gif" /></td>
                                             <td><table cellspacing="0">
                                                 <tr>
-                                                  <td><b>[##_rp_rep_name_##]</b> <font class="h4">[##_rp_rep_date_##]</font>&nbsp;<a href="#" class="l3" onClick="[##_rp_rep_onclick_delete_##]">X</a></td>
+                                                  <td><b>[##_rp_rep_name_##]</b> <font class="h4">[##_rp_rep_date_##]</font>&nbsp;<a href="[##_rp_rep_link_##]">L</a> <a href="#" class="l3" onClick="[##_rp_rep_onclick_delete_##]">X</a></td>
                                                 </tr>
                                               </table></td>
                                           </tr>

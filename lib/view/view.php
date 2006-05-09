@@ -406,7 +406,7 @@ function getCommentView($entryId, & $skin) {
 		}
 		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']});return false", $commentItemView);
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
-		dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentItem['id']}", $commentItemView);
+		dress($prefix1 . '_rep_link', "$blogURL/{$entryId}#comment{$commentItem['id']}", $commentItemView);
 		$commentItemsView .= $commentItemView;
 	}
 	dress($prefix1 . '_rep', $commentItemsView, $commentView);

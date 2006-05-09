@@ -2,13 +2,16 @@
 <plugin version="1.0">
   <title xml:lang="ko">트랙백 추적</title>
   <title xml:lang="en">Trackback Tracker</title>
+  <title xml:lang="ja">トラックバック追跡</title>
+  <title xml:lang="zh-CN">追踪引用传送</title>
   <link>http://www.tattertools.com/plugins</link>
   <version>1.0</version>
   <description xml:lang="ko">트랙백을 보낸 호스트의 IP주소가 트랙백 제공 서버와 일치하는지 확인합니다. 일치하지 않으면 트랙백을 받아 들이지 않습니다.</description>
-  <description xml:lang="en">Trackback Tracker</description>
+  <description xml:lang="en">Trackback Tracker (Korea or Japan Only)</description>
+  <description xml:lang="ja">トラックバックを送信したホストのIPアドレスがブログプロバイダと一致するかを確認します。一致しないとトラックバックを受信しません。</description>
   <license>GPL</license>
+  <author link="http://www.tattertools.com">Tatter＆Company</author>
   <author xml:lang="ko" link="http://www.tattertools.com">태터앤컴퍼니</author>
-  <author xml:lang="en" link="http://www.tattertools.com">Tatter &amp; Company</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
     <tattertools>1.0.5</tattertools>

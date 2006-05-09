@@ -693,7 +693,7 @@ if (!defined('__TATTERTOOLS_NOTICE__')) {
                   </td>
                   <td>
 <?
-if (!(isset($_GET['popupEditor']))) {
+if (!isset($_GET['popupEditor'])) {
 	if (defined('__TATTERTOOLS_NOTICE__')) {
 ?>
                     <table class="buttonTop" cellspacing="0" onclick="document.forms[0].action='<?=$blogURL?>/owner/notice'; document.forms[0].submit()">

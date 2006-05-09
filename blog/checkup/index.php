@@ -210,6 +210,14 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Trackbacks sender")) {
 	else
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 }
+if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type') == 'varchar(2)') { // Since 1.0.5
+	$changed = true;
+	echo '<li>', _t('블로그 설정 테이블의 언어 필드 속성을 변경합니다'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings CHANGE language language VARCHAR(5) NOT NULL DEFAULT 'en'"))
+		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
+}
 ?>
 </ul>
 <?=($changed ? _t('완료되었습니다.') : _t('확인되었습니다.'))?>

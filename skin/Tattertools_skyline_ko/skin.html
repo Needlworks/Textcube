@@ -1,8 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="./style.css" rel="stylesheet" type="text/css" />
+<meta http-equiv=Content-Type content="text/html; charset=utf-8" />
+<link rel="alternate" type="application/rss+xml" title="[##_title_##]" href="[##_rss_url_##]">
+<link rel="stylesheet" media="screen" type="text/css" href="./style.css" />
+<link rel="shortcut icon" href="[##_blog_link_##]favicon.ico" />
+
 <title>[##_title_##] :: [##_page_title_##]</title>
 </head>
 <body>
@@ -141,7 +144,7 @@
         <div class="entry_protected">
           <h2>[##_article_rep_title_##]</h2>
           <span class="date">[##_article_rep_date_##]</span>
-          <p>보호되어 있는 글입니다. 내용을 보실려면 비밀번호를 입력하세요.</p>
+          <p>보호되어 있는 글입니다. 내용을 보시려면 비밀번호를 입력하세요.</p>
           <p><label for="[##_article_password_##]">비밀번호 ::</label>
             <input type="password" maxlength="16" id="[##_article_password_##]" name="[##_article_password_##]" value="" onkeydown="if (event.keyCode == 13) [##_article_dissolve_##]" />
             <input type="button" class="submit" value="submit" onclick="[##_article_dissolve_##]" />
@@ -155,7 +158,7 @@
           <h2><a href="[##_article_rep_link_##]">[##_article_rep_title_##]</a></h2>
           <span class="name"><a href="[##_article_rep_category_link_##]">[##_article_rep_category_##]</a></span> <span class="date">[##_article_rep_date_##]</span>
           <s_ad_div>
-            <div class="admin"><a href="[##_s_ad_m_link_##]">수정</a> | <a href="#" onclick="[##_s_ad_m_onclick_##]">수정(창으로)</a> : ([##_s_ad_s1_label_##])→<a href="#" onclick="[##_s_ad_s2_onclick_##]">[##_s_ad_s2_label_##]</a> : <a href="#" onclick="[##_s_ad_t_onclick_##]">관련글(트랙백)</a> : <a href="#" onclick="[##_s_ad_d_onclick_##]">삭제</a> </div>
+            <div class="admin"><a href="[##_s_ad_m_link_##]">수정</a> : <a href="#" onclick="[##_s_ad_m_onclick_##]">수정(창으로)</a> | ([##_s_ad_s1_label_##])→<a href="#" onclick="[##_s_ad_s2_onclick_##]">[##_s_ad_s2_label_##]</a> | <a href="#" onclick="[##_s_ad_t_onclick_##]">관련글(트랙백)</a> | <a href="#" onclick="[##_s_ad_d_onclick_##]">삭제</a> </div>
           </s_ad_div>
           <div class="article"> [##_article_rep_desc_##] </div>
           <div class="btn_top"><a href="#top"><img src="./images/btn_top.gif" alt="top" /></a></div>
@@ -184,11 +187,12 @@
               <div class="commentlist">
                 <ol>
                   <s_rp_rep>
-                    <li> <span class="name">[##_rp_rep_name_##]</span> <span class="date">[##_rp_rep_date_##]</span> <span class="control"><a href="#" onclick="[##_rp_rep_onclick_delete_##]">MODIFY/DELETE</a> <a href="#" onclick="[##_rp_rep_onclick_reply_##]">REPLY</a><a href="[##_rp_rep_link_##]">PERMALINK</a></span>
+                    <li> <span class="name">[##_rp_rep_name_##]</span> <span class="date">[##_rp_rep_date_##]</span> <span class="control"><a href="[##_rp_rep_link_##]">PERMALINK</a><a href="#" onclick="[##_rp_rep_onclick_delete_##]">MODIFY/DELETE</a> <a href="#" onclick="[##_rp_rep_onclick_reply_##]">REPLY</a></span>
                       <p>[##_rp_rep_desc_##]</p>
                       <ul>
                         <s_rp2_rep>
                           <li> <span class="name">[##_rp_rep_name_##]</span> <span class="date">[##_rp_rep_date_##]</span> <span class="control"><a href="#" onclick="[##_rp_rep_onclick_delete_##]">MODIFY/DELETE</a><a href="[##_rp_rep_link_##]">PERMALINK</a></span>
+                          <li> <span class="name">[##_rp_rep_name_##]</span> <span class="date">[##_rp_rep_date_##]</span> <span class="control"><a href="[##_rp_rep_link_##]">PERMALINK</a><a href="#" onclick="[##_rp_rep_onclick_delete_##]">MODIFY/DELETE</a></span>
                             <p>[##_rp_rep_desc_##] </p>
                           </li>
                         </s_rp2_rep>

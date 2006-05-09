@@ -5,9 +5,9 @@ if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];
 if (isset($_GET['password']))
 	$_POST['password'] = $_GET['password'];
-if (isset($_GET['requestURI']))
+if (!empty($_GET['requestURI']))
 	$_POST['requestURI'] = $_GET['requestURI'];
-if (empty($_POST['requestURI']))
+else
 	$_POST['requestURI'] = $_SERVER['HTTP_REFERER'];
 $message = '';
 $showPasswordReset = false;
@@ -26,7 +26,8 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 		if (!empty($_POST['requestURI']))
 			header("Location: {$_POST['requestURI']}");
 		else {
-			header("Location: {$blogURL}");
+			$blog = getBlogSetting($_SESSION['userid']);
+			header("Location: $blogURL");
 		}
 		exit;
 	}
@@ -43,7 +44,7 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 </head>
 <body onload="document.forms[0].<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password')?>.focus()">
 <form method="post" action="">
-<input type="hidden" name="requestURI" value="<?=$_POST['requestURI']?>" />
+  <input type="hidden" name="requestURI" value="<?=htmlspecialchars($_POST['requestURI'])?>" />
   <table cellspacing="0" width="100%" height="450px" style="background-image:url('<?=$service['path']?>/image/owner/bg.gif'); background-repeat:repeat-x">
     <tr>
       <td>&nbsp;</td>

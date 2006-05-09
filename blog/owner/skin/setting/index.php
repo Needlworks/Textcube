@@ -483,7 +483,7 @@ ob_end_clean();
                                     </tr>
 									<tr>
                                         <td><input name="tagboxAlign" id="tagboxAlignRadom" type="radio" value="3" <?=($skinSetting['tagboxAlign'] == 3 ? 'checked = "checked"' : '')?>/></td>
-                                        <td><label for="tagboxAlignRadom"><?=_t('임의순으로 표시합니다')?></label></td>
+                                        <td><label for="tagboxAlignRadom"><?=_t('임의로 표시합니다')?></label></td>
                                     </tr>
                                 </table></td>
                         </tr>

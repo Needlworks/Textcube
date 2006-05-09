@@ -424,7 +424,7 @@ if ($backup) {
               </tr>
             </table>
           </td>
-          <td style="line-height:18px; color:#536576; padding:10px;"><?=_t('태터툴즈의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부는 선택하실 수 있습니다.<br />데이터의 복원은 백업파일로만 가능하므로 먼저 백업을 하시기 바랍니다.')?></td>
+          <td style="line-height:18px; color:#536576; padding:10px;"><?=_t('태터툴즈의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일로만 가능하므로 먼저 백업을 하시기 바랍니다.')?></td>
         </tr>
       </table>
 	  <div id="DBRemoveDialog" style="width:550px; position:absolute; display:none; z-index:10;">

@@ -952,7 +952,7 @@ CREATE TABLE {$_POST['dbPrefix']}BlogSettings (
   publishEolinSyncOnRSS int(1) NOT NULL default '1',
   allowWriteOnGuestbook int(1) NOT NULL default '1',
   allowWriteDoubleCommentOnGuestbook char(1) NOT NULL default '1',
-  language varchar(2) NOT NULL default 'ko',
+  language VARCHAR(5) NOT NULL DEFAULT 'en',
   timezone VARCHAR(32) NOT NULL DEFAULT 'GMT',
   PRIMARY KEY  (owner),
   UNIQUE KEY name (name)
@@ -1263,7 +1263,7 @@ CREATE TABLE {$_POST['dbPrefix']}Users (
   UNIQUE KEY loginid (loginid)
 ) $charset;
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
-INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, timezone) VALUES (1, '{$_POST['blog']}', 'Asia/Seoul');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, language, timezone) VALUES (1, '{$_POST['blog']}', 'ko', 'Asia/Seoul');
 INSERT INTO {$_POST['dbPrefix']}SkinSettings (owner) VALUES (1);
 INSERT INTO {$_POST['dbPrefix']}FeedSettings (owner) values(1);
 INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
