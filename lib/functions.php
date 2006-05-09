@@ -28,7 +28,7 @@ function checkResponseXML($responseText) {
 	global $service;
 
 	$xmls = new XMLStruct();
-	if(!$xmls->open($responseText, $service['encoding']))
+	if(!$xmls->open(trim($responseText), $service['encoding']))
 		return false;
 	if(($error = $xmls->getValue('/response/error')) !== null)
 		return intval($error);
