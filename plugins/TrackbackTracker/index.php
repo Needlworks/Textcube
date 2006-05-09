@@ -5,6 +5,7 @@ function TrackbackTracker_AddingTrackback($target, $mother) {
 	if (empty($url['host']))
 		return false;
 	$exceptions = array(
+		/* Korean */
 		'.blogspot.com',
 		'.egloos.com',
 		'.ohmyblog.com',
@@ -16,6 +17,24 @@ function TrackbackTracker_AddingTrackback($target, $mother) {
 		'blog.naver.com',
 		'blog.paran.com',
 		'blog.yes24.com',
+		/* Japanese */
+		'.ameblo.jp',
+		'.ap.teacup.com',
+		'.at.webry.info',
+		'.exblog.jp',
+		'.fruitblog.net',
+		'.nablog.net',
+		'.paslog.jp',
+		'.wablog.com',
+		'bany.bz',
+		'blog.fc2.com',
+		'blog.goo.ne.jp',
+		'blog.kansai.com',
+		'blog.livedoor.jp',
+		'blogs.yahoo.co.jp',
+		'hamoblo.com',
+		'plaza.rakuten.co.jp',
+		'yaplog.jp',
 	);
 	if (preg_match('/(' . str_replace(',', '|', preg_quote(implode(',', $exceptions))) . ')$/', $url['host']))
 		return true;

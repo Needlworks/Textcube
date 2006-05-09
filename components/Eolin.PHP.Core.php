@@ -344,7 +344,7 @@ class Locale {
 	
 	function set($locale) {
 		global $__locale, $__text;
-		list($common) = explode('_', $locale, 2);
+		list($common) = explode('-', $locale, 2);
 		if (file_exists($__locale['directory'] . '/' . $locale . '.php')) {
 			include($__locale['directory'] . '/' . $locale . '.php');
 			$__locale['locale'] = $locale;
@@ -521,9 +521,12 @@ class Timezone {
 	/*@static@*/
 	function getList() {
 		return array(
+/* +09:00 */'Asia/Seoul' => _t('Republic Of Korea (Seoul)'),
+/* +08:00 */'Asia/Shanghai' => _t('China (Shanghai)'),
+/* +08:00 */'Asia/Taipei' => _t('Taiwan (Taipei)'),
+/* +09:00 */'Asia/Tokyo' => _t('Japan (Tokyo)'),
+/* -05:00 */'America/New_York' => _t('Eastern Time (US & Canada)'),
 			'GMT' => _t('Greenwich Mean Time'),
-			'Asia/Seoul' => _t('Republic Of Korea'),
-			'America/New_York' => _t('Eastern Time (US & Canada)'),
 		);
 	}
 
@@ -532,6 +535,12 @@ class Timezone {
 		switch ($timezone) {
 			case 'Asia/Seoul':
 				return 'KST-9';
+			case 'Asia/Tokyo':
+				return 'JST-9';
+			case 'Asia/Shanghai':
+				return 'CST-8';
+			case 'Asia/Taipei':
+				return 'CST-8';
 			case 'America/New_York':
 				return 'EST5EDT';
 		}
