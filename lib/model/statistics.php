@@ -47,7 +47,7 @@ function getRefererLogs() {
 
 function updateVisitorStatistics($owner) {
 	global $database, $blogURL;
-	if (!fireEvent('UpdateVisitorStatistics', true))
+	if (!fireEvent('UpdatingVisitorStatistics', true))
 		return;
 	if (doesHaveOwnership())
 		return;
