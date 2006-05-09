@@ -30,7 +30,7 @@ function markAsUnread($owner, $id) {
 
 function markAsStar($owner, $id, $flag) {
 	global $database;
-	if (fetchQueryCell("SELECT i.id FROM {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr, {$database['prefix']}Feeds f, {$database['prefix']}FeedItems i WHERE g.owner = $owner AND gr.feed = f.id AND gr.groupId = g.id AND f.id = i.feed AND i.id = $id")) {
+	if (fetchQueryCell("SELECT i.id FROM {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr, {$database['prefix']}Feeds f, {$database['prefix']}FeedItems i WHERE g.owner = $owner AND gr.feed = f.id AND gr.owner = g.owner AND gr.groupId = g.id AND f.id = i.feed AND i.id = $id")) {
 		if ($flag)
 			mysql_query("REPLACE INTO {$database['prefix']}FeedStarred VALUES($owner, $id)");
 		else
@@ -58,6 +58,7 @@ function getFeedGroups($owner, $starredOnly = false, $searchKeyword = null) {
 					{$database['prefix']}FeedGroupRelations r
 				ON
 					r.owner = $owner AND
+					r.owner = g.owner AND
 					g.id = r.groupId
 				LEFT JOIN
 					{$database['prefix']}FeedItems i
@@ -104,7 +105,7 @@ function getFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = nul
 					i.id = s.item
 				WHERE
 					r.owner = $owner AND
-					g.owner = $owner AND
+					r.owner = g.owner AND
 					g.id = r.groupId AND
 					r.feed = f.id
 					$condition
@@ -148,7 +149,7 @@ function getFeedEntriesTotalCount($owner, $group = 0, $feed = 0, $unreadOnly = f
 					i.id = rd.item
 				WHERE
 					r.owner = $owner AND
-					g.owner = $owner AND
+					r.owner = g.owner AND
 					g.id = r.groupId AND
 					r.feed = f.id
 					$condition";
@@ -187,7 +188,7 @@ function getFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $sta
 					i.id = rd.item
 				WHERE
 					r.owner = $owner AND
-					g.owner = $owner AND
+					r.owner = g.owner AND
 					g.id = r.groupId AND
 					r.feed = f.id AND
 					f.id = i.feed
@@ -231,7 +232,7 @@ function getFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = f
 						i.id = rd.item
 					WHERE
 						r.owner = $owner AND
-						g.owner = $owner AND
+						r.owner = g.owner AND
 						g.id = r.groupId AND
 						r.feed = f.id AND
 						f.id = i.feed
@@ -286,7 +287,8 @@ function getFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = f
 						{$database['prefix']}Feeds f,
 						{$database['prefix']}FeedItems i
 					WHERE
-						g.owner = $owner AND
+						r.owner = $owner AND
+						r.owner = g.owner AND
 						r.feed = f.id AND
 						r.groupId = g.id AND
 						i.id = $entry AND
@@ -344,7 +346,7 @@ function deleteFeedGroup($owner, $id) {
 function addFeed($owner, $group = 0, $url, $getEntireFeed = true, $htmlURL = '', $blogTitle = '', $blogDescription = '') {
 	global $database;
 	$url = mysql_escape_string($url);
-	if (fetchQueryCell("SELECT id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE g.owner = $owner AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$url'")) {
+	if (fetchQueryCell("SELECT id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.owner = $owner AND r.owner = g.owner AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$url'")) {
 		return 1;
 	}
 	if ($id = fetchQueryCell("SELECT id FROM {$database['prefix']}Feeds WHERE xmlURL = '$url'")) {
