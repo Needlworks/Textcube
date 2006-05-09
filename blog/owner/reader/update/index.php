@@ -22,10 +22,10 @@ ob_implicit_flush();
 		//]]>
 		</script>
 		<?
-$feeds = fetchQueryAll("SELECT f.* FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr WHERE g.owner = $owner AND gr.feed = f.id AND gr.groupId = g.id ORDER BY f.title");
-$count = 0;
-foreach ($feeds as $feed) {
-?>
+		$feeds = fetchQueryAll("SELECT f.* FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr WHERE g.owner = $owner AND gr.feed = f.id AND gr.owner = g.owner AND gr.groupId = g.id ORDER BY f.title");
+		$count = 0;
+		foreach ($feeds as $feed) {
+		?>
 		<script type="text/javascript">
 		//<![CDATA[
 		var icon = parent.document.getElementById("iconFeedStatus<?=$feed['id']?>");
