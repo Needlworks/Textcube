@@ -324,7 +324,7 @@ function editFeedGroup($owner, $id, $title) {
 		return 0;
 	if ($prevTitle === null)
 		return - 1;
-	mysql_query("UPDATE {$database['prefix']}FeedGroups SET title = '$title' WHERE id = $id");
+	mysql_query("UPDATE {$database['prefix']}FeedGroups SET title = '$title' WHERE owner = $owner AND id = $id");
 	if (mysql_affected_rows() != 1)
 		return - 1;
 	return 0;
