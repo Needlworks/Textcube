@@ -4,7 +4,7 @@
             <table cellspacing="0">
               <tr>
 			  	 <td style="padding:0px 0px 0px 3px"><img src="<?=$service['path']?>/image/owner/subTabLeftSide.gif" alt="" /></td>
-                <td class="pointerCursor" onclick="window.location.href = '<?=$blogURL?>/owner/entry/post'<?=(getDraftEntryId() ? "+(confirm('" . _t('임시 저장본을 보시겠습니까?\t') . "') ? '?draft' : '')" : '')?>" nowrap="nowrap" style="font-size:13px; color:#FFFFFF; padding:3px 4px 0px 4px; font-weight:bold; background-color:#EAEBEC; background-image:url('<?=$service['path']?>/image/owner/subTabCenter.gif')" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'"><?=_t('::새로 글을 씁니다::')?></td>
+                <td class="pointerCursor" onclick="window.location.href = '<?=$blogURL?>/owner/entry/post'<?=(getDraftEntryId() ? "+(confirm('" . _t('임시 저장본을 보시겠습니까?\t') . "') ? '?draft' : '')" : '')?>" nowrap="nowrap" style="font-size:13px; color:#FFFFFF; padding:3px 4px 0px 4px; font-weight:bold; background-color:#EAEBEC; background-image:url('<?=$service['path']?>/image/owner/subTabCenter.gif')" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'"><?=_t('::새 글을 씁니다::')?></td>
                 <td><img src="<?=$service['path']?>/image/owner/subTabRightSide.gif" alt="" /></td>
 				
                 <td style="padding:0px 0px 0px 3px"><img src="<?=$service['path']?>/image/owner/subTabActiveLeftSide.gif" width="4" height="26" alt="" /></td>
