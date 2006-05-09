@@ -522,9 +522,9 @@ class Timezone {
 	function getList() {
 		return array(
 /* +09:00 */'Asia/Seoul' => _t('Republic Of Korea (Seoul)'),
+/* +09:00 */'Asia/Tokyo' => _t('Japan (Tokyo)'),
 /* +08:00 */'Asia/Shanghai' => _t('China (Shanghai)'),
 /* +08:00 */'Asia/Taipei' => _t('Taiwan (Taipei)'),
-/* +09:00 */'Asia/Tokyo' => _t('Japan (Tokyo)'),
 /* -05:00 */'America/New_York' => _t('Eastern Time (US & Canada)'),
 			'GMT' => _t('Greenwich Mean Time'),
 		);
