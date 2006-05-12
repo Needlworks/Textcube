@@ -348,7 +348,7 @@ function getTrackbacksView($entryId, & $skin) {
 }
 
 function getCommentView($entryId, & $skin) {
-	global $blogURL, $owner, $suri, $paging, $blog;
+	global $blogURL, $owner, $suri, $paging, $blog,$entry;
 	$authorized = doesHaveOwnership();
 	$skinValue = getSkinSetting($owner);
 	$blogSetting = getBlogSetting($owner);
@@ -388,7 +388,7 @@ function getCommentView($entryId, & $skin) {
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentSubItem['name']) . '</a>', $commentSubItem), $commentSubItemView);
 			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
 			dress($prefix1 . '_rep_date', Timestamp::format5($commentSubItem['written']), $commentSubItemView);
-			dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentSubItem['id']}", $commentSubItemView);
+			dress($prefix1 . '_rep_link',"$blogURL/".($blog['useSlogan'] ?  "entry/".encodeURL($entry['slogan']) : $entryId)."#comment{$commentSubItem['id']}", $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']});return false", $commentSubItemView);
 			$commentSubItemsView .= $commentSubItemView;
 		}
@@ -406,7 +406,7 @@ function getCommentView($entryId, & $skin) {
 		}
 		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']});return false", $commentItemView);
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
-		dress($prefix1 . '_rep_link', "$blogURL/{$entryId}#comment{$commentItem['id']}", $commentItemView);
+		dress($prefix1 . '_rep_link',"$blogURL/".($blog['useSlogan'] ?  "entry/".encodeURL($entry['slogan']) : $entryId)."#comment{$commentItem['id']}", $commentItemView);
 		$commentItemsView .= $commentItemView;
 	}
 	dress($prefix1 . '_rep', $commentItemsView, $commentView);
