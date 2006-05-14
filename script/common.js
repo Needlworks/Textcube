@@ -727,12 +727,11 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 } 
 
 function writeCode(str, id) {
-	if(id == undefined)
-		document.write(str);	
-	else 
-		document.getElementById(id).innerHTML = str;
+        str = str.replace('src="', 'src="http://' + document.domain);
+	if(id == undefined) document.write(str);
+	else document.getElementById(id).innerHTML = str;
 }
-
+    
 var StringBuffer = function()
 { this.buffer = new Array(); }
 
