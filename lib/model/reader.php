@@ -459,6 +459,8 @@ function saveFeedItems($feedId, $xml) {
 					array_push($item['enclosures'], stripHTML($url));
 			if ($xmls->getValue("/rss/channel/item[$i]/pubDate"))
 				$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/pubDate"));
+			if ($xmls->getValue("/rss/channel/item[$i]/pubdate"))
+				$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/pubdate"));
 			else if ($xmls->getValue("/rss/channel/item[$i]/dc:date"))
 				$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/dc:date"));
 			else
