@@ -1,4 +1,21 @@
 <?
+function printMobileEntryContentView($owner, $entry, $keywords = array()) {
+	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && ($_COOKIE['GUEST_PASSWORD'] == $entry['password'])))
+		print (getEntryContentView($owner, $entry['id'], $entry['content'], $keywords));
+	else
+	{
+	?>
+	<p><?=_t('보호된 글입니다')?></p>
+	<form method="post" action="protected/<?=$entry['id']?>">
+		<div>
+		<label for="password"><?=_t('비밀번호')?></label>
+		<input type="password" id="password" name="password"/>
+		<input type="submit" value="<?=_t('내용 보기')?>"/>
+		</div>
+	</form>
+	<?
+	}
+}
 
 function printMobileHtmlHeader($title = '') {
 	global $blogURL, $blog;
@@ -20,7 +37,7 @@ function printMobileHtmlHeader($title = '') {
 function printMobileHtmlFooter() {
 ?>
 		<hr/>
-		Powered by <a href="http://www.tattertools.com">Tattertools</a>
+		<p>Powered by <a href="http://www.tattertools.com">Tattertools</a></p>
 	</body>
 </html>
 <?
