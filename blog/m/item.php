@@ -9,7 +9,7 @@ printMobileHtmlHeader();
 <div id="content">
 	<h2><?=htmlspecialchars($entry['title'])?></h2>	
 	<hr/>
-	<?=getEntryContentView($owner, $entry['id'], $entry['content'], getKeywordNames($owner))?>
+	<? printMobileEntryContentView($owner, $entry, getKeywordNames($owner)); ?>
 </div>
 <?
 printMobileNavigation($entry, true, true, $paging);

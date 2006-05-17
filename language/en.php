@@ -764,4 +764,6 @@ $__text['환경설정'] = 'Settings';
 $__text['회원정보를 관리합니다'] = 'Edit Personal Information';
 $__text['효과 제거'] = 'Undo all formating';
 $__text['효과없음'] = 'No effect';
+$__text['보호된 글입니다'] = '보호된 글입니다';
+$__text['내용 보기'] = '내용보기';
 ?>
