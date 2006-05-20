@@ -760,6 +760,7 @@ if(!String.prototype.trim) {
 if(!String.prototype.replaceAll) {
     String.prototype.replaceAll = function(source, target) {
         source = source.replace(new RegExp("(\\W)", "g"), "\\$1");
+        target = target.replace(new RegExp("\\$", "g"), "$$$$");
         return this.replace(new RegExp(source, "gm"), target);
     }
 }
