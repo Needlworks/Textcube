@@ -376,14 +376,16 @@ if (defined('__TATTERTOOLS_POST__')) {
                 <td align="right"></td>
               </tr>
             </table>
-            <table cellspacing="0" style="width:100%; border-style:solid; border-width:2px 0px 2px 0px; border-color:#00A6ED">
+            <table cellspacing="0" style="width:100%; border-style:solid; border-width:2px 0px 2px 0px; border-color:#00A6ED; table-layout: fixed">
               <tr>
-                <td style="background-color:#EBF2F8; padding:10px 5px 10px 5px">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <td style="background-color:#EBF2F8; padding: 5px 0px 5px 0px">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed">
 				  <tr>
-					<td style="padding: 16px 20px; background :#EBF2F8 ;"><table border="0" cellspacing="0" cellpadding="0">
+					<td style="padding: 16px 15px; background :#EBF2F8 ;"><table border="0" cellspacing="0" cellpadding="0" style="width: 100%; table-layout: fixed">
+					<col width="74%"></col>
+					<col width="*"></col>
 					  <tr>
-						<td style="padding: 7px; background:#BCD2E5 ;"><table width="100%" border="0" cellspacing="0" cellpadding="2">
+						<td style="padding: 7px; background:#BCD2E5"><table width="100%" border="0" cellspacing="0" cellpadding="2">
 						  <tr>
 <?
 if (defined('__TATTERTOOLS_KEYWORD__')) {
@@ -424,7 +426,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 							</td>
 						  </tr>
 						</table></td>
-						<td rowspan="6" valign="top" style="padding: 0px 7px 7px 10px; background:#EBF2F8 ;">
+						<td rowspan="6" valign="top" style="padding: 0px 7px 7px 10px; background:#EBF2F8">
 						<?
 printEntryEditorProperty();
 ?>

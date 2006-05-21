@@ -9,6 +9,7 @@ function login($loginid, $password) {
 	else
 		$secret = '`password` = \'' . md5($password) . '\'';
 	if ($result = mysql_query("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE loginid = '$loginid' AND $secret")) {
+//	if ($result = mysql_query("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE name = '$loginid' AND $secret")) {
 		if ($session = mysql_fetch_array($result)) {
 			authorizeSession($session['userid']);
 			if (empty($_POST['save']))
