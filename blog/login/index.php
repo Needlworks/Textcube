@@ -1,6 +1,10 @@
 <?
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
+if (doesHaveMembership()) {
+	header("Location: $blogURL");
+	exit;
+}
 if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];
 if (isset($_GET['password']))
@@ -26,7 +30,6 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 		if (!empty($_POST['requestURI']))
 			header("Location: {$_POST['requestURI']}");
 		else {
-			$blog = getBlogSetting($_SESSION['userid']);
 			header("Location: $blogURL");
 		}
 		exit;

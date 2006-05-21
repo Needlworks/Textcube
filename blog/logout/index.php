@@ -12,6 +12,6 @@ if (doesHaveMembership()) {
 	else
 		header("Location: {$user['homepage']}");
 } else {
-	header('Location: /');
+	header("Location: $blogURL");
 }
 ?>
