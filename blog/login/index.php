@@ -1,10 +1,6 @@
 <?
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
-if (doesHaveMembership()) {
-	header("Location: $blogURL");
-	exit;
-}
 if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];
 if (isset($_GET['password']))
@@ -30,6 +26,7 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 		if (!empty($_POST['requestURI']))
 			header("Location: {$_POST['requestURI']}");
 		else {
+			$blog = getBlogSetting($_SESSION['userid']);
 			header("Location: $blogURL");
 		}
 		exit;
@@ -38,99 +35,59 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 	$message = _t('권한이 없습니다.');
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Traditional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-traditional.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Tattertools - Login</title>
-<link rel="stylesheet" type="text/css" href="<?=$service['path']?>/style/owner.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Tattertools - Login</title>
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-login.css" />
 </head>
-<body onload="document.forms[0].<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password')?>.focus()">
-<form method="post" action="">
-  <input type="hidden" name="requestURI" value="<?=htmlspecialchars($_POST['requestURI'])?>" />
-  <table cellspacing="0" width="100%" height="450px" style="background-image:url('<?=$service['path']?>/image/owner/bg.gif'); background-repeat:repeat-x">
-    <tr>
-      <td>&nbsp;</td>
-      <td width="520" valign="top" style="padding:100px 25px 30px 20px">
-        <table cellspacing="0" style="width:100%">
-          <tr>
-            <td style="width:7px; height:7px"><img width="7" height="7" src="<?=$service['path']?>/image/owner/roundEdgeLeftTop.gif" alt="" /></td>
-            <td bgcolor="#FFFFFF"><img width="1" height="1" src="<?=$service['path']?>/image/owner/spacer.gif" alt="" /></td>
-            <td style="width:7px; height:7px"><img width="7" height="7" src="<?=$service['path']?>/image/owner/roundEdgeRightTop.gif" alt="" /></td>
-          </tr>
-        </table>
-        <table cellspacing="0" style="width:100%; background-color:#FFFFFF">
-          <tr>
-            <td valign="middle" style="height:50px; padding:5px 15px 15px 15px">
-              <table cellspacing="0">
-                <tr>
-                  <td align="center" style="padding-left:20px"><img src="<?=$service['path']?>/image/owner/controlPanelLogo.gif" alt="" /></td>
-                </tr>
-              </table>
-            </td>
-            <td>
-              <table cellspacing="0">
-                <tr>
-                  <td style="padding:10px 30px 10px 30px">
-                    <table cellspacing="0" width="100%">
-                      <tr>
-                        <td align="right" style="padding-right:5px"><?=_t('E-mail')?> ::</td>
-                        <td>
-                          <input type="text" name="loginid" value="<?=htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid'])?>" maxlength="64" tabindex="2" style="width:160px" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td align="right" style="padding-right:5px"><?=_t('비밀번호')?> ::</td>
-                        <td>
-                          <input type="password" name="password" maxlength="64" onkeydown="if (event.keyCode == 13) document.forms[0].submit()" tabindex="3" style="width:160px" />
-                        </td>
-                      </tr>
-                    </table>
-                    <table style="width:100%; margin:7px 0px 5px 0px">
-                      <tr>
-                        <td style="background-image:url('<?=$service['path']?>/image/owner/dotHorizontalStyle1.gif')"><img alt="" src="<?=$service['path']?>/image/owner/spacer.gif" style="width:1px; height:1px" /></td>
-                      </tr>
-                    </table>
-                    <table cellspacing="0" width="100%">
-                      <tr>
-                        <!--td><a href="/service/signup">Sign up</a></td-->
-						<td><input type="checkbox" name="save"<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"')?> /> <?=_t('이메일 저장')?><br /><?=($showPasswordReset ? '<input type="checkbox" name="reset" /> ' . _t('암호 초기화') : '')?></td>
-                        <td align="right">
-                          <table class="buttonTop" cellspacing="0" onclick="document.forms[0].submit()">
-                            <tr>
-                              <td><img alt="" width="4" height="24" src="<?=$service['path']?>/image/owner/buttonLeft.gif" /></td>
-                              <td class="buttonCenter" style="work-break:keep-all;background-image:url('<?=$service['path']?>/image/owner/buttonCenter.gif')"><a href="javascript:document.forms[0].submit()" tabindex="4" style="color:black;text-decoration:none"><?=_t('로그인')?></a></td>
-                              <td><img alt="" width="5" height="24" src="<?=$service['path']?>/image/owner/buttonRight.gif" /></td>
-                            </tr>
-                          </table>
-                        </td>
-					  </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+<body id="body-login" onload="document.forms[0].<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password')?>.focus();">
+	<div id="temp-wrap">
+		<div id="all-wrap">
+			<form method="post" action="">
+				<input type="hidden" name="requestURI" value="<?=htmlspecialchars($_POST['requestURI'])?>" />
+				
+				<div id="login-box">
+					<div id="logo-box">
+						<img src="<?=$service['path']?>/image/owner/controlPanelLogo.gif" border="0" alt="태터툴즈 로고" />
+		            </div>
+		            
+		            <div id="field-box">
+		            	<dl id="email-line">
+		            		<dt><span><?=_t('이메일')?></span></dt>
+		            		<dd><input type="text" class="text-input" name="loginid" value="<?=htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid'])?>" maxlength="64" tabindex="1" /></dd>
+		            	</dl>
+		            	<dl id="password-line">
+		            		<dt><span><?=_t('비밀번호')?></span></dt>
+							<dd><input type="password" class="text-input" name="password" onkeydown="if (event.keyCode == 13) document.forms[0].submit()" maxlength="64" tabindex="2" /></dd>
+						</dl>
+						<dl id="checkbox-line">
+							<dd>
+								<div id="email-save"><input type="checkbox" id="save" class="checkbox" name="save"<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"')?> /> <label for="save"><span><?=_t('이메일 저장')?></span></label></div>
+								<?=($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /> <label for="reset">' . _t('암호 초기화') . '</label></div>' : '')?>
+							</dd>
+						</dl>
+					</div>
+					
 <?
 if (!empty($message)) {
 ?>
-          <tr>
-            <td colspan="2" align="center" style="background-color:#EBF2F8; padding:5px 10px 5px 10px"><?=$message?></td>
-          </tr>
+					<div id="messege-box">
+						<?=$message?>
+					</div>
 <?
 }
 ?>
-        </table>
-        <table cellspacing="0" style="width:100%">
-          <tr>
-            <td style="width:7px; height:7px"><img alt="" width="7" height="7" src="<?=$service['path']?>/image/owner/roundEdgeLeftBottom.gif" /></td>
-            <td style="background-color:#FFFFFF"><img alt="" width="1" height="1" src="<?=$service['path']?>/image/owner/spacer.gif" /></td>
-            <td style="width:7px; height:7px"><img alt="" width="7" height="7" src="<?=$service['path']?>/image/owner/roundEdgeRightBottom.gif" /></td>
-          </tr>
-        </table>
-      </td>
-      <td>&nbsp;</td>
-    </tr>
-  </table>
-</form>
+
+					<div class="button-box">
+						<a class="login-button button" href="#void" onclick="document.forms[0].submit()"><span><?=_t('로그인')?></span></a>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
 </html>
