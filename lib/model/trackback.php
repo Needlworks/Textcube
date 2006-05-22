@@ -3,7 +3,7 @@ require 'correctTT.php';
 
 function getTrackbacksWithPagingForOwner($owner, $category, $site, $ip, $search, $page, $count) {
 	global $database;
-	$sql = "SELECT t.*, c.name categoryName FROM {$database['prefix']}Trackbacks t LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Categories c ON t.owner = c.owner AND e.category = c.id WHERE t.owner = $owner";
+	$sql = "SELECT t.*, c.name categoryName FROM {$database['prefix']}Trackbacks t LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Categories c ON t.owner = c.owner AND e.category = c.id WHERE t.owner = $owner AND t.isFiltered = 0";
 	if ($category > 0) {
 		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
 		array_push($categories, $category);
@@ -87,6 +87,18 @@ function deleteTrackback($owner, $id) {
 	if ($entry === null)
 		return false;
 	if (!executeQuery("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id"))
+		return false;
+	if (updateTrackbacksOfEntry($owner, $entry))
+		return $entry;
+	return false;
+}
+
+function filterTrackback($owner, $id) {
+    	global $database;
+	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
+	if ($entry === null)
+		return false;
+	if (!executeQuery("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 1 WHERE owner = $owner AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($owner, $entry))
 		return $entry;

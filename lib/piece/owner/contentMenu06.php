@@ -8,9 +8,9 @@
 						<li class="thread"><a href="<?=$blogURL?>/owner/entry/comment"><span><?php echo _t('댓글을 봅니다')?></span></a></li>
 						<li class="notify"><a href="<?=$blogURL?>/owner/entry/notify"><span><?php echo _t('댓글 알리미')?></span></a></li>
 						<li class="trackback"><a href="<?=$blogURL?>/owner/entry/trackback"><span><?php echo _t('트랙백을 봅니다')?></span></a></li>
-						<li class="category selected"><a href="<?=$blogURL?>/owner/entry/category"><span><?php echo _t('분류를 관리합니다')?></span></a></li>
-						<li class="trash"><a href="<?=$blogURL?>/owner/entry/trash"><span><?php echo _t('휴지통을 관리합니다')?></span></a></li>
-						<li class="helper"><a href="#void" onclick="<?php echo 'window.open(\'', _t('http://www.tattertools.com/doc/8'), '\')'; ?>"><span><?php echo _t('도우미')?></span></a></li>
+						<li class="category"><a href="<?=$blogURL?>/owner/entry/category"><span><?php echo _t('분류를 관리합니다')?></span></a></li>
+						<li class="trash selected"><a href="<?=$blogURL?>/owner/entry/trash"><span><?php echo _t('휴지통을 관리합니다')?></span></a></li>
+						<li class="helper"><a href="#void" onclick="<?php echo 'window.open(\'', _t('http://www.tattertools.com/doc/6'), '\')'; ?>"><span><?php echo _t('도우미')?></span></a></li>
 					</ul>
 				</div>
 				
@@ -18,7 +18,7 @@
 				
 				<div id="psuedo-outbox">
 					<div id="psuedo-inbox">
-						<form method="post" action="<?=$blogURL?>/owner/entry/category">
+						<form method="post" action="<?=$blogURL?>/owner/entry/notify">
 							<input type="hidden" name="page" value="<?=$suri['page']?>" />
 							
 							<div id="data-outbox">

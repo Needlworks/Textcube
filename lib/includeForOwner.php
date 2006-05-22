@@ -28,6 +28,7 @@ require 'model/paging.php';
 require 'model/rss.php';
 require 'model/statistics.php';
 require 'model/trackback.php';
+require 'model/trash.php';
 require 'model/tag.php';
 require 'model/skin.php';
 require 'model/personalization.php';

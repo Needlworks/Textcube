@@ -9,6 +9,7 @@
 						<li class="notify"><a href="<?=$blogURL?>/owner/entry/notify"><span><?php echo _t('댓글 알리미')?></span></a></li>
 						<li class="trackback selected"><a href="<?=$blogURL?>/owner/entry/trackback"><span><?php echo _t('트랙백을 봅니다')?></span></a></li>
 						<li class="category"><a href="<?=$blogURL?>/owner/entry/category"><span><?php echo _t('분류를 관리합니다')?></span></a></li>
+						<li class="trash"><a href="<?=$blogURL?>/owner/entry/trash"><span><?php echo _t('휴지통을 관리합니다')?></span></a></li>
 						<li class="helper"><a href="#void" onclick="<?php echo 'window.open(\'', _t('http://www.tattertools.com/doc/7'), '\')'; ?>"><span><?php echo _t('도우미')?></span></a></li>
 					</ul>
 				</div>

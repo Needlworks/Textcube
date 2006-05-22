@@ -14,94 +14,91 @@ if (empty($_POST['perPage'])) {
 } else {
 	$perPage = $_POST['perPage'];
 }
-list($trackbacks, $paging) = getTrackbacksWithPagingForOwner($owner, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
+list($trackbacks, $paging) = getTrashListWithPagingForOwner($owner, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header0.php';
-require ROOT . '/lib/piece/owner/contentMenu02.php';
+require ROOT . '/lib/piece/owner/contentMenu06.php';
 ?>
-									<input type="hidden" name="withSearch" value="" />
-									<input type="hidden" name="site" value="" />
-									<input type="hidden" name="ip" value="" />
-
-									<script type="text/javascript">
-										//<![CDATA[
-											function changeState(caller, value, mode) {
-												try {			
-													if (caller.className == 'block-icon bullet') {
-														var command 	= 'unblock';
-													} else {
-														var command 	= 'block';
-													}
-													var name 		= caller.getAttribute('name');
-													var id 			= caller.getAttribute('id');
-
-													param  	=  '?value='	+ encodeURIComponent(value);
-													param 	+= '&mode=' 	+ mode;
-													param 	+= '&command=' 	+ command;
-
-													var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/filter/change/" + param);
-													var iconList = document.getElementsByTagName("a");	
-													for (var i = 0; i < iconList.length; i++) {
-														icon = iconList[i];
-														if(icon.getAttribute('name') == null || icon.getAttribute('name').toLowerCase() != name.toLowerCase()) continue;
-														
-														if (command == 'block') {
-															icon.className = 'block-icon bullet';
-															icon.innerHTML = "<span><?=_t('[차단됨]')?></span>";
-															icon.setAttribute('title', "<?=_t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>");
-														} else {
-															icon.className = 'unblock-icon bullet';
-															icon.innerHTML = "<span><?=_t('[허용됨]')?></span>";
-															icon.setAttribute('title', "<?=_t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>");
-														}
+<input type="hidden" name="withSearch" value="" />
+<input type="hidden" name="site" value="" />
+<input type="hidden" name="ip" value="" />
+<script type="text/javascript">
+//<![CDATA[
+	function changeState(caller, value, mode) {
+		try {			
+			if (caller.className == 'block-icon bullet') {
+				var command 	= 'unblock';
+			} else {
+				var command 	= 'block';
+			}
+			var name 		= caller.getAttribute('name');
+			var id 			= caller.getAttribute('id');
+			param  	=  '?value='	+ encodeURIComponent(value);
+			param 	+= '&mode=' 	+ mode;
+			param 	+= '&command=' 	+ command;
+			var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/filter/change/" + param);
+			var iconList = document.getElementsByTagName("a");	
+			for (var i = 0; i < iconList.length; i++) {
+				icon = iconList[i];
+				if(icon.getAttribute('name') == null || icon.getAttribute('name').toLowerCase() != name.toLowerCase()) continue;
+				if (command == 'block') {
+					icon.className = 'block-icon bullet';
+					icon.innerHTML = "<span><?=_t('[차단됨]')?></span>";
+					icon.setAttribute('title', "<?=_t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>");
+				} else {
+					icon.className = 'unblock-icon bullet';
+					icon.innerHTML = "<span><?=_t('[허용됨]')?></span>";
+					icon.setAttribute('title', "<?=_t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>");
+				}
 														//if(icon.getAttribute('id').toLowerCase() != id.toLowerCase())
 														//?? request.presetProperty(icon.style, "display", "block");
 														//else
 														//?? request.presetProperty(icon.style, "display", "none");
-													}
-													request.send();
-												} catch(e) {
-													alert(e.message);
-												}
-											}
+			}
+			request.send();
+			} catch(e) {
+			alert(e.message);
+		}
+	}
 
-											function deleteTrackback(id) {
-												if (!confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?')?>"))
-													return;
-												var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/trackback/delete/" + id);
-												request.onSuccess = function() {
-													document.forms[0].submit();
-												}
-												request.send();
-											}
+	function deleteTrackback(id) {
+		if (!confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?')?>"))
+			return;
+		var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/trash/delete/" + id);
+		request.onSuccess = function() {
+			document.forms[0].submit();
+		}
+		request.send();
+	}
 
-											function deleteTrackbacks() {
-												try {
-													if (!confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?')?>"))
-														return false;
-													var oElement;
-													var targets = '';
-													for (i = 0; document.forms[0].elements[i]; i ++) {
-														oElement = document.forms[0].elements[i];
-														if ((oElement.name == "entry") && oElement.checked) {
-															targets+=oElement.value+'~*_)';
-														}
-													}
-													var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/trackback/delete/");
-													request.onSuccess = function() {
-														document.forms[0].submit();
-													}
-													request.send("targets=" + targets);
-												} catch(e) {
-													alert(e.message);
-												}
-											}
-											function checkAll(checked) {
-												for (i = 0; document.forms[0].elements[i]; i ++)
-													if (document.forms[0].elements[i].name == "entry")
-														document.forms[0].elements[i].checked = checked;
-											}
-										//]]>
-									</script>
+	function deleteTrackbacks() {
+		try {
+			if (!confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?')?>"))
+				return false;
+			var oElement;
+			var targets = '';
+			for (i = 0; document.forms[0].elements[i]; i ++) {
+				oElement = document.forms[0].elements[i];
+				if ((oElement.name == "entry") && oElement.checked) {
+					targets+=oElement.value+'~*_)';
+				}
+			}
+			var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/trash/delete/");
+			request.onSuccess = function() {
+				document.forms[0].submit();
+			}
+			request.send("targets=" + targets);
+		} catch(e) {
+			alert(e.message);
+		}
+	}
+	
+	function checkAll(checked) {
+		for (i = 0; document.forms[0].elements[i]; i ++)
+			if (document.forms[0].elements[i].name == "entry")
+				document.forms[0].elements[i].checked = checked;
+	}
+//]]>
+</script>
 
 									<div id="part-post-trackback" class="part">
 										<h2 class="caption">
@@ -124,7 +121,7 @@ foreach (getCategories($owner) as $category) {
 												</select>
 											</span>
 											<span class="interword"><?php echo _t('카테고리에')?></span>
-											<span class="main-text"><?php echo _t('받은 트랙백입니다')?></span>
+											<span class="main-text"><?php echo _t('삭제 대기중인 트랙백입니다')?></span>
 <?
 if (strlen($site) > 0 || strlen($ip) > 0) {
 	if (strlen($site) > 0) {
@@ -158,17 +155,18 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 $siteNumber = array();
 for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$trackback = $trackbacks[$i];
+
 	requireComponent('Tattertools.Data.Filter');
 	$isFilterURL = Filter::isFiltered('url', $trackback['url']);
 	$filteredURL = getURLForFilter($trackback['url']);
-
+	
 	if (!isset($siteNumber[$trackback['site']])) {
 		$siteNumber[$trackback['site']] = $i;
 		$currentSite = $i;
 	} else {
 		$currentSite = $siteNumber[$trackback['site']];
 	}
-
+	
 	if ($i == sizeof($trackbacks) - 1) {
 ?>
 											<tr class="tr-last-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
@@ -239,8 +237,8 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 												</td>
 											</tr>
 <?
-		}
 	}
+}
 ?>
 										</table>
 										
