@@ -1,0 +1,189 @@
+@charset "utf-8";
+
+/* Editor ****************************************************************************************/
+
+/* title ----------------------------------------------------------------------------------------*/
+#title-container label
+{
+	padding-top                      : 5px;
+}
+
+#body-post #title-container .text-input
+{
+	padding                          : 3px;
+	width                            : 413px;
+}
+
+#body-notice #title-container .text-input
+{
+	padding                          : 3px;
+	width                            : 579px;
+}
+
+/* command buttons ------------------------------------------------------------------------------*/
+#editor-palette
+{
+	border                           : 1px solid #BCD2E5;
+}
+
+#editor-palette select
+{
+	margin-top                       : -1px;
+}
+
+/* command buttons' sub box ---------------------------------------------------------------------*/
+#colorPalette,
+#markPalette,
+#textBox
+{
+	top                              : 55px;
+}
+
+/* textarea -------------------------------------------------------------------------------------*/
+#editor-textbox
+{
+	border : 1px solid #BCD2E5;
+}
+
+/* tag and location -----------------------------------------------------------------------------*/
+
+#tag-location-container
+{
+	margin-bottom                    : 4px;
+}
+
+/* tag */
+dl#tag-line
+{
+	clear                            : both;
+	margin-top                       : -3px;
+}
+
+dl#tag-line dt
+{
+	padding-top                      : 12px;
+}
+
+dl#tag-line dd
+{
+
+	padding-top                      : 4px;
+}
+
+dl#tag-line dd.clear
+{
+
+	background-color : #FF0000;
+}
+
+dl#tag-line dd .text-input
+{
+	margin                           : -7px 0 0 0;
+	padding                          : 3px;
+}
+
+#tag-line dd ul li
+{
+	background-position              : right 16px;
+	padding                          : 8px 4px 0 0;
+}
+
+/* location */
+dl#location-line
+{
+	clear                            : both;
+	margin                           : -3px 0 3px 0;
+}
+
+dl#location-line dt
+{
+	padding-top                      : 8px;
+}
+
+dl#location-line dd
+{
+	padding-top                      : 0;
+}
+
+dl#location-line dd .text-input
+{
+	margin                           : -6px 0 0 0;
+	padding                          : 3px;
+}
+
+#location-line dd ul li
+{
+	background-image                 : url("./image/edit/icon_local_arrow.gif");
+	background-position              : right 9px;
+	padding                          : 8px 9px 0 0;
+}
+
+/* upload ---------------------------------------------------------------------------------------*/
+#previewSelected
+{
+	margin                           : 0 6px 0 4px;
+}
+
+#upload-section .button
+{
+	margin                           : 0 3px 0 0;
+}
+
+#fileSize
+{
+	margin-top                       : 8px;
+}
+
+#insert-container
+{
+	top                              : 3px;
+}
+
+/* power ----------------------------------------------------------------------------------------*/
+#power-section
+{
+	padding                          : 5px 0 7px 0;
+}
+
+#power-section dl
+{
+	border : 1px solid #D0E5F1;
+}
+
+#power-section dl dd
+{
+	padding                          : 0 5px 0 0;
+}
+
+#power-section dl#date-line dt
+{
+	padding-top                      : 6px;
+}
+
+#power-section dl#date-line dd
+{
+	padding                          : 3px 5px 0 0;
+}
+
+#power-section dl#date-line dd .text-input
+{
+	margin                           : -2px 0 0 0;
+	padding                          : 3px;
+}
+
+/* button box -----------------------------------------------------------------------------------*/
+.two-button-box
+{
+	height                           : 24px;
+	margin-left                      : auto;
+	margin-right                     : auto;
+	overflow                         : hidden;
+	width                            : 230px;
+}
+
+.three-button-box
+{
+	margin-left                      : auto;
+	margin-right                     : auto;
+	width                            : 349px;
+}

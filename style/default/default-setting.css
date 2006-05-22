@@ -1,0 +1,854 @@
+@charset "utf-8";
+
+/* Common ****************************************************************************************/
+
+#data-outbox div.data-inbox dl
+{
+	clear                            : both;
+}
+
+#data-outbox div.data-inbox dl dt
+{
+	float                            : left;
+	padding-right                    : 2px;
+	text-align                       : right;
+	width                            : 130px;
+}
+
+#data-outbox div.data-inbox dl dd
+{
+	float                            : left;
+}
+
+#data-outbox div.data-inbox .section
+{
+	line-height                      : 25px;
+	margin                           : 0 20px;
+}
+
+#data-outbox .button-box .save-button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	margin                           : 0 auto;
+	padding-left                     : 4px;
+	width                            : 106px;
+}
+
+#data-outbox .button-box .save-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 1px 4px 0 0;
+	text-align                       : center;
+	width                            : 102px;
+}
+
+/* Blog ******************************************************************************************/
+
+/* basic ----------------------------------------------------------------------------------------*/
+#part-setting-basic #common-section
+{
+	float                            : left;
+	width                            : 340px;
+}
+
+#part-setting-basic #common-section .text-input,
+#part-setting-basic #common-section textarea
+{
+	padding                          : 2px;
+	width                            : 200px;
+}
+
+#part-setting-basic #common-section .button-box
+{
+	padding                          : 15px 0 10px 30px;
+}
+
+#part-setting-basic #multi-section
+{
+	float                            : left;
+	width                            : 370px;
+}
+
+input#primaryDomain,
+input#secondaryDomain
+{
+	margin                           : 0 2px 2px 2px;
+	padding                          : 2px;
+	width                            : 140px;
+}
+
+input#pathDomain
+{
+	margin-bottom                    : 2px;
+	padding                          : 2px;
+	width                            : 230px;
+}
+
+#part-setting-basic #multi-section .button-box
+{
+	padding                          : 65px 0 10px 0;
+}
+
+/* profile --------------------------------------------------------------------------------------*/
+#part-setting-profile img
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #000000;
+}
+
+#blogIcon,
+#favicon
+{
+	margin-top                       : 2px;
+}
+
+/* iframe's css */
+#logo-iframe,
+#blogcon-iframe,
+#favicon-iframe
+{
+	background-color                 : #EBF2F8;
+	padding-left                     : 10px;
+}
+
+#logo-iframe .file-input
+{
+	float                            : left;
+	font-size                        : 12px;
+	margin-top                       : 9px;
+}
+
+#blogcon-iframe .file-input,
+#favicon-iframe .file-input
+{
+	float                            : left;
+	font-size                        : 12px;
+	margin-top                       : 2px;
+}
+
+#logo-iframe .delete-button
+{
+	border                           : 1px solid #666666;
+	background-color                 : #EEEEEE;
+	color                            : #000000;
+	display                          : block;
+	float                            : left;
+	font-size                        : 12px;
+	font-weight                      : bold;
+	margin                           : 8px 0 0 3px;
+	padding                          : 4px 10px 1px 10px;
+	text-align                       : center;
+	text-decoration                  : none;
+	width                            : 60px;
+}
+
+/* rss ------------------------------------------------------------------------------------------*/
+#part-setting-rss #rss-section dl dt,
+#part-setting-rss #rss-section dl dd
+{
+	line-height                      : 15px;
+	margin                           : 2px 0;
+}
+
+#part-setting-rss div.data-inbox dl dd select
+{
+	margin-top                       : -3px;
+}
+
+#part-setting-rss #rss-section .button-box
+{
+	padding                          : 15px 0 10px 0;
+}
+
+
+#part-setting-rss #rss-section .button-box .save-button span
+{
+	padding                          : 0 4px 0 0;
+}
+
+/* language & timezone --------------------------------------------------------------------------*/
+#part-setting-language #language-section dd select
+{
+	margin-top                       : 2px;
+	vertical-align                   : top;
+}
+
+#part-setting-language #language-section .button-box
+{
+	padding                          : 15px 0 10px 0;
+}
+
+#part-setting-language #language-section .button-box .save-button span
+{
+	padding                          : 0 4px 0 0;
+}
+
+/* Account ***************************************************************************************/
+
+/* edit -----------------------------------------------------------------------------------------*/
+#part-setting-account dl dt
+{
+	padding-top                      : 2px;
+	width                            : 120px;
+}
+
+#part-setting-account dl dd
+{
+	width : 200px;
+}
+
+#part-setting-account #info-section .text-input
+{
+	padding                          : 2px;
+	width                            : 200px;
+}
+
+#part-setting-account #info-section .button-box
+{
+	padding                          : 15px 0 20px 0;
+}
+
+#part-setting-account #account-section .text-input
+{
+	padding                          : 2px;
+	width                            : 200px;
+}
+
+#part-setting-account #account-section .button-box
+{
+	padding                          : 15px 0 10px 0;
+}
+
+/* invite ---------------------------------------------------------------------------------------*/
+#part-setting-invite dl
+{
+	line-height                      : 17px;
+}
+
+#part-setting-invite #letter-section
+{
+	padding-left                     : 170px;
+	position                         : relative;
+}
+
+#part-setting-invite #letter-section .title
+{
+	position                         : absolute;
+	left                             : 0;
+	text-align                       : right;
+	width                            : 130px;
+}
+
+#part-setting-invite #letter
+{
+	background-image                 : url("./image/letterBody.gif");
+	background-position              : left top;
+	background-repeat                : repeat-y;
+	color                            : #000000;
+	margin                           : 0 auto;
+	width                            : 547px;
+}
+
+#part-setting-invite #letter .letter-head
+{
+	background-image                 : url("./image/letterHeader.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	margin                           : 0;
+	padding-top                      : 80px;
+	width                            : 547px;
+}
+
+#part-setting-invite #letter .letter-body
+{
+	background-image                 : url("./image/letterBody.gif");
+	background-position              : left top;
+	background-repeat                : repeat-y;
+	clear                            : both;
+	margin                           : 0;
+	width                            : 547px;
+}
+
+#part-setting-invite #letter .letter-body textarea
+{
+	background-image                 : url("./image/letterLine.gif");
+	background-position              : left top;
+	border                           : none;
+	display                          : block;
+	height                           : 300px;
+	line-height                      : 17px;
+	margin                           : 20px auto;
+	padding                          : 3px 5px 0 5px;
+	width                            : 480px;
+}
+
+#part-setting-invite #letter .letter-foot
+{
+	background-image                 : url("./image/letterFooter.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	margin                           : 0;
+	padding                          : 0 0 30px 0;
+	width                            : 547px;
+}
+
+#part-setting-invite #letter-section .text-input
+{
+	background-image                 : url("./image/letterLine.gif");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	border                           : none;
+	margin-left                      : 2px;
+	width                            : 250px;
+}
+
+#part-setting-invite #letter-section .button-box
+{
+	margin                           : 10px 0 20px 0;
+}
+
+#part-setting-invite #letter-section .button-box .invite-button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	margin                           : 0 auto;
+	padding-left                     : 4px;
+	width                            : 106px;
+}
+
+#part-setting-invite #letter-section .button-box .invite-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 1px 4px 0 0;
+	text-align                       : center;
+	width                            : 102px;
+}
+
+/* list -----------------------------------------------------------------------------------------*/
+#part-setting-invite #list-section
+{
+	position                         : relative;
+}
+
+#part-setting-invite #list-section .title
+{
+	position                         : absolute;
+	left                             : 0;
+	text-align                       : right;
+	width                            : 130px;
+}
+
+/* list table common ----------------------------------------------------------------------------*/
+#part-setting-invite #list-section table
+{
+	border-bottom                    : 2px solid #00A6ED;
+	border-left                      : none;
+	border-right                     : none;
+	border-top                       : none;
+	color                            : #536576;
+	margin                           : 5px 20px 0 150px;
+	overflow                         : hidden;
+}
+
+#part-setting-invite #list-section table .tr-head
+{
+	background-color                 : #00B8F1;
+	background-image                 : url("./image/table-head.gif");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+}
+
+#part-setting-invite #list-section table .tr-head td
+{
+	color                            : #FFFFFF;
+	font-weight                      : bold;
+	overflow                         : hidden;
+	padding                          : 5px 0 0 0;
+}
+
+#part-setting-invite #list-section table .tr-body
+{
+	background-color                 : #FFFFFF;
+	border-bottom                    : 1px dotted #CCCCCC;
+}
+
+#part-setting-invite #list-section table .tr-last-body
+{
+	background-image                 : none;
+}
+
+#part-setting-invite #list-section table .tr-body td,
+#part-setting-invite #list-section table .tr-last-body td
+{
+	overflow                         : hidden;
+	text-align                       : left;
+}
+
+#part-setting-invite #list-section table .tr-body td a,
+#part-setting-invite #list-section table .tr-last-body td a
+{
+	color                            : #308FC9;
+}
+
+/* list table head ------------------------------------------------------------------------------*/
+#part-setting-invite #list-section table .tr-head .email
+{
+	padding-left                     : 5px;
+	padding-right                    : 5px;
+}
+
+#part-setting-invite #list-section table .tr-head .date
+{
+	width                            : 70px;
+}
+
+#part-setting-invite #list-section table .tr-head .statue
+{
+	width                            : 80px;
+}
+
+#part-setting-invite #list-section table .tr-head .password
+{
+	width                            : 60px;
+}
+
+#part-setting-invite #list-section table .tr-head .cancel
+{
+	width                            : 25px;
+}
+
+#part-setting-invite #list-section table .tr-head .cancel span
+{
+	display                          : none;
+}
+
+#part-setting-invite #list-section table .tr-body .email,
+#part-setting-invite #list-section table .tr-last-body .email
+{
+	padding-left                     : 5px;
+	padding-right                    : 5px;
+}
+
+#part-setting-invite #list-section table .tr-body .address,
+#part-setting-invite #list-section table .tr-last-body .address
+{
+	padding-right                    : 5px;
+}
+
+#part-setting-invite #list-section table .tr-body .cancel,
+#part-setting-invite #list-section table .tr-last-body .cancel
+{
+	padding-right                    : 5px;
+}
+
+/* Filter ****************************************************************************************/
+
+#part-setting-filter div.data-inbox .section
+{
+	float                            : left;
+	margin-right                     : 0;
+	width                            : 200px;
+}
+
+#part-setting-filter div.data-inbox .section table
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #A0A0C0;
+	padding                          : 5px;
+	width                            : 100%;
+}
+
+#part-setting-filter div.data-inbox .section table tr td
+{
+	line-height                      : 12px;
+	padding                          : 2px 0 0 0;
+}
+
+#part-setting-filter div.data-inbox .section table tr .delete
+{
+	width                            : 13px;
+}
+
+#part-setting-filter div.data-inbox .section table tr .delete .delete-button
+{
+	background-image                 : url("./image/delete2.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 11px;
+	width                            : 11px;
+}
+
+#part-setting-filter div.data-inbox .section table tr .delete span
+{
+	display                          : none;
+}
+
+#part-setting-filter div.data-inbox .section .text-input
+{
+	padding                          : 2px;
+	width                            : 194px;
+}
+
+#part-setting-filter .button-box
+{
+	margin                           : 0;
+	padding                          : 5px;
+}
+
+#part-setting-filter .button-box .add-button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	margin                           : 0 auto;
+	padding-left                     : 4px;
+	width                            : 106px;
+}
+
+#part-setting-filter .button-box .add-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 1px 4px 0 0;
+	text-align                       : center;
+	width                            : 102px;
+}
+
+/* Plugins ***************************************************************************************/
+
+/* list table head ------------------------------------------------------------------------------*/
+#part-setting-plugins table.data-inbox .tr-head .title
+{
+	padding                          : 0 5px;
+	width                            : 25%;
+}
+
+#part-setting-plugins table.data-inbox .tr-head .version
+{
+	padding-right                    : 5px;
+	width                            : 50px;
+}
+
+#part-setting-plugins table.data-inbox .tr-head .maker
+{
+	padding-right                    : 5px;
+	width                            : 150px;
+}
+
+#part-setting-plugins table.data-inbox .tr-head .statue
+{
+	padding-right                    : 5px;
+	width                            : 60px;
+}
+
+/* list table body ------------------------------------------------------------------------------*/
+#part-setting-plugins table.data-inbox .tr-body .title,
+#part-setting-plugins table.data-inbox .tr-last-body .title
+{
+	padding                          : 3px 5px 0 5px;
+}
+
+#part-setting-plugins table.data-inbox .tr-body .version,
+#part-setting-plugins table.data-inbox .tr-last-body .version
+{
+	padding                          : 3px 5px 0 0;
+}
+
+#part-setting-plugins table.data-inbox .tr-body .explain,
+#part-setting-plugins table.data-inbox .tr-last-body .explain
+{
+	padding                          : 5px 5px 3px 0;
+}
+
+#part-setting-plugins table.data-inbox .tr-body .maker,
+#part-setting-plugins table.data-inbox .tr-last-body .maker
+{
+	padding                          : 3px 5px 0 0;
+}
+
+#part-setting-plugins table.data-inbox .tr-body .statue,
+#part-setting-plugins table.data-inbox .tr-last-body .statue
+{
+	padding                          : 3px 5px 0 0;
+}
+
+#part-setting-plugins table.data-inbox .tr-body td.statue .active-icon,
+#part-setting-plugins table.data-inbox .tr-last-body td.statue .active-icon
+{
+	background-image                 : url("./image/icon_plugin.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	cursor                           : pointer;
+	display                          : block;
+	float                            : left;
+	height                           : 13px;
+	margin-right                     : 1px;
+	width                            : 12px;
+}
+
+#part-setting-plugins table.data-inbox .tr-body td.statue .inactive-icon,
+#part-setting-plugins table.data-inbox .tr-last-body td.statue .inactive-icon
+{
+	background-image                 : url("./image/icon_plugin.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	cursor                           : pointer;
+	display                          : block;
+	float                            : left;
+	height                           : 13px;
+	margin-right                     : 1px;
+	width                            : 12px;
+}
+
+/* Data ******************************************************************************************/
+
+/* common ---------------------------------------------------------------------------------------*/
+#part-data-correct div.data-inbox .image,
+#part-data-backup div.data-inbox .image,
+#part-data-restore div.data-inbox .image,
+#part-data-remove div.data-inbox .image
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #536576;
+	color                            : #000000;
+	cursor                           : pointer;
+	float                            : left;
+	font-family                      : Verdana, Tahoma, sans-serif;
+	font-size                        : 90%;
+	height                           : 49px;
+	margin                           : 0 20px 0 15px;
+	padding                          : 10px;
+	text-align                       : center;
+	width                            : 80px;
+}
+
+#part-data-correct div.data-inbox .explain,
+#part-data-backup div.data-inbox .explain,
+#part-data-restore div.data-inbox .explain,
+#part-data-remove div.data-inbox .explain
+{
+	margin-top                       : 15px;
+	padding                          : 0 20px;
+}
+
+#part-data-correct div.data-inbox .image img,
+#part-data-backup div.data-inbox .image img,
+#part-data-restore div.data-inbox .image img,
+#part-data-remove div.data-inbox .image img
+{
+	display                          : block;
+	margin                           : 7px auto 0 auto;
+}
+
+#part-data-remove div.data-inbox .image img
+{
+	margin-top                       : 0;
+}
+
+#part-data-correct div.data-inbox .image img
+{
+	margin-top                       : 5px;
+}
+
+/* dialog ---------------------------------------------------------------------------------------*/
+.part .dialog
+{
+	background-color                 : #FFFFFF;
+	border                           : 5px solid #BCD2E5;
+	margin-left                      : 10px;
+	padding                          : 10px;
+	width                            : 550px;
+}
+
+.part .dialog h3
+{
+	border-bottom                    : 1px dotted #CCCCCC;
+	display                          : block !important;
+	padding                          : 9px 10px 15px 10px;
+}
+
+.part .dialog .messege-body
+{
+	border-bottom                    : 1px dotted #CCCCCC;
+	padding-bottom                   : 4px;
+}
+
+.part .dialog .messege-body .explain
+{
+	border-bottom                    : 1px dotted #CCCCCC;
+	font-family                      : µ¸¿ò, Dotum, ±¼¸², Gulim, sans-serif;
+	font-size                        : 90%;
+	padding                          : 5px 5px 3px 5px;
+}
+
+.part .dialog .messege-body .explain em,
+.part .dialog .messege-body .explain strong
+{
+	color                            : #FF0000;
+	font-weight                      : normal;
+}
+
+.part .dialog .messege-body .explain .asterisk
+{
+	display                          : none;
+}
+
+.part .dialog .messege
+{
+	padding                          : 20px 10px;
+	text-align                       : center;
+}
+
+.part .dialog .messege-body .selection
+{
+	background-color                 : #EEEEEE;
+	margin                           : 0 3px;
+	padding                          : 10px 10px 6px 10px;
+	text-align                       : center;
+}
+
+.part .dialog .messege-body .selection .select-yes,
+.part .dialog .messege-body .selection .select-no,
+#part-data-restore .dialog .selection #select-server,
+#part-data-restore .dialog .selection #select-upload,
+#part-data-restore .dialog .selection #select-web
+{
+	display                          : inline;
+}
+
+#part-data-restore .dialog .selection #select-correct
+{
+	margin-top                       : 5px;
+	text-align                       : center;
+}
+
+.part .dialog #uploadBackup,
+.part .dialog #remoteBackup,
+.part .dialog #admin-password
+{
+	margin-top                       : 5px;
+	padding                          : 5px;
+	text-align                       : center;
+}
+
+.part .dialog #remoteBackup input.text-input
+{
+	margin-bottom                    : 2px;
+	padding                          : 2px;
+	vertical-align                   : middle;
+	width                            : 350px;
+}
+
+.part .dialog #admin-password input.text-input
+{
+	margin-bottom                    : 2px;
+	padding                          : 2px;
+	vertical-align                   : middle;
+}
+
+/* system dialog --------------------------------------------------------------------------------*/
+.part .system-dialog
+{
+	background-color                 : #FFFFFF;
+	border                           : 5px solid #BCD2E5;
+	margin-left                      : 10px;
+	padding                          : 10px;
+	width                            : 550px;
+}
+
+.part .system-dialog h4
+{
+	display                          : block !important;
+}
+
+.part .system-dialog .messege-sub
+{
+	border                           : 1px solid #EEEEEE;
+	margin-top                       : 10px;
+	padding                          : 10px;
+}
+
+.part .system-dialog .progressBar
+{
+	background-color                 : #1C6D9C !important;
+}
+
+/* buttons --------------------------------------------------------------------------------------*/
+#part-data-backup .button-box,
+#part-data-restore .button-box,
+#part-data-remove .button-box
+{
+	height                           : 43px;
+	padding-top                      : 18px;
+}
+
+#part-data-backup .button-box .button,
+#part-data-restore .button-box .button,
+#part-data-remove .button-box .button
+{
+	background-color                 : #A6C5F0;
+	background-image                 : url("./image/maskRoundLeft.gif");
+	height                           : 34px;
+	margin                           : 0 auto;
+	padding-left                     : 6px;
+	width                            : 132px;
+}
+
+#part-data-backup .button-box .button span,
+#part-data-restore .button-box .button span,
+#part-data-remove .button-box .button span
+{
+	background-color                 : #A6C5F0;
+	background-image                 : url("./image/maskRoundRight.gif");
+	font-weight                      : bold;
+	height                           : 34px;
+	line-height                      : 29px;
+	padding                          : 4px 6px 0 0;
+	text-align                       : center;
+	width                            : 126px;
+}
+
+#part-data-backup .button-box .close-button,
+#part-data-restore .button-box .close-button,
+#part-data-remove .button-box .close-button
+{
+	background-image                 : url("./image/buttonClose.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;	
+	display                          : block;
+	height                           : 13px;
+	margin                           : 0;
+	padding                          : 0;
+	position                         : absolute;
+	right                            : 18px;
+	top                              : 18px;
+	width                            : 13px;
+}
+
+#part-data-backup .button-box .close-button span,
+#part-data-restore .button-box .close-button span,
+#part-data-remove .button-box .close-button span
+{
+	display                          : none !important;
+}
+
+#part-data-backup .button-box a.server-button
+{
+	float                            : left;
+	margin                           : 0 0 0 130px;
+}
+
+#part-data-backup .button-box a.local-button
+{
+	float                            : right;
+	margin                           : 0 130px 0 0;
+}

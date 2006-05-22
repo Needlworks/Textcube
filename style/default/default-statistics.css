@@ -1,0 +1,230 @@
+@charset "utf-8";
+
+/* Visitor ***************************************************************************************/
+
+/* common ---------------------------------------------------------------------------------------*/
+#data-outbox
+{
+	background-color                 : #FFFFFF;
+	padding-top                      : 15px;
+}
+
+/* visitor count --------------------------------------------------------------------------------*/
+#part-statistics-counter
+{
+	float                            : left;
+	margin-right                     : 10px;
+	width                            : 210px;
+}
+
+#part-statistics-counter div.data-inbox .label
+{
+	display                          : block;
+	text-align                       : center;
+}
+
+#part-statistics-counter div.data-inbox .divider
+{
+	display                          : none;
+}
+
+#total
+{
+	color                            : #50B0C0;
+	display                          : block;
+	font-family                      : Arial, Tahoma, Verdana, snas-serif;
+	font-size                        : 300%;
+	font-weight                      : bold;
+	text-align                       : center;
+}
+
+#part-statistics-counter div.data-inbox .button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	margin                           : 0 auto;
+	padding-left                     : 4px;
+	width                            : 106px;
+}
+
+#part-statistics-counter div.data-inbox .button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 6px 4px 0 0;
+	text-align                       : center;
+	width                            : 102px;
+}
+
+/* month ----------------------------------------------------------------------------------------*/
+#part-statistics-month
+{
+	float                            : left;
+	margin-right                     : 10px;
+	width                            : 210px;
+}
+
+#part-statistics-month table.data-inbox .tr-head td
+{
+	padding-left                     : 5px;
+}
+
+#part-statistics-month table.data-inbox .tr-body td
+{
+	cursor                           : pointer;
+	height                           : 24px;
+}
+
+#part-statistics-month table.data-inbox .tr-last-body td
+{
+	cursor                           : pointer;
+	height                           : 23px;
+	padding-top                      : 1px;
+}
+
+#part-statistics-month table.data-inbox .tr-body .date,
+#part-statistics-month table.data-inbox .tr-last-body .date
+{
+	padding                          : 4px 0 0 5px;
+	width                            : 70px;
+}
+
+#part-statistics-month table.data-inbox .tr-body .count,
+#part-statistics-month table.data-inbox .tr-last-body .count
+{
+	padding                          : 4px 0 0 5px;
+}
+
+/* daily ----------------------------------------------------------------------------------------*/
+#part-statistics-day
+{
+	float                            : left;
+	margin-right                     : 10px;
+	width                            : 210px;
+}
+
+#part-statistics-day table.data-inbox .tr-head td
+{
+	padding-left                     : 5px;
+}
+
+#part-statistics-day table.data-inbox .tr-body td
+{
+	cursor                           : pointer;
+	height                           : 24px;
+}
+
+#part-statistics-day table.data-inbox .tr-last-body td
+{
+	cursor                           : pointer;
+	height                           : 23px;
+	padding-top                      : 1px;
+}
+
+#part-statistics-day table.data-inbox .tr-body .date,
+#part-statistics-day table.data-inbox .tr-last-body .date
+{
+	padding                          : 4px 0 0 5px;
+	width                            : 70px;
+}
+
+#part-statistics-day table.data-inbox .tr-body .count,
+#part-statistics-day table.data-inbox .tr-last-body .count
+{
+	padding                          : 4px 0 0 5px;
+}
+
+/* Referer ***************************************************************************************/
+
+/* rank -----------------------------------------------------------------------------------------*/
+#part-statistics-rank
+{
+	float                            : left;
+	margin-right                     : 10px;
+	width                            : 30%;
+}
+
+#part-statistics-rank .caption
+{
+	margin                           : 0;
+}
+
+#part-statistics-rank table.data-inbox
+{
+	border-top                       : 2px solid #00A6ED;
+
+}
+
+#part-statistics-rank table.data-inbox .tr-head td
+{
+	padding-left                     : 5px;
+}
+
+#part-statistics-rank table.data-inbox .tr-body td,
+#part-statistics-rank table.data-inbox .tr-last-body td
+{
+	height                           : 24px;
+	padding                          : 3px 0 0 5px;
+}
+
+#part-statistics-rank table.data-inbox .tr-body .number,
+#part-statistics-rank table.data-inbox .tr-last-body .number
+{
+	padding                          : 4px 5px 0 5px;
+	text-align                       : right;
+	width                            : 20px;
+}
+
+#part-statistics-rank table.data-inbox .tr-body .site,
+#part-statistics-rank table.data-inbox .tr-last-body .site
+{
+	overflow                         : hidden;
+	padding                          : 4px 5px 0 5px;
+}
+
+/* log ------------------------------------------------------------------------------------------*/
+#part-statistics-log
+{
+	float                            : right;
+	margin-right                     : 20px;
+	width                            : 65%;
+}
+
+
+#part-statistics-log .caption
+{
+	margin                           : 0;
+}
+
+#part-statistics-log table.data-inbox
+{
+	border-top                       : 2px solid #00A6ED;
+	width                            : auto;
+}
+
+#part-statistics-log table.data-inbox .tr-head td
+{
+	padding-left                     : 5px;
+}
+
+#part-statistics-log table.data-inbox .tr-body td,
+#part-statistics-log table.data-inbox .tr-last-body td
+{
+	height                           : 24px;
+	padding                          : 3px 0 0 5px;
+}
+
+#part-statistics-log table.data-inbox .tr-body .date,
+#part-statistics-log table.data-inbox .tr-last-body .date
+{
+	padding                          : 4px 5px 0 5px;
+	width                            : 75px;
+}
+
+#part-statistics-log table.data-inbox .tr-body .address,
+#part-statistics-log table.data-inbox .tr-last-body .address
+{
+	padding                          : 4px 5px 0 5px;
+}
