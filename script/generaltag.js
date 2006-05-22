@@ -67,7 +67,7 @@ function eolinTagFunction_showLocalSuggestion(id, cursor, filter)
 						}
 
 						for(var i=0; i<tagItems.length; i++)
-							tags[tags.length] = tagItems[i].firstChild.nodeValue;
+							tags[tags.length] = tagItems[i].lastChild.nodeValue;
 
 						// 중복될 항목들을 미리 제거
 						for(var i=0; i<tags.length; i++)
@@ -238,12 +238,16 @@ function Tag(container, language, disable)
 
 	// tag list first child
 	var listItem = document.createElement("li");
-	listItem.className = "firstChild"
+	listItem.className = "lastChild"
 	listItem.appendChild(this.inputOnLast);
 
 	this.tagList.appendChild(listItem);
 
 	this.container.appendChild(this.tagList);
+	
+	this.divider = document.createElement("div");
+	this.divider.className = "clear";
+	this.container.appendChild(this.divider);
 }
 
 // 마지막노드의 input box를 편집중인지 중간의 list item을 눌러 편집중인지를 리턴
@@ -379,7 +383,7 @@ Tag.prototype.moveBack = function()
 
 		prevNode.parentNode.removeChild(prevNode);
 
-		this.tagList.firstChild.className = "firstChild";
+		this.tagList.lastChild.className = "lastChild";
 		this.getInput().value = text;
 	}
 }
@@ -479,7 +483,7 @@ Tag.prototype.setValue = function(str)
 		this.focusOnInput();
 	}
 
-	this.tagList.firstChild.className = "firstChild";
+	this.tagList.lastChild.className = "lastChild";
 
 	this.isSettingValue = false;
 }

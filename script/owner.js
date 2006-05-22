@@ -42,4 +42,12 @@ function viewHelp(id) {
 		win.moveTo(screen.availWidth / 2 - 300, screen.availHeight / 2 - 250);
 	} catch(e) { }
 }
-//]]> 
+
+function rolloverTableTr(obj, type) {
+	if (type == 'over') {
+		obj.className = obj.className.replace(/overInactive/, 'overActive');
+	} else {
+		obj.className = obj.className.replace(/overActive/, 'overInactive');
+	}
+}
+//]]>

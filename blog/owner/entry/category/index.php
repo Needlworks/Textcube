@@ -45,215 +45,137 @@ if ((empty($_POST['search'])) || ($searchColumn === true)) {
 require ROOT . '/lib/piece/owner/header0.php';
 require ROOT . '/lib/piece/owner/contentMenu03.php';
 ?>
-
-<script type="text/javascript">
-//<![CDATA[
-
-	function removeCategory() {
-		if(confirm('<?=_t('삭제할까요?')?>')) {
-			var oform=document.forms[0];  
-			oform.deleteCategory.value=<?=$selected?>; 
-			 
-			oform.submit()
-		}
-	}
-	
-	function moveCategory(direction) {
-		var oform=document.forms[0];
-		oform.direction.value=direction
-		oform.id.value=<?=$selected?>;
-		oform.submit()
-	}
-	
-	function addCategory() {
-		var oform=document.forms[0];
-		oform.id.value=<?=$selected?>;
-		oform.submit()
-	}
-	
-	function modifyCategory() {
-		var oform=document.forms[0];
-		oform.id.value=<?=$selected?>;
-		oform.submit()
-	}
-	
-	window.onload = function () {
-		try {
-			<?=$history?>
-			expandTree();								
-		} catch(e) {
-			alert(e.message);	
-		}
-		
-		
-	}
-	
-	function validateText(str) {
-		return true;
-	}
-	
-//]]>
-</script>
-
-			<input type="hidden" name="deleteCategory"/>
-			<input type="hidden" name="direction"/>
-			<input type="hidden" name="id"/>
-
-            <table cellspacing="0" style="background-color:#EBF2F8; width:100%; border-style:solid; border-width:2px 0px 2px 0px; border-color:#00A6ED">				
-              <tr valign="top">
-			  	<td width="300" valign="top" style="padding:5px">
-				<div style="height: 100%; border: 1px solid #ccc; background-color: #fff; padding: 10px; min-height: 200px;">
-				<?=getCategoriesViewInOwner($categories, $selected, getCategoriesSkin())?>
-				</div>
-				</td>
-                <td style="padding:10px 5px 10px 5px">
-                  <table cellspacing="0">
-                    <tr>
-                      <td class="entryEditTableLeftCell"><?=_t('생성')?> |</td>
+									<input type="hidden" name="deleteCategory" />
+									<input type="hidden" name="direction" />
+									<input type="hidden" name="id" />
+									
+									<script type="text/javascript">
+										//<![CDATA[
+											function removeCategory() {
+												if(confirm('<?=_t('삭제할까요?')?>')) {
+													var oform=document.forms[0];  
+													oform.deleteCategory.value=<?=$selected?>; 
+													 
+													oform.submit()
+												}
+											}
+											
+											function moveCategory(direction) {
+												var oform=document.forms[0];
+												oform.direction.value=direction
+												oform.id.value=<?=$selected?>;
+												oform.submit()
+											}
+											
+											function addCategory() {
+												var oform=document.forms[0];
+												oform.id.value=<?=$selected?>;
+												oform.submit()
+											}
+											
+											function modifyCategory() {
+												var oform=document.forms[0];
+												oform.id.value=<?=$selected?>;
+												oform.submit()
+											}
+											
+											window.onload = function () {
+												try {
+													<?=$history?>
+													expandTree();								
+												} catch(e) {
+													alert(e.message);	
+												}
+												
+												
+											}
+											
+											function validateText(str) {
+												return true;
+											}
+										//]]>
+									</script>
+									
+									<div id="part-post-tree" class="part">
+										<h2 class="caption"><span class="main-text"><?=_t('스킨에 맞춘 트리의 출력을 설정합니다')?></span></h2>
+										
+										<div class="data-inbox">
+											<div id="treePreview">
+<?=getCategoriesViewInOwner($categories, $selected, getCategoriesSkin())?>
+											</div>
+											
+											<div id="property-box">
+												<dl class="line">
+													<dt><label for="newCategory"><?=_t('생성')?></label><span class="divider"> | </span></dt>
 <?
 if ($depth <= 1) {
 ?>
-                      <td>
-                        <input name="newCategory" type="text" class="text1" id="newCategory" style="width:140px;" onkeyup="if (event.keyCode == 13 && validateText(this.value)){addCategory()}" />
-                      </td>
-                      <td style="padding-left:5px;">
-                        <table class="buttonTop" cellspacing="0" onclick="addCategory()">
-                          <tr>
-                            <td><img alt="" width="4" height="24" src="<?=$service['path']?>/image/owner/buttonLeft.gif"/></td>
-                            <td class="buttonTop" style="work-break:keep-all;background-image:url('<?=$service['path']?>/image/owner/buttonCenter.gif');"><?=_t('추가하기')?></td>
-                            <td><img alt="" width="5" height="24" src="<?=$service['path']?>/image/owner/buttonRight.gif"/></td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-                  <div style="padding:5px 0px 0px 135px">
-					<?=_f('"%1"의 하위에 새 분류를 생성합니다', htmlspecialchars("$name"))?>
-				  </div>
+													<dd>
+														<input type="text" id="newCategory" class="text-input" name="newCategory" onkeyup="if (event.keyCode == 13 && validateText(this.value)){addCategory()}" />
+														<a class="add-button button" href="#void" onclick="addCategory()"><span class="text"><?=_t('추가하기')?></span></a>
+														<div class="explain">
+															<?=_f('"%1"의 하위에 새 분류를 생성합니다.', htmlspecialchars("$name"))?>
+														</div>
+													</dd>
 <?
 } else {
-	echo '					<td>' . _t('분류는 2단까지 허용됩니다') . '</td>';
+?>
+													<dd>
+														<span class="text"><?=_t('분류는 2단까지 허용됩니다.')?></span>
+													</dd>
+<?
 }
 ?>
-                  <table style="width:100%; margin:7px 0px 5px 0px;">
-                    <tr>
-                      <td style="background-image:url('<?=$service['path']?>/image/owner/dotHorizontalStyle2.gif')"><img alt="" src="<?=$service['path']?>/image/owner/spacer.gif" style="width:1px; height:1px;" /></td>
-                    </tr>
-                  </table>
+													<dd class="clear"></dd>
+												</dl>
+												<dl class="line">
+													<dt><label for="modifyCategoryName"><?=_t('레이블 변경')?></label><span class="divider"> | </span></dt>
+													<dd>
+														<input type="text" id="modifyCategoryName" class="text-input" name="modifyCategoryName" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?=$name?>" />
+														<a class="save-button button" href="#void" onclick="modifyCategory(); return false;"><span class="text"><?=_t('저장하기')?></span></a>
+													</dd>
+													<dd class="clear"></dd>
+												</dl>
+												<dl class="line">
+													<dt><span class="text"><?=_t('정렬순서 변경')?></span><span class="divider"> | </span></dt>
 
-                  <table cellspacing="0" style="margin-top:7px">
-                    <tr>
-                      <td class="entryEditTableLeftCell"><?=_t('레이블 변경')?> |</td>
-                      <td>
-				<input name="modifyCategoryName" type="text" class="text1" id="modifyCategoryName" style="width:140px;" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?=$name?>" />
-                      </td>
-                      <td style="padding-left:5px;" onclick="modifyCategory(); return false;">
-                        <table class="buttonTop" cellspacing="0">
-                          <tr>
-                            <td><img alt="" width="4" height="24" src="<?=$service['path']?>/image/owner/buttonLeft.gif"/></td>
-                            <td class="buttonTop" style="work-break:keep-all;background-image:url('<?=$service['path']?>/image/owner/buttonCenter.gif');"><?=_t('저장하기')?></td>
-                            <td><img alt="" width="5" height="24" src="<?=$service['path']?>/image/owner/buttonRight.gif"/></td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                 </table> 
-                  <table style="width:100%; margin:7px 0px 5px 0px;">
-                    <tr>
-                      <td style="background-image:url('<?=$service['path']?>/image/owner/dotHorizontalStyle2.gif')"><img alt="" src="<?=$service['path']?>/image/owner/spacer.gif" style="width:1px; height:1px;" /></td>
-                    </tr>
-                  </table>
-				 
-                  <table cellspacing="0" style="margin-top:7px">
-                    <tr>
-                      <td class="entryEditTableLeftCell"><?=_t('정렬순서 변경')?> |</td>
 <?
 if ($selected > 0) {
 ?>						  
-                      <td>
-                        <table class="buttonTop" cellspacing="0" onclick="moveCategory('up');" border="0">
-                          <tr>
-                            <td><img alt="" width="4" height="24" src="<?=$service['path']?>/image/owner/buttonLeft.gif"/></td>
-                            <td class="buttonTop" style="work-break:keep-all;background-image:url('<?=$service['path']?>/image/owner/buttonCenter.gif');"><img src="<?=$service['path']?>/image/owner/upArrow.gif" alt="" align="absmiddle"/>
-                            <?=_t('위로 올리기')?></td>
-                            <td><img alt="" width="5" height="24" src="<?=$service['path']?>/image/owner/buttonRight.gif"/></td>
-                          </tr>
-                        </table>
-                      </td>
-                      <td>
-                        <table class="buttonTop" cellspacing="0" onclick="moveCategory('down');">
-                          <tr>
-                            <td><img alt="" width="4" height="24" src="<?=$service['path']?>/image/owner/buttonLeft.gif"/></td>
-                            <td class="buttonTop" style="work-break:keep-all;background-image:url('<?=$service['path']?>/image/owner/buttonCenter.gif');"><img src="<?=$service['path']?>/image/owner/downArrow.gif" alt="" align="absmiddle"/>
-                            <?=_t('아래로 내리기')?></td>
-                            <td><img alt="" width="5" height="24" src="<?=$service['path']?>/image/owner/buttonRight.gif"/></td>
-                          </tr>
-                        </table> 
-                      </td>
+													<dd>
+														<a class="up-button button" href="#void" onclick="moveCategory('up');"><span class="text"><?=_t('위로')?></span></a><span class="divider"> | </span><a class="down-button button" href="#void" onclick="moveCategory('down');"><span class="text"><?=_t('아래로')?></span></a>
+													</dd>
 <?
 } else {
-	echo '					<td>' . _t('최상단 분류는 이동할 수 없습니다') . '</td>';
+?>
+													<dd><?=_t('최상단 분류는 이동할 수 없습니다.')?></dd>
+<?
 }
-?>					  
-                    </tr>
-                  </table>
-                  <!--
-                  <table style="width:100%; margin:7px 0px 5px 0px;">
-                    <tr>
-                      <td style="background-image:url('<?=$service['path']?>/image/owner/dotHorizontalStyle2.gif')"><img alt="" src="<?=$service['path']?>/image/owner/spacer.gif" style="width:1px; height:1px;" /></td>
-                    </tr>
-                  </table>
-				
-                  <table cellspacing="0" style="margin-top:7px">
-                    <tr>
-                      <td class="entryEditTableLeftCell"><?=_t('글 이동')?> |</td>
-                      <td>
-                        <table class="buttonTop" cellspacing="0" onclick="window.open('post_pop.php?view=3&amp;node=1','post_pop','width=500, height=450, scrollbars=1');; return false;">
-                          <tr>
-                            <td><img alt="" width="4" height="24" src="<?=$service['path']?>/image/owner/buttonLeft.gif"/></td>
-                            <td class="buttonTop" style="work-break:keep-all;background-image:url('<?=$service['path']?>/image/owner/buttonCenter.gif');"><?=_t('글 이동창 띄우기')?></td>
-                            <td><img alt="" width="5" height="24" src="<?=$service['path']?>/image/owner/buttonRight.gif"/></td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-				  -->
-                  <table style="width:100%; margin:7px 0px 5px 0px;">
-                    <tr>
-                      <td style="background-image:url('<?=$service['path']?>/image/owner/dotHorizontalStyle2.gif')"><img alt="" src="<?=$service['path']?>/image/owner/spacer.gif" style="width:1px; height:1px;" /></td>
-                    </tr>
-                  </table>
-                  <table cellspacing="0" style="margin-top:7px">
-                    <tr>
-                      <td class="entryEditTableLeftCell"><?=_t('분류 삭제')?> |</td>
-                      <td>
+?>
+													<dd class="clear"></dd>
+												</dl>
+												<dl class="line">
+													<dt><span class="text"><?=_t('분류 삭제')?></span><span class="divider"> | </span></dt>
+													<dd>
 <?
 if ($selected == 0) {
-	echo _t('최상단 분류는 삭제할 수 없습니다');
+	echo _t('최상단 분류는 삭제할 수 없습니다.');
 } else if (getNumberEntryInCategories($selected) > 0) {
-	echo _t('분류에 등록된 글이 있으므로 삭제할 수 없습니다');
+	echo _t('분류에 등록된 글이 있으므로 삭제할 수 없습니다.');
 } else if (getNumberChildCategory($selected) > 0) {
-	echo _t('하위 분류가 있으므로 삭제할 수 없습니다');
+	echo _t('하위 분류가 있으므로 삭제할 수 없습니다.');
 } else {
 ?>
-						<table class="buttonTop" cellspacing="0" onclick="removeCategory();">
-                          <tr>
-                            <td><img alt="" width="4" height="24" src="<?=$service['path']?>/image/owner/buttonLeft.gif"/></td>
-                            <td class="buttonTop" style="work-break:keep-all;background-image:url('<?=$service['path']?>/image/owner/buttonCenter.gif');"><?=_t('삭제')?></td>
-                            <td><img alt="" width="5" height="24" src="<?=$service['path']?>/image/owner/buttonRight.gif"/></td>
-                          </tr>
-                        </table>
+														<a class="remove-button button" href="#void" onclick="removeCategory();"><span class="text"><?=_t('삭제하기')?></span></a>
 <?
 }
 ?>
-				      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
-	
+													</dd>
+													<dd class="clear"></dd>
+												</dl>
+											</div>
+										</div>
+									</div>
 <?
 require ROOT . '/lib/piece/owner/footer.php';
 ?>

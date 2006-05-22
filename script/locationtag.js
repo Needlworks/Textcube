@@ -183,7 +183,7 @@ function LocationTag(container, language, disable)
 	this.locationList.instance = this;
 
 	var listItem = document.createElement("li");
-	listItem.className = "firstChild";
+	listItem.className = "lastChild";
 	listItem.appendChild(this.input);
 
 	this.locationList.appendChild(listItem);
@@ -232,8 +232,8 @@ LocationTag.prototype.setValue = function(str, focusOnInput)
 
 	this.locationList.appendChild(listItem);
 
-	this.locationList.firstChild.className = "firstChild";
-
+	this.locationList.lastChild.className = "lastChild";
+	
 	this.input.value = "";
 	this.typingText = "";
 
@@ -331,7 +331,7 @@ LocationTag.prototype.moveBack = function()
 
 		prevNode.parentNode.removeChild(prevNode);
 
-		this.locationList.firstChild.className = "firstChild";
+		this.locationList.lastChild.className = "lastChild";
 		this.input.value = text;
 	}
 }

@@ -33,6 +33,11 @@ function TTReader()
 	this.areEntriesLoading = false;
 	
 	this.floatingListOffset = 0;
+	
+	// messege
+	this.feedUpdating = '피드 업데이트 중';
+	this.feedFailure = '잘못된 피드';
+	this.feedUpdate = '피드 업데이트';
 }
 
 TTReader.prototype.setShownEntries = function(count)
@@ -63,13 +68,13 @@ TTReader.prototype.togglePannel = function(event)
 	if(this.isPannelCollapsed)
 	{
 		getObject("pannel").style.display = "block";
-		getObject("toggleButton").src = this.servicePath + "/image/owner/reader/barHide.gif";
+		getObject("toggleButton").className = "pannel-show";
 		setPersonalization("readerPannelVisibility", 1);
 	}
 	else
 	{
 		getObject("pannel").style.display = "none";
-		getObject("toggleButton").src = this.servicePath + "/image/owner/reader/barShow.gif";
+		getObject("toggleButton").className = "pannel-hide";
 		setPersonalization("readerPannelVisibility", 0);
 	}
 	getObject("floatingList").style.top = "0px";
@@ -96,7 +101,7 @@ TTReader.prototype.toggleConfigure = function()
 TTReader.prototype.startResizing = function(event)
 {
 	event = STD.event(event);
-	if(event.target.tagName == "TD" && !Reader.isPannelCollapsed) {
+	if(event.target.tagName == "DIV" && !Reader.isPannelCollapsed) {
 		STD.addEventListener(document);
 		document.addEventListener("selectstart", Reader.returnFalse, false);
 		document.addEventListener("mousemove", Reader.doResizing, false);
@@ -140,11 +145,11 @@ TTReader.prototype.selectGroup = function(caller, id)
 	this.refreshEntryList(id, 0);
 	this.refreshEntry(id, 0, 0);
 	this.selectedGroup = id;
-	getObject("groupList0").style.backgroundColor = "";
+	getObject("groupList0").className = 'overInactive'
 	if(this.selectedGroupObject != null)
-		this.selectedGroupObject.style.backgroundColor = "";
+		this.selectedGroupObject.className = 'overInactive'
 	this.selectedGroupObject = caller.parentNode;
-	this.selectedGroupObject.style.backgroundColor = "#CDE3FF";
+	this.selectedGroupObject.className = 'overActive'
 }
 
 TTReader.prototype.selectFeed = function(caller, id)
@@ -153,17 +158,17 @@ TTReader.prototype.selectFeed = function(caller, id)
 	this.refreshEntry(this.selectedGroup, id, 0);
 	this.selectedFeed = id;
 	if(this.selectedFeedObject != null)
-		this.selectedFeedObject.style.backgroundColor = "";		
-	this.selectedFeedObject = caller.parentNode;
-	this.selectedFeedObject.style.backgroundColor = "#CDE3FF";
+		this.selectedFeedObject.className = "overInactive";		
+	this.selectedFeedObject = caller;
+	this.selectedFeedObject.className = "overActive";
 }
 
 TTReader.prototype.selectEntry = function(id)
 {
 	this.refreshEntry(this.selectedGroup, this.selectedFeed, id);
+	tempClass = document.getElementById("entryTitleList" + this.selectedEntry).className;
+	document.getElementById("entryTitleList" + this.selectedEntry).className = tempClass.replace(/overActive/, "overInactive");
 	this.selectedEntry = id;
-	if(this.selectedEntryObject != null)
-		this.selectedEntryObject.style.backgroundColor = "";
 	this.selectEntryObject(id);
 }
 
@@ -171,8 +176,8 @@ TTReader.prototype.selectEntryObject = function(id)
 {
 	var caller = getObject("entryTitleList" + id);
 	if(caller) {
-		this.selectedEntryObject = caller.parentNode;
-		this.selectedEntryObject.style.backgroundColor = "#FFFFFF";
+		this.selectedEntryObject = caller;
+		this.selectedEntryObject.className = "read overActive";
 		var list = getObject("listup");
 		if(this.floatingListOffset == 0)
 			this.setListPosition();
@@ -296,7 +301,7 @@ TTReader.prototype.refreshEntry = function(group, feed, entry)
 		getObject("blogTitle").innerHTML = this.getText("/response/blog");
 		getObject("entry").innerHTML = this.getText("/response/view");
 		try {
-			getObject("entryTitleList" + Reader.selectedEntry).className = "read";
+			getObject("entryTitleList" + Reader.selectedEntry).className = "read overActive";
 		} catch(e) { }
 		
 		Reader.setListPosition(true);
@@ -594,7 +599,7 @@ TTReader.prototype.saveSetting = function()
 TTReader.prototype.markAsUnread = function(id)
 {
 	var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/mark/unread/");
-	request.presetProperty(getObject("entryTitleList" + id), "className", "unread");
+	request.presetProperty(getObject("entryTitleList" + id), "className", "unread overActive");
 	request.onSuccess = function () {
 		PM.showMessage(s_markedAsUnread, "center", "bottom");
 	}
@@ -607,24 +612,17 @@ TTReader.prototype.toggleStarred = function(id)
 		id = this.selectedEntry;
 
 	if(getObject("star" + id)) {
-		if(getObject("star" + id).starred == "On") {
+		if(getObject("star" + id).className.match(/scrap-on-icon/ig)) {
 			var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/mark/unstar/");
 			request._ttreader = this;
 			request.onSuccess = function() {
-				if(getObject("star" + id)) {
-					getObject("star" + id).src = this._ttreader.servicePath + "/image/owner/reader/iconStarOff.gif";
-					getObject("star" + id).starred = "Off";
-				}
+				getObject("star" + id).className = "scrap-off-icon bullet";
 			}
-		}
-		else {
+		} else {
 			var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/mark/star/");
 			request._ttreader = this;
 			request.onSuccess = function() {
-				if(getObject("star" + id)) {
-					getObject("star" + id).src = this._ttreader.servicePath + "/image/owner/reader/iconStarOn.gif";
-					getObject("star" + id).starred = "On";
-				}
+				getObject("star" + id).className = "scrap-on-icon bullet";
 			}
 		}
 		request.send("id=" + id);
@@ -649,11 +647,11 @@ TTReader.prototype.showStarredOnly = function()
 
 	if(this.starredOnly) {
 		this.starredOnly = false;
-		getObject("starredOnlyIndicator").src = this.servicePath + "/image/owner/reader/iconStarOff.gif";
+		getObject("starredOnlyIndicator").className = "scrap-off-icon";
 	}
 	else {
 		this.starredOnly = true;
-		getObject("starredOnlyIndicator").src = this.servicePath + "/image/owner/reader/iconStarOn.gif";
+		getObject("starredOnlyIndicator").className = "scrap-on-icon";
 	}
 	this.refreshFeedGroup();
 	this.refreshFeedList(0);
@@ -726,18 +724,21 @@ TTReader.prototype.openEntryInNewWindow = function()
 	window.open(getObject("entryPermalink").href);
 }
 
-TTReader.prototype.updateFeed = function(id)
+TTReader.prototype.updateFeed = function(id, messege)
 {
-	getObject("iconFeedStatus" + id).src = servicePath + "/image/owner/reader/iconUpdateIng.gif";
+	getObject("iconFeedStatus" + id).className = "updating-button button";
+	getObject("iconFeedStatus" + id).innerHTML = '<span>' + this.feedUpdating + '</span>';
 	var request = new HTTPRequest("GET", this.blogURL + "/owner/reader/update/" + id);
 	request.onSuccess = function () {
-		getObject("iconFeedStatus" + id).src = servicePath + "/image/owner/reader/iconUpdate.gif";
+		getObject("iconFeedStatus" + id).className = "update-button button";
+		getObject("iconFeedStatus" + id).innerHTML = '<span>' + this.feedUpdate + '</span>';
 		Reader.refreshFeedList(Reader.selectedGroup);
 		Reader.refreshEntryList(Reader.selectedGroup, Reader.selectedFeed);
-		PM.showMessage("피드를 업데이트 했습니다", "center", "bottom");
+		PM.showMessage(messege, "center", "bottom");
 	}
 	request.onError= function () {
-		getObject("iconFeedStatus" + id).src = servicePath + "/image/owner/reader/iconFailure.gif";
+		getObject("iconFeedStatus" + id).className = "failure-button button";
+		getObject("iconFeedStatus" + id).innerHTML = '<span>' + this.feedFailure + '</span>';
 		switch(parseInt(this.getText("/response/error")))
 		{
 			case 1:

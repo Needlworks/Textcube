@@ -138,7 +138,7 @@ $items = 0;
 $item = 0;
 $xmls = new XMLStruct();
 set_time_limit(0);
-setProgress(0, _t('백업파일을 확인하고 있습니다'));
+setProgress(0, _t('백업파일을 확인하고 있습니다.'));
 $xmls->setStream('/blog/setting/banner/content');
 $xmls->setStream('/blog/post/attachment/content');
 $xmls->setStream('/blog/notice/attachment/content');
@@ -151,7 +151,7 @@ $xmls->close();
 if ($items == 0)
 	finish(_t('백업파일에 복원할 데이터가 없습니다.'));
 if (!$migrational) {
-	setProgress(0, _t('복원 위치를 준비하고 있습니다'));
+	setProgress(0, _t('복원 위치를 준비하고 있습니다.'));
 	DataMaintenance::removeAll(false);
 }
 $xmls->setConsumer('importer');
@@ -161,7 +161,7 @@ if (!$xmls->openFile($backup, Validator::getBool(@$_POST['correctData']))) {
 $xmls->close();
 if (file_exists(ROOT . "/cache/import/$owner.xml"))
 	@unlink(ROOT . "/cache/import/$owner.xml");
-setProgress(100, _t('완료되었습니다'));
+setProgress(100, _t('완료되었습니다.'));
 finish();
 
 /*@callback@*/
@@ -197,7 +197,7 @@ function scanner($path, $node, $line) {
 		case '/blog/feed':
 			$items++;
 			if (!strpos($path, 'referer'))
-				setProgress(null, _t('백업파일을 확인하고 있습니다'), $line);
+				setProgress(null, _t('백업파일을 확인하고 있습니다.'), $line);
 			return true;
 	}
 }
@@ -207,7 +207,7 @@ function importer($path, $node, $line) {
 	global $owner, $migrational, $items, $item;
 	switch ($path) {
 		case '/blog/setting':
-			setProgress($item++ / $items * 100, _t('블로그 설정을 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('블로그 설정을 복원하고 있습니다.'));
 			$setting = new BlogSetting();
 			if (isset($node['title'][0]['.value']))
 				$setting->title = $node['title'][0]['.value'];
@@ -244,7 +244,7 @@ function importer($path, $node, $line) {
 			}
 			return true;
 		case '/blog/category':
-			setProgress($item++ / $items * 100, _t('분류를 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('분류를 복원하고 있습니다.'));
 			$category = new Category();
 			$category->name = $node['name'][0]['.value'];
 			$category->priority = $node['priority'][0]['.value'];
@@ -263,7 +263,7 @@ function importer($path, $node, $line) {
 			}
 			return true;
 		case '/blog/post':
-			setProgress($item++ / $items * 100, _t('글을 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('글을 복원하고 있습니다.'));
 			$post = new Post();
 			$post->id = $node['id'][0]['.value'];
 			$post->slogan = @$node['.attributes']['slogan'];
@@ -401,7 +401,7 @@ function importer($path, $node, $line) {
 			}
 			return true;
 		case '/blog/notice':
-			setProgress($item++ / $items * 100, _t('공지를 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('공지를 복원하고 있습니다.'));
 			$notice = new Notice();
 			$notice->visibility = $node['visibility'][0]['.value'];
 			$notice->title = $node['title'][0]['.value'];
@@ -449,7 +449,7 @@ function importer($path, $node, $line) {
 			}
 			return true;
 		case '/blog/keyword':
-			setProgress($item++ / $items * 100, _t('키워드를 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('키워드를 복원하고 있습니다.'));
 			$keyword = new Keyword();
 			$keyword->visibility = $node['visibility'][0]['.value'];
 			$keyword->name = $node['name'][0]['.value'];
@@ -497,7 +497,7 @@ function importer($path, $node, $line) {
 			}
 			return true;
 		case '/blog/link':
-			setProgress($item++ / $items * 100, _t('링크을 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('링크을 복원하고 있습니다.'));
 			$link = new Link();
 			$link->url = $node['url'][0]['.value'];
 			$link->title = $node['title'][0]['.value'];
@@ -515,7 +515,7 @@ function importer($path, $node, $line) {
 			}
 			return true;
 		case '/blog/logs/referer':
-			setProgress($item++ / $items * 100, _t('레퍼러 로그를 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('레퍼러 로그를 복원하고 있습니다.'));
 			$log = new RefererLog();
 			if (isset($node['path'][0]['.value']))
 				$log->url = $node['path'][0]['.value'];
@@ -526,7 +526,7 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $log->error);
 			return true;
 		case '/blog/statistics/referer':
-			setProgress($item++ / $items * 100, _t('레퍼러 통계를 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('레퍼러 통계를 복원하고 있습니다.'));
 			$statistics = new RefererStatistics();
 			$statistics->host = $node['host'][0]['.value'];
 			$statistics->count = $node['count'][0]['.value'];
@@ -534,14 +534,14 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $statistics->error);
 			return true;
 		case '/blog/statistics/visits':
-			setProgress($item++ / $items * 100, _t('블로그 통계 정보를 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('블로그 통계 정보를 복원하고 있습니다.'));
 			$statistics = new BlogStatistics();
 			$statistics->visits = $node['.value'];
 			if (!$statistics->add())
 				user_error(__LINE__ . $statistics->error);
 			return true;
 		case '/blog/statistics/daily':
-			setProgress($item++ / $items * 100, _t('일별 통계 정보를 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('일별 통계 정보를 복원하고 있습니다.'));
 			$statistics = new DailyStatistics();
 			$statistics->date = $node['date'][0]['.value'];
 			$statistics->visits = $node['visits'][0]['.value'];
@@ -549,7 +549,7 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $statistics->error);
 			return true;
 		case '/blog/skin':
-			setProgress($item++ / $items * 100, _t('스킨 설정을 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('스킨 설정을 복원하고 있습니다.'));
 			$setting = new SkinSetting();
 			$setting->skin = $node['name'][0]['.value'];
 			if (!$setting->save())
@@ -584,7 +584,7 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $setting->error);
 			return true;
 		case '/blog/plugin':
-			setProgress($item++ / $items * 100, _t('플러그인 설정을 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('플러그인 설정을 복원하고 있습니다.'));
 			$setting = new PluginSetting();
 			$setting->name = $node['name'][0]['.value'];
 			$setting->setting = $node['setting'][0]['.value'];
@@ -592,7 +592,7 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $setting->error);
 			return true;
 		case '/blog/personalization':
-			setProgress($item++ / $items * 100, _t('사용자 편의 설정을 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('사용자 편의 설정을 복원하고 있습니다.'));
 			$setting = new Personalization();
 			$setting->rowsPerPage = $node['rowsPerPage'][0]['.value'];
 			$setting->readerPannelVisibility = $node['readerPannelVisibility'][0]['.value'];
@@ -601,7 +601,7 @@ function importer($path, $node, $line) {
 			$setting->save();
 			return true;
 		case '/blog/guestbook/comment':
-			setProgress($item++ / $items * 100, _t('방명록을 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('방명록을 복원하고 있습니다.'));
 			$comment = new GuestComment();
 			if (!empty($node['commenter'][0]['.attributes']['id']) && !empty($node['commenter'][0]['.attributes']['email'])) {
 				if (User::getEmail($node['commenter'][0]['.attributes']['id']) == $node['commenter'][0]['.attributes']['email'])
@@ -642,7 +642,7 @@ function importer($path, $node, $line) {
 			}
 			return true;
 		case '/blog/filter':
-			setProgress($item++ / $items * 100, _t('필터 설정을 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('필터 설정을 복원하고 있습니다.'));
 			$filter = new Filter();
 			$filter->type = $node['.attributes']['type'];
 			$filter->pattern = $node['pattern'][0]['.value'];
@@ -650,7 +650,7 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $filter->error);
 			return true;
 		case '/blog/feed':
-			setProgress($item++ / $items * 100, _t('리더 데이터를 복원하고 있습니다'));
+			setProgress($item++ / $items * 100, _t('리더 데이터를 복원하고 있습니다.'));
 			$feed = new Feed();
 			$feed->group = FeedGroup::getId($node['group'][0]['.value'], true);
 			$feed->url = $node['url'][0]['.value'];

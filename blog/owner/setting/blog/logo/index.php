@@ -2,40 +2,40 @@
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForOwner.php';
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-<script type="text/javascript">
-//<![CDATA[
-function trace(msg,mode) {	
-	try {
-		if(mode == undefined) {
-			var temp ='';
-			for(var name in msg) {
-				temp +=name+'\t\t:'+msg[name]+'\n';
+	<title>Logo Uploader</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript">
+		//<![CDATA[
+			function trace(msg,mode) {	
+				try {
+					if(mode == undefined) {
+						var temp ='';
+						for(var name in msg) {
+							temp +=name+'\t\t:'+msg[name]+'\n';
+						}
+						alert(temp);
+					} else if(mode ='w') {
+						var temp ='<table border="1">';
+						for(var name in msg) {
+							temp +='<tr>';
+							temp +='<td>'+name+'</td><td>'+msg[name]+'</td>';
+							temp +='</tr>';
+						}
+						temp +='</table>';
+						var traceWin = window.open('', "traceWin");
+						try{
+							traceWin.document.select();
+						} catch(e) {
+							
+						}
+						traceWin.document.write(temp);
+					}
+				} catch (e) {
+				}
 			}
-			alert(temp);
-		} else if(mode ='w') {
-			var temp ='<table border="1">';
-			for(var name in msg) {
-				temp +='<tr>';
-				temp +='<td>'+name+'</td><td>'+msg[name]+'</td>';
-				temp +='</tr>';
-			}
-			temp +='</table>';
-			var traceWin = window.open('', "traceWin");
-			try{
-				traceWin.document.select();
-			} catch(e) {
-				
-			}
-			traceWin.document.write(temp);
-		}
-	} catch (e) {
-	}
-}
 <?
 if (count($_FILES) == 1) {
 	if($_POST['mode'] == 1) {
@@ -56,31 +56,30 @@ if (count($_FILES) == 1) {
 	}
 }
 ?>
-	function deleteLogo() {
-		if(confirm("<?=_t('로고 이미지를 삭제하시겠습니까?')?>")) {
-			document.forms[0].mode.value = "1";
-			document.forms[0].submit();
-		}
-	}
-//]]>
-</script>
-<style type="text/css">
-<!--
-body {
-	background-color: #EBF2F8;
-	margin-left: 0px;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-}
--->
-</style>
+			function deleteLogo() {
+				if(confirm("<?=_t('로고 이미지를 삭제하시겠습니까?')?>")) {
+					document.forms[0].mode.value = "1";
+					document.forms[0].submit();
+				}
+			}
+		//]]>
+	</script>
+	<style type="text/css">
+		<!--
+			body
+			{
+				margin                           : 0;
+			}
+		-->
+	</style>
+	<link rel="stylesheet" type="text/css" href="<?=$blogURL?>/style/default/default-setting.css" />
+	<link rel="stylesheet" type="text/css" href="<?=$blogURL?>/style/default/default-setting-ie.css" />
 </head>
-<body>
-<form method="post" action="<?=$blogURL?>/owner/setting/blog/logo" enctype="multipart/form-data">
-  &nbsp;&nbsp;&nbsp;<input type="file" name="logo" onchange="document.forms[0].submit()" />
-  <input type="hidden" name="mode" value="0" />
-  <input type="button" name="delete" value="<?=_t('삭제')?>" onclick="deleteLogo()" />
-</form>
+<body id="logo-iframe">
+	<form method="post" action="<?=$blogURL?>/owner/setting/blog/logo" enctype="multipart/form-data">
+		<input type="file" class="file-input" name="logo" onchange="document.forms[0].submit()" />
+		<input type="hidden" name="mode" value="0" />
+		<a class="delete-button button" href="#void" onclick="deleteLogo()"><span><?=_t('삭제')?></span></a>
+	</form>
 </body>
 </html>

@@ -1,76 +1,51 @@
 <?php 
-$logoPath = $service['path'] . '/image/owner/controlPanelLogo.gif';
+$logoPath = $service['path'] . '/style/default/image/controlPanelLogo.gif';
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Traditional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-traditional.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo htmlspecialchars($blog['title'])?> &gt; <?php echo _t('리더')?></title>
-<script type="text/javascript">
-var servicePath = "<?php echo $service['path']?>"; var blogURL = "<?php echo $blogURL?>";
-</script>
-<script type="text/javascript" src="<?php echo $service['path']?>/script/byTattertools.js" ></script>
-<script type="text/javascript" src="<?php echo $service['path']?>/script/EAF.js"></script>
-<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js" ></script>
-<script type="text/javascript" src="<?php echo $service['path']?>/script/gallery.js" ></script>
-<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js" ></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/owner.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/reader.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo htmlspecialchars($blog['title'])?> &gt; <?php echo _t('리더')?></title>
+	<script type="text/javascript">
+		//<![CDATA[
+			var servicePath = "<?php echo $service['path']?>"; var blogURL = "<?php echo $blogURL?>";
+		//]]>
+	</script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/byTattertools.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/EAF.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/gallery.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js"></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-reader.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-reader-ie.css" /><![endif]-->
 </head>
-<body id="Reader">
-<table width="100%" border="0" cellpadding="0" cellspacing="0" style="height:45px">
-  <tr>
-    <td width="170" align="right" valign="bottom" style="padding-right:25px;"><img src="<?php echo $logoPath?>" alt="" vspace="3" class="pointerCursor" onclick="window.location.href = '<?php echo $blogURL?>/owner/entry'" /></td>
-    <td valign="bottom">
-      <table width="100%" border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td style="background-image:url('<?php echo $service['path']?>/image/owner/menuP2.gif')">
-            <table border="0" cellpadding="0" cellspacing="0">
-              <tr>
-                <td style="width:7px; padding-right:10px"><img src="<?php echo $service['path']?>/image/owner/menuP1.gif" /></td>
-                <td class="menuItem3" nowrap="nowrap" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'" onclick="window.location.href = '<?php echo $blogURL?>/owner/entry'"><?php echo _t('글관리')?></td>
-<!--
-                <td><img src="<?php echo $service['path']?>/image/owner/menuLine1.gif" alt="" /></td>
-                <td class="menuItem3" nowrap="nowrap" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'" onclick="window.location.href = '<?php echo $blogURL?>/owner/keyword'"><?php echo _t('키워드관리')?></td>
--->
-                <td><img src="<?php echo $service['path']?>/image/owner/menuLine1.gif" alt="" /></td>
-                <td class="menuItem3" nowrap="nowrap" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'" onclick="window.location.href = '<?php echo $blogURL?>/owner/notice'"><?php echo _t('공지관리')?></td>				
-                <td><img src="<?php echo $service['path']?>/image/owner/menuLine1.gif" alt="" /></td>
-                <td class="menuItem3" nowrap="nowrap" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'" onclick="window.location.href = '<?php echo $blogURL?>/owner/link'"><?php echo _t('링크관리')?></td>
-                <td><img src="<?php echo $service['path']?>/image/owner/menuLine1.gif" alt="" /></td>
-                <td class="menuItem3" nowrap="nowrap" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'" onclick="window.location.href = '<?php echo $blogURL?>/owner/skin'"><?php echo _t('스킨관리')?></td>
-                <td><img src="<?php echo $service['path']?>/image/owner/menuLine1.gif" alt="" /></td>
-                <td class="menuItem3" nowrap="nowrap" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'" onclick="window.location.href = '<?php echo $blogURL?>/owner/statistics/visitor'"><?php echo _t('통계보기')?></td>
-                <td><img src="<?php echo $service['path']?>/image/owner/menuLine1.gif" alt="" /></td>
-                <td class="menuItem3" nowrap="nowrap" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'" onclick="window.location.href = '<?php echo $blogURL?>/owner/setting/blog'"><?php echo _t('환경설정')?></td>
-                <td><img src="<?php echo $service['path']?>/image/owner/menuLine1.gif" alt="" /></td>
-                <td>
-                  <table cellspacing="0" class="menuItem1" onclick="window.location.href = '<?php echo $blogURL?>/owner/reader'">
-                    <tr>
-                      <td><img src="<?php echo $service['path']?>/image/owner/menuP3.gif" alt="" /></td>
-                      <td class="menuItem2" nowrap="nowrap" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'"><?php echo _t('리더')?></td>
-                      <td><img src="<?php echo $service['path']?>/image/owner/menuP5.gif" alt="" /></td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </td>
-          <td align="right" style="background-image:url('<?php echo $service['path']?>/image/owner/menuP2.gif')">
-            <table border="0" cellpadding="0" cellspacing="0">
-              <tr>
-                <td width="150" align="center" style="background-image:url('<?php echo $service['path']?>/image/owner/menuBg.gif'); padding-top:8px"><img class="pointerCursor" onclick="window.location.href = '<?php echo $blogURL?>/'" src="<?php echo $service['path']?>/image/owner/blog.gif" alt="" /><img src="<?php echo $service['path']?>/image/owner/menuLine2.gif" /><img class="pointerCursor" src="<?php echo $service['path']?>/image/owner/logout.gif" onclick="window.location.href = '<?php echo $blogURL?>/logout'" alt="" /> </td>
-                <td width="10"></td>
-                <td width="6"><img src="<?php echo $service['path']?>/image/owner/menuBg2.gif" alt="" /></td>
-              </tr>
-            </table>
-          </td>
-          <td width="10"></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="0" width="100%" height="450px" style="background-image:url('<?php echo $service['path']?>/image/owner/bg.gif'); background-repeat:repeat-x">
-  <tr>
-    <td valign="top" style="padding:10px 25px 30px 20px">
+<body id="body-reader">
+	<div id="temp-wrap">
+		<div id="all-wrap">
+			<div id="layout-header">
+				<h1><span>태터툴즈 관리 페이지</span></h1>
+				
+				<hr class="hidden" />
+				
+				<h2><span>메인메뉴</span></h2>
+				
+				<div id="main-menu-outbox">
+					<ul id="main-menu">
+						<li class="tattertools"><a href="<?php echo TATTERTOOLS_HOMEPAGE?>" title="<?php echo _t('태터툴즈 홈페이지로 이동합니다.')?>"><span>태터툴즈 홈페이지로 이동</span></a></li>
+						<li class="post"><a href="<?php echo $blogURL?>/owner/entry"><span><?php echo _t('글관리')?></span></a></li>
+						<!--li class="keyword"><a href="<?php echo $blogURL?>/owner/keyword"><span><?php echo _t('키워드관리')?></span></a></li-->
+						<li class="notice"><a href="<?php echo $blogURL?>/owner/notice"><span><?php echo _t('공지관리')?></span></a></li>				
+						<li class="link"><a href="<?php echo $blogURL?>/owner/link"><span><?php echo _t('링크관리')?></span></a></li>
+						<li class="skin"><a href="<?php echo $blogURL?>/owner/skin"><span><?php echo _t('스킨관리')?></span></a></li>
+						<li class="statistics"><a href="<?php echo $blogURL?>/owner/statistics/visitor"><span><?php echo _t('통계보기')?></span></a></li>
+						<li class="setting"><a href="<?php echo $blogURL?>/owner/setting/blog"><span><?php echo _t('환경설정')?></span></a></li>
+						<li class="reader selected"><a href="<?php echo $blogURL?>/owner/reader"><span><?php echo _t('리더')?></span></a></li>
+						<li class="blog"><a href="<?php echo $blogURL?>/" title="<?php echo _t('블로그 메인으로 이동합니다.')?>"><span><?php echo _t('블로그 메인으로 이동')?></span></a></li>
+						<li class="logout"><a href="<?php echo $blogURL?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.')?>"><span><?php echo _t('로그아웃')?></span></a></li>
+					</ul>
+				</div>
+			</div>
+			
+			<hr class="hidden" />

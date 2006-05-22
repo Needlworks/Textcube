@@ -459,8 +459,6 @@ function saveFeedItems($feedId, $xml) {
 					array_push($item['enclosures'], stripHTML($url));
 			if ($xmls->getValue("/rss/channel/item[$i]/pubDate"))
 				$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/pubDate"));
-			else if ($xmls->getValue("/rss/channel/item[$i]/pubdate"))
-				$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/pubdate"));
 			else if ($xmls->getValue("/rss/channel/item[$i]/dc:date"))
 				$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/dc:date"));
 			else
@@ -512,9 +510,9 @@ function saveFeedItems($feedId, $xml) {
 	if($result = mysql_query("SELECT id FROM {$database['prefix']}FeedItems LEFT JOIN {$database['prefix']}FeedStarred ON id = item WHERE item IS NULL AND written < $deadLine"))
 		while(list($id) = mysql_fetch_row($result))
 			mysql_query("DELETE FROM {$database['prefix']}FeedItems WHERE id = $id");
-	if($result = mysql_query("SELECT owner, item FROM {$database['prefix']}FeedReads LEFT JOIN {$database['prefix']}FeedItems ON id = item WHERE id IS NULL"))
+	if($result = mysql_query("SELECT owner, item FROM FeedReads LEFT JOIN FeedItems ON id = item WHERE id IS NULL"))
 		while(list($readsOwner, $readsItem) = mysql_fetch_row($result))
-			mysql_query("DELETE FROM {$database['prefix']}FeedReads WHERE owner = $readsOwner AND item = $readsItem");
+			mysql_query("DELETE FROM FeedReads WHERE owner = $readsOwner AND item = $readsItem");
 	return true;
 }
 

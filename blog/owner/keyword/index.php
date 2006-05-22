@@ -30,7 +30,7 @@ require ROOT . '/lib/piece/owner/contentMenu10.php';
 		request.send();
 	}
 	function deleteEntry(id) { 
-		if (!confirm("<?=_t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?\t')?>"))
+		if (!confirm("<?=_t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?')?>"))
 			return;
 		var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/delete/" + id);
 		request.onSuccess = function () {
@@ -61,7 +61,7 @@ require ROOT . '/lib/piece/owner/contentMenu10.php';
 				}
 				break;
 			case 'delete':
-				if (!confirm("<?=_t('선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?\t')?>"))
+				if (!confirm("<?=_t('선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?')?>"))
 					return false;
 				var targets = "";
 				for (var i = 0; i < document.forms[0].elements.length; i++) {
@@ -80,7 +80,7 @@ require ROOT . '/lib/piece/owner/contentMenu10.php';
 	function searchEntry() {
 		var oForm = document.forms[0];
 		trimAll(oForm);
-		if (!checkValue(oForm.search, "<?=_t('검색어를 입력해 주십시오')?>")) return false;
+		if (!checkValue(oForm.search, "<?=_t('검색어를 입력해 주십시오.')?>")) return false;
 		oForm.page.value = "";
 		oForm.withSearch.value = "on";
 		oForm.submit();
@@ -97,7 +97,7 @@ require ROOT . '/lib/piece/owner/contentMenu10.php';
             <table cellspacing="0" style="width:100%; height:28px">
               <tr>
                 <td style="width:18px"><img src="<?=$service['path']?>/image/owner/sectionDescriptionIcon.gif" width="18" height="18" alt="" /></td>
-                <td style="padding:3px 0px 0px 4px"><?=_t('등록된 키워드 목록입니다')?></td>
+                <td style="padding:3px 0px 0px 4px"><?=_t('등록된 키워드 목록입니다.')?></td>
               </tr>
             </table>
             <table cellspacing="0" style="width:100%; margin-bottom:1px">
@@ -128,7 +128,7 @@ foreach ($entries as $entry) {
                 </td>
                 <td style="padding:0px 7px 0px 7px; font-size:12px"><span style="font-size:11px;font-family:verdana"><?=Timestamp::format3($entry['published'])?></span></td>
                 <td class="row">
-                  <img id="entry<?=$entry['id']?>privateOn" style="display:<?=($entry['visibility'] <= 0 ? 'inline' : 'none')?>" src="<?=$service['path']?>/image/owner/privateOn.gif" alt="<?=_t('비공개')?>" /><img id="entry<?=$entry['id']?>privateOff" style="cursor:pointer; display:<?=($entry['visibility'] <= 0 ? 'none' : 'inline')?>" src="<?=$service['path']?>/image/owner/privateOff.gif" alt="<?=_t('현재 상태를 비공개로 전환합니다')?>" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" /> <img id="entry<?=$entry['id']?>publicOn" style="display:<?=($entry['visibility'] >= 2 ? 'inline' : 'none')?>" src="<?=$service['path']?>/image/owner/publicOn.gif" alt="<?=_t('공개')?>" /><img id="entry<?=$entry['id']?>publicOff" style="cursor:pointer; display:<?=($entry['visibility'] >= 2 ? 'none' : 'inline')?>" src="<?=$service['path']?>/image/owner/publicOff.gif" alt="<?=_t('현재 상태를 공개로 전환합니다')?>" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" />
+                  <img id="entry<?=$entry['id']?>privateOn" style="display:<?=($entry['visibility'] <= 0 ? 'inline' : 'none')?>" src="<?=$service['path']?>/image/owner/privateOn.gif" alt="<?=_t('비공개')?>" /><img id="entry<?=$entry['id']?>privateOff" style="cursor:pointer; display:<?=($entry['visibility'] <= 0 ? 'none' : 'inline')?>" src="<?=$service['path']?>/image/owner/privateOff.gif" alt="<?=_t('현재 상태를 비공개로 전환합니다.')?>" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" /> <img id="entry<?=$entry['id']?>publicOn" style="display:<?=($entry['visibility'] >= 2 ? 'inline' : 'none')?>" src="<?=$service['path']?>/image/owner/publicOn.gif" alt="<?=_t('공개')?>" /><img id="entry<?=$entry['id']?>publicOff" style="cursor:pointer; display:<?=($entry['visibility'] >= 2 ? 'none' : 'inline')?>" src="<?=$service['path']?>/image/owner/publicOff.gif" alt="<?=_t('현재 상태를 공개로 전환합니다.')?>" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" />
                 </td>
                 <td class="row"><a class="rowLink" style="text-decoration:none" onclick="window.location.href='<?=$blogURL?>/owner/keyword/edit/<?=$entry['id']?>'"><?=htmlspecialchars($entry['title'])?></a></td>
                 <td align="right" style="padding-top:2px"><a class="rowLink" onclick="deleteEntry(<?=$entry['id']?>)"><img src="<?=$service['path']?>/image/owner/delete.gif" alt="<?=_t('삭제')?>"/>&nbsp;&nbsp;</td>
@@ -149,9 +149,9 @@ foreach ($entries as $entry) {
                             <td>
                               <select onchange="processBatch(this.value); this.selectedIndex=0">
                                 <option value="">---------------------------</option>
-                                <option value="publish"><?=_t('공개로 변경합니다')?></option>
-                                <option value="classify"><?=_t('비공개로 변경합니다')?></option>
-                                <option value="delete"><?=_t('삭제합니다')?></option>
+                                <option value="publish"><?=_t('공개로 변경합니다.')?></option>
+                                <option value="classify"><?=_t('비공개로 변경합니다.')?></option>
+                                <option value="delete"><?=_t('삭제합니다.')?></option>
                               </select>
                             </td>
                           </tr>

@@ -4,78 +4,67 @@ require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/header4.php';
 require ROOT . '/lib/piece/owner/contentMenu41.php';
 ?>
-            <table cellspacing="0" width="100%">
-              <tr>
-                <td>
-                  <table width="100%">
-                    <tr>
-                      <td width="250" valign="top">
-                        <table cellspacing="0" style="width:100%; height:28px">
-                          <tr>
-                            <td style="width:18px"><img alt="" src="<?=$service['path']?>/image/owner/sectionDescriptionIcon.gif" width="18" height="18"/></td>
-                            <td style="padding:3px 0px 0px 4px"><?=_t('리퍼러 순위')?></td>
-                          </tr>
-                        </table>
-                        <table cellspacing="0" width="100%" style="width:100%; border:solid #00A6ED; border-width:2px 0px 2px 0px">
+									<div id="part-statistics-rank" class="part">
+										<h2 class="caption"><span class="main-text"><?=_t('리퍼러 순위')?></span></h2>
+										
+										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
 <?
-$more = false;
-$i = 0;
-foreach (getRefererStatistics($owner) as $record) {
-	$i++;
-	if ($more) {
+$temp = getRefererStatistics($owner);
+for ($i=0; $i<sizeof($temp); $i++) {
+	$record = $temp[$i];
+	
+	if ($i == sizeof($temp) - 1) {
 ?>
-                          <tr style="background-image:url('<?=$service['path']?>/image/owner/dotHorizontalStyle1.gif')">
-                            <td height="1" colspan="2"></td>
-                          </tr>
+											<tr class="tr-last-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+												<td class="number" width="20"><?=$i + 1?>.</td>
+												<td class="site"><a href="http://<?=escapeJSInAttribute($record['host'])?>" onclick="window.open(this.href); return false;"><?=htmlspecialchars($record['host'])?></a> <span class="count">(<?=$record['count']?>)</span></td>
+											</tr>
 <?
-	} else
-		$more = true;
+	} else {
 ?>
-                          <tr>
-                            <td style="padding:2px" width="20" align="right"><?=$i?>.</td>
-                            <td style="padding:2px"><a href="http://<?=escapeJSInAttribute($record['host'])?>" target="_blank"><?=htmlspecialchars($record['host'])?></a> (<?=$record['count']?>)</td>
-                          </tr>
+											<tr class="tr-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+												<td class="number" width="20"><?=$i + 1?>.</td>
+												<td class="site"><a href="http://<?=escapeJSInAttribute($record['host'])?>" onclick="window.open(this.href); return false;"><?=htmlspecialchars($record['host'])?></a> <span class="count">(<?=$record['count']?>)</span></td>
+											</tr>
 <?
+	}
 }
 ?>
-                        </table>
-                      </td>
-                      <td style="padding-left:10px">
-                        <table cellspacing="0" style="width:100%; height:28px">
-                          <tr>
-                            <td style="width:18px"><img alt="" src="<?=$service['path']?>/image/owner/sectionDescriptionIcon.gif" width="18" height="18"/></td>
-                            <td style="padding:3px 0px 0px 4px"><?=_t('리퍼러 로그')?></td>
-                          </tr>
-                        </table>
-                        <table cellspacing="0" width="100%" style="width:100%; border:solid #00A6ED; border-width:2px 0px 2px 0px">
+										</table>
+									</div>
+									
+									<hr class="hidden" />
+									
+									<div id="part-statistics-log" class="part">
+										<h2 class="caption"><span class="main-text"><?=_t('리퍼러 로그')?></span></h2>
+										
+										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
 <?
-$more = false;
-$i = 0;
-foreach (getRefererLogs() as $record) {
-	$i++;
-	if ($more) {
+$temp = getRefererLogs();
+for ($i=0; $i<sizeof($temp); $i++) {
+	$record = $temp[$i];
+	
+	if ($i == sizeof($temp) - 1) {
 ?>
-                          <tr style="background-image:url('<?=$service['path']?>/image/owner/dotHorizontalStyle1.gif')">
-                            <td height="1" colspan="2"></td>
-                          </tr>
+											<tr class="tr-last-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+												<td class="date"><?=Timestamp::formatDate($record['referred'])?></td>
+												<td class="address"><a href="<?=escapeJSInAttribute($record['url'])?>" onclick="window.open(this.href); return false;" title="<?=htmlspecialchars($record['url'])?>"><?=fireEvent('ViewRefererURL', htmlspecialchars(UTF8::lessenAsEm($record['url'], 70)), $record)?></a></td>
+											</tr>
 <?
-	} else
-		$more = true;
+	} else {
 ?>
-                          <tr>
-                            <td style="padding:2px" width="75"><?=Timestamp::formatDate($record['referred'])?></td>
-                            <td style="padding:2px" title="<?=htmlspecialchars($record['url'])?>" style="word-break: break-all"><a href="<?=escapeJSInAttribute($record['url'])?>" target="_blank"><?=fireEvent('ViewRefererURL', htmlspecialchars(UTF8::lessenAsEm($record['url'], 70)), $record)?></a></td>
-                          </tr>
+											<tr class="tr-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+												<td class="date"><?=Timestamp::formatDate($record['referred'])?></td>
+												<td class="address"><a href="<?=escapeJSInAttribute($record['url'])?>" onclick="window.open(this.href); return false;" title="<?=htmlspecialchars($record['url'])?>"><?=fireEvent('ViewRefererURL', htmlspecialchars(UTF8::lessenAsEm($record['url'], 70)), $record)?></a></td>
+											</tr>
 <?
+	}
 }
 ?>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
+										</table>
+									</div>
+									
+									<div class="clear"></div>
 <?
 require ROOT . '/lib/piece/owner/footer.php';
 ?>
