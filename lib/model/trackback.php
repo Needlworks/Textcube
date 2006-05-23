@@ -25,7 +25,7 @@ function getTrackbacksWithPagingForOwner($owner, $category, $site, $ip, $search,
 function getTrackbacks($entry) {
 	global $database, $owner;
 	$trackbacks = array();
-	$result = mysql_query("select * from {$database['prefix']}Trackbacks where owner = $owner AND entry = $entry order by written");
+	$result = mysql_query("select * from {$database['prefix']}Trackbacks where owner = $owner AND entry = $entry AND isFiltered = 0 order by written");
 	while ($trackback = mysql_fetch_array($result))
 		array_push($trackbacks, $trackback);
 	return $trackbacks;
@@ -35,7 +35,7 @@ function getRecentTrackbacks($owner) {
 	global $database;
 	global $skinSetting;
 	$trackbacks = array();
-	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}Trackbacks WHERE owner = $owner ORDER BY written DESC LIMIT {$skinSetting['trackbacksOnRecent']}" : "SELECT t.* FROM {$database['prefix']}Trackbacks t, {$database['prefix']}Entries e WHERE t.owner = $owner AND t.owner = e.owner AND t.entry = e.id AND e.draft = 0 AND e.visibility >= 2 ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksOnRecent']}";
+	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND isFiltered = 0 ORDER BY written DESC LIMIT {$skinSetting['trackbacksOnRecent']}" : "SELECT t.* FROM {$database['prefix']}Trackbacks t, {$database['prefix']}Entries e WHERE t.owner = $owner AND t.owner = e.owner AND t.entry = e.id AND e.draft = 0 AND e.visibility >= 2 AND isFiltered = 0 ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksOnRecent']}";
 	if ($result = mysql_query($sql)) {
 		while ($trackback = mysql_fetch_array($result))
 			array_push($trackbacks, $trackback);

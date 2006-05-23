@@ -65,7 +65,7 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 											}
 
 											function deleteTrackback(id) {
-												if (!confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?')?>"))
+												if (!confirm("<?=_t('선택된 트랙백을 휴지통으로 옮깁니다. 계속하시겠습니까?')?>"))
 													return;
 												var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/trackback/delete/" + id);
 												request.onSuccess = function() {
