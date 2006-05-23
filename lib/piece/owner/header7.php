@@ -41,6 +41,7 @@ $logoPath = $service['path'] . '/style/default/image/controlPanelLogo.gif';
 						<li class="notice selected"><a href="<?php echo $blogURL?>/owner/notice"><span><?php echo _t('공지관리')?></span></a></li>				
 						<li class="link"><a href="<?php echo $blogURL?>/owner/link"><span><?php echo _t('링크관리')?></span></a></li>
 						<li class="skin"><a href="<?php echo $blogURL?>/owner/skin"><span><?php echo _t('스킨관리')?></span></a></li>
+						<li class="trash"><a href="<?php echo $blogURL?>/owner/trash/trackback"><span><?php echo _t('휴지통관리')?></span></a></li>
 						<li class="statistics"><a href="<?php echo $blogURL?>/owner/statistics/visitor"><span><?php echo _t('통계보기')?></span></a></li>
 						<li class="setting"><a href="<?php echo $blogURL?>/owner/setting/blog"><span><?php echo _t('환경설정')?></span></a></li>
 						<li class="reader"><a href="<?php echo $blogURL?>/owner/reader"><span><?php echo _t('리더')?></span></a></li>

@@ -1,7 +1,7 @@
 <?php
 //require 'correctTT.php';
 
-function getTrashListWithPagingForOwner($owner, $category, $site, $ip, $search, $page, $count) {
+function getTrashTrackbackWithPagingForOwner($owner, $category, $site, $ip, $search, $page, $count) {
 	global $database;
 	$sql = "SELECT t.*, c.name categoryName FROM {$database['prefix']}Trackbacks t LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Categories c ON t.owner = c.owner AND e.category = c.id WHERE t.owner = $owner AND t.isFiltered = 1";
 	if ($category > 0) {
@@ -22,7 +22,29 @@ function getTrashListWithPagingForOwner($owner, $category, $site, $ip, $search, 
 	return fetchWithPaging($sql, $page, $count);
 }
 
-function getTrashLists($entry) {
+
+function getTrashCommentsWithPagingForOwner($owner, $category, $name, $ip, $search, $page, $count) {
+	global $database;
+	$sql = "SELECT c.*, e.title, c2.name parentName FROM {$database['prefix']}Comments c LEFT JOIN {$database['prefix']}Entries e ON c.owner = e.owner AND c.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.owner = c2.owner WHERE c.owner = $owner AND c.isFiltered = 1";
+	if ($category > 0) {
+		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
+		array_push($categories, $category);
+		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
+	} else
+		$sql .= ' AND e.category >= 0';
+	if (!empty($name))
+		$sql .= ' AND c.name = \'' . mysql_escape_string($name) . '\'';
+	if (!empty($ip))
+		$sql .= ' AND c.ip = \'' . mysql_escape_string($ip) . '\'';
+	if (!empty($search)) {
+		$search = escapeMysqlSearchString($search);
+		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
+	}
+	$sql .= ' ORDER BY c.written DESC';
+	return fetchWithPaging($sql, $page, $count);
+}
+
+function getTrackbackTrash($entry) {
 	global $database, $owner;
 	$trackbacks = array();
 	$result = mysql_query("select * from {$database['prefix']}Trackbacks where owner = $owner AND entry = $entry order by written");
@@ -31,7 +53,7 @@ function getTrashLists($entry) {
 	return $trackbacks;
 }
 
-function getRecentTrashLists($owner) {
+function getRecentTrackbackTrash($owner) {
 	global $database;
 	global $skinSetting;
 	$trackbacks = array();
@@ -43,7 +65,7 @@ function getRecentTrashLists($owner) {
 	return $trackbacks;
 }
 
-function deleteTrash($owner, $id) {
+function deleteTrackbackTrash($owner, $id) {
 	global $database;
 	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
@@ -55,7 +77,7 @@ function deleteTrash($owner, $id) {
 	return false;
 }
 
-function restoreTrash($owner, $id) {
+function restoreTrackbackTrash($owner, $id) {
     	global $database;
 	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)

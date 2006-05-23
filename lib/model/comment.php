@@ -2,7 +2,7 @@
 
 function getCommentsWithPagingForOwner($owner, $category, $name, $ip, $search, $page, $count) {
 	global $database;
-	$sql = "SELECT c.*, e.title, c2.name parentName FROM {$database['prefix']}Comments c LEFT JOIN {$database['prefix']}Entries e ON c.owner = e.owner AND c.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.owner = c2.owner WHERE c.owner = $owner";
+	$sql = "SELECT c.*, e.title, c2.name parentName FROM {$database['prefix']}Comments c LEFT JOIN {$database['prefix']}Entries e ON c.owner = e.owner AND c.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.owner = c2.owner WHERE c.owner = $owner AND c.isFiltered = 0";
 	if ($category > 0) {
 		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
 		array_push($categories, $category);
@@ -114,7 +114,7 @@ function getCommentCommentsNotified($parent) {
 function getCommentsWithPagingForGuestbook($owner, $page, $count) {
 	global $database;
 	$sql = "SELECT * FROM {$database['prefix']}Comments WHERE owner = $owner";
-	$sql .= ' AND entry = 0 AND parent is null';
+	$sql .= ' AND entry = 0 AND parent is null AND isFiltered = 0';
 	$sql .= ' ORDER BY written DESC';
 	return fetchWithPaging($sql, $page, $count);
 }
@@ -129,7 +129,7 @@ function getComments($entry) {
 	$comments = array();
 	$authorized = doesHaveOwnership();
 	$aux = ($entry == 0 ? 'ORDER BY written DESC' : 'order by id ASC');
-	$sql = "select * from {$database['prefix']}Comments where owner = $owner and entry = $entry and parent is null $aux";
+	$sql = "select * from {$database['prefix']}Comments where owner = $owner and entry = $entry and parent is null and isFiltered = 0 $aux";
 	if ($result = mysql_query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
 			if (($comment['secret'] == 1) && !$authorized) {
@@ -147,7 +147,7 @@ function getCommentComments($parent) {
 	global $database, $owner;
 	$comments = array();
 	$authorized = doesHaveOwnership();
-	if ($result = mysql_query("select * from {$database['prefix']}Comments where owner = $owner and parent = $parent order by id")) {
+	if ($result = mysql_query("select * from {$database['prefix']}Comments where owner = $owner and parent = $parent and isFiltered = 0 order by id")) {
 		while ($comment = mysql_fetch_array($result)) {
 			if (($comment['secret'] == 1) && !$authorized) {
 				$comment['name'] = '';
@@ -187,7 +187,7 @@ function getCommentList($owner, $search) {
 	$list = array('title' => "'$search'", 'items' => array());
 	$search = escapeMysqlSearchString($search);
 	$authorized = doesHaveOwnership() ? '' : 'and secret = 0';
-	if ($result = mysql_query("select id, entry, parent, name, comment, written from {$database['prefix']}Comments where entry > 0 AND owner = $owner $authorized and comment like '%$search%'")) {
+	if ($result = mysql_query("select id, entry, parent, name, comment, written from {$database['prefix']}Comments where entry > 0 AND owner = $owner $authorized and isFiltered = 0 and comment like '%$search%'")) {
 		while ($comment = mysql_fetch_array($result))
 			array_push($list['items'], $comment);
 	}
@@ -329,6 +329,24 @@ function updateComment($owner, $comment, $password) {
 
 function deleteComment($owner, $id, $entry, $password) {
 	global $database;
+	$sql = "update {$database['prefix']}Comments set isFiltered = 1 where owner = $owner and id = $id and entry = $entry";
+	if (!doesHaveOwnership()) {
+		if (doesHaveMembership())
+			$sql .= ' and replier = ' . getUserId();
+		else
+			$sql .= ' and password = \'' . md5($password) . '\'';
+	}
+	$result = mysql_query($sql);
+	if (mysql_affected_rows() > 0) {
+		mysql_query("update {$database['prefix']}Comments set isFiltered = 1 where owner = $owner and parent = $id");
+		updateCommentsOfEntry($owner, $entry);
+		return true;
+	}
+	return false;
+}
+
+function trashComment($owner, $id, $entry, $password) {
+	global $database;
 	$sql = "delete from {$database['prefix']}Comments where owner = $owner and id = $id and entry = $entry";
 	if (!doesHaveOwnership()) {
 		if (doesHaveMembership())
@@ -338,7 +356,7 @@ function deleteComment($owner, $id, $entry, $password) {
 	}
 	$result = mysql_query($sql);
 	if (mysql_affected_rows() > 0) {
-		mysql_query("delete from {$database['prefix']}Comments where owner = $owner and parent = $id");
+		mysql_query("update {$database['prefix']}Comments set isFiltered = 1 where owner = $owner and parent = $id");
 		updateCommentsOfEntry($owner, $entry);
 		return true;
 	}
@@ -368,6 +386,19 @@ function deleteCommentInOwner($owner, $id) {
 	$result = mysql_query("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND id = $id");
 	if ($result && (mysql_affected_rows() == 1)) {
 		if (mysql_query("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND parent = $id")) {
+			updateCommentsOfEntry($owner, $entryId);
+			return true;
+		}
+	}
+	return false;
+}
+
+function trashCommentInOwner($owner, $id) {
+	global $database;
+	$entryId = fetchQueryCell("SELECT entry FROM {$database['prefix']}Comments WHERE owner = $owner AND id = $id");
+	$result = mysql_query("UPDATE {$database['prefix']}Comments SET isFiltered = 1 WHERE owner = $owner AND id = $id");
+	if ($result && (mysql_affected_rows() == 1)) {
+		if (mysql_query("UPDATE {$database['prefix']}Comments SET isFiltered = 1 WHERE owner = $owner AND parent = $id")) {
 			updateCommentsOfEntry($owner, $entryId);
 			return true;
 		}

@@ -5,7 +5,7 @@ $logoPath = $service['path'] . '/style/default/image/controlPanelLogo.gif';
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><?php echo htmlspecialchars($blog['title'])?> &gt; <?php echo _t('링크관리')?></title>
+	<title><?php echo htmlspecialchars($blog['title'])?> &gt; <?php echo _t('휴지통관리')?></title>
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $service['path']?>"; var blogURL = "<?php echo $blogURL?>";
@@ -17,11 +17,13 @@ $logoPath = $service['path'] . '/style/default/image/controlPanelLogo.gif';
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/gallery.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js"></script>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-link.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-post.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-setting.css" />
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-ie.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-link-ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-post-ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-editor-ie.css" /><![endif]-->
 </head>
-<body id="body-link">
+<body id="body-post">
 	<div id="temp-wrap">
 		<div id="all-wrap">
 			<div id="layout-header">
@@ -37,9 +39,9 @@ $logoPath = $service['path'] . '/style/default/image/controlPanelLogo.gif';
 						<li class="post"><a href="<?php echo $blogURL?>/owner/entry"><span><?php echo _t('글관리')?></span></a></li>
 						<!--li class="keyword"><a href="<?php echo $blogURL?>/owner/keyword"><span><?php echo _t('키워드관리')?></span></a></li-->
 						<li class="notice"><a href="<?php echo $blogURL?>/owner/notice"><span><?php echo _t('공지관리')?></span></a></li>				
-						<li class="link selected"><a href="<?php echo $blogURL?>/owner/link"><span><?php echo _t('링크관리')?></span></a></li>
+						<li class="link"><a href="<?php echo $blogURL?>/owner/link"><span><?php echo _t('링크관리')?></span></a></li>
 						<li class="skin"><a href="<?php echo $blogURL?>/owner/skin"><span><?php echo _t('스킨관리')?></span></a></li>
-						<li class="trash"><a href="<?php echo $blogURL?>/owner/trash/trackback"><span><?php echo _t('휴지통관리')?></span></a></li>	
+						<li class="trash selected"><a href="<?php echo $blogURL?>/owner/trash/trackback"><span><?php echo _t('휴지통관리')?></span></a></li>
 						<li class="statistics"><a href="<?php echo $blogURL?>/owner/statistics/visitor"><span><?php echo _t('통계보기')?></span></a></li>
 						<li class="setting"><a href="<?php echo $blogURL?>/owner/setting/blog"><span><?php echo _t('환경설정')?></span></a></li>
 						<li class="reader"><a href="<?php echo $blogURL?>/owner/reader"><span><?php echo _t('리더')?></span></a></li>

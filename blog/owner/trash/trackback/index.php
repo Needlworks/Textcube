@@ -14,9 +14,9 @@ if (empty($_POST['perPage'])) {
 } else {
 	$perPage = $_POST['perPage'];
 }
-list($trackbacks, $paging) = getTrashListWithPagingForOwner($owner, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
-require ROOT . '/lib/piece/owner/header0.php';
-require ROOT . '/lib/piece/owner/contentMenu06.php';
+list($trackbacks, $paging) = getTrashTrackbackWithPagingForOwner($owner, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
+require ROOT . '/lib/piece/owner/header9.php';
+require ROOT . '/lib/piece/owner/contentMenu90.php';
 ?>
 <input type="hidden" name="withSearch" value="" />
 <input type="hidden" name="site" value="" />

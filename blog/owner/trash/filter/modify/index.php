@@ -1,7 +1,7 @@
 <?
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForOwner.php';
-if (trashTrackback($owner, $suri['id']) !== true)
+if (modifyFilter($owner, $mode, $_GET['oldValue'], $_GET['newValue']) === true)
 	respondResultPage(0);
 else
 	respondResultPage( - 1);
