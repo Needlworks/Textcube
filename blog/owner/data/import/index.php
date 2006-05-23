@@ -343,6 +343,8 @@ function importer($path, $node, $line) {
 					$comment->secret = $cursor['secret'][0]['.value'];
 					$comment->written = $cursor['written'][0]['.value'];
 					$comment->content = $cursor['content'][0]['.value'];
+					if (!empty($cursor['isFiltered'][0]['.value']))
+					    	$comment->isFiltered = $cursor['isFiltered'][0]['.value'];
 					if (!$comment->add())
 						user_error(__LINE__ . $comment->error);
 					if (isset($node['comment'][$i]['comment'])) {
@@ -364,6 +366,8 @@ function importer($path, $node, $line) {
 							$childComment->secret = $cursor['secret'][0]['.value'];
 							$childComment->written = $cursor['written'][0]['.value'];
 							$childComment->content = $cursor['content'][0]['.value'];
+							if (!empty($cursor['isFiltered'][0]['.value']))
+					    			$childComment->isFiltered = $cursor['isFiltered'][0]['.value'];
 							if (!$childComment->add())
 								user_error(__LINE__ . $childComment->error);
 						}
@@ -383,6 +387,8 @@ function importer($path, $node, $line) {
 						$trackback->ip = $cursor['ip'][0]['.value'];
 					if (!empty($cursor['received'][0]['.value']))
 						$trackback->received = $cursor['received'][0]['.value'];
+					if (!empty($cursor['isFiltered'][0]['.value']))
+					    	$trackback->isFiltered = $cursor['isFiltered'][0]['.value'];
 					if (!$trackback->add())
 						user_error(__LINE__ . $trackback->error);
 				}
