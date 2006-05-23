@@ -252,7 +252,8 @@ function addComment($owner, & $comment) {
 			{$comment['secret']},
 			'$comment0',
 			'{$comment['ip']}',
-			UNIX_TIMESTAMP()
+			UNIX_TIMESTAMP(),
+			0
 		)");
 	if ($result && (mysql_affected_rows() > 0)) {
 		$id = mysql_insert_id();
@@ -260,9 +261,9 @@ function addComment($owner, & $comment) {
 			executeQuery("
 				INSERT INTO 
 					`{$database['prefix']}CommentsNotifiedQueue` 
-					( `owner` , `id` , `commentId` , `sendStatus` , `checkDate` , `written` ) 
+					( `owner` , `id` , `commentId` , `sendStatus` , `checkDate` , `written` , `isFiltered` ) 
 				VALUES 
-					($owner ,'', '" . mysql_insert_id() . "', '0', '0', '" . time() . "');");
+					($owner ,'', '" . mysql_insert_id() . "', '0', '0', '" . time() . "',0);");
 		}
 		updateCommentsOfEntry($owner, $comment['entry']);
 		fireEvent($comment['entry'] ? 'AddComment' : 'AddGuestComment', $id, $comment);
@@ -320,7 +321,8 @@ function updateComment($owner, $comment, $password) {
 					secret = {$comment['secret']},
 					comment = '$comment0',
 					ip = '{$comment['ip']}',
-					written = UNIX_TIMESTAMP()
+					written = UNIX_TIMESTAMP(),
+					isFiltered = {$comment['isFiltered']}
 				where owner = $owner and id = {$comment['id']} $wherePassword");
 	return $result ? true : false;
 }
@@ -346,7 +348,7 @@ function deleteComment($owner, $id, $entry, $password) {
 function getRecentComments($owner) {
 	global $skinSetting, $database;
 	$comments = array();
-	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}Comments WHERE owner = $owner AND entry>0 ORDER BY written DESC LIMIT {$skinSetting['commentsOnRecent']}" : "SELECT r.* FROM {$database['prefix']}Comments r, {$database['prefix']}Entries e WHERE r.owner = $owner AND r.owner = e.owner AND r.entry = e.id AND e.draft = 0 AND e.visibility > 0 AND entry > 0 ORDER BY r.written DESC LIMIT {$skinSetting['commentsOnRecent']}";
+	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}Comments WHERE owner = $owner AND entry>0 AND isFiltered = 0 ORDER BY written DESC LIMIT {$skinSetting['commentsOnRecent']}" : "SELECT r.* FROM {$database['prefix']}Comments r, {$database['prefix']}Entries e WHERE r.owner = $owner AND r.owner = e.owner AND r.entry = e.id AND e.draft = 0 AND e.visibility > 0 AND entry > 0 AND isFiltered = 0 ORDER BY r.written DESC LIMIT {$skinSetting['commentsOnRecent']}";
 	if ($result = mysql_query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
