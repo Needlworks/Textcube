@@ -1410,7 +1410,7 @@ function printEntryEditorPalette() {
 													<div class="font-relatives">
 														<h3><span class="text"><?php echo _t('폰트 설정')?></span></h3>
 														
-														<div class="button-box">
+														<div class="command-box">
 															<select id="fontFamilyChanger" onchange="editor.execCommand('fontname', false, this.value); this.selectedIndex=0;">
 																<option><?php echo _t('글자체')?></option>
 																<option value="">=========</option>
@@ -1448,7 +1448,7 @@ function printEntryEditorPalette() {
 													<div class="font-style">
 														<h3><span class="text"><?php echo _t('폰트 스타일')?></span></h3>
 														
-														<div class="button-box">
+														<div class="command-box">
 															<a id="indicatorBold" class="button" href="#void" onclick="TTCommand('Bold')" title="<?php echo _t('굵게')?>"><span><?php echo _t('굵게')?></span></a>
 															<a id="indicatorItalic" class="button" href="#void" onclick="TTCommand('Italic')" title="<?php echo _t('기울임')?>"><span><?php echo _t('기울임')?></span></a>
 															<a id="indicatorUnderline" class="button" href="#void" onclick="TTCommand('Underline')" title="<?php echo _t('밑줄')?>"><span><?php echo _t('밑줄')?></span></a>
@@ -1462,7 +1462,7 @@ function printEntryEditorPalette() {
 													<div class="paragraph">
 														<h3><span class="text"><?php echo _t('문단')?></span></h3>
 														
-														<div class="button-box">
+														<div class="command-box">
 															<a id="indicatorJustifyLeft" class="button" href="#void" onclick="TTCommand('JustifyLeft')" title="<?php echo _t('왼쪽 정렬')?>"><span><?php echo _t('왼쪽 정렬')?></span></a>
 															<a id="indicatorJustifyCenter" class="button" href="#void" onclick="TTCommand('JustifyCenter')" title="<?php echo _t('가운데 정렬')?>"><span><?php echo _t('가운데 정렬')?></span></a>
 															<a id="indicatorJustifyRight" class="button" href="#void" onclick="TTCommand('JustifyRight')" title="<?php echo _t('오른쪽 정렬')?>"><span><?php echo _t('오른쪽 정렬')?></span></a>
@@ -1476,7 +1476,7 @@ function printEntryEditorPalette() {
 													<div class="special">
 														<h3><span class="text"><?php echo _t('기타')?></span></h3>
 														
-														<div class="button-box">
+														<div class="command-box">
 															<a id="indicatorCodeBlock" class="button" href="#void" onclick="TTCommand('CodeBlock')" title="<?php echo _t('코드')?>"><span><?php echo _t('코드')?></span></a>
 															<a id="indicatorHtmlBlock" class="button" href="#void" onclick="TTCommand('HtmlBlock')" title="<?php echo _t('HTML 코드 직접 쓰기')?>"><span><?php echo _t('HTML 코드 직접 쓰기')?></span></a>
 															<a id="indicatorCreateLink" class="button" href="#void" onclick="TTCommand('CreateLink')" title="<?php echo _t('하이퍼링크')?>"><span><?php echo _t('하이퍼링크')?></span></a>
@@ -1488,7 +1488,7 @@ function printEntryEditorPalette() {
 													<div class="mode">
 														<h3><span class="text"><?php echo _t('편집 모드')?></span></h3>
 														
-														<div class="button-box">
+														<div class="command-box">
 															<a id="indicatorMode" class="button" href="#void" onclick="TTCommand('ToggleMode')" title="<?php echo _t('위지윅/텍스트 모드 변경')?>"><span><?php echo _t('위지윅/텍스트 모드 변경')?></span></a>
 														</div>
 													</div>
