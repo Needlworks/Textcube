@@ -3,18 +3,18 @@
 /* List ******************************************************************************************/
 
 /* list table head ------------------------------------------------------------------------------*/
-#part-link-list table.data-inbox .tr-head .homepage
+#part-link-list table.data-inbox thead tr .homepage
 {
 	padding-left                     : 5px;
 	width                            : 35%;
 }
 
-#part-link-list table.data-inbox .tr-head .delete
+#part-link-list table.data-inbox thead tr .delete
 {
 	width                            : 20px;
 }
 
-#part-link-list table.data-inbox .tr-head .delete span
+#part-link-list table.data-inbox thead tr .delete span
 {
 	display                          : none;
 }

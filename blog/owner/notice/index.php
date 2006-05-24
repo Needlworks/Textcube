@@ -99,68 +99,72 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 										<h2 class="caption"><span class="main-text"><?=_t('등록된 공지 목록입니다')?></span></h2>
 
 										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
-											<tr class="tr-head">
-												<td class="selection"><input type="checkbox" class="checkbox" name="allChecked" onclick="checkAll(this.checked)" /></td>
-												<td class="date"><span><?=_t('등록일자')?></span></td>
-												<td class="statue"><span><?=_t('상태')?></span></td>
-												<td class="title"><span><?=_t('공지')?></span></td>
-												<td class="delete"><span><?=_t('삭제')?></span></td>
-											</tr>
+											<thead>
+												<tr>
+													<td class="selection"><input type="checkbox" class="checkbox" name="allChecked" onclick="checkAll(this.checked)" /></td>
+													<td class="date"><span><?=_t('등록일자')?></span></td>
+													<td class="statue"><span><?=_t('상태')?></span></td>
+													<td class="title"><span><?=_t('공지')?></span></td>
+													<td class="delete"><span><?=_t('삭제')?></span></td>
+												</tr>
+											</thead>
+											<tbody>
 <?
 for ($i=0; $i<sizeof($entries); $i++) {
 	$entry = $entries[$i];
 	
 	if ($i == sizeof($entries) - 1) {
 ?>
-											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked = false" /></td>
-												<td class="date"><?=Timestamp::format3($entry['published'])?></td>
-												<td class="statue">
+												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked = false" /></td>
+													<td class="date"><?=Timestamp::format3($entry['published'])?></td>
+													<td class="statue">
 <?
 		if ($entry['visibility'] == 0) {
 ?>
-													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon" title="<?=_t('현재 비공개 상태입니다.')?>"><span><?=_t('비공개')?></span></span>
-													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span><?=_t('공개')?></span></a></span>
+														<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon" title="<?=_t('현재 비공개 상태입니다.')?>"><span><?=_t('비공개')?></span></span>
+														<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span><?=_t('공개')?></span></a></span>
 <?
 		} else if ($entry['visibility'] == 2 || $entry['visibility'] == 3) {
 ?>
-													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span><?=_t('비공개')?></span></a></span>
-													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon" title="<?=_t('현재 공개 상태입니다.')?>"><span><?=_t('공개')?></span></span>
+														<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span><?=_t('비공개')?></span></a></span>
+														<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon" title="<?=_t('현재 공개 상태입니다.')?>"><span><?=_t('공개')?></span></span>
 <?
 		}
 ?>
-												</td>
-												<td class="title"><a href="#void" onclick="document.forms[0].action='<?=$blogURL?>/owner/notice/edit/<?=$entry['id']?>'; document.forms[0].submit()"><?=htmlspecialchars($entry['title'])?></a></td>
-												<td class="delete"><a class="delete-button button" href="#void" onclick="deleteEntry(<?=$entry['id']?>)" title="<?=_t('이 공지를 삭제합니다.')?>"><span><?=_t('삭제')?></span></a></td>
-											</tr>
+													</td>
+													<td class="title"><a href="#void" onclick="document.forms[0].action='<?=$blogURL?>/owner/notice/edit/<?=$entry['id']?>'; document.forms[0].submit()"><?=htmlspecialchars($entry['title'])?></a></td>
+													<td class="delete"><a class="delete-button button" href="#void" onclick="deleteEntry(<?=$entry['id']?>)" title="<?=_t('이 공지를 삭제합니다.')?>"><span><?=_t('삭제')?></span></a></td>
+												</tr>
 <?
 	} else {
 ?>
-											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked = false" /></td>
-												<td class="date"><?=Timestamp::format3($entry['published'])?></td>
-												<td class="statue">
+												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked = false" /></td>
+													<td class="date"><?=Timestamp::format3($entry['published'])?></td>
+													<td class="statue">
 <?
 		if ($entry['visibility'] == 0) {
 ?>
-													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon" title="<?=_t('현재 비공개 상태입니다.')?>"><span><?=_t('비공개')?></span></span>
-													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span><?=_t('공개')?></span></a></span>
+														<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon" title="<?=_t('현재 비공개 상태입니다.')?>"><span><?=_t('비공개')?></span></span>
+														<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span><?=_t('공개')?></span></a></span>
 <?
 		} else if ($entry['visibility'] == 2 || $entry['visibility'] == 3) {
 ?>
-													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span><?=_t('비공개')?></span></a></span>
-													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon" title="<?=_t('현재 공개 상태입니다.')?>"><span><?=_t('공개')?></span></span>
+														<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span><?=_t('비공개')?></span></a></span>
+														<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon" title="<?=_t('현재 공개 상태입니다.')?>"><span><?=_t('공개')?></span></span>
 <?
 		}
 ?>
-												</td>
-												<td class="title"><a href="#void" onclick="document.forms[0].action='<?=$blogURL?>/owner/notice/edit/<?=$entry['id']?>'; document.forms[0].submit()"><?=htmlspecialchars($entry['title'])?></a></td>
-												<td class="delete"><a href="#void" class="delete-button button" onclick="deleteEntry(<?=$entry['id']?>)" title="<?=_t('이 공지를 삭제합니다.')?>"><span><?=_t('삭제')?></span></a></td>
-											</tr>
+													</td>
+													<td class="title"><a href="#void" onclick="document.forms[0].action='<?=$blogURL?>/owner/notice/edit/<?=$entry['id']?>'; document.forms[0].submit()"><?=htmlspecialchars($entry['title'])?></a></td>
+													<td class="delete"><a href="#void" class="delete-button button" onclick="deleteEntry(<?=$entry['id']?>)" title="<?=_t('이 공지를 삭제합니다.')?>"><span><?=_t('삭제')?></span></a></td>
+												</tr>
 <?
 	}
 }
 ?>
+											</tbody>
 										</table>
 										
 										<hr class="hidden" />

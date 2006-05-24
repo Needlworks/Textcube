@@ -94,6 +94,7 @@ if ($service['type'] != 'single') {
 														createBlogIdentify(receivers);
 													}
 												}
+												
 												var receiverCount = 0;
 												var errorStr;
 												function createReceiver(target) {
@@ -292,8 +293,8 @@ if ($service['type'] != 'single') {
 										</div>
 									
 <?
-//if (($service['type'] != 'single') && (getUserId() == 1)) {
-//	$urlRule = getBlogURLRule();
+if (($service['type'] != 'single') && (getUserId() == 1)) {
+	$urlRule = getBlogURLRule();
 ?>
 										<div id="part-setting-invite" class="part">
 											<h2 class="caption"><span class="main-text"><?=_t('친구를 초대합니다')?></span></h2>
@@ -344,40 +345,44 @@ if ($service['type'] != 'single') {
 	$invitedList = getInvited($owner);
 ?>
 													<table border="0" cellspacing="0" cellpadding="0">
-														<tr class="tr-head">
-															<td class="email"><span><?=_t('이름')?>(<?=_t('E-mail')?>)</span></td>
-															<td class="address"><span><?=_t('주소')?></span></td>
-															<td class="date"><span><?=_t('초대일')?></span></td>
-															<td class="statue"><span><?=_t('경과')?></span></td>
-															<td class="password"><span><?=_t('비밀번호')?></span></td>
-															<td class="cancel"><span><?=_t('초대취소')?></span></td>
-														</tr>
+														<thead>
+															<tr>
+																<td class="email"><span><?=_t('이름')?>(<?=_t('E-mail')?>)</span></td>
+																<td class="address"><span><?=_t('주소')?></span></td>
+																<td class="date"><span><?=_t('초대일')?></span></td>
+																<td class="statue"><span><?=_t('경과')?></span></td>
+																<td class="password"><span><?=_t('비밀번호')?></span></td>
+																<td class="cancel"><span><?=_t('초대취소')?></span></td>
+															</tr>
+														</thead>
+														<tbody>
 <?
 	foreach ($invitedList as $value) {
 ?>
-														<tr class="tr-body">
-															<td><?=htmlspecialchars($value['name'])?>(<?=htmlspecialchars($value['loginid'])?>)</td>
-															<td><a href="<?=getBlogURL($value['blogName'])?>" onclick="window.open(this.href)"><?=getBlogURL($value['blogName'])?></a></td>
-															<td><?=Timestamp::format5($value['created'])?></td>
+															<tr class="tr-body">
+																<td><?=htmlspecialchars($value['name'])?>(<?=htmlspecialchars($value['loginid'])?>)</td>
+																<td><a href="<?=getBlogURL($value['blogName'])?>" onclick="window.open(this.href)"><?=getBlogURL($value['blogName'])?></a></td>
+																<td><?=Timestamp::format5($value['created'])?></td>
 <?
 		if ($value['lastLogin'] == 0) {
 ?>
-															<td><?=timeInterval($value['created'], time()) . ' ' . _t('전')?></td>
-															<td><?=fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']}")?></td>
-															<td><a class="cancel-button button" href="#void" onclick="cancelInvite(<?=$value['userid']?>,this);" title="<?=_t('초대에 응하지 않은 사용자의 계정을 삭제합니다.')?>"><span><?=_t('초대취소')?></span></a></td>
+																<td><?=timeInterval($value['created'], time()) . ' ' . _t('전')?></td>
+																<td><?=fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']}")?></td>
+																<td><a class="cancel-button button" href="#void" onclick="cancelInvite(<?=$value['userid']?>,this);" title="<?=_t('초대에 응하지 않은 사용자의 계정을 삭제합니다.')?>"><span><?=_t('초대취소')?></span></a></td>
 <?
 		}
 ?>
-														</tr>
+															</tr>
 <?
 	}
 ?>
+														</tbody>
 													</table>
 												</div>
 											</div>
 										</div>
 <?
-//}
+}
 
 require ROOT . '/lib/piece/owner/footer0.php';
 ?>

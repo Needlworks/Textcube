@@ -145,15 +145,18 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 										</h2>
 
 										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
-											<tr class="tr-head">
-												<td class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></td>
-												<td class="date"><span><?=_t('등록일자')?></span></td>
-												<td class="site"><span><?=_t('사이트명')?></span></td>
-												<td class="category"><span><?=_t('분류')?></span></td>
-												<td class="title"><span><?=_t('제목')?></span></td>
-												<td class="ip"><acronym title="Internet Protocol">ip</acronym></td>
-												<td class="delete"><span><?=_t('삭제')?></span></td>
-											</tr>
+											<thead>
+												<tr>
+													<td class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></td>
+													<td class="date"><span><?=_t('등록일자')?></span></td>
+													<td class="site"><span><?=_t('사이트명')?></span></td>
+													<td class="category"><span><?=_t('분류')?></span></td>
+													<td class="title"><span><?=_t('제목')?></span></td>
+													<td class="ip"><acronym title="Internet Protocol">ip</acronym></td>
+													<td class="delete"><span><?=_t('삭제')?></span></td>
+												</tr>
+											</thead>
+											<tbody>
 <?
 $siteNumber = array();
 for ($i=0; $i<sizeof($trackbacks); $i++) {
@@ -171,77 +174,78 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 
 	if ($i == sizeof($trackbacks) - 1) {
 ?>
-											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="selection">
-													<input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" />
-												</td>
-												<td class="date"><?=Timestamp::formatDate($trackback['written'])?></td>
-												<td class="site">
+												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="selection">
+														<input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" />
+													</td>
+													<td class="date"><?=Timestamp::formatDate($trackback['written'])?></td>
+													<td class="site">
 <?
 		if ($isFilterURL) {
 ?>
-													<a class="block-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
+														<a class="block-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
 <?
 		} else {
 ?>
-													<a class="unblock-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
+														<a class="unblock-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
 <?
 		}
 ?>
-													<a href="#void" onclick="document.forms[0].site.value='<?=escapeJSInAttribute($trackback['site'])?>'; document.forms[0].submit();" title="<?=_t('이 사이트에서 보낸 트랙백 목록을 보여줍니다.')?>"><?=htmlspecialchars($trackback['site'])?></a>
-												</td>
-												<td class="category">
-													<?=$trackback['categoryName']?>
-												</td>
-												<td class="title">
-													<a href="#void" onclick="window.open('<?=$trackback['url']?>')" title="트랙백을 보낸 포스트를 보여줍니다."><span><?=htmlspecialchars($trackback['subject'])?></span></a>
-												</td>
-												<td class="ip">
-													<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($trackback['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 트랙백 목록을 보여줍니다.')?>"><span><?=$trackback['ip']?></span></a>
-												</td>
-												<td class="delete">
-													<a class="delete-button button" href="#void" onclick="deleteTrackback(<?=$trackback['id']?>)" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
-												</td>
-											</tr>
+														<a href="#void" onclick="document.forms[0].site.value='<?=escapeJSInAttribute($trackback['site'])?>'; document.forms[0].submit();" title="<?=_t('이 사이트에서 보낸 트랙백 목록을 보여줍니다.')?>"><?=htmlspecialchars($trackback['site'])?></a>
+													</td>
+													<td class="category">
+														<?=$trackback['categoryName']?>
+													</td>
+													<td class="title">
+														<a href="#void" onclick="window.open('<?=$trackback['url']?>')" title="트랙백을 보낸 포스트를 보여줍니다."><span><?=htmlspecialchars($trackback['subject'])?></span></a>
+													</td>
+													<td class="ip">
+														<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($trackback['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 트랙백 목록을 보여줍니다.')?>"><span><?=$trackback['ip']?></span></a>
+													</td>
+													<td class="delete">
+														<a class="delete-button button" href="#void" onclick="deleteTrackback(<?=$trackback['id']?>)" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
+													</td>
+												</tr>
 <?
 	} else {
 ?>
-											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="selection">
-													<input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" />
-												</td>
-												<td class="date"><?=Timestamp::formatDate($trackback['written'])?></td>
-												<td class="site">
+												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="selection">
+														<input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" />
+													</td>
+													<td class="date"><?=Timestamp::formatDate($trackback['written'])?></td>
+													<td class="site">
 <?
 		if ($isFilterURL) {
 ?>
-													<a class="block-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
+														<a class="block-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
 <?
 		} else {
 ?>
-													<a class="unblock-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
+														<a class="unblock-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
 <?
 		}
 ?>
-													<a href="#void" onclick="document.forms[0].site.value='<?=escapeJSInAttribute($trackback['site'])?>'; document.forms[0].submit();" title="<?=_t('이 사이트에서 보낸 트랙백 목록을 보여줍니다.')?>"><?=htmlspecialchars($trackback['site'])?></a>
-												</td>
-												<td class="category">
-													<?=$trackback['categoryName']?>
-												</td>
-												<td class="title">
-													<a href="#void" onclick="window.open('<?=$trackback['url']?>')" title="트랙백을 보낸 포스트를 보여줍니다."><span><?=htmlspecialchars($trackback['subject'])?></span></a>
-												</td>
-												<td class="ip">
-													<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($trackback['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 트랙백 목록을 보여줍니다.')?>"><span><?=$trackback['ip']?></span></a>
-												</td>
-												<td class="delete">
-													<a class="delete-button button" href="#void" onclick="deleteTrackback(<?=$trackback['id']?>)" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
-												</td>
-											</tr>
+														<a href="#void" onclick="document.forms[0].site.value='<?=escapeJSInAttribute($trackback['site'])?>'; document.forms[0].submit();" title="<?=_t('이 사이트에서 보낸 트랙백 목록을 보여줍니다.')?>"><?=htmlspecialchars($trackback['site'])?></a>
+													</td>
+													<td class="category">
+														<?=$trackback['categoryName']?>
+													</td>
+													<td class="title">
+														<a href="#void" onclick="window.open('<?=$trackback['url']?>')" title="트랙백을 보낸 포스트를 보여줍니다."><span><?=htmlspecialchars($trackback['subject'])?></span></a>
+													</td>
+													<td class="ip">
+														<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($trackback['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 트랙백 목록을 보여줍니다.')?>"><span><?=$trackback['ip']?></span></a>
+													</td>
+													<td class="delete">
+														<a class="delete-button button" href="#void" onclick="deleteTrackback(<?=$trackback['id']?>)" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
+													</td>
+												</tr>
 <?
 		}
 	}
 ?>
+											</tbody>
 										</table>
 										
 										<hr class="hidden" />

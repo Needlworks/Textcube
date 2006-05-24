@@ -34,6 +34,7 @@ require ROOT . '/lib/piece/owner/contentMenu91.php';
 												}
 												request.send();
 											}
+											
 											function deleteComments() {	
 												if (!confirm("<?=_t('선택된 댓글을 삭제합니다. 계속하시겠습니까?')?>"))
 													return false;
@@ -151,14 +152,17 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 										</h2>
 										
 										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
-											<tr class="tr-head">
-												<td class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></td>
-												<td class="date"><span><?=_t('등록일자')?></span></td>
-												<td class="name"><span><?=_t('이름')?></span></td>
-												<td class="content"><span><?=_t('내용')?></span></td>
-												<td class="ip"><acronym title="Internet Protocol">ip</acronym></td>
-												<td class="delete"><span><?=_t('삭제')?></span></td>
-											</tr>
+											<thead>
+												<tr>
+													<td class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></td>
+													<td class="date"><span><?=_t('등록일자')?></span></td>
+													<td class="name"><span><?=_t('이름')?></span></td>
+													<td class="content"><span><?=_t('내용')?></span></td>
+													<td class="ip"><acronym title="Internet Protocol">ip</acronym></td>
+													<td class="delete"><span><?=_t('삭제')?></span></td>
+												</tr>
+											</thead>
+											<tbody>
 <?
 $nameNumber = array();
 $ipNumber = array();
@@ -192,28 +196,28 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	
 	if ($i == sizeof($comments) - 1) {
 ?>
-											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="selection"><input type="checkbox" name="entry" value="<?=$comment['id']?>"/></td>
-												<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
-												<td class="name">
+												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="selection"><input type="checkbox" name="entry" value="<?=$comment['id']?>"/></td>
+													<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
+													<td class="name">
 <?
 		if ($isNameFiltered) {
 ?>
-													<a class="block-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', '<?=$filter->id?>', 'name')" title="<?=_t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
+														<a class="block-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', '<?=$filter->id?>', 'name')" title="<?=_t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
 <?
 		} else {
 ?>
-													<a class="unblock-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', '<?=$filter->id?>', 'name')" title="<?=_t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
+														<a class="unblock-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', '<?=$filter->id?>', 'name')" title="<?=_t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
 <?
 		}
 ?>
-													<a href="#void" onclick="document.forms[0].name.value='<?=escapeJSInAttribute($comment['name'])?>'; document.forms[0].submit();" title="<?=_t('이 이름으로 등록된 댓글 목록을 보여줍니다.')?>"><?=htmlspecialchars($comment['name'])?></a>
-												</td>
-												<td class="content">
+														<a href="#void" onclick="document.forms[0].name.value='<?=escapeJSInAttribute($comment['name'])?>'; document.forms[0].submit();" title="<?=_t('이 이름으로 등록된 댓글 목록을 보여줍니다.')?>"><?=htmlspecialchars($comment['name'])?></a>
+													</td>
+													<td class="content">
 <?
 		if ($comment['parent']) {
 ?>
-													<span class="reply-icon bullet"><span><?=_t('[댓글의 댓글]')?></span></span>
+														<span class="reply-icon bullet"><span><?=_t('[댓글의 댓글]')?></span></span>
 <?
 		}
 		
@@ -229,52 +233,52 @@ for ($i=0; $i<sizeof($comments); $i++) {
 		//echo "</strong>";
 		echo "</a>";
 ?>
-													<?=((!empty($comment['title']) || !empty($comment['parent'])) ? '<br />' : '')?>
-													<?=htmlspecialchars($comment['comment'])?>
-								 				</td>
-												<td class="ip">
+														<?=((!empty($comment['title']) || !empty($comment['parent'])) ? '<br />' : '')?>
+														<?=htmlspecialchars($comment['comment'])?>
+									 				</td>
+													<td class="ip">
 <?
 		if ($isIpFiltered) {
 ?>
-													<a class="block-icon bullet" name="ip<?=$currentIP?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['ip'])?>', '<?=$filter->id?>', 'ip')" title="<?=_t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
+														<a class="block-icon bullet" name="ip<?=$currentIP?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['ip'])?>', '<?=$filter->id?>', 'ip')" title="<?=_t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
 <?
 		} else {
 ?>
-													<a class="unblock-icon bullet" name="ip<?=$currentIP?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['ip'])?>', '<?=$filter->id?>', 'ip')" title="<?=_t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
+														<a class="unblock-icon bullet" name="ip<?=$currentIP?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['ip'])?>', '<?=$filter->id?>', 'ip')" title="<?=_t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
 <?
 		}
 ?>
-													<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($comment['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 댓글 목록을 보여줍니다.')?>"><?=$comment['ip']?></a>
-												</td>
-												<td class="delete">
-													<a class="delete-button button" href="#void" onclick="deleteComment(<?=$comment['id']?>)" title="<?=_t('이 댓글을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
-												</td>
-					  						</tr>
+														<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($comment['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 댓글 목록을 보여줍니다.')?>"><?=$comment['ip']?></a>
+													</td>
+													<td class="delete">
+														<a class="delete-button button" href="#void" onclick="deleteComment(<?=$comment['id']?>)" title="<?=_t('이 댓글을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
+													</td>
+						  						</tr>
 <?
 	} else {
 ?>
-											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="selection"><input type="checkbox" name="entry" value="<?=$comment['id']?>"/></td>
-												<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
-												<td class="name">
+												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="selection"><input type="checkbox" name="entry" value="<?=$comment['id']?>"/></td>
+													<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
+													<td class="name">
 <?
 		if ($isNameFiltered) {
 ?>
-													<a class="block-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', '<?=$filter->id?>', 'name')" title="<?=_t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
+														<a class="block-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', '<?=$filter->id?>', 'name')" title="<?=_t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
 <?
 		} else {
 ?>
-													<a class="unblock-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', '<?=$filter->id?>', 'name')" title="<?=_t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
+														<a class="unblock-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', '<?=$filter->id?>', 'name')" title="<?=_t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
 <?
 		}
 ?>
-													<a href="#void" onclick="document.forms[0].name.value='<?=escapeJSInAttribute($comment['name'])?>'; document.forms[0].submit();" title="<?=_t('이 이름으로 등록된 댓글 목록을 보여줍니다.')?>"><?=htmlspecialchars($comment['name'])?></a>
-												</td>
-												<td class="content">
+														<a href="#void" onclick="document.forms[0].name.value='<?=escapeJSInAttribute($comment['name'])?>'; document.forms[0].submit();" title="<?=_t('이 이름으로 등록된 댓글 목록을 보여줍니다.')?>"><?=htmlspecialchars($comment['name'])?></a>
+													</td>
+													<td class="content">
 <?
 		if ($comment['parent']) {
 ?>
-													<span class="reply-icon bullet"><span><?=_t('[댓글의 댓글]')?></span></span>
+														<span class="reply-icon bullet"><span><?=_t('[댓글의 댓글]')?></span></span>
 <?
 		}
 		
@@ -290,31 +294,32 @@ for ($i=0; $i<sizeof($comments); $i++) {
 		//echo "</strong>";
 		echo "</a>";
 ?>
-													<?=((!empty($comment['title']) || !empty($comment['parent'])) ? '<br />' : '')?>
-													<?=htmlspecialchars($comment['comment'])?>
-								 				</td>
-												<td class="ip">
+														<?=((!empty($comment['title']) || !empty($comment['parent'])) ? '<br />' : '')?>
+														<?=htmlspecialchars($comment['comment'])?>
+									 				</td>
+													<td class="ip">
 <?
 		if ($isIpFiltered) {
 ?>
-													<a class="block-icon bullet" name="ip<?=$currentIP?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['ip'])?>', '<?=$filter->id?>', 'ip')" title="<?=_t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
+														<a class="block-icon bullet" name="ip<?=$currentIP?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['ip'])?>', '<?=$filter->id?>', 'ip')" title="<?=_t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
 <?
 		} else {
 ?>
-													<a class="unblock-icon bullet" name="ip<?=$currentIP?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['ip'])?>', '<?=$filter->id?>', 'ip')" title="<?=_t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
+														<a class="unblock-icon bullet" name="ip<?=$currentIP?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['ip'])?>', '<?=$filter->id?>', 'ip')" title="<?=_t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
 <?
 		}
 ?>
-													<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($comment['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 댓글 목록을 보여줍니다.')?>"><?=$comment['ip']?></a>
-												</td>
-												<td class="delete">
-													<a class="delete-button button" href="#void" onclick="deleteComment(<?=$comment['id']?>)" title="<?=_t('이 댓글을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
-												</td>
-					  						</tr>
+														<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($comment['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 댓글 목록을 보여줍니다.')?>"><?=$comment['ip']?></a>
+													</td>
+													<td class="delete">
+														<a class="delete-button button" href="#void" onclick="deleteComment(<?=$comment['id']?>)" title="<?=_t('이 댓글을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
+													</td>
+						  						</tr>
 <?
 	}
 }
 ?>
+											</tbody>
 										</table>
 	    								
 	    								<hr class="hidden" />

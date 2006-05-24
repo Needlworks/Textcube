@@ -273,206 +273,210 @@ foreach (getCategories($owner) as $category) {
 									</h2>
 									
 									<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
-										<tr class="tr-head">
-											<td class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></td>
-											<td class="date"><span><?=_t('등록일자')?></span></td>
-											<td class="statue"><span><?=_t('상태')?></span></td>
-											<td class="syndicate"><span><?=_t('발행')?></span></td>
-											<td class="category"><span><?=_t('분류')?></span></td>
-											<td class="title"><span><?=_t('제목')?></span></td>
-											<td class="protect"><span><?=_t('보호설정')?></span></td>
-											<td class="trackback"><span><?=_t('트랙백')?></span></td>
-											<td class="delete"><span><?=_t('삭제')?></span></td>
-										</tr>
+										<thead>
+											<tr>
+												<td class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></td>
+												<td class="date"><span><?=_t('등록일자')?></span></td>
+												<td class="statue"><span><?=_t('상태')?></span></td>
+												<td class="syndicate"><span><?=_t('발행')?></span></td>
+												<td class="category"><span><?=_t('분류')?></span></td>
+												<td class="title"><span><?=_t('제목')?></span></td>
+												<td class="protect"><span><?=_t('보호설정')?></span></td>
+												<td class="trackback"><span><?=_t('트랙백')?></span></td>
+												<td class="delete"><span><?=_t('삭제')?></span></td>
+											</tr>
+										</thead>
+										<tbody>
 <?
 for ($i=0; $i<sizeof($entries); $i++) {
 	$entry = $entries[$i];
 	
 	if ($i == sizeof($entries) - 1) {
 ?>
-										<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked=false" /></td>
-											<td class="date"><?=Timestamp::formatDate($entry['published'])?></td>
-											<td class="statue">
+											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked=false" /></td>
+												<td class="date"><?=Timestamp::formatDate($entry['published'])?></td>
+												<td class="statue">
 <?
 		if ($entry['visibility'] == 0) {
 ?>
-												<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon" title="<?=_t('현재 비공개 상태입니다.')?>"><span><?=_t('비공개')?></span></span>
-												<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span><?=_t('보호')?></span></a></span>
-												<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span><?=_t('공개')?></span></a></span>
+													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon" title="<?=_t('현재 비공개 상태입니다.')?>"><span><?=_t('비공개')?></span></span>
+													<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span><?=_t('보호')?></span></a></span>
+													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span><?=_t('공개')?></span></a></span>
 <?
 		} else if ($entry['visibility'] == 1) {
 ?>
-												<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span><?=_t('비공개')?></span></a></span>
-												<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon" title="<?=_t('현재 보호 상태입니다.')?>"><span><?=_t('보호')?></span></span>
-												<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span><?=_t('공개')?></span></a></span>
+													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span><?=_t('비공개')?></span></a></span>
+													<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon" title="<?=_t('현재 보호 상태입니다.')?>"><span><?=_t('보호')?></span></span>
+													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span><?=_t('공개')?></span></a></span>
 <?
 		} else if ($entry['visibility'] == 2 || $entry['visibility'] == 3) {
 ?>
-												<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span><?=_t('비공개')?></span></a></span>
-												<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span><?=_t('보호')?></span></a></span>
-												<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon" title="<?=_t('현재 공개 상태입니다.')?>"><span><?=_t('공개')?></span></span>
+													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span><?=_t('비공개')?></span></a></span>
+													<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span><?=_t('보호')?></span></a></span>
+													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon" title="<?=_t('현재 공개 상태입니다.')?>"><span><?=_t('공개')?></span></span>
 <?
 		}
 ?>
-											</td>
-											<td class="syndicate">
+												</td>
+												<td class="syndicate">
 <?
 		if ($entry['visibility'] == 3) {
 ?>
-												<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 3)" title="<?=_t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span><?=_t('발행')?></span></a></span>
+													<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 3)" title="<?=_t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span><?=_t('발행')?></span></a></span>
 <?
 		} else {
 ?>
-												<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-off-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 3)" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span><?=_t('비발행')?></span></a></span>
+													<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-off-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 3)" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span><?=_t('비발행')?></span></a></span>
 <?
 		}
 ?>
-											</td>
-											<td class="category">
-												<a href="#void" onclick="document.forms[0].category.value='<?=$entry['category']?>'; document.forms[0].submit();"><?=htmlspecialchars($entry['categoryLabel'])?></a>
-											</td>
-											<td class="title">
-												<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?><a href="#void" onclick="document.forms[0].action='<?=$blogURL?>/owner/entry/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.forms[0].submit();"><?=htmlspecialchars($entry['title'])?></a>
-											</td>
-											<td class="protect">
-												<a id="protectedSettingIcon_<?=$entry['id']?>" class="protect-off-button button" href="#void" style="display: <?=(abs($entry['visibility']) == 1 ? 'block' : 'none')?>;" onclick="showProtectSetter('<?=$entry['id']?>')" title="<?=_t('보호 패스워드를 설정합니다.')?>"><span><?=_t('보호')?></span></a>
-											</td>
-											<td class="trackback">
-												<a id="trackbackIcon_<?=$entry['id']?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?=$entry['id']?>,event)" title="<?=_t('관련글에 트랙백을 보냅니다.')?>"><span><?=_t('트랙백')?></span></a>
-											</td>
-											<td class="delete">
-												<a class="delete-button button" href="#void" onclick="deleteEntry(<?=$entry['id']?>)" title="<?=_t('이 포스트를 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
-											</td>
-										</tr>
-										<tr id="entry<?=$entry['id']?>Protection" class="hidden-last-layer" style="display: none;">
-											<td colspan="9">
-												<div class="layer-section">
-													<div class="password-box">
-														<label for="entry<?=$entry['id']?>Password"><span><?=_t('비밀번호')?></span></label><span class="divider"> | </span><input type="text" id="entry<?=$entry['id']?>Password" class="text-input" value="<?=$entry['password']?>" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(<?=$entry['id']?>)"<?=$entry['visibility'] == 1 ? '' : ' disabled="disabled"'?> />
-													</div>
-													<div class="button-box">
-														<a class="edit-button button" href="#void" onclick="protectEntry(<?=$entry['id']?>)"><span><?=_t('수정')?></span></a>
-														<!--span class="divider"> | </span>
-														<a class="close-button button" href="#void" onclick="collapseAll()"><span><?=_t('닫기')?></span></a-->
-													</div>
-													
-													<div class="clear"></div>
-												</div>
-											</td>
-										</tr>
-										<tr id="trackbackSender_<?=$entry['id']?>" class="hidden-last-layer" style="display: none;">
-											<td colspan="9">
-												<div class="layer-section">
-													<div class="trackback-box">
-														<label for="trackbackForm_<?=$entry['id']?>"><span><?=_t('트랙백 주소')?></span></label><span class="divider"> | </span><input type="text" id="trackbackForm_<?=$entry['id']?>" class="text-input" name="trackbackURL" value="http://" onkeydown="if (event.keyCode == 13) sendTrackback(<?=$entry['id']?>)" />
-													</div>
-													<div id="logs_<?=$entry['id']?>" class="trackback-log-box"></div>
-													<div class="button-box">
-														<a class="send-button button" href="#void" onclick="sendTrackback(<?=$entry['id']?>)"><span><?=_t('전송')?></span></a>
-														<!--span class="divider"> | </span>
-														<a class="close-button button" href="#void" onclick="collapseAll()"><span><?=_t('닫기')?></span></a-->
-													</div>
+												</td>
+												<td class="category">
+													<a href="#void" onclick="document.forms[0].category.value='<?=$entry['category']?>'; document.forms[0].submit();"><?=htmlspecialchars($entry['categoryLabel'])?></a>
+												</td>
+												<td class="title">
+													<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?><a href="#void" onclick="document.forms[0].action='<?=$blogURL?>/owner/entry/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.forms[0].submit();"><?=htmlspecialchars($entry['title'])?></a>
+												</td>
+												<td class="protect">
+													<a id="protectedSettingIcon_<?=$entry['id']?>" class="protect-off-button button" href="#void" style="display: <?=(abs($entry['visibility']) == 1 ? 'block' : 'none')?>;" onclick="showProtectSetter('<?=$entry['id']?>')" title="<?=_t('보호 패스워드를 설정합니다.')?>"><span><?=_t('보호')?></span></a>
+												</td>
+												<td class="trackback">
+													<a id="trackbackIcon_<?=$entry['id']?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?=$entry['id']?>,event)" title="<?=_t('관련글에 트랙백을 보냅니다.')?>"><span><?=_t('트랙백')?></span></a>
+												</td>
+												<td class="delete">
+													<a class="delete-button button" href="#void" onclick="deleteEntry(<?=$entry['id']?>)" title="<?=_t('이 포스트를 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
+												</td>
+											</tr>
+											<tr id="entry<?=$entry['id']?>Protection" class="hidden-last-layer" style="display: none;">
+												<td colspan="9">
+													<div class="layer-section">
+														<div class="password-box">
+															<label for="entry<?=$entry['id']?>Password"><span><?=_t('비밀번호')?></span></label><span class="divider"> | </span><input type="text" id="entry<?=$entry['id']?>Password" class="text-input" value="<?=$entry['password']?>" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(<?=$entry['id']?>)"<?=$entry['visibility'] == 1 ? '' : ' disabled="disabled"'?> />
+														</div>
+														<div class="button-box">
+															<a class="edit-button button" href="#void" onclick="protectEntry(<?=$entry['id']?>)"><span><?=_t('수정')?></span></a>
+															<!--span class="divider"> | </span>
+															<a class="close-button button" href="#void" onclick="collapseAll()"><span><?=_t('닫기')?></span></a-->
+														</div>
 														
 														<div class="clear"></div>
-	 											</div>
-											</td>
-										</tr>
+													</div>
+												</td>
+											</tr>
+											<tr id="trackbackSender_<?=$entry['id']?>" class="hidden-last-layer" style="display: none;">
+												<td colspan="9">
+													<div class="layer-section">
+														<div class="trackback-box">
+															<label for="trackbackForm_<?=$entry['id']?>"><span><?=_t('트랙백 주소')?></span></label><span class="divider"> | </span><input type="text" id="trackbackForm_<?=$entry['id']?>" class="text-input" name="trackbackURL" value="http://" onkeydown="if (event.keyCode == 13) sendTrackback(<?=$entry['id']?>)" />
+														</div>
+														<div id="logs_<?=$entry['id']?>" class="trackback-log-box"></div>
+														<div class="button-box">
+															<a class="send-button button" href="#void" onclick="sendTrackback(<?=$entry['id']?>)"><span><?=_t('전송')?></span></a>
+															<!--span class="divider"> | </span>
+															<a class="close-button button" href="#void" onclick="collapseAll()"><span><?=_t('닫기')?></span></a-->
+														</div>
+															
+															<div class="clear"></div>
+		 											</div>
+												</td>
+											</tr>
 <?
 	} else {
 ?>
-										<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked=false" /></td>
-											<td class="date"><?=Timestamp::formatDate($entry['published'])?></td>
-											<td class="statue">
+											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked=false" /></td>
+												<td class="date"><?=Timestamp::formatDate($entry['published'])?></td>
+												<td class="statue">
 <?
 		if ($entry['visibility'] == 0) {
 ?>
-												<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon" title="<?=_t('현재 비공개 상태입니다.')?>"><span><?=_t('비공개')?></span></span>
-												<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span><?=_t('보호')?></span></a></span>
-												<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span><?=_t('공개')?></span></a></span>
+													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon" title="<?=_t('현재 비공개 상태입니다.')?>"><span><?=_t('비공개')?></span></span>
+													<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span><?=_t('보호')?></span></a></span>
+													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span><?=_t('공개')?></span></a></span>
 <?
 		} else if ($entry['visibility'] == 1) {
 ?>
-												<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span><?=_t('비공개')?></span></a></span>
-												<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon" title="<?=_t('현재 보호 상태입니다.')?>"><span><?=_t('보호')?></span></span>
-												<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span><?=_t('공개')?></span></a></span>
+													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span><?=_t('비공개')?></span></a></span>
+													<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon" title="<?=_t('현재 보호 상태입니다.')?>"><span><?=_t('보호')?></span></span>
+													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span><?=_t('공개')?></span></a></span>
 <?
 		} else if ($entry['visibility'] == 2 || $entry['visibility'] == 3) {
 ?>
-												<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span><?=_t('비공개')?></span></a></span>
-												<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span><?=_t('보호')?></span></a></span>
-												<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon" title="<?=_t('현재 공개 상태입니다.')?>"><span><?=_t('공개')?></span></span>
+													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span><?=_t('비공개')?></span></a></span>
+													<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span><?=_t('보호')?></span></a></span>
+													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon" title="<?=_t('현재 공개 상태입니다.')?>"><span><?=_t('공개')?></span></span>
 <?
 		}
 ?>
-											</td>
-											<td class="syndicate">
+												</td>
+												<td class="syndicate">
 <?
 		if ($entry['visibility'] == 3) {
 ?>
-												<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 3)" title="<?=_t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span><?=_t('발행')?></span></a></span>
+													<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 3)" title="<?=_t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span><?=_t('발행')?></span></a></span>
 <?
 		} else {
 ?>
-												<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-off-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 3)" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span><?=_t('비발행')?></span></a></span>
+													<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-off-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 3)" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span><?=_t('비발행')?></span></a></span>
 <?
 		}
 ?>
-											</td>
-											<td class="category">
-												<a href="#void" onclick="document.forms[0].category.value='<?=$entry['category']?>'; document.forms[0].submit();"><?=htmlspecialchars($entry['categoryLabel'])?></a>
-											</td>
-											<td class="title">
-												<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?><a href="#void" onclick="document.forms[0].action='<?=$blogURL?>/owner/entry/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.forms[0].submit();"><?=htmlspecialchars($entry['title'])?></a>
-											</td>
-											<td class="protect">
-												<a id="protectedSettingIcon_<?=$entry['id']?>" class="protect-off-button button" href="#void" style="display: <?=(abs($entry['visibility']) == 1 ? 'block' : 'none')?>;" onclick="showProtectSetter('<?=$entry['id']?>')" title="<?=_t('보호 패스워드를 설정합니다.')?>"><span><?=_t('보호')?></span></a>
-											</td>
-											<td class="trackback">
-												<a id="trackbackIcon_<?=$entry['id']?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?=$entry['id']?>,event)" title="<?=_t('관련글에 트랙백을 보냅니다.')?>"><span><?=_t('트랙백')?></span></a>
-											</td>
-											<td class="delete">
-												<a class="delete-button button" href="#void" onclick="deleteEntry(<?=$entry['id']?>)" title="<?=_t('이 포스트를 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
-											</td>
-										</tr>
-										<tr id="entry<?=$entry['id']?>Protection" class="hidden-layer" style="display: none;">
-											<td colspan="9">
-												<div class="layer-section">
-													<div class="password-box">
-														<label for="entry<?=$entry['id']?>Password"><span><?=_t('비밀번호')?></span></label><span class="divider"> | </span><input type="text" id="entry<?=$entry['id']?>Password" class="text-input" value="<?=$entry['password']?>" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(<?=$entry['id']?>)"<?=$entry['visibility'] == 1 ? '' : ' disabled="disabled"'?> />
+												</td>
+												<td class="category">
+													<a href="#void" onclick="document.forms[0].category.value='<?=$entry['category']?>'; document.forms[0].submit();"><?=htmlspecialchars($entry['categoryLabel'])?></a>
+												</td>
+												<td class="title">
+													<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?><a href="#void" onclick="document.forms[0].action='<?=$blogURL?>/owner/entry/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.forms[0].submit();"><?=htmlspecialchars($entry['title'])?></a>
+												</td>
+												<td class="protect">
+													<a id="protectedSettingIcon_<?=$entry['id']?>" class="protect-off-button button" href="#void" style="display: <?=(abs($entry['visibility']) == 1 ? 'block' : 'none')?>;" onclick="showProtectSetter('<?=$entry['id']?>')" title="<?=_t('보호 패스워드를 설정합니다.')?>"><span><?=_t('보호')?></span></a>
+												</td>
+												<td class="trackback">
+													<a id="trackbackIcon_<?=$entry['id']?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?=$entry['id']?>,event)" title="<?=_t('관련글에 트랙백을 보냅니다.')?>"><span><?=_t('트랙백')?></span></a>
+												</td>
+												<td class="delete">
+													<a class="delete-button button" href="#void" onclick="deleteEntry(<?=$entry['id']?>)" title="<?=_t('이 포스트를 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
+												</td>
+											</tr>
+											<tr id="entry<?=$entry['id']?>Protection" class="hidden-layer" style="display: none;">
+												<td colspan="9">
+													<div class="layer-section">
+														<div class="password-box">
+															<label for="entry<?=$entry['id']?>Password"><span><?=_t('비밀번호')?></span></label><span class="divider"> | </span><input type="text" id="entry<?=$entry['id']?>Password" class="text-input" value="<?=$entry['password']?>" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(<?=$entry['id']?>)"<?=$entry['visibility'] == 1 ? '' : ' disabled="disabled"'?> />
+														</div>
+														<div class="button-box">
+															<a class="edit-button button" href="#void" onclick="protectEntry(<?=$entry['id']?>)"><span><?=_t('수정')?></span></a>
+															<!--span class="divider"> | </span>
+															<a class="close-button button" href="#void" onclick="collapseAll()"><span><?=_t('닫기')?></span></a-->
+														</div>
+														
+														<div class="clear"></div>
 													</div>
-													<div class="button-box">
-														<a class="edit-button button" href="#void" onclick="protectEntry(<?=$entry['id']?>)"><span><?=_t('수정')?></span></a>
-														<!--span class="divider"> | </span>
-														<a class="close-button button" href="#void" onclick="collapseAll()"><span><?=_t('닫기')?></span></a-->
-													</div>
-													
-													<div class="clear"></div>
-												</div>
-											</td>
-										</tr>
-										<tr id="trackbackSender_<?=$entry['id']?>" class="hidden-layer" style="display: none;">
-											<td colspan="9">
-												<div class="layer-section">
-													<div class="trackback-box">
-														<label for="trackbackForm_<?=$entry['id']?>"><span><?=_t('트랙백 주소')?></span></label><span class="divider"> | </span><input type="text" id="trackbackForm_<?=$entry['id']?>" class="text-input" name="trackbackURL" value="http://" onkeydown="if (event.keyCode == 13) sendTrackback(<?=$entry['id']?>)" />
-													</div>
-													<div class="button-box">
-														<a class="send-button button" href="#void" onclick="sendTrackback(<?=$entry['id']?>)"><span><?=_t('전송')?></span></a>
-														<!--span class="divider"> | </span>
-														<a class="close-button button" href="#void" onclick="collapseAll()"><span><?=_t('닫기')?></span></a-->
-													</div>
-													<div id="logs_<?=$entry['id']?>"></div>
- 													
- 													<div class="clear"></div>
-	 											</div>
- 											</td>
- 										</tr>
+												</td>
+											</tr>
+											<tr id="trackbackSender_<?=$entry['id']?>" class="hidden-layer" style="display: none;">
+												<td colspan="9">
+													<div class="layer-section">
+														<div class="trackback-box">
+															<label for="trackbackForm_<?=$entry['id']?>"><span><?=_t('트랙백 주소')?></span></label><span class="divider"> | </span><input type="text" id="trackbackForm_<?=$entry['id']?>" class="text-input" name="trackbackURL" value="http://" onkeydown="if (event.keyCode == 13) sendTrackback(<?=$entry['id']?>)" />
+														</div>
+														<div class="button-box">
+															<a class="send-button button" href="#void" onclick="sendTrackback(<?=$entry['id']?>)"><span><?=_t('전송')?></span></a>
+															<!--span class="divider"> | </span>
+															<a class="close-button button" href="#void" onclick="collapseAll()"><span><?=_t('닫기')?></span></a-->
+														</div>
+														<div id="logs_<?=$entry['id']?>"></div>
+	 													
+	 													<div class="clear"></div>
+		 											</div>
+	 											</td>
+	 										</tr>
 <?
 	}
 }
 ?>
+										</tbody>
 									</table>
 									
 									<hr class="hidden" />

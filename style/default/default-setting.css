@@ -362,7 +362,7 @@ input#pathDomain
 	width                            : 85%;
 }
 
-#part-setting-invite #list-section table .tr-head
+#part-setting-invite #list-section table thead tr
 {
 	background-color                 : #00B8F1;
 	background-image                 : url("./image/table-head.gif");
@@ -370,7 +370,7 @@ input#pathDomain
 	background-repeat                : repeat-x;
 }
 
-#part-setting-invite #list-section table .tr-head td
+#part-setting-invite #list-section table thead tr td
 {
 	color                            : #FFFFFF;
 	font-weight                      : bold;
@@ -405,27 +405,27 @@ input#pathDomain
 }
 
 /* list table head ------------------------------------------------------------------------------*/
-#part-setting-invite #list-section table .tr-head .date
+#part-setting-invite #list-section table thead tr .date
 {
 	width                            : 70px;
 }
 
-#part-setting-invite #list-section table .tr-head .statue
+#part-setting-invite #list-section table thead tr .statue
 {
 	width                            : 50px;
 }
 
-#part-setting-invite #list-section table .tr-head .password
+#part-setting-invite #list-section table thead tr .password
 {
 	width                            : 60px;
 }
 
-#part-setting-invite #list-section table .tr-head .cancel
+#part-setting-invite #list-section table thead tr .cancel
 {
 	width                            : 25px;
 }
 
-#part-setting-invite #list-section table .tr-head .cancel span
+#part-setting-invite #list-section table thead tr .cancel span
 {
 	display                          : none;
 }
@@ -539,25 +539,25 @@ input#pathDomain
 /* Plugins ***************************************************************************************/
 
 /* list table head ------------------------------------------------------------------------------*/
-#part-setting-plugins table.data-inbox .tr-head .title
+#part-setting-plugins table.data-inbox thead tr .title
 {
 	padding                          : 0 5px;
 	width                            : 25%;
 }
 
-#part-setting-plugins table.data-inbox .tr-head .version
+#part-setting-plugins table.data-inbox thead tr .version
 {
 	padding-right                    : 5px;
 	width                            : 50px;
 }
 
-#part-setting-plugins table.data-inbox .tr-head .maker
+#part-setting-plugins table.data-inbox thead tr .maker
 {
 	padding-right                    : 5px;
 	width                            : 150px;
 }
 
-#part-setting-plugins table.data-inbox .tr-head .statue
+#part-setting-plugins table.data-inbox thead tr .statue
 {
 	padding-right                    : 5px;
 	width                            : 60px;

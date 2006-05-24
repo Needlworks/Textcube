@@ -43,35 +43,40 @@
 }
 
 /* comment table head ---------------------------------------------------------------------------*/
-#part-trash-comment table.data-inbox .tr-head .selection
+#part-trash-comment table.data-inbox thead tr td
 {
-	padding                          : 0;
+	padding                          : 7px 0 3px 0 !important;
+}
+
+#part-trash-comment table.data-inbox thead tr .selection
+{
+	padding                          : 2px 0 0 0 !important;
 	text-align                       : center;
 	width                            : 30px;
 }
 
-#part-trash-comment table.data-inbox .tr-head .date
+#part-trash-comment table.data-inbox thead tr .date
 {
 	width                            : 70px;
 }
 
-#part-trash-comment table.data-inbox .tr-head .name
+#part-trash-comment table.data-inbox thead tr .name
 {
 	width                            : 17%;
 }
 
-#part-trash-comment table.data-inbox .tr-head .ip
+#part-trash-comment table.data-inbox thead tr .ip
 {
 	text-transform                   : uppercase;
 	width                            : 100px;
 }
 
-#part-trash-comment table.data-inbox .tr-head .delete
+#part-trash-comment table.data-inbox thead tr .delete
 {
 	width                            : 20px;
 }
 
-#part-trash-comment table.data-inbox .tr-head .delete span
+#part-trash-comment table.data-inbox thead tr .delete span
 {
 	display                          : none;
 }
@@ -377,40 +382,45 @@
 	display                          : none;
 }
 /* trackback table head -------------------------------------------------------------------------*/
-#part-trash-trackback table.data-inbox .tr-head .selection
+#part-trash-trackback table.data-inbox thead tr td
 {
-	padding                          : 0;
+	padding                          : 7px 0 3px 0 !important;
+}
+
+#part-trash-trackback table.data-inbox thead tr .selection
+{
+	padding                          : 2px 0 0 0 !important;
 	text-align                       : center;
 	width                            : 30px;
 }
 
-#part-trash-trackback table.data-inbox .tr-head .date
+#part-trash-trackback table.data-inbox thead tr .date
 {
 	width                            : 70px;
 }
 
-#part-trash-trackback table.data-inbox .tr-head .site
+#part-trash-trackback table.data-inbox thead tr .site
 {
 	width                            : 21%;
 }
 
-#part-trash-trackback table.data-inbox .tr-head .category
+#part-trash-trackback table.data-inbox thead tr .category
 {
 	width                            : 17%;
 }
 
-#part-trash-trackback table.data-inbox .tr-head .ip
+#part-trash-trackback table.data-inbox thead tr .ip
 {
 	text-transform                   : uppercase;
 	width                            : 85px;
 }
 
-#part-trash-trackback table.data-inbox .tr-head .delete
+#part-trash-trackback table.data-inbox thead tr .delete
 {
 	width                            : 20px;
 }
 
-#part-trash-trackback table.data-inbox .tr-head .delete span
+#part-trash-trackback table.data-inbox thead tr .delete span
 {
 	display                          : none;
 }

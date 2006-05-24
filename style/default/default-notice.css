@@ -12,29 +12,29 @@
 }
 
 /* list table head ------------------------------------------------------------------------------*/
-#part-notice-list table.data-inbox .tr-head .selection
+#part-notice-list table.data-inbox thead tr .selection
 {
 	padding                          : 0;
 	text-align                       : center;
 	width                            : 30px;
 }
 
-#part-notice-list table.data-inbox .tr-head .date
+#part-notice-list table.data-inbox thead tr .date
 {
 	width                            : 70px;
 }
 
-#part-notice-list table.data-inbox .tr-head .statue
+#part-notice-list table.data-inbox thead tr .statue
 {
 	width                            : 45px;
 }
 
-#part-notice-list table.data-inbox .tr-head .delete
+#part-notice-list table.data-inbox thead tr .delete
 {
 	width                            : 20px;
 }
 
-#part-notice-list table.data-inbox .tr-head .delete span
+#part-notice-list table.data-inbox thead tr .delete span
 {
 	display                          : none;
 }

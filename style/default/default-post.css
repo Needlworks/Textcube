@@ -44,65 +44,65 @@
 }
 
 /* list table head ------------------------------------------------------------------------------*/
-#part-post-list table.data-inbox .tr-head .selection
+#part-post-list table.data-inbox thead tr .selection
 {
 	padding                          : 0;
 	text-align                       : center;
 	width                            : 30px;
 }
 
-#part-post-list table.data-inbox .tr-head .date
+#part-post-list table.data-inbox thead tr .date
 {
 	width                            : 70px;
 }
 
-#part-post-list table.data-inbox .tr-head .statue
+#part-post-list table.data-inbox thead tr .statue
 {
 	width                            : 60px;
 }
 
-#part-post-list table.data-inbox .tr-head .syndicate
+#part-post-list table.data-inbox thead tr .syndicate
 {
 	text-transform                   : uppercase;
 	width                            : 25px;
 }
 
-#part-post-list table.data-inbox .tr-head .syndicate span
+#part-post-list table.data-inbox thead tr .syndicate span
 {
 	display                          : none;
 }
 
-#part-post-list table.data-inbox .tr-head .category
+#part-post-list table.data-inbox thead tr .category
 {
 	width                            : 17%;
 }
 
-#part-post-list table.data-inbox .tr-head .protect
+#part-post-list table.data-inbox thead tr .protect
 {
 	width                            : 32px;
 }
 
-#part-post-list table.data-inbox .tr-head .protect span
+#part-post-list table.data-inbox thead tr .protect span
 {
 	display                          : none;
 }
 
-#part-post-list table.data-inbox .tr-head .trackback
+#part-post-list table.data-inbox thead tr .trackback
 {
 	width                            : 19px;
 }
 
-#part-post-list table.data-inbox .tr-head .trackback span
+#part-post-list table.data-inbox thead tr .trackback span
 {
 	display                          : none;
 }
 
-#part-post-list table.data-inbox .tr-head .delete
+#part-post-list table.data-inbox thead tr .delete
 {
 	width                            : 20px;
 }
 
-#part-post-list table.data-inbox .tr-head .delete span
+#part-post-list table.data-inbox thead tr .delete span
 {
 	display                          : none;
 }
@@ -677,35 +677,35 @@
 }
 
 /* comment table head ---------------------------------------------------------------------------*/
-#part-post-comment table.data-inbox .tr-head .selection
+#part-post-comment table.data-inbox thead tr .selection
 {
 	padding                          : 0;
 	text-align                       : center;
 	width                            : 30px;
 }
 
-#part-post-comment table.data-inbox .tr-head .date
+#part-post-comment table.data-inbox thead tr .date
 {
 	width                            : 70px;
 }
 
-#part-post-comment table.data-inbox .tr-head .name
+#part-post-comment table.data-inbox thead tr .name
 {
 	width                            : 17%;
 }
 
-#part-post-comment table.data-inbox .tr-head .ip
+#part-post-comment table.data-inbox thead tr .ip
 {
 	text-transform                   : uppercase;
 	width                            : 100px;
 }
 
-#part-post-comment table.data-inbox .tr-head .delete
+#part-post-comment table.data-inbox thead tr .delete
 {
 	width                            : 20px;
 }
 
-#part-post-comment table.data-inbox .tr-head .delete span
+#part-post-comment table.data-inbox thead tr .delete span
 {
 	display                          : none;
 }
@@ -992,34 +992,34 @@
 }
 
 /* notify table head ----------------------------------------------------------------------------*/
-#part-post-notify table.data-inbox .tr-head .selection
+#part-post-notify table.data-inbox thead tr .selection
 {
 	padding                          : 0;
 	text-align                       : center;
 	width                            : 30px;
 }
 
-#part-post-notify table.data-inbox .tr-head .date
+#part-post-notify table.data-inbox thead tr .date
 {
 	width                            : 70px;
 }
 
-#part-post-notify table.data-inbox .tr-head .site
+#part-post-notify table.data-inbox thead tr .site
 {
 	width                            : 21%;
 }
 
-#part-post-notify table.data-inbox .tr-head .name
+#part-post-notify table.data-inbox thead tr .name
 {
 	width                            : 17%;
 }
 
-#part-post-notify table.data-inbox .tr-head .delete
+#part-post-notify table.data-inbox thead tr .delete
 {
 	width                            : 20px;
 }
 
-#part-post-notify table.data-inbox .tr-head .delete span
+#part-post-notify table.data-inbox thead tr .delete span
 {
 	display                          : none;
 }
@@ -1325,40 +1325,40 @@
 	display                          : none;
 }
 /* trackback table head -------------------------------------------------------------------------*/
-#part-post-trackback table.data-inbox .tr-head .selection
+#part-post-trackback table.data-inbox thead tr .selection
 {
 	padding                          : 0;
 	text-align                       : center;
 	width                            : 30px;
 }
 
-#part-post-trackback table.data-inbox .tr-head .date
+#part-post-trackback table.data-inbox thead tr .date
 {
 	width                            : 70px;
 }
 
-#part-post-trackback table.data-inbox .tr-head .site
+#part-post-trackback table.data-inbox thead tr .site
 {
 	width                            : 21%;
 }
 
-#part-post-trackback table.data-inbox .tr-head .category
+#part-post-trackback table.data-inbox thead tr .category
 {
 	width                            : 17%;
 }
 
-#part-post-trackback table.data-inbox .tr-head .ip
+#part-post-trackback table.data-inbox thead tr .ip
 {
 	text-transform                   : uppercase;
 	width                            : 85px;
 }
 
-#part-post-trackback table.data-inbox .tr-head .delete
+#part-post-trackback table.data-inbox thead tr .delete
 {
 	width                            : 20px;
 }
 
-#part-post-trackback table.data-inbox .tr-head .delete span
+#part-post-trackback table.data-inbox thead tr .delete span
 {
 	display                          : none;
 }

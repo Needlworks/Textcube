@@ -122,14 +122,17 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 										</h2>
 										
 										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
-											<tr class="tr-head">
-												<td class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></td>
-												<td class="date"><span><?=_t('등록일자')?></span></td>
-												<td class="site"><span><?=_t('사이트명')?></span></td>
-												<td class="name"><span><?=_t('이름')?></span></td>
-												<td class="content"><span><?=_t('내용')?></span></td>
-												<td class="delete"><span><?=_t('삭제')?></span></td>
-											</tr>
+											<thead>
+												<tr>
+													<td class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></td>
+													<td class="date"><span><?=_t('등록일자')?></span></td>
+													<td class="site"><span><?=_t('사이트명')?></span></td>
+													<td class="name"><span><?=_t('이름')?></span></td>
+													<td class="content"><span><?=_t('내용')?></span></td>
+													<td class="delete"><span><?=_t('삭제')?></span></td>
+												</tr>
+											</thead>
+											<tbody>
 <?
 $more = false;
 $mergedComments = array();
@@ -164,33 +167,33 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 	
 	if ($i == sizeof($mergedComments) - 1) {
 ?>
-											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$comment['id']?>" /></td>
-												<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
-												<td class="site"><a href="<?=$comment['siteUrl']?>" onclick="window.open(this.href); return false;" title="사이트를 새 창으로 연결합니다."><?=htmlspecialchars($comment['siteTitle'])?></a></td>
-												<td class="name">
+												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$comment['id']?>" /></td>
+													<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
+													<td class="site"><a href="<?=$comment['siteUrl']?>" onclick="window.open(this.href); return false;" title="사이트를 새 창으로 연결합니다."><?=htmlspecialchars($comment['siteTitle'])?></a></td>
+													<td class="name">
 <?
 		if ($isNameFiltered) {
 ?>
-													<a class="block-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', 'name')" title="<?=_t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
+														<a class="block-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', 'name')" title="<?=_t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
 <?
 		} else {
 ?>
-													<a class="unblock-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>'), 'name'" title="<?=_t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
+														<a class="unblock-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>'), 'name'" title="<?=_t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
 <?
 		}
 ?>
-													<a href="#void" onclick="document.forms[0].name.value='<?=escapeJSInAttribute($comment['name'])?>'; document.forms[0].submit();" title="<?=_t('이 이름으로 등록된 댓글 목록을 보여줍니다.')?>"><?=htmlspecialchars($comment['name'])?></a>
-												</td>
-												<td class="content">
+														<a href="#void" onclick="document.forms[0].name.value='<?=escapeJSInAttribute($comment['name'])?>'; document.forms[0].submit();" title="<?=_t('이 이름으로 등록된 댓글 목록을 보여줍니다.')?>"><?=htmlspecialchars($comment['name'])?></a>
+													</td>
+													<td class="content">
 <?
 		if ($comment['parent']) {
 ?>
-													<span class="reply-icon bullet" title="댓글에 달린 댓글입니다."><span><?=_t('[댓글의 댓글]')?></span></span>
+														<span class="reply-icon bullet" title="댓글에 달린 댓글입니다."><span><?=_t('[댓글의 댓글]')?></span></span>
 <?
 			if ($lastVisitNotifiedPage > time() - 86400) {
 ?>
-													<span class="new-icon bullet" title="새로 등록된 댓글입니다."><span>[<?=_t('새 댓글')?>]</span></span>
+														<span class="new-icon bullet" title="새로 등록된 댓글입니다."><span>[<?=_t('새 댓글')?>]</span></span>
 <?
 			}
 		} else {										
@@ -208,42 +211,42 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 			echo !empty($comment['title']) || !empty($comment['parent']) ? '<br />' : '';
 		}
 ?>
-													<a class="commentURL" href="<?=$comment['url']?>" onclick="window.open(this.href); return false;" title="<?=_t('댓글이 작성된 위치로 직접 이동합니다.')?>"><?=htmlspecialchars($comment['comment'])?></a>
-												</td>
-												<td class="delete">
-													<a class="delete-button button" href="#void" onclick="deleteComment(<?=$comment['id']?>)" title="<?=_t('이 댓글을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
-												</td>
-											</tr>
+														<a class="commentURL" href="<?=$comment['url']?>" onclick="window.open(this.href); return false;" title="<?=_t('댓글이 작성된 위치로 직접 이동합니다.')?>"><?=htmlspecialchars($comment['comment'])?></a>
+													</td>
+													<td class="delete">
+														<a class="delete-button button" href="#void" onclick="deleteComment(<?=$comment['id']?>)" title="<?=_t('이 댓글을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
+													</td>
+												</tr>
 <?
 	} else {
 ?>
-											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$comment['id']?>" /></td>
-												<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
-												<td class="site"><a href="<?=$comment['siteUrl']?>" onclick="window.open(this.href); return false;" title="사이트를 새 창으로 연결합니다."><?=htmlspecialchars($comment['siteTitle'])?></a></td>
-												<td class="name">
+												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$comment['id']?>" /></td>
+													<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
+													<td class="site"><a href="<?=$comment['siteUrl']?>" onclick="window.open(this.href); return false;" title="사이트를 새 창으로 연결합니다."><?=htmlspecialchars($comment['siteTitle'])?></a></td>
+													<td class="name">
 <?
 		if ($isNameFiltered) {
 ?>
-													<a class="block-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', 'name')" title="<?=_t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
+														<a class="block-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', 'name')" title="<?=_t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
 <?
 		} else {
 ?>
-													<a class="unblock-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', 'name')" title="<?=_t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
+														<a class="unblock-icon bullet" name="name<?=$currentNumber?>block" href="#void" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', 'name')" title="<?=_t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
 <?
 		}
 ?>
-													<a href="#void" onclick="document.forms[0].name.value='<?=escapeJSInAttribute($comment['name'])?>'; document.forms[0].submit();" title="<?=_t('이 이름으로 등록된 댓글 목록을 보여줍니다.')?>"><?=htmlspecialchars($comment['name'])?></a>
-												</td>
-												<td class="content">
+														<a href="#void" onclick="document.forms[0].name.value='<?=escapeJSInAttribute($comment['name'])?>'; document.forms[0].submit();" title="<?=_t('이 이름으로 등록된 댓글 목록을 보여줍니다.')?>"><?=htmlspecialchars($comment['name'])?></a>
+													</td>
+													<td class="content">
 <?
 		if ($comment['parent']) {
 ?>
-													<span class="reply-icon bullet" title="댓글에 달린 댓글입니다."><span><?=_t('[댓글의 댓글]')?></span></span>
+														<span class="reply-icon bullet" title="댓글에 달린 댓글입니다."><span><?=_t('[댓글의 댓글]')?></span></span>
 <?
 			if ($lastVisitNotifiedPage > time() - 86400) {
 ?>
-													<span class="new-icon bullet" title="새로 등록된 댓글입니다."><span>[<?=_t('새 댓글')?>]</span></span>
+														<span class="new-icon bullet" title="새로 등록된 댓글입니다."><span>[<?=_t('새 댓글')?>]</span></span>
 <?
 			}
 		} else {
@@ -261,16 +264,17 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 			echo !empty($comment['title']) || !empty($comment['parent']) ? '<br />' : '';
 		}
 ?>
-													<a class="commentURL" href="<?=$comment['url']?>" onclick="window.open(this.href); return false;" title="<?=_t('댓글이 작성된 위치로 직접 이동합니다.')?>"><?=htmlspecialchars($comment['comment'])?></a>
-												</td>
-												<td class="delete">
-													<a class="delete-button button" href="#void" onclick="deleteComment(<?=$comment['id']?>)" title="<?=_t('이 댓글을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
-												</td>
-											</tr>
+														<a class="commentURL" href="<?=$comment['url']?>" onclick="window.open(this.href); return false;" title="<?=_t('댓글이 작성된 위치로 직접 이동합니다.')?>"><?=htmlspecialchars($comment['comment'])?></a>
+													</td>
+													<td class="delete">
+														<a class="delete-button button" href="#void" onclick="deleteComment(<?=$comment['id']?>)" title="<?=_t('이 댓글을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
+													</td>
+												</tr>
 <?
 	}
 }
-?>               
+?>
+											</tbody>
 	                          			</table>
 	    								
 	    								<hr class="hidden" />

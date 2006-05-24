@@ -114,7 +114,7 @@
 	margin-left                      : 132px;
 }
 
-#part-setting-invite #list-section table .tr-head td
+#part-setting-invite #list-section table thead tr td
 {
 	padding                          : 2px 0 0 0;
 }

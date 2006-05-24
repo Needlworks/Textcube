@@ -40,13 +40,16 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
 										<h2 class="caption"><span class="main-text"><?=_t('설치된 플러그인입니다')?></span></h2>
 										
 										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
-											<tr class="tr-head">
-												<td class="title"><span><?=_t('제목')?></span></td>
-												<td class="version"><span><?=_t('버전')?></span></td>
-							 					<td class="explain"><span><?=_t('설명')?></span></td>
-							 					<td class="maker"><span><?=_t('만든이')?></span></td>
-												<td class="statue"><span><?=_t('상태')?></span></td>
-											</tr>
+											<thead>
+												<tr>
+													<td class="title"><span><?=_t('제목')?></span></td>
+													<td class="version"><span><?=_t('버전')?></span></td>
+								 					<td class="explain"><span><?=_t('설명')?></span></td>
+								 					<td class="maker"><span><?=_t('만든이')?></span></td>
+													<td class="statue"><span><?=_t('상태')?></span></td>
+												</tr>
+											</thead>
+											<tbody>
 <?
 $plugins = array();
 $dir = dir(ROOT . '/plugins/');
@@ -76,47 +79,47 @@ for ($i=0; $i<sizeof($plugins); $i++) {
 	
 	if ($i == sizeof($plugins) - 1) {
 ?>
-											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="title"><?=($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title)?></td>
-												<td class="version"><?=htmlspecialchars($xmls->getValue('/plugin/version[lang()]'))?></td>
-							 					<td class="explain"><?=htmlspecialchars($xmls->getValue('/plugin/description[lang()]'))?></td>
-							 					<td class="maker"><?=($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author)?></td>
-												<td class="statue">
+												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="title"><?=($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title)?></td>
+													<td class="version"><?=htmlspecialchars($xmls->getValue('/plugin/version[lang()]'))?></td>
+								 					<td class="explain"><?=htmlspecialchars($xmls->getValue('/plugin/description[lang()]'))?></td>
+								 					<td class="maker"><?=($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author)?></td>
+													<td class="statue">
 <?
 		if ($active) {
 ?>
-													<span id="plugin_<?=$i?>" class="active-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span><?=_t('사용중')?></span></a>
+														<span id="plugin_<?=$i?>" class="active-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span><?=_t('사용중')?></span></a>
 <?
 		} else {
 ?>
-													<span id="plugin_<?=$i?>" class="inactive-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span><?=_t('미사용')?></span></a>
+														<span id="plugin_<?=$i?>" class="inactive-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span><?=_t('미사용')?></span></a>
 <?
 		}
 ?>
-												</td>
-											</tr>
+													</td>
+												</tr>
 <?
 	} else {
 ?>
-											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="title"><?=($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title)?></td>
-												<td class="version"><?=htmlspecialchars($xmls->getValue('/plugin/version[lang()]'))?></td>
-							 					<td class="explain"><?=htmlspecialchars($xmls->getValue('/plugin/description[lang()]'))?></td>
-							 					<td class="maker"><?=($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author)?></td>
-												<td class="statue">
+												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="title"><?=($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title)?></td>
+													<td class="version"><?=htmlspecialchars($xmls->getValue('/plugin/version[lang()]'))?></td>
+								 					<td class="explain"><?=htmlspecialchars($xmls->getValue('/plugin/description[lang()]'))?></td>
+								 					<td class="maker"><?=($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author)?></td>
+													<td class="statue">
 <?
 		if ($active) {
 ?>
-													<span id="plugin_<?=$i?>" class="active-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span><?=_t('사용중')?></span></a>
+														<span id="plugin_<?=$i?>" class="active-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span><?=_t('사용중')?></span></a>
 <?
 		} else {
 ?>
-													<span id="plugin_<?=$i?>" class="inactive-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span><?=_t('미사용')?></span></a>
+														<span id="plugin_<?=$i?>" class="inactive-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span><?=_t('미사용')?></span></a>
 <?
 		}
 ?>
-												</td>
-											</tr>
+													</td>
+												</tr>
 <?
 	}
 ?>
@@ -124,6 +127,7 @@ for ($i=0; $i<sizeof($plugins); $i++) {
 <?
 }
 ?>
+											</tbody>
 										</table>
 									</div>
 <?

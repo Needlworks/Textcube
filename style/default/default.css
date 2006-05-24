@@ -23,6 +23,7 @@ a:active
 abbr,
 acronym
 {
+	border-bottom                    : none;
 	cursor                           : help;
 }
 
@@ -450,7 +451,7 @@ li
 	width                            : 100%;
 }
 
-#data-outbox table.data-inbox .tr-head
+#data-outbox table.data-inbox thead tr
 {
 	background-color                 : #00B8F1;
 	background-image                 : url("./image/table-head.gif");
@@ -458,7 +459,7 @@ li
 	background-repeat                : repeat-x;
 }
 
-#data-outbox table.data-inbox .tr-head td
+#data-outbox table.data-inbox thead tr td
 {
 	color                            : #FFFFFF;
 	font-weight                      : bold;

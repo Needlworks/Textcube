@@ -52,9 +52,12 @@ require ROOT . '/lib/piece/owner/contentMenu40.php';
 									
 									<div id="part-statistics-month" class="part">
 										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
-											<tr class="tr-head">
-												<td colspan="2"><span><?=_t('월별 방문자 수')?></span></td>
-											</tr>
+											<thead>
+												<tr>
+													<td colspan="2"><span><?=_t('월별 방문자 수')?></span></td>
+												</tr>
+											</thead>
+											<tbody>
 <?
 $temp = getMonthlyStatistics($owner);
 for ($i=0; $i<sizeof($temp); $i++) {
@@ -62,21 +65,22 @@ for ($i=0; $i<sizeof($temp); $i++) {
 	
 	if ($i == sizeof($temp) - 1) {
 ?>
-											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
-												<td class="date"><?=Timestamp::formatDate2(getTimeFromPeriod($record['date']))?></td>
-												<td class="count"><?=$record['visits']?></td>
-											</tr>
+												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
+													<td class="date"><?=Timestamp::formatDate2(getTimeFromPeriod($record['date']))?></td>
+													<td class="count"><?=$record['visits']?></td>
+												</tr>
 <?
 	} else {
 ?>
-											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
-												<td class="date"><?=Timestamp::formatDate2(getTimeFromPeriod($record['date']))?></td>
-												<td class="count"><?=$record['visits']?></td>
-											</tr>
+												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
+													<td class="date"><?=Timestamp::formatDate2(getTimeFromPeriod($record['date']))?></td>
+													<td class="count"><?=$record['visits']?></td>
+												</tr>
 <?
 	}
 }
 ?>
+											</tbody>
 										</table>
 									</div>
 									
@@ -84,9 +88,12 @@ for ($i=0; $i<sizeof($temp); $i++) {
 									
 									<div id="part-statistics-day" class="part">
 										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
-											<tr class="tr-head">
-												<td colspan="2"><span><?=_t('일별 방문자 수')?></span></td>
-											</tr>
+											<thead>
+												<tr>
+													<td colspan="2"><span><?=_t('일별 방문자 수')?></span></td>
+												</tr>
+											</thead>
+											<tbody>
 <?
 if (isset($suri['id'])) {
 	$temp = getDailyStatistics($suri['id']);
@@ -95,22 +102,23 @@ if (isset($suri['id'])) {
 		
 		if ($i == sizeof($temp) - 1) {
 ?>
-											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
-												<td class="date"><?=Timestamp::formatDate(getTimeFromPeriod($record['date']))?></td>
-												<td class="count"><?=$record['visits']?></td>
-											</tr>
+												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
+													<td class="date"><?=Timestamp::formatDate(getTimeFromPeriod($record['date']))?></td>
+													<td class="count"><?=$record['visits']?></td>
+												</tr>
 <?
 		} else {
 ?>
-											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
-												<td class="date"><?=Timestamp::formatDate(getTimeFromPeriod($record['date']))?></td>
-												<td class="count"><?=$record['visits']?></td>
-											</tr>
+												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
+													<td class="date"><?=Timestamp::formatDate(getTimeFromPeriod($record['date']))?></td>
+													<td class="count"><?=$record['visits']?></td>
+												</tr>
 <?
 		}
 	}
 }
 ?>
+											</tbody>
 										</table>
 									</div>
 									
