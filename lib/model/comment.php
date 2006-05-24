@@ -541,6 +541,6 @@ $owner, NULL , '', " . $entryId . ", $parentId, '$child_name', '', '$child_homep
 
 function getCommentCount($owner, $entryId) {
 	global $database;
-	return fetchQueryCell("select comments from {$database['prefix']}Entries where owner = $owner and id = $entryId");
+	return fetchQueryCell("select comments from {$database['prefix']}Entries where owner = $owner and id = $entryId and isFiltered = 0");
 }
 ?>
