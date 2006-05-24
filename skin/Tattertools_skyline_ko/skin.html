@@ -9,7 +9,6 @@
 <title>[##_title_##] :: [##_page_title_##]</title>
 </head>
 <body>
-<a name="top"></a>
 <s_t3>
   <div id="container">
     <!-- header -->
@@ -47,11 +46,12 @@
             <s_rplist_rep>
               <li><a href="[##_rplist_rep_link_##]"><span class="date">[##_rplist_rep_regdate_##]</span> 
 							[##_rplist_rep_body_##] <span class="cnt">[##_rplist_rep_rp_cnt_##]</span> 
-							<span class="name">[##_rplist_rep_name_##]</span></a></li>
+							</a><span class="name">_ by [##_rplist_rep_name_##]</span></li>
             </s_rplist_rep>
           </ol>
         </div>
         <hr />
+				
       </s_rplist>
       <!-- tag -->
       <s_tag>
@@ -107,18 +107,18 @@
               <textarea cols="60" rows="6" id="guestBody" name="[##_guest_textarea_body_##]"></textarea>
             </p>
             <p>
-              <input class="submit" type="submit" value="save a comment" onclick="[##_guest_onclick_submit_##]"/>
+              <input class="submit" type="submit" value="확인" onclick="[##_guest_onclick_submit_##]"/>
             </p>
           </div>
           <!-- guestbook list -->
-          <div class="list">
+          <div class="clist">
             <ol>
               <s_guest_rep>
-                <li> <span class="name">[##_guest_rep_name_##]</span> <span class="date"> [##_guest_rep_date_##]</span> <span class="control"> <a href="#" onclick="[##_guest_rep_onclick_delete_##]">MODIFY/DELETE</a> <a href="#" onclick="[##_guest_rep_onclick_reply_##]">REPLY</a> </span>
+                <li> <span class="name">[##_guest_rep_name_##]</span> <span class="date"> [##_guest_rep_date_##]</span> <span class="control"> <a href="#" onclick="[##_guest_rep_onclick_delete_##]">수정 | 삭제</a><a href="#" onclick="[##_guest_rep_onclick_reply_##]"> | 답글</a> </span>
                   <p>[##_guest_rep_desc_##]</p>
                   <ul>
                     <s_guest_reply_rep>
-                      <li> <span class="name">[##_guest_rep_name_##]</span> <span class="date"> [##_guest_rep_date_##]</span> <span class="control"> <a href="#" onclick="[##_guest_rep_onclick_delete_##]">MODIFY/DELETE</a>
+                      <li> <span class="name">[##_guest_rep_name_##]</span> <span class="date"> [##_guest_rep_date_##]</span> <span class="control"> <a href="#" onclick="[##_guest_rep_onclick_delete_##]">수정 | 삭제</a>
                         <p>[##_guest_rep_desc_##]</p>
                         </span> </li>
                     </s_guest_reply_rep>
@@ -142,30 +142,36 @@
       <!-- pretected entries -->
       <s_article_protected>
         <div class="entry_protected">
-          <h2>[##_article_rep_title_##]</h2>
+          <h2> [##_article_rep_title_##]</h2>
           <span class="date">[##_article_rep_date_##]</span>
           <p>보호되어 있는 글입니다. 내용을 보시려면 비밀번호를 입력하세요.</p>
           <p><label for="[##_article_password_##]">비밀번호 ::</label>
             <input type="password" maxlength="16" id="[##_article_password_##]" name="[##_article_password_##]" value="" onkeydown="if (event.keyCode == 13) [##_article_dissolve_##]" />
-            <input type="button" class="submit" value="submit" onclick="[##_article_dissolve_##]" />
+            <input type="button" class="submit" value="입력" onclick="[##_article_dissolve_##]" />
           </p>
         </div>
         <hr />
       </s_article_protected>
       <!-- entries -->
       <s_article_rep>
-        <div class="entry">
-          <h2><a href="[##_article_rep_link_##]">[##_article_rep_title_##]</a></h2>
+        <div class="entry"> 
+				
+				<div class="titleinfo">
+				<h2><a href="[##_article_rep_link_##]">[##_article_rep_title_##]</a></h2>
           <span class="name"><a href="[##_article_rep_category_link_##]">[##_article_rep_category_##]</a></span> <span class="date">[##_article_rep_date_##]</span>
           <s_ad_div>
             <div class="admin"><a href="[##_s_ad_m_link_##]">수정</a> : <a href="#" onclick="[##_s_ad_m_onclick_##]">수정(창으로)</a> | ([##_s_ad_s1_label_##])→<a href="#" onclick="[##_s_ad_s2_onclick_##]">[##_s_ad_s2_label_##]</a> | <a href="#" onclick="[##_s_ad_t_onclick_##]">관련글(트랙백)</a> | <a href="#" onclick="[##_s_ad_d_onclick_##]">삭제</a> </div>
           </s_ad_div>
+					</div>
           <div class="article"> [##_article_rep_desc_##] </div>
-          <div class="btn_top"><a href="#top"><img src="./images/btn_top.gif" alt="top" /></a></div>
           <!-- tag label -->
-          <s_tag_label> <div class="tagbox"> <span class="tagtext">TAG </span> [##_tag_label_rep_##] </div> </s_tag_label>
+          <s_tag_label> 
+					<div class="tagbox"> 
+						 [##_tag_label_rep_##] 
+					</div> 
+					</s_tag_label>
           <!-- trackback, comment -->
-          <div class="tbrp_box"> <a href="#tb" onclick="[##_article_rep_tb_link_##]"> Trackback<span class="cnt"> [##_article_rep_tb_cnt_##]</span></a> : <a href="#rp" onclick="[##_article_rep_rp_link_##]"> Comment <span class="cnt">[##_article_rep_rp_cnt_##]</span></a> </div>
+          <div class="tbrp_box"> <a href="#tb" onclick="[##_article_rep_tb_link_##]"> 트랙백<span class="cnt"> [##_article_rep_tb_cnt_##]</span></a> : <a href="#rp" onclick="[##_article_rep_rp_link_##]"> 댓글 <span class="cnt">[##_article_rep_rp_cnt_##]</span></a> </div>
           [##_article_div_area_##]
           <!-- trackback -->
           <s_tb>
@@ -173,7 +179,7 @@
               <p class="add">Trackback Address :: [##_tb_address_##]</p>
               <ol>
                 <s_tb_rep>
-                  <li> Tracked from <span class="name"><a href="[##_tb_rep_url_##]" onclick="window.open(this.href); return false" rel="external nofollow">[##_tb_rep_site_##]</a></span> <span class="date">[##_tb_rep_date_##]</span> <span class="control"><a href="#" onclick="[##_tb_rep_onclick_delete_##]; return false">DELETE</a></span>
+                  <li> Tracked from <span class="name"><a href="[##_tb_rep_url_##]" onclick="window.open(this.href); return false" rel="external nofollow">[##_tb_rep_site_##]</a></span> <span class="date">[##_tb_rep_date_##]</span> <span class="control"><a href="#" onclick="[##_tb_rep_onclick_delete_##]; return false">삭제</a></span>
                     <h4>Subject: <a href="[##_tb_rep_url_##]" onclick="window.open(this.href); return false" rel="external nofollow">[##_tb_rep_title_##] </a></h4>
                     [##_tb_rep_desc_##] </li>
                 </s_tb_rep>
@@ -187,12 +193,16 @@
               <div class="commentlist">
                 <ol>
                   <s_rp_rep>
-                    <li> <span class="name">[##_rp_rep_name_##]</span> <span class="date">[##_rp_rep_date_##]</span> <span class="control"><a href="[##_rp_rep_link_##]">PERMALINK</a><a href="#" onclick="[##_rp_rep_onclick_delete_##]">MODIFY/DELETE</a> <a href="#" onclick="[##_rp_rep_onclick_reply_##]">REPLY</a></span>
+                    <li> <span class="name">[##_rp_rep_name_##]</span> <span class="date">[##_rp_rep_date_##]</span> 
+										<span class="control"><a href="[##_rp_rep_link_##]">댓글주소</a> | <a href="#" onclick="[##_rp_rep_onclick_delete_##]">수정 | 삭제</a> | <a href="#" onclick="[##_rp_rep_onclick_reply_##]">댓글</a></span>										
                       <p>[##_rp_rep_desc_##]</p>
-                      <ul>
+											<ul>
                         <s_rp2_rep>
-                          <li> <span class="name">[##_rp_rep_name_##]</span> <span class="date">[##_rp_rep_date_##]</span> <span class="control"><a href="[##_rp_rep_link_##]">PERMALINK</a><a href="#" onclick="[##_rp_rep_onclick_delete_##]">MODIFY/DELETE</a></span>
+                          <li> <span class="name">[##_rp_rep_name_##]</span> <span class="date">[##_rp_rep_date_##]</span>
+														<span class="control"><a href="[##_rp_rep_link_##]">댓글주소</a> | <a href="#" onclick="[##_rp_rep_onclick_delete_##]">수정 | 삭제</a></span>													 
                             <p>[##_rp_rep_desc_##] </p>
+
+
                           </li>
                         </s_rp2_rep>
                       </ul>
@@ -202,30 +212,29 @@
               </div>
               <!-- comment write-->
               <div class="write">
-                <h4>Write a comment</h4>
                 <s_rp_member>
                   <s_rp_guest>
                     <p>
                       <input type="text" id="name_[##_article_rep_id_##]" name="[##_rp_input_name_##]" value="[##_guest_name_##]" />
-                      <label for="name_[##_article_rep_id_##]"> : name </label>
+                      <label for="name_[##_article_rep_id_##]"> : 이름 </label>
                     </p>
                     <p>
                       <input type="password" maxlength="8" id="password_[##_article_rep_id_##]" name="[##_rp_input_password_##]" value="[##_rp_admin_check_##]" />
-                      <label for="password_[##_article_rep_id_##]"> : password </label>
+                      <label for="password_[##_article_rep_id_##]"> : 비밀번호 </label>
                     </p>
                     <p>
                       <input type="text" class="homepage" id="homepage_[##_article_rep_id_##]" name="[##_rp_input_homepage_##]" value="[##_guest_homepage_##]"/>
-                      <label for="homepage_[##_article_rep_id_##]"> : homepage </label>
+                      <label for="homepage_[##_article_rep_id_##]"> : 홈페이지 </label>
                   </s_rp_guest>
                   <input type="checkbox" id="secret_[##_article_rep_id_##]" name="[##_rp_input_is_secret_##]" class="checkbox" />
-                  <label for="secret_[##_article_rep_id_##]"> secret mode </label>
+                  <label for="secret_[##_article_rep_id_##]"> 비밀글 </label>
                   </p>
                 </s_rp_member>
                 <p>
                   <textarea name="[##_rp_input_comment_##]" cols="100%" rows="6" id="comment_[##_article_rep_id_##]"></textarea>
                 </p>
                 <p>
-                  <input type="submit" value="Submit Comment" onclick="[##_rp_onclick_submit_##]" class="submit" />
+                  <input type="submit" value="확인" onclick="[##_rp_onclick_submit_##]" class="submit" />
                 </p>
               </div>
             </div>
@@ -272,7 +281,7 @@
       <div class="search">
         <s_search>
           <input type="text" name="[##_search_name_##]" value="[##_search_text_##]"  onkeypress="if (event.keyCode == 13) { [##_search_onclick_submit_##] }"/>
-          <input value="search" type="button" onclick="[##_search_onclick_submit_##]" class="submit"/>
+          <input value="검색" type="button" onclick="[##_search_onclick_submit_##]" class="submit"/>
         </s_search>
       </div>
 			
@@ -286,7 +295,7 @@
         <div class="box"> [##_category_##]  </div>
 
         <!-- category list		
-        <div class="box"> [##_category_list_##]  </div>
+        <div class="box"> [##_category_##]  </div>
 			-->		
 			</div>		
 
@@ -313,7 +322,7 @@
         <h3>최근에 달린 댓글</h3>
         <ul id="recentComments">
           <s_rctrp_rep>
-            <li> <a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##].</a>
+            <li> <a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##].</a><br />
               <span class="name">[##_rctrp_rep_name_##]</span> <span class="date">[##_rctrp_rep_time_##]</span> </li>
           </s_rctrp_rep>
         </ul>
@@ -340,7 +349,7 @@
       <!-- calender -->
       <div class="listbox">
         <h3>달력</h3>
-        <div class="box">[##_calendar_##]</div>
+        <div class="calender">[##_calendar_##]</div>
       </div>
       <!-- link -->
       <div class="listbox">
