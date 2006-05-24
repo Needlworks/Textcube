@@ -21,6 +21,8 @@ else if (!empty($_GET['name1']) && !empty($_GET['name2']))
 	$depth = 2;
 else if (!empty($_GET['name1']) && empty($_GET['name2']))
 	$depth = 1;
+else if(!empty($_POST['id']))
+	$depth = getParentCategoryId($owner, $_POST['id']) ? 2 : 1;
 else
 	$depth = 0;
 if (empty($_GET['entries']) || $_GET['entries'] == 0)
