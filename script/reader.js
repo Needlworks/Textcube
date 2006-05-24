@@ -145,11 +145,12 @@ TTReader.prototype.selectGroup = function(caller, id)
 	this.refreshEntryList(id, 0);
 	this.refreshEntry(id, 0, 0);
 	this.selectedGroup = id;
-	getObject("groupList0").className = 'inactive-class'
+	getObject("groupList0").className = 'inactive-class';
 	if(this.selectedGroupObject != null)
-		this.selectedGroupObject.className = 'inactive-class'
+		this.selectedGroupObject.className = 'inactive-class';
 	this.selectedGroupObject = caller.parentNode;
-	this.selectedGroupObject.className = 'active-class'
+	this.selectedGroupObject.className = 'active-class';
+	extraClass = 'active-class';
 }
 
 TTReader.prototype.selectFeed = function(caller, id)
@@ -161,6 +162,7 @@ TTReader.prototype.selectFeed = function(caller, id)
 		this.selectedFeedObject.className = "inactive-class";		
 	this.selectedFeedObject = caller;
 	this.selectedFeedObject.className = "active-class";
+	extraClass = 'active-class';
 }
 
 TTReader.prototype.selectEntry = function(id)

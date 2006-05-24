@@ -43,7 +43,7 @@ function viewHelp(id) {
 	} catch(e) { }
 }
 
-var tempClass = '';
+var extraClass = ''; // 이 변수는 reader에서도 사용됨. 임의로 변경하지 말 것.
 
 function rolloverClass(obj, type) {
 	if (type == 'over') {
@@ -52,7 +52,7 @@ function rolloverClass(obj, type) {
 				obj.cells[i].className += ' rollover-class';
 			}
 		} else {
-			tempClass = obj.className;
+			extraClass = obj.className;
 			obj.className = obj.className.replace(/(active|inactive)/ig, 'rollover');
 		}
 	} else {
@@ -61,8 +61,8 @@ function rolloverClass(obj, type) {
 				obj.cells[i].className = obj.cells[i].className.replace(/( )*rollover\-class/ig, '');
 			}
 		} else {
-			obj.className = tempClass;
-			tempClass = '';
+			obj.className = extraClass;
+			extraClass = '';
 		}
 	}
 }
