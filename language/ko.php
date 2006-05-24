@@ -769,4 +769,6 @@ $__text['http://www.tattertools.com/doc/9'] = 'http://www.tattertools.com/ko/man
 //$__text['주소 입력'] = '';
 //$__text['코드 붙여넣기'] = '';
 //$__text['삽입하기'] = '';
+//$__text['페이지 오류'] = '';
+//$__text['글이 하나도 없습니다'] = '';
 ?>
