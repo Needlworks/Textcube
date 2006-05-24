@@ -40,7 +40,7 @@ require ROOT . '/lib/piece/owner/contentMenu40.php';
 					 				<div id="part-statistics-counter" class="part">
 						 				<div class="data-inbox">
 							 				<div class="title">
-							 					<span class="label"><span><?=_t('현재까지의 방문자 수')?></span></span>
+							 					<span class="label"><span class="text"><?=_t('현재까지의 방문자 수')?></span></span>
 							 					<span class="divider"> : </span>
 							 					<span id="total"><?=number_format($stats['total'])?></span>
 											</div>
@@ -62,14 +62,14 @@ for ($i=0; $i<sizeof($temp); $i++) {
 	
 	if ($i == sizeof($temp) - 1) {
 ?>
-											<tr class="tr-last-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
+											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
 												<td class="date"><?=Timestamp::formatDate2(getTimeFromPeriod($record['date']))?></td>
 												<td class="count"><?=$record['visits']?></td>
 											</tr>
 <?
 	} else {
 ?>
-											<tr class="tr-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
+											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
 												<td class="date"><?=Timestamp::formatDate2(getTimeFromPeriod($record['date']))?></td>
 												<td class="count"><?=$record['visits']?></td>
 											</tr>
@@ -95,14 +95,14 @@ if (isset($suri['id'])) {
 		
 		if ($i == sizeof($temp) - 1) {
 ?>
-											<tr class="tr-last-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
+											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
 												<td class="date"><?=Timestamp::formatDate(getTimeFromPeriod($record['date']))?></td>
 												<td class="count"><?=$record['visits']?></td>
 											</tr>
 <?
 		} else {
 ?>
-											<tr class="tr-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
+											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
 												<td class="date"><?=Timestamp::formatDate(getTimeFromPeriod($record['date']))?></td>
 												<td class="count"><?=$record['visits']?></td>
 											</tr>
@@ -116,5 +116,5 @@ if (isset($suri['id'])) {
 									
 									<div class="clear"></div>
 <?
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/lib/piece/owner/footer0.php';
 ?>

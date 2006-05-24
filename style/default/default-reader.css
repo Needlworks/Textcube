@@ -155,12 +155,6 @@
 	margin-top                       : -3px;
 }
 
-#setting .bullet
-{
-	margin-right                     : 2px;
-	vertical-align                   : -4px;
-}
-
 /* pannel ---------------------------------------------------------------------------------------*/
 #pannel .caption
 {
@@ -177,14 +171,16 @@
 
 }
 
-#groupBox .overActive,
-#feedBox .overActive
+#groupBox .active-class,
+#feedBox .active-class,
+#groupBox .rollover-class,
+#feedBox .rollover-class
 {
 	background-color                 : #CDE3FF;
 }
 
-#groupBox .overInactive,
-#feedBox .overInactive
+#groupBox .inactive-class,
+#feedBox .inactive-class
 {
 	background-color                 : #FFFFFF;
 }
@@ -861,12 +857,13 @@ ul#feedList li .edit-button span
 	color                            : #213141;
 }
 
-#listup table tr td.overActive
+#listup table tr td.active-class,
+#listup table tr td.rollover-class
 {
 	background-color                 : #FFFFFF;
 }
 
-#listup table tr td.overInactive
+#listup table tr td.inactive-class
 {
 	background-color                 : #ECF4FF;
 }
@@ -931,7 +928,7 @@ ul#feedList li .edit-button span
 #post-list .button-box
 {
 	background-color                 : #84A9D1;
-	font-size                        : 90%;
+	font-size                        : 92%;
 	margin                           : 0 !important;
 	padding                          : 5px;
 }
@@ -965,8 +962,8 @@ ul#feedList li .edit-button span
 {
 	background-color                 : #6593C4;
 	color                            : #FFFFFF !important;
-	font-size                        : 90%;
-	letter-spacing                   : -1px;
+	font-size                        : 92%;
+	/*letter-spacing                   : -1px;*/
 	padding                          : 3px 3px 1px 3px;
 }
 
@@ -1079,9 +1076,9 @@ ul#feedList li .edit-button span
 	position                         : relative;
 }
 
-#entryTag
+#entryFoot .button-box
 {
-	width                            : 610px;
+	margin-top                       : 5px;
 }
 
 #entryFoot .button-box a
@@ -1089,13 +1086,11 @@ ul#feedList li .edit-button span
 	background-color                 : #DDDDDD !important;
 	border                           : 1px solid #979797;
 	display                          : block;
-	font-size                        : 90%;
+	font-size                        : 92%;
 	height                           : auto !important;
+	margin                           : 0 0 0 auto !important;
 	padding                          : 3px 0 0 0 !important;
-	position                         : absolute;
-	right                            : 5px;
 	text-align                       : center;
-	top                              : 8px;
 	width                            : 140px !important;
 }
 

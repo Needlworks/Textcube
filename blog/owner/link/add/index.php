@@ -96,5 +96,5 @@ require ROOT . '/lib/piece/owner/contentMenu21.php';
 										<div class="clear"></div>
 									</div>
 <?
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/lib/piece/owner/footer0.php';
 ?> 

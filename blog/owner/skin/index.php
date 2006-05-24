@@ -155,5 +155,5 @@ for ($i = 0; $i < count($skins); $i++) {
 									//]]>
 								</script>
 <?
-require ROOT . '/lib/piece/owner/footer2.php';
+require ROOT . '/lib/piece/owner/footer1.php';
 ?>

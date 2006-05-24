@@ -2,8 +2,8 @@
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForOwner.php';
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<title>Blog Icon Uploader</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -61,13 +61,16 @@ if (count($_FILES) == 1) {
 	</script>
 	<style type="text/css">
 		<!--
-			body
+			body,
+			form
 			{
 				margin                           : 0;
+				padding                          : 0;
 			}
 		-->
 	</style>
 	<link rel="stylesheet" type="text/css" href="<?=$blogURL?>/style/default/default-setting.css" />
+	<link rel="stylesheet" type="text/css" href="<?=$blogURL?>/style/default/default-setting-opera.css" />
 	<link rel="stylesheet" type="text/css" href="<?=$blogURL?>/style/default/default-setting-ie.css" />
 </head>
 <body id="blogcon-iframe">

@@ -1,11 +1,11 @@
 			<div id="layout-body">
-				<h2><span>휴지통관리 &gt; 서브메뉴</span></h2>
+				<h2><span class="text"><?php echo _t('서브메뉴 : 휴지통')?></span></h2>
 				
 				<div id="sub-menu-outbox">
 					<ul id="sub-menu">
-						<li class="trackback"><a href="<?=$blogURL?>/owner/trash/trackback"><span><?php echo _t('트랙백을 관리합니다')?></span></a></li>
-						<li class="comment"><a href="<?=$blogURL?>/owner/trash/comment"><span><?php echo _t('댓글을 관리합니다')?></span></a></li>
-						<li class="filter selected"><a href="<?=$blogURL?>/owner/trash/filter"><span><?php echo _t('필터를 관리합니다')?></span></a></li>
+						<li class="trackback"><a href="<?=$blogURL?>/owner/trash/trackback"><span><?php echo _t('삭제된 트랙백')?></span></a></li>
+						<li class="comment"><a href="<?=$blogURL?>/owner/trash/comment"><span><?php echo _t('삭제된 댓글')?></span></a></li>
+						<li class="filter selected"><a href="<?=$blogURL?>/owner/trash/filter"><span><?php echo _t('필터링')?></span></a></li>
 						<li class="helper"><a href="#void" onclick="<?php echo 'window.open(\'', _t('http://www.tattertools.com/doc/6'), '\')'; ?>"><span><?php echo _t('도우미')?></span></a></li>
 					</ul>
 				</div>

@@ -202,5 +202,5 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
               </tr>
             </table>
 <?
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/lib/piece/owner/footer0.php';
 ?>

@@ -43,11 +43,27 @@ function viewHelp(id) {
 	} catch(e) { }
 }
 
-function rolloverTableTr(obj, type) {
+var tempClass = '';
+
+function rolloverClass(obj, type) {
 	if (type == 'over') {
-		obj.className = obj.className.replace(/overInactive/, 'overActive');
+		if (obj.tagName.toLowerCase() == 'tr') {
+			for (i=0; i<obj.cells.length; i++) {
+				obj.cells[i].className += ' rollover-class';
+			}
+		} else {
+			tempClass = obj.className;
+			obj.className = obj.className.replace(/(active|inactive)/ig, 'rollover');
+		}
 	} else {
-		obj.className = obj.className.replace(/overActive/, 'overInactive');
+		if (obj.tagName.toLowerCase() == 'tr') {
+			for (i=0; i<obj.cells.length; i++) {
+				obj.cells[i].className = obj.cells[i].className.replace(/ rollover\-class/ig, '');
+			}
+		} else {
+			tempClass = '';
+			obj.className = tempClass;
+		}
 	}
 }
 //]]>

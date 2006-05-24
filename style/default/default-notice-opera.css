@@ -1,0 +1,78 @@
+@media all and (min-width: 0px)
+{
+	/* List ******************************************************************************************/
+		
+	/* list category --------------------------------------------------------------------------------*/
+	#part-notice-list .caption .category select
+	{
+		vertical-align                   : middle;
+	}
+	
+	/* list table body ------------------------------------------------------------------------------*/
+	#part-notice-list table.data-inbox .tr-last-body td
+	{
+		border-bottom                    : 2px solid #00A6ED !important;
+	}
+	
+	#part-notice-list .data-subbox
+	{
+		margin-top                       : -2px;
+	}
+	
+	#part-notice-list table.data-inbox .tr-body td
+	{
+		height                           : 18px !important;
+		padding-top                      : 0 !important;
+		padding-bottom                   : 0 !important;
+	}
+
+	#part-notice-list table.data-inbox .tr-last-body td
+	{
+		height                           : 18px !important;
+		padding-top                      : 0 !important;
+		padding-bottom                   : 0 !important;
+	}
+	
+	#part-notice-list table.data-inbox .tr-body .statue .private-on-icon,
+	#part-notice-list table.data-inbox .tr-last-body .statue .private-on-icon,
+	#part-notice-list table.data-inbox .tr-body .statue .public-on-icon,
+	#part-notice-list table.data-inbox .tr-last-body .statue .public-on-icon
+	{
+		margin-top                       : 4px;
+	}
+	
+	/* multi-selection deleter in sub-box -----------------------------------------------------------*/
+	#part-notice-list #change-section select
+	{
+		vertical-align                   : middle;
+	}
+
+	/* page navigation ------------------------------------------------------------------------------*/
+	#part-notice-list #page-navigation
+	{
+		border-top                       : 1px dotted #CCCCCC;
+		margin-top                       : 7px;
+		padding                          : 10px 120px 0 3px;
+	}
+
+	#part-notice-list #page-navigation #page-list
+	{
+		padding-left                     : 28px;
+	}
+
+	/* search ---------------------------------------------------------------------------------------*/
+	#part-notice-list #search-section
+	{
+		right                            : 4px;
+	}
+	
+	#part-notice-list #search-section input#search
+	{
+		padding                          : 3px;
+	}
+	
+	#part-notice-list #search-section .search-button span
+	{
+		padding-top                      : 4px;
+	}
+}

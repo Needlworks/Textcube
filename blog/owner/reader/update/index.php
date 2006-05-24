@@ -4,7 +4,7 @@ require ROOT . '/lib/includeForOwner.php';
 set_time_limit(360);
 ob_implicit_flush();
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 	<head>
 		<title>Update all feeds</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
@@ -33,7 +33,7 @@ ob_implicit_flush();
 			try{
 				parent.Reader.startScroll("feedBox", getOffsetTop(icon) - getOffsetTop(parent.document.getElementById("feedBox")) - 50);
 			} catch(e) {alert(e.message);}
-			icon.src = servicePath + "/image/owner/reader/iconUpdateIng.gif";
+			icon.src = servicePath + "/style/default/image/reader/iconUpdateIng.gif";
 		}
 		//]]>
 		</script>		
@@ -47,10 +47,10 @@ ob_implicit_flush();
 		if(icon) {
 			switch(<?=$result?>) {
 				case 0:
-					icon.src = servicePath + "/image/owner/reader/iconUpdate.gif";
+					icon.src = servicePath + "/style/default/image/reader/iconUpdate.gif";
 					break;
 				default:
-					icon.src = servicePath + "/image/owner/reader/iconFailure.gif";
+					icon.src = servicePath + "/style/default/image/reader/iconFailure.gif";
 			}			
 		}
 		progress.innerHTML = "(<?=sprintf('%.1f', $count * 100 / sizeof($feeds))?>%)";

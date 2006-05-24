@@ -1,0 +1,56 @@
+@media all and (min-width: 0px)
+{
+	/* Data Box **************************************************************************************/
+	
+	#data-outbox .caption
+	{
+		padding-bottom                   : 1px;
+	}
+	
+	/* Visitor ***************************************************************************************/
+	
+	#part-statistics-counter table.data-inbox .tr-last-body td,
+	#part-statistics-month table.data-inbox .tr-last-body td,
+	#part-statistics-day table.data-inbox .tr-last-body td
+	{
+		border-bottom                    : 2px solid #00A6ED; 
+	}
+	
+	#part-statistics-counter div.data-inbox .button span
+	{
+		padding-top                      : 4px;
+	}
+	/* Setting ***************************************************************************************/
+	
+	#part-skin-setting div.data-inbox .section select
+	{
+		vertical-align                   : middle;
+	}
+	
+	#part-statistics-month table.data-inbox .tr-last-body td,
+	#part-statistics-day table.data-inbox .tr-last-body td
+	{
+		height                           : 25px;
+		padding-bottom                   : 3px !important;
+	}
+	
+	/* Referer ***************************************************************************************/
+	
+	#part-statistics-rank table.data-inbox .tr-body td,
+	#part-statistics-rank table.data-inbox .tr-last-body td
+	{
+		padding-top                      : 0 !important;
+	}
+	
+	#part-statistics-log table.data-inbox .tr-body td,
+	#part-statistics-log table.data-inbox .tr-last-body td
+	{
+		padding-top                      : 0 !important;
+	}
+	
+	#part-statistics-rank table.data-inbox .tr-last-body td,
+	#part-statistics-log table.data-inbox .tr-last-body td
+	{
+		border-bottom                    : 2px solid #00A6ED !important;
+	}
+}

@@ -1,4 +1,4 @@
-<!--
+/* 혹시 모르는 버그를 위해 남겨두는 구버전용 CSS */
 body {
 	background-color: #FFFFFF;
 	margin: 0px;
@@ -269,4 +269,405 @@ samp {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
--->
+
+/* XHTML comment edit/delete 윈도우용 CSS */
+
+*
+{
+	margin                           : 0;
+	padding                          : 0;p;
+}
+
+body
+{
+	background-color                 : #FFFFFF;
+}
+
+#comment-box
+{
+	border-top                       : 4px solid #9DCAFB;
+	font-family                      : Arial, Tahoma, Verdana, 굴림, Gulim, sans-serif;
+}
+
+#comment-box img
+{
+	display                          : block;
+	margin                           : 45px auto 10px auto;
+}
+
+#comment-box #command-box
+{
+	background-color                 : #EAF4FF;
+	border                           : 1px solid #BFDCFC;
+	margin                           : 0 10px;
+	padding                          : 60px 0;
+	text-align                       : center;
+}
+
+#comment-box #command-box label
+{
+	color                            : #2A64A3 !important;
+	cursor                           : pointer;
+}
+
+#comment-box #command-box .edit-line,
+#comment-box #command-box .delete-line
+{
+	display                          : inline;
+}
+
+#comment-box #command-box .radio
+{
+	vertical-align                   : middle;
+}
+
+#comment-box #command-box .delete-line .radio
+{
+	margin-left                      : 10px;
+}
+
+#comment-box #command-box .password-line
+{
+	margin-top                       : 30px;
+}
+
+#comment-box #command-box .text-input
+{
+	border                           : 1px solid #9DCAFB;
+	/*height                           : 1.7em;*/
+	padding                          : 3px;
+	vertical-align                   : middle;
+}
+
+#comment-box #command-box .button-input
+{
+	border                           : 1px solid #6297D1;
+	background-color                 : #83AFE0;
+	color                            : #FFFFFF;
+	font-weight                      : bold;
+	font-size                        : 94%;
+	height                           : 1.9em;
+	padding                          : 0 6px;
+	vertical-align                   : middle;
+}
+
+/* XHTML trackback edit/delete 윈도우용 CSS */
+
+#trackback-box
+{
+	border-top                       : 4px solid #9DCAFB;
+	font-family                      : Arial, Tahoma, Verdana, 굴림, Gulim, sans-serif;
+}
+
+#trackback-box img
+{
+	display                          : block;
+	float                            : right;
+	margin                           : 10px 10px 5px 0;
+}
+
+#trackback-box .title
+{
+	background-image                 : url("../image/icon_PopupTitle.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	color                            : #5681B1;
+	font-weight                      : bold;
+	margin                           : 20px 0 10px 12px;
+	padding                          : 1px 0 0 17px;
+}
+
+#trackback-box #command-box
+{
+	background-color                 : #EAF4FF;
+	border                           : 1px solid #BFDCFC;
+	color                            : #2A64A3 !important;
+	margin                           : 0 10px;
+	padding                          : 10px;
+}
+
+#trackback-box #command-box dl dt
+{
+	float                            : left;
+	margin-right                     : 3px;
+	text-align                       : right;
+	width                            : 100px;
+}
+
+#trackback-box #command-box dl dd
+{
+	float                            : left;
+}
+
+#trackback-box #command-box dl,
+#trackback-box #command-box dl dd.clear
+{
+	clear                            : both;
+	float                            : none;
+}
+
+#trackback-box #command-box label
+{
+	cursor                           : pointer;
+}
+
+#trackback-box #command-box .input-line
+{
+	margin-top                       : 10px;
+}
+
+#trackback-box #command-box .input-line dd
+{
+	padding-top                      : 4px;
+}
+
+#trackback-box #command-box .input-line dd .text-input
+{
+	border                           : 1px solid #9DCAFB;
+	/*height                           : 1.7em;*/
+	margin-top                       : -7px;
+	padding                          : 3px;
+	vertical-align                   : middle;
+	width                            : 360px;
+}
+
+#trackback-box #command-box .button-input
+{
+	border                           : 1px solid #6297D1;
+	background-color                 : #83AFE0;
+	color                            : #FFFFFF;
+	font-weight                      : bold;
+	font-size                        : 94%;
+	height                           : 1.9em;
+	margin-top                       : -7px;
+	padding                          : 0 6px;
+	vertical-align                   : middle;
+}
+
+#trackback-box #command-box table
+{
+	margin-top                       : 20px;
+}
+
+#trackback-box #command-box table .tr-head td
+{
+	border-top                       : 2px solid #9DCAFB;
+	border-bottom                    : 1px solid #9DCAFB;
+	background-color                 : #C9E3FF;
+	color                            : #2A64A3;
+	font-weight                      : bold;
+	height                           : 30px;
+	padding                          : 3px 7px 0 7px;
+}
+
+#trackback-box #command-box table .tr-head .date
+{
+	width                            : 100px;
+}
+
+#trackback-box #command-box table .tr-head .delete
+{
+	width                            : 14px;
+}
+
+#trackback-box #command-box table .tr-head .date span,
+#trackback-box #command-box table .tr-head .delete span
+{
+	display                          : none;
+}
+
+#trackback-box #command-box table .tr-body td
+{
+	border-bottom                    : 1px solid #9DCAFB;
+	height                           : 30px;
+	padding                          : 3px 7px 0 7px;
+}
+
+#trackback-box #command-box table .tr-body .delete
+{
+	padding                          : 0 3px;
+}
+
+#trackback-box #command-box table .tr-body .delete .delete-button
+{
+	background-image                 : url("../image/deleteX.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 10px;
+	width                            : 10px;
+}
+
+#trackback-box #command-box table .tr-body .delete .delete-button span
+{
+	display                          : none;
+}
+
+#trackback-box .button-box
+{
+	margin-top                       : 10px;
+	text-align                       : center;
+}
+
+#trackback-box .button-box .button-input
+{
+	border                           : 1px solid #6297D1;
+	background-color                 : #83AFE0;
+	color                            : #FFFFFF;
+	display                          : block;
+	font-weight                      : bold;
+	font-size                        : 94%;
+	height                           : 2em;
+	margin                           : 0 auto;
+	padding                          : 0 6px;
+	vertical-align                   : middle;
+	width                            : 100px;
+}
+
+/* XHTML comment edit/delete 윈도우용 CSS */
+
+#comment-reply-box
+{
+	border-top                       : 4px solid #9DCAFB;
+	font-family                      : Arial, Tahoma, Verdana, 굴림, Gulim, sans-serif;
+}
+
+#comment-reply-box img
+{
+	display                          : block;
+	float                            : right;
+	margin                           : 10px 10px 5px 0;
+}
+
+#comment-reply-box .title
+{
+	background-image                 : url("../image/icon_PopupTitle.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	color                            : #5681B1;
+	font-weight                      : bold;
+	margin                           : 20px 0 10px 12px;
+	padding                          : 1px 0 0 17px;
+}
+
+#comment-reply-box #command-box
+{
+	background-color                 : #EAF4FF;
+	border                           : 1px solid #BFDCFC;
+	color                            : #2A64A3 !important;
+	margin                           : 0 10px;
+	padding                          : 10px;
+}
+
+#comment-reply-box #command-box dl dt
+{
+	float                            : left;
+	margin-right                     : 3px;
+	padding-top                      : 5px;
+	text-align                       : right;
+	width                            : 100px;
+}
+
+#comment-reply-box #command-box dl dd
+{
+	float                            : left;
+}
+
+#comment-reply-box #command-box dl,
+#comment-reply-box #command-box dl dd.clear
+{
+	clear                            : both;
+	float                            : none;
+	margin-top                       : 2px;
+}
+
+#comment-reply-box #command-box label
+{
+	color                            : #2A64A3 !important;
+	cursor                           : pointer;
+}
+
+#comment-reply-box #command-box .text-input
+{
+	border                           : 1px solid #9DCAFB;
+	padding                          : 3px;
+	width                            : 296px;
+}
+
+#comment-reply-box #command-box .secret-line
+{
+	margin                           : 4px 0 0 105px;
+}
+
+#comment-reply-box #command-box .checkbox
+{
+	vertical-align                   : middle;
+}
+
+#comment-reply-box #command-box .content-line
+{
+	margin-top                       : 6px;
+}
+
+#comment-reply-box #command-box textarea
+{
+	border                           : 1px solid #9DCAFB;
+	overflow                         : auto;
+	width                            : 303px;
+}
+
+#comment-reply-box .button-box
+{
+	margin-top                       : 5px;
+	text-align                       : right;
+}
+
+#comment-reply-box #command-box .button-input
+{
+	border                           : 1px solid #6297D1;
+	background-color                 : #83AFE0;
+	color                            : #FFFFFF;
+	font-weight                      : bold;
+	font-size                        : 94%;
+	height                           : 1.9em;
+	padding                          : 0 6px;
+	vertical-align                   : middle;
+}
+
+/* XHTML 에러 메세지 윈도우용 CSS */
+#body-messege-page
+{
+	background-image                 : url("../image/e_back.gif");
+	background-position              : left top;
+}
+
+#body-messege-page .messege-box
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url("../image/back.gif");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #000000;
+	margin-top                       : 300px;
+	padding                          : 20px;
+	text-align                       : center;
+}
+
+#body-messege-page h1
+{
+	color                            : #213141;
+	font-size                        : 12px;
+	margin-bottom                    : 10px;
+}
+
+#body-messege-page .button-input
+{
+	border                           : 1px solid #878787;
+	background-color                 : #EFEFEF;
+	color                            : #000000;
+	font-weight                      : bold;
+	font-size                        : 12px;
+	height                           : 1.9em;
+	margin-top                       : 20px;
+	padding                          : 0 6px;
+}

@@ -79,7 +79,7 @@ if ($setting['newWindow'] == 2) {
 						<form method="post" action="<?=$blogURL?>/owner/reader/opml/import/file/" target="hiddenFrame" enctype="multipart/form-data">
 							
 							<div id="data-outbox">
-								<h2><span><?=_t('리더 서브메뉴')?></span></h2>
+								<h2><span class="text"><?=_t('리더 서브메뉴')?></span></h2>
 								
 								<ul id="reader-menu">
 									<li id="all-read"><a href="<?=$blogURL . '/owner/reader'?>"><span><?=_t('전체보기')?></span></a></li>
@@ -303,5 +303,5 @@ if (isset($_GET['forceRefresh'])) {
 								</script>
 <?
 }
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/lib/piece/owner/footer0.php';
 ?>

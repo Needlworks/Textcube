@@ -197,7 +197,6 @@
 	border                           : 2px solid #EEEEEE;
 	float                            : left;
 	margin                           : 0 15px;
-	padding                          : 10px;
 }
 
 #part-skin-tree .data-inbox
@@ -292,6 +291,11 @@
 }
 
 /* tree iframe ----------------------------------------------------------------------------------*/
+#tree-iframe
+{
+	margin                           : 10px !important;
+}
+
 #tree-iframe .branch3
 {
 	height                           : 16px;

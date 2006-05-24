@@ -57,5 +57,5 @@ require ROOT . '/lib/piece/owner/contentMenu31.php';
 									</div>
 								</div>
 <?
-require ROOT . '/lib/piece/owner/footer2.php';
+require ROOT . '/lib/piece/owner/footer1.php';
 ?>

@@ -171,7 +171,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 
 	if ($i == sizeof($trackbacks) - 1) {
 ?>
-											<tr class="tr-last-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection">
 													<input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" />
 												</td>
@@ -206,7 +206,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?
 	} else {
 ?>
-											<tr class="tr-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection">
 													<input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" />
 												</td>
@@ -305,5 +305,5 @@ for ($i = 10; $i <= 30; $i += 5) {
 										</div>
 									</div>
 <?
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/lib/piece/owner/footer0.php';
 ?>

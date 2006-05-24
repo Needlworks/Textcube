@@ -1,11 +1,11 @@
 <?php 
-
 function printHtmlHeader($title = '') {
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title><?php echo $title?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title><?php echo $title?></title>
 </head>
 <body>
 <?php 
@@ -115,29 +115,29 @@ var servicePath = "<?php echo $service['path']?>"; var blogURL = "<?php echo $bl
 		try { secretValue = document.getElementById("secret_guest").checked ? "on" : ""; } catch(e) { secretValue = ""; }
 		try { commentValue = document.getElementById("comment_guest").value; } catch(e) { commentValue = ""; }	
 		
-		<?php 
+<?php 
 	if (!doesHaveMembership()) {
 ?>
 		if (!checkValue(document.getElementById("name_guest"), "<?php echo _t('이름을 입력해 주십시오')?>")) return false;
-		<?php 
+<?php 
 	}
 ?>
 		if (!checkValue(document.getElementById("comment_guest"), "<?php echo _t('댓글을 입력해 주십시오')?>")) return false;
 		
-		<?php 
+<?php 
 	if (doesHaveOwnership()) {
 ?>
 		// TODO : EAF HTTPRequest 클래스를 이용할 것
 		result = getResponse(oForm.action , "comment_" + entryId + "=" + encodeURIComponent(commentValue));
-		<?php 
+<?php 
 	} else if (doesHaveMembership()) {
 ?>
 		result = getResponse(oForm.action , "comment_" + entryId + "=" + encodeURIComponent(commentValue) + "&secret_" + entryId + "=" + secretValue)
-		<?php 
+<?php 
 	} else {
 ?>
 		result = getResponse(oForm.action , "name_" + entryId + "=" + encodeURIComponent(nameValue) + "&password_" + entryId + "=" + encodeURIComponent(passwordValue) + "&homepage_" + entryId + "=" + encodeURIComponent(homepageValue) + "&comment_" + entryId + "=" + encodeURIComponent(commentValue) + "&secret_" + entryId + "=" + secretValue);
-		<?php 
+<?php 
 	}
 ?>
 		trace(result);
@@ -1209,9 +1209,9 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 	foreach (getFeedGroups($owner, $starredOnly, $searchKeyword) as $group) {
 		if ($group['id'] == 0)
 			$group['title'] = _t('전체보기');
-		$class = ($selectedGroup == $group['id']) ? 'overActive' : 'overInactive';
+		$class = ($selectedGroup == $group['id']) ? 'active-class' : 'inactive-class';
 ?>
-														<li id="groupList<?php echo $group['id']?>" class="<?=$class?>">
+														<li id="groupList<?php echo $group['id']?>" class="<?=$class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 															<a href="#void" onclick="Reader.selectGroup(this, <?php echo $group['id']?>)"><?php echo htmlspecialchars($group['title'])?></a>
 <?php 
 		if ($group['id']) {
@@ -1231,7 +1231,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 														<div class="title"><span><?php echo _t('그룹 등록하기')?></span></div>
 														<div class="button-box">
 															<input type="text" id="newGroupTitle" class="text-input" value="<?=_t('그룹을 추가하세요')?>" onfocus="if(this.value == '<?php echo _t('그룹을 추가하세요')?>') this.value = ''" onkeydown="if(event.keyCode==13) Reader.addGroup(this.value)" />
-															<a class="add-button button" onclick="Reader.addGroup(document.getElementById('newGroupTitle').value)"><span><?php echo _t('추가')?></span></a>
+															<a class="add-button button" href="#void" onclick="Reader.addGroup(document.getElementById('newGroupTitle').value)"><span><?php echo _t('추가')?></span></a>
 															<div class="clear"></div>
 														</div>
 													</div>
@@ -1268,7 +1268,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 		else
 			$status = 'UpdateNo';
 ?>
-														<li class="overInactive" onclick="Reader.selectFeed(this, <?php echo $feed['id']?>)">
+														<li class="inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectFeed(this, <?php echo $feed['id']?>)">
 															<div class="title"><?php echo $feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" onclick="window.open(this.href); event.cancelBubble=true; return false;" title="이 피드의 원본 사이트를 새 창으로 엽니다.">' : ''?><strong><?php echo htmlspecialchars($feed['title'])?></strong><?php echo $feed['blogURL'] ? "</a>\n" : ''?></div><div class="description"><?php echo $feed['description']?'<span class="divider"> | </span>':'&nbsp;'?><?php echo htmlspecialchars($feed['description'])?></div>
 															<div class="button-box">
 																<a id="iconFeedStatus<?php echo $feed['id']?>" class="update-button button" onclick="Reader.updateFeed(<?php echo $feed['id']?>, '<?=_t('피드를 업데이트 했습니다.')?>'); event.cancelBubble=true; return false;" title="이 피드를 업데이트 합니다."><span><?=_t('피드 업데이트')?></span></a>
@@ -1335,11 +1335,11 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 		if ($count == 1)
 			$firstEntryId = $entry['id'];
 		$class = $entry['wasread'] ? 'read' : 'unread';
-		$class .= ($count == 1) ? ' overActive' : ' overInactive';
-		$podcast = $entry['enclosure'] ? '<span class="podcast bullet" title="팟캐스트 포스트입니다."><span>' . _t('팟 캐스트') . '</span></span>' : '';
+		$class .= ($count == 1) ? ' active-class' : ' inactive-class';
+		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="팟캐스트 포스트입니다."><span>' . _t('팟 캐스트') . '</span></span>' : '';
 ?>
 													<tr>
-														<td id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onmouseover="rolloverLi(this, 'on')" onmouseout="rolloverLi(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
+														<td id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
 															<div class="icons">
 	<?
 			if ($entry['item']) {
@@ -1381,17 +1381,6 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 <?php 
 	}
 ?>
-														var liClass = '';
-														
-														function rolloverLi(obj, type) {
-															if (type == 'on') {
-																liClass = obj.className;
-																obj.className = obj.className.replace(/over(Active|Inactive)/, 'rollover');
-															} else {
-																obj.className = liClass;
-																liClass = '';
-															}
-														}
 													//]]>
 												</script>
 <?php 
@@ -1407,11 +1396,11 @@ function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false
 	foreach (getFeedEntries($owner, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword, $offset) as $entry) {
 		$count++;
 		$class = $entry['wasread'] ? 'read' : 'unread';
-		$class .= ($count == 1) ? ' overActive' : ' overInactive';
+		$class .= ($count == 1) ? ' active-class' : ' inactive-class';
 		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="팟캐스트 포스트입니다."><span>' . _t('팟 캐스트') . '</span></span>' : '';
 ?>
 													<tr>
-														<td id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onmouseover="rolloverLi(this, 'on')" onmouseout="rolloverLi(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
+														<td id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
 															<div class="icons">
 	<?
 			if ($entry['item']) {

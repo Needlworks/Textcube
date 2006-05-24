@@ -76,7 +76,7 @@ for ($i=0; $i<sizeof($plugins); $i++) {
 	
 	if ($i == sizeof($plugins) - 1) {
 ?>
-											<tr class="tr-last-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="title"><?=($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title)?></td>
 												<td class="version"><?=htmlspecialchars($xmls->getValue('/plugin/version[lang()]'))?></td>
 							 					<td class="explain"><?=htmlspecialchars($xmls->getValue('/plugin/description[lang()]'))?></td>
@@ -98,7 +98,7 @@ for ($i=0; $i<sizeof($plugins); $i++) {
 <?
 	} else {
 ?>
-											<tr class="tr-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="title"><?=($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title)?></td>
 												<td class="version"><?=htmlspecialchars($xmls->getValue('/plugin/version[lang()]'))?></td>
 							 					<td class="explain"><?=htmlspecialchars($xmls->getValue('/plugin/description[lang()]'))?></td>
@@ -127,5 +127,5 @@ for ($i=0; $i<sizeof($plugins); $i++) {
 										</table>
 									</div>
 <?
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/lib/piece/owner/footer0.php';
 ?>

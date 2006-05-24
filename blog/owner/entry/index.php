@@ -290,7 +290,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	
 	if ($i == sizeof($entries) - 1) {
 ?>
-										<tr class="tr-last-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+										<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked=false" /></td>
 											<td class="date"><?=Timestamp::formatDate($entry['published'])?></td>
 											<td class="statue">
@@ -381,7 +381,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?
 	} else {
 ?>
-										<tr class="tr-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+										<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked=false" /></td>
 											<td class="date"><?=Timestamp::formatDate($entry['published'])?></td>
 											<td class="statue">
@@ -479,7 +479,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 									
 									<div class="data-subbox">
 										<div id="change-section" class="section">
-											<span class="label"><?=_t('선택한 글을')?></span>
+											<span class="label"><span class="text"><?=_t('선택한 글을')?></span></span>
 											<select onchange="processBatch(this.value); this.selectedIndex=0">
 												<option>-------------------------</option>
 												<option value="publish"><?=_t('공개로 변경합니다.')?></option>
@@ -541,5 +541,5 @@ for ($i = 10; $i <= 30; $i += 5) {
 									</div>
 								</div>
 <?
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/lib/piece/owner/footer0.php';
 ?>

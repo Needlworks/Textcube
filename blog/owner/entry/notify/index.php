@@ -164,7 +164,7 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 	
 	if ($i == sizeof($mergedComments) - 1) {
 ?>
-											<tr class="tr-last-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$comment['id']?>" /></td>
 												<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
 												<td class="site"><a href="<?=$comment['siteUrl']?>" onclick="window.open(this.href); return false;" title="사이트를 새 창으로 연결합니다."><?=htmlspecialchars($comment['siteTitle'])?></a></td>
@@ -217,7 +217,7 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 <?
 	} else {
 ?>
-											<tr class="tr-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$comment['id']?>" /></td>
 												<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
 												<td class="site"><a href="<?=$comment['siteUrl']?>" onclick="window.open(this.href); return false;" title="사이트를 새 창으로 연결합니다."><?=htmlspecialchars($comment['siteTitle'])?></a></td>
@@ -315,5 +315,5 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 										</div>
 									</div>
 <?
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/lib/piece/owner/footer0.php';
 ?>

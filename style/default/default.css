@@ -98,7 +98,7 @@ li
 	
 #all-wrap
 {
-	font-size                        : 92%;
+	font-size                        : 94%;
 	text-align                       : justify;
 }
 
@@ -162,7 +162,7 @@ li
 	background-position              : right top;
 	background-repeat                : no-repeat;
 	height                           : 31px;
-	min-width                        : 620px;
+	min-width                        : 650px;
 	overflow                         : hidden;
 }
 
@@ -385,7 +385,7 @@ li
 	background-repeat                : no-repeat;
 	clear                            : both;
 	margin                           : 0 20px;
-	min-width                        : 849px;
+	min-width                        : 900px;
 	padding                          : 0 0 20px 20px;
 }
 
@@ -484,12 +484,12 @@ li
 	color                            : #308FC9 !important;
 }
 
-#data-outbox table.data-inbox tr.overActive
+#data-outbox table.data-inbox .rollover-class
 {
 	background-color                 : #EEEEEE;
 }
 
-#data-outbox table.data-inbox tr.overInactive
+#data-outbox table.data-inbox .inactive-class
 {
 	background-color                 : transparent;
 }

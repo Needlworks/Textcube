@@ -1,0 +1,78 @@
+@media all and (min-width: 0px)
+{
+	/* Editor ****************************************************************************************/
+	
+	/* common ---------------------------------------------------------------------------------------*/
+	#editor-section
+	{
+		width                            : 652px;
+	}
+	
+	/* title ----------------------------------------------------------------------------------------*/
+	#title-container label
+	{
+		padding-top                      : 2px;
+	}
+
+	#body-post #title-container .text-input
+	{
+		padding                          : 3px;
+	}
+	
+	/* command buttons ------------------------------------------------------------------------------*/
+	#fontFamilyChanger
+	{
+		width                            : 90px;
+	}
+	
+	/* tag & location -------------------------------------------------------------------------------*/
+	#tag-location-container
+	{
+		padding-bottom                   : 3px;
+	}
+	
+	/* tag ------------------------------------------------------------------------------------------*/
+	dl#tag-line dd#tag
+	{
+		width                            : 576px;
+	}
+	
+	dl#tag-line dd .text-input
+	{
+		padding                          : 4px;
+	}
+
+	/* location -------------------------------------------------------------------------------------*/
+	dl#location-line
+	{
+		margin-top                       : 3px;
+	}
+	
+	dl#location-line dd#location
+	{
+		width                            : 576px;
+	}
+	
+	dl#location-line dd .text-input
+	{
+		margin-top                       : -3px;
+		padding                          : 4px;
+	}
+
+	#location-line dd ul li
+	{
+		background-position              : right 3px;
+	}
+	
+	/* power ----------------------------------------------------------------------------------------*/
+	#power-section dl dd .text-input
+	{
+		padding                          : 4px;
+	}
+	
+	/* button box -----------------------------------------------------------------------------------*/
+	.button-box .button span
+	{
+		padding-top                      : 4px;
+	}
+}

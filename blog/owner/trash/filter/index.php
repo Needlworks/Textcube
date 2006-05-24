@@ -35,7 +35,7 @@ function printFilterBox($mode, $title) {
 		foreach ($filtersList as $key => $value) {
 			$entity = $value[1];
 ?>
-													<tr class="overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+													<tr class="inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 														<td class="content"><span title="<?=escapeJSInAttribute($entity)?>"><?=UTF8::lessenAsEm($entity, 30)?></span></td>
 														<td class="delete"><a class="delete-button button" href="#void" onclick="deleteFilter(parentNode.parentNode,'<?=$mode?>', '<?=urlencode($entity)?>',<?=$value[0]?>);" title="<?=_t('이 필터링을 제거합니다.')?>"><span><?=_t('삭제')?></span></a></td>
 													</tr>
@@ -44,7 +44,7 @@ function printFilterBox($mode, $title) {
 		}
 	} else {
 ?>
-													<tr class="overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+													<tr class="inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 														<td><?=_t('등록된 내용이 없습니다.')?></td>
 													</tr>
 <?
@@ -226,7 +226,7 @@ if (!@is_null($history)) {
 									
 									<input type="hidden" id="mode" name="mode" />
 									
-									<div id="part-setting-filter" class="part">
+									<div id="part-trash-filter" class="part">
 										<h2 class="caption" title="댓글, 트랙백, 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우거나 무시합니다."><span class="main-text"><?=_t('필터링을 설정합니다')?></span></h2>
 										
 										<div class="data-inbox">

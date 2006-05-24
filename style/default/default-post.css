@@ -306,20 +306,6 @@
 	display                          : none;
 }
 
-#part-post-list table.data-inbox .tr-body .protect .button,
-#part-post-list table.data-inbox .tr-body .trackback .button,
-#part-post-list table.data-inbox .tr-body .delete .button
-{
-
-}
-
-#part-post-list table.data-inbox .tr-last-body .protect,
-#part-post-list table.data-inbox .tr-last-body .trackback,
-#part-post-list table.data-inbox .tr-last-body .delete
-{
-
-}
-
 #part-post-list table.data-inbox .tr-body .protect-on-button,
 #part-post-list table.data-inbox .tr-last-body .protect-on-button
 {
@@ -1165,7 +1151,7 @@
 	display                          : block;
 	float                            : left;
 	height                           : 9px;
-	margin                           : 1px 3px 0 0;
+	margin                           : 3px 3px 0 0;
 	width                            : 18px;
 }
 
@@ -1689,7 +1675,7 @@
 	background-color                 : #FFFFFF;
 	border                           : 1px solid #CCCCCC;
 	height                           : 280px;
-	overflow                         : visible;
+	overflow                         : auto;
 	padding                          : 10px;
 	width                            : 280px;
 }

@@ -145,11 +145,11 @@ TTReader.prototype.selectGroup = function(caller, id)
 	this.refreshEntryList(id, 0);
 	this.refreshEntry(id, 0, 0);
 	this.selectedGroup = id;
-	getObject("groupList0").className = 'overInactive'
+	getObject("groupList0").className = 'inactive-class'
 	if(this.selectedGroupObject != null)
-		this.selectedGroupObject.className = 'overInactive'
+		this.selectedGroupObject.className = 'inactive-class'
 	this.selectedGroupObject = caller.parentNode;
-	this.selectedGroupObject.className = 'overActive'
+	this.selectedGroupObject.className = 'active-class'
 }
 
 TTReader.prototype.selectFeed = function(caller, id)
@@ -158,16 +158,16 @@ TTReader.prototype.selectFeed = function(caller, id)
 	this.refreshEntry(this.selectedGroup, id, 0);
 	this.selectedFeed = id;
 	if(this.selectedFeedObject != null)
-		this.selectedFeedObject.className = "overInactive";		
+		this.selectedFeedObject.className = "inactive-class";		
 	this.selectedFeedObject = caller;
-	this.selectedFeedObject.className = "overActive";
+	this.selectedFeedObject.className = "active-class";
 }
 
 TTReader.prototype.selectEntry = function(id)
 {
 	this.refreshEntry(this.selectedGroup, this.selectedFeed, id);
 	tempClass = document.getElementById("entryTitleList" + this.selectedEntry).className;
-	document.getElementById("entryTitleList" + this.selectedEntry).className = tempClass.replace(/overActive/, "overInactive");
+	document.getElementById("entryTitleList" + this.selectedEntry).className = tempClass.replace(/active-class/, "inactive-class");
 	this.selectedEntry = id;
 	this.selectEntryObject(id);
 }
@@ -177,7 +177,7 @@ TTReader.prototype.selectEntryObject = function(id)
 	var caller = getObject("entryTitleList" + id);
 	if(caller) {
 		this.selectedEntryObject = caller;
-		this.selectedEntryObject.className = "read overActive";
+		this.selectedEntryObject.className = "read active-class";
 		var list = getObject("listup");
 		if(this.floatingListOffset == 0)
 			this.setListPosition();
@@ -301,7 +301,7 @@ TTReader.prototype.refreshEntry = function(group, feed, entry)
 		getObject("blogTitle").innerHTML = this.getText("/response/blog");
 		getObject("entry").innerHTML = this.getText("/response/view");
 		try {
-			getObject("entryTitleList" + Reader.selectedEntry).className = "read overActive";
+			getObject("entryTitleList" + Reader.selectedEntry).className = "read active-class";
 		} catch(e) { }
 		
 		Reader.setListPosition(true);
@@ -599,7 +599,7 @@ TTReader.prototype.saveSetting = function()
 TTReader.prototype.markAsUnread = function(id)
 {
 	var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/mark/unread/");
-	request.presetProperty(getObject("entryTitleList" + id), "className", "unread overActive");
+	request.presetProperty(getObject("entryTitleList" + id), "className", "unread active-class");
 	request.onSuccess = function () {
 		PM.showMessage(s_markedAsUnread, "center", "bottom");
 	}

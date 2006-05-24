@@ -112,7 +112,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	
 	if ($i == sizeof($entries) - 1) {
 ?>
-											<tr class="tr-last-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked = false" /></td>
 												<td class="date"><?=Timestamp::format3($entry['published'])?></td>
 												<td class="statue">
@@ -136,7 +136,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?
 	} else {
 ?>
-											<tr class="tr-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked = false" /></td>
 												<td class="date"><?=Timestamp::format3($entry['published'])?></td>
 												<td class="statue">
@@ -210,5 +210,5 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 										</div>
 									</div>
 <?
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/lib/piece/owner/footer0.php';
 ?>

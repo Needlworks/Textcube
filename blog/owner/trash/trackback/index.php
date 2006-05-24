@@ -100,7 +100,7 @@ require ROOT . '/lib/piece/owner/contentMenu90.php';
 //]]>
 </script>
 
-									<div id="part-post-trackback" class="part">
+									<div id="part-trash-trackback" class="part">
 										<h2 class="caption">
 											<span class="category">
 												<label for="category"><span><?php echo _t('분류')?></span><span class="divider"> | </span></label>
@@ -169,7 +169,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	
 	if ($i == sizeof($trackbacks) - 1) {
 ?>
-											<tr class="tr-last-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection">
 													<input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" />
 												</td>
@@ -204,7 +204,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?
 	} else {
 ?>
-											<tr class="tr-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection">
 													<input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" />
 												</td>

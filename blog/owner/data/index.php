@@ -185,7 +185,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 										<h3><?=_t('데이터 복원을 시작합니다')?></h3>
 										<div class="messege-body">
 											<div class="explain">
-												<span class="asterisk">*</span><?=_f('이 계정의 업로드 허용 용량은 <strong>%1</strong> 바이트로 백업파일의 크기가 이를 초과하는 경우 <acronym title="file transfer protocol">FTP</acronym> 등으로 원하시는 사이트에 업로드하신 후 이 파일의 웹 주소를 입력해서 진행하십시오. 이 경우, 보안을 위해 복원이 끝나면 반드시 그 백업파일을 웹 상에서 지우실 것을 권장합니다.', (getNumericValue(ini_get('post_max_size')) < getNumericValue(ini_get('upload_max_filesize')) ? ini_get('post_max_size') : ini_get('upload_max_filesize')))?>
+												<span class="asterisk">*</span><?=_f('이 계정의 업로드 허용 용량은 <strong>%1</strong> 바이트로 백업파일의 크기가 이를 초과하는 경우 <acronym title="File Transfer Protocol">FTP</acronym> 등으로 원하시는 사이트에 업로드하신 후 이 파일의 웹 주소를 입력해서 진행하십시오. 이 경우, 보안을 위해 복원이 끝나면 반드시 그 백업파일을 웹 상에서 지우실 것을 권장합니다.', (getNumericValue(ini_get('post_max_size')) < getNumericValue(ini_get('upload_max_filesize')) ? ini_get('post_max_size') : ini_get('upload_max_filesize')))?>
 											</div>
 <?
 if ($backup) {
@@ -287,5 +287,5 @@ if ($backup) {
  							
 			 				<iframe id="blackhole" name="blackhole" style="display: none;"></iframe>
 <?
-require ROOT . '/lib/piece/owner/footer2.php';
+require ROOT . '/lib/piece/owner/footer1.php';
 ?>

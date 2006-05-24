@@ -1,11 +1,11 @@
 <?php 
 $logoPath = $service['path'] . '/style/default/image/controlPanelLogo.gif';
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Traditional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-traditional.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><?php echo htmlspecialchars($blog['title'])?> &gt; <?php echo _t('휴지통관리')?></title>
+	<title><?php echo htmlspecialchars($blog['title'])?> &gt; <?php echo _t('휴지통')?></title>
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $service['path']?>"; var blogURL = "<?php echo $blogURL?>";
@@ -17,11 +17,11 @@ $logoPath = $service['path'] . '/style/default/image/controlPanelLogo.gif';
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/gallery.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js"></script>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-post.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-setting.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-trash.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-opera.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-trash-opera.css" />
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-ie.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-post-ie.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-editor-ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-trash-ie.css" /><![endif]-->
 </head>
 <body id="body-post">
 	<div id="temp-wrap">
@@ -41,7 +41,7 @@ $logoPath = $service['path'] . '/style/default/image/controlPanelLogo.gif';
 						<li class="notice"><a href="<?php echo $blogURL?>/owner/notice"><span><?php echo _t('공지관리')?></span></a></li>				
 						<li class="link"><a href="<?php echo $blogURL?>/owner/link"><span><?php echo _t('링크관리')?></span></a></li>
 						<li class="skin"><a href="<?php echo $blogURL?>/owner/skin"><span><?php echo _t('스킨관리')?></span></a></li>
-						<li class="trash selected"><a href="<?php echo $blogURL?>/owner/trash/trackback"><span><?php echo _t('휴지통관리')?></span></a></li>
+						<li class="trash selected"><a href="<?php echo $blogURL?>/owner/trash/trackback"><span><?php echo _t('휴지통')?></span></a></li>
 						<li class="statistics"><a href="<?php echo $blogURL?>/owner/statistics/visitor"><span><?php echo _t('통계보기')?></span></a></li>
 						<li class="setting"><a href="<?php echo $blogURL?>/owner/setting/blog"><span><?php echo _t('환경설정')?></span></a></li>
 						<li class="reader"><a href="<?php echo $blogURL?>/owner/reader"><span><?php echo _t('리더')?></span></a></li>

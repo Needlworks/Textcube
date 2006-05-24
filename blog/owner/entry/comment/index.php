@@ -192,7 +192,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	
 	if ($i == sizeof($comments) - 1) {
 ?>
-											<tr class="tr-last-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection"><input type="checkbox" name="entry" value="<?=$comment['id']?>"/></td>
 												<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
 												<td class="name">
@@ -253,7 +253,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 <?
 	} else {
 ?>
-											<tr class="tr-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection"><input type="checkbox" name="entry" value="<?=$comment['id']?>"/></td>
 												<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
 												<td class="name">
@@ -378,5 +378,5 @@ for ($i = 10; $i <= 30; $i += 5) {
 										</div>
 									</div>
 <?
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/lib/piece/owner/footer0.php';
 ?>

@@ -46,7 +46,7 @@
 	font-weight                      : bold;
 	padding                          : 5px 4px 0 0;
 	text-align                       : right;
-	width                            : 60px;
+	width                            : 70px;
 }
 
 #title-container select
@@ -58,14 +58,14 @@
 {
 	border                           : 1px solid #92B5E8;
 	padding                          : 2px;
-	width                            : 420px;
+	width                            : 410px;
 }
 
 #body-notice #title-container .text-input
 {
 	border                           : 1px solid #92B5E8;
 	padding                          : 2px;
-	width                            : 586px;
+	width                            : 576px;
 }
 
 /* property box --------------------------------------------------------------------------------*/
@@ -220,7 +220,7 @@
 }
 
 #editor-palette a:link,
-#editor-palette a:visitor
+#editor-palette a:visited
 {
 	background-position              : left top;
 }
@@ -606,6 +606,18 @@ dl#location-line dd .text-input
 	margin-top                       : 12px;
 }
 
+#body-editor-attachment
+{
+	background-color                 : #D0E5F1;
+}
+
+#body-editor-attachment .file-input
+{
+	background-color                 : #EEEEEE;
+	border                           : 1px solid #666666;
+	color                            : #565656;
+}
+
 /* insert buttons */
 #insert-container
 {
@@ -630,7 +642,7 @@ dl#location-line dd .text-input
 }
 
 #insert-container ul li a:link,
-#insert-container ul li a:visitor
+#insert-container ul li a:visited
 {
 	background-position              : left top;
 }
@@ -733,7 +745,7 @@ dl#location-line dd .text-input
 
 #power-section dl dd .text-input
 {
-	border-color                     : 1px solid #92B5E8 !important;
+	border                           : 1px solid #92B5E8 !important;
 	margin-top                       : -4px;
 	padding                          : 2px;
 	width                            : 120px;

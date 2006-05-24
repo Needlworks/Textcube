@@ -109,7 +109,7 @@ require ROOT . '/lib/piece/owner/contentMenu91.php';
 										//]]>
 									</script>
 									
-									<div id="part-post-comment" class="part">
+									<div id="part-trash-comment" class="part">
 										<h2 class="caption">
 											<span class="category">
 												<label for="category"><span><?php echo _t('분류')?></span><span class="divider"> | </span></label>
@@ -192,7 +192,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	
 	if ($i == sizeof($comments) - 1) {
 ?>
-											<tr class="tr-last-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection"><input type="checkbox" name="entry" value="<?=$comment['id']?>"/></td>
 												<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
 												<td class="name">
@@ -253,7 +253,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 <?
 	} else {
 ?>
-											<tr class="tr-body overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection"><input type="checkbox" name="entry" value="<?=$comment['id']?>"/></td>
 												<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
 												<td class="name">

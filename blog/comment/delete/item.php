@@ -97,92 +97,43 @@ if (!empty($_POST['mode'])) {
 	respondErrorPage();
 }
 ?>
-
-
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-<title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="<?=$service['path']?>/style/owner.css" />
-<script type="text/javascript">
-var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
-</script>
-<script type="text/javascript" src="<?=$service['path']?>/script/common.js"></script>
+	<title><?php echo _t('댓글 삭제') ?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript">
+		//<![CDATA[
+			var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
+		//]]>
+	</script>
+	<script type="text/javascript" src="<?=$service['path']?>/script/common.js"></script>
+	<link rel="stylesheet" type="text/css" media="screen" href="<?=$service['path']?>/style/owner.css" />
 </head>
-<body style="margin:0; padding:0">
-<form name="deleteComment" method="post" action="<?=$blogURL?>/comment/delete/<?=$suri['id']?>">
-
-
-<table width="450" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td bgcolor="#6989AC"></td>
-  </tr>
-  <tr>
-    <td bgcolor="#9DCAFB" height="3"></td>
-  </tr>
-  <tr>
-    <td style="padding:10px;"><table width="100%" height="80" border="0" cellpadding="0" cellspacing="0">
-      <tr>
-        <td align="center" valign="bottom" style="color:#5681B0; font-weight:bold; font-size:13px; padding-bottom:10px;">
-		
-<?
-?>		
-		<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" />
-
-		
-<?
-?>	
-
-		</td>
-        </tr>
-    </table>
-      <table width="100%" height="180" border="0" cellpadding="20" cellspacing="1" bgcolor="#9DCAFB">
-        <tr>
-          <td align="center" bgcolor="#E0EFFF"><table height="40" border="0" cellpadding="1" cellspacing="0">
-            <tr>
+<body>
+	<form name="deleteComment" method="post" action="<?=$blogURL?>/comment/delete/<?=$suri['id']?>">
+		<div id="comment-box">
+			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" border="0" alt="태터툴즈 로고" />	
 			
-<?
-?>			
-              <td style="text-align:right; color:#2A64A3; font-size:12px; padding:15px;">
-                <input type="radio" name="mode" id="edit" value="edit" checked />
-                <label for="edit"><?=_t('댓글을 수정합니다')?></label> </td>
-				
-<?
-?>				
-              <td style="padding:15px;"><span style="text-align:right; color:#2A64A3; font-size:12px;">
-                <input type="radio" name="mode" id="delete" value="delete"> 
-                <label for="delete"><?=_t('댓글을 삭제합니다')?></label>
-              </span></td>
-			  
-			  
-			  
-            </tr>
-          </table>
-            <br />
-            <table>
-              <tr>
-			  
-			  
+			<div id="command-box">
+				<div class="edit-line">
+					<input type="radio" id="edit" class="radio" name="mode" value="edit" checked="checked" /> <label for="edit"><span class="text"><?=_t('댓글을 수정합니다.')?></span></label>
+				</div>
+				<div class="delete-line">			
+					<input type="radio" id="delete" class="radio" name="mode" value="delete" />  <label for="delete"><span class="text"><?=_t('댓글을 삭제합니다.')?></span></label>
+				</div>
+				<div class="password-line">
 <?
 if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId()))) {
 ?>				  
-                <td id="password_td" style="text-align:right; color:#2A64A3; font-size:12px; padding:3px;">
-				<label for="password"><?=_t('비밀번호')?>:</label>
-                <input type="password" name="password" id="password" style="border: 1px solid #9DCAFB; height:22px; width:150px;" /></td>
-                <?
+					<label for="password"><span class="text"><?=_t('비밀번호')?></span><span class="divider"> | </span></label><input type="password" id="password" class="text-input" name="password" />
+<?
 }
-?>				
-				
-				
-                <td style="padding:3px;">
-				<input onClick="document.deleteComment.submit()" type="button" name="Submit" value="<?=_t('다음')?>" style="border: 1px solid #6297D1; background-color:#83AFE0; color:#fff; width:70px; height:20px; font-size:11px; font-family:tahoma; font-weight:bold;" /></td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table></td>
-  </tr>
-</table>
-</form>
+?>
+					<input type="button" class="button-input" name="submit" value="<?=_t('다음')?>" onclick="document.deleteComment.submit()" />				
+				</div>
+			</div>
+		</div>
+	</form>
 </body>
 </html>

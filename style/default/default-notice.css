@@ -207,6 +207,11 @@
 	padding                          : 10px 120px 0 3px;
 }
 
+#part-notice-list #page-navigation #page-list
+{
+	padding-left                     : 28px;
+}
+
 /* search ---------------------------------------------------------------------------------------*/
 #part-notice-list #search-section
 {

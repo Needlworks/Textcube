@@ -292,8 +292,8 @@ if ($service['type'] != 'single') {
 										</div>
 									
 <?
-if (($service['type'] != 'single') && (getUserId() == 1)) {
-	$urlRule = getBlogURLRule();
+//if (($service['type'] != 'single') && (getUserId() == 1)) {
+//	$urlRule = getBlogURLRule();
 ?>
 										<div id="part-setting-invite" class="part">
 											<h2 class="caption"><span class="main-text"><?=_t('친구를 초대합니다')?></span></h2>
@@ -352,14 +352,6 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 															<td class="password"><span><?=_t('비밀번호')?></span></td>
 															<td class="cancel"><span><?=_t('초대취소')?></span></td>
 														</tr>
-														<tr class="tr-body">
-															<td class="email"><span>graphittie(sntmntl@dreamwiz.com)</span></td>
-															<td class="address"><a href="<?=getBlogURL($value['blogName'])?>" onclick="window.open(this.href)">www.beyondours.com</a></td>
-															<td class="date"><span>2006/03/14</span></td>
-															<td class="statue"><span><?=_t('경과')?></span></td>
-															<td class="password"><span><?=_t('비밀번호')?></span></td>
-															<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?=$value['userid']?>,this);" title="<?=_t('초대에 응하지 않은 사용자의 계정을 삭제합니다.')?>"><span><?=_t('초대취소')?></span></a></td>
-														</tr>
 <?
 	foreach ($invitedList as $value) {
 ?>
@@ -385,7 +377,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 											</div>
 										</div>
 <?
-}
+//}
 
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/lib/piece/owner/footer0.php';
 ?>

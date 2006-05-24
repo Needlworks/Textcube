@@ -31,6 +31,7 @@
 	background-color                 : #CCCCCC;
 	background-image                 : url("./image/button2.gif");
 	height                           : 24px;
+	line-height                      : 24px;
 	margin                           : 0 auto;
 	padding-left                     : 4px;
 	width                            : 106px;
@@ -41,6 +42,7 @@
 	background-color                 : #CCCCCC;
 	background-image                 : url("./image/button2.gif");
 	height                           : 24px;
+	line-height                      : 24px;
 	padding                          : 1px 4px 0 0;
 	text-align                       : center;
 	width                            : 102px;
@@ -112,6 +114,7 @@ input#pathDomain
 #favicon-iframe
 {
 	background-color                 : #EBF2F8;
+	font-family                      : ±¼¸², Gulim, Arial, Tahoma, Verdana, sans-serif;
 	padding-left                     : 10px;
 }
 
@@ -139,8 +142,9 @@ input#pathDomain
 	float                            : left;
 	font-size                        : 12px;
 	font-weight                      : bold;
+	height                           : 16px;
 	margin                           : 8px 0 0 3px;
-	padding                          : 4px 10px 1px 10px;
+	padding                          : 4px 10px 0 10px;
 	text-align                       : center;
 	text-decoration                  : none;
 	width                            : 60px;
@@ -167,7 +171,7 @@ input#pathDomain
 
 #part-setting-rss #rss-section .button-box .save-button span
 {
-	padding                          : 0 4px 0 0;
+	padding-top                      : 1px;
 }
 
 /* language & timezone --------------------------------------------------------------------------*/
@@ -184,7 +188,7 @@ input#pathDomain
 
 #part-setting-language #language-section .button-box .save-button span
 {
-	padding                          : 0 4px 0 0;
+	padding-top                      : 1px;
 }
 
 /* Account ***************************************************************************************/
@@ -198,7 +202,7 @@ input#pathDomain
 
 #part-setting-account dl dd
 {
-	width : 200px;
+	width : 500px;
 }
 
 #part-setting-account #info-section .text-input
@@ -353,8 +357,9 @@ input#pathDomain
 	border-right                     : none;
 	border-top                       : none;
 	color                            : #536576;
-	margin                           : 5px 20px 0 150px;
+	margin                           : 5px 20px 0 132px;
 	overflow                         : hidden;
+	width                            : 85%;
 }
 
 #part-setting-invite #list-section table .tr-head
@@ -370,7 +375,7 @@ input#pathDomain
 	color                            : #FFFFFF;
 	font-weight                      : bold;
 	overflow                         : hidden;
-	padding                          : 5px 0 0 0;
+	padding                          : 2px 5px 0 5px !important;
 }
 
 #part-setting-invite #list-section table .tr-body
@@ -387,7 +392,9 @@ input#pathDomain
 #part-setting-invite #list-section table .tr-body td,
 #part-setting-invite #list-section table .tr-last-body td
 {
+	height                           : 22px !important;
 	overflow                         : hidden;
+	padding                          : 0 5px;
 	text-align                       : left;
 }
 
@@ -398,12 +405,6 @@ input#pathDomain
 }
 
 /* list table head ------------------------------------------------------------------------------*/
-#part-setting-invite #list-section table .tr-head .email
-{
-	padding-left                     : 5px;
-	padding-right                    : 5px;
-}
-
 #part-setting-invite #list-section table .tr-head .date
 {
 	width                            : 70px;
@@ -411,7 +412,7 @@ input#pathDomain
 
 #part-setting-invite #list-section table .tr-head .statue
 {
-	width                            : 80px;
+	width                            : 50px;
 }
 
 #part-setting-invite #list-section table .tr-head .password
@@ -429,23 +430,35 @@ input#pathDomain
 	display                          : none;
 }
 
+/* list table body ------------------------------------------------------------------------------*/
 #part-setting-invite #list-section table .tr-body .email,
-#part-setting-invite #list-section table .tr-last-body .email
-{
-	padding-left                     : 5px;
-	padding-right                    : 5px;
-}
-
+#part-setting-invite #list-section table .tr-last-body .email,
 #part-setting-invite #list-section table .tr-body .address,
-#part-setting-invite #list-section table .tr-last-body .address
+#part-setting-invite #list-section table .tr-last-body .address,
+#part-setting-invite #list-section table .tr-body .date,
+#part-setting-invite #list-section table .tr-last-body .date,
+#part-setting-invite #list-section table .tr-body .statue,
+#part-setting-invite #list-section table .tr-last-body .statue,
+#part-setting-invite #list-section table .tr-body .password,
+#part-setting-invite #list-section table .tr-last-body .password
 {
-	padding-right                    : 5px;
+	padding-top                      : 3px;
 }
 
-#part-setting-invite #list-section table .tr-body .cancel,
-#part-setting-invite #list-section table .tr-last-body .cancel
+#part-setting-invite #list-section table .tr-body .cancel-button,
+#part-setting-invite #list-section table .tr-last-body .cancel-button
 {
-	padding-right                    : 5px;
+	background-image                 : url("./image/delete2.gif");
+	background-position              : left top;
+	height                           : 11px;
+	margin                           : 0 auto;
+	width                            : 11px;
+}
+
+#part-setting-invite #list-section table .tr-body .cancel-button span,
+#part-setting-invite #list-section table .tr-last-body .cancel-button span
+{
+	display                          : none;
 }
 
 /* Filter ****************************************************************************************/

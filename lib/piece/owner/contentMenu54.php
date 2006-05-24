@@ -1,5 +1,5 @@
 			<div id="layout-body">
-				<h2><span>환경설정 &gt; 서브메뉴</span></h2>
+				<h2><span class="text"><?php echo _t('서브메뉴 : 환경설정')?></span></h2>
 				
 				<div id="sub-menu-outbox">
 					<ul id="sub-menu">

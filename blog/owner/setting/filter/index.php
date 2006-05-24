@@ -35,7 +35,7 @@ function printFilterBox($mode, $title) {
 		foreach ($filtersList as $key => $value) {
 			$entity = $value[1];
 ?>
-													<tr class="overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+													<tr class="inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 														<td class="content"><span title="<?=escapeJSInAttribute($entity)?>"><?=UTF8::lessenAsEm($entity, 30)?></span></td>
 														<td class="delete"><a class="delete-button button" href="#void" onclick="deleteFilter(parentNode.parentNode,'<?=$mode?>', '<?=urlencode($entity)?>',<?=$value[0]?>);" title="<?=_t('이 필터링을 제거합니다.')?>"><span><?=_t('삭제')?></span></a></td>
 													</tr>
@@ -44,7 +44,7 @@ function printFilterBox($mode, $title) {
 		}
 	} else {
 ?>
-													<tr class="overInactive" onmouseover="rolloverTableTr(this, 'over')" onmouseout="rolloverTableTr(this, 'out')">
+													<tr class="inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 														<td><?=_t('등록된 내용이 없습니다.')?></td>
 													</tr>
 <?
@@ -256,5 +256,5 @@ if (!@is_null($history)) {
 									
 									<div class="clear"></div>
 <?
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/lib/piece/owner/footer0.php';
 ?>
