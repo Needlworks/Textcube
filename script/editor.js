@@ -1258,13 +1258,13 @@ function TTCommand(command, value1, value2) {
 				var code = "";
 				switch(ext) {
 					case "swf":
-						code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="400" height="300">\r\n' +
-								'<param name="movie" value="' + url + '">\r\n' +
-								'<!--[if !IE]> <-->\r\n' +
-								'<object type="application/x-shockwave-flash" data="' + url + '" width="400" height="300">\r\n' +
-								'<p><a href="' + url + '">Can\'t display this flash media</a></p>\r\n' +
-								'</object>\r\n' +
-								'<!--> <![endif]-->\r\n' +
+						code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="400" height="300">' +
+								'<param name="movie" value="' + url + '">' +
+								'<!--[if !IE]> <-->' +
+								'<object type="application/x-shockwave-flash" data="' + url + '" width="400" height="300">' +
+								'<p><a href="' + url + '">Can\'t display this flash media</a></p>' +
+								'</object>' +
+								'<!--> <![endif]-->' +
 								'</object>';
 						break;
 					default:
@@ -1288,9 +1288,9 @@ function TTCommand(command, value1, value2) {
 						}
 						
 						if(type)							
-							code = '<object width="320" height="280" src="' + url + '" type="' + type + '">\r\n' +
-								'<param name="FileName" value="' + url + '"/>\r\n' +
-								'<param name="AutoStart" value="0"/>\r\n' +
+							code = '<object width="320" height="280" src="' + url + '" type="' + type + '">' +
+								'<param name="FileName" value="' + url + '"/>' +
+								'<param name="AutoStart" value="0"/>' +
 								'</object>';
 						else {
 							alert(s_unknownFileType);
@@ -1654,8 +1654,8 @@ TTEditor.prototype.getSelectionRange = function() {
 
 // object 태그를 "" 안에 넣을 수 있도록 변형
 TTEditor.prototype.objectSerialize = function(str) {
-	str = str.replace(new RegExp("<br\\s*/?>", "gi"), "__CRLF__");
-	str = str.replace(new RegExp("\r?\n", "g"), "__CRLF__");
+	str = str.replace(new RegExp("<br\\s*/?>", "gi"), "");
+	str = str.replace(new RegExp("\r?\n", "g"), "");
 	str = str.replace(new RegExp("<", "g"), "__LT__");
 	str = str.replace(new RegExp(">", "g"), "__GT__");
 	str = str.replace(new RegExp('"', "g"), "__QUOT__");
@@ -1666,7 +1666,6 @@ TTEditor.prototype.objectUnSerialize = function(str) {
 	str = str.replaceAll("__QUOT__", '"');
 	str = str.replaceAll("__GT__", ">");
 	str = str.replaceAll("__LT__", "<");
-	str = str.replaceAll("__CRLF__", "\r\n");
 	return str;
 }
 
