@@ -14,7 +14,7 @@
 				
 				<div id="psuedo-outbox">
 					<div id="psuedo-inbox">
-						<form method="post" action="<?=$blogURL?>/owner/entry/notify">
+						<form method="post" action="<?=$blogURL?>/owner/trash/filter">
 							<input type="hidden" name="page" value="<?=$suri['page']?>" />
 							
 							<div id="data-outbox">
