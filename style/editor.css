@@ -17,7 +17,8 @@ img.tatterImazing,
 img.tatterGallery,
 img.tatterJukebox,
 img.tatterEmbed,
-img.tatterFlash {
+img.tatterFlash,
+img.tatterObject {
 	cursor: move;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -34,7 +35,8 @@ img.tatterImazing,
 img.tatterGallery,
 img.tatterJukebox,
 img.tatterEmbed,
-img.tatterFlash {
+img.tatterFlash,
+img.tatterObject {
 	background-color: #ffe;
 	border: 1px dashed #aaa;
 }
@@ -78,7 +80,7 @@ img.tatterImageTriple {
 	background-image: url("../image/owner/edit/attachAlign3Center.gif");
 }
 
-img.tatterEmbed, img.tatterFlash {
+img.tatterEmbed, img.tatterFlash, img.tatterObject {
 	background-image: url("../image/owner/edit/setEmbed_over.gif");
 	margin: 5px;
 	min-width: 200px;
@@ -89,7 +91,7 @@ img.tatterFlash {
 	background-image: url("../image/owner/edit/setFlash_over.gif");
 }
 
-* html img.tatterEmbed, * html img.tatterFlash {
+* html img.tatterEmbed, * html img.tatterFlash, * html img.tatterObject {
 	width: 200px;
 	height: 200px;
 }

@@ -1,6 +1,6 @@
 <?
 function printOwnerEditorScript($entryId = false) {
-	global $owner, $database, $skin, $blogURL, $service;
+	global $owner, $database, $skin, $hostURL, $blogURL, $service;
 	
 	$contentWidth = 500;
 	
@@ -22,6 +22,9 @@ function printOwnerEditorScript($entryId = false) {
 	var skinContentWidth = <?=$contentWidth?>;
 	var s_notSupportHTMLBlock = "<?=_t('위지윅 모드에서는 [HTML][/HTML] 블럭을 사용할 수 없습니다.')?>";
 	var s_enterURL = "<?=_t('URL을 입력하세요')?>";
+	var s_unknownFileType = "<?=_t('알 수 없는 형식의 파일명입니다')?>";
+	var s_enterObjectTag = "<?=_t('OBJECT 태그만 입력하세요')?>";
+	var s_enterCorrectObjectTag = "<?=_t('틀린 OBJECT 태그입니다')?>";
 
 	function savePosition() {
 		if (document.forms[0].content.createTextRange)
@@ -248,6 +251,12 @@ function printOwnerEditorScript($entryId = false) {
 			
 			}
 		}
+		if(editor.isMediaFile(value[0])) {
+			getObject("propertyInsertObject_type").value = "url";
+			getObject("propertyInsertObject_url").value = "<?="$hostURL$blogURL"?>" + "/attachment/" + value[0];
+			TTCommand("InsertObject");
+			return;
+		}
 		try {
 			if(editor.editMode == "WYSIWYG")
 			{
@@ -258,7 +267,7 @@ function printOwnerEditorScript($entryId = false) {
 				{
 					src = servicePath + "/image/spacer.gif";
 					value[1] = editor.styleUnknown;
-					attributes = "";				
+					attributes = "";
 				}
 
 				switch(align)
@@ -965,6 +974,62 @@ function printEntryFileUploadButton($entryId) {
 function printEntryEditorProperty() {
 	global $service;
 ?>
+<table id="propertyInsertObject" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
+  <tr>
+	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
+	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;"><?=_t('오브젝트 삽입')?></span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
+		<col width="45%"></col>
+		<col width="55%"></col>
+		<tr>
+		  <td style="font-size:11px; letter-spacing:-1; color:#666;"><?=_t('유형')?></td>
+		  <td align="right" style="padding-right:1px;">
+		  	<select id="propertyInsertObject_type" style="width: 105px" onchange="getObject('propertyInsertObject_part_url').style.display=getObject('propertyInsertObject_part_raw').style.display='none';getObject('propertyInsertObject_part_' + this.value).style.display = 'block'">
+				<option value="url"><?=_t('주소 입력')?></option>
+				<option value="raw"><?=_t('코드 붙여넣기')?></option>
+			</select>
+		  </td>
+		</tr>
+		<tr>
+		  <td height="1" background="<?=$service['path']?>/image/owner/edit/dotted_layer.gif"></td>
+		  <td></td>
+		</tr>
+		<tr>
+		  <td colspan="2">
+			<table cellpadding="0" cellspacing="0" id="propertyInsertObject_part_url" style="table-layout: fixed">
+			<col width="45%"></col>
+			<col width="55%"></col>
+			<tr>
+			  <td style="font-size:11px; letter-spacing:-1; color:#666;"><?=_t('파일 주소')?></td>
+			  <td align="right" style="padding-right:1px;"><input type="text" class="text2" id="propertyInsertObject_url" style="width: 95px"/></td>
+			</tr>
+			<tr>
+			  <td height="1" background="<?=$service['path']?>/image/owner/edit/dotted_layer.gif"></td>
+			  <td></td>
+			</tr>
+			</table>
+			<table id="propertyInsertObject_part_raw" style="display: none; table-layout: fixed">
+			<col width="45%"></col>
+			<col width="55%"></col>
+			<tr>
+			  <td colspan="2" style="font-size:11px; letter-spacing:-1; color:#666;"><?=_t('코드')?></td>
+			</tr>
+			<tr>
+			  <td colspan="2" height="1" background="<?=$service['path']?>/image/owner/edit/dotted_layer.gif"></td>
+			</tr>
+			<tr>
+			  <td colspan="2"><textarea id="propertyInsertObject_chunk" style="font-family: Monospace; color: #666; width: 185px; height: 100px"></textarea></td>
+			</tr>
+			</table>
+		  </td>
+		</tr>
+	  </table>
+	  <div style="text-align: right; padding-bottom: 10px">
+	  <button onclick="TTCommand('InsertObject')"><?=_t('삽입')?></button>
+	  </div>
+    </td>
+  </tr>
+</table>
+
 <table id="propertyImage1" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
@@ -1153,6 +1218,43 @@ function printEntryEditorProperty() {
     </td>
   </tr>
 </table>
+
+<table id="propertyObject" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
+  <tr>
+	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
+	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;">Object</span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
+	  	<col width="50%" />
+		<col width="50%" />
+		<tr>
+		  <td style="font-size:11px; letter-spacing:-1; color:#666;"><?=_t('폭')?></td>
+		  <td align="right" style="padding-right:1px;"><input type="text" class="text2" id="propertyObject_width" style="width: 88px" onkeyup="editor.setProperty()"/></td>
+		</tr>
+		<tr>
+		  <td height="1" background="<?=$service['path']?>/image/owner/edit/dotted_layer.gif"></td>
+		  <td></td>
+		</tr>
+		<tr>
+		  <td style="font-size:11px; letter-spacing:-1; color:#666;"><?=_t('높이')?></td>
+		  <td align="right" style="padding-right:1px;"><input type="text" class="text2" id="propertyObject_height" style="width: 88px" onkeyup="editor.setProperty()"/></td>
+		</tr>
+		<tr>
+		  <td height="1" background="<?=$service['path']?>/image/owner/edit/dotted_layer.gif"></td>
+		  <td></td>
+		</tr>
+		<tr>
+		  <td colspan="2" style="font-size:11px; letter-spacing:-1; color:#666;"><?=_t('코드')?></td>
+		</tr>
+		<tr>
+		  <td colspan="2" height="1" background="<?=$service['path']?>/image/owner/edit/dotted_layer.gif"></td>
+		</tr>
+		<tr>
+		  <td colspan="2"><textarea id="propertyObject_chunk" onkeyup="editor.setProperty()" style="font-family: Monospace; color: #666; width: 190px; height: 100px"></textarea></td>
+		</tr>
+	  </table>
+    </td>
+  </tr>
+</table>
+
 
 <table id="propertyObject1" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
   <tr>
@@ -1698,8 +1800,7 @@ function printEntryEditorPalette() {
 		<td><a href="#" tabindex="118" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image20','','<?=$service['path']?>/image/owner/edit/setCode_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setCode.gif" name="Image20" width="20" height="20" border="0" id="Image20" onclick="TTCommand('CodeBlock')" alt="<?=_t('코드')?>" title="<?=_t('코드')?>"/></a></td>
 		<td><a href="#" tabindex="119" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image21','','<?=$service['path']?>/image/owner/edit/setHtml_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setHtml.gif" name="Image21" width="20" height="20" border="0" id="Image21" onclick="TTCommand('HtmlBlock')" alt="<?=_t('HTML 코드 직접 쓰기')?>" title="<?=_t('HTML 코드 직접 쓰기')?>"/></a></td>
 		<td><a href="#" tabindex="120" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image22','','<?=$service['path']?>/image/owner/edit/setLink_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setLink.gif" name="Image22" width="20" height="20" border="0" id="Image22" onclick="TTCommand('CreateLink')" alt="<?=_t('하이퍼링크')?>" title="<?=_t('하이퍼링크')?>"/></a></td>
-		<td><a href="#" tabindex="121" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image23','','<?=$service['path']?>/image/owner/edit/setEmbed_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setEmbed.gif" name="Image23" width="20" height="20" border="0" id="Image23" onclick="TTCommand('MediaBlock')" alt="<?=_t('미디어 삽입')?>" title="<?=_t('미디어 삽입')?>"/></a></td>
-		<td><a href="#" tabindex="122" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image24','','<?=$service['path']?>/image/owner/edit/setFlash_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setFlash.gif" name="Image24" width="20" height="20" border="0" id="Image24" onclick="TTCommand('FlashBlock')" alt="<?=_t('플래시 삽입')?>" title="<?=_t('플래시 삽입')?>"/></a></td>
+		<td><a href="#" tabindex="121" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image23','','<?=$service['path']?>/image/owner/edit/setEmbed_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setEmbed.gif" name="Image23" width="20" height="20" border="0" id="Image23" onclick="TTCommand('ObjectBlock')" alt="<?=_t('미디어 삽입')?>" title="<?=_t('미디어 삽입')?>"/></a></td>
 		<td><a href="#" tabindex="123" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image25','','<?=$service['path']?>/image/owner/edit/setMoreLess_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setMoreLess.gif" name="Image25" width="20" height="20" border="0" id="Image25" onclick="TTCommand('MoreLessBlock')" alt="<?=_t('More/Less')?>" title="<?=_t('More/Less')?>"/></a></td>
 	  </tr>
 	</table></td>

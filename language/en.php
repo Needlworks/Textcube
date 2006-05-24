@@ -713,7 +713,6 @@ $__text['표시된 정보가 부족합니다.'] = 'marked information required';
 $__text['프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고에 책임은 모두 사용자에게 있습니다.'] = 'Users are entirely responsible for the content and data loss. ';
 $__text['프로필'] = 'Profile';
 $__text['플래쉬'] = 'Flash effect';
-$__text['플래시 삽입'] = 'Insert Flash';
 $__text['플러그인 설정을 복원하고 있습니다'] = 'Restoring Plugin settings';
 $__text['플러그인을 관리합니다'] = 'Plug-ins';
 $__text['플레이어보이기'] = 'Visible';
@@ -766,4 +765,9 @@ $__text['효과 제거'] = 'Undo all formating';
 $__text['효과없음'] = 'No effect';
 $__text['보호된 글입니다'] = '보호된 글입니다';
 $__text['내용 보기'] = '내용보기';
+$__text['알 수 없는 형식의 파일명입니다'] = '알 수 없는 형식의 파일명입니다';
+$__text['OBJECT 태그만 입력하세요'] = 'OBJECT 태그만 입력하세요';
+$__text['틀린 OBJECT 태그입니다'] = '틀린 OBJECT 태그입니다';
+$__text['주소 입력'] = '주소 입력';
+$__text['코드 붙여넣기'] = '코드 붙여넣기';
 ?>

@@ -764,3 +764,25 @@ if(!String.prototype.replaceAll) {
         return this.replace(new RegExp(source, "gm"), target);
     }
 }
+
+if(!String.prototype.count) {
+	String.prototype.count = function (str) {
+		var matches = this.match(new RegExp(str.replace(new RegExp("(\\W)", "g"), "\\$1"), "g"));
+		return matches ? matches.length : 0;
+	}
+}
+
+function getTagChunks(str, tagName) {
+	var chunks = new Array();
+	var pos1 = pos2 = 0;
+	while((pos1 = str.indexOf("<" + tagName, pos2)) > -1) {
+		do {
+			if((pos2 = str.indexOf("</" + tagName + ">", pos2)) == -1)
+				return chunks;
+			var temp = str.substring(pos1, pos2 + tagName.length + 3);
+			pos2 += tagName.length + 3;
+		} while(temp.count("<" + tagName) != temp.count("</" + tagName + ">"));
+		chunks[chunks.length] = temp;
+	}
+	return chunks;
+}

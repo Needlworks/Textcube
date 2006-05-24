@@ -280,6 +280,11 @@ TTEditor.prototype.ttml2html = function() {
 	while(result = regImage.exec(str))
 		str = str.replaceAll(result[0], 'class="tatterImageFree" longdesc="' + result[1] + '" src="' + this.propertyFilePath.substring(0, this.propertyFilePath.length - 1) + result[1].replaceAll("[##_ATTACH_PATH_##]", ""));
 
+	// Object 처리
+	var objects = getTagChunks(str, "object");
+	for(i in objects) {
+		str = str.replaceAll(objects[i], '<img class="tatterObject" src="' + servicePath + '/image/spacer.gif"' + this.parseImageSize(objects[i], "string", "css") + ' longDesc="' + this.objectSerialize(objects[i]) + '"/>');
+	}
 
 	// Flash 처리
 	while(true) {
@@ -339,6 +344,7 @@ TTEditor.prototype.html2ttml = function() {
 
 	// 소스를 한줄로
 	str = str.replace(new RegExp("\r|\n|&#10;|&#13;", "g"), "");
+	str = str.replace(new RegExp("&#9;", "g"), "\t");
 
 	// 빈줄을 br 태그로
 	str = str.replace(new RegExp("<p[^>]*?>&nbsp;</p>", "gi"), "<br/>");
@@ -488,6 +494,21 @@ TTEditor.prototype.html2ttml = function() {
 	str = str.replace(new RegExp("<div.*?class=[\"']?removeme.*?\\[#M_", "gi"), "[#M_");
 	str = str.replace(new RegExp("_M#\\]</div>", "gi"), "_M#]");
 
+	// Object 처리
+	var regObject = new RegExp("<img[^>]*class=[\"']?tatterObject.*?>", "i");
+	while(result = regObject.exec(str)) {
+		var body = result[0];
+		var object = this.objectUnSerialize(this.parseAttribute(body, "longdesc"));
+		var widthString = new RegExp("width=[\"']?\\w+[\"']?").exec(object);
+		var heightString = new RegExp("height=[\"']?\\w+[\"']?").exec(object);
+		var size = this.parseImageSize(body, "array");
+		if(widthString)
+			object = object.replaceAll(widthString[0], 'width="' + size[0] + '"');
+		if(heightString)
+			object = object.replaceAll(heightString[0], 'height="' + size[1] + '"');
+		str = str.replaceAll(body, object);
+	}
+
 	// Embed 처리
 	while(true) {
 		var regEmbed = new RegExp("<img[^>]*class=[\"']?tatterEmbed.*?>", "gi");
@@ -527,7 +548,7 @@ TTEditor.prototype.html2ttml = function() {
 		var tagStart = "<" + result[1];
 		var tagFinish = result[3] + ">";
 
-		if(tagStart == "<!--")
+		if(tagStart.indexOf("<!--") == 0)
 			continue;
 
 		var attributeString = result[2];
@@ -581,6 +602,7 @@ TTEditor.prototype.showProperty = function(obj)
 	getObject("propertyImage1").style.display = "none";
 	getObject("propertyImage2").style.display = "none";
 	getObject("propertyImage3").style.display = "none";
+	getObject("propertyObject").style.display = "none";
 	getObject("propertyObject1").style.display = "none";
 	getObject("propertyObject2").style.display = "none";
 	getObject("propertyObject3").style.display = "none";
@@ -593,7 +615,16 @@ TTEditor.prototype.showProperty = function(obj)
 	getObject("propertyFlash").style.display = "none";
 	getObject("propertyMoreLess").style.display = "none";
 
-	if(obj.className == "tatterEmbed") {
+	if(obj.className == "tatterObject") {
+		editor.propertyHeader = "tatterObject";
+		editor.propertyWindowId = "propertyObject";
+		var size = editor.parseImageSize(editor.selectedElement, "array");
+		getObject("propertyObject_width").value = size[0];
+		getObject("propertyObject_height").value = size[1];
+		getObject("propertyObject_chunk").value = this.objectUnSerialize(attribute);
+		getObject("propertyObject").style.display = "block";
+	}
+	else if(obj.className == "tatterEmbed") {
 		editor.propertyHeader = "tatterEmbed";
 		editor.propertyWindowId = "propertyEmbed";
 		var size = editor.parseImageSize(editor.selectedElement, "array");
@@ -780,7 +811,7 @@ TTEditor.prototype.setProperty = function()
 {
 	var attribute = editor.selectedElement.getAttribute("longdesc");
 
-	if(editor.selectedElement.className == "tatterEmbed" || editor.selectedElement.className == "tatterFlash") {
+	if(editor.selectedElement.className == "tatterObject" || editor.selectedElement.className == "tatterEmbed" || editor.selectedElement.className == "tatterFlash") {
 		editor.selectedElement.removeAttribute("width");
 		editor.selectedElement.removeAttribute("height");
 		editor.selectedElement.style.width = "auto";
@@ -795,7 +826,11 @@ TTEditor.prototype.setProperty = function()
 				editor.selectedElement.style.height = height + "px";
 		} catch(e) { }
 
-		editor.selectedElement.setAttribute("longDesc", getObject(editor.propertyWindowId + "_src").value);
+		if(editor.selectedElement.className == "tatterEmbed" || editor.selectedElement.className == "tatterFlash")
+			editor.selectedElement.setAttribute("longDesc", getObject(editor.propertyWindowId + "_src").value);
+		else {
+			editor.selectedElement.setAttribute("longDesc", editor.objectSerialize(getObject(editor.propertyWindowId + "_chunk").value));
+		}
 	}
 	else if(editor.selectedElement.tagName && editor.selectedElement.tagName.toLowerCase() == "img" && attribute) {
 		if(editor.propertyWindowId.indexOf("propertyImage") == 0) {
@@ -1212,23 +1247,74 @@ function TTCommand(command, value1, value2) {
 			else
 				insertTag('<a href="URL">', "</a>");
 			break;
-		case "MediaBlock":
-			if(isWYSIWYG) {
-				var url = prompt(s_enterURL, "http://");
-				if(url && url != "http://")
-					TTCommand("Raw", '<img class="tatterEmbed" src="' + servicePath + '/image/spacer.gif" width="200" height="200" longDesc="' + url + '"/>', "");
-			}
-			else
-				insertTag('<embed autostart="0" src="', '"></embed>');
+		case "ObjectBlock":
+			getObject("propertyInsertObject").style.display = "block";
 			break;
-		case "FlashBlock":
-			if(isWYSIWYG) {
-				var url = prompt(s_enterURL, "http://");
-				if(url && url != "http://")
-					TTCommand("Raw", '<img class="tatterFlash" src="' + servicePath + '/image/spacer.gif" width="200" height="200" longDesc="' + url + '"/>', "");
+		case "InsertObject":
+			if(getObject("propertyInsertObject_type").value == "url") {
+				var url = getObject("propertyInsertObject_url").value;
+				var ext = new RegExp("\\.(\\w+)(?:$|\\?)").exec(url);
+				ext = (ext && ext.length == 2) ? ext[1] : "";
+				var code = "";
+				switch(ext) {
+					case "swf":
+						code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="400" height="300">\r\n' +
+								'<param name="movie" value="' + url + '">\r\n' +
+								'<!--[if !IE]> <-->\r\n' +
+								'<object type="application/x-shockwave-flash" data="' + url + '" width="400" height="300">\r\n' +
+								'<p><a href="' + url + '">Can\'t display this flash media</a></p>\r\n' +
+								'</object>\r\n' +
+								'<!--> <![endif]-->\r\n' +
+								'</object>';
+						break;
+					default:
+						var type = null;
+
+						switch(ext) {
+							case "mid": type = "audio/x-ms-mid"; break;
+							case "mp3": type = "audio/x-ms-mp3"; break;
+							case "wav": type = "audio/x-ms-wav"; break;
+							case "wax": type = "audio/x-ms-wax"; break;
+							case "wma": type = "audio/x-ms-wma"; break;
+							case "avi": type = "video/x-msvideo"; break;
+							case "asf":
+							case "asx": type = "video/x-ms-asf"; break;
+							case "mov": type = "video/quicktime"; break;
+							case "mpg":
+							case "mpeg": type = "video/x-ms-mpeg"; break;
+							case "wmv": type = "video/x-ms-wmv"; break;
+							case "wm": type = "video/x-ms-wm"; break;
+							case "wvx": type = "video/x-ms-wvx"; break;
+						}
+						
+						if(type)							
+							code = '<object width="320" height="280" src="' + url + '" type="' + type + '">\r\n' +
+								'<param name="FileName" value="' + url + '"/>\r\n' +
+								'<param name="AutoStart" value="0"/>\r\n' +
+								'</object>';
+						else {
+							alert(s_unknownFileType);
+							return;
+						}
+				}
 			}
+			else {
+				var code = getObject("propertyInsertObject_chunk").value.trim();
+				if(!(new RegExp("^<object(?:.|\\s)*</object>$", "i").test(code))) {
+					alert(s_enterObjectTag);
+					return;
+				}
+				if(code.count("<object") == 0 || code.count("<object") != code.count("</object>")) {
+					alert(s_enterCorrectObjectTag);
+					return;
+				}
+			}
+
+			if(isWYSIWYG)
+				TTCommand("Raw", '<img class="tatterObject" src="' + servicePath + '/image/spacer.gif"' + editor.parseImageSize(code, "string", "css") + ' longDesc="' + editor.objectSerialize(code) + '"/>', "");
 			else
-				insertTag('<embed loop="true" menu="false" quality="high" width="320" height="240" type="application/x-shockwave-flash" pluginspace="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" src="', '"></embed>');
+				insertTag(code,"");
+			getObject("propertyInsertObject").style.display = "none";
 			break;
 		case "MoreLessBlock":
 			if(isWYSIWYG) {
@@ -1237,7 +1323,6 @@ function TTCommand(command, value1, value2) {
 			}
 			else
 				insertTag("[#M_ more.. | less.. | ", "_M#]");
-
 			break;
 		case "Raw":
 			value2 = (typeof value2 == "undefined") ? "" : value2;
@@ -1567,6 +1652,24 @@ TTEditor.prototype.getSelectionRange = function() {
 	return STD.isIE ? this.contentDocument.selection.createRange() : this.contentWindow.getSelection().getRangeAt(0);
 }
 
+// object 태그를 "" 안에 넣을 수 있도록 변형
+TTEditor.prototype.objectSerialize = function(str) {
+	str = str.replace(new RegExp("<br\\s*/?>", "gi"), "__CRLF__");
+	str = str.replace(new RegExp("\r?\n", "g"), "__CRLF__");
+	str = str.replace(new RegExp("<", "g"), "__LT__");
+	str = str.replace(new RegExp(">", "g"), "__GT__");
+	str = str.replace(new RegExp('"', "g"), "__QUOT__");
+	return str;
+}
+
+TTEditor.prototype.objectUnSerialize = function(str) {
+	str = str.replaceAll("__QUOT__", '"');
+	str = str.replaceAll("__GT__", ">");
+	str = str.replaceAll("__LT__", "<");
+	str = str.replaceAll("__CRLF__", "\r\n");
+	return str;
+}
+
 // HTML 문자열에서 attribute="value" 추출
 TTEditor.prototype.parseAttribute = function(str, name) {
 	var regAttribute1 = new RegExp(name + '="([^"]*)"', "gi");
@@ -1592,6 +1695,11 @@ TTEditor.prototype.execCommand = function(cmd, userInterface, value) {
 // 파일명으로 이미지파일인지 판단
 TTEditor.prototype.isImageFile = function(filename) {
 	return new RegExp("\\.(jpe?g|gif|png|bmp)$", "gi").exec(filename);
+}
+
+// 파일명으로 미디어/플래시파일인지 판단
+TTEditor.prototype.isMediaFile = function(filename) {
+	return new RegExp("\\.(swf|mid|mp3|wav|wax|wma|avi|asf|asx|mov|mpe?g|wmv|wm|wvx)$", "gi").exec(filename);
 }
 
 // " -> &quot; / ' -> &#39;
