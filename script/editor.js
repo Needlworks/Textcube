@@ -1257,48 +1257,47 @@ function TTCommand(command, value1, value2) {
 			if(getObject("propertyInsertObject_type").value == "url") {
 				var url = getObject("propertyInsertObject_url").value;
 				var ext = new RegExp("\\.(\\w+)(?:$|\\?)").exec(url);
-				ext = (ext && ext.length == 2) ? ext[1] : "";
+				ext = (ext && ext.length == 2) ? ext[1].toLowerCase() : "";
 				var code = "";
-				switch(ext) {
-					case "swf":
-						code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="400" height="300">' +
-								'<param name="movie" value="' + url + '">' +
-								'<!--[if !IE]> <-->' +
-								'<object type="application/x-shockwave-flash" data="' + url + '" width="400" height="300">' +
-								'<p><a href="' + url + '">Can\'t display this flash media</a></p>' +
-								'</object>' +
-								'<!--> <![endif]-->' +
-								'</object>';
-						break;
-					default:
-						var type = null;
+				if(ext == "swf") {
+					code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="400" height="300">' +
+							'<param name="movie" value="' + url + '">' +
+							'<!--[if !IE]> <-->' +
+							'<object type="application/x-shockwave-flash" data="' + url + '" width="400" height="300">' +
+							'<p><a href="' + url + '">Can\'t display this flash media</a></p>' +
+							'</object>' +
+							'<!--> <![endif]-->' +
+							'</object>';
+				}
+				else {
+					var type = null;
 
-						switch(ext) {
-							case "mid": type = "audio/x-ms-mid"; break;
-							case "mp3": type = "audio/x-ms-mp3"; break;
-							case "wav": type = "audio/x-ms-wav"; break;
-							case "wax": type = "audio/x-ms-wax"; break;
-							case "wma": type = "audio/x-ms-wma"; break;
-							case "avi": type = "video/x-msvideo"; break;
-							case "asf":
-							case "asx": type = "video/x-ms-asf"; break;
-							case "mov": type = "video/quicktime"; break;
-							case "mpg":
-							case "mpeg": type = "video/x-ms-mpeg"; break;
-							case "wmv": type = "video/x-ms-wmv"; break;
-							case "wm": type = "video/x-ms-wm"; break;
-							case "wvx": type = "video/x-ms-wvx"; break;
-						}
-						
-						if(type)							
-							code = '<object width="320" height="280" src="' + url + '" type="' + type + '">' +
-								'<param name="FileName" value="' + url + '"/>' +
-								'<param name="AutoStart" value="0"/>' +
-								'</object>';
-						else {
-							alert(s_unknownFileType);
-							return;
-						}
+					switch(ext) {
+						case "mid": type = "audio/x-ms-mid"; break;
+						case "mp3": type = "audio/x-ms-mp3"; break;
+						case "wav": type = "audio/x-ms-wav"; break;
+						case "wax": type = "audio/x-ms-wax"; break;
+						case "wma": type = "audio/x-ms-wma"; break;
+						case "avi": type = "video/x-msvideo"; break;
+						case "asf":
+						case "asx": type = "video/x-ms-asf"; break;
+						case "mov": type = "video/quicktime"; break;
+						case "mpg":
+						case "mpeg": type = "video/x-ms-mpeg"; break;
+						case "wmv": type = "video/x-ms-wmv"; break;
+						case "wm": type = "video/x-ms-wm"; break;
+						case "wvx": type = "video/x-ms-wvx"; break;
+					}
+
+					if(type)
+						code = '<object width="320" height="280" src="' + url + '" type="' + type + '">' +
+							'<param name="FileName" value="' + url + '"/>' +
+							'<param name="AutoStart" value="0"/>' +
+							'</object>';
+					else {
+						alert(s_unknownFileType);
+						return;
+					}
 				}
 			}
 			else {

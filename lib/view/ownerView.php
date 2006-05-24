@@ -1024,9 +1024,9 @@ function printEntryEditorProperty() {
 		</tr>
 	  </table>
 	  <div style="text-align: right; padding-bottom: 10px">
-	  <button onclick="TTCommand('InsertObject')"><?=_t('삽입하기')?></button>
+	  <input type="button" onclick="TTCommand('InsertObject')" value="<?=_t('삽입하기')?>"/>
 	  &nbsp;
-	  <button onclick="TTCommand('HideObjectBlock')"><?=_t('취소하기')?></button>
+	  <input type="button" onclick="TTCommand('HideObjectBlock')" value="<?=_t('취소하기')?>"/>
 	  </div>
     </td>
   </tr>
