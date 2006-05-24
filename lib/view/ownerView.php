@@ -892,10 +892,10 @@ function printEntryFileList($attachments, $entryId) {
 function printEntryFileUploadButton($entryId) {
 	global $owner, $service;
 	?>
-	<table  cellsapcing="0" cellpadding="0" style="margin-top:-6px; margin-left:-4px">
+	<table cellspacing="2" cellpadding="0" style="margin-top:-6px; margin-left:-4px">
 		<tr>
 			<td>
-				<table cellsapcing="0" cellpadding="0">
+				<table cellspacing="2" cellpadding="0">
 					<tr>
 						<td>
 							<table>
@@ -1024,7 +1024,9 @@ function printEntryEditorProperty() {
 		</tr>
 	  </table>
 	  <div style="text-align: right; padding-bottom: 10px">
-	  <button onclick="TTCommand('InsertObject')"><?=_t('삽입')?></button>
+	  <button onclick="TTCommand('InsertObject')"><?=_t('삽입하기')?></button>
+	  &nbsp;
+	  <button onclick="TTCommand('HideObjectBlock')"><?=_t('취소하기')?></button>
 	  </div>
     </td>
   </tr>

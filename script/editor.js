@@ -1250,6 +1250,9 @@ function TTCommand(command, value1, value2) {
 		case "ObjectBlock":
 			getObject("propertyInsertObject").style.display = "block";
 			break;
+		case "HideObjectBlock":
+			getObject("propertyInsertObject").style.display = "none";
+			break;
 		case "InsertObject":
 			if(getObject("propertyInsertObject_type").value == "url") {
 				var url = getObject("propertyInsertObject_url").value;

@@ -594,7 +594,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 		
 		try {
 			var root = document.getElementById('treeComponent');
-			var prevSelectedNode= root.getAttribute('currentSelectedNode');			
+			var prevSelectedNode= root.getAttribute('currentselectednode');			
 			var oLevel = document.getElementById("category_" + selectedNode);
 			var oChild = oLevel.getElementsByTagName("table")[0];
 			
@@ -606,7 +606,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 		echo "			oChild.style.backgroundColor = \"\"";
 ?>			
 						
-			root.setAttribute('currentSelectedNode',category);
+			root.setAttribute('currentselectednode',category);
 			document.getElementById('text_'+selectedNode).style.color="#<?=$skin['itemColor']?>";
 			
 			var oLevel = document.getElementById("category_" + category);
