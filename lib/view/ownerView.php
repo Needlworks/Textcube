@@ -874,74 +874,94 @@ function printEntryFileList($attachments, $entryId) {
 function printEntryFileUploadButton($entryId) {
 	global $owner, $service;
 ?>
-												<div id="fileUploadNest" class="container">
-													<script type="text/javascript">
-														//<![CDATA[
-															if (getUploadObj()) {		
-																try {
-																	document.write('<a id="uploadBtn" class="upload-button button" href="#void" onclick="browser();"><span><?php echo _t('파일 업로드')?></span></a>');
-																	document.write('<a id="stopUploadBtn" class="stop-button button" href="#void" onclick="stopUpload();" style="display: none;"><span><?php echo _t('업로드 중지')?></span></a>');			
-																} catch(e) {
-																	
-																}								
+											<div id="fileUploadNest" class="container">
+												<script type="text/javascript">
+													//<![CDATA[
+														if (getUploadObj()) {
+															try {
+																document.write('<a id="uploadBtn" class="upload-button button" href="#void" onclick="browser();"><span><?php echo _t('파일 업로드')?></span></a>');
+																document.write('<a id="stopUploadBtn" class="stop-button button" href="#void" onclick="stopUpload();" style="display: none;"><span><?php echo _t('업로드 중지')?></span></a>');			
+															} catch(e) {
+																
+															}								
+														}
+														
+														attachId = 0;
+														function makeCrossDamainSubmit(uri,userAgent) {
+															var property =new Array();
+															property['ie'] = new Array();
+															property['ie']['width'] = '225px';
+															property['ie']['height'] = '25px';		
+															
+															property['moz'] = new Array();
+															property['moz']['width'] = '215px';
+															property['moz']['height'] = '25px';		
+															
+															property['etc'] = new Array();
+															property['etc']['width'] = '240px';
+															property['etc']['height'] = '22px';
+															
+															var str = '<iframe src="'+uri+'" id="attachHiddenNest_'+(attachId)+'"  style="display:block; height:'+property[userAgent]['height']+'; width:'+property[userAgent]['width']+'" frameborder="no" scrolling="no"></iframe>'
+															var div = document.createElement('div');
+															div.innerHTML= str;									
+															document.getElementById('fileUploadNest').appendChild(div);
+															var div = document.getElementById('div');
+															if(attachId) { 
+																document.getElementById('attachHiddenNest_'+(attachId-1)+'').style.width = 0;
+																document.getElementById('attachHiddenNest_'+(attachId-1)+'').style.height = 0;
 															}
 															
-															attachId = 0;
-															function makeCrossDamainSubmit(uri,userAgent) {
-																var property =new Array();
-																property['ie'] = new Array();
-																property['ie']['width'] = '225px';
-																property['ie']['height'] = '25px';		
-																
-																property['moz'] = new Array();
-																property['moz']['width'] = '215px';
-																property['moz']['height'] = '25px';		
-																
-																property['etc'] = new Array();
-																property['etc']['width'] = '240px';
-																property['etc']['height'] = '22px';
-																
-																var str='<iframe src="'+uri+'" id="attachHiddenNest_'+(attachId)+'"  style="display:block; height:'+property[userAgent]['height']+'; width:'+property[userAgent]['width']+'" frameborder="no" scrolling="no"></iframe>'
-																var td = document.createElement('td');
-																td.innerHTML= str;									
-																	document.getElementById('fileUploadNest').appendChild(td);
-																var td = document.getElementById('td');
-																	if(attachId) { 
-																	document.getElementById('attachHiddenNest_'+(attachId-1)+'').style.width = 0;
-																	document.getElementById('attachHiddenNest_'+(attachId-1)+'').style.height = 0;
-																}
-																
-																attachId++;
-																
+															attachId++;
+														}
+														
+														//if(<?php echo !empty($service['flashuploader']) ? $service['flashuploader'] : 'false'?> ) { 
+														 if(!getUploadObj()) {
+															if(isIE) {
+																makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?php echo $entryId?>","ie");
+															} else if(isMoz) {
+																makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?php echo $entryId?>","moz");
+															} else {
+																makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?php echo $entryId?>","etc");
 															}
-															
-															//if(<?php echo !empty($service['flashuploader']) ? $service['flashuploader'] : 'false'?> ) { 
-															 if(!getUploadObj()) {
-																if(isIE) {
-																	makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?php echo $entryId?>","ie");
-																} else if(isMoz) {
-																	makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?php echo $entryId?>","moz");
-																} else {
-																	makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?php echo $entryId?>","etc");
-																}
-															}
-														//]]>
-													</script>
+														}
+													//]]>
+												</script>
 													
-													<a id="deleteBtn" class="button" href="#void" onclick="deleteAttachment();"><span><?php echo _t('삭제하기')?></span></a>
-													<div id="fileSize">
-														<?php echo getAttachmentSizeLabel($owner, $entryId)?>
-													</div>
-													<div id="fileDownload" style="display: none;"></div>
-													
-													<div class="clear"></div>
+												<a id="deleteBtn" class="button" href="#void" onclick="deleteAttachment();"><span><?php echo _t('삭제하기')?></span></a>
+												<div id="fileSize">
+													<?php echo getAttachmentSizeLabel($owner, $entryId)?>
 												</div>
+												<div id="fileDownload" style="display: none;"></div>
+												
+												<div class="clear"></div>
+											</div>
 <?php
 }
 
 function printEntryEditorProperty() {
 	global $service;
 ?>
+													<div id="propertyLink" class="entry-editor-property" style="display: none;">
+														<div class="head-line">
+															<b>Link</b>
+														</div>
+														<dl class="line">
+															<dt class="property-name"><?php echo _t('URL')?></dt>
+															<dd><input type="text" class="text-input" id="propertyLink_href" onkeyup="editor.setProperty()" /></dd>
+															<dd class="clear"></dd>
+														</dl>
+														<dl class="line">
+															<dt class="property-name"><?php echo _t('타겟')?></dt>
+															<dd><input type="text" class="text-input" id="propertyLink_target" onkeyup="editor.setProperty()" /></dd>
+															<dd class="clear"></dd>
+														</dl>
+														<dl class="line">
+															<dt class="property-name"><?php echo _t('타이틀')?></dt>
+															<dd><input type="text" class="text-input" id="propertyLink_title" onkeyup="editor.setProperty()" /></dd>
+															<dd class="clear"></dd>
+														</dl>
+													</div>
+													
 													<div id="propertyImage1" class="entry-editor-property" style="display: none;">
 														<div class="head-line">
 															<b>Image</b>
@@ -1388,69 +1408,89 @@ function printEntryEditorPalette() {
 ?>
 												<div id="editor-palette">
 													<div class="font-relatives">
-														<select id="fontFamilyChanger" onchange="editor.execCommand('fontname', false, this.value); this.selectedIndex=0;">
-															<option><?php echo _t('글자체')?></option>
-															<option value="">=========</option>
-															<option value="andale mono,times">Andale Mono</option>
-															<option value="arial,helvetica,sans-serif">Arial</option>
-															<option value="arial black,avant garde">Arial Black</option>
-															<option value="book antiqua,palatino">Book Antiqua</option>
-															<option value="comic sans ms,sand">Comic Sans MS</option>
-															<option value="courier new,courier,monospace">Courier New</option>
-															<option value="georgia,times new roman,times,serif">Georgia</option>
-															<option value="helvetica">Helvetica</option>
-															<option value="impact,chicago">Impact</option>
-															<option value="symbol">Symbol</option>
-															<option value="tahoma,arial,helvetica,sans-serif">Tahoma</option>
-															<option value="terminal,monaco">Terminal</option>
-															<option value="times new roman,times,serif">Times New Roman</option>
-															<option value="trebuchet ms,geneva">Trebuchet MS</option>
-															<option value="verdana,arial,helvetica,sans-serif">Verdana</option>
-															<option value="webdings">Webdings</option>
-															<option value="wingdings,zapf dingbats">Wingdings</option>
-														</select>
-														<select id="fontSizeChanger" onchange="editor.execCommand('fontsize', false, this.value); this.selectedIndex=0;">
-															<option><?php echo _t('크기')?></option>
-															<option value="">=======</option>
-															<option value="1">1 (8 pt)</option>
-															<option value="2">2 (10 pt)</option>
-															<option value="3">3 (12 pt)</option>
-															<option value="4">4 (14 pt)</option>
-															<option value="5">5 (18 pt)</option>
-															<option value="6">6 (24 pt)</option>
-															<option value="7">7 (36 pt)</option>
-														</select>
+														<h3><span class="text"><?php echo _t('폰트 설정')?></span></h3>
+														
+														<div class="button-box">
+															<select id="fontFamilyChanger" onchange="editor.execCommand('fontname', false, this.value); this.selectedIndex=0;">
+																<option><?php echo _t('글자체')?></option>
+																<option value="">=========</option>
+																<option value="andale mono,times">Andale Mono</option>
+																<option value="arial,helvetica,sans-serif">Arial</option>
+																<option value="arial black,avant garde">Arial Black</option>
+																<option value="book antiqua,palatino">Book Antiqua</option>
+																<option value="comic sans ms,sand">Comic Sans MS</option>
+																<option value="courier new,courier,monospace">Courier New</option>
+																<option value="georgia,times new roman,times,serif">Georgia</option>
+																<option value="helvetica">Helvetica</option>
+																<option value="impact,chicago">Impact</option>
+																<option value="symbol">Symbol</option>
+																<option value="tahoma,arial,helvetica,sans-serif">Tahoma</option>
+																<option value="terminal,monaco">Terminal</option>
+																<option value="times new roman,times,serif">Times New Roman</option>
+																<option value="trebuchet ms,geneva">Trebuchet MS</option>
+																<option value="verdana,arial,helvetica,sans-serif">Verdana</option>
+																<option value="webdings">Webdings</option>
+																<option value="wingdings,zapf dingbats">Wingdings</option>
+															</select>
+															<select id="fontSizeChanger" onchange="editor.execCommand('fontsize', false, this.value); this.selectedIndex=0;">
+																<option><?php echo _t('크기')?></option>
+																<option value="">=======</option>
+																<option value="1">1 (8 pt)</option>
+																<option value="2">2 (10 pt)</option>
+																<option value="3">3 (12 pt)</option>
+																<option value="4">4 (14 pt)</option>
+																<option value="5">5 (18 pt)</option>
+																<option value="6">6 (24 pt)</option>
+																<option value="7">7 (36 pt)</option>
+															</select>
+														</div>
 													</div>
 													<div class="font-style">
-														<a id="indicatorBold" class="button" href="#void" onclick="TTCommand('Bold')" title="<?php echo _t('굵게')?>"><span><?php echo _t('굵게')?></span></a>
-														<a id="indicatorItalic" class="button" href="#void" onclick="TTCommand('Italic')" title="<?php echo _t('기울임')?>"><span><?php echo _t('기울임')?></span></a>
-														<a id="indicatorUnderline" class="button" href="#void" onclick="TTCommand('Underline')" title="<?php echo _t('밑줄')?>"><span><?php echo _t('밑줄')?></span></a>
-														<a id="indicatorStrike" class="button" href="#void" onclick="TTCommand('StrikeThrough')" title="<?php echo _t('취소선')?>"><span><?php echo _t('취소선')?></span></a>
-														<a id="indicatorColorPalette" class="button" href="#void" onclick="hideLayer('markPalette'); hideLayer('textBox'); toggleLayer('colorPalette');" title="<?php echo _t('글자색')?>"><span><?php echo _t('글자색')?></span></a>
-														<a id="indicatorMarkPalette" class="button" href="#void" onclick="hideLayer('colorPalette');hideLayer('textBox');toggleLayer('markPalette')" title="<?php echo _t('배경색')?>"><span><?php echo _t('배경색')?></span></a>
-														<a id="indicatorTextBox" class="button" href="#void" onclick="hideLayer('markPalette');hideLayer('colorPalette');toggleLayer('textBox')" title="<?php echo _t('텍스트 상자')?>"><span><?php echo _t('텍스트 상자')?></span></a>
-														<a id="indicatorRemoveFormat" class="button" href="#void" onclick="TTCommand('RemoveFormat')" title="<?php echo _t('효과 제거')?>"><span><?php echo _t('효과 제거')?></span></a>
+														<h3><span class="text"><?php echo _t('폰트 스타일')?></span></h3>
+														
+														<div class="button-box">
+															<a id="indicatorBold" class="button" href="#void" onclick="TTCommand('Bold')" title="<?php echo _t('굵게')?>"><span><?php echo _t('굵게')?></span></a>
+															<a id="indicatorItalic" class="button" href="#void" onclick="TTCommand('Italic')" title="<?php echo _t('기울임')?>"><span><?php echo _t('기울임')?></span></a>
+															<a id="indicatorUnderline" class="button" href="#void" onclick="TTCommand('Underline')" title="<?php echo _t('밑줄')?>"><span><?php echo _t('밑줄')?></span></a>
+															<a id="indicatorStrike" class="button" href="#void" onclick="TTCommand('StrikeThrough')" title="<?php echo _t('취소선')?>"><span><?php echo _t('취소선')?></span></a>
+															<a id="indicatorColorPalette" class="button" href="#void" onclick="hideLayer('markPalette'); hideLayer('textBox'); toggleLayer('colorPalette');" title="<?php echo _t('글자색')?>"><span><?php echo _t('글자색')?></span></a>
+															<a id="indicatorMarkPalette" class="button" href="#void" onclick="hideLayer('colorPalette');hideLayer('textBox');toggleLayer('markPalette')" title="<?php echo _t('배경색')?>"><span><?php echo _t('배경색')?></span></a>
+															<a id="indicatorTextBox" class="button" href="#void" onclick="hideLayer('markPalette');hideLayer('colorPalette');toggleLayer('textBox')" title="<?php echo _t('텍스트 상자')?>"><span><?php echo _t('텍스트 상자')?></span></a>
+															<a id="indicatorRemoveFormat" class="button" href="#void" onclick="TTCommand('RemoveFormat')" title="<?php echo _t('효과 제거')?>"><span><?php echo _t('효과 제거')?></span></a>
+														</div>
 													</div>
 													<div class="paragraph">
-														<a id="indicatorJustifyLeft" class="button" href="#void" onclick="TTCommand('JustifyLeft')" title="<?php echo _t('왼쪽 정렬')?>"><span><?php echo _t('왼쪽 정렬')?></span></a>
-														<a id="indicatorJustifyCenter" class="button" href="#void" onclick="TTCommand('JustifyCenter')" title="<?php echo _t('가운데 정렬')?>"><span><?php echo _t('가운데 정렬')?></span></a>
-														<a id="indicatorJustifyRight" class="button" href="#void" onclick="TTCommand('JustifyRight')" title="<?php echo _t('오른쪽 정렬')?>"><span><?php echo _t('오른쪽 정렬')?></span></a>
-														<a id="indicatorUnorderedList" class="button" href="#void" onclick="TTCommand('InsertUnorderedList')" title="<?php echo _t('순서없는 리스트')?>"><span><?php echo _t('순서없는 리스트')?></span></a>
-														<a id="indicatorOrderedList" class="button" href="#void" onclick="TTCommand('InsertOrderedList')" title="<?php echo _t('번호 매긴 리스트')?>"><span><?php echo _t('번호 매긴 리스트')?></span></a>
-														<a id="indicatorOutdent" class="button" href="#void" onclick="TTCommand('Outdent')" title="<?php echo _t('내어쓰기')?>"><span><?php echo _t('내어쓰기')?></span></a>
-														<a id="indicatorIndent" class="button" href="#void" onclick="TTCommand('Indent')" title="<?php echo _t('들여쓰기')?>"><span><?php echo _t('들여쓰기')?></span></a>
-														<a id="indicatorBlockquote" class="button" href="#void" onclick="TTCommand('Blockquote')" title="<?php echo _t('인용구')?>"><span><?php echo _t('인용구')?></span></a>
+														<h3><span class="text"><?php echo _t('문단')?></span></h3>
+														
+														<div class="button-box">
+															<a id="indicatorJustifyLeft" class="button" href="#void" onclick="TTCommand('JustifyLeft')" title="<?php echo _t('왼쪽 정렬')?>"><span><?php echo _t('왼쪽 정렬')?></span></a>
+															<a id="indicatorJustifyCenter" class="button" href="#void" onclick="TTCommand('JustifyCenter')" title="<?php echo _t('가운데 정렬')?>"><span><?php echo _t('가운데 정렬')?></span></a>
+															<a id="indicatorJustifyRight" class="button" href="#void" onclick="TTCommand('JustifyRight')" title="<?php echo _t('오른쪽 정렬')?>"><span><?php echo _t('오른쪽 정렬')?></span></a>
+															<a id="indicatorUnorderedList" class="button" href="#void" onclick="TTCommand('InsertUnorderedList')" title="<?php echo _t('순서없는 리스트')?>"><span><?php echo _t('순서없는 리스트')?></span></a>
+															<a id="indicatorOrderedList" class="button" href="#void" onclick="TTCommand('InsertOrderedList')" title="<?php echo _t('번호 매긴 리스트')?>"><span><?php echo _t('번호 매긴 리스트')?></span></a>
+															<a id="indicatorOutdent" class="button" href="#void" onclick="TTCommand('Outdent')" title="<?php echo _t('내어쓰기')?>"><span><?php echo _t('내어쓰기')?></span></a>
+															<a id="indicatorIndent" class="button" href="#void" onclick="TTCommand('Indent')" title="<?php echo _t('들여쓰기')?>"><span><?php echo _t('들여쓰기')?></span></a>
+															<a id="indicatorBlockquote" class="button" href="#void" onclick="TTCommand('Blockquote')" title="<?php echo _t('인용구')?>"><span><?php echo _t('인용구')?></span></a>
+														</div>
 													</div>
 													<div class="special">
-														<a id="indicatorCodeBlock" class="button" href="#void" onclick="TTCommand('CodeBlock')" title="<?php echo _t('코드')?>"><span><?php echo _t('코드')?></span></a>
-														<a id="indicatorHtmlBlock" class="button" href="#void" onclick="TTCommand('HtmlBlock')" title="<?php echo _t('HTML 코드 직접 쓰기')?>"><span><?php echo _t('HTML 코드 직접 쓰기')?></span></a>
-														<a id="indicatorCreateLink" class="button" href="#void" onclick="TTCommand('CreateLink')" title="<?php echo _t('하이퍼링크')?>"><span><?php echo _t('하이퍼링크')?></span></a>
-														<a id="indicatorMediaBlock" class="button" href="#void" onclick="TTCommand('MediaBlock')" title="<?php echo _t('미디어 삽입')?>"><span><?php echo _t('미디어 삽입')?></span></a>
-														<a id="indicatorFlashBlock" class="button" href="#void" onclick="TTCommand('FlashBlock')" title="<?php echo _t('플래시 삽입')?>"><span><?php echo _t('플래시 삽입')?></span></a>
-														<a id="indicatorMoreLessBlock" class="button" href="#void" onclick="TTCommand('MoreLessBlock')" title="<?php echo _t('More/Less')?>"><span><?php echo _t('More/Less')?></span></a>
+														<h3><span class="text"><?php echo _t('기타')?></span></h3>
+														
+														<div class="button-box">
+															<a id="indicatorCodeBlock" class="button" href="#void" onclick="TTCommand('CodeBlock')" title="<?php echo _t('코드')?>"><span><?php echo _t('코드')?></span></a>
+															<a id="indicatorHtmlBlock" class="button" href="#void" onclick="TTCommand('HtmlBlock')" title="<?php echo _t('HTML 코드 직접 쓰기')?>"><span><?php echo _t('HTML 코드 직접 쓰기')?></span></a>
+															<a id="indicatorCreateLink" class="button" href="#void" onclick="TTCommand('CreateLink')" title="<?php echo _t('하이퍼링크')?>"><span><?php echo _t('하이퍼링크')?></span></a>
+															<a id="indicatorMediaBlock" class="button" href="#void" onclick="TTCommand('MediaBlock')" title="<?php echo _t('미디어 삽입')?>"><span><?php echo _t('미디어 삽입')?></span></a>
+															<a id="indicatorFlashBlock" class="button" href="#void" onclick="TTCommand('FlashBlock')" title="<?php echo _t('플래시 삽입')?>"><span><?php echo _t('플래시 삽입')?></span></a>
+															<a id="indicatorMoreLessBlock" class="button" href="#void" onclick="TTCommand('MoreLessBlock')" title="<?php echo _t('More/Less')?>"><span><?php echo _t('More/Less')?></span></a>
+														</div>
 													</div>
 													<div class="mode">
-														<a id="indicatorMode" class="button" href="#void" onclick="TTCommand('ToggleMode')" title="<?php echo _t('위지윅/텍스트 모드 변경')?>"><span><?php echo _t('위지윅/텍스트 모드 변경')?></span></a>
+														<h3><span class="text"><?php echo _t('편집 모드')?></span></h3>
+														
+														<div class="button-box">
+															<a id="indicatorMode" class="button" href="#void" onclick="TTCommand('ToggleMode')" title="<?php echo _t('위지윅/텍스트 모드 변경')?>"><span><?php echo _t('위지윅/텍스트 모드 변경')?></span></a>
+														</div>
 													</div>
 												</div>
 												
