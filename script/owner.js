@@ -58,11 +58,11 @@ function rolloverClass(obj, type) {
 	} else {
 		if (obj.tagName.toLowerCase() == 'tr') {
 			for (i=0; i<obj.cells.length; i++) {
-				obj.cells[i].className = obj.cells[i].className.replace(/ rollover\-class/ig, '');
+				obj.cells[i].className = obj.cells[i].className.replace(/( )*rollover\-class/ig, '');
 			}
 		} else {
-			tempClass = '';
 			obj.className = tempClass;
+			tempClass = '';
 		}
 	}
 }

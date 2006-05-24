@@ -1338,8 +1338,8 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 		$class .= ($count == 1) ? ' active-class' : ' inactive-class';
 		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="팟캐스트 포스트입니다."><span>' . _t('팟 캐스트') . '</span></span>' : '';
 ?>
-													<tr>
-														<td id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
+													<tr id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
+														<td>
 															<div class="icons">
 	<?
 			if ($entry['item']) {
@@ -1399,8 +1399,8 @@ function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false
 		$class .= ($count == 1) ? ' active-class' : ' inactive-class';
 		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="팟캐스트 포스트입니다."><span>' . _t('팟 캐스트') . '</span></span>' : '';
 ?>
-													<tr>
-														<td id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
+													<tr id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
+														<td>
 															<div class="icons">
 	<?
 			if ($entry['item']) {

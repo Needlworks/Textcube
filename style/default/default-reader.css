@@ -837,40 +837,35 @@ ul#feedList li .edit-button span
 	float                            : left;
 }
 
-#listup table tr td.read .title
+#listup table .read .title
 {
 	color                            : #777777;
 }
 
-#listup table tr td.read .blog
+#listup table .read .blog
 {
 	color                            : #999999;
 }
 
-#listup table tr td.unread .title
+#listup table .unread .title
 {
 	color                            : #0047B6;
 }
 
-#listup table tr td.unread .blog
+#listup table .unread .blog
 {
 	color                            : #213141;
 }
 
-#listup table tr td.active-class,
-#listup table tr td.rollover-class
+#listup table .active-class,
+#listup table .rollover-class
 {
 	background-color                 : #FFFFFF;
 }
 
-#listup table tr td.inactive-class
+#listup table .inactive-class
 {
 	background-color                 : #ECF4FF;
-}
-
-#listup table tr td.rollover
-{
-	background-color                 : #FFFFFF;
 }
 
 #listup .scrap-off-icon
