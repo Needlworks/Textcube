@@ -602,7 +602,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 if (isset($_GET['popupEditor'])) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
-									<div class="button-box two-button">
+									<div class="button-box two-button-box">
 										<a href="#void" class="save-button button" onclick="entryManager.save()"><span><?=_t('저장하기')?></span></a>
 										<span class="hidden">|</span>
 							        	<a href="#void" class="preview-button button" onclick="entryManager.preview()"><span><?=_t('미리보기')?></span></a>

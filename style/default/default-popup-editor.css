@@ -2,6 +2,26 @@
 
 /* Editor ****************************************************************************************/
 
+body
+{
+	padding                          : 0;
+}
+
+#layout-body
+{
+	padding-top                      : 20px;
+}
+
+#psuedo-outbox
+{
+	min-width                        : 730px;
+}
+
+#psuedo-inbox
+{
+	min-width                        : 679px;
+}
+
 /* common ---------------------------------------------------------------------------------------*/
 #data-outbox
 {
@@ -59,13 +79,6 @@
 	border                           : 1px solid #92B5E8;
 	padding                          : 2px;
 	width                            : 410px;
-}
-
-#body-notice #title-container .text-input
-{
-	border                           : 1px solid #92B5E8;
-	padding                          : 2px;
-	width                            : 576px !important;
 }
 
 /* property box --------------------------------------------------------------------------------*/
