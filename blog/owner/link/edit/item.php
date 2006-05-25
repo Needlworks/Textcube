@@ -34,6 +34,7 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 											}
 											request.send();
 										}
+										
 										function updateLink() {
 											var oForm = document.forms[0];
 											trimAll(oForm);
@@ -87,7 +88,7 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 								<hr class="hidden" />
 								
 								<div class="button-box">
-									<a class="update-button button" href="#void" onclick="updateLink()"><span><?=_t('편집하기')?></span></a>
+									<a class="edit-button button" href="#void" onclick="updateLink()"><span><?=_t('편집하기')?></span></a>
 									<span class="hidden">|</span>
 									<a class="cancel-button button" href="<?=$blogURL?>/owner/link"><span><?=_t('취소하기')?></span></a>
 									<div class="clear"></div>

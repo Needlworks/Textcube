@@ -15,10 +15,10 @@
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js"></script>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-popup-editor.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-opera.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-popup-editor-opera.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-ie.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-popup-editor-ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default.opera.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-popup-editor.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default.ie.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-popup-editor.ie.css" /><![endif]-->
 </head>
 <body<?php echo (empty($htmlBodyEvents) ? '' : $htmlBodyEvents)?>>
 	<div id="temp-wrap">

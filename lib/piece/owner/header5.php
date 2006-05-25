@@ -15,10 +15,10 @@
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js"></script>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-setting.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-opera.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-setting-opera.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-ie.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-setting-ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default.opera.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-setting.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default.ie.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-setting.ie.css" /><![endif]-->
 </head>
 <body id="body-setting">
 	<div id="temp-wrap">

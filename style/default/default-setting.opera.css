@@ -22,6 +22,22 @@
 		padding                          : 3px;
 	}
 	
+	#part-setting-basic #common-section dl dd .text-input
+	{
+		padding                          : 3px;
+	}
+
+	#part-setting-basic #multi-section dl dt
+	{
+		margin-top                        : -1px;
+		padding-top                       : 0;
+	}
+
+	#part-setting-basic #multi-section dl dd .text-input
+	{
+		padding                          : 3px;
+	}
+	
 	/* profile --------------------------------------------------------------------------------------*/
 	
 	#logo-iframe,

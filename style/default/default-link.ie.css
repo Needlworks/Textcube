@@ -12,12 +12,14 @@
 
 /* Add / Edit ************************************************************************************/
 
-#part-link-add div.data-inbox dl
+#part-link-add div.data-inbox dl,
+#part-link-edit div.data-inbox dl
 {
 	height                           : 27px !important;
 }
 
-#part-link-add div.data-inbox dl dd .text-input
+#part-link-add div.data-inbox dl dd .text-input,
+#part-link-edit div.data-inbox dl dd .text-input
 {
 	margin-top                       : 2px;
 	padding                          : 3px;

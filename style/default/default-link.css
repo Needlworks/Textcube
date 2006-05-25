@@ -60,7 +60,8 @@
 
 /* Add / Edit ************************************************************************************/
 
-#part-link-add div.data-inbox dt
+#part-link-add div.data-inbox dt,
+#part-link-edit div.data-inbox dt
 {
 	display                          : block;
 	float                            : left;
@@ -69,14 +70,16 @@
 	width                            : 150px;
 }
 
-#part-link-add div.data-inbox dd
+#part-link-add div.data-inbox dd,
+#part-link-edit div.data-inbox dd
 {
 	display                          : block;
 	float                            : left;
 	width                            : auto;
 }
 
-#part-link-add div.data-inbox dd .text-input
+#part-link-add div.data-inbox dd .text-input,
+#part-link-edit div.data-inbox dd .text-input
 {
 	float                            : left;
 	font-size                        : inherit;
@@ -85,7 +88,8 @@
 	width                            : 300px;
 }
 
-#part-link-add div.data-inbox .line
+#part-link-add div.data-inbox .line,
+#part-link-edit div.data-inbox .line
 {
 	clear                            : both;
 	height                           : 23px;
@@ -119,7 +123,8 @@
 	width                            : 228px;
 }
 
-.button-box .add-button
+.button-box .add-button,
+.button-box .edit-button
 {
 	background-color                 : #CCCCCC;
 	background-image                 : url("./image/button2.gif");
@@ -130,7 +135,8 @@
 	width                            : 106px;
 }
 
-.button-box .add-button span
+.button-box .add-button span,
+.button-box .edit-button span
 {
 	background-color                 : #CCCCCC;
 	background-image                 : url("./image/button2.gif");

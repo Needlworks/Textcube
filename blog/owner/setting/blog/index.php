@@ -281,22 +281,21 @@ if ($service['type'] != 'single') {
 											<div id="multi-section" class="section">
 												<dl class="line">
 													<dt><span><?=_t('1차 블로그 주소')?></span><span class="divider"> | </span></dt>
-													<dd><input type="radio" class="radio" name="defaultDomain" <?=($blog['defaultDomain'] ? '' : 'checked="checked"')?> title="<?=_t('기본 도메인')?>" /></dd>
-													<dd><span class="label">http://</span><input type="text" id="primaryDomain" class="text-input" name="primaryDomain" value="<?=escapeJSInAttribute($blog['name'])?>" /></dd>
-													<dd><span class="label"><?=$urlRule[1]?></span></dd>
+													<dd>
+														<input type="radio" class="radio" name="defaultDomain" <?=($blog['defaultDomain'] ? '' : 'checked="checked"')?> title="<?=_t('기본 도메인')?>" /> <span class="text">http://</span><input type="text" id="primaryDomain" class="text-input" name="primaryDomain" value="<?=escapeJSInAttribute($blog['name'])?>" /><span class="text"><?=$urlRule[1]?></span>
+													</dd>
 													<dd class="clear"></dd>
 												</dl>
 												<dl class="line">
 													<dt><span><?=_t('2차 블로그 주소')?></span><span class="divider"> | </span></dt>
-													<dd><input type="radio" class="radio" name="defaultDomain" <?=($blog['defaultDomain'] ? 'checked="checked"' : '')?>title="<?=_t('기본 도메인')?>" /></dd>
-													<dd><span class="label">http://</span><input type="text" id="secondaryDomain" class="text-input" name="secondaryDomain" value="<?=escapeJSInAttribute($blog['secondaryDomain'])?>" /></dd>
-													<dd><span class="label"><?=$service['path']?></span></dd>
+													<dd>
+														<input type="radio" class="radio" name="defaultDomain" <?=($blog['defaultDomain'] ? 'checked="checked"' : '')?>title="<?=_t('기본 도메인')?>" /> <span class="text">http://</span><input type="text" id="secondaryDomain" class="text-input" name="secondaryDomain" value="<?=escapeJSInAttribute($blog['secondaryDomain'])?>" /><span class="text"><?=$service['path']?></span>
+													</dd>
 													<dd class="clear"></dd>
 												</dl>
 												<dl class="line">
 													<dt><span><?=_t('블로그 주소')?></span><span class="divider"> | </span></dt>
-													<dd><?=$urlRule[0]?></dd>
-													<dd><input type="text" id="pathDomain" class="text-input" name="pathDomain" value="<?=escapeJSInAttribute($blog['name'])?>" /></dd>
+													<dd><?=$urlRule[0]?> <input type="text" id="pathDomain" class="text-input" name="pathDomain" value="<?=escapeJSInAttribute($blog['name'])?>" /></dd>
 													<dd class="clear"></dd>
 												</dl>
 <?

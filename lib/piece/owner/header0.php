@@ -16,12 +16,12 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-post.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-editor.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-opera.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-editor-opera.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-post-opera.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-ie.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-post-ie.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-editor-ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default.opera.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-editor.opera.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-post.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default.ie.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-post.ie.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-editor.ie.css" /><![endif]-->
 </head>
 <body id="body-post">
 	<div id="temp-wrap">

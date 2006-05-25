@@ -75,8 +75,8 @@ if (count($_FILES) == 1) {
 		-->
 	</style>
 	<link rel="stylesheet" type="text/css" href="<?=$blogURL?>/style/default/default-setting.css" />
-	<link rel="stylesheet" type="text/css" href="<?=$blogURL?>/style/default/default-setting-opera.css" />
-	<link rel="stylesheet" type="text/css" href="<?=$blogURL?>/style/default/default-setting-ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?=$blogURL?>/style/default/default-setting.opera.css" />
+	<link rel="stylesheet" type="text/css" href="<?=$blogURL?>/style/default/default-setting.ie.css" />
 </head>
 <body id="logo-iframe">
 	<form method="post" action="<?=$blogURL?>/owner/setting/blog/logo" enctype="multipart/form-data">

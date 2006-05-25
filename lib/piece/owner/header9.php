@@ -15,10 +15,10 @@
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js"></script>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-trash.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-opera.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-trash-opera.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-ie.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-trash-ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default.opera.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-trash.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default.ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-trash.ie.css" /><![endif]-->
 </head>
 <body id="body-post">
 	<div id="temp-wrap">

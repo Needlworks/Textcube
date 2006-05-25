@@ -26,6 +26,16 @@
 	width                            : 198px;
 }
 
+#part-setting-basic #multi-section dl dt
+{
+	padding-top                       : 0;
+}
+
+#part-setting-basic #multi-section dl dd .text-input
+{
+	padding                          : 3px;
+}
+
 /* profile --------------------------------------------------------------------------------------*/
 /* iframe's css */
 #logo-iframe input,
