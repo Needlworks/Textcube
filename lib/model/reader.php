@@ -555,17 +555,27 @@ function editFeed($owner, $feedId, $oldGroupId, $newGroupId, $url) {
 function deleteFeed($owner, $feedId) {
 	global $database;
 	mysql_query("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE owner = $owner AND feed = $feedId");
-	if (mysql_affected_rows() != 1)
-		return - 1;
 	if (fetchQueryCell("SELECT COUNT(*) FROM {$database['prefix']}FeedGroupRelations WHERE owner = $owner AND feed = $feedId") == 0) {
-		foreach (fetchQueryAll("SELECT item FROM {$database['prefix']}FeedStarred s, {$database['prefix']}FeedItems i WHERE s.item = i.id AND s.owner = $owner AND i.feed = $feedId") as $row) {
+		foreach (fetchQueryAll("SELECT item FROM {$database['prefix']}FeedStarred s, {$database['prefix']}FeedItems i WHERE s.item = i.id AND s.owner = $owner AND i.feed = $feedId") as $row)
 			mysql_query("DELETE FROM {$database['prefix']}FeedStarred WHERE owner = $owner AND item = {$row['item']}");
-		}
-		foreach (fetchQueryAll("SELECT item FROM {$database['prefix']}FeedReads r, {$database['prefix']}FeedItems i WHERE r.item = i.id AND r.owner = $owner AND i.feed = $feedId") as $row) {
+		foreach (fetchQueryAll("SELECT item FROM {$database['prefix']}FeedReads r, {$database['prefix']}FeedItems i WHERE r.item = i.id AND r.owner = $owner AND i.feed = $feedId") as $row)
 			mysql_query("DELETE FROM {$database['prefix']}FeedReads WHERE owner = $owner AND item = {$row['item']}");
-		}
+	}
+	if (fetchQueryCell("SELECT COUNT(*) FROM {$database['prefix']}FeedGroupRelations WHERE feed = $feedId") == 0) {
 		mysql_query("DELETE FROM {$database['prefix']}FeedItems WHERE feed = $feedId");
 		mysql_query("DELETE FROM {$database['prefix']}Feeds WHERE id = $feedId");
+	}
+	return 0;
+}
+
+function deleteReaderTablesByOwner($owner) {
+	global $database;
+	mysql_query("DELETE FROM {$database['prefix']}FeedGroups WHERE owner = $owner");
+	mysql_query("DELETE FROM {$database['prefix']}FeedSettings WHERE owner = $owner");
+	if($result = mysql_query("SELECT feed FROM {$database['prefix']}FeedGroupRelations WHERE owner = $owner")) {
+		while(list($feed) = mysql_fetch_row($result)) {
+			deleteFeed($owner, $feed);
+		}
 	}
 	return 0;
 }

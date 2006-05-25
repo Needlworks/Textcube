@@ -418,19 +418,19 @@ function getCommentView($entryId, & $skin) {
 			dress($prefix1 . '_input_password', 'password', $commentGuestView);
 			dress($prefix1 . '_input_homepage', 'homepage', $commentGuestView);
 			if (!empty($_POST["name_$entryId"]))
-				$guestName = $_POST["name_$entryId"];
+				$guestName = htmlspecialchars($_POST["name_$entryId"]);
 			else if (!empty($_COOKIE['guestName']))
-				$guestName = $_COOKIE['guestName'];
+				$guestName = htmlspecialchars($_COOKIE['guestName']);
 			else
 				$guestName = '';
 			dress('guest_name', $guestName, $commentGuestView);
 			if (!empty($_POST["homepage_$entryId"]) && $_POST["homepage_$entryId"] != 'http://') {
 				if (strpos($_POST["homepage_$entryId"], 'http://') === 0)
-					$guestHomepage = $_POST["homepage_$entryId"];
+					$guestHomepage = htmlspecialchars($_POST["homepage_$entryId"]);
 				else
-					$guestHomepage = 'http://' . $_POST["homepage_$entryId"];
+					$guestHomepage = 'http://' . htmlspecialchars($_POST["homepage_$entryId"]);
 			} else if (!empty($_COOKIE['guestHomepage']))
-				$guestHomepage = $_COOKIE['guestHomepage'];
+				$guestHomepage = htmlspecialchars($_COOKIE['guestHomepage']);
 			else
 				$guestHomepage = 'http://';
 			dress('guest_homepage', $guestHomepage, $commentGuestView);
@@ -594,7 +594,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 		
 		try {
 			var root = document.getElementById('treeComponent');
-			var prevSelectedNode= root.getAttribute('currentSelectedNode');			
+			var prevSelectedNode= root.getAttribute('currentselectednode');			
 			var oLevel = document.getElementById("category_" + selectedNode);
 			var oChild = oLevel.getElementsByTagName("table")[0];
 			
@@ -606,7 +606,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 		echo "			oChild.style.backgroundColor = \"\"";
 ?>			
 						
-			root.setAttribute('currentSelectedNode',category);
+			root.setAttribute('currentselectednode',category);
 			document.getElementById('text_'+selectedNode).style.color="#<?php echo $skin['itemColor']?>";
 			
 			var oLevel = document.getElementById("category_" + category);

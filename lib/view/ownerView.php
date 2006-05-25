@@ -1,6 +1,6 @@
 <?php
 function printOwnerEditorScript($entryId = false) {
-	global $owner, $database, $skin, $blogURL, $service;
+	global $owner, $database, $skin, $hostURL, $blogURL, $service;
 	
 	$contentWidth = 500;
 	
@@ -19,8 +19,11 @@ function printOwnerEditorScript($entryId = false) {
 											var skinContentWidth = <?php echo $contentWidth?>;
 											var s_notSupportHTMLBlock = "<?php echo _t('위지윅 모드에서는 [HTML][/HTML] 블럭을 사용할 수 없습니다.')?>";
 											var s_enterURL = "<?php echo _t('URL을 입력하세요.')?>";
-
-											function savePosition() {
+											var s_unknownFileType = "<?php echo _t('알 수 없는 형식의 파일명입니다')?>";
+											var s_enterObjectTag = "<?php echo _t('OBJECT 태그만 입력하세요')?>";
+											var s_enterCorrectObjectTag = "<?php echo _t('틀린 OBJECT 태그입니다')?>";
+	 
+	 function savePosition() {
 												if (document.forms[0].content.createTextRange)
 													document.forms[0].content.currentPos = document.selection.createRange().duplicate();
 												return true;
@@ -244,6 +247,12 @@ function printOwnerEditorScript($entryId = false) {
 														value[1] = value[1].replace(new RegExp("height=['\"]?\\d+['\"]?", "gi"), 'height="' + height + '"');
 													
 													}
+												}
+										                if(editor.isMediaFile(value[0])) {
+													getObject("propertyInsertObject_type").value = "url";
+													getObject("propertyInsertObject_url").value = "<?="$hostURL$blogURL"?>" + "/attachment/" + value[0];
+													TTCommand("InsertObject");
+													return;
 												}
 												try {
 													if(editor.editMode == "WYSIWYG")
@@ -941,6 +950,35 @@ function printEntryFileUploadButton($entryId) {
 function printEntryEditorProperty() {
 	global $service;
 ?>
+													<div id="propertyInsertObject" class="entry-editor-property" style="display: none;">
+														<div class="head-line">
+															<b><?php echo =_t('오브젝트 삽입')?></b>
+														</div>
+														<dl class="line">
+															<dt class="property-name"><?php echo _t('유형')?></dt>
+															<dd>
+															<select id="propertyInsertObject_type" style="width: 105px" onchange="getObject('propertyInsertObject_part_url').style.display=getObject('propertyInsertObject_part_raw').style.display='none';getObject('propertyInsertObject_part_' + this.value).style.display = 'block'">
+																<option value="url"><?=_t('주소 입력')?></option>
+																<option value="raw"><?=_t('코드 붙여넣기'?></option>
+															</select>
+															</dd>
+															<dd class="clear"></dd>
+														</dl>
+														<dl class="line">
+															<dt class="property-name"><?php echo _t('파일 주소')?></dt>
+															<dd><input type="text" class="text-input" id="propertyInsertObject_url" /></dd>
+															<dd class="clear"></dd>
+														</dl>
+														<dl class="line">
+															<dt class="property-name"><?php echo _t('코드')?></dt>
+															<dd>
+																<textarea id="propertyInsertObject_chunk"></textarea>
+															</dd>
+															<dd class="clear"></dd>
+														</dl>
+														<input type="button" onclick="TTCommand('InsertObject')" value="<?php echo _t('삽입하기')?>"/>
+														<input type="button" onclick="TTCommand('HideObjectBlock')" value="<?php echo _t('취소하기')?>"/>
+													</div>
 													<div id="propertyLink" class="entry-editor-property" style="display: none;">
 														<div class="head-line">
 															<b>Link</b>
@@ -1082,6 +1120,27 @@ function printEntryEditorProperty() {
 														</dl>
 													</div>
 
+													<div id="propertyObject" class="entry-editor-property" style="display: none;">
+														<div class="head-line">
+															<b>Object</b>
+														</div>
+														<dl class="line">
+															<dt class="property-name"><?php echo _t('폭')?></dt>
+															<dd><input type="text" class="text-input" id="propertyObject_width" onkeyup="editor.setProperty()" /></dd>
+															<dd class="clear"></dd>
+														</dl>
+														<dl class="line">
+															<dt class="property-name"><?php echo _t('높이')?></dt>
+															<dd><input type="text" class="text-input" id="propertyObject_height" onkeyup="editor.setProperty()" /></dd>
+															<dd class="clear"></dd>
+														</dl>
+
+														<dl class="line">
+															<dt class="property-name"><?php echo _t('코드')?></dt>
+															<dd><textarea id="propertyObject_chunk" onkeyup="editor.setProperty()"></textarea></dd>
+															<dd class="clear"></dd>
+														</dl>
+													</div>
 													<div id="propertyObject1" class="entry-editor-property" style="display: none;">
 														<div class="head-line">
 															<b>Object 1</b>
@@ -1480,8 +1539,7 @@ function printEntryEditorPalette() {
 															<a id="indicatorCodeBlock" class="button" href="#void" onclick="TTCommand('CodeBlock')" title="<?php echo _t('코드')?>"><span><?php echo _t('코드')?></span></a>
 															<a id="indicatorHtmlBlock" class="button" href="#void" onclick="TTCommand('HtmlBlock')" title="<?php echo _t('HTML 코드 직접 쓰기')?>"><span><?php echo _t('HTML 코드 직접 쓰기')?></span></a>
 															<a id="indicatorCreateLink" class="button" href="#void" onclick="TTCommand('CreateLink')" title="<?php echo _t('하이퍼링크')?>"><span><?php echo _t('하이퍼링크')?></span></a>
-															<a id="indicatorMediaBlock" class="button" href="#void" onclick="TTCommand('MediaBlock')" title="<?php echo _t('미디어 삽입')?>"><span><?php echo _t('미디어 삽입')?></span></a>
-															<a id="indicatorFlashBlock" class="button" href="#void" onclick="TTCommand('FlashBlock')" title="<?php echo _t('플래시 삽입')?>"><span><?php echo _t('플래시 삽입')?></span></a>
+															<a id="indicatorMediaBlock" class="button" href="#void" onclick="TTCommand('ObjectBlock')" title="<?php echo _t('미디어 삽입')?>"><span><?php echo _t('미디어 삽입')?></span></a>
 															<a id="indicatorMoreLessBlock" class="button" href="#void" onclick="TTCommand('MoreLessBlock')" title="<?php echo _t('More/Less')?>"><span><?php echo _t('More/Less')?></span></a>
 														</div>
 													</div>

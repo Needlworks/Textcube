@@ -103,19 +103,19 @@ function addCategory($owner, $parent, $name) {
 	}
 	
 	$label = mysql_escape_string($label);
-	
+	$name = mysql_escape_string($name);
+
 	if($parent == 'NULL') {
 		$parentStr = 'AND parent is null';
 	} else {
 		$parentStr = "AND parent = $parent";
 	}
-	
+
 	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND name = '$name' $parentStr";
 	
 	if (fetchQueryCell($sql) > 0)
 		return false;
-		
-	$name = mysql_escape_string($name);
+
 	$newPriority = fetchQueryCell("SELECT MAX(priority) FROM {$database['prefix']}Categories WHERE owner = $owner") + 1;
 	$result = mysql_query("INSERT INTO {$database['prefix']}Categories (owner, id, parent, name, priority, entries, entriesInLogin, label) VALUES ($owner, NULL, $parent, '$name', $newPriority, 0, 0, '$label')");
 	updateEntriesOfCategory($owner);
