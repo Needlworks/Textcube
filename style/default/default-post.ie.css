@@ -88,17 +88,30 @@
 	vertical-align                   : middle;
 }
 
+#part-post-list #page-section .page-list a:link,
+#part-post-list #page-section .page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-post-list #page-section .page-list a:hover,
+#part-post-list #page-section .page-list a:active
+{
+	color                            : #979797;
+}
+
 /* search ---------------------------------------------------------------------------------------*/
 #part-post-list #search-section
 {
 	right                            : 61px;
 	top                              : 7px;
-	width                            : 180px;
+	width                            : 182px;
 }
 
 #part-post-list #search-section input#search
 {
-	margin-top                       : 1px;
+	margin-top                       : 2px;
+	padding                          : 3px;
 }
 
 /* Comment ***************************************************************************************/
@@ -151,17 +164,30 @@
 	vertical-align                   : middle;
 }
 
+#part-post-comment #page-section .page-list a:link,
+#part-post-comment #page-section .page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-post-comment #page-section .page-list a:hover,
+#part-post-comment #page-section .page-list a:active
+{
+	color                            : #979797;
+}
+
 /* search ---------------------------------------------------------------------------------------*/
 #part-post-comment #search-section
 {
 	right                            : 61px;
 	top                              : 7px;
-	width                            : 180px;
+	width                            : 182px;
 }
 
 #part-post-comment #search-section input#search
 {
-	margin-top                       : 1px;
+	margin-top                       : 2px;
+	padding                          : 3px;
 }
 
 /* Notify ****************************************************************************************/
@@ -185,17 +211,30 @@
 	margin-top                       : 0;
 }
 
+#part-post-notify #page-section .page-list a:link,
+#part-post-notify #page-section .page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-post-notify #page-section .page-list a:hover,
+#part-post-notify #page-section .page-list a:active
+{
+	color                            : #979797;
+}
+
 /* search ---------------------------------------------------------------------------------------*/
 #part-post-notify #search-section
 {
 	right                            : 61px;
 	top                              : 7px;
-	width                            : 180px;
+	width                            : 182px;
 }
 
 #part-post-notify #search-section input#search
 {
-	margin-top                       : 1px;
+	margin-top                       : 2px;
+	padding                          : 3px;
 }
 
 /* Trackback *************************************************************************************/
@@ -248,17 +287,30 @@
 	vertical-align                   : middle;
 }
 
+#part-post-trackback #page-section .page-list a:link,
+#part-post-trackback #page-section .page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-post-trackback #page-section .page-list a:hover,
+#part-post-trackback #page-section .page-list a:active
+{
+	color                            : #979797;
+}
+
 /* search ---------------------------------------------------------------------------------------*/
 #part-post-trackback #search-section
 {
 	right                            : 61px;
 	top                              : 7px;
-	width                            : 180px;
+	width                            : 182px;
 }
 
 #part-post-trackback #search-section input#search
 {
-	margin-top                       : 1px;
+	margin-top                       : 2px;
+	padding                          : 3px;
 }
 
 /* Category **************************************************************************************/

@@ -212,6 +212,18 @@
 	padding-left                     : 28px;
 }
 
+#part-notice-list #page-section .page-list a:link,
+#part-notice-list #page-section .page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-notice-list #page-section .page-list a:hover,
+#part-notice-list #page-section .page-list a:active
+{
+	color                            : #979797;
+}
+
 /* search ---------------------------------------------------------------------------------------*/
 #part-notice-list #search-section
 {

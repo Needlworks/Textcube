@@ -289,6 +289,18 @@
 	width                            : 40px;
 }
 
+#part-trash-comment #page-section .page-list a:link,
+#part-trash-comment #page-section .page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-trash-comment #page-section .page-list a:hover,
+#part-trash-comment #page-section .page-list a:active
+{
+	color                            : #979797;
+}
+
 /* page navigation ------------------------------------------------------------------------------*/
 #part-trash-comment #page-navigation
 {
@@ -599,9 +611,21 @@
 	padding                          : 10px 120px 0 3px;
 }
 
-#part-trash-trackback #page-navigation #page-list
+#part-trash-trackback #page-section #page-list
 {
 	padding-left                     : 28px;
+}
+
+#part-trash-trackback #page-section #page-list a:link,
+#part-trash-trackback #page-section #page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-trash-trackback #page-section #page-list a:hover,
+#part-trash-trackback #page-section #page-list a:active
+{
+	color                            : #979797;
 }
 
 /* search ---------------------------------------------------------------------------------------*/

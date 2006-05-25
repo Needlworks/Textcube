@@ -1204,6 +1204,15 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $searchKeyword = null) {
 	global $service;
 ?>
+													<div id="groupAdder">
+														<div class="title"><span><?php echo _t('그룹 등록하기')?></span></div>
+														<div class="button-box">
+															<input type="text" id="newGroupTitle" class="text-input" value="<?=_t('그룹을 추가하세요')?>" onfocus="if(this.value == '<?php echo _t('그룹을 추가하세요')?>') this.value = ''" onkeydown="if(event.keyCode==13) Reader.addGroup(this.value)" />
+															<a class="add-button button" href="#void" onclick="Reader.addGroup(document.getElementById('newGroupTitle').value)"><span><?php echo _t('추가')?></span></a>
+															<div class="clear"></div>
+														</div>
+													</div>
+													
 													<ul id="groupList">
 <?
 	foreach (getFeedGroups($owner, $starredOnly, $searchKeyword) as $group) {
@@ -1227,15 +1236,6 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 ?>
 													</ul>
 													
-													<div id="groupAdder">
-														<div class="title"><span><?php echo _t('그룹 등록하기')?></span></div>
-														<div class="button-box">
-															<input type="text" id="newGroupTitle" class="text-input" value="<?=_t('그룹을 추가하세요')?>" onfocus="if(this.value == '<?php echo _t('그룹을 추가하세요')?>') this.value = ''" onkeydown="if(event.keyCode==13) Reader.addGroup(this.value)" />
-															<a class="add-button button" href="#void" onclick="Reader.addGroup(document.getElementById('newGroupTitle').value)"><span><?php echo _t('추가')?></span></a>
-															<div class="clear"></div>
-														</div>
-													</div>
-													
 													<div id="groupEditor" style="display: none;">
 														<div class="title"><span><?php echo _t('그룹 수정하기')?></span></div>
 														<div class="input-box">
@@ -1258,6 +1258,16 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = null) {
 	global $service;
 ?>
+													<div id="feedAdder">
+														<div class="title"><span><?php echo _t('피드 등록하기')?></span></div>
+														<div class="button-box">
+															<input type="text" id="newFeedURL" class="text-input" name="newFeedURL" value="<?php echo _t('피드 주소를 입력하세요')?>" onkeydown="if(event.keyCode==13) Reader.addFeed(this.value)" onfocus="if(this.value == '<?php echo _t('피드 주소를 입력하세요')?>') this.value = ''" />
+															<a class="add-button button" href="#void" onclick="Reader.addFeed(document.getElementById('newFeedURL').value)"><span><?php echo _t('추가')?></span></a>
+															<div class="clear"></div>
+															<?php echo fireEvent('AddFeedURLToolbox', '')?>
+														</div>
+													</div>
+													
 													<ul id="feedList">
 <?
 	foreach (getFeeds($owner, $group, $starredOnly, $searchKeyword) as $feed) {
@@ -1281,16 +1291,6 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 	}
 ?>
 													</ul>
-													
-													<div id="feedAdder">
-														<div class="title"><span><?php echo _t('피드 등록하기')?></span></div>
-														<div class="button-box">
-															<input type="text" id="newFeedURL" class="text-input" name="newFeedURL" value="<?php echo _t('피드 주소를 입력하세요')?>" onkeydown="if(event.keyCode==13) Reader.addFeed(this.value)" onfocus="if(this.value == '<?php echo _t('피드 주소를 입력하세요')?>') this.value = ''" />
-															<a class="add-button button" href="#void" onclick="Reader.addFeed(document.getElementById('newFeedURL').value)"><span><?php echo _t('추가')?></span></a>
-															<div class="clear"></div>
-															<?php echo fireEvent('AddFeedURLToolbox', '')?>
-														</div>
-													</div>
 													
 													<div id="feedEditor" style="display: none;">
 														<div class="title"><span><?php echo _t('피드 수정하기')?></span></div>

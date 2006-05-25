@@ -208,6 +208,52 @@
 	text-decoration                  : none !important;
 }
 
+#groupAdder
+{
+	background-color                 : #EEEEEE;
+	margin                           : 10px 10px 0 10px !important;
+	padding                          : 5px;
+}
+
+#groupAdder .title
+{
+	display                          : none;
+}
+
+#groupAdder .button-box
+{
+	margin                           : 0 auto;
+	width                            : 211px;
+}
+
+#groupAdder .button-box .text-input
+{
+	border                           : 1px solid #999999;
+	float                            : left;
+	height                           : 1.3em;
+	margin-right                     : 3px;
+	padding                          : 3px 2px 0 2px;
+	width                            : 160px;
+}
+
+#groupAdder .button-box .add-button
+{
+	background-color                 : #DDDDDD;
+	border                           : 1px solid #999999;
+	color                            : #000000;
+	float                            : left;
+	height                           : 1.3em !important;
+	margin                           : 0;
+	padding-top                      : 3px !important;
+	text-align                       : center;
+	width                            : 40px !important;
+}
+
+#groupAdder .button-box .add-button span
+{
+	font-weight                      : normal;
+}
+
 ul#groupList
 {
 	padding                          : 10px;
@@ -255,52 +301,6 @@ ul#groupList li .edit-button:active
 ul#groupList li .edit-button span
 {
 	display                          : none;
-}
-
-#groupAdder
-{
-	background-color                 : #EEEEEE;
-	margin                           : 10px 10px 18px 10px !important;
-	padding                          : 5px;
-}
-
-#groupAdder .title
-{
-	display                          : none;
-}
-
-#groupAdder .button-box
-{
-	margin                           : 0 auto;
-	width                            : 211px;
-}
-
-#groupAdder .button-box .text-input
-{
-	border                           : 1px solid #999999;
-	float                            : left;
-	height                           : 1.3em;
-	margin-right                     : 3px;
-	padding                          : 3px 2px 0 2px;
-	width                            : 160px;
-}
-
-#groupAdder .button-box .add-button
-{
-	background-color                 : #DDDDDD;
-	border                           : 1px solid #999999;
-	color                            : #000000;
-	float                            : left;
-	height                           : 1.3em !important;
-	margin                           : 0;
-	padding-top                      : 3px !important;
-	text-align                       : center;
-	width                            : 40px !important;
-}
-
-#groupAdder .button-box .add-button span
-{
-	font-weight                      : normal;
 }
 
 #groupEditor
@@ -363,6 +363,52 @@ ul#groupList li .edit-button span
 	position                         : relative;
 	right                            : 6px;
 	top                              : 0;
+}
+
+#feedAdder
+{
+	background-color                 : #EEEEEE;
+	margin                           : 10px 10px 0 10px !important;
+	padding                          : 5px;
+}
+
+#feedAdder .title
+{
+	display                          : none;
+}
+
+#feedAdder .button-box
+{
+	margin                           : 0 auto;
+	width                            : 531px;
+}
+
+#feedAdder .button-box .text-input
+{
+	border                           : 1px solid #999999;
+	float                            : left;
+	height                           : 1.3em;
+	margin-right                     : 3px;
+	padding                          : 3px 2px 0 2px;
+	width                            : 480px;
+}
+
+#feedAdder .button-box .add-button
+{
+	background-color                 : #DDDDDD;
+	border                           : 1px solid #999999;
+	color                            : #000000;
+	float                            : left;
+	height                           : 1.3em !important;
+	margin                           : 0;
+	padding-top                      : 3px !important;
+	text-align                       : center;
+	width                            : 40px !important;
+}
+
+#feedAdder .button-box .add-button span
+{
+	font-weight                      : normal;
 }
 
 ul#feedList
@@ -464,52 +510,6 @@ ul#feedList li .edit-button:active
 ul#feedList li .edit-button span
 {
 	display                          : none;
-}
-
-#feedAdder
-{
-	background-color                 : #EEEEEE;
-	margin                           : 10px 10px 18px 10px !important;
-	padding                          : 5px;
-}
-
-#feedAdder .title
-{
-	display                          : none;
-}
-
-#feedAdder .button-box
-{
-	margin                           : 0 auto;
-	width                            : 531px;
-}
-
-#feedAdder .button-box .text-input
-{
-	border                           : 1px solid #999999;
-	float                            : left;
-	height                           : 1.3em;
-	margin-right                     : 3px;
-	padding                          : 3px 2px 0 2px;
-	width                            : 480px;
-}
-
-#feedAdder .button-box .add-button
-{
-	background-color                 : #DDDDDD;
-	border                           : 1px solid #999999;
-	color                            : #000000;
-	float                            : left;
-	height                           : 1.3em !important;
-	margin                           : 0;
-	padding-top                      : 3px !important;
-	text-align                       : center;
-	width                            : 40px !important;
-}
-
-#feedAdder .button-box .add-button span
-{
-	font-weight                      : normal;
 }
 
 #feedEditor
