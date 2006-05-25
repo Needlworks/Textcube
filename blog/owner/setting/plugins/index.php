@@ -9,15 +9,15 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
 											function togglePlugin(plugin, num) {
 												tempStr = document.getElementById("plugin" + num + "Link").innerHTML;
 												
-												if (!tempStr.match(/<?=_t('사용중')?>/ig)) {
+												if (!tempStr.match(/<span class="text"><?=_t('사용중')?><\/span>/ig)) {
 													var request = new HTTPRequest("<?=$blogURL?>/owner/setting/plugins/activate?name=" + plugin);
 													//request.presetProperty(document.getElementById("plugin" + plugin + "IsActive").style, "display", "inline");
 													//request.presetProperty(document.getElementById("plugin" + plugin + "IsInactive").style, "display", "none");
 													request.send();
 												
-													document.getElementById("plugin_" + num).className = 'active-icon';
+													document.getElementById("plugin_" + num).className = 'active-icon bullet';
 												
-													document.getElementById("plugin" + num + "Link").innerHTML = '<span><?=_t('사용중')?></span>';
+													document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?=_t('사용중')?></span>';
 													document.getElementById("plugin_" + num).setAttribute('title', '<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>');
 													document.getElementById("plugin" + num + "Link").setAttribute('title', '<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>');
 												} else {
@@ -26,9 +26,9 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
 													//request.presetProperty(document.getElementById("plugin" + plugin + "IsInactive").style, "display", "none");
 													request.send();
 												
-													document.getElementById("plugin_" + num).className = 'inactive-icon';
-												
-													document.getElementById("plugin" + num + "Link").innerHTML = '<span><?=_t('미사용')?></span>';
+													document.getElementById("plugin_" + num).className = 'inactive-icon bullet';
+													
+													document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?=_t('미사용')?></span>';
 													document.getElementById("plugin_" + num).setAttribute('title', '<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>');
 													document.getElementById("plugin" + num + "Link").setAttribute('title', '<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>');
 												}

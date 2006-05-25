@@ -102,14 +102,14 @@ if (isset($suri['id'])) {
 		
 		if ($i == sizeof($temp) - 1) {
 ?>
-												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
+												<tr class="tr-last-body inactive-class">
 													<td class="date"><?=Timestamp::formatDate(getTimeFromPeriod($record['date']))?></td>
 													<td class="count"><?=$record['visits']?></td>
 												</tr>
 <?
 		} else {
 ?>
-												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
+												<tr class="tr-body inactive-class">
 													<td class="date"><?=Timestamp::formatDate(getTimeFromPeriod($record['date']))?></td>
 													<td class="count"><?=$record['visits']?></td>
 												</tr>

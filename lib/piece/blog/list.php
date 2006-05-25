@@ -13,7 +13,7 @@ if (isset($list)) {
 			array(
 				Timestamp::format3($item['published']),
 				"$blogURL/" . ($blog['useSlogan'] ? 'entry/' . encodeURL($item['slogan']) : $item['id']),
-				htmlspecialchars(fireEvent('ViewListRepTitle', $item['title']),
+				htmlspecialchars(fireEvent('ViewListRepTitle', $item['title'])),
 				($item['comments'] > 0) ? "({$item['comments']})" : ''
 			),
 			$skin->listItem

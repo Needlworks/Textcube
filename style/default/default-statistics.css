@@ -112,13 +112,11 @@
 
 #part-statistics-day table.data-inbox .tr-body td
 {
-	cursor                           : pointer;
 	height                           : 24px;
 }
 
 #part-statistics-day table.data-inbox .tr-last-body td
 {
-	cursor                           : pointer;
 	height                           : 23px;
 	padding-top                      : 1px;
 }
