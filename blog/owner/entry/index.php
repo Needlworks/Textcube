@@ -187,20 +187,28 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 											request.onVerify = function () {
 												var resultRow = this.getText("/response/result").split('*');
 												if (resultRow.length == 1)
-													var str ='';
+													str ='';
 												else {
-													var str='<table cellspacing="0" cellpadding="0" border="0">';
+													str = '';
 													for (var i=0; i<resultRow.length-1 ; i++) {
+														if  (i == 0) {
+															str='<table cellspacing="0" cellpadding="0" border="0">';
+														}
 														field = resultRow[i].split(',');
 														str += '<tr id="trackbackLog_'+field[0]+'">\n';
 														str += '	<td class="address">'+field[1]+'</td>\n'
 														str += '	<td class="date">'+field[2]+'</td>\n'
-														str += '	<td class="remove"><a class="remove-button button" href="#void" onclick="removeTrackbackLog('+field[0]+','+id+');" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a></td>\n'
+														str += '	<td class="remove"><a class="remove-button button" href="#void" onclick="removeTrackbackLog('+field[0]+','+id+');" title="이 트랙백을 삭제합니다."><span>Delete</span></a></td>\n'
 														str += '</tr>\n';
+														
+														if (i == resultRow.length-2) {
+															str += "</table>";
+														}
 													}
-													str += "</table>";
 												}
-												document.getElementById("logs_"+id).innerHTML = str;
+												if (str != '' ) {
+													document.getElementById("logs_"+id).innerHTML = str;
+												}
 												return true;
 											}
 											request.send();
@@ -370,14 +378,13 @@ for ($i=0; $i<sizeof($entries); $i++) {
 														<div class="trackback-box">
 															<label for="trackbackForm_<?=$entry['id']?>"><span><?=_t('트랙백 주소')?></span></label><span class="divider"> | </span><input type="text" id="trackbackForm_<?=$entry['id']?>" class="text-input" name="trackbackURL" value="http://" onkeydown="if (event.keyCode == 13) sendTrackback(<?=$entry['id']?>)" />
 														</div>
-														<div id="logs_<?=$entry['id']?>" class="trackback-log-box"></div>
 														<div class="button-box">
 															<a class="send-button button" href="#void" onclick="sendTrackback(<?=$entry['id']?>)"><span><?=_t('전송')?></span></a>
 															<!--span class="divider"> | </span>
 															<a class="close-button button" href="#void" onclick="collapseAll()"><span><?=_t('닫기')?></span></a-->
 														</div>
-															
-															<div class="clear"></div>
+														<div id="logs_<?=$entry['id']?>" class="trackback-log-box"></div>
+														<div class="clear"></div>
 		 											</div>
 												</td>
 											</tr>
@@ -466,8 +473,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 															<!--span class="divider"> | </span>
 															<a class="close-button button" href="#void" onclick="collapseAll()"><span><?=_t('닫기')?></span></a-->
 														</div>
-														<div id="logs_<?=$entry['id']?>"></div>
-	 													
+														<div id="logs_<?=$entry['id']?>" class="trackback-log-box"></div>
 	 													<div class="clear"></div>
 		 											</div>
 	 											</td>

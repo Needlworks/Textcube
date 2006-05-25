@@ -763,6 +763,7 @@ $__text['환경설정'] = 'Settings';
 $__text['회원정보를 관리합니다'] = 'Edit Personal Information';
 $__text['효과 제거'] = 'Undo all formating';
 $__text['효과없음'] = 'No effect';
+$__text['휴지통'] = 'Trash';
 $__text['알 수 없는 형식의 파일명입니다'] = '알 수 없는 형식의 파일명입니다';
 $__text['OBJECT 태그만 입력하세요'] = 'OBJECT 태그만 입력하세요';
 $__text['틀린 OBJECT 태그입니다'] = '틀린 OBJECT 태그입니다';

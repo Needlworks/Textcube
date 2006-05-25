@@ -275,7 +275,7 @@ samp {
 *
 {
 	margin                           : 0;
-	padding                          : 0;p;
+	padding                          : 0;
 }
 
 body
@@ -648,7 +648,7 @@ body
 	background-position              : left top;
 	background-repeat                : repeat-x;
 	border                           : 1px solid #000000;
-	margin-top                       : 300px;
+	margin-top                       : 140px;
 	padding                          : 20px;
 	text-align                       : center;
 }

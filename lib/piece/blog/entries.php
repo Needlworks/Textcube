@@ -3,8 +3,8 @@ $entriesView = '';
 foreach ($entries as $entry) {
 	if ($entry['category'] == - 2) {
 		$entryView = $skin->noticeItem;
-		dress('notice_rep_date', Timestamp::format5($entry['published']), $entryView);
-		dress('notice_rep_title', htmlspecialchars($entry['title']), $entryView);
+		dress('notice_rep_date', fireEvent('ViewNoticeDate', Timestamp::format5($entry['published'])), $entryView);
+		dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', $entry['title'], $entry['id'])), $entryView);
 		dress('notice_rep_link', "$blogURL/notice/{$entry['id']}", $entryView);
 		dress('notice_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], getKeywordNames($owner), 'Notice'), $entryView);
 		$entriesView .= $entryView;
@@ -48,11 +48,11 @@ foreach ($entries as $entry) {
 		}
 		dress('article_rep_id', $entry['id'], $entryView);
 		dress('article_rep_link', $permalink, $entryView);
-		dress('article_rep_title', htmlspecialchars($entry['title']), $entryView);
+		dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $entryView);
 		dress('article_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], getKeywordNames($owner)), $entryView);
-		dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _t('분류없음') : $entry['categoryLabel']), $entryView);
+		dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _t('분류없음') : $entry['categoryLabel'], $entry['id']), $entryView);
 		dress('article_rep_category_link', "$blogURL/category/" . encodeURL($entry['categoryLabel']), $entryView);
-		dress('article_rep_date', Timestamp::format5($entry['published']), $entryView);
+		dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published'])), $entryView);
 		dress('entry_archive_link', "$blogURL/archive/" . Timestamp::getDate($entry['published']), $entryView);
 		if ($entry['acceptComment'])
 			dress('article_rep_rp_link', "toggleLayer('entry{$entry['id']}Comment'); return false", $entryView);
@@ -69,8 +69,8 @@ foreach ($entries as $entry) {
 	} else {
 		$protectedEntryView = $skin->entryProtected;
 		dress('article_rep_id', $entry['id'], $protectedEntryView);
-		dress('article_rep_title', htmlspecialchars($entry['title']), $protectedEntryView);
-		dress('article_rep_date', Timestamp::format5($entry['published']), $protectedEntryView);
+		dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $protectedEntryView);
+		dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published'])), $protectedEntryView);
 		dress('article_password', "entry{$entry['id']}password", $protectedEntryView);
 		dress('article_dissolve', "reloadEntry({$entry['id']})", $protectedEntryView);
 		if (isset($_POST['partial']))

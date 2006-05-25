@@ -130,7 +130,7 @@ if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId()))
 <?
 }
 ?>
-					<input type="button" class="button-input" name="submit" value="<?=_t('다음')?>" onclick="document.deleteComment.submit()" />				
+					<input type="button" class="button-input" name="Submit" value="<?=_t('다음')?>" onclick="document.deleteComment.submit()" />				
 				</div>
 			</div>
 		</div>

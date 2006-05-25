@@ -1,14 +1,14 @@
 <?php 
 
 function respondMessagePage($message) {
-	global $service;
+	global $service, $blogURL;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<title><?php echo TATTERTOOLS_NAME?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="./style/owner.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $blogURL ?>/style/owner.css" />
 </head>
 <body id="body-messege-page">
 	<div class="messege-box">
@@ -26,14 +26,14 @@ function respondMessagePage($message) {
 }
 
 function respondAlertPage($message) {
-	global $service;
+	global $service, $blogURL;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<title><?php echo TATTERTOOLS_NAME?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/owner.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $blogURL ?>/style/owner.css" />
 	<script type="text/javascript">
 		//<![CDATA[
 			alert("<?php echo $message?>");
@@ -46,14 +46,14 @@ function respondAlertPage($message) {
 }
 
 function respondErrorPage($message = '') {
-	global $service;
+	global $service, $blogURL;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<title><?php echo TATTERTOOLS_NAME?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="./style/owner.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $blogURL ?>/style/owner.css" />
 </head>
 <body id="body-messege-page">
 	<div class="messege-box">

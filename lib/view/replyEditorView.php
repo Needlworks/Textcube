@@ -93,7 +93,7 @@ if (!doesHaveOwnership()) {
 				</dl>
 				
 				<div class="button-box">
-					<input type="button" class="button-input" name="submit" value="<?php echo _t('완료')?>" onclick="javascript:submitComment()" />
+					<input type="button" class="button-input" name="Submit" value="<?php echo _t('완료')?>" onclick="javascript:submitComment()" />
 				</div>
 			</div>
 		</div>

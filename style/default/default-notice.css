@@ -212,16 +212,28 @@
 	padding-left                     : 28px;
 }
 
-#part-notice-list #page-section .page-list a:link,
-#part-notice-list #page-section .page-list a:visited
+#part-notice-trackback #page-navigation #page-list a:link,
+#part-notice-trackback #page-navigation #page-list a:visited
 {
 	color                            : #000000;
 }
 
-#part-notice-list #page-section .page-list a:hover,
-#part-notice-list #page-section .page-list a:active
+#part-notice-trackback #page-navigation #page-list a:hover,
+#part-notice-trackback #page-navigation #page-list a:active
 {
 	color                            : #979797;
+}
+
+#part-notice-trackback #page-navigation #page-list a.selected:link,
+#part-notice-trackback #page-navigation #page-list a.selected:visited
+{
+	color                            : #FF0000 !important;
+}
+
+#part-notice-trackback #page-navigation #page-list a.selected:hover,
+#part-notice-trackback #page-navigation #page-list a.selected:active
+{
+	color                            : #FF3333 !important;
 }
 
 /* search ---------------------------------------------------------------------------------------*/
