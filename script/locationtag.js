@@ -56,7 +56,7 @@ function eolinLocationTagFunction_showSuggestion()
 		var message3 = arguments[5];
 
 		if(instance.locationList.childNodes.length == 1)
-			htmlText.append("<li class=\"disabled\"><strong>" + instance.input.value + "</strong> - " + message1 + "<br/>" + message2 + "</li>");
+			htmlText.append("<li class=\"disabled\"><strong>" + instance.input.value + "</strong> - " + message1 + "<br />" + message2 + "</li>");
 		else if(instance.input.value.trim() == "")
 			htmlText.append("<li class=\"disabled\">" + message3 + "</li>");
 		else

@@ -18,7 +18,7 @@ printMobileHtmlHeader(htmlspecialchars($blog['title']));
 			echo '<ul>';
 		foreach ($comments as $comment) {
 		?>
-			<li><a href="<?=$blogURL?>/comment/<?=$comment['entry']?>"><?=htmlspecialchars($comment['comment'])?></a><br/><?=htmlspecialchars($comment['name'])?> (<?=Timestamp::format2($comment['written'])?>)</li>
+			<li><a href="<?=$blogURL?>/comment/<?=$comment['entry']?>"><?=htmlspecialchars($comment['comment'])?></a><br /><?=htmlspecialchars($comment['name'])?> (<?=Timestamp::format2($comment['written'])?>)</li>
 		<?
 		}
 		if(count($comments) > 0)
@@ -31,7 +31,7 @@ printMobileHtmlHeader(htmlspecialchars($blog['title']));
 			echo '<ul>';
 		foreach ($trackbacks as $trackback) {
 		?>
-			<li><a href="<?=$blogURL?>/trackback/<?=$trackback['entry']?>"><?=htmlspecialchars($trackback['subject'])?></a><br/><?=htmlspecialchars($trackback['site'])?> (<?=Timestamp::format2($trackback['written'])?>)</li>
+			<li><a href="<?=$blogURL?>/trackback/<?=$trackback['entry']?>"><?=htmlspecialchars($trackback['subject'])?></a><br /><?=htmlspecialchars($trackback['site'])?> (<?=Timestamp::format2($trackback['written'])?>)</li>
 		<?
 		}
 		if(count($trackbacks) > 0)

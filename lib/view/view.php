@@ -667,7 +667,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 	<table id="treeComponent" currentselectednode="<?php echo $selected?>" cellpadding="0" cellspacing="0" style="width: 100%;"><tr>
 	<td>
 		<table id="category_0" name="treeNode" cellpadding="0" cellspacing="0"><tr>
-			<td class="ib" style="font-size: 1px"><img src="<?php echo $skin['url']?>/tab_top.gif" width="16" onclick="expandTree()" alt=""/></td>
+			<td class="ib" style="font-size: 1px"><img src="<?php echo $skin['url']?>/tab_top.gif" width="16" onclick="expandTree()" alt="" /></td>
 			<td valign="top" style="font-size:9pt; padding-left:3px">
 				<table onclick="<?php 
 	if ($action == 1) {
@@ -699,7 +699,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 			$link = 'onclick="window.location.href=\'' . escapeJSInAttribute($row['link']) . '\'"';
 ?>
 		<table name="treeNode"  id="category_<?php echo $row['id']?>" cellpadding="0" cellspacing="0"><tr>
-			<td class="ib" style="width:39px; font-size: 1px; background-image: url('<?php echo $skin['url']?>/navi_back_noactive<?php echo ($i ? '' : '_end')?>.gif')"><a class="click" onclick="toggleFolder('<?php echo $row['id']?>')"><img src="<?php echo $skin['url']?>/tab_<?php echo (count($row['children']) ? 'closed' : 'isleaf')?>.gif" width="39" alt=""/></a></td>
+			<td class="ib" style="width:39px; font-size: 1px; background-image: url('<?php echo $skin['url']?>/navi_back_noactive<?php echo ($i ? '' : '_end')?>.gif')"><a class="click" onclick="toggleFolder('<?php echo $row['id']?>')"><img src="<?php echo $skin['url']?>/tab_<?php echo (count($row['children']) ? 'closed' : 'isleaf')?>.gif" width="39" alt="" /></a></td>
 			<td>
 				<table cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor?>"><tr>
 					<td class="branch3" <?php echo $link?>><div id="text_<?php echo $row['id']?>" style="color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($row['label'], $skin['labelLength']))?> <?php 
@@ -726,10 +726,10 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 				$link = 'onclick="window.location.href=\'' . escapeJSInAttribute($irow['link']) . '\'"';
 ?>
 				<table id="category_<?php echo $irow['id']?>" name="treeNode" cellpadding="0" cellspacing="0"><tr>
-				<td style="width:39px; font-size: 1px"><img src="<?php echo $skin['url']?>/navi_back_active<?php echo ($i ? '' : '_end')?>.gif" width="17" height="18" alt=""/><img src="<?php echo $skin['url']?>/tab_treed<?php 
+				<td style="width:39px; font-size: 1px"><img src="<?php echo $skin['url']?>/navi_back_active<?php echo ($i ? '' : '_end')?>.gif" width="17" height="18" alt="" /><img src="<?php echo $skin['url']?>/tab_treed<?php 
 			if (!$j)
 				print "_end";
-?>.gif" width="22" alt=""/></td>
+?>.gif" width="22" alt="" /></td>
 				<td>
 					<table <?php echo $link?> cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor?>"><tr>
 					<td class="branch3"><div id="text_<?php echo $irow['id']?>" style="color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($irow['label'], $skin['labelLength']))?> <?php echo ($skin['showValue'] ? "<span class=\"c_cnt\">({$irow['value']})</span>" : '')?></div></td>
@@ -944,7 +944,7 @@ function bindTags($id, $content) {
 		$postfix = substr($content, $end + 4);
 		$content = $prefix;
 		if (defined('__TATTERTOOLS_MOBILE__')) {
-			$content .= "<div>[$more | $less]<br/>$full</div>";
+			$content .= "<div>[$more | $less]<br />$full</div>";
 		} else {
 			$content .= "<div id=\"more{$id}_$no\" style=\"display:block\"><a href=\"#\" onclick=\"hideLayer('more{$id}_$no');showLayer('less{$id}_$no');return false\">$more</a></div>";
 			$content .= "<div id=\"less{$id}_$no\" style=\"display:none\"><a href=\"#\" onclick=\"showLayer('more{$id}_$no');hideLayer('less{$id}_$no');return false\">$less</a>$full</div>";
@@ -1037,7 +1037,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				} else {
 					$caption = '';
 				}
-				$buf .= '<center><img src="' . ($useAbsolutePath ? $hostURL : $service['path']) . '/image/gallery_enlarge.gif" width="70" height="19" alt="ZOOM" style="vertical-align: middle" onclick="openFullScreen(\'' . $service['path'] . '/script/gallery/iMazing/embed.php?d=' . urlencode($id) . '&f=' . urlencode($params['frame']) . '&t=' . urlencode($params['transition']) . '&n=' . urlencode($params['navigation']) . '&si=' . urlencode($params['slideshowInterval']) . '&p=' . urlencode($params['page']) . '&a=' . urlencode($params['align']) . '&o=' . $owner . '&i=' . $imgStr . '&r=' . $service['path'] . '\',\'' . str_replace("'", "\\'", $attributes[count($attributes) - 1]) . '\',\'' . $service['path'] . '\')" style="cursor:pointer; padding-bottom:10px"/>';
+				$buf .= '<center><img src="' . ($useAbsolutePath ? $hostURL : $service['path']) . '/image/gallery_enlarge.gif" width="70" height="19" alt="ZOOM" style="vertical-align: middle" onclick="openFullScreen(\'' . $service['path'] . '/script/gallery/iMazing/embed.php?d=' . urlencode($id) . '&f=' . urlencode($params['frame']) . '&t=' . urlencode($params['transition']) . '&n=' . urlencode($params['navigation']) . '&si=' . urlencode($params['slideshowInterval']) . '&p=' . urlencode($params['page']) . '&a=' . urlencode($params['align']) . '&o=' . $owner . '&i=' . $imgStr . '&r=' . $service['path'] . '\',\'' . str_replace("'", "\\'", $attributes[count($attributes) - 1]) . '\',\'' . $service['path'] . '\')" style="cursor:pointer; padding-bottom:10px" />';
 				$buf .= '<table>';
 				$buf .= '<tr>';
 				$buf .= '<td width="' . $params['width'] . '" height="' . $params['height'] . '">';
@@ -1051,7 +1051,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				$sounds = array_slice($attributes, 1, count($attributes) - 3);
 				for ($i = 0; $i < count($sounds); $i += 2) {
 					if (!empty($sounds[$i]))
-						echo "<a href=\"$folderURL/$sounds[$i]\">$sounds[$i]</a><br/>";
+						echo "<a href=\"$folderURL/$sounds[$i]\">$sounds[$i]</a><br />";
 				}
 			} else {
 				$params = getAttributesFromString($attributes[sizeof($attributes) - 2]);
@@ -1149,7 +1149,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 	switch (getFileExtension($filename)) {
 		case 'jpg':case 'jpeg':case 'gif':case 'png':case 'bmp':
 			if (defined('__TATTERTOOLS_MOBILE__')) {
-				return fireEvent('ViewAttachedImageMobile', "<img src=\"$blogURL/imageResizer/?f=" . urlencode($filename) . "\" alt=\"\"/>", $path);
+				return fireEvent('ViewAttachedImageMobile', "<img src=\"$blogURL/imageResizer/?f=" . urlencode($filename) . "\" alt=\"\" />", $path);
 			} else {
 				list($width, $height) = @getimagesize($path);
 				$setWidth = $width;
@@ -1166,11 +1166,11 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 				}
 				$property = str_replace('&quot;', '"', $property);
 				if (strpos(str_replace('"', '', $property), "width=$width") !== false && strpos(str_replace('"', '', $property), "height=$height") !== false)
-					return fireEvent('ViewAttachedImage', "<img src=\"$url\" $property/>", $path);
+					return fireEvent('ViewAttachedImage', "<img src=\"$url\" $property />", $path);
 				else {
 					$setWidth += 50;
 					$setHeight += 150;
-					return fireEvent('ViewAttachedImage', "<img src=\"$url\" $property style=\"cursor: pointer\" onclick=\"open_img('$url')\"/>", $path);
+					return fireEvent('ViewAttachedImage', "<img src=\"$url\" $property style=\"cursor: pointer\" onclick=\"open_img('$url')\" />", $path);
 				}
 			}
 			break;
@@ -1193,9 +1193,9 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 			break;
 		default:
 			if (file_exists(ROOT . '/image/' . getFileExtension($filename) . '.gif')) {
-				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '"><img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/' . getFileExtension($filename) . '.gif" alt="" align=""/> ' . htmlspecialchars($fileInfo['label']) . '</a>';
+				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '"><img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/' . getFileExtension($filename) . '.gif" alt="file icon" align="" /> ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			} else {
-				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '"><img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/unknown.gif" alt="" align="bottom"/> ' . htmlspecialchars($fileInfo['label']) . '</a>';
+				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '"><img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/unknown.gif" alt="" align="bottom" /> ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			}
 			break;
 	}
@@ -1208,7 +1208,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 														<div class="title"><span><?php echo _t('그룹 등록하기')?></span></div>
 														<div class="button-box">
 															<input type="text" id="newGroupTitle" class="text-input" value="<?=_t('그룹을 추가하세요')?>" onfocus="if(this.value == '<?php echo _t('그룹을 추가하세요')?>') this.value = ''" onkeydown="if(event.keyCode==13) Reader.addGroup(this.value)" />
-															<a class="add-button button" href="#void" onclick="Reader.addGroup(document.getElementById('newGroupTitle').value)"><span><?php echo _t('추가')?></span></a>
+															<a class="add-button button" href="#void" onclick="Reader.addGroup(document.getElementById('newGroupTitle').value)"><span class="text"><?php echo _t('추가')?></span></a>
 															<div class="clear"></div>
 														</div>
 													</div>
@@ -1225,7 +1225,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 <?php 
 		if ($group['id']) {
 ?>
-															<a class="edit-button button" href="#void" onclick="Reader.editGroup(<?php echo $group['id']?>, '<?php echo $group['title']?>'); return false;" title="<?=_t('이 그룹 정보를 수정합니다')?>"><span><?=_t('수정')?></span></a>
+															<a class="edit-button button" href="#void" onclick="Reader.editGroup(<?php echo $group['id']?>, '<?php echo $group['title']?>'); return false;" title="<?=_t('이 그룹 정보를 수정합니다')?>"><span class="text"><?=_t('수정')?></span></a>
 <?php 
 		}
 ?>
@@ -1243,11 +1243,11 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 																<input type="text" id="changeGroupTitle" class="text-input" name="changeGroupTitle" />
 															</div>
 															<div class="button-box">
-																<a class="delete-button button" href="#void" onclick="Reader.deleteGroup()"><span><?=_t('삭제하기')?></span></a>
+																<a class="delete-button button" href="#void" onclick="Reader.deleteGroup()"><span class="text"><?=_t('삭제하기')?></span></a>
 																<span class="divider">|</span>
-																<a class="edit-button button" href="#void" onclick="Reader.editGroupExecute()"><span><?=_t('저장하기')?></span></a>
+																<a class="edit-button button" href="#void" onclick="Reader.editGroupExecute()"><span class="text"><?=_t('저장하기')?></span></a>
 																<span class="divider">|</span>
-																<a class="cancel-button button" href="#void" onclick="Reader.cancelEditGroup()"><span><?=_t('취소하기')?></span></a>
+																<a class="cancel-button button" href="#void" onclick="Reader.cancelEditGroup()"><span class="text"><?=_t('취소하기')?></span></a>
 																<div class="clear"></div>
 															</div>
 														</div>
@@ -1262,7 +1262,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 														<div class="title"><span><?php echo _t('피드 등록하기')?></span></div>
 														<div class="button-box">
 															<input type="text" id="newFeedURL" class="text-input" name="newFeedURL" value="<?php echo _t('피드 주소를 입력하세요')?>" onkeydown="if(event.keyCode==13) Reader.addFeed(this.value)" onfocus="if(this.value == '<?php echo _t('피드 주소를 입력하세요')?>') this.value = ''" />
-															<a class="add-button button" href="#void" onclick="Reader.addFeed(document.getElementById('newFeedURL').value)"><span><?php echo _t('추가')?></span></a>
+															<a class="add-button button" href="#void" onclick="Reader.addFeed(document.getElementById('newFeedURL').value)"><span class="text"><?php echo _t('추가')?></span></a>
 															<div class="clear"></div>
 															<?php echo fireEvent('AddFeedURLToolbox', '')?>
 														</div>
@@ -1281,9 +1281,9 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 														<li class="inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectFeed(this, <?php echo $feed['id']?>)">
 															<div class="title"><?php echo $feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" onclick="window.open(this.href); event.cancelBubble=true; return false;" title="이 피드의 원본 사이트를 새 창으로 엽니다.">' : ''?><strong><?php echo htmlspecialchars($feed['title'])?></strong><?php echo $feed['blogURL'] ? "</a>\n" : ''?></div><div class="description"><?php echo $feed['description']?'<span class="divider"> | </span>':'&nbsp;'?><?php echo htmlspecialchars($feed['description'])?></div>
 															<div class="button-box">
-																<a id="iconFeedStatus<?php echo $feed['id']?>" class="update-button button" onclick="Reader.updateFeed(<?php echo $feed['id']?>, '<?=_t('피드를 업데이트 했습니다.')?>'); event.cancelBubble=true; return false;" title="이 피드를 업데이트 합니다."><span><?=_t('피드 업데이트')?></span></a>
+																<a id="iconFeedStatus<?php echo $feed['id']?>" class="update-button button" onclick="Reader.updateFeed(<?php echo $feed['id']?>, '<?=_t('피드를 업데이트 했습니다.')?>'); event.cancelBubble=true; return false;" title="이 피드를 업데이트 합니다."><span class="text"><?=_t('피드 업데이트')?></span></a>
 																<span class="divider">|</span>
-																<a class="edit-button button" href="#void" onclick="Reader.editFeed(<?php echo $feed['id']?>, '<?php echo htmlspecialchars($feed['xmlURL'])?>')" title="이 피드 정보를 수정합니다."><span><?=_t('수정')?></span></a>
+																<a class="edit-button button" href="#void" onclick="Reader.editFeed(<?php echo $feed['id']?>, '<?php echo htmlspecialchars($feed['xmlURL'])?>')" title="이 피드 정보를 수정합니다."><span class="text"><?=_t('수정')?></span></a>
 																<div class="clear"></div>
 															</div>
 														</li>
@@ -1310,11 +1310,11 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 																<input type="text" id="changeFeedURL" class="text-input" readonly="readonly" />
 															</div>
 															<div class="button-box">
-																<a class="delete-button button" href="#void" onclick="Reader.deleteFeed()"><span><?=_t('삭제하기')?></span></a>
+																<a class="delete-button button" href="#void" onclick="Reader.deleteFeed()"><span class="text"><?=_t('삭제하기')?></span></a>
 																<span class="divider">|</span>
-																<a class="edit-button button" href="#void" onclick="Reader.editFeedExecute()"><span><?=_t('저장하기')?></span></a>
+																<a class="edit-button button" href="#void" onclick="Reader.editFeedExecute()"><span class="text"><?=_t('저장하기')?></span></a>
 																<span class="divider">|</span>
-																<a class="cancel-button button" href="#void" onclick="Reader.cancelEditFeed()"><span><?=_t('취소하기')?></span></a>
+																<a class="cancel-button button" href="#void" onclick="Reader.cancelEditFeed()"><span class="text"><?=_t('취소하기')?></span></a>
 																<div class="clear"></div>
 															</div>
 														</div>
@@ -1327,7 +1327,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null) {
 	global $service;
 ?>
-												<table border="0" cellpadding="0" cellspacing="0">
+												<table cellpadding="0" cellspacing="0">
 <?
 	$count = 0;
 	foreach (getFeedEntries($owner, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword) as $entry) {
@@ -1344,11 +1344,11 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 	<?
 			if ($entry['item']) {
 	?>
-																<span id="star<?php echo $entry['id']?>" class="scrap-on-icon bullet" title="<?=_t('이 포스트를 스크랩합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span></span></span>
+																<span id="star<?php echo $entry['id']?>" class="scrap-on-icon bullet" title="<?=_t('이 포스트를 스크랩합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text">스크랩 된 포스트</span></span>
 	<?
 			} else {
 	?>
-																<span id="star<?php echo $entry['id']?>" class="scrap-off-icon bullet" title="<?=_t('이 포스트를 스크랩 해제합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span></span></span>
+																<span id="star<?php echo $entry['id']?>" class="scrap-off-icon bullet" title="<?=_t('이 포스트를 스크랩 해제합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text">스크랩 되지 않은 포스트</span></span>
 	<?
 			}
 	?>
@@ -1390,7 +1390,7 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $offset) {
 	global $service;
 ?>
-												<table border="0" cellpadding="0" cellspacing="0">
+												<table cellpadding="0" cellspacing="0">
 <?
 	$count = 0;
 	foreach (getFeedEntries($owner, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword, $offset) as $entry) {
@@ -1402,17 +1402,17 @@ function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false
 													<tr id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
 														<td>
 															<div class="icons">
-	<?
-			if ($entry['item']) {
-	?>
-																<span id="star<?php echo $entry['id']?>" class="scrap-on-icon bullet" title="<?=_t('이 포스트를 스크랩합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span></span></span>
-	<?
-			} else {
-	?>
-																<span id="star<?php echo $entry['id']?>" class="scrap-off-icon bullet" title="<?=_t('이 포스트를 스크랩 해제합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span></span></span>
-	<?
-			}
-	?>
+<?
+		if ($entry['item']) {
+?>
+																<span id="star<?php echo $entry['id']?>" class="scrap-on-icon bullet" title="<?=_t('이 포스트를 스크랩합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text">스크랩 된 포스트</span></span>
+<?
+		} else {
+?>
+																<span id="star<?php echo $entry['id']?>" class="scrap-off-icon bullet" title="<?=_t('이 포스트를 스크랩 해제합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text">스크랩 되지 않은 포스트</span></span>
+<?
+		}
+?>
 																<?php echo $podcast?>
 															</div>
 															<div class="content">
@@ -1438,7 +1438,7 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 													<div id="entryHead">
 														<div class="title"><a href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($entry['entry_title'])?></a></div>
 														<div class="writing-info"><span class="by">by </span><span class="name"><?php echo htmlspecialchars($entry['author'] ? eregi_replace("^\((.+)\)$", "\\1", $entry['author']) : $entry['blog_title'])?></span><span class="divider"> : </span><span class="date"><?php echo date('Y-m-d H:i:s', $entry['written'])?></span></div>
-														<div class="open"><a id="entryPermalink" href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;" title="<?=_t('이 포스트를 새 창으로 엽니다.')?>"><span><?php echo _t('새 창으로 보기')?></span></a></div>
+														<div class="open"><a id="entryPermalink" href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;" title="<?=_t('이 포스트를 새 창으로 엽니다.')?>"><span class="text"><?php echo _t('새 창으로 보기')?></span></a></div>
 														<div class="clear"></div>
 													</div>
 													
@@ -1447,11 +1447,11 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 	if ($entry['enclosure']) {
 		if (preg_match('/\.mp3$/i', $entry['enclosure'])) {
 ?>
-														<p><img class="podcast-icon bullet" src="<?php echo $service['path']?>/image/owner/reader/iconPodcast.gif" border="0" alt="<?=_t('팟캐스트 아이콘')?>" /><a href="<?php echo htmlspecialchars($entry['enclosure'])?>"><?php echo htmlspecialchars($entry['enclosure'])?></a></p>
+														<p><span class="podcast-icon bullet"><span class="text"><?=_t('팟캐스트')?></span></span><a href="<?php echo htmlspecialchars($entry['enclosure'])?>"><?php echo htmlspecialchars($entry['enclosure'])?></a></p>
 <?php 
 		} else {
 ?>
-														<p><img class="podcast-icon bullet" src="<?php echo $service['path']?>/image/owner/reader/iconPodcast.gif" border="0" alt="<?=_t('팟캐스트 아이콘')?>" /><a href="<?php echo htmlspecialchars($entry['enclosure'])?>"><?php echo htmlspecialchars($entry['enclosure'])?></a></p>
+														<p><span class="podcast-icon bullet"><span class="text"><?=_t('팟캐스트')?></span></span><a href="<?php echo htmlspecialchars($entry['enclosure'])?>"><?php echo htmlspecialchars($entry['enclosure'])?></a></p>
 <?php 
 		}
 	}
@@ -1480,7 +1480,7 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 	}
 ?>
 														<div class="button-box">
-															<a class="non-read-button button" href="#void" onclick="Reader.markAsUnread(<?php echo $entry['id']?>)"><span><?php echo _t('안 읽은 글로 표시')?></span></a>
+															<a class="non-read-button button" href="#void" onclick="Reader.markAsUnread(<?php echo $entry['id']?>)"><span class="text"><?php echo _t('안 읽은 글로 표시')?></span></a>
 															<div class="clear"></div>
 														</div>
 														

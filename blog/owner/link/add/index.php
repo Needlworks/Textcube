@@ -69,18 +69,18 @@ require ROOT . '/lib/piece/owner/contentMenu21.php';
 										
 										<div class="data-inbox">
 											<dl class="line">
-												<dt><label for="rss"><?=_t('RSS 주소')?></label><span class="divider"> | </span></dt>
-												<dd><input type="text" class="text-input rss" name="rss" /> <a class="get-info-button button" href="#void" onclick="getSiteInfo();"><span><?=_t('정보가져오기')?></span></a></dd>
+												<dt><label for="rss"><span class="text"><?=_t('RSS 주소')?></span></label><span class="divider"> | </span></dt>
+												<dd><input type="text" id="rss" class="text-input rss" name="rss" /> <a class="get-info-button button" href="#void" onclick="getSiteInfo();"><span class="text"><?=_t('정보가져오기')?></span></a></dd>
 												<dd class="clear"></dd>
 											</dl>
 											<dl class="line">
-												<dt><label for="name"><?=_t('홈페이지 제목')?></label><span class="divider"> | </span></dt>
-												<dd><input type="text" class="text-input name" name="name" /></dd>
+												<dt><label for="name"><span class="text"><?=_t('홈페이지 제목')?></span></label><span class="divider"> | </span></dt>
+												<dd><input type="text" id="name" class="text-input name" name="name" /></dd>
 												<dd class="clear"></dd>
 											</dl>
 											<dl class="line">
-												<dt><label for="url"><?=_t('홈페이지 주소')?></label><span class="divider"> | </span></dt>
-												<dd><input type="text" class="text-input url" name="url" /></dd>
+												<dt><label for="url"><span class="text"><?=_t('홈페이지 주소')?></span></label><span class="divider"> | </span></dt>
+												<dd><input type="text" id="url" class="text-input url" name="url" /></dd>
 												<dd class="clear"></dd>
 											</dl>
 											<div class="clear"></div>
@@ -90,9 +90,9 @@ require ROOT . '/lib/piece/owner/contentMenu21.php';
 									<hr class="hidden" />
 									
 									<div class="button-box">
-										<a class="add-button button" href="#void" onclick="addLink()"><span><?=_t('추가하기')?></span></a>
+										<a class="add-button button" href="#void" onclick="addLink()"><span class="text"><?=_t('추가하기')?></span></a>
 										<span class="hidden">|</span>
-										<a class="cancel-button button" href="<?=$blogURL?>/owner/link"><span><?=_t('취소하기')?></span></a>
+										<a class="cancel-button button" href="<?=$blogURL?>/owner/link"><span class="text"><?=_t('취소하기')?></span></a>
 										<div class="clear"></div>
 									</div>
 <?

@@ -1,4 +1,4 @@
-													<script language="VBScript" type="text/vbscript">
+													<script type="text/vbscript">
 														<!-- // Visual basic helper required to detect Flash Player ActiveX control version information
 															Function VBGetSwfVer(i)
 																on error resume next
@@ -14,7 +14,7 @@
 														// -->
 													</script>
 													
-													<script language="JavaScript1.1" type="text/javascript">
+													<script type="text/javascript">
 														<!-- // Detect Client Browser type
 															var isIE	= (navigator.appVersion.indexOf("MSIE") != -1) ? true : false;
 															var isWin = (navigator.appVersion.toLowerCase().indexOf("win") != -1) ? true : false;

@@ -21,9 +21,9 @@ if (doesHaveOwnership()) {
 	<div class="content">
 		<form method="post" action="<?=$blogURL?>/comment/delete/action">
 		<fieldset>
-		<input type="hidden" name="replyId" value="<?=$suri['id']?>"/>
-		<input type="password" name="password" id="password"/>
-		<input type="submit" value="<?=_t('삭제')?>"/>
+		<input type="hidden" name="replyId" value="<?=$suri['id']?>" />
+		<input type="password" name="password" id="password" />
+		<input type="submit" value="<?=_t('삭제')?>" />
 		</fieldset>
 		</form>
 		<a href="<?=$blogURL?>/comment/<?=$entryId?>"><?=_t('답글보기 화면으로')?></a>

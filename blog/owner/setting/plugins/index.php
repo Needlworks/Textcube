@@ -39,7 +39,7 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
 									<div id="part-setting-plugins" class="part">
 										<h2 class="caption"><span class="main-text"><?=_t('설치된 플러그인입니다')?></span></h2>
 										
-										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
+										<table class="data-inbox" cellspacing="0" cellpadding="0">
 											<thead>
 												<tr>
 													<td class="title"><span><?=_t('제목')?></span></td>
@@ -88,11 +88,11 @@ for ($i=0; $i<sizeof($plugins); $i++) {
 <?
 		if ($active) {
 ?>
-														<span id="plugin_<?=$i?>" class="active-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span><?=_t('사용중')?></span></a>
+														<span id="plugin_<?=$i?>" class="active-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span class="text"><?=_t('사용중')?></span></a>
 <?
 		} else {
 ?>
-														<span id="plugin_<?=$i?>" class="inactive-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span><?=_t('미사용')?></span></a>
+														<span id="plugin_<?=$i?>" class="inactive-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span class="text"><?=_t('미사용')?></span></a>
 <?
 		}
 ?>
@@ -110,11 +110,11 @@ for ($i=0; $i<sizeof($plugins); $i++) {
 <?
 		if ($active) {
 ?>
-														<span id="plugin_<?=$i?>" class="active-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span><?=_t('사용중')?></span></a>
+														<span id="plugin_<?=$i?>" class="active-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span class="text"><?=_t('사용중')?></span></a>
 <?
 		} else {
 ?>
-														<span id="plugin_<?=$i?>" class="inactive-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span><?=_t('미사용')?></span></a>
+														<span id="plugin_<?=$i?>" class="inactive-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span class="text"><?=_t('미사용')?></span></a>
 <?
 		}
 ?>

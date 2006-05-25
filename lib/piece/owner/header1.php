@@ -14,11 +14,11 @@ var servicePath = "<?php echo $service['path']?>"; var blogURL = "<?php echo $bl
 <link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/owner.css" />
 </head>
 <body>
-<table width="100%" border="0" cellpadding="0" cellspacing="0" style="height:45px">
+<table width="100%" cellpadding="0" cellspacing="0" style="height:45px">
   <tr>
     <td width="170" align="right" valign="bottom" style="padding-right:25px;"><img src="<?php echo $logoPath?>" alt="" vspace="3" class="pointerCursor" onclick="window.location.href = '<?php echo $blogURL?>/owner/entry'" /></td>
     <td valign="bottom">
-      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+      <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
           <td style="background-image:url('<?php echo $service['path']?>/image/owner/menuP2.gif')">
             <table cellspacing="0">
@@ -51,7 +51,7 @@ var servicePath = "<?php echo $service['path']?>"; var blogURL = "<?php echo $bl
             </table>
           </td>
           <td align="right" style="background-image:url('<?php echo $service['path']?>/image/owner/menuP2.gif')">
-            <table border="0" cellpadding="0" cellspacing="0">
+            <table cellpadding="0" cellspacing="0">
               <tr>
                 <td width="150" align="center" style="background-image:url('<?php echo $service['path']?>/image/owner/menuBg.gif'); padding-top:8px"><img class="pointerCursor" onclick="window.location.href = '<?php echo $blogURL?>/'" src="<?php echo $service['path']?>/image/owner/blog.gif" alt="" /><img src="<?php echo $service['path']?>/image/owner/menuLine2.gif" alt="" /><img class="pointerCursor" src="<?php echo $service['path']?>/image/owner/logout.gif" onclick="window.location.href = '<?php echo $blogURL?>/logout'" alt="" /> </td>
                 <td width="10"></td>

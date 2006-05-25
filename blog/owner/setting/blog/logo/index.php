@@ -18,7 +18,7 @@ require ROOT . '/lib/includeForOwner.php';
 						}
 						alert(temp);
 					} else if(mode ='w') {
-						var temp ='<table border="1">';
+						var temp ='<table>';
 						for(var name in msg) {
 							temp +='<tr>';
 							temp +='<td>'+name+'</td><td>'+msg[name]+'</td>';

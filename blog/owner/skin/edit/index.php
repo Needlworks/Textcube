@@ -41,7 +41,7 @@ require ROOT . '/lib/piece/owner/contentMenu31.php';
 										
 										<!--div id="keyword-area" class="section">
 											<div class="file-name">skin_keyword.html</div>
-											<textarea id="skin_keyword"name="s_cache_keyword_html" rows="25"onkeyup="saved=false">﻿<?=htmlspecialchars($skin_keyword)?></textarea>
+											<textarea id="skin_keyword"name="s_cache_keyword_html" cols="60" rows="25"onkeyup="saved=false">﻿<?=htmlspecialchars($skin_keyword)?></textarea>
 											<a class="save-button button" href="#void" onclick="setSkin('skin_keyword');"><span><?=_t('저장하기')?></span></a>		  
 										</div-->
 										

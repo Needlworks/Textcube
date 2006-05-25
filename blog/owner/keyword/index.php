@@ -131,7 +131,7 @@ foreach ($entries as $entry) {
                   <img id="entry<?=$entry['id']?>privateOn" style="display:<?=($entry['visibility'] <= 0 ? 'inline' : 'none')?>" src="<?=$service['path']?>/image/owner/privateOn.gif" alt="<?=_t('비공개')?>" /><img id="entry<?=$entry['id']?>privateOff" style="cursor:pointer; display:<?=($entry['visibility'] <= 0 ? 'none' : 'inline')?>" src="<?=$service['path']?>/image/owner/privateOff.gif" alt="<?=_t('현재 상태를 비공개로 전환합니다.')?>" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" /> <img id="entry<?=$entry['id']?>publicOn" style="display:<?=($entry['visibility'] >= 2 ? 'inline' : 'none')?>" src="<?=$service['path']?>/image/owner/publicOn.gif" alt="<?=_t('공개')?>" /><img id="entry<?=$entry['id']?>publicOff" style="cursor:pointer; display:<?=($entry['visibility'] >= 2 ? 'none' : 'inline')?>" src="<?=$service['path']?>/image/owner/publicOff.gif" alt="<?=_t('현재 상태를 공개로 전환합니다.')?>" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" />
                 </td>
                 <td class="row"><a class="rowLink" style="text-decoration:none" onclick="window.location.href='<?=$blogURL?>/owner/keyword/edit/<?=$entry['id']?>'"><?=htmlspecialchars($entry['title'])?></a></td>
-                <td align="right" style="padding-top:2px"><a class="rowLink" onclick="deleteEntry(<?=$entry['id']?>)"><img src="<?=$service['path']?>/image/owner/delete.gif" alt="<?=_t('삭제')?>"/>&nbsp;&nbsp;</td>
+                <td align="right" style="padding-top:2px"><a class="rowLink" onclick="deleteEntry(<?=$entry['id']?>)"><img src="<?=$service['path']?>/image/owner/delete.gif" alt="<?=_t('삭제')?>" />&nbsp;&nbsp;</td>
               </tr>
 <?
 }

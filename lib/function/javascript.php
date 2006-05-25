@@ -5,7 +5,7 @@ function escapeJSInAttribute($str) {
 }
 
 function escapeJSInCData($str) {
-	return preg_replace(array('/</', '/>/', '/\r*\n|\r/'), array('\x3C', '\x3E', '\\\\$0'), addslashes($str));
+	return preg_replace(array('/</', ' />/', '/\r*\n|\r/'), array('\x3C', '\x3E', '\\\\$0'), addslashes($str));
 }
 
 function escapeCData($str) {

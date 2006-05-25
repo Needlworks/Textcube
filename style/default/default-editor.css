@@ -381,6 +381,11 @@
 	width                            : 16px;
 }
 
+#colorPalette table tr td span
+{
+	display                          : none;
+}
+
 #markPalette
 {
 	position                         : absolute;
@@ -402,6 +407,11 @@
 	width                            : 16px;
 }
 
+#markPalette table tr td span
+{
+	display                          : none;
+}
+
 #textBox
 {
 	position                         : absolute;
@@ -421,6 +431,147 @@
 	cursor                           : pointer;
 	height                           : 16px;
 	width                            : 16px;
+}
+
+#textBox table tr td span
+{
+	display                          : none;
+}
+
+/* colors */
+.color-000000
+{
+	background-color                 : #000000;
+}
+
+.color-0000FF
+{
+	background-color                 : #0000FF;
+}
+
+.color-003366
+{
+	background-color                 : #003366;
+}
+
+.color-006699
+{
+	background-color                 : #006699;
+}
+
+.color-008000
+{
+	background-color                 : #008000;
+}
+
+.color-009966
+{
+	background-color                 : #009966;
+}
+
+.color-177FCD
+{
+	background-color                 : #177FCD;
+}
+
+.color-333333
+{
+	background-color                 : #333333;
+}
+
+.color-666699
+{
+	background-color                 : #666699;
+}
+
+.color-670787
+{
+	background-color                 : #670787;
+}
+
+.color-8E8E8E
+{
+	background-color                 : #8E8E8E;
+}
+
+.color-993366
+{
+	background-color                 : #993366;
+}
+
+.color-999966
+{
+	background-color                 : #999966;
+}
+
+.color-99CC66
+{
+	background-color                 : #99CC66;
+}
+
+.color-9B18C1
+{
+	background-color                 : #9B18C1;
+}
+
+.color-C1C1C1
+{
+	background-color                 : #C1C1C1;
+}
+
+.color-C9EDFF
+{
+	background-color                 : #C9EDFF;
+}
+
+.color-CC9900
+{
+	background-color                 : #CC9900;
+}
+
+.color-D0FF9D
+{
+	background-color                 : #D0FF9D;
+}
+
+.color-D41A01
+{
+	background-color                 : #D41A01;
+}
+
+.color-E4E4E4
+{
+	background-color                 : #E4E4E4;
+}
+
+.color-FAFFA9
+{
+	background-color                 : #FAFFA9;
+}
+
+.color-FF0000
+{
+	background-color                 : #FF0000;
+}
+
+.color-FF3399
+{
+	background-color                 : #FF3399;
+}
+
+.color-FF7635
+{
+	background-color                 : #FF7635;
+}
+
+.color-FF9900
+{
+	background-color                 : #FF9900;
+}
+
+.color-FFDAED
+{
+	background-color                 : #FFDAED;
 }
 
 /* textarea -------------------------------------------------------------------------------------*/

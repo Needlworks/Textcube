@@ -9,8 +9,8 @@ function printMobileEntryContentView($owner, $entry, $keywords = array()) {
 	<form method="post" action="protected/<?=$entry['id']?>">
 		<div>
 		<label for="password"><?=_t('비밀번호')?></label>
-		<input type="password" id="password" name="password"/>
-		<input type="submit" value="<?=_t('내용 보기')?>"/>
+		<input type="password" id="password" name="password" />
+		<input type="submit" value="<?=_t('내용 보기')?>" />
 		</div>
 	</form>
 	<?
@@ -23,20 +23,20 @@ function printMobileHtmlHeader($title = '') {
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 	<head>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<title><?php echo $title?></title>
 	</head>
 	<body>
 		<div id="header">
 			<h1><a href="<?php echo $blogURL?>" accesskey="0"><?php echo htmlspecialchars($blog['title'])?></a></h1>
 		</div>
-		<hr/>
+		<hr />
 <?php
 }
 
 function printMobileHtmlFooter() {
 ?>
-		<hr/>
+		<hr />
 		<p>Powered by <a href="http://www.tattertools.com">Tattertools</a></p>
 	</body>
 </html>
@@ -46,7 +46,7 @@ function printMobileHtmlFooter() {
 function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback = true, $paging = null) {
 	global $suri, $blogURL;
 ?>
-<hr/>
+<hr />
 <div id="navigation">
 	<ul>
 		<?php
@@ -104,7 +104,7 @@ function printMobileTrackbackView($entryId) {
 			</div>
 			<div class="body"><?php echo htmlspecialchars($trackback['excerpt'])?></div>
 		</div>
-		<hr/>
+		<hr />
 		<?php
 		}
 	}
@@ -118,7 +118,7 @@ function printMobileCommentView($entryId) {
 		<div class="comment">
 			<?php echo _t('답글이 없습니다')?>
 		</div>
-		<hr/>
+		<hr />
 		<?php
 	} else {
 		foreach ($comments as $commentItem) {
@@ -127,7 +127,7 @@ function printMobileCommentView($entryId) {
 			<div class="name">
 				<strong><?php echo htmlspecialchars($commentItem['name'])?></strong>
 				<a href="<?php echo $blogURL?>/comment/comment/<?php echo $commentItem['id']?>">RE</a>
-				<a href="<?php echo $blogURL?>/comment/delete/<?php echo $commentItem['id']?>">DEL</a><br/>
+				<a href="<?php echo $blogURL?>/comment/delete/<?php echo $commentItem['id']?>">DEL</a><br />
 				(<?php echo Timestamp::format5($commentItem['written'])?>)
 			</div>
 			<div class="body"><?php echo nl2br(addLinkSense(htmlspecialchars($commentItem['comment'])))?></div>
@@ -137,7 +137,7 @@ function printMobileCommentView($entryId) {
 			<blockquote>
 				<div class="name">
 					<strong><?php echo htmlspecialchars($commentSubItem['name'])?></strong>
-					<a href="<?php echo $blogURL?>/comment/delete/<?php echo $commentSubItem['id']?>">DEL</a><br/>
+					<a href="<?php echo $blogURL?>/comment/delete/<?php echo $commentSubItem['id']?>">DEL</a><br />
 					(<?php echo Timestamp::format5($commentSubItem['written'])?>)
 				</div>
 				<div class="body"><?php echo nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment'])))?></div>
@@ -146,7 +146,7 @@ function printMobileCommentView($entryId) {
 			}
 ?>
 		</div>
-		<hr/>
+		<hr />
 		<?php
 		}
 	}
@@ -160,26 +160,26 @@ function printMobileCommentFormView($entryId) {
 		<?php
 	if (!doesHaveOwnership()) {
 ?>
-		<input type="hidden" name="id" value="<?php echo $entryId?>"/>
+		<input type="hidden" name="id" value="<?php echo $entryId?>" />
 		<label for="secret_<?php echo $entryId?>"><?php echo _t('비밀글로 등록')?></label>
-		<input type="checkbox" id="secret_<?php echo $entryId?>" name="secret_<?php echo $entryId?>"/>
-		<br/>
+		<input type="checkbox" id="secret_<?php echo $entryId?>" name="secret_<?php echo $entryId?>" />
+		<br />
 		<label for="name_<?php echo $entryId?>"><?php echo _t('이름')?></label>
-		<input type="text" id="name_<?php echo $entryId?>" name="name_<?php echo $entryId?>"/>
-		<br/>
+		<input type="text" id="name_<?php echo $entryId?>" name="name_<?php echo $entryId?>" />
+		<br />
 		<label for="password_<?php echo $entryId?>"><?php echo _t('비밀번호')?></label>
-		<input type="password" id="password_<?php echo $entryId?>" name="password_<?php echo $entryId?>"/>
-		<br/>
+		<input type="password" id="password_<?php echo $entryId?>" name="password_<?php echo $entryId?>" />
+		<br />
 		<label for="homepage_<?php echo $entryId?>"><?php echo _t('홈페이지')?></label>
-		<input type="text" id="homepage_<?php echo $entryId?>" name="homepage_<?php echo $entryId?>"/>
-		<br/>
+		<input type="text" id="homepage_<?php echo $entryId?>" name="homepage_<?php echo $entryId?>" />
+		<br />
 		<?php
 	}
 ?>
 		<label for="comment_<?php echo $entryId?>"><?php echo _t('내용')?></label>
-		<textarea rows="5" id="comment_<?php echo $entryId?>" name="comment_<?php echo $entryId?>"></textarea>
-		<br/>
-		<input type="submit" value="<?php echo _t('등록')?>"/>
+		<textarea cols="40" rows="5" id="comment_<?php echo $entryId?>" name="comment_<?php echo $entryId?>"></textarea>
+		<br />
+		<input type="submit" value="<?php echo _t('등록')?>" />
 	</form>
 	</fieldset>
 	<?php

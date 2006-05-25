@@ -256,7 +256,7 @@ class FeedItem {
 			$query->setAttribute('author', $this->author, true);
 			$query->setAttribute('written', $this->published);
 			$this->id = $query->insert();
-			echo mysql_error(), '<br/>';
+			echo mysql_error(), '<br />';
 			if ($this->id === false)
 				return false;
 		}

@@ -6,7 +6,7 @@ set_time_limit(60);
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 	<head profile="http://gmpg.org/xfn/11">
 		<title>OPML Uploading</title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript">
 		</script>
 	</head>

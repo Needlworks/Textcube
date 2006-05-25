@@ -113,7 +113,7 @@ if (!empty($_POST['mode'])) {
 <body>
 	<form name="deleteComment" method="post" action="<?=$blogURL?>/comment/delete/<?=$suri['id']?>">
 		<div id="comment-box">
-			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" border="0" alt="태터툴즈 로고" />	
+			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" alt="태터툴즈 로고" />	
 			
 			<div id="command-box">
 				<div class="edit-line">

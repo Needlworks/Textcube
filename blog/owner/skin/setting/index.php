@@ -215,26 +215,26 @@ ob_end_clean();
 											
 											<div class="section">
 												<dl class="line">
-													<dt><span class="label"><?=_t('카테고리 클릭 시')?></span></dt>
+													<dt><span class="text"><?=_t('카테고리 클릭 시')?></span></dt>
 													<dd>
-														<input type="radio" id="showListOnCategoryTitles" class="radio" name="showListOnCategory" value="titles"<?=$skinSetting['showListOnCategory'] ? ' checked="checked"' : ''?> /> <label for="showListOnCategoryTitles"><?=_t('글 목록을 표시합니다.')?></label><br />
-														<input type="radio" id="showListOnCategoryContents" class="radio" name="showListOnCategory" value="contents"<?=$skinSetting['showListOnCategory'] ? '' : ' checked="checked"'?> /> <label for="showListOnCategoryContents"><?=_t('글 내용을 표시합니다.')?></label>
+														<input type="radio" id="showListOnCategoryTitles" class="radio" name="showListOnCategory" value="titles"<?=$skinSetting['showListOnCategory'] ? ' checked="checked"' : ''?> /> <label for="showListOnCategoryTitles"><span class="text"><?=_t('글 목록을 표시합니다.')?></span></label><br />
+														<input type="radio" id="showListOnCategoryContents" class="radio" name="showListOnCategory" value="contents"<?=$skinSetting['showListOnCategory'] ? '' : ' checked="checked"'?> /> <label for="showListOnCategoryContents"><span class="text"><?=_t('글 내용을 표시합니다.')?></label>
 													</dd>
 													<dd class="clear"></dd>
 												</dl>
 												<dl class="line">
-													<dt><span class="label"><?=_t('아카이브 클릭 시')?></span></dt>
+													<dt><span class="text"><?=_t('아카이브 클릭 시')?></span></dt>
 													<dd>
-														<input type="radio" id="showListOnArchiveTitles" class="radio" name="showListOnArchive" value="titles"<?=$skinSetting['showListOnArchive'] ? ' checked="checked"' : ''?> /> <label for="showListOnArchiveTitles"><?=_t('글 목록을 표시합니다.')?></label><br />
-														<input type="radio" id="showListOnArchiveContents" class="radio" name="showListOnArchive" value="contents"<?=$skinSetting['showListOnArchive'] ? '' : ' checked="checked"'?> /> <label for="showListOnArchiveContents"><?=_t('글 내용을 표시합니다.')?></label>
+														<input type="radio" id="showListOnArchiveTitles" class="radio" name="showListOnArchive" value="titles"<?=$skinSetting['showListOnArchive'] ? ' checked="checked"' : ''?> /> <label for="showListOnArchiveTitles"><span class="text"><?=_t('글 목록을 표시합니다.')?></span></label><br />
+														<input type="radio" id="showListOnArchiveContents" class="radio" name="showListOnArchive" value="contents"<?=$skinSetting['showListOnArchive'] ? '' : ' checked="checked"'?> /> <label for="showListOnArchiveContents"><span class="text"><?=_t('글 내용을 표시합니다.')?></span></label>
 													</dd>
 													<dd class="clear"></dd>
 												</dl>
 												<dl class="line">
-													<dt><span class="label"><?=_t('글을 표시할 때')?></span></dt>
+													<dt><span class="text"><?=_t('글을 표시할 때')?></span></dt>
 													<dd>
-														<input type="checkbox" id="expandComment" class="checkbox" name="expandComment"<?=$skinSetting['expandComment'] ? ' checked="checked"' : ''?> /> <label for="expandComment"><?=_t('댓글을 기본으로 펼칩니다.')?></label><br />
-														<input type="checkbox" id="expandTrackback" class="checkbox" name="expandTrackback"<?=$skinSetting['expandTrackback'] ? ' checked="checked"' : ''?> /> <label for="expandTrackback"><?=_t('트랙백을 기본으로 펼칩니다.')?></label>
+														<input type="checkbox" id="expandComment" class="checkbox" name="expandComment"<?=$skinSetting['expandComment'] ? ' checked="checked"' : ''?> /> <label for="expandComment"><span class="text"><?=_t('댓글을 기본으로 펼칩니다.')?></span></label><br />
+														<input type="checkbox" id="expandTrackback" class="checkbox" name="expandTrackback"<?=$skinSetting['expandTrackback'] ? ' checked="checked"' : ''?> /> <label for="expandTrackback"><span class="text"><?=_t('트랙백을 기본으로 펼칩니다.')?></span></label>
 													</dd>
 													<dd class="clear"></dd>
 												</dl>
@@ -250,7 +250,7 @@ ob_start();
 <?
 for ($i = 3; $i <= 40; $i++) {
 	if ($i == $skinSetting['recentNoticeLength'])
-		$checked = ' selected="selecte"';
+		$checked = ' selected="selected"';
 	else
 		$checked = '';
 ?>
@@ -274,7 +274,7 @@ ob_start();
 <?
 for ($i = 3; $i <= 40; $i++) {
 	if ($i == $skinSetting['recentEntryLength'])
-		$checked = ' selected="selecte"';
+		$checked = ' selected="selected"';
 	else
 		$checked = '';
 ?>
@@ -298,7 +298,7 @@ ob_start();
 <?
 for ($i = 3; $i <= 40; $i++) {
 	if ($i == $skinSetting['recentCommentLength'])
-		$checked = ' selected="selecte"';
+		$checked = ' selected="selected"';
 	else
 		$checked = '';
 ?>
@@ -322,7 +322,7 @@ ob_start();
 <?
 for ($i = 3; $i <= 40; $i++) {
 	if ($i == $skinSetting['recentTrackbackLength'])
-		$checked = ' selected="selecte"';
+		$checked = ' selected="selected"';
 	else
 		$checked = '';
 ?>
@@ -346,7 +346,7 @@ ob_start();
 <?
 for ($i = 3; $i <= 40; $i++) {
 	if ($i == $skinSetting['linkLength'])
-		$checked = ' selected="selecte"';
+		$checked = ' selected="selected"';
 	else
 		$checked = '';
 ?>
@@ -369,11 +369,11 @@ ob_end_clean();
 											
 											<div class="section">
 												<dl class="line">
-													<dt><span class="label"><?=_t('태그의 정렬방법을')?></span></dt>
+													<dt><span class="text"><?=_t('태그의 정렬방법을')?></span></dt>
 													<dd>
-														<input type="radio" id="tagboxAlignUsed" class="radio" name="tagboxAlign" value="1" <?=($skinSetting['tagboxAlign'] == 1 ? 'checked = "checked"' : '')?> /> <label for="tagboxAlignUsed"><?=_t('인기도순으로 표시합니다.')?></label><br />
-														<input type="radio" id="tagboxAlignName" class="radio" name="tagboxAlign" value="2" <?=($skinSetting['tagboxAlign'] == 2 ? 'checked = "checked"' : '')?>/> <label for="tagboxAlignName"><?=_t('이름순으로 표시합니다.')?></label><br />
-														<input type="radio" id="tagboxAlignRadom" class="radio" name="tagboxAlign" value="3" <?=($skinSetting['tagboxAlign'] == 3 ? 'checked = "checked"' : '')?>/> <label for="tagboxAlignRadom"><?=_t('임의로 표시합니다.')?></label>
+														<input type="radio" id="tagboxAlignUsed" class="radio" name="tagboxAlign" value="1" <?=($skinSetting['tagboxAlign'] == 1 ? 'checked = "checked"' : '')?> /> <label for="tagboxAlignUsed"><span class="text"><?=_t('인기도순으로 표시합니다.')?></span></label><br />
+														<input type="radio" id="tagboxAlignName" class="radio" name="tagboxAlign" value="2" <?=($skinSetting['tagboxAlign'] == 2 ? 'checked = "checked"' : '')?> /> <label for="tagboxAlignName"><span class="text"><?=_t('이름순으로 표시합니다.')?></span></label><br />
+														<input type="radio" id="tagboxAlignRadom" class="radio" name="tagboxAlign" value="3" <?=($skinSetting['tagboxAlign'] == 3 ? 'checked = "checked"' : '')?> /> <label for="tagboxAlignRadom"><span class="text"><?=_t('임의로 표시합니다.')?></span></label>
 													</dd>
 													<dd class="clear"></dd>
 												</dl>
@@ -436,7 +436,7 @@ ob_end_clean();
 											</div>
 											
 											<div class="button-box">
-												<a class="save-button button" href="#void" onclick="setSkin(); return false;"><span><?=_t('저장하기')?></span></a>
+												<a class="save-button button" href="#void" onclick="setSkin(); return false;"><span class="text"><?=_t('저장하기')?></span></a>
 											</div>
 										</div>
 									</form>
@@ -453,7 +453,7 @@ ob_end_clean();
 											
 											<div id="property-box">
 												<dl class="line">
-													<dt><?=_t('트리선택')?> |</dt>
+													<dt><label for="tree"><span class="text"><?=_t('트리선택')?></span></label><span class="divider"> | </span></dt>
 													<dd>
 														<select id="tree" name="tree" onchange="changeTreeStyle()">
 <?
@@ -477,22 +477,22 @@ if ($dh = opendir($skinPath)) {
 													<dd class="clear"></dd>
 												</dl>
 												<dl class="line">
-													<dt><label for="activeColorOnTree"><?=_t('선택된 폰트색')?></label><span class="divider"> | </span></dt>
+													<dt><label for="activeColorOnTree"><span class="text"><?=_t('선택된 폰트색')?></span></label><span class="divider"> | </span></dt>
 													<dd><input type="text" id="activeColorOnTree" class="text-input" name="activeColorOnTree" value="<?=$skinSetting['activeColorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 													<dd class="clear"></dd>
 												</dl>
 												<dl class="line">
-													<dt><label for="activeBgColorOnTree"><?=_t('선택된 배경색')?></label><span class="divider"> | </span></dt>
+													<dt><label for="activeBgColorOnTree"><span class="text"><?=_t('선택된 배경색')?></span></label><span class="divider"> | </span></dt>
 													<dd><input type="text" id="activeBgColorOnTree" class="text-input" name="activeBgColorOnTree" value="<?=$skinSetting['activeBgColorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 													<dd class="clear"></dd>
 												</dl>
 												<dl class="line">
-													<dt><label for="colorOnTree"><?=_t('선택되지 않은 폰트색')?></label><span class="divider"> | </span></dt>
+													<dt><label for="colorOnTree"><span class="text"><?=_t('선택되지 않은 폰트색')?></span></label><span class="divider"> | </span></dt>
 													<dd><input type="text" id="colorOnTree" class="text-input" name="colorOnTree" value="<?=$skinSetting['colorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 													<dd class="clear"></dd>
 												</dl>
 												<dl class="line">
-													<dt><label for="bgColorOnTree"><?=_t('선택되지 않은 배경색')?></label><span class="divider"> | </span></dt>
+													<dt><label for="bgColorOnTree"><span class="text"><?=_t('선택되지 않은 배경색')?></span></label><span class="divider"> | </span></dt>
 													<dd><input type="text" id="bgColorOnTree" class="text-input" name="bgColorOnTree" value="<?=$skinSetting['bgColorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 													<dd class="clear"></dd>
 												</dl>
@@ -501,13 +501,13 @@ if ($dh = opendir($skinPath)) {
 													<dd class="clear"></dd>
 												</dl>
 												<dl id="showValueText" class="line">
-													<dd><input type="checkbox" class="checkbox" id="showValue" name="showValueOnTree" onclick="changeTreeStyle()" <?=$skinSetting['showValueOnTree'] ? 'checked' : ''?>/> <label for="showValue"><?=_t('카테고리의 글 수를 표시합니다.')?></label></dd>
+													<dd><input type="checkbox" class="checkbox" id="showValue" name="showValueOnTree" onclick="changeTreeStyle()" <?=$skinSetting['showValueOnTree'] ? 'checked' : ''?> /> <label for="showValue"><span class="text"><?=_t('카테고리의 글 수를 표시합니다.')?></span></label></dd>
 													<dd class="clear"></dd>
 												</dl>
 											</div>
 										
 											<div class="button-box">
-												<a class="save-button button" href="#void" onclick="setSkin(); return false;"><span><?=_t('저장하기')?></span></a>
+												<a class="save-button button" href="#void" onclick="setSkin(); return false;"><span class="text"><?=_t('저장하기')?></span></a>
 											</div>
 										</div>
 									</form>

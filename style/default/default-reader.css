@@ -98,6 +98,12 @@
 	width                            : 14px;
 }
 
+.scrap-on-icon span,
+.scrap-off-icon span
+{
+	display                          : none;
+}
+
 #search
 {
 	background-image                 : url("./image/reader/menuVline.gif");
@@ -572,6 +578,7 @@ ul#feedList li .edit-button span
 #configure
 {
 	background-color                 : #92B2D9;
+	margin-top                       : -5px;
 	padding                          : 0 6px 0 6px;
 }
 
@@ -628,11 +635,39 @@ ul#feedList li .edit-button span
 	width                            : 440px;
 }
 
+#configure .data-inbox #reader-section .property
+{
+	background-color                 : #E3EFFE;
+	color                            : #333333;
+	padding                          : 9px 5px 5px 5px;
+}
+
 #configure .data-inbox #reader-section .image-get-yes,
 #configure .data-inbox #reader-section .javascript-yes,
 #configure .data-inbox #reader-section .window-self
 {
 	margin-top                       : 4px;
+}
+
+#configure .data-inbox #reader-section .button-box a
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	float                            : none;
+	height                           : 24px !important;
+	margin                           : 0 auto !important;
+	padding-left                     : 4px !important;
+	width                            : 106px !important;
+}
+
+#configure .data-inbox #reader-section .button-box a span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px !important;
+	padding                          : 2px 4px 0 0 !important;
+	text-align                       : center;
+	width                            : 102px !important;
 }
 
 #configure .data-inbox #opml-section
@@ -645,18 +680,39 @@ ul#feedList li .edit-button span
 	z-index                          : 1;
 }
 
-#configure .data-inbox #reader-section .property
-{
-	background-color                 : #E3EFFE;
-	color                            : #333333;
-	padding                          : 9px 5px 5px 5px;
-}
-
 #configure .data-inbox #opml-section .property
 {
 	background-color                 : #E3EFFE;
 	color                            : #333333;
 	padding                          : 5px;
+}
+
+#configure .data-inbox #opml-section .button-box a
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	float                            : left;
+	height                           : 24px !important;
+	margin                           : 0 2px !important;
+	padding-left                     : 4px !important;
+	width                            : 106px !important;
+}
+
+#configure .data-inbox #opml-section .button-box a span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px !important;
+	padding                          : 2px 4px 0 0 !important;
+	text-align                       : center;
+	width                            : 102px !important;
+}
+
+#configure .data-inbox .button-box
+{
+	margin                           : 0 auto !important;
+	padding-top                      : 10px;
+	width                            : 228px !important;
 }
 
 #get-upload

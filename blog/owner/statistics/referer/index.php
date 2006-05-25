@@ -7,7 +7,7 @@ require ROOT . '/lib/piece/owner/contentMenu41.php';
 									<div id="part-statistics-rank" class="part">
 										<h2 class="caption"><span class="main-text"><?=_t('리퍼러 순위')?></span></h2>
 										
-										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
+										<table class="data-inbox" cellspacing="0" cellpadding="0">
 <?
 $temp = getRefererStatistics($owner);
 for ($i=0; $i<sizeof($temp); $i++) {
@@ -38,7 +38,7 @@ for ($i=0; $i<sizeof($temp); $i++) {
 									<div id="part-statistics-log" class="part">
 										<h2 class="caption"><span class="main-text"><?=_t('리퍼러 로그')?></span></h2>
 										
-										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
+										<table class="data-inbox" cellspacing="0" cellpadding="0">
 <?
 $temp = getRefererLogs();
 for ($i=0; $i<sizeof($temp); $i++) {

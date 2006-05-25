@@ -106,7 +106,7 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 											
 											<div id="property-box">
 												<dl class="line">
-													<dt><label for="newCategory"><?=_t('생성')?></label><span class="divider"> | </span></dt>
+													<dt><label for="newCategory"><span class="text"><?=_t('생성')?></span></label><span class="divider"> | </span></dt>
 <?
 if ($depth <= 1) {
 ?>
@@ -129,7 +129,7 @@ if ($depth <= 1) {
 													<dd class="clear"></dd>
 												</dl>
 												<dl class="line">
-													<dt><label for="modifyCategoryName"><?=_t('레이블 변경')?></label><span class="divider"> | </span></dt>
+													<dt><label for="modifyCategoryName"><span class="text"><?=_t('레이블 변경')?></span></label><span class="divider"> | </span></dt>
 													<dd>
 														<input type="text" id="modifyCategoryName" class="text-input" name="modifyCategoryName" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?=$name?>" />
 														<a class="save-button button" href="#void" onclick="modifyCategory(); return false;"><span class="text"><?=_t('저장하기')?></span></a>

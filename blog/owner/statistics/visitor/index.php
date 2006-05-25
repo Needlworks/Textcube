@@ -51,10 +51,10 @@ require ROOT . '/lib/piece/owner/contentMenu40.php';
 									<hr class="hidden" />
 									
 									<div id="part-statistics-month" class="part">
-										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
+										<table class="data-inbox" cellspacing="0" cellpadding="0">
 											<thead>
 												<tr>
-													<td colspan="2"><span><?=_t('월별 방문자 수')?></span></td>
+													<td colspan="2"><span class="text"><?=_t('월별 방문자 수')?></span></td>
 												</tr>
 											</thead>
 											<tbody>
@@ -87,10 +87,10 @@ for ($i=0; $i<sizeof($temp); $i++) {
 									<hr class="hidden" />
 									
 									<div id="part-statistics-day" class="part">
-										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
+										<table class="data-inbox" cellspacing="0" cellpadding="0">
 											<thead>
 												<tr>
-													<td colspan="2"><span><?=_t('일별 방문자 수')?></span></td>
+													<td colspan="2"><span class="text"><?=_t('일별 방문자 수')?></span></td>
 												</tr>
 											</thead>
 											<tbody>

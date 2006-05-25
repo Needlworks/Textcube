@@ -248,12 +248,12 @@ if ($service['type'] != 'single') {
 											<div class="data-inbox">
 												<div id="info-section" class="section">
 													<dl class="line">
-														<dt><label for="nickname"><?=_t('필명')?></label><span class="divider"> | </span></dt>
-														<dd><input type="text" id="nickname" class="text-input" value="<?=$user['name']?>" onkeydown="if(event.keyCode == 13) save();"/></dd>
+														<dt><label for="nickname"><span class="text"><?=_t('필명')?></span></label><span class="divider"> | </span></dt>
+														<dd><input type="text" id="nickname" class="text-input" value="<?=$user['name']?>" onkeydown="if(event.keyCode == 13) save();" /></dd>
 														<dd class="clear"></dd>
 													</dl>
 													<dl class="line">
-														<dt><label for="email">E-mail</label><span class="divider"> | </span></dt>
+														<dt><label for="email"><span class="text">e-mail</span></label><span class="divider"> | </span></dt>
 														<dd>
 															<input type="text" id="email" class="text-input" value="<?=htmlspecialchars($user['loginid'])?>" />
 															<em><?=_t('(로그인시 ID로 사용됩니다)')?></em>
@@ -261,7 +261,7 @@ if ($service['type'] != 'single') {
 														<dd class="clear"></dd>
 													</dl>
 													<div class="button-box">
-														<a class="save-button button" href="#void" onclick="save()"><span><?=_t('변경')?></span></a>
+														<a class="save-button button" href="#void" onclick="save()"><span class="text"><?=_t('변경')?></span></a>
 													</div>
 													<div class="clear"></div>
 												</div>
@@ -270,22 +270,22 @@ if ($service['type'] != 'single') {
 												
 												<div id="account-section" class="section">
 													<dl class="line">
-														<dt><label for="prevPwd"><?=_t('현재 비밀번호')?></label><span class="divider"> | </span></dt>
+														<dt><label for="prevPwd"><span class="text"><?=_t('현재 비밀번호')?></span></label><span class="divider"> | </span></dt>
 														<dd><input type="password" id="prevPwd" class="text-input" value="<?=(empty($_GET['password']) ? '' : $_GET['password'])?>" /></dd>
 														<dd class="clear"></dd>
 													</dl>
 													<dl class="line">
-														<dt><label for="pwd"><?=_t('새로운 비밀번호')?></label><span class="divider"> | </span></dt>
+														<dt><label for="pwd"><span class="text"><?=_t('새로운 비밀번호')?></span></label><span class="divider"> | </span></dt>
 														<dd><input type="password" id="pwd" class="text-input" value="" /></dd>
 														<dd class="clear"></dd>
 													</dl>
 													<dl class="line">
-														<dt><label for="pwd2"><?=_t('비밀번호 확인')?></label><span class="divider"> | </span></dt>
+														<dt><label for="pwd2"><span class="text"><?=_t('비밀번호 확인')?></span></label><span class="divider"> | </span></dt>
 														<dd><input type="password" id="pwd2" class="text-input" value="" onkeydown="if(event.keyCode == 13) savePwd();" /></dd>
 														<dd class="clear"></dd>
 													</dl>
 													<div class="button-box">
-														<a class="save-button button" href="#void" onclick="savePwd()"><span><?=_t('변경')?></span></a>
+														<a class="save-button button" href="#void" onclick="savePwd()"><span class="text"><?=_t('변경')?></span></a>
 													</div>
 													<div class="clear"></div>
 												</div>
@@ -306,17 +306,17 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 													<div id="letter">
 														<div class="letter-head">
 															<dl class="line">
-																<dt><span class="text"><?=_t('받는 사람')?></span><span class="divider"> : </span></dt>
+																<dt><label for="text"><span class="text"><?=_t('받는 사람')?></span></label><span class="divider"> : </span></dt>
 																<dd><input type="text" id="invitation_receiver" class="text-input" name="text" value="<?=_t('이름&lt;이메일&gt; 혹은 이메일')?>" onclick="if(!this.selected) this.select();this.selected=true;" onblur="this.selected=false;" onkeydown="refreshReceiver(event)" /></dd>
 																<dd class="clear"></dd>
 															</dl>
 															<dl class="line">
-																<dt><span class="text"><?=_t('보내는 사람')?></span><span> : </span></dt>
+																<dt><label for="invitation_sender"><span class="text"><?=_t('보내는 사람')?></span></span><span> : </span></dt>
 																<dd><input type="text" id="invitation_sender" class="text-input" name="text2" value="<?=htmlspecialchars($user['name'] . '<' . $user['loginid'] . '>')?>" /></dd>
 																<dd class="clear"></dd>
 															</dl>
 															<dl class="line">
-																<dt><span class="text"><?=_t('블로그 주소')?></span><span class="divider"> : </span></dt>
+																<dt><label for="invitation_identify"><span class="text"><?=_t('블로그 주소')?></span></label><span class="divider"> : </span></dt>
 																<dd><?=$urlRule[0]?><input type="text" id="invitation_identify" class="text-input" name="text" /><?=$urlRule[1]?></dd>
 																<dd class="clear"></dd>
 															</dl>
@@ -325,7 +325,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 														</div>
 														
 														<div class="letter-body">
-															<textarea id="invitation_comment" name="textarea"><?=_t("블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다.")?></textarea>
+															<textarea id="invitation_comment" cols="60" rows="30" name="textarea"><?=_t("블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다.")?></textarea>
 														</div>
 														
 														<div class="letter-foot">
@@ -334,7 +334,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 													</div>
 												
 													<div class="button-box">
-														<a class="invite-button button" href="#void" onclick="sendInvitation()"><span><?=_t('초대장 발송')?></span></a>
+														<a class="invite-button button" href="#void" onclick="sendInvitation()"><span class="text"><?=_t('초대장 발송')?></span></a>
 													</div>
 												</div>
 												
@@ -344,15 +344,15 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 <?
 	$invitedList = getInvited($owner);
 ?>
-													<table border="0" cellspacing="0" cellpadding="0">
+													<table cellspacing="0" cellpadding="0">
 														<thead>
 															<tr>
-																<td class="email"><span><?=_t('이름')?>(<?=_t('E-mail')?>)</span></td>
-																<td class="address"><span><?=_t('주소')?></span></td>
-																<td class="date"><span><?=_t('초대일')?></span></td>
-																<td class="statue"><span><?=_t('경과')?></span></td>
-																<td class="password"><span><?=_t('비밀번호')?></span></td>
-																<td class="cancel"><span><?=_t('초대취소')?></span></td>
+																<td class="email"><span class="text"><?=_t('이름')?>(<?=_t('E-mail')?>)</span></td>
+																<td class="address"><span class="text"><?=_t('주소')?></span></td>
+																<td class="date"><span class="text"><?=_t('초대일')?></span></td>
+																<td class="statue"><span class="text"><?=_t('경과')?></span></td>
+																<td class="password"><span class="text"><?=_t('비밀번호')?></span></td>
+																<td class="cancel"><span class="text"><?=_t('초대취소')?></span></td>
 															</tr>
 														</thead>
 														<tbody>
@@ -360,15 +360,15 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 	foreach ($invitedList as $value) {
 ?>
 															<tr class="tr-body">
-																<td><?=htmlspecialchars($value['name'])?>(<?=htmlspecialchars($value['loginid'])?>)</td>
-																<td><a href="<?=getBlogURL($value['blogName'])?>" onclick="window.open(this.href)"><?=getBlogURL($value['blogName'])?></a></td>
-																<td><?=Timestamp::format5($value['created'])?></td>
+																<td class="email"><?=htmlspecialchars($value['name'])?>(<?=htmlspecialchars($value['loginid'])?>)</td>
+																<td class="address"><a href="<?=getBlogURL($value['blogName'])?>" onclick="window.open(this.href)"><?=getBlogURL($value['blogName'])?></a></td>
+																<td class="date"><?=Timestamp::format5($value['created'])?></td>
 <?
 		if ($value['lastLogin'] == 0) {
 ?>
-																<td><?=timeInterval($value['created'], time()) . ' ' . _t('전')?></td>
-																<td><?=fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']}")?></td>
-																<td><a class="cancel-button button" href="#void" onclick="cancelInvite(<?=$value['userid']?>,this);" title="<?=_t('초대에 응하지 않은 사용자의 계정을 삭제합니다.')?>"><span><?=_t('초대취소')?></span></a></td>
+																<td class="statue"><?=timeInterval($value['created'], time()) . ' ' . _t('전')?></td>
+																<td class="password"><?=fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']}")?></td>
+																<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?=$value['userid']?>,this);" title="<?=_t('초대에 응하지 않은 사용자의 계정을 삭제합니다.')?>"><span class="text"><?=_t('초대취소')?></span></a></td>
 <?
 		}
 ?>

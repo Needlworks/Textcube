@@ -8,7 +8,7 @@ printMobileHtmlHeader();
 ?>
 <div id="content">
 	<h2><?=htmlspecialchars($entry['title'])?></h2>	
-	<hr/>
+	<hr />
 	<? printMobileEntryContentView($owner, $entry, getKeywordNames($owner)); ?>
 </div>
 <?

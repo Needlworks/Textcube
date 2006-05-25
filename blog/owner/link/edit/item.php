@@ -60,24 +60,24 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 									//]]>
 								</script>
 								
-								<input type="hidden" name="id" value="<?=$suri['value']?>"/>
+								<input type="hidden" name="id" value="<?=$suri['value']?>" />
 								
 								<div id="part-link-edit" class="part">
 									<h2 class="caption"><span class="main-text"><?=_t('링크 정보를 설정합니다')?></span></h2>
 									
 									<div class="data-inbox">
 										<dl class="line">
-											<dt><label for="rss"><?=_t('RSS 주소')?></label><span class="divider"> | </span></dt>
-											<dd><input type="text" class="text-input" id="rss" name="rss" value="<?=$link['rss']?>" /> <a class="get-info-button button" href="#void" onclick="getSiteInfo();"><span><?=_t('정보가져오기')?></span></a></dd>
+											<dt><label for="rss"><span class="text"><?=_t('RSS 주소')?></span></label><span class="divider"> | </span></dt>
+											<dd><input type="text" class="text-input" id="rss" name="rss" value="<?=$link['rss']?>" /> <a class="get-info-button button" href="#void" onclick="getSiteInfo();"><span class="text"><?=_t('정보가져오기')?></span></a></dd>
 											<dd class="clear"></dd>
 										</dl>
 										<dl class="line">
-											<dt><label for="name"><?=_t('홈페이지 제목')?></label><span class="divider"> | </span></dt>
+											<dt><label for="name"><span class="text"><?=_t('홈페이지 제목')?></span></label><span class="divider"> | </span></dt>
 											<dd><input type="text" class="text-input" id="name" name="name" value="<?=htmlspecialchars($link['name'])?>" /></dd>
 											<dd class="clear"></dd>
 										</dl>
 										<dl class="line">
-											<dt><label for="url"><?=_t('홈페이지 주소')?></label><span class="divider"> | </span></dt>
+											<dt><label for="url"><span class="text"><?=_t('홈페이지 주소')?></span></label><span class="divider"> | </span></dt>
 											<dd><input type="text" class="text-input" id="url" name="url" value="<?=htmlspecialchars($link['url'])?>" /></dd>
 											<dd class="clear"></dd>
 										</dl>
@@ -88,9 +88,9 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 								<hr class="hidden" />
 								
 								<div class="button-box">
-									<a class="edit-button button" href="#void" onclick="updateLink()"><span><?=_t('편집하기')?></span></a>
+									<a class="edit-button button" href="#void" onclick="updateLink()"><span class="text"><?=_t('편집하기')?></span></a>
 									<span class="hidden">|</span>
-									<a class="cancel-button button" href="<?=$blogURL?>/owner/link"><span><?=_t('취소하기')?></span></a>
+									<a class="cancel-button button" href="<?=$blogURL?>/owner/link"><span class="text"><?=_t('취소하기')?></span></a>
 									<div class="clear"></div>
 								</div>
 <?

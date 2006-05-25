@@ -53,7 +53,7 @@ $entry = getEntry($owner, $suri['id']);
 					if (resultRow.length == 1) {
 						var str ='';
 					} else {
-						var str = '<table width="100%" border="0" cellpadding="5" cellspacing="0">\n';
+						var str = '<table width="100%" cellpadding="5" cellspacing="0">\n';
 						str += '	<tr class="tr-head">\n';
 						str += '		<td class="log"><span class="text"><? echo _t('전송로그')?></span></td>\n';
 						str += '		<td class="date"><span class="text"><? echo _t('날짜')?></span></td>\n';
@@ -105,7 +105,7 @@ $entry = getEntry($owner, $suri['id']);
 	<form name="trackback" method="post" action="<?=$suri['url']?>">
 	
 		<div id="trackback-box">
-			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" border="0" alt="태터툴즈 로고" />
+			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" alt="태터툴즈 로고" />
 			
 			<div class="title"><span class="text"><?=_t('트랙백을 전송합니다')?></span></div>
 	      	<div id="command-box">

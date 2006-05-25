@@ -7,7 +7,7 @@ ob_implicit_flush();
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 	<head>
 		<title>Update all feeds</title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="<?=$service['path']?>/script/common.js"></script>
 		<script type="text/javascript">
 			var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";

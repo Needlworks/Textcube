@@ -104,7 +104,7 @@ require ROOT . '/lib/piece/owner/contentMenu90.php';
 									<div id="part-trash-trackback" class="part">
 										<h2 class="caption">
 											<span class="category">
-												<label for="category"><span><?php echo _t('분류')?></span><span class="divider"> | </span></label>
+												<label for="category"><span class="text"><?php echo _t('분류')?></span><span class="divider"> | </span></label>
 												<select id="category" name="category" onchange="document.forms[0].page.value=1; document.forms[0].submit()">
 													<option value="0"><?php echo _t('전체')?></option>
 <?php
@@ -142,16 +142,16 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 											<span class="clear"></span>
 										</h2>
 
-										<table class="data-inbox" cellspacing="0" cellpadding="0" border="0">
+										<table class="data-inbox" cellspacing="0" cellpadding="0">
 											<thead>
 												<tr>
 													<td class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></td>
-													<td class="date"><span><?=_t('등록일자')?></span></td>
-													<td class="site"><span><?=_t('사이트명')?></span></td>
-													<td class="category"><span><?=_t('분류')?></span></td>
-													<td class="title"><span><?=_t('제목')?></span></td>
+													<td class="date"><span class="text"><?=_t('등록일자')?></span></td>
+													<td class="site"><span class="text"><?=_t('사이트명')?></span></td>
+													<td class="category"><span class="text"><?=_t('분류')?></span></td>
+													<td class="title"><span class="text"><?=_t('제목')?></span></td>
 													<td class="ip"><acronym title="Internet Protocol">ip</acronym></td>
-													<td class="delete"><span><?=_t('삭제')?></span></td>
+													<td class="delete"><span class="text"><?=_t('삭제')?></span></td>
 												</tr>
 											</thead>
 											<tbody>
@@ -182,11 +182,11 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?
 		if ($isFilterURL) {
 ?>
-														<a class="block-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
+														<a class="block-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?=_t('[차단됨]')?></span></a>
 <?
 		} else {
 ?>
-														<a class="unblock-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
+														<a class="unblock-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?=_t('[허용됨]')?></span></a>
 <?
 		}
 ?>
@@ -196,13 +196,13 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 														<?=$trackback['categoryName']?>
 													</td>
 													<td class="title">
-														<a href="#void" onclick="window.open('<?=$trackback['url']?>')" title="트랙백을 보낸 포스트를 보여줍니다."><span><?=htmlspecialchars($trackback['subject'])?></span></a>
+														<a href="#void" onclick="window.open('<?=$trackback['url']?>')" title="트랙백을 보낸 포스트를 보여줍니다."><?=htmlspecialchars($trackback['subject'])?></a>
 													</td>
 													<td class="ip">
-														<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($trackback['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 트랙백 목록을 보여줍니다.')?>"><span><?=$trackback['ip']?></span></a>
+														<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($trackback['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 트랙백 목록을 보여줍니다.')?>"><span class="text"><?=$trackback['ip']?></span></a>
 													</td>
 													<td class="delete">
-														<a class="delete-button button" href="#void" onclick="deleteTrackback(<?=$trackback['id']?>)" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
+														<a class="delete-button button" href="#void" onclick="deleteTrackback(<?=$trackback['id']?>)" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a>
 													</td>
 												</tr>
 <?
@@ -217,11 +217,11 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?
 		if ($isFilterURL) {
 ?>
-														<a class="block-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span><?=_t('[차단됨]')?></span></a>
+														<a class="block-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?=_t('[차단됨]')?></span></a>
 <?
 		} else {
 ?>
-														<a class="unblock-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span><?=_t('[허용됨]')?></span></a>
+														<a class="unblock-icon bullet" name="url<?=$currentSite?>block" href="#void" onclick="changeState(this,'<?=$filteredURL?>','url')" title="<?=_t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?=_t('[허용됨]')?></span></a>
 <?
 		}
 ?>
@@ -231,13 +231,13 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 														<?=$trackback['categoryName']?>
 													</td>
 													<td class="title">
-														<a href="#void" onclick="window.open('<?=$trackback['url']?>')" title="트랙백을 보낸 포스트를 보여줍니다."><span><?=htmlspecialchars($trackback['subject'])?></span></a>
+														<a href="#void" onclick="window.open('<?=$trackback['url']?>')" title="트랙백을 보낸 포스트를 보여줍니다."><?=htmlspecialchars($trackback['subject'])?></a>
 													</td>
 													<td class="ip">
-														<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($trackback['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 트랙백 목록을 보여줍니다.')?>"><span><?=$trackback['ip']?></span></a>
+														<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($trackback['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 트랙백 목록을 보여줍니다.')?>"><span class="text"><?=$trackback['ip']?></span></a>
 													</td>
 													<td class="delete">
-														<a class="delete-button button" href="#void" onclick="deleteTrackback(<?=$trackback['id']?>)" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span><?=_t('삭제')?></span></a>
+														<a class="delete-button button" href="#void" onclick="deleteTrackback(<?=$trackback['id']?>)" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a>
 													</td>
 												</tr>
 <?
@@ -251,8 +251,8 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 										
 										<div class="data-subbox">
 											<div id="delete-section" class="section">
-												<span class="label"><?=_t('선택한 트랙백을')?></span>
-												<a class="delete-button button" href="#void" onclick="deleteTrackbacks();"><span><?=_t('삭제')?></span></a>
+												<span class="label"><span class="text"><?=_t('선택한 트랙백을')?></span></span>
+												<a class="delete-button button" href="#void" onclick="deleteTrackbacks();"><span class="text"><?=_t('삭제')?></span></a>
 												
 												<div class="clear"></div>
 											</div>
@@ -297,9 +297,9 @@ for ($i = 10; $i <= 30; $i += 5) {
 											<hr class="hidden" />
 											
 											<div id="search-section" class="section">
-												<!--label for="search"><span><?=_t('이름')?>, <?=_t('홈페이지 이름')?>, <?=_t('내용')?></span></label><span class="divider"> |</span-->
+												<!--label for="search"><span class="text"><?=_t('이름')?>, <?=_t('홈페이지 이름')?>, <?=_t('내용')?></span></label><span class="divider"> | </span-->
 												<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.forms[0].withSearch.value = 'on'; document.forms[0].submit(); }" />
-												<a class="search-button button" href="#void" onclick="document.forms[0].withSearch.value = 'on'; document.forms[0].submit();"><span><?=_t('검색')?></span></a>
+												<a class="search-button button" href="#void" onclick="document.forms[0].withSearch.value = 'on'; document.forms[0].submit();"><span class="text"><?=_t('검색')?></span></a>
 												
 												<div class="clear"></div>
 											</div>

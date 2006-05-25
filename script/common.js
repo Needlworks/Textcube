@@ -178,7 +178,7 @@ function analysis(msg,mode) {
 			}
 			return temp
 		} else if(mode ='w') {
-			var temp ='<table border="1"  cellspacing="0">';
+			var temp ='<table  cellspacing="0">';
 			for(var name in msg) {
 				temp +='<tr>';
 				temp +='<td>'+name+'</td><td>'
@@ -517,7 +517,7 @@ function open_img(img_src) {
 		'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">\n' + 
 		'	<head>\n' + 
 		'		<title> :: View :: <\/title>\n' + 
-		'		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>\n' + 
+		'		<meta http-equiv="content-type" content="text/html; charset=utf-8" />\n' + 
 		'		<script type="text/javascript">\n' + 
 		'			function resize(img) {\n' + 
 		'				var imageWidth = img.width;\n' + 
@@ -547,7 +547,7 @@ function open_img(img_src) {
 		'		<table style="width: 100%; height: 100%">\n' + 
 		'			<tr>\n' + 
 		'				<td style="text-align: center" valign="middle">\n' + 
-		'					<a href="javascript:window.close()"><img src="' + img_src + '" style="border: 0px" onload="resize(this)"/><\/a>\n' + 
+		'					<a href="javascript:window.close()"><img src="' + img_src + '" style="border: 0px" onload="resize(this)" /><\/a>\n' + 
 		'				<\/td>\n' + 
 		'			<\/tr>\n' + 
 		'		<\/table>\n' + 
@@ -716,7 +716,7 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 	
 		var flashStr=
 		'<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version='+version+'" width="'+width+'" height="'+height+'" id="'+id+'" align="middle"><param name="movie" value="'+movie+'" />'+_allowScriptAccess_object+_FlashVars_object+_menu_object+_quality_object+_bgcolor_object+_transparent_object;
-		flashStr += '<embed type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" src="'+movie+'"'+' width="'+width+'"'+' height="'+height+'"'+_allowScriptAccess_embed+_FlashVars_embed+_menu_embed+_quality_embed+_bgcolor_embed+_transparent_embed+'/>'+
+		flashStr += '<embed type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" src="'+movie+'"'+' width="'+width+'"'+' height="'+height+'"'+_allowScriptAccess_embed+_FlashVars_embed+_menu_embed+_quality_embed+_bgcolor_embed+_transparent_embed+' />'+
 		'</object>';
 		
 		return flashStr;

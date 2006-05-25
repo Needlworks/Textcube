@@ -99,17 +99,17 @@ for ($i = 0; $i < count($skins); $i++) {
 <?
 	if ($skin['preview'] == '') {
 ?>
-												<img src="<?=$service['path']?>/style/default/image/noPreview.gif" border="0" alt="<?=_t('스킨 미리보기')?>" />
+												<img src="<?=$service['path']?>/style/default/image/noPreview.gif" alt="<?=_t('스킨 미리보기')?>" />
 <?
 	} else {
 ?>
-												<img src="<?=$skin['preview']?>" border="0" alt="<?=_t('스킨 미리보기')?>" />
+												<img src="<?=$skin['preview']?>" alt="<?=_t('스킨 미리보기')?>" />
 <?
 	}
 ?>
 											</div>
 											<div id="info_<?=$skin['name']?>" class="information">
-												<table cellspacing="0" cellpadding="0" border="0">
+												<table cellspacing="0" cellpadding="0">
 <?
 	if (file_exists(ROOT . "/skin/{$skin['name']}/index.xml")) {
 		$xml = file_get_contents(ROOT . "/skin/{$skin['name']}/index.xml");
@@ -147,7 +147,7 @@ for ($i = 0; $i < count($skins); $i++) {
 											document.getElementById('currentSkin').style.display = "block";
 											document.getElementById('currentSkinLoading').style.display = "none";
 										} catch(e) {
-											document.getElementById('currentPreview').innerHTML ='<img src="<?=$service['path']?>/style/default/image/noPreview.gif" border="0" alt="<?=_t('스킨 미리보기')?>" />';
+											document.getElementById('currentPreview').innerHTML ='<img src="<?=$service['path']?>/style/default/image/noPreview.gif" alt="<?=_t('스킨 미리보기')?>" />';
 											document.getElementById('currentInfo').innerHTML = "<?=_t('수정된 스킨입니다.')?>";
 											document.getElementById('currentSkin').style.display = "block";
 											document.getElementById('currentSkinLoading').style.display = "none";

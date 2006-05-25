@@ -50,7 +50,7 @@ if (!doesHaveMembership()) {
 		<input type="hidden" name="oldPassword" value="<?php echo isset($_POST['password']) ? $_POST['password'] : ''?>" />
 		
 		<div id="comment-reply-box">
-			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" border="0" alt="태터툴즈 로고" />
+			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" alt="태터툴즈 로고" />
 			
 			<div class="title"><span class="text"><?php echo $pageTitle ?></span></div>
 	      	<div id="command-box">
