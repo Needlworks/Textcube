@@ -23,7 +23,7 @@ function printOwnerEditorScript($entryId = false) {
 											var s_enterObjectTag = "<?php echo _t('OBJECT 태그만 입력하세요')?>";
 											var s_enterCorrectObjectTag = "<?php echo _t('틀린 OBJECT 태그입니다')?>";
 	 
-	 function savePosition() {
+											function savePosition() {
 												if (document.forms[0].content.createTextRange)
 													document.forms[0].content.currentPos = document.selection.createRange().duplicate();
 												return true;
@@ -952,14 +952,14 @@ function printEntryEditorProperty() {
 ?>
 													<div id="propertyInsertObject" class="entry-editor-property" style="display: none;">
 														<div class="head-line">
-															<b><?php echo =_t('오브젝트 삽입')?></b>
+															<b><?php echo _t('오브젝트 삽입')?></b>
 														</div>
 														<dl class="line">
 															<dt class="property-name"><?php echo _t('유형')?></dt>
 															<dd>
 															<select id="propertyInsertObject_type" style="width: 105px" onchange="getObject('propertyInsertObject_part_url').style.display=getObject('propertyInsertObject_part_raw').style.display='none';getObject('propertyInsertObject_part_' + this.value).style.display = 'block'">
-																<option value="url"><?=_t('주소 입력')?></option>
-																<option value="raw"><?=_t('코드 붙여넣기'?></option>
+																<option value="url"><?php echo _t('주소 입력')?></option>
+																<option value="raw"><?php echo _t('코드 붙여넣기')?></option>
 															</select>
 															</dd>
 															<dd class="clear"></dd>
@@ -976,8 +976,8 @@ function printEntryEditorProperty() {
 															</dd>
 															<dd class="clear"></dd>
 														</dl>
-														<input type="button" onclick="TTCommand('InsertObject')" value="<?php echo _t('삽입하기')?>"/>
-														<input type="button" onclick="TTCommand('HideObjectBlock')" value="<?php echo _t('취소하기')?>"/>
+														<input type="button" onclick="TTCommand('InsertObject')" value="<?php echo _t('삽입하기')?>" />
+														<input type="button" onclick="TTCommand('HideObjectBlock')" value="<?php echo _t('취소하기')?>" />
 													</div>
 													<div id="propertyLink" class="entry-editor-property" style="display: none;">
 														<div class="head-line">
