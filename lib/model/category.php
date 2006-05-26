@@ -141,7 +141,8 @@ function modifyCategory($owner, $id, $name) {
 	} else
 		$parentStr = 'AND parent is null';
 	
-	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND name='$name' $parentStr";	
+	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND name='$name' $parentStr";
+	
 	if(fetchQueryCell($sql) >0)
 		return false;	
 		
@@ -194,6 +195,7 @@ function moveCategory($owner, $id, $direction) {
 	$parentParent = '';
 	$myIsHaveChild = '';
 	$nextId = '';
+	$nextParentId = '';
 	$nextPriority = '';
 	$sql = "SELECT 
 				_parent.id AS parentId,
@@ -214,13 +216,16 @@ function moveCategory($owner, $id, $direction) {
 	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE parent = $myId AND owner = $owner";
 	$myIsHaveChild = (mysql_result(mysql_query($sql), 0, 0) > 0) ? true : false;
 	$aux = $parentId == 'NULL' ? 'parent is null' : "parent = $parentId";
-	$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE $aux AND owner = $owner AND priority $sign $myPriority ORDER BY priority $arrange LIMIT 1";
+	$sql = "SELECT id, parent, priority FROM {$database['prefix']}Categories WHERE $aux AND owner = $owner AND priority $sign $myPriority ORDER BY priority $arrange LIMIT 1";
 	$result = mysql_query($sql);
 	$canMove = (mysql_num_rows($result) > 0) ? true : false;
 	$row = mysql_fetch_array($result);
 	$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
+	$nextParentId = is_null($row['parent']) ? 'NULL' : $row['parent'];
 	$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
+	// 이동할 자신이 1 depth 카테고리일 때.
 	if ($myParent == 'NULL') {
+		// 자신이 2 depth를 가지고 있고, 위치를 바꿀 대상 카테고리가 있는 경우.
 		if ($myIsHaveChild && $nextId != 'NULL') {
 			$sql = "UPDATE {$database['prefix']}Categories
 						SET
@@ -234,35 +239,112 @@ function moveCategory($owner, $id, $direction) {
 						WHERE
 							id = $myId AND owner = $owner";
 			mysql_query($sql);
+		// 자신이 2 depth를 가지지 않은 1 depth 카테고리이거나, 위치를 바꿀 대상이 없는 경우.
 		} else {
-			$sql = "UPDATE {$database['prefix']}Categories
-						SET
-							parent = $nextId
-						WHERE
-							id = $myId AND owner = $owner";
-			mysql_query($sql);
-			$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent = $nextId AND owner = $owner ORDER BY priority LIMIT 1";
-			$result = mysql_query($sql);
-			$row = mysql_fetch_array($result);
-			$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
-			$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
-			if ($nextId != 'NULL') {
+			// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
+			$myName = fetchQueryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId");
+			$overlapCount = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId");
+			// 같은 이름이 없으면 이동 시작.
+			if ($overlapCount == 0) {
 				$sql = "UPDATE {$database['prefix']}Categories
 							SET
-								priority = " . max($nextPriority, $myPriority) . "
+								parent = $nextId
+							WHERE
+								id = $myId AND owner = $owner";
+				mysql_query($sql);
+				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent = $nextId AND owner = $owner ORDER BY priority LIMIT 1";
+				$result = mysql_query($sql);
+				$row = mysql_fetch_array($result);
+				$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
+				$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
+				if ($nextId != 'NULL') {
+					$sql = "UPDATE {$database['prefix']}Categories
+								SET
+									priority = " . max($nextPriority, $myPriority) . "
+								WHERE
+									id = $nextId AND owner = $owner";
+					mysql_query($sql);
+					$sql = "UPDATE {$database['prefix']}Categories
+								SET
+									priority = " . min($nextPriority, $myPriority) . "
+								WHERE
+									id = $myId AND owner = $owner";
+					mysql_query($sql);
+				}
+			// 같은 이름이 있으면.
+			} else {
+				$sql = "UPDATE {$database['prefix']}Categories
+							SET
+								priority = $myPriority
 							WHERE
 								id = $nextId AND owner = $owner";
 				mysql_query($sql);
 				$sql = "UPDATE {$database['prefix']}Categories
 							SET
-								priority = " . min($nextPriority, $myPriority) . "
+								priority = $nextPriority
 							WHERE
 								id = $myId AND owner = $owner";
 				mysql_query($sql);
 			}
 		}
+	// 이동할 자신이 2 depth일 때.
 	} else {
-		if ($nextId != 'NULL') {
+		// 위치를 바꿀 대상이 1 depth이면.
+		if ($nextId == 'NULL') {
+			$myName = fetchQueryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId");
+			$overlapCount = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` IS NULL");
+			// 1 depth에 같은 이름이 있으면 2 depth로 직접 이동.
+			if ($overlapCount > 0) {
+				$sql = "SELECT `id`, `parent`, `priority` FROM `{$database['prefix']}Categories` WHERE `parent` IS NULL AND `owner` = $owner AND `priority` $sign $parentPriority ORDER BY `priority` $arrange";
+				$result = mysql_query($sql);
+				while ($row = mysql_fetch_array($result)) {
+					$nextId = $row['id'];
+					$nextParentId = $row['parent'];
+					$nextPriority = $row['priority'];
+					
+					// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
+					$myName = fetchQueryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId");
+					$overlapCount = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId");
+					// 같은 이름이 없으면 이동 시작.
+					if ($overlapCount == 0) {
+						$sql = "UPDATE `{$database['prefix']}Categories`
+									SET
+										`parent` = $nextId
+									WHERE
+										`id` = $myId AND `owner` = $owner";
+						mysql_query($sql);
+							break;
+					}
+				}
+			// 같은 이름이 없으면 1 depth로 이동.
+			} else {
+				$sql = "UPDATE {$database['prefix']}Categories SET parent = NULL WHERE id = $myId AND owner = $owner";
+				mysql_query($sql);
+				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent is null AND owner = $owner AND priority $sign $parentPriority ORDER BY priority $arrange LIMIT 1";
+				$result = mysql_query($sql);
+				$row = mysql_fetch_array($result);
+				$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
+				$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
+				if ($nextId == 'NULL') {
+					$operator = ($direction == 'up') ? '-' : '+';
+					$sql = "UPDATE {$database['prefix']}Categories SET priority = $parentPriority $operator 1 WHERE id = $myId AND owner = $owner";
+					mysql_query($sql);
+					return;
+				}
+				if ($direction == 'up') {
+					$aux = "SET priority = priority+1 WHERE priority >= $parentPriority AND owner = $owner";
+					$aux2 = "SET priority = $parentPriority WHERE id = $myId AND owner = $owner";
+				} else {
+					$aux = "SET priority = priority+1 WHERE priority >= $nextPriority AND owner = $owner";
+					$aux2 = "SET priority = $nextPriority WHERE id = $myId AND owner = $owner";
+				}
+				$sql = "UPDATE {$database['prefix']}Categories $aux";
+				mysql_query($sql);
+				$sql = "UPDATE {$database['prefix']}Categories $aux2";
+				mysql_query($sql);
+			}
+		// 위치를 바꿀 대상이 2 depth이면 위치 교환.
+		} else {
 			$sql = "UPDATE {$database['prefix']}Categories
 						SET
 							priority = $myPriority
@@ -274,31 +356,6 @@ function moveCategory($owner, $id, $direction) {
 							priority = $nextPriority
 						WHERE
 							id = $myId AND owner = $owner";
-			mysql_query($sql);
-		} else {
-			$sql = "UPDATE {$database['prefix']}Categories SET parent = NULL WHERE id = $myId AND owner = $owner";
-			mysql_query($sql);
-			$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent is null AND owner = $owner AND priority $sign $parentPriority ORDER BY priority $arrange LIMIT 1";
-			$result = mysql_query($sql);
-			$row = mysql_fetch_array($result);
-			$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
-			$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
-			if ($nextId == 'NULL') {
-				$operator = ($direction == 'up') ? '-' : '+';
-				$sql = "UPDATE {$database['prefix']}Categories SET priority = $parentPriority $operator 1 WHERE id = $myId AND owner = $owner";
-				mysql_query($sql);
-				return;
-			}
-			if ($direction == 'up') {
-				$aux = "SET priority = priority+1 WHERE priority >= $parentPriority AND owner = $owner";
-				$aux2 = "SET priority = $parentPriority WHERE id = $myId AND owner = $owner";
-			} else {
-				$aux = "SET priority = priority+1 WHERE priority >= $nextPriority AND owner = $owner";
-				$aux2 = "SET priority = $nextPriority WHERE id = $myId AND owner = $owner";
-			}
-			$sql = "UPDATE {$database['prefix']}Categories $aux";
-			mysql_query($sql);
-			$sql = "UPDATE {$database['prefix']}Categories $aux2";
 			mysql_query($sql);
 		}
 	}

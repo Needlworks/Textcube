@@ -31,6 +31,12 @@ if (!empty($_POST['newCategory'])) {
 	$history = addCategory($owner, ($selected == 0) ? null : $_POST['id'], trim($_POST['newCategory'])) ? 'document.getElementById("newCategory").select();' : '';
 } else if (!empty($_POST['modifyCategoryName']) && ($selected > 0)) {
 	$history = modifyCategory($owner, $_POST['id'], trim($_POST['modifyCategoryName'])) ? 'document.getElementById("modifyCategoryName").select();' : '';
+	$tempParentId = fetchQueryCell("SELECT `parent` FROM `{$database['prefix']}Categories` WHERE `id` = {$_POST['id']}");
+	if (preg_match('/^[0-9]+$/', $tempParentId, $temp)) {
+		$depth = 2;
+	} else {
+		$depth = 1;
+	}
 } else {
 	$history = '';
 }
