@@ -517,6 +517,11 @@ color:#333;
 	background:url("images/iconIndentArrow_local.gif") no-repeat 10px 12px;
 	background-color:#f5f5f5;
 }
+.guestbook .clist .admin span,
+.guestbook .clist .admin a,
+.guestbook .clist .admin p{
+	color:#a2348f !important;
+}
 .guestbook .clist li .name{
 	font-size:12px;
 	font-weight:bold;
@@ -652,34 +657,39 @@ color:#999;
 	margin:0;
 }
 /* entry comment */
-.entry .comment {
+.entry .commentlist {
 	border-top:1px solid #ddd;
 	background-color:#f5f5f5;
 	padding:10px;
-}	
-.entry .comment .name{
+}
+.entry .commentlist .name{
 	color:#222;
 	font-weight:bold;
 }
-.entry .comment .name a{
+.entry .commentlist .name a{
 	color:#222;
 	font-weight:bold;
 	text-decoration:underline;
 }
-.entry .comment p{
+.entry .commentlist p{
 	margin:0;
 }	
-.entry .comment ol li{
+.entry .commentlist ol li{
 	padding:15px 10px 0 15px;
 	background:url("images/iconGuestbook.gif") no-repeat 0 15px;		
 }
-.entry .comment li ul li{
+.entry .commentlist li ul li{
 	padding:15px 10px 0 25px;
 	background:url("images/iconIndentArrow_local.gif") no-repeat 10px 12px;
 	background-color:#f5f5f5;
 }
 .entry .commentlist p{
 color:#222;
+}
+.entry .commentlist .admin span,
+.entry .commentlist .admin a,
+.entry .commentlist .admin p{
+	color:#a2348f !important;
 }
 .entry .control{
 	font:11px dotum;

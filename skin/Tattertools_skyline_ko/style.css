@@ -2,8 +2,7 @@
 /* 반드시 들어가야 하는 스타일 시작 */
 /* 1. 본문 전체  */
 body, td, input, textarea {
-	background: white;
-	font: 12px/1.5 Dotum, Verdana, AppleGothic, sans-serif;
+	font: 12px/1.5 Dotum, Verdana, AppleGothic, Sans-serif;
 	color : #666;
 }
 /* 2. 기본 링크 */
@@ -179,7 +178,7 @@ display:none;
 	list-style:none;	
 	}
 #sidebar .name {
-	font:11px Dotum, sans-serif;
+	font:11px dotum;
 	color:#999;
 }
 #sidebar .date {
@@ -187,11 +186,11 @@ display:none;
 	color:#999;	
 }	
 #sidebar .cnt {
-	font :10px Tahoma, sans-serif;
+	font :10px Tahoma;
 	color:#333;
 }
 #sidebar h3 {
-	font:12px Tahoma, sans-serif;
+	font:12px Tahoma;
 	font-weight:bold;
 	background:#eee;
 	border-top:1px solid #ccc;
@@ -248,7 +247,7 @@ padding-left:38px;
 #sidebar .search .submit{
 	border:1px solid #999;
 	background-color:#ddd;
-	font:11px Verdana, sans-serif;
+	font:11px Verdana;
 	color:#222;
 	width:50px;	
 }
@@ -300,8 +299,8 @@ padding-left:38px;
   }	
 #sidebar .tagbox a:hover{
 	background-color:#cce5ff;
-	color:#000;
-}	
+  color:#000;
+  }	
 /* recent posts, recent comment, recent trackback, archive, link */
 #sidebar .listbox {
 	padding:5px 0;
@@ -320,7 +319,7 @@ padding-left:38px;
 	background-color:#eee;
 	padding:5px 0;
 	text-align:center;
-	font:10px Verdana, sans-serif;
+	font:10px verdana;
 }
 #sidebar .ad{
 	text-align:center;
@@ -357,11 +356,11 @@ padding-left:38px;
 	letter-spacing:-1px;
 }
 #content .cnt {
-	font:10px Verdana, sans-serif;
+	font:10px Verdana;
 	color:#666;
 }
 #content .date {
-	font:10px Verdana, sans-serif;
+	font:10px Verdana;
 	letter-spacing:-1px;	
 	color:#666;	
 }
@@ -453,7 +452,7 @@ padding-left:38px;
 	color:#333;
 }
 .guestbook .write label{
-	font:10px Verdana, sans-serif;
+	font:10px Verdana;
 }
 .guestbook .write textarea{
 	width:98%;
@@ -466,32 +465,30 @@ padding-left:38px;
 	padding:5px 0;
 	margin:0;
 }
-.guestbook .list ol{
-	border-top:2px solid #CCCCCC;
-	border-bottom:1px solid #CCCCCC;
+.guestbook .list ol li{
+	padding:10px 10px 10px 25px;
+	background:url("images/iconGuestbook.gif") no-repeat 0 12px;	
 }
-.guestbook .list ol li div{
-	border-bottom:1px solid #CCCCCC;
-	padding:10px 10px 3px 25px;
-	background:url("images/iconGuestbook.gif") no-repeat 5px 12px;	
-}
-.guestbook .list li ul li div{
-	padding-left:50px;
-	background:url("images/iconIndentArrow_local.gif") no-repeat 30px 12px;
+.guestbook .list li ul li{
+	padding-left:30px;
+	margin-left:20px;
+	background:url("images/iconIndentArrow_local.gif") no-repeat 10px 12px;
 	background-color:#f5f5f5;
-}
-.guestbook .list .admin{
-	background-color:#DCDCDC;
 }
 .guestbook .list .name a{
 	font-size:12px;
 	font-weight:bold;
 	color:#666;
 	padding-right:12px;
-	background:url("images/icon_homepage.gif") no-repeat top right;
+	background:url("images/icon_homepage.gif") no-repeat 0px right;
+}
+.guestbook .list .admin span,
+.guestbook .list .admin a,
+.guestbook .list .admin p{
+	color:#5D93D4 !important;
 }
 .guestbook .control a{
-	font:9px Tahoma, sans-serif;
+	font:9px tahoma;
 	background:url("images/iconControl.gif") no-repeat center right;	
 	padding-right:10px;
 	color:#999;
@@ -518,7 +515,7 @@ padding-left:38px;
 }
 .entry_protected input {
 	border:1px solid #999;
-	font:10px Tahoma, sans-serif;
+	font:10px Tahoma;
 }
 .entry_protected .submit {
 	border:1px solid #bbb;
@@ -562,7 +559,7 @@ padding-left:38px;
 	padding:5px;
 }
 .entry .tagtext{
-	font:9px Verdana, sans-serif;
+	font:9px verdana;
 	font-weight:bold;
 	background-color:#369;
 	color:#fff;
@@ -574,22 +571,22 @@ padding-left:38px;
 	border-top:1px dotted #ccc;
 	border-bottom:1px solid #999;
 	padding:7px 8px;
-	font:11px Verdana, sans-serif;
+	font:11px verdana;
 }
 .entry .tbrp_box .cnt{
-	font:10px Verdana, sans-serif;
+	font:10px verdana;
 	color:#666;
 }
 /* entry trackback */
 .entry .trackback {
-	font-family:Verdana, Dotum, sans-serif;
+	font-family:verdana, dotum;
 	background-color:#f5f5f5;
 	padding:10px;
 	margin-bottom:4px;
 }	
 .entry .trackback .add {
 	margin:5px;
-	font:11px Verdana, sans-serif;
+	font:11px Verdana;
 	color:#333;
 }	
 .entry  .trackback li{
@@ -597,7 +594,7 @@ padding-left:38px;
 	padding:10px 0;
 }
 .entry .trackback h4{
-	font:12px Verdana, sans-serif;
+	font:12px Verdana;
 	font-weight:normal;
 	margin:0;
 }
@@ -608,26 +605,23 @@ padding-left:38px;
 }	
 .entry .comment p{
 	margin:0;
+}	
+.entry .comment ol li{
+	padding:15px 10px 0 25px;
+	background:url("images/iconGuestbook.gif") no-repeat 0 15px;		
 }
-.entry .comment ol{
-	border-top:2px solid #CCCCCC;
-	border-bottom:1px solid #CCCCCC;
-}
-.entry .comment ol li div{
-	border-bottom:1px solid #CCCCCC;
-	padding:10px 10px 3px 25px;
-	background:url("images/iconGuestbook.gif") no-repeat 5px 12px;	
-}
-.entry .comment ol li ul li div{
-	padding-left:50px;
-	background:url("images/iconIndentArrow_local.gif") no-repeat 30px 12px;
+.entry .comment li ul li{
+	padding:15px 10px 0 25px;
+	background:url("images/iconIndentArrow_local.gif") no-repeat 10px 12px;
 	background-color:#f5f5f5;
 }
-.entry .comment .admin{
-	background-color:#DCDCDC;
+.entry .comment .admin span,
+.entry .comment .admin a,
+.entry .comment .admin p{
+	color:#5D93D4 !important;
 }
 .entry .control a{
-	font:9px Tahoma, sans-serif;
+	font:9px tahoma;
 	background:url("images/iconControl.gif") no-repeat center right;	
 	padding-right:8px;
 	color:#999;
@@ -659,7 +653,7 @@ padding-left:38px;
 	color:#333;
 }
 .comment .write label{
-	font:10px Verdana, sans-serif;
+	font:10px Verdana;
 }
 .comment .write textarea{
 	width:98%;
@@ -678,12 +672,12 @@ padding-left:38px;
 .paging{
 	padding-top:10px;
 	text-align:center;
-	font:10px Tahoma, sans-serif;
+	font:10px Tahoma;
 }
 
 /* footer */
 #footer {
 	text-align:center;
 	padding:50px 10px 10px 10px;
-	font:11px Verdana, Dotum, sans-serif;
+	font:11px Verdana, dotum;
 }
