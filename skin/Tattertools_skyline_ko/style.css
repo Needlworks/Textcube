@@ -466,15 +466,22 @@ padding-left:38px;
 	padding:5px 0;
 	margin:0;
 }
-.guestbook .list ol li{
-	padding:10px 10px 10px 25px;
-	background:url("images/iconGuestbook.gif") no-repeat 0 12px;	
+.guestbook .list ol{
+	border-top:2px solid #CCCCCC;
+	border-bottom:1px solid #CCCCCC;
 }
-.guestbook .list li ul li{
-	padding-left:30px;
-	margin-left:20px;
-	background:url("images/iconIndentArrow_local.gif") no-repeat 10px 12px;
+.guestbook .list ol li div{
+	border-bottom:1px solid #CCCCCC;
+	padding:10px 10px 3px 25px;
+	background:url("images/iconGuestbook.gif") no-repeat 5px 12px;	
+}
+.guestbook .list li ul li div{
+	padding-left:50px;
+	background:url("images/iconIndentArrow_local.gif") no-repeat 30px 12px;
 	background-color:#f5f5f5;
+}
+.guestbook .list .admin{
+	background-color:#DCDCDC;
 }
 .guestbook .list .name a{
 	font-size:12px;
@@ -601,15 +608,23 @@ padding-left:38px;
 }	
 .entry .comment p{
 	margin:0;
-}	
-.entry .comment ol li{
-	padding:15px 10px 0 25px;
-	background:url("images/iconGuestbook.gif") no-repeat 0 15px;		
 }
-.entry .comment li ul li{
-	padding:15px 10px 0 25px;
-	background:url("images/iconIndentArrow_local.gif") no-repeat 10px 12px;
+.entry .comment ol{
+	border-top:2px solid #CCCCCC;
+	border-bottom:1px solid #CCCCCC;
+}
+.entry .comment ol li div{
+	border-bottom:1px solid #CCCCCC;
+	padding:10px 10px 3px 25px;
+	background:url("images/iconGuestbook.gif") no-repeat 5px 12px;	
+}
+.entry .comment ol li ul li div{
+	padding-left:50px;
+	background:url("images/iconIndentArrow_local.gif") no-repeat 30px 12px;
 	background-color:#f5f5f5;
+}
+.entry .comment .admin{
+	background-color:#DCDCDC;
 }
 .entry .control a{
 	font:9px Tahoma, sans-serif;

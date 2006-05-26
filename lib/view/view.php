@@ -390,6 +390,7 @@ function getCommentView($entryId, & $skin) {
 			dress($prefix1 . '_rep_date', Timestamp::format5($commentSubItem['written']), $commentSubItemView);
 			dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentSubItem['id']}", $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']});return false", $commentSubItemView);
+			dress($prefix1 . '_rep_admin_class', ($owner == $commentSubItem['replier'] ? 'admin' : ''), $commentSubItemView);
 			$commentSubItemsView .= $commentSubItemView;
 		}
 		dress(($isComment ? 'rp2_rep' : 'guest_reply_rep'), $commentSubItemsView, $commentItemView);
@@ -407,6 +408,7 @@ function getCommentView($entryId, & $skin) {
 		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']});return false", $commentItemView);
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
 		dress($prefix1 . '_rep_link', "$blogURL/{$entryId}#comment{$commentItem['id']}", $commentItemView);
+		dress($prefix1 . '_rep_admin_class', ($owner == $commentItem['replier'] ? 'admin' : ''), $commentItemView);
 		$commentItemsView .= $commentItemView;
 	}
 	dress($prefix1 . '_rep', $commentItemsView, $commentView);
