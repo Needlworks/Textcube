@@ -33,10 +33,10 @@
 		padding-bottom                   : 0 !important;
 	}
 	
-	#part-notice-list table.data-inbox .tr-body .statue .private-on-icon,
-	#part-notice-list table.data-inbox .tr-last-body .statue .private-on-icon,
-	#part-notice-list table.data-inbox .tr-body .statue .public-on-icon,
-	#part-notice-list table.data-inbox .tr-last-body .statue .public-on-icon
+	#part-notice-list table.data-inbox .tr-body .status .private-on-icon,
+	#part-notice-list table.data-inbox .tr-last-body .status .private-on-icon,
+	#part-notice-list table.data-inbox .tr-body .status .public-on-icon,
+	#part-notice-list table.data-inbox .tr-last-body .status .public-on-icon
 	{
 		margin-top                       : 4px;
 	}

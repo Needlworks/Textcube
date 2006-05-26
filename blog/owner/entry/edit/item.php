@@ -549,7 +549,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 													</dd>
 													<dd class="clear"></dd>
 												</dl>
-												<dl id="statue-line" class="line">
+												<dl id="status-line" class="line">
 													<dt><span class="text"><?=_t('공개여부')?></span><span class="divider"> | </span></dt>
 													<dd>
 														<input type="radio" id="visibility_private" class="radio" name="visibility" value="0"<?=(abs($entry['visibility']) == 0 ? ' checked="checked"' : '')?> /> <label for="visibility_private"><span class="text"><?=_t('비공개')?></span></label>

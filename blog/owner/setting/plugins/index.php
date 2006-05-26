@@ -46,7 +46,7 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
 													<td class="version"><span><?=_t('버전')?></span></td>
 								 					<td class="explain"><span><?=_t('설명')?></span></td>
 								 					<td class="maker"><span><?=_t('만든이')?></span></td>
-													<td class="statue"><span><?=_t('상태')?></span></td>
+													<td class="status"><span><?=_t('상태')?></span></td>
 												</tr>
 											</thead>
 											<tbody>
@@ -84,7 +84,7 @@ for ($i=0; $i<sizeof($plugins); $i++) {
 													<td class="version"><?=htmlspecialchars($xmls->getValue('/plugin/version[lang()]'))?></td>
 								 					<td class="explain"><?=htmlspecialchars($xmls->getValue('/plugin/description[lang()]'))?></td>
 								 					<td class="maker"><?=($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author)?></td>
-													<td class="statue">
+													<td class="status">
 <?
 		if ($active) {
 ?>
@@ -106,7 +106,7 @@ for ($i=0; $i<sizeof($plugins); $i++) {
 													<td class="version"><?=htmlspecialchars($xmls->getValue('/plugin/version[lang()]'))?></td>
 								 					<td class="explain"><?=htmlspecialchars($xmls->getValue('/plugin/description[lang()]'))?></td>
 								 					<td class="maker"><?=($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author)?></td>
-													<td class="statue">
+													<td class="status">
 <?
 		if ($active) {
 ?>

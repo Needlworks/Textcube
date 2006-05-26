@@ -285,7 +285,7 @@ foreach (getCategories($owner) as $category) {
 											<tr>
 												<td class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></td>
 												<td class="date"><span class="text"><?=_t('등록일자')?></span></td>
-												<td class="statue"><span class="text"><?=_t('상태')?></span></td>
+												<td class="status"><span class="text"><?=_t('상태')?></span></td>
 												<td class="syndicate"><span class="text"><?=_t('발행')?></span></td>
 												<td class="category"><span class="text"><?=_t('분류')?></span></td>
 												<td class="title"><span class="text"><?=_t('제목')?></span></td>
@@ -304,7 +304,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 											<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked=false" /></td>
 												<td class="date"><?=Timestamp::formatDate($entry['published'])?></td>
-												<td class="statue">
+												<td class="status">
 <?
 		if ($entry['visibility'] == 0) {
 ?>
@@ -394,7 +394,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 											<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked=false" /></td>
 												<td class="date"><?=Timestamp::formatDate($entry['published'])?></td>
-												<td class="statue">
+												<td class="status">
 <?
 		if ($entry['visibility'] == 0) {
 ?>

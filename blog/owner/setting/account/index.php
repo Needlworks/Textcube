@@ -350,7 +350,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 																<td class="email"><span class="text"><?=_t('이름')?>(<?=_t('E-mail')?>)</span></td>
 																<td class="address"><span class="text"><?=_t('주소')?></span></td>
 																<td class="date"><span class="text"><?=_t('초대일')?></span></td>
-																<td class="statue"><span class="text"><?=_t('경과')?></span></td>
+																<td class="status"><span class="text"><?=_t('경과')?></span></td>
 																<td class="password"><span class="text"><?=_t('비밀번호')?></span></td>
 																<td class="cancel"><span class="text"><?=_t('초대취소')?></span></td>
 															</tr>
@@ -366,7 +366,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 <?
 		if ($value['lastLogin'] == 0) {
 ?>
-																<td class="statue"><?=timeInterval($value['created'], time()) . ' ' . _t('전')?></td>
+																<td class="status"><?=timeInterval($value['created'], time()) . ' ' . _t('전')?></td>
 																<td class="password"><?=fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']}")?></td>
 																<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?=$value['userid']?>,this);" title="<?=_t('초대에 응하지 않은 사용자의 계정을 삭제합니다.')?>"><span class="text"><?=_t('초대취소')?></span></a></td>
 <?

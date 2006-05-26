@@ -56,7 +56,7 @@
 	width                            : 70px;
 }
 
-#part-post-list table.data-inbox thead tr .statue
+#part-post-list table.data-inbox thead tr .status
 {
 	width                            : 60px;
 }
@@ -136,8 +136,8 @@
 	padding-top                      : 3px;
 }
 
-#part-post-list table.data-inbox .tr-body .statue .private-on-icon,
-#part-post-list table.data-inbox .tr-last-body .statue .private-on-icon
+#part-post-list table.data-inbox .tr-body .status .private-on-icon,
+#part-post-list table.data-inbox .tr-last-body .status .private-on-icon
 {
 	background-image                 : url("./image/icon_private.gif");
 	background-position              : left bottom;
@@ -149,8 +149,8 @@
 	width                            : 15px;
 }
 
-#part-post-list table.data-inbox .tr-body .statue .private-on-icon a,
-#part-post-list table.data-inbox .tr-last-body .statue .private-on-icon a
+#part-post-list table.data-inbox .tr-body .status .private-on-icon a,
+#part-post-list table.data-inbox .tr-last-body .status .private-on-icon a
 {
 	background-image                 : url("./image/icon_private.gif");
 	background-position              : left top;
@@ -161,14 +161,14 @@
 	width                            : 15px;
 }
 
-#part-post-list table.data-inbox .tr-body .statue .private-on-icon span,
-#part-post-list table.data-inbox .tr-last-body .statue .private-on-icon span
+#part-post-list table.data-inbox .tr-body .status .private-on-icon span,
+#part-post-list table.data-inbox .tr-last-body .status .private-on-icon span
 {
 	display                          : none;
 }
 
-#part-post-list table.data-inbox .tr-body .statue .protected-on-icon,
-#part-post-list table.data-inbox .tr-last-body .statue .protected-on-icon
+#part-post-list table.data-inbox .tr-body .status .protected-on-icon,
+#part-post-list table.data-inbox .tr-last-body .status .protected-on-icon
 {
 	background-image                 : url("./image/icon_protected.gif");
 	background-position              : left bottom;
@@ -180,8 +180,8 @@
 	width                            : 15px;
 }
 
-#part-post-list table.data-inbox .tr-body .statue .protected-on-icon a,
-#part-post-list table.data-inbox .tr-last-body .statue .protected-on-icon a
+#part-post-list table.data-inbox .tr-body .status .protected-on-icon a,
+#part-post-list table.data-inbox .tr-last-body .status .protected-on-icon a
 {
 	background-image                 : url("./image/icon_protected.gif");
 	background-position              : left top;
@@ -192,14 +192,14 @@
 	width                            : 15px;
 }
 
-#part-post-list table.data-inbox .tr-body .statue .protected-on-icon span,
-#part-post-list table.data-inbox .tr-last-body .statue .protected-on-icon span
+#part-post-list table.data-inbox .tr-body .status .protected-on-icon span,
+#part-post-list table.data-inbox .tr-last-body .status .protected-on-icon span
 {
 	display                          : none;
 }
 
-#part-post-list table.data-inbox .tr-body .statue .public-on-icon,
-#part-post-list table.data-inbox .tr-last-body .statue .public-on-icon
+#part-post-list table.data-inbox .tr-body .status .public-on-icon,
+#part-post-list table.data-inbox .tr-last-body .status .public-on-icon
 {
 	background-image                 : url("./image/icon_public.gif");
 	background-position              : left bottom;
@@ -211,8 +211,8 @@
 	width                            : 15px;
 }
 
-#part-post-list table.data-inbox .tr-body .statue .public-on-icon a,
-#part-post-list table.data-inbox .tr-last-body .statue .public-on-icon a
+#part-post-list table.data-inbox .tr-body .status .public-on-icon a,
+#part-post-list table.data-inbox .tr-last-body .status .public-on-icon a
 {
 	background-image                 : url("./image/icon_public.gif");
 	background-position              : left top;
@@ -223,8 +223,8 @@
 	width                            : 15px;
 }
 
-#part-post-list table.data-inbox .tr-body .statue .public-on-icon span,
-#part-post-list table.data-inbox .tr-last-body .statue .public-on-icon span
+#part-post-list table.data-inbox .tr-body .status .public-on-icon span,
+#part-post-list table.data-inbox .tr-last-body .status .public-on-icon span
 {
 	display                          : none;
 }

@@ -31,12 +31,12 @@
 	}
 	
 	/* list table body ------------------------------------------------------------------------------*/	
-	#part-post-list table.data-inbox .tr-body .statue .private-on-icon,
-	#part-post-list table.data-inbox .tr-last-body .statue .private-on-icon,
-	#part-post-list table.data-inbox .tr-body .statue .protected-on-icon,
-	#part-post-list table.data-inbox .tr-last-body .statue .protected-on-icon,
-	#part-post-list table.data-inbox .tr-body .statue .public-on-icon,
-	#part-post-list table.data-inbox .tr-last-body .statue .public-on-icon
+	#part-post-list table.data-inbox .tr-body .status .private-on-icon,
+	#part-post-list table.data-inbox .tr-last-body .status .private-on-icon,
+	#part-post-list table.data-inbox .tr-body .status .protected-on-icon,
+	#part-post-list table.data-inbox .tr-last-body .status .protected-on-icon,
+	#part-post-list table.data-inbox .tr-body .status .public-on-icon,
+	#part-post-list table.data-inbox .tr-last-body .status .public-on-icon
 	{
 		margin-top                       : 3px;
 	}

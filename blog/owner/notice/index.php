@@ -108,7 +108,7 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 												<tr>
 													<td class="selection"><input type="checkbox" class="checkbox" name="allChecked" onclick="checkAll(this.checked)" /></td>
 													<td class="date"><span class="text"><?=_t('등록일자')?></span></td>
-													<td class="statue"><span class="text"><?=_t('상태')?></span></td>
+													<td class="status"><span class="text"><?=_t('상태')?></span></td>
 													<td class="title"><span class="text"><?=_t('공지')?></span></td>
 													<td class="delete"><span class="text"><?=_t('삭제')?></span></td>
 												</tr>
@@ -123,7 +123,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 													<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked = false" /></td>
 													<td class="date"><?=Timestamp::format3($entry['published'])?></td>
-													<td class="statue">
+													<td class="status">
 <?
 		if ($entry['visibility'] == 0) {
 ?>
@@ -147,7 +147,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 													<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked = false" /></td>
 													<td class="date"><?=Timestamp::format3($entry['published'])?></td>
-													<td class="statue">
+													<td class="status">
 <?
 		if ($entry['visibility'] == 0) {
 ?>

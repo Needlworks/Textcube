@@ -339,7 +339,7 @@ ul#groupList li .edit-button span
 #groupEditor .button-box
 {
 	margin                           : 0 auto;
-	width                            : 192px;
+	width                            : 222px;
 }
 
 #groupEditor .button-box .button
@@ -349,9 +349,9 @@ ul#groupList li .edit-button span
 	float                            : left;
 	height                           : 15px !important;
 	margin                           : 3px 1px 0 1px !important;
-	padding-top                      : 3px !important;
+	padding-top                      : 5px !important;
 	text-align                       : center;
-	width                            : 60px !important;
+	width                            : 70px !important;
 }
 
 #groupEditor .button-box .button span
@@ -553,7 +553,7 @@ ul#feedList li .edit-button span
 #feedEditor .button-box
 {
 	margin                           : 0 auto;
-	width                            : 192px;
+	width                            : 222px;
 }
 
 #feedEditor .button-box .button
@@ -563,9 +563,9 @@ ul#feedList li .edit-button span
 	float                            : left;
 	height                           : 15px !important;
 	margin                           : 3px 1px 0 1px !important;
-	padding-top                      : 3px !important;
+	padding-top                      : 5px !important;
 	text-align                       : center;
-	width                            : 60px !important;
+	width                            : 70px !important;
 }
 
 #feedEditor .button-box .button span
@@ -651,23 +651,18 @@ ul#feedList li .edit-button span
 
 #configure .data-inbox #reader-section .button-box a
 {
-	background-color                 : #CCCCCC;
-	background-image                 : url("./image/button2.gif");
-	float                            : none;
-	height                           : 24px !important;
-	margin                           : 0 auto !important;
-	padding-left                     : 4px !important;
-	width                            : 106px !important;
+	background-color                 : #8DB0DC;
+	border                           : 1px solid #5788C4;
+	height                           : 19px !important;
+	margin                           : 3px auto 5px auto !important;
+	text-align                       : center;
+	width                            : 80px !important;
 }
 
 #configure .data-inbox #reader-section .button-box a span
 {
-	background-color                 : #CCCCCC;
-	background-image                 : url("./image/button2.gif");
-	height                           : 24px !important;
-	padding                          : 2px 4px 0 0 !important;
-	text-align                       : center;
-	width                            : 102px !important;
+	color                            : #FFFFFF;
+	font-weight                      : normal;
 }
 
 #configure .data-inbox #opml-section
@@ -677,7 +672,6 @@ ul#feedList li .edit-button span
 	right                            : 0;
 	left                             : 460px;
 	top                              : 0;
-	z-index                          : 1;
 }
 
 #configure .data-inbox #opml-section .property
@@ -689,30 +683,26 @@ ul#feedList li .edit-button span
 
 #configure .data-inbox #opml-section .button-box a
 {
-	background-color                 : #CCCCCC;
-	background-image                 : url("./image/button2.gif");
+	background-color                 : #8DB0DC;
+	border                           : 1px solid #5788C4;
 	float                            : left;
-	height                           : 24px !important;
-	margin                           : 0 2px !important;
-	padding-left                     : 4px !important;
-	width                            : 106px !important;
+	height                           : 19px !important;
+	margin                           : 3px 1px 5px 1px !important;
+	text-align                       : center;
+	width                            : 70px !important;
 }
 
 #configure .data-inbox #opml-section .button-box a span
 {
-	background-color                 : #CCCCCC;
-	background-image                 : url("./image/button2.gif");
-	height                           : 24px !important;
-	padding                          : 2px 4px 0 0 !important;
-	text-align                       : center;
-	width                            : 102px !important;
+	color                            : #FFFFFF;
+	font-weight                      : normal;
 }
 
 #configure .data-inbox .button-box
 {
 	margin                           : 0 auto !important;
 	padding-top                      : 10px;
-	width                            : 228px !important;
+	width                            : 148px !important;
 }
 
 #get-upload

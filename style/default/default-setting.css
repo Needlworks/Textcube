@@ -100,12 +100,13 @@ input#pathDomain
 {
 	background-color                 : #FFFFFF;
 	border                           : 1px solid #000000;
+	vertical-align                   : middle;
 }
 
-#blogIcon,
-#favicon
+#part-setting-profile iframe
 {
-	margin-top                       : 2px;
+	height                           : 25px;
+	vertical-align                   : middle;
 }
 
 /* iframe's css */
@@ -122,7 +123,7 @@ input#pathDomain
 {
 	float                            : left;
 	font-size                        : 12px;
-	margin-top                       : 9px;
+	vertical-align                   : middle;
 }
 
 #blogcon-iframe .file-input,
@@ -130,7 +131,7 @@ input#pathDomain
 {
 	float                            : left;
 	font-size                        : 12px;
-	margin-top                       : 2px;
+	margin-top                       : 3px;
 }
 
 #logo-iframe .delete-button
@@ -143,10 +144,11 @@ input#pathDomain
 	font-size                        : 12px;
 	font-weight                      : bold;
 	height                           : 16px;
-	margin                           : 8px 0 0 3px;
+	margin                           : 0 0 0 3px;
 	padding                          : 4px 10px 0 10px;
 	text-align                       : center;
 	text-decoration                  : none;
+	vertical-align                   : middle;
 	width                            : 60px;
 }
 
@@ -410,7 +412,7 @@ input#pathDomain
 	width                            : 70px;
 }
 
-#part-setting-invite #list-section table thead tr .statue
+#part-setting-invite #list-section table thead tr .status
 {
 	width                            : 50px;
 }
@@ -437,8 +439,8 @@ input#pathDomain
 #part-setting-invite #list-section table .tr-last-body .address,
 #part-setting-invite #list-section table .tr-body .date,
 #part-setting-invite #list-section table .tr-last-body .date,
-#part-setting-invite #list-section table .tr-body .statue,
-#part-setting-invite #list-section table .tr-last-body .statue,
+#part-setting-invite #list-section table .tr-body .status,
+#part-setting-invite #list-section table .tr-last-body .status,
 #part-setting-invite #list-section table .tr-body .password,
 #part-setting-invite #list-section table .tr-last-body .password
 {
@@ -557,7 +559,7 @@ input#pathDomain
 	width                            : 150px;
 }
 
-#part-setting-plugins table.data-inbox thead tr .statue
+#part-setting-plugins table.data-inbox thead tr .status
 {
 	padding-right                    : 5px;
 	width                            : 60px;
@@ -588,14 +590,14 @@ input#pathDomain
 	padding                          : 3px 5px 0 0;
 }
 
-#part-setting-plugins table.data-inbox .tr-body .statue,
-#part-setting-plugins table.data-inbox .tr-last-body .statue
+#part-setting-plugins table.data-inbox .tr-body .status,
+#part-setting-plugins table.data-inbox .tr-last-body .status
 {
 	padding                          : 3px 5px 0 0;
 }
 
-#part-setting-plugins table.data-inbox .tr-body td.statue .active-icon,
-#part-setting-plugins table.data-inbox .tr-last-body td.statue .active-icon
+#part-setting-plugins table.data-inbox .tr-body td.status .active-icon,
+#part-setting-plugins table.data-inbox .tr-last-body td.status .active-icon
 {
 	background-image                 : url("./image/icon_plugin.gif");
 	background-position              : left bottom;
@@ -608,8 +610,8 @@ input#pathDomain
 	width                            : 12px;
 }
 
-#part-setting-plugins table.data-inbox .tr-body td.statue .inactive-icon,
-#part-setting-plugins table.data-inbox .tr-last-body td.statue .inactive-icon
+#part-setting-plugins table.data-inbox .tr-body td.status .inactive-icon,
+#part-setting-plugins table.data-inbox .tr-last-body td.status .inactive-icon
 {
 	background-image                 : url("./image/icon_plugin.gif");
 	background-position              : left top;
