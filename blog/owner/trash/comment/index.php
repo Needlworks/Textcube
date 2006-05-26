@@ -327,7 +327,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 										<div class="data-subbox">
 											<div id="delete-section" class="section">
 												<span class="label"><span class="text"><?=_t('선택한 댓글을')?></span></span>
-												<a class="delete-button button" href="#void" onclick="deleteTrackbacks();"><span class="text"><?=_t('삭제')?></span></a>
+												<a class="delete-button button" href="#void" onclick="deleteComments();"><span class="text"><?=_t('삭제')?></span></a>
 												
 												<div class="clear"></div>
 											</div>

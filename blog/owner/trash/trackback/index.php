@@ -64,7 +64,7 @@ require ROOT . '/lib/piece/owner/contentMenu90.php';
 											function deleteTrackback(id) {
 												if (!confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?')?>"))
 													return;
-												var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/trash/delete/" + id);
+												var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/trash/trackback/delete/" + id);
 												request.onSuccess = function() {
 													document.forms[0].submit();
 												}
@@ -83,7 +83,7 @@ require ROOT . '/lib/piece/owner/contentMenu90.php';
 															targets+=oElement.value+'~*_)';
 														}
 													}
-													var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/trash/delete/");
+													var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/trash/trackback/delete/");
 													request.onSuccess = function() {
 														document.forms[0].submit();
 													}

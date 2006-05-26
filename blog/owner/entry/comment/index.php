@@ -37,15 +37,18 @@ require ROOT . '/lib/piece/owner/contentMenu01.php';
 											function deleteComments() {	
 												if (!confirm("<?=_t('선택된 댓글을 삭제합니다. 계속하시겠습니까?')?>"))
 													return false;
+												
 												var oElement;
 												var targets = '';
 												for (i = 0; document.forms[0].elements[i]; i ++) {
+													
 													oElement = document.forms[0].elements[i];
 													if ((oElement.name == "entry") && oElement.checked) {
 														targets += oElement.value +'~*_)';
 													
 													}
 												}
+												
 												var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/comment/delete/");
 												request.onSuccess = function() {
 													document.forms[0].submit();
@@ -326,7 +329,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 										<div class="data-subbox">
 											<div id="delete-section" class="section">
 												<span class="label"><span class="text"><?=_t('선택한 댓글을')?></span></span>
-												<a class="delete-button button" href="#void" onclick="deleteTrackbacks();"><span class="text"><?=_t('삭제')?></span></a>
+												<a class="delete-button button" href="#void" onclick="deleteComments();"><span class="text"><?=_t('삭제')?></span></a>
 												
 												<div class="clear"></div>
 											</div>
