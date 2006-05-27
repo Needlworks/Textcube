@@ -8,12 +8,12 @@ function getPagingView( & $paging, & $template, & $itemTemplate) {
 	$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
 	ob_start();
 	if (isset($paging['first'])) {
-		$itemView = "$itemTemplate ..";
+		$itemView = "$itemTemplate ...";
 		dress('paging_rep_link_num', '1', $itemView);
 		dress('paging_rep_link', "href='$url$prefix{$paging['first']}$postfix'", $itemView);
 		print ($itemView);
 	} else if ($paging['page'] > 5) {
-		$itemView = "$itemTemplate ..";
+		$itemView = "$itemTemplate ...";
 		dress('paging_rep_link_num', '1', $itemView);
 		dress('paging_rep_link', "href='$url{$prefix}1$postfix'", $itemView);
 		print ($itemView);
@@ -64,12 +64,12 @@ function getPagingView( & $paging, & $template, & $itemTemplate) {
 		}
 	}
 	if (isset($paging['last'])) {
-		$itemView = ".. $itemTemplate";
+		$itemView = "... $itemTemplate";
 		dress('paging_rep_link_num', "{$paging['pages']}", $itemView);
 		dress('paging_rep_link', "href='$url$prefix{$paging['last']}$postfix'", $itemView);
 		print ($itemView);
 	} else if (($paging['pages'] - $paging['page']) > 4) {
-		$itemView = ".. $itemTemplate";
+		$itemView = "... $itemTemplate";
 		dress('paging_rep_link_num', "{$paging['pages']}", $itemView);
 		dress('paging_rep_link', "href='$url$prefix{$paging['pages']}$postfix'", $itemView);
 		print ($itemView);

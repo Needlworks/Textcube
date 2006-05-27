@@ -642,11 +642,21 @@ ul#feedList li .edit-button span
 	padding                          : 9px 5px 5px 5px;
 }
 
-#configure .data-inbox #reader-section .image-get-yes,
-#configure .data-inbox #reader-section .javascript-yes,
-#configure .data-inbox #reader-section .window-self
+#configure .data-inbox #reader-section dl dd div
 {
-	margin-top                       : 4px;
+	display                          : inline;
+}
+
+#configure .data-inbox #reader-section dl dd em
+{
+	display                          : block;
+}
+
+#configure .data-inbox #reader-section #image-line dd,
+#configure .data-inbox #reader-section #javascript-line dd,
+#configure .data-inbox #reader-section #link-line dd
+{
+	margin-top                      : 5px !important;
 }
 
 #configure .data-inbox #reader-section .button-box a

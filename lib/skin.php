@@ -48,6 +48,7 @@ class Skin {
 	var $siteTagItem;
 	var $randomTags;
 	var $s_link_rep;
+	var $pageTitle;
 	var $aux;
 
 	function Skin($name) {
@@ -106,6 +107,7 @@ class Skin {
 		list($sval, $this->recentTrackback) = cutSkinTag($sval, 'rcttb_rep');
 		list($sval, $this->s_link_rep) = cutSkinTag($sval, 'link_rep');
 		list($sval, $this->skin) = cutSkinTag($sval, 't3');
+		list($sval, $this->pageTitle) = cutSkinTag($sval, 'page_title');
 		$this->outter = $sval;
 	}
 }

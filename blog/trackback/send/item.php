@@ -118,7 +118,7 @@ $entry = getEntry($owner, $suri['id']);
 					<dt><label for="url"><?=_t('주소입력')?></label><span class="divider"> | </span></dt>
 					<dd>
 						<input type="text" id="url" class="text-input" name="url" />
-						<input type="button" class="button-input" name="submit" value="<?=_t('전송')?>" onclick="sendTrackback(<?=$suri['id']?>)" />				
+						<input type="button" class="button-input" name="Submit" value="<?=_t('전송')?>" onclick="sendTrackback(<?=$suri['id']?>)" />				
 					</dd>
 					<dd class="clear"></dd>
 				</dl>

@@ -46,23 +46,26 @@ function viewHelp(id) {
 var extraClass = ''; // 이 변수는 reader에서도 사용됨. 임의로 변경하지 말 것.
 
 function rolloverClass(obj, type) {
-	if (type == 'over') {
-		if (obj.tagName.toLowerCase() == 'tr') {
-			for (i=0; i<obj.cells.length; i++) {
-				obj.cells[i].className += ' rollover-class';
+	agent = navigator.userAgent.toLowerCase();
+	if (!(agent.indexOf('opera') + 1)) {
+		if (type == 'over') {
+			if (obj.tagName.toLowerCase() == 'tr') {
+				for (i=0; i<obj.cells.length; i++) {
+					obj.cells[i].className += ' rollover-class';
+				}
+			} else {
+				extraClass = obj.className;
+				obj.className = obj.className.replace(/(active|inactive)/ig, 'rollover');
 			}
 		} else {
-			extraClass = obj.className;
-			obj.className = obj.className.replace(/(active|inactive)/ig, 'rollover');
-		}
-	} else {
-		if (obj.tagName.toLowerCase() == 'tr') {
-			for (i=0; i<obj.cells.length; i++) {
-				obj.cells[i].className = obj.cells[i].className.replace(/( )*rollover\-class/ig, '');
+			if (obj.tagName.toLowerCase() == 'tr') {
+				for (i=0; i<obj.cells.length; i++) {
+					obj.cells[i].className = obj.cells[i].className.replace(/( )*rollover\-class/ig, '');
+				}
+			} else {
+				obj.className = extraClass;
+				extraClass = '';
 			}
-		} else {
-			obj.className = extraClass;
-			extraClass = '';
 		}
 	}
 }

@@ -1141,7 +1141,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 }
 
 function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $imageBlocks = 1, $useAbsolutePath = false) {
-	global $service, $owner, $blogURL, $hostURL;
+	global $database, $service, $owner, $blogURL, $hostURL;
 	$path = "$folderPath/$filename";
 	if ($useAbsolutePath)
 		$url = "$hostURL{$service['path']}/attach/$owner/$filename";
@@ -1153,26 +1153,58 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 			if (defined('__TATTERTOOLS_MOBILE__')) {
 				return fireEvent('ViewAttachedImageMobile', "<img src=\"$blogURL/imageResizer/?f=" . urlencode($filename) . "\" alt=\"\" />", $path);
 			} else {
-				list($width, $height) = @getimagesize($path);
-				$setWidth = $width;
-				$setHeight = $height;
-				$scroll = 0;
-				if ($width > 800) {
-					$setWidth = 820;
-					$scroll = 1;
+				$contentWidth = 400;
+				
+				if ($skin = fetchQueryCell("SELECT skin FROM {$database['prefix']}SkinSettings WHERE owner = $owner")) {
+					if ($xml = @file_get_contents(ROOT."/skin/$skin/index.xml")) {
+						$xmls = new XMLStruct();
+						$xmls->open($xml,$service['encoding']);
+						if ($xmls->getValue('/skin/default/contentWidth')) {
+							$contentWidth = $xmls->getValue('/skin/default/contentWidth');
+						}
+					}
 				}
-				if ($height > 600) {
-					$setWidth += 10;
-					$setHeight = 600;
-					$scroll = 1;
+				
+				if ($tempInfo = getimagesize(ROOT."/attach/$owner/$filename")) {
+					list($originWidth, $originHeight, $type, $attr) = $tempInfo;
+				} else {
+					// 에러?
+					return '<span clas="message">에러가 발생한 이미지입니다.</span>';
 				}
-				$property = str_replace('&quot;', '"', $property);
-				if (strpos(str_replace('"', '', $property), "width=$width") !== false && strpos(str_replace('"', '', $property), "height=$height") !== false)
-					return fireEvent('ViewAttachedImage', "<img src=\"$url\" $property />", $path);
-				else {
-					$setWidth += 50;
-					$setHeight += 150;
-					return fireEvent('ViewAttachedImage', "<img src=\"$url\" $property style=\"cursor: pointer\" onclick=\"open_img('$url')\" />", $path);
+				
+				if (empty($property)) {
+					if ($originWidth > $contentWidth) {
+						$tempWidth = $contentWidth;
+						$tempHeight = ceil($originHeight * $contentWidth / $originWidth);
+					} else {
+						$tempWidth = $originWidth;
+						$tempHeight = $originHeight;
+					}
+				} else {
+					$property = str_replace('&quot;','',$property);
+					if (preg_match('/width=([0-9]+%?)/g', $property, $temp1) && !preg_match('/height=([0-9]+%?)/g', $property, $temp2)) {
+						$originWidth = $temp1[1];
+					} else if (!preg_match('/width=([0-9]+%?)/g', $property, $temp1) && preg_match('/height=([0-9]+%?)/g', $property, $temp2)) {
+						$originWidth = ceil($originWidth * $temp2[1] / $originHeight);
+						$originHeight = $temp2[1];					
+					} else if (preg_match('/width=([0-9]+%?)/g', $property, $temp1) && preg_match('/height=([0-9]+%?)/g', $property, $temp2)) {
+						$originWidth = $temp1[1];
+						$originHeight = $temp2[1];
+					}
+					
+					if ($originWidth > $contentWidth) {
+						$tempWidth = $contentWidth;
+						$tempHeight = ceil($originHeight * $contentWidth / $originWidth);
+					} else {
+						$tempWidth = $originWidth;
+						$tempHeight = $originHeight;
+					}
+				}
+				
+				if ($originWidth > $tempWidth || $originHeight > $tempHeight) {
+					return fireEvent('ViewAttachedImage', "<img src=\"$url\" width=\"$tempWidth\" height=\"$tempHeight\" alt=\"유저 삽입 이미지\" onclick=\"open_img('$url')\" style=\"cursor: pointer;\" />", $path);
+				} else {
+					return fireEvent('ViewAttachedImage', "<img src=\"$url\" width=\"$tempWidth\" height=\"$tempHeight\" alt=\"유저 삽입 이미지\" />", $path);					
 				}
 			}
 			break;

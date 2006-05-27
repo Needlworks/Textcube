@@ -107,15 +107,16 @@ function trashTrackback($owner, $id) {
 
 function sendTrackback($owner, $entryId, $url) {
 	global $database;
-	global $hostURL, $blogURL, $blog;
+	global $hostURL, $blogURL, $blog, $tagMappings;
 	requireComponent('Eolin.PHP.HTTPRequest');
 	$entry = getEntry($owner, $entryId);
 	if (!$entry)
 		return false;
 	$link = "$hostURL$blogURL/$entryId";
-	$title = $entry['title'];
+	$title = htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id']));
+	$entry['content'] = getEntryContentView($owner, $entryId, $entry['content'], getKeywordNames($owner));
 	$excerpt = UTF8::lessen(removeAllTags(stripHTML(nl2brWithHTML($entry['content']))), 255);
-	$blogTitle = $blog['title'];
+	$blogTitle = removeAllTags(handleTags($blog['title']));
 	$blogURL = "$hostURL$blogURL/";
 	$isNeedConvert = strpos($url, '/rserver.php?') !== false || strpos($url, 'blog.naver.com') !== false || strpos($url, '.egloos.com/tb/') !== false;
 	if ($isNeedConvert) {
