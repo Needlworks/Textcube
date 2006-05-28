@@ -987,6 +987,7 @@ CREATE TABLE {$_POST['dbPrefix']}Comments (
   comment text NOT NULL,
   ip varchar(15) NOT NULL default '',
   written int(11) NOT NULL default '0',
+  isFiltered int(1) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY owner (owner),
   KEY entry (entry),
@@ -1242,12 +1243,12 @@ CREATE TABLE {$_POST['dbPrefix']}Trackbacks (
   entry int(11) NOT NULL default '0',
   url varchar(255) NOT NULL default '',
   writer int(11) default NULL,
-  sender tinyint(4) default NULL,
   site varchar(255) NOT NULL default '',
   subject varchar(255) NOT NULL default '',
   excerpt varchar(255) NOT NULL default '',
   ip varchar(15) NOT NULL default '',
   written int(11) NOT NULL default '0',
+  isFiltered int(1) NOT NULL default '0',
   PRIMARY KEY (id),
   UNIQUE KEY owner (owner, entry, url)
 ) $charset;

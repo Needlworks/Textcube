@@ -213,7 +213,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Trackbacks isFiltered"))
 if (!DBQuery::queryExistence("DESC {$database['prefix']}Comments isFiltered")) {
 	$changed = true;
 	echo '<li>', _t('덧글및 방명록 테이블에 광고 및 스팸 분류를 위한 휴지통 필드를 추가합니다'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD isFiltered INT(1) DEFAULT 0 AFTER written"))
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD isFiltered INT(1) DEFAULT 0 NOT NULL AFTER written"))
 		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
@@ -222,6 +222,14 @@ if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type'
 	$changed = true;
 	echo '<li>', _t('블로그 설정 테이블의 언어 필드 속성을 변경합니다'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings CHANGE language language VARCHAR(5) NOT NULL DEFAULT 'en'"))
+		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
+}
+if (DBQuery::queryExistence("DESC {$database['prefix']}Trackbacks sender")) { // Sandbox 1.0.5
+	$changed = true;
+	echo '<li>', _t('트랙백 테이블의 미사용 필드를 삭제합니다'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP sender"))
 		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
