@@ -1,0 +1,102 @@
+@charset "utf-8";
+
+/* List ******************************************************************************************/
+
+/* list common ----------------------------------------------------------------------------------*/
+#part-notice-list div.data-subbox
+{
+	padding-top                      : 7px;
+}
+
+/* list category --------------------------------------------------------------------------------*/
+#part-notice-list .caption .category
+{
+	right                            : 51px;
+	top                              : 12px;
+}
+
+#part-notice-list .caption .category select
+{
+	vertical-align                   : middle;
+}
+
+/* list table body ------------------------------------------------------------------------------*/
+#part-notice-list table.data-inbox .tr-body td
+{
+	height                           : 20px;
+}
+
+#part-notice-list table.data-inbox .tr-last-body td
+{
+	height                           : 20px;
+	padding-top                      : 1px;
+}
+
+/* list table interlayer for protect password & trackback sender --------------------------------*/
+#part-notice-list table.data-inbox .hidden-layer .layer-section,
+#part-notice-list table.data-inbox .hidden-last-layer .layer-section
+{
+	border                           : 1px solid #EFEFEF;
+	margin                           : 4px 0;
+}
+
+#part-notice-list table.data-inbox .hidden-layer .layer-section table,
+#part-notice-list table.data-inbox .hidden-last-layer .layer-section table
+{
+	text-align                       : right;
+	width                            : 700px !important;
+}
+
+#part-notice-list table.data-inbox .hidden-layer .layer-section table tr .date,
+#part-notice-list table.data-inbox .hidden-last-layer .layer-section table tr .date
+{
+	width                            : 115px !important;
+}
+
+#part-notice-list table.data-inbox .hidden-layer .layer-section table tr .remove,
+#part-notice-list table.data-inbox .hidden-last-layer .layer-section table tr .remove
+{
+	width                            : 10px !important;
+}
+
+/* multi-selection deleter in sub-box -----------------------------------------------------------*/
+#part-notice-list #change-section 
+{
+	padding                          : 2px 0 1px 3px;
+}
+
+#part-notice-list #change-section select
+{
+	margin-top                       : -1px;
+	vertical-align                   : middle;
+}
+
+/* lines per page -------------------------------------------------------------------------------*/
+#part-notice-list #page-section .page-count
+{
+	top                              : 43px;
+	position                         : absolute;
+	right                            : 61px;
+	text-align                       : right;
+	vertical-align                   : middle;
+	width                            : auto;
+}
+
+#part-notice-list #page-section .page-count select
+{
+	margin-bottom                    : 3px;
+	vertical-align                   : middle;
+}
+
+/* search ---------------------------------------------------------------------------------------*/
+#part-notice-list #search-section
+{
+	right                            : 61px;
+	top                              : 7px;
+	width                            : 180px;
+}
+
+#part-notice-list #search-section input#search
+{
+	margin-top                       : 1px;
+}

@@ -12,7 +12,9 @@ if ((empty($comment['homepage']) || $comment['homepage'] == 'http://') && isset(
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/owner.css" />
 	<script type="text/javascript">
 		//<![CDATA[
-			var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
+			var servicePath = "<?=$service['path']?>";
+			var blogURL = "<?=$blogURL?>";
+			var adminSkin = "<?=$service['adminSkin']?>";
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>

@@ -1,0 +1,57 @@
+@media all and (min-width: 0px)
+{
+	/* Reader ****************************************************************************************/
+	
+	/* menu -----------------------------------------------------------------------------------------*/
+	#reader-menu li
+	{
+		padding-top                      : 2px;
+	}
+	
+	#all-read
+	{
+		height                           : 28px;
+	}
+	
+	#search .text-input
+	{
+		padding                          : 2px;
+	}
+	
+	#search .button
+	{
+		font-size                        : 92%;
+		height                           : 15px !important;
+		padding-top                      : 1px !important;
+	}
+	
+	#setting a
+	{
+		margin-top                       : -5px;
+	}
+	
+	/* group box ------------------------------------------------------------------------------------*/
+	#groupAdder .button-box .text-input
+	{
+		height                           : 21px;
+	}
+	
+	/* feed box -------------------------------------------------------------------------------------*/
+	#feedBox
+	{
+		position                         : static;
+		left                             : 200px;
+		top                              : 0;
+	}
+	
+	#feedAdder .button-box .text-input
+	{
+		height                           : 21px;
+	}
+	
+	/* content in detail ----------------------------------------------------------------------------*/
+	#entryFoot .button-box a
+	{
+		padding                          : 2px 0 1px 0 !important;
+	}
+}

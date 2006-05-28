@@ -104,7 +104,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 								
 								<div class="data-inbox">
 									<div class="image" onclick="correctData()">
-										<img src="<?=$service['path']?>/style/default/image/dbCorrect.gif" alt="<?=_t('데이터 교정 이미지')?>" />
+										<img src="<?=$service['path'].$service['adminSkin']?>/image/dbCorrect.gif" alt="<?=_t('데이터 교정 이미지')?>" />
 										<div class="title"><span class="text"><?=_t('CORRECT')?></span></div>
 									</div>
 									<div class="explain">
@@ -132,7 +132,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 								
 								<div class="data-inbox">
 									<div class="image" onclick="showDialog('DBExport')">
-										<img src="<?=$service['path']?>/style/default/image/dbExport.gif" alt="<?=_t('데이터 백업 이미지')?>" />
+										<img src="<?=$service['path'].$service['adminSkin']?>/image/dbExport.gif" alt="<?=_t('데이터 백업 이미지')?>" />
 										<div class="title"><span class="text"><?=_t('EXPORT')?></span></div>
 									</div>
 									<div class="explain">
@@ -171,7 +171,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 								
 								<div class="data-inbox">
 									<div class="image" onclick="showDialog('DBImport')">
-										<img src="<?=$service['path']?>/style/default/image/dbImport.gif" alt="<?=_t('데이터 복원 이미지')?>" />
+										<img src="<?=$service['path'].$service['adminSkin']?>/image/dbImport.gif" alt="<?=_t('데이터 복원 이미지')?>" />
 										<div class="title"><span class="text"><?=_t('IMPORT')?></span></div>
 									</div>
 									<div class="explain">
@@ -242,7 +242,7 @@ if ($backup) {
 								
 								<div class="data-inbox">
 									<div class="image" onclick="showDialog('DBRemove')">
-										<img src="<?=$service['path']?>/style/default/image/dbClear.gif" alt="<?=_t('데이터 삭제 이미지')?>" />
+										<img src="<?=$service['path'].$service['adminSkin']?>/image/dbClear.gif" alt="<?=_t('데이터 삭제 이미지')?>" />
 										<div class="title"><span class="text"><?=_t('REMOVE')?></span></div>
 									</div>
 									<div class="explain">

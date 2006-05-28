@@ -40,8 +40,8 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Tattertools - Login</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/default/default-login.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/login.css" />
 </head>
 <body id="body-login" onload="document.forms[0].<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password')?>.focus();">
 	<div id="temp-wrap">

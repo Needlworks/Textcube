@@ -99,7 +99,7 @@ if (count($_FILES) == 1) {
 ?>
 		//]]>
 	</script>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $blogURL ?>/style/default/default-editor.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $blogURL .$service['adminSkin']?>/editor.css" />
 	<style type="text/css">
 		<!--
 			body,

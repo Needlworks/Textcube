@@ -324,7 +324,7 @@ if ($service['type'] != 'single') {
 												<dl class="line">
 													<dt><span class="text"><?=_t('사진')?></span><span class="divider"> | </span></dt>
 													<dd>
-														<img id="logo" src="<?=(empty($blog['logo']) ? "{$service['path']}/style/default/image/spacer.gif" : "{$service['path']}/attach/$owner/{$blog['logo']}")?>" width="92" height="93" alt="<?=_t('블로그 메인 이미지')?>" />
+														<img id="logo" src="<?=(empty($blog['logo']) ? "{$service['path']}{$service['adminSkin']}/image/spacer.gif" : "{$service['path']}/attach/$owner/{$blog['logo']}")?>" width="92" height="93" alt="<?=_t('블로그 메인 이미지')?>" />
 														<iframe src="<?=$blogURL?>/owner/setting/blog/logo" frameborder="0" scrolling="no" width="450" height="40"></iframe>
 													</dd>
 													<dd class="clear"></dd>

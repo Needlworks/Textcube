@@ -5,7 +5,9 @@
 	<title><?php echo htmlspecialchars($blog['title'])?> &gt; <?php echo _t('환경설정')?></title>
 	<script type="text/javascript">
 		//<![CDATA[
-			var servicePath = "<?php echo $service['path']?>"; var blogURL = "<?php echo $blogURL?>";
+			var servicePath = "<?=$service['path']?>";
+			var blogURL = "<?=$blogURL?>";
+			var adminSkin = "<?=$service['adminSkin']?>";
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/byTattertools.js"></script>
@@ -13,12 +15,12 @@
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/gallery.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js"></script>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-setting.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default.opera.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-setting.opera.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default.ie.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/default/default-setting.ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/basic.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/setting.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/basic.opera.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/setting.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/basic.ie.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/setting.ie.css" /><![endif]-->
 </head>
 <body id="body-setting">
 	<div id="temp-wrap">

@@ -22,7 +22,7 @@ var TTEditor = function() {
 	this.textLess = "";
 
 	this.editMode = "TEXTAREA";
-	this.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-image: url(\'' + servicePath + '/style/default/image/unknown.gif\')"';
+	this.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-image: url(\'' + servicePath + adminSkin + '/image/unknown.gif\')"';
 }
 
 // 각종 환경 초기화
@@ -90,7 +90,7 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	else
 		this.contentDocument.write("html { padding: 0px 10px; }");
 	this.contentDocument.write("</style>");
-	this.contentDocument.write('<link rel="stylesheet" type="text/css" href="' + servicePath + '/style/default/default-editor-iframe.css" />');
+	this.contentDocument.write('<link rel="stylesheet" type="text/css" href="' + servicePath + adminSkin + '/editor-iframe.css" />');
 	this.contentDocument.write("</head><body>");
 	this.contentDocument.write(this.ttml2html());
 	this.contentDocument.write("</body></html>");
@@ -199,7 +199,7 @@ TTEditor.prototype.ttml2html = function() {
 			var imageAttr = this.parseImageSize(attributes[2], "string");
 		}
 		else {
-			var imageName = servicePath + "/style/default/image/spacer.gif";
+			var imageName = servicePath + adminSkin + "/image/spacer.gif";
 			var imageAttr = this.styleUnknown;
 		}
 
@@ -214,10 +214,10 @@ TTEditor.prototype.ttml2html = function() {
 				var replace = '<img class="tatterImageCenter" src="' + imageName + '\" ' + imageAttr + longDesc + " />";
 				break;
 			case "2C":
-				var replace = '<img class="tatterImageDual" src="' + servicePath + '/style/default/image/spacer.gif" width="200" height="100" ' + longDesc + " />";
+				var replace = '<img class="tatterImageDual" src="' + servicePath + adminSkin + '/image/spacer.gif" width="200" height="100" ' + longDesc + " />";
 				break;
 			case "3C":
-				var replace = '<img class="tatterImageTriple" src="' + servicePath + '/style/default/image/spacer.gif" width="300" height="100" ' + longDesc + " />";
+				var replace = '<img class="tatterImageTriple" src="' + servicePath + adminSkin + '/image/spacer.gif" width="300" height="100" ' + longDesc + " />";
 		}
 
 		str = str.replaceAll(search, replace);
@@ -236,7 +236,7 @@ TTEditor.prototype.ttml2html = function() {
 
 		var imageAttr = this.parseImageSize(result[1], "string");
 
-		var replace = '<img class="tatterImazing" src="' + servicePath + '/style/default/image/spacer.gif" ' + imageAttr + longDesc + " />";
+		var replace = '<img class="tatterImazing" src="' + servicePath + adminSkin + '/image/spacer.gif" ' + imageAttr + longDesc + " />";
 
 		str = str.replaceAll(search, replace);
 	}
@@ -254,7 +254,7 @@ TTEditor.prototype.ttml2html = function() {
 
 		var imageAttr = this.parseImageSize(result[1], "string");
 
-		var replace = '<img class="tatterGallery" src="' + servicePath + '/style/default/image/spacer.gif" ' + imageAttr + longDesc + " />";
+		var replace = '<img class="tatterGallery" src="' + servicePath + adminSkin + '/image/spacer.gif" ' + imageAttr + longDesc + " />";
 
 		str = str.replaceAll(search, replace);
 	}
@@ -270,7 +270,7 @@ TTEditor.prototype.ttml2html = function() {
 		longDesc = longDesc.replaceAll("&lt;", "&amp;lt;");
 		longDesc = longDesc.replaceAll("&gt;", "&amp;gt;");
 
-		var replace = '<img class="tatterJukebox" src="' + servicePath + '/style/default/image/spacer.gif" width="200" height="25"' + longDesc + " />";
+		var replace = '<img class="tatterJukebox" src="' + servicePath + adminSkin + '/image/spacer.gif" width="200" height="25"' + longDesc + " />";
 
 		str = str.replaceAll(search, replace);
 	}
@@ -291,7 +291,7 @@ TTEditor.prototype.ttml2html = function() {
 		var regEmbed = new RegExp("<embed([^<]*?)application/x-shockwave-flash(.*?)></embed>", "gi");
 		if(result = regEmbed.exec(str)) {
 			var body = result[0];
-			str = str.replaceAll(body, '<img class="tatterFlash" src="' + servicePath + '/style/default/image/spacer.gif"' + this.parseImageSize(body, "string", "css") + ' longDesc="' + this.parseAttribute(body, "src") + '" />');
+			str = str.replaceAll(body, '<img class="tatterFlash" src="' + servicePath + adminSkin + '/image/spacer.gif"' + this.parseImageSize(body, "string", "css") + ' longDesc="' + this.parseAttribute(body, "src") + '" />');
 		}
 		else
 			break;
@@ -302,7 +302,7 @@ TTEditor.prototype.ttml2html = function() {
 		var regEmbed = new RegExp("<embed([^<]*?)></embed>", "gi");
 		if(result = regEmbed.exec(str)) {
 			var body = result[0];
-			str = str.replaceAll(body, '<img class="tatterEmbed" src="' + servicePath + '/style/default/image/spacer.gif"' + this.parseImageSize(body, "string", "css") + ' longDesc="' + this.parseAttribute(body, "src") + '" />');
+			str = str.replaceAll(body, '<img class="tatterEmbed" src="' + servicePath + adminSkin + '/image/spacer.gif"' + this.parseImageSize(body, "string", "css") + ' longDesc="' + this.parseAttribute(body, "src") + '" />');
 		}
 		else
 			break;
@@ -1547,24 +1547,24 @@ TTEditor.prototype.activeButton = function(node) {
 	}
 
 	if(editor.isBold && getObject("indicatorBold").src.indexOf("_over") == -1)
-		getObject("indicatorBold").src = servicePath + "/style/default/image/owner/edit/setBold_over.gif";
+		getObject("indicatorBold").src = servicePath + adminSkin + "/image/owner/edit/setBold_over.gif";
 	else if(!editor.isBold && getObject("indicatorBold").src.indexOf("_over") != -1)
-		getObject("indicatorBold").src = servicePath + "/style/default/image/owner/edit/setBold.gif";
+		getObject("indicatorBold").src = servicePath + adminSkin + "/image/owner/edit/setBold.gif";
 
 	if(editor.isItalic && getObject("indicatorItalic").src.indexOf("_over") == -1)
-		getObject("indicatorItalic").src = servicePath + "/style/default/image/owner/edit/setItalic_over.gif";
+		getObject("indicatorItalic").src = servicePath + adminSkin + "/image/owner/edit/setItalic_over.gif";
 	else if(!editor.isItalic && getObject("indicatorItalic").src.indexOf("_over") != -1)
-		getObject("indicatorItalic").src = servicePath + "/style/default/image/owner/edit/setItalic.gif";
+		getObject("indicatorItalic").src = servicePath + adminSkin + "/image/owner/edit/setItalic.gif";
 
 	if(editor.isUnderline && getObject("indicatorUnderline").src.indexOf("_over") == -1)
-		getObject("indicatorUnderline").src = servicePath + "/style/default/image/owner/edit/setUnderLine_over.gif";
+		getObject("indicatorUnderline").src = servicePath + adminSkin + "/image/owner/edit/setUnderLine_over.gif";
 	else if(!editor.isUnderline && getObject("indicatorUnderline").src.indexOf("_over") != -1)
-		getObject("indicatorUnderline").src = servicePath + "/style/default/image/owner/edit/setUnderLine.gif";
+		getObject("indicatorUnderline").src = servicePath + adminSkin + "/image/owner/edit/setUnderLine.gif";
 
 	if(editor.isStrike && getObject("indicatorStrike").src.indexOf("_over") == -1)
-		getObject("indicatorStrike").src = servicePath + "/style/default/image/owner/edit/setLineThrough_over.gif";
+		getObject("indicatorStrike").src = servicePath + adminSkin + "/image/owner/edit/setLineThrough_over.gif";
 	else if(!editor.isStrike && getObject("indicatorStrike").src.indexOf("_over") != -1)
-		getObject("indicatorStrike").src = servicePath + "/style/default/image/owner/edit/setLineThrough.gif";
+		getObject("indicatorStrike").src = servicePath + adminSkin + "/image/owner/edit/setLineThrough.gif";
 }
 
 TTEditor.prototype.getFilenameFromFilelist = function(name) {

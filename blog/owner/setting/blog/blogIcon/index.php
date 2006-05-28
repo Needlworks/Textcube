@@ -69,9 +69,9 @@ if (count($_FILES) == 1) {
 			}
 		-->
 	</style>
-	<link rel="stylesheet" type="text/css" href="<?=$blogURL?>/style/default/default-setting.css" />
-	<link rel="stylesheet" type="text/css" href="<?=$blogURL?>/style/default/default-setting.opera.css" />
-	<link rel="stylesheet" type="text/css" href="<?=$blogURL?>/style/default/default-setting.ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?=$blogURL.$service['adminSkin']?>/setting.css" />
+	<link rel="stylesheet" type="text/css" href="<?=$blogURL.$service['adminSkin']?>/setting.opera.css" />
+	<link rel="stylesheet" type="text/css" href="<?=$blogURL.$service['adminSkin']?>/setting.ie.css" />
 </head>
 <body id="blogcon-iframe">
 	<form method="post" action="<?=$blogURL?>/owner/setting/blog/blogIcon" enctype="multipart/form-data">

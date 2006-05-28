@@ -15,10 +15,12 @@ if (empty($_GET['url'])) {
 <head>
 	<title>Tree Structure Preview</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?=$service['path']?>/style/default/default-skin.css" />
+	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/skin.css" />
 	<script type="text/javascript">
 		//<![CDATA[
-			var servicePath = "<?php echo $service['path']?>"; var blogURL = "<?php echo $blogURL?>";
+			var servicePath = "<?=$service['path']?>";
+			var blogURL = "<?=$blogURL?>";
+			var adminSkin = "<?=$service['adminSkin']?>";
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?=$service['path']?>/script/common.js"></script>

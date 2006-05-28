@@ -1,0 +1,144 @@
+@charset "utf-8";
+
+/* Comment ***************************************************************************************/
+
+/* list common ----------------------------------------------------------------------------------*/
+#part-trash-comment div.data-subbox
+{
+	padding-top                      : 7px;
+}
+
+/* list category --------------------------------------------------------------------------------*/
+#part-trash-comment .caption .category
+{
+	right                            : 51px;
+	top                              : 12px;
+}
+
+#part-trash-comment .caption .category select
+{
+	vertical-align                   : middle;
+}
+
+/* multi-selection deleter ----------------------------------------------------------------------*/
+#part-trash-comment #delete-section 
+{
+	padding                          : 0 0 0 3px;
+	width                            : 300px;
+}
+
+#part-trash-comment #delete-section .label,
+#part-trash-comment #delete-section .delete-button
+{
+	margin-top                       : 0;
+}
+
+/* lines per page -------------------------------------------------------------------------------*/
+#part-trash-comment #page-section .page-count
+{
+	top                              : 44px;
+	position                         : absolute;
+	right                            : 61px;
+	text-align                       : right;
+	vertical-align                   : middle;
+	width                            : auto;
+}
+
+#part-trash-comment #page-section .page-count select
+{
+	margin-bottom                    : 3px;
+	vertical-align                   : middle;
+}
+
+/* search ---------------------------------------------------------------------------------------*/
+#part-trash-comment #search-section
+{
+	right                            : 61px;
+	top                              : 7px;
+	width                            : 182px;
+}
+
+#part-trash-comment #search-section input#search
+{
+	margin-top                       : 2px;
+	padding                          : 3px;
+}
+
+/* Trackback *************************************************************************************/
+
+/* list common ----------------------------------------------------------------------------------*/
+#part-trash-trackback div.data-subbox
+{
+	padding-top                      : 7px;
+}
+
+/* list category --------------------------------------------------------------------------------*/
+#part-trash-trackback .caption .category
+{
+	right                            : 51px;
+	top                              : 12px;
+}
+
+#part-trash-trackback .caption .category select
+{
+	vertical-align                   : middle;
+}
+
+/* multi-selection deleter ----------------------------------------------------------------------*/
+#part-trash-trackback #delete-section 
+{
+	padding                          : 0 0 0 3px;
+	width                            : 300px;
+}
+
+#part-trash-trackback #delete-section .label,
+#part-trash-trackback #delete-section .delete-button
+{
+	margin-top                       : 0;
+}
+
+/* lines per page -------------------------------------------------------------------------------*/
+#part-trash-trackback #page-section .page-count
+{
+	top                              : 44px;
+	position                         : absolute;
+	right                            : 61px;
+	text-align                       : right;
+	vertical-align                   : middle;
+	width                            : auto;
+}
+
+#part-trash-trackback #page-section .page-count select
+{
+	margin-bottom                    : 3px;
+	vertical-align                   : middle;
+}
+
+/* search ---------------------------------------------------------------------------------------*/
+#part-trash-trackback #search-section
+{
+	right                            : 61px;
+	top                              : 7px;
+	width                            : 182px;
+}
+
+#part-trash-trackback #search-section input#search
+{
+	margin-top                       : 2px;
+	padding                          : 3px;
+}
+
+/* Filter ****************************************************************************************/
+
+#part-trash-filter div.data-inbox .section table tr td
+{
+	line-height                      : 12px;
+	padding                          : 6px 5px 4px 5px;
+}
+
+#part-trash-filter div.data-inbox .section .text-input
+{
+	margin-top                       : 1px;
+	padding                          : 3px;
+	width                            : 192px;
+}

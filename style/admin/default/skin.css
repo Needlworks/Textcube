@@ -1,0 +1,314 @@
+@charset "utf-8";
+
+/* List ******************************************************************************************/
+
+#part-skin-current div.data-inbox .section,
+#part-skin-list div.data-inbox .section
+{
+	clear                            : both;
+	margin-bottom                    : 20px;
+	min-width                        : 850px;
+	padding                          : 10px 5px 10px 25px;
+	position                         : relative;
+}
+
+#part-skin-current div.data-inbox .section .preview,
+#part-skin-list div.data-inbox .section .preview
+{
+	display                          : block;
+	float                            : left;
+	width                            : 150px;
+}
+
+#part-skin-current div.data-inbox .section .preview img,
+#part-skin-list div.data-inbox .section .preview img
+{
+	border                           : 1px solid #536576;
+	display                          : block;
+	margin                           : 0 auto;
+}
+
+#part-skin-current div.data-inbox .section .information,
+#part-skin-list div.data-inbox .section .information
+{
+	display                          : block;
+	float                            : left;
+	margin-left                      : 10px;
+}
+
+#part-skin-current div.data-inbox .section .information .button,
+#part-skin-list div.data-inbox .section .information .button
+{
+	border                           : 1px solid #666666;
+	background-color                 : #EEEEEE;
+	float                            : left;
+	margin                           : 8px 3px 0 0;
+	padding                          : 6px 10px 3px 10px;
+	text-align                       : center;
+}
+
+#part-skin-current div.data-inbox .section table,
+#part-skin-list div.data-inbox .section table
+{
+	margin                           : 5px 10px;
+	width                            : 600px;
+}
+
+#part-skin-current div.data-inbox .section .information .preview-button,
+#part-skin-list div.data-inbox .section .information .preview-button
+{
+	margin-left                      : 130px;
+}
+
+#part-skin-current div.data-inbox .section table tr td,
+#part-skin-list div.data-inbox .section table tr td
+{
+	border-bottom                    : 1px solid #BDD4EC !important;
+	padding                          : 5px 10px 2px 10px;
+}
+
+#part-skin-current div.data-inbox .section table tr td.name,
+#part-skin-list div.data-inbox .section table tr td.name
+{
+	text-align                       : right;
+	width                            : 90px;
+}
+
+#part-skin-current div.data-inbox .section .version,
+#part-skin-list div.data-inbox .section .version
+{
+	padding-left                     : 10px;
+}
+
+/* Edit ******************************************************************************************/
+
+#part-skin-edit .section
+{
+	padding                          : 10px 15px 0 15px;
+}
+
+#part-skin-edit .section .file-name
+{
+	font-weight                      : bold;
+}
+
+#part-skin-edit .section textarea
+{
+	display                          : block;
+	font-family                      : courier new, monospace;
+	width                            : 100%;
+}
+
+#part-skin-edit .section .button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	margin                           : 10px auto 10px auto;
+	padding-left                     : 4px;
+	width                            : 106px;
+}
+
+#part-skin-edit .section .button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 6px 4px 0 0;
+	text-align                       : center;
+	width                            : 102px;
+}
+
+/* Setting ***************************************************************************************/
+
+#part-skin-setting div.data-inbox
+{
+	padding-top                      : 5px;
+}
+
+#part-skin-setting div.data-inbox .section
+{
+	border-bottom                    : 1px dotted #CCCCCC;
+	clear                            : both;
+	line-height                      : 15px;
+	margin                           : 5px;
+	padding                          : 10px 10px 16px 10px;
+}
+
+#part-skin-setting div.data-inbox .section select
+{
+	width                            : 45px;
+	vertical-align                   : 1px;
+}
+
+#part-skin-setting div.data-inbox .section dl
+{
+	clear                            : both;
+	margin                           : 4px 0;
+}
+
+#part-skin-setting div.data-inbox .section dl dt
+{
+	float                            : left;
+	padding-right                    : 5px;
+}
+
+#part-skin-setting div.data-inbox .section dl dd
+{
+	float                            : left;
+}
+
+#part-skin-setting div.data-inbox .section dl dd.clear
+{
+	clear                            : both;
+	float                            : none;
+}
+
+/* setting button box ---------------------------------------------------------------------------*/
+#part-skin-setting .button-box
+{
+	margin                           : 20px 0 10px 0;
+}
+
+#part-skin-setting .button-box .save-button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	margin                           : 0 auto;
+	padding-left                     : 4px;
+	width                            : 106px;
+}
+
+#part-skin-setting .button-box .save-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 6px 4px 0 0;
+	text-align                       : center;
+	width                            : 102px;
+}
+
+/* category tree --------------------------------------------------------------------------------*/
+#part-skin-tree div.data-inbox iframe
+{
+	background-color                 : #FFFFFF;
+	border                           : 2px solid #EEEEEE;
+	float                            : left;
+	margin                           : 0 15px;
+}
+
+#part-skin-tree .data-inbox
+{
+	position                         : relative;
+}
+
+#property-box
+{
+	line-height                      : 24px;
+	left                             : 350px;
+	position                         : absolute;
+	top                              : 20px;
+}
+
+#property-box dl
+{
+	clear                            : both;
+}
+
+#property-box dl dt
+{
+	display                          : block;
+	float                            : left;
+	line-height                      : 19px;
+	padding                          : 3px 3px 0 0;
+	text-align                       : right;
+	vertical-align                   : middle;
+	width                            : 180px;
+}
+
+#property-box dl dd
+{
+	display                          : block;
+	float                            : left;
+	line-height                      : 19px;
+	vertical-align                   : middle;
+}
+
+#property-box dl dd .text-input
+{
+	display                          : block;
+	padding                          : 2px;
+	text-transform                   : uppercase;
+}
+
+#labelLength
+{
+	margin                           : 3px 0 0 90px;
+}
+
+#labelLengthOnTree
+{
+	display                          : inline !important;
+}
+
+#showValueText
+{
+	margin                           : 3px 0 0 90px;
+}
+
+#showValueText label
+{
+	display                          : inline;
+	float                            : none;
+	width                            : auto;
+}
+
+#part-skin-tree .button-box
+{
+	padding                          : 20px 0 10px 0;
+}
+
+#part-skin-tree .button-box .save-button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	margin                           : 0 auto;
+	padding-left                     : 4px;
+	width                            : 106px;
+}
+
+#part-skin-tree .button-box .save-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 6px 4px 0 0;
+	text-align                       : center;
+	width                            : 102px;
+}
+
+/* tree iframe ----------------------------------------------------------------------------------*/
+#tree-iframe
+{
+	margin                           : 10px !important;
+}
+
+#tree-iframe .branch3
+{
+	height                           : 16px;
+}
+
+#tree-iframe .branch3 div
+{
+	font-family                      : ±¼¸², Gulim, Arial, Tahoma, Verdana, sans-serif;
+	font-size                        : 12px;
+	margin-top                       : 3px;
+}
+
+#tree-iframe .branch3 div#text_0
+{
+	margin-top                       : 2px !important;
+}

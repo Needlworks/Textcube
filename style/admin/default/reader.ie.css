@@ -1,0 +1,116 @@
+@charset "utf-8";
+
+/* Reader ****************************************************************************************/
+
+/* menu -----------------------------------------------------------------------------------------*/
+#search .text-input
+{
+	padding                          : 2px;
+}
+
+#search .button
+{
+	padding-left                     : 5px;
+	padding-right                    : 5px;
+	width                            : 50px !important;
+}
+
+/* pannel ---------------------------------------------------------------------------------------*/
+/* group box */
+#groupBox
+{
+	margin                           : 0 3px;
+}
+
+
+
+#groupAdder .button-box .text-input
+{
+	margin-left                      : -10px;
+}
+
+/* feed box */
+#feedBox
+{
+	background-color                 : #FFFFFF;
+	margin-left                      : 265px;
+	overflow                         : auto;
+	position                         : relative;
+	right                            : 6px;
+	top                              : 0;
+}
+
+#feedAdder .button-box .text-input
+{
+	margin-left                      : -10px;
+}
+
+/* configure ------------------------------------------------------------------------------------*/
+#configure
+{
+	background-color                 : #92B2D9;
+	padding                          : 0 6px 0 6px;
+}
+
+#configure #opmlUpload .file-input
+{
+	border                           : 1px solid #92B2D9;
+	height                           : 20px;
+}
+
+/* content list ---------------------------------------------------------------------------------*/
+#scrollPoint
+{
+	height                           : 632px;
+}
+
+/* list */
+#post-list
+{
+	left                             : 0px;
+	margin-left                      : 6px;
+	position                         : absolute;
+	right                            : 273px;
+	top                              : 0;
+	width                            : 250px !important;
+}
+
+#listup
+{
+	overflow-x                       : hidden !important;
+	overflow-y                       : auto !important;
+}
+
+#listup table tr td .content
+{
+	width                            : 182px;
+}
+
+/* content in detail ----------------------------------------------------------------------------*/
+#post-content
+{
+	/*margin                           : 0 6px 0 261px !important;*/
+	overflow                         : auto;
+	padding-bottom                   : 6px !important;
+}
+
+#post-content .title
+{
+	height                           : 14px;
+}
+
+#post-content .title .move
+{
+	top                              : 12px;
+}
+
+#entryPermalink
+{
+	right                            : 11px;
+}
+
+#entryFoot .button-box a
+{
+	right                            : 12px;
+	top                              : 9px;
+}

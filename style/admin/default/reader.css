@@ -1,0 +1,1152 @@
+@charset "utf-8";
+
+/* Reader ****************************************************************************************/
+
+/* common ---------------------------------------------------------------------------------------*/
+#psuedo-outbox
+{
+	margin-top                       : 10px;
+}
+
+.part
+{
+	clear                            : both;
+}
+
+.button,
+.button span
+{
+	height                           : 0 !important;
+	margin                           : 0 !important;
+	padding                          : 0 !important;
+	width                            : auto !important;
+}
+
+/* menu -----------------------------------------------------------------------------------------*/
+#reader-menu
+{
+	background-image                 : url("./image/reader/menuBg.gif");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	height                           : 30px;
+	padding-top                      : 7px;
+}
+
+#reader-menu li
+{
+	padding                          : 4px 8px 0 10px;
+	font-weight                      : bold;
+}
+
+#reader-menu li a:link,
+#reader-menu li a:visited
+{
+	color                            : #308FC9;
+}
+
+#reader-menu li a:hover,
+#reader-menu li a:active
+{
+	color                            : #2E67B4;
+	text-decoration                  : none;
+}
+
+#all-read
+{
+	background-image                 : url("./image/reader/menuIndicate.gif");
+	background-position              : 35px bottom;
+	background-repeat                : no-repeat;
+	float                            : left;
+	height                           : 26px;
+}
+
+#all-read a
+{
+	color                            : #2E67B4 !important;
+}
+
+#scrap
+{
+	background-image                 : url("./image/reader/menuVline.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	float                            : left;
+	height                           : 19px;
+}
+
+.scrap-off-icon
+{
+	background-image                 : url("./image/reader/icon_scrap.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	float                            : left;
+	height                           : 13px;
+	margin                           : -1px 2px 0 0;
+	vertical-align                   : middle;
+	width                            : 14px;
+}
+
+.scrap-on-icon
+{
+	background-image                 : url("./image/reader/icon_scrap.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	float                            : left;
+	height                           : 13px;
+	margin                           : -1px 2px 0 0;
+	vertical-align                   : middle;
+	width                            : 14px;
+}
+
+.scrap-on-icon span,
+.scrap-off-icon span
+{
+	display                          : none;
+}
+
+#search
+{
+	background-image                 : url("./image/reader/menuVline.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	float                            : left;
+	padding                          : 0 0 0 12px !important;
+}
+
+#search .text-input
+{
+	border                           : 1px solid #2E67B4;
+	float                            : left;
+	margin-right                     : 3px;
+	padding                          : 1px;
+}
+
+#search .button
+{
+	background-color                 : #6494C1;
+	border                           : 1px solid #306098;
+	color                            : #FFFFFF !important;
+	float                            : left;
+	/*font-family                      : µ¸¿ò, Dotum, sans-serif;*/
+	font-size                        : 90%;
+	font-weight                      : normal;
+	height                           : 13px !important;
+	padding                          : 3px 5px 0 5px !important;
+	text-align                       : center;
+}
+
+#feed-update
+{
+	background-image                 : url("./image/reader/iconCollect.gif");
+	background-position              : left 1px;
+	background-repeat                : no-repeat;
+	float                            : right;
+	height                           : 20px;
+	padding-left                     : 20px !important;
+}
+	
+#setting
+{
+	background-image                 : url("./image/reader/iconSetup.gif");
+	background-position              : left 1px;
+	background-repeat                : no-repeat;
+	height                           : 20px;
+	float                            : right;
+	padding                          : 7px 5px 0 19px !important;
+}
+
+#setting a
+{
+	display                          : block;
+	margin-top                       : -3px;
+}
+
+/* pannel ---------------------------------------------------------------------------------------*/
+#pannel .caption
+{
+	display                          : none;
+}
+
+#pannel #groupsAndFeeds
+{
+	background-color                 : #92B2D9;
+	border                           : none;
+	clear                            : both;
+	margin                           : 0;
+	padding                          : 0;
+
+}
+
+#groupBox .active-class,
+#feedBox .active-class,
+#groupBox .rollover-class,
+#feedBox .rollover-class
+{
+	background-color                 : #CDE3FF;
+}
+
+#groupBox .inactive-class,
+#feedBox .inactive-class
+{
+	background-color                 : #FFFFFF;
+}
+
+/* group box */
+#groupBox
+{
+	background-color                 : #FFFFFF;
+	float                            : left;
+	margin                           : 0 6px;
+	overflow                         : auto;
+	width                            : 250px;
+}
+
+#groupBox a:link,
+#groupBox a:visited
+{
+	color                            : #000000 !important;
+}
+
+#groupBox a:hover,
+#groupBox a:active
+{
+	color                            : #565656 !important;
+	text-decoration                  : none !important;
+}
+
+#groupAdder
+{
+	background-color                 : #EEEEEE;
+	margin                           : 10px 10px 0 10px !important;
+	padding                          : 5px;
+}
+
+#groupAdder .title
+{
+	display                          : none;
+}
+
+#groupAdder .button-box
+{
+	margin                           : 0 auto;
+	width                            : 211px;
+}
+
+#groupAdder .button-box .text-input
+{
+	border                           : 1px solid #999999;
+	float                            : left;
+	height                           : 1.3em;
+	margin-right                     : 3px;
+	padding                          : 3px 2px 0 2px;
+	width                            : 160px;
+}
+
+#groupAdder .button-box .add-button
+{
+	background-color                 : #DDDDDD;
+	border                           : 1px solid #999999;
+	color                            : #000000;
+	float                            : left;
+	height                           : 1.3em !important;
+	margin                           : 0;
+	padding-top                      : 3px !important;
+	text-align                       : center;
+	width                            : 40px !important;
+}
+
+#groupAdder .button-box .add-button span
+{
+	font-weight                      : normal;
+}
+
+ul#groupList
+{
+	padding                          : 10px;
+}
+
+ul#groupList li
+{
+	background-image                 : url("./image/reader/iconCategoryOpen.gif");
+	background-position              : 5px 6px;
+	background-repeat                : no-repeat;
+	border-bottom                    : 1px dashed #CCCCCC;
+	height                           : 18px;
+	line-height                      : 20px;
+	overflow                         : hidden;
+	padding                          : 2px 31px 0 17px;
+	position                         : relative;
+	z-index                          : 10;
+}
+
+ul#groupList li .edit-button
+{
+	background-image                 : url("./image/reader/btnModify.gif") !important;
+	background-repeat                : no-repeat !important;
+	display                          : block;
+	position                         : absolute;
+	right                            : 3px;
+	top                              : 3px;
+	height                           : 14px !important;
+	width                            : 24px !important;
+	z-index                          : 50;
+}
+
+ul#groupList li .edit-button:link,
+ul#groupList li .edit-button:visited
+{
+	background-position              : left top;
+}
+
+ul#groupList li .edit-button:hover,
+ul#groupList li .edit-button:active
+{
+	background-position              : left bottom;
+}
+
+ul#groupList li .edit-button span
+{
+	display                          : none;
+}
+
+#groupEditor
+{
+	text-align                       : center;
+}
+
+#groupEditor .title
+{
+	color                            : #000000;
+	font-weight                      : bold;
+	margin-top                       : 30px;
+}
+
+#groupEditor .input-box
+{
+	background-color                 : #E3EFFE;
+	margin                           : 5px 10px 0 10px !important;
+	padding                          : 20px 0 18px 0;
+}
+
+#changeGroupTitle
+{
+	display                          : block;
+	margin                           : 0 auto 10px auto;
+	padding                          : 2px;
+	width                            : 200px !important;
+}
+
+#groupEditor .button-box
+{
+	margin                           : 0 auto;
+	width                            : 222px;
+}
+
+#groupEditor .button-box .button
+{
+	background-color                 : #8DB0DC;
+	border                           : 1px solid #5788C4;
+	float                            : left;
+	height                           : 15px !important;
+	margin                           : 3px 1px 0 1px !important;
+	padding-top                      : 5px !important;
+	text-align                       : center;
+	width                            : 70px !important;
+}
+
+#groupEditor .button-box .button span
+{
+	color                            : #FFFFFF;
+	font-weight                      : normal;
+}
+
+/* feed box */
+#feedBox
+{
+	background-color                 : #FFFFFF;
+	margin-left                      : 6px;
+	overflow                         : auto;
+	position                         : relative;
+	right                            : 6px;
+	top                              : 0;
+}
+
+#feedAdder
+{
+	background-color                 : #EEEEEE;
+	margin                           : 10px 10px 0 10px !important;
+	padding                          : 5px;
+}
+
+#feedAdder .title
+{
+	display                          : none;
+}
+
+#feedAdder .button-box
+{
+	margin                           : 0 auto;
+	width                            : 531px;
+}
+
+#feedAdder .button-box .text-input
+{
+	border                           : 1px solid #999999;
+	float                            : left;
+	height                           : 1.3em;
+	margin-right                     : 3px;
+	padding                          : 3px 2px 0 2px;
+	width                            : 480px;
+}
+
+#feedAdder .button-box .add-button
+{
+	background-color                 : #DDDDDD;
+	border                           : 1px solid #999999;
+	color                            : #000000;
+	float                            : left;
+	height                           : 1.3em !important;
+	margin                           : 0;
+	padding-top                      : 3px !important;
+	text-align                       : center;
+	width                            : 40px !important;
+}
+
+#feedAdder .button-box .add-button span
+{
+	font-weight                      : normal;
+}
+
+ul#feedList
+{
+	padding                          : 10px;
+}
+
+ul#feedList li
+{
+	border-bottom                    : 1px dashed #CCCCCC;
+	cursor                           : pointer;
+	height                           : 16px;
+	line-height                      : 17px;
+	overflow                         : hidden;
+	padding                          : 3px 33px 1px 16px;
+	position                         : relative;
+	text-align                       : left;
+}
+
+ul#feedList li div
+{
+	display                          : inline;
+}
+
+ul#feedList li .description
+{
+	color                            : #888888;
+}
+
+ul#feedList li .update-button
+{
+	background-image                 : url("./image/reader/iconUpdate.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	height                           : 10px !important;
+	width                            : 10px !important;
+	position                         : absolute;
+	left                             : 3px;
+	top                              : 5px;
+}
+
+ul#feedList li .updating-button
+{
+	background-image                 : url("./image/reader/iconUpdateIng.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	height                           : 10px !important;
+	width                            : 10px !important;
+	position                         : absolute;
+	left                             : 3px;
+	top                              : 5px;
+}
+
+ul#feedList li .failure-button
+{
+	background-image                 : url("./image/reader/iconFailure.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	height                           : 10px !important;
+	width                            : 10px !important;
+	position                         : absolute;
+	left                             : 3px;
+	top                              : 5px;
+}
+
+ul#feedList li .update-button span,
+ul#feedList li .updating-button span,
+ul#feedList li .failure-button span
+{
+	display                          : none !important;
+}
+
+ul#feedList li .edit-button
+{
+	background-image                 : url("./image/reader/btnModify.gif") !important;
+	background-repeat                : no-repeat !important;
+	display                          : block;
+	margin-right                     : 3px !important;
+	position                         : absolute;
+	right                            : 0;
+	top                              : 3px;
+	height                           : 14px !important;
+	width                            : 24px !important;
+	z-index                          : 10;
+}
+
+ul#feedList li .edit-button:link,
+ul#feedList li .edit-button:visited
+{
+	background-position              : left top;
+}
+
+ul#feedList li .edit-button:hover,
+ul#feedList li .edit-button:active
+{
+	background-position              : left bottom;
+}
+
+ul#feedList li .edit-button span
+{
+	display                          : none;
+}
+
+#feedEditor
+{
+	text-align                       : center;
+}
+
+#feedEditor .title
+{
+	color                            : #000000;
+	font-weight                      : bold;
+	margin-top                       : 30px;
+}
+
+#feedEditor .input-box
+{
+	background-color                 : #E3EFFE;
+	margin                           : 5px 10px 0 10px !important;
+	padding                          : 20px 0 18px 0;
+}
+
+#changeFeedGroup
+{
+	margin-bottom                    : 10px;
+}
+
+#changeFeedURL
+{
+	color                            : #989898;
+	margin-bottom                    : 10px;
+	padding                          : 2px;
+	width                            : 400px !important;
+}
+
+#feedEditor .button-box
+{
+	margin                           : 0 auto;
+	width                            : 222px;
+}
+
+#feedEditor .button-box .button
+{
+	background-color                 : #8DB0DC;
+	border                           : 1px solid #5788C4;
+	float                            : left;
+	height                           : 15px !important;
+	margin                           : 3px 1px 0 1px !important;
+	padding-top                      : 5px !important;
+	text-align                       : center;
+	width                            : 70px !important;
+}
+
+#feedEditor .button-box .button span
+{
+	color                            : #FFFFFF;
+	font-weight                      : normal;
+}
+
+/* configure ------------------------------------------------------------------------------------*/
+#configure
+{
+	background-color                 : #92B2D9;
+	margin-top                       : -5px;
+	padding                          : 0 6px 0 6px;
+}
+
+#configure .caption
+{
+	display                          : none;
+}
+
+#configure .data-inbox
+{
+	background-color                 : #FFFFFF !important;
+	border                           : none !important;
+	clear                            : both;
+	line-height                      : 22px;
+	position                         : relative;
+	padding                          : 0 !important;
+}
+
+#configure .data-inbox .section dl
+{
+	clear                            : both;
+	line-height                      : 25px;
+}
+
+#configure .data-inbox .section dt
+{
+	float                            : left;
+	text-align                       : right;
+	width                            : 170px;
+}
+
+#configure .data-inbox .section dd
+{
+	float                            : left;
+	line-height                      : 15px;
+	padding-left                     : 3px;
+}
+
+#configure .data-inbox .section .title
+{
+	background-image                 : url("./image/reader/iconSetupitem.gif");
+	background-position              : 5px 4px;
+	background-repeat                : no-repeat;
+	color                            : #000000;
+	font-weight                      : bold;
+	padding-left                     : 19px;
+	font-weight                      : bold;
+}
+
+#configure .data-inbox #reader-section
+{
+	position                         : relative;
+	padding                          : 10px;
+	width                            : 440px;
+}
+
+#configure .data-inbox #reader-section .property
+{
+	background-color                 : #E3EFFE;
+	color                            : #333333;
+	padding                          : 9px 5px 5px 5px;
+}
+
+#configure .data-inbox #reader-section dl dd div
+{
+	display                          : inline;
+}
+
+#configure .data-inbox #reader-section dl dd em
+{
+	display                          : block;
+}
+
+#configure .data-inbox #reader-section #image-line dd,
+#configure .data-inbox #reader-section #javascript-line dd,
+#configure .data-inbox #reader-section #link-line dd
+{
+	margin-top                      : 5px !important;
+}
+
+#configure .data-inbox #reader-section .button-box a
+{
+	background-color                 : #8DB0DC;
+	border                           : 1px solid #5788C4;
+	height                           : 19px !important;
+	margin                           : 3px auto 5px auto !important;
+	text-align                       : center;
+	width                            : 80px !important;
+}
+
+#configure .data-inbox #reader-section .button-box a span
+{
+	color                            : #FFFFFF;
+	font-weight                      : normal;
+}
+
+#configure .data-inbox #opml-section
+{
+	position                         : absolute;
+	padding                          : 10px;
+	right                            : 0;
+	left                             : 460px;
+	top                              : 0;
+}
+
+#configure .data-inbox #opml-section .property
+{
+	background-color                 : #E3EFFE;
+	color                            : #333333;
+	padding                          : 5px;
+}
+
+#configure .data-inbox #opml-section .button-box a
+{
+	background-color                 : #8DB0DC;
+	border                           : 1px solid #5788C4;
+	float                            : left;
+	height                           : 19px !important;
+	margin                           : 3px 1px 5px 1px !important;
+	text-align                       : center;
+	width                            : 70px !important;
+}
+
+#configure .data-inbox #opml-section .button-box a span
+{
+	color                            : #FFFFFF;
+	font-weight                      : normal;
+}
+
+#configure .data-inbox .button-box
+{
+	margin                           : 0 auto !important;
+	padding-top                      : 10px;
+	width                            : 148px !important;
+}
+
+#get-upload
+{
+	margin-top                       : 4px;
+}
+	
+#opmlRequestValue
+{
+	padding                          : 1px;
+	width                            : 250px;
+}
+
+/* toggle bar -----------------------------------------------------------------------------------*/
+#toggleBar
+{
+	background-color                 : #7097C6;
+	clear                            : both;
+	cursor                           : s-resize;
+	font-size                        : 0;
+	height                           : 8px;
+	padding                          : 0 !important;
+	text-align                       : center;
+	width                            : 100%;
+}
+
+#toggleButton
+{
+	background-image                 : url("./image/reader/bar.gif");
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 8px;
+	margin                           : 0 auto;
+	width                            : 69px;
+}
+
+.pannel-hide
+{
+	background-position              : left bottom !important;
+}
+
+.pannel-show
+{
+	background-position              : left top !important;
+}
+
+/* content list ---------------------------------------------------------------------------------*/
+#scrollPoint
+{
+	background-color                 : #B4D1F1;
+	background-image                 : url("./image/reader/contentsBg.gif");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	margin-top                       : 5px;
+	position                         : relative;
+}
+
+#scrollPoint .caption
+{
+	display                          : none;
+}
+
+#scrollPoint .data-inbox
+{
+	border                           : none !important;
+	background-color                 : transparent !important;
+	margin-top                       : 0 !important;
+}
+
+/* list */
+#post-list
+{
+	left                             : 6px;
+	position                         : absolute;
+	z-index                          : 20;
+	width                            : 250px !important;
+}
+
+#post-list .title
+{
+	padding-right                    : 2px;
+	text-align                       : right;
+}
+
+#post-list .title .count
+{
+	color                            : #333333;
+	float                            : left;
+	font-family                      : Tahoma, Verdana, sans-serif;
+	font-size                        : 90%;
+	margin-left                      : 3px;
+}
+
+#totalList
+{
+	float                            : left;
+	margin-left                      : 2px;
+}
+
+#totalList:link,
+#totalList:visited
+{
+	color                            : #000000 !important;
+	font-weight                      : bold;
+}
+
+#totalList:hover,
+#totalList:active
+{
+	color                            : #565656 !important;
+	text-decoration                  : none !important;
+}
+
+#iconMoreEntries
+{
+	color                            : #FFFFFF !important;
+}
+
+/*#iconMoreEntries
+{
+	background-image                 : url("./image/reader/iconMoreRead.gif");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	display                          : block;
+	height                           : 13px;
+	position                         : relative;
+	left                             : 182px;
+	top                              : -1px;
+	width                            : 67px;
+}
+
+#iconMoreEntries span
+{
+	display                          : none;
+}*/
+
+#listup
+{
+	background-color                 : #ECF4FF;
+	border                           : 4px solid #84A9D1;
+	clear                            : both;
+	height                           : 480px;
+	overflow                         : auto;
+	padding                          : 5px;
+}
+
+#listup table tr td
+{
+	border-bottom                    : 1px dashed #A7C6ED;
+	color                            : #999999;
+	cursor                           : pointer;
+	padding                          : 5px 5px 2px 5px;
+}
+
+#listup table tr td .content
+{
+	float                            : left;
+	width                            : 184px;
+	border-left                      : 1px solid #A7C6ED;
+	float                            : left;
+	margin-left                      : 2px;
+	padding-left                     : 3px;
+}
+
+#listup table tr td .title
+{
+	text-align                       : left;
+}
+
+#listup table tr td .blog
+{
+	margin-top                       : 3px;
+	text-align                       : left;
+}
+
+#listup table tr td .icons
+{
+	float                            : left;
+}
+
+#listup table .read .title
+{
+	color                            : #777777;
+}
+
+#listup table .read .blog
+{
+	color                            : #999999;
+}
+
+#listup table .unread .title
+{
+	color                            : #0047B6;
+}
+
+#listup table .unread .blog
+{
+	color                            : #213141;
+}
+
+#listup table .active-class,
+#listup table .rollover-class
+{
+	background-color                 : #FFFFFF;
+}
+
+#listup table .inactive-class
+{
+	background-color                 : #ECF4FF;
+}
+
+#listup .scrap-off-icon
+{
+	background-image                 : url("./image/reader/icon_scrap.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : none;
+	height                           : 13px;
+	margin                           : -1px 2px 0 0;
+	vertical-align                   : middle;
+	width                            : 14px;
+}
+
+#listup .scrap-on-icon
+{
+	background-image                 : url("./image/reader/icon_scrap.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : none;
+	height                           : 13px;
+	margin                           : -1px 2px 0 0;
+	vertical-align                   : middle;
+	width                            : 14px;
+}
+
+#listup .podcast-icon
+{
+	background-image                 : url("./image/reader/iconPodcast.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 11px;
+	margin-top                       : 5px;
+	width                            : 14px;
+}
+
+#listup .podcast-icon
+{
+	background-image                 : url("./image/reader/iconPodcast.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 11px;
+	width                            : 14px;
+}
+
+#listup .podcast-icon span
+{
+	display                          : none;
+}
+
+#post-list .button-box
+{
+	background-color                 : #84A9D1;
+	font-size                        : 92%;
+	margin                           : 0 !important;
+	padding                          : 5px;
+}
+
+#post-list .button-box .button,
+#post-list .button-box .button span
+{
+	display                          : inline !important;
+}
+
+#post-list .button-box .hide-button:link,
+#post-list .button-box .hide-button:visited
+{
+	color                            : #FFFFFF;
+}
+
+#post-list .button-box .hide-button:hover,
+#post-list .button-box .hide-button:active
+{
+	color                            : #FFFFFF;
+	text-decoration                  : underline;
+}
+
+#shortcuts
+{
+	background-color                 : #84A9D1;
+	padding                          : 5px;
+}
+
+#shortcuts .inbox
+{
+	background-color                 : #6593C4;
+	color                            : #FFFFFF !important;
+	font-size                        : 92%;
+	/*letter-spacing                   : -1px;*/
+	padding                          : 3px 3px 1px 3px;
+}
+
+/*#shortcuts ul
+{
+	background-color                 : #6593C4;
+	padding                          : 3px 3px 1px 3px;
+}
+
+#shortcuts ul li
+{
+	color                            : #FFFFFF !important;
+	display                          : inline;
+	font-family                      : µ¸¿ò, Dotum, ±¼¸², Gulim, sans-serif;
+	font-size                        : 90%;
+	letter-spacing                   : -1px;
+	margin-right                     : 5px;
+	text-align                       : left;
+}*/
+
+/* content in detail ----------------------------------------------------------------------------*/
+#post-content
+{
+	min-height                       : 620px;
+	margin                           : 0 6px 0 261px;
+	overflow                         : auto;
+	padding-bottom                   : 6px !important;
+	width                            : auto !important;
+}
+
+#post-content .title .move
+{
+	position                         : absolute;
+	top                              : 11px;
+	right                            : 11px;
+	z-index                          : 10;
+}
+
+#post-content .title .move .button,
+#post-content .title .move .button span
+{
+	display                          : inline;
+	margin                           : 0;
+	padding                          : 0;
+}
+
+#blogTitle
+{
+	color                            : #000000;
+	font-weight                      : bold;
+	margin-left                      : 5px;
+}
+
+#entry
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #6D9CD6;
+	color                            : #213141;
+	position                         : relative;
+	width                            : auto;
+}
+
+#entryHead
+{
+	border-bottom                    : 1px dashed #CCCCCC;
+	margin                           : 0 5px;
+	padding                          : 10px 5px 8px 5px;
+}
+
+#entryHead .title a
+{
+	color                            : #2E67B4 !important;
+	font-weight                      : bold;
+}
+
+#entryHead .date
+{
+	font-family                      : Tahoma, Verdana, sans-serif;
+	font-size                        : 80%;
+}
+
+#entryPermalink
+{
+	background-image                 : url("./image/reader/viewNewwindow.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;	
+	height                           : 20px;
+	width                            : 20px;
+	position                         : absolute;
+	right                            : 5px;
+	top                              : 5px;
+}
+
+#entryPermalink span
+{
+	display                          : none;
+}
+
+#entryBody
+{
+	padding                          : 10px;
+}
+
+#entryFoot
+{
+	background-color                 : #F5F5F5;
+	border-top                       : 1px solid #DDDDDD;
+	padding                          : 10px;
+	position                         : relative;
+}
+
+#entryFoot .button-box
+{
+	margin-top                       : 5px;
+}
+
+#entryFoot .button-box a
+{
+	background-color                 : #DDDDDD !important;
+	border                           : 1px solid #979797;
+	display                          : block;
+	font-size                        : 92%;
+	height                           : auto !important;
+	margin                           : 0 0 0 auto !important;
+	padding                          : 3px 0 0 0 !important;
+	text-align                       : center;
+	width                            : 140px !important;
+}
+
+#entryFoot .button-box a span
+{
+	display                          : inline !important;
+	padding                          : 0;
+}

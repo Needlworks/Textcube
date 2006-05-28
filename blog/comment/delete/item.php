@@ -104,7 +104,9 @@ if (!empty($_POST['mode'])) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<script type="text/javascript">
 		//<![CDATA[
-			var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
+			var servicePath = "<?=$service['path']?>";
+			var blogURL = "<?=$blogURL?>";
+			var adminSkin = "<?=$service['adminSkin']?>";
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?=$service['path']?>/script/common.js"></script>

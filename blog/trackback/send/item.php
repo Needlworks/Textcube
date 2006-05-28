@@ -11,7 +11,9 @@ $entry = getEntry($owner, $suri['id']);
 	<link rel="stylesheet" type="text/css" href="<?=$service['path']?>/style/owner.css" />
 	<script type="text/javascript">
 		//<![CDATA[
-			var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
+			var servicePath = "<?=$service['path']?>";
+			var blogURL = "<?=$blogURL?>";
+			var adminSkin = "<?=$service['adminSkin']?>";
 			
 			function onclick_send(form) {
 				trim_all(form);

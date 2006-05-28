@@ -1,0 +1,1788 @@
+@charset "utf-8";
+
+/* List ******************************************************************************************/
+
+/* list common ----------------------------------------------------------------------------------*/
+#part-post-list .caption
+{
+	font-weight                      : normal;
+	position                         : relative;
+}
+
+#part-post-list .caption .main-text
+{
+	font-weight                      : bold;
+}
+
+#part-post-list div.data-subbox
+{
+	background-color                 : #EBF2F8;
+	border-bottom                    : 2px solid #00A6ED;
+	padding                          : 9px 10px 7px 10px;
+	position                         : relative;
+}
+
+/* list category --------------------------------------------------------------------------------*/
+#part-post-list .caption .category
+{
+	display                          : block;
+	font-weight                      : normal;
+	position                         : absolute;
+	right                            : 0;
+	top                              : 19px;
+}
+
+#part-post-list .caption .category select
+{
+	vertical-align                   : 2px;
+	width                            : auto;
+}
+
+#part-post-list .caption .interword
+{
+	display                          : none;
+}
+
+/* list table head ------------------------------------------------------------------------------*/
+#part-post-list table.data-inbox thead tr .selection
+{
+	padding                          : 0;
+	text-align                       : center;
+	width                            : 30px;
+}
+
+#part-post-list table.data-inbox thead tr .date
+{
+	width                            : 70px;
+}
+
+#part-post-list table.data-inbox thead tr .status
+{
+	width                            : 60px;
+}
+
+#part-post-list table.data-inbox thead tr .syndicate
+{
+	text-transform                   : uppercase;
+	width                            : 25px;
+}
+
+#part-post-list table.data-inbox thead tr .syndicate span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox thead tr .category
+{
+	width                            : 17%;
+}
+
+#part-post-list table.data-inbox thead tr .protect
+{
+	width                            : 32px;
+}
+
+#part-post-list table.data-inbox thead tr .protect span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox thead tr .trackback
+{
+	width                            : 19px;
+}
+
+#part-post-list table.data-inbox thead tr .trackback span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox thead tr .delete
+{
+	width                            : 20px;
+}
+
+#part-post-list table.data-inbox thead tr .delete span
+{
+	display                          : none;
+}
+
+/* list table body ------------------------------------------------------------------------------*/
+#part-post-list table.data-inbox .tr-body td
+{
+	height                           : 24px;
+}
+
+#part-post-list table.data-inbox .tr-last-body td
+{
+	height                           : 23px;
+	padding-top                      : 1px;
+}
+
+#part-post-list table.data-inbox .tr-body .selection,
+#part-post-list table.data-inbox .tr-last-body .selection
+{
+	text-align                       : center;
+}
+
+#part-post-list table.data-inbox .tr-body .selection .checkbox
+{
+	margin-top                       : 2px;
+}
+
+#part-post-list table.data-inbox .tr-body .date,
+#part-post-list table.data-inbox .tr-last-body .date
+{
+	padding-top                      : 3px;
+}
+
+#part-post-list table.data-inbox .tr-body .status .private-on-icon,
+#part-post-list table.data-inbox .tr-last-body .status .private-on-icon
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox .tr-body .status .private-on-icon a,
+#part-post-list table.data-inbox .tr-last-body .status .private-on-icon a
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox .tr-body .status .private-on-icon span,
+#part-post-list table.data-inbox .tr-last-body .status .private-on-icon span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox .tr-body .status .protected-on-icon,
+#part-post-list table.data-inbox .tr-last-body .status .protected-on-icon
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox .tr-body .status .protected-on-icon a,
+#part-post-list table.data-inbox .tr-last-body .status .protected-on-icon a
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox .tr-body .status .protected-on-icon span,
+#part-post-list table.data-inbox .tr-last-body .status .protected-on-icon span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox .tr-body .status .public-on-icon,
+#part-post-list table.data-inbox .tr-last-body .status .public-on-icon
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox .tr-body .status .public-on-icon a,
+#part-post-list table.data-inbox .tr-last-body .status .public-on-icon a
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox .tr-body .status .public-on-icon span,
+#part-post-list table.data-inbox .tr-last-body .status .public-on-icon span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox .tr-body .syndicate,
+#part-post-list table.data-inbox .tr-last-body .syndicate
+{
+	text-align                       : center;
+}
+
+#part-post-list table.data-inbox .tr-body .syndicate .syndicated-off-icon,
+#part-post-list table.data-inbox .tr-last-body .syndicate .syndicated-off-icon
+{
+	background-image                 : url("./image/icon_syndicated.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 16px;
+	width                            : 16px;
+}
+
+#part-post-list table.data-inbox .tr-body .syndicate .syndicated-on-icon,
+#part-post-list table.data-inbox .tr-last-body .syndicate .syndicated-on-icon
+{
+	background-image                 : url("./image/icon_syndicated.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 16px;
+	width                            : 16px;
+}
+
+#part-post-list table.data-inbox .tr-body .syndicate .syndicated-off-icon span,
+#part-post-list table.data-inbox .tr-last-body .syndicate .syndicated-off-icon span,
+#part-post-list table.data-inbox .tr-body .syndicate .syndicated-on-icon span,
+#part-post-list table.data-inbox .tr-last-body .syndicate .syndicated-on-icon span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox .tr-body .syndicate .syndicated-off-icon a,
+#part-post-list table.data-inbox .tr-last-body .syndicate .syndicated-off-icon a,
+#part-post-list table.data-inbox .tr-body .syndicate .syndicated-on-icon a,
+#part-post-list table.data-inbox .tr-last-body .syndicate .syndicated-on-icon a
+{
+	display                          : block;
+	height                           : 16px;
+	width                            : 16px;
+}
+
+#part-post-list table.data-inbox .tr-body .category,
+#part-post-list table.data-inbox .tr-last-body .category
+{
+	padding                          : 3px 5px 0 0;
+}
+
+#part-post-list table.data-inbox .tr-body .title,
+#part-post-list table.data-inbox .tr-last-body .title
+{
+	padding                          : 3px 5px 0 0;
+}
+
+#part-post-list table.data-inbox .tr-body .title .temp-icon,
+#part-post-list table.data-inbox .tr-last-body .title .temp-icon
+{
+	background-image                 : url("./image/hasTemp.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 11px;
+	margin-right                     : 2px;
+	width                            : 33px;
+}
+
+#part-post-list table.data-inbox .tr-body .title .temp-icon span,
+#part-post-list table.data-inbox .tr-last-body .title .temp-icon span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox .tr-body .protect-on-button,
+#part-post-list table.data-inbox .tr-last-body .protect-on-button
+{
+	background-image                 : url("./image/protectedInvite2.gif");
+	background-position              : left bottom;
+	height                           : 13px;
+	margin                           : 0 auto;
+	width                            : 26px;
+}
+
+#part-post-list table.data-inbox .tr-body .protect-on-button span,
+#part-post-list table.data-inbox .tr-last-body .protect-on-button span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox .tr-body .protect-off-button,
+#part-post-list table.data-inbox .tr-last-body .protect-off-button
+{
+	background-image                 : url("./image/protectedInvite2.gif");
+	background-position              : left top;
+	height                           : 13px;
+	margin                           : 0 auto;
+	width                            : 26px;
+}
+
+#part-post-list table.data-inbox .tr-body .protect-off-button span,
+#part-post-list table.data-inbox .tr-last-body .protect-off-button span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox .tr-body .trackback-on-button,
+#part-post-list table.data-inbox .tr-last-body .trackback-on-button
+{
+	background-image                 : url("./image/trackback2.gif");
+	background-position              : left bottom;
+	height                           : 15px;
+	margin                           : 0 auto;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox .tr-body .trackback-on-button span,
+#part-post-list table.data-inbox .tr-last-body .trackback-on-button span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox .tr-body .trackback-off-button,
+#part-post-list table.data-inbox .tr-last-body .trackback-off-button
+{
+	background-image                 : url("./image/trackback2.gif");
+	background-position              : left top;
+	height                           : 15px;
+	margin                           : 0 auto;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox .tr-body .trackback-off-button span,
+#part-post-list table.data-inbox .tr-last-body .trackback-off-button span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox .tr-body .delete-button,
+#part-post-list table.data-inbox .tr-last-body .delete-button
+{
+	background-image                 : url("./image/delete2.gif");
+	background-position              : left top;
+	height                           : 11px;
+	margin                           : 0 auto;
+	width                            : 11px;
+}
+
+#part-post-list table.data-inbox .tr-body .delete-button span,
+#part-post-list table.data-inbox .tr-last-body .delete-button span
+{
+	display                          : none;
+}
+
+/* list table interlayer for protect password & trackback sender --------------------------------*/
+#part-post-list table.data-inbox .hidden-layer td
+{
+	border-bottom                    : 1px dotted #CCCCCC;
+}
+
+#part-post-list table.data-inbox .hidden-last-layer td
+{
+	border-top                       : 1px dotted #CCCCCC;
+}
+
+#part-post-list table.data-inbox .hidden-layer .layer-section,
+#part-post-list table.data-inbox .hidden-last-layer .layer-section
+{
+	background-color                 : #EFEFEF;
+	margin                           : 4px 0;
+}
+
+#part-post-list table.data-inbox .hidden-layer .password-box,
+#part-post-list table.data-inbox .hidden-last-layer .password-box
+{
+	clear                            : both;
+	float                            : right;
+	margin                           : 4px 5px 0 0;
+}
+
+#part-post-list table.data-inbox .hidden-layer .password-box .text-input,
+#part-post-list table.data-inbox .hidden-last-layer .password-box .text-input
+{
+	padding                          : 2px;
+	width                            : 67px;
+}
+
+#part-post-list table.data-inbox .hidden-layer .trackback-box,
+#part-post-list table.data-inbox .hidden-last-layer .trackback-box
+{
+	clear                            : both;
+	float                            : right;
+	margin                           : 4px 5px 0 0;
+}
+
+#part-post-list table.data-inbox .hidden-layer .trackback-box .text-input,
+#part-post-list table.data-inbox .hidden-last-layer .trackback-box .text-input
+{
+	padding                          : 2px;
+	width                            : 400px;
+}
+
+#part-post-list table.data-inbox .hidden-layer .button-box,
+#part-post-list table.data-inbox .hidden-last-layer .button-box
+{
+	float                            : right;
+	clear                            : both;
+	margin                           : 5px 0 3px 0;
+	width                            : 148px;
+}
+
+#part-post-list table.data-inbox .hidden-layer .edit-button,
+#part-post-list table.data-inbox .hidden-last-layer .edit-button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	float                            : right;
+	height                           : 24px;
+	margin-right                     : 4px;
+	padding-left                     : 4px;
+	width                            : 66px;
+}
+
+#part-post-list table.data-inbox .hidden-layer .edit-button span,
+#part-post-list table.data-inbox .hidden-last-layer .edit-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 6px 4px 0 0;
+	text-align                       : center;
+	width                            : 62px;
+}
+
+#part-post-list table.data-inbox .hidden-layer .send-button,
+#part-post-list table.data-inbox .hidden-last-layer .send-button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	float                            : right;
+	height                           : 24px;
+	margin-right                     : 4px;
+	padding-left                     : 4px;
+	width                            : 66px;
+}
+
+#part-post-list table.data-inbox .hidden-layer .send-button span,
+#part-post-list table.data-inbox .hidden-last-layer .send-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 6px 4px 0 0;
+	text-align                       : center;
+	width                            : 62px;
+}
+
+/*#part-post-list table.data-inbox .hidden-layer .close-button,
+#part-post-list table.data-inbox .hidden-last-layer .close-button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	float                            : left;
+	height                           : 24px;
+	padding-left                     : 4px;
+	width                            : 70px;
+}
+
+#part-post-list table.data-inbox .hidden-layer .close-button span,
+#part-post-list table.data-inbox .hidden-last-layer .close-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 6px 4px 0 0;
+	text-align                       : center;
+	width                            : 62px;
+}*/
+
+#part-post-list table.data-inbox .hidden-layer .button-box .divider,
+#part-post-list table.data-inbox .hidden-last-layer .button-box .divider
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox .hidden-layer .trackback-log-box,
+#part-post-list table.data-inbox .hidden-last-layer .trackback-log-box
+{
+	clear                            : both;
+	float                            : right;
+	font-family                      : 'courier new', monospace;
+	margin                           : 5px 5px 0 0;
+}
+
+#part-post-list table.data-inbox .hidden-layer .trackback-log-box table,
+#part-post-list table.data-inbox .hidden-last-layer .trackback-log-box table
+{
+	border-top                       : 1px dotted #CCCCCC !important;
+	margin-bottom                    : 10px;
+}
+
+#part-post-list table.data-inbox .hidden-layer .trackback-log-box table tr td,
+#part-post-list table.data-inbox .hidden-last-layer .trackback-log-box table tr td
+{
+	border-bottom                    : 1px dotted #CCCCCC !important;
+	border-top                       : none !important;
+	padding                          : 0 7px;
+}
+
+#part-post-list table.data-inbox .hidden-layer .trackback-log-box .remove-button,
+#part-post-list table.data-inbox .hidden-last-layer .trackback-log-box .remove-button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/deleteX.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	height                           : 10px;
+	margin-top                       : 2px;
+	vertical-align                   : middle;
+	width                            : 10px;
+}
+
+#part-post-list table.data-inbox .hidden-layer .trackback-log-box .remove-button span,
+#part-post-list table.data-inbox .hidden-last-layer .trackback-log-box .remove-button span
+{
+	display                          : none;
+}
+
+/* multi-selection deleter in sub-box -----------------------------------------------------------*/
+#part-post-list #change-section 
+{
+	padding                          : 1px 0 0 3px;
+}
+
+#part-post-list #change-section select
+{
+	margin-top                       : -2px;
+	vertical-align                   : 2px;
+}
+
+/* lines per page -------------------------------------------------------------------------------*/
+#part-post-list #page-section .page-count
+{
+	bottom                           : 5px;
+	position                         : absolute;
+	right                            : 13px;
+	text-align                       : right;
+	vertical-align                   : 2px;
+	width                            : 300px;
+}
+
+#part-post-list #page-section .page-count select
+{
+	vertical-align                   : 2px;
+	width                            : 40px;
+}
+
+/* page navigation ------------------------------------------------------------------------------*/
+#part-post-list #page-navigation
+{
+	border-top                       : 1px dotted #CCCCCC;
+	margin-top                       : 7px;
+	padding                          : 10px 120px 0 3px;
+}
+
+#part-post-list #page-navigation #page-list
+{
+	padding-left                     : 28px;
+}
+
+#part-post-list #page-navigation #page-list a:link,
+#part-post-list #page-navigation #page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-post-list #page-navigation #page-list a:hover,
+#part-post-list #page-navigation #page-list a:active
+{
+	color                            : #979797;
+}
+
+#part-post-list #page-navigation #page-list a.selected:link,
+#part-post-list #page-navigation #page-list a.selected:visited
+{
+	color                            : #FF0000 !important;
+}
+
+#part-post-list #page-navigation #page-list a.selected:hover,
+#part-post-list #page-navigation #page-list a.selected:active
+{
+	color                            : #FF3333 !important;
+}
+
+/* search ---------------------------------------------------------------------------------------*/
+#part-post-list #search-section
+{
+	position                         : absolute;
+	top                              : 6px;
+	right                            : 9px;
+	width                            : 163px;
+}
+
+#part-post-list #search-section input#search
+{
+	float                            : left;
+	margin-top                       : 2px;
+	padding                          : 2px;
+	width                            : 70px;
+}
+
+#part-post-list #search-section .search-button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	float                            : left;
+	height                           : 24px;
+	margin-left                      : 3px;
+	padding-left                     : 4px;
+	width                            : 76px;
+}
+
+#part-post-list #search-section .search-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 6px 4px 0 0;
+	text-align                       : center;
+	width                            : 72px;
+}
+
+/* Comment ***************************************************************************************/
+
+/* comment common -------------------------------------------------------------------------------*/
+#part-post-comment .caption
+{
+	font-weight                      : normal;
+	position                         : relative;
+}
+
+#part-post-comment .caption .main-text
+{
+	font-weight                      : bold;
+}
+
+#part-post-comment div.data-subbox
+{
+	background-color                 : #EBF2F8;
+	border-bottom                    : 2px solid #00A6ED;
+	padding                          : 9px 10px 7px 10px;
+	position                         : relative;
+}
+
+/* comment category -----------------------------------------------------------------------------*/
+#part-post-comment .caption .category
+{
+	display                          : block;
+	font-weight                      : normal;
+	position                         : absolute;
+	right                            : 0;
+	top                              : 19px;
+}
+
+#part-post-comment .caption .category select
+{
+	vertical-align                   : 2px;
+}
+
+#part-post-comment .caption .interword
+{
+	display                          : none;
+}
+
+/* comment table head ---------------------------------------------------------------------------*/
+#part-post-comment table.data-inbox thead tr .selection
+{
+	padding                          : 0;
+	text-align                       : center;
+	width                            : 30px;
+}
+
+#part-post-comment table.data-inbox thead tr .date
+{
+	width                            : 70px;
+}
+
+#part-post-comment table.data-inbox thead tr .name
+{
+	width                            : 17%;
+}
+
+#part-post-comment table.data-inbox thead tr .ip
+{
+	text-transform                   : uppercase;
+	width                            : 100px;
+}
+
+#part-post-comment table.data-inbox thead tr .delete
+{
+	width                            : 20px;
+}
+
+#part-post-comment table.data-inbox thead tr .delete span
+{
+	display                          : none;
+}
+
+/* comment table body ---------------------------------------------------------------------------*/
+#part-post-comment table.data-inbox .tr-body .selection,
+#part-post-comment table.data-inbox .tr-last-body .selection
+{
+	padding                          : 3px 0 0 0;
+	text-align                       : center;
+}
+
+#part-post-comment table.data-inbox .tr-body .date,
+#part-post-comment table.data-inbox .tr-last-body .date
+{
+	padding                         : 4px 0 0 0;
+}
+
+#part-post-comment table.data-inbox .tr-body .name,
+#part-post-comment table.data-inbox .tr-last-body .name
+{
+	padding                         : 4px 5px 0 0;
+}
+
+#part-post-comment table.data-inbox .tr-body .name .block-icon,
+#part-post-comment table.data-inbox .tr-last-body .name .block-icon
+{
+	background-image                 : url("./image/icon_block.gif");
+	background-position              : left bottom;
+	display                          : block;
+	float                            : left;
+	height                           : 6px;
+	margin                           : 2px 3px 0 0;
+	width                            : 16px;
+}
+
+#part-post-comment table.data-inbox .tr-body .name .block-icon span,
+#part-post-comment table.data-inbox .tr-last-body .name .block-icon span
+{
+	display                          : none;
+}
+
+#part-post-comment table.data-inbox .tr-body .name .unblock-icon,
+#part-post-comment table.data-inbox .tr-last-body .name .unblock-icon
+{
+	background-image                 : url("./image/icon_block.gif");
+	background-position              : left top;
+	display                          : block;
+	float                            : left;
+	height                           : 6px;
+	margin                           : 2px 3px 0 0;
+	width                            : 16px;
+}
+
+#part-post-comment table.data-inbox .tr-body .name .unblock-icon span,
+#part-post-comment table.data-inbox .tr-last-body .name .unblock-icon span
+{
+	display                          : none;
+}
+
+#part-post-comment table.data-inbox .tr-body .content
+{
+	overflow                         : hidden;
+	padding                          : 5px 5px 3px 0;
+}
+
+#part-post-comment table.data-inbox .tr-last-body .content
+{
+	overflow                         : hidden;
+	padding                          : 5px 5px 2px 0;
+}
+
+#part-post-comment table.data-inbox .tr-body .content .entryURL,
+#part-post-comment table.data-inbox .tr-last-body .content .entryURL
+{
+	font-weight                      : bold;
+}
+
+#part-post-comment table.data-inbox .tr-body .content .divider,
+#part-post-comment table.data-inbox .tr-last-body .content .divider,
+#part-post-comment table.data-inbox .tr-body .content .explain,
+#part-post-comment table.data-inbox .tr-last-body .content .explain
+{
+	font-weight                      : normal;
+}
+
+#part-post-comment table.data-inbox .tr-body .content .reply-icon,
+#part-post-comment table.data-inbox .tr-last-body .content .reply-icon
+{
+	background-image                 : url("./image/icon_arrow_guest2.gif");
+	background-position              : left bottom;
+	display                          : block;
+	float                            : left;
+	height                           : 12px;
+	margin                           : -1px 3px 0 0;
+	width                            : 13px;
+}
+
+#part-post-comment table.data-inbox .tr-body .content .reply-icon span,
+#part-post-comment table.data-inbox .tr-last-body .content .reply-icon span
+{
+	display                          : none;
+}
+
+#part-post-comment table.data-inbox .tr-body .ip,
+#part-post-comment table.data-inbox .tr-last-body .ip
+{
+	padding                          : 4px 0 0 0;
+}
+
+#part-post-comment table.data-inbox .tr-body .ip .block-icon,
+#part-post-comment table.data-inbox .tr-last-body .ip .block-icon
+{
+	background-image                 : url("./image/icon_block.gif");
+	background-position              : left bottom;
+	display                          : block;
+	float                            : left;
+	height                           : 6px;
+	margin                           : 2px 3px 0 0;
+	width                            : 16px;
+}
+
+#part-post-comment table.data-inbox .tr-body .ip .block-icon span,
+#part-post-comment table.data-inbox .tr-last-body .ip .block-icon span
+{
+	display                          : none;
+}
+
+#part-post-comment table.data-inbox .tr-body .ip .unblock-icon,
+#part-post-comment table.data-inbox .tr-last-body .ip .unblock-icon
+{
+	background-image                 : url("./image/icon_block.gif");
+	background-position              : left top;
+	display                          : block;
+	float                            : left;
+	height                           : 6px;
+	margin                           : 2px 3px 0 0;
+	width                            : 16px;
+}
+
+#part-post-comment table.data-inbox .tr-body .ip .unblock-icon span,
+#part-post-comment table.data-inbox .tr-last-body .ip .unblock-icon span
+{
+	display                          : none;
+}
+
+#part-post-comment table.data-inbox .tr-body .delete-button,
+#part-post-comment table.data-inbox .tr-last-body .delete-button
+{
+	background-image                 : url("./image/delete2.gif");
+	height                           : 11px;
+	margin                           : 0 auto;
+	width                            : 11px;
+}
+
+#part-post-comment table.data-inbox .tr-body .delete-button span,
+#part-post-comment table.data-inbox .tr-last-body .delete-button span
+{
+	display                          : none;
+}
+
+/* multi-selection deleter ----------------------------------------------------------------------*/
+#part-post-comment #delete-section 
+{
+	padding                          : 1px 0 0 3px;
+}
+
+#part-post-comment #delete-section .label
+{
+	display                          : block;
+	float                            : left;
+	margin-top                       : -4px;
+	padding-top                      : 6px;
+}
+
+#part-post-comment #delete-section .delete-button
+{
+	background-image                 : url("./image/button2.gif");
+	float                            : left;
+	height                           : 24px;
+	margin                           : -4px 0 0 3px;
+	padding-left                     : 4px;
+	width                            : 76px;
+}
+
+#part-post-comment #delete-section .delete-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 6px 4px 0 0;
+	text-align                       : center;
+	width                            : 72px;
+}
+
+/* lines per page -------------------------------------------------------------------------------*/
+#part-post-comment #page-section .page-count
+{
+	bottom                           : 5px;
+	position                         : absolute;
+	right                            : 13px;
+	text-align                       : right;
+	vertical-align                   : 2px;
+	width                            : 300px;
+}
+
+#part-post-comment #page-section .page-count select
+{
+	vertical-align                   : 2px;
+	width                            : 40px;
+}
+
+/* page navigation ------------------------------------------------------------------------------*/
+#part-post-comment #page-navigation
+{
+	border-top                       : 1px dotted #CCCCCC;
+	margin-top                       : 7px;
+	padding                          : 10px 120px 0 3px;
+}
+
+#part-post-comment #page-navigation #page-list
+{
+	padding-left                     : 28px;
+}
+
+#part-post-comment #page-navigation #page-list a:link,
+#part-post-comment #page-navigation #page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-post-comment #page-navigation #page-list a:hover,
+#part-post-comment #page-navigation #page-list a:active
+{
+	color                            : #979797;
+}
+
+#part-post-comment #page-navigation #page-list a.selected:link,
+#part-post-comment #page-navigation #page-list a.selected:visited
+{
+	color                            : #FF0000 !important;
+}
+
+#part-post-comment #page-navigation #page-list a.selected:hover,
+#part-post-comment #page-navigation #page-list a.selected:active
+{
+	color                            : #FF3333 !important;
+}
+
+/* search ---------------------------------------------------------------------------------------*/
+#part-post-comment #search-section
+{
+	position                         : absolute;
+	top                              : 6px;
+	right                            : 9px;
+	width                            : 163px;
+}
+
+#part-post-comment #search-section input#search
+{
+	float                            : left;
+	margin-top                       : 2px;
+	padding                          : 2px;
+	width                            : 70px;
+}
+
+#part-post-comment #search-section .search-button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	float                            : left;
+	height                           : 24px;
+	margin-left                      : 3px;
+	padding-left                     : 4px;
+	width                            : 76px;
+}
+
+#part-post-comment #search-section .search-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 6px 4px 0 0;
+	text-align                       : center;
+	width                            : 72px;
+}
+
+/* Notify ****************************************************************************************/
+
+/* notify common --------------------------------------------------------------------------------*/
+#part-post-notify .caption
+{
+	font-weight                      : normal;
+	position                         : relative;
+}
+
+#part-post-notify .caption .main-text
+{
+	font-weight                      : bold;
+}
+
+#part-post-notify div.data-subbox
+{
+	background-color                 : #EBF2F8;
+	border-bottom                    : 2px solid #00A6ED;
+	padding                          : 9px 10px 7px 10px;
+	position                         : relative;
+}
+
+/* notify table head ----------------------------------------------------------------------------*/
+#part-post-notify table.data-inbox thead tr .selection
+{
+	padding                          : 0;
+	text-align                       : center;
+	width                            : 30px;
+}
+
+#part-post-notify table.data-inbox thead tr .date
+{
+	width                            : 70px;
+}
+
+#part-post-notify table.data-inbox thead tr .site
+{
+	width                            : 21%;
+}
+
+#part-post-notify table.data-inbox thead tr .name
+{
+	width                            : 17%;
+}
+
+#part-post-notify table.data-inbox thead tr .delete
+{
+	width                            : 20px;
+}
+
+#part-post-notify table.data-inbox thead tr .delete span
+{
+	display                          : none;
+}
+
+/* notify table body ----------------------------------------------------------------------------*/
+#part-post-notify table.data-inbox .tr-body .selection
+{
+	text-align                       : center;
+}
+
+#part-post-notify table.data-inbox .tr-last-body .selection
+{
+	padding-top                      : 1px;
+	text-align                       : center;
+}
+
+#part-post-notify table.data-inbox .tr-body .selection .checkbox,
+#part-post-notify table.data-inbox .tr-last-body .selection .checkbox
+{
+	margin-top                       : 1px;
+}
+
+#part-post-notify table.data-inbox .tr-body .date
+{
+	padding-top                      : 3px;
+}
+
+#part-post-notify table.data-inbox .tr-last-body .date
+{
+	padding-top                      : 4px;
+}
+
+#part-post-notify table.data-inbox .tr-body .site
+{
+	padding                         : 3px 5px 0 0;
+}
+
+#part-post-notify table.data-inbox .tr-last-body .site
+{
+	padding                         : 4px 5px 0 0;
+}
+
+#part-post-notify table.data-inbox .tr-body .name
+{
+	padding                         : 3px 5px 0 0;
+}
+
+#part-post-notify table.data-inbox .tr-last-body .name
+{
+	padding                         : 4px 5px 0 0;
+}
+
+#part-post-notify table.data-inbox .tr-body .name .block-icon,
+#part-post-notify table.data-inbox .tr-last-body .name .block-icon
+{
+	background-image                 : url("./image/icon_block.gif");
+	background-position              : left bottom;
+	display                          : block;
+	float                            : left;
+	height                           : 6px;
+	margin                           : 2px 3px 0 0;
+	width                            : 16px;
+}
+
+#part-post-notify table.data-inbox .tr-body .name .block-icon span,
+#part-post-notify table.data-inbox .tr-last-body .name .block-icon span
+{
+	display                          : none;
+}
+
+#part-post-notify table.data-inbox .tr-body .name .unblock-icon,
+#part-post-notify table.data-inbox .tr-last-body .name .unblock-icon
+{
+	background-image                 : url("./image/icon_block.gif");
+	background-position              : left top;
+	display                          : block;
+	float                            : left;
+	height                           : 6px;
+	margin                           : 2px 3px 0 0;
+	width                            : 16px;
+}
+
+#part-post-notify table.data-inbox .tr-body .name .unblock-icon span,
+#part-post-notify table.data-inbox .tr-last-body .name .unblock-icon span
+{
+	display                          : none;
+}
+
+#part-post-notify table.data-inbox .tr-body .content
+{
+	padding                          : 6px 5px 3px 0;
+}
+
+#part-post-notify table.data-inbox .tr-last-body .content
+{
+	padding                          : 6px 5px 2px 0;
+}
+
+#part-post-notify table.data-inbox .tr-body .content .entryURL,
+#part-post-notify table.data-inbox .tr-last-body .content .entryURL
+{
+	font-weight                      : bold;
+}
+
+#part-post-notify table.data-inbox .tr-body .content .reply-icon,
+#part-post-notify table.data-inbox .tr-last-body .content .reply-icon
+{
+	background-image                 : url("./image/icon_arrow_guest2.gif");
+	background-position              : left bottom;
+	display                          : block;
+	float                            : left;
+	height                           : 12px;
+	margin                           : -1px 3px 0 0;
+	width                            : 13px;
+}
+
+#part-post-notify table.data-inbox .tr-body .content .reply-icon span,
+#part-post-notify table.data-inbox .tr-last-body .content .reply-icon span
+{
+	display                          : none;
+}
+
+#part-post-notify table.data-inbox .tr-body .content .new-icon,
+#part-post-notify table.data-inbox .tr-last-body .content .new-icon
+{
+	background-color                 : #9090BF;
+	background-image                 : url("./image/iconNew.gif");
+	background-position              : left bottom;
+	display                          : block;
+	float                            : left;
+	height                           : 9px;
+	margin                           : 3px 3px 0 0;
+	width                            : 18px;
+}
+
+#part-post-notify table.data-inbox .tr-body .content .new-icon span,
+#part-post-notify table.data-inbox .tr-last-body .content .new-icon span
+{
+	display                          : none;
+}
+
+#part-post-notify table.data-inbox .tr-last-body .delete
+{
+	padding-top                      : 1px;
+}
+
+#part-post-notify table.data-inbox .tr-body .delete-button,
+#part-post-notify table.data-inbox .tr-last-body .delete-button
+{
+	background-image                 : url("./image/delete2.gif");
+	height                           : 11px;
+	margin                           : 0 auto;
+	width                            : 11px;
+}
+
+#part-post-notify table.data-inbox .tr-body .delete-button span,
+#part-post-notify table.data-inbox .tr-last-body .delete-button span
+{
+	display                          : none;
+}
+
+/* multi-selection deleter ----------------------------------------------------------------------*/
+#part-post-notify #delete-section 
+{
+	padding                          : 1px 0 0 3px;
+}
+
+#part-post-notify #delete-section .label
+{
+	display                          : block;
+	float                            : left;
+	margin-top                       : -4px;
+	padding-top                      : 6px;
+}
+
+#part-post-notify #delete-section .delete-button
+{
+	background-image                 : url("./image/button2.gif");
+	float                            : left;
+	height                           : 24px;
+	margin                           : -4px 0 0 3px;
+	padding-left                     : 4px;
+	width                            : 76px;
+}
+
+#part-post-notify #delete-section .delete-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 6px 4px 0 0;
+	text-align                       : center;
+	width                            : 72px;
+}
+
+/* lines per page -------------------------------------------------------------------------------*/
+#part-post-notify #page-section .page-count
+{
+	bottom                           : 5px;
+	position                         : absolute;
+	right                            : 13px;
+	text-align                       : right;
+	vertical-align                   : 2px;
+	width                            : 300px;
+}
+
+#part-post-notify #page-section .page-count select
+{
+	vertical-align                   : 2px;
+	width                            : 40px;
+}
+
+/* page navigation ------------------------------------------------------------------------------*/
+#part-post-notify #page-navigation
+{
+	border-top                       : 1px dotted #CCCCCC;
+	margin-top                       : 7px;
+	padding                          : 10px 120px 0 3px;
+}
+
+#part-post-notify #page-navigation #page-list
+{
+	padding-left                     : 28px;
+}
+
+#part-post-notify #page-navigation #page-list a:link,
+#part-post-notify #page-navigation #page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-post-notify #page-navigation #page-list a:hover,
+#part-post-notify #page-navigation #page-list a:active
+{
+	color                            : #979797;
+}
+
+#part-post-notify #page-navigation #page-list a.selected:link,
+#part-post-notify #page-navigation #page-list a.selected:visited
+{
+	color                            : #FF0000 !important;
+}
+
+#part-post-notify #page-navigation #page-list a.selected:hover,
+#part-post-notify #page-navigation #page-list a.selected:active
+{
+	color                            : #FF3333 !important;
+}
+
+/* search ---------------------------------------------------------------------------------------*/
+#part-post-notify #search-section
+{
+	position                         : absolute;
+	top                              : 6px;
+	right                            : 9px;
+	width                            : 163px;
+}
+
+#part-post-notify #search-section input#search
+{
+	float                            : left;
+	margin-top                       : 2px;
+	padding                          : 2px;
+	width                            : 70px;
+}
+
+#part-post-notify #search-section .search-button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	float                            : left;
+	height                           : 24px;
+	margin-left                      : 3px;
+	padding-left                     : 4px;
+	width                            : 76px;
+}
+
+#part-post-notify #search-section .search-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 6px 4px 0 0;
+	text-align                       : center;
+	width                            : 72px;
+}
+
+/* Trackback *************************************************************************************/
+
+/* trackback common -----------------------------------------------------------------------------*/
+#part-post-trackback .caption
+{
+	font-weight                      : normal;
+	position                         : relative;
+}
+
+#part-post-trackback .caption .main-text
+{
+	font-weight                      : bold;
+}
+
+#part-post-trackback div.data-subbox
+{
+	background-color                 : #EBF2F8;
+	border-bottom                    : 2px solid #00A6ED;
+	padding                          : 9px 10px 7px 10px;
+	position                         : relative;
+}
+
+/* trackback category ---------------------------------------------------------------------------*/
+#part-post-trackback .caption .category
+{
+	display                          : block;
+	font-weight                      : normal;
+	position                         : absolute;
+	right                            : 0;
+	top                              : 19px;
+}
+
+#part-post-trackback .caption .category select
+{
+	vertical-align                   : 2px;
+}
+
+#part-post-trackback .caption .interword
+{
+	display                          : none;
+}
+/* trackback table head -------------------------------------------------------------------------*/
+#part-post-trackback table.data-inbox thead tr .selection
+{
+	padding                          : 0;
+	text-align                       : center;
+	width                            : 30px;
+}
+
+#part-post-trackback table.data-inbox thead tr .date
+{
+	width                            : 70px;
+}
+
+#part-post-trackback table.data-inbox thead tr .site
+{
+	width                            : 21%;
+}
+
+#part-post-trackback table.data-inbox thead tr .category
+{
+	width                            : 17%;
+}
+
+#part-post-trackback table.data-inbox thead tr .ip
+{
+	text-transform                   : uppercase;
+	width                            : 85px;
+}
+
+#part-post-trackback table.data-inbox thead tr .delete
+{
+	width                            : 20px;
+}
+
+#part-post-trackback table.data-inbox thead tr .delete span
+{
+	display                          : none;
+}
+
+/* trackback table body -------------------------------------------------------------------------*/
+#part-post-trackback table.data-inbox .tr-body .selection
+{
+	text-align                       : center;
+}
+
+#part-post-trackback table.data-inbox .tr-last-body .selection
+{
+	padding-top                      : 1px;
+	text-align                       : center;
+}
+
+#part-post-trackback table.data-inbox .tr-body .selection .checkbox,
+#part-post-trackback table.data-inbox .tr-last-body .selection .checkbox
+{
+	margin-top                       : 1px;
+}
+
+#part-post-trackback table.data-inbox .tr-body .date
+{
+	padding-top                      : 5px;
+}
+
+#part-post-trackback table.data-inbox .tr-last-body .date
+{
+	padding-top                      : 5px;
+}
+
+#part-post-trackback table.data-inbox .tr-body .site
+{
+	padding                          : 4px 5px 2px 0;
+}
+
+#part-post-trackback table.data-inbox .tr-last-body .site
+{
+	padding                          : 5px 5px 1px 0;
+}
+
+#part-post-trackback table.data-inbox .tr-body .site .block-icon,
+#part-post-trackback table.data-inbox .tr-last-body .site .block-icon
+{
+	background-image                 : url("./image/icon_block.gif");
+	background-position              : left bottom;
+	display                          : block;
+	float                            : left;
+	height                           : 6px;
+	margin                           : 2px 3px 0 0;
+	width                            : 16px;
+}
+
+#part-post-trackback table.data-inbox .tr-body .site .block-icon span,
+#part-post-trackback table.data-inbox .tr-last-body .site .block-icon span
+{
+	display                          : none;
+}
+
+#part-post-trackback table.data-inbox .tr-body .site .unblock-icon,
+#part-post-trackback table.data-inbox .tr-last-body .site .unblock-icon
+{
+	background-image                 : url("./image/icon_block.gif");
+	background-position              : left top;
+	display                          : block;
+	float                            : left;
+	height                           : 6px;
+	margin                           : 2px 3px 0 0;
+	width                            : 16px;
+}
+
+#part-post-trackback table.data-inbox .tr-body .site .unblock-icon span,
+#part-post-trackback table.data-inbox .tr-last-body .site .unblock-icon span
+{
+	display                          : none;
+}
+
+#part-post-trackback table.data-inbox .tr-body .category
+{
+	padding                          : 4px 5px 0 0;
+}
+
+#part-post-trackback table.data-inbox .tr-last-body .category
+{
+	padding                          : 5px 5px 0 0;
+}
+
+#part-post-trackback table.data-inbox .tr-body .title
+{
+	padding                          : 6px 5px 3px 0;
+}
+
+#part-post-trackback table.data-inbox .tr-last-body .title
+{
+	padding                          : 6px 5px 2px 0;
+}
+
+#part-post-trackback table.data-inbox .tr-body .ip,
+#part-post-trackback table.data-inbox .tr-last-body .ip
+{
+	padding                          : 4px 0 0 0;
+}
+
+#part-post-trackback table.data-inbox .tr-body .delete-button,
+#part-post-trackback table.data-inbox .tr-last-body .delete-button
+{
+	background-image                 : url("./image/delete2.gif");
+	height                           : 11px;
+	margin                           : 0 auto;
+	width                            : 11px;
+}
+
+#part-post-trackback table.data-inbox .tr-body .delete-button span,
+#part-post-trackback table.data-inbox .tr-last-body .delete-button span
+{
+	display                          : none;
+}
+
+/* multi-selection deleter ----------------------------------------------------------------------*/
+#part-post-trackback #delete-section 
+{
+	padding                          : 1px 0 0 3px;
+}
+
+#part-post-trackback #delete-section .label
+{
+	display                          : block;
+	float                            : left;
+	margin-top                       : -4px;
+	padding-top                      : 6px;
+}
+
+#part-post-trackback #delete-section .delete-button
+{
+	background-image                 : url("./image/button2.gif");
+	float                            : left;
+	height                           : 24px;
+	margin                           : -4px 0 0 3px;
+	padding-left                     : 4px;
+	width                            : 76px;
+}
+
+#part-post-trackback #delete-section .delete-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 6px 4px 0 0;
+	text-align                       : center;
+	width                            : 72px;
+}
+
+/* lines per page -------------------------------------------------------------------------------*/
+#part-post-trackback #page-section .page-count
+{
+	bottom                           : 5px;
+	position                         : absolute;
+	right                            : 13px;
+	text-align                       : right;
+	vertical-align                   : 2px;
+	width                            : 300px;
+}
+
+#part-post-trackback #page-section .page-count select
+{
+	vertical-align                   : 2px;
+	width                            : 40px;
+}
+
+/* page navigation ------------------------------------------------------------------------------*/
+#part-post-trackback #page-navigation
+{
+	border-top                       : 1px dotted #CCCCCC;
+	margin-top                       : 7px;
+	padding                          : 10px 120px 0 3px;
+}
+
+#part-post-trackback #page-navigation #page-list
+{
+	padding-left                     : 28px;
+}
+
+#part-post-trackback #page-navigation #page-list a:link,
+#part-post-trackback #page-navigation #page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-post-trackback #page-navigation #page-list a:hover,
+#part-post-trackback #page-navigation #page-list a:active
+{
+	color                            : #979797;
+}
+
+#part-post-trackback #page-navigation #page-list a.selected:link,
+#part-post-trackback #page-navigation #page-list a.selected:visited
+{
+	color                            : #FF0000 !important;
+}
+
+#part-post-trackback #page-navigation #page-list a.selected:hover,
+#part-post-trackback #page-navigation #page-list a.selected:active
+{
+	color                            : #FF3333 !important;
+}
+
+/* search ---------------------------------------------------------------------------------------*/
+#part-post-trackback #search-section
+{
+	position                         : absolute;
+	top                              : 6px;
+	right                            : 9px;
+	width                            : 163px;
+}
+
+#part-post-trackback #search-section input#search
+{
+	float                            : left;
+	margin-top                       : 2px;
+	padding                          : 2px;
+	width                            : 70px;
+}
+
+#part-post-trackback #search-section .search-button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	float                            : left;
+	height                           : 24px;
+	margin-left                      : 3px;
+	padding-left                     : 4px;
+	width                            : 76px;
+}
+
+#part-post-trackback #search-section .search-button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 6px 4px 0 0;
+	text-align                       : center;
+	width                            : 72px;
+}
+
+/* Category **************************************************************************************/
+
+/* category common ------------------------------------------------------------------------------*/
+#part-post-tree .data-inbox
+{
+	position                         : relative;
+	margin-bottom                    : 0;
+	min-height                       : 308px;
+}
+
+#property-box
+{
+	line-height                      : 24px;
+	margin                           : 5px 15px 0 330px;
+}
+
+#property-box dl
+{
+	background-image                 : url("./image/dotHorizontalStyle2.gif") !important;
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	clear                            : both;
+	padding                          : 15px 20px 13px 20px;
+}
+
+#property-box dl dt
+{
+	display                          : block;
+	float                            : left;
+	margin-right                     : 3px;
+	text-align                       : right;
+	width                            : 130px;
+}
+
+#property-box dl dd
+{
+	display                          : block;
+	float                            : left;
+}
+
+#property-box dl dd.clear
+{
+	clear                            : both;
+	float                            : none;
+}
+
+#property-box dl dd .divider
+{
+	display                          : none;
+}
+
+#property-box dl dd .explain
+{
+	clear                            : both;
+}
+
+#property-box dl dd .text-input
+{
+	display                          : block;
+	float                            : left;
+	margin                           : 2px 5px 0 0;
+	padding                          : 2px;
+	width                            : 150px;
+}
+
+#property-box dl dd .button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	float                            : left;
+	height                           : 24px;
+	margin-left                      : 3px;
+	padding-left                     : 4px;
+	width                            : 76px;
+}
+
+#property-box dl dd .button span
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	height                           : 24px;
+	padding                          : 1px 4px 0 0;
+	text-align                       : center;
+	width                            : 72px;
+}
+
+#treePreview
+{
+	left                             : 15px;
+	position                         : absolute;
+	top                              : 15px;
+	float                            : left;
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #CCCCCC;
+	height                           : 280px;
+	overflow                         : auto;
+	padding                          : 10px;
+	width                            : 280px;
+}
+
+#treePreview .branch3
+{
+	padding-top                      : 2px;
+}

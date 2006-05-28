@@ -1,0 +1,169 @@
+@media all and (min-width: 0px)
+{
+	/* Common ****************************************************************************************/
+	#data-outbox .button-box .save-button span
+	{
+		line-height                      : 24px;
+		padding-top                      : 0;
+	}
+	
+	#data-outbox .part select
+	{
+		height                           : 20px;
+		margin-top                       : 0 !important;
+		vertical-align                   : middle;
+	}
+	
+	/* Blog ******************************************************************************************/
+	
+	/* basic ----------------------------------------------------------------------------------------*/
+	#part-setting-basic #common-section .text-input
+	{
+		padding                          : 3px;
+	}
+	
+	#part-setting-basic #common-section dl dd .text-input
+	{
+		padding                          : 3px;
+	}
+
+	#part-setting-basic #multi-section dl dt
+	{
+		margin-top                        : -1px;
+		padding-top                       : 0;
+	}
+
+	#part-setting-basic #multi-section dl dd .text-input
+	{
+		padding                          : 3px;
+	}
+	
+	/* profile --------------------------------------------------------------------------------------*/
+	
+	#logo-iframe,
+	#blogcon-iframe,
+	#favicon-iframe
+	{
+		padding-left                     : 10px;
+	}
+
+	#logo-iframe .delete-button
+	{
+		height                           : 17px;
+		padding-top                      : 2px !important;
+	}
+	
+	/* rss ------------------------------------------------------------------------------------------*/
+	#part-setting-rss #rss-section .button-box .save-button span
+	{
+		padding-top                      : 0;
+	}
+	
+	/* language & timezone --------------------------------------------------------------------------*/
+	#part-setting-language #language-section dt
+	{
+		padding-top                      : 0;
+		margin-top                       : -3px;
+	}
+	
+	#part-setting-language #language-section .button-box .save-button span
+	{
+		padding-top                      : 0;
+	}
+	
+	/* Account ***************************************************************************************/
+	
+	/* edit -----------------------------------------------------------------------------------------*/
+	#part-setting-account dl dt
+	{
+		padding-top                      : 0;
+	}
+	
+	#part-setting-account #info-section .text-input
+	{
+		padding                          : 3px;
+	}
+	
+	#part-setting-account #account-section .text-input
+	{
+		padding                          : 3px;
+	}
+	
+	/* invite ---------------------------------------------------------------------------------------*/
+	#part-setting-invite #letter-section .button-box .invite-button span
+	{
+		height                           : 24px;
+		line-height                      : 24px;
+		padding-top                      : 0;
+	}
+	
+	/* list table -----------------------------------------------------------------------------------*/
+	#part-setting-invite #list-section table .tr-body td
+	{
+		border-bottom                    : 2px solid #00A6ED;
+	}
+	
+	#part-setting-invite #list-section table .tr-body .email,
+	#part-setting-invite #list-section table .tr-body .address,
+	#part-setting-invite #list-section table .tr-body .date,
+	#part-setting-invite #list-section table .tr-body .status,
+	#part-setting-invite #list-section table .tr-body .password
+	{
+		padding-top                      : 0;
+	}
+	
+	/* Filter ****************************************************************************************/
+	
+	#part-setting-filter div.data-inbox .section table tr td
+	{
+		height                           : 14px;
+		padding                          : 0;
+	}
+	
+	#part-setting-filter div.data-inbox .section .text-input
+	{
+		padding                          : 3px;
+		width                            : 200px;
+	}
+	
+	#part-setting-filter .button-box .add-button span
+	{
+		height                           : 24px;
+		line-height                      : 24px;
+		padding-top                      : 0;
+	}
+	
+	/* Plugins ***************************************************************************************/
+	
+	#part-setting-plugins table.data-inbox .tr-last-body td
+	{
+		border-bottom                    : 2px solid #00A6ED;
+	}
+	
+	#part-setting-plugins table.data-inbox .tr-body .explain,
+	#part-setting-plugins table.data-inbox .tr-last-body .explain
+	{
+		padding                          : 4px 5px 3px 0;
+	}
+	
+	/* Data ******************************************************************************************/
+	
+	/* dialog ---------------------------------------------------------------------------------------*/
+	.part .dialog .messege-body .explain
+	{
+		font-size                        : 92%;
+		letter-spacing                   : -1px;
+	}
+	
+	#part-data-backup .button-box .button span,
+	#part-data-restore .button-box .button span,
+	#part-data-remove .button-box .button span
+	{
+		padding-top                      : 3px;
+	}
+	
+	.part .dialog #admin-password input.text-input
+	{
+		padding                          : 3px;
+	}
+}

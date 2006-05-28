@@ -1,0 +1,344 @@
+@charset "utf-8";
+
+/* List ******************************************************************************************/
+
+/* list common ----------------------------------------------------------------------------------*/
+#part-post-list div.data-subbox
+{
+	padding-top                      : 7px;
+}
+
+/* list category --------------------------------------------------------------------------------*/
+#part-post-list .caption .category
+{
+	right                            : 51px;
+	top                              : 12px;
+}
+
+#part-post-list .caption .category select
+{
+	vertical-align                   : middle;
+}
+
+/* list table body ------------------------------------------------------------------------------*/
+#part-post-list table.data-inbox .tr-body td
+{
+	height                           : 20px;
+}
+
+#part-post-list table.data-inbox .tr-last-body td
+{
+	height                           : 20px;
+	padding-top                      : 1px;
+}
+
+/* list table interlayer for protect password & trackback sender --------------------------------*/
+#part-post-list table.data-inbox .hidden-layer .layer-section,
+#part-post-list table.data-inbox .hidden-last-layer .layer-section
+{
+	border                           : 1px solid #EFEFEF;
+	margin                           : 4px 0;
+}
+
+#part-post-list table.data-inbox .hidden-layer .layer-section table,
+#part-post-list table.data-inbox .hidden-last-layer .layer-section table
+{
+	text-align                       : right;
+	width                            : 700px !important;
+}
+
+#part-post-list table.data-inbox .hidden-layer .layer-section table tr .date,
+#part-post-list table.data-inbox .hidden-last-layer .layer-section table tr .date
+{
+	width                            : 115px !important;
+}
+
+#part-post-list table.data-inbox .hidden-layer .layer-section table tr .remove,
+#part-post-list table.data-inbox .hidden-last-layer .layer-section table tr .remove
+{
+	width                            : 10px !important;
+}
+
+/* multi-selection deleter in sub-box -----------------------------------------------------------*/
+#part-post-list #change-section 
+{
+	padding                          : 2px 0 1px 3px;
+}
+
+#part-post-list #change-section select
+{
+	margin-top                       : -1px;
+	vertical-align                   : middle;
+}
+
+/* lines per page -------------------------------------------------------------------------------*/
+#part-post-list #page-section .page-count
+{
+	top                              : 43px;
+	position                         : absolute;
+	right                            : 61px;
+	text-align                       : right;
+	vertical-align                   : middle;
+	width                            : auto;
+}
+
+#part-post-list #page-section .page-count select
+{
+	margin-bottom                    : 3px;
+	vertical-align                   : middle;
+}
+
+#part-post-list #page-section .page-list a:link,
+#part-post-list #page-section .page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-post-list #page-section .page-list a:hover,
+#part-post-list #page-section .page-list a:active
+{
+	color                            : #979797;
+}
+
+/* search ---------------------------------------------------------------------------------------*/
+#part-post-list #search-section
+{
+	right                            : 61px;
+	top                              : 7px;
+	width                            : 182px;
+}
+
+#part-post-list #search-section input#search
+{
+	margin-top                       : 2px;
+	padding                          : 3px;
+}
+
+/* Comment ***************************************************************************************/
+
+/* list common ----------------------------------------------------------------------------------*/
+#part-post-comment div.data-subbox
+{
+	padding-top                      : 7px;
+}
+
+/* list category --------------------------------------------------------------------------------*/
+#part-post-comment .caption .category
+{
+	right                            : 51px;
+	top                              : 12px;
+}
+
+#part-post-comment .caption .category select
+{
+	vertical-align                   : middle;
+}
+
+/* multi-selection deleter ----------------------------------------------------------------------*/
+#part-post-comment #delete-section 
+{
+	padding                          : 0 0 0 3px;
+	width                            : 300px;
+}
+
+#part-post-comment #delete-section .label,
+#part-post-comment #delete-section .delete-button
+{
+	margin-top                       : 0;
+}
+
+/* lines per page -------------------------------------------------------------------------------*/
+#part-post-comment #page-section .page-count
+{
+	top                              : 44px;
+	position                         : absolute;
+	right                            : 61px;
+	text-align                       : right;
+	vertical-align                   : middle;
+	width                            : auto;
+}
+
+#part-post-comment #page-section .page-count select
+{
+	margin-bottom                    : 3px;
+	vertical-align                   : middle;
+}
+
+#part-post-comment #page-section .page-list a:link,
+#part-post-comment #page-section .page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-post-comment #page-section .page-list a:hover,
+#part-post-comment #page-section .page-list a:active
+{
+	color                            : #979797;
+}
+
+/* search ---------------------------------------------------------------------------------------*/
+#part-post-comment #search-section
+{
+	right                            : 61px;
+	top                              : 7px;
+	width                            : 182px;
+}
+
+#part-post-comment #search-section input#search
+{
+	margin-top                       : 2px;
+	padding                          : 3px;
+}
+
+/* Notify ****************************************************************************************/
+
+/* list common ----------------------------------------------------------------------------------*/
+#part-post-notify div.data-subbox
+{
+	padding-top                      : 7px;
+}
+
+/* multi-selection deleter ----------------------------------------------------------------------*/
+#part-post-notify #delete-section 
+{
+	padding                          : 0 0 0 3px;
+	width                            : 300px;
+}
+
+#part-post-notify #delete-section .label,
+#part-post-notify #delete-section .delete-button
+{
+	margin-top                       : 0;
+}
+
+#part-post-notify #page-section .page-list a:link,
+#part-post-notify #page-section .page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-post-notify #page-section .page-list a:hover,
+#part-post-notify #page-section .page-list a:active
+{
+	color                            : #979797;
+}
+
+/* search ---------------------------------------------------------------------------------------*/
+#part-post-notify #search-section
+{
+	right                            : 61px;
+	top                              : 7px;
+	width                            : 182px;
+}
+
+#part-post-notify #search-section input#search
+{
+	margin-top                       : 2px;
+	padding                          : 3px;
+}
+
+/* Trackback *************************************************************************************/
+
+/* list common ----------------------------------------------------------------------------------*/
+#part-post-trackback div.data-subbox
+{
+	padding-top                      : 7px;
+}
+
+/* list category --------------------------------------------------------------------------------*/
+#part-post-trackback .caption .category
+{
+	right                            : 51px;
+	top                              : 12px;
+}
+
+#part-post-trackback .caption .category select
+{
+	vertical-align                   : middle;
+}
+
+/* multi-selection deleter ----------------------------------------------------------------------*/
+#part-post-trackback #delete-section 
+{
+	padding                          : 0 0 0 3px;
+	width                            : 300px;
+}
+
+#part-post-trackback #delete-section .label,
+#part-post-trackback #delete-section .delete-button
+{
+	margin-top                       : 0;
+}
+
+/* lines per page -------------------------------------------------------------------------------*/
+#part-post-trackback #page-section .page-count
+{
+	top                              : 44px;
+	position                         : absolute;
+	right                            : 61px;
+	text-align                       : right;
+	vertical-align                   : middle;
+	width                            : auto;
+}
+
+#part-post-trackback #page-section .page-count select
+{
+	margin-bottom                    : 3px;
+	vertical-align                   : middle;
+}
+
+#part-post-trackback #page-section .page-list a:link,
+#part-post-trackback #page-section .page-list a:visited
+{
+	color                            : #000000;
+}
+
+#part-post-trackback #page-section .page-list a:hover,
+#part-post-trackback #page-section .page-list a:active
+{
+	color                            : #979797;
+}
+
+/* search ---------------------------------------------------------------------------------------*/
+#part-post-trackback #search-section
+{
+	right                            : 61px;
+	top                              : 7px;
+	width                            : 182px;
+}
+
+#part-post-trackback #search-section input#search
+{
+	margin-top                       : 2px;
+	padding                          : 3px;
+}
+
+/* Category **************************************************************************************/
+
+/* category common ------------------------------------------------------------------------------*/
+#part-post-tree .data-inbox
+{
+	height                           : 308px;
+	width                            : 100%;
+}
+
+#property-box
+{
+	margin                           : 0;
+	padding                          : 20px 0 0 330px;
+}
+
+#property-box dl
+{
+	padding                          : 0 20px 25px 20px;
+}
+
+#property-box dl dd
+{
+	width                            : 280px;
+}
+
+#property-box dl dd .text-input
+{
+	display                          : inline;
+}

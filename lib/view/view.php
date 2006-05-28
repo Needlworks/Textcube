@@ -33,7 +33,11 @@ function getUpperView($paging) {
 	Copyright (c) 2005 Tatter & Company, LLP. All rights reserved.
 -->
 <script type="text/javascript">
-var servicePath = "<?php echo $service['path']?>"; var blogURL = "<?php echo $blogURL?>";
+	//<![CDATA[
+		var servicePath = "<?=$service['path']?>";
+		var blogURL = "<?=$blogURL?>";
+		var adminSkin = "<?=$service['adminSkin']?>";
+	//]]>
 </script>
 <script type="text/javascript" src="<?php echo $service['path']?>/script/EAF.js"></script>
 <script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>
@@ -312,13 +316,13 @@ function getLowerView() {
 
 function getScriptsOnFoot() {
 	ob_start();
-	?>
+?>
 	<script type="text/javascript">
 		//<![CDATA[
 		updateFeed();
 		//]]>
 	</script>
-	<?php 
+<?php 
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;

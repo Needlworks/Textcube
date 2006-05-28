@@ -3,68 +3,73 @@ define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 set_time_limit(360);
 ob_implicit_flush();
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 	<head>
 		<title>Update all feeds</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="<?=$service['path']?>/script/common.js"></script>
 		<script type="text/javascript">
-			var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
+			//<![CDATA[
+				var servicePath = "<?=$service['path']?>";
+				var blogURL = "<?=$blogURL?>";
+				var adminSkin = "<?=$service['adminSkin']?>";
+			//]]>
 		</script>
 	</head>
 	<body>
 		<?=str_repeat('<!-- flush buffer -->', 400)?>
 		<script type="text/javascript">
-		//<![CDATA[
-			var progress = parent.document.getElementById("progress");
-			progress.innerHTML = "(0%)";
-		//]]>
+			//<![CDATA[
+				var progress = parent.document.getElementById("progress");
+				progress.innerHTML = "(0%)";
+			//]]>
 		</script>
-		<?
-		$feeds = fetchQueryAll("SELECT f.* FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr WHERE g.owner = $owner AND gr.feed = f.id AND gr.owner = g.owner AND gr.groupId = g.id ORDER BY f.title");
-		$count = 0;
-		foreach ($feeds as $feed) {
-		?>
+<?
+$feeds = fetchQueryAll("SELECT f.* FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr WHERE g.owner = $owner AND gr.feed = f.id AND gr.owner = g.owner AND gr.groupId = g.id ORDER BY f.title");
+$count = 0;
+foreach ($feeds as $feed) {
+?>
 		<script type="text/javascript">
-		//<![CDATA[
-		var icon = parent.document.getElementById("iconFeedStatus<?=$feed['id']?>");
-		if(icon) {
-			try{
-				parent.Reader.startScroll("feedBox", getOffsetTop(icon) - getOffsetTop(parent.document.getElementById("feedBox")) - 50);
-			} catch(e) {alert(e.message);}
-			icon.src = servicePath + "/style/default/image/reader/iconUpdateIng.gif";
-		}
-		//]]>
+			//<![CDATA[
+				var icon = parent.document.getElementById("iconFeedStatus<?=$feed['id']?>");
+				if(icon) {
+					try{
+						parent.Reader.startScroll("feedBox", getOffsetTop(icon) - getOffsetTop(parent.document.getElementById("feedBox")) - 50);
+					} catch(e) {alert(e.message);}
+					icon.src = servicePath + "/style/default/image/reader/iconUpdateIng.gif";
+				}
+			//]]>
 		</script>		
-		<?
+<?
 	$count++;
 	$result = updateFeed($feed);
 ?>
 		<script type="text/javascript">
-		//<![CDATA[
-		/* update complete : [<?=$result?>] <?=$feed['xmlURL']?> */
-		if(icon) {
-			switch(<?=$result?>) {
-				case 0:
-					icon.src = servicePath + "/style/default/image/reader/iconUpdate.gif";
-					break;
-				default:
-					icon.src = servicePath + "/style/default/image/reader/iconFailure.gif";
-			}			
-		}
-		progress.innerHTML = "(<?=sprintf('%.1f', $count * 100 / sizeof($feeds))?>%)";
-		//]]>
+			//<![CDATA[
+				/* update complete : [<?=$result?>] <?=$feed['xmlURL']?> */
+				if(icon) {
+					switch(<?=$result?>) {
+						case 0:
+							icon.src = servicePath + "/style/default/image/reader/iconUpdate.gif";
+							break;
+						default:
+							icon.src = servicePath + "/style/default/image/reader/iconFailure.gif";
+					}			
+				}
+				progress.innerHTML = "(<?=sprintf('%.1f', $count * 100 / sizeof($feeds))?>%)";
+			//]]>
 		</script>		
-		<?
+<?
 }
 ?>
 		<script type="text/javascript">
-		//<![CDATA[
-			parent.Reader.refreshFeedList(parent.Reader.selectedGroup);
-			parent.Reader.refreshEntryList(parent.Reader.selectedGroup, parent.Reader.selectedFeed);
-			setTimeout("parent.document.getElementById('progress').innerHTML = ''", 1000);
-		//]]>
+			//<![CDATA[
+				parent.Reader.refreshFeedList(parent.Reader.selectedGroup);
+				parent.Reader.refreshEntryList(parent.Reader.selectedGroup, parent.Reader.selectedFeed);
+				setTimeout("parent.document.getElementById('progress').innerHTML = ''", 1000);
+			//]]>
 		</script>		
 	</body>
 </html>
