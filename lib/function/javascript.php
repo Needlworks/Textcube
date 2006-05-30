@@ -27,6 +27,7 @@ function filterJavaScript($str, $removeScript = true) {
 		}
 		$str = preg_replace('/<\/?iframe.*?>/si', '', $str);
 		$str = preg_replace('/<script.*?<\/script>/si', '', $str);
+		$str = preg_replace('/<object.*?type=["\']?text\/x-scriptlet["\']?.*?>(.*?<\/object>)?/si', '', $str);
 		$str = preg_replace('/j\s*?a\s*?v\s*?a\s*?s\s*?c\s*?r\s*?i\s*?p\s*?t\s*?:/si', '', $str);
 	} else
 		$str = str_replace('<script', '<script defer="defer"', $str);
