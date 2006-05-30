@@ -1270,11 +1270,12 @@ function TTCommand(command, value1, value2) {
 				var ext = new RegExp("\\.(\\w+)(?:$|\\?)").exec(url);
 				ext = (ext && ext.length == 2) ? ext[1].toLowerCase() : "";
 				var code = "";
-				if(ext == "swf") {
+				if(ext == "swf"  || ext == "") {
 					code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="400" height="300">' +
-							'<param name="movie" value="' + url + '">' +
+							'<param name="wmode" value="transparent"/>' +
+							'<param name="movie" value="' + url + '"/>' +
 							'<!--[if !IE]> <-->' +
-							'<object type="application/x-shockwave-flash" data="' + url + '" width="400" height="300">' +
+							'<object type="application/x-shockwave-flash" transparent="yes" data="' + url + '" width="400" height="300">' +
 							'<p><a href="' + url + '">Can\'t display this flash media</a></p>' +
 							'</object>' +
 							'<!--> <![endif]-->' +
