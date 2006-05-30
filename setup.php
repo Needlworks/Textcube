@@ -489,39 +489,39 @@ EOS;
             while ($table = mysql_fetch_array($result)) {
                 if (strncmp($table[0], $_POST['dbPrefix'], strlen($_POST['dbPrefix'])))
                     continue;
-                switch (substr($table[0], strlen($_POST['dbPrefix']))) {
-                    case 'Attachments':
-                    case 'BlogSettings':
-                    case 'BlogStatistics':
-                    case 'Categories':
-					case 'Comments':
-					case 'CommentsNotified':
-					case 'CommentsNotifiedQueue':
-					case 'CommentsNotifiedSiteInfo':
-					case 'DailyStatistics':
-					case 'Entries':
-					case 'FeedGroupRelations':
-					case 'FeedGroups':
-					case 'FeedItems':
-					case 'FeedReads':
-					case 'FeedSettings':
-					case 'FeedStarred':
-					case 'Feeds':
-					case 'Filters':
-                    case 'Links':
-					case 'Personalization':
-					case 'Plugins':
-                    case 'RefererLogs':
-                    case 'RefererStatistics':
-                    case 'ReservedWords':
-                    case 'SessionVisits':
-                    case 'Sessions':
-                    case 'SkinSettings':
-                    case 'TagRelations':
-                    case 'Tags':
-                    case 'TrackbackLogs':
-                    case 'Trackbacks':
-                    case 'Users':
+                switch (strtolower(substr($table[0], strlen($_POST['dbPrefix'])))) {
+                    case 'attachments':
+                    case 'blogsettings':
+                    case 'blogstatistics':
+                    case 'categories':
+					case 'comments':
+					case 'commentsnotified':
+					case 'commentsnotifiedqueue':
+					case 'commentsnotifiedsiteinfo':
+					case 'dailystatistics':
+					case 'entries':
+					case 'feedgrouprelations':
+					case 'feedgroups':
+					case 'feeditems':
+					case 'feedreads':
+					case 'feedsettings':
+					case 'feedstarred':
+					case 'feeds':
+					case 'filters':
+                    case 'links':
+					case 'personalization':
+					case 'plugins':
+                    case 'refererlogs':
+                    case 'refererstatistics':
+                    case 'reservedwords':
+                    case 'sessionvisits':
+                    case 'sessions':
+                    case 'skinsettings':
+                    case 'tagrelations':
+                    case 'tags':
+                    case 'trackbacklogs':
+                    case 'trackbacks':
+                    case 'users':
                         $tables[count($tables)] = $table[0];
                         break;
                 }
