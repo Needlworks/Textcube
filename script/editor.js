@@ -106,8 +106,72 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	this.contentDocument.addEventListener("paste", this.eventHandler, false);
 	this.contentDocument.addEventListener("keyup", this.eventHandler, false);
 
+	// editor height resize event
+	STD.addEventListener(document);
+	document.addEventListener("mousemove", docEventHandler, false);
+	document.addEventListener("mousedown", docEventHandler, false);
+	document.addEventListener("mouseup", docEventHandler, false);
+	document.addEventListener("selectstart", docEventHandler, false);
+	this.contentDocument.addEventListener("mousemove", docEventHandler, false);
+	this.contentDocument.addEventListener("mousedown", docEventHandler, false);
+	this.contentDocument.addEventListener("mouseup", docEventHandler, false);
+
 	// 가끔씩 Firefox에서 커서가 움직이지 않는 문제 수정
 	setTimeout("try{editor.contentDocument.designMode='on'}catch(e){}", 100);
+}
+
+// editor height resize event
+function docEventHandler(event) {
+	var attachManagerSelectNest = document.getElementById('attachManagerSelectNest');
+
+	if(STD.isIE) event.target = event.srcElement;
+
+	switch(event.type) {
+		case "mousemove":
+			var editorSection = document.getElementById('editor-section');
+			var editorTextbox = document.getElementById('editor-textbox');			
+			var editorSectionTag = document.getElementById('tag');
+
+			var targetOffset = (editor.editMode == "WYSIWYG") ? editor.iframe : editor.textarea;
+			var pageY = parseInt(event.clientY);
+			if(event.target.tagName != "BODY" && event.target.tagName != "HTML") {
+				pageY += document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop;
+			}
+
+			if(editor.rowResizeDown) {
+				if(event.target.tagName != "BODY" && event.target.tagName != "HTML")
+					pageY -= getOffsetTop(targetOffset);
+				try { targetOffset.style.height = pageY + 'px'; } catch(e) {}
+			} else if(event.target == editorSection || event.target == editorTextbox || event.target == editorSectionTag || event.target == editor.iframeWrapper) {
+				var getOffset = getOffsetTop(targetOffset) + parseInt(targetOffset.offsetHeight);
+
+				if(pageY > getOffset && pageY < getOffset + 10) {
+					editorSection.style.cursor = 'row-resize';
+					editor.rowResize = true;
+				} else {
+					editorSection.style.cursor = '';
+					editor.rowResize = false;
+				}
+			} else {
+				editorSection.style.cursor = '';
+				editor.rowResize = false;
+			}
+			break;
+		case "mousedown":
+			editor.rowResizeDown = false;
+
+			if(editor.rowResize) {
+				attachManagerSelectNest.style.display = 'none';
+				editor.rowResizeDown = true;
+			}
+			break;
+		case "mouseup":
+			editor.rowResizeDown = false;
+			attachManagerSelectNest.style.display = 'block';
+			break;
+		case "selectstart":
+			return editor.rowResizeDown ? false : true;
+	}
 }
 
 // TTML로 작성된 파일을 HTML 뷰에 뿌려주기 위해 변환
