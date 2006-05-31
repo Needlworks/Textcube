@@ -174,6 +174,7 @@ li
 	padding-right                    : 5px !important;
 }
 
+#main-menu .center,
 #main-menu .post,
 #main-menu .notice,
 #main-menu .link,
@@ -190,6 +191,7 @@ li
 	padding                          : 10px 4px 0 9px;
 }
 
+#main-menu .center a,
 #main-menu .post a,
 #main-menu .notice a,
 #main-menu .link a,
@@ -202,7 +204,7 @@ li
 	padding                          : 4px 0 2px 0;
 }
 
-#main-menu .post
+#main-menu .center
 {
 	background-image                 : url("./image/mainMenuLeft.gif");
 	background-position              : left top;

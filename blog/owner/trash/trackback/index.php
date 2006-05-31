@@ -308,5 +308,5 @@ for ($i = 10; $i <= 30; $i += 5) {
 										</div>
 									</div>
 <?
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/lib/piece/owner/footer0.php';
 ?>

@@ -35,6 +35,7 @@
 				<div id="main-menu-outbox">
 					<ul id="main-menu">
 						<li class="tattertools"><a href="<?php echo TATTERTOOLS_HOMEPAGE?>" title="<?php echo _t('태터툴즈 홈페이지로 이동합니다.')?>"><span>태터툴즈 홈페이지로 이동</span></a></li>
+						<li class="center"><a href="<?php echo $blogURL?>/owner/center/dashboard"><span><?php echo _t('센터')?></span></a></li>
 						<li class="post"><a href="<?php echo $blogURL?>/owner/entry"><span><?php echo _t('글관리')?></span></a></li>
 						<!--li class="keyword"><a href="<?php echo $blogURL?>/owner/keyword"><span><?php echo _t('키워드관리')?></span></a></li-->
 						<li class="notice"><a href="<?php echo $blogURL?>/owner/notice"><span><?php echo _t('공지관리')?></span></a></li>				

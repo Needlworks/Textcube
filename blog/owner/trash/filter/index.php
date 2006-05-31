@@ -256,5 +256,5 @@ if (!@is_null($history)) {
 									
 									<div class="clear"></div>
 <?
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/lib/piece/owner/footer0.php';
 ?>
