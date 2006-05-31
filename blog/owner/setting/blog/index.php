@@ -274,12 +274,12 @@ if ($service['type'] != 'single') {
 													<a class="save-button button" href="#void" onclick="setBlog()"><span class="text"><?=_t('저장하기')?></span></a>
 												</div>
 											</div>
+											<div id="multi-section" class="section">
 <?
 $urlRule = getBlogURLRule();
 if ($service['type'] != 'single') {
 	if ($service['type'] == 'domain') {
 ?>
-											<div id="multi-section" class="section">
 												<dl class="line">
 													<dt><label for="primaryDomain"><span class="text"><?=_t('1차 블로그 주소')?></span></label><span class="divider"> | </span></dt>
 													<dd>
@@ -294,6 +294,9 @@ if ($service['type'] != 'single') {
 													</dd>
 													<dd class="clear"></dd>
 												</dl>
+<?
+	} else {
+?>
 												<dl class="line">
 													<dt><label for="pathDomain"><span class="text"><?=_t('블로그 주소')?></span></label><span class="divider"> | </span></dt>
 													<dd><?=$urlRule[0]?> <input type="text" id="pathDomain" class="text-input" name="pathDomain" value="<?=escapeJSInAttribute($blog['name'])?>" /></dd>
