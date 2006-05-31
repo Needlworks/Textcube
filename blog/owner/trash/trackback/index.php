@@ -104,7 +104,6 @@ require ROOT . '/lib/piece/owner/contentMenu90.php';
 									<div id="part-trash-trackback" class="part">
 										<h2 class="caption">
 											<span class="category">
-												<label for="category"><span class="text"><?php echo _t('분류')?></span><span class="divider"> | </span></label>
 												<select id="category" name="category" onchange="document.forms[0].page.value=1; document.forms[0].submit()">
 													<option value="0"><?php echo _t('전체')?></option>
 <?php
@@ -114,14 +113,14 @@ foreach (getCategories($owner) as $category) {
 <?php
 	foreach ($category['children'] as $child) {
 ?>
-													<option value="<?php echo $child['id']?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;► <?php echo htmlspecialchars($child['name'])?></option>
+													<option value="<?php echo $child['id']?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;― <?php echo htmlspecialchars($child['name'])?></option>
 <?php
 	}
 }
 ?>
 												</select>
 											</span>
-											<span class="interword"><?php echo _t('카테고리에')?></span>
+											<span class="interword"><?php echo _t('분류에')?></span>
 											<span class="main-text"><?php echo _t('삭제 대기중인 트랙백입니다')?></span>
 <?
 if (strlen($site) > 0 || strlen($ip) > 0) {
@@ -159,7 +158,8 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 $siteNumber = array();
 for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$trackback = $trackbacks[$i];
-
+	
+	($i % 2) == 1 ? $className = 'tr-odd-body' : $className = 'tr-even-body';
 	requireComponent('Tattertools.Data.Filter');
 	$isFilterURL = Filter::isFiltered('url', $trackback['url']);
 	$filteredURL = getURLForFilter($trackback['url']);
@@ -173,7 +173,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	
 	if ($i == sizeof($trackbacks) - 1) {
 ?>
-												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+												<tr class="<?php echo tr-odd-body?> tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 													<td class="selection">
 														<input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" />
 													</td>
@@ -208,7 +208,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?
 	} else {
 ?>
-												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+												<tr class="<?php echo tr-odd-body?> tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 													<td class="selection">
 														<input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" />
 													</td>

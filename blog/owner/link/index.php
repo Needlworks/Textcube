@@ -52,22 +52,26 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 for ($i=0; $i<sizeof($links); $i++) {
 	$link = $links[$i];
 	
+	($i % 2) == 1 ? $className = 'tr-odd-body' : $className = 'tr-even-body';
 	if ($i == sizeof($links) - 1) {
 ?>
-												<tr id="link_<?=$link['id']?>" class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-<?
-	} else {
-?>
-												<tr id="link_<?=$link['id']?>" class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-<?
-	}
-?>
-    												<td class="homepage"><a href="<?=$blogURL?>/owner/link/edit/<?=$link['id']?>" title="<?=_t('이 링크 정보를 수정합니다.')?>"><?=htmlspecialchars($link['name'])?></a></td>
+												<tr id="link_<?=$link['id']?>" class="<?php echo $className?> tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="homepage"><a href="<?=$blogURL?>/owner/link/edit/<?=$link['id']?>" title="<?=_t('이 링크 정보를 수정합니다.')?>"><?=htmlspecialchars($link['name'])?></a></td>
 													<td class="address"><a href="<?=htmlspecialchars($link['url'])?>" onclick="window.open(this.href); return false;" title="<?=_t('이 링크에 연결합니다.')?>"><?=htmlspecialchars($link['url'])?></a></td>
 													<!--td class="edit"><a class="edit-button button" href="<?=$blogURL?>/owner/link/edit/<?=$link['id']?>" title="<?=_t('링크 정보를 수정합니다.')?>"><span><?=_t('수정')?></span></a></td-->
 													<td class="delete"><a class="delete-button button" href="#void" onclick="deleteLink(<?=$link['id']?>)" title="<?=_t('링크 정보를 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a></td>
 												</tr>
 <?
+	} else {
+?>
+												<tr id="link_<?=$link['id']?>" class="<?php echo $className?> tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="homepage"><a href="<?=$blogURL?>/owner/link/edit/<?=$link['id']?>" title="<?=_t('이 링크 정보를 수정합니다.')?>"><?=htmlspecialchars($link['name'])?></a></td>
+													<td class="address"><a href="<?=htmlspecialchars($link['url'])?>" onclick="window.open(this.href); return false;" title="<?=_t('이 링크에 연결합니다.')?>"><?=htmlspecialchars($link['url'])?></a></td>
+													<!--td class="edit"><a class="edit-button button" href="<?=$blogURL?>/owner/link/edit/<?=$link['id']?>" title="<?=_t('링크 정보를 수정합니다.')?>"><span><?=_t('수정')?></span></a></td-->
+													<td class="delete"><a class="delete-button button" href="#void" onclick="deleteLink(<?=$link['id']?>)" title="<?=_t('링크 정보를 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a></td>
+												</tr>
+<?
+	}
 }
 ?>
 											</tbody>

@@ -115,7 +115,6 @@ require ROOT . '/lib/piece/owner/contentMenu01.php';
 									<div id="part-post-comment" class="part">
 										<h2 class="caption">
 											<span class="category">
-												<label for="category"><span class="text"><?php echo _t('분류')?></span><span class="divider"> | </span></label>
 												<select id="category" name="category" onchange="document.forms[0].page.value=1; document.forms[0].submit()">
 													<option value="0"><?php echo _t('전체')?></option>
 <?php
@@ -125,14 +124,14 @@ foreach (getCategories($owner) as $category) {
 <?php
 	foreach ($category['children'] as $child) {
 ?>
-													<option value="<?php echo $child['id']?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;► <?php echo htmlspecialchars($child['name'])?></option>
+													<option value="<?php echo $child['id']?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;― <?php echo htmlspecialchars($child['name'])?></option>
 <?php
 	}
 }
 ?>
 												</select>
 											</span>
-											<span class="interword"><?php echo _t('카테고리에')?></span>
+											<span class="interword"><?php echo _t('분류에')?></span>
 											<span class="main-text"><?php echo _t('등록된 댓글 목록입니다')?></span>
 <?
 if (strlen($name) > 0 || strlen($ip) > 0) {
@@ -171,6 +170,8 @@ $ipNumber = array();
 for ($i=0; $i<sizeof($comments); $i++) {
 	$comment = $comments[$i];
 	
+	($i % 2) == 1 ? $className = 'tr-odd-body' : $className = 'tr-even-body';
+	$comment['parent'] ? $className .= ' tr-reply-body' : null;
 	$filter = new Filter();
 	if (Filter::isFiltered('name', $comment['name']))
 		$isNameFiltered = true;
@@ -198,8 +199,8 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	
 	if ($i == sizeof($comments) - 1) {
 ?>
-												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-													<td class="selection"><input type="checkbox" name="entry" value="<?=$comment['id']?>" /></td>
+												<tr class="<?php echo $className?> tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$comment['id']?>" /></td>
 													<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
 													<td class="name">
 <?
@@ -217,12 +218,6 @@ for ($i=0; $i<sizeof($comments); $i++) {
 													</td>
 													<td class="content">
 <?
-		if ($comment['parent']) {
-?>
-														<span class="reply-icon bullet"><span class="text"><?=_t('[댓글의 댓글]')?></span></span>
-<?
-		}
-		
 		echo '<a class="entryURL" href="'.$blogURL.'/'.$comment['entry'].'#comment'.$comment['id'].'" title="'._t('댓글이 작성된 포스트로 직접 이동합니다.').'">';
 		//echo "<strong>";
 		echo $comment['title'];
@@ -259,8 +254,8 @@ for ($i=0; $i<sizeof($comments); $i++) {
 <?
 	} else {
 ?>
-												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-													<td class="selection"><input type="checkbox" name="entry" value="<?=$comment['id']?>" /></td>
+												<tr class="<?php echo $className?> tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$comment['id']?>" /></td>
 													<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
 													<td class="name">
 <?
@@ -278,12 +273,6 @@ for ($i=0; $i<sizeof($comments); $i++) {
 													</td>
 													<td class="content">
 <?
-		if ($comment['parent']) {
-?>
-														<span class="reply-icon bullet"><span class="text"><?=_t('[댓글의 댓글]')?></span></span>
-<?
-		}
-		
 		echo '<a class="entryURL" href="'.$blogURL.'/'.$comment['entry'].'#comment'.$comment['id'].'" title="'._t('댓글이 작성된 포스트로 직접 이동합니다.').'">';
 		//echo "<strong>";
 		echo $comment['title'];

@@ -100,7 +100,7 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 									
 									<input type="hidden" name="withSearch" value="<?=(empty($_POST['withSearch']) ? '' : 'on')?>" />
 									
-									<div id="part-notice-list">
+									<div id="part-notice-list" class="part">
 										<h2 class="caption"><span class="main-text"><?=_t('등록된 공지 목록입니다')?></span></h2>
 
 										<table class="data-inbox" cellspacing="0" cellpadding="0">
@@ -118,9 +118,10 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 for ($i=0; $i<sizeof($entries); $i++) {
 	$entry = $entries[$i];
 	
+	($i % 2) == 1 ? $className = 'tr-odd-body' : $className = 'tr-even-body';
 	if ($i == sizeof($entries) - 1) {
 ?>
-												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+												<tr class="<?php echo $className?> tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 													<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked = false" /></td>
 													<td class="date"><?=Timestamp::format3($entry['published'])?></td>
 													<td class="status">
@@ -144,7 +145,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?
 	} else {
 ?>
-												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+												<tr class="<?php echo $className?> tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 													<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked = false" /></td>
 													<td class="date"><?=Timestamp::format3($entry['published'])?></td>
 													<td class="status">

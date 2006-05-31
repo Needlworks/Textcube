@@ -20,6 +20,9 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
 													document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?=_t('사용중')?></span>';
 													document.getElementById("plugin_" + num).setAttribute('title', '<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>');
 													document.getElementById("plugin" + num + "Link").setAttribute('title', '<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>');
+													
+													objTR = getParentTr(document.getElementById("plugin" + num + "Link"));
+													objTR.className = objTR.className.replace(/inactive/g, 'active');
 												} else {
 													var request = new HTTPRequest("<?=$blogURL?>/owner/setting/plugins/deactivate?name=" + plugin);
 													//request.presetProperty(document.getElementById("plugin" + plugin + "IsActive").style, "display", "inline");
@@ -31,13 +34,27 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
 													document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?=_t('미사용')?></span>';
 													document.getElementById("plugin_" + num).setAttribute('title', '<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>');
 													document.getElementById("plugin" + num + "Link").setAttribute('title', '<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>');
+													
+													objTR = getParentTr(document.getElementById("plugin" + num + "Link"));
+													objTR.className = objTR.className.replace(/active/g, 'inactive');
 												}
+											}
+											
+											function getParentTr(obj){
+												while (obj.tagName != "TR") {
+													obj = obj.parentNode;
+												}
+												return obj;
 											}
 										//]]>
 									</script>
 									
 									<div id="part-setting-plugins" class="part">
 										<h2 class="caption"><span class="main-text"><?=_t('설치된 플러그인입니다')?></span></h2>
+										
+										<div class="main-explain-box">
+											<p class="explain"><?php echo _t('플러그인은 태터툴즈의 기능을 확장해 줍니다. 설치된 플러그인은 이 메뉴에서 사용여부를 결정합니다.')?></p>
+										</div>
 										
 										<table class="data-inbox" cellspacing="0" cellpadding="0">
 											<thead>
@@ -77,9 +94,10 @@ for ($i=0; $i<sizeof($plugins); $i++) {
 	$author = htmlspecialchars($xmls->getValue('/plugin/author[lang()]'));
 	$active = in_array($plugin, $activePlugins);
 	
+	($i % 2) == 1 ? $className = 'tr-odd-body' : $className = 'tr-even-body';
 	if ($i == sizeof($plugins) - 1) {
 ?>
-												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+												<tr class="<?php echo $className?> tr-last-body <?php echo $active ? 'active-class' : 'inactive-class'?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 													<td class="title"><?=($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title)?></td>
 													<td class="version"><?=htmlspecialchars($xmls->getValue('/plugin/version[lang()]'))?></td>
 								 					<td class="explain"><?=htmlspecialchars($xmls->getValue('/plugin/description[lang()]'))?></td>
@@ -101,7 +119,7 @@ for ($i=0; $i<sizeof($plugins); $i++) {
 <?
 	} else {
 ?>
-												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+												<tr class="<?php echo $className?> tr-body <?php echo $active ? 'active-class' : 'inactive-class'?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 													<td class="title"><?=($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title)?></td>
 													<td class="version"><?=htmlspecialchars($xmls->getValue('/plugin/version[lang()]'))?></td>
 								 					<td class="explain"><?=htmlspecialchars($xmls->getValue('/plugin/description[lang()]'))?></td>
@@ -130,6 +148,14 @@ for ($i=0; $i<sizeof($plugins); $i++) {
 											</tbody>
 										</table>
 									</div>
+									
+									<div id="part-setting-more" class="part">
+										<h2 class="caption"><span class="main-text"><?=_t('플러그인 구하기')?></span></h2>
+										
+										<div class="main-explain-box">
+											<p class="explain"><?php echo _t('추가 플러그인은 <a href="http://www.tattertools.com/plugins" onclick="window.open(this.href); return false;" title="태터툴즈 홈페이지에 개설되어 있는 플러그인 업로드 게시판으로 연결합니다.">태터툴즈 홈의 플러그인 게시판</a>에서 구하실 수 있습니다. 일반적으로 플러그인 파일을 태터툴즈의 plugin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 플러그인은 이 메뉴에서 \'사용중\'으로 전환하여 사용을 시작합니다. 추천 플러그인에 대한 정보는 <a href="http://plugin.tattertools.com" onclick="window.open(this.href); return false;">TnF의 플러그인 리뷰</a>를 참고하십시오.')?></p>
+										</div>
+									</div>	
 <?
 require ROOT . '/lib/piece/owner/footer0.php';
 ?>

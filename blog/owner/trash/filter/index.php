@@ -26,26 +26,30 @@ function printFilterBox($mode, $title) {
 		$filter->close();
 	}
 ?>
-												<div class="title"><span><?=$title?></span></div>
+												<div class="title"><span class="text"><?=$title?></span></div>
 												
 												<table cellpadding="0" cellspacing="0"> 
 <?
 	if ($filtersList) {
 		$id = 0;
+		$counter = 0;
 		foreach ($filtersList as $key => $value) {
 			$entity = $value[1];
+			
+			($counter % 2) == 1 ? $className = 'tr-odd-body' : $className = 'tr-even-body';
 ?>
-													<tr class="inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 														<td class="content"><span title="<?=escapeJSInAttribute($entity)?>"><?=UTF8::lessenAsEm($entity, 30)?></span></td>
-														<td class="delete"><a class="delete-button button" href="#void" onclick="deleteFilter(parentNode.parentNode,'<?=$mode?>', '<?=urlencode($entity)?>',<?=$value[0]?>);" title="<?=_t('이 필터링을 제거합니다.')?>"><span><?=_t('삭제')?></span></a></td>
+														<td class="delete"><a class="delete-button button" href="#void" onclick="deleteFilter(parentNode.parentNode,'<?=$mode?>', '<?=urlencode($entity)?>',<?=$value[0]?>);" title="<?=_t('이 필터링을 제거합니다.')?>"><span class="text"><?=_t('삭제')?></span></a></td>
 													</tr>
 <?
 			$id++;
+													$counter++;
 		}
 	} else {
 ?>
-													<tr class="inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-														<td><?=_t('등록된 내용이 없습니다.')?></td>
+													<tr class="tr-odd-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+														<td class="td-empty"><?=_t('등록된 내용이 없습니다.')?></td>
 													</tr>
 <?
 	}
@@ -57,7 +61,7 @@ function printFilterBox($mode, $title) {
 												</div>
 												
 												<div class="button-box">
-													<a class="add-button button" href="#void" onclick="add('<?=$mode?>')"><span><?=_t('추가하기')?></span></a>
+													<a class="add-button button" href="#void" onclick="add('<?=$mode?>')"><span class="text"><?=_t('추가하기')?></span></a>
 												</div>
 <?
 }
@@ -227,7 +231,7 @@ if (!@is_null($history)) {
 									<input type="hidden" id="mode" name="mode" />
 									
 									<div id="part-trash-filter" class="part">
-										<h2 class="caption" title="댓글, 트랙백, 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우거나 무시합니다."><span class="main-text"><?=_t('필터링을 설정합니다')?></span></h2>
+										<h2 class="caption" title="댓글, 트랙백, 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우거나 무시합니다."><span class="main-text"><?=_t('필터를 설정합니다')?></span></h2>
 										
 										<div class="data-inbox">
 											<div id="ip-section" class="section">
@@ -252,6 +256,7 @@ if (!@is_null($history)) {
 <?=printFilterBox('name', _t('이름 필터링'))?>
 											</div>
 										</div>
+										<div class="clear"></div>
 									</div>
 									
 									<div class="clear"></div>

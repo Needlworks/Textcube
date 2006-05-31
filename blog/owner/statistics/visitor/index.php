@@ -37,8 +37,10 @@ require ROOT . '/lib/piece/owner/contentMenu40.php';
 										//]]>
 									</script>
 					 			
-					 				<div id="part-statistics-counter" class="part">
-						 				<div class="data-inbox">
+					 				<div id="part-statistics-visitor" class="part">
+					 					<h2 class="caption"><span class="main-text"><?=_t('방문자 통계정보를 보여줍니다')?></span></h2>
+					 					
+						 				<div id="statistics-counter-inbox" class="data-inbox">
 							 				<div class="title">
 							 					<span class="label"><span class="text"><?=_t('현재까지의 방문자 수')?></span></span>
 							 					<span class="divider"> : </span>
@@ -46,12 +48,10 @@ require ROOT . '/lib/piece/owner/contentMenu40.php';
 											</div>
 											<a class="init-button button" href="#void" onclick="setTotalStatistics()"><span><?=_t('초기화')?></span></a>
 										</div>
-									</div>
 									
-									<hr class="hidden" />
+										<hr class="hidden" />
 									
-									<div id="part-statistics-month" class="part">
-										<table class="data-inbox" cellspacing="0" cellpadding="0">
+										<table id="statistics-month-inbox" class="data-inbox" cellspacing="0" cellpadding="0">
 											<thead>
 												<tr>
 													<td colspan="2"><span class="text"><?=_t('월별 방문자 수')?></span></td>
@@ -63,16 +63,17 @@ $temp = getMonthlyStatistics($owner);
 for ($i=0; $i<sizeof($temp); $i++) {
 	$record = $temp[$i];
 	
+	($i % 2) == 1 ? $className = 'tr-odd-body' : $className = 'tr-even-body';
 	if ($i == sizeof($temp) - 1) {
 ?>
-												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
+												<tr class="<?php echo $className?> tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
 													<td class="date"><?=Timestamp::formatDate2(getTimeFromPeriod($record['date']))?></td>
 													<td class="count"><?=$record['visits']?></td>
 												</tr>
 <?
 	} else {
 ?>
-												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
+												<tr class="<?php echo $className?> tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
 													<td class="date"><?=Timestamp::formatDate2(getTimeFromPeriod($record['date']))?></td>
 													<td class="count"><?=$record['visits']?></td>
 												</tr>
@@ -82,12 +83,10 @@ for ($i=0; $i<sizeof($temp); $i++) {
 ?>
 											</tbody>
 										</table>
-									</div>
 									
-									<hr class="hidden" />
-									
-									<div id="part-statistics-day" class="part">
-										<table class="data-inbox" cellspacing="0" cellpadding="0">
+										<hr class="hidden" />
+										
+										<table id="statistics-day-inbox" class="data-inbox" cellspacing="0" cellpadding="0">
 											<thead>
 												<tr>
 													<td colspan="2"><span class="text"><?=_t('일별 방문자 수')?></span></td>
@@ -100,16 +99,17 @@ if (isset($suri['id'])) {
 	for ($i=0; $i<sizeof($temp); $i++) {
 		$record = $temp[$i];
 		
+		($i % 2) == 1 ? $className = 'tr-odd-body' : $className = 'tr-even-body';
 		if ($i == sizeof($temp) - 1) {
 ?>
-												<tr class="tr-last-body inactive-class">
+												<tr class="<?php echo $className?> tr-last-body inactive-class">
 													<td class="date"><?=Timestamp::formatDate(getTimeFromPeriod($record['date']))?></td>
 													<td class="count"><?=$record['visits']?></td>
 												</tr>
 <?
 		} else {
 ?>
-												<tr class="tr-body inactive-class">
+												<tr class="<?php echo $className?> tr-body inactive-class">
 													<td class="date"><?=Timestamp::formatDate(getTimeFromPeriod($record['date']))?></td>
 													<td class="count"><?=$record['visits']?></td>
 												</tr>
@@ -120,6 +120,8 @@ if (isset($suri['id'])) {
 ?>
 											</tbody>
 										</table>
+										
+										<div class="clear"></div>
 									</div>
 									
 									<div class="clear"></div>

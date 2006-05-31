@@ -101,7 +101,7 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 	            	
 									<div id="part-post-notify" class="part">
 										<h2 class="caption">
-											<span class="main-text"><?=_t('다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다')?></span>
+											<span class="main-text"><?=_t('댓글 알리미')?></span>
 <?
 if (strlen($name) > 0 || strlen($ip) > 0) {
 	if (strlen($name) > 0) {
@@ -120,6 +120,10 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 
 											<span class="clear"></span>
 										</h2>
+										
+										<div class="main-explain-box">
+											<span class="explain"><?=_t('다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 \'홈페이지\' 기입란에 자신의 홈페이지의 setup.php 파일이 존재하는 경로까지 정확하게 입력하셔야 합니다.(예:setup.php 파일이 존재하는 위치가 \'http//www.xxx.com/tt/setup.php\'라면 \'http//www.xxx.com/tt\'까지 입력.)')?></span>
+										</div>
 										
 										<table class="data-inbox" cellspacing="0" cellpadding="0">
 											<thead>
@@ -151,7 +155,9 @@ for ($i = 0; $i < count($comments); $i++) {
 $nameNumber = array();
 for ($i=0; $i<sizeof($mergedComments); $i++) {
 	$comment = $mergedComments[$i];
-
+	
+	($i % 2) == 1 ? $className = 'tr-odd-body' : $className = 'tr-even-body';
+	$comment['parent'] ? $className .= ' tr-reply-body' : null;
 	requireComponent('Tattertools.Data.Filter');
 	if (Filter::isFiltered('name', $comment['name']))
 		$isNameFiltered = true;
@@ -167,7 +173,7 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 	
 	if ($i == sizeof($mergedComments) - 1) {
 ?>
-												<tr class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+												<tr class="<?php echo $className?> tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 													<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$comment['id']?>" /></td>
 													<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
 													<td class="site"><a href="<?=$comment['siteUrl']?>" onclick="window.open(this.href); return false;" title="사이트를 새 창으로 연결합니다."><?=htmlspecialchars($comment['siteTitle'])?></a></td>
@@ -188,9 +194,6 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 													<td class="content">
 <?
 		if ($comment['parent']) {
-?>
-														<span class="reply-icon bullet" title="댓글에 달린 댓글입니다."><span class="text"><?=_t('[댓글의 댓글]')?></span></span>
-<?
 			if ($lastVisitNotifiedPage > time() - 86400) {
 ?>
 														<span class="new-icon bullet" title="새로 등록된 댓글입니다."><span class="text">[<?=_t('새 댓글')?>]</span></span>
@@ -220,7 +223,7 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 <?
 	} else {
 ?>
-												<tr class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+												<tr class="<?php echo $className?> tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 													<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$comment['id']?>" /></td>
 													<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
 													<td class="site"><a href="<?=$comment['siteUrl']?>" onclick="window.open(this.href); return false;" title="사이트를 새 창으로 연결합니다."><?=htmlspecialchars($comment['siteTitle'])?></a></td>
@@ -241,9 +244,6 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 													<td class="content">
 <?
 		if ($comment['parent']) {
-?>
-														<span class="reply-icon bullet" title="댓글에 달린 댓글입니다."><span class="text"><?=_t('[댓글의 댓글]')?></span></span>
-<?
 			if ($lastVisitNotifiedPage > time() - 86400) {
 ?>
 														<span class="new-icon bullet" title="새로 등록된 댓글입니다."><span class="text">[<?=_t('새 댓글')?>]</span></span>
