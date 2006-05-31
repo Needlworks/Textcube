@@ -16,11 +16,11 @@
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/gallery.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js"></script>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/trash.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/center.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.opera.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/trash.opera.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/center.opera.css" />
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.ie.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/trash.ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/center.ie.css" /><![endif]-->
 </head>
 <body id="body-post">
 	<div id="temp-wrap">
