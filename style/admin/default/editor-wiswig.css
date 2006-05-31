@@ -22,6 +22,7 @@ img.tatterImazing,
 img.tatterGallery,
 img.tatterJukebox,
 img.tatterEmbed,
+img.tatterObject,
 img.tatterFlash
 {
 	cursor                           : move;
@@ -40,6 +41,7 @@ img.tatterImazing,
 img.tatterGallery,
 img.tatterJukebox,
 img.tatterEmbed,
+img.tatterObject,
 img.tatterFlash
 {
 	background-color                 : #FFFFEF;
@@ -101,7 +103,7 @@ img.tatterImageTriple
 }
 
 img.tatterEmbed,
-img.tatterFlash
+img.tatterObject
 {
 	background-image                 : url("./image/edit/setEmbed_over.gif");
 	margin                           : 5px;
@@ -112,13 +114,6 @@ img.tatterFlash
 img.tatterFlash
 {
 	background-image                 : url("./image/edit/setFlash_over.gif");
-}
-
-* html img.tatterEmbed,
-* html img.tatterFlash
-{
-	width                            : 200px;
-	height                           : 200px;
 }
 
 div.tattermoreless
