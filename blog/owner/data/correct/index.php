@@ -5,38 +5,40 @@ require ROOT . '/lib/includeForOwner.php';
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Tattertools Data Correcting</title>
-<script type="text/javascript">
-//<![CDATA[
-	var pi = window.parent.document.getElementById("correctingIndicator");
-	var pt = window.parent.document.getElementById("correctingText");
-	var pts = window.parent.document.getElementById("correctingTextSub");
-//]]>
-</script>
+	<title>Tattertools Data Correcting</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript">
+		//<![CDATA[
+			var pi = window.parent.document.getElementById("correctingIndicator");
+			var pt = window.parent.document.getElementById("correctingText");
+			var pts = window.parent.document.getElementById("correctingTextSub");
+		//]]>
+	</script>
 </head>
 <body>
 <?
-
 function finish($error = null) {
 ?>
-<script type="text/javascript">
-//<![CDATA[
+	<script type="text/javascript">
+		//<![CDATA[
 <?
 	if ($error) {
 ?>
-	alert("<?=$error?>");
+			alert("<?=$error?>");
 <?
 	} else {
 ?>
-	alert("<?=_t('성공적으로 교정되었습니다.')?>");
+			alert("<?=_t('성공적으로 교정되었습니다.')?>");
 <?
 	}
 ?>
-	window.parent.document.getElementById("correctingDataDialog").style.display = "none";
-//]]>
-</script>
-Finished
+			window.parent.document.getElementById("correctingDataDialog").style.display = "none";
+			window.parent.document.getElementById("correctingDataDialogTitle").innerHTML = "";
+			window.parent.document.getElementById("correctingText").innerHTML = "";
+			window.parent.document.getElementById("correctingTextSub").innerHTML = "";
+		//]]>
+	</script>
+	<?=_t('완료.')?>
 </body>
 </html>
 <?
@@ -69,9 +71,9 @@ function setProgress($progress, $text = null, $sub = null) {
 	if (!empty($diff)) {
 ?>
 <script type="text/javascript">
-//<![CDATA[
-	<?=$diff?>
-//]]>
+	//<![CDATA[
+		<?=$diff?>
+	//]]>
 </script>
 <?
 		flush();

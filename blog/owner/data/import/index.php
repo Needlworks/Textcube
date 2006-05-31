@@ -6,40 +6,42 @@ require ROOT . '/lib/includeForOwner.php';
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Tattertools Data Importing</title>
-<script type="text/javascript">
-//<![CDATA[
-	var pi = window.parent.document.getElementById("progressIndicator");
-	var pt = window.parent.document.getElementById("progressText");
-	var pts = window.parent.document.getElementById("progressTextSub");
-//]]>
-</script>
+	<title>Tattertools Data Importing</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript">
+		//<![CDATA[
+			var pi = window.parent.document.getElementById("progressIndicator");
+			var pt = window.parent.document.getElementById("progressText");
+			var pts = window.parent.document.getElementById("progressTextSub");
+		//]]>
+	</script>
 </head>
 <body>
 <?
-
 function finish($error = null) {
 	global $migrational;
 ?>
-<script type="text/javascript">
-//<![CDATA[
+	<script type="text/javascript">
+		//<![CDATA[
 <?
 	if ($error) {
 ?>
-//	pi.style.backgroundColor = "red";
-	alert("<?=$error?>");
+			//pi.style.backgroundColor = "red";
+			alert("<?=$error?>");
 <?
 	} else {
 ?>
-	alert("<?=($migrational ? _t('성공적으로 이주되었습니다.') : _t('성공적으로 복원되었습니다.'))?>");
+			alert("<?=($migrational ? _t('성공적으로 이주되었습니다.') : _t('성공적으로 복원되었습니다.'))?>");
 <?
 	}
 ?>
-	window.parent.document.getElementById("progressDialog").style.display = "none";
-//]]>
-</script>
-Finished
+			window.parent.document.getElementById("progressDialog").style.display = "none";
+			window.parent.document.getElementById("progressDialogTitle").innerHTML = "";
+			window.parent.document.getElementById("progressText").innerHTML = "";
+			window.parent.document.getElementById("progressTextSub").innerHTML = "";
+		//]]>
+	</script>
+	<?=_t('완료.')?>
 </body>
 </html>
 <?
@@ -72,9 +74,9 @@ function setProgress($progress, $text = null, $sub = null) {
 	if (!empty($diff)) {
 ?>
 <script type="text/javascript">
-//<![CDATA[
-	<?=$diff?>
-//]]>
+	//<![CDATA[
+		<?=$diff?>
+	//]]>
 </script>
 <?
 		flush();

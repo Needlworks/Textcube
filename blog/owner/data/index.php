@@ -11,24 +11,29 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 ?>
 							<script type="text/javascript">
 								//<![CDATA[
-									var dialog = null
+									var dialog = null;
+									
 									function showDialog($name) {
 										if (dialog)
 											dialog.style.display = "none";
 										dialog = document.getElementById($name + "Dialog");
 										PM.showPanel(dialog);
 									}
+									
 									function hideDialog() {
 										if (dialog) {
 											dialog.style.display = "none";
 											dialog = null;
 										}
 									}
+									
 									function correctData() {
 										document.getElementById("correctingIndicator").style.width = "0%";
+										document.getElementById("correctingDataDialogTitle").innerHTML = '<span class="text"><?=_t('데이터를 교정하고 있습니다. 잠시만 기다려 주십시오...')?></span>';
 										PM.showPanel("correctingDataDialog");
 										document.getElementById("dataCorrector").submit();
 									}
+									
 									function backupData() {
 										var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/data/backup?includeFileContents=" + document.getElementById("includeFileContents-yes").checked);
 										PM.addRequest(request, "<?=_t('백업을 저장하고 있습니다...')?>");
@@ -43,14 +48,17 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 										request.send();
 										hideDialog();
 									}
+									
 									function exportData() {
 										window.location.href = "<?=$blogURL?>/owner/data/export?includeFileContents=" + document.getElementById("includeFileContents-yes").checked;
 										hideDialog();
 									}
+									
 									function downloadBackup() {
 										window.location.href = "<?=$blogURL?>/owner/data/download";
 										hideDialog();
 									}
+									
 									function importData() {
 										var dataImporter = document.getElementById("dataImporter");
 										if (document.getElementById("importFromUploaded").checked) {
@@ -72,9 +80,12 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 										}
 										hideDialog();
 										document.getElementById("progressIndicator").style.width = "0%";
+										document.getElementById("progressDialogTitle").innerHTML = '<span class="text"><?=_t('데이터를 복원하고 있습니다. 잠시만 기다려 주십시오...')?></span>';
+										document.getElementById("progressText").innerHTML = '<?=_t('백업파일을 올리고 있습니다.')?>';
 										PM.showPanel("progressDialog");
 										dataImporter.submit();
 									}
+									
 									function removeData() {
 										var removeAttachments = document.getElementById("removeAttachments-yes");
 										var confirmativePassword = document.getElementById("confirmativePassword");
@@ -102,21 +113,21 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 							<div id="part-data-correct" class="part">
 								<h2 class="caption"><span class="main-text"><?=_t('데이터 교정')?></span></h2>
 								
-								<div class="data-inbox">
+								<div class="data-inbox main-explain-box">
 									<div class="image" onclick="correctData()">
 										<img src="<?=$service['path'].$service['adminSkin']?>/image/dbCorrect.gif" alt="<?=_t('데이터 교정 이미지')?>" />
 										<div class="title"><span class="text"><?=_t('CORRECT')?></span></div>
 									</div>
-									<div class="explain">
-										<?=_t('비정상적인 데이터를 교정합니다.<br />동적인 캐쉬 데이터는 재계산하여 저장합니다.')?>
-									</div>
+									<p class="explain">
+										<a href="#void" onclick="correctData()"><?=_t('비정상적인 데이터를 교정합니다.<br />동적인 캐쉬 데이터는 재계산하여 저장합니다.')?></a>
+									</p>
 									<div class="clear"></div>
 								</div>
 								
 								<form id="dataCorrector" name="dataCorrector" method="get" action="<?=$blogURL?>/owner/data/correct" target="blackhole"></form>
 								
 								<div id="correctingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 10;">
-									<h3><?=_t('데이터를 교정하고 있습니다. 잠시만 기다려 주십시오...')?></h3>
+									<h3 id="correctingDataDialogTitle"></h3>
 									<div class="messege-sub">
 										<span id="correctingText"></span>
 										<span id="correctingTextSub"></span>
@@ -130,23 +141,23 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 							<div id="part-data-backup" class="part">
 								<h2 class="caption"><span class="main-text"><?=_t('데이터 백업')?></span></h2>
 								
-								<div class="data-inbox">
+								<div class="data-inbox main-explain-box">
 									<div class="image" onclick="showDialog('DBExport')">
 										<img src="<?=$service['path'].$service['adminSkin']?>/image/dbExport.gif" alt="<?=_t('데이터 백업 이미지')?>" />
 										<div class="title"><span class="text"><?=_t('EXPORT')?></span></div>
 									</div>
-									<div class="explain">
-										<?=_t('현재의 모든 데이터를 백업파일로 보관합니다.<br />첨부파일을 포함시킬 수 있으며, 복원할 경우 자동으로 첨부파일이 처리됩니다.<br />백업파일은 서버에 저장하거나 다운받으실 수 있습니다.')?>
-									</div>
+									<p class="explain">
+										<a href="#void" onclick="showDialog('DBExport')"><?=_t('현재의 모든 데이터를 백업파일로 보관합니다.<br />첨부파일을 포함시킬 수 있으며, 복원할 경우 자동으로 첨부파일이 처리됩니다.<br />백업파일은 서버에 저장하거나 다운받으실 수 있습니다.')?></a>
+									</p>
 									<div class="clear"></div>
 								</div>
 								
 								<div id="DBExportDialog" class="dialog" style="position: absolute; display: none; z-index: 10;">
 									<h3><?=_t('데이터 백업을 시작합니다')?></h3>
 									<div class="messege-body">
-										<div class="messege">
+										<p class="messege">
 											<span class="asterisk">*</span><span><?=_t('첨부파일을 포함하시겠습니까?')?></span>
-										</div>
+										</p>
 										<div class="selection">
 											<div class="select-yes" title="<?=_t('첨부 파일이 포함된 백업파일을 사용하여 복원할 경우, 첨부 파일의 내용은 백업파일의 내용으로 다시 작성됩니다.')?>"><input type="radio" id="includeFileContents-yes" class="radio" name="includeFileContents" value="1" /> <label for="includeFileContents-yes"><span class="text"><?=_t('첨부파일을 포함합니다.')?></span></label></div>
 											<div class="select-no" title="<?=_t('첨부 파일이 포함되지 않는 백업파일을 사용하여 복원하여도 기존 첨부 파일을 삭제하거나 훼손시키지 않습니다.')?>"><input type="radio" id="includeFileContents-no" class="radio" name="includeFileContents" value="0" checked="checked" /> <label for="includeFileContents-no"><span class="text"><?=_t('첨부파일을 포함하지 않습니다.')?></span></label></div>
@@ -169,14 +180,14 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 							<div id="part-data-restore" class="part">
 								<h2 class="caption"><span class="main-text"><?=_t('데이터 복원')?></span></h2>
 								
-								<div class="data-inbox">
+								<div class="data-inbox main-explain-box">
 									<div class="image" onclick="showDialog('DBImport')">
 										<img src="<?=$service['path'].$service['adminSkin']?>/image/dbImport.gif" alt="<?=_t('데이터 복원 이미지')?>" />
 										<div class="title"><span class="text"><?=_t('IMPORT')?></span></div>
 									</div>
-									<div class="explain">
-										<?=_t('백업파일을 읽어서 데이터를 복원합니다.<br />백업파일에 첨부파일이 포함되어 있으면 첨부파일도 자동으로 복원됩니다.<br />마이그레이션 데이터도 복원을 통해 가져올 수 있습니다.')?>
-									</div>
+									<p class="explain">
+										<a href="#void" onclick="showDialog('DBImport')"><?=_t('백업파일을 읽어서 데이터를 복원합니다.<br />백업파일에 첨부파일이 포함되어 있으면 첨부파일도 자동으로 복원됩니다.<br />마이그레이션 데이터도 복원을 통해 가져올 수 있습니다.')?></a>
+									</p>
 									<div class="clear"></div>
 								</div>
 
@@ -190,9 +201,9 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 <?
 if ($backup) {
 ?>
-											<div class="messege">
+											<p class="messege">
 												<span class="asterisk">*</span><?=_f('서버에 <em>%1</em>에 저장된 백업파일이 있습니다.', Timestamp::format5($backup))?>
-											</div>
+											</p>
 <?
 }
 ?>
@@ -225,10 +236,10 @@ if ($backup) {
  								</div>
 								
 								<div id="progressDialog" class="system-dialog" style="position: absolute; display: none; z-index: 10;">
-									<h3><?=_t('데이터를 복원하고 있습니다. 잠시만 기다려 주십시오...')?></h3>
+									<h3 id="progressDialogTitle"></h3>
 									<div class="messege-sub">
-										<span id="progressText"><?=_t('백업파일을 올리고 있습니다.')?></span>
-										<span id="progressTextSub"></span>
+										<p id="progressText"></p>
+										<p id="progressTextSub"></p>
 									</div>
 									<div id="progressIndicator" class="progressBar" style="width: 10%; height: 18px; margin-top: 5px; background-color:#66DDFF;"></div>
 									<div class="clear"></div>
@@ -240,21 +251,21 @@ if ($backup) {
 							<div id="part-data-remove" class="part">
 								<h2 class="caption"><span class="main-text"><?=_t('데이터 삭제')?></span></h2>
 								
-								<div class="data-inbox">
+								<div class="data-inbox main-explain-box">
 									<div class="image" onclick="showDialog('DBRemove')">
 										<img src="<?=$service['path'].$service['adminSkin']?>/image/dbClear.gif" alt="<?=_t('데이터 삭제 이미지')?>" />
 										<div class="title"><span class="text"><?=_t('REMOVE')?></span></div>
 									</div>
-									<div class="explain">
-										<?=_t('태터툴즈의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일로만 가능하므로 먼저 백업을 하시기 바랍니다.')?>
-									</div>
+									<p class="explain">
+										<a href="#void" onclick="showDialog('DBRemove')"><?=_t('태터툴즈의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일로만 가능하므로 먼저 백업을 하시기 바랍니다.')?></a>
+									</p>
 									<div class="clear"></div>
 								</div>
 								
 								<div id="DBRemoveDialog" class="dialog" style="position: absolute; display: none; z-index: 10;">
 									<h3><?=_t('데이터 삭제를 시작합니다')?></h3>
 									<div class="messege-body">
-										<div class="explain">
+										<p class="explain">
 <?
 if ($backup) {
 ?>
@@ -262,7 +273,7 @@ if ($backup) {
 <?
 }
 ?>
-										</div>
+										</p>
 										<div class="messege">
 											<span class="asterisk">*</span><?=_t('첨부파일을 포함하여 삭제하시겠습니까?')?>
 										</div>
