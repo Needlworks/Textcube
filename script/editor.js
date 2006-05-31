@@ -129,6 +129,7 @@ function docEventHandler(event) {
 
 	switch(event.type) {
 		case "mousemove":
+			var taglocalSection = document.getElementById('taglocal-section');
 			var editorTextbox = document.getElementById('editor-textbox');
 
 			var targetOffset = (editor.editMode == "WYSIWYG") ? editor.iframe : editor.textarea;
@@ -141,18 +142,18 @@ function docEventHandler(event) {
 				if(event.target.tagName != "BODY" && event.target.tagName != "HTML")
 					pageY -= getOffsetTop(targetOffset);
 				try { targetOffset.style.height = pageY + 'px'; } catch(e) {}
-			} else if(event.target == editorTextbox || event.target == editor.iframeWrapper) {
+			} else if(event.target == taglocalSection || event.target == editorTextbox || event.target == editor.iframeWrapper) {
 				var getOffset = getOffsetTop(targetOffset) + parseInt(targetOffset.offsetHeight);
 
 				if(pageY > getOffset && pageY < getOffset + 10) {
-					editorTextbox.style.cursor = 'row-resize';
+					taglocalSection.style.cursor = 'row-resize';
 					editor.rowResize = true;
 				} else {
-					editorTextbox.style.cursor = '';
+					taglocalSection.style.cursor = '';
 					editor.rowResize = false;
 				}
 			} else {
-				editorTextbox.style.cursor = '';
+				taglocalSection.style.cursor = '';
 				editor.rowResize = false;
 			}
 			break;
