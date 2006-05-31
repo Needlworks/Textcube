@@ -5,7 +5,6 @@
 					<ul id="sub-menu">
 						<li class="blog selected"><a href="<?php echo $blogURL?>/owner/setting/blog"><span class="text"><?php echo _t('블로그 환경을 관리합니다')?></span></a></li>
 						<li class="account"><a href="<?php echo $blogURL?>/owner/setting/account"><span class="text"><?php echo _t('계정정보를 관리합니다')?></span></a></li>
-						<li class="filter"><a href="<?php echo $blogURL?>/owner/setting/filter"><span class="text"><?php echo _t('필터를 관리합니다')?></span></a></li>
 						<li class="plugin"><a href="<?php echo $blogURL?>/owner/setting/plugins"><span class="text"><?php echo _t('플러그인을 관리합니다')?></span></a></li>
 						<li class="data"><a href="<?php echo $blogURL?>/owner/data"><span class="text"><?php echo _t('데이터를 관리합니다')?></span></a></li>
 						<li class="helper"><a href="http://www.tattertools.com/doc/19" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미')?></span></a></li>
