@@ -26,6 +26,12 @@
 	width                            : 571px !important;
 }
 
+/* property box --------------------------------------------------------------------------------*/
+.entry-editor-property dl dt
+{
+	font-size                        : 75% !important;
+}
+
 /* command buttons ------------------------------------------------------------------------------*/
 #editor-palette
 {

@@ -4,6 +4,7 @@
 
 body
 {
+	margin                           : 0;
 	padding                          : 0;
 }
 
@@ -39,14 +40,6 @@ body
 	clear                            : both;
 }
 
-#editor-section
-{
-	background-color                 : #BCD2E5;
-	margin                           : 5px 20px;
-	padding                          : 5px 3px 5px 5px;
-	width                            : 658px;
-}
-
 /* attribute box --------------------------------------------------------------------------------*/
 #property-container
 {
@@ -54,6 +47,14 @@ body
 }
 
 /* title ----------------------------------------------------------------------------------------*/
+#title-section
+{
+	background-color                 : #BCD2E5;
+	margin                           : 0 20px;
+	padding                          : 5px 3px 5px 5px;
+	width                            : 658px;
+}
+
 #title-container
 {
 	margin-bottom                    : 5px;
@@ -79,6 +80,13 @@ body
 	border                           : 1px solid #92B5E8;
 	padding                          : 2px;
 	width                            : 410px;
+}
+
+#body-notice #title-container .text-input
+{
+	border                           : 1px solid #92B5E8;
+	padding                          : 2px;
+	width                            : 576px !important;
 }
 
 /* property box --------------------------------------------------------------------------------*/
@@ -153,6 +161,11 @@ body
 	width                            : 200px !important;
 }
 
+#propertyObject_chunk
+{
+	width                            : 104px;
+}
+
 .entry-editor-property .button-box
 {
 	clear                            : both;
@@ -162,6 +175,7 @@ body
 
 .entry-editor-property .button-box .up-button
 {
+	background-color                 : transparent;
 	background-image                 : url("./image/edit/attach_MoveUp.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
@@ -173,6 +187,7 @@ body
 
 .entry-editor-property .button-box .dn-button
 {
+	background-color                 : transparent;
 	background-image                 : url("./image/edit/attach_MoveDown.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
@@ -194,6 +209,19 @@ body
 }
 
 /* command buttons ------------------------------------------------------------------------------*/
+#textarea-section
+{
+	background-color                 : #BCD2E5;
+	margin                           : 0 20px;
+	padding                          : 0 3px 5px 5px;
+	width                            : 658px;
+}
+
+#editor-palette .title
+{
+	display                          : none;
+}
+
 #editor-palette .font-relatives
 {
 	float                            : left;
@@ -394,6 +422,11 @@ body
 	width                            : 16px;
 }
 
+#colorPalette table tr td span
+{
+	display                          : none;
+}
+
 #markPalette
 {
 	position                         : absolute;
@@ -413,6 +446,11 @@ body
 	cursor                           : pointer;
 	height                           : 16px;
 	width                            : 16px;
+}
+
+#markPalette table tr td span
+{
+	display                          : none;
 }
 
 #textBox
@@ -436,6 +474,147 @@ body
 	width                            : 16px;
 }
 
+#textBox table tr td span
+{
+	display                          : none;
+}
+
+/* colors */
+.color-000000
+{
+	background-color                 : #000000;
+}
+
+.color-0000FF
+{
+	background-color                 : #0000FF;
+}
+
+.color-003366
+{
+	background-color                 : #003366;
+}
+
+.color-006699
+{
+	background-color                 : #006699;
+}
+
+.color-008000
+{
+	background-color                 : #008000;
+}
+
+.color-009966
+{
+	background-color                 : #009966;
+}
+
+.color-177FCD
+{
+	background-color                 : #177FCD;
+}
+
+.color-333333
+{
+	background-color                 : #333333;
+}
+
+.color-666699
+{
+	background-color                 : #666699;
+}
+
+.color-670787
+{
+	background-color                 : #670787;
+}
+
+.color-8E8E8E
+{
+	background-color                 : #8E8E8E;
+}
+
+.color-993366
+{
+	background-color                 : #993366;
+}
+
+.color-999966
+{
+	background-color                 : #999966;
+}
+
+.color-99CC66
+{
+	background-color                 : #99CC66;
+}
+
+.color-9B18C1
+{
+	background-color                 : #9B18C1;
+}
+
+.color-C1C1C1
+{
+	background-color                 : #C1C1C1;
+}
+
+.color-C9EDFF
+{
+	background-color                 : #C9EDFF;
+}
+
+.color-CC9900
+{
+	background-color                 : #CC9900;
+}
+
+.color-D0FF9D
+{
+	background-color                 : #D0FF9D;
+}
+
+.color-D41A01
+{
+	background-color                 : #D41A01;
+}
+
+.color-E4E4E4
+{
+	background-color                 : #E4E4E4;
+}
+
+.color-FAFFA9
+{
+	background-color                 : #FAFFA9;
+}
+
+.color-FF0000
+{
+	background-color                 : #FF0000;
+}
+
+.color-FF3399
+{
+	background-color                 : #FF3399;
+}
+
+.color-FF7635
+{
+	background-color                 : #FF7635;
+}
+
+.color-FF9900
+{
+	background-color                 : #FF9900;
+}
+
+.color-FFDAED
+{
+	background-color                 : #FFDAED;
+}
+
 /* textarea -------------------------------------------------------------------------------------*/
 #editWindow
 {
@@ -445,6 +624,13 @@ body
 }
 
 /* tag and location -----------------------------------------------------------------------------*/
+#taglocal-section
+{
+	background-color                 : #BCD2E5;
+	margin                           : -5px 20px 5px 20px;
+	padding                          : 5px 3px 5px 5px;
+	width                            : 658px;
+}
 
 /* tag */
 dl#tag-line
@@ -485,6 +671,7 @@ dl#tag-line dd .text-input
 	height                           : 14px;
 	margin-right                     : 5px;
 	padding                          : 0 4px 5px 0;
+	white-space                      : pre;
 }
 
 #tag-line dd ul li.lastChild
@@ -640,12 +827,12 @@ dl#location-line dd .text-input
 	width                            : 100px;
 }
 
-#insert-container ul li
+#insert-container
 {
 	float                            : left;
 }
 
-#insert-container ul li a
+#insert-container a
 {
 	background-repeat                : no-repeat;
 	float                            : left;
@@ -654,69 +841,69 @@ dl#location-line dd .text-input
 	width                            : 27px;
 }
 
-#insert-container ul li a:link,
-#insert-container ul li a:visited
+#insert-container a:link,
+#insert-container a:visited
 {
 	background-position              : left top;
 }
 
-#insert-container ul li a:hover,
-#insert-container ul li a:active
+#insert-container a:hover,
+#insert-container a:active
 {
 	background-position              : left bottom;
 }
 
-#insert-container ul li a span
+#insert-container a span
 {
 	display                          : none;
 }
 
-#insert-container ul li.image-left a
+#insert-container .image-left
 {
 	background-image                 : url("./image/edit/attachAlignLeft2.gif");
 }
 
-#insert-container ul li.image-center a
+#insert-container .image-center
 {
 	background-image                 : url("./image/edit/attachAlignCenter2.gif");
 }
 
-#insert-container ul li.image-right a
+#insert-container .image-right
 {
 	background-image                 : url("./image/edit/attachAlignRight2.gif");
 }
 
-#insert-container ul li.image-2center a
+#insert-container .image-2center
 {
 	background-image                 : url("./image/edit/attachAlign2Center2.gif");
 }
 
-#insert-container ul li.image-3center a
+#insert-container .image-3center
 {
 	background-image                 : url("./image/edit/attachAlign3Center2.gif");
 }
 
-#insert-container ul li.image-free a
+#insert-container .image-free
 {
 	background-image                 : url("./image/edit/attachAlignFree2.gif");
 }
 
-#insert-container ul li.image-imazing a
+#insert-container .image-imazing
 {
 	background-image                 : url("./image/edit/attachAlignImazing2.gif");
 }
 
-#insert-container ul li.image-sequence a
+#insert-container .image-sequence
 {
 	background-image                 : url("./image/edit/attachAlignSequence2.gif");
 }
 
-#insert-container ul li.image-mp3 a
+#insert-container .image-mp3
 {
 	background-image                 : url("./image/edit/attachMP32.gif");
 }
 
-#insert-container ul li.image-podcast a
+#insert-container .image-podcast
 {
 	background-image                 : url("./image/edit/attachAlignPodcast2.gif");
 }
@@ -762,6 +949,12 @@ dl#location-line dd .text-input
 	margin-top                       : -4px;
 	padding                          : 2px;
 	width                            : 120px;
+}
+
+#power-section dl#date-line dd div,
+#power-section dl#status-line dd div
+{
+	display                          : inline;
 }
 
 /* button box -----------------------------------------------------------------------------------*/
