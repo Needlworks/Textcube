@@ -215,7 +215,7 @@ ob_end_clean();
 											
 											<div class="section">
 												<dl class="line">
-													<dt><span class="text"><?=_t('카테고리 클릭 시')?></span></dt>
+													<dt><span class="text"><?=_t('분류 클릭 시')?></span></dt>
 													<dd>
 														<input type="radio" id="showListOnCategoryTitles" class="radio" name="showListOnCategory" value="titles"<?=$skinSetting['showListOnCategory'] ? ' checked="checked"' : ''?> /> <label for="showListOnCategoryTitles"><span class="text"><?=_t('글 목록을 표시합니다.')?></span></label><br />
 														<input type="radio" id="showListOnCategoryContents" class="radio" name="showListOnCategory" value="contents"<?=$skinSetting['showListOnCategory'] ? '' : ' checked="checked"'?> /> <label for="showListOnCategoryContents"><span class="text"><?=_t('글 내용을 표시합니다.')?></label>
@@ -445,7 +445,7 @@ ob_end_clean();
 								<hr class="hidden" />
 								
 								<div id="part-skin-tree" class="part">
-									<h2 class="caption"><span class="main-text"><?=_t('스킨에 맞춘 트리의 출력을 설정합니다')?></span></h2>
+									<h2 class="caption"><span class="main-text"><?=_t('스킨에 맞춘 분류의 출력을 설정합니다')?></span></h2>
 									
 									<form id="setSkinForm" method="post" action="<?=$blogURL?>/owner/skin/setting/tree" enctype="application/x-www-form-urlencoded">
 										<div class="data-inbox">

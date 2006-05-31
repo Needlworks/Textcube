@@ -103,7 +103,7 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 									</script>
 									
 									<div id="part-post-tree" class="part">
-										<h2 class="caption"><span class="main-text"><?=_t('스킨에 맞춘 트리의 출력을 설정합니다')?></span></h2>
+										<h2 class="caption"><span class="main-text"><?=_t('분류를 관리할 수 있습니다')?></span></h2>
 										
 										<div class="data-inbox">
 											<div id="treePreview">
@@ -119,16 +119,14 @@ if ($depth <= 1) {
 													<dd>
 														<input type="text" id="newCategory" class="text-input" name="newCategory" onkeyup="if (event.keyCode == 13 && validateText(this.value)){addCategory()}" />
 														<a class="add-button button" href="#void" onclick="addCategory()"><span class="text"><?=_t('추가하기')?></span></a>
-														<div class="explain">
+														<p class="explain">
 															<?=_f('"%1"의 하위에 새 분류를 생성합니다.', htmlspecialchars("$name"))?>
-														</div>
+														</p>
 													</dd>
 <?
 } else {
 ?>
-													<dd>
-														<span class="text"><?=_t('분류는 2단까지 허용됩니다.')?></span>
-													</dd>
+													<dd><p class="explain"><?=_t('분류는 2단까지 허용됩니다.')?></p></dd>
 <?
 }
 ?>
@@ -154,7 +152,7 @@ if ($selected > 0) {
 <?
 } else {
 ?>
-													<dd><?=_t('최상단 분류는 이동할 수 없습니다.')?></dd>
+													<dd><p class="explain"><?=_t('최상단 분류는 이동할 수 없습니다.')?></p></dd>
 <?
 }
 ?>

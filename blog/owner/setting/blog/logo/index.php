@@ -80,9 +80,13 @@ if (count($_FILES) == 1) {
 </head>
 <body id="logo-iframe">
 	<form method="post" action="<?=$blogURL?>/owner/setting/blog/logo" enctype="multipart/form-data">
-		<input type="file" class="file-input" name="logo" onchange="document.forms[0].submit()" />
-		<input type="hidden" name="mode" value="0" />
-		<a class="delete-button button" href="#void" onclick="deleteLogo()"><span><?=_t('삭제')?></span></a>
+		<div class="form-variables">
+			<input type="file" class="file-input" name="logo" onchange="document.forms[0].submit()" />
+			<input type="hidden" name="mode" value="0" />
+		</div>
+		<div class="button-box">
+			<a class="delete-button button" href="#void" onclick="deleteLogo()"><span><?=_t('삭제')?></span></a>
+		</div>
 	</form>
 </body>
 </html>

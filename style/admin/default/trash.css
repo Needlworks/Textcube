@@ -43,6 +43,12 @@
 }
 
 /* comment table head ---------------------------------------------------------------------------*/
+#part-trash-comment table.data-inbox
+{
+	table-layout                     : fixed;
+	width                            : 100%;
+}
+
 #part-trash-comment table.data-inbox thead tr td
 {
 	padding                          : 7px 0 3px 0 !important;
@@ -418,6 +424,12 @@
 	display                          : none;
 }
 /* trackback table head -------------------------------------------------------------------------*/
+#part-trash-trackback table.data-inbox
+{
+	table-layout                     : fixed;
+	width                            : 100%;
+}
+
 #part-trash-trackback table.data-inbox thead tr td
 {
 	padding                          : 7px 0 3px 0 !important;

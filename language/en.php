@@ -54,8 +54,8 @@ $__text['RSS 주소'] = 'Feed URL';
 $__text['RSS 주소를 입력해 주세요'] = 'Input RSS feed address';
 $__text['RSS를 읽어오고 있습니다'] = 'Retrieving Feed';
 $__text['RSS를 읽어올 수 없습니다'] = 'Feed Access Failed';
-$__text['RSS파일의 글 본문은&nbsp;%1를 원칙으로 합니다.'] = 'publish with  %1 recent posts';
-$__text['RSS파일의 블로그 글은 최신&nbsp;%1개로 갱신됩니다.'] = 'publish with  %1 recents posts';
+$__text['RSS 파일의 글 본문은 %1를 원칙으로 합니다.'] = 'publish with  %1 recent posts';
+$__text['RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다.'] = 'publish with  %1 recents posts';
 //$__text['Republic Of Korea (Seoul)'] = '';
 $__text['Rewrite를 사용할 수 없습니다.'] = 'Cannot use the Rewrite module';
 //$__text['Taiwan (Taipei)'] = '';
@@ -772,4 +772,5 @@ $__text['코드 붙여넣기'] = '코드 붙여넣기';
 $__text['삽입하기'] = '삽입하기';
 $__text['페이지 오류'] = '페이지 오류';
 $__text['글이 하나도 없습니다'] = '글이 하나도 없습니다';
+$__text['태터툴즈 관리 페이지'] = 'Tattertools Administration';
 ?>

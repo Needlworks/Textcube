@@ -44,6 +44,12 @@
 }
 
 /* list table head ------------------------------------------------------------------------------*/
+#part-post-list table.data-inbox
+{
+	table-layout                     : fixed;
+	width                            : 100%;
+}
+	
 #part-post-list table.data-inbox thead tr .selection
 {
 	padding                          : 0;
@@ -707,6 +713,12 @@
 }
 
 /* comment table head ---------------------------------------------------------------------------*/
+#part-post-comment table.data-inbox
+{
+	table-layout                     : fixed;
+	width                            : 100%;
+}
+
 #part-post-comment table.data-inbox thead tr .selection
 {
 	padding                          : 0;
@@ -822,22 +834,12 @@
 	font-weight                      : normal;
 }
 
-#part-post-comment table.data-inbox .tr-body .content .reply-icon,
-#part-post-comment table.data-inbox .tr-last-body .content .reply-icon
+#part-post-comment table.data-inbox tbody .tr-reply-body .content
 {
 	background-image                 : url("./image/icon_arrow_guest2.gif");
-	background-position              : left bottom;
-	display                          : block;
-	float                            : left;
-	height                           : 12px;
-	margin                           : -1px 3px 0 0;
-	width                            : 13px;
-}
-
-#part-post-comment table.data-inbox .tr-body .content .reply-icon span,
-#part-post-comment table.data-inbox .tr-last-body .content .reply-icon span
-{
-	display                          : none;
+	background-position              : 3px center;
+	background-repeat                : no-repeat;
+	padding-left                     : 18px;
 }
 
 #part-post-comment table.data-inbox .tr-body .ip,
@@ -1026,17 +1028,6 @@
 /* Notify ****************************************************************************************/
 
 /* notify common --------------------------------------------------------------------------------*/
-#part-post-notify .caption
-{
-	font-weight                      : normal;
-	position                         : relative;
-}
-
-#part-post-notify .caption .main-text
-{
-	font-weight                      : bold;
-}
-
 #part-post-notify div.data-subbox
 {
 	background-color                 : #EBF2F8;
@@ -1046,6 +1037,12 @@
 }
 
 /* notify table head ----------------------------------------------------------------------------*/
+#part-post-notify table.data-inbox
+{
+	table-layout                     : fixed;
+	width                            : 100%;
+}
+
 #part-post-notify table.data-inbox thead tr .selection
 {
 	padding                          : 0;
@@ -1403,6 +1400,12 @@
 	display                          : none;
 }
 /* trackback table head -------------------------------------------------------------------------*/
+#part-post-trackback table.data-inbox
+{
+	table-layout                     : fixed;
+	width                            : 100%;
+}
+
 #part-post-trackback table.data-inbox thead tr .selection
 {
 	padding                          : 0;

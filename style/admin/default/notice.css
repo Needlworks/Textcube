@@ -12,6 +12,12 @@
 }
 
 /* list table head ------------------------------------------------------------------------------*/
+#part-notice-list table.data-inbox
+{
+	table-layout                     : fixed;
+	width                            : 100%;
+}
+
 #part-notice-list table.data-inbox thead tr .selection
 {
 	padding                          : 0;

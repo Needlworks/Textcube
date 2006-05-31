@@ -3,6 +3,13 @@
 					</div>
 				</div>
 			</div>
+			
+			<hr class="hidden" />
+			
+			<div id="layout-footer">
+				<div id="copyright"><span class="text"><?php echo TATTERTOOLS_COPYRIGHT?>. All rights reserved.</span></div>
+				<div id="version"><span class="text"><?php echo TATTERTOOLS_NAME?> <?php echo TATTERTOOLS_VERSION?></span></div>
+			</div>
 		</div>
 	</div>
 	

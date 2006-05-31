@@ -31,7 +31,7 @@ body
 {
 	font-family                      : ±¼¸², Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
 	font-size                        : small;
-	padding                          : 14px 0 0 0;
+	margin                           : 14px 0 0 0;
 }
 
 em
@@ -131,6 +131,60 @@ li
 	padding                          : 11px 20px;
 }
 
+/* Main Description ******************************************************************************/
+
+#main-description .blog
+{
+	background-image                 : url("./image/menuLine2.gif");
+	background-repeat                : repeat-x;
+	position                         : absolute;
+	right                            : 85px;
+	top                              : 24px;
+	padding-right                    : 2px;
+}
+
+#main-description .blog a
+{
+	background-image                 : url("./image/blog.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 19px;
+	width                            : 82px;
+}
+
+#main-description .blog a span
+{
+	display                          : none;
+}
+
+#main-description .logout
+{
+	position                         : absolute;
+	right                            : 34px;
+	top                              : 24px;
+}
+
+#main-description .logout a
+{
+	background-image                 : url("./image/logout.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 19px;
+	width                            : 51px;
+}
+
+#main-description .logout a span
+{
+	display                          : none;
+}
+
+#main-description .blogger
+{
+	display                          : none;
+}
+
 /* Main Menu *************************************************************************************/
 
 /* common */
@@ -148,7 +202,7 @@ li
 	text-decoration                  : underline;
 }
 
-#main-menu-outbox
+#main-menu-box
 {
 	background-color                 : #1E6A96;
 	background-image                 : url("./image/mainMenuBG.gif") !important;
@@ -229,53 +283,6 @@ li
 }
 
 #main-menu .tattertools a span
-{
-	display                          : none;
-}
-
-#main-menu .blog
-{
-	background-image                 : url("./image/menuLine2.gif");
-	background-repeat                : repeat-x;
-	position                         : absolute;
-	right                            : 85px;
-	top                              : 24px;
-	padding-right                    : 2px;
-}
-
-#main-menu .blog a
-{
-	background-image                 : url("./image/blog.gif");
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	display                          : block;
-	height                           : 19px;
-	width                            : 82px;
-}
-
-#main-menu .blog a span
-{
-	display                          : none;
-}
-
-#main-menu .logout
-{
-	position                         : absolute;
-	right                            : 34px;
-	top                              : 24px;
-}
-
-#main-menu .logout a
-{
-	background-image                 : url("./image/logout.gif");
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	display                          : block;
-	height                           : 19px;
-	width                            : 51px;
-}
-
-#main-menu .logout a span
 {
 	display                          : none;
 }
@@ -414,6 +421,28 @@ li
 	text-align                       : left;
 }
 
+#data-outbox .main-explain-box .explain
+{
+	background-color                 : #EFEFEF;
+	display                          : block;
+	line-height                      : 18px;
+	margin                           : 10px 0 5px 0;
+	padding                          : 10px 10px 8px 10px;
+	text-align                       : left;
+}
+
+#data-outbox .main-explain-box .explain a:link,
+#data-outbox .main-explain-box .explain a:visited
+{
+	color                            : #545454;
+}
+
+#data-outbox .main-explain-box .explain a:hover,
+#data-outbox .main-explain-box .explain a:active
+{
+	color                            : #767676;
+}
+
 /* data box */
 #data-outbox .data-inbox a:link,
 #data-outbox .data-inbox a:visited
@@ -449,8 +478,6 @@ li
 	color                            : #536576;
 	margin                           : 5px 0 0 0;
 	overflow                         : hidden;
-	table-layout                     : fixed;
-	width                            : 100%;
 }
 
 #data-outbox table.data-inbox thead tr

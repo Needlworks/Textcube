@@ -20,6 +20,12 @@
 }
 
 /* list table body ------------------------------------------------------------------------------*/
+#part-link-list table.data-inbox
+{
+	table-layout                     : fixed;
+	width                            : 100%;
+}
+
 #part-link-list table.data-inbox .tr-body td
 {
 	height                           : 24px;

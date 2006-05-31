@@ -3,27 +3,21 @@
 /* Visitor ***************************************************************************************/
 
 /* common ---------------------------------------------------------------------------------------*/
-#data-outbox
-{
-	background-color                 : #FFFFFF;
-	padding-top                      : 15px;
-}
-
-/* visitor count --------------------------------------------------------------------------------*/
-#part-statistics-counter
+#part-statistics-visitor .data-inbox
 {
 	float                            : left;
-	margin-right                     : 10px;
-	width                            : 210px;
+	margin-right                     : 10px !important;
+	width                            : 210px !important;
 }
-
-#part-statistics-counter div.data-inbox .label
+	
+/* visitor count --------------------------------------------------------------------------------*/
+#statistics-counter-inbox .label
 {
 	display                          : block;
 	text-align                       : center;
 }
 
-#part-statistics-counter div.data-inbox .divider
+#statistics-counter-inbox .divider
 {
 	display                          : none;
 }
@@ -38,7 +32,7 @@
 	text-align                       : center;
 }
 
-#part-statistics-counter div.data-inbox .button
+#statistics-counter-inbox .button
 {
 	background-color                 : #CCCCCC;
 	background-image                 : url("./image/button2.gif");
@@ -48,7 +42,7 @@
 	width                            : 106px;
 }
 
-#part-statistics-counter div.data-inbox .button span
+#statistics-counter-inbox .button span
 {
 	background-color                 : #CCCCCC;
 	background-image                 : url("./image/button2.gif");
@@ -59,77 +53,77 @@
 }
 
 /* month ----------------------------------------------------------------------------------------*/
-#part-statistics-month
+#statistics-month-inbox
 {
 	float                            : left;
 	margin-right                     : 10px;
 	width                            : 210px;
 }
 
-#part-statistics-month table.data-inbox thead tr td
+#statistics-month-inbox thead tr td
 {
-	padding-left                     : 5px;
+	padding-left                     : 5px !important;
 }
 
-#part-statistics-month table.data-inbox .tr-body td
+#statistics-month-inbox .tr-body td
 {
 	cursor                           : pointer;
 	height                           : 24px;
 }
 
-#part-statistics-month table.data-inbox .tr-last-body td
+#statistics-month-inbox .tr-last-body td
 {
 	cursor                           : pointer;
 	height                           : 23px;
 	padding-top                      : 1px;
 }
 
-#part-statistics-month table.data-inbox .tr-body .date,
-#part-statistics-month table.data-inbox .tr-last-body .date
+#statistics-month-inbox .tr-body .date,
+#statistics-month-inbox .tr-last-body .date
 {
 	padding                          : 4px 0 0 5px;
 	width                            : 70px;
 }
 
-#part-statistics-month table.data-inbox .tr-body .count,
-#part-statistics-month table.data-inbox .tr-last-body .count
+#statistics-month-inbox .tr-body .count,
+#statistics-month-inbox .tr-last-body .count
 {
 	padding                          : 4px 0 0 5px;
 }
 
 /* daily ----------------------------------------------------------------------------------------*/
-#part-statistics-day
+#statistics-day-inbox
 {
 	float                            : left;
 	margin-right                     : 10px;
 	width                            : 210px;
 }
 
-#part-statistics-day table.data-inbox thead tr td
+#statistics-day-inbox thead tr td
 {
-	padding-left                     : 5px;
+	padding-left                     : 5px !important;
 }
 
-#part-statistics-day table.data-inbox .tr-body td
+#statistics-day-inbox .tr-body td
 {
 	height                           : 24px;
 }
 
-#part-statistics-day table.data-inbox .tr-last-body td
+#statistics-day-inbox .tr-last-body td
 {
 	height                           : 23px;
 	padding-top                      : 1px;
 }
 
-#part-statistics-day table.data-inbox .tr-body .date,
-#part-statistics-day table.data-inbox .tr-last-body .date
+#statistics-day-inbox .tr-body .date,
+#statistics-day-inbox .tr-last-body .date
 {
 	padding                          : 4px 0 0 5px;
 	width                            : 70px;
 }
 
-#part-statistics-day table.data-inbox .tr-body .count,
-#part-statistics-day table.data-inbox .tr-last-body .count
+#statistics-day-inbox .tr-body .count,
+#statistics-day-inbox .tr-last-body .count
 {
 	padding                          : 4px 0 0 5px;
 }
@@ -140,24 +134,18 @@
 #part-statistics-rank
 {
 	float                            : left;
-	margin-right                     : 10px;
-	width                            : 30%;
-}
-
-#part-statistics-rank .caption
-{
-	margin                           : 0;
+	margin-right                     : 20px;
 }
 
 #part-statistics-rank table.data-inbox
 {
 	border-top                       : 2px solid #00A6ED;
-
+	width                            : auto;
 }
 
 #part-statistics-rank table.data-inbox thead tr td
 {
-	padding-left                     : 5px;
+	display                          : none;
 }
 
 #part-statistics-rank table.data-inbox .tr-body td,
@@ -167,27 +155,27 @@
 	padding                          : 3px 0 0 5px;
 }
 
-#part-statistics-rank table.data-inbox .tr-body .number,
-#part-statistics-rank table.data-inbox .tr-last-body .number
+#part-statistics-rank table.data-inbox .tr-body .rank,
+#part-statistics-rank table.data-inbox .tr-last-body .rank
 {
 	padding                          : 4px 5px 0 5px;
 	text-align                       : right;
-	width                            : 20px;
+	width                            : 20px !important;
+	white-space                      : nowrap;
 }
 
 #part-statistics-rank table.data-inbox .tr-body .site,
 #part-statistics-rank table.data-inbox .tr-last-body .site
 {
-	overflow                         : hidden;
 	padding                          : 4px 5px 0 5px;
+	white-space                      : nowrap;
 }
 
 /* log ------------------------------------------------------------------------------------------*/
 #part-statistics-log
 {
-	float                            : right;
+	float                            : left;
 	margin-right                     : 20px;
-	width                            : 65%;
 }
 
 
@@ -204,7 +192,7 @@
 
 #part-statistics-log table.data-inbox thead tr td
 {
-	padding-left                     : 5px;
+	display                          : none;
 }
 
 #part-statistics-log table.data-inbox .tr-body td,
@@ -218,11 +206,13 @@
 #part-statistics-log table.data-inbox .tr-last-body .date
 {
 	padding                          : 4px 5px 0 5px;
-	width                            : 75px;
+	width                            : 75px !important;
+	white-space                      : nowrap;
 }
 
 #part-statistics-log table.data-inbox .tr-body .address,
 #part-statistics-log table.data-inbox .tr-last-body .address
 {
 	padding                          : 4px 5px 0 5px;
+	white-space                      : nowrap;
 }

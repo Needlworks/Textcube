@@ -541,6 +541,12 @@ input#pathDomain
 /* Plugins ***************************************************************************************/
 
 /* list table head ------------------------------------------------------------------------------*/
+#part-setting-plugins table.data-inbox
+{
+	table-layout                     : fixed;
+	width                            : 100%;
+}
+
 #part-setting-plugins table.data-inbox thead tr .title
 {
 	padding                          : 0 5px;
@@ -627,6 +633,41 @@ input#pathDomain
 /* Data ******************************************************************************************/
 
 /* common ---------------------------------------------------------------------------------------*/
+#part-data-correct div.data-inbox .explain,
+#part-data-backup div.data-inbox .explain,
+#part-data-restore div.data-inbox .explain,
+#part-data-remove div.data-inbox .explain
+{
+	background-color                 : transparent !important;
+	margin                           : 10px 0 0 0 !important;
+	padding                          : 0 !important;
+}
+
+#part-data-correct div.data-inbox .explain a:link,
+#part-data-correct div.data-inbox .explain a:visited,
+#part-data-backup div.data-inbox .explain a:link,
+#part-data-backup div.data-inbox .explain a:visited,
+#part-data-restore div.data-inbox .explain a:link,
+#part-data-restore div.data-inbox .explain a:visited,
+#part-data-remove div.data-inbox .explain a:link,
+#part-data-remove div.data-inbox .explain a:visited
+{
+	color                            : #000000 !important;
+}
+
+#part-data-correct div.data-inbox .explain a:hover,
+#part-data-correct div.data-inbox .explain a:active,
+#part-data-backup div.data-inbox .explain a:hover,
+#part-data-backup div.data-inbox .explain a:active,
+#part-data-restore div.data-inbox .explain a:hover,
+#part-data-restore div.data-inbox .explain a:active,
+#part-data-remove div.data-inbox .explain a:hover,
+#part-data-remove div.data-inbox .explain a:active
+{
+	color                            : #434343 !important;
+	text-decoration                  : none !important;
+}
+
 #part-data-correct div.data-inbox .image,
 #part-data-backup div.data-inbox .image,
 #part-data-restore div.data-inbox .image,

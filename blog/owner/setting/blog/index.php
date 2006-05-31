@@ -265,10 +265,12 @@ if ($service['type'] != 'single') {
 												<dl class="line">
 													<dt><label for="title"><span class="text"><?=_t('블로그 제목')?></span></label><span class="divider"> | </span></dt>
 													<dd><input type="text" id="title" class="text-input" name="title" value="<?=htmlspecialchars($blog['title'])?>" /></dd>
+													<dd class="clear"></dd>
 												</dl>
 												<dl class="line">
 													<dt><label for="description"><span class="text"><?=_t('블로그 설명')?></span></label><span class="divider"> | </span></dt>
 													<dd><textarea id="description" name="description" cols="15" rows="5"><?=htmlspecialchars($blog['description'])?></textarea></dd>
+													<dd class="clear"></dd>
 												</dl>
 												<div class="button-box">
 													<a class="save-button button" href="#void" onclick="setBlog()"><span class="text"><?=_t('저장하기')?></span></a>
@@ -382,7 +384,7 @@ if (file_exists(ROOT.'/index.gif')) {
 												<dl id="post-address" class="line">
 													<dt><span class="text"><?=_t('글 주소')?></span><span class="divider"> | </span></dt>
 													<dd>
-														<input type="radio" id="useSlogan1" class="radio" name="useSlogan"<?=($blog['useSlogan'] ? ' checked="checked"' : '')?> /> <label for="useSlogan1"><span class="text"><?=_t('문자를 사용합니다.')?> <samp><?=_f('(예: %1/entry/태터툴즈로-오신-것을-환영합니다.)', getBlogURL())?></samp></span></label><br />
+														<input type="radio" id="useSlogan1" class="radio" name="useSlogan"<?=($blog['useSlogan'] ? ' checked="checked"' : '')?> /> <label for="useSlogan1"><span class="text"><?=_t('문자를 사용합니다.')?> <samp><?=_f('(예: %1/entry/태터툴즈로-오신-것을-환영합니다)', getBlogURL())?></samp></span></label><br />
 														<input type="radio" id="useSlogan0" class="radio" name="useSlogan"<?=($blog['useSlogan'] ? '' : ' checked="checked"')?> /> <label for="useSlogan0"><span class="text"><?=_t('숫자를 사용합니다.')?> <samp><?=_f('(예: %1/123)', getBlogURL())?></samp></span></label>
 													</dd>
 													<dd class="clear"></dd>
@@ -398,7 +400,7 @@ if (file_exists(ROOT.'/index.gif')) {
 												<dl id="post-count" class="line">
 													<dt><span class="text"><?=_t('글 개수')?></span><span class="divider"> | </span></dt>
 													<dd>
-														<?=getArrayValue(explode('%1', _t('RSS파일의 블로그 글은 최신 %1 개로 갱신됩니다.')), 0)?>
+														<?=getArrayValue(explode('%1', _t('RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다.')), 0)?>
 														<select name="entriesOnRSS" style="width: 40px;">
 <?
 for ($i = 5; $i <= 30; $i += 5) {
@@ -407,17 +409,17 @@ for ($i = 5; $i <= 30; $i += 5) {
 <?
 }
 ?>
-														</select><?=getArrayValue(explode('%1', _t('RSS파일의 블로그 글은 최신 %1 개로 갱신됩니다.')), 1)?>
+														</select><?=getArrayValue(explode('%1', _t('RSS 파일의 블로그 글은 최신 %1 개로 갱신됩니다.')), 1)?>
 													</dd>
 													<dd class="clear"></dd>
 												</dl>
 												<dl id="open-range" class="line">
 													<dt><span class="text"><?=_t('공개 범위')?></span><span class="divider"> | </span></dt>
-													<dd><?=getArrayValue(explode('%1', _t('RSS파일의 글 본문은 %1를 원칙으로 합니다.')), 0)?>
+													<dd><?=getArrayValue(explode('%1', _t('RSS 파일의 글 본문은 %1를 원칙으로 합니다.')), 0)?>
 														<select name="publishWholeOnRSS" style="width: 75px;">
 															<option value="1"<?=($blog['publishWholeOnRSS'] ? ' selected="selected"' : '')?>><?=_t('전체공개')?></option>
 															<option value="0"<?=($blog['publishWholeOnRSS'] ? '' : ' selected="selected"')?>><?=_t('부분공개')?></option>
-														</select><?=getArrayValue(explode('%1', _t('RSS파일의 글 본문은 %1 를 원칙으로 합니다.')), 1)?>
+														</select><?=getArrayValue(explode('%1', _t('RSS 파일의 글 본문은 %1를 원칙으로 합니다.')), 1)?>
 													</dd>
 													<dd class="clear"></dd>
 												</dl>
@@ -431,7 +433,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 												</dl>
 												
 												<div class="button-box">
-													<a class="save-button button" href="#void" onclick="setRSS()"><span><?=_t('저장하기')?></span></a>
+													<a class="save-button button" href="#void" onclick="setRSS()"><span class="text"><?=_t('저장하기')?></span></a>
 												</div>
 											</div>
 										</div>
@@ -447,7 +449,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 										<div class="data-inbox">
 											<div id="language-section" class="section">
 												<dl class="line">
-													<dt><span><?=_t('언어')?></span><span class="divider"> | </span></dt>
+													<dt><span class="text"><?=_t('언어')?></span><span class="divider"> | </span></dt>
 													<dd>
 														<select name="language">
 <?
@@ -462,7 +464,7 @@ foreach (Locale::getSupportedLocales() as $locale => $language) {
 													<dd class="clear"></dd>
 												</dl>
 												<dl class="line">
-													<dt><?=_t('시간대')?> |</dt>
+													<dt><span class="text"><?=_t('시간대')?></span><span class="divider"> | </span></dt>
 													<dd>
 														<select name="timezone">
 <?
@@ -478,7 +480,7 @@ foreach (Timezone::getList() as $timezone => $label) {
 												</dl>
 												
 												<div class="button-box">
-													<a class="save-button button" href="#void" onclick="setLocale()"><span><?=_t('저장하기')?></span></a>
+													<a class="save-button button" href="#void" onclick="setLocale()"><span class="text"><?=_t('저장하기')?></span></a>
 												</div>
 											</div>
 										</div>

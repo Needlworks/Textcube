@@ -198,6 +198,11 @@
 	padding-top                      : 7px;
 }
 
+#part-post-notify .caption
+{
+	border : 1px solid #FFFFFF;
+}
+
 /* multi-selection deleter ----------------------------------------------------------------------*/
 #part-post-notify #delete-section 
 {

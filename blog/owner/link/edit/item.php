@@ -83,14 +83,14 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 										</dl>
 										<div class="clear"></div>
 									</div>
-								</div>
-								
-								<hr class="hidden" />
-								
-								<div class="button-box">
-									<a class="edit-button button" href="#void" onclick="updateLink()"><span class="text"><?=_t('편집하기')?></span></a>
-									<span class="hidden">|</span>
-									<a class="cancel-button button" href="<?=$blogURL?>/owner/link"><span class="text"><?=_t('취소하기')?></span></a>
+									
+									<div class="button-box">
+										<a class="edit-button button" href="#void" onclick="updateLink()"><span class="text"><?=_t('편집하기')?></span></a>
+										<span class="hidden">|</span>
+										<a class="cancel-button button" href="<?=$blogURL?>/owner/link"><span class="text"><?=_t('취소하기')?></span></a>
+										<div class="clear"></div>
+									</div>
+									
 									<div class="clear"></div>
 								</div>
 <?

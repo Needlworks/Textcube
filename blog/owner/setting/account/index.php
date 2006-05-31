@@ -300,10 +300,9 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 											<h2 class="caption"><span class="main-text"><?=_t('친구를 초대합니다')?></span></h2>
 											
 											<div class="data-inbox">
-												<div id="letter-section" class="section">
-													<div class="title"><span class="text"><?=_t('초대장')?></span><span class="divider"> | </span></div>
-													
-													<div id="letter">
+												<dl id="letter-section" class="section">
+													<dt class="title"><span class="text"><?=_t('초대장')?></span><span class="divider"> | </span></dt>
+													<dd id="letter">
 														<div class="letter-head">
 															<dl class="line">
 																<dt><label for="text"><span class="text"><?=_t('받는 사람')?></span></label><span class="divider"> : </span></dt>
@@ -311,7 +310,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 																<dd class="clear"></dd>
 															</dl>
 															<dl class="line">
-																<dt><label for="invitation_sender"><span class="text"><?=_t('보내는 사람')?></span></span><span> : </span></dt>
+																<dt><label for="invitation_sender"><span class="text"><?=_t('보내는 사람')?></span></label><span class="divider"> : </span></dt>
 																<dd><input type="text" id="invitation_sender" class="text-input" name="text2" value="<?=htmlspecialchars($user['name'] . '<' . $user['loginid'] . '>')?>" /></dd>
 																<dd class="clear"></dd>
 															</dl>
@@ -331,54 +330,59 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 														<div class="letter-foot">
 															<div class="clear"></div>
 														</div>
-													</div>
+													</dd>
+												</dl>
 												
-													<div class="button-box">
-														<a class="invite-button button" href="#void" onclick="sendInvitation()"><span class="text"><?=_t('초대장 발송')?></span></a>
-													</div>
+												<div class="clear"></div>
+												
+												<div class="button-box">
+													<a class="invite-button button" href="#void" onclick="sendInvitation()"><span class="text"><?=_t('초대장 발송')?></span></a>
 												</div>
 												
-												<div id="list-section" class="section">
-													<div class="title"><span class="text"><?=_t('초대명단')?></span><span class="divider"> | </span></div>
-												
+												<dl id="list-section" class="section">
+													<dt class="title"><span class="text"><?=_t('초대명단')?></span><span class="divider"> | </span></dt>
+													<dd>
 <?
 	$invitedList = getInvited($owner);
 ?>
-													<table cellspacing="0" cellpadding="0">
-														<thead>
-															<tr>
-																<td class="email"><span class="text"><?=_t('이름')?>(<?=_t('E-mail')?>)</span></td>
-																<td class="address"><span class="text"><?=_t('주소')?></span></td>
-																<td class="date"><span class="text"><?=_t('초대일')?></span></td>
-																<td class="status"><span class="text"><?=_t('경과')?></span></td>
-																<td class="password"><span class="text"><?=_t('비밀번호')?></span></td>
-																<td class="cancel"><span class="text"><?=_t('초대취소')?></span></td>
-															</tr>
-														</thead>
-														<tbody>
+														<table cellspacing="0" cellpadding="0">
+															<thead>
+																<tr>
+																	<td class="email"><span class="text"><?=_t('이름')?>(<?=_t('E-mail')?>)</span></td>
+																	<td class="address"><span class="text"><?=_t('주소')?></span></td>
+																	<td class="date"><span class="text"><?=_t('초대일')?></span></td>
+																	<td class="status"><span class="text"><?=_t('경과')?></span></td>
+																	<td class="password"><span class="text"><?=_t('비밀번호')?></span></td>
+																	<td class="cancel"><span class="text"><?=_t('초대취소')?></span></td>
+																</tr>
+															</thead>
+															<tbody>
 <?
 	foreach ($invitedList as $value) {
 ?>
-															<tr class="tr-body">
-																<td class="email"><?=htmlspecialchars($value['name'])?>(<?=htmlspecialchars($value['loginid'])?>)</td>
-																<td class="address"><a href="<?=getBlogURL($value['blogName'])?>" onclick="window.open(this.href)"><?=getBlogURL($value['blogName'])?></a></td>
-																<td class="date"><?=Timestamp::format5($value['created'])?></td>
+																<tr class="tr-body">
+																	<td class="email"><?=htmlspecialchars($value['name'])?>(<?=htmlspecialchars($value['loginid'])?>)</td>
+																	<td class="address"><a href="<?=getBlogURL($value['blogName'])?>" onclick="window.open(this.href); return false;"><?=getBlogURL($value['blogName'])?></a></td>
+																	<td class="date"><?=Timestamp::format5($value['created'])?></td>
 <?
 		if ($value['lastLogin'] == 0) {
 ?>
-																<td class="status"><?=timeInterval($value['created'], time()) . ' ' . _t('전')?></td>
-																<td class="password"><?=fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']}")?></td>
-																<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?=$value['userid']?>,this);" title="<?=_t('초대에 응하지 않은 사용자의 계정을 삭제합니다.')?>"><span class="text"><?=_t('초대취소')?></span></a></td>
+																	<td class="status"><?=timeInterval($value['created'], time()) . ' ' . _t('전')?></td>
+																	<td class="password"><?=fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']}")?></td>
+																	<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?=$value['userid']?>,this);" title="<?=_t('초대에 응하지 않은 사용자의 계정을 삭제합니다.')?>"><span class="text"><?=_t('초대취소')?></span></a></td>
 <?
 		}
 ?>
-															</tr>
+																</tr>
 <?
 	}
 ?>
-														</tbody>
-													</table>
-												</div>
+															</tbody>
+														</table>
+													</dd>
+												</dl>
+												
+												<div class="clear"></div>
 											</div>
 										</div>
 <?

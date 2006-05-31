@@ -543,7 +543,7 @@ function printEntryFileList($attachments, $entryId) {
 	strpos($attachments[0]['name'] ,'.gif') === false &&
 	strpos($attachments[0]['name'] ,'.jpg') === false &&
 	strpos($attachments[0]['name'] ,'.png') === false)) {
-		$fileName =  "{$service['path']}/image/spacer.gif";
+		$fileName =  "{$service['path']}{$service['adminSkin']}/image/spacer.gif";
 	} else {
 		$fileName = "{$service['path']}/attach/$owner/{$attachments[0]['name']}";
 	}
@@ -578,11 +578,9 @@ function printEntryFileList($attachments, $entryId) {
 		} else {
 			$class = '';
 		}
-		if ( $attachment['enclosure'] == 1)  {
-			$style = ' style="background-color:#c6a6e7; color:#000000"';		
+		if ( $attachment['enclosure'] == 1)  {	
 			$enclosureFileName = $attachment['name'];
 		} else {
-			$style = '';
 			$prefix = '';
 		}
 		
@@ -1460,152 +1458,154 @@ function printEntryEditorProperty() {
 }
 function printEntryEditorPalette() {
 	global $owner, $service;
-	$p_box1_style = 'padding:10; background-color:#F0F0F0;';
-	$p_box2_style = 'padding:10; background-color:#DEEFFF;';
-	$p_box3_style = 'padding:10; background-color:#D6F7E0;';
-	$p_box4_style = 'padding:10; background-color:#FFE6E6;';
 ?>
-												<div id="editor-palette">
-													<div class="font-relatives">
-														<h3><span class="text"><?php echo _t('폰트 설정')?></span></h3>
-														
-														<div class="command-box">
-															<select id="fontFamilyChanger" onchange="editor.execCommand('fontname', false, this.value); this.selectedIndex=0;">
-																<option><?php echo _t('글자체')?></option>
-																<option value="">=========</option>
-																<option value="andale mono,times">Andale Mono</option>
-																<option value="arial,helvetica,sans-serif">Arial</option>
-																<option value="arial black,avant garde">Arial Black</option>
-																<option value="book antiqua,palatino">Book Antiqua</option>
-																<option value="comic sans ms,sand">Comic Sans MS</option>
-																<option value="courier new,courier,monospace">Courier New</option>
-																<option value="georgia,times new roman,times,serif">Georgia</option>
-																<option value="helvetica">Helvetica</option>
-																<option value="impact,chicago">Impact</option>
-																<option value="symbol">Symbol</option>
-																<option value="tahoma,arial,helvetica,sans-serif">Tahoma</option>
-																<option value="terminal,monaco">Terminal</option>
-																<option value="times new roman,times,serif">Times New Roman</option>
-																<option value="trebuchet ms,geneva">Trebuchet MS</option>
-																<option value="verdana,arial,helvetica,sans-serif">Verdana</option>
-																<option value="webdings">Webdings</option>
-																<option value="wingdings,zapf dingbats">Wingdings</option>
-															</select>
-															<select id="fontSizeChanger" onchange="editor.execCommand('fontsize', false, this.value); this.selectedIndex=0;">
-																<option><?php echo _t('크기')?></option>
-																<option value="">=======</option>
-																<option value="1">1 (8 pt)</option>
-																<option value="2">2 (10 pt)</option>
-																<option value="3">3 (12 pt)</option>
-																<option value="4">4 (14 pt)</option>
-																<option value="5">5 (18 pt)</option>
-																<option value="6">6 (24 pt)</option>
-																<option value="7">7 (36 pt)</option>
-															</select>
-														</div>
-													</div>
-													<div class="font-style">
-														<h3><span class="text"><?php echo _t('폰트 스타일')?></span></h3>
-														
-														<div class="command-box">
-															<a id="indicatorBold" class="button" href="#void" onclick="TTCommand('Bold')" title="<?php echo _t('굵게')?>"><span class="text"><?php echo _t('굵게')?></span></a>
-															<a id="indicatorItalic" class="button" href="#void" onclick="TTCommand('Italic')" title="<?php echo _t('기울임')?>"><span class="text"><?php echo _t('기울임')?></span></a>
-															<a id="indicatorUnderline" class="button" href="#void" onclick="TTCommand('Underline')" title="<?php echo _t('밑줄')?>"><span class="text"><?php echo _t('밑줄')?></span></a>
-															<a id="indicatorStrike" class="button" href="#void" onclick="TTCommand('StrikeThrough')" title="<?php echo _t('취소선')?>"><span class="text"><?php echo _t('취소선')?></span></a>
-															<a id="indicatorColorPalette" class="button" href="#void" onclick="hideLayer('markPalette'); hideLayer('textBox'); toggleLayer('colorPalette');" title="<?php echo _t('글자색')?>"><span class="text"><?php echo _t('글자색')?></span></a>
-															<a id="indicatorMarkPalette" class="button" href="#void" onclick="hideLayer('colorPalette');hideLayer('textBox');toggleLayer('markPalette')" title="<?php echo _t('배경색')?>"><span class="text"><?php echo _t('배경색')?></span></a>
-															<a id="indicatorTextBox" class="button" href="#void" onclick="hideLayer('markPalette');hideLayer('colorPalette');toggleLayer('textBox')" title="<?php echo _t('텍스트 상자')?>"><span class="text"><?php echo _t('텍스트 상자')?></span></a>
-															<a id="indicatorRemoveFormat" class="button" href="#void" onclick="TTCommand('RemoveFormat')" title="<?php echo _t('효과 제거')?>"><span class="text"><?php echo _t('효과 제거')?></span></a>
-														</div>
-													</div>
-													<div class="paragraph">
-														<h3><span class="text"><?php echo _t('문단')?></span></h3>
-														
-														<div class="command-box">
-															<a id="indicatorJustifyLeft" class="button" href="#void" onclick="TTCommand('JustifyLeft')" title="<?php echo _t('왼쪽 정렬')?>"><span class="text"><?php echo _t('왼쪽 정렬')?></span></a>
-															<a id="indicatorJustifyCenter" class="button" href="#void" onclick="TTCommand('JustifyCenter')" title="<?php echo _t('가운데 정렬')?>"><span class="text"><?php echo _t('가운데 정렬')?></span></a>
-															<a id="indicatorJustifyRight" class="button" href="#void" onclick="TTCommand('JustifyRight')" title="<?php echo _t('오른쪽 정렬')?>"><span class="text"><?php echo _t('오른쪽 정렬')?></span></a>
-															<a id="indicatorUnorderedList" class="button" href="#void" onclick="TTCommand('InsertUnorderedList')" title="<?php echo _t('순서없는 리스트')?>"><span class="text"><?php echo _t('순서없는 리스트')?></span></a>
-															<a id="indicatorOrderedList" class="button" href="#void" onclick="TTCommand('InsertOrderedList')" title="<?php echo _t('번호 매긴 리스트')?>"><span class="text"><?php echo _t('번호 매긴 리스트')?></span></a>
-															<a id="indicatorOutdent" class="button" href="#void" onclick="TTCommand('Outdent')" title="<?php echo _t('내어쓰기')?>"><span class="text"><?php echo _t('내어쓰기')?></span></a>
-															<a id="indicatorIndent" class="button" href="#void" onclick="TTCommand('Indent')" title="<?php echo _t('들여쓰기')?>"><span class="text"><?php echo _t('들여쓰기')?></span></a>
-															<a id="indicatorBlockquote" class="button" href="#void" onclick="TTCommand('Blockquote')" title="<?php echo _t('인용구')?>"><span class="text"><?php echo _t('인용구')?></span></a>
-														</div>
-													</div>
-													<div class="special">
-														<h3><span class="text"><?php echo _t('기타')?></span></h3>
-														
-														<div class="command-box">
-															<a id="indicatorCodeBlock" class="button" href="#void" onclick="TTCommand('CodeBlock')" title="<?php echo _t('코드')?>"><span class="text"><?php echo _t('코드')?></span></a>
-															<a id="indicatorHtmlBlock" class="button" href="#void" onclick="TTCommand('HtmlBlock')" title="<?php echo _t('HTML 코드 직접 쓰기')?>"><span class="text"><?php echo _t('HTML 코드 직접 쓰기')?></span></a>
-															<a id="indicatorCreateLink" class="button" href="#void" onclick="TTCommand('CreateLink')" title="<?php echo _t('하이퍼링크')?>"><span class="text"><?php echo _t('하이퍼링크')?></span></a>
-															<a id="indicatorMediaBlock" class="button" href="#void" onclick="TTCommand('ObjectBlock')" title="<?php echo _t('미디어 삽입')?>"><span class="text"><?php echo _t('미디어 삽입')?></span></a>
-															<a id="indicatorMoreLessBlock" class="button" href="#void" onclick="TTCommand('MoreLessBlock')" title="<?php echo _t('More/Less')?>"><span class="text"><?php echo _t('More/Less')?></span></a>
-														</div>
-													</div>
-													<div class="mode">
-														<h3><span class="text"><?php echo _t('편집 모드')?></span></h3>
-														
-														<div class="command-box">
-															<a id="indicatorMode" class="button" href="#void" onclick="TTCommand('ToggleMode')" title="<?php echo _t('위지윅/텍스트 모드 변경')?>"><span class="text"><?php echo _t('위지윅/텍스트 모드 변경')?></span></a>
-														</div>
-													</div>
-												</div>
+											<div id="editor-palette" class="container">
+												<dl class="font-relatives">
+													<dt class="title">
+														<span class="text"><?php echo _t('폰트 설정')?></span>
+													</dt>
+													<dd class="command-box">
+														<select id="fontFamilyChanger" onchange="editor.execCommand('fontname', false, this.value); this.selectedIndex=0;">
+															<option><?php echo _t('글자체')?></option>
+															<option value="">=========</option>
+															<option value="andale mono,times">Andale Mono</option>
+															<option value="arial,helvetica,sans-serif">Arial</option>
+															<option value="arial black,avant garde">Arial Black</option>
+															<option value="book antiqua,palatino">Book Antiqua</option>
+															<option value="comic sans ms,sand">Comic Sans MS</option>
+															<option value="courier new,courier,monospace">Courier New</option>
+															<option value="georgia,times new roman,times,serif">Georgia</option>
+															<option value="helvetica">Helvetica</option>
+															<option value="impact,chicago">Impact</option>
+															<option value="symbol">Symbol</option>
+															<option value="tahoma,arial,helvetica,sans-serif">Tahoma</option>
+															<option value="terminal,monaco">Terminal</option>
+															<option value="times new roman,times,serif">Times New Roman</option>
+															<option value="trebuchet ms,geneva">Trebuchet MS</option>
+															<option value="verdana,arial,helvetica,sans-serif">Verdana</option>
+															<option value="webdings">Webdings</option>
+															<option value="wingdings,zapf dingbats">Wingdings</option>
+														</select>
+														<select id="fontSizeChanger" onchange="editor.execCommand('fontsize', false, this.value); this.selectedIndex=0;">
+															<option><?php echo _t('크기')?></option>
+															<option value="">=======</option>
+															<option value="1">1 (8 pt)</option>
+															<option value="2">2 (10 pt)</option>
+															<option value="3">3 (12 pt)</option>
+															<option value="4">4 (14 pt)</option>
+															<option value="5">5 (18 pt)</option>
+															<option value="6">6 (24 pt)</option>
+															<option value="7">7 (36 pt)</option>
+														</select>
+													</dd>
+												</dl>
+												<dl class="font-style">
+													<dt class="title">
+														<span class="text"><?php echo _t('폰트 스타일')?></span>
+													</dt>
+													<dd class="command-box">
+														<a id="indicatorBold" class="button" href="#void" onclick="TTCommand('Bold')" title="<?php echo _t('굵게')?>"><span class="text"><?php echo _t('굵게')?></span></a>
+														<a id="indicatorItalic" class="button" href="#void" onclick="TTCommand('Italic')" title="<?php echo _t('기울임')?>"><span class="text"><?php echo _t('기울임')?></span></a>
+														<a id="indicatorUnderline" class="button" href="#void" onclick="TTCommand('Underline')" title="<?php echo _t('밑줄')?>"><span class="text"><?php echo _t('밑줄')?></span></a>
+														<a id="indicatorStrike" class="button" href="#void" onclick="TTCommand('StrikeThrough')" title="<?php echo _t('취소선')?>"><span class="text"><?php echo _t('취소선')?></span></a>
+														<a id="indicatorColorPalette" class="button" href="#void" onclick="hideLayer('markPalette'); hideLayer('textBox'); toggleLayer('colorPalette');" title="<?php echo _t('글자색')?>"><span class="text"><?php echo _t('글자색')?></span></a>
+														<span id="colorPalette" style="display: none;">
+															<table cellspacing="3" cellpadding="0">
+																<tr>
+																	<td class="color-008000" onclick="insertColorTag('#008000')"><span class="text">#008000</span></td>
+																	<td class="color-009966" onclick="insertColorTag('#009966')"><span class="text">#009966</span></td>
+																	<td class="color-99CC66" onclick="insertColorTag('#99CC66')"><span class="text">#99CC66</span></td>
+																	<td class="color-999966" onclick="insertColorTag('#999966')"><span class="text">#999966</span></td>
+																	<td class="color-CC9900" onclick="insertColorTag('#CC9900')"><span class="text">#CC9900</span></td>
+																	<td class="color-D41A01" onclick="insertColorTag('#D41A01')"><span class="text">#D41A01</span></td>
+																	<td class="color-FF0000" onclick="insertColorTag('#FF0000')"><span class="text">#FF0000</span></td>
+																	<td class="color-FF7635" onclick="insertColorTag('#FF7635')"><span class="text">#FF7635</span></td>
+																	<td class="color-FF9900" onclick="insertColorTag('#FF9900')"><span class="text">#FF9900</span></td>
+																	<td class="color-FF3399" onclick="insertColorTag('#FF3399')"><span class="text">#FF3399</span></td>
+																	<td class="color-9B18C1" onclick="insertColorTag('#9B18C1')"><span class="text">#9B18C1</span></td>
+																	<td class="color-993366" onclick="insertColorTag('#993366')"><span class="text">#993366</span></td>
+																	<td class="color-666699" onclick="insertColorTag('#666699')"><span class="text">#666699</span></td>
+																	<td class="color-0000FF" onclick="insertColorTag('#0000FF')"><span class="text">#0000FF</span></td>
+																	<td class="color-177FCD" onclick="insertColorTag('#177FCD')"><span class="text">#177FCD</span></td>
+																	<td class="color-006699" onclick="insertColorTag('#006699')"><span class="text">#006699</span></td>
+																	<td class="color-003366" onclick="insertColorTag('#003366')"><span class="text">#003366</span></td>
+																	<td class="color-333333" onclick="insertColorTag('#333333')"><span class="text">#333333</span></td>
+																	<td class="color-000000" onclick="insertColorTag('#000000')"><span class="text">#000000</span></td>			
+																	<td class="color-8E8E8E" onclick="insertColorTag('#8E8E8E')"><span class="text">#8E8E8E</span></td>
+																	<td class="color-C1C1C1" onclick="insertColorTag('#C1C1C1')"><span class="text">#C1C1C1</span></td>
+																</tr>
+															</table>
+														</span>
+														<a id="indicatorMarkPalette" class="button" href="#void" onclick="hideLayer('colorPalette');hideLayer('textBox');toggleLayer('markPalette')" title="<?php echo _t('배경색')?>"><span class="text"><?php echo _t('배경색')?></span></a>
+														<span id="markPalette" style="display: none;">
+															<table cellspacing="3" cellpadding="0">
+																<tr>
+																	<td class="color-FFDAED" onclick="insertMarkTag('#202020', '#FFDAED')"><span class="text">#FFDAED</span></td>
+																	<td class="color-C9EDFF" onclick="insertMarkTag('#202020', '#C9EDFF')"><span class="text">#C9EDFF</span></td>
+																	<td class="color-D0FF9D" onclick="insertMarkTag('#202020', '#D0FF9D')"><span class="text">#D0FF9D</span></td>
+																	<td class="color-FAFFA9" onclick="insertMarkTag('#202020', '#FAFFA9')"><span class="text">#FAFFA9</span></td>
+																	<td class="color-E4E4E4" onclick="insertMarkTag('#202020', '#E4E4E4')"><span class="text">#E4E4E4</span></td>
+																	<td class="color-FF0000" onclick="insertMarkTag('#FFFFFF', '#FF0000')"><span class="text">#FF0000</span></td>
+																	<td class="color-0000FF" onclick="insertMarkTag('#FFFFFF', '#0000FF')"><span class="text">#0000FF</span></td>
+																	<td class="color-009966" onclick="insertMarkTag('#FFFFFF', '#009966')"><span class="text">#009966</span></td>
+																	<td class="color-670787" onclick="insertMarkTag('#FFFFFF', '#670787')"><span class="text">#670787</span></td>
+																	<td class="color-333333" onclick="insertMarkTag('#FFFFFF', '#333333')"><span class="text">#333333</span></td>
+																</tr>
+															</table>
+														</span>
+														<a id="indicatorTextBox" class="button" href="#void" onclick="hideLayer('markPalette');hideLayer('colorPalette');toggleLayer('textBox')" title="<?php echo _t('텍스트 상자')?>"><span class="text"><?php echo _t('텍스트 상자')?></span></a>
+														<span id="textBox" style="display: none;">
+															<table cellspacing="3" cellpadding="0">
+																<tr>
+																	<td class="color-FFDAED" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FFDAED');"><span class="text">#FFDAED</span></td>
+																	<td class="color-C9EDFF" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#C9EDFF');"><span class="text">#C9EDFF</span></td>
+																	<td class="color-D0FF9D" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#D0FF9D');"><span class="text">#D0FF9D</span></td>
+																	<td class="color-FAFFA9" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FAFFA9');"><span class="text">#FAFFA9</span></td>
+																	<td class="color-E4E4E4" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#E4E4E4');"><span class="text">#E4E4E4</span></td>
+																</tr>
+															</table>
+														</span>
+														<a id="indicatorRemoveFormat" class="button" href="#void" onclick="TTCommand('RemoveFormat')" title="<?php echo _t('효과 제거')?>"><span class="text"><?php echo _t('효과 제거')?></span></a>
+													</dd>
+												</dl>
+												<dl class="paragraph">
+													<dt class="title">
+														<span class="text"><?php echo _t('문단')?></span>
+													</dt>
+													<dd class="command-box">
+														<a id="indicatorJustifyLeft" class="button" href="#void" onclick="TTCommand('JustifyLeft')" title="<?php echo _t('왼쪽 정렬')?>"><span class="text"><?php echo _t('왼쪽 정렬')?></span></a>
+														<a id="indicatorJustifyCenter" class="button" href="#void" onclick="TTCommand('JustifyCenter')" title="<?php echo _t('가운데 정렬')?>"><span class="text"><?php echo _t('가운데 정렬')?></span></a>
+														<a id="indicatorJustifyRight" class="button" href="#void" onclick="TTCommand('JustifyRight')" title="<?php echo _t('오른쪽 정렬')?>"><span class="text"><?php echo _t('오른쪽 정렬')?></span></a>
+														<a id="indicatorUnorderedList" class="button" href="#void" onclick="TTCommand('InsertUnorderedList')" title="<?php echo _t('순서없는 리스트')?>"><span class="text"><?php echo _t('순서없는 리스트')?></span></a>
+														<a id="indicatorOrderedList" class="button" href="#void" onclick="TTCommand('InsertOrderedList')" title="<?php echo _t('번호 매긴 리스트')?>"><span class="text"><?php echo _t('번호 매긴 리스트')?></span></a>
+														<a id="indicatorOutdent" class="button" href="#void" onclick="TTCommand('Outdent')" title="<?php echo _t('내어쓰기')?>"><span class="text"><?php echo _t('내어쓰기')?></span></a>
+														<a id="indicatorIndent" class="button" href="#void" onclick="TTCommand('Indent')" title="<?php echo _t('들여쓰기')?>"><span class="text"><?php echo _t('들여쓰기')?></span></a>
+														<a id="indicatorBlockquote" class="button" href="#void" onclick="TTCommand('Blockquote')" title="<?php echo _t('인용구')?>"><span class="text"><?php echo _t('인용구')?></span></a>
+													</dd>
+												</dl>
+												<dl class="special">
+													<dt class="title">
+														<span class="text"><?php echo _t('기타')?></span>
+													</dt>
+													<dd class="command-box">
+														<a id="indicatorCodeBlock" class="button" href="#void" onclick="TTCommand('CodeBlock')" title="<?php echo _t('코드')?>"><span class="text"><?php echo _t('코드')?></span></a>
+														<a id="indicatorHtmlBlock" class="button" href="#void" onclick="TTCommand('HtmlBlock')" title="<?php echo _t('HTML 코드 직접 쓰기')?>"><span class="text"><?php echo _t('HTML 코드 직접 쓰기')?></span></a>
+														<a id="indicatorCreateLink" class="button" href="#void" onclick="TTCommand('CreateLink')" title="<?php echo _t('하이퍼링크')?>"><span class="text"><?php echo _t('하이퍼링크')?></span></a>
+														<a id="indicatorMediaBlock" class="button" href="#void" onclick="TTCommand('ObjectBlock')" title="<?php echo _t('미디어 삽입')?>"><span class="text"><?php echo _t('미디어 삽입')?></span></a>
+														<a id="indicatorMoreLessBlock" class="button" href="#void" onclick="TTCommand('MoreLessBlock')" title="<?php echo _t('More/Less')?>"><span class="text"><?php echo _t('More/Less')?></span></a>
+													</dd>
+												</dl>
+												<dl class="mode">
+													<dt class="title">
+														<span class="text"><?php echo _t('편집 모드')?></span>
+													</dt>
+													<dd class="command-box">
+														<a id="indicatorMode" class="button" href="#void" onclick="TTCommand('ToggleMode')" title="<?php echo _t('위지윅/텍스트 모드 변경')?>"><span class="text"><?php echo _t('위지윅/텍스트 모드 변경')?></span></a>
+													</dd>
+												</dl>
 												
-												<div id="colorPalette" style="display: none;">
-													<table cellspacing="3" cellpadding="0">
-														<tr>
-															<td class="color-008000" onclick="insertColorTag('#008000')"><span class="text">#008000</span></td>
-															<td class="color-009966" onclick="insertColorTag('#009966')"><span class="text">#009966</span></td>
-															<td class="color-99CC66" onclick="insertColorTag('#99CC66')"><span class="text">#99CC66</span></td>
-															<td class="color-999966" onclick="insertColorTag('#999966')"><span class="text">#999966</span></td>
-															<td class="color-CC9900" onclick="insertColorTag('#CC9900')"><span class="text">#CC9900</span></td>
-															<td class="color-D41A01" onclick="insertColorTag('#D41A01')"><span class="text">#D41A01</span></td>
-															<td class="color-FF0000" onclick="insertColorTag('#FF0000')"><span class="text">#FF0000</span></td>
-															<td class="color-FF7635" onclick="insertColorTag('#FF7635')"><span class="text">#FF7635</span></td>
-															<td class="color-FF9900" onclick="insertColorTag('#FF9900')"><span class="text">#FF9900</span></td>
-															<td class="color-FF3399" onclick="insertColorTag('#FF3399')"><span class="text">#FF3399</span></td>
-															<td class="color-9B18C1" onclick="insertColorTag('#9B18C1')"><span class="text">#9B18C1</span></td>
-															<td class="color-993366" onclick="insertColorTag('#993366')"><span class="text">#993366</span></td>
-															<td class="color-666699" onclick="insertColorTag('#666699')"><span class="text">#666699</span></td>
-															<td class="color-0000FF" onclick="insertColorTag('#0000FF')"><span class="text">#0000FF</span></td>
-															<td class="color-177FCD" onclick="insertColorTag('#177FCD')"><span class="text">#177FCD</span></td>
-															<td class="color-006699" onclick="insertColorTag('#006699')"><span class="text">#006699</span></td>
-															<td class="color-003366" onclick="insertColorTag('#003366')"><span class="text">#003366</span></td>
-															<td class="color-333333" onclick="insertColorTag('#333333')"><span class="text">#333333</span></td>
-															<td class="color-000000" onclick="insertColorTag('#000000')"><span class="text">#000000</span></td>			
-															<td class="color-8E8E8E" onclick="insertColorTag('#8E8E8E')"><span class="text">#8E8E8E</span></td>
-															<td class="color-C1C1C1" onclick="insertColorTag('#C1C1C1')"><span class="text">#C1C1C1</span></td>
-														</tr>
-													</table>
-												</div>
-												<div id="markPalette" style="display: none;">
-													<table cellspacing="3" cellpadding="0">
-														<tr>
-															<td class="color-FFDAED" onclick="insertMarkTag('#202020', '#FFDAED')"><span class="text">#FFDAED</span></td>
-															<td class="color-C9EDFF" onclick="insertMarkTag('#202020', '#C9EDFF')"><span class="text">#C9EDFF</span></td>
-															<td class="color-D0FF9D" onclick="insertMarkTag('#202020', '#D0FF9D')"><span class="text">#D0FF9D</span></td>
-															<td class="color-FAFFA9" onclick="insertMarkTag('#202020', '#FAFFA9')"><span class="text">#FAFFA9</span></td>
-															<td class="color-E4E4E4" onclick="insertMarkTag('#202020', '#E4E4E4')"><span class="text">#E4E4E4</span></td>
-															<td class="color-FF0000" onclick="insertMarkTag('#FFFFFF', '#FF0000')"><span class="text">#FF0000</span></td>
-															<td class="color-0000FF" onclick="insertMarkTag('#FFFFFF', '#0000FF')"><span class="text">#0000FF</span></td>
-															<td class="color-009966" onclick="insertMarkTag('#FFFFFF', '#009966')"><span class="text">#009966</span></td>
-															<td class="color-670787" onclick="insertMarkTag('#FFFFFF', '#670787')"><span class="text">#670787</span></td>
-															<td class="color-333333" onclick="insertMarkTag('#FFFFFF', '#333333')"><span class="text">#333333</span></td>
-														</tr>
-													</table>
-												</div>
-												<div id="textBox" style="display: none;">
-													<table cellspacing="3" cellpadding="0">
-														<tr>
-															<td class="color-FFDAED" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FFDAED');"><span class="text">#FFDAED</span></td>
-															<td class="color-C9EDFF" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#C9EDFF');"><span class="text">#C9EDFF</span></td>
-															<td class="color-D0FF9D" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#D0FF9D');"><span class="text">#D0FF9D</span></td>
-															<td class="color-FAFFA9" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FAFFA9');"><span class="text">#FAFFA9</span></td>
-															<td class="color-E4E4E4" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#E4E4E4');"><span class="text">#E4E4E4</span></td>
-														</tr>
-													</table>
-												</div>
+												<div class="clear"></div>
+											</div>
 <?php
 }
 
