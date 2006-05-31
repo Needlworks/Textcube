@@ -15,6 +15,8 @@
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/gallery.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/style/base.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'].$service['adminSkin']?>/custom.js"></script>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/basic.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/popup-editor.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/basic.opera.css" />
@@ -26,7 +28,8 @@
 	<div id="temp-wrap">
 		<div id="all-wrap">
 			<div id="layout-header">
-				<h1><span>태터툴즈 관리 페이지</span></h1>
+				<h1><span class="text"><?php echo _t('태터툴즈 관리 페이지')?></span></h1>
 			</div>
 			
 			<hr class="hidden" />
+

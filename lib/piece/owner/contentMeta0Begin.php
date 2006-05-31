@@ -18,7 +18,7 @@ foreach (getCategories($owner) as $category) {
 <?php 
 	foreach ($category['children'] as $child) {
 ?>
-                                <option value="<?php echo $child['id']?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;► <?php echo htmlspecialchars($child['name'])?></option>
+                                <option value="<?php echo $child['id']?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;― <?php echo htmlspecialchars($child['name'])?></option>
 <?php 
 	}
 }
