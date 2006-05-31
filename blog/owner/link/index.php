@@ -15,16 +15,11 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 												request.onSuccess = function () {
 													PM.removeRequest(this);
 													PM.showMessage("<?=_t('링크가 삭제되었습니다.')?>", "center", "bottom");
-													var node1 = document.getElementById("link" + id + "1");
-													var node2 = document.getElementById("link" + id + "2");
+													var node = document.getElementById("link_" + id);
+													node1 = node.nextSibling;
 													if(node1)
 														node1.parentNode.removeChild(node1);
-													else {
-														node1 = node2.nextSibling;
-														if(node1)
-															node1.parentNode.removeChild(node1);
-													}
-													node2.parentNode.removeChild(node2);
+													node.parentNode.removeChild(node);
 												}
 												request.onError= function () {
 													PM.removeRequest(this);
@@ -59,23 +54,20 @@ for ($i=0; $i<sizeof($links); $i++) {
 	
 	if ($i == sizeof($links) - 1) {
 ?>
-												<tr id="link<?=$link['id']?>2" class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-													<td class="homepage"><a href="<?=$blogURL?>/owner/link/edit/<?=$link['id']?>" title="<?=_t('이 링크 정보를 수정합니다.')?>"><?=htmlspecialchars($link['name'])?></a></td>
-													<td class="address"><a href="<?=htmlspecialchars($link['url'])?>" onclick="window.open(this.href); return false;" title="<?=_t('이 링크에 연결합니다.')?>"><?=htmlspecialchars($link['url'])?></a></td>
-													<!--td class="edit"><a class="edit-button button" href="<?=$blogURL?>/owner/link/edit/<?=$link['id']?>" title="<?=_t('링크 정보를 수정합니다.')?>"><span><?=_t('수정')?></span></a></td-->
-													<td class="delete"><a class="delete-button button" href="#void" onclick="deleteLink(<?=$link['id']?>)" title="<?=_t('링크 정보를 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a></td>
-												</tr>
+												<tr id="link_<?=$link['id']?>" class="tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 <?
 	} else {
 ?>
-												<tr id="link<?=$link['id']?>2" class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-													<td class="homepage"><a href="<?=$blogURL?>/owner/link/edit/<?=$link['id']?>" title="<?=_t('이 링크 정보를 수정합니다.')?>"><?=htmlspecialchars($link['name'])?></a></td>
+												<tr id="link_<?=$link['id']?>" class="tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+<?
+	}
+?>
+    												<td class="homepage"><a href="<?=$blogURL?>/owner/link/edit/<?=$link['id']?>" title="<?=_t('이 링크 정보를 수정합니다.')?>"><?=htmlspecialchars($link['name'])?></a></td>
 													<td class="address"><a href="<?=htmlspecialchars($link['url'])?>" onclick="window.open(this.href); return false;" title="<?=_t('이 링크에 연결합니다.')?>"><?=htmlspecialchars($link['url'])?></a></td>
 													<!--td class="edit"><a class="edit-button button" href="<?=$blogURL?>/owner/link/edit/<?=$link['id']?>" title="<?=_t('링크 정보를 수정합니다.')?>"><span><?=_t('수정')?></span></a></td-->
 													<td class="delete"><a class="delete-button button" href="#void" onclick="deleteLink(<?=$link['id']?>)" title="<?=_t('링크 정보를 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a></td>
 												</tr>
 <?
-	}
 }
 ?>
 											</tbody>
