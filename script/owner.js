@@ -49,7 +49,7 @@ function rolloverClass(obj, type) {
 	agent = navigator.userAgent.toLowerCase();
 	if (!(agent.indexOf('opera') + 1)) {
 		if (type == 'over') {
-			if (obj.tagName.toLowerCase() == 'tr') {
+			if (obj.tagName == 'TR') {
 				for (i=0; i<obj.cells.length; i++) {
 					obj.cells[i].className += ' rollover-class';
 				}
@@ -58,7 +58,7 @@ function rolloverClass(obj, type) {
 				obj.className = obj.className.replace(/(active|inactive)/ig, 'rollover');
 			}
 		} else {
-			if (obj.tagName.toLowerCase() == 'tr') {
+			if (obj.tagName == 'TR') {
 				for (i=0; i<obj.cells.length; i++) {
 					obj.cells[i].className = obj.cells[i].className.replace(/( )*rollover\-class/ig, '');
 				}

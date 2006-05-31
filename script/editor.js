@@ -22,7 +22,7 @@ var TTEditor = function() {
 	this.textLess = "";
 
 	this.editMode = "TEXTAREA";
-	this.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-image: url(\'' + servicePath + adminSkin + '/image/unknown.gif\')"';
+	this.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-image: url(\'' + servicePath + '/image/unknown.gif\')"';
 }
 
 // 각종 환경 초기화
@@ -64,13 +64,14 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 
 	// IFRAME을 감싸는 DIV
 	this.iframeWrapper = document.createElement("div");
+	this.iframeWrapper.id = "iframeWrapper";
 	this.iframeWrapper.style.width = "656px";
 	this.iframeWrapper.style.textAlign = "center";
 	this.iframeWrapper.style.backgroundColor = "#ebf2f8";
 	this.iframeWrapper.appendChild(this.iframe);
 
 	textarea.parentNode.insertBefore(this.iframeWrapper, textarea);
-
+	
 	// 자주 참조하는 핸들을 지정해둔다
 	this.contentWindow = this.iframe.contentWindow;
 	this.contentDocument = this.contentWindow.document;
@@ -90,7 +91,7 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	else
 		this.contentDocument.write("html { padding: 0px 10px; }");
 	this.contentDocument.write("</style>");
-	this.contentDocument.write('<link rel="stylesheet" type="text/css" href="' + servicePath + adminSkin + '/editor-iframe.css" />');
+	this.contentDocument.write('<link rel="stylesheet" type="text/css" href="' + servicePath + adminSkin + '/editor-wiswig.css" />');
 	this.contentDocument.write("</head><body>");
 	this.contentDocument.write(this.ttml2html());
 	this.contentDocument.write("</body></html>");
@@ -105,17 +106,17 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	this.contentDocument.addEventListener("keypress", this.eventHandler, false);
 	this.contentDocument.addEventListener("paste", this.eventHandler, false);
 	this.contentDocument.addEventListener("keyup", this.eventHandler, false);
-
+	
 	// editor height resize event
 	STD.addEventListener(document);
 	document.addEventListener("mousemove", docEventHandler, false);
 	document.addEventListener("mousedown", docEventHandler, false);
 	document.addEventListener("mouseup", docEventHandler, false);
 	document.addEventListener("selectstart", docEventHandler, false);
-	this.contentDocument.addEventListener("mousemove", docEventHandler, false);
-	this.contentDocument.addEventListener("mousedown", docEventHandler, false);
-	this.contentDocument.addEventListener("mouseup", docEventHandler, false);
-
+	editor.contentDocument.addEventListener("mousemove", docEventHandler, false);
+	editor.contentDocument.addEventListener("mousedown", docEventHandler, false);
+	editor.contentDocument.addEventListener("mouseup", docEventHandler, false);
+	
 	// 가끔씩 Firefox에서 커서가 움직이지 않는 문제 수정
 	setTimeout("try{editor.contentDocument.designMode='on'}catch(e){}", 100);
 }
@@ -128,9 +129,7 @@ function docEventHandler(event) {
 
 	switch(event.type) {
 		case "mousemove":
-			var editorSection = document.getElementById('editor-section');
-			var editorTextbox = document.getElementById('editor-textbox');			
-			var editorSectionTag = document.getElementById('tag');
+			var editorTextbox = document.getElementById('editor-textbox');
 
 			var targetOffset = (editor.editMode == "WYSIWYG") ? editor.iframe : editor.textarea;
 			var pageY = parseInt(event.clientY);
@@ -142,18 +141,18 @@ function docEventHandler(event) {
 				if(event.target.tagName != "BODY" && event.target.tagName != "HTML")
 					pageY -= getOffsetTop(targetOffset);
 				try { targetOffset.style.height = pageY + 'px'; } catch(e) {}
-			} else if(event.target == editorSection || event.target == editorTextbox || event.target == editorSectionTag || event.target == editor.iframeWrapper) {
+			} else if(event.target == editorTextbox || event.target == editor.iframeWrapper) {
 				var getOffset = getOffsetTop(targetOffset) + parseInt(targetOffset.offsetHeight);
 
 				if(pageY > getOffset && pageY < getOffset + 10) {
-					editorSection.style.cursor = 'row-resize';
+					editorTextbox.style.cursor = 'row-resize';
 					editor.rowResize = true;
 				} else {
-					editorSection.style.cursor = '';
+					editorTextbox.style.cursor = '';
 					editor.rowResize = false;
 				}
 			} else {
-				editorSection.style.cursor = '';
+				editorTextbox.style.cursor = '';
 				editor.rowResize = false;
 			}
 			break;
@@ -347,7 +346,7 @@ TTEditor.prototype.ttml2html = function() {
 	// Object 처리
 	var objects = getTagChunks(str, "object");
 	for(i in objects) {
-		str = str.replaceAll(objects[i], '<img class="tatterObject" src="' + servicePath + '/image/spacer.gif"' + this.parseImageSize(objects[i], "string", "css") + ' longDesc="' + this.objectSerialize(objects[i]) + '" />');
+		str = str.replaceAll(objects[i], '<img class="tatterObject" src="' + servicePath + adminSkin + '/image/spacer.gif"' + this.parseImageSize(objects[i], "string", "css") + ' longDesc="' + this.objectSerialize(objects[i]) + '" />');
 	}
 
 	// Flash 처리

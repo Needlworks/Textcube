@@ -331,6 +331,7 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 											}
 											this.savedData = this.getData();
 										}
+										
 										var entryManager;
 										window.addEventListener(
 											"load",
@@ -368,44 +369,53 @@ if (defined('__TATTERTOOLS_POST__')) {
 ?>
 									
 									<div id="editor" class="data-inbox">
-										<div id="editor-section" class="section">
-											<div id="title-container" class="container">
+										<div id="title-section" class="section">
+											<h3><span class="text"><?php echo _t('머리말')?></span></h3>
+											
+											<dl id="title-container" class="container">
 <?
 if (defined('__TATTERTOOLS_KEYWORD__')) {
 ?>
-												<label for="title"><span><?=_t('키워드')?></span><span class="divider"> | </span></label>
+												<dt><label for="title"><span><?=_t('키워드')?></span><span class="divider"> | </span></label></dt>
 <?
 } else {
 ?>
-												<label for="title"><span><?=_t('제목')?></span><span class="divider"> | </span></label>
+												<dt><label for="title"><span><?=_t('제목')?></span><span class="divider"> | </span></label></dt>
 <?
 }
 ?>
-												<input type="text" id="title" class="text-input" name="title" value="<?=htmlspecialchars($entry['title'])?>" />
+												<dd>
+													<input type="text" id="title" class="text-input" name="title" value="<?=htmlspecialchars($entry['title'])?>" />
 <?
 if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
-												<select name="category">
-													<option value="0"><?=_t('전체')?></option>
+													<select name="category">
+														<option value="0"><?=_t('전체')?></option>
 <?
 		foreach (getCategories($owner) as $category) {
 ?>
-													<option value="<?=$category['id']?>"<?=($category['id'] == $entry['category'] ? ' selected="selected"' : '')?>><?=htmlspecialchars($category['name'])?></option>
+														<option value="<?=$category['id']?>"<?=($category['id'] == $entry['category'] ? ' selected="selected"' : '')?>><?=htmlspecialchars($category['name'])?></option>
 <?
 			foreach ($category['children'] as $child) {
 ?>
-													<option value="<?=$child['id']?>"<?=($child['id'] == $entry['category'] ? ' selected="selected"' : '')?>>&nbsp;► <?=htmlspecialchars($child['name'])?></option>
+														<option value="<?=$child['id']?>"<?=($child['id'] == $entry['category'] ? ' selected="selected"' : '')?>>&nbsp;― <?=htmlspecialchars($child['name'])?></option>
 <?
 			}
 		}
 ?>
-												</select>
+													</select>
 <?
 	}
 }
 ?>
-											</div>
+												</dd>
+												<dd class="clear"></dd>
+											</dl>
+										</div>
+										
+										<div id="textarea-section" class="section">
+											<h3><span class="text"><?php echo _t('본문')?></span></h3>
 											
 <?
 printEntryEditorPalette();
@@ -435,9 +445,14 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 		$view = fireEvent('AddPostEditorToolbox', '');
 		if (!empty($view))
 			echo '<div id="post-toolbox">', $view, '</div>';
-?>						  
-											<hr class="hidden" />
-																			
+?>
+										</div>
+										
+										<hr class="hidden" />
+										
+										<div id="taglocal-section" class="section">
+											<h3><span class="text"><?php echo _t('태그 &amp; 위치')?></span></h3>
+													
 											<div id="tag-location-container" class="container">
 												<dl id="tag-line">
 													<dt><span class="text"><?=_t('태그')?></span><span class="divider"> | </span></dt>
@@ -493,10 +508,12 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 }
 ?>
 										</div>
-											
+									
 										<hr class="hidden" />
 										
 										<div id="upload-section" class="section">
+											<h3><span class="text"><?php echo _t('업로드')?></span></h3>
+											
 											<div id="attachment-container" class="container">
 <?
 printEntryFileList(getAttachments($owner, $entry['id']), $entry['id']);
@@ -504,18 +521,16 @@ printEntryFileList(getAttachments($owner, $entry['id']), $entry['id']);
 											</div>
 											
 											<div id="insert-container" class="container">
-												<ul>
-													<li class="image-left"><a href="#void" onclick="linkImage1('1L')" title="<?=_t('선택한 파일을 글의 왼쪽에 정렬합니다.')?>"><span class="text"><?=_t('왼쪽 정렬')?></span></a></li>
-													<li class="image-center"><a href="#void" onclick="linkImage1('1C')" title="<?=_t('선택한 파일을 글의 중앙에 정렬합니다.')?>"><span class="text"><?=_t('중앙 정렬')?></span></a></li>
-													<li class="image-right"><a href="#void" onclick="linkImage1('1R')" title="<?=_t('선택한 파일을 글의 오른쪽에 정렬합니다.')?>"><span class="text"><?=_t('오른쪽 정렬')?></span></a></li>
-													<li class="image-2center"><a href="#void" onclick="linkImage2()" title="<?=_t('선택한 두개의 파일을 글의 중앙에 정렬합니다.')?>"><span class="text"><?=_t('중앙 정렬(2 이미지)')?></span></a></li>
-													<li class="image-3center"><a href="#void" onclick="linkImage3()" title="<?=_t('선택한 세개의 파일을 글의 중앙에 정렬합니다.')?>"><span class="text"><?=_t('중앙 정렬(3 이미지)')?></span></a></li>
-													<li class="image-free"><a href="#void" onclick="linkImageFree()" title="<?=_t('선택한 파일을 글에 삽입합니다. 문단의 모양에 영향을 주지 않습니다.')?>"><span class="text"><?=_t('파일 삽입')?></span></a></li>
-													<li class="image-imazing"><a href="#void" onclick="viewImazing()" title="<?=_t('이메이징(플래쉬 갤러리)을 삽입합니다.')?>"><span class="text"><?=_t('이메이징 삽입(플래쉬 갤러리)')?></span></a></ li>
-													<li class="image-sequence"><a href="#void" onclick="viewGallery()" title="<?=_t('이미지 갤러리를 삽입합니다.')?>"><span class="text"><?=_t('갤러리 삽입')?></span></a></li>
-													<li class="image-mp3"><a href="#void" onclick="viewJukebox()" title="<?=_t('쥬크박스를 삽입합니다.')?>"><span class="text"><?=_t('쥬크박스 삽입')?></span></a></li>
-													<li class="image-podcast"><a href="#void" onclick="setEnclosure(document.getElementById('fileList').value)" title="<?=_t('팟캐스트로 지정합니다.')?>"><span class="text"><?=_t('팟캐스트 지정')?></span></a></li>								
-												</ul>
+												<a class="image-left" href="#void" onclick="linkImage1('1L')" title="<?=_t('선택한 파일을 글의 왼쪽에 정렬합니다.')?>"><span class="text"><?=_t('왼쪽 정렬')?></span></a>
+												<a class="image-center" href="#void" onclick="linkImage1('1C')" title="<?=_t('선택한 파일을 글의 중앙에 정렬합니다.')?>"><span class="text"><?=_t('중앙 정렬')?></span></a>
+												<a class="image-right" href="#void" onclick="linkImage1('1R')" title="<?=_t('선택한 파일을 글의 오른쪽에 정렬합니다.')?>"><span class="text"><?=_t('오른쪽 정렬')?></span></a>
+												<a class="image-2center" href="#void" onclick="linkImage2()" title="<?=_t('선택한 두개의 파일을 글의 중앙에 정렬합니다.')?>"><span class="text"><?=_t('중앙 정렬(2 이미지)')?></span></a>
+												<a class="image-3center" href="#void" onclick="linkImage3()" title="<?=_t('선택한 세개의 파일을 글의 중앙에 정렬합니다.')?>"><span class="text"><?=_t('중앙 정렬(3 이미지)')?></span></a>
+												<a class="image-free" href="#void" onclick="linkImageFree()" title="<?=_t('선택한 파일을 글에 삽입합니다. 문단의 모양에 영향을 주지 않습니다.')?>"><span class="text"><?=_t('파일 삽입')?></span></a>
+												<a class="image-imazing" href="#void" onclick="viewImazing()" title="<?=_t('이메이징(플래쉬 갤러리)을 삽입합니다.')?>"><span class="text"><?=_t('이메이징 삽입(플래쉬 갤러리)')?></span></a>
+												<a class="image-sequence" href="#void" onclick="viewGallery()" title="<?=_t('이미지 갤러리를 삽입합니다.')?>"><span class="text"><?=_t('갤러리 삽입')?></span></a>
+												<a class="image-mp3" href="#void" onclick="viewJukebox()" title="<?=_t('쥬크박스를 삽입합니다.')?>"><span class="text"><?=_t('쥬크박스 삽입')?></span></a>
+												<a class="image-podcast" href="#void" onclick="setEnclosure(document.getElementById('fileList').value)" title="<?=_t('팟캐스트로 지정합니다.')?>"><span class="text"><?=_t('팟캐스트 지정')?></span></a>
 												
 												<div class="clear"></div>
 											</div>
@@ -535,43 +550,46 @@ printEntryFileUploadButton($entry['id']);
 <?
 if (defined('__TATTERTOOLS_POST__')) {
 ?>
-														<input type="radio" id="publishedUpdate" class="radio" name="published" value="1" checked="checked" /> <label for="publishedUpdate"><span class="text"><?=_t('갱신')?></span></label>
+														<div class="publish-update"><input type="radio" id="publishedUpdate" class="radio" name="published" value="1" checked="checked" /> <label for="publishedUpdate"><span class="text"><?=_t('갱신')?></span></label></div>
 <?
 } else {
 ?>
-														<input type="radio" id="publishedNoChange" class="radio" name="published" value="0" <?=(!isset($entry['republish']) && !isset($entry['appointed']) ? 'checked="checked"' : '')?> /> <label for="publishedNoChange"><span class="text"><?=_t('유지')?></span> (<?=Timestamp::format5($entry['published'])?>)</label>
-														<input type="radio" id="publishedUpdate" class="radio" name="published" value="1" <?=(isset($entry['republish']) ? 'checked="checked"' : '')?> /> <label for="publishedUpdate"><span class="text"><?=_t('갱신')?></span></label>
+														<div class="publish-nochange"><input type="radio" id="publishedNoChange" class="radio" name="published" value="0" <?=(!isset($entry['republish']) && !isset($entry['appointed']) ? 'checked="checked"' : '')?> /> <label for="publishedNoChange"><span class="text"><?=_t('유지')?></span> (<?=Timestamp::format5($entry['published'])?>)</label></div>
+														<div class="publish-update"><input type="radio" id="publishedUpdate" class="radio" name="published" value="1" <?=(isset($entry['republish']) ? 'checked="checked"' : '')?> /> <label for="publishedUpdate"><span class="text"><?=_t('갱신')?></span></label></div>
 <?
 }
 ?>
-														<input type="radio" id="publishedPreserve" class="radio" name="published" value="2" <?=(isset($entry['appointed']) ? 'checked="checked"' : '')?> /> <label for="publishedPreserve" onclick="document.getElementById('appointed').select()"><span class="text"><?=_t('예약')?></span></label>
-														<input type="text" id="appointed" class="text-input" name="appointed" value="<?=Timestamp::format5(isset($entry['appointed']) ? $entry['appointed'] : $entry['published'])?>" onfocus="document.forms[0].published[document.forms[0].published.length - 1].checked = true" />
+														<div class="publish-preserve">
+															<input type="radio" id="publishedPreserve" class="radio" name="published" value="2" <?=(isset($entry['appointed']) ? 'checked="checked"' : '')?> /> <label for="publishedPreserve" onclick="document.getElementById('appointed').select()"><span class="text"><?=_t('예약')?></span></label>
+															<input type="text" id="appointed" class="text-input" name="appointed" value="<?=Timestamp::format5(isset($entry['appointed']) ? $entry['appointed'] : $entry['published'])?>" onfocus="document.forms[0].published[document.forms[0].published.length - 1].checked = true" />
+														</div>
 													</dd>
 													<dd class="clear"></dd>
 												</dl>
 												<dl id="status-line" class="line">
 													<dt><span class="text"><?=_t('공개여부')?></span><span class="divider"> | </span></dt>
 													<dd>
-														<input type="radio" id="visibility_private" class="radio" name="visibility" value="0"<?=(abs($entry['visibility']) == 0 ? ' checked="checked"' : '')?> /> <label for="visibility_private"><span class="text"><?=_t('비공개')?></span></label>
+														<div class="status-private"><input type="radio" id="visibility_private" class="radio" name="visibility" value="0"<?=(abs($entry['visibility']) == 0 ? ' checked="checked"' : '')?> /> <label for="visibility_private"><span class="text"><?=_t('비공개')?></span></label></div>
 <?
 if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
-														<input type="radio" id="visibility_protected" class="radio" name="visibility" value="1"<?=(abs($entry['visibility']) == 1 ? ' checked="checked"' : '')?> /> <label for="visibility_protected"><span class="text"><?=_t('보호')?></span></label>
+														<div class="status-protected"><input type="radio" id="visibility_protected" class="radio" name="visibility" value="1"<?=(abs($entry['visibility']) == 1 ? ' checked="checked"' : '')?> /> <label for="visibility_protected"><span class="text"><?=_t('보호')?></span></label></div>
 <?
 	}
 }
 ?>
-														<input type="radio" id="visibility_public" class="radio" name="visibility" value="2"<?=(abs($entry['visibility']) == 2 ? ' checked="checked"' : '')?> /> <label for="visibility_public"><span class="text"><?=_t('공개')?></span></label>
+														<div class="status-public"><input type="radio" id="visibility_public" class="radio" name="visibility" value="2"<?=(abs($entry['visibility']) == 2 ? ' checked="checked"' : '')?> /> <label for="visibility_public"><span class="text"><?=_t('공개')?></span></label></div>
 <?
 if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
-														<input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?=(abs($entry['visibility']) == 3 ? ' checked="checked"' : '')?> /> <label for="visibility_syndicated"><span class="text"><?=_t('발행')?></span></label>
+														<div class="status-syndicated"><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?=(abs($entry['visibility']) == 3 ? ' checked="checked"' : '')?> /> <label for="visibility_syndicated"><span class="text"><?=_t('발행')?></span></label></div>
 <?
 	}
 }
 ?>
+														<div class="clear"></div>
 													</dd>
 													<dd class="clear"></dd>
 												</dl>
@@ -582,8 +600,8 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 												<dl id="power-line" class="line">
 													<dt><span class="text"><?=_t('권한')?></span><span class="divider"> | </span></dt>
 													<dd>
-														<div class="comment-yes"><input type="checkbox" id="acceptComment" class="checkbox" name="acceptComment"<?=($entry['acceptComment'] ? ' checked="checked"' : '')?> /> <label for="acceptComment"><span class="text"><?=_t('이 글에 댓글을 쓸 수 있습니다.')?></span></label></div>
-													  	<div class="trackback-yes"><input type="checkbox" id="acceptTrackback" class="checkbox" name="acceptTrackback"<?=($entry['acceptTrackback'] ? ' checked="checked"' : '')?> /> <label for="acceptTrackback"><span class="text"><?=_t('이 글에 트랙백을 보낼 수 있습니다.')?></span></label></div>
+														<div class="comment-yes"><input type="checkbox" id="acceptComment" class="checkbox" name="acceptComment"<?=($entry['acceptComment'] ? ' checked="checked"' : '')?> /> <label for="acceptComment"><span class="text"><?=_t('댓글 작성을 허용합니다.')?></span></label></div>
+													  	<div class="trackback-yes"><input type="checkbox" id="acceptTrackback" class="checkbox" name="acceptTrackback"<?=($entry['acceptTrackback'] ? ' checked="checked"' : '')?> /> <label for="acceptTrackback"><span class="text"><?=_t('트랙백 수신을 허용합니다.')?></span></label></div>
 													</dd>
 													<dd class="clear"></dd>
 												</dl>
@@ -649,6 +667,8 @@ if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
 									<input type="hidden" name="withSearch" value="<?=(empty($_POST['search']) ? '' : 'on')?>" />
 									<input type="hidden" name="search" value="<?=(isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '')?>" />
+									
+									<div class="clear"></div>
 								</div>
 <?
 if (isset($_GET['popupEditor']))
