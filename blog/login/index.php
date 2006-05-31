@@ -42,6 +42,10 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 	<title>Tattertools - Login</title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/login.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.opera.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/login.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/login.ie.css" /><![endif]-->
 </head>
 <body id="body-login" onload="document.forms[0].<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password')?>.focus();">
 	<div id="temp-wrap">
@@ -49,42 +53,52 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 			<form method="post" action="">
 				<input type="hidden" name="requestURI" value="<?=htmlspecialchars($_POST['requestURI'])?>" />
 				
-				<div id="login-box">
-					<div id="logo-box">
-						<img src="<?=$service['path']?>/image/owner/controlPanelLogo.gif" alt="태터툴즈 로고" />
-		            </div>
-		            
-		            <div id="field-box">
-		            	<dl id="email-line">
-		            		<dt><span><?=_t('이메일')?></span></dt>
-		            		<dd><input type="text" class="text-input" name="loginid" value="<?=htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid'])?>" maxlength="64" tabindex="1" /></dd>
-		            	</dl>
-		            	<dl id="password-line">
-		            		<dt><span><?=_t('비밀번호')?></span></dt>
-							<dd><input type="password" class="text-input" name="password" onkeydown="if (event.keyCode == 13) document.forms[0].submit()" maxlength="64" tabindex="2" /></dd>
-						</dl>
-						<dl id="checkbox-line">
-							<dd>
-								<div id="email-save"><input type="checkbox" id="save" class="checkbox" name="save"<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"')?> /> <label for="save"><span><?=_t('이메일 저장')?></span></label></div>
-								<?=($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /> <label for="reset">' . _t('암호 초기화') . '</label></div>' : '')?>
-							</dd>
-						</dl>
-					</div>
-					
+				<div id="login-outbox">
+					<div id="login-inbox">
+						<div id="logo-box">
+							<img src="<?=$service['path']?>/image/owner/controlPanelLogo.gif" alt="<?php echo _t('태터툴즈 로고')?>" />
+			            </div>
+			            
+			            <div id="field-box">
+			            	<dl id="email-line">
+			            		<dt><label for="loginid"><span class="text"><?=_t('이메일')?></span></label><span class="divider"> | </span></dt>
+			            		<dd><input type="text" class="text-input" id="loginid" name="loginid" value="<?=htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid'])?>" maxlength="64" tabindex="1" /></dd>
+			            		<dd class="clear"></dd>
+			            	</dl>
+			            	<dl id="password-line">
+			            		<dt><label for="password"><span class="text"><?=_t('비밀번호')?></span></label><span class="divider"> | </span></dt>
+								<dd><input type="password" class="text-input" id="password" name="password" onkeydown="if (event.keyCode == 13) document.forms[0].submit()" maxlength="64" tabindex="2" /></dd>
+								<dd class="clear"></dd>
+							</dl>
+							<dl id="checkbox-line">
+								<dd>
+									<div id="email-save"><input type="checkbox" id="save" class="checkbox" name="save"<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"')?> /> <label for="save"><span class="text"><?=_t('이메일 저장')?></span></label></div>
+									<?=($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /> <label for="reset">' . _t('암호 초기화') . '</label></div>' : '')?>
+								</dd>
+								<dd class="clear"></dd>
+							</dl>
+							
+							<div class="clear"></div>
+							
+							<div class="button-box">
+								<a class="login-button button" href="#void" onclick="document.forms[0].submit()"><span class="text"><?=_t('로그인')?></span></a>
+							</div>
+						</div>
+							
 <?
 if (!empty($message)) {
 ?>
-					<div id="messege-box">
-						<?=$message?>
-					</div>
+						<div class="clear"></div>
+						
+						<div id="messege-box">
+							<?=$message?>
+						</div>
 <?
 }
 ?>
-
-					<div class="button-box">
-						<a class="login-button button" href="#void" onclick="document.forms[0].submit()"><span><?=_t('로그인')?></span></a>
+						
+						<div class="clear"></div>
 					</div>
-					<div class="clear"></div>
 				</div>
 			</form>
 		</div>

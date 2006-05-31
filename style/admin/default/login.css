@@ -10,35 +10,55 @@ body
 	background-repeat                : repeat-x;
 }
 
-#login-box
+#login-outbox
 {
-	background-color                 : #FFFFFF;
+	background-image                 : url("./image/bg_login_box_top.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
 	margin                           : 150px auto 0 auto;
-	padding                          : 20px;
-	position                         : relative;
-	width                            : 500px;
+	padding-top                      : 7px;
+	width                            : 520px;
+}
+
+#login-inbox
+{
+	background-image                 : url("./image/bg_login_box_bottom.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	padding-bottom                   : 9px;
+	width                            : 520px;
 }
 
 #logo-box
 {
-	left                             : 30px;
-	position                         : absolute;
-	top                              : 40px;
+	float                            : left;
+	margin-top                       : 35px;
+	text-align                       : center;
+	width                            : 250px;
+}
+
+#field-box
+{
+	float                            : right;
+	margin-top                       : 10px;
+	padding-right                    : 20px;
+	position                         : relative;
+	width                            : 250px;
 }
 
 dl
 {
 	clear                            : both;
 	height                           : 24px;
-	margin-left                      : 190px;
 }
 
 dl dt
 {
 	float                            : left;
-	padding                          : 6px 10px 0 0;
+	line-height                      : 26px;
+	margin-right                     : 10px;
 	text-align                       : right;
-	width                            : 100px;
+	width                            : 80px;
 }
 
 dl dd
@@ -46,21 +66,18 @@ dl dd
 	float                            : left;
 }
 
-dl dd div
-{
-	display                          : inline;
-}
-
 dl dd .text-input
 {
 	padding                          : 3px;
+	width                            : 148px;
 }
 
 #checkbox-line
 {
-	border-top                       : 1px dotted #CCCCCC;
-	margin                           : 10px 0 0 220px;
-	padding                          : 10px 0 0 70px;
+	bottom                           : 0;
+	left                             : 0;
+	margin-bottom                    : 5px;
+	position                         : absolute;
 }
 
 #checkbox-line .checkbox
@@ -71,14 +88,16 @@ dl dd .text-input
 #messege-box
 {
 	background-color                 : #EBF2F8;
-	margin                           : 5px -20px 0 -20px;
-	padding                          : 10px 10px 7px 10px;
+	margin-top                       : 10px;
+	padding                          : 5px;
 	text-align                       : center;
 }
 
 .button-box
 {
-	margin-top                       : 10px;
+	border-top                       : 1px dotted #CCCCCC;
+	margin                           : 5px 0 6px 0;
+	padding-top                      : 7px;
 }
 
 .button-box .button
@@ -86,6 +105,7 @@ dl dd .text-input
 	background-color                 : #CCCCCC;
 	background-image                 : url("./image/button.gif");
 	display                          : block;
+	float                            : none;
 	height                           : 23px;
 	margin                           : 0 2px 0 auto;
 	padding-left                     : 4px;
@@ -116,9 +136,4 @@ dl dd .text-input
 {
 	color                            : #565656;
 	text-decoration                  : none;
-}
-
-.clear
-{
-	clear                            : both;
 }
