@@ -24,18 +24,20 @@ class XMLRPC {
 		echo '</params></methodCall>';
 		$request->content = ob_get_contents();
 		ob_end_clean();
-		if (!$request->send())
+		if (!$request->send()) 
 			return false;
 
-		if ($request->getResponseHeader('Content-Type') != 'text/xml')
+		if ($request->getResponseHeader('Content-Type') != 'text/xml') 
 			return false;
-		$xmls = new XMLStruct($request->responseText);
+		$xmls = new XMLStruct();
+		$xmls->open($request->responseText);
 		if ($xmls->error)
 			return false;
-		if (isset($xmls->struct['methodResponse']['fault']['value']))
-			$this->fault = $this->_decodeValue($xmls->struct['methodResponse']['fault']['value']);
-		else if (isset($xmls->struct['methodResponse']['params']['param']['value']))
-			$this->result = $this->_decodeValue($xmls->struct['methodResponse']['params']['param']['value']);
+			
+		if (isset($xmls->struct['methodResponse'][0]['fault'][0]['value']))
+			$this->fault = $this->_decodeValue($xmls->struct['methodResponse'][0]['fault'][0]['value'][0]);
+		else if (isset($xmls->struct['methodResponse'][0]['params'][0]['param'][0]['value']))
+			$this->result = $this->_decodeValue($xmls->struct['methodResponse'][0]['params'][0]['param'][0]['value'][0]);
 		else
 			return false;
 		return true;
@@ -49,22 +51,32 @@ class XMLRPC {
 		if (empty($xml)) {
 			if (empty($_SERVER['CONTENT_TYPE']) || empty($GLOBALS['HTTP_RAW_POST_DATA']) || ($_SERVER['CONTENT_TYPE'] != 'text/xml'))
 				return false;
-			$xmls = new XMLStruct($GLOBALS['HTTP_RAW_POST_DATA']);
-		} else
-			$xmls = new XMLStruct($xml);
-		if ($xmls->error)
+			$xmls = new XMLStruct();
+			if ($xmls->open($GLOBALS['HTTP_RAW_POST_DATA']) == false) {
+				return false;
+			}
+		} else {
+			$xmls = new XMLStruct();
+			if ($xmls->open($xml) == false) {
+				return false;
+			}
+		}
+		if ($xmls->error) {
 			return false;
-		if (!isset($xmls->struct['methodCall']['methodName']['.value']))
+		}
+		if (!isset($xmls->struct['methodCall'][0]['methodName'][0]['.value'])) {
 			return false;
-		$this->methodName = $xmls->struct['methodCall']['methodName']['.value'];
+		}
+		$this->methodName = $xmls->struct['methodCall'][0]['methodName'][0]['.value'];
 		$params = $xmls->selectNodes('/methodCall/params/param');
 		$this->params = array();
 		for ($i = 0; $i < count($params); $i++) {
 			if (!isset($params[$i]['value']))
 				return false;
-			array_push($this->params, $this->_decodeValue($params[$i]['value']));
+			array_push($this->params, $this->_decodeValue($params[$i]['value'][0]));
+			
 		}
-
+		
 		if (isset($this->_registry[$this->methodName])) {
 			$result = call_user_func_array($this->_registry[$this->methodName], $this->params);
 			if (is_a($result, 'XMLRPCFault'))
@@ -137,56 +149,59 @@ class XMLRPC {
 			echo $value;
 			echo '</dateTime.iso8601>';
 		} else {
+			echo '<string>';
 			echo htmlspecialchars($value);
+			echo '</string>';
 		}
 		echo '</value>';
 	}
 	
 	function _decodeValue(&$value) {
-		if (isset($value[0]))
+		if (isset($value[0])) {
 			return null;
+		}
 		list($type) = array_keys($value);
 		switch ($type) {
 			case '.value':
 				return $value['.value'];
 			case 'i4':
 			case 'int':
-				return intval($value[$type]['.value']);
+				return intval($value[$type][0]['.value']);
 			case 'boolean':
-				return ($value[$type]['.value'] == '1');
+				return ($value[$type][0]['.value'] == '1');
 			case 'string':
 			case 'dateTime.iso8601':
-				return $value[$type]['.value'];
+				return $value[$type][0]['.value'];
 			case 'double':
-				return doubleval($value[$type]['.value']);
+				return doubleval($value[$type][0]['.value']);
 			case 'base64':
-				return base64_decode($value[$type]['.value']);
+				return base64_decode($value[$type][0]['.value']);
 			case 'array':
-				if (!isset($value['array']['data']['value']))
+				if (!isset($value['array'][0]['data'][0]['value']))
 					return null;
-				if (isset($value['array']['data']['value'][0])) {
+				if (isset($value['array'][0]['data'][0]['value'][0])) {
 					$array = array();
-					for ($i = 0; $i < count($value['array']['data']['value']); $i++)
-						array_push($array, $this->_decodeValue($value['array']['data']['value'][$i]));
+					for ($i = 0; $i < count($value['array'][0]['data'][0]['value']); $i++)
+						array_push($array, $this->_decodeValue($value['array'][0]['data'][0]['value'][$i]));
 					return $array;
 				} else {
-					return array($this->_decodeValue($value['array']['data']['value']));
+					return array($this->_decodeValue($value['array'][0]['data'][0]['value']));
 				}
 			case 'struct':
-				if (!isset($value['struct']['member']))
+				if (!isset($value['struct'][0]['member']))
 					return null;
-				if (isset($value['struct']['member'][0])) {
+				if (isset($value['struct'][0]['member'][0])) {
 					$struct = array();
-					for ($i = 0; $i < count($value['struct']['member']); $i++) {
-						if (!isset($value['struct']['member'][$i]['name']['.value']) || !isset($value['struct']['member'][$i]['value']))
+					for ($i = 0; $i < count($value['struct'][0]['member']); $i++) {
+						if (!isset($value['struct'][0]['member'][$i]['name'][0]['.value']) || !isset($value['struct'][0]['member'][$i]['value']))
 							return null;
-						$struct[$value['struct']['member'][$i]['name']['.value']] = $this->_decodeValue($value['struct']['member'][$i]['value']);
+						$struct[$value['struct'][0]['member'][$i]['name'][0]['.value']] = $this->_decodeValue($value['struct'][0]['member'][$i]['value'][0]);
 					}
 					return $struct;
 				} else {
-					if (!isset($value['struct']['member']['name']['.value']) || !isset($value['struct']['member']['value']))
+					if (!isset($value['struct'][0]['member'][0]['name'][0]['.value']) || !isset($value['struct'][0]['member'][0]['value']))
 						return null;
-					return array($value['struct']['member'][$i]['name']['.value'] => $this->_decodeValue($value['struct']['member'][$i]['value']));
+					return array($value['struct'][0]['member'][$i]['name'][0]['.value'] => $this->_decodeValue($value['struct'][0]['member'][$i]['value'][0]));
 				}
 		}
 		return null;
