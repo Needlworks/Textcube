@@ -516,7 +516,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 											
 											<div id="attachment-container" class="container">
 <?
-printEntryFileList(getAttachments($owner, $entry['id']), $entry['id']);
+printEntryFileList(getAttachments($owner, $entry['id'], 'label'), $entry['id']);
 ?>
 											</div>
 											

@@ -1,9 +1,8 @@
 <?php 
-
-function getAttachments($owner, $parent) {
+function getAttachments($owner, $parent, $orderBy = null, $sort='ASC') {
 	global $database;
 	$attachments = array();
-	if ($result = mysql_query("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent")) {
+	if ($result = mysql_query("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
 		while ($attachment = mysql_fetch_array($result))
 			array_push($attachments, $attachment);
 	}
