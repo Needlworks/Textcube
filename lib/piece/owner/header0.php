@@ -40,7 +40,7 @@ $writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 ?>
 						<li class="blog"><a href="<?php echo $blogURL?>/" title="<?php echo _t('블로그 메인으로 이동합니다.')?>"><span class="text"><?php echo _t('블로그 메인으로 이동')?></span></a></li>
 						<li class="logout"><a href="<?php echo $blogURL?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.')?>"><span class="text"><?php echo _t('로그아웃')?></span></a></li>
-						<li class="blogger"><span class="text"><?php echo _f('환영합니다. <strong>%1</strong>님.', htmlspecialchars($writer))?></span></a></li>
+						<li class="blogger"><span class="text"><?php echo _f('환영합니다. <strong>%1</strong>님.', htmlspecialchars($writer))?></span></li>
 					</ul>
 				</div>
 				

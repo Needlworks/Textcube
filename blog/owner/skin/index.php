@@ -147,7 +147,7 @@ for ($i = 0; $i < count($skins); $i++) {
 									<h2 class="caption"><span class="main-text"><?=_t('스킨 구하기')?></span></h2>
 									
 									<div class="main-explain-box">
-										<p class="explain"><?php echo _t('추가 스킨은 <a href="http://www.tattertools.com/skin" onclick="window.open(this.href); return false;" title="태터툴즈 홈페이지에 개설되어 있는 스킨 업로드 게시판으로 연결합니다.">태터툴즈 홈의 스킨 게시판</a>에서 구하실 수 있습니다. 일반적으로 스킨 파일을 태터툴즈의 skin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 플러그인은 이 메뉴에서 \'적용\' 버튼을 클릭하여 사용을 시작합니다.')?></p>
+										<p class="explain"><?php echo _t('추가 스킨은 <a href="http://www.tattertools.com/skin" onclick="window.open(this.href); return false;" title="태터툴즈 홈페이지에 개설되어 있는 스킨 업로드 게시판으로 연결합니다.">태터툴즈 홈의 스킨 게시판</a>에서 구하실 수 있습니다. 일반적으로 스킨 파일을 태터툴즈의 skin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 스킨은 이 메뉴에서 \'적용\' 버튼을 클릭하여 사용을 시작합니다.')?></p>
 									</div>
 								</div>
 								

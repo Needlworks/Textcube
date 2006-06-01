@@ -56,7 +56,7 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 				<div id="login-outbox">
 					<div id="login-inbox">
 						<div id="logo-box">
-							<img src="<?=$service['path']?>/image/owner/controlPanelLogo.gif" alt="<?php echo _t('태터툴즈 로고')?>" />
+							<img src="<?=$service['path']?>/image/controlPanelLogo.gif" alt="<?php echo _t('태터툴즈 로고')?>" />
 			            </div>
 			            
 			            <div id="field-box">
