@@ -521,7 +521,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						  <tr>
 <?
-printEntryFileList(getAttachments($owner, $entry['id']), $entry['id']);
+printEntryFileList(getAttachments($owner, $entry['id'], 'label'), $entry['id']);
 ?>
 							
 							<td width="110" align="center" valign="top">
