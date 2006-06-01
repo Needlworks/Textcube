@@ -69,12 +69,14 @@ TTReader.prototype.togglePannel = function(event)
 	{
 		getObject("pannel").style.display = "block";
 		getObject("toggleButton").className = "pannel-show";
+		getObject("toggleButton").innerHTML = '<span class="text">' + hide_str + '</span>';
 		setPersonalization("readerPannelVisibility", 1);
 	}
 	else
 	{
 		getObject("pannel").style.display = "none";
 		getObject("toggleButton").className = "pannel-hide";
+		getObject("toggleButton").innerHTML = '<span class="text">' + show_str + '</span>';
 		setPersonalization("readerPannelVisibility", 0);
 	}
 	getObject("floatingList").style.top = "0px";

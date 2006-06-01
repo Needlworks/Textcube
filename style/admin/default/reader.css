@@ -192,11 +192,16 @@
 }
 
 /* group box */
+#group-section
+{
+	float                            : left;
+	background-color                 : #FFFFFF;
+	margin                           : 0 6px;
+	width                            : 250px;
+}
+
 #groupBox
 {
-	background-color                 : #FFFFFF;
-	float                            : left;
-	margin                           : 0 6px;
 	overflow                         : auto;
 	width                            : 250px;
 }

@@ -17,12 +17,10 @@
 
 /* pannel ---------------------------------------------------------------------------------------*/
 /* group box */
-#groupBox
+#group-section
 {
 	margin                           : 0 3px;
 }
-
-
 
 #groupAdder .button-box .text-input
 {

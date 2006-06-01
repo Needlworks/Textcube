@@ -99,22 +99,28 @@ if ($setting['newWindow'] == 2) {
 										<h2 class="caption"><span class="main-text"><?=_t('피드 리스트')?></span></h2>
 										
 										<div id="groupsAndFeeds" class="data-inbox">
-											<h3><span class="text"><?=_t('피드 그룹')?></span></h3>
-											
-											<div id="groupBox" class="section" style="height: <?=getPersonalization($owner, 'readerPannelHeight')?>px;">
+											<div id="group-section" class="section">
+												<h3><span class="text"><?=_t('피드 그룹')?></span></h3>
+												
+												<div id="groupBox" class="container" style="height: <?=getPersonalization($owner, 'readerPannelHeight')?>px;">
 <?
 printFeedGroups($owner);
 ?>
+												</div>
+												<div class="clear"></div>
 											</div>
 											
 											<hr class="hidden" />
 											
-											<h3><span class="text"><?=_t('현재 그룹 내의 피드 리스트')?></span></h3>
+											<div id="feed-section" class="section">
+												<h3><span class="text"><?=_t('현재 그룹 내의 피드 리스트')?></span></h3>
 											
-											<div id="feedBox" class="section" style="height: <?=getPersonalization($owner, 'readerPannelHeight')?>px;">
+												<div id="feedBox" class="section" style="height: <?=getPersonalization($owner, 'readerPannelHeight')?>px;">
 <?
 printFeeds($owner);
 ?>
+												</div>
+												<div class="clear"></div>
 											</div>
 											
 											<div class="clear"></div>
@@ -132,7 +138,7 @@ printFeeds($owner);
 <?
 if (getUserId() == 1) {
 ?>
-												<div class="property">
+												<div class="container">
 													<dl id="update-line" class="line">
 														<dt><span class="text"><?=_t('업데이트 주기')?></span><span class="divider"> | </span></dt>
 														<dd>
@@ -196,7 +202,7 @@ if (getUserId() == 1) {
 											<div id="opml-section" class="section">
 												<h3 class="title"><strong><?=_t('OPML 관리')?></strong></h3>
 												
-												<div class="property">
+												<div class="container">
 													<dl id="get-line" class="line">
 														<dt><span class="text"><?=_t('가져오기')?></span><span class="divider"> | </span></dt>
 														<dd>
@@ -227,64 +233,78 @@ if (getUserId() == 1) {
 								<hr class="hidden" />
 								
 								<div id="toggleBar" onmousedown="Reader.startResizing(event)">
-									<a id="toggleButton" class="pannel-<?=getPersonalization($owner, 'readerPannelVisibility') == 1 ? 'show' : 'hide'?>" href="#void" onclick="Reader.togglePannel(event)"><span class="text"><?=_t('항목 전환')?></span></a>
+									<script type="text/javascript">
+										//<![CDATA[
+											var show_str = '<?=_t('패널 보기')?>';
+											var hide_str = '<?=_t('패널 가리기')?>';
+											
+											document.write('<a id="toggleButton" class="pannel-<?=getPersonalization($owner, 'readerPannelVisibility') == 1 ? 'show' : 'hide'?>" href="#void" onclick="Reader.togglePannel(event)">');
+											document.write('<span class="text"><?= getPersonalization($owner, 'readerPannelVisibility') == 1 ? _t('패널 가리기') : _t('패널 보기')?></span>');
+											document.write('</a>');
+										//]]>
+									</script>
 								</div>
 								
 								<hr class="hidden" />
 								
-								<div id="scrollPoint" class="part">
-									<h2 class="caption"><span class="main-text"><?=_t('포스트 정보')?></span></h2>
-									
-									<div id="post-list" class="data-inbox">
-										<div class="title">
-											<a id="totalList" href="<?=$blogURL?>/owner/reader" title="<?=_t('포스트 리스트를 전부 출력합니다.')?>"><span class="text"><?=_t('전체 목록')?></span></a><span class="count">(<span id="entriesShown">0</span>/<span id="entriesTotal">0</span>)</span>
-											<span class="hidden">|</span>
-											<a id="iconMoreEntries" href="#void" onclick="Reader.listScroll(1); return false;" title="<?=_t('지나간 포스팅 정보를 더 읽어옵니다.')?>"><span class="text"><?=_t('더 읽어오기')?></span></a>
-										</div>
+								<div id="scrollPoint">
+									<div id="post-innformation" class="part">
+										<h2 class="caption"><span class="main-text"><?=_t('포스트 리스트')?></span></h2>
 										
-										<div id="listup" class="section" onscroll="Reader.listScroll(0)">
+										<div id="post-list" class="data-inbox">
+											<div class="title">
+												<a id="totalList" href="<?=$blogURL?>/owner/reader" title="<?=_t('포스트 리스트를 전부 출력합니다.')?>"><span class="text"><?=_t('전체 목록')?></span></a><span class="count">(<span id="entriesShown">0</span>/<span id="entriesTotal">0</span>)</span>
+												<span class="hidden">|</span>
+												<a id="iconMoreEntries" href="#void" onclick="Reader.listScroll(1); return false;" title="<?=_t('지나간 포스팅 정보를 더 읽어옵니다.')?>"><span class="text"><?=_t('더 읽어오기')?></span></a>
+											</div>
+											
+											<div id="listup" class="section" onscroll="Reader.listScroll(0)">
 <?
 printFeedEntries($owner);
 ?>
-										</div>
-										
-										<div class="button-box">
-											<a class="hide-button button" href="#void" onclick="Reader.showUnreadOnly(); return false;"><span class="text"><?=_t('읽은 글 감추기')?></span></a>
-											<span class="divider">-</span>
-											<a class="shortcut-button button" href="#void" onclick="document.getElementById('shortcuts').style.display = document.getElementById('shortcuts').style.display=='none' ? 'block' : 'none'"><span class="text"><?=_t('단축키 보기')?></span></a>
-										</div>
-										
-										<div id="shortcuts" style="display: none;">
-											<div class="inbox">
-												<strong>A</strong>, <strong>H</strong> - <?=_t('이전 글')?> / <strong>S</strong>, <strong>L</strong> - <?=_t('다음 글')?> / <strong>D</strong> - <?=_t('새창으로')?> / <strong>F</strong> - <?=_t('안 읽은 글만 보기')?> / <strong>G</strong> - <?=_t('스크랩한 글만 보기')?> / <strong>Q</strong> - <?=_t('블로그 화면으로')?> / <strong>W</strong> - <?=_t('현재글 스크랩')?> / <strong>R</strong> - <?=_t('리더 첫화면으로')?> / <strong>T</strong> - <?=_t('글 수집하기')?> / <strong>J</strong> - <?=_t('위로 스크롤')?> / <strong>K</strong> - <?=_t('아래로 스크롤')?>
 											</div>
-											<!--ul>
-												<li><strong>A, H</strong> - <?=_t('이전 글')?></li>
-												<li><strong>S, L</strong> - <?=_t('다음 글')?></li>
-												<li><strong>D</strong> - <?=_t('새창으로')?></li>
-												<li><strong>F</strong> - <?=_t('안 읽은 글만 보기')?></li>
-												<li><strong>G</strong> - <?=_t('스크랩한 글만 보기')?></li>
-												<li><strong>Q</strong> - <?=_t('블로그 화면으로')?></li>
-												<li><strong>W</strong> - <?=_t('현재글 스크랩')?></li>
-												<li><strong>R</strong> - <?=_t('리더 첫화면으로')?></li>
-												<li><strong>T</strong> - <?=_t('글 수집하기')?></li>
-												<li><strong>J</strong> - <?=_t('위로 스크롤')?></li>
-												<li><strong>K</strong> - <?=_t('아래로 스크롤')?></li>
-											</ul-->
+											
+											<div class="button-box">
+												<a class="hide-button button" href="#void" onclick="Reader.showUnreadOnly(); return false;"><span class="text"><?=_t('읽은 글 감추기')?></span></a>
+												<span class="divider">-</span>
+												<a class="shortcut-button button" href="#void" onclick="document.getElementById('shortcuts').style.display = document.getElementById('shortcuts').style.display=='none' ? 'block' : 'none'"><span class="text"><?=_t('단축키 보기')?></span></a>
+											</div>
+											
+											<div id="shortcuts" style="display: none;">
+												<div class="inbox">
+													<strong>A</strong>, <strong>H</strong> - <?=_t('이전 글')?> / <strong>S</strong>, <strong>L</strong> - <?=_t('다음 글')?> / <strong>D</strong> - <?=_t('새창으로')?> / <strong>F</strong> - <?=_t('안 읽은 글만 보기')?> / <strong>G</strong> - <?=_t('스크랩한 글만 보기')?> / <strong>Q</strong> - <?=_t('블로그 화면으로')?> / <strong>W</strong> - <?=_t('현재글 스크랩')?> / <strong>R</strong> - <?=_t('리더 첫화면으로')?> / <strong>T</strong> - <?=_t('글 수집하기')?> / <strong>J</strong> - <?=_t('위로 스크롤')?> / <strong>K</strong> - <?=_t('아래로 스크롤')?>
+												</div>
+												<!--ul>
+													<li><strong>A, H</strong> - <?=_t('이전 글')?></li>
+													<li><strong>S, L</strong> - <?=_t('다음 글')?></li>
+													<li><strong>D</strong> - <?=_t('새창으로')?></li>
+													<li><strong>F</strong> - <?=_t('안 읽은 글만 보기')?></li>
+													<li><strong>G</strong> - <?=_t('스크랩한 글만 보기')?></li>
+													<li><strong>Q</strong> - <?=_t('블로그 화면으로')?></li>
+													<li><strong>W</strong> - <?=_t('현재글 스크랩')?></li>
+													<li><strong>R</strong> - <?=_t('리더 첫화면으로')?></li>
+													<li><strong>T</strong> - <?=_t('글 수집하기')?></li>
+													<li><strong>J</strong> - <?=_t('위로 스크롤')?></li>
+													<li><strong>K</strong> - <?=_t('아래로 스크롤')?></li>
+												</ul-->
+											</div>
 										</div>
 									</div>
 									
 									<hr class="hidden" />
 									
-									<div id="post-content" class="data-inbox">
-										<div class="title">
-											<span id="blogTitle"></span>
-											<span class="hidden">|</span>
-											<span class="move"><a class="prev-button button" href="#void" onclick="Reader.prevEntry()"><span class="text"><?=_t('이전')?></span></a><span class="divider"> : </span><a class="next-button button" href="#void" onclick="Reader.nextEntry()"><span class="text"><?=_t('다음')?></span></a></span>
-										</div>
+									<div id="content-innformation" class="part">
+										<h2 class="caption"><span class="main-text"><?=_t('포스트 내용')?></span></h2>
 										
-										<div id="floatingList" class="section">
-											<div id="entry">
+										<div id="post-content" class="data-inbox">
+											<div class="title">
+												<span id="blogTitle"></span>
+												<span class="hidden">|</span>
+												<span class="move"><a class="prev-button button" href="#void" onclick="Reader.prevEntry()"><span class="text"><?=_t('이전')?></span></a><span class="divider"> : </span><a class="next-button button" href="#void" onclick="Reader.nextEntry()"><span class="text"><?=_t('다음')?></span></a></span>
+											</div>
+											
+											<div id="floatingList" class="section">
+												<div id="entry">
 <?
 printFeedEntry($owner);
 ?>

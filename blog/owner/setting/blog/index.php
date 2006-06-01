@@ -276,10 +276,12 @@ if ($service['type'] != 'single') {
 													<a class="save-button button" href="#void" onclick="setBlog()"><span class="text"><?=_t('저장하기')?></span></a>
 												</div>
 											</div>
-											<div id="multi-section" class="section">
 <?
 $urlRule = getBlogURLRule();
 if ($service['type'] != 'single') {
+?>
+											<div id="multi-section" class="section">
+<?
 	if ($service['type'] == 'domain') {
 ?>
 												<dl class="line">
