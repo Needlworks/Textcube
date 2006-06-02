@@ -186,9 +186,46 @@ foreach ($trackbacks as $trackback) {
 				<?=$trackback['categoryName']?>
 			</td>
 			<td class="row"><a class="rowLink" onclick="window.open('<?=$trackback['url']?>')"><?=htmlspecialchars($trackback['subject'])?></a></td>
-			<td align="center">
+	<td>
+	<table>
+		<tr>
+			<td>
+<?
+$filter = new Filter();
+if (Filter::isFiltered('ip', $trackback['ip']))
+$isIpFiltered = true;
+else
+$isIpFiltered = false;
+?>
+				<img
+					name	="name<?=urlencode($trackback['ip'])?>" 
+					id		="name<?=urlencode($trackback['ip'])?>block" 
+					src		="<?=$service['path']?>/image/owner/blockActive.gif"
+					align	="absmiddle"
+					alt		=""
+					command	="unblock"
+					mode 	="ip"
+					style 	="cursor:pointer;<?=$isIpFiltered ? 'display:hand;' : 'display:none;'?>"
+					onclick	="changeState(this,'<?=urlencode($trackback['ip'])?>', '<?=$filter->id?>')"
+				/>
+				<img
+					name	="name<?=urlencode($trackback['ip'])?>" 
+					id		="name<?=urlencode($trackback['ip'])?>unblock" 
+					src		="<?=$service['path']?>/image/owner/unblockActive.gif"  	
+					align	="absmiddle" 
+					alt		=""
+					command	="block"
+					mode 	="ip"
+					style 	="cursor:pointer; <?=$isIpFiltered ? 'display:none;' : 'display:block;'?>"					
+					onclick	="changeState(this,'<?=urlencode($trackback['ip'])?>', '<?=$filter->id?>')"
+				/>
+			</td>			
+			<td align="left">
 				<a class="rowLink" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($trackback['ip'])?>'; document.forms[0].submit()"><?=$trackback['ip']?></a>
 			</td>
+		</tr>
+	</table>
+	</td>
 			<td align="right"><a class="rowLink" onclick="deleteTrackback(<?=$trackback['id']?>)"><img src="<?=$service['path']?>/image/owner/delete.gif" alt="<?=_t('삭제')?>"/></a>  &nbsp; </td>
 		</tr>
 <?
