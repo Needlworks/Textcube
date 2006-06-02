@@ -120,8 +120,10 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 			if (document.forms[0].elements[i].name == "entry")
 				document.forms[0].elements[i].checked = checked;
 	}
-	function processBatch(mode) {
+	function processBatch(obj) {	
+		mode = obj.value;
 		var entries = '';
+		
 		switch (mode) {
 			case 'classify':
 				for (var i = 0; i < document.forms[0].elements.length; i++) {
@@ -137,6 +139,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 						setEntryVisibility(oElement.value, 2);
 				}
 				break;
+				
 			case 'delete':
 				if (!confirm("<?=_t('선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?\t')?>"))
 					return false;
@@ -152,6 +155,35 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 				}
 				request.send("targets="+targets);
 				break;
+				
+			case 'category':
+				var targets = "";
+				var category = obj.options[obj.options.selectedIndex].getAttribute('category');
+				var label = obj.options[obj.options.selectedIndex].getAttribute('label');
+				var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/changeCategory/");
+				for (var i = 0; i < document.forms[0].elements.length; i++) {
+					var oElement = document.forms[0].elements[i];
+					if ((oElement.name == "entry") && oElement.checked) {
+						targets += oElement.value +'~*_)';
+					}
+				}
+				if (targets == '') {
+					return false;
+				}
+				
+				request.onSuccess = function () {
+					for (var i = 0; i < document.forms[0].elements.length; i++) {
+						var oElement = document.forms[0].elements[i];
+						if ((oElement.name == "entry") && oElement.checked) {
+							document.getElementById("category_" + oElement.value).innerHTML = label;
+							document.getElementById("category_" + oElement.value).name = category;
+						}
+					}	
+					//document.forms[0].submit();
+				}
+				request.send("category="+category+"&targets="+targets);
+				break;				
+				
 		}
 	}
 
@@ -275,7 +307,7 @@ foreach ($entries as $entry) {
 				</td>
 <?
 ?>				
-                <td align="center" class="row"><a class="rowLink" onclick="document.forms[0].category.value='<?=$entry['category']?>'; document.forms[0].submit()"><?=htmlspecialchars($entry['categoryLabel'])?></a></td> 
+                <td align="center" class="row"><a class="rowLink" onclick="document.forms[0].category.value=this.name; document.forms[0].submit()" name="<?=$entry['category']?>" id="category_<?=$entry['id']?>"><?=htmlspecialchars($entry['categoryLabel'])?></a></td> 
                 <td class="row"><?=($entry['draft'] ? ('<img src="' . $service['path'] . '/image/owner/hasTemp.gif" alt="' . _t('임시 저장본이 있습니다') . '" />') : '')?> <a class="rowLink" style="text-decoration:none" onclick="document.forms[0].action='<?=$blogURL?>/owner/entry/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?\t') . "') ? '?draft' : '')") : '')?>; document.forms[0].submit()"><?=htmlspecialchars($entry['title'])?></a></td>
                 <td style="padding-top:2px">
 					<img id="entry<?=$entry['id']?>protectedSetting" src="<?=$service['path']?>/image/owner/protectedInvite.gif" alt="<?=_t('보호')?>" class="pointerCursor" style="display:<?=(abs($entry['visibility']) == 1 ? 'inline' : 'none')?>" onclick="toggleLayer('entry<?=$entry['id']?>Protection')" />
@@ -359,11 +391,29 @@ foreach ($entries as $entry) {
                           <tr>
                             <td style="padding:0px 7px 0px 7px; font-size:12px"><?=_t('선택한 글을')?></td>
                             <td>
-                              <select onchange="processBatch(this.value); this.selectedIndex=0">
-                                <option value="">---------------------------</option>
-                                <option value="publish"><?=_t('공개로 변경합니다')?></option>
-                                <option value="classify"><?=_t('비공개로 변경합니다')?></option>
-                                <option value="delete"><?=_t('삭제합니다')?></option>
+                              <select onchange="processBatch(this); this.selectedIndex=0">                                
+				<option>--------------------------------------------------</option>
+				 <option value="delete">&nbsp;● <?=_t('삭제합니다')?></option>
+<?
+	$categories = getCategories($owner);
+	if (count($categories) >0) {
+?>				 
+                                <option>&nbsp;● 아래의 카테고리로 변경합니다 </option>
+<?
+		foreach ($categories as $category) {
+?>
+                                <option value="category" category="<?=$category['id']?>" label="<?=htmlspecialchars($category['name'])?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<?=htmlspecialchars($category['name'])?></option>
+<?
+			foreach ($category['children'] as $child) {
+?>
+                                <option value="category" category="<?=$child['id']?>" label="<?=htmlspecialchars($category['name'])?>/<?=htmlspecialchars($child['name'])?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;<?=htmlspecialchars($child['name'])?></option>
+<?
+			}
+		}
+	}
+?>
+                                <option value="classify">&nbsp;● <?=_t('비공개로 변경합니다')?></option>
+				<option value="publish">&nbsp;● <?=_t('공개로 변경합니다')?></option>
                               </select>
                             </td>
                           </tr>

@@ -465,6 +465,21 @@ function deleteEntry($owner, $id) {
 	return false;
 }
 
+function changeCategoryOfEntries($owner, $entries, $category) {
+	global $database;
+	
+	$targets = explode('~*_)', $entries);
+	$sql = "UPDATE  {$database['prefix']}Entries SET category = $category WHERE owner = $owner AND ";
+	for ($i = 0; $i < count($targets); $i++) {
+		if ($targets[$i] == '')
+			continue;
+		$sql .=" id={$targets[$i]}";
+		if ($i < count($targets)-2) 
+			$sql .=" OR ";
+	}
+	return executeQuery($sql);
+}
+
 function setEntryVisibility($id, $visibility) {
 	global $database, $owner;
 	if (($visibility < 0) || ($visibility > 3))
