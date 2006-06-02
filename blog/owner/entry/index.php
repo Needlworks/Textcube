@@ -398,7 +398,7 @@ foreach ($entries as $entry) {
 	$categories = getCategories($owner);
 	if (count($categories) >0) {
 ?>				 
-                                <option>&nbsp;● 아래의 카테고리로 변경합니다 </option>
+                                <option>&nbsp;● <?=_t('아래의 카테고리로 변경합니다 ')?></option>
 <?
 		foreach ($categories as $category) {
 ?>
