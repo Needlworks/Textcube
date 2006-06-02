@@ -971,6 +971,7 @@ CREATE TABLE {$_POST['dbPrefix']}Categories (
   entries int(11) NOT NULL default '0',
   entriesInLogin int(11) NOT NULL default '0',
   label varchar(255) NOT NULL default '',
+  visibility tinyint(4) NOT NULL default '2',
   PRIMARY KEY  (id),
   KEY owner (owner)
 ) $charset;

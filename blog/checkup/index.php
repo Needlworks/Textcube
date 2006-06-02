@@ -186,7 +186,7 @@ if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings timezone", 'Type'
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 	}
 }
-if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings archivesOnPage")) {
+if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings archivesOnPage")) { // Since 1.0.6
 	$changed = true;
 	echo '<li>', _t('스킨 설정 테이블에 아카이브 출력 설정 필드를 추가합니다'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD archivesOnPage INT DEFAULT 5 NOT NULL AFTER commentsOnGuestbook"))
@@ -218,7 +218,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Comments isFiltered")) {
 	else
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 }
-if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type') != 'varchar(5)') { // Since 1.0.5
+if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type') != 'varchar(5)') {
 	$changed = true;
 	echo '<li>', _t('블로그 설정 테이블의 언어 필드 속성을 변경합니다'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings CHANGE language language VARCHAR(5) NOT NULL DEFAULT 'en'"))
@@ -226,10 +226,18 @@ if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type'
 	else
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 }
-if (DBQuery::queryExistence("DESC {$database['prefix']}Trackbacks sender")) { // Sandbox 1.0.5
+if (DBQuery::queryExistence("DESC {$database['prefix']}Trackbacks sender")) {
 	$changed = true;
 	echo '<li>', _t('트랙백 테이블의 미사용 필드를 삭제합니다'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP sender"))
+		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
+}
+if (!DBQuery::queryExistence("DESC {$database['prefix']}Categories visibility")) {
+	$changed = true;
+	echo '<li>', _t('카테고리 테이블에 비공개 카테고리 설정을 위한 필드를 추가합니다'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Categories ADD visibility TINYINT(4) DEFAULT 2 NOT NULL AFTER label"))
 		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';

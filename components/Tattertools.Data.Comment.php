@@ -17,6 +17,7 @@ class Comment {
 		$this->secret =
 		$this->content =
 		$this->written =
+		$this->isFiltered =
 			null;
 	}
 	
@@ -172,6 +173,9 @@ class Comment {
 			if (!Validator::timestamp($this->written))
 				return $this->_error('written');
 			$query->setAttribute('written', $this->written);
+		}
+		if (isset($this->isFiltered)) {
+			$query->setAttribute('isFiltered', Validator::getBit($this->secret));
 		}
 		return $query;
 	}

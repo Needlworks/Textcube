@@ -14,6 +14,7 @@ class Trackback {
 		$this->excerpt =
 		$this->ip =
 		$this->received =
+		$this->isFiltered =
 			null;
 	}
 	
@@ -85,7 +86,6 @@ class Trackback {
 			return false;
 		if (!$query->hasAttribute('written'))
 			$query->setAttribute('written', 'UNIX_TIMESTAMP()');
-		
 		if (!$query->insert())
 			return $this->_error('insert');
 		$this->id = $query->id;
@@ -143,6 +143,9 @@ class Trackback {
 			if (!Validator::timestamp($this->received))
 				return $this->_error('received');
 			$query->setAttribute('written', $this->received);
+		}
+		if (isset($this->isFiltered)) {
+			$query->setAttribute('isFiltered', Validator::getBit($this->received));
 		}
 		return $query;
 	}
