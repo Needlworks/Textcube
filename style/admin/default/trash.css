@@ -460,7 +460,7 @@
 #part-trash-trackback table.data-inbox thead tr .ip
 {
 	text-transform                   : uppercase;
-	width                            : 85px;
+	width                            : 110px;
 }
 
 #part-trash-trackback table.data-inbox thead tr .delete
@@ -512,7 +512,9 @@
 }
 
 #part-trash-trackback table.data-inbox .tr-body .site .block-icon,
-#part-trash-trackback table.data-inbox .tr-last-body .site .block-icon
+#part-trash-trackback table.data-inbox .tr-last-body .site .block-icon,
+#part-trash-trackback table.data-inbox .tr-body .ip .block-icon,
+#part-trash-trackback table.data-inbox .tr-last-body .ip .block-icon
 {
 	background-image                 : url("./image/icon_block.gif");
 	background-position              : left bottom;
@@ -524,13 +526,17 @@
 }
 
 #part-trash-trackback table.data-inbox .tr-body .site .block-icon span,
-#part-trash-trackback table.data-inbox .tr-last-body .site .block-icon span
+#part-trash-trackback table.data-inbox .tr-last-body .site .block-icon span,
+#part-trash-trackback table.data-inbox .tr-body .ip .block-icon span,
+#part-trash-trackback table.data-inbox .tr-last-body .ip .block-icon span
 {
 	display                          : none;
 }
 
 #part-trash-trackback table.data-inbox .tr-body .site .unblock-icon,
-#part-trash-trackback table.data-inbox .tr-last-body .site .unblock-icon
+#part-trash-trackback table.data-inbox .tr-last-body .site .unblock-icon,
+#part-trash-trackback table.data-inbox .tr-body .ip .unblock-icon,
+#part-trash-trackback table.data-inbox .tr-last-body .ip .unblock-icon
 {
 	background-image                 : url("./image/icon_block.gif");
 	background-position              : left top;
@@ -542,7 +548,9 @@
 }
 
 #part-trash-trackback table.data-inbox .tr-body .site .unblock-icon span,
-#part-trash-trackback table.data-inbox .tr-last-body .site .unblock-icon span
+#part-trash-trackback table.data-inbox .tr-last-body .site .unblock-icon span,
+#part-trash-trackback table.data-inbox .tr-body .ip .unblock-icon span,
+#part-trash-trackback table.data-inbox .tr-last-body .ip .unblock-icon span
 {
 	display                          : none;
 }

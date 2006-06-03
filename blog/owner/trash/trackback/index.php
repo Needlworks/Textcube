@@ -163,6 +163,13 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	requireComponent('Tattertools.Data.Filter');
 	$isFilterURL = Filter::isFiltered('url', $trackback['url']);
 	$filteredURL = getURLForFilter($trackback['url']);
+
+	$filter = new Filter();
+	if (Filter::isFiltered('ip', $trackback['ip'])) {
+		$isIpFiltered = true;
+	} else {
+		$isIpFiltered = false;
+	}
 	
 	if (!isset($siteNumber[$trackback['site']])) {
 		$siteNumber[$trackback['site']] = $i;
@@ -199,6 +206,17 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 														<a href="#void" onclick="window.open('<?=$trackback['url']?>')" title="트랙백을 보낸 포스트를 보여줍니다."><?=htmlspecialchars($trackback['subject'])?></a>
 													</td>
 													<td class="ip">
+<?
+		if ($isIpFiltered) {
+?>
+														<a class="block-icon bullet" name="ip<?=urlencode($trackback['ip'])?>block" href="#void" onclick="changeState(this,'<?=urlencode($trackback['ip'])?>', 'ip')" title="<?=_t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?=_t('[차단됨]')?></span></a>
+<?
+		} else {
+?>
+														<a class="unblock-icon bullet" name="ip<?=urlencode($trackback['ip'])?>block" href="#void" onclick="changeState(this,'<?=urlencode($trackback['ip'])?>', 'ip')" title="<?=_t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?=_t('[허용됨]')?></span></a>
+<?
+		}
+?>
 														<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($trackback['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 트랙백 목록을 보여줍니다.')?>"><span class="text"><?=$trackback['ip']?></span></a>
 													</td>
 													<td class="delete">
@@ -234,6 +252,17 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 														<a href="#void" onclick="window.open('<?=$trackback['url']?>')" title="트랙백을 보낸 포스트를 보여줍니다."><?=htmlspecialchars($trackback['subject'])?></a>
 													</td>
 													<td class="ip">
+<?
+		if ($isIpFiltered) {
+?>
+														<a class="block-icon bullet" name="ip<?=urlencode($trackback['ip'])?>block" href="#void" onclick="changeState(this,'<?=urlencode($trackback['ip'])?>', 'ip')" title="<?=_t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?=_t('[차단됨]')?></span></a>
+<?
+		} else {
+?>
+														<a class="unblock-icon bullet" name="ip<?=urlencode($trackback['ip'])?>block" href="#void" onclick="changeState(this,'<?=urlencode($trackback['ip'])?>', 'ip')" title="<?=_t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?=_t('[허용됨]')?></span></a>
+<?
+		}
+?>
 														<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($trackback['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 트랙백 목록을 보여줍니다.')?>"><span class="text"><?=$trackback['ip']?></span></a>
 													</td>
 													<td class="delete">
