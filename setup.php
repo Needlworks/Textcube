@@ -972,6 +972,7 @@ CREATE TABLE {$_POST['dbPrefix']}Categories (
   entriesInLogin int(11) NOT NULL default '0',
   label varchar(255) NOT NULL default '',
   visibility tinyint(4) NOT NULL default '2',
+  bodyId varchar(20) default NULL,
   PRIMARY KEY  (id),
   KEY owner (owner)
 ) $charset;
