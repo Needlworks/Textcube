@@ -1484,6 +1484,8 @@
 
 #part-post-trackback table.data-inbox .tr-body .site .block-icon,
 #part-post-trackback table.data-inbox .tr-last-body .site .block-icon
+#part-post-trackback table.data-inbox .tr-body .ip .block-icon,
+#part-post-trackback table.data-inbox .tr-last-body .ip .block-icon
 {
 	background-image                 : url("./image/icon_block.gif");
 	background-position              : left bottom;
@@ -1496,12 +1498,16 @@
 
 #part-post-trackback table.data-inbox .tr-body .site .block-icon span,
 #part-post-trackback table.data-inbox .tr-last-body .site .block-icon span
+#part-post-trackback table.data-inbox .tr-body .ip .block-icon span,
+#part-post-trackback table.data-inbox .tr-last-body .ip .block-icon span
 {
 	display                          : none;
 }
 
 #part-post-trackback table.data-inbox .tr-body .site .unblock-icon,
 #part-post-trackback table.data-inbox .tr-last-body .site .unblock-icon
+#part-post-trackback table.data-inbox .tr-body .ip .unblock-icon,
+#part-post-trackback table.data-inbox .tr-last-body .ip .unblock-icon
 {
 	background-image                 : url("./image/icon_block.gif");
 	background-position              : left top;
@@ -1514,6 +1520,8 @@
 
 #part-post-trackback table.data-inbox .tr-body .site .unblock-icon span,
 #part-post-trackback table.data-inbox .tr-last-body .site .unblock-icon span
+#part-post-trackback table.data-inbox .tr-body .ip .unblock-icon span,
+#part-post-trackback table.data-inbox .tr-last-body .ip .unblock-icon span
 {
 	display                          : none;
 }

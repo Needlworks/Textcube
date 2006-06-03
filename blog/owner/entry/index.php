@@ -134,8 +134,10 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 													document.forms[0].elements[i].checked = checked;
 										}
 										
-										function processBatch(mode) {
+										function processBatch(obj) {	
+											mode = obj.value;
 											var entries = '';
+		
 											switch (mode) {
 												case 'classify':
 													for (var i = 0; i < document.forms[0].elements.length; i++) {
@@ -151,8 +153,9 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 															setEntryVisibility(oElement.value, 2);
 													}
 													break;
+				
 												case 'delete':
-													if (!confirm("<?=_t('선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?')?>"))
+													if (!confirm("<?=_t('선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?\t')?>"))
 														return false;
 													var targets = "";
 													for (var i = 0; i < document.forms[0].elements.length; i++) {
@@ -166,6 +169,35 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 													}
 													request.send("targets="+targets);
 													break;
+				
+												case 'category':
+													var targets = "";
+													var category = obj.options[obj.options.selectedIndex].getAttribute('category');
+													var label = obj.options[obj.options.selectedIndex].getAttribute('label');
+													var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/changeCategory/");
+													for (var i = 0; i < document.forms[0].elements.length; i++) {
+														var oElement = document.forms[0].elements[i];
+														if ((oElement.name == "entry") && oElement.checked) {
+															targets += oElement.value +'~*_)';
+														}
+													}
+													if (targets == '') {
+														return false;
+													}
+				
+													request.onSuccess = function () {
+														for (var i = 0; i < document.forms[0].elements.length; i++) {
+															var oElement = document.forms[0].elements[i];
+															if ((oElement.name == "entry") && oElement.checked) {
+																document.getElementById("category_" + oElement.value).innerHTML = label;
+																document.getElementById("category_" + oElement.value).name = category;
+															}
+														}	
+														//document.forms[0].submit();
+													}
+													request.send("category="+category+"&targets="+targets);
+													break;				
+				
 											}
 										}
 										
@@ -341,7 +373,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 ?>
 												</td>
 												<td class="category">
-													<a href="#void" onclick="document.forms[0].category.value='<?=$entry['category']?>'; document.forms[0].submit();"><?=empty($entry['categoryLabel']) ? '&nbsp;' : htmlspecialchars($entry['categoryLabel'])?></a>
+													<a href="#void" onclick="document.forms[0].category.value=this.name; document.forms[0].submit()" name="<?=$entry['category']?>" id="category_<?=$entry['id']?>"><?=empty($entry['categoryLabel']) ? '&nbsp;' : htmlspecialchars($entry['categoryLabel'])?></a>
 												</td>
 												<td class="title">
 													<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?><a href="#void" onclick="document.forms[0].action='<?=$blogURL?>/owner/entry/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.forms[0].submit();"><?=htmlspecialchars($entry['title'])?></a>
@@ -490,13 +522,30 @@ for ($i=0; $i<sizeof($entries); $i++) {
 									<div class="data-subbox">
 										<div id="change-section" class="section">
 											<span class="label"><span class="text"><?=_t('선택한 글을')?></span></span>
-											<select onchange="processBatch(this.value); this.selectedIndex=0">
-												<option>-------------------------</option>
-												<option value="publish"><?=_t('공개로 변경합니다.')?></option>
-												<option value="classify"><?=_t('비공개로 변경합니다.')?></option>
-												<option value="delete"><?=_t('삭제합니다.')?></option>
+											 <select onchange="processBatch(this); this.selectedIndex=0"> 
+												<option>--------------------------------------------------</option>
+												<option value="delete">&nbsp;● <?=_t('삭제합니다')?></option>
+<?
+	$categories = getCategories($owner);
+	if (count($categories) >0) {
+?>				 
+												<option>&nbsp;● <?=_t('아래의 카테고리로 변경합니다 ')?></option>
+<?
+		foreach ($categories as $category) {
+?>
+												<option value="category" category="<?=$category['id']?>" label="<?=htmlspecialchars($category['name'])?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<?=htmlspecialchars($category['name'])?></option>
+<?
+			foreach ($category['children'] as $child) {
+?>
+												<option value="category" category="<?=$child['id']?>" label="<?=htmlspecialchars($category['name'])?>/<?=htmlspecialchars($child['name'])?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;<?=htmlspecialchars($child['name'])?></option>
+<?
+			}
+		}
+	}
+?>
+												<option value="classify">&nbsp;● <?=_t('비공개로 변경합니다')?></option>
+												<option value="publish">&nbsp;● <?=_t('공개로 변경합니다')?></option>
 											</select>
-											
 											<div class="clear"></div>
 										</div>
 										

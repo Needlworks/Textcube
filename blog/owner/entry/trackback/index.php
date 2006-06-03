@@ -38,7 +38,7 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 													param 	+= '&mode=' 	+ mode;
 													param 	+= '&command=' 	+ command;
 
-													var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/filter/change/" + param);
+													var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/trash/filter/change/" + param);
 													var iconList = document.getElementsByTagName("a");	
 													for (var i = 0; i < iconList.length; i++) {
 														icon = iconList[i];
@@ -64,7 +64,7 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 												}
 											}
 
-											function deleteTrackback(id) {
+											function trashTrackback(id) {
 												if (!confirm("<?=_t('선택된 트랙백을 휴지통으로 옮깁니다. 계속하시겠습니까?')?>"))
 													return;
 												var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/trackback/delete/" + id);
@@ -74,7 +74,7 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 												request.send();
 											}
 
-											function deleteTrackbacks() {
+											function trashTrackbacks() {
 												try {
 													if (!confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?')?>"))
 														return false;
@@ -166,6 +166,13 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$isFilterURL = Filter::isFiltered('url', $trackback['url']);
 	$filteredURL = getURLForFilter($trackback['url']);
 
+	$filter = new Filter();
+	if (Filter::isFiltered('ip', $trackback['ip'])) {
+		$isIpFiltered = true;
+	} else {
+		$isIpFiltered = false;
+	}
+
 	if (!isset($siteNumber[$trackback['site']])) {
 		$siteNumber[$trackback['site']] = $i;
 		$currentSite = $i;
@@ -201,10 +208,22 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 														<a href="#void" onclick="window.open('<?=$trackback['url']?>')" title="트랙백을 보낸 포스트를 보여줍니다."><?=htmlspecialchars($trackback['subject'])?></a>
 													</td>
 													<td class="ip">
+<?
+		if ($isIpFiltered) {
+?>
+														<a class="block-icon bullet" name="ip<?=urlencode($trackback['ip'])?>block" href="#void" onclick="changeState(this,'<?=urlencode($trackback['ip'])?>', 'ip')" title="<?=_t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?=_t('[차단됨]')?></span></a>
+<?
+		} else {
+?>
+														<a class="unblock-icon bullet" name="ip<?=urlencode($trackback['ip'])?>block" href="#void" onclick="changeState(this,'<?=urlencode($trackback['ip'])?>', 'ip')" title="<?=_t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?=_t('[허용됨]')?></span></a>
+<?
+		}
+?>
+
 														<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($trackback['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 트랙백 목록을 보여줍니다.')?>"><?=$trackback['ip']?></a>
 													</td>
 													<td class="delete">
-														<a class="delete-button button" href="#void" onclick="deleteTrackback(<?=$trackback['id']?>)" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a>
+														<a class="delete-button button" href="#void" onclick="trashTrackback(<?=$trackback['id']?>)" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a>
 													</td>
 												</tr>
 <?
@@ -236,10 +255,21 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 														<a href="#void" onclick="window.open('<?=$trackback['url']?>')" title="트랙백을 보낸 포스트를 보여줍니다."><?=htmlspecialchars($trackback['subject'])?></a>
 													</td>
 													<td class="ip">
+<?
+		if ($isIpFiltered) {
+?>
+														<a class="block-icon bullet" name="ip<?=urlencode($trackback['ip'])?>block" href="#void" onclick="changeState(this,'<?=urlencode($trackback['ip'])?>', 'ip')" title="<?=_t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?php echo _t('[차단됨]')?></span></a>
+<?
+		} else {
+?>
+														<a class="unblock-icon bullet" name="ip<?=urlencode($trackback['ip'])?>block" href="#void" onclick="changeState(this,'<?=urlencode($trackback['ip'])?>', 'ip')" title="<?=_t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?php echo _t('[허용됨]')?></span></a>
+<?
+		}
+?>
 														<a href="#void" onclick="document.forms[0].ip.value='<?=escapeJSInAttribute($trackback['ip'])?>'; document.forms[0].submit();" title="<?=_t('이 IP로 등록된 트랙백 목록을 보여줍니다.')?>"><?=$trackback['ip']?></a>
 													</td>
 													<td class="delete">
-														<a class="delete-button button" href="#void" onclick="deleteTrackback(<?=$trackback['id']?>)" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a>
+														<a class="delete-button button" href="#void" onclick="trashTrackback(<?=$trackback['id']?>)" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a>
 													</td>
 												</tr>
 <?
@@ -254,7 +284,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 										<div class="data-subbox">
 											<div id="delete-section" class="section">
 												<span class="label"><span class="text"><?=_t('선택한 트랙백을')?></span></span>
-												<a class="delete-button button" href="#void" onclick="deleteTrackbacks();"><span class="text"><?=_t('삭제')?></span></a>
+												<a class="delete-button button" href="#void" onclick="trashTrackbacks();"><span class="text"><?=_t('삭제')?></span></a>
 												
 												<div class="clear"></div>
 											</div>
