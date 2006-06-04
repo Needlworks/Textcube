@@ -463,7 +463,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 ?>
 												</td>
 												<td class="category">
-													<a href="#void" onclick="document.forms[0].category.value='<?=$entry['category']?>'; document.forms[0].submit();"><?=empty($entry['categoryLabel']) ? '&nbsp;' : htmlspecialchars($entry['categoryLabel'])?></a>
+													<a href="#void" onclick="document.forms[0].category.value='<?=$entry['category']?>'; document.forms[0].submit();" id="category_<?=$entry['id']?>"><?=empty($entry['categoryLabel']) ? '&nbsp;' : htmlspecialchars($entry['categoryLabel'])?></a>
 												</td>
 												<td class="title">
 													<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?><a href="#void" onclick="document.forms[0].action='<?=$blogURL?>/owner/entry/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.forms[0].submit();"><?=htmlspecialchars($entry['title'])?></a>
