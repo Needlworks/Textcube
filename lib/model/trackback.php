@@ -50,6 +50,14 @@ function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 	if (!Post::doesAcceptTrackback($entry))
 		return 3;
 	
+	requireComponent('Tattertools.Data.Filter');
+	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $url))
+		return 1;
+	if (Filter::isFiltered('content', $excerpt))
+		return 1;
+	if (!fireEvent('AddingTrackback', true, array('entry' => $entry, 'url' => $url, 'site' => $site, 'title' => $title, 'excerpt' => $excerpt)))
+		return 1;
+
 	$title = correctTTForXmlText($title);
 	$excerpt = correctTTForXmlText($excerpt);
 	
@@ -57,15 +65,6 @@ function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 	$site = mysql_lessen($site);
 	$title = mysql_lessen($title);
 	$excerpt = mysql_lessen($excerpt);
-
-	requireComponent('Tattertools.Data.Filter');
-	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $url))
-		return 1;
-	if (Filter::isFiltered('content', $excerpt))
-		return 1;
-
-	if (!fireEvent('AddingTrackback', true, array('entry' => $entry, 'url' => $url, 'site' => $site, 'title' => $title, 'excerpt' => $excerpt)))
-		return 1;
 
 	requireComponent('Tattertools.Data.Trackback');
 	$trackback = new Trackback();
