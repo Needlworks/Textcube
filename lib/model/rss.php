@@ -20,7 +20,16 @@ function refreshRSS($owner) {
 		} else {
 			$content = $row['content'];
 		}
-		$item = array('id' => $row['id'], 'title' => $row['title'], 'link' => "$hostURL$blogURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']), 'categories' => array(), 'description' => $content, 'author' => $author, 'pubDate' => Timestamp::getRFC1123($row['published']));
+		$item = array(
+			'id' => $row['id'], 
+			'title' => $row['title'], 
+			'link' => "$hostURL$blogURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']), 
+			'categories' => array(), 'description' => $content, 
+			'author' => $author, 
+			'pubDate' => Timestamp::getRFC1123($row['published']),
+			'comments' => "$hostURL$blogURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']) . '#entry' . $row['id'] . 'comment',
+			'guid' => "$hostURL$blogURL/" . $row['id']
+		);
 		if (!empty($row['id'])) {
 			$sql = "SELECT name, size, mime FROM {$database['prefix']}Attachments WHERE parent= {$row['id']} AND owner =$owner AND enclosure = 1";
 			$attaches = fetchQueryRow($sql);
@@ -75,6 +84,8 @@ function publishRSS($owner, $data) {
 				echo '			<category>', htmlspecialchars($category), '</category>', CRLF;
 		}
 		echo '			<author>', htmlspecialchars($item['author']), '</author>', CRLF;
+		echo '			<guid>', $item['guid'], '</guid>',CRLF;
+		echo '			<comments>', $item['comments'] , '</comments>',CRLF;
 		echo '			<pubDate>', $item['pubDate'], '</pubDate>', CRLF;
 		if (!empty($item['enclosure'])) {
 			echo '			<enclosure url="', $item['enclosure']['url'], '" length="', $item['enclosure']['length'], '" type="', $item['enclosure']['type'], '" />', CRLF;
