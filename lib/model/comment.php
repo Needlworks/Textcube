@@ -196,26 +196,28 @@ function getCommentList($owner, $search) {
 
 function updateCommentsOfEntry($owner, $entryId) {
 	global $database;
-	$commentCount = fetchQueryCell("SELECT COUNT(*) From {$database['prefix']}Comments WHERE owner = $owner AND entry = $entryId");
+	$commentCount = fetchQueryCell("SELECT COUNT(*) From {$database['prefix']}Comments WHERE owner = $owner AND entry = $entryId AND isFiltered = 0");
 	mysql_query("UPDATE {$database['prefix']}Entries SET comments = $commentCount WHERE owner = $owner AND id = $entryId");
 	return $commentCount;
 }
 
 function addComment($owner, & $comment) {
 	global $database, $user;
-
+	
+	$filtered = 0;
+	
 	if (!doesHaveOwnership()) {
 		requireComponent('Tattertools.Data.Filter');
 		if (Filter::isFiltered('ip', $comment['ip']))
-			return 'blocked';
-		if (Filter::isFiltered('name', $comment['name']))
-			return 'blocked';
-		if (Filter::isFiltered('url', $comment['homepage']))
-			return 'blocked';
-		if (Filter::isFiltered('content', $comment['comment']))
-			return 'blocked';
-		if (!fireEvent('AddingComment', true, $comment))
-			return 'blocked';
+			$filtered = 1;
+		else if (Filter::isFiltered('name', $comment['name']))
+			$filtered = 1;
+		else if  (Filter::isFiltered('url', $comment['homepage']))
+			$filtered = 1;
+		elseif  (Filter::isFiltered('content', $comment['comment']))
+			$filtered = 1;
+		else if (!fireEvent('AddingComment', true, $comment))
+			$filtered = 1;
 	}
 
 	$comment['homepage'] = stripHTML($comment['homepage']);
@@ -254,7 +256,7 @@ function addComment($owner, & $comment) {
 			'$comment0',
 			'{$comment['ip']}',
 			UNIX_TIMESTAMP(),
-			0
+			$filtered
 		)");
 	if ($result && (mysql_affected_rows() > 0)) {
 		$id = mysql_insert_id();
@@ -275,13 +277,9 @@ function addComment($owner, & $comment) {
 
 function updateComment($owner, $comment, $password) {
 	global $database, $user;
-	$comment['homepage'] = stripHTML($comment['homepage']);
-
-	$comment['name'] = mysql_lessen($comment['name'], 80);
-	$comment['homepage'] = mysql_lessen($comment['homepage'], 80);
-	$comment['comment'] = mysql_lessen($comment['comment'], 65535);
 
 	if (!doesHaveOwnership()) {
+		// if filtered, only block and not send to trash
 		requireComponent('Tattertools.Data.Filter');
 		if (Filter::isFiltered('ip', $comment['ip']))
 			return 'blocked';
@@ -294,6 +292,12 @@ function updateComment($owner, $comment, $password) {
 		if (!fireEvent('ModifyingComment', true, $comment))
 			return 'blocked';
 	}
+	
+	$comment['homepage'] = stripHTML($comment['homepage']);
+	$comment['name'] = mysql_lessen($comment['name'], 80);
+	$comment['homepage'] = mysql_lessen($comment['homepage'], 80);
+	$comment['comment'] = mysql_lessen($comment['comment'], 65535);
+	
 	$setPassword = '';
 	if ($user !== null) {
 		$comment['replier'] = $user['id'];
@@ -330,24 +334,6 @@ function updateComment($owner, $comment, $password) {
 
 function deleteComment($owner, $id, $entry, $password) {
 	global $database;
-	$sql = "update {$database['prefix']}Comments set isFiltered = 1 where owner = $owner and id = $id and entry = $entry";
-	if (!doesHaveOwnership()) {
-		if (doesHaveMembership())
-			$sql .= ' and replier = ' . getUserId();
-		else
-			$sql .= ' and password = \'' . md5($password) . '\'';
-	}
-	$result = mysql_query($sql);
-	if (mysql_affected_rows() > 0) {
-		mysql_query("update {$database['prefix']}Comments set isFiltered = 1 where owner = $owner and parent = $id");
-		updateCommentsOfEntry($owner, $entry);
-		return true;
-	}
-	return false;
-}
-
-function trashComment($owner, $id, $entry, $password) {
-	global $database;
 	$sql = "delete from {$database['prefix']}Comments where owner = $owner and id = $id and entry = $entry";
 	if (!doesHaveOwnership()) {
 		if (doesHaveMembership())
@@ -357,7 +343,21 @@ function trashComment($owner, $id, $entry, $password) {
 	}
 	$result = mysql_query($sql);
 	if (mysql_affected_rows() > 0) {
-		mysql_query("update {$database['prefix']}Comments set isFiltered = 1 where owner = $owner and parent = $id");
+		mysql_query("delete from {$database['prefix']}Comments where owner = $owner and parent = $id");
+		updateCommentsOfEntry($owner, $entry);
+		return true;
+	}
+	return false;
+}
+
+function trashComment($owner, $id, $entry, $password) {
+	global $database;
+	if (!doesHaveOwnership()) {
+		return false;
+	}
+	$sql = "update {$database['prefix']}Comments set isFiltered = 1 where owner = $owner and id = $id and entry = $entry";
+	$result = mysql_query($sql);
+	if (mysql_affected_rows() > 0) {
 		updateCommentsOfEntry($owner, $entry);
 		return true;
 	}

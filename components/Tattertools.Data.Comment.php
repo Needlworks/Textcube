@@ -81,6 +81,8 @@ class Comment {
 			return $this->_error('content');
 		if (!isset($this->ip))
 			$this->ip = $_SERVER['REMOTE_ADDR'];
+		if (!isset($this->isFiltered))
+			$this->isFiltered = 0;
 		
 		if (!$query = $this->_buildQuery())
 			return false;
@@ -93,7 +95,7 @@ class Comment {
 		
 		if (isset($this->parent))
 			$this->entry = Comment::getEntry($this->parent);
-		if (isset($this->entry))
+		if ((isset($this->entry)) && ($this->isFiltered != 1))
 			DBQuery::execute("UPDATE {$database['prefix']}Entries SET comments = comments + 1 WHERE owner = $owner AND id = {$this->entry}");
 		return true;
 	}
@@ -175,7 +177,7 @@ class Comment {
 			$query->setAttribute('written', $this->written);
 		}
 		if (isset($this->isFiltered)) {
-			$query->setAttribute('isFiltered', Validator::getBit($this->secret));
+			$query->setAttribute('isFiltered', Validator::getBit($this->isFiltered));
 		}
 		return $query;
 	}

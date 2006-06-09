@@ -86,11 +86,16 @@ class Trackback {
 			return false;
 		if (!$query->hasAttribute('written'))
 			$query->setAttribute('written', 'UNIX_TIMESTAMP()');
+		if (!isset($this->isFiltered))
+			$this->isFiltered = 0;
+		
 		if (!$query->insert())
 			return $this->_error('insert');
 		$this->id = $query->id;
 
-		mysql_query("UPDATE {$database['prefix']}Entries SET trackbacks = trackbacks + 1 WHERE owner = $owner AND id = {$this->entry}");
+		if ($this->isFiltered != 1) {
+			mysql_query("UPDATE {$database['prefix']}Entries SET trackbacks = trackbacks + 1 WHERE owner = $owner AND id = {$this->entry}");
+		}
 		return true;
 	}
 	
@@ -145,7 +150,7 @@ class Trackback {
 			$query->setAttribute('written', $this->received);
 		}
 		if (isset($this->isFiltered)) {
-			$query->setAttribute('isFiltered', Validator::getBit($this->received));
+			$query->setAttribute('isFiltered', Validator::getBit($this->isFiltered));
 		}
 		return $query;
 	}

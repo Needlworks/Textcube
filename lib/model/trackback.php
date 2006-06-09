@@ -49,15 +49,17 @@ function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 	requireComponent('Tattertools.Data.Post');
 	if (!Post::doesAcceptTrackback($entry))
 		return 3;
+		
+	$filtered = 0;
 	
 	requireComponent('Tattertools.Data.Filter');
 	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $url))
-		return 1;
-	if (Filter::isFiltered('content', $excerpt))
-		return 1;
-	if (!fireEvent('AddingTrackback', true, array('entry' => $entry, 'url' => $url, 'site' => $site, 'title' => $title, 'excerpt' => $excerpt)))
-		return 1;
-	
+		$filtered = 1;
+	else if (Filter::isFiltered('content', $excerpt))
+		$filtered = 1;
+	else if (!fireEvent('AddingTrackback', true, array('entry' => $entry, 'url' => $url, 'site' => $site, 'title' => $title, 'excerpt' => $excerpt)))
+		$filtered = 1;
+
 	$title = correctTTForXmlText($title);
 	$excerpt = correctTTForXmlText($excerpt);
 	
@@ -73,8 +75,9 @@ function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 	$trackback->site = $site;
 	$trackback->title = $title;
 	$trackback->excerpt = $excerpt;
+	$trackback->isFiltered = $filtered;
 	if ($trackback->add())
-		return 0;
+		return ($filtered == 0) ? 0 : 3;
 	else
 		return 4;
 	return 0;
