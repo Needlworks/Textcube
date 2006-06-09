@@ -322,7 +322,7 @@ class Post {
 			return false;
 		$succeeded = true;
 		foreach ($posts as $id) {
-			$comments = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $id");
+			$comments = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $id AND isFiltered = 0");
 			if ($comments !== null) {
 				if (DBQuery::execute("UPDATE {$database['prefix']}Entries SET comments = $comments WHERE owner = $owner AND id = $id"))
 					continue;
@@ -340,14 +340,14 @@ class Post {
 			return false; 
 		$succeeded = true;
 		foreach ($posts as $id) {
-			$trackbacks = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id");
+			$trackbacks = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id AND isFiltered = 0");
 			if ($trackbacks !== null) { 
-		    		if (DBQuery::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks WHERE owner = $owner AND id = $id"))
+				if (DBQuery::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks WHERE owner = $owner AND id = $id"))
 					continue;
 			}
-		$succeeded = false;
-	    }
-	    return $succeeded;
+			$succeeded = false;
+		}
+		return $succeeded;	
 	}
 	
 	/*@static@*/
