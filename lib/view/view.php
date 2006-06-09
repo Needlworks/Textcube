@@ -105,48 +105,6 @@ function getUpperView($paging) {
 	}
 	document.onkeydown = processShortcut;
 	
-	
-	function addGuestbook(caller, entryId) {
-	
-		var oForm = findFormObject(caller);
-		if (!oForm)
-			return false;
-		trimAll(oForm);
-	
-		try { nameValue = document.getElementById("name_guest").value; } catch(e) { nameValue = ""; }
-		try { passwordValue = document.getElementById("password_guest").value; } catch(e) { passwordValue = ""; }
-		try { homepageValue = document.getElementById("homepage_guest").value; } catch(e) { homepageValue = ""; }
-		try { secretValue = document.getElementById("secret_guest").checked ? "on" : ""; } catch(e) { secretValue = ""; }
-		try { commentValue = document.getElementById("comment_guest").value; } catch(e) { commentValue = ""; }	
-		
-<?php 
-	if (!doesHaveMembership()) {
-?>
-		if (!checkValue(document.getElementById("name_guest"), "<?php echo _t('이름을 입력해 주십시오')?>")) return false;
-<?php 
-	}
-?>
-		if (!checkValue(document.getElementById("comment_guest"), "<?php echo _t('댓글을 입력해 주십시오')?>")) return false;
-		
-<?php 
-	if (doesHaveOwnership()) {
-?>
-		// TODO : EAF HTTPRequest 클래스를 이용할 것
-		result = getResponse(oForm.action , "comment_" + entryId + "=" + encodeURIComponent(commentValue));
-<?php 
-	} else if (doesHaveMembership()) {
-?>
-		result = getResponse(oForm.action , "comment_" + entryId + "=" + encodeURIComponent(commentValue) + "&secret_" + entryId + "=" + secretValue)
-<?php 
-	} else {
-?>
-		result = getResponse(oForm.action , "name_" + entryId + "=" + encodeURIComponent(nameValue) + "&password_" + entryId + "=" + encodeURIComponent(passwordValue) + "&homepage_" + entryId + "=" + encodeURIComponent(homepageValue) + "&comment_" + entryId + "=" + encodeURIComponent(commentValue) + "&secret_" + entryId + "=" + secretValue);
-<?php 
-	}
-?>
-		trace(result);
-	}	
-
 	function addComment(caller, entryId) {
 		var oForm = findFormObject(caller);
 		if (!oForm)

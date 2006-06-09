@@ -81,7 +81,7 @@ function setProgress($progress, $text = null, $sub = null) {
 }
 
 setProgress(0, _t('교정 대상을 확인하고 있습니다.'));
-$items = 2 + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE owner = $owner") + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE owner = $owner");
+$items = 3 + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE owner = $owner") + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE owner = $owner");
 
 set_time_limit(0);
 $item = 0;
@@ -90,6 +90,10 @@ $corrected = 0;
 setProgress($item++ / $items * 100, _t('글의 댓글 정보를 다시 계산해서 저장합니다.'));
 requireComponent('Tattertools.Data.Post');
 Post::updateComments();
+
+setProgress($item++ / $items * 100, _t('글의 트랙백 정보를 다시 계산해서 저장합니다.'));
+requireComponent('Tattertools.Data.Post');
+Post::updateTrackbacks();
 
 setProgress($item++ / $items * 100, _t('분류의 글 정보를 다시 계산해서 저장합니다.'));
 requireComponent('Tattertools.Data.Post');

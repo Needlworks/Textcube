@@ -1,4 +1,4 @@
-<?php
+<?
 
 function refreshRSS($owner) {
 	global $database;
@@ -10,9 +10,8 @@ function refreshRSS($owner) {
 	$channel['description'] = $blog['description'];
 	$channel['language'] = $blog['language'];
 	$channel['pubDate'] = Timestamp::getRFC1123();
-	if ($blog['publishEolinSyncOnRSS'])
+	$channel['generator'] = TATTERTOOLS_NAME . ' ' . TATTERTOOLS_VERSION;
 	$result = mysql_query("SELECT e.*, c.name AS categoryName FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 ORDER BY e.published DESC LIMIT {$blog['entriesOnRSS']}");
-	else $result = mysql_query("SELECT e.*, c.name AS categoryName FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 AND e.visibility = 3 AND e.category >= 0 ORDER BY e.published DESC LIMIT {$blog['entriesOnRSS']}");
 	if (!$result)
 		return false;
 	$channel['items'] = array();
@@ -22,7 +21,16 @@ function refreshRSS($owner) {
 		} else {
 			$content = $row['content'];
 		}
-		$item = array('id' => $row['id'], 'title' => $row['title'], 'link' => "$hostURL$blogURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']), 'categories' => array(), 'description' => $content, 'author' => $author, 'pubDate' => Timestamp::getRFC1123($row['published']));
+		$item = array(
+			'id' => $row['id'], 
+			'title' => $row['title'], 
+			'link' => "$hostURL$blogURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']), 
+			'categories' => array(), 'description' => $content, 
+			'author' => $author, 
+			'pubDate' => Timestamp::getRFC1123($row['published']),
+			'comments' => "$hostURL$blogURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']) . '#entry' . $row['id'] . 'comment',
+			'guid' => "$hostURL$blogURL/" . $row['id']
+		);
 		if (!empty($row['id'])) {
 			$sql = "SELECT name, size, mime FROM {$database['prefix']}Attachments WHERE parent= {$row['id']} AND owner =$owner AND enclosure = 1";
 			$attaches = fetchQueryRow($sql);
@@ -67,6 +75,7 @@ function publishRSS($owner, $data) {
 	echo '		<description>', htmlspecialchars($data['channel']['description']), '</description>', CRLF;
 	echo '		<language>', $data['channel']['language'], '</language>', CRLF;
 	echo '		<pubDate>', $data['channel']['pubDate'], '</pubDate>', CRLF;
+	echo '		<generator>', $data['channel']['generator'], '</generator>', CRLF;
 	foreach ($data['channel']['items'] as $item) {
 		echo '		<item>', CRLF;
 		echo '			<title>', htmlspecialchars($item['title']), '</title>', CRLF;
@@ -77,6 +86,8 @@ function publishRSS($owner, $data) {
 				echo '			<category>', htmlspecialchars($category), '</category>', CRLF;
 		}
 		echo '			<author>', htmlspecialchars($item['author']), '</author>', CRLF;
+		echo '			<guid>', $item['guid'], '</guid>',CRLF;
+		echo '			<comments>', $item['comments'] , '</comments>',CRLF;
 		echo '			<pubDate>', $item['pubDate'], '</pubDate>', CRLF;
 		if (!empty($item['enclosure'])) {
 			echo '			<enclosure url="', $item['enclosure']['url'], '" length="', $item['enclosure']['length'], '" type="', $item['enclosure']['type'], '" />', CRLF;
