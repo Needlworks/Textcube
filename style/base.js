@@ -28,17 +28,16 @@ baseObjectByTnF =
 			baseObjectByTnF_fini_funcs[i]();
 		}
 		
-			if (document.all && window.attachEvent)
+		if (document.all && window.attachEvent)
+		{
+			elProps = ['data', 'onmouseover', 'onmouseout', 'onclick'];
+			all = document.all;
+			
+			for (i=0, el; el=all[i]; i++)
 			{
-				elProps = ['data', 'onmouseover', 'onmouseout', 'onclick'];
-				all = document.all;
-				
-				for (i=0, el; el=all[i]; i++)
+				for (j=0, elProp; elProp=elProps[j]; j++)
 				{
-					for (j=0, elProp; elProp=elProps[j]; j++)
-					{
-						el[elProp] = null;
-					}
+					el[elProp] = null;
 				}
 			}
 		}
