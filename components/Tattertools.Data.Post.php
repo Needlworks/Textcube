@@ -333,6 +333,24 @@ class Post {
 	}
 	
 	/*@static@*/
+	function updateTrackbacks($id = null) {
+		global $database, $owner;
+		$posts = ($id === null ? DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND category >= 0 AND draft = 0") : array($id));
+		if (!is_array($posts))
+			return false;
+		$succeeded = true;
+		foreach ($posts as $id) {
+			$trackbacks = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id");
+			if ($trackbacks !== null) {
+				if (DBQuery::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks WHERE owner = $owner AND id = $id"))
+					continue;
+			}
+			$succeeded = false;
+		}
+		return $succeeded;	
+	}
+	
+	/*@static@*/
 	function makeSlogan($title) {
 		$slogan = preg_replace('/-+/', ' ', $title);
 		$slogan = preg_replace('/[!-\/:-@[-`{-~]+/', '', $slogan);
