@@ -470,9 +470,9 @@ foreach (Locale::getSupportedLocales() as $locale => $language) {
 													<dd>
 														<select name="timezone">
 <?
-foreach (Timezone::getList() as $timezone => $label) {
+foreach (Timezone::getList() as $timezone) {
 ?>
-															<option value="<?=$timezone?>"<?=($timezone == $blog['timezone'] ? ' selected="selected"' : '')?>><?=$label?></option>
+															<option value="<?=$timezone?>"<?=($timezone == $blog['timezone'] ? ' selected="selected"' : '')?>><?=_t($timezone)?></option>
 <?
 }
 ?>

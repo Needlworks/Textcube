@@ -1,5 +1,5 @@
 <?
-/// Copyright © 2004-2006, Tatter & Company. All rights reserved.
+/// Copyright (C) 2004-2006, Tatter & Company. All rights reserved.
 
 function correctUTF8Recursively($value) {
 	if (is_array($value)) {
@@ -521,12 +521,23 @@ class Timezone {
 	/*@static@*/
 	function getList() {
 		return array(
-/* +09:00 */'Asia/Seoul' => _t('Republic Of Korea (Seoul)'),
-/* +09:00 */'Asia/Tokyo' => _t('Japan (Tokyo)'),
-/* +08:00 */'Asia/Shanghai' => _t('China (Shanghai)'),
-/* +08:00 */'Asia/Taipei' => _t('Taiwan (Taipei)'),
-/* -05:00 */'America/New_York' => _t('Eastern Time (US & Canada)'),
-			'GMT' => _t('Greenwich Mean Time'),
+			'Asia/Seoul',
+			'Asia/Tokyo',
+			'Asia/Shanghai',
+			'Asia/Taipei',
+			'Europe/Berlin',
+			'Europe/Paris',
+			'Europe/London',
+			'GMT',
+			'America/New_York',
+			'America/Chicago',
+			'America/Denver',
+			'America/Log_Angeles',
+			'Australia/Sydney',
+			'Australia/Melbourne',
+			'Australia/Adelaide',
+			'Australia/Darwin',
+			'Australia/Perth',
 		);
 	}
 
@@ -541,8 +552,27 @@ class Timezone {
 				return 'CST-8';
 			case 'Asia/Taipei':
 				return 'CST-8';
+			case 'Europe/Berlin':
+			case 'Europe/Paris':
+				return 'UTC-1CES';
+			case 'Europe/London':
+				return 'UTC0BST';
 			case 'America/New_York':
 				return 'EST5EDT';
+			case 'America/Chicago':
+				return 'CST6CDT';
+			case 'America/Denver':
+				return 'MST7MDT';
+			case 'America/Log_Angeles':
+				return 'PST8PDT';
+			case 'Australia/Sydney':
+			case 'Australia/Melbourne':
+				return 'EST-10EDT';
+			case 'Australia/Adelaide':
+			case 'Australia/Darwin':
+				return 'CST-9:30';
+			case 'Australia/Perth':
+				return 'WST-8';
 		}
 		return $timezone;
 	}

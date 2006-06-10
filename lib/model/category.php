@@ -26,6 +26,15 @@ function getCategoryNameById($owner, $id) {
 	return fetchQueryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
 }
 
+function getCategoryBodyIdById($owner, $id) {
+	global $database;
+	if ($id === null)
+		return '';
+	if ($id === 0)
+		return _t('All');
+	return fetchQueryCell("SELECT bodyId FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
+}
+
 function getCategoryLabelById($owner, $id) {
 	global $database;
 	if ($id === null)
@@ -127,9 +136,9 @@ function deleteCategory($owner, $id) {
 	return executeQuery("DELETE FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
 }
 
-function modifyCategory($owner, $id, $name) {
+function modifyCategory($owner, $id, $name, $bodyid) {
 	global $database;
-	if (empty($name))
+	if ((empty($name)) && (empty($bodyid)))
 		return false;
 
 	$sql = "SELECT p.name, p.id FROM {$database['prefix']}Categories c LEFT JOIN {$database['prefix']}Categories p ON c.parent = p.id WHERE c.owner = $owner AND c.id = $id";
@@ -141,15 +150,16 @@ function modifyCategory($owner, $id, $name) {
 	} else
 		$parentStr = 'AND parent is null';
 	
-	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND name='$name' $parentStr";
+	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND name='$name' AND bodyId='$bodyid' $parentStr";
 	
 	if(fetchQueryCell($sql) >0)
 		return false;	
 		
 	$label = mysql_escape_string(empty($label) ? $name : "$label/$name");
 	$name = mysql_escape_string($name);
+	$bodyid = mysql_escape_string($bodyid);
 	
-	$result = mysql_query("UPDATE {$database['prefix']}Categories SET name = '$name', label = '$label' WHERE owner = $owner AND id = $id");
+	$result = mysql_query("UPDATE {$database['prefix']}Categories SET name = '$name', label = '$label', bodyId = '$bodyid'  WHERE owner = $owner AND id = $id");
 	if ($result && (mysql_affected_rows() > 0))
 		clearRSS();
 	updateEntriesOfCategory($owner);

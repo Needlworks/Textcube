@@ -11,6 +11,7 @@ if (!empty($_POST['deleteCategory'])) {
 	$parent = getParentCategoryId($owner, $_POST['deleteCategory']);
 	$selected = (is_null($parent)) ? 0 : $parent;
 	$_POST['modifyCategoryName'] = '';
+	$_POST['modifyCategoryBodyId'] = '';
 	deleteCategory($owner, $_POST['deleteCategory']);
 }
 if (!empty($_POST['direction']))
@@ -29,8 +30,8 @@ else
 	$entries = $_GET['entries'];
 if (!empty($_POST['newCategory'])) {
 	$history = addCategory($owner, ($selected == 0) ? null : $_POST['id'], trim($_POST['newCategory'])) ? 'document.getElementById("newCategory").select();' : '';
-} else if (!empty($_POST['modifyCategoryName']) && ($selected > 0)) {
-	$history = modifyCategory($owner, $_POST['id'], trim($_POST['modifyCategoryName'])) ? 'document.getElementById("modifyCategoryName").select();' : '';
+} else if ((!empty($_POST['modifyCategoryName']) OR !empty($_POST['modifyCategoryBodyId'])) && ($selected > 0)) {
+	$history = modifyCategory($owner, $_POST['id'], trim($_POST['modifyCategoryName']),trim($_POST['modifyCategoryBodyId'])) ? 'document.getElementById("modifyCategoryName").select();' : '';
 	$tempParentId = fetchQueryCell("SELECT `parent` FROM `{$database['prefix']}Categories` WHERE `id` = {$_POST['id']}");
 	if (preg_match('/^[0-9]+$/', $tempParentId, $temp)) {
 		$depth = 2;
@@ -42,6 +43,7 @@ if (!empty($_POST['newCategory'])) {
 }
 $categories = getCategories($owner);
 $name = getCategoryNameById($owner, $selected);
+$bodyid = getCategoryBodyIdById($owner, $selected);
 if ((empty($_POST['search'])) || ($searchColumn === true)) {
 	$searchParam = true;
 } else {
@@ -61,7 +63,6 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 												if(confirm('<?=_t('삭제할까요?')?>')) {
 													var oform=document.forms[0];  
 													oform.deleteCategory.value=<?=$selected?>; 
-													 
 													oform.submit()
 												}
 											}
@@ -84,7 +85,6 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 												oform.id.value=<?=$selected?>;
 												oform.submit()
 											}
-											
 											window.onload = function () {
 												try {
 													<?=$history?>
@@ -92,8 +92,6 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 												} catch(e) {
 													alert(e.message);	
 												}
-												
-												
 											}
 											
 											function validateText(str) {
@@ -137,6 +135,15 @@ if ($depth <= 1) {
 													<dd>
 														<input type="text" id="modifyCategoryName" class="text-input" name="modifyCategoryName" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?=$name?>" />
 														<a class="save-button button" href="#void" onclick="modifyCategory(); return false;"><span class="text"><?=_t('저장하기')?></span></a>
+													</dd>
+													<dd class="clear"></dd>
+												</dl>
+												<dl class="line">
+													<dt><label for="modifyCategoryBodyId"><span class="text"><?=_t('Body Id 변경')?></span></label><span class="divider"> | </span></dt>
+													<dd>
+														<input type="text" id="modifyCategoryBodyId" class="text-input" name="modifyCategoryBodyId" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?=$bodyid?>" />
+														<a class="save-button button" href="#void" onclick="modifyCategory(); return false;"><span class="text"><?=_t('저장하기')?></span></a>
+													<p class="explain"><?=_t('Body id는 블로그의 CSS 활용을 위해 사용합니다.')?></p>
 													</dd>
 													<dd class="clear"></dd>
 												</dl>

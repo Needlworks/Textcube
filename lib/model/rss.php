@@ -70,22 +70,22 @@ function publishRSS($owner, $data) {
 	echo '<?xml version="1.0" encoding="UTF-8"?>', CRLF;
 	echo '<rss version="2.0">', CRLF;
 	echo '	<channel>', CRLF;
-	echo '		<title>', htmlspecialchars($data['channel']['title']), '</title>', CRLF;
+	echo '		<title>', htmlspecialchars($data['channel']['title'], ENT_QUOTES), '</title>', CRLF;
 	echo '		<link>', $data['channel']['link'], '</link>', CRLF;
-	echo '		<description>', htmlspecialchars($data['channel']['description']), '</description>', CRLF;
+	echo '		<description>', htmlspecialchars($data['channel']['description'], ENT_QUOTES), '</description>', CRLF;
 	echo '		<language>', $data['channel']['language'], '</language>', CRLF;
 	echo '		<pubDate>', $data['channel']['pubDate'], '</pubDate>', CRLF;
 	echo '		<generator>', $data['channel']['generator'], '</generator>', CRLF;
 	foreach ($data['channel']['items'] as $item) {
 		echo '		<item>', CRLF;
-		echo '			<title>', htmlspecialchars($item['title']), '</title>', CRLF;
+		echo '			<title>', htmlspecialchars($item['title'], ENT_QUOTES), '</title>', CRLF;
 		echo '			<link>', $item['link'], '</link>', CRLF;
-		echo '			<description>', htmlspecialchars(getEntryContentView($owner, $item['id'], $item['description'], array(), 'Post', true)), '</description>', CRLF;
+		echo '			<description>', htmlspecialchars(getEntryContentView($owner, $item['id'], $item['description'], array(), 'Post', true), ENT_QUOTES), '</description>', CRLF;
 		foreach ($item['categories'] as $category) {
 			if ($category = trim($category))
-				echo '			<category>', htmlspecialchars($category), '</category>', CRLF;
+				echo '			<category>', htmlspecialchars($category, ENT_QUOTES), '</category>', CRLF; 
 		}
-		echo '			<author>', htmlspecialchars($item['author']), '</author>', CRLF;
+		echo '			<author>', htmlspecialchars($item['author'], ENT_QUOTES), '</author>', CRLF;
 		echo '			<guid>', $item['guid'], '</guid>',CRLF;
 		echo '			<comments>', $item['comments'] , '</comments>',CRLF;
 		echo '			<pubDate>', $item['pubDate'], '</pubDate>', CRLF;
