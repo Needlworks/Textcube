@@ -274,12 +274,6 @@ function addComment($owner, & $comment) {
 
 function updateComment($owner, $comment, $password) {
 	global $database, $user;
-	$comment['homepage'] = stripHTML($comment['homepage']);
-
-	$comment['name'] = mysql_lessen($comment['name'], 80);
-	$comment['homepage'] = mysql_lessen($comment['homepage'], 80);
-	$comment['comment'] = mysql_lessen($comment['comment'], 65535);
-
 	if (!doesHaveOwnership()) {
 		requireComponent('Tattertools.Data.Filter');
 		if (Filter::isFiltered('ip', $comment['ip']))
@@ -293,6 +287,12 @@ function updateComment($owner, $comment, $password) {
 		if (!fireEvent('ModifyingComment', true, $comment))
 			return 'blocked';
 	}
+
+	$comment['homepage'] = stripHTML($comment['homepage']);
+	$comment['name'] = mysql_lessen($comment['name'], 80);
+	$comment['homepage'] = mysql_lessen($comment['homepage'], 80);
+	$comment['comment'] = mysql_lessen($comment['comment'], 65535);
+
 	$setPassword = '';
 	if ($user !== null) {
 		$comment['replier'] = $user['id'];
