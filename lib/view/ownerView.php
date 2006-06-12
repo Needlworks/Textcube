@@ -623,7 +623,7 @@ function printEntryFileList($attachments, $entryId) {
 						STD.removeEventListener(window);					
 						window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);					
 					} catch(e) {
-						alert(e.message);
+						
 					}
 				}
 				window.onLoad = function() {
@@ -634,8 +634,7 @@ function printEntryFileList($attachments, $entryId) {
 						entryManager.pageHolder.isHolding = pageHolding ;
 						STD.addEventListener(window);
 						window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);				
-					} catch(e) {
-						alert(e.message);					
+					} catch(e) {				
 					}
 					
 				}
