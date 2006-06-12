@@ -225,7 +225,7 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 	if ($result && (mysql_num_rows($result) > 0)) {
 		return 61;
 	}
-	$result = mysql_query("INSERT INTO `{$database['prefix']}Users` VALUES ('', '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, $owner)");
+	$result = mysql_query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES ('', '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, $owner)");
 	if (!$result || (mysql_affected_rows() == 0)) {
 		return 11;
 	}
@@ -263,7 +263,7 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 		$subject = _f('%1님을 %2님이 초대합니다', $name, $senderName);
 	$message = file_get_contents(ROOT . "/style/letter/letter.html");
 	$message = str_replace('[##_title_##]', _t('초대장'), $message);
-	$message = str_replace('[##_content_##]', $comment, $message);
+	$message = str_replace('[##_content_##]', nl2br($comment), $message);
 	$message = str_replace('[##_images_##]', "$hostURL{$service['path']}/style/letter", $message);
 	$message = str_replace('[##_link_##]', getBlogURL($blogName) . '/login?loginid=' . rawurlencode($email) . '&password=' . rawurlencode($password) . '&requestURI=' . rawurlencode(getBlogURL($blogName) . "/owner/setting/account?password=" . rawurlencode($password)), $message);
 	$message = str_replace('[##_go_blog_##]', getBlogURL($blogName), $message);

@@ -46,7 +46,7 @@ function Trim(sInString) {
 			request.onError = function() {
 				alert("<?=_t('저장하지 못했습니다')?>");
 			}
-			request.send("&email=" + email.value + "&nickname=" + nickname.value);
+			request.send("&email=" + encodeURIComponent(email.value) + "&nickname=" + encodeURIComponent(nickname.value));
 		} catch(e) {
 			
 		}
@@ -85,7 +85,7 @@ function Trim(sInString) {
 		request.onError = function() {
 			alert("<?=_t('변경하지 못했습니다')?>");
 		}
-		request.send("email=&nickname=&prevPwd=" + prevPwd.value + "&pwd=" + pwd.value);
+		request.send("email=&nickname=&prevPwd=" + encodeURIComponent(prevPwd.value) + "&pwd=" + encodeURIComponent(pwd.value));
 	}
 	
 <?
@@ -238,7 +238,7 @@ if ($service['type'] != 'single') {
 			alert('<?=_t('실패 했습니다')?>');
 		}
 		request.send("userid=" + userid);
-	}
+	} 
 <?
 }
 ?>
@@ -348,11 +348,11 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 						<table border="0" cellspacing="0" cellpadding="0" width="550" bgcolor="#BCD2E5">
 							<tr>
 								<td height="30" background="<?=$service['path']?>/image/owner/Invite_top.gif" style="padding:40px 40px 0px 40px; " > <?=_t('받는 사람')?> : 
-									<input type="text" id="invitation_receiver" name="text" style="  background-image:url(<?=$service['path']?>/image/owner/invitationBg.gif); border:0px; width:400px" onclick="if(!this.selected) this.select();this.selected=true;"  onblur="this.selected=false;"  onkeydown="refreshReceiver(event)" value="<?=_t('이름&lt;이메일&gt; 혹은 이메일')?>"/></td>
+									<input type="text" id="invitation_receiver" name="text" style="  background-image:url(<?=$service['path']?>/image/owner/invitationBg.gif); width:300px; "onclick="if(!this.selected) this.select();this.selected=true;"  onblur="this.selected=false;"  onkeydown="refreshReceiver(event)" value="<?=_t('이름&lt;이메일&gt; 혹은 이메일')?>" /></td>
 							</tr>
 							<tr>
 								<td background="<?=$service['path']?>/image/owner/Invite_bg.gif" style="padding:0px 40px 20px 40px;" id="'+email+'"><?=_t('블로그 주소')?> : 
-									<?=$urlRule[0]?><input id="invitation_identify" name="text" type="text" style=" border:hidden; background-image:url(<?=$service['path']?>/image/owner/invitationBg.gif); border:0px; overflow:visible;"/><?=$urlRule[1]?></td>
+									<?=$urlRule[0]?>&nbsp;<input id="invitation_identify" name="text" type="text" style=" background-image:url(<?=$service['path']?>/image/owner/invitationBg.gif); overflow:visible;"/><?=$urlRule[1]?></td>
 							</tr>
 							<tr>
 								<td align="center" background="<?=$service['path']?>/image/owner/Invite_bg.gif"><textarea id="invitation_comment" name="textarea" style="border:0px; line-height:17px; overflow:visible; width:460px; height:300px; background-image:url(<?=$service['path']?>/image/owner/invitationBg.gif)" ><?=_t("블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다.")?></textarea></td>
@@ -360,7 +360,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 
 							<tr>
 								<td align="right" background="<?=$service['path']?>/image/owner/Invite_bg.gif" style="padding: 20px 45px 20px 0px;"><?=_t('보내는 사람')?>  :
-									<input id="invitation_sender" name="text2" type="text" style="background-image:url(<?=$service['path']?>/image/owner/invitationBg.gif);border:0px; overflow:visible; width:200px"  value="<?=htmlspecialchars($user['name'] . '<' . $user['loginid'] . '>')?>"/></td>
+									<input id="invitation_sender" name="text2" type="text" style="background-image:url(<?=$service['path']?>/image/owner/invitationBg.gif); overflow:visible; width:200px"  value="<?=htmlspecialchars($user['name'] . '<' .$user['loginid'] . '>')?>"/></td>
 							</tr>
 							<tr>
 								<td><img src="<?=$service['path']?>/image/owner/Invite_bottom.gif" width="547" height="17" /></td>
