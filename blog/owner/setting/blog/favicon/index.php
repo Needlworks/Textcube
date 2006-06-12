@@ -44,6 +44,10 @@ if (count($_FILES) == 1) {
 		alert('<?=_t('변경하지 못했습니다.')?>');
 <?
 	}
+	
+	requireComponent('Tattertools.Data.Attachment');
+	Attachment::confirmFolder();
+	
 	if (move_uploaded_file($_FILES['favicon']['tmp_name'], ROOT . "/attach/$owner/favicon.ico")) {
 		@chmod(ROOT . "/attach/$owner/favicon.ico", 0666);
 ?>
