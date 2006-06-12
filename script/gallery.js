@@ -137,5 +137,9 @@ TTGallery.prototype.showImagePopup2 = function()
 
 TTGallery.prototype.showImagePopup = function(offset)
 {
-	open_img(this.src[this.offset]);
+	try {
+		open_img(this.src[this.offset]);
+	} catch(e) {
+		window.open(this.src[this.offset]);
+	}	
 };
