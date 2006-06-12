@@ -131,7 +131,7 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
             </tr>
             <tr>
               <td height="24" style="text-align:right; color:#2A64A3; font-size:12px; padding: 2px"><?=_t('주소입력')?> : </td>
-              <td style=" font-size:12px; padding: 2px"><input type="text" id="url" style="border: 1px solid #9DCAFB; height:18px; width:360px;"/></td>
+              <td style=" font-size:12px; padding: 2px"><input type="text" id="url" style="border: 1px solid #9DCAFB; height:18px; width:360px;" onkeydown="if (event.keyCode == 13) sendTrackback(<?=$suri['id']?>); return false;" /></td>
               <td style=" font-size:12px; padding: 2px"><input type="button" value="submit" style="border: 1px solid #6297D1; background-color:#83AFE0; color:#fff; width:50px; height:20px; font-size:10px; font-family:tahoma; font-weight:bold;" onclick="sendTrackback(<?=$suri['id']?>)"/></td>
             </tr>
           </table>
