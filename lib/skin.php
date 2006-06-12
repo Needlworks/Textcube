@@ -55,7 +55,12 @@ class Skin {
 		$filename = ROOT . "/skin/$name/skin.html";
 		if (!$sval = file_get_contents($filename))
 			respondErrorPage('Skin');
+
+		$sval = replaceSkinTag($sval, 'html');
+		$sval = replaceSkinTag($sval, 'head');
+		$sval = replaceSkinTag($sval, 'body');
 		handleTags($sval);
+
 		$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
 		list($sval, $this->listItem) = cutSkinTag($sval, 'list_rep');
 		list($sval, $this->list) = cutSkinTag($sval, 'list');
@@ -145,5 +150,15 @@ function removeAllTags($contents) {
 		$contents = substr($contents, 0, $begin) . substr($contents, $end + 4);
 	}
 	return $contents;
+}
+
+function replaceSkinTag($contents, $tag) {
+	$pattern[] = '/(<'.$tag.'.*>)'.CRLF.'/Ui';
+	$pattern[] = '/<\/'.$tag.'>/Ui';
+
+	$replacement[] = '$1'.CRLF.'[##_SKIN_'.$tag.'_start_##]';
+	$replacement[] = '[##_SKIN_'.$tag.'_end_##]$0';
+
+	return preg_replace($pattern, $replacement, $contents);
 }
 ?>
