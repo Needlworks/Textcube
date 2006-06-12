@@ -620,7 +620,6 @@ function printEntryFileList($attachments, $entryId) {
 																	STD.addEventListener(window);
 																	window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);				
 																} catch(e) {
-																	alert(e.message);					
 																}
 																
 															}

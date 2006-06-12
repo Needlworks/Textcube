@@ -45,6 +45,7 @@ require ROOT . '/lib/piece/owner/contentMenu51.php';
 															alert("<?=_t('저장하지 못했습니다.')?>");
 														}
 														request.send("&email=" + email.value + "&nickname=" + nickname.value);
+														request.send("&email=" + encodeURIComponent(email.value) + "&nickname=" + encodeURIComponent(nickname.value));
 													} catch(e) {
 
 													}
@@ -82,7 +83,7 @@ require ROOT . '/lib/piece/owner/contentMenu51.php';
 													request.onError = function() {
 														alert("<?=_t('변경하지 못했습니다.')?>");
 													}
-													request.send("email=&nickname=&prevPwd=" + prevPwd.value + "&pwd=" + pwd.value);
+													request.send("email=&nickname=&prevPwd=" + encodeURIComponent(prevPwd.value) + "&pwd=" + encodeURIComponent(pwd.value));
 												}
 
 <?

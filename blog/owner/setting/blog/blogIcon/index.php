@@ -44,6 +44,10 @@ if (count($_FILES) == 1) {
 		alert('<?=_t('실패 했습니다.')?>');
 <?
 	}
+
+	requireComponent('Tattertools.Data.Attachment');
+        Attachment::confirmFolder();
+
 	if (move_uploaded_file($_FILES['blogIcon']['tmp_name'], ROOT . "/attach/$owner/index.gif")) {
 		@chmod(ROOT . "/attach/$owner/index.gif", 0666);
 ?>
