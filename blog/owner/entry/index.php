@@ -168,10 +168,10 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 				for (var i = 0; i < document.forms[0].elements.length; i++) {
 					var oElement = document.forms[0].elements[i];
 					if ((oElement.name == "entry") && oElement.checked) {
-						targets += oElement.value +'~*_)';
+						targets += oElement.value +',';
 					}					
 				}
-				targets = targets.substr(0,targets.length-4);
+				targets = targets.substr(0,targets.length-1);
 				
 				if (targets == '') {
 					return false;

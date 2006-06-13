@@ -467,24 +467,29 @@ function deleteEntry($owner, $id) {
 
 function changeCategoryOfEntries($owner, $entries, $category) {
 	global $database;	
-	$targets = explode('~*_)', $entries);	
-	if (count($targets) >! 0) 
+
+	$targets = explode(',', $entries);	
+	if (empty($entries)) 
 		return false;
-	$sql = "UPDATE  {$database['prefix']}Entries SET category = $category WHERE owner = $owner AND ";		
-	for ($i = 0; $i < count($targets); $i++) {
-		if ($targets[$i] == '')
-			continue;
+	$sql = "UPDATE  {$database['prefix']}Entries SET category = $category WHERE owner = $owner AND ";
+	for ($i = 0; $i < count($targets); $i++) {		
+		if (empty($targets[$i]) || !is_numeric($targets[$i])) {
+			array_splice($targets, count($targets));
+			continue;			
+		}
 		$sql .=" id={$targets[$i]}";
-		if ($i < count($targets)-1) 
+		if ($i<count($targets)-1)  {			
 			$sql .=" OR ";
+		}
 	}
+	$sql = rtrim($sql,' OR ');
 	executeQuery($sql);
 	if(mysql_affected_rows() == 0)
 		return false;	
-		if(updateEntriesOfCategory($owner)) {
-			clearRSS();
-			return true;	
-		};
+	if(updateEntriesOfCategory($owner)) {
+		clearRSS();
+		return true;	
+	};
 	return false;
 }
 
