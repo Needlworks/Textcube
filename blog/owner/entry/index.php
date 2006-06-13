@@ -116,6 +116,9 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 											}
 											request.send();
 										}
+										function deleteSelected() {
+										
+										}
 										
 										function protectEntry(id) {
 											var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/protect/" + id);
@@ -137,7 +140,18 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 										function processBatch(obj) {	
 											mode = obj.value;
 											var entries = '';
-		
+											var isSelected = false;
+											for (var i = 0; i < document.forms[0].elements.length; i++) {
+												var oElement = document.forms[0].elements[i];
+												if ((oElement.name == "entry") && oElement.checked) {
+													isSelected = true;
+													break;
+												}
+											}
+											if (!isSelected) {
+												alert("<?=_t('적용할 글을 선택해 주세요\t')?>")
+												return false;
+											}
 											switch (mode) {
 												case 'classify':
 													for (var i = 0; i < document.forms[0].elements.length; i++) {
@@ -178,9 +192,11 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 													for (var i = 0; i < document.forms[0].elements.length; i++) {
 														var oElement = document.forms[0].elements[i];
 														if ((oElement.name == "entry") && oElement.checked) {
-															targets += oElement.value +'~*_)';
+															targets += oElement.value +',';
 														}
 													}
+													targets = targets.substr(0,targets.length-1);
+
 													if (targets == '') {
 														return false;
 													}
@@ -199,6 +215,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 													break;				
 				
 											}
+											obj.selectedIndex = 0
 										}
 										
 										function removeTrackbackLog(id,entry) {
@@ -522,14 +539,13 @@ for ($i=0; $i<sizeof($entries); $i++) {
 									<div class="data-subbox">
 										<div id="change-section" class="section">
 											<span class="label"><span class="text"><?=_t('선택한 글을')?></span></span>
-											 <select onchange="processBatch(this); this.selectedIndex=0"> 
-												<option>--------------------------------------------------</option>
-												<option value="delete">&nbsp;● <?=_t('삭제합니다')?></option>
+											<select id="commandBox">
+											<option></option>
 <?
 	$categories = getCategories($owner);
 	if (count($categories) >0) {
 ?>				 
-												<option>&nbsp;● <?=_t('아래의 카테고리로 변경합니다 ')?></option>
+												<option>&nbsp; <?=_t('아래의 카테고리로 변경합니다 ')?></option>
 <?
 		foreach ($categories as $category) {
 ?>
@@ -543,9 +559,10 @@ for ($i=0; $i<sizeof($entries); $i++) {
 		}
 	}
 ?>
-												<option value="classify">&nbsp;● <?=_t('비공개로 변경합니다')?></option>
-												<option value="publish">&nbsp;● <?=_t('공개로 변경합니다')?></option>
-											</select>
+												<option></option>
+												<option value="classify">&nbsp; <?=_t('비공개로 변경합니다')?></option>
+												<option value="publish">&nbsp; <?=_t('공개로 변경합니다')?></option>
+											</select>&nbsp;<input type="button" onclick="processBatch(document.getElementById('commandBox'));" value=" <?=_t('적용')?> " />&nbsp;&nbsp;&nbsp;<input type="button" onclick="obj = new Object(); obj.value = 'delete';  processBatch(obj);" value=" <?=_t('삭제')?> " />
 											<div class="clear"></div>
 										</div>
 										

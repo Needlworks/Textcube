@@ -223,9 +223,15 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 		return 4;
 	if (empty($name))
 		$name = $identify;
-	$loginid = mysql_escape_string($email);
+
+	$loginid = mysql_real_escape_string($email);	
+	$name = mysql_real_escape_string($name);
+	$identify = mysql_real_escape_string($identify);
+	$comment = $comment;
+	$senderName = $senderName;
+	$senderEmail = $senderEmail;
 	$password = generatePassword();
-	$name = mysql_escape_string($name);
+
 	$blogName = $identify;
 	$result = mysql_query("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'");
 	if ($result && (mysql_num_rows($result) > 0)) {
