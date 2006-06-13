@@ -127,7 +127,19 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 	function processBatch(obj) {	
 		mode = obj.value;
 		var entries = '';
+		var isSelected = false;
+		for (var i = 0; i < document.forms[0].elements.length; i++) {
+			var oElement = document.forms[0].elements[i];
+			if ((oElement.name == "entry") && oElement.checked) {
+				isSelected = true;
+				break;
+			}
+		}
 		
+		if (!isSelected) {
+			alert("<?=_t('적용할 글을 선택해 주세요\t')?>")
+			return false;
+		}
 		switch (mode) {
 			case 'classify':
 				for (var i = 0; i < document.forms[0].elements.length; i++) {
@@ -267,6 +279,8 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 			}
 		}
 	}
+	
+	
 //]]>
 </script> 
             <input type="hidden" name="withSearch" value="" />
@@ -302,7 +316,7 @@ foreach ($entries as $entry) {
 ?>
               <tr style="height:22px" onmouseover="this.style.backgroundColor='#EEEEEE'" onmouseout="this.style.backgroundColor='white'">
                 <td>
-				  <input type="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked = false" />
+				  <input type="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked = false"  />
                 </td>
                 <td style="padding:0px 7px 0px 7px; font-size:12px"><span class="rowDate"><?=Timestamp::formatDate($entry['published'])?></span></td>
                 <td align="center" class="row"><img id="entry<?=$entry['id']?>privateOn" style="display:<?=($entry['visibility'] <= 0 ? 'inline' : 'none')?>" src="<?=$service['path']?>/image/owner/privateOn.gif" alt="<?=_t('현재 비공개 상태입니다')?>" /><img id="entry<?=$entry['id']?>privateOff" style="cursor:pointer; display:<?=($entry['visibility'] <= 0 ? 'none' : 'inline')?>" src="<?=$service['path']?>/image/owner/privateOff.gif" alt="<?=_t('현재 상태를 비공개로 전환합니다')?>" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" /> <img id="entry<?=$entry['id']?>protectedOn" style="display:<?=($entry['visibility'] == 1 ? 'inline' : 'none')?>" src="<?=$service['path']?>/image/owner/protectedOn.gif" alt="<?=_t('현재 보호 상태입니다')?>" /><img id="entry<?=$entry['id']?>protectedOff" style="cursor:pointer; display:<?=($entry['visibility'] == 1 ? 'none' : 'inline')?>" src="<?=$service['path']?>/image/owner/protectedOff.gif" alt="<?=_t('현재 상태를 보호로 전환합니다')?>" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" /> <img id="entry<?=$entry['id']?>publicOn" style="display:<?=($entry['visibility'] >= 2 ? 'inline' : 'none')?>" src="<?=$service['path']?>/image/owner/publicOn.gif" alt="<?=_t('현재 공개 상태입니다')?>" /><img id="entry<?=$entry['id']?>publicOff" style="cursor:pointer; display:<?=($entry['visibility'] >= 2 ? 'none' : 'inline')?>" src="<?=$service['path']?>/image/owner/publicOff.gif" alt="<?=_t('현재 상태를 공개로 전환합니다')?>" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" /></td>
