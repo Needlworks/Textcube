@@ -489,7 +489,7 @@ function changeCategoryOfEntries($owner, $entries, $category) {
 	if(updateEntriesOfCategory($owner)) {
 		clearRSS();
 		return true;	
-	};
+	}
 	return false;
 }
 
