@@ -105,6 +105,10 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 		}
 		request.send();
 	}
+	function deleteSelected() {
+		
+	}
+	
 	function protectEntry(id) {
 		var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/protect/" + id);
 		request.onSuccess = function () {
@@ -185,6 +189,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 				break;				
 				
 		}
+		obj.selectedIndex = 0
 	}
 
 	function removeTrackbackLog(id,entry) {
@@ -391,14 +396,13 @@ foreach ($entries as $entry) {
                           <tr>
                             <td style="padding:0px 7px 0px 7px; font-size:12px"><?=_t('선택한 글을')?></td>
                             <td>
-                              <select onchange="processBatch(this); this.selectedIndex=0">                                
-				<option>--------------------------------------------------</option>
-				 <option value="delete">&nbsp;● <?=_t('삭제합니다')?></option>
+                              <select  id="commandBox">                                
+				<option></option>
 <?
 	$categories = getCategories($owner);
 	if (count($categories) >0) {
 ?>				 
-                                <option>&nbsp;● <?=_t('아래의 카테고리로 변경합니다 ')?></option>
+                                <option style="color:#999999">&nbsp; <?=_t('아래의 카테고리로 변경합니다 ')?></option>
 <?
 		foreach ($categories as $category) {
 ?>
@@ -412,9 +416,10 @@ foreach ($entries as $entry) {
 		}
 	}
 ?>
+				<option></option>
                                 <option value="classify">&nbsp;● <?=_t('비공개로 변경합니다')?></option>
 				<option value="publish">&nbsp;● <?=_t('공개로 변경합니다')?></option>
-                              </select>
+                              </select>&nbsp;<input type="button" onclick="processBatch(document.getElementById('commandBox'));" value=" <?=_t('적용')?> " />&nbsp;&nbsp;&nbsp;<input type="button" onclick="obj = new Object(); obj.value = 'delete';  processBatch(obj);" value=" <?=_t('삭제')?> " />
                             </td>
                           </tr>
                         </table>
