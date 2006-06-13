@@ -532,7 +532,7 @@ class Timezone {
 			'America/New_York',
 			'America/Chicago',
 			'America/Denver',
-			'America/Log_Angeles',
+			'America/Los_Angeles',
 			'Australia/Sydney',
 			'Australia/Melbourne',
 			'Australia/Adelaide',
@@ -563,7 +563,7 @@ class Timezone {
 				return 'CST6CDT';
 			case 'America/Denver':
 				return 'MST7MDT';
-			case 'America/Log_Angeles':
+			case 'America/Los_Angeles':
 				return 'PST8PDT';
 			case 'Australia/Sydney':
 			case 'Australia/Melbourne':
