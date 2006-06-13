@@ -2,7 +2,7 @@
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForOwner.php';
 $entryId = $suri['id'];
-$attachments = getAttachments($owner, $entryId);
+$attachments = getAttachments($owner, $entryId, 'label');
 $initialFileListForFlash = '';
 $enclosureFileName = '';
 ?>
