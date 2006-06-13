@@ -39,24 +39,25 @@ function trace(msg,mode) {
 }
 <?
 if (count($_FILES) == 1) {
-	if (strpos($_FILES['favicon']['name'], '.ico') === false) {
+	if (Path::getExtension($_FILES['favicon']['name']) != '.ico') {
 ?>	
 		alert('<?=_t('변경하지 못했습니다.')?>');
 <?
-	}
-	
-	requireComponent('Tattertools.Data.Attachment');
-	Attachment::confirmFolder();
-	
-	if (move_uploaded_file($_FILES['favicon']['tmp_name'], ROOT . "/attach/$owner/favicon.ico")) {
-		@chmod(ROOT . "/attach/$owner/favicon.ico", 0666);
-?>
-	var favicon = window.parent.document.getElementById('favicon');
-	if (favicon)
-		favicon.src = "<?="$blogURL/favicon.ico"?>?"+(Math.random()*10000);
-	
-<?
 	} else {
+	
+		requireComponent('Tattertools.Data.Attachment');
+		Attachment::confirmFolder();
+		
+		if (move_uploaded_file($_FILES['favicon']['tmp_name'], ROOT . "/attach/$owner/favicon.ico")) {
+			@chmod(ROOT . "/attach/$owner/favicon.ico", 0666);
+?>
+		var favicon = window.parent.document.getElementById('favicon');
+		if (favicon)
+			favicon.src = "<?="$blogURL/favicon.ico"?>?"+(Math.random()*10000);
+		
+<?
+		} else {
+		}
 	}
 }
 ?>

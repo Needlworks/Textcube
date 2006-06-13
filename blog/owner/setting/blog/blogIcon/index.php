@@ -39,22 +39,24 @@ function trace(msg,mode) {
 }
 <?
 if (count($_FILES) == 1) {
-	if (strpos($_FILES['blogIcon']['name'], '.gif') === false && strpos($_FILES['blogIcon']['name'], '.jpg') === false) {
+	$fileExt = Path::getExtension($_FILES['blogIcon']['name']);
+	if (($fileExt != '.gif') && ($fileExt != '.jpg')) {
 ?>	
 		alert('<?=_t('실패 했습니다')?>');
 <?
-	}
+	} else {
 
-	requireComponent('Tattertools.Data.Attachment');
-	Attachment::confirmFolder();
-	
-	if (move_uploaded_file($_FILES['blogIcon']['tmp_name'], ROOT . "/attach/$owner/index.gif")) {
-		@chmod(ROOT . "/attach/$owner/index.gif", 0666);
+		requireComponent('Tattertools.Data.Attachment');
+		Attachment::confirmFolder();
+		
+		if (move_uploaded_file($_FILES['blogIcon']['tmp_name'], ROOT . "/attach/$owner/index.gif")) {
+			@chmod(ROOT . "/attach/$owner/index.gif", 0666);
 ?>
-	window.parent.document.getElementById('blogIcon').src = "<?=$blogURL?>/index.gif?"+(Math.random()*10000);
+		window.parent.document.getElementById('blogIcon').src = "<?=$blogURL?>/index.gif?"+(Math.random()*10000);
 	
 <?
-	} else {
+		} else {
+		}
 	}
 }
 ?>
