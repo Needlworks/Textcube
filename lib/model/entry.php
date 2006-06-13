@@ -469,9 +469,10 @@ function changeCategoryOfEntries($owner, $entries, $category) {
 	global $database;
 	
 	$targets = explode('~*_)', $entries);
-	if ($targets < 1)
+
+	if (count($targets) < 1)
 		return false;
-		
+
 	$sql = "UPDATE  {$database['prefix']}Entries SET category = $category WHERE owner = $owner AND ";	
 	for ($i = 0; $i < count($targets); $i++) {
 		if ($targets[$i] == '')
@@ -480,7 +481,9 @@ function changeCategoryOfEntries($owner, $entries, $category) {
 		if ($i < count($targets)-2) 
 			$sql .=" OR ";
 	}
-	return executeQuery($sql);
+	
+	executeQuery($sql);	
+	return (mysql_affected_rows() > 0 ? true : false);
 }
 
 function setEntryVisibility($id, $visibility) {
