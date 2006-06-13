@@ -169,8 +169,10 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 					var oElement = document.forms[0].elements[i];
 					if ((oElement.name == "entry") && oElement.checked) {
 						targets += oElement.value +'~*_)';
-					}
+					}					
 				}
+				targets = targets.substr(0,targets.length-4);
+				
 				if (targets == '') {
 					return false;
 				}

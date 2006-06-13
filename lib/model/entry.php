@@ -466,24 +466,26 @@ function deleteEntry($owner, $id) {
 }
 
 function changeCategoryOfEntries($owner, $entries, $category) {
-	global $database;
-	
-	$targets = explode('~*_)', $entries);
-
-	if (count($targets) < 1)
+	global $database;	
+	$targets = explode('~*_)', $entries);	
+	if (count($targets) >! 0) 
 		return false;
-
-	$sql = "UPDATE  {$database['prefix']}Entries SET category = $category WHERE owner = $owner AND ";	
+	$sql = "UPDATE  {$database['prefix']}Entries SET category = $category WHERE owner = $owner AND ";		
 	for ($i = 0; $i < count($targets); $i++) {
 		if ($targets[$i] == '')
 			continue;
 		$sql .=" id={$targets[$i]}";
-		if ($i < count($targets)-2) 
+		if ($i < count($targets)-1) 
 			$sql .=" OR ";
 	}
-	
-	executeQuery($sql);	
-	return (mysql_affected_rows() > 0 ? true : false);
+	executeQuery($sql);
+	if(mysql_affected_rows() == 0)
+		return false;	
+		if(updateEntriesOfCategory($owner)) {
+			clearRSS();
+			return true;	
+		};
+	return false;
 }
 
 function setEntryVisibility($id, $visibility) {
