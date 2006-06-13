@@ -469,7 +469,10 @@ function changeCategoryOfEntries($owner, $entries, $category) {
 	global $database;
 	
 	$targets = explode('~*_)', $entries);
-	$sql = "UPDATE  {$database['prefix']}Entries SET category = $category WHERE owner = $owner AND ";
+	if ($targets < 1)
+		return false;
+		
+	$sql = "UPDATE  {$database['prefix']}Entries SET category = $category WHERE owner = $owner AND ";	
 	for ($i = 0; $i < count($targets); $i++) {
 		if ($targets[$i] == '')
 			continue;
