@@ -241,10 +241,11 @@ function addComment($owner, & $comment) {
 		$homepage = mysql_escape_string($comment['homepage']);
 	}
 	$comment0 = mysql_escape_string($comment['comment']);
-	$result = mysql_query("INSERT INTO {$database['prefix']}Comments VALUES (
+	$result = mysql_query("INSERT INTO {$database['prefix']}Comments
+		(owner, replier, entry, parent, name, password, homepage, secret, comment, ip, written)
+		VALUES (
 			$owner,
 			{$comment['replier']},
-			'',
 			{$comment['entry']},
 			$parent,
 			'$name',
