@@ -593,6 +593,7 @@ $__text['http://www.tattertools.com/doc/9'] = 'http://www.tattertools.com/ko/man
 //$__text['저장하기'] = '';
 //$__text['저장하지 못했습니다'] = '';
 //$__text['적용'] = '';
+//$__text['적용할 글을 선택해 주세요\t'] = '';
 //$__text['전'] = '';
 //$__text['전송'] = '';
 //$__text['전송로그'] = '';
