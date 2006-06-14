@@ -25,6 +25,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 		}
 	}
 	function correctData() {
+		var dataCorrector = document.getElementById("dataCorrector");
 		document.getElementById("correctingIndicator").style.width = "0%";
 		PM.showPanel("correctingDataDialog");
 		dataCorrector.submit();
