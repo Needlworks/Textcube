@@ -1130,8 +1130,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 				if ($tempInfo = getimagesize(ROOT."/attach/$owner/$filename")) {
 					list($originWidth, $originHeight, $type, $attr) = $tempInfo;
 				} else {
-					// 에러?
-					return '<span clas="message">에러가 발생한 이미지입니다.</span>';
+					return '<span class="message">에러가 발생한 이미지입니다.</span>';
 				}
 				
 				if (empty($property)) {
@@ -1144,16 +1143,17 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					}
 				} else {
 					$property = str_replace('&quot;','',$property);
-					if (preg_match('/width=([0-9]+%?)/g', $property, $temp1) && !preg_match('/height=([0-9]+%?)/g', $property, $temp2)) {
+					$property = str_replace('"','',$property);
+					if (preg_match('/width=(\d{1,4})/', $property, $temp1) && !preg_match('/height=(\d{1,4})/', $property, $temp2)) {
+						$originHeight = ceil($originHeight * $temp1[1] / $originWidth);
 						$originWidth = $temp1[1];
-					} else if (!preg_match('/width=([0-9]+%?)/g', $property, $temp1) && preg_match('/height=([0-9]+%?)/g', $property, $temp2)) {
+					} else if (!preg_match('/width=(\d{1,4})/', $property, $temp1) && preg_match('/height=(\d{1,4})/', $property, $temp2)) {
 						$originWidth = ceil($originWidth * $temp2[1] / $originHeight);
 						$originHeight = $temp2[1];					
-					} else if (preg_match('/width=([0-9]+%?)/g', $property, $temp1) && preg_match('/height=([0-9]+%?)/g', $property, $temp2)) {
+					} else if (preg_match('/width=(\d{1,4})/', $property, $temp1) && preg_match('/height=(\d{1,4})/', $property, $temp2)) {
 						$originWidth = $temp1[1];
 						$originHeight = $temp2[1];
-					}
-					
+					}	
 					if ($originWidth > $contentWidth) {
 						$tempWidth = $contentWidth;
 						$tempHeight = ceil($originHeight * $contentWidth / $originWidth);
