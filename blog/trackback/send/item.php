@@ -7,7 +7,7 @@ $entry = getEntry($owner, $suri['id']);
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<title><?=_t('트랙백 전송')?></title>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<?=$service['path']?>/style/owner.css" />
 	<script type="text/javascript">
 		//<![CDATA[
@@ -56,19 +56,23 @@ $entry = getEntry($owner, $suri['id']);
 						var str ='';
 					} else {
 						var str = '<table width="100%" cellpadding="5" cellspacing="0">\n';
-						str += '	<tr class="tr-head">\n';
-						str += '		<td class="log"><span class="text"><? echo _t('전송로그')?></span></td>\n';
-						str += '		<td class="date"><span class="text"><? echo _t('날짜')?></span></td>\n';
-						str += '		<td class="delete"><span class="text"><? echo _t('삭제')?></span></td>\n';
-						str += '	</tr>\n';
+						str += '	<thead>\n';
+						str += '		<tr>\n';
+						str += '			<td class="log"><span class="text"><? echo _t('전송로그')?></span></td>\n';
+						str += '			<td class="date"><span class="text"><? echo _t('날짜')?></span></td>\n';
+						str += '			<td class="delete"><span class="text"><? echo _t('삭제')?></span></td>\n';
+						str += '		</tr>\n';
+						str += '	</thead>\n';
 						
 						for (var i=0; i<resultRow.length-1 ; i++) {
 							field = resultRow[i].split(',');
-							str += '	<tr id="trackbackLog_'+field[0]+'" class="tr-body">\n';
-							str += '		<td class="log">'+field[1]+'</td>\n'
-							str += '		<td class="date">'+field[2]+'</td>\n'
-							str += '		<td class="delete"><a class="delete-button button" href="#void" onclick="removeTrackbackLog('+field[0]+','+id+');"><span class="text"><?=_t('삭제')?></span></a></td>\n'
-							str += '	</tr>\n';
+							str += '	<tbody>\n';
+							str += '		<tr id="trackbackLog_'+field[0]+'">\n';
+							str += '			<td class="log">'+field[1]+'</td>\n'
+							str += '			<td class="date">'+field[2]+'</td>\n'
+							str += '			<td class="delete"><a class="delete-button button" href="#void" onclick="removeTrackbackLog('+field[0]+','+id+');"><span class="text"><?=_t('삭제')?></span></a></td>\n'
+							str += '		</tr>\n';
+							str += '	</tbody>\n';
 						}			
 						str += '</table>\n';
 					}
@@ -114,7 +118,6 @@ $entry = getEntry($owner, $suri['id']);
 	      		<dl class="title-line">
 	      			<dt><span class="text"><?=_t('제목')?></span><span class="divider"> | </span></dt>
 	      			<dd><?=htmlspecialchars($entry['title'])?></dd>
-	      			<dd class="clear"></dd>
 	      		</dl>
 				<dl class="input-line">
 					<dt><label for="url"><?=_t('주소입력')?></label><span class="divider"> | </span></dt>
@@ -122,7 +125,6 @@ $entry = getEntry($owner, $suri['id']);
 						<input type="text" id="url" class="text-input" name="url" onkeydown="if (event.keyCode == 13) { sendTrackback(<?=$suri['id']?>); return false;}" />
 						<input type="button" class="button-input" name="Submit" value="<?=_t('전송')?>" onclick="sendTrackback(<?=$suri['id']?>)" />				
 					</dd>
-					<dd class="clear"></dd>
 				</dl>
 				
 				<div id="logs_<?=$suri['id']?>"></div>

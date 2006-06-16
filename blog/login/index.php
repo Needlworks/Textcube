@@ -39,7 +39,7 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Tattertools - Login</title>
+	<title><?php echo _t('Tattertools - Login')?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/login.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.opera.css" />
@@ -53,51 +53,44 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 			<form method="post" action="">
 				<input type="hidden" name="requestURI" value="<?=htmlspecialchars($_POST['requestURI'])?>" />
 				
-				<div id="login-outbox">
-					<div id="login-inbox">
+				<div id="data-outbox">
+					<div id="login-box">
 						<div id="logo-box">
-							<img src="<?=$service['path']?>/image/controlPanelLogo.gif" alt="<?php echo _t('태터툴즈 로고')?>" />
+							<img src="<?=$service['path']?>/image/logo_tattertools.gif" alt="<?php echo _t('태터툴즈 로고')?>" />
 			            </div>
 			            
 			            <div id="field-box">
 			            	<dl id="email-line">
-			            		<dt><label for="loginid"><span class="text"><?=_t('이메일')?></span></label><span class="divider"> | </span></dt>
+			            		<dt><label for="loginid"><span class="text"><?=_t('이메일')?></span></label></dt>
 			            		<dd><input type="text" class="text-input" id="loginid" name="loginid" value="<?=htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid'])?>" maxlength="64" tabindex="1" /></dd>
-			            		<dd class="clear"></dd>
 			            	</dl>
 			            	<dl id="password-line">
-			            		<dt><label for="password"><span class="text"><?=_t('비밀번호')?></span></label><span class="divider"> | </span></dt>
+			            		<dt><label for="password"><span class="text"><?=_t('비밀번호')?></span></label></dt>
 								<dd><input type="password" class="text-input" id="password" name="password" onkeydown="if (event.keyCode == 13) document.forms[0].submit()" maxlength="64" tabindex="2" /></dd>
-								<dd class="clear"></dd>
 							</dl>
 							<dl id="checkbox-line">
+								<dt><span class="label"><span class="text"><?=_t('선택사항')?></span></span></dt>
 								<dd>
 									<div id="email-save"><input type="checkbox" id="save" class="checkbox" name="save"<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"')?> /> <label for="save"><span class="text"><?=_t('이메일 저장')?></span></label></div>
-									<?=($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /> <label for="reset">' . _t('암호 초기화') . '</label></div>' : '')?>
+									<?=($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /> <label for="reset"><span class="text">' . _t('암호 초기화') . '</span></label></div>' : '')?>
+
 								</dd>
-								<dd class="clear"></dd>
 							</dl>
-							
-							<div class="clear"></div>
 							
 							<div class="button-box">
 								<a class="login-button button" href="#void" onclick="document.forms[0].submit()"><span class="text"><?=_t('로그인')?></span></a>
 							</div>
 						</div>
-							
+						
 <?
 if (!empty($message)) {
 ?>
-						<div class="clear"></div>
-						
-						<div id="messege-box">
-							<?=$message?>
+						<div id="message-box">
+							<?=$message.CRLF?>
 						</div>
 <?
 }
 ?>
-						
-						<div class="clear"></div>
 					</div>
 				</div>
 			</form>

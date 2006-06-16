@@ -4,75 +4,125 @@
 
 a
 {
-	cursor                           : pointer;
+	cursor                           : pointer !important;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6
-{
-	display                          : none;
-	font-size                        : 1em;
-}
-
-input
-{
-	font-family                      : ±¼¸², Gulim, Arial, Tahoma, Verdana, sans-serif;
-	font-size                        : 1em;
-}
-
+code,
+kbd,
+pre,
 samp
 {
-	font-family                      : ±¼¸², Gulim, Arial, Tahoma, Verdana, sans-serif;
-}
-
-select
-{
 	font-size                        : 1em;
-}
-
-textarea
-{
-	font-size                        : 1em;
-}
-
-/* Layout ****************************************************************************************/
-
-#all-wrap
-{
-	font-size                        : 90%;
-}
-
-/* Sub Menu **************************************************************************************/
-
-#sub-menu li,
-#sub-menu li a,
-#sub-menu li a span
-{
-	height                           : 19px;
-}
-
-#sub-menu li a
-{
-	cursor                           : pointer;
 }
 
 /* Special Class *********************************************************************************/
 
-/* etc */
-.checkbox,
-.radio
+input.text-input,
+input.text-readonly-input
 {
-	margin                           : -3px -5px -2px 0;
+	margin                           : -1px 0;
+	padding                          : 3px !important;
 }
 
-dl dd.clear
+.checkbox
 {
-	float                            : none !important;
-	height                           : 1px;
-	font-size                        : 1px;
-	overflow                         : hidden;
+	margin                           : -4px -3px -2px 0;
+	vertical-align                   : baseline;
+}
+
+.radio
+{
+	margin                           : -4px -5px -2px 0;
+	vertical-align                   : baseline;
+}
+
+/* Data Box **************************************************************************************/
+
+/* data subbox ----------------------------------------------------------------------------------*/
+/* multi-selection deleter in sub-box */
+#change-section 
+{
+	height                           : 18px !important;
+	top                              : -2px !important;
+	padding                          : 0 0 0 3px !important;
+	position                         : relative;
+}
+
+#change-section label
+{
+	float                            : left !important;
+	padding-top                      : 6px;
+	position                         : relative;
+	z-index                          : 100;
+}
+
+#change-section select
+{
+	float                            : left !important;
+	margin-top                       : 2px !important;
+	vertical-align                   : middle;
+}
+
+#change-section .button
+{
+	float                            : left !important;
+	position : relative;
+	z-index : 100;
+}
+
+#delete-section
+{
+	position                         : relative;
+	top                              : -1px !important;
+	z-index : 100;
+}
+
+#delete-section .label
+{
+	padding-top                      : 6px !important;
+}
+
+
+/* lines per page */
+#page-section .page-count
+{
+	top                              : 45px !important;
+	right                            : 51px !important;
+}
+
+#page-section .page-count select
+{
+	margin-bottom                    : 6px;
+	vertical-align                   : middle;
+}
+
+/* page navigation */
+#page-navigation
+{
+	margin-top                       : 6px !important;
+}
+
+/* search */
+#search-section
+{
+	right                            : 47px !important;
+	top                              : 6px !important;
+	width                            : 175px !important;
+}
+
+#search-section .search-button
+{
+	float                            : left;
+	width                            : 70px !important;
+}
+
+#search-section .search-button span
+{
+	width                            : 66px !important;
+}
+
+/* button ---------------------------------------------------------------------------------------*/
+#data-outbox .button span 
+{
+	padding                          : 6px 4px 4px 0;
 }

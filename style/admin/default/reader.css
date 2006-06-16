@@ -3,11 +3,6 @@
 /* Reader ****************************************************************************************/
 
 /* common ---------------------------------------------------------------------------------------*/
-#psuedo-outbox
-{
-	margin-top                       : 10px;
-}
-
 .part
 {
 	clear                            : both;
@@ -16,20 +11,37 @@
 .button,
 .button span
 {
+	background-image                 : none !important;
 	height                           : 0 !important;
 	margin                           : 0 !important;
 	padding                          : 0 !important;
 	width                            : auto !important;
 }
 
+h2
+{
+	display                          : none !important;
+}
+
 /* menu -----------------------------------------------------------------------------------------*/
+#reader-menu-box
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url("./image/reader/round_left.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	margin                           : 0 20px;
+	min-width                        : 940px;
+	padding                          : 0 0 0 20px;
+}
+
 #reader-menu
 {
-	background-image                 : url("./image/reader/menuBg.gif");
-	background-position              : left bottom;
+	background-image                 : url("./image/reader/round_right.gif");
+	background-position              : right top;
 	background-repeat                : repeat-x;
 	height                           : 30px;
-	padding-top                      : 7px;
+	padding                          : 7px 20px 0 0;
 }
 
 #reader-menu li
@@ -161,32 +173,31 @@
 	margin-top                       : -3px;
 }
 
+/* psuedo box */
+#psuedo-box,
+#data-outbox
+{
+	background-image                 : none !important;
+}
+
 /* pannel ---------------------------------------------------------------------------------------*/
-#pannel .caption
+#groupsAndFeeds .data-inbox
 {
-	display                          : none;
-}
-
-#pannel #groupsAndFeeds
-{
-	background-color                 : #92B2D9;
-	border                           : none;
+	background-color                 : #92B2D9 !important;
+	border                           : none !important;
 	clear                            : both;
-	margin                           : 0;
-	padding                          : 0;
+	margin                           : 0 !important;
+	padding                          : 0 !important;
 
 }
 
-#groupBox .active-class,
-#feedBox .active-class,
-#groupBox .rollover-class,
-#feedBox .rollover-class
+#groupsAndFeeds .active-class,
+#groupsAndFeeds .rollover-class
 {
 	background-color                 : #CDE3FF;
 }
 
-#groupBox .inactive-class,
-#feedBox .inactive-class
+#groupsAndFeeds .inactive-class
 {
 	background-color                 : #FFFFFF;
 }
@@ -222,6 +233,7 @@
 #groupAdder
 {
 	background-color                 : #EEEEEE;
+	height                           : 1.75em;
 	margin                           : 10px 10px 0 10px !important;
 	padding                          : 5px;
 }
@@ -284,6 +296,11 @@ ul#groupList li
 	z-index                          : 10;
 }
 
+ul#groupList li div
+{
+	display                          : inline;
+}
+
 ul#groupList li .edit-button
 {
 	background-image                 : url("./image/reader/btnModify.gif") !important;
@@ -343,8 +360,9 @@ ul#groupList li .edit-button span
 
 #groupEditor .button-box
 {
+	height                           : 2em;
 	margin                           : 0 auto;
-	width                            : 222px;
+	width                            : 207px;
 }
 
 #groupEditor .button-box .button
@@ -352,11 +370,11 @@ ul#groupList li .edit-button span
 	background-color                 : #8DB0DC;
 	border                           : 1px solid #5788C4;
 	float                            : left;
-	height                           : 15px !important;
-	margin                           : 3px 1px 0 1px !important;
+	height                           : 17px !important;
+	margin                           : 0 1px !important;
 	padding-top                      : 5px !important;
 	text-align                       : center;
-	width                            : 70px !important;
+	width                            : 65px !important;
 }
 
 #groupEditor .button-box .button span
@@ -379,6 +397,7 @@ ul#groupList li .edit-button span
 #feedAdder
 {
 	background-color                 : #EEEEEE;
+	height                           : 1.75em;
 	margin                           : 10px 10px 0 10px !important;
 	padding                          : 5px;
 }
@@ -444,6 +463,11 @@ ul#feedList li div
 	display                          : inline;
 }
 
+ul#feedList li .title
+{
+	font-weight                      : bold;
+}
+
 ul#feedList li .description
 {
 	color                            : #888888;
@@ -451,7 +475,7 @@ ul#feedList li .description
 
 ul#feedList li .update-button
 {
-	background-image                 : url("./image/reader/iconUpdate.gif");
+	background-image                 : url("./image/reader/iconUpdate.gif") !important;
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	height                           : 10px !important;
@@ -463,7 +487,7 @@ ul#feedList li .update-button
 
 ul#feedList li .updating-button
 {
-	background-image                 : url("./image/reader/iconUpdateIng.gif");
+	background-image                 : url("./image/reader/iconUpdateIng.gif") !important;
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	height                           : 10px !important;
@@ -475,7 +499,7 @@ ul#feedList li .updating-button
 
 ul#feedList li .failure-button
 {
-	background-image                 : url("./image/reader/iconFailure.gif");
+	background-image                 : url("./image/reader/iconFailure.gif") !important;
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	height                           : 10px !important;
@@ -557,8 +581,9 @@ ul#feedList li .edit-button span
 
 #feedEditor .button-box
 {
+	height                           : 2em;
 	margin                           : 0 auto;
-	width                            : 222px;
+	width                            : 207px;
 }
 
 #feedEditor .button-box .button
@@ -566,11 +591,11 @@ ul#feedList li .edit-button span
 	background-color                 : #8DB0DC;
 	border                           : 1px solid #5788C4;
 	float                            : left;
-	height                           : 15px !important;
-	margin                           : 3px 1px 0 1px !important;
+	height                           : 17px !important;
+	margin                           : 0 1px !important;
 	padding-top                      : 5px !important;
 	text-align                       : center;
-	width                            : 70px !important;
+	width                            : 65px !important;
 }
 
 #feedEditor .button-box .button span
@@ -584,12 +609,7 @@ ul#feedList li .edit-button span
 {
 	background-color                 : #92B2D9;
 	margin-top                       : -5px;
-	padding                          : 0 6px 0 6px;
-}
-
-#configure .caption
-{
-	display                          : none;
+	padding                          : 0 6px;
 }
 
 #configure .data-inbox
@@ -597,7 +617,6 @@ ul#feedList li .edit-button span
 	background-color                 : #FFFFFF !important;
 	border                           : none !important;
 	clear                            : both;
-	line-height                      : 22px;
 	position                         : relative;
 	padding                          : 0 !important;
 }
@@ -605,32 +624,25 @@ ul#feedList li .edit-button span
 #configure .data-inbox .section dl
 {
 	clear                            : both;
-	line-height                      : 25px;
 }
 
 #configure .data-inbox .section dt
 {
-	float                            : left;
-	text-align                       : right;
+	padding-top                      : 5px;
 	width                            : 170px;
-}
-
-#configure .data-inbox .section dd
-{
-	float                            : left;
-	line-height                      : 15px;
-	padding-left                     : 3px;
 }
 
 #configure .data-inbox .section .title
 {
 	background-image                 : url("./image/reader/iconSetupitem.gif");
-	background-position              : 5px 4px;
+	background-position              : top 4px;
 	background-repeat                : no-repeat;
+	border-bottom                    : 1px solid #000000;
 	color                            : #000000;
+	display                          : block !important;
 	font-weight                      : bold;
+	margin-bottom                    : 10px;
 	padding-left                     : 19px;
-	font-weight                      : bold;
 }
 
 #configure .data-inbox #reader-section
@@ -664,17 +676,22 @@ ul#feedList li .edit-button span
 	margin-top                      : 5px !important;
 }
 
-#configure .data-inbox #reader-section .button-box a
+#configure .data-inbox #reader-section .button-box
+{
+	padding                          : 10px 0;
+}
+
+#configure .data-inbox #reader-section .button-box .button
 {
 	background-color                 : #8DB0DC;
 	border                           : 1px solid #5788C4;
-	height                           : 19px !important;
-	margin                           : 3px auto 5px auto !important;
-	text-align                       : center;
+	height                           : 17px !important;
+	margin                           : 0 auto !important;
+	padding-top                      : 5px !important;
 	width                            : 80px !important;
 }
 
-#configure .data-inbox #reader-section .button-box a span
+#configure .data-inbox #reader-section .button-box .button span
 {
 	color                            : #FFFFFF;
 	font-weight                      : normal;
@@ -696,28 +713,29 @@ ul#feedList li .edit-button span
 	padding                          : 5px;
 }
 
-#configure .data-inbox #opml-section .button-box a
+#configure .data-inbox #opml-section .button-box
+{
+	height                           : 2.6em;
+	margin                           : 0 auto;
+	padding-top                      : 10px;
+	width                            : 168px;
+}
+
+#configure .data-inbox #opml-section .button-box .button
 {
 	background-color                 : #8DB0DC;
 	border                           : 1px solid #5788C4;
 	float                            : left;
-	height                           : 19px !important;
-	margin                           : 3px 1px 5px 1px !important;
-	text-align                       : center;
-	width                            : 70px !important;
+	height                           : 17px !important;
+	margin                           : 0 1px !important;
+	padding-top                      : 5px !important;
+	width                            : 80px !important;
 }
 
-#configure .data-inbox #opml-section .button-box a span
+#configure .data-inbox #opml-section .button-box .button span
 {
 	color                            : #FFFFFF;
 	font-weight                      : normal;
-}
-
-#configure .data-inbox .button-box
-{
-	margin                           : 0 auto !important;
-	padding-top                      : 10px;
-	width                            : 148px !important;
 }
 
 #get-upload
@@ -992,17 +1010,18 @@ ul#feedList li .edit-button span
 #post-list .button-box .button,
 #post-list .button-box .button span
 {
+	background-color                 : transparent;
 	display                          : inline !important;
 }
 
-#post-list .button-box .hide-button:link,
-#post-list .button-box .hide-button:visited
+#post-list .button-box .button:link,
+#post-list .button-box .button:visited
 {
 	color                            : #FFFFFF;
 }
 
-#post-list .button-box .hide-button:hover,
-#post-list .button-box .hide-button:active
+#post-list .button-box .button:hover,
+#post-list .button-box .button:active
 {
 	color                            : #FFFFFF;
 	text-decoration                  : underline;
@@ -1014,16 +1033,8 @@ ul#feedList li .edit-button span
 	padding                          : 5px;
 }
 
-#shortcuts .inbox
-{
-	background-color                 : #6593C4;
-	color                            : #FFFFFF !important;
-	font-size                        : 92%;
-	/*letter-spacing                   : -1px;*/
-	padding                          : 3px 3px 1px 3px;
-}
 
-/*#shortcuts ul
+#shortcuts ul
 {
 	background-color                 : #6593C4;
 	padding                          : 3px 3px 1px 3px;
@@ -1038,7 +1049,12 @@ ul#feedList li .edit-button span
 	letter-spacing                   : -1px;
 	margin-right                     : 5px;
 	text-align                       : left;
-}*/
+}
+
+#shortcuts ul li kbd
+{
+	color                            : #FFFFFF;
+}
 
 /* content in detail ----------------------------------------------------------------------------*/
 #post-content
@@ -1048,6 +1064,18 @@ ul#feedList li .edit-button span
 	overflow                         : auto;
 	padding-bottom                   : 6px !important;
 	width                            : auto !important;
+}
+
+#blogTitle
+{
+	color                            : #000000;
+	font-weight                      : bold;
+	margin-left                      : 5px;
+}
+
+#post-content .title .divider
+{
+	display                          : none;
 }
 
 #post-content .title .move
@@ -1061,16 +1089,15 @@ ul#feedList li .edit-button span
 #post-content .title .move .button,
 #post-content .title .move .button span
 {
+	background-color                 : transparent;
 	display                          : inline;
 	margin                           : 0;
 	padding                          : 0;
 }
 
-#blogTitle
+#post-content .title .move .divider
 {
-	color                            : #000000;
-	font-weight                      : bold;
-	margin-left                      : 5px;
+	display                          : inline;
 }
 
 #entry
@@ -1137,21 +1164,21 @@ ul#feedList li .edit-button span
 	margin-top                       : 5px;
 }
 
-#entryFoot .button-box a
+#entryFoot .button-box .button
 {
-	background-color                 : #DDDDDD !important;
+	background-color                 : #DDDDDD;
 	border                           : 1px solid #979797;
 	display                          : block;
 	font-size                        : 92%;
 	height                           : auto !important;
 	margin                           : 0 0 0 auto !important;
-	padding                          : 3px 0 0 0 !important;
+	padding                          : 3px 0 1px 0 !important;
 	text-align                       : center;
 	width                            : 140px !important;
 }
 
-#entryFoot .button-box a span
+#entryFoot .button-box .button span
 {
-	display                          : inline !important;
-	padding                          : 0;
+	background-color                 : transparent;
+	display                          : inline;
 }

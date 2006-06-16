@@ -2,10 +2,17 @@
 
 /* Reader ****************************************************************************************/
 
+/* common ---------------------------------------------------------------------------------------*/
+.button span
+{
+	background-color                 : transparent !important;
+}
+
 /* menu -----------------------------------------------------------------------------------------*/
 #search .text-input
 {
-	padding                          : 2px;
+	margin-top                       : 0 !important;
+	padding                          : 1px !important;
 }
 
 #search .button
@@ -16,99 +23,62 @@
 }
 
 /* pannel ---------------------------------------------------------------------------------------*/
+
 /* group box */
 #group-section
 {
-	margin                           : 0 3px;
+	float                            : left;
+	background-color                 : #FFFFFF;
+	margin                           : 0 9px 0 3px;
+	width                            : 250px;
 }
 
 #groupAdder .button-box .text-input
 {
-	margin-left                      : -10px;
+	margin-top                       : 0;
+	padding                          : 3px 2px 0 2px !important;
+}
+
+#groupEditor .button-box
+{
+	width                            : 213px;
 }
 
 /* feed box */
-#feedBox
-{
-	background-color                 : #FFFFFF;
-	margin-left                      : 265px;
-	overflow                         : auto;
-	position                         : relative;
-	right                            : 6px;
-	top                              : 0;
-}
-
 #feedAdder .button-box .text-input
 {
-	margin-left                      : -10px;
+	margin-top                       : 0;
+	padding                          : 3px 2px 0 2px !important;
 }
 
-/* configure ------------------------------------------------------------------------------------*/
-#configure
+ul#feedList li
 {
-	background-color                 : #92B2D9;
-	padding                          : 0 6px 0 6px;
+	padding                          : 2px 33px 2px 16px !important;
 }
 
-#configure #opmlUpload .file-input
+#feedEditor .button-box
 {
-	border                           : 1px solid #92B2D9;
-	height                           : 20px;
+	width                            : 213px;
 }
 
 /* content list ---------------------------------------------------------------------------------*/
 #scrollPoint
 {
-	height                           : 632px;
+	height                           : 620px;
 }
 
-/* list */
-#post-list
+#post-list .button-box .button span
 {
-	left                             : 0px;
-	margin-left                      : 6px;
-	position                         : absolute;
-	right                            : 273px;
-	top                              : 0;
-	width                            : 250px !important;
-}
-
-#listup
-{
-	overflow-x                       : hidden !important;
-	overflow-y                       : auto !important;
-}
-
-#listup table tr td .content
-{
-	width                            : 182px;
+	font-family                      : Dotum, sans-serif;
 }
 
 /* content in detail ----------------------------------------------------------------------------*/
-#post-content
-{
-	/*margin                           : 0 6px 0 261px !important;*/
-	overflow                         : auto;
-	padding-bottom                   : 6px !important;
-}
-
-#post-content .title
-{
-	height                           : 14px;
-}
-
-#post-content .title .move
-{
-	top                              : 12px;
-}
-
 #entryPermalink
 {
-	right                            : 11px;
+	right                            : 10px;
 }
 
-#entryFoot .button-box a
+#entryFoot .button-box .button
 {
-	right                            : 12px;
-	top                              : 9px;
+	font-family                      : Dotum, sans-serif;
 }

@@ -4,6 +4,5 @@
 
 dl dd .text-input
 {
-	padding                          : 3px;
-	width                            : 150px;
+	padding                          : 3px !important;
 }

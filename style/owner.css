@@ -476,19 +476,19 @@ body
 	display                          : none;
 }
 
-#trackback-box #command-box table .tr-body td
+#trackback-box #command-box table tr td
 {
 	border-bottom                    : 1px solid #9DCAFB;
 	height                           : 30px;
 	padding                          : 3px 7px 0 7px;
 }
 
-#trackback-box #command-box table .tr-body .delete
+#trackback-box #command-box table tr .delete
 {
 	padding                          : 0 3px;
 }
 
-#trackback-box #command-box table .tr-body .delete .delete-button
+#trackback-box #command-box table tr .delete .delete-button
 {
 	background-image                 : url("../image/deleteX.gif");
 	background-position              : left top;
@@ -498,7 +498,7 @@ body
 	width                            : 10px;
 }
 
-#trackback-box #command-box table .tr-body .delete .delete-button span
+#trackback-box #command-box table tr .delete .delete-button span
 {
 	display                          : none;
 }
@@ -635,13 +635,13 @@ body
 }
 
 /* XHTML 에러 메세지 윈도우용 CSS */
-#body-messege-page
+#body-message-page
 {
 	background-image                 : url("../image/e_back.gif");
 	background-position              : left top;
 }
 
-#body-messege-page .messege-box
+#body-message-page .message-box
 {
 	background-color                 : #FFFFFF;
 	background-image                 : url("../image/back.gif");
@@ -653,14 +653,14 @@ body
 	text-align                       : center;
 }
 
-#body-messege-page h1
+#body-message-page h1
 {
 	color                            : #213141;
 	font-size                        : 12px;
 	margin-bottom                    : 10px;
 }
 
-#body-messege-page .button-input
+#body-message-page .button-input
 {
 	border                           : 1px solid #878787;
 	background-color                 : #EFEFEF;

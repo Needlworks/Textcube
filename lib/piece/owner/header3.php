@@ -35,9 +35,9 @@
 <?php
 $writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
 ?>
-						<li class="blog"><a href="<?php echo $blogURL?>/" title="<?php echo _t('블로그 메인으로 이동합니다.')?>"><span class="text"><?php echo _t('블로그 메인으로 이동')?></span></a></li>
-						<li class="logout"><a href="<?php echo $blogURL?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.')?>"><span class="text"><?php echo _t('로그아웃')?></span></a></li>
-						<li class="blogger"><span class="text"><?php echo _f('환영합니다. <strong>%1</strong>님.', htmlspecialchars($writer))?></span></li>
+						<li id="description-blog"><a href="<?php echo $blogURL?>/" title="<?php echo _t('블로그 메인으로 이동합니다.')?>"><span class="text"><?php echo _t('블로그 메인으로 이동')?></span></a></li>
+						<li id="description-logout"><a href="<?php echo $blogURL?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.')?>"><span class="text"><?php echo _t('로그아웃')?></span></a></li>
+						<li id="description-blogger"><span class="text"><?php echo _f('환영합니다. <em>%1</em>님.', htmlspecialchars($writer))?></span></li>
 					</ul>
 				</div>
 				
@@ -47,17 +47,17 @@ $writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 				
 				<div id="main-menu-box">
 					<ul id="main-menu">
-						<li class="tattertools"><a href="<?php echo TATTERTOOLS_HOMEPAGE?>" onclick="window.open(this.href); return false;" title="<?php echo _t('태터툴즈 홈페이지로 이동합니다.')?>"><span class="text"><?php echo _t('태터툴즈 홈페이지')?></span></a></li>
-						<li class="center"><a href="<?php echo $blogURL?>/owner/center/dashboard"><span><?php echo _t('센터')?></span></a></li>
-						<li class="post"><a href="<?php echo $blogURL?>/owner/entry"><span class="text"><?php echo _t('글관리')?></span></a></li>
-						<!--li class="keyword"><a href="<?php echo $blogURL?>/owner/keyword"><span class="text"><?php echo _t('키워드관리')?></span></a></li-->
-						<li class="notice"><a href="<?php echo $blogURL?>/owner/notice"><span class="text"><?php echo _t('공지관리')?></span></a></li>				
-						<li class="link"><a href="<?php echo $blogURL?>/owner/link"><span class="text"><?php echo _t('링크관리')?></span></a></li>
-						<li class="skin selected"><a href="<?php echo $blogURL?>/owner/skin"><span class="text"><?php echo _t('스킨관리')?></span></a></li>
-						<li class="trash"><a href="<?php echo $blogURL?>/owner/trash/trackback"><span class="text"><?php echo _t('휴지통')?></span></a></li>
-						<li class="statistics"><a href="<?php echo $blogURL?>/owner/statistics/visitor"><span class="text"><?php echo _t('통계보기')?></span></a></li>
-						<li class="setting"><a href="<?php echo $blogURL?>/owner/setting/blog"><span class="text"><?php echo _t('환경설정')?></span></a></li>
-						<li class="reader"><a href="<?php echo $blogURL?>/owner/reader"><span class="text"><?php echo _t('리더')?></span></a></li>
+						<li id="menu-tattertools"><a href="<?php echo TATTERTOOLS_HOMEPAGE?>" onclick="window.open(this.href); return false;" title="<?php echo _t('태터툴즈 홈페이지로 이동합니다.')?>"><span class="text"><?php echo _t('태터툴즈 홈페이지')?></span></a></li>
+						<li id="menu-center"><a href="<?php echo $blogURL?>/owner/center/dashboard"><span><?php echo _t('센터')?></span></a></li>
+						<li id="menu-post"><a href="<?php echo $blogURL?>/owner/entry"><span class="text"><?php echo _t('글관리')?></span></a></li>
+						<!--li id="menu-keyword"><a href="<?php echo $blogURL?>/owner/keyword"><span class="text"><?php echo _t('키워드관리')?></span></a></li-->
+						<li id="menu-notice"><a href="<?php echo $blogURL?>/owner/notice"><span class="text"><?php echo _t('공지관리')?></span></a></li>				
+						<li id="menu-link"><a href="<?php echo $blogURL?>/owner/link"><span class="text"><?php echo _t('링크관리')?></span></a></li>
+						<li id="menu-skin" class="selected"><a href="<?php echo $blogURL?>/owner/skin"><span class="text"><?php echo _t('스킨관리')?></span></a></li>
+						<li id="menu-trash"><a href="<?php echo $blogURL?>/owner/trash/trackback"><span class="text"><?php echo _t('휴지통')?></span></a></li>
+						<li id="menu-statistics"><a href="<?php echo $blogURL?>/owner/statistics/visitor"><span class="text"><?php echo _t('통계보기')?></span></a></li>
+						<li id="menu-setting"><a href="<?php echo $blogURL?>/owner/setting/blog"><span class="text"><?php echo _t('환경설정')?></span></a></li>
+						<li id="menu-reader"><a href="<?php echo $blogURL?>/owner/reader"><span class="text"><?php echo _t('리더')?></span></a></li>
 					</ul>
 				</div>
 			</div>

@@ -1,35 +1,21 @@
 @charset "utf-8";
 
-/* List ******************************************************************************************/
-
-/* list table body ------------------------------------------------------------------------------*/
-#part-link-list table.data-inbox .tr-body td,
-#part-link-list table.data-inbox .tr-last-body td
-{
-	height                           : 15px;
-	padding-top                      : 1px;
-}
-
 /* Add / Edit ************************************************************************************/
 
-#part-link-add div.data-inbox dl,
-#part-link-edit div.data-inbox dl
+#part-link-add div.data-inbox dl dt,
+#part-link-edit div.data-inbox dl dt
 {
-	height                           : 27px !important;
+	padding-top                      : 5px;
 }
 
-#part-link-add div.data-inbox dl dd .text-input,
-#part-link-edit div.data-inbox dl dd .text-input
+#part-link-add div.data-inbox dl dd,
+#part-link-edit div.data-inbox dl dd
 {
-	margin-top                       : 2px;
-	padding                          : 3px;
-	width                            : 300px;
+	height                           : 2em;
 }
 
 /* button box -----------------------------------------------------------------------------------*/
 .button-box
 {
-	height                           : 24px;
-	overflow                         : hidden;
-	width                            : 230px;
+	width                            : 232px;
 }

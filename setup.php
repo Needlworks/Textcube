@@ -1557,7 +1557,7 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
 		}
 ?>
     </table>
-	<p><?=($result ? _t('삭제하였습니다') : '<span style="color:red">' . _t('삭제하지 못 했습니다') . '</span>')?></p>
+	<p><?=($result ? _t('삭제하였습니다') : '<span style="color:red">' . _t('삭제하지 못했습니다') . '</span>')?></p>
     </div>
   <div id="navigation">
     <a href="#" onclick="window.history.back()" title="<?=_t('이전')?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?=_t('이전')?>" /></a>

@@ -9,7 +9,7 @@
 	margin-right                     : 10px !important;
 	width                            : 210px !important;
 }
-	
+
 /* visitor count --------------------------------------------------------------------------------*/
 #statistics-counter-inbox .label
 {
@@ -29,103 +29,31 @@
 	font-family                      : Arial, Tahoma, Verdana, snas-serif;
 	font-size                        : 300%;
 	font-weight                      : bold;
+	margin-top                       : 10px;
 	text-align                       : center;
 }
 
 #statistics-counter-inbox .button
 {
-	background-color                 : #CCCCCC;
-	background-image                 : url("./image/button2.gif");
-	height                           : 24px;
 	margin                           : 0 auto;
-	padding-left                     : 4px;
 	width                            : 106px;
 }
 
 #statistics-counter-inbox .button span
 {
-	background-color                 : #CCCCCC;
-	background-image                 : url("./image/button2.gif");
-	height                           : 24px;
-	padding                          : 6px 4px 0 0;
-	text-align                       : center;
 	width                            : 102px;
 }
 
-/* month ----------------------------------------------------------------------------------------*/
+/* month / day ----------------------------------------------------------------------------------*/
+#statistics-day-inbox,
 #statistics-month-inbox
 {
-	float                            : left;
-	margin-right                     : 10px;
-	width                            : 210px;
+	margin-top                       : 5px;
 }
 
-#statistics-month-inbox thead tr td
-{
-	padding-left                     : 5px !important;
-}
-
-#statistics-month-inbox .tr-body td
+#statistics-month-inbox tbody tr td
 {
 	cursor                           : pointer;
-	height                           : 24px;
-}
-
-#statistics-month-inbox .tr-last-body td
-{
-	cursor                           : pointer;
-	height                           : 23px;
-	padding-top                      : 1px;
-}
-
-#statistics-month-inbox .tr-body .date,
-#statistics-month-inbox .tr-last-body .date
-{
-	padding                          : 4px 0 0 5px;
-	width                            : 70px;
-}
-
-#statistics-month-inbox .tr-body .count,
-#statistics-month-inbox .tr-last-body .count
-{
-	padding                          : 4px 0 0 5px;
-}
-
-/* daily ----------------------------------------------------------------------------------------*/
-#statistics-day-inbox
-{
-	float                            : left;
-	margin-right                     : 10px;
-	width                            : 210px;
-}
-
-#statistics-day-inbox thead tr td
-{
-	padding-left                     : 5px !important;
-}
-
-#statistics-day-inbox .tr-body td
-{
-	height                           : 24px;
-}
-
-#statistics-day-inbox .tr-last-body td
-{
-	height                           : 23px;
-	padding-top                      : 1px;
-}
-
-#statistics-day-inbox .tr-body .date,
-#statistics-day-inbox .tr-last-body .date
-{
-	padding                          : 4px 0 0 5px;
-	width                            : 70px;
-}
-
-#statistics-day-inbox .tr-body .count,
-#statistics-day-inbox .tr-last-body .count
-{
-	padding                          : 4px 0 0 5px;
 }
 
 /* Referer ***************************************************************************************/
@@ -133,86 +61,31 @@
 /* rank -----------------------------------------------------------------------------------------*/
 #part-statistics-rank
 {
-	float                            : left;
-	margin-right                     : 20px;
+	position                         : absolute;
 }
 
 #part-statistics-rank table.data-inbox
 {
-	border-top                       : 2px solid #00A6ED;
 	width                            : auto;
 }
 
-#part-statistics-rank table.data-inbox thead tr td
+#part-statistics-rank table.data-inbox tbody tr td.rank
 {
-	display                          : none;
+	text-align                       : center;
 }
 
-#part-statistics-rank table.data-inbox .tr-body td,
-#part-statistics-rank table.data-inbox .tr-last-body td
+#part-statistics-rank table.data-inbox tbody tr td.site
 {
-	height                           : 24px;
-	padding                          : 3px 0 0 5px;
-}
-
-#part-statistics-rank table.data-inbox .tr-body .rank,
-#part-statistics-rank table.data-inbox .tr-last-body .rank
-{
-	padding                          : 4px 5px 0 5px;
-	text-align                       : right;
-	width                            : 20px !important;
-	white-space                      : nowrap;
-}
-
-#part-statistics-rank table.data-inbox .tr-body .site,
-#part-statistics-rank table.data-inbox .tr-last-body .site
-{
-	padding                          : 4px 5px 0 5px;
-	white-space                      : nowrap;
+	overflow                         : hidden;
 }
 
 /* log ------------------------------------------------------------------------------------------*/
 #part-statistics-log
 {
-	float                            : left;
-	margin-right                     : 20px;
+	margin-left                      : 200px;
 }
-
 
 #part-statistics-log .caption
 {
 	margin                           : 0;
-}
-
-#part-statistics-log table.data-inbox
-{
-	border-top                       : 2px solid #00A6ED;
-	width                            : auto;
-}
-
-#part-statistics-log table.data-inbox thead tr td
-{
-	display                          : none;
-}
-
-#part-statistics-log table.data-inbox .tr-body td,
-#part-statistics-log table.data-inbox .tr-last-body td
-{
-	height                           : 24px;
-	padding                          : 3px 0 0 5px;
-}
-
-#part-statistics-log table.data-inbox .tr-body .date,
-#part-statistics-log table.data-inbox .tr-last-body .date
-{
-	padding                          : 4px 5px 0 5px;
-	width                            : 75px !important;
-	white-space                      : nowrap;
-}
-
-#part-statistics-log table.data-inbox .tr-body .address,
-#part-statistics-log table.data-inbox .tr-last-body .address
-{
-	padding                          : 4px 5px 0 5px;
-	white-space                      : nowrap;
 }

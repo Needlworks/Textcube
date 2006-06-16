@@ -3,9 +3,8 @@
 				
 				<hr class="hidden" />
 				
-				<div id="psuedo-outbox">
-					<div id="psuedo-inbox">
-						<form method="post" action="<?php echo $blogURL?>/owner/entry">
-							<input type="hidden" name="page" value="<?php echo $suri['page']?>" />
-							
-							<div id="data-outbox">
+				<div id="psuedo-box">
+					<form method="post" action="<?php echo $blogURL?>/owner/entry">
+						<input type="hidden" name="page" value="<?php echo $suri['page']?>" />
+						
+						<div id="data-outbox">

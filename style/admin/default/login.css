@@ -10,18 +10,21 @@ body
 	background-repeat                : repeat-x;
 }
 
-#login-outbox
+#data-outbox
 {
 	background-image                 : url("./image/bg_login_box_top.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
-	margin                           : 150px auto 0 auto;
+	margin                           : 150px auto 0 auto !important;
+	min-width                        : 0 !important;
 	padding-top                      : 7px;
-	width                            : 520px;
+	position                         : relative;
+	width                            : 520px !important;
 }
 
-#login-inbox
+#login-box
 {
+	border-top : 1px solid #FFFFFF;
 	background-image                 : url("./image/bg_login_box_bottom.gif");
 	background-position              : left bottom;
 	background-repeat                : no-repeat;
@@ -31,61 +34,52 @@ body
 
 #logo-box
 {
-	float                            : left;
-	margin-top                       : 35px;
+	left                             : 0;
+	position                         : absolute;
 	text-align                       : center;
+	top                              : 45px;
 	width                            : 250px;
 }
 
 #field-box
 {
-	float                            : right;
-	margin-top                       : 10px;
-	padding-right                    : 20px;
-	position                         : relative;
+	margin-left                      : 250px;
+	padding                          : 10px 20px 0 0;
 	width                            : 250px;
 }
 
 dl
 {
-	clear                            : both;
-	height                           : 24px;
+	height                           : 2em !important;
 }
 
 dl dt
 {
-	float                            : left;
-	line-height                      : 26px;
-	margin-right                     : 10px;
-	text-align                       : right;
-	width                            : 80px;
-}
-
-dl dd
-{
-	float                            : left;
+	font-weight                      : normal !important;
+	margin-right                     : 10px !important;
+	padding-top                      : 5px !important;
+	width                            : 80px !important;
 }
 
 dl dd .text-input
 {
 	padding                          : 3px;
+	vertical-align                   : top;
 	width                            : 148px;
 }
 
 #checkbox-line
 {
-	bottom                           : 0;
-	left                             : 0;
-	margin-bottom                    : 5px;
-	position                         : absolute;
+	height                           : 2.3em !important;
+	padding                          : 5px 0 0 15px;
 }
 
-#checkbox-line .checkbox
+#checkbox-line dt
 {
-	margin-left                      : 10px;
+	display                          : none;
 }
 
-#messege-box
+#message-box
 {
 	background-color                 : #EBF2F8;
 	margin-top                       : 10px;
@@ -95,32 +89,24 @@ dl dd .text-input
 
 .button-box
 {
+	left                             : 260px;
+	position                         : absolute;
+	top                              : 79px;
 	border-top                       : 1px dotted #CCCCCC;
-	margin                           : 5px 0 6px 0;
+	margin                           : 0 0 6px 0;
 	padding-top                      : 7px;
+	width                            : 240px;
 }
 
 .button-box .button
 {
-	background-color                 : #CCCCCC;
-	background-image                 : url("./image/button.gif");
-	display                          : block;
-	float                            : none;
-	height                           : 23px;
-	margin                           : 0 2px 0 auto;
-	padding-left                     : 4px;
-	width                            : 106px;
+	margin-left                      : auto !important;
+	width                            : 86px;
 }
 
 .button-box .button span
 {
-	background-image                 : url("./image/button.gif");
-	display                          : block;
-	height                           : 18px;
-	background-position              : right top;
-	padding                          : 6px 4px 0 0;
-	text-align                       : center;
-	width                            : 102px;
+	width                            : 82px;
 }
 
 .button-box .button:link,

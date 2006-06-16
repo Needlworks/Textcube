@@ -45,7 +45,7 @@ function eolinLocationTagFunction_showSuggestion()
 		{
 			arguments[i] = arguments[i].replaceAll("&quot;", '"');
 			htmlText.append("<li onmouseover=\"this.className='hover'\" onmouseout=\"this.className=''\" onmousedown=\"this.parentNode.instance.suggestionMouseClick(this)\">");
-			htmlText.append(arguments[i].replace(new RegExp("(" + instance.input.value + ")", "gi"), "<strong>$1</strong>"));
+			htmlText.append(arguments[i].replace(new RegExp("(" + instance.input.value + ")", "gi"), "<em>$1</em>"));
 			htmlText.append("</li>");
 		}
 	}
@@ -56,11 +56,11 @@ function eolinLocationTagFunction_showSuggestion()
 		var message3 = arguments[5];
 
 		if(instance.locationList.childNodes.length == 1)
-			htmlText.append("<li class=\"disabled\"><strong>" + instance.input.value + "</strong> - " + message1 + "<br />" + message2 + "</li>");
+			htmlText.append("<li class=\"disabled\"><em>" + instance.input.value + "</em> - " + message1 + "<br />" + message2 + "</li>");
 		else if(instance.input.value.trim() == "")
 			htmlText.append("<li class=\"disabled\">" + message3 + "</li>");
 		else
-			htmlText.append("<li class=\"disabled\"><strong>" + instance.input.value + "</strong> - " + message1 + "</li>");
+			htmlText.append("<li class=\"disabled\"><em>" + instance.input.value + "</em> - " + message1 + "</li>");
 	}
 
 	/* TODO : temporary code */

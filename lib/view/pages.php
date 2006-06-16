@@ -10,11 +10,11 @@ function respondMessagePage($message) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $blogURL ?>/style/owner.css" />
 </head>
-<body id="body-messege-page">
-	<div class="messege-box">
+<body id="body-message-page">
+	<div class="message-box">
 		<h1><span class="text"><?php echo TATTERTOOLS_NAME?></span></h1>
 		
-		<div class="messege"><?php echo $message?></div>
+		<div class="message"><?php echo $message?></div>
 		<div class="button-box">
 			<input type="button" class="button-input" value="<?php echo _t('이전')?>" onclick="window.history.go(-1)" />
 		</div>
@@ -55,11 +55,11 @@ function respondErrorPage($message = '') {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $blogURL ?>/style/owner.css" />
 </head>
-<body id="body-messege-page">
-	<div class="messege-box">
+<body id="body-message-page">
+	<div class="message-box">
 		<h1><span class="text"><?php echo TATTERTOOLS_NAME?></span></h1>
 		
-		<div class="messege"><?php echo $message?></div>
+		<div class="message"><?php echo $message?></div>
 		<div class="button-box">
 			<input type="button" class="button-input" value="<?php echo _t('이전')?>" onclick="window.history.go(-1)" />
 		</div>

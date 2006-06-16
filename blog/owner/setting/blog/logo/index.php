@@ -2,7 +2,7 @@
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForOwner.php';
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<title>Logo Uploader</title>
@@ -41,7 +41,7 @@ if (count($_FILES) == 1) {
 	if($_POST['mode'] == 1) {
 		removeBlogLogo($owner);
 		?>
-		window.parent.document.getElementById('logo').src = "<?="{$service['path']}/image/spacer.gif"?>";
+		window.parent.document.getElementById('logo').src = "<?="{$blogURL}/image/spacer.gif"?>";
 		<?
 	}
 	else {
@@ -50,7 +50,7 @@ if (count($_FILES) == 1) {
 			print ('alert("' . _t('변경하지 못했습니다.') . '");');
 		} else {
 	?>
-		window.parent.document.getElementById('logo').src = "<?=(empty($blog['logo']) ? "{$service['path']}/image/spacer.gif" : "{$service['path']}/attach/$owner/{$blog['logo']}")?>";
+		window.parent.document.getElementById('logo').src = "<?=(empty($blog['logo']) ? "{$blogURL}/image/spacer.gif" : "{$blogURL}/attach/$owner/{$blog['logo']}")?>";
 	<?
 		}
 	}
@@ -74,9 +74,9 @@ if (count($_FILES) == 1) {
 			}
 		-->
 	</style>
-	<link rel="stylesheet" type="text/css" href="<?=$blogURL.$service['adminSkin']?>/setting.css" />
-	<link rel="stylesheet" type="text/css" href="<?=$blogURL.$service['adminSkin']?>/setting.opera.css" />
-	<link rel="stylesheet" type="text/css" href="<?=$blogURL.$service['adminSkin']?>/setting.ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/setting.css" />
+	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/setting.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/setting.ie.css" /><![endif]-->
 </head>
 <body id="logo-iframe">
 	<form method="post" action="<?=$blogURL?>/owner/setting/blog/logo" enctype="multipart/form-data">

@@ -61,41 +61,36 @@ if (!doesHaveOwnership()) {
 	if (!doesHaveMembership()) {
 ?>
 				<dl class="name-line">
-					<dt><label for="name"><?php echo _t('이름')?></label><span class="divider"> | </span></dt>
+					<dt><label for="name"><?php echo _t('이름')?></label></dt>
 					<dd><input type="text" id="name" class="text-input" name="name" value="<?php echo htmlspecialchars($comment['name'])?>" /></dd>
-					<dd class="clear"></dd>
 				</dl>
 				<dl class="password-line">
-					<dt><label for="password"><?php echo _t('비밀번호')?></label><span class="divider"> | </span></dt>
+					<dt><label for="password"><?php echo _t('비밀번호')?></label></dt>
 					<dd><input type="password" class="text-input" id="password" name="password" value="<?php echo isset($_POST['password']) ? $_POST['password'] : ''?>" /></dd>
-					<dd class="clear"></dd>
 				</dl>
 <?php 
 	}
 ?>
 				<dl class="homepage-line">
-					<dt><label for="homepage"><?php echo _t('홈페이지')?></label><span class="divider"> | </span></dt>
+					<dt><label for="homepage"><?php echo _t('홈페이지')?></label></dt>
 					<dd><input type="text" class="text-input" id="homepage" name="homepage" value="<?php echo (empty($comment['homepage']) ? 'http://' : htmlspecialchars($comment['homepage']))?>" /></dd>
-					<dd class="clear"></dd>
 				</dl>
 				<dl class="secret-line">
 					<dd>
 						<input type="checkbox" class="checkbox" id="secret" name="secret"<?php echo ($comment['secret'] ? ' checked="checked"' : false)?> />
 						<label for="secret"><span class="text"><?php echo _t('비밀글로 등록')?></span></label>
 					</dd>
-					<dd class="clear"></dd>
 				</dl>
 <?php 
 }
 ?>			
 				<dl class="content-line">
-					<dt><label for="comment"><?php echo _t('내용')?></label><span class="divider"> | </span></dt>
+					<dt><label for="comment"><?php echo _t('내용')?></label></dt>
 					<dd><textarea id="comment" name="comment" cols="45" rows="9" style="height: <?php echo (!doesHaveOwnership() && !doesHaveOwnership()) ? 150 : 242?>px;"><?php echo htmlspecialchars($comment['comment'])?></textarea></dd>
-					<dd class="clear"></dd>
 				</dl>
 				
 				<div class="button-box">
-					<input type="button" class="button-input" name="Submit" value="<?php echo _t('완료')?>" onclick="javascript:submitComment()" />
+					<input type="button" class="button-input" name="Submit" value="<?php echo _t('완료')?>" onclick="submitComment()" />
 				</div>
 			</div>
 		</div>

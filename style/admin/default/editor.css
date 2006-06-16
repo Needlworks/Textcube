@@ -2,27 +2,9 @@
 
 /* Editor ****************************************************************************************/
 
-/* common ---------------------------------------------------------------------------------------*/
-#data-outbox
+#editor
 {
-	padding-bottom                   : 0;
-}
-
-.data-inbox
-{
-	margin-bottom                    : 25px;
 	position                         : relative;
-}
-
-.container
-{
-	clear                            : both;
-}
-
-/* attribute box --------------------------------------------------------------------------------*/
-#property-container
-{
-	float                            : right;
 }
 
 /* title ----------------------------------------------------------------------------------------*/
@@ -36,155 +18,34 @@
 
 #title-container
 {
-	margin-bottom                    : 5px;
+	margin-bottom                    : 2px !important;
 }
 
-#title-container label
+#title-container dt
 {
-	display                          : block;
-	float                            : left;
-	font-weight                      : bold;
-	padding                          : 5px 4px 0 0;
-	text-align                       : right;
-	width                            : 70px;
+	padding-top                      : 3px !important;
+	width                            : 70px !important;
 }
 
 #title-container select
 {
+	height                           : 19px;
+	vertical-align                   : middle;
 	width                            : 160px;
 }
 
 #title-container .text-input
 {
 	border                           : 1px solid #92B5E8;
-	padding                          : 2px;
-	width                            : 410px;
+	vertical-align                   : middle;
+	width                            : 400px;
 }
 
 #body-notice #title-container .text-input
 {
 	border                           : 1px solid #92B5E8;
-	padding                          : 2px;
-	width                            : 576px !important;
-}
-
-/* property box --------------------------------------------------------------------------------*/
-.entry-editor-property
-{
-	background-color                 : #FFFFFF;
-	border                           : 2px solid #999999;
-	padding                          : 0 10px 10px 10px;
-	position                         : absolute;
-	left                             : 700px;
-	top                              : 17px;
-	width                            : 200px;
-}
-
-.entry-editor-property .head-line
-{
-	color                            : #000000;
-	font-family                      : Arial, Tahoma, Verdana, sans-serif;
-	font-size                        : 80%;
-	font-weight                      : bold;
-	margin                           : 10px 0 5px 0;
-}
-
-.entry-editor-property dl
-{
-	padding-bottom                   : 1px;
-}
-
-.entry-editor-property dl dt
-{
-	border-bottom                    : 1px dashed #CCCCCC;
-	color                            : #666666;
-	float                            : left;
-	font-family                      : Arial, Tahoma, Verdana, sans-serif;
-	font-size                        : 90%;
-	height                           : 16px;
-	padding-top                      : 4px;
-	width                            : 90px;
-}
-
-.entry-editor-property dl dd
-{
-	float                            : left;
-	width                            : 108px;
-}
-
-.entry-editor-property dl dd.clear
-{
-	clear                            : both;
-	float                            : none;
-}
-
-.entry-editor-property dl dd input.text-input
-{
-	border                           : 1px solid #92B5E8;
-	margin-bottom                    : 1px;
-	padding                          : 2px;
-	width                            : 104px;
-}
-
-.entry-editor-property dl dd select
-{
-	border                           : 1px solid #92B5E8;
-	width                            : 110px;
-}
-
-.entry-editor-property dl dd select.file-list
-{
-	height                           : 220px;
-	margin-bottom                    : 0;
-	padding-bottom                   : 0;
-	width                            : 200px !important;
-}
-
-#propertyObject_chunk
-{
-	width                            : 104px;
-}
-
-.entry-editor-property .button-box
-{
-	clear                            : both;
-	float                            : none;
-	margin-left                      : auto;
-}
-
-.entry-editor-property .button-box .up-button
-{
-	background-color                 : transparent;
-	background-image                 : url("./image/edit/attach_MoveUp.gif");
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	float                            : right;
-	height                           : 14px;
 	margin-top                       : 2px;
-	width                            : 40px;
-}
-
-.entry-editor-property .button-box .dn-button
-{
-	background-color                 : transparent;
-	background-image                 : url("./image/edit/attach_MoveDown.gif");
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	float                            : right;
-	height                           : 14px;
-	margin-top                       : 2px;
-	width                            : 50px;
-}
-
-.entry-editor-property .button-box .button span
-{
-	display                          : none !important;
-}
-
-.entry-editor-property .preview-box img
-{
-	border                           : 1px solid #000000;
-	margin-top                       : 5px;
+	width                            : 565px !important;
 }
 
 /* command buttons ------------------------------------------------------------------------------*/
@@ -192,8 +53,13 @@
 {
 	background-color                 : #BCD2E5;
 	margin                           : 0 20px;
-	padding                          : 0 3px 5px 5px;
-	width                            : 658px;
+	padding                          : 0 5px 5px 5px;
+	width                            : 656px;
+}
+
+#editor-palette
+{
+	height                           : 28px;
 }
 
 #editor-palette .title
@@ -203,15 +69,15 @@
 
 #editor-palette .font-relatives
 {
+	clear                            : none;
 	float                            : left;
-	height                           : 24px;
 	padding                          : 2px 0 0 2px;
 }
 
 #editor-palette .mode
 {
+	clear                            : none;
 	float                            : left;
-	height                           : 24px;
 	padding                          : 2px 0 0 5px;
 }
 
@@ -220,162 +86,203 @@
 #editor-palette .special
 {
 	background-image                 : url("./image/edit/dotted_vertical.gif");
-	background-position              : left top;
+	background-position              : left 3px;
 	background-repeat                : no-repeat;
+	clear                            : none;
 	float                            : left;
-	height                           : 24px;
 	padding                          : 2px 0 0 5px;
 }
 
-#editor-palette a
+#editor-palette .button
 {
+	background-image                 : none;
 	float                            : left;
 	height                           : 20px;
+	margin                           : 0;
+	padding                          : 0;
 	width                            : 20px;
 }
 
-#editor-palette a span
+#editor-palette .button span
 {
 	display                          : none !important;
 }
 
-#editor-palette a:link,
-#editor-palette a:visited
+#editor-palette .button:link,
+#editor-palette .button:visited
 {
 	background-position              : left top;
 }
 
-#editor-palette a:hover,
-#editor-palette a:active
+#editor-palette .button:hover,
+#editor-palette .button:active
 {
 	background-position              : left bottom;
 }
 
+#editor-palette .active-class
+{
+	background-position              : left bottom !important;
+}
+
+#editor-palette .inactive-class
+{
+	background-position              : left top !important;
+}
+
+#editor-palette .inactive-class:hover,
+#editor-palette .inactive-class:active
+{
+	background-position              : left bottom !important;
+}
+
 #fontFamilyChanger
 {
-	width                            : 96px;
+	height                           : 19px;
+	width                            : 116px;
+}
+
+#fontFamilyChanger option
+{
+	background-color                 : #EFEFEF;
+}
+
+#fontFamilyChanger option.head-option
+{
+	background-color                 : #FFFFFF;
 }
 
 #fontSizeChanger
 {
+	height                           : 19px;
 	width                            : 50px;
+}
+
+#fontSizeChanger option
+{
+	background-color                 : #EFEFEF;
+}
+
+#fontSizeChanger option.head-option
+{
+	background-color                 : #FFFFFF;
 }
 
 #indicatorBold
 {
-	background-image                 : url("./image/edit/setBold.gif");
+	background-image                 : url("./image/edit/setBold.gif") !important;
 }
 
 #indicatorItalic
 {
-	background-image                 : url("./image/edit/setItalic.gif");
+	background-image                 : url("./image/edit/setItalic.gif") !important;
 }
 
 #indicatorUnderline
 {
-	background-image                 : url("./image/edit/setUnderLine.gif");
+	background-image                 : url("./image/edit/setUnderLine.gif") !important;
 }
 
 #indicatorStrike
 {
-	background-image                 : url("./image/edit/setLineThrough.gif");
+	background-image                 : url("./image/edit/setLineThrough.gif") !important;
 }
 
 #indicatorColorPalette
 {
-	background-image                 : url("./image/edit/setColor.gif");
+	background-image                 : url("./image/edit/setColor.gif") !important;
 }
 
 #indicatorMarkPalette
 {
-	background-image                 : url("./image/edit/setMark.gif");
+	background-image                 : url("./image/edit/setMark.gif") !important;
 }
 
 #indicatorTextBox
 {
-	background-image                 : url("./image/edit/textBox.gif");
+	background-image                 : url("./image/edit/textBox.gif") !important;
 }
 
 #indicatorRemoveFormat
 {
-	background-image                 : url("./image/edit/set_remove.gif");
+	background-image                 : url("./image/edit/set_remove.gif") !important;
 }
 
 #indicatorJustifyLeft
 {
-	background-image                 : url("./image/edit/setAlignLeft.gif");
+	background-image                 : url("./image/edit/setAlignLeft.gif") !important;
 }
 
 #indicatorJustifyCenter
 {
-	background-image                 : url("./image/edit/setAlignCenter.gif");
+	background-image                 : url("./image/edit/setAlignCenter.gif") !important;
 }
 
 #indicatorJustifyRight
 {
-	background-image                 : url("./image/edit/setAlignRight.gif");
+	background-image                 : url("./image/edit/setAlignRight.gif") !important;
 }
 
 #indicatorUnorderedList
 {
-	background-image                 : url("./image/edit/set_ul.gif");
+	background-image                 : url("./image/edit/set_ul.gif") !important;
 }
 
 #indicatorOrderedList
 {
-	background-image                 : url("./image/edit/set_ol.gif");
+	background-image                 : url("./image/edit/set_ol.gif") !important;
 }
 
 #indicatorOutdent
 {
-	background-image                 : url("./image/edit/set_outdent.gif");
+	background-image                 : url("./image/edit/set_outdent.gif") !important;
 }
 
 #indicatorIndent
 {
-	background-image                 : url("./image/edit/set_indent.gif");
+	background-image                 : url("./image/edit/set_indent.gif") !important;
 }
 
 #indicatorBlockquote
 {
-	background-image                 : url("./image/edit/set_blockquote.gif");
+	background-image                 : url("./image/edit/set_blockquote.gif") !important;
 }
 
 #indicatorCodeBlock
 {
-	background-image                 : url("./image/edit/setCode.gif");
+	background-image                 : url("./image/edit/setCode.gif") !important;
 }
 
 #indicatorHtmlBlock
 {
-	background-image                 : url("./image/edit/setHtml.gif");
+	background-image                 : url("./image/edit/setHtml.gif") !important;
 }
 
 #indicatorCreateLink
 {
-	background-image                 : url("./image/edit/setLink.gif");
+	background-image                 : url("./image/edit/setLink.gif") !important;
 }
 
 #indicatorMediaBlock
 {
-	background-image                 : url("./image/edit/setEmbed.gif");
+	background-image                 : url("./image/edit/setEmbed.gif") !important;
 }
 
 #indicatorFlashBlock
 {
-	background-image                 : url("./image/edit/setFlash.gif");
+	background-image                 : url("./image/edit/setFlash.gif") !important;
 }
 
 #indicatorMoreLessBlock
 {
-	background-image                 : url("./image/edit/setMoreLess.gif");
+	background-image                 : url("./image/edit/setMoreLess.gif") !important;
 }
 
 #indicatorMode
 {
-	background-image                 : url("./image/edit/set_switch.gif");
+	background-image                 : url("./image/edit/set_switch.gif") !important;
 	height                           : 11px !important;
-	margin-top                       : 5px;
+	margin-top                       : 5px !important;
 	width                            : 42px !important;
 }
 
@@ -595,48 +502,190 @@
 }
 
 /* textarea -------------------------------------------------------------------------------------*/
+#editor-textbox
+{
+	background-color                 : #EBF2F8;
+	border                           : 1px solid #8FA9BF;
+	clear                            : both;
+	text-align                       : center;
+}
+
 #editWindow
 {
-	border                           : 2px solid #77AACC;
+	border                           : none;
+	display                          : block;
+	height                           : 454px;
+	width                            : 654px;
+}
+
+#visualEditorWindow
+{
+	border                           : 1px solid #DDDDDD;
+	display                          : block;
 	height                           : 450px;
 	width                            : 652px;
+}
+
+#status-container
+{
+	background-color                 : #8FA9BF;
+	cursor                           : n-resize
+	padding                          : 3px 5px 0 5px;
+}
+
+#status-container span
+{
+	display                          : none;
+}
+
+/* property box --------------------------------------------------------------------------------*/
+.entry-editor-property
+{
+	background-color                 : #FFFFFF;
+	border                           : 2px solid #999999;
+	padding                          : 0 10px 10px 10px;
+	position                         : absolute;
+	left                             : 700px;
+	top                              : 17px;
+	width                            : 200px;
+}
+
+.entry-editor-property h4
+{
+	color                            : #000000;
+	display                          : block;
+	font-family                      : ±¼¸², Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-size                        : 0.9em;
+	font-weight                      : bold;
+	margin                           : 10px 0 5px 0;
+}
+
+.entry-editor-property .title
+{
+	color                            : #666666;
+	font-size                        : 0.9em;
+	font-weight                      : bold;
+	margin                           : 10px 0 3px 0;
+}
+
+.entry-editor-property dl
+{
+	padding-bottom                   : 1px;
+}
+
+.entry-editor-property dl dt
+{
+	border-bottom                    : 1px dashed #CCCCCC;
+	color                            : #666666;
+	font-family                      : Arial, Tahoma, Verdana, sans-serif;
+	font-size                        : 90%;
+	font-weight                      : normal !important;
+	height                           : 16px;
+	margin-right                     : 0 !important;
+	padding-top                      : 4px;
+	text-align                       : left !important;
+	width                            : 90px !important;
+}
+
+.entry-editor-property dl dd
+{
+	width                            : 105px !important;
+}
+
+.entry-editor-property dl dd input.text-input
+{
+	border                           : 1px solid #92B5E8;
+	width                            : 105px !important;
+}
+
+.entry-editor-property dl dd select
+{
+	border                           : 1px solid #92B5E8;
+	width                            : 110px !important;
+}
+
+.entry-editor-property dl dd select.file-list
+{
+	height                           : 220px;
+	margin-bottom                    : 0;
+	width                            : 200px !important;
+}
+
+.entry-editor-property dl dd textarea
+{
+	border                           : 1px solid #92B5E8;
+	width                            : 108px !important;
+}
+
+.entry-editor-property .button-box
+{
+	clear                            : both;
+	margin                           : 0 0 0 auto !important;
+	padding-top                      : 10px;
+	width                            : 156px !important;
+}
+
+.entry-editor-property .button-box .button
+{
+	border                           : 1px solid #666666;
+	background-color                 : #EEEEEE !important;
+	background-image                 : none !important;
+	float                            : left;
+	width                            : 70px !important;
+}
+
+.entry-editor-property .button-box .button span
+{
+	background-color                 : transparent !important;
+	background-image                 : none !important;
+	color                            : #000000;
+	font-size                        : 0.9em;
+	width                            : 66px !important;
+}
+
+.entry-editor-property .button-box .button:hover span
+{
+	color                            : #565656;
+}
+
+.entry-editor-property dl dd.button-box
+{
+	float                            : none !important;
+}
+
+.entry-editor-property .preview-box img
+{
+	border                           : 1px solid #000000;
+	margin-top                       : 5px;
 }
 
 /* tag and location -----------------------------------------------------------------------------*/
 #taglocal-section
 {
-	background-color                 : #BCD2E5;
-	margin                           : -5px 20px 5px 20px;
-	padding                          : 5px 3px 5px 5px;
-	width                            : 658px;
+	background-color                 : #BCD2E5 !important;
+	margin                           : 0 20px 5px 20px;
+	padding                          : 4px 5px 5px 5px;
+	width                            : 656px !important;
 }
 
-/* tag */
-dl#tag-line
+#taglocal-section dl dt
 {
-	clear                            : both;
-	margin-top                       : 10px;
-}
-
-dl#tag-line dt
-{
-	float                            : left;
-	font-weight                      : bold;
-	text-align                       : right;
+	left                             : 25px;
+	padding-top                      : 3px;
+	position                         : absolute;
 	width                            : 70px;
 }
 
-dl#tag-line dd#tag
+#taglocal-section dl dd
 {
-	float                            : left;
-	margin-left                      : 3px;
-	width                            : 580px;
+	margin-left                      : 85px;
 }
 
+/* tag */
 dl#tag-line dd .text-input
 {
-	margin                           : -4px 0 5px 0;
-	padding                          : 2px;
+	border                           : 1px solid #92B5E8;
+	margin                           : -3px 0 5px 0;
 	width                            : 130px;
 }
 
@@ -647,9 +696,8 @@ dl#tag-line dd .text-input
 	background-repeat                : no-repeat;
 	float                            : left;
 	font-weight                      : bold;
-	height                           : 14px;
 	margin-right                     : 5px;
-	padding                          : 0 4px 5px 0;
+	padding                          : 2px 4px 0 0;
 	white-space                      : pre;
 }
 
@@ -658,40 +706,10 @@ dl#tag-line dd .text-input
 	background-image                 : none;
 }
 
-dl#tag-line .clear,
-dl#location-line .clear
-{
-	clear                            : both;
-	float                            : none !important;
-}
-
 /* location */
-dl#location-line
+#location-line dd .text-input
 {
-	clear                            : both;
-}
-
-dl#location-line dt
-{
-	float                            : left;
-	font-weight                      : bold;
-	margin-top                       : 3px;
-	text-align                       : right;
-	width                            : 70px;
-}
-
-dl#location-line dd#location
-{
-	float                            : left;
-	margin-left                      : 3px;
-	margin-top                       : 3px;
-	width                            : 580px;
-}
-
-dl#location-line dd .text-input
-{
-	margin                           : -4px 0 5px 0;
-	padding                          : 2px;
+	border                           : 1px solid #92B5E8;
 	width                            : 130px;
 }
 
@@ -712,12 +730,6 @@ dl#location-line dd .text-input
 	background-image                 : none;
 }
 
-#location-line dt,
-#location-line dd
-{
-	margin-top                       : 1px;
-}
-
 /* upload ---------------------------------------------------------------------------------------*/
 #upload-section
 {
@@ -732,8 +744,8 @@ dl#location-line dd .text-input
 {
 	background-color                 : #FFFFFF;
 	border                           : 1px solid #878787;
-	float                            : left;
-	margin                           : 0 6px 0 8px;
+	position                         : absolute;
+	left                             : 12px;
 }
 
 #previewSelected span
@@ -743,24 +755,29 @@ dl#location-line dd .text-input
 	text-align                       : center;
 }
 
-#attachManagerSelect
+#attachManagerSelectNest
 {
-	float                            : left;
-	height                           : 120px;
+	margin-left                      : 136px;
 	width                            : 415px;
 }
 
 #fileList
 {
-	display                          : block;
 	height                           : 120px;
 	width                            : 415px;
 }
 
 #fileUploadNest
 {
-	margin-left                      : 138px;
+	height                           : 3em;
+	margin-left                      : 136px;
 	width                            : 410px;
+}
+
+#fileUploadNest iframe
+{
+	float                            : left;
+	margin-right                     : 3px;
 }
 
 #uploaderNest
@@ -773,28 +790,35 @@ dl#location-line dd .text-input
 {
 	border                           : 1px solid #666666;
 	background-color                 : #EEEEEE;
+	background-image                 : none;
 	float                            : left;
-	margin                           : 8px 3px 0 0;
+	margin                           : 0 3px 0 0;
 	padding                          : 6px 10px 3px 10px;
 	text-align                       : center;
+}
+
+#upload-section .button span
+{
+	background-color                 : transparent;
+	background-image                 : none;
+	padding                          : 0 !important;
 }
 
 #fileSize
 {
 	float                            : right;
-	margin-top                       : 12px;
+	margin-top                       : 5px;
 }
 
+/* iframe */
 #body-editor-attachment
 {
-	background-color                 : #D0E5F1;
+	background-color                 : #D0E5F1 !important;
 }
 
 #body-editor-attachment .file-input
 {
-	background-color                 : #EEEEEE;
-	border                           : 1px solid #666666;
-	color                            : #565656;
+	font-size                        : 12px;
 }
 
 /* insert buttons */
@@ -894,86 +918,67 @@ dl#location-line dd .text-input
 	line-height                      : 17px;
 	margin                           : 5px 20px;
 	position                         : relative;
-	padding                          : 12px 0 4px 0;
+	padding                          : 12px 0 8px 0;
 	width                            : 666px;
-}
-
-#power-section dl
-{
-	clear                            : both;
 }
 
 #power-section dl dt
 {
-	text-align                       : right;
 	width                            : 120px;
 }
 
-#power-section dl dt,
-#power-section dl dd
+dl#date-line dt
 {
-	float                            : left;
-	padding                          : 0 5px 3px 0;
+	padding-top                      : 3px;
 }
 
-#power-section dl dd.clear
+dl#status-line dt,
+dl#power-line dt
 {
-	clear                            : both;
-	float                            : none;
+	padding-top                      : 0;
 }
 
-#power-section dl dd .text-input
+dl#date-line dd .text-input
 {
-	border                           : 1px solid #92B5E8 !important;
-	margin-top                       : -4px;
-	padding                          : 2px;
+	border                           : 1px solid #92B5E8;
 	width                            : 120px;
 }
 
-#power-section dl#date-line dd div,
-#power-section dl#status-line dd div
+dl#date-line dd div,
+dl#status-line dd div
 {
 	display                          : inline;
+}
+
+dl#power-line
+{
+	height                           : 3em;
 }
 
 /* button box -----------------------------------------------------------------------------------*/
 .one-button-box
 {
-	margin-left                      : auto;
-	margin-right                     : auto;
+	height                           : 23px;
+	margin                           : 20px auto 0 auto;
 	width                            : 114px;
 }
 
 .two-button-box
 {
-	margin-left                      : auto;
-	margin-right                     : auto;
-	width                            : 228px;
+	height                           : 23px;
+	margin                           : 20px auto 0 auto;
+	width                            : 224px;
 }
 
 .three-button-box
 {
-	margin-left                      : auto;
-	margin-right                     : auto;
-	width                            : 342px;
+	height                           : 23px;
+	margin                           : 20px auto 0 auto;
+	width                            : 336px;
 }
 
 .button-box .button
 {
-	background-color                 : #CCCCCC;
-	background-image                 : url("./image/button.gif");
 	float                            : left;
-	height                           : 24px;
-	margin                           : 0 2px;
-	padding-left                     : 4px;
-	width                            : 106px;
-}
-
-.button-box .button span
-{
-	background-image                 : url("./image/button.gif");
-	height                           : 24px;
-	padding                          : 6px 4px 0 0;
-	text-align                       : center;
-	width                            : 102px;
+	margin                           : 0 1px !important;
 }

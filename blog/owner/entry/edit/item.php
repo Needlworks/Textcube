@@ -340,6 +340,45 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 											},
 											false
 										);
+										
+										function changeEditorMode() {
+											editWindow = document.getElementById("editWindow");
+											indicatorMode = document.getElementById("indicatorMode");
+											
+											if (editWindow.style.display == "block" || editWindow.style.display == "inline") {
+												if (document.getElementById("visualEditorWindow")) {
+													indicatorMode.className = indicatorMode.className.replace("inactive-class", "active-class");
+													indicatorMode.innerHTML = '<span class="text"><?php echo _t('HTML 모드')?></span>';
+													indicatorMode.setAttribute("title", "<?php echo _t('클릭하시면 WISWIG 모드로 변경합니다.')?>");
+												} else {
+													indicatorMode.className = indicatorMode.className.replace("inactive-class", "active-class");
+													indicatorMode.innerHTML = '<span class="text"><?php echo _t('HTML 모드')?></span>';
+													indicatorMode.removeAttribute("title");
+												}
+											} else {
+												indicatorMode.className = indicatorMode.className.replace("active-class", "inactive-class");
+												indicatorMode.setAttribute("title", "<?php echo _t('클릭하시면 HTML 모드로 변경합니다.')?>");
+												indicatorMode.innerHTML = '<span class="text"><?php echo _t('WISWIG 모드')?></span>';
+											}
+										}
+										
+										function changeButtonStatus(obj, palette) {
+											if (!document.getElementById('indicatorColorPalette').className.match('inactive-class')) {
+												document.getElementById('indicatorColorPalette').className = document.getElementById('indicatorColorPalette').className.replace('active-class', 'inactive-class');
+											}
+											if (!document.getElementById('indicatorMarkPalette').className.match('inactive-class')) {
+												document.getElementById('indicatorMarkPalette').className = document.getElementById('indicatorMarkPalette').className.replace('active-class', 'inactive-class');
+											}
+											if (!document.getElementById('indicatorTextBox').className.match('inactive-class')) {
+												document.getElementById('indicatorTextBox').className = document.getElementById('indicatorTextBox').className.replace('active-class', 'inactive-class');
+											}
+											
+											if (document.getElementById(palette).style.display == "block") {
+												obj.className = obj.className.replace('inactive-class', 'active-class');
+											} else {
+												obj.className = obj.className.replace('active-class', 'inactive-class');
+											}
+										}
 									//]]>
 								</script>
 								
@@ -376,11 +415,11 @@ if (defined('__TATTERTOOLS_POST__')) {
 <?
 if (defined('__TATTERTOOLS_KEYWORD__')) {
 ?>
-												<dt><label for="title"><span><?=_t('키워드')?></span><span class="divider"> | </span></label></dt>
+												<dt><label for="title"><span class="text"><?=_t('키워드')?></span></label></dt>
 <?
 } else {
 ?>
-												<dt><label for="title"><span><?=_t('제목')?></span><span class="divider"> | </span></label></dt>
+												<dt><label for="title"><span class="text"><?=_t('제목')?></span></label></dt>
 <?
 }
 ?>
@@ -410,7 +449,6 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 }
 ?>
 												</dd>
-												<dd class="clear"></dd>
 											</dl>
 										</div>
 										
@@ -426,27 +464,53 @@ printEntryEditorPalette();
 												<script type="text/javascript">
 													//<![CDATA[
 														var editor = new TTEditor();
-														editor.initialize(document.getElementById("editWindow"), "<?=$service['path']?>/attach/<?=$owner?>/", "<?=true ? 'WYSIWYG' : 'TEXTAREA'?>", "<?=true ? 'BR' : 'P'?>");
+														editor.initialize(document.getElementById("editWindow"), "<?=$blogURL?>/attach/<?=$owner?>/", "<?=true ? 'WYSIWYG' : 'TEXTAREA'?>", "<?=true ? 'BR' : 'P'?>");
 													//]]>
 												</script>
 											</div>
-											
-											<hr class="hidden" />
+											<div id="status-container" class="container"><span id="pathStr"><?php echo _t('path')?></span><span class="divider"> : </span><span id="pathContent"></span></div>
+<?
+if (!defined('__TATTERTOOLS_KEYWORD__')) {
+	if (!defined('__TATTERTOOLS_NOTICE__')) {
+		$view = fireEvent('AddPostEditorToolbox', '');
+		if (!empty($view)) {
+?>
+											<div id="toolbox-container" class="container"><?php echo $view?></div>
+<?
+		}
+	} else {
+		$view = fireEvent('AddNoticeEditorToolbox', '');
+		if (!empty($view)) {
+?>
+											<div id="toolbox-container" class="container"><?php echo $view?></div>
+<?
+		}
+	}
+} else {
+	$view = fireEvent('AddKeywordEditorToolbox', '');
+	if (!empty($view)) {
+?>
+											<div id="toolbox-container" class="container"><?php echo $view?></div>
+<?
+	}
+}
+?>
+										</div>
+										
+										<div id="property-section" class="section">
+											<h3><span class="text"><?php echo _t('속성 상자')?></span></h3>
 											
 											<div id="property-container" class="container">
 <?
 printEntryEditorProperty();
 ?>
 											</div>
+										</div>
 
 <?
 if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
-		$view = fireEvent('AddPostEditorToolbox', '');
-		if (!empty($view))
-			echo '<div id="post-toolbox">', $view, '</div>';
 ?>
-										</div>
 										
 										<hr class="hidden" />
 										
@@ -455,16 +519,15 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 													
 											<div id="tag-location-container" class="container">
 												<dl id="tag-line">
-													<dt><span class="text"><?=_t('태그')?></span><span class="divider"> | </span></dt>
+													<dt><span class="text"><?=_t('태그')?></span></dt>
 													<dd id="tag"></dd>
 												</dl>
 												
 												<dl id="location-line">
-													<dt><span class="text"><?=_t('지역')?></span><span class="divider"> | </span></dt>
+													<dt><span class="text"><?=_t('지역')?></span></dt>
 													<dd id="location"></dd>
 												</dl>
-												
-												<div class="clear"></div>
+												
 												
 												<script type="text/javascript">
 													//<![CDATA[
@@ -495,19 +558,11 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 													//]]>
 												</script> 
 											</div>
+										</div>
 <?
-	} else {
-		$view = fireEvent('AddNoticeEditorToolbox', '');
-		if (!empty($view))
-			echo '<div id="notice-toolbox">', $view, '</div>';
 	}
-} else {
-	$view = fireEvent('AddKeywordEditorToolbox', '');
-	if (!empty($view))
-		echo '<div id="keyword-toolbox">', $view, '</div>';
 }
 ?>
-										</div>
 									
 										<hr class="hidden" />
 										
@@ -531,10 +586,7 @@ printEntryFileList(getAttachments($owner, $entry['id'], 'label'), $entry['id']);
 												<a class="image-sequence" href="#void" onclick="viewGallery()" title="<?=_t('이미지 갤러리를 삽입합니다.')?>"><span class="text"><?=_t('갤러리 삽입')?></span></a>
 												<a class="image-mp3" href="#void" onclick="viewJukebox()" title="<?=_t('쥬크박스를 삽입합니다.')?>"><span class="text"><?=_t('쥬크박스 삽입')?></span></a>
 												<a class="image-podcast" href="#void" onclick="setEnclosure(document.getElementById('fileList').value)" title="<?=_t('팟캐스트로 지정합니다.')?>"><span class="text"><?=_t('팟캐스트 지정')?></span></a>
-												
-												<div class="clear"></div>
 											</div>
-												
 <?
 printEntryFileUploadButton($entry['id']);
 ?>
@@ -545,7 +597,7 @@ printEntryFileUploadButton($entry['id']);
 										<div id="power-section" class="section">
 											<div id="power-container" class="container">
 												<dl id="date-line" class="line">
-													<dt><span class="text"><?=_t('등록일자')?></span><span class="divider"> | </span></dt>
+													<dt><span class="text"><?=_t('등록일자')?></span></dt>
 													<dd>
 <?
 if (defined('__TATTERTOOLS_POST__')) {
@@ -564,10 +616,9 @@ if (defined('__TATTERTOOLS_POST__')) {
 															<input type="text" id="appointed" class="text-input" name="appointed" value="<?=Timestamp::format5(isset($entry['appointed']) ? $entry['appointed'] : $entry['published'])?>" onfocus="document.forms[0].published[document.forms[0].published.length - 1].checked = true" />
 														</div>
 													</dd>
-													<dd class="clear"></dd>
 												</dl>
 												<dl id="status-line" class="line">
-													<dt><span class="text"><?=_t('공개여부')?></span><span class="divider"> | </span></dt>
+													<dt><span class="text"><?=_t('공개여부')?></span></dt>
 													<dd>
 														<div class="status-private"><input type="radio" id="visibility_private" class="radio" name="visibility" value="0"<?=(abs($entry['visibility']) == 0 ? ' checked="checked"' : '')?> /> <label for="visibility_private"><span class="text"><?=_t('비공개')?></span></label></div>
 <?
@@ -589,27 +640,23 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	}
 }
 ?>
-														<div class="clear"></div>
 													</dd>
-													<dd class="clear"></dd>
 												</dl>
 <?
 if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
 												<dl id="power-line" class="line">
-													<dt><span class="text"><?=_t('권한')?></span><span class="divider"> | </span></dt>
+													<dt><span class="text"><?=_t('권한')?></span></dt>
 													<dd>
 														<div class="comment-yes"><input type="checkbox" id="acceptComment" class="checkbox" name="acceptComment"<?=($entry['acceptComment'] ? ' checked="checked"' : '')?> /> <label for="acceptComment"><span class="text"><?=_t('댓글 작성을 허용합니다.')?></span></label></div>
 													  	<div class="trackback-yes"><input type="checkbox" id="acceptTrackback" class="checkbox" name="acceptTrackback"<?=($entry['acceptTrackback'] ? ' checked="checked"' : '')?> /> <label for="acceptTrackback"><span class="text"><?=_t('트랙백 수신을 허용합니다.')?></span></label></div>
 													</dd>
-													<dd class="clear"></dd>
 												</dl>
 <?
 	}
 }
 ?>
-												<div class="clear"></div>
 											</div>
 										</div>
 									</div>
@@ -624,14 +671,12 @@ if (isset($_GET['popupEditor'])) {
 										<a href="#void" class="save-button button" onclick="entryManager.save()"><span class="text"><?=_t('저장하기')?></span></a>
 										<span class="hidden">|</span>
 							        	<a href="#void" class="preview-button button" onclick="entryManager.preview()"><span class="text"><?=_t('미리보기')?></span></a>
-										<div class="clear"></div>
 									</div>
 <?
 	} else {
 ?>
 									<div class="button-box one-button-box">
 										<a href="#void" class="save-button button" onclick="entryManager.save()"><span class="text"><?=_t('저장하기')?></span></a>
-										<div class="clear"></div>
 									</div>
 <?
 	}
@@ -644,7 +689,6 @@ if (isset($_GET['popupEditor'])) {
 							        	<a href="#void" class="preview-button button" onclick="entryManager.preview()"><span class="text"><?=_t('미리보기')?></span></a>
 										<span class="hidden">|</span>
 										<a href="#void" class="list-button button" onclick="document.forms[0].action='<?=$blogURL?>/owner/entry'; document.forms[0].submit()"><span class="text"><?=_t('목록으로')?></span></a>
-										<div class="clear"></div>
 									</div>
 <?
 	} else {
@@ -653,7 +697,6 @@ if (isset($_GET['popupEditor'])) {
 										<a href="#void" class="save-button button" onclick="entryManager.save()"><span class="text"><?=_t('저장하기')?></span></a>
 										<span class="hidden">|</span>
 										<a href="#void" class="list-button button" onclick="document.forms[0].action='<?=$blogURL?>/owner/notice'; document.forms[0].submit()"><span class="text"><?=_t('목록으로')?></span></a>
-										<div class="clear"></div>
 									</div>
 <?
 	}
@@ -667,8 +710,6 @@ if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
 									<input type="hidden" name="withSearch" value="<?=(empty($_POST['search']) ? '' : 'on')?>" />
 									<input type="hidden" name="search" value="<?=(isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '')?>" />
-									
-									<div class="clear"></div>
 								</div>
 <?
 if (isset($_GET['popupEditor']))

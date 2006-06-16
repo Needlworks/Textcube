@@ -5,6 +5,7 @@ require ROOT . '/lib/includeForOwner.php';
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 	<head>
+		<title><?php echo _t('File Uploader')?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="<?=$service['path']?>/script/EAF.js"></script>
 		<script type="text/javascript" src="<?=$service['path']?>/script/common.js"></script>
@@ -88,7 +89,7 @@ if (count($_FILES) == 1) {
 ?>
 				oSelect.appendChild(oOption);
 				//oSelect.selectedIndex = oSelect.options.length - 1;
-				//window.parent.document.getElementById("selectedImage").src = "<?=(strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$service['path']}/attach/$owner/{$attachment['name']}" : "{$service['path']}/image/spacer.gif")?>";
+				//window.parent.document.getElementById("selectedImage").src = "<?=(strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$owner/{$attachment['name']}" : "{$blogURL}/image/spacer.gif")?>";
 					window.parent.refreshFileSize();
 				} catch(e) {
 				alert('['+e.message+']');
@@ -99,7 +100,8 @@ if (count($_FILES) == 1) {
 ?>
 		//]]>
 	</script>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $blogURL .$service['adminSkin']?>/editor.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/editor.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/editor.ie.css" /><![endif]-->
 	<style type="text/css">
 		<!--
 			body,
@@ -126,7 +128,7 @@ if (count($_FILES) == 1) {
 				}
 				
 				if (uploader!=null) {
-					document.write('<input type="file" class="file-input" name="attachment" onClick="uploader.SetVariable(\'/:openBroswer\',\'true\');return false;" onchange="addAttachOption(this.value);document.forms[0].submit()" />');
+					document.write('<input type="file" class="file-input" name="attachment" onclick="uploader.SetVariable(\'/:openBroswer\',\'true\');return false;" onchange="addAttachOption(this.value);document.forms[0].submit()" />');
 				} else {
 					document.write('<input type="file" class="file-input" name="attachment" onchange="addAttachOption(this.value);document.forms[0].submit()" />');
 				}

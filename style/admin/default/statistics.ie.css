@@ -1,37 +1,9 @@
 @charset "utf-8";
 
-/* Visitor ***************************************************************************************/
-
-/* month ----------------------------------------------------------------------------------------*/
-#part-statistics-month table.data-inbox .tr-body td,
-#part-statistics-month table.data-inbox .tr-last-body td
-{
-	height                           : 24px !important;
-	padding                          : 0 0 0 5px !important;
-}
-
-/* day ------------------------------------------------------------------------------------------*/
-#part-statistics-day table.data-inbox .tr-body td,
-#part-statistics-day table.data-inbox .tr-last-body td
-{
-	height                           : 24px !important;
-	padding                          : 0 0 0 5px !important;
-}
-
 /* Referer ***************************************************************************************/
 
 /* rank -----------------------------------------------------------------------------------------*/
-#part-statistics-rank table.data-inbox .tr-body td,
-#part-statistics-rank table.data-inbox .tr-last-body td
+#part-statistics-rank
 {
-	height                           : 18px;
-	padding                          : 0 0 0 5px;
-}
-
-/* log ------------------------------------------------------------------------------------------*/
-#part-statistics-log table.data-inbox .tr-body td,
-#part-statistics-log table.data-inbox .tr-last-body td
-{
-	height                           : 18px;
-	padding                          : 0 0 0 5px;
+	left                             : 40px;
 }

@@ -42,20 +42,21 @@ em
 
 h1,
 h2,
-h3,
-h4,
-h5,
-h6
+h3
 {
 	display                          : none;
-	font-size                        : inherit;
+	font-size                        : 1em;
 }
 
 input
 {
-	font-family                      : inherit;
-	font-size                        : inherit;
-	vertical-align                   : middle;
+	font-size                        : 1em;
+}
+
+kbd
+{
+	color                            : #666666;
+	font-family                      : ±¼¸², Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
 }
 
 label
@@ -63,31 +64,67 @@ label
 	cursor                           : pointer;
 }
 
+ol,
+ol li
+{
+	list-style-type                  : none;
+}
+
 samp
 {
-	font-family                      : inherit;
+	color                            : #666666;
+	font-family                      : ±¼¸², Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif !important;
+}
+
+optgroup
+{
+	font-style                       : normal;
+}
+
+option
+{
+	padding-left                     : 5px;
+	padding-right                    : 5px;
 }
 
 select
 {
-	/*border                           : 1px solid #878787;*/
-	height                           : 18px;
-	font-family                      : inherit;
-	font-size                        : inherit;
-	/*padding                          : 1px;*/
-	vertical-align                   : middle;
+	font-size                        : 1em;
 }
 
 textarea
 {
 	border                           : 1px solid #878787;
-	font-size                        : inherit;
+	font-family                      : ±¼¸², Gulim, Verdana, Tahoma, Arial, 'Lucida Grande', sans-serif;
+	font-size                        : 1em;
 }
 
 ul,
-li
+ul li
 {
 	list-style-type                  : none;
+}
+
+/* Special Class *********************************************************************************/
+
+input.text-input
+{
+	border                           : 1px solid #878787;
+	font-family                      : ±¼¸², Gulim, Verdana, Tahoma, Arial, 'Lucida Grande', sans-serif;
+	padding                          : 2px;
+}
+
+input.text-readonly-input
+{
+	border                           : 1px solid #878787;
+	font-family                      : ±¼¸², Gulim, Verdana, Tahoma, Arial, 'Lucida Grande', sans-serif;
+	padding                          : 2px;
+}
+
+.checkbox,
+.radio
+{
+	vertical-align                   : middle;
 }
 
 /* Layout ****************************************************************************************/
@@ -99,7 +136,7 @@ li
 	
 #all-wrap
 {
-	font-size                        : 94%;
+	font-size                        : 0.925em;
 	text-align                       : justify;
 }
 
@@ -133,7 +170,7 @@ li
 
 /* Main Description ******************************************************************************/
 
-#main-description .blog
+#description-blog
 {
 	background-image                 : url("./image/menuLine2.gif");
 	background-repeat                : repeat-x;
@@ -143,7 +180,7 @@ li
 	padding-right                    : 2px;
 }
 
-#main-description .blog a
+#description-blog a
 {
 	background-image                 : url("./image/blog.gif");
 	background-position              : left top;
@@ -153,19 +190,19 @@ li
 	width                            : 82px;
 }
 
-#main-description .blog a span
+#description-blog a span
 {
 	display                          : none;
 }
 
-#main-description .logout
+#description-logout
 {
 	position                         : absolute;
 	right                            : 34px;
 	top                              : 24px;
 }
 
-#main-description .logout a
+#description-logout a
 {
 	background-image                 : url("./image/logout.gif");
 	background-position              : left top;
@@ -175,19 +212,37 @@ li
 	width                            : 51px;
 }
 
-#main-description .logout a span
+#description-logout a span
 {
 	display                          : none;
 }
 
-#main-description .blogger
+#description-blogger
 {
 	display                          : none;
 }
 
 /* Main Menu *************************************************************************************/
 
-/* common */
+#main-menu-box
+{
+	background-color                 : #1C6791;
+	background-image                 : url("./image/mainMenuBG.gif") !important;
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	height                           : 2.6em;
+	margin                           : 0 10px 0 195px;
+}
+
+#main-menu
+{
+	background-image                 : url("./image/mainMenuRight.gif");
+	background-position              : right top;
+	background-repeat                : no-repeat;
+	height                           : 2.6em;
+	overflow                         : hidden;
+}
+
 #main-menu li a:link,
 #main-menu li a:visited
 {
@@ -202,41 +257,22 @@ li
 	text-decoration                  : underline;
 }
 
-#main-menu-box
-{
-	background-color                 : #1E6A96;
-	background-image                 : url("./image/mainMenuBG.gif") !important;
-	height                           : 31px;
-	margin                           : 0 10px 0 195px;
-	min-width                        : 620px;
-}
-
-#main-menu
-{
-	background-image                 : url("./image/mainMenuRight.gif");
-	background-position              : right top;
-	background-repeat                : no-repeat;
-	height                           : 31px;
-	min-width                        : 650px;
-	overflow                         : hidden;
-}
-
-#main-menu .selected a
+#main-menu li.selected a
 {
 	background-color                 : #FF7300;
 	padding-left                     : 5px !important;
 	padding-right                    : 5px !important;
 }
 
-#main-menu .center,
-#main-menu .post,
-#main-menu .notice,
-#main-menu .link,
-#main-menu .skin,
-#main-menu .trash,
-#main-menu .statistics,
-#main-menu .setting,
-#main-menu .reader
+#menu-center,
+#menu-post,
+#menu-notice,
+#menu-link,
+#menu-skin,
+#menu-trash,
+#menu-statistics,
+#menu-setting,
+#menu-reader
 {
 	background-image                 : url("./image/mainMenuSeparate.gif");
 	background-position              : left center;
@@ -245,28 +281,28 @@ li
 	padding                          : 10px 4px 0 9px;
 }
 
-#main-menu .center a,
-#main-menu .post a,
-#main-menu .notice a,
-#main-menu .link a,
-#main-menu .skin a,
-#main-menu .trash a,
-#main-menu .statistics a,
-#main-menu .setting a,
-#main-menu .reader a
+#menu-center a,
+#menu-post a,
+#menu-notice a,
+#menu-link a,
+#menu-skin a,
+#menu-trash a,
+#menu-statistics a,
+#menu-setting a,
+#menu-reader a
 {
 	padding                          : 4px 0 2px 0;
 }
 
-#main-menu .center
+#menu-center
 {
 	background-image                 : url("./image/mainMenuLeft.gif");
 	background-position              : left top;
 	padding-left                     : 24px;
 }
 
-/* special */
-#main-menu .tattertools
+/* special --------------------------------------------------------------------------------------*/
+#menu-tattertools
 {
 	left                             : 24px;
 	position                         : absolute;
@@ -274,7 +310,7 @@ li
 	z-index                          : 100;
 }
 
-#main-menu .tattertools a
+#menu-tattertools a
 {
 	background-image                 : url("./image/controlPanelLogo.gif");
 	display                          : block;
@@ -282,7 +318,7 @@ li
 	width                            : 146px;
 }
 
-#main-menu .tattertools a span
+#menu-tattertools a span
 {
 	display                          : none;
 }
@@ -291,27 +327,28 @@ li
 
 #sub-menu
 {
-	height                           : 14px;
+	height                           : 2.1em;
 	margin                           : 0 20px 0 30px;
 	min-width                        : 840px;
 }
 
 #sub-menu li
 {
+	background-color                 : #009FEB;
 	float                            : left;
-	height                           : 26px;
+	height                           : 2.1em;
 	margin                           : 0 1px;
 }
 
 #sub-menu li a
 {
-	background-color                 : #00B8F1;
+	background-color                 : #009FEB;
 	background-image                 : url("./image/subTab.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	float                            : left;
-	height                           : 26px;
-	padding-left                     : 4px;
+	height                           : 2.1em;
+	padding-left                     : 7px;
 }
 
 #sub-menu li a span
@@ -321,8 +358,7 @@ li
 	background-repeat                : no-repeat;
 	display                          : block;
 	float                            : left;
-	height                           : 19px;
-	padding                          : 7px 9px 0 5px;
+	padding                          : 0.5em 7px 0 0;
 }
 
 #sub-menu li a:link,
@@ -331,6 +367,7 @@ li
 	color                            : #FFFFFF;
 	display                          : block;
 	font-weight                      : bold;
+	height                           : 2.1em;
 }
 
 #sub-menu li a:hover,
@@ -343,9 +380,14 @@ li
 #sub-menu li a:hover span,
 #sub-menu li a:active span
 {
-	color                            : #00A6ED;
+	color                            : #009DEA;
 	background-image                 : url("./image/subTabActive.gif");
 	text-decoration                  : underline;
+}
+
+#sub-menu li.selected
+{
+	height                           : 2.1em;
 }
 
 #sub-menu li.selected a
@@ -362,88 +404,100 @@ li
 #sub-menu li.selected a:link,
 #sub-menu li.selected a:visited
 {
-	color                            : #00A6ED;
+	color                            : #009DEA;
 }
 
-#sub-menu .helper
+#sub-menu-helper
 {
+	background-color                 : transparent !important;
 	background-image                 : url("./image/iconHelp.gif");
 	background-position              : right 5px;
 	background-repeat                : no-repeat;
-	float                            : right;
-	padding-right                    : 18px;
+	float                            : right !important;
+	margin-right                     : 10px !important;
+	padding-right                    : 12px;
 }
 
-#sub-menu .helper a,
-#sub-menu .helper a span
+#sub-menu-helper a,
+#sub-menu-helper a span
 {
 	background-color                 : transparent !important;
 	background-image                 : none !important;
 	color                            : #FFFFFF !important;
+	display                          : inline;
 	font-weight                      : normal;
-	padding                          : 3px 0 0 0;
 }
 
 /* Data Box **************************************************************************************/
 
-/* psuedo box */
-#psuedo-outbox
+/* psuedo box -----------------------------------------------------------------------------------*/
+#psuedo-box
 {
 	background-color                 : #FFFFFF;
 	background-image                 : url("./image/round_left.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
-	clear                            : both;
 	margin                           : 0 20px;
 	min-width                        : 920px;
 	padding                          : 0 0 20px 20px;
 }
 
-#psuedo-inbox
+/* data oubox -----------------------------------------------------------------------------------*/
+#data-outbox
 {
 	background-image                 : url("./image/round_right.gif");
 	background-position              : right top;
 	background-repeat                : no-repeat;
-	clear                            : both;
 	min-width                        : 849px;
 	padding-right                    : 20px;
 }
 
-#data-outbox .caption
+#data-outbox h2.caption
 {
 	background-image                 : url("./image/sectionDescriptionIcon.gif");
-	background-position              : left bottom;
+	background-position              : left 1.4em;
 	background-repeat                : no-repeat;
 	display                          : block;
+	font-size                        : 1em;
 	font-weight                      : bold;
-	margin                           : 0 3px;
-	padding                          : 23px 0 0 21px;
+	margin                           : 0 3px 10px 3px;
+	padding                          : 1.6em 0 0 21px;
 	text-align                       : left;
+}
+
+#category
+{
+	float                            : right;
+	font-weight                      : normal;
+}
+
+#data-outbox h2.caption .interword
+{
+	display                          : none;
 }
 
 #data-outbox .main-explain-box .explain
 {
 	background-color                 : #EFEFEF;
 	display                          : block;
-	line-height                      : 18px;
-	margin                           : 10px 0 5px 0;
-	padding                          : 10px 10px 8px 10px;
+	margin-bottom                    : 5px;
+	padding                          : 6px 5px 4px 5px;
 	text-align                       : left;
 }
 
 #data-outbox .main-explain-box .explain a:link,
 #data-outbox .main-explain-box .explain a:visited
 {
-	color                            : #545454;
+	color                            : #999999;
 }
 
 #data-outbox .main-explain-box .explain a:hover,
 #data-outbox .main-explain-box .explain a:active
 {
-	color                            : #767676;
+	color                            : #BBBBBB;
 }
-
-/* data box */
+							
+/* data inbox -----------------------------------------------------------------------------------*/
 #data-outbox .data-inbox a:link,
 #data-outbox .data-inbox a:visited
 {
@@ -460,8 +514,8 @@ li
 #data-outbox div.data-inbox
 {
 	background-color                 : #EBF2F8;
-	border-bottom                    : 2px solid #00A6ED;
-	border-top                       : 2px solid #00A6ED;
+	border-bottom                    : 2px solid #009DEA;
+	border-top                       : 2px solid #009DEA;
 	color                            : #536576;
 	margin-top                       : 5px;
 	overflow                         : hidden;
@@ -471,18 +525,14 @@ li
 
 #data-outbox table.data-inbox
 {
-	border-bottom                    : 2px solid #00A6ED;
-	border-left                      : none;
-	border-right                     : none;
-	border-top                       : none;
-	color                            : #536576;
-	margin                           : 5px 0 0 0;
-	overflow                         : hidden;
+	border-bottom                    : 2px solid #009DEA;
+	border-collapse                  : collapse;
+	width                            : 100%;
 }
 
-#data-outbox table.data-inbox thead tr
+#data-outbox table.data-inbox thead
 {
-	background-color                 : #00B8F1;
+	background-color                 : #009DEA;
 	background-image                 : url("./image/table-head.gif");
 	background-position              : left top;
 	background-repeat                : repeat-x;
@@ -492,54 +542,248 @@ li
 {
 	color                            : #FFFFFF;
 	font-weight                      : bold;
-	overflow                         : hidden;
-	padding                          : 7px 0 5px 0;
+	text-transform                   : uppercase;
+	padding                          : 6px 5px 4px 5px;
 }
 
-#data-outbox table.data-inbox .tr-body td
+#data-outbox table.data-inbox thead tr .selection
+{
+	padding                          : 0 5px;
+}
+
+#data-outbox table.data-inbox thead tr .delete
+{
+	width                            : 12px;
+}
+
+#data-outbox table.data-inbox thead tr .delete span
+{
+	display                          : none;
+}
+
+#data-outbox table.data-inbox tbody tr td
 {
 	border-bottom                    : 1px dotted #CCCCCC;
-}
-
-#data-outbox table.data-inbox .tr-body td,
-#data-outbox table.data-inbox .tr-last-body td
-{
+	color                            : #536576;
+	padding                          : 5px 5px 2px 5px;
 	overflow                         : hidden;
 	text-align                       : left;
 }
 
-#data-outbox table.data-inbox .tr-body td a,
-#data-outbox table.data-inbox .tr-last-body td a
+#data-outbox table.data-inbox tbody tr td.selection
 {
-	color                            : #308FC9 !important;
+	padding-top                      : 2px;
+	padding-bottom                   : 0;
 }
 
-#data-outbox table.data-inbox .rollover-class
+#data-outbox table.data-inbox tbody tr td.delete
+{
+	padding                          : 2px 9px 0 5px !important;
+	width                            : 25px;
+}
+
+#data-outbox table.data-inbox tbody tr td .delete-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/delete2.gif");
+	background-position              : left top;
+	height                           : 11px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 11px;
+}
+
+#data-outbox table.data-inbox tbody tr td .delete-button span
+{
+	display                          : none;
+}
+
+#data-outbox table.data-inbox tbody tr td.rollover-class
 {
 	background-color                 : #EEEEEE;
 }
 
-#data-outbox table.data-inbox .inactive-class
+#data-outbox table.data-inbox tbody tr td.inactive-class
 {
 	background-color                 : transparent;
 }
 
-/* button */
-#data-outbox a.button
+/* data subbox ----------------------------------------------------------------------------------*/
+#data-outbox div.data-subbox
 {
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	display                          : block;
-	overflow                         : hidden;
+	background-color                 : #EBF2F8;
+	border-bottom                    : 2px solid #00A6ED;
+	margin-top                       : 1px;
+	padding                          : 9px 10px 7px 10px;
+	position                         : relative;
 }
 
-#data-outbox a.button span 
+/* multi-selection deleter in sub-box */
+#change-section,
+#delete-section
 {
+	height                           : 24px;
+	margin-top                       : -2px;
+	padding                          : 0 0 0 3px;
+}
+
+#change-section label
+{
+	display                          : block;
+	float                            : left;
+	padding-top                      : 6px;
+}
+
+#change-section select
+{
+	float                            : left;
+	margin                           : 2px 0 0 3px;
+}
+
+#change-section select optgroup option
+{
+	background-color                 : #EFEFEF;
+	padding-left                     : 20px;
+}
+
+#delete-section .label
+{
+	display                          : block;
+	float                            : left;
+	padding-top                      : 5px;
+}
+
+#data-outbox div.data-subbox .button
+{
+	float                            : left;
+	width                            : 70px;
+}
+
+#data-outbox div.data-subbox .delete-button span
+{
+	color                            : #FF0000;
+	width                            : 66px;
+}
+
+#data-outbox div.data-subbox .delete-button:hover span
+{
+	color                            : #FF6F6F;
+}
+
+/* lines per page */
+#page-section .page-count
+{
+	bottom                           : 5px;
+	position                         : absolute;
+	right                            : 13px;
+	text-align                       : right;
+	vertical-align                   : 2px;
+	width                            : 300px;
+}
+
+/* page navigation */
+#page-navigation
+{
+	border-top                       : 1px dotted #CCCCCC;
+	clear                            : both;
+	margin-top                       : 7px;
+	padding                          : 10px 120px 0 3px;
+}
+
+#page-list
+{
+	padding-left                     : 28px;
+}
+
+#page-list a:link,
+#page-list a:visited
+{
+	color                            : #000000;
+}
+
+#page-list a:hover,
+#page-list a:active
+{
+	color                            : #979797;
+}
+
+#page-list a.selected:link,
+#page-list a.selected:visited
+{
+	color                            : #FF0000 !important;
+}
+
+#page-list a.selected:hover,
+#page-list a.selected:active
+{
+	color                            : #FF3333 !important;
+}
+
+/* search */
+#search-section
+{
+	position                         : absolute;
+	top                              : 7px;
+	right                            : 2px;
+	width                            : 163px !important;
+	z-index                          : 200;
+}
+
+#search-section input#search
+{
+	float                            : left;
+	margin-top                       : 2px;
+	width                            : 70px;
+}
+
+/* fieldset -------------------------------------------------------------------------------------*/
+#data-outbox dl
+{
+	clear                            : both;
+	height                           : 1.5em;
+	margin                           : 0 0 6px 0;
+}
+
+#data-outbox dl dt
+{
+	float                            : left;
+	font-weight                      : bold;
+	margin-right                     : 15px;
+	padding-top                      : 2px;
+	text-align                       : right;
+	width                            : 200px;
+}
+
+#data-outbox dl dd
+{
+	float                            : left;
+}
+
+/* button ---------------------------------------------------------------------------------------*/
+#data-outbox .button
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	cursor                           : pointer;
+	display                          : block;
+	margin-left                      : 3px;
+	overflow                         : hidden;
+	padding-left                     : 4px;
+}
+
+#data-outbox .button span 
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/button2.gif");
 	background-position              : right top;
 	background-repeat                : no-repeat;
 	display                          : block;
 	font-weight                      : bold;
 	overflow                         : visible;
+	padding                          : 6px 4px 3px 0; /* 4px 4px 4px 0 !important; for english */
+	text-align                       : center;
 }
 
 #data-outbox a.button:link, 
@@ -560,21 +804,21 @@ li
 	clear                            : both;
 }
 
-#data-outbox .button-box .button-left-outbox
+#data-outbox .button-box .button
 {
-	float                            : left;
-	width                            : 50%;
+	background-image                 : url("./image/button2.gif");
+	width                            : 106px;
 }
 
-#data-outbox .button-box .button-left-outbox .button
+#data-outbox .button-box .button span
 {
-	float                            : right;
+	background-image                 : url("./image/button2.gif");
+	width                            : 102px;
 }
 
-#data-outbox .button-box .button-right-outbox
+#data-outbox .button-box .divider
 {
-	float                            : right;
-	width                            : 50%;
+	display                          : none;
 }
 
 /* Footer ****************************************************************************************/
@@ -582,7 +826,6 @@ li
 #copyright
 {
 	float                            : left;
-	margin-top                       : -1px !important;
 }
 
 #version
@@ -591,7 +834,7 @@ li
 	text-align                       : right;
 }
 
-/* Special Class *********************************************************************************/
+/* Etc *******************************************************************************************/
 
 /* eolin suggest */
 .eolinSuggest
@@ -600,60 +843,30 @@ li
 	border                           : 1px solid #BBBBBB;
 }
 
-.eolinSuggest {
-	border: 1px solid #bbb;
-	background-color: #fff;
+.eolinSuggest li
+{
+	margin                           : 3px;
+	cursor                           : pointer;
 }
 
-.eolinSuggest li {
-	margin: 3px;
-	cursor: pointer;
+.eolinSuggest li.hover
+{
+	background-color                 : #edf !important;
 }
 
-.eolinSuggest li.hover {
-	background-color: #edf !important;
+.eolinSuggest li.disabled
+{
+	color                            : #777;
 }
 
-.eolinSuggest li.disabled {
-	color: #777;
-}
-
-.eolinSuggest {
-	font-size: 9pt;
+.eolinSuggest
+{
+	font-size                        : 9pt;
 }
 
 /* etc */
-.hidden
-{
-	display                          : none;
-}
-
+.hidden,
 .clear
-{
-	clear                            : both;
-	display                          : block;
-	font-size                        : 0;
-	line-height                      : 0;
-	overflow                         : hidden;
-}
-
-input.text-input
-{
-	border                           : 1px solid #878787;
-}
-
-.checkbox,
-.radio
-{
-	vertical-align                   : middle;
-}
-
-.asterisk
-{
-	font-family                      : Tahoma, sans-serif;
-}
-
-.button-box .divider
 {
 	display                          : none;
 }

@@ -47,7 +47,8 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 
 	// 디자인모드의 IFRAME을 생성한다
 	this.iframe = document.createElement("iframe");
-	this.iframe.className = "tatterVisualArea";
+	this.iframe.id = "visualEditorWindow";
+	//this.iframe.className = "tatterVisualArea";
 	this.iframe.setAttribute("border", "0");
 	this.iframe.setAttribute("frameBorder", "0");
 	this.iframe.setAttribute("marginWidth", "0");
@@ -55,7 +56,6 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	this.iframe.setAttribute("leftMargin", "0");
 	this.iframe.setAttribute("topMargin", "0");
 	this.iframe.setAttribute("allowtransparency", "true");
-	this.iframe.style.border = "1px solid #ddd";
 	this.iframe.style.height = STD.isIE ? "448px" : "452px";
 	this.iframe.style.margin = "0px auto";
 	if(this.editMode == "TEXTAREA")
@@ -63,14 +63,12 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	this.iframe.style.width = Math.min(skinContentWidth + (STD.isIE ? 36 : 39), 650) + "px";
 
 	// IFRAME을 감싸는 DIV
-	this.iframeWrapper = document.createElement("div");
-	this.iframeWrapper.id = "iframeWrapper";
-	this.iframeWrapper.style.width = "656px";
-	this.iframeWrapper.style.textAlign = "center";
-	this.iframeWrapper.style.backgroundColor = "#ebf2f8";
-	this.iframeWrapper.appendChild(this.iframe);
+	//this.iframeWrapper = document.createElement("div");
+	//this.iframeWrapper.id = "iframeWrapper";
+	//this.iframeWrapper.appendChild(this.iframe);
 
-	textarea.parentNode.insertBefore(this.iframeWrapper, textarea);
+	//textarea.parentNode.insertBefore(this.iframeWrapper, textarea);
+	textarea.parentNode.insertBefore(this.iframe, textarea);
 	
 	// 자주 참조하는 핸들을 지정해둔다
 	this.contentWindow = this.iframe.contentWindow;
@@ -108,14 +106,14 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	this.contentDocument.addEventListener("keyup", this.eventHandler, false);
 	
 	// editor height resize event
-	STD.addEventListener(document);
+	/*STD.addEventListener(document);
 	document.addEventListener("mousemove", docEventHandler, false);
 	document.addEventListener("mousedown", docEventHandler, false);
 	document.addEventListener("mouseup", docEventHandler, false);
 	document.addEventListener("selectstart", docEventHandler, false);
 	editor.contentDocument.addEventListener("mousemove", docEventHandler, false);
 	editor.contentDocument.addEventListener("mousedown", docEventHandler, false);
-	editor.contentDocument.addEventListener("mouseup", docEventHandler, false);
+	editor.contentDocument.addEventListener("mouseup", docEventHandler, false);*/
 	
 	// 가끔씩 Firefox에서 커서가 움직이지 않는 문제 수정
 	setTimeout("try{editor.contentDocument.designMode='on'}catch(e){}", 100);
@@ -123,14 +121,14 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 
 // editor height resize event
 function docEventHandler(event) {
-	var attachManagerSelectNest = document.getElementById('attachManagerSelectNest');
+	var attachManagerSelectNest = getObject('attachManagerSelectNest');
 
 	if(STD.isIE) event.target = event.srcElement;
 
 	switch(event.type) {
 		case "mousemove":
-			var taglocalSection = document.getElementById('taglocal-section');
-			var editorTextbox = document.getElementById('editor-textbox');
+			var taglocalSection = getObject('taglocal-section');
+			var editorTextbox = getObject('editor-textbox');
 
 			var targetOffset = (editor.editMode == "WYSIWYG") ? editor.iframe : editor.textarea;
 			var pageY = parseInt(event.clientY);
@@ -146,14 +144,14 @@ function docEventHandler(event) {
 				var getOffset = getOffsetTop(targetOffset) + parseInt(targetOffset.offsetHeight);
 
 				if(pageY > getOffset && pageY < getOffset + 10) {
-					taglocalSection.style.cursor = 'row-resize';
+					editor.iframeWrapper.style.cursor = 'row-resize'; //taglocalSection.style.cursor = 'row-resize';
 					editor.rowResize = true;
 				} else {
-					taglocalSection.style.cursor = '';
+					editor.iframeWrapper.style.cursor = ''; //taglocalSection.style.cursor = '';
 					editor.rowResize = false;
 				}
 			} else {
-				taglocalSection.style.cursor = '';
+				editor.iframeWrapper.style.cursor = ''; //taglocalSection.style.cursor = '';
 				editor.rowResize = false;
 			}
 			break;
@@ -1611,25 +1609,34 @@ TTEditor.prototype.activeButton = function(node) {
 		node = node.parentNode;
 	}
 
-	if(editor.isBold && getObject("indicatorBold").src.indexOf("_over") == -1)
-		getObject("indicatorBold").src = servicePath + adminSkin + "/image/owner/edit/setBold_over.gif";
-	else if(!editor.isBold && getObject("indicatorBold").src.indexOf("_over") != -1)
-		getObject("indicatorBold").src = servicePath + adminSkin + "/image/owner/edit/setBold.gif";
-
-	if(editor.isItalic && getObject("indicatorItalic").src.indexOf("_over") == -1)
-		getObject("indicatorItalic").src = servicePath + adminSkin + "/image/owner/edit/setItalic_over.gif";
-	else if(!editor.isItalic && getObject("indicatorItalic").src.indexOf("_over") != -1)
-		getObject("indicatorItalic").src = servicePath + adminSkin + "/image/owner/edit/setItalic.gif";
-
-	if(editor.isUnderline && getObject("indicatorUnderline").src.indexOf("_over") == -1)
-		getObject("indicatorUnderline").src = servicePath + adminSkin + "/image/owner/edit/setUnderLine_over.gif";
-	else if(!editor.isUnderline && getObject("indicatorUnderline").src.indexOf("_over") != -1)
-		getObject("indicatorUnderline").src = servicePath + adminSkin + "/image/owner/edit/setUnderLine.gif";
-
-	if(editor.isStrike && getObject("indicatorStrike").src.indexOf("_over") == -1)
-		getObject("indicatorStrike").src = servicePath + adminSkin + "/image/owner/edit/setLineThrough_over.gif";
-	else if(!editor.isStrike && getObject("indicatorStrike").src.indexOf("_over") != -1)
-		getObject("indicatorStrike").src = servicePath + adminSkin + "/image/owner/edit/setLineThrough.gif";
+	if (editor.isBold) {
+		getObject("indicatorBold").className = getObject("indicatorBold").className.replace("inactive-class", "active-class");
+	} else {
+		if (!getObject("indicatorBold").className.match('inactive')) {
+			getObject("indicatorBold").className = getObject("indicatorBold").className.replace("active-class", "inactive-class");
+		}
+	}
+	if (editor.isItalic) {
+		getObject("indicatorItalic").className = getObject("indicatorItalic").className.replace("inactive-class", "active-class");
+	} else {
+		if (!getObject("indicatorItalic").className.match('inactive')) {
+			getObject("indicatorItalic").className = getObject("indicatorItalic").className.replace("active-class", "inactive-class");
+		}
+	}
+	if (editor.isUnderline) {
+		getObject("indicatorUnderline").className = getObject("indicatorUnderline").className.replace("inactive-class", "active-class");
+	} else {
+		if (!getObject("indicatorUnderline").className.match('inactive')) {
+			getObject("indicatorUnderline").className = getObject("indicatorUnderline").className.replace("active-class", "inactive-class");
+		}
+	}
+	if (editor.isStrike) {
+		getObject("indicatorStrike").className = getObject("indicatorStrike").className.replace("inactive-class", "active-class");
+	} else {
+		if (!getObject("indicatorStrike").className.match('inactive')) {
+			getObject("indicatorStrike").className = getObject("indicatorStrike").className.replace("active-class", "inactive-class");
+		}
+	}
 }
 
 TTEditor.prototype.getFilenameFromFilelist = function(name) {

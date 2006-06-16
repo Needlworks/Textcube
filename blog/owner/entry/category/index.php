@@ -53,140 +53,148 @@ if ((empty($_POST['search'])) || ($searchColumn === true)) {
 require ROOT . '/lib/piece/owner/header0.php';
 require ROOT . '/lib/piece/owner/contentMenu03.php';
 ?>
-									<input type="hidden" name="deleteCategory" />
-									<input type="hidden" name="direction" />
-									<input type="hidden" name="id" />
+							<input type="hidden" name="deleteCategory" />
+							<input type="hidden" name="direction" />
+							<input type="hidden" name="id" />
+							
+							<script type="text/javascript">
+								//<![CDATA[
+									function removeCategory() {
+										if(confirm('<?=_t('삭제할까요?')?>')) {
+											var oform=document.forms[0];  
+											oform.deleteCategory.value=<?=$selected?>; 
+											 
+											oform.submit()
+										}
+									}
 									
-									<script type="text/javascript">
-										//<![CDATA[
-											function removeCategory() {
-												if(confirm('<?=_t('삭제할까요?')?>')) {
-													var oform=document.forms[0];  
-													oform.deleteCategory.value=<?=$selected?>; 
-													oform.submit()
-												}
-											}
-											
-											function moveCategory(direction) {
-												var oform=document.forms[0];
-												oform.direction.value=direction
-												oform.id.value=<?=$selected?>;
-												oform.submit()
-											}
-											
-											function addCategory() {
-												var oform=document.forms[0];
-												oform.id.value=<?=$selected?>;
-												oform.submit()
-											}
-											
-											function modifyCategory() {
-												var oform=document.forms[0];
-												oform.id.value=<?=$selected?>;
-												oform.submit()
-											}
-											window.onload = function () {
-												try {
-													<?=$history?>
-													expandTree();								
-												} catch(e) {
-													alert(e.message);	
-												}
-											}
-											
-											function validateText(str) {
-												return true;
-											}
-										//]]>
-									</script>
+									function moveCategory(direction) {
+										var oform=document.forms[0];
+										oform.direction.value=direction
+										oform.id.value=<?=$selected?>;
+										oform.submit()
+									}
 									
-									<div id="part-post-tree" class="part">
-										<h2 class="caption"><span class="main-text"><?=_t('분류를 관리할 수 있습니다')?></span></h2>
-										
-										<div class="data-inbox">
-											<div id="treePreview">
+									function addCategory() {
+										var oform=document.forms[0];
+										oform.id.value=<?=$selected?>;
+										oform.submit()
+									}
+									
+									function modifyCategory() {
+										var oform=document.forms[0];
+										oform.id.value=<?=$selected?>;
+										oform.submit()
+									}
+									
+									ls_init_funcs.push(function() { expandTreeInit(); });
+									function expandTreeInit() {
+										try {
+											<?=$history?>
+											expandTree();
+										} catch(e) {
+											alert(e.message);
+										}
+									}
+									
+									function validateText(str) {
+										return true;
+									}
+								//]]>
+							</script>
+							
+							<div id="part-post-tree" class="part">
+								<h2 class="caption"><span class="main-text"><?=_t('분류를 관리할 수 있습니다')?></span></h2>
+								
+								<div class="data-inbox">
+									<div id="treePreview">
 <?=getCategoriesViewInOwner($categories, $selected, getCategoriesSkin())?>
-											</div>
-											
-											<div id="property-box">
-												<dl class="line">
-													<dt><label for="newCategory"><span class="text"><?=_t('생성')?></span></label><span class="divider"> | </span></dt>
+									</div>
+									
+									<div id="property-box">
+										<dl id="label-create-line" class="line">
+											<dt><label for="newCategory"><span class="text"><?=_t('생성')?></span></label></dt>
 <?
 if ($depth <= 1) {
 ?>
-													<dd>
-														<input type="text" id="newCategory" class="text-input" name="newCategory" onkeyup="if (event.keyCode == 13 && validateText(this.value)){addCategory()}" />
-														<a class="add-button button" href="#void" onclick="addCategory()"><span class="text"><?=_t('추가하기')?></span></a>
-														<p class="explain">
-															<?=_f('"%1"의 하위에 새 분류를 생성합니다.', htmlspecialchars("$name"))?>
-														</p>
-													</dd>
+											<dd>
+												<div class="field-box">
+													<input type="text" id="newCategory" class="text-input" name="newCategory" onkeyup="if (event.keyCode == 13 && validateText(this.value)){addCategory()}" />
+													<a class="add-button button" href="#void" onclick="addCategory()"><span class="text"><?=_t('추가하기')?></span></a>
+												</div>
+												<p>
+													<?=_f('"%1"의 하위에 새 분류를 생성합니다.', htmlspecialchars("$name"))?>
+												</p>
+											</dd>
 <?
 } else {
 ?>
-													<dd><p class="explain"><?=_t('분류는 2단까지 허용됩니다.')?></p></dd>
+											<dd><p><?=_t('분류는 2단까지 허용됩니다.')?></p></dd>
 <?
 }
-?>
-													<dd class="clear"></dd>
-												</dl>
-												<dl class="line">
-													<dt><label for="modifyCategoryName"><span class="text"><?=_t('레이블 변경')?></span></label><span class="divider"> | </span></dt>
-													<dd>
-														<input type="text" id="modifyCategoryName" class="text-input" name="modifyCategoryName" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?=$name?>" />
-														<a class="save-button button" href="#void" onclick="modifyCategory(); return false;"><span class="text"><?=_t('저장하기')?></span></a>
-													</dd>
-													<dd class="clear"></dd>
-												</dl>
-												<dl class="line">
-													<dt><label for="modifyCategoryBodyId"><span class="text"><?=_t('Body Id 변경')?></span></label><span class="divider"> | </span></dt>
-													<dd>
-														<input type="text" id="modifyCategoryBodyId" class="text-input" name="modifyCategoryBodyId" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?=$bodyid?>" />
-														<a class="save-button button" href="#void" onclick="modifyCategory(); return false;"><span class="text"><?=_t('저장하기')?></span></a>
-													<p class="explain"><?=_t('Body id는 블로그의 CSS 활용을 위해 사용합니다.')?></p>
-													</dd>
-													<dd class="clear"></dd>
-												</dl>
-												<dl class="line">
-													<dt><span class="text"><?=_t('정렬순서 변경')?></span><span class="divider"> | </span></dt>
-
+?>
+										</dl>
+										<dl class="label-change-line" class="line">
+											<dt><label for="modifyCategoryName"><span class="text"><?=_t('레이블 변경')?></span></label></dt>
+											<dd>
+												<div class="field-box">
+													<input type="text" id="modifyCategoryName" class="text-input" name="modifyCategoryName" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?=$name?>" />
+													<a class="save-button button" href="#void" onclick="modifyCategory(); return false;"><span class="text"><?=_t('저장하기')?></span></a>
+												</div>
+											</dd>
+										</dl>
+										<dl class="body-id-line" class="line">
+											<dt><label for="modifyCategoryBodyId"><span class="text"><?=_t('Body Id 변경')?></span></label></dt>
+											<dd>
+												<div class="field-box">
+													<input type="text" id="modifyCategoryBodyId" class="text-input" name="modifyCategoryBodyId" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?=$bodyid?>" />
+													<a class="save-button button" href="#void" onclick="modifyCategory(); return false;"><span class="text"><?=_t('저장하기')?></span></a>
+												</div>
+												<p><?=_t('Body id는 블로그의 <acronym title="Cascading Style Sheet">CSS</acronym> 활용을 위해 사용합니다.')?></p>
+											</dd>
+										</dl>
+										<dl class="label-move-line" class="line">
+											<dt><span class="text"><?=_t('정렬순서 변경')?></span></dt>
 <?
 if ($selected > 0) {
-?>						  
-													<dd>
-														<a class="up-button button" href="#void" onclick="moveCategory('up');"><span class="text"><?=_t('위로')?></span></a><span class="divider"> | </span><a class="down-button button" href="#void" onclick="moveCategory('down');"><span class="text"><?=_t('아래로')?></span></a>
-													</dd>
+?>
+											<dd>
+												<div class="field-box">
+													<a class="up-button button" href="#void" onclick="moveCategory('up');"><span class="text"><?=_t('위로')?></span></a><span class="divider"> | </span><a class="down-button button" href="#void" onclick="moveCategory('down');"><span class="text"><?=_t('아래로')?></span></a>
+												</div>
+											</dd>
 <?
 } else {
 ?>
-													<dd><p class="explain"><?=_t('최상단 분류는 이동할 수 없습니다.')?></p></dd>
+											<dd><p><?=_t('최상단 분류는 이동할 수 없습니다.')?></p></dd>
 <?
 }
-?>
-													<dd class="clear"></dd>
-												</dl>
-												<dl class="line">
-													<dt><span class="text"><?=_t('분류 삭제')?></span><span class="divider"> | </span></dt>
-													<dd>
+?>
+										</dl>
+										<dl class="label-remove-line" class="line">
+											<dt><span class="text"><?=_t('분류 삭제')?></span></dt>
+											<dd>
+												
 <?
 if ($selected == 0) {
-	echo _t('최상단 분류는 삭제할 수 없습니다.');
+	echo '<p>'._t('최상단 분류는 삭제할 수 없습니다.').'</p>';
 } else if (getNumberEntryInCategories($selected) > 0) {
-	echo _t('분류에 등록된 글이 있으므로 삭제할 수 없습니다.');
+	echo '<p>'._t('분류에 등록된 글이 있으므로 삭제할 수 없습니다.').'</p>';
 } else if (getNumberChildCategory($selected) > 0) {
-	echo _t('하위 분류가 있으므로 삭제할 수 없습니다.');
+	echo '<p>'._t('하위 분류가 있으므로 삭제할 수 없습니다.').'</p>';
 } else {
 ?>
-														<a class="remove-button button" href="#void" onclick="removeCategory();"><span class="text"><?=_t('삭제하기')?></span></a>
+												<div class="field-box">
+													<a class="remove-button button" href="#void" onclick="removeCategory();"><span class="text"><?=_t('삭제하기')?></span></a>
+												</div>
 <?
 }
 ?>
-													</dd>
-													<dd class="clear"></dd>
-												</dl>
-											</div>
-										</div>
+											</dd>
+										</dl>
 									</div>
+								</div>
+							</div>
 <?
 require ROOT . '/lib/piece/owner/footer0.php';
 ?>

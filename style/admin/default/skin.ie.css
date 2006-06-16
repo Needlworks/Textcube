@@ -2,6 +2,12 @@
 
 /* List ******************************************************************************************/
 
+#part-skin-current div.data-inbox .section .preview,
+#part-skin-list div.data-inbox .section .preview
+{
+	left                             : 0;
+}
+
 #part-skin-current div.data-inbox .section .information .preview-button,
 #part-skin-list div.data-inbox .section .information .preview-button
 {
@@ -10,36 +16,43 @@
 
 /* Setting ***************************************************************************************/
 
-#part-skin-setting div.data-inbox .section
+#per-page-section dl dt
 {
-	margin                           : 5px;
-	padding                          : 5px 10px 11px 10px;
+	padding-top                      : 6px !important;
 }
 
-#part-skin-setting div.data-inbox .section dl
+#click-section dl dt
 {
-	margin                           : 3px 0;
+	padding-top                      : 1px !important;
 }
 
-#part-skin-setting div.data-inbox .section dl dt
+#length-section dl dt
 {
-	padding                          : 1px 5px 0 0;
+	padding-top                      : 6px !important;
 }
 
-#part-skin-setting div.data-inbox .section dl dd select
+#tag-align-line dt
 {
-	margin-bottom                    : 2px;
-	width                            : auto;
-	vertical-align                   : middle;
+	padding-top                      : 1px !important;
 }
 
-/* category tree --------------------------------------------------------------------------------*/
+#tag-count-line dt
+{
+	padding-top                      : 6px !important;
+}
+
+#guestbook-setting-section dl dt
+{
+	padding-top                      : 6px !important;
+}
+
+/* tree -----------------------------------------------------------------------------------------*/
+#part-skin-tree div.data-inbox
+{
+	height                       : 308px;
+}
+
 #property-box dl
 {
-	height                           : 24px;
-}
-
-#property-box dl dd .text-input
-{
-	padding                          : 3px;
+	margin-bottom                    : 0;
 }

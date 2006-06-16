@@ -1,144 +1,107 @@
 @charset "utf-8";
 
-/* List ******************************************************************************************/
+/* Notice ****************************************************************************************/
 
-/* list common ----------------------------------------------------------------------------------*/
-#part-notice-list div.data-subbox
-{
-	background-color                 : #EBF2F8;
-	border-bottom                    : 2px solid #00A6ED;
-	padding                          : 9px 10px 7px 10px;
-	position                         : relative;
-}
-
-/* list table head ------------------------------------------------------------------------------*/
-#part-notice-list table.data-inbox
-{
-	table-layout                     : fixed;
-	width                            : 100%;
-}
-
-#part-notice-list table.data-inbox thead tr .selection
-{
-	padding                          : 0;
-	text-align                       : center;
-	width                            : 30px;
-}
-
-#part-notice-list table.data-inbox thead tr .date
-{
-	width                            : 70px;
-}
-
+/* notice table head ----------------------------------------------------------------------------*/
 #part-notice-list table.data-inbox thead tr .status
 {
-	width                            : 45px;
+	width                            : 34px;
 }
 
-#part-notice-list table.data-inbox thead tr .delete
+/* notice table body ----------------------------------------------------------------------------*/
+#part-notice-list table.data-inbox tbody tr .status
 {
-	width                            : 20px;
+	padding-top                      : 2px;
 }
 
-#part-notice-list table.data-inbox thead tr .delete span
+#part-notice-list table.data-inbox tbody tr .status .private-on-icon
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+#part-notice-list table.data-inbox tbody tr .status .private-off-icon
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+#part-notice-list table.data-inbox tbody tr .status .private-off-icon a
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+#part-notice-list table.data-inbox tbody tr .status .private-on-icon span,
+#part-notice-list table.data-inbox tbody tr .status .private-off-icon span
 {
 	display                          : none;
 }
 
-/* list table body ------------------------------------------------------------------------------*/
-#part-notice-list table.data-inbox .tr-body td
+#part-notice-list table.data-inbox tbody tr .status .public-on-icon
 {
-	height                           : 24px;
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
 }
 
-#part-notice-list table.data-inbox .tr-last-body td
+#part-notice-list table.data-inbox tbody tr .status .public-off-icon
 {
-	height                           : 23px;
-	padding-top                      : 1px;
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
 }
 
-#part-notice-list table.data-inbox .tr-body .selection,
-#part-notice-list table.data-inbox .tr-last-body .selection
+#part-notice-list table.data-inbox tbody tr .status .public-off-icon a
 {
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+#part-notice-list table.data-inbox tbody tr .status .public-on-icon span,
+#part-notice-list table.data-inbox tbody tr .status .public-off-icon span
+{
+	display                          : none;
+}
+
+#part-notice-list table.data-inbox tbody tr .syndicate
+{
+	padding-top                      : 2px;
 	text-align                       : center;
 }
 
-#part-notice-list table.data-inbox .tr-body .date,
-#part-notice-list table.data-inbox .tr-last-body .date
-{
-	padding-top                      : 3px;
-}
-
-#part-notice-list table.data-inbox .tr-body .status .private-on-icon,
-#part-notice-list table.data-inbox .tr-last-body .status .private-on-icon
-{
-	background-image                 : url("./image/icon_private.gif");
-	background-position              : left bottom;
-	background-repeat                : no-repeat;
-	display                          : block;
-	float                            : left;
-	height                           : 15px;
-	margin-right                     : 2px;
-	width                            : 15px;
-}
-
-#part-notice-list table.data-inbox .tr-body .status .private-on-icon a,
-#part-notice-list table.data-inbox .tr-last-body .status .private-on-icon a
-{
-	background-image                 : url("./image/icon_private.gif");
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	display                          : block;
-	float                            : left;
-	height                           : 15px;
-	width                            : 15px;
-}
-
-#part-notice-list table.data-inbox .tr-body .status .private-on-icon span,
-#part-notice-list table.data-inbox .tr-last-body .status .private-on-icon span
-{
-	display                          : none;
-}
-
-#part-notice-list table.data-inbox .tr-body .status .public-on-icon,
-#part-notice-list table.data-inbox .tr-last-body .status .public-on-icon
-{
-	background-image                 : url("./image/icon_public.gif");
-	background-position              : left bottom;
-	background-repeat                : no-repeat;
-	display                          : block;
-	float                            : left;
-	height                           : 15px;
-	margin-right                     : 2px;
-	width                            : 15px;
-}
-
-#part-notice-list table.data-inbox .tr-body .status .public-on-icon a,
-#part-notice-list table.data-inbox .tr-last-body .status .public-on-icon a
-{
-	background-image                 : url("./image/icon_public.gif");
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	display                          : block;
-	float                            : left;
-	height                           : 15px;
-	width                            : 15px;
-}
-
-#part-notice-list table.data-inbox .tr-body .status .public-on-icon span,
-#part-notice-list table.data-inbox .tr-last-body .status .public-on-icon span
-{
-	display                          : none;
-}
-
-#part-notice-list table.data-inbox .tr-body .title,
-#part-notice-list table.data-inbox .tr-last-body .title
-{
-	padding-top                      : 3px !important;
-}
-
-#part-notice-list table.data-inbox .tr-body .title .temp-icon,
-#part-notice-list table.data-inbox .tr-last-body .title .temp-icon
+#part-notice-list table.data-inbox tbody tr .title .temp-icon
 {
 	background-image                 : url("./image/hasTemp.gif");
 	background-position              : left top;
@@ -150,132 +113,7 @@
 	width                            : 33px;
 }
 
-#part-notice-list table.data-inbox .tr-body .title .temp-icon span,
-#part-notice-list table.data-inbox .tr-last-body .title .temp-icon span
+#part-notice-list table.data-inbox tbody tr .title .temp-icon span
 {
 	display                          : none;
-}
-
-#part-notice-list table.data-inbox .tr-body .delete .button
-{
-
-}
-
-#part-notice-list table.data-inbox .tr-body .delete-button,
-#part-notice-list table.data-inbox .tr-last-body .delete-button
-{
-	background-image                 : url("./image/delete2.gif");
-	height                           : 11px;
-	margin                           : 0 auto;
-	width                            : 11px;
-}
-
-#part-notice-list table.data-inbox .tr-body .delete-button span,
-#part-notice-list table.data-inbox .tr-last-body .delete-button span
-{
-	display                          : none;
-}
-
-/* multi-selection deleter in sub-box -----------------------------------------------------------*/
-#part-notice-list #change-section 
-{
-	padding                          : 1px 0 0 3px;
-}
-
-#part-notice-list #change-section select
-{
-	margin-top                       : -2px;
-	vertical-align                   : 2px;
-}
-
-/* lines per page -------------------------------------------------------------------------------*/
-#part-notice-list #page-section .page-count
-{
-	bottom                           : 5px;
-	position                         : absolute;
-	right                            : 13px;
-	text-align                       : right;
-	vertical-align                   : 2px;
-	width                            : 240px;
-}
-
-#part-notice-list #page-section .page-count select
-{
-	vertical-align                   : 2px;
-	width                            : 40px;
-}
-
-/* page navigation ------------------------------------------------------------------------------*/
-#part-notice-list #page-navigation
-{
-	border-top                       : 1px dotted #CCCCCC;
-	margin-top                       : 7px;
-	padding                          : 10px 120px 0 3px;
-}
-
-#part-notice-list #page-navigation #page-list
-{
-	padding-left                     : 28px;
-}
-
-#part-notice-trackback #page-navigation #page-list a:link,
-#part-notice-trackback #page-navigation #page-list a:visited
-{
-	color                            : #000000;
-}
-
-#part-notice-trackback #page-navigation #page-list a:hover,
-#part-notice-trackback #page-navigation #page-list a:active
-{
-	color                            : #979797;
-}
-
-#part-notice-trackback #page-navigation #page-list a.selected:link,
-#part-notice-trackback #page-navigation #page-list a.selected:visited
-{
-	color                            : #FF0000 !important;
-}
-
-#part-notice-trackback #page-navigation #page-list a.selected:hover,
-#part-notice-trackback #page-navigation #page-list a.selected:active
-{
-	color                            : #FF3333 !important;
-}
-
-/* search ---------------------------------------------------------------------------------------*/
-#part-notice-list #search-section
-{
-	position                         : absolute;
-	top                              : 6px;
-	right                            : 9px;
-	width                            : 163px;
-}
-
-#part-notice-list #search-section input#search
-{
-	float                            : left;
-	margin-top                       : 2px;
-	padding                          : 2px;
-	width                            : 70px;
-}
-
-#part-notice-list #search-section .search-button
-{
-	background-color                 : #CCCCCC;
-	background-image                 : url("./image/button2.gif");
-	float                            : left;
-	height                           : 24px;
-	margin-left                      : 3px;
-	padding-left                     : 4px;
-	width                            : 76px;
-}
-
-#part-notice-list #search-section .search-button span
-{
-	background-color                 : #CCCCCC;
-	background-image                 : url("./image/button2.gif");
-	height                           : 24px;
-	padding                          : 6px 4px 0 0;
-	text-align                       : center;
-	width                            : 72px;
 }

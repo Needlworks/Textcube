@@ -1,5 +1,7 @@
 <?
 define('ROOT', '../../..');
+//chmod(ROOT."/attach", 0777);
+//chmod(ROOT."/attach/1", 0777);
 require ROOT . '/lib/includeForOwner.php';
 publishEntries();
 if (isset($_POST['categoryAtHome']))
@@ -18,604 +20,577 @@ list($entries, $paging) = getEntriesWithPagingForOwner($owner, $categoryId, $sea
 require ROOT . '/lib/piece/owner/header0.php';
 require ROOT . '/lib/piece/owner/contentMenu00.php';
 ?>
-								<input type="hidden" name="withSearch" value="" />
-								
-								<script type="text/javascript">
-									//<![CDATA[
+							<input type="hidden" name="withSearch" value="" />
+							
+							<script type="text/javascript">
+								//<![CDATA[
 <?
 if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION)) {
 ?>
-										window.onload = function () {
-											if (confirm("<?=_t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?')?>"))
-												window.location.href = "<?=$blogURL?>/checkup";
-										}
+									ls_init_funcs.push(function() { checkupDialog(); });
+									function checkupDialog() {
+										if (confirm("<?=_t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?')?>"))
+											window.location.href = "<?=$blogURL?>/checkup";
+									}
 <?
 }
 ?>
-										function setEntryVisibility(entry, visibility) {
-											if ((visibility < 0) || (visibility > 3))
-												return false;
-											
-											if (visibility == 3 && document.getElementById("syndicatedIcon_" + entry).style.backgroundPosition == 'left bottom') {
-												visibility = 2;
-											}
-											
-											var request = new HTTPRequest("<?=$blogURL?>/owner/entry/visibility/" + entry + "?visibility=" + visibility);
-											
-											switch (visibility) {
-												case 0:
-													document.getElementById("protectedSettingIcon_" +  + entry).style.display = 'none';
-													document.getElementById("privateIcon_" + entry).innerHTML = '<span class="text"><?=_t('비공개')?></span>';
-													document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a>';
-													document.getElementById("publicIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?=_t('공개')?></span></a>';
-													document.getElementById("privateIcon_" + entry).setAttribute('title', '<?=_t('현재 비공개 상태입니다.')?>');
-													document.getElementById("protectedIcon_" + entry).removeAttribute('title');
-													document.getElementById("publicIcon_" + entry).removeAttribute('title');
-													
-													document.getElementById("entry" + entry + "Password").setAttribute('disabled', 'disabled');
-													
-													document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
-													document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 3)" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다')?>"><span class="text"><?=_t('비발행')?></span></a>';
-													
-													break;
-												case 1:
-													document.getElementById("protectedSettingIcon_" +  + entry).style.display = 'block';
-													document.getElementById("privateIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a>';
-													document.getElementById("protectedIcon_" + entry).innerHTML = '<span><?=_t('보호')?></span>';
-													document.getElementById("publicIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?=_t('공개')?></span></a>';
-													document.getElementById("privateIcon_" + entry).removeAttribute('title');
-													document.getElementById("protectedIcon_" + entry).setAttribute('title', '<?=_t('현재 보호 상태입니다.')?>');
-													document.getElementById("publicIcon_" + entry).removeAttribute('title');
-													
-													document.getElementById("entry" + entry + "Password").removeAttribute('disabled');
-													
-													document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
-													document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 3)" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다')?>"><span class="text"><?=_t('비발행')?></span></a>';
-													
-													break;
-												case 2:
-													document.getElementById("protectedSettingIcon_" +  + entry).style.display = 'none';
-													document.getElementById("privateIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a>';
-													document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a>';
-													document.getElementById("publicIcon_" + entry).innerHTML = '<span><?=_t('공개')?></span>';
-													document.getElementById("privateIcon_" + entry).removeAttribute('title');
-													document.getElementById("protectedIcon_" + entry).removeAttribute('title');
-													document.getElementById("publicIcon_" + entry).setAttribute('title', '<?=_t('현재 공개 상태입니다.')?>');
-													
-													document.getElementById("entry" + entry + "Password").setAttribute('disabled', 'disabled');
-													
-													document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
-													document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 3)" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다')?>"><span class="text"><?=_t('비발행')?></span></a>';
-													
-													break;
-												case 3:
-													document.getElementById("protectedSettingIcon_" +  + entry).style.display = 'none';
-													document.getElementById("privateIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a>';
-													document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a>';
-													document.getElementById("publicIcon_" + entry).innerHTML = '<span><?=_t('공개')?></span>';
-													document.getElementById("privateIcon_" + entry).removeAttribute('title');
-													document.getElementById("protectedIcon_" + entry).removeAttribute('title');
-													document.getElementById("publicIcon_" + entry).setAttribute('title', '<?=_t('현재 공개 상태입니다.')?>');
-													
-													document.getElementById("entry" + entry + "Password").setAttribute('disabled', 'disabled');
-													
-													document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-on-icon';
-													document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 2)" title="<?=_t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span class="text"><?=_t('발행')?></span></a>';
-													
-													break;
-											}
-											request.send();
-										}
+									function setEntryVisibility(entry, visibility) {
+										if ((visibility < 0) || (visibility > 3))
+											return false;
 										
-										function deleteEntry(id) {
-											if (!confirm("<?=_t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?')?>"))
-												return;
-											var request = new HTTPRequest("<?=$blogURL?>/owner/entry/delete/" + id);
-											request.onSuccess = function () {
-												document.forms[0].submit();
+										if (visibility == 3 && document.getElementById("syndicatedIcon_" + entry).style.backgroundPosition == 'left bottom') {
+											visibility = 2;
+										}
+									
+										var request = new HTTPRequest("<?=$blogURL?>/owner/entry/visibility/" + entry + "?visibility=" + visibility);
+										
+										switch (visibility) {
+											case 0:
+												document.getElementById("privateIcon_" + entry).innerHTML = '<span class="text"><?=_t('비공개')?></span>';
+												document.getElementById("privateIcon_" + entry).className = 'private-on-icon';
+												document.getElementById("privateIcon_" + entry).setAttribute('title', '<?=_t('현재 비공개 상태입니다.')?>');
+												
+												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a>';
+												document.getElementById("protectedIcon_" + entry).className = 'protected-off-icon';
+												document.getElementById("protectedIcon_" + entry).removeAttribute('title');
+												
+												document.getElementById("publicIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?=_t('공개')?></span></a>';
+												document.getElementById("publicIcon_" + entry).className = 'public-off-icon';
+												document.getElementById("publicIcon_" + entry).removeAttribute('title');
+																									
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 3)" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다')?>"><span class="text"><?=_t('비발행')?></span></a>';
+												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
+												
+												document.getElementById("protectedSettingIcon_" +  + entry).style.display = 'none';
+												document.getElementById("entry" + entry + "Password").setAttribute('disabled', 'disabled');
+												
+												break;
+											case 1:
+												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a>';
+												document.getElementById("privateIcon_" + entry).className = 'private-off-icon';
+												document.getElementById("privateIcon_" + entry).removeAttribute('title');
+												
+												document.getElementById("protectedIcon_" + entry).innerHTML = '<span class="text"><?=_t('보호')?></span>';
+												document.getElementById("protectedIcon_" + entry).className = 'protected-on-icon';
+												document.getElementById("protectedIcon_" + entry).setAttribute('title', '<?=_t('현재 보호 상태입니다.')?>');
+												
+												document.getElementById("publicIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?=_t('공개')?></span></a>';
+												document.getElementById("publicIcon_" + entry).className = 'public-off-icon';
+												document.getElementById("publicIcon_" + entry).removeAttribute('title');
+												
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 3)" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다')?>"><span class="text"><?=_t('비발행')?></span></a>';
+												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
+												
+												document.getElementById("protectedSettingIcon_" +  + entry).style.display = 'block';
+												document.getElementById("entry" + entry + "Password").removeAttribute('disabled');
+												
+												break;
+											case 2:
+												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a>';
+												document.getElementById("privateIcon_" + entry).className = 'private-off-icon';
+												document.getElementById("privateIcon_" + entry).removeAttribute('title');
+												
+												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a>';
+												document.getElementById("protectedIcon_" + entry).className = 'protected-off-icon';
+												document.getElementById("protectedIcon_" + entry).removeAttribute('title');
+												
+												document.getElementById("publicIcon_" + entry).innerHTML = '<span class="text"><?=_t('공개')?></span>';
+												document.getElementById("publicIcon_" + entry).className = 'public-on-icon';
+												document.getElementById("publicIcon_" + entry).setAttribute('title', '<?=_t('현재 공개 상태입니다.')?>');
+												
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 3)" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다')?>"><span class="text"><?=_t('비발행')?></span></a>';
+												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
+												
+												document.getElementById("protectedSettingIcon_" +  + entry).style.display = 'none';
+												document.getElementById("entry" + entry + "Password").setAttribute('disabled', 'disabled');													
+												break;
+											case 3:
+												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a>';
+												document.getElementById("privateIcon_" + entry).className = 'private-off-icon';
+												document.getElementById("privateIcon_" + entry).removeAttribute('title');
+												
+												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a>';
+												document.getElementById("protectedIcon_" + entry).className = 'protected-off-icon';
+												document.getElementById("protectedIcon_" + entry).removeAttribute('title');
+												
+												document.getElementById("publicIcon_" + entry).innerHTML = '<span class="text"><?=_t('공개')?></span>';
+												document.getElementById("publicIcon_" + entry).className = 'public-on-icon';
+												document.getElementById("publicIcon_" + entry).setAttribute('title', '<?=_t('현재 공개 상태입니다.')?>');
+												
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="#void" onclick="setEntryVisibility('+entry+', 2)" title="<?=_t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span class="text"><?=_t('발행')?></span></a>';
+												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-on-icon';
+												
+												document.getElementById("protectedSettingIcon_" +  + entry).style.display = 'none';
+												document.getElementById("entry" + entry + "Password").setAttribute('disabled', 'disabled');
+												
+												break;
+										}
+										request.send();
+									}
+									
+									function deleteEntry(id) {
+										if (!confirm("<?=_t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?')?>"))
+											return;
+										var request = new HTTPRequest("<?=$blogURL?>/owner/entry/delete/" + id);
+										request.onSuccess = function () {
+											document.forms[0].submit();
+										}
+										request.send();
+									}
+									
+									function deleteSelected() {
+									
+									}
+									
+									function protectEntry(id) {
+										var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/protect/" + id);
+										request.onSuccess = function () {
+											hideLayer("entry" + id + "Protection");
+										}
+										request.onError = function () {
+											alert("<?=_t('보호글의 비밀번호를 변경하지 못 했습니다.')?>");
+										}
+										request.send("password=" + encodeURIComponent(document.getElementById("entry" + id + "Password").value));
+									}
+									
+									function checkAll(checked) {
+										for (i = 0; document.forms[0].elements[i]; i ++)
+											if (document.forms[0].elements[i].name == "entry")
+												document.forms[0].elements[i].checked = checked;
+									}
+									
+									function processBatch(obj) {	
+										mode = obj.value;
+										var entries = '';
+										var isSelected = false;
+										for (var i = 0; i < document.forms[0].elements.length; i++) {
+											var oElement = document.forms[0].elements[i];
+											if ((oElement.name == "entry") && oElement.checked) {
+												isSelected = true;
+												break;
 											}
-											request.send();
 										}
-										function deleteSelected() {
-										
+										if (!isSelected) {
+											alert("<?=_t('적용할 글을 선택해 주세요\t')?>")
+											return false;
 										}
-										
-										function protectEntry(id) {
-											var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/protect/" + id);
-											request.onSuccess = function () {
-												hideLayer("entry" + id + "Protection");
-											}
-											request.onError = function () {
-												alert("<?=_t('보호글의 비밀번호를 변경하지 못 했습니다.')?>");
-											}
-											request.send("password=" + encodeURIComponent(document.getElementById("entry" + id + "Password").value));
-										}
-										
-										function checkAll(checked) {
-											for (i = 0; document.forms[0].elements[i]; i ++)
-												if (document.forms[0].elements[i].name == "entry")
-													document.forms[0].elements[i].checked = checked;
-										}
-										
-										function processBatch(obj) {	
-											mode = obj.value;
-											var entries = '';
-											var isSelected = false;
-											for (var i = 0; i < document.forms[0].elements.length; i++) {
-												var oElement = document.forms[0].elements[i];
-												if ((oElement.name == "entry") && oElement.checked) {
-													isSelected = true;
-													break;
+										switch (mode) {
+											case 'classify':
+												for (var i = 0; i < document.forms[0].elements.length; i++) {
+													var oElement = document.forms[0].elements[i];
+													if ((oElement.name == "entry") && oElement.checked)
+														setEntryVisibility(oElement.value, 0);
 												}
-											}
-											if (!isSelected) {
-												alert("<?=_t('적용할 글을 선택해 주세요\t')?>")
-												return false;
-											}
-											switch (mode) {
-												case 'classify':
-													for (var i = 0; i < document.forms[0].elements.length; i++) {
-														var oElement = document.forms[0].elements[i];
-														if ((oElement.name == "entry") && oElement.checked)
-															setEntryVisibility(oElement.value, 0);
+												break;
+											case 'publish':
+												for (var i = 0; i < document.forms[0].elements.length; i++) {
+													var oElement = document.forms[0].elements[i];
+													if ((oElement.name == "entry") && oElement.checked)
+														setEntryVisibility(oElement.value, 2);
+												}
+												break;
+											case 'delete':
+												if (!confirm("<?=_t('선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?\t')?>"))
+													return false;
+												var targets = "";
+												for (var i = 0; i < document.forms[0].elements.length; i++) {
+													var oElement = document.forms[0].elements[i];
+													if ((oElement.name == "entry") && oElement.checked)
+														targets += oElement.value +'~*_)';
+												}
+												var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/delete/");
+												request.onSuccess = function () {
+													document.forms[0].submit();
+												}
+												request.send("targets="+targets);
+												break;
+											case 'category':
+												var targets = "";
+												var category = obj.options[obj.options.selectedIndex].getAttribute('category');
+												var label = obj.options[obj.options.selectedIndex].getAttribute('label');
+												var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/changeCategory/");
+												for (var i = 0; i < document.forms[0].elements.length; i++) {
+													var oElement = document.forms[0].elements[i];
+													if ((oElement.name == "entry") && oElement.checked) {
+														targets += oElement.value +',';
 													}
-													break;
-												case 'publish':
-													for (var i = 0; i < document.forms[0].elements.length; i++) {
-														var oElement = document.forms[0].elements[i];
-														if ((oElement.name == "entry") && oElement.checked)
-															setEntryVisibility(oElement.value, 2);
-													}
-													break;
-				
-												case 'delete':
-													if (!confirm("<?=_t('선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?\t')?>"))
-														return false;
-													var targets = "";
-													for (var i = 0; i < document.forms[0].elements.length; i++) {
-														var oElement = document.forms[0].elements[i];
-														if ((oElement.name == "entry") && oElement.checked)
-															targets += oElement.value +'~*_)';
-													}
-													var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/delete/");
-													request.onSuccess = function () {
-														document.forms[0].submit();
-													}
-													request.send("targets="+targets);
-													break;
-				
-												case 'category':
-													var targets = "";
-													var category = obj.options[obj.options.selectedIndex].getAttribute('category');
-													var label = obj.options[obj.options.selectedIndex].getAttribute('label');
-													var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/changeCategory/");
+												}
+												targets = targets.substr(0,targets.length-1);
+												
+												if (targets == '') {
+													return false;
+												}
+			
+												request.onSuccess = function () {
 													for (var i = 0; i < document.forms[0].elements.length; i++) {
 														var oElement = document.forms[0].elements[i];
 														if ((oElement.name == "entry") && oElement.checked) {
-															targets += oElement.value +',';
+															document.getElementById("category_" + oElement.value).innerHTML = label;
+															document.getElementById("category_" + oElement.value).name = category;
 														}
-													}
-													targets = targets.substr(0,targets.length-1);
-
-													if (targets == '') {
-														return false;
-													}
-				
-													request.onSuccess = function () {
-														for (var i = 0; i < document.forms[0].elements.length; i++) {
-															var oElement = document.forms[0].elements[i];
-															if ((oElement.name == "entry") && oElement.checked) {
-																document.getElementById("category_" + oElement.value).innerHTML = label;
-																document.getElementById("category_" + oElement.value).name = category;
-															}
-														}	
-														//document.forms[0].submit();
-													}
-													request.send("category="+category+"&targets="+targets);
-													break;				
-				
-											}
-											obj.selectedIndex = 0
-										}
-										
-										function removeTrackbackLog(id,entry) {
-											if (confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?')?>")) {
-												var request = new HTTPRequest("<?=$blogURL?>/owner/entry/trackback/log/remove/" + id);
-												request.onSuccess = function () {
-													printTrackbackLog(entry);
+													}	
+													//document.forms[0].submit();
 												}
-												request.onError = function () {
-													alert("<?=_t('트랙백을 삭제하는데 실패하였습니다.')?>");
-												}
-												request.send();
-											}
+												request.send("category="+category+"&targets="+targets);
+												break;				
+			
 										}
+										obj.selectedIndex = 0
+									}
 										
-										function printTrackbackLog(id) {
-											var request = new HTTPRequest("<?=$blogURL?>/owner/entry/trackback/log/" + id);
-											request.onVerify = function () {
-												var resultRow = this.getText("/response/result").split('*');
-												if (resultRow.length == 1)
-													str ='';
-												else {
-													str = '';
-													for (var i=0; i<resultRow.length-1 ; i++) {
-														if  (i == 0) {
-															str='<table cellspacing="0" cellpadding="0">';
-														}
-														field = resultRow[i].split(',');
-														str += '<tr id="trackbackLog_'+field[0]+'">\n';
-														str += '	<td class="address">'+field[1]+'</td>\n'
-														str += '	<td class="date">'+field[2]+'</td>\n'
-														str += '	<td class="remove"><a class="remove-button button" href="#void" onclick="removeTrackbackLog('+field[0]+','+id+');" title="이 트랙백을 삭제합니다."><span>Delete</span></a></td>\n'
-														str += '</tr>\n';
-														
-														if (i == resultRow.length-2) {
-															str += "</table>";
-														}
-													}
-												}
-												if (str != '' ) {
-													document.getElementById("logs_"+id).innerHTML = str;
-												}
-												return true;
-											}
-											request.send();
-										}
-										
-										function showProtectSetter(id) {
-											if (document.getElementById("entry" + id + "Protection").style.display == "") {
-												document.getElementById("entry" + id + "Protection").style.display = "none";
-												document.getElementById("protectedSettingIcon_" + id).className = "protect-off-button button";
-											} else {
-												document.getElementById("entry" + id + "Protection").style.display = "";
-												document.getElementById("entry"+ id + "Password").select();
-												document.getElementById("protectedSettingIcon_" + id).className = "protect-on-button button";
-											}
-											return;
-										}
-										
-										function showTrackbackSender(id) {
-											if (document.getElementById("trackbackSender_" + id).style.display == "") {
-												document.getElementById("trackbackSender_" + id).style.display = "none";
-												document.getElementById("trackbackIcon_" + id).className = "trackback-off-button button";
-											} else {
-												document.getElementById("trackbackSender_" + id).style.display = "";
-												document.getElementById("trackbackForm_" + id).select();
-												document.getElementById("trackbackIcon_" + id).className = "trackback-on-button button";
-												printTrackbackLog(id);
-											}
-											return;
-										}
-										
-										function sendTrackback(id) {
-											var trackbackField = document.getElementById('trackbackForm_'+id);
-											var request = new HTTPRequest("<?=$blogURL?>/owner/entry/trackback/send/" + id + "?url=" + encodeURIComponent(trackbackField.value));
+									function removeTrackbackLog(id,entry) {
+										if (confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?')?>")) {
+											var request = new HTTPRequest("<?=$blogURL?>/owner/entry/trackback/log/remove/" + id);
 											request.onSuccess = function () {
-												document.getElementById('trackbackForm_'+id).value = "http://";
-												printTrackbackLog(id);
+												printTrackbackLog(entry);
 											}
 											request.onError = function () {
-												alert("<?=_t('트랙백 전송에 실패하였습니다.')?>");
+												alert("<?=_t('트랙백을 삭제하는데 실패했습니다.')?>");
 											}
 											request.send();
 										}
-									//]]>
-								</script>
-								
-								<div id="part-post-list" class="part">
-									<h2 class="caption">
-										<span class="category">
-											<select id="category" name="category" onchange="document.forms[0].page.value=1; document.forms[0].submit()">
-												<option value="0"><?php echo _t('전체')?></option>
+									}
+									
+									function printTrackbackLog(id) {
+										var request = new HTTPRequest("<?=$blogURL?>/owner/entry/trackback/log/" + id);
+										request.onVerify = function () {
+											var resultRow = this.getText("/response/result").split('*');
+											if (resultRow.length == 1)
+												tempTable ='';
+											else {
+												tempTable = '';
+												for (var i=0; i<resultRow.length-1 ; i++) {
+													if  (i == 0) {
+														tempTable = document.createElement("TABLE");
+														tempTable.setAttribute("cellpadding", 0);
+														tempTable.setAttribute("cellspacing", 0);
+													}
+													field = resultRow[i].split(',');
+													
+													tempTr = document.createElement("TR");
+													tempTr.id = "trackbackLog_" + field[0];
+													
+													tempTd_1 = document.createElement("TD");
+													tempTd_1.className = "address";
+													tempTd_1.innerHTML = field[1];
+													tempTr.appendChild(tempTd_1);
+													
+													tempTd_2 = document.createElement("TD");
+													tempTd_2.className = "date";
+													tempTd_2.innerHTML = field[2];
+													tempTr.appendChild(tempTd_2);
+													
+													tempTd_3 = document.createElement("TD");
+													tempTd_3.className = "remove";
+													
+													tempA = document.createElement("A");
+													tempA.className = "remove-button button";
+													tempA.setAttribute("href", "#void");
+													tempA.setAttribute("onclick", "removeTrackbackLog('" + field[0] + "','" + id + "');");
+													tempA.setAttribute("title", "<?php echo _t('이 트랙백을 삭제합니다.')?>");
+													
+													tempSpan = document.createElement("SPAN");
+													tempSpan.className = "text";
+													tempSpan.innerHTML = "delete";
+													
+													tempA.appendChild(tempSpan);
+													tempTd_3.appendChild(tempA);
+													tempTr.appendChild(tempTd_3);
+													
+													tempTable.appendChild(tempTr);
+												}
+											}
+											if (tempTable != '' ) {
+												document.getElementById("logs_"+id).appendChild(tempTable);
+												document.getElementById("logs_"+id).style.display = "block";
+											}
+											return true;
+										}
+										request.send();
+									}
+									
+									function showProtectSetter(id) {
+										if (document.getElementById("entry" + id + "Protection").style.display == "") {
+											document.getElementById("entry" + id + "Protection").style.display = "none";
+											document.getElementById("protectedSettingIcon_" + id).className = "protect-off-button button";
+										} else {
+											document.getElementById("entry" + id + "Protection").style.display = "";
+											document.getElementById("entry"+ id + "Password").select();
+											document.getElementById("protectedSettingIcon_" + id).className = "protect-on-button button";
+										}
+										return;
+									}
+									
+									function showTrackbackSender(id) {
+										if (document.getElementById("trackbackSender_" + id).style.display == "") {
+											document.getElementById("trackbackSender_" + id).style.display = "none";
+											document.getElementById("trackbackIcon_" + id).className = "trackback-off-button button";
+										} else {
+											document.getElementById("trackbackSender_" + id).style.display = "";
+											document.getElementById("trackbackForm_" + id).select();
+											document.getElementById("trackbackIcon_" + id).className = "trackback-on-button button";
+											printTrackbackLog(id);
+										}
+										return;
+									}
+									
+									function sendTrackback(id) {
+										var trackbackField = document.getElementById('trackbackForm_'+id);
+										var request = new HTTPRequest("<?=$blogURL?>/owner/entry/trackback/send/" + id + "?url=" + encodeURIComponent(trackbackField.value));
+										request.onSuccess = function () {
+											document.getElementById('trackbackForm_'+id).value = "http://";
+											printTrackbackLog(id);
+										}
+										request.onError = function () {
+											alert("<?=_t('트랙백 전송에 실패하였습니다.')?>");
+										}
+										request.send();
+									}
+									
+									function toggleDeleteButton(obj) {
+										index = obj.selectedIndex;
+										button = document.getElementById("apply-button");
+										
+										if (obj.options[index].value == "delete") {
+											button.className = button.className.replace("apply-button", "delete-button");
+											button.innerHTML = '<span class="text"><?php echo _t('삭제')?></span>';
+										} else {
+											button.className = button.className.replace("delete-button", "apply-button");
+											button.innerHTML = '<span class="text"><?php echo _t('적용')?></span>';
+										}
+									}
+								//]]>
+							</script>
+							
+							<div id="part-post-list" class="part">
+								<h2 class="caption">
+									<select id="category" class="normal-class" name="category" onchange="document.forms[0].page.value=1; document.forms[0].submit()">
+										<option value="0"><?php echo _t('전체')?></option>
 <?php
 foreach (getCategories($owner) as $category) {
 ?>
-												<option value="<?php echo $category['id']?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?php echo htmlspecialchars($category['name'])?></option>
+										<option value="<?php echo $category['id']?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?php echo htmlspecialchars($category['name'])?></option>
 <?php
 	foreach ($category['children'] as $child) {
 ?>
-												<option value="<?php echo $child['id']?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;― <?php echo htmlspecialchars($child['name'])?></option>
+										<option value="<?php echo $child['id']?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;― <?php echo htmlspecialchars($child['name'])?></option>
 <?php
 	}
 }
 ?>
-											</select>
-										</span>
-										<span class="interword"><?php echo _t('분류에')?></span>
-										<span class="main-text"><?php echo _t('등록된 글 목록입니다')?></span>
-										
-										<span class="clear"></span>
-									</h2>
-									
-									<table class="data-inbox" cellspacing="0" cellpadding="0">
-										<thead>
-											<tr>
-												<td class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></td>
-												<td class="date"><span class="text"><?=_t('등록일자')?></span></td>
-												<td class="status"><span class="text"><?=_t('상태')?></span></td>
-												<td class="syndicate"><span class="text"><?=_t('발행')?></span></td>
-												<td class="category"><span class="text"><?=_t('분류')?></span></td>
-												<td class="title"><span class="text"><?=_t('제목')?></span></td>
-												<td class="protect"><span class="text"><?=_t('보호설정')?></span></td>
-												<td class="trackback"><span class="text"><?=_t('트랙백')?></span></td>
-												<td class="delete"><span class="text"><?=_t('삭제')?></span></td>
-											</tr>
-										</thead>
-										<tbody>
+									</select>
+									<span class="interword"><?php echo _t('분류에')?></span>
+									<span class="main-text"><?php echo _t('등록된 글 목록입니다')?></span>
+								</h2>
+								
+								<table class="data-inbox" cellspacing="0" cellpadding="0">
+									<thead>
+										<tr>
+											<td class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></td>
+											<td class="date"><span class="text"><?=_t('등록일자')?></span></td>
+											<td class="status"><span class="text"><?=_t('상태')?></span></td>
+											<td class="syndicate"><span class="text"><?=_t('발행')?></span></td>
+											<td class="category"><span class="text"><?=_t('분류')?></span></td>
+											<td class="title"><span class="text"><?=_t('제목')?></span></td>
+											<td class="protect"><span class="text"><?=_t('보호설정')?></span></td>
+											<td class="trackback"><span class="text"><?=_t('트랙백')?></span></td>
+											<td class="delete"><span class="text"><?=_t('삭제')?></span></td>
+										</tr>
+									</thead>
+									<tbody>
 <?
 for ($i=0; $i<sizeof($entries); $i++) {
 	$entry = $entries[$i];
-	($i % 2) == 1 ? $className = 'tr-odd-body' : $className = 'tr-even-body';
 	
-	if ($i == sizeof($entries) - 1) {
+	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
+	$className .= ($i == sizeof($entries) - 1) ? ' last-line' : '';
 ?>
-											<tr class="<?php echo $className?> tr-last-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked=false" /></td>
-												<td class="date"><?=Timestamp::formatDate($entry['published'])?></td>
-												<td class="status">
+										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked=false" /></td>
+											<td class="date"><?=Timestamp::formatDate($entry['published'])?></td>
+											<td class="status">
 <?
-		if ($entry['visibility'] == 0) {
+	if ($entry['visibility'] == 0) {
 ?>
-													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon" title="<?=_t('현재 비공개 상태입니다.')?>"><span class="text"><?=_t('비공개')?></span></span>
-													<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a></span>
-													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?=_t('공개')?></span></a></span>
+												<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon" title="<?=_t('현재 비공개 상태입니다.')?>"><span class="text"><?=_t('비공개')?></span></span>
+												<span id="protectedIcon_<?=$entry['id']?>" class="protected-off-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a></span>
+												<span id="publicIcon_<?=$entry['id']?>" class="public-off-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?=_t('공개')?></span></a></span>
 <?
-		} else if ($entry['visibility'] == 1) {
+	} else if ($entry['visibility'] == 1) {
 ?>
-													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a></span>
-													<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon" title="<?=_t('현재 보호 상태입니다.')?>"><span class="text"><?=_t('보호')?></span></span>
-													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?=_t('공개')?></span></a></span>
+												<span id="privateIcon_<?=$entry['id']?>" class="private-off-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a></span>
+												<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon" title="<?=_t('현재 보호 상태입니다.')?>"><span class="text"><?=_t('보호')?></span></span>
+												<span id="publicIcon_<?=$entry['id']?>" class="public-off-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?=_t('공개')?></span></a></span>
 <?
-		} else if ($entry['visibility'] == 2 || $entry['visibility'] == 3) {
+	} else if ($entry['visibility'] == 2 || $entry['visibility'] == 3) {
 ?>
-													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a></span>
-													<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a></span>
-													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon" title="<?=_t('현재 공개 상태입니다.')?>"><span class="text"><?=_t('공개')?></span></span>
+												<span id="privateIcon_<?=$entry['id']?>" class="private-off-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a></span>
+												<span id="protectedIcon_<?=$entry['id']?>" class="protected-off-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a></span>
+												<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon" title="<?=_t('현재 공개 상태입니다.')?>"><span class="text"><?=_t('공개')?></span></span>
 <?
-		}
+	}
 ?>
-												</td>
-												<td class="syndicate">
+											</td>
+											<td class="syndicate">
 <?
-		if ($entry['visibility'] == 3) {
+	if ($entry['visibility'] == 3) {
 ?>
-													<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 3)" title="<?=_t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span class="text"><?=_t('발행')?></span></a></span>
-<?
-		} else {
-?>
-													<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-off-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 3)" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?=_t('비발행')?></span></a></span>
-<?
-		}
-?>
-												</td>
-												<td class="category">
-													<a href="#void" onclick="document.forms[0].category.value=this.name; document.forms[0].submit()" name="<?=$entry['category']?>" id="category_<?=$entry['id']?>"><?=empty($entry['categoryLabel']) ? '&nbsp;' : htmlspecialchars($entry['categoryLabel'])?></a>
-												</td>
-												<td class="title">
-													<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?><a href="#void" onclick="document.forms[0].action='<?=$blogURL?>/owner/entry/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.forms[0].submit();"><?=htmlspecialchars($entry['title'])?></a>
-												</td>
-												<td class="protect">
-													<a id="protectedSettingIcon_<?=$entry['id']?>" class="protect-off-button button" href="#void" style="display: <?=(abs($entry['visibility']) == 1 ? 'block' : 'none')?>;" onclick="showProtectSetter('<?=$entry['id']?>')" title="<?=_t('보호 패스워드를 설정합니다.')?>"><span class="text"><?=_t('보호')?></span></a>
-												</td>
-												<td class="trackback">
-													<a id="trackbackIcon_<?=$entry['id']?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?=$entry['id']?>,event)" title="<?=_t('관련글에 트랙백을 보냅니다.')?>"><span class="text"><?=_t('트랙백')?></span></a>
-												</td>
-												<td class="delete">
-													<a class="delete-button button" href="#void" onclick="deleteEntry(<?=$entry['id']?>)" title="<?=_t('이 포스트를 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a>
-												</td>
-											</tr>
-											<tr id="entry<?=$entry['id']?>Protection" class="hidden-last-layer" style="display: none;">
-												<td colspan="9">
-													<div class="layer-section">
-														<div class="password-box">
-															<label for="entry<?=$entry['id']?>Password"><span class="text"><?=_t('비밀번호')?></span></label><span class="divider"> | </span><input type="text" id="entry<?=$entry['id']?>Password" class="text-input" value="<?=$entry['password']?>" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(<?=$entry['id']?>)"<?=$entry['visibility'] == 1 ? '' : ' disabled="disabled"'?> />
-														</div>
-														<div class="button-box">
-															<a class="edit-button button" href="#void" onclick="protectEntry(<?=$entry['id']?>)"><span class="text"><?=_t('수정')?></span></a>
-															<!--span class="divider"> | </span>
-															<a class="close-button button" href="#void" onclick="collapseAll()"><span><?=_t('닫기')?></span></a-->
-														</div>
-														
-														<div class="clear"></div>
-													</div>
-												</td>
-											</tr>
-											<tr id="trackbackSender_<?=$entry['id']?>" class="hidden-last-layer" style="display: none;">
-												<td colspan="9">
-													<div class="layer-section">
-														<div class="trackback-box">
-															<label for="trackbackForm_<?=$entry['id']?>"><span class="text"><?=_t('트랙백 주소')?></span></label><span class="divider"> | </span><input type="text" id="trackbackForm_<?=$entry['id']?>" class="text-input" name="trackbackURL" value="http://" onkeydown="if (event.keyCode == 13) sendTrackback(<?=$entry['id']?>)" />
-														</div>
-														<div class="button-box">
-															<a class="send-button button" href="#void" onclick="sendTrackback(<?=$entry['id']?>)"><span class="text"><?=_t('전송')?></span></a>
-															<!--span class="divider"> | </span>
-															<a class="close-button button" href="#void" onclick="collapseAll()"><span class="text"><?=_t('닫기')?></span></a-->
-														</div>
-														<div id="logs_<?=$entry['id']?>" class="trackback-log-box"></div>
-														<div class="clear"></div>
-		 											</div>
-												</td>
-											</tr>
+												<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 3)" title="<?=_t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span class="text"><?=_t('발행')?></span></a></span>
 <?
 	} else {
 ?>
-											<tr class="<?php echo $className?> tr-body inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked=false" /></td>
-												<td class="date"><?=Timestamp::formatDate($entry['published'])?></td>
-												<td class="status">
-<?
-		if ($entry['visibility'] == 0) {
-?>
-													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon" title="<?=_t('현재 비공개 상태입니다.')?>"><span class="text"><?=_t('비공개')?></span></span>
-													<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a></span>
-													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?=_t('공개')?></span></a></span>
-<?
-		} else if ($entry['visibility'] == 1) {
-?>
-													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a></span>
-													<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon" title="<?=_t('현재 보호 상태입니다.')?>"><span class="text"><?=_t('보호')?></span></span>
-													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?=_t('공개')?></span></a></span>
-<?
-		} else if ($entry['visibility'] == 2 || $entry['visibility'] == 3) {
-?>
-													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a></span>
-													<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 1)" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a></span>
-													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon" title="<?=_t('현재 공개 상태입니다.')?>"><span class="text"><?=_t('공개')?></span></span>
-<?
-		}
-?>
-												</td>
-												<td class="syndicate">
-<?
-		if ($entry['visibility'] == 3) {
-?>
-													<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-on-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 3)" title="<?=_t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span class="text"><?=_t('발행')?></span></a></span>
-<?
-		} else {
-?>
-													<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-off-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 3)" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?=_t('비발행')?></span></a></span>
-<?
-		}
-?>
-												</td>
-												<td class="category">
-													<a href="#void" onclick="document.forms[0].category.value='<?=$entry['category']?>'; document.forms[0].submit();" id="category_<?=$entry['id']?>"><?=empty($entry['categoryLabel']) ? '&nbsp;' : htmlspecialchars($entry['categoryLabel'])?></a>
-												</td>
-												<td class="title">
-													<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?><a href="#void" onclick="document.forms[0].action='<?=$blogURL?>/owner/entry/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.forms[0].submit();"><?=htmlspecialchars($entry['title'])?></a>
-												</td>
-												<td class="protect">
-													<a id="protectedSettingIcon_<?=$entry['id']?>" class="protect-off-button button" href="#void" style="display: <?=(abs($entry['visibility']) == 1 ? 'block' : 'none')?>;" onclick="showProtectSetter('<?=$entry['id']?>')" title="<?=_t('보호 패스워드를 설정합니다.')?>"><span class="text"><?=_t('보호')?></span></a>
-												</td>
-												<td class="trackback">
-													<a id="trackbackIcon_<?=$entry['id']?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?=$entry['id']?>,event)" title="<?=_t('관련글에 트랙백을 보냅니다.')?>"><span class="text"><?=_t('트랙백')?></span></a>
-												</td>
-												<td class="delete">
-													<a class="delete-button button" href="#void" onclick="deleteEntry(<?=$entry['id']?>)" title="<?=_t('이 포스트를 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a>
-												</td>
-											</tr>
-											<tr id="entry<?=$entry['id']?>Protection" class="hidden-layer" style="display: none;">
-												<td colspan="9">
-													<div class="layer-section">
-														<div class="password-box">
-															<label for="entry<?=$entry['id']?>Password"><span class="text"><?=_t('비밀번호')?></span></label><span class="divider"> | </span><input type="text" id="entry<?=$entry['id']?>Password" class="text-input" value="<?=$entry['password']?>" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(<?=$entry['id']?>)"<?=$entry['visibility'] == 1 ? '' : ' disabled="disabled"'?> />
-														</div>
-														<div class="button-box">
-															<a class="edit-button button" href="#void" onclick="protectEntry(<?=$entry['id']?>)"><span class="text"><?=_t('수정')?></span></a>
-															<!--span class="divider"> | </span>
-															<a class="close-button button" href="#void" onclick="collapseAll()"><span class="text"><?=_t('닫기')?></span></a-->
-														</div>
-														
-														<div class="clear"></div>
-													</div>
-												</td>
-											</tr>
-											<tr id="trackbackSender_<?=$entry['id']?>" class="hidden-layer" style="display: none;">
-												<td colspan="9">
-													<div class="layer-section">
-														<div class="trackback-box">
-															<label for="trackbackForm_<?=$entry['id']?>"><span class="text"><?=_t('트랙백 주소')?></span></label><span class="divider"> | </span><input type="text" id="trackbackForm_<?=$entry['id']?>" class="text-input" name="trackbackURL" value="http://" onkeydown="if (event.keyCode == 13) sendTrackback(<?=$entry['id']?>)" />
-														</div>
-														<div class="button-box">
-															<a class="send-button button" href="#void" onclick="sendTrackback(<?=$entry['id']?>)"><span class="text"><?=_t('전송')?></span></a>
-															<!--span class="divider"> | </span>
-															<a class="close-button button" href="#void" onclick="collapseAll()"><span class="text"><?=_t('닫기')?></span></a-->
-														</div>
-														<div id="logs_<?=$entry['id']?>" class="trackback-log-box"></div>
-	 													<div class="clear"></div>
-		 											</div>
-	 											</td>
-	 										</tr>
+												<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-off-icon"><a href="#void" onclick="setEntryVisibility(<?=$entry['id']?>, 3)" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?=_t('비발행')?></span></a></span>
 <?
 	}
-}
 ?>
-										</tbody>
-									</table>
-									
-									<hr class="hidden" />
-									
-									<div class="data-subbox">
-										<div id="change-section" class="section">
-											<span class="label"><span class="text"><?=_t('선택한 글을')?></span></span>
-											<select id="commandBox">
+											</td>
+											<td class="category">
+<?
+	if (!empty($entry['categoryLabel'])) {
+?>
+												<a id="category_<?=$entry['id']?>" class="categorized" name="<?=$entry['category']?>" href="#void" onclick="document.forms[0].category.value=this.name; document.forms[0].submit()"><span class="text"><?php echo htmlspecialchars($entry['categoryLabel'])?></span></a>
+<?
+	} else {
+?>
+												<span class="uncategorized"><span class="text"><?php echo _t('분류 없음')?></span></span>
+<?
+	}
+?>
+											</td>
+											<td class="title">
+												<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?><a href="#void" onclick="document.forms[0].action='<?=$blogURL?>/owner/entry/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.forms[0].submit();"><?=htmlspecialchars($entry['title'])?></a>
+											</td>
+											<td class="protect">
+												<a id="protectedSettingIcon_<?=$entry['id']?>" class="protect-off-button button" href="#void" style="display: <?=(abs($entry['visibility']) == 1 ? 'block' : 'none')?>;" onclick="showProtectSetter('<?=$entry['id']?>')" title="<?=_t('보호 패스워드를 설정합니다.')?>"><span class="text"><?=_t('보호설정')?></span></a>
+											</td>
+											<td class="trackback">
+												<a id="trackbackIcon_<?=$entry['id']?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?=$entry['id']?>,event)" title="<?=_t('관련글에 트랙백을 보냅니다.')?>"><span class="text"><?=_t('트랙백')?></span></a>
+											</td>
+											<td class="delete">
+												<a class="delete-button button" href="#void" onclick="deleteEntry(<?=$entry['id']?>)" title="<?=_t('이 포스트를 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a>
+											</td>
+										</tr>
+										<tr id="entry<?=$entry['id']?>Protection" class="hidden-layer" style="display: none;">
+											<td colspan="9">
+												<div class="layer-section">
+													<div class="password-box">
+														<label for="entry<?=$entry['id']?>Password"><span class="text"><?=_t('비밀번호')?></span></label><span class="divider"> | </span><input type="text" id="entry<?=$entry['id']?>Password" class="text-input" value="<?=$entry['password']?>" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(<?=$entry['id']?>)"<?=$entry['visibility'] == 1 ? '' : ' disabled="disabled"'?> />
+													</div>
+													<div class="button-box">
+														<a class="edit-button button" href="#void" onclick="protectEntry(<?=$entry['id']?>)"><span class="text"><?=_t('수정')?></span></a>
+														<!--span class="divider"> | </span>
+														<a class="close-button button" href="#void" onclick="collapseAll()"><span><?=_t('닫기')?></span></a-->
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr id="trackbackSender_<?=$entry['id']?>" class="hidden-layer" style="display: none;">
+											<td colspan="9">
+												<div class="layer-section">
+													<div class="trackback-box">
+														<label for="trackbackForm_<?=$entry['id']?>"><span class="text"><?=_t('트랙백 주소')?></span></label><span class="divider"> | </span><input type="text" id="trackbackForm_<?=$entry['id']?>" class="text-input" name="trackbackURL" value="http://" onkeydown="if (event.keyCode == 13) sendTrackback(<?=$entry['id']?>)" />
+													</div>
+													<div class="button-box">
+														<a class="send-button button" href="#void" onclick="sendTrackback(<?=$entry['id']?>)"><span class="text"><?=_t('전송')?></span></a>
+														<!--span class="divider"> | </span>
+														<a class="close-button button" href="#void" onclick="collapseAll()"><span class="text"><?=_t('닫기')?></span></a-->
+													</div>
+													<div id="logs_<?=$entry['id']?>" class="trackback-log-box" style="display: none;"></div>
+	 											</div>
+											</td>
+										</tr>
+<?
+								}
+?>
+									</tbody>
+								</table>
+								
+								<hr class="hidden" />
+								
+								<div class="data-subbox">
+									<div id="change-section" class="section">
+										<label for="command-select"><span class="text"><?=_t('선택한 글을')?></span></label>
+										<select id="command-select" onchange="toggleDeleteButton(this)"> 
 											<option></option>
 <?
 	$categories = getCategories($owner);
 	if (count($categories) >0) {
-?>				 
-												<option>&nbsp; <?=_t('아래의 카테고리로 변경합니다 ')?></option>
+?>
+											<optgroup class="category" label="<?=_t('아래의 카테고리로 변경합니다.')?>">
 <?
 		foreach ($categories as $category) {
 ?>
-												<option value="category" category="<?=$category['id']?>" label="<?=htmlspecialchars($category['name'])?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<?=htmlspecialchars($category['name'])?></option>
+												<option class="parent-category" value="category" category="<?=$category['id']?>" label="<?=htmlspecialchars($category['name'])?>"><?=htmlspecialchars($category['name'])?></option>
 <?
 			foreach ($category['children'] as $child) {
 ?>
-												<option value="category" category="<?=$child['id']?>" label="<?=htmlspecialchars($category['name'])?>/<?=htmlspecialchars($child['name'])?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;<?=htmlspecialchars($child['name'])?></option>
+												<option class="child-category" value="category" category="<?=$child['id']?>" label="<?=htmlspecialchars($category['name'])?>/<?=htmlspecialchars($child['name'])?>">― <?=htmlspecialchars($child['name'])?></option>
 <?
 			}
 		}
 	}
 ?>
-												<option></option>
-												<option value="classify">&nbsp; <?=_t('비공개로 변경합니다')?></option>
-												<option value="publish">&nbsp; <?=_t('공개로 변경합니다')?></option>
-											</select>&nbsp;<input type="button" onclick="processBatch(document.getElementById('commandBox'));" value=" <?=_t('적용')?> " />&nbsp;&nbsp;&nbsp;<input type="button" onclick="obj = new Object(); obj.value = 'delete';  processBatch(obj);" value=" <?=_t('삭제')?> " />
-											<div class="clear"></div>
-										</div>
-										
-										<div id="page-section" class="section">
-											<div id="page-navigation">
-												<span id="total-count"><?=_t('총')?> <?=$paging['total']?><?=_t('건')?><span class="hidden">, </span></span>
-												<span id="page-list">
+											</optgroup>
+											<optgroup class="status" label="<?=_t('아래의 상태로 변경합니다.')?>">
+												<option value="classify"><?=_t('비공개로 변경합니다.')?></option>
+												<option value="publish"><?=_t('공개로 변경합니다.')?></option>
+											</optgroup>
+											<!--optgroup class="delete" label="<?=_t('삭제합니다.')?>">
+												<option value="delete"><?=_t('삭제합니다.')?></option>
+											</optgroup-->
+										</select>
+										<a id="apply-button" class="apply-button button" href="#void" onclick="processBatch(document.getElementById('commandBox'));"><span class="text"><?=_t('적용')?></span></a>
+										<a class="delete-button button" href="#void" onclick="obj=new Object(); obj.value='delete'; processBatch(obj);"><span class="text"><?=_t('삭제')?></span></a>
+										<!--input type="button" onclick="processBatch(document.getElementById('commandBox'));" value=" <?=_t('적용')?> " />
+										<input type="button" onclick="obj = new Object(); obj.value = 'delete';  processBatch(obj);" value=" <?=_t('삭제')?> " /-->
+									</div>
+									
+									<div id="page-section" class="section">
+										<div id="page-navigation">
+											<span id="total-count"><?=_t('총')?> <?=$paging['total']?><?=_t('건')?></span>
+											<span id="page-list">
 <?
-$paging['url'] = 'javascript: document.forms[0].page.value=';
+$paging['url'] = 'document.forms[0].page.value=';
 $paging['prefix'] = '';
 $paging['postfix'] = '; document.forms[0].submit()';
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 ?>
-												</span>
-											</div>
-											<div class="page-count">
-												<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0)?>
-												<select name="perPage" onchange="document.forms[0].page.value=1; document.forms[0].submit()">
+											</span>
+										</div>
+										<div class="page-count">
+											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0)?>
+
+											<select name="perPage" onchange="document.forms[0].page.value=1; document.forms[0].submit()">
 <?php
 for ($i = 10; $i <= 30; $i += 5) {
 	if ($i == $perPage) {
 ?>
-													<option value="<?php echo $i?>" selected="selected"><?php echo $i?></option>
+												<option value="<?php echo $i?>" selected="selected"><?php echo $i?></option>
 <?php
 	} else {
 ?>
-													<option value="<?php echo $i?>"><?php echo $i?></option>
+												<option value="<?php echo $i?>"><?php echo $i?></option>
 <?php
 	}
 }
 ?>
-												</select>
-												<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1)?>
-											</div>
-												
-											<div class="clear"></div>
+											</select>
+											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1)?>
 										</div>
-										
-										<hr class="hidden" />
-										
-										<div id="search-section" class="section">
-											<!--label for="search"><span class="text"><?=_t('제목')?>, <?=_t('내용')?></span></label><span class="divider"> | </span-->
-											<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.forms[0].withSearch.value = 'on'; document.forms[0].submit(); }" />
-											<a class="search-button button" href="#void" onclick="document.forms[0].withSearch.value = 'on'; document.forms[0].submit();"><span class="text"><?=_t('검색')?></span></a>
-											
-											<div class="clear"></div>
-										</div>
-										
-										<div class="clear"></div>
+									</div>
+									
+									<hr class="hidden" />
+									
+									<div id="search-section" class="section">
+										<!--label for="search"><span class="text"><?=_t('제목')?>, <?=_t('내용')?></span></label><span class="divider"> | </span-->
+										<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.forms[0].withSearch.value = 'on'; document.forms[0].submit(); }" />
+										<a class="search-button button" href="#void" onclick="document.forms[0].withSearch.value = 'on'; document.forms[0].submit();"><span class="text"><?=_t('검색')?></span></a>
 									</div>
 								</div>
+							</div>
 <?
 require ROOT . '/lib/piece/owner/footer0.php';
 ?>

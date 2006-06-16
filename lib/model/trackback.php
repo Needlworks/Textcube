@@ -115,7 +115,6 @@ function sendTrackback($owner, $entryId, $url) {
 	if (!$entry)
 		return false;
 	$link = "$hostURL$blogURL/$entryId";
-	$title = $entry['title'];
 	$title = htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id']));
 	$entry['content'] = getEntryContentView($owner, $entryId, $entry['content'], getKeywordNames($owner));
 	$excerpt = UTF8::lessen(removeAllTags(stripHTML(nl2brWithHTML($entry['content']))), 255);

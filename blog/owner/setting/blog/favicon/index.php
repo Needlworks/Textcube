@@ -61,9 +61,9 @@ if (count($_FILES) == 1) {
 	}
 }
 ?>
-			window.onload=function() {
+			//window.onload=function() {
 			//window.resizeTo(document.body.clientWidth,document.body.clientHeight);
-}
+			//}
 		//]]>
 	</script>
 	<style type="text/css">
@@ -76,9 +76,9 @@ if (count($_FILES) == 1) {
 			}
 		-->
 	</style>
-	<link rel="stylesheet" type="text/css" href="<?=$blogURL.$service['adminSkin']?>/setting.css" />
-	<link rel="stylesheet" type="text/css" href="<?=$blogURL.$service['adminSkin']?>/setting.opera.css" />
-	<link rel="stylesheet" type="text/css" href="<?=$blogURL.$service['adminSkin']?>/setting.ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/setting.css" />
+	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/setting.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/setting.ie.css" /><![endif]-->
 </head>
 <body id="favicon-iframe">
 	<form method="post" action="<?=$blogURL?>/owner/setting/blog/favicon" enctype="multipart/form-data">

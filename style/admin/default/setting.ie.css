@@ -1,147 +1,44 @@
 @charset "utf-8";
 
-/* Common ****************************************************************************************/
-
-#data-outbox div.data-inbox dl
-{
-	clear                            : both;
-}
-
-#data-outbox div.data-inbox dl dt
-{
-	padding-top                      : 1px;
-}
-
 /* Blog ******************************************************************************************/
 
 /* basic ----------------------------------------------------------------------------------------*/
-#part-setting-basic #common-section dl dt
+/* multi section */
+#part-setting-basic #multi-section
 {
-	padding-top                      : 0;
-}
-
-#part-setting-basic #common-section dl dd .text-input
-{
-	padding                          : 3px;
-	width                            : 198px;
+	margin-top                       : -1px;
 }
 
 #part-setting-basic #multi-section dl dt
 {
-	padding-top                       : 0;
-}
-
-#part-setting-basic #multi-section dl dd .text-input
-{
-	padding                          : 3px;
-}
-
-/* profile --------------------------------------------------------------------------------------*/
-/* iframe's css */
-#logo-iframe input,
-#blogcon-iframe input,
-#favicon-iframe input
-{
-	border                           : 1px solid #878787;
+	padding-top                      : 5px;
 }
 
 /* rss ------------------------------------------------------------------------------------------*/
-#part-setting-rss div.data-inbox dl dd select
+#post-count-line dt,
+#open-range-line dt
 {
-	margin-top                       : 0;
+	padding-top                      : 7px !important;
 }
 
-#part-setting-rss div.data-inbox dl#post-count dt
+#guestbook-authority-line dt
 {
-	margin-top                       : 4pt;
+	padding-top                      : 2px !important;
 }
 
-#part-setting-rss div.data-inbox dl#open-range dt
+/* language & timezone --------------------------------------------------------------------------*/
+#part-setting-language dl dt
 {
-	margin-top                       : 4pt;
+	padding-top                      : 5px !important;
 }
 
 /* Account ***************************************************************************************/
 
-/* edit -----------------------------------------------------------------------------------------*/
-#part-setting-account dl dt
-{
-	padding-top                      : 0 !important;
-}
-
-#part-setting-account dl dd
-{
-	margin-left                      : -10px;
-}
-
-#part-setting-account dl dd .text-input
-{
-	padding                          : 3px !important;
-}
-
-/* invite ---------------------------------------------------------------------------------------*/
-#part-setting-invite div.data-inbox dl dd .text-input
-{
-	margin-top                       : 1px;
-}
-
-#part-setting-invite #letter-section
-{
-	position                         : static;
-}
-
-#part-setting-invite #letter-section .title
-{
-	position                         : absolute;
-	left                             : 0;
-	text-align                       : right;
-	width                            : 189px;
-}
-
-#part-setting-invite #letter .letter-body textarea
-{
-	overflow                         : auto;
-	padding                          : 1px 5px 0 5px;
-
-}
-
 /* list -----------------------------------------------------------------------------------------*/
-#part-setting-invite #list-section
+#list-section dt
 {
-	position                         : static;
-}
-
-#part-setting-invite #list-section .title
-{
+	left                             : 40px;
 	position                         : absolute;
-	left                             : 0;
-	text-align                       : right;
-	width                            : 189px;
-}
-
-#part-setting-invite #list-section table
-{
-	margin-left                      : 132px;
-}
-
-#part-setting-invite #list-section table thead tr td
-{
-	padding                          : 2px 0 0 0;
-}
-
-/* Filter ****************************************************************************************/
-
-#part-setting-filter div.data-inbox .section table tr td
-{
-	line-height                      : 12px;
-	padding                          : 6px 5px 4px 5px;
-}
-
-#part-setting-filter div.data-inbox .section .text-input
-{
-	margin-top                       : 1px;
-	padding                          : 3px;
-	width                            : 192px;
 }
 
 /* Data ******************************************************************************************/
@@ -178,8 +75,7 @@
 #part-data-restore div.data-inbox .explain,
 #part-data-remove div.data-inbox .explain
 {
-	margin-top                       : 30px;
-	padding                          : 0 20px;
+	padding                          : 13px 20px 0 20px !important;
 }
 
 #part-data-backup .dialog .button-box .server-button

@@ -34,7 +34,7 @@ function TTReader()
 	
 	this.floatingListOffset = 0;
 	
-	// messege
+	// message
 	this.feedUpdating = '피드 업데이트 중';
 	this.feedFailure = '잘못된 피드';
 	this.feedUpdate = '피드 업데이트';
@@ -89,12 +89,14 @@ TTReader.prototype.toggleConfigure = function()
 	if(getObject("groupsAndFeeds").style.display == "none") {
 		getObject("groupsAndFeeds").style.display = "block";
 		getObject("configure").style.display = "none";
+		getObject("settingLabel").innerHTML = '<span class="text">' + configureLabel + '</span>';
 	}
 	else {
 		if(this.isPannelCollapsed)
 			this.togglePannel();
 		getObject("groupsAndFeeds").style.display = "none";
 		getObject("configure").style.display = "block";
+		getObject("settingLabel").innerHTML = '<span class="text">' + pannelLabel + '</span>';
 	}
 	getObject("floatingList").style.top = "0px";
 	this.floatingListOffset = getObject("floatingList").offsetTop;
@@ -147,12 +149,12 @@ TTReader.prototype.selectGroup = function(caller, id)
 	this.refreshEntryList(id, 0);
 	this.refreshEntry(id, 0, 0);
 	this.selectedGroup = id;
-	getObject("groupList0").className = 'inactive-class';
+	getObject("groupList0").className = getObject("groupList0").className.replace(' active-class', ' inactive-class');
 	if(this.selectedGroupObject != null)
-		this.selectedGroupObject.className = 'inactive-class';
-	this.selectedGroupObject = caller.parentNode;
-	this.selectedGroupObject.className = 'active-class';
-	extraClass = 'active-class';
+		this.selectedGroupObject.className = this.selectedGroupObject.className.replace(' active-class', ' inactive-class');
+	this.selectedGroupObject = caller.parentNode.parentNode;
+	this.selectedGroupObject.className = this.selectedGroupObject.className.replace(' rollover-class', ' active-class');
+	extraClass = this.selectedGroupObject.className;
 }
 
 TTReader.prototype.selectFeed = function(caller, id)
@@ -161,10 +163,10 @@ TTReader.prototype.selectFeed = function(caller, id)
 	this.refreshEntry(this.selectedGroup, id, 0);
 	this.selectedFeed = id;
 	if(this.selectedFeedObject != null)
-		this.selectedFeedObject.className = "inactive-class";		
+		this.selectedFeedObject.className = this.selectedFeedObject.className.replace(' active-class', ' inactive-class');		
 	this.selectedFeedObject = caller;
-	this.selectedFeedObject.className = "active-class";
-	extraClass = 'active-class';
+	this.selectedFeedObject.className = this.selectedFeedObject.className.replace(' rollover-class', ' active-class');
+	extraClass = this.selectedFeedObject.className;
 }
 
 TTReader.prototype.selectEntry = function(id)
@@ -616,17 +618,19 @@ TTReader.prototype.toggleStarred = function(id)
 		id = this.selectedEntry;
 
 	if(getObject("star" + id)) {
-		if(getObject("star" + id).className.match(/scrap-on-icon/ig)) {
+		if(getObject("star" + id).className.match('-on-')) {
 			var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/mark/unstar/");
 			request._ttreader = this;
 			request.onSuccess = function() {
-				getObject("star" + id).className = "scrap-off-icon bullet";
+				getObject("star" + id).className = getObject("star" + id).className.replace('-on-', '-off-');
+				getObject("star" + id).innerHTML = '<span class="text">' + disscrapedPostText + '</span>';
 			}
 		} else {
 			var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/mark/star/");
 			request._ttreader = this;
 			request.onSuccess = function() {
-				getObject("star" + id).className = "scrap-on-icon bullet";
+				getObject("star" + id).className = getObject("star" + id).className.replace('-off-', '-on-');
+				getObject("star" + id).innerHTML = '<span class="text">' + scrapedPostText + '</span>';
 			}
 		}
 		request.send("id=" + id);
@@ -728,7 +732,7 @@ TTReader.prototype.openEntryInNewWindow = function()
 	window.open(getObject("entryPermalink").href);
 }
 
-TTReader.prototype.updateFeed = function(id, messege)
+TTReader.prototype.updateFeed = function(id, message)
 {
 	getObject("iconFeedStatus" + id).className = "updating-button button";
 	getObject("iconFeedStatus" + id).innerHTML = '<span>' + this.feedUpdating + '</span>';
@@ -738,7 +742,7 @@ TTReader.prototype.updateFeed = function(id, messege)
 		getObject("iconFeedStatus" + id).innerHTML = '<span>' + this.feedUpdate + '</span>';
 		Reader.refreshFeedList(Reader.selectedGroup);
 		Reader.refreshEntryList(Reader.selectedGroup, Reader.selectedFeed);
-		PM.showMessage(messege, "center", "bottom");
+		PM.showMessage(message, "center", "bottom");
 	}
 	request.onError= function () {
 		getObject("iconFeedStatus" + id).className = "failure-button button";

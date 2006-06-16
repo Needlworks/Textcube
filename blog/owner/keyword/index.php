@@ -96,12 +96,12 @@ require ROOT . '/lib/piece/owner/contentMenu10.php';
             <input type="hidden" name="withSearch" value="<?=(empty($_POST['withSearch']) ? '' : 'on')?>" />
             <table cellspacing="0" style="width:100%; height:28px">
               <tr>
-                <td style="width:18px"><img src="<?=$service['path']?>/image/owner/sectionDescriptionIcon.gif" width="18" height="18" alt="" /></td>
+                <td style="width:18px"><img src="<?=$blogURL?>/image/owner/sectionDescriptionIcon.gif" width="18" height="18" alt="" /></td>
                 <td style="padding:3px 0px 0px 4px"><?=_t('등록된 키워드 목록입니다.')?></td>
               </tr>
             </table>
             <table cellspacing="0" style="width:100%; margin-bottom:1px">
-              <tr style="background-color:#00A6ED; height:24px; background-image: url('<?=$service['path']?>/image/owner/subTabCenter.gif')">
+              <tr style="background-color:#00A6ED; height:24px; background-image: url('<?=$blogURL?>/image/owner/subTabCenter.gif')">
                 <td width="20">
                   <input type="Checkbox" name="allChecked" onclick="checkAll(this.checked)" />
                 </td>
@@ -115,7 +115,7 @@ $more = false;
 foreach ($entries as $entry) {
 	if ($more) {
 ?>
-              <tr style="background-image:url('<?=$service['path']?>/image/owner/dotHorizontalStyle1.gif')">
+              <tr style="background-image:url('<?=$blogURL?>/image/owner/dotHorizontalStyle1.gif')">
                 <td height="1" colspan="5"></td>
               </tr>
 <?
@@ -128,10 +128,10 @@ foreach ($entries as $entry) {
                 </td>
                 <td style="padding:0px 7px 0px 7px; font-size:12px"><span style="font-size:11px;font-family:verdana"><?=Timestamp::format3($entry['published'])?></span></td>
                 <td class="row">
-                  <img id="entry<?=$entry['id']?>privateOn" style="display:<?=($entry['visibility'] <= 0 ? 'inline' : 'none')?>" src="<?=$service['path']?>/image/owner/privateOn.gif" alt="<?=_t('비공개')?>" /><img id="entry<?=$entry['id']?>privateOff" style="cursor:pointer; display:<?=($entry['visibility'] <= 0 ? 'none' : 'inline')?>" src="<?=$service['path']?>/image/owner/privateOff.gif" alt="<?=_t('현재 상태를 비공개로 전환합니다.')?>" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" /> <img id="entry<?=$entry['id']?>publicOn" style="display:<?=($entry['visibility'] >= 2 ? 'inline' : 'none')?>" src="<?=$service['path']?>/image/owner/publicOn.gif" alt="<?=_t('공개')?>" /><img id="entry<?=$entry['id']?>publicOff" style="cursor:pointer; display:<?=($entry['visibility'] >= 2 ? 'none' : 'inline')?>" src="<?=$service['path']?>/image/owner/publicOff.gif" alt="<?=_t('현재 상태를 공개로 전환합니다.')?>" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" />
+                  <img id="entry<?=$entry['id']?>privateOn" style="display:<?=($entry['visibility'] <= 0 ? 'inline' : 'none')?>" src="<?=$blogURL?>/image/owner/privateOn.gif" alt="<?=_t('비공개')?>" /><img id="entry<?=$entry['id']?>privateOff" style="cursor:pointer; display:<?=($entry['visibility'] <= 0 ? 'none' : 'inline')?>" src="<?=$blogURL?>/image/owner/privateOff.gif" alt="<?=_t('현재 상태를 비공개로 전환합니다.')?>" onclick="setEntryVisibility(<?=$entry['id']?>, 0)" /> <img id="entry<?=$entry['id']?>publicOn" style="display:<?=($entry['visibility'] >= 2 ? 'inline' : 'none')?>" src="<?=$blogURL?>/image/owner/publicOn.gif" alt="<?=_t('공개')?>" /><img id="entry<?=$entry['id']?>publicOff" style="cursor:pointer; display:<?=($entry['visibility'] >= 2 ? 'none' : 'inline')?>" src="<?=$blogURL?>/image/owner/publicOff.gif" alt="<?=_t('현재 상태를 공개로 전환합니다.')?>" onclick="setEntryVisibility(<?=$entry['id']?>, 2)" />
                 </td>
                 <td class="row"><a class="rowLink" style="text-decoration:none" onclick="window.location.href='<?=$blogURL?>/owner/keyword/edit/<?=$entry['id']?>'"><?=htmlspecialchars($entry['title'])?></a></td>
-                <td align="right" style="padding-top:2px"><a class="rowLink" onclick="deleteEntry(<?=$entry['id']?>)"><img src="<?=$service['path']?>/image/owner/delete.gif" alt="<?=_t('삭제')?>" />&nbsp;&nbsp;</td>
+                <td align="right" style="padding-top:2px"><a class="rowLink" onclick="deleteEntry(<?=$entry['id']?>)"><img src="<?=$blogURL?>/image/owner/delete.gif" alt="<?=_t('삭제')?>" />&nbsp;&nbsp;</td>
               </tr>
 <?
 }
@@ -161,7 +161,7 @@ foreach ($entries as $entry) {
                   </table>
                   <table style="width:100%; margin:7px 0px 5px 0px">
                     <tr>
-                      <td style="background-image:url('<?=$service['path']?>/image/owner/dotHorizontalStyle1.gif')"><img alt="" src="<?=$service['path']?>/image/owner/spacer.gif" style="width:1px; height:1px" /></td>
+                      <td style="background-image:url('<?=$blogURL?>/image/owner/dotHorizontalStyle1.gif')"><img alt="" src="<?=$blogURL?>/image/owner/spacer.gif" style="width:1px; height:1px" /></td>
                     </tr>
                   </table>
                   <table cellspacing="0" width="100%">
@@ -169,7 +169,7 @@ foreach ($entries as $entry) {
                       <td style="padding:0px 7px 0px 7px; font-size:12px" width="55"><?=_t('총')?> <?=$paging['total']?><?=_t('건')?></td>
                       <td style="padding:0px 7px 0px 7px; font-size:12px">
 <?
-$paging['url'] = 'javascript: document.forms[0].page.value=';
+$paging['url'] = 'document.forms[0].page.value=';
 $paging['prefix'] = '';
 $paging['postfix'] = '; document.forms[0].submit()';
 $pagingTemplate = '[##_paging_rep_##]';
@@ -187,9 +187,9 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
                             <td>
                               <table class="buttonTop" cellspacing="0" onclick="document.forms[0].withSearch.value = 'on'; document.forms[0].submit();">
                                 <tr>
-                                  <td><img alt="" width="4" height="24" src="<?=$service['path']?>/image/owner/buttonLeft.gif" /></td>
-                                  <td class="buttonCenter" style="work-break:keep-all;background-image:url('<?=$service['path']?>/image/owner/buttonCenter.gif')"><?=_t('검색')?></td>
-                                  <td><img alt="" width="5" height="24" src="<?=$service['path']?>/image/owner/buttonRight.gif" /></td>
+                                  <td><img alt="" width="4" height="24" src="<?=$blogURL?>/image/owner/buttonLeft.gif" /></td>
+                                  <td class="buttonCenter" style="work-break:keep-all;background-image:url('<?=$blogURL?>/image/owner/buttonCenter.gif')"><?=_t('검색')?></td>
+                                  <td><img alt="" width="5" height="24" src="<?=$blogURL?>/image/owner/buttonRight.gif" /></td>
                                 </tr>
                               </table>
                             </td>
