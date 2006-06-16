@@ -785,3 +785,31 @@ function getTagChunks(str, tagName) {
 	}
 	return chunks;
 }
+
+function toggleMoreLess(obj, num, txtMore, txtLess)
+{
+	more = document.getElementById('more' + num);
+	content = document.getElementById('content' + num);
+	
+	if (content.style.display == 'none') {
+		content.style.display = 'block';
+		more.className = "more_before";
+		obj.innerHTML = txtLess;
+		
+		less = document.createElement("p");
+		less.id = "less" + num;
+		less.className = "less_after";
+		less.setAttribute("onclick", "toggleMoreLess(this, '" + num + "', '" + txtMore + "', '" + txtLess + "');");
+		less.style.cursor = "pointer";
+		less.innerHTML = txtLess;
+		after = content.nextSibling;
+		content.parentNode.insertBefore(less, after);
+	} else {
+		content.style.display = 'none';
+		more.className = "less_before";
+		more.childNodes[0].innerHTML = txtMore;
+		
+		less = document.getElementById('less' + num);
+		content.parentNode.removeChild(less);
+	}
+}
