@@ -57,7 +57,7 @@ $writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 						<li id="menu-notice" class="selected"><a href="<?php echo $blogURL?>/owner/notice"><span class="text"><?php echo _t('공지관리')?></span></a></li>				
 						<li id="menu-link"><a href="<?php echo $blogURL?>/owner/link"><span class="text"><?php echo _t('링크관리')?></span></a></li>
 						<li id="menu-skin"><a href="<?php echo $blogURL?>/owner/skin"><span class="text"><?php echo _t('스킨관리')?></span></a></li>
-						<li id="menu-trash"><a href="<?php echo $blogURL?>/owner/trash/trackback"><span class="text"><?php echo _t('휴지통')?></span></a></li>
+						<li id="menu-trash"><a href="<?php echo $blogURL?>/owner/trash/comment"><span class="text"><?php echo _t('휴지통')?></span></a></li>
 						<li id="menu-statistics"><a href="<?php echo $blogURL?>/owner/statistics/visitor"><span class="text"><?php echo _t('통계보기')?></span></a></li>
 						<li id="menu-setting"><a href="<?php echo $blogURL?>/owner/setting/blog"><span class="text"><?php echo _t('환경설정')?></span></a></li>
 						<li id="menu-reader"><a href="<?php echo $blogURL?>/owner/reader"><span class="text"><?php echo _t('리더')?></span></a></li>
