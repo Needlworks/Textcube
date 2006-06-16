@@ -1473,52 +1473,52 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 		$entry = array('id' => 0, 'author' => 'Tattertools', 'blog_title' => 'Tattertools Reader', 'permalink' => '#', 'entry_title' => _t('포스트가 없습니다'), 'language' => 'en-US', 'description' => '<div style="height: 369px"></div>', 'tags' => '', 'enclosure' => '', 'written' => time());
 	}
 ?>
-													<div id="entryHead">
-														<div class="title"><a href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($entry['entry_title'])?></a></div>
-														<div class="writing-info"><span class="by">by </span><span class="name"><?php echo htmlspecialchars($entry['author'] ? eregi_replace("^\((.+)\)$", "\\1", $entry['author']) : $entry['blog_title'])?></span><span class="divider"> : </span><span class="date"><?php echo date('Y-m-d H:i:s', $entry['written'])?></span></div>
-														<div class="open"><a id="entryPermalink" href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;" title="<?=_t('이 포스트를 새 창으로 엽니다.')?>"><span class="text"><?php echo _t('새 창으로 보기')?></span></a></div>
-														<div class="clear"></div>
-													</div>
-													
-													<div id="entryBody" lang="<?php echo htmlspecialchars($entry['language'])?>" xml:lang="<?php echo htmlspecialchars($entry['language'])?>">
+												<div id="entryHead">
+													<div class="title"><a href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($entry['entry_title'])?></a></div>
+													<div class="writing-info"><span class="by">by </span><span class="name"><?php echo htmlspecialchars($entry['author'] ? eregi_replace("^\((.+)\)$", "\\1", $entry['author']) : $entry['blog_title'])?></span><span class="divider"> : </span><span class="date"><?php echo date('Y-m-d H:i:s', $entry['written'])?></span></div>
+													<div class="open"><a id="entryPermalink" href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;" title="<?=_t('이 포스트를 새 창으로 엽니다.')?>"><span class="text"><?php echo _t('새 창으로 보기')?></span></a></div>
+													<div class="clear"></div>
+												</div>
+												
+												<div id="entryBody" lang="<?php echo htmlspecialchars($entry['language'])?>" xml:lang="<?php echo htmlspecialchars($entry['language'])?>">
 <?php 
 	if ($entry['enclosure']) {
 		if (preg_match('/\.mp3$/i', $entry['enclosure'])) {
 ?>
-														<p><span class="podcast-icon bullet"><span class="text"><?=_t('팟캐스트')?></span></span><a href="<?php echo htmlspecialchars($entry['enclosure'])?>"><?php echo htmlspecialchars($entry['enclosure'])?></a></p>
+													<p><span class="podcast-icon bullet"><span class="text"><?=_t('팟캐스트')?></span></span><a href="<?php echo htmlspecialchars($entry['enclosure'])?>"><?php echo htmlspecialchars($entry['enclosure'])?></a></p>
 <?php 
 		} else {
 ?>
-														<p><span class="podcast-icon bullet"><span class="text"><?=_t('팟캐스트')?></span></span><a href="<?php echo htmlspecialchars($entry['enclosure'])?>"><?php echo htmlspecialchars($entry['enclosure'])?></a></p>
+													<p><span class="podcast-icon bullet"><span class="text"><?=_t('팟캐스트')?></span></span><a href="<?php echo htmlspecialchars($entry['enclosure'])?>"><?php echo htmlspecialchars($entry['enclosure'])?></a></p>
 <?php 
 		}
 	}
 ?>
-														<?php echo $entry['description']?>
-													</div>
-													
-													<script type="text/javascript">
-														//<![CDATA[
-															Reader.selectedEntry = <?php echo escapeJSInAttribute($entry['id'])?>;
-															Reader.setBlogTitle('<?php echo escapeJSInAttribute($entry['blog_title'])?>');
-															Reader.doPostProcessingOnEntry();
-														//]]>
-													</script>
-													
-													<div id="entryFoot">
+													<?php echo $entry['description']?>
+												</div>
+												
+												<script type="text/javascript">
+													//<![CDATA[
+														Reader.selectedEntry = <?php echo escapeJSInAttribute($entry['id'])?>;
+														Reader.setBlogTitle('<?php echo escapeJSInAttribute($entry['blog_title'])?>');
+														Reader.doPostProcessingOnEntry();
+													//]]>
+												</script>
+												
+												<div id="entryFoot">
 <?php 
 	if ($entry['tags']) {
 ?>
-														<div id="entryTag">
-															<span class="title"><?=htmlspecialchars(_t('태그'))?></span><span class="divider"> : </span><span class="tags"><?=htmlspecialchars($entry['tags'])?></span>
-														</div>
+													<div id="entryTag">
+														<span class="title"><?=htmlspecialchars(_t('태그'))?></span><span class="divider"> : </span><span class="tags"><?=htmlspecialchars($entry['tags'])?></span>
+													</div>
 <?
 	}
 ?>
-														<div class="button-box">
-															<a class="non-read-button button" href="#void" onclick="Reader.markAsUnread(<?php echo $entry['id']?>)"><span class="text"><?php echo _t('안 읽은 글로 표시')?></span></a>
-														</div>
+													<div class="button-box">
+														<a class="non-read-button button" href="#void" onclick="Reader.markAsUnread(<?php echo $entry['id']?>)"><span class="text"><?php echo _t('안 읽은 글로 표시')?></span></a>
 													</div>
+												</div>
 <?php 
 }
 

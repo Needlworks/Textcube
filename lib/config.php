@@ -1,7 +1,7 @@
 <?php
 define('TATTERTOOLS_NAME', 'Tattertools');
 define('TATTERTOOLS_VERSION', '1.1a1 development branch');
-define('TATTERTOOLS_COPYRIGHT', 'Copyright © 2004-2006, Tatter &amp; Company');
+define('TATTERTOOLS_COPYRIGHT', 'Copyright ⓒ 2004-2006. Tatter and Company / Tatter and Friends.');
 define('TATTERTOOLS_HOMEPAGE', 'http://www.tattertools.com/');
 define('TATTERTOOLS_SYNC_URL', 'http://sync.eolin.com/');
 define('CRLF', "\r\n");
@@ -20,7 +20,7 @@ $service['timezone'] = 'Asia/Seoul';
 $service['encoding'] = 'EUC-KR';
 $service['umask'] = 0;
 $service['skin'] = 'Tattertools_skyline_ko';
-$service['adminSkin'] = '/style/admin/default';
+$service['adminSkin'] = '/style/admin/word-press';
 
 if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && ($_SERVER['SERVER_PORT'] != 443))
 	$service['port'] = $_SERVER['SERVER_PORT'];
