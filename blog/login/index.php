@@ -35,11 +35,23 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 	$message = _t('권한이 없습니다.');
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-traditional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo _t('Tattertools - Login')?></title>
+	
+	<script type="text/javascript" src="<?php echo $service['path']?>/style/base.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'].$service['adminSkin']?>/custom.js"></script>
+	<script type="text/javascript">
+		//<![CDATA[
+			ls_init_funcs.push(function() { loadLoginInit(); });
+			
+			function loadLoginInit() {
+				document.forms[0].<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password')?>.focus();
+			}
+		//]]>
+	</script>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/login.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.opera.css" />
@@ -47,7 +59,7 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.ie.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/login.ie.css" /><![endif]-->
 </head>
-<body id="body-login" onload="document.forms[0].<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password')?>.focus();">
+<body id="body-login">
 	<div id="temp-wrap">
 		<div id="all-wrap">
 			<form method="post" action="">
@@ -56,7 +68,7 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 				<div id="data-outbox">
 					<div id="login-box">
 						<div id="logo-box">
-							<img src="<?=$service['path']?>/image/logo_tattertools.gif" alt="<?php echo _t('태터툴즈 로고')?>" />
+							<img src="<?=$service['path'].$service['adminSkin']?>/image/logo_tattertools.png" alt="<?php echo _t('태터툴즈 로고')?>" />
 			            </div>
 			            
 			            <div id="field-box">
