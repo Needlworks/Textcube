@@ -26,239 +26,239 @@ function getUpperView($paging) {
 	global $g_version, $service, $blogURL;
 	ob_start();
 ?>
-<!--
-	<?php echo $g_version?>
-	
-	Homepage: http://www.tattertools.com
-	Copyright (c) 2005 Tatter & Company, LLP. All rights reserved.
--->
-<script type="text/javascript">
-	//<![CDATA[
-		var servicePath = "<?=$service['path']?>";
-		var blogURL = "<?=$blogURL?>";
-		var adminSkin = "<?=$service['adminSkin']?>";
-	//]]>
-</script>
-<script type="text/javascript" src="<?php echo $service['path']?>/script/EAF.js"></script>
-<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>
-<script type="text/javascript" src="<?php echo $service['path']?>/script/gallery.js" ></script>
+	<!--
+		<?php echo $g_version?>
+		
+		Homepage: http://www.tattertools.com
+		Copyright (c) 2005 Tatter & Company, LLP. All rights reserved.
+	-->
+	<script type="text/javascript">
+		//<![CDATA[
+			var servicePath = "<?=$service['path']?>";
+			var blogURL = "<?=$blogURL?>";
+			var adminSkin = "<?=$service['adminSkin']?>";
+		//]]>
+	</script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/EAF.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/gallery.js" ></script>
 <?php 
 	if (doesHaveOwnership()) {
 ?>
-<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js" ></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js" ></script>
 <?php 
 	}
 ?>
-<script type="text/javascript">
-//<![CDATA[
-	function processShortcut(event) {
-		if (isIE)
-		{
-			event = window.event;
-			event.target = event.srcElement;
-		}
-	
-		if (event.altKey || event.ctrlKey)
-			return;
-		switch (event.target.nodeName) {
-			case "INPUT":
-			case "SELECT":
-			case "TEXTAREA":
-				return;
-		}
-		switch (event.keyCode) {
-			case 81: //Q
-				window.location = "<?php echo $blogURL?>/owner";
-				break;
-			case 82: //R
-				window.location = "<?php echo $blogURL?>/owner/reader";
-				break;
-			case 84: //T
-				window.location = "<?php echo $blogURL?>/owner/reader/?forceRefresh";
-				break;
+	<script type="text/javascript">
+		//<![CDATA[
+			function processShortcut(event) {
+				if (isIE)
+				{
+					event = window.event;
+					event.target = event.srcElement;
+				}
+			
+				if (event.altKey || event.ctrlKey)
+					return;
+				switch (event.target.nodeName) {
+					case "INPUT":
+					case "SELECT":
+					case "TEXTAREA":
+						return;
+				}
+				switch (event.keyCode) {
+					case 81: //Q
+						window.location = "<?php echo $blogURL?>/owner";
+						break;
+					case 82: //R
+						window.location = "<?php echo $blogURL?>/owner/reader";
+						break;
+					case 84: //T
+						window.location = "<?php echo $blogURL?>/owner/reader/?forceRefresh";
+						break;
 <?php 
 	if (isset($paging['prev'])) {
 ?>
-			case 65: //A
-				window.location = "<?php echo escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}")?>";
-				break;
+					case 65: //A
+						window.location = "<?php echo escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}")?>";
+						break;
 <?php 
 	}
 	if (isset($paging['next'])) {
 ?>
-			case 83: //S
-				window.location = "<?php echo escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}")?>";
-				break;
+					case 83: //S
+						window.location = "<?php echo escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}")?>";
+						break;
 <?php 
 	}
 ?>
-			case 90: //Z
-				window.location = "#recentEntries";
-				break;
-			case 88: //X
-				window.location = "#recentComments";
-				break;
-			case 67: //C
-				window.location = "#recentTrackback";
-				break;
-		}
-	}
-	document.onkeydown = processShortcut;
-	
-	function addComment(caller, entryId) {
-		var oForm = findFormObject(caller);
-		if (!oForm)
-			return false;
-		var request = new HTTPRequest("POST", oForm.action);
-		request.onSuccess = function () {
-			document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
-			if(document.getElementById("recentComments"))
-				document.getElementById("recentComments").innerHTML = this.getText("/response/recentCommentBlock");
-			if(document.getElementById("commentCount" + entryId))
-				document.getElementById("commentCount" + entryId).innerHTML = this.getText("/response/commentCount");
-			if(document.getElementById("commentCountOnRecentEntries" + entryId))
-				document.getElementById("commentCountOnRecentEntries" + entryId).innerHTML = this.getText("/response/commentCount");
-		}
-		request.onError = function() {
-			alert(this.getText("/response/description"));
-		}
-		var queryString = "key=<?php echo md5(filemtime(ROOT . '/config.php'))?>";
-		if(oForm["name"])
-			queryString += "&name_" + entryId +"=" + encodeURIComponent(oForm["name"].value);
-		if(oForm["password"])
-			queryString += "&password_" + entryId +"=" + encodeURIComponent(oForm["password"].value);
-		if(oForm["homepage"])
-			queryString += "&homepage_" + entryId +"=" + encodeURIComponent(oForm["homepage"].value);
-		if(oForm["secret"] && oForm["secret"].checked)
-			queryString += "&secret_" + entryId +"=1";
-		if(oForm["comment"])
-			queryString += "&comment_" + entryId +"=" + encodeURIComponent(oForm["comment"].value);
-		request.send(queryString);
-	}
+					case 90: //Z
+						window.location = "#recentEntries";
+						break;
+					case 88: //X
+						window.location = "#recentComments";
+						break;
+					case 67: //C
+						window.location = "#recentTrackback";
+						break;
+				}
+			}
+			document.onkeydown = processShortcut;
+			
+			function addComment(caller, entryId) {
+				var oForm = findFormObject(caller);
+				if (!oForm)
+					return false;
+				var request = new HTTPRequest("POST", oForm.action);
+				request.onSuccess = function () {
+					document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
+					if(document.getElementById("recentComments"))
+						document.getElementById("recentComments").innerHTML = this.getText("/response/recentCommentBlock");
+					if(document.getElementById("commentCount" + entryId))
+						document.getElementById("commentCount" + entryId).innerHTML = this.getText("/response/commentCount");
+					if(document.getElementById("commentCountOnRecentEntries" + entryId))
+						document.getElementById("commentCountOnRecentEntries" + entryId).innerHTML = this.getText("/response/commentCount");
+				}
+				request.onError = function() {
+					alert(this.getText("/response/description"));
+				}
+				var queryString = "key=<?php echo md5(filemtime(ROOT . '/config.php'))?>";
+				if(oForm["name"])
+					queryString += "&name_" + entryId +"=" + encodeURIComponent(oForm["name"].value);
+				if(oForm["password"])
+					queryString += "&password_" + entryId +"=" + encodeURIComponent(oForm["password"].value);
+				if(oForm["homepage"])
+					queryString += "&homepage_" + entryId +"=" + encodeURIComponent(oForm["homepage"].value);
+				if(oForm["secret"] && oForm["secret"].checked)
+					queryString += "&secret_" + entryId +"=1";
+				if(oForm["comment"])
+					queryString += "&comment_" + entryId +"=" + encodeURIComponent(oForm["comment"].value);
+				request.send(queryString);
+			}
 
-	var openWindow='';
+			var openWindow='';
 
-	function alignCenter(win,width,height) {
-		win.moveTo(screen.width/2-width/2,screen.height/2-height/2);
-	}	
-	
-	function deleteComment(id) {
-		width = 450;
-		height = 400;
-		if(openWindow != '') openWindow.close();
-		openWindow = window.open("<?php echo $blogURL?>/comment/delete/" + id, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-		openWindow.focus();
-		alignCenter(openWindow,width,height);
-	}
-	
-	
-	
-	function commentComment(parent) {	
-		width = 450;
-		height = 360;
-		if(openWindow != '') openWindow.close();
-		openWindow = window.open("<?php echo $blogURL?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-		openWindow.focus();
-		alignCenter(openWindow,width,height);
-	}
-	
-	function editEntry(parent,child) {	
-		width =  825;
-		height = 550;
-		if(openWindow != '') openWindow.close();
-		openWindow = window.open("<?php echo $blogURL?>/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child,"tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
-		openWindow.focus();
-		alignCenter(openWindow,width,height);
-	}
-	
-	function guestbookComment(parent) {	
-		width = 450;
-		height = 360;
-		if(openWindow != '') openWindow.close();
-		openWindow = window.open("<?php echo $blogURL?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-		openWindow.focus();
-		alignCenter(openWindow,width,height);
-	}
-	
-	function sendTrackback(id) {
-		width = 700;
-		height = 500;
-		if(openWindow != '') openWindow.close();
-		openWindow = window.open("<?php echo $blogURL?>/trackback/send/" + id, "tatter", "width=580,height=400,location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
-		openWindow.focus();
-		alignCenter(openWindow,width,height);
-	}
+			function alignCenter(win,width,height) {
+				win.moveTo(screen.width/2-width/2,screen.height/2-height/2);
+			}	
+			
+			function deleteComment(id) {
+				width = 450;
+				height = 400;
+				if(openWindow != '') openWindow.close();
+				openWindow = window.open("<?php echo $blogURL?>/comment/delete/" + id, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+				openWindow.focus();
+				alignCenter(openWindow,width,height);
+			}
+			
+			
+			
+			function commentComment(parent) {	
+				width = 450;
+				height = 360;
+				if(openWindow != '') openWindow.close();
+				openWindow = window.open("<?php echo $blogURL?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+				openWindow.focus();
+				alignCenter(openWindow,width,height);
+			}
+			
+			function editEntry(parent,child) {	
+				width =  825;
+				height = 550;
+				if(openWindow != '') openWindow.close();
+				openWindow = window.open("<?php echo $blogURL?>/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child,"tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+				openWindow.focus();
+				alignCenter(openWindow,width,height);
+			}
+			
+			function guestbookComment(parent) {	
+				width = 450;
+				height = 360;
+				if(openWindow != '') openWindow.close();
+				openWindow = window.open("<?php echo $blogURL?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+				openWindow.focus();
+				alignCenter(openWindow,width,height);
+			}
+			
+			function sendTrackback(id) {
+				width = 700;
+				height = 500;
+				if(openWindow != '') openWindow.close();
+				openWindow = window.open("<?php echo $blogURL?>/trackback/send/" + id, "tatter", "width=580,height=400,location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+				openWindow.focus();
+				alignCenter(openWindow,width,height);
+			}
 
-	function copyUrl(url){		
-		if(isIE) {
-			window.clipboardData.setData('Text',url);
-			window.alert("<?php echo _t('엮인글 주소가 복사되었습니다')?>");
-		}
-	}
-	
-	
-	function deleteTrackback(id,entryId) {
+			function copyUrl(url){		
+				if(isIE) {
+					window.clipboardData.setData('Text',url);
+					window.alert("<?php echo _t('엮인글 주소가 복사되었습니다')?>");
+				}
+			}
+			
+			
+			function deleteTrackback(id,entryId) {
 <?php 
 	if (doesHaveOwnership()) {
 ?> 
-		if (!confirm("<?php echo _t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?\t')?>"))
-			return;
+				if (!confirm("<?php echo _t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?\t')?>"))
+					return;
 
-		var request = new HTTPRequest("GET", "<?php echo $blogURL?>/trackback/delete/" + id);
-		request.onSuccess = function() {
-			document.getElementById('entry'+entryId+'Trackback').innerHTML= this.getText("/response/result");
-		}
-		request.onError = function() {
-			alert('<?php echo _t('실패 했습니다')?>');
-		}
-		request.send();
+				var request = new HTTPRequest("GET", "<?php echo $blogURL?>/trackback/delete/" + id);
+				request.onSuccess = function() {
+					document.getElementById('entry'+entryId+'Trackback').innerHTML= this.getText("/response/result");
+				}
+				request.onError = function() {
+					alert('<?php echo _t('실패 했습니다')?>');
+				}
+				request.send();
 <?php 
 	} else {
 ?>
-		alert('<?php echo _t('실패 했습니다')?>');
+				alert('<?php echo _t('실패 했습니다')?>');
 <?php 
 	}
 ?>
-	}
+			}
 <?php 
 	if (doesHaveOwnership()) {
 ?>
-	function changeVisibility(id, visibility) {
-		var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/entry/visibility/" + id + "?visibility=" + visibility);
-		request.onSuccess = function() {
-			window.location.reload();
-		}
-		request.send();
-	}
-	
-	function deleteEntry(id) {
-		if (!confirm("<?php echo _t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?\t')?>"))
-			return;
-		var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/entry/delete/" + id);
-		request.onSuccess = function() {
-			window.location.reload();
-		}
-		request.send();
-	}	
+			function changeVisibility(id, visibility) {
+				var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/entry/visibility/" + id + "?visibility=" + visibility);
+				request.onSuccess = function() {
+					window.location.reload();
+				}
+				request.send();
+			}
+			
+			function deleteEntry(id) {
+				if (!confirm("<?php echo _t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?\t')?>"))
+					return;
+				var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/entry/delete/" + id);
+				request.onSuccess = function() {
+					window.location.reload();
+				}
+				request.send();
+			}	
 <?php 
 	}
 ?>
-
-	function reloadEntry(id) {
-		var password = document.getElementById("entry" + id + "password");
-		if (!password)
-			return;
-		document.cookie = "GUEST_PASSWORD=" + escape(password.value) + ";path=<?php echo $blogURL?>";
-		
-		var request = new HTTPRequest("POST", "<?php echo $blogURL?>/" + id);
-		request.async = false;
-		request.send("partial=");
-		var entry = document.getElementById("entry" + id);
-		if (entry)
-			entry.innerHTML = request.getText();
-	}
-//]]>
-</script>
+			
+			function reloadEntry(id) {
+				var password = document.getElementById("entry" + id + "password");
+				if (!password)
+					return;
+				document.cookie = "GUEST_PASSWORD=" + escape(password.value) + ";path=<?php echo $blogURL?>";
+				
+				var request = new HTTPRequest("POST", "<?php echo $blogURL?>/" + id);
+				request.async = false;
+				request.send("partial=");
+				var entry = document.getElementById("entry" + id);
+				if (entry)
+					entry.innerHTML = request.getText();
+			}
+		//]]>
+	</script>
 <?php 
 	$view = ob_get_contents();
 	ob_end_clean();
@@ -893,7 +893,7 @@ function getEntryContentView($owner, $id, $content, $keywords = array(), $type =
 	$view = bindTags($id, $view);
 	if (defined('__TATTERTOOLS_MOBILE__'))
 		$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var'));
-	$view = nl2brWithHTML($view);
+	//$view = nl2brWithHTML($view);
 	return fireEvent('View' . $type . 'Content', $view, $id);
 }
 
@@ -1117,7 +1117,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 			} else {
 				$contentWidth = 400;
 				
-				if ($skin = fetchQueryCell("SELECT skin FROM {$database['prefix']}SkinSettings WHERE owner = $owner")) {
+				if ($skin = fetchQueryCell("SELECT `skin` FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $owner")) {
 					if ($xml = @file_get_contents(ROOT."/skin/$skin/index.xml")) {
 						$xmls = new XMLStruct();
 						$xmls->open($xml,$service['encoding']);
@@ -1130,43 +1130,68 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 				if ($tempInfo = getimagesize(ROOT."/attach/$owner/$filename")) {
 					list($originWidth, $originHeight, $type, $attr) = $tempInfo;
 				} else {
-					return '<span class="message">에러가 발생한 이미지입니다.</span>';
+					// 에러?
+					return '<span clas="message">'._t('에러가 발생한 이미지입니다.').'</span>';
 				}
 				
-				if (empty($property)) {
-					if ($originWidth > $contentWidth) {
-						$tempWidth = $contentWidth;
-						$tempHeight = ceil($originHeight * $contentWidth / $originWidth);
-					} else {
-						$tempWidth = $originWidth;
-						$tempHeight = $originHeight;
+				if (eregi('alt=""', $property, $temp)) {
+					$property = str_replace('alt=""', 'alt="'._t('유저 삽입 이미지').'"', $property);
+				} else if (eregi('alt="[^"]+"', $property, $temp)) {
+					// 이미 있으므로 통과
+				} else {
+					$property .= ' alt="'._t('유저 삽입 이미지').'"';	
+				}
+				
+				/*if ($originWidth > $contentWidth) {
+					$tempWidth = $contentWidth;
+					$tempHeight = ceil($originHeight * $contentWidth / $originWidth);
+				} else {
+					$tempWidth = $originWidth;
+					$tempHeight = $originHeight;
+				}*/
+				
+				if (eregi('width="([0-9]*%?)"', $property, $temp)) {
+					$currentWidth = $temp1[1];
+					if (eregi("^([0-9]+)%$", $currentWidth, $temp)) {
+						$currentWidth = $originWidth * ($temp[1]/100);
 					}
 				} else {
-					$property = str_replace('&quot;','',$property);
-					$property = str_replace('"','',$property);
-					if (preg_match('/width=(\d{1,4})/', $property, $temp1) && !preg_match('/height=(\d{1,4})/', $property, $temp2)) {
-						$originHeight = ceil($originHeight * $temp1[1] / $originWidth);
-						$originWidth = $temp1[1];
-					} else if (!preg_match('/width=(\d{1,4})/', $property, $temp1) && preg_match('/height=(\d{1,4})/', $property, $temp2)) {
-						$originWidth = ceil($originWidth * $temp2[1] / $originHeight);
-						$originHeight = $temp2[1];					
-					} else if (preg_match('/width=(\d{1,4})/', $property, $temp1) && preg_match('/height=(\d{1,4})/', $property, $temp2)) {
-						$originWidth = $temp1[1];
-						$originHeight = $temp2[1];
-					}	
-					if ($originWidth > $contentWidth) {
-						$tempWidth = $contentWidth;
-						$tempHeight = ceil($originHeight * $contentWidth / $originWidth);
-					} else {
-						$tempWidth = $originWidth;
-						$tempHeight = $originHeight;
-					}
+					$property .= ' width="1"';
 				}
+				
+				if (eregi('height="([0-9]*%?)"', $property, $temp)) {
+					$currentHeight = $temp2[1];
+					if (eregi("^([0-9]+)%$", $currentHeight, $temp)) {
+						$currentHeight = $originHeight * ($temp[1]/100);
+					}
+				} else {
+					$property .= ' height="1"';
+				}
+				
+				if (!isset($currentWidth) && isset($currentHeight)) {
+					$currentWidth = ceil($originWidth * $currentHeight / $originHeight);
+				} else if (isset($currentWidth) && !isset($currentHeight)) {
+					$currentHeight = ceil($originHeight * $currentWidth / $originWidth);
+				} else if (!isset($currentWidth) && !isset($currentHeight)) {
+					$currentWidth = $originWidth > $contentWidth ? $contentWidth : $originWidth;
+					$currentHeight = ceil($originHeight * $currentWidth / $originWidth);
+				}
+				
+				if ($currentWidth > $contentWidth) {
+					$tempWidth = $contentWidth;
+					$tempHeight = ceil($currentHeight * $contentWidth / $currentWidth);
+				} else {
+					$tempWidth = $currentWidth;
+					$tempHeight = $currentHeight;
+				}
+				
+				$property = eregi_replace(' width="([0-9]+%?)"', ' width="'.$tempWidth.'"', $property);
+				$property = eregi_replace(' height="([0-9]+%?)"', ' height="'.$tempHeight.'"', $property);
 				
 				if ($originWidth > $tempWidth || $originHeight > $tempHeight) {
-					return fireEvent('ViewAttachedImage', "<img src=\"$url\" width=\"$tempWidth\" height=\"$tempHeight\" alt=\"유저 삽입 이미지\" onclick=\"open_img('$url')\" style=\"cursor: pointer;\" />", $path);
+					return fireEvent('ViewAttachedImage', '<img src="'.$url.'" '.$property.' style="cursor: pointer;" onclick="open_img(\''.$url.'\')" />', $path);
 				} else {
-					return fireEvent('ViewAttachedImage', "<img src=\"$url\" width=\"$tempWidth\" height=\"$tempHeight\" alt=\"유저 삽입 이미지\" />", $path);					
+					return fireEvent('ViewAttachedImage', '<img src="'.$url.'" '.$property.' />', $path);					
 				}
 			}
 			break;
@@ -1203,31 +1228,37 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 													<div id="groupAdder">
 														<div class="title"><span><?php echo _t('그룹 등록하기')?></span></div>
 														<div class="button-box">
-															<input type="text" id="newGroupTitle" class="text-input" value="<?=_t('그룹을 추가하세요')?>" onfocus="if(this.value == '<?php echo _t('그룹을 추가하세요')?>') this.value = ''" onkeydown="if(event.keyCode==13) Reader.addGroup(this.value)" />
+															<input type="text" id="newGroupTitle" class="text-input" value="<?=_t('그룹을 추가하세요.')?>" onfocus="if(this.value == '<?php echo _t('그룹을 추가하세요.')?>') this.value = ''" onblur="if(this.value == '') this.value = '<?php echo _t('그룹을 추가하세요.')?>'" onkeydown="if(event.keyCode==13) Reader.addGroup(this.value)" />
 															<a class="add-button button" href="#void" onclick="Reader.addGroup(document.getElementById('newGroupTitle').value)"><span class="text"><?php echo _t('추가')?></span></a>
-															<div class="clear"></div>
 														</div>
 													</div>
 													
 													<ul id="groupList">
 <?
+	$count = 0;
 	foreach (getFeedGroups($owner, $starredOnly, $searchKeyword) as $group) {
 		if ($group['id'] == 0)
 			$group['title'] = _t('전체보기');
-		$class = ($selectedGroup == $group['id']) ? 'active-class' : 'inactive-class';
+		$className = ($count % 2) == 1 ? 'even-line' : 'odd-line';
+		$className .= ($selectedGroup == $group['id']) ? ' active-class' : ' inactive-class';
 ?>
-														<li id="groupList<?php echo $group['id']?>" class="<?=$class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-															<a href="#void" onclick="Reader.selectGroup(this, <?php echo $group['id']?>)"><?php echo htmlspecialchars($group['title'])?></a>
+														<li id="groupList<?php echo $group['id']?>" class="<?php echo $className?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+															<div class="title">
+																<a href="#void" onclick="Reader.selectGroup(this, <?php echo $group['id']?>)"><?php echo htmlspecialchars($group['title'])?></a>
+															</div>
 <?php 
 		if ($group['id']) {
 ?>
-															<a class="edit-button button" href="#void" onclick="Reader.editGroup(<?php echo $group['id']?>, '<?php echo $group['title']?>'); return false;" title="<?=_t('이 그룹 정보를 수정합니다')?>"><span class="text"><?=_t('수정')?></span></a>
+															
+															<div class="button-box">
+																<a class="edit-button button" href="#void" onclick="Reader.editGroup(<?php echo $group['id']?>, '<?php echo $group['title']?>'); return false;" title="<?=_t('이 그룹 정보를 수정합니다.')?>"><span class="text"><?=_t('수정')?></span></a>
+															</div>
 <?php 
 		}
 ?>
-															<div class="clear"></div>
 														</li>
 <?php
+		$count++;
 	}
 ?>
 													</ul>
@@ -1244,7 +1275,6 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 																<a class="edit-button button" href="#void" onclick="Reader.editGroupExecute()"><span class="text"><?=_t('저장하기')?></span></a>
 																<span class="divider">|</span>
 																<a class="cancel-button button" href="#void" onclick="Reader.cancelEditGroup()"><span class="text"><?=_t('취소하기')?></span></a>
-																<div class="clear"></div>
 															</div>
 														</div>
 													</div>
@@ -1257,15 +1287,15 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 													<div id="feedAdder">
 														<div class="title"><span><?php echo _t('피드 등록하기')?></span></div>
 														<div class="button-box">
-															<input type="text" id="newFeedURL" class="text-input" name="newFeedURL" value="<?php echo _t('피드 주소를 입력하세요')?>" onkeydown="if(event.keyCode==13) Reader.addFeed(this.value)" onfocus="if(this.value == '<?php echo _t('피드 주소를 입력하세요')?>') this.value = ''" />
+															<input type="text" id="newFeedURL" class="text-input" name="newFeedURL" value="<?php echo _t('피드 주소를 입력하세요.')?>" onfocus="if(this.value == '<?php echo _t('피드 주소를 입력하세요.')?>') this.value = ''" onblur="if(this.value == '') this.value = '<?php echo _t('피드 주소를 입력하세요.')?>'" onkeydown="if(event.keyCode==13) Reader.addFeed(this.value)" />
 															<a class="add-button button" href="#void" onclick="Reader.addFeed(document.getElementById('newFeedURL').value)"><span class="text"><?php echo _t('추가')?></span></a>
-															<div class="clear"></div>
 															<?php echo fireEvent('AddFeedURLToolbox', '')?>
 														</div>
 													</div>
 													
 													<ul id="feedList">
 <?
+	$count = 0;
 	foreach (getFeeds($owner, $group, $starredOnly, $searchKeyword) as $feed) {
 		if ($feed['modified'] > time() - 86400)
 			$status = 'Update';
@@ -1273,17 +1303,19 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 			$status = 'Failure';
 		else
 			$status = 'UpdateNo';
+		$className = ($count % 2) == 1 ? 'even-line' : 'odd-line';
 ?>
-														<li class="inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectFeed(this, <?php echo $feed['id']?>)">
-															<div class="title"><?php echo $feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" onclick="window.open(this.href); event.cancelBubble=true; return false;" title="이 피드의 원본 사이트를 새 창으로 엽니다.">' : ''?><strong><?php echo htmlspecialchars($feed['title'])?></strong><?php echo $feed['blogURL'] ? "</a>\n" : ''?></div><div class="description"><?php echo $feed['description']?'<span class="divider"> | </span>':'&nbsp;'?><?php echo htmlspecialchars($feed['description'])?></div>
+														<li class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectFeed(this, <?php echo $feed['id']?>)">
+															<div class="title"><?php echo $feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" onclick="window.open(this.href); event.cancelBubble=true; return false;" title="이 피드의 원본 사이트를 새 창으로 엽니다.">' : ''?><?php echo htmlspecialchars($feed['title'])?><?php echo $feed['blogURL'] ? "</a>\n" : ''?></div>
+															<div class="description"><?php echo $feed['description']?'<span class="divider"> | </span>':'&nbsp;'?><?php echo htmlspecialchars($feed['description'])?></div>
 															<div class="button-box">
 																<a id="iconFeedStatus<?php echo $feed['id']?>" class="update-button button" onclick="Reader.updateFeed(<?php echo $feed['id']?>, '<?=_t('피드를 업데이트 했습니다.')?>'); event.cancelBubble=true; return false;" title="이 피드를 업데이트 합니다."><span class="text"><?=_t('피드 업데이트')?></span></a>
 																<span class="divider">|</span>
 																<a class="edit-button button" href="#void" onclick="Reader.editFeed(<?php echo $feed['id']?>, '<?php echo htmlspecialchars($feed['xmlURL'])?>')" title="이 피드 정보를 수정합니다."><span class="text"><?=_t('수정')?></span></a>
-																<div class="clear"></div>
 															</div>
 														</li>
 <?php
+		$count++;
 	}
 ?>
 													</ul>
@@ -1303,7 +1335,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 	}
 ?>
 																</select>
-																<input type="text" id="changeFeedURL" class="text-input" readonly="readonly" />
+																<input type="text" id="changeFeedURL" class="text-readonly-input" readonly="readonly" />
 															</div>
 															<div class="button-box">
 																<a class="delete-button button" href="#void" onclick="Reader.deleteFeed()"><span class="text"><?=_t('삭제하기')?></span></a>
@@ -1311,7 +1343,6 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 																<a class="edit-button button" href="#void" onclick="Reader.editFeedExecute()"><span class="text"><?=_t('저장하기')?></span></a>
 																<span class="divider">|</span>
 																<a class="cancel-button button" href="#void" onclick="Reader.cancelEditFeed()"><span class="text"><?=_t('취소하기')?></span></a>
-																<div class="clear"></div>
 															</div>
 														</div>
 													</div>
@@ -1323,46 +1354,56 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null) {
 	global $service;
 ?>
+												<script type="text/javascript">
+													//<![CDATA[
+														var scrapedPostText = "<?php echo _t('스크랩 포스트')?>";
+														var disscrapedPostText = "<?php echo _t('미스크랩 포스트')?>";
+													//]]>
+												</script>
+												
 												<table cellpadding="0" cellspacing="0">
+													<tbody>
 <?
 	$count = 0;
 	foreach (getFeedEntries($owner, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword) as $entry) {
-		$count++;
-		if ($count == 1)
+		if ($count == 0)
 			$firstEntryId = $entry['id'];
-		$class = $entry['wasread'] ? 'read' : 'unread';
-		$class .= ($count == 1) ? ' active-class' : ' inactive-class';
-		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="팟캐스트 포스트입니다."><span>' . _t('팟 캐스트') . '</span></span>' : '';
+		$className = $entry['wasread'] ? 'read' : 'unread';
+		$className .= ($count % 2) == 1 ? ' even-line' : ' odd-line';
+		$className .= ($count == 0) ? ' active-class' : ' inactive-class';
+		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="팟캐스트 포스트입니다."><span class="text">' . _t('팟 캐스트') . '</span></span>' : '';
 ?>
-													<tr id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
-														<td>
-															<div class="icons">
-	<?
+														<tr id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $className?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
+															<td>
+																<div class="icons">
+<?
 			if ($entry['item']) {
-	?>
-																<span id="star<?php echo $entry['id']?>" class="scrap-on-icon bullet" title="<?=_t('이 포스트를 스크랩합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text">스크랩 된 포스트</span></span>
-	<?
+?>
+																	<span id="star<?php echo $entry['id']?>" class="scrap-on-icon bullet" title="<?=_t('이 포스트를 스크랩 해제합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text"><?php echo _t('스크랩 포스트')?></span></span>
+<?
 			} else {
-	?>
-																<span id="star<?php echo $entry['id']?>" class="scrap-off-icon bullet" title="<?=_t('이 포스트를 스크랩 해제합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text">스크랩 되지 않은 포스트</span></span>
-	<?
+?>
+																	<span id="star<?php echo $entry['id']?>" class="scrap-off-icon bullet" title="<?=_t('이 포스트를 스크랩합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text"><?php echo _t('미스크랩 포스트')?></span></span>
+<?
 			}
-	?>
-																<?php echo $podcast?>
-															</div>
-															<div class="content">
-																<div class="title"><span><?php echo htmlspecialchars($entry['entry_title'])?></span></div>
-																<div class="blog"><?php echo htmlspecialchars($entry['blog_title'])?></div>
-															</div>
-														</td>
-													</tr>
-<?php 
+?>
+																	<?php echo $podcast?>
+																</div>
+																<div class="content">
+																	<div class="title"><span class="text"><?php echo htmlspecialchars($entry['entry_title'])?></span></div>
+																	<div class="blog"><?php echo htmlspecialchars($entry['blog_title'])?></div>
+																</div>
+															</td>
+														</tr>
+<?php
+		$count++;
 	}
 ?>
+													</tbody>
 												</table>
 													
 												<div id="additionalFeedContainer"></div>
-												<div id="feedLoadingIndicator" style="display: none;">
+												<div id="feedLoadingIndicator" class="system-message" style="display: none;">
 													<?php echo _t('피드를 읽어오고 있습니다')?>
 												</div>
 												
@@ -1388,12 +1429,12 @@ function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false
 ?>
 												<table cellpadding="0" cellspacing="0">
 <?
-	$count = 0;
+	$count = 1;
 	foreach (getFeedEntries($owner, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword, $offset) as $entry) {
-		$count++;
 		$class = $entry['wasread'] ? 'read' : 'unread';
-		$class .= ($count == 1) ? ' active-class' : ' inactive-class';
-		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="팟캐스트 포스트입니다."><span>' . _t('팟 캐스트') . '</span></span>' : '';
+		$class .= ($count % 2) == 1 ? ' odd-line' : ' even-line';
+		$class .= ' inactive-class';
+		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="팟캐스트 포스트입니다."><span class="text">' . _t('팟 캐스트') . '</span></span>' : '';
 ?>
 													<tr id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
 														<td>
@@ -1401,23 +1442,24 @@ function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false
 <?
 		if ($entry['item']) {
 ?>
-																<span id="star<?php echo $entry['id']?>" class="scrap-on-icon bullet" title="<?=_t('이 포스트를 스크랩합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text">스크랩 된 포스트</span></span>
+																<span id="star<?php echo $entry['id']?>" class="scrap-on-icon bullet" title="<?=_t('이 포스트를 스크랩 해제합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text"><?php echo _t('스크랩 포스트')?></span></span>
 <?
 		} else {
 ?>
-																<span id="star<?php echo $entry['id']?>" class="scrap-off-icon bullet" title="<?=_t('이 포스트를 스크랩 해제합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text">스크랩 되지 않은 포스트</span></span>
+																<span id="star<?php echo $entry['id']?>" class="scrap-off-icon bullet" title="<?=_t('이 포스트를 스크랩합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text"><?php echo _t('미스크랩 포스트')?></span></span>
 <?
 		}
 ?>
 																<?php echo $podcast?>
 															</div>
 															<div class="content">
-																<div class="title"><span><?php echo htmlspecialchars($entry['entry_title'])?></span></div>
+																<div class="title"><?php echo htmlspecialchars($entry['entry_title'])?></div>
 																<div class="blog"><?php echo htmlspecialchars($entry['blog_title'])?></div>
 															</div>
 														</td>
 													</tr>
-<?php 
+<?php
+		$count++;
 	}
 ?>
 												</table>
@@ -1453,7 +1495,6 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 	}
 ?>
 														<?php echo $entry['description']?>
-														<div class="clear"></div>
 													</div>
 													
 													<script type="text/javascript">
@@ -1470,17 +1511,13 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 ?>
 														<div id="entryTag">
 															<span class="title"><?=htmlspecialchars(_t('태그'))?></span><span class="divider"> : </span><span class="tags"><?=htmlspecialchars($entry['tags'])?></span>
-															<div class="clear"></div>
 														</div>
 <?
 	}
 ?>
 														<div class="button-box">
 															<a class="non-read-button button" href="#void" onclick="Reader.markAsUnread(<?php echo $entry['id']?>)"><span class="text"><?php echo _t('안 읽은 글로 표시')?></span></a>
-															<div class="clear"></div>
 														</div>
-														
-														<div class="clear"></div>
 													</div>
 <?php 
 }
