@@ -248,9 +248,9 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 											<span id="total-count"><?=_t('총')?> <?=$paging['total']?><?=_t('건')?></span>
 											<span id="page-list">
 <?
-$paging['url'] = 'document.forms[0].page.value=';
-$paging['prefix'] = '';
-$paging['postfix'] = '; document.forms[0].submit()';
+//$paging['url'] = 'document.forms[0].page.value=';
+//$paging['prefix'] = '';
+//$paging['postfix'] = '; document.forms[0].submit()';
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);

@@ -542,8 +542,6 @@ for ($i=0; $i<sizeof($entries); $i++) {
 										</select>
 										<a id="apply-button" class="apply-button button" href="#void" onclick="processBatch(document.getElementById('commandBox'));"><span class="text"><?=_t('적용')?></span></a>
 										<a class="delete-button button" href="#void" onclick="obj=new Object(); obj.value='delete'; processBatch(obj);"><span class="text"><?=_t('삭제')?></span></a>
-										<!--input type="button" onclick="processBatch(document.getElementById('commandBox'));" value=" <?=_t('적용')?> " />
-										<input type="button" onclick="obj = new Object(); obj.value = 'delete';  processBatch(obj);" value=" <?=_t('삭제')?> " /-->
 									</div>
 									
 									<div id="page-section" class="section">
@@ -551,9 +549,9 @@ for ($i=0; $i<sizeof($entries); $i++) {
 											<span id="total-count"><?=_t('총')?> <?=$paging['total']?><?=_t('건')?></span>
 											<span id="page-list">
 <?
-$paging['url'] = 'document.forms[0].page.value=';
-$paging['prefix'] = '';
-$paging['postfix'] = '; document.forms[0].submit()';
+//$paging['onclick_url'] = 'document.forms[0].page.value=';
+//$paging['onclick_prefix'] = '';
+//$paging['onclick_postfix'] = '; document.forms[0].submit()';
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
