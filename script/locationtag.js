@@ -267,7 +267,7 @@ LocationTag.prototype.setInputClassName = function(str)
 // suggestion window의 항목을 클릭하면 값을 세팅한다
 LocationTag.prototype.suggestionMouseClick = function(obj)
 {
-	this.setValue(obj.innerHTML.replace(new RegExp("</?strong>", "gi"), "").replaceAll("&amp;", "&"), true);
+	this.setValue(obj.innerHTML.replace(new RegExp("</?em>", "gi"), "").replaceAll("&amp;", "&"), true);
 	this.hideSuggestion();
 }
 
@@ -361,7 +361,7 @@ LocationTag.prototype.highlightRow = function()
 			this.suggestion.childNodes[i].className = (i == this.suggestion.selectedIndex - 1) ? "hover" : "";
 
 		// 선택된 열의 값을 input box에 채운다
-		this.input.value = this.typingText = this.suggestion.childNodes[this.suggestion.selectedIndex-1].innerHTML.replace(new RegExp("</?strong>", "gi"), "").unhtmlspecialchars();
+		this.input.value = this.typingText = this.suggestion.childNodes[this.suggestion.selectedIndex-1].innerHTML.replace(new RegExp("</?em>", "gi"), "").unhtmlspecialchars();
 	}
 }
 

@@ -1,7 +1,5 @@
 <?
 define('ROOT', '../../..');
-//chmod(ROOT."/attach", 0777);
-//chmod(ROOT."/attach/1", 0777);
 require ROOT . '/lib/includeForOwner.php';
 publishEntries();
 if (isset($_POST['categoryAtHome']))
