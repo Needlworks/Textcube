@@ -1382,8 +1382,9 @@ RewriteRule ^([[:alnum:]]+)/+index\.php$ $1/%2 [NE,L]
 RewriteRule ^[[:alnum:]]+/+index\.php$ blog/index.php [E=SURI:1,L]
 RewriteRule ^[[:alnum:]]+/+index\.xml$ blog/rss/index.php [E=SURI:1,L]
 RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d  
-RewriteRule !^(blog|cache)/ - [L]       
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule !^(blog|cache)/ - [L]
+RewriteRule ^[[:alnum:]]+/cache/thumnail/([0-9]+/.+) cache/thumnail/$1 [E=SURI:1,L]
 RewriteRule ^[[:alnum:]]+/+(entry|attachment|category|keylog|tag|search|plugin)/? blog/$1/index.php [E=SURI:1,L]
 RewriteRule ^[[:alnum:]]+/+(.+)/[0-9]+$ blog/$1/item.php [E=SURI:1,L]
 RewriteRule ^[[:alnum:]]+/+(.+)$ blog/$1/index.php [E=SURI:1,L]
@@ -1404,8 +1405,9 @@ RewriteRule ^index\.php$ %2 [NE,L]
 RewriteRule ^index\.php$ blog/index.php [E=SURI:1,L]
 RewriteRule ^index\.xml$ blog/rss/index.php [E=SURI:1,L]
 RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d  
-RewriteRule !^(blog|cache)/ - [L]       
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule !^(blog|cache)/ - [L]
+RewriteRule ^(.+)/cache/thumnail/([0-9]+/.+) cache/thumnail/$1 [E=SURI:1,L]
 RewriteRule ^(entry|attachment|category|keylog|tag|search|plugin)/? blog/$1/index.php [E=SURI:1,L]
 RewriteRule ^(.+)/[0-9]+$ blog/$1/item.php [E=SURI:1,L]
 RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]

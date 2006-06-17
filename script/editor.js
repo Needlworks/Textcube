@@ -675,7 +675,7 @@ TTEditor.prototype.showProperty = function(obj)
 	getObject("propertyGallery_preview").style.display = "none";
 	getObject("propertyJukebox").style.display = "none";
 	getObject("propertyEmbed").style.display = "none";
-	getObject("propertyFlash").style.display = "none";
+	//getObject("propertyFlash").style.display = "none";
 	getObject("propertyMoreLess").style.display = "none";
 
 	if(obj.className == "tatterObject") {
@@ -696,7 +696,7 @@ TTEditor.prototype.showProperty = function(obj)
 		getObject("propertyEmbed_src").value = attribute;
 		getObject("propertyEmbed").style.display = "block";
 	}
-	else if(obj.className == "tatterFlash") {
+	/*else if(obj.className == "tatterFlash") {
 		editor.propertyHeader = "tatterFlash";
 		editor.propertyWindowId = "propertyFlash";
 		var size = editor.parseImageSize(editor.selectedElement, "array");
@@ -704,7 +704,7 @@ TTEditor.prototype.showProperty = function(obj)
 		getObject("propertyFlash_height").value = size[1];
 		getObject("propertyFlash_src").value = attribute;
 		getObject("propertyFlash").style.display = "block";
-	}
+	}*/
 	else if(obj.tagName && obj.tagName.toLowerCase() == "img" && attribute) {
 		var values = attribute.split("|");
 
