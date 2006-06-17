@@ -560,7 +560,6 @@ function publishEntries() {
 function saveTags($owner, $entry, $entryId) {
 	global $database;
 	$tags = explode(',', $entry['tag']);
-	echo "DELETE FROM {$database['prefix']}TagRelations WHERE owner = $owner and entry = $entryId";
 	mysql_query("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $owner and entry = $entryId");
 	foreach ($tags as $tag) {
 		$tag = mysql_lessen($tag, 255, '');

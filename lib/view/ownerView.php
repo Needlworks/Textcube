@@ -597,9 +597,9 @@ function printEntryFileList($attachments, $entryId) {
 																alert(e.message);
 															}
 														}
-														
-														ls_init_funcs.push(function() { disablePageManager(); });
-														
+														window.onLoad = function() {
+															disablePageManager()
+														}														
 														function enablePageManager() {
 															try {
 																entryManager.pageHolder.isHolding = pageHolding ;
@@ -635,7 +635,7 @@ function printEntryFileList($attachments, $entryId) {
 																	document.getElementById('uploadBtn').style.display  = 'block'			
 																	document.getElementById('stopUploadBtn').style.display  = 'none'			
 																} else {
-																	//document.getElementById('uploadBtn').disabled=false;					
+																	document.getElementById('uploadBtn').disabled=false;					
 																}
 																
 																document.getElementById('uploaderNest').innerHTML = uploaderStr
@@ -1311,7 +1311,7 @@ function printEntryEditorProperty() {
 													</dl>
 												</div>
 												
-												<!--div id="propertyFlash" class="entry-editor-property" style="display: none;">
+												<div id="propertyFlash" class="entry-editor-property" style="display: none;">
 													<h4><?php echo _t('Embed')?></h4>
 													
 													<dl class="line">
@@ -1326,7 +1326,7 @@ function printEntryEditorProperty() {
 														<dt class="property-name"><label for="propertyFlash_src"><span class="text">URL</span></label></dt>
 														<dd><input type="text" class="text-input" id="propertyFlash_src" onkeyup="editor.setProperty()" /></dd>
 													</dl>
-												</div-->
+												</div>
 												
 												<div id="propertyMoreLess" class="entry-editor-property" style="display: none;">
 													<h4><?php echo _t('More/Less')?></h4>
@@ -1476,7 +1476,6 @@ function printEntryEditorPalette() {
 														<a id="indicatorHtmlBlock" class="inactive-class button" href="#void" onclick="TTCommand('HtmlBlock')" title="<?php echo _t('HTML 코드 직접 쓰기')?>"><span class="text"><?php echo _t('HTML 코드 직접 쓰기')?></span></a>
 														<a id="indicatorCreateLink" class="inactive-class button" href="#void" onclick="TTCommand('CreateLink')" title="<?php echo _t('하이퍼링크')?>"><span class="text"><?php echo _t('하이퍼링크')?></span></a>
 														<a id="indicatorMediaBlock" class="inactive-class button" href="#void" onclick="TTCommand('ObjectBlock')" title="<?php echo _t('미디어 삽입')?>"><span class="text"><?php echo _t('미디어 삽입')?></span></a>
-														<!--a id="indicatorFlashBlock" class="inactive-class button" href="#void" onclick="TTCommand('FlashBlock')" title="<?php echo _t('플래시 삽입')?>"><span class="text"><?php echo _t('플래시 삽입')?></span></a-->
 														<a id="indicatorMoreLessBlock" class="inactive-class button" href="#void" onclick="TTCommand('MoreLessBlock')" title="<?php echo _t('More/Less')?>"><span class="text"><?php echo _t('More/Less')?></span></a>
 													</dd>
 												</dl>
