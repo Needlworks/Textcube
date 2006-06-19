@@ -108,7 +108,7 @@ function resampleImage($target, $mother) {
 	$paddingArray['left'] = $padding['left'];
 	$paddingArray['bgColor'] = $bgColorForPadding;
 	
-	if (eregi('class="thumbnail"', $target, $extra)) {
+	if (eregi('class="tt-thumbnail"', $target, $extra)) {
 		$originSrc = $mother;
 		$originFileName = basename($originSrc);
 		
