@@ -948,28 +948,6 @@ function printEntryEditorProperty() {
 													</div>
 												</div>
 												
-												<div id="propertyLink" class="entry-editor-property" style="display: none;">
-													<h4><?php echo _t('Link')?></h4>
-													
-													<dl class="line">
-														<dt class="property-name"><label for="propertyLink_href"><span class="text"><?php echo _t('href')?></span></label></dt>
-														<dd><input type="text" id="propertyLink_href" class="text-input" onkeyup="editor.setProperty()" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyLink_title"><span class="text"><?php echo _t('title')?></span></label></dt>
-														<dd><input type="text" class="text-input" id="propertyLink_title" onkeyup="editor.setProperty()" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyLink_target"><span class="text"><?php echo _t('연결 방식')?></span></label></dt>
-														<dd>
-															<select id="propertyLink_target" onchange="editor.setProperty()">
-																<option value="_self"><?php echo _t('이 창으로 열기')?></option>
-																<option value="_blank" selected="selected"><?php echo _t('새 창으로 열기')?></option>
-															</select>
-														</dd>
-													</dl>
-												</div>
-												
 												<div id="propertyImage1" class="entry-editor-property" style="display: none;">
 													<h4><?php echo _t('Image')?></h4>
 													

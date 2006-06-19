@@ -661,7 +661,6 @@ TTEditor.prototype.showProperty = function(obj)
 {
 	var attribute = obj.getAttribute("longdesc");
 	
-	getObject("propertyLink").style.display = "none";
 	getObject("propertyImage1").style.display = "none";
 	getObject("propertyImage2").style.display = "none";
 	getObject("propertyImage3").style.display = "none";
@@ -862,12 +861,6 @@ TTEditor.prototype.showProperty = function(obj)
 				editor.propertyWindowId = "propertyMoreLess";
 
 				return;
-			} else if (node.tagName && node.tagName.toLowerCase() == "a") {
-				editor.propertyWindowId = "propertyLink";
-				getObject("propertyLink_href").value = node.getAttribute('href');
-				getObject("propertyLink_target").value = node.getAttribute('target');
-				getObject("propertyLink_title").value = node.getAttribute('title');
-				getObject("propertyLink").style.display = "block";
 			}
 			node = node.parentNode;
 		}
@@ -1098,11 +1091,6 @@ TTEditor.prototype.setProperty = function()
 	else if(editor.selectedElement.tagName && editor.selectedElement.tagName.toLowerCase() == "div" && editor.selectedElement.getAttribute("more") != null && editor.selectedElement.getAttribute("less") != null) {
 		editor.selectedElement.setAttribute("more", editor.htmlspecialchars(getObject("propertyMoreLess_more").value));
 		editor.selectedElement.setAttribute("less", editor.htmlspecialchars(getObject("propertyMoreLess_less").value));
-	}
-	else if(editor.selectedElement.tagName && editor.selectedElement.tagName.toLowerCase() == "a" && editor.selectedElement.getAttribute("href") != null) {
-		editor.selectedElement.setAttribute("href", editor.htmlspecialchars(getObject("propertyLink_href").value));
-		editor.selectedElement.setAttribute("target", editor.htmlspecialchars(getObject("propertyLink_target").value));
-		editor.selectedElement.setAttribute("title", editor.htmlspecialchars(getObject("propertyLink_title").value));
 	}
 }
 
