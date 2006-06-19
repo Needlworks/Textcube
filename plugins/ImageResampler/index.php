@@ -1,15 +1,7 @@
 <?php
 // {{{ resampleImage()
 
-/**
- * make image thumbnail for Tattertools 1.0.6 under.
- *        - kokoro studio only version -
- *
- * @param string $target "img" tag.
- * @param integer $mother image file's relative path.
- * @access public
- * @return string $target
- */
+// make image thumbnail for Tattertools 1.1 above.
 function resampleImage($target, $mother) {
 	global $skinSetting, $owner, $blogURL, $pluginURL;
 	
