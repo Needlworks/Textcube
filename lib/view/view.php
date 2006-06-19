@@ -1152,7 +1152,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 				}*/
 				
 				if (eregi('width="([0-9]*%?)"', $property, $temp)) {
-					$currentWidth = $temp1[1];
+					$currentWidth = $temp[1];
 					if (eregi("^([0-9]+)%$", $currentWidth, $temp)) {
 						$currentWidth = $originWidth * ($temp[1]/100);
 					}
@@ -1161,7 +1161,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 				}
 				
 				if (eregi('height="([0-9]*%?)"', $property, $temp)) {
-					$currentHeight = $temp2[1];
+					$currentHeight = $temp[1];
 					if (eregi("^([0-9]+)%$", $currentHeight, $temp)) {
 						$currentHeight = $originHeight * ($temp[1]/100);
 					}

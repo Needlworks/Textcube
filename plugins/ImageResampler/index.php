@@ -120,7 +120,7 @@ function resampleImage($target, $mother) {
 		// 보안상 cache 디렉토리를 공개하지 않도록 남겨놓는다.
 		$tempURL = $blogURL."/thumbnail/$owner/$newTempFileName";
 		
-		if (!file_exists($tempSrc) || ($originImageInfo[0] > $tempWidth || $originImageInfo[1] > $tempHeight)) {
+		if (!file_exists($tempSrc)) {
 			// 이 파일과 관련된 기존 파일을 지운다.
 			deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "^".eregi_replace("\.([[:alnum:]]+)$", "\.", $originFileName));
 			
@@ -149,21 +149,21 @@ function resampleImage($target, $mother) {
  * Enlarge or reduce the image's size(width/height).
  *
  * @param string $fileName include the path.
- * @param integer $width.
- * @param integer $height.
- * @param string $resizeFlag.
+ * @param integer $width
+ * @param integer $height
+ * @param string $resizeFlag
  *		① "enlarge" - force an original image to be enlarged. reduce is not activated.
  *		② "reduce" - force an original image to be reduced. enlarge is not activated.
  *		③ "both" - enlarge and reduce.
- * @param string $outputType.
+ * @param string $outputType
  *		① "file" - default. overwrite an original file.
  *		② "browser" - output header for brower directly.
- * @param array padding.
+ * @param array $padding
  *      ① 'top' => top padding.
  *		② 'right' => right padding.
  *		③ 'bottom' => bottom padding.
  *		④ 'left' => left padding.
- * @param array $waterMark.
+ * @param array $waterMark
  *      ① 'path' => water mark file path.
  *		② 'position' => position to be merged in a original file.
  *		③ 'gamma' => transparency level. min is 0, max is 100.
@@ -547,7 +547,6 @@ function hexRGB($hexstr)
  * @access public
  * @return boolean true
  */
- 
 function deleteFilesByRegExp($path, $regexp) {
 	$path = eregi("/$", $path, $temp) ? $path : $path."/";
 	
@@ -563,80 +562,80 @@ function deleteFilesByRegExp($path, $regexp) {
 // }}}
 // {{{ getImageType()
 	
-	/**
-	 * Get the extension of a certain file.
-	 *
-	 * @param string $filename the filename that includes the path.
-	 * @access public
-	 * @return string $extension file extension string.
-	 */
-	function getImageType($filename)
-	{
-		if (file_exists($filename)) {
-			if (function_exists("exif_imagetype")) {
-				$imageType = exif_imagetype($filename);
-			} else {
-				$tempInfo = getimagesize($filename);
-				$imageType = $tempInfo[2];
-			}
-			
-			switch ($imageType) {
-				// 상수를 사용하면 에러? 확인 못 함.
-				case IMAGETYPE_GIF:
-					$extension = 'gif';
-					break;
-				case IMAGETYPE_JPEG:
-					$extension = 'jpg';
-					break;
-				case IMAGETYPE_PNG:
-					$extension = 'png';
-					break;
-				case IMAGETYPE_SWF:
-					$extension = 'swf';
-					break;
-				case IMAGETYPE_PSD:
-					$extension = 'psd';
-					break;
-				case IMAGETYPE_BMP:
-					$extension = 'bmp';
-					break;
-				case IMAGETYPE_TIFF_II:
-				case IMAGETYPE_TIFF_MM:
-					$extension = 'tiff';
-					break;
-				case IMAGETYPE_JPC:
-					$extension = 'jpc';
-					break;
-				case IMAGETYPE_JP2:
-					$extension = 'jp2';
-					break;
-				case IMAGETYPE_JPX:
-					$extension = 'jpx';
-					break;
-				case IMAGETYPE_JB2:
-					$extension = 'jb2';
-					break;
-				case IMAGETYPE_SWC:
-					$extension = 'swc';
-					break;
-				case IMAGETYPE_IFF:
-					$extension = 'aiff';
-					break;
-				case IMAGETYPE_WBMP:
-					$extension = 'wbmp';
-					break;
-				case IMAGETYPE_XBM:
-					$extension = 'xbm';
-					break;
-				default:
-					$extension = false;
-			}
+/**
+ * Get the extension of a certain file.
+ *
+ * @param string $filename the filename that includes the path.
+ * @access public
+ * @return string $extension file extension string.
+ */
+function getImageType($filename)
+{
+	if (file_exists($filename)) {
+		if (function_exists("exif_imagetype")) {
+			$imageType = exif_imagetype($filename);
 		} else {
-			$extension = false;
+			$tempInfo = getimagesize($filename);
+			$imageType = $tempInfo[2];
 		}
 		
-		return $extension;
+		switch ($imageType) {
+			// 상수를 사용하면 에러? 확인 못 함.
+			case IMAGETYPE_GIF:
+				$extension = 'gif';
+				break;
+			case IMAGETYPE_JPEG:
+				$extension = 'jpg';
+				break;
+			case IMAGETYPE_PNG:
+				$extension = 'png';
+				break;
+			case IMAGETYPE_SWF:
+				$extension = 'swf';
+				break;
+			case IMAGETYPE_PSD:
+				$extension = 'psd';
+				break;
+			case IMAGETYPE_BMP:
+				$extension = 'bmp';
+				break;
+			case IMAGETYPE_TIFF_II:
+			case IMAGETYPE_TIFF_MM:
+				$extension = 'tiff';
+				break;
+			case IMAGETYPE_JPC:
+				$extension = 'jpc';
+				break;
+			case IMAGETYPE_JP2:
+				$extension = 'jp2';
+				break;
+			case IMAGETYPE_JPX:
+				$extension = 'jpx';
+				break;
+			case IMAGETYPE_JB2:
+				$extension = 'jb2';
+				break;
+			case IMAGETYPE_SWC:
+				$extension = 'swc';
+				break;
+			case IMAGETYPE_IFF:
+				$extension = 'aiff';
+				break;
+			case IMAGETYPE_WBMP:
+				$extension = 'wbmp';
+				break;
+			case IMAGETYPE_XBM:
+				$extension = 'xbm';
+				break;
+			default:
+				$extension = false;
+		}
+	} else {
+		$extension = false;
 	}
 	
-	// }}}
+	return $extension;
+}
+	
+// }}}
 ?>
