@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="0.5">
+	<title>Image Resampler for Tattertools</title>
+	<version>0.5</version>
+	<description>업로드된 이미지를 리샘플링 하여 크기를 변경합니다.</description>
+	<license>CCL 2.0 Attribution-NonCommercial-ShareAlike</license>
+	<link>http://www.tattertools.com/ko/forum/index.php</link>
+	<author link="http://www.tattertools.com/ko/forum/index.php">태터앤프렌즈</author>
+	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
+	<requirements>
+		<tattertools>1.0.1</tattertools>
+	</requirements>
+	<binding>
+		<listener event="ViewAttachedImage">resampleImage</listener>
+	</binding>
+</plugin>

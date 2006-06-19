@@ -1,0 +1,22 @@
+RewriteEngine On
+RewriteBase /
+RewriteCond %{ENV:REDIRECT_SURI} !^$
+RewriteRule (.*) - [L]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.+[^/])$ $1/ [L]
+RewriteRule ^$ blog/index.php [E=SURI:1,L]
+RewriteRule ^[[:alnum:]]+/*$ blog/index.php [E=SURI:1,L]
+RewriteRule ^[[:alnum:]]+/+[0-9]+$ blog/item.php [E=SURI:1,L]
+RewriteRule ^[[:alnum:]]+/+favicon\.ico$ blog/favicon.ico.php [E=SURI:1,L]
+RewriteRule ^[[:alnum:]]+/+index\.gif$ blog/index.gif.php [E=SURI:1,L]
+RewriteCond %{QUERY_STRING} (^|&)pl=([0-9]+)
+RewriteRule ^([[:alnum:]]+)/+index\.php$ $1/%2 [NE,L]
+RewriteRule ^[[:alnum:]]+/+index\.php$ blog/index.php [E=SURI:1,L]
+RewriteRule ^[[:alnum:]]+/+index\.xml$ blog/rss/index.php [E=SURI:1,L]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d  
+RewriteRule !^(blog|cache)/ - [L]       
+RewriteRule ^[[:alnum:]]+/+(thumbnail)/([0-9]+/.+) cache/$1/$2 [E=SURI:1,L]
+RewriteRule ^[[:alnum:]]+/+(entry|attachment|category|keylog|tag|search|plugin)/? blog/$1/index.php [E=SURI:1,L]
+RewriteRule ^[[:alnum:]]+/+(.+)/[0-9]+$ blog/$1/item.php [E=SURI:1,L]
+RewriteRule ^[[:alnum:]]+/+(.+)$ blog/$1/index.php [E=SURI:1,L]
