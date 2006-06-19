@@ -527,7 +527,6 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 													<dt><span class="text"><?=_t('지역')?></span></dt>
 													<dd id="location"></dd>
 												</dl>
-												
 												
 												<script type="text/javascript">
 													//<![CDATA[

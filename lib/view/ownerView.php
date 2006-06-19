@@ -1225,7 +1225,6 @@ function printEntryEditorProperty() {
 															<span class="up-button button" onclick="editor.moveUpFileList('propertyiMazing_list')" title="<?php echo _t('선택한 항목을 위로 이동합니다.')?>"><span class="text"><?php echo _t('위로')?></span></span>
 															<span class="divider"> | </span>
 															<span class="dn-button button" onclick="editor.moveDownFileList('propertyiMazing_list')" title="<?php echo _t('선택한 항목을 아래로 이동합니다.')?>"><span class="text"><?php echo _t('아래로')?></span></span>
-															<div class="clear"></div>
 														</dd>
 													</dl>
 													<div id="propertyiMazing_preview" class="preview-box" style="display: none;"></div>
@@ -1257,7 +1256,6 @@ function printEntryEditorProperty() {
 															<span class="up-button button" onclick="editor.moveUpFileList('propertyGallery_list')" title="<?php echo _t('선택한 항목을 위로 이동합니다.')?>"><span class="text"><?php echo _t('위로')?></span></span>
 															<span class="divider"> | </span>
 															<span class="dn-button button" onclick="editor.moveDownFileList('propertyGallery_list')" title="<?php echo _t('선택한 항목을 아래로 이동합니다.')?>"><span class="text"><?php echo _t('아래로')?></span></span>
-															<div class="clear"></div>
 														</dd>
 													</dl>
 													<div id="propertyGallery_preview" class="preview-box" style="display: none;"></div>
@@ -1289,7 +1287,6 @@ function printEntryEditorProperty() {
 															<span class="up-button button" onclick="editor.moveUpFileList('propertyJukebox_list')" title="<?php echo _t('선택한 항목을 위로 이동합니다.')?>"><span class="text"><?php echo _t('위로')?></span></span>
 															<span class="divider"> | </span>
 															<span class="dn-button button" onclick="editor.moveDownFileList('propertyJukebox_list')" title="<?php echo _t('선택한 항목을 아래로 이동합니다.')?>"><span class="text"><?php echo _t('아래로')?></span></span>
-															<div class="clear"></div>
 														</dd>
 													</dl>
 												</div>
@@ -1487,8 +1484,6 @@ function printEntryEditorPalette() {
 														<a id="indicatorMode" class="inactive-class button" href="#void" onclick="TTCommand('ToggleMode'); changeEditorMode();" title="<?php echo _t('클릭하시면 HTML 모드로 변경합니다.')?>"><span class="text"><?php echo _t('WISWIG 모드')?></span></a>
 													</dd>
 												</dl>
-												
-												<div class="clear"></div>
 											</div>
 <?php
 }

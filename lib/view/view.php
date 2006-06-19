@@ -1478,7 +1478,6 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 													<div class="title"><a href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($entry['entry_title'])?></a></div>
 													<div class="writing-info"><span class="by">by </span><span class="name"><?php echo htmlspecialchars($entry['author'] ? eregi_replace("^\((.+)\)$", "\\1", $entry['author']) : $entry['blog_title'])?></span><span class="divider"> : </span><span class="date"><?php echo date('Y-m-d H:i:s', $entry['written'])?></span></div>
 													<div class="open"><a id="entryPermalink" href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;" title="<?=_t('이 포스트를 새 창으로 엽니다.')?>"><span class="text"><?php echo _t('새 창으로 보기')?></span></a></div>
-													<div class="clear"></div>
 												</div>
 												
 												<div id="entryBody" lang="<?php echo htmlspecialchars($entry['language'])?>" xml:lang="<?php echo htmlspecialchars($entry['language'])?>">

@@ -244,10 +244,6 @@ function Tag(container, language, disable)
 	this.tagList.appendChild(listItem);
 
 	this.container.appendChild(this.tagList);
-	
-	this.divider = document.createElement("div");
-	this.divider.className = "clear";
-	this.container.appendChild(this.divider);
 }
 
 // 마지막노드의 input box를 편집중인지 중간의 list item을 눌러 편집중인지를 리턴
@@ -558,4 +554,4 @@ if(!String.prototype.unhtmlspecialchars) {
 }
 
 var x=0;
-function debug(s){try{document.getElementById("debug").innerHTML=++x+")"+s+"<br>"+document.getElementById("debug").innerHTML}catch(e){}}
+function debug(s){try{document.getElementById("debug").innerHTML=++x+")"+s+"<br />"+document.getElementById("debug").innerHTML}catch(e){}}

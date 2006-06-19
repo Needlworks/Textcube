@@ -89,13 +89,13 @@ dl dd .text-input
 
 .button-box
 {
-	left                             : 260px;
+	left                             : 360px;
 	position                         : absolute;
 	top                              : 79px;
 	border-top                       : 1px dotted #CCCCCC;
 	margin                           : 0 0 6px 0;
 	padding-top                      : 7px;
-	width                            : 240px;
+	width                            : 140px;
 }
 
 .button-box .button

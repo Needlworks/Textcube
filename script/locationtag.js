@@ -460,4 +460,4 @@ if(!String.prototype.unhtmlspecialchars) {
 }
 
 var x=0;
-function debug(s){try{document.getElementById("debug").innerHTML=++x+")"+s+"<br>"+document.getElementById("debug").innerHTML}catch(e){}}
+function debug(s){try{document.getElementById("debug").innerHTML=++x+")"+s+"<br />"+document.getElementById("debug").innerHTML}catch(e){}}
