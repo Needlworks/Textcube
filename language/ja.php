@@ -5,6 +5,9 @@
 /* contributed by M. Satoh */
 /* contributed by Taku S. */
 
+/* Default Timezone */
+$__text['default:Asia/Seoul'] = 'default:Asia/Tokyo';
+
 /* Timezones */
 $__text['Asia/Seoul'] = '大韓民国(ソウル)';
 $__text['Asia/Tokyo'] = '日本(東京)';

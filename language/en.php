@@ -2,6 +2,9 @@
 /* contributed by Remengen */
 /* a few additions for 1.0.6 by inureyes */
 
+/* Default Timezone */
+$__text['default:Asia/Seoul'] = 'default:America/New_York';
+
 /* Timezones */
 $__text['Asia/Seoul'] = 'Republic Of Korea';
 $__text['Asia/Tokyo'] = 'Japan';

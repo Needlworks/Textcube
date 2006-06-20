@@ -1,6 +1,9 @@
 <? // 简体中文
 /* contributed by KIM */
 
+/* Default Timezone */
+$__text['default:Asia/Seoul'] = 'default:Asia/Shanghai';
+
 /* Timezones */
 $__text['Asia/Seoul'] = '韩国';
 $__text['Asia/Tokyo'] = '日本';
