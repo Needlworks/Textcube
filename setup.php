@@ -26,6 +26,10 @@ include 'components/Eolin.PHP.Core.php';
 $root = substr($_SERVER['SCRIPT_FILENAME'], 0, strlen($_SERVER['SCRIPT_FILENAME']) - 10);
 $path = stripPath(substr($_SERVER['PHP_SELF'], 0, strlen($_SERVER['PHP_SELF']) - 10));
 
+$baseLanguage = 'ko';
+if( !empty($_POST['Lang']) ) $baseLanguage = $_POST['Lang'];
+if( Locale::setDirectory('language') ) Locale::set( $baseLanguage );
+
 if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0)) {
     header('HTTP/1.1 503 Service Unavailable');
 ?>
@@ -34,9 +38,17 @@ if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0))
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Tattertools 1.0 Setup</title>
+<script  type="text/javascript">
+//<![CDATA[
+	function current(){ 
+		document.getElementById("setup").submit();
+	}
+//]]>
+</script> 
 </head>
 <body>
 <p><?=_t('다시 설정하시려면 config.php를 먼저 삭제하셔야 합니다.')?></p>
+<form id="setup" name="setup" method="post" action="<?=$_SERVER['PHP_SELF']?>"> <? drowSetLang( $baseLanguage , 'ERR');?> </form> 
 </body>
 </html>
 <?
@@ -57,7 +69,12 @@ if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0))
     
     function previous() {
     }
-    
+
+	function current(){ 
+		document.getElementById("step").value ="" ; 
+		document.getElementById("setup").submit() ; 
+	} 
+	
     function next(type) {
 		if (type != undefined)
 			document.getElementById("setupMode").value = type;
@@ -81,12 +98,14 @@ if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0))
 <div id="container">
   <form id="setup" name="setup" method="post" action="<?=$_SERVER['PHP_SELF']?>">
   <div id="title"><h1><img src="style/setup/title.gif" width="204" height="44" alt="Tattertools Setup" /></h1></div>
+  <input type="hidden" name="Lang" id="Lang" value="<?=$baseLanguage?>" />
 <?
 if (empty($_POST['step'])) {
 ?>
   <div id="inner">
     <input type="hidden" name="step" value="1" />
     <h2><span class="step"><?=_f('%1단계', 1)?></span> : <?=_t('태터툴즈 설치를 시작합니다.')?></h2>
+		<div id="langSel" > <? drowSetLang( $baseLanguage, 'Norm');?></div> 
     <div id="info"><b>Tattertools 1.0.5</b><br />
       Copyright &copy; 2004-2006, Tatter &amp; Company. All rights reserved.<br />
       Homepage: <a href="http://www.tattertools.com">http://www.tattertools.com</a></div>
@@ -910,6 +929,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
 		$loginid = mysql_escape_string($_POST['email']);
 		$password = md5($_POST['password']);
 		$name = mysql_escape_string($_POST['name']);
+		$baseLanguage = mysql_escape_string( $_POST['Lang']);
+		$baseTimezone = mysql_escape_string( substr(_t('default:Asia/Seoul'),8));
 
         $charset = 'TYPE=MyISAM DEFAULT CHARSET=utf8';
         if (!@mysql_query('SET CHARACTER SET utf8'))
@@ -1266,7 +1287,7 @@ CREATE TABLE {$_POST['dbPrefix']}Users (
   UNIQUE KEY loginid (loginid)
 ) $charset;
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
-INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, language, timezone) VALUES (1, '{$_POST['blog']}', 'ko', 'Asia/Seoul');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, language, timezone) VALUES (1, '{$_POST['blog']}', '$baseLanguage', '$baseTimezone');
 INSERT INTO {$_POST['dbPrefix']}SkinSettings (owner) VALUES (1);
 INSERT INTO {$_POST['dbPrefix']}FeedSettings (owner) values(1);
 INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
@@ -1320,7 +1341,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
             $schema = "
 				UPDATE {$_POST['dbPrefix']}Users SET loginid = '$loginid', name = '$name' WHERE userid = 1;
 				UPDATE {$_POST['dbPrefix']}Users SET password = '$password' WHERE userid = 1 AND password <> '$password2';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET name = '{$_POST['blog']}' WHERE owner = 1";
+				UPDATE {$_POST['dbPrefix']}BlogSettings SET name = '{$_POST['blog']}' , language = '$baseLanguage' , timezone = '$baseTimezone' WHERE owner = 1"; 
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
                 if (!mysql_query($sub)) {
@@ -1568,6 +1589,18 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
   </div>
 <?
 	}
+}
+ 
+function drowSetLang( $currentLang = "ko"  ,$curPosition = 'Norm' /*or 'Err'*/ ){ 
+	if( Locale::setDirectory('language'))   $availableLanguages =   Locale::getSupportedLocales(); 
+	else return false; 
+?> 
+Select Default Language : <select name="Lang" id = "Lang" onchange= "current();" > 
+<?      foreach( $availableLanguages as $key => $value) 
+			print('<option value="'.$key.'" '.( $key == $currentLang ? ' selected="selected" ' : '').' >'.$value.'</option>'); 
+?></select> 
+<? 
+	return true;
 }
 
 function stripPath($path) {
