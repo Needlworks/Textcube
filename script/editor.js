@@ -83,13 +83,12 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	this.contentDocument.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">');
 	this.contentDocument.write('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko"><head><meta http-equiv="content-type" content="text/html; charset=utf-8" />');
 	this.contentDocument.write('<style type="text/css">')
-	this.contentDocument.write("body { font: 12px/1.5 Dotum, Verdana, AppleGothic, Sans-serif; background-color: #fff;}");
 	if(STD.isIE)
 		this.contentDocument.write("html { padding: 10px 0px 10px; } body { padding: 10px; }");
 	else
 		this.contentDocument.write("html { padding: 0px 10px; }");
 	this.contentDocument.write("</style>");
-	this.contentDocument.write('<link rel="stylesheet" type="text/css" href="' + servicePath + adminSkin + '/editor-wiswig.css" />');
+	this.contentDocument.write('<link rel="stylesheet" type="text/css" href="' + servicePath + editorCSS + '" />');
 	this.contentDocument.write("</head><body>");
 	this.contentDocument.write(this.ttml2html());
 	this.contentDocument.write("</body></html>");

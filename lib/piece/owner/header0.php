@@ -8,6 +8,17 @@
 			var servicePath = "<?=$service['path']?>";
 			var blogURL = "<?=$blogURL?>";
 			var adminSkin = "<?=$service['adminSkin']?>";
+<?php
+if (file_exists(ROOT.$service['editorCSS'])) {
+?>
+			var editorCSS = "<?=$service['editorCSS']?>";
+<?php
+} else {
+?>
+			var editorCSS = "/style/wisiwig/default-wisiwig.css";
+<?php
+}
+?>
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/byTattertools.js"></script>
