@@ -369,17 +369,10 @@ table.data-inbox tbody tr td .new-icon span
 	background-color                 : #EFEFEF !important;
 	margin                           : 4px;
 	padding                          : 4px;
-}
-
-#part-post-list table.data-inbox tbody tr.hidden-layer td .password-box
-{
-	clear                            : both;
-	margin                           : 4px 5px 0 auto;
 	text-align                       : right;
-	width                            : 200px;
 }
 
-#part-post-list table.data-inbox tbody tr.hidden-layer td .password-box .text-input
+#part-post-list table.data-inbox tbody tr.hidden-layer td .text-input
 {
 	width                            : 67px;
 }
@@ -396,46 +389,16 @@ table.data-inbox tbody tr td .new-icon span
 	width                            : 400px;
 }
 
-#part-post-list table.data-inbox tbody tr.hidden-layer td .button-box
-{
-	margin                           : 5px 10px 3px auto;
-	width                            : 66px;
-}
-
-#part-post-list table.data-inbox tbody tr.hidden-layer td .button-box .button
+#part-post-list table.data-inbox tbody tr.hidden-layer td .button
 {
 	float                            : none;
+	margin                           : 3px 0 0 auto;
 	width                            : 66px;
 }
 
-#part-post-list table.data-inbox tbody tr.hidden-layer td .button-box .button span
+#part-post-list table.data-inbox tbody tr.hidden-layer td .button span
 {
 	width                            : 62px;
-}
-
-/*#part-post-list table.data-inbox tbody tr.hidden-layer .close-button
-{
-	background-color                 : #CCCCCC;
-	background-image                 : url("./image/button2.gif");
-	float                            : left;
-	height                           : 24px;
-	padding-left                     : 4px;
-	width                            : 70px;
-}
-
-#part-post-list table.data-inbox tbody tr.hidden-layer .close-button span
-{
-	background-color                 : #CCCCCC;
-	background-image                 : url("./image/button2.gif");
-	height                           : 24px;
-	padding                          : 6px 4px 0 0;
-	text-align                       : center;
-	width                            : 62px;
-}*/
-
-#part-post-list table.data-inbox tbody tr.hidden-layer .button-box .divider
-{
-	display                          : none;
 }
 
 #part-post-list table.data-inbox tbody tr.hidden-layer .trackback-log-box

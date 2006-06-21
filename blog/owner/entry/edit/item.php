@@ -497,7 +497,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 ?>
 										</div>
 										
-										<hr class="hiddem" />
+										<hr class="hidden" />
 										
 										<div id="property-section" class="section">
 											<h3><span class="text"><?php echo _t('속성 상자')?></span></h3>
