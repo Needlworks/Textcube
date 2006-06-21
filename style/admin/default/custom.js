@@ -1,4 +1,4 @@
-ls_init_funcs.push(function() { insertDivClear(); });
+tt_init_funcs.push(function() { insertDivClear(); });
 
 function insertDivClear() {
 	if (document.getElementById("part-statistics-visitor")) {

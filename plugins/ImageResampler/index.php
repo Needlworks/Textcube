@@ -580,7 +580,7 @@ function getImageType($filename)
 		}
 		
 		switch ($imageType) {
-			// 상수를 사용하면 에러? 확인 못 함.
+			// 상수를 사용하면 에러? 확인 못함.
 			case IMAGETYPE_GIF:
 				$extension = 'gif';
 				break;

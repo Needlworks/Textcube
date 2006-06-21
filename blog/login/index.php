@@ -45,7 +45,7 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 	<script type="text/javascript" src="<?php echo $service['path'].$service['adminSkin']?>/custom.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
-			ls_init_funcs.push(function() { loadLoginInit(); });
+			tt_init_funcs.push(function() { loadLoginInit(); });
 			
 			function loadLoginInit() {
 				document.forms[0].<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password')?>.focus();
@@ -84,8 +84,7 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 								<dt><span class="label"><span class="text"><?=_t('선택사항')?></span></span></dt>
 								<dd>
 									<div id="email-save"><input type="checkbox" id="save" class="checkbox" name="save"<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"')?> /> <label for="save"><span class="text"><?=_t('이메일 저장')?></span></label></div>
-									<?=($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /> <label for="reset"><span class="text">' . _t('암호 초기화') . '</span></label></div>' : '')?>
-
+									<?=($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /> <label for="reset"><span class="text">' . _t('암호 초기화') . '</span></label></div>'.CRLF : '')?>
 								</dd>
 							</dl>
 							
