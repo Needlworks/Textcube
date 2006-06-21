@@ -813,3 +813,11 @@ function toggleMoreLess(obj, num, txtMore, txtLess)
 		content.parentNode.removeChild(less);
 	}
 }
+
+function getParentByTagName(tag, obj)
+{
+	while (obj.tagName != tag.toUpperCase()) {
+		obj = obj.parentNode;
+	}
+	return obj;
+}

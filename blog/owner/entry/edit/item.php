@@ -459,7 +459,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 printEntryEditorPalette();
 ?>
 											<div id="editor-textbox" class="container">
-												<textarea id="editWindow" name="content" cols="50" rows="20" onselect="savePosition(); editorChanged()" onclick="savePosition();editorChanged()" onkeyup="savePosition();editorChanged()"><?=htmlspecialchars($entry['content'])?></textarea>
+												<textarea id="editWindow" name="content" cols="80" rows="20" onselect="savePosition(); editorChanged()" onclick="savePosition();editorChanged()" onkeyup="savePosition();editorChanged()"><?=htmlspecialchars($entry['content'])?></textarea>
 												<script type="text/javascript" src="<?=$service['path']?>/script/editor.js"></script>
 												<script type="text/javascript">
 													//<![CDATA[
@@ -496,6 +496,8 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 }
 ?>
 										</div>
+										
+										<hr class="hiddem" />
 										
 										<div id="property-section" class="section">
 											<h3><span class="text"><?php echo _t('속성 상자')?></span></h3>
