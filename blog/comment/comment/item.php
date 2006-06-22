@@ -40,7 +40,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	try {
 	<?
 		$commentCount = getCommentCount($owner, $comment['entry']);
-		$commentCount = ($commentCount > 0) ? "($commentCount)" : '';
+		$commentCount = ($commentCount > 0) ? "$commentCount" : '';
 	?>
 	obj = opener.document.getElementById("commentCount<?=$comment['entry']?>");
 	obj.innerHTML = "<?=$commentCount?>";

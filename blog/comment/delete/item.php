@@ -12,27 +12,27 @@ if (!empty($_POST['mode'])) {
 				printHtmlHeader();
 ?>
 <script type="text/javascript">
-//<![CDATA[
-	alert("<?=_t('댓글이 삭제되었습니다.')?>");
-	var obj = opener.document.getElementById("entry<?=$entryId?>Comment");
-	obj.innerHTML = "<?=str_innerHTML(removeAllTags(getCommentView($entryId, $skin)))?>";
-	obj = opener.document.getElementById("recentComments");
-	if(obj)
-		obj.innerHTML = "<?=str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
-	<?
-		$commentCount = getCommentCount($owner, $entryId);
-		$commentCount = ($commentCount > 0) ? "($commentCount)" : '';
-	?>
-	try {
-		obj = opener.document.getElementById("commentCount<?=$entryId?>");
-		obj.innerHTML = "<?=$commentCount?>";
-	} catch(e) { }		
-	try {
-		obj = opener.document.getElementById("commentCountOnRecentEntries<?=$entryId?>");
-		obj.innerHTML = "<?=$commentCount?>";
-	} catch(e) { }		
-	window.close();
-//]]>
+	//<![CDATA[
+		alert("<?=_t('댓글이 삭제되었습니다.')?>");
+		var obj = opener.document.getElementById("entry<?=$entryId?>Comment");
+		obj.innerHTML = "<?=str_innerHTML(removeAllTags(getCommentView($entryId, $skin)))?>";
+		obj = opener.document.getElementById("recentComments");
+		if(obj)
+			obj.innerHTML = "<?=str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
+<?
+$commentCount = getCommentCount($owner, $entryId);
+$commentCount = ($commentCount > 0) ? "$commentCount" : '';
+?>
+		try {
+			obj = opener.document.getElementById("commentCount<?=$entryId?>");
+			obj.innerHTML = "<?=$commentCount?>";
+		} catch(e) { }		
+		try {
+			obj = opener.document.getElementById("commentCountOnRecentEntries<?=$entryId?>");
+			obj.innerHTML = "<?=$commentCount?>";
+		} catch(e) { }		
+		window.close();
+	//]]>
 </script>
 <?
 				printHtmlFooter();

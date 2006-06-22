@@ -43,7 +43,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 		$skin = new Skin($skinSetting['skin']);
 		if ($entryId > 0) {
 			$commentCount = getCommentCount($owner, $entryId);
-			$commentCount = ($commentCount > 0) ? "($commentCount)" : '';
+			$commentCount = ($commentCount > 0) ? "$commentCount" : '';
 			$commentBlock = escapeCData(removeAllTags(getCommentView($entryId, $skin)));
 			$recentCommentBlock = escapeCData(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));
 		} else {
