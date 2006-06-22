@@ -105,7 +105,7 @@ function resampleImage($target, $mother) {
 		$originFileName = basename($originSrc);
 		
 		// 여기로 넘어오는 값은 이미 getAttachmentBinder() 함수에서 고정값으로 변환된 값이므로 % 값은 고려할 필요 없음. 
-		if (ereg('width="([1-9][0-9]*%?)"', $target, $temp)) {
+		if (ereg('width="([1-9][0-9]*)"', $target, $temp)) {
 			$tempWidth = $temp[1];
 		}
 		
@@ -120,16 +120,32 @@ function resampleImage($target, $mother) {
 		$tempURL = $blogURL."/thumbnail/$owner/$newTempFileName";
 		$thumbnailImageInfo = getimagesize($tempSrc);
 		
-		if (!file_exists($tempSrc) || $thumbnailImageInfo[0] != $tempWidth || $thumbnailImageInfo[1] != $tempHeight) {
-			// 이 파일과 관련된 기존 파일을 지운다.
-			deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "^".eregi_replace("\.([[:alnum:]]+)$", "\.", $originFileName));
-			
-			// 새 썸네일 생성.
-			@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
-			if (resizeImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
-				$target = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $target);
-			} else {
-				@unlink($tempSrc);
+		if (!file_exists($tempSrc)) {
+			// 축소된 사이즈의 이미지면 리사이즈.
+			if ($thumbnailImageInfo[0] > $tempWidth || $thumbnailImageInfo[1] > $tempHeight) {
+				// 이 파일과 관련된 기존 파일을 지운다.
+				deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "^".eregi_replace("\.([[:alnum:]]+)$", "\.", $originFileName));
+				
+				// 새 썸네일 생성.
+				@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
+				if (resizeImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
+					$target = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $target);
+				} else {
+					@unlink($tempSrc);
+				}
+			// 원본 사이즈 그대로이거나 확대 이미지여도, 워터마크나 여백이 존재하면 썸네일 생성.
+			} else if (($thumbnailImageInfo[0] <= $tempWidth || $thumbnailImageInfo[1] <= $tempHeight) && (file_exists($waterMarkPath) || !empty($padding))) {
+					// 이 파일과 관련된 기존 파일을 지운다.
+					deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "^".eregi_replace("\.([[:alnum:]]+)$", "\.", $originFileName));
+					
+					// 새 썸네일 생성.
+					@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
+					if (resizeImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
+						$target = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $target);
+					} else {
+						@unlink($tempSrc);
+					}
+				}
 			}
 		} else {
 			// 파일이 이미 존재하므로 통과.
@@ -170,7 +186,7 @@ function resampleImage($target, $mother) {
  * @access public
  * @return boolean/mime error / image mime.
  *		①  false - error.
- *		②  true - process success or not apply any process. this' not a error.
+ *		②  true - process success or not apply any process. this' not an error.
  */
 function resizeImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NULL, $outputType="file", $padding=NULL, $waterMark=NULL)
 {
