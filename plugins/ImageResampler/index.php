@@ -34,7 +34,7 @@ function resampleImage($target, $mother) {
 	
 	// 워터 마크의 투명도.
 	// - 100이면 완전불투명.
-	// - 0이면 완전투명.(즉, 안 한거나 마찬가지.)
+	// - 0이면 완전투명.(즉, 워터마크가 적용되지 않은 것과 마찬가지.)
 	$gammaForWaterMark = 100;
 	
 	// 여백의 크기.
@@ -114,13 +114,13 @@ function resampleImage($target, $mother) {
 			$tempHeight = $temp[1];
 		}
 		
-		$originImageInfo = getimagesize(ROOT."/attach/$owner/$originFileName");
-		$newTempFileName = eregi_replace("\.([[:alnum:]]+)$", ".x$tempWidth-y$tempHeight.\\1", $originFileName);
+		$newTempFileName = eregi_replace("\.([[:alnum:]]+)$", ".thumbnail.\\1", $originFileName);
 		$tempSrc = ROOT."/cache/thumbnail/$owner/$newTempFileName";
 		// 보안상 cache 디렉토리를 공개하지 않도록 남겨놓는다.
 		$tempURL = $blogURL."/thumbnail/$owner/$newTempFileName";
+		$thumbnailImageInfo = getimagesize($tempSrc);
 		
-		if (!file_exists($tempSrc)) {
+		if (!file_exists($tempSrc) || $thumbnailImageInfo[0] != $tempWidth || $thumbnailImageInfo[1] != $tempHeight) {
 			// 이 파일과 관련된 기존 파일을 지운다.
 			deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "^".eregi_replace("\.([[:alnum:]]+)$", "\.", $originFileName));
 			
@@ -481,7 +481,6 @@ function resizeImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NULL
 	
 	// 알맞는 포맷으로 저장.
 	if ($outputType == "file") {
-		
 		if (getFileExtension($fileName) == "gif") {
 			imageinterlace($tempResultImage);
 			imagegif($tempResultImage, $path.$tempImage);
@@ -508,22 +507,32 @@ function resizeImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NULL
 		return true;
 	// 브라우저로 전송.
 	} else {
-		header("Content-type: image/".getFileExtension($fileName));
+		header("Content-type: image/".(getFileExtension($fileName) == "jpg" ? "jpeg" : getFileExtension($fileName)));
 		// getFileExtension()와 getImageType()의 차이에 주의할 것.
-		if (getFileExtension($fileName) == "gif") {
-			imageinterlace($tempResultImage);
-			imagegif($tempResultImage);
-		} else if (getFileExtension($fileName) == "jpg" || getFileExtension($fileName) == "jpeg") {
-			imageinterlace($tempResultImage);
-			imagejpeg($tempResultImage);
-		} else if (getFileExtension($fileName) == "png") {
-			imagepng($tempResultImage);
-		} else if (getFileExtension($fileName) == "wbmp") {
-			imagewbmp($tempResultImage);
-		} else {
-			return false;
+		
+		$bResult = false;
+		switch (getFileExtension($fileName)) {
+			case "gif":
+				imageinterlace($tempResultImage);
+				imagegif($tempResultImage);
+				$bResult = true;
+				break;
+			case "jpg":
+			case "jpeg":
+				imageinterlace($tempResultImage);
+				imagejpeg($tempResultImage);
+				$bResult = true;
+				break;
+			case "png":
+				imagepng($tempResultImage);
+				$bResult = true;
+				break;
+			case "wbmp":
+				imagewbmp($tempResultImage);
+				$bResult = true;
+				break;
 		}
-		return true;
+		return $bResult;
 	}
 }
 

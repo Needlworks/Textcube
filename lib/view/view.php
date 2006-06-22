@@ -910,7 +910,7 @@ function bindTags($id, $content) {
 		if (defined('__TATTERTOOLS_MOBILE__')) {
 			$content .= "<div>[$more | $less]<br />$full</div>";
 		} else {
-			$content .= "<p id=\"more{$id}_$no\" class=\"less_before\"><span style=\"cursor: pointer;\" onclick=\"toggleMoreLess(this, '{$id}_$no','$more','$less'); return false;\">$more</span></p><div id=\"content{$id}_$no\" class=\"more_content\" style=\"display: none;\">$full</div>";
+			$content .= "<p id=\"more{$id}_$no\" class=\"tt-less-before\"><span style=\"cursor: pointer;\" onclick=\"toggleMoreLess(this, '{$id}_$no','$more','$less'); return false;\">$more</span></p><div id=\"content{$id}_$no\" class=\"tt-more-content\" style=\"display: none;\">$full</div>";
 			//$content .= "<div id=\"more{$id}_$no\" style=\"display:block\"><a href=\"#\" onclick=\"hideLayer('more{$id}_$no');showLayer('less{$id}_$no');return false\"></a></div>";
 			//$content .= "<div id=\"less{$id}_$no\" style=\"display:none\"><a href=\"#\" onclick=\"showLayer('more{$id}_$no');hideLayer('less{$id}_$no');return false\"></a>$full</div>";
 		}
