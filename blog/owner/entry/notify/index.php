@@ -225,7 +225,7 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 								
 								<div class="data-subbox">
 									<div id="delete-section" class="section">
-										<span class="label"><span class="text"><?=_t('선택한 알림을')?></span></span>
+										<span class="label"><?=_t('선택한 알림을')?></span>
 										<a class="delete-button button" href="#void" onclick="deleteComments();"><span class="text"><?=_t('삭제')?></span></a>
 										
 									</div>
@@ -250,7 +250,7 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 									<hr class="hidden" />
 									
 									<div id="search-section" class="section">
-										<!--label for="search"><span class="text"><?=_t('이름')?>, <?=_t('홈페이지 이름')?>, <?=_t('내용')?></span></label><span class="divider"> | </span-->
+										<!--label for="search"><?=_t('이름')?>, <?=_t('홈페이지 이름')?>, <?=_t('내용')?></label><span class="divider"> | </span-->
 										<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.forms[0].withSearch.value = 'on'; document.forms[0].submit(); }" />
 										<a class="search-button button" href="#void" onclick="document.forms[0].withSearch.value = 'on'; document.forms[0].submit();"><span class="text"><?=_t('검색')?></span></a>
 										

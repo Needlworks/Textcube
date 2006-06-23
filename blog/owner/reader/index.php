@@ -72,7 +72,7 @@ if ($setting['newWindow'] == 2) {
 			<iframe id="hiddenFrame" name="hiddenFrame" src="about:blank" width="1" height="1" style="display: none;"></iframe>
 			
 			<div id="layout-body">
-				<h2><span class="text"><?=_t('리더 서브메뉴')?></span></h2>
+				<h2><?=_t('리더 서브메뉴')?></h2>
 				
 				<div id="reader-menu-box">
 					<ul id="reader-menu">
@@ -99,7 +99,7 @@ if ($setting['newWindow'] == 2) {
 									
 									<div class="data-inbox">
 										<div id="group-section" class="section">
-											<h3><span class="text"><?=_t('피드 그룹')?></span></h3>
+											<h3><?=_t('피드 그룹')?></h3>
 											
 											<div id="groupBox" class="container" style="height: <?=getPersonalization($owner, 'readerPannelHeight')?>px;">
 <?
@@ -111,7 +111,7 @@ printFeedGroups($owner);
 										<hr class="hidden" />
 										
 										<div id="feed-section" class="section">
-											<h3><span class="text"><?=_t('현재 그룹 내의 피드 리스트')?></span></h3>
+											<h3><?=_t('현재 그룹 내의 피드 리스트')?></h3>
 										
 											<div id="feedBox" class="section" style="height: <?=getPersonalization($owner, 'readerPannelHeight')?>px;">
 <?
@@ -129,15 +129,15 @@ printFeeds($owner);
 									
 									<div class="data-inbox">
 										<div id="reader-section" class="section">
-											<h3 class="title"><span class="text"><?=_t('리더 환경을 설정합니다')?></span></h3>
+											<h3 class="title"><?=_t('리더 환경을 설정합니다')?></h3>
 <?
 if (getUserId() == 1) {
 ?>
 											<div class="container">
 												<dl id="update-line" class="line">
-													<dt><span class="text"><?=_t('업데이트 주기')?></span></dt>
+													<dt><label for="updateCycle"><?=_t('업데이트 주기')?></label></dt>
 													<dd>
-														<select name="updateCycle">
+														<select id="updateCycle" name="updateCycle">
 															<option value="0"<?=$setting['updateCycle'] == 0 ? ' selected="selected"' : ''?>><?=_t('수집하지 않음')?></option>
 															<option value="60"<?=$setting['updateCycle'] == 60 ? ' selected="selected"' : ''?>>1<?=_t('시간')?></option>
 															<option value="120"<?=$setting['updateCycle'] == 120 ? ' selected="selected"' : ''?>>2<?=_t('시간')?></option>
@@ -148,9 +148,9 @@ if (getUserId() == 1) {
 													</dd>
 												</dl>
 												<dl id="period-line" class="line">
-													<dt><span class="text"><?=_t('수집한 글의 보존기간')?></span></dt>
+													<dt><label for="feedLife"><?=_t('수집한 글의 보존기간')?></label></dt>
 													<dd>
-														<select name="feedLife">
+														<select id="feedLife" name="feedLife">
 															<option value="10"<?=$setting['feedLife'] == 10 ? ' selected="selected"' : ''?>>10<?=_t('일')?></option>
 															<option value="20"<?=$setting['feedLife'] == 20 ? ' selected="selected"' : ''?>>20<?=_t('일')?></option>
 															<option value="30"<?=$setting['feedLife'] == 30 ? ' selected="selected"' : ''?>>30<?=_t('일')?></option>
@@ -165,51 +165,51 @@ if (getUserId() == 1) {
 }
 ?>
 												<dl id="image-line" class="line">
-													<dt><span class="text"><?=_t('링크가 차단된 이미지')?></span></dt>
+													<dt><span class="label"><?=_t('링크가 차단된 이미지')?></span></dt>
 													<dd>
-														<div class="image-get-yes"><input type="radio" id="loadImage2" class="radio" name="loadImage" value="2"<?=$setting['loadImage'] == 2 ? ' checked="checked"' : ''?> /> <label for="loadImage2"><span class="text"><?=_t('강제로 읽어오기')?></span></label></div>
-														<div class="image-get-no"><input type="radio" id="loadImage1" class="radio" name="loadImage" value="1"<?=$setting['loadImage'] == 1 ? ' checked="checked"' : ''?> /> <label for="loadImage1"><span class="text"><?=_t('그대로 두기')?></span></label></div>
+														<div class="image-get-yes"><input type="radio" id="loadImage2" class="radio" name="loadImage" value="2"<?=$setting['loadImage'] == 2 ? ' checked="checked"' : ''?> /> <label for="loadImage2"><?=_t('강제로 읽어오기')?></label></div>
+														<div class="image-get-no"><input type="radio" id="loadImage1" class="radio" name="loadImage" value="1"<?=$setting['loadImage'] == 1 ? ' checked="checked"' : ''?> /> <label for="loadImage1"><?=_t('그대로 두기')?></label></div>
 													</dd>
 												</dl>
 												<dl id="javascript-line" class="line">
-													<dt><span class="text"><?=_t('자바스크립트 허용')?></span></dt>
+													<dt><span class="label"><?=_t('자바스크립트 허용')?></span></dt>
 													<dd>
-														<div class="javascript-yes"><input type="radio" id="allowScript1" class="radio" name="allowScript" value="1"<?=$setting['allowScript'] == 1 ? ' checked="checked"' : ''?> /> <label for="allowScript1"><span class="text"><?=_t('허용')?></span></label></div>
-														<div class="javascript-no"><input type="radio" id="allowScript2" class="radio" name="allowScript" value="2"<?=$setting['allowScript'] == 2 ? ' checked="checked"' : ''?> /> <label for="allowScript2"><span class="text"><?=_t('거부')?></span></label></div>
+														<div class="javascript-yes"><input type="radio" id="allowScript1" class="radio" name="allowScript" value="1"<?=$setting['allowScript'] == 1 ? ' checked="checked"' : ''?> /> <label for="allowScript1"><?=_t('허용')?></label></div>
+														<div class="javascript-no"><input type="radio" id="allowScript2" class="radio" name="allowScript" value="2"<?=$setting['allowScript'] == 2 ? ' checked="checked"' : ''?> /> <label for="allowScript2"><?=_t('거부')?></label></div>
 														<em><?php echo _t('허용 시 문제가 발생할 수 있습니다.')?></em>
 													</dd>
 												</dl>
 												<dl id="link-line" class="line">
-													<dt><span class="text"><?=_t('링크')?></span></dt>
+													<dt><span class="label"><?=_t('링크')?></span></dt>
 													<dd>
-														<div class="window-self"><input type="radio" id="newWindow1" class="radio" name="newWindow" value="1"<?=$setting['newWindow'] == 1 ? ' checked="checked"' : ''?> /> <label for="newWindow1"><span class="text"><?=_t('기본값')?></span></label></div>
-														<div class="window-blank"><input type="radio" id="newWindow2" class="radio" name="newWindow" value="2"<?=$setting['newWindow'] == 2 ? ' checked="checked"' : ''?> /> <label for="newWindow2"><span class="text"><?=_t('새창으로')?></span></label></div>
+														<div class="window-self"><input type="radio" id="newWindow1" class="radio" name="newWindow" value="1"<?=$setting['newWindow'] == 1 ? ' checked="checked"' : ''?> /> <label for="newWindow1"><?=_t('기본값')?></label></div>
+														<div class="window-blank"><input type="radio" id="newWindow2" class="radio" name="newWindow" value="2"<?=$setting['newWindow'] == 2 ? ' checked="checked"' : ''?> /> <label for="newWindow2"><?=_t('새창으로')?></label></div>
 													</dd>
 												</dl>
 											
 												<div class="button-box">
-													<a class="save-button button" href="#void" onclick="Reader.saveSetting()"><span class="text"><?=_t('저장하기')?></span></a>
+													<a class="save-button button" href="#void" onclick="Reader.saveSetting()"><span class="text"><?=_t('저장하기')?></span></a>
 												</div>
 											</div>
 										</div>
 										
 										<div id="opml-section" class="section">
-											<h3 class="title"><span class="text"><?=_t('OPML 관리')?></span></h3>
+											<h3 class="title"><?=_t('OPML 관리')?></h3>
 											
 											<div class="container">
 												<dl id="get-line" class="line">
-													<dt><span class="text"><?=_t('가져오기')?></span></dt>
+													<dt><span class="label"><?=_t('가져오기')?></span></dt>
 													<dd>
 														<div id="get-upload"><input type="radio" id="opmlMethod1" class="radio" name="opmlMethod" value="1" checked="checked" onclick="document.getElementById('opmlUpload').style.display='block';document.getElementById('opmlRequest').style.display='none';" /> <label for="opmlMethod1"><span class="text"><?=_t('파일 업로드')?></span></label></div>
 														<div id="get-url"><input type="radio" id="opmlMethod2" class="radio" name="opmlMethod" value="2" onclick="document.getElementById('opmlUpload').style.display='none';document.getElementById('opmlRequest').style.display='block';" /> <label for="opmlMethod2"><span class="text"><?=_t('<acronym title="Uniform Resource Locator">URL</acronym> 입력')?></span></label></div>
 													</dd>
 												</dl>
 												<dl id="opmlUpload" class="line">
-													<dt><span class="text"><?=_t('<acronym title="Outline Processor Markup Language">OPML</acronym> 업로드')?></span></dt>
+													<dt><label for="opmlUploadValue"><?=_t('<acronym title="Outline Processor Markup Language">OPML</acronym> 업로드')?></label></dt>
 													<dd><input type="file" id="opmlUploadValue" class="file-input" name="opmlFile" /></dd>
 												</dl>
 												<dl id="opmlRequest" class="line" style="display: none;">
-													<dt><span class="text"><?=_t('URL로 읽어오기')?></span></dt>
+													<dt><label for="opmlRequestValue"><?=_t('URL로 읽어오기')?></label></dt>
 													<dd><input type="text" id="opmlRequestValue" class="text-input" /></dd>
 												</dl>
 												
@@ -264,7 +264,7 @@ printFeedEntries($owner);
 										</div>
 										
 										<div id="shortcuts" style="display: none;">
-											<h3 class="title"><span class="title"><?=_t('단축키')?></span></h3>
+											<h3 class="title"><?=_t('단축키')?></h3>
 											
 											<ul>
 												<li><kbd>A</kbd>, <kbd>H</kbd> - <?=_t('이전 글')?></li>

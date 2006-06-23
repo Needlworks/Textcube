@@ -69,15 +69,15 @@ require ROOT . '/lib/piece/owner/contentMenu21.php';
 								
 								<div class="data-inbox">
 									<dl id="rss-address-line" class="line">
-										<dt><label for="rss"><span class="text"><?=_t('<acronym title="Rich Site Summary">RSS</acronym> 주소')?></span></label></dt>
+										<dt><label for="rss"><?=_t('<acronym title="Rich Site Summary">RSS</acronym> 주소')?></label></dt>
 										<dd><input type="text" id="rss" class="text-input rss" name="rss" /> <a class="get-info-button button" href="#void" onclick="getSiteInfo();"><span class="text"><?=_t('정보 가져오기')?></span></a></dd>
 									</dl>
 									<dl id="homepage-title-line" class="line">
-										<dt><label for="name"><span class="text"><?=_t('홈페이지 제목')?></span></label></dt>
+										<dt><label for="name"><?=_t('홈페이지 제목')?></label></dt>
 										<dd><input type="text" id="name" class="text-input name" name="name" /></dd>
 									</dl>
 									<dl id="homepage-address-line" class="line">
-										<dt><label for="url"><span class="text"><?=_t('홈페이지 주소')?></span></label></dt>
+										<dt><label for="url"><?=_t('홈페이지 주소')?></label></dt>
 										<dd><input type="text" id="url" class="text-input url" name="url" /></dd>
 									</dl>
 								</div>

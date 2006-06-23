@@ -263,11 +263,11 @@ if ($service['type'] != 'single') {
 								<div class="data-inbox">
 									<div id="common-section" class="section">
 										<dl id="blog-title-line" class="line">
-											<dt><label for="title"><span class="text"><?=_t('블로그 제목')?></span></label></dt>
+											<dt><label for="title"><?=_t('블로그 제목')?></label></dt>
 											<dd><input type="text" id="title" class="text-input" name="title" value="<?=htmlspecialchars($blog['title'])?>" /></dd>
 										</dl>
 										<dl id="blog-description-line" class="line">
-											<dt><label for="description"><span class="text"><?=_t('블로그 설명')?></span></label></dt>
+											<dt><label for="description"><?=_t('블로그 설명')?></label></dt>
 											<dd><textarea id="description" name="description" cols="15" rows="5"><?=htmlspecialchars($blog['description'])?></textarea></dd>
 										</dl>
 										<div class="button-box">
@@ -283,22 +283,22 @@ if ($service['type'] != 'single') {
 	if ($service['type'] == 'domain') {
 ?>
 										<dl id="first-blog-address-line" class="line">
-											<dt><label for="primaryDomain"><span class="text"><?=_t('1차 블로그 주소')?></span></label></dt>
+											<dt><label for="primaryDomain"><?=_t('1차 블로그 주소')?></label></dt>
 											<dd>
-												<input type="radio" class="radio" name="defaultDomain" <?=($blog['defaultDomain'] ? '' : 'checked="checked"')?> title="<?=_t('기본 도메인')?>" /> <span class="text">http://</span><input type="text" id="primaryDomain" class="text-input" name="primaryDomain" value="<?=escapeJSInAttribute($blog['name'])?>" /><span class="text"><?=$urlRule[1]?></span>
+												<input type="radio" class="radio" name="defaultDomain" <?=($blog['defaultDomain'] ? '' : 'checked="checked"')?> title="<?=_t('기본 도메인')?>" /> http://<input type="text" id="primaryDomain" class="text-input" name="primaryDomain" value="<?=escapeJSInAttribute($blog['name'])?>" /><?=$urlRule[1]?>
 											</dd>
 										</dl>
 										<dl id="second-blog-address-line" class="line">
-											<dt><label for="secondaryDomain"><span class="text"><?=_t('2차 블로그 주소')?></span></label></dt>
+											<dt><label for="secondaryDomain"><?=_t('2차 블로그 주소')?></label></dt>
 											<dd>
-												<input type="radio" class="radio" name="defaultDomain" <?=($blog['defaultDomain'] ? 'checked="checked"' : '')?>title="<?=_t('기본 도메인')?>" /> <span class="text">http://</span><input type="text" id="secondaryDomain" class="text-input" name="secondaryDomain" value="<?=escapeJSInAttribute($blog['secondaryDomain'])?>" /><span class="text"><?=$blogURL?></span>
+												<input type="radio" class="radio" name="defaultDomain" <?=($blog['defaultDomain'] ? 'checked="checked"' : '')?>title="<?=_t('기본 도메인')?>" /> http://<input type="text" id="secondaryDomain" class="text-input" name="secondaryDomain" value="<?=escapeJSInAttribute($blog['secondaryDomain'])?>" /><?=$blogURL?>
 											</dd>
 										</dl>
 <?
 	} else {
 ?>
 										<dl id="blog-address-line" class="line">
-											<dt><label for="pathDomain"><span class="text"><?=_t('블로그 주소')?></span></label></dt>
+											<dt><label for="pathDomain"><?=_t('블로그 주소')?></label></dt>
 											<dd><?=$urlRule[0]?><input type="text" id="pathDomain" class="text-input" name="pathDomain" value="<?=escapeJSInAttribute($blog['name'])?>" /></dd>
 										</dl>
 <?
@@ -322,14 +322,14 @@ if ($service['type'] != 'single') {
 								<div class="data-inbox">
 									<div id="profile-section" class="section">
 										<dl id="blog-picture-line" class="line">
-											<dt><span class="text"><?=_t('사진')?></span></dt>
+											<dt><span class="label"><?=_t('사진')?></span></dt>
 											<dd>
 												<img id="logo" src="<?=(empty($blog['logo']) ? "{$service['path']}{$service['adminSkin']}/image/spacer.gif" : "{$service['path']}/attach/$owner/{$blog['logo']}")?>" width="92" height="93" alt="<?=_t('블로그 메인 이미지')?>" />
 												<iframe src="<?=$blogURL?>/owner/setting/blog/logo" frameborder="0" scrolling="no" width="450" height="40"></iframe>
 											</dd>
 										</dl>
 										<dl id="blog-icon-line" class="line">
-											<dt><span class="text"><?=_t('블로그 아이콘')?></span></dt>
+											<dt><span class="label"><?=_t('블로그 아이콘')?></span></dt>
 											<dd>
 <?
 if (file_exists(ROOT.'/index.gif')) {
@@ -346,7 +346,7 @@ if (file_exists(ROOT.'/index.gif')) {
 											</dd>
 										</dl>
 										<dl id="farvicon-line" class="line">
-											<dt><span class="text">Favicon</span></dt>
+											<dt><span class="label"><?= _t('Favicon')?></span></dt>
 											<dd>
 												<script type="text/javascript">
 													//<![CDATA[
@@ -372,24 +372,24 @@ if (file_exists(ROOT.'/index.gif')) {
 								<div class="data-inbox">
 									<div id="rss-section" class="section">
 										<dl id="post-address-line" class="line">
-											<dt><span class="text"><?=_t('글 주소')?></span></dt>
+											<dt><span class="label"><?=_t('글 주소')?></span></dt>
 											<dd>
 												<input type="radio" id="useSlogan1" class="radio" name="useSlogan"<?=($blog['useSlogan'] ? ' checked="checked"' : '')?> /> <label for="useSlogan1"><span class="text"><?=_t('문자를 사용합니다.')?> <samp><?=_f('(예: %1/entry/태터툴즈로-오신-것을-환영합니다)', getBlogURL())?></samp></span></label><br />
 												<input type="radio" id="useSlogan0" class="radio" name="useSlogan"<?=($blog['useSlogan'] ? '' : ' checked="checked"')?> /> <label for="useSlogan0"><span class="text"><?=_t('숫자를 사용합니다.')?> <samp><?=_f('(예: %1/123)', getBlogURL())?></samp></span></label>
 											</dd>
 										</dl>
 										<dl id="open-type-line" class="line">
-											<dt><span class="text"><?=_t('공개 정도')?></span></dt>
+											<dt><span class="label"><?=_t('공개 정도')?></span></dt>
 											<dd>
 												<input type="radio" id="publishEolinSyncOnRSS1" class="radio" name="publishEolinSyncOnRSS"<?=($blog['useSlogan'] ? ' checked="checked"' : '')?> /> <label for="publishEolinSyncOnRSS1"><span class="text"><?=_t('공개된 모든 글을 <acronym title="Rich Site Summary">RSS</acronym>로 내보냅니다.')?></span></label><br />
 												<input type="radio" id="publishEolinSyncOnRSS0" class="radio" name="publishEolinSyncOnRSS"<?=($blog['publishEolinSyncOnRSS'] ? '' : ' checked="checked"')?> /> <label for="publishEolinSyncOnRSS0"><span class="text"><?=_t('이올린에 발행된 글만을 RSS로 내보냅니다.')?></span></label>
 											</dd>
 										</dl>
 										<dl id="post-count-line" class="line">
-											<dt><span class="text"><?=_t('글 개수')?></span></dt>
+											<dt><label for="entriesOnRSS"><?=_t('글 개수')?></label></dt>
 											<dd>
 												<?=getArrayValue(explode('%1', _t('RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다.')), 0)?>
-												<select name="entriesOnRSS" style="width: 40px;">
+												<select id="entriesOnRSS" name="entriesOnRSS">
 <?
 for ($i = 5; $i <= 30; $i += 5) {
 ?>
@@ -401,19 +401,19 @@ for ($i = 5; $i <= 30; $i += 5) {
 											</dd>
 										</dl>
 										<dl id="open-range-line" class="line">
-											<dt><span class="text"><?=_t('공개 범위')?></span></dt>
+											<dt><label for="publishWholeOnRSS"><?=_t('공개 범위')?></label></dt>
 											<dd><?=getArrayValue(explode('%1', _t('RSS 파일의 글 본문은 %1를 원칙으로 합니다.')), 0)?>
-												<select name="publishWholeOnRSS" style="width: 75px;">
+												<select id="publishWholeOnRSS" name="publishWholeOnRSS">
 													<option value="1"<?=($blog['publishWholeOnRSS'] ? ' selected="selected"' : '')?>><?=_t('전체공개')?></option>
 													<option value="0"<?=($blog['publishWholeOnRSS'] ? '' : ' selected="selected"')?>><?=_t('부분공개')?></option>
 												</select><?=getArrayValue(explode('%1', _t('RSS 파일의 글 본문은 %1를 원칙으로 합니다.')), 1)?>
 											</dd>
 										</dl>
 										<dl id="guestbook-authority-line" class="line">
-											<dt><span class="text"><?=_t('방명록 사용권한')?></span></dt>
+											<dt><label for="allowCommentGuestbook"><?=_t('방명록 사용권한')?></label></dt>
 											<dd>
-												<!--input type="checkbox" id="allowWriteGuestbook" class="checkbox" value=""<?=$blog['allowWriteOnGuestbook'] == '1' ? ' checked="checked"' : ""?> /> <label for="allowWriteGuestbook"><span class="text"><?=_t('손님이 글쓰기 허용')?></span></label-->
-												<input type="checkbox" id="allowCommentGuestbook" class="checkbox" value=""<?=$blog['allowWriteDoubleCommentOnGuestbook'] == '1' ? ' checked="checked"' : ""?> /> <label for="allowCommentGuestbook"><span class="text"><?=_t('손님이 댓글쓰기 허용.')?></span></label>
+												<!--input type="checkbox" id="allowWriteGuestbook" class="checkbox" value=""<?=$blog['allowWriteOnGuestbook'] == '1' ? ' checked="checked"' : ""?> /> <label for="allowWriteGuestbook"><?=_t('손님이 글쓰기 허용')?></label-->
+												<input type="checkbox" id="allowCommentGuestbook" class="checkbox" value=""<?=$blog['allowWriteDoubleCommentOnGuestbook'] == '1' ? ' checked="checked"' : ""?> /> <label for="allowCommentGuestbook"><?=_t('손님이 댓글쓰기 허용.')?></label>
 											</dd>
 										</dl>
 										
@@ -432,9 +432,9 @@ for ($i = 5; $i <= 30; $i += 5) {
 								<div class="data-inbox">
 									<div id="language-section" class="section">
 										<dl id="language-line" class="line">
-											<dt><span class="text"><?=_t('언어')?></span></dt>
+											<dt><label for="language"><?=_t('언어')?></label></dt>
 											<dd>
-												<select name="language">
+												<select id="language" name="language">
 <?
 foreach (Locale::getSupportedLocales() as $locale => $language) {
 ?>
@@ -446,9 +446,9 @@ foreach (Locale::getSupportedLocales() as $locale => $language) {
 											</dd>
 										</dl>
 										<dl id="timezone-line" class="line">
-											<dt><span class="text"><?=_t('시간대')?></span></dt>
+											<dt><label for="timezone"><?=_t('시간대')?></label></dt>
 											<dd>
-												<select name="timezone">
+												<select id="timezone" name="timezone">
 <?
 foreach (Timezone::getList() as $timezone) {
 ?>

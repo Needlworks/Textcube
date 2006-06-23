@@ -36,9 +36,25 @@ input.text-readonly-input
 	vertical-align                   : baseline;
 }
 
+/* Layout ****************************************************************************************/
+
+#layout-body
+{
+	height                           : 1px;
+}
+
 /* Data Box **************************************************************************************/
 
 /* data subbox ----------------------------------------------------------------------------------*/
+#data-outbox div.data-subbox
+{
+	background-color                 : #EBF2F8;
+	border-bottom                    : 2px solid #00A6ED;
+	margin-top                       : 1px;
+	padding                          : 9px 10px 7px 10px;
+	position                         : relative;
+}
+
 /* multi-selection deleter in sub-box */
 #change-section 
 {

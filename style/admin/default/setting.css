@@ -390,24 +390,30 @@
 	padding                          : 6px 5px 4px 5px;
 }
 
-#list-section table thead tr td.cancel span
+#list-section table thead tr td.cancel
 {
-	display                          : none;
+	padding                          : 2px 9px 0 5px !important;
+	width                            : 25px;
 }
 
-#list-section table tbody tr .delete-button
+#list-section table tbody tr td
+{
+	padding                          : 6px 5px 4px 5px;
+}
+
+#list-section table tbody tr .cancel-button
 {
 	background-color                 : transparent;
 	background-image                 : url("./image/delete2.gif");
 	background-position              : left top;
-	display                          : block;
 	height                           : 11px;
 	margin                           : 0 auto;
 	padding                          : 0;
 	width                            : 11px;
 }
 
-#list-section table tbody tr .delete-button span
+#list-section table thead tr td.cancel span,
+#list-section table tbody tr .cancel-button span
 {
 	display                          : none;
 }

@@ -113,7 +113,7 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 									
 									<div id="property-box">
 										<dl id="label-create-line" class="line">
-											<dt><label for="newCategory"><span class="text"><?=_t('생성')?></span></label></dt>
+											<dt><label for="newCategory"><?=_t('생성')?></label></dt>
 <?
 if ($depth <= 1) {
 ?>
@@ -135,7 +135,7 @@ if ($depth <= 1) {
 ?>
 										</dl>
 										<dl class="label-change-line" class="line">
-											<dt><label for="modifyCategoryName"><span class="text"><?=_t('레이블 변경')?></span></label></dt>
+											<dt><label for="modifyCategoryName"><?=_t('레이블 변경')?></label></dt>
 											<dd>
 												<div class="field-box">
 													<input type="text" id="modifyCategoryName" class="text-input" name="modifyCategoryName" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?=$name?>" />
@@ -144,7 +144,7 @@ if ($depth <= 1) {
 											</dd>
 										</dl>
 										<dl class="body-id-line" class="line">
-											<dt><label for="modifyCategoryBodyId"><span class="text"><?=_t('Body Id 변경')?></span></label></dt>
+											<dt><label for="modifyCategoryBodyId"><?=_t('Body Id 변경')?></label></dt>
 											<dd>
 												<div class="field-box">
 													<input type="text" id="modifyCategoryBodyId" class="text-input" name="modifyCategoryBodyId" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?=$bodyid?>" />
@@ -154,7 +154,7 @@ if ($depth <= 1) {
 											</dd>
 										</dl>
 										<dl class="label-move-line" class="line">
-											<dt><span class="text"><?=_t('정렬순서 변경')?></span></dt>
+											<dt><span class="label"><?=_t('정렬순서 변경')?></span></dt>
 <?
 if ($selected > 0) {
 ?>
@@ -172,7 +172,7 @@ if ($selected > 0) {
 ?>
 										</dl>
 										<dl class="label-remove-line" class="line">
-											<dt><span class="text"><?=_t('분류 삭제')?></span></dt>
+											<dt><span class="label"><?=_t('분류 삭제')?></span></dt>
 											<dd>
 												
 <?

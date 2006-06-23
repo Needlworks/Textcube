@@ -29,7 +29,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 								
 								function correctData() {
 									document.getElementById("correctingIndicator").style.width = "0%";
-									document.getElementById("correctingDataDialogTitle").innerHTML = '<span class="text"><?=_t('데이터를 교정하고 있습니다. 잠시만 기다려 주십시오...')?></span>';
+									document.getElementById("correctingDataDialogTitle").innerHTML = '<?=_t('데이터를 교정하고 있습니다. 잠시만 기다려 주십시오...')?>';
 									PM.showPanel("correctingDataDialog");
 									document.getElementById("dataCorrector").submit();
 								}
@@ -80,7 +80,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 									}
 									hideDialog();
 									document.getElementById("progressIndicator").style.width = "0%";
-									document.getElementById("progressDialogTitle").innerHTML = '<span class="text"><?=_t('데이터를 복원하고 있습니다. 잠시만 기다려 주십시오...')?></span>';
+									document.getElementById("progressDialogTitle").innerHTML = '<?=_t('데이터를 복원하고 있습니다. 잠시만 기다려 주십시오...')?>';
 									document.getElementById("progressText").innerHTML = '<?=_t('백업파일을 올리고 있습니다.')?>';
 									PM.showPanel("progressDialog");
 									dataImporter.submit();
@@ -116,7 +116,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="correctData()">
 									<img src="<?=$service['path'].$service['adminSkin']?>/image/dbCorrect.gif" alt="<?=_t('데이터 교정 이미지')?>" />
-									<div class="title"><span class="text"><?=_t('CORRECT')?></span></div>
+									<div class="title"><?=_t('CORRECT')?></div>
 								</div>
 								<p class="explain">
 									<a href="#void" onclick="correctData()"><?=_t('비정상적인 데이터를 교정합니다.<br />동적인 캐쉬 데이터는 재계산하여 저장합니다.')?></a>
@@ -143,7 +143,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="showDialog('DBExport')">
 									<img src="<?=$service['path'].$service['adminSkin']?>/image/dbExport.gif" alt="<?=_t('데이터 백업 이미지')?>" />
-									<div class="title"><span class="text"><?=_t('EXPORT')?></span></div>
+									<div class="title"><?=_t('EXPORT')?></div>
 								</div>
 								<p class="explain">
 									<a href="#void" onclick="showDialog('DBExport')"><?=_t('현재의 모든 데이터를 백업파일로 보관합니다.<br />첨부파일을 포함시킬 수 있으며, 복원할 경우 자동으로 첨부파일이 처리됩니다.<br />백업파일은 서버에 저장하거나 다운받으실 수 있습니다.')?></a>
@@ -179,7 +179,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="showDialog('DBImport')">
 									<img src="<?=$service['path'].$service['adminSkin']?>/image/dbImport.gif" alt="<?=_t('데이터 복원 이미지')?>" />
-									<div class="title"><span class="text"><?=_t('IMPORT')?></span></div>
+									<div class="title"><?=_t('IMPORT')?></div>
 								</div>
 								<p class="explain">
 									<a href="#void" onclick="showDialog('DBImport')"><?=_t('백업파일을 읽어서 데이터를 복원합니다.<br />백업파일에 첨부파일이 포함되어 있으면 첨부파일도 자동으로 복원됩니다.<br />마이그레이션 데이터도 복원을 통해 가져올 수 있습니다.')?></a>
@@ -214,10 +214,10 @@ if ($backup) {
 											<div id="select-correct" title="<?=_t('백업파일에 비정상적인 글자가 포함된 경우 복원에 실패할 수 있습니다. 비정상적인 글자를 교정하여 복원이 가능하도록 합니다. 이를 사용할 경우 복원에 많은 시간이 소요될 수 있습니다.')?>"><input type="checkbox" id="correctData" class="checkbox" name="correctData" value="on" /> <label for="correctData"><?=_t('백업파일에 포함된 비정상적인 글자를 교정합니다.')?></label></div>
 										</div>
 										<div id="uploadBackup" style="display: <?=($backup ? 'none' : 'block')?>;">
-											<label for="backupPath"><span class="text"><?=_t('백업파일 경로')?></span></label><span class="divider"> : </span><input type="file" id="backupPath" class="file-input" name="backupPath" <?=($backup ? 'disabled="disabled"' : '')?> />
+											<label for="backupPath"><?=_t('백업파일 경로')?></label><span class="divider"> : </span><input type="file" id="backupPath" class="file-input" name="backupPath" <?=($backup ? 'disabled="disabled"' : '')?> />
 										</div>
 										<div id="remoteBackup" style="display: none;">
-											<label for="backupURL"><span class="text"><?=_t('백업파일 <acronym title="Uniform Resource Locator">URL</acronym>')?></span></label><span class="divider"> : </span><input type="text" id="backupURL" class="text-input" name="backupURL" value="http://" disabled="disabled" onkeydown="if (event.keyCode == 13) { importData(); return false; }" />
+											<label for="backupURL"><?=_t('백업파일 <acronym title="Uniform Resource Locator">URL</acronym>')?></label><span class="divider"> : </span><input type="text" id="backupURL" class="text-input" name="backupURL" value="http://" disabled="disabled" onkeydown="if (event.keyCode == 13) { importData(); return false; }" />
 										</div>
 									</div>
 									<div class="button-box">
@@ -246,7 +246,7 @@ if ($backup) {
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="showDialog('DBRemove')">
 									<img src="<?=$service['path'].$service['adminSkin']?>/image/dbClear.gif" alt="<?=_t('데이터 삭제 이미지')?>" />
-									<div class="title"><span class="text"><?=_t('REMOVE')?></span></div>
+									<div class="title"><?=_t('REMOVE')?></div>
 								</div>
 								<p class="explain">
 									<a href="#void" onclick="showDialog('DBRemove')"><?=_t('태터툴즈의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일로만 가능하므로 먼저 백업을 하시기 바랍니다.')?></a>
@@ -269,11 +269,11 @@ if ($backup) {
 										<?=_t('첨부파일을 포함하여 삭제하시겠습니까?')?>
 									</div>
 									<div class="selection">
-										<div class="select-yes"><input type="radio" id="removeAttachments-yes" class="radio" name="removeAttachments" value="1" /> <label for="removeAttachments-yes"><span class="text"><?=_t('첨부파일을 포함합니다.')?></span></label></div>
-										<div class="select-no"><input type="radio" id="removeAttachments-no" class="radio" name="removeAttachments" value="0" checked="checked" /> <label for="removeAttachments-no"><span class="text"><?=_t('첨부파일을 포함하지 않습니다.')?></span></label></div>
+										<div class="select-yes"><input type="radio" id="removeAttachments-yes" class="radio" name="removeAttachments" value="1" /> <label for="removeAttachments-yes"><?=_t('첨부파일을 포함합니다.')?></label></div>
+										<div class="select-no"><input type="radio" id="removeAttachments-no" class="radio" name="removeAttachments" value="0" checked="checked" /> <label for="removeAttachments-no"><?=_t('첨부파일을 포함하지 않습니다.')?></label></div>
 									</div>
 									<div id="admin-password">
-										<label for="confirmativePassword"><span class="text"><?=_t('데이터를 삭제하시려면 관리자 비밀번호를 입력하십시오.')?></span></label>
+										<label for="confirmativePassword"><?=_t('데이터를 삭제하시려면 관리자 비밀번호를 입력하십시오.')?></label>
 										<input type="password" id="confirmativePassword" class="text-input" name="confirmativePassword" onkeydown="if (event.keyCode == 13) { removeData(); return false; }" />
 									</div>
 								</div>

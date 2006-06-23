@@ -156,8 +156,8 @@ for ($i=0; $i<sizeof($entries); $i++) {
 								
 								<div class="data-subbox">
 									<div id="change-section" class="section">
-										<label for="command-select"><span class="text"><?=_t('선택한 공지를')?></span></label>
-										<select id="command-select" onchange="processBatch(this.value); this.selectedIndex=0">
+										<label for="commandBox"><?=_t('선택한 공지를')?></label>
+										<select id="commandBox" onchange="processBatch(this.value); this.selectedIndex=0">
 											<option></option>
 											<optgroup class="status" label="<?=_t('아래의 상태로 변경합니다.')?>">
 												<option value="classify"><?=_t('비공개로 변경합니다.')?></option>
@@ -185,10 +185,9 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 									<hr class="hidden" />
 									
 									<div id="search-section" class="section">
-										<!--label for="search"><span class="text"><?=_t('공지')?>, <?=_t('설명')?></span></label><span class="divider"> | </span-->
+										<!--label for="search"><?=_t('공지')?>, <?=_t('설명')?></label><span class="divider"> | </span-->
 										<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.forms[0].withSearch.value = 'on'; document.forms[0].submit(); }" />
 										<a class="search-button button" href="#void" onclick="document.forms[0].withSearch.value = 'on'; document.forms[0].submit();"><span class="text"><?=_t('검색')?></span></a>
-										
 									</div>
 								</div>
 							</div>

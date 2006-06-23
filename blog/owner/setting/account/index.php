@@ -242,11 +242,11 @@ if ($service['type'] != 'single') {
 								<div class="data-inbox">
 									<div id="info-section" class="section">
 										<dl id="blogger-name-line" class="line">
-											<dt><label for="nickname"><span class="text"><?=_t('필명')?></span></label></dt>
+											<dt><label for="nickname"><?=_t('필명')?></label></dt>
 											<dd><input type="text" id="nickname" class="text-input" value="<?=$user['name']?>" onkeydown="if(event.keyCode == 13) save();" /></dd>
 										</dl>
 										<dl id="blogger-email-line" class="line">
-											<dt><label for="email"><span class="text">e-mail</span></label></dt>
+											<dt><label for="email"><?=_t('e-mail')?></label></dt>
 											<dd>
 												<input type="text" id="email" class="text-input" value="<?=htmlspecialchars($user['loginid'])?>" />
 												<em><?=_t('(로그인시 ID로 사용됩니다)')?></em>
@@ -262,15 +262,15 @@ if ($service['type'] != 'single') {
 									
 									<div id="account-section" class="section">
 										<dl id="current-password-line" class="line">
-											<dt><label for="prevPwd"><span class="text"><?=_t('현재 비밀번호')?></span></label></dt>
+											<dt><label for="prevPwd"><?=_t('현재 비밀번호')?></label></dt>
 											<dd><input type="password" id="prevPwd" class="text-input" value="<?=(empty($_GET['password']) ? '' : $_GET['password'])?>" /></dd>
 										</dl>
 										<dl id="new-password1-line" class="line">
-											<dt><label for="pwd"><span class="text"><?=_t('새로운 비밀번호')?></span></label></dt>
+											<dt><label for="pwd"><?=_t('새로운 비밀번호')?></label></dt>
 											<dd><input type="password" id="pwd" class="text-input" /></dd>
 										</dl>
 										<dl id="new-password2-line" class="line">
-											<dt><label for="pwd2"><span class="text"><?=_t('비밀번호 확인')?></span></label></dt>
+											<dt><label for="pwd2"><?=_t('비밀번호 확인')?></label></dt>
 											<dd><input type="password" id="pwd2" class="text-input" onkeydown="if(event.keyCode == 13) savePwd();" /></dd>
 										</dl>
 										
@@ -290,15 +290,15 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 								
 								<div class="data-inbox">
 									<dl id="letter-section" class="section">
-										<dt class="title"><span class="text"><?=_t('초대장')?></span></dt>
+										<dt class="title"><span class="label"><?=_t('초대장')?></span></dt>
 										<dd id="letter">
 											<div class="letter-head">
 												<dl id="receiver-line" class="line">
-													<dt><label for="text"><span class="text"><?=_t('받는 사람')?></span></label></dt>
+													<dt><label for="invitation_receiver"><?=_t('받는 사람')?></label></dt>
 													<dd><input type="text" id="invitation_receiver" class="text-input" name="text" value="<?=_t('이름&lt;이메일&gt; 혹은 이메일')?>" onclick="if(!this.selected) this.select();this.selected=true;" onblur="this.selected=false;" onkeydown="refreshReceiver(event)" /></dd>
 												</dl>
 												<dl id="blog-addredd-line" class="line">
-													<dt><label for="invitation_identify"><span class="text"><?=_t('블로그 주소')?></span></label></dt>
+													<dt><label for="invitation_identify"><?=_t('블로그 주소')?></label></dt>
 													<dd><?=$urlRule[0]?><input type="text" id="invitation_identify" class="text-input" name="text" /><?=$urlRule[1]?></dd>
 												</dl>
 											</div>
@@ -308,7 +308,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 											</div>
 											
 											<div class="letter-foot">												<dl id="sender-line" class="line">
-													<dt><label for="invitation_sender"><span class="text"><?=_t('보내는 사람')?></span></label></dt>
+													<dt><label for="invitation_sender"><?=_t('보내는 사람')?></label></dt>
 													<dd><input type="text" id="invitation_sender" class="text-input" name="text2" value="<?=htmlspecialchars($user['name'] . '<' . $user['loginid'] . '>')?>" /></dd>
 												</dl>
 											</div>
@@ -320,7 +320,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 									</div>
 									
 									<dl id="list-section" class="section">
-										<dt class="title"><span class="text"><?=_t('초대명단')?></span></dt>
+										<dt class="title"><span class="label"><?=_t('초대명단')?></span></dt>
 										<dd>
 <?
 	$invitedList = getInvited($owner);

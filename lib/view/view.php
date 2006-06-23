@@ -1227,7 +1227,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 	global $service;
 ?>
 													<div id="groupAdder">
-														<div class="title"><span><?php echo _t('그룹 등록하기')?></span></div>
+														<div class="title"><span class="text"><?php echo _t('그룹 등록하기')?></span></div>
 														<div class="button-box">
 															<input type="text" id="newGroupTitle" class="text-input" value="<?=_t('그룹을 추가하세요.')?>" onfocus="if(this.value == '<?php echo _t('그룹을 추가하세요.')?>') this.value = ''" onblur="if(this.value == '') this.value = '<?php echo _t('그룹을 추가하세요.')?>'" onkeydown="if(event.keyCode==13) Reader.addGroup(this.value)" />
 															<a class="add-button button" href="#void" onclick="Reader.addGroup(document.getElementById('newGroupTitle').value)"><span class="text"><?php echo _t('추가')?></span></a>
@@ -1307,12 +1307,12 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 		$className = ($count % 2) == 1 ? 'even-line' : 'odd-line';
 ?>
 														<li class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectFeed(this, <?php echo $feed['id']?>)">
-															<div class="title"><?php echo $feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" onclick="window.open(this.href); event.cancelBubble=true; return false;" title="이 피드의 원본 사이트를 새 창으로 엽니다.">' : ''?><?php echo htmlspecialchars($feed['title'])?><?php echo $feed['blogURL'] ? "</a>\n" : ''?></div>
+															<div class="title"><?php echo $feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" onclick="window.open(this.href); event.cancelBubble=true; return false;" title="'._t('이 피드의 원본 사이트를 새 창으로 엽니다.').'">' : ''?><?php echo htmlspecialchars($feed['title'])?><?php echo $feed['blogURL'] ? "</a>\n" : ''?></div>
 															<div class="description"><?php echo $feed['description']?'<span class="divider"> | </span>':'&nbsp;'?><?php echo htmlspecialchars($feed['description'])?></div>
 															<div class="button-box">
-																<a id="iconFeedStatus<?php echo $feed['id']?>" class="update-button button" onclick="Reader.updateFeed(<?php echo $feed['id']?>, '<?=_t('피드를 업데이트 했습니다.')?>'); event.cancelBubble=true; return false;" title="이 피드를 업데이트 합니다."><span class="text"><?=_t('피드 업데이트')?></span></a>
+																<a id="iconFeedStatus<?php echo $feed['id']?>" class="update-button button" onclick="Reader.updateFeed(<?php echo $feed['id']?>, '<?=_t('피드를 업데이트 했습니다.')?>'); event.cancelBubble=true; return false;" title="<?=_t('이 피드를 업데이트 합니다.')?>"><span class="text"><?=_t('피드 업데이트')?></span></a>
 																<span class="divider">|</span>
-																<a class="edit-button button" href="#void" onclick="Reader.editFeed(<?php echo $feed['id']?>, '<?php echo htmlspecialchars($feed['xmlURL'])?>')" title="이 피드 정보를 수정합니다."><span class="text"><?=_t('수정')?></span></a>
+																<a class="edit-button button" href="#void" onclick="Reader.editFeed(<?php echo $feed['id']?>, '<?php echo htmlspecialchars($feed['xmlURL'])?>')" title="<?=_t('이 피드 정보를 수정합니다.')?>"><span class="text"><?=_t('수정')?></span></a>
 															</div>
 														</li>
 <?php
@@ -1322,7 +1322,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 													</ul>
 													
 													<div id="feedEditor" style="display: none;">
-														<div class="title"><span><?php echo _t('피드 수정하기')?></span></div>
+														<div class="title"><span class="text"><?php echo _t('피드 수정하기')?></span></div>
 														<div class="input-box">
 															<div class="input-field">
 																<select id="changeFeedGroup">
@@ -1372,7 +1372,7 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 		$className = $entry['wasread'] ? 'read' : 'unread';
 		$className .= ($count % 2) == 1 ? ' even-line' : ' odd-line';
 		$className .= ($count == 0) ? ' active-class' : ' inactive-class';
-		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="팟캐스트 포스트입니다."><span class="text">' . _t('팟 캐스트') . '</span></span>' : '';
+		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="'._t('팟캐스트 포스트입니다.').'"><span class="text">' . _t('팟 캐스트') . '</span></span>' : '';
 ?>
 														<tr id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $className?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
 															<td>
@@ -1435,7 +1435,7 @@ function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false
 		$class = $entry['wasread'] ? 'read' : 'unread';
 		$class .= ($count % 2) == 1 ? ' odd-line' : ' even-line';
 		$class .= ' inactive-class';
-		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="팟캐스트 포스트입니다."><span class="text">' . _t('팟 캐스트') . '</span></span>' : '';
+		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="'._t('팟캐스트 포스트입니다.').'"><span class="text">' . _t('팟 캐스트') . '</span></span>' : '';
 ?>
 													<tr id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
 														<td>

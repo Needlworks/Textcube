@@ -305,12 +305,8 @@
 {
 	cursor                           : pointer;
 	height                           : 16px;
+	text-indent                      : -5000px;
 	width                            : 16px;
-}
-
-#colorPalette table tr td span
-{
-	display                          : none;
 }
 
 #markPalette
@@ -331,6 +327,7 @@
 {
 	cursor                           : pointer;
 	height                           : 16px;
+	text-indent                      : -5000px;
 	width                            : 16px;
 }
 
@@ -357,6 +354,7 @@
 {
 	cursor                           : pointer;
 	height                           : 16px;
+	text-indent                      : -5000px;
 	width                            : 16px;
 }
 

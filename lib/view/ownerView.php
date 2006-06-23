@@ -923,7 +923,7 @@ function printEntryEditorProperty() {
 													<h4><?php echo _t('오브젝트 삽입')?></h4>
 													
 													<dl class="line">
-														<dt class="property-name"><label for="propertyInsertObject_type"><span class="text"><?php echo _t('유형')?></span></label></dt>
+														<dt class="property-name"><label for="propertyInsertObject_type"><?php echo _t('유형')?></label></dt>
 														<dd>
 															<select id="propertyInsertObject_type" style="width: 105px" onchange="getObject('propertyInsertObject_part_url').style.display=getObject('propertyInsertObject_part_raw').style.display='none';getObject('propertyInsertObject_part_' + this.value).style.display = 'block'">
 																<option value="url"><?php echo _t('주소 입력')?></option>
@@ -932,11 +932,11 @@ function printEntryEditorProperty() {
 														</dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyInsertObject_url"><span class="text"><?php echo _t('파일 주소')?></span></label></dt>
+														<dt class="property-name"><label for="propertyInsertObject_url"><?php echo _t('파일 주소')?></label></dt>
 														<dd><input type="text" id="propertyInsertObject_url" class="text-input" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyInsertObject_chunk"><span class="text"><?php echo _t('코드')?></span></label></dt>
+														<dt class="property-name"><label for="propertyInsertObject_chunk"><?php echo _t('코드')?></label></dt>
 														<dd>
 															<textarea id="propertyInsertObject_chunk" cols="30" rows="10"></textarea>
 														</dd>
@@ -952,15 +952,15 @@ function printEntryEditorProperty() {
 													<h4><?php echo _t('Image')?></h4>
 													
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage1_width1"><span class="text"><?php echo _t('폭')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage1_width1"><?php echo _t('폭')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage1_width1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage1_alt1"><span class="text"><?php echo _t('대체 텍스트')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage1_alt1"><?php echo _t('대체 텍스트')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage1_alt1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage1_caption1"><span class="text"><?php echo _t('자막')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage1_caption1"><?php echo _t('자막')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage1_caption1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 												</div>
@@ -970,29 +970,29 @@ function printEntryEditorProperty() {
 													
 													<div class="title"><?php echo _t('첫번째 이미지')?></div>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage2_width1"><span class="text"><?php echo _t('폭')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage2_width1"><?php echo _t('폭')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage2_width1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage2_alt1"><span class="text"><?php echo _t('대체 텍스트')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage2_alt1"><?php echo _t('대체 텍스트')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage2_alt1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage2_caption1"><span class="text"><?php echo _t('자막')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage2_caption1"><?php echo _t('자막')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage2_caption1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													
 													<div class="title"><?php echo _t('두번째 이미지')?></div>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage2_width2"><span class="text"><?php echo _t('폭')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage2_width2"><?php echo _t('폭')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage2_width2" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage2_alt2"><span class="text"><?php echo _t('대체 텍스트')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage2_alt2"><?php echo _t('대체 텍스트')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage2_alt2" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage2_caption2"><span class="text"><?php echo _t('자막')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage2_caption2"><?php echo _t('자막')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage2_caption2" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 												</div>
@@ -1002,43 +1002,43 @@ function printEntryEditorProperty() {
 													
 													<div class="title"><?php echo _t('첫번째 이미지')?></div>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_width1"><span class="text"><?php echo _t('폭')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage3_width1"><?php echo _t('폭')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage3_width1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_alt1"><span class="text"><?php echo _t('대체 텍스트')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage3_alt1"><?php echo _t('대체 텍스트')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage3_alt1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_caption1"><span class="text"><?php echo _t('자막')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage3_caption1"><?php echo _t('자막')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage3_caption1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													
 													<div class="title"><?php echo _t('두번째 이미지')?></div>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_width2"><span class="text"><?php echo _t('폭')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage3_width2"><?php echo _t('폭')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage3_width2" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_alt2"><span class="text"><?php echo _t('대체 텍스트')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage3_alt2"><?php echo _t('대체 텍스트')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage3_alt2" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_caption2"><span class="text"><?php echo _t('자막')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage3_caption2"><?php echo _t('자막')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage3_caption2" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													
 													<div class="title"><?php echo _t('세번째 이미지')?></div>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_width3"><span class="text"><?php echo _t('폭')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage3_width3"><?php echo _t('폭')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage3_width3" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_alt3"><span class="text"><?php echo _t('대체 텍스트')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage3_alt3"><?php echo _t('대체 텍스트')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage3_alt3" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_caption3"><span class="text"><?php echo _t('자막')?></span></label></dt>
+														<dt class="property-name"><label for="propertyImage3_caption3"><?php echo _t('자막')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyImage3_caption3" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 												</div>
@@ -1047,15 +1047,15 @@ function printEntryEditorProperty() {
 													<h4><?php echo _t('Object')?></h4>
 													
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject_width"><span class="text"><?php echo _t('폭')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject_width"><?php echo _t('폭')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyObject_width" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject_height"><span class="text"><?php echo _t('높이')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject_height"><?php echo _t('높이')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyObject_height" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject_chunk"><span class="text"><?php echo _t('코드')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject_chunk"><?php echo _t('코드')?></label></dt>
 														<dd><textarea id="propertyObject_chunk" cols="30" rows="10" onkeyup="editor.setProperty()"></textarea></dd>
 													</dl>
 												</div>
@@ -1064,11 +1064,11 @@ function printEntryEditorProperty() {
 													<h4><?php echo _t('Object 1')?></h4>
 													
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject1_caption1"><span class="text"><?php echo _t('자막')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject1_caption1"><?php echo _t('자막')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyObject1_caption1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject1_filename1"><span class="text"><?php echo _t('파일명')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject1_filename1"><?php echo _t('파일명')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyObject1_filename1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 												</div>
@@ -1078,21 +1078,21 @@ function printEntryEditorProperty() {
 													
 													<div class="title"><?php echo _t('첫번째 오브젝트')?></div>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject2_caption1"><span class="text"><?php echo _t('자막')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject2_caption1"><?php echo _t('자막')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyObject2_caption1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject2_filename1"><span class="text"><?php echo _t('파일명')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject2_filename1"><?php echo _t('파일명')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyObject2_filename1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													
 													<div class="title"><?php echo _t('두번째 오브젝트')?></div>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject2_caption2"><span class="text"><?php echo _t('자막')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject2_caption2"><?php echo _t('자막')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyObject2_caption2" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject2_filename2"><span class="text"><?php echo _t('파일명')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject2_filename2"><?php echo _t('파일명')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyObject2_filename2" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 												</div>
@@ -1102,31 +1102,31 @@ function printEntryEditorProperty() {
 													
 													<div class="title"><?php echo _t('첫번째 오브젝트')?></div>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject3_caption1"><span class="text"><?php echo _t('자막')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject3_caption1"><?php echo _t('자막')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyObject3_caption1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject3_filename1"><span class="text"><?php echo _t('파일명')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject3_filename1"><?php echo _t('파일명')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyObject3_filename1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													
 													<div class="title"><?php echo _t('두번째 오브젝트')?></div>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject3_caption2"><span class="text"><?php echo _t('자막')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject3_caption2"><?php echo _t('자막')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyObject3_caption2" onkeyup="editor.setProperty()" />
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject3_filename2"><span class="text"><?php echo _t('파일명')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject3_filename2"><?php echo _t('파일명')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyObject3_filename2" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													
 													<div class="title"><?php echo _t('세번째 오브젝트')?></div>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject3_caption3"><span class="text"><?php echo _t('자막')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject3_caption3"><?php echo _t('자막')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyObject3_caption3" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyObject3_filename3"><span class="text"><?php echo _t('파일명')?></span></label></dt>
+														<dt class="property-name"><label for="propertyObject3_filename3"><?php echo _t('파일명')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyObject3_filename3" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 												</div>
@@ -1136,15 +1136,15 @@ function printEntryEditorProperty() {
 													
 													<div class="title"><?php echo _t('설정')?></div>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyiMazing_width"><span class="text"><?php echo _t('폭')?></span></label></dt>
+														<dt class="property-name"><label for="propertyiMazing_width"><?php echo _t('폭')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyiMazing_width" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyiMazing_height"><span class="text"><?php echo _t('높이')?></span></label></dt>
+														<dt class="property-name"><label for="propertyiMazing_height"><?php echo _t('높이')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyiMazing_height" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyiMazing_frame"><span class="text"><?php echo _t('테두리')?></span></label></dt>
+														<dt class="property-name"><label for="propertyiMazing_frame"><?php echo _t('테두리')?></label></dt>
 														<dd>
 															<select id="propertyiMazing_frame" onchange="editor.setProperty()">
 																<option value="net_imazing_frame_none"><?php echo _t('테두리 없음')?></option>
@@ -1152,7 +1152,7 @@ function printEntryEditorProperty() {
 														</dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyiMazing_tran"><span class="text"><?php echo _t('장면전환효과')?></span></label></dt>
+														<dt class="property-name"><label for="propertyiMazing_tran"><?php echo _t('장면전환효과')?></label></dt>
 														<dd>
 															<select id="propertyiMazing_tran" onchange="editor.setProperty()">
 																<option value="net_imazing_show_window_transition_none"><?php echo _t('효과없음')?></option>
@@ -1163,7 +1163,7 @@ function printEntryEditorProperty() {
 														</dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyiMazing_nav"><span class="text"><?php echo _t('내비게이션')?></span></label></dt>
+														<dt class="property-name"><label for="propertyiMazing_nav"><?php echo _t('내비게이션')?></label></dt>
 														<dd>
 															<select id="propertyiMazing_nav" onchange="editor.setProperty()">
 																<option value="net_imazing_show_window_navigation_none"><?php echo _t('기본')?></option>
@@ -1181,7 +1181,7 @@ function printEntryEditorProperty() {
 														<dd><input type="text" class="text-input" id="propertyiMazing_page" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyiMazing_align"><span class="text"><?php echo _t('정렬방법')?></span></label></dt>
+														<dt class="property-name"><label for="propertyiMazing_align"><?php echo _t('정렬방법')?></label></dt>
 														<dd>
 															<select id="propertyiMazing_align" onchange="editor.setProperty()">
 																<option value="h"><?php echo _t('가로')?></option>
@@ -1190,7 +1190,7 @@ function printEntryEditorProperty() {
 														</dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyiMazing_caption"><span class="text"><?php echo _t('자막')?></span></label></dt>
+														<dt class="property-name"><label for="propertyiMazing_caption"><?php echo _t('자막')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyiMazing_caption" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													
@@ -1213,15 +1213,15 @@ function printEntryEditorProperty() {
 													
 													<div class="title"><?php echo _t('설정')?></div>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyGallery_width"><span class="text"><?php echo _t('최대너비')?></span></label></dt>
+														<dt class="property-name"><label for="propertyGallery_width"><?php echo _t('최대너비')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyGallery_width" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyGallery_height"><span class="text"><?php echo _t('최대높이')?></span></label></dt>
+														<dt class="property-name"><label for="propertyGallery_height"><?php echo _t('최대높이')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyGallery_height" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyGallery_caption"><span class="text"><?php echo _t('자막')?></span></label></dt>
+														<dt class="property-name"><label for="propertyGallery_caption"><?php echo _t('자막')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyGallery_caption" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													
@@ -1243,16 +1243,16 @@ function printEntryEditorProperty() {
 													<h4><?php echo _t('Jukebox')?></h4>
 													
 													<dl class="line">
-														<dt class="property-name"><label for="propertyJukebox_title"><span class="text"><?php echo _t('제목')?></span></label></dt>
+														<dt class="property-name"><label for="propertyJukebox_title"><?php echo _t('제목')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyJukebox_title" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													
 													<dl class="line">
-														<dt class="property-name"><label for="propertyJukebox_autoplay"><span class="text"><?php echo _t('자동재생')?></span></label></dt>
+														<dt class="property-name"><label for="propertyJukebox_autoplay"><?php echo _t('자동재생')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyJukebox_autoplay" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyJukebox_visibility"><span class="text"><?php echo _t('플레이어 보이기')?></span></label></dt>
+														<dt class="property-name"><label for="propertyJukebox_visibility"><?php echo _t('플레이어 보이기')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyJukebox_visibility" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													
@@ -1273,11 +1273,11 @@ function printEntryEditorProperty() {
 													<h4><?php echo _t('Embed')?></h4>
 													
 													<dl class="line">
-														<dt class="property-name"><label for="propertyEmbed_width"><span class="text"><?php echo _t('폭')?></span></label></dt>
+														<dt class="property-name"><label for="propertyEmbed_width"><?php echo _t('폭')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyEmbed_width" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyEmbed_height"><span class="text"><?php echo _t('높이')?></span></label></dt>
+														<dt class="property-name"><label for="propertyEmbed_height"><?php echo _t('높이')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyEmbed_height" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
@@ -1290,15 +1290,15 @@ function printEntryEditorProperty() {
 													<h4><?php echo _t('Embed')?></h4>
 													
 													<dl class="line">
-														<dt class="property-name"><label for="propertyFlash_width"><span class="text"><?php echo _t('폭')?></span></label></dt>
+														<dt class="property-name"><label for="propertyFlash_width"><?php echo _t('폭')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyFlash_width" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyFlash_height"><span class="text"><?php echo _t('높이')?></span></label></dt>
+														<dt class="property-name"><label for="propertyFlash_height"><?php echo _t('높이')?></label></dt>
 														<dd><input type="text" class="text-input" id="propertyFlash_height" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyFlash_src"><span class="text">URL</span></label></dt>
+														<dt class="property-name"><label for="propertyFlash_src">URL</label></dt>
 														<dd><input type="text" class="text-input" id="propertyFlash_src" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 												</div>
@@ -1307,11 +1307,11 @@ function printEntryEditorProperty() {
 													<h4><?php echo _t('More/Less')?></h4>
 													
 													<dl class="line">
-														<dt class="property-name"><label for="propertyMoreLess_more"><span class="text">More Text</span></label></dt>
+														<dt class="property-name"><label for="propertyMoreLess_more">More Text</label></dt>
 														<dd><input type="text" class="text-input" id="propertyMoreLess_more" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="line">
-														<dt class="property-name"><label for="propertyMoreLess_less"><span class="text">Less Text</span></label></dt>
+														<dt class="property-name"><label for="propertyMoreLess_less">Less Text</label></dt>
 														<dd><input type="text" class="text-input" id="propertyMoreLess_less" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 												</div>
@@ -1323,7 +1323,7 @@ function printEntryEditorPalette() {
 											<div id="editor-palette" class="container">
 												<dl class="font-relatives">
 													<dt class="title">
-														<span class="text"><?php echo _t('폰트 설정')?></span>
+														<span class="label"><?php echo _t('폰트 설정')?></span>
 													</dt>
 													<dd class="command-box">
 														<select id="fontFamilyChanger" onchange="editor.execCommand('fontname', false, this.value); this.selectedIndex=0;">
@@ -1360,7 +1360,7 @@ function printEntryEditorPalette() {
 												</dl>
 												<dl class="font-style">
 													<dt class="title">
-														<span class="text"><?php echo _t('폰트 스타일')?></span>
+														<span class="label"><?php echo _t('폰트 스타일')?></span>
 													</dt>
 													<dd class="command-box">
 														<a id="indicatorBold" class="inactive-class button" href="#void" onclick="TTCommand('Bold')" title="<?php echo _t('굵게')?>"><span class="text"><?php echo _t('굵게')?></span></a>
@@ -1371,27 +1371,27 @@ function printEntryEditorPalette() {
 														<div id="colorPalette" style="display: none;">
 															<table cellspacing="3" cellpadding="0">
 																<tr>
-																	<td class="color-008000" onclick="insertColorTag('#008000')"><span class="text">#008000</span></td>
-																	<td class="color-009966" onclick="insertColorTag('#009966')"><span class="text">#009966</span></td>
-																	<td class="color-99CC66" onclick="insertColorTag('#99CC66')"><span class="text">#99CC66</span></td>
-																	<td class="color-999966" onclick="insertColorTag('#999966')"><span class="text">#999966</span></td>
-																	<td class="color-CC9900" onclick="insertColorTag('#CC9900')"><span class="text">#CC9900</span></td>
-																	<td class="color-D41A01" onclick="insertColorTag('#D41A01')"><span class="text">#D41A01</span></td>
-																	<td class="color-FF0000" onclick="insertColorTag('#FF0000')"><span class="text">#FF0000</span></td>
-																	<td class="color-FF7635" onclick="insertColorTag('#FF7635')"><span class="text">#FF7635</span></td>
-																	<td class="color-FF9900" onclick="insertColorTag('#FF9900')"><span class="text">#FF9900</span></td>
-																	<td class="color-FF3399" onclick="insertColorTag('#FF3399')"><span class="text">#FF3399</span></td>
-																	<td class="color-9B18C1" onclick="insertColorTag('#9B18C1')"><span class="text">#9B18C1</span></td>
-																	<td class="color-993366" onclick="insertColorTag('#993366')"><span class="text">#993366</span></td>
-																	<td class="color-666699" onclick="insertColorTag('#666699')"><span class="text">#666699</span></td>
-																	<td class="color-0000FF" onclick="insertColorTag('#0000FF')"><span class="text">#0000FF</span></td>
-																	<td class="color-177FCD" onclick="insertColorTag('#177FCD')"><span class="text">#177FCD</span></td>
-																	<td class="color-006699" onclick="insertColorTag('#006699')"><span class="text">#006699</span></td>
-																	<td class="color-003366" onclick="insertColorTag('#003366')"><span class="text">#003366</span></td>
-																	<td class="color-333333" onclick="insertColorTag('#333333')"><span class="text">#333333</span></td>
-																	<td class="color-000000" onclick="insertColorTag('#000000')"><span class="text">#000000</span></td>			
-																	<td class="color-8E8E8E" onclick="insertColorTag('#8E8E8E')"><span class="text">#8E8E8E</span></td>
-																	<td class="color-C1C1C1" onclick="insertColorTag('#C1C1C1')"><span class="text">#C1C1C1</span></td>
+																	<td class="color-008000" onclick="insertColorTag('#008000')">#008000</td>
+																	<td class="color-009966" onclick="insertColorTag('#009966')">#009966</td>
+																	<td class="color-99CC66" onclick="insertColorTag('#99CC66')">#99CC66</td>
+																	<td class="color-999966" onclick="insertColorTag('#999966')">#999966</td>
+																	<td class="color-CC9900" onclick="insertColorTag('#CC9900')">#CC9900</td>
+																	<td class="color-D41A01" onclick="insertColorTag('#D41A01')">#D41A01</td>
+																	<td class="color-FF0000" onclick="insertColorTag('#FF0000')">#FF0000</td>
+																	<td class="color-FF7635" onclick="insertColorTag('#FF7635')">#FF7635</td>
+																	<td class="color-FF9900" onclick="insertColorTag('#FF9900')">#FF9900</td>
+																	<td class="color-FF3399" onclick="insertColorTag('#FF3399')">#FF3399</td>
+																	<td class="color-9B18C1" onclick="insertColorTag('#9B18C1')">#9B18C1</td>
+																	<td class="color-993366" onclick="insertColorTag('#993366')">#993366</td>
+																	<td class="color-666699" onclick="insertColorTag('#666699')">#666699</td>
+																	<td class="color-0000FF" onclick="insertColorTag('#0000FF')">#0000FF</td>
+																	<td class="color-177FCD" onclick="insertColorTag('#177FCD')">#177FCD</td>
+																	<td class="color-006699" onclick="insertColorTag('#006699')">#006699</td>
+																	<td class="color-003366" onclick="insertColorTag('#003366')">#003366</td>
+																	<td class="color-333333" onclick="insertColorTag('#333333')">#333333</td>
+																	<td class="color-000000" onclick="insertColorTag('#000000')">#000000</td>			
+																	<td class="color-8E8E8E" onclick="insertColorTag('#8E8E8E')">#8E8E8E</td>
+																	<td class="color-C1C1C1" onclick="insertColorTag('#C1C1C1')">#C1C1C1</td>
 																</tr>
 															</table>
 														</div>
@@ -1399,16 +1399,16 @@ function printEntryEditorPalette() {
 														<div id="markPalette" style="display: none;">
 															<table cellspacing="3" cellpadding="0">
 																<tr>
-																	<td class="color-FFDAED" onclick="insertMarkTag('#202020', '#FFDAED')"><span class="text">#FFDAED</span></td>
-																	<td class="color-C9EDFF" onclick="insertMarkTag('#202020', '#C9EDFF')"><span class="text">#C9EDFF</span></td>
-																	<td class="color-D0FF9D" onclick="insertMarkTag('#202020', '#D0FF9D')"><span class="text">#D0FF9D</span></td>
-																	<td class="color-FAFFA9" onclick="insertMarkTag('#202020', '#FAFFA9')"><span class="text">#FAFFA9</span></td>
-																	<td class="color-E4E4E4" onclick="insertMarkTag('#202020', '#E4E4E4')"><span class="text">#E4E4E4</span></td>
-																	<td class="color-FF0000" onclick="insertMarkTag('#FFFFFF', '#FF0000')"><span class="text">#FF0000</span></td>
-																	<td class="color-0000FF" onclick="insertMarkTag('#FFFFFF', '#0000FF')"><span class="text">#0000FF</span></td>
-																	<td class="color-009966" onclick="insertMarkTag('#FFFFFF', '#009966')"><span class="text">#009966</span></td>
-																	<td class="color-670787" onclick="insertMarkTag('#FFFFFF', '#670787')"><span class="text">#670787</span></td>
-																	<td class="color-333333" onclick="insertMarkTag('#FFFFFF', '#333333')"><span class="text">#333333</span></td>
+																	<td class="color-FFDAED" onclick="insertMarkTag('#202020', '#FFDAED')">#FFDAED</td>
+																	<td class="color-C9EDFF" onclick="insertMarkTag('#202020', '#C9EDFF')">#C9EDFF</td>
+																	<td class="color-D0FF9D" onclick="insertMarkTag('#202020', '#D0FF9D')">#D0FF9D</td>
+																	<td class="color-FAFFA9" onclick="insertMarkTag('#202020', '#FAFFA9')">#FAFFA9</td>
+																	<td class="color-E4E4E4" onclick="insertMarkTag('#202020', '#E4E4E4')">#E4E4E4</td>
+																	<td class="color-FF0000" onclick="insertMarkTag('#FFFFFF', '#FF0000')">#FF0000</td>
+																	<td class="color-0000FF" onclick="insertMarkTag('#FFFFFF', '#0000FF')">#0000FF</td>
+																	<td class="color-009966" onclick="insertMarkTag('#FFFFFF', '#009966')">#009966</td>
+																	<td class="color-670787" onclick="insertMarkTag('#FFFFFF', '#670787')">#670787</td>
+																	<td class="color-333333" onclick="insertMarkTag('#FFFFFF', '#333333')">#333333</td>
 																</tr>
 															</table>
 														</div>
@@ -1416,11 +1416,11 @@ function printEntryEditorPalette() {
 														<div id="textBox" style="display: none;">
 															<table cellspacing="3" cellpadding="0">
 																<tr>
-																	<td class="color-FFDAED" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FFDAED');"><span class="text">#FFDAED</span></td>
-																	<td class="color-C9EDFF" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#C9EDFF');"><span class="text">#C9EDFF</span></td>
-																	<td class="color-D0FF9D" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#D0FF9D');"><span class="text">#D0FF9D</span></td>
-																	<td class="color-FAFFA9" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FAFFA9');"><span class="text">#FAFFA9</span></td>
-																	<td class="color-E4E4E4" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#E4E4E4');"><span class="text">#E4E4E4</span></td>
+																	<td class="color-FFDAED" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FFDAED');">#FFDAED</td>
+																	<td class="color-C9EDFF" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#C9EDFF');">#C9EDFF</td>
+																	<td class="color-D0FF9D" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#D0FF9D');">#D0FF9D</td>
+																	<td class="color-FAFFA9" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FAFFA9');">#FAFFA9</td>
+																	<td class="color-E4E4E4" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#E4E4E4');">#E4E4E4</td>
 																</tr>
 															</table>
 														</div>
@@ -1429,7 +1429,7 @@ function printEntryEditorPalette() {
 												</dl>
 												<dl class="paragraph">
 													<dt class="title">
-														<span class="text"><?php echo _t('문단')?></span>
+														<span class="label"><?php echo _t('문단')?></span>
 													</dt>
 													<dd class="command-box">
 														<a id="indicatorJustifyLeft" class="inactive-class button" href="#void" onclick="TTCommand('JustifyLeft')" title="<?php echo _t('왼쪽 정렬')?>"><span class="text"><?php echo _t('왼쪽 정렬')?></span></a>
@@ -1444,7 +1444,7 @@ function printEntryEditorPalette() {
 												</dl>
 												<dl class="special">
 													<dt class="title">
-														<span class="text"><?php echo _t('기타')?></span>
+														<span class="label"><?php echo _t('기타')?></span>
 													</dt>
 													<dd class="command-box">
 														<a id="indicatorCodeBlock" class="inactive-class button" href="#void" onclick="TTCommand('CodeBlock')" title="<?php echo _t('코드')?>"><span class="text"><?php echo _t('코드')?></span></a>
@@ -1456,35 +1456,13 @@ function printEntryEditorPalette() {
 												</dl>
 												<dl class="mode">
 													<dt class="title">
-														<span class="text"><?php echo _t('편집 모드')?></span>
+														<span class="label"><?php echo _t('편집 모드')?></span>
 													</dt>
 													<dd class="command-box">
 														<a id="indicatorMode" class="inactive-class button" href="#void" onclick="TTCommand('ToggleMode'); changeEditorMode();" title="<?php echo _t('클릭하시면 HTML 모드로 변경합니다.')?>"><span class="text"><?php echo _t('WISWIG 모드')?></span></a>
 													</dd>
 												</dl>
 											</div>
-<?php
-}
-
-function printContentLine() {
-?>
-<table cellpadding="0" cellspacing="0" width="100%">
-  <tr>
-    <td width="36" height="3" class="color-0468AA"><img src="<?php echo $service['path']?>/image/spacer.gif" width="1" height="1" alt=""></td>
-    <td width="*" class="color-4498CF"><img src="<?php echo $service['path']?>/image/spacer.gif" width="1" height="1" alt=""></td>
-  </tr>
-</table>
-<?php
-}
-
-function printInputBlock() {
-	global $service, $r_root_path;
-?>
-<table cellspacing="0" cellpadding="0" width="100%" style="margin:3 0 3 0">
-  <tr>
-    <td height="1" style="background-image:url('<?php echo $service['path']?>/image/dot_width2.gif')"></td>
-  </tr>
-</table>
 <?php
 }
 
@@ -1505,5 +1483,4 @@ function getPrettyAttachmentLabel($attachment) {
 	}
 	return "{$attachment['label']} (".getSizeHumanReadable($attachment['size']).')';
 }
-
 ?>

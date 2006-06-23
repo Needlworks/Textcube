@@ -63,11 +63,11 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<td class="title"><span><?=_t('제목')?></span></td>
-											<td class="version"><span><?=_t('버전')?></span></td>
-											<td class="explain"><span><?=_t('설명')?></span></td>
-											<td class="maker"><span><?=_t('만든이')?></span></td>
-											<td class="status"><span><?=_t('상태')?></span></td>
+											<td class="title"><span class="text"><?=_t('제목')?></span></td>
+											<td class="version"><span class="text"><?=_t('버전')?></span></td>
+											<td class="explain"><span class="text"><?=_t('설명')?></span></td>
+											<td class="maker"><span class="text"><?=_t('만든이')?></span></td>
+											<td class="status"><span class="text"><?=_t('상태')?></span></td>
 										</tr>
 									</thead>
 									<tbody>

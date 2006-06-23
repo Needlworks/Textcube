@@ -369,7 +369,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 												newCell.setAttribute("align", "right");
 												newSection = document.createElement("DIV");
 												newSection.className = "layer-section";
-												newSection.innerHTML = '<label for="entry' + id + 'Password"><span class="text"><?=_t('비밀번호')?></span></label><span class="divider"> | </span><input type="text" id="entry' + id + 'Password" class="text-input" value="' + this.getText("/response/password") + '" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(' + id + ')" /> ';
+												newSection.innerHTML = '<label for="entry' + id + 'Password"><?=_t('비밀번호')?></label><span class="divider"> | </span><input type="text" id="entry' + id + 'Password" class="text-input" value="' + this.getText("/response/password") + '" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(' + id + ')" /> ';
 												
 												tempLink = document.createElement("A");
 												tempLink.className = "edit-button button";
@@ -528,11 +528,11 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?
 	if (!empty($entry['categoryLabel'])) {
 ?>
-												<a id="category_<?=$entry['id']?>" class="categorized" name="<?=$entry['category']?>" href="<?php echo $blogURL?>/owner/entry?category=<?php echo $entry['category']?>" onclick="document.forms[0].category.value=this.name; document.forms[0].submit()"><span class="text"><?php echo htmlspecialchars($entry['categoryLabel'])?></span></a>
+												<a id="category_<?=$entry['id']?>" class="categorized" name="<?=$entry['category']?>" href="<?php echo $blogURL?>/owner/entry?category=<?php echo $entry['category']?>" onclick="document.forms[0].category.value=this.name; document.forms[0].submit()"><?php echo htmlspecialchars($entry['categoryLabel'])?></a>
 <?
 	} else {
 ?>
-												<span class="uncategorized"><span class="text"><?php echo _t('분류 없음')?></span></span>
+												<span class="uncategorized"><?php echo _t('분류 없음')?></span>
 <?
 	}
 ?>
@@ -565,11 +565,11 @@ if ($entry['visibility'] == 1) {
 								<hr class="hidden" />
 								
 								<div class="data-subbox">
-									<h2><span class="text"><?php echo _t('페이지 네비게이션')?></span></h2>
-									
 									<div id="change-section" class="section">
-										<label for="command-select"><span class="text"><?=_t('선택한 글을')?></span></label>
-										<select id="command-select" onchange="toggleDeleteButton(this)" disabled="disabled"> 
+										<h2><?php echo _t('페이지 네비게이션')?></h2>
+										
+										<label for="commandBox"><?=_t('선택한 글을')?></label>
+										<select id="commandBox" onchange="toggleDeleteButton(this)" disabled="disabled"> 
 											<option></option>
 <?
 	$categories = getCategories($owner);
@@ -594,12 +594,12 @@ if ($entry['visibility'] == 1) {
 												<option value="classify"><?=_t('비공개로 변경합니다.')?></option>
 												<option value="publish"><?=_t('공개로 변경합니다.')?></option>
 											</optgroup>
-											<!--optgroup class="delete" label="<?=_t('삭제합니다.')?>">
+											<optgroup class="delete" label="<?=_t('삭제합니다.')?>">
 												<option value="delete"><?=_t('삭제합니다.')?></option>
-											</optgroup-->
+											</optgroup>
 										</select>
 										<a id="apply-button" class="apply-button button" href="#void" onclick="processBatch(document.getElementById('commandBox'));"><span class="text"><?=_t('적용')?></span></a>
-										<a class="delete-button button" href="#void" onclick="obj=new Object(); obj.value='delete'; processBatch(obj);"><span class="text"><?=_t('삭제')?></span></a>
+										<!--a class="delete-button button" href="#void" onclick="obj=new Object(); obj.value='delete'; processBatch(obj);"><span class="text"><?=_t('삭제')?></span></a-->
 									</div>
 									
 									<div id="page-section" class="section">
@@ -641,9 +641,9 @@ for ($i = 10; $i <= 30; $i += 5) {
 									<hr class="hidden" />
 									
 									<div id="search-section" class="section">
-										<h3><span class="text"><?php echo _t('검색')?></span></h3>
+										<h3><?php echo _t('검색')?></h3>
 										
-										<!--label for="search"><span class="text"><?=_t('제목')?>, <?=_t('내용')?></span></label><span class="divider"> | </span-->
+										<!--label for="search"><?=_t('제목')?>, <?=_t('내용')?></label><span class="divider"> | </span-->
 										<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.forms[0].withSearch.value = 'on'; document.forms[0].submit(); }" disabled="disabled" />
 										<a class="search-button button" href="#void" onclick="document.forms[0].withSearch.value = 'on'; document.forms[0].submit();"><span class="text"><?=_t('검색')?></span></a>
 									</div>

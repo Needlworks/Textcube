@@ -73,18 +73,18 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 			            
 			            <div id="field-box">
 			            	<dl id="email-line">
-			            		<dt><label for="loginid"><span class="text"><?=_t('이메일')?></span></label></dt>
+			            		<dt><label for="loginid"><?=_t('이메일')?></label></dt>
 			            		<dd><input type="text" class="text-input" id="loginid" name="loginid" value="<?=htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid'])?>" maxlength="64" tabindex="1" /></dd>
 			            	</dl>
 			            	<dl id="password-line">
-			            		<dt><label for="password"><span class="text"><?=_t('비밀번호')?></span></label></dt>
+			            		<dt><label for="password"><?=_t('비밀번호')?></label></dt>
 								<dd><input type="password" class="text-input" id="password" name="password" onkeydown="if (event.keyCode == 13) document.forms[0].submit()" maxlength="64" tabindex="2" /></dd>
 							</dl>
 							<dl id="checkbox-line">
-								<dt><span class="label"><span class="text"><?=_t('선택사항')?></span></span></dt>
+								<dt><span class="label"><?=_t('선택사항')?></span></dt>
 								<dd>
-									<div id="email-save"><input type="checkbox" id="save" class="checkbox" name="save"<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"')?> /> <label for="save"><span class="text"><?=_t('이메일 저장')?></span></label></div>
-									<?=($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /> <label for="reset"><span class="text">' . _t('암호 초기화') . '</span></label></div>'.CRLF : '')?>
+									<div id="email-save"><input type="checkbox" id="save" class="checkbox" name="save"<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"')?> /> <label for="save"><?=_t('이메일 저장')?></label></div>
+									<?=($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /> <label for="reset">' . _t('암호 초기화') . '</label></div>'.CRLF : '')?>
 								</dd>
 							</dl>
 							

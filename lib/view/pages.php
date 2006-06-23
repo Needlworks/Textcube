@@ -12,7 +12,7 @@ function respondMessagePage($message) {
 </head>
 <body id="body-message-page">
 	<div class="message-box">
-		<h1><span class="text"><?php echo TATTERTOOLS_NAME?></span></h1>
+		<h1><?php echo TATTERTOOLS_NAME?></h1>
 		
 		<div class="message"><?php echo $message?></div>
 		<div class="button-box">
@@ -57,7 +57,7 @@ function respondErrorPage($message = '') {
 </head>
 <body id="body-message-page">
 	<div class="message-box">
-		<h1><span class="text"><?php echo TATTERTOOLS_NAME?></span></h1>
+		<h1><?php echo TATTERTOOLS_NAME?></h1>
 		
 		<div class="message"><?php echo $message?></div>
 		<div class="button-box">

@@ -1,5 +1,5 @@
 			<div id="layout-body">
-				<h2><span class="text"><?php echo _t('서브메뉴 : 센터')?></span></h2>
+				<h2><?php echo _t('서브메뉴 : 센터')?></h2>
 				
 				<div id="sub-menu-outbox">
 					<ul id="sub-menu">

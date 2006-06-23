@@ -409,17 +409,17 @@ if (defined('__TATTERTOOLS_POST__')) {
 									
 									<div id="editor" class="data-inbox">
 										<div id="title-section" class="section">
-											<h3><span class="text"><?php echo _t('머리말')?></span></h3>
+											<h3><?php echo _t('머리말')?></h3>
 											
 											<dl id="title-container" class="container">
 <?
 if (defined('__TATTERTOOLS_KEYWORD__')) {
 ?>
-												<dt><label for="title"><span class="text"><?=_t('키워드')?></span></label></dt>
+												<dt><label for="title"><?=_t('키워드')?></label></dt>
 <?
 } else {
 ?>
-												<dt><label for="title"><span class="text"><?=_t('제목')?></span></label></dt>
+												<dt><label for="title"><?=_t('제목')?></label></dt>
 <?
 }
 ?>
@@ -453,7 +453,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 										</div>
 										
 										<div id="textarea-section" class="section">
-											<h3><span class="text"><?php echo _t('본문')?></span></h3>
+											<h3><?php echo _t('본문')?></h3>
 											
 <?
 printEntryEditorPalette();
@@ -500,7 +500,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 										<hr class="hidden" />
 										
 										<div id="property-section" class="section">
-											<h3><span class="text"><?php echo _t('속성 상자')?></span></h3>
+											<h3><?php echo _t('속성 상자')?></h3>
 											
 											<div id="property-container" class="container">
 <?
@@ -517,16 +517,16 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 										<hr class="hidden" />
 										
 										<div id="taglocal-section" class="section">
-											<h3><span class="text"><?php echo _t('태그 &amp; 위치')?></span></h3>
+											<h3><?php echo _t('태그 &amp; 위치')?></h3>
 													
 											<div id="tag-location-container" class="container">
 												<dl id="tag-line">
-													<dt><span class="text"><?=_t('태그')?></span></dt>
+													<dt><span class="label"><?=_t('태그')?></span></dt>
 													<dd id="tag"></dd>
 												</dl>
 												
 												<dl id="location-line">
-													<dt><span class="text"><?=_t('지역')?></span></dt>
+													<dt><span class="label"><?=_t('지역')?></span></dt>
 													<dd id="location"></dd>
 												</dl>
 												
@@ -568,7 +568,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 										<hr class="hidden" />
 										
 										<div id="upload-section" class="section">
-											<h3><span class="text"><?php echo _t('업로드')?></span></h3>
+											<h3><?php echo _t('업로드')?></h3>
 											
 											<div id="attachment-container" class="container">
 <?
@@ -598,45 +598,45 @@ printEntryFileUploadButton($entry['id']);
 										<div id="power-section" class="section">
 											<div id="power-container" class="container">
 												<dl id="date-line" class="line">
-													<dt><span class="text"><?=_t('등록일자')?></span></dt>
+													<dt><span class="label"><?=_t('등록일자')?></span></dt>
 													<dd>
 <?
 if (defined('__TATTERTOOLS_POST__')) {
 ?>
-														<div class="publish-update"><input type="radio" id="publishedUpdate" class="radio" name="published" value="1" checked="checked" /> <label for="publishedUpdate"><span class="text"><?=_t('갱신')?></span></label></div>
+														<div class="publish-update"><input type="radio" id="publishedUpdate" class="radio" name="published" value="1" checked="checked" /> <label for="publishedUpdate"><?=_t('갱신')?></label></div>
 <?
 } else {
 ?>
-														<div class="publish-nochange"><input type="radio" id="publishedNoChange" class="radio" name="published" value="0" <?=(!isset($entry['republish']) && !isset($entry['appointed']) ? 'checked="checked"' : '')?> /> <label for="publishedNoChange"><span class="text"><?=_t('유지')?></span> (<?=Timestamp::format5($entry['published'])?>)</label></div>
-														<div class="publish-update"><input type="radio" id="publishedUpdate" class="radio" name="published" value="1" <?=(isset($entry['republish']) ? 'checked="checked"' : '')?> /> <label for="publishedUpdate"><span class="text"><?=_t('갱신')?></span></label></div>
+														<div class="publish-nochange"><input type="radio" id="publishedNoChange" class="radio" name="published" value="0" <?=(!isset($entry['republish']) && !isset($entry['appointed']) ? 'checked="checked"' : '')?> /> <label for="publishedNoChange"><?=_t('유지')?> (<?=Timestamp::format5($entry['published'])?>)</label></div>
+														<div class="publish-update"><input type="radio" id="publishedUpdate" class="radio" name="published" value="1" <?=(isset($entry['republish']) ? 'checked="checked"' : '')?> /> <label for="publishedUpdate"><?=_t('갱신')?></label></div>
 <?
 }
 ?>
 														<div class="publish-preserve">
-															<input type="radio" id="publishedPreserve" class="radio" name="published" value="2" <?=(isset($entry['appointed']) ? 'checked="checked"' : '')?> /> <label for="publishedPreserve" onclick="document.getElementById('appointed').select()"><span class="text"><?=_t('예약')?></span></label>
+															<input type="radio" id="publishedPreserve" class="radio" name="published" value="2" <?=(isset($entry['appointed']) ? 'checked="checked"' : '')?> /> <label for="publishedPreserve" onclick="document.getElementById('appointed').select()"><?=_t('예약')?></label>
 															<input type="text" id="appointed" class="text-input" name="appointed" value="<?=Timestamp::format5(isset($entry['appointed']) ? $entry['appointed'] : $entry['published'])?>" onfocus="document.forms[0].published[document.forms[0].published.length - 1].checked = true" />
 														</div>
 													</dd>
 												</dl>
 												<dl id="status-line" class="line">
-													<dt><span class="text"><?=_t('공개여부')?></span></dt>
+													<dt><span class="label"><?=_t('공개여부')?></span></dt>
 													<dd>
-														<div class="status-private"><input type="radio" id="visibility_private" class="radio" name="visibility" value="0"<?=(abs($entry['visibility']) == 0 ? ' checked="checked"' : '')?> /> <label for="visibility_private"><span class="text"><?=_t('비공개')?></span></label></div>
+														<div class="status-private"><input type="radio" id="visibility_private" class="radio" name="visibility" value="0"<?=(abs($entry['visibility']) == 0 ? ' checked="checked"' : '')?> /> <label for="visibility_private"><?=_t('비공개')?></label></div>
 <?
 if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
-														<div class="status-protected"><input type="radio" id="visibility_protected" class="radio" name="visibility" value="1"<?=(abs($entry['visibility']) == 1 ? ' checked="checked"' : '')?> /> <label for="visibility_protected"><span class="text"><?=_t('보호')?></span></label></div>
+														<div class="status-protected"><input type="radio" id="visibility_protected" class="radio" name="visibility" value="1"<?=(abs($entry['visibility']) == 1 ? ' checked="checked"' : '')?> /> <label for="visibility_protected"><?=_t('보호')?></label></div>
 <?
 	}
 }
 ?>
-														<div class="status-public"><input type="radio" id="visibility_public" class="radio" name="visibility" value="2"<?=(abs($entry['visibility']) == 2 ? ' checked="checked"' : '')?> /> <label for="visibility_public"><span class="text"><?=_t('공개')?></span></label></div>
+														<div class="status-public"><input type="radio" id="visibility_public" class="radio" name="visibility" value="2"<?=(abs($entry['visibility']) == 2 ? ' checked="checked"' : '')?> /> <label for="visibility_public"><?=_t('공개')?></label></div>
 <?
 if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
-														<div class="status-syndicated"><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?=(abs($entry['visibility']) == 3 ? ' checked="checked"' : '')?> /> <label for="visibility_syndicated"><span class="text"><?=_t('발행')?></span></label></div>
+														<div class="status-syndicated"><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?=(abs($entry['visibility']) == 3 ? ' checked="checked"' : '')?> /> <label for="visibility_syndicated"><?=_t('발행')?></label></div>
 <?
 	}
 }
@@ -648,7 +648,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
 												<dl id="power-line" class="line">
-													<dt><span class="text"><?=_t('권한')?></span></dt>
+													<dt><span class="label"><?=_t('권한')?></span></dt>
 													<dd>
 														<div class="comment-yes"><input type="checkbox" id="acceptComment" class="checkbox" name="acceptComment"<?=($entry['acceptComment'] ? ' checked="checked"' : '')?> /> <label for="acceptComment"><span class="text"><?=_t('댓글 작성을 허용합니다.')?></span></label></div>
 													  	<div class="trackback-yes"><input type="checkbox" id="acceptTrackback" class="checkbox" name="acceptTrackback"<?=($entry['acceptTrackback'] ? ' checked="checked"' : '')?> /> <label for="acceptTrackback"><span class="text"><?=_t('트랙백 수신을 허용합니다.')?></span></label></div>

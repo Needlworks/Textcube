@@ -259,6 +259,11 @@
 	height                           : 2.2em;
 }
 
+#property-box dl dd .text-input
+{
+	text-transform                   : uppercase;
+}
+
 #count-display-line dd
 {
 	padding-top                      : 2px;

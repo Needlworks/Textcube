@@ -618,6 +618,11 @@ input.text-readonly-input
 	position                         : relative;
 }
 
+#data-outbox div.data-subbox h2
+{
+	display                          : none;
+}
+
 /* multi-selection deleter in sub-box */
 #change-section,
 #delete-section

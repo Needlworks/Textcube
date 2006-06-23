@@ -116,7 +116,7 @@ $entry = getEntry($owner, $suri['id']);
 			<div class="title"><span class="text"><?=_t('트랙백을 전송합니다')?></span></div>
 	      	<div id="command-box">
 	      		<dl class="title-line">
-	      			<dt><span class="text"><?=_t('제목')?></span><span class="divider"> | </span></dt>
+	      			<dt><span class="label"><?=_t('제목')?></span><span class="divider"> | </span></dt>
 	      			<dd><?=htmlspecialchars($entry['title'])?></dd>
 	      		</dl>
 				<dl class="input-line">

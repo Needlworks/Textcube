@@ -439,6 +439,11 @@ table.data-inbox tbody tr td .new-icon span
 	display                          : none;
 }
 
+#part-post-list div.data-subbox select .delete option
+{
+	color                            : #FF0000;
+}
+
 /* Comment ***************************************************************************************/
 
 /* comment table body ---------------------------------------------------------------------------*/

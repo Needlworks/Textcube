@@ -52,7 +52,7 @@ if (!doesHaveMembership()) {
 		<input type="hidden" name="oldPassword" value="<?php echo isset($_POST['password']) ? $_POST['password'] : ''?>" />
 		
 		<div id="comment-reply-box">
-			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" alt="태터툴즈 로고" />
+			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" alt="<?=_t('태터툴즈 로고')?>" />
 			
 			<div class="title"><span class="text"><?php echo $pageTitle ?></span></div>
 	      	<div id="command-box">
@@ -78,7 +78,7 @@ if (!doesHaveOwnership()) {
 				<dl class="secret-line">
 					<dd>
 						<input type="checkbox" class="checkbox" id="secret" name="secret"<?php echo ($comment['secret'] ? ' checked="checked"' : false)?> />
-						<label for="secret"><span class="text"><?php echo _t('비밀글로 등록')?></span></label>
+						<label for="secret"><?php echo _t('비밀글로 등록')?></label>
 					</dd>
 				</dl>
 <?php 

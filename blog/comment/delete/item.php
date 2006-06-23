@@ -119,16 +119,16 @@ $commentCount = ($commentCount > 0) ? "$commentCount" : '';
 			
 			<div id="command-box">
 				<div class="edit-line">
-					<input type="radio" id="edit" class="radio" name="mode" value="edit" checked="checked" /> <label for="edit"><span class="text"><?=_t('댓글을 수정합니다.')?></span></label>
+					<input type="radio" id="edit" class="radio" name="mode" value="edit" checked="checked" /> <label for="edit"><?=_t('댓글을 수정합니다.')?></label>
 				</div>
 				<div class="delete-line">			
-					<input type="radio" id="delete" class="radio" name="mode" value="delete" />  <label for="delete"><span class="text"><?=_t('댓글을 삭제합니다.')?></span></label>
+					<input type="radio" id="delete" class="radio" name="mode" value="delete" />  <label for="delete"><?=_t('댓글을 삭제합니다.')?></label>
 				</div>
 				<div class="password-line">
 <?
 if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId()))) {
 ?>				  
-					<label for="password"><span class="text"><?=_t('비밀번호')?></span><span class="divider"> | </span></label><input type="password" id="password" class="text-input" name="password" />
+					<label for="password"><?=_t('비밀번호')?><span class="divider"> | </span></label><input type="password" id="password" class="text-input" name="password" />
 <?
 }
 ?>

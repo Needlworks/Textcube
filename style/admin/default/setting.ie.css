@@ -43,7 +43,10 @@
 
 /* Data ******************************************************************************************/
 
-.main-explain-box .explain
+#part-data-correct .main-explain-box .explain,
+#part-data-backup .main-explain-box .explain,
+#part-data-restore .main-explain-box .explain,
+#part-data-remove .main-explain-box .explain
 {
 	background-color                 : transparent !important;
 	margin                           : 0 !important;
