@@ -290,6 +290,45 @@
 	width                            : 275px;
 }
 
+#list-section
+{
+	height                           : auto !important;
+}
+
+#list-section table thead tr td.cancel
+{
+	padding                          : 0;
+}
+
+#list-section table tbody tr td
+{
+	background-color                 : #FFFFFF;
+	border-bottom                    : 1px dotted #CCCCCC;
+	color                            : #536576;
+	padding                          : 3px 5px;
+}
+
+#list-section table tbody tr td.cancel
+{
+	padding                          : 3px 0;
+}
+
+#list-section table tbody tr.last-line td
+{
+	border-bottom                    : none;
+}
+
+#list-section .button
+{
+	margin                           : 0 auto;
+	width                            : 100px;
+}
+
+#list-section .button span
+{
+	width                            : 96px;
+}
+
 #part-setting-invite .button-box
 {
 	clear                            : both;
