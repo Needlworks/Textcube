@@ -1381,11 +1381,11 @@ function TTCommand(command, value1, value2) {
 			break;
 		case "MoreLessBlock":
 			if(isWYSIWYG) {
-				TTCommand("Raw", '<div class="tattermoreless" more=" more.. " less=" less.. ">&nbsp;', "</div>");
+				TTCommand("Raw", '<div class="tattermoreless" more=" more... " less=" less... ">&nbsp;', "</div>");
 				editor.trimContent();
 			}
 			else
-				insertTag("[#M_ more.. | less.. | ", "_M#]");
+				insertTag("[#M_ more... | less... | ", "_M#]");
 			break;
 		case "Raw":
 			value2 = (typeof value2 == "undefined") ? "" : value2;

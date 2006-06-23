@@ -793,7 +793,7 @@ function toggleMoreLess(obj, num, txtMore, txtLess)
 	
 	if (content.style.display == 'none') {
 		content.style.display = 'block';
-		more.className = "tt-more-before";
+		more.className = "tt-less-before";
 		obj.innerHTML = txtLess;
 		
 		less = document.createElement("p");
@@ -806,7 +806,7 @@ function toggleMoreLess(obj, num, txtMore, txtLess)
 		content.parentNode.insertBefore(less, after);
 	} else {
 		content.style.display = 'none';
-		more.className = "tt-less-before";
+		more.className = "tt-more-before";
 		more.childNodes[0].innerHTML = txtMore;
 		
 		less = document.getElementById('less' + num);
