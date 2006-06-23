@@ -135,16 +135,15 @@ function resampleImage($target, $mother) {
 				}
 			// 원본 사이즈 그대로이거나 확대 이미지여도, 워터마크나 여백이 존재하면 썸네일 생성.
 			} else if (($thumbnailImageInfo[0] <= $tempWidth || $thumbnailImageInfo[1] <= $tempHeight) && (file_exists($waterMarkPath) || !empty($padding))) {
-					// 이 파일과 관련된 기존 파일을 지운다.
-					deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "^".eregi_replace("\.([[:alnum:]]+)$", "\.", $originFileName));
-					
-					// 새 썸네일 생성.
-					@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
-					if (resizeImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
-						$target = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $target);
-					} else {
-						@unlink($tempSrc);
-					}
+				// 이 파일과 관련된 기존 파일을 지운다.
+				deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "^".eregi_replace("\.([[:alnum:]]+)$", "\.", $originFileName));
+				
+				// 새 썸네일 생성.
+				@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
+				if (resizeImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
+					$target = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $target);
+				} else {
+					@unlink($tempSrc);
 				}
 			}
 		} else {
