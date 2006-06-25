@@ -36,9 +36,9 @@
 <?php
 $writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
 ?>
+						<li id="description-blogger"><span class="text"><?php echo _f('환영합니다. <em>%1</em>님.', htmlspecialchars($writer))?></span></li>
 						<li id="description-blog"><a href="<?php echo $blogURL?>/" title="<?php echo _t('블로그 메인으로 이동합니다.')?>"><span class="text"><?php echo _t('블로그 메인으로 이동')?></span></a></li>
 						<li id="description-logout"><a href="<?php echo $blogURL?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.')?>"><span class="text"><?php echo _t('로그아웃')?></span></a></li>
-						<li id="description-blogger"><span class="text"><?php echo _f('환영합니다. <em>%1</em>님.', htmlspecialchars($writer))?></span></li>
 					</ul>
 				</div>
 				

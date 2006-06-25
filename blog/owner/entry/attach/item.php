@@ -7,6 +7,8 @@ require ROOT . '/lib/includeForOwner.php';
 	<head>
 		<title><?php echo _t('File Uploader')?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/editor.css" />
+		<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/editor.ie.css" /><![endif]-->
 		<script type="text/javascript" src="<?=$service['path']?>/script/EAF.js"></script>
 		<script type="text/javascript" src="<?=$service['path']?>/script/common.js"></script>
 		<script type="text/javascript">
@@ -100,8 +102,6 @@ if (count($_FILES) == 1) {
 ?>
 		//]]>
 	</script>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/editor.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/editor.ie.css" /><![endif]-->
 	<style type="text/css">
 		<!--
 			body,

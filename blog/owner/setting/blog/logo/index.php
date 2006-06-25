@@ -7,6 +7,9 @@ require ROOT . '/lib/includeForOwner.php';
 <head>
 	<title>Logo Uploader</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/setting.css" />
+	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/setting.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/setting.ie.css" /><![endif]-->
 	<script type="text/javascript">
 		//<![CDATA[
 			function trace(msg,mode) {	
@@ -74,9 +77,6 @@ if (count($_FILES) == 1) {
 			}
 		-->
 	</style>
-	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/setting.css" />
-	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/setting.opera.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/setting.ie.css" /><![endif]-->
 </head>
 <body id="logo-iframe">
 	<form method="post" action="<?=$blogURL?>/owner/setting/blog/logo" enctype="multipart/form-data">

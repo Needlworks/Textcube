@@ -102,6 +102,7 @@ $commentCount = ($commentCount > 0) ? "$commentCount" : '';
 <head>
 	<title><?php echo _t('댓글 삭제') ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?=$service['path']?>/style/owner.css" />
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?=$service['path']?>";
@@ -110,7 +111,6 @@ $commentCount = ($commentCount > 0) ? "$commentCount" : '';
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?=$service['path']?>/script/common.js"></script>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?=$service['path']?>/style/owner.css" />
 </head>
 <body>
 	<form name="deleteComment" method="post" action="<?=$blogURL?>/comment/delete/<?=$suri['id']?>">
