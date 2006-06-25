@@ -203,7 +203,7 @@ display:none;
 #sidebar .box {
 	padding:8px;
 }
-/* admin menu */
+/*tt-admin-comment menu */
 #sidebar .owner {
 	font-size:12px;
 	text-align:center;
@@ -482,10 +482,14 @@ padding-left:38px;
 	padding-right:12px;
 	background:url("images/icon_homepage.gif") no-repeat 0px right;
 }
-.guestbook .list .admin span,
-.guestbook .list .admin a,
-.guestbook .list .admin p{
+.guestbook .list .tt-admin-comment span,
+.guestbook .list .tt-admin-comment a,
+.guestbook .list .tt-admin-comment p{
 	color:#5D93D4 !important;
+}
+.guestbook .list .tt-secret-comment p{
+	color:#FF7F7F !important;
+	text-align : center;
 }
 .guestbook .control a{
 	font:9px tahoma;
@@ -615,10 +619,14 @@ padding-left:38px;
 	background:url("images/iconIndentArrow_local.gif") no-repeat 10px 12px;
 	background-color:#f5f5f5;
 }
-.entry .comment .admin span,
-.entry .comment .admin a,
-.entry .comment .admin p{
+.entry .commentlist .tt-admin-comment span,
+.entry .commentlist .tt-admin-comment a,
+.entry .commentlist .tt-admin-comment p{
 	color:#5D93D4 !important;
+}
+.entry .commentlist .tt-secret-comment p{
+	color:#FF7F7F !important;
+	text-align : center;
 }
 .entry .control a{
 	font:9px tahoma;

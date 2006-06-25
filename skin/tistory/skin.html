@@ -85,6 +85,7 @@
       <s_guest>
         <div class="guestbook">
           <h3>방명록</h3>
+          <s_guest_form>
           <!-- guestbook write -->
           <div class="write">
             <s_guest_member>
@@ -110,15 +111,16 @@
               <input class="submit" type="submit" value="확인" onclick="[##_guest_onclick_submit_##]"/>
             </p>
           </div>
+          </s_guest_form>
           <!-- guestbook list -->
           <div class="clist">
             <ol>
               <s_guest_rep>
-                <li><div class="[##_guest_rep_admin_class_##]"><span class="name">[##_guest_rep_name_##]</span> <span class="date"> [##_guest_rep_date_##]</span> <span class="control"> <a href="#" onclick="[##_guest_rep_onclick_delete_##]">수정 | 삭제</a><a href="#" onclick="[##_guest_rep_onclick_reply_##]"> | 답글</a> </span>
+                <li><div class="[##_guest_rep_class_##]"><span class="name">[##_guest_rep_name_##]</span> <span class="date"> [##_guest_rep_date_##]</span> <span class="control"> <a href="#" onclick="[##_guest_rep_onclick_delete_##]">수정 | 삭제</a><a href="#" onclick="[##_guest_rep_onclick_reply_##]"> | 답글</a> </span>
                   <p>[##_guest_rep_desc_##]</p></div>
                   <ul>
                     <s_guest_reply_rep>
-                      <li><div class="[##_guest_rep_admin_class_##]"><span class="name">[##_guest_rep_name_##]</span> <span class="date"> [##_guest_rep_date_##]</span> <span class="control"> <a href="#" onclick="[##_guest_rep_onclick_delete_##]">수정 | 삭제</a> </span>
+                      <li><div class="[##_guest_rep_class_##]"><span class="name">[##_guest_rep_name_##]</span> <span class="date"> [##_guest_rep_date_##]</span> <span class="control"> <a href="#" onclick="[##_guest_rep_onclick_delete_##]">수정 | 삭제</a> </span>
                         <p>[##_guest_rep_desc_##]</p></div>
                         </li>
                     </s_guest_reply_rep>
@@ -193,12 +195,12 @@
               <div class="commentlist">
                 <ol>
                   <s_rp_rep>
-                    <li><div class="[##_rp_rep_admin_class_##]"><span class="name">[##_rp_rep_name_##]</span> <span class="date">[##_rp_rep_date_##]</span> 
+                    <li><div class="[##_rp_rep_class_##]"><span class="name">[##_rp_rep_name_##]</span> <span class="date">[##_rp_rep_date_##]</span> 
 										<span class="control"><a href="[##_rp_rep_link_##]">댓글주소</a> | <a href="#" onclick="[##_rp_rep_onclick_delete_##]">수정 | 삭제</a> | <a href="#" onclick="[##_rp_rep_onclick_reply_##]">댓글</a></span>										
                       <p>[##_rp_rep_desc_##]</p></div>
 											<ul>
                         <s_rp2_rep>
-                          <li><div class="[##_rp_rep_admin_class_##]"><span class="name">[##_rp_rep_name_##]</span> <span class="date">[##_rp_rep_date_##]</span>
+                          <li><div class="[##_rp_rep_class_##]"><span class="name">[##_rp_rep_name_##]</span> <span class="date">[##_rp_rep_date_##]</span>
 														<span class="control"><a href="[##_rp_rep_link_##]">댓글주소</a> | <a href="#" onclick="[##_rp_rep_onclick_delete_##]">수정 | 삭제</a></span>													 
                             <p>[##_rp_rep_desc_##] </p></div>
 
@@ -210,6 +212,7 @@
                   </s_rp_rep>
                 </ol>
               </div>
+              <s_rp_form>
               <!-- comment write-->
               <div class="write">
                 <s_rp_member>
@@ -237,6 +240,7 @@
                   <input type="submit" value="확인" onclick="[##_rp_onclick_submit_##]" class="submit" />
                 </p>
               </div>
+              </s_rp_form>
             </div>
           </s_rp>
         </div>

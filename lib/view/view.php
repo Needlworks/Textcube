@@ -310,7 +310,7 @@ function getTrackbacksView($entryId, & $skin) {
 }
 
 function getCommentView($entryId, & $skin) {
-	global $blogURL, $owner, $suri, $paging, $blog;
+	global $database, $blogURL, $owner, $suri, $paging, $blog;
 	$authorized = doesHaveOwnership();
 	$skinValue = getSkinSetting($owner);
 	$blogSetting = getBlogSetting($owner);
@@ -333,12 +333,13 @@ function getCommentView($entryId, & $skin) {
 			if ($value['secret'] == 1 && !$authorized) {
 				$comments[$key]['name'] = '';
 				$comments[$key]['homepage'] = '';
-				$comments[$key]['comment'] = _t('관리자만 볼 수 있는 댓글입니다');
+				$comments[$key]['comment'] = _t('관리자만 볼 수 있는 댓글입니다.');
 			}
 		}
 	} else {
 		$comments = getComments($entryId);
 	}
+	
 	foreach ($comments as $commentItem) {
 		$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . ($isComment ? $skin->commentItem : $skin->guestItem);
 		$commentSubItemsView = '';
@@ -352,7 +353,9 @@ function getCommentView($entryId, & $skin) {
 			dress($prefix1 . '_rep_date', Timestamp::format5($commentSubItem['written']), $commentSubItemView);
 			dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentSubItem['id']}", $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']});return false", $commentSubItemView);
-			dress($prefix1 . '_rep_admin_class', ($owner == $commentSubItem['replier'] ? 'admin' : ''), $commentSubItemView);
+			$rp_class = $owner == $commentSubItem['replier'] ? 'tt-admin-'.$prefix2 : '';
+			$rp_class = $commentSubItem['secret'] == 1 ? 'tt-secret-'.$prefix2 : '';
+			dress($prefix1 . '_rep_class', $rp_class, $commentSubItemView);
 			$commentSubItemsView .= $commentSubItemView;
 		}
 		dress(($isComment ? 'rp2_rep' : 'guest_reply_rep'), $commentSubItemsView, $commentItemView);
@@ -363,50 +366,62 @@ function getCommentView($entryId, & $skin) {
 		dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense(htmlspecialchars($commentItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentItem), $commentItemView);
 		dress($prefix1 . '_rep_date', Timestamp::format5($commentItem['written']), $commentItemView);
 		if ($prefix1 == 'guest' && $authorized != true && $blogSetting['allowWriteDoubleCommentOnGuestbook'] == 0) {
-			$doubleCommentPermissionScript = 'alert(\'' . _t('댓글을 사용할 수 없습니다') . '\');return false;';
+			$doubleCommentPermissionScript = 'alert(\'' . _t('댓글을 사용할 수 없습니다.') . '\');return false;';
 		} else {
 			$doubleCommentPermissionScript = '';
 		}
 		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']});return false", $commentItemView);
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
 		dress($prefix1 . '_rep_link', "$blogURL/{$entryId}#comment{$commentItem['id']}", $commentItemView);
-		dress($prefix1 . '_rep_admin_class', ($owner == $commentItem['replier'] ? 'admin' : ''), $commentItemView);
+		$rp_class = $owner == $commentItem['replier'] ? 'tt-admin-'.$prefix2 : '';
+		$rp_class = $commentItem['secret'] == 1 ? 'tt-secret-'.$prefix2 : '';
+		dress($prefix1 . '_rep_class', $rp_class, $commentItemView);
 		$commentItemsView .= $commentItemView;
 	}
 	dress($prefix1 . '_rep', $commentItemsView, $commentView);
-	if (!doesHaveOwnership()) {
-		$commentMemberView = ($isComment ? $skin->commentMember : $skin->guestMember);
-		if (!doesHaveMembership()) {
-			$commentGuestView = ($isComment ? $skin->commentGuest : $skin->guestGuest);
-			dress($prefix1 . '_input_name', 'name', $commentGuestView);
-			dress($prefix1 . '_input_password', 'password', $commentGuestView);
-			dress($prefix1 . '_input_homepage', 'homepage', $commentGuestView);
-			if (!empty($_POST["name_$entryId"]))
-				$guestName = htmlspecialchars($_POST["name_$entryId"]);
-			else if (!empty($_COOKIE['guestName']))
-				$guestName = htmlspecialchars($_COOKIE['guestName']);
-			else
-				$guestName = '';
-			dress('guest_name', $guestName, $commentGuestView);
-			if (!empty($_POST["homepage_$entryId"]) && $_POST["homepage_$entryId"] != 'http://') {
-				if (strpos($_POST["homepage_$entryId"], 'http://') === 0)
-					$guestHomepage = htmlspecialchars($_POST["homepage_$entryId"]);
+	
+	$acceptComment = fetchQueryCell("SELECT `acceptComment` FROM `{$database['prefix']}Entries` WHERE `id` = $entryId");
+	
+	if (doesHaveOwnership() || $acceptComment == 1) {
+		$commentFormView = $skin->commentForm;
+		
+		if (!doesHaveOwnership()) {
+			$commentMemberView = ($isComment ? $skin->commentMember : $skin->guestMember);
+			if (!doesHaveMembership()) {
+				$commentGuestView = ($isComment ? $skin->commentGuest : $skin->guestGuest);
+				dress($prefix1 . '_input_name', 'name', $commentGuestView);
+				dress($prefix1 . '_input_password', 'password', $commentGuestView);
+				dress($prefix1 . '_input_homepage', 'homepage', $commentGuestView);
+				if (!empty($_POST["name_$entryId"]))
+					$guestName = htmlspecialchars($_POST["name_$entryId"]);
+				else if (!empty($_COOKIE['guestName']))
+					$guestName = htmlspecialchars($_COOKIE['guestName']);
 				else
-					$guestHomepage = 'http://' . htmlspecialchars($_POST["homepage_$entryId"]);
-			} else if (!empty($_COOKIE['guestHomepage']))
-				$guestHomepage = htmlspecialchars($_COOKIE['guestHomepage']);
-			else
-				$guestHomepage = 'http://';
-			dress('guest_homepage', $guestHomepage, $commentGuestView);
-			dress($prefix1 . ($isComment ? '_guest' : '_form'), $commentGuestView, $commentMemberView);
+					$guestName = '';
+				dress('guest_name', $guestName, $commentGuestView);
+				if (!empty($_POST["homepage_$entryId"]) && $_POST["homepage_$entryId"] != 'http://') {
+					if (strpos($_POST["homepage_$entryId"], 'http://') === 0)
+						$guestHomepage = htmlspecialchars($_POST["homepage_$entryId"]);
+					else
+						$guestHomepage = 'http://' . htmlspecialchars($_POST["homepage_$entryId"]);
+				} else if (!empty($_COOKIE['guestHomepage']))
+					$guestHomepage = htmlspecialchars($_COOKIE['guestHomepage']);
+				else
+					$guestHomepage = 'http://';
+				dress('guest_homepage', $guestHomepage, $commentGuestView);
+				dress($prefix1 . ($isComment ? '_guest' : '_form'), $commentGuestView, $commentMemberView);
+			}
+			dress($prefix1 . '_input_is_secret', 'secret', $commentMemberView);
+			dress($prefix1 . '_member', $commentMemberView, $commentFormView);
 		}
-		dress($prefix1 . '_input_is_secret', 'secret', $commentMemberView);
-		dress($prefix1 . '_member', $commentMemberView, $commentView);
+		
+		dress($prefix1 . '_input_comment', 'comment', $commentFormView);
+		dress($prefix1 . '_onclick_submit', "addComment(this, $entryId); return false", $commentFormView);
+		dress($prefix1 . '_textarea_body', 'comment', $commentFormView);
+		dress($prefix1 . '_textarea_body_value', '', $commentFormView);
+		dress($prefix1 . '_form', $commentFormView, $commentView);
 	}
-	dress($prefix1 . '_input_comment', 'comment', $commentView);
-	dress($prefix1 . '_onclick_submit', "addComment(this, $entryId);return false", $commentView);
-	dress($prefix1 . '_textarea_body', 'comment', $commentView);
-	dress($prefix1 . '_textarea_body_value', '', $commentView);
+	
 	return $commentView;
 }
 

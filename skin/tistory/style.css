@@ -517,10 +517,14 @@ color:#333;
 	background:url("images/iconIndentArrow_local.gif") no-repeat 10px 12px;
 	background-color:#f5f5f5;
 }
-.guestbook .clist .admin span,
-.guestbook .clist .admin a,
-.guestbook .clist .admin p{
+.guestbook .clist .tt-admin-comment span,
+.guestbook .clist .tt-admin-comment a,
+.guestbook .clist .tt-admin-comment p{
 	color:#a2348f !important;
+}
+.guestbook .clist .tt-secret-comment p{
+	color:#FF7F7F !important;
+	text-align : center;
 }
 .guestbook .clist li .name{
 	font-size:12px;
@@ -686,10 +690,14 @@ color:#999;
 .entry .commentlist p{
 color:#222;
 }
-.entry .commentlist .admin span,
-.entry .commentlist .admin a,
-.entry .commentlist .admin p{
+.entry .commentlist .tt-admin-comment span,
+.entry .commentlist .tt-admin-comment a,
+.entry .commentlist .tt-admin-comment p{
 	color:#a2348f !important;
+}
+.entry .commentlist .tt-secret-comment p{
+	color:#FF7F7F !important;
+	text-align : center;
 }
 .entry .control{
 	font:11px dotum;
