@@ -469,7 +469,7 @@ EOS;
         else {
             $error = 4;
 ?>
-                <span style="color:red"><?=_t('함수가 설치되어야 합니다')?></span>
+                <span style="color:red"><?=_t('함수가 설치되어야 합니다.')?></span>
 <?
             foreach ($required as $function) {
 ?>
@@ -554,7 +554,7 @@ EOS;
 					echo '<ul><li>OK</li></ul>';
 				} else {
 					$error = 7;
-					echo '<ul style="color:red">', _t('테이블이 이미 존재합니다');
+					echo '<ul style="color:red">', _t('테이블이 이미 존재합니다.');
 					foreach ($tables as $table)
 						echo '<li>', $table, '</li>';
 					echo '</ul>';
@@ -566,7 +566,7 @@ EOS;
 					echo '<ul><li>OK</li></ul>';
 				} else {
 					$error = 7;
-					echo '<ul style="color:red">', _t('테이블이 존재하지 않습니다');
+					echo '<ul style="color:red">', _t('테이블이 존재하지 않습니다.');
 					foreach ($tables as $table)
 						echo '<li>', $table, '</li>';
 					echo '</ul>';
@@ -580,7 +580,7 @@ EOS;
         if (file_exists($filename)) {
             if (is_writable($filename)) {
                 if (filesize($filename))
-                    echo '<li style="color:navy">', _t('웹 설정 파일'), ': OK (', _t('경고'), ': ', _f('"%1" 파일을 덮어 쓰게 됩니다', $filename), ')</li>';
+                    echo '<li style="color:navy">', _t('웹 설정 파일'), ': OK (', _t('경고'), ': ', _f('"%1" 파일을 덮어 쓰게 됩니다.', $filename), ')</li>';
                 else
                     echo '<li>', _t('웹 설정 파일'), ': OK</li>';
             }
@@ -600,7 +600,7 @@ EOS;
         if (file_exists($filename)) {
             if (is_writable($filename)) {
                 if (filesize($filename))
-                    echo '<li style="color:navy">', _t('설정 파일'), ': OK (경고: "', $filename, '" 파일을 덮어 쓰게 됩니다)</li>';
+                    echo '<li style="color:navy">', _t('설정 파일'), ': OK (경고: "', $filename, '" 파일을 덮어 쓰게 됩니다.)</li>';
                 else
                     echo '<li>', _t('설정 파일'), ': OK</li>';
             }
@@ -1580,7 +1580,7 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
 		}
 ?>
     </table>
-	<p><?=($result ? _t('삭제하였습니다') : '<span style="color:red">' . _t('삭제하지 못했습니다') . '</span>')?></p>
+	<p><?=($result ? _t('삭제하였습니다.') : '<span style="color:red">' . _t('삭제하지 못했습니다.') . '</span>')?></p>
     </div>
   <div id="navigation">
     <a href="#" onclick="window.history.back()" title="<?=_t('이전')?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?=_t('이전')?>" /></a>

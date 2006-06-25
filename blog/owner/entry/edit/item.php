@@ -537,7 +537,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 															oLocationTag.setInputClassName("text-input");
 															oLocationTag.setValue("<?=addslashes($entry['location'])?>");	
 														} catch (e) {
-															document.getElementById("location").innerHTML = '<input type="text" class="text-input" name="location" value="<?=addslashes($entry['location'])?>" /><br /><?=_t('지역태그 스크립트를 사용할 수 없습니다. 슬래시(/)로 구분된 지역을 직접 입력해주세요 (예: /대한민국/서울/강남역)')?>';
+															document.getElementById("location").innerHTML = '<input type="text" class="text-input" name="location" value="<?=addslashes($entry['location'])?>" /><br /><?=_t('지역태그 스크립트를 사용할 수 없습니다. 슬래시(/)로 구분된 지역을 직접 입력해주세요.(예: /대한민국/서울/강남역)')?>';
 															// TODO : 이부분(스크립트를 실행할 수 없는 환경일 때)은 직접 입력보다는 0.96 스타일의 팝업이 좋을 듯
 														}
 														
@@ -554,7 +554,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 		}
 ?>
 														} catch(e) {
-															document.getElementById("tag").innerHTML = '<input type="text" class="text-input" name="tag" value="<?=addslashes(str_replace('"', '&quot;', implode(', ', $tags)))?>" /><br /><?=_t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해주세요 (예: 태터툴즈, BLOG, 테스트)')?>';
+															document.getElementById("tag").innerHTML = '<input type="text" class="text-input" name="tag" value="<?=addslashes(str_replace('"', '&quot;', implode(', ', $tags)))?>" /><br /><?=_t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해주세요.(예: 태터툴즈, BLOG, 테스트)')?>';
 														}
 													//]]>
 												</script> 

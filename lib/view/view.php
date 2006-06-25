@@ -201,7 +201,7 @@ function getUpperView($paging) {
 <?php 
 	if (doesHaveOwnership()) {
 ?> 
-				if (!confirm("<?php echo _t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?\t')?>"))
+				if (!confirm("<?php echo _t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?')?>"))
 					return;
 
 				var request = new HTTPRequest("GET", "<?php echo $blogURL?>/trackback/delete/" + id);
@@ -232,7 +232,7 @@ function getUpperView($paging) {
 			}
 			
 			function deleteEntry(id) {
-				if (!confirm("<?php echo _t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?\t')?>"))
+				if (!confirm("<?php echo _t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?')?>"))
 					return;
 				var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/entry/delete/" + id);
 				request.onSuccess = function() {
@@ -1420,7 +1420,7 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 													
 												<div id="additionalFeedContainer"></div>
 												<div id="feedLoadingIndicator" class="system-message" style="display: none;">
-													<?php echo _t('피드를 읽어오고 있습니다')?>
+													<?php echo _t('피드를 읽어오고 있습니다...')?>
 												</div>
 												
 												<script type="text/javascript">
@@ -1486,7 +1486,7 @@ function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false
 function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $position = 'current') {
 	global $service;
 	if (!$entry = getFeedEntry($owner, $group, $feed, $entry, $unreadOnly, $starredOnly, $searchKeyword, $position)) {
-		$entry = array('id' => 0, 'author' => 'Tattertools', 'blog_title' => 'Tattertools Reader', 'permalink' => '#', 'entry_title' => _t('포스트가 없습니다'), 'language' => 'en-US', 'description' => '<div style="height: 369px"></div>', 'tags' => '', 'enclosure' => '', 'written' => time());
+		$entry = array('id' => 0, 'author' => 'Tattertools', 'blog_title' => 'Tattertools Reader', 'permalink' => '#', 'entry_title' => _t('포스트가 없습니다.'), 'language' => 'en-US', 'description' => '<div style="height: 369px"></div>', 'tags' => '', 'enclosure' => '', 'written' => time());
 	}
 ?>
 												<div id="entryHead">

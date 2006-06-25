@@ -17,7 +17,7 @@ if (doesHaveOwnership()) {
 	<?
 } else {
 ?>
-	<h2><?=_t('비밀번호를 입력해주세요')?></h2>
+	<h2><?=_t('비밀번호를 입력해주세요.')?></h2>
 	<div class="content">
 		<form method="post" action="<?=$blogURL?>/comment/delete/action">
 		<fieldset>

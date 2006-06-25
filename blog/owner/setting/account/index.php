@@ -139,7 +139,7 @@ if ($service['type'] != 'single') {
 										errorStr ='';
 										
 										if(receiver.value == '') {
-											errorStr = '<?=_t('초대받을 사람의 이름<이메일>을 적어주세요.\n이메일만 적어도 됩니다')?>\n \n';
+											errorStr = '<?=_t('초대받을 사람의 이름<이메일>을 적어주세요.\n이메일만 적어도 됩니다.')?>\n \n';
 											//receiver.style.backgroundColor='#FFFF00';
 										}
 										
@@ -219,7 +219,7 @@ if ($service['type'] != 'single') {
 									}
 									
 									function cancelInvite(userid, caller) {
-										if(!confirm('<?=_t('삭제하시겠습니까??')?>')) return false;
+										if(!confirm('<?=_t('삭제하시겠습니까?')?>')) return false;
 										var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/setting/account/cancelInvite/");
 										request.onSuccess = function() {
 											//caller.parentNode.parentNode.removeNode();

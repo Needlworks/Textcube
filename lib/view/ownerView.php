@@ -19,9 +19,9 @@ function printOwnerEditorScript($entryId = false) {
 										var skinContentWidth = <?php echo $contentWidth?>;
 										var s_notSupportHTMLBlock = "<?php echo _t('위지윅 모드에서는 [HTML][/HTML] 블럭을 사용할 수 없습니다.')?>";
 										var s_enterURL = "<?php echo _t('URL을 입력하세요.')?>";
-										var s_unknownFileType = "<?php echo _t('알 수 없는 형식의 파일명입니다')?>";
-										var s_enterObjectTag = "<?php echo _t('OBJECT 태그만 입력하세요')?>";
-										var s_enterCorrectObjectTag = "<?php echo _t('틀린 OBJECT 태그입니다')?>";
+										var s_unknownFileType = "<?php echo _t('알 수 없는 형식의 파일명입니다.')?>";
+										var s_enterObjectTag = "<?php echo _t('OBJECT 태그만 입력하세요.')?>";
+										var s_enterCorrectObjectTag = "<?php echo _t('틀린 OBJECT 태그입니다.')?>";
  
 										function savePosition() {
 											if (document.forms[0].content.createTextRange)
