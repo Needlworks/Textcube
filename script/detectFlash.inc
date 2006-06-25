@@ -1,5 +1,6 @@
 												<script type="text/vbscript">
-													<!-- // Visual basic helper required to detect Flash Player ActiveX control version information													Function VBGetSwfVer(i)
+													<!-- // Visual basic helper required to detect Flash Player ActiveX control version information
+														Function VBGetSwfVer(i)
 															on error resume next
 															Dim swControl, swVersion
 															swVersion = 0

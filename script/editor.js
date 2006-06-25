@@ -105,14 +105,14 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	this.contentDocument.addEventListener("keyup", this.eventHandler, false);
 	
 	// editor height resize event
-	/*STD.addEventListener(document);
+	STD.addEventListener(document);
 	document.addEventListener("mousemove", docEventHandler, false);
 	document.addEventListener("mousedown", docEventHandler, false);
 	document.addEventListener("mouseup", docEventHandler, false);
 	document.addEventListener("selectstart", docEventHandler, false);
 	editor.contentDocument.addEventListener("mousemove", docEventHandler, false);
 	editor.contentDocument.addEventListener("mousedown", docEventHandler, false);
-	editor.contentDocument.addEventListener("mouseup", docEventHandler, false);*/
+	editor.contentDocument.addEventListener("mouseup", docEventHandler, false);
 	
 	// 가끔씩 Firefox에서 커서가 움직이지 않는 문제 수정
 	setTimeout("try{editor.contentDocument.designMode='on'}catch(e){}", 100);
@@ -126,31 +126,19 @@ function docEventHandler(event) {
 
 	switch(event.type) {
 		case "mousemove":
-			var taglocalSection = getObject('taglocal-section');
-			var editorTextbox = getObject('editor-textbox');
-
-			var targetOffset = (editor.editMode == "WYSIWYG") ? editor.iframe : editor.textarea;
-			var pageY = parseInt(event.clientY);
-			if(event.target.tagName != "BODY" && event.target.tagName != "HTML") {
-				pageY += document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop;
-			}
-
 			if(editor.rowResizeDown) {
-				if(event.target.tagName != "BODY" && event.target.tagName != "HTML")
-					pageY -= getOffsetTop(targetOffset);
-				try { targetOffset.style.height = pageY + 'px'; } catch(e) {}
-			} else if(event.target == taglocalSection || event.target == editorTextbox || event.target == editor.iframeWrapper) {
-				var getOffset = getOffsetTop(targetOffset) + parseInt(targetOffset.offsetHeight);
+				var targetOffset = (editor.editMode == "WYSIWYG") ? editor.iframe : editor.textarea;
+				var pageY = parseInt(event.clientY);
 
-				if(pageY > getOffset && pageY < getOffset + 10) {
-					editor.iframeWrapper.style.cursor = 'row-resize'; //taglocalSection.style.cursor = 'row-resize';
-					editor.rowResize = true;
-				} else {
-					editor.iframeWrapper.style.cursor = ''; //taglocalSection.style.cursor = '';
-					editor.rowResize = false;
+				if(event.target.tagName != "BODY" && event.target.tagName != "HTML") {
+					pageY += document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop;
+					pageY -= getOffsetTop(targetOffset);
 				}
+
+				try { targetOffset.style.height = pageY + 'px'; } catch(e) {}
+			} else if(event.target == getObject('status-container')) {
+				editor.rowResize = true;
 			} else {
-				editor.iframeWrapper.style.cursor = ''; //taglocalSection.style.cursor = '';
 				editor.rowResize = false;
 			}
 			break;

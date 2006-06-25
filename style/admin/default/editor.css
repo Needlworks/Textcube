@@ -527,8 +527,8 @@
 #status-container
 {
 	background-color                 : #8FA9BF;
-	cursor                           : n-resize
-	padding                          : 3px 5px 0 5px;
+	cursor                           : n-resize;
+	padding                          : 3px 5px 3px 5px;
 }
 
 #status-container span

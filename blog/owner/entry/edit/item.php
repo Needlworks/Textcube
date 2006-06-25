@@ -343,7 +343,7 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 										
 										function changeEditorMode() {
 											editWindow = document.getElementById("editWindow");
-											indicatorMode = document.getElementById("indicatorMode");
+											var indicatorMode = document.getElementById("indicatorMode");
 											
 											if (editWindow.style.display == "block" || editWindow.style.display == "inline") {
 												if (document.getElementById("visualEditorWindow")) {
