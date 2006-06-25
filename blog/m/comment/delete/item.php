@@ -17,7 +17,7 @@ if (doesHaveOwnership()) {
 	<?
 } else {
 ?>
-	<h2><?=_t('비밀번호를 입력해주세요.')?></h2>
+	<h2><?=_t('비밀번호를 입력해 주십시오.')?></h2>
 	<div class="content">
 		<form method="post" action="<?=$blogURL?>/comment/delete/action">
 		<fieldset>
@@ -26,7 +26,7 @@ if (doesHaveOwnership()) {
 		<input type="submit" value="<?=_t('삭제')?>" />
 		</fieldset>
 		</form>
-		<a href="<?=$blogURL?>/comment/<?=$entryId?>"><?=_t('답글보기 화면으로')?></a>
+		<a href="<?=$blogURL?>/comment/<?=$entryId?>"><?=_t('답글 보기 화면으로')?></a>
 	</div>
 	<?
 }

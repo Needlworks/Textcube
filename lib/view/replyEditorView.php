@@ -26,11 +26,11 @@ if ((empty($comment['homepage']) || $comment['homepage'] == 'http://') && isset(
 <?php 
 if (!doesHaveMembership()) {
 ?>
-				if (!checkValue(oForm.name, '<?php echo _t('이름을 입력해 주세요.')?>')) return false;
+				if (!checkValue(oForm.name, '<?php echo _t('이름을 입력해 주십시오.')?>')) return false;
 <?php 
 }
 ?>
-				if (!checkValue(oForm.comment, '<?php echo _t('댓글을 입력해 주세요.')?>')) return false;
+				if (!checkValue(oForm.comment, '<?php echo _t('댓글을 입력해 주십시오.')?>')) return false;
 				oForm.submit();
 			}
 		//]]>

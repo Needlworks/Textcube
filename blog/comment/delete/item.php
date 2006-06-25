@@ -62,7 +62,7 @@ $commentCount = ($commentCount > 0) ? "$commentCount" : '';
 					printHtmlHeader();
 ?>
 <script type="text/javascript">
-	alert("<?=_t('귀하는 차단되었으므로 사용할 수 없습니다')?>");
+	alert("<?=_t('귀하는 차단되었으므로 사용하실 수 없습니다.')?>");
 	window.close();
 </script>
 <?

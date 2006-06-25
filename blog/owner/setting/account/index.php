@@ -53,7 +53,7 @@ require ROOT . '/lib/piece/owner/contentMenu51.php';
 										var pwd = document.getElementById('pwd');
 										var pwd2 = document.getElementById('pwd2');
 										if(pwd.value != '' || prevPwd.value != '') {
-											if(confirm("<?=_t('비밀번호를 변경합니까?')?>")) {
+											if(confirm("<?=_t('비밀번호를 변경하시겠습니까?')?>")) {
 												if(pwd.value.length<6 || pwd2.value.length<6) {
 													alert("<?=_t('비밀번호는 6자리 이상입니다')?>");
 													return false;
@@ -67,7 +67,7 @@ require ROOT . '/lib/piece/owner/contentMenu51.php';
 												return false;
 											}
 										} else {
-											alert("<?=_t('비밀번호를 입력해주세요.')?>");
+											alert("<?=_t('비밀번호를 입력해 주십시오.')?>");
 											return false;
 										}
 										var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/setting/account/password/");
@@ -139,12 +139,12 @@ if ($service['type'] != 'single') {
 										errorStr ='';
 										
 										if(receiver.value == '') {
-											errorStr = '<?=_t('초대받을 사람의 이름<이메일>을 적어주세요.\n이메일만 적어도 됩니다.')?>\n \n';
+											errorStr = '<?=_t('초대받을 사람의 이름<이메일>을 적어 주십시오.\n이메일만 적어도 됩니다.')?>';
 											//receiver.style.backgroundColor='#FFFF00';
 										}
 										
 										if(identify.value == '') {
-											errorStr = '<?=_t('초대받을 사람이 사용할 블로그 식별자를 적어주세요.')?>\n \n';
+											errorStr = '<?=_t('초대받을 사람이 사용할 블로그 식별자를 적어 주십시오.')?>';
 											//identify.style.backgroundColor='#FFFF00';
 										}
 										
@@ -186,23 +186,23 @@ if ($service['type'] != 'single') {
 													alert('<?=_t('이미 존재하는 블로그 식별자입니다.')?>');
 													break;
 												case 62:
-													alert('<?=_t('실패 했습니다.')?>');
+													alert('<?=_t('실패했습니다.')?>');
 													break;
 												case 11:
-													alert('<?=_t('실패 했습니다.')?>');
+													alert('<?=_t('실패했습니다.')?>');
 													break;
 												case 12:
-													alert('<?=_t('실패 했습니다.')?>');
+													alert('<?=_t('실패했습니다.')?>');
 													break;
 												case 13:
-													alert('<?=_t('실패 했습니다.')?>');
+													alert('<?=_t('실패했습니다.')?>');
 													break;
 												case 14:
 													//receiver.style.backgroundColor='#FFFF00';
-													alert('<?=_t('실패 했습니다.')?>');
+													alert('<?=_t('실패했습니다.')?>');
 													break;
 												default:
-													alert('<?=_t('실패 했습니다.')?>');
+													alert('<?=_t('실패했습니다.')?>');
 											}
 										}
 										request.send("&senderName="+encodeURIComponent(sender[0][0])+"&senderEmail="+encodeURIComponent(sender[0][1])+"&email="+inviteList[0][1]+"&name="+encodeURIComponent(inviteList[0][0])+"&identify="+identify.value+"&comment="+encodeURIComponent(comment.value));
@@ -226,7 +226,7 @@ if ($service['type'] != 'single') {
 											window.location.href="<?=$blogURL?>/owner/setting/account";
 										}
 										request.onError = function() {
-											alert('<?=_t('실패 했습니다.')?>');
+											alert('<?=_t('실패했습니다.')?>');
 										}
 										request.send("userid=" + userid);
 									}
@@ -350,7 +350,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 <?
 		if ($value['lastLogin'] == 0) {
 ?>
-														<td class="status"><?=timeInterval($value['created'], time()) . ' ' . _t('전')?></td>
+														<td class="status"><?=_f('%1 전', timeInterval($value['created'], time()))?></td>
 														<td class="password"><?=fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']}")?></td>
 														<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?=$value['userid']?>,this);" title="<?=_t('초대에 응하지 않은 사용자의 계정을 삭제합니다.')?>"><span class="text"><?=_t('초대취소')?></span></a></td>
 <?

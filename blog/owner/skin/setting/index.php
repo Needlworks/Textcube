@@ -62,7 +62,7 @@ $selected = 0;
 									param += 'linkLength='+getValueById('linkLength') +'&';
 									var request = new HTTPRequest("POST", '<?=$blogURL?>/owner/skin/setting/skin/');
 									request.onSuccess = function() {
-										PM.showMessage("<?=_t('저장되었습니다')?>", "center", "bottom");
+										PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
 									}
 									request.send(param);
 								}
@@ -474,7 +474,7 @@ if ($dh = opendir($skinPath)) {
 											</dd>
 										</dl>
 										<dl id="selected-color-line" class="line">
-											<dt><label for="activeColorOnTree"><?=_t('선택된 폰트색')?></label></dt>
+											<dt><label for="activeColorOnTree"><?=_t('선택된 글자색')?></label></dt>
 											<dd><input type="text" id="activeColorOnTree" class="text-input" name="activeColorOnTree" value="<?=$skinSetting['activeColorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 										</dl>
 										<dl id="selected-bgcolor-line" class="line">
@@ -482,7 +482,7 @@ if ($dh = opendir($skinPath)) {
 											<dd><input type="text" id="activeBgColorOnTree" class="text-input" name="activeBgColorOnTree" value="<?=$skinSetting['activeBgColorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 										</dl>
 										<dl id="unselected-color-line" class="line">
-											<dt><label for="colorOnTree"><?=_t('선택되지 않은 폰트색')?></label></dt>
+											<dt><label for="colorOnTree"><?=_t('선택되지 않은 글자색')?></label></dt>
 											<dd><input type="text" id="colorOnTree" class="text-input" name="colorOnTree" value="<?=$skinSetting['colorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 										</dl>
 										<dl id="unselected-bgcolor-line" class="line">

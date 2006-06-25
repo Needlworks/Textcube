@@ -45,7 +45,7 @@ if (count($_FILES) == 1) {
 	$fileExt = Path::getExtension($_FILES['blogIcon']['name']);
 	if (($fileExt != '.gif') && ($fileExt != '.jpg')) {
 ?>	
-		alert('<?=_t('실패 했습니다.')?>');
+		alert('<?=_t('실패했습니다.')?>');
 <?
 	} else { 
 		requireComponent('Tattertools.Data.Attachment');

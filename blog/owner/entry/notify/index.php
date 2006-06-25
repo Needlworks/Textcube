@@ -21,7 +21,7 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 							<script type="text/javascript">
 								//<![CDATA[
 									function deleteComment(id) {
-										if (!confirm("<?=_t('선택된 댓글을 삭제합니다. 계속하시겠습니까?')?>"))
+										if (!confirm("<?=_t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?')?>"))
 											return;
 										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/notify/delete/" + id);
 										request.onSuccess = function () {
@@ -31,7 +31,7 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 									}
 									
 									function deleteComments() {	
-										if (!confirm("<?=_t('선택된 댓글을 삭제합니다. 계속하시겠습니까?')?>"))
+										if (!confirm("<?=_t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?')?>"))
 											return false;
 										var oElement;
 										var targets = '';
@@ -232,7 +232,7 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 									
 									<div id="page-section" class="section">
 										<div id="page-navigation">
-											<span id="total-count"><?=_t('총')?> <?=$paging['total']?><?=_t('건')?></span>
+											<span id="total-count"><?=_f('총 %1건', empty($paging['total']) ? "0" : $paging['total'])?></span>
 											<span id="page-list">
 <?
 //$paging['url'] = 'document.forms[0].page.value=';

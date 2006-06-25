@@ -10,7 +10,7 @@ function printMobileEntryContentView($owner, $entry, $keywords = array()) {
 		<div>
 		<label for="password"><?=_t('비밀번호')?></label>
 		<input type="password" id="password" name="password" />
-		<input type="submit" value="<?=_t('내용 보기')?>" />
+		<input type="submit" value="<?=_t('내용보기')?>" />
 		</div>
 	</form>
 	<?
@@ -62,7 +62,7 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 	}
 	if (!isset($paging)) {
 ?>	
-		<li><a href="<?php echo $blogURL?>/<?php echo $entry['id']?>" accesskey="3"><?php echo _t('포스트 보기')?></a></li>
+		<li><a href="<?php echo $blogURL?>/<?php echo $entry['id']?>" accesskey="3"><?php echo _t('포스트보기')?></a></li>
 		<?php
 	}
 	if ($jumpToComment) {
@@ -72,12 +72,12 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 	}
 	if ($jumpToTrackback) {
 ?>
-		<li><a href="<?php echo $blogURL?>/trackback/<?php echo $entry['id']?>" accesskey="5"><?php echo _t('트랙백 보기')?> (<?php echo $entry['trackbacks']?>)</a></li>
+		<li><a href="<?php echo $blogURL?>/trackback/<?php echo $entry['id']?>" accesskey="5"><?php echo _t('트랙백보기')?> (<?php echo $entry['trackbacks']?>)</a></li>
 		<?php
 	}
 	if ($suri['directive'] != '/m/pannels') {
 ?>
-		<li><a href="<?php echo $blogURL?>/pannels/<?php echo $entry['id']?>" accesskey="6"><?php echo _t('다른 메뉴 보기')?></a></li>
+		<li><a href="<?php echo $blogURL?>/pannels/<?php echo $entry['id']?>" accesskey="6"><?php echo _t('다른 메뉴보기')?></a></li>
 		<?php
 	}
 ?>

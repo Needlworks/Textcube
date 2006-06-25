@@ -537,7 +537,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 															oLocationTag.setInputClassName("text-input");
 															oLocationTag.setValue("<?=addslashes($entry['location'])?>");	
 														} catch (e) {
-															document.getElementById("location").innerHTML = '<input type="text" class="text-input" name="location" value="<?=addslashes($entry['location'])?>" /><br /><?=_t('지역태그 스크립트를 사용할 수 없습니다. 슬래시(/)로 구분된 지역을 직접 입력해주세요.(예: /대한민국/서울/강남역)')?>';
+															document.getElementById("location").innerHTML = '<input type="text" class="text-input" name="location" value="<?=addslashes($entry['location'])?>" /><br /><?=_t('지역태그 스크립트를 사용할 수 없습니다. 슬래시(/)로 구분된 지역을 직접 입력해 주십시오.(예: /대한민국/서울/강남역)')?>';
 															// TODO : 이부분(스크립트를 실행할 수 없는 환경일 때)은 직접 입력보다는 0.96 스타일의 팝업이 좋을 듯
 														}
 														
@@ -554,7 +554,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 		}
 ?>
 														} catch(e) {
-															document.getElementById("tag").innerHTML = '<input type="text" class="text-input" name="tag" value="<?=addslashes(str_replace('"', '&quot;', implode(', ', $tags)))?>" /><br /><?=_t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해주세요.(예: 태터툴즈, BLOG, 테스트)')?>';
+															document.getElementById("tag").innerHTML = '<input type="text" class="text-input" name="tag" value="<?=addslashes(str_replace('"', '&quot;', implode(', ', $tags)))?>" /><br /><?=_t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해 주십시오.(예: 태터툴즈, BLOG, 테스트)')?>';
 														}
 													//]]>
 												</script> 
@@ -583,7 +583,7 @@ printEntryFileList(getAttachments($owner, $entry['id'], 'label'), $entry['id']);
 												<a class="image-2center" href="#void" onclick="linkImage2()" title="<?=_t('선택한 두개의 파일을 글의 중앙에 정렬합니다.')?>"><span class="text"><?=_t('중앙 정렬(2 이미지)')?></span></a>
 												<a class="image-3center" href="#void" onclick="linkImage3()" title="<?=_t('선택한 세개의 파일을 글의 중앙에 정렬합니다.')?>"><span class="text"><?=_t('중앙 정렬(3 이미지)')?></span></a>
 												<a class="image-free" href="#void" onclick="linkImageFree()" title="<?=_t('선택한 파일을 글에 삽입합니다. 문단의 모양에 영향을 주지 않습니다.')?>"><span class="text"><?=_t('파일 삽입')?></span></a>
-												<a class="image-imazing" href="#void" onclick="viewImazing()" title="<?=_t('이메이징(플래쉬 갤러리)을 삽입합니다.')?>"><span class="text"><?=_t('이메이징 삽입(플래쉬 갤러리)')?></span></a>
+												<a class="image-imazing" href="#void" onclick="viewImazing()" title="<?=_t('이메이징(플래쉬 갤러리)을 삽입합니다.')?>"><span class="text"><?=_t('이메이징(플래쉬 갤러리) 삽입')?></span></a>
 												<a class="image-sequence" href="#void" onclick="viewGallery()" title="<?=_t('이미지 갤러리를 삽입합니다.')?>"><span class="text"><?=_t('갤러리 삽입')?></span></a>
 												<a class="image-mp3" href="#void" onclick="viewJukebox()" title="<?=_t('쥬크박스를 삽입합니다.')?>"><span class="text"><?=_t('쥬크박스 삽입')?></span></a>
 												<a class="image-podcast" href="#void" onclick="setEnclosure(document.getElementById('fileList').value)" title="<?=_t('팟캐스트로 지정합니다.')?>"><span class="text"><?=_t('팟캐스트 지정')?></span></a>

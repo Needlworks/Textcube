@@ -82,13 +82,13 @@ $entry = getEntry($owner, $suri['id']);
 			}
 			
 			function removeTrackbackLog(id,entry) {
-				if(confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?')?>")) {
+				if(confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속 하시겠습니까?')?>")) {
 					var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/trackback/log/remove/" + id);
 					request.onSuccess = function() {
 						showTrackbackSender(entry);
 					}
 					request.onError = function() {
-						alert('<?=_t('실패 했습니다.')?>');
+						alert('<?=_t('실패했습니다.')?>');
 					}
 					request.send();
 				}

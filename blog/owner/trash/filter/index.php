@@ -117,7 +117,7 @@ function printFilterBox($mode, $title) {
 									}
 									
 									function deleteFilter(caller, mode, value, id) {
-										if (!confirm('<?=_t('선택된 목록을 필터링에서 제외합니다. 계속하시겠습니까?')?>')) return false;
+										if (!confirm('<?=_t('선택된 목록을 필터링에서 제외합니다. 계속 하시겠습니까?')?>')) return false;
 										var execute = 'close';
 										
 										param  = '?mode=' 	+ mode;
@@ -144,7 +144,7 @@ function printFilterBox($mode, $title) {
 										var target 	= document.getElementById(mode) ;
 										
 										if(target.value=="") {
-											alert("<?=_t('내용을 입력해 주세요.')?>");
+											alert("<?=_t('내용을 입력해 주십시오.')?>");
 											return false;
 										}
 										

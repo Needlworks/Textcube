@@ -90,7 +90,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 									var removeAttachments = document.getElementById("removeAttachments-yes");
 									var confirmativePassword = document.getElementById("confirmativePassword");
 									if (confirmativePassword.value.length < 6) {
-										alert("<?=_t('비밀번호를 입력하십시오.')?>");
+										alert("<?=_t('비밀번호를 입력해 주십시오.')?>");
 										confirmativePassword.focus();
 										return false;
 									}

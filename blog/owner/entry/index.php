@@ -60,7 +60,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 													document.getElementById("publicIcon_" + entry).className = 'public-off-icon';
 													document.getElementById("publicIcon_" + entry).removeAttribute('title');
 																										
-													document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?no_javascript=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다')?>"><span class="text"><?=_t('비발행')?></span></a>';
+													document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?no_javascript=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?=_t('비발행')?></span></a>';
 													document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
 													
 													tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
@@ -81,7 +81,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 													document.getElementById("publicIcon_" + entry).className = 'public-off-icon';
 													document.getElementById("publicIcon_" + entry).removeAttribute('title');
 													
-													document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?no_javascript=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다')?>"><span class="text"><?=_t('비발행')?></span></a>';
+													document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?no_javascript=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?=_t('비발행')?></span></a>';
 													document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
 													
 													tempLink = document.createElement("A");
@@ -110,7 +110,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 													document.getElementById("publicIcon_" + entry).className = 'public-on-icon';
 													document.getElementById("publicIcon_" + entry).setAttribute('title', '<?=_t('현재 공개 상태입니다.')?>');
 													
-													document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?no_javascript=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다')?>"><span class="text"><?=_t('비발행')?></span></a>';
+													document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?no_javascript=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?=_t('비발행')?></span></a>';
 													document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
 													
 													tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
@@ -210,7 +210,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 											}
 										}
 										if (!isSelected) {
-											alert("<?=_t('적용할 글을 선택해 주세요.')?>")
+											alert("<?=_t('적용할 글을 선택해 주십시오.')?>")
 											return false;
 										}
 										switch (mode) {
@@ -604,7 +604,7 @@ if ($entry['visibility'] == 1) {
 									
 									<div id="page-section" class="section">
 										<div id="page-navigation">
-											<span id="total-count"><?=_t('총')?> <?=$paging['total']?><?=_t('건')?></span>
+											<span id="total-count"><?=_f('총 %1건', empty($paging['total']) ? "0" : $paging['total'])?></span>
 											<span id="page-list">
 <?
 //$paging['onclick_url'] = 'document.forms[0].page.value=';

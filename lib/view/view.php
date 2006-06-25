@@ -192,7 +192,7 @@ function getUpperView($paging) {
 			function copyUrl(url){		
 				if(isIE) {
 					window.clipboardData.setData('Text',url);
-					window.alert("<?php echo _t('엮인글 주소가 복사되었습니다')?>");
+					window.alert("<?php echo _t('엮인글 주소가 복사되었습니다.')?>");
 				}
 			}
 			
@@ -201,7 +201,7 @@ function getUpperView($paging) {
 <?php 
 	if (doesHaveOwnership()) {
 ?> 
-				if (!confirm("<?php echo _t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?')?>"))
+				if (!confirm("<?php echo _t('선택된 트랙백을 삭제합니다. 계속 하시겠습니까?')?>"))
 					return;
 
 				var request = new HTTPRequest("GET", "<?php echo $blogURL?>/trackback/delete/" + id);
@@ -209,13 +209,13 @@ function getUpperView($paging) {
 					document.getElementById('entry'+entryId+'Trackback').innerHTML= this.getText("/response/result");
 				}
 				request.onError = function() {
-					alert('<?php echo _t('실패 했습니다')?>');
+					alert('<?php echo _t('실패했습니다.')?>');
 				}
 				request.send();
 <?php 
 	} else {
 ?>
-				alert('<?php echo _t('실패 했습니다')?>');
+				alert('<?php echo _t('실패했습니다.')?>');
 <?php 
 	}
 ?>
@@ -232,7 +232,7 @@ function getUpperView($paging) {
 			}
 			
 			function deleteEntry(id) {
-				if (!confirm("<?php echo _t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?')?>"))
+				if (!confirm("<?php echo _t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?')?>"))
 					return;
 				var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/entry/delete/" + id);
 				request.onSuccess = function() {
@@ -1394,7 +1394,7 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 		$className = $entry['wasread'] ? 'read' : 'unread';
 		$className .= ($count % 2) == 1 ? ' even-line' : ' odd-line';
 		$className .= ($count == 0) ? ' active-class' : ' inactive-class';
-		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="'._t('팟캐스트 포스트입니다.').'"><span class="text">' . _t('팟 캐스트') . '</span></span>' : '';
+		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="'._t('팟캐스트 포스트입니다.').'"><span class="text">' . _t('팟캐스트') . '</span></span>' : '';
 ?>
 														<tr id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $className?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
 															<td>
@@ -1457,7 +1457,7 @@ function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false
 		$class = $entry['wasread'] ? 'read' : 'unread';
 		$class .= ($count % 2) == 1 ? ' odd-line' : ' even-line';
 		$class .= ' inactive-class';
-		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="'._t('팟캐스트 포스트입니다.').'"><span class="text">' . _t('팟 캐스트') . '</span></span>' : '';
+		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="'._t('팟캐스트 포스트입니다.').'"><span class="text">' . _t('팟캐스트') . '</span></span>' : '';
 ?>
 													<tr id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
 														<td>
@@ -1499,7 +1499,7 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 												<div id="entryHead">
 													<div class="title"><a href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($entry['entry_title'])?></a></div>
 													<div class="writing-info"><span class="by">by </span><span class="name"><?php echo htmlspecialchars($entry['author'] ? eregi_replace("^\((.+)\)$", "\\1", $entry['author']) : $entry['blog_title'])?></span><span class="divider"> : </span><span class="date"><?php echo date('Y-m-d H:i:s', $entry['written'])?></span></div>
-													<div class="open"><a id="entryPermalink" href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;" title="<?=_t('이 포스트를 새 창으로 엽니다.')?>"><span class="text"><?php echo _t('새 창으로 보기')?></span></a></div>
+													<div class="open"><a id="entryPermalink" href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;" title="<?=_t('이 포스트를 새 창으로 엽니다.')?>"><span class="text"><?php echo _t('새 창으로')?></span></a></div>
 												</div>
 												
 												<div id="entryBody" lang="<?php echo htmlspecialchars($entry['language'])?>" xml:lang="<?php echo htmlspecialchars($entry['language'])?>">

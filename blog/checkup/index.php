@@ -61,7 +61,7 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}Users `database`")) { // 
 }
 if (!DBQuery::queryExistence("DESC {$database['prefix']}RefererLogs url")) { // Since 1.0.2
 	$changed = true;
-	echo '<li>', _t('레퍼러 로그 테이블의 구조를 변경합니다.'), ': ';
+	echo '<li>', _t('리퍼러 로그 테이블의 구조를 변경합니다.'), ': ';
 	if (DBQuery::execute("UPDATE {$database['prefix']}RefererLogs SET path = CONCAT('http://', host, path)") && DBQuery::execute("ALTER TABLE {$database['prefix']}RefererLogs CHANGE path url VARCHAR(255) NOT NULL") && DBQuery::execute("ALTER TABLE {$database['prefix']}RefererLogs CHANGE written referred INT NOT NULL"))
 		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
 	else

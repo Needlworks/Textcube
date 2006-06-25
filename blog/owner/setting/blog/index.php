@@ -397,7 +397,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 <?
 }
 ?>
-												</select><?=getArrayValue(explode('%1', _t('RSS 파일의 블로그 글은 최신 %1 개로 갱신됩니다.')), 1)?>
+												</select><?=getArrayValue(explode('%1', _t('RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다.')), 1)?>
 											</dd>
 										</dl>
 										<dl id="open-range-line" class="line">

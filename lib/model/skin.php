@@ -24,12 +24,12 @@ function setTreeSetting($owner, $setting) {
 function selectSkin($owner, $skinName) {
 	global $database, $service;
 	if (empty($skinName))
-		return _t('실패 했습니다');
+		return _t('실패했습니다.');
 	if (file_exists(ROOT . "/skin/$skinName/index.xml")) {
 		$xml = file_get_contents(ROOT . "/skin/$skinName/index.xml");
 		$xmls = new XMLStruct();
 		if (!$xmls->open($xml, $service['encoding']))
-			return _t('실패 했습니다');
+			return _t('실패했습니다.');
 		$assignments = array("skin='$skinName'");
 		$value = $xmls->getValue('/skin/default/recentEntries');
 		if (!empty($value) || is_numeric($value))
@@ -100,7 +100,7 @@ function selectSkin($owner, $skinName) {
 	}
 	$result = mysql_query($sql);
 	if (!$result) {
-		return _t('실패 했습니다');
+		return _t('실패했습니다.');
 	}
 	return true;
 }
@@ -109,7 +109,7 @@ function writeSkinHtml($owner, $contents, $mode) {
 	global $database;
 	global $skinSetting;
 	if ($mode != 'skin' && $mode != 'skin_keyword' && $mode != 'style')
-		return _t('실패 했습니다');
+		return _t('실패했습니다.');
 	if ($skinSetting['skin'] != "customize/$owner") {
 		if (!@file_exists(ROOT . "/skin/customize/$owner")) {
 			if (!@mkdir(ROOT . "/skin/customize/$owner"))
@@ -123,7 +123,7 @@ function writeSkinHtml($owner, $contents, $mode) {
 	$sql = "UPDATE {$database['prefix']}SkinSettings SET skin = '{$skinSetting['skin']}' WHERE owner = $owner";
 	$result = mysql_query($sql);
 	if (!$result)
-		return _t('실패 했습니다');
+		return _t('실패했습니다.');
 	if ($mode == 'style')
 		$file = $mode . '.css';
 	else
@@ -133,7 +133,7 @@ function writeSkinHtml($owner, $contents, $mode) {
 	$handler = fopen(ROOT . "/skin/{$skinSetting['skin']}/$file", 'w');
 	if (fwrite($handler, $contents) === false) {
 		fclose($handler);
-		return _t('실패 했습니다');
+		return _t('실패했습니다.');
 	} else {
 		fclose($handler);
 		@chmod(ROOT . "/skin/{$skinSetting['skin']}/$file", 0666);

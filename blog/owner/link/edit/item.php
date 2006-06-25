@@ -11,7 +11,7 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 								//<![CDATA[
 									function getSiteInfo() {
 										if(document.forms[0].rss.value == '') {
-											alert("<?=_t('RSS 주소를 입력해 주세요.')?>\t");
+											alert("<?=_t('RSS 주소를 입력해 주십시오.')?>\t");
 											return false;		
 										}
 								
@@ -39,7 +39,7 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 										var oForm = document.forms[0];
 										trimAll(oForm);
 										if (!checkValue(oForm.name, "<?=_t('이름을 입력해 주십시오.')?>\t")) return false;
-										if (!checkValue(oForm.url, "<?=_t('주소를 입력해 주세요.')?>\t")) return false;
+										if (!checkValue(oForm.url, "<?=_t('주소를 입력해 주십시오.')?>\t")) return false;
 											var request = new HTTPRequest("POST", blogURL + "/owner/link/edit/exec/");
 										request.onSuccess = function () {
 											PM.removeRequest(this);

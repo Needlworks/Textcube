@@ -34,7 +34,7 @@ $setting = getReaderSetting($owner);
 					var s_markedAsUnread = "<?=_t('읽지 않은 상태로 변경됐습니다.')?>";
 					var s_loadingList = "<?=_t('포스트 목록을 불러오고 있습니다.')?>";
 					var s_opmlImportComplete = "<?=_t('OPML 파일을 가져왔습니다.')?>";
-					var s_opmlUploadComplete = "<?=_t('개의 피드를 가져왔습니다.\n피드를 업데이트 해주세요.')?>";
+					var s_opmlUploadComplete = "<?=_t('개의 피드를 가져왔습니다.\n피드를 업데이트 해 주십시오.')?>";
 					var s_xmlBroken = "<?=_t('올바른 XML 파일이 아닙니다.')?>";
 					var s_opmlBroken = "<?=_t('올바른 OPML 파일이 아닙니다.')?>";
 					var s_loadingOPML = "<?=_t('OPML 파일을 가져오고 있습니다.')?>";
@@ -183,7 +183,7 @@ if (getUserId() == 1) {
 													<dt><span class="label"><?=_t('링크')?></span></dt>
 													<dd>
 														<div class="window-self"><input type="radio" id="newWindow1" class="radio" name="newWindow" value="1"<?=$setting['newWindow'] == 1 ? ' checked="checked"' : ''?> /> <label for="newWindow1"><?=_t('기본값')?></label></div>
-														<div class="window-blank"><input type="radio" id="newWindow2" class="radio" name="newWindow" value="2"<?=$setting['newWindow'] == 2 ? ' checked="checked"' : ''?> /> <label for="newWindow2"><?=_t('새창으로')?></label></div>
+														<div class="window-blank"><input type="radio" id="newWindow2" class="radio" name="newWindow" value="2"<?=$setting['newWindow'] == 2 ? ' checked="checked"' : ''?> /> <label for="newWindow2"><?=_t('새 창으로')?></label></div>
 													</dd>
 												</dl>
 											
@@ -228,11 +228,11 @@ if (getUserId() == 1) {
 							<div id="toggleBar" onmousedown="Reader.startResizing(event)">
 								<script type="text/javascript">
 									//<![CDATA[
-										var show_str = '<?=_t('패널 보기')?>';
+										var show_str = '<?=_t('패널보기')?>';
 										var hide_str = '<?=_t('패널 가리기')?>';
 										
 										document.write('<a id="toggleButton" class="pannel-<?=getPersonalization($owner, 'readerPannelVisibility') == 1 ? 'show' : 'hide'?>" href="#void" onclick="Reader.togglePannel(event)">');
-										document.write('<span class="text"><?= getPersonalization($owner, 'readerPannelVisibility') == 1 ? _t('패널 가리기') : _t('패널 보기')?></span>');
+										document.write('<span class="text"><?= getPersonalization($owner, 'readerPannelVisibility') == 1 ? _t('패널 가리기') : _t('패널보기')?></span>');
 										document.write('</a>');
 									//]]>
 								</script>
@@ -260,7 +260,7 @@ printFeedEntries($owner);
 										<div class="button-box">
 											<a class="hide-button button" href="#void" onclick="Reader.showUnreadOnly(); return false;"><span class="text"><?=_t('읽은 글 감추기')?></span></a>
 											<span class="divider">-</span>
-											<a class="shortcut-button button" href="#void" onclick="document.getElementById('shortcuts').style.display = document.getElementById('shortcuts').style.display=='none' ? 'block' : 'none'"><span class="text"><?=_t('단축키 보기')?></span></a>
+											<a class="shortcut-button button" href="#void" onclick="document.getElementById('shortcuts').style.display = document.getElementById('shortcuts').style.display=='none' ? 'block' : 'none'"><span class="text"><?=_t('단축키보기')?></span></a>
 										</div>
 										
 										<div id="shortcuts" style="display: none;">
@@ -269,9 +269,9 @@ printFeedEntries($owner);
 											<ul>
 												<li><kbd>A</kbd>, <kbd>H</kbd> - <?=_t('이전 글')?></li>
 												<li><kbd>S</kbd>, <kbd>L</kbd> - <?=_t('다음 글')?></li>
-												<li><kbd>D</kbd> - <?=_t('새창으로')?></li>
-												<li><kbd>F</kbd> - <?=_t('안 읽은 글만 보기')?></li>
-												<li><kbd>G</kbd> - <?=_t('스크랩한 글만 보기')?></li>
+												<li><kbd>D</kbd> - <?=_t('새 창으로')?></li>
+												<li><kbd>F</kbd> - <?=_t('안 읽은 글만보기')?></li>
+												<li><kbd>G</kbd> - <?=_t('스크랩된 글 보기')?></li>
 												<li><kbd>Q</kbd> - <?=_t('블로그 화면으로')?></li>
 												<li><kbd>W</kbd> - <?=_t('현재글 스크랩')?></li>
 												<li><kbd>R</kbd> - <?=_t('리더 첫화면으로')?></li>

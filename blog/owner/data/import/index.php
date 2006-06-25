@@ -523,7 +523,7 @@ function importer($path, $node, $line) {
 			}
 			return true;
 		case '/blog/logs/referer':
-			setProgress($item++ / $items * 100, _t('레퍼러 로그를 복원하고 있습니다.'));
+			setProgress($item++ / $items * 100, _t('리퍼러 로그를 복원하고 있습니다.'));
 			$log = new RefererLog();
 			if (isset($node['path'][0]['.value']))
 				$log->url = $node['path'][0]['.value'];
@@ -534,7 +534,7 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $log->error);
 			return true;
 		case '/blog/statistics/referer':
-			setProgress($item++ / $items * 100, _t('레퍼러 통계를 복원하고 있습니다.'));
+			setProgress($item++ / $items * 100, _t('리퍼러 통계를 복원하고 있습니다.'));
 			$statistics = new RefererStatistics();
 			$statistics->host = $node['host'][0]['.value'];
 			$statistics->count = $node['count'][0]['.value'];
@@ -600,7 +600,7 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $setting->error);
 			return true;
 		case '/blog/personalization':
-			setProgress($item++ / $items * 100, _t('사용자 편의 설정을 복원하고 있습니다.'));
+			setProgress($item++ / $items * 100, _t('사용자 편의설정을 복원하고 있습니다.'));
 			$setting = new Personalization();
 			$setting->rowsPerPage = $node['rowsPerPage'][0]['.value'];
 			$setting->readerPannelVisibility = $node['readerPannelVisibility'][0]['.value'];

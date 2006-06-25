@@ -21,7 +21,7 @@ function printOwnerEditorScript($entryId = false) {
 										var s_enterURL = "<?php echo _t('URL을 입력하세요.')?>";
 										var s_unknownFileType = "<?php echo _t('알 수 없는 형식의 파일명입니다.')?>";
 										var s_enterObjectTag = "<?php echo _t('OBJECT 태그만 입력하세요.')?>";
-										var s_enterCorrectObjectTag = "<?php echo _t('틀린 OBJECT 태그입니다.')?>";
+										var s_enterCorrectObjectTag = "<?php echo _t('잘못된 OBJECT 태그입니다.')?>";
  
 										function savePosition() {
 											if (document.forms[0].content.createTextRange)
@@ -311,7 +311,7 @@ function printOwnerEditorScript($entryId = false) {
 												}
 											}
 											if (count != 2) {
-												alert("<?php echo _t('파일 리스트에서 이미지를 2개 선택해 주세요. (ctrl + 마우스 왼쪽 클릭)')?>");
+												alert("<?php echo _t('파일 리스트에서 이미지를 2개 선택해 주십시오. (ctrl + 마우스 왼쪽 클릭)')?>");
 												return false;
 											}
 											var imageinfo = prefix.split("^");
@@ -351,7 +351,7 @@ function printOwnerEditorScript($entryId = false) {
 												}
 											}
 											if (count != 3) {
-												alert("<?php echo _t('파일 리스트에서 이미지를 3개 선택해 주세요. (ctrl + 마우스 왼쪽 클릭)')?>");
+												alert("<?php echo _t('파일 리스트에서 이미지를 3개 선택해 주십시오. (ctrl + 마우스 왼쪽 클릭)')?>");
 												return false;
 											}
 											var imageinfo = prefix.split("^");
@@ -419,7 +419,7 @@ function printOwnerEditorScript($entryId = false) {
 														fileList += file+'||';
 												}
 												if(fileList == '') {
-													alert("<?php echo _t('이미지 파일만 삽입 가능 합니다.')?>");
+													alert("<?php echo _t('이미지 파일만 삽입 가능합니다.')?>");
 													return false;
 												}
 												fileList = fileList.substr(0,fileList.length-1);
@@ -460,7 +460,7 @@ function printOwnerEditorScript($entryId = false) {
 														fileList += file+'||';
 												}
 												if(fileList == '') {
-													alert("<?php echo _t('이미지 파일만 삽입 가능 합니다.')?>");
+													alert("<?php echo _t('이미지 파일만 삽입 가능합니다.')?>");
 													return false;
 												}
 												fileList = fileList.substr(0,fileList.length-1);
@@ -502,7 +502,7 @@ function printOwnerEditorScript($entryId = false) {
 													}
 												}
 												if(fileList == '') {
-													alert("<?php echo _t('MP3 파일만 삽입 가능 합니다.')?>");
+													alert("<?php echo _t('MP3 파일만 삽입 가능합니다.')?>");
 													return false;
 												}
 												fileList = fileList.substr(0,fileList.length-1);
@@ -926,7 +926,7 @@ function printEntryEditorProperty() {
 														<dt class="property-name"><label for="propertyInsertObject_type"><?php echo _t('유형')?></label></dt>
 														<dd>
 															<select id="propertyInsertObject_type" style="width: 105px" onchange="getObject('propertyInsertObject_part_url').style.display=getObject('propertyInsertObject_part_raw').style.display='none';getObject('propertyInsertObject_part_' + this.value).style.display = 'block'">
-																<option value="url"><?php echo _t('주소 입력')?></option>
+																<option value="url"><?php echo _t('주소입력')?></option>
 																<option value="raw"><?php echo _t('코드 붙여넣기')?></option>
 															</select>
 														</dd>

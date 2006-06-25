@@ -113,7 +113,7 @@ if (empty($_POST['step'])) {
       <ol>
         <li><?=_t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 태터툴즈)의 저작권자는 Tatter &amp; Company와 Tatter &amp; Friends입니다.')?></li>
         <li><?=_t('태터툴즈는 GPL 라이선스로 제공되며, 모든 사람이 자유롭게 이용할 수 있습니다.')?></li>
-        <li><?=_t('프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고에 책임은 모두 사용자에게 있습니다.')?></li>
+        <li><?=_t('프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고책임은 모두 사용자에게 있습니다.')?></li>
         <li><?=_t('스킨 및 트리, 플러그인의 저작권은 각 제작자에게 있습니다.')?></li>
       </ol>
     </div>
@@ -580,7 +580,7 @@ EOS;
         if (file_exists($filename)) {
             if (is_writable($filename)) {
                 if (filesize($filename))
-                    echo '<li style="color:navy">', _t('웹 설정 파일'), ': OK (', _t('경고'), ': ', _f('"%1" 파일을 덮어 쓰게 됩니다.', $filename), ')</li>';
+                    echo '<li style="color:navy">', _f('설정 파일: OK (경고: "%1" 파일을 덮어 쓰게 됩니다.)', $filename), '</li>';
                 else
                     echo '<li>', _t('웹 설정 파일'), ': OK</li>';
             }
@@ -600,7 +600,7 @@ EOS;
         if (file_exists($filename)) {
             if (is_writable($filename)) {
                 if (filesize($filename))
-                    echo '<li style="color:navy">', _t('설정 파일'), ': OK (경고: "', $filename, '" 파일을 덮어 쓰게 됩니다.)</li>';
+                    echo '<li style="color:navy">', _f('설정 파일: OK (경고: "%1" 파일을 덮어 쓰게 됩니다.)', $filename), '</li>';
                 else
                     echo '<li>', _t('설정 파일'), ': OK</li>';
             }
@@ -674,15 +674,15 @@ EOS;
       <li><?=_t('Rewrite를 사용할 수 없습니다.')?><br /><span style="color:black"><?=_t('다음 항목을 확인하십시오.')?></span></li>
       <ol style="color:blue">
         <li><?=_t('웹서버 설정에 <b>mod_rewrite</b>의 로딩이 포함되어야 합니다.')?><br />
-          <samp><?=_t('예')?>: LoadModule <b>rewrite_module</b> modules/<b>mod_rewrite</b>.so</samp>
+          <samp><?=_t('예: LoadModule <b>rewrite_module</b> modules/<b>mod_rewrite</b>.so')?></samp>
         </li>
         <li><?=_t('웹서버 설정의 이 디렉토리에 대한 <em>Options</em> 항목에 <b>FollowSymLinks</b>가 포함되거나 <b>All</b>이어야 합니다.')?>
-          <samp><br /><?=_t('예')?>: Options <b>FollowSymLinks</b></samp>
-          <samp><br /><?=_t('예')?>: Options <b>All</b></samp>
+          <samp><br /><?=_t('예: Options <b>FollowSymLinks</b>')?></samp>
+          <samp><br /><?=_t('예: Options <b>All</b>')?></samp>
         </li>
         <li><?=_t('웹서버 설정의 이 디렉토리에 대한 <em>AllowOverride</em> 항목에 <b>FileInfo</b>가 포함되거나 <b>All</b>이어야 합니다.')?>
-          <samp><br /><?=_t('예')?>: AllowOverride <b>FileInfo</b></samp>
-          <samp><br /><?=_t('예')?>: AllowOverride <b>All</b></samp>
+          <samp><br /><?=_t('예: AllowOverride <b>FileInfo</b>')?></samp>
+          <samp><br /><?=_t('예: AllowOverride <b>All</b>')?></samp>
         </li>
         <li><b><?=_t('위 2와 3의 문제는 아래 내용을 웹서버 설정에 포함시켜 해결할 수 있습니다.')?></b>
           <samp style="color:black"><br />
@@ -779,7 +779,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
         }
 ?>
       <tr>
-        <th style="padding-top:20px"><?=_t('블로그 주소 예')?></th>
+        <th style="padding-top:20px"><?=_t('블로그 주소 예시')?></th>
         <td style="padding-top:20px; height:100px">
         <ul id="typeDomain"<?=($rewrite >= 2 ? '' : ' style="display:none"')?>>
           <li>http://<b>blog1</b>.<?=$domain?><?=($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}")?><?=$path?>/</li>
@@ -1465,7 +1465,7 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
           <a href="<?=$blogURL?>/owner"><?=$blogURL?>/owner</a></li>
       </ul>
       <p>
-        <?=_t('태터툴즈 관리 툴로 로그인 하신 후 필요사항을 수정해 주세요.')?><br />
+        <?=_t('태터툴즈 관리 툴로 로그인 하신 후 필요사항을 수정해 주십시오.')?><br />
         <?=_t('태터툴즈를 이용해 주셔서 감사합니다.')?>
       </p>
     </div>

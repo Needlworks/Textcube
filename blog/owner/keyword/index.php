@@ -30,7 +30,7 @@ require ROOT . '/lib/piece/owner/contentMenu10.php';
 		request.send();
 	}
 	function deleteEntry(id) { 
-		if (!confirm("<?=_t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?')?>"))
+		if (!confirm("<?=_t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?')?>"))
 			return;
 		var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/delete/" + id);
 		request.onSuccess = function () {
@@ -61,7 +61,7 @@ require ROOT . '/lib/piece/owner/contentMenu10.php';
 				}
 				break;
 			case 'delete':
-				if (!confirm("<?=_t('선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?')?>"))
+				if (!confirm("<?=_t('선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?')?>"))
 					return false;
 				var targets = "";
 				for (var i = 0; i < document.forms[0].elements.length; i++) {
@@ -166,7 +166,7 @@ foreach ($entries as $entry) {
                   </table>
                   <table cellspacing="0" width="100%">
                     <tr style="height:22px">
-                      <td style="padding:0px 7px 0px 7px; font-size:12px" width="55"><?=_t('총')?> <?=$paging['total']?><?=_t('건')?></td>
+                      <td style="padding:0px 7px 0px 7px; font-size:12px" width="55"><?=_f('총 %1건', empty($paging['total']) ? "0" : $paging['total'])?></td>
                       <td style="padding:0px 7px 0px 7px; font-size:12px">
 <?
 $paging['url'] = 'document.forms[0].page.value=';

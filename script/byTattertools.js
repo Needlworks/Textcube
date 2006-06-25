@@ -147,8 +147,8 @@ function del_list(object) {
 
 function onclick_insert_guest(form, mode, num, page, sort) {
 	trim_all(form);
-	if (isNull(form.guest_input_name, '이름을 입력해 주세요')) return false;
-	if (isNull(form.guest_textarea_body, '본문을 입력해 주세요')) return false;
+	if (isNull(form.guest_input_name, '이름을 입력해 주십시오.')) return false;
+	if (isNull(form.guest_textarea_body, '본문을 입력해 주십시오')) return false;
 	if (form.guest_input_password.value == '') {
 		if (!confirm('비밀번호를 입력하지 않으면 나중에 수정하실 수 없습니다.\t\n\n계속 진행하시겠습니까?')) return false;
 	}
@@ -162,8 +162,8 @@ function onclick_insert_guest(form, mode, num, page, sort) {
 
 function onclick_edit_guest(form, pnum, num, page, sort) {
 	trim_all(form);
-	if (isNull(form.guest_input_name, '이름을 입력해 주세요')) return false;
-	if (isNull(form.guest_textarea_body, '본문을 입력해 주세요')) return false;
+	if (isNull(form.guest_input_name, '이름을 입력해 주십시오.')) return false;
+	if (isNull(form.guest_textarea_body, '본문을 입력해 주십시오')) return false;
 	form.md.value = 'guest_db';
 	form.act.value = 'edit';
 	form.pnum.value = pnum;
@@ -177,9 +177,9 @@ function onclick_insert_comment(form, num){
 
 	trim_all(form);
 
-	if (isNull(eval('form.c_name_'+num), '이름을 입력해 주세요')) return false;
-	// if (isNull(eval('form.c_password_'+num), '패스워드를 입력해 주세요')) return false;
-	if (isNull(eval('form.c_body_'+num), '답글을 입력해 주세요')) return false;
+	if (isNull(eval('form.c_name_'+num), '이름을 입력해 주십시오.')) return false;
+	// if (isNull(eval('form.c_password_'+num), '패스워드를 입력해 주십시오')) return false;
+	if (isNull(eval('form.c_body_'+num), '답글을 입력해 주십시오')) return false;
 
 	if (!confirm('답글을 올리시겠습니까?\t')) return false;
 
@@ -359,7 +359,7 @@ function is_valid_time(tval) {
     var sec   = tval.substring(17,19).replace(/\D/g,"");
 
 	if (check_date(year, month, day, hour, min, sec)) return true;
-    alert('시각을 바르게 입력해 주세요');
+    alert('시각을 바르게 입력해 주십시오');
     return false;
 }
 

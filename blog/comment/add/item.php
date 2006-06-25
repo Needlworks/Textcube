@@ -36,7 +36,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
 	$result = addComment($owner, $comment);
 	if ($result === 'blocked') {
-		echo '<?xml version="1.0" encoding="utf-8"?><response><error>1</error><description><![CDATA[', _t('귀하는 차단되었기 때문에 글을 쓸 수 없습니다.'), ']]></description></response>';
+		echo '<?xml version="1.0" encoding="utf-8"?><response><error>1</error><description><![CDATA[', _t('귀하는 차단되었으므로 사용하실 수 없습니다.'), ']]></description></response>';
 	} else if ($result === false) {
 		echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _t('댓글을 달 수 없습니다.'), ']]></description></response>';
 	} else {
