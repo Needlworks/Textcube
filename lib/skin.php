@@ -155,7 +155,7 @@ function removeAllTags($contents) {
 }
 
 function replaceSkinTag($contents, $tag) {
-	$pattern[] = '/(<'.$tag.'.*>)'.CRLF.'/Ui';
+	$pattern[] = '/(<'.$tag.'.*>)\r?\n/Ui';
 	$pattern[] = '/<\/'.$tag.'>/Ui';
 
 	$replacement[] = '$1'.CRLF.'[##_SKIN_'.$tag.'_start_##]';
