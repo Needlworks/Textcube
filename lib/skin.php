@@ -37,6 +37,7 @@ class Skin {
 	var $s_ps;
 	var $s_ps_rep;
 	var $comment;
+	var $commentForm;
 	var $commentGuest;
 	var $commentMember;
 	var $commentItem;
@@ -96,6 +97,7 @@ class Skin {
 		list($sval, $this->commentItem) = cutSkinTag($sval, 'rp_rep');
 		list($sval, $this->commentGuest) = cutSkinTag($sval, 'rp_guest');
 		list($sval, $this->commentMember) = cutSkinTag($sval, 'rp_member');
+		list($sval, $this->commentForm) = cutSkinTag($sval, 'rp_form');
 		list($sval, $this->comment) = cutSkinTag($sval, 'rp');
 		list($sval, $this->entry) = cutSkinTag($sval, 'article_rep');
 		list($sval, $this->pagingItem) = cutSkinTag($sval, 'paging_rep');
