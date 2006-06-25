@@ -106,12 +106,12 @@ if (empty($_POST['step'])) {
     <input type="hidden" name="step" value="1" />
     <h2><span class="step"><?=_f('%1단계', 1)?></span> : <?=_t('태터툴즈 설치를 시작합니다.')?></h2>
 		<div id="langSel" > <? drowSetLang( $baseLanguage, 'Norm');?></div> 
-    <div id="info"><b>Tattertools 1.0.5</b><br />
-      Copyright &copy; 2004-2006, Tatter &amp; Company. All rights reserved.<br />
-      Homepage: <a href="http://www.tattertools.com">http://www.tattertools.com</a></div>
+    <div id="info"><b><?php echo TATTERTOOLS_VERSION?></b><br />
+      <?php echo TATTERTOOLS_COPYRIGHT?><br />
+      Homepage: <a href="<?php echo TATTERTOOLS_HOMEPAGE?>"><?php echo TATTERTOOLS_HOMEPAGE?></a></div>
     <div id="content">
       <ol>
-        <li><?=_t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 태터툴즈)의 저작권자는 Tatter &amp; Company입니다.')?></li>
+        <li><?=_t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 태터툴즈)의 저작권자는 Tatter &amp; Company와 Tatter &amp; Friends입니다.')?></li>
         <li><?=_t('태터툴즈는 GPL 라이선스로 제공되며, 모든 사람이 자유롭게 이용할 수 있습니다.')?></li>
         <li><?=_t('프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고에 책임은 모두 사용자에게 있습니다.')?></li>
         <li><?=_t('스킨 및 트리, 플러그인의 저작권은 각 제작자에게 있습니다.')?></li>

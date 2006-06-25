@@ -1,5 +1,5 @@
 <?
-/// Copyright (C) 2004-2006, Tatter & Company. All rights reserved.
+/// Copyright ¨Ï 2004-2006. Tatter & Company / Tatter & Friends.
 
 function correctUTF8Recursively($value) {
 	if (is_array($value)) {

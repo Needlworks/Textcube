@@ -1,5 +1,5 @@
 <?
-/// Copyright © 2004-2006, Tatter & Company. All rights reserved.
+// Copyright ⓒ 2004-2006. Tatter & Company / Tatter & Friends.
 
 ini_set('session.use_trans_sid', '0');
 if (intval(ini_get("session.auto_start")) == 1) {

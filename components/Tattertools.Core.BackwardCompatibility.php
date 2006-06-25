@@ -1,5 +1,5 @@
 <?
-/// Copyright © 2004-2006, Tatter & Company. All rights reserved.
+// Copyright ⓒ 2004-2006. Tatter & Company / Tatter & Friends.
 
 function isUTF8($str) {
 	return UTF8::validate($str);
