@@ -352,7 +352,7 @@ function getCommentView($entryId, & $skin) {
 			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
 			dress($prefix1 . '_rep_date', Timestamp::format5($commentSubItem['written']), $commentSubItemView);
 			dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentSubItem['id']}", $commentSubItemView);
-			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']});return false", $commentSubItemView);
+			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']}); return false;", $commentSubItemView);
 			$rp_class = $owner == $commentSubItem['replier'] ? 'tt-admin-'.$prefix2 : '';
 			$rp_class = $commentSubItem['secret'] == 1 ? 'tt-secret-'.$prefix2 : '';
 			dress($prefix1 . '_rep_class', $rp_class, $commentSubItemView);
@@ -366,11 +366,11 @@ function getCommentView($entryId, & $skin) {
 		dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense(htmlspecialchars($commentItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentItem), $commentItemView);
 		dress($prefix1 . '_rep_date', Timestamp::format5($commentItem['written']), $commentItemView);
 		if ($prefix1 == 'guest' && $authorized != true && $blogSetting['allowWriteDoubleCommentOnGuestbook'] == 0) {
-			$doubleCommentPermissionScript = 'alert(\'' . _t('댓글을 사용할 수 없습니다.') . '\');return false;';
+			$doubleCommentPermissionScript = 'alert(\'' . _t('댓글을 사용할 수 없습니다.') . '\'); return false;';
 		} else {
 			$doubleCommentPermissionScript = '';
 		}
-		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']});return false", $commentItemView);
+		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']}); return false", $commentItemView);
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
 		dress($prefix1 . '_rep_link', "$blogURL/{$entryId}#comment{$commentItem['id']}", $commentItemView);
 		$rp_class = $owner == $commentItem['replier'] ? 'tt-admin-'.$prefix2 : '';
@@ -382,8 +382,11 @@ function getCommentView($entryId, & $skin) {
 	
 	$acceptComment = fetchQueryCell("SELECT `acceptComment` FROM `{$database['prefix']}Entries` WHERE `id` = $entryId");
 	
-	if (doesHaveOwnership() || $acceptComment == 1) {
-		$commentFormView = $skin->commentForm;
+	if (doesHaveOwnership() || ($isComment && $acceptComment == 1) || ($prefix2 == "guest")) {
+		if ($isComment) {
+			$commentRrevView = $commentView;
+			$commentView = $skin->commentForm;
+		}
 		
 		if (!doesHaveOwnership()) {
 			$commentMemberView = ($isComment ? $skin->commentMember : $skin->guestMember);
@@ -412,14 +415,18 @@ function getCommentView($entryId, & $skin) {
 				dress($prefix1 . ($isComment ? '_guest' : '_form'), $commentGuestView, $commentMemberView);
 			}
 			dress($prefix1 . '_input_is_secret', 'secret', $commentMemberView);
-			dress($prefix1 . '_member', $commentMemberView, $commentFormView);
+			dress($prefix1 . '_member', $commentMemberView, $commentView);
 		}
 		
-		dress($prefix1 . '_input_comment', 'comment', $commentFormView);
-		dress($prefix1 . '_onclick_submit', "addComment(this, $entryId); return false", $commentFormView);
-		dress($prefix1 . '_textarea_body', 'comment', $commentFormView);
-		dress($prefix1 . '_textarea_body_value', '', $commentFormView);
-		dress($prefix1 . '_form', $commentFormView, $commentView);
+		dress($prefix1 . '_input_comment', 'comment', $commentView);
+		dress($prefix1 . '_onclick_submit', "addComment(this, $entryId); return false", $commentView);
+		dress($prefix1 . '_textarea_body', 'comment', $commentView);
+		dress($prefix1 . '_textarea_body_value', '', $commentView);
+		
+		if ($isComment) {
+			dress($prefix1 . '_form', $commentView, $commentRrevView);
+			$commentView = $commentRrevView;
+		}
 	}
 	
 	return $commentView;
