@@ -140,7 +140,7 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></th>
+											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" /></th>
 											<th class="date"><span class="text"><?=_t('등록일자')?></span></th>
 											<th class="site"><span class="text"><?=_t('사이트명')?></span></th>
 											<th class="category"><span class="text"><?=_t('분류')?></span></th>
@@ -177,9 +177,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo odd-line?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection">
-												<input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" />
-											</td>
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" onclick="document.getElementById('allChecked').checked=false;" /></td>
 											<td class="date"><?=Timestamp::formatDate($trackback['written'])?></td>
 											<td class="site">
 <?

@@ -149,7 +149,7 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></th>
+											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" /></th>
 											<th class="date"><span class="text"><?=_t('등록일자')?></span></th>
 											<th class="name"><span class="text"><?=_t('이름')?></span></th>
 											<th class="content"><span class="text"><?=_t('내용')?></span></th>
@@ -194,7 +194,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	$className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$comment['id']?>" /></td>
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$comment['id']?>" onclick="document.getElementById('allChecked').checked=false;" /></td>
 											<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
 											<td class="name">
 <?

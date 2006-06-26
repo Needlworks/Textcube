@@ -466,7 +466,7 @@ foreach (getCategories($owner) as $category) {
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" disabled="disabled" /></th>
+											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" disabled="disabled" /></th>
 											<th class="date"><span class="text"><?=_t('등록일자')?></span></th>
 											<th class="status"><span class="text"><?=_t('상태')?></span></th>
 											<th class="syndicate"><span class="text"><?=_t('발행')?></span></th>
@@ -486,7 +486,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	$className .= ($i == sizeof($entries) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.forms[0].allChecked.checked=false" disabled="disabled" /></td>
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.getElementById('allChecked').checked=false;" disabled="disabled" /></td>
 											<td class="date"><?=Timestamp::formatDate($entry['published'])?></td>
 											<td class="status">
 <?
