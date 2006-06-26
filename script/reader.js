@@ -581,6 +581,7 @@ TTReader.prototype.saveSetting = function()
 	request.onSuccess = function () {
 		getObject("groupsAndFeeds").style.display = "block";
 		getObject("configure").style.display = "none";
+		getObject("settingLabel").innerHTML = '<span class="text">' + configureLabel + '</span>';
 		PM.showMessage(s_saved, "center", "bottom");
 	}
 	request.onError= function () {

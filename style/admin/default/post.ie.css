@@ -9,6 +9,277 @@
 	padding-bottom                   : 3px;
 }
 
+#part-post-list table.data-inbox tbody tr .status
+{
+	padding-top                      : 2px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .status .private-on-icon,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .private-on-icon
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .status .private-off-icon,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .private-off-icon
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .status .private-off-icon a,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .private-off-icon a
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .status .private-on-icon span,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .private-on-icon span,
+#part-post-list table.data-inbox tbody tr.active-class .status .private-off-icon span,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .private-off-icon span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .status .protected-on-icon,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .protected-on-icon
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .status .protected-off-icon,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .protected-off-icon
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .status .protected-off-icon a,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .protected-off-icon a
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .status .protected-on-icon span,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .protected-on-icon span,
+#part-post-list table.data-inbox tbody tr.active-class .status .protected-off-icon span,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .protected-off-icon span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .status .public-on-icon,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .public-on-icon
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .status .public-off-icon,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .public-off-icon
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .status .public-off-icon a,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .public-off-icon a
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .status .public-on-icon span,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .public-on-icon span,
+#part-post-list table.data-inbox tbody tr.active-class .status .public-off-icon span,
+#part-post-list table.data-inbox tbody tr.inactive-class .status .public-off-icon span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .syndicate,
+#part-post-list table.data-inbox tbody tr.inactive-class .syndicate
+{
+	padding-top                      : 2px;
+	text-align                       : center;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .syndicate .syndicated-off-icon,
+#part-post-list table.data-inbox tbody tr.inactive-class .syndicate .syndicated-off-icon
+{
+	background-image                 : url("./image/icon_syndicated.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 16px;
+	width                            : 16px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .syndicate .syndicated-on-icon,
+#part-post-list table.data-inbox tbody tr.inactive-class .syndicate .syndicated-on-icon
+{
+	background-image                 : url("./image/icon_syndicated.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 16px;
+	width                            : 16px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .syndicate .syndicated-off-icon a,
+#part-post-list table.data-inbox tbody tr.inactive-class .syndicate .syndicated-off-icon a,
+#part-post-list table.data-inbox tbody tr.active-class .syndicate .syndicated-on-icon a,
+#part-post-list table.data-inbox tbody tr.inactive-class .syndicate .syndicated-on-icon a
+{
+	display                          : block;
+	height                           : 16px;
+	width                            : 16px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .syndicate .syndicated-off-icon span,
+#part-post-list table.data-inbox tbody tr.inactive-class .syndicate .syndicated-off-icon span,
+#part-post-list table.data-inbox tbody tr.active-class .syndicate .syndicated-on-icon span,
+#part-post-list table.data-inbox tbody tr.inactive-class .syndicate .syndicated-on-icon span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .protect,
+#part-post-list table.data-inbox tbody tr.inactive-class .protect
+{
+	padding-top                      : 3px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .protect-on-button,
+#part-post-list table.data-inbox tbody tr.inactive-class .protect-on-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/protectedInvite2.gif");
+	background-position              : left bottom;
+	height                           : 13px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 26px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .protect-on-button span,
+#part-post-list table.data-inbox tbody tr.inactive-class .protect-on-button span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .protect-off-button,
+#part-post-list table.data-inbox tbody tr.inactive-class .protect-off-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/protectedInvite2.gif");
+	background-position              : left top;
+	height                           : 13px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 26px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .protect-off-button span,
+#part-post-list table.data-inbox tbody tr.inactive-class .protect-off-button span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .trackback,
+#part-post-list table.data-inbox tbody tr.inactive-class .trackback
+{
+	padding-top                      : 3px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .trackback-on-button,
+#part-post-list table.data-inbox tbody tr.inactive-class .trackback-on-button
+{
+	background-image                 : url("./image/trackback2.gif");
+	background-position              : left bottom;
+	height                           : 15px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .trackback-on-button span,
+#part-post-list table.data-inbox tbody tr.inactive-class .trackback-on-button span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .trackback-off-button,
+#part-post-list table.data-inbox tbody tr.inactive-class .trackback-off-button
+{
+	background-image                 : url("./image/trackback2.gif");
+	background-position              : left top;
+	height                           : 15px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 15px;
+}
+
+#part-post-list table.data-inbox tbody tr.active-class .trackback-off-button span,
+#part-post-list table.data-inbox tbody tr.inactive-class .trackback-off-button span
+{
+	display                          : none;
+}
+
 /* post table interlayer for protect password & trackback sender --------------------------------*/
 #part-post-list table.data-inbox tbody tr.hidden-layer td .password-box,
 #part-post-list table.data-inbox tbody tr.hidden-layer td .trackback-box

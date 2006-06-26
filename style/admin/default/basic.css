@@ -107,6 +107,7 @@ ul li
 
 /* Special Class *********************************************************************************/
 
+input.password-input,
 input.text-input
 {
 	border                           : 1px solid #878787;

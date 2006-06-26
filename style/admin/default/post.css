@@ -372,21 +372,14 @@ table.data-inbox tbody tr td .new-icon span
 	text-align                       : right;
 }
 
-#part-post-list table.data-inbox tbody tr.hidden-layer td .text-input
+#part-post-list table.data-inbox tbody tr.hidden-layer td .password-input
 {
 	width                            : 67px;
 }
 
-#part-post-list table.data-inbox tbody tr.hidden-layer td .trackback-box
+#part-post-list table.data-inbox tbody tr.hidden-layer td .text-input
 {
-	margin                           : 4px 5px 0 auto;
-	text-align                       : right;
-	width                            : 500px;
-}
-
-#part-post-list table.data-inbox tbody tr.hidden-layer td .trackback-box .text-input
-{
-	width                            : 400px;
+	width                            : 400px !important;
 }
 
 #part-post-list table.data-inbox tbody tr.hidden-layer td .button
@@ -403,8 +396,6 @@ table.data-inbox tbody tr td .new-icon span
 
 #part-post-list table.data-inbox tbody tr.hidden-layer .trackback-log-box
 {
-	clear                            : both;
-	float                            : right;
 	font-family                      : 'Courier New', monospace;
 	margin                           : 5px 5px 0 0;
 }
@@ -412,7 +403,7 @@ table.data-inbox tbody tr td .new-icon span
 #part-post-list table.data-inbox tbody tr.hidden-layer .trackback-log-box table
 {
 	border-top                       : 1px dotted #CCCCCC !important;
-	margin-bottom                    : 10px;
+	margin                           : 0 0 0 auto;
 }
 
 #part-post-list table.data-inbox tbody tr.hidden-layer .trackback-log-box table tr td
@@ -424,7 +415,7 @@ table.data-inbox tbody tr td .new-icon span
 
 #part-post-list table.data-inbox tbody tr.hidden-layer .trackback-log-box .remove-button
 {
-	background-color                 : #CCCCCC;
+	background-color                 : transparent;
 	background-image                 : url("./image/deleteX.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;

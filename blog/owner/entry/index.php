@@ -280,6 +280,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 										if (confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속 하시겠습니까?')?>")) {
 											var request = new HTTPRequest("<?=$blogURL?>/owner/entry/trackback/log/remove/" + id);
 											request.onSuccess = function () {
+												document.getElementById("logs_"+entry).innerHTML = "";
 												printTrackbackLog(entry);
 											}
 											request.onError = function () {
@@ -369,7 +370,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 												newCell.setAttribute("align", "right");
 												newSection = document.createElement("DIV");
 												newSection.className = "layer-section";
-												newSection.innerHTML = '<label for="entry' + id + 'Password"><?=_t('비밀번호')?></label><span class="divider"> | </span><input type="text" id="entry' + id + 'Password" class="text-input" value="' + this.getText("/response/password") + '" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(' + id + ')" /> ';
+												newSection.innerHTML = '<label for="entry' + id + 'Password"><?=_t('비밀번호')?></label><span class="divider"> | </span><input type="text" id="entry' + id + 'Password" class="password-input" value="' + this.getText("/response/password") + '" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(' + id + ')" /> ';
 												
 												tempLink = document.createElement("A");
 												tempLink.className = "edit-button button";
@@ -392,14 +393,45 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 									}
 									
 									function showTrackbackSender(id) {
-										if (document.getElementById("trackbackSender_" + id).style.display == "") {
-											document.getElementById("trackbackSender_" + id).style.display = "none";
+										if (document.getElementById("trackbackSender_" + id)) {
+											objTable = getParentByTagName("TABLE", getObject("trackbackIcon_" + id));
+											objTr = getParentByTagName("TR", getObject("trackbackIcon_" + id));
+											objTable.deleteRow(objTr.rowIndex + 1);
+											
 											document.getElementById("trackbackIcon_" + id).className = "trackback-off-button button";
 										} else {
-											document.getElementById("trackbackSender_" + id).style.display = "";
-											document.getElementById("trackbackForm_" + id).select();
-											document.getElementById("trackbackIcon_" + id).className = "trackback-on-button button";
+											objTable = getParentByTagName("TABLE", getObject("trackbackIcon_" + id));
+											objTr = getParentByTagName("TR", getObject("trackbackIcon_" + id));
+											
+											newRow = objTable.insertRow(objTr.rowIndex + 1);
+											newRow.id = "trackbackSender_" + id;
+											newRow.className = "hidden-layer";
+											
+											newCell = newRow.insertCell(0);
+											newCell.setAttribute("colspan", "9");
+											newCell.setAttribute("align", "right");
+											
+											newSection = document.createElement("DIV");
+											newSection.className = "layer-section";
+											newSection.innerHTML = '<label for="trackbackForm_' + id + '"><?=_t('트랙백 주소')?></label><span class="divider"> | </span><input type="text" id="trackbackForm_' + id + '" class="text-input" name="trackbackURL" value="http://" size="50" onkeydown="if (event.keyCode == 13) sendTrackback(' + id + ')" /> ';
+											
+											tempLink = document.createElement("A");
+											tempLink.className = "send-button button";
+											tempLink.setAttribute("href", "#void");
+											tempLink.setAttribute("onclick", "sendTrackback(" + id + ")");
+											tempLink.innerHTML = '<span class="text"><?=_t('전송')?></span>';
+											
+											newDiv = document.createElement("DIV");
+											newDiv.id = "logs_" + id;
+											newDiv.className = "trackback-log-box";
+											newDiv.style.display = "none";
+											
+											newSection.appendChild(tempLink);
+											newSection.appendChild(newDiv);
+											newCell.appendChild(newSection);
+											
 											printTrackbackLog(id);
+											document.getElementById("trackbackIcon_" + id).className = "trackback-on-button button";
 										}
 										return;
 									}
@@ -409,6 +441,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 										var request = new HTTPRequest("<?=$blogURL?>/owner/entry/trackback/send/" + id + "?url=" + encodeURIComponent(trackbackField.value));
 										request.onSuccess = function () {
 											document.getElementById('trackbackForm_'+id).value = "http://";
+											document.getElementById("logs_"+id).innerHTML = "";
 											printTrackbackLog(id);
 										}
 										request.onError = function () {
