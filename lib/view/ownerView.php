@@ -1916,7 +1916,7 @@ function printEntryEditorPalette() {
 		</tr>
 	  </table>
 	</div>
-	<div id="textBox" style="display:none;margin:4px 0px 4px 200px">
+	<div id="textBox" style="display:none; position: absolute; left: 292px; top: 203px">
 	  <table bgcolor="#FFFFFF" cellspacing="3" style="border-style:solid;border-width:1;border-color:#A0A0A0">
 		<tr>
 		  <td bgcolor="#FFDAED"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setMarkPreviewBlack.gif" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FFDAED');" width="16" height="16" alt="" /></td>

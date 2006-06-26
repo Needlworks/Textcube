@@ -564,6 +564,7 @@ TTEditor.prototype.showProperty = function(obj)
 
 	var attribute = obj.getAttribute("longdesc");
 
+	getObject("textBox").style.display = "none";
 	getObject("colorPalette").style.display = "none";
 	getObject("markPalette").style.display = "none";
 	getObject("propertyImage1").style.display = "none";
