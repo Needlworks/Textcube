@@ -25,6 +25,7 @@ function printOwnerEditorScript($entryId = false) {
 	var s_unknownFileType = "<?=_t('알 수 없는 형식의 파일명입니다')?>";
 	var s_enterObjectTag = "<?=_t('OBJECT 태그만 입력하세요')?>";
 	var s_enterCorrectObjectTag = "<?=_t('틀린 OBJECT 태그입니다')?>";
+	var s_selectBoxArea = "<?=_t('박스로 둘러쌀 영역을 선택해주세요')?>";
 	var s_selectLinkArea = "<?=_t('링크를 만들 영역을 선택해주세요')?>";
 
 	function savePosition() {

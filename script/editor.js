@@ -1209,6 +1209,12 @@ function TTCommand(command, value1, value2) {
 				alert(s_notSupportHTMLBlock);
 			break;
 		case "Box":
+			if(isWYSIWYG && !STD.isIE) {
+				if(editor.selection == null || editor.selection.startOffset == editor.selection.endOffset) {
+					alert(s_selectBoxArea);
+					return;
+				}
+			}
 			TTCommand("Raw", '<div style="' + value1 + '">', "</div>");
 			editor.trimContent();
 			break;
