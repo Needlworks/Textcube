@@ -179,9 +179,8 @@ TTEditor.prototype.ttml2html = function() {
 			break;
 	}
 
-	var regImage = new RegExp("\\[##_(([1-3][CLR])(\\|[^|]*?)+)_##\\]", "g");
-
 	// 이미지 치환자 처리
+	var regImage = new RegExp("\\[##_(([1-3][CLR])(\\|[^|]*?)+)_##\\]", "");
 	while(result = regImage.exec(str)) {
 		var search = result[0];
 
@@ -224,7 +223,7 @@ TTEditor.prototype.ttml2html = function() {
 	}
 
 	// iMazing 처리
-	var regImazing = new RegExp("\\[##_iMazing\\|(.*?)_##\\]", "g");
+	var regImazing = new RegExp("\\[##_iMazing\\|(.*?)_##\\]", "");
 	while(result = regImazing.exec(str)) {
 		var search = result[0];
 
@@ -242,7 +241,7 @@ TTEditor.prototype.ttml2html = function() {
 	}
 
 	// Gallery 처리
-	var regGallery = new RegExp("\\[##_Gallery\\|(.*?)_##\\]", "g");
+	var regGallery = new RegExp("\\[##_Gallery\\|(.*?)_##\\]", "");
 	while(result = regGallery.exec(str)) {
 		var search = result[0];
 
@@ -260,7 +259,7 @@ TTEditor.prototype.ttml2html = function() {
 	}
 
 	// Jukebox 처리
-	var regJukebox = new RegExp("\\[##_Jukebox\\|(.*?)_##\\]", "g");
+	var regJukebox = new RegExp("\\[##_Jukebox\\|(.*?)_##\\]", "");
 	while(result = regJukebox.exec(str)) {
 		var search = result[0];
 
@@ -276,7 +275,7 @@ TTEditor.prototype.ttml2html = function() {
 	}
 
 	// 단일 이미지 치환자 처리
-	var regImage = new RegExp("src=[\"']?(\\[##_ATTACH_PATH_##\\][a-z.0-9/]*)", "gi");
+	var regImage = new RegExp("src=[\"']?(\\[##_ATTACH_PATH_##\\][a-z.0-9/]*)", "i");
 	while(result = regImage.exec(str))
 		str = str.replaceAll(result[0], 'class="tatterImageFree" longdesc="' + result[1] + '" src="' + this.propertyFilePath.substring(0, this.propertyFilePath.length - 1) + result[1].replaceAll("[##_ATTACH_PATH_##]", ""));
 
@@ -287,25 +286,17 @@ TTEditor.prototype.ttml2html = function() {
 	}
 
 	// Flash 처리
-	while(true) {
-		var regEmbed = new RegExp("<embed([^<]*?)application/x-shockwave-flash(.*?)></embed>", "gi");
-		if(result = regEmbed.exec(str)) {
-			var body = result[0];
-			str = str.replaceAll(body, '<img class="tatterFlash" src="' + servicePath + '/image/spacer.gif"' + this.parseImageSize(body, "string", "css") + ' longDesc="' + this.parseAttribute(body, "src") + '"/>');
-		}
-		else
-			break;
+	var regEmbed = new RegExp("<embed([^<]*?)application/x-shockwave-flash(.*?)></embed>", "i");
+	while(result = regEmbed.exec(str)) {
+		var body = result[0];
+		str = str.replaceAll(body, '<img class="tatterFlash" src="' + servicePath + '/image/spacer.gif"' + this.parseImageSize(body, "string", "css") + ' longDesc="' + this.parseAttribute(body, "src") + '"/>');
 	}
 
 	// Embed 처리
-	while(true) {
-		var regEmbed = new RegExp("<embed([^<]*?)></embed>", "gi");
-		if(result = regEmbed.exec(str)) {
-			var body = result[0];
-			str = str.replaceAll(body, '<img class="tatterEmbed" src="' + servicePath + '/image/spacer.gif"' + this.parseImageSize(body, "string", "css") + ' longDesc="' + this.parseAttribute(body, "src") + '"/>');
-		}
-		else
-			break;
+	var regEmbed = new RegExp("<embed([^<]*?)></embed>", "i");
+	while(result = regEmbed.exec(str)) {
+		var body = result[0];
+		str = str.replaceAll(body, '<img class="tatterEmbed" src="' + servicePath + '/image/spacer.gif"' + this.parseImageSize(body, "string", "css") + ' longDesc="' + this.parseAttribute(body, "src") + '"/>');
 	}
 
 	return str;
@@ -394,98 +385,73 @@ TTEditor.prototype.html2ttml = function() {
 	str = sb.toString();
 
 	// 이미지 치환자 처리
-	while(true) {
-		var regImage = new RegExp("<img[^>]*?class=[\"']?tatterImage[^>]*?>", "gi");
-
-		if(result = regImage.exec(str)) {
-			var body = result[0];
-
-			var replace = this.parseAttribute(result[0], "longdesc");
-
-			if(replace && replace.indexOf("[##_ATTACH_PATH_##]") == -1)
-				str = str.replaceAll(body, "[##_" + this.removeQuot(replace).replace(new RegExp("&amp;", "gi"), "&") + "_##]");
-			else
-				str = str.replaceAll(body, '<img src="' + replace + '"' + this.parseImageSize(body, "string") + "/>");
-		}
+	var regImage = new RegExp("<img[^>]*?class=[\"']?tatterImage[^>]*?>", "i");
+	while(result = regImage.exec(str)) {
+		var body = result[0];
+		var replace = this.parseAttribute(result[0], "longdesc");
+		if(replace && replace.indexOf("[##_ATTACH_PATH_##]") == -1)
+			str = str.replaceAll(body, "[##_" + this.removeQuot(replace).replace(new RegExp("&amp;", "gi"), "&") + "_##]");
 		else
-			break;
+			str = str.replaceAll(body, '<img src="' + replace + '"' + this.parseImageSize(body, "string") + "/>");
 	}
 
 	// iMazing 처리
-	while(true) {
-		var regImaging = new RegExp("<img[^>]*class=[\"']?tatterImazing[^>]*>", "gi");
-
-		if(result = regImaging.exec(str)) {
-			var body = result[0];
-
-			var size = this.parseImageSize(body, "array");
-
-			var longdesc = this.parseAttribute(result[0], "longdesc");
-			longdesc = this.removeQuot(longdesc);
-			longdesc = longdesc.replace(new RegExp("(width=[\"']?)\\d*", "i"), "$1" + size[0]);
-			longdesc = longdesc.replace(new RegExp("(height=[\"']?)\\d*", "i"), "$1" + size[1]);
-
-			str = str.replaceAll(body, "[##_" + longdesc.replace(new RegExp("&amp;", "gi"), "&") + "_##]");
-		}
-		else
-			break;
+	var regImaging = new RegExp("<img[^>]*class=[\"']?tatterImazing[^>]*>", "i");
+	while(result = regImaging.exec(str)) {
+		var body = result[0];
+		var size = this.parseImageSize(body, "array");
+		var longdesc = this.parseAttribute(result[0], "longdesc");
+		longdesc = this.removeQuot(longdesc);
+		longdesc = longdesc.replace(new RegExp("(width=[\"']?)\\d*", "i"), "$1" + size[0]);
+		longdesc = longdesc.replace(new RegExp("(height=[\"']?)\\d*", "i"), "$1" + size[1]);
+		str = str.replaceAll(body, "[##_" + longdesc.replace(new RegExp("&amp;", "gi"), "&") + "_##]");
 	}
 
 	// Gallery 처리
-	while(true) {
-		var regGallery = new RegExp("<img[^>]*class=[\"']?tatterGallery[^>]*>", "gi");
+	var regGallery = new RegExp("<img[^>]*class=[\"']?tatterGallery[^>]*>", "i");
+	while(result = regGallery.exec(str)) {
+		var body = result[0];
 
-		if(result = regGallery.exec(str)) {
-			var body = result[0];
+		var size = this.parseImageSize(body, "array");
 
-			var size = this.parseImageSize(body, "array");
+		var longdesc = this.parseAttribute(result[0], "longdesc");
+		longdesc = this.removeQuot(longdesc);
+		longdesc = longdesc.replace(new RegExp("(width=[\"']?)\\d*", "i"), "$1" + size[0]);
+		longdesc = longdesc.replace(new RegExp("(height=[\"']?)\\d*", "i"), "$1" + size[1]);
+		longdesc = longdesc.split("|");
 
-			var longdesc = this.parseAttribute(result[0], "longdesc");
-			longdesc = this.removeQuot(longdesc);
-			longdesc = longdesc.replace(new RegExp("(width=[\"']?)\\d*", "i"), "$1" + size[0]);
-			longdesc = longdesc.replace(new RegExp("(height=[\"']?)\\d*", "i"), "$1" + size[1]);
-			longdesc = longdesc.split("|");
+		// TT 1.0 alpha ~ 1.0.1까지 쓰던 Gallery 치환자를 위한 코드
+		if(longdesc.length % 2 == 1)
+			longdesc.length--;
 
-			// TT 1.0 alpha ~ 1.0.1까지 쓰던 Gallery 치환자를 위한 코드
-			if(longdesc.length % 2 == 1)
-				longdesc.length--;
+		var files = "";
 
-			var files = "";
+		for(var i=1; i<longdesc.length-1; i++)
+			files += longdesc[i].replace(new RegExp("&amp;", "gi"), "&") + "|";
 
-			for(var i=1; i<longdesc.length-1; i++)
-				files += longdesc[i].replace(new RegExp("&amp;", "gi"), "&") + "|";
-
-			str = str.replaceAll(body, "[##_Gallery|" + files + this.unHtmlspecialchars(trim(longdesc[longdesc.length-1])) + "_##]");
-		}
-		else
-			break;
+		str = str.replaceAll(body, "[##_Gallery|" + files + this.unHtmlspecialchars(trim(longdesc[longdesc.length-1])) + "_##]");
 	}
 
 	// Jukebox 처리
-	while(true) {
-		var regJukebox = new RegExp("<img[^>]*class=[\"']?tatterJukebox[^>]*>", "gi");
+	var regJukebox = new RegExp("<img[^>]*class=[\"']?tatterJukebox[^>]*>", "gi");
+	while(result = regJukebox.exec(str)) {
+		var body = result[0];
 
-		if(result = regJukebox.exec(str)) {
-			var body = result[0];
+		var size = this.parseImageSize(body, "array");
 
-			var size = this.parseImageSize(body, "array");
+		var longdesc = this.parseAttribute(result[0], "longdesc");
+		longdesc = this.removeQuot(longdesc);
+		longdesc = longdesc.replace(new RegExp("(width=[\"']?)\\d*", "i"), "$1" + size[0]);
+		longdesc = longdesc.replace(new RegExp("(height=[\"']?)\\d*", "i"), "$1" + size[1]);
 
-			var longdesc = this.parseAttribute(result[0], "longdesc");
-			longdesc = this.removeQuot(longdesc);
-			longdesc = longdesc.replace(new RegExp("(width=[\"']?)\\d*", "i"), "$1" + size[0]);
-			longdesc = longdesc.replace(new RegExp("(height=[\"']?)\\d*", "i"), "$1" + size[1]);
+		longdesc = longdesc.split("|");
 
-			longdesc = longdesc.split("|");
+		var files = "";
 
-			var files = "";
+		for(var i=1; i<longdesc.length-2; i++)
+			files += longdesc[i].replace(new RegExp("&amp;", "gi"), "&") + "|";
 
-			for(var i=1; i<longdesc.length-2; i++)
-				files += longdesc[i].replace(new RegExp("&amp;", "gi"), "&") + "|";
-
-			str = str.replaceAll(body, "[##_Jukebox|" + files + this.unHtmlspecialchars(trim(longdesc[longdesc.length-2])) + "|_##]");
-		}
-		else
-			break;
+		str = str.replaceAll(body, "[##_Jukebox|" + files + this.unHtmlspecialchars(trim(longdesc[longdesc.length-2])) + "|_##]");
 	}
 
 	// MORE/LESS 처리 후 남은 태그 제거
@@ -508,29 +474,17 @@ TTEditor.prototype.html2ttml = function() {
 	}
 
 	// Embed 처리
-	while(true) {
-		var regEmbed = new RegExp("<img[^>]*class=[\"']?tatterEmbed.*?>", "gi");
-
-		if(result = regEmbed.exec(str)) {
-			var body = result[0];
-
-			str = str.replaceAll(body, "<embed autostart=\"0\" src=\"" + this.parseAttribute(body, "longdesc") + "\"" + this.parseImageSize(body, "string", "css") + "></embed>");
-		}
-		else
-			break;
+	var regEmbed = new RegExp("<img[^>]*class=[\"']?tatterEmbed.*?>", "i");
+	while(result = regEmbed.exec(str)) {
+		var body = result[0];
+		str = str.replaceAll(body, "<embed autostart=\"0\" src=\"" + this.parseAttribute(body, "longdesc") + "\"" + this.parseImageSize(body, "string", "css") + "></embed>");
 	}
 
 	// Flash 처리
-	while(true) {
-		var regFlash = new RegExp("<img[^>]*class=[\"']?tatterFlash.*?>", "gi");
-
-		if(result = regFlash.exec(str)) {
-			var body = result[0];
-
-			str = str.replaceAll(body, '<embed loop="true" menu="false" quality="high" ' + this.parseImageSize(body, "string") + ' type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" src="' + this.parseAttribute(body, "longdesc") + '"></embed>');
-		}
-		else
-			break;
+	var regFlash = new RegExp("<img[^>]*class=[\"']?tatterFlash.*?>", "i");
+	while(result = regFlash.exec(str)) {
+		var body = result[0];
+		str = str.replaceAll(body, '<embed loop="true" menu="false" quality="high" ' + this.parseImageSize(body, "string") + ' type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" src="' + this.parseAttribute(body, "longdesc") + '"></embed>');
 	}
 
 	// <b> -> <strong>, <i> -> <em>, <u> -> <ins>, <strike> -> <del>
@@ -539,8 +493,7 @@ TTEditor.prototype.html2ttml = function() {
 	str = str.replace(new RegExp("<u([^>]*?)>(.*?)</u>", "gi"), "<ins$1>$2</ins>");
 	str = str.replace(new RegExp("<strike([^>]*?)>(.*?)</strike>", "gi"), "<del$1>$2</del>");
 
-	var regTag = new RegExp("<([^\\s>]+)\\s*([^>]*)(/?)>", "gi");
-
+	var regTag = new RegExp("<([^\\s>]+)\\s*([^>]*)(/?)>", "g");
 	while(result = regTag.exec(str)) {
 		var tagBody = result[0];
 		var tagStart = "<" + result[1];
