@@ -22,6 +22,8 @@ function printOwnerEditorScript($entryId = false) {
 										var s_unknownFileType = "<?php echo _t('알 수 없는 형식의 파일명입니다.')?>";
 										var s_enterObjectTag = "<?php echo _t('OBJECT 태그만 입력하세요.')?>";
 										var s_enterCorrectObjectTag = "<?php echo _t('잘못된 OBJECT 태그입니다.')?>";
+										var s_selectBoxArea = "<?=_t('박스로 둘러쌀 영역을 선택해주세요')?>";
+										var s_selectLinkArea = "<?=_t('링크를 만들 영역을 선택해주세요')?>";
  
 										function savePosition() {
 											if (document.forms[0].content.createTextRange)
@@ -919,6 +921,29 @@ function printEntryFileUploadButton($entryId) {
 function printEntryEditorProperty() {
 	global $service;
 ?>
+												<div id="propertyHyperLink" class="entry-editor-property" style="display: none;">
+													<h4><?php echo _t('하이퍼링크')?></h4>
+													
+													<dl class="line">
+														<dt class="property-name"><label for="propertyInsertObject_url"><?php echo _t('URL')?></label></dt>
+														<dd><input type="text" id="propertyHyperLink_url" class="text-input" onkeyup="editor.setProperty()"/></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyInsertObject_type"><?php echo _t('대상')?></label></dt>
+														<dd>
+															<select id="propertyHyperLink_target" style="width: 105px" onchange="getObject('propertyInsertObject_part_url').style.display=getObject('propertyInsertObject_part_raw').style.display='none';getObject('propertyInsertObject_part_' + this.value).style.display = 'block'">
+																<option value="_blank"><?php echo _t('새창')?></option>
+																<option value="_self"><?php echo _t('현재창')?></option>
+															</select>
+														</dd>
+													</dl>
+													<div class="button-box">
+														<span class="insert-button button" onclick="TTCommand('ExcuteCreateLink')"><span class="text"><?php echo _t('적용하기')?></span></span>
+														<span class="divider"> | </span>
+														<span class="cancel-button button" onclick="TTCommand('CancelCreateLink')"><span class="text"><?php echo _t('취소하기')?></span></span>
+													</div>
+												</div>
+
 												<div id="propertyInsertObject" class="entry-editor-property" style="display: none;">
 													<h4><?php echo _t('오브젝트 삽입')?></h4>
 													

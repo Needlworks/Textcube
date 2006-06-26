@@ -39,6 +39,12 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 
 	// 마우스로 클릭했을때 클릭한 위치의 오브젝트의 인스턴스를 저장할 변수
 	this.selectedElement = null;
+	
+	// 선택된 위치 상위노드에 a 태그가 있으면 여기에 저장된다
+	this.selectedAnchorElement = null;	
+
+	// 포커스가 벗어나도 선택영역을 유지하기 위해 selection을 저장해둔다
+	this.selection = null;
 
 	// 원래 있던 TEXTAREA의 핸들을 저장해둔다
 	this.textarea = textarea;
@@ -392,6 +398,11 @@ TTEditor.prototype.html2ttml = function() {
 	// 쓸모없는 &nbsp; 제거
 	str = str.replace(new RegExp("([^ ])&nbsp;([^ ])", "gi"), "$1 $2");
 
+	// 비어있는 a 태그 제거
+	var regEmptyAnchor = new RegExp("<a>(((?!<a>).)*?)</a>", "i");
+	while(result = regEmptyAnchor.exec(str))
+		str = str.replaceAll(result[0], result[1]);
+
 	var inHTML = false;
 	var sb = new StringBuffer();
 
@@ -600,6 +611,9 @@ TTEditor.prototype.html2ttml = function() {
 // 위지윅 모드에서 치환자 이미지를 클릭했을때 편집창 옆에 속성창을 보여준다
 TTEditor.prototype.showProperty = function(obj)
 {
+	editor.selectedAnchorElement = null;
+	editor.selection = editor.getSelectionRange();
+
 	var attribute = obj.getAttribute("longdesc");
 	
 	getObject("propertyImage1").style.display = "none";
@@ -786,26 +800,40 @@ TTEditor.prototype.showProperty = function(obj)
 
 		getObject(propertyWindowId).style.display = "block";
 	}
-	else {
-		var node = obj;
 
-		while(node.parentNode) {
-			if(node.tagName && node.tagName.toLowerCase() == "div" && node.getAttribute("more") != null && node.getAttribute("less") != null) {
-				var moreText = node.getAttribute("more");
-				var lessText = node.getAttribute("less");
+	var node = obj;
 
-				getObject("propertyMoreLess_more").value = trim(editor.unHtmlspecialchars(moreText));
-				getObject("propertyMoreLess_less").value = trim(editor.unHtmlspecialchars(lessText));
+	while(node.parentNode) {
+		if(node.tagName && node.tagName.toLowerCase() == "div" && node.getAttribute("more") != null && node.getAttribute("less") != null) {
+			var moreText = node.getAttribute("more");
+			var lessText = node.getAttribute("less");
 
-				getObject("propertyMoreLess").style.display = "block";
+			getObject("propertyMoreLess_more").value = trim(editor.unHtmlspecialchars(moreText));
+			getObject("propertyMoreLess_less").value = trim(editor.unHtmlspecialchars(lessText));
 
-				editor.propertyWindowId = "propertyMoreLess";
+			getObject("propertyMoreLess").style.display = "block";
 
-				return;
-			}
-			node = node.parentNode;
+			editor.propertyWindowId = "propertyMoreLess";
+
+			return;
 		}
+		else if(node.tagName.toLowerCase() == "a" && node.href) {
+			getObject("propertyHyperLink").style.display = "block";
+			getObject("propertyHyperLink_url").value = node.href;
+			getObject("propertyHyperLink_target").value = node.target;
+			if(getObject("propertyHyperLink_target").selectedIndex == -1)
+				getObject("propertyHyperLink_target").value = "_self";
+			editor.selectedAnchorElement = node;
+		}
+
+		node = node.parentNode;
 	}
+	if(STD.isIE)
+		var isEmpty = (editor.getSelectionRange().htmlText == "");
+	else
+		var isEmpty = (editor.getSelectionRange().startOffset == editor.getSelectionRange().endOffset);
+	if(editor.selectedAnchorElement == null && isEmpty)
+		getObject("propertyHyperLink").style.display = "none";
 }
 
 // 속성창에서 수정된 내용을 반영
@@ -1092,8 +1120,20 @@ function TTCommand(command, value1, value2) {
 			TTCommand("Raw", '<span style="color: ' + value1 + '; background-color: ' + value2 + '; padding: 3px 1px 0px">', "</span>");
 			break;
 		case "RemoveFormat":
-			if(isWYSIWYG)
-				editor.execCommand("RemoveFormat", false, null);
+			if(isWYSIWYG) {
+				if(STD.isIE) {
+					if(editor.getSelectionRange().htmlText != "")
+						editor.getSelectionRange().pasteHTML(editor.removeFormatting(editor.getSelectionRange().htmlText));
+				}
+				else {
+					if(editor.getSelectionRange().startOffset != editor.getSelectionRange().endOffset) {
+						var range = editor.getSelectionRange();
+						var dummyNode = document.createElement("div");
+						dummyNode.appendChild(range.extractContents());
+						range.insertNode(range.createContextualFragment(editor.removeFormatting(dummyNode.innerHTML)));
+					}
+				}
+			}
 			break;
 		case "JustifyLeft":
 			blockAlign = "left";
@@ -1233,21 +1273,87 @@ function TTCommand(command, value1, value2) {
 				alert(s_notSupportHTMLBlock);
 			break;
 		case "Box":
+			if(isWYSIWYG && !STD.isIE) {
+				if(editor.selection == null || editor.selection.startOffset == editor.selection.endOffset) {
+					alert(s_selectBoxArea);
+					return;
+				}
+			}
 			TTCommand("Raw", '<div style="' + value1 + '">', "</div>");
 			editor.trimContent();
 			break;
 		case "CreateLink":
-			if(isWYSIWYG) {
-				if(STD.isIE)
-					editor.execCommand("createlink");
-				else {
-					var url = prompt(s_enterURL, "http://");
-					if(url && url != "http://")
-						editor.execCommand("createlink", false, url);
+			if(!isWYSIWYG) {
+				TTCommand("Raw", '<a href="">', "</a>");
+				return;
+			}
+			if(STD.isIE) {
+				if(editor.selection == null || editor.selection.htmlText == "") {
+					alert(s_selectLinkArea);
+					return;
 				}
 			}
-			else
-				insertTag('<a href="URL">', "</a>");
+			else {
+				if(editor.selection == null || editor.selection.startOffset == editor.selection.endOffset) {
+					alert(s_selectLinkArea);
+					return;
+				}
+			}
+			getObject("propertyHyperLink").style.display = "block";
+			getObject("propertyHyperLink_url").value = "";
+			getObject("propertyHyperLink_target").selectedIndex = 0;
+			break;
+		case "ExcuteCreateLink":
+			var url = getObject("propertyHyperLink_url").value.trim();
+			var target = getObject("propertyHyperLink_target").value;
+			if(url == "") {
+				alert(s_enterURL);
+				return;
+			}
+			if(editor.selectedAnchorElement) {
+				editor.selectedAnchorElement.href = url;
+				if(target == "_self")
+					editor.selectedAnchorElement.removeAttribute("target");
+				else
+					editor.selectedAnchorElement.target = target;
+				getObject("propertyHyperLink").style.display = "none";
+			}
+			else {
+				if(STD.isIE) {
+					if(!editor.selection.htmlText || editor.selection.htmlText == "") {
+						alert(s_selectLinkArea);
+						return;
+					}
+				}
+				else {
+					if(editor.selection.startOffset == editor.selection.endOffset) {
+						alert(s_selectLinkArea);
+						return;
+					}
+				}
+				var link = '<a href="' + url + '"';
+				if(target != "_self")
+					link += ' target="' + target + '"';
+				link += ">";
+				if(STD.isIE)
+					editor.selection.pasteHTML(link + editor.selection.htmlText + "</a>");
+				else
+					TTCommand("Raw", link, "</a>");
+				getObject("propertyHyperLink").style.display = "none";
+			}
+			break;
+		case "CancelCreateLink":
+			if(editor.selectedAnchorElement) {
+				var a = editor.selectedAnchorElement;
+				if(STD.isIE)
+					a.outerHTML = a.innerHTML;
+				else {
+					var range = editor.getSelectionRange();
+					var newChild = range.createContextualFragment(a.innerHTML);
+					a.parentNode.replaceChild(newChild, a);
+				}
+			}
+			getObject("propertyHyperLink").style.display = "none";
 			break;
 		case "ObjectBlock":
 			getObject("propertyInsertObject").style.display = "block";
@@ -1348,11 +1454,12 @@ function TTCommand(command, value1, value2) {
 						range.setStart(editor.contentDocument.body,0);
 						range.setEnd(editor.contentDocument.body,0);
 					}
-					else
+					else {
 						var range = editor.getSelectionRange();
 						var dummyNode = document.createElement("div");
 						dummyNode.appendChild(range.extractContents());
 						range.insertNode(range.createContextualFragment(value1 + dummyNode.innerHTML + value2));
+					}
 				}
 			} else
 				insertTag(value1, value2);
@@ -1738,6 +1845,24 @@ TTEditor.prototype.unHtmlspecialchars = function(str) {
 // 줄바꿈 문자를 BR 태그로
 TTEditor.prototype.nl2br = function(str) {
 	return str.replace(new RegExp("\r\n", "gi"), "<br />").replace(new RegExp("\r", "gi"), "<br />").replace(new RegExp("\n", "gi"), "<br />");
+}
+
+// 스타일 속성, 태그 제거
+TTEditor.prototype.removeFormatting = function(str) {
+	var styleTags = new Array("b", "strong", "i", "em", "u", "ins", "strike", "del", "font");
+	for(var i in styleTags) {
+		var regTag = new RegExp("</?" + styleTags[i] + "(?:>| [^>]*>)", "i");
+		while(result = regTag.exec(str))
+			str = str.replaceAll(result[0], "");
+	}
+	str = str.replace(new RegExp('\\s*style="[^"]*"', "gi"), "");
+	var styleContainers = new Array("span", "div");
+	for(var i in styleContainers) {
+		var regTag = new RegExp("<span\\s*?>((?:.|\\s)*?)</span>", "i");
+		while(result = regTag.exec(str))
+			str = str.replace(result[0], result[1]);
+	}
+	return str;
 }
 
 var editorChanged = function () {
