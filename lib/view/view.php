@@ -439,13 +439,17 @@ function getCategoriesView($categories, $selected, $skin, $xhtml = false) {
 	} else {
 		$entriesSign = 'entries';
 	}
-	$tree = array('id' => 0, 'label' => _t('전체'), 'value' => getEntriesTotalCount($owner), 'link' => "$blogURL/category", 'children' => array());
+	$tree = array('id' => 0, 'label' => getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'), 'value' => getEntriesTotalCount($owner), 'link' => "$blogURL/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
-			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => $category2[$entriesSign], 'link' => "$blogURL/category/" . encodeURL($category1['name'] . '/' . $category2['name']), 'children' => array()));
+			if($category2['id']!=0) {
+				array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => $category2[$entriesSign], 'link' => "$blogURL/category/" . encodeURL($category1['name'] . '/' . $category2['name']), 'children' => array()));
+			}
 		}
-		array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $category1[$entriesSign], 'link' => "$blogURL/category/" . encodeURL($category1['name']), 'children' => $children));
+		if($category1['id']!=0) {
+			array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $category1[$entriesSign], 'link' => "$blogURL/category/" . encodeURL($category1['name']), 'children' => $children));
+		}
 	}
 	ob_start();
 	printTreeView($tree, $selected, $skin, $xhtml);
@@ -461,13 +465,17 @@ function getCategoriesViewInOwner($categories, $selected, $skin) {
 	} else {
 		$entriesSign = 'entries';
 	}
-	$tree = array('id' => 0, 'label' => _t('전체'), 'value' => getEntriesTotalCount($owner), 'link' => "$blogURL/owner/entry/category", 'children' => array());
+	$tree = array('id' => 0, 'label' => getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'), 'value' => getEntriesTotalCount($owner), 'link' => "$blogURL/owner/entry/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
-			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => $category2[$entriesSign], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+			if($category2['id']!=0) {
+				array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => $category2[$entriesSign], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+			}
 		}
-		array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $category1[$entriesSign], 'link' => "$blogURL/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
+		if($category1['id']!=0) {
+			array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $category1[$entriesSign], 'link' => "$blogURL/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
+		}
 	}
 	ob_start();
 	printTreeView($tree, $selected, $skin);
@@ -483,13 +491,17 @@ function getCategoriesViewInSkinSetting($categories, $selected, $skin) {
 	} else {
 		$entriesSign = 'entries';
 	}
-	$tree = array('id' => 0, 'label' => _t('전체'), 'value' => getEntriesTotalCount($owner), 'link' => "", 'children' => array());
+	$tree = array('id' => 0, 'label' => getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'), 'value' => getEntriesTotalCount($owner), 'link' => "", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
-			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => $category2[$entriesSign], 'link' => "", 'children' => array()));
+			if($category2['id']!=0) {
+				array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => $category2[$entriesSign], 'link' => "", 'children' => array()));
+			}
 		}
-		array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $category1[$entriesSign], 'link' => "", 'children' => $children));
+		if($category1['id']!=0) {
+			array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $category1[$entriesSign], 'link' => "", 'children' => $children));
+		}
 	}
 	ob_start();
 	printTreeView($tree, $selected, $skin);

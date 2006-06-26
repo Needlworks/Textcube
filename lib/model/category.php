@@ -21,8 +21,8 @@ function getCategoryNameById($owner, $id) {
 	global $database;
 	if ($id === null)
 		return '';
-	if ($id === 0)
-		return _t('분류 전체보기');
+//	if ($id === 0)
+//		return _t('분류 전체보기');
 	return fetchQueryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
 }
 
@@ -39,8 +39,8 @@ function getCategoryLabelById($owner, $id) {
 	global $database;
 	if ($id === null)
 		return '';
-	if ($id === 0)
-		return _t('분류 전체보기');
+//	if ($id === 0)
+//		return _t('분류 전체보기');
 	return fetchQueryCell("SELECT label FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
 }
 
@@ -138,9 +138,9 @@ function deleteCategory($owner, $id) {
 
 function modifyCategory($owner, $id, $name, $bodyid) {
 	global $database;
+	if($id==0) checkRootCategoryExistence($owner);
 	if ((empty($name)) && (empty($bodyid)))
 		return false;
-
 	$sql = "SELECT p.name, p.id FROM {$database['prefix']}Categories c LEFT JOIN {$database['prefix']}Categories p ON c.parent = p.id WHERE c.owner = $owner AND c.id = $id";
 	$row = fetchQueryRow($sql);	
 	$label = $row['name'];
@@ -370,5 +370,18 @@ function moveCategory($owner, $id, $direction) {
 		}
 	}
 	updateEntriesOfCategory($owner);
+}
+
+function checkRootCategoryExistence($owner) {
+	global $database;
+	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND id = 0";
+	if(!(fetchQueryCell($sql))) {
+		$name = _t('전체');
+		addCategory($owner,null,'tempRootCategory');
+		$id = fetchQueryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE owner = $owner");
+		$result = mysql_query("UPDATE {$database['prefix']}Categories SET id = 0 AND name = '$name' AND priority = 1 WHERE owner = $owner AND id = $id LIMIT 1");
+		return $result ? true : false;
+	}
+	return false;
 }
 ?>

@@ -30,7 +30,7 @@ else
 	$entries = $_GET['entries'];
 if (!empty($_POST['newCategory'])) {
 	$history = addCategory($owner, ($selected == 0) ? null : $_POST['id'], trim($_POST['newCategory'])) ? 'document.getElementById("newCategory").select();' : '';
-} else if ((!empty($_POST['modifyCategoryName']) OR !empty($_POST['modifyCategoryBodyId'])) && ($selected > 0)) {
+} else if (!empty($_POST['modifyCategoryName']) OR !empty($_POST['modifyCategoryBodyId'])) {
 	$history = modifyCategory($owner, $_POST['id'], trim($_POST['modifyCategoryName']),trim($_POST['modifyCategoryBodyId'])) ? 'document.getElementById("modifyCategoryName").select();' : '';
 	$tempParentId = fetchQueryCell("SELECT `parent` FROM `{$database['prefix']}Categories` WHERE `id` = {$_POST['id']}");
 	if (preg_match('/^[0-9]+$/', $tempParentId, $temp)) {
@@ -42,7 +42,7 @@ if (!empty($_POST['newCategory'])) {
 	$history = '';
 }
 $categories = getCategories($owner);
-$name = getCategoryNameById($owner, $selected);
+$name = getCategoryNameById($owner, $selected) ? getCategoryNameById($owner, $selected) : _t('전체');
 $bodyid = getCategoryBodyIdById($owner, $selected);
 if ((empty($_POST['search'])) || ($searchColumn === true)) {
 	$searchParam = true;
