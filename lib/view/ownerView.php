@@ -65,9 +65,9 @@ function printOwnerEditorScript($entryId = false) {
 		hideLayer("colorPalette");
 		TTCommand("Color", col1);
 	}
-	function insertMarkTag(col1, col2) {
+	function insertMarkTag(col1) {
 		hideLayer("markPalette");
-		TTCommand("Mark", col1, col2);
+		TTCommand("Mark", col1);
 	}
 
 	function addAttachment() {
@@ -1848,46 +1848,71 @@ function printEntryEditorPalette() {
 	<td valign="bottom"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/set_switch.gif" width="42" height="11" onclick="TTCommand('ToggleMode')" vspace="3" alt="<?=_t('위지윅/텍스트 모드 변경')?>" title="<?=_t('위지윅/텍스트 모드 변경')?>"/></td>
   </tr>
 </table>
-	<div id="colorPalette" style="display:none;margin:4px 0px 4px 10px">
+	<div id="colorPalette" style="display:none; position: absolute; left: 232px; top: 203px">
 	  <table bgcolor="#FFFFFF" cellspacing="3" style="border-style:solid;border-width:1;border-color:#A0A0A0">
+	    <tr>
+		  <td colspan="7" style="background-color: #eee; text-align: center; font-weight: bold; color: #888"><?=_t('글자색')?></td>
+		</tr>
 		<tr>
-		  <td bgcolor="#008000"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#008000')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#009966"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#009966')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#99CC66"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#99CC66')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#999966"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#999966')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#CC9900"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#CC9900')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#D41A01"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#D41A01')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#FF0000"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#FF0000')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#FF7635"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#FF7635')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#FF9900"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#FF9900')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#FF3399"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#FF3399')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#9B18C1"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#9B18C1')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#993366"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#993366')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#666699"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#666699')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#0000FF"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#0000FF')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#177FCD"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#177FCD')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#006699"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#006699')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#003366"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#003366')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#333333"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#333333')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#000000"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#000000')" width="16" height="16" alt="" /></td>		  
-		  <td bgcolor="#8E8E8E"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#8E8E8E')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#C1C1C1"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#C1C1C1')" width="16" height="16" alt="" /></td>
+		  <td bgcolor="#008000"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#008000')" width="16" height="16" alt="#008000" /></td>
+		  <td bgcolor="#009966"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#009966')" width="16" height="16" alt="#009966" /></td>
+		  <td bgcolor="#99CC66"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#99CC66')" width="16" height="16" alt="#99CC66" /></td>
+		  <td bgcolor="#999966"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#999966')" width="16" height="16" alt="#999966" /></td>
+		  <td bgcolor="#CC9900"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#CC9900')" width="16" height="16" alt="#CC9900" /></td>
+		  <td bgcolor="#D41A01"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#D41A01')" width="16" height="16" alt="#D41A01" /></td>
+		  <td bgcolor="#FF0000"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#FF0000')" width="16" height="16" alt="#FF0000" /></td>
+		 </tr>
+		 <tr>
+		  <td bgcolor="#FF7635"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#FF7635')" width="16" height="16" alt="#FF7635" /></td>
+		  <td bgcolor="#FF9900"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#FF9900')" width="16" height="16" alt="#FF9900" /></td>
+		  <td bgcolor="#FF3399"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#FF3399')" width="16" height="16" alt="#FF3399" /></td>
+		  <td bgcolor="#9B18C1"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#9B18C1')" width="16" height="16" alt="#9B18C1" /></td>
+		  <td bgcolor="#993366"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#993366')" width="16" height="16" alt="#993366" /></td>
+		  <td bgcolor="#666699"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#666699')" width="16" height="16" alt="#666699" /></td>
+		  <td bgcolor="#0000FF"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#0000FF')" width="16" height="16" alt="#0000FF" /></td>
+		 </tr>
+		 <tr>
+		  <td bgcolor="#177FCD"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#177FCD')" width="16" height="16" alt="#177FCD" /></td>
+		  <td bgcolor="#006699"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#006699')" width="16" height="16" alt="#006699" /></td>
+		  <td bgcolor="#003366"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#003366')" width="16" height="16" alt="#003366" /></td>
+		  <td bgcolor="#000000"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#000000')" width="16" height="16" alt="#000000" /></td>		  
+		  <td bgcolor="#FFFFFF"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#FFFFFF')" width="16" height="16" alt="#FFFFFF" style="border: 1px solid #eee"/></td>
+		  <td bgcolor="#8E8E8E"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#8E8E8E')" width="16" height="16" alt="#8E8E8E" /></td>
+		  <td bgcolor="#C1C1C1"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertColorTag('#C1C1C1')" width="16" height="16" alt="#C1C1C1" /></td>
 		</tr>
 	  </table>
 	</div>
-	<div id="markPalette" style="display:none;margin:4px 0px 4px 140px">
+	<div id="markPalette" style="display:none; position: absolute; left: 251px; top: 203px">
 	  <table bgcolor="#FFFFFF" cellspacing="3" style="border-style:solid;border-width:1;border-color:#A0A0A0">
+	    <tr>
+		  <td colspan="7" style="background-color: #eee; text-align: center; font-weight: bold; color: #888"><?=_t('배경색')?></td>
+		</tr>
 		<tr>
-		  <td bgcolor="#FFDAED"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setMarkPreviewBlack.gif" onclick="insertMarkTag('#202020', '#FFDAED')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#C9EDFF"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setMarkPreviewBlack.gif" onclick="insertMarkTag('#202020', '#C9EDFF')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#D0FF9D"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setMarkPreviewBlack.gif" onclick="insertMarkTag('#202020', '#D0FF9D')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#FAFFA9"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setMarkPreviewBlack.gif" onclick="insertMarkTag('#202020', '#FAFFA9')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#E4E4E4"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setMarkPreviewBlack.gif" onclick="insertMarkTag('#202020', '#E4E4E4')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#FF0000"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setMarkPreviewWhite.gif" onclick="insertMarkTag('#FFFFFF', '#FF0000')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#0000FF"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setMarkPreviewWhite.gif" onclick="insertMarkTag('#FFFFFF', '#0000FF')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#009966"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setMarkPreviewWhite.gif" onclick="insertMarkTag('#FFFFFF', '#009966')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#670787"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setMarkPreviewWhite.gif" onclick="insertMarkTag('#FFFFFF', '#670787')" width="16" height="16" alt="" /></td>
-		  <td bgcolor="#333333"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setMarkPreviewWhite.gif" onclick="insertMarkTag('#FFFFFF', '#333333')" width="16" height="16" alt="" /></td>
+		  <td bgcolor="#008000"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#008000')" width="16" height="16" alt="#008000" /></td>
+		  <td bgcolor="#009966"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#009966')" width="16" height="16" alt="#009966" /></td>
+		  <td bgcolor="#99CC66"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#99CC66')" width="16" height="16" alt="#99CC66" /></td>
+		  <td bgcolor="#999966"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#999966')" width="16" height="16" alt="#999966" /></td>
+		  <td bgcolor="#CC9900"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#CC9900')" width="16" height="16" alt="#CC9900" /></td>
+		  <td bgcolor="#D41A01"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#D41A01')" width="16" height="16" alt="#D41A01" /></td>
+		  <td bgcolor="#FF0000"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#FF0000')" width="16" height="16" alt="#FF0000" /></td>
+		 </tr>
+		 <tr>
+		  <td bgcolor="#FF7635"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#FF7635')" width="16" height="16" alt="#FF7635" /></td>
+		  <td bgcolor="#FF9900"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#FF9900')" width="16" height="16" alt="#FF9900" /></td>
+		  <td bgcolor="#FF3399"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#FF3399')" width="16" height="16" alt="#FF3399" /></td>
+		  <td bgcolor="#9B18C1"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#9B18C1')" width="16" height="16" alt="#9B18C1" /></td>
+		  <td bgcolor="#993366"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#993366')" width="16" height="16" alt="#993366" /></td>
+		  <td bgcolor="#666699"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#666699')" width="16" height="16" alt="#666699" /></td>
+		  <td bgcolor="#0000FF"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#0000FF')" width="16" height="16" alt="#0000FF" /></td>
+		 </tr>
+		 <tr>
+		  <td bgcolor="#177FCD"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#177FCD')" width="16" height="16" alt="#177FCD" /></td>
+		  <td bgcolor="#006699"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#006699')" width="16" height="16" alt="#006699" /></td>
+		  <td bgcolor="#003366"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#003366')" width="16" height="16" alt="#003366" /></td>
+		  <td bgcolor="#000000"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#000000')" width="16" height="16" alt="#000000" /></td>		  
+		  <td bgcolor="#FFFFFF"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#FFFFFF')" width="16" height="16" alt="#FFFFFF" style="border: 1px solid #eee"/></td>
+		  <td bgcolor="#8E8E8E"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#8E8E8E')" width="16" height="16" alt="#8E8E8E" /></td>
+		  <td bgcolor="#C1C1C1"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/spacer.gif" onclick="insertMarkTag('#C1C1C1')" width="16" height="16" alt="#C1C1C1" /></td>
 		</tr>
 	  </table>
 	</div>

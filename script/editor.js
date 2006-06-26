@@ -343,7 +343,7 @@ TTEditor.prototype.html2ttml = function() {
 	str = str.replace(new RegExp("<p[^>]*?>&nbsp;</p>", "gi"), "<br/>");
 
 	// 빈 태그 제거
-	str = str.replace(new RegExp("<(\\w+)></\\1>", "gi"), "");
+	str = str.replace(new RegExp("<(\\w+)[^>]*></\\1>", "gi"), "");
 
 	// 쓸모없는 &nbsp; 제거
 	str = str.replace(new RegExp("([^ ])&nbsp;([^ ])", "gi"), "$1 $2");
@@ -564,6 +564,8 @@ TTEditor.prototype.showProperty = function(obj)
 
 	var attribute = obj.getAttribute("longdesc");
 
+	getObject("colorPalette").style.display = "none";
+	getObject("markPalette").style.display = "none";
 	getObject("propertyImage1").style.display = "none";
 	getObject("propertyImage2").style.display = "none";
 	getObject("propertyImage3").style.display = "none";
@@ -1062,10 +1064,17 @@ function TTCommand(command, value1, value2) {
 			if(isWYSIWYG)
 				editor.execCommand("ForeColor", false, value1);
 			else
-				insertTag('<span style="color: ' + value1 + '">', "</span>");
+				TTCommand("Raw", '<span style="color: ' + value1 + '">', "</span>");
 			break;
 		case "Mark":
-			TTCommand("Raw", '<span style="color: ' + value1 + '; background-color: ' + value2 + '; padding: 3px 1px 0px">', "</span>");
+			if(isWYSIWYG) {
+				if(STD.isIE)
+					editor.execCommand("BackColor", false, value1);
+				else
+					editor.execCommand("HiliteColor", false, value1);
+			}
+			else
+				TTCommand("Raw", '<span style="background-color: ' + value1 + '">', "</span>");
 			break;
 		case "RemoveFormat":
 			if(isWYSIWYG) {
