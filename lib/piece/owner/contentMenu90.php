@@ -13,7 +13,7 @@
 				<hr class="hidden" />
 				
 				<div id="psuedo-box">
-					<form method="post" action="<?=$blogURL?>/owner/trash/comment">
+					<form method="post" action="<?=$blogURL?>/owner/trash/trackback">
 						<input type="hidden" name="page" value="<?=$suri['page']?>" />
 						
 						<div id="data-outbox">
