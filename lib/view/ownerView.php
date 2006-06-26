@@ -25,6 +25,7 @@ function printOwnerEditorScript($entryId = false) {
 	var s_unknownFileType = "<?=_t('알 수 없는 형식의 파일명입니다')?>";
 	var s_enterObjectTag = "<?=_t('OBJECT 태그만 입력하세요')?>";
 	var s_enterCorrectObjectTag = "<?=_t('틀린 OBJECT 태그입니다')?>";
+	var s_selectLinkArea = "<?=_t('링크를 만들 영역을 선택해주세요')?>";
 
 	function savePosition() {
 		if (document.forms[0].content.createTextRange)
@@ -973,6 +974,43 @@ function printEntryFileUploadButton($entryId) {
 function printEntryEditorProperty() {
 	global $service;
 ?>
+<table id="propertyHyperLink" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
+  <tr>
+	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
+	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;"><?=_t('하이퍼링크')?></span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
+	  	<col width="30%" />
+		<col width="70%" />
+		<tr>
+		  <td style="font-size:11px; letter-spacing:-1; color:#666;"><?=_t('URL')?></td>
+		  <td align="right" style="padding-right:1px;"><input type="text" class="text2" id="propertyHyperLink_url" style="width: 125px" onkeyup="editor.setProperty()"/></td>
+		</tr>
+		<tr>
+		  <td height="1" background="<?=$service['path']?>/image/owner/edit/dotted_layer.gif"></td>
+		  <td></td>
+		</tr>
+		<tr>
+		  <td style="font-size:11px; letter-spacing:-1; color:#666;"><?=_t('대상')?></td>
+		  <td align="right" style="padding-right:1px;">
+		  	<select id="propertyHyperLink_target" style="width: 135px" onchange="getObject('propertyInsertObject_part_url').style.display=getObject('propertyInsertObject_part_raw').style.display='none';getObject('propertyInsertObject_part_' + this.value).style.display = 'block'">
+				<option value="_blank"><?=_t('새창')?></option>
+				<option value="_self"><?=_t('현재창')?></option>
+			</select>
+		  </td>
+		</tr>
+		<tr>
+		  <td height="1" background="<?=$service['path']?>/image/owner/edit/dotted_layer.gif"></td>
+		  <td></td>
+		</tr>
+	  </table>
+	  <div style="text-align: right; padding-bottom: 10px">
+	  <input type="button" onclick="TTCommand('ExcuteCreateLink')" value="<?=_t('적용하기')?>"/>
+	  &nbsp;
+	  <input type="button" onclick="TTCommand('CancelCreateLink')" value="<?=_t('취소하기')?>"/>
+	  </div>
+    </td>
+  </tr>
+</table>
+
 <table id="propertyInsertObject" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
@@ -1031,7 +1069,7 @@ function printEntryEditorProperty() {
   </tr>
 </table>
 
-<table id="propertyImage1" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
+<table id="propertyImage1" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
 	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;">Image</span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
@@ -1066,7 +1104,7 @@ function printEntryEditorProperty() {
   </tr>
 </table>
 
-<table id="propertyImage2" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
+<table id="propertyImage2" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
 	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;">Image 1</span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
@@ -1129,7 +1167,7 @@ function printEntryEditorProperty() {
   </tr>
 </table>
 
-<table id="propertyImage3" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
+<table id="propertyImage3" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
 	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;">Image 1</span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
@@ -1220,7 +1258,7 @@ function printEntryEditorProperty() {
   </tr>
 </table>
 
-<table id="propertyObject" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
+<table id="propertyObject" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
 	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;">Object</span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
@@ -1257,7 +1295,7 @@ function printEntryEditorProperty() {
 </table>
 
 
-<table id="propertyObject1" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
+<table id="propertyObject1" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
 	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;">Object 1</span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
@@ -1284,7 +1322,7 @@ function printEntryEditorProperty() {
   </tr>
 </table>
 
-<table id="propertyObject2" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
+<table id="propertyObject2" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
 	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;">Object 1</span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
@@ -1331,7 +1369,7 @@ function printEntryEditorProperty() {
   </tr>
 </table>
 
-<table id="propertyObject3" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
+<table id="propertyObject3" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
 	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;">Object 1</span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
@@ -1398,7 +1436,7 @@ function printEntryEditorProperty() {
   </tr>
 </table>
 
-<table id="propertyiMazing" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
+<table id="propertyiMazing" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
 	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;">iMazing</span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
@@ -1520,7 +1558,7 @@ function printEntryEditorProperty() {
   </tr>
 </table>
 
-<table id="propertyGallery" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
+<table id="propertyGallery" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
 	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;">Gallery</span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
@@ -1574,7 +1612,7 @@ function printEntryEditorProperty() {
   </tr>
 </table>
 
-<table id="propertyJukebox" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
+<table id="propertyJukebox" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
 	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;">Jukebox</span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
@@ -1627,7 +1665,7 @@ function printEntryEditorProperty() {
   </tr>
 </table>
 
-<table id="propertyEmbed" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
+<table id="propertyEmbed" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
 	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;">Embed</span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
@@ -1662,7 +1700,7 @@ function printEntryEditorProperty() {
   </tr>
 </table>
 
-<table id="propertyFlash" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
+<table id="propertyFlash" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
 	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;">Flash</span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
@@ -1697,7 +1735,7 @@ function printEntryEditorProperty() {
   </tr>
 </table>
 
-<table id="propertyMoreLess" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999">
+<table id="propertyMoreLess" width="220" border="0" cellpadding="0" cellspacing="1" style="display: none; border: 1px solid #999; margin-bottom: 10px">
   <tr>
 	<td width="220" style="padding:10px 10px 0px 10px; background-color: #fff">
 	<span style="font-family:tahoma; font-size:10px; color:#000; font-weight:bold;">More/Less</span>	  <table width="100%" border="0" cellspacing="0" cellpadding="1" style="margin-top:10px; margin-bottom:10px; table-layout: fixed">
