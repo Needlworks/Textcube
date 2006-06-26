@@ -1068,8 +1068,20 @@ function TTCommand(command, value1, value2) {
 			TTCommand("Raw", '<span style="color: ' + value1 + '; background-color: ' + value2 + '; padding: 3px 1px 0px">', "</span>");
 			break;
 		case "RemoveFormat":
-			if(isWYSIWYG)
-				editor.execCommand("RemoveFormat", false, null);
+			if(isWYSIWYG) {
+				if(STD.isIE) {
+					if(editor.getSelectionRange().htmlText != "")
+						editor.getSelectionRange().pasteHTML(editor.removeFormatting(editor.getSelectionRange().htmlText));
+				}
+				else {
+					if(editor.getSelectionRange().startOffset != editor.getSelectionRange().endOffset) {
+						var range = editor.getSelectionRange();
+						var dummyNode = document.createElement("div");
+						dummyNode.appendChild(range.extractContents());
+						range.insertNode(range.createContextualFragment(editor.removeFormatting(dummyNode.innerHTML)));
+					}
+				}
+			}
 			break;
 		case "JustifyLeft":
 			blockAlign = "left";
@@ -1772,6 +1784,24 @@ TTEditor.prototype.unHtmlspecialchars = function(str) {
 // 줄바꿈 문자를 BR 태그로
 TTEditor.prototype.nl2br = function(str) {
 	return str.replace(new RegExp("\r\n", "gi"), "<br />").replace(new RegExp("\r", "gi"), "<br />").replace(new RegExp("\n", "gi"), "<br />");
+}
+
+// 스타일 속성, 태그 제거
+TTEditor.prototype.removeFormatting = function(str) {
+	var styleTags = new Array("b", "strong", "i", "em", "u", "ins", "strike", "del", "font");
+	for(var i in styleTags) {
+		var regTag = new RegExp("</?" + styleTags[i] + "(?:>| [^>]*>)", "i");
+		while(result = regTag.exec(str))
+			str = str.replaceAll(result[0], "");
+	}
+	str = str.replace(new RegExp('\\s*style="[^"]*"', "gi"), "");
+	var styleContainers = new Array("span", "div");
+	for(var i in styleContainers) {
+		var regTag = new RegExp("<span\\s*?>((?:.|\\s)*?)</span>", "i");
+		while(result = regTag.exec(str))
+			str = str.replace(result[0], result[1]);
+	}
+	return str;
 }
 
 var editorChanged = function () {
