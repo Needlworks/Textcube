@@ -342,10 +342,6 @@ TTEditor.prototype.html2ttml = function() {
 
 	var str = obj.innerHTML;
 
-	// 소스를 한줄로
-	str = str.replace(new RegExp("\r|\n|&#10;|&#13;", "g"), "");
-	str = str.replace(new RegExp("&#9;", "g"), "\t");
-
 	// 빈줄을 br 태그로
 	str = str.replace(new RegExp("<p[^>]*?>&nbsp;</p>", "gi"), "<br/>");
 
@@ -373,8 +369,10 @@ TTEditor.prototype.html2ttml = function() {
 		}
 		else {
 			if((offsetStart = str.indexOf("<!-- Tattertools HTML Block Begin -->")) != -1) {
-				sb.append(str.substring(0, offsetStart).replace(new RegExp("[\r\n]*<br[ /]*>[\r\n]*", "gi"), "\r\n"));
-				sb.append("[HTML]");
+				var buffer = str.substring(0, offsetStart).replace(new RegExp("[\r\n]*<br[ /]*>[\r\n]*", "gi"), "\r\n");
+				buffer = buffer.replace(new RegExp("\r|\n|&#10;|&#13;", "g"), "");
+				buffer = buffer.replace(new RegExp("&#9;", "g"), "\t");
+				sb.append(buffer + "[HTML]");
 				str = str.substring(offsetStart + 37, str.length);
 
 				inHTML = true;
