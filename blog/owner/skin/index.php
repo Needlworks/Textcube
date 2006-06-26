@@ -111,11 +111,11 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 <?
 }
 ?>
-											<a class="preview-button button" href="<?=$blogURL?>/owner/skin/preview/?skin=<?=$skinSetting['skin']?>" onclick="window.open(this.href)"><span class="text"><?=_t('미리보기')?></span></a>
+											<a class="preview-button button" href="<?=$blogURL?>/owner/skin/preview/?skin=<?=$skinSetting['skin']?>" onclick="window.open(this.href); return false;"><span class="text"><?=_t('미리보기')?></span></a>
 											<span class="hidden">|</span>
 											<a class="apply-button button" href="<?=$blogURL?>/owner/skin/change/?javascript=disabled&amp;skinName=<?=urlencode($skinSetting['skin'])?>" onclick="selectSkin('<?=$skinSetting['skin']?>'); return false;"><span class="text"><?=_t('적용')?></span></a>
 										</span>
-										<a class="edit-button button" href="<?=$blogURL?>/owner/skin/edit" onclick="window.open(this.href)"><span class="text"><?=_t('편집하기')?></span></a>
+										<a class="edit-button button" href="<?=$blogURL?>/owner/skin/edit" onclick="window.open(this.href); return false;"><span class="text"><?=_t('편집하기')?></span></a>
 									</div>
 								</div>
 							</div>
@@ -172,7 +172,7 @@ for ($i = 0; $i < count($skins); $i++) {
 	}
 ?>
 										</table>
-										<a class="preview-button button" href="<?=$blogURL?>/owner/skin/preview/?skin=<?=$skin['name']?>" onclick="window.open(this.href)"><span><?=_t('미리보기')?></span></a>
+										<a class="preview-button button" href="<?=$blogURL?>/owner/skin/preview/?skin=<?=$skin['name']?>" onclick="window.open(this.href); return false;"><span><?=_t('미리보기')?></span></a>
 										<span class="hidden">|</span>
 										<a class="apply-button button" href="<?=$blogURL?>/owner/skin/change/?javascript=disabled&amp;skinName=<?=urlencode($skin['name'])?>" onclick="selectSkin('<?=$skin['name']?>'); return false;"><span><?=_t('적용')?></span></a>
 									</div>

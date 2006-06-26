@@ -1,8 +1,11 @@
 <?
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForOwner.php';
+
+$branchFlag = isset($_GET['javascript']) && $_GET['javascript'] == "disabled" ? true : false;
+
 if (deleteTrackback($owner, $suri['id']) !== true)
-	respondResultPage(0);
+	$branchFlag ? header("Location: ".$_SERVER['HTTP_REFERER']) : respondResultPage(0);
 else
-	respondResultPage( - 1);
+	$branchFlag ? header("Location: ".$_SERVER['HTTP_REFERER']) : respondResultPage( - 1);
 ?>

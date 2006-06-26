@@ -45,7 +45,7 @@ require ROOT . '/lib/piece/owner/contentMenu40.php';
 										<span class="divider"> : </span>
 										<span id="total"><?=number_format($stats['total'])?></span>
 									</div>
-									<a class="init-button button" href="#void" onclick="setTotalStatistics()"><span class="text"><?=_t('초기화')?></span></a>
+									<a class="init-button button" href="<?=$blogURL?>/owner/statistics/visitor/set/0?javascript=disabled" onclick="setTotalStatistics(); return false;"><span class="text"><?=_t('초기화')?></span></a>
 								</div>
 							
 								<hr class="hidden" />
@@ -65,9 +65,9 @@ for ($i=0; $i<sizeof($temp); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
-											<td class="date"><?=Timestamp::formatDate2(getTimeFromPeriod($record['date']))?></td>
-											<td class="count"><?=$record['visits']?></td>
+										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+											<td class="date"><a href="<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>"><?=Timestamp::formatDate2(getTimeFromPeriod($record['date']))?></a></td>
+											<td class="count"><a href="<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>"><?=$record['visits']?></a></td>
 										</tr>
 <?
 }

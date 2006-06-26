@@ -2,8 +2,8 @@
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
-$site = empty($_POST['site']) ? '' : $_POST['site'];
-$ip = empty($_POST['ip']) ? '' : $_POST['ip'];
+$site = empty($_GET['site']) ? '' : $_GET['site'];
+$ip = empty($_GET['ip']) ? '' : $_GET['ip'];
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
 $page = getPersonalization($owner, 'rowsPerPage');
 if (empty($_POST['perPage'])) {
@@ -125,7 +125,7 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 							
 							<div id="part-post-trackback" class="part">
 								<h2 class="caption">
-									<select id="category" name="category" onchange="document.forms[0].page.value=1; document.forms[0].submit()">
+									<select id="category" name="category" onchange="document.forms[0].page.value=1; document.forms[0].submit()" disabled="disabled">
 										<option value="0"><?php echo _t('전체')?></option>
 <?php
 foreach (getCategories($owner) as $category) {
@@ -229,7 +229,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 ?>
 											</td>
 											<td class="title">
-												<a href="#void" onclick="window.open('<?=$trackback['url']?>')" title="<?= _t('트랙백을 보낸 포스트를 보여줍니다.')?>"><?=htmlspecialchars($trackback['subject'])?></a>
+												<a href="<?=$trackback['url']?>" onclick="window.open(this.href); return false;" title="<?= _t('트랙백을 보낸 포스트를 보여줍니다.')?>"><?=htmlspecialchars($trackback['subject'])?></a>
 											</td>
 											<td class="ip">
 <?

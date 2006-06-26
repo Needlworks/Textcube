@@ -228,7 +228,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 <?
 	}
 ?>
-												<a href="?name=<?=escapeJSInAttribute($comment['name'])?>" title="<?=_t('이 이름으로 등록된 댓글 목록을 보여줍니다.')?>"><?=htmlspecialchars($comment['name'])?></a>
+												<a href="?name=<?=urlencode(escapeJSInAttribute($comment['name']))?>" title="<?=_t('이 이름으로 등록된 댓글 목록을 보여줍니다.')?>"><?=htmlspecialchars($comment['name'])?></a>
 											</td>
 											<td class="content">
 <?
