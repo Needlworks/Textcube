@@ -100,6 +100,16 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 											if (document.forms[0].elements[i].name == "entry")
 												document.forms[0].elements[i].checked = checked;
 									}
+									
+									function toggleThisTr(obj) {
+										objTR = getParentByTagName("TR", obj);
+										
+										if (objTR.className.match('inactive')) {
+											objTR.className = objTR.className.replace('inactive', 'active');
+										} else {
+											objTR.className = objTR.className.replace('active', 'inactive');
+										}
+									}
 								//]]>
 							</script>
 							
@@ -179,7 +189,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" onclick="document.getElementById('allChecked').checked=false;" /></td>
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
 											<td class="date"><?=Timestamp::formatDate($trackback['written'])?></td>
 											<td class="site">
 <?

@@ -18,7 +18,7 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
 												document.getElementById("plugin_" + num).setAttribute('title', '<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>');
 												document.getElementById("plugin" + num + "Link").setAttribute('title', '<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>');
 												
-												objTR = getParentTr(document.getElementById("plugin" + num + "Link"));
+												objTR = getParentByTagName("TR", document.getElementById("plugin" + num + "Link"));
 												objTR.className = objTR.className.replace('inactive', 'active');
 											}
 											request.onError = function() {
@@ -34,7 +34,7 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
 												document.getElementById("plugin_" + num).setAttribute('title', '<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>');
 												document.getElementById("plugin" + num + "Link").setAttribute('title', '<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>');
 												
-												objTR = getParentTr(document.getElementById("plugin" + num + "Link"));
+												objTR = getParentByTagName("TR", document.getElementById("plugin" + num + "Link"));
 												objTR.className = objTR.className.replace('active', 'inactive');
 											}
 											request.onError = function() {
@@ -42,13 +42,6 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
 											}
 											request.send();
 										}
-									}
-									
-									function getParentTr(obj){
-										while (obj.tagName != "TR") {
-											obj = obj.parentNode;
-										}
-										return obj;
 									}
 								//]]>
 							</script>

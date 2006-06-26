@@ -105,6 +105,16 @@ require ROOT . '/lib/piece/owner/contentMenu91.php';
 											alert(e.message);
 										}
 									}
+									
+									function toggleThisTr(obj) {
+										objTR = getParentByTagName("TR", obj);
+										
+										if (objTR.className.match('inactive')) {
+											objTR.className = objTR.className.replace('inactive', 'active');
+										} else {
+											objTR.className = objTR.className.replace('active', 'inactive');
+										}
+									}
 								//]]>
 							</script>
 							
@@ -193,7 +203,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	$className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" name="entry" value="<?=$comment['id']?>" onclick="document.getElementById('allChecked').checked=false;" /></td>
+											<td class="selection"><input type="checkbox" name="entry" value="<?=$comment['id']?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
 											<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
 											<td class="name">
 <?

@@ -91,6 +91,16 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 											alert(e.message);
 										}
 									}
+									
+									function toggleThisTr(obj) {
+										objTR = getParentByTagName("TR", obj);
+										
+										if (objTR.className.match('inactive')) {
+											objTR.className = objTR.className.replace('inactive', 'active');
+										} else {
+											objTR.className = objTR.className.replace('active', 'inactive');
+										}
+									}
 								//]]>
 							</script>
 							
@@ -171,7 +181,7 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 	$className .= ($i == sizeof($mergedComments) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$comment['id']?>" onclick="document.getElementById('allChecked').checked=false;" /></td>
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$comment['id']?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
 											<td class="date"><?=Timestamp::formatDate($comment['written'])?></td>
 											<td class="site"><a href="<?=$comment['siteUrl']?>" onclick="window.open(this.href); return false;" title="사이트를 새 창으로 연결합니다."><?=htmlspecialchars($comment['siteTitle'])?></a></td>
 											<td class="name">

@@ -99,6 +99,16 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 										oForm.withSearch.value = "";
 										oForm.submit();
 									}
+									
+									function toggleThisTr(obj) {
+										objTR = getParentByTagName("TR", obj);
+										
+										if (objTR.className.match('inactive')) {
+											objTR.className = objTR.className.replace('inactive', 'active');
+										} else {
+											objTR.className = objTR.className.replace('active', 'inactive');
+										}
+									}
 								//]]>
 							</script>
 							
@@ -126,7 +136,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	$className .= ($i == sizeof($entries) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.getElementById('allChecked').checked=false;" /></td>
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
 											<td class="date"><?=Timestamp::format3($entry['published'])?></td>
 											<td class="status">
 <?
