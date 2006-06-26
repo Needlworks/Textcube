@@ -110,11 +110,11 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<td class="selection"><input type="checkbox" class="checkbox" name="allChecked" onclick="checkAll(this.checked)" /></td>
-											<td class="date"><span class="text"><?=_t('등록일자')?></span></td>
-											<td class="status"><span class="text"><?=_t('상태')?></span></td>
-											<td class="title"><span class="text"><?=_t('공지')?></span></td>
-											<td class="delete"><span class="text"><?=_t('삭제')?></span></td>
+											<th class="selection"><input type="checkbox" class="checkbox" name="allChecked" onclick="checkAll(this.checked)" /></th>
+											<th class="date"><span class="text"><?=_t('등록일자')?></span></th>
+											<th class="status"><span class="text"><?=_t('상태')?></span></th>
+											<th class="title"><span class="text"><?=_t('공지')?></span></th>
+											<th class="delete"><span class="text"><?=_t('삭제')?></span></th>
 										</tr>
 									</thead>
 									<tbody>

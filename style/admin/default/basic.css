@@ -538,7 +538,7 @@ input.text-readonly-input
 	background-repeat                : repeat-x;
 }
 
-#data-outbox table.data-inbox thead tr td
+#data-outbox table.data-inbox thead tr th
 {
 	color                            : #FFFFFF;
 	font-weight                      : bold;

@@ -58,9 +58,9 @@ $entry = getEntry($owner, $suri['id']);
 						var str = '<table width="100%" cellpadding="5" cellspacing="0">\n';
 						str += '	<thead>\n';
 						str += '		<tr>\n';
-						str += '			<td class="log"><span class="text"><? echo _t('전송로그')?></span></td>\n';
-						str += '			<td class="date"><span class="text"><? echo _t('날짜')?></span></td>\n';
-						str += '			<td class="delete"><span class="text"><? echo _t('삭제')?></span></td>\n';
+						str += '			<th class="log"><span class="text"><? echo _t('전송로그')?></span></th>\n';
+						str += '			<th class="date"><span class="text"><? echo _t('날짜')?></span></th>\n';
+						str += '			<th class="delete"><span class="text"><? echo _t('삭제')?></span></th>\n';
 						str += '		</tr>\n';
 						str += '	</thead>\n';
 						

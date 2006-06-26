@@ -10,8 +10,8 @@ require ROOT . '/lib/piece/owner/contentMenu41.php';
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<td class="number"><span class="text"><?=_t('순위')?></span></td>
-											<td class="site"><span class="text"><?=_t('리퍼러')?></span></td>
+											<th class="number"><span class="text"><?=_t('순위')?></span></th>
+											<th class="site"><span class="text"><?=_t('리퍼러')?></span></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -42,8 +42,8 @@ for ($i=0; $i<sizeof($temp); $i++) {
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<td class="number"><span class="text"><?=_t('날짜')?></span></td>
-											<td class="site"><span class="text"><?=_t('주소')?></span></td>
+											<th class="number"><span class="text"><?=_t('날짜')?></span></th>
+											<th class="site"><span class="text"><?=_t('주소')?></span></th>
 										</tr>
 									</thead>
 									<tbody>

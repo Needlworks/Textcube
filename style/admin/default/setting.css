@@ -295,7 +295,7 @@
 	height                           : auto !important;
 }
 
-#list-section table thead tr td.cancel
+#list-section table thead tr th.cancel
 {
 	padding                          : 0;
 }
@@ -382,7 +382,7 @@
 	background-repeat                : repeat-x;
 }
 
-#list-section table thead tr td
+#list-section table thead tr th
 {
 	color                            : #FFFFFF;
 	font-weight                      : bold;
@@ -390,13 +390,13 @@
 	padding                          : 6px 5px 4px 5px;
 }
 
-#list-section table thead tr td.cancel
+#list-section table thead tr th.cancel
 {
 	padding                          : 2px 9px 0 5px !important;
 	width                            : 25px;
 }
 
-#list-section table tbody tr td
+#list-section table tbody tr th
 {
 	padding                          : 6px 5px 4px 5px;
 }
@@ -412,7 +412,7 @@
 	width                            : 11px;
 }
 
-#list-section table thead tr td.cancel span,
+#list-section table thead tr th.cancel span,
 #list-section table tbody tr .cancel-button span
 {
 	display                          : none;

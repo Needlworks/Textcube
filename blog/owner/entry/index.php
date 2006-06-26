@@ -466,15 +466,15 @@ foreach (getCategories($owner) as $category) {
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<td class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" disabled="disabled" /></td>
-											<td class="date"><span class="text"><?=_t('등록일자')?></span></td>
-											<td class="status"><span class="text"><?=_t('상태')?></span></td>
-											<td class="syndicate"><span class="text"><?=_t('발행')?></span></td>
-											<td class="category"><span class="text"><?=_t('분류')?></span></td>
-											<td class="title"><span class="text"><?=_t('제목')?></span></td>
-											<td class="protect"><span class="text"><?=_t('보호설정')?></span></td>
-											<td class="trackback"><span class="text"><?=_t('트랙백')?></span></td>
-											<td class="delete"><span class="text"><?=_t('삭제')?></span></td>
+											<th class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" disabled="disabled" /></th>
+											<th class="date"><span class="text"><?=_t('등록일자')?></span></th>
+											<th class="status"><span class="text"><?=_t('상태')?></span></th>
+											<th class="syndicate"><span class="text"><?=_t('발행')?></span></th>
+											<th class="category"><span class="text"><?=_t('분류')?></span></th>
+											<th class="title"><span class="text"><?=_t('제목')?></span></th>
+											<th class="protect"><span class="text"><?=_t('보호설정')?></span></th>
+											<th class="trackback"><span class="text"><?=_t('트랙백')?></span></th>
+											<th class="delete"><span class="text"><?=_t('삭제')?></span></th>
 										</tr>
 									</thead>
 									<tbody>

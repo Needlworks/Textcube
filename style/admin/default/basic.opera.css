@@ -29,7 +29,7 @@
 	}
 	
 	/* data box */
-	#data-outbox table.data-inbox thead tr td
+	#data-outbox table.data-inbox thead tr th
 	{
 		padding-top                      : 6px;
 	}

@@ -53,7 +53,7 @@ require ROOT . '/lib/piece/owner/contentMenu40.php';
 								<table id="statistics-month-inbox" class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<td colspan="2"><span class="text"><?=_t('월별 방문자 수')?></span></td>
+											<th colspan="2"><span class="text"><?=_t('월별 방문자 수')?></span></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -80,7 +80,7 @@ for ($i=0; $i<sizeof($temp); $i++) {
 								<table id="statistics-day-inbox" class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<td colspan="2"><span class="text"><?=_t('일별 방문자 수')?></span></td>
+											<th colspan="2"><span class="text"><?=_t('일별 방문자 수')?></span></th>
 										</tr>
 									</thead>
 									<tbody>

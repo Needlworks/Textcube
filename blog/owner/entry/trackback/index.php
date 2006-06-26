@@ -142,13 +142,13 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<td class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></td>
-											<td class="date"><span class="text"><?=_t('등록일자')?></span></td>
-											<td class="site"><span class="text"><?=_t('사이트명')?></span></td>
-											<td class="category"><span class="text"><?=_t('분류')?></span></td>
-											<td class="title"><span class="text"><?=_t('제목')?></span></td>
-											<td class="ip"><acronym title="Internet Protocol">ip</acronym></td>
-											<td class="delete"><span class="text"><?=_t('삭제')?></span></td>
+											<th class="selection"><input type="checkbox" class="checkbox" onclick="checkAll(this.checked);" /></th>
+											<th class="date"><span class="text"><?=_t('등록일자')?></span></th>
+											<th class="site"><span class="text"><?=_t('사이트명')?></span></th>
+											<th class="category"><span class="text"><?=_t('분류')?></span></th>
+											<th class="title"><span class="text"><?=_t('제목')?></span></th>
+											<th class="ip"><acronym title="Internet Protocol">ip</acronym></th>
+											<th class="delete"><span class="text"><?=_t('삭제')?></span></th>
 										</tr>
 									</thead>
 									<tbody>

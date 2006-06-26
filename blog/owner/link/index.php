@@ -40,10 +40,10 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<td class="homepage"><span class="text"><?=_t('홈페이지 이름')?></span></td>
-											<td class="address"><span class="text"><?=_t('사이트 주소')?></span></td>
-											<!--td class="edit"><span class="text"><?=_t('수정')?></span></td-->
-											<td class="delete"><span class="text"><?=_t('삭제')?></span></td>
+											<th class="homepage"><span class="text"><?=_t('홈페이지 이름')?></span></th>
+											<th class="address"><span class="text"><?=_t('사이트 주소')?></span></th>
+											<!--th class="edit"><span class="text"><?=_t('수정')?></span></th-->
+											<th class="delete"><span class="text"><?=_t('삭제')?></span></th>
 										</tr>
 									</thead>
 									<tbody>
