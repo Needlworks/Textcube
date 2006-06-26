@@ -65,13 +65,57 @@ function writeValue($value, $label) {
 							<h2 class="caption"><span class="main-text"><?=_t('현재 사용중인 스킨입니다')?></span></h2>
 							
 							<div class="data-inbox">
-								<div id="currentSkin" class="section" style="display:none;">
+								<div id="currentSkin" class="section">
 									<a name="currentSkinAnchor"></a>
-									<div id="currentPreview" class="preview"></div>
+									<div id="currentPreview" class="preview">
+<?
+if (file_exists(ROOT."/skin/".$skinSetting['skin']."/preview.jpg")) {
+?>
+										<img src="<?=$service['path']?>/skin/<?=$skinSetting['skin']?>/preview.jpg" alt="<?=_t('스킨 미리보기')?>" />
+<?
+} else if (file_exists(ROOT."/skin/".$skinSetting['skin']."/preview.gif")) {
+?>
+										<img src="<?=$service['path']?>/skin/<?=$skinSetting['skin']?>/preview.gif" alt="<?=_t('스킨 미리보기')?>" />
+<?
+} else {
+?>
+										<img src="<?=$service['path'].$service['adminSkin']?>/image/noPreview.gif" alt="<?=_t('스킨 미리보기')?>" />
+<?
+}
+?>
+									</div>
 									<div class="information">
-										<span id="currentInfo"></span>
-										<span class="hidden">|</span>
-										<a class="edit-button button" href="#void" onclick="window.location='<?=$blogURL?>/owner/skin/edit'"><span><?=_t('편집하기')?></span></a>
+										<span id="currentInfo">
+<?
+if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
+?>
+											<table cellspacing="0" cellpadding="0">
+<?
+	$xml = file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/index.xml");
+	$xmls = new XMLStruct();
+	$xmls->open($xml, $service['encoding']);
+	writeValue('<span class="skin-name">' . $xmls->getValue('/skin/information/name') . '</span> <span class="version">ver.' . $xmls->getValue('/skin/information/version') . '</span>', _t('제목'));
+	writeValue($xmls->getValue('/skin/information/license'), _t('저작권'));
+	writeValue($xmls->getValue('/skin/author/name'), _t('만든이'));
+	writeValue($xmls->getValue('/skin/author/homepage'), _t('홈페이지'));
+	writeValue($xmls->getValue('/skin/author/email'), _t('e-mail'));
+	writeValue($xmls->getValue('/skin/information/description'), _t('설명'));
+?>
+											</table>
+<?
+} else {
+?>
+											<div id="customizedTable">
+												<?=_t('수정된 스킨입니다.').CRLF?>
+											</div>
+<?
+}
+?>
+											<a class="preview-button button" href="<?=$blogURL?>/owner/skin/preview/?skin=<?=$skinSetting['skin']?>" onclick="window.open(this.href)"><span class="text"><?=_t('미리보기')?></span></a>
+											<span class="hidden">|</span>
+											<a class="apply-button button" href="<?=$blogURL?>/owner/skin/change/?javascript=disabled&amp;skinName=<?=urlencode($skinSetting['skin'])?>" onclick="selectSkin('<?=$skinSetting['skin']?>'); return false;"><span class="text"><?=_t('적용')?></span></a>
+										</span>
+										<a class="edit-button button" href="<?=$blogURL?>/owner/skin/edit" onclick="window.open(this.href)"><span class="text"><?=_t('편집하기')?></span></a>
 									</div>
 								</div>
 							</div>
@@ -128,9 +172,9 @@ for ($i = 0; $i < count($skins); $i++) {
 	}
 ?>
 										</table>
-										<a class="preview-button button" href="#void" onclick="window.open('<?=$blogURL?>/owner/skin/preview/?skin=<?=$skin['name']?>')"><span><?=_t('미리보기')?></span></a>
+										<a class="preview-button button" href="<?=$blogURL?>/owner/skin/preview/?skin=<?=$skin['name']?>" onclick="window.open(this.href)"><span><?=_t('미리보기')?></span></a>
 										<span class="hidden">|</span>
-										<a class="apply-button button" href="#void" onclick="selectSkin('<?=$skin['name']?>');"><span><?=_t('적용')?></span></a>
+										<a class="apply-button button" href="<?=$blogURL?>/owner/skin/change/?javascript=disabled&amp;skinName=<?=urlencode($skin['name'])?>" onclick="selectSkin('<?=$skin['name']?>'); return false;"><span><?=_t('적용')?></span></a>
 									</div>
 								</div>
 <?
@@ -146,22 +190,6 @@ for ($i = 0; $i < count($skins); $i++) {
 								<p class="explain"><?php echo _t('추가 스킨은 <a href="http://www.tattertools.com/skin" onclick="window.open(this.href); return false;" title="태터툴즈 홈페이지에 개설되어 있는 스킨 업로드 게시판으로 연결합니다.">태터툴즈 홈의 스킨 게시판</a>에서 구하실 수 있습니다. 일반적으로 스킨 파일을 태터툴즈의 skin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 스킨은 이 메뉴에서 \'적용\' 버튼을 클릭하여 사용을 시작합니다.')?></p>
 							</div>
 						</div>
-						
-						<script type="text/javascript">
-							//<![CDATA[
-								try {
-									document.getElementById('currentPreview').innerHTML = document.getElementById('preview_<?=$skinSetting['skin']?>').innerHTML;
-									document.getElementById('currentInfo').innerHTML = document.getElementById('info_<?=$skinSetting['skin']?>').innerHTML;
-									document.getElementById('currentSkin').style.display = "block";
-									document.getElementById('currentSkinLoading').style.display = "none";
-								} catch(e) {
-									document.getElementById('currentPreview').innerHTML ='<img src="<?=$service['path'].$service['adminSkin']?>/image/noPreview.gif" alt="<?=_t('스킨 미리보기')?>" />';
-									document.getElementById('currentInfo').innerHTML = "<?=_t('수정된 스킨입니다.')?>";
-									document.getElementById('currentSkin').style.display = "block";
-									document.getElementById('currentSkinLoading').style.display = "none";
-								}
-							//]]>
-						</script>
 <?
 require ROOT . '/lib/piece/owner/footer1.php';
 ?>

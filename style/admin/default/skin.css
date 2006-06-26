@@ -63,6 +63,12 @@
 	width                            : 600px;
 }
 
+#part-skin-current div.data-inbox .section #customizedTable
+{
+	height                           : 100px;
+	padding-left                     : 130px;
+}
+
 #part-skin-current div.data-inbox .section .information .preview-button,
 #part-skin-list div.data-inbox .section .information .preview-button
 {

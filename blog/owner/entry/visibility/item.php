@@ -1,23 +1,23 @@
 <?
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
-if (isset($_GET['no_javascript'])) {
-	switch ($_GET['no_javascript']) {
+if (isset($_GET['javascript']) && $_GET['javascript'] == "disabled") {
+	switch ($_GET['command']) {
 		case "protect":
-			$_GET['no_javascript'] = 1;
+			$_GET['command'] = 1;
 			break;
 		case "public":
-			$_GET['no_javascript'] = 2;
+			$_GET['command'] = 2;
 			break;
 		case "syndicate":
-			$_GET['no_javascript'] = 3;
+			$_GET['command'] = 3;
 			break;
 		case "private":
 		default:
-			$_GET['no_javascript'] = 0;
+			$_GET['command'] = 0;
 			break;
 	}
-	setEntryVisibility($suri['id'], $_GET['no_javascript']);
+	setEntryVisibility($suri['id'], $_GET['command']);
 	header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
 	respondResultPage(setEntryVisibility($suri['id'], isset($_GET['visibility']) ? $_GET['visibility'] : 0));

@@ -1,10 +1,13 @@
 <?
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
-$result = selectSkin($owner, $_POST['skinName']);
+
+$branchFlag = isset($_GET['javascript']) && $_GET['javascript'] == "disabled" ? true : false;
+$result = $branchFlag ? selectSkin($owner, $_GET['skinName']) : selectSkin($owner, $_POST['skinName']);
+
 if ($result === true) {
-	printRespond(array('error' => 0));
+	$branchFlag ? header("Location: ".$_SERVER['HTTP_REFERER']) : printRespond(array('error' => 0));
 } else {
-	printRespond(array('error' => 1, 'msg' => $result));
+	$branchFlag ? header("Location: ".$_SERVER['HTTP_REFERER']) : printRespond(array('error' => 1, 'msg' => $result));
 }
 ?>
