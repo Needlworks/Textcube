@@ -1213,6 +1213,10 @@ function TTCommand(command, value1, value2) {
 			editor.trimContent();
 			break;
 		case "CreateLink":
+			if(!isWYSIWYG) {
+				TTCommand("Raw", '<a href="">', "</a>");
+				return;
+			}
 			if(STD.isIE) {
 				if(editor.selection == null || editor.selection.htmlText == "") {
 					alert(s_selectLinkArea);
