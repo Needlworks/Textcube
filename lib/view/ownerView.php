@@ -64,9 +64,9 @@ function printOwnerEditorScript($entryId = false) {
 											TTCommand("Color", col1);
 										}
 										
-										function insertMarkTag(col1, col2) {
+										function insertMarkTag(col1) {
 											hideLayer("markPalette");
-											TTCommand("Mark", col1, col2);
+											TTCommand("Mark", col1);
 										}
 										
 										function addAttachment() {
