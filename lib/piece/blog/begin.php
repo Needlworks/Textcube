@@ -11,7 +11,7 @@ $view = str_replace('[##_t3_##]', getUpperView(isset($paging) ? $paging : null) 
 if ($suri['directive'] == '/') {
 	dress('body_id',"page",$view);
 } else if (!empty($category)) {
-	dress('body_id',getCategoryBodyIdById($owner,$category),$view);
+	dress('body_id',getCategoryBodyIdById($owner,$category) ? getCategoryBodyIdById($owner,$category) : 'category',$view);
 } else if (isset($list)) {
 	dress('body_id',$suri['value'],$view);
 } else {
