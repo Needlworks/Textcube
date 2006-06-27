@@ -8,10 +8,13 @@ else
 $skin = new Skin($skinSetting['skin']);
 $view = str_replace('[##_t3_##]', getUpperView(isset($paging) ? $paging : null) . $skin->skin . getLowerView() . getScriptsOnFoot(), $skin->outter);
 
-if ($suri['directive'] == '/')
+if ($suri['directive'] == '/') {
 	dress('body_id',"page",$view);
-else if (isset($list))
+} else if (!empty($category)) {
+	dress('body_id',getCategoryBodyIdById($owner,$category),$view);
+} else if (isset($list)) {
 	dress('body_id',$suri['value'],$view);
-else
+} else {
 	dress('body_id',ltrim($suri['directive'],'/'),$view);
+}
 ?>
