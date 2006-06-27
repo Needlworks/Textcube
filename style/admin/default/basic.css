@@ -441,6 +441,7 @@ input.text-readonly-input
 	margin                           : 0 20px;
 	min-width                        : 920px;
 	padding                          : 0 0 20px 20px;
+	position                         : relative;
 }
 
 /* data oubox -----------------------------------------------------------------------------------*/
@@ -466,15 +467,25 @@ input.text-readonly-input
 	text-align                       : left;
 }
 
-#category
+#categoryForm
 {
-	float                            : right;
-	font-weight                      : normal;
+	border                           : none !important;
+	background-color                 : transparent !important;
+	padding                          : 0 !important;
+	margin                           : -27px 0 10px auto !important;
+	text-align                       : right;
+	width                            : 220px !important;
 }
 
-#data-outbox h2.caption .interword
+#categoryForm select
 {
-	display                          : none;
+	/*float                            : left;
+	margin-top                       : 2px;*/
+}
+
+#categoryForm .button
+{
+	width                            : 70px;
 }
 
 #data-outbox .main-explain-box .explain
@@ -727,16 +738,24 @@ input.text-readonly-input
 }
 
 /* search */
-#search-section
+#searchForm
 {
+	border                           : none !important;
+	background-color                 : transparent !important;
+	padding                          : 0 !important;
 	position                         : absolute;
-	top                              : 7px;
-	right                            : 2px;
+	bottom                           : 62px;
+	right                            : 33px;
+	margin                           : 5px 0 0 auto !important;
 	width                            : 163px !important;
-	z-index                          : 200;
 }
 
-#search-section input#search
+#searchForm label
+{
+	display                          : none;
+}
+
+#searchForm input#search
 {
 	float                            : left;
 	margin-top                       : 2px;

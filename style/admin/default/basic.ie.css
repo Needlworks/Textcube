@@ -119,20 +119,20 @@ input.text-readonly-input
 }
 
 /* search */
-#search-section
+#searchForm
 {
-	right                            : 47px !important;
-	top                              : 6px !important;
+	right                            : 30px !important;
+	bottom                           : 117px !important;
 	width                            : 175px !important;
 }
 
-#search-section .search-button
+#searchForm .search-button
 {
 	float                            : left;
 	width                            : 70px !important;
 }
 
-#search-section .search-button span
+#searchForm .search-button span
 {
 	width                            : 66px !important;
 }
