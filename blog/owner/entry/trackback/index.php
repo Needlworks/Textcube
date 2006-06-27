@@ -306,9 +306,9 @@ for ($i = 10; $i <= 30; $i += 5) {
 							<hr class="hidden" />
 							
 							<form id="searchForm" class="data-inbox" method="post" action="<?=$blogURL?>/owner/entry/trackback">
+								<h2><?php echo _t('검색')?></h2>
+								
 								<div class="grouping">
-									<h2><?php echo _t('검색')?></h2>
-									
 									<label for="search"><?=_t('제목')?>, <?=_t('사이트명')?>, <?=_t('내용')?></label>
 									<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.getElementById('searchForm').withSearch.value = 'on'; document.getElementById('searchForm').submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
