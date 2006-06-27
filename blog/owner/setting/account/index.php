@@ -42,7 +42,6 @@ require ROOT . '/lib/piece/owner/contentMenu51.php';
 											request.onError = function() {
 												alert("<?=_t('저장하지 못했습니다.')?>");
 											}
-											request.send("&email=" + email.value + "&nickname=" + nickname.value);
 											request.send("&email=" + encodeURIComponent(email.value) + "&nickname=" + encodeURIComponent(nickname.value));
 										} catch(e) {
 										}
