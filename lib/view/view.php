@@ -287,7 +287,7 @@ function getScriptsOnFoot() {
 }
 
 function getTrackbacksView($entryId, & $skin) {
-	global $suri, $hostURL, $blogURL, $skinSetting;
+	global $suri, $hostURL, $blogURL, $service, $skinSetting;
 	$trackbacksView = '';
 	foreach (getTrackbacks($entryId) as $trackback) {
 		$trackbackView = "<a id=\"trackback{$trackback['id']}\"></a>" . $skin->trackback;
@@ -299,7 +299,7 @@ function getTrackbacksView($entryId, & $skin) {
 		dress('tb_rep_date', Timestamp::format5($trackback['written']), $trackbackView);
 		$trackbacksView .= $trackbackView;
 	}
-	if ($skinSetting['expandTrackback'] == 1 || (($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
+	if ($skinSetting['expandTrackback'] == 1 || (($suri['url'] != $blogURL.'/index.php' && $suri['url'] != $service['path'].'/index.php') && ($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
 		$style = 'block';
 	} else {
 		$style = 'none';
