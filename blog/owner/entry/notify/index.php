@@ -201,7 +201,7 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 <?
 	} else {
 ?>
-												<a class="unblock-icon bullet" name="name<?=$currentNumber?>block" href="<?=$blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=block" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>'), 'name'); return false;" title="<?=_t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?=_t('[허용됨]')?></span></a>
+												<a class="unblock-icon bullet" name="name<?=$currentNumber?>block" href="<?=$blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=block" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', 'name'); return false;" title="<?=_t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?=_t('[허용됨]')?></span></a>
 <?
 	}
 ?>
