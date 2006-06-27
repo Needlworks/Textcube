@@ -36,8 +36,8 @@
 	padding-bottom                   : 22px;
 }
 
-#part-skin-current div.data-inbox .section .information .button,
-#part-skin-list div.data-inbox .section .information .button
+#part-skin-current div.data-inbox .section .button-box .button,
+#part-skin-list div.data-inbox .section .button-box .button
 {
 	border                           : 1px solid #666666;
 	background-color                 : #EEEEEE;
@@ -46,14 +46,16 @@
 	margin                           : 7px 3px 0 0;
 	padding                          : 6px 10px 3px 10px;
 	text-align                       : center;
+	width                            : auto;
 }
 
-#part-skin-current div.data-inbox .section .information .button span,
-#part-skin-list div.data-inbox .section .information .button span
+#part-skin-current div.data-inbox .section .button-box .button span,
+#part-skin-list div.data-inbox .section .button-box .button span
 {
 	background-color                 : transparent;
 	background-image                 : none;
 	padding                          : 0;
+	width                            : auto;
 }
 
 #part-skin-current div.data-inbox .section table,

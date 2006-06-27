@@ -86,7 +86,7 @@ $selected = 0;
 						<div id="part-skin-setting" class="part">
 							<h2 class="caption"><span class="main-text"><?=_t('스킨에 맞춘 내용 출력을 설정합니다')?></span></h2>
 							
-							<form id="skinSetting" name="skinSetting" method="post" action="<?=$blogURL?>/owner/skin/setting/skin" enctype="application/x-www-form-urlencoded">
+							<form id="skinSetting" method="post" action="<?=$blogURL?>/owner/skin/setting/skin" enctype="application/x-www-form-urlencoded">
 								<div class="data-inbox">
 									<div id="per-page-section" class="section">
 <?
@@ -495,7 +495,7 @@ if ($dh = opendir($skinPath)) {
 										</dl>
 										<dl id="count-display-line" class="line">
 											<dt><label for="showValue"><?php echo _t('포스트 갯수 출력')?></label></dt>
-											<dd><input type="checkbox" class="checkbox" id="showValue" name="showValueOnTree" onclick="changeTreeStyle()" <?=$skinSetting['showValueOnTree'] ? 'checked' : ''?> /> <label for="showValue"><?=_t('카테고리의 글 수를 표시합니다.')?></label></dd>
+											<dd><input type="checkbox" class="checkbox" id="showValue" name="showValueOnTree" onclick="changeTreeStyle()" <?=$skinSetting['showValueOnTree'] ? 'checked="checked"' : ''?> /> <label for="showValue"><?=_t('카테고리의 글 수를 표시합니다.')?></label></dd>
 										</dl>
 									</div>
 								

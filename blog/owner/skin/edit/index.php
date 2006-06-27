@@ -40,29 +40,33 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 							<h2 class="caption"><span class="main-text"><?=_f('스킨을 편집합니다 : "%1"', $skinName)?></span></h2>
 							
 							<div class="data-inbox">
-								<div id="html-section" class="section">
+								<form id="htmlSection" class="section" method="post" action="<?=$blogURL?>/owner/skin/edit/skin/">
 									<div class="file-name">skin.html</div>
-									<textarea id="skin" name="skin_html" cols="60" rows="25" onkeyup="saved=false" style="font-family: 'Courier New', Courier, monospace"><?=htmlspecialchars($skin)?></textarea>
+									<div class="grouping">
+										<textarea id="skin" name="skin_html" cols="60" rows="25" onkeyup="saved=false" style="font-family: 'Courier New', Courier, monospace"><?=htmlspecialchars($skin)?></textarea>
+									</div>
 									<div class="button-box">
 										<a class="save-button button" href="#void" onclick="setSkin('skin');"><span class="text"><?=_t('저장하기')?></span></a>
 									</div>
-								</div>
+								</form>
 								
-								<!--div id="keyword-section" class="section">
+								<!--form id="keyword-section" class="section">
 									<div class="file-name">skin_keyword.html</div>
 									<textarea id="skin_keyword"name="s_cache_keyword_html" cols="60" rows="25"onkeyup="saved=false">﻿<?=htmlspecialchars($skin_keyword)?></textarea>
 									<a class="save-button button" href="#void" onclick="setSkin('skin_keyword');"><span class="text"><?=_t('저장하기')?></span></a>		  
-								</div-->
+								</form-->
 								
 								<hr class="hidden" />
 								
-								<div id="css-section" class="section">
+								<form id="cssSection" class="section" method="post" action="<?=$blogURL?>/owner/skin/edit/skin/">
 									<div class="file-name">style.css</div>
-									<textarea id="style" name="s_cache_style_css" cols="60" rows="25" onkeyup="saved=false"><?=htmlspecialchars($style)?></textarea>
+									<div class="grouping">
+										<textarea id="style" name="s_cache_style_css" cols="60" rows="25" onkeyup="saved=false" style="font-family: 'Courier New', Courier, monospace"><?=htmlspecialchars($style)?></textarea>
+									</div>
 									<div class="button-box">
 										<a class="save-button button" href="#void" onclick="setSkin('style');"><span class="text"><?=_t('저장하기')?></span></a>
 									</div>
-								</div>
+								</form>
 							</div>
 						</div>
 <?

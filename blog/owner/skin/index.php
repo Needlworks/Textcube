@@ -43,6 +43,7 @@ function writeValue($value, $label) {
 											PM.showMessage("<?=_t('성공적으로 변경했습니다.')?>", "center", "bottom");
 											document.getElementById('currentPreview').innerHTML = document.getElementById('preview_'+name).innerHTML;
 											document.getElementById('currentInfo').innerHTML = document.getElementById('info_'+name).innerHTML;
+											document.getElementById('currentButton').innerHTML = document.getElementById('button_'+name).innerHTML;
 											window.location.href = "#currentSkinAnchor";
 											//eleganceScroll('currentSkin',8);
 											/*
@@ -66,7 +67,7 @@ function writeValue($value, $label) {
 							
 							<div class="data-inbox">
 								<div id="currentSkin" class="section">
-									<a name="currentSkinAnchor"></a>
+									<a id="currentSkinAnchor"></a>
 									<div id="currentPreview" class="preview">
 <?
 if (file_exists(ROOT."/skin/".$skinSetting['skin']."/preview.jpg")) {
@@ -85,10 +86,10 @@ if (file_exists(ROOT."/skin/".$skinSetting['skin']."/preview.jpg")) {
 ?>
 									</div>
 									<div class="information">
-										<span id="currentInfo">
 <?
 if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 ?>
+										<div id="currentInfo">
 											<table cellspacing="0" cellpadding="0">
 <?
 	$xml = file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/index.xml");
@@ -102,20 +103,32 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 	writeValue($xmls->getValue('/skin/information/description'), _t('설명'));
 ?>
 											</table>
+										</div>
+										<div class="button-box">
+											<span id="currentButton">
+												<a class="preview-button button" href="<?=$blogURL?>/owner/skin/preview/?skin=<?=$skinSetting['skin']?>" onclick="window.open(this.href); return false;"><span class="text"><?=_t('미리보기')?></span></a>
+												<span class="hidden">|</span>
+												<a class="apply-button button" href="<?=$blogURL?>/owner/skin/change/?javascript=disabled&amp;skinName=<?=urlencode($skinSetting['skin'])?>" onclick="selectSkin('<?=$skinSetting['skin']?>'); return false;"><span class="text"><?=_t('적용')?></span></a>
+											</span>
+											<span class="hidden">|</span>
+											<a class="edit-button button" href="<?=$blogURL?>/owner/skin/edit" onclick="window.open(this.href); return false;"><span class="text"><?=_t('편집하기')?></span></a>
+										</div>
 <?
 } else {
 ?>
+										<div id="currentInfo">
 											<div id="customizedTable">
 												<?=_t('수정된 스킨입니다.').CRLF?>
 											</div>
+										</div>
+										<div class="button-box">
+											<span id="currentButton"></span>
+											<span class="hidden">|</span>
+											<a class="edit-button button" href="<?=$blogURL?>/owner/skin/edit" onclick="window.open(this.href); return false;"><span class="text"><?=_t('편집하기')?></span></a>
+										</div>
 <?
 }
 ?>
-											<a class="preview-button button" href="<?=$blogURL?>/owner/skin/preview/?skin=<?=$skinSetting['skin']?>" onclick="window.open(this.href); return false;"><span class="text"><?=_t('미리보기')?></span></a>
-											<span class="hidden">|</span>
-											<a class="apply-button button" href="<?=$blogURL?>/owner/skin/change/?javascript=disabled&amp;skinName=<?=urlencode($skinSetting['skin'])?>" onclick="selectSkin('<?=$skinSetting['skin']?>'); return false;"><span class="text"><?=_t('적용')?></span></a>
-										</span>
-										<a class="edit-button button" href="<?=$blogURL?>/owner/skin/edit" onclick="window.open(this.href); return false;"><span class="text"><?=_t('편집하기')?></span></a>
 									</div>
 								</div>
 							</div>
@@ -154,8 +167,9 @@ for ($i = 0; $i < count($skins); $i++) {
 	}
 ?>
 									</div>
-									<div id="info_<?=$skin['name']?>" class="information">
-										<table cellspacing="0" cellpadding="0">
+									<div class="information">
+										<div id="info_<?=$skin['name']?>">
+											<table cellspacing="0" cellpadding="0">
 <?
 	if (file_exists(ROOT . "/skin/{$skin['name']}/index.xml")) {
 		$xml = file_get_contents(ROOT . "/skin/{$skin['name']}/index.xml");
@@ -171,10 +185,13 @@ for ($i = 0; $i < count($skins); $i++) {
 		writeValue($skin['name'], _t('제목'));
 	}
 ?>
-										</table>
-										<a class="preview-button button" href="<?=$blogURL?>/owner/skin/preview/?skin=<?=$skin['name']?>" onclick="window.open(this.href); return false;"><span><?=_t('미리보기')?></span></a>
-										<span class="hidden">|</span>
-										<a class="apply-button button" href="<?=$blogURL?>/owner/skin/change/?javascript=disabled&amp;skinName=<?=urlencode($skin['name'])?>" onclick="selectSkin('<?=$skin['name']?>'); return false;"><span><?=_t('적용')?></span></a>
+											</table>
+										</div>
+										<div id="button_<?=$skin['name']?>" class="button-box">
+											<a class="preview-button button" href="<?=$blogURL?>/owner/skin/preview/?skin=<?=$skin['name']?>" onclick="window.open(this.href); return false;"><span><?=_t('미리보기')?></span></a>
+											<span class="hidden">|</span>
+											<a class="apply-button button" href="<?=$blogURL?>/owner/skin/change/?javascript=disabled&amp;skinName=<?=urlencode($skin['name'])?>" onclick="selectSkin('<?=$skin['name']?>'); return false;"><span><?=_t('적용')?></span></a>
+										</div>
 									</div>
 								</div>
 <?
