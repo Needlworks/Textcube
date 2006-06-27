@@ -151,23 +151,25 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 							</div>
 							
 							<div id="DBExportDialog" class="dialog" style="position: absolute; display: none; z-index: 10;">
-								<h3><?=_t('데이터 백업을 시작합니다')?></h3>
-								<div class="message-body">
-									<p class="message">
-										<span><?=_t('첨부파일을 포함하시겠습니까?')?></span>
-									</p>
-									<div class="selection">
-										<div class="select-yes" title="<?=_t('첨부 파일이 포함된 백업파일을 사용하여 복원할 경우, 첨부 파일의 내용은 백업파일의 내용으로 다시 작성됩니다.')?>"><input type="radio" id="includeFileContents-yes" class="radio" name="includeFileContents" value="1" /> <label for="includeFileContents-yes"><span class="text"><?=_t('첨부파일을 포함합니다.')?></span></label></div>
-										<div class="select-no" title="<?=_t('첨부 파일이 포함되지 않는 백업파일을 사용하여 복원하여도 기존 첨부 파일을 삭제하거나 훼손시키지 않습니다.')?>"><input type="radio" id="includeFileContents-no" class="radio" name="includeFileContents" value="0" checked="checked" /> <label for="includeFileContents-no"><span class="text"><?=_t('첨부파일을 포함하지 않습니다.')?></span></label></div>
+								<form>
+									<h3><?=_t('데이터 백업을 시작합니다')?></h3>
+									<div class="message-body">
+										<p class="message">
+											<span><?=_t('첨부파일을 포함하시겠습니까?')?></span>
+										</p>
+										<div class="selection">
+											<div class="select-yes" title="<?=_t('첨부 파일이 포함된 백업파일을 사용하여 복원할 경우, 첨부 파일의 내용은 백업파일의 내용으로 다시 작성됩니다.')?>"><input type="radio" id="includeFileContents-yes" class="radio" name="includeFileContents" value="1" /> <label for="includeFileContents-yes"><span class="text"><?=_t('첨부파일을 포함합니다.')?></span></label></div>
+											<div class="select-no" title="<?=_t('첨부 파일이 포함되지 않는 백업파일을 사용하여 복원하여도 기존 첨부 파일을 삭제하거나 훼손시키지 않습니다.')?>"><input type="radio" id="includeFileContents-no" class="radio" name="includeFileContents" value="0" checked="checked" /> <label for="includeFileContents-no"><span class="text"><?=_t('첨부파일을 포함하지 않습니다.')?></span></label></div>
+										</div>
 									</div>
-								</div>
-								<div class="button-box">
-									<a class="server-button button" href="#void" onclick="backupData()" title="<?=_t('서버에 백업파일을 저장하여 복원에 사용할 수 있습니다.')?>"><span class="text"><?=_t('서버에 저장')?></span></a>
-									<span class="hidden">|</span>
-									<a class="local-button button" href="#void" onclick="exportData()" title="<?=_t('현재 상태의 데이터를 백업하여 다운로드합니다. 서버에 저장된 백업파일은 갱신되지 않습니다.')?>"><span class="text"><?=_t('다운로드')?></span></a>
-									<span class="hidden">|</span>
-									<a class="close-button button" href="#void" onclick="hideDialog()" title="<?=_t('명령을 취소하고 이 대화상자를 닫습니다.')?>"><span class="text"><?=_t('취소하기')?></span></a>
- 								</div>
+									<div class="button-box">
+										<a class="server-button button" href="#void" onclick="backupData()" title="<?=_t('서버에 백업파일을 저장하여 복원에 사용할 수 있습니다.')?>"><span class="text"><?=_t('서버에 저장')?></span></a>
+										<span class="hidden">|</span>
+										<a class="local-button button" href="#void" onclick="exportData()" title="<?=_t('현재 상태의 데이터를 백업하여 다운로드합니다. 서버에 저장된 백업파일은 갱신되지 않습니다.')?>"><span class="text"><?=_t('다운로드')?></span></a>
+										<span class="hidden">|</span>
+										<a class="close-button button" href="#void" onclick="hideDialog()" title="<?=_t('명령을 취소하고 이 대화상자를 닫습니다.')?>"><span class="text"><?=_t('취소하기')?></span></a>
+	 								</div>
+	 							</form>
  							</div>
  						</div>
  						
@@ -254,9 +256,10 @@ if ($backup) {
 							</div>
 							
 							<div id="DBRemoveDialog" class="dialog" style="position: absolute; display: none; z-index: 10;">
-								<h3><?=_t('데이터 삭제를 시작합니다')?></h3>
-								<div class="message-body">
-									<p class="explain">
+								<form>
+									<h3><?=_t('데이터 삭제를 시작합니다')?></h3>
+									<div class="message-body">
+										<p class="explain">
 <?
 if ($backup) {
 ?>
@@ -264,24 +267,25 @@ if ($backup) {
 <?
 }
 ?>
-									</p>
-									<div class="message">
-										<?=_t('첨부파일을 포함하여 삭제하시겠습니까?')?>
+										</p>
+										<div class="message">
+											<?=_t('첨부파일을 포함하여 삭제하시겠습니까?')?>
+										</div>
+										<div class="selection">
+											<div class="select-yes"><input type="radio" id="removeAttachments-yes" class="radio" name="removeAttachments" value="1" /> <label for="removeAttachments-yes"><?=_t('첨부파일을 포함합니다.')?></label></div>
+											<div class="select-no"><input type="radio" id="removeAttachments-no" class="radio" name="removeAttachments" value="0" checked="checked" /> <label for="removeAttachments-no"><?=_t('첨부파일을 포함하지 않습니다.')?></label></div>
+										</div>
+										<div id="admin-password">
+											<label for="confirmativePassword"><?=_t('데이터를 삭제하시려면 관리자 비밀번호를 입력하십시오.')?></label>
+											<input type="password" id="confirmativePassword" class="text-input" name="confirmativePassword" onkeydown="if (event.keyCode == 13) { removeData(); return false; }" />
+										</div>
 									</div>
-									<div class="selection">
-										<div class="select-yes"><input type="radio" id="removeAttachments-yes" class="radio" name="removeAttachments" value="1" /> <label for="removeAttachments-yes"><?=_t('첨부파일을 포함합니다.')?></label></div>
-										<div class="select-no"><input type="radio" id="removeAttachments-no" class="radio" name="removeAttachments" value="0" checked="checked" /> <label for="removeAttachments-no"><?=_t('첨부파일을 포함하지 않습니다.')?></label></div>
+									<div class="button-box">
+										<a class="remove-button button" href="#void" onclick="removeData()"><span class="text"><?=_t('삭제하기')?></span></a>
+										<span class="hidden">|</span>
+										<a class="close-button button" href="#void" onclick="hideDialog()" title="<?=_t('명령을 취소하고 이 대화상자를 닫습니다.')?>"><span class="text"><?=_t('취소하기')?></span></a>
 									</div>
-									<div id="admin-password">
-										<label for="confirmativePassword"><?=_t('데이터를 삭제하시려면 관리자 비밀번호를 입력하십시오.')?></label>
-										<input type="password" id="confirmativePassword" class="text-input" name="confirmativePassword" onkeydown="if (event.keyCode == 13) { removeData(); return false; }" />
-									</div>
-								</div>
-								<div class="button-box">
-									<a class="remove-button button" href="#void" onclick="removeData()"><span class="text"><?=_t('삭제하기')?></span></a>
-									<span class="hidden">|</span>
-									<a class="close-button button" href="#void" onclick="hideDialog()" title="<?=_t('명령을 취소하고 이 대화상자를 닫습니다.')?>"><span class="text"><?=_t('취소하기')?></span></a>
-								</div>
+								</form>
 							</div>
 						</div>
 						

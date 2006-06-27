@@ -512,7 +512,8 @@ input.text-readonly-input
 	text-decoration                  : underline;
 }
 
-#data-outbox div.data-inbox
+#data-outbox div.data-inbox,
+#data-outbox form.data-inbox
 {
 	background-color                 : #EBF2F8;
 	border-bottom                    : 2px solid #009DEA;
