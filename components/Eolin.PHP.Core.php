@@ -230,7 +230,7 @@ class UTF8 {
 			if ($ems < 0)
 				break;
 		}
-		return substr($str, 0, $adapted) . $tail;
+		return trim(substr($str, 0, $adapted)) . $tail;
 	}
 }
 
