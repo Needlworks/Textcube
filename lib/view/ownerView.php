@@ -1424,16 +1424,16 @@ function printEntryEditorPalette() {
 														<div id="markPalette" style="display: none;">
 															<table cellspacing="3" cellpadding="0">
 																<tr>
-																	<td class="color-FFDAED" onclick="insertMarkTag('#202020', '#FFDAED')">#FFDAED</td>
-																	<td class="color-C9EDFF" onclick="insertMarkTag('#202020', '#C9EDFF')">#C9EDFF</td>
-																	<td class="color-D0FF9D" onclick="insertMarkTag('#202020', '#D0FF9D')">#D0FF9D</td>
-																	<td class="color-FAFFA9" onclick="insertMarkTag('#202020', '#FAFFA9')">#FAFFA9</td>
-																	<td class="color-E4E4E4" onclick="insertMarkTag('#202020', '#E4E4E4')">#E4E4E4</td>
-																	<td class="color-FF0000" onclick="insertMarkTag('#FFFFFF', '#FF0000')">#FF0000</td>
-																	<td class="color-0000FF" onclick="insertMarkTag('#FFFFFF', '#0000FF')">#0000FF</td>
-																	<td class="color-009966" onclick="insertMarkTag('#FFFFFF', '#009966')">#009966</td>
-																	<td class="color-670787" onclick="insertMarkTag('#FFFFFF', '#670787')">#670787</td>
-																	<td class="color-333333" onclick="insertMarkTag('#FFFFFF', '#333333')">#333333</td>
+																	<td class="color-FFDAED" onclick="insertMarkTag('#FFDAED')">#FFDAED</td>
+																	<td class="color-C9EDFF" onclick="insertMarkTag('#C9EDFF')">#C9EDFF</td>
+																	<td class="color-D0FF9D" onclick="insertMarkTag('#D0FF9D')">#D0FF9D</td>
+																	<td class="color-FAFFA9" onclick="insertMarkTag('#FAFFA9')">#FAFFA9</td>
+																	<td class="color-E4E4E4" onclick="insertMarkTag('#E4E4E4')">#E4E4E4</td>
+																	<td class="color-FF0000" onclick="insertMarkTag('#FF0000')">#FF0000</td>
+																	<td class="color-0000FF" onclick="insertMarkTag('#0000FF')">#0000FF</td>
+																	<td class="color-009966" onclick="insertMarkTag('#009966')">#009966</td>
+																	<td class="color-670787" onclick="insertMarkTag('#670787')">#670787</td>
+																	<td class="color-333333" onclick="insertMarkTag('#333333')">#333333</td>
 																</tr>
 															</table>
 														</div>
