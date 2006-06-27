@@ -191,11 +191,11 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 <?
 	if ($isNameFiltered) {
 ?>
-													<a id="nameFilter<?=$currentNumber?>_<?php echo $i?>" class="block-icon bullet" href="<?=$blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=unblock" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', 'name'); return false;" title="<?=_t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?=_t('[차단됨]')?></span></a>
+													<a id="nameFilter<?=$currentNumber?>-<?php echo $i?>" class="block-icon bullet" href="<?=$blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=unblock" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', 'name'); return false;" title="<?=_t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?=_t('[차단됨]')?></span></a>
 <?
 	} else {
 ?>
-													<a id="nameFilter<?=$currentNumber?>_<?php echo $i?>" class="unblock-icon bullet" href="<?=$blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=block" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', 'name'); return false;" title="<?=_t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?=_t('[허용됨]')?></span></a>
+													<a id="nameFilter<?=$currentNumber?>-<?php echo $i?>" class="unblock-icon bullet" href="<?=$blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=block" onclick="changeState(this,'<?=escapeJSInAttribute($comment['name'])?>', 'name'); return false;" title="<?=_t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?=_t('[허용됨]')?></span></a>
 <?
 	}
 ?>
