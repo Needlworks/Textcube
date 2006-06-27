@@ -2,10 +2,10 @@
 
 /* List ******************************************************************************************/
 
-#part-skin-current div.data-inbox .section .preview,
-#part-skin-list div.data-inbox .section .preview
+#part-skin-current div.data-inbox,
+#part-skin-list div.data-inbox
 {
-	left                             : 0;
+	position                         : relative;
 }
 
 #part-skin-current div.data-inbox .section .information .preview-button,
