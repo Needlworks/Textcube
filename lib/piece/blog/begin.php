@@ -12,6 +12,10 @@ if ($suri['directive'] == '/') {
 	dress('body_id',"page",$view);
 } else if (!empty($category)) {
 	dress('body_id',getCategoryBodyIdById($owner,$category) ? getCategoryBodyIdById($owner,$category) : 'category',$view);
+} else if (!empty($search)) {
+	dress('body_id',"search",$view);
+} else if (!empty($period)) {
+	dress('body_id',"archive",$view);
 } else if (isset($list)) {
 	dress('body_id',$suri['value'],$view);
 } else {
