@@ -90,7 +90,7 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	this.contentDocument.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">');
 	this.contentDocument.write('<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>');
 	this.contentDocument.write('<style type="text/css">')
-	this.contentDocument.write("body { font: 12px/1.5 Dotum, Verdana, AppleGothic, Sans-serif; background-color: #fff;}");
+	this.contentDocument.write("body { font: 12px/1.63 Dotum, Verdana, AppleGothic, Sans-serif; background-color: #fff;}");
 	if(STD.isIE)
 		this.contentDocument.write("html { padding: 10px 0px 10px; } body { padding: 10px; }");
 	else
