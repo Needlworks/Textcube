@@ -13,5 +13,5 @@
 				
 				<hr class="hidden" />
 				
-				<div id="psuedo-box">
+				<div id="pseudo-box">
 					<div id="data-outbox">
