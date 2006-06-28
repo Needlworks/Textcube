@@ -88,7 +88,8 @@ $selected = 0;
 							
 							<form id="skinSetting" method="post" action="<?=$blogURL?>/owner/skin/setting/skin" enctype="application/x-www-form-urlencoded">
 								<div class="data-inbox">
-									<div id="per-page-section" class="section">
+									<fieldset id="per-page-section" class="section">
+										<legend><?=_t('출력 숫자 조절')?></legend>
 <?
 ob_start();
 ?>
@@ -214,9 +215,11 @@ ob_end_clean();
 											<dt><label for="archivesOnPage"><?php echo _t('출력될 저장소 수')?></label></dt>
 											<dd><?=_f('저장소를 %1달 보여줍니다.', $arg)?></dd>
 										</dl>
-									</div>
+									</fieldset>
 									
-									<div id="click-section" class="section">
+									<fieldset id="click-section" class="section">
+										<legend><?=_t('클릭 설정')?></legend>
+										
 										<dl id="category-click-line" class="line">
 											<dt><span class="label"><?=_t('분류 클릭 시')?></span></dt>
 											<dd>
@@ -238,9 +241,10 @@ ob_end_clean();
 												<input type="checkbox" id="expandTrackback" class="checkbox" name="expandTrackback"<?=$skinSetting['expandTrackback'] ? ' checked="checked"' : ''?> /> <label for="expandTrackback"><?=_t('트랙백을 기본으로 펼칩니다.')?></label>
 											</dd>
 										</dl>
-									</div>
+									</fieldset>
 									
-									<div id="length-section" class="section">
+									<fieldset id="length-section" class="section">
+										<legend><?=_t('문자열 길이 조절')?></legend>
 <?
 ob_start();
 ?>
@@ -366,9 +370,11 @@ ob_end_clean();
 											<dt><label for="linkLength"><?php echo _t('링크 길이')?></label></dt>
 											<dd><?=_f('링크를 %1 글자로 표시합니다.', $arg)?></dd>
 										</dl>
-									</div>
+									</fieldset>
 									
-									<div id="tag-setting-section" class="section">
+									<fieldset id="tag-setting-section" class="section">
+										<legend><?=_t('태그 조절')?></legend>
+										
 										<dl id="tag-align-line" class="line">
 											<dt><span class="label"><?=_t('태그의 정렬방법을')?></span></dt>
 											<dd>
@@ -403,9 +409,10 @@ ob_end_clean();
 											<dt><label for="tagsOnTagbox"><?php echo _t('태그상자의 태그 수')?></label></dt>
 											<dd><?=_f('태그상자의 태그를 %1개 표시합니다.', $arg)?></dd>
 										</dl>
-									</div>
+									</fieldset>
 
-									<div id="guestbook-setting-section" class="section">
+									<fieldset id="guestbook-setting-section" class="section">
+										<legend><?=_t('방명록 관련 조절')?></legend>
 <?
 ob_start();
 ?>
@@ -431,7 +438,7 @@ ob_end_clean();
 											<dt><label for="commentsOnGuestbook"><?php echo _t('페이지 당 방명록 수')?></label></dt>
 											<dd><?=_f('방명록 한 페이지 당 %1개 글을 표시합니다.', $arg)?></dd>
 										</dl>
-									</div>
+									</fieldset>
 									
 									<div class="button-box">
 										<a class="save-button button" href="#void" onclick="setSkin(); return false;"><span class="text"><?=_t('저장하기')?></span></a>
@@ -449,7 +456,9 @@ ob_end_clean();
 								<div class="data-inbox">
 									<iframe id="treePreview" src="<?=$blogURL?>/owner/skin/setting/tree/preview" width="300" height="300" frameborder="0" style="overflow: visible;"></iframe>
 									
-									<div id="property-box">
+									<fieldset id="property-box" class="section">
+										<legend><?=_t('트리 속성')?></legend>
+										
 										<dl id="tree-skin-line" class="line">
 											<dt><label for="tree"><?=_t('트리선택')?></label></dt>
 											<dd>
@@ -497,7 +506,7 @@ if ($dh = opendir($skinPath)) {
 											<dt><label for="showValue"><?php echo _t('포스트 갯수 출력')?></label></dt>
 											<dd><input type="checkbox" class="checkbox" id="showValue" name="showValueOnTree" onclick="changeTreeStyle()" <?=$skinSetting['showValueOnTree'] ? 'checked="checked"' : ''?> /> <label for="showValue"><?=_t('카테고리의 글 수를 표시합니다.')?></label></dd>
 										</dl>
-									</div>
+									</fieldset>
 								
 									<div class="button-box">
 										<a class="save-button button" href="#void" onclick="setSkin(); return false;"><span class="text"><?=_t('저장하기')?></span></a>

@@ -5,37 +5,38 @@ $stats = getStatistics($owner);
 require ROOT . '/lib/piece/owner/header4.php';
 require ROOT . '/lib/piece/owner/contentMenu40.php';
 ?>
-							<script type="text/javascript">
-								//<![CDATA[
-									function setTotalStatistics() {
-										if (confirm("<?=_t('방문자의 수를 초기화하면 방문객의 수가 0이 됩니다.\n정말 초기화하시겠습니까?')?>")) {
-											var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/statistics/visitor/set/0");
-											request.onSuccess = function() {
-												document.getElementById("total").innerHTML = 0;
-												return true;
-											}
-											request.onError = function() {
-												alert("<?=_t('저장하지 못했습니다.')?>");
-												return false;
-											}
-											request.send();
+						<script type="text/javascript">
+							//<![CDATA[
+								function setTotalStatistics() {
+									if (confirm("<?=_t('방문자의 수를 초기화하면 방문객의 수가 0이 됩니다.\n정말 초기화하시겠습니까?')?>")) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/statistics/visitor/set/0");
+										request.onSuccess = function() {
+											document.getElementById("total").innerHTML = 0;
+											return true;
 										}
-									}
-									
-									function addCommas(nStr) {
-										nStr += '';
-										x = nStr.split('.');
-										x1 = x[0];
-										x2 = x.length > 1 ? '.' + x[1] : '';
-										var rgx = /(\d+)(\d{3})/;
-										while (rgx.test(x1)) {
-											x1 = x1.replace(rgx, '$1' + ',' + '$2');
+										request.onError = function() {
+											alert("<?=_t('저장하지 못했습니다.')?>");
+											return false;
 										}
-										return x1 + x2;
+										request.send();
 									}
-								//]]>
-							</script>
+								}
+								
+								function addCommas(nStr) {
+									nStr += '';
+									x = nStr.split('.');
+									x1 = x[0];
+									x2 = x.length > 1 ? '.' + x[1] : '';
+									var rgx = /(\d+)(\d{3})/;
+									while (rgx.test(x1)) {
+										x1 = x1.replace(rgx, '$1' + ',' + '$2');
+									}
+									return x1 + x2;
+								}
+							//]]>
+						</script>
 					 		
+					 	<form method="post" action="<?=$blogURL?>/owner/statistics/visitor/set/0">
 					 		<div id="part-statistics-visitor" class="part">
 					 			<h2 class="caption"><span class="main-text"><?=_t('방문자 통계정보를 보여줍니다')?></span></h2>
 					 			
@@ -65,7 +66,7 @@ for ($i=0; $i<sizeof($temp); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="window.location.href='<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>'">
 											<td class="date"><a href="<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>"><?=Timestamp::formatDate2(getTimeFromPeriod($record['date']))?></a></td>
 											<td class="count"><a href="<?=$blogURL?>/owner/statistics/visitor/<?=$record['date']?>"><?=$record['visits']?></a></td>
 										</tr>
@@ -104,6 +105,7 @@ if (isset($suri['id'])) {
 									</tbody>
 								</table>
 							</div>
+						</form>
 <?
-require ROOT . '/lib/piece/owner/footer0.php';
+require ROOT . '/lib/piece/owner/footer1.php';
 ?>

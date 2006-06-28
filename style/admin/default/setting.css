@@ -132,6 +132,11 @@
 }
 
 /* rss ------------------------------------------------------------------------------------------*/
+#rss-section
+{
+	margin-bottom                    : 5px;
+}
+
 #post-address-line,
 #open-type-line
 {
@@ -209,10 +214,9 @@
 #letter-section dl dt
 {
 	padding-top                      : 3px;
-	width                            : 100px !important;
 }
 
-#letter-section #letter
+#letter
 {
 	background-image                 : url("./image/letterBody.gif");
 	background-position              : left top;
@@ -222,13 +226,42 @@
 	width                            : 547px;
 }
 
-#letter-section #letter .letter-head
+#letter-head
 {
 	background-image                 : url("./image/letterHeader.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	padding-top                      : 80px;
 	width                            : 547px;
+}
+
+#letter-head .line
+{
+	clear                            : both;
+	height                           : 2em;
+}
+
+#letter-head label
+{
+	display                          : block;
+	float                            : left;
+	font-weight                      : bold;
+	padding-right                    : 10px;
+	text-align                       : right;
+	width                            : 120px;
+}
+
+#letter-head .inter-word
+{
+	display                          : block;
+	float                            : left;
+}
+
+#letter-head .text-input
+{
+	display                          : block;
+	float                            : left;
+	margin-top                       : -3px;
 }
 
 #invitation_receiver
@@ -250,7 +283,7 @@
 	width                            : 140px;
 }
 
-#letter-section #letter .letter-body
+#letter-body
 {
 	background-image                 : url("./image/letterBody.gif");
 	background-position              : left top;
@@ -259,7 +292,7 @@
 	width                            : 547px;
 }
 
-#letter-section #letter .letter-body textarea
+#letter-body textarea
 {
 	background-image                 : url("./image/letterLine.gif");
 	background-position              : left 1px;
@@ -272,13 +305,36 @@
 	width                            : 480px;
 }
 
-#letter-section #letter .letter-foot
+#letter-foot
 {
 	background-image                 : url("./image/letterFooter.gif");
 	background-position              : left bottom;
 	background-repeat                : no-repeat;
 	padding                          : 0 0 30px 0;
 	width                            : 547px;
+}
+
+#letter-foot .line
+{
+	clear                            : both;
+	height                           : 2em;
+}
+
+#letter-foot label
+{
+	display                          : block;
+	float                            : left;
+	font-weight                      : bold;
+	padding-right                    : 10px;
+	text-align                       : right;
+	width                            : 120px;
+}
+
+#letter-foot .text-input
+{
+	display                          : block;
+	float                            : left;
+	margin-top                       : -3px;
 }
 
 #invitation_sender
@@ -288,45 +344,6 @@
 	background-repeat                : repeat-x;
 	border                           : none;
 	width                            : 275px;
-}
-
-#list-section
-{
-	height                           : auto !important;
-}
-
-#list-section table thead tr th.cancel
-{
-	padding                          : 0;
-}
-
-#list-section table tbody tr td
-{
-	background-color                 : #FFFFFF;
-	border-bottom                    : 1px dotted #CCCCCC;
-	color                            : #536576;
-	padding                          : 3px 5px;
-}
-
-#list-section table tbody tr td.cancel
-{
-	padding                          : 3px 0;
-}
-
-#list-section table tbody tr.last-line td
-{
-	border-bottom                    : none;
-}
-
-#list-section .button
-{
-	margin                           : 0 auto;
-	width                            : 100px;
-}
-
-#list-section .button span
-{
-	width                            : 96px;
 }
 
 #part-setting-invite .button-box
@@ -353,6 +370,11 @@
 {
 	padding-top                      : 7px;
 	width                            : 160px;
+}
+
+#list-section dl
+{
+	height                           : auto !important;
 }
 
 #list-section dt
@@ -400,6 +422,15 @@
 {
 	padding                          : 6px 5px 4px 5px;
 }
+
+#list-section table tbody tr td
+{
+	background-color                 : #FFFFFF;
+	border-bottom                    : 1px dotted #CCCCCC;
+	color                            : #536576;
+	padding                          : 3px 5px;
+}
+
 
 #list-section table tbody tr .cancel-button
 {

@@ -632,12 +632,16 @@ ul#feedList li .edit-button span
 	width                            : 170px;
 }
 
+#configure .data-inbox .section fieldset
+{
+	border-top                       : 1px solid #000000;
+}
+
 #configure .data-inbox .section .title
 {
 	background-image                 : url("./image/reader/iconSetupitem.gif");
 	background-position              : top 4px;
 	background-repeat                : no-repeat;
-	border-bottom                    : 1px solid #000000;
 	color                            : #000000;
 	display                          : block !important;
 	font-weight                      : bold;

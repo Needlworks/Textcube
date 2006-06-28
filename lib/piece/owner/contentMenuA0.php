@@ -11,5 +11,4 @@
 				<hr class="hidden" />
 				
 				<div id="psuedo-box">
-					<form method="post" action="<?=$blogURL?>/owner/center/dashboard">
-						<div id="data-outbox">
+					<div id="data-outbox">

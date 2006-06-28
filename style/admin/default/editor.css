@@ -289,78 +289,61 @@
 /* command buttons' sub box ---------------------------------------------------------------------*/
 #colorPalette
 {
-	position                         : absolute;
-	top                              : 67px;
-	left                             : 110px;
-	z-index                          : 10;
-}
-
-#colorPalette table
-{
 	background-color                 : #FFFFFF;
+	position                         : absolute;
+	padding                          : 2px;
+	top                              : 66px;
+	left                             : 80px;
+	z-index                          : 10;
 	border                           : 1px solid #CCCCCC;
-}
-
-#colorPalette table tr td
-{
-	cursor                           : pointer;
-	height                           : 16px;
-	text-indent                      : -5000px;
-	width                            : 16px;
+	width                            : 336px;
 }
 
 #markPalette
 {
-	position                         : absolute;
-	top                              : 67px;
-	left                             : 210px;
-	z-index                          : 10;
-}
-
-#markPalette table
-{
 	background-color                 : #FFFFFF;
+	position                         : absolute;
+	padding                          : 2px;
+	top                              : 66px;
+	left                             : 100px;
+	z-index                          : 10;
 	border                           : 1px solid #CCCCCC;
-}
-
-#markPalette table tr td
-{
-	cursor                           : pointer;
-	height                           : 16px;
-	text-indent                      : -5000px;
-	width                            : 16px;
-}
-
-#markPalette table tr td span
-{
-	display                          : none;
+	width                            : 336px;
 }
 
 #textBox
 {
+	background-color                 : #FFFFFF;
 	position                         : absolute;
-	top                              : 67px;
-	left                             : 250px;
+	padding                          : 2px;
+	top                              : 66px;
+	left                             : 290px;
 	z-index                          : 10;
+	border                           : 1px solid #CCCCCC;
+	width                            : 80px;
 }
 
+#colorPalette table,
+#markPalette table,
 #textBox table
 {
+	border-collapse                  : collapse;
+	border-spacing                   : 0;
 	background-color                 : #FFFFFF;
-	border                           : 1px solid #CCCCCC;
+	margin                           : 0;
+	width                            : auto;
 }
 
+#colorPalette table tr td,
+#markPalette table tr td,
 #textBox table tr td
 {
+	border                           : none !important;
 	cursor                           : pointer;
 	height                           : 16px;
+	padding                          : 0 !important;
 	text-indent                      : -5000px;
 	width                            : 16px;
-}
-
-#textBox table tr td span
-{
-	display                          : none;
 }
 
 /* colors */

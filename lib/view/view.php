@@ -1514,7 +1514,7 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 													<div class="open"><a id="entryPermalink" href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;" title="<?=_t('이 포스트를 새 창으로 엽니다.')?>"><span class="text"><?php echo _t('새 창으로')?></span></a></div>
 												</div>
 												
-												<div id="entryBody" lang="<?php echo htmlspecialchars($entry['language'])?>" xml:lang="<?php echo htmlspecialchars($entry['language'])?>">
+												<div id="entryBody" xml:lang="<?php echo htmlspecialchars($entry['language'])?>">
 <?php 
 	if ($entry['enclosure']) {
 		if (preg_match('/\.mp3$/i', $entry['enclosure'])) {

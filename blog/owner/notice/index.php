@@ -52,30 +52,33 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 										return;
 									var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/delete/" + id);
 									request.onSuccess = function () {
-										document.getElementById('listForm').submit();
+										document.getElementById('list-form').submit();
 									}
 									request.send();
 								}
 								
 								function checkAll(checked) {
-									for (i = 0; document.getElementById('listForm').elements[i]; i ++)
-										if (document.getElementById('listForm').elements[i].name == "entry")
-											document.getElementById('listForm').elements[i].checked = checked;
+									for (i = 0; document.getElementById('list-form').elements[i]; i++) {
+										if (document.getElementById('list-form').elements[i].name == "entry") {
+											document.getElementById('list-form').elements[i].checked = checked;
+											toggleThisTr(document.getElementById('list-form').elements[i]);
+										}
+									}
 								}
 								
 								function processBatch(mode) {
 									var entries = '';
 									switch (mode) {
 										case 'classify':
-											for (var i = 0; i < document.getElementById('listForm').elements.length; i++) {
-												var oElement = document.getElementById('listForm').elements[i];
+											for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
+												var oElement = document.getElementById('list-form').elements[i];
 												if ((oElement.name == "entry") && oElement.checked)
 													setEntryVisibility(oElement.value, 0);
 											}
 											break;
 										case 'publish':
-											for (var i = 0; i < document.getElementById('listForm').elements.length; i++) {
-												var oElement = document.getElementById('listForm').elements[i];
+											for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
+												var oElement = document.getElementById('list-form').elements[i];
 												if ((oElement.name == "entry") && oElement.checked)
 													setEntryVisibility(oElement.value, 2);
 											}
@@ -84,14 +87,14 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 											if (!confirm("<?=_t('선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?')?>"))
 												return false;
 											var targets = "";
-											for (var i = 0; i < document.getElementById('listForm').elements.length; i++) {
-												var oElement = document.getElementById('listForm').elements[i];
+											for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
+												var oElement = document.getElementById('list-form').elements[i];
 												if ((oElement.name == "entry") && oElement.checked)
 													targets += oElement.value +'~*_)';
 											}
 											var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/delete/");
 											request.onSuccess = function () {
-												document.getElementById('listForm').submit();
+												document.getElementById('list-form').submit();
 											}
 											request.send("targets="+targets);
 											break;
@@ -99,7 +102,7 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 								}
 								
 								function searchEntry() {
-									var oForm = document.searchForm;
+									var oForm = document.search-form;
 									trimAll(oForm);
 									if (!checkValue(oForm.search, "<?=_t('검색어를 입력해 주십시오.')?>")) return false;
 									oForm.page.value = "";
@@ -108,7 +111,7 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 								}
 								
 								function cancelSearch() {
-									var oForm = document.searchForm;
+									var oForm = document.search-form;
 									oForm.page.value = "";
 									oForm.withSearch.value = "";
 									oForm.submit();
@@ -134,7 +137,7 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 						<div id="part-notice-list" class="part">
 							<h2 class="caption"><span class="main-text"><?=_t('등록된 공지 목록입니다')?></span></h2>
 							
-							<form id="listForm" method="post" action="<?php echo $blogURL?>/owner/notice">
+							<form id="list-form" method="post" action="<?php echo $blogURL?>/owner/notice">
 								<div class="grouping">
 									<input type="hidden" name="page" value="<?php echo $suri['page']?>" />
 									
@@ -202,9 +205,9 @@ for ($i=0; $i<sizeof($entries); $i++) {
 												<span id="total-count"><?=_f('총 %1건', empty($paging['total']) ? "0" : $paging['total'])?></span>
 												<span id="page-list">
 <?
-//$paging['url'] = 'document.getElementById('listForm').page.value=';
+//$paging['url'] = 'document.getElementById('list-form').page.value=';
 //$paging['prefix'] = '';
-//$paging['postfix'] = '; document.getElementById('listForm').submit()';
+//$paging['postfix'] = '; document.getElementById('list-form').submit()';
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
@@ -216,14 +219,14 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 								</div>
 							</form>
 							
-							<form id="searchForm" class="data-inbox" method="post" action="<?php echo $blogURL?>/owner/notice">
+							<form id="search-form" class="data-inbox" method="post" action="<?php echo $blogURL?>/owner/notice">
 								<h2><?php echo _t('검색')?></h2>
 								
 								<div class="grouping">
 									<label for="search"><?=_t('제목')?>, <?=_t('내용')?></label>
-									<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.getElementById('searchForm').withSearch.value = 'on'; document.getElementById('searchForm').submit(); }" />
+									<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
-									<a class="search-button button" href="#void" onclick="document.getElementById('searchForm').withSearch.value = 'on'; document.getElementById('searchForm').submit();"><span class="text"><?=_t('검색')?></span></a>
+									<a class="search-button button" href="#void" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();"><span class="text"><?=_t('검색')?></span></a>
 								</div>
 							</form>
 						</div>

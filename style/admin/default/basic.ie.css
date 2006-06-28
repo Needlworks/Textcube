@@ -89,7 +89,7 @@ input.text-readonly-input
 #delete-section
 {
 	position                         : relative;
-	top                              : -1px !important;
+	top                              : -2px !important;
 	z-index : 100;
 }
 
@@ -119,20 +119,20 @@ input.text-readonly-input
 }
 
 /* search */
-#searchForm
+#search-form
 {
 	right                            : 30px !important;
 	bottom                           : 117px !important;
 	width                            : 175px !important;
 }
 
-#searchForm .search-button
+#search-form .search-button
 {
 	float                            : left;
 	width                            : 70px !important;
 }
 
-#searchForm .search-button span
+#search-form .search-button span
 {
 	width                            : 66px !important;
 }

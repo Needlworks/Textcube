@@ -60,7 +60,7 @@ require ROOT . '/lib/piece/owner/contentMenu90.php';
 										return;
 									var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/trash/trackback/delete/" + id);
 									request.onSuccess = function() {
-										document.listForm.submit();
+										document.getElementById('list-form').submit();
 									}
 									request.send();
 								}
@@ -71,15 +71,15 @@ require ROOT . '/lib/piece/owner/contentMenu90.php';
 											return false;
 										var oElement;
 										var targets = '';
-										for (i = 0; document.listForm.elements[i]; i ++) {
-											oElement = document.listForm.elements[i];
+										for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
+											oElement = document.getElementById('list-form').elements[i];
 											if ((oElement.name == "entry") && oElement.checked) {
 												targets+=oElement.value+'~*_)';
 											}
 										}
 										var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/trash/trackback/delete/");
 										request.onSuccess = function() {
-											document.listForm.submit();
+											document.getElementById('list-form').submit();
 										}
 										request.send("targets=" + targets);
 									} catch(e) {
@@ -88,9 +88,12 @@ require ROOT . '/lib/piece/owner/contentMenu90.php';
 								}
 								
 								function checkAll(checked) {
-									for (i = 0; document.listForm.elements[i]; i ++)
-										if (document.listForm.elements[i].name == "entry")
-											document.listForm.elements[i].checked = checked;
+									for (i = 0; document.getElementById('list-form').elements[i]; i++) {
+										if (document.getElementById('list-form').elements[i].name == "entry") {
+											document.getElementById('list-form').elements[i].checked = checked;
+											toggleThisTr(document.getElementById('list-form').elements[i]);
+										}
+									}
 								}
 								
 								tt_init_funcs.push(function() { activateFormElement(); });
@@ -131,10 +134,10 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 ?>
 							</h2>
 							
-							<form id="categoryForm" class="data-inbox" action="<?=$blogURL?>/owner/trash/trackback" method="post">
+							<form id="category-form" class="data-inbox" action="<?=$blogURL?>/owner/trash/trackback" method="post">
 								<div class="grouping">
 									<input type="hidden" name="page" value="<?=$suri['page']?>" />
-									<select id="category" class="normal-class" name="category" onchange="document.categoryForm.page.value=1; document.categoryForm.submit()">
+									<select id="category" class="normal-class" name="category" onchange="document.category-form.page.value=1; document.category-form.submit()">
 										<option value="0"><?php echo _t('전체')?></option>
 <?php
 foreach (getCategories($owner) as $category) {
@@ -153,7 +156,7 @@ foreach (getCategories($owner) as $category) {
 								</div>
 							</form>
 							
-							<form id="listForm" method="post" action="<?=$blogURL?>/owner/trash/trackback">
+							<form id="list-form" method="post" action="<?=$blogURL?>/owner/trash/trackback">
 								<div class="grouping">
 									<input type="hidden" name="page" value="<?=$suri['page']?>" />
 									<input type="hidden" name="site" value="" />
@@ -268,9 +271,9 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 												<span id="total-count"><?=_f('총 %1건', empty($paging['total']) ? "0" : $paging['total'])?></span>
 												<span id="page-list">
 <?
-//$paging['url'] = 'document.listForm.page.value=';
+//$paging['url'] = 'document.getElementById('list-form').page.value=';
 //$paging['prefix'] = '';
-//$paging['postfix'] = '; document.listForm.submit()';
+//$paging['postfix'] = '; document.getElementById('list-form').submit()';
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
@@ -280,7 +283,7 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 											<div class="page-count">
 												<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0)?>
 
-												<select name="perPage" onchange="document.listForm.page.value=1; document.listForm.submit()">
+												<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">
 <?php
 for ($i = 10; $i <= 30; $i += 5) {
 	if ($i == $perPage) {
@@ -305,14 +308,14 @@ for ($i = 10; $i <= 30; $i += 5) {
 							
 							<hr class="hidden" />
 							
-							<form id="searchForm" class="data-inbox" method="post" action="<?=$blogURL?>/owner/trash/trackback">
+							<form id="search-form" class="data-inbox" method="post" action="<?=$blogURL?>/owner/trash/trackback">
 								<h2><?php echo _t('검색')?></h2>
 								
 								<div class="grouping">
 									<label for="search"><?=_t('제목')?>, <?=_t('사이트명')?>, <?=_t('내용')?></label>
-									<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.searchForm.withSearch.value = 'on'; document.searchForm.submit(); }" />
+									<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.search-form.withSearch.value = 'on'; document.search-form.submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
-									<a class="search-button button" href="#void" onclick="document.searchForm.withSearch.value = 'on'; document.searchForm.submit();"><span class="text"><?=_t('검색')?></span></a>
+									<a class="search-button button" href="#void" onclick="document.search-form.withSearch.value = 'on'; document.search-form.submit();"><span class="text"><?=_t('검색')?></span></a>
 								</div>
 							</form>
 						</div>

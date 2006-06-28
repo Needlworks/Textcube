@@ -31,6 +31,13 @@
 	background-color                 : #FFFFFF;
 	margin                           : 0 9px 0 3px;
 	width                            : 250px;
+	position                         : relative;
+}
+
+/* group box */
+#group-box
+{
+
 }
 
 #groupAdder .button-box .text-input

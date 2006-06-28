@@ -254,7 +254,7 @@
 /* property -------------------------------------------------------------------------------------*/
 #property-box
 {
-	margin                           : 5px 15px 0 330px !important;
+	margin                           : 25px 15px 0 330px !important;
 }
 
 #property-box dl dt
@@ -280,7 +280,7 @@
 /* tree button box ------------------------------------------------------------------------------*/
 #part-skin-tree .button-box
 {
-	margin                           : 40px 0 10px 330px;
+	margin                           : 20px 0 10px 330px;
 }
 
 #part-skin-tree .button-box .save-button

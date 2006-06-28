@@ -163,7 +163,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 										return;
 									var request = new HTTPRequest("<?=$blogURL?>/owner/entry/delete/" + id);
 									request.onSuccess = function () {
-										document.getElementById('listForm').submit();
+										document.getElementById('list-form').submit();
 									}
 									request.onError = function () {
 										window.location.href = "<?=$blogURL?>/owner/entry/delete/" + id + "?javascript=disabled&amp;command=delete";
@@ -191,9 +191,12 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 								}
 								
 								function checkAll(checked) {
-									for (i = 0; document.getElementById('listForm').elements[i]; i ++)
-										if (document.getElementById('listForm').elements[i].name == "entry")
-											document.getElementById('listForm').elements[i].checked = checked;
+									for (i = 0; document.getElementById('list-form').elements[i]; i++) {
+										if (document.getElementById('list-form').elements[i].name == "entry") {
+											document.getElementById('list-form').elements[i].checked = checked;
+											toggleThisTr(document.getElementById('list-form').elements[i]);
+										}
+									}
 								}
 								
 								function processBatch(obj) {	
@@ -204,8 +207,8 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 									
 									var entries = '';
 									var isSelected = false;
-									for (var i = 0; i < document.getElementById('listForm').elements.length; i++) {
-										var oElement = document.getElementById('listForm').elements[i];
+									for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
+										var oElement = document.getElementById('list-form').elements[i];
 										if ((oElement.name == "entry") && oElement.checked) {
 											isSelected = true;
 											break;
@@ -217,15 +220,15 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 									}
 									switch (mode) {
 										case 'classify':
-											for (var i = 0; i < document.getElementById('listForm').elements.length; i++) {
-												var oElement = document.getElementById('listForm').elements[i];
+											for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
+												var oElement = document.getElementById('list-form').elements[i];
 												if ((oElement.name == "entry") && oElement.checked)
 													setEntryVisibility(oElement.value, 0);
 											}
 											break;
 										case 'publish':
-											for (var i = 0; i < document.getElementById('listForm').elements.length; i++) {
-												var oElement = document.getElementById('listForm').elements[i];
+											for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
+												var oElement = document.getElementById('list-form').elements[i];
 												if ((oElement.name == "entry") && oElement.checked)
 													setEntryVisibility(oElement.value, 2);
 											}
@@ -234,14 +237,14 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 											if (!confirm("<?=_t('선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?')?>"))
 												return false;
 											var targets = "";
-											for (var i = 0; i < document.getElementById('listForm').elements.length; i++) {
-												var oElement = document.getElementById('listForm').elements[i];
+											for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
+												var oElement = document.getElementById('list-form').elements[i];
 												if ((oElement.name == "entry") && oElement.checked)
 													targets += oElement.value +'~*_)';
 											}
 											var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/delete/");
 											request.onSuccess = function () {
-												document.getElementById('listForm').submit();
+												document.getElementById('list-form').submit();
 											}
 											request.send("targets="+targets);
 											break;
@@ -250,8 +253,8 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 											var category = obj.options[obj.options.selectedIndex].value.replace('category_', '');
 											var label = obj.options[obj.options.selectedIndex].getAttribute('label');
 											var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/changeCategory/");
-											for (var i = 0; i < document.getElementById('listForm').elements.length; i++) {
-												var oElement = document.getElementById('listForm').elements[i];
+											for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
+												var oElement = document.getElementById('list-form').elements[i];
 												if ((oElement.name == "entry") && oElement.checked) {
 													targets += oElement.value +',';
 												}
@@ -263,14 +266,14 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 											}
 											
 											request.onSuccess = function () {
-												for (var i = 0; i < document.getElementById('listForm').elements.length; i++) {
-													var oElement = document.getElementById('listForm').elements[i];
+												for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
+													var oElement = document.getElementById('list-form').elements[i];
 													if ((oElement.name == "entry") && oElement.checked) {
 														document.getElementById("category_" + oElement.value).innerHTML = label;
 														document.getElementById("category_" + oElement.value).name = category;
 													}
 												}
-												//document.getElementById('listForm').submit();
+												//document.getElementById('list-form').submit();
 											}
 											request.send("category="+category+"&targets="+targets);
 											break;
@@ -486,10 +489,10 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 						<div id="part-post-list" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('등록된 글 목록입니다')?></span></h2>
 							
-							<form id="categoryForm" class="data-inbox" method="post" action="<?=$blogURL?>/owner/entry">
+							<form id="category-form" class="data-inbox" method="post" action="<?=$blogURL?>/owner/entry">
 								<div class="groupig">
 									<input type="hidden" name="page" value="<?=$suri['page']?>" />
-									<select id="category" class="normal-class" name="category" onchange="document.getElementById('categoryForm').page.value=1; document.getElementById('categoryForm').submit()">
+									<select id="category" class="normal-class" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
 										<option value="0"><?php echo _t('전체')?></option>
 <?php
 foreach (getCategories($owner) as $category) {
@@ -508,7 +511,7 @@ foreach (getCategories($owner) as $category) {
 								</div>
 							</form>
 							
-							<form id="listForm" method="post" action="<?=$blogURL?>/owner/entry">
+							<form id="list-form" method="post" action="<?=$blogURL?>/owner/entry">
 								<div class="grouping">
 									<input type="hidden" name="page" value="<?=$suri['page']?>" />
 									
@@ -587,7 +590,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 ?>
 												</td>
 												<td class="title">
-													<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?><a href="<?php echo $blogURL?>/owner/entry/edit/<?=$entry['id']?>" onclick="document.getElementById('listForm').action='<?=$blogURL?>/owner/entry/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.getElementById('listForm').submit();"><?=htmlspecialchars($entry['title'])?></a>
+													<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?><a href="<?php echo $blogURL?>/owner/entry/edit/<?=$entry['id']?>" onclick="document.getElementById('list-form').action='<?=$blogURL?>/owner/entry/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.getElementById('list-form').submit(); return false;"><?=htmlspecialchars($entry['title'])?></a>
 												</td>
 												<td class="protect">
 <?php
@@ -655,9 +658,9 @@ if ($entry['visibility'] == 1) {
 												<span id="total-count"><?=_f('총 %1건', empty($paging['total']) ? "0" : $paging['total'])?></span>
 												<span id="page-list">
 <?
-//$paging['onclick_url'] = 'document.getElementById('listForm').page.value=';
+//$paging['onclick_url'] = 'document.getElementById('list-form').page.value=';
 //$paging['onclick_prefix'] = '';
-//$paging['onclick_postfix'] = '; document.getElementById('listForm').submit()';
+//$paging['onclick_postfix'] = '; document.getElementById('list-form').submit()';
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 echo str_repeat("\t", 12).getPagingView($paging, $pagingTemplate, $pagingItemTemplate).CRLF;
@@ -667,7 +670,7 @@ echo str_repeat("\t", 12).getPagingView($paging, $pagingTemplate, $pagingItemTem
 											<div class="page-count">
 												<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0)?>
 												
-												<select name="perPage" onchange="document.getElementById('listForm').page.value=1; document.getElementById('listForm').submit()">
+												<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">
 <?php
 for ($i = 10; $i <= 30; $i += 5) {
 	if ($i == $perPage) {
@@ -691,14 +694,14 @@ for ($i = 10; $i <= 30; $i += 5) {
 							
 							<hr class="hidden" />
 							
-							<form id="searchForm" class="data-inbox" method="post" action="<?=$blogURL?>/owner/entry">
+							<form id="search-form" class="data-inbox" method="post" action="<?=$blogURL?>/owner/entry">
 								<h2><?php echo _t('검색')?></h2>
 								
 								<div class="grouping">
 									<label for="search"><?=_t('제목')?>, <?=_t('내용')?></label>
-									<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.getElementById('searchForm').withSearch.value = 'on'; document.getElementById('searchForm').submit(); }" />
+									<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
-									<a class="search-button button" href="#void" onclick="document.getElementById('searchForm').withSearch.value = 'on'; document.getElementById('searchForm').submit();"><span class="text"><?=_t('검색')?></span></a>
+									<a class="search-button button" href="#void" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();"><span class="text"><?=_t('검색')?></span></a>
 								</div>
 							</form>
 						</div>

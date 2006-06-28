@@ -467,7 +467,7 @@ input.text-readonly-input
 	text-align                       : left;
 }
 
-#categoryForm
+#category-form
 {
 	border                           : none !important;
 	background-color                 : transparent !important;
@@ -477,13 +477,13 @@ input.text-readonly-input
 	width                            : 220px !important;
 }
 
-#categoryForm select
+#category-form select
 {
 	/*float                            : left;
 	margin-top                       : 2px;*/
 }
 
-#categoryForm .button
+#category-form .button
 {
 	width                            : 70px;
 }
@@ -738,7 +738,7 @@ input.text-readonly-input
 }
 
 /* search */
-#searchForm
+#search-form
 {
 	border                           : none !important;
 	background-color                 : transparent !important;
@@ -750,12 +750,12 @@ input.text-readonly-input
 	width                            : 163px !important;
 }
 
-#searchForm label
+#search-form label
 {
 	display                          : none;
 }
 
-#searchForm input#search
+#search-form input#search
 {
 	float                            : left;
 	margin-top                       : 2px;
@@ -763,6 +763,16 @@ input.text-readonly-input
 }
 
 /* fieldset -------------------------------------------------------------------------------------*/
+fieldset
+{
+	border                           : none;
+}
+
+legend
+{
+	display                          : none;
+}
+
 #data-outbox dl
 {
 	clear                            : both;

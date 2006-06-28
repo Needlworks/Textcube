@@ -114,7 +114,9 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 										<input type="hidden" name="direction" />
 										<input type="hidden" name="id" />
 										
-										<div id="property-box">
+										<fieldset id="property-box" class="section">
+											<legend><?=_t('분류 관리 및 설정')?></legend>
+											
 											<dl id="label-create-line" class="line">
 												<dt><label for="newCategory"><?=_t('생성')?></label></dt>
 <?
@@ -195,7 +197,7 @@ if ($selected == 0) {
 ?>
 												</dd>
 											</dl>
-										</div>
+										</fieldset>
 									</div>
 								</form>
 							</div>

@@ -13,5 +13,4 @@
 				<hr class="hidden" />
 				
 				<div id="psuedo-box">
-					<form method="post" action="<?php echo $blogURL?>/owner/statistics">
-						<div id="data-outbox">
+					<div id="data-outbox">

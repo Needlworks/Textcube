@@ -4,6 +4,7 @@ require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/header4.php';
 require ROOT . '/lib/piece/owner/contentMenu41.php';
 ?>
+						<form method="post" action="<?php echo $blogURL?>/owner/statistics">
 							<div id="part-statistics-rank" class="part">
 								<h2 class="caption"><span class="main-text"><?=_t('리퍼러 순위')?></span></h2>
 								
@@ -65,7 +66,7 @@ for ($i=0; $i<sizeof($temp); $i++) {
 									</tbody>
 								</table>
 							</div>
-							
+						</form>
 <?
-require ROOT . '/lib/piece/owner/footer0.php';
+require ROOT . '/lib/piece/owner/footer1.php';
 ?>

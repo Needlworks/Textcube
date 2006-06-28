@@ -24,7 +24,7 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 										return;
 									var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/notify/delete/" + id);
 									request.onSuccess = function () {
-										document.getElementById('listForm').submit();
+										document.getElementById('list-form').submit();
 									}
 									request.send();
 								}
@@ -34,23 +34,26 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 										return false;
 									var oElement;
 									var targets = '';
-									for (i = 0; document.getElementById('listForm').elements[i]; i ++) {
-										oElement = document.getElementById('listForm').elements[i];
+									for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
+										oElement = document.getElementById('list-form').elements[i];
 										if ((oElement.name == "entry") && oElement.checked) {
 											targets += oElement.value +'~*_)';
 										}
 									}
 									var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/notify/delete/");
 									request.onSuccess = function() {
-										document.getElementById('listForm').submit();
+										document.getElementById('list-form').submit();
 									}
 									request.send("targets=" + targets);
 								}
 								
 								function checkAll(checked) {
-									for (i = 0; document.getElementById('listForm').elements[i]; i ++)
-										if (document.getElementById('listForm').elements[i].name == "entry")
-											document.getElementById('listForm').elements[i].checked = checked;
+									for (i = 0; document.getElementById('list-form').elements[i]; i++) {
+										if (document.getElementById('list-form').elements[i].name == "entry") {
+											document.getElementById('list-form').elements[i].checked = checked;
+											toggleThisTr(document.getElementById('list-form').elements[i]);
+										}
+									}
 								}
 								
 								function changeState(caller, value, mode) {
@@ -130,7 +133,7 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 								<p class="explain"><?=_t('다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 \'홈페이지\' 기입란에 자신의 홈페이지의 setup.php 파일이 존재하는 경로까지 정확하게 입력하셔야 합니다.(예:setup.php 파일이 존재하는 위치가 <samp>http//www.xxx.com/tt/setup.php</samp>라면 <kbd>http//www.xxx.com/tt</kbd>까지 입력.)')?></p>
 							</div>
 							
-							<form id="listForm" method="post" action="<?=$blogURL?>/owner/entry/notify">
+							<form id="list-form" method="post" action="<?=$blogURL?>/owner/entry/notify">
 								<div class="grouping">
 									<input type="hidden" name="page" value="<?=$suri['page']?>" />
 									<input type="hidden" name="name" value="" />
@@ -247,9 +250,9 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 												<span id="total-count"><?=_f('총 %1건', empty($paging['total']) ? "0" : $paging['total'])?></span>
 												<span id="page-list">
 <?
-//$paging['url'] = 'document.getElementById('listForm').page.value=';
+//$paging['url'] = 'document.getElementById('list-form').page.value=';
 //$paging['prefix'] = '';
-//$paging['postfix'] = '; document.getElementById('listForm').submit()';
+//$paging['postfix'] = '; document.getElementById('list-form').submit()';
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
@@ -263,14 +266,14 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 							
 							<hr class="hidden" />
 							
-							<form id="searchForm" class="data-inbox" method="post" action="<?=$blogURL?>/owner/entry/notify">
+							<form id="search-form" class="data-inbox" method="post" action="<?=$blogURL?>/owner/entry/notify">
 								<h2><?php echo _t('검색')?></h2>
 								
 								<div class="grouping">
 									<label for="search"><?=_t('제목')?>, <?=_t('사이트명')?>, <?=_t('내용')?></label>
-									<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.getElementById('searchForm').withSearch.value = 'on'; document.getElementById('searchForm').submit(); }" />
+									<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
-									<a class="search-button button" href="#void" onclick="document.getElementById('searchForm').withSearch.value = 'on'; document.getElementById('searchForm').submit();"><span class="text"><?=_t('검색')?></span></a>
+									<a class="search-button button" href="#void" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();"><span class="text"><?=_t('검색')?></span></a>
 								</div>
 							</form>
 						</div>
