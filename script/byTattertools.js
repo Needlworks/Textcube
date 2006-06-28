@@ -145,7 +145,7 @@ function del_list(object) {
 	return buffer;
 }
 
-/*function onclick_insert_guest(form, mode, num, page, sort) {
+function onclick_insert_guest(form, mode, num, page, sort) {
 	trim_all(form);
 	if (isNull(form.guest_input_name, '이름을 입력해 주십시오.')) return false;
 	if (isNull(form.guest_textarea_body, '본문을 입력해 주십시오')) return false;
@@ -199,7 +199,7 @@ function onclick_insert_comment(form, num){
 	form.action = 'index.php';
 	form.md.value = '';
 	form.num.value = '';
-}*/
+}
 
 function onclick_addexe(num, d_target, obj1, obj2, mode) {
 	if (obj1.value == 0) {

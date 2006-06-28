@@ -52,6 +52,8 @@ if (defined('__TATTERTOOLS_POST__')) {
 	printOwnerEditorScript($entry['id']);
 }
 ?>
+					<form method="post" action="<?=$blogURL?>/owner/entry">
+						<input type="hidden" name="page" value="<?=$suri['page']?>" />
 								<script type="text/javascript" src="<?=$service['path']?>/script/generaltag.js"></script>
 								<script type="text/javascript" src="<?=$service['path']?>/script/locationtag.js"></script>
 								<script type="text/javascript">
@@ -712,6 +714,7 @@ if (!defined('__TATTERTOOLS_NOTICE__')) {
 									<input type="hidden" name="withSearch" value="<?=(empty($_POST['search']) ? '' : 'on')?>" />
 									<input type="hidden" name="search" value="<?=(isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '')?>" />
 								</div>
+					</form>
 <?
 if (isset($_GET['popupEditor']))
 	require ROOT . '/lib/piece/owner/footer8.php';
