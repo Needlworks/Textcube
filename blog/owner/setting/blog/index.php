@@ -10,27 +10,27 @@ require ROOT . '/lib/piece/owner/contentMenu50.php';
 								var description = "<?=escapeJSInCData(trim($blog['description']))?>";
 								
 								function setBlog() {
-									if (document.commonSection.title.value != title) {
-										var request = new HTTPRequest("GET", "<?=$service['path']?>/owner/setting/blog/title?title=" + encodeURIComponent(document.commonSection.title.value));
+									if (document.getElementById('common-section').title.value != title) {
+										var request = new HTTPRequest("GET", "<?=$service['path']?>/owner/setting/blog/title?title=" + encodeURIComponent(document.getElementById('common-section').title.value));
 										request.onSuccess = function() {
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
-											title = document.commonSection.title.value;
+											title = document.getElementById('common-section').title.value;
 										}
 										request.onError = function() {
 											alert("<?=_t('블로그 제목을 변경하지 못했습니다.')?>");
 										}
 										request.send();
 									}
-									if (document.commonSection.description.value != description) {
+									if (document.getElementById('common-section').description.value != description) {
 										var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/setting/blog/description/");
 										request.onSuccess = function() {
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
-											description = document.commonSection.description.value;
+											description = document.getElementById('common-section').description.value;
 										}
 										request.onError = function() {
 											alert("<?=_t('블로그 설명을 변경하지 못했습니다.')?>");
 										}
-										request.send("description=" + encodeURIComponent(document.commonSection.description.value));
+										request.send("description=" + encodeURIComponent(document.getElementById('common-section').description.value));
 									}
 								}
 <?
@@ -51,12 +51,12 @@ if ($service['type'] != 'single') {
 <?
 	if ($service['type'] == 'domain') {
 ?>
-									if ((document.multiSection.primaryDomain.value != primaryDomain) && (!checkBlogName(document.multiSection.primaryDomain.value))) {
+									if ((document.getElementById('multi-section').primaryDomain.value != primaryDomain) && (!checkBlogName(document.getElementById('multi-section').primaryDomain.value))) {
 										alert("<?=_t('블로그 주소가 올바르지 않습니다.')?>");
-										document.multiSection.primaryDomain.focus();
+										document.getElementById('multi-section').primaryDomain.focus();
 										return;
 									}
-									if ((document.multiSection.secondaryDomain.value != secondaryDomain) && (!checkDomainName(document.multiSection.secondaryDomain.value))) {
+									if ((document.getElementById('multi-section').secondaryDomain.value != secondaryDomain) && (!checkDomainName(document.getElementById('multi-section').secondaryDomain.value))) {
 										alert("<?=_t('블로그 주소가 올바르지 않습니다.')?>");
 										document.forms[0].secondaryDomain.focus();
 										return;
@@ -64,9 +64,9 @@ if ($service['type'] != 'single') {
 <?
 	} else if ($service['type'] == 'path') {
 ?>
-									if ((document.multiSection.pathDomain.value != pathDomain) && (!checkBlogName(document.multiSection.pathDomain.value))) {
+									if ((document.getElementById('multi-section').pathDomain.value != pathDomain) && (!checkBlogName(document.getElementById('multi-section').pathDomain.value))) {
 										alert("<?=_t('블로그 주소가 올바르지 않습니다.')?>");
-										document.multiSection.pathDomain.focus();
+										document.getElementById('multi-section').pathDomain.focus();
 										return;
 									}
 <?
@@ -76,10 +76,10 @@ if ($service['type'] != 'single') {
 <?
 	if ($service['type'] == 'domain') {
 ?>
-									if (document.multiSection.defaultDomain[defaultDomain].checked == false) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/default/" + (document.multiSection.defaultDomain[1].checked ? 1 : 0));
+									if (document.getElementById('multi-section').defaultDomain[defaultDomain].checked == false) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/default/" + (document.getElementById('multi-section').defaultDomain[1].checked ? 1 : 0));
 										request.onSuccess = function() {
-											defaultDomain = document.multiSection.defaultDomain[1].checked ? 1 : 0;
+											defaultDomain = document.getElementById('multi-section').defaultDomain[1].checked ? 1 : 0;
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
 										}
 										request.onError = function() {
@@ -87,12 +87,12 @@ if ($service['type'] != 'single') {
 										}
 										request.send();
 									}
-									if (document.multiSection.primaryDomain.value != primaryDomain) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/primary/?name=" + encodeURIComponent(document.multiSection.primaryDomain.value));
+									if (document.getElementById('multi-section').primaryDomain.value != primaryDomain) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/primary/?name=" + encodeURIComponent(document.getElementById('multi-section').primaryDomain.value));
 										request.onSuccess = function() {
-											primaryDomain = document.multiSection.primaryDomain.value;
+											primaryDomain = document.getElementById('multi-section').primaryDomain.value;
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
-											if (document.multiSection.defaultDomain[0].checked)
+											if (document.getElementById('multi-section').defaultDomain[0].checked)
 												location = "http://" + primaryDomain + ".<?=$service['domain']?><?=$blogURL?>/owner/setting/blog";
 										}
 										request.onError = function() {
@@ -100,12 +100,12 @@ if ($service['type'] != 'single') {
 										}
 										request.send();
 									}
-									if (document.multiSection.secondaryDomain.value != secondaryDomain) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/secondary?domain=" + encodeURIComponent(document.multiSection.secondaryDomain.value));
+									if (document.getElementById('multi-section').secondaryDomain.value != secondaryDomain) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/secondary?domain=" + encodeURIComponent(document.getElementById('multi-section').secondaryDomain.value));
 										request.onSuccess = function() {
-											secondaryDomain = document.multiSection.secondaryDomain.value;
+											secondaryDomain = document.getElementById('multi-section').secondaryDomain.value;
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
-											if (document.multiSection.defaultDomain[1].checked)
+											if (document.getElementById('multi-section').defaultDomain[1].checked)
 												location = "http://" + secondaryDomain + "<?=$blogURL?>/owner/setting/blog";
 										}
 										request.onError = function() {
@@ -116,10 +116,10 @@ if ($service['type'] != 'single') {
 <?
 	} else if ($service['type'] == 'path') {
 ?>
-									if (document.multiSection.pathDomain.value != pathDomain) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/primary?name=" + encodeURIComponent(document.multiSection.pathDomain.value));
+									if (document.getElementById('multi-section').pathDomain.value != pathDomain) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/primary?name=" + encodeURIComponent(document.getElementById('multi-section').pathDomain.value));
 										request.onSuccess = function() {
-											pathDomain = document.multiSection.pathDomain.value;
+											pathDomain = document.getElementById('multi-section').pathDomain.value;
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
 											location = "http://<?=$service['domain']?><?=$blogURL?>/" + pathDomain + "/owner/setting/blog";
 										}
@@ -150,11 +150,11 @@ if ($service['type'] != 'single') {
 								var allowCommentGuestbook = <?=$blog['allowWriteDoubleCommentOnGuestbook']?>;
 								//var allowWriteGuestbook = <?=$blog['allowWriteOnGuestbook']?>;
 								function setRSS() {
-									if (document.rssSection.useSlogan[useSlogan].checked == true) {
-										if (document.rssSection.useSlogan.value != useSlogan) {
-											var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/slogan/" + (document.rssSection.useSlogan[0].checked ? 1 : 0));
+									if (document.getElementById('rss-form').useSlogan[useSlogan].checked == true) {
+										if (document.getElementById('rss-form').useSlogan.value != useSlogan) {
+											var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/slogan/" + (document.getElementById('rss-form').useSlogan[0].checked ? 1 : 0));
 											request.onSuccess = function() {
-												useSlogan = document.rssSection.useSlogan[0].checked ? 1 : 0;
+												useSlogan = document.getElementById('rss-form').useSlogan[0].checked ? 1 : 0;
 												PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
 											}
 											request.onError = function() {
@@ -164,9 +164,9 @@ if ($service['type'] != 'single') {
 										}
 									}
 									
-									var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/publishRSS/" + (document.rssSection.publishEolinSyncOnRSS[0].checked ? 1 : 0));
+									var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/publishRSS/" + (document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0));
 									request.onSuccess = function() {
-										publishEolinSyncOnRSS = document.rssSection.publishEolinSyncOnRSS[0].checked ? 1 : 0;
+										publishEolinSyncOnRSS = document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0;
 										PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
 									}
 									request.onError = function() {
@@ -174,10 +174,10 @@ if ($service['type'] != 'single') {
 									}
 									request.send();
 									
-									if (document.rssSection.entriesOnRSS.value != entriesOnRSS) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/rss/entries/" + document.rssSection.entriesOnRSS.value);
+									if (document.getElementById('rss-form').entriesOnRSS.value != entriesOnRSS) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/rss/entries/" + document.getElementById('rss-form').entriesOnRSS.value);
 										request.onSuccess = function() {
-											entriesOnRSS = document.rssSection.entriesOnRSS.value;
+											entriesOnRSS = document.getElementById('rss-form').entriesOnRSS.value;
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
 										}
 										request.onError = function() {
@@ -186,10 +186,10 @@ if ($service['type'] != 'single') {
 										request.send();
 									}
 									
-									if (document.rssSection.publishWholeOnRSS.value != publishWholeOnRSS) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/rss/whole/" + document.rssSection.publishWholeOnRSS.value);
+									if (document.getElementById('rss-form').publishWholeOnRSS.value != publishWholeOnRSS) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/rss/whole/" + document.getElementById('rss-form').publishWholeOnRSS.value);
 										request.onSuccess = function() {
-											publishWholeOnRSS = document.rssSection.publishWholeOnRSS.value;
+											publishWholeOnRSS = document.getElementById('rss-form').publishWholeOnRSS.value;
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
 										}
 										request.onError = function() {
@@ -217,15 +217,15 @@ if ($service['type'] != 'single') {
 								var timezone = "<?=$blog['timezone']?>";
 								
 								function setLocale() {
-									if (document.languageSection.language.value != language) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/language?language=" + encodeURIComponent(document.languageSection.language.value));
+									if (document.getElementById('language-form').language.value != language) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/language?language=" + encodeURIComponent(document.getElementById('language-form').language.value));
 										request.onSuccess = function() {
-											language = document.languageSection.language.value;
-											if (document.languageSection.timezone.value != timezone) {
+											language = document.getElementById('language-form').language.value;
+											if (document.getElementById('language-form').timezone.value != timezone) {
 												PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
-												var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/timezone?timezone=" + encodeURIComponent(document.languageSection.timezone.value));
+												var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/timezone?timezone=" + encodeURIComponent(document.getElementById('language-form').timezone.value));
 												request.onSuccess = function() {
-													timezone = document.languageSection.timezone.value;
+													timezone = document.getElementById('language-form').timezone.value;
 													window.location.href = "<?=$blogURL?>/owner/setting/blog";
 												}
 												request.onError = function() {
@@ -242,10 +242,10 @@ if ($service['type'] != 'single') {
 										}
 										request.send();
 									}
-									else if (document.languageSection.timezone.value != timezone) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/timezone?timezone=" + encodeURIComponent(document.languageSection.timezone.value));
+									else if (document.getElementById('language-form').timezone.value != timezone) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/timezone?timezone=" + encodeURIComponent(document.getElementById('language-form').timezone.value));
 										request.onSuccess = function() {
-											timezone = document.languageSection.timezone.value;
+											timezone = document.getElementById('language-form').timezone.value;
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
 										}
 										request.onError = function() {
@@ -261,56 +261,59 @@ if ($service['type'] != 'single') {
 							<h2 class="caption"><span class="main-text"><?=_t('블로그 기본 정보를 설정합니다')?></span></h2>
 							
 							<div class="data-inbox">
-								
-								<form id="common-section" class="section" name="commonSection" action="<?=$service['path']?>/owner/setting/blog/title" method="post">
-									<input type="hidden" name="javascript" value="disabled" />
-									
-									<dl id="blog-title-line" class="line">
-										<dt><label for="title"><?=_t('블로그 제목')?></label></dt>
-										<dd><input type="text" id="title" class="text-input" name="title" value="<?=htmlspecialchars($blog['title'])?>" /></dd>
-									</dl>
-									<dl id="blog-description-line" class="line">
-										<dt><label for="description"><?=_t('블로그 설명')?></label></dt>
-										<dd><textarea id="description" name="description" cols="15" rows="5"><?=htmlspecialchars($blog['description'])?></textarea></dd>
-									</dl>
-									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setBlog()"><span class="text"><?=_t('저장하기')?></span></a>
+								<form id="common-section" class="section" method="post" action="<?=$service['path']?>/owner/setting/blog/title">
+									<div class="grouping">
+										<input type="hidden" name="javascript" value="disabled" />
+										
+										<dl id="blog-title-line" class="line">
+											<dt><label for="title"><?=_t('블로그 제목')?></label></dt>
+											<dd><input type="text" id="title" class="text-input" name="title" value="<?=htmlspecialchars($blog['title'])?>" /></dd>
+										</dl>
+										<dl id="blog-description-line" class="line">
+											<dt><label for="description"><?=_t('블로그 설명')?></label></dt>
+											<dd><textarea id="description" name="description" cols="15" rows="5"><?=htmlspecialchars($blog['description'])?></textarea></dd>
+										</dl>
+										<div class="button-box">
+											<a class="save-button button" href="#void" onclick="setBlog()"><span class="text"><?=_t('저장하기')?></span></a>
+										</div>
 									</div>
 								</form>
 <?
 $urlRule = getBlogURLRule();
 if ($service['type'] != 'single') {
 ?>
-								<form id="multi-section" class="section" name="multiSection">
-									<input type="hidden" name="javascript" value="disabled" />
+								<form id="multi-section" class="section" method="post" action="<?=$service['path']?>/owner/setting/blog/domain">
+									<div class="grouping">
+										<input type="hidden" name="javascript" value="disabled" />
 									
 <?
 	if ($service['type'] == 'domain') {
 ?>
-									<dl id="first-blog-address-line" class="line">
-										<dt><label for="primaryDomain"><?=_t('1차 블로그 주소')?></label></dt>
-										<dd>
-											<input type="radio" class="radio" name="defaultDomain" <?=($blog['defaultDomain'] ? '' : 'checked="checked"')?> title="<?=_t('기본 도메인')?>" /> http://<input type="text" id="primaryDomain" class="text-input" name="primaryDomain" value="<?=escapeJSInAttribute($blog['name'])?>" /><?=$urlRule[1]?>
-										</dd>
-									</dl>
-									<dl id="second-blog-address-line" class="line">
-										<dt><label for="secondaryDomain"><?=_t('2차 블로그 주소')?></label></dt>
-										<dd>
-											<input type="radio" class="radio" name="defaultDomain" <?=($blog['defaultDomain'] ? 'checked="checked"' : '')?>title="<?=_t('기본 도메인')?>" /> http://<input type="text" id="secondaryDomain" class="text-input" name="secondaryDomain" value="<?=escapeJSInAttribute($blog['secondaryDomain'])?>" /><?=$blogURL?>
-										</dd>
-									</dl>
+										<dl id="first-blog-address-line" class="line">
+											<dt><label for="primaryDomain"><?=_t('1차 블로그 주소')?></label></dt>
+											<dd>
+												<input type="radio" class="radio" name="defaultDomain" <?=($blog['defaultDomain'] ? '' : 'checked="checked"')?> title="<?=_t('기본 도메인')?>" /> http://<input type="text" id="primaryDomain" class="text-input" name="primaryDomain" value="<?=escapeJSInAttribute($blog['name'])?>" /><?=$urlRule[1]?>
+											</dd>
+										</dl>
+										<dl id="second-blog-address-line" class="line">
+											<dt><label for="secondaryDomain"><?=_t('2차 블로그 주소')?></label></dt>
+											<dd>
+												<input type="radio" class="radio" name="defaultDomain" <?=($blog['defaultDomain'] ? 'checked="checked"' : '')?>title="<?=_t('기본 도메인')?>" /> http://<input type="text" id="secondaryDomain" class="text-input" name="secondaryDomain" value="<?=escapeJSInAttribute($blog['secondaryDomain'])?>" /><?=$blogURL?>
+											</dd>
+										</dl>
 <?
 	} else {
 ?>
-									<dl id="blog-address-line" class="line">
-										<dt><label for="pathDomain"><?=_t('블로그 주소')?></label></dt>
-										<dd><?=$urlRule[0]?><input type="text" id="pathDomain" class="text-input" name="pathDomain" value="<?=escapeJSInAttribute($blog['name'])?>" /></dd>
-									</dl>
+										<dl id="blog-address-line" class="line">
+											<dt><label for="pathDomain"><?=_t('블로그 주소')?></label></dt>
+											<dd><?=$urlRule[0]?><input type="text" id="pathDomain" class="text-input" name="pathDomain" value="<?=escapeJSInAttribute($blog['name'])?>" /></dd>
+										</dl>
 <?
 	}
 ?>
-									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setDomains()"><span class="text"><?=_t('저장하기')?></span></a>
+										<div class="button-box">
+											<a class="save-button button" href="#void" onclick="setDomains()"><span class="text"><?=_t('저장하기')?></span></a>
+										</div>
 									</div>
 								</form>
 <?
@@ -374,8 +377,8 @@ if (file_exists(ROOT.'/index.gif')) {
 						<div id="part-setting-rss" class="part">
 							<h2 class="caption"><span class="main-text"><?=_t('블로그 공개 정책을 설정합니다')?></span></h2>
 							
-							<div class="data-inbox">
-								<form id="rss-section" class="section" name="rssSection">
+							<form id="rss-form" class="data-inbox" method="post" action="<?=$service['path']?>/owner/setting/blog">
+								<div id="rss-section" class="section">
 									<input type="hidden" name="javascript" value="disabled" />
 									
 									<dl id="post-address-line" class="line">
@@ -427,8 +430,8 @@ for ($i = 5; $i <= 30; $i += 5) {
 									<div class="button-box">
 										<a class="save-button button" href="#void" onclick="setRSS()"><span class="text"><?=_t('저장하기')?></span></a>
 									</div>
-								</form>
-							</div>
+								</div>
+							</form>
 						</div>
 						
 						<hr class="hidden" />
@@ -436,8 +439,8 @@ for ($i = 5; $i <= 30; $i += 5) {
 						<div id="part-setting-language" class="part">
 							<h2 class="caption"><span class="main-text"><?=_t('언어, 시간대를 설정합니다')?></span></h2>
 							
-							<div class="data-inbox">
-								<form id="language-section" class="section" name="languageSection">
+							<form id="language-form" class="data-inbox" method="post" action="<?=$service['path']?>/owner/setting/blog">
+								<div id="language-section" class="section">
 									<input type="hidden" name="javascript" value="disabled" />
 									
 									<dl id="language-line" class="line">
@@ -472,8 +475,8 @@ foreach (Timezone::getList() as $timezone) {
 									<div class="button-box">
 										<a class="save-button button" href="#void" onclick="setLocale()"><span class="text"><?=_t('저장하기')?></span></a>
 									</div>
-								</form>
-							</div>
+								</div>
+							</form>
 						</div>
 <?
 require ROOT . '/lib/piece/owner/footer1.php';

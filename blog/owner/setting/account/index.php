@@ -223,7 +223,7 @@ if ($service['type'] != 'single') {
 							<h2 class="caption"><span class="main-text"><?=_t('회원정보를 관리합니다')?></span></h2>
 							
 							<div class="data-inbox">
-								<form id="info-section" class="section">
+								<form id="info-section" class="section" method="post" action="<?php echo $blogURL?>/owner/setting/account">
 									<dl id="blogger-name-line" class="line">
 										<dt><label for="nickname"><?=_t('필명')?></label></dt>
 										<dd><input type="text" id="nickname" class="text-input" value="<?=$user['name']?>" onkeydown="if(event.keyCode == 13) save();" /></dd>
@@ -243,7 +243,7 @@ if ($service['type'] != 'single') {
 								
 								<hr class="hidden" />
 								
-								<form id="account-section" class="section">
+								<form id="account-section" class="section" method="post" action="<?php echo $blogURL?>/owner/setting/account">
 									<dl id="current-password-line" class="line">
 										<dt><label for="prevPwd"><?=_t('현재 비밀번호')?></label></dt>
 										<dd><input type="password" id="prevPwd" class="text-input" value="<?=(empty($_GET['password']) ? '' : $_GET['password'])?>" /></dd>
@@ -271,7 +271,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 						<div id="part-setting-invite" class="part">
 							<h2 class="caption"><span class="main-text"><?=_t('친구를 초대합니다')?></span></h2>
 							
-							<form class="data-inbox">
+							<form class="data-inbox" method="post" action="<?php echo $blogURL?>/owner/setting/account">
 								<dl id="letter-section" class="section">
 									<dt class="title"><span class="label"><?=_t('초대장')?></span></dt>
 									<dd id="letter">
