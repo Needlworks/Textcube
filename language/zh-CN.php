@@ -773,4 +773,5 @@ $__text['코드 붙여넣기'] = '코드 붙여넣기';
 $__text['삽입하기'] = '삽입하기';
 $__text['페이지 오류'] = '페이지 오류';
 $__text['글이 하나도 없습니다'] = '글이 하나도 없습니다';
+$__text['fontDisplayName:fontCode:fontFamily'] = 'fontDisplayName:fontCode:fontFamily|MingLiU:MingLiU:Serif|PMingLiU:PMingLiU:Serif|SimHei:SimHei:Sans-serif|SimSun:SimSun:Serif|NSimSun:NSimSun:Serif';
 ?>

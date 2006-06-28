@@ -774,4 +774,5 @@ $__text['페이지 오류'] = '페이지 오류';
 $__text['글이 하나도 없습니다'] = '글이 하나도 없습니다';
 $__text['태터툴즈 관리 페이지'] = 'Tattertools Administration';
 $__text['센터'] = 'Center';
+$__text['fontDisplayName:fontCode:fontFamily'] = 'fontDisplayName:fontCode:fontFamily'; 
 ?>

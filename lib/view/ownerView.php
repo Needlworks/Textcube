@@ -1345,6 +1345,14 @@ function printEntryEditorPalette() {
 												<dd class="command-box">
 													<select id="fontFamilyChanger" onchange="editor.execCommand('fontname', false, this.value); this.selectedIndex=0;">
 														<option class="head-option"><?php echo _t('글자체')?></option>
+<?
+	$fontSet = explode('|', _t('fontDisplayName:fontCode:fontFamily'));
+	for($i=1; $i<count($fontSet); $i++) {
+		$fontInfo = explode(':', $fontSet[$i]);
+		if(count($fontInfo) == 3)
+			echo "														<option style=\"font-family: '$fontInfo[1]';\" value=\"'$fontInfo[1]', '$fontInfo[2]'\">$fontInfo[0]</option>";
+		}
+?>
 														<option style="font-family: 'Andale Mono';" value="'andale mono',times">Andale Mono</option>
 														<option style="font-family: 'Arial';" value="arial,helvetica,sans-serif">Arial</option>
 														<option style="font-family: 'Arial Black';" value="'arial black',avant garde">Arial Black</option>

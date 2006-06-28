@@ -777,4 +777,5 @@ $__text['코드 붙여넣기'] = 'コード貼り付け';
 $__text['삽입하기'] = '挿入';
 $__text['페이지 오류'] = 'ページエラー';
 $__text['글이 하나도 없습니다'] = '記事が存在していません。';
+$__text['fontDisplayName:fontCode:fontFamily'] = 'fontDisplayName:fontCode:fontFamily|ＭＳ ゴシック:MS Gothic:Sans-serif|ＭＳＰゴシック:MS PGothic:Sans-serif|MS UI Gothic:MS UI Gothic:Sans-serif|ＭＳ明朝:MS Mincho:Serif|ＭＳ Ｐ明朝:MS PMincho:Serif'; 
 ?>
