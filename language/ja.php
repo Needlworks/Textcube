@@ -798,4 +798,6 @@ $__text['환경설정'] = '環境設定';
 $__text['회원정보를 관리합니다'] = 'メンバー情報の管理';
 $__text['효과 제거'] = '効果削除';
 $__text['효과없음'] = '効果なし';
+
+$__text['fontDisplayName:fontCode:fontFamily'] = 'fontDisplayName:fontCode:fontFamily|ＭＳ ゴシック:MS Gothic:Sans-serif|ＭＳ Ｐゴシック:MS PGothic:Sans-serif|MS UI Gothic:MS UI Gothic:Sans-serif|ＭＳ 明朝:MS Mincho:Serif|ＭＳ Ｐ明朝:MS PMincho:Serif';
 ?>

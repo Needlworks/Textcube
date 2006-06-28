@@ -790,4 +790,6 @@ $__text['http://www.tattertools.com/doc/9'] = 'http://www.tattertools.com/ko/man
 //$__text['회원정보를 관리합니다'] = '';
 //$__text['효과 제거'] = '';
 //$__text['효과없음'] = '';
+
+$__text['fontDisplayName:fontCode:fontFamily'] = 'fontDisplayName:fontCode:fontFamily|바탕:Batang:Serif|바탕체:BatangChe:Serif|굴림:Gulim:Sans-serif|굴림체:GulimChe:Sans-serif|돋움:Dotum:Sans-serif|돋움체:DotumChe:Sans-serif';
 ?>

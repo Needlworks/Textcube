@@ -1777,23 +1777,31 @@ function printEntryEditorPalette() {
 		<select id="fontFamilyChanger" tabindex="100" onchange="editor.execCommand('fontname', false, this.value);this.selectedIndex=0" style="width: 100px">
 		<option><?=_t('글자체')?></option>
 		<option value="">=========</option>
-		<option value="andale mono,times">Andale Mono</option>
-		<option value="arial,helvetica,sans-serif">Arial</option>
-		<option value="arial black,avant garde">Arial Black</option>
-		<option value="book antiqua,palatino">Book Antiqua</option>
-		<option value="comic sans ms,sand">Comic Sans MS</option>
-		<option value="courier new,courier,monospace">Courier New</option>
-		<option value="georgia,times new roman,times,serif">Georgia</option>
-		<option value="helvetica">Helvetica</option>
-		<option value="impact,chicago">Impact</option>
-		<option value="symbol">Symbol</option>
-		<option value="tahoma,arial,helvetica,sans-serif">Tahoma</option>
-		<option value="terminal,monaco">Terminal</option>
-		<option value="times new roman,times,serif">Times New Roman</option>
-		<option value="trebuchet ms,geneva">Trebuchet MS</option>
-		<option value="verdana,arial,helvetica,sans-serif">Verdana</option>
-		<option value="webdings">Webdings</option>
-		<option value="wingdings,zapf dingbats">Wingdings</option>
+		<?
+			$fontSet = explode('|', _t('fontDisplayName:fontCode:fontFamily'));
+			for($i=1; $i<count($fontSet); $i++) {
+				$fontInfo = explode(':', $fontSet[$i]);
+				if(count($fontInfo) == 3)
+					echo "<option value=\"$fontInfo[1], $fontInfo[2]\">$fontInfo[0]</option>";
+			}
+		?>
+		<option value="Andale Mono, Serif">Andale Mono</option>
+		<option value="Arial, Sans-serif">Arial</option>
+		<option value="Arial Black, Sans-serif">Arial Black</option>
+		<option value="Book Antiqua, Serif">Book Antiqua</option>
+		<option value="Comic Sans MS, Cursive">Comic Sans MS</option>
+		<option value="Courier new, Monospace">Courier New</option>
+		<option value="Georgia, Serif">Georgia</option>
+		<option value="Helvetica, Sans-serif">Helvetica</option>
+		<option value="Impact, Sans-serif">Impact</option>
+		<option value="Symbol, Fantasy">Symbol</option>
+		<option value="Tahoma, Sans-serif">Tahoma</option>
+		<option value="Terminal, Monospace">Terminal</option>
+		<option value="Times New Roman, Serif">Times New Roman</option>
+		<option value="Trebuchet MS, Sans-serif">Trebuchet MS</option>
+		<option value="Verdana, Sans-serif">Verdana</option>
+		<option value="Webdings, Fantasy">Webdings</option>
+		<option value="Wingdings, Fantasy">Wingdings</option>
 		</select>
 		<select id="fontSizeChanger" tabindex="101" onchange="editor.execCommand('fontsize', false, this.value);this.selectedIndex=0" style="width: 50px">
 		<option><?=_t('크기')?></option>

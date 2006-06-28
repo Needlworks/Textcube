@@ -794,4 +794,6 @@ $__text['환경설정'] = '系统设定';
 $__text['회원정보를 관리합니다'] = '账户管理';
 $__text['효과 제거'] = '去除效果';
 $__text['효과없음'] = '无效果';
+
+$__text['fontDisplayName:fontCode:fontFamily'] = 'fontDisplayName:fontCode:fontFamily|MingLiU:MingLiU:Serif|PMingLiU:PMingLiU:Serif|SimHei:SimHei:Sans-serif|SimSun:SimSun:Serif|NSimSun:NSimSun:Serif';
 ?>
