@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-/* Editor ****************************************************************************************/
+/* Common ****************************************************************************************/
 
 body
 {
@@ -302,80 +302,61 @@ body
 /* command buttons' sub box ---------------------------------------------------------------------*/
 #colorPalette
 {
-	position                         : absolute;
-	top                              : 67px;
-	left                             : 110px;
-	z-index                          : 10;
-}
-
-#colorPalette table
-{
 	background-color                 : #FFFFFF;
+	position                         : absolute;
+	padding                          : 2px;
+	top                              : 66px;
+	left                             : 80px;
+	z-index                          : 10;
 	border                           : 1px solid #CCCCCC;
-}
-
-#colorPalette table tr td
-{
-	cursor                           : pointer;
-	height                           : 16px;
-	width                            : 16px;
-}
-
-#colorPalette table tr td span
-{
-	display                          : none;
+	width                            : 336px;
 }
 
 #markPalette
 {
-	position                         : absolute;
-	top                              : 67px;
-	left                             : 210px;
-	z-index                          : 10;
-}
-
-#markPalette table
-{
 	background-color                 : #FFFFFF;
+	position                         : absolute;
+	padding                          : 2px;
+	top                              : 66px;
+	left                             : 100px;
+	z-index                          : 10;
 	border                           : 1px solid #CCCCCC;
-}
-
-#markPalette table tr td
-{
-	cursor                           : pointer;
-	height                           : 16px;
-	width                            : 16px;
-}
-
-#markPalette table tr td span
-{
-	display                          : none;
+	width                            : 336px;
 }
 
 #textBox
 {
+	background-color                 : #FFFFFF;
 	position                         : absolute;
-	top                              : 67px;
-	left                             : 250px;
+	padding                          : 2px;
+	top                              : 66px;
+	left                             : 290px;
 	z-index                          : 10;
+	border                           : 1px solid #CCCCCC;
+	width                            : 80px;
 }
 
+#colorPalette table,
+#markPalette table,
 #textBox table
 {
+	border-collapse                  : collapse;
+	border-spacing                   : 0;
 	background-color                 : #FFFFFF;
-	border                           : 1px solid #CCCCCC;
+	margin                           : 0;
+	width                            : auto;
 }
 
+#colorPalette table tr td,
+#markPalette table tr td,
 #textBox table tr td
 {
+	border                           : none !important;
 	cursor                           : pointer;
 	height                           : 16px;
+	padding                          : 0 !important;
+	text-indent                      : -5000px;
 	width                            : 16px;
-}
-
-#textBox table tr td span
-{
-	display                          : none;
 }
 
 /* colors */
@@ -542,8 +523,8 @@ body
 #status-container
 {
 	background-color                 : #8FA9BF;
-	cursor                           : n-resize
-	padding                          : 3px 5px 0 5px;
+	cursor                           : n-resize;
+	padding                          : 3px 5px 3px 5px;
 }
 
 #status-container span
@@ -567,7 +548,7 @@ body
 {
 	color                            : #000000;
 	display                          : block;
-	font-family                      : Arial, Tahoma, Verdana, sans-serif;
+	font-family                      : ±¼¸², Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
 	font-size                        : 0.9em;
 	font-weight                      : bold;
 	margin                           : 10px 0 5px 0;
@@ -590,7 +571,7 @@ body
 {
 	border-bottom                    : 1px dashed #CCCCCC;
 	color                            : #666666;
-	font-family                      : ±¼¸², Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-family                      : Arial, Tahoma, Verdana, sans-serif;
 	font-size                        : 90%;
 	font-weight                      : normal !important;
 	height                           : 16px;

@@ -89,7 +89,7 @@ if ($setting['newWindow'] == 2) {
 				
 				<hr class="hidden" />
 				
-				<div id="psuedo-box">
+				<div id="pseudo-box">
 					<div id="data-outbox">
 						<div id="pannel" style="display: <?=getPersonalization($owner, 'readerPannelVisibility') == 1 ? 'block' : 'none'?>;">
 							<div id="groupsAndFeeds" class="part">
@@ -189,7 +189,7 @@ if (getUserId() == 1) {
 										</div>
 									</div>
 									
-									<div id="opml-section" class="section">
+									<form id="opml-section" class="section" method="post" action="<?=$blogURL?>/owner/reader/opml/import/file/" enctype="multipart/form-data" target="hiddenFrame">
 										<fieldset class="container">
 											<legend class="title"><?=_t('OPML 관리')?></legend>
 											
@@ -210,11 +210,11 @@ if (getUserId() == 1) {
 											</dl>
 										</fieldset>
 										<div class="button-box two-button-box">
-											<a class="import-button button" href="#void" onclick="if(document.forms[0].opmlMethod[0].checked) Reader.importOPMLUpload(); else Reader.importOPMLURL();"><span class="text"><?=_t('가져오기')?></span></a>
+											<a class="import-button button" href="#void" onclick="if(document.getElementById('opml-section').opmlMethod[0].checked) Reader.importOPMLUpload(); else Reader.importOPMLURL();"><span class="text"><?=_t('가져오기')?></span></a>
 											<span class="hidden">|</span>
 											<a class="export-button button" href="#void" onclick="Reader.exportOPML()"><span class="text"><?=_t('내보내기')?></span></a>
 										</div>
-									</div>
+									</form>
 								</div>
 							</div>
 						</div>
