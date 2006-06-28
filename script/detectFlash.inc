@@ -1,6 +1,5 @@
 											<script type="text/vbscript">
-												//<![CDATA[
-													// Visual basic helper required to detect Flash Player ActiveX control version information
+												<!-- // Visual basic helper required to detect Flash Player ActiveX control version information
 													Function VBGetSwfVer(i)
 														on error resume next
 														Dim swControl, swVersion
@@ -12,7 +11,7 @@
 														end if
 														VBGetSwfVer = swVersion
 													End Function
-												//]]>
+												// -->
 											</script>
 											
 											<script type="text/javascript">
@@ -27,8 +26,9 @@
 													function JSGetSwfVer(i){
 														// NS/Opera version >= 3 check for Flash plugin in plugin array
 														if (navigator.plugins != null && navigator.plugins.length > 0) {
-															if (navigator.plugins["Shockwave Flash 2.0"] || navigator.plugins["Shockwave Flash"]) {																	var swVer2 = navigator.plugins["Shockwave Flash 2.0" ? " 2.0" : "";
-																		var flashDescription = navigator.plugins["Shockwave Flah" + swVer2].description;
+															if (navigator.plugins["Shockwave Flash 2.0"] || navigator.plugins["Shockwave Flash"]) {
+																var swVer2 = navigator.plugins["Shockwave Flash 2.0"] ? " 2.0" : "";
+																		var flashDescription = navigator.plugins["Shockwave Flash" + swVer2].description;
 																descArray = flashDescription.split(" ");
 																tempArrayMajor = descArray[2].split(".");
 																versionMajor = tempArrayMajor[0];

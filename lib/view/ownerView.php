@@ -602,7 +602,7 @@ function printEntryFileList($attachments, $entryId) {
 														} catch(e) {
 														}	
 													}
-																		
+													
 													function stripLabelToValue(fileLabel) {
 														var pos = fileLabel.lastIndexOf('(');
 														return fileLabel.substring(0,pos-1);	
@@ -692,17 +692,21 @@ function printEntryFileList($attachments, $entryId) {
 														}	
 													}
 													
+													
 													function getUploadObj() {
-														try {		
+														try {
 															var result;			
-															if(isIE) 
+															if (isIE) {
 																result = document.getElementById("uploader");
-															else
+															} else {
 																result = document.getElementById("uploader2");
-															if (result == null)
+															}
+															
+															if (result == null) {
 																return false;
-															else
+															} else {
 																return result;
+															}
 														} catch(e) {
 															return false;
 														}
@@ -743,7 +747,7 @@ function printEntryFileList($attachments, $entryId) {
 														}
 													}
 													
-													unction selectFileList(value) {
+													function selectFileList(value) {
 														selectedFiles = value.split("!^|");
 														var fileListObj = document.getElementById("fileList");
 														for(var i=0; i<fileListObj.length; i++) {
@@ -816,7 +820,7 @@ function printEntryFileList($attachments, $entryId) {
 													}
 													
 													refreshAttachFormSize();
-												/]]>
+												//]]>
 											</script>
 <?php
 	require_once ROOT.'/script/detectFlash.inc';
@@ -835,8 +839,8 @@ function printEntryFileList($attachments, $entryId) {
 														uploaderStr = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
 															+ 'width="0" height="0"'
 															+ 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
-															+ '<param name="movie" value="<?php echo $service['path']?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="path=<?php echo $blogURL?>&owner=<?php echo $owner?>&entryid=<?php echo $entryId?>&enclosure=<?php echo $enclosureFileName?>&maxSize=<?php echo $maxSize?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION']?>" />'
-															+ '<embed id="uploader2" src="<?php echo $service['path']?>/script/uploader/uploader.swf" flashvars="path=<?php echo $blogURL?>&owner=<?php echo $owner?>&entryid=<?php echo $entryId?>&enclosure=<?php echo $enclosureFileName?>&maxSize=<?php echo $maxSize?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION']?>" width="1" height="1" align="middle" wmode="transparent" quality="high" class="color-ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
+															+ '<param name="movie" value="<?php echo $blogURL?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="path=<?php echo $blogURL?>&owner=<?php echo $owner?>&entryid=<?php echo $entryId?>&enclosure=<?php echo $enclosureFileName?>&maxSize=<?php echo $maxSize?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION']?>" />'
+															+ '<embed id="uploader2" src="<?php echo $blogURL?>/script/uploader/uploader.swf" flashvars="path=<?php echo $blogURL?>&owner=<?php echo $owner?>&entryid=<?php echo $entryId?>&enclosure=<?php echo $enclosureFileName?>&maxSize=<?php echo $maxSize?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION']?>" width="1" height="1" align="middle" wmode="transparent" quality="high" class="color-ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
 														
 														if (hasRightVersion && isWin) {
 															writeCode(uploaderStr);
