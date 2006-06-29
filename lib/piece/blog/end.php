@@ -30,6 +30,7 @@ dress('count_today', $stats['today'], $view);
 dress('count_yesterday', $stats['yesterday'], $view);
 dress('archive_rep', getArchivesView(getArchives($owner), $skin->archive), $view);
 dress('calendar', getCalendarView(getCalendar($owner, isset($period) ? $period : true)), $view);
+dress('calendar_en', getCalendarView(getCalendar($owner, isset($period) ? $period : true), "en"), $view);
 dress('random_tags', getRandomTagsView(getRandomTags($owner), $skin->randomTags), $view);
 $noticeView = $skin->recentNotice;
 $notices = getNotices($owner);

@@ -776,7 +776,7 @@ function getArchivesView($archives, & $template) {
 	return $view;
 }
 
-function getCalendarView($calendar) {
+function getCalendarView($calendar, $type="number") {
 	global $blogURL;
 	$current = $calendar['year'] . $calendar['month'];
 	$previous = addPeriod($current, - 1);
@@ -784,56 +784,136 @@ function getCalendarView($calendar) {
 	$firstWeekday = date('w', mktime(0, 0, 0, $calendar['month'], 1, $calendar['year']));
 	$lastDay = date('t', mktime(0, 0, 0, $calendar['month'], 1, $calendar['year']));
 	$today = ($current == Timestamp::get('Ym') ? Timestamp::get('j') : null);
+	
+	if ($type == "en") {
+		switch ($calendar['month']) {
+			case "01":
+				$currentMonthStr = 'Jan<span class="tt-month-tail">uary</span>';
+				break;
+			case "02":
+				$currentMonthStr = 'Feb<span class="tt-month-tail">uary</span>';
+				break;
+			case "03":
+				$currentMonthStr = 'Mar<span class="tt-month-tail">ch</span>';
+				break;
+			case "04":
+				$currentMonthStr = 'Apr<span class="tt-month-tail">il</span>';
+				break;
+			case "05":
+				$currentMonthStr = 'May';
+				break;
+			case "06":
+				$currentMonthStr = 'Jun<span class="tt-month-tail">e</span>';
+				break;
+			case "07":
+				$currentMonthStr = 'Jul<span class="tt-month-tail">y</span>';
+				break;
+			case "08":
+				$currentMonthStr = 'Aug<span class="tt-month-tail">ust</span>';
+				break;
+			case "09":
+				$currentMonthStr = 'Sep<span class="tt-month-tail">tember</span>';
+				break;
+			case "10":
+				$currentMonthStr = 'Oct<span class="tt-month-tail">ober</span>';
+				break;
+			case "11":
+				$currentMonthStr = 'Nov<span class="tt-month-tail">ember</span>';
+				break;
+			case "12":
+				$currentMonthStr = 'Dec<span class="tt-month-tail">ember</span>';
+				break;
+		}
+		$currentMonthStr .= " {$calendar['year']}";
+	} else {
+		$currentMonthStr = Timestamp::format('%Y/%m', getTimeFromPeriod($current));
+	}
 	ob_start();
 ?>
-<table cellpadding="0" cellspacing="1" style="width: 100%; table-layout: fixed">
-<caption class="cal_month">
-<a href="<?php echo $blogURL?>/archive/<?php echo $previous?>">&lt;&lt;</a>
-&nbsp;
-<a href="<?php echo $blogURL?>/archive/<?php echo $current?>"><?php echo Timestamp::format('%Y/%m', getTimeFromPeriod($current))?></a>
-&nbsp;
-<a href="<?php echo $blogURL?>/archive/<?php echo $next?>">&gt;&gt;</a>
-</caption>
-<thead>
-  <tr>
-    <th class="cal_week2">S</th>
-    <th class="cal_week1">M</th>
-    <th class="cal_week1">T</th>
-    <th class="cal_week1">W</th>
-    <th class="cal_week1">T</th>
-    <th class="cal_week1">F</th>
-    <th class="cal_week1">S</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-<?php 
-	for ($weekday = 0; $weekday < $firstWeekday; $weekday++)
-		echo '    <td class="cal_day1"></td>', CRLF;
-	for ($day = 1; $weekday < 7; $weekday++, $day++) {
-		if (isset($calendar['days'][$day]))
-			echo '    <td class="', ($day == $today ? 'cal_day4' : 'cal_day3'), "\"><a class=\"cal_click\" href=\"$blogURL/archive/$current", ($day > 9 ? $day : '0' . $day), "\">$day</a></td>", CRLF;
-		else
-			echo '    <td class="', ($day == $today ? 'cal_day4' : 'cal_day3'), "\">$day</td>", CRLF;
-	}
-	echo '  </tr>', CRLF;
-	while (true) {
-		echo '  <tr>', CRLF;
-		for ($weekday = 0; ($weekday < 7) && ($day <= $lastDay); $weekday++, $day++)
-			if (isset($calendar['days'][$day]))
-				echo '    <td class="', ($day == $today ? 'cal_day4' : 'cal_day3'), "\"><a class=\"cal_click\" href=\"$blogURL/archive/$current", ($day > 9 ? $day : '0' . $day), "\">$day</a></td>", CRLF;
-			else
-				echo '    <td class="', ($day == $today ? 'cal_day4' : 'cal_day3'), "\">$day</td>", CRLF;
-		if ($day > $lastDay) {
-			for (; $weekday < 7; $weekday++)
-				echo '    <td class="cal_day2"></td>', CRLF;
-			echo '  </tr>', CRLF;
+<table id="tt-calendar" cellpadding="0" cellspacing="1" style="width: 100%; table-layout: fixed">
+	<caption class="tt-cal-month cal_month">
+		<a class="tt-prev-month" href="<?php echo $blogURL?>/archive/<?php echo $previous?>" title="<?php echo _t('1개월 앞의 달력을 보여줍니다.')?>">&laquo;</a>
+		&nbsp;
+		<a class="tt-current-month" href="<?php echo $blogURL?>/archive/<?php echo $current?>" title="<?php echo _t('현재 달의 달력을 보여줍니다.')?>"><?php echo $currentMonthStr?></a>
+		&nbsp;
+		<a class="tt-next-month" href="<?php echo $blogURL?>/archive/<?php echo $next?>" title="<?php echo _t('1개월 뒤의 달력을 보여줍니다.')?>">&raquo;</a>
+	</caption>
+	<thead>
+		<tr>
+			<th class="tt-cal-cell tt-cal-sunday cal_week2">S</th>
+			<th class="tt-cal-cell tt-cal-commonday cal_week1">M</th>
+			<th class="tt-cal-cell tt-cal-commonday cal_week1">T</th>
+			<th class="tt-cal-cell tt-cal-commonday cal_week1">W</th>
+			<th class="tt-cal-cell tt-cal-commonday cal_week1">T</th>
+			<th class="tt-cal-cell tt-cal-commonday cal_week1">F</th>
+			<th class="tt-cal-cell tt-cal-satureday cal_week1">S</th>
+		</tr>
+	</thead>
+	<tbody>
+<?php
+	$day = 0;
+	$totalDays = $firstWeekday + $lastDay;
+	$lastWeek = ceil($totalDays / 7);
+	
+	for ($week=0; $week<$lastWeek; $week++) {
+		// 주중에 현재 날짜가 포함되어 있으면 주를 현재 주 class(tt-current-week)를 부여한다.
+		if (($today + $firstWeekday) >= $week * 7 && ($today + $firstWeekday) < ($week + 1) * 7) {
+			echo '		<tr class="tt-cal-week tt-current-week">'.CRLF;
+		} else {
+			echo '		<tr class="tt-cal-week">'.CRLF;
+		}
+		
+		for($weekday=0; $weekday<7; $weekday++) {
+			$day++;
+			$dayString = isset($calendar['days'][$day]) ? '<a class="tt-cal-click cal_click" href="'.$blogURL.'/archive/'.$current.($day > 9 ? $day : "0$day").'">'.$day.'</a>' : $day;
+			
+			// 일요일, 평일, 토요일별로 class를 부여한다.
+			switch ($weekday) {
+				case 0:
+					$className = " tt-cal-sunday";
+					break;
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+					$className = " tt-cal-commonday";
+					break;
+				case 6:
+					$className = " tt-cal-satureday";
+					break;
+			}
+			
+			// 오늘에 현재 class(tt-current-day)를 부여한다.
+			$className .= $day == $today ? " tt-current-day cal_day4" : " cal_day3";
+			
+			if ($week == 0) {
+				if ($weekday < $firstWeekday) {
+					$day--;
+					// 달의 첫째날이 되기 전의 빈 칸.
+					echo '			<td class="tt-cal-empty cal_day1">&nbsp;</td>'.CRLF;
+				} else {
+					echo '			<td class="tt-cal-cell'.$className.'">'.$dayString.'</td>'.CRLF;
+				}
+			} else if ($week == ($lastWeek - 1)) {
+				if ($day <= $lastDay) {
+					echo '			<td class="tt-cal-cell'.$className.'">'.$dayString.'</td>'.CRLF;
+				} else {
+					// 달의 마지막날을 넘어간 날짜 빈 칸.
+					echo '			<td class="tt-cal-empty cal_day2">&nbsp;</td>'.CRLF;
+				}
+			} else {
+				echo '			<td class="tt-cal-cell'.$className.'">'.$dayString.'</td>'.CRLF;
+			}
+		}
+		echo '		</tr>'.CRLF;
+		
+		if ($day >= $lastDay) {
 			break;
 		}
-		echo '  </tr>', CRLF;
 	}
 ?>
-</tbody>
+	</tbody>
 </table>
 <?php 
 	$view = ob_get_contents();
