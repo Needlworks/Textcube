@@ -419,6 +419,7 @@ foreach ($entries as $entry) {
 	if (count($categories) >0) {
 ?>				 
                                 <option style="color:#999999">&nbsp; <?=_t('아래의 카테고리로 변경합니다 ')?></option>
+				<option value="category" category="0" label="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<?=_t('전체')?></option>
 <?
 		foreach ($categories as $category) {
 ?>
