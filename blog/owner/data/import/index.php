@@ -559,10 +559,12 @@ function importer($path, $node, $line) {
 		case '/blog/skin':
 			setProgress($item++ / $items * 100, _t('스킨 설정을 복원하고 있습니다.'));
 			$setting = new SkinSetting();
-			$setting->skin = $node['name'][0]['.value'];
-			if (!$setting->save())
-				user_error(__LINE__ . $setting->error);
-			$setting->skin = null;
+			if (false) {
+				$setting->skin = $node['name'][0]['.value'];
+				if (!$setting->save())
+					user_error(__LINE__ . $setting->error);
+				$setting->skin = null;
+			}
 			$setting->entriesOnRecent = $node['entriesOnRecent'][0]['.value'];
 			$setting->commentsOnRecent = $node['commentsOnRecent'][0]['.value'];
 			$setting->trackbacksOnRecent = $node['trackbacksOnRecent'][0]['.value'];

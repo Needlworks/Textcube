@@ -1132,7 +1132,10 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				$buf .= '<table>';
 				$buf .= '<tr>';
 				$buf .= '<td width="' . $params['width'] . '" height="' . $params['height'] . '">';
-				$buf .= '<script type="text/javascript">iMazing' . $id . 'Str = getEmbedCode(\'' . $service['path'] . '/script/gallery/iMazing/main.swf\',\'100%\',\'100%\',\'iMazing' . $id . '\',\'#FFFFFF\',"image=' . $imgStr . '&amp;frame=' . $params['frame'] . '&amp;transition=' . $params['transition'] . '&amp;navigation=' . $params['navigation'] . '&amp;slideshowInterval=' . $params['slideshowInterval'] . '&amp;page=' . $params['page'] . '&amp;align=' . $params['align'] . '&amp;skinPath=' . $service['path'] . '/script/gallery/iMazing/&amp;","false"); writeCode(iMazing' . $id . 'Str);</script>';
+				$buf .= '<div id="iMazingContainer'.$id.'"></div><script type="text/javascript">iMazing' . $id . 'Str = getEmbedCode(\'' . $service['path'] . '/script/gallery/iMazing/main.swf\',\'100%\',\'100%\',\'iMazing' . $id . '\',\'#FFFFFF\',"image=' . $imgStr . '&amp;frame=' . $params['frame'] . '&amp;transition=' . $params['transition'] . '&amp;navigation=' . $params['navigation'] . '&amp;slideshowInterval=' . $params['slideshowInterval'] . '&amp;page=' . $params['page'] . '&amp;align=' . $params['align'] . '&amp;skinPath=' . $service['path'] . '/script/gallery/iMazing/&amp;","false"); writeCode(iMazing' . $id . 'Str, "iMazingContainer'.$id.'");</script><noscript>';
+				for ($i = 0; $i < count($imgs); $i += 2)
+				    $buf .= '<img src="'.($useAbsolutePath ? $hostURL : $service['path']).'/attach/'.$owner.'/'.$imgs[$i].'" alt=""/>';
+				$buf .= '</noscript>';
 				$buf .= '</td>';
 				$buf .= '</tr>';
 				$buf .= '</table>' . $caption . '</center>';
@@ -1179,8 +1182,15 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 					$caption = '';
 				}
 				$buf = '<center>';
-				$buf .= '<div id="jukeBox' . $id . 'Div" style="width:' . $width . '; height:' . $height . ';">';
-				$buf .= '<script type="text/javascript">writeCode(getEmbedCode(\'' . $service['path'] . '/script/jukebox/flash/main.swf\',\'100%\',\'100%\',\'jukeBox' . $id . 'Flash\',\'#FFFFFF\',"sounds=' . $imgStr . '&amp;autoplay=' . $params['autoplay'] . '&amp;visible=' . $params['visible'] . '&amp;id=' . $id . '","false"))</script>'; 
+				$buf .= '<div id="jukeBox' . $id . 'Div" style="width:' . $width . '; height:' . $height . ';"><div id="jukeBoxContainer'.$id.'"></div>';
+				$buf .= '<script type="text/javascript">writeCode(getEmbedCode(\'' . $service['path'] . '/script/jukebox/flash/main.swf\',\'100%\',\'100%\',\'jukeBox' . $id . 'Flash\',\'#FFFFFF\',"sounds=' . $imgStr . '&amp;autoplay=' . $params['autoplay'] . '&amp;visible=' . $params['visible'] . '&amp;id=' . $id . '","false"), "jukeBoxContainer'.$id.'")</script><noscript>';
+				for ($i = 0; $i < count($imgs); $i++) {
+					if ($i % 2 == 0)
+						$buf .= '<a href="'.($useAbsolutePath ? $hostURL : $service['path']).'/attach/'.$owner.'/'.$imgs[$i].'">';
+					else
+						$buf .= htmlspecialchars($imgs[$i]).'</a><br/>';
+				}
+				$buf .= '</noscript>';
 				$buf .= '</div>' . $caption . '</center>';
 			}
 		} else {
@@ -1325,19 +1335,19 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 		case 'swf':
 			$id = md5($url) . rand(1, 10000);
 			return "<span id=\"$id\"></span>
-			<script type=\"text/javascript\">writeCode(getEmbedCode('$url','300','400','$id','#FFFFFF',''));</script>";
+			<script type=\"text/javascript\">writeCode(getEmbedCode('$url','300','400','$id','#FFFFFF',''), \"$id\");</script>";
 			break;
 		case 'wmv':case 'avi':case 'asf':case 'mpg':case 'mpeg':
 			$id = md5($url) . rand(1, 10000);
-			return "<span id=\"$id\"></span><script type=\"text/javascript\">writeCode('<embed $property autostart=\"0\" src=\"$url\"></embed>')</script>";
+			return "<span id=\"$id\"></span><script type=\"text/javascript\">writeCode('<embed $property autostart=\"0\" src=\"$url\"></embed>', \"$id\")</script>";
 			break;
 		case 'mp3':case 'mp2':case 'wma':case 'wav':case 'mid':case 'midi':
 			$id = md5($url) . rand(1, 10000);
-			return "<span id=\"$id\"></span><script type=\"text/javascript\">writeCode('<embed $property autostart=\"0\" height=\"45\" src=\"$url\"></embed>')</script>";
+			return "<span id=\"$id\"></span><script type=\"text/javascript\">writeCode('<embed $property autostart=\"0\" height=\"45\" src=\"$url\"></embed>', \"$id\")</script>";
 			break;
 		case 'mov':
 			$id = md5($url) . rand(1, 10000);
-			return "<span id=\"$id\"></span><script type=\"text/javascript\">writeCode(" . '\'<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="400" height="300"><param name="src" value="' . $url . '" /><param name="controller" value="true" /><param name="pluginspage" value="http://www.apple.com/QuickTime/download/" /><!--[if !IE]> <--><object type="video/quicktime" data="' . $url . '" width="400" height="300" class="mov"><param name="controller" value="true" /><param name="pluginspage" value="http://www.apple.com/QuickTime/download/" /></object><!--> <![endif]--></object>\'' . ")</script>";
+			return "<span id=\"$id\"></span><script type=\"text/javascript\">writeCode(" . '\'<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="400" height="300"><param name="src" value="' . $url . '" /><param name="controller" value="true" /><param name="pluginspage" value="http://www.apple.com/QuickTime/download/" /><!--[if !IE]> <--><object type="video/quicktime" data="' . $url . '" width="400" height="300" class="mov"><param name="controller" value="true" /><param name="pluginspage" value="http://www.apple.com/QuickTime/download/" /></object><!--> <![endif]--></object>\'' . ", \"$id\")</script>";
 			break;
 		default:
 			if (file_exists(ROOT . '/image/' . getFileExtension($filename) . '.gif')) {

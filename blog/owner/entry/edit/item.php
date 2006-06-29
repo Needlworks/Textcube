@@ -333,13 +333,6 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 								}
 								
 								var entryManager;
-								window.addEventListener(
-									"load",
-									function (event) {
-										entryManager = new EntryManager();
-									},
-									false
-								);
 								
 								function changeEditorMode() {
 									editWindow = document.getElementById("editWindow");
@@ -724,6 +717,9 @@ if (!defined('__TATTERTOOLS_NOTICE__')) {
 								<input type="hidden" name="search" value="<?=(isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '')?>" />
 							</div>
 						</form>
+						<script type="text/javascript">
+							entryManager = new EntryManager();
+						</script> 
 <?
 if (isset($_GET['popupEditor']))
 	require ROOT . '/lib/piece/owner/footer8.php';
