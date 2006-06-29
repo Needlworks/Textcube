@@ -65,6 +65,7 @@ function eolinLocationTagFunction_showSuggestion()
 
 	/* TODO : temporary code */
 	try {
+		document.getElementById("previewSelected").style.visibility = "hidden";
 		document.getElementById("fileList").style.visibility = "hidden";
 	} catch(e) { }
 
@@ -299,6 +300,7 @@ LocationTag.prototype.hideSuggestion = function()
 
 	/* TODO : temporary code */
 	try {
+		document.getElementById("previewSelected").style.visibility = "visible";
 		document.getElementById("fileList").style.visibility = "visible";
 	} catch(e) { }
 }
