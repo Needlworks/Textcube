@@ -493,16 +493,20 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 								<div class="groupig">
 									<input type="hidden" name="page" value="<?=$suri['page']?>" />
 									<select id="category" class="normal-class" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
-										<option value="0"><?php echo _t('전체')?></option>
+										<option value="0"><?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
 <?php
 foreach (getCategories($owner) as $category) {
+	if ($category['id']!= 0) {
 ?>
 										<option value="<?php echo $category['id']?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?php echo htmlspecialchars($category['name'])?></option>
 <?php
+	}
 	foreach ($category['children'] as $child) {
+		if ($category['id']!= 0) {
 ?>
 										<option value="<?php echo $child['id']?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;― <?php echo htmlspecialchars($child['name'])?></option>
 <?php
+		}
 	}
 }
 ?>
@@ -628,16 +632,20 @@ if ($entry['visibility'] == 1) {
 	if (count($categories) >0) {
 ?>
 												<optgroup class="category" label="<?=_t('아래의 카테고리로 변경합니다.')?>">
-												<option class="parent-category" value="category_0" label="<?=htmlspecialchars(getCategoryNameById($owner,0))?>"><?=htmlspecialchars(getCategoryNameById($owner,0))?></option>
+												<option class="parent-category" value="category_0" label="<?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?>"><?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
 <?
 		foreach ($categories as $category) {
+			if ($category['id']!= 0) {
 ?>
 													<option class="parent-category" value="category_<?php echo $child['id']?>" label="<?=htmlspecialchars($category['name'])?>"><?=htmlspecialchars($category['name'])?></option>
 <?
+			}
 			foreach ($category['children'] as $child) {
+				if ($category['id']!= 0) {
 ?>
 													<option class="child-category" value="category_<?php echo $child['id']?>" label="<?=htmlspecialchars($category['name'])?>/<?=htmlspecialchars($child['name'])?>">― <?=htmlspecialchars($child['name'])?></option>
 <?
+				}
 			}
 		}
 	}
