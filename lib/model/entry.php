@@ -467,11 +467,10 @@ function deleteEntry($owner, $id) {
 
 function changeCategoryOfEntries($owner, $entries, $category) {
 	global $database;	
-
 	$targets = explode(',', $entries);	
 	if (empty($entries)) 
 		return false;
-	$sql = "UPDATE  {$database['prefix']}Entries SET category = $category WHERE owner = $owner AND ";
+	$sql = "UPDATE  {$database['prefix']}Entries SET category = $category WHERE owner = $owner AND (";
 	for ($i = 0; $i < count($targets); $i++) {		
 		if (empty($targets[$i]) || !is_numeric($targets[$i])) {
 			array_splice($targets, count($targets));
@@ -482,7 +481,7 @@ function changeCategoryOfEntries($owner, $entries, $category) {
 			$sql .=" OR ";
 		}
 	}
-	$sql = rtrim($sql,' OR ');
+	$sql = rtrim($sql,' OR ').')';
 	executeQuery($sql);
 	if(mysql_affected_rows() == 0)
 		return false;	
