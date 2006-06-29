@@ -466,23 +466,16 @@ function deleteEntry($owner, $id) {
 }
 
 function changeCategoryOfEntries($owner, $entries, $category) {
-	global $database;	
-
-	$targets = explode(',', $entries);	
-	if (empty($entries)) 
+	global $database;
+	$targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));	
+	if ( count($targets)<1 || !is_numeric($category) ) 
 		return false;
-	$sql = "UPDATE  {$database['prefix']}Entries SET category = $category WHERE owner = $owner AND ";
-	for ($i = 0; $i < count($targets); $i++) {		
-		if (empty($targets[$i]) || !is_numeric($targets[$i])) {
-			array_splice($targets, count($targets));
-			continue;			
-		}
-		$sql .=" id={$targets[$i]}";
-		if ($i<count($targets)-1)  {			
-			$sql .=" OR ";
-		}
+	$sql = "UPDATE  {$database['prefix']}Entries SET category = $category WHERE owner = $owner AND id IN (";
+	for ($i = 0; $i < count($targets); $i++) {
+		if(is_numeric($targets[$i]))
+			$sql .="{$targets[$i]},";
 	}
-	$sql = rtrim($sql,' OR ');
+	$sql =trim($sql, ','). ")";
 	executeQuery($sql);
 	if(mysql_affected_rows() == 0)
 		return false;	
