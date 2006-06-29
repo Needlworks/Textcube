@@ -24,6 +24,8 @@ if (!doesHaveOwnership() && empty($_POST["name_$replyId"])) {
 	} else if ($result === false) {
 		printMobileErrorPage(_t('답글을 쓸 수 없습니다'), "$blogURL/comment/$entryId");
 	} else {
+		setcookie('guestName', $comment['name'], time() + 2592000, $blogURL);
+		setcookie('guestHomepage', $comment['homepage'], time() + 2592000, $blogURL);
 		printMobileSimpleMessage(_t('답글이 작성됐습니다'), _t('답글보기 페이지로'), "$blogURL/comment/$entryId");
 	}
 }

@@ -165,13 +165,13 @@ function printMobileCommentFormView($entryId) {
 		<input type="checkbox" id="secret_<?=$entryId?>" name="secret_<?=$entryId?>"/>
 		<br/>
 		<label for="name_<?=$entryId?>"><?=_t('이름')?></label>
-		<input type="text" id="name_<?=$entryId?>" name="name_<?=$entryId?>"/>
+		<input type="text" id="name_<?=$entryId?>" name="name_<?=$entryId?>" value="<?=isset($_COOKIE['guestName']) ? htmlspecialchars($_COOKIE['guestName']) : ''?>"/>
 		<br/>
 		<label for="password_<?=$entryId?>"><?=_t('비밀번호')?></label>
 		<input type="password" id="password_<?=$entryId?>" name="password_<?=$entryId?>"/>
 		<br/>
 		<label for="homepage_<?=$entryId?>"><?=_t('홈페이지')?></label>
-		<input type="text" id="homepage_<?=$entryId?>" name="homepage_<?=$entryId?>"/>
+		<input type="text" id="homepage_<?=$entryId?>" name="homepage_<?=$entryId?>" value="<?=(isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://') ? htmlspecialchars($_COOKIE['guestHomepage']) : 'http://'?>"/>
 		<br/>
 		<?
 	}
