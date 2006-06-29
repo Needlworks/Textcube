@@ -628,6 +628,7 @@ if ($entry['visibility'] == 1) {
 	if (count($categories) >0) {
 ?>
 												<optgroup class="category" label="<?=_t('아래의 카테고리로 변경합니다.')?>">
+												<option class="parent-category" value="category_0" label="<?=htmlspecialchars(getCategoryNameById($owner,0))?>"><?=htmlspecialchars(getCategoryNameById($owner,0))?></option>
 <?
 		foreach ($categories as $category) {
 ?>

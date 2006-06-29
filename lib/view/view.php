@@ -1010,6 +1010,18 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 					}
 				}
 				$buf .= $id . '.show();</script>';
+				$buf .= '<noscript><div style="text-align: center">';
+				foreach ($items as $item) {
+					$buf .= '<div>';
+					if ($useAbsolutePath)
+						$buf .= "<img src=\"$hostURL{$service['path']}/attach/$owner/$item[0]\" alt=\"\"/>";
+					else
+						$buf .= "<img src=\"$folderURL/$item[0]\" alt=\"\"/>";
+					$buf .= '</div>';
+					if(!empty($item[1]))
+						$buf .= '<div>'.htmlspecialchars($item[1]).'</div>';
+				}
+				$buf .= '</div></noscript>';
 			}
 		} else if ($attributes[0] == 'iMazing') {
 			if (defined('__TATTERTOOLS_MOBILE__')) {

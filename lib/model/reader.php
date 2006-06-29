@@ -345,6 +345,8 @@ function deleteFeedGroup($owner, $id) {
 
 function addFeed($owner, $group = 0, $url, $getEntireFeed = true, $htmlURL = '', $blogTitle = '', $blogDescription = '') {
 	global $database;
+	if(strpos(strtolower($url), 'http://') !== 0)
+		$url = 'http://'.$url;
 	$url = mysql_escape_string($url);
 	if (fetchQueryCell("SELECT id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.owner = $owner AND r.owner = g.owner AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$url'")) {
 		return 1;
@@ -385,8 +387,29 @@ function getRemoteFeed($url) {
 	}
 	$feed = array('xmlURL' => $url);
 	$xmls = new XMLStruct();
-	if (!$xmls->open($xml, $service['encoding']))
+	if (!$xmls->open($xml, $service['encoding'])) {
+		if(preg_match_all('/<link .*?rel\s*=\s*[\'"]?alternate.*?>/i', $xml, $matches)) {
+			foreach($matches[0] as $link) {
+				$attributes = getAttributesFromString($link);
+				if(isset($attributes['href'])) {
+					$urlInfo = parse_url($url);
+					$rssInfo = parse_url($attributes['href']);
+					$rssURL = false;
+					if(isset($rssInfo['scheme']) && $rssInfo['scheme'] == 'http')
+						$rssURL = $attributes['href'];
+					else if(isset($rssInfo['path'])) {
+						if($rssInfo['path']{0} == '/')
+							$rssURL = "{$urlInfo['scheme']}://{$urlInfo['host']}{$rssInfo['path']}";							
+						else
+							$rssURL = "{$urlInfo['scheme']}://{$urlInfo['host']}".(isset($urlInfo['path']) ? rtrim($urlInfo['path'], '/') : '').'/'.$rssInfo['path'];
+					}
+					if($rssURL && $url != $rssURL)
+						return getRemoteFeed($rssURL);
+				}
+			}
+		}
 		return array(3, null, null);
+	}
 	if ($xmls->getAttribute('/rss', 'version')) {
 		$feed['blogURL'] = $xmls->getValue('/rss/channel/link');
 		$feed['title'] = $xmls->getValue('/rss/channel/title');
