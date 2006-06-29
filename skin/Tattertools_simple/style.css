@@ -7,55 +7,51 @@
 
 	body,td {
                 font-size:12px; 
-                font-family: Verdana, 돋움, 굴림, Arial, Tahoma ; 
-                color:#666666; 
+                font-family: Verdana, Arial, sans-serif; 
+                color:#666; 
                 line-height:18px; 
                 
 
-                scrollbar-face-color: #eeeeee;
-                scrollbar-shadow-color:#eeeeee; 
-                scrollbar-highlight-color: #eeeeee;
-                scrollbar-3dlight-color: #ffffff; 
-                scrollbar-darkshadow-color: #ffffff;      
-                scrollbar-track-color: #ffffff;
-                scrollbar-arrow-color: #ffffff;
+                scrollbar-face-color: #EEE;
+                scrollbar-shadow-color:#EEE; 
+                scrollbar-highlight-color: #EEE;
+                scrollbar-3dlight-color: #FFF; 
+                scrollbar-darkshadow-color: #FFF;      
+                scrollbar-track-color: #FFF;
+                scrollbar-arrow-color: #FFF;
 	}
 
 /* 2. 기본 링크 */
-	A:link    {color:336699;text-decoration:none;font-family: Verdana, 돋움;}
-	A:visited {color:336699;text-decoration:none;font-family: Verdana, 돋움;}
-	A:active  {color:336699;text-decoration:none;font-family: Verdana, 돋움;}
-	A:hover  {color:222222;text-decoration:underline;font-family: Verdana, 돋움;}
+	A:link    {color:#369;text-decoration:none;font-family: Verdana, Arial, sans-serif;}
+	A:visited {color:#369;text-decoration:none;font-family: Verdana, Arial, sans-serif;}
+	A:active  {color:#369;text-decoration:none;font-family: Verdana, Arial, sans-serif;}
+	A:hover  {color:#222;text-decoration:underline;font-family: Verdana, Arial, sans-serif;}
 
 
 /* 3. 이미지 */
 
-	img {
-		border-width:0px;
-	}
+	img { border-width:0; }
 
 /* 4. 이미지 버튼 */
 
-	.ib {
-		cursor:pointer;
-	}
+	.ib { cursor: pointer; }
 
 /* 5. 입력 텍스트 */
 
 	.text {
-	        border: 1px solid #cccccc; 
-	        background-color:ffffff;	
-	        height:18px; 
-	        color: #666666; 
+	        border: 1px solid #CCC; 
+	        background-color: #FFF;	
+	        height: 18px; 
+	        color: #666; 
 	        font-size: 11px; 
-	        padding: 2px 2px 0px 4px;
+	        padding: 2px 2px 0 4px;
 	}
 
 /* 6. 트리 테이블 */
 
 	.branch2 {
-		font-size:11px;
-		font-family:돋움;	
+		font-size: 11px;
+		font-family: Dotum, 돋움, Arial, sans-serif;	
 	}
 	
 	
@@ -63,68 +59,68 @@
 /* 7. 트리 셀 */
 
 	.branch3 {
-		line-height:14px;
-		cursor:pointer;
-		height:17px;
-		padding:2 2 0 2;
+		line-height: 14px;
+		cursor: pointer;
+		height: 17px;
+		padding: 2px 2px 0 2px;
 	}
 
 /* 8. 달력 월 표시 */
 
 	.cal_month {
-		vertical-align:top;
-		height:18px;
-		font-size:11px;
-		font-family:verdana;
-		text-align:center;
-		font-weight:bold;
-		color:#f00;
+		vertical-align: top;
+		height: 18px;
+		font-size: 11px;
+		font-family: Verdana, Arial, sans-serif;
+		text-align: center;
+		font-weight: bold;
+		color: #F00;
 	       	
 	}
 
 /* 9. 달력 요일 표시 */
 
 	.cal_week1 {
-		text-align:center;
-		font-size:10px;
-		font-family:verdana;
-		font-weight:bold;
+		text-align: center;
+		font-size: 10px;
+		font-family: Verdana, Arial, sans-serif;
+		font-weight: bold;
 	}
 
 /* 10. 달력 일요일 표시 */
 
 	.cal_week2 {
-		color:#c00;
-		text-align:center;
-		font-size:10px;
-		font-family:verdana;
-		font-weight:bold;
+		color: #C00;
+		text-align: center;
+		font-size: 10px;
+		font-family: Verdana, Arial, sans-serif;
+		font-weight: bold;
 		
 	}
 
 /* 11. 달력 지난 달 날짜 표시 */
 
 	.cal_day1 {
-		color:#FAFAFA;
-		font-size:10px;
-		font-family:verdana;
-		text-align:center;
+		color: #FAFAFA;
+		font-size: 10px;
+		font-family: Verdana, Arial, sans-serif;
+		text-align: center;
 	}
 
 /* 12. 달력 다음 달 날짜 표시 */
 
 	.cal_day2 {
-		color:#FAFAFA;
-		font-size:10px;
-		font-family:verdana;
-		text-align:center;
+		color: #FAFAFA;
+		font-size: 10px;
+		font-family: Verdana, Arial, sans-serif;
+		text-align: center;
 	}
 
 /* 13. 달력 이번 달 날짜 표시 */
 
 	.cal_day3 {
-		font-size:10px;
-		font-family:verdana;
+		font-size: 10px;
+		font-family: Verdana, Arial, sans-serif;
 		text-align:center;	
 	}
 
@@ -132,10 +128,10 @@
 
 	.cal_day4 {
 		font-size:10px;
-		font-family:verdana;
+		font-family: Verdana, Arial, sans-serif;
 		text-align:center;
 		font-weight:bold;
-                background-color:eeeeee	
+		background-color: #EEE;	
 	}
 
 /* 15. 달력 글쓴 날 링크 스타일 */
@@ -171,44 +167,44 @@
 /* 16. 카테고리 옆 개수 스타일 */
 
 	.c_cnt {
-		font-size:10px;
-		font-family:tahoma;
-		letter-spacing:0px;
+		font-size: 10px;
+		font-family: Tahoma, Arial, sans-serif;
+		letter-spacing: 0;
 	}
 
 /* 17. 최신글 옆 개수 스타일 */
 
 	.ps_cnt {
-		font-size:10px;
-		font-family:tahoma;
-		letter-spacing:0px;
+		font-size: 10px;
+		font-family: Tahoma, Arial, sans-serif;
+		letter-spacing: 0;
 		color:#336699;
 	}
 	
 	/* 태그클라우드 */
 .cloud1 {
   font-size : 14px;
-  color : #ff6600 !important ;
+  color : #F60 !important ;
   }
 
 .cloud2 {
   font-size : 13px;
-  color : #ff9900 !important ;
+  color : #F90 !important ;
   }
 
 .cloud3 {
   font-size : 10pt;
-  color : #669900 !important ;
+  color : #690 !important ;
   }
 
 .cloud4 {
   font-size : 10pt;
-  color : #0099CC !important ;
+  color : #09C !important ;
   }
 
 .cloud5 {
   font-size : 11px;
-  color : #999999 !important ;
+  color : #999 !important ;
   }
 	
 /*******************************
@@ -218,77 +214,77 @@
 
 * BASE rule
 ********************************/
-h1 {font-size:18px; font-family:verdana, 돋움; padding:0; margin:0;}
+h1 {font-size:18px; font-family:Verdana, Arial, sans-serif; padding:0; margin:0;}
 
 
-.sthm {font-size:10px; font-family:tahoma;}
-A.sthm:link {font-size:10px; font-family:tahoma;}
-A.sthm:visited {font-size:10px; font-family:tahoma;}
-A.sthm:active {font-size:10px; font-family:tahoma;}
-A.sthm:hover {font-size:10px; font-family:tahoma;}
+.sthm {font-size:10px; font-family: Tahoma, Arial, sans-serif;}
+A.sthm:link {font-size:10px; font-family: Tahoma, Arial, sans-serif;}
+A.sthm:visited {font-size:10px; font-family: Tahoma, Arial, sans-serif;}
+A.sthm:active {font-size:10px; font-family: Tahoma, Arial, sans-serif;}
+A.sthm:hover {font-size:10px; font-family: Tahoma, Arial, sans-serif;}
 
-.sver {font-size:10px; font-family:verdana;}
-A.sver:link {font-size:10px; font-family:verdana;}
-A.sver:visited {font-size:10px; font-family:verdana;}
-A.sver:active {font-size:10px; font-family:verdana;}
-A.sver:hover {font-size:10px; font-family:verdana;}
-
-
-.sdot {font-size:11px; font-family:돋움;}
-A.sdot:link {font-size:11px; font-family:돋움; }
-A.sdot:visited {font-size:11px; font-family:돋움; }
-A.sdot:active {font-size:11px; font-family:돋움;}
-A.sdot:hover {font-size:11px; font-family:돋움;}
-
-.sidebar_title {font-size:10px; font-family:Verdana; color:#666; font-weight:bold;}
+.sver {font-size:10px; font-family: Verdana, Arial, sans-serif;}
+A.sver:link {font-size:10px; font-family: Verdana, Arial, sans-serif;}
+A.sver:visited {font-size:10px; font-family: Verdana, Arial, sans-serif;}
+A.sver:active {font-size:10px; font-family: Verdana, Arial, sans-serif;}
+A.sver:hover {font-size:10px; font-family: Verdana, Arial, sans-serif;}
 
 
-.head_title {font-size:14px; font-family:돋움; color:336699; font-weight:bold;}
-A.head_title:link {font-size:14px; font-family:돋움; color:336699; font-weight:bold;}
-A.head_title:visited {font-size:14px; font-family:돋움; color:336699; font-weight:bold;}
-A.head_title:active {font-size:14px; font-family:돋움; color:336699; font-weight:bold;}
-A.head_title:hover {font-size:14px; font-family:돋움; color:336699; font-weight:bold;}
+.sdot {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif;}
+A.sdot:link {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; }
+A.sdot:visited {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; }
+A.sdot:active {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif;}
+A.sdot:hover {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif;}
+
+.sidebar_title {font-size:10px; font-family: Verdana, Arial, sans-serif; color:#666; font-weight:bold;}
 
 
-.gbtn_kor {font-size:11px; font-family:돋움; color:666666;}
-A.gbtn_kor:link {font-size:11px; font-family:돋움; color:666666;}
-A.gbtn_kor:visited {font-size:11px; font-family:돋움; color:666666;}
-A.gbtn_kor:active {font-size:11px; font-family:돋움; color:666666;}
-A.gbtn_kor:hover {font-size:11px; font-family:돋움; color:336699;}
-
-.gbtn_eng : {font-size:10px; font-family:verdana; color:666666;}
-A.gbtn_eng:link {font-size:10px; font-family:verdana; color:666666;}
-A.gbtn_eng:visited {font-size:10px; font-family:verdana; color:666666;}
-A.gbtn_eng:active {font-size:10px; font-family:verdana; color:666666;}
-A.gbtn_eng:hover {font-size:10px; font-family:verdana; color:336699;}
-
-.keyword {font-size:12px; font-family:verdana, 돋움; color:666666;}
-A.keyword:link {font-size:12px; font-family:verdana, 돋움; color:666666;}
-A.keyword:visited {font-size:12px; font-family:verdana, 돋움; color:666666;}
-A.keyword:active {font-size:12px; font-family:verdana, 돋움; color:666666;}
-A.keyword:hover {font-size:12px; font-family:verdana, 돋움; color:336699;}
+.head_title {font-size:14px; font-family: Dotum, 돋움, Arial, sans-serif; color:#369; font-weight:bold;}
+A.head_title:link {font-size:14px; font-family: Dotum, 돋움, Arial, sans-serif; color:#369; font-weight:bold;}
+A.head_title:visited {font-size:14px; font-family: Dotum, 돋움, Arial, sans-serif; color:#369; font-weight:bold;}
+A.head_title:active {font-size:14px; font-family: Dotum, 돋움, Arial, sans-serif; color:#369; font-weight:bold;}
+A.head_title:hover {font-size:14px; font-family: Dotum, 돋움, Arial, sans-serif; color:#369; font-weight:bold;}
 
 
-.sbtn_kor {font-size:11px; font-family:돋움; color:336699;}
-A.sbtn_kor:link {font-size:11px; font-family:돋움; color:336699;}
-A.sbtn_kor:visited {font-size:11px; font-family:돋움; color:336699;}
-A.sbtn_kor:active {font-size:11px; font-family:돋움; color:336699;}
-A.sbtn_kor:hover {font-size:11px; font-family:돋움; color:336699;}
+.gbtn_kor {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
+A.gbtn_kor:link {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
+A.gbtn_kor:visited {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
+A.gbtn_kor:active {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
+A.gbtn_kor:hover {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #369;}
+
+.gbtn_eng : {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #666;}
+A.gbtn_eng:link {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #666;}
+A.gbtn_eng:visited {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #666;}
+A.gbtn_eng:active {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #666;}
+A.gbtn_eng:hover {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #369;}
+
+.keyword {font-size:12px; font-family: Verdana, Arial, sans-serif; color: #666;}
+A.keyword:link {font-size:12px; font-family: Verdana, Arial, sans-serif; color: #666;}
+A.keyword:visited {font-size:12px; font-family: Verdana, Arial, sans-serif; color: #666;}
+A.keyword:active {font-size:12px; font-family: Verdana, Arial, sans-serif; color: #666;}
+A.keyword:hover {font-size:12px; font-family: Verdana, Arial, sans-serif; color: #369;}
 
 
-.sbtn_eng : {font-size:10px; font-family:verdana; color:336699;}
-A.sbtn_eng:link {font-size:10px; font-family:verdana; color:336699;}
-A.sbtn_eng:visited {font-size:10px; font-family:verdana; color:336699;}
-A.sbtn_eng:active {font-size:10px; font-family:verdana; color:336699;}
-A.sbtn_eng:hover {font-size:10px; font-family:verdana; color:336699;}
+.sbtn_kor {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #369;}
+A.sbtn_kor:link {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #369;}
+A.sbtn_kor:visited {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #369;}
+A.sbtn_kor:active {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #369;}
+A.sbtn_kor:hover {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #369;}
+
+
+.sbtn_eng : {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #369;}
+A.sbtn_eng:link {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #369;}
+A.sbtn_eng:visited {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #369;}
+A.sbtn_eng:active {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #369;}
+A.sbtn_eng:hover {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #369;}
 
 
 
-.info_link {font-size:11px; font-family:돋움; color:666666;}
-A.info_link:link {font-size:11px; font-family:돋움; color:666666;}
-A.info_link:visited {font-size:11px; font-family:돋움; color:666666;}
-A.info_link:active {font-size:11px; font-family:돋움; color:666666;}
-A.info_link:hover {font-size:11px; font-family:돋움; color:336699;}
+.info_link {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
+A.info_link:link {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
+A.info_link:visited {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
+A.info_link:active {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
+A.info_link:hover {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #369;}
 
 
 .td_bodyt {padding:10px 10px 5px 10px;}
@@ -300,33 +296,33 @@ A.info_link:hover {font-size:11px; font-family:돋움; color:336699;}
 
 
 
-.input 
+input 
 	{
-	border: 1px solid #cccccc; 
-	background-color:ffffff;	
+	border: 1px solid #CCC; 
+	background-color: #FFF;	
 	height:16px; 
-	color: #666666; 
+	color: #666; 
 	font-size: 12px; 
-	font-family: Tahoma, Verdana; 
-	 padding: 2px 2px 0px 4px;
+	font-family: Tahoma, Verdana, sans-serif; 
+	 padding: 2px 2px 0 4px;
 	}
 		
-.submit 
+submit 
 	{
 	border:solid 1;
-	border-color:777777;
-	background-color:white;
+	border-color: #777;
+	background-color: #FFF;
 	width:100%;
-	padding: 2px 2px 0px 4px;	
+	padding: 2px 2px 0 4px;	
 	}
 
-.textarea 
+textarea 
 	{
 	border:solid 1;
-	border-color:cccccc;
-	background-color:white;
+	border-color: #CCC;
+	background-color: #FFF;
 	width:100%;
-	padding: 2px 2px 0px 4px;	
+	padding: 2px 2px 0 4px;	
 	}
 
 
@@ -359,13 +355,13 @@ A.base_txt:visited {color:333333;text-decoration:none;font-size:10pt; font-famil
 A.base_txt:active  {color:333333;text-decoration:none;font-size:10pt; font-family: Tahoma, Verdana, Arial;}
 A.base_txt:hover   {color:000000;text-decoration:underline;font-size:10pt; font-weight:bold; font-family: Tahoma, Verdana, Arial;}
 
-.num {font-size:7pt; font-family: Tahoma;letter-spacing:0px}
-.copyright {color:333333; font-size:7pt; font-family:Tahoma; color:999999;}
+.num {font-size:7pt; font-family: Tahoma;letter-spacing: 0}
+.copyright {color:333333; font-size:7pt; font-family: Tahoma, Arial, sans-serif; color:999999;}
 .lh10 {line-height:100%;}
 .lh13 {line-height:130%;}
 .lh15 {line-height:150%;}
 .ever1px {letter-spacing:-1px} /* 자간을 좁게 */
-.ever0px {letter-spacing:0px}
+.ever0px {letter-spacing: 0}
 
 
 
@@ -374,17 +370,17 @@ A.base_txt:hover   {color:000000;text-decoration:underline;font-size:10pt; font-
 .kgul9 {font-size:9pt; font-family:굴림;}
 
 
-.etah6 {font-size:6pt; font-family:Tahoma;}
-.evar6 {font-size:6pt; font-family:Verdana;}
+.etah6 {font-size:6pt; font-family: Tahoma, Arial, sans-serif;}
+.evar6 {font-size:6pt; font-family: Verdana, Arial, sans-serif;}
 
-.etah7 {font-size:7pt; font-family:Tahoma;}
-.evar7 {font-size:7pt; font-family:Verdana;}
+.etah7 {font-size:7pt; font-family: Tahoma, Arial, sans-serif;}
+.evar7 {font-size:7pt; font-family: Verdana, Arial, sans-serif;}
 
-.etah8 {font-size:8pt; font-family:Tahoma;}
-.evar8 {font-size:8pt; font-family:Verdana;}
+.etah8 {font-size:8pt; font-family: Tahoma, Arial, sans-serif;}
+.evar8 {font-size:8pt; font-family: Verdana, Arial, sans-serif;}
 
-.etah9 {font-size:9pt; font-family:Tahoma;}
-.evar9 {font-size:9pt; font-family:Verdana;}
+.etah9 {font-size:9pt; font-family: Tahoma, Arial, sans-serif;}
+.evar9 {font-size:9pt; font-family: Verdana, Arial, sans-serif;}
 
 
 
@@ -393,18 +389,18 @@ A.base_txt:hover   {color:000000;text-decoration:underline;font-size:10pt; font-
 * FORM
 **********************************************************************************************/
 /* input */
-.input_gray {border:1px solid #ffffff;font-family:Tahoma,돋움,verdana;font-size:9pt;color:333333;background-color:dddddd;height:18px}
+.input_gray {border:1px solid #FFF;font-family:Tahoma,돋움,verdana;font-size:9pt;color:333333;background-color:dddddd;height:18px}
 .input_line {border:1px solid #333333;font-family:Tahoma,돋움,verdana;font-size:9pt;color:333333;background-color:ffffff;height:18px}
 .input_orange {border:1px solid #999999;font-family:Tahoma,돋움,verdana;font-size:9pt;color:333333;background-color:ffffff;height:18px}
 
 
 /* button */
 .button_gray {border:solid 0 #333333;font-family:Tahoma,verdana;font-size:7pt;font-weight:bold; color:white;background-color:eeeeee;height:17px}
-.button_blue {border:solid 0 #ffffff;font-family:Tahoma,verdana;font-size:7pt;font-weight:bold; color:white;background-color:336699;height:18px}
+.button_blue {border:solid 0 #FFF;font-family:Tahoma,verdana;font-size:7pt;font-weight:bold; color:white;background-color: #369;height:18px}
 
 
 /* textarea */
-.ta_gray {border:1px solid #ffffff;background-color:#dddddd;color:333333;font-size:9pt;font-family:Tahoma,돋움,verdana;}
+.ta_gray {border:1px solid #FFF;background-color:#dddddd;color:333333;font-size:9pt;font-family:Tahoma,돋움,verdana;}
 .ta_line {border:1px solid #333333;background-color:ffffff; color:333333;font-size:9pt;font-family:Tahoma,돋움,verdana;}
 
 
@@ -413,7 +409,7 @@ A.base_txt:hover   {color:000000;text-decoration:underline;font-size:10pt; font-
 ***********************************************************************************************************/
 .fixed {table-layout:fixed;}
 .tbYellowOuter {border:1px solid #C5C5A7;border-left:1px solid #D3D3B9;border-top:1px solid #D3D3B9;background-color:FFFFEF}
-.tbYellowInner {border:1px solid white;padding:4px;padding-top:0px}
+.tbYellowInner {border:1px solid white;padding:4px;padding-top: 0}
 
 
 
@@ -455,16 +451,16 @@ A.title:hover {font-size:20px;  color:333333; font-weight:bold;}
 	height:18px;
 	font-size:10px;
 	font-weight:bold;
-	font-family:tahoma;
+	font-family: Tahoma, Arial, sans-serif;
 		
 }
 
 .input 
 	{
-	border: 1px solid #cccccc; 
+	border: 1px solid #CCC; 
 	background-color:ffffff;	
 	height:16px; 
-	color: #666666; 
+	color: #666; 
 	font-size: 10pt; 
 	font-family: Tahoma, Verdana; 
 	 padding: 2px 2px 0px 4px;
@@ -500,8 +496,8 @@ A.title:hover {font-size:20px;  color:333333; font-weight:bold;}
   font-family:Tahoma,verdana;
   font-size:11px;
   font-weight:bold; 
-  color:666666;
-  background:#cccccc;
+  color: #666;
+  background:#CCC;
   height:20px;
   width : 200px;
 	} 

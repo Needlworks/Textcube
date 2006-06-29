@@ -2,7 +2,7 @@
 /* 반드시 들어가야 하는 스타일 시작 */
 /* 1. 본문 전체  */
 body, td, input, textarea {
-	font: 12px/1.5 Dotum, Verdana, AppleGothic, Sans-serif;
+	font: 12px/1.5 Dotum, 돋움, AppleGothic, 애플고딕, Verdana, Sans-serif;
 	color : #666;
 }
 /* 2. 기본 링크 */
@@ -23,17 +23,11 @@ body, td, input, textarea {
 		color : #666;
 	}	
 /* 3. 이미지 */
-	img {
-		border-width: 0px;
-	}
+	img { border-width: 0; }
 /* 4. 이미지 버튼 */
-	.ib {
-		cursor: pointer;
-	}
+	.ib { cursor: pointer; }
 /* 5. 입력 텍스트 */
-	.text {
-	border:1px solid #999;
-	}
+	.text {	border:1px solid #999; }
 /* 6. 트리 테이블 */
 	.branch2 {
 	}
@@ -107,12 +101,12 @@ body, td, input, textarea {
 	}
 /* 16. 카테고리 옆 개수 스타일 */
 	.c_cnt {
-		font:9px Tahoma;
+		font:9px Tahoma, Arial, sans-serif;
 		color : #999;
 	}
 /* 17. 최신글 옆 개수 스타일 */
 	.ps_cnt {
-		font:10px Tahoma;
+		font:10px Tahoma, Arial, sans-serif;
 		color : #999;
 	}
 
@@ -127,7 +121,7 @@ display:none;
 /* Structured */
 #container {
 	width:740px;
-	background:url("images/bg_footer.gif") repeat-x bottom #fff;	
+	background:url(images/bg_footer.gif) repeat-x bottom #fff;	
 	border:1px solid #ccc;
 	border-bottom:6px solid #ccc;	
 	margin:0 auto; 
@@ -178,7 +172,7 @@ display:none;
 	list-style:none;	
 	}
 #sidebar .name {
-	font:11px dotum;
+	font:11px dotum, 돋움, Arial, sans-serif;
 	color:#999;
 }
 #sidebar .date {
@@ -186,11 +180,11 @@ display:none;
 	color:#999;	
 }	
 #sidebar .cnt {
-	font :10px Tahoma;
+	font :10px Tahoma, Arial, sans-serif;
 	color:#333;
 }
 #sidebar h3 {
-	font:12px Tahoma;
+	font:12px Tahoma, Arial, sans-serif;
 	font-weight:bold;
 	background:#eee;
 	border-top:1px solid #ccc;
@@ -224,7 +218,7 @@ display:none;
 /* notice list */
 #sidebar .notice {
 	padding:5px 10px;
-	background-color:#eeeeee;
+	background-color:#EEE;
 	margin:5px 0;
 }
 #sidebar .notice li {
@@ -247,7 +241,7 @@ padding-left:38px;
 #sidebar .search .submit{
 	border:1px solid #999;
 	background-color:#ddd;
-	font:11px Verdana;
+	font:11px Verdana, Arial, sans-serif;
 	color:#222;
 	width:50px;	
 }
@@ -356,11 +350,11 @@ padding-left:38px;
 	letter-spacing:-1px;
 }
 #content .cnt {
-	font:10px Verdana;
+	font:10px Verdana, Arial, sans-serif;;
 	color:#666;
 }
 #content .date {
-	font:10px Verdana;
+	font:10px Verdana, Arial, sans-serif;;
 	letter-spacing:-1px;	
 	color:#666;	
 }
@@ -452,7 +446,7 @@ padding-left:38px;
 	color:#333;
 }
 .guestbook .write label{
-	font:10px Verdana;
+	font:10px Verdana, Arial, sans-serif;;
 }
 .guestbook .write textarea{
 	width:98%;
@@ -467,12 +461,12 @@ padding-left:38px;
 }
 .guestbook .list ol li{
 	padding:10px 10px 10px 25px;
-	background:url("images/iconGuestbook.gif") no-repeat 0 12px;	
+	background:url(images/iconGuestbook.gif) no-repeat 0 12px;	
 }
 .guestbook .list li ul li{
 	padding-left:30px;
 	margin-left:20px;
-	background:url("images/iconIndentArrow_local.gif") no-repeat 10px 12px;
+	background:url(images/iconIndentArrow_local.gif) no-repeat 10px 12px;
 	background-color:#f5f5f5;
 }
 .guestbook .list .name a{
@@ -480,7 +474,7 @@ padding-left:38px;
 	font-weight:bold;
 	color:#666;
 	padding-right:12px;
-	background:url("images/icon_homepage.gif") no-repeat 0px right;
+	background:url(images/icon_homepage.gif) no-repeat 0px right;
 }
 .guestbook .list .tt-admin-comment span,
 .guestbook .list .tt-admin-comment a,
@@ -493,7 +487,7 @@ padding-left:38px;
 }
 .guestbook .control a{
 	font:9px tahoma;
-	background:url("images/iconControl.gif") no-repeat center right;	
+	background:url(images/iconControl.gif) no-repeat center right;	
 	padding-right:10px;
 	color:#999;
 	margin-right:5px;
@@ -563,7 +557,7 @@ padding-left:38px;
 	padding:5px;
 }
 .entry .tagtext{
-	font:9px verdana;
+	font:9px Verdana, Arial, sans-serif;;
 	font-weight:bold;
 	background-color:#369;
 	color:#fff;
@@ -578,19 +572,19 @@ padding-left:38px;
 	font:11px verdana;
 }
 .entry .tbrp_box .cnt{
-	font:10px verdana;
+	font:10px Verdana, Arial, sans-serif;;
 	color:#666;
 }
 /* entry trackback */
 .entry .trackback {
-	font-family:verdana, dotum;
+	font-family: Verdana, Arial, sans-serif;
 	background-color:#f5f5f5;
 	padding:10px;
 	margin-bottom:4px;
 }	
 .entry .trackback .add {
 	margin:5px;
-	font:11px Verdana;
+	font:11px Verdana, Arial, sans-serif;;
 	color:#333;
 }	
 .entry  .trackback li{
@@ -598,7 +592,7 @@ padding-left:38px;
 	padding:10px 0;
 }
 .entry .trackback h4{
-	font:12px Verdana;
+	font:12px Verdana, Arial, sans-serif;;
 	font-weight:normal;
 	margin:0;
 }
@@ -612,11 +606,11 @@ padding-left:38px;
 }	
 .entry .comment ol li{
 	padding:15px 10px 0 25px;
-	background:url("images/iconGuestbook.gif") no-repeat 0 15px;		
+	background:url(images/iconGuestbook.gif) no-repeat 0 15px;		
 }
 .entry .comment li ul li{
 	padding:15px 10px 0 25px;
-	background:url("images/iconIndentArrow_local.gif") no-repeat 10px 12px;
+	background:url(images/iconIndentArrow_local.gif) no-repeat 10px 12px;
 	background-color:#f5f5f5;
 }
 .entry .commentlist .tt-admin-comment span,
@@ -630,7 +624,7 @@ padding-left:38px;
 }
 .entry .control a{
 	font:9px tahoma;
-	background:url("images/iconControl.gif") no-repeat center right;	
+	background:url(images/iconControl.gif) no-repeat center right;	
 	padding-right:8px;
 	color:#999;
 	margin-left:5px;
@@ -661,7 +655,7 @@ padding-left:38px;
 	color:#333;
 }
 .comment .write label{
-	font:10px Verdana;
+	font:10px Verdana, Arial, sans-serif;;
 }
 .comment .write textarea{
 	width:98%;
@@ -680,12 +674,12 @@ padding-left:38px;
 .paging{
 	padding-top:10px;
 	text-align:center;
-	font:10px Tahoma;
+	font:10px Tahoma, Arial, sans-serif;;
 }
 
 /* footer */
 #footer {
 	text-align:center;
 	padding:50px 10px 10px 10px;
-	font:11px Verdana, dotum;
+	font:11px Verdana, Arial, sans-serif;
 }
