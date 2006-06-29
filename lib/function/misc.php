@@ -31,16 +31,15 @@ function checkDomainName($name) {
 
 function getAttributesFromString($str) {
 	$attributes = array();
-	foreach (explode(' ', $str) as $value) {
-		$value = trim($value);
-		if (preg_match('/([^= ]+)="([^"]*)/', $value, $matches)) {
-			$attributes[$matches[1]] = $matches[2];
-		} else if (preg_match("/([^= ]+)='([^']*)/", $value, $matches)) {
-			$attributes[$matches[1]] = $matches[2];
-		} else if (preg_match('/([^= ]+)=([^ ]*)/', $value, $matches)) {
-			$attributes[$matches[1]] = $matches[2];
-		}
-	}
+	preg_match_all('/([^=\s]+)\s*=\s*"([^"]*)/', $str, $matches);
+	for($i=0; $i<count($matches[0]); $i++)
+		$attributes[$matches[1][$i]] = $matches[2][$i];
+	preg_match_all('/([^=\s]+)\s*=\s*\'([^\']*)/', $str, $matches);
+	for($i=0; $i<count($matches[0]); $i++)
+		$attributes[$matches[1][$i]] = $matches[2][$i];
+	preg_match_all('/([^=\s]+)=([^\'"][^\s]*)/', $str, $matches);
+	for($i=0; $i<count($matches[0]); $i++)
+		$attributes[$matches[1][$i]] = $matches[2][$i];
 	return $attributes;
 }
 
