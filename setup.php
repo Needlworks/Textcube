@@ -87,7 +87,7 @@ if (empty($_POST['step'])) {
   <div id="inner">
     <input type="hidden" name="step" value="1" />
     <h2><span class="step"><?=_f('%1단계', 1)?></span> : <?=_t('태터툴즈 설치를 시작합니다.')?></h2>
-    <div id="info"><b>Tattertools 1.0.6</b><br />
+    <div id="info"><b>Tattertools 1.0.6.1</b><br />
       Copyright &copy; 2004-2006, Tatter &amp; Company. All rights reserved.<br />
       Homepage: <a href="http://www.tattertools.com">http://www.tattertools.com</a></div>
     <div id="content">
