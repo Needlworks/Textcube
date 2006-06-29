@@ -332,13 +332,6 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 		this.savedData = this.getData();
 	}
 	var entryManager;
-	window.addEventListener(
-		"load",
-		function (event) {
-			entryManager = new EntryManager();
-		},
-		false
-	);
 //]]>
 </script>
             <table cellspacing="0" width="100%">
@@ -730,6 +723,9 @@ if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
 	<input type="hidden" name="withSearch" value="<?=(empty($_POST['search']) ? '' : 'on')?>" />
 	<input type="hidden" name="search" value="<?=(isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '')?>" />
+<script type="text/javascript">
+	entryManager = new EntryManager();
+</script>
 <?
 if (isset($_GET['popupEditor']))
 	require ROOT . '/lib/piece/owner/footer8.php';
