@@ -437,16 +437,20 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
 												<select name="category">
-													<option value="0"><?=_t('전체')?></option>
+													<option value="0"><?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
 <?
 		foreach (getCategories($owner) as $category) {
+			if ($category['id']!= 0) {
 ?>
 													<option value="<?=$category['id']?>"<?=($category['id'] == $entry['category'] ? ' selected="selected"' : '')?>><?=htmlspecialchars($category['name'])?></option>
 <?
+			}
 			foreach ($category['children'] as $child) {
+				if ($category['id']!= 0) {
 ?>
 													<option value="<?=$child['id']?>"<?=($child['id'] == $entry['category'] ? ' selected="selected"' : '')?>>&nbsp;― <?=htmlspecialchars($child['name'])?></option>
 <?
+				}
 			}
 		}
 ?>
