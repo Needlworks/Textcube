@@ -467,8 +467,8 @@ function deleteEntry($owner, $id) {
 
 function changeCategoryOfEntries($owner, $entries, $category) {
 	global $database;
-	$targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));
-	if (count($targets)<1) 
+	$targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));	
+	if ( count($targets)<1 || !is_numeric($category) ) 
 		return false;
 	$sql = "UPDATE  {$database['prefix']}Entries SET category = $category WHERE owner = $owner AND id IN (";
 	for ($i = 0; $i < count($targets); $i++) {
