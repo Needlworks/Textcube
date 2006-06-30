@@ -1,15 +1,15 @@
 @charset "utf-8";
 <!--
 
-/* 반드시 들어가야 하는 스타일 시작 */
+/********************************************
+	반드시 들어가야 하는 스타일 시작
+********************************************/
 
 /* 1. 본문 전체  */
-
 	body,td {
-                font-size:12px; 
-                font-family: Verdana, Arial, sans-serif; 
-                color:#666; 
-                line-height:18px; 
+				font: normal 9pt Verdana, Arial, sans-serif;
+                color: #666;
+                line-height:18px;
                 
 
                 scrollbar-face-color: #EEE;
@@ -22,42 +22,40 @@
 	}
 
 /* 2. 기본 링크 */
-	A:link    {color:#369;text-decoration:none;font-family: Verdana, Arial, sans-serif;}
-	A:visited {color:#369;text-decoration:none;font-family: Verdana, Arial, sans-serif;}
-	A:active  {color:#369;text-decoration:none;font-family: Verdana, Arial, sans-serif;}
-	A:hover  {color:#222;text-decoration:underline;font-family: Verdana, Arial, sans-serif;}
+	a {
+		color: #369;
+		text-decoration: none;
+	}
+
+	a:hover {
+		color: #222;
+		text-decoration: underline;
+	}
 
 
 /* 3. 이미지 */
-
 	img { border-width:0; }
 
 /* 4. 이미지 버튼 */
-
 	.ib { cursor: pointer; }
 
 /* 5. 입력 텍스트 */
-
 	.text {
-	        border: 1px solid #CCC; 
-	        background-color: #FFF;	
-	        height: 18px; 
-	        color: #666; 
-	        font-size: 11px; 
-	        padding: 2px 2px 0 4px;
+			border: 1px solid #CCC; 
+			background-color: #FFF;	
+			height: 18px; 
+			color: #666; 
+			font-size: 8pt; 
+			padding: 2px 2px 0 4px;
 	}
 
 /* 6. 트리 테이블 */
-
 	.branch2 {
-		font-size: 11px;
+		font-size: 8pt;
 		font-family: Dotum, 돋움, Arial, sans-serif;	
 	}
-	
-	
 
 /* 7. 트리 셀 */
-
 	.branch3 {
 		line-height: 14px;
 		cursor: pointer;
@@ -65,120 +63,91 @@
 		padding: 2px 2px 0 2px;
 	}
 
-/* 8. 달력 월 표시 */
+/***. 달력 폰트 지정 */
+	.cal_month, .cal_week1, .cal_week2, .cal_day1, .cal_day2, .cal_day3, .cal_day4 {
+		font-family: Verdana, Arial, sans-serif;
+		text-align: center;
+	}
 
+	.cal_month {
+		font-size: 8pt;
+	}
+
+	.cal_week1, .cal_week2, .cal_day1, .cal_day2, .cal_day3, .cal_day4 {
+		font-size: 7.5pt;
+	}
+
+	.cal_month, .cal_week1, .cal_week2, .cal_day4 {
+		font-weight: bold;
+	}
+
+	.cal_day1, .cal_day2 {
+		color: #FAFAFA;
+	}
+
+/* 8. 달력 월 표시 */
 	.cal_month {
 		vertical-align: top;
 		height: 18px;
-		font-size: 11px;
-		font-family: Verdana, Arial, sans-serif;
-		text-align: center;
-		font-weight: bold;
 		color: #F00;
-	       	
 	}
 
 /* 9. 달력 요일 표시 */
-
 	.cal_week1 {
-		text-align: center;
-		font-size: 10px;
-		font-family: Verdana, Arial, sans-serif;
-		font-weight: bold;
 	}
 
 /* 10. 달력 일요일 표시 */
-
 	.cal_week2 {
 		color: #C00;
-		text-align: center;
-		font-size: 10px;
-		font-family: Verdana, Arial, sans-serif;
-		font-weight: bold;
-		
 	}
 
 /* 11. 달력 지난 달 날짜 표시 */
-
 	.cal_day1 {
-		color: #FAFAFA;
-		font-size: 10px;
-		font-family: Verdana, Arial, sans-serif;
-		text-align: center;
 	}
 
 /* 12. 달력 다음 달 날짜 표시 */
-
 	.cal_day2 {
-		color: #FAFAFA;
-		font-size: 10px;
-		font-family: Verdana, Arial, sans-serif;
-		text-align: center;
 	}
 
 /* 13. 달력 이번 달 날짜 표시 */
-
 	.cal_day3 {
-		font-size: 10px;
-		font-family: Verdana, Arial, sans-serif;
-		text-align:center;	
 	}
 
 /* 14. 달력 오늘 날짜 표시 */
-
 	.cal_day4 {
-		font-size:10px;
-		font-family: Verdana, Arial, sans-serif;
-		text-align:center;
-		font-weight:bold;
 		background-color: #EEE;	
 	}
 
 /* 15. 달력 글쓴 날 링크 스타일 */
-
-	A.cal_click:link {
-		font-weight:bold;
-	}
-
-	A.cal_click:visited {
-		font-weight:bold;
-	}
-
-	A.cal_click:hover {
-		font-weight:bold;
-	}
+	A.cal_click { font-weight: bold;	}
 
 /* 16. 이미지 아래 캡션 스타일 */
-
 	.cap1 {
-		text-align:center;
-		color:#300099;
-		word-break:break-all;
+		text-align: center;
+		color: #300099;
+		word-break: break-all;
 	}
 
 /* 16. 키워드 스타일 */
-
 	.key1 {
-		cursor:pointer;
-		text-decoration:none;
+		cursor: pointer;
+		text-decoration: none;
 		border-bottom: 1px solid gray;
 	}
 
-/* 16. 카테고리 옆 개수 스타일 */
-
-	.c_cnt {
-		font-size: 10px;
-		font-family: Tahoma, Arial, sans-serif;
+/****. 카테고리 옆 개수 스타일 및 최신글 옆 개수 스타일 공통사항 */
+	.c_cnt, .ps_cnt {
+		font: 7.5pt Tahoma, Arial, sans-serif;
 		letter-spacing: 0;
 	}
 
-/* 17. 최신글 옆 개수 스타일 */
+/* 16. 카테고리 옆 개수 스타일 */
+	.c_cnt {
+	}
 
+/* 17. 최신글 옆 개수 스타일 */
 	.ps_cnt {
-		font-size: 10px;
-		font-family: Tahoma, Arial, sans-serif;
-		letter-spacing: 0;
-		color:#336699;
+		color: #369;
 	}
 	
 	/* 태그클라우드 */
@@ -214,318 +183,299 @@
 
 * BASE rule
 ********************************/
-h1 {font-size:18px; font-family:Verdana, Arial, sans-serif; padding:0; margin:0;}
-
-
-.sthm {font-size:10px; font-family: Tahoma, Arial, sans-serif;}
-A.sthm:link {font-size:10px; font-family: Tahoma, Arial, sans-serif;}
-A.sthm:visited {font-size:10px; font-family: Tahoma, Arial, sans-serif;}
-A.sthm:active {font-size:10px; font-family: Tahoma, Arial, sans-serif;}
-A.sthm:hover {font-size:10px; font-family: Tahoma, Arial, sans-serif;}
-
-.sver {font-size:10px; font-family: Verdana, Arial, sans-serif;}
-A.sver:link {font-size:10px; font-family: Verdana, Arial, sans-serif;}
-A.sver:visited {font-size:10px; font-family: Verdana, Arial, sans-serif;}
-A.sver:active {font-size:10px; font-family: Verdana, Arial, sans-serif;}
-A.sver:hover {font-size:10px; font-family: Verdana, Arial, sans-serif;}
-
-
-.sdot {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif;}
-A.sdot:link {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; }
-A.sdot:visited {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; }
-A.sdot:active {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif;}
-A.sdot:hover {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif;}
-
-.sidebar_title {font-size:10px; font-family: Verdana, Arial, sans-serif; color:#666; font-weight:bold;}
-
-
-.head_title {font-size:14px; font-family: Dotum, 돋움, Arial, sans-serif; color:#369; font-weight:bold;}
-A.head_title:link {font-size:14px; font-family: Dotum, 돋움, Arial, sans-serif; color:#369; font-weight:bold;}
-A.head_title:visited {font-size:14px; font-family: Dotum, 돋움, Arial, sans-serif; color:#369; font-weight:bold;}
-A.head_title:active {font-size:14px; font-family: Dotum, 돋움, Arial, sans-serif; color:#369; font-weight:bold;}
-A.head_title:hover {font-size:14px; font-family: Dotum, 돋움, Arial, sans-serif; color:#369; font-weight:bold;}
-
-
-.gbtn_kor {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
-A.gbtn_kor:link {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
-A.gbtn_kor:visited {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
-A.gbtn_kor:active {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
-A.gbtn_kor:hover {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #369;}
-
-.gbtn_eng : {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #666;}
-A.gbtn_eng:link {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #666;}
-A.gbtn_eng:visited {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #666;}
-A.gbtn_eng:active {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #666;}
-A.gbtn_eng:hover {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #369;}
-
-.keyword {font-size:12px; font-family: Verdana, Arial, sans-serif; color: #666;}
-A.keyword:link {font-size:12px; font-family: Verdana, Arial, sans-serif; color: #666;}
-A.keyword:visited {font-size:12px; font-family: Verdana, Arial, sans-serif; color: #666;}
-A.keyword:active {font-size:12px; font-family: Verdana, Arial, sans-serif; color: #666;}
-A.keyword:hover {font-size:12px; font-family: Verdana, Arial, sans-serif; color: #369;}
-
-
-.sbtn_kor {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #369;}
-A.sbtn_kor:link {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #369;}
-A.sbtn_kor:visited {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #369;}
-A.sbtn_kor:active {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #369;}
-A.sbtn_kor:hover {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #369;}
-
-
-.sbtn_eng : {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #369;}
-A.sbtn_eng:link {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #369;}
-A.sbtn_eng:visited {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #369;}
-A.sbtn_eng:active {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #369;}
-A.sbtn_eng:hover {font-size:10px; font-family: Verdana, Arial, sans-serif; color: #369;}
-
-
-
-.info_link {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
-A.info_link:link {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
-A.info_link:visited {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
-A.info_link:active {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #666;}
-A.info_link:hover {font-size:11px; font-family: Dotum, 돋움, Arial, sans-serif; color: #369;}
-
-
-.td_bodyt {padding:10px 10px 5px 10px;}
-.td_body {padding:10px 10px 5px 10px;}
-
-.td_info {padding:3px 3px 3px 10px;}
-
-
-
-
-
-input 
-	{
-	border: 1px solid #CCC; 
-	background-color: #FFF;	
-	height:16px; 
-	color: #666; 
-	font-size: 12px; 
-	font-family: Tahoma, Verdana, sans-serif; 
-	 padding: 2px 2px 0 4px;
-	}
-		
-submit 
-	{
-	border:solid 1;
-	border-color: #777;
-	background-color: #FFF;
-	width:100%;
-	padding: 2px 2px 0 4px;	
-	}
-
-textarea 
-	{
-	border:solid 1;
-	border-color: #CCC;
-	background-color: #FFF;
-	width:100%;
-	padding: 2px 2px 0 4px;	
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*********************************************************************************************
-* COMMON rule_txt  :  수정하지 말고 카피해서 쓰자!!!
-**********************************************************************************************/
-A.base_txt:link    {color:333333;text-decoration:none;font-size:10pt; font-family: Tahoma, Verdana, Arial;}
-A.base_txt:visited {color:333333;text-decoration:none;font-size:10pt; font-family: Tahoma, Verdana, Arial;}
-A.base_txt:active  {color:333333;text-decoration:none;font-size:10pt; font-family: Tahoma, Verdana, Arial;}
-A.base_txt:hover   {color:000000;text-decoration:underline;font-size:10pt; font-weight:bold; font-family: Tahoma, Verdana, Arial;}
-
-.num {font-size:7pt; font-family: Tahoma;letter-spacing: 0}
-.copyright {color:333333; font-size:7pt; font-family: Tahoma, Arial, sans-serif; color:999999;}
-.lh10 {line-height:100%;}
-.lh13 {line-height:130%;}
-.lh15 {line-height:150%;}
-.ever1px {letter-spacing:-1px} /* 자간을 좁게 */
-.ever0px {letter-spacing: 0}
-
-
-
-.kgul7 {font-size:7pt; font-family:굴림;}
-.kgul8 {font-size:8pt; font-family:굴림;}
-.kgul9 {font-size:9pt; font-family:굴림;}
-
-
-.etah6 {font-size:6pt; font-family: Tahoma, Arial, sans-serif;}
-.evar6 {font-size:6pt; font-family: Verdana, Arial, sans-serif;}
-
-.etah7 {font-size:7pt; font-family: Tahoma, Arial, sans-serif;}
-.evar7 {font-size:7pt; font-family: Verdana, Arial, sans-serif;}
-
-.etah8 {font-size:8pt; font-family: Tahoma, Arial, sans-serif;}
-.evar8 {font-size:8pt; font-family: Verdana, Arial, sans-serif;}
-
-.etah9 {font-size:9pt; font-family: Tahoma, Arial, sans-serif;}
-.evar9 {font-size:9pt; font-family: Verdana, Arial, sans-serif;}
-
-
-
-
-/*********************************************************************************************
-* FORM
-**********************************************************************************************/
-/* input */
-.input_gray {border:1px solid #FFF;font-family:Tahoma,돋움,verdana;font-size:9pt;color:333333;background-color:dddddd;height:18px}
-.input_line {border:1px solid #333333;font-family:Tahoma,돋움,verdana;font-size:9pt;color:333333;background-color:ffffff;height:18px}
-.input_orange {border:1px solid #999999;font-family:Tahoma,돋움,verdana;font-size:9pt;color:333333;background-color:ffffff;height:18px}
-
-
-/* button */
-.button_gray {border:solid 0 #333333;font-family:Tahoma,verdana;font-size:7pt;font-weight:bold; color:white;background-color:eeeeee;height:17px}
-.button_blue {border:solid 0 #FFF;font-family:Tahoma,verdana;font-size:7pt;font-weight:bold; color:white;background-color: #369;height:18px}
-
-
-/* textarea */
-.ta_gray {border:1px solid #FFF;background-color:#dddddd;color:333333;font-size:9pt;font-family:Tahoma,돋움,verdana;}
-.ta_line {border:1px solid #333333;background-color:ffffff; color:333333;font-size:9pt;font-family:Tahoma,돋움,verdana;}
-
-
-/***********************************************************************************************************
-* common : TABLES
-***********************************************************************************************************/
-.fixed {table-layout:fixed;}
-.tbYellowOuter {border:1px solid #C5C5A7;border-left:1px solid #D3D3B9;border-top:1px solid #D3D3B9;background-color:FFFFEF}
-.tbYellowInner {border:1px solid white;padding:4px;padding-top: 0}
-
-
-
-/***********************************************************************************************************
-* common : CURSORS
-***********************************************************************************************************/
-.curHand {cursor:hand}
-.curWait {cursor:wait}
-.curCross {cursor:crosshair}
-.curMove {cursor:move}
-
-
-.title {font-size:20px; color:333333; font-weight:bold;}
-A.title:link {font-size:20px; color:333333; font-weight:bold;}
-A.title:visited {font-size:20px;  color:333333; font-weight:bold;}
-A.title:active {font-size:20px;  color:333333; font-weight:bold;}
-A.title:hover {font-size:20px;  color:333333; font-weight:bold;}
-
-
- 
-
-.search_input {
-	border: 1px solid #ccc; 
-	background-color:#fff;	
-	height:18px; 
-	color: #666; 
-	font-size: 10pt; 
-	font-family: Tahoma, Verdana; 
-	padding: 2px 2px 0px 4px;
-	}
-
-.search_btn 
-	{
-	border:solid 1px;
-	border-color:#888;
-	background-color:#ccc;
-	color:#333;
-	width:50px;
-	height:18px;
-	font-size:10px;
-	font-weight:bold;
-	font-family: Tahoma, Arial, sans-serif;
-		
+h1 {
+	font: 14pt Verdana, Arial, sans-serif;
+	padding: 0;
+	margin: 0;
 }
 
-.input 
-	{
-	border: 1px solid #CCC; 
-	background-color:ffffff;	
+.sthm, .sver, .sdot, .head_title, .gbtn_kor, .gbtn_eng, .keyword, .sbtn_kor, .sbtn_eng, .info_link,
+a.sthm, a.sver, a.sdot, a.head_title, a.gbtn_kor, a.gbtn_eng, a.keyword, a.sbtn_kor, a.sbtn_eng, a.info_link {
+	color: #666;
+}
+
+a.sthm:hover, a.sver:hover, a.sdot:hover, a.head_title:hover, a.gbtn_kor:hover,
+a.gbtn_eng:hover, a.keyword:hover, a.sbtn_kor:hover, a.sbtn_eng:hover, a.info_link:hover {
+	color: #369;
+}
+
+.sthm, a.sthm {	font-family: Tahoma, Arial, sans-serif; }
+
+.sver, a.sver, .sidebar_title, .gbtn_eng, a.gbtn_eng, .keyword, a.keyword, .sbtn_eng, a.sbtn_eng {
+	font-family: Verdana, Arial, sans-serif;
+}
+
+.sdot, a.sdot, .head_title, a.head_title, .sbtn_kor, a.sbtn_kor, .info_link, a.info_link {
+	font-family: Dotum, 돋움, Arial, sans-serif;
+}
+
+.sthm, a.sthm, .sver, a.sver, .sbtn_eng, a.sbtn_eng {
+	font-size: 7.5pt;
+}
+
+.sdot, a.sdot, .gbtn_kor, a.gbtn_kor, .sbtn_kor, a.sbtn_kor, .info_link, a.info_link {
+	font-size: 8pt;
+}
+
+.keyword, a.keyword { font-size: 9pt; }
+
+
+.sdot, a.sdot { font: 8pt Dotum, 돋움, Arial, sans-serif; }
+
+.sidebar_title {
+	font: bold 7.5pt Verdana, Arial, sans-serif;
+	color: #666;
+}
+
+.head_title, a.head_title {
+	font-weight: bold;
+	font-size: 10.5pt
+}
+
+.td_bodyt { padding: 10px 10px 5px 10px; }
+
+.td_body {padding: 10px 10px 5px 10px; }
+
+.td_info {padding: 3px 3px 3px 10px; }
+
+
+
+
+/************************
+	Form Cascadings	
+************************/
+
+input, textarea {
+	border: 1px solid #CCC;
+}
+
+input, submit, textarea {
+	background: #FFF;
+	padding: 2px 20px 0 4px;
+}
+
+submit, textarea {
+	width: 100%;
+}
+
+input {
 	height:16px; 
 	color: #666; 
-	font-size: 10pt; 
-	font-family: Tahoma, Verdana; 
-	 padding: 2px 2px 0px 4px;
-	}
+	font-size: 9pt; 
+	font-family: Tahoma, Verdana, sans-serif; 
+}
 		
-.submit 
-	{
-	border:solid 1px;
-	border-color:888888;
-	background-color:cccccc;
-	width:50px;
+submit {
+	border: 1px solid #777;
+}
+
+textarea [
+]
+
+
+/************************************************************
+	COMMON rule_txt  :  수정하지 말고 카피해서 쓰자!!!
+************************************************************/
+a.base_txt {
+	color: #333;
+	text-decoration: none;
+	font: 7.5pt Tahoma, Verdana, Arial;
+}
+
+a.base_txt:hover {
+	color: #000;
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+.num {
+	font: 7.5pt Tahoma, Verdana, Arial;
+	letter-spacing: 0;
+}
+
+.copyright {
+	font: 7pt Tahoma, Arial, sans-serif;
+	color: #999;
+}
+
+.lh10 { line-height:100%; }
+.lh13 { line-height:130%; }
+.lh15 { line-height:150%; }
+
+.ever1px { letter-spacing: -1px; } /* 자간을 좁게 */
+.ever0px { letter-spacing: 0; }
+
+
+.kgul7, .kgul8, .kgul9 { font-family: Gulim, 굴림, Arial, sans-serif; }
+
+.kgul7 { font-size:7pt; }
+.kgul8 { font-size:8pt; }
+.kgul9 { font-size:9pt; }
+
+
+.etah6, .etah7, .etah8, .etah9 { font-family: Tahoma, Arial, sans-serif; }
+.
+.etah6, .evar6 { font-size:6pt; }
+.etah7, .evar7 { font-size:7pt; }
+.etah8, .evar8 { font-size:8pt; }
+.etah9, .evar9 { font-size:9pt; }
+
+
+/****************
+	FORM
+****************/
+
+/* input */
+.input_gray, .input_line, .input_orange {
+	font: 9pt Tahoma, Arial, sans-serif;
+	color: #333;
+	background: #DDD;
+	height: 18px;
+}
+
+.input_gray { border: 1px solid #FFF; }
+.input_line { border: 1px solid #333; }
+.input_orange { border: 1px solid #999; }
+
+/* button */
+.button_gray, .button_blue {
+	font: bold 7pt Tahoma,verdana;
+	color: #FFF;
+}
+
+.button_gray {
+	border: solid 0 #333;
+	background: #EEE;
+	height: 17px;
+}
+
+.button_blue {
+	border: solid 0 #FFF;
+	background: #369;
 	height:18px;
-	font-size:10px;
-	font-weight:bold;
-		}
+}
 
-.textarea 
-	{
-	border:solid 1px;
-	border-color:cccccc;
-	background-color:white;
-	width:400px;
-	height:100px;
-	padding: 2px 2px 0px 4px;	
-	}
+/* textarea */
+.ta_gray, .ta_line {
+	color: #333;
+	font: 9pt Tahoma, Arial, sans-serif;
+}
 
+.ta_gray {
+	border: 1px solid #FFF;
+	background:#DDD;
+}
 
-
-
-.guest_submit 
-	{
-  border: 1px solid #999999;
-  font-family:Tahoma,verdana;
-  font-size:11px;
-  font-weight:bold; 
-  color: #666;
-  background:#CCC;
-  height:20px;
-  width : 200px;
-	} 
+.ta_line {
+	border: 1px solid #333;
+	background: #FFF;
+}
 
 
+/****************************
+	common : TABLES
+****************************/
+.fixed { table-layout: fixed; }
+
+.tbYellowOuter {
+	border: 1px solid #C5C5A7;
+	border-left: 1px solid #D3D3B9;
+	border-top: 1px solid #D3D3B9;
+	background-color: #FFFFEF;
+}
+
+.tbYellowInner {
+	border: 1px solid #FFF;
+	padding: 4px;
+	padding-top: 0;
+}
 
 
-.input_protect 
-{
-  border: 1px solid #ccc;
-  font-family:Tahoma,verdana;
-  font-size:10pt;
-  background:#fff;
-  height:20px;
-  width : 100px;
-	}   
+/****************************
+	common : CURSORS
+****************************/
+.curHand { cursor: pointer; }
+.curWait { cursor: wait; }
+.curCross { cursor: crosshair; }
+.curMove { cursor: move; }
+
+.title, a.title {
+	font-size: 15pt;
+	color: #333;
+	font-weight: bold;
+}
 
 
+/********************
+	input form
+********************/
 
-.submit_protect 
-	{
-  border: 1px solid #999;
-  font-family:Tahoma,verdana;
-  font-size:10pt;
-  font-weight:bold; 
-  color:#666;
-  background:#ccc;
-  height:20px;
-  width : 50px;
+.search_input, .search_btn, .guest_submit, .input_protect, .submit_protect {
+	font-family: Tahoma, Arial, sans-serif;
+}
 
-	} 
+.search_input, .input_protect, .submit_protect {
+	font-size: 10pt;
+}
+
+.search_btn {
+	font-size: 7.5pt;
+}
+
+.guest_submit {
+	font-size: 8pt;
+}
+
+.search_btn, .guest_submit, .submit_protect {
+	font-weight: bold;
+}
+
+.guest_submit, .submit_protect {
+	border: 1px solid #999;
+}
+
+.search_input, .guest_submit, .submit_protect {
+	color: #666;
+}
+
+.search_btn, .submit_protect {
+	background: #CCC;
+}
+
+.search_input, .input_protect {
+	background: #FFF;
+}
+
+.search_input, .search_btn {
+	height: 18px;
+}
+
+.guest_submit, .input_protect, .submit_protect {
+	height: 20px;
+}
+
+.search_btn, .submit_protect {
+	width: 50px;
+}
+
+
+.search_input {
+	padding: 2px 2px 0 4px;
+}
+
+.search_btn {
+	border: 1px solid #888;
+	color: #333;
+}
+
+.guest_submit {
+	background: #CCC;
+	width: 200px;
+}
+
+.input_protect {
+	width: 100px;
+}   
+
+.submit_protect {
+} 

@@ -27,7 +27,7 @@ function clickshow(num){
 
 </head>
 
-<body topmargin="20" leftmargin="20" style="background:url(./images/bg.gif);">
+<body topmargin="20" leftmargin="20" style="background:url(./images/bg.gif);" id="[##_body_id_##]">>
 
 <table width="780" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
   <tr>
@@ -35,7 +35,7 @@ function clickshow(num){
         <table width="760" border="0" cellpadding="0" cellspacing="0">
           <tr>
             <!----- 상단영역 ---->
-            <td colspan="2" valign="bottom" style="padding:10px 0px 0px 0px;">
+            <td colspan="2" valign="bottom" style="padding:10px 0 0 0;">
 						<table width="100%" border="0" cellpadding="10" cellspacing="0">
                 <tr>
                   <td height="60" valign="bottom"><a href="[##_blog_link_##]" class="title">[##_title_##]</a></td>
@@ -58,7 +58,7 @@ function clickshow(num){
                     <td height="3" bgcolor="#f8f8f8"></td>
                   </tr>
                   <tr>
-                    <td class="td_bodyt" style="border-bottom:1px dotted #ccc;"><img src="./images/icon_comment.gif" width="15px" height="15px" /> <font class="head_title">태그</font> </td>
+                    <td class="td_bodyt" style="border-bottom:1px dotted #ccc;"><img src="./images/icon_comment.gif" width="15px" height="15px" alt="" /> <font class="head_title">태그</font> </td>
                   </tr>
                   <tr>
                     <td class="td_body"><s_tag_rep> <a href="[##_tag_link_##]" class="[##_tag_class_##]">[##_tag_name_##]</a> </s_tag_rep>
@@ -80,7 +80,7 @@ function clickshow(num){
                     <td height="3" bgcolor="#f8f8f8"></td>
                   </tr>
                   <tr>
-                    <td class="td_bodyt" style="border-bottom:1px dotted #ccc;"><img src="./images/icon_comment.gif" width="15px" height="15px" /> <font class="head_title">[##_list_conform_##]</font> 에 해당하는 글[##_list_count_##] 개</td>
+                    <td class="td_bodyt" style="border-bottom:1px dotted #ccc;"><img src="./images/icon_comment.gif" width="15px" height="15px" alt="" /> <font class="head_title">[##_list_conform_##]</font> 에 해당하는 글[##_list_count_##] 개</td>
                   </tr>
                   <tr>
                     <td class="td_body"><s_list_rep> <font class="sver">[##_list_rep_regdate_##]</font> &nbsp; <a href="[##_list_rep_link_##]">[##_list_rep_title_##]</a> <font class="sthm">[##_list_rep_rp_cnt_##] </font><br />
@@ -103,12 +103,12 @@ function clickshow(num){
                     <td height="3" bgcolor="#f8f8f8"></td>
                   </tr>
                   <tr>
-                    <td class="td_bodyt" style="border-bottom:1px dotted #ccc;"><img src="./images/icon_comment.gif" width="15px" height="15px" /><font class="head_title">[##_rplist_conform_##]</font> 에 해당하는 댓글 [##_rplist_count_##] 개 </td>
+                    <td class="td_bodyt" style="border-bottom:1px dotted #ccc;"><img src="./images/icon_comment.gif" width="15px" height="15px" alt="" /><font class="head_title">[##_rplist_conform_##]</font> 에 해당하는 댓글 [##_rplist_count_##] 개 </td>
                   </tr>
                   <tr>
                     <td class="td_body"><s_rplist_rep> <font class="sver">[##_rplist_rep_regdate_##]</font> &nbsp; 
                         [##_rplist_rep_name_##]
-                        _<a href=[##_rplist_rep_link_##]>[##_rplist_rep_body_##]</a><br />
+                        _<a href="[##_rplist_rep_link_##]">[##_rplist_rep_body_##]</a><br />
                       </s_rplist_rep>
                     </td>
                   </tr>
@@ -128,7 +128,7 @@ function clickshow(num){
                     <td height="3" bgcolor="#f8f8f8"></td>
                   </tr>
                   <tr>
-                    <td style="padding:10px 5px 5px 5px; border-bottom:1px dotted #ccc;"><img src="./images/icon_comment.gif" width="15px" height="15px" /> <font class="head_title">위치로그</font> </td>
+                    <td style="padding:10px 5px 5px 5px; border-bottom:1px dotted #ccc;"><img src="./images/icon_comment.gif" width="15px" height="15px" alt="" /> <font class="head_title">위치로그</font> </td>
                   </tr>
                   <tr>
                     <td style="padding:10px 5px 5px 5px;"> 전세계
@@ -136,7 +136,7 @@ function clickshow(num){
                         <table>
                           <tr>
                             <td width="[##_local_spot_depth_##]"></td>
-                            <td style="padding-left:5px;"><img src="./images/mark_reply.gif" />[##_local_spot_##]</td>
+                            <td style="padding-left:5px;"><img src="./images/mark_reply.gif" alt="" />[##_local_spot_##]</td>
                           </tr>
                         </table>
                       </s_local_spot_rep>
@@ -164,7 +164,7 @@ function clickshow(num){
                     <td height="3" bgcolor="#f8f8f8"></td>
                   </tr>
                   <tr>
-                    <td class="td_bodyt" style="border-bottom:1px dotted #ccc;"><img src="./images/icon_comment.gif" width="15px" height="15px" /> <font class="head_title">방명록</font> </td>
+                    <td class="td_bodyt" style="border-bottom:1px dotted #ccc;"><img src="./images/icon_comment.gif" width="15px" height="15px" alt="" /> <font class="head_title">방명록</font> </td>
                   </tr>
                   <tr>
                     <td style="padding:10px 5px 5px 5px;"><table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#dddddd">
@@ -175,7 +175,7 @@ function clickshow(num){
                                 <s_guest_form>
                                   <tr>
                                     <td width="90" align="right" valign="top"> 아이디 : </td>
-                                    <td><input class="text" type="text" name="[##_guest_input_name_##]" value="[##_guest_name_##]" style="width:140px" />                                    </td>
+                                    <td><input class="text" type="text" name="[##_guest_input_name_##]" value="[##_guest_name_##]" style="width:140px;" />                                    </td>
                                   </tr>
                                   <tr>
                                     <td align="right" valign="top">비밀번호 : </td>
@@ -204,9 +204,9 @@ function clickshow(num){
                             <td style="width:500px; overflow: hidden; border-bottom:1px dotted #ccc;">[##_guest_rep_name_##] [##_guest_rep_date_##] <a href="#" onClick="[##_guest_rep_onclick_reply_##]">R</a> <a href="#" onClick="[##_guest_rep_onclick_delete_##]">X</a><br />
                               [##_guest_rep_desc_##] <br />
                               <s_guest_reply_rep>
-                                <table border="0" cellpadding="0" cellspacing="0" style="margin:5 0 0 0;">
+                                <table border="0" cellpadding="0" cellspacing="0" style="margin: 5px 0 0 0;">
                                   <tr>
-                                    <td width="40px" align="right" valign="top"><img src="./images/mark_reply.gif" /></td>
+                                    <td width="40px" align="right" valign="top"><img src="./images/mark_reply.gif" alt="" /></td>
                                     <td><table cellspacing="0">
                                         <tr>
                                           <td><b>[##_guest_rep_name_##]</b> <font class="h4">[##_guest_rep_date_##]</font>&nbsp;<a href="#" class="l3" onClick="[##_guest_rep_onclick_delete_##]">X</a></td>
@@ -239,7 +239,7 @@ function clickshow(num){
                     <td height="3" bgcolor="#f8f8f8"></td>
                   </tr>
                   <tr>
-                    <td class="td_bodyt"><img src="./images/icon_comment.gif" width="15" height="15" /> <font class="head_title">[##_article_rep_title_##]</font> <br>
+                    <td class="td_bodyt"><img src="./images/icon_comment.gif" width="15" height="15" alt="" /> <font class="head_title">[##_article_rep_title_##]</font> <br>
 										[##_article_rep_date_##]</td>
                   </tr>
                   <tr>
@@ -267,7 +267,7 @@ function clickshow(num){
                     <td height="3" bgcolor="f8f8f8"></td>
                   </tr>
                   <tr>
-                    <td class="td_bodyt"><img src="./images/icon_comment.gif" width="15" height="15" /> <font class="head_title"><a href="[##_notice_rep_link_##]">[##_notice_rep_title_##]</a></font>
+                    <td class="td_bodyt"><img src="./images/icon_comment.gif" width="15" height="15" alt="" /> <font class="head_title"><a href="[##_notice_rep_link_##]">[##_notice_rep_title_##]</a></font>
 										<br>[##_notice_rep_date_##] </td>
                   </tr>
                   <tr>
@@ -292,7 +292,7 @@ function clickshow(num){
                     <td height="3" bgcolor="#f8f8f8"></td>
                   </tr>
                   <tr>
-                    <td class="td_bodyt" style="border-bottom:1px dotted #ccc;"><img src="./images/icon_comment.gif" /> <a href="[##_article_rep_link_##]"><font class="head_title">[##_article_rep_title_##]</font></a> <br />
+                    <td class="td_bodyt" style="border-bottom:1px dotted #ccc;"><img src="./images/icon_comment.gif" alt="" /> <a href="[##_article_rep_link_##]"><font class="head_title">[##_article_rep_title_##]</font></a> <br />
                       <a href="[##_article_rep_category_link_##]" class="gbtn_kor">[##_article_rep_category_##]</a> |    
                       [##_article_rep_date_##]<br />
                     </td>
@@ -319,10 +319,10 @@ function clickshow(num){
                   <tr>
                     <td class="td_body"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
-                          <td height="20"><s_tag_label><img src="./images/arrow.gif" /> <font class="tag_txt">태그</font> : [##_tag_label_rep_##] </s_tag_label></td>
+                          <td height="20"><s_tag_label><img src="./images/arrow.gif" alt="" /> <font class="tag_txt">태그</font> : [##_tag_label_rep_##] </s_tag_label></td>
                         </tr>
                         <tr>
-                          <td height="20"><img src="./images/arrow.gif" /> <a href="#tb" onClick="[##_article_rep_tb_link_##]">트랙백[##_article_rep_tb_cnt_##]</a> | <a href="#rp" onClick="[##_article_rep_rp_link_##]">댓글[##_article_rep_rp_cnt_##]</a></td>
+                          <td height="20"><img src="./images/arrow.gif" alt="" /> <a href="#tb" onClick="[##_article_rep_tb_link_##]">트랙백[##_article_rep_tb_cnt_##]</a> | <a href="#rp" onClick="[##_article_rep_rp_link_##]">댓글[##_article_rep_rp_cnt_##]</a></td>
                         </tr>
                       </table></td>
                   </tr>
@@ -363,9 +363,9 @@ function clickshow(num){
                                     <td style="width:500px; overflow: hidden; border-bottom:1px dotted #ccc;"><b>[##_rp_rep_name_##]</b> [##_rp_rep_date_##] <a href="[##_rp_rep_link_##]">L</a> <a href="#" onClick="[##_rp_rep_onclick_reply_##]">R</a> <a href="#" onClick="[##_rp_rep_onclick_delete_##]">X</a><br />
                                       [##_rp_rep_desc_##] <br />
                                       <s_rp2_rep>
-                                        <table border="0" cellpadding="0" cellspacing="0" style="margin:5 0 0 0;">
+                                        <table border="0" cellpadding="0" cellspacing="0" style="margin:5px 0 0 0;">
                                           <tr>
-                                            <td width="40px" align="right" valign="top"><img src="./images/mark_reply.gif" /></td>
+                                            <td width="40px" align="right" valign="top"><img src="./images/mark_reply.gif" alt="" /></td>
                                             <td><table cellspacing="0">
                                                 <tr>
                                                   <td><b>[##_rp_rep_name_##]</b> <font class="h4">[##_rp_rep_date_##]</font>&nbsp;<a href="[##_rp_rep_link_##]">L</a> <a href="#" class="l3" onClick="[##_rp_rep_onclick_delete_##]">X</a></td>
@@ -411,7 +411,7 @@ function clickshow(num){
                                 </s_rp_member>
                                 <tr>
                                   <td align="right" valign="top">내용 : </td>
-                                  <td><textarea rows="4" name="[##_rp_input_comment_##]" class="textarea"></textarea>
+                                  <td><textarea rows="4" name="[##_rp_input_comment_##]"></textarea>
                                   </td>
                                 </tr>
                                 <tr>
