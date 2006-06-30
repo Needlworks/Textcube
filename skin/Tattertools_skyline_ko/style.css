@@ -350,11 +350,11 @@ padding-left:38px;
 	letter-spacing:-1px;
 }
 #content .cnt {
-	font:10px Verdana, Arial, sans-serif;;
+	font:10px Verdana, Arial, sans-serif;
 	color:#666;
 }
 #content .date {
-	font:10px Verdana, Arial, sans-serif;;
+	font:10px Verdana, Arial, sans-serif;
 	letter-spacing:-1px;	
 	color:#666;	
 }
@@ -446,7 +446,7 @@ padding-left:38px;
 	color:#333;
 }
 .guestbook .write label{
-	font:10px Verdana, Arial, sans-serif;;
+	font:10px Verdana, Arial, sans-serif;
 }
 .guestbook .write textarea{
 	width:98%;
@@ -557,7 +557,7 @@ padding-left:38px;
 	padding:5px;
 }
 .entry .tagtext{
-	font:9px Verdana, Arial, sans-serif;;
+	font:9px Verdana, Arial, sans-serif;
 	font-weight:bold;
 	background-color:#369;
 	color:#fff;
@@ -572,7 +572,7 @@ padding-left:38px;
 	font:11px verdana;
 }
 .entry .tbrp_box .cnt{
-	font:10px Verdana, Arial, sans-serif;;
+	font:10px Verdana, Arial, sans-serif;
 	color:#666;
 }
 /* entry trackback */
@@ -584,7 +584,7 @@ padding-left:38px;
 }	
 .entry .trackback .add {
 	margin:5px;
-	font:11px Verdana, Arial, sans-serif;;
+	font:11px Verdana, Arial, sans-serif;
 	color:#333;
 }	
 .entry  .trackback li{
@@ -592,7 +592,7 @@ padding-left:38px;
 	padding:10px 0;
 }
 .entry .trackback h4{
-	font:12px Verdana, Arial, sans-serif;;
+	font:12px Verdana, Arial, sans-serif;
 	font-weight:normal;
 	margin:0;
 }
@@ -655,7 +655,7 @@ padding-left:38px;
 	color:#333;
 }
 .comment .write label{
-	font:10px Verdana, Arial, sans-serif;;
+	font:10px Verdana, Arial, sans-serif;
 }
 .comment .write textarea{
 	width:98%;
@@ -674,7 +674,7 @@ padding-left:38px;
 .paging{
 	padding-top:10px;
 	text-align:center;
-	font:10px Tahoma, Arial, sans-serif;;
+	font:10px Tahoma, Arial, sans-serif;
 }
 
 /* footer */
