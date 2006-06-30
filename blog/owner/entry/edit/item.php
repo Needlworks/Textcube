@@ -433,13 +433,7 @@ printEntryEditorProperty();
 						<script type="text/javascript" src="<?=$service['path']?>/script/editor.js"></script>
 						<script type="text/javascript">
 							var editor = new TTEditor();
-							<?
-								/* TODO : Personalization 테이블에 `defaultEditingMode` TINYINT NOT NULL 컬럼 추가해야함
-								 * DB 변경 정책이 결정될때까지 막아둠..
-							?>
-							editor.initialize(document.getElementById("editWindow"), "<?=$service['path']?>/attach/<?=$owner?>/", "<?=(getPersonalization($owner, 'defaultEditingMode')==0) ? 'WYSIWYG' : 'TEXTAREA'?>");
-							<? */ ?>
-							editor.initialize(document.getElementById("editWindow"), "<?=$service['path']?>/attach/<?=$owner?>/", "<?=true ? 'WYSIWYG' : 'TEXTAREA'?>", "<?=true ? 'BR' : 'P'?>");
+							editor.initialize(document.getElementById("editWindow"), "<?=$service['path']?>/attach/<?=$owner?>/", "<?=getUserSetting('defaultEditingMode', 1) == 1 ? 'WYSIWYG' : 'TEXTAREA'?>", "<?=true ? 'BR' : 'P'?>");
 						</script>
 <?
 if (!defined('__TATTERTOOLS_KEYWORD__')) {

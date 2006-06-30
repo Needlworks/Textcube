@@ -44,7 +44,7 @@ $setting = getReaderSetting($owner);
 <script type="text/javascript">
 	//<![CDATA[
 	var Reader = new TTReader();
-	Reader.isPannelCollapsed = <?=getPersonalization($owner, 'readerPannelVisibility') == 1 ? 'false' : 'true'?>;
+	Reader.isPannelCollapsed = <?=getUserSetting('readerPannelVisibility', 1) == 1 ? 'false' : 'true'?>;
 	STD.addEventListener(document);
 	document.addEventListener("mouseup", Reader.finishResizing, false);
 	STD.addEventListener(window);
@@ -101,19 +101,19 @@ if ($setting['newWindow'] == 2) {
         </table></td>
       </tr>
     </table>
-	<div id="pannel" style="display: <?=getPersonalization($owner, 'readerPannelVisibility') == 1 ? 'block' : 'none'?>">
+	<div id="pannel" style="display: <?=getUserSetting('readerPannelVisibility', 1) == 1 ? 'block' : 'none'?>">
 	<div id="groupsAndFeeds">
       <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#92b2d9">
         <tr>
           <td width="256" height="100%" valign="top" style="padding: 0px 6px">
-		  <div id="groupBox" style="height: <?=getPersonalization($owner, 'readerPannelHeight')?>px">
+		  <div id="groupBox" style="height: <?=getUserSetting('readerPannelHeight', 150)?>px">
 		  <?
 printFeedGroups($owner);
 ?>
           </div>
 		  </td>
           <td valign="top" height="100%" style="padding: 0px 6px 0px 0px">
-		  <div id="feedBox" style="height: <?=getPersonalization($owner, 'readerPannelHeight')?>px">
+		  <div id="feedBox" style="height: <?=getUserSetting('readerPannelHeight', 150)?>px">
 		  <?
 printFeeds($owner);
 ?>
@@ -270,7 +270,7 @@ if (getUserId() == 1) {
 	</div>	  
       <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom:6px; table-layout: fixed">
         <tr>
-          <td align="center" bgcolor="#7097c6" style="cursor: s-resize" onmousedown="Reader.startResizing(event)"><img id="toggleButton" src="<?=$service['path']?>/image/owner/reader/bar<?=getPersonalization($owner, 'readerPannelVisibility') == 1 ? 'Hide' : 'Show'?>.gif" width="69" height="8" style="cursor: pointer" onclick="Reader.togglePannel(event)"/></td>
+          <td align="center" bgcolor="#7097c6" style="cursor: s-resize" onmousedown="Reader.startResizing(event)"><img id="toggleButton" src="<?=$service['path']?>/image/owner/reader/bar<?=getUserSetting('readerPannelVisibility', 1) == 1 ? 'Hide' : 'Show'?>.gif" width="69" height="8" style="cursor: pointer" onclick="Reader.togglePannel(event)"/></td>
         </tr>
       </table>
       <table id="scrollPoint" width="100%" border="0" cellpadding="0" cellspacing="0" style="background: #B4D1F1 url('<?=$service['path']?>/image/owner/reader/contentsBg.gif') repeat-x">

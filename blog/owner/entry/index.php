@@ -6,13 +6,10 @@ if (isset($_POST['categoryAtHome']))
 	$_POST['category'] = $_POST['categoryAtHome'];
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
-$perPage = getPersonalization($owner, 'rowsPerPage');
-if (empty($_POST['perPage'])) {
-} else if (!empty($_POST['perPage']) && $perPage != $_POST['perPage']) {
-	setPersonalization($owner, 'rowsPerPage', $_POST['perPage']);
+$perPage = getUserSetting('rowsPerPage', 10);
+if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
-} else if (!empty($_POST['perPage'])) {
-	$perPage = $_POST['perPage'];
+	setUserSetting('rowsPerPage', $_POST['perPage']);
 }
 list($entries, $paging) = getEntriesWithPagingForOwner($owner, $categoryId, $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header0.php';
