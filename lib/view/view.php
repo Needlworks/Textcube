@@ -353,8 +353,11 @@ function getCommentView($entryId, & $skin) {
 			dress($prefix1 . '_rep_date', Timestamp::format5($commentSubItem['written']), $commentSubItemView);
 			dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentSubItem['id']}", $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']}); return false;", $commentSubItemView);
-			$rp_class = $owner == $commentSubItem['replier'] ? 'tt-admin-'.$prefix2 : 'tt-guest-'.$prefix2;
-			$rp_class = $commentSubItem['secret'] == 1 ? 'tt-secret-'.$prefix2 : 'tt-guest-'.$prefix2;
+			$rp_class = 'tt-guest-'.$prefix2;
+			if ($owner == $commentSubItem['replier'])
+				$rp_class = 'tt-admin-'.$prefix2;
+			else if ($commentSubItem['secret'] == 1)
+				$rp_class = 'tt-secret-'.$prefix2;
 			dress($prefix1 . '_rep_class', $rp_class, $commentSubItemView);
 			$commentSubItemsView .= $commentSubItemView;
 		}
@@ -373,8 +376,11 @@ function getCommentView($entryId, & $skin) {
 		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']}); return false", $commentItemView);
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
 		dress($prefix1 . '_rep_link', "$blogURL/{$entryId}#comment{$commentItem['id']}", $commentItemView);
-		$rp_class = $owner == $commentItem['replier'] ? 'tt-admin-'.$prefix2 : 'tt-guest-'.$prefix2;
-		$rp_class = $commentItem['secret'] == 1 ? 'tt-secret-'.$prefix2 : 'tt-guest-'.$prefix2;
+		$rp_class = 'tt-guest-'.$prefix2;
+		if ($owner == $commentItem['replier'])
+			$rp_class = 'tt-admin-'.$prefix2;
+		else if ($commentItem['secret'] == 1)
+			$rp_class = 'tt-secret-'.$prefix2;
 		dress($prefix1 . '_rep_class', $rp_class, $commentItemView);
 		$commentItemsView .= $commentItemView;
 	}
