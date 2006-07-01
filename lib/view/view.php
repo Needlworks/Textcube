@@ -776,7 +776,7 @@ function getArchivesView($archives, & $template) {
 	return $view;
 }
 
-function getCalendarView($calendar, $type="number") {
+function getCalendarView($calendar) {
 	global $blogURL;
 	$current = $calendar['year'] . $calendar['month'];
 	$previous = addPeriod($current, - 1);
@@ -785,49 +785,8 @@ function getCalendarView($calendar, $type="number") {
 	$lastDay = date('t', mktime(0, 0, 0, $calendar['month'], 1, $calendar['year']));
 	$today = ($current == Timestamp::get('Ym') ? Timestamp::get('j') : null);
 	
-	if ($type == "en") {
-		switch ($calendar['month']) {
-			case "01":
-				$currentMonthStr = 'Jan<span class="tt-month-tail">uary</span>';
-				break;
-			case "02":
-				$currentMonthStr = 'Feb<span class="tt-month-tail">uary</span>';
-				break;
-			case "03":
-				$currentMonthStr = 'Mar<span class="tt-month-tail">ch</span>';
-				break;
-			case "04":
-				$currentMonthStr = 'Apr<span class="tt-month-tail">il</span>';
-				break;
-			case "05":
-				$currentMonthStr = 'May';
-				break;
-			case "06":
-				$currentMonthStr = 'Jun<span class="tt-month-tail">e</span>';
-				break;
-			case "07":
-				$currentMonthStr = 'Jul<span class="tt-month-tail">y</span>';
-				break;
-			case "08":
-				$currentMonthStr = 'Aug<span class="tt-month-tail">ust</span>';
-				break;
-			case "09":
-				$currentMonthStr = 'Sep<span class="tt-month-tail">tember</span>';
-				break;
-			case "10":
-				$currentMonthStr = 'Oct<span class="tt-month-tail">ober</span>';
-				break;
-			case "11":
-				$currentMonthStr = 'Nov<span class="tt-month-tail">ember</span>';
-				break;
-			case "12":
-				$currentMonthStr = 'Dec<span class="tt-month-tail">ember</span>';
-				break;
-		}
-		$currentMonthStr .= " {$calendar['year']}";
-	} else {
-		$currentMonthStr = Timestamp::format('%Y/%m', getTimeFromPeriod($current));
-	}
+	$currentMonthStr = Timestamp::format('%Y/%m', getTimeFromPeriod($current));
+	
 	ob_start();
 ?>
 <table id="tt-calendar" cellpadding="0" cellspacing="1" style="width: 100%; table-layout: fixed">
