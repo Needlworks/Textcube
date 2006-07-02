@@ -1162,14 +1162,6 @@ CREATE TABLE {$_POST['dbPrefix']}Links (
   PRIMARY KEY  (id),
   UNIQUE KEY owner (owner,url)
 ) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Personalization (
-  owner int(11) NOT NULL default '0',
-  rowsPerPage tinyint(4) NOT NULL default '10',
-  readerPannelVisibility int(11) NOT NULL default '1',
-  readerPannelHeight int(11) NOT NULL default '150',
-  lastVisitNotifiedPage varchar(11) default NULL,
-  PRIMARY KEY  (owner)
-) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Plugins (
   owner int(11) NOT NULL default '0',
   name varchar(255) NOT NULL default '',

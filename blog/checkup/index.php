@@ -186,7 +186,15 @@ if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings timezone", 'Type'
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 	}
 }
-if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings archivesOnPage")) { // Since 1.0.6
+if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type') != 'varchar(5)') { // Since 1.0.6
+	$changed = true;
+	echo '<li>', _t('블로그 설정 테이블의 언어 필드 속성을 변경합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings CHANGE language language VARCHAR(5) NOT NULL DEFAULT 'en'"))
+		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
+}
+if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings archivesOnPage")) { // Since 1.1
 	$changed = true;
 	echo '<li>', _t('스킨 설정 테이블에 아카이브 출력 설정 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD archivesOnPage INT DEFAULT 5 NOT NULL AFTER commentsOnGuestbook"))
@@ -218,14 +226,6 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Comments isFiltered")) {
 	else
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 }
-if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type') != 'varchar(5)') {
-	$changed = true;
-	echo '<li>', _t('블로그 설정 테이블의 언어 필드 속성을 변경합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings CHANGE language language VARCHAR(5) NOT NULL DEFAULT 'en'"))
-		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
-}
 if (DBQuery::queryExistence("DESC {$database['prefix']}Trackbacks sender")) {
 	$changed = true;
 	echo '<li>', _t('트랙백 테이블의 미사용 필드를 삭제합니다.'), ': ';
@@ -249,6 +249,47 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Categories bodyId")) {
 		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
+}
+if (!DBQuery::queryExistence("DESC {$database['prefix']}ServiceSettings name")) {
+	$changed = true;
+	echo '<li>', _t('서비스 설정을 위한 테이블을 추가합니다.'), ': ';
+	$query = "
+		CREATE TABLE {$database['prefix']}ServiceSettings (
+			name varchar(32) NOT NULL default '',
+			value varchar(255) NOT NULL default '',
+			PRIMARY KEY (name)
+		) TYPE=MyISAM
+	";
+	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query))
+		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
+}
+if (!DBQuery::queryExistence("DESC {$database['prefix']}UserSettings user")) {
+	$changed = true;
+	echo '<li>', _t('사용자 설정을 위한 테이블을 추가합니다.'), ': ';
+	$query = "
+		CREATE TABLE {$database['prefix']}UserSettings (
+			user int(11) NOT NULL default '0',
+			name varchar(32) NOT NULL default '',
+			value varchar(255) NOT NULL default '',
+			PRIMARY KEY (user,name)
+		) TYPE=MyISAM
+	";
+	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query))
+		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
+}
+if ((DBQuery::queryExistence("DESC {$database['prefix']}Personalization owner"))&&(DBQuery::queryExistence("DESC {$database['prefix']}UserSettings user"))) {
+	$changed = true;
+	echo '<li>', _t('사용자 설정을 위한 테이블로 Personalization 테이블의 정보를 이동합니다.'), ': ';
+	if ((DBQuery::execute("INSERT INTO {$database['prefix']}UserSettings(user,name,value) SELECT owner, 'rowsPerPage', rowsPerPage FROM {$database['prefix']}Personalization")) && (DBQuery::execute("INSERT INTO {$database['prefix']}UserSettings(user,name,value) SELECT owner, 'readerPannelVisibility', readerPannelVisibility FROM {$database['prefix']}Personalization")) && (DBQuery::execute("INSERT INTO {$database['prefix']}UserSettings(user,name,value) SELECT owner, 'readerPannelHeight', readerPannelHeight FROM {$database['prefix']}Personalization")) && (DBQuery::execute("INSERT INTO {$database['prefix']}UserSettings(user,name,value) SELECT owner, 'lastVisitNotifiedPage', lastVisitNotifiedPage FROM {$database['prefix']}Personalization"))) {
+		DBQuery::execute("DROP TABLE {$database['prefix']}Personalization");
+		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
+	} else {
+		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
+	}
 }
 ?>
 </ul>
