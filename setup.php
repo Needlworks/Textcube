@@ -1192,6 +1192,11 @@ CREATE TABLE {$_POST['dbPrefix']}ReservedWords (
   word varchar(16) NOT NULL default '',
   PRIMARY KEY  (word)
 ) $charset;
+CREATE TABLE {$_POST['dbPrefix']}ServiceSettings (
+  name varchar(32) NOT NULL default '',
+  value varchar(255) NOT NULL default '',
+  PRIMARY KEY  (name)
+) $charset;
 CREATE TABLE {$_POST['dbPrefix']}SessionVisits (
   id varchar(32) NOT NULL default '',
   address varchar(15) NOT NULL default '',
@@ -1285,6 +1290,12 @@ CREATE TABLE {$_POST['dbPrefix']}Users (
   host int(11) NOT NULL default '0',
   PRIMARY KEY  (userid),
   UNIQUE KEY loginid (loginid)
+) $charset;
+CREATE TABLE {$_POST['dbPrefix']}UserSettings (
+  user int(11) NOT NULL default '0',
+  name varchar(32) NOT NULL default '',
+  value varchar(255) NOT NULL default '',
+  PRIMARY KEY (user,name)
 ) $charset;
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
 INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, language, timezone) VALUES (1, '{$_POST['blog']}', '$baseLanguage', '$baseTimezone');
