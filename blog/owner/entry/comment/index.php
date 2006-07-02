@@ -7,13 +7,10 @@ $name = empty($_GET['name']) ? '' : $_GET['name'];
 $ip = empty($_GET['ip']) ? '' : $_GET['ip'];
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
 $page = getPersonalization($owner, 'rowsPerPage');
-if (empty($_POST['perPage'])) {
-	$perPage = $page;
-} else if ($page != $_POST['perPage']) {
-	setPersonalization($owner, 'rowsPerPage', $_POST['perPage']);
+$perPage = getUserSetting('rowsPerPage', 10); 
+if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
-} else {
-	$perPage = $_POST['perPage'];
+	setUserSetting('rowsPerPage', $_POST['perPage']);
 }
 list($comments, $paging) = getCommentsWithPagingForOwner($owner, $categoryId, $name, $ip, $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header0.php';

@@ -4,14 +4,10 @@ require ROOT . '/lib/includeForOwner.php';
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $name = empty($_GET['name']) ? '' : $_GET['name'];
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
-$page = getPersonalization($owner, 'rowsPerPage');
-if (empty($_POST['perPage'])) {
-	$perPage = $page;
-} else if ($page != $_POST['perPage']) {
-	setPersonalization($owner, 'rowsPerPage', $_POST['perPage']);
+$perPage = getUserSetting('rowsPerPage', 10); 
+if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
-} else {
-	$perPage = $_POST['perPage'];
+	setUserSetting('rowsPerPage', $_POST['perPage']);
 }
 list($comments, $paging) = getCommentsNotifiedWithPagingForOwner($owner, '', $name, '', $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header0.php';
@@ -153,8 +149,8 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 <?
 $more = false;
 $mergedComments = array();
-$lastVisitNotifiedPage = getPersonalization($owner, 'lastVisitNotifiedPage');
-setPersonalization($owner, 'lastVisitNotifiedPage', time());
+$lastVisitNotifiedPage = getUserSetting('lastVisitNotifiedPage', null);
+setUserSetting('lastVisitNotifiedPage', time());
 for ($i = 0; $i < count($comments); $i++) {
 	array_push($mergedComments, $comments[$i]);
 	$result = getCommentCommentsNotified($comments[$i]['id']);

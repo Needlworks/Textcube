@@ -618,9 +618,9 @@ function showJukeboxList(id,height){
 	flashTarget.style.height = divTarget.style.height = height+'px';
 }
 
-function setPersonalization(column, value) {
-	var request = new HTTPRequest("POST", blogURL + "/owner/setting/personalization/set/");
-	request.send("column=" + encodeURIComponent(column) + "&value=" + encodeURIComponent(value));
+function setUserSetting(name, value) {
+	var request = new HTTPRequest("POST", blogURL + "/owner/setting/userSetting/set/");
+	request.send("name=" + encodeURIComponent(name) + "&value=" + encodeURIComponent(value));
 }
 
 function getOffsetTop(obj)

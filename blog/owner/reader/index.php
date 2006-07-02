@@ -47,7 +47,7 @@ $setting = getReaderSetting($owner);
 					TTReader.feedUpdating = "<?=_t('피드 업데이트 중')?>";
 					TTReader.feedFailure = "<?=_t('잘못된 피드')?>";
 					TTReader.feedUpdate = "<?=_t('피드 업데이트')?>";
-					Reader.isPannelCollapsed = <?=getPersonalization($owner, 'readerPannelVisibility') == 1 ? 'false' : 'true'?>;
+					Reader.isPannelCollapsed = <?=getUserSetting('readerPannelVisibility', 1) == 1 ? 'false' : 'true'?>;
 					STD.addEventListener(document);
 					document.addEventListener("mouseup", Reader.finishResizing, false);
 					STD.addEventListener(window);
@@ -91,7 +91,7 @@ if ($setting['newWindow'] == 2) {
 				
 				<div id="pseudo-box">
 					<div id="data-outbox">
-						<div id="pannel" style="display: <?=getPersonalization($owner, 'readerPannelVisibility') == 1 ? 'block' : 'none'?>;">
+						<div id="pannel" style="display: <?=getUserSetting('readerPannelVisibility', 1) == 1 ? 'block' : 'none'?>;">
 							<div id="groupsAndFeeds" class="part">
 								<h2 class="caption"><span class="main-text"><?=_t('피드 리스트')?></span></h2>
 								
@@ -99,7 +99,7 @@ if ($setting['newWindow'] == 2) {
 									<div id="group-section" class="section">
 										<h3><?=_t('피드 그룹')?></h3>
 										
-										<div id="groupBox" class="container" style="height: <?=getPersonalization($owner, 'readerPannelHeight')?>px;">
+										<div id="groupBox" class="container" style="height: <?=getUserSetting('readerPannelHeight', 150)?>px;">
 <?
 printFeedGroups($owner);
 ?>
@@ -110,7 +110,7 @@ printFeedGroups($owner);
 									<div id="feed-section" class="section">
 										<h3><?=_t('현재 그룹 내의 피드 리스트')?></h3>
 									
-										<div id="feedBox" class="section" style="height: <?=getPersonalization($owner, 'readerPannelHeight')?>px;">
+										<div id="feedBox" class="section" style="height: <?=getUserSetting('readerPannelHeight', 150)?>px;">
 <?
 printFeeds($owner);
 ?>
@@ -227,8 +227,8 @@ if (getUserId() == 1) {
 									var show_str = '<?=_t('패널보기')?>';
 									var hide_str = '<?=_t('패널 가리기')?>';
 									
-									document.write('<a id="toggleButton" class="pannel-<?=getPersonalization($owner, 'readerPannelVisibility') == 1 ? 'show' : 'hide'?>" href="#void" onclick="Reader.togglePannel(event)">');
-									document.write('<span class="text"><?= getPersonalization($owner, 'readerPannelVisibility') == 1 ? _t('패널 가리기') : _t('패널보기')?></span>');
+									document.write('<a id="toggleButton" class="pannel-<?=getUserSetting('readerPannelVisibility', 1) == 1 ? 'show' : 'hide'?>" href="#void" onclick="Reader.togglePannel(event)">');
+									document.write('<span class="text"><?=getUserSetting('readerPannelVisibility', 1) == 1 ? _t('패널 가리기') : _t('패널보기')?></span>');
 									document.write('</a>');
 								//]]>
 							</script>

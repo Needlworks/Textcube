@@ -70,14 +70,14 @@ TTReader.prototype.togglePannel = function(event)
 		getObject("pannel").style.display = "block";
 		getObject("toggleButton").className = "pannel-show";
 		getObject("toggleButton").innerHTML = '<span class="text">' + hide_str + '</span>';
-		setPersonalization("readerPannelVisibility", 1);
+		setUserSetting("readerPannelVisibility", 1);
 	}
 	else
 	{
 		getObject("pannel").style.display = "none";
 		getObject("toggleButton").className = "pannel-hide";
 		getObject("toggleButton").innerHTML = '<span class="text">' + show_str + '</span>';
-		setPersonalization("readerPannelVisibility", 0);
+		setUserSetting("readerPannelVisibility", 0);
 	}
 	getObject("floatingList").style.top = "0px";
 	this.floatingListOffset = getObject("floatingList").offsetTop;
@@ -126,7 +126,7 @@ TTReader.prototype.finishResizing = function()
 		STD.removeEventListener(document);
 		document.removeEventListener("mousemove", Reader.doResizing, false);
 		document.removeEventListener("selectstart", Reader.returnFalse, false);
-		setPersonalization("readerPannelHeight", parseInt(getObject("groupBox").style.height));
+		setUserSetting("readerPannelHeight", parseInt(getObject("groupBox").style.height));
 		Reader.resizeStart = 0;
 		getObject("floatingList").style.top = "0px";
 		this.floatingListOffset = getObject("floatingList").offsetTop;
