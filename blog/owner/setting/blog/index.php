@@ -11,7 +11,7 @@ require ROOT . '/lib/piece/owner/contentMenu50.php';
 								
 								function setBlog() {
 									if (document.getElementById('common-section').title.value != title) {
-										var request = new HTTPRequest("GET", "<?=$service['path']?>/owner/setting/blog/title?title=" + encodeURIComponent(document.getElementById('common-section').title.value));
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/title?title=" + encodeURIComponent(document.getElementById('common-section').title.value));
 										request.onSuccess = function() {
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
 											title = document.getElementById('common-section').title.value;
