@@ -930,6 +930,7 @@ function printEntryEditorProperty() {
 														<select id="propertyHyperLink_target" style="width: 105px" onchange="getObject('propertyInsertObject_part_url').style.display=getObject('propertyInsertObject_part_raw').style.display='none';getObject('propertyInsertObject_part_' + this.value).style.display = 'block'">
 															<option value="_blank"><?php echo _t('새창')?></option>
 															<option value="_self"><?php echo _t('현재창')?></option>
+															<option value=""><?php echo _t('사용 안함')?></option>
 														</select>
 													</dd>
 												</dl>
