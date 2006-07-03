@@ -5,14 +5,10 @@ $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $site = empty($_GET['site']) ? '' : $_GET['site'];
 $ip = empty($_GET['ip']) ? '' : $_GET['ip'];
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
-$page = getPersonalization($owner, 'rowsPerPage');
-if (empty($_POST['perPage'])) {
-	$perPage = $page;
-} else if ($page != $_POST['perPage']) {
-	setPersonalization($owner, 'rowsPerPage', $_POST['perPage']);
+$perPage = getUserSetting('rowsPerPage', 10); 
+if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
-} else {
-	$perPage = $_POST['perPage'];
+	setUserSetting('rowsPerPage', $_POST['perPage']);
 }
 list($trackbacks, $paging) = getTrashTrackbackWithPagingForOwner($owner, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header9.php';

@@ -6,7 +6,6 @@ $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $name = empty($_GET['name']) ? '' : $_GET['name'];
 $ip = empty($_GET['ip']) ? '' : $_GET['ip'];
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
-$page = getPersonalization($owner, 'rowsPerPage');
 $perPage = getUserSetting('rowsPerPage', 10); 
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
