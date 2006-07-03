@@ -1199,13 +1199,13 @@ function TTCommand(command, value1, value2) {
 					}
 					else {
 						if(STD.isIE) {
-							editor.getSelectionRange().pasteHTML("<ul><li>" + editor.getSelectionRange().htmlText.replace(new RegExp("<br>", "gi"), "</li><li>") + "</li></ul>");
+							editor.getSelectionRange().pasteHTML("<ul><li>" + editor.getSelectionRange().htmlText.replace(new RegExp("<br />", "gi"), "</li><li>") + "</li></ul>");
 						}
 						else {
 							var range = editor.getSelectionRange();
 							var dummyNode = document.createElement("div");
 							dummyNode.appendChild(range.extractContents());
-							var html = dummyNode.innerHTML.replace(new RegExp("<br>", "gi"), "</li><li>");
+							var html = dummyNode.innerHTML.replace(new RegExp("<br />", "gi"), "</li><li>");
 							range.insertNode(range.createContextualFragment("<ul><li>" + html + "</li></ul>"));
 						}
 					}
@@ -1239,13 +1239,13 @@ function TTCommand(command, value1, value2) {
 					}
 					else {
 						if(STD.isIE) {
-							editor.getSelectionRange().pasteHTML("<ol><li>" + editor.getSelectionRange().htmlText.replace(new RegExp("<br>", "gi"), "</li><li>") + "</li></ol>");
+							editor.getSelectionRange().pasteHTML("<ol><li>" + editor.getSelectionRange().htmlText.replace(new RegExp("<br />", "gi"), "</li><li>") + "</li></ol>");
 						}
 						else {
 							var range = editor.getSelectionRange();
 							var dummyNode = document.createElement("div");
 							dummyNode.appendChild(range.extractContents());
-							var html = dummyNode.innerHTML.replace(new RegExp("<br>", "gi"), "</li><li>");
+							var html = dummyNode.innerHTML.replace(new RegExp("<br />", "gi"), "</li><li>");
 							range.insertNode(range.createContextualFragment("<ol><li>" + html + "</li></ol>"));
 						}
 					}
@@ -1541,8 +1541,8 @@ TTEditor.prototype.eventHandler = function(event) {
 // execCommand 후 불필요하게 삽입된 여백등을 제거해준다
 TTEditor.prototype.trimContent = function() {
 	var html = this.contentDocument.body.innerHTML;
-	html = html.replace(new RegExp("<p>\\s*(<br>)+", "gi"), "<p>");
-	html = html.replace(new RegExp("(<br>)+\\s*</p>", "gi"), "</p>");
+	html = html.replace(new RegExp("<p>\\s*(<br />)+", "gi"), "<p>");
+	html = html.replace(new RegExp("(<br />)+\\s*</p>", "gi"), "</p>");
 	html = html.replace(new RegExp("<p></p>", "gi"), "");
 	html = html.replace(new RegExp("<li>\\s*<p>", "gi"), "<li>");
 	html = html.replace(new RegExp("</p>\\s*</li>", "gi"), "</li>");
