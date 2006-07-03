@@ -265,6 +265,11 @@ class Validator {
 	}
 
 	/*@static@*/
+	function mail($address) {
+		return preg_match('/^[^@]+@([[:alnum:]]+(-[[:alnum:]]+)*\.)+[[:alnum:]]+(-[[:alnum:]]+)*$/', $address);
+	}
+	
+	/*@static@*/
 	function domain($domain) {
 		return preg_match('/^([[:alnum:]]+(-[[:alnum:]]+)*\\.)+[[:alnum:]]+(-[[:alnum:]]+)*$/', $domain);
 	}
