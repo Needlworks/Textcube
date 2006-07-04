@@ -509,7 +509,7 @@ if ($dh = opendir($skinPath)) {
 									</fieldset>
 								
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setSkin(); return false;"><span class="text"><?=_t('저장하기')?></span></a>
+										<a class="save-button button" href="#void" onclick="document.getElementById('setSkinForm').submit()"><span class="text"><?=_t('저장하기')?></span></a>
 									</div>
 								</div>
 							</form>

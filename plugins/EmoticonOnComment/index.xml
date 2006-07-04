@@ -12,7 +12,7 @@ The strings are :) ;) :P $D :( --;</description>
   <description xml:lang="ja">コメントと掲示板の内容に含まれた絵文字の記号をアイコンに変えて見せます。出来る絵文字は :) ;) :P $D :( --; です。</description>
   <description xml:lang="zh-CN">评论和留言中的特殊符号会转换成个性表情. 支持的符号有:) ;) :P $D :( --;</description>
   <license>GPL</license>
-  <author link="http://www.tattertools.com">Tatter＆Company</author>
+  <author link="http://www.tattertools.com">Tatter and Company</author>
   <author xml:lang="ko" link="http://www.tattertools.com">태터앤컴퍼니</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>

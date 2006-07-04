@@ -7,7 +7,7 @@
   <description xml:lang="ko">EOLIN에서 제공하는 스팸 코멘트/트랙백 차단 서비스를 사용합니다.</description>
   <description xml:lang="en">Deny spam comments and trackback supplyed by EOLIN.</description>
   <license>GPL</license>
-  <author link="http://www.tattertools.com">Tatter＆Company</author>
+  <author link="http://www.tattertools.com">Tatter and Company</author>
   <author xml:lang="ko" link="http://www.tattertools.com">태터앤컴퍼니</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="yes" accessRaw="no" />
   <requirements>
