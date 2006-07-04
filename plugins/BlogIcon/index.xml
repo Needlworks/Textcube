@@ -11,7 +11,7 @@
   <description xml:lang="ja">コメントと掲示板の作成者ページにブログのアイコン (index.gif) があったら名前の側に表示します。</description>
   <description xml:lang="zh-CN">评论和留言的作者的网站若有个性图标(index.gif),则会显示.</description>
   <license>GPL</license>
-  <author link="http://www.tattertools.com">Tatter＆Company</author>
+  <author link="http://www.tattertools.com">Tatter &amp; Company</author>
   <author xml:lang="ko" link="http://www.tattertools.com">태터앤컴퍼니</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>

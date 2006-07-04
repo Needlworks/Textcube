@@ -11,7 +11,7 @@
   <description xml:lang="ja">タッターツールズの誕生日と D-day をブログのページに出力します。このプラグインを使用中にして [##_TattertoolsBirthday_##] タグをスキンに含むと動作が出来ます。</description>
   <description xml:lang="zh-CN">在网页中显示TT生日和D-day. 模板中要包含 [##_TattertoolsBirthday_##] 标签.</description>
   <license>GPL</license>
-  <author link="http://www.tattertools.com">Tatter and Company</author>
+  <author link="http://www.tattertools.com">Tatter &amp; Company</author>
   <author xml:lang="ko" link="http://www.tattertools.com">태터앤컴퍼니</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>

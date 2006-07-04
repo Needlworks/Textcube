@@ -12,7 +12,7 @@
   <description xml:lang="ja">コメントと掲示板の作成者ページに favicon.ico があったら名前の側に表示します。しかし、IEでは正しく動作しません。</description>
   <description xml:lang="zh-CN">留言中的网站若有favicon.ico文件,则显示. 在IE中支持不理想.</description>
   <license>GPL</license>
-  <author link="http://www.tattertools.com">Tatter＆Company</author>
+  <author link="http://www.tattertools.com">Tatter &amp; Company</author>
   <author xml:lang="ko" link="http://www.tattertools.com">태터앤컴퍼니</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
