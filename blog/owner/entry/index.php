@@ -7,15 +7,21 @@ if (isset($_GET['category']))
 if (isset($_POST['categoryAtHome']))
 	$_POST['category'] = $_POST['categoryAtHome'];
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
-$search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
+if (isset($_GET['search']))
+	$search = empty($_GET['search']) ? '' : trim($_GET['search']);
+else
+	$search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
 $perPage = getUserSetting('rowsPerPage', 10);
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
 	setUserSetting('rowsPerPage', $_POST['perPage']);
 }
 list($entries, $paging) = getEntriesWithPagingForOwner($owner, $categoryId, $search, $suri['page'], $perPage);
+$paging['postfix'] = '';
 if ($categoryId != 0)
-	$paging['postfix'] = "&amp;category=$categoryId";
+	$paging['postfix'] .= "&amp;category=$categoryId";
+if (!empty($search))
+	$paging['postfix'] .= '&amp;search='.urlencode($search);
 require ROOT . '/lib/piece/owner/header0.php';
 require ROOT . '/lib/piece/owner/contentMenu00.php';
 ?>
