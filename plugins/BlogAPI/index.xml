@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="ko">Blogger API</title>
+  <title xml:lang="en">Blogger API</title>
+  <link>http://coolengineer.com/tt/tag/BlogAPI</link>
+  <version>0.9.6</version>
+  <description xml:lang="en">This plugin enables posting via Blogger, MetaWeblog API. URL: BLOG-ADDRESS/plugin/BlogAPI</description>
+  <description xml:lang="ko">이 플러그인은 Blogger, MetaWeblog API를 통해 글을 쓸 수 있도록 합니다. URL: BLOG주소/plugin/BlogAPI</description>
+  <license>GPL</license>
+  <author link="http://coolengineer.com/">최호진</author>
+  <author xml:lang="ko" link="http://coolengineer.com">최호진</author>
+  <author xml:lang="en" link="http://coolengineer.com">Hojin Choi</author>
+  <safety changeData="yes" exposeData="yes" accessLocal="no" accessRemote="no" accessRaw="no" />
+  <requirements>
+    <tattertools>1.0.4</tattertools>
+  </requirements>
+  <binding>
+	<listener event="/plugin/BlogAPI">BlogAPI</listener>
+	<listener event="/plugin/blogapi">BlogAPI</listener>
+
+	<listener event="/plugin/BlogAPI/">BlogAPI</listener>
+	<listener event="/plugin/blogapi/">BlogAPI</listener>
+
+	<listener event="/plugin/BlogAPI/xmlrpc">BlogAPI</listener>
+	<listener event="/plugin/blogapi/xmlrpc">BlogAPI</listener>
+
+	<listener event="/plugin/BlogAPI/rsd">SendRSD</listener>
+	<listener event="/plugin/blogapi/rsd">SendRSD</listener>
+
+	<listener event="/plugin/BlogAPI/atom">BlogAPIAtom</listener>
+	<listener event="/plugin/blogapi/atom">BlogAPIAtom</listener>
+
+	<listener event="/plugin/BlogAPI/test">BlogAPITest</listener>
+
+	<tag name="SKIN_head_end" handler="AddRSD" />
+  </binding>
+</plugin>
