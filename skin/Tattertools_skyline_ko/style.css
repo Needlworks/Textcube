@@ -483,7 +483,6 @@ padding-left:38px;
 }
 .guestbook .list .tt-secret-comment p{
 	color:#FF7F7F !important;
-	text-align : center;
 }
 .guestbook .control a{
 	font:9px tahoma;
@@ -620,7 +619,6 @@ padding-left:38px;
 }
 .entry .commentlist .tt-secret-comment p{
 	color:#FF7F7F !important;
-	text-align : center;
 }
 .entry .control a{
 	font:9px tahoma;

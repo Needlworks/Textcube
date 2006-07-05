@@ -1237,11 +1237,11 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 				}
 				
 				if (eregi('alt=""', $property, $temp)) {
-					$property = str_replace('alt=""', 'alt="'._t('유저 삽입 이미지').'"', $property);
+					$property = str_replace('alt=""', 'alt="'._t('사용자 삽입 이미지').'"', $property);
 				} else if (eregi('alt="[^"]+"', $property, $temp)) {
 					// 이미 있으므로 통과
 				} else {
-					$property .= ' alt="'._t('유저 삽입 이미지').'"';	
+					$property .= ' alt="'._t('사용자 삽입 이미지').'"';	
 				}
 				
 				/*if ($originWidth > $contentWidth) {

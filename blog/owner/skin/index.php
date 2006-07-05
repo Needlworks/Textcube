@@ -43,7 +43,7 @@ function writeValue($value, $label) {
 											PM.showMessage("<?=_t('성공적으로 변경했습니다.')?>", "center", "bottom");
 											document.getElementById('currentPreview').innerHTML = document.getElementById('preview_'+name).innerHTML;
 											document.getElementById('currentInfo').innerHTML = document.getElementById('info_'+name).innerHTML;
-											document.getElementById('currentButton').innerHTML = document.getElementById('button_'+name).innerHTML;
+											//document.getElementById('currentButton').innerHTML = document.getElementById('button_'+name).innerHTML;
 											window.location.href = "#currentSkinAnchor";
 											//eleganceScroll('currentSkin',8);
 											/*
@@ -105,11 +105,11 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 											</table>
 										</div>
 										<div class="button-box">
-											<span id="currentButton">
+											<!--span id="currentButton">
 												<a class="preview-button button" href="<?=$blogURL?>/owner/skin/preview/?skin=<?=$skinSetting['skin']?>" onclick="window.open(this.href); return false;"><span class="text"><?=_t('미리보기')?></span></a>
 												<span class="hidden">|</span>
 												<a class="apply-button button" href="<?=$blogURL?>/owner/skin/change/?javascript=disabled&amp;skinName=<?=urlencode($skinSetting['skin'])?>" onclick="selectSkin('<?=$skinSetting['skin']?>'); return false;"><span class="text"><?=_t('적용')?></span></a>
-											</span>
+											</span-->
 											<span class="hidden">|</span>
 											<a class="edit-button button" href="<?=$blogURL?>/owner/skin/edit" onclick="window.open(this.href); return false;"><span class="text"><?=_t('편집하기')?></span></a>
 										</div>

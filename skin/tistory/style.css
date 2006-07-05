@@ -524,7 +524,6 @@ color:#333;
 }
 .guestbook .clist .tt-secret-comment p{
 	color:#FF7F7F !important;
-	text-align : center;
 }
 .guestbook .clist li .name{
 	font-size:12px;
@@ -697,7 +696,6 @@ color:#222;
 }
 .entry .commentlist .tt-secret-comment p{
 	color:#FF7F7F !important;
-	text-align : center;
 }
 .entry .control{
 	font:11px dotum;
