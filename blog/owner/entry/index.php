@@ -14,6 +14,8 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	setUserSetting('rowsPerPage', $_POST['perPage']);
 }
 list($entries, $paging) = getEntriesWithPagingForOwner($owner, $categoryId, $search, $suri['page'], $perPage);
+if ($categoryId != 0)
+	$paging['postfix'] = "&amp;category=$categoryId";
 require ROOT . '/lib/piece/owner/header0.php';
 require ROOT . '/lib/piece/owner/contentMenu00.php';
 ?>
