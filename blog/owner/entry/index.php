@@ -509,7 +509,7 @@ foreach (getCategories($owner) as $category) {
 	}
 }
 ?>
-										<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '')?>><?php echo _t('분류 없음')?></option>
+										<option value="-2"<?php echo ($categoryId == -2 ? ' selected="selected"' : '')?>><?php echo _t('분류 없음')?></option>
 									</select>
 									<!--a id="category-move-button" class="move-button button" href="#void"><span class="text"><?=_t('이동')?></span></a-->
 								</div>
