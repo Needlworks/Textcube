@@ -162,7 +162,7 @@ function getEntriesWithPagingForOwner($owner, $category, $search, $page, $count)
 		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
-	} else if ($category == -2) {
+	} else if ($category == -3) {
 		$sql .= ' AND e.category = 0';
 	} else {		
 		$sql .= ' AND e.category >= 0';
