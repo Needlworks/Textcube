@@ -50,8 +50,6 @@ $writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 						<li id="menu-tattertools"><a href="<?php echo TATTERTOOLS_HOMEPAGE?>" onclick="window.open(this.href); return false;" title="<?php echo _t('태터툴즈 홈페이지로 이동합니다.')?>"><span class="text"><?php echo _t('태터툴즈 홈페이지')?></span></a></li>
 						<li id="menu-center"><a href="<?php echo $blogURL?>/owner/center/dashboard"><span><?php echo _t('센터')?></span></a></li>
 						<li id="menu-post"><a href="<?php echo $blogURL?>/owner/entry"><span class="text"><?php echo _t('글관리')?></span></a></li>
-						<!--li id="menu-keyword"><a href="<?php echo $blogURL?>/owner/keyword"><span class="text"><?php echo _t('키워드관리')?></span></a></li-->
-						<li id="menu-notice"><a href="<?php echo $blogURL?>/owner/notice"><span class="text"><?php echo _t('공지관리')?></span></a></li>				
 						<li id="menu-link"><a href="<?php echo $blogURL?>/owner/link"><span class="text"><?php echo _t('링크관리')?></span></a></li>
 						<li id="menu-skin" class="selected"><a href="<?php echo $blogURL?>/owner/skin"><span class="text"><?php echo _t('스킨관리')?></span></a></li>
 						<li id="menu-trash"><a href="<?php echo $blogURL?>/owner/trash/comment"><span class="text"><?php echo _t('휴지통')?></span></a></li>

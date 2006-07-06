@@ -1,8 +1,6 @@
 <?
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
-if (defined('__TATTERTOOLS_KEYWORD__'))
-	respondNotFoundPage();
 if (defined('__TATTERTOOLS_POST__'))
 	$suri['id'] = 0;
 if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
@@ -12,43 +10,25 @@ if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
 }
 if (defined('__TATTERTOOLS_NOTICE__')) {
 	$entry['category'] = -2;
-	if (isset($_GET['popupEditor'])) {
-		require ROOT . '/lib/piece/owner/header8.php';
-	} else {
-		require ROOT . '/lib/piece/owner/header7.php';
-	}
-} else {
-	if (isset($_GET['popupEditor'])) {
-		require ROOT . '/lib/piece/owner/header8.php';
-	} else {
-		require ROOT . '/lib/piece/owner/header0.php';
-	}
 }
+
+if (isset($_GET['popupEditor'])) {
+	require ROOT . '/lib/piece/owner/header8.php';
+} else {
+	require ROOT . '/lib/piece/owner/header0.php';
+}
+
 if (defined('__TATTERTOOLS_POST__')) {
-	if (defined('__TATTERTOOLS_NOTICE__')) {
-		if (isset($_GET['popupEditor']))
-			require ROOT . '/lib/piece/owner/contentMenu81.php';
-		else
-			require ROOT . '/lib/piece/owner/contentMenu71.php';
-	} else {
-		if (isset($_GET['popupEditor']))
-			require ROOT . '/lib/piece/owner/contentMenu81.php';
-		else
-			require ROOT . '/lib/piece/owner/contentMenu04.php';
-	}
+	if (isset($_GET['popupEditor']))
+		require ROOT . '/lib/piece/owner/contentMenu81.php';
+	else
+		require ROOT . '/lib/piece/owner/contentMenu04.php';
 	printOwnerEditorScript();
 } else {
-	if (defined('__TATTERTOOLS_NOTICE__')) {
-		if (isset($_GET['popupEditor']))
-			require ROOT . '/lib/piece/owner/contentMenu81.php';
-		else
-			require ROOT . '/lib/piece/owner/contentMenu70.php';
-	} else {
-		if (isset($_GET['popupEditor']))
-			require ROOT . '/lib/piece/owner/contentMenu81.php';
-		else
-			require ROOT . '/lib/piece/owner/contentMenu00.php';
-	}
+	if (isset($_GET['popupEditor']))
+		require ROOT . '/lib/piece/owner/contentMenu81.php';
+	else
+		require ROOT . '/lib/piece/owner/contentMenu00.php';
 	printOwnerEditorScript($entry['id']);
 }
 ?>

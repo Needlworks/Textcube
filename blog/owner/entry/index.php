@@ -492,12 +492,26 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 						</script>
 						
 						<div id="part-post-list" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('등록된 글 목록입니다')?></span></h2>
-							
+							<h2 class="caption"><span class="main-text"><?php
+	if ($categoryId == -1) { 
+		echo _t('등록된 키워드 목록입니다');
+	} else if ($categoryId == -2) {
+		echo _t('등록된 공지 목록입니다');
+	} else {
+		echo _t('등록된 글 목록입니다');
+	}
+?></span></h2>
+
 							<form id="category-form" class="data-inbox" method="post" action="<?=$blogURL?>/owner/entry">
 								<div class="groupig">
 									<input type="hidden" name="page" value="<?=$suri['page']?>" />
 									<select id="category" class="normal-class" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
+										<optgroup class="category" label="<?=_t('글 종류')?>">
+										<option value="0"<?php echo ($categoryId == 0 ? ' selected="selected"' : '')?>><?php echo _t('글')?></option>
+										<option value="-2"<?php echo ($categoryId == -2 ? ' selected="selected"' : '')?>><?php echo _t('공지')?></option>
+										<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '')?>><?php echo _t('키워드')?></option>
+										</optgroup>
+										<optgroup class="category" label="<?=_t('카테고리')?>">
 										<option value="0"><?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
 <?php
 foreach (getCategories($owner) as $category) {
@@ -515,7 +529,8 @@ foreach (getCategories($owner) as $category) {
 	}
 }
 ?>
-										<option value="-3"<?php echo ($categoryId == -3 ? ' selected="selected"' : '')?>><?php echo _t('분류 없음')?></option>
+										<option value="-3"<?php echo ($categoryId == -3 ? ' selected="selected"' : '')?>><?php echo _t('(분류 없음)')?></option>
+										</optgroup>
 									</select>
 									<!--a id="category-move-button" class="move-button button" href="#void"><span class="text"><?=_t('이동')?></span></a-->
 								</div>
@@ -592,6 +607,14 @@ for ($i=0; $i<sizeof($entries); $i++) {
 ?>
 													<a id="category_<?=$entry['id']?>" class="categorized" href="<?php echo $blogURL?>/owner/entry?category=<?php echo $entry['category']?>"><?php echo htmlspecialchars($entry['categoryLabel'])?></a>
 <?
+	} else if ($categoryId == -2) {
+?>
+													<span class="notice"><?php echo _t('공지')?></span>
+<?
+	} else if ($categoryId == -1) {
+?>
+													<span class="keyword"><?php echo _t('키워드')?></span>
+<?
 	} else {
 ?>
 													<span class="uncategorized"><?php echo _t('분류 없음')?></span>
@@ -600,7 +623,17 @@ for ($i=0; $i<sizeof($entries); $i++) {
 ?>
 												</td>
 												<td class="title">
-													<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?><a href="<?php echo $blogURL?>/owner/entry/edit/<?=$entry['id']?>" onclick="document.getElementById('list-form').action='<?=$blogURL?>/owner/entry/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.getElementById('list-form').submit(); return false;"><?=htmlspecialchars($entry['title'])?></a>
+													<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?>
+<?php
+if ($categoryId == -1) {
+	$editmode = 'keyword';
+} else if ($categoryId == -2) {
+	$editmode = 'notice';
+} else {
+	$editmode = 'entry';
+}
+?>
+													<a href="<?php echo $blogURL?>/owner/<?=$editmode?>/edit/<?=$entry['id']?>" onclick="document.getElementById('list-form').action='<?=$blogURL?>/owner/<?=$editmode?>/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.getElementById('list-form').submit(); return false;"><?=htmlspecialchars($entry['title'])?></a>
 												</td>
 												<td class="protect">
 <?php
@@ -660,6 +693,10 @@ if ($entry['visibility'] == 1) {
 												<optgroup class="status" label="<?=_t('아래의 상태로 변경합니다.')?>">
 													<option value="classify"><?=_t('비공개로 변경합니다.')?></option>
 													<option value="publish"><?=_t('공개로 변경합니다.')?></option>
+												</optgroup>
+												<optgroup class="category" label="<?=_t('아래의 글 종류로 변경합니다.')?>">
+													<option class="parent-category" value="category_-2" label="<?=_t('공지')?>"><?=_t('공지')?></option>
+													<option class="parent-category" value="category_-1" label="<?=_t('키워드')?>"><?=_t('키워드')?></option>
 												</optgroup>
 												<optgroup class="delete" label="<?=_t('삭제합니다.')?>">
 													<option value="delete"><?=_t('삭제합니다.')?></option>

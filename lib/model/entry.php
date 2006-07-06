@@ -164,8 +164,10 @@ function getEntriesWithPagingForOwner($owner, $category, $search, $page, $count)
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 	} else if ($category == -3) {
 		$sql .= ' AND e.category = 0';
-	} else {		
+	} else if ($category == 0) {
 		$sql .= ' AND e.category >= 0';
+	} else {
+		$sql .= ' AND e.category = '.$category;
 	}
 	if (!empty($search)) {
 		$search = escapeMysqlSearchString($search);
