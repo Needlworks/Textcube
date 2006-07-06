@@ -510,7 +510,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 										<option value="-2"<?php echo ($categoryId == -2 ? ' selected="selected"' : '')?>><?php echo _t('공지')?></option>
 										<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '')?>><?php echo _t('키워드')?></option>
 										</optgroup>
-										<optgroup class="category" label="<?=_t('카테고리')?>">
+										<optgroup class="category" label="<?=_t('분류')?>">
 										<option value="0"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
 <?php
 foreach (getCategories($owner) as $category) {
@@ -669,7 +669,7 @@ if ($entry['visibility'] == 1) {
 	$categories = getCategories($owner);
 	if (count($categories) >0) {
 ?>
-												<optgroup class="category" label="<?=_t('아래의 카테고리로 변경합니다.')?>">
+												<optgroup class="category" label="<?=_t('아래의 분류로 변경합니다.')?>">
 												<option class="parent-category" value="category_0" label="<?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?>"><?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
 <?
 		foreach ($categories as $category) {
