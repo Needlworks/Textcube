@@ -914,7 +914,8 @@ dl#date-line dt
 }
 
 dl#status-line dt,
-dl#power-line dt
+dl#power-line dt,
+dl#entrytype-line dt
 {
 	padding-top                      : 0;
 }
@@ -926,7 +927,8 @@ dl#date-line dd .text-input
 }
 
 dl#date-line dd div,
-dl#status-line dd div
+dl#status-line dd div,
+dl#entrytype-line dd div
 {
 	display                          : inline;
 }

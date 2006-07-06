@@ -116,6 +116,15 @@ if (defined('__TATTERTOOLS_POST__')) {
 												break;
 											}
 										}
+
+										var entrytype = 0;
+										for (var i = 0; i < oForm.entrytype.length; i++) {
+											if (oForm.entrytype[i].checked) {
+												entrytype = oForm.entrytype[i].value;
+												break;
+											}
+										}
+
 										try {
 											if (editor.editMode == "WYSIWYG")
 												oForm.content.value = editor.html2ttml(editor.contentDocument.body.innerHTML);
@@ -171,13 +180,13 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 											"&content=" + encodeURIComponent(content) +
 											"&published=" + published +
 <?
-if (defined('__TATTERTOOLS_NOTICE__')) {
+if (defined('__TATTERTOOLS_NOTICE__') || defined('__TATTERTOOLS_KEYWORD__')) {
 ?>
-												"&category=-2"
+												"&category=" + (entrytype ? entrytype : oForm.category.value)
 <?
 } else {
 ?>
-												"&category=" + oForm.category.value +
+												"&category=" + (entrytype ? entrytype : oForm.category.value) +
 												"&location=" + encodeURIComponent(locationValue) +
 												"&tag=" + encodeURIComponent(tagValue) +
 												"&acceptComment=" + (oForm.acceptComment.checked ? 1 : 0) +
@@ -224,17 +233,10 @@ if (isset($_GET['popupEditor'])) {
 											window.location = "<?=escapeJSInCData($_GET['returnURL'])?>";
 <?
 } else {
-	if (defined('__TATTERTOOLS_NOTICE__')) {
-?>
-											document.forms[0].action = "<?=$blogURL?>/owner/notice";
-											document.forms[0].submit();
-<?
-	} else {
 ?>
 											document.forms[0].action = "<?=$blogURL?>/owner/entry";
 											document.forms[0].submit();
 <?
-	}
 }
 ?>
 										}
@@ -637,10 +639,20 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 												  	<div class="trackback-yes"><input type="checkbox" id="acceptTrackback" class="checkbox" name="acceptTrackback"<?=($entry['acceptTrackback'] ? ' checked="checked"' : '')?> /> <label for="acceptTrackback"><span class="text"><?=_t('트랙백 수신을 허용합니다.')?></span></label></div>
 												</dd>
 											</dl>
+
 <?
 	}
 }
 ?>
+											<dl id="entrytype-line" class="line">
+												<dt><span class="label"><?=_t('종류')?></span></dt>
+												<dd>
+													<div class="entrytype-post"><input type="radio" id="type_post" class="radio" name="entrytype" value="0"<?=($entry['category'] >= 0 ? ' checked="checked"' : '')?> /> <label for="type_post"><?=_t('글')?></label></div>
+													<div class="entrytype-notice"><input type="radio" id="type_notice" class="radio" name="entrytype" value="-2"<?=($entry['category'] == -2 ? ' checked="checked"' : '')?> /> <label for="type_notice"><?=_t('공지')?></label></div>
+													<div class="entrytype-keyword"><input type="radio" id="type_keyword" class="radio" name="entrytype" value="-1"<?=($entry['category'] == -1 ? ' checked="checked"' : '')?> /> <label for="type_keyword"><?=_t('키워드')?></label></div>
+												</dd>
+											</dl>
+
 										</div>
 									</div>
 								</div>
@@ -680,7 +692,7 @@ if (isset($_GET['popupEditor'])) {
 								<div class="button-box two-button-box">
 									<a href="#void" class="save-button button" onclick="entryManager.save()"><span class="text"><?=_t('저장하기')?></span></a>
 									<span class="hidden">|</span>
-									<a href="#void" class="list-button button" onclick="document.forms[0].action='<?=$blogURL?>/owner/notice'; document.forms[0].submit()"><span class="text"><?=_t('목록으로')?></span></a>
+									<a href="#void" class="list-button button" onclick="document.forms[0].action='<?=$blogURL?>/owner/entry'; document.forms[0].submit()"><span class="text"><?=_t('목록으로')?></span></a>
 								</div>
 <?
 	}

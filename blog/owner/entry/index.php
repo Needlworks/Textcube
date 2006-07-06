@@ -507,12 +507,11 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 									<input type="hidden" name="page" value="<?=$suri['page']?>" />
 									<select id="category" class="normal-class" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
 										<optgroup class="category" label="<?=_t('글 종류')?>">
-										<option value="0"<?php echo ($categoryId == 0 ? ' selected="selected"' : '')?>><?php echo _t('글')?></option>
 										<option value="-2"<?php echo ($categoryId == -2 ? ' selected="selected"' : '')?>><?php echo _t('공지')?></option>
 										<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '')?>><?php echo _t('키워드')?></option>
 										</optgroup>
 										<optgroup class="category" label="<?=_t('카테고리')?>">
-										<option value="0"><?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
+										<option value="0"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
 <?php
 foreach (getCategories($owner) as $category) {
 	if ($category['id']!= 0) {
@@ -603,7 +602,11 @@ for ($i=0; $i<sizeof($entries); $i++) {
 												</td>
 												<td class="category">
 <?
-	if (!empty($entry['categoryLabel'])) {
+	if ($entry['category'] == 0) {
+?>
+													<span class="uncategorized"><?php echo _t('분류 없음')?></span>
+<?
+	} else if (!empty($entry['categoryLabel'])) {
 ?>
 													<a id="category_<?=$entry['id']?>" class="categorized" href="<?php echo $blogURL?>/owner/entry?category=<?php echo $entry['category']?>"><?php echo htmlspecialchars($entry['categoryLabel'])?></a>
 <?
@@ -614,10 +617,6 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	} else if ($categoryId == -1) {
 ?>
 													<span class="keyword"><?php echo _t('키워드')?></span>
-<?
-	} else {
-?>
-													<span class="uncategorized"><?php echo _t('분류 없음')?></span>
 <?
 	}
 ?>
