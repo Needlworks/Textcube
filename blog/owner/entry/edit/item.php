@@ -10,6 +10,8 @@ if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
 }
 if (defined('__TATTERTOOLS_NOTICE__')) {
 	$entry['category'] = -2;
+} else if (defined('__TATTERTOOLS_KEYWORD__')) {
+	$entry['category'] = -1;
 }
 
 if (isset($_GET['popupEditor'])) {
@@ -179,21 +181,11 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 											"&title=" + encodeURIComponent(title) +
 											"&content=" + encodeURIComponent(content) +
 											"&published=" + published +
-<?
-if (defined('__TATTERTOOLS_NOTICE__') || defined('__TATTERTOOLS_KEYWORD__')) {
-?>
-												"&category=" + (entrytype ? entrytype : oForm.category.value)
-<?
-} else {
-?>
-												"&category=" + (entrytype ? entrytype : oForm.category.value) +
+												"&category=" + ((entrytype!=0) ? entrytype : oForm.category.value) +
 												"&location=" + encodeURIComponent(locationValue) +
 												"&tag=" + encodeURIComponent(tagValue) +
 												"&acceptComment=" + (oForm.acceptComment.checked ? 1 : 0) +
 												"&acceptTrackback=" + (oForm.acceptTrackback.checked ? 1 : 0)
-<?
-}
-?>
 										);
 									}
 									
@@ -361,7 +353,7 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 if (defined('__TATTERTOOLS_POST__')) {
 	if (defined('__TATTERTOOLS_NOTICE__')) {
 ?>
-						<form method="post" action="<?=$blogURL?>/owner/notice">
+						<form method="post" action="<?=$blogURL?>/owner/entry">
 							<div id="part-editor" class="part">
 								<h2 class="caption"><span class="main-text"><?=_t('공지를 작성합니다')?></span></h2>
 <?
@@ -375,7 +367,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 } else {
 	if (defined('__TATTERTOOLS_NOTICE__')) {
 ?>
-						<form method="post" action="<?=$blogURL?>/owner/notice">
+						<form method="post" action="<?=$blogURL?>/owner/entry">
 							<div id="part-editor" class="part">
 								<h2 class="caption"><span class="main-text"><?=_t('선택한 공지를 수정합니다')?></span></h2>
 <?
