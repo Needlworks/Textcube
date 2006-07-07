@@ -83,7 +83,7 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 									oform.submit()
 								}
 								
-								tt_init_funcs.push(function() { expandTreeInit(); });
+								window.addEventListener("load", expandTreeInit, false);
 								function expandTreeInit() {
 									try {
 										<?=$history?>

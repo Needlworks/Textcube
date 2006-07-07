@@ -1,4 +1,4 @@
-tt_init_funcs.push(function() { insertDivClear(); });
+window.addEventListener("load", insertDivClear, false);
 
 function insertDivClear() {
 	if (document.getElementById("part-statistics-visitor")) {

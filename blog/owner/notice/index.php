@@ -117,7 +117,7 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 									oForm.submit();
 								}
 								
-								tt_init_funcs.push(function() { activateFormElement(); });
+								window.addEventListener("load", activateFormElement, false);
 								function activateFormElement() {
 									document.getElementById('allChecked').disabled = false;
 								}

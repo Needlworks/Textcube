@@ -88,7 +88,7 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 									}
 								}
 								
-								tt_init_funcs.push(function() { activateFormElement(); });
+								window.addEventListener("load", activateFormElement, false);
 								function activateFormElement() {
 									document.getElementById('allChecked').disabled = false;
 								}

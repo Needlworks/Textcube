@@ -51,7 +51,7 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 	<script type="text/javascript" src="<?php echo $service['path'].$service['adminSkin']?>/custom.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
-			tt_init_funcs.push(function() { loadLoginInit(); });
+			window.addEventListener("load", loadLoginInit, false);
 			
 			function loadLoginInit() {
 				document.forms[0].<?=(empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password')?>.focus();

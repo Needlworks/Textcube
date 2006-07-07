@@ -30,7 +30,7 @@ require ROOT . '/lib/piece/owner/contentMenu00.php';
 <?
 if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION)) {
 ?>
-								tt_init_funcs.push(function() { checkupDialog(); });
+								window.addEventListener("load", checkupDialog, false);
 								function checkupDialog() {
 									if (confirm("<?=_t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?')?>"))
 										window.location.href = "<?=$blogURL?>/checkup";
@@ -473,7 +473,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 									}
 								}
 								
-								tt_init_funcs.push(function() { activateFormElement(); });
+								window.addEventListener("load", activateFormElement, false);
 								function activateFormElement() {
 									document.getElementById('allChecked').disabled = false;
 									//document.getElementById('category-move-button').style.display = "none";

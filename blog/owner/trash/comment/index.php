@@ -99,7 +99,7 @@ require ROOT . '/lib/piece/owner/contentMenu91.php';
 									}
 								}
 								
-								tt_init_funcs.push(function() { activateFormElement(); });
+								window.addEventListener("load", activateFormElement, false);
 								function activateFormElement() {
 									document.getElementById('allChecked').disabled = false;
 									//document.getElementById('category-move-button').style.display = "none";
