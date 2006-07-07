@@ -296,7 +296,7 @@ function getTrackbacksView($entryId, & $skin) {
 		dress('tb_rep_url', htmlspecialchars($trackback['url']), $trackbackView);
 		dress('tb_rep_desc', htmlspecialchars($trackback['excerpt']), $trackbackView);
 		dress('tb_rep_onclick_delete', "deleteTrackback({$trackback['id']}, $entryId)", $trackbackView);
-		dress('tb_rep_date', Timestamp::format5($trackback['written']), $trackbackView);
+		dress('tb_rep_date', fireEvent('ViewTrackbackDate', Timestamp::format5($trackback['written'])), $trackbackView);
 		$trackbacksView .= $trackbackView;
 	}
 	if ($skinSetting['expandTrackback'] == 1 || (($suri['url'] != $blogURL.'/index.php' && $suri['url'] != $service['path'].'/index.php') && ($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
@@ -350,7 +350,7 @@ function getCommentView($entryId, & $skin) {
 			else
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentSubItem['name']) . '</a>', $commentSubItem), $commentSubItemView);
 			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
-			dress($prefix1 . '_rep_date', Timestamp::format5($commentSubItem['written']), $commentSubItemView);
+			dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentSubItem['written'])), $commentSubItemView);
 			dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentSubItem['id']}", $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']}); return false;", $commentSubItemView);
 			$rp_class = 'tt-guest-'.$prefix2;
@@ -367,7 +367,7 @@ function getCommentView($entryId, & $skin) {
 		else
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentItem['name']) . '</a>', $commentItem), $commentItemView);
 		dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense(htmlspecialchars($commentItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentItem), $commentItemView);
-		dress($prefix1 . '_rep_date', Timestamp::format5($commentItem['written']), $commentItemView);
+		dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentItem['written'])), $commentItemView);
 		if ($prefix1 == 'guest' && $authorized != true && $blogSetting['allowWriteDoubleCommentOnGuestbook'] == 0) {
 			$doubleCommentPermissionScript = 'alert(\'' . _t('댓글을 사용할 수 없습니다.') . '\'); return false;';
 		} else {
@@ -773,7 +773,7 @@ function getArchivesView($archives, & $template) {
 	foreach ($archives as $archive) {
 		$view = "$template";
 		dress('archive_rep_link', "$blogURL/archive/{$archive['period']}", $view);
-		dress('archive_rep_date', getPeriodLabel($archive['period']), $view);
+		dress('archive_rep_date', fireEvent('ViewArchiveDate', getPeriodLabel($archive['period'])), $view);
 		dress('archive_rep_count', $archive['count'], $view);
 		print $view;
 	}
@@ -791,7 +791,7 @@ function getCalendarView($calendar) {
 	$lastDay = date('t', mktime(0, 0, 0, $calendar['month'], 1, $calendar['year']));
 	$today = ($current == Timestamp::get('Ym') ? Timestamp::get('j') : null);
 	
-	$currentMonthStr = Timestamp::format('%Y/%m', getTimeFromPeriod($current));
+	$currentMonthStr = fireEvent('ViewCalendarHead', Timestamp::format('%Y/%m', getTimeFromPeriod($current)));
 	
 	ob_start();
 ?>

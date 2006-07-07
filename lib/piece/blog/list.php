@@ -11,7 +11,7 @@ if (isset($list)) {
 				'[##_list_rep_rp_cnt_##]'
 			),
 			array(
-				Timestamp::format3($item['published']),
+				fireEvent('ViewListDate', Timestamp::format3($item['published'])),
 				"$blogURL/" . ($blog['useSlogan'] ? 'entry/' . encodeURL($item['slogan']) : $item['id']),
 				htmlspecialchars(fireEvent('ViewListRepTitle', $item['title'])),
 				($item['comments'] > 0) ? "({$item['comments']})" : ''
