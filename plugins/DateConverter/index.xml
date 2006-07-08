@@ -12,14 +12,16 @@
 		<tattertools>1.1</tattertools>
 	</requirements>
 	<binding>
-		<listener event="ViewListDate">convertDateLangLD</listener>
-		<listener event="ViewCommentListDate">convertDateLangCLD</listener>
-		<listener event="ViewNoticeDate">convertDateLangND</listener>
-		<listener event="ViewPostDate">convertDateLangPD</listener>
-		<listener event="ViewTrackbackDate">convertDateLangTD</listener>
-		<listener event="ViewCommentDate">convertDateLangCD</listener>
-		<listener event="ViewGuestCommentDate">convertDateLangGCD</listener>
 		<listener event="ViewArchiveDate">convertDateLangAD</listener>
 		<listener event="ViewCalendarHead">convertDateLangCH</listener>
+		<listener event="ViewCommentDate">convertDateLangCD</listener>
+		<listener event="ViewCommentListDate">convertDateLangCLD</listener>
+		<listener event="ViewGuestCommentDate">convertDateLangGCD</listener>
+		<listener event="ViewListDate">convertDateLangLD</listener>
+		<listener event="ViewNoticeDate">convertDateLangND</listener>
+		<listener event="ViewPostDate">convertDateLangPD</listener>
+		<listener event="ViewRecentCommentDate">convertDateLangRCD</listener>
+		<listener event="ViewRecentTrackbackDate">convertDateLangRTD</listener>
+		<listener event="ViewTrackbackDate">convertDateLangTD</listener>
 	</binding>
 </plugin>

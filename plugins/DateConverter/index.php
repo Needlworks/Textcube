@@ -4,7 +4,7 @@ function convertDateFormat($argTarget, $argType) {
 		$rgDateFormat['archive date'] = array()
 			① string	- 언어 : default/english/korean.
 			② integer	- 달(month)의 문자열 길이. '0'이면 문자열을 자르지 않고 전부 보여준다.
-			③ integer	- 요일(day)의 문자열 길ㅇ. '0'이면 문자열을 자르지 않고 전부 보여준다.
+			③ integer	- 요일(day)의 문자열 길이. '0'이면 문자열을 자르지 않고 전부 보여준다.
 			④ boolean	- 숫자에 자리수를 맞출 것인지 여부. 맞추면 true, 안 맞추면 false. 예) 06월, 09일.
 	*/
 	$rgDateFormat = array();
@@ -17,6 +17,8 @@ function convertDateFormat($argTarget, $argType) {
 	$rgDateFormat['notice date'] = array("language" => "korean", "format" => "%Y년 %M월{ %D일}{ %H시}{ %I분}{ %S초}");				// 공지 날짜.
 	$rgDateFormat['post date'] = array("language" => "english", "format" => "{%o }%M %Y{ %H}{:%I}{:%S}");							// 포스트 날짜.
 	$rgDateFormat['trackback date'] = array("language" => "english", "format" => "%M{ %d,} %Y{ %H}{:%I}{:%S}");						// 트랙백 날짜.
+	$rgDateFormat['recent trackback date'] = array("language" => "english", "format" => "{%M}{ %d,} %Y{ %H}{:%I}{:%S}");			// 최근 트랙백 날짜.
+	$rgDateFormat['recent comment date'] = array("language" => "english", "format" => "{%M}{ %d,} %Y{ %H}{:%I}{:%S}");				// 최근 댓글 날짜.
 	
 	// 언어 템플릿 *******************************************************************************************************
 	// %Y = [0000]
@@ -241,5 +243,13 @@ function convertDateLangAD($argTarget, $argMother) {
 
 function convertDateLangCH($argTarget, $argMother) {
 	return convertDateFormat($argTarget, "calendar head");
+}
+
+function convertDateLangRTD($argTarget, $argMother) {
+	return convertDateFormat($argTarget, "recent trackback date");
+}
+
+function convertDateLangRCD($argTarget, $argMother) {
+	return convertDateFormat($argTarget, "recent comment date");
 }
 ?>

@@ -908,7 +908,7 @@ function getRecentCommentsView($comments, & $template) {
 		$view = "$template";
 		dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
 		dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessenAsEm($comment['comment'], $skinSetting['recentCommentLength'])), $view);
-		dress('rctrp_rep_time', Timestamp::format2($comment['written']), $view);
+		dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format2($comment['written'])), $view);
 		dress('rctrp_rep_name', htmlspecialchars($comment['name']), $view);
 		print $view;
 	}
@@ -924,7 +924,7 @@ function getRecentTrackbacksView($trackbacks, & $template) {
 		$view = "$template";
 		dress('rcttb_rep_link', "$blogURL/{$trackback['entry']}#trackback{$trackback['id']}", $view);
 		dress('rcttb_rep_desc', htmlspecialchars(UTF8::lessenAsEm($trackback['subject'], $skinSetting['recentTrackbackLength'])), $view);
-		dress('rcttb_rep_time', Timestamp::format2($trackback['written']), $view);
+		dress('rcttb_rep_time', fireEvent('ViewRecentTrackbackDate', Timestamp::format2($trackback['written'])), $view);
 		dress('rcttb_rep_name', htmlspecialchars(UTF8::lessenAsEm($trackback['site'], $skinSetting['recentTrackbackLength'])), $view);
 		print $view;
 	}
