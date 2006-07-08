@@ -147,7 +147,7 @@ class Post {
 		}
 		if (!empty($filter))
 			$filter = 'AND ' . $filter;
-		$result = mysql_query("DELETE FROM FROM {$database['prefix']}Entries WHERE owner = $owner AND category >= 0 $filter");
+		$result = mysql_query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND category >= 0 $filter");
 		if ($result && ($this->_count = mysql_affected_rows()))
 			return true;
 		return false;
