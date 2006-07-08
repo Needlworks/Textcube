@@ -94,4 +94,12 @@ function str_cut($str, $maxlen, $type) {
 	else
 		return $return_str . "..";
 }
+
+function link_cut($url, $checkURL = 25)
+{
+	$leftURL	= $checkURL - 14;
+	$rightURL	= -8;
+	$link = ($link == '' || $link == $url) ? ((strlen($url) > $checkURL) ? substr($url, 0 , $leftURL).' &hellip; '.substr($url, $rightURL) : $url) : stripslashes($link);
+	return $link;
+}
 ?>

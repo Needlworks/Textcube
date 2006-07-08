@@ -400,6 +400,25 @@ if (defined('__TATTERTOOLS_KEYWORD__')) {
 											<dd>
 												<input type="text" id="title" class="text-input" name="title" value="<?=htmlspecialchars($entry['title'])?>" />
 <?
+if (defined('__TATTERTOOLS_POST__')) {
+?>
+											<dt><label for="permalink"><?=_t('절대 주소')?></label></dt>
+											<dd>
+												<samp><?=_f('%1/entry/', link_cut(getBlogURL()))?></samp><input type="text" id="permalink" class="text-input" name="permalink" value="<?=htmlspecialchars($entry['slogan'])?>" />
+											</dd>
+<?
+} else {
+?>
+											<dt><label for="permalink"><?=_t('절대 주소')?></label></dt>
+											<dd>
+												<span class="disabled"><?=htmlspecialchars($entry['slogan'])?></span>
+											</dd>
+<?
+}
+?>
+											<dd>
+												<div class="entrytype-post"><input type="radio" id="type_post" class="radio" name="entrytype" value="0"<?=($entry['category'] >= 0 ? ' checked="checked"' : '')?> /> <label for="type_post"><?=_t('글')?></label></div>
+<?
 if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
@@ -426,26 +445,6 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	}
 }
 ?>
-											</dd>
-<?
-if (defined('__TATTERTOOLS_POST__')) {
-?>
-											<dt><label for="permalink"><?=_t('절대 주소')?></label></dt>
-											<dd>
-												<input type="text" id="permalink" class="text-input" name="permalink" value="<?=htmlspecialchars($entry['slogan'])?>" />
-											</dd>
-<?
-} else {
-?>
-											<dt><label for="permalink"><?=_t('절대 주소')?></label></dt>
-											<dd>
-												<span class="disabled"><?=htmlspecialchars($entry['slogan'])?></span>
-											</dd>
-<?
-}
-?>
-											<dd>
-												<div class="entrytype-post"><input type="radio" id="type_post" class="radio" name="entrytype" value="0"<?=($entry['category'] >= 0 ? ' checked="checked"' : '')?> /> <label for="type_post"><?=_t('글')?></label></div>
 												<div class="entrytype-notice"><input type="radio" id="type_notice" class="radio" name="entrytype" value="-2"<?=($entry['category'] == -2 ? ' checked="checked"' : '')?> /> <label for="type_notice"><?=_t('공지')?></label></div>
 												<div class="entrytype-keyword"><input type="radio" id="type_keyword" class="radio" name="entrytype" value="-1"<?=($entry['category'] == -1 ? ' checked="checked"' : '')?> /> <label for="type_keyword"><?=_t('키워드')?></label></div>
 											</dd>
