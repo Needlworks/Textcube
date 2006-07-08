@@ -148,6 +148,23 @@ display:none;
 	padding:30px 0 15px 60px;
 	background:url(images/bg_header.gif) no-repeat;
 }
+
+body#page #header {
+	background:url(images/bg_header.gif) no-repeat;
+}
+
+body#tag #header {
+	background:url(images/bg_header01.gif) no-repeat;
+}
+
+body#category #header, body#archive #header {
+	background:url(images/bg_header02.gif) no-repeat;
+}
+
+body#notice #header {
+	background:url(images/bg_header03.gif) no-repeat;
+}
+
 #header h1{
 	margin:0;
 	font-size:20px;

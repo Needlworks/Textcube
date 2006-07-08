@@ -16,8 +16,8 @@ if ($suri['directive'] == '/') {
 	dress('body_id',"search",$view);
 } else if (!empty($period)) {
 	dress('body_id',"archive",$view);
-} else if (isset($list)) {
-	dress('body_id',$suri['value'],$view);
+//} else if (isset($list)) {
+//	dress('body_id',$suri['value'],$view);
 } else {
 	dress('body_id',ltrim($suri['directive'],'/'),$view);
 }

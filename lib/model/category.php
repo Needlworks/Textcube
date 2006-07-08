@@ -28,11 +28,10 @@ function getCategoryNameById($owner, $id) {
 
 function getCategoryBodyIdById($owner, $id) {
 	global $database;
-	if ($id === null)
-		return '';
-	if ($id === 0)
-		return _t('All');
-	return fetchQueryCell("SELECT bodyId FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
+	$result = fetchQueryCell("SELECT bodyId FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
+	if (($id === 0) || ($result == '') || ($id === null))
+		return 'category';
+	return $result;
 }
 
 function getCategoryLabelById($owner, $id) {
