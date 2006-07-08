@@ -118,9 +118,36 @@ function resampleImage($target, $mother) {
 		$tempSrc = ROOT."/cache/thumbnail/$owner/$newTempFileName";
 		// 보안상 cache 디렉토리를 공개하지 않도록 남겨놓는다.
 		$tempURL = $blogURL."/thumbnail/$owner/$newTempFileName";
-		$thumbnailImageInfo = getimagesize($tempSrc);
 		
 		if (!file_exists($tempSrc)) {
+			$originImageInfo = getimagesize($tempSrc);
+			
+			// 축소된 사이즈의 이미지면 리사이즈.
+			if ($originImageInfo[0] > $tempWidth || $originImageInfo[1] > $tempHeight) {
+				// 새 썸네일 생성.
+				@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
+				if (resizeImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
+					$target = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $target);
+				} else {
+					@unlink($tempSrc);
+				}
+				
+				$target = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $target);
+			// 원본 사이즈 그대로이거나 확대 이미지여도, 워터마크나 여백이 존재하면 썸네일 생성.
+			} else if (($originImageInfo[0] <= $tempWidth || $originImageInfo[1] <= $tempHeight) && (file_exists($waterMarkPath) || !empty($padding))) {
+				// 새 썸네일 생성.
+				@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
+				if (resizeImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
+					$target = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $target);
+				} else {
+					@unlink($tempSrc);
+				}
+				
+				$target = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $target);
+			}
+		} else {
+			$thumbnailImageInfo = getimagesize($tempSrc);
+			
 			// 축소된 사이즈의 이미지면 리사이즈.
 			if ($thumbnailImageInfo[0] > $tempWidth || $thumbnailImageInfo[1] > $tempHeight) {
 				// 이 파일과 관련된 기존 파일을 지운다.
@@ -133,20 +160,8 @@ function resampleImage($target, $mother) {
 				} else {
 					@unlink($tempSrc);
 				}
-			// 원본 사이즈 그대로이거나 확대 이미지여도, 워터마크나 여백이 존재하면 썸네일 생성.
-			} else if (($thumbnailImageInfo[0] <= $tempWidth || $thumbnailImageInfo[1] <= $tempHeight) && (file_exists($waterMarkPath) || !empty($padding))) {
-				// 이 파일과 관련된 기존 파일을 지운다.
-				deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "^".eregi_replace("\.([[:alnum:]]+)$", "\.", $originFileName));
-				
-				// 새 썸네일 생성.
-				@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
-				if (resizeImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
-					$target = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $target);
-				} else {
-					@unlink($tempSrc);
-				}
 			}
-		} else {
+			
 			// 파일이 이미 존재하므로 통과.
 			$target = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $target);
 		}
@@ -561,16 +576,8 @@ function hexRGB($hexstr)
 }
 
 // }}}
-// {{{ deleteFilesByRegExp()
+/// {{{ deleteFilesByRegExp()
 
-/**
- * Delete files by regular expression in a particular path.
- *
- * @param string $path directory path.
- * @param string $regexp regular expression for files to be deleted.
- * @access public
- * @return boolean true
- */
 function deleteFilesByRegExp($path, $regexp) {
 	$path = eregi("/$", $path, $temp) ? $path : $path."/";
 	
