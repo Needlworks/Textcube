@@ -316,7 +316,7 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 										if (document.getElementById("visualEditorWindow")) {
 											indicatorMode.className = indicatorMode.className.replace("inactive-class", "active-class");
 											indicatorMode.innerHTML = '<span class="text"><?php echo _t('HTML 모드')?></span>';
-											indicatorMode.setAttribute("title", "<?php echo _t('클릭하시면 WISWIG 모드로 변경합니다.')?>");
+											indicatorMode.setAttribute("title", "<?php echo _t('클릭하시면 WYSIWYG 모드로 변경합니다.')?>");
 										} else {
 											indicatorMode.className = indicatorMode.className.replace("inactive-class", "active-class");
 											indicatorMode.innerHTML = '<span class="text"><?php echo _t('HTML 모드')?></span>';
@@ -325,7 +325,7 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 									} else {
 										indicatorMode.className = indicatorMode.className.replace("active-class", "inactive-class");
 										indicatorMode.setAttribute("title", "<?php echo _t('클릭하시면 HTML 모드로 변경합니다.')?>");
-										indicatorMode.innerHTML = '<span class="text"><?php echo _t('WISWIG 모드')?></span>';
+										indicatorMode.innerHTML = '<span class="text"><?php echo _t('WYSIWYG 모드')?></span>';
 									}
 								}
 								
@@ -426,6 +426,28 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	}
 }
 ?>
+											</dd>
+<?
+if (defined('__TATTERTOOLS_POST__')) {
+?>
+											<dt><label for="permalink"><?=_t('절대 주소')?></label></dt>
+											<dd>
+												<input type="text" id="permalink" class="text-input" name="permalink" value="<?=htmlspecialchars($entry['slogan'])?>" />
+											</dd>
+<?
+} else {
+?>
+											<dt><label for="permalink"><?=_t('절대 주소')?></label></dt>
+											<dd>
+												<span class="disabled"><?=htmlspecialchars($entry['slogan'])?></span>
+											</dd>
+<?
+}
+?>
+											<dd>
+												<div class="entrytype-post"><input type="radio" id="type_post" class="radio" name="entrytype" value="0"<?=($entry['category'] >= 0 ? ' checked="checked"' : '')?> /> <label for="type_post"><?=_t('글')?></label></div>
+												<div class="entrytype-notice"><input type="radio" id="type_notice" class="radio" name="entrytype" value="-2"<?=($entry['category'] == -2 ? ' checked="checked"' : '')?> /> <label for="type_notice"><?=_t('공지')?></label></div>
+												<div class="entrytype-keyword"><input type="radio" id="type_keyword" class="radio" name="entrytype" value="-1"<?=($entry['category'] == -1 ? ' checked="checked"' : '')?> /> <label for="type_keyword"><?=_t('키워드')?></label></div>
 											</dd>
 										</dl>
 									</div>
@@ -636,15 +658,6 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	}
 }
 ?>
-											<dl id="entrytype-line" class="line">
-												<dt><span class="label"><?=_t('종류')?></span></dt>
-												<dd>
-													<div class="entrytype-post"><input type="radio" id="type_post" class="radio" name="entrytype" value="0"<?=($entry['category'] >= 0 ? ' checked="checked"' : '')?> /> <label for="type_post"><?=_t('글')?></label></div>
-													<div class="entrytype-notice"><input type="radio" id="type_notice" class="radio" name="entrytype" value="-2"<?=($entry['category'] == -2 ? ' checked="checked"' : '')?> /> <label for="type_notice"><?=_t('공지')?></label></div>
-													<div class="entrytype-keyword"><input type="radio" id="type_keyword" class="radio" name="entrytype" value="-1"<?=($entry['category'] == -1 ? ' checked="checked"' : '')?> /> <label for="type_keyword"><?=_t('키워드')?></label></div>
-												</dd>
-											</dl>
-
 										</div>
 									</div>
 								</div>

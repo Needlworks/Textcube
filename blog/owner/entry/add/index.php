@@ -4,6 +4,7 @@ require ROOT . '/lib/includeForOwner.php';
 $entry['visibility'] = $_POST['visibility'];
 $entry['category'] = empty($_POST['category']) ? 0 : $_POST['category'];
 $entry['title'] = $_POST['title'];
+$entry['slogan'] = $_POST['permalink'];
 $entry['content'] = $_POST['content'];
 $entry['location'] = empty($_POST['location']) ? '/' : $_POST['location'];
 $entry['tag'] = empty($_POST['tag']) ? '' : $_POST['tag'];

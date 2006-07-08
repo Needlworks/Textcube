@@ -279,7 +279,11 @@ function addEntry($owner, $entry) {
 		if (($entry['visibility'] == 1) || ($entry['visibility'] == 3) || $entry['acceptComment'] || $entry['acceptTrackback'])
 			return false;
 	}
-	$slogan = $slogan0 = getSlogan($entry['title']);
+	if(empty($entry['slogan'])) {
+		$slogan = $slogan0 = getSlogan($entry['title']);
+	} else {
+		$slogan = $slogan0 = getSlogan($entry['slogan']);
+	}
 	$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 	for ($i = 1; mysql_num_rows($result) > 0; $i++) {
 		if ($i > 100)
