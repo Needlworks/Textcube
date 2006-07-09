@@ -105,6 +105,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 										var oForm = document.forms[0];
 										
 										var title = trim(oForm.title.value);
+										var permalink = trim(oForm.permalink.value);
 										if (check && (title.length == 0)) {
 											alert("<?=_t('제목을 입력해 주십시오.')?>");
 											oForm.title.focus();
@@ -179,6 +180,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 										return (
 											"visibility=" + visibility +
 											"&title=" + encodeURIComponent(title) +
+											"&permalink=" + encodeURIComponent(permalink) +
 											"&content=" + encodeURIComponent(content) +
 											"&published=" + published +
 												"&category=" + ((entrytype!=0) ? entrytype : oForm.category.value) +
