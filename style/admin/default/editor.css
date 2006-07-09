@@ -16,42 +16,51 @@
 	width                            : 658px;
 }
 
-#title-container
+#title-section dl
 {
-	margin-bottom                    : 2px !important;
+	clear                            : both;
 }
 
-#title-container dt
+#title-section dl dt
 {
 	padding-top                      : 3px !important;
 	width                            : 70px !important;
 }
 
-#title-container select
+#title-section dl dd select
 {
-	height                           : 19px;
 	vertical-align                   : middle;
 	width                            : 160px;
 }
 
-#title-container .text-input
+#title-line dd .text-input
 {
 	border                           : 1px solid #92B5E8;
 	vertical-align                   : middle;
-	width                            : 400px;
+	width                            : 565px;
 }
 
-#body-notice #title-container .text-input
+#category-line
 {
-	border                           : 1px solid #92B5E8;
-	margin-top                       : 2px;
-	width                            : 565px !important;
+	margin-bottom                    : 3px !important;
+}
+
+#category-line dd div
+{
+	display                          : inline;
+	margin-bottom                    : 3px;
+}
+
+#category-line dd .radio
+{
+	vertical-align                   : middle;
 }
 
 /* command buttons ------------------------------------------------------------------------------*/
 #textarea-section
 {
 	background-color                 : #BCD2E5;
+	clear                            : both;
 	margin                           : 0 20px;
 	padding                          : 0 5px 5px 5px;
 	width                            : 656px;
@@ -519,6 +528,13 @@
 	display                          : none;
 }
 
+#toolbox-container
+{
+	background-color                 : #8FA9BF;
+	line-height                      : 5px;
+	margin-top                       : 2px;
+	padding                          : 2px 5px;
+}
 /* property box --------------------------------------------------------------------------------*/
 .entry-editor-property
 {
@@ -906,6 +922,24 @@ dl#tag-line dd .text-input
 #power-section dl dt
 {
 	width                            : 120px;
+}
+
+dl#permalink-line
+{
+	margin-bottom                    : 3px !important;
+}
+
+dl#permalink-line dd
+{
+	line-height                      : 1.7em;
+}
+
+dl#permalink-line dd .text-input
+{
+	border                           : 1px solid #92B5E8;
+	margin-left                      : 2px;
+	vertical-align                   : middle;
+	width                            : 250px;
 }
 
 dl#date-line dt

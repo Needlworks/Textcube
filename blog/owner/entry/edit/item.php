@@ -346,6 +346,14 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 										obj.className = obj.className.replace('active-class', 'inactive-class');
 									}
 								}
+								
+								function checkCategory(obj) {
+									if (obj == "type_post") {
+										document.getElementById("category").disabled = false;
+									} else {
+										document.getElementById("category").disabled = true;
+									}
+								}
 							//]]>
 						</script>
 								
@@ -385,7 +393,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 									<div id="title-section" class="section">
 										<h3><?php echo _t('머리말')?></h3>
 										
-										<dl id="title-container" class="container">
+										<dl id="title-line" class="line">
 <?
 if (defined('__TATTERTOOLS_KEYWORD__')) {
 ?>
@@ -398,55 +406,44 @@ if (defined('__TATTERTOOLS_KEYWORD__')) {
 }
 ?>
 											<dd>
-												<input type="text" id="title" class="text-input" name="title" value="<?=htmlspecialchars($entry['title'])?>" />
-<?
-if (defined('__TATTERTOOLS_POST__')) {
-?>
-											<dt><label for="permalink"><?=_t('절대 주소')?></label></dt>
-											<dd>
-												<samp><?=_f('%1/entry/', link_cut(getBlogURL()))?></samp><input type="text" id="permalink" class="text-input" name="permalink" value="<?=htmlspecialchars($entry['slogan'])?>" />
+												<input type="text" id="title" class="text-input" name="title" value="<?=htmlspecialchars($entry['title'])?>" size="60" />
 											</dd>
-<?
-} else {
-?>
-											<dt><label for="permalink"><?=_t('절대 주소')?></label></dt>
+										</dl>
+										<dl id="category-line" class="line">
+											<dt><label for="permalink"><?=_t('분류')?></label></dt>
 											<dd>
-												<span class="disabled"><?=htmlspecialchars($entry['slogan'])?></span>
-											</dd>
-<?
-}
-?>
-											<dd>
-												<div class="entrytype-post"><input type="radio" id="type_post" class="radio" name="entrytype" value="0"<?=($entry['category'] >= 0 ? ' checked="checked"' : '')?> /> <label for="type_post"><?=_t('글')?></label></div>
+												<div class="entrytype-notice"><input type="radio" id="type_notice" class="radio" name="entrytype" value="-2" onclick="checkCategory('type_notice')"<?=($entry['category'] == -2 ? ' checked="checked"' : '')?> /> <label for="type_notice"><?=_t('공지')?></label></div>
+												<div class="entrytype-keyword"><input type="radio" id="type_keyword" class="radio" name="entrytype" value="-1" onclick="checkCategory('type_keyword')"<?=($entry['category'] == -1 ? ' checked="checked"' : '')?> /> <label for="type_keyword"><?=_t('키워드')?></label></div>
+												<div class="entrytype-post">
+													<input type="radio" id="type_post" class="radio" name="entrytype" value="0" onclick="checkCategory('type_post')"<?=($entry['category'] >= 0 ? ' checked="checked"' : '')?> /> <label for="type_post"><?=_t('글')?></label>
 <?
 if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
-												<select name="category">
-													<option value="0"><?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
+													<select id="category" name="category">
+														<option value="0"><?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
 <?
 		foreach (getCategories($owner) as $category) {
 			if ($category['id']!= 0) {
 ?>
-													<option value="<?=$category['id']?>"<?=($category['id'] == $entry['category'] ? ' selected="selected"' : '')?>><?=htmlspecialchars($category['name'])?></option>
+														<option value="<?=$category['id']?>"<?=($category['id'] == $entry['category'] ? ' selected="selected"' : '')?>><?=htmlspecialchars($category['name'])?></option>
 <?
 			}
 			foreach ($category['children'] as $child) {
 				if ($category['id']!= 0) {
 ?>
-													<option value="<?=$child['id']?>"<?=($child['id'] == $entry['category'] ? ' selected="selected"' : '')?>>&nbsp;― <?=htmlspecialchars($child['name'])?></option>
+														<option value="<?=$child['id']?>"<?=($child['id'] == $entry['category'] ? ' selected="selected"' : '')?>>&nbsp;― <?=htmlspecialchars($child['name'])?></option>
 <?
 				}
 			}
 		}
 ?>
-												</select>
+													</select>
 <?
 	}
 }
 ?>
-												<div class="entrytype-notice"><input type="radio" id="type_notice" class="radio" name="entrytype" value="-2"<?=($entry['category'] == -2 ? ' checked="checked"' : '')?> /> <label for="type_notice"><?=_t('공지')?></label></div>
-												<div class="entrytype-keyword"><input type="radio" id="type_keyword" class="radio" name="entrytype" value="-1"<?=($entry['category'] == -1 ? ' checked="checked"' : '')?> /> <label for="type_keyword"><?=_t('키워드')?></label></div>
+												</div>
 											</dd>
 										</dl>
 									</div>
@@ -595,6 +592,25 @@ printEntryFileUploadButton($entry['id']);
 									
 									<div id="power-section" class="section">
 										<div id="power-container" class="container">
+											<dl id="permalink-line" class="line">
+	<?
+	if (defined('__TATTERTOOLS_POST__')) {
+	?>
+												<dt><label for="permalink"><?=_t('절대 주소')?></label></dt>
+												<dd>
+													<samp><?=_f('%1/entry/', link_cut(getBlogURL()))?></samp><input type="text" id="permalink" class="text-input" name="permalink" value="<?=htmlspecialchars($entry['slogan'])?>" />
+												</dd>
+	<?
+	} else {
+	?>
+												<dt><label for="permalink"><?=_t('절대 주소')?></label></dt>
+												<dd>
+													<span class="disabled"><?=htmlspecialchars($entry['slogan'])?></span>
+												</dd>
+	<?
+	}
+	?>
+											</dl>
 											<dl id="date-line" class="line">
 												<dt><span class="label"><?=_t('등록일자')?></span></dt>
 												<dd>
@@ -714,7 +730,9 @@ if (!defined('__TATTERTOOLS_NOTICE__')) {
 							</div>
 						</form>
 						<script type="text/javascript">
-							entryManager = new EntryManager();
+							//<![CDATA[
+								entryManager = new EntryManager();
+							//]]>
 						</script> 
 <?
 if (isset($_GET['popupEditor']))

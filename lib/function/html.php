@@ -95,7 +95,7 @@ function str_cut($str, $maxlen, $type) {
 		return $return_str . "..";
 }
 
-function link_cut($url, $checkURL = 25)
+function link_cut($url, $checkURL = 35)
 {
 	$leftURL	= $checkURL - 14;
 	$rightURL	= -8;
