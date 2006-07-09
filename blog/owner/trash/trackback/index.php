@@ -86,8 +86,10 @@ require ROOT . '/lib/piece/owner/contentMenu90.php';
 								function checkAll(checked) {
 									for (i = 0; document.getElementById('list-form').elements[i]; i++) {
 										if (document.getElementById('list-form').elements[i].name == "entry") {
-											document.getElementById('list-form').elements[i].checked = checked;
-											toggleThisTr(document.getElementById('list-form').elements[i]);
+											if (document.getElementById('list-form').elements[i].checked != checked) {
+												document.getElementById('list-form').elements[i].checked = checked;
+												toggleThisTr(document.getElementById('list-form').elements[i]);
+											}
 										}
 									}
 								}
