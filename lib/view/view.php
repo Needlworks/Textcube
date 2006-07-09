@@ -525,12 +525,12 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 			echo '<ul>';
 		foreach ($tree['children'] as $child) {
 			$isSelected = ($child['id'] === $selected) ? ' class="selected"' : '';
-			echo "<li$isSelected><a href=\"", htmlspecialchars($child['link']), '">', htmlspecialchars($child['label']), " <span class=\"c_cnt\">({$tree['value']})</span></a>";
+			echo "<li$isSelected><a href=\"", htmlspecialchars($child['link']), '">', htmlspecialchars($child['label']), " <span class=\"c_cnt\">({$child['value']})</span></a>";
 			if (sizeof($child['children']) > 0)
 				echo '<ul>';
 			foreach ($child['children'] as $leaf) {
 				$isSelected = ($leaf['id'] === $selected) ? ' class="selected"' : '';
-				echo "<li$isSelected><a href=\"", htmlspecialchars($leaf['link']), '">', htmlspecialchars($leaf['label']), " <span class=\"c_cnt\">({$tree['value']})</span></a></li>";
+				echo "<li$isSelected><a href=\"", htmlspecialchars($leaf['link']), '">', htmlspecialchars($leaf['label']), " <span class=\"c_cnt\">({$leaf['value']})</span></a></li>";
 			}
 			if (sizeof($child['children']) > 0)
 				echo '</ul>';
