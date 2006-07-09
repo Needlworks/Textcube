@@ -608,6 +608,7 @@ printEntryFileUploadButton($entry['id']);
 												<dt><label for="permalink"><?=_t('절대 주소')?></label></dt>
 												<dd>
 													<span class="disabled"><?=htmlspecialchars($entry['slogan'])?></span>
+													<input type="hidden" id="permalink" class="text-input" name="permalink" value="<?=htmlspecialchars($entry['slogan'])?>" />
 												</dd>
 	<?
 	}
