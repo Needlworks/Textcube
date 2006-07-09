@@ -520,17 +520,17 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 	if ($xhtml) {
 		echo '<ul>';
 		$isSelected = ($tree['id'] === $selected) ? ' class="selected"' : '';
-		echo "<li$isSelected><a href=\"", htmlspecialchars($tree['link']), '">', htmlspecialchars($tree['label']), " <span class=\"c_cnt\">{$tree['value']}</span></a>";
+		echo "<li$isSelected><a href=\"", htmlspecialchars($tree['link']), '">', htmlspecialchars($tree['label']), " <span class=\"c_cnt\">({$tree['value']})</span></a>";
 		if (sizeof($tree['children']) > 0)
 			echo '<ul>';
 		foreach ($tree['children'] as $child) {
 			$isSelected = ($child['id'] === $selected) ? ' class="selected"' : '';
-			echo "<li$isSelected><a href=\"", htmlspecialchars($child['link']), '">', htmlspecialchars($child['label']), " <span class=\"c_cnt\">{$child['value']}</span></a>";
+			echo "<li$isSelected><a href=\"", htmlspecialchars($child['link']), '">', htmlspecialchars($child['label']), " <span class=\"c_cnt\">({$tree['value']})</span></a>";
 			if (sizeof($child['children']) > 0)
 				echo '<ul>';
 			foreach ($child['children'] as $leaf) {
 				$isSelected = ($leaf['id'] === $selected) ? ' class="selected"' : '';
-				echo "<li$isSelected><a href=\"", htmlspecialchars($leaf['link']), '">', htmlspecialchars($leaf['label']), " <span class=\"c_cnt\">{$leaf['value']}</span></a></li>";
+				echo "<li$isSelected><a href=\"", htmlspecialchars($leaf['link']), '">', htmlspecialchars($leaf['label']), " <span class=\"c_cnt\">({$tree['value']})</span></a></li>";
 			}
 			if (sizeof($child['children']) > 0)
 				echo '</ul>';
@@ -686,7 +686,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 ?>
 					<td class="branch3" <?php echo $link?>><div id="text_0" style=" color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars($tree['label'])?> <?php 
 	if ($skin['showValue'])
-		print "<span class=\"c_cnt\">{$tree['value']}</span>";
+		print "<span class=\"c_cnt\">({$tree['value']})</span>";
 ?></div></td>
 				</tr></table>
 			</td>
@@ -708,7 +708,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 				<table cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor?>"><tr>
 					<td class="branch3" <?php echo $link?>><div id="text_<?php echo $row['id']?>" style="color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($row['label'], $skin['labelLength']))?> <?php 
 		if ($skin['showValue'])
-			print "<span class=\"c_cnt\">{$row['value']}</span>";
+			print "<span class=\"c_cnt\">({$row['value']})</span>";
 ?></div></td>
 				</tr></table>
 			</td>
@@ -736,7 +736,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 ?>.gif" width="22" alt="" /></td>
 				<td>
 					<table <?php echo $link?> cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor?>"><tr>
-					<td class="branch3"><div id="text_<?php echo $irow['id']?>" style="color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($irow['label'], $skin['labelLength']))?> <?php echo ($skin['showValue'] ? "<span class=\"c_cnt\">{$irow['value']}</span>" : '')?></div></td>
+					<td class="branch3"><div id="text_<?php echo $irow['id']?>" style="color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($irow['label'], $skin['labelLength']))?> <?php echo ($skin['showValue'] ? "<span class=\"c_cnt\">({$irow['value']})</span>" : '')?></div></td>
 					</tr></table>
 				</td>
 				</tr></table>
