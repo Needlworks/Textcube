@@ -51,6 +51,7 @@ includeOnce( "Eolin.PHP.Core" );
 includeOnce( "Eolin.PHP.XMLStruct" );
 includeOnce( "Eolin.PHP.XMLTree" );
 includeOnce( "Eolin.PHP.XMLRPC" );
+includeOnce( "Tattertools.Control.RSS" );
 includeOnce( "Tattertools.Core" );
 includeOnce( "Tattertools.Control.Auth" );
 includeOnce( "Tattertools.Data.Post" );
@@ -182,6 +183,291 @@ function send_failure( $msg )
 			"</member>\n" .
 			"</struct></value></fault>\n" .
 			"</methodResponse>\n" );
+}
+
+function _getCategoryIdByName( $name_array )
+{
+	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
+	DEBUG( "Finding: " . $name . "\n" );
+
+	$category = new Category();
+	$category->open();
+
+	$name = $name_array[0];
+	$id = $name;
+
+	while(1)
+	{
+		DEBUG( " Category: " . $category->name . "\n" );
+		if( $category->name == $name )
+		{
+			$id = $category->id;
+			break;
+		}
+		if( !$category->shift() )
+		{
+			break;
+		}
+	}
+
+	$category->close();
+	return $id;
+
+}
+
+function _getCategoryNameById( $id )
+{
+	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
+	DEBUG( "Finding: " . $name . "\n" );
+
+	$category = new Category();
+	$category->open();
+
+	$name = $id;
+
+	while(1)
+	{
+		DEBUG( " Category: " . $category->name . "\n" );
+		if( $category->id == $id )
+		{
+			$name = $category->name;
+			break;
+		}
+		if( !$category->shift() )
+		{
+			break;
+		}
+	}
+
+	$category->close();
+	return $name;
+
+}
+
+/* Copied from blog/owner/entry/attach/index.php:getMIMEType,addAttachment */
+
+function getMIMEType($ext,$filename=null){
+	if($filename){
+		return '';
+	}else{
+		switch(strtolower($ext)){
+			case 'gif':
+				return 'image/gif';
+			case 'jpeg':
+			case 'jpg':
+			case 'jpe':
+				return 'image/jpeg';
+			case 'png':
+				return 'image/png';
+			case 'tiff':
+			case 'tif':
+				return 'image/tiff';
+			case 'bmp':
+				return 'image/bmp';
+			case 'wav':
+				return 'audio/x-wav';
+			case 'mpga':
+			case 'mp2':
+			case 'mp3':
+				return 'audio/mpeg';
+			case 'm3u':
+				return 'audio/x-mpegurl';
+			case 'wma':
+				return 'audio/x-msaudio';
+			case 'ra':
+				return 'audio/x-realaudio';
+			case 'css':
+				return 'text/css';
+			case 'html':
+			case 'htm':
+			case 'xhtml':
+				return 'text/html';
+			case 'rtf':
+				return 'text/rtf';
+			case 'sgml':
+			case 'sgm':
+				return 'text/sgml';
+			case 'xml':
+			case 'xsl':
+				return 'text/xml';
+			case 'mpeg':
+			case 'mpg':
+			case 'mpe':
+				return 'video/mpeg';
+			case 'qt':
+			case 'mov':
+				return 'video/quicktime';
+			case 'avi':
+			case 'wmv':
+				return 'video/x-msvideo';
+			case 'pdf':
+				return 'application/pdf';
+			case 'bz2':
+				return 'application/x-bzip2';
+			case 'gz':
+			case 'tgz':
+				return 'application/x-gzip';
+			case 'tar':
+				return 'application/x-tar';
+			case 'zip':
+				return 'application/zip';
+		}
+	}
+	return '';
+}
+
+function addAttachment($owner,$parent,$file){
+	global $database;
+	/*
+	if(empty($file['name'])||($file['error']!=0))
+		return false;
+	if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$parent AND label='{$file['name']}'")>0){
+		return false;
+	}
+	*/
+	$attachment=array();
+	$attachment['parent']=$parent?$parent:0;
+	$attachment['label']=Path::getBaseName($file['name']);
+	$label=mysql_escape_string($attachment['label']);
+	$attachment['size']=$file['size'];
+	$extension=Path::getExtension($attachment['label']);
+	$extension = substr( $extension, 1 );
+	switch(strtolower($extension)){
+		case 'exe':
+		case 'php':
+		case 'sh':
+		case 'com':
+		case 'bat':
+			$extension='xxx';
+			break;
+	}
+	$path="../../attach/$owner";
+	if(!is_dir($path)){
+		mkdir($path);
+		if(!is_dir($path))
+			return false;
+		@chmod($path,0777);
+	}
+	do{
+		$attachment['name']=rand(1000000000,9999999999).".$extension";
+		$attachment['path']="$path/{$attachment['name']}";
+	}while(file_exists($attachment['path']));
+
+	/* Fixed by coolengineer */
+	if( $file['content'] )
+	{
+		$f = fopen( $attachment['path'], "w" );
+		if( !$f )
+		{
+			return false;
+		}
+		DEBUG( "Length 1: " . $attachment['size'] . "\n");
+		$attachment['size'] = fwrite( $f, $file['content'] );
+		DEBUG( "Length 2: " . $attachment['size'] . "\n");
+		fclose( $f );
+		$file['tmp_name'] = $attachment['path'];
+	}
+
+	if($imageAttributes=@getimagesize($file['tmp_name'])){
+		$attachment['mime']=$imageAttributes['mime'];
+		$attachment['width']=$imageAttributes[0];
+		$attachment['height']=$imageAttributes[1];
+	}else{
+		$attachment['mime']=getMIMEType($extension);
+		$attachment['width']=0;
+		$attachment['height']=0;
+	}
+/*
+	if(!move_uploaded_file($file['tmp_name'],$attachment['path']))
+		return false;
+*/
+	@chmod($attachment['path'],0666);
+	$result=mysql_query("insert into {$database['prefix']}Attachments values ($owner, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
+	if(!$result){
+		@unlink($attachment['path']);
+		return false;
+	}
+	return $attachment;
+}
+
+/* Up to here, copied from blog/owner/entry/attach/index.php */
+
+/* Work around , copied from blog/owner/entry/delete/item.php -r594 */
+function getAttachments($owner,$parent){
+	global $database;
+	$attachments=array();
+	if($result=mysql_query("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent")){
+		while($attachment=mysql_fetch_array($result))
+			array_push($attachments,$attachment);
+	}
+	return $attachments;
+}
+function deleteAttachment($owner,$parent,$name){
+	global $database, $blogapi_dir;
+	@unlink("$blogapi_dir/../../attach/$owner/$name");
+	if($parent===false){
+		return true;
+	}
+	$name=mysql_escape_string($name);
+	if(mysql_query("delete from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'")&&(mysql_affected_rows()==1)){
+		return true;
+	}
+	return false;
+}
+function deleteAttachments($owner,$parent){
+	$attachments=getAttachments($owner,$parent);
+	foreach($attachments as $attachment)
+		deleteAttachment($owner,$parent,$attachment['name']);
+}
+
+function deleteGarbageTags(){
+	global $database,$owner;
+	$gc=fetchQueryColumn("SELECT t.id FROM {$database['prefix']}Tags t LEFT JOIN {$database['prefix']}TagRelations r ON t.id = r.tag WHERE r.owner = $owner AND r.tag IS NULL");
+	foreach($gc as $g)
+		mysql_query("DELETE FROM {$database['prefix']}Tags WHERE id = $g");
+}
+/* Work around end */
+
+function preview_encode( $owner, $name )
+{
+	return "?__preview__{" . $owner . "," . $name . "}";
+}
+
+function preview_decode_core( $content )
+{
+	if( preg_match( "/\?__preview__{([^,]+),([^}]+)}/", $content, $matches ) )
+	{
+		return array( $matches[1], $matches[2] );
+	}
+	return false;
+}
+
+function preview_decode( $content, $parent )
+{
+	global $owner;
+	$attaches = array();
+	while( list($o,$n) = preview_decode_core($content) )
+	{
+DEBUG("Owner: $o, Name $n\n" );
+		array_push( $attaches, array( $o, $n ) );
+		$content = preg_replace( "/\?__preview__[^}]+}/", "", $content, 1 );
+	}
+	DEBUG( $attaches, true );
+	return array( $content, $attaches );
+}
+
+function fixAttachments( $attaches, $parent )
+{
+	global $database, $owner;
+	deleteAttachments( $owner, $parent );
+	foreach( $attaches as $att )
+	{
+		if( $att[0] == $owner )
+		{
+			DEBUG( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0 and name='" . $att[1] . "'\n");
+			mysql_query( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0 and name='" . $att[1] . "'");
+		}
+	}
 }
 
 /*--------- API main ---------------*/

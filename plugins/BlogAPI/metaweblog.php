@@ -1,5 +1,6 @@
 <?
 /*--------- MetaWebLog API functions -----------*/
+
 function metaWeblog_getCategories()
 {
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
@@ -127,37 +128,6 @@ function metaWeblog_getPost()
 	return $ret;
 }
 
-function _getCategoryIdByName( $name_array )
-{
-	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
-	DEBUG( "Finding: " . $name . "\n" );
-
-	$category = new Category();
-	$category->open();
-
-	$id = NULL;
-
-	$name = $name_array[0];
-
-	while(1)
-	{
-		DEBUG( " Category: " . $category->name . "\n" );
-		if( $category->name == $name )
-		{
-			$id = $category->id;
-			break;
-		}
-		if( !$category->shift() )
-		{
-			break;
-		}
-	}
-
-	$category->close();
-	return $id;
-
-}
-
 function metaWeblog_newPost()
 {
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
@@ -186,12 +156,17 @@ function metaWeblog_newPost()
 		$post->visibility = "private";
 	}
 
+	list( $post->content, $attaches ) = preview_decode( $post->content );
+
 	if( !$post->add() )
 	{
 		$post->close();
 		DEBUG( "Adding failure." );
 		return XMLRPCFault( 1, "Posting error" );
 	}
+
+	fixAttachments( $attaches, $post->id );
+	RSS::refresh();
 
 	DEBUG( $post, true );
 
@@ -284,6 +259,8 @@ function metaWeblog_editPost()
 	$post->tags = join( ',', $params[3]['categories'] );
 	$post->modified = _timestamp( $params[3]['dateCreated'] );
 
+	list( $post->content, $attaches ) = preview_decode( $post->content );
+
 	if( $params[4] )
 	{
 		$post->visibility = "public";
@@ -296,10 +273,51 @@ function metaWeblog_editPost()
 
 	$ret = $post->update();
 
+	fixAttachments( $attaches, $post->id );
+	RSS::refresh();
+
 	DEBUG( $post, true );
 	$post->close();
 
 	return $ret ? 1 : 0;
 }
 
+function metaWeblog_newMediaObject()
+{
+	global $blogapi_dir, $owner;
+	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
+	$params = func_get_args();
+	DEBUG( "Params: " );
+	DEBUG( $params, true );
+	$result = _login( $params[1], $params[2] );
+	if( $result )
+	{
+		return $result;
+	}
+	$mediaOjbect = $params[3]['bits'];
+
+	$tmp_dir = "$blogapi_dir/../../attach/temp";
+	if( !is_dir( $tmp_dir ) )
+	{
+		mkdir( $tmp_dir );
+		if( !is_dir( $tmp_dir ) )
+		{
+			return new XMLRPCFault( 1, "Can't Create Directory $tmp_dir" );
+		}
+		@chmod( $path, 0777 );
+	}
+
+	$file = array( 
+		'name' => $params[3]['name'],
+		'content' => $params[3]['bits'],
+		'size' => count($params[3]['bits']) 
+		);
+		
+	$attachment = addAttachment( $owner, 0, $file );
+	if( !$attachment )
+	{
+		return new XMLRPCFault( 1, "Can't create file" );
+	}
+	return array ( 'url' => getBlogURL() . "/attach/$owner/" . $attachment['name'] . preview_encode( $owner, $attachment['name'] ) );
+}
 ?>

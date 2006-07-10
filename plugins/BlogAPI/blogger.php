@@ -13,8 +13,6 @@ function blogger_getUsersBlogs()
 
 	$params = func_get_args();
 	$result = _login( $params[1], $params[2] );
-	DEBUG( "\n\$result = " );
-	DEBUG( $result, true );
 	if( $result )
 	{
 		return $result;
@@ -59,6 +57,8 @@ function blogger_newPost()
 		return XMLRPCFault( 1, "Posting error" );
 	}
 
+	RSS::refresh();
+
 	$id = "{$post->id}";
 	$post->close();
 	DEBUG( "Result: $id\n" );
@@ -93,6 +93,8 @@ function blogger_editPost()
 	$ret = $post->update();
 	$post->close();
 
+	RSS::refresh();
+
 	return $ret ? 1 : 0;
 }
 
@@ -116,9 +118,18 @@ function blogger_deletePost()
 // Workaround: TT must fix "DELETE FROM FROM" typo error
 	{
 		global $database, $owner;
-		$filter = 'AND id = ' . intval( $params[1] );
+		$id = intval( $params[1] );
+		$filter = 'AND id = ' . $id;
 		$ret = mysql_query("DELETE FROM {$database['prefix']}Entries " .
 			"WHERE owner = $owner AND category >= 0 $filter");
+		if(mysql_affected_rows()>0){
+			$result=mysql_query("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $id");
+			$result=mysql_query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id");
+			$result=mysql_query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner AND entry = $id");
+			$result=mysql_query("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $owner AND entry = $id");
+			deleteAttachments($owner,$id);
+			RSS::refresh();
+		}
 	}
 // To here.
 
@@ -139,11 +150,11 @@ function _get_post( $post, $type = "bl" )
 				"dateModified" => _dateiso8601( $post->modified ),
 				"title" =>  _escape_content($post->title),
 				"postid" => $post->id,
-				"categories" => array("{$post->category}"),
+				"categories" => array( _getCategoryNameById($post->category) ),
 				"link" => $hostURL . $blogURL . "/" . $post->id ,
 				"permaLink" => $hostURL . $blogURL . "/" . $post->id ,
-				"description" => ($type == "mt" ? _escape_content( $post->content ) : "" ),
-				"content" => _escape_content( $post->content )
+				"description" => ($type == "mt" ? $post->content : "" ),
+				"content" => $post->content
 				);
 }
 

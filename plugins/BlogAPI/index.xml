@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="ko">Blogger API</title>
-  <title xml:lang="en">Blogger API</title>
+  <title xml:lang="ko">Blog API</title>
+  <title xml:lang="en">Blog API</title>
   <link>http://coolengineer.com/tt/tag/BlogAPI</link>
-  <version>0.9.6</version>
+  <version>0.9.7</version>
   <description xml:lang="en">This plugin enables posting via Blogger, MetaWeblog API. URL: BLOG-ADDRESS/plugin/BlogAPI</description>
   <description xml:lang="ko">이 플러그인은 Blogger, MetaWeblog API를 통해 글을 쓸 수 있도록 합니다. URL: BLOG주소/plugin/BlogAPI</description>
   <license>GPL</license>
