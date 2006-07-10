@@ -551,7 +551,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 		}
 ?>
 													} catch(e) {
-														document.getElementById("tag").innerHTML = '<input type="text" class="text-input" name="tag" value="<?=addslashes(str_replace('"', '&quot;', implode(', ', $tags)))?>" /><br /><?=_t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해 주십시오.(예: 태터툴즈, BLOG, 테스트)')?>';
+														document.getElementById("tag").innerHTML = '<input type="text" class="text-input" name="tag" value="<?=addslashes(str_replace('"', '&quot;', implode(', ', $tags)))?>" /><br /><?=_t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해 주십시오.(예: '.TATTERTOOLS_NAME.', BLOG, 테스트)')?>';
 													}
 												//]]>
 											</script> 

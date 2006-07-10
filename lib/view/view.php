@@ -23,14 +23,14 @@ function dress($tag, $value, & $contents) {
 }
 
 function getUpperView($paging) {
-	global $g_version, $service, $blogURL;
+	global $service, $blogURL;
 	ob_start();
 ?>
 	<!--
-		<?php echo $g_version?>
+		<?php echo TATTERTOOLS_NAME." ".TATTERTOOLS_VERSION.CRLF?>
 		
-		Homepage: http://www.tattertools.com
-		Copyright (c) 2005 Tatter & Company, LLP. All rights reserved.
+		Homepage: <?php echo TATTERTOOLS_HOMEPAGE.CRLF?>
+		<?php echo TATTERTOOLS_COPYRIGHT.CRLF?>
 	-->
 	<script type="text/javascript">
 		//<![CDATA[
@@ -1572,7 +1572,7 @@ function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false
 function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $position = 'current') {
 	global $service;
 	if (!$entry = getFeedEntry($owner, $group, $feed, $entry, $unreadOnly, $starredOnly, $searchKeyword, $position)) {
-		$entry = array('id' => 0, 'author' => 'Tattertools', 'blog_title' => 'Tattertools Reader', 'permalink' => '#', 'entry_title' => _t('포스트가 없습니다.'), 'language' => 'en-US', 'description' => '<div style="height: 369px"></div>', 'tags' => '', 'enclosure' => '', 'written' => time());
+		$entry = array('id' => 0, 'author' => TATTERTOOLS_NAME, 'blog_title' => TATTERTOOLS_NAME.' Reader', 'permalink' => '#', 'entry_title' => _t('포스트가 없습니다.'), 'language' => 'en-US', 'description' => '<div style="height: 369px"></div>', 'tags' => '', 'enclosure' => '', 'written' => time());
 	}
 ?>
 												<div id="entryHead">

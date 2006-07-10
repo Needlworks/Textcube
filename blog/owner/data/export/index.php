@@ -20,8 +20,8 @@ if (defined('__TATTERTOOLS_BACKUP__')) {
 	}
 } else {
 	if ($writer->openStdout()) {
-		header('Content-Disposition: attachment; filename="Tattertools-Backup-' . Timestamp::getDate() . '.xml"');
-		header('Content-Description: Tattertools Backup Data');
+		header('Content-Disposition: attachment; filename="'.TATTERTOOLS_NAME.'-Backup-' . Timestamp::getDate() . '.xml"');
+		header('Content-Description: '.TATTERTOOLS_NAME.' Backup Data');
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Type: application/xml');
 	} else {

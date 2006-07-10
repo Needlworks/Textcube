@@ -86,9 +86,9 @@ function resetPassword($userid, $loginid) {
 	if (!isLoginId($userid, $loginid))
 		return false;
 	$password = fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
-	$headers = "From: Your Tattertools Blog <tattertools@{$service['domain']}>\n" . 'X-Mailer: ' . TATTERTOOLS_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
+	$headers = "From: Your ".TATTERTOOLS_NAME." Blog <".strtolower(TATTERTOOLS_NAME)."@{$service['domain']}>\n" . 'X-Mailer: ' . TATTERTOOLS_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 	$message = file_get_contents(ROOT . "/style/letter/letter.html");
-	$message = str_replace('[##_title_##]', _t('태터툴즈 블로그 로그인 정보'), $message);
+	$message = str_replace('[##_title_##]', _t(TATTERTOOLS_NAME.' 블로그 로그인 정보'), $message);
 	$message = str_replace('[##_content_##]', _t('블로그 로그인 암호가 초기화되었습니다. 이 이메일에 로그인할 수 있는 인증 정보가 포함되어 있습니다.'), $message);
 	$message = str_replace('[##_images_##]', "$hostURL{$service['path']}/style/letter", $message);
 	$message = str_replace('[##_link_##]', "$hostURL$blogURL/login?loginid=" . rawurlencode($loginid) . '&password=' . rawurlencode($password) . '&requestURI=' . rawurlencode("$hostURL$blogURL/owner/setting/account?password=" . rawurlencode($password)), $message);

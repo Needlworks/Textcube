@@ -28,7 +28,7 @@
 	<div id="temp-wrap">
 		<div id="all-wrap">
 			<div id="layout-header">
-				<h1><?php echo _t('태터툴즈 관리 페이지')?></h1>
+				<h1><?php echo _t(TATTERTOOLS_NAME.' 관리 페이지')?></h1>
 			</div>
 			
 			<hr class="hidden" />

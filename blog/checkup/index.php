@@ -12,27 +12,26 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?=_t('태터툴즈를 점검합니다...')?></title>
-<script type="text/javascript">
-//<![CDATA[
-//]]>
-</script>
-<style type="text/css" media="screen">
-	body{
-		font:12px/1.5 Verdana, Gulim;
-		color:#333;
-	}
-	h3 {
-		color:#0099FF;
-		padding-bottom:5px;
-	}
-</style>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?=_t(TATTERTOOLS_NAME.'를 점검합니다...')?></title>
+	<style type="text/css" media="screen">
+		body
+		{
+			font                : 12px/1.5 Verdana, Gulim;
+			color               : #333;
+		}
+		h3
+		{
+			color               :#0099FF;
+			padding-bottom      :5px;
+		}
+	</style>
 </head>
 <body>
-<h3><?=_t('태터툴즈를 점검합니다...')?></h3>
-<p>
-<ul>
+	<h3><?=_t(TATTERTOOLS_NAME.'를 점검합니다...')?></h3>
+	
+	<p>
+		<ul>
 <?
 $changed = false;
 if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings recentNoticeLength")) { // Since 1.0.1

@@ -115,7 +115,7 @@ $commentCount = ($commentCount > 0) ? "$commentCount" : '';
 <body>
 	<form name="deleteComment" method="post" action="<?=$blogURL?>/comment/delete/<?=$suri['id']?>">
 		<div id="comment-box">
-			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" alt="태터툴즈 로고" />	
+			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" alt="<?php echo _t(TATTERTOOLS_NAME.' 로고')?>" />	
 			
 			<div id="command-box">
 				<div class="edit-line">

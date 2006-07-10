@@ -10,7 +10,7 @@ function TattertoolsBirthday_TattertoolsBirthday($target) {
 	ob_start();
 ?>
       <div class="listbox">
-        <h3>태터툴즈 생일</h3>
+        <h3><?php echo TATTERTOOLS_NAME?> 생일</h3>
         <div style="text-align:center">3월 1일: <?=$message?></div>
       </div>
 <?

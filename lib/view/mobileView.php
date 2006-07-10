@@ -37,7 +37,7 @@ function printMobileHtmlHeader($title = '') {
 function printMobileHtmlFooter() {
 ?>
 		<hr />
-		<p>Powered by <a href="http://www.tattertools.com">Tattertools</a></p>
+		<p>Powered by <a href="<?php echo TATTERTOOLS_HOMEPAGE?>"><?php echo TATTERTOOLS_NAME?></a></p>
 	</body>
 </html>
 <?php

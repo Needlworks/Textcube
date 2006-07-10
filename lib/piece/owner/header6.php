@@ -29,7 +29,7 @@
 	<div id="temp-wrap">
 		<div id="all-wrap">
 			<div id="layout-header">
-				<h1><?php echo _t('태터툴즈 관리 페이지')?></h1>
+				<h1><?php echo _t(TATTERTOOLS_NAME.' 관리 페이지')?></h1>
 				
 				<div id="main-description-box">
 					<ul id="main-description">
@@ -48,7 +48,7 @@ $writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 				
 				<div id="main-menu-box">
 					<ul id="main-menu">
-						<li id="menu-tattertools"><a href="<?php echo TATTERTOOLS_HOMEPAGE?>" onclick="window.open(this.href); return false;" title="<?php echo _t('태터툴즈 홈페이지로 이동합니다.')?>"><span class="text"><?php echo _t('태터툴즈 홈페이지')?></span></a></li>
+						<li id="menu-tattertools"><a href="<?php echo TATTERTOOLS_HOMEPAGE?>" onclick="window.open(this.href); return false;" title="<?php echo _t(TATTERTOOLS_NAME.' 홈페이지로 이동합니다.')?>"><span class="text"><?php echo _t(TATTERTOOLS_NAME.' 홈페이지')?></span></a></li>
 						<li id="menu-center"><a href="<?php echo $blogURL?>/owner/center/dashboard"><span><?php echo _t('센터')?></span></a></li>
 						<li id="menu-post"><a href="<?php echo $blogURL?>/owner/entry"><span class="text"><?php echo _t('글관리')?></span></a></li>
 						<li id="menu-link"><a href="<?php echo $blogURL?>/owner/link"><span class="text"><?php echo _t('링크관리')?></span></a></li>
