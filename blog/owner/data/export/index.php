@@ -61,14 +61,16 @@ if ($setting->load()) {
 $category = new Category();
 if ($category->open()) {
 	do {
-		$category->escape();
-		$writer->write('<category>' . '<name>' . $category->name . '</name>' . '<priority>' . $category->priority . '</priority>');
-		if ($childCategory = $category->getChildren()) {
-			do {
-				$childCategory->escape();
-				$writer->write('<category>' . '<name>' . $childCategory->name . '</name>' . '<priority>' . $childCategory->priority . '</priority>' . '</category>');
-			} while ($childCategory->shift());
-			$childCategory->close();
+		if($category->id != 0) {
+		    	$category->escape();
+			$writer->write('<category>' . '<name>' . $category->name . '</name>' . '<priority>' . $category->priority . '</priority>');
+			if ($childCategory = $category->getChildren()) {
+				do {
+					$childCategory->escape();
+					$writer->write('<category>' . '<name>' . $childCategory->name . '</name>' . '<priority>' . $childCategory->priority . '</priority>' . '</category>');
+				} while ($childCategory->shift());
+				$childCategory->close();
+			}
 		}
 		$writer->write('</category>');
 		$writer->write(CRLF);
