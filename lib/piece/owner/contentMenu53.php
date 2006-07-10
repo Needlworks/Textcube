@@ -7,7 +7,7 @@
 						<li id="sub-menu-account"><a href="<?php echo $blogURL?>/owner/setting/account"><span class="text"><?php echo _t('계정정보를 관리합니다')?></span></a></li>
 						<li id="sub-menu-plugin" class="selected"><a href="<?php echo $blogURL?>/owner/setting/plugins"><span class="text"><?php echo _t('플러그인을 관리합니다')?></span></a></li>
 						<li id="sub-menu-data"><a href="<?php echo $blogURL?>/owner/data"><span class="text"><?php echo _t('데이터를 관리합니다')?></span></a></li>
-						<li id="sub-menu-helper"><a href="http://www.tattertools.com/doc/22" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미')?></span></a></li>
+						<li id="sub-menu-helper"><a href="<?php echo _t(TATTERTOOLS_HOMEPAGE.'/doc/22')?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미')?></span></a></li>
 					</ul>
 				</div>
 				
