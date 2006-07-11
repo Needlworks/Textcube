@@ -39,7 +39,7 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><?php echo _t(TATTERTOOLS_NAME.' - Login')?></title>
+	<title><?php echo _t('Tattertools - Login')?></title>
 	
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/login.css" />
@@ -68,7 +68,7 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 				<div id="data-outbox">
 					<div id="login-box">
 						<div id="logo-box">
-							<img src="<?=$service['path'].$service['adminSkin']?>/image/logo_tattertools.png" alt="<?php echo _t(TATTERTOOLS_NAME.' 로고')?>" />
+							<img src="<?=$service['path'].$service['adminSkin']?>/image/logo_tattertools.png" alt="<?php echo _t('태터툴즈 로고')?>" />
 			            </div>
 			            
 			            <div id="field-box">

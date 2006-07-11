@@ -32,7 +32,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 ?>
 								window.addEventListener("load", checkupDialog, false);
 								function checkupDialog() {
-									if (confirm("<?=_t(TATTERTOOLS_NAME.' 시스템 점검이 필요합니다. 지금 점검하시겠습니까?')?>"))
+									if (confirm("<?=_t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?')?>"))
 										window.location.href = "<?=$blogURL?>/checkup";
 								}
 <?

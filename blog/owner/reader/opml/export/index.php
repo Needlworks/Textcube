@@ -9,7 +9,7 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n";
 ?>
 <opml version="1.0">
 <head>
-<title><?php echo TATTERTOOLS_NAME." ".TATTERTOOLS_VERSION?> Reader Feeds</title>
+<title>Tattertools <?php echo TATTERTOOLS_VERSION?> Reader Feeds</title>
 <ownerName><?=htmlspecialchars($writer)?></ownerName>
 <ownerEmail><?=User::getEmail()?></ownerEmail>
 </head>
