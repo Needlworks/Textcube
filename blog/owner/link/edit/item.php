@@ -2,7 +2,7 @@
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 if (!$link = getLink($owner, $suri['id']))
-	respondErrorPage();
+	respondErrorPage(_t('링크 정보가 존재하지 않습니다.'));
 $method = empty($link['rss']) ? 1 : 0;
 require ROOT . '/lib/piece/owner/header2.php';
 require ROOT . '/lib/piece/owner/contentMenu20.php';

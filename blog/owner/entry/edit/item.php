@@ -6,7 +6,7 @@ if (defined('__TATTERTOOLS_POST__'))
 if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
 	$entry = getEntry($owner, $suri['id'], false);
 	if (!$entry)
-		respondErrorPage('');
+		respondErrorPage(_t('포스트 정보가 존재하지 않습니다.'));
 }
 if (defined('__TATTERTOOLS_NOTICE__')) {
 	$entry['category'] = -2;
