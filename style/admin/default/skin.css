@@ -145,7 +145,7 @@
 	padding-top                      : 2px;
 }
 
-#part-skin-setting div.data-inbox .section
+#part-skin-setting div.data-inbox .container
 {
 	border-top                       : 1px dotted #CCCCCC;
 	clear                            : both;
@@ -159,32 +159,32 @@
 	padding-top                      : 3px;
 }
 
-#per-page-section
+#per-page-container
 {
 	border-top                       : none !important;
 }
 
-#click-section
+#click-container
 {
 	padding                          : 20px 10px 12px 10px !important;
 }
 
-#click-section dl
+#click-container dl
 {
 	height                           : 2.5em;
 }
 
-#click-section dl dt
+#click-container dl dt
 {
 	padding-top                      : 0 !important;
 }
 
-#length-section
+#length-container
 {
 	padding                          : 20px 10px 17px 10px !important;
 }
 
-#tag-setting-section
+#tag-setting-container
 {
 	padding                          : 20px 10px 17px 10px !important;
 }
@@ -199,7 +199,7 @@
 	height                           : 4.3em;
 }
 
-#guestbook-setting-section
+#guestbook-setting-container
 {
 	border-bottom                    : 1px dotted #CCCCCC;
 	padding                          : 23px 10px 20px 10px !important;

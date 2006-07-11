@@ -224,7 +224,7 @@ if ($service['type'] != 'single') {
 							
 							<div class="data-inbox">
 								<form id="info-section" class="section" method="post" action="<?php echo $blogURL?>/owner/setting/account">
-									<fieldset>
+									<fieldset class="container">
 										<legend><?=_t('아이디 및 이메일')?></legend>
 										
 										<dl id="blogger-name-line" class="line">
@@ -247,7 +247,7 @@ if ($service['type'] != 'single') {
 								<hr class="hidden" />
 								
 								<form id="account-section" class="section" method="post" action="<?php echo $blogURL?>/owner/setting/account">
-									<fieldset>
+									<fieldset class="container">
 										<legend><?=_t('비밀번호 변경')?></legend>
 										
 										<dl id="current-password-line" class="line">

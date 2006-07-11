@@ -128,7 +128,7 @@ printFeeds($owner);
 <?
 if (getUserId() == 1) {
 ?>
-										<fieldset>
+										<fieldset class="container">
 											<legend class="title"><?=_t('리더 환경을 설정합니다')?></legend>
 											
 											<dl id="update-line" class="line">
@@ -184,6 +184,7 @@ if (getUserId() == 1) {
 												</dd>
 											</dl>
 										</fieldset>
+										
 										<div class="button-box">
 											<a class="save-button button" href="#void" onclick="Reader.saveSetting()"><span class="text"><?=_t('저장하기')?></span></a>
 										</div>
@@ -209,6 +210,7 @@ if (getUserId() == 1) {
 												<dd><input type="text" id="opmlRequestValue" class="text-input" /></dd>
 											</dl>
 										</fieldset>
+										
 										<div class="button-box two-button-box">
 											<a class="import-button button" href="#void" onclick="if(document.getElementById('opml-section').opmlMethod[0].checked) Reader.importOPMLUpload(); else Reader.importOPMLURL();"><span class="text"><?=_t('가져오기')?></span></a>
 											<span class="hidden">|</span>

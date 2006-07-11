@@ -86,9 +86,9 @@ $selected = 0;
 						<div id="part-skin-setting" class="part">
 							<h2 class="caption"><span class="main-text"><?=_t('스킨에 맞춘 내용 출력을 설정합니다')?></span></h2>
 							
-							<form id="skinSetting" method="post" action="<?=$blogURL?>/owner/skin/setting/skin" enctype="application/x-www-form-urlencoded">
-								<div class="data-inbox">
-									<fieldset id="per-page-section" class="section">
+							<div class="data-inbox">
+								<form id="skinSetting" class="section" method="post" action="<?=$blogURL?>/owner/skin/setting/skin" enctype="application/x-www-form-urlencoded">
+									<fieldset id="per-page-container" class="container">
 										<legend><?=_t('출력 숫자 조절')?></legend>
 <?
 ob_start();
@@ -217,7 +217,7 @@ ob_end_clean();
 										</dl>
 									</fieldset>
 									
-									<fieldset id="click-section" class="section">
+									<fieldset id="click-container" class="container">
 										<legend><?=_t('클릭 설정')?></legend>
 										
 										<dl id="category-click-line" class="line">
@@ -243,7 +243,7 @@ ob_end_clean();
 										</dl>
 									</fieldset>
 									
-									<fieldset id="length-section" class="section">
+									<fieldset id="length-container" class="container">
 										<legend><?=_t('문자열 길이 조절')?></legend>
 <?
 ob_start();
@@ -372,7 +372,7 @@ ob_end_clean();
 										</dl>
 									</fieldset>
 									
-									<fieldset id="tag-setting-section" class="section">
+									<fieldset id="tag-setting-container" class="container">
 										<legend><?=_t('태그 조절')?></legend>
 										
 										<dl id="tag-align-line" class="line">
@@ -410,8 +410,8 @@ ob_end_clean();
 											<dd><?=_f('태그상자의 태그를 %1개 표시합니다.', $arg)?></dd>
 										</dl>
 									</fieldset>
-
-									<fieldset id="guestbook-setting-section" class="section">
+									
+									<fieldset id="guestbook-setting-container" class="container">
 										<legend><?=_t('방명록 관련 조절')?></legend>
 <?
 ob_start();
@@ -439,12 +439,12 @@ ob_end_clean();
 											<dd><?=_f('방명록 한 페이지 당 %1개 글을 표시합니다.', $arg)?></dd>
 										</dl>
 									</fieldset>
-									
+								
 									<div class="button-box">
 										<a class="save-button button" href="#void" onclick="setSkin(); return false;"><span class="text"><?=_t('저장하기')?></span></a>
 									</div>
-								</div>
-							</form>
+								</form>
+							</div>
 						</div>
 						
 						<hr class="hidden" />
@@ -456,13 +456,14 @@ ob_end_clean();
 								<div class="data-inbox">
 									<iframe id="treePreview" src="<?=$blogURL?>/owner/skin/setting/tree/preview" width="300" height="300" frameborder="0" style="overflow: visible;"></iframe>
 									
-									<fieldset id="property-box" class="section">
-										<legend><?=_t('트리 속성')?></legend>
-										
-										<dl id="tree-skin-line" class="line">
-											<dt><label for="tree"><?=_t('트리선택')?></label></dt>
-											<dd>
-												<select id="tree" name="tree" onchange="changeTreeStyle()">
+									<div class="section">
+										<fieldset id="property-box" class="container">
+											<legend><?=_t('트리 속성')?></legend>
+											
+											<dl id="tree-skin-line" class="line">
+												<dt><label for="tree"><?=_t('트리선택')?></label></dt>
+												<dd>
+													<select id="tree" name="tree" onchange="changeTreeStyle()">
 <?
 $skinPath = ROOT . '/image/tree';
 if ($dh = opendir($skinPath)) {
@@ -479,37 +480,38 @@ if ($dh = opendir($skinPath)) {
 	closedir($dh);
 }
 ?>
-												</select>
-											</dd>
-										</dl>
-										<dl id="selected-color-line" class="line">
-											<dt><label for="activeColorOnTree"><?=_t('선택된 글자색')?></label></dt>
-											<dd><input type="text" id="activeColorOnTree" class="text-input" name="activeColorOnTree" value="<?=$skinSetting['activeColorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
-										</dl>
-										<dl id="selected-bgcolor-line" class="line">
-											<dt><label for="activeBgColorOnTree"><?=_t('선택된 배경색')?></label></dt>
-											<dd><input type="text" id="activeBgColorOnTree" class="text-input" name="activeBgColorOnTree" value="<?=$skinSetting['activeBgColorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
-										</dl>
-										<dl id="unselected-color-line" class="line">
-											<dt><label for="colorOnTree"><?=_t('선택되지 않은 글자색')?></label></dt>
-											<dd><input type="text" id="colorOnTree" class="text-input" name="colorOnTree" value="<?=$skinSetting['colorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
-										</dl>
-										<dl id="unselected-bgcolor-line" class="line">
-											<dt><label for="bgColorOnTree"><?=_t('선택되지 않은 배경색')?></label></dt>
-											<dd><input type="text" id="bgColorOnTree" class="text-input" name="bgColorOnTree" value="<?=$skinSetting['bgColorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
-										</dl>
-										<dl id="label-langth-line" class="line">
-											<dt><label for="labelLengthOnTree"><?php echo _t('레이블 길이')?></label></dt>
-											<dd><?=_f('레이블을 %1 글자로 표시합니다.', '<input type="text" id="labelLengthOnTree" class="text-input" name="labelLengthOnTree" value="' . $skinSetting['labelLengthOnTree'] . '" size="3" maxlength="6" onchange="changeTreeStyle()" />')?></dd>
-										</dl>
-										<dl id="count-display-line" class="line">
-											<dt><label for="showValue"><?php echo _t('포스트 갯수 출력')?></label></dt>
-											<dd><input type="checkbox" class="checkbox" id="showValue" name="showValueOnTree" onclick="changeTreeStyle()" <?=$skinSetting['showValueOnTree'] ? 'checked="checked"' : ''?> /> <label for="showValue"><?=_t('카테고리의 글 수를 표시합니다.')?></label></dd>
-										</dl>
-									</fieldset>
-								
-									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="document.getElementById('setSkinForm').submit()"><span class="text"><?=_t('저장하기')?></span></a>
+													</select>
+												</dd>
+											</dl>
+											<dl id="selected-color-line" class="line">
+												<dt><label for="activeColorOnTree"><?=_t('선택된 글자색')?></label></dt>
+												<dd><input type="text" id="activeColorOnTree" class="text-input" name="activeColorOnTree" value="<?=$skinSetting['activeColorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+											</dl>
+											<dl id="selected-bgcolor-line" class="line">
+												<dt><label for="activeBgColorOnTree"><?=_t('선택된 배경색')?></label></dt>
+												<dd><input type="text" id="activeBgColorOnTree" class="text-input" name="activeBgColorOnTree" value="<?=$skinSetting['activeBgColorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+											</dl>
+											<dl id="unselected-color-line" class="line">
+												<dt><label for="colorOnTree"><?=_t('선택되지 않은 글자색')?></label></dt>
+												<dd><input type="text" id="colorOnTree" class="text-input" name="colorOnTree" value="<?=$skinSetting['colorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+											</dl>
+											<dl id="unselected-bgcolor-line" class="line">
+												<dt><label for="bgColorOnTree"><?=_t('선택되지 않은 배경색')?></label></dt>
+												<dd><input type="text" id="bgColorOnTree" class="text-input" name="bgColorOnTree" value="<?=$skinSetting['bgColorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+											</dl>
+											<dl id="label-langth-line" class="line">
+												<dt><label for="labelLengthOnTree"><?php echo _t('레이블 길이')?></label></dt>
+												<dd><?=_f('레이블을 %1 글자로 표시합니다.', '<input type="text" id="labelLengthOnTree" class="text-input" name="labelLengthOnTree" value="' . $skinSetting['labelLengthOnTree'] . '" size="3" maxlength="6" onchange="changeTreeStyle()" />')?></dd>
+											</dl>
+											<dl id="count-display-line" class="line">
+												<dt><label for="showValue"><?php echo _t('포스트 갯수 출력')?></label></dt>
+												<dd><input type="checkbox" class="checkbox" id="showValue" name="showValueOnTree" onclick="changeTreeStyle()" <?=$skinSetting['showValueOnTree'] ? 'checked="checked"' : ''?> /> <label for="showValue"><?=_t('카테고리의 글 수를 표시합니다.')?></label></dd>
+											</dl>
+										</fieldset>
+									
+										<div class="button-box">
+											<a class="save-button button" href="#void" onclick="document.getElementById('setSkinForm').submit()"><span class="text"><?=_t('저장하기')?></span></a>
+										</div>
 									</div>
 								</div>
 							</form>
