@@ -56,7 +56,7 @@ class Skin {
 		global $service;
 		$filename = ROOT . "/skin/$name/skin.html";
 		if (!$sval = file_get_contents($filename))
-			respondErrorPage(_t('½ºÅ² Á¤º¸°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.'));
+			respondErrorPage(_t('ìŠ¤í‚¨ ì •ë³´ê°€ ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.'));
 
 		$sval = replaceSkinTag($sval, 'html');
 		$sval = replaceSkinTag($sval, 'head');
