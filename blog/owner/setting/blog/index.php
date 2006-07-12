@@ -139,8 +139,13 @@ if ($service['type'] != 'single') {
 <?
 }
 ?>
-								function changeLogo() {
-									document.frames[0].document.forms[0].logo.click();
+								
+								function setIcon() {
+									
+								}
+								
+								function setThumbnail() {
+									
 								}
 								
 								var useSlogan = "<?=$blog['useSlogan']?>";
@@ -254,6 +259,53 @@ if ($service['type'] != 'single') {
 										request.send();
 									}
 								}
+								
+								function checkManualInput(obj) {
+									if (obj.options[obj.options.selectedIndex].value == "direct") {
+										switch (obj.id) {
+											case "topPadding":
+												document.getElementById('topPaddingManual').removeAttribute('disabled');
+												break;
+											case "bottomPadding":
+												document.getElementById('bottomPaddingManual').removeAttribute('disabled');
+												break;
+											case "leftPadding":
+												document.getElementById('leftPaddingManual').removeAttribute('disabled');
+												break;
+											case "rightPadding":
+												document.getElementById('rightPaddingManual').removeAttribute('disabled');
+												break;
+										}
+									} else {
+										switch (obj.id) {
+											case "topPadding":
+												document.getElementById('topPaddingManual').setAttribute('disabled', 'disabled');
+												break;
+											case "bottomPadding":
+												document.getElementById('bottomPaddingManual').setAttribute('disabled', 'disabled');
+												break;
+											case "leftPadding":
+												document.getElementById('leftPaddingManual').setAttribute('disabled', 'disabled');
+												break;
+											case "rightPadding":
+												document.getElementById('rightPaddingManual').setAttribute('disabled', 'disabled');
+												break;
+										}
+									}
+								}
+								
+								window.addEventListener("load", loadBlogSetting, false);
+								
+								function loadBlogSetting() {
+									document.getElementById('topPadding').removeAttribute('disabled');
+									document.getElementById('topPaddingManual').setAttribute('disabled', 'disabled');
+									document.getElementById('bottomPadding').removeAttribute('disabled');
+									document.getElementById('bottomPaddingManual').setAttribute('disabled', 'disabled');
+									document.getElementById('leftPadding').removeAttribute('disabled');
+									document.getElementById('leftPaddingManual').setAttribute('disabled', 'disabled');
+									document.getElementById('rightPadding').removeAttribute('disabled');
+									document.getElementById('rightPaddingManual').setAttribute('disabled', 'disabled');
+								}
 							//]]>
 						</script>
 						
@@ -262,7 +314,7 @@ if ($service['type'] != 'single') {
 							
 							<div class="data-inbox">
 								<form id="common-section" class="section" method="post" action="<?=$service['path']?>/owner/setting/blog/title">
-									<fieldset>
+									<fieldset class="container">
 										<legend><?=_t('블로그 정보')?></legend>
 										
 										<input type="hidden" name="javascript" value="disabled" />
@@ -285,7 +337,7 @@ $urlRule = getBlogURLRule();
 if ($service['type'] != 'single') {
 ?>
 								<form id="multi-section" class="section" method="post" action="<?=$service['path']?>/owner/setting/blog/domain">
-									<fieldset>
+									<fieldset class="container">
 										<legend><?=_t('블로그 주소')?></legend>
 										
 										<input type="hidden" name="javascript" value="disabled" />
@@ -331,52 +383,158 @@ if ($service['type'] != 'single') {
 						<div id="part-setting-profile" class="part">
 							<h2 class="caption"><span class="main-text"><?=_t('프로필을 설정합니다')?></span></h2>
 							
-							<div class="data-inbox">
-								<div id="profile-section" class="section">
-									<fieldset>
-										<legend><?=_t('블로그 이미지 및 아이콘')?></legend>
+							<form class="data-inbox" method="post" action="<?=$service['path']?>/owner/setting/blog/icons">
+								<div id="icons-upload-section" class="section">
+									<fieldset class="container">
+										<legend><?=_t('블로그 로고 및 파비콘')?></legend>
 										
 										<dl id="blog-picture-line" class="line">
-											<dt><span class="label"><?=_t('사진')?></span></dt>
+											<dt><span class="label"><?=_t('로고 이미지')?></span></dt>
 											<dd>
-												<img id="logo" src="<?=(empty($blog['logo']) ? "{$service['path']}{$service['adminSkin']}/image/spacer.gif" : "{$service['path']}/attach/$owner/{$blog['logo']}")?>" width="92" height="93" alt="<?=_t('블로그 메인 이미지')?>" />
-												<iframe src="<?=$blogURL?>/owner/setting/blog/logo" frameborder="0" scrolling="no" width="450" height="40"></iframe>
-											</dd>
-										</dl>
-										<dl id="blog-icon-line" class="line">
-											<dt><span class="label"><?=_t('블로그 아이콘')?></span></dt>
-											<dd>
-<?
-if (file_exists(ROOT.'/index.gif')) {
-?>
-												<img id="blogIcon" src="<?=$service['path']?>/index.gif" width="16" height="16" alt="<?=_t('블로그 아이콘')?>" />
-<?
-} else {
-?>
-												<img id="blogIcon" src="<?=$service['path']?>/image/Tattertools.gif" width="16" height="16" alt="<?=_t('블로그 아이콘')?>" />
-<?
-}
-?>
-												<iframe src="<?=$blogURL?>/owner/setting/blog/blogIcon" frameborder="0" scrolling="no" width="400" height="23"></iframe>
+												<input type="file" class="file-input" name="logo" />
+												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteLogo" name="deleteLogo"<?php echo empty($blog['logo']) ? ' disabled="disabled"' : '';?> /> <label for="deleteLogo"><?=_t('로고를 초기화합니다.')?></label></div>
 											</dd>
 										</dl>
 										<dl id="farvicon-line" class="line">
-											<dt><span class="label"><?= _t('Favicon')?></span></dt>
+											<dt><span class="label"><?=_t('Favicon')?></span></dt>
 											<dd>
-												<script type="text/javascript">
-													//<![CDATA[
-														if(!isIE) {
-															document.write('<img id="favicon" src="<?=$blogURL?>/favicon.ico" alt="<?=_t('파비콘')?>" />');
-														} else {
-															document.write('<a href="<?=$blogURL?>/favicon.ico" onclick="window.open(this.href); return false;"><span class="text"><?=_t('미리보기')?></span></a>');
-														}
-													//]]>
-												</script>
-												<iframe src="<?=$blogURL?>/owner/setting/blog/favicon" frameborder="0" scrolling="no" height="30"></iframe>
+												<input type="file" class="file-input" name="blogIcon" />
+												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteFavicon" name="deleteFavicon"<?php echo file_exists(ROOT."/attach/$owner/favicon.ico") ? '' : ' disabled="disabled"';?> /> <label for="deleteFavicon"><?=_t('파비콘을 초기화합니다.')?></label></div>
 											</dd>
 										</dl>
 									</fieldset>
 								</div>
+								
+								<div id="blogicon-section" class="section">
+									<fieldset class="container">
+										<legend><?=_t('블로그 아이콘')?></legend>
+										
+										<dl id="blog-icon-line" class="line">
+											<dt><span class="label"><?=_t('블로그 아이콘')?></span></dt>
+											<dd>
+												<input type="file" class="file-input" name="blogIcon" />
+												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteBlogIcon" name="deleteBlogIcon"<?php echo file_exists(ROOT."/attach/$owner/index.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteBlogIcon"><?=_t('블로그 아이콘을 초기화합니다.')?></label></div>
+												<p><?php echo _t('블로그 아이콘은 댓글과 방명록에서 사용됩니다. 크기는 16×16 이상, 48×48 이하까지 지원합니다.')?></p>
+											</dd>
+										</dl>
+										<dl id="farvicon-line" class="line">
+											<dt><span class="label"><?=_t('블로그 아이콘을')?></span></dt>
+											<dd>
+												<select name="blogIconSize">
+													<option value="16"><?php echo _t('16×16 크기로 출력')?></option>
+													<option value="32" selected="selected"><?php echo _t('32×32 크기로 출력')?></option>
+													<option value="48"><?php echo _t('48×48 크기로 출력')?></option>
+													<option value="max"><?php echo _t('사용할 수 있는 최대 크기로 출력.')?></option>
+												</select>
+											</dd>
+										</dl>
+									</fieldset>
+								</div>
+								
+								<div class="button-box">
+									<a class="save-button button" href="#void" onclick="setIcons()"><span class="text"><?=_t('저장하기')?></span></a>
+								</div>
+							</form>
+						</div>
+						
+						<hr class="hidden" />
+						
+						<div id="part-setting-thumbnail" class="part">
+							<h2 class="caption"><span class="main-text"><?=_t('썸네일을 설정합니다')?></span></h2>
+							
+							<div class="data-inbox">
+								<form id="thumbnail-section" class="section" method="post" action="<?=$service['path']?>/owner/setting/blog/thumbnail">
+									<fieldset class="container">
+										<legend><?=_t('썸네일 정보')?></legend>
+										
+										<dl id="watermark-line" class="line">
+											<dt><span class="label"><?=_t('워터 마크')?></span></dt>
+											<dd>
+												<input type="file" class="file-input" name="waterMark" /><br />
+												<input type="checkbox" class="checkbox" id="deleteWaterMark" name="deleteWaterMark"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteWaterMark"><?=_t('워터 마크를 초기화합니다.')?></label>
+											</dd>
+										</dl>
+										<dl id="watermark-position-line" class="line">
+											<dt><span class="label"><?=_t('워터마크 위치')?></span></dt>
+											<dd>
+												<div id="vertical-position">
+													<select name="verticalType"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
+														<option value="0">상단</option>
+														<option value="5">하단</option>
+													</select>
+													<input type="text" class="text-input" name="verticalPosition"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
+												</div>
+												<div id="horizontal-position">
+													<select name="horizontalType"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
+														<option value="10">좌측</option>
+														<option value="15">우측</option>
+													</select>
+													<input type="text" class="text-input" name="horizontalPosition"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
+												</div>
+											</dd>
+										</dl>
+										<dl id="padding-line" class="line">
+											<dt><span class="label"><?=_t('여백')?></span></dt>
+											<dd>
+												<div id="top-padding">
+													<span class="label"><?=_t('상단 여백')?></span>
+													<select id="topPadding" name="topPadding" disabled="disabled" onchange="checkManualInput(this)">
+														<option value="0">0px</option>
+														<option value="5">5px</option>
+														<option value="10">10px</option>
+														<option value="15">15px</option>
+														<option value="20">20px</option>
+														<option value="25">25px</option>
+														<option value="direct"><?=_t('직접입력.')?></option>
+													</select>
+													<input type="text" class="text-input" id="topPaddingManual" name="topPaddingManual" />px
+												</div>
+												<div id="bottom-padding">
+													<span class="label"><?=_t('하단 여백')?></span>
+													<select id="bottomPadding" name="bottomPadding" disabled="disabled" onchange="checkManualInput(this)">
+														<option value="0">0px</option>
+														<option value="5">5px</option>
+														<option value="10">10px</option>
+														<option value="15">15px</option>
+														<option value="20">20px</option>
+														<option value="25">25px</option>
+														<option value="direct"><?=_t('직접입력.')?></option>
+													</select>
+													<input type="text" class="text-input" id="bottomPaddingManual" name="bottomPaddingManual" />px
+												</div>
+												<div id="left-padding">
+													<span class="label"><?=_t('좌측 여백')?></span>
+													<select id="leftPadding" name="leftPadding" disabled="disabled" onchange="checkManualInput(this)">
+														<option value="0">0px</option>
+														<option value="5">5px</option>
+														<option value="10">10px</option>
+														<option value="15">15px</option>
+														<option value="20">20px</option>
+														<option value="25">25px</option>
+														<option value="direct"><?=_t('직접입력.')?></option>
+													</select>
+													<input type="text" class="text-input" id="leftPaddingManual" name="leftPaddingManual" />px
+												</div>
+												<div id="right-padding">
+													<span class="label"><?=_t('우측 여백')?></span>
+													<select id="rightPadding" name="rightPadding" disabled="disabled" onchange="checkManualInput(this)">
+														<option value="0">0px</option>
+														<option value="5">5px</option>
+														<option value="10">10px</option>
+														<option value="15">15px</option>
+														<option value="20">20px</option>
+														<option value="25">25px</option>
+														<option value="direct"><?=_t('직접입력.')?></option>
+													</select>
+													<input type="text" class="text-input" id="rightPaddingManual" name="rightPaddingManual" />px
+												</div>
+											</dd>
+										</dl>
+									</fieldset>
+									<div class="button-box">
+										<a class="save-button button" href="#void" onclick="setThumbnail()"><span class="text"><?=_t('저장하기')?></span></a>
+									</div>
+								</form>
 							</div>
 						</div>
 						
@@ -387,7 +545,7 @@ if (file_exists(ROOT.'/index.gif')) {
 							
 							<form id="rss-form" class="data-inbox" method="post" action="<?=$service['path']?>/owner/setting/blog">
 								<div id="rss-section" class="section">
-									<fieldset>
+									<fieldset class="container">
 										<legend><?=_t('RSS 설정')?></legend>
 										
 										<input type="hidden" name="javascript" value="disabled" />
@@ -426,7 +584,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 									</fieldset>
 								</div>
 								<div id="etc-section" class="section">
-									<fieldset>
+									<fieldset class="container">
 										<legend><?=_t('기타 설정')?></legend>
 										
 										<dl id="post-address-line" class="line">
@@ -458,7 +616,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 							
 							<form id="language-form" class="data-inbox" method="post" action="<?=$service['path']?>/owner/setting/blog">
 								<div id="language-section" class="section">
-									<fieldset>
+									<fieldset class="container">
 										<legend><?=_t('언어 및 시간대')?></legend>
 										
 										<input type="hidden" name="javascript" value="disabled" />

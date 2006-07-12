@@ -66,69 +66,84 @@
 }
 
 /* profile --------------------------------------------------------------------------------------*/
+#part-setting-profile .data-inbox
+{
+	padding-top                      : 3px !important;
+}
+
+#part-setting-profile dl
+{
+	clear                            : both;
+	padding-top                      : 10px;
+}
+
 #part-setting-profile dl dt
 {
 	padding-top                      : 5px;
-	width                            : 160px;
 }
 
-#part-setting-profile img
+#part-setting-profile dl dd
 {
-	background-color                 : #FFFFFF;
-	border                           : 1px solid #000000;
-	margin-bottom                    : 2px;
-	vertical-align                   : middle;
+	line-height                      : 1.8em;
 }
 
-#part-setting-profile iframe
+#part-setting-profile .button-box
 {
-	height                           : 25px;
-	vertical-align                   : middle;
+	padding                          : 20px 0 10px 0;
 }
 
-/* iframe's css */
-#logo-iframe,
-#blogcon-iframe,
-#favicon-iframe
+#part-setting-profile .button-box .button
 {
-	background-color                 : #EBF2F8;
-	padding-left                     : 10px;
+	margin                           : 0 auto;
 }
 
-#logo-iframe .file-input
+#blogicon-section
 {
-	float                            : left;
-	font-family                      : ±¼¸², Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
-	font-size                        : 12px;
-	vertical-align                   : middle;
+	border-top                       : 1px dotted #CCCCCC;
+	margin                           : 12px 10px 0 10px;
+	padding-top                      : 3px;
 }
 
-#blogcon-iframe .file-input,
-#favicon-iframe .file-input
+#blogicon-section dl dt
 {
-	float                            : left;
-	font-family                      : ±¼¸², Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
-	font-size                        : 12px;
-	margin-top                       : 2px;
+	width                            : 190px;
 }
 
-#logo-iframe .delete-button
+/* thumbnail ----------------------------------------------------------------------------------*/
+#part-setting-thumbnail .data-inbox
 {
-	background-color                 : #EEEEEE;
-	border                           : 1px solid #666666;
-	color                            : #000000;
-	display                          : block;
-	float                            : left;
-	font-family                      : ±¼¸², Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
-	font-size                        : 12px;
-	font-weight                      : bold;
-	height                           : 16px;
-	margin                           : 0 0 0 3px;
-	padding                          : 4px 10px 0 10px;
-	text-align                       : center;
-	text-decoration                  : none;
-	vertical-align                   : middle;
-	width                            : 60px;
+	padding-top                      : 3px !important;
+}
+
+#part-setting-thumbnail dl
+{
+	clear                            : both;
+	padding-top                      : 10px;
+}
+
+#part-setting-thumbnail dl dt
+{
+	padding-top                      : 5px;
+}
+
+#part-setting-thumbnail dl dd
+{
+	line-height                      : 1.8em;
+}
+
+#part-setting-thumbnail dl dd .text-input
+{
+	margin-right                     : 2px;
+}
+
+#part-setting-thumbnail .button-box
+{
+	padding                          : 20px 0 10px 0;
+}
+
+#part-setting-thumbnail .button-box .button
+{
+	margin                           : 0 auto;
 }
 
 /* rss ------------------------------------------------------------------------------------------*/
