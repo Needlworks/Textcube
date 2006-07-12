@@ -42,7 +42,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 							<div class="data-inbox">
 								<form id="htmlSection" class="section" method="post" action="<?=$blogURL?>/owner/skin/edit/skin/">
 									<div class="file-name">skin.html</div>
-									<div class="grouping">
+									<div class="edit-area">
 										<textarea id="skin" name="skin_html" cols="60" rows="25" onkeyup="saved=false" style="font-family: 'Courier New', Courier, monospace"><?=htmlspecialchars($skin)?></textarea>
 									</div>
 									<div class="button-box">
@@ -60,7 +60,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 								
 								<form id="cssSection" class="section" method="post" action="<?=$blogURL?>/owner/skin/edit/skin/">
 									<div class="file-name">style.css</div>
-									<div class="grouping">
+									<div class="edit-area">
 										<textarea id="style" name="s_cache_style_css" cols="60" rows="25" onkeyup="saved=false" style="font-family: 'Courier New', Courier, monospace"><?=htmlspecialchars($style)?></textarea>
 									</div>
 									<div class="button-box">

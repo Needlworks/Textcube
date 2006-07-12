@@ -504,33 +504,34 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 	}
 ?></span></h2>
 
-							<form id="category-form" class="data-inbox" method="post" action="<?=$blogURL?>/owner/entry">
-								<div class="groupig">
+							<form id="category-form" class="category-box" method="post" action="<?=$blogURL?>/owner/entry">
+								<div class="section">
 									<input type="hidden" name="page" value="<?=$suri['page']?>" />
-									<select id="category" class="normal-class" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
+									
+									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
 										<optgroup class="category" label="<?=_t('글 종류')?>">
-										<option value="-2"<?php echo ($categoryId == -2 ? ' selected="selected"' : '')?>><?php echo _t('공지')?></option>
-										<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '')?>><?php echo _t('키워드')?></option>
+											<option value="-2"<?php echo ($categoryId == -2 ? ' selected="selected"' : '')?>><?php echo _t('공지')?></option>
+											<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '')?>><?php echo _t('키워드')?></option>
 										</optgroup>
 										<optgroup class="category" label="<?=_t('분류')?>">
-										<option value="0"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
+											<option value="0"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
 <?php
 foreach (getCategories($owner) as $category) {
 	if ($category['id']!= 0) {
 ?>
-										<option value="<?php echo $category['id']?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?php echo htmlspecialchars($category['name'])?></option>
+											<option value="<?php echo $category['id']?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?php echo htmlspecialchars($category['name'])?></option>
 <?php
 	}
 	foreach ($category['children'] as $child) {
 		if ($category['id']!= 0) {
 ?>
-										<option value="<?php echo $child['id']?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;― <?php echo htmlspecialchars($child['name'])?></option>
+											<option value="<?php echo $child['id']?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;― <?php echo htmlspecialchars($child['name'])?></option>
 <?php
 		}
 	}
 }
 ?>
-										<option value="-3"<?php echo ($categoryId == -3 ? ' selected="selected"' : '')?>><?php echo _t('(분류 없음)')?></option>
+											<option value="-3"<?php echo ($categoryId == -3 ? ' selected="selected"' : '')?>><?php echo _t('(분류 없음)')?></option>
 										</optgroup>
 									</select>
 									<!--a id="category-move-button" class="move-button button" href="#void"><span class="text"><?=_t('이동')?></span></a-->
@@ -538,24 +539,21 @@ foreach (getCategories($owner) as $category) {
 							</form>
 							
 							<form id="list-form" method="post" action="<?=$blogURL?>/owner/entry">
-								<div class="grouping">
-									<input type="hidden" name="page" value="<?=$suri['page']?>" />
-									
-									<table class="data-inbox" cellspacing="0" cellpadding="0">
-										<thead>
-											<tr>
-												<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" /></th>
-												<th class="date"><span class="text"><?=_t('등록일자')?></span></th>
-												<th class="status"><span class="text"><?=_t('상태')?></span></th>
-												<th class="syndicate"><span class="text"><?=_t('발행')?></span></th>
-												<th class="category"><span class="text"><?=_t('분류')?></span></th>
-												<th class="title"><span class="text"><?=_t('제목')?></span></th>
-												<th class="protect"><span class="text"><?=_t('보호설정')?></span></th>
-												<th class="trackback"><span class="text"><?=_t('트랙백')?></span></th>
-												<th class="delete"><span class="text"><?=_t('삭제')?></span></th>
-											</tr>
-										</thead>
-										<tbody>
+								<table class="data-inbox" cellspacing="0" cellpadding="0">
+									<thead>
+										<tr>
+											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" /></th>
+											<th class="date"><span class="text"><?=_t('등록일자')?></span></th>
+											<th class="status"><span class="text"><?=_t('상태')?></span></th>
+											<th class="syndicate"><span class="text"><?=_t('발행')?></span></th>
+											<th class="category"><span class="text"><?=_t('분류')?></span></th>
+											<th class="title"><span class="text"><?=_t('제목')?></span></th>
+											<th class="protect"><span class="text"><?=_t('보호설정')?></span></th>
+											<th class="trackback"><span class="text"><?=_t('트랙백')?></span></th>
+											<th class="delete"><span class="text"><?=_t('삭제')?></span></th>
+										</tr>
+									</thead>
+									<tbody>
 <?
 for ($i=0; $i<sizeof($entries); $i++) {
 	$entry = $entries[$i];
@@ -563,68 +561,68 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($entries) - 1) ? ' last-line' : '';
 ?>
-											<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
-												<td class="date"><?=Timestamp::formatDate($entry['published'])?></td>
-												<td class="status">
+										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$entry['id']?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
+											<td class="date"><?=Timestamp::formatDate($entry['published'])?></td>
+											<td class="status">
 <?
 	if ($entry['visibility'] == 0) {
 ?>
-													<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon" title="<?=_t('현재 비공개 상태입니다.')?>"><span class="text"><?=_t('비공개')?></span></span>
-													<span id="protectedIcon_<?=$entry['id']?>" class="protected-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=protect" onclick="setEntryVisibility(<?=$entry['id']?>, 1); return false;" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a></span>
-													<span id="publicIcon_<?=$entry['id']?>" class="public-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?=$entry['id']?>, 2); return false;" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?=_t('공개')?></span></a></span>
+												<span id="privateIcon_<?=$entry['id']?>" class="private-on-icon" title="<?=_t('현재 비공개 상태입니다.')?>"><span class="text"><?=_t('비공개')?></span></span>
+												<span id="protectedIcon_<?=$entry['id']?>" class="protected-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=protect" onclick="setEntryVisibility(<?=$entry['id']?>, 1); return false;" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a></span>
+												<span id="publicIcon_<?=$entry['id']?>" class="public-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?=$entry['id']?>, 2); return false;" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?=_t('공개')?></span></a></span>
 <?
 	} else if ($entry['visibility'] == 1) {
 ?>
-													<span id="privateIcon_<?=$entry['id']?>" class="private-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=private" onclick="setEntryVisibility(<?=$entry['id']?>, 0); return false;" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a></span>
-													<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon" title="<?=_t('현재 보호 상태입니다.')?>"><span class="text"><?=_t('보호')?></span></span>
-													<span id="publicIcon_<?=$entry['id']?>" class="public-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?=$entry['id']?>, 2); return false;" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?=_t('공개')?></span></a></span>
+												<span id="privateIcon_<?=$entry['id']?>" class="private-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=private" onclick="setEntryVisibility(<?=$entry['id']?>, 0); return false;" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a></span>
+												<span id="protectedIcon_<?=$entry['id']?>" class="protected-on-icon" title="<?=_t('현재 보호 상태입니다.')?>"><span class="text"><?=_t('보호')?></span></span>
+												<span id="publicIcon_<?=$entry['id']?>" class="public-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?=$entry['id']?>, 2); return false;" title="<?=_t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?=_t('공개')?></span></a></span>
 <?
 	} else if ($entry['visibility'] == 2 || $entry['visibility'] == 3) {
 ?>
-													<span id="privateIcon_<?=$entry['id']?>" class="private-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=private" onclick="setEntryVisibility(<?=$entry['id']?>, 0); return false;" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a></span>
-													<span id="protectedIcon_<?=$entry['id']?>" class="protected-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=protect" onclick="setEntryVisibility(<?=$entry['id']?>, 1); return false;" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a></span>
-													<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon" title="<?=_t('현재 공개 상태입니다.')?>"><span class="text"><?=_t('공개')?></span></span>
+												<span id="privateIcon_<?=$entry['id']?>" class="private-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=private" onclick="setEntryVisibility(<?=$entry['id']?>, 0); return false;" title="<?=_t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?=_t('비공개')?></span></a></span>
+												<span id="protectedIcon_<?=$entry['id']?>" class="protected-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=protect" onclick="setEntryVisibility(<?=$entry['id']?>, 1); return false;" title="<?=_t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?=_t('보호')?></span></a></span>
+												<span id="publicIcon_<?=$entry['id']?>" class="public-on-icon" title="<?=_t('현재 공개 상태입니다.')?>"><span class="text"><?=_t('공개')?></span></span>
 <?
 	}
 ?>
-												</td>
-												<td class="syndicate">
+											</td>
+											<td class="syndicate">
 <?
 	if ($entry['visibility'] == 3) {
 ?>
-													<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-on-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?=$entry['id']?>, 3); return false;" title="<?=_t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span class="text"><?=_t('발행')?></span></a></span>
+												<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-on-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?=$entry['id']?>, 3); return false;" title="<?=_t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span class="text"><?=_t('발행')?></span></a></span>
 <?
 	} else {
 ?>
-													<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=syndicate" onclick="setEntryVisibility(<?=$entry['id']?>, 3); return false;" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?=_t('비발행')?></span></a></span>
+												<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=syndicate" onclick="setEntryVisibility(<?=$entry['id']?>, 3); return false;" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?=_t('비발행')?></span></a></span>
 <?
 	}
 ?>
-												</td>
-												<td class="category">
+											</td>
+											<td class="category">
 <?
 	if ($entry['category'] == 0) {
 ?>
-													<span class="uncategorized"><?php echo _t('분류 없음')?></span>
+												<span class="uncategorized"><?php echo _t('분류 없음')?></span>
 <?
 	} else if (!empty($entry['categoryLabel'])) {
 ?>
-													<a id="category_<?=$entry['id']?>" class="categorized" href="<?php echo $blogURL?>/owner/entry?category=<?php echo $entry['category']?>"><?php echo htmlspecialchars($entry['categoryLabel'])?></a>
+												<a id="category_<?=$entry['id']?>" class="categorized" href="<?php echo $blogURL?>/owner/entry?category=<?php echo $entry['category']?>"><?php echo htmlspecialchars($entry['categoryLabel'])?></a>
 <?
 	} else if ($categoryId == -2) {
 ?>
-													<span class="notice"><?php echo _t('공지')?></span>
+												<span class="notice"><?php echo _t('공지')?></span>
 <?
 	} else if ($categoryId == -1) {
 ?>
-													<span class="keyword"><?php echo _t('키워드')?></span>
+												<span class="keyword"><?php echo _t('키워드')?></span>
 <?
 	}
 ?>
-												</td>
-												<td class="title">
-													<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?>
+											</td>
+											<td class="title">
+												<?=($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '')?>
 <?php
 if ($categoryId == -1) {
 	$editmode = 'keyword';
@@ -634,82 +632,84 @@ if ($categoryId == -1) {
 	$editmode = 'entry';
 }
 ?>
-													<a href="<?php echo $blogURL?>/owner/<?=$editmode?>/edit/<?=$entry['id']?>" onclick="document.getElementById('list-form').action='<?=$blogURL?>/owner/<?=$editmode?>/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.getElementById('list-form').submit(); return false;"><?=htmlspecialchars($entry['title'])?></a>
-												</td>
-												<td class="protect">
+												<a href="<?php echo $blogURL?>/owner/<?=$editmode?>/edit/<?=$entry['id']?>" onclick="document.getElementById('list-form').action='<?=$blogURL?>/owner/<?=$editmode?>/edit/<?=$entry['id']?>'<?=($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.getElementById('list-form').submit(); return false;"><?=htmlspecialchars($entry['title'])?></a>
+											</td>
+											<td class="protect">
 <?php
 if ($entry['visibility'] == 1) {
 ?>
-													<a id="protectedSettingIcon_<?=$entry['id']?>" class="protect-off-button button" href="<?php echo $blogURL?>/owner/entry/edit/<?=$entry['id']?>#status-line" onclick="showProtectSetter('<?=$entry['id']?>'); return false;" title="<?=_t('보호 패스워드를 설정합니다.')?>"><span class="text"><?=_t('보호설정')?></span></a>
+												<a id="protectedSettingIcon_<?=$entry['id']?>" class="protect-off-button button" href="<?php echo $blogURL?>/owner/entry/edit/<?=$entry['id']?>#status-line" onclick="showProtectSetter('<?=$entry['id']?>'); return false;" title="<?=_t('보호 패스워드를 설정합니다.')?>"><span class="text"><?=_t('보호설정')?></span></a>
 <?php
 }
 ?>
-												</td>
-												<td class="trackback">
-													<a id="trackbackIcon_<?=$entry['id']?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?=$entry['id']?>,event)" title="<?=_t('관련글에 트랙백을 보냅니다.')?>"><span class="text"><?=_t('트랙백')?></span></a>
-												</td>
-												<td class="delete">
-													<a class="delete-button button" href="<?php echo $blogURL?>/owner/entry/delete/<?=$entry['id']?>?javascript=disabled" onclick="deleteEntry(<?=$entry['id']?>); return false;" title="<?=_t('이 포스트를 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a>
-												</td>
-											</tr>
+											</td>
+											<td class="trackback">
+												<a id="trackbackIcon_<?=$entry['id']?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?=$entry['id']?>,event)" title="<?=_t('관련글에 트랙백을 보냅니다.')?>"><span class="text"><?=_t('트랙백')?></span></a>
+											</td>
+											<td class="delete">
+												<a class="delete-button button" href="<?php echo $blogURL?>/owner/entry/delete/<?=$entry['id']?>?javascript=disabled" onclick="deleteEntry(<?=$entry['id']?>); return false;" title="<?=_t('이 포스트를 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a>
+											</td>
+										</tr>
 <?
 								}
 ?>
-										</tbody>
-									</table>
+									</tbody>
+								</table>
+								
+								<hr class="hidden" />
+								
+								<div class="data-subbox">
+									<input type="hidden" name="page" value="<?=$suri['page']?>" />
 									
-									<hr class="hidden" />
-									
-									<div class="data-subbox">
-										<div id="change-section" class="section">
-											<h2><?php echo _t('페이지 네비게이션')?></h2>
-											
-											<label for="commandBox"><?=_t('선택한 글을')?></label>
-											<select id="commandBox" onchange="toggleDeleteButton(this)"> 
-												<option></option>
+									<div id="change-section" class="section">
+										<h2><?php echo _t('페이지 네비게이션')?></h2>
+										
+										<label for="commandBox"><?=_t('선택한 글을')?></label>
+										<select id="commandBox" onchange="toggleDeleteButton(this)"> 
+											<option></option>
 <?
 	$categories = getCategories($owner);
 	if (count($categories) >0) {
 ?>
-												<optgroup class="category" label="<?=_t('아래의 분류로 변경합니다.')?>">
+											<optgroup class="category" label="<?=_t('아래의 분류로 변경합니다.')?>">
 												<option class="parent-category" value="category_0" label="<?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?>"><?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
 <?
 		foreach ($categories as $category) {
 			if ($category['id']!= 0) {
 ?>
-													<option class="parent-category" value="category_<?php echo $child['id']?>" label="<?=htmlspecialchars($category['name'])?>"><?=htmlspecialchars($category['name'])?></option>
+												<option class="parent-category" value="category_<?php echo $child['id']?>" label="<?=htmlspecialchars($category['name'])?>"><?=htmlspecialchars($category['name'])?></option>
 <?
 			}
 			foreach ($category['children'] as $child) {
 				if ($category['id']!= 0) {
 ?>
-													<option class="child-category" value="category_<?php echo $child['id']?>" label="<?=htmlspecialchars($category['name'])?>/<?=htmlspecialchars($child['name'])?>">― <?=htmlspecialchars($child['name'])?></option>
+												<option class="child-category" value="category_<?php echo $child['id']?>" label="<?=htmlspecialchars($category['name'])?>/<?=htmlspecialchars($child['name'])?>">― <?=htmlspecialchars($child['name'])?></option>
 <?
 				}
 			}
 		}
 	}
 ?>
-												</optgroup>
-												<optgroup class="status" label="<?=_t('아래의 상태로 변경합니다.')?>">
-													<option value="classify"><?=_t('비공개로 변경합니다.')?></option>
-													<option value="publish"><?=_t('공개로 변경합니다.')?></option>
-												</optgroup>
-												<optgroup class="category" label="<?=_t('아래의 글 종류로 변경합니다.')?>">
-													<option class="parent-category" value="category_-2" label="<?=_t('공지')?>"><?=_t('공지')?></option>
-													<option class="parent-category" value="category_-1" label="<?=_t('키워드')?>"><?=_t('키워드')?></option>
-												</optgroup>
-												<optgroup class="delete" label="<?=_t('삭제합니다.')?>">
-													<option value="delete"><?=_t('삭제합니다.')?></option>
-												</optgroup>
-											</select>
-											<a id="apply-button" class="apply-button button" href="#void" onclick="processBatch(document.getElementById('commandBox'));"><span class="text"><?=_t('적용')?></span></a>
-										</div>
-										
-										<div id="page-section" class="section">
-											<div id="page-navigation">
-												<span id="total-count"><?=_f('총 %1건', empty($paging['total']) ? "0" : $paging['total'])?></span>
-												<span id="page-list">
+											</optgroup>
+											<optgroup class="status" label="<?=_t('아래의 상태로 변경합니다.')?>">
+												<option value="classify"><?=_t('비공개로 변경합니다.')?></option>
+												<option value="publish"><?=_t('공개로 변경합니다.')?></option>
+											</optgroup>
+											<optgroup class="category" label="<?=_t('아래의 글 종류로 변경합니다.')?>">
+												<option class="parent-category" value="category_-2" label="<?=_t('공지')?>"><?=_t('공지')?></option>
+												<option class="parent-category" value="category_-1" label="<?=_t('키워드')?>"><?=_t('키워드')?></option>
+											</optgroup>
+											<optgroup class="delete" label="<?=_t('삭제합니다.')?>">
+												<option value="delete"><?=_t('삭제합니다.')?></option>
+											</optgroup>
+										</select>
+										<a id="apply-button" class="apply-button button" href="#void" onclick="processBatch(document.getElementById('commandBox'));"><span class="text"><?=_t('적용')?></span></a>
+									</div>
+									
+									<div id="page-section" class="section">
+										<div id="page-navigation">
+											<span id="total-count"><?=_f('총 %1건', empty($paging['total']) ? "0" : $paging['total'])?></span>
+											<span id="page-list">
 <?
 //$paging['onclick_url'] = 'document.getElementById('list-form').page.value=';
 //$paging['onclick_prefix'] = '';
@@ -718,28 +718,27 @@ $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 echo str_repeat("\t", 12).getPagingView($paging, $pagingTemplate, $pagingItemTemplate).CRLF;
 ?>
-												</span>
-											</div>
-											<div class="page-count">
-												<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0)?>
-												
-												<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">
+											</span>
+										</div>
+										<div class="page-count">
+											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0)?>
+											
+											<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">
 <?php
 for ($i = 10; $i <= 30; $i += 5) {
 	if ($i == $perPage) {
 ?>
-													<option value="<?php echo $i?>" selected="selected"><?php echo $i?></option>
+												<option value="<?php echo $i?>" selected="selected"><?php echo $i?></option>
 <?php
 	} else {
 ?>
-													<option value="<?php echo $i?>"><?php echo $i?></option>
+												<option value="<?php echo $i?>"><?php echo $i?></option>
 <?php
 	}
 }
 ?>
-												</select>
-												<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1).CRLF?>
-											</div>
+											</select>
+											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1).CRLF?>
 										</div>
 									</div>
 								</div>
@@ -747,10 +746,10 @@ for ($i = 10; $i <= 30; $i += 5) {
 							
 							<hr class="hidden" />
 							
-							<form id="search-form" class="data-inbox" method="post" action="<?=$blogURL?>/owner/entry">
+							<form id="search-form" class="data-subbox" method="post" action="<?=$blogURL?>/owner/entry">
 								<h2><?php echo _t('검색')?></h2>
 								
-								<div class="grouping">
+								<div class="section">
 									<label for="search"><?=_t('제목')?>, <?=_t('내용')?></label>
 									<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
 									<input type="hidden" name="withSearch" value="" />

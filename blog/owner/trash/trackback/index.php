@@ -132,10 +132,10 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 ?>
 							</h2>
 							
-							<form id="category-form" class="data-inbox" action="<?=$blogURL?>/owner/trash/trackback" method="post">
-								<div class="grouping">
+							<form id="category-form" class="category-box" action="<?=$blogURL?>/owner/trash/trackback" method="post">
+								<div class="section">
 									<input type="hidden" name="page" value="<?=$suri['page']?>" />
-									<select id="category" class="normal-class" name="category" onchange="document.category-form.page.value=1; document.category-form.submit()">
+									<select id="category" name="category" onchange="document.category-form.page.value=1; document.category-form.submit()">
 										<option value="0"><?php echo _t('전체')?></option>
 <?php
 foreach (getCategories($owner) as $category) {
@@ -155,24 +155,19 @@ foreach (getCategories($owner) as $category) {
 							</form>
 							
 							<form id="list-form" method="post" action="<?=$blogURL?>/owner/trash/trackback">
-								<div class="grouping">
-									<input type="hidden" name="page" value="<?=$suri['page']?>" />
-									<input type="hidden" name="site" value="" />
-									<input type="hidden" name="ip" value="" />
-									
-									<table class="data-inbox" cellspacing="0" cellpadding="0">
-										<thead>
-											<tr>
-												<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" disabled="disabled" /></th>
-												<th class="date"><span class="text"><?=_t('등록일자')?></span></th>
-												<th class="site"><span class="text"><?=_t('사이트명')?></span></th>
-												<th class="category"><span class="text"><?=_t('분류')?></span></th>
-												<th class="title"><span class="text"><?=_t('제목')?></span></th>
-												<th class="ip"><acronym title="Internet Protocol">ip</acronym></th>
-												<th class="delete"><span class="text"><?=_t('삭제')?></span></th>
-											</tr>
-										</thead>
-										<tbody>
+								<table class="data-inbox" cellspacing="0" cellpadding="0">
+									<thead>
+										<tr>
+											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" disabled="disabled" /></th>
+											<th class="date"><span class="text"><?=_t('등록일자')?></span></th>
+											<th class="site"><span class="text"><?=_t('사이트명')?></span></th>
+											<th class="category"><span class="text"><?=_t('분류')?></span></th>
+											<th class="title"><span class="text"><?=_t('제목')?></span></th>
+											<th class="ip"><acronym title="Internet Protocol">ip</acronym></th>
+											<th class="delete"><span class="text"><?=_t('삭제')?></span></th>
+										</tr>
+									</thead>
+									<tbody>
 <?
 $siteNumber = array();
 for ($i=0; $i<sizeof($trackbacks); $i++) {
@@ -199,75 +194,79 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
 ?>
-											<tr class="<?php echo odd-line?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
-												<td class="date"><?=Timestamp::formatDate($trackback['written'])?></td>
-												<td class="site">
+										<tr class="<?php echo odd-line?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?=$trackback['id']?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
+											<td class="date"><?=Timestamp::formatDate($trackback['written'])?></td>
+											<td class="site">
 <?
 	if ($isFilterURL) {
 ?>
-													<a id="urlFilter<?=$currentSite?>-<?php echo $i?>" class="block-icon bullet" href="<?=$blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode($filteredURL)?>&amp;mode=url&amp;command=unblock" onclick="changeState(this,'<?=$filteredURL?>','url'); return false;" title="<?=_t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?=_t('[차단됨]')?></span></a>
+												<a id="urlFilter<?=$currentSite?>-<?php echo $i?>" class="block-icon bullet" href="<?=$blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode($filteredURL)?>&amp;mode=url&amp;command=unblock" onclick="changeState(this,'<?=$filteredURL?>','url'); return false;" title="<?=_t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?=_t('[차단됨]')?></span></a>
 <?
 	} else {
 ?>
-													<a id="urlFilter<?=$currentSite?>-<?php echo $i?>" class="unblock-icon bullet" href="<?=$blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode($filteredURL)?>&amp;mode=url&amp;command=block" onclick="changeState(this,'<?=$filteredURL?>','url'); return false;" title="<?=_t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?=_t('[허용됨]')?></span></a>
+												<a id="urlFilter<?=$currentSite?>-<?php echo $i?>" class="unblock-icon bullet" href="<?=$blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode($filteredURL)?>&amp;mode=url&amp;command=block" onclick="changeState(this,'<?=$filteredURL?>','url'); return false;" title="<?=_t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?=_t('[허용됨]')?></span></a>
 <?
 	}
 ?>
-													<a href="?site=<?=urlencode(escapeJSInAttribute($trackback['site']))?>" title="<?=_t('이 사이트에서 보낸 트랙백 목록을 보여줍니다.')?>"><?=htmlspecialchars($trackback['site'])?></a>
-												</td>
-												<td class="category">
+												<a href="?site=<?=urlencode(escapeJSInAttribute($trackback['site']))?>" title="<?=_t('이 사이트에서 보낸 트랙백 목록을 보여줍니다.')?>"><?=htmlspecialchars($trackback['site'])?></a>
+											</td>
+											<td class="category">
 <?
 	if (!empty($trackback['categoryName'])) {
 ?>
-													<span class="categorized"><?php echo $trackback['categoryName']?></span>
+												<span class="categorized"><?php echo $trackback['categoryName']?></span>
 <?
 	} else {
 ?>
-													<span class="uncategorized"><?php echo $trackback['categoryName']?></span>
+												<span class="uncategorized"><?php echo $trackback['categoryName']?></span>
 <?
 	}
 ?>
-												</td>
-												<td class="title">
-													<a href="<?=$trackback['url']?>" onclick="window.open(this.href); return false;" title="<?php echo _t('트랙백을 보낸 포스트를 보여줍니다.')?>"><?=htmlspecialchars($trackback['subject'])?></a>
-												</td>
-												<td class="ip">
+											</td>
+											<td class="title">
+												<a href="<?=$trackback['url']?>" onclick="window.open(this.href); return false;" title="<?php echo _t('트랙백을 보낸 포스트를 보여줍니다.')?>"><?=htmlspecialchars($trackback['subject'])?></a>
+											</td>
+											<td class="ip">
 <?
 	if ($isIpFiltered) {
 ?>
-													<a id="ipFilter<?=urlencode($trackback['ip'])?>-<?php echo $i?>" class="block-icon bullet" href="<?=$blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode($trackback['ip'])?>&amp;mode=ip&amp;command=unblock" onclick="changeState(this,'<?=urlencode($trackback['ip'])?>', 'ip'); return false;" title="<?=_t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?=_t('[차단됨]')?></span></a>
+												<a id="ipFilter<?=urlencode($trackback['ip'])?>-<?php echo $i?>" class="block-icon bullet" href="<?=$blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode($trackback['ip'])?>&amp;mode=ip&amp;command=unblock" onclick="changeState(this,'<?=urlencode($trackback['ip'])?>', 'ip'); return false;" title="<?=_t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?=_t('[차단됨]')?></span></a>
 <?
 	} else {
 ?>
-													<a id="ipFilter<?=urlencode($trackback['ip'])?>-<?php echo $i?>" class="unblock-icon bullet" href="<?=$blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode($trackback['ip'])?>&amp;mode=ip&amp;command=block" onclick="changeState(this,'<?=urlencode($trackback['ip'])?>', 'ip'); return false;" title="<?=_t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?=_t('[허용됨]')?></span></a>
+												<a id="ipFilter<?=urlencode($trackback['ip'])?>-<?php echo $i?>" class="unblock-icon bullet" href="<?=$blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode($trackback['ip'])?>&amp;mode=ip&amp;command=block" onclick="changeState(this,'<?=urlencode($trackback['ip'])?>', 'ip'); return false;" title="<?=_t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?=_t('[허용됨]')?></span></a>
 <?
 	}
 ?>
-													<a href="?ip=<?=urlencode(escapeJSInAttribute($trackback['ip']))?>" title="<?=_t('이 IP로 등록된 트랙백 목록을 보여줍니다.')?>"><span class="text"><?=$trackback['ip']?></span></a>
-												</td>
-												<td class="delete">
-													<a class="delete-button button" href="<?=$blogURL?>/owner/trash/trackback/delete/<?=$trackback['id']?>?javascript=disabled" onclick="deleteTrackback(<?=$trackback['id']?>)" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a>
-												</td>
-											</tr>
+												<a href="?ip=<?=urlencode(escapeJSInAttribute($trackback['ip']))?>" title="<?=_t('이 IP로 등록된 트랙백 목록을 보여줍니다.')?>"><span class="text"><?=$trackback['ip']?></span></a>
+											</td>
+											<td class="delete">
+												<a class="delete-button button" href="<?=$blogURL?>/owner/trash/trackback/delete/<?=$trackback['id']?>?javascript=disabled" onclick="deleteTrackback(<?=$trackback['id']?>)" title="<?=_t('이 트랙백을 삭제합니다.')?>"><span class="text"><?=_t('삭제')?></span></a>
+											</td>
+										</tr>
 <?
 }
 ?>
-										</tbody>
-									</table>
+									</tbody>
+								</table>
+								
+								<hr class="hidden" />
+								
+								<div class="data-subbox">
+									<input type="hidden" name="page" value="<?=$suri['page']?>" />
+									<input type="hidden" name="site" value="" />
+									<input type="hidden" name="ip" value="" />
 									
-									<hr class="hidden" />
+									<div id="delete-section" class="section">
+										<span class="label"><?=_t('선택한 트랙백을')?></span>
+										<a class="delete-button button" href="#void" onclick="deleteTrackbacks();"><span class="text"><?=_t('삭제')?></span></a>
+									</div>
 									
-									<div class="data-subbox">
-										<div id="delete-section" class="section">
-											<span class="label"><?=_t('선택한 트랙백을')?></span>
-											<a class="delete-button button" href="#void" onclick="deleteTrackbacks();"><span class="text"><?=_t('삭제')?></span></a>
-										</div>
-										
-										<div id="page-section" class="section">
-											<div id="page-navigation">
-												<span id="total-count"><?=_f('총 %1건', empty($paging['total']) ? "0" : $paging['total'])?></span>
-												<span id="page-list">
+									<div id="page-section" class="section">
+										<div id="page-navigation">
+											<span id="total-count"><?=_f('총 %1건', empty($paging['total']) ? "0" : $paging['total'])?></span>
+											<span id="page-list">
 <?
 //$paging['url'] = 'document.getElementById('list-form').page.value=';
 //$paging['prefix'] = '';
@@ -276,29 +275,28 @@ $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 ?>
-												</span>
-											</div>
-											<div class="page-count">
-												<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0)?>
+											</span>
+										</div>
+										<div class="page-count">
+											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0)?>
 
-												<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">
+											<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">
 <?php
 for ($i = 10; $i <= 30; $i += 5) {
 	if ($i == $perPage) {
 ?>
-													<option value="<?php echo $i?>" selected="selected"><?php echo $i?></option>
+												<option value="<?php echo $i?>" selected="selected"><?php echo $i?></option>
 <?php
 	} else {
 ?>
-													<option value="<?php echo $i?>"><?php echo $i?></option>
+												<option value="<?php echo $i?>"><?php echo $i?></option>
 <?php
 	}
 }
 ?>
-												</select>
-												
-												<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1)?>
-											</div>
+											</select>
+											
+											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1)?>
 										</div>
 									</div>
 								</div>
@@ -306,10 +304,10 @@ for ($i = 10; $i <= 30; $i += 5) {
 							
 							<hr class="hidden" />
 							
-							<form id="search-form" class="data-inbox" method="post" action="<?=$blogURL?>/owner/trash/trackback">
+							<form id="search-form" class="data-subbox" method="post" action="<?=$blogURL?>/owner/trash/trackback">
 								<h2><?php echo _t('검색')?></h2>
 								
-								<div class="grouping">
+								<div class="section">
 									<label for="search"><?=_t('제목')?>, <?=_t('사이트명')?>, <?=_t('내용')?></label>
 									<input type="text" id="search" class="text-input" name="search" value="<?=htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.search-form.withSearch.value = 'on'; document.search-form.submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
