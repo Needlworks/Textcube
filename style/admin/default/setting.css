@@ -10,52 +10,52 @@
 }
 
 /* common section */
-#part-setting-basic #common-section
+#part-setting-basic #common-form
 {
 	float                            : left;
 	width                            : 400px;
 }
 
-#part-setting-basic #common-section .text-input
+#part-setting-basic #common-form .text-input
 {
 	width                            : 196px;
 }
 
-#part-setting-basic #common-section textarea
+#part-setting-basic #common-form textarea
 {
 	width                            : 200px;
 }
 
-#part-setting-basic #common-section .button-box
+#part-setting-basic #common-form .button-box
 {
 	padding                          : 20px 0 10px 43px;
 	width                            : 400px;
 }
 
-#part-setting-basic #common-section .button-box .button
+#part-setting-basic #common-form .button-box .button
 {
 	margin                           : 0 auto;
 }
 
 /* multi section */
-#part-setting-basic #multi-section
+#part-setting-basic #multi-form
 {
 	float                            : left;
 	width                            : 500px;
 }
 
-#part-setting-basic #multi-section .text-input
+#part-setting-basic #multi-form .text-input
 {
 	margin                           : 0 2px;
 }
 
-#part-setting-basic #multi-section .button-box
+#part-setting-basic #multi-form .button-box
 {
 	padding                          : 20px 0 10px 0;
 	width                            : 500px;
 }
 
-#part-setting-basic #multi-section .button-box .button
+#part-setting-basic #multi-form .button-box .button
 {
 	margin                           : 0 auto;
 }
@@ -69,6 +69,12 @@
 #part-setting-profile .data-inbox
 {
 	padding-top                      : 3px !important;
+}
+
+#part-setting-profile img
+{
+	display                          : block;
+	margin-bottom                    : 5px;
 }
 
 #part-setting-profile dl
@@ -109,10 +115,21 @@
 	width                            : 190px;
 }
 
+#favicon-preview
+{
+	display                          : block;
+}
+
 /* thumbnail ----------------------------------------------------------------------------------*/
 #part-setting-thumbnail .data-inbox
 {
 	padding-top                      : 3px !important;
+}
+
+#part-setting-thumbnail img
+{
+	display                          : block;
+	margin-bottom                    : 5px;
 }
 
 #part-setting-thumbnail dl

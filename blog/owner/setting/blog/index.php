@@ -10,27 +10,27 @@ require ROOT . '/lib/piece/owner/contentMenu50.php';
 								var description = "<?=escapeJSInCData(trim($blog['description']))?>";
 								
 								function setBlog() {
-									if (document.getElementById('common-section').title.value != title) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/title?title=" + encodeURIComponent(document.getElementById('common-section').title.value));
+									if (document.getElementById('common-form').title.value != title) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/title?title=" + encodeURIComponent(document.getElementById('common-form').title.value));
 										request.onSuccess = function() {
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
-											title = document.getElementById('common-section').title.value;
+											title = document.getElementById('common-form').title.value;
 										}
 										request.onError = function() {
 											alert("<?=_t('블로그 제목을 변경하지 못했습니다.')?>");
 										}
 										request.send();
 									}
-									if (document.getElementById('common-section').description.value != description) {
+									if (document.getElementById('common-form').description.value != description) {
 										var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/setting/blog/description/");
 										request.onSuccess = function() {
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
-											description = document.getElementById('common-section').description.value;
+											description = document.getElementById('common-form').description.value;
 										}
 										request.onError = function() {
 											alert("<?=_t('블로그 설명을 변경하지 못했습니다.')?>");
 										}
-										request.send("description=" + encodeURIComponent(document.getElementById('common-section').description.value));
+										request.send("description=" + encodeURIComponent(document.getElementById('common-form').description.value));
 									}
 								}
 <?
@@ -51,12 +51,12 @@ if ($service['type'] != 'single') {
 <?
 	if ($service['type'] == 'domain') {
 ?>
-									if ((document.getElementById('multi-section').primaryDomain.value != primaryDomain) && (!checkBlogName(document.getElementById('multi-section').primaryDomain.value))) {
+									if ((document.getElementById('multi-form').primaryDomain.value != primaryDomain) && (!checkBlogName(document.getElementById('multi-form').primaryDomain.value))) {
 										alert("<?=_t('블로그 주소가 올바르지 않습니다.')?>");
-										document.getElementById('multi-section').primaryDomain.focus();
+										document.getElementById('multi-form').primaryDomain.focus();
 										return;
 									}
-									if ((document.getElementById('multi-section').secondaryDomain.value != secondaryDomain) && (!checkDomainName(document.getElementById('multi-section').secondaryDomain.value))) {
+									if ((document.getElementById('multi-form').secondaryDomain.value != secondaryDomain) && (!checkDomainName(document.getElementById('multi-form').secondaryDomain.value))) {
 										alert("<?=_t('블로그 주소가 올바르지 않습니다.')?>");
 										document.forms[0].secondaryDomain.focus();
 										return;
@@ -64,9 +64,9 @@ if ($service['type'] != 'single') {
 <?
 	} else if ($service['type'] == 'path') {
 ?>
-									if ((document.getElementById('multi-section').pathDomain.value != pathDomain) && (!checkBlogName(document.getElementById('multi-section').pathDomain.value))) {
+									if ((document.getElementById('multi-form').pathDomain.value != pathDomain) && (!checkBlogName(document.getElementById('multi-form').pathDomain.value))) {
 										alert("<?=_t('블로그 주소가 올바르지 않습니다.')?>");
-										document.getElementById('multi-section').pathDomain.focus();
+										document.getElementById('multi-form').pathDomain.focus();
 										return;
 									}
 <?
@@ -76,10 +76,10 @@ if ($service['type'] != 'single') {
 <?
 	if ($service['type'] == 'domain') {
 ?>
-									if (document.getElementById('multi-section').defaultDomain[defaultDomain].checked == false) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/default/" + (document.getElementById('multi-section').defaultDomain[1].checked ? 1 : 0));
+									if (document.getElementById('multi-form').defaultDomain[defaultDomain].checked == false) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/default/" + (document.getElementById('multi-form').defaultDomain[1].checked ? 1 : 0));
 										request.onSuccess = function() {
-											defaultDomain = document.getElementById('multi-section').defaultDomain[1].checked ? 1 : 0;
+											defaultDomain = document.getElementById('multi-form').defaultDomain[1].checked ? 1 : 0;
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
 										}
 										request.onError = function() {
@@ -87,12 +87,12 @@ if ($service['type'] != 'single') {
 										}
 										request.send();
 									}
-									if (document.getElementById('multi-section').primaryDomain.value != primaryDomain) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/primary/?name=" + encodeURIComponent(document.getElementById('multi-section').primaryDomain.value));
+									if (document.getElementById('multi-form').primaryDomain.value != primaryDomain) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/primary/?name=" + encodeURIComponent(document.getElementById('multi-form').primaryDomain.value));
 										request.onSuccess = function() {
-											primaryDomain = document.getElementById('multi-section').primaryDomain.value;
+											primaryDomain = document.getElementById('multi-form').primaryDomain.value;
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
-											if (document.getElementById('multi-section').defaultDomain[0].checked)
+											if (document.getElementById('multi-form').defaultDomain[0].checked)
 												location = "http://" + primaryDomain + ".<?=$service['domain']?><?=$blogURL?>/owner/setting/blog";
 										}
 										request.onError = function() {
@@ -100,12 +100,12 @@ if ($service['type'] != 'single') {
 										}
 										request.send();
 									}
-									if (document.getElementById('multi-section').secondaryDomain.value != secondaryDomain) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/secondary?domain=" + encodeURIComponent(document.getElementById('multi-section').secondaryDomain.value));
+									if (document.getElementById('multi-form').secondaryDomain.value != secondaryDomain) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/secondary?domain=" + encodeURIComponent(document.getElementById('multi-form').secondaryDomain.value));
 										request.onSuccess = function() {
-											secondaryDomain = document.getElementById('multi-section').secondaryDomain.value;
+											secondaryDomain = document.getElementById('multi-form').secondaryDomain.value;
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
-											if (document.getElementById('multi-section').defaultDomain[1].checked)
+											if (document.getElementById('multi-form').defaultDomain[1].checked)
 												location = "http://" + secondaryDomain + "<?=$blogURL?>/owner/setting/blog";
 										}
 										request.onError = function() {
@@ -116,10 +116,10 @@ if ($service['type'] != 'single') {
 <?
 	} else if ($service['type'] == 'path') {
 ?>
-									if (document.getElementById('multi-section').pathDomain.value != pathDomain) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/primary?name=" + encodeURIComponent(document.getElementById('multi-section').pathDomain.value));
+									if (document.getElementById('multi-form').pathDomain.value != pathDomain) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/primary?name=" + encodeURIComponent(document.getElementById('multi-form').pathDomain.value));
 										request.onSuccess = function() {
-											pathDomain = document.getElementById('multi-section').pathDomain.value;
+											pathDomain = document.getElementById('multi-form').pathDomain.value;
 											PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
 											location = "http://<?=$service['domain']?><?=$blogURL?>/" + pathDomain + "/owner/setting/blog";
 										}
@@ -140,12 +140,12 @@ if ($service['type'] != 'single') {
 }
 ?>
 								
-								function setIcon() {
-									
+								function setIcons() {
+									document.getElementById('icons-form').submit();
 								}
 								
 								function setThumbnail() {
-									
+									document.getElementById('thumbnail-form').submit();
 								}
 								
 								var useSlogan = "<?=$blog['useSlogan']?>";
@@ -313,7 +313,7 @@ if ($service['type'] != 'single') {
 							<h2 class="caption"><span class="main-text"><?=_t('블로그 기본 정보를 설정합니다')?></span></h2>
 							
 							<div class="data-inbox">
-								<form id="common-section" class="section" method="post" action="<?=$service['path']?>/owner/setting/blog/title">
+								<form id="common-form" class="section" method="post" action="<?=$blogURL?>/owner/setting/blog/title">
 									<fieldset class="container">
 										<legend><?=_t('블로그 정보')?></legend>
 										
@@ -336,7 +336,7 @@ if ($service['type'] != 'single') {
 $urlRule = getBlogURLRule();
 if ($service['type'] != 'single') {
 ?>
-								<form id="multi-section" class="section" method="post" action="<?=$service['path']?>/owner/setting/blog/domain">
+								<form id="multi-form" class="section" method="post" action="<?=$blogURL?>/owner/setting/blog/domain">
 									<fieldset class="container">
 										<legend><?=_t('블로그 주소')?></legend>
 										
@@ -383,7 +383,7 @@ if ($service['type'] != 'single') {
 						<div id="part-setting-profile" class="part">
 							<h2 class="caption"><span class="main-text"><?=_t('프로필을 설정합니다')?></span></h2>
 							
-							<form class="data-inbox" method="post" action="<?=$service['path']?>/owner/setting/blog/icons">
+							<form id="icons-form" class="data-inbox" method="post" action="<?=$blogURL?>/owner/setting/blog/icons" enctype="multipart/form-data">
 								<div id="icons-upload-section" class="section">
 									<fieldset class="container">
 										<legend><?=_t('블로그 로고 및 파비콘')?></legend>
@@ -391,15 +391,41 @@ if ($service['type'] != 'single') {
 										<dl id="blog-picture-line" class="line">
 											<dt><span class="label"><?=_t('로고 이미지')?></span></dt>
 											<dd>
+<?php
+if (file_exists(ROOT."/attach/$owner/{$blog['logo']}")) {
+	$logoInfo = getimagesize(ROOT."/attach/$owner/{$blog['logo']}");
+	if ($logoInfo[0] > 150) {
+?>
+												<a href="<?php echo $service['path']?>/attach/<?php echo $owner?>/<?php echo $blog['logo']?>" onclick="window.open(this.href); return false;"><img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/<?php echo $blog['logo']?>" width="150" border="1" alt="<?php echo _t('사용자 로고')?>" /></a>
+<?php
+	} else {
+?>
+												<img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/<?php echo $blog['logo']?>" border="1" alt="<?php echo _t('사용자 로고')?>" />
+<?php
+	}
+}
+?>
+
 												<input type="file" class="file-input" name="logo" />
-												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteLogo" name="deleteLogo"<?php echo empty($blog['logo']) ? ' disabled="disabled"' : '';?> /> <label for="deleteLogo"><?=_t('로고를 초기화합니다.')?></label></div>
+												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteLogo" name="deleteLogo" value="yes"<?php echo empty($blog['logo']) ? ' disabled="disabled"' : '';?> /> <label for="deleteLogo"><?=_t('로고를 초기화합니다.')?></label></div>
 											</dd>
 										</dl>
-										<dl id="farvicon-line" class="line">
+										<dl id="favicon-line" class="line">
 											<dt><span class="label"><?=_t('Favicon')?></span></dt>
 											<dd>
-												<input type="file" class="file-input" name="blogIcon" />
-												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteFavicon" name="deleteFavicon"<?php echo file_exists(ROOT."/attach/$owner/favicon.ico") ? '' : ' disabled="disabled"';?> /> <label for="deleteFavicon"><?=_t('파비콘을 초기화합니다.')?></label></div>
+<?php
+if (file_exists(ROOT."/attach/$owner/favicon.ico") && !eregi(' MSIE', $_SERVER['HTTP_USER_AGENT'], $temp)) {
+?>
+												<img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/favicon.ico" border="1" alt="<?php echo _t('파비콘')?>" />
+<?php
+} else {
+?>
+												<a id="favicon-preview" href="<?php echo $service['path']?>/attach/<?php echo $owner?>/favicon.ico"><?php echo _t('미리 보기')?></a>
+<?php
+}
+?>
+												<input type="file" class="file-input" name="favicon" />
+												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteFavicon" name="deleteFavicon" value="yes"<?php echo file_exists(ROOT."/attach/$owner/favicon.ico") ? '' : ' disabled="disabled"';?> /> <label for="deleteFavicon"><?=_t('파비콘을 초기화합니다.')?></label></div>
 											</dd>
 										</dl>
 									</fieldset>
@@ -409,15 +435,25 @@ if ($service['type'] != 'single') {
 									<fieldset class="container">
 										<legend><?=_t('블로그 아이콘')?></legend>
 										
-										<dl id="blog-icon-line" class="line">
+										<dl id="blogicon-line" class="line">
 											<dt><span class="label"><?=_t('블로그 아이콘')?></span></dt>
 											<dd>
+<?php
+if (file_exists(ROOT."/attach/$owner/index.gif")) {
+	$blogIconInfo = getimagesize(ROOT."/attach/$owner/index.gif");
+	if ($blogIconInfo != false) {
+?>
+												<img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/index.gif"<?php echo ($blogIconInfo[0] > 48) ? ' width="48"' : ''?> border="1" alt="<?php echo _t('블로그 아이콘')?>" />
+<?php
+	}
+}
+?>
 												<input type="file" class="file-input" name="blogIcon" />
-												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteBlogIcon" name="deleteBlogIcon"<?php echo file_exists(ROOT."/attach/$owner/index.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteBlogIcon"><?=_t('블로그 아이콘을 초기화합니다.')?></label></div>
+												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteBlogIcon" name="deleteBlogIcon" value="yes"<?php echo file_exists(ROOT."/attach/$owner/index.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteBlogIcon"><?=_t('블로그 아이콘을 초기화합니다.')?></label></div>
 												<p><?php echo _t('블로그 아이콘은 댓글과 방명록에서 사용됩니다. 크기는 16×16 이상, 48×48 이하까지 지원합니다.')?></p>
 											</dd>
 										</dl>
-										<dl id="farvicon-line" class="line">
+										<dl id="blogicon-size-line" class="line">
 											<dt><span class="label"><?=_t('블로그 아이콘을')?></span></dt>
 											<dd>
 												<select name="blogIconSize">
@@ -443,15 +479,29 @@ if ($service['type'] != 'single') {
 							<h2 class="caption"><span class="main-text"><?=_t('썸네일을 설정합니다')?></span></h2>
 							
 							<div class="data-inbox">
-								<form id="thumbnail-section" class="section" method="post" action="<?=$service['path']?>/owner/setting/blog/thumbnail">
+								<form id="thumbnail-form" class="section" method="post" action="<?=$blogURL?>/owner/setting/blog/thumbnail" enctype="multipart/form-data">
 									<fieldset class="container">
 										<legend><?=_t('썸네일 정보')?></legend>
 										
 										<dl id="watermark-line" class="line">
 											<dt><span class="label"><?=_t('워터 마크')?></span></dt>
 											<dd>
+<?php
+if (file_exists(ROOT."/attach/$owner/watermark.gif")) {			
+	$waterMarkInfo = getimagesize(ROOT."/attach/$owner/watermark.gif");
+	if ($waterMarkInfo[0] > 150) {
+?>
+												<a href="<?php echo $service['path']?>/attach/<?php echo $owner?>/watermark.gif" onclick="window.open(this.href); return false;"><img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/watermark.gif" width="150" border="1" alt="<?php echo _t('워터마크 이미지')?>" /></a>
+<?php
+	} else {
+?>
+												<img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/watermark.gif" border="1" alt="<?php echo _t('워터마크 이미지')?>" />
+<?php
+	}
+}
+?>
 												<input type="file" class="file-input" name="waterMark" /><br />
-												<input type="checkbox" class="checkbox" id="deleteWaterMark" name="deleteWaterMark"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteWaterMark"><?=_t('워터 마크를 초기화합니다.')?></label>
+												<input type="checkbox" class="checkbox" id="deleteWaterMark" name="deleteWaterMark" value="yes"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteWaterMark"><?=_t('워터 마크를 초기화합니다.')?></label>
 											</dd>
 										</dl>
 										<dl id="watermark-position-line" class="line">
@@ -459,15 +509,15 @@ if ($service['type'] != 'single') {
 											<dd>
 												<div id="vertical-position">
 													<select name="verticalType"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
-														<option value="0">상단</option>
-														<option value="5">하단</option>
+														<option value="top">상단</option>
+														<option value="bottom">하단</option>
 													</select>
 													<input type="text" class="text-input" name="verticalPosition"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
 												</div>
 												<div id="horizontal-position">
 													<select name="horizontalType"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
-														<option value="10">좌측</option>
-														<option value="15">우측</option>
+														<option value="left">좌측</option>
+														<option value="right">우측</option>
 													</select>
 													<input type="text" class="text-input" name="horizontalPosition"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
 												</div>
@@ -543,7 +593,7 @@ if ($service['type'] != 'single') {
 						<div id="part-setting-rss" class="part">
 							<h2 class="caption"><span class="main-text"><?=_t('블로그 공개 정책을 설정합니다')?></span></h2>
 							
-							<form id="rss-form" class="data-inbox" method="post" action="<?=$service['path']?>/owner/setting/blog">
+							<form id="rss-form" class="data-inbox" method="post" action="<?=$blogURL?>/owner/setting/blog">
 								<div id="rss-section" class="section">
 									<fieldset class="container">
 										<legend><?=_t('RSS 설정')?></legend>
@@ -614,7 +664,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 						<div id="part-setting-language" class="part">
 							<h2 class="caption"><span class="main-text"><?=_t('언어, 시간대를 설정합니다')?></span></h2>
 							
-							<form id="language-form" class="data-inbox" method="post" action="<?=$service['path']?>/owner/setting/blog">
+							<form id="language-form" class="data-inbox" method="post" action="<?=$blogURL?>/owner/setting/blog">
 								<div id="language-section" class="section">
 									<fieldset class="container">
 										<legend><?=_t('언어 및 시간대')?></legend>
