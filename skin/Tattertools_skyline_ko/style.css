@@ -536,6 +536,14 @@ padding-left:38px;
 	background-color:#ddd;
 }
 
+/* page error*/
+#page-error
+{
+	font-weight:bold;
+	padding:200px 0;
+	text-align:center;
+}
+
 /* entry article*/
 .entry .article {
 	padding:10px 0;
