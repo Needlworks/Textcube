@@ -57,7 +57,7 @@ class Skin {
 		global $service;
 		$filename = ROOT . "/skin/$name/skin.html";
 		if (!$sval = file_get_contents($filename))
-			respondErrorPage(_t('스킨 정보가 존재하지 않습니다.'));
+			respondErrorPage(_text('스킨 정보가 존재하지 않습니다.'));
 
 		$sval = replaceSkinTag($sval, 'html');
 		$sval = replaceSkinTag($sval, 'head');

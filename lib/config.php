@@ -21,7 +21,7 @@ $service['encoding'] = 'EUC-KR';
 $service['umask'] = 0;
 $service['skin'] = 'Tattertools_skyline_ko';
 $service['adminSkin'] = '/style/admin/default';
-$service['editorCSS'] = '/style/wisiwig/default-wisiwig.css';
+$service['editorCSS'] = '/style/wisiwig/aria-wisiwig.css';
 
 if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && ($_SERVER['SERVER_PORT'] != 443))
 	$service['port'] = $_SERVER['SERVER_PORT'];

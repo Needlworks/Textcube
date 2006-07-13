@@ -134,7 +134,7 @@ function getEntriesWithPagingByTag($owner, $tag, $page, $count) {
 function getEntriesWithPagingByNotice($owner, $page, $count) {
 	global $database, $folderURL, $suri;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
-	$sql = "SELECT *, '" . _t('공지') . "' categoryLabel FROM {$database['prefix']}Entries WHERE owner = $owner $visibility AND category = -2 ORDER BY published DESC";
+	$sql = "SELECT *, '" . _text('공지') . "' categoryLabel FROM {$database['prefix']}Entries WHERE owner = $owner $visibility AND category = -2 ORDER BY published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
@@ -588,13 +588,13 @@ function saveTags($owner, $entry, $entryId) {
 function getEntryVisibilityName($visibility) {
 	switch (abs($visibility)) {
 		case 0:
-			return _t('비공개');
+			return _text('비공개');
 		case 1:
-			return _t('보호');
+			return _text('보호');
 		case 2:
-			return _t('공개');
+			return _text('공개');
 		case 3:default:
-			return _t('발행');
+			return _text('발행');
 	}
 }
 ?>

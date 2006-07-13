@@ -8,10 +8,10 @@ printMobileHtmlHeader(htmlspecialchars($blog['title']));
 ?>
 <div id="pannels">
 	<!--
-	<h2><?=_t('카테고리')?></h2>
+	<h2><?=_text('카테고리')?></h2>
 	<?=getCategoriesView(getCategories($owner), true, getCategoriesSkin(), true)?>
 	-->
-	<h2><?=_t('최근에 달린 답글')?></h2>
+	<h2><?=_text('최근에 달린 답글')?></h2>
 	<?
 		$comments = getRecentComments($owner);
 		if(count($comments) > 0)
@@ -24,7 +24,7 @@ printMobileHtmlHeader(htmlspecialchars($blog['title']));
 		if(count($comments) > 0)
 			echo '</ul>';
 		?>
-	<h2><?=_t('최근에 달린 트랙백')?></h2>
+	<h2><?=_text('최근에 달린 트랙백')?></h2>
 	<?
 		$trackbacks = getRecentTrackbacks($owner);
 		if(count($trackbacks) > 0)
@@ -38,7 +38,7 @@ printMobileHtmlHeader(htmlspecialchars($blog['title']));
 			echo '</ul>';
 	?>
 	<!--
-	<h2><?=_t('글 보관함')?></h2>
+	<h2><?=_text('글 보관함')?></h2>
 	<ul>
 	<?
 foreach (getArchives($owner) as $archive) {

@@ -36,10 +36,10 @@ foreach ($entries as $entry) {
 			dress('s_ad_m_onclick', "editEntry({$entry['id']},'".(@$service['useEncodedURL'] ? $permalink : str_replace('%2F', '/', rawurlencode($permalink)))."'); return false;", $managementView);
 			dress('s_ad_s1_label', getEntryVisibilityName($entry['visibility']), $managementView);
 			if ($entry['visibility'] < 2) {
-				dress('s_ad_s2_label', _t('공개로 변경합니다'), $managementView);
+				dress('s_ad_s2_label', _text('공개로 변경합니다'), $managementView);
 				dress('s_ad_s2_onclick', "changeVisibility({$entry['id']}, 2); return false;", $managementView);
 			} else {
-				dress('s_ad_s2_label', _t('비공개로 변경합니다'), $managementView);
+				dress('s_ad_s2_label', _text('비공개로 변경합니다'), $managementView);
 				dress('s_ad_s2_onclick', "changeVisibility({$entry['id']}, 0); return false;", $managementView);
 			}
 			dress('s_ad_t_onclick', "sendTrackback({$entry['id']}); return false;", $managementView);
@@ -50,19 +50,19 @@ foreach ($entries as $entry) {
 		dress('article_rep_link', $permalink, $entryView);
 		dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $entryView);
 		dress('article_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], getKeywordNames($owner)), $entryView);
-		dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _t('분류없음') : $entry['categoryLabel'], $entry['id']), $entryView);
+		dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['categoryLabel'], $entry['id']), $entryView);
 		dress('article_rep_category_link', "$blogURL/category/" . encodeURL($entry['categoryLabel']), $entryView);
 		dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published'])), $entryView);
 		dress('entry_archive_link', "$blogURL/archive/" . Timestamp::getDate($entry['published']), $entryView);
 		if ($entry['acceptComment'])
 			dress('article_rep_rp_link', "toggleLayer('entry{$entry['id']}Comment'); return false", $entryView);
 		else
-			dress('article_rep_rp_link', "alert('" . _t('이 글에는 댓글을 달 수 없습니다.') . "'); return false", $entryView);
+			dress('article_rep_rp_link', "alert('" . _text('이 글에는 댓글을 달 수 없습니다.') . "'); return false", $entryView);
 		dress('article_rep_rp_cnt', "<span id=\"commentCount{$entry['id']}\">".($entry['comments']>0 ? "{$entry['comments']}" : '')."</span>", $entryView);
 		if ($entry['acceptTrackback'])
 			dress('article_rep_tb_link', "toggleLayer('entry{$entry['id']}Trackback'); return false", $entryView);
 		else
-			dress('article_rep_tb_link', "alert('" . _t('이 글에는 트랙백을 달 수 없습니다.') . "'); return false", $entryView);
+			dress('article_rep_tb_link', "alert('" . _text('이 글에는 트랙백을 달 수 없습니다.') . "'); return false", $entryView);
 		if ($entry['trackbacks'] > 0)
 			dress('article_rep_tb_cnt', "{$entry['trackbacks']}", $entryView);
 		$entriesView .= $entryView;

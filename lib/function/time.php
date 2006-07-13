@@ -21,17 +21,17 @@ function checkPeriod($period) {
 function timeInterval($start, $current) {
 	$interval = $current - $start;
 	if (0 <= $interval && $interval < 60) {
-		return $interval . _t('초');
+		return $interval . _text('초');
 	} else if (60 <= $interval && $interval < 3600) {
-		return ceil($interval / 60) . _t('분');
+		return ceil($interval / 60) . _text('분');
 	} else if (3600 <= $interval && $interval < 86400) {
-		return ceil($interval / 60 / 60) . _t('시간');
+		return ceil($interval / 60 / 60) . _text('시간');
 	} else if (86400 <= $interval && $interval < 2592000) {
-		return ceil($interval / 60 / 60 / 24) . _t('일');
+		return ceil($interval / 60 / 60 / 24) . _text('일');
 	} else if (2592000 <= $interval && $interval < 31104000) {
-		return ceil($interval / 60 / 60 / 24 / 30) . _t('달');
+		return ceil($interval / 60 / 60 / 24 / 30) . _text('달');
 	} else if (31104000 <= $interval) {
-		return ceil($interval / 60 / 60 / 24 / 30 / 12) . _t('년');
+		return ceil($interval / 60 / 60 / 24 / 30 / 12) . _text('년');
 	}
 }
 

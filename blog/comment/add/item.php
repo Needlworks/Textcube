@@ -13,9 +13,9 @@ $userSecret = isset($_POST["secret_$entryId"]) ? 1 : 0;
 $userHomepage = isset($_POST["homepage_$entryId"]) ? $_POST["homepage_$entryId"] : '';
 $userComment = isset($_POST["comment_$entryId"]) ? $_POST["comment_$entryId"] : '';
 if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
-	echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _t('이름을 입력해 주십시오.'), ']]></description></response>';
+	echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _text('이름을 입력해 주십시오.'), ']]></description></response>';
 } else if ($userComment == '') {
-	echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _t('본문을 입력해 주십시오.'), ']]></description></response>';
+	echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _text('본문을 입력해 주십시오.'), ']]></description></response>';
 } else {
 	if ($userName != '')
 		setcookie('guestName', $userName, time() + 2592000, "$blogURL/");
@@ -36,9 +36,9 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
 	$result = addComment($owner, $comment);
 	if ($result === 'blocked') {
-		echo '<?xml version="1.0" encoding="utf-8"?><response><error>1</error><description><![CDATA[', _t('귀하는 차단되었으므로 사용하실 수 없습니다.'), ']]></description></response>';
+		echo '<?xml version="1.0" encoding="utf-8"?><response><error>1</error><description><![CDATA[', _text('귀하는 차단되었으므로 사용하실 수 없습니다.'), ']]></description></response>';
 	} else if ($result === false) {
-		echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _t('댓글을 달 수 없습니다.'), ']]></description></response>';
+		echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _text('댓글을 달 수 없습니다.'), ']]></description></response>';
 	} else {
 		$skin = new Skin($skinSetting['skin']);
 		if ($entryId > 0) {

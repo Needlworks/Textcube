@@ -9,5 +9,5 @@ if(isset($_POST['password']) && $entry['password'] == $_POST['password']) {
 	header("Location: $blogURL/{$suri['value']}");
 }
 else
-	printMobileErrorPage(_t('비밀번호 확인'), _t('패스워드가 틀렸습니다.'), "$blogURL/{$suri['value']}");
+	printMobileErrorPage(_text('비밀번호 확인'), _text('패스워드가 틀렸습니다.'), "$blogURL/{$suri['value']}");
 ?>

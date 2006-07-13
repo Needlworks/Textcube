@@ -26,11 +26,11 @@ if ((empty($comment['homepage']) || $comment['homepage'] == 'http://') && isset(
 <?php 
 if (!doesHaveMembership()) {
 ?>
-				if (!checkValue(oForm.name, '<?php echo _t('이름을 입력해 주십시오.')?>')) return false;
+				if (!checkValue(oForm.name, '<?php echo _text('이름을 입력해 주십시오.')?>')) return false;
 <?php 
 }
 ?>
-				if (!checkValue(oForm.comment, '<?php echo _t('댓글을 입력해 주십시오.')?>')) return false;
+				if (!checkValue(oForm.comment, '<?php echo _text('댓글을 입력해 주십시오.')?>')) return false;
 				oForm.submit();
 			}
 		//]]>
@@ -52,7 +52,7 @@ if (!doesHaveMembership()) {
 		<input type="hidden" name="oldPassword" value="<?php echo isset($_POST['password']) ? $_POST['password'] : ''?>" />
 		
 		<div id="comment-reply-box">
-			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" alt="<?=_t('태터툴즈 로고')?>" />
+			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" alt="<?=_text('태터툴즈 로고')?>" />
 			
 			<div class="title"><span class="text"><?php echo $pageTitle ?></span></div>
 	      	<div id="command-box">
@@ -61,36 +61,36 @@ if (!doesHaveOwnership()) {
 	if (!doesHaveMembership()) {
 ?>
 				<dl class="name-line">
-					<dt><label for="name"><?php echo _t('이름')?></label></dt>
+					<dt><label for="name"><?php echo _text('이름')?></label></dt>
 					<dd><input type="text" id="name" class="text-input" name="name" value="<?php echo htmlspecialchars($comment['name'])?>" /></dd>
 				</dl>
 				<dl class="password-line">
-					<dt><label for="password"><?php echo _t('비밀번호')?></label></dt>
+					<dt><label for="password"><?php echo _text('비밀번호')?></label></dt>
 					<dd><input type="password" class="text-input" id="password" name="password" value="<?php echo isset($_POST['password']) ? $_POST['password'] : ''?>" /></dd>
 				</dl>
 <?php 
 	}
 ?>
 				<dl class="homepage-line">
-					<dt><label for="homepage"><?php echo _t('홈페이지')?></label></dt>
+					<dt><label for="homepage"><?php echo _text('홈페이지')?></label></dt>
 					<dd><input type="text" class="text-input" id="homepage" name="homepage" value="<?php echo (empty($comment['homepage']) ? 'http://' : htmlspecialchars($comment['homepage']))?>" /></dd>
 				</dl>
 				<dl class="secret-line">
 					<dd>
 						<input type="checkbox" class="checkbox" id="secret" name="secret"<?php echo ($comment['secret'] ? ' checked="checked"' : false)?> />
-						<label for="secret"><?php echo _t('비밀글로 등록')?></label>
+						<label for="secret"><?php echo _text('비밀글로 등록')?></label>
 					</dd>
 				</dl>
 <?php 
 }
 ?>			
 				<dl class="content-line">
-					<dt><label for="comment"><?php echo _t('내용')?></label></dt>
+					<dt><label for="comment"><?php echo _text('내용')?></label></dt>
 					<dd><textarea id="comment" name="comment" cols="45" rows="9" style="height: <?php echo (!doesHaveOwnership() && !doesHaveOwnership()) ? 150 : 242?>px;"><?php echo htmlspecialchars($comment['comment'])?></textarea></dd>
 				</dl>
 				
 				<div class="button-box">
-					<input type="button" class="button-input" name="Submit" value="<?php echo _t('완료')?>" onclick="submitComment()" />
+					<input type="button" class="button-input" name="Submit" value="<?php echo _text('완료')?>" onclick="submitComment()" />
 				</div>
 			</div>
 		</div>

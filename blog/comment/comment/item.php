@@ -13,7 +13,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	$comment = array();
 	list($comment['entry']) = getCommentAttributes($owner, $suri['id'], 'entry');
 	if (count($comment) == 0)
-		respondErrorPage(_t('댓글이 존재하지 않습니다.'));
+		respondErrorPage(_text('댓글이 존재하지 않습니다.'));
 	$comment['parent'] = $suri['id'];
 	$comment['name'] = empty($_POST['name']) ? '' : $_POST['name'];
 	$comment['password'] = empty($_POST['password']) ? '' : $_POST['password'];
@@ -26,7 +26,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		printHtmlHeader();
 ?>
 <script type="text/javascript">	
-	alert("<?=_t('댓글이 등록되었습니다.')?>");
+	alert("<?=_text('댓글이 등록되었습니다.')?>");
 	
 <?
 		notifyComment();
@@ -56,7 +56,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		exit;
 	}
 }
-$pageTitle = _t('댓글에 댓글 달기');
+$pageTitle = _text('댓글에 댓글 달기');
 $comment = array('name' => '', 'password' => '', 'homepage' => 'http://', 'secret' => 0, 'comment' => '');
 require ROOT . '/lib/view/replyEditorView.php';
 ?>

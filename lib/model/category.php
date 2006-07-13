@@ -22,7 +22,7 @@ function getCategoryNameById($owner, $id) {
 	if ($id === null)
 		return '';
 //	if ($id === 0)
-//		return _t('분류 전체보기');
+//		return _text('분류 전체보기');
 	return fetchQueryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
 }
 
@@ -39,7 +39,7 @@ function getCategoryLabelById($owner, $id) {
 	if ($id === null)
 		return '';
 //	if ($id === 0)
-//		return _t('분류 전체보기');
+//		return _text('분류 전체보기');
 	return fetchQueryCell("SELECT label FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
 }
 
@@ -375,7 +375,7 @@ function checkRootCategoryExistence($owner) {
 	global $database;
 	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND id = 0";
 	if(!(fetchQueryCell($sql))) {
-		$name = _t('전체');
+		$name = _text('전체');
 		addCategory($owner,null,'tempRootCategory');
 		$id = fetchQueryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE owner = $owner");
 		$result = mysql_query("UPDATE {$database['prefix']}Categories SET id = 0 AND name = '$name' AND priority = 1 WHERE owner = $owner AND id = $id LIMIT 1");

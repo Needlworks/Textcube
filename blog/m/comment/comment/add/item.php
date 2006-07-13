@@ -5,9 +5,9 @@ require ROOT . '/lib/include.php';
 $replyId = $suri['id'];
 list($entryId) = getCommentAttributes($owner, $replyId, 'entry');
 if (!doesHaveOwnership() && empty($_POST["name_$replyId"])) {
-	printMobileErrorPage(_t('답글을 작성할 수 없습니다.'), _t('이름을 입력해 주십시오.'), "$blogURL/comment/comment/$replyId");
+	printMobileErrorPage(_text('답글을 작성할 수 없습니다.'), _text('이름을 입력해 주십시오.'), "$blogURL/comment/comment/$replyId");
 } else if (!doesHaveOwnership() && empty($_POST["comment_$replyId"])) {
-	printMobileErrorPage(_t('답글을 작성할 수 없습니다.'), _t('본문을 입력해 주십시오.'), "$blogURL/comment/comment/$replyId");
+	printMobileErrorPage(_text('답글을 작성할 수 없습니다.'), _text('본문을 입력해 주십시오.'), "$blogURL/comment/comment/$replyId");
 } else {
 	$comment = array();
 	$comment['entry'] = $entryId;
@@ -20,13 +20,13 @@ if (!doesHaveOwnership() && empty($_POST["name_$replyId"])) {
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
 	$result = addComment($owner, $comment);
 	if ($result === 'blocked') {
-		printMobileErrorPage(_t('답글쓰기가 차단됐습니다.'), "$blogURL/comment/$entryId");
+		printMobileErrorPage(_text('답글쓰기가 차단됐습니다.'), "$blogURL/comment/$entryId");
 	} else if ($result === false) {
-		printMobileErrorPage(_t('답글을 쓸 수 없습니다.'), "$blogURL/comment/$entryId");
+		printMobileErrorPage(_text('답글을 쓸 수 없습니다.'), "$blogURL/comment/$entryId");
 	} else {
 		setcookie('guestName', $comment['name'], time() + 2592000, $blogURL);
 		setcookie('guestHomepage', $comment['homepage'], time() + 2592000, $blogURL);
-		printMobileSimpleMessage(_t('답글이 작성됐습니다.'), _t('답글 보기 페이지로'), "$blogURL/comment/$entryId");
+		printMobileSimpleMessage(_text('답글이 작성됐습니다.'), _text('답글 보기 페이지로'), "$blogURL/comment/$entryId");
 	}
 }
 ?>

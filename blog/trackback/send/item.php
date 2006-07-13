@@ -6,7 +6,7 @@ $entry = getEntry($owner, $suri['id']);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title><?=_t('트랙백 전송')?></title>
+	<title><?=_text('트랙백 전송')?></title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<?=$service['path']?>/style/owner.css" />
 	<script type="text/javascript">
@@ -17,14 +17,14 @@ $entry = getEntry($owner, $suri['id']);
 			
 			function onclick_send(form) {
 				trim_all(form);
-				if (isNull(form.url,"<?=_t('전송할 주소를 입력하세요')?>")) return false;
-				if (!confirm("<?=_t('지정하신 주소로 글을 보내시겠습니까?')?>")) return false;
+				if (isNull(form.url,"<?=_text('전송할 주소를 입력하세요')?>")) return false;
+				if (!confirm("<?=_text('지정하신 주소로 글을 보내시겠습니까?')?>")) return false;
 				form.submit();
 			}
 
 			function onclick_delete(form, num) {
 				trim_all(form);
-				if (!confirm("<?=_t('지정하신 관련글(트랙백) 로그를 삭제하시겠습니까?')?>")) return false;
+				if (!confirm("<?=_text('지정하신 관련글(트랙백) 로그를 삭제하시겠습니까?')?>")) return false;
 				form.mode.value = 'delete';
 				form.exenum.value = num;
 				form.submit();
@@ -40,7 +40,7 @@ $entry = getEntry($owner, $suri['id']);
 						trackbackField.select();
 					}
 					request.onError = function() {
-						alert("<?=_t('트랙백 전송에 실패하였습니다.')?>");
+						alert("<?=_text('트랙백 전송에 실패하였습니다.')?>");
 					}
 					request.send();
 				} catch(e) {
@@ -58,9 +58,9 @@ $entry = getEntry($owner, $suri['id']);
 						var str = '<table width="100%" cellpadding="5" cellspacing="0">\n';
 						str += '	<thead>\n';
 						str += '		<tr>\n';
-						str += '			<th class="log"><span class="text"><? echo _t('전송로그')?></span></th>\n';
-						str += '			<th class="date"><span class="text"><? echo _t('날짜')?></span></th>\n';
-						str += '			<th class="delete"><span class="text"><? echo _t('삭제')?></span></th>\n';
+						str += '			<th class="log"><span class="text"><? echo _text('전송로그')?></span></th>\n';
+						str += '			<th class="date"><span class="text"><? echo _text('날짜')?></span></th>\n';
+						str += '			<th class="delete"><span class="text"><? echo _text('삭제')?></span></th>\n';
 						str += '		</tr>\n';
 						str += '	</thead>\n';
 						
@@ -70,7 +70,7 @@ $entry = getEntry($owner, $suri['id']);
 							str += '		<tr id="trackbackLog_'+field[0]+'">\n';
 							str += '			<td class="log">'+field[1]+'</td>\n'
 							str += '			<td class="date">'+field[2]+'</td>\n'
-							str += '			<td class="delete"><a class="delete-button button" href="#void" onclick="removeTrackbackLog('+field[0]+','+id+');"><span class="text"><?=_t('삭제')?></span></a></td>\n'
+							str += '			<td class="delete"><a class="delete-button button" href="#void" onclick="removeTrackbackLog('+field[0]+','+id+');"><span class="text"><?=_text('삭제')?></span></a></td>\n'
 							str += '		</tr>\n';
 							str += '	</tbody>\n';
 						}			
@@ -82,13 +82,13 @@ $entry = getEntry($owner, $suri['id']);
 			}
 			
 			function removeTrackbackLog(id,entry) {
-				if(confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속 하시겠습니까?')?>")) {
+				if(confirm("<?=_text('선택된 트랙백을 삭제합니다. 계속 하시겠습니까?')?>")) {
 					var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/entry/trackback/log/remove/" + id);
 					request.onSuccess = function() {
 						showTrackbackSender(entry);
 					}
 					request.onError = function() {
-						alert('<?=_t('실패했습니다.')?>');
+						alert('<?=_text('실패했습니다.')?>');
 					}
 					request.send();
 				}
@@ -111,19 +111,19 @@ $entry = getEntry($owner, $suri['id']);
 	<form name="trackback" method="post" action="<?=$suri['url']?>">
 	
 		<div id="trackback-box">
-			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" alt="<?php echo _t('태터툴즈 로고')?>" />
+			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" alt="<?php echo _text('태터툴즈 로고')?>" />
 			
-			<div class="title"><span class="text"><?=_t('트랙백을 전송합니다')?></span></div>
+			<div class="title"><span class="text"><?=_text('트랙백을 전송합니다')?></span></div>
 	      	<div id="command-box">
 	      		<dl class="title-line">
-	      			<dt><span class="label"><?=_t('제목')?></span><span class="divider"> | </span></dt>
+	      			<dt><span class="label"><?=_text('제목')?></span><span class="divider"> | </span></dt>
 	      			<dd><?=htmlspecialchars($entry['title'])?></dd>
 	      		</dl>
 				<dl class="input-line">
-					<dt><label for="url"><?=_t('주소입력')?></label><span class="divider"> | </span></dt>
+					<dt><label for="url"><?=_text('주소입력')?></label><span class="divider"> | </span></dt>
 					<dd>
 						<input type="text" id="url" class="text-input" name="url" onkeydown="if (event.keyCode == 13) { sendTrackback(<?=$suri['id']?>); return false;}" />
-						<input type="button" class="button-input" name="Submit" value="<?=_t('전송')?>" onclick="sendTrackback(<?=$suri['id']?>)" />				
+						<input type="button" class="button-input" name="Submit" value="<?=_text('전송')?>" onclick="sendTrackback(<?=$suri['id']?>)" />				
 					</dd>
 				</dl>
 				
@@ -131,7 +131,7 @@ $entry = getEntry($owner, $suri['id']);
 			</div>
 			
 			<div class="button-box">
-				<input type="button" class="button-input" value="<?=_t('닫기')?>" onclick="window.close()" />
+				<input type="button" class="button-input" value="<?=_text('닫기')?>" onclick="window.close()" />
 			</div>
 		</div>
 	</form>

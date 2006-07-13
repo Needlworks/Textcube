@@ -278,22 +278,22 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 	}
 	$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TATTERTOOLS_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 	if (empty($name))
-		$subject = _f('귀하를 %1님이 초대합니다', $senderName);
+		$subject = _textf('귀하를 %1님이 초대합니다', $senderName);
 	else
-		$subject = _f('%1님을 %2님이 초대합니다', $name, $senderName);
+		$subject = _textf('%1님을 %2님이 초대합니다', $name, $senderName);
 	$message = file_get_contents(ROOT . "/style/letter/letter.html");
-	$message = str_replace('[##_title_##]', _t('초대장'), $message);
+	$message = str_replace('[##_title_##]', _text('초대장'), $message);
 	$message = str_replace('[##_content_##]', $comment, $message);
 	$message = str_replace('[##_images_##]', "$hostURL{$service['path']}/style/letter", $message);
 	$message = str_replace('[##_link_##]', getBlogURL($blogName) . '/login?loginid=' . rawurlencode($email) . '&password=' . rawurlencode($password) . '&requestURI=' . rawurlencode(getBlogURL($blogName) . "/owner/setting/account?password=" . rawurlencode($password)), $message);
 	$message = str_replace('[##_go_blog_##]', getBlogURL($blogName), $message);
-	$message = str_replace('[##_link_title_##]', _t('블로그 바로가기'), $message);
+	$message = str_replace('[##_link_title_##]', _text('블로그 바로가기'), $message);
 	if (empty($name)) {
 		$message = str_replace('[##_to_##]', '', $message);
 	} else {
-		$message = str_replace('[##_to_##]', _t('받는 사람') . ': ' . $name, $message);
+		$message = str_replace('[##_to_##]', _text('받는 사람') . ': ' . $name, $message);
 	}
-	$message = str_replace('[##_sender_##]', _t('보내는 사람') . ': ' . $senderName, $message);
+	$message = str_replace('[##_sender_##]', _text('보내는 사람') . ': ' . $senderName, $message);
 	if (!mail($email, encodeMail($subject), $message, $headers)) {
 		mysql_query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
 		mysql_query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $id");

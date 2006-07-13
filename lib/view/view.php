@@ -192,7 +192,7 @@ function getUpperView($paging) {
 			function copyUrl(url){		
 				if(isIE) {
 					window.clipboardData.setData('Text',url);
-					window.alert("<?php echo _t('엮인글 주소가 복사되었습니다.')?>");
+					window.alert("<?php echo _text('엮인글 주소가 복사되었습니다.')?>");
 				}
 			}
 			
@@ -201,7 +201,7 @@ function getUpperView($paging) {
 <?php 
 	if (doesHaveOwnership()) {
 ?> 
-				if (!confirm("<?php echo _t('선택된 트랙백을 삭제합니다. 계속 하시겠습니까?')?>"))
+				if (!confirm("<?php echo _text('선택된 트랙백을 삭제합니다. 계속 하시겠습니까?')?>"))
 					return;
 
 				var request = new HTTPRequest("GET", "<?php echo $blogURL?>/trackback/delete/" + id);
@@ -209,13 +209,13 @@ function getUpperView($paging) {
 					document.getElementById('entry'+entryId+'Trackback').innerHTML= this.getText("/response/result");
 				}
 				request.onError = function() {
-					alert('<?php echo _t('실패했습니다.')?>');
+					alert('<?php echo _text('실패했습니다.')?>');
 				}
 				request.send();
 <?php 
 	} else {
 ?>
-				alert('<?php echo _t('실패했습니다.')?>');
+				alert('<?php echo _text('실패했습니다.')?>');
 <?php 
 	}
 ?>
@@ -232,7 +232,7 @@ function getUpperView($paging) {
 			}
 			
 			function deleteEntry(id) {
-				if (!confirm("<?php echo _t('이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?')?>"))
+				if (!confirm("<?php echo _text('이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?')?>"))
 					return;
 				var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/entry/delete/" + id);
 				request.onSuccess = function() {
@@ -333,7 +333,7 @@ function getCommentView($entryId, & $skin) {
 			if ($value['secret'] == 1 && !$authorized) {
 				$comments[$key]['name'] = '';
 				$comments[$key]['homepage'] = '';
-				$comments[$key]['comment'] = _t('관리자만 볼 수 있는 댓글입니다.');
+				$comments[$key]['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
 			}
 		}
 	} else {
@@ -369,7 +369,7 @@ function getCommentView($entryId, & $skin) {
 		dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense(htmlspecialchars($commentItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentItem), $commentItemView);
 		dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentItem['written'])), $commentItemView);
 		if ($prefix1 == 'guest' && $authorized != true && $blogSetting['allowWriteDoubleCommentOnGuestbook'] == 0) {
-			$doubleCommentPermissionScript = 'alert(\'' . _t('댓글을 사용할 수 없습니다.') . '\'); return false;';
+			$doubleCommentPermissionScript = 'alert(\'' . _text('댓글을 사용할 수 없습니다.') . '\'); return false;';
 		} else {
 			$doubleCommentPermissionScript = '';
 		}
@@ -445,7 +445,7 @@ function getCategoriesView($categories, $selected, $skin, $xhtml = false) {
 	} else {
 		$entriesSign = 'entries';
 	}
-	$tree = array('id' => 0, 'label' => getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'), 'value' => getEntriesTotalCount($owner), 'link' => "$blogURL/category", 'children' => array());
+	$tree = array('id' => 0, 'label' => getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _text('전체'), 'value' => getEntriesTotalCount($owner), 'link' => "$blogURL/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
@@ -471,7 +471,7 @@ function getCategoriesViewInOwner($categories, $selected, $skin) {
 	} else {
 		$entriesSign = 'entries';
 	}
-	$tree = array('id' => 0, 'label' => getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'), 'value' => getEntriesTotalCount($owner), 'link' => "$blogURL/owner/entry/category", 'children' => array());
+	$tree = array('id' => 0, 'label' => getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _text('전체'), 'value' => getEntriesTotalCount($owner), 'link' => "$blogURL/owner/entry/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
@@ -497,7 +497,7 @@ function getCategoriesViewInSkinSetting($categories, $selected, $skin) {
 	} else {
 		$entriesSign = 'entries';
 	}
-	$tree = array('id' => 0, 'label' => getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'), 'value' => getEntriesTotalCount($owner), 'link' => "", 'children' => array());
+	$tree = array('id' => 0, 'label' => getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _text('전체'), 'value' => getEntriesTotalCount($owner), 'link' => "", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
@@ -797,11 +797,11 @@ function getCalendarView($calendar) {
 ?>
 <table id="tt-calendar" cellpadding="0" cellspacing="1" style="width: 100%; table-layout: fixed">
 	<caption class="tt-cal-month cal_month">
-		<a class="tt-prev-month" href="<?php echo $blogURL?>/archive/<?php echo $previous?>" title="<?php echo _t('1개월 앞의 달력을 보여줍니다.')?>">&laquo;</a>
+		<a class="tt-prev-month" href="<?php echo $blogURL?>/archive/<?php echo $previous?>" title="<?php echo _text('1개월 앞의 달력을 보여줍니다.')?>">&laquo;</a>
 		&nbsp;
-		<a class="tt-current-month" href="<?php echo $blogURL?>/archive/<?php echo $current?>" title="<?php echo _t('현재 달의 달력을 보여줍니다.')?>"><?php echo $currentMonthStr?></a>
+		<a class="tt-current-month" href="<?php echo $blogURL?>/archive/<?php echo $current?>" title="<?php echo _text('현재 달의 달력을 보여줍니다.')?>"><?php echo $currentMonthStr?></a>
 		&nbsp;
-		<a class="tt-next-month" href="<?php echo $blogURL?>/archive/<?php echo $next?>" title="<?php echo _t('1개월 뒤의 달력을 보여줍니다.')?>">&raquo;</a>
+		<a class="tt-next-month" href="<?php echo $blogURL?>/archive/<?php echo $next?>" title="<?php echo _text('1개월 뒤의 달력을 보여줍니다.')?>">&raquo;</a>
 	</caption>
 	<thead>
 		<tr>
@@ -1233,15 +1233,15 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					list($originWidth, $originHeight, $type, $attr) = $tempInfo;
 				} else {
 					// 에러?
-					return '<span clas="message">'._t('에러가 발생한 이미지입니다.').'</span>';
+					return '<span clas="message">'._text('에러가 발생한 이미지입니다.').'</span>';
 				}
 				
 				if (eregi('alt=""', $property, $temp)) {
-					$property = str_replace('alt=""', 'alt="'._t('사용자 삽입 이미지').'"', $property);
+					$property = str_replace('alt=""', 'alt="'._text('사용자 삽입 이미지').'"', $property);
 				} else if (eregi('alt="[^"]+"', $property, $temp)) {
 					// 이미 있으므로 통과
 				} else {
-					$property .= ' alt="'._t('사용자 삽입 이미지').'"';	
+					$property .= ' alt="'._text('사용자 삽입 이미지').'"';	
 				}
 				
 				/*if ($originWidth > $contentWidth) {

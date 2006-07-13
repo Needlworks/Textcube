@@ -16,7 +16,7 @@ function respondMessagePage($message) {
 		
 		<div class="message"><?php echo $message?></div>
 		<div class="button-box">
-			<input type="button" class="button-input" value="<?php echo _t('이전')?>" onclick="window.history.go(-1)" />
+			<input type="button" class="button-input" value="<?php echo _text('이전')?>" onclick="window.history.go(-1)" />
 		</div>
 	</div>
 </body>
@@ -61,7 +61,7 @@ function respondErrorPage($message = '') {
 		
 		<div class="message"><?php echo $message?></div>
 		<div class="button-box">
-			<input type="button" class="button-input" value="<?php echo _t('이전')?>" onclick="window.history.go(-1)" />
+			<input type="button" class="button-input" value="<?php echo _text('이전')?>" onclick="window.history.go(-1)" />
 		</div>
 	</div>
 </body>

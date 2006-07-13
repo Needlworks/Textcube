@@ -15,6 +15,7 @@
 		<email>leezche@gmail.com</email>
 	</author> 
 	<default>
+		<priorLanguage>ko</priorLanguage>
 		<recentEntries>5</recentEntries>   
 		<recentComments>5</recentComments>
 		<recentTrackbacks>5</recentTrackbacks>

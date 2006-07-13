@@ -6,14 +6,14 @@ if (!empty($_POST['mode'])) {
 	switch ($_POST['mode']) {
 		case 'delete':
 			if (!list($entryId) = getCommentAttributes($owner, $suri['id'], 'entry'))
-				respondErrorPage(_t('댓글이 존재하지 않습니다.'));
+				respondErrorPage(_text('댓글이 존재하지 않습니다.'));
 			if (deleteComment($owner, $suri['id'], $entryId, isset($_POST['password']) ? $_POST['password'] : '')) {
 				$skin = new Skin($skinSetting['skin']);
 				printHtmlHeader();
 ?>
 <script type="text/javascript">
 	//<![CDATA[
-		alert("<?=_t('댓글이 삭제되었습니다.')?>");
+		alert("<?=_text('댓글이 삭제되었습니다.')?>");
 		var obj = opener.document.getElementById("entry<?=$entryId?>Comment");
 		obj.innerHTML = "<?=str_innerHTML(removeAllTags(getCommentView($entryId, $skin)))?>";
 		obj = opener.document.getElementById("recentComments");
@@ -38,18 +38,18 @@ $commentCount = ($commentCount > 0) ? "$commentCount" : '';
 				printHtmlFooter();
 				exit;
 			}
-			respondErrorPage(_t('패스워드가 틀렸습니다.'));
+			respondErrorPage(_text('패스워드가 틀렸습니다.'));
 		case 'edit':
 			$comment = getComment($owner, $suri['id'], isset($_POST['password']) ? $_POST['password'] : '');
 			if ($comment === false)
-				respondErrorPage(_t('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
-			$pageTitle = _t('댓글을 수정합니다');
+				respondErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
+			$pageTitle = _text('댓글을 수정합니다');
 			require ROOT . '/lib/view/replyEditorView.php';
 			exit;
 		case 'commit':
 			$comment = getComment($owner, $suri['id'], isset($_POST['oldPassword']) ? $_POST['oldPassword'] : '');
 			if ($comment === false)
-				respondErrorPage(_t('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
+				respondErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
 			if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment'])) {
 				$comment['name'] = empty($_POST['name']) ? '' : $_POST['name'];
 				$comment['password'] = empty($_POST['password']) ? '' : $_POST['password'];
@@ -62,7 +62,7 @@ $commentCount = ($commentCount > 0) ? "$commentCount" : '';
 					printHtmlHeader();
 ?>
 <script type="text/javascript">
-	alert("<?=_t('귀하는 차단되었으므로 사용하실 수 없습니다.')?>");
+	alert("<?=_text('귀하는 차단되었으므로 사용하실 수 없습니다.')?>");
 	window.close();
 </script>
 <?
@@ -74,7 +74,7 @@ $commentCount = ($commentCount > 0) ? "$commentCount" : '';
 ?>
 <script type="text/javascript">
 //<![CDATA[		
-	alert("<?=_t('댓글이 수정되었습니다.')?>");
+	alert("<?=_text('댓글이 수정되었습니다.')?>");
 	
 	try {
 		var obj = opener.document.getElementById("entry<?=$comment['entry']?>Comment");
@@ -100,7 +100,7 @@ $commentCount = ($commentCount > 0) ? "$commentCount" : '';
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title><?php echo _t('댓글 삭제') ?></title>
+	<title><?php echo _text('댓글 삭제') ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=$service['path']?>/style/owner.css" />
 	<script type="text/javascript">
@@ -115,24 +115,24 @@ $commentCount = ($commentCount > 0) ? "$commentCount" : '';
 <body>
 	<form name="deleteComment" method="post" action="<?=$blogURL?>/comment/delete/<?=$suri['id']?>">
 		<div id="comment-box">
-			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" alt="<?php echo _t('태터툴즈 로고')?>" />	
+			<img src="<?=$service['path']?>/image/logo_CommentPopup.gif" alt="<?php echo _text('태터툴즈 로고')?>" />	
 			
 			<div id="command-box">
 				<div class="edit-line">
-					<input type="radio" id="edit" class="radio" name="mode" value="edit" checked="checked" /> <label for="edit"><?=_t('댓글을 수정합니다.')?></label>
+					<input type="radio" id="edit" class="radio" name="mode" value="edit" checked="checked" /> <label for="edit"><?=_text('댓글을 수정합니다.')?></label>
 				</div>
 				<div class="delete-line">			
-					<input type="radio" id="delete" class="radio" name="mode" value="delete" />  <label for="delete"><?=_t('댓글을 삭제합니다.')?></label>
+					<input type="radio" id="delete" class="radio" name="mode" value="delete" />  <label for="delete"><?=_text('댓글을 삭제합니다.')?></label>
 				</div>
 				<div class="password-line">
 <?
 if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId()))) {
 ?>				  
-					<label for="password"><?=_t('비밀번호')?><span class="divider"> | </span></label><input type="password" id="password" class="text-input" name="password" />
+					<label for="password"><?=_text('비밀번호')?><span class="divider"> | </span></label><input type="password" id="password" class="text-input" name="password" />
 <?
 }
 ?>
-					<input type="button" class="button-input" name="Submit" value="<?=_t('다음')?>" onclick="document.deleteComment.submit()" />				
+					<input type="button" class="button-input" name="Submit" value="<?=_text('다음')?>" onclick="document.deleteComment.submit()" />				
 				</div>
 			</div>
 		</div>
