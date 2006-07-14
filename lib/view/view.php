@@ -887,7 +887,6 @@ function getEntryContentView($owner, $id, $content, $keywords = array(), $type =
 	$view = bindTags($id, $view);
 	if (defined('__TATTERTOOLS_MOBILE__'))
 		$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var'));
-	$view = nl2brWithHTML($view);
 	return fireEvent('View' . $type . 'Content', $view, $id);
 }
 

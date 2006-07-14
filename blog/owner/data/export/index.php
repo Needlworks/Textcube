@@ -40,10 +40,11 @@ requireComponent('Tattertools.Data.BlogStatistics');
 requireComponent('Tattertools.Data.DailyStatistics');
 requireComponent('Tattertools.Data.SkinSetting');
 requireComponent('Tattertools.Data.PluginSetting');
-requireComponent('Tattertools.Data.Personalization');
 requireComponent('Tattertools.Data.GuestComment');
 requireComponent('Tattertools.Data.Filter');
 requireComponent('Tattertools.Data.Feed');
+requireComponent('Tattertools.Data.ServiceSetting');
+requireComponent('Tattertools.Data.UserSetting');
 $writer->write('<?xml version="1.0" encoding="utf-8" ?>');
 $writer->write('<blog type="tattertools/1.0" migrational="false">');
 $setting = new BlogSetting();
@@ -236,10 +237,21 @@ if ($setting->open()) {
 	} while ($setting->shift());
 	$setting->close();
 }
-$setting = new Personalization();
-if ($setting->load()) {
-	$writer->write('<personalization>' . '<rowsPerPage>' . $setting->rowsPerPage . '</rowsPerPage>' . '<readerPannelVisibility>' . $setting->readerPannelVisibility . '</readerPannelVisibility>' . '<readerPannelHeight>' . $setting->readerPannelHeight . '</readerPannelHeight>' . '<lastVisitNotifiedPage>' . $setting->lastVisitNotifiedPage . '</lastVisitNotifiedPage>' . '</personalization>');
-	$writer->write(CRLF);
+$setting = new ServiceSetting();
+if ($setting->open()) {
+	do {
+		$writer->write('<serviceSetting>' . '<name>' . $setting->name . '</name>' . '<value>' . htmlspecialchars($setting->value) . '</value>' . '</serviceSetting>');
+		$writer->write(CRLF);
+	} while ($setting->shift());
+	$setting->close();
+}
+$setting = new UserSetting();
+if ($setting->open()) {
+	do {
+		$writer->write('<userSetting>' . '<name>' . $setting->name . '</name>' . '<value>' . htmlspecialchars($setting->value) . '</value>' . '</userSetting>');
+		$writer->write(CRLF);
+	} while ($setting->shift());
+	$setting->close();
 }
 $comment = new GuestComment();
 if ($comment->open('parent IS NULL')) {

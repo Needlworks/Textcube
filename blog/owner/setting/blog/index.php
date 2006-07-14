@@ -241,6 +241,23 @@ if ($service['type'] != 'single') {
 			request.send();
 		}
 	}
+
+	var editorMode = "<?=getUserSetting('editorMode', 1)?>";
+	var strictXHTML = "<?=getUserSetting('strictXHTML', 0)?>";
+	function setEditor() {
+		if (document.forms[0].editorMode.value != editorMode || document.forms[0].strictXHTML.value != strictXHTML) {
+			var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/editor/?editorMode=" + document.forms[0].editorMode.value + "&strictXHTML=" + document.forms[0].strictXHTML.value);
+			request.onSuccess = function() {
+				editorMode = document.forms[0].editorMode.value;
+				strictXHTML = document.forms[0].strictXHTML.value;
+				PM.showMessage("<?=_t('저장되었습니다')?>", "center", "bottom");
+			}
+			request.onError = function() {
+				alert("<?=_t('에디터 설정을 변경할 수 없습니다')?>");
+			}
+			request.send();
+		}
+	}
 //]]>
 </script>   
 			
@@ -595,6 +612,63 @@ foreach (Timezone::getList() as $timezone) {
                   </table>
                   <div style="padding-left:132px">
                     <table class="buttonTop" cellspacing="0" onclick="setLocale()">
+                      <tr>
+                        <td><img alt="" width="4" height="24" src="<?=$service['path']?>/image/owner/buttonLeft.gif"/></td>
+                        <td class="buttonTop" style="work-break:keep-all;background-image:url('<?=$service['path']?>/image/owner/buttonCenter.gif')"><?=_t('저장하기')?></td>
+                        <td><img alt="" width="5" height="24" src="<?=$service['path']?>/image/owner/buttonRight.gif"/></td>
+                      </tr>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <br />
+            <br />
+            <table cellspacing="0" width="100%">
+              <tr>
+                <td>
+                  <table cellspacing="0" style="width:100%; height:28px">
+                    <tr>
+                      <td style="width:18px"><img src="<?=$service['path']?>/image/owner/sectionDescriptionIcon.gif" width="18" height="18" alt="" /></td>
+                      <td style="padding:3px 0px 0px 4px"><?=_t('글 작성 환경을 설정합니다')?></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+            <table cellspacing="0" style="width:100%; border-style:solid; border-width:2px 0px 2px 0px; border-color:#00A6ED">
+              <tr>
+                <td style="background-color:#EBF2F8; padding:10px 5px 10px 5px">
+                  <table cellspacing="0">
+                    <tr>
+                      <td class="entryEditTableLeftCell"><?=_t('기본 작성 모드')?> |</td>
+                      <td>
+					  	<?
+							$editorMode = getUserSetting('editorMode', 1);
+						?>
+                        <select name="editorMode">
+							<option value="1"<?=$editorMode==1?' selected':''?>><?=_t('위지윅 모드')?></option>
+							<option value="2"<?=$editorMode==2?' selected':''?>><?=_t('HTML 직접 편집')?></option>
+                        </select>
+                      </td>
+                    </tr>
+                  </table>
+                  <table cellspacing="0">
+                    <tr>
+                      <td class="entryEditTableLeftCell"><?=_t('XHTML 준수')?> |</td>
+                      <td>
+					  	<?
+							$strictXHTML = getUserSetting('strictXHTML', 0);
+						?>
+                        <select name="strictXHTML">
+							<option value="0"<?=$strictXHTML==0?' selected':''?>><?=_t('처리하지 않음')?></option>
+							<option value="1"<?=$strictXHTML==1?' selected':''?>><?=_t('올바른 XHTML 코드로 다듬어 출력')?></option>
+                        </select>
+                      </td>
+                    </tr>
+                  </table>
+                  <div style="padding-left:132px">
+                    <table class="buttonTop" cellspacing="0" onclick="setEditor()">
                       <tr>
                         <td><img alt="" width="4" height="24" src="<?=$service['path']?>/image/owner/buttonLeft.gif"/></td>
                         <td class="buttonTop" style="work-break:keep-all;background-image:url('<?=$service['path']?>/image/owner/buttonCenter.gif')"><?=_t('저장하기')?></td>

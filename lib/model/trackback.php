@@ -101,7 +101,7 @@ function sendTrackback($owner, $entryId, $url) {
 		return false;
 	$link = "$hostURL$blogURL/$entryId";
 	$title = $entry['title'];
-	$excerpt = UTF8::lessen(removeAllTags(stripHTML(nl2brWithHTML($entry['content']))), 255);
+	$excerpt = UTF8::lessen(removeAllTags(stripHTML($entry['content'])), 255);
 	$blogTitle = $blog['title'];
 	$blogURL = "$hostURL$blogURL/";
 	$isNeedConvert = strpos($url, '/rserver.php?') !== false || strpos($url, 'blog.daum.net') !== false || strpos($url, 'blog.naver.com') !== false || strpos($url, 'blog.empas.com') !== false || strpos($url, '.egloos.com/tb/') !== false || strpos($url, 'blog.paran.com') !== false;

@@ -528,11 +528,11 @@ EOS;
 					case 'Feeds':
 					case 'Filters':
                     case 'Links':
-					case 'Personalization':
 					case 'Plugins':
                     case 'RefererLogs':
                     case 'RefererStatistics':
                     case 'ReservedWords':
+                    case 'ServiceSetting':
                     case 'SessionVisits':
                     case 'Sessions':
                     case 'SkinSettings':
@@ -540,6 +540,7 @@ EOS;
                     case 'Tags':
                     case 'TrackbackLogs':
                     case 'Trackbacks':
+                    case 'UserSettings':
                     case 'Users':
                         $tables[count($tables)] = $table[0];
                         break;
@@ -1158,14 +1159,6 @@ CREATE TABLE {$_POST['dbPrefix']}Links (
   PRIMARY KEY  (id),
   UNIQUE KEY owner (owner,url)
 ) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Personalization (
-  owner int(11) NOT NULL default '0',
-  rowsPerPage tinyint(4) NOT NULL default '10',
-  readerPannelVisibility int(11) NOT NULL default '1',
-  readerPannelHeight int(11) NOT NULL default '150',
-  lastVisitNotifiedPage varchar(11) default NULL,
-  PRIMARY KEY  (owner)
-) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Plugins (
   owner int(11) NOT NULL default '0',
   name varchar(255) NOT NULL default '',
@@ -1187,6 +1180,11 @@ CREATE TABLE {$_POST['dbPrefix']}RefererStatistics (
 CREATE TABLE {$_POST['dbPrefix']}ReservedWords (
   word varchar(16) NOT NULL default '',
   PRIMARY KEY  (word)
+) $charset;
+CREATE TABLE {$_POST['dbPrefix']}ServiceSettings (
+  name varchar(32) NOT NULL default '',
+  value varchar(255) NOT NULL default '',
+  PRIMARY KEY  (name)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}SessionVisits (
   id varchar(32) NOT NULL default '',
@@ -1269,6 +1267,12 @@ CREATE TABLE {$_POST['dbPrefix']}Trackbacks (
   PRIMARY KEY (id),
   UNIQUE KEY owner (owner, entry, url)
 ) $charset;
+CREATE TABLE {$_POST['dbPrefix']}UserSettings (
+  user int(11) NOT NULL default '0',
+  name varchar(32) NOT NULL default '',
+  value varchar(255) NOT NULL default '',
+  PRIMARY KEY (user,name)
+) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Users (
   userid int(11) NOT NULL auto_increment,
   loginid varchar(64) NOT NULL default '',
@@ -1310,11 +1314,11 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
 							{$_POST['dbPrefix']}Feeds,
 							{$_POST['dbPrefix']}Filters,
 							{$_POST['dbPrefix']}Links,
-							{$_POST['dbPrefix']}Personalization,
 							{$_POST['dbPrefix']}Plugins,
 							{$_POST['dbPrefix']}RefererLogs,
 							{$_POST['dbPrefix']}RefererStatistics,
 							{$_POST['dbPrefix']}ReservedWords,
+							{$_POST['dbPrefix']}ServiceSettings,
 							{$_POST['dbPrefix']}SessionVisits,
 							{$_POST['dbPrefix']}Sessions,
 							{$_POST['dbPrefix']}SkinSettings,
@@ -1322,6 +1326,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
 							{$_POST['dbPrefix']}Tags,
 							{$_POST['dbPrefix']}TrackbackLogs,
 							{$_POST['dbPrefix']}Trackbacks,
+							{$_POST['dbPrefix']}UserSettings,
 							{$_POST['dbPrefix']}Users"
 					);
 					echo '<script type="text/javascript">alert("', _t('테이블을 생성하지 못했습니다.'), '")</script>';

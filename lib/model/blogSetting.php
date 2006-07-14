@@ -336,4 +336,12 @@ function changePassword($owner, $pwd, $prevPwd) {
 	$sql = "UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $owner";
 	return executeQuery($sql);
 }
+
+function setEditor($owner, $editorMode, $strictXHTML) {
+	if(!setUserSetting('editorMode', $editorMode))
+		return false;
+	if(!setUserSetting('strictXHTML', $strictXHTML))
+		return false;
+	return true;
+}
 ?>

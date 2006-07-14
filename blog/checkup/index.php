@@ -194,6 +194,59 @@ if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type'
 	else
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 }
+if (!DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}ServiceSettings")) { // Since 1.0.7
+	$changed = true;
+	echo '<li>', _t('서비스 설정값과 관련된 구조를 변경합니다'), ': ';
+	$query = "
+		CREATE TABLE {$database['prefix']}ServiceSettings (
+		  name varchar(32) NOT NULL default '',
+		  value varchar(255) NOT NULL default '',
+		  PRIMARY KEY  (name)
+		) TYPE=MyISAM
+	";
+	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query)) {
+		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
+	} else {
+		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
+	}
+}
+if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSettings WHERE name = 'acceptNewLineOnEditor' AND value = '1'")) { // Since 1.0.7
+	$changed = true;
+	echo '<li>', _t('[HTML][/HTML] 블럭을 제거합니다'), ': ';
+	$query = new TableQuery($database['prefix'] . 'Entries');
+	if ($entries = $query->getAll('owner, id, draft, content')) {
+		foreach($entries as $entry) {
+			$newContent = mysql_escape_string(nl2brWithHTML($entry['content']));
+			DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE owner = {$entry['owner']} AND id = {$entry['id']} AND draft = {$entry['draft']}");
+		}
+		setServiceSetting('acceptNewLineOnEditor', '1');
+		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
+	} else {
+		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
+	}
+}
+if (!DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}UserSettings WHERE user = 0")) { // Since 1.0.7
+	$changed = true;
+	echo '<li>', _t('사용자 설정값과 관련된 구조를 변경합니다'), ': ';
+	$query = "
+		CREATE TABLE UserSettings (
+		  user int(11) NOT NULL default '0',
+		  name varchar(32) NOT NULL default '',
+		  value varchar(255) NOT NULL default '',
+		  PRIMARY KEY (user,name)
+		) TYPE=MyISAM
+	";
+	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query)) {
+		DBQuery::execute("INSERT INTO {$database['prefix']}UserSetting(user, name, value) SELECT owner, 'rowsPerPage', rowsPerPage FROM {$database['prefix']}Personalization");
+		DBQuery::execute("INSERT INTO {$database['prefix']}UserSetting(user, name, value) SELECT owner, 'readerPannelVisibility', readerPannelVisibility FROM {$database['prefix']}Personalization");
+		DBQuery::execute("INSERT INTO {$database['prefix']}UserSetting(user, name, value) SELECT owner, 'readerPannelHeight', readerPannelHeight FROM {$database['prefix']}Personalization");
+		DBQuery::execute("INSERT INTO {$database['prefix']}UserSetting(user, name, value) SELECT owner, 'lastVisitNotifiedPage', lastVisitNotifiedPage FROM {$database['prefix']}Personalization");
+		DBQuery::execute("DROP TABLE {$database['prefix']}Personalization");
+		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
+	} else {
+		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
+	}
+}
 ?>
 </ul>
 <?=($changed ? _t('완료되었습니다.') : _t('확인되었습니다.'))?>

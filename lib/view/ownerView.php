@@ -16,11 +16,8 @@ function printOwnerEditorScript($entryId = false) {
 ?>
 <script type="text/javascript">
 //<![CDATA[
-
-	
-
+	var strictXHTML = <?=getUserSetting('strictXHTML', 0)==1 ? 'true' : 'false'?>;
 	var skinContentWidth = <?=$contentWidth?>;
-	var s_notSupportHTMLBlock = "<?=_t('위지윅 모드에서는 [HTML][/HTML] 블럭을 사용할 수 없습니다.')?>";
 	var s_enterURL = "<?=_t('URL을 입력하세요')?>";
 	var s_unknownFileType = "<?=_t('알 수 없는 형식의 파일명입니다')?>";
 	var s_enterObjectTag = "<?=_t('OBJECT 태그만 입력하세요')?>";
@@ -1845,11 +1842,9 @@ function printEntryEditorPalette() {
 	<td><img src="<?=$service['path']?>/image/owner/edit/dotted_vertical.gif" width="5" height="24" /></td>
 	<td><table width="100%" border="0" cellspacing="0" cellpadding="0">
 	  <tr>
-		<td><a href="#" tabindex="118" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image20','','<?=$service['path']?>/image/owner/edit/setCode_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setCode.gif" name="Image20" width="20" height="20" border="0" id="Image20" onclick="TTCommand('CodeBlock')" alt="<?=_t('코드')?>" title="<?=_t('코드')?>"/></a></td>
-		<td><a href="#" tabindex="119" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image21','','<?=$service['path']?>/image/owner/edit/setHtml_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setHtml.gif" name="Image21" width="20" height="20" border="0" id="Image21" onclick="TTCommand('HtmlBlock')" alt="<?=_t('HTML 코드 직접 쓰기')?>" title="<?=_t('HTML 코드 직접 쓰기')?>"/></a></td>
-		<td><a href="#" tabindex="120" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image22','','<?=$service['path']?>/image/owner/edit/setLink_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setLink.gif" name="Image22" width="20" height="20" border="0" id="Image22" onclick="TTCommand('CreateLink')" alt="<?=_t('하이퍼링크')?>" title="<?=_t('하이퍼링크')?>"/></a></td>
-		<td><a href="#" tabindex="121" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image23','','<?=$service['path']?>/image/owner/edit/setEmbed_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setEmbed.gif" name="Image23" width="20" height="20" border="0" id="Image23" onclick="TTCommand('ObjectBlock')" alt="<?=_t('미디어 삽입')?>" title="<?=_t('미디어 삽입')?>"/></a></td>
-		<td><a href="#" tabindex="123" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image25','','<?=$service['path']?>/image/owner/edit/setMoreLess_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setMoreLess.gif" name="Image25" width="20" height="20" border="0" id="Image25" onclick="TTCommand('MoreLessBlock')" alt="<?=_t('More/Less')?>" title="<?=_t('More/Less')?>"/></a></td>
+		<td><a href="#" tabindex="118" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image22','','<?=$service['path']?>/image/owner/edit/setLink_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setLink.gif" name="Image22" width="20" height="20" border="0" id="Image22" onclick="TTCommand('CreateLink')" alt="<?=_t('하이퍼링크')?>" title="<?=_t('하이퍼링크')?>"/></a></td>
+		<td><a href="#" tabindex="119" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image23','','<?=$service['path']?>/image/owner/edit/setEmbed_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setEmbed.gif" name="Image23" width="20" height="20" border="0" id="Image23" onclick="TTCommand('ObjectBlock')" alt="<?=_t('미디어 삽입')?>" title="<?=_t('미디어 삽입')?>"/></a></td>
+		<td><a href="#" tabindex="120" onclick="return false" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image25','','<?=$service['path']?>/image/owner/edit/setMoreLess_over.gif',1)"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/setMoreLess.gif" name="Image25" width="20" height="20" border="0" id="Image25" onclick="TTCommand('MoreLessBlock')" alt="<?=_t('More/Less')?>" title="<?=_t('More/Less')?>"/></a></td>
 	  </tr>
 	</table></td>
 	<td>&nbsp;</td>

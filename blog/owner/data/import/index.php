@@ -129,10 +129,11 @@ requireComponent('Tattertools.Data.BlogStatistics');
 requireComponent('Tattertools.Data.DailyStatistics');
 requireComponent('Tattertools.Data.SkinSetting');
 requireComponent('Tattertools.Data.PluginSetting');
-requireComponent('Tattertools.Data.Personalization');
 requireComponent('Tattertools.Data.Filter');
 requireComponent('Tattertools.Data.GuestComment');
 requireComponent('Tattertools.Data.Feed');
+requireComponent('Tattertools.Data.ServiceSetting');
+requireComponent('Tattertools.Data.UserSetting');
 $migrational = false;
 $items = 0;
 $item = 0;
@@ -154,9 +155,20 @@ if (!$migrational) {
 	setProgress(0, _t('복원 위치를 준비하고 있습니다'));
 	DataMaintenance::removeAll(false);
 }
+$acceptNewLineOnEditor = false;
 $xmls->setConsumer('importer');
 if (!$xmls->openFile($backup, Validator::getBool(@$_POST['correctData']))) {
 	finish(_t('백업파일이 올바르지 않습니다.'));
+}
+if(!$acceptNewLineOnEditor) {
+	$query = new TableQuery($database['prefix'] . 'Entries');
+	if ($entries = $query->getAll('owner, id, draft, content')) {
+		foreach($entries as $entry) {
+			$newContent = mysql_escape_string(nl2brWithHTML($entry['content']));
+			DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE owner = {$entry['owner']} AND id = {$entry['id']} AND draft = {$entry['draft']}");
+		}
+	}
+	setServiceSetting('acceptNewLineOnEditor', '1');
 }
 $xmls->close();
 if (file_exists(ROOT . "/cache/import/$owner.xml"))
@@ -166,7 +178,7 @@ finish();
 
 /*@callback@*/
 function scanner($path, $node, $line) {
-	global $migrational, $items;
+	global $migrational, $items, $acceptNewLineOnEditor;
 	switch ($path) {
 		case '/blog':
 			if (@$node['.attributes']['type'] != 'tattertools/1.0')
@@ -195,6 +207,8 @@ function scanner($path, $node, $line) {
 		case '/blog/guestbook/comment':
 		case '/blog/filter':
 		case '/blog/feed':
+		case '/blog/userSetting':
+		case '/blog/serviceSetting':
 			$items++;
 			if (!strpos($path, 'referer'))
 				setProgress(null, _t('백업파일을 확인하고 있습니다'), $line);
@@ -595,12 +609,41 @@ if (false) {
 			return true;
 		case '/blog/personalization':
 			setProgress($item++ / $items * 100, _t('사용자 편의 설정을 복원하고 있습니다'));
-			$setting = new Personalization();
-			$setting->rowsPerPage = $node['rowsPerPage'][0]['.value'];
-			$setting->readerPannelVisibility = $node['readerPannelVisibility'][0]['.value'];
-			$setting->readerPannelHeight = $node['readerPannelHeight'][0]['.value'];
-			$setting->lastVisitNotifiedPage = $node['lastVisitNotifiedPage'][0]['.value'];
-			$setting->save();
+			$setting = new UserSetting();
+			$setting->name = 'rowsPerPage';
+			$setting->value = $node['rowsPerPage'][0]['.value'];
+			if (!$setting->add())
+				user_error(__LINE__ . $setting->error);
+			$setting->name = 'readerPannelVisibility';
+			$setting->value = $node['readerPannelVisibility'][0]['.value'];
+			if (!$setting->add())
+				user_error(__LINE__ . $setting->error);
+			$setting->name = 'readerPannelHeight';
+			$setting->value = $node['readerPannelHeight'][0]['.value'];
+			if (!$setting->add())
+				user_error(__LINE__ . $setting->error);
+			$setting->name = 'lastVisitNotifiedPage';
+			$setting->value = $node['lastVisitNotifiedPage'][0]['.value'];
+			if (!$setting->add())
+				user_error(__LINE__ . $setting->error);
+			return true;
+		case '/blog/userSetting':
+			setProgress($item++ / $items * 100, _t('사용자 편의 설정을 복원하고 있습니다'));
+			$setting = new UserSetting();
+			$setting->name = $node['name'][0]['.value'];
+			$setting->value = $node['value'][0]['.value'];
+			if (!$setting->add())
+				user_error(__LINE__ . $setting->error);
+			return true;
+		case '/blog/serviceSetting':
+			setProgress($item++ / $items * 100, _t('서비스 설정을 복원하고 있습니다'));
+			$setting = new ServiceSetting();
+			$setting->name = $node['name'][0]['.value'];
+			$setting->value = $node['value'][0]['.value'];
+			if($setting->name == 'acceptNewLineOnEditor' && $setting->value == '1')
+				$acceptNewLineOnEditor = true;
+			if (!$setting->add())
+				user_error(__LINE__ . $setting->error);
 			return true;
 		case '/blog/guestbook/comment':
 			setProgress($item++ / $items * 100, _t('방명록을 복원하고 있습니다'));
