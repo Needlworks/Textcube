@@ -229,7 +229,7 @@ if (!DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}UserSett
 	$changed = true;
 	echo '<li>', _t('사용자 설정값과 관련된 구조를 변경합니다'), ': ';
 	$query = "
-		CREATE TABLE UserSettings (
+		CREATE TABLE {$database['prefix']}UserSettings (
 		  user int(11) NOT NULL default '0',
 		  name varchar(32) NOT NULL default '',
 		  value varchar(255) NOT NULL default '',

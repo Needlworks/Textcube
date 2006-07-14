@@ -1610,7 +1610,6 @@ TTEditor.prototype.moveDownFileList = function(id)
 // WYSIWYG <-> TEXTAREA 전환
 TTEditor.prototype.toggleMode = function() {
 	if(this.editMode == "WYSIWYG") {
-		setUserSetting("defaultEditingMode", 0);
 		this.iframe.style.display = "none";
 		this.textarea.style.display = "block";
 		this.editMode = "TEXTAREA";
@@ -1618,7 +1617,6 @@ TTEditor.prototype.toggleMode = function() {
 		this.textarea.focus();
 	}
 	else {
-		setUserSetting("defaultEditingMode", 1);
 		this.iframe.style.display = "block";
 		this.textarea.style.display = "none";
 		try { this.contentDocument.designMode = "on"; }
