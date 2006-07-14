@@ -462,7 +462,7 @@ printEntryEditorPalette();
 											<script type="text/javascript">
 												//<![CDATA[
 													var editor = new TTEditor();
-													editor.initialize(document.getElementById("editWindow"), "<?=$service['path']?>/attach/<?=$owner?>/", "<?=getUserSetting('defaultEditingMode', 1) == 1 ? 'WYSIWYG' : 'TEXTAREA'?>", "<?=true ? 'BR' : 'P'?>");
+													editor.initialize(document.getElementById("editWindow"), "<?=$service['path']?>/attach/<?=$owner?>/", "<?=getUserSetting('editorMode', 1) == 1 ? 'WYSIWYG' : 'TEXTAREA'?>", "<?=true ? 'BR' : 'P'?>");
 												//]]>
 											</script>
 										</div>

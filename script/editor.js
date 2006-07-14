@@ -169,39 +169,6 @@ function docEventHandler(event) {
 TTEditor.prototype.ttml2html = function() {
 	var str = this.textarea.value;
 
-	var inHTML = false;
-	var sb = new StringBuffer();
-
-	// [HTML][/HTML] 블럭을 제외한 부분에 줄바꿈문자를 BR 태그로 바꿔준다
-	while(true) {
-		if(inHTML) {
-			if((offsetEnd = str.indexOf("[/HTML]")) != -1) {
-				sb.append(str.substring(0, offsetEnd));
-				sb.append("<!-- Tattertools HTML Block End -->");
-				str = str.substring(offsetEnd + 7, str.length);
-
-				inHTML = false;
-			}
-			else
-				break;
-		}
-		else {
-			if((offsetStart = str.indexOf("[HTML]")) != -1) {
-				sb.append(this.nl2br(str.substring(0, offsetStart)));
-				sb.append("<!-- Tattertools HTML Block Begin -->");
-				str = str.substring(offsetStart + 6, str.length);
-
-				inHTML = true;
-			}
-			else {
-				sb.append(this.nl2br(str));
-				break;
-			}
-		}
-	}
-
-	str = sb.toString();
-
 	// MORE/LESS 처리
 	while(true) {
 		var pos1 = str.indexOf("[#M_");
@@ -403,48 +370,6 @@ TTEditor.prototype.html2ttml = function() {
 	while(result = regEmptyAnchor.exec(str))
 		str = str.replaceAll(result[0], result[1]);
 
-	var inHTML = false;
-	var sb = new StringBuffer();
-
-	// <!-- Tattertools HTML Block Begin --><!-- Tattertools HTML Block End --> 블럭을 제외한 부분에 줄바꿈문자를 BR 태그로 바꿔준다
-	while(true) {
-		if(inHTML) {
-			if((offsetEnd = str.indexOf("<!-- Tattertools HTML Block End -->")) != -1) {
-				var buffer = str.substring(0, offsetStart).replace(new RegExp("[\r\n]*<br[ /]*>[\r\n]*", "gi"), "\r\n");
-				buffer = buffer.replace(new RegExp("\r|\n|&#10;|&#13;", "g"), "");
-				buffer = buffer.replace(new RegExp("&#9;", "g"), "\t");
-				sb.append(buffer + "[HTML]");
-				str = str.substring(offsetEnd + 35, str.length);
-
-				inHTML = false;
-			}
-			else
-				break;
-		}
-		else {
-			if((offsetStart = str.indexOf("<!-- Tattertools HTML Block Begin -->")) != -1) {
-				sb.append(str.substring(0, offsetStart).replace(new RegExp("[\r\n]*<br[ /]*>[\r\n]*", "gi"), "\r\n"));
-				sb.append("[HTML]");
-				str = str.substring(offsetStart + 37, str.length);
-
-				inHTML = true;
-			}
-			else if(str.indexOf("<!-- Tattertools HTML Block End -->") != -1) {
-				// IE의 경우 주석이 제일 처음에 나오면 사라지는 버그 있음
-				// 시작은 없지만 끝이 있는 경우엔 시작위치를 0으로 간주
-				sb.append("[HTML]");
-
-				inHTML = true;
-			}
-			else {
-				sb.append(str.replace(new RegExp("[\r\n]*<br[ /]*>[\r\n]*", "gi"), "\r\n"));
-				break;
-			}
-		}
-	}
-
-	str = sb.toString();
-
 	// 이미지 치환자 처리
 	var regImage = new RegExp("<img[^>]*?class=[\"']?tatterImage[^>]*?>", "i");
 	while(result = regImage.exec(str)) {
@@ -547,6 +472,8 @@ TTEditor.prototype.html2ttml = function() {
 		var body = result[0];
 		str = str.replaceAll(body, '<embed loop="true" menu="false" quality="high" ' + this.parseImageSize(body, "string") + ' type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" src="' + this.parseAttribute(body, "longdesc") + '"></embed>');
 	}
+	if(!strictXHTML)
+		return str;
 
 	// <b> -> <strong>, <i> -> <em>, <u> -> <ins>, <strike> -> <del>
 	str = str.replace(new RegExp("<b([^>]*?)>(.*?)</b>", "gi"), "<strong$1>$2</strong>");
@@ -1271,18 +1198,6 @@ function TTCommand(command, value1, value2) {
 			TTCommand("Raw", "<blockquote>", "</blockquote>");
 			editor.trimContent();
 			break;
-		case "CodeBlock":
-			TTCommand("Raw", "[CODE]", "[/CODE]");
-			editor.trimContent();
-			break;
-		case "HtmlBlock":
-			if(!isWYSIWYG) {
-				TTCommand("Raw", "[HTML]", "[/HTML]");
-				editor.trimContent();
-			}
-			else
-				alert(s_notSupportHTMLBlock);
-			break;
 		case "Box":
 			if(isWYSIWYG && !STD.isIE) {
 				if(editor.selection == null || editor.selection.startOffset == editor.selection.endOffset) {
@@ -1756,7 +1671,6 @@ TTEditor.prototype.moveDownFileList = function(id)
 // WYSIWYG <-> TEXTAREA 전환
 TTEditor.prototype.toggleMode = function() {
 	if(this.editMode == "WYSIWYG") {
-		setUserSetting("defaultEditingMode", 0);
 		this.iframe.style.display = "none";
 		this.textarea.style.display = "block";
 		this.editMode = "TEXTAREA";
@@ -1764,7 +1678,6 @@ TTEditor.prototype.toggleMode = function() {
 		this.textarea.focus();
 	}
 	else {
-		setUserSetting("defaultEditingMode", 1);
 		this.iframe.style.display = "block";
 		this.textarea.style.display = "none";
 		try { this.contentDocument.designMode = "on"; }

@@ -20,7 +20,7 @@ function refreshRSS($owner) {
 	$channel['items'] = array();
 	while ($row = mysql_fetch_array($result)) {
 		if (!$blog['publishWholeOnRSS']) {
-			$content = UTF8::lessen(removeAllTags(stripHTML(nl2brWithHTML($row['content']))), 255) . "<p><strong><a href=\"$hostURL$blogURL/" . ($blog['useSlogan'] ? "entry/{$row['slogan']}" : $row['id']) . "\">" . _text('글 전체보기') . "</a></strong></p>";
+			$content = UTF8::lessen(removeAllTags(stripHTML($row['content'])), 255) . "<p><strong><a href=\"$hostURL$blogURL/" . ($blog['useSlogan'] ? "entry/{$row['slogan']}" : $row['id']) . "\">" . _text('글 전체보기') . "</a></strong></p>";
 		} else {
 			$content = $row['content'];
 		}

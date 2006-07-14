@@ -259,6 +259,23 @@ if ($service['type'] != 'single') {
 										request.send();
 									}
 								}
+
+								var editorMode = "<?=getUserSetting('editorMode', 1)?>";
+								var strictXHTML = "<?=getUserSetting('strictXHTML', 0)?>";
+								function setEditor() {
+									if (document.forms[0].editorMode.value != editorMode || document.forms[0].strictXHTML.value != strictXHTML) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/editor/?editorMode=" + document.forms[0].editorMode.value + "&strictXHTML=" + document.forms[0].strictXHTML.value);
+										request.onSuccess = function() {
+											editorMode = document.forms[0].editorMode.value;
+											strictXHTML = document.forms[0].strictXHTML.value;
+											PM.showMessage("<?=_t('저장되었습니다')?>", "center", "bottom");
+										}
+										request.onError = function() {
+											alert("<?=_t('에디터 설정을 변경할 수 없습니다')?>");
+										}
+									}
+									request.send();
+								}
 								
 								function checkManualInput(obj) {
 									if (obj.options[obj.options.selectedIndex].value == "direct") {
@@ -740,6 +757,50 @@ foreach (Timezone::getList() as $timezone) {
 									</fieldset>
 									<div class="button-box">
 										<a class="save-button button" href="#void" onclick="setLocale()"><span class="text"><?=_t('저장하기')?></span></a>
+									</div>
+								</div>
+							</form>
+						</div>
+
+						<hr class="hidden" />
+						
+						<div id="part-setting-editor" class="part">
+							<h2 class="caption"><span class="main-text"><?=_t('글 작성 환경을 설정합니다')?></span></h2>
+							
+							<form id="editor-form" class="data-inbox" method="post" action="<?=$blogURL?>/owner/setting/blog">
+								<div id="editor-section" class="section">
+									<fieldset class="container">
+										<legend><?=_t('글 작성 환경을 설정합니다')?></legend>
+										
+										<input type="hidden" name="javascript" value="disabled" />
+										
+										<dl id="editor-line" class="line">
+											<dt><label for="editorMode"><?=_t('기본 작성 모드')?></label></dt>
+											<dd>
+<?
+	$editorMode = getUserSetting('editorMode', 1);
+?>
+												<select id="editorMode" name="editorMode">
+													<option value="1"<?=$editorMode==1?' selected':''?>><?=_t('위지윅 모드')?></option>
+													<option value="2"<?=$editorMode==2?' selected':''?>><?=_t('HTML 직접 편집')?></option>
+												</select>
+											</dd>
+										</dl>
+										<dl id="strictXHTML-line" class="line">
+											<dt><label for="strictXHTML"><?=_t('XHTML 준수')?></label></dt>
+											<dd>
+<?
+	$strictXHTML = getUserSetting('strictXHTML', 0);
+?>
+												<select name="strictXHTML">
+													<option value="0"<?=$strictXHTML==0?' selected':''?>><?=_t('처리하지 않음')?></option>
+													<option value="1"<?=$strictXHTML==1?' selected':''?>><?=_t('올바른 XHTML 코드로 다듬어 출력')?></option>
+												</select>
+											</dd>
+										</dl>
+									</fieldset>
+									<div class="button-box">
+										<a class="save-button button" href="#void" onclick="setEditor()"><span class="text"><?=_t('저장하기')?></span></a>
 									</div>
 								</div>
 							</form>

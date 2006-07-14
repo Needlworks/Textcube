@@ -16,8 +16,8 @@ function printOwnerEditorScript($entryId = false) {
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
+								var strictXHTML = <?=getUserSetting('strictXHTML', 0)==1 ? 'true' : 'false'?>;
 								var skinContentWidth = <?php echo $contentWidth?>;
-								var s_notSupportHTMLBlock = "<?php echo _t('위지윅 모드에서는 [HTML][/HTML] 블럭을 사용할 수 없습니다.')?>";
 								var s_enterURL = "<?php echo _t('URL을 입력하세요.')?>";
 								var s_unknownFileType = "<?php echo _t('알 수 없는 형식의 파일명입니다.')?>";
 								var s_enterObjectTag = "<?php echo _t('OBJECT 태그만 입력하세요.')?>";
@@ -1488,8 +1488,6 @@ function printEntryEditorPalette() {
 													<span class="label"><?php echo _t('기타')?></span>
 												</dt>
 												<dd class="command-box">
-													<a id="indicatorCodeBlock" class="inactive-class button" href="#void" onclick="TTCommand('CodeBlock')" title="<?php echo _t('코드')?>"><span class="text"><?php echo _t('코드')?></span></a>
-													<a id="indicatorHtmlBlock" class="inactive-class button" href="#void" onclick="TTCommand('HtmlBlock')" title="<?php echo _t('HTML 코드 직접 쓰기')?>"><span class="text"><?php echo _t('HTML 코드 직접 쓰기')?></span></a>
 													<a id="indicatorCreateLink" class="inactive-class button" href="#void" onclick="TTCommand('CreateLink')" title="<?php echo _t('하이퍼링크')?>"><span class="text"><?php echo _t('하이퍼링크')?></span></a>
 													<a id="indicatorMediaBlock" class="inactive-class button" href="#void" onclick="TTCommand('ObjectBlock')" title="<?php echo _t('미디어 삽입')?>"><span class="text"><?php echo _t('미디어 삽입')?></span></a>
 													<a id="indicatorMoreLessBlock" class="inactive-class button" href="#void" onclick="TTCommand('MoreLessBlock')" title="<?php echo _t('More/Less')?>"><span class="text"><?php echo _t('More/Less')?></span></a>

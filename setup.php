@@ -528,11 +528,11 @@ EOS;
 					case 'feeds':
 					case 'filters':
                     case 'links':
-					case 'personalization':
 					case 'plugins':
                     case 'refererlogs':
                     case 'refererstatistics':
                     case 'reservedwords':
+					case 'ServiceSetting':
                     case 'sessionvisits':
                     case 'sessions':
                     case 'skinsettings':
@@ -540,6 +540,7 @@ EOS;
                     case 'tags':
                     case 'trackbacklogs':
                     case 'trackbacks':
+					case 'UserSettings':
                     case 'users':
                         $tables[count($tables)] = $table[0];
                         break;
@@ -1319,11 +1320,11 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
 							{$_POST['dbPrefix']}Feeds,
 							{$_POST['dbPrefix']}Filters,
 							{$_POST['dbPrefix']}Links,
-							{$_POST['dbPrefix']}Personalization,
 							{$_POST['dbPrefix']}Plugins,
 							{$_POST['dbPrefix']}RefererLogs,
 							{$_POST['dbPrefix']}RefererStatistics,
 							{$_POST['dbPrefix']}ReservedWords,
+							{$_POST['dbPrefix']}ServiceSettings,
 							{$_POST['dbPrefix']}SessionVisits,
 							{$_POST['dbPrefix']}Sessions,
 							{$_POST['dbPrefix']}SkinSettings,
@@ -1331,6 +1332,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
 							{$_POST['dbPrefix']}Tags,
 							{$_POST['dbPrefix']}TrackbackLogs,
 							{$_POST['dbPrefix']}Trackbacks,
+							{$_POST['dbPrefix']}UserSettings,
 							{$_POST['dbPrefix']}Users"
 					);
 					echo '<script type="text/javascript">alert("', _t('테이블을 생성하지 못했습니다.'), '")</script>';
