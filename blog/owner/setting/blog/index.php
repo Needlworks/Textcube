@@ -504,25 +504,59 @@ if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
 												<input type="checkbox" class="checkbox" id="deleteWaterMark" name="deleteWaterMark" value="yes"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteWaterMark"><?=_t('워터 마크를 초기화합니다.')?></label>
 											</dd>
 										</dl>
+<?php
+$positionOfWartermark = fetchQueryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
+if ($positionOfWartermark == false) {
+	$top = 0;
+	$center = 0;
+	$horizontalValue = 0;
+	$verticalValue = 0;
+} else {
+	$positionOfWartermark = explode("|", $positionOfWartermark);
+	parse_str($positionOfWartermark[0]);
+	parse_str($positionOfWartermark[1]);
+	
+	if (isset($left))
+		$horizontalValue = $left;
+	if (isset($right))
+		$horizontalValue = $right;
+	if (isset($center))
+		$horizontalValue = 0;
+	if (isset($top))
+		$verticalValue = $top;
+	if (isset($bottom))
+		$verticalValue = $bottom;
+	if (isset($middle))
+		$verticalValue = 0;
+}
+?>
 										<dl id="watermark-position-line" class="line">
 											<dt><span class="label"><?=_t('워터마크 위치')?></span></dt>
 											<dd>
 												<div id="vertical-position">
 													<select name="verticalType"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
-														<option value="top">상단</option>
-														<option value="bottom">하단</option>
+														<option value="top"<?php echo isset($top) ? ' selected="selected"' : ''?>>상단</option>
+														<option value="middle"<?php echo isset($middle) ? ' selected="selected"' : ''?>>중앙</option>
+														<option value="bottom"<?php echo isset($bottom) ? ' selected="selected"' : ''?>>하단</option>
 													</select>
-													<input type="text" class="text-input" name="verticalPosition"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
+													<input type="text" class="text-input" name="verticalPosition" value="<?php echo $verticalValue?>"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
 												</div>
 												<div id="horizontal-position">
 													<select name="horizontalType"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
-														<option value="left">좌측</option>
-														<option value="right">우측</option>
+														<option value="left"<?php echo isset($left) ? ' selected="selected"' : ''?>>좌측</option>
+														<option value="center"<?php echo isset($center) ? ' selected="selected"' : ''?>>중앙</option>
+														<option value="right"<?php echo isset($right) ? ' selected="selected"' : ''?>>우측</option>
 													</select>
-													<input type="text" class="text-input" name="horizontalPosition"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
+													<input type="text" class="text-input" name="horizontalPosition" value="<?php echo $horizontalValue?>" <?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
 												</div>
 											</dd>
 										</dl>
+<?php
+$colorOfPadding = fetchQueryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
+if ($colorOfPadding == false) {
+	$colorOfPadding = "FFFFFF";
+}
+?>
 										<dl id="padding-line" class="line">
 											<dt><span class="label"><?=_t('여백')?></span></dt>
 											<dd>
@@ -535,7 +569,7 @@ if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
 														<option value="15">15px</option>
 														<option value="20">20px</option>
 														<option value="25">25px</option>
-														<option value="direct"><?=_t('직접입력.')?></option>
+														<option value="direct"><?=_t('직접입력')?></option>
 													</select>
 													<input type="text" class="text-input" id="topPaddingManual" name="topPaddingManual" />px
 												</div>
@@ -548,7 +582,7 @@ if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
 														<option value="15">15px</option>
 														<option value="20">20px</option>
 														<option value="25">25px</option>
-														<option value="direct"><?=_t('직접입력.')?></option>
+														<option value="direct"><?=_t('직접입력')?></option>
 													</select>
 													<input type="text" class="text-input" id="bottomPaddingManual" name="bottomPaddingManual" />px
 												</div>
@@ -577,6 +611,10 @@ if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
 														<option value="direct"><?=_t('직접입력.')?></option>
 													</select>
 													<input type="text" class="text-input" id="rightPaddingManual" name="rightPaddingManual" />px
+												</div>
+												<div id="padding-color">
+													<span class="label"><?=_t('여백 색상')?></span>
+													<input type="text" class="text-input" name="paddingColor" value="<?php echo $colorOfPadding?>" />
 												</div>
 											</dd>
 										</dl>

@@ -109,4 +109,8 @@ function deltree($dir) {
 	}
 	$d->close();
 }
+
+function deleteThumbnails($path) {
+	return true;
+}
 ?>
