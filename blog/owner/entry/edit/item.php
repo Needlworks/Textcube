@@ -14,7 +14,7 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 	$entry['category'] = -1;
 }
 
-if (isset($_GET['popupEditor'])) {
+IF (ISSET($_GET['popupEditor'])) {
 	require ROOT . '/lib/piece/owner/header8.php';
 } else {
 	require ROOT . '/lib/piece/owner/header0.php';
@@ -139,10 +139,6 @@ if (defined('__TATTERTOOLS_POST__')) {
 											return null;
 										}
 											
-<?
-if (!defined('__TATTERTOOLS_KEYWORD__')) {
-	if (!defined('__TATTERTOOLS_NOTICE__')) {
-?>
 										var locationValue = "/";
 										try {
 											locationValue = oLocationTag.getValues();
@@ -157,10 +153,6 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 											tagValue = oForm.tag.value;
 										}
 
-<?
-	}
-}
-?>
 										var published = 0;
 										for (var i = 0; i < oForm.published.length; i++) {
 											if (oForm.published[i].checked) {
