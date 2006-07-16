@@ -1007,6 +1007,7 @@ CREATE TABLE {$_POST['dbPrefix']}Comments (
   name varchar(80) NOT NULL default '',
   password varchar(32) NOT NULL default '',
   homepage varchar(80) NOT NULL default '',
+  email varchar(80) default '',
   secret int(1) NOT NULL default '0',
   comment text NOT NULL,
   ip varchar(15) NOT NULL default '',
