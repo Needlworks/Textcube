@@ -282,7 +282,7 @@ function metaWeblog_newMediaObject()
 		'size' => count($params[3]['bits']) 
 		);
 		
-	$attachment = addAttachment( $owner, 0, $file );
+	$attachment = _addAttachment( $owner, 0, $file );
 	if( !$attachment )
 	{
 		return new XMLRPCFault( 1, "Can't create file" );

@@ -316,7 +316,7 @@ function _get_post( $post, $type = "bl" )
 
 /* Copied from blog/owner/entry/attach/index.php:getMIMEType,addAttachment */
 
-function getMIMEType($ext,$filename=null){
+function _getMIMEType($ext,$filename=null){
 	if($filename){
 		return '';
 	}else{
@@ -394,7 +394,7 @@ function _file_hash( $content )
 }
 
 
-function addAttachment($owner,$parent,$file){
+function _addAttachment($owner,$parent,$file){
 	global $database;
 	/*
 	if(empty($file['name'])||($file['error']!=0))
@@ -433,9 +433,7 @@ function addAttachment($owner,$parent,$file){
 	$attachment['name'] = _file_hash( $file['content'] )  . ".$extension";
 	$attachment['path'] = "$path/{$attachment['name']}";
 
-DEBUG("\nCHECK " . __LINE__ );
-	deleteAttachment($owner,-1,$attachment['name']);
-DEBUG("\nCHECK " . __LINE__ );
+	_deleteAttachment($owner,-1,$attachment['name']);
 
 	if( $file['content'] )
 	{
@@ -479,7 +477,7 @@ DEBUG("\nCHECK " . __LINE__ );
 /* Up to here, copied from blog/owner/entry/attach/index.php */
 
 /* Work around , copied from blog/owner/entry/delete/item.php -r594 */
-function getAttachments($owner,$parent){
+function _getAttachments($owner,$parent){
 	global $database;
 	$attachments=array();
 	if($result=mysql_query("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent")){
@@ -488,7 +486,7 @@ function getAttachments($owner,$parent){
 	}
 	return $attachments;
 }
-function deleteAttachment($owner,$parent,$name){
+function _deleteAttachment($owner,$parent,$name){
 	global $database, $blogapi_dir;
 	@unlink("$blogapi_dir/../../attach/$owner/$name");
 	$name=mysql_escape_string($name);
@@ -504,13 +502,13 @@ function deleteAttachment($owner,$parent,$name){
 	DEBUG("\nDelete failure: " . mysql_error() );
 	return false;
 }
-function deleteAttachments($owner,$parent){
-	$attachments=getAttachments($owner,$parent);
+function _deleteAttachments($owner,$parent){
+	$attachments=_getAttachments($owner,$parent);
 	foreach($attachments as $attachment)
-		deleteAttachment($owner,$parent,$attachment['name']);
+		_deleteAttachment($owner,$parent,$attachment['name']);
 }
 
-function deleteGarbageTags(){
+function _deleteGarbageTags(){
 	global $database,$owner;
 	$gc=fetchQueryColumn("SELECT t.id FROM {$database['prefix']}Tags t LEFT JOIN {$database['prefix']}TagRelations r ON t.id = r.tag WHERE r.owner = $owner AND r.tag IS NULL");
 	foreach($gc as $g)

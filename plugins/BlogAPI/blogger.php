@@ -127,7 +127,7 @@ function blogger_deletePost()
 			$result=mysql_query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id");
 			$result=mysql_query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner AND entry = $id");
 			$result=mysql_query("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $owner AND entry = $id");
-			deleteAttachments($owner,$id);
+			_deleteAttachments($owner,$id);
 			RSS::refresh();
 		}
 	}
