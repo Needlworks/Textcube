@@ -233,10 +233,6 @@ if (isset($_GET['popupEditor'])) {
 										PM.addRequest(request, "<?=_t('저장하고 있습니다.')?>");
 										request.send(this.getData());
 									}
-<?
-if (!defined('__TATTERTOOLS_KEYWORD__')) {
-	if (!defined('__TATTERTOOLS_NOTICE__')) {
-?>
 									this.saveAuto = function () {
 										if (this.timer == null)
 											this.timer = window.setTimeout("entryManager.saveDraft()", 5000);
@@ -263,10 +259,6 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 										}
 										request.send(data);
 									}
-<?
-	}
-}
-?>
 									this.preview = function () {
 										var data = this.getData();
 										if (data == null)
@@ -410,10 +402,6 @@ if (defined('__TATTERTOOLS_KEYWORD__')) {
 												<div class="entrytype-keyword"><input type="radio" id="type_keyword" class="radio" name="entrytype" value="-1" onclick="checkCategory('type_keyword')"<?=($entry['category'] == -1 ? ' checked="checked"' : '')?> /> <label for="type_keyword"><?=_t('키워드')?></label></div>
 												<div class="entrytype-post">
 													<input type="radio" id="type_post" class="radio" name="entrytype" value="0" onclick="checkCategory('type_post')"<?=($entry['category'] >= 0 ? ' checked="checked"' : '')?> /> <label for="type_post"><?=_t('글')?></label>
-<?
-if (!defined('__TATTERTOOLS_KEYWORD__')) {
-	if (!defined('__TATTERTOOLS_NOTICE__')) {
-?>
 													<select id="category" name="category">
 														<option value="0"><?=htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
 <?
@@ -433,10 +421,6 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 		}
 ?>
 													</select>
-<?
-	}
-}
-?>
 												</div>
 											</dd>
 										</dl>
@@ -712,13 +696,8 @@ if (isset($_GET['popupEditor'])) {
 <?
 	}
 }
-
-if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
 								<input type="hidden" name="categoryAtHome" value="<?=(isset($_POST['category']) ? $_POST['category'] : '0')?>" />
-<?
-}
-?>
 								<input type="hidden" name="page" value="<?=$suri['page']?>" />
 								<input type="hidden" name="withSearch" value="<?=(empty($_POST['search']) ? '' : 'on')?>" />
 								<input type="hidden" name="search" value="<?=(isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '')?>" />

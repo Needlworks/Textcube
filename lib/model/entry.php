@@ -275,10 +275,6 @@ function addEntry($owner, $entry) {
 	global $database, $blog;
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
-	if ($entry['category'] == - 1) {
-		if (($entry['visibility'] == 1) || ($entry['visibility'] == 3) || $entry['acceptComment'] || $entry['acceptTrackback'])
-			return false;
-	}
 	if(empty($entry['slogan'])) {
 		$slogan = $slogan0 = getSlogan($entry['title']);
 	} else {
