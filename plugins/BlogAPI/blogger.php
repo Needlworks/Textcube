@@ -138,26 +138,6 @@ function blogger_deletePost()
 
 }
 
-function _get_post( $post, $type = "bl" )
-{ 
-	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
-	$params = func_get_args();
-	global $service, $hostURL, $blogURL;
-	return array( 
-				"userid" => "",
-				"dateCreated" => _dateiso8601( $post->created ),
-				"datePosted" => _dateiso8601( $post->published ),
-				"dateModified" => _dateiso8601( $post->modified ),
-				"title" =>  _escape_content($post->title),
-				"postid" => $post->id,
-				"categories" => array( _getCategoryNameById($post->category) ),
-				"link" => $hostURL . $blogURL . "/" . $post->id ,
-				"permaLink" => $hostURL . $blogURL . "/" . $post->id ,
-				"description" => ($type == "mt" ? $post->content : "" ),
-				"content" => $post->content
-				);
-}
-
 function blogger_getRecentPosts()
 {
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );

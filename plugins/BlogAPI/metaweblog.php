@@ -18,7 +18,7 @@ function metaWeblog_getCategories()
 	DEBUG( $category, true );
 
 	$cat = array();
-	while(1)
+	while($category->id)
 	{
 		DEBUG( " Category: " . $category->name . "\n" );
 		array_push( $cat, array( 
@@ -138,34 +138,18 @@ function metaWeblog_newPost()
 		return $result;
 	}
 
-	$post = new Post();
-	$post->content = $params[3]['description'];
-	$post->title = $params[3]['title'];
-	$post->tags = join( ',', $params[3]['mt_keywords'] );
-	$post->created = _timestamp( $params[3]['dateCreated'] );
-	$post->modified = _timestamp( $params[3]['dateCreated'] );
-	$post->published = _timestamp( $params[3]['dateCreated'] );
-	$post->category = _getCategoryIdByName( $params[3]['categories'] );
+	$post = _make_post( $params[3], $params[4] );
 
-	if( $params[4] )
-	{
-		$post->visibility = "public";
-	}
-	else
-	{
-		$post->visibility = "private";
-	}
-
-	list( $post->content, $attaches ) = preview_decode( $post->content );
+	$attaches = _get_attaches( $post->content );
 
 	if( !$post->add() )
 	{
 		$post->close();
 		DEBUG( "Adding failure." );
-		return XMLRPCFault( 1, "Posting error" );
+		return XMLRPCFault( 1, "Tattertools posting error" );
 	}
 
-	fixAttachments( $attaches, $post->id );
+	_update_attaches( $attaches, $post->id );
 	RSS::refresh();
 
 	DEBUG( $post, true );
@@ -248,32 +232,17 @@ function metaWeblog_editPost()
 		return $result;
 	}
 
-	$post = new Post();
-	if( !$post->open( $params[0] ) )
+	$post = _make_post( $params[3], $params[4], $params[0] );
+	if( !$post )
 	{
-		return XMLRPCFault( 1, "Posting error" );
+		return XMLRPCFault( 1, "Tattertools editing error" );
 	}
 
-	$post->content = $params[3]['description'];
-	$post->title = $params[3]['title'];
-	$post->tags = join( ',', $params[3]['categories'] );
-	$post->modified = _timestamp( $params[3]['dateCreated'] );
-
-	list( $post->content, $attaches ) = preview_decode( $post->content );
-
-	if( $params[4] )
-	{
-		$post->visibility = "public";
-		$post->published = _timestamp( $params[3]['dateCreated'] );
-	}
-	else
-	{
-		$post->visibility = "private";
-	}
+	$attaches = _get_attaches( $post->content );
 
 	$ret = $post->update();
 
-	fixAttachments( $attaches, $post->id );
+	_update_attaches( $attaches, $post->id );
 	RSS::refresh();
 
 	DEBUG( $post, true );
@@ -318,6 +287,9 @@ function metaWeblog_newMediaObject()
 	{
 		return new XMLRPCFault( 1, "Can't create file" );
 	}
-	return array ( 'url' => getBlogURL() . "/attach/$owner/" . $attachment['name'] . preview_encode( $owner, $attachment['name'] ) );
+	$attachurl = array ( 'url' => getBlogURL() . "/attach/$owner/" . $attachment['name'] );
+	DEBUG( "\nAttached url : " );
+	DEBUG( $attachurl, true );
+	return $attachurl;
 }
 ?>

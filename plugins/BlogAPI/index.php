@@ -40,11 +40,20 @@ function includeOnce($name){
 		return ;
 	if( TATTERTOOLS_VERSION < "1.0.6" && file_exists( $blogapi_dir . "/$name.php" ) )
 	{
-		include_once ( $blogapi_dir . "/$name.php");
+		DEBUG ( $blogapi_dir . "/$name.php\n");
+		include_once( $blogapi_dir . "/$name.php");
 	}
 	else
 	{
-		include_once ( $blogapi_dir . "/../../components/$name.php");
+		$componet_file = $blogapi_dir . "/../../components/$name.php";
+		if( file_exists( $componet_file ) )
+		{
+			include_once( $componet_file );
+		}
+		else
+		{
+			print( "File($componet_file) doesn't exist\n" );
+		}
 	}
 }
 includeOnce( "Eolin.PHP.Core" );
@@ -244,6 +253,67 @@ function _getCategoryNameById( $id )
 
 }
 
+function _make_post( $param, $ispublic, $postid = -1 )
+{
+	$post = new Post();
+	if( $postid != -1 )
+	{
+		if( !$post->open( $postid ) )
+		{
+			return false;
+		}
+	}
+
+	$post->content = $param['description'];
+	$post->title = $param['title'];
+	$post->tags = array_merge( split(",", $param['mt_excerpt']) , $param['tagwords'] );
+
+	$post->created = _timestamp( $param['dateCreated'] );
+	$post->modified = _timestamp( $param['dateCreated'] );
+
+	$post->category = _getCategoryIdByName( $param['categories'] );
+	$post->acceptComment = $param['mt_allow_comments'] !== 0 ? true : false;
+	$post->acceptTrackback = $param['mt_allow_pings'] !== 0 ? true : false;
+
+	if( $ispublic )
+	{
+		$post->visibility = "public";
+		$post->published = _timestamp( $param['dateCreated'] );
+	}
+	else
+	{
+		$post->visibility = "private";
+	}
+
+	return $post;
+}
+
+function _get_post( $post, $type = "bl" )
+{ 
+	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
+	$post->loadTags();
+	DEBUG( "Post " );
+	DEBUG( $post, true );
+	$params = func_get_args();
+	global $service, $hostURL, $blogURL;
+	return array( 
+				"userid" => "",
+				"dateCreated" => _dateiso8601( $post->created ),
+				"datePosted" => _dateiso8601( $post->published ),
+				"dateModified" => _dateiso8601( $post->modified ),
+				"title" =>  _escape_content($post->title),
+				"postid" => $post->id,
+				"categories" => array( _getCategoryNameById($post->category) ),
+				"link" => $hostURL . $blogURL . "/" . $post->id ,
+				"permaLink" => $hostURL . $blogURL . "/" . $post->id ,
+				"description" => ($type == "mt" ? $post->content : "" ),
+				"content" => $post->content,
+				"mt_allow_comments" => $post->acceptComment ? 1 : 0,
+				"mt_allow_pings" => $post->acceptTrackback ? 1 : 0,
+				"mt_excerpt" => join( ",", $post->tags )
+				);
+}
+
 /* Copied from blog/owner/entry/attach/index.php:getMIMEType,addAttachment */
 
 function getMIMEType($ext,$filename=null){
@@ -316,6 +386,14 @@ function getMIMEType($ext,$filename=null){
 	return '';
 }
 
+
+function _file_hash( $content )
+{
+	$md5sum = md5( $content );
+	return sprintf( "ta%stt%ser%s", substr( $md5sum, 0, 7 ), substr( $md5sum, 7, 7 ), substr( $md5sum, 14, 7 ) );
+}
+
+
 function addAttachment($owner,$parent,$file){
 	global $database;
 	/*
@@ -341,6 +419,8 @@ function addAttachment($owner,$parent,$file){
 			$extension='xxx';
 			break;
 	}
+
+	/* Create directory for owner */
 	$path="../../attach/$owner";
 	if(!is_dir($path)){
 		mkdir($path);
@@ -348,12 +428,15 @@ function addAttachment($owner,$parent,$file){
 			return false;
 		@chmod($path,0777);
 	}
-	do{
-		$attachment['name']=rand(1000000000,9999999999).".$extension";
-		$attachment['path']="$path/{$attachment['name']}";
-	}while(file_exists($attachment['path']));
 
-	/* Fixed by coolengineer */
+	/* Select unique file name from md5sum of content */
+	$attachment['name'] = _file_hash( $file['content'] )  . ".$extension";
+	$attachment['path'] = "$path/{$attachment['name']}";
+
+DEBUG("\nCHECK " . __LINE__ );
+	deleteAttachment($owner,-1,$attachment['name']);
+DEBUG("\nCHECK " . __LINE__ );
+
 	if( $file['content'] )
 	{
 		$f = fopen( $attachment['path'], "w" );
@@ -361,9 +444,7 @@ function addAttachment($owner,$parent,$file){
 		{
 			return false;
 		}
-		DEBUG( "Length 1: " . $attachment['size'] . "\n");
 		$attachment['size'] = fwrite( $f, $file['content'] );
-		DEBUG( "Length 2: " . $attachment['size'] . "\n");
 		fclose( $f );
 		$file['tmp_name'] = $attachment['path'];
 	}
@@ -381,14 +462,19 @@ function addAttachment($owner,$parent,$file){
 	if(!move_uploaded_file($file['tmp_name'],$attachment['path']))
 		return false;
 */
+DEBUG("\nCHECK " . __LINE__ );
 	@chmod($attachment['path'],0666);
+	DEBUG( "\ninsert into {$database['prefix']}Attachments values ($owner, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	$result=mysql_query("insert into {$database['prefix']}Attachments values ($owner, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	if(!$result){
+DEBUG("\nCHECK " . __LINE__ );
 		@unlink($attachment['path']);
 		return false;
 	}
+DEBUG("\nCHECK " . __LINE__ );
 	return $attachment;
 }
+
 
 /* Up to here, copied from blog/owner/entry/attach/index.php */
 
@@ -405,13 +491,17 @@ function getAttachments($owner,$parent){
 function deleteAttachment($owner,$parent,$name){
 	global $database, $blogapi_dir;
 	@unlink("$blogapi_dir/../../attach/$owner/$name");
-	if($parent===false){
-		return true;
-	}
 	$name=mysql_escape_string($name);
-	if(mysql_query("delete from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'")&&(mysql_affected_rows()==1)){
+	$parent_clause = "";
+	if( $parent >= 0 )
+	{
+		$parent_clause = "parent = $parent and ";
+	}
+	DEBUG("\ndelete from {$database['prefix']}Attachments where owner = $owner and $parent_clause name = '$name'");
+	if(mysql_query("delete from {$database['prefix']}Attachments where owner = $owner and $parent_clause name = '$name'")&&(mysql_affected_rows()==1)){
 		return true;
 	}
+	DEBUG("\nDelete failure: " . mysql_error() );
 	return false;
 }
 function deleteAttachments($owner,$parent){
@@ -428,45 +518,21 @@ function deleteGarbageTags(){
 }
 /* Work around end */
 
-function preview_encode( $owner, $name )
-{
-	return "?__preview__{" . $owner . "," . $name . "}";
-}
-
-function preview_decode_core( $content )
-{
-	if( preg_match( "/\?__preview__{([^,]+),([^}]+)}/", $content, $matches ) )
-	{
-		return array( $matches[1], $matches[2] );
-	}
-	return false;
-}
-
-function preview_decode( $content, $parent )
+function _get_attaches( $content, $parent )
 {
 	global $owner;
-	$attaches = array();
-	while( list($o,$n) = preview_decode_core($content) )
-	{
-DEBUG("Owner: $o, Name $n\n" );
-		array_push( $attaches, array( $o, $n ) );
-		$content = preg_replace( "/\?__preview__[^}]+}/", "", $content, 1 );
-	}
-	DEBUG( $attaches, true );
-	return array( $content, $attaches );
+	preg_match_all( "/attach\/$owner\/(ta.{7}tt.{7}er.{7}\.[a-z]{2,5})/", $content, $matches );
+	DEBUG( $matches[1], true );
+	return $matches[1];
 }
 
-function fixAttachments( $attaches, $parent )
+function _update_attaches( $attaches, $parent )
 {
 	global $database, $owner;
-	deleteAttachments( $owner, $parent );
 	foreach( $attaches as $att )
 	{
-		if( $att[0] == $owner )
-		{
-			DEBUG( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0 and name='" . $att[1] . "'\n");
-			mysql_query( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0 and name='" . $att[1] . "'");
-		}
+		DEBUG( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0 and name='" . $att . "'\n");
+		mysql_query( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0 and name='" . $att . "'");
 	}
 }
 
