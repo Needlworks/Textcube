@@ -263,11 +263,11 @@ if ($service['type'] != 'single') {
 								var editorMode = "<?=getUserSetting('editorMode', 1)?>";
 								var strictXHTML = "<?=getUserSetting('strictXHTML', 0)?>";
 								function setEditor() {
-									if (document.forms[0].editorMode.value != editorMode || document.forms[0].strictXHTML.value != strictXHTML) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/editor/?editorMode=" + document.forms[0].editorMode.value + "&strictXHTML=" + document.forms[0].strictXHTML.value);
+									if (document.getElementById('editor-form').editorMode.value != editorMode || document.getElementById('editor-form').strictXHTML.value != strictXHTML) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/editor/?editorMode=" + document.getElementById('editor-form').editorMode.value + "&strictXHTML=" + document.getElementById('editor-form').strictXHTML.value);
 										request.onSuccess = function() {
-											editorMode = document.forms[0].editorMode.value;
-											strictXHTML = document.forms[0].strictXHTML.value;
+											editorMode = document.getElementById('editor-form').editorMode.value;
+											strictXHTML = document.getElementById('editor-form').strictXHTML.value;
 											PM.showMessage("<?=_t('저장되었습니다')?>", "center", "bottom");
 										}
 										request.onError = function() {
