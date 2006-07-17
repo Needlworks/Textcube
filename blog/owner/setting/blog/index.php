@@ -515,6 +515,9 @@ if ($blogIconSize == false) {
 						
 						<hr class="hidden" />
 						
+<?php
+if (extension_loaded('gd')) {
+?>
 						<div id="part-setting-thumbnail" class="part">
 							<h2 class="caption"><span class="main-text"><?=_t('썸네일을 설정합니다')?></span></h2>
 							
@@ -527,18 +530,18 @@ if ($blogIconSize == false) {
 											<dt><span class="label"><?=_t('워터 마크')?></span></dt>
 											<dd>
 <?php
-if (file_exists(ROOT."/attach/$owner/watermark.gif")) {			
-	$waterMarkInfo = getimagesize(ROOT."/attach/$owner/watermark.gif");
-	if ($waterMarkInfo[0] > 150) {
+	if (file_exists(ROOT."/attach/$owner/watermark.gif")) {			
+		$waterMarkInfo = getimagesize(ROOT."/attach/$owner/watermark.gif");
+		if ($waterMarkInfo[0] > 150) {
 ?>
 												<a href="<?php echo $service['path']?>/attach/<?php echo $owner?>/watermark.gif" onclick="window.open(this.href); return false;"><img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/watermark.gif" width="150" border="1" alt="<?php echo _t('워터마크 이미지')?>" /></a>
 <?php
-	} else {
+		} else {
 ?>
 												<img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/watermark.gif" border="1" alt="<?php echo _t('워터마크 이미지')?>" />
 <?php
+		}
 	}
-}
 ?>
 												<input type="file" class="file-input" name="waterMark" /><br />
 												<input type="checkbox" class="checkbox" id="deleteWaterMark" name="deleteWaterMark" value="yes"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteWaterMark"><?=_t('워터 마크를 초기화합니다.')?></label>
@@ -549,46 +552,46 @@ if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
 											<dd>
 												<select name="gammaForWaterMark"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
 <?php
-$gammaForWaterMark = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'gammaForWaterMark'");
-if ($gammaForWaterMark == false) {
-	$gammaForWaterMark = 100;
-}
+	$gammaForWaterMark = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'gammaForWaterMark'");
+	if ($gammaForWaterMark == false) {
+		$gammaForWaterMark = 100;
+	}
 
-for ($i=100; $i>=0; $i--) {
+	for ($i=100; $i>=0; $i--) {
 ?>
 													<option value="<?php echo $i?>"<?php echo $i == $gammaForWaterMark ? ' selected="selected"' : ''?><?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>><?php echo $i?></option>
 <?php
-}
+	}
 ?>
 												</select>
 												<p><?php echo _t('0은 완전투명(안 보임), 100은 완전 불투명.')?></p>
 											</dd>
 										</dl>
 <?php
-$positionOfWartermark = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
-if ($positionOfWartermark == false) {
-	$top = 0;
-	$center = 0;
-	$horizontalValue = 0;
-	$verticalValue = 0;
-} else {
-	$positionOfWartermark = explode("|", $positionOfWartermark);
-	parse_str($positionOfWartermark[0]);
-	parse_str($positionOfWartermark[1]);
-	
-	if (isset($left))
-		$horizontalValue = $left;
-	if (isset($right))
-		$horizontalValue = $right;
-	if (isset($center))
+	$positionOfWartermark = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
+	if ($positionOfWartermark == false) {
+		$top = 0;
+		$center = 0;
 		$horizontalValue = 0;
-	if (isset($top))
-		$verticalValue = $top;
-	if (isset($bottom))
-		$verticalValue = $bottom;
-	if (isset($middle))
 		$verticalValue = 0;
-}
+	} else {
+		$positionOfWartermark = explode("|", $positionOfWartermark);
+		parse_str($positionOfWartermark[0]);
+		parse_str($positionOfWartermark[1]);
+		
+		if (isset($left))
+			$horizontalValue = $left;
+		if (isset($right))
+			$horizontalValue = $right;
+		if (isset($center))
+			$horizontalValue = 0;
+		if (isset($top))
+			$verticalValue = $top;
+		if (isset($bottom))
+			$verticalValue = $bottom;
+		if (isset($middle))
+			$verticalValue = 0;
+	}
 ?>
 										<dl id="watermark-position-line" class="line">
 											<dt><span class="label"><?=_t('워터마크 위치')?></span></dt>
@@ -612,29 +615,29 @@ if ($positionOfWartermark == false) {
 											</dd>
 										</dl>
 <?php
-$thumbnailPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'thumbnailPadding'");
-if ($thumbnailPadding == false) {
-	$thumbnailTopPadding = "0";
-	$thumbnailRightPadding = "0";
-	$thumbnailBottomPadding = "0";
-	$thumbnailLeftPadding = "0";
-} else {
-	list($thumbnailTopPadding, $thumbnailRightPadding, $thumbnailBottomPadding, $thumbnailLeftPadding)  = explode("|", $thumbnailPadding);
-}
-
-$colorOfPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
-if ($colorOfPadding == false) {
-	$colorOfPadding = "FFFFFF";
-}
+	$thumbnailPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'thumbnailPadding'");
+	if ($thumbnailPadding == false) {
+		$thumbnailTopPadding = "0";
+		$thumbnailRightPadding = "0";
+		$thumbnailBottomPadding = "0";
+		$thumbnailLeftPadding = "0";
+	} else {
+		list($thumbnailTopPadding, $thumbnailRightPadding, $thumbnailBottomPadding, $thumbnailLeftPadding)  = explode("|", $thumbnailPadding);
+	}
+	
+	$colorOfPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
+	if ($colorOfPadding == false) {
+		$colorOfPadding = "FFFFFF";
+	}
 ?>
 										<dl id="padding-line" class="line">
 											<dt><span class="label"><?=_t('썸네일 여백')?></span></dt>
 											<dd>
 <?php
-$paddingOrder = array("top", "bottom", "left", "right");
-$paddingText = array(_t('상단 여백'), _t('하단 여백'), _t('좌측 여백'), _t('우측 여백'));
-
-for ($i=0; $i<count($paddingOrder); $i++) {
+	$paddingOrder = array("top", "bottom", "left", "right");
+	$paddingText = array(_t('상단 여백'), _t('하단 여백'), _t('좌측 여백'), _t('우측 여백'));
+	
+	for ($i=0; $i<count($paddingOrder); $i++) {
 ?>
 												<div id="<?=$paddingOrder[$i]?>-padding">
 													<span class="label"><?=$paddingText[$i]?></span>
@@ -650,7 +653,7 @@ for ($i=0; $i<count($paddingOrder); $i++) {
 													<input type="text" class="text-input" id="<?=$paddingOrder[$i]?>PaddingManual" name="<?=$paddingOrder[$i]?>PaddingManual" value="<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'}?>" />px
 												</div>
 <?php
-}
+	}
 ?>
 												<div id="padding-color">
 													<span class="label"><?=_t('여백 색상')?></span>
@@ -668,6 +671,9 @@ for ($i=0; $i<count($paddingOrder); $i++) {
 						
 						<hr class="hidden" />
 						
+<?php
+}
+?>
 						<div id="part-setting-rss" class="part">
 							<h2 class="caption"><span class="main-text"><?=_t('블로그 공개 정책을 설정합니다')?></span></h2>
 							
