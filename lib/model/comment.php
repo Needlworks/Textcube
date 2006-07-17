@@ -224,7 +224,7 @@ function addComment($owner, & $comment) {
 	$comment['name'] = mysql_lessen($comment['name'], 80);
 	$comment['homepage'] = mysql_lessen($comment['homepage'], 80);
 	$comment['comment'] = mysql_lessen($comment['comment'], 65535);
-
+	
 	if (!doesHaveOwnership() && $comment['entry'] != 0) {
 		$result = mysql_query("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = {$comment['entry']} AND draft = 0 AND visibility > 0 AND acceptComment = 1");
 		if (mysql_num_rows($result) == 0)
@@ -252,6 +252,7 @@ function addComment($owner, & $comment) {
 			'$name',
 			'$password',
 			'$homepage',
+			'$email',
 			{$comment['secret']},
 			'$comment0',
 			'{$comment['ip']}',
