@@ -314,14 +314,30 @@ if ($service['type'] != 'single') {
 								window.addEventListener("load", loadBlogSetting, false);
 								
 								function loadBlogSetting() {
-									document.getElementById('topPadding').removeAttribute('disabled');
-									document.getElementById('topPaddingManual').setAttribute('disabled', 'disabled');
-									document.getElementById('bottomPadding').removeAttribute('disabled');
-									document.getElementById('bottomPaddingManual').setAttribute('disabled', 'disabled');
-									document.getElementById('leftPadding').removeAttribute('disabled');
-									document.getElementById('leftPaddingManual').setAttribute('disabled', 'disabled');
-									document.getElementById('rightPadding').removeAttribute('disabled');
-									document.getElementById('rightPaddingManual').setAttribute('disabled', 'disabled');
+									if (document.getElementById('topPadding').value != "direct") {
+										document.getElementById('topPadding').removeAttribute('disabled');
+										document.getElementById('topPaddingManual').setAttribute('disabled', 'disabled');
+									} else {
+										document.getElementById('topPadding').removeAttribute('disabled');
+									}
+									if (document.getElementById('rightPadding').value != "direct") {
+										document.getElementById('rightPadding').removeAttribute('disabled');
+										document.getElementById('rightPaddingManual').setAttribute('disabled', 'disabled');
+									} else {
+										document.getElementById('rightPadding').removeAttribute('disabled');
+									}
+									if (document.getElementById('bottomPadding').value != "direct") {
+										document.getElementById('bottomPadding').removeAttribute('disabled');
+										document.getElementById('bottomPaddingManual').setAttribute('disabled', 'disabled');
+									} else {
+										document.getElementById('bottomPadding').removeAttribute('disabled');
+									}
+									if (document.getElementById('leftPadding').value != "direct") {
+										document.getElementById('leftPadding').removeAttribute('disabled');
+										document.getElementById('leftPaddingManual').setAttribute('disabled', 'disabled');
+									} else {
+										document.getElementById('leftPadding').removeAttribute('disabled');
+									}
 								}
 							//]]>
 						</script>
@@ -409,7 +425,7 @@ if ($service['type'] != 'single') {
 											<dt><span class="label"><?=_t('로고 이미지')?></span></dt>
 											<dd>
 <?php
-if (file_exists(ROOT."/attach/$owner/{$blog['logo']}")) {
+if (!empty($blog['logo']) && file_exists(ROOT."/attach/$owner/{$blog['logo']}")) {
 	$logoInfo = getimagesize(ROOT."/attach/$owner/{$blog['logo']}");
 	if ($logoInfo[0] > 150) {
 ?>
@@ -435,7 +451,7 @@ if (file_exists(ROOT."/attach/$owner/favicon.ico") && !eregi(' MSIE', $_SERVER['
 ?>
 												<img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/favicon.ico" border="1" alt="<?php echo _t('파비콘')?>" />
 <?php
-} else {
+} else if (file_exists(ROOT."/attach/$owner/favicon.ico") && eregi(' MSIE', $_SERVER['HTTP_USER_AGENT'], $temp)) {
 ?>
 												<a id="favicon-preview" href="<?php echo $service['path']?>/attach/<?php echo $owner?>/favicon.ico"><?php echo _t('미리 보기')?></a>
 <?php
@@ -470,14 +486,21 @@ if (file_exists(ROOT."/attach/$owner/index.gif")) {
 												<p><?php echo _t('블로그 아이콘은 댓글과 방명록에서 사용됩니다. 크기는 16×16 이상, 48×48 이하까지 지원합니다.')?></p>
 											</dd>
 										</dl>
+<?php
+$blogIconSize = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'blogIconSize'");
+if ($blogIconSize == false) {
+	$blogIconSize = "16";
+}
+?>
+	
 										<dl id="blogicon-size-line" class="line">
 											<dt><span class="label"><?=_t('블로그 아이콘을')?></span></dt>
 											<dd>
 												<select name="blogIconSize">
-													<option value="16"><?php echo _t('16×16 크기로 출력')?></option>
-													<option value="32" selected="selected"><?php echo _t('32×32 크기로 출력')?></option>
-													<option value="48"><?php echo _t('48×48 크기로 출력')?></option>
-													<option value="max"><?php echo _t('사용할 수 있는 최대 크기로 출력.')?></option>
+													<option value="16"<?php echo $blogIconSize == '16' ? ' selected="selected"' : ''?>><?php echo _t('16×16 크기로 출력')?></option>
+													<option value="32"<?php echo $blogIconSize == '32' ? ' selected="selected"' : ''?>><?php echo _t('32×32 크기로 출력')?></option>
+													<option value="48"<?php echo $blogIconSize == '48' ? ' selected="selected"' : ''?>><?php echo _t('48×48 크기로 출력')?></option>
+													<!--option value="max"><?php echo _t('사용할 수 있는 최대 크기로 출력.')?></option-->
 												</select>
 											</dd>
 										</dl>
@@ -521,8 +544,28 @@ if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
 												<input type="checkbox" class="checkbox" id="deleteWaterMark" name="deleteWaterMark" value="yes"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteWaterMark"><?=_t('워터 마크를 초기화합니다.')?></label>
 											</dd>
 										</dl>
+										<dl id="watermark-gamma-line" class="line">
+											<dt><span class="label"><?=_t('워터마크 투명도')?></span></dt>
+											<dd>
+												<select name="gammaForWaterMark"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
 <?php
-$positionOfWartermark = fetchQueryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
+$gammaForWaterMark = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'gammaForWaterMark'");
+if ($gammaForWaterMark == false) {
+	$gammaForWaterMark = 100;
+}
+
+for ($i=100; $i>=0; $i--) {
+?>
+													<option value="<?php echo $i?>"<?php echo $i == $gammaForWaterMark ? ' selected="selected"' : ''?><?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>><?php echo $i?></option>
+<?php
+}
+?>
+												</select>
+												<p><?php echo _t('0은 완전투명(안 보임), 100은 완전 불투명.')?></p>
+											</dd>
+										</dl>
+<?php
+$positionOfWartermark = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
 if ($positionOfWartermark == false) {
 	$top = 0;
 	$center = 0;
@@ -569,66 +612,46 @@ if ($positionOfWartermark == false) {
 											</dd>
 										</dl>
 <?php
-$colorOfPadding = fetchQueryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
+$thumbnailPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'thumbnailPadding'");
+if ($thumbnailPadding == false) {
+	$thumbnailTopPadding = "0";
+	$thumbnailRightPadding = "0";
+	$thumbnailBottomPadding = "0";
+	$thumbnailLeftPadding = "0";
+} else {
+	list($thumbnailTopPadding, $thumbnailRightPadding, $thumbnailBottomPadding, $thumbnailLeftPadding)  = explode("|", $thumbnailPadding);
+}
+
+$colorOfPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
 if ($colorOfPadding == false) {
 	$colorOfPadding = "FFFFFF";
 }
 ?>
 										<dl id="padding-line" class="line">
-											<dt><span class="label"><?=_t('여백')?></span></dt>
+											<dt><span class="label"><?=_t('썸네일 여백')?></span></dt>
 											<dd>
-												<div id="top-padding">
-													<span class="label"><?=_t('상단 여백')?></span>
-													<select id="topPadding" name="topPadding" disabled="disabled" onchange="checkManualInput(this)">
-														<option value="0">0px</option>
-														<option value="5">5px</option>
-														<option value="10">10px</option>
-														<option value="15">15px</option>
-														<option value="20">20px</option>
-														<option value="25">25px</option>
-														<option value="direct"><?=_t('직접입력')?></option>
+<?php
+$paddingOrder = array("top", "bottom", "left", "right");
+$paddingText = array(_t('상단 여백'), _t('하단 여백'), _t('좌측 여백'), _t('우측 여백'));
+
+for ($i=0; $i<count($paddingOrder); $i++) {
+?>
+												<div id="<?=$paddingOrder[$i]?>-padding">
+													<span class="label"><?=$paddingText[$i]?></span>
+													<select id="<?=$paddingOrder[$i]?>Padding" name="<?=$paddingOrder[$i]?>Padding" onchange="checkManualInput(this)" disabled="disabled">
+														<option value="0"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '0' ? ' selected="selected"' : ''?>>0px</option>
+														<option value="5"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '5' ? ' selected="selected"' : ''?>>5px</option>
+														<option value="10"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '10' ? ' selected="selected"' : ''?>>10px</option>
+														<option value="15"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '15' ? ' selected="selected"' : ''?>>15px</option>
+														<option value="20"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '20' ? ' selected="selected"' : ''?>>20px</option>
+														<option value="25"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '25' ? ' selected="selected"' : ''?>>25px</option>
+														<option value="direct"<?php echo !in_array(${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'}, array('0', '5', '10', '15', '20', '25')) ? ' selected="selected"' : ''?>><?=_t('직접입력')?></option>
 													</select>
-													<input type="text" class="text-input" id="topPaddingManual" name="topPaddingManual" />px
+													<input type="text" class="text-input" id="<?=$paddingOrder[$i]?>PaddingManual" name="<?=$paddingOrder[$i]?>PaddingManual" value="<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'}?>" />px
 												</div>
-												<div id="bottom-padding">
-													<span class="label"><?=_t('하단 여백')?></span>
-													<select id="bottomPadding" name="bottomPadding" disabled="disabled" onchange="checkManualInput(this)">
-														<option value="0">0px</option>
-														<option value="5">5px</option>
-														<option value="10">10px</option>
-														<option value="15">15px</option>
-														<option value="20">20px</option>
-														<option value="25">25px</option>
-														<option value="direct"><?=_t('직접입력')?></option>
-													</select>
-													<input type="text" class="text-input" id="bottomPaddingManual" name="bottomPaddingManual" />px
-												</div>
-												<div id="left-padding">
-													<span class="label"><?=_t('좌측 여백')?></span>
-													<select id="leftPadding" name="leftPadding" disabled="disabled" onchange="checkManualInput(this)">
-														<option value="0">0px</option>
-														<option value="5">5px</option>
-														<option value="10">10px</option>
-														<option value="15">15px</option>
-														<option value="20">20px</option>
-														<option value="25">25px</option>
-														<option value="direct"><?=_t('직접입력.')?></option>
-													</select>
-													<input type="text" class="text-input" id="leftPaddingManual" name="leftPaddingManual" />px
-												</div>
-												<div id="right-padding">
-													<span class="label"><?=_t('우측 여백')?></span>
-													<select id="rightPadding" name="rightPadding" disabled="disabled" onchange="checkManualInput(this)">
-														<option value="0">0px</option>
-														<option value="5">5px</option>
-														<option value="10">10px</option>
-														<option value="15">15px</option>
-														<option value="20">20px</option>
-														<option value="25">25px</option>
-														<option value="direct"><?=_t('직접입력.')?></option>
-													</select>
-													<input type="text" class="text-input" id="rightPaddingManual" name="rightPaddingManual" />px
-												</div>
+<?php
+}
+?>
 												<div id="padding-color">
 													<span class="label"><?=_t('여백 색상')?></span>
 													<input type="text" class="text-input" name="paddingColor" value="<?php echo $colorOfPadding?>" />
@@ -787,7 +810,7 @@ foreach (Timezone::getList() as $timezone) {
 											</dd>
 										</dl>
 										<dl id="strictXHTML-line" class="line">
-											<dt><label for="strictXHTML"><?=_t('XHTML 준수')?></label></dt>
+											<dt><label for="strictXHTML"><?=_t('<abbr title="eXtensible HyperText Markup Language">XHTML</abbr> 준수')?></label></dt>
 											<dd>
 <?
 	$strictXHTML = getUserSetting('strictXHTML', 0);

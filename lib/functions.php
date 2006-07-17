@@ -110,7 +110,15 @@ function deltree($dir) {
 	$d->close();
 }
 
-function deleteThumbnails($path) {
+function deleteFilesByRegExp($path, $regexp) {
+	$path = eregi("/$", $path, $temp) ? $path : $path."/";
+	
+	$handle = opendir($path);
+	while ($tempFile = readdir($handle)) {
+		if ($regexp == "*" || eregi("$regexp", $tempFile, $temp)) {
+			@unlink($path.$tempFile);
+		}
+	}
 	return true;
 }
 ?>

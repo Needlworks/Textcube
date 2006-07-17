@@ -1290,10 +1290,13 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 				$property = eregi_replace(' height="([0-9]+%?)"', ' height="'.$tempHeight.'"', $property);
 				
 				if ($originWidth > $tempWidth || $originHeight > $tempHeight) {
-					return fireEvent('ViewAttachedImage', '<img src="'.$url.'" '.$property.' style="cursor: pointer;" onclick="open_img(\''.$url.'\')" />', $path);
+					$imageStr = '<img src="'.$url.'" '.$property.' style="cursor: pointer;" onclick="open_img(\''.$url.'\')" />';
 				} else {
-					return fireEvent('ViewAttachedImage', '<img src="'.$url.'" '.$property.' />', $path);					
+					$imageStr = '<img src="'.$url.'" '.$property.' />';		
 				}
+				
+				$imageStr = makeThumbnail($imageStr, $path);
+				return fireEvent('ViewAttachedImage', $imageStr, $path);
 			}
 			break;
 		case 'swf':

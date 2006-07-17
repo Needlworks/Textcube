@@ -8,6 +8,7 @@ require 'function/html.php';
 require 'function/xml.php';
 require 'function/mysql.php';
 require 'function/misc.php';
+require 'function/ImageWorkers.php';
 require 'function/mail.php';
 require 'functions.php';
 require 'database.php';

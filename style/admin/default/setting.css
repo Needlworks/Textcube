@@ -163,6 +163,11 @@
 	margin                           : 0 auto;
 }
 
+#watermark-gamma-line p
+{
+	display                          : inline;
+}
+
 /* rss ------------------------------------------------------------------------------------------*/
 #rss-section
 {
@@ -207,11 +212,10 @@
 	margin                           : 0 auto;
 }
 
-
-/* editor --------------------------------------------------------------------------*/
+/* editor ---------------------------------------------------------------------------------------*/
 #part-setting-editor .button-box
 {
-	padding                          : 15px 0 10px 0;
+	padding                          : 20px 0 10px 0;
 }
 
 #part-setting-editor .button-box .button
