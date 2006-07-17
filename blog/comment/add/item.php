@@ -20,9 +20,11 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 } else {
 	if (!empty($userName))
 		setcookie('guestName', $userName, time() + 2592000, "$blogURL/");
-	if (!empty($userEmail))
+	if (!empty($userEmail)) {
 		setcookie('guestEmail', $userEmail, time() + 2592000, "$blogURL/");
-	
+	} else {
+		setcookie('guestEmail');
+	}
 	if (!empty($userHomepage) && ($userHomepage != 'http://')) {
 		if (strpos($userHomepage, 'http://') === 0)
 			setcookie('guestHomepage', $userHomepage, time() + 2592000, "$blogURL/");
