@@ -1,5 +1,5 @@
 <?php
-// »ç¿ëµÇÁö ¾Ê´Â ÇÔ¼öÀÌ³ª ¸¸¾àÀ» À§ÇØ ³²°ÜµÒ.
+// ì‚¬ìš©ë˜ì§€ ì•ŠëŠ” í•¨ìˆ˜ì´ë‚˜ ë§Œì•½ì„ ìœ„í•´ ë‚¨ê²¨ë‘ .
 function isLarge($target, $maxX, $maxY) {
 	$size = getImageSize($target);
 	$sx = $size[0];
@@ -14,7 +14,7 @@ function isLarge($target, $maxX, $maxY) {
 	}
 }
 
-// »ç¿ëµÇÁö ¾Ê´Â ÇÔ¼öÀÌ³ª ¸¸¾àÀ» À§ÇØ ³²°ÜµÒ.
+// ì‚¬ìš©ë˜ì§€ ì•ŠëŠ” í•¨ìˆ˜ì´ë‚˜ ë§Œì•½ì„ ìœ„í•´ ë‚¨ê²¨ë‘ .
 function resizing($maxX, $maxY, $src_file, $tag_file) {
 	list($width, $height, $type, $attr) = getimagesize($src_file);
 	if ($type == 1) {
@@ -47,7 +47,7 @@ function resizing($maxX, $maxY, $src_file, $tag_file) {
 	return true;
 }
 
-// imgÀÇ width/height¿¡ ¸ÂÃç ÀÌ¹ÌÁö¸¦ ¸®»ùÇÃ¸µÇÏ´Â ÇÔ¼ö. ½æ³×ÀÏ ÇÔ¼ö°¡ ¾Æ´Ô! ÁÖÀÇ.
+// imgì˜ width/heightì— ë§ì¶° ì´ë¯¸ì§€ë¥¼ ë¦¬ìƒ˜í”Œë§í•˜ëŠ” í•¨ìˆ˜. ì¸ë„¤ì¼ í•¨ìˆ˜ê°€ ì•„ë‹˜! ì£¼ì˜.
 function makeThumbnail($imgString, $originSrc) {
 	global $database, $owner, $blogURL;
 	
@@ -62,16 +62,16 @@ function makeThumbnail($imgString, $originSrc) {
 		@chmod(ROOT."/cache/thumbnail/$owner", 0777);
 	}
 	
-	// ¿öÅÍ ¸¶Å© ÆÄÀÏÀÌ ÀÖ´Â °÷.
+	// ì›Œí„° ë§ˆí¬ íŒŒì¼ì´ ìˆëŠ” ê³³.
 	if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
 		$waterMarkPath = ROOT."/attach/$owner/watermark.gif";
 	} else {
 		$waterMarkPath = NULL;
 	}
 	
-	// ¿öÅÍ ¸¶Å©°¡ µé¾î°¥ Àå¼ÒÀÇ x, y ÁÂÇ¥.
-	// - x´Â "left, center, right, ¼ıÀÚ", y´Â "top, middle, bottom, ¼ıÀÚ" Áß ÀÔ·ÂÇÒ ¼ö ÀÖ½À´Ï´Ù.
-	// - ¼ıÀÚ·Î À§Ä¡¸¦ ÁöÁ¤ÇÏ½Ç °æ¿ì ¾ç¼öÀÏ ¶§´Â ÁÂÃø »ó´Ü ¸ğ¼­¸®°¡, À½¼öÀÏ ¶§´Â ¿ìÃø ÇÏ´Ü ¸ğ¼­¸®°¡ ±âÁØÀÔ´Ï´Ù.
+	// ì›Œí„° ë§ˆí¬ê°€ ë“¤ì–´ê°ˆ ì¥ì†Œì˜ x, y ì¢Œí‘œ.
+	// - xëŠ” "left, center, right, ìˆ«ì", yëŠ” "top, middle, bottom, ìˆ«ì" ì¤‘ ì…ë ¥í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+	// - ìˆ«ìë¡œ ìœ„ì¹˜ë¥¼ ì§€ì •í•˜ì‹¤ ê²½ìš° ì–‘ìˆ˜ì¼ ë•ŒëŠ” ì¢Œì¸¡ ìƒë‹¨ ëª¨ì„œë¦¬ê°€, ìŒìˆ˜ì¼ ë•ŒëŠ” ìš°ì¸¡ í•˜ë‹¨ ëª¨ì„œë¦¬ê°€ ê¸°ì¤€ì…ë‹ˆë‹¤.
 	$waterMarkPosition = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
 	if ($waterMarkPosition == false) {
 		$waterMarkPosition = "left=10|bottom=10";
@@ -114,9 +114,9 @@ function makeThumbnail($imgString, $originSrc) {
 	
 	$waterMarkPosition = "$horizontalValue $verticalValue";
 	
-	// ¿öÅÍ ¸¶Å©ÀÇ Åõ¸íµµ.
-	// - 100ÀÌ¸é ¿ÏÀüºÒÅõ¸í.
-	// - 0ÀÌ¸é ¿ÏÀüÅõ¸í.(Áï, ¿öÅÍ¸¶Å©°¡ Àû¿ëµÇÁö ¾ÊÀº °Í°ú ¸¶Âù°¡Áö.)
+	// ì›Œí„° ë§ˆí¬ì˜ íˆ¬ëª…ë„.
+	// - 100ì´ë©´ ì™„ì „ë¶ˆíˆ¬ëª….
+	// - 0ì´ë©´ ì™„ì „íˆ¬ëª….(ì¦‰, ì›Œí„°ë§ˆí¬ê°€ ì ìš©ë˜ì§€ ì•Šì€ ê²ƒê³¼ ë§ˆì°¬ê°€ì§€.)
 	$gammaForWaterMark = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'gammaForWaterMark'");
 	if ($gammaForWaterMark == false) {
 		$gammaForWaterMark = 100;
@@ -124,7 +124,7 @@ function makeThumbnail($imgString, $originSrc) {
 		$gammaForWaterMark = intval($gammaForWaterMark);
 	}
 	
-	// ¿©¹éÀÇ Å©±â.
+	// ì—¬ë°±ì˜ í¬ê¸°.
 	$thumbnailPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPadding'");
 	if ($thumbnailPadding == false) {
 		$padding = array("top" => 25, "right" => 25, "bottom" => 25, "left" => 25);
@@ -133,8 +133,8 @@ function makeThumbnail($imgString, $originSrc) {
 		$padding = array("top" => intval($tempArray[0]), "right" => intval($tempArray[1]), "bottom" => intval($tempArray[2]), "left" => intval($tempArray[3]));
 	}
 	
-	// ¿©¹éÀÇ »ö»ó.
-	// Åõ¸íÀº transparent·Î »ç¿ëÇÏµµ·Ï Â®À¸³ª IE ¶§¹®¿¡(!!) ¸·¾Ò½À´Ï´Ù. ¶¯½º ºôÀ» Å¿ÇÏ»ï.
+	// ì—¬ë°±ì˜ ìƒ‰ìƒ.
+	// íˆ¬ëª…ì€ transparentë¡œ ì‚¬ìš©í•˜ë„ë¡ ì§°ìœ¼ë‚˜ IE ë•Œë¬¸ì—(!!) ë§‰ì•˜ìŠµë‹ˆë‹¤. ë•¡ìŠ¤ ë¹Œì„ íƒ“í•˜ì‚¼.
 	$bgColorForPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
 	if ($bgColorForPadding == false) {
 		$bgColorForPadding = "FFFFFF"; 
@@ -155,27 +155,27 @@ function makeThumbnail($imgString, $originSrc) {
 	if (eregi('class="tt-thumbnail"', $imgString, $extra)) {
 		$originFileName = basename($originSrc);
 		
-		// ¿©±â·Î ³Ñ¾î¿À´Â °ªÀº ÀÌ¹Ì getAttachmentBinder() ÇÔ¼ö¿¡¼­ °íÁ¤°ªÀ¸·Î º¯È¯µÈ °ªÀÌ¹Ç·Î % °ªÀº °í·ÁÇÒ ÇÊ¿ä ¾øÀ½. 
+		// ì—¬ê¸°ë¡œ ë„˜ì–´ì˜¤ëŠ” ê°’ì€ ì´ë¯¸ getAttachmentBinder() í•¨ìˆ˜ì—ì„œ ê³ ì •ê°’ìœ¼ë¡œ ë³€í™˜ëœ ê°’ì´ë¯€ë¡œ % ê°’ì€ ê³ ë ¤í•  í•„ìš” ì—†ìŒ. 
 		if (ereg('width="([1-9][0-9]*)"', $imgString, $temp)) {
 			$tempWidth = $temp[1];
 		}
 		
-		// ¿©±â·Î ³Ñ¾î¿À´Â °ªÀº ÀÌ¹Ì getAttachmentBinder() ÇÔ¼ö¿¡¼­ °íÁ¤°ªÀ¸·Î º¯È¯µÈ °ªÀÌ¹Ç·Î % °ªÀº °í·ÁÇÒ ÇÊ¿ä ¾øÀ½. 
+		// ì—¬ê¸°ë¡œ ë„˜ì–´ì˜¤ëŠ” ê°’ì€ ì´ë¯¸ getAttachmentBinder() í•¨ìˆ˜ì—ì„œ ê³ ì •ê°’ìœ¼ë¡œ ë³€í™˜ëœ ê°’ì´ë¯€ë¡œ % ê°’ì€ ê³ ë ¤í•  í•„ìš” ì—†ìŒ. 
 		if (ereg('height="([1-9][0-9]*)"', $imgString, $temp)) {
 			$tempHeight = $temp[1];
 		}
 		
 		$newTempFileName = eregi_replace("\.([[:alnum:]]+)$", ".thumbnail.\\1", $originFileName);
 		$tempSrc = ROOT."/cache/thumbnail/$owner/$newTempFileName";
-		// º¸¾È»ó cache µğ·ºÅä¸®¸¦ °ø°³ÇÏÁö ¾Êµµ·Ï ³²°Ü³õ´Â´Ù.
+		// ë³´ì•ˆìƒ cache ë””ë ‰í† ë¦¬ë¥¼ ê³µê°œí•˜ì§€ ì•Šë„ë¡ ë‚¨ê²¨ë†“ëŠ”ë‹¤.
 		$tempURL = $blogURL."/thumbnail/$owner/$newTempFileName";
 		
 		if (!file_exists($tempSrc)) {
 			$originImageInfo = getimagesize($originSrc);
 			
-			// Ãà¼ÒµÈ »çÀÌÁîÀÇ ÀÌ¹ÌÁö¸é ¸®»çÀÌÁî.
+			// ì¶•ì†Œëœ ì‚¬ì´ì¦ˆì˜ ì´ë¯¸ì§€ë©´ ë¦¬ì‚¬ì´ì¦ˆ.
 			if ($originImageInfo[0] > $tempWidth || $originImageInfo[1] > $tempHeight) {
-				// »õ ½æ³×ÀÏ »ı¼º.
+				// ìƒˆ ì¸ë„¤ì¼ ìƒì„±.
 				@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
 				if (resampleImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
 					$tempImageInfo = getImagesize($tempSrc);
@@ -185,9 +185,9 @@ function makeThumbnail($imgString, $originSrc) {
 				} else {
 					@unlink($tempSrc);
 				}
-			// ¿øº» »çÀÌÁî ±×´ë·ÎÀÌ°Å³ª È®´ë ÀÌ¹ÌÁö¿©µµ, ¿öÅÍ¸¶Å©³ª ¿©¹éÀÌ Á¸ÀçÇÏ¸é ½æ³×ÀÏ »ı¼º.
+			// ì›ë³¸ ì‚¬ì´ì¦ˆ ê·¸ëŒ€ë¡œì´ê±°ë‚˜ í™•ëŒ€ ì´ë¯¸ì§€ì—¬ë„, ì›Œí„°ë§ˆí¬ë‚˜ ì—¬ë°±ì´ ì¡´ì¬í•˜ë©´ ì¸ë„¤ì¼ ìƒì„±.
 			} else if (($originImageInfo[0] <= $tempWidth || $originImageInfo[1] <= $tempHeight) && (file_exists($waterMarkPath) || !empty($padding))) {
-				// »õ ½æ³×ÀÏ »ı¼º.
+				// ìƒˆ ì¸ë„¤ì¼ ìƒì„±.
 				@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
 				if (resampleImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
 					$tempImageInfo = getImagesize($tempSrc);
@@ -203,12 +203,12 @@ function makeThumbnail($imgString, $originSrc) {
 			$resizedWidth = $tempWidth - $paddingArray['left'] - $paddingArray['right'];
 			$resizedHeight = ceil($tempHeight * $resizedWidth / $tempWidth) + $paddingArray['top'] + $paddingArray['bottom'];
 			
-			// Ãà¼ÒµÈ »çÀÌÁîÀÇ ÀÌ¹ÌÁö¸é ¸®»çÀÌÁî.
+			// ì¶•ì†Œëœ ì‚¬ì´ì¦ˆì˜ ì´ë¯¸ì§€ë©´ ë¦¬ì‚¬ì´ì¦ˆ.
 			if ($thumbnailImageInfo[0] > $tempWidth || $thumbnailImageInfo[1] > $resizedHeight) {
-				// ÀÌ ÆÄÀÏ°ú °ü·ÃµÈ ±âÁ¸ ÆÄÀÏÀ» Áö¿î´Ù.
+				// ì´ íŒŒì¼ê³¼ ê´€ë ¨ëœ ê¸°ì¡´ íŒŒì¼ì„ ì§€ìš´ë‹¤.
 				deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "^".eregi_replace("\.([[:alnum:]]+)$", "\.", $originFileName));
 				
-				// »õ ½æ³×ÀÏ »ı¼º.
+				// ìƒˆ ì¸ë„¤ì¼ ìƒì„±.
 				@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
 				if (resampleImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
 					$tempImageInfo = getImagesize($tempSrc);
@@ -219,7 +219,7 @@ function makeThumbnail($imgString, $originSrc) {
 					@unlink($tempSrc);
 				}
 			} else {
-				// ¸®»çÀÌÁîµÈ ÆÄÀÏÀÌ ÀÌ¹Ì Á¸ÀçÇÏ¹Ç·Î Åë°ú.
+				// ë¦¬ì‚¬ì´ì¦ˆëœ íŒŒì¼ì´ ì´ë¯¸ ì¡´ì¬í•˜ë¯€ë¡œ í†µê³¼.
 				$tempImageInfo = getImagesize($tempSrc);
 				$imgString = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $imgString);
 				$imgString = eregi_replace('width="([^"]+)"', 'width="'.$tempImageInfo[0].'"', $imgString);
@@ -227,7 +227,7 @@ function makeThumbnail($imgString, $originSrc) {
 			}
 		}
 	} else {
-		// ¿¡·¯.
+		// ì—ëŸ¬.
 	}
 
 	return $imgString;
@@ -238,12 +238,12 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 	$path = eregi("/$", dirname($fileName), $temp) ? dirname($fileName) : dirname($fileName).'/';
 	$fileName = basename($fileName);
 	
-	// ¿øÇÏ´Â Å©±â°¡ Á¤ÇØÁöÁö ¾Ê¾ÒÀ¸¸é ±×³É µ¹·ÁÁÜ.
+	// ì›í•˜ëŠ” í¬ê¸°ê°€ ì •í•´ì§€ì§€ ì•Šì•˜ìœ¼ë©´ ê·¸ëƒ¥ ëŒë ¤ì¤Œ.
 	if (empty($width) && empty($height)) {
 		return true;
 	}
 	
-	// ¿øº»ÆÄÀÏÀÌ Á¸ÀçÇÏ´Â°¡.
+	// ì›ë³¸íŒŒì¼ì´ ì¡´ì¬í•˜ëŠ”ê°€.
 	if ($tempInfo = getimagesize($path.$fileName)) {
 		$originWidth = $tempInfo[0];
 		$originHeight = $tempInfo[1];
@@ -251,17 +251,17 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 		return false;
 	}
 	
-	// ¸®»çÀÌÂ¡ ½ºÅ¸ÀÏÀº 'both'°¡ µğÆúÆ®.
+	// ë¦¬ì‚¬ì´ì§• ìŠ¤íƒ€ì¼ì€ 'both'ê°€ ë””í´íŠ¸.
 	if (empty($resizeFlag) || ($resizeFlag != "enlarge" && $resizeFlag != "reduce" && $resizeFlag != "both")) {
 		$resizeFlag = "both";
 	}
 	
-	// Ãâ·Â¹æ½Ä À¯È¿¼º °Ë»ç.
+	// ì¶œë ¥ë°©ì‹ ìœ íš¨ì„± ê²€ì‚¬.
 	if ($outputType != "file" && $outputType != "browser") {
 		$outputType = "file";
 	}
 	
-	// ¿©¹é À¯È¿¼º °Ë»ç.
+	// ì—¬ë°± ìœ íš¨ì„± ê²€ì‚¬.
 	if (!is_null($padding)) {
 		if (!isset($padding['top']) || !is_int($padding['top'])) {
 			$padding['top'] = 0;
@@ -277,21 +277,21 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 		}
 	}
 	
-	// bgColor À¯È¿¼º °Ë»ç.
+	// bgColor ìœ íš¨ì„± ê²€ì‚¬.
 	if (!eregi("^[0-9A-F]{3,6}$", $padding['bgColor'], $temp)) {
 	//if (!eregi("^[0-9A-F]{3,6}$", $padding['bgColor'], $temp) && $padding['bgColor'] != "transparent") {
 		$padding['bgColor'] = "FFFFFF";
 	}
 	
-	// ¿©¹é °ªÀÌ Á¸ÀçÇÑ´Ù¸é $width, $heightÀÇ °ªÀº ¿©¹é°ªÀ» Æ÷ÇÔÇÑ Å©±âÀÌ´Ù. µû¶ó¼­ ¿©¹é °ªÀ» »«´Ù.
+	// ì—¬ë°± ê°’ì´ ì¡´ì¬í•œë‹¤ë©´ $width, $heightì˜ ê°’ì€ ì—¬ë°±ê°’ì„ í¬í•¨í•œ í¬ê¸°ì´ë‹¤. ë”°ë¼ì„œ ì—¬ë°± ê°’ì„ ëº€ë‹¤.
 	// |--------------------- $width ---------------------|
-	// |-- ÁÂÃø ¿©¹é --||-- $new_width --||-- ¿ìÃø ¿©¹é --|
+	// |-- ì¢Œì¸¡ ì—¬ë°± --||-- $new_width --||-- ìš°ì¸¡ ì—¬ë°± --|
 	$imgWidth = $width - $padding['left'] - $padding['right'];
 	($imgWidth < 0) ? $imgWidth = 0 : NULL;
 	$imgHeight = ceil($height * $imgWidth / $width);
 	($imgHeight < 0) ? $imgHeight = 0 : NULL;
 	
-	// ¿øº»ÀÇ Æ÷¸Ë(È®ÀåÀÚ°¡ ¾Æ´Ô)¿¡ ÇØ´çÇÏ´Â ÀÌ¹ÌÁö »ı¼º.
+	// ì›ë³¸ì˜ í¬ë§·(í™•ì¥ìê°€ ì•„ë‹˜)ì— í•´ë‹¹í•˜ëŠ” ì´ë¯¸ì§€ ìƒì„±.
 	switch (getImageType($path.$fileName)) {
 		case "gif":
 			if (imagetypes() & IMG_GIF) {
@@ -333,39 +333,39 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 			break;
 	}
 	
-	// ÀÓ½Ã ÀÌ¹ÌÁö ÆÄÀÏ¸í »ı¼º.
+	// ì„ì‹œ ì´ë¯¸ì§€ íŒŒì¼ëª… ìƒì„±.
 	srand((double) microtime()*1000000);
 	$tempImage = rand(0, 100000);
 	
-	// »õ·Î¿î Æ®·çÅ¸ÀÔ ÀÌ¹ÌÁö µğ¹ÙÀÌ½º¸¦ »ı¼º.
+	// ìƒˆë¡œìš´ íŠ¸ë£¨íƒ€ì… ì´ë¯¸ì§€ ë””ë°”ì´ìŠ¤ë¥¼ ìƒì„±.
 	if (getFileExtension($fileName) == "gif") {
 		$tempResultImage = imagecreate($imgWidth + $padding['left'] + $padding['right'], $imgHeight + $padding['top'] + $padding['bottom']);
 	} else {
 		$tempResultImage = imagecreatetruecolor($imgWidth + $padding['left'] + $padding['right'], $imgHeight + $padding['top'] + $padding['bottom']);
 	}
 	
-	// ÀÌ¹ÌÁö µğ¹ÙÀÌ½ºÀÇ ¿©¹é ¹è°æ»öÀ» Ã¤¿î´Ù.
+	// ì´ë¯¸ì§€ ë””ë°”ì´ìŠ¤ì˜ ì—¬ë°± ë°°ê²½ìƒ‰ì„ ì±„ìš´ë‹¤.
 	if ($padding['bgColor'] == "transparent") {
 		$bgColorBy16 = hexRGB("FF0000");
 		$temp = imagecolorallocate($tempResultImage, $bgColorBy16['R'], $bgColorBy16['G'], $bgColorBy16['B']);
 		imagefilledrectangle($tempResultImage, 0, 0, $imgWidth + $padding['left'] + $padding['right'], $imgHeight + $padding['top'] + $padding['bottom'], $temp);
 		imagecolortransparent($tempResultImage, $temp);
 	} else {
-		//imagealphablending($tempResultImage, 0); //bgColor°¡ ´ë½Å alpha blendingÀ» ¸·¾ÆÁÜ.
+		//imagealphablending($tempResultImage, 0); //bgColorê°€ ëŒ€ì‹  alpha blendingì„ ë§‰ì•„ì¤Œ.
 		$bgColorBy16 = hexRGB($padding['bgColor']);
 		$temp = imagecolorallocate($tempResultImage, $bgColorBy16['R'], $bgColorBy16['G'], $bgColorBy16['B']);
 		imagefilledrectangle($tempResultImage, 0, 0, $imgWidth + $padding['left'] + $padding['right'], $imgHeight + $padding['top'] + $padding['bottom'], $temp);
 	}
 	
-	// ÀÌ¹ÌÁö µğ¹ÙÀÌ½º¿¡ Å©±â°¡ Á¶Á¤µÈ ¿øº» ÀÌ¹ÌÁö¸¦ ¿©¹éÀ» Àû¿ëÇÏ¿© ºÙÀÎ´Ù.
+	// ì´ë¯¸ì§€ ë””ë°”ì´ìŠ¤ì— í¬ê¸°ê°€ ì¡°ì •ëœ ì›ë³¸ ì´ë¯¸ì§€ë¥¼ ì—¬ë°±ì„ ì ìš©í•˜ì—¬ ë¶™ì¸ë‹¤.
 	imagecopyresampled($tempResultImage, $tempSource, $padding['left'], $padding['top'], 0, 0, $imgWidth, $imgHeight, imagesx($tempSource), imagesy($tempSource));
 	
-	// ¿öÅÍ ¸¶Å© ºÙÀÌ±â.
+	// ì›Œí„° ë§ˆí¬ ë¶™ì´ê¸°.
 	if ($waterMarkInfo = getimagesize($waterMark['path'])) {
 		$waterMarkWidth = $waterMarkInfo[0];
 		$waterMarkHeight = $waterMarkInfo[1];
 		
-		// ¿öÅÍ ¸¶Å© ÀÌ¹ÌÁö µğ¹ÙÀÌ½º »ı¼º.
+		// ì›Œí„° ë§ˆí¬ ì´ë¯¸ì§€ ë””ë°”ì´ìŠ¤ ìƒì„±.
 		if ($waterMarkInfo[2] == 1) {
 			$tempWaterMarkSource = imagecreatefromgif($waterMark['path']);
 		} else if ($waterMarkInfo[2] == 2) {
@@ -374,7 +374,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 			$tempWaterMarkSource = imagecreatefrompng($waterMark['path']);
 		}
 		
-		// ¿öÅÍ ¸¶Å© Æ÷Áö¼Ç.
+		// ì›Œí„° ë§ˆí¬ í¬ì§€ì…˜.
 		if (eregi("^(\-?[0-9A-Z]+) (\-?[0-9A-Z]+)$", $waterMark['position'], $temp)) {
 			$extraPadding = 0;
 			switch ($temp[1]) {
@@ -388,24 +388,24 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 					$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth - $extraPadding;
 					break;
 				default:
-					// ¾ç¼öÀÎ °æ¿ì, ¿ŞÂÊºÎÅÍ xÁÂÇ¥ °ªÀ» °è»êÇÑ´Ù.
+					// ì–‘ìˆ˜ì¸ ê²½ìš°, ì™¼ìª½ë¶€í„° xì¢Œí‘œ ê°’ì„ ê³„ì‚°í•œë‹¤.
 					if (eregi("^([1-9][0-9]*)$", $temp[1], $extra)) {
 						if ($extra[1] > $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth) {
 							$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth;
 						} else {
 							$xPosition = $extra[1];
 						}
-					// À½¼öÀÎ °æ¿ì, ¿À¸¥ÂÊºÎÅÍ xÁÂÇ¥ °ªÀ» °è»êÇÑ´Ù.
+					// ìŒìˆ˜ì¸ ê²½ìš°, ì˜¤ë¥¸ìª½ë¶€í„° xì¢Œí‘œ ê°’ì„ ê³„ì‚°í•œë‹¤.
 					} else if (eregi("^(\-?[1-9][0-9]*)$", $temp[1], $extra)) {
 						if ($imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth + $extra[1] < 0) {
 							$xPosition = 0;
 						} else {
 							$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth + $extra[1];
 						}
-					// 0ÀÎ °æ¿ì.
+					// 0ì¸ ê²½ìš°.
 					} else if (eregi("^0$", $temp[1], $extra)) {
 						$xPosition = 0;
-					// ³ª¸ÓÁö °æ¿ì´Â ÀÓÀÇ ¿©¹éÀ¸·Î ¿ìÃø¿¡ ºÙÀÎ´Ù.
+					// ë‚˜ë¨¸ì§€ ê²½ìš°ëŠ” ì„ì˜ ì—¬ë°±ìœ¼ë¡œ ìš°ì¸¡ì— ë¶™ì¸ë‹¤.
 					} else {
 						$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth - $extraPadding;
 					}
@@ -422,24 +422,24 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 					$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight - $extraPadding;
 					break;
 				default:
-					// ¾ç¼öÀÎ °æ¿ì, À§ºÎÅÍ yÁÂÇ¥ °ªÀ» °è»êÇÑ´Ù.
+					// ì–‘ìˆ˜ì¸ ê²½ìš°, ìœ„ë¶€í„° yì¢Œí‘œ ê°’ì„ ê³„ì‚°í•œë‹¤.
 					if (eregi("^([1-9][0-9]*)$", $temp[2], $extra)) {
 						if ($extra[1] > $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight) {
 							$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight;
 						} else {
 							$yPosition = $extra[1];
 						}
-					// À½¼öÀÎ °æ¿ì, ¾Æ·¡ºÎÅÍ yÁÂÇ¥ °ªÀ» °è»êÇÑ´Ù.
+					// ìŒìˆ˜ì¸ ê²½ìš°, ì•„ë˜ë¶€í„° yì¢Œí‘œ ê°’ì„ ê³„ì‚°í•œë‹¤.
 					} else if (eregi("^(\-?[1-9][0-9]*)$", $temp[2], $extra)) {
 						if ($imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight + $extra[1] < 0) {
 							$yPosition = 0;
 						} else {
 							$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight + $extra[1];
 						}
-					// 0ÀÎ °æ¿ì.
+					// 0ì¸ ê²½ìš°.
 					} else if (eregi("^0$", $temp[1], $extra)) {
 						$yPosition = 0;
-					// ³ª¸ÓÁö °æ¿ì´Â ÀÓÀÇ ¿©¹éÀ¸·Î ¾Æ·¡¿¡ ºÙÀÎ´Ù.
+					// ë‚˜ë¨¸ì§€ ê²½ìš°ëŠ” ì„ì˜ ì—¬ë°±ìœ¼ë¡œ ì•„ë˜ì— ë¶™ì¸ë‹¤.
 					} else {
 						$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight - $extraPadding;
 					}
@@ -449,7 +449,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 			$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight - $extraPadding;
 		}
 		
-		// °¨¸¶°ª À¯È¿¼º °Ë»ç.
+		// ê°ë§ˆê°’ ìœ íš¨ì„± ê²€ì‚¬.
 		if (!is_int($waterMark['gamma'])) {
 			$waterMark['gamma'] = 100;
 		} else if ($waterMark['gamma'] < 0) {
@@ -465,7 +465,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 		}
 	}
 	
-	// ¾Ë¸Â´Â Æ÷¸ËÀ¸·Î ÀúÀå.
+	// ì•Œë§ëŠ” í¬ë§·ìœ¼ë¡œ ì €ì¥.
 	if ($outputType == "file") {
 		if (getFileExtension($fileName) == "gif") {
 			imageinterlace($tempResultImage);
@@ -479,7 +479,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 			imagewbmp($tempResultImage, $path.$tempImage);
 		}
 		
-		// ÀÓ½Ã ÀÌ¹ÌÁö »èÁ¦.
+		// ì„ì‹œ ì´ë¯¸ì§€ ì‚­ì œ.
 		imagedestroy($tempResultImage);
 		imagedestroy($tempSource);
 		if (file_exists($waterMark['path'])) {
@@ -490,17 +490,17 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 			unlink($path.$fileName);
 		}
 		
-		// ¿ø·¡ ÀÌ¹ÌÁö ¸íÄªÀ¸·Î ¸®³×ÀÓ.
+		// ì›ë˜ ì´ë¯¸ì§€ ëª…ì¹­ìœ¼ë¡œ ë¦¬ë„¤ì„.
 		rename($path.$tempImage, $path.$fileName);
 		return true;
-	// ºê¶ó¿ìÀú·Î Àü¼Û.
+	// ë¸Œë¼ìš°ì €ë¡œ ì „ì†¡.
 	} else {
 		header("Content-type: image/jpeg");
 		imagejpeg($tempResultImage);
 		return $bResult;
 		
 		/*header("Content-type: image/".(getFileExtension($fileName) == "jpg" ? "jpeg" : getFileExtension($fileName)));
-		// getFileExtension()¿Í getImageType()ÀÇ Â÷ÀÌ¿¡ ÁÖÀÇÇÒ °Í.
+		// getFileExtension()ì™€ getImageType()ì˜ ì°¨ì´ì— ì£¼ì˜í•  ê²ƒ.
 		
 		$bResult = false;
 		switch (getFileExtension($fileName)) {
@@ -545,7 +545,7 @@ function getImageType($filename)
 		}
 		
 		switch ($imageType) {
-			// »ó¼ö¸¦ »ç¿ëÇÏ¸é ¿¡·¯? È®ÀÎ ¸øÇÔ.
+			// ìƒìˆ˜ë¥¼ ì‚¬ìš©í•˜ë©´ ì—ëŸ¬? í™•ì¸ ëª»í•¨.
 			case IMAGETYPE_GIF:
 				$extension = 'gif';
 				break;
