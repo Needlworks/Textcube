@@ -53,6 +53,7 @@ $commentCount = ($commentCount > 0) ? "$commentCount" : '';
 			if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment'])) {
 				$comment['name'] = empty($_POST['name']) ? '' : $_POST['name'];
 				$comment['password'] = empty($_POST['password']) ? '' : $_POST['password'];
+				$comment['email'] = empty($_POST['email']) || ($_POST['email'] == '') ? '' : $_POST['email'];
 				$comment['homepage'] = empty($_POST['homepage']) || ($_POST['homepage'] == 'http://') ? '' : $_POST['homepage'];
 				$comment['secret'] = empty($_POST['secret']) ? 0 : 1;
 				$comment['comment'] = $_POST['comment'];
