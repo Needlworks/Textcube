@@ -236,14 +236,12 @@ function hideLayer(id) {
 }
 
 function findFormObject(caller) {
-	
 	for (var obj = caller; obj; obj = obj.parentNode) {
 		
 		if (obj.nodeName == "FORM")
 			return obj;
 	}
 
-	
 	return null;
 }
 

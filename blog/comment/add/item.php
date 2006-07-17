@@ -9,6 +9,7 @@ if (!isset($_GET['__T__']) || !isset($_POST['key']) || $_POST['key'] != md5(file
 $entryId = $suri['id'];
 $userName = isset($_POST["name_$entryId"]) ? $_POST["name_$entryId"] : '';
 $userPassword = isset($_POST["password_$entryId"]) ? $_POST["password_$entryId"] : '';
+$userEmail = isset($_POST["email_$entryId"]) ? $_POST["email_$entryId"] : '';
 $userSecret = isset($_POST["secret_$entryId"]) ? 1 : 0;
 $userHomepage = isset($_POST["homepage_$entryId"]) ? $_POST["homepage_$entryId"] : '';
 $userComment = isset($_POST["comment_$entryId"]) ? $_POST["comment_$entryId"] : '';
@@ -17,9 +18,12 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 } else if ($userComment == '') {
 	echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _text('본문을 입력해 주십시오.'), ']]></description></response>';
 } else {
-	if ($userName != '')
+	if (!empty($userName))
 		setcookie('guestName', $userName, time() + 2592000, "$blogURL/");
-	if ($userHomepage != '' && ($userHomepage != 'http://')) {
+	if (!empty($userEmail))
+		setcookie('guestEmail', $userEmail, time() + 2592000, "$blogURL/");
+	
+	if (!empty($userHomepage) && ($userHomepage != 'http://')) {
 		if (strpos($userHomepage, 'http://') === 0)
 			setcookie('guestHomepage', $userHomepage, time() + 2592000, "$blogURL/");
 		else
@@ -29,6 +33,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	$comment['entry'] = $entryId;
 	$comment['parent'] = null;
 	$comment['name'] = $userName;
+	$comment['email'] = $userEmail;
 	$comment['password'] = $userPassword;
 	$comment['homepage'] = ($userHomepage == '' || $userHomepage == 'http://') ? '' : $userHomepage;
 	$comment['secret'] = $userSecret;

@@ -222,6 +222,7 @@ function addComment($owner, & $comment) {
 
 	$comment['homepage'] = stripHTML($comment['homepage']);
 	$comment['name'] = mysql_lessen($comment['name'], 80);
+	$comment['email'] = mysql_lessen($comment['email'], 80);
 	$comment['homepage'] = mysql_lessen($comment['homepage'], 80);
 	$comment['comment'] = mysql_lessen($comment['comment'], 65535);
 	
@@ -234,11 +235,13 @@ function addComment($owner, & $comment) {
 	if ($user !== null) {
 		$comment['replier'] = $user['id'];
 		$name = mysql_escape_string($user['name']);
+		$email = $user['email'];
 		$password = '';
 		$homepage = mysql_escape_string($user['homepage']);
 	} else {
 		$comment['replier'] = 'null';
 		$name = mysql_escape_string($comment['name']);
+		$email = $comment['email'];
 		$password = empty($comment['password']) ? '' : md5($comment['password']);
 		$homepage = mysql_escape_string($comment['homepage']);
 	}
