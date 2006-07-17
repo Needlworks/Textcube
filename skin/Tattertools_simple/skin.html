@@ -182,6 +182,10 @@ function clickshow(num){
                                     <td><input class="text" type="password" maxlength="8" name="[##_guest_input_password_##]" value="[##_guest_password_##]" style="width:140px;" />                                    </td>
                                   </tr>
                                   <tr>
+                                    <td align="right" valign="top">이메일 : </td>
+                                    <td><input type="text" id="guestEmail" name="[##_guest_input_email_##]" value="[##_guest_email_##]" style="width:140px;" />                                    </td>
+                                  </tr>
+                                  <tr>
                                     <td align="right" valign="top">홈페이지 : </td>
                                     <td><input class="text" type="text" name="[##_guest_input_homepage_##]" value="[##_guest_homepage_##]" style="width:350px" />                                    </td>
                                   </tr>
@@ -189,7 +193,7 @@ function clickshow(num){
                               </s_guest_member>
                               <tr>
                                 <td align="right" valign="top">내용 : </td>
-<td><textarea style="overflow:visible;" rows="6" cols="55" name="[##_guest_textarea_body_##]"></textarea></td> 
+								<td><textarea style="overflow:visible;" rows="6" cols="55" name="[##_guest_textarea_body_##]"></textarea></td> 
                               </tr>
                               <tr>
                                 <td>&nbsp;</td>
@@ -395,6 +399,11 @@ function clickshow(num){
                                     <tr>
                                       <td align="right" valign="top">비밀번호 : </td>
                                       <td><input type="password" maxlength="8" name="[##_rp_input_password_##]" value="[##_rp_admin_check_##]" class="text" style="width:140px;" />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td align="right" valign="top">이메일 : </td>
+                                      <td><input type="text" class="email" id="email_[##_article_rep_id_##]" name="[##_rp_input_email_##]" value="[##_guest_email_##]" class="text" style="width:140px;" />
                                       </td>
                                     </tr>
                                     <tr>
