@@ -22,8 +22,10 @@ function metaWeblog_getCategories()
 	{
 		DEBUG( " Category: " . $category->name . "\n" );
 		array_push( $cat, array( 
-			'htmlUrl' => "$hostURL$blogURL/category" . $category->name,
+			'htmlUrl' => "$hostURL$blogURL/category/" . $category->name,
+			'rssUrl' => "$hostURL$blogURL/SubRSS.php?ct1=" . $category->id,
 			'categoryName' => $category->name,
+			'description' => $category->name,
 			'categoryId' => $category->id,
 			'isPrimary' => true ) );
 			
