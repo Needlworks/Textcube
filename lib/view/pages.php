@@ -1,14 +1,14 @@
 <?php 
 
 function respondMessagePage($message) {
-	global $service, $blogURL;
+	global $service;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<title><?php echo TATTERTOOLS_NAME?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $blogURL ?>/style/owner.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'] ?>/style/owner.css" />
 </head>
 <body id="body-message-page">
 	<div class="message-box">
@@ -26,14 +26,12 @@ function respondMessagePage($message) {
 }
 
 function respondAlertPage($message) {
-	global $service, $blogURL;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<title><?php echo TATTERTOOLS_NAME?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $blogURL ?>/style/owner.css" />
 	<script type="text/javascript">
 		//<![CDATA[
 			alert("<?php echo $message?>");
@@ -45,15 +43,15 @@ function respondAlertPage($message) {
 	exit;
 }
 
-function respondErrorPage($message = '') {
-	global $service, $blogURL;
+function respondErrorPage($message=NULL, $buttonValue=NULL, $buttonLink=NULL) {
+	global $service;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<title><?php echo TATTERTOOLS_NAME?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $blogURL ?>/style/owner.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'] ?>/style/owner.css" />
 </head>
 <body id="body-message-page">
 	<div class="message-box">
@@ -61,7 +59,7 @@ function respondErrorPage($message = '') {
 		
 		<div class="message"><?php echo $message?></div>
 		<div class="button-box">
-			<input type="button" class="button-input" value="<?php echo _text('이전')?>" onclick="window.history.go(-1)" />
+			<input type="button" class="button-input" value="<?php echo !empty($buttonValue) ? $buttonValue) : _text('이전')?>" onclick="<?php echo !empty($buttonLink) ? 'window.location.href=\''.$buttonLink.'\'' : 'window.history.go(-1)'?>" />
 		</div>
 	</div>
 </body>

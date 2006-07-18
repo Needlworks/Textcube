@@ -74,20 +74,20 @@ $commentCount = ($commentCount > 0) ? "$commentCount" : '';
 					printHtmlHeader();
 ?>
 <script type="text/javascript">
-//<![CDATA[		
-	alert("<?=_text('댓글이 수정되었습니다.')?>");
-	
-	try {
-		var obj = opener.document.getElementById("entry<?=$comment['entry']?>Comment");
-		obj.innerHTML = "<?=str_innerHTML(removeAllTags(getCommentView($comment['entry'], $skin)))?>";
-		var recentComment = opener.document.getElementById("recentComments");
-		if(recentComment)
-			recentComment.innerHTML = "<?=str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
-		window.close();
-	} catch(e) {
-//		alert(e.message);
-	}
-//]]>
+	//<![CDATA[		
+		alert("<?=_text('댓글이 수정되었습니다.')?>");
+		
+		try {
+			var obj = opener.document.getElementById("entry<?=$comment['entry']?>Comment");
+			obj.innerHTML = "<?=str_innerHTML(removeAllTags(getCommentView($comment['entry'], $skin)))?>";
+			var recentComment = opener.document.getElementById("recentComments");
+			if(recentComment)
+				recentComment.innerHTML = "<?=str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
+			window.close();
+		} catch(e) {
+			// alert(e.message);
+		}
+	//]]>
 </script>
 <?
 					printHtmlFooter();

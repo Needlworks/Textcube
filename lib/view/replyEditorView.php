@@ -74,12 +74,12 @@ if (!doesHaveOwnership()) {
 	}
 ?>
 
-    				<dl class="email-line">
+    			<dl class="email-line">
 					<dt><label for="email"><?php echo _text('E-Mail')?></label></dt>
 					<dd><input type="text" class="text-input" id="email" name="email" value="<?php echo (empty($comment['email']) ? '' : htmlspecialchars($comment['email']))?>" /></dd>
 				</dl>
 				
-    				<dl class="homepage-line">
+    			<dl class="homepage-line">
 					<dt><label for="homepage"><?php echo _text('홈페이지')?></label></dt>
 					<dd><input type="text" class="text-input" id="homepage" name="homepage" value="<?php echo (empty($comment['homepage']) ? 'http://' : htmlspecialchars($comment['homepage']))?>" /></dd>
 				</dl>

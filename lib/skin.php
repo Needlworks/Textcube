@@ -54,10 +54,10 @@ class Skin {
 	var $aux;
 
 	function Skin($name) {
-		global $service;
+		global $service, $blogURL;
 		$filename = ROOT . "/skin/$name/skin.html";
 		if (!$sval = file_get_contents($filename))
-			respondErrorPage(_text('스킨 정보가 존재하지 않습니다.'));
+			respondErrorPage(_text('스킨 정보가 존재하지 않습니다.', '로그인', $blogURL,"/login"));
 
 		$sval = replaceSkinTag($sval, 'html');
 		$sval = replaceSkinTag($sval, 'head');

@@ -166,11 +166,9 @@ function getUpperView($paging) {
 				alignCenter(openWindow,width,height);
 			}
 			
-			
-			
 			function commentComment(parent) {	
 				width = 450;
-				height = 360;
+				height = 380;
 				if(openWindow != '') openWindow.close();
 				openWindow = window.open("<?php echo $blogURL?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
 				openWindow.focus();
@@ -292,7 +290,7 @@ function getScriptsOnFoot() {
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
-		updateFeed();
+			updateFeed();
 		//]]>
 	</script>
 <?php 
