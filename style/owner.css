@@ -116,6 +116,13 @@ body
 	padding                          : 10px;
 }
 
+#trackback-box #command-box dl
+{
+	clear                            : both;
+	float                            : none;
+	height                           : 1.8em;
+}
+
 #trackback-box #command-box dl dt
 {
 	float                            : left;
@@ -129,21 +136,9 @@ body
 	float                            : left;
 }
 
-#trackback-box #command-box dl,
-#trackback-box #command-box dl dd.clear
-{
-	clear                            : both;
-	float                            : none;
-}
-
 #trackback-box #command-box label
 {
 	cursor                           : pointer;
-}
-
-#trackback-box #command-box .input-line
-{
-	margin-top                       : 10px;
 }
 
 #trackback-box #command-box .input-line dd
@@ -155,6 +150,7 @@ body
 {
 	border                           : 1px solid #9DCAFB;
 	/*height                           : 1.7em;*/
+	font-size                        : 1em;
 	margin-top                       : -7px;
 	padding                          : 3px;
 	vertical-align                   : middle;
@@ -167,7 +163,7 @@ body
 	background-color                 : #83AFE0;
 	color                            : #FFFFFF;
 	font-weight                      : bold;
-	font-size                        : 94%;
+	font-size                        : 1em;
 	height                           : 1.9em;
 	margin-top                       : -7px;
 	padding                          : 0 6px;
@@ -213,6 +209,11 @@ body
 	padding                          : 3px 7px 0 7px;
 }
 
+#trackback-box #command-box table tr .date
+{
+	text-align                       : center;
+}
+
 #trackback-box #command-box table tr .delete
 {
 	padding                          : 0 3px;
@@ -225,6 +226,7 @@ body
 	background-repeat                : no-repeat;
 	display                          : block;
 	height                           : 10px;
+	margin                           : 0 auto;
 	width                            : 10px;
 }
 
@@ -235,7 +237,8 @@ body
 
 #trackback-box .button-box
 {
-	margin-top                       : 10px;
+	clear                            : both;
+	padding-top                      : 10px;
 	text-align                       : center;
 }
 
@@ -246,7 +249,7 @@ body
 	color                            : #FFFFFF;
 	display                          : block;
 	font-weight                      : bold;
-	font-size                        : 94%;
+	font-size                        : 1em;
 	height                           : 2em;
 	margin                           : 0 auto;
 	padding                          : 0 6px;

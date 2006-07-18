@@ -49,108 +49,11 @@ function resizing($maxX, $maxY, $src_file, $tag_file) {
 
 // img의 width/height에 맞춰 이미지를 리샘플링하는 함수. 썸네일 함수가 아님! 주의.
 function makeThumbnail($imgString, $originSrc) {
-	global $database, $owner, $blogURL;
+	global $database, $owner, $blogURL, $waterMarkArray, $paddingArray;
 	
 	if (!extension_loaded('gd')) {
 		return $imgString;
 	}
-	
-	if (!is_dir(ROOT."/cache/thumbnail/$owner")) { 
-		@mkdir(ROOT."/cache/thumbnail");
-		@chmod(ROOT."/cache/thumbnail", 0777);
-		@mkdir(ROOT."/cache/thumbnail/$owner");
-		@chmod(ROOT."/cache/thumbnail/$owner", 0777);
-	}
-	
-	// 워터 마크 파일이 있는 곳.
-	if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
-		$waterMarkPath = ROOT."/attach/$owner/watermark.gif";
-	} else {
-		$waterMarkPath = NULL;
-	}
-	
-	// 워터 마크가 들어갈 장소의 x, y 좌표.
-	// - x는 "left, center, right, 숫자", y는 "top, middle, bottom, 숫자" 중 입력할 수 있습니다.
-	// - 숫자로 위치를 지정하실 경우 양수일 때는 좌측 상단 모서리가, 음수일 때는 우측 하단 모서리가 기준입니다.
-	$waterMarkPosition = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
-	if ($waterMarkPosition == false) {
-		$waterMarkPosition = "left=10|bottom=10";
-	}
-	
-	list($horizontalPos, $verticalPos) = explode("|", $waterMarkPosition);
-	$horizontalPos = explode("=", $horizontalPos);
-	$verticalPos = explode("=", $verticalPos);
-	
-	if ($horizontalPos[0] == "left") {
-		if ($horizontalPos[0] > 0) {
-			$horizontalValue = $horizontalPos[1];
-		} else {
-			$horizontalValue = "left";
-		}
-	} else if ($horizontalPos[0] == "center") {
-		$horizontalValue = "center";
-	} else if ($horizontalPos[0] == "right") {
-		if ($horizontalPos[0] > 0) {
-			$horizontalValue = $horizontalPos[1] - $horizontalPos[1] * 2;
-		} else {
-			$horizontalValue = "right";
-		}
-	}
-	if ($verticalPos[0] == "top") {
-		if ($verticalPos[0] > 0) {
-			$verticalValue = $verticalPos[1];
-		} else {
-			$verticalValue = "top";
-		}
-	} else if ($verticalPos[0] == "middle") {
-		$verticalValue = "middle";
-	} else if ($verticalPos[0] == "bottom") {
-		if ($verticalPos[0] > 0) {
-			$verticalValue = $verticalPos[1] - $verticalPos[1] * 2;
-		} else {
-			$verticalValue = "bottom";
-		}
-	}
-	
-	$waterMarkPosition = "$horizontalValue $verticalValue";
-	
-	// 워터 마크의 투명도.
-	// - 100이면 완전불투명.
-	// - 0이면 완전투명.(즉, 워터마크가 적용되지 않은 것과 마찬가지.)
-	$gammaForWaterMark = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'gammaForWaterMark'");
-	if ($gammaForWaterMark == false) {
-		$gammaForWaterMark = 100;
-	} else {
-		$gammaForWaterMark = intval($gammaForWaterMark);
-	}
-	
-	// 여백의 크기.
-	$thumbnailPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPadding'");
-	if ($thumbnailPadding == false) {
-		$padding = array("top" => 25, "right" => 25, "bottom" => 25, "left" => 25);
-	} else {
-		$tempArray = explode("|", $thumbnailPadding);
-		$padding = array("top" => intval($tempArray[0]), "right" => intval($tempArray[1]), "bottom" => intval($tempArray[2]), "left" => intval($tempArray[3]));
-	}
-	
-	// 여백의 색상.
-	// 투명은 transparent로 사용하도록 짰으나 IE 때문에(!!) 막았습니다. 땡스 빌을 탓하삼.
-	$bgColorForPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
-	if ($bgColorForPadding == false) {
-		$bgColorForPadding = "FFFFFF"; 
-	}
-	
-	$waterMarkArray = array();
-	$waterMarkArray['path'] = $waterMarkPath;
-	$waterMarkArray['position'] = $waterMarkPosition;
-	$waterMarkArray['gamma'] = $gammaForWaterMark;
-	
-	$paddingArray = array();
-	$paddingArray['top'] = $padding['top'];
-	$paddingArray['right'] = $padding['right'];
-	$paddingArray['bottom'] = $padding['bottom'];
-	$paddingArray['left'] = $padding['left'];
-	$paddingArray['bgColor'] = $bgColorForPadding;
 	
 	if (eregi('class="tt-thumbnail"', $imgString, $extra)) {
 		$originFileName = basename($originSrc);
@@ -605,5 +508,85 @@ function getImageType($filename)
 function deleteAllThumbnails($path) {
 	deleteFilesByRegExp($path, "*");
 	return true;
+}
+
+function getWaterMarkPosition() {
+	global $database, $owner;
+	
+	$waterMarkPosition = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
+	if ($waterMarkPosition == false) {
+		$waterMarkPosition = "left=10|bottom=10";
+	}
+	
+	list($horizontalPos, $verticalPos) = explode("|", $waterMarkPosition);
+	$horizontalPos = explode("=", $horizontalPos);
+	$verticalPos = explode("=", $verticalPos);
+	
+	if ($horizontalPos[0] == "left") {
+		if ($horizontalPos[0] > 0) {
+			$horizontalValue = $horizontalPos[1];
+		} else {
+			$horizontalValue = "left";
+		}
+	} else if ($horizontalPos[0] == "center") {
+		$horizontalValue = "center";
+	} else if ($horizontalPos[0] == "right") {
+		if ($horizontalPos[0] > 0) {
+			$horizontalValue = $horizontalPos[1] - $horizontalPos[1] * 2;
+		} else {
+			$horizontalValue = "right";
+		}
+	}
+	if ($verticalPos[0] == "top") {
+		if ($verticalPos[0] > 0) {
+			$verticalValue = $verticalPos[1];
+		} else {
+			$verticalValue = "top";
+		}
+	} else if ($verticalPos[0] == "middle") {
+		$verticalValue = "middle";
+	} else if ($verticalPos[0] == "bottom") {
+		if ($verticalPos[0] > 0) {
+			$verticalValue = $verticalPos[1] - $verticalPos[1] * 2;
+		} else {
+			$verticalValue = "bottom";
+		}
+	}
+	
+	return "$horizontalValue $verticalValue";
+}
+
+function getWaterMarkGamma() {
+	global $database, $owner;
+	
+	$gammaForWaterMark = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'gammaForWaterMark'");
+	if ($gammaForWaterMark == false) {
+		return 100;
+	} else {
+		return intval($gammaForWaterMark);
+	}
+}
+
+function getThumbnailPadding() {
+	global $database, $owner;
+	
+	$thumbnailPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPadding'");
+	if ($thumbnailPadding == false) {
+		return array("top" => 25, "right" => 25, "bottom" => 25, "left" => 25);
+	} else {
+		$tempArray = explode("|", $thumbnailPadding);
+		return array("top" => intval($tempArray[0]), "right" => intval($tempArray[1]), "bottom" => intval($tempArray[2]), "left" => intval($tempArray[3]));
+	}
+}
+
+function getThumbnailPaddingColor() {
+	global $database, $owner;
+	
+	$bgColorForPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
+	if ($bgColorForPadding == false) {
+		return "FFFFFF"; 
+	} else {
+		return $bgColorForPadding;
+	}
 }
 ?>

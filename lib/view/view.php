@@ -1225,7 +1225,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 }
 
 function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $imageBlocks = 1, $useAbsolutePath = false) {
-	global $database, $service, $owner, $blogURL, $hostURL;
+	global $database, $service, $owner, $blogURL, $hostURL, $waterMarkArray, $paddingArray;
 	$path = "$folderPath/$filename";
 	if ($useAbsolutePath)
 		$url = "$hostURL{$service['path']}/attach/$owner/$filename";
@@ -1316,8 +1316,45 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					$imageStr = '<img src="'.$url.'" '.$property.' />';		
 				}
 				
-				$imageStr = makeThumbnail($imageStr, $path);
-				return fireEvent('ViewAttachedImage', $imageStr, $path);
+				if (!is_dir(ROOT."/cache/thumbnail/$owner")) { 
+					@mkdir(ROOT."/cache/thumbnail");
+					@chmod(ROOT."/cache/thumbnail", 0777);
+					@mkdir(ROOT."/cache/thumbnail/$owner");
+					@chmod(ROOT."/cache/thumbnail/$owner", 0777);
+				}
+				
+				// 워터 마크 파일이 있는 곳.
+				if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
+					$waterMarkPath = ROOT."/attach/$owner/watermark.gif";
+				} else {
+					$waterMarkPath = NULL;
+				}
+				
+				// 워터 마크가 들어갈 장소의 x, y 좌표.
+				$waterMarkPosition = getWaterMarkPosition();
+				
+				// 워터 마크의 투명도.
+				$gammaForWaterMark = getWaterMarkGamma();
+				
+				// 여백의 크기.
+				$padding = getThumbnailPadding();
+				
+				// 여백의 색상.
+				$bgColorForPadding = getThumbnailPaddingColor();
+				
+				$waterMarkArray = array();
+				$waterMarkArray['path'] = $waterMarkPath;
+				$waterMarkArray['position'] = $waterMarkPosition;
+				$waterMarkArray['gamma'] = $gammaForWaterMark;
+				
+				$paddingArray = array();
+				$paddingArray['top'] = $padding['top'];
+				$paddingArray['right'] = $padding['right'];
+				$paddingArray['bottom'] = $padding['bottom'];
+				$paddingArray['left'] = $padding['left'];
+				$paddingArray['bgColor'] = $bgColorForPadding;
+				
+				return makeThumbnail(fireEvent('ViewAttachedImage', $imageStr, $path), $path);
 			}
 			break;
 		case 'swf':

@@ -39,7 +39,7 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><?php echo _t('Tattertools - Login')?></title>
+	<title><?php echo _text('Tattertools - Login')?></title>
 	
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/login.css" />

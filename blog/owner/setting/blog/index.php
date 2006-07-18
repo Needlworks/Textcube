@@ -552,7 +552,7 @@ if (extension_loaded('gd')) {
 											<dd>
 												<select name="gammaForWaterMark"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
 <?php
-	$gammaForWaterMark = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'gammaForWaterMark'");
+	$gammaForWaterMark = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'gammaForWaterMark'");
 	if ($gammaForWaterMark == false) {
 		$gammaForWaterMark = 100;
 	}
@@ -568,16 +568,16 @@ if (extension_loaded('gd')) {
 											</dd>
 										</dl>
 <?php
-	$positionOfWartermark = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
-	if ($positionOfWartermark == false) {
-		$top = 0;
+	$waterMarkPosition = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
+	if ($waterMarkPosition == false) {
+		$bottom = 0;
 		$center = 0;
 		$horizontalValue = 0;
 		$verticalValue = 0;
 	} else {
-		$positionOfWartermark = explode("|", $positionOfWartermark);
-		parse_str($positionOfWartermark[0]);
-		parse_str($positionOfWartermark[1]);
+		$waterMarkPosition = explode("|", $waterMarkPosition);
+		parse_str($waterMarkPosition[0]);
+		parse_str($waterMarkPosition[1]);
 		
 		if (isset($left))
 			$horizontalValue = $left;
@@ -615,7 +615,7 @@ if (extension_loaded('gd')) {
 											</dd>
 										</dl>
 <?php
-	$thumbnailPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'thumbnailPadding'");
+	$thumbnailPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPadding'");
 	if ($thumbnailPadding == false) {
 		$thumbnailTopPadding = "0";
 		$thumbnailRightPadding = "0";
@@ -625,7 +625,7 @@ if (extension_loaded('gd')) {
 		list($thumbnailTopPadding, $thumbnailRightPadding, $thumbnailBottomPadding, $thumbnailLeftPadding)  = explode("|", $thumbnailPadding);
 	}
 	
-	$colorOfPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}userSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
+	$colorOfPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
 	if ($colorOfPadding == false) {
 		$colorOfPadding = "FFFFFF";
 	}
