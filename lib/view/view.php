@@ -1253,7 +1253,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					list($originWidth, $originHeight, $type, $attr) = $tempInfo;
 				} else {
 					// 에러?
-					return '<span clas="message">'._text('에러가 발생한 이미지입니다.').'</span>';
+					return '<span class="message">'._text('에러가 발생한 이미지입니다.').'</span>';
 				}
 				
 				if (eregi('alt=""', $property, $temp)) {
