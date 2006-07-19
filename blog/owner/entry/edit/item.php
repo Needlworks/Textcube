@@ -445,14 +445,15 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 			echo '<div style="width:655px;">', $view, '</div>';
 ?>
 						  
-						  <table border="0" cellspacing="0" cellpadding="1" style="margin-top:3px;" width="100%">
+						  <table cellspacing="0" cellpadding="1" style="margin-top:3px;" width="100%">
 							<tr>
 							  <td style="width:5%" nowrap="nowrap"><span style="padding-left:10px; font-weight:bold; color:#536576;"><?=_t('태그')?></span> | &nbsp;&nbsp;</td>
-							  <td style="padding-left: 7px; width:95%"><div id="tag"></div></td>
+							  <td style="padding-left: 7px; width:100%" colspan="2"><div id="tag"></div></td>							  
 							</tr>
 							<tr>
 							  <td nowrap="nowrap"><span style="padding-left:10px; font-weight:bold; color:#536576;"><?=_t('지역')?></span> | &nbsp;&nbsp;</td>
-							  <td style="padding-left: 7px"><div id="location"></div></td>
+							  <td style="padding-left: 7px" width="100%"><div id="location"></div></td>							  
+							  <td style="padding-right: 10px" align="left" nowrap="nowrap"><a target="_blank" href="http://manual.tattertools.com/ko/wiki/%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0/%EC%A7%80%EC%97%AD%ED%83%9C%EA%B7%B8?action=show">[<?=_t('지역태그 란 ')?>?]</a></td>
 							</tr>
 						  </table>
 						  
