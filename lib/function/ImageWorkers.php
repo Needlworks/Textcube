@@ -51,10 +51,10 @@ function resizing($maxX, $maxY, $src_file, $tag_file) {
 function makeThumbnail($imgString, $originSrc) {
 	global $database, $owner, $blogURL, $waterMarkArray, $paddingArray;
 	
-	if (!extension_loaded('gd')) {
+	if (!extension_loaded('gd') || eregi(' src="http://[^"]+"', $imgString, $extra)) {
 		return $imgString;
 	}
-	
+		
 	if (eregi('class="tt-thumbnail"', $imgString, $extra)) {
 		$originFileName = basename($originSrc);
 		
@@ -70,6 +70,7 @@ function makeThumbnail($imgString, $originSrc) {
 		
 		$newTempFileName = eregi_replace("\.([[:alnum:]]+)$", ".thumbnail.\\1", $originFileName);
 		$tempSrc = ROOT."/cache/thumbnail/$owner/$newTempFileName";
+		
 		// 보안상 cache 디렉토리를 공개하지 않도록 남겨놓는다.
 		$tempURL = $blogURL."/thumbnail/$owner/$newTempFileName";
 		
@@ -186,12 +187,91 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 		$padding['bgColor'] = "FFFFFF";
 	}
 	
+	// 이미지 크기 조정.
+	if (!is_null($width) && is_null($height)) {
+		if ($width > $originWidth) {
+			if ($resizeFlag == "enlarge" || $resizeFlag == "both") {
+				$imgWidth = $width;
+			} else if ($resizeFlag == "reduce") {
+				$imgWidth = $originWidth;
+			}
+			$imgHeight = ceil($originHeight * $imgWidth / $originWidth);
+		} else if ($width < $originWidth) {
+			if ($resizeFlag == "reduce" || $resizeFlag == "both") {
+				$imgWidth = $width;
+			} else if ($resizeFlag == "enlarge") {
+				$imgWidth = $originWidth;
+			}
+			$imgHeight = ceil($originHeight * $imgWidth / $originWidth);
+		} else {
+			return true;
+		}
+	} else if (is_null($width) && !is_null($height)) {
+		if ($height > $originHeight) {
+			if ($resizeFlag == "enlarge" || $resizeFlag == "both") {
+				$imgHeight = $height;
+			} else if ($resizeFlag == "reduce") {
+				$imgHeight = $originWidth;
+			}
+			$imgWidth = ceil($originWidth * $imgHeight / $originHeight);
+		} else if ($height < $originHeight) {
+			if ($resizeFlag == "reduce" || $resizeFlag == "both") {
+				$imgHeight = $height;
+			} else if ($resizeFlag == "enlarge") {
+				$imgHeight = $originHeight;
+			}
+			$imgWidth = ceil($originWidth * $imgHeight / $originHeight);
+		} else {
+			return true;
+		}
+	} else if (!is_null($width) && !is_null($height)) {
+		if ($width > $originWidth) {
+			if ($resizeFlag == "enlarge" || $resizeFlag == "both") {
+				$imgWidth = $width;
+			} else if ($resizeFlag == "reduce") {
+				$imgWidth = $originWidth;
+			}
+		} else if ($width < $originWidth) {
+			if ($resizeFlag == "reduce" || $resizeFlag == "both") {
+				$imgWidth = $width;
+			} else if ($resizeFlag == "enlarge") {
+				$imgWidth = $originWidth;
+			}
+		} else {
+			$imgWidth = $width;
+		}
+		
+		if ($height > $originHeight) {
+			if ($resizeFlag == "enlarge" || $resizeFlag == "both") {
+				$imgHeight = $height;
+			} else if ($resizeFlag == "reduce") {
+				$imgHeight = $originWidth;
+			}
+		} else if ($height < $originHeight) {
+			if ($resizeFlag == "reduce" || $resizeFlag == "both") {
+				$imgHeight = $height;
+			} else if ($resizeFlag == "enlarge") {
+				$imgHeight = $originHeight;
+			}
+		} else {
+			$imgHeight = $height;
+		}
+		
+		if ($imgWidth == $originWidth && $imgHeight == $originHeight) {
+			return true;
+		}
+	}
+	
 	// 여백 값이 존재한다면 $width, $height의 값은 여백값을 포함한 크기이다. 따라서 여백 값을 뺀다.
 	// |--------------------- $width ---------------------|
 	// |-- 좌측 여백 --||-- $new_width --||-- 우측 여백 --|
-	$imgWidth = $width - $padding['left'] - $padding['right'];
+	$imgWidth = $imgWidth - $padding['left'] - $padding['right'];
 	($imgWidth < 0) ? $imgWidth = 0 : NULL;
-	$imgHeight = ceil($height * $imgWidth / $width);
+	if (($imgWidth + $padding['left'] + $padding['right']) > 0) {
+		$imgHeight = ceil($imgHeight * $imgWidth / ($imgWidth + $padding['left'] + $padding['right']));
+	} else {
+		$imgHeight = ceil($imgHeight * $imgWidth / 0.001);
+	}
 	($imgHeight < 0) ? $imgHeight = 0 : NULL;
 	
 	// 원본의 포맷(확장자가 아님)에 해당하는 이미지 생성.
@@ -268,31 +348,41 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 		$waterMarkWidth = $waterMarkInfo[0];
 		$waterMarkHeight = $waterMarkInfo[1];
 		
-		// 워터 마크 이미지 디바이스 생성.
-		if ($waterMarkInfo[2] == 1) {
-			$tempWaterMarkSource = imagecreatefromgif($waterMark['path']);
-		} else if ($waterMarkInfo[2] == 2) {
-			$tempWaterMarkSource = imagecreatefromjpeg($waterMark['path']);
-		} else if ($waterMarkInfo[2] == 3) {
-			$tempWaterMarkSource = imagecreatefrompng($waterMark['path']);
-		}
-		
 		// 워터 마크 포지션.
 		if (eregi("^(\-?[0-9A-Z]+) (\-?[0-9A-Z]+)$", $waterMark['position'], $temp)) {
+			$resultWidth = imagesx($tempResultImage);
+			$resultHeight = imagesy($tempResultImage);
+			
 			$extraPadding = 0;
 			switch ($temp[1]) {
 				case "left":
+					if ($waterMarkWidth > ($resultWidth - $extraPadding)) {
+						$waterMarkWidth = $resultWidth - $extraPadding;
+						$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkWidth);
+					}
 					$xPosition = $extraPadding;
 					break;
 				case "center":
-					$xPosition = ($imgWidth + $padding['left'] + $padding['right']) / 2 - $waterMarkInfo[0] / 2;
+					if ($waterMarkWidth > $resultWidth) {
+						$waterMarkWidth = $resultWidth;
+						$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
+					}
+					$xPosition = ($imgWidth + $padding['left'] + $padding['right']) / 2 - $waterMarkWidth / 2;
 					break;
 				case "right":
+					if ($waterMarkWidth > ($resultWidth - $extraPadding)) {
+						$waterMarkWidth = $resultWidth - $extraPadding;
+						$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
+					}
 					$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth - $extraPadding;
 					break;
 				default:
 					// 양수인 경우, 왼쪽부터 x좌표 값을 계산한다.
 					if (eregi("^([1-9][0-9]*)$", $temp[1], $extra)) {
+						if ($waterMarkWidth > ($resultWidth - $extra[1])) {
+							$waterMarkWidth = $resultWidth - $extra[1];
+							$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
+						}
 						if ($extra[1] > $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth) {
 							$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth;
 						} else {
@@ -300,33 +390,65 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 						}
 					// 음수인 경우, 오른쪽부터 x좌표 값을 계산한다.
 					} else if (eregi("^(\-?[1-9][0-9]*)$", $temp[1], $extra)) {
+						if ($waterMarkWidth > ($resultWidth + $extra[1])) {
+							$waterMarkWidth = $resultWidth + $extra[1];
+							$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
+						}
 						if ($imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth + $extra[1] < 0) {
 							$xPosition = 0;
 						} else {
 							$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth + $extra[1];
 						}
 					// 0인 경우.
-					} else if (eregi("^0$", $temp[1], $extra)) {
+					} else if ($temp[1] == "0") {
+						if ($waterMarkWidth > $resultWidth) {
+							$waterMarkWidth = $resultWidth;
+							$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
+						}
 						$xPosition = 0;
 					// 나머지 경우는 임의 여백으로 우측에 붙인다.
 					} else {
+						if ($waterMarkWidth > ($resultWidth - $extraPadding)) {
+							$waterMarkWidth = $resultWidth - $extraPadding;
+							$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
+						}
 						$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth - $extraPadding;
 					}
 			}
 			
 			switch ($temp[2]) {
 				case "top":
+					if ($waterMarkHeight > ($resultHeight - $extraPadding)) {
+						$tempHeight = $waterMarkHeight;
+						$waterMarkHeight = $resultHeight - $extraPadding;
+						$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $tempHeight);
+					}
 					$yPosition = $extraPadding;
 					break;
 				case "middle":
-					$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] / 2 - $waterMarkInfo[1] / 2;
+					if ($waterMarkHeight > $resultHeight) {
+						$tempHeight = $waterMarkHeight;
+						$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $tempHeight);
+						$waterMarkHeight = $resultHeight;
+					}
+					$yPosition = ($imgHeight + $padding['top'] + $padding['bottom']) / 2 - $waterMarkHeight / 2;
 					break;
 				case "bottom":
+					if ($waterMarkHeight > ($resultHeight - $extraPadding)) {
+						$tempHeight = $waterMarkHeight;
+						$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $tempHeight);
+						$waterMarkHeight = $resultHeight - $extraPadding;
+					}
 					$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight - $extraPadding;
 					break;
 				default:
 					// 양수인 경우, 위부터 y좌표 값을 계산한다.
 					if (eregi("^([1-9][0-9]*)$", $temp[2], $extra)) {
+						if ($waterMarkHeight > ($resultHeight - $extra[1])) {
+							$tempHeight = $waterMarkHeight;
+							$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $tempHeight);
+							$waterMarkHeight = $resultHeight - $extra[1];
+						}
 						if ($extra[1] > $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight) {
 							$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight;
 						} else {
@@ -334,22 +456,46 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 						}
 					// 음수인 경우, 아래부터 y좌표 값을 계산한다.
 					} else if (eregi("^(\-?[1-9][0-9]*)$", $temp[2], $extra)) {
+						if ($waterMarkHeight > ($resultHeight - $extra[1])) {
+							$tempHeight = $waterMarkHeight;
+							$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $tempHeight);
+							$waterMarkHeight = $resultHeight - $extra[1];
+						}
 						if ($imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight + $extra[1] < 0) {
 							$yPosition = 0;
 						} else {
 							$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight + $extra[1];
 						}
 					// 0인 경우.
-					} else if (eregi("^0$", $temp[1], $extra)) {
+					} else if ($temp[1] == "0") {
+						if ($waterMarkHeight > $resultHeight) {
+							$tempHeight = $waterMarkHeight;
+							$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $tempHeight);
+							$waterMarkHeight = $resultHeight;
+						}
 						$yPosition = 0;
 					// 나머지 경우는 임의 여백으로 아래에 붙인다.
 					} else {
+						if ($waterMarkHeight > ($resultHeight - $extraPadding)) {
+							$tempHeight = $waterMarkHeight;
+							$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $tempHeight);
+							$waterMarkHeight = $resultHeight - $extraPadding;
+						}
 						$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight - $extraPadding;
 					}
 			}
 		} else {
-			$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth - $extraPadding;
-			$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight - $extraPadding;
+			if ($waterMarkWidth > ($resultWidth - $extraPadding)) {
+				$waterMarkWidth = $resultWidth - $extraPadding;
+				$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
+			}
+			$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkInfo[0] - $extraPadding;
+			
+			if ($waterMarkHeight > ($resultHeight - $extraPadding)) {
+				$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $waterMarkInfo[1]);
+				$waterMarkHeight = $resultHeight - $extraPadding;
+			}
+			$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkInfo[1] - $extraPadding;
 		}
 		
 		// 감마값 유효성 검사.
@@ -361,10 +507,32 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 			$waterMark['gamma'] = 100;
 		}
 		
+		// 워터 마크 이미지 디바이스 생성.
+		if ($waterMarkInfo[2] == 1) {
+			$tempWaterMark = imagecreatefromgif($waterMark['path']);
+		} else if ($waterMarkInfo[2] == 2) {
+			$tempWaterMark = imagecreatefromjpeg($waterMark['path']);
+		} else if ($waterMarkInfo[2] == 3) {
+			$tempWaterMark = imagecreatefrompng($waterMark['path']);
+		}
+		
+		if ($waterMarkInfo[0] != $waterMarkWidth || $waterMarkInfo[1] != $waterMarkHeight) {
+			// 새로운 트루타입 이미지 디바이스를 생성.
+			$tempWaterMarkSource = imagecreatetruecolor($waterMarkWidth, $waterMarkHeight);
+			
+			//imagealphablending($tempResultImage, 0); //bgColor가 대신 alpha blending을 막아줌.
+			//$bgColorBy16 = hexRGB("FFFFFF");
+			//$temp = imagecolorallocate($tempWaterMark, $bgColorBy16['R'], $bgColorBy16['G'], $bgColorBy16['B']);
+			//imagefilledrectangle($tempWaterMark, 0, 0, $waterMarkWidth, $waterMarkHeight, $temp);
+			
+			// 이미지 디바이스에 크기가 조정된 원본 이미지를 여백을 적용하여 붙인다.
+			imagecopyresampled($tempWaterMarkSource, $tempWaterMark, 0, 0, 0, 0, $waterMarkWidth, $waterMarkHeight, imagesx($tempWaterMark), imagesy($tempWaterMark));
+		}
+		
 		if (function_exists("imagecopymerge")) {
-			imagecopymerge($tempResultImage, $tempWaterMarkSource, $xPosition, $yPosition, 0, 0, imagesx($tempWaterMarkSource), imagesy($tempWaterMarkSource), $waterMark['gamma']);
+			imagecopymerge($tempResultImage, $tempWaterMarkSource, $xPosition, $yPosition, 0, 0, $waterMarkWidth, $waterMarkHeight, $waterMark['gamma']);
 		} else {
-			imagecopy($tempResultImage, $tempWaterMarkSource, $xPosition, $yPosition, 0, 0, imagesx($tempWaterMarkSource), imagesy($tempWaterMarkSource));
+			imagecopy($tempResultImage, $tempWaterMarkSource, $xPosition, $yPosition, 0, 0, $waterMarkWidth, $waterMarkHeight);
 		}
 	}
 	
@@ -375,7 +543,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 			imagegif($tempResultImage, $path.$tempImage);
 		} else if (getFileExtension($fileName) == "jpg" || getFileExtension($fileName) == "jpeg") {
 			imageinterlace($tempResultImage);
-			imagejpeg($tempResultImage, $path.$tempImage);
+			imagejpeg($tempResultImage, $path.$tempImage, 80);
 		} else if (getFileExtension($fileName) == "png") {
 			imagepng($tempResultImage, $path.$tempImage);
 		} else if (getFileExtension($fileName) == "wbmp") {
@@ -523,7 +691,7 @@ function getWaterMarkPosition() {
 	$verticalPos = explode("=", $verticalPos);
 	
 	if ($horizontalPos[0] == "left") {
-		if ($horizontalPos[0] > 0) {
+		if ($horizontalPos[1] > 0) {
 			$horizontalValue = $horizontalPos[1];
 		} else {
 			$horizontalValue = "left";
@@ -531,14 +699,14 @@ function getWaterMarkPosition() {
 	} else if ($horizontalPos[0] == "center") {
 		$horizontalValue = "center";
 	} else if ($horizontalPos[0] == "right") {
-		if ($horizontalPos[0] > 0) {
+		if ($horizontalPos[1] > 0) {
 			$horizontalValue = $horizontalPos[1] - $horizontalPos[1] * 2;
 		} else {
 			$horizontalValue = "right";
 		}
 	}
 	if ($verticalPos[0] == "top") {
-		if ($verticalPos[0] > 0) {
+		if ($verticalPos[1] > 0) {
 			$verticalValue = $verticalPos[1];
 		} else {
 			$verticalValue = "top";
@@ -546,7 +714,7 @@ function getWaterMarkPosition() {
 	} else if ($verticalPos[0] == "middle") {
 		$verticalValue = "middle";
 	} else if ($verticalPos[0] == "bottom") {
-		if ($verticalPos[0] > 0) {
+		if ($verticalPos[1] > 0) {
 			$verticalValue = $verticalPos[1] - $verticalPos[1] * 2;
 		} else {
 			$verticalValue = "bottom";
