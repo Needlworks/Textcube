@@ -211,7 +211,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 			if ($resizeFlag == "enlarge" || $resizeFlag == "both") {
 				$imgHeight = $height;
 			} else if ($resizeFlag == "reduce") {
-				$imgHeight = $originWidth;
+				$imgHeight = $originHeight;
 			}
 			$imgWidth = ceil($originWidth * $imgHeight / $originHeight);
 		} else if ($height < $originHeight) {
@@ -231,34 +231,21 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 			} else if ($resizeFlag == "reduce") {
 				$imgWidth = $originWidth;
 			}
+			$imgHeight = ceil($originHeight * $imgWidth / $originWidth);
 		} else if ($width < $originWidth) {
 			if ($resizeFlag == "reduce" || $resizeFlag == "both") {
 				$imgWidth = $width;
 			} else if ($resizeFlag == "enlarge") {
 				$imgWidth = $originWidth;
 			}
+			$imgHeight = ceil($originHeight * $imgWidth / $originWidth);
 		} else {
 			$imgWidth = $width;
 		}
 		
-		if ($height > $originHeight) {
-			if ($resizeFlag == "enlarge" || $resizeFlag == "both") {
-				$imgHeight = $height;
-			} else if ($resizeFlag == "reduce") {
-				$imgHeight = $originWidth;
-			}
-		} else if ($height < $originHeight) {
-			if ($resizeFlag == "reduce" || $resizeFlag == "both") {
-				$imgHeight = $height;
-			} else if ($resizeFlag == "enlarge") {
-				$imgHeight = $originHeight;
-			}
-		} else {
+		if ($height < $imgHeight) {
+			$imgWidth = ceil($imgWidth * $height / $imgHeight);
 			$imgHeight = $height;
-		}
-		
-		if ($imgWidth == $originWidth && $imgHeight == $originHeight) {
-			return true;
 		}
 	}
 	
