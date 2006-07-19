@@ -175,11 +175,11 @@ if (defined('__TATTERTOOLS_POST__')) {
 											"&permalink=" + encodeURIComponent(permalink) +
 											"&content=" + encodeURIComponent(content) +
 											"&published=" + published +
-												"&category=" + ((entrytype!=0) ? entrytype : oForm.category.value) +
-												"&location=" + encodeURIComponent(locationValue) +
-												"&tag=" + encodeURIComponent(tagValue) +
-												"&acceptComment=" + (oForm.acceptComment.checked ? 1 : 0) +
-												"&acceptTrackback=" + (oForm.acceptTrackback.checked ? 1 : 0)
+											"&category=" + ((entrytype!=0) ? entrytype : oForm.category.value) +
+											"&location=" + encodeURIComponent(locationValue) +
+											"&tag=" + encodeURIComponent(tagValue) +
+											"&acceptComment=" + (oForm.acceptComment.checked ? 1 : 0) +
+											"&acceptTrackback=" + (oForm.acceptTrackback.checked ? 1 : 0)
 										);
 									}
 									
@@ -342,38 +342,23 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 								}
 							//]]>
 						</script>
-								
-<?
+						<form method="post" action="<?=$blogURL?>/owner/entry">
+							<div id="part-editor" class="part">
+								<h2 class="caption"><span class="main-text"><?php
 if (defined('__TATTERTOOLS_POST__')) {
 	if (defined('__TATTERTOOLS_NOTICE__')) {
-?>
-						<form method="post" action="<?=$blogURL?>/owner/entry">
-							<div id="part-editor" class="part">
-								<h2 class="caption"><span class="main-text"><?=_t('공지를 작성합니다')?></span></h2>
-<?
+		echo _t('공지를 작성합니다');
 	} else {
-?>
-						<form method="post" action="<?=$blogURL?>/owner/entry">
-							<div id="part-editor" class="part">
-								<h2 class="caption"><span class="main-text"><?=_t('글을 작성합니다')?></span></h2>
-<?
+		echo _t('글을 작성합니다');
 	}
 } else {
 	if (defined('__TATTERTOOLS_NOTICE__')) {
-?>
-						<form method="post" action="<?=$blogURL?>/owner/entry">
-							<div id="part-editor" class="part">
-								<h2 class="caption"><span class="main-text"><?=_t('선택한 공지를 수정합니다')?></span></h2>
-<?
+		echo _t('선택한 공지를 수정합니다');
 	} else {
-?>
-						<form method="post" action="<?=$blogURL?>/owner/entry">
-							<div id="part-editor" class="part">
-								<h2 class="caption"><span class="main-text"><?=_t('선택한 글을 수정합니다')?></span></h2>
-<?
+		echo _t('선택한 글을 수정합니다');
 	}
 }
-?>
+?></span></h2>
 									
 								<div id="editor" class="data-inbox">
 									<div id="title-section" class="section">
@@ -483,10 +468,6 @@ printEntryEditorProperty();
 										</div>
 									</div>
 
-<?
-if (!defined('__TATTERTOOLS_KEYWORD__')) {
-	if (!defined('__TATTERTOOLS_NOTICE__')) {
-?>
 									<hr class="hidden" />
 									
 									<div id="taglocal-section" class="section">
@@ -533,10 +514,6 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 											</script> 
 										</div>
 									</div>
-<?
-	}
-}
-?>
 									
 									<hr class="hidden" />
 									
@@ -637,8 +614,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 												</dd>
 											</dl>
 <?
-if (!defined('__TATTERTOOLS_KEYWORD__')) {
-	if (!defined('__TATTERTOOLS_NOTICE__')) {
+if (!defined('__TATTERTOOLS_KEYWORD__') && !defined('__TATTERTOOLS_NOTICE__')) {
 ?>
 											<dl id="power-line" class="line">
 												<dt><span class="label"><?=_t('권한')?></span></dt>
@@ -649,7 +625,11 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 											</dl>
 
 <?
-	}
+} else {
+?>
+											<input type="hidden" id="acceptComment"  name="acceptComment" value="<?=($entry['acceptComment'] ? 'checked="checked"' : '')?>" />
+											<input type="hidden" id="acceptTrackback" name="acceptTrackback" value="<?=($entry['acceptTrackback'] ? 'checked="checked"' : '0')?>" />
+<?php
 }
 ?>
 										</div>

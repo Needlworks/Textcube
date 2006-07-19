@@ -344,8 +344,8 @@ function getDraftEntryId($id = 0) {
 function updateEntry($owner, $entry) {
 	global $database;
 	global $blog;
-	if (($entry['category'] == - 1) && (($entry['visibility'] == 1) || ($entry['visibility'] == 3)))
-		return false;
+	//if (($entry['category'] == - 1) && (($entry['visibility'] == 1) || ($entry['visibility'] == 3)))
+	//	return false;
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
 	saveTags($owner, $entry, $entry['id']);
@@ -389,8 +389,8 @@ function updateEntry($owner, $entry) {
 
 function saveDraftEntry($entry) {
 	global $database, $owner;
-	if ($entry['category'] == - 1)
-		return false;
+//	if ($entry['category'] == - 1)
+//		return false;
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
 	$location = mysql_escape_string($entry['location']);
