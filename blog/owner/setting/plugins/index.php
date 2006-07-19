@@ -3,6 +3,37 @@ define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/header5.php';
 require ROOT . '/lib/piece/owner/contentMenu53.php';
+
+if (empty($_POST['sortType'])) {
+	$sortType = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'pluginListSortType'");
+	$_POST['sortType'] = ($sortType == false) ? "ascend" : $sortType;
+} else if ($_POST['sortType'] != "ascend" && $_POST['sortType'] != "descend") {
+	$_POST['sortType'] = "ascend";
+}
+
+if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'pluginListSortType'")) {
+	DBQuery::execute("INSERT `{$database['prefix']}UserSettings` (`user`, `name`, `value`) VALUES ($owner, 'pluginListSortType', '{$_POST['sortType']}')");
+} else {
+	DBQuery::execute("UPDATE `{$database['prefix']}UserSettings` SET `value` = '{$_POST['sortType']}' WHERE `user` = $owner AND `name` = 'pluginListSortType'");
+}
+
+if (empty($_POST['listedPluginStatus'])) {
+	$listType = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'listedPluginStatus'");
+	$_POST['listedPluginStatus'] = ($listType == false) ? array("activated", "deactivated") : explode("|", $listType);
+} else if (is_array($_POST['listedPluginStatus'])) {
+	sort($_POST['listedPluginStatus']);
+	if ($_POST['listedPluginStatus'] != array("activated") && $_POST['listedPluginStatus'] != array("deactivated") && $_POST['listedPluginStatus'] != array("activated", "deactivated")) {
+		$_POST['listedPluginStatus'] = array("activated", "deactivated");
+	}
+} else {
+	$_POST['listedPluginStatus'] = array("activated", "deactivated");
+}
+
+if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'listedPluginStatus'")) {
+	DBQuery::execute("INSERT `{$database['prefix']}UserSettings` (`user`, `name`, `value`) VALUES ($owner, 'listedPluginStatus', '".implode("|", $_POST['listedPluginStatus'])."')");
+} else {
+	DBQuery::execute("UPDATE `{$database['prefix']}UserSettings` SET `value` = '".implode("|", $_POST['listedPluginStatus'])."' WHERE `user` = $owner AND `name` = 'listedPluginStatus'");
+}
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -43,15 +74,48 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
 										request.send();
 									}
 								}
+								
+								function changeList() {
+									document.getElementById("part-setting-plugins").submit();
+								}
+								
+								window.addEventListener("load", loadPluignList, false);
+								
+								function loadPluignList() {
+									document.getElementById('submit-button-box').style.display = "none";
+								}
 							//]]>
 						</script>
 						
-						<div id="part-setting-plugins" class="part">
+						<form id="part-setting-plugins" class="part" method="post" action="<?=$blogURL?>/owner/setting/plugins">
 							<h2 class="caption"><span class="main-text"><?=_t('설치된 플러그인입니다')?></span></h2>
 							
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('플러그인은 태터툴즈의 기능을 확장해 줍니다. 설치된 플러그인은 이 메뉴에서 사용여부를 결정합니다.')?></p>
 							</div>
+							
+							<fieldset id="plugin-display-box">
+								<legend><?=_t('표시될 플러그인 설정')?></legend>
+								
+								<dl id="sorting-line" class="line">
+									<dt><?=_t('정렬')?></dt>
+									<dd>
+										<input type="radio" class="radio" id="ascend-sorting" name="sortType" value="ascend" onclick="changeList()"<?php echo $_POST['sortType'] == "ascend" ? ' checked="checked"' : ''?> /> <label for="ascend-sorting"><?=_t('오름차순')?></label>
+										<input type="radio" class="radio" id="descend-sorting" name="sortType" value="descend" onclick="changeList()"<?php echo $_POST['sortType'] == "descend" ? ' checked="checked"' : ''?> /> <label for="descend-sorting"><?=_t('내림차순')?></label>
+									</dd>
+								</dl>
+								<dl id="activate-status-line" class="line">
+									<dt><?=_t('상태')?></dt>
+									<dd>
+										<input type="checkbox" class="checkbox" id="activated-plugin" name="listedPluginStatus[]" value="activated" onclick="changeList()"<?php echo in_array("activated", $_POST['listedPluginStatus']) ? ' checked="checked"' : ''?> /> <label for="activated-plugin"><?=_t('사용중인 플러그인')?></label>
+										<input type="checkbox" class="checkbox" id="deactivated-plugin" name="listedPluginStatus[]" value="deactivated" onclick="changeList()"<?php echo in_array("deactivated", $_POST['listedPluginStatus']) ? ' checked="checked"' : ''?> /> <label for="deactivated-plugin"><?=_t('미사용인 플러그인')?></label>
+									</dd>
+								</dl>
+								
+								<div id="submit-button-box" class="button-box">
+									<input type="submit" />
+								</div>
+							</fieldset>
 							
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
@@ -66,6 +130,7 @@ require ROOT . '/lib/piece/owner/contentMenu53.php';
 								<tbody>
 <?
 $plugins = array();
+$pluginAttrs = array();
 $dir = dir(ROOT . '/plugins/');
 while ($plugin = $dir->read()) {
 	if (!ereg('^[[:alnum:] _-]+$', $plugin))
@@ -75,21 +140,46 @@ while ($plugin = $dir->read()) {
 	if (!file_exists(ROOT . "/plugins/$plugin/index.xml"))
 		continue;
 	$xmls = new XMLStruct();
-	if (!$xmls->open(file_get_contents(ROOT . "/plugins/$plugin/index.xml")))
+	if (!$xmls->open(file_get_contents(ROOT . "/plugins/$plugin/index.xml"))) {
 		continue;
-	$plugins[] = $plugin;
+	} else {
+		$pluginDir = trim($plugin);
+		$pluginAttrs[$pluginDir] = array(
+						"link" => $xmls->getValue('/plugin/link[lang()]'),
+						"title" => htmlspecialchars($xmls->getValue('/plugin/title[lang()]')),
+						"version" => htmlspecialchars($xmls->getValue('/plugin/version[lang()]')),
+						"description" => htmlspecialchars($xmls->getValue('/plugin/description[lang()]')),
+						"authorLink" => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
+						"author" => htmlspecialchars($xmls->getValue('/plugin/author[lang()]'))
+						);
+		
+		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
+	}
 }
 
-for ($i=0; $i<sizeof($plugins); $i++) {
-	$plugin = $plugins[$i];
+if ($_POST['sortType'] == "ascend") {
+	asort($plugins);
+} else {
+	arsort($plugins);
+}
+
+$arrayKeys = array_keys($plugins);
+
+for ($i=0; $i<count($arrayKeys); $i++) {
+	$pluginDir = $arrayKeys[$i];
 	
-	$xmls = new XMLStruct();
-	$xmls->open(file_get_contents(ROOT . "/plugins/$plugin/index.xml"));
-	$link = $xmls->getValue('/plugin/link[lang()]');
-	$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
-	$authorLink = $xmls->getAttribute('/plugin/author[lang()]', 'link');
-	$author = htmlspecialchars($xmls->getValue('/plugin/author[lang()]'));
-	$active = in_array($plugin, $activePlugins);
+	$link = $pluginAttrs[$pluginDir]['link'];
+	$title = $pluginAttrs[$pluginDir]['title'];
+	$version = $pluginAttrs[$pluginDir]['version'];
+	$description = $pluginAttrs[$pluginDir]['description'];
+	$authorLink = $pluginAttrs[$pluginDir]['authorLink'];
+	$author = $pluginAttrs[$pluginDir]['author'];
+	$active = in_array($pluginDir, $activePlugins);
+	
+	if ($active == true && !in_array("activated", $_POST['listedPluginStatus']))
+		continue;
+	else if ($active == false && !in_array("deactivated", $_POST['listedPluginStatus']))
+		continue;
 	
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($plugins) - 1) ? ' last-line' : '';
@@ -97,18 +187,18 @@ for ($i=0; $i<sizeof($plugins); $i++) {
 ?>
 									<tr class="<?php echo $className?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="title"><?=($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title)?></td>
-										<td class="version"><?=htmlspecialchars($xmls->getValue('/plugin/version[lang()]'))?></td>
-										<td class="explain"><?=htmlspecialchars($xmls->getValue('/plugin/description[lang()]'))?></td>
+										<td class="version"><?=$version?></td>
+										<td class="explain"><?=$description?></td>
 										<td class="maker"><?=($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author)?></td>
 										<td class="status">
 <?
 	if ($active) {
 ?>
-											<span id="plugin_<?=$i?>" class="active-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span class="text"><?=_t('사용중')?></span></a>
+											<span id="plugin_<?=$i?>" class="active-icon bullet" onclick="togglePlugin('<?=$pluginDir?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$pluginDir?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span class="text"><?=_t('사용중')?></span></a>
 <?
 	} else {
 ?>
-											<span id="plugin_<?=$i?>" class="inactive-icon bullet" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$plugin?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span class="text"><?=_t('미사용')?></span></a>
+											<span id="plugin_<?=$i?>" class="inactive-icon bullet" onclick="togglePlugin('<?=$pluginDir?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$pluginDir?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span class="text"><?=_t('미사용')?></span></a>
 <?
 	}
 ?>
@@ -119,7 +209,7 @@ for ($i=0; $i<sizeof($plugins); $i++) {
 ?>
 								</tbody>
 							</table>
-						</div>
+						</form>
 						
 						<div id="part-setting-more" class="part">
 							<h2 class="caption"><span class="main-text"><?=_t('플러그인을 구하려면')?></span></h2>

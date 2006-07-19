@@ -499,6 +499,37 @@
 
 /* Plugins ***************************************************************************************/
 
+/* sorting setting ------------------------------------------------------------------------------*/
+#plugin-display-box
+{
+	padding                          : 15px 10px 5px 10px;
+	text-align                       : right;
+}
+
+#sorting-line,
+#activate-status-line
+{
+	display                          : inline;
+}
+
+#sorting-line dt,
+#activate-status-line dt
+{
+	display                          : none;
+}
+
+#sorting-line dd,
+#activate-status-line dd
+{
+	display                          : inline !important;
+	float                            : none !important;
+}
+
+#activated-plugin
+{
+	margin-left                      : 40px;
+}
+
 /* list table head ------------------------------------------------------------------------------*/
 #part-setting-plugins table.data-inbox
 {
