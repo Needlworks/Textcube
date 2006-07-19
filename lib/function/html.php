@@ -1,7 +1,7 @@
 <?php
 
 function stripHTML($text, $allowTags = array()) {
-	$text = preg_replace('/<(script|style)[^>]*>.*?<\/\1>/i', '', $text);
+	$text = preg_replace('/<(script|style)[^>]*>.*?<\/\1>/si', '', $text);
 	if(count($allowTags) == 0)
 		$text = preg_replace('/<[\w\/!]+[^>]*>/', '', $text);
 	else {
