@@ -288,18 +288,20 @@ if (!DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}UserSett
 }
 
 if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSettings WHERE name = 'acceptNewLineOnEditor' AND value = '1'")) { // Since 1.0.7
-	$changed = true;
-	echo '<li>', _t('[HTML][/HTML] 블럭을 제거합니다'), ': ';
 	$query = new TableQuery($database['prefix'] . 'Entries');
-	if ($entries = $query->getAll('owner, id, draft, content')) {
-		foreach($entries as $entry) {
-			$newContent = mysql_escape_string(nl2brWithHTML($entry['content']));
-			DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE owner = {$entry['owner']} AND id = {$entry['id']} AND draft = {$entry['draft']}");
+	if($query->doesExist()) {
+		$changed = true;
+		echo '<li>', _t('[HTML][/HTML] 블럭을 제거합니다'), ': ';
+		if ($entries = $query->getAll('owner, id, draft, content')) {
+			foreach($entries as $entry) {
+				$newContent = mysql_escape_string(nl2brWithHTML($entry['content']));
+				DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE owner = {$entry['owner']} AND id = {$entry['id']} AND draft = {$entry['draft']}");
+			}
+			setServiceSetting('acceptNewLineOnEditor', '1');
+			echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
+		} else {
+			echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 		}
-		setServiceSetting('acceptNewLineOnEditor', '1');
-		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
-	} else {
-		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 	}
 }
 
