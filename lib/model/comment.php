@@ -241,7 +241,7 @@ function addComment($owner, & $comment) {
 	} else {
 		$comment['replier'] = 'null';
 		$name = mysql_escape_string($comment['name']);
-		$email = $comment['email'];
+		$email = mysql_escape_string($comment['email']);
 		$password = empty($comment['password']) ? '' : md5($comment['password']);
 		$homepage = mysql_escape_string($comment['homepage']);
 	}
@@ -328,8 +328,8 @@ function updateComment($owner, $comment, $password) {
 				set
 					name = '$name',
 					$setPassword
-					email = '$email',
 					homepage = '$homepage',
+					email = '$email',
 					secret = {$comment['secret']},
 					comment = '$comment0',
 					ip = '{$comment['ip']}',
