@@ -223,7 +223,7 @@ font-family:Verdana;
 }
 #sidebar .bloginfo {
 	text-align:center;
-	font:11px, dotum;
+	font: 11px dotum, 돋움, Arial, sans-serif;
 	letter-spacing:-1px;
 }
 #sidebar .bloginfo img{
@@ -581,7 +581,7 @@ color:#333;
 	overflow:hidden;	
 }
 .entry .admin{
-font:11px, dotum;
+font:11px dotum, 돋움, Arial, sans-serif;
 letter-spacing:-1px;
 color:#999;
 }
