@@ -63,14 +63,20 @@ if (defined('__TATTERTOOLS_MOBILE__')) {
 }
 unset($url, $domain);
 
+// 어드민 스킨 및 에디터 템플릿 설정.
 $adminSkinSetting = array();
-$adminSkinSetting['skin'] = '/style/admin/'.getUserSetting("adminSkin");
+$tempAdminSkin = getUserSetting("adminSkin");
+if (empty($tempAdminSkin))
+	$adminSkinSetting['skin'] = "/style/admin/default";
+else
+	$adminSkinSetting['skin'] = "/style/admin/$tempAdminSkin";
 $tempTemplate = getUserSetting("visualEditorTemplate");
 if (empty($tempTemplate))
 	$adminSkinSetting['editorTemplate'] = "/style/default-wysiwyg.css";
 else
 	$adminSkinSetting['editorTemplate'] = "/skin/$tempTemplate/wysiwyg.css";
 unset($tempTemplate);
+unset($tempAdminSkin);
 
 if (!file_exists(ROOT . '/config.php')) {
 	header("Location: $blogURL/setup.php");

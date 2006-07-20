@@ -24,7 +24,7 @@ if (file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
 <?php
 } else {
 ?>
-			var editorCSS = "/style/wysiwyg/default-wysiwyg.css";
+			var editorCSS = "/style/default-wysiwyg.css";
 <?php
 }
 ?>
