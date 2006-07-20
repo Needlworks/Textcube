@@ -15,14 +15,14 @@ if (empty($_GET['url'])) {
 <head>
 	<title>Tree Structure Preview</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/skin.css" />
-	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/skin.opera.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?=$service['path'].$service['adminSkin']?>/skin.ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$adminSkinSetting['skin']?>/skin.css" />
+	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$adminSkinSetting['skin']?>/skin.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?=$service['path'].$adminSkinSetting['skin']?>/skin.ie.css" /><![endif]-->
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?=$service['path']?>";
 			var blogURL = "<?=$blogURL?>";
-			var adminSkin = "<?=$service['adminSkin']?>";
+			var adminSkin = "<?=$adminSkinSetting['skin']?>";
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?=$service['path']?>/script/common.js"></script>

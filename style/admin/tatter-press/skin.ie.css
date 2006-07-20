@@ -1,0 +1,32 @@
+@charset "utf-8";
+
+/* List ******************************************************************************************/
+
+#part-skin-current div.data-inbox .section .information .button,
+#part-skin-list div.data-inbox .section .information .button
+{
+	line-height                              : 24px;
+}
+
+/* Edit ******************************************************************************************/
+
+#part-skin-edit .section .file-name,
+#part-skin-edit .section textarea
+{
+	width                            : 780px;
+}
+
+/* Setting ***************************************************************************************/
+
+#part-skin-tree #selected-color-line dd,
+#part-skin-tree #selected-bgcolor-line dd,
+#part-skin-tree #unselected-color-line dd,
+#part-skin-tree #unselected-bgcolor-line dd
+{
+	margin-left                      : -20px !important;
+}
+
+#part-skin-tree #label-langth-line dt
+{
+	padding-top                      : 5px;
+}

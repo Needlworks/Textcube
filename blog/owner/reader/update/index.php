@@ -14,7 +14,7 @@ ob_implicit_flush();
 			//<![CDATA[
 				var servicePath = "<?=$blogURL?>";
 				var blogURL = "<?=$blogURL?>";
-				var adminSkin = "<?=$service['adminSkin']?>";
+				var adminSkin = "<?=$adminSkinSetting['skin']?>";
 			//]]>
 		</script>
 	</head>

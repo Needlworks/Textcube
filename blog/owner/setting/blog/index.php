@@ -222,10 +222,10 @@ if ($service['type'] != 'single') {
 								var timezone = "<?=$blog['timezone']?>";
 								
 								function setLocale() {
-									if (document.getElementById('language-form').language.value != language) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/language?language=" + encodeURIComponent(document.getElementById('language-form').language.value));
+									if (document.getElementById('language-form').adminLanguage.value != language) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/language?language=" + encodeURIComponent(document.getElementById('language-form').adminLanguage.value));
 										request.onSuccess = function() {
-											language = document.getElementById('language-form').language.value;
+											language = document.getElementById('language-form').adminLanguage.value;
 											if (document.getElementById('language-form').timezone.value != timezone) {
 												PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
 												var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/timezone?timezone=" + encodeURIComponent(document.getElementById('language-form').timezone.value));
@@ -275,6 +275,10 @@ if ($service['type'] != 'single') {
 										}
 									}
 									request.send();
+								}
+								
+								function setAdminSkin() {
+									document.getElementById('admin-skin-form').submit();
 								}
 								
 								function checkManualInput(obj) {
@@ -755,18 +759,34 @@ for ($i = 5; $i <= 30; $i += 5) {
 										
 										<input type="hidden" name="javascript" value="disabled" />
 										
-										<dl id="language-line" class="line">
-											<dt><label for="language"><?=_t('언어')?></label></dt>
+										<dl id="admin-language-line" class="line">
+											<dt><label for="admin-language"><?=_t('관리자 화면 언어')?></label></dt>
 											<dd>
-												<select id="language" name="language">
+												<select id="admin-language" name="adminLanguage">
 <?
-foreach (Locale::getSupportedLocales() as $locale => $language) {
+$supportedLanguages = Locale::getSupportedLocales();
+foreach ($supportedLanguages as $locale => $language) {
 ?>
 													<option value="<?=$locale?>"<?=($locale == $blog['language'] ? ' selected="selected"' : '')?>><?=$language?></option>
 <?
 }
 ?>
 												</select>
+											</dd>
+										</dl>
+										<dl id="blog-language-line" class="line">
+											<dt><label for="blog-language"><?=_t('블로그 언어')?></label></dt>
+											<dd>
+												<select id="blog-language" name="blogLanguage">
+<?
+foreach ($supportedLanguages as $locale => $language) {
+?>
+													<option value="<?=$locale?>"<?=($locale == $skinLanguage ? ' selected="selected"' : '')?>><?=$language?></option>
+<?
+}
+?>
+												</select>
+												<p><?=_t('이 언어설정은 외부 블로그에 표시되는 메세지의 언어를 설정합니다.<br />한국어 블로그를 운영하고 계신다면 한국어를 선택해 주십시오.')?></p>
 											</dd>
 										</dl>
 										<dl id="timezone-line" class="line">
@@ -807,11 +827,11 @@ foreach (Timezone::getList() as $timezone) {
 											<dt><label for="editorMode"><?=_t('기본 작성 모드')?></label></dt>
 											<dd>
 <?
-	$editorMode = getUserSetting('editorMode', 1);
+$editorMode = getUserSetting('editorMode', 1);
 ?>
 												<select id="editorMode" name="editorMode">
-													<option value="1"<?=$editorMode==1?' selected':''?>><?=_t('위지윅 모드')?></option>
-													<option value="2"<?=$editorMode==2?' selected':''?>><?=_t('HTML 직접 편집')?></option>
+													<option value="1"<?=$editorMode==1?' selected="selected"':''?>><?=_t('위지윅 모드')?></option>
+													<option value="2"<?=$editorMode==2?' selected="selected"':''?>><?=_t('HTML 직접 편집')?></option>
 												</select>
 											</dd>
 										</dl>
@@ -819,17 +839,94 @@ foreach (Timezone::getList() as $timezone) {
 											<dt><label for="strictXHTML"><?=_t('<abbr title="eXtensible HyperText Markup Language">XHTML</abbr> 준수')?></label></dt>
 											<dd>
 <?
-	$strictXHTML = getUserSetting('strictXHTML', 0);
+$strictXHTML = getUserSetting('strictXHTML', 0);
 ?>
-												<select name="strictXHTML">
-													<option value="0"<?=$strictXHTML==0?' selected':''?>><?=_t('처리하지 않음')?></option>
-													<option value="1"<?=$strictXHTML==1?' selected':''?>><?=_t('올바른 XHTML 코드로 다듬어 출력')?></option>
+												<select id="strictXHTML" name="strictXHTML">
+													<option value="0"<?=$strictXHTML==0?' selected="selected"':''?>><?=_t('처리하지 않음')?></option>
+													<option value="1"<?=$strictXHTML==1?' selected="selected"':''?>><?=_t('올바른 XHTML 코드로 다듬어 출력')?></option>
 												</select>
 											</dd>
 										</dl>
 									</fieldset>
 									<div class="button-box">
 										<a class="save-button button" href="#void" onclick="setEditor()"><span class="text"><?=_t('저장하기')?></span></a>
+									</div>
+								</div>
+							</form>
+						</div>
+						
+						<hr class="hidden" />
+						
+						<div id="part-setting-admin" class="part">
+							<h2 class="caption"><span class="main-text"><?=_t('관리자 화면 스킨을 설정합니다')?></span></h2>
+							
+							<form id="admin-skin-form" class="data-inbox" method="post" action="<?=$blogURL?>/owner/setting/blog/skin">
+								<div id="admin-skin-section" class="section">
+									<fieldset class="container">
+										<legend><?=_t('관리자 스킨을 설정합니다')?></legend>
+										
+										<dl id="admin-skin--line" class="line">
+											<dt><label for="adminSkin"><?=_t('관리자 화면용 스킨')?></label></dt>
+											<dd>
+												<select id="adminSkin" name="adminSkin">
+<?
+$currentAdminSkin = getUserSetting('adminSkin', 0);
+$dirHandler = dir(ROOT . "/style/admin");
+while ($dir = $dirHandler->read()) {
+	if (!ereg('^[[:alnum:] _-]+$', $dir))
+		continue;
+	if (!is_dir(ROOT . '/style/admin/' . $dir))
+		continue;
+	if (!file_exists(ROOT . "/style/admin/$dir/index.xml"))
+		continue;
+	$xmls = new XMLStruct();
+	if (!$xmls->open(file_get_contents(ROOT . "/style/admin/$dir/index.xml"))) {
+		continue;
+	} else {
+		$skinName = $xmls->getValue('/adminSkin/information/name');
+?>
+													<option value="<?php echo trim($dir)?>"<?=$currentAdminSkin==$dir?' selected="selected"':''?>><?=$skinName?></option>
+<?
+	}
+}
+?>
+												</select>
+											</dd>
+										</dl>
+										<dl id="editor-template-line" class="line">
+											<dt><label for="editorTemplate"><?=_t('위지윅 에디터 템플릿')?></label></dt>
+											<dd>
+												<select id="editorTemplate" name="editorTemplate">
+<?
+$editorTemplate = getUserSetting('visualEditorTemplate', 0);
+?>
+													<option value=""<?=empty($editorTemplate)?' selected="selected"':''?>><?=_t('기본 템플릿')?></option>
+<?
+$dirHandler = dir(ROOT . "/skin");
+while ($dir = $dirHandler->read()) {
+	if (!ereg('^[[:alnum:] _-]+$', $dir))
+		continue;
+	if (!is_dir(ROOT . '/skin/' . $dir))
+		continue;
+	if (!file_exists(ROOT . "/skin/$dir/index.xml") || !file_exists(ROOT . "/skin/$dir/wysiwyg.css"))
+		continue;
+	$xmls = new XMLStruct();
+	if (!$xmls->open(file_get_contents(ROOT . "/skin/$dir/index.xml"))) {
+		continue;
+	} else {
+		$skinName = $xmls->getValue('/skin/information/name');
+?>
+													<option value="<?php echo trim($dir)?>"<?=$editorTemplate==$dir?' selected="selected"':''?>><?=_f('%1 스킨의 템플릿', $skinName)?></option>
+<?
+	}
+}
+?>
+												</select>
+											</dd>
+										</dl>
+									</fieldset>
+									<div class="button-box">
+										<a class="save-button button" href="#void" onclick="setAdminSkin()"><span class="text"><?=_t('저장하기')?></span></a>
 									</div>
 								</div>
 							</form>

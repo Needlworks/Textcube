@@ -1,0 +1,189 @@
+@charset "utf-8";
+
+/* List ******************************************************************************************/
+
+#part-skin-current div.data-inbox .section,
+#part-skin-list div.data-inbox .section
+{
+	min-width                        : 850px;
+	padding                          : 10px 5px 0 25px;
+	position                         : relative;
+	z-index                          : 100;
+}
+
+#part-skin-current div.data-inbox .section .preview,
+#part-skin-list div.data-inbox .section .preview
+{
+	top                              : 10px;
+	left                             : 25px;
+	width                            : 150px;
+	position                         : absolute;
+}
+
+#part-skin-current div.data-inbox .section .preview img,
+#part-skin-list div.data-inbox .section .preview img
+{
+	border                           : 1px solid #536576;
+	display                          : block;
+	margin                           : 0 auto;
+}
+
+#part-skin-current div.data-inbox .section .information,
+#part-skin-list div.data-inbox .section .information
+{
+	display                          : block;
+	margin-left                      : 180px;
+	padding-bottom                   : 22px;
+}
+
+#part-skin-current div.data-inbox .section .information .skin-name,
+#part-skin-list div.data-inbox .section .information .skin-name
+{
+	font-weight                      : bold;
+}
+
+#part-skin-current div.data-inbox .section .version,
+#part-skin-list div.data-inbox .section .version
+{
+	padding-left                     : 10px;
+}
+
+#part-skin-current div.data-inbox .section table,
+#part-skin-list div.data-inbox .section table
+{
+	margin                           : 5px 10px 10px 10px;
+	width                            : 600px;
+}
+
+#part-skin-current div.data-inbox .section table tr td,
+#part-skin-list div.data-inbox .section table tr td
+{
+	border                           : none;
+}
+
+#part-skin-current div.data-inbox .section table tr td.name,
+#part-skin-list div.data-inbox .section table tr td.name
+{
+	text-align                       : right;
+	width                            : 90px;
+}
+
+#part-skin-current div.data-inbox .section .information .button-box,
+#part-skin-list div.data-inbox .section .information .button-box
+{
+	padding-left                     : 110px;
+	text-align                       : left;
+}
+
+/* Edit ******************************************************************************************/
+
+#part-skin-edit .section
+{
+	padding                          : 10px 15px 0 15px;
+}
+
+#part-skin-edit .section .file-name
+{
+	font-weight                      : bold;
+	margin                           : 0 auto;
+	width                            : 98%;
+}
+
+#part-skin-edit .section textarea
+{
+	display                          : block;
+	font-family                      : "Courier New", monospace;
+	margin                           : 0 auto;
+	width                            : 98%;
+}
+
+/* Setting ***************************************************************************************/
+
+#part-skin-setting div.data-inbox .section .container
+{
+	border-bottom                    : 1px dotted #CCCCCC !important;
+	clear                            : both;
+	line-height                      : 15px;
+	margin                           : 5px;
+	padding                          : 10px 10px 16px 10px;
+}
+
+#click-section dl dt,
+#click-section dl dd,
+#tag-setting-section dl#tag-align-line dt,
+#tag-setting-section dl#tag-align-line dd
+{
+	line-height                      : 1.5em;
+}
+
+#click-section dl
+{
+	height                           : 3em;
+}
+
+#tag-align-line
+{
+	height                           : 5em;
+}
+
+#part-skin-setting .button-box
+{
+	margin                           : 30px 0 25px 0;
+}
+
+/* category tree --------------------------------------------------------------------------------*/
+#part-skin-tree div.data-inbox
+{
+	height                           : 320px;
+	position                         : relative;
+}
+
+#part-skin-tree div.data-inbox iframe
+{
+	background-color                 : #FFFFFF;
+	border                           : 2px solid #CCCCCC;
+	height                           : 280px;
+	position                         : absolute;
+	right                            : 0;
+	top                              : 0;
+	width                            : 280px;
+}
+
+#property-box
+{
+	margin-left                      : 40px;
+}
+
+#property-box dl dt
+{
+	width                            : 200px;
+}
+
+#property-box dl dd .text-input
+{
+	text-transform                   : uppercase;
+	width                            : 60px;
+}
+
+/* tree iframe ----------------------------------------------------------------------------------*/
+#tree-iframe
+{
+	margin                           : 10px !important;
+}
+
+#tree-iframe .branch3
+{
+	height                           : 16px;
+}
+
+#tree-iframe .branch3 div
+{
+	font-family                      : "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, Verdana, ±¼¸², Gulim, sans-serif;
+	font-size                        : 12px;
+	margin-top                       : 0;
+}
+
+#tree-iframe .branch3 div#text_0
+{
+	margin-top                       : 2px !important;
+}

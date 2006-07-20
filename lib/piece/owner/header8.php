@@ -3,17 +3,17 @@
 <head>
 	<title><?php echo htmlspecialchars($blog['title'])?> &gt; <?php echo _t('글관리')?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/basic.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/popup-editor.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/basic.opera.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/popup-editor.opera.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/basic.ie.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/popup-editor.ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/basic.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/popup-editor.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/basic.opera.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/popup-editor.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/basic.ie.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/popup-editor.ie.css" /><![endif]-->
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?=$service['path']?>";
 			var blogURL = "<?=$blogURL?>";
-			var adminSkin = "<?=$service['adminSkin']?>";
+			var adminSkin = "<?=$adminSkinSetting['skin']?>";
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/byTattertools.js"></script>
@@ -22,7 +22,7 @@
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/gallery.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/style/base.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'].$service['adminSkin']?>/custom.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'].$adminSkinSetting['skin']?>/custom.js"></script>
 </head>
 <body<?php echo (empty($htmlBodyEvents) ? '' : $htmlBodyEvents)?>>
 	<div id="temp-wrap">

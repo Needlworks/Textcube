@@ -1,0 +1,14 @@
+@charset "utf-8";
+
+/* List ******************************************************************************************/
+
+/* data-subbox */
+.data-subbox
+{
+	height                           : 62px;
+}
+
+.data-subbox #search-section
+{
+	margin-bottom                    : 10px;
+}

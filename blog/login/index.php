@@ -41,14 +41,14 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo _text('Tattertools - Login')?></title>
 	
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/login.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.opera.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/login.opera.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/basic.ie.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$service['adminSkin']?>/login.ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/basic.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/login.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/basic.opera.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/login.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/basic.ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/login.ie.css" /><![endif]-->
 	<script type="text/javascript" src="<?php echo $service['path']?>/style/base.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'].$service['adminSkin']?>/custom.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'].$adminSkinSetting['skin']?>/custom.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			window.addEventListener("load", loadLoginInit, false);
@@ -68,7 +68,7 @@ if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 				<div id="data-outbox">
 					<div id="login-box">
 						<div id="logo-box">
-							<img src="<?=$service['path'].$service['adminSkin']?>/image/logo_tattertools.png" alt="<?php echo _text('태터툴즈 로고')?>" />
+							<img src="<?=$service['path'].$adminSkinSetting['skin']?>/image/logo_tattertools.png" alt="<?php echo _text('태터툴즈 로고')?>" />
 			            </div>
 			            
 			            <div id="field-box">

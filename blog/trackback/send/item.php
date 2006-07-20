@@ -13,7 +13,7 @@ $entry = getEntry($owner, $suri['id']);
 		//<![CDATA[
 			var servicePath = "<?=$service['path']?>";
 			var blogURL = "<?=$blogURL?>";
-			var adminSkin = "<?=$service['adminSkin']?>";
+			var adminSkin = "<?=$adminSkinSetting['skin']?>";
 			
 			function onclick_send(form) {
 				trim_all(form);

@@ -1,0 +1,25 @@
+/* Tree ******************************************************************************************/
+
+#treePreview table tr td.branch3
+{
+	line-height                           : 15px !important;
+	padding-top                           : 2px !important;
+}
+
+#treePreview table#category_0 tr td.branch3
+{
+	line-height                           : 14px !important;
+	padding-top                           : 0 !important;
+}
+
+#property-box dl dt
+{
+	padding-top                           : 1px;
+}
+
+#property-box dl .up-button,
+#property-box dl .down-button,
+#property-box dl .remove-button
+{
+	vertical-align                   : baseline;
+}

@@ -80,7 +80,7 @@ if (file_exists(ROOT."/skin/".$skinSetting['skin']."/preview.jpg")) {
 <?
 } else {
 ?>
-										<img src="<?=$service['path'].$service['adminSkin']?>/image/noPreview.gif" alt="<?=_t('스킨 미리보기')?>" />
+										<img src="<?=$service['path'].$adminSkinSetting['skin']?>/image/noPreview.gif" alt="<?=_t('스킨 미리보기')?>" />
 <?
 }
 ?>
@@ -158,7 +158,7 @@ for ($i = 0; $i < count($skins); $i++) {
 <?
 	if ($skin['preview'] == '') {
 ?>
-										<img src="<?=$service['path'].$service['adminSkin']?>/image/noPreview.gif" alt="<?=_t('스킨 미리보기')?>" />
+										<img src="<?=$service['path'].$adminSkinSetting['skin']?>/image/noPreview.gif" alt="<?=_t('스킨 미리보기')?>" />
 <?
 	} else {
 ?>

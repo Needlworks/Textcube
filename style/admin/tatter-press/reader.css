@@ -1,0 +1,792 @@
+@charset "utf-8";
+
+/* Reader ****************************************************************************************/
+
+#data-outbox
+{
+	position                         : relative;
+}
+
+#reader-menu
+{
+	background                       : #0D324F;
+	padding                          : 3px 2em 0 3em;
+}
+
+#reader-menu li
+{
+	display                          : inline;
+	line-height                      : 170%;
+	list-style                       : none;
+	text-align                       : center;
+}
+
+#reader-menu li a
+{
+	border                           : none;
+	color                            : #FFFFFF;
+	font-size                        : 12px;
+	padding                          : 0.3em 0.4em 0.33em;
+	text-decoration                  : none;
+}
+
+#reader-menu li a:hover
+{
+	background                       : #DDEAF4;
+	color                            : #393939;
+}
+
+#reader-menu li.selected a
+{
+	background                       : #F9FCFE;
+	border-top                       : 1px solid #045290;
+	border-right                     : 2px solid #045290;
+	color                            : #000000;
+	font-weight                      : bold;
+}
+
+#search
+{
+	display                          : none !important;
+}
+
+/* groups and feeds -----------------------------------------------------------------------------*/
+#groupsAndFeeds h3
+{
+	display                          : none;
+}
+
+#groupsAndFeeds .data-inbox
+{
+	border                           : none;
+	clear                            : both;
+	margin                           : 0;
+	padding                          : 0;
+}
+
+#groupsAndFeeds .inactive-class
+{
+	background-color                 : transparent;
+}
+
+#groupsAndFeeds .odd-line
+{
+	background-color                 : #F1F1F1;
+}
+
+#groupsAndFeeds .active-class,
+#groupsAndFeeds .rollover-class
+{
+	background-color                 : #AADDAA !important;
+}
+
+/* group box */
+#group-section
+{
+	border-right                     : 1px solid #CCCCCC;
+	float                            : left;
+	padding-right                    : 15px;
+	width                            : 249px;
+}
+
+#groupBox
+{
+	overflow                         : auto;
+	width                            : 250px;
+}
+
+#groupAdder
+{
+	margin                           : 0 !important;
+	padding                          : 10px;
+}
+
+#groupAdder .title
+{
+	display                          : none;
+}
+
+#groupAdder .button-box
+{
+	margin                           : 10px 0;
+}
+
+#groupAdder .button-box .text-input
+{
+	vertical-align                   : middle;
+	width                            : 160px;
+}
+
+#groupAdder .button-box .add-button
+{
+	background-color                 : #F4F4F4;
+	background-image                 : none;
+	border                           : 1px solid #B2B2B2;
+	line-height                      : 1em;
+	padding                          : 2px 5px;
+	vertical-align                   : middle;
+}
+
+ul#groupList li
+{
+	cursor                           : pointer;
+	overflow                         : hidden;
+	height                           : 23px;
+	line-height                      : 23px;
+	overflow                         : hidden;
+	padding                          : 0 5px;
+	position                         : relative;
+	text-align                       : left;
+}
+
+ul#groupList li .button-box
+{
+	line-height                      : 21px;
+	margin                           : 0;
+	position                         : absolute;
+	padding                          : 0;
+	right                            : 5px;
+	top                              : 1px;
+}
+
+ul#groupList li .button
+{
+	background-image                 : none;
+	border                           : 1px solid #B2B2B2;
+	background-color                 : #F4F4F4;
+	line-height                      : 12px;
+	padding                          : 0 2px;
+	width                            : auto !important;
+}
+
+ul#groupList li .button:link,
+ul#groupList li .button:visited
+{
+	color                            : #000000 !important;
+}
+
+ul#groupList li .button:hover,
+ul#groupList li .button:active
+{
+	color                            : #565656 !important;
+	text-decoration                  : none !important;
+}
+
+#groupEditor
+{
+	text-align                       : center;
+}
+
+#groupEditor .title
+{
+	color                            : #000000;
+	font-weight                      : bold;
+	margin-top                       : 30px;
+}
+
+#groupEditor .input-box
+{
+	margin                           : 5px 10px 0 10px !important;
+	padding                          : 20px 0 18px 0;
+}
+
+#changeGroupTitle
+{
+	display                          : block;
+	margin                           : 0 auto 10px auto;
+	padding                          : 2px;
+	width                            : 200px !important;
+}
+
+#groupEditor .button-box
+{
+	margin                           : 0 auto;
+}
+
+#groupEditor .button-box .button
+{
+	background-color                 : #ABABAB;
+	background-image                 : none;
+	border                           : 1px solid #878787;
+	line-height                      : 1em !important;
+	margin                           : 3px 1px 0 1px !important;
+	padding                          : 3px 7px !important;
+	text-align                       : center;
+	width                            : 70px !important;
+}
+
+#groupEditor .button-box .button span
+{
+	color                            : #FFFFFF;
+	font-weight                      : normal;
+}
+
+/* feed box */
+#feedBox
+{
+	background-color                 : #FFFFFF;
+	margin-left                      : 13px;
+	overflow                         : auto;
+	position                         : relative;
+	right                            : 0;
+	top                              : 0;
+}
+
+#feedAdder
+{
+	margin                           : 0 !important;
+	padding                          : 10px;
+}
+
+#feedAdder .title
+{
+	display                          : none;
+}
+
+#feedAdder .button-box
+{
+	margin                           : 10px 0;
+}
+
+#feedAdder .button-box .text-input
+{
+	vertical-align                   : middle;
+	width                            : 480px;
+}
+
+#feedAdder .button-box .add-button
+{
+	background-color                 : #F4F4F4;
+	background-image                 : none;
+	border                           : 1px solid #B2B2B2;
+	line-height                      : 1em;
+	padding                          : 2px 5px;
+	vertical-align                   : middle;
+}
+
+ul#feedList li
+{
+	cursor                           : pointer;
+	overflow                         : hidden;
+	height                           : 23px;
+	line-height                      : 23px;
+	overflow                         : hidden;
+	padding                          : 0 5px;
+	position                         : relative;
+	text-align                       : left;
+}
+
+ul#feedList li div
+{
+	display                          : inline;
+}
+
+ul#feedList li .description
+{
+	color                            : #888888;
+}
+
+ul#feedList li .button-box
+{
+	line-height                      : 21px;
+	margin                           : 0;
+	position                         : absolute;
+	padding                          : 0;
+	right                            : 5px;
+	top                              : 1px;
+}
+
+ul#feedList li .button-box .button
+{
+	background-image                 : none;
+	border                           : 1px solid #B2B2B2;
+	background-color                 : #F4F4F4;
+	line-height                      : 1em;
+	padding                          : 0 2px;
+	width                            : auto !important;
+}
+
+ul#feedList li .button:link,
+ul#feedList li .button:visited
+{
+	color                            : #000000 !important;
+}
+
+ul#feedList li .button:hover,
+ul#feedList li .button:active
+{
+	color                            : #565656 !important;
+	text-decoration                  : none !important;
+}
+
+#feedEditor
+{
+	text-align                       : center;
+}
+
+#feedEditor .title
+{
+	color                            : #000000;
+	font-weight                      : bold;
+	margin-top                       : 30px;
+}
+
+#feedEditor .input-box
+{
+	margin                           : 5px 10px 0 10px !important;
+	padding                          : 20px 0 18px 0;
+}
+
+#feedEditor .input-box .text-readonly-input
+{
+	width                            : 400px !important;
+}
+
+#feedEditor .button-box
+{
+	margin                           : 10px auto 0 auto;
+}
+
+#feedEditor .button-box .button
+{
+	background-color                 : #ABABAB;
+	background-image                 : none;
+	border                           : 1px solid #878787;
+	line-height                      : 1em !important;
+	margin                           : 3px 1px 0 1px !important;
+	padding                          : 3px 7px !important;
+	text-align                       : center;
+	width                            : 70px !important;
+}
+
+#feedEditor .button-box .button span
+{
+	color                            : #FFFFFF;
+	font-weight                      : normal;
+}
+
+/* configure ------------------------------------------------------------------------------------*/
+#configure h3.title
+{
+	border-bottom                    : 1px solid #000000 !important;
+}
+
+#configure .data-inbox
+{
+	background-color                 : #92B2D9;
+	border                           : none;
+	clear                            : both;
+	margin                           : 0;
+	padding                          : 0;
+}
+
+#configure .data-inbox
+{
+	background-color                 : #FFFFFF !important;
+	border                           : none !important;
+	clear                            : both;
+	line-height                      : 22px;
+	position                         : relative;
+	padding                          : 0 !important;
+}
+
+#configure .data-inbox .section dl
+{
+	clear                            : both;
+	line-height                      : 25px;
+}
+
+#configure .data-inbox .section dt
+{
+	float                            : left;
+	text-align                       : right;
+	width                            : 170px;
+}
+
+#configure .data-inbox .section dd
+{
+	float                            : left;
+	line-height                      : 15px;
+	padding-left                     : 3px;
+}
+
+#configure .data-inbox .section .title
+{
+	color                            : #000000;
+	font-weight                      : bold;
+}
+
+#configure .data-inbox #reader-section
+{
+	padding                          : 10px;
+	width                            : 440px;
+}
+
+#configure .data-inbox #reader-section .property
+{
+	background-color                 : #E3EFFE;
+	color                            : #333333;
+	padding                          : 9px 5px 5px 5px;
+}
+
+#configure .data-inbox #reader-section dl dd div
+{
+	display                          : inline;
+}
+
+#configure .data-inbox #reader-section dl dd em
+{
+	display                          : block;
+}
+
+#configure .data-inbox #reader-section #image-line dd,
+#configure .data-inbox #reader-section #javascript-line dd,
+#configure .data-inbox #reader-section #link-line dd
+{
+	margin-top                      : 5px !important;
+}
+
+#configure .data-inbox #opml-section
+{
+	position                         : absolute;
+	padding                          : 10px;
+	right                            : 0;
+	left                             : 460px;
+	top                              : 0;
+}
+
+#configure .data-inbox #opml-section .property
+{
+	background-color                 : #E3EFFE;
+	color                            : #333333;
+	padding                          : 5px;
+}
+
+#get-upload
+{
+	padding-top                       : 4px;
+}
+
+#opmlUpload,
+#opmlRequest
+{
+	padding-top                       : 8px;
+}
+
+#opmlRequestValue
+{
+	padding                          : 1px;
+	width                            : 250px;
+}
+
+#configure .button-box
+{
+	margin                           : 20px 0 10px 0 !important;
+}
+
+/* toggle bar -----------------------------------------------------------------------------------*/
+#toggleBar a
+{
+	position                         : absolute;
+	top                              : 37px;
+	right                            : 2%;
+	z-index                          : 10;
+}
+
+/* post list ------------------------------------------------------------------------------------*/
+#scrollPoint
+{
+	background                       : #FFFFFF;
+	border                           : 1px solid #CFCFCF;
+	clear                            : both;
+	margin                           : 15px 0;
+	min-width                        : 853px;
+	padding                          : 0.5em 1em;
+	position                         : relative;
+}
+
+#post-information
+{
+	border                           : none !important;
+	margin                           : 0 !important;
+	padding                          : 0 !important;
+	width                            : auto !important;
+}
+
+#post-information .caption
+{
+	display                          : none !important;
+}
+
+/* list */
+#post-list
+{
+	border                           : none;
+	left                             : 11px;
+	margin                           : 0;
+	padding                          : 0;
+	position                         : absolute;
+	top                              : 63px;
+	width                            : 250px !important;
+	z-index                          : 1;
+}
+
+#post-list .title
+{
+	padding-right                    : 2px;
+}
+
+#post-list .title .count
+{
+	color                            : #333333;
+	font-family                      : Tahoma, Verdana, sans-serif;
+	font-size                        : 90%;
+	margin-left                      : 3px;
+}
+
+#totalList
+{
+	border                           : none;
+	font-weight                      : bold;
+	margin-left                      : 2px;
+}
+
+#iconMoreEntries
+{
+	display                          : none;
+}
+
+#listup
+{
+	height                           : 480px;
+	overflow                         : auto;
+}
+
+#listup table
+{
+	margin                           : 0;
+}
+
+#listup table tr td
+{
+	border                           : none !important;
+	color                            : #000000;
+	cursor                           : pointer;
+	padding                          : 5px;
+}
+
+
+#listup table tr td .content
+{
+	border-left                      : 4px solid #898989;
+	line-height                      : 13px;
+	overflow                         : hidden;
+	padding-left                     : 3px;
+	width                            : 220px;
+}
+
+#listup table tr td .title
+{
+	display                          : inline !important;
+	text-align                       : left;
+}
+
+#listup table tr td .blog
+{
+	margin-top                       : 2px;
+	text-align                       : left;
+}
+
+#listup table .read .title
+{
+	color                            : #777777;
+}
+
+#listup table .read td,
+#listup table .read .blog
+{
+	color                            : #999999;
+}
+
+#listup table .unread .title
+{
+	color                            : #0047B6;
+}
+
+#listup table .unread td,
+#listup table .unread .blog
+{
+	color                            : #213141;
+}
+
+#listup table .active-class,
+#listup table .rollover-class
+{
+	background-color                 : #AADDAA !important;
+}
+
+#listup table .inactive-class
+{
+	background-color                 : transparent;
+}
+
+#listup .system-message
+{
+	width                            : 178px !important;
+}
+
+#post-list .button-box
+{
+	font-size                        : 92%;
+	margin-top                       : 10px !important;
+	padding                          : 5px;
+}
+
+#post-list .button-box .button
+{
+	line-height                      : 1em;
+	padding                          : 5px 10px;
+}
+
+#shortcuts
+{
+	background-color                 : #CDCDCD;
+	padding                          : 5px;
+}
+
+#shortcuts h3
+{
+	display                          : none;
+}
+
+#shortcuts .inbox
+{
+	background-color                 : #6593C4;
+	color                            : #FFFFFF !important;
+	font-size                        : 92%;
+	padding                          : 3px;
+}
+
+#shortcuts ul
+{
+	text-align                       : left;
+}
+
+#shortcuts ul li
+{
+	color                            : #FFFFFF !important;
+	display                          : inline;
+	font-family                      : µ¸¿ò, Dotum, ±¼¸², Gulim, sans-serif;
+	font-size                        : 90%;
+	letter-spacing                   : -1px;
+	margin-right                     : 5px;
+}
+
+#shortcuts ul li:after
+{
+	content                          : ",";
+}
+
+#shortcuts ul li.last-shortcut:after
+{
+	content                          : "" !important;
+}
+
+/* content in detail ----------------------------------------------------------------------------*/
+#content-information
+{
+	background                       : transparent !important;
+	border                           : none !important;
+	margin                           : 0 !important;
+	padding                          : 0 !important;
+}
+
+#post-content
+{
+	min-height                       : 683px;
+	margin                           : 0 0 0 265px;
+	overflow                         : auto;
+	padding-bottom                   : 6px !important;
+	width                            : auto !important;
+}
+
+#blogTitle
+{
+	color                            : #000000;
+	font-weight                      : bold;
+	margin-left                      : 5px;
+}
+
+#post-content .title .divider
+{
+	display                          : inline !important;
+}
+
+#post-content .title .button
+{
+	background-color                 : transparent !important;
+	border                           : none;
+	padding                          : 0;
+}
+
+#entry
+{
+	border                           : 1px solid #CCCCCC;
+	color                            : #213141;
+	width                            : auto;
+}
+
+#entryHead
+{
+	border-bottom                    : 1px dashed #CCCCCC;
+	margin                           : 0 5px;
+	padding                          : 10px 5px 8px 5px;
+}
+
+#entryHead .title a
+{
+	font-weight                      : bold;
+}
+
+#entryHead .date
+{
+	font-family                      : Tahoma, Verdana, sans-serif;
+	font-size                        : 80%;
+}
+
+#entryPermalink
+{
+	display                          : none;
+}
+
+#entryBody
+{
+	line-height                      : 18px;
+	padding                          : 10px;
+	text-align                       : left;
+}
+
+#entryFoot
+{
+	background-color                 : #F5F5F5;
+	border-top                       : 1px solid #DDDDDD;
+	clear                            : both;
+	line-height                      : 15px;
+	padding                          : 10px;
+}
+
+#entryFoot .button-box
+{
+	margin                           : 0;
+	padding                          : 5px 5px 8px 5px;
+	text-align                       : right;
+}
+
+#entryFoot .button-box a
+{
+	background-color                 : #DDDDDD;
+	border                           : 1px solid #979797;
+	font-size                        : 92%;
+	line-height                      : 1em;
+	padding                          : 5px;
+}

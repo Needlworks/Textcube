@@ -1,0 +1,10 @@
+@charset "utf-8";
+
+/* Post ******************************************************************************************/
+
+#data-outbox table tbody tr td.selection,
+#data-outbox table tbody tr td.date,
+#data-outbox table tbody tr td.status
+{
+	text-align                       : center;
+}

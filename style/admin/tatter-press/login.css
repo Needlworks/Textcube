@@ -1,0 +1,110 @@
+@charset "utf-8";
+
+/* Login *****************************************************************************************/
+
+body
+{
+	background-color                 : #F9FCFE;
+}
+
+#login-box
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #A2A2A2;
+	margin                           : 65px auto 0 auto;
+	padding                          : 20px;
+	width                            : 325px;
+}
+
+dl
+{
+	height                           : auto;
+}
+
+dl dt
+{
+	float                            : none;
+	margin-top                       : 10px;
+	text-align                       : left;
+}
+
+dl dt span
+{
+	font-weight                      : normal !important;
+}
+
+dl dd
+{
+	float                            : none;
+}
+
+dl dd .text-input
+{
+	background-color                 : #F4F4F4;
+	border                           : 1px solid #B2B2B2;
+	float                            : none;
+	font-size                        : 1.85em;
+	padding                          : 3px;
+	width                            : 256px;
+}
+
+#checkbox-line
+{
+	padding                          : 5px 0 0 0;
+}
+
+#checkbox-line dt
+{
+	display                          : none;
+}
+
+#checkbox-line dd div
+{
+	display                          : inline;
+}
+
+#password_int .checkbox
+{
+	margin-left                      : 5px;
+}
+
+#message-box
+{
+	background-color                 : #EBF2F8;
+	margin-top                       : 20px;
+	padding                          : 5px;
+	text-align                       : center;
+}
+
+.button-box
+{
+	margin                           : 0 0 6px 0;
+	padding-top                      : 7px;
+	text-align                       : right;
+}
+
+.button-box .button
+{
+	padding-top                      : 12px;
+}
+
+.button-box .button span
+{
+	font-size                        : 1.85em;
+	font-weight                      : normal;
+}
+
+.button-box .button:link,
+.button-box .button:visited
+{
+	color                            : #000000;
+	font-weight                      : bold;
+	text-decoration                  : none;
+}
+
+.button-box .button:hover,
+.button-box .button:active
+{
+	color                            : #565656;
+	text-decoration                  : none;
+}

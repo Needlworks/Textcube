@@ -41,7 +41,7 @@ function getUpperView($paging) {
 		//<![CDATA[
 			var servicePath = "<?=$service['path']?>";
 			var blogURL = "<?=$blogURL?>";
-			var adminSkin = "<?=$service['adminSkin']?>";
+			var adminSkin = "<?=$adminSkinSetting['skin']?>";
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/EAF.js"></script>

@@ -524,7 +524,7 @@ function printEntryFileList($attachments, $entryId) {
 	strpos($attachments[0]['name'] ,'.gif') === false &&
 	strpos($attachments[0]['name'] ,'.jpg') === false &&
 	strpos($attachments[0]['name'] ,'.png') === false)) {
-		$fileName =  "{$service['path']}{$service['adminSkin']}/image/spacer.gif";
+		$fileName =  "{$service['path']}{$adminSkinSetting['skin']}/image/spacer.gif";
 	} else {
 		$fileName = "{$service['path']}/attach/$owner/{$attachments[0]['name']}";
 	}

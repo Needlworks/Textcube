@@ -1,0 +1,719 @@
+/* Basic Tag *************************************************************************************/
+
+*
+{
+	font-style                       : normal;
+	margin                           : 0;
+	padding                          : 0;
+}
+
+a
+{
+	border-bottom                    : 1px solid #6F9FCF;
+	color                            : #00019B;
+	text-decoration                  : none;
+}
+
+a:visited
+{
+	color                            : #0F0F6F;
+}
+
+a:hover
+{
+	color                            : #0F6F9F;
+}
+
+abbr,
+acronym
+{
+	cursor                           : help;
+}
+
+body
+{
+	background-color                 : #F9FCFE;
+	font-family                      : "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, Verdana, 굴림, Gulim, 돋움, Dotum, sans-serif;
+	font-size                        : smaller;
+}
+
+fieldset
+{
+	border                           : none;
+}
+
+h2
+{
+	display                          : none;
+}
+
+h3
+{
+	font-size                        : inherit;
+}
+
+kbd
+{
+	font-family                      : "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, Verdana, 굴림, Gulim, 돋움, Dotum, sans-serif;
+}
+
+label
+{
+	cursor                           : pointer;
+}
+
+legend
+{
+	display                          : none;
+}
+
+input.text-input
+{
+	background-color                 : #F4F4F4;
+	border                           : 1px solid #B2B2B2;
+	color                            : #000000;
+	font-family                      : Verdana, Arial, Helvetica, sans-serif;
+	padding                          : 3.5px;
+}
+
+input.text-readonly-input
+{
+	background                       : #CDCDCD;
+	border                           : 1px solid #B2B2B2;
+	color                            : #565656;
+	font-family                      : Verdana, Arial, Helvetica, sans-serif;
+	font-size                        : inherit;
+	padding                          : 3.5px;
+}
+
+select
+{
+	background-color                 : #F4F4F4;
+	border                           : 1px solid #B2B2B2;
+	color                            : #000000;
+	height                           : 1.8em;
+	font-family                      : "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, Verdana, 굴림, Gulim, 돋움, Dotum, sans-serif;
+	font-size                        : inherit;
+	padding                          : 2px;
+	vertical-align                   : middle;
+}
+
+textarea
+{
+	background-color                 : #F4F4F4;
+	border                           : 1px solid #B2B2B2;
+	color                            : #000000;
+	font-family                      : Verdana, Arial, Helvetica, sans-serif;
+	font-size                        : inherit;
+	padding                          : 2px;
+}
+
+input.text-input:focus,
+textarea:focus,
+label:focus
+{
+	background                       : #FFFFFF;
+	border                           : 1px solid #686868;
+}
+
+li,
+ol,
+ul
+{
+	list-style-type                  : none;
+}
+
+optgroup
+{
+	font-style                       : normal;
+}
+
+option
+{
+	padding                          : 0 3px;
+}
+
+samp
+{
+	font-family                      : "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, Verdana, 굴림, Gulim, 돋움, Dotum, sans-serif;
+}
+
+/* Basic Class ***********************************************************************************/
+
+.button
+{
+	background-color                 : #F4F4F4;
+	border                           : 1px solid #B2B2B2;
+	color                            : #000000;
+	padding                          : 2px 7px;
+	white-space                      : pre;
+	vertical-align                   : middle;
+}
+
+.button:link,
+.button:visited
+{
+	color                            : #000000 !important;
+}
+
+.button:hover,
+.button:active
+{
+	color                            : #454545 !important;
+}
+
+/* Layout ****************************************************************************************/
+
+#temp-wrap
+{
+
+	width                            : 100%;
+}
+	
+#all-wrap
+{
+	font-size                        : 92%;
+	text-align                       : justify;
+}
+
+/* header */
+#layout-header
+{
+	background-color                 : #14568A;
+}
+
+/* footer */
+#layout-footer
+{
+	clear                            : both;
+	padding-bottom                   : 20px;
+	text-align                       : center;
+}
+
+/* Head *******************************************************************************************/
+
+h1
+{
+	color                            : #C3DEF1 !important;
+	font-family                      : Georgia, "Times New Roman", Times, 바탕, Batang, serif;
+	font-size                        : 270%;
+	font-weight                      : normal;
+	letter-spacing                   : -3px;
+	padding                          : 0.4em 8.5em 0.4em 1em;
+}
+
+/* main descrition */
+#main-description
+{
+	color                            : #FFFFFF;
+	line-height                      : 1.5em;
+	position                         : absolute;
+	right                            : 10px;
+	top                              : 15px;
+}
+
+#main-description li
+{
+	display                          : inline;
+}
+
+/* 자바스크립트로 대치.
+#main-description li#description-logout:before
+{
+	content                          : "[";
+}
+
+#main-description li#description-blog:after
+{
+	content                          : "]";
+}*/
+
+#main-description li a
+{
+	border-bottom                    : 1px solid #6F9FCF !important;
+}
+
+#main-description li a:link,
+#main-description li a:visited
+{
+	color                            : #FFFFFF;
+}
+
+#main-description li a:hover,
+#main-description li a:active
+{
+	color                            : #DFDFDF;
+}
+
+#description-blogger em
+{
+	font-style                       : normal;
+	font-weight                      : bold;
+}
+
+/* main menu */
+#main-menu
+{
+	background-color                 : #6DA6D1;
+	border-top                       : 3px solid #448ABD;
+	height                           : 26px;
+	padding                          : 0.2em 0;
+	/*position                         : absolute;
+	width                            : 100%;*/
+}
+
+ul#main-menu li
+{
+	display                          : inline;
+	line-height                      : 210%;
+	text-align                       : center;
+}
+
+ul#main-menu li a
+{
+	border                           : none;
+	color                            : #000000;
+	margin                           : 0;
+	padding                          : 5px;
+	text-decoration                  : none;
+}
+
+ul#main-menu li a:hover
+{
+	background                       : #DDEAF4;
+	color                            : #3F3F3F;
+}
+
+ul#main-menu li.selected a
+{
+	background                       : #DDEAF4;
+	color                            : #3F3F3F;
+	font-weight                      : bold;
+}
+
+ul#main-menu li#menu-center
+{
+	margin-left                      : 2em;
+}
+
+ul#main-menu li#menu-tattertools
+{
+	float                            : right;
+	margin-right                     : 0.2em;
+}
+
+/* Body *******************************************************************************************/
+
+/* sub menu */
+ul#sub-menu
+{
+	background                       : #0D324F;
+	padding                          : 3px 2em 0 3em;
+	/*position                         : absolute;
+	top                              : 8.2em;
+	width                            : 100%;*/
+}
+
+ul#sub-menu li
+{
+	display                          : inline;
+	line-height                      : 170%;
+	list-style                       : none;
+	text-align                       : center;
+}
+
+ul#sub-menu li a
+{
+	border                           : none;
+	color                            : #FFFFFF;
+	padding                          : 0.3em 0.4em 0.33em;
+	text-decoration                  : none;
+}
+
+ul#sub-menu li a:hover
+{
+	background                       : #DDEAF4;
+	color                            : #393939;
+}
+
+ul#sub-menu li.selected a
+{
+	background                       : #F9FCFE;
+	border-top                       : 1px solid #045290;
+	border-right                     : 2px solid #045290;
+	color                            : #000000;
+	font-weight                      : bold;
+}
+
+/* pseudo outbox */
+#pseudo-box
+{
+	/*margin-top                       : 6em;*/
+	padding                          : 0 5%;
+}
+
+.part
+{
+	background                       : #FFFFFF;
+	border                           : 1px solid #CFCFCF;
+	clear                            : both;
+	margin                           : 15px 0;
+	min-width                        : 853px;
+	padding                          : 0.5em 1em;
+	position                         : relative;
+}
+
+/* data outbox */
+#data-outbox h2.caption
+{
+	background-image                 : url("./image/bg_caption.png");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	clear                            : both;
+	color                            : #3F3F3F;
+	display                          : block;
+	font-family                      : Georgia, "Times New Roman", Times, 바탕, Batang, serif !important;
+	font-size                        : 30px;
+	font-weight                      : normal;
+	letter-spacing                   : -3px;
+	margin                           : 11px 0 15px 0;
+	text-transform                   : capitalize;
+}
+
+#category
+{
+	float                            : right;
+	font-size                        : 1em;
+	letter-spacing                   : 0;
+	margin                           : -40px 5px 0 0;
+}
+
+#category optgroup
+{
+	font-family                      : "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, Verdana, 굴림, Gulim, 돋움, Dotum, sans-serif;
+	font-style                       : normal;
+	padding-top                      : 3px;
+}
+
+#category optgroup option
+{
+	background-color                 : #EFEFEF;
+	font-family                      : "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, Verdana, 굴림, Gulim, 돋움, Dotum, sans-serif;
+	padding                          : 0 5px 0 20px;
+}
+
+#category optgroup.delete option
+{
+	color                            : #FF0000;
+}
+
+#data-outbox h2.caption label
+{
+	display                          : none;
+}
+
+#data-outbox .main-explain-box .explain
+{
+	margin-bottom                    : 10px;
+	text-align                       : left;
+}
+
+#data-outbox table
+{
+	margin                           : 15px 0 30px 0;
+	width                            : 100%;
+}
+
+#data-outbox table thead tr th
+{
+	font-weight                      : bold;
+	padding                          : 0 3px;
+	text-align                       : center;
+}
+
+#data-outbox table tbody tr td
+{
+	border                           : 1.5px solid #FFFFFF;
+	padding                          : 2px 3px;
+	text-align                       : left;
+}
+
+#data-outbox table tbody tr td.selection
+{
+	text-align                       : center;
+}
+
+#data-outbox table tbody tr.odd-line
+{
+	background                       : #F1F1F1;
+}
+
+#data-outbox table tbody tr.active-class
+{
+	background-color                 : #AADDAA;
+}
+
+#data-outbox table tbody tr.active-class td.selection
+{
+	background-color                 : #88BB88;
+}
+
+table tbody tr td .button
+{
+	background-color                 : transparent;
+	border                           : none;
+	display                          : block;
+	margin-top                       : -1px;
+	padding                          : 3px 7px 2px 7px;
+	text-align                       : center;
+}
+
+table tbody tr td .button:hover
+{
+	background-color                 : #CFCFCF;
+	color                            : #0F3F6F;
+}
+
+table tbody tr td.delete .button:hover
+{
+	background-color                 : #CF0F0F;
+	color                            : #FFFFFF !important;
+}
+
+/* data-subbox */
+.data-subbox
+{
+	height                           : 50px;
+	margin-bottom                    : 10px;
+	position                         : relative;
+}
+
+.data-subbox h3
+{
+	display                          : none;
+}
+
+#change-section select optgroup
+{
+	font-style                       : normal;
+	padding-top                      : 3px;
+}
+
+#change-section select optgroup option
+{
+	background-color                 : #EFEFEF;
+	font-family                      : "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, Verdana, 굴림, Gulim, 돋움, Dotum, sans-serif;
+	padding                          : 0 5px 0 20px;
+}
+
+#change-section select optgroup.delete option
+{
+	color                            : #FF0000;
+}
+
+.data-subbox .delete-button span
+{
+	color                            : #FF0000;
+}
+
+.data-subbox .section,
+.data-subbox .page-count
+{
+	height                           : 23px;
+}
+
+.data-subbox .page-count
+{
+	position                         : absolute;
+	right                            : 0;
+	top                              : 0;
+}
+
+#page-navigation
+{
+	padding-top                      : 9px;
+}
+
+#page-list
+{
+	margin-left                      : 19px;
+}
+
+#page-list .selected
+{
+	border                           : none;
+	color                            : #000000 !important;
+}
+
+#search-form
+{
+	height                           : auto !important;
+	margin-bottom                    : 0 !important;
+	position                         : absolute;
+	right                            : 10px;
+	bottom                           : 15px;
+}
+
+#search-form label
+{
+	display                          : none;
+}
+
+#search-form .button
+{
+	vertical-align                   : middle;
+}
+
+/* fieldset */
+dl
+{
+	clear                            : both;
+	float                            : none;
+	height                           : 2em;
+	margin                           : 4px 0;
+}
+
+dl dt
+{
+	float                            : left;
+	line-height                      : 1.9em;
+	margin-right                     : 10px;
+	text-align                       : right;
+	width                            : 225px;
+}
+
+dl dt label,
+dl dt span
+{
+	font-weight                      : bold;
+}
+
+dl dd
+{
+	float                            : left;
+	line-height                      : 1.9em;
+}
+
+/* forms */
+.button-box
+{
+	clear                            : both;
+	margin                           : 20px 0 15px 0;
+	text-align                       : center;
+}
+
+.button-box .divider
+{
+	display                          : none !important;
+}
+
+.button-box .button
+{
+	background-image                 : url("./image/bg_button.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border-top                       : 3px double #CCCCCC;
+	border-right                     : 3px double #999999;
+	border-bottom                    : 3px double #999999;
+	border-left                      : 3px double #CCCCCC;
+	padding                          : 7px;
+}
+
+/* Foot *******************************************************************************************/
+
+#copyright
+{
+	background-image                 : url("./image/img_tattertools_logo.png");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	height                           : 65px;
+	margin                           : 0 auto;
+	width                            : 298px;
+}
+
+#copyright span
+{
+	display                          : none;
+}
+
+#version
+{
+	font-family                      : "Lucida Grande", "Lucida Sans Unicode", Arial, Tahoma, Verdana, sans-serif;
+}
+
+/* Special Class **********************************************************************************/
+
+/* eolin suggest */
+.eolinSuggest
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #BBBBBB;
+}
+
+.eolinSuggest
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #BFBFBF;
+	font-size                        : 90%;
+}
+
+.eolinSuggest li
+{
+	margin                           : 3px;
+	cursor                           : pointer;
+}
+
+.eolinSuggest li.hover
+{
+	background-color                 : #EFDFFF !important;
+}
+
+.eolinSuggest li.disabled
+{
+	color                            : #7F7F7F;
+}
+
+/* system message */
+.system-message
+{
+	background-color                 : #CFEBF7 !important;
+	background-image                 : url("./image/bullet_notice.gif") !important;
+	background-position              : 15px center !important;
+	background-repeat                : no-repeat !important;
+	border                           : 1px solid #2580B2 !important;
+	color                            : #000000 !important;
+	font-size                        : 12px;
+	padding                          : 13px 13px 13px 39px !important;
+	z-index                          : 999;
+}
+
+/* system error message */
+.error-message
+{
+	background-color                 : #FF0000 !important;
+	z-index                          : 999;
+}
+
+/* etc */
+.hidden
+{
+	display                          : none;
+}
+
+.clear
+{
+	clear                            : both !important;
+	float                            : none !important;
+	font-size                        : 1px !important;
+	line-height                      : 1px !important;
+}
+
+.checkbox,
+.radio
+{
+	background-color                 : transparent;
+	border                           : none;
+	margin                           : 0;
+	padding                          : 0;
+	vertical-align                   : middle;
+}

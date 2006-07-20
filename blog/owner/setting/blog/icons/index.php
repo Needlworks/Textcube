@@ -57,5 +57,13 @@ if (!empty($_FILES['blogIcon']['tmp_name'])) {
 	}
 }
 
+if (in_array($_POST['blogIconSize'], array("16", "32", "48"))) {
+	if (DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'blogIconSize'")) {
+		DBQuery::execute("UPDATE `{$database['prefix']}UserSettings` SET `value` = '{$_POST['blogIconSize']}' WHERE `user` = $owner AND `name` = 'blogIconSize'");
+	} else {
+		DBQuery::execute("INSERT `{$database['prefix']}UserSettings` (`user`, `name`, `value`) VALUES ($owner, 'blogIconSize', '{$_POST['blogIconSize']}')");
+	}
+}
+
 header("Location: ".$_SERVER['HTTP_REFERER']);
 ?>

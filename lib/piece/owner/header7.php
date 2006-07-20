@@ -3,28 +3,28 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo htmlspecialchars($blog['title'])?> &gt; <?php echo _t('공지관리')?></title>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/basic.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/notice.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/editor.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/basic.opera.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/notice.opera.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/editor.opera.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/basic.ie.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/notice.ie.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$service['adminSkin']?>/editor.ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/basic.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/notice.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/editor.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/basic.opera.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/notice.opera.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/editor.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/basic.ie.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/notice.ie.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/editor.ie.css" /><![endif]-->
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?=$service['path']?>";
 			var blogURL = "<?=$blogURL?>";
-			var adminSkin = "<?=$service['adminSkin']?>";
+			var adminSkin = "<?=$adminSkinSetting['skin']?>";
 <?php
-if (file_exists(ROOT.$service['editorCSS'])) {
+if (file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
 ?>
-			var editorCSS = "<?=$service['editorCSS']?>";
+			var editorCSS = "<?=$adminSkinSetting['editorTemplate']?>";
 <?php
 } else {
 ?>
-			var editorCSS = "/style/wisiwig/default-wisiwig.css";
+			var editorCSS = "/style/wysiwyg/default-wysiwyg.css";
 <?php
 }
 ?>
@@ -36,7 +36,7 @@ if (file_exists(ROOT.$service['editorCSS'])) {
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/gallery.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/style/base.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'].$service['adminSkin']?>/custom.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'].$adminSkinSetting['skin']?>/custom.js"></script>
 </head>
 <body id="body-notice">
 	<div id="temp-wrap">

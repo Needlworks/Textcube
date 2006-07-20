@@ -115,7 +115,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 							
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="correctData()">
-									<img src="<?=$service['path'].$service['adminSkin']?>/image/dbCorrect.gif" alt="<?=_t('데이터 교정 이미지')?>" />
+									<img src="<?=$service['path'].$adminSkinSetting['skin']?>/image/dbCorrect.gif" alt="<?=_t('데이터 교정 이미지')?>" />
 									<div class="title"><?=_t('CORRECT')?></div>
 								</div>
 								<p class="explain">
@@ -142,7 +142,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 							
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="showDialog('DBExport')">
-									<img src="<?=$service['path'].$service['adminSkin']?>/image/dbExport.gif" alt="<?=_t('데이터 백업 이미지')?>" />
+									<img src="<?=$service['path'].$adminSkinSetting['skin']?>/image/dbExport.gif" alt="<?=_t('데이터 백업 이미지')?>" />
 									<div class="title"><?=_t('EXPORT')?></div>
 								</div>
 								<p class="explain">
@@ -179,7 +179,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 							
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="showDialog('DBImport')">
-									<img src="<?=$service['path'].$service['adminSkin']?>/image/dbImport.gif" alt="<?=_t('데이터 복원 이미지')?>" />
+									<img src="<?=$service['path'].$adminSkinSetting['skin']?>/image/dbImport.gif" alt="<?=_t('데이터 복원 이미지')?>" />
 									<div class="title"><?=_t('IMPORT')?></div>
 								</div>
 								<p class="explain">
@@ -247,7 +247,7 @@ if ($backup) {
 							
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="showDialog('DBRemove')">
-									<img src="<?=$service['path'].$service['adminSkin']?>/image/dbClear.gif" alt="<?=_t('데이터 삭제 이미지')?>" />
+									<img src="<?=$service['path'].$adminSkinSetting['skin']?>/image/dbClear.gif" alt="<?=_t('데이터 삭제 이미지')?>" />
 									<div class="title"><?=_t('REMOVE')?></div>
 								</div>
 								<p class="explain">

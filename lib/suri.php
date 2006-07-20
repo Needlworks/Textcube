@@ -62,6 +62,16 @@ if (defined('__TATTERTOOLS_MOBILE__')) {
 	$blogURL .= '/m';
 }
 unset($url, $domain);
+
+$adminSkinSetting = array();
+$adminSkinSetting['skin'] = '/style/admin/'.getUserSetting("adminSkin");
+$tempTemplate = getUserSetting("visualEditorTemplate");
+if (empty($tempTemplate))
+	$adminSkinSetting['editorTemplate'] = "/style/default-wysiwyg.css";
+else
+	$adminSkinSetting['editorTemplate'] = "/skin/$tempTemplate/wysiwyg.css";
+unset($tempTemplate);
+
 if (!file_exists(ROOT . '/config.php')) {
 	header("Location: $blogURL/setup.php");
 	exit;

@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+/* List ******************************************************************************************/
+
+#data-outbox table tbody tr td.selection,
+#data-outbox table tbody tr td.date,
+#data-outbox table tbody tr td.ip
+{
+	text-align                       : center;
+}
+
+/* data-subbox */
+.data-subbox
+{
+	height                           : 62px;
+}
+
+.data-subbox #delete-section
+{
+	padding-top                      : 4px !important;
+}
+
+.data-subbox #search-section
+{
+	margin-bottom                    : 10px;
+}

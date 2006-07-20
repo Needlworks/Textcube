@@ -1,0 +1,112 @@
+@charset "utf-8";
+
+/* Editor ****************************************************************************************/
+
+/* title ----------------------------------------------------------------------------------------*/
+#body-post #title-container dd
+{
+	width                            : 652px;
+}
+
+#body-post #title-container dt
+{
+	display : none;
+}
+
+#body-post #title-container dd
+{
+	float : none;
+	position : relative;
+	z-index : 100;
+}
+
+#body-post #title-container .text-input
+{
+	padding                          : 3px;
+	width                            : 485px;
+}
+
+#body-post #title-container select
+{
+	width                            : 157px;
+}
+
+/* sidebar --------------------------------------------------------------------------------------*/
+#temp-sidebar
+{
+	position                         : relative;
+	z-index                          : 2;
+}
+
+/* textarea -------------------------------------------------------------------------------------*/
+#editWindow
+{
+	height                           : 448px !important;
+}
+
+/* property box --------------------------------------------------------------------------------*/
+.entry-editor-property h4
+{
+	padding-top                      : 10px;
+}
+
+.entry-editor-property dl
+{
+	padding-left                     : 10px;
+	padding-right                    : 10px;
+}
+
+.entry-editor-property dl dt.property-name
+{
+	font-family                      : Dotum, Gulim, "Lucida Grande", Arial, Tahoma, Verdana, sans-serif;
+	font-size                        : 11px !important;
+}
+
+/* tag and location -----------------------------------------------------------------------------*/
+#tag-line dd,
+#location-line dd
+{
+	padding-left                     : 10px;
+	padding-right                    : 10px;
+}
+
+#tag-line dd ul li,
+#location-line dd ul li
+{
+	font-family                      : Dotum, Gulim, "Lucida Grande", Arial, Tahoma, Verdana, sans-serif;
+	font-size                        : 11px !important;
+}
+
+/* upload ---------------------------------------------------------------------------------------*/
+#upload-section h3
+{
+	position                         : relative;
+	z-index                          : 3;
+}
+
+#fileList
+{
+	height                           : 107px;
+}
+
+#insert-container
+{
+	width                            : 303px;
+}
+
+#fileUploadNest
+{
+	margin-left                      : auto;
+	width                            : 100px;
+}
+
+/* power ----------------------------------------------------------------------------------------*/
+#date-line dd,
+#status-line dd,
+#power-line dd
+{
+	font-family                      : Dotum, Gulim, "Lucida Grande", Arial, Tahoma, Verdana, sans-serif;
+	font-size                        : 11px !important;
+	padding-left                     : 10px;
+	padding-right                    : 10px;
+}

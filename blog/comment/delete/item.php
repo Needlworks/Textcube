@@ -108,7 +108,7 @@ $commentCount = ($commentCount > 0) ? "$commentCount" : '';
 		//<![CDATA[
 			var servicePath = "<?=$service['path']?>";
 			var blogURL = "<?=$blogURL?>";
-			var adminSkin = "<?=$service['adminSkin']?>";
+			var adminSkin = "<?=$adminSkinSetting['skin']?>";
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?=$service['path']?>/script/common.js"></script>

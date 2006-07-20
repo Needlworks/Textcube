@@ -1,0 +1,122 @@
+@charset "utf-8";
+
+/* Basic Tag *************************************************************************************/
+
+*:lang(ko)
+{
+	font-style                       : normal;
+	margin                           : 0;
+	padding                          : 0;
+}
+
+h3,
+h4
+{
+	font-size                        : 12px;
+}
+
+select
+{
+{
+	font-size                        : 1em;
+	width                            : auto;
+}
+
+input.text-input
+{
+	font-size                        : 12px;
+	height                           : 15px;
+	padding                          : 3px !important;
+}
+
+textarea
+{
+{
+	font-size                        : 12px;
+	overflow                         : auto;
+}
+
+/* Layout ****************************************************************************************/
+
+#all-wrap
+{
+	font-size                        : 12px;
+}
+
+/* Head *******************************************************************************************/
+
+h1
+{
+	font-family                      : Batang, Georgia, "Times New Roman", Times, serif;
+}
+
+/* Body *******************************************************************************************/
+
+/* data outbox */
+#data-outbox h2.caption
+{
+	font-family                      : Batang, Georgia, "Times New Roman", Times, serif !important;
+}
+
+#data-outbox table tbody tr td
+{
+	line-height                      : 1.5em;
+}
+
+/* data-subbox */
+.data-subbox
+{
+	height                           : 62px;
+}
+
+.data-subbox .button
+{
+	line-height                      : 1em;
+	overflow                         : hidden;
+	text-align                       : center;
+	vertical-align                   : middle;
+}
+
+.data-subbox .text-input
+{
+	vertical-align                   : middle;
+}
+
+.data-subbox #delete-section
+{
+	line-height                      : 2.9em;
+	margin-bottom                    : -11px;
+}
+
+.data-subbox #search-section
+{
+	margin-bottom                    : 10px;
+}
+
+/* field */
+dl dd.clear
+{
+	font-size                        : 1px;
+	height                           : 1px;
+}
+
+/* forms */
+
+.button-box .button
+{
+	line-height                      : 3em;
+}
+
+/* Speical Class *********************************************************************************/
+
+.checkbox
+{
+	margin                           : -2px -2px;
+	vertical-align                   : baseline;
+}
+
+.radio
+{
+	margin                           : -2px -4px;
+	vertical-align                   : baseline;
+}
