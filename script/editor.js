@@ -327,8 +327,13 @@ TTEditor.prototype.html2ttml = function() {
 		var replace = this.parseAttribute(result[0], "longdesc");
 		if(replace && replace.indexOf("[##_ATTACH_PATH_##]") == -1)
 			str = str.replaceAll(body, "[##_" + this.removeQuot(replace).replace(new RegExp("&amp;", "gi"), "&") + "_##]");
-		else
-			str = str.replaceAll(body, '<img src="' + replace + '"' + this.parseImageSize(body, "string") + "/>");
+		else {
+			var align = this.parseAttribute(body, "align").toLowerCase();
+			if(align == "left" || align == "right" || align == "center")
+				str = str.replaceAll(body, '<img src="' + replace + '"' + this.parseImageSize(body, "string") + 'align="' + align + '"/>');
+			else
+				str = str.replaceAll(body, '<img src="' + replace + '"' + this.parseImageSize(body, "string") + "/>");
+		}
 	}
 
 	// iMazing 처리
@@ -1029,18 +1034,59 @@ function TTCommand(command, value1, value2) {
 		case "JustifyRight":
 			if(typeof blockAlign == "undefined")
 				blockAlign = "right";
-
 			if(isWYSIWYG) {
 				if(STD.isIE) {
-					if(editor.getSelectionRange().htmlText == "") {
-						var tagName = editor.getSelectionRange().parentElement().tagName;
-						if(tagName == "DIV" || tagName == "P")
-							editor.getSelectionRange().parentElement().setAttribute("align", blockAlign);
-						else
-							; // TODO : FF처럼 현재 커서있는 줄을 정렬
+					if(editor.selectedElement && editor.selectedElement.tagName == "IMG") {
+						switch(editor.selectedElement.className) {
+							default:
+								editor.execCommand("Justify" + blockAlign, false, null);
+								break;
+							case "":
+							case "tatterImageFree":
+								var img = editor.selectedElement;
+								img.removeAttribute("align");
+								if(blockAlign == "center")
+									editor.execCommand("Justify" + blockAlign, false, null);
+								else {
+									img.setAttribute("align", blockAlign);
+									var container = editor.selectedElement.parentNode;
+									if(container && (container.tagName == "P" || container.tagName == "DIV") && container.childNodes.length == 1 && container.parentNode)
+										container.parentNode.replaceChild(img, container);
+								}
+						}
 					}
-					else
-						editor.getSelectionRange().pasteHTML('<div align="' + blockAlign + '">' + editor.getSelectionRange().htmlText + "</div>")
+					else if(editor.getSelectionRange().htmlText) {
+						var div = document.createElement("div");
+						div.innerHTML = editor.getSelectionRange().htmlText;
+						if(div.childNodes.length == 1 && (div.childNodes[0].tagName == "P" || div.childNodes[0].tagName == "DIV")) {
+							div.childNodes[0].style.textAlign = blockAlign;
+							editor.getSelectionRange().parentElement().outerHTML = div.innerHTML;
+						}
+						else {
+							var parent = editor.getSelectionRange().parentElement();
+							if(parent && parent.tagName != "BODY" && parent.innerHTML == editor.getSelectionRange().htmlText)
+								parent.style.textAlign = blockAlign;
+							else {
+								for(var i=0; i<parent.childNodes.length; i++) {
+									if(parent.childNodes[i].tagName == "P" || parent.childNodes[i].tagName == "DIV") {
+										parent.childNodes[i].removeAttribute("align");
+										parent.childNodes[i].style.textAlign = "";
+									}
+								}
+								editor.getSelectionRange().pasteHTML('<div style="text-align: ' + blockAlign + '">' + editor.getSelectionRange().htmlText + "</div>");
+							}
+						}
+					}
+					else {
+						var container = editor.getSelectionRange().parentElement();
+						if(container && (container.tagName == "P" || container.tagName == "DIV") && container.childNodes.length == 1)
+							container.style.textAlign = blockAlign;
+						else {
+							// TODO : FF처럼 현재 커서있는 줄을 정렬
+							delete blockAlign;
+							return;
+						}
+					}
 				}
 				else
 					editor.execCommand("Justify" + blockAlign, false, null);
