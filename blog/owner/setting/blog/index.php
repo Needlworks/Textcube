@@ -219,13 +219,15 @@ if ($service['type'] != 'single') {
 								}
 								
 								var language = "<?=$blog['language']?>";
+								var skinLanguage = "<?=$blog['blogLanguage']?>";
 								var timezone = "<?=$blog['timezone']?>";
 								
 								function setLocale() {
-									if (document.getElementById('language-form').adminLanguage.value != language) {
-										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/language?language=" + encodeURIComponent(document.getElementById('language-form').adminLanguage.value));
+									if ((document.getElementById('language-form').adminLanguage.value != language) || (document.getElementById('language-form').blogLanguage.value != skinLanguage)) {
+										var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/language?language=" + encodeURIComponent(document.getElementById('language-form').adminLanguage.value) + "&blogLanguage=" + encodeURIComponent(document.getElementById('language-form').blogLanguage.value));
 										request.onSuccess = function() {
 											language = document.getElementById('language-form').adminLanguage.value;
+											skinLanguage = document.getElementById('language-form').blogLanguage.value;
 											if (document.getElementById('language-form').timezone.value != timezone) {
 												PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
 												var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/timezone?timezone=" + encodeURIComponent(document.getElementById('language-form').timezone.value));
@@ -781,7 +783,7 @@ foreach ($supportedLanguages as $locale => $language) {
 <?
 foreach ($supportedLanguages as $locale => $language) {
 ?>
-													<option value="<?=$locale?>"<?=($locale == $skinLanguage ? ' selected="selected"' : '')?>><?=$language?></option>
+													<option value="<?=$locale?>"<?=($locale == $blog['blogLanguage'] ? ' selected="selected"' : '')?>><?=$language?></option>
 <?
 }
 ?>

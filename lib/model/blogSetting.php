@@ -166,15 +166,16 @@ function setPublishWholeOnRSS($owner, $publishWholeOnRSS) {
 	return true;
 }
 
-function setBlogLanguage($owner, $language) {
+function setBlogLanguage($owner, $language, $blogLanguage) {
 	global $database;
 	global $blog;
-	if ($language == $blog['language'])
+	if (($language == $blog['language']) && ($blogLanguage == $blog['blogLanguage']))
 		return true;
-	mysql_query("update {$database['prefix']}BlogSettings set language = '$language' where owner = $owner");
-	if (mysql_affected_rows() != 1)
-		return false;
+	mysql_query("update {$database['prefix']}BlogSettings set language = '$language' , blogLanguage = '$blogLanguage' where owner = $owner");
+	//if (mysql_affected_rows() != 1)
+	//	return false;
 	$blog['language'] = $language;
+	$blog['blogLanguage'] = $blogLanguage;
 	clearRSS();
 	return true;
 }
