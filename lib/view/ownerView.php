@@ -524,7 +524,7 @@ function printEntryFileList($attachments, $entryId) {
 	strpos($attachments[0]['name'] ,'.gif') === false &&
 	strpos($attachments[0]['name'] ,'.jpg') === false &&
 	strpos($attachments[0]['name'] ,'.png') === false)) {
-		$fileName =  "{$service['path']}{$adminSkinSetting['skin']}/image/spacer.gif";
+		$fileName =  "{$service['path']}{$service['adminSkin']}/image/spacer.gif";
 	} else {
 		$fileName = "{$service['path']}/attach/$owner/{$attachments[0]['name']}";
 	}
@@ -985,6 +985,10 @@ function printEntryEditorProperty() {
 													<dt class="property-name"><label for="propertyImage1_caption1"><?php echo _t('자막')?></label></dt>
 													<dd><input type="text" class="text-input" id="propertyImage1_caption1" onkeyup="editor.setProperty()" /></dd>
 												</dl>
+												<dl class="line">
+													<dt class="property-name"><label for="propertyImage1_resample1"><?php echo _t('리샘플링 사용')?></label></dt>
+													<dd><input type="checkbox" id="propertyImage1_resample1"  onmouseup="editor.setProperty()" /></dd>
+												</dl>
 											</div>
 											
 											<div id="propertyImage2" class="entry-editor-property" style="display: none;">
@@ -1003,6 +1007,10 @@ function printEntryEditorProperty() {
 													<dt class="property-name"><label for="propertyImage2_caption1"><?php echo _t('자막')?></label></dt>
 													<dd><input type="text" class="text-input" id="propertyImage2_caption1" onkeyup="editor.setProperty()" /></dd>
 												</dl>
+												<dl class="line">
+													<dt class="property-name"><label for="propertyImage2_resample1"><?php echo _t('리샘플링 사용')?></label></dt>
+													<dd><input type="checkbox" id="propertyImage2_resample1"  onmouseup="editor.setProperty()" /></dd>
+												</dl>
 												
 												<div class="title"><?php echo _t('두번째 이미지')?></div>
 												<dl class="line">
@@ -1016,6 +1024,10 @@ function printEntryEditorProperty() {
 												<dl class="line">
 													<dt class="property-name"><label for="propertyImage2_caption2"><?php echo _t('자막')?></label></dt>
 													<dd><input type="text" class="text-input" id="propertyImage2_caption2" onkeyup="editor.setProperty()" /></dd>
+												</dl>
+												<dl class="line">
+													<dt class="property-name"><label for="propertyImage2_resample2"><?php echo _t('리샘플링 사용')?></label></dt>
+													<dd><input type="checkbox" id="propertyImage2_resample2"  onmouseup="editor.setProperty()" /></dd>
 												</dl>
 											</div>
 											
@@ -1035,6 +1047,10 @@ function printEntryEditorProperty() {
 													<dt class="property-name"><label for="propertyImage3_caption1"><?php echo _t('자막')?></label></dt>
 													<dd><input type="text" class="text-input" id="propertyImage3_caption1" onkeyup="editor.setProperty()" /></dd>
 												</dl>
+												<dl class="line">
+													<dt class="property-name"><label for="propertyImage3_resample1"><?php echo _t('리샘플링 사용')?></label></dt>
+													<dd><input type="checkbox" id="propertyImage3_resample1"  onmouseup="editor.setProperty()" /></dd>
+												</dl>
 												
 												<div class="title"><?php echo _t('두번째 이미지')?></div>
 												<dl class="line">
@@ -1049,6 +1065,10 @@ function printEntryEditorProperty() {
 													<dt class="property-name"><label for="propertyImage3_caption2"><?php echo _t('자막')?></label></dt>
 													<dd><input type="text" class="text-input" id="propertyImage3_caption2" onkeyup="editor.setProperty()" /></dd>
 												</dl>
+												<dl class="line">
+													<dt class="property-name"><label for="propertyImage3_resample2"><?php echo _t('리샘플링 사용')?></label></dt>
+													<dd><input type="checkbox" id="propertyImage3_resample2"  onmouseup="editor.setProperty()" /></dd>
+												</dl>
 												
 												<div class="title"><?php echo _t('세번째 이미지')?></div>
 												<dl class="line">
@@ -1062,6 +1082,10 @@ function printEntryEditorProperty() {
 												<dl class="line">
 													<dt class="property-name"><label for="propertyImage3_caption3"><?php echo _t('자막')?></label></dt>
 													<dd><input type="text" class="text-input" id="propertyImage3_caption3" onkeyup="editor.setProperty()" /></dd>
+												</dl>
+												<dl class="line">
+													<dt class="property-name"><label for="propertyImage3_resample3"><?php echo _t('리샘플링 사용')?></label></dt>
+													<dd><input type="checkbox" id="propertyImage3_resample3"  onmouseup="editor.setProperty()" /></dd>
 												</dl>
 											</div>
 											
