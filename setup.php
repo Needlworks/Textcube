@@ -975,6 +975,7 @@ CREATE TABLE {$_POST['dbPrefix']}BlogSettings (
   allowWriteOnGuestbook int(1) NOT NULL default '1',
   allowWriteDoubleCommentOnGuestbook char(1) NOT NULL default '1',
   language VARCHAR(5) NOT NULL DEFAULT 'en',
+  blogLanguage VARCHAR(5) NOT NULL DEFAULT 'en',
   timezone VARCHAR(32) NOT NULL DEFAULT 'GMT',
   PRIMARY KEY  (owner),
   UNIQUE KEY name (name)
