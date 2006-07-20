@@ -1703,4 +1703,54 @@ function printScript($filename, $obfuscate = true) {
 	}
 	return "$file</script>";
 }
+
+// img의 width/height에 맞춰 이미지를 리샘플링하는 함수. 썸네일 함수가 아님! 주의.
+function makeThumbnail($imgString, $originSrc) {
+	global $database, $owner, $blogURL, $waterMarkArray, $paddingArray;
+	
+	if (!eregi(' src="http://[^"]+"', $imgString) && eregi('class="tt-thumbnail"', $imgString, $extra)) {
+		$originFileName = basename($originSrc);
+		
+		// 여기로 넘어오는 값은 이미 getAttachmentBinder() 함수에서 고정값으로 변환된 값이므로 % 값은 고려할 필요 없음. 
+		if (ereg('width="([1-9][0-9]*)"', $imgString, $temp)) {
+			$tempWidth = $temp[1];
+		}
+		
+		// 여기로 넘어오는 값은 이미 getAttachmentBinder() 함수에서 고정값으로 변환된 값이므로 % 값은 고려할 필요 없음. 
+		if (ereg('height="([1-9][0-9]*)"', $imgString, $temp)) {
+			$tempHeight = $temp[1];
+		}
+		
+		$newTempFileName = eregi_replace("\.([[:alnum:]]+)$", ".thumbnail.\\1", $originFileName);
+		$tempSrc = ROOT."/cache/thumbnail/$owner/".$newTempFileName;
+		
+		// 보안상 cache 디렉토리를 공개하지 않도록 남겨놓는다.
+		$tempURL = $blogURL."/thumbnail/$owner/".$newTempFileName;
+		
+		$iCheckResult = checkExistingThumbnail($originSrc, $tempSrc, $tempWidth, $tempHeight, $paddingArray, $waterMarkArray);
+		switch ($iCheckResult) {
+			case 1:
+				deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "^".eregi_replace("\.([[:alnum:]]+)$", "\.", $originFileName));
+			case 2:
+				@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
+				if (resampleImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
+					$tempImageInfo = getImagesize($tempSrc);
+					$imgString = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $imgString);
+					$imgString = eregi_replace('width="([^"]+)"', 'width="'.$tempImageInfo[0].'"', $imgString);
+					$imgString = eregi_replace('height="([^"]+)"', 'height="'.$tempImageInfo[1].'"', $imgString);
+				} else {
+					@unlink($tempSrc);
+				}
+				break;
+			default:
+				$tempImageInfo = getImagesize($tempSrc);
+				$imgString = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $imgString);
+				$imgString = eregi_replace('width="([^"]+)"', 'width="'.$tempImageInfo[0].'"', $imgString);
+				$imgString = eregi_replace('height="([^"]+)"', 'height="'.$tempImageInfo[1].'"', $imgString);
+				break;
+		}
+	}
+
+	return $imgString;
+}
 ?>

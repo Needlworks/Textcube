@@ -47,98 +47,12 @@ function resizing($maxX, $maxY, $src_file, $tag_file) {
 	return true;
 }
 
-// img의 width/height에 맞춰 이미지를 리샘플링하는 함수. 썸네일 함수가 아님! 주의.
-function makeThumbnail($imgString, $originSrc) {
-	global $database, $owner, $blogURL, $waterMarkArray, $paddingArray;
-	
-	if (!extension_loaded('gd') || eregi(' src="http://[^"]+"', $imgString, $extra)) {
-		return $imgString;
-	}
-		
-	if (eregi('class="tt-thumbnail"', $imgString, $extra)) {
-		$originFileName = basename($originSrc);
-		
-		// 여기로 넘어오는 값은 이미 getAttachmentBinder() 함수에서 고정값으로 변환된 값이므로 % 값은 고려할 필요 없음. 
-		if (ereg('width="([1-9][0-9]*)"', $imgString, $temp)) {
-			$tempWidth = $temp[1];
-		}
-		
-		// 여기로 넘어오는 값은 이미 getAttachmentBinder() 함수에서 고정값으로 변환된 값이므로 % 값은 고려할 필요 없음. 
-		if (ereg('height="([1-9][0-9]*)"', $imgString, $temp)) {
-			$tempHeight = $temp[1];
-		}
-		
-		$newTempFileName = eregi_replace("\.([[:alnum:]]+)$", ".thumbnail.\\1", $originFileName);
-		$tempSrc = ROOT."/cache/thumbnail/$owner/$newTempFileName";
-		
-		// 보안상 cache 디렉토리를 공개하지 않도록 남겨놓는다.
-		$tempURL = $blogURL."/thumbnail/$owner/$newTempFileName";
-		
-		if (!file_exists($tempSrc)) {
-			$originImageInfo = getimagesize($originSrc);
-			
-			// 축소된 사이즈의 이미지면 리사이즈.
-			if ($originImageInfo[0] > $tempWidth || $originImageInfo[1] > $tempHeight) {
-				// 새 썸네일 생성.
-				@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
-				if (resampleImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
-					$tempImageInfo = getImagesize($tempSrc);
-					$imgString = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $imgString);
-					$imgString = eregi_replace('width="([^"]+)"', 'width="'.$tempImageInfo[0].'"', $imgString);
-					$imgString = eregi_replace('height="([^"]+)"', 'height="'.$tempImageInfo[1].'"', $imgString);
-				} else {
-					@unlink($tempSrc);
-				}
-			// 원본 사이즈 그대로이거나 확대 이미지여도, 워터마크나 여백이 존재하면 썸네일 생성.
-			} else if (($originImageInfo[0] <= $tempWidth || $originImageInfo[1] <= $tempHeight) && (file_exists($waterMarkPath) || !empty($padding))) {
-				// 새 썸네일 생성.
-				@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
-				if (resampleImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
-					$tempImageInfo = getImagesize($tempSrc);
-					$imgString = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $imgString);
-					$imgString = eregi_replace('width="([^"]+)"', 'width="'.$tempImageInfo[0].'"', $imgString);
-					$imgString = eregi_replace('height="([^"]+)"', 'height="'.$tempImageInfo[1].'"', $imgString);
-				} else {
-					@unlink($tempSrc);
-				}
-			}
-		} else {
-			$thumbnailImageInfo = getimagesize($tempSrc);
-			$resizedWidth = $tempWidth - $paddingArray['left'] - $paddingArray['right'];
-			$resizedHeight = ceil($tempHeight * $resizedWidth / $tempWidth) + $paddingArray['top'] + $paddingArray['bottom'];
-			
-			// 축소된 사이즈의 이미지면 리사이즈.
-			if ($thumbnailImageInfo[0] > $tempWidth || $thumbnailImageInfo[1] > $resizedHeight) {
-				// 이 파일과 관련된 기존 파일을 지운다.
-				deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "^".eregi_replace("\.([[:alnum:]]+)$", "\.", $originFileName));
-				
-				// 새 썸네일 생성.
-				@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
-				if (resampleImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
-					$tempImageInfo = getImagesize($tempSrc);
-					$imgString = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $imgString);
-					$imgString = eregi_replace('width="([^"]+)"', 'width="'.$tempImageInfo[0].'"', $imgString);
-					$imgString = eregi_replace('height="([^"]+)"', 'height="'.$tempImageInfo[1].'"', $imgString);
-				} else {
-					@unlink($tempSrc);
-				}
-			} else {
-				// 리사이즈된 파일이 이미 존재하므로 통과.
-				$tempImageInfo = getImagesize($tempSrc);
-				$imgString = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $imgString);
-				$imgString = eregi_replace('width="([^"]+)"', 'width="'.$tempImageInfo[0].'"', $imgString);
-				$imgString = eregi_replace('height="([^"]+)"', 'height="'.$tempImageInfo[1].'"', $imgString);
-			}
-		}
-	} else {
-		// 에러.
-	}
-
-	return $imgString;
-}
-
 function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NULL, $outputType="file", $padding=NULL, $waterMark=NULL)
 {
+	if (!extension_loaded('gd')) {
+		return false;
+	}
+	
 	$path = eregi("/$", dirname($fileName), $temp) ? dirname($fileName) : dirname($fileName).'/';
 	$fileName = basename($fileName);
 	
@@ -188,64 +102,28 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 	}
 	
 	// 이미지 크기 조정.
-	if (!is_null($width) && is_null($height)) {
-		if ($width > $originWidth) {
-			if ($resizeFlag == "enlarge" || $resizeFlag == "both") {
-				$imgWidth = $width;
-			} else if ($resizeFlag == "reduce") {
-				$imgWidth = $originWidth;
-			}
-			$imgHeight = ceil($originHeight * $imgWidth / $originWidth);
-		} else if ($width < $originWidth) {
-			if ($resizeFlag == "reduce" || $resizeFlag == "both") {
-				$imgWidth = $width;
-			} else if ($resizeFlag == "enlarge") {
-				$imgWidth = $originWidth;
-			}
-			$imgHeight = ceil($originHeight * $imgWidth / $originWidth);
+	list($calcWidth, $calcHeight) = calcOptimizedImageSize($originWidth, $originHeight, $width, $height);
+	// 축소된 이미지면
+	if ($originWidth * $originHeight > $calcWidth * $calcHeight) {
+		if ($resizeFlag == "reduce" || $resizeFlag == "both") {
+			$imgWidth = $calcWidth;
+			$imgHeight = $calcHeight;
 		} else {
-			return true;
+			$imgWidth = $originWidth;
+			$imgHeight = $originHeight;
 		}
-	} else if (is_null($width) && !is_null($height)) {
-		if ($height > $originHeight) {
-			if ($resizeFlag == "enlarge" || $resizeFlag == "both") {
-				$imgHeight = $height;
-			} else if ($resizeFlag == "reduce") {
-				$imgHeight = $originHeight;
-			}
-			$imgWidth = ceil($originWidth * $imgHeight / $originHeight);
-		} else if ($height < $originHeight) {
-			if ($resizeFlag == "reduce" || $resizeFlag == "both") {
-				$imgHeight = $height;
-			} else if ($resizeFlag == "enlarge") {
-				$imgHeight = $originHeight;
-			}
-			$imgWidth = ceil($originWidth * $imgHeight / $originHeight);
+	// 동일한 이미지면
+	} else if ($originWidth * $originHeight == $calcWidth * $calcHeight) {
+		$imgWidth = $originWidth;
+		$imgHeight = $originHeight;
+	// 확대된 이미지면
+	} else if ($originWidth * $originHeight < $calcWidth * $calcHeight) {
+		if ($resizeFlag == "enlarge" || $resizeFlag == "both") {
+			$imgWidth = $calcWidth;
+			$imgHeight = $calcHeight;
 		} else {
-			return true;
-		}
-	} else if (!is_null($width) && !is_null($height)) {
-		if ($width > $originWidth) {
-			if ($resizeFlag == "enlarge" || $resizeFlag == "both") {
-				$imgWidth = $width;
-			} else if ($resizeFlag == "reduce") {
-				$imgWidth = $originWidth;
-			}
-			$imgHeight = ceil($originHeight * $imgWidth / $originWidth);
-		} else if ($width < $originWidth) {
-			if ($resizeFlag == "reduce" || $resizeFlag == "both") {
-				$imgWidth = $width;
-			} else if ($resizeFlag == "enlarge") {
-				$imgWidth = $originWidth;
-			}
-			$imgHeight = ceil($originHeight * $imgWidth / $originWidth);
-		} else {
-			$imgWidth = $width;
-		}
-		
-		if ($height < $imgHeight) {
-			$imgWidth = ceil($imgWidth * $height / $imgHeight);
-			$imgHeight = $height;
+			$imgWidth = $originWidth;
+			$imgHeight = $originHeight;
 		}
 	}
 	
@@ -714,7 +592,7 @@ function getWaterMarkPosition() {
 function getWaterMarkGamma() {
 	global $database, $owner;
 	
-	$gammaForWaterMark = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'gammaForWaterMark'");
+	$gammaForWaterMark = getUserSetting("gammaForWaterMark", false);
 	if ($gammaForWaterMark == false) {
 		return 100;
 	} else {
@@ -725,7 +603,7 @@ function getWaterMarkGamma() {
 function getThumbnailPadding() {
 	global $database, $owner;
 	
-	$thumbnailPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPadding'");
+	$thumbnailPadding = getUserSetting("thumbnailPadding", false);
 	if ($thumbnailPadding == false) {
 		return array("top" => 25, "right" => 25, "bottom" => 25, "left" => 25);
 	} else {
@@ -737,11 +615,76 @@ function getThumbnailPadding() {
 function getThumbnailPaddingColor() {
 	global $database, $owner;
 	
-	$bgColorForPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
+	$bgColorForPadding = getUserSetting("thumbnailPaddingColor", false);
 	if ($bgColorForPadding == false) {
 		return "FFFFFF"; 
 	} else {
 		return $bgColorForPadding;
 	}
+}
+
+function checkExistingThumbnail($originSrc, $thumbnailSrc, $argWidth, $argHeight, $paddingArray=NULL, $waterMarkArray=NULL) {
+	if (!file_exists($thumbnailSrc)) {
+		$originImageInfo = getimagesize($originSrc);
+		
+		// 축소된 사이즈의 이미지면 리사이즈.
+		if ($originImageInfo[0] > $argWidth || $originImageInfo[1] > $argHeight) {
+			// 새 썸네일 생성.
+			return 2;
+		// 원본 사이즈 그대로이거나 확대 이미지여도, 워터마크나 여백이 존재하면 썸네일 생성.
+		} else if (($originImageInfo[0] <= $argWidth || $originImageInfo[1] <= $argHeight) && (file_exists($waterMarkArray['path']) || !empty($paddingArray))) {
+			return 2;
+		}
+	} else {
+		$thumbnailImageInfo = getimagesize($thumbnailSrc);
+		$resizedWidth = $argWidth - $paddingArray['left'] - $paddingArray['right'];
+		$resizedHeight = ceil($argHeight * $resizedWidth / $argWidth) + $paddingArray['top'] + $paddingArray['bottom'];
+		
+		// 축소된 사이즈의 이미지면 리사이즈.
+		if ($thumbnailImageInfo[0] > $argWidth || $thumbnailImageInfo[1] > $resizedHeight) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+}
+
+function calcOptimizedImageSize($argWidth, $argHeight, $boxWidth=NULL, $boxHeight=NULL) {
+	if (empty($boxWidth) && empty($boxHeight)) {
+		return array($argWidth, $argHeight);
+	} else if (!empty($boxWidth) && empty($boxHeight)) {
+		if ($argWidth > $boxWidth) {
+			$newWidth = $boxWidth;
+			$newHeight = ceil($argHeight * $newWidth / $argWidth);
+		} else {
+			$newWidth = $argWidth;
+			$newHeight = $argHeight;
+		}
+	} else if (empty($boxWidth) && !empty($boxHeight)) {
+		if ($argHeight > $boxHeight) {
+			
+			$newHeight = $boxHeight;
+			$newWidth = ceil($argWidth * $newHeight / $argHeight);
+		} else {
+			$newWidth = $argWidth;
+			$newHeight = $argHeight;
+		}
+	} else {
+		if ($argWidth > $boxWidth) {
+			$newWidth = $boxWidth;
+			$newHeight = ceil($argHeight * $newWidth / $argWidth);
+		} else {
+			$newWidth = $argWidth;
+			$newHeight = $argHeight;
+		}
+		
+		if ($newHeight > $boxHeight) {
+			$tempHeight = $newHeight;
+			$newHeight = $boxHeight;
+			$newWidth = ceil($newWidth * $newHeight / $tempHeight);
+		}
+	}
+	
+	return array($newWidth, $newHeight);
 }
 ?>
