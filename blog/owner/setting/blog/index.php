@@ -872,9 +872,7 @@ $strictXHTML = getUserSetting('strictXHTML', 0);
 											<dd>
 												<select id="adminSkin" name="adminSkin">
 <?
-$currentAdminSkin = getUserSetting('adminSkin', 0);
-if (empty($currentAdminSkin))
-	$currentAdminSkin = "default";
+$currentAdminSkin = getUserSetting('adminSkin', "default");
 $dirHandler = dir(ROOT . "/style/admin");
 while ($dir = $dirHandler->read()) {
 	if (!ereg('^[[:alnum:] _-]+$', $dir))
@@ -888,7 +886,6 @@ while ($dir = $dirHandler->read()) {
 		continue;
 	} else {
 		$skinName = $xmls->getValue('/adminSkin/information/name');
-		echo $currentAdminSkin;
 ?>
 													<option value="<?php echo trim($dir)?>"<?=$currentAdminSkin==$dir?' selected="selected"':''?>><?=$skinName?></option>
 <?
@@ -903,7 +900,7 @@ while ($dir = $dirHandler->read()) {
 											<dd>
 												<select id="editorTemplate" name="editorTemplate">
 <?
-$editorTemplate = getUserSetting('visualEditorTemplate', 0);
+$editorTemplate = getUserSetting('visualEditorTemplate');
 ?>
 													<option value=""<?=empty($editorTemplate)?' selected="selected"':''?>><?=_t('기본 템플릿')?></option>
 <?

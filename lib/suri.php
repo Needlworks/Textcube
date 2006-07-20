@@ -65,11 +65,8 @@ unset($url, $domain);
 
 // 어드민 스킨 및 에디터 템플릿 설정.
 $adminSkinSetting = array();
-$tempAdminSkin = getUserSetting("adminSkin");
-if (empty($tempAdminSkin))
-	$adminSkinSetting['skin'] = "/style/admin/default";
-else
-	$adminSkinSetting['skin'] = "/style/admin/$tempAdminSkin";
+$adminSkinSetting['skin'] = "/style/admin/".getUserSetting("adminSkin", "default");
+
 $tempTemplate = getUserSetting("visualEditorTemplate");
 if (empty($tempTemplate))
 	$adminSkinSetting['editorTemplate'] = "/style/default-wysiwyg.css";
