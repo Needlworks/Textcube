@@ -9,7 +9,10 @@ function getTagId($owner, $name) {
 function getTags($entry) {
 	global $database, $owner;
 	$tags = array();
-	$result = mysql_query("select * from {$database['prefix']}Tags, {$database['prefix']}TagRelations where id = tag and entry = $entry and owner = $owner group by name order by name");
+	if (doesHaveOwnership())
+		$result = mysql_query("SELECT * FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r WHERE t.id = r.tag AND r.entry = $entry AND r.owner = $owner GROUP BY t.name ORDER BY t.name");
+	else
+		$result = mysql_query("SELECT * FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r, `{$database['prefix']}Entries` e WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.entry = $entry AND r.owner = $owner GROUP BY t.name ORDER BY t.name");
 	if ($result) {
 		while ($tag = mysql_fetch_array($result))
 			array_push($tags, $tag);
@@ -21,12 +24,22 @@ function getRandomTags($owner) {
 	global $database, $skinSetting;
 	$tags = array();
 	$aux = ($skinSetting['tagsOnTagbox'] == - 1) ? '' : "limit {$skinSetting['tagsOnTagbox']}";
-	if ($skinSetting['tagboxAlign'] == 1)
-		$result = mysql_query("select name, count(*) cnt from {$database['prefix']}Tags, {$database['prefix']}TagRelations where id = tag and owner = $owner GROUP BY name ORDER BY cnt DESC $aux");
-	else if ($skinSetting['tagboxAlign'] == 2)
-		$result = mysql_query("select distinct name from {$database['prefix']}Tags, {$database['prefix']}TagRelations where id = tag and owner = $owner ORDER BY name $aux");
-	else
-		$result = mysql_query("select name from {$database['prefix']}Tags, {$database['prefix']}TagRelations where id = tag and owner = $owner GROUP BY name ORDER BY RAND() $aux");
+	if ($skinSetting['tagboxAlign'] == 1) {
+		if (doesHaveOwnership())
+			$result = mysql_query("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r WHERE t.id = r.tag and r.owner = $owner GROUP BY t.name ORDER BY cnt DESC $aux");
+		else
+			$result = mysql_query("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r, `{$database['prefix']}Entries` e WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $owner GROUP BY t.name ORDER BY `cnt` DESC $aux");
+	} else if ($skinSetting['tagboxAlign'] == 2) {
+		if (doesHaveOwnership())
+			$result = mysql_query("SELECT DISTINCT name FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r WHERE t.id = r.tag AND r.owner = $owner ORDER BY t.name $aux");
+		else
+			$result = mysql_query("SELECT DISTINCT name FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r, `{$database['prefix']}Entries` e WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $owner ORDER BY t.name $aux");
+	} else {
+		if (doesHaveOwnership())
+			$result = mysql_query("SELECT `name` FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r WHERE t.id = r.tag AND r.owner = $owner GROUP BY t.name ORDER BY RAND() $aux");
+		else
+			$result = mysql_query("SELECT `name` FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r, `{$database['prefix']}Entries` e WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $owner GROUP BY t.name ORDER BY RAND() $aux");
+	}
 	if ($result) {
 		while (list($tag) = mysql_fetch_row($result))
 			array_push($tags, $tag);
@@ -37,7 +50,10 @@ function getRandomTags($owner) {
 function getSiteTags($owner) {
 	global $database;
 	$names = array();
-	$result = mysql_query("select name from {$database['prefix']}Tags t, {$database['prefix']}TagRelations r where t.id = r.tag and r.owner = $owner group by name order by name");
+	if (doesHaveOwnership())
+		$result = mysql_query("SELECT `name` FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r WHERE t.id = r.tag AND r.owner = $owner GROUP BY t.name ORDER BY t.name");
+	else
+		$result = mysql_query("SELECT `name` FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r, `{$database['prefix']}Entries` e WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $owner GROUP BY t.name ORDER BY t.name");
 	if ($result) {
 		while (list($name) = mysql_fetch_array($result))
 			array_push($names, $name);
@@ -48,12 +64,18 @@ function getSiteTags($owner) {
 function getTagFrequencyRange() {
 	global $database, $owner;
 	$max = $min = 0;
-	$result = mysql_query("select count(entry) cnt from {$database['prefix']}TagRelations where owner = $owner group by tag order by cnt desc limit 1");
+	if (doesHaveOwnership())
+		$result = mysql_query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r WHERE r.owner = $owner GROUP BY r.tag ORDER BY `cnt` DESC LIMIT 1");
+	else
+		$result = mysql_query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r, `{$database['prefix']}Entries` e WHERE r.entry = e.id AND e.visibility > 0 AND r.owner = $owner GROUP BY r.tag ORDER BY `cnt` DESC LIMIT 1");
 	if ($result) {
 		if (list($count) = mysql_fetch_array($result))
 			$max = $count;
 	}
-	$result = mysql_query("select count(entry) cnt from {$database['prefix']}TagRelations where owner = $owner group by tag order by cnt limit 1");
+	if (doesHaveOwnership())
+		$result = mysql_query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r WHERE r.owner = $owner GROUP BY r.tag ORDER BY `cnt` LIMIT 1");
+	else
+		$result = mysql_query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r, `{$database['prefix']}Entries` e WHERE r.entry = e.id AND e.visibility > 0 AND r.owner = $owner GROUP BY r.tag ORDER BY `cnt` LIMIT 1");
 	if ($result) {
 		if (list($count) = mysql_fetch_array($result))
 			$min = $count;
@@ -63,7 +85,10 @@ function getTagFrequencyRange() {
 
 function getTagFrequency($tag, $max, $min) {
 	global $database, $owner;
-	$count = fetchQueryCell("select count(*) from {$database['prefix']}Tags t, {$database['prefix']}TagRelations r where t.id=r.tag and r.owner = $owner and t.name = '" . mysql_escape_string($tag) . "'");
+	if (doesHaveOwnership())
+		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r WHERE t.id = r.tag AND r.owner = $owner AND t.name = '" . mysql_escape_string($tag) . "'");
+	else
+		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r, `{$database['prefix']}Entries` e WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $owner AND t.name = '" . mysql_escape_string($tag) . "'");
 	$dist = $max / 3;
 	if ($count == $min)
 		return 5;
