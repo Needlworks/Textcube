@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <adminSkin version="1.0" language="ko">
 	<information>
-		<name>태터 프레스(테스트 전용)</name> 
+		<name>태터 프레스(sandbox/FireFox 전용)</name> 
 		<version>1.0</version>
 		<description><![CDATA[관리자 화면용 테스트용 스킨입니다. 
 		]]></description>
