@@ -63,7 +63,7 @@ if (defined('__TATTERTOOLS_MOBILE__')) {
 }
 unset($url, $domain);
 
-// ¾îµå¹Î ½ºÅ² ¹× ¿¡µğÅÍ ÅÛÇÃ¸´ ¼³Á¤.
+// ì–´ë“œë¯¼ ìŠ¤í‚¨ ë° ì—ë””í„° í…œí”Œë¦¿ ì„¤ì •.
 $adminSkinSetting = array();
 $tempAdminSkin = getUserSetting("adminSkin");
 if (empty($tempAdminSkin))
