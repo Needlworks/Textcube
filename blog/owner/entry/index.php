@@ -591,11 +591,11 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?
 	if ($entry['visibility'] == 3) {
 ?>
-												<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-on-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?=$entry['id']?>, 3); return false;" title="<?=_t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span class="text"><?=_t('발행')?></span></a></span>
+												<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=syndicate" onclick="setEntryVisibility(<?=$entry['id']?>, 3); return false;" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?=_t('비발행')?></span></a></span>
 <?
 	} else {
 ?>
-												<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=syndicate" onclick="setEntryVisibility(<?=$entry['id']?>, 3); return false;" title="<?=_t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?=_t('비발행')?></span></a></span>
+												<span id="syndicatedIcon_<?=$entry['id']?>" class="syndicated-on-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?=$entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?=$entry['id']?>, 3); return false;" title="<?=_t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span class="text"><?=_t('발행')?></span></a></span>
 <?
 	}
 ?>
