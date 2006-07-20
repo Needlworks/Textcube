@@ -19,7 +19,12 @@ function printHtmlFooter() {
 }
 
 function dress($tag, $value, & $contents) {
-	$contents = str_replace("[##_{$tag}_##]", $value, $contents);
+	if (eregi("\[##_{$tag}_##\]", $contents, $temp)) {
+		$contents = str_replace("[##_{$tag}_##]", $value, $contents);
+		return true;
+	} else {
+		return false;
+	}	
 }
 
 function getUpperView($paging) {
@@ -354,10 +359,16 @@ function getCommentView($entryId, & $skin) {
 	}
 	
 	foreach ($comments as $commentItem) {
-		$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . ($isComment ? $skin->commentItem : $skin->guestItem);
+		$commentItemView = ($isComment ? $skin->commentItem : $skin->guestItem);
+		if (!dress($prefix1 . '_rep_id', "comment{$commentItem['id']}", $commentItemView))
+			$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . $commentItemView;
+		dress($prefix1 . '_rep_id',"comment{$commentItem['id']}", $commentItemView);
 		$commentSubItemsView = '';
 		foreach (getCommentComments($commentItem['id']) as $commentSubItem) {
-			$commentSubItemView = "<a id=\"comment{$commentSubItem['id']}\"></a>" . ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
+			$commentSubItemView = ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
+			if (!dress($prefix1 . '_rep_id', "comment{$commentSubItem['id']}", $commentSubItemView))
+				$commentSubItemView = "<a id=\"comment{$commentSubItem['id']}\"></a>" . $commentSubItemView;
+			dress($prefix1 . '_rep_id',"comment{$commentSubItem['id']}", $commentSubItemView);
 			if (empty($commentSubItem['homepage']))
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentSubItem['name']), $commentSubItem), $commentSubItemView);
 			else
