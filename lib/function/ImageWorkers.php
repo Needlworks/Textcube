@@ -47,7 +47,7 @@ function resizing($maxX, $maxY, $src_file, $tag_file) {
 	return true;
 }
 
-function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NULL, $outputType="file", $padding=NULL, $waterMark=NULL)
+function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NULL, $outputType="file", $padding=NULL, $waterMark=NULL, $interlace=true)
 {
 	if (!extension_loaded('gd')) {
 		return false;
@@ -102,7 +102,10 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 	}
 	
 	// 이미지 크기 조정.
-	list($calcWidth, $calcHeight) = calcOptimizedImageSize($originWidth, $originHeight, $width, $height);
+	list($calcWidth, $calcHeight) = calcOptimizedImageSize($originWidth, $originHeight, $width, $height, $padding);
+	
+	echo "calcOptimizedImageSize($originWidth, $originHeight, $width, $height, $padding)<br />";
+	
 	// 축소된 이미지면
 	if ($originWidth * $originHeight > $calcWidth * $calcHeight) {
 		if ($resizeFlag == "reduce" || $resizeFlag == "both") {
@@ -130,14 +133,10 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 	// 여백 값이 존재한다면 $width, $height의 값은 여백값을 포함한 크기이다. 따라서 여백 값을 뺀다.
 	// |--------------------- $width ---------------------|
 	// |-- 좌측 여백 --||-- $new_width --||-- 우측 여백 --|
-	$imgWidth = $imgWidth - $padding['left'] - $padding['right'];
-	($imgWidth < 0) ? $imgWidth = 0 : NULL;
-	if (($imgWidth + $padding['left'] + $padding['right']) > 0) {
-		$imgHeight = ceil($imgHeight * $imgWidth / ($imgWidth + $padding['left'] + $padding['right']));
-	} else {
-		$imgHeight = ceil($imgHeight * $imgWidth / 0.001);
-	}
-	($imgHeight < 0) ? $imgHeight = 0 : NULL;
+	$resizedWidth = $imgWidth - $padding['left'] - $padding['right'];
+	($resizedWidth < 0) ? $resizedWidth = 0 : NULL;
+	$resizedHeight = $imgHeight - $padding['top'] - $padding['bottom'];
+	($resizedHeight < 0) ? $resizedHeight = 0 : NULL;
 	
 	// 원본의 포맷(확장자가 아님)에 해당하는 이미지 생성.
 	switch (getImageType($path.$fileName)) {
@@ -187,26 +186,26 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 	
 	// 새로운 트루타입 이미지 디바이스를 생성.
 	if (getFileExtension($fileName) == "gif") {
-		$tempResultImage = imagecreate($imgWidth + $padding['left'] + $padding['right'], $imgHeight + $padding['top'] + $padding['bottom']);
+		$tempResultImage = imagecreate($imgWidth, $imgHeight);
 	} else {
-		$tempResultImage = imagecreatetruecolor($imgWidth + $padding['left'] + $padding['right'], $imgHeight + $padding['top'] + $padding['bottom']);
+		$tempResultImage = imagecreatetruecolor($imgWidth, $imgHeight);
 	}
 	
 	// 이미지 디바이스의 여백 배경색을 채운다.
 	if ($padding['bgColor'] == "transparent") {
 		$bgColorBy16 = hexRGB("FF0000");
 		$temp = imagecolorallocate($tempResultImage, $bgColorBy16['R'], $bgColorBy16['G'], $bgColorBy16['B']);
-		imagefilledrectangle($tempResultImage, 0, 0, $imgWidth + $padding['left'] + $padding['right'], $imgHeight + $padding['top'] + $padding['bottom'], $temp);
+		imagefilledrectangle($tempResultImage, 0, 0, $imgWidth, $imgHeight, $temp);
 		imagecolortransparent($tempResultImage, $temp);
 	} else {
 		//imagealphablending($tempResultImage, 0); //bgColor가 대신 alpha blending을 막아줌.
 		$bgColorBy16 = hexRGB($padding['bgColor']);
 		$temp = imagecolorallocate($tempResultImage, $bgColorBy16['R'], $bgColorBy16['G'], $bgColorBy16['B']);
-		imagefilledrectangle($tempResultImage, 0, 0, $imgWidth + $padding['left'] + $padding['right'], $imgHeight + $padding['top'] + $padding['bottom'], $temp);
+		imagefilledrectangle($tempResultImage, 0, 0, $imgWidth, $imgHeight, $temp);
 	}
 	
 	// 이미지 디바이스에 크기가 조정된 원본 이미지를 여백을 적용하여 붙인다.
-	imagecopyresampled($tempResultImage, $tempSource, $padding['left'], $padding['top'], 0, 0, $imgWidth, $imgHeight, imagesx($tempSource), imagesy($tempSource));
+	imagecopyresampled($tempResultImage, $tempSource, $padding['left'], $padding['top'], 0, 0, $resizedWidth, $resizedHeight, imagesx($tempSource), imagesy($tempSource));
 	
 	// 워터 마크 붙이기.
 	if ($waterMarkInfo = getimagesize($waterMark['path'])) {
@@ -223,21 +222,21 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 				case "left":
 					if ($waterMarkWidth > ($resultWidth - $extraPadding)) {
 						$waterMarkWidth = $resultWidth - $extraPadding;
-						$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkWidth);
+						$waterMarkHeight = floor($waterMarkHeight * $waterMarkWidth / $waterMarkWidth);
 					}
 					$xPosition = $extraPadding;
 					break;
 				case "center":
 					if ($waterMarkWidth > $resultWidth) {
 						$waterMarkWidth = $resultWidth;
-						$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
+						$waterMarkHeight = floor($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
 					}
 					$xPosition = ($imgWidth + $padding['left'] + $padding['right']) / 2 - $waterMarkWidth / 2;
 					break;
 				case "right":
 					if ($waterMarkWidth > ($resultWidth - $extraPadding)) {
 						$waterMarkWidth = $resultWidth - $extraPadding;
-						$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
+						$waterMarkHeight = floor($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
 					}
 					$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth - $extraPadding;
 					break;
@@ -246,7 +245,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 					if (eregi("^([1-9][0-9]*)$", $temp[1], $extra)) {
 						if ($waterMarkWidth > ($resultWidth - $extra[1])) {
 							$waterMarkWidth = $resultWidth - $extra[1];
-							$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
+							$waterMarkHeight = floor($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
 						}
 						if ($extra[1] > $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth) {
 							$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth;
@@ -257,7 +256,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 					} else if (eregi("^(\-?[1-9][0-9]*)$", $temp[1], $extra)) {
 						if ($waterMarkWidth > ($resultWidth + $extra[1])) {
 							$waterMarkWidth = $resultWidth + $extra[1];
-							$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
+							$waterMarkHeight = floor($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
 						}
 						if ($imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth + $extra[1] < 0) {
 							$xPosition = 0;
@@ -268,14 +267,14 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 					} else if ($temp[1] == "0") {
 						if ($waterMarkWidth > $resultWidth) {
 							$waterMarkWidth = $resultWidth;
-							$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
+							$waterMarkHeight = floor($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
 						}
 						$xPosition = 0;
 					// 나머지 경우는 임의 여백으로 우측에 붙인다.
 					} else {
 						if ($waterMarkWidth > ($resultWidth - $extraPadding)) {
 							$waterMarkWidth = $resultWidth - $extraPadding;
-							$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
+							$waterMarkHeight = floor($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
 						}
 						$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth - $extraPadding;
 					}
@@ -286,14 +285,14 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 					if ($waterMarkHeight > ($resultHeight - $extraPadding)) {
 						$tempHeight = $waterMarkHeight;
 						$waterMarkHeight = $resultHeight - $extraPadding;
-						$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $tempHeight);
+						$waterMarkWidth = floor($waterMarkWidth * $waterMarkHeight / $tempHeight);
 					}
 					$yPosition = $extraPadding;
 					break;
 				case "middle":
 					if ($waterMarkHeight > $resultHeight) {
 						$tempHeight = $waterMarkHeight;
-						$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $tempHeight);
+						$waterMarkWidth = floor($waterMarkWidth * $waterMarkHeight / $tempHeight);
 						$waterMarkHeight = $resultHeight;
 					}
 					$yPosition = ($imgHeight + $padding['top'] + $padding['bottom']) / 2 - $waterMarkHeight / 2;
@@ -301,7 +300,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 				case "bottom":
 					if ($waterMarkHeight > ($resultHeight - $extraPadding)) {
 						$tempHeight = $waterMarkHeight;
-						$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $tempHeight);
+						$waterMarkWidth = floor($waterMarkWidth * $waterMarkHeight / $tempHeight);
 						$waterMarkHeight = $resultHeight - $extraPadding;
 					}
 					$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight - $extraPadding;
@@ -311,7 +310,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 					if (eregi("^([1-9][0-9]*)$", $temp[2], $extra)) {
 						if ($waterMarkHeight > ($resultHeight - $extra[1])) {
 							$tempHeight = $waterMarkHeight;
-							$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $tempHeight);
+							$waterMarkWidth = floor($waterMarkWidth * $waterMarkHeight / $tempHeight);
 							$waterMarkHeight = $resultHeight - $extra[1];
 						}
 						if ($extra[1] > $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight) {
@@ -323,7 +322,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 					} else if (eregi("^(\-?[1-9][0-9]*)$", $temp[2], $extra)) {
 						if ($waterMarkHeight > ($resultHeight - $extra[1])) {
 							$tempHeight = $waterMarkHeight;
-							$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $tempHeight);
+							$waterMarkWidth = floor($waterMarkWidth * $waterMarkHeight / $tempHeight);
 							$waterMarkHeight = $resultHeight - $extra[1];
 						}
 						if ($imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight + $extra[1] < 0) {
@@ -335,7 +334,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 					} else if ($temp[1] == "0") {
 						if ($waterMarkHeight > $resultHeight) {
 							$tempHeight = $waterMarkHeight;
-							$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $tempHeight);
+							$waterMarkWidth = floor($waterMarkWidth * $waterMarkHeight / $tempHeight);
 							$waterMarkHeight = $resultHeight;
 						}
 						$yPosition = 0;
@@ -343,7 +342,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 					} else {
 						if ($waterMarkHeight > ($resultHeight - $extraPadding)) {
 							$tempHeight = $waterMarkHeight;
-							$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $tempHeight);
+							$waterMarkWidth = floor($waterMarkWidth * $waterMarkHeight / $tempHeight);
 							$waterMarkHeight = $resultHeight - $extraPadding;
 						}
 						$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight - $extraPadding;
@@ -352,12 +351,12 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 		} else {
 			if ($waterMarkWidth > ($resultWidth - $extraPadding)) {
 				$waterMarkWidth = $resultWidth - $extraPadding;
-				$waterMarkHeight = ceil($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
+				$waterMarkHeight = floor($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
 			}
 			$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkInfo[0] - $extraPadding;
 			
 			if ($waterMarkHeight > ($resultHeight - $extraPadding)) {
-				$waterMarkWidth = ceil($waterMarkWidth * $waterMarkHeight / $waterMarkInfo[1]);
+				$waterMarkWidth = floor($waterMarkWidth * $waterMarkHeight / $waterMarkInfo[1]);
 				$waterMarkHeight = $resultHeight - $extraPadding;
 			}
 			$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkInfo[1] - $extraPadding;
@@ -403,11 +402,11 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 	
 	// 알맞는 포맷으로 저장.
 	if ($outputType == "file") {
-		if (getFileExtension($fileName) == "gif") {
+		if ($interlace == true)
 			imageinterlace($tempResultImage);
+		if (getFileExtension($fileName) == "gif") {
 			imagegif($tempResultImage, $path.$tempImage);
 		} else if (getFileExtension($fileName) == "jpg" || getFileExtension($fileName) == "jpeg") {
-			imageinterlace($tempResultImage);
 			imagejpeg($tempResultImage, $path.$tempImage, 80);
 		} else if (getFileExtension($fileName) == "png") {
 			imagepng($tempResultImage, $path.$tempImage);
@@ -624,24 +623,24 @@ function getThumbnailPaddingColor() {
 }
 
 function checkExistingThumbnail($originSrc, $thumbnailSrc, $argWidth, $argHeight, $paddingArray=NULL, $waterMarkArray=NULL) {
+	$originImageInfo = getimagesize($originSrc);
+	list($tempWidth, $tempHeight) = calcOptimizedImageSize($originImageInfo[0], $originImageInfo[1], $argWidth, $argHeight, $paddingArray);
+	
 	if (!file_exists($thumbnailSrc)) {
-		$originImageInfo = getimagesize($originSrc);
-		
 		// 축소된 사이즈의 이미지면 리사이즈.
-		if ($originImageInfo[0] > $argWidth || $originImageInfo[1] > $argHeight) {
-			// 새 썸네일 생성.
+		if ($originImageInfo[0] > $tempWidth || $originImageInfo[1] > $tempHeight) {
 			return 2;
 		// 원본 사이즈 그대로이거나 확대 이미지여도, 워터마크나 여백이 존재하면 썸네일 생성.
-		} else if (($originImageInfo[0] <= $argWidth || $originImageInfo[1] <= $argHeight) && (file_exists($waterMarkArray['path']) || !empty($paddingArray))) {
+		} else if (($originImageInfo[0] <= $tempWidth || $originImageInfo[1] <= $tempHeight) && (file_exists($waterMarkArray['path']) || !empty($paddingArray))) {
 			return 2;
 		}
 	} else {
 		$thumbnailImageInfo = getimagesize($thumbnailSrc);
-		$resizedWidth = $argWidth - $paddingArray['left'] - $paddingArray['right'];
-		$resizedHeight = ceil($argHeight * $resizedWidth / $argWidth) + $paddingArray['top'] + $paddingArray['bottom'];
+		$resizedWidth = $tempWidth;
+		$resizedHeight = $tempHeight;
 		
 		// 축소된 사이즈의 이미지면 리사이즈.
-		if ($thumbnailImageInfo[0] > $argWidth || $thumbnailImageInfo[1] > $resizedHeight) {
+		if ($thumbnailImageInfo[0] > $resizedWidth || $thumbnailImageInfo[1] > $resizedHeight) {
 			return 1;
 		} else {
 			return 0;
@@ -649,22 +648,30 @@ function checkExistingThumbnail($originSrc, $thumbnailSrc, $argWidth, $argHeight
 	}
 }
 
-function calcOptimizedImageSize($argWidth, $argHeight, $boxWidth=NULL, $boxHeight=NULL) {
+function calcOptimizedImageSize($argWidth, $argHeight, $boxWidth=NULL, $boxHeight=NULL, $paddingArray=NULL) {
+	if (isset($paddingArray['left']))
+		$argWidth += $paddingArray['left'];
+	if (isset($paddingArray['right']))
+		$argWidth += $paddingArray['right'];
+	if (isset($paddingArray['top']))
+		$argHeight += $paddingArray['top'];
+	if (isset($paddingArray['bottom']))
+		$argHeight += $paddingArray['bottom'];
+	
 	if (empty($boxWidth) && empty($boxHeight)) {
 		return array($argWidth, $argHeight);
 	} else if (!empty($boxWidth) && empty($boxHeight)) {
 		if ($argWidth > $boxWidth) {
 			$newWidth = $boxWidth;
-			$newHeight = ceil($argHeight * $newWidth / $argWidth);
+			$newHeight = floor($argHeight * $newWidth / $argWidth);
 		} else {
 			$newWidth = $argWidth;
 			$newHeight = $argHeight;
 		}
 	} else if (empty($boxWidth) && !empty($boxHeight)) {
 		if ($argHeight > $boxHeight) {
-			
 			$newHeight = $boxHeight;
-			$newWidth = ceil($argWidth * $newHeight / $argHeight);
+			$newWidth = floor($argWidth * $newHeight / $argHeight);
 		} else {
 			$newWidth = $argWidth;
 			$newHeight = $argHeight;
@@ -672,7 +679,7 @@ function calcOptimizedImageSize($argWidth, $argHeight, $boxWidth=NULL, $boxHeigh
 	} else {
 		if ($argWidth > $boxWidth) {
 			$newWidth = $boxWidth;
-			$newHeight = ceil($argHeight * $newWidth / $argWidth);
+			$newHeight = floor($argHeight * $newWidth / $argWidth);
 		} else {
 			$newWidth = $argWidth;
 			$newHeight = $argHeight;
@@ -681,7 +688,7 @@ function calcOptimizedImageSize($argWidth, $argHeight, $boxWidth=NULL, $boxHeigh
 		if ($newHeight > $boxHeight) {
 			$tempHeight = $newHeight;
 			$newHeight = $boxHeight;
-			$newWidth = ceil($newWidth * $newHeight / $tempHeight);
+			$newWidth = floor($newWidth * $newHeight / $tempHeight);
 		}
 	}
 	

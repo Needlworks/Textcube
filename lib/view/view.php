@@ -1334,38 +1334,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					@chmod(ROOT."/cache/thumbnail/$owner", 0777);
 				}
 				
-				// 워터 마크 파일이 있는 곳.
-				if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
-					$waterMarkPath = ROOT."/attach/$owner/watermark.gif";
-				} else {
-					$waterMarkPath = NULL;
-				}
-				
-				// 워터 마크가 들어갈 장소의 x, y 좌표.
-				$waterMarkPosition = getWaterMarkPosition();
-				
-				// 워터 마크의 투명도.
-				$gammaForWaterMark = getWaterMarkGamma();
-				
-				// 여백의 크기.
-				$padding = getThumbnailPadding();
-				
-				// 여백의 색상.
-				$bgColorForPadding = getThumbnailPaddingColor();
-				
-				$waterMarkArray = array();
-				$waterMarkArray['path'] = $waterMarkPath;
-				$waterMarkArray['position'] = $waterMarkPosition;
-				$waterMarkArray['gamma'] = $gammaForWaterMark;
-				
-				$paddingArray = array();
-				$paddingArray['top'] = $padding['top'];
-				$paddingArray['right'] = $padding['right'];
-				$paddingArray['bottom'] = $padding['bottom'];
-				$paddingArray['left'] = $padding['left'];
-				$paddingArray['bgColor'] = $bgColorForPadding;
-				
-				return makeThumbnail(fireEvent('ViewAttachedImage', $imageStr, $path), $path);
+				return makeThumbnail(fireEvent('ViewAttachedImage', $imageStr, $path), $path, $paddingArray, $waterMarkArray);
 			}
 			break;
 		case 'swf':
@@ -1705,8 +1674,8 @@ function printScript($filename, $obfuscate = true) {
 }
 
 // img의 width/height에 맞춰 이미지를 리샘플링하는 함수. 썸네일 함수가 아님! 주의.
-function makeThumbnail($imgString, $originSrc) {
-	global $database, $owner, $blogURL, $waterMarkArray, $paddingArray;
+function makeThumbnail($imgString, $originSrc, $paddingArray=NULL, $waterMarkArray=NULL) {
+	global $database, $owner, $blogURL;
 	
 	if (!eregi(' src="http://[^"]+"', $imgString) && eregi('class="tt-thumbnail"', $imgString, $extra)) {
 		$originFileName = basename($originSrc);

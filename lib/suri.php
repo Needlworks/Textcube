@@ -75,6 +75,30 @@ else
 unset($tempTemplate);
 unset($tempAdminSkin);
 
+// 워터 마크 파일이 있는 곳.
+if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
+	$waterMarkPath = ROOT."/attach/$owner/watermark.gif";
+} else {
+	$waterMarkPath = NULL;
+}
+
+$waterMarkArray = array();
+$waterMarkArray['path'] = $waterMarkPath;
+$waterMarkArray['position'] = getWaterMarkPosition();
+$waterMarkArray['gamma'] = getWaterMarkGamma();
+
+$padding = getThumbnailPadding();
+
+$paddingArray = array();
+$paddingArray['top'] = $padding['top'];
+$paddingArray['right'] = $padding['right'];
+$paddingArray['bottom'] = $padding['bottom'];
+$paddingArray['left'] = $padding['left'];
+$paddingArray['bgColor'] = getThumbnailPaddingColor();
+
+unset($padding);
+unset($waterMarkPath);
+
 if (!file_exists(ROOT . '/config.php')) {
 	header("Location: $blogURL/setup.php");
 	exit;
