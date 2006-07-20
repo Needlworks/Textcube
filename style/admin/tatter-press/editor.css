@@ -577,6 +577,7 @@
 	border-right                     : 1px solid #CCCCCC;
 	border-left                      : 1px solid #CCCCCC;
 	border-bottom                    : 1px solid #CCCCCC;
+	text-align                       : center;
 	width                            : 650px;
 }
 
@@ -594,8 +595,8 @@
 
 #editor-textbox iframe
 {
-	border                           : none !important;
-	display                          : block;
+	background-color                 : #FFFFFF;
+	margin                           : 0 auto;
 }
 
 #status-container
