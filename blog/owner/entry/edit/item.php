@@ -99,6 +99,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 										return (entryManager.savedData != entryManager.getData());
 									}
 									this.delay = false;
+									this.nowsaving = false;
 									this.getData = function (check) {
 										if (check == undefined)
 											check = false;
@@ -191,6 +192,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 										var data = this.getData(true);
 										if (data == null)
 											return false;
+										this.nowsaving = true;
 <?
 if (defined('__TATTERTOOLS_POST__')) {
 ?>
@@ -241,7 +243,7 @@ if (isset($_GET['popupEditor'])) {
 									}
 									this.saveDraft = function () {
 										var data = this.getData();
-										if ((data == null) || (data == this.savedData))
+										if ((data == null) || (data == this.savedData) || (this.nowsaving == true))
 											return;
 										this.timer = null;
 										if (this.delay) {
