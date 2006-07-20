@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="en">Default Link</title>
+  <title xml:lang="ko">기본 링크</title>
+  <link>http://www.tattertools.com/</link>
+  <version>1.0</version>
+  <description xml:lang="en">Default Link Plugin</description>
+  <description xml:lang="ko">기본 링크 플러그인</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
+  <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
+  <requirements>
+    <tattertools>1.1</tattertools>
+  </requirements>
+  <binding>
+    <sidebar class="listbox" title="링크" handler="SB_Link_Default" />
+  </binding>
+</plugin>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="en">Default Recent Trackback</title>
+  <title xml:lang="ko">기본 최근 트랙백</title>
+  <link>http://www.tattertools.com/</link>
+  <version>1.0</version>
+  <description xml:lang="en">Default Recent Trackback Plugin</description>
+  <description xml:lang="ko">기본 최근 트랙백 플러그인</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
+  <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
+  <requirements>
+    <tattertools>1.1</tattertools>
+  </requirements>
+  <binding>
+    <sidebar class="listbox" title="최근에 받은 트랙백" handler="SB_RecentTB_Default" />
+  </binding>
+</plugin>

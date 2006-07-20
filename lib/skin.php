@@ -64,6 +64,11 @@ class Skin {
 		$sval = replaceSkinTag($sval, 'body');
 		handleTags($sval);
 
+		list($sval, $this->sidebarTitles) = cutSkinTag($sval, 'sidebar_titles');
+		list($sval, $this->sidebarItem) = cutSkinTag($sval, 'sidebar_rep');
+		handleSidebar($this);
+		dress('sidebar_rep', $this->sidebarItem, $sval);
+
 		$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
 		list($sval, $this->listItem) = cutSkinTag($sval, 'list_rep');
 		list($sval, $this->list) = cutSkinTag($sval, 'list');

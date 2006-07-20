@@ -2,6 +2,7 @@
 $activePlugins = array();
 $eventMappings = array();
 $tagMappings = array();
+$sidebarMappings = array();
 if (!empty($owner)) {
 	$activePlugins = fetchQueryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE owner = $owner");
 	$xmls = new XMLStruct();
@@ -27,6 +28,14 @@ if (!empty($owner)) {
 					}
 				}
 				unset($tag);
+			}
+			if ($xmls->doesExist('/plugin/binding/sidebar')) {
+				foreach ($xmls->selectNodes('/plugin/binding/sidebar') as $sidebar) {
+					if (!empty($sidebar['.attributes']['handler'])) {
+						array_push($sidebarMappings, array('plugin' => $plugin, 'class' => $sidebar['.attributes']['class'], 'title' => $sidebar['.attributes']['title'], 'handler' => $sidebar['.attributes']['handler']));
+					}
+				}
+				unset($sidebar);
 			}
 		} else {
 			$plugin = mysql_escape_string($plugin);
@@ -70,5 +79,47 @@ function handleTags( & $content) {
 			dress($tag, $target, $content);
 		}
 	}
+}
+
+function handleSidebar( & $obj) {
+	global $service, $sidebarMappings, $pluginURL;
+	
+	$content_temp = '';
+
+	foreach ($sidebarMappings as $mapping) {
+		include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
+		$content_temp .= $obj->sidebarItem;
+
+		if (preg_match_all('/\[##_(\w+)_##\]/', $content_temp, $matches)) {
+			foreach ($matches[1] as $tag) {
+				$target = $title = '';
+
+				switch($tag) {
+					case 'sidebar_id':
+						dress('sidebar_id', $mapping['plugin'], $content_temp);
+						break;
+					case 'sidebar_class':
+						dress('sidebar_class', $mapping['class'], $content_temp);
+						break;
+					case 'sidebar_titles':
+						if($mapping['title']) {
+							dress('sidebar_titles', $obj->sidebarTitles, $content_temp);
+							dress('sidebar_title', $mapping['title'], $content_temp);
+						} else {
+							dress('sidebar_titles', '', $content_temp);
+						}
+						break;
+					case 'sidebar_contents':
+						if (function_exists($mapping['handler'])) {
+							$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
+							$target = call_user_func($mapping['handler'], $target, $content);
+						}
+						dress('sidebar_contents', $target, $content_temp);
+						break;
+				}
+			}
+		}
+	}
+	$obj->sidebarItem = $content_temp;
 }
 ?>
