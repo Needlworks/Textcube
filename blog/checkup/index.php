@@ -323,7 +323,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings blogLanguag
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-if (DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings commentMessageOnSingle")) {
+if (DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings NoCommentMessage")) {
 	$changed = true;
 	echo '<li>', _text('스킨 관련 테이블에 댓글 및 트랙백 메세지 설정을 위한 필드를 삭제합니다.'), ': ';
 	if(DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings DROP NoCommentMessage") &&
