@@ -1,6 +1,6 @@
 <?php
 define('TATTERTOOLS_NAME', 'Tattertools');
-define('TATTERTOOLS_VERSION', '1.1a5 development branch');
+define('TATTERTOOLS_VERSION', '1.1a6 development branch');
 define('TATTERTOOLS_COPYRIGHT', 'Copyright ⓒ 2004-2006. Tatter &amp; Company / Tatter &amp; Friends.');
 define('TATTERTOOLS_HOMEPAGE', 'http://www.tattertools.com/');
 define('TATTERTOOLS_SYNC_URL', 'http://sync.eolin.com/');

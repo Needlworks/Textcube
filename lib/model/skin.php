@@ -40,6 +40,24 @@ function selectSkin($owner, $skinName) {
 		$value = $xmls->getValue('/skin/default/itemsOnGuestbook');
 		if (!empty($value) || is_numeric($value))
 			array_push($assignments, "commentsOnGuestbook=$value");
+		$value = $xmls->getValue('/skin/default/NoCommentMessage');
+		if (isset($value))
+			array_push($assignments, "NoCommentMessage='".mysql_escape_string($value)."'");
+		$value = $xmls->getValue('/skin/default/SingleCommentMessage');
+		if (isset($value))
+			array_push($assignments, "SingleCommentMessage='".mysql_escape_string($value)."'");
+		$value = $xmls->getValue('/skin/default/MultipleCommentMessage');
+		if (isset($value))
+			array_push($assignments, "MultipleCommentMessage='".mysql_escape_string($value)."'");
+		$value = $xmls->getValue('/skin/default/NoTrackbackMessage');
+		if (isset($value))
+			array_push($assignments, "NoTrackbackMessage='".mysql_escape_string($value)."'");
+		$value = $xmls->getValue('/skin/default/SingleTrackbackMessage');
+		if (isset($value))
+			array_push($assignments, "SingleCommentMessage='".mysql_escape_string($value)."'");
+		$value = $xmls->getValue('/skin/default/MultipleTrackbackMessage');
+		if (isset($value))
+			array_push($assignments, "MultipleTrackbackMessage='".mysql_escape_string($value)."'");
 		$value = $xmls->getValue('/skin/default/tagsInCloud');
 		if (!empty($value) || is_numeric($value))
 			array_push($assignments, "tagsOnTagbox=$value");
@@ -153,7 +171,13 @@ function setSkinSetting($owner, $setting) {
 		skin 					= \"" . $skinSetting['skin'] . "\",
 		entriesOnRecent			= " . $setting['entriesOnRecent'] . ',
 		commentsOnRecent			= ' . $setting['commentsOnRecent'] . ',
-		commentsOnGuestbook		= ' . $setting['commentsOnGuestbook'] . ',
+		commentsOnGuestbook		= ' . $setting['commentsOnGuestbook'] . ",
+		NoCommentMessage		= \"" . $setting['NoCommentMessage'] . "\",
+		SingleCommentMessage		= \"" . $setting['SingleCommentMessage'] . "\",
+		MultipleCommentMessage		= \"" . $setting['MultipleCommentMessage'] . "\",
+		NoTrackbackMessage		= \"" . $setting['NoTrackbackMessage'] . "\",
+		SingleTrackbackMessage		= \"" . $setting['SingleTrackbackMessage'] . "\",
+		MultipleTrackbackMessage		= \"" . $setting['MultipleTrackbackMessage'] . '",
 		archivesOnPage	 		= ' . $setting['archivesOnPage'] . ',
 		tagsOnTagbox			= ' . $setting['tagsOnTagbox'] . ',
 		tagboxAlign				= ' . $setting['tagboxAlign'] . ',

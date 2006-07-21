@@ -314,10 +314,24 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Comments email")) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings skinLanguage")) {
+if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings blogLanguage")) {
 	$changed = true;
 	echo '<li>', _text('설정 테이블에 블로그 언어 설정을 위한 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD blogLanguage varchar(5) not null default 'en' after language"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
+if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings commentMessageOnSingle")) {
+	$changed = true;
+	echo '<li>', _text('스킨 관련 테이블에 댓글 및 트랙백 메세지 설정을 위한 필드를 추가합니다.'), ': ';
+	if(DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD NoCommentMessage varchar(35) not null default 'No comment' after commentsOnGuestbook") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD SingleCommentMessage varchar(35) not null default 'comment' after NoCommentMessage") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD MultipleCommentMessage varchar(35) not null default 'comments' after SingleCommentMessage") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD NoTrackbackMessage varchar(35) not null default 'No trackback' after MultipleCommentMessage") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD SingleTrackbackMessage varchar(35) not null default 'trackback' after NoTrackbackMessage") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD MultipleTrackbackMessage varchar(35) not null default 'trackbacks' after SingleTrackbackMessage"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
