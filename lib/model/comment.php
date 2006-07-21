@@ -268,9 +268,9 @@ function addComment($owner, & $comment) {
 			executeQuery("
 				INSERT INTO 
 					`{$database['prefix']}CommentsNotifiedQueue` 
-					( `owner` , `id` , `commentId` , `sendStatus` , `checkDate` , `written` , `isFiltered` ) 
+					( `owner` , `id` , `commentId` , `sendStatus` , `checkDate` , `written` ) 
 				VALUES 
-					($owner ,'', '" . mysql_insert_id() . "', '0', '0', '" . time() . "',0);");
+					($owner ,'', '" . mysql_insert_id() . "', '0', '0', '" . time() . "');");
 		}
 		updateCommentsOfEntry($owner, $comment['entry']);
 		fireEvent($comment['entry'] ? 'AddComment' : 'AddGuestComment', $id, $comment);
