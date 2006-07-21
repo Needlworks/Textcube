@@ -323,15 +323,15 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings blogLanguag
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings commentMessageOnSingle")) {
+if (DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings commentMessageOnSingle")) {
 	$changed = true;
-	echo '<li>', _text('스킨 관련 테이블에 댓글 및 트랙백 메세지 설정을 위한 필드를 추가합니다.'), ': ';
-	if(DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD NoCommentMessage varchar(35) not null default 'No comment' after commentsOnGuestbook") &&
-	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD SingleCommentMessage varchar(35) not null default 'comment' after NoCommentMessage") &&
-	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD MultipleCommentMessage varchar(35) not null default 'comments' after SingleCommentMessage") &&
-	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD NoTrackbackMessage varchar(35) not null default 'No trackback' after MultipleCommentMessage") &&
-	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD SingleTrackbackMessage varchar(35) not null default 'trackback' after NoTrackbackMessage") &&
-	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD MultipleTrackbackMessage varchar(35) not null default 'trackbacks' after SingleTrackbackMessage"))
+	echo '<li>', _text('스킨 관련 테이블에 댓글 및 트랙백 메세지 설정을 위한 필드를 삭제합니다.'), ': ';
+	if(DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings DROP NoCommentMessage") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings DROP SingleCommentMessage") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings DROP MultipleCommentMessage") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings DROP NoTrackbackMessage") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings DROP SingleTrackbackMessage") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings DROP MultipleTrackbackMessage"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';

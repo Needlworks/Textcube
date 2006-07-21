@@ -48,12 +48,6 @@ $selected = 0;
 									param += 'commentsOnRecent='+getValueById('commentsOnRecent') +'&';
 									param += 'commentsOnGuestbook='+getValueById('commentsOnGuestbook') +'&';
 									param += 'archivesOnPage='+getValueById('archivesOnPage') +'&';
-									param += 'NoCommentMessage='+document.getElementById('NoCommentMessage').value +'&';
-									param += 'SingleCommentMessage='+document.getElementById('SingleCommentMessage').value +'&';
-									param += 'MultipleCommentMessage='+document.getElementById('MultipleCommentMessage').value +'&';
-									param += 'NoTrackbackMessage='+document.getElementById('NoTrackbackMessage').value +'&';
-									param += 'SingleTrackbackMessage='+document.getElementById('SingleTrackbackMessage').value +'&';
-									param += 'MultipleTrackbackMessage='+document.getElementById('MultipleTrackbackMessage').value +'&';
 									param += 'tagboxAlign='+tagboxAlign +'&';
 									param += 'tagsOnTagbox='+getValueById('tagsOnTagbox') +'&';
 									param += 'trackbacksOnRecent='+getValueById('trackbacksOnRecent') +'&';
@@ -376,26 +370,6 @@ ob_end_clean();
 											<dt><label for="linkLength"><?php echo _t('링크 길이')?></label></dt>
 											<dd><?=_f('링크를 %1 글자로 표시합니다.', $arg)?></dd>
 
-										</dl>
-									</fieldset>
-									<fieldset id="message-setting-container" class="container">
-										<legend><?=_t('댓글 및 트랙백 메세지 조절')?></legend>
-
-										<dl id="comment-message-line" class="line">
-											<dt><label for="NoCommentMessage"><?php echo _t('댓글이 없을 경우')?></label></dt>
-											<dd><input type="text" id="NoCommentMessage" name="NoCommentMessage"maxlength="35" value="<?=$skinSetting['NoCommentMessage']?>" /></dd>
-											<dt><label for="SingleCommentMessage"><?php echo _t('댓글이 하나일 경우')?></label></dt>
-											<dd><input type="text" id="SingleCommentMessage" name="SingleCommentMessage" maxlength="35" value="<?=$skinSetting['SingleCommentMessage']?>" /></dd>
-											<dt><label for="MultipleCommentMessage"><?php echo _t('댓글이 여러개일 경우')?></label></dt>
-											<dd><input type="text" id="MultipleCommentMessage" name="MultipleCommentMessage" maxlength="35" value="<?=$skinSetting['MultipleCommentMessage']?>" /></dd>
-										</dl>
-										<dl id="trackback-message-line" class="line">
-											<dt><label for="NoTrackbackMessage"><?php echo _t('트랙백이 없을 경우')?></label></dt>
-											<dd><input type="text" id="NoTrackbackMessage" name="NoTrackbackMessage" maxlength="35" value="<?=$skinSetting['NoTrackbackMessage']?>" /></dd>
-											<dt><label for="SingleTrackbackMessage"><?php echo _t('트랙백이 하나일 경우')?></label></dt>
-											<dd><input type="text" id="SingleTrackbackMessage" name="SingleTrackbackMessage" maxlength="35" value="<?=$skinSetting['SingleTrackbackMessage']?>" /></dd>
-											<dt><label for="MultipleTrackbackMessage"><?php echo _t('트랙백이 여러개일 경우')?></label></dt>
-											<dd><input type="text" id="MultipleTrackbackMessage"  name="MultipleTrackbackMessage" maxlength="35" value="<?=$skinSetting['MultipleTrackbackMessage']?>" /></dd>
 										</dl>
 									</fieldset>
 									<fieldset id="tag-setting-container" class="container">
