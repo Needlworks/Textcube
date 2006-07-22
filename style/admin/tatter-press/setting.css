@@ -135,6 +135,11 @@ input#pathDomain
 	margin                           : 25px 0;
 }
 
+#watermark-resize-line dd
+{
+	line-height                      : 1.5em !important;
+}
+
 /* rss ------------------------------------------------------------------------------------------*/
 #post-address-line dt,
 #post-address-line dd,
@@ -169,6 +174,12 @@ input#pathDomain
 #part-setting-language #language-section dl dt
 {
 	width                            : 150px !important;
+}
+
+#blog-language-line dd p
+{
+	line-height                      : 1.5em;
+	padding                          : 5px 0 10px 0;
 }
 
 /* editor setting -------------------------------------------------------------------------------*/

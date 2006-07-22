@@ -21,15 +21,16 @@ if (!empty($_POST['mode'])) {
 			obj.innerHTML = "<?=str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
 <?
 $commentCount = getCommentCount($owner, $entryId);
-$commentCount = ($commentCount > 0) ? "$commentCount" : '';
+$commentCount = ($commentCount > 0) ? $commentCount : '';
+list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 ?>
 		try {
 			obj = opener.document.getElementById("commentCount<?=$entryId?>");
-			obj.innerHTML = "<?=$commentCount?>";
+			obj.innerHTML = '<?=mysql_escape_string($commentView)?>';
 		} catch(e) { }		
 		try {
 			obj = opener.document.getElementById("commentCountOnRecentEntries<?=$entryId?>");
-			obj.innerHTML = "<?=$commentCount?>";
+			obj.innerHTML = '<?=mysql_escape_string($commentView)?>';
 		} catch(e) { }		
 		window.close();
 	//]]>

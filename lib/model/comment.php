@@ -549,6 +549,50 @@ $owner, NULL , '', " . $entryId . ", $parentId, '$child_name', '', '$child_homep
 
 function getCommentCount($owner, $entryId) {
 	global $database;
-	return fetchQueryCell("select comments from {$database['prefix']}Entries where owner = $owner and id = $entryId and isFiltered = 0");
+	return fetchQueryCell("SELECT `comments` FROM `{$database['prefix']}Entries` WHERE `owner` = $owner AND `id` = $entryId");
+}
+
+function getCommentCountPart($commentCount, &$skin) {
+	if ($commentCount == 0) {
+		if (!empty($skin->commentCountNone)) {
+			$commentView = $skin->commentCountNone;
+			if (eregi("\[##_article_rep_rp_cnt_##\]", $commentView)) {
+				dress('article_rep_rp_cnt', 0, $commentView);
+			}
+			$result = "rp_none";
+		} else if (!empty($skin->commentCountSingle)) {
+			$commentView = $skin->commentCountSingle;
+			if (eregi("\[##_article_rep_rp_cnt_##\]", $commentView)) {
+				dress('article_rep_rp_cnt', 0, $commentView);
+			}
+			$result = "rp_single";
+		} else {
+			$commentView = $skin->commentCountMultiple;
+			if (eregi("\[##_article_rep_rp_cnt_##\]", $commentView)) {
+				dress('article_rep_rp_cnt', 0, $commentView);
+			}
+			$result = "rp_multiple";
+		}
+	} else if ($commentCount == 1) {
+		if (!empty($skin->commentCountSingle)) {
+			$commentView = $skin->commentCountSingle;
+			if (eregi("\[##_article_rep_rp_cnt_##\]", $commentView)) {
+				dress('article_rep_rp_cnt', 1, $commentView);
+			}
+			$result = "rp_single";
+		} else {
+			$commentView = $skin->commentCountMultiple;
+			if (eregi("\[##_article_rep_rp_cnt_##\]", $commentView)) {
+				dress('article_rep_rp_cnt', 1, $commentView);
+			}
+			$result = "rp_multiple";
+		}
+	} else {			
+		$commentView = $skin->commentCountMultiple;
+		dress('article_rep_rp_cnt', $commentCount, $commentView);
+		$result = "rp_multiple";
+	}
+	
+	return array($result, $commentView);
 }
 ?>

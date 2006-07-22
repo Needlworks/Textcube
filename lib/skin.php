@@ -37,6 +37,9 @@ class Skin {
 	var $s_ps;
 	var $s_ps_rep;
 	var $comment;
+	var $commentCountNone;
+	var $commentCountSingle;
+	var $commentCountMultiple;
 	var $commentForm;
 	var $commentGuest;
 	var $commentMember;
@@ -44,6 +47,9 @@ class Skin {
 	var $commentSubItem;
 	var $trackbacks;
 	var $trackback;
+	var $trackbackCountNone;
+	var $trackbackCountSingle;
+	var $trackbackCountMultiple;
 	var $tagLabel;
 	var $siteTag;
 	var $siteTagItem;
@@ -93,6 +99,12 @@ class Skin {
 		list($sval, $this->guest) = cutSkinTag($sval, 'guest');
 		list($sval, $this->entryProtected) = cutSkinTag($sval, 'article_protected');
 		list($sval, $this->management) = cutSkinTag($sval, 'ad_div');
+		list($sval, $this->trackbackCountNone) = cutSkinTag($sval, 'tb_none');
+		list($sval, $this->trackbackCountSingle) = cutSkinTag($sval, 'tb_single');
+		list($sval, $this->trackbackCountMultiple) = cutSkinTag($sval, 'tb_multiple');
+		list($sval, $this->commentCountNone) = cutSkinTag($sval, 'rp_none');
+		list($sval, $this->commentCountSingle) = cutSkinTag($sval, 'rp_single');
+		list($sval, $this->commentCountMultiple) = cutSkinTag($sval, 'rp_multiple');
 		list($sval, $this->trackback) = cutSkinTag($sval, 'tb_rep');
 		list($sval, $this->trackbacks) = cutSkinTag($sval, 'tb');
 		list($sval, $this->tagLabel) = cutSkinTag($sval, 'tag_label');

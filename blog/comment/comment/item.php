@@ -41,16 +41,17 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	obj.innerHTML = "<?=str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
 	} catch(e) { }
 	try {
-	<?
+<?
 		$commentCount = getCommentCount($owner, $comment['entry']);
 		$commentCount = ($commentCount > 0) ? "$commentCount" : '';
-	?>
+		list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
+?>
 	obj = opener.document.getElementById("commentCount<?=$comment['entry']?>");
-	obj.innerHTML = "<?=$commentCount?>";
+	obj.innerHTML = "<?=mysql_escape_string($commentView)?>";
 	} catch(e) { }
 	try {
 	obj = opener.document.getElementById("commentCountOnRecentEntries<?=$comment['entry']?>");
-	obj.innerHTML = "<?=$commentCount?>";
+	obj.innerHTML = "<?=mysql_escape_string($commentView)?>";
 	} catch(e) { }
 	window.close();
 </script>

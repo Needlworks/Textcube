@@ -1,5 +1,6 @@
 <?php
 $entriesView = '';
+
 foreach ($entries as $entry) {
 	if ($entry['category'] == - 2) {
 		$entryView = $skin->noticeItem;
@@ -58,13 +59,16 @@ foreach ($entries as $entry) {
 			dress('article_rep_rp_link', "toggleLayer('entry{$entry['id']}Comment'); return false", $entryView);
 		else
 			dress('article_rep_rp_link', "alert('" . _text('이 글에는 댓글을 달 수 없습니다.') . "'); return false", $entryView);
-		dress('article_rep_rp_cnt', "<span id=\"commentCount{$entry['id']}\">".($entry['comments']>0 ? "{$entry['comments']}" : '')."</span>", $entryView);
+		list($tempTag, $commentView) = getCommentCountPart($entry['comments'], $skin);
+		dress($tempTag, "<span id=\"commentCount{$entry['id']}\">{$commentView}</span>", $entryView);
+		
 		if ($entry['acceptTrackback'])
 			dress('article_rep_tb_link', "toggleLayer('entry{$entry['id']}Trackback'); return false", $entryView);
 		else
 			dress('article_rep_tb_link', "alert('" . _text('이 글에는 트랙백을 달 수 없습니다.') . "'); return false", $entryView);
-		if ($entry['trackbacks'] > 0)
-			dress('article_rep_tb_cnt', "{$entry['trackbacks']}", $entryView);
+		list($tempTag, $trackbackView) = getTrackbackCountPart($entry['trackbacks'], $skin);
+		dress($tempTag, $trackbackView, $entryView);
+		
 		$entriesView .= $entryView;
 	} else {
 		$protectedEntryView = $skin->entryProtected;

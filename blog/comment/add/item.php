@@ -49,16 +49,17 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	} else {
 		$skin = new Skin($skinSetting['skin']);
 		if ($entryId > 0) {
-			$commentCount = getCommentCount($owner, $entryId);
-			$commentCount = ($commentCount > 0) ? "$commentCount" : '';
 			$commentBlock = escapeCData(removeAllTags(getCommentView($entryId, $skin)));
 			$recentCommentBlock = escapeCData(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));
+			$commentCount = getCommentCount($owner, $entryId);
+			$commentCount = ($commentCount > 0) ? $commentCount : 0;
+			list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 		} else {
-			$commentCount = '';
+			$commentView = '';
 			$commentBlock = escapeCData(removeAllTags(getCommentView($entryId, $skin)));
 			$recentCommentBlock = escapeCData(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));
 		}
-		echo '<?xml version="1.0" encoding="utf-8"?><response><error>0</error><commentCount>'.$commentCount.'</commentCount><commentBlock><![CDATA[', $commentBlock, ']]></commentBlock><recentCommentBlock><![CDATA[', $recentCommentBlock, ']]></recentCommentBlock></response>';
+		echo '<?xml version="1.0" encoding="utf-8"?><response><error>0</error><commentCount>'.$commentView.'</commentCount><commentBlock><![CDATA[', $commentBlock, ']]></commentBlock><recentCommentBlock><![CDATA[', $recentCommentBlock, ']]></recentCommentBlock></response>';
 	}
 }
 ?>
