@@ -558,11 +558,7 @@ if (extension_loaded('gd')) {
 											<dd>
 												<select name="gammaForWaterMark"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
 <?php
-	$gammaForWaterMark = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'gammaForWaterMark'");
-	if ($gammaForWaterMark == false) {
-		$gammaForWaterMark = 100;
-	}
-
+	$gammaForWaterMark = getWaterMarkGamma();
 	for ($i=100; $i>=0; $i--) {
 ?>
 													<option value="<?php echo $i?>"<?php echo $i == $gammaForWaterMark ? ' selected="selected"' : ''?><?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>><?php echo $i?></option>
@@ -574,7 +570,7 @@ if (extension_loaded('gd')) {
 											</dd>
 										</dl>
 <?php
-	$waterMarkPosition = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
+	$waterMarkPosition = getUserSetting("waterMarkPosition");
 	if ($waterMarkPosition == false) {
 		$bottom = 0;
 		$center = 0;
@@ -620,16 +616,15 @@ if (extension_loaded('gd')) {
 												</div>
 											</dd>
 										</dl>
+										<dl id="watermark-resize-line" class="line">
+											<dt><span class="label"><?=_t('워터마크 자동 조절')?></span></dt>
+											<dd>
+												<input type="radio" id="waterMarkAutoResizeYes" class="radio" name="waterMarkAutoResize"<?=($blog['useSlogan'] ? ' checked="checked"' : '')?> /> <label for="waterMarkAutoResizeYes"><span class="text"><?=_t('이미지 크기가 워터마크보다 작은 경우, 워터마크의 크기를 이미지에 맞춥니다.')?></span></label><br />
+												<input type="radio" id="waterMarkAutoResizeNo" class="radio" name="waterMarkAutoResize"<?=($blog['useSlogan'] ? '' : ' checked="checked"')?> /> <label for="waterMarkAutoResizeNo"><span class="text"><?=_t('이미지 크기가 워터마크보다 작아도 워터마크의 크기를 조절하지 않습니다.')?></span></label>
+											</dd>
+										</dl>
 <?php
-	$thumbnailPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPadding'");
-	if ($thumbnailPadding == false) {
-		$thumbnailTopPadding = "0";
-		$thumbnailRightPadding = "0";
-		$thumbnailBottomPadding = "0";
-		$thumbnailLeftPadding = "0";
-	} else {
-		list($thumbnailTopPadding, $thumbnailRightPadding, $thumbnailBottomPadding, $thumbnailLeftPadding)  = explode("|", $thumbnailPadding);
-	}
+	list($thumbnailTopPadding, $thumbnailRightPadding, $thumbnailBottomPadding, $thumbnailLeftPadding) = getThumbnailPadding();
 	
 	$colorOfPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
 	if ($colorOfPadding == false) {
@@ -654,7 +649,7 @@ if (extension_loaded('gd')) {
 														<option value="15"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '15' ? ' selected="selected"' : ''?>>15px</option>
 														<option value="20"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '20' ? ' selected="selected"' : ''?>>20px</option>
 														<option value="25"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '25' ? ' selected="selected"' : ''?>>25px</option>
-														<option value="direct"<?php echo !in_array(${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'}, array('0', '5', '10', '15', '20', '25')) ? ' selected="selected"' : ''?>><?=_t('직접입력')?></option>
+														<option value="direct"<?php echo !in_array(${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'}, array(0, 5, 10, 15, 20, 25)) ? ' selected="selected"' : ''?>><?=_t('직접입력')?></option>
 													</select>
 													<input type="text" class="text-input" id="<?=$paddingOrder[$i]?>PaddingManual" name="<?=$paddingOrder[$i]?>PaddingManual" value="<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'}?>" />px
 												</div>
@@ -873,21 +868,21 @@ $strictXHTML = getUserSetting('strictXHTML', 0);
 												<select id="adminSkin" name="adminSkin">
 <?
 $currentAdminSkin = getUserSetting('adminSkin', "default");
-$dirHandler = dir(ROOT . "/style/admin");
-while ($dir = $dirHandler->read()) {
-	if (!ereg('^[[:alnum:] _-]+$', $dir))
+$dir = dir(ROOT . "/style/admin/");
+while ($tempAdminSkin = $dir->read()) {
+	if (!ereg('^[[:alnum:] _-]+$', $tempAdminSkin))
 		continue;
-	if (!is_dir(ROOT . '/style/admin/' . $dir))
+	if (!is_dir(ROOT . '/style/admin/' . $tempAdminSkin))
 		continue;
-	if (!file_exists(ROOT . "/style/admin/$dir/index.xml"))
+	if (!file_exists(ROOT . "/style/admin/$tempAdminSkin/index.xml"))
 		continue;
 	$xmls = new XMLStruct();
-	if (!$xmls->open(file_get_contents(ROOT . "/style/admin/$dir/index.xml"))) {
+	if (!$xmls->open(file_get_contents(ROOT . "/style/admin/$tempAdminSkin/index.xml"))) {
 		continue;
 	} else {
-		$skinName = $xmls->getValue('/adminSkin/information/name');
+		$skinName = $xmls->getValue('/adminSkin/information/name[lang()]');
 ?>
-													<option value="<?php echo trim($dir)?>"<?=$currentAdminSkin==$dir?' selected="selected"':''?>><?=$skinName?></option>
+													<option value="<?php echo trim($tempAdminSkin)?>"<?=$currentAdminSkin==$dir?' selected="selected"':''?>><?=$skinName?></option>
 <?
 	}
 }
