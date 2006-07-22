@@ -104,8 +104,6 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 	// 이미지 크기 조정.
 	list($calcWidth, $calcHeight) = calcOptimizedImageSize($originWidth, $originHeight, $width, $height, $padding);
 	
-	echo "calcOptimizedImageSize($originWidth, $originHeight, $width, $height, $padding)<br />";
-	
 	// 축소된 이미지면
 	if ($originWidth * $originHeight > $calcWidth * $calcHeight) {
 		if ($resizeFlag == "reduce" || $resizeFlag == "both") {
@@ -254,14 +252,14 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 						}
 					// 음수인 경우, 오른쪽부터 x좌표 값을 계산한다.
 					} else if (eregi("^(\-?[1-9][0-9]*)$", $temp[1], $extra)) {
-						if ($waterMarkWidth > ($resultWidth + $extra[1])) {
-							$waterMarkWidth = $resultWidth + $extra[1];
+						if ($waterMarkWidth > ($resultWidth - abs($extra[1]))) {
+							$waterMarkWidth = $resultWidth - abs($extra[1]);
 							$waterMarkHeight = floor($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
 						}
-						if ($imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth + $extra[1] < 0) {
+						if ($imgWidth - $waterMarkWidth - abs($extra[1]) < 0) {
 							$xPosition = 0;
 						} else {
-							$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth + $extra[1];
+							$xPosition = $imgWidth - $waterMarkWidth - abs($extra[1]);
 						}
 					// 0인 경우.
 					} else if ($temp[1] == "0") {
@@ -276,7 +274,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 							$waterMarkWidth = $resultWidth - $extraPadding;
 							$waterMarkHeight = floor($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
 						}
-						$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkWidth - $extraPadding;
+						$xPosition = $imgWidth - $waterMarkWidth - $extraPadding;
 					}
 			}
 			
@@ -295,7 +293,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 						$waterMarkWidth = floor($waterMarkWidth * $waterMarkHeight / $tempHeight);
 						$waterMarkHeight = $resultHeight;
 					}
-					$yPosition = ($imgHeight + $padding['top'] + $padding['bottom']) / 2 - $waterMarkHeight / 2;
+					$yPosition = $imgHeight / 2 - $waterMarkHeight / 2;
 					break;
 				case "bottom":
 					if ($waterMarkHeight > ($resultHeight - $extraPadding)) {
@@ -303,7 +301,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 						$waterMarkWidth = floor($waterMarkWidth * $waterMarkHeight / $tempHeight);
 						$waterMarkHeight = $resultHeight - $extraPadding;
 					}
-					$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight - $extraPadding;
+					$yPosition = $imgHeight - $waterMarkHeight - $extraPadding;
 					break;
 				default:
 					// 양수인 경우, 위부터 y좌표 값을 계산한다.
@@ -313,8 +311,8 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 							$waterMarkWidth = floor($waterMarkWidth * $waterMarkHeight / $tempHeight);
 							$waterMarkHeight = $resultHeight - $extra[1];
 						}
-						if ($extra[1] > $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight) {
-							$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight;
+						if ($extra[1] > $imgHeight - $waterMarkHeight) {
+							$yPosition = $imgHeight - $waterMarkHeight;
 						} else {
 							$yPosition = $extra[1];
 						}
@@ -325,10 +323,10 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 							$waterMarkWidth = floor($waterMarkWidth * $waterMarkHeight / $tempHeight);
 							$waterMarkHeight = $resultHeight - $extra[1];
 						}
-						if ($imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight + $extra[1] < 0) {
+						if ($imgHeight - $waterMarkHeight - abs($extra[1]) < 0) {
 							$yPosition = 0;
 						} else {
-							$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight + $extra[1];
+							$yPosition = $imgHeight - $waterMarkHeight - abs($extra[1]);
 						}
 					// 0인 경우.
 					} else if ($temp[1] == "0") {
@@ -345,7 +343,7 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 							$waterMarkWidth = floor($waterMarkWidth * $waterMarkHeight / $tempHeight);
 							$waterMarkHeight = $resultHeight - $extraPadding;
 						}
-						$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkHeight - $extraPadding;
+						$yPosition = $imgHeight - $waterMarkHeight - $extraPadding;
 					}
 			}
 		} else {
@@ -353,13 +351,13 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 				$waterMarkWidth = $resultWidth - $extraPadding;
 				$waterMarkHeight = floor($waterMarkHeight * $waterMarkWidth / $waterMarkInfo[0]);
 			}
-			$xPosition = $imgWidth + $padding['left'] + $padding['right'] - $waterMarkInfo[0] - $extraPadding;
+			$xPosition = $imgWidth - $waterMarkInfo[0] - $extraPadding;
 			
 			if ($waterMarkHeight > ($resultHeight - $extraPadding)) {
 				$waterMarkWidth = floor($waterMarkWidth * $waterMarkHeight / $waterMarkInfo[1]);
 				$waterMarkHeight = $resultHeight - $extraPadding;
 			}
-			$yPosition = $imgHeight + $padding['top'] + $padding['bottom'] - $waterMarkInfo[1] - $extraPadding;
+			$yPosition = $imgHeight - $waterMarkInfo[1] - $extraPadding;
 		}
 		
 		// 감마값 유효성 검사.
@@ -604,7 +602,7 @@ function getThumbnailPadding() {
 	
 	$thumbnailPadding = getUserSetting("thumbnailPadding", false);
 	if ($thumbnailPadding == false) {
-		return array("top" => 25, "right" => 25, "bottom" => 25, "left" => 25);
+		return array("top" => 0, "right" => 0, "bottom" => 0, "left" => 0);
 	} else {
 		$tempArray = explode("|", $thumbnailPadding);
 		return array("top" => intval($tempArray[0]), "right" => intval($tempArray[1]), "bottom" => intval($tempArray[2]), "left" => intval($tempArray[3]));
