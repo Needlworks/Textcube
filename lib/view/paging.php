@@ -41,7 +41,7 @@ function getPagingView( & $paging, & $template, & $itemTemplate) {
 	if (($page == $paging['page']) && ($page <= $paging['pages'])) {
 		$itemView = $itemTemplate;
 		dress('paging_rep_link_num', "$page", $itemView);
-		dress('paging_rep_link', 'style="color:red" class="selected"', $itemView);
+		dress('paging_rep_link', 'class="selected"', $itemView);
 		print ($itemView);
 		$page++;
 	}
