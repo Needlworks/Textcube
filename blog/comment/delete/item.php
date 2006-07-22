@@ -30,7 +30,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 		} catch(e) { }		
 		try {
 			obj = opener.document.getElementById("commentCountOnRecentEntries<?=$entryId?>");
-			obj.innerHTML = "<?=str_replace('"', '\"', $commentView)?>";
+			obj.innerHTML = "<?=$commentCount?>";
 		} catch(e) { }		
 		window.close();
 	//]]>

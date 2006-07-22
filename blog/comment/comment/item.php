@@ -51,7 +51,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	} catch(e) { }
 	try {
 	obj = opener.document.getElementById("commentCountOnRecentEntries<?=$comment['entry']?>");
-	obj.innerHTML = "<?=str_replace('"', '\"', $commentView)?>";
+	obj.innerHTML = "<?=$commentCount?>";
 	} catch(e) { }
 	window.close();
 </script>
