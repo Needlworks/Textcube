@@ -1277,7 +1277,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 				
 				/*if ($originWidth > $contentWidth) {
 					$tempWidth = $contentWidth;
-					$tempHeight = ceil($originHeight * $contentWidth / $originWidth);
+					$tempHeight = floor($originHeight * $contentWidth / $originWidth);
 				} else {
 					$tempWidth = $originWidth;
 					$tempHeight = $originHeight;
@@ -1302,17 +1302,17 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 				}
 				
 				if (!isset($currentWidth) && isset($currentHeight)) {
-					$currentWidth = ceil($originWidth * $currentHeight / $originHeight);
+					$currentWidth = floor($originWidth * $currentHeight / $originHeight);
 				} else if (isset($currentWidth) && !isset($currentHeight)) {
-					$currentHeight = ceil($originHeight * $currentWidth / $originWidth);
+					$currentHeight = floor($originHeight * $currentWidth / $originWidth);
 				} else if (!isset($currentWidth) && !isset($currentHeight)) {
 					$currentWidth = $originWidth > $contentWidth ? $contentWidth : $originWidth;
-					$currentHeight = ceil($originHeight * $currentWidth / $originWidth);
+					$currentHeight = floor($originHeight * $currentWidth / $originWidth);
 				}
 				
 				if ($currentWidth > $contentWidth) {
 					$tempWidth = $contentWidth;
-					$tempHeight = ceil($currentHeight * $contentWidth / $currentWidth);
+					$tempHeight = floor($currentHeight * $contentWidth / $currentWidth);
 				} else {
 					$tempWidth = $currentWidth;
 					$tempHeight = $currentHeight;
