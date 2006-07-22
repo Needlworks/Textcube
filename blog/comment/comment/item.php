@@ -47,11 +47,11 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 ?>
 	obj = opener.document.getElementById("commentCount<?=$comment['entry']?>");
-	obj.innerHTML = "<?=mysql_escape_string($commentView)?>";
+	obj.innerHTML = "<?=str_replace('"', '\"', $commentView)?>";
 	} catch(e) { }
 	try {
 	obj = opener.document.getElementById("commentCountOnRecentEntries<?=$comment['entry']?>");
-	obj.innerHTML = "<?=mysql_escape_string($commentView)?>";
+	obj.innerHTML = "<?=str_replace('"', '\"', $commentView)?>";
 	} catch(e) { }
 	window.close();
 </script>
