@@ -1267,9 +1267,9 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					return '<span class="message">'._text('에러가 발생한 이미지입니다.').'</span>';
 				}
 				
-				if (eregi('alt=""', $property, $temp)) {
+				if (eregi('alt=""', $property)) {
 					$property = str_replace('alt=""', 'alt="'._text('사용자 삽입 이미지').'"', $property);
-				} else if (eregi('alt="[^"]+"', $property, $temp)) {
+				} else if (eregi('alt="[^"]+"', $property)) {
 					// 이미 있으므로 통과
 				} else {
 					$property .= ' alt="'._text('사용자 삽입 이미지').'"';	
@@ -1283,18 +1283,18 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					$tempHeight = $originHeight;
 				}*/
 				
-				if (eregi('width="([0-9]*%?)"', $property, $temp)) {
+				if (eregi('width="([0-9]*%?)"', $property)) {
 					$currentWidth = $temp[1];
-					if (eregi("^([0-9]+)%$", $currentWidth, $temp)) {
+					if (eregi("^([0-9]+)%$", $currentWidth)) {
 						$currentWidth = $originWidth * ($temp[1]/100);
 					}
 				} else {
 					$property .= ' width="1"';
 				}
 				
-				if (eregi('height="([0-9]*%?)"', $property, $temp)) {
+				if (eregi('height="([0-9]*%?)"', $property)) {
 					$currentHeight = $temp[1];
-					if (eregi("^([0-9]+)%$", $currentHeight, $temp)) {
+					if (eregi("^([0-9]+)%$", $currentHeight)) {
 						$currentHeight = $originHeight * ($temp[1]/100);
 					}
 				} else {
@@ -1318,8 +1318,8 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					$tempHeight = $currentHeight;
 				}
 				
-				$property = eregi_replace(' width="([0-9]+%?)"', ' width="'.$tempWidth.'"', $property);
-				$property = eregi_replace(' height="([0-9]+%?)"', ' height="'.$tempHeight.'"', $property);
+				$property = eregi_replace('(^| )width="([0-9]+%?)"', '\1width="'.$tempWidth.'"', $property);
+				$property = eregi_replace('(^| )height="([0-9]+%?)"', '\1height="'.$tempHeight.'"', $property);
 				
 				if ($originWidth > $tempWidth || $originHeight > $tempHeight) {
 					$imageStr = '<img src="'.$url.'" '.$property.' style="cursor: pointer;" onclick="open_img(\''.$url.'\')" />';
