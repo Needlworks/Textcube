@@ -868,7 +868,7 @@ $strictXHTML = getUserSetting('strictXHTML', 0);
 												<select id="adminSkin" name="adminSkin">
 <?
 $currentAdminSkin = getUserSetting('adminSkin', "default");
-$dir = dir(ROOT . "/style/admin/");
+$dir = dir(ROOT . '/style/admin/');
 while ($tempAdminSkin = $dir->read()) {
 	if (!ereg('^[[:alnum:] _-]+$', $tempAdminSkin))
 		continue;
