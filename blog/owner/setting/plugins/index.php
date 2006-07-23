@@ -122,6 +122,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 									<tr>
 										<th class="title"><span class="text"><?=_t('제목')?></span></th>
 										<th class="version"><span class="text"><?=_t('버전')?></span></th>
+										<th class="scope"><span class="text"><?=_t('종류')?></span></th>
 										<th class="explain"><span class="text"><?=_t('설명')?></span></th>
 										<th class="maker"><span class="text"><?=_t('만든이')?></span></th>
 										<th class="status"><span class="text"><?=_t('상태')?></span></th>
@@ -150,7 +151,8 @@ while ($plugin = $dir->read()) {
 						"version" => htmlspecialchars($xmls->getValue('/plugin/version[lang()]')),
 						"description" => htmlspecialchars($xmls->getValue('/plugin/description[lang()]')),
 						"authorLink" => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
-						"author" => htmlspecialchars($xmls->getValue('/plugin/author[lang()]'))
+						"author" => htmlspecialchars($xmls->getValue('/plugin/author[lang()]')),
+						"scope" => htmlspecialchars($xmls->getValue('/plugin/scope[lang()]'))
 						);
 		
 		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
@@ -174,6 +176,7 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	$description = $pluginAttrs[$pluginDir]['description'];
 	$authorLink = $pluginAttrs[$pluginDir]['authorLink'];
 	$author = $pluginAttrs[$pluginDir]['author'];
+	$scope = $pluginAttrs[$pluginDir]['scope'];
 	$active = in_array($pluginDir, $activePlugins);
 	
 	if ($active == true && !in_array("activated", $_POST['listedPluginStatus']))
@@ -188,6 +191,16 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 									<tr class="<?php echo $className?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="title"><?=($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title)?></td>
 										<td class="version"><?=$version?></td>
+										<td class="scope"><?
+switch($scope) {
+	case 'global': echo _t('일반');break;
+	case 'blog': echo _t('블로그');break;
+	case 'admin': echo _t('관리자');break;
+	case 'sidebar': echo _t('사이드바');break;
+	case 'center': echo _t('센터');break;
+	default : echo _t('미지정');break;
+}	
+?></td>
 										<td class="explain"><?=$description?></td>
 										<td class="maker"><?=($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author)?></td>
 										<td class="status">

@@ -14,6 +14,7 @@
   <author link="http://www.tattertools.com">Tatter &amp; Company</author>
   <author xml:lang="ko" link="http://www.tattertools.com">태터앤컴퍼니</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
+  <scope>blog</scope>
   <requirements>
     <tattertools>1.0</tattertools>
   </requirements>

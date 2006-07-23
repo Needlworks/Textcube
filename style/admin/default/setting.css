@@ -558,6 +558,11 @@
 	width                            : 50px;
 }
 
+#part-setting-plugins table.data-inbox thead tr .scope
+{
+	width                            : 65px;
+}
+
 #part-setting-plugins table.data-inbox thead tr .maker
 {
 	width                            : 150px;
