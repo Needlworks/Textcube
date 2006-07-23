@@ -880,9 +880,10 @@ while ($tempAdminSkin = $dir->read()) {
 	if (!$xmls->open(file_get_contents(ROOT . "/style/admin/$tempAdminSkin/index.xml"))) {
 		continue;
 	} else {
+		$skinDir = trim($tempAdminSkin);
 		$skinName = $xmls->getValue('/adminSkin/information/name[lang()]');
 ?>
-													<option value="<?php echo trim($tempAdminSkin)?>"<?=$currentAdminSkin==$dir?' selected="selected"':''?>><?=$skinName?></option>
+													<option value="<?php echo $skinDir?>"<?=$currentAdminSkin==$skinDir ?' selected="selected"':''?>><?=$skinName?></option>
 <?
 	}
 }
