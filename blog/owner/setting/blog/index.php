@@ -881,13 +881,11 @@ while ($tempAdminSkin = $dir->read()) {
 		continue;
 	} else {
 		$skinDir = trim($tempAdminSkin);
-		$adminSkinAttrs = array(
-			"Name" => htmlspecialchars($xmls->getValue('/adminSkin/information/name[lang()]'))
-		);
-	}
+		$skinName = htmlspecialchars($xmls->getValue('/adminSkin/information/name[lang()]'));
 ?>
-													<option value="<?php echo $skinDir?>"<?=$currentAdminSkin==$skinDir ?' selected="selected"':''?>><?=$adminSkinAttrs['Name']?></option>
+													<option value="<?php echo $skinDir?>"<?=$currentAdminSkin==$skinDir ?' selected="selected"':''?>><?=$skinName?></option>
 <?
+	}
 }
 ?>
 												</select>
