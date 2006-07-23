@@ -867,7 +867,7 @@ $strictXHTML = getUserSetting('strictXHTML', 0);
 											<dd>
 												<select id="adminSkin" name="adminSkin">
 <?
-$currentAdminSkin = getUserSetting("'adminSkin", "default");
+$currentAdminSkin = getUserSetting("adminSkin", "default");
 $dir = dir(ROOT . '/style/admin/');
 while ($tempAdminSkin = $dir->read()) {
 	if (!ereg('^[[:alnum:] _-]+$', $tempAdminSkin))
@@ -881,11 +881,13 @@ while ($tempAdminSkin = $dir->read()) {
 		continue;
 	} else {
 		$skinDir = trim($tempAdminSkin);
-		$skinName = htmlspecialchars($xmls->getValue('/adminSkin/information/name[lang()]'));
-?>
-													<option value="<?php echo $skinDir?>"<?=$currentAdminSkin==$skinDir ?' selected="selected"':''?>><?=$skinName?></option>
-<?
+		$adminSkinAttrs = array(
+			"Name" => htmlspecialchars($xmls->getValue('/adminSkin/information/name[lang()]'))
+		);
 	}
+?>
+													<option value="<?php echo $skinDir?>"<?=$currentAdminSkin==$skinDir ?' selected="selected"':''?>><?=$adminSkinAttrs['Name']?></option>
+<?
 }
 ?>
 												</select>
