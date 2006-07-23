@@ -517,18 +517,21 @@
 	text-align                       : right;
 }
 
+#scope-line,
 #sorting-line,
 #activate-status-line
 {
 	display                          : inline;
 }
 
+#scope-line dt,
 #sorting-line dt,
 #activate-status-line dt
 {
 	display                          : none;
 }
 
+#scope-line dd,
 #sorting-line dd,
 #activate-status-line dd
 {

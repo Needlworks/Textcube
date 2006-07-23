@@ -3,6 +3,7 @@ $activePlugins = array();
 $eventMappings = array();
 $tagMappings = array();
 $sidebarMappings = array();
+$centerMappings = array();
 if (!empty($owner)) {
 	$activePlugins = fetchQueryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE owner = $owner");
 	$xmls = new XMLStruct();
@@ -36,6 +37,14 @@ if (!empty($owner)) {
 					}
 				}
 				unset($sidebar);
+			}
+			if ($xmls->doesExist('/plugin/binding/center')) {
+				foreach ($xmls->selectNodes('/plugin/binding/center') as $center) {
+					if (!empty($sidebar['.attributes']['handler'])) {
+						array_push($centerMappings, array('plugin' => $plugin, 'class' => $center['.attributes']['class'], 'title' => $center['.attributes']['title'], 'handler' => $center['.attributes']['handler']));
+					}
+				}
+				unset($center);
 			}
 		} else {
 			$plugin = mysql_escape_string($plugin);

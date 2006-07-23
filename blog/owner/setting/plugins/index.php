@@ -5,17 +5,16 @@ require ROOT . '/lib/piece/owner/header5.php';
 require ROOT . '/lib/piece/owner/contentMenu53.php';
 
 if (empty($_POST['sortType'])) {
-	$sortType = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'pluginListSortType'");
-	$_POST['sortType'] = ($sortType == false) ? "ascend" : $sortType;
-} else if ($_POST['sortType'] != "ascend" && $_POST['sortType'] != "descend") {
-	$_POST['sortType'] = "ascend";
+	$sortType = getUserSetting("pluginListSortType","ascend");
+	$_POST['sortType'] = $sortType;
 }
+setUserSetting("pluginListSortType",$_POST['sortType']);
 
-if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'pluginListSortType'")) {
-	DBQuery::execute("INSERT `{$database['prefix']}UserSettings` (`user`, `name`, `value`) VALUES ($owner, 'pluginListSortType', '{$_POST['sortType']}')");
-} else {
-	DBQuery::execute("UPDATE `{$database['prefix']}UserSettings` SET `value` = '{$_POST['sortType']}' WHERE `user` = $owner AND `name` = 'pluginListSortType'");
+if (empty($_POST['scopeType'])) {
+	$scopeType = getUserSetting("pluginListScopeType","all");
+	$_POST['scopeType'] = $scopeType;
 }
+setUserSetting("pluginListScopeType",$_POST['scopeType']);
 
 if (empty($_POST['listedPluginStatus'])) {
 	$listType = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'listedPluginStatus'");
@@ -96,7 +95,18 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 							
 							<fieldset id="plugin-display-box">
 								<legend><?=_t('표시될 플러그인 설정')?></legend>
-								
+
+								<dl id="scope-line" class="line">
+									<dt><?=_t('종류')?></dt>
+									<dd>
+										<input type="radio" class="radio" id="global-scope" name="scopeType" value="all" onclick="changeList()"<?php echo $_POST['scopeType'] == "all" ? ' checked="checked"' : ''?> /> <label for="global-scope"><?=_t('전체')?></label>
+										<input type="radio" class="radio" id="global-scope" name="scopeType" value="global" onclick="changeList()"<?php echo $_POST['scopeType'] == "global" ? ' checked="checked"' : ''?> /> <label for="global-scope"><?=_t('일반')?></label>
+										<input type="radio" class="radio" id="blog-scope" name="scopeType" value="blog" onclick="changeList()"<?php echo $_POST['scopeType'] == "blog" ? ' checked="checked"' : ''?> /> <label for="blog-scope"><?=_t('블로그')?></label>
+										<input type="radio" class="radio" id="admin-scope" name="scopeType" value="admin" onclick="changeList()"<?php echo $_POST['scopeType'] == "admin" ? ' checked="checked"' : ''?> /> <label for="admin-scope"><?=_t('관리자')?></label>
+										<input type="radio" class="radio" id="sidebar-scope" name="scopeType" value="sidebar" onclick="changeList()"<?php echo $_POST['scopeType'] == "sidebar" ? ' checked="checked"' : ''?> /> <label for="sidebar-scope"><?=_t('사이드바')?></label>
+										<input type="radio" class="radio" id="none-scope" name="scopeType" value="none" onclick="changeList()"<?php echo $_POST['scopeType'] == "none" ? ' checked="checked"' : ''?> /> <label for="none-scope"><?=_t('미지정')?></label>
+									</dd>
+								</dl>
 								<dl id="sorting-line" class="line">
 									<dt><?=_t('정렬')?></dt>
 									<dd>
@@ -178,7 +188,12 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	$author = $pluginAttrs[$pluginDir]['author'];
 	$scope = $pluginAttrs[$pluginDir]['scope'];
 	$active = in_array($pluginDir, $activePlugins);
-	
+
+	if (empty($scope)) $scope = 'none';
+	if ($_POST['scopeType'] != 'all')
+		if ($scope != $_POST['scopeType'])
+			continue;
+
 	if ($active == true && !in_array("activated", $_POST['listedPluginStatus']))
 		continue;
 	else if ($active == false && !in_array("deactivated", $_POST['listedPluginStatus']))
