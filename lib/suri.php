@@ -100,7 +100,7 @@ unset($padding);
 unset($waterMarkPath);
 
 if (!file_exists(ROOT . '/config.php')) {
-	header("Location: $blogURL/setup.php");
+	header("Location: ../setup.php");
 	exit;
 }
 
