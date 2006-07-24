@@ -16,37 +16,87 @@ body
 }
 
 /* title ----------------------------------------------------------------------------------------*/
-#title-container
+#title-section
 {
 	margin                           : 0;
 }
 
-#title-container dt,
-#title-container dd
+#title-line dt,
+#title-line dd
 {
 	float                            : none;
 }
 
-#title-container label
+#title-line label
 {
 	display                          : none;
 }
 
-#title-container select
-{
-	height                           : 1.75em;
-	width                            : 159px;
-}
-
-#title-container input.text-input
+#title-line input.text-input
 {
 	vertical-align                   : middle;
-	width                            : 480px;
+	width                            : 642px;
 }
 
-#body-notice #title-container .text-input
+#title-section #category-line
 {
-	width                            : 642px !important;
+	display                          : none;
+}
+
+#category-line
+{
+	background-image                 : url("./image/edit/bg_box_foot.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	height                           : auto;
+	margin                           : 0;
+	padding-bottom                   : 10px;
+	width                            : 188px;
+}
+
+#category-line dt
+{
+	background-image                 : url("./image/edit/bg_box_head.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	color                            : #FFFFFF;
+	display                          : block;
+	float                            : none;
+	font-weight                      : normal;
+	line-height                      : 1em;
+	padding                          : 8.5px 10px 4.5px 10px;
+	text-align                       : left;
+	width                            : 168px;
+}
+
+#category-line dt label,
+#category-line dt span
+{
+	font-weight                      : normal;
+}
+
+#category-line dd
+{
+	background-image                 : url("./image/edit/bg_box_body.gif");
+	background-position              : left top;
+	background-repeat                : repeat-y;
+	color                            : #000000;
+	display                          : block;
+	float                            : none;
+	font-family                      : µ¸¿ò, Dotum, "Lucida Grande", Arial, Tahoma, Verdana, ±¼¸², Gulim, sans-serif;
+	font-size                        : 90%;
+	line-height                      : 1.3em;
+	padding                          : 10px 6px 4px 8px;
+	text-align                       : left;
+	width                            : 172px;
+}
+
+#category-line dd select
+{
+	display                          : block;
+	float                            : none;
+	margin-top                       : 5px;
+	width                            : 169px;
 }
 
 /* sidebar --------------------------------------------------------------------------------------*/
@@ -327,6 +377,202 @@ body
 	background-image                 : url("./image/edit/code.gif");
 }
 
+/* command buttons' sub box ---------------------------------------------------------------------*/
+#colorPalette
+{
+	background-color                 : #FFFFFF;
+	position                         : absolute;
+	padding                          : 2px;
+	top                              : 24px;
+	left                             : 80px;
+	z-index                          : 10;
+	border                           : 1px solid #CCCCCC;
+	width                            : 336px;
+}
+
+#markPalette
+{
+	background-color                 : #FFFFFF;
+	position                         : absolute;
+	padding                          : 2px;
+	top                              : 24px;
+	left                             : 100px;
+	z-index                          : 10;
+	border                           : 1px solid #CCCCCC;
+	width                            : 336px;
+}
+
+#textBox
+{
+	background-color                 : #FFFFFF;
+	position                         : absolute;
+	padding                          : 2px;
+	top                              : 24px;
+	left                             : 120px;
+	z-index                          : 10;
+	border                           : 1px solid #CCCCCC;
+	width                            : 80px;
+}
+
+#colorPalette table,
+#markPalette table,
+#textBox table
+{
+	border-collapse                  : collapse;
+	border-spacing                   : 0;
+	background-color                 : #FFFFFF;
+	margin                           : 0;
+	width                            : auto;
+}
+
+#colorPalette table tr td,
+#markPalette table tr td,
+#textBox table tr td
+{
+	border                           : none !important;
+	cursor                           : pointer;
+	height                           : 16px;
+	padding                          : 0 !important;
+	text-indent                      : -5000px;
+	width                            : 16px;
+}
+
+/* colors */
+.color-000000
+{
+	background-color                 : #000000;
+}
+
+.color-0000FF
+{
+	background-color                 : #0000FF;
+}
+
+.color-003366
+{
+	background-color                 : #003366;
+}
+
+.color-006699
+{
+	background-color                 : #006699;
+}
+
+.color-008000
+{
+	background-color                 : #008000;
+}
+
+.color-009966
+{
+	background-color                 : #009966;
+}
+
+.color-177FCD
+{
+	background-color                 : #177FCD;
+}
+
+.color-333333
+{
+	background-color                 : #333333;
+}
+
+.color-666699
+{
+	background-color                 : #666699;
+}
+
+.color-670787
+{
+	background-color                 : #670787;
+}
+
+.color-8E8E8E
+{
+	background-color                 : #8E8E8E;
+}
+
+.color-993366
+{
+	background-color                 : #993366;
+}
+
+.color-999966
+{
+	background-color                 : #999966;
+}
+
+.color-99CC66
+{
+	background-color                 : #99CC66;
+}
+
+.color-9B18C1
+{
+	background-color                 : #9B18C1;
+}
+
+.color-C1C1C1
+{
+	background-color                 : #C1C1C1;
+}
+
+.color-C9EDFF
+{
+	background-color                 : #C9EDFF;
+}
+
+.color-CC9900
+{
+	background-color                 : #CC9900;
+}
+
+.color-D0FF9D
+{
+	background-color                 : #D0FF9D;
+}
+
+.color-D41A01
+{
+	background-color                 : #D41A01;
+}
+
+.color-E4E4E4
+{
+	background-color                 : #E4E4E4;
+}
+
+.color-FAFFA9
+{
+	background-color                 : #FAFFA9;
+}
+
+.color-FF0000
+{
+	background-color                 : #FF0000;
+}
+
+.color-FF3399
+{
+	background-color                 : #FF3399;
+}
+
+.color-FF7635
+{
+	background-color                 : #FF7635;
+}
+
+.color-FF9900
+{
+	background-color                 : #FF9900;
+}
+
+.color-FFDAED
+{
+	background-color                 : #FFDAED;
+}
+
 /* textarea -------------------------------------------------------------------------------------*/
 #textarea-section
 {
@@ -339,6 +585,7 @@ body
 	border-right                     : 1px solid #CCCCCC;
 	border-left                      : 1px solid #CCCCCC;
 	border-bottom                    : 1px solid #CCCCCC;
+	text-align                       : center;
 	width                            : 650px;
 }
 
@@ -356,8 +603,8 @@ body
 
 #editor-textbox iframe
 {
-	border                           : none !important;
-	display                          : block;
+	background-color                 : #FFFFFF;
+	margin                           : 0 auto;
 }
 
 #status-container
@@ -731,12 +978,46 @@ body
 /* power ----------------------------------------------------------------------------------------*/
 #power-section
 {
-	display                          : none;
+	width                            : 652px;
+}
+
+#permalink-line
+{
+	height                           : 55px;
+	margin                           : 15px 0;
+}
+
+#permalink-line dt
+{
+	background-color                 : #2685AF;
+	color                            : #FFFFFF;
+	float                            : none;
+	margin-right                     : 0;
+	padding                          : 1px 0 1px 10px;
+	text-align                       : left;
+	width                            : 642px;
+}
+
+#permalink-line dt label
+{
+	font-weight                      : normal;
+}
+
+#permalink-line dd
+{
+	float                            : none;
+	padding                          : 5px 0;
+}
+
+#permalink-line dd .text-input
+{
+	width                            : 200px;
 }
 
 #date-line,
 #status-line,
-#power-line
+#power-line,
+#entrytype-line
 {
 	background-image                 : url("./image/edit/bg_box_foot.gif");
 	background-position              : left bottom;
@@ -749,7 +1030,8 @@ body
 
 #date-line dt,
 #status-line dt,
-#power-line dt
+#power-line dt,
+#entrytype-line dt
 {
 	background-image                 : url("./image/edit/bg_box_head.gif");
 	background-position              : left top;
@@ -769,14 +1051,17 @@ body
 #status-line dt label,
 #status-line dt span,
 #power-line dt label,
-#power-line dt span
+#power-line dt span,
+#entrytype-line dt label,
+#entrytype-line dt span
 {
 	font-weight                      : normal;
 }
 
 #date-line dd,
 #status-line dd,
-#power-line dd
+#power-line dd,
+#entrytype-line dd
 {
 	background-image                 : url("./image/edit/bg_box_body.gif");
 	background-position              : left top;

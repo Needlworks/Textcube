@@ -81,7 +81,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 								window.addEventListener("load", loadPluignList, false);
 								
 								function loadPluignList() {
-									document.getElementById('submit-button-box').style.display = "none";
+									document.getElementById('submit-button-box').parentNode.removeChild(document.getElementById('submit-button-box'));
 								}
 							//]]>
 						</script>
@@ -123,7 +123,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 								</dl>
 								
 								<div id="submit-button-box" class="button-box">
-									<input type="submit" />
+									<input type="submit" value="<?=_t('플러그인 목록 갱신')?>" />
 								</div>
 							</fieldset>
 							
