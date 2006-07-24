@@ -624,8 +624,7 @@ if (extension_loaded('gd')) {
 											</dd>
 										</dl>
 <?php
-	list($thumbnailTopPadding, $thumbnailRightPadding, $thumbnailBottomPadding, $thumbnailLeftPadding) = getThumbnailPadding();
-	
+	$thumbnailPadding = getThumbnailPadding();
 	$colorOfPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
 	if ($colorOfPadding == false) {
 		$colorOfPadding = "FFFFFF";
@@ -639,17 +638,18 @@ if (extension_loaded('gd')) {
 	$paddingText = array(_t('상단 여백'), _t('하단 여백'), _t('좌측 여백'), _t('우측 여백'));
 	
 	for ($i=0; $i<count($paddingOrder); $i++) {
+		$tempIndex = $paddingOrder[$i];
 ?>
 												<div id="<?=$paddingOrder[$i]?>-padding">
 													<span class="label"><?=$paddingText[$i]?></span>
 													<select id="<?=$paddingOrder[$i]?>Padding" name="<?=$paddingOrder[$i]?>Padding" onchange="checkManualInput(this)" disabled="disabled">
-														<option value="0"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '0' ? ' selected="selected"' : ''?>>0px</option>
-														<option value="5"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '5' ? ' selected="selected"' : ''?>>5px</option>
-														<option value="10"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '10' ? ' selected="selected"' : ''?>>10px</option>
-														<option value="15"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '15' ? ' selected="selected"' : ''?>>15px</option>
-														<option value="20"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '20' ? ' selected="selected"' : ''?>>20px</option>
-														<option value="25"<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'} == '25' ? ' selected="selected"' : ''?>>25px</option>
-														<option value="direct"<?php echo !in_array(${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'}, array(0, 5, 10, 15, 20, 25)) ? ' selected="selected"' : ''?>><?=_t('직접입력')?></option>
+														<option value="0"<?php echo $thumbnailPadding[$tempIndex] == 0 ? ' selected="selected"' : ''?>>0px</option>
+														<option value="5"<?php echo $thumbnailPadding[$tempIndex] == 5 ? ' selected="selected"' : ''?>>5px</option>
+														<option value="10"<?php echo $thumbnailPadding[$tempIndex] == 10 ? ' selected="selected"' : ''?>>10px</option>
+														<option value="15"<?php echo $thumbnailPadding[$tempIndex] == 15 ? ' selected="selected"' : ''?>>15px</option>
+														<option value="20"<?php echo $thumbnailPadding[$tempIndex] == 20 ? ' selected="selected"' : ''?>>20px</option>
+														<option value="25"<?php echo $thumbnailPadding[$tempIndex] == 25 ? ' selected="selected"' : ''?>>25px</option>
+														<option value="direct"<?php echo !in_array($thumbnailPadding[$tempIndex], array(0, 5, 10, 15, 20, 25)) ? ' selected="selected"' : ''?>><?=_t('직접입력')?></option>
 													</select>
 													<input type="text" class="text-input" id="<?=$paddingOrder[$i]?>PaddingManual" name="<?=$paddingOrder[$i]?>PaddingManual" value="<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'}?>" />px
 												</div>
