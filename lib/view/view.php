@@ -1299,6 +1299,9 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					$currentWidth = floor($originWidth * $currentHeight / $originHeight);
 				} else if (isset($currentWidth) && !isset($currentHeight)) {
 					$currentHeight = floor($originHeight * $currentWidth / $originWidth);
+				} else {
+					$currentWidth = $originWidth;
+					$currentHeight = $originHeight;
 				}
 				
 				if ($currentWidth > $contentWidth) {
