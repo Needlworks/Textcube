@@ -1236,7 +1236,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 }
 
 function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $imageBlocks = 1, $useAbsolutePath = false) {
-	global $database, $service, $owner, $blogURL, $hostURL, $waterMarkArray, $paddingArray;
+	global $database, $skinSetting, $service, $owner, $blogURL, $hostURL, $waterMarkArray, $paddingArray;
 	$path = "$folderPath/$filename";
 	if ($useAbsolutePath)
 		$url = "$hostURL{$service['path']}/attach/$owner/$filename";
@@ -1250,13 +1250,15 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 			} else {
 				$contentWidth = 400;
 				
-				if ($skin = fetchQueryCell("SELECT `skin` FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $owner")) {
-					if ($xml = @file_get_contents(ROOT."/skin/$skin/index.xml")) {
-						$xmls = new XMLStruct();
-						$xmls->open($xml,$service['encoding']);
-						if ($xmls->getValue('/skin/default/contentWidth')) {
-							$contentWidth = $xmls->getValue('/skin/default/contentWidth');
-						}
+				//echo "<pre>";
+				//htmlspecialchars(var_dump($skinSetting));
+				//echo "</pre>";
+				
+				if ($xml = @file_get_contents(ROOT."/skin/{$skinSetting['skin']}/index.xml")) {
+					$xmls = new XMLStruct();
+					$xmls->open($xml,$service['encoding']);
+					if ($xmls->getValue('/skin/default/contentWidth')) {
+						$contentWidth = $xmls->getValue('/skin/default/contentWidth');
 					}
 				}
 				
@@ -1275,15 +1277,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					$property .= ' alt="'._text('사용자 삽입 이미지').'"';	
 				}
 				
-				/*if ($originWidth > $contentWidth) {
-					$tempWidth = $contentWidth;
-					$tempHeight = floor($originHeight * $contentWidth / $originWidth);
-				} else {
-					$tempWidth = $originWidth;
-					$tempHeight = $originHeight;
-				}*/
-				
-				if (eregi('width="([0-9]*%?)"', $property)) {
+				if (eregi('width="([0-9]*%?)"', $property, $temp)) {
 					$currentWidth = $temp[1];
 					if (eregi("^([0-9]+)%$", $currentWidth)) {
 						$currentWidth = $originWidth * ($temp[1]/100);
@@ -1292,7 +1286,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					$property .= ' width="1"';
 				}
 				
-				if (eregi('height="([0-9]*%?)"', $property)) {
+				if (eregi('height="([0-9]*%?)"', $property, $temp)) {
 					$currentHeight = $temp[1];
 					if (eregi("^([0-9]+)%$", $currentHeight)) {
 						$currentHeight = $originHeight * ($temp[1]/100);
@@ -1304,9 +1298,6 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 				if (!isset($currentWidth) && isset($currentHeight)) {
 					$currentWidth = floor($originWidth * $currentHeight / $originHeight);
 				} else if (isset($currentWidth) && !isset($currentHeight)) {
-					$currentHeight = floor($originHeight * $currentWidth / $originWidth);
-				} else if (!isset($currentWidth) && !isset($currentHeight)) {
-					$currentWidth = $originWidth > $contentWidth ? $contentWidth : $originWidth;
 					$currentHeight = floor($originHeight * $currentWidth / $originWidth);
 				}
 				
