@@ -289,7 +289,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 												</div>
 												<div id="blog-addredd-line" class="line">
 													<label for="invitation_identify"><?=_t('블로그 주소')?></label>
-													<span class="inter-word"><?=$urlRule[0]?></span><input type="text" id="invitation_identify" class="text-input" name="text" /><span class="inter-word"><?=$urlRule[1]?></span>
+													<span class="inter-word"><?=link_cut($urlRule[0])?></span><input type="text" id="invitation_identify" class="text-input" name="text" /><span class="inter-word"><?=$urlRule[1]?></span>
 												</div>
 											</div>
 														
