@@ -1,14 +1,30 @@
 <?php
 
 function stripHTML($text, $allowTags = array()) {
+	$stripAttrib = array("onclick", "ondblclick", "onmousedown", "onmouseup", "onmouseover", "onmousemove", "onmouseout", "onkeypress", "onkeydown", "onkeyup");
+	
 	$text = preg_replace('/<(script|style)[^>]*>.*?<\/\1>/si', '', $text);
 	if(count($allowTags) == 0)
 		$text = preg_replace('/<[\w\/!]+[^>]*>/', '', $text);
 	else {
-		preg_match_all('/<\/?([\w!]+)[^>]*?>/s', $text, $matches);
+		preg_match_all('/<(\/?)([\w!]+)([^>]*)?>/s', $text, $matches);
 		for($i=0; $i<count($matches[0]); $i++) {
-			if (!in_array(strtolower($matches[1][$i]), $allowTags))
+			if (!in_array(strtolower($matches[2][$i]), $allowTags)) {
 				$text = str_replace($matches[0][$i], '', $text);
+			} else {
+				$tempAttrs = explode(" ", $matches[3][$i]);
+				for ($j=0; $j<count($tempAttrs); $j++) {
+					$temp = explode("=", strtolower($tempAttrs[$j]));
+					if (in_array($temp[0], $stripAttrib) || eregi("^javascript:", $tempAttrs[$j])) {
+						unset($tempAttrs[$j]);
+					}
+				}
+				$matches[3][$i] = implode(" ", $tempAttrs);
+				if (strtolower($matches[2][$i]) == "b")
+					$matches[2][$i] = "strong";
+				
+				$text = str_replace($matches[0][$i], "<{$matches[1][$i]}{$matches[2][$i]}{$matches[3][$i]}>", $text);
+			}
 		}
 	}
 	$text = preg_replace('/&nbsp;?/', ' ', $text);
@@ -17,6 +33,7 @@ function stripHTML($text, $allowTags = array()) {
 		$text = preg_replace('/&apos;?/', '\'', $text);
 		$text = html_entity_decode($text, ENT_QUOTES);
 	}
+    
 	return $text;
 }
 
@@ -51,7 +68,25 @@ function nl2brWithHTML($str) {
 }
 
 function addLinkSense($text, $attributes = '') {
-	return ereg_replace("(^| |\t|\r|\n|\"|')(http://[^ \t\r\n\"']+)", "\\1<a href=\"\\2\"$attributes rel=\"external nofollow\">\\2</a>", $text);
+	$text = eregi_replace("http://", "temporaryHttp://", $text);
+	
+	while (eregi("temporaryHttp://", $text)) {
+		eregi("([href=\"'\t\n\r]*)temporaryHttp://([^ \t\r\n\"']+)", $text, $temp);
+		if (eregi("href=", $temp[0])) {
+			$text = str_replace($temp[0], str_replace("temporaryHttp://", "http://", $temp[0]), $text);
+		} else {
+			if (eregi("\?", $temp[0])) {
+				$text = str_replace($temp[0], "$temp[1]<a href=\"http://$temp[2]\"$attributes rel=\"external nofollow\">$temp[2]</a>", $text);
+			} else {
+				eregi("([^a-z0-9]*)$", $temp[2], $temp2);
+				if (!empty($temp2[1])) {
+					$temp[2] = eregi_replace("([^a-z0-9]*)$", "", $temp[2]);
+				}
+				$text = str_replace($temp[0], "$temp[1]<a href=\"http://$temp[2]\"$attributes rel=\"external nofollow\">$temp[2]</a>$temp2[1]", $text);
+			}
+		}
+	}
+	return $text;
 }
 
 function addProtocolSense($url, $protocol = 'http://') {
