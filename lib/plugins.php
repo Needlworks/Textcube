@@ -40,6 +40,16 @@ if (!empty($owner)) {
 				}
 				unset($tag);
 			}
+			if ($xmls->doesExist('/plugin/binding/center')) {
+				foreach ($xmls->selectNodes('/plugin/binding/center') as $center) {
+					if (!empty($center['.attributes']['name']) && !empty($center['.attributes']['handler'])) {
+						if (!isset($centerMappings[$center['.attributes']['name']]))
+							$centerMappings[$center['.attributes']['name']] = array();
+						array_push($centerMappings[$center['.attributes']['name']], array('plugin' => $plugin, 'handler' => $center['.attributes']['handler']));
+					}
+				}
+				unset($center);
+			}
 			if ($xmls->doesExist('/plugin/binding/sidebar')) {
 				foreach ($xmls->selectNodes('/plugin/binding/sidebar') as $sidebar) {
 					if (!empty($sidebar['.attributes']['handler'])) {
@@ -47,14 +57,6 @@ if (!empty($owner)) {
 					}
 				}
 				unset($sidebar);
-			}
-			if ($xmls->doesExist('/plugin/binding/center')) {
-				foreach ($xmls->selectNodes('/plugin/binding/center') as $center) {
-					if (!empty($sidebar['.attributes']['handler'])) {
-						array_push($centerMappings, array('plugin' => $plugin, 'class' => $center['.attributes']['class'], 'title' => $center['.attributes']['title'], 'handler' => $center['.attributes']['handler']));
-					}
-				}
-				unset($center);
 			}
 			if($xmls->doesExist('/plugin/binding/config')){
 				$config = $xmls->selectNode('/plugin/binding/config');
@@ -116,7 +118,30 @@ function handleTags( & $content) {
 	}
 }
 
-function handleSidebar( & $obj) {
+function handleCenters( & $content) {
+	global $service, $centerMappings, $pluginURL , $configMappings, $configVal;
+	if (preg_match_all('/\[##_(\w+)_##\]/', $content, $matches)) {
+		foreach ($matches[1] as $tag) {
+			if (!isset($centerMappings[$tag]))
+				continue;
+			$target = '';
+			foreach ($centerMappings[$tag] as $mapping) {
+				include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
+				if (function_exists($mapping['handler'])) {
+					if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
+						$configVal = getCurrentSetting($mapping['plugin']);
+					else
+						$configVal ='';
+					$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
+					$target = call_user_func($mapping['handler'], $target);
+				}
+			}
+			dress($tag, $target, $content);
+		}
+	}
+}
+
+function handleSidebars( & $obj) {
 	global $service, $sidebarMappings, $pluginURL;
 	
 	$content_temp = '';
@@ -157,6 +182,7 @@ function handleSidebar( & $obj) {
 	}
 	$obj->sidebarItem = $content_temp;
 }
+
 function handleDataSet( $plugin , $post ){
 	/*
 		사용자 벨리데이션 후크 부분 없으면 걍 저장

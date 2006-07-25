@@ -28,7 +28,7 @@ function _getRecentEntriesView($entries,$template){
 }
 
 // lib/piece/blog/end.php : 47 line
-function AD_RecentPS_Default($target) {
+function CT_RecentPS_Default($target) {
 	global $owner;
 
 	$target .= '<ul>';

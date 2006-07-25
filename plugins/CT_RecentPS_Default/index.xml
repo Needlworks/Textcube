@@ -15,6 +15,6 @@
     <tattertools>1.1</tattertools>
   </requirements>
   <binding>
-	<tag name="AD_RecentPS_Default" handler="AD_RecentPS_Default" />
+	<center name="CT_RecentPS_Default" handler="CT_RecentPS_Default" />
   </binding>
 </plugin>

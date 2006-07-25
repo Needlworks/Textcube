@@ -241,7 +241,7 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 									<tr class="<?php echo $className?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="title"><?=($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title)?></td>
 										<td class="version"><?=$version?></td>
-										<td class="scope"><?
+										<td class="scope"><?php
 switch($scope) {
 	case 'global': echo _t('일반');break;
 	case 'blog': echo _t('블로그');break;
@@ -262,9 +262,11 @@ switch($scope) {
 	} else {
 ?>
 										<span id="config_<?=$i?>" class="config-disabled-icon bullet"><?=_t('설정없음')?></span></td>
-										<td class="status">
 <?
 	}
+?>
+										<td class="status">
+<?
 	if ($active) {
 ?>
 											<span id="plugin_<?=$i?>" class="active-icon bullet" onclick="togglePlugin('<?=$pluginDir?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$pluginDir?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span class="text"><?=_t('사용중')?></span></a>
