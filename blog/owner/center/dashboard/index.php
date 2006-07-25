@@ -12,7 +12,7 @@ require ROOT . '/lib/piece/owner/contentMenuA0.php';
 <?php
 foreach ($centerMappings as $mapping) {
 ?>
-						<div id="<?=$mapping['plugin']?>"><?=handleCenters($mapping)?></div><hr />
+						<div id="<?=$mapping['plugin']?>"><h3><?=$mapping['title']?></h3><?=handleCenters($mapping)?></div><hr />
 <?php
 }
 

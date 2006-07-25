@@ -42,11 +42,13 @@ if (!empty($owner)) {
 				unset($tag);
 			}
 			if ($xmls->doesExist('/plugin/binding/center')) {
+				$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
 				foreach ($xmls->selectNodes('/plugin/binding/center') as $center) {
 					if (!empty($center['.attributes']['handler'])) {
-						array_push($centerMappings, array('plugin' => $plugin, 'handler' => $center['.attributes']['handler']));
+						array_push($centerMappings, array('plugin' => $plugin, 'handler' => $center['.attributes']['handler'], 'title' => $title));
 					}
 				}
+				unset($title);
 				unset($center);
 			}
 			if ($xmls->doesExist('/plugin/binding/sidebar')) {
