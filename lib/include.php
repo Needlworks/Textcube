@@ -25,6 +25,7 @@ require 'model/notice.php';
 require 'model/link.php';
 require 'model/locative.php';
 require 'model/paging.php';
+require 'model/plugin.php';
 require 'model/rss.php';
 require 'model/setting.php';
 require 'model/statistics.php';

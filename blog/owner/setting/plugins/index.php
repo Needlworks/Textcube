@@ -83,6 +83,13 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 								function loadPluignList() {
 									document.getElementById('submit-button-box').parentNode.removeChild(document.getElementById('submit-button-box'));
 								}
+								var currentSetting='';
+								function getCurrentSetting( plugin, setYN){
+									if( "N" == setYN ) return ;
+									if( '' != currentSetting ) currentSetting.close();//'' );
+									window.open('<?=$blogURL?>/owner/setting/plugins/currentSetting/?Name='+plugin,'CurrentSetting', 'width=500, height=400, scrollbars=1, status=0');	
+									return;
+								}								
 							//]]>
 						</script>
 						
@@ -135,6 +142,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 										<th class="scope"><span class="text"><?=_t('종류')?></span></th>
 										<th class="explain"><span class="text"><?=_t('설명')?></span></th>
 										<th class="maker"><span class="text"><?=_t('만든이')?></span></th>
+										<th class="maker"><span class="text"><?=_t('설정')?></span></th>
 										<th class="status"><span class="text"><?=_t('상태')?></span></th>
 									</tr>
 								</thead>
@@ -162,7 +170,8 @@ while ($plugin = $dir->read()) {
 						"description" => htmlspecialchars($xmls->getValue('/plugin/description[lang()]')),
 						"authorLink" => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
 						"author" => htmlspecialchars($xmls->getValue('/plugin/author[lang()]')),
-						"scope" => htmlspecialchars($xmls->getValue('/plugin/scope[lang()]'))
+						"scope" => htmlspecialchars($xmls->getValue('/plugin/scope[lang()]')),
+						"config" => $xmls->doesExist('/plugin/binding/config')
 						);
 		
 		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
@@ -176,7 +185,6 @@ if ($_POST['sortType'] == "ascend") {
 }
 
 $arrayKeys = array_keys($plugins);
-
 for ($i=0; $i<count($arrayKeys); $i++) {
 	$pluginDir = $arrayKeys[$i];
 	
@@ -187,6 +195,7 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	$authorLink = $pluginAttrs[$pluginDir]['authorLink'];
 	$author = $pluginAttrs[$pluginDir]['author'];
 	$scope = $pluginAttrs[$pluginDir]['scope'];
+	$config = $pluginAttrs[$pluginDir]['config']? 'Y':'N';
 	$active = in_array($pluginDir, $activePlugins);
 
 	if (empty($scope)) $scope = 'none';
@@ -218,6 +227,9 @@ switch($scope) {
 ?></td>
 										<td class="explain"><?=$description?></td>
 										<td class="maker"><?=($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author)?></td>
+										<? /*임시입니당 */?>
+										<td class="config"><span onclick="getCurrentSetting('<?=$pluginDir?>','<?=$config?>')" style="cursor:hand;display:<?=$config=='Y'?'inline':'none'?>;">설정</span></td>										
+
 										<td class="status">
 <?
 	if ($active) {

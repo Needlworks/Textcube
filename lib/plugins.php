@@ -4,6 +4,16 @@ $eventMappings = array();
 $tagMappings = array();
 $sidebarMappings = array();
 $centerMappings = array();
+
+/*ToDo: 컨피그 메니페스트 쪽 예외상황 처리 강화 ,
+          설정값 만들어주는 함수 
+ */
+$configMappings = array();
+$baseConfigPost = $service['path'].'/owner/setting/plugins/currentSetting';
+$configPost  = '';
+$configVal = '';
+
+
 if (!empty($owner)) {
 	$activePlugins = fetchQueryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE owner = $owner");
 	$xmls = new XMLStruct();
@@ -46,6 +56,14 @@ if (!empty($owner)) {
 				}
 				unset($center);
 			}
+			if($xmls->doesExist('/plugin/binding/config')){
+				$config = $xmls->selectNode('/plugin/binding/config');
+				if( !empty( $config['.attributes']['dataValHandler'] ) )
+					$configMappings[$plugin] = 
+					array( 'config' => 'ok' , 'dataValHandler' => $config['.attributes']['dataValHandler'] );
+				else
+					$configMappings[$plugin] = array( 'config' => 'ok') ;
+			}
 		} else {
 			$plugin = mysql_escape_string($plugin);
 			mysql_query("DELETE FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$plugin'");
@@ -56,7 +74,7 @@ if (!empty($owner)) {
 }
 
 function fireEvent($event, $target = null, $mother = null, $condition = true) {
-	global $service, $eventMappings, $pluginURL;
+	global $service, $eventMappings, $pluginURL,  $configMappings , $configVal;
 	if (!$condition)
 		return $target;
 	if (!isset($eventMappings[$event]))
@@ -64,6 +82,10 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 	foreach ($eventMappings[$event] as $mapping) {
 		include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
 		if (function_exists($mapping['listener'])) {
+			if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
+				$configVal = & getCurrentSetting($mapping['plugin']);
+			else
+				$configVal =null;
 			$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 			$target = call_user_func($mapping['listener'], $target, $mother);
 		}
@@ -72,7 +94,7 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 }
 
 function handleTags( & $content) {
-	global $service, $tagMappings, $pluginURL;
+	global $service, $tagMappings, $pluginURL , $configMappings, $configVal;
 	if (preg_match_all('/\[##_(\w+)_##\]/', $content, $matches)) {
 		foreach ($matches[1] as $tag) {
 			if (!isset($tagMappings[$tag]))
@@ -81,6 +103,10 @@ function handleTags( & $content) {
 			foreach ($tagMappings[$tag] as $mapping) {
 				include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
 				if (function_exists($mapping['handler'])) {
+					if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
+						$configVal = getCurrentSetting($mapping['plugin']);
+					else
+						$configVal ='';
 					$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 					$target = call_user_func($mapping['handler'], $target);
 				}
@@ -130,5 +156,20 @@ function handleSidebar( & $obj) {
 		}
 	}
 	$obj->sidebarItem = $content_temp;
+}
+function handleDataSet( $plugin , $post ){
+	/*
+		사용자 벨리데이션 후크 부분 없으면 걍 저장
+	*/
+	global $configMappings;
+	$reSetting = true;
+	if( !empty( $configMappings[$plugin]['dataValHandler'] ) ){
+		include_once (ROOT . "/plugins/$plugin/index.php");
+		if( function_exists( $configMappings[$plugin]['dataValHandler'] ) )
+			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , $post );
+		if( false === $reSetting )	return false;
+	}
+	$result = updatePluginConfig($plugin, $post);
+	return $result ;
 }
 ?>

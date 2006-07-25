@@ -1,0 +1,21 @@
+.groupstyle{
+	margin-top:10px;
+}
+
+.groupstyle span{
+	background-color:#CCCCCC;
+	border:solid 1px #999999;
+}
+
+.fieldset{
+	width:100%;
+	margin:0px;
+}
+.fieldset td{
+	border-bottom:dotted 1px #333333;
+}
+
+.title{
+	width:20%;
+	border-right:dotted 1px #333333;
+}
