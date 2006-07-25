@@ -70,7 +70,7 @@ function TreatType(  $cmd , $dfVal ){
 	global $typeSchema;
 	if( empty($cmd['.attributes']['type']) || !in_array($cmd['.attributes']['type'] , $typeSchema  ) ) return '';
 	if( empty($cmd['.attributes']['title']) || empty($cmd['.attributes']['name'])) return '';
-	return	'<div class="fieldTitle" >'.htmlspecialchars($cmd['.attributes']['title']) . '</div>' . '<div class="fieldControl">'. call_user_func($cmd['.attributes']['type'].'Treat' , $cmd, $dfVal) .'</div>' ;
+	return	'<div class="fieldTitle" >'.htmlspecialchars($cmd['.attributes']['title']) . '</div><div class="fieldControl">'. call_user_func($cmd['.attributes']['type'].'Treat' , $cmd, $dfVal) .'</div>' ;
 }
 function textTreat( $cmd , $dfVal ){
 	$DSP = '<input type="text" name="'.htmlspecialchars($cmd['.attributes']['name']).'" ';
