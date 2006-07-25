@@ -1,30 +1,14 @@
 <?php
 
 function stripHTML($text, $allowTags = array()) {
-	$stripAttrib = array("onclick", "ondblclick", "onmousedown", "onmouseup", "onmouseover", "onmousemove", "onmouseout", "onkeypress", "onkeydown", "onkeyup");
-	
 	$text = preg_replace('/<(script|style)[^>]*>.*?<\/\1>/si', '', $text);
 	if(count($allowTags) == 0)
 		$text = preg_replace('/<[\w\/!]+[^>]*>/', '', $text);
 	else {
-		preg_match_all('/<(\/?)([\w!]+)([^>]*)?>/s', $text, $matches);
+		preg_match_all('/<\/?([\w!]+)[^>]*?>/s', $text, $matches);
 		for($i=0; $i<count($matches[0]); $i++) {
-			if (!in_array(strtolower($matches[2][$i]), $allowTags)) {
+			if (!in_array(strtolower($matches[1][$i]), $allowTags))
 				$text = str_replace($matches[0][$i], '', $text);
-			} else {
-				$tempAttrs = explode(" ", $matches[3][$i]);
-				for ($j=0; $j<count($tempAttrs); $j++) {
-					$temp = explode("=", strtolower($tempAttrs[$j]));
-					if (in_array($temp[0], $stripAttrib) || eregi("^javascript:", $tempAttrs[$j])) {
-						unset($tempAttrs[$j]);
-					}
-				}
-				$matches[3][$i] = implode(" ", $tempAttrs);
-				if (strtolower($matches[2][$i]) == "b")
-					$matches[2][$i] = "strong";
-				
-				$text = str_replace($matches[0][$i], "<{$matches[1][$i]}{$matches[2][$i]}{$matches[3][$i]}>", $text);
-			}
 		}
 	}
 	$text = preg_replace('/&nbsp;?/', ' ', $text);
@@ -33,7 +17,6 @@ function stripHTML($text, $allowTags = array()) {
 		$text = preg_replace('/&apos;?/', '\'', $text);
 		$text = html_entity_decode($text, ENT_QUOTES);
 	}
-    
 	return $text;
 }
 
