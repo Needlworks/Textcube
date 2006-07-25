@@ -33,6 +33,13 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 									PM.showPanel("correctingDataDialog");
 									document.getElementById("dataCorrector").submit();
 								}
+
+								function optimizeData() {
+									document.getElementById("optimizingIndicator").style.width = "0%";
+									document.getElementById("optimizingDataDialogTitle").innerHTML = '<?=_t('데이터베이스를 최적화하고 있습니다. 잠시만 기다려 주십시오...')?>';
+									PM.showPanel("optimizingDataDialog");
+									document.getElementById("dataOptimizer").submit();
+								}
 								
 								function backupData() {
 									var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/data/backup?includeFileContents=" + document.getElementById("includeFileContents-yes").checked);
@@ -136,7 +143,38 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 						</div>
 						
 						<hr class="hidden" />
+<?
+if (getUserId() == 1) {
+?>
+						<div id="part-data-optimize" class="part">
+							<h2 class="caption"><span class="main-text"><?=_t('데이터베이스를 최적화합니다')?></span></h2>
+							
+							<div class="data-inbox main-explain-box">
+								<div class="image" onclick="optimizeData()">
+									<img src="<?=$service['path'].$adminSkinSetting['skin']?>/image/dbOptimize.gif" alt="<?=_t('데이터베이스 최적화 이미지')?>" />
+									<div class="title"><?=_t('OPTIMIZE')?></div>
+								</div>
+								<p class="explain">
+									<a href="#void" onclick="optimizeData()"><?=_t('잦은 입출력으로 비효율적이 된 데이터베이스를 최적화 합니다.')?></a>
+								</p>
+							</div>
+							
+							<form id="dataOptimizer" method="get" action="<?=$blogURL?>/owner/data/optimize" target="blackhole"></form>
+							
+							<div id="optimizingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 10;">
+								<h3 id="optimizingDataDialogTitle"></h3>
+								<div class="message-sub">
+									<span id="optimizingText"></span>
+									<span id="optimizingTextSub"></span>
+								</div>
+								<div id="optimizingIndicator" class="progressBar" style="width: 0%; height: 18px; margin-top: 5px; background-color: #66DDFF;"></div>
+							</div>
+						</div>
 						
+						<hr class="hidden" />
+<?
+}
+?>
 						<div id="part-data-backup" class="part">
 							<h2 class="caption"><span class="main-text"><?=_t('데이터를 백업합니다')?></span></h2>
 							
