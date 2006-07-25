@@ -30,17 +30,16 @@ function handleConfig( $plugin , $postCheck){
 	$CDSPval = '';
 	$i=0;
 	if ($manifest && $xmls->open($manifest)) {
+	// get config schema
+	//soax 
 		foreach ($xmls->selectNodes('/plugin/binding/config/fieldset') as $fieldset) {
-			$CDSPval .= "<div id='fieldset$i' class='groupstyle'>";
-			if (!empty($fieldset['.attributes']['legend'])) 
-				$CDSPval .= "<span id='fieldsetLegend$i'>{$fieldset['.attributes']['legend']}</span><br />\n";
+			$legend = !empty($fieldset['.attributes']['legend']) ? htmlspecialchars($fieldset['.attributes']['legend']) :'';
+			$CDSPval .= "<fieldset legend='$legend' >";
 			if( !empty( $fieldset['field'] ) ){
-				$CDSPval .= '<table class="fieldset"  >';
 				foreach( $fieldset['field'] as $field )
 					$CDSPval .=  TreatType( $field , null ) ;
-				$CDSPval .= '</table >';
 			}
-			$CDSPval .= "</div>\n";
+			$CDSPval .= "</fieldset>\n";
 			$i++;
 		}
 	}else	$CDSPval = _t('죄송합니다. 설정값을 찾을 수 없습니다.'); 	
@@ -71,14 +70,14 @@ function TreatType(  $cmd , $dfVal ){
 	global $typeSchema;
 	if( empty($cmd['.attributes']['type']) || !in_array($cmd['.attributes']['type'] , $typeSchema  ) ) return '';
 	if( empty($cmd['.attributes']['title']) || empty($cmd['.attributes']['name'])) return '';
-	return	'<tr><td class="title">'.htmlspecialchars($cmd['.attributes']['title']).'</td><td>'. call_user_func($cmd['.attributes']['type'].'Treat' , $cmd, $dfVal) .'</td></tr>';
+	return	'<div class="fieldTitle" >'.htmlspecialchars($cmd['.attributes']['title']) . '</div>' . '<div class="fieldControl">'. call_user_func($cmd['.attributes']['type'].'Treat' , $cmd, $dfVal) .'</div>' ;
 }
 function textTreat( $cmd , $dfVal ){
 	$DSP = '<input type="text" name="'.htmlspecialchars($cmd['.attributes']['name']).'" ';
 	$DSP .= empty( $cmd['.attributes']['size'] ) ? '' : 'size="'. $cmd['.attributes']['size'] . '"' ;
 //디폴트 발류	$DSP .= empty( $dfVal[ $cmd
 	$DSP .= empty( $cmd['.attributes']['value'] ) ? '' : 'value="'. htmlspecialchars($cmd['.attributes']['value'] ). '"' ;
-	$DSP .= " /> </br>\n" ;
+	$DSP .= ' />' ;
 	return $DSP;
 }
 function textareaTreat( $cmd, $dfVal){
@@ -88,7 +87,7 @@ function textareaTreat( $cmd, $dfVal){
 	$DSP .= '>';
 //디폴트 발류	$DSP .= empty( $dfVal[ $cmd
 	$DSP .= empty( $cmd['.value'] ) ? '' : htmlspecialchars($cmd['.value']);
-	$DSP .= "</textarea> </br>\n" ;
+	$DSP .= '</textarea>' ;
 	return $DSP;
 }
 function selectTreat( $cmd, $dfVal ){
@@ -100,15 +99,14 @@ function selectTreat( $cmd, $dfVal ){
 		$DSP .= !is_null($dfVal) && (empty( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value']== $dfVal ) ? 'selected="true" ' : '';
 		$DSP .= '>';
 		$DSP .= $option['.value'];
-		$DSP .= "</option>\n";
+		$DSP .= '</option>';
 	}
-	$DSP .= "</select> </br>\n" ;
+	$DSP .= '</select>' ;
 	return $DSP;
 }
 function checkboxTreat( $cmd, $dfVal){
 	$checked_arr = explode( "," , $dfVal );
 	$DSP = '<div name="'.htmlspecialchars($cmd['.attributes']['name']).'" >';
-	$i = 0 ;
 	foreach( $cmd['op']  as $option ){
 		$DSP .= '<input type="checkbox" ';
 		$DSP .= empty( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
@@ -116,16 +114,13 @@ function checkboxTreat( $cmd, $dfVal){
 		$DSP .= count($checked_arr) > 0  && in_array( (empty( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value'] ) , $checked_arr ) ? 'checked="true" ' : '';
 		$DSP .= '> ' ;
 		$DSP .= $option['.value'];
-		$DSP .= ( $i % 3 == 2 )? '<br />' : '' ;		
-		$i++;
 	}
-	$DSP .= "</div> </br>\n" ;
+	$DSP .= '</div>' ;
 	return $DSP;
 }
 function radioTreat( $cmd, $dfVal){
 	$checked_arr = explode( "," , $dfVal );
-	$DSP = '<div >';
-	$i = 0;
+	$DSP = '<div name="'. htmlspecialchars($cmd['.attributes']['name']) .' >';
 	foreach( $cmd['op']  as $option ){
 		$DSP .= '<input type="radio" name="'. htmlspecialchars($cmd['.attributes']['name']) .'" ';
 		$DSP .= empty( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
@@ -133,10 +128,8 @@ function radioTreat( $cmd, $dfVal){
 		$DSP .= !is_null($dfVal) && (empty( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value']== $dfVal ) ? 'selected="true" ' : '';
 		$DSP .= '> ' ;
 		$DSP .= $option['.value'];
-		$DSP .= ( $i % 3 ==2 )? '<br />' : '' ;
-		$i++;
 	}
-	$DSP .= "</div> </br>\n" ;
+	$DSP .= '</div> ' ;
 	return $DSP;
 }
 ?>
