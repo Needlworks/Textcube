@@ -2,6 +2,7 @@
 $activePlugins = array();
 $eventMappings = array();
 $tagMappings = array();
+$centerMappings = array();
 $sidebarMappings = array();
 $centerMappings = array();
 
@@ -42,10 +43,8 @@ if (!empty($owner)) {
 			}
 			if ($xmls->doesExist('/plugin/binding/center')) {
 				foreach ($xmls->selectNodes('/plugin/binding/center') as $center) {
-					if (!empty($center['.attributes']['name']) && !empty($center['.attributes']['handler'])) {
-						if (!isset($centerMappings[$center['.attributes']['name']]))
-							$centerMappings[$center['.attributes']['name']] = array();
-						array_push($centerMappings[$center['.attributes']['name']], array('plugin' => $plugin, 'handler' => $center['.attributes']['handler']));
+					if (!empty($center['.attributes']['handler'])) {
+						array_push($centerMappings, array('plugin' => $plugin, 'handler' => $center['.attributes']['handler']));
 					}
 				}
 				unset($center);
@@ -96,7 +95,7 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 }
 
 function handleTags( & $content) {
-	global $service, $tagMappings, $pluginURL , $configMappings, $configVal;
+	global $service, $tagMappings, $pluginURL, $configMappings, $configVal;
 	if (preg_match_all('/\[##_(\w+)_##\]/', $content, $matches)) {
 		foreach ($matches[1] as $tag) {
 			if (!isset($tagMappings[$tag]))
@@ -118,27 +117,20 @@ function handleTags( & $content) {
 	}
 }
 
-function handleCenters( & $content) {
-	global $service, $centerMappings, $pluginURL , $configMappings, $configVal;
-	if (preg_match_all('/\[##_(\w+)_##\]/', $content, $matches)) {
-		foreach ($matches[1] as $tag) {
-			if (!isset($centerMappings[$tag]))
-				continue;
-			$target = '';
-			foreach ($centerMappings[$tag] as $mapping) {
-				include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
-				if (function_exists($mapping['handler'])) {
-					if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
-						$configVal = getCurrentSetting($mapping['plugin']);
-					else
-						$configVal ='';
-					$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
-					$target = call_user_func($mapping['handler'], $target);
-				}
-			}
-			dress($tag, $target, $content);
-		}
+function handleCenters($mapping) {
+	global $service, $pluginURL, $configMappings, $configVal;
+
+	include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
+	if (function_exists($mapping['handler'])) {
+		if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
+			$configVal = getCurrentSetting($mapping['plugin']);
+		else
+			$configVal ='';
+		$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
+		$target = call_user_func($mapping['handler'], $target);
 	}
+
+	return $target;
 }
 
 function handleSidebars( & $obj) {
