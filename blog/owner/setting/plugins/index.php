@@ -1,8 +1,15 @@
 <?
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
-require ROOT . '/lib/piece/owner/header5.php';
-require ROOT . '/lib/piece/owner/contentMenu53.php';
+if (defined('__TATTERTOOLS_CENTER__')) {
+	require ROOT . '/lib/piece/owner/headerA.php';
+	require ROOT . '/lib/piece/owner/contentMenuA1.php';
+	$scopeType = 'dashboard';
+	$_POST['scopeType'] = $scopeType;
+} else {
+	require ROOT . '/lib/piece/owner/header5.php';
+	require ROOT . '/lib/piece/owner/contentMenu53.php';
+}
 
 if (empty($_POST['sortType'])) {
 	$sortType = getUserSetting("pluginListSortType","ascend");
@@ -14,7 +21,7 @@ if (empty($_POST['scopeType'])) {
 	$scopeType = getUserSetting("pluginListScopeType","all");
 	$_POST['scopeType'] = $scopeType;
 }
-setUserSetting("pluginListScopeType",$_POST['scopeType']);
+if (!defined('__TATTERTOOLS_CENTER__')) setUserSetting("pluginListScopeType",$_POST['scopeType']);
 
 if (empty($_POST['listedPluginStatus'])) {
 	$listType = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'listedPluginStatus'");
@@ -94,16 +101,29 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 						</script>
 						
 						<form id="part-setting-plugins" class="part" method="post" action="<?=$blogURL?>/owner/setting/plugins">
-							<h2 class="caption"><span class="main-text"><?=_t('설치된 플러그인입니다')?></span></h2>
+							<h2 class="caption"><span class="main-text"><?
+if (defined('__TATTERTOOLS_CENTER__'))
+	echo _t('설치된 알리미 플러그인입니다');
+else 
+	echo _t('설치된 플러그인입니다');
+?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('플러그인은 태터툴즈의 기능을 확장해 줍니다. 설치된 플러그인은 이 메뉴에서 사용여부를 결정합니다.')?></p>
+								<p class="explain"><?
+if (defined('__TATTERTOOLS_CENTER__'))
+	echo _t('알리미는 태터툴즈 알림판에 기능을 추가하는 역할을 합니다. 이 곳에서 사용 여부를 결정합니다.');
+else
+	echo _t('플러그인은 태터툴즈의 기능을 확장해 줍니다. 설치된 플러그인은 이 메뉴에서 사용 여부를 결정합니다.');
+?></p>
 							</div>
 							
 							<fieldset id="plugin-display-box">
 								<legend><?=_t('표시될 플러그인 설정')?></legend>
 
-								<dl id="scope-line" class="line">
+<?
+if (!defined('__TATTERTOOLS_CENTER__')) {
+?>
+									<dl id="scope-line" class="line">
 									<dt><?=_t('종류')?></dt>
 									<dd>
 										<input type="radio" class="radio" id="global-scope" name="scopeType" value="all" onclick="changeList()"<?php echo $_POST['scopeType'] == "all" ? ' checked="checked"' : ''?> /> <label for="global-scope"><?=_t('전체')?></label>
@@ -114,6 +134,9 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 										<input type="radio" class="radio" id="none-scope" name="scopeType" value="none" onclick="changeList()"<?php echo $_POST['scopeType'] == "none" ? ' checked="checked"' : ''?> /> <label for="none-scope"><?=_t('미지정')?></label>
 									</dd>
 								</dl>
+<?
+}
+?>
 								<dl id="sorting-line" class="line">
 									<dt><?=_t('정렬')?></dt>
 									<dd>
@@ -199,9 +222,12 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	$active = in_array($pluginDir, $activePlugins);
 
 	if (empty($scope)) $scope = 'none';
+
 	if ($_POST['scopeType'] != 'all')
 		if ($scope != $_POST['scopeType'])
 			continue;
+	if (!defined('__TATTERTOOLS_CENTER__') && $scope == 'dashboard')
+		continue;
 
 	if ($active == true && !in_array("activated", $_POST['listedPluginStatus']))
 		continue;

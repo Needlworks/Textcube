@@ -1,0 +1,889 @@
+@charset "utf-8";
+
+/* Blog ******************************************************************************************/
+
+/* basic ----------------------------------------------------------------------------------------*/
+#part-setting-basic dl dt
+{
+	padding-top                      : 4px;
+	width                            : 160px;
+}
+
+/* common section */
+#part-setting-basic #common-form
+{
+	float                            : left;
+	width                            : 400px;
+}
+
+#part-setting-basic #common-form .text-input
+{
+	width                            : 196px;
+}
+
+#part-setting-basic #common-form textarea
+{
+	width                            : 200px;
+}
+
+#part-setting-basic #common-form .button-box
+{
+	padding                          : 20px 0 10px 43px;
+	width                            : 400px;
+}
+
+#part-setting-basic #common-form .button-box .button
+{
+	margin                           : 0 auto;
+}
+
+/* multi section */
+#part-setting-basic #multi-form
+{
+	float                            : left;
+	width                            : 500px;
+}
+
+#part-setting-basic #multi-form .text-input
+{
+	margin                           : 0 2px;
+}
+
+#part-setting-basic #multi-form .button-box
+{
+	padding                          : 20px 0 10px 0;
+	width                            : 500px;
+}
+
+#part-setting-basic #multi-form .button-box .button
+{
+	margin                           : 0 auto;
+}
+
+#second-blog-address-line dt
+{
+	padding-top                      : 3px !important;
+}
+
+/* profile --------------------------------------------------------------------------------------*/
+#part-setting-profile .data-inbox
+{
+	padding-top                      : 3px !important;
+}
+
+#part-setting-profile img
+{
+	display                          : block;
+	margin-bottom                    : 5px;
+}
+
+#part-setting-profile dl
+{
+	clear                            : both;
+	padding-top                      : 10px;
+}
+
+#part-setting-profile dl dt
+{
+	padding-top                      : 5px;
+}
+
+#part-setting-profile dl dd
+{
+	line-height                      : 1.8em;
+}
+
+#part-setting-profile .button-box
+{
+	padding                          : 20px 0 10px 0;
+}
+
+#part-setting-profile .button-box .button
+{
+	margin                           : 0 auto;
+}
+
+#blogicon-section
+{
+	border-top                       : 1px dotted #CCCCCC;
+	margin                           : 12px 10px 0 10px;
+	padding-top                      : 3px;
+}
+
+#blogicon-section dl dt
+{
+	width                            : 190px;
+}
+
+#favicon-preview
+{
+	display                          : block;
+}
+
+/* thumbnail ----------------------------------------------------------------------------------*/
+#part-setting-thumbnail .data-inbox
+{
+	padding-top                      : 3px !important;
+}
+
+#part-setting-thumbnail img
+{
+	display                          : block;
+	margin-bottom                    : 5px;
+}
+
+#part-setting-thumbnail dl
+{
+	clear                            : both;
+	padding-top                      : 10px;
+}
+
+#part-setting-thumbnail dl dt
+{
+	padding-top                      : 5px;
+}
+
+#part-setting-thumbnail dl dd
+{
+	line-height                      : 1.8em;
+}
+
+#part-setting-thumbnail dl dd .text-input
+{
+	margin-right                     : 2px;
+}
+
+#part-setting-thumbnail .button-box
+{
+	padding                          : 20px 0 10px 0;
+}
+
+#part-setting-thumbnail .button-box .button
+{
+	margin                           : 0 auto;
+}
+
+#watermark-gamma-line p
+{
+	display                          : inline;
+}
+
+/* rss ------------------------------------------------------------------------------------------*/
+#rss-section
+{
+	margin-bottom                    : 5px;
+}
+
+#post-address-line,
+#open-type-line
+{
+	height                           : 2.5em !important;
+}
+
+#post-count-line dt,
+#open-range-line dt
+{
+	padding-top                      : 3px !important;
+}
+
+#guestbook-authority-line dt
+{
+	padding-top                      : 1px !important;
+}
+
+#part-setting-rss .button-box
+{
+	padding                          : 10px 0;
+}
+
+#part-setting-rss .button-box .button
+{
+	margin                           : 0 auto;
+}
+
+/* language & timezone --------------------------------------------------------------------------*/
+#part-setting-language .button-box
+{
+	padding                          : 15px 0 10px 0;
+}
+
+#part-setting-language .button-box .button
+{
+	margin                           : 0 auto;
+}
+
+/* editor ---------------------------------------------------------------------------------------*/
+#part-setting-editor .button-box
+{
+	padding                          : 20px 0 10px 0;
+}
+
+#part-setting-editor .button-box .button
+{
+	margin                           : 0 auto;
+}
+
+/* admin skin -----------------------------------------------------------------------------------*/
+#part-setting-admin .button-box
+{
+	padding                          : 20px 0 10px 0;
+}
+
+#part-setting-admin .button-box .button
+{
+	margin                           : 0 auto;
+}
+
+/* Account ***************************************************************************************/
+
+/* edit -----------------------------------------------------------------------------------------*/
+#part-setting-account dl dt
+{
+	padding-top                      : 3px;
+	width                            : 160px;
+}
+
+#part-setting-account .text-input
+{
+	width                            : 200px;
+}
+
+#part-setting-account #info-section .button-box
+{
+	padding                          : 15px 0 20px 0;
+}
+
+#part-setting-account #account-section .button-box
+{
+	padding                          : 15px 0 10px 0;
+}
+
+#part-setting-account .button-box .button
+{
+	margin                           : 0 auto;
+}
+
+/* letter ---------------------------------------------------------------------------------------*/
+#letter-section .title
+{
+	padding-top                      : 3px;
+	width                            : 160px;
+}
+
+#letter-section dl dt
+{
+	padding-top                      : 3px;
+}
+
+#letter
+{
+	background-image                 : url("./image/letterBody.gif");
+	background-position              : left top;
+	background-repeat                : repeat-y;
+	color                            : #000000;
+	margin                           : 0 auto;
+	width                            : 547px;
+}
+
+#letter-head
+{
+	background-image                 : url("./image/letterHeader.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	padding-top                      : 80px;
+	width                            : 547px;
+}
+
+#letter-head .line
+{
+	clear                            : both;
+	height                           : 2em;
+}
+
+#letter-head label
+{
+	display                          : block;
+	float                            : left;
+	font-weight                      : bold;
+	padding-right                    : 10px;
+	text-align                       : right;
+	width                            : 120px;
+}
+
+#letter-head .inter-word
+{
+	display                          : block;
+	float                            : left;
+}
+
+#letter-head .text-input
+{
+	display                          : block;
+	float                            : left;
+	margin-top                       : -3px;
+}
+
+#invitation_receiver
+{
+	background-image                 : url("./image/letterLine.gif");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	border                           : none;
+	width                            : 275px;
+}
+
+#invitation_identify
+{
+	background-image                 : url("./image/letterLine.gif");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	border                           : none;
+	margin-left                      : 2px;
+	width                            : 140px;
+}
+
+#letter-body
+{
+	background-image                 : url("./image/letterBody.gif");
+	background-position              : left top;
+	background-repeat                : repeat-y;
+	margin                           : 0;
+	width                            : 547px;
+}
+
+#letter-body textarea
+{
+	background-image                 : url("./image/letterLine.gif");
+	background-position              : left 1px;
+	border                           : none;
+	display                          : block;
+	height                           : 305px;
+	line-height                      : 17px;
+	margin                           : 20px auto;
+	padding                          : 3px 5px 0 5px;
+	width                            : 480px;
+}
+
+#letter-foot
+{
+	background-image                 : url("./image/letterFooter.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	padding                          : 0 0 30px 0;
+	width                            : 547px;
+}
+
+#letter-foot .line
+{
+	clear                            : both;
+	height                           : 2em;
+}
+
+#letter-foot label
+{
+	display                          : block;
+	float                            : left;
+	font-weight                      : bold;
+	padding-right                    : 10px;
+	text-align                       : right;
+	width                            : 120px;
+}
+
+#letter-foot .text-input
+{
+	display                          : block;
+	float                            : left;
+	margin-top                       : -3px;
+}
+
+#invitation_sender
+{
+	background-image                 : url("./image/letterLine.gif");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	border                           : none;
+	width                            : 275px;
+}
+
+#part-setting-invite .button-box
+{
+	clear                            : both;
+	margin-left                      : 175px;
+	padding                          : 20px 0;
+	width                            : 547px;
+}
+
+#part-setting-invite .button-box .button
+{
+	margin                           : 0 auto;
+	width                            : 150px;
+}
+
+#part-setting-invite .button-box .button span
+{
+	width                            : 146px;
+}
+
+/* list -----------------------------------------------------------------------------------------*/
+#list-section .title
+{
+	padding-top                      : 7px;
+	width                            : 160px;
+}
+
+#list-section dl
+{
+	height                           : auto !important;
+}
+
+#list-section dt
+{
+	float                            : none !important;
+	position                         : absolute;
+}
+
+#list-section dd
+{
+	float                            : none !important;
+	margin                           : 0 10px 0 175px;
+}
+
+#list-section table
+{
+	border-bottom                    : 2px solid #009DEA;
+	border-collapse                  : collapse;
+	width                            : 100%;
+}
+
+#list-section table thead
+{
+	background-color                 : #009DEA;
+	background-image                 : url("./image/table-head.gif");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+}
+
+#list-section table thead tr th
+{
+	color                            : #FFFFFF;
+	font-weight                      : bold;
+	text-transform                   : uppercase;
+	padding                          : 6px 5px 4px 5px;
+}
+
+#list-section table thead tr th.cancel
+{
+	padding                          : 2px 9px 0 5px !important;
+	width                            : 25px;
+}
+
+#list-section table tbody tr th
+{
+	padding                          : 6px 5px 4px 5px;
+}
+
+#list-section table tbody tr td
+{
+	background-color                 : #FFFFFF;
+	border-bottom                    : 1px dotted #CCCCCC;
+	color                            : #536576;
+	padding                          : 3px 5px;
+}
+
+
+#list-section table tbody tr .cancel-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/delete2.gif");
+	background-position              : left top;
+	height                           : 11px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 11px;
+}
+
+#list-section table thead tr th.cancel span,
+#list-section table tbody tr .cancel-button span
+{
+	display                          : none;
+}
+
+/* Plugins ***************************************************************************************/
+
+/* sorting setting ------------------------------------------------------------------------------*/
+#plugin-display-box
+{
+	padding                          : 15px 10px 5px 10px;
+	text-align                       : right;
+}
+
+#scope-line,
+#sorting-line,
+#activate-status-line
+{
+	display                          : inline;
+}
+
+#scope-line dt,
+#sorting-line dt,
+#activate-status-line dt
+{
+	display                          : none;
+}
+
+#scope-line dd,
+#sorting-line dd,
+#activate-status-line dd
+{
+	display                          : inline !important;
+	float                            : none !important;
+}
+
+#activated-plugin
+{
+	margin-left                      : 40px;
+}
+
+/* list table head ------------------------------------------------------------------------------*/
+#part-setting-plugins table.data-inbox
+{
+	table-layout                     : fixed;
+	width                            : 100%;
+}
+
+#part-setting-plugins table.data-inbox thead tr .title
+{
+	width                            : 25%;
+}
+
+#part-setting-plugins table.data-inbox thead tr .version
+{
+	width                            : 50px;
+}
+
+#part-setting-plugins table.data-inbox thead tr .scope
+{
+	width                            : 65px;
+}
+
+#part-setting-plugins table.data-inbox thead tr .maker
+{
+	width                            : 150px;
+}
+
+#part-setting-plugins table.data-inbox thead tr .config
+{
+	width                            : 60px;
+}
+
+#part-setting-plugins table.data-inbox thead tr .status
+{
+	width                            : 60px;
+}
+
+/* list table body ------------------------------------------------------------------------------*/
+#part-setting-plugins table.data-inbox tbody tr td.status .active-icon
+{
+	background-image                 : url("./image/icon_plugin.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	cursor                           : pointer;
+	display                          : block;
+	float                            : left;
+	height                           : 13px;
+	margin-right                     : 1px;
+	width                            : 12px;
+}
+
+#part-setting-plugins table.data-inbox tbody tr td.status .inactive-icon
+{
+	background-image                 : url("./image/icon_plugin.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	cursor                           : pointer;
+	display                          : block;
+	float                            : left;
+	height                           : 13px;
+	margin-right                     : 1px;
+	width                            : 12px;
+}
+
+/* Data ******************************************************************************************/
+
+/* common ---------------------------------------------------------------------------------------*/
+#part-data-correct div.data-inbox .explain,
+#part-data-backup div.data-inbox .explain,
+#part-data-restore div.data-inbox .explain,
+#part-data-remove div.data-inbox .explain
+{
+	background-color                 : transparent !important;
+	margin                           : 10px 0 0 0 !important;
+	padding                          : 0 !important;
+}
+
+#part-data-correct div.data-inbox .explain a:link,
+#part-data-correct div.data-inbox .explain a:visited,
+#part-data-backup div.data-inbox .explain a:link,
+#part-data-backup div.data-inbox .explain a:visited,
+#part-data-restore div.data-inbox .explain a:link,
+#part-data-restore div.data-inbox .explain a:visited,
+#part-data-remove div.data-inbox .explain a:link,
+#part-data-remove div.data-inbox .explain a:visited
+{
+	color                            : #000000 !important;
+}
+
+#part-data-correct div.data-inbox .explain a:hover,
+#part-data-correct div.data-inbox .explain a:active,
+#part-data-backup div.data-inbox .explain a:hover,
+#part-data-backup div.data-inbox .explain a:active,
+#part-data-restore div.data-inbox .explain a:hover,
+#part-data-restore div.data-inbox .explain a:active,
+#part-data-remove div.data-inbox .explain a:hover,
+#part-data-remove div.data-inbox .explain a:active
+{
+	color                            : #434343 !important;
+	text-decoration                  : none !important;
+}
+
+#part-data-correct div.data-inbox .image,
+#part-data-backup div.data-inbox .image,
+#part-data-restore div.data-inbox .image,
+#part-data-remove div.data-inbox .image
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #536576;
+	color                            : #000000;
+	cursor                           : pointer;
+	float                            : left;
+	font-family                      : Verdana, Tahoma, sans-serif;
+	font-size                        : 90%;
+	height                           : 49px;
+	margin                           : 0 20px 0 15px;
+	padding                          : 10px;
+	text-align                       : center;
+	width                            : 80px;
+}
+
+#part-data-correct div.data-inbox .explain,
+#part-data-backup div.data-inbox .explain,
+#part-data-restore div.data-inbox .explain,
+#part-data-remove div.data-inbox .explain
+{
+	margin-top                       : 15px;
+	padding                          : 0 20px;
+}
+
+#part-data-correct div.data-inbox .image img,
+#part-data-backup div.data-inbox .image img,
+#part-data-restore div.data-inbox .image img,
+#part-data-remove div.data-inbox .image img
+{
+	display                          : block;
+	margin                           : 7px auto 0 auto;
+}
+
+#part-data-remove div.data-inbox .image img
+{
+	margin-top                       : 0;
+}
+
+#part-data-correct div.data-inbox .image img
+{
+	margin-top                       : 5px;
+}
+
+/* dialog ---------------------------------------------------------------------------------------*/
+.part .dialog
+{
+	background-color                 : #FFFFFF;
+	border                           : 5px solid #BCD2E5;
+	margin-left                      : 10px;
+	padding                          : 10px;
+	width                            : 550px;
+}
+
+.part .dialog h3
+{
+	border-bottom                    : 1px dotted #CCCCCC;
+	display                          : block !important;
+	font-size                        : 1em;
+	padding                          : 9px 10px 15px 10px;
+}
+
+.part .dialog .message-body
+{
+	border-bottom                    : 1px dotted #CCCCCC;
+	padding-bottom                   : 4px;
+}
+
+.part .dialog .message-body .explain
+{
+	border-bottom                    : 1px dotted #CCCCCC;
+	font-family                      : µ¸¿ò, Dotum, ±¼¸², Gulim, sans-serif;
+	font-size                        : 90%;
+	padding                          : 5px 5px 3px 5px;
+}
+
+.part .dialog .message-body .explain em,
+.part .dialog .message-body .explain strong
+{
+	color                            : #FF0000;
+	font-weight                      : normal;
+}
+
+.part .dialog .message-body .explain .asterisk
+{
+	display                          : none;
+}
+
+.part .dialog .message
+{
+	padding                          : 20px 10px;
+	text-align                       : center;
+}
+
+.part .dialog .message-body .selection
+{
+	background-color                 : #EEEEEE;
+	margin                           : 0 3px;
+	padding                          : 10px 10px 6px 10px;
+	text-align                       : center;
+}
+
+.part .dialog .message-body .selection .select-yes,
+.part .dialog .message-body .selection .select-no,
+#part-data-restore .dialog .selection #select-server,
+#part-data-restore .dialog .selection #select-upload,
+#part-data-restore .dialog .selection #select-web
+{
+	display                          : inline;
+}
+
+#part-data-restore .dialog .selection #select-correct
+{
+	margin-top                       : 5px;
+	text-align                       : center;
+}
+
+.part .dialog #uploadBackup,
+.part .dialog #remoteBackup,
+.part .dialog #admin-password
+{
+	margin-top                       : 5px;
+	padding                          : 5px;
+	text-align                       : center;
+}
+
+.part .dialog #remoteBackup input.text-input
+{
+	margin-bottom                    : 2px;
+	padding                          : 2px;
+	vertical-align                   : middle;
+	width                            : 350px;
+}
+
+.part .dialog #admin-password input.text-input
+{
+	margin-bottom                    : 2px;
+	padding                          : 2px;
+	vertical-align                   : middle;
+}
+
+/* system dialog --------------------------------------------------------------------------------*/
+.part .system-dialog
+{
+	background-color                 : #FFFFFF;
+	border                           : 5px solid #BCD2E5;
+	margin-left                      : 10px;
+	padding                          : 10px;
+	width                            : 550px;
+}
+
+.part .system-dialog h4
+{
+	display                          : block !important;
+}
+
+.part .system-dialog .message-sub
+{
+	border                           : 1px solid #EEEEEE;
+	margin-top                       : 10px;
+	padding                          : 10px;
+}
+
+.part .system-dialog .progressBar
+{
+	background-color                 : #1C6D9C !important;
+}
+
+/* buttons --------------------------------------------------------------------------------------*/
+#part-data-backup .button-box,
+#part-data-restore .button-box,
+#part-data-remove .button-box
+{
+	height                           : 43px;
+	padding-top                      : 18px;
+}
+
+#part-data-backup .button-box .button,
+#part-data-restore .button-box .button,
+#part-data-remove .button-box .button
+{
+	background-color                 : #A6C5F0;
+	background-image                 : url("./image/maskRoundLeft.gif");
+	height                           : 34px;
+	margin                           : 0 auto;
+	padding-left                     : 6px;
+	width                            : 132px;
+}
+
+#part-data-backup .button-box .button span,
+#part-data-restore .button-box .button span,
+#part-data-remove .button-box .button span
+{
+	background-color                 : #A6C5F0;
+	background-image                 : url("./image/maskRoundRight.gif");
+	font-weight                      : bold;
+	height                           : 34px;
+	line-height                      : 29px;
+	padding                          : 4px 6px 0 0;
+	text-align                       : center;
+	width                            : 126px;
+}
+
+#part-data-backup .button-box .close-button,
+#part-data-restore .button-box .close-button,
+#part-data-remove .button-box .close-button
+{
+	background-image                 : url("./image/buttonClose.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;	
+	display                          : block;
+	height                           : 13px;
+	margin                           : 0;
+	padding                          : 0;
+	position                         : absolute;
+	right                            : 18px;
+	top                              : 18px;
+	width                            : 13px;
+}
+
+#part-data-backup .button-box .close-button span,
+#part-data-restore .button-box .close-button span,
+#part-data-remove .button-box .close-button span
+{
+	display                          : none !important;
+}
+
+#part-data-backup .button-box a.server-button
+{
+	float                            : left;
+	margin                           : 0 0 0 130px;
+}
+
+#part-data-backup .button-box a.local-button
+{
+	float                            : right;
+	margin                           : 0 130px 0 0;
+}
