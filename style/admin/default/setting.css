@@ -571,6 +571,11 @@
 	width                            : 150px;
 }
 
+#part-setting-plugins table.data-inbox thead tr .config
+{
+	width                            : 60px;
+}
+
 #part-setting-plugins table.data-inbox thead tr .status
 {
 	width                            : 60px;

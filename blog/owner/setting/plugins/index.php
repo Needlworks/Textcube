@@ -78,15 +78,15 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 									document.getElementById("part-setting-plugins").submit();
 								}
 								
-								window.addEventListener("load", loadPluignList, false);
+								window.addEventListener("load", loadPluginList, false);
 								
-								function loadPluignList() {
+								function loadPluginList() {
 									document.getElementById('submit-button-box').parentNode.removeChild(document.getElementById('submit-button-box'));
 								}
 								var currentSetting='';
 								function getCurrentSetting( plugin, setYN){
 									if( "N" == setYN ) return ;
-									if( '' != currentSetting ) currentSetting.close();//'' );
+									if( '' != currentSetting ) currentSetting.close();
 									window.open('<?=$blogURL?>/owner/setting/plugins/currentSetting/?Name='+plugin,'CurrentSetting', 'width=500, height=400, scrollbars=1, status=0');	
 									return;
 								}								
@@ -142,7 +142,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 										<th class="scope"><span class="text"><?=_t('종류')?></span></th>
 										<th class="explain"><span class="text"><?=_t('설명')?></span></th>
 										<th class="maker"><span class="text"><?=_t('만든이')?></span></th>
-										<th class="maker"><span class="text"><?=_t('설정')?></span></th>
+										<th class="config"><span class="text"><?=_t('설정')?></span></th>
 										<th class="status"><span class="text"><?=_t('상태')?></span></th>
 									</tr>
 								</thead>
@@ -227,11 +227,18 @@ switch($scope) {
 ?></td>
 										<td class="explain"><?=$description?></td>
 										<td class="maker"><?=($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author)?></td>
-										<? /*임시입니당 */?>
-										<td class="config"><span onclick="getCurrentSetting('<?=$pluginDir?>','<?=$config?>')" style="cursor:hand;display:<?=$config=='Y'?'inline':'none'?>;">설정</span></td>										
-
+										<td class="config">
+<?
+	if ($config=='Y') {
+?>
+										<span id="config_<?=$i?>" class="config-enabled-icon bullet" onclick="getCurrentSetting('<?=$pluginDir?>','<?=$config?>')"><?=_t('설정가능')?></span></td>
+<?
+	} else {
+?>
+										<span id="config_<?=$i?>" class="config-disabled-icon bullet"><?=_t('설정없음')?></span></td>
 										<td class="status">
 <?
+	}
 	if ($active) {
 ?>
 											<span id="plugin_<?=$i?>" class="active-icon bullet" onclick="togglePlugin('<?=$pluginDir?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span></span></span><a id="plugin<?=$i?>Link" href="#void" onclick="togglePlugin('<?=$pluginDir?>',<?=$i?>)" title="<?=_t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span class="text"><?=_t('사용중')?></span></a>
@@ -255,7 +262,7 @@ switch($scope) {
 							<h2 class="caption"><span class="main-text"><?=_t('플러그인을 구하려면')?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('추가 플러그인은 <a href="http://www.tattertools.com/plugin" onclick="window.open(this.href); return false;" title="태터툴즈 홈페이지에 개설되어 있는 플러그인 업로드 게시판으로 연결합니다.">태터툴즈 홈의 플러그인 게시판</a>에서 구하실 수 있습니다. 일반적으로 플러그인 파일을 태터툴즈의 plugin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 플러그인은 이 메뉴에서 \'사용중\'으로 전환하여 사용을 시작합니다. 추천 플러그인에 대한 정보는 <a href="http://plugin.tattertools.com" onclick="window.open(this.href); return false;">TnF의 플러그인 리뷰</a>를 참고하십시오.')?></p>
+								<p class="explain"><?php echo _t('추가 플러그인은 <a href="http://www.tattertools.com/plugin" onclick="window.open(this.href); return false;" title="태터툴즈 홈페이지에 개설되어 있는 플러그인 업로드 게시판으로 연결합니다.">태터툴즈 홈페이지의 플러그인 게시판</a>에서 구하실 수 있습니다. 일반적으로 플러그인 파일을 태터툴즈의 plugin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 플러그인은 이 메뉴에서 \'사용중\'으로 전환하여 사용을 시작합니다. 추천 플러그인에 대한 정보는 <a href="http://plugin.tattertools.com" onclick="window.open(this.href); return false;">TnF의 플러그인 리뷰</a>를 참고하십시오.')?></p>
 							</div>
 						</div>	
 <?
