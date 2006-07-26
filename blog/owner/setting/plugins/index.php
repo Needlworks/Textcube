@@ -94,7 +94,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 								function getCurrentSetting( plugin, setYN){
 									if( "N" == setYN ) return ;
 									if( '' != currentSetting ) currentSetting.close();
-									window.open('<?php echo $blogURL?>/owner/setting/plugins/currentSetting/?Name='+plugin,'CurrentSetting', 'width=500, height=400, scrollbars=1, status=0');	
+									window.open('<?php echo $blogURL?>/owner/setting/plugins/currentSetting/?Name='+plugin,'CurrentSetting', 'width=500, height=400, scrollbars=1, status=0, resizable=1');	
 									return;
 								}								
 							//]]>
