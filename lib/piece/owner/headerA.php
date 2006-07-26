@@ -24,7 +24,7 @@
 	<script type="text/javascript" src="<?php echo  $service['path']?>/style/base.js"></script>
 	<script type="text/javascript" src="<?php echo  $service['path'].$adminSkinSetting['skin']?>/custom.js"></script>
 </head>
-<body id="body-post">
+<body id="body-center">
 	<div id="temp-wrap">
 		<div id="all-wrap">
 			<div id="layout-header">
