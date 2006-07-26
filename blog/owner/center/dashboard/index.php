@@ -11,7 +11,7 @@ require ROOT . '/lib/piece/owner/contentMenuA0.php';
 <?php
 foreach ($centerMappings as $mapping) {
 ?>
-								<div id="<?php echo $mapping['plugin']?>">
+								<div id="<?php echo $mapping['plugin']?>" class="section">
 									<h3><?php echo $mapping['title']?></h3>
 <?php echo handleCenters($mapping)?>
 								</div>
