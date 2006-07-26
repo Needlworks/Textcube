@@ -215,7 +215,8 @@ if ($service['type'] != 'single') {
 									}
 									request.send("userid=" + userid);
 								}
-<?php}
+<?php
+}
 ?>							//]]>
 						</script>
 						
