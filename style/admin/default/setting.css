@@ -582,30 +582,24 @@
 }
 
 /* list table body ------------------------------------------------------------------------------*/
-#part-setting-plugins table.data-inbox tbody tr td.status .active-icon
+#part-setting-plugins table.data-inbox tbody tr td.status .active-class
 {
 	background-image                 : url("./image/icon_plugin.gif");
 	background-position              : left bottom;
 	background-repeat                : no-repeat;
 	cursor                           : pointer;
 	display                          : block;
-	float                            : left;
-	height                           : 13px;
-	margin-right                     : 1px;
-	width                            : 12px;
+	padding-left                     : 16px;
 }
 
-#part-setting-plugins table.data-inbox tbody tr td.status .inactive-icon
+#part-setting-plugins table.data-inbox tbody tr td.status .inactive-class
 {
 	background-image                 : url("./image/icon_plugin.gif");
-	background-position              : left top;
+	background-position              : left -1px;
 	background-repeat                : no-repeat;
 	cursor                           : pointer;
 	display                          : block;
-	float                            : left;
-	height                           : 13px;
-	margin-right                     : 1px;
-	width                            : 12px;
+	padding-left                     : 16px;
 }
 
 /* Data ******************************************************************************************/

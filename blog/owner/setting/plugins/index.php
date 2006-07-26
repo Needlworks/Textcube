@@ -49,10 +49,9 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 									if (!tempStr.match('<?php echo _t('사용중')?>')) {
 										var request = new HTTPRequest("<?php echo $blogURL?>/owner/setting/plugins/activate?name=" + plugin);
 										request.onSuccess = function() {												
-											document.getElementById("plugin_" + num).className = 'active-icon bullet';
+											document.getElementById("plugin" + num + "Link").className = 'active-class';
 											
 											document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?php echo _t('사용중')?></span>';
-											document.getElementById("plugin_" + num).setAttribute('title', '<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>');
 											document.getElementById("plugin" + num + "Link").setAttribute('title', '<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>');
 											
 											objTR = getParentByTagName("TR", document.getElementById("plugin" + num + "Link"));
@@ -65,10 +64,9 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 									} else {
 										var request = new HTTPRequest("<?php echo $blogURL?>/owner/setting/plugins/deactivate?name=" + plugin);
 										request.onSuccess = function() {
-											document.getElementById("plugin_" + num).className = 'inactive-icon bullet';
+											document.getElementById("plugin" + num + "Link").className = 'inactive-class';
 											
 											document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?php echo _t('미사용')?></span>';
-											document.getElementById("plugin_" + num).setAttribute('title', '<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>');
 											document.getElementById("plugin" + num + "Link").setAttribute('title', '<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>');
 											
 											objTR = getParentByTagName("TR", document.getElementById("plugin" + num + "Link"));
@@ -208,6 +206,7 @@ if ($_POST['sortType'] == "ascend") {
 }
 
 $arrayKeys = array_keys($plugins);
+$rowCount = 0;
 for ($i=0; $i<count($arrayKeys); $i++) {
 	$pluginDir = $arrayKeys[$i];
 	
@@ -234,22 +233,23 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	else if ($active == false && !in_array("deactivated", $_POST['listedPluginStatus']))
 		continue;
 	
-	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
+	$className = ($rowCount % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($plugins) - 1) ? ' last-line' : '';
 	$className .= $active ? ' active-class' : ' inactive-class';
 ?>
 									<tr class="<?php echo  $className?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="title"><?php echo ($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title)?></td>
 										<td class="version"><?php echo $version?></td>
-										<td class="scope"><?php
-switch($scope) {
-	case 'global': echo _t('일반');break;
-	case 'blog': echo _t('블로그');break;
-	case 'admin': echo _t('관리자');break;
-	case 'sidebar': echo _t('사이드바');break;
-	case 'center': echo _t('센터');break;
-	default : echo _t('미지정');break;
-}	
+										<td class="scope">
+<?php
+	switch($scope) {
+		case 'global': echo _t('일반');break;
+		case 'blog': echo _t('블로그');break;
+		case 'admin': echo _t('관리자');break;
+		case 'sidebar': echo _t('사이드바');break;
+		case 'center': echo _t('센터');break;
+		default : echo _t('미지정');break;
+	}	
 ?></td>
 										<td class="explain"><?php echo $description?></td>
 										<td class="maker"><?php echo ($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author)?></td>
@@ -257,29 +257,31 @@ switch($scope) {
 <?php
 	if ($config=='Y') {
 ?>
-										<span id="config_<?php echo $i?>" class="config-enabled-icon bullet" onclick="getCurrentSetting('<?php echo $pluginDir?>','<?php echo $config?>')"><?php echo _t('설정가능')?></span></td>
+											<a href="#void" id="config_<?php echo $i?>" class="config-enabled-icon bullet" onclick="getCurrentSetting('<?php echo $pluginDir?>','<?php echo $config?>')"><?php echo _t('설정가능')?></a>
 <?php
 	} else {
 ?>
-										<span id="config_<?php echo $i?>" class="config-disabled-icon bullet"><?php echo _t('설정없음')?></span></td>
+											<span id="config_<?php echo $i?>" class="config-disabled-icon bullet"><?php echo _t('설정없음')?></span>
 <?php
 	}
 ?>
+										</td>
 										<td class="status">
 <?php
 	if ($active) {
 ?>
-											<span id="plugin_<?php echo $i?>" class="active-icon bullet" onclick="togglePlugin('<?php echo $pluginDir?>',<?php echo $i?>)" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span></span></span><a id="plugin<?php echo $i?>Link" href="#void" onclick="togglePlugin('<?php echo $pluginDir?>',<?php echo $i?>)" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span class="text"><?php echo _t('사용중')?></span></a>
+											<a id="plugin<?php echo $i?>Link" class="active-class" href="#void" onclick="togglePlugin('<?php echo $pluginDir?>',<?php echo $i?>)" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.')?>"><span class="text"><?php echo _t('사용중')?></span></a>
 <?php
 	} else {
 ?>
-											<span id="plugin_<?php echo $i?>" class="inactive-icon bullet" onclick="togglePlugin('<?php echo $pluginDir?>',<?php echo $i?>)" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span></span></span><a id="plugin<?php echo $i?>Link" href="#void" onclick="togglePlugin('<?php echo $pluginDir?>',<?php echo $i?>)" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span class="text"><?php echo _t('미사용')?></span></a>
+											<a id="plugin<?php echo $i?>Link" class="inactive-class" href="#void" onclick="togglePlugin('<?php echo $pluginDir?>',<?php echo $i?>)" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.')?>"><span class="text"><?php echo _t('미사용')?></span></a>
 <?php
 	}
 ?>
 										</td>
 									</tr>
 <?php
+	$rowCount++;
 }
 ?>
 								</tbody>
