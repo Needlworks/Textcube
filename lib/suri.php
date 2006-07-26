@@ -63,7 +63,7 @@ if (defined('__TATTERTOOLS_MOBILE__')) {
 }
 unset($url, $domain);
 if (!file_exists(ROOT . '/config.php')) {
-	header("Location: $blogURL/setup.php");
+	header('Location: ' . ROOT . '/setup.php');
 	exit;
 }
 
