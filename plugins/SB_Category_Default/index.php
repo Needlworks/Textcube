@@ -29,11 +29,11 @@ function _printTreeView($tree,$selected,$skin,$xhtml=false){
 //<![CDATA[
 	var expanded = false;
 	function expandTree() {
-<?
+<?php
 	foreach($tree['children'] as $level1){
 		if(!empty($level1['children'])){?>
-		expandFolder(<?=$level1['id']?>, true);
-<?
+		expandFolder(<?php echo $level1['id']?>, true);
+<?php
 		}
 	}?>
 	}
@@ -43,11 +43,11 @@ function _printTreeView($tree,$selected,$skin,$xhtml=false){
 		var oImg = oLevel1.getElementsByTagName("img")[0];
 		switch (expand) {
 			case true:
-				oImg.src = "<?=$skin['url']?>/tab_opened.gif";
+				oImg.src = "<?php echo $skin['url']?>/tab_opened.gif";
 				showLayer("category_" + category + "_children");
 				return true;
 			case false:
-				oImg.src = "<?=$skin['url']?>/tab_closed.gif";
+				oImg.src = "<?php echo $skin['url']?>/tab_closed.gif";
 				hideLayer("category_" + category + "_children");
 				return true;
 		}
@@ -61,12 +61,12 @@ function _printTreeView($tree,$selected,$skin,$xhtml=false){
 			case "isleaf":
 				return true;
 			case "closed":
-				oImg.src = "<?=$skin['url']?>/tab_opened.gif";
+				oImg.src = "<?php echo $skin['url']?>/tab_opened.gif";
 				showLayer("category_" + category + "_children");
 				expanded = true;
 				return true;
 			case "opened":
-				oImg.src = "<?=$skin['url']?>/tab_closed.gif";
+				oImg.src = "<?php echo $skin['url']?>/tab_closed.gif";
 				hideLayer("category_" + category + "_children");
 				expanded = false;
 				return true;
@@ -82,26 +82,26 @@ function _printTreeView($tree,$selected,$skin,$xhtml=false){
 			var oLevel = document.getElementById("category_" + selectedNode);
 			var oChild = oLevel.getElementsByTagName("table")[0];
 			
-			oChild.style.color = "#<?=$skin['itemColor']?>";			
-<?
+			oChild.style.color = "#<?php echo $skin['itemColor']?>";			
+<?php
 	if($skin['itemBgColor']!='')
 		echo "			oChild.style.backgroundColor = \"#{$skin['itemBgColor']}\"";
 	else
 		echo "			oChild.style.backgroundColor = \"\"";?>			
 						
 			root.setAttribute('currentselectednode',category);
-			document.getElementById('text_'+selectedNode).style.color="#<?=$skin['itemColor']?>";
+			document.getElementById('text_'+selectedNode).style.color="#<?php echo $skin['itemColor']?>";
 			
 			var oLevel = document.getElementById("category_" + category);
 			var oChild = oLevel.getElementsByTagName("table")[0];
-			oChild.style.color = "#<?=$skin['activeItemColor']?>";
-<?
+			oChild.style.color = "#<?php echo $skin['activeItemColor']?>";
+<?php
 	if($skin['activeItemBgColor']!='')
 		echo "			oChild.style.backgroundColor = \"#{$skin['activeItemBgColor']}\"";
 	else
 		echo "			oChild.style.backgroundColor = \"\"";?>			
 			
-			document.getElementById('text_'+category).style.color="#<?=$skin['activeItemColor']?>";
+			document.getElementById('text_'+category).style.color="#<?php echo $skin['activeItemColor']?>";
 			
 			selectedNode = category;
 		} catch(e) {
@@ -139,33 +139,33 @@ function _printTreeView($tree,$selected,$skin,$xhtml=false){
 	}
 //]]>
 </script>
-	<?
+	<?php
 	if($skin['itemBgColor']==""){
 		$itemBgColor='';
 	}else{
 		$itemBgColor='background-color: #'.$skin['itemBgColor'].';';
 	}?>
-	<table id="treeComponent" currentselectednode="<?=$selected?>" cellpadding="0" cellspacing="0" style="width: 100%;"><tr>
+	<table id="treeComponent" currentselectednode="<?php echo $selected?>" cellpadding="0" cellspacing="0" style="width: 100%;"><tr>
 	<td>
 		<table id="category_0" name="treeNode" cellpadding="0" cellspacing="0"><tr>
-			<td class="ib" style="font-size: 1px"><img src="<?=$skin['url']?>/tab_top.gif" width="16" onclick="expandTree()" alt=""/></td>
+			<td class="ib" style="font-size: 1px"><img src="<?php echo $skin['url']?>/tab_top.gif" width="16" onclick="expandTree()" alt=""/></td>
 			<td valign="top" style="font-size:9pt; padding-left:3px">
-				<table onclick="<?
-	if($action==1){?> alert(3);onclick_setimp(window, this, c_ary, t_ary); <?
-	}?>" id="imp0" cellpadding="0" cellspacing="0" style="<?=$itemBgColor?>"><tr>
-					<?
+				<table onclick="<?php
+	if($action==1){?> alert(3);onclick_setimp(window, this, c_ary, t_ary); <?php
+	}?>" id="imp0" cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor?>"><tr>
+					<?php
 	if(empty($tree['link']))
 		$link='onclick="selectNode(0)"';
 	else
 		$link='onclick="window.location.href=\''.escapeJSInAttribute($tree['link']).'\'"';?>
-					<td class="branch3" <?=$link?>><div id="text_0" style=" color: #<?=$skin['itemColor']?>;"><?=htmlspecialchars($tree['label'])?> <?
+					<td class="branch3" <?php echo $link?>><div id="text_0" style=" color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars($tree['label'])?> <?php
 	if($skin['showValue'])
 		print "<span class=\"c_cnt\">({$tree['value']})</span>";?></div></td>
 				</tr></table>
 			</td>
 		</tr></table>
 
-<?
+<?php
 	$parentOfSelected=false;
 	$i=count($tree['children']);
 	foreach($tree['children'] as $row){
@@ -174,18 +174,18 @@ function _printTreeView($tree,$selected,$skin,$xhtml=false){
 			$link='onclick="selectNode('.$row['id'].')"';
 		else
 			$link='onclick="window.location.href=\''.escapeJSInAttribute($row['link']).'\'"';?>
-		<table name="treeNode"  id="category_<?=$row['id']?>" cellpadding="0" cellspacing="0"><tr>
-			<td class="ib" style="width:39px; font-size: 1px; background-image: url('<?=$skin['url']?>/navi_back_noactive<?=($i?'':'_end')?>.gif')"><a class="click" onclick="toggleFolder('<?=$row['id']?>')"><img src="<?=$skin['url']?>/tab_<?=(count($row['children'])?'closed':'isleaf')?>.gif" width="39" alt=""/></a></td>
+		<table name="treeNode"  id="category_<?php echo $row['id']?>" cellpadding="0" cellspacing="0"><tr>
+			<td class="ib" style="width:39px; font-size: 1px; background-image: url('<?php echo $skin['url']?>/navi_back_noactive<?php echo ($i?'':'_end')?>.gif')"><a class="click" onclick="toggleFolder('<?php echo $row['id']?>')"><img src="<?php echo $skin['url']?>/tab_<?php echo (count($row['children'])?'closed':'isleaf')?>.gif" width="39" alt=""/></a></td>
 			<td>
-				<table cellpadding="0" cellspacing="0" style="<?=$itemBgColor?>"><tr>
-					<td class="branch3" <?=$link?>><div id="text_<?=$row['id']?>" style="color: #<?=$skin['itemColor']?>;"><?=htmlspecialchars(UTF8::lessenAsEm($row['label'],$skin['labelLength']))?> <?
+				<table cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor?>"><tr>
+					<td class="branch3" <?php echo $link?>><div id="text_<?php echo $row['id']?>" style="color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($row['label'],$skin['labelLength']))?> <?php
 		if($skin['showValue'])
 			print "<span class=\"c_cnt\">({$row['value']})</span>";?></div></td>
 				</tr></table>
 			</td>
 		</tr></table>
-		<div id="category_<?=$row['id']?>_children" style="display:none">
-<?
+		<div id="category_<?php echo $row['id']?>_children" style="display:none">
+<?php
 		$j=count($row['children']);
 		foreach($row['children'] as $irow){
 			if($irow['id']==$selected)
@@ -199,35 +199,35 @@ function _printTreeView($tree,$selected,$skin,$xhtml=false){
 				$link='onclick="selectNode('.$irow['id'].')"';
 			else
 				$link='onclick="window.location.href=\''.escapeJSInAttribute($irow['link']).'\'"';?>
-				<table id="category_<?=$irow['id']?>" name="treeNode" cellpadding="0" cellspacing="0"><tr>
-				<td style="width:39px; font-size: 1px"><img src="<?=$skin['url']?>/navi_back_active<?=($i?'':'_end')?>.gif" width="17" height="18" alt=""/><img src="<?=$skin['url']?>/tab_treed<?
+				<table id="category_<?php echo $irow['id']?>" name="treeNode" cellpadding="0" cellspacing="0"><tr>
+				<td style="width:39px; font-size: 1px"><img src="<?php echo $skin['url']?>/navi_back_active<?php echo ($i?'':'_end')?>.gif" width="17" height="18" alt=""/><img src="<?php echo $skin['url']?>/tab_treed<?php
 			if(!$j)
 				print "_end";?>.gif" width="22" alt=""/></td>
 				<td>
-					<table <?=$link?> cellpadding="0" cellspacing="0" style="<?=$itemBgColor?>"><tr>
-					<td class="branch3"><div id="text_<?=$irow['id']?>" style="color: #<?=$skin['itemColor']?>;"><?=htmlspecialchars(UTF8::lessenAsEm($irow['label'],$skin['labelLength']))?> <?=($skin['showValue']?"<span class=\"c_cnt\">({$irow['value']})</span>":'')?></div></td>
+					<table <?php echo $link?> cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor?>"><tr>
+					<td class="branch3"><div id="text_<?php echo $irow['id']?>" style="color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($irow['label'],$skin['labelLength']))?> <?php echo ($skin['showValue']?"<span class=\"c_cnt\">({$irow['value']})</span>":'')?></div></td>
 					</tr></table>
 				</td>
 				</tr></table>
-<?
+<?php
 		}?>
 		</div>
-<?
+<?php
 	}?>
 	</td></tr></table>
-<?
+<?php
 	if(is_numeric($selected)){?>
 <script type="text/javascript">
 //<![CDATA[
-<?
+<?php
 		if($parentOfSelected){?>
-	expandFolder(<?=$parentOfSelected?>, true);
-<?
+	expandFolder(<?php echo $parentOfSelected?>, true);
+<?php
 		}?>
-	selectNode(<?=$selected?>);
+	selectNode(<?php echo $selected?>);
 //]]>
 </script>
-<?
+<?php
 	}
 } //end printTreeView
 

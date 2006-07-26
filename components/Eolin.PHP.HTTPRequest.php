@@ -1,4 +1,4 @@
-<?
+<?php
 class HTTPRequest {
 	var $method = 'GET', $url, $contentType = 'application/x-www-form-urlencoded', $content = '', $eTag, $lastModified, $timeout = 10, $responseText, $pathToSave;
 	

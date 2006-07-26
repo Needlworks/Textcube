@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
 if (isset($_GET['requestURI']))

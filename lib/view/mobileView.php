@@ -5,15 +5,15 @@ function printMobileEntryContentView($owner, $entry, $keywords = array()) {
 	else
 	{
 	?>
-	<p><?=_text('보호된 글입니다')?></p>
-	<form method="post" action="protected/<?=$entry['id']?>">
+	<p><?php echo _text('보호된 글입니다')?></p>
+	<form method="post" action="protected/<?php echo $entry['id']?>">
 		<div>
-		<label for="password"><?=_text('비밀번호')?></label>
+		<label for="password"><?php echo _text('비밀번호')?></label>
 		<input type="password" id="password" name="password" />
-		<input type="submit" value="<?=_text('내용보기')?>" />
+		<input type="submit" value="<?php echo _text('내용보기')?>" />
 		</div>
 	</form>
-	<?
+	<?php
 	}
 }
 
@@ -24,11 +24,11 @@ function printMobileHtmlHeader($title = '') {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<title><?php echo $title?></title>
+		<title><?php echo  $title?></title>
 	</head>
 	<body>
 		<div id="header">
-			<h1><a href="<?php echo $blogURL?>" accesskey="0"><?php echo htmlspecialchars($blog['title'])?></a></h1>
+			<h1><a href="<?php echo  $blogURL?>" accesskey="0"><?php echo  htmlspecialchars($blog['title'])?></a></h1>
 		</div>
 		<hr />
 <?php
@@ -37,7 +37,7 @@ function printMobileHtmlHeader($title = '') {
 function printMobileHtmlFooter() {
 ?>
 		<hr />
-		<p>Powered by <a href="<?php echo TATTERTOOLS_HOMEPAGE?>"><?php echo TATTERTOOLS_NAME?></a></p>
+		<p>Powered by <a href="<?php echo  TATTERTOOLS_HOMEPAGE?>"><?php echo  TATTERTOOLS_NAME?></a></p>
 	</body>
 </html>
 <?php
@@ -52,32 +52,32 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 		<?php
 	if (isset($paging['prev'])) {
 ?>
-		<li><a href="<?php echo$blogURL?>/<?php echo $paging['prev']?>" accesskey="1"><?php echo _text('이전 글 보기')?></a></li>
+		<li><a href="<?php echo $blogURL?>/<?php echo  $paging['prev']?>" accesskey="1"><?php echo  _text('이전 글 보기')?></a></li>
 		<?php
 	}
 	if (isset($paging['next'])) {
 ?>
-		<li><a href="<?php echo $blogURL?>/<?php echo $paging['next']?>" accesskey="2"><?php echo _text('다음 글 보기')?></a></li>
+		<li><a href="<?php echo  $blogURL?>/<?php echo  $paging['next']?>" accesskey="2"><?php echo  _text('다음 글 보기')?></a></li>
 		<?php
 	}
 	if (!isset($paging)) {
 ?>	
-		<li><a href="<?php echo $blogURL?>/<?php echo $entry['id']?>" accesskey="3"><?php echo _text('포스트보기')?></a></li>
+		<li><a href="<?php echo  $blogURL?>/<?php echo  $entry['id']?>" accesskey="3"><?php echo  _text('포스트보기')?></a></li>
 		<?php
 	}
 	if ($jumpToComment) {
 ?>
-		<li><a href="<?php echo $blogURL?>/comment/<?php echo $entry['id']?>" accesskey="4"><?php echo _text('답글 보기')?> (<?php echo $entry['comments']?>)</a></li>
+		<li><a href="<?php echo  $blogURL?>/comment/<?php echo  $entry['id']?>" accesskey="4"><?php echo  _text('답글 보기')?> (<?php echo  $entry['comments']?>)</a></li>
 		<?php
 	}
 	if ($jumpToTrackback) {
 ?>
-		<li><a href="<?php echo $blogURL?>/trackback/<?php echo $entry['id']?>" accesskey="5"><?php echo _text('트랙백보기')?> (<?php echo $entry['trackbacks']?>)</a></li>
+		<li><a href="<?php echo  $blogURL?>/trackback/<?php echo  $entry['id']?>" accesskey="5"><?php echo  _text('트랙백보기')?> (<?php echo  $entry['trackbacks']?>)</a></li>
 		<?php
 	}
 	if ($suri['directive'] != '/m/pannels') {
 ?>
-		<li><a href="<?php echo $blogURL?>/pannels/<?php echo $entry['id']?>" accesskey="6"><?php echo _text('다른 메뉴보기')?></a></li>
+		<li><a href="<?php echo  $blogURL?>/pannels/<?php echo  $entry['id']?>" accesskey="6"><?php echo  _text('다른 메뉴보기')?></a></li>
 		<?php
 	}
 ?>
@@ -91,7 +91,7 @@ function printMobileTrackbackView($entryId) {
 	if (count($trackbacks) == 0) {
 ?>
 		<div class="trackback">
-			<?php echo _text('트랙백이 없습니다')?>
+			<?php echo  _text('트랙백이 없습니다')?>
 		</div>
 		<?php
 	} else {
@@ -99,10 +99,10 @@ function printMobileTrackbackView($entryId) {
 ?>
 		<div class="trackback">
 			<div class="name">
-				<strong><?php echo htmlspecialchars($trackback['subject'])?></strong>
-				(<?php echo Timestamp::format5($trackback['written'])?>)
+				<strong><?php echo  htmlspecialchars($trackback['subject'])?></strong>
+				(<?php echo  Timestamp::format5($trackback['written'])?>)
 			</div>
-			<div class="body"><?php echo htmlspecialchars($trackback['excerpt'])?></div>
+			<div class="body"><?php echo  htmlspecialchars($trackback['excerpt'])?></div>
 		</div>
 		<hr />
 		<?php
@@ -116,7 +116,7 @@ function printMobileCommentView($entryId) {
 	if (count($comments) == 0) {
 ?>
 		<div class="comment">
-			<?php echo _text('답글이 없습니다')?>
+			<?php echo  _text('답글이 없습니다')?>
 		</div>
 		<hr />
 		<?php
@@ -125,22 +125,22 @@ function printMobileCommentView($entryId) {
 ?>
 		<div class="comment">
 			<div class="name">
-				<strong><?php echo htmlspecialchars($commentItem['name'])?></strong>
-				<a href="<?php echo $blogURL?>/comment/comment/<?php echo $commentItem['id']?>">RE</a>
-				<a href="<?php echo $blogURL?>/comment/delete/<?php echo $commentItem['id']?>">DEL</a><br />
-				(<?php echo Timestamp::format5($commentItem['written'])?>)
+				<strong><?php echo  htmlspecialchars($commentItem['name'])?></strong>
+				<a href="<?php echo  $blogURL?>/comment/comment/<?php echo  $commentItem['id']?>">RE</a>
+				<a href="<?php echo  $blogURL?>/comment/delete/<?php echo  $commentItem['id']?>">DEL</a><br />
+				(<?php echo  Timestamp::format5($commentItem['written'])?>)
 			</div>
-			<div class="body"><?php echo nl2br(addLinkSense(htmlspecialchars($commentItem['comment'])))?></div>
+			<div class="body"><?php echo  nl2br(addLinkSense(htmlspecialchars($commentItem['comment'])))?></div>
 			<?php
 			foreach (getCommentComments($commentItem['id']) as $commentSubItem) {
 ?>
 			<blockquote>
 				<div class="name">
-					<strong><?php echo htmlspecialchars($commentSubItem['name'])?></strong>
-					<a href="<?php echo $blogURL?>/comment/delete/<?php echo $commentSubItem['id']?>">DEL</a><br />
-					(<?php echo Timestamp::format5($commentSubItem['written'])?>)
+					<strong><?php echo  htmlspecialchars($commentSubItem['name'])?></strong>
+					<a href="<?php echo  $blogURL?>/comment/delete/<?php echo  $commentSubItem['id']?>">DEL</a><br />
+					(<?php echo  Timestamp::format5($commentSubItem['written'])?>)
 				</div>
-				<div class="body"><?php echo nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment'])))?></div>
+				<div class="body"><?php echo  nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment'])))?></div>
 			</blockquote>
 			<?php
 			}
@@ -156,30 +156,30 @@ function printMobileCommentView($entryId) {
 function printMobileCommentFormView($entryId) {
 ?>
 	<fieldset>
-	<form method="post" action="add/<?php echo $entryId?>">	
+	<form method="post" action="add/<?php echo  $entryId?>">	
 		<?php
 	if (!doesHaveOwnership()) {
 ?>
-		<input type="hidden" name="id" value="<?php echo $entryId?>" />
-		<label for="secret_<?php echo $entryId?>"><?php echo _text('비밀글로 등록')?></label>
-		<input type="checkbox" id="secret_<?php echo $entryId?>" name="secret_<?php echo $entryId?>" />
+		<input type="hidden" name="id" value="<?php echo  $entryId?>" />
+		<label for="secret_<?php echo  $entryId?>"><?php echo  _text('비밀글로 등록')?></label>
+		<input type="checkbox" id="secret_<?php echo  $entryId?>" name="secret_<?php echo  $entryId?>" />
 		<br />
-		<label for="name_<?php echo $entryId?>"><?php echo _text('이름')?></label>
-		<input type="text" id="name_<?php echo $entryId?>" name="name_<?php echo $entryId?>" value="<?=isset($_COOKIE['guestName']) ? htmlspecialchars($_COOKIE['guestName']) : ''?>" />
+		<label for="name_<?php echo  $entryId?>"><?php echo  _text('이름')?></label>
+		<input type="text" id="name_<?php echo  $entryId?>" name="name_<?php echo  $entryId?>" value="<?php echo isset($_COOKIE['guestName']) ? htmlspecialchars($_COOKIE['guestName']) : ''?>" />
 		<br />
-		<label for="password_<?php echo $entryId?>"><?php echo _text('비밀번호')?></label>
-		<input type="password" id="password_<?php echo $entryId?>" name="password_<?php echo $entryId?>" />
+		<label for="password_<?php echo  $entryId?>"><?php echo  _text('비밀번호')?></label>
+		<input type="password" id="password_<?php echo  $entryId?>" name="password_<?php echo  $entryId?>" />
 		<br />
-		<label for="homepage_<?php echo $entryId?>"><?php echo _text('홈페이지')?></label>
-		<input type="text" id="homepage_<?php echo $entryId?>" name="homepage_<?php echo $entryId?>"  value="<?=(isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://') ? htmlspecialchars($_COOKIE['guestHomepage']) : 'http://'?>" />
+		<label for="homepage_<?php echo  $entryId?>"><?php echo  _text('홈페이지')?></label>
+		<input type="text" id="homepage_<?php echo  $entryId?>" name="homepage_<?php echo  $entryId?>"  value="<?php echo (isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://') ? htmlspecialchars($_COOKIE['guestHomepage']) : 'http://'?>" />
 		<br />
 		<?php
 	}
 ?>
-		<label for="comment_<?php echo $entryId?>"><?php echo _text('내용')?></label>
-		<textarea cols="40" rows="5" id="comment_<?php echo $entryId?>" name="comment_<?php echo $entryId?>"></textarea>
+		<label for="comment_<?php echo  $entryId?>"><?php echo  _text('내용')?></label>
+		<textarea cols="40" rows="5" id="comment_<?php echo  $entryId?>" name="comment_<?php echo  $entryId?>"></textarea>
 		<br />
-		<input type="submit" value="<?php echo _text('등록')?>" />
+		<input type="submit" value="<?php echo  _text('등록')?>" />
 	</form>
 	</fieldset>
 	<?php
@@ -188,9 +188,9 @@ function printMobileCommentFormView($entryId) {
 function printMobileErrorPage($messageTitle, $messageBody, $redirectURL) {
 	printMobileHtmlHeader('Error');
 ?>
-<h2><?php echo htmlspecialchars($messageTitle)?></h2>
-<p><?php echo htmlspecialchars($messageBody)?></p>
-<a href="<?php echo $redirectURL?>"><?php echo _text('이전 페이지로')?></a>
+<h2><?php echo  htmlspecialchars($messageTitle)?></h2>
+<p><?php echo  htmlspecialchars($messageBody)?></p>
+<a href="<?php echo  $redirectURL?>"><?php echo  _text('이전 페이지로')?></a>
 <?php
 	printMobileHtmlFooter();
 }
@@ -198,8 +198,8 @@ function printMobileErrorPage($messageTitle, $messageBody, $redirectURL) {
 function printMobileSimpleMessage($message, $redirectMessage, $redirectURL, $title = '') {
 	printMobileHtmlHeader($title);
 ?>
-<h2><?php echo htmlspecialchars($message)?></h2>
-<a href="<?php echo $redirectURL?>"><?php echo htmlspecialchars($redirectMessage)?></a>
+<h2><?php echo  htmlspecialchars($message)?></h2>
+<a href="<?php echo  $redirectURL?>"><?php echo  htmlspecialchars($redirectMessage)?></a>
 <?php
 	printMobileHtmlFooter();
 }

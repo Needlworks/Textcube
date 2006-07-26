@@ -1,4 +1,4 @@
-<?
+<?php
 class GuestComment {
 	function GuestComment() {
 		$this->reset();

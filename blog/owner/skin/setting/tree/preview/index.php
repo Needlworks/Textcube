@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../../../..');
 require ROOT . '/lib/includeForOwner.php';
 $categories = getCategories($owner);
@@ -15,18 +15,18 @@ if (empty($_GET['url'])) {
 <head>
 	<title>Tree Structure Preview</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$adminSkinSetting['skin']?>/skin.css" />
-	<link rel="stylesheet" type="text/css" href="<?=$service['path'].$adminSkinSetting['skin']?>/skin.opera.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?=$service['path'].$adminSkinSetting['skin']?>/skin.ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/skin.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/skin.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/skin.ie.css" /><![endif]-->
 	<script type="text/javascript">
 		//<![CDATA[
-			var servicePath = "<?=$service['path']?>";
-			var blogURL = "<?=$blogURL?>";
-			var adminSkin = "<?=$adminSkinSetting['skin']?>";
+			var servicePath = "<?php echo $service['path']?>";
+			var blogURL = "<?php echo $blogURL?>";
+			var adminSkin = "<?php echo $adminSkinSetting['skin']?>";
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?=$service['path']?>/script/common.js"></script>
-	<script type="text/javascript" src="<?=$service['path']?>/script/owner.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js"></script>
 	<style type="text/css">
 		<!--
 			body
@@ -37,6 +37,6 @@ if (empty($_GET['url'])) {
 	</style>
 </head>
 <body id="tree-iframe">
-<?=getCategoriesViewInSkinSetting($categories, $selected, $categoriesSkin)?>
+<?php echo getCategoriesViewInSkinSetting($categories, $selected, $categoriesSkin)?>
 </body>
 </html>

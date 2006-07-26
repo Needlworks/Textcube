@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../../../..');
 require ROOT . '/lib/includeForOwner.php';
 $result = array('error' => deleteFeedGroup($owner, $_POST['id']));

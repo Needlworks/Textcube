@@ -1,4 +1,4 @@
-<?
+<?php
 ini_set('display_errors', 'off');
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
@@ -17,22 +17,22 @@ require ROOT . '/lib/includeForOwner.php';
 	</script>
 </head>
 <body>
-<?
+<?php
 function finish($error = null) {
 	global $migrational;
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
-<?
+<?php
 	if ($error) {
 ?>
 			//pi.style.backgroundColor = "red";
-			alert("<?=$error?>");
-<?
+			alert("<?php echo $error?>");
+<?php
 	} else {
 ?>
-			alert("<?=($migrational ? _t('성공적으로 이주되었습니다.') : _t('성공적으로 복원되었습니다.'))?>");
-<?
+			alert("<?php echo ($migrational ? _t('성공적으로 이주되었습니다.') : _t('성공적으로 복원되었습니다.'))?>");
+<?php
 	}
 ?>
 			window.parent.document.getElementById("progressDialog").style.display = "none";
@@ -41,10 +41,10 @@ function finish($error = null) {
 			window.parent.document.getElementById("progressTextSub").innerHTML = "";
 		//]]>
 	</script>
-	<?=_t('완료.')?>
+	<?php echo _t('완료.')?>
 </body>
 </html>
-<?
+<?php
 	exit;
 }
 $lastProgress = 0;
@@ -75,10 +75,10 @@ function setProgress($progress, $text = null, $sub = null) {
 ?>
 <script type="text/javascript">
 	//<![CDATA[
-		<?=$diff?>
+		<?php echo $diff?>
 	//]]>
 </script>
-<?
+<?php
 		flush();
 	}
 }

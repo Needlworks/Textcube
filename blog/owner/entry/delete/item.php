@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 if (isset($_GET['javascript']) && $_GET['javascript'] == "disabled") {

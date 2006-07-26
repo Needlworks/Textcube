@@ -1,4 +1,4 @@
-<?
+<?php
 class Comment {
 	function Comment() {
 		$this->reset();

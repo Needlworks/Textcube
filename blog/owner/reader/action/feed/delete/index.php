@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../../../..');
 require ROOT . '/lib/includeForOwner.php';
 $result = array('error' => deleteFeed($owner, $_POST['id']));

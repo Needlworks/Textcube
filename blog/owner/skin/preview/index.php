@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 list($entries, $paging) = getEntriesWithPaging($owner, $suri['page'], $blog['entriesOnPage']);

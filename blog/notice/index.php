@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
 list($entries, $paging) = getEntriesWithPagingByNotice($owner, $suri['page'], $blog['entriesOnPage']);

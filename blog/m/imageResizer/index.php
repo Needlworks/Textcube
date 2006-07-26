@@ -1,4 +1,4 @@
-<?
+<?php
 define('__TATTERTOOLS_MOBILE__', true);
 define('ROOT', '../../..');
 require ROOT . '/lib/include.php';

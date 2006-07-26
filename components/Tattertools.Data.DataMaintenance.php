@@ -1,4 +1,4 @@
-<?
+<?php
 class DataMaintenance {
 	/*@static@*/
 	function removeAll($removeAttachments = true) {

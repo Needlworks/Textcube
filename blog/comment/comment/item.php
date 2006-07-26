@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../..');
 require ROOT . '/lib/include.php';
 if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']) && !empty($_POST['mode']) && ($_POST['mode'] == 'commit')) {
@@ -29,33 +29,33 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		printHtmlHeader();
 ?>
 <script type="text/javascript">	
-	alert("<?=_text('댓글이 등록되었습니다.')?>");
+	alert("<?php echo _text('댓글이 등록되었습니다.')?>");
 	
-<?
+<?php
 		notifyComment();
 ?>
-	var obj = opener.document.getElementById("entry<?=$comment['entry']?>Comment");
-	obj.innerHTML = "<?=str_innerHTML(removeAllTags(getCommentView($comment['entry'], $skin)))?>";
+	var obj = opener.document.getElementById("entry<?php echo $comment['entry']?>Comment");
+	obj.innerHTML = "<?php echo str_innerHTML(removeAllTags(getCommentView($comment['entry'], $skin)))?>";
 	try {
 	obj = opener.document.getElementById("recentComments");
-	obj.innerHTML = "<?=str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
+	obj.innerHTML = "<?php echo str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
 	} catch(e) { }
 	try {
-<?
+<?php
 		$commentCount = getCommentCount($owner, $comment['entry']);
 		$commentCount = ($commentCount > 0) ? "$commentCount" : '';
 		list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 ?>
-	obj = opener.document.getElementById("commentCount<?=$comment['entry']?>");
-	obj.innerHTML = "<?=str_replace('"', '\"', $commentView)?>";
+	obj = opener.document.getElementById("commentCount<?php echo $comment['entry']?>");
+	obj.innerHTML = "<?php echo str_replace('"', '\"', $commentView)?>";
 	} catch(e) { }
 	try {
-	obj = opener.document.getElementById("commentCountOnRecentEntries<?=$comment['entry']?>");
-	obj.innerHTML = "<?=$commentCount?>";
+	obj = opener.document.getElementById("commentCountOnRecentEntries<?php echo $comment['entry']?>");
+	obj.innerHTML = "<?php echo $commentCount?>";
 	} catch(e) { }
 	window.close();
 </script>
-<?
+<?php
 		printHtmlFooter();
 		exit;
 	}

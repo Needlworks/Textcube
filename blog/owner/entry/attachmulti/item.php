@@ -1,4 +1,4 @@
-<?
+<?php
 if (!empty($_GET['TSSESSION']))
 	$_COOKIE['TSSESSION'] = $_GET['TSSESSION'];
 define('ROOT', '../../../..');

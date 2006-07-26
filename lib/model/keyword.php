@@ -1,4 +1,4 @@
-<?
+<?php
 function getKeywordByName($owner, $name) {
 	global $database;
 	$name = mysql_escape_string($name);

@@ -1,4 +1,4 @@
-<?
+<?php
 class Attachment {
 	function Attachment() {
 		$this->reset();

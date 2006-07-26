@@ -1,4 +1,4 @@
-<?
+<?php
 class UserSetting {
 	function UserSetting() {
 		$this->reset();

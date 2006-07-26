@@ -1,4 +1,4 @@
-<? // 日本語
+<?php // 日本語
 /* contributed by Louice P. (http://www.pleasance.info/) */
 /* contributed by !Nazu NT (http://nekoto.poporu.net/blog/) */
 /* contributed by Shungchul Kim */

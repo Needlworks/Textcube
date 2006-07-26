@@ -1,4 +1,4 @@
-<? // English
+<?php // English
 /* contributed by Remengen */
 
 $__text["블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다."] = "Blog has been created. Visit your blog.";

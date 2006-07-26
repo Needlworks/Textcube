@@ -1,4 +1,4 @@
-<?
+<?php
 class Link {
 	function Link() {
 		$this->reset();

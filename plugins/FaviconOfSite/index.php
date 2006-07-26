@@ -1,4 +1,4 @@
-<?
+<?php
 function FaviconOfSite_main($target, $mother) {
 	if (empty($mother['homepage']))
 		return $target;

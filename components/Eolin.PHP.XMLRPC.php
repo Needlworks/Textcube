@@ -1,4 +1,4 @@
-<?
+<?php
 class XMLRPC {
 	var $url, $methodName, $params, $result, $fault;
 	

@@ -1,4 +1,4 @@
-<?
+<?php
 /*--------- Blogger API functions -----------*/
 
 function blogger_getUsersBlogs()

@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../../../..');
 require ROOT . '/lib/includeForOwner.php';
 $result = array('error' => addFeed($owner, $_POST['group'], $_POST['url']));

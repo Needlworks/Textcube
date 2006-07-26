@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '..');
 require ROOT . '/lib/include.php';
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {

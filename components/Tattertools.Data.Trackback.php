@@ -1,4 +1,4 @@
-<?
+<?php
 class Trackback {
 	function Trackback() {
 		$this->reset();

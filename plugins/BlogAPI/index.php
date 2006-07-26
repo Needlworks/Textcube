@@ -1,4 +1,4 @@
-<?
+<?php
 /*--------- Debugging environment -----------*/
 global $debug, $debug_file, $blogapi_dir;
 $debug = 0; /* DEBUGLOG */

@@ -1,4 +1,4 @@
-<?
+<?php
 class RefererStatistics {
 	function RefererStatistics() {
 		$this->reset();

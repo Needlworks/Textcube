@@ -1,4 +1,4 @@
-<?
+<?php
 class Keyword {
 	function Keyword() {
 		$this->reset();

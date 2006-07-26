@@ -1,4 +1,4 @@
-<?
+<?php
 class RefererLog {
 	function RefererLog() {
 		$this->reset();

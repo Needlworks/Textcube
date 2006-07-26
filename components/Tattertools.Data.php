@@ -1,4 +1,4 @@
-<?
+<?php
 class TData {
 	/*@static@*/
 	function removeAll($removeAttachments = true) {

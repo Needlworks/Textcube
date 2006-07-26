@@ -1,4 +1,4 @@
-<?
+<?php
 define('__TATTERTOOLS_MOBILE__', true);
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
@@ -7,11 +7,11 @@ $entry = $entries ? $entries[0] : null;
 printMobileHtmlHeader();
 ?>
 <div id="content">
-	<h2><?=htmlspecialchars($entry['title'])?></h2>	
+	<h2><?php echo htmlspecialchars($entry['title'])?></h2>	
 	<hr />
-	<? printMobileEntryContentView($owner, $entry, getKeywordNames($owner)); ?>
+	<?php printMobileEntryContentView($owner, $entry, getKeywordNames($owner)); ?>
 </div>
-<?
+<?php
 printMobileNavigation($entry, true, true, $paging);
 printMobileHtmlFooter();
 ?>

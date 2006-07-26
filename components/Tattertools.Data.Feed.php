@@ -1,4 +1,4 @@
-<?
+<?php
 class FeedGroup {
 	/*@static@*/
 	function getId($name, $add = false) {

@@ -61,11 +61,11 @@ function _getCalendarView($calendar){
 	ob_start();?>
 <table cellpadding="0" cellspacing="1" style="width: 100%; table-layout: fixed">
 <caption class="cal_month">
-<a href="<?=$blogURL?>/archive/<?=$previous?>">&lt;&lt;</a>
+<a href="<?php echo $blogURL?>/archive/<?php echo $previous?>">&lt;&lt;</a>
 &nbsp;
-<a href="<?=$blogURL?>/archive/<?=$current?>"><?=Timestamp::format('%Y/%m',_getTimeFromPeriod($current))?></a>
+<a href="<?php echo $blogURL?>/archive/<?php echo $current?>"><?php echo Timestamp::format('%Y/%m',_getTimeFromPeriod($current))?></a>
 &nbsp;
-<a href="<?=$blogURL?>/archive/<?=$next?>">&gt;&gt;</a>
+<a href="<?php echo $blogURL?>/archive/<?php echo $next?>">&gt;&gt;</a>
 </caption>
 <thead>
   <tr>
@@ -80,7 +80,7 @@ function _getCalendarView($calendar){
 </thead>
 <tbody>
   <tr>
-<?
+<?php
 	for($weekday=0;$weekday<$firstWeekday;$weekday++)
 		echo '    <td class="cal_day1"></td>',CRLF;
 	for($day=1;$weekday<7;$weekday++,$day++){
@@ -107,7 +107,7 @@ function _getCalendarView($calendar){
 	}?>
 </tbody>
 </table>
-<?
+<?php
 	$view=ob_get_contents();
 	ob_end_clean();
 	return $view;

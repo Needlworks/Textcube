@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 if (file_exists(ROOT . "/cache/backup/$owner.xml")) {

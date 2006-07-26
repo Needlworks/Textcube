@@ -1,4 +1,4 @@
-<?
+<?php
 class Tag {
 	/*@static@*/
 	function getId($tag, $add = false) {

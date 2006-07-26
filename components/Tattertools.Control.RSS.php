@@ -1,4 +1,4 @@
-<?
+<?php
 class RSS {
 	function refresh() {
 		global $owner;

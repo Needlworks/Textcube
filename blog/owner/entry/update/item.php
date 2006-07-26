@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 if ($entry = getEntry($owner, $suri['id'])) {

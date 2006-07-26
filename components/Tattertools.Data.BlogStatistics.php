@@ -1,4 +1,4 @@
-<?
+<?php
 class BlogStatistics {
 	function BlogStatistics() {
 		$this->reset();

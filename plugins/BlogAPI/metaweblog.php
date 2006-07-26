@@ -1,4 +1,4 @@
-<?
+<?php
 /*--------- MetaWebLog API functions -----------*/
 
 function metaWeblog_getCategories()

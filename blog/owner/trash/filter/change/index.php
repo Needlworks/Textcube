@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForOwner.php';
 requireComponent('Tattertools.Data.Filter');

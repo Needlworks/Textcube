@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 ?>
@@ -16,20 +16,20 @@ require ROOT . '/lib/includeForOwner.php';
 	</script>
 </head>
 <body>
-<?
+<?php
 function finish($error = null) {
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
-<?
+<?php
 	if ($error) {
 ?>
-			alert("<?=$error?>");
-<?
+			alert("<?php echo $error?>");
+<?php
 	} else {
 ?>
-			alert("<?=_t('성공적으로 교정되었습니다.')?>");
-<?
+			alert("<?php echo _t('성공적으로 교정되었습니다.')?>");
+<?php
 	}
 ?>
 			window.parent.document.getElementById("correctingDataDialog").style.display = "none";
@@ -38,10 +38,10 @@ function finish($error = null) {
 			window.parent.document.getElementById("correctingTextSub").innerHTML = "";
 		//]]>
 	</script>
-	<?=_t('완료.')?>
+	<?php echo _t('완료.')?>
 </body>
 </html>
-<?
+<?php
 	exit;
 }
 $lastProgress = 0;
@@ -72,10 +72,10 @@ function setProgress($progress, $text = null, $sub = null) {
 ?>
 <script type="text/javascript">
 	//<![CDATA[
-		<?=$diff?>
+		<?php echo $diff?>
 	//]]>
 </script>
-<?
+<?php
 		flush();
 	}
 }

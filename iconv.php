@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Copyright (c) 2005, Tatter & Company. All rights reserved.
  * Author: Sunju Jahng (sunju.jahng@gmail.com)

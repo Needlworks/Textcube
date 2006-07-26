@@ -1,4 +1,4 @@
-<?
+<?php
 function TrackbackTracker_AddingTrackback($target, $mother) {
 	if (!$url = parse_url($mother['url']))
 		return false;

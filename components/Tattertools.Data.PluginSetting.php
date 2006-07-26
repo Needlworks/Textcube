@@ -1,4 +1,4 @@
-<?
+<?php
 class PluginSetting {
 	function PluginSetting() {
 		$this->reset();

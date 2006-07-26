@@ -1,4 +1,4 @@
-<?
+<?php
 function EmoticonOnComment_main($target, $mother) {
 	global $pluginURL;
 	$emoticons = array(

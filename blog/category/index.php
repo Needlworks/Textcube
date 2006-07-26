@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
 $category = empty($suri['value']) ? 0 : getCategoryIdByLabel($owner, $suri['value']);

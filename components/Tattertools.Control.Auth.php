@@ -1,4 +1,4 @@
-<?
+<?php
 class Auth {
 	function login($loginid, $password) {
 		global $database, $owner;

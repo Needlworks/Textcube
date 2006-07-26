@@ -1,4 +1,4 @@
-<?
+<?php
 class Base64Stream {
 	function encode($src = null, $dest = null) {
 		if (is_string($src)) {

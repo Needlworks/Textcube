@@ -1,4 +1,4 @@
-<?
+<?php
 class Category {
 	function Category() {
 		$this->reset();

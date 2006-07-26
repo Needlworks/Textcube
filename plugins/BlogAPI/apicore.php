@@ -1,4 +1,4 @@
-<?
+<?php
 includeOnce( "Eolin.PHP.Core" );
 includeOnce( "Eolin.PHP.XMLStruct" );
 includeOnce( "Eolin.PHP.XMLTree" );

@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
 header('Content-type: text/xml; charset=utf-8');

@@ -1,4 +1,4 @@
-<?
+<?php
 class BlogSetting {
 	function BlogSetting() {
 		$this->reset();

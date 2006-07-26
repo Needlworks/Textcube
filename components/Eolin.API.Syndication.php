@@ -1,4 +1,4 @@
-<?
+<?php
 class Syndication {
 	/*@static@*/
 	function join($link) {

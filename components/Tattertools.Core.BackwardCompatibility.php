@@ -1,4 +1,4 @@
-<?
+<?php
 // Copyright ⓒ 2004-2006. Tatter & Company / Tatter & Friends.
 
 function isUTF8($str) {

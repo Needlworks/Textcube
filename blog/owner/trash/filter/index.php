@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 requireComponent('Tattertools.Data.Filter');
@@ -35,11 +35,11 @@ function printFilterBox($mode, $title) {
 		$filter->close();
 	}
 ?>
-									<div class="title"><span class="text"><?=$title?></span></div>
+									<div class="title"><span class="text"><?php echo $title?></span></div>
 									
 									<table cellpadding="0" cellspacing="0">
 										<tbody>
-<?
+<?php
 	if ($filtersList) {
 		$id = 0;
 		$count = 0;
@@ -49,33 +49,33 @@ function printFilterBox($mode, $title) {
 			$className = ($count % 2) == 1 ? 'even-line' : 'odd-line';
 			$className .= ($i == sizeof($filtersList) - 1) ? ' last-line' : '';
 ?>
-											<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="content"><span title="<?=escapeJSInAttribute($entity)?>"><?=UTF8::lessenAsEm($entity, 30)?></span></td>
-												<td class="delete"><a class="delete-button button" href="#void" onclick="deleteFilter(parentNode.parentNode,'<?=$mode?>', '<?=urlencode($entity)?>',<?=$value[0]?>);" title="<?=_t('이 필터링을 제거합니다.')?>"><span class="text"><?=_t('삭제')?></span></a></td>
+											<tr class="<?php echo  $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+												<td class="content"><span title="<?php echo escapeJSInAttribute($entity)?>"><?php echo UTF8::lessenAsEm($entity, 30)?></span></td>
+												<td class="delete"><a class="delete-button button" href="#void" onclick="deleteFilter(parentNode.parentNode,'<?php echo $mode?>', '<?php echo urlencode($entity)?>',<?php echo $value[0]?>);" title="<?php echo _t('이 필터링을 제거합니다.')?>"><span class="text"><?php echo _t('삭제')?></span></a></td>
 											</tr>
-<?
+<?php
 			$id++;
 			$count++;
 		}
 	} else {
 ?>
 											<tr class="odd-line inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="empty"><?=_t('등록된 내용이 없습니다.')?></td>
+												<td class="empty"><?php echo _t('등록된 내용이 없습니다.')?></td>
 											</tr>
-<?
+<?php
 	}
 ?>
 										</tbody>
 									</table>
 									
 									<div class="input-field">
-										<input type="text" class="text-input" name="<?=$mode?>Value" onkeyup="if(event.keyCode=='13') {add('<?=$mode?>')}" />
+										<input type="text" class="text-input" name="<?php echo $mode?>Value" onkeyup="if(event.keyCode=='13') {add('<?php echo $mode?>')}" />
 									</div>
 									
 									<div class="button-box">
-										<a class="add-button button" href="#void" onclick="add('<?=$mode?>')"><span class="text"><?=_t('추가하기')?></span></a>
+										<a class="add-button button" href="#void" onclick="add('<?php echo $mode?>')"><span class="text"><?php echo _t('추가하기')?></span></a>
 									</div>
-<?
+<?php
 }
 ?>
 						<script type="text/javascript">
@@ -84,12 +84,12 @@ function printFilterBox($mode, $title) {
 									/*
 									var target 	= document.getElementById(field) ;
 									var oldValue = target.value;
-									if(caller.innerHTML == "<?=_t('완료')?>")
+									if(caller.innerHTML == "<?php echo _t('완료')?>")
 									{
 										
 									}
 									 
-									caller.innerHTML = "<?=_t('완료')?>";
+									caller.innerHTML = "<?php echo _t('완료')?>";
 									
 									target.select();
 									
@@ -106,9 +106,9 @@ function printFilterBox($mode, $title) {
 										param += '&oldValue=' 	+ encodeURI(oldValue);
 															
 										if(	target.value != oldValue) {
-											var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/filter/modify/" + param);
+											var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/filter/modify/" + param);
 											request.onSuccess = function() {
-												caller.innerHTML = "<?=_t('수정')?>";
+												caller.innerHTML = "<?php echo _t('수정')?>";
 												this.onblur = '';
 												this.onkeydown = '';
 											}
@@ -126,7 +126,7 @@ function printFilterBox($mode, $title) {
 								}
 								
 								function deleteFilter(caller, mode, value, id) {
-									if (!confirm('<?=_t('선택된 목록을 필터링에서 제외합니다. 계속 하시겠습니까?')?>')) return false;
+									if (!confirm('<?php echo _t('선택된 목록을 필터링에서 제외합니다. 계속 하시겠습니까?')?>')) return false;
 									var execute = 'close';
 									
 									param  = '?mode=' 	+ mode;
@@ -134,14 +134,14 @@ function printFilterBox($mode, $title) {
 									param += '&command=unblock';
 									param += '&id='+id;
 									
-									var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/trash/filter/change/" + param);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/trash/filter/change/" + param);
 									request.onSuccess = function() {
 										var parent = caller.parentNode;
 										parent.removeChild(caller);
 										if(parent.childNodes.length == 0) {	
 											var tr = document.createElement("tr");
 											var td = document.createElement("td");
-											td.appendChild(document.createTextNode("<?=_t('등록된 내용이 없습니다.')?>"));
+											td.appendChild(document.createTextNode("<?php echo _t('등록된 내용이 없습니다.')?>"));
 											tr.appendChild(td);
 											parent.appendChild(tr);
 										}
@@ -166,14 +166,14 @@ function printFilterBox($mode, $title) {
 									}
 									
 									if(target.value=="") {
-										alert("<?=_t('내용을 입력해 주십시오.')?>");
+										alert("<?php echo _t('내용을 입력해 주십시오.')?>");
 										return false;
 									}
 									
 									if(mode == 'ip') {
 										reg = /\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
 										if(!reg.test(target.value)) {
-											alert("<?=_t('잘못된 IP 주소 입니다.')?>");
+											alert("<?php echo _t('잘못된 IP 주소 입니다.')?>");
 											return;
 										};
 									}
@@ -221,14 +221,14 @@ function printFilterBox($mode, $title) {
 										
 										a = document.createElement("div");
 										
-										text = document.createTextNode("<?=_t('수정')?>");		
+										text = document.createTextNode("<?php echo _t('수정')?>");		
 										a.appendChild(text);		
 										
 										td.appendChild(a);
 										tr.appendChild(td);
 										
 										td = document.createElement("td");
-										text = document.createTextNode("<?=_t('삭제')?>");
+										text = document.createTextNode("<?php echo _t('삭제')?>");
 										td.appendChild(text);		
 										tr.appendChild(td);
 										
@@ -242,51 +242,51 @@ function printFilterBox($mode, $title) {
 									}
 								}
 								*/
-<?
+<?php
 if (!@is_null($history)) {
 ?>
 								this.onload =  function()
 								{
-									var target = document.getElementById('<?=$history?>');
+									var target = document.getElementById('<?php echo $history?>');
 									target.select();
 								}
-<?
+<?php
 }
 ?>
 							//]]>
 						</script>
 						
 						<div id="part-trash-filter" class="part">
-							<h2 class="caption"><span class="main-text"><?=_t('필터를 설정합니다')?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('필터를 설정합니다')?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('댓글, 트랙백, 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우거나 무시합니다.')?></p>
+								<p class="explain"><?php echo  _t('댓글, 트랙백, 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우거나 무시합니다.')?></p>
 							</div>
 							
 							<div class="data-inbox">
-								<form id="ipSection" class="section" method="post" action="<?=$blogURL?>/owner/trash/filter">
-<?=printFilterBox('ip', _t('IP 필터링'))?>
+								<form id="ipSection" class="section" method="post" action="<?php echo $blogURL?>/owner/trash/filter">
+<?php echo printFilterBox('ip', _t('IP 필터링'))?>
 								</form>
 										
 								<hr class="hidden" />
 										
-								<form id="urlSection" class="section" method="post" action="<?=$blogURL?>/owner/trash/filter">
-<?=printFilterBox('url', _t('홈페이지 필터링'))?>
+								<form id="urlSection" class="section" method="post" action="<?php echo $blogURL?>/owner/trash/filter">
+<?php echo printFilterBox('url', _t('홈페이지 필터링'))?>
 								</form>
 								
 								<hr class="hidden" />
 								
-								<form id="contentSection" class="section" method="post" action="<?=$blogURL?>/owner/trash/filter">
-<?=printFilterBox('content', _t('본문 필터링'))?>
+								<form id="contentSection" class="section" method="post" action="<?php echo $blogURL?>/owner/trash/filter">
+<?php echo printFilterBox('content', _t('본문 필터링'))?>
 								</form>
 								
 								<hr class="hidden" />
 								
-								<form id="nameSection" class="section" method="post" action="<?=$blogURL?>/owner/trash/filter">
-<?=printFilterBox('name', _t('이름 필터링'))?>
+								<form id="nameSection" class="section" method="post" action="<?php echo $blogURL?>/owner/trash/filter">
+<?php echo printFilterBox('name', _t('이름 필터링'))?>
 								</form>
 							</div>
 						</div>
-<?
+<?php
 require ROOT . '/lib/piece/owner/footer1.php';
 ?>

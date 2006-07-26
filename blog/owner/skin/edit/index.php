@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 $skin = @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/skin.html");
@@ -11,16 +11,16 @@ require ROOT . '/lib/piece/owner/contentMenu31.php';
 							//<![CDATA[
 								function setSkin(mode) {
 									var skin = document.getElementById(mode);
-									var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/skin/edit/skin/");
+									var request = new HTTPRequest("POST", "<?php echo $blogURL?>/owner/skin/edit/skin/");
 									request.onSuccess = function() {
-										PM.showMessage("<?=_t('저장되었습니다.')?>", "center", "bottom");
+										PM.showMessage("<?php echo _t('저장되었습니다.')?>", "center", "bottom");
 										saved = true;
 									}
 									request.onError = function() {
 										if (this.getText("/response/msg"))
 											alert(this.getText("/response/msg"));
 										else
-											alert('<?=_t('실패했습니다.')?>');
+											alert('<?php echo _t('실패했습니다.')?>');
 									}
 									request.send('mode='+mode+'&body='+encodeURIComponent(skin.value));
 								}
@@ -37,38 +37,38 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 }
 ?>
 						<div id="part-skin-edit" class="part">
-							<h2 class="caption"><span class="main-text"><?=_f('스킨을 편집합니다 : "%1"', $skinName)?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _f('스킨을 편집합니다 : "%1"', $skinName)?></span></h2>
 							
 							<div class="data-inbox">
-								<form id="htmlSection" class="section" method="post" action="<?=$blogURL?>/owner/skin/edit/skin/">
+								<form id="htmlSection" class="section" method="post" action="<?php echo $blogURL?>/owner/skin/edit/skin/">
 									<div class="file-name">skin.html</div>
 									<div class="edit-area">
-										<textarea id="skin" name="skin_html" cols="60" rows="25" onkeyup="saved=false" style="font-family: 'Courier New', Courier, monospace"><?=htmlspecialchars($skin)?></textarea>
+										<textarea id="skin" name="skin_html" cols="60" rows="25" onkeyup="saved=false" style="font-family: 'Courier New', Courier, monospace"><?php echo htmlspecialchars($skin)?></textarea>
 									</div>
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setSkin('skin');"><span class="text"><?=_t('저장하기')?></span></a>
+										<a class="save-button button" href="#void" onclick="setSkin('skin');"><span class="text"><?php echo _t('저장하기')?></span></a>
 									</div>
 								</form>
 								
 								<!--form id="keyword-section" class="section">
 									<div class="file-name">skin_keyword.html</div>
-									<textarea id="skin_keyword"name="s_cache_keyword_html" cols="60" rows="25"onkeyup="saved=false">﻿<?=htmlspecialchars($skin_keyword)?></textarea>
-									<a class="save-button button" href="#void" onclick="setSkin('skin_keyword');"><span class="text"><?=_t('저장하기')?></span></a>		  
+									<textarea id="skin_keyword"name="s_cache_keyword_html" cols="60" rows="25"onkeyup="saved=false">﻿<?php echo htmlspecialchars($skin_keyword)?></textarea>
+									<a class="save-button button" href="#void" onclick="setSkin('skin_keyword');"><span class="text"><?php echo _t('저장하기')?></span></a>		  
 								</form-->
 								
 								<hr class="hidden" />
 								
-								<form id="cssSection" class="section" method="post" action="<?=$blogURL?>/owner/skin/edit/skin/">
+								<form id="cssSection" class="section" method="post" action="<?php echo $blogURL?>/owner/skin/edit/skin/">
 									<div class="file-name">style.css</div>
 									<div class="edit-area">
-										<textarea id="style" name="s_cache_style_css" cols="60" rows="25" onkeyup="saved=false" style="font-family: 'Courier New', Courier, monospace"><?=htmlspecialchars($style)?></textarea>
+										<textarea id="style" name="s_cache_style_css" cols="60" rows="25" onkeyup="saved=false" style="font-family: 'Courier New', Courier, monospace"><?php echo htmlspecialchars($style)?></textarea>
 									</div>
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setSkin('style');"><span class="text"><?=_t('저장하기')?></span></a>
+										<a class="save-button button" href="#void" onclick="setSkin('style');"><span class="text"><?php echo _t('저장하기')?></span></a>
 									</div>
 								</form>
 							</div>
 						</div>
-<?
+<?php
 require ROOT . '/lib/piece/owner/footer1.php';
 ?>

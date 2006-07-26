@@ -1,4 +1,4 @@
-<?
+<?php
 /// Copyright ¨Ï 2004-2006. Tatter & Company / Tatter & Friends.
 
 function correctUTF8Recursively($value) {

@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../../../..');
 require ROOT . '/lib/includeForOwner.php';
 $result = array('error' => editFeed($owner, $_POST['id'], $_POST['old_group'], $_POST['new_group'], $_POST['url']));

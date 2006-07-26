@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 set_time_limit(360);
@@ -9,31 +9,31 @@ ob_implicit_flush();
 	<head>
 		<title>Update all feeds</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<script type="text/javascript" src="<?=$blogURL?>/script/common.js"></script>
+		<script type="text/javascript" src="<?php echo $blogURL?>/script/common.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
-				var servicePath = "<?=$blogURL?>";
-				var blogURL = "<?=$blogURL?>";
-				var adminSkin = "<?=$adminSkinSetting['skin']?>";
+				var servicePath = "<?php echo $blogURL?>";
+				var blogURL = "<?php echo $blogURL?>";
+				var adminSkin = "<?php echo $adminSkinSetting['skin']?>";
 			//]]>
 		</script>
 	</head>
 	<body>
-		<?=str_repeat('<!-- flush buffer -->', 400)?>
+		<?php echo str_repeat('<!-- flush buffer -->', 400)?>
 		<script type="text/javascript">
 			//<![CDATA[
 				var progress = parent.document.getElementById("progress");
 				progress.innerHTML = "(0%)";
 			//]]>
 		</script>
-<?
+<?php
 $feeds = fetchQueryAll("SELECT f.* FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr WHERE g.owner = $owner AND gr.feed = f.id AND gr.owner = g.owner AND gr.groupId = g.id ORDER BY f.title");
 $count = 0;
 foreach ($feeds as $feed) {
 ?>
 		<script type="text/javascript">
 			//<![CDATA[
-				var icon = parent.document.getElementById("iconFeedStatus<?=$feed['id']?>");
+				var icon = parent.document.getElementById("iconFeedStatus<?php echo $feed['id']?>");
 				if(icon) {
 					try{
 						parent.Reader.startScroll("feedBox", getOffsetTop(icon) - getOffsetTop(parent.document.getElementById("feedBox")) - 50);
@@ -42,15 +42,15 @@ foreach ($feeds as $feed) {
 				}
 			//]]>
 		</script>		
-<?
+<?php
 	$count++;
 	$result = updateFeed($feed);
 ?>
 		<script type="text/javascript">
 			//<![CDATA[
-				/* update complete : [<?=$result?>] <?=$feed['xmlURL']?> */
+				/* update complete : [<?php echo $result?>] <?php echo $feed['xmlURL']?> */
 				if(icon) {
-					switch(<?=$result?>) {
+					switch(<?php echo $result?>) {
 						case 0:
 							icon.src = servicePath + "/style/default/image/reader/iconUpdate.gif";
 							break;
@@ -58,10 +58,10 @@ foreach ($feeds as $feed) {
 							icon.src = servicePath + "/style/default/image/reader/iconFailure.gif";
 					}			
 				}
-				progress.innerHTML = "(<?=sprintf('%.1f', $count * 100 / sizeof($feeds))?>%)";
+				progress.innerHTML = "(<?php echo sprintf('%.1f', $count * 100 / sizeof($feeds))?>%)";
 			//]]>
 		</script>		
-<?
+<?php
 }
 ?>
 		<script type="text/javascript">

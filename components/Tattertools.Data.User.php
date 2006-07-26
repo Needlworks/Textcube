@@ -1,4 +1,4 @@
-<?
+<?php
 class UserInfo {
 
 	function UserInfo() {

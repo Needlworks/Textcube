@@ -1,4 +1,4 @@
-<?
+<?php
 class Post {
 	function Post() {
 		$this->reset();

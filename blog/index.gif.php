@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '..');
 require ROOT . '/lib/include.php';
 $fp = @fopen(ROOT . "/attach/$owner/index.gif", 'rb');

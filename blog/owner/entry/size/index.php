@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 $result = getAttachmentSizeLabel($_REQUEST['owner'],$_REQUEST['parent']);

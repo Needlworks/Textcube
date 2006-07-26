@@ -1,4 +1,4 @@
-<?
+<?php
 class DailyStatistics {
 	function DailyStatistics() {
 		$this->reset();

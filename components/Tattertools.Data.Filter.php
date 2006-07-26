@@ -1,4 +1,4 @@
-<?
+<?php
 class Filter {
 	function Filter() {
 		$this->reset();

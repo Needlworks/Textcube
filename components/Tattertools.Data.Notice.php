@@ -1,4 +1,4 @@
-<?
+<?php
 class Notice {
 	function Notice() {
 		$this->reset();

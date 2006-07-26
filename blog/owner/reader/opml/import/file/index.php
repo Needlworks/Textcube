@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../../../..');
 require ROOT . '/lib/includeForOwner.php';
 set_time_limit(60);
@@ -12,18 +12,18 @@ set_time_limit(60);
 	</head>
 	<body>
 		<script type="text/javascript">
-		<?
+		<?php
 if ($xml = @file_get_contents($_FILES['opmlFile']['tmp_name'])) {
 	list($status, $result) = importOPMLFromFile($owner, $xml);
 	if ($status == 0) {
 ?>
-					var str = "<?=_f('%1개의 피드를 가져왔습니다.\n피드를 업데이트 해 주십시오.', $result['total'])?>";
+					var str = "<?php echo _f('%1개의 피드를 가져왔습니다.\n피드를 업데이트 해 주십시오.', $result['total'])?>";
 					parent.Reader.refreshFeedGroup();
 					parent.Reader.refreshFeedList(0);
 					parent.Reader.refreshEntryList(0, 0);
 					parent.Reader.refreshEntry(0, 0, 0);
 					alert(str);
-					<?
+					<?php
 	} else if ($status == 1) {
 		echo 'alert("' . _t('올바른 XML 파일이 아닙니다.') . '");';
 	} else if ($status == 2) {

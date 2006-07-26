@@ -1,4 +1,4 @@
-<?
+<?php
 class OutputWriter {
 	var $type = 'stdout';
 	

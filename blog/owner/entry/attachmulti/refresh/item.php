@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForOwner.php';
 $entryId = $suri['id'];
@@ -7,7 +7,7 @@ $initialFileListForFlash = '';
 $enclosureFileName = '';
 ?>
 <select size="8" name="fileList" id="fileList" multiple="multiple" style="width:415px;" onchange="selectAttachment();">
-<?
+<?php
 foreach ($attachments as $i => $attachment) {
 	if (strpos($attachment['mime'], 'application') !== false) {
 		$class = 'class="MimeApplication"';
@@ -38,10 +38,10 @@ foreach ($attachments as $i => $attachment) {
 	$value = htmlspecialchars(getAttachmentValue($attachment));
 	$label = $prefix . htmlspecialchars(getPrettyAttachmentLabel($attachment));
 ?>
-		        <option  <?=$style?> value="<?=$value?>">
-	            <?=$label?>
+		        <option  <?php echo $style?> value="<?php echo $value?>">
+	            <?php echo $label?>
 	            </option>
-                <?
+                <?php
 }
 ?>
 </select>
