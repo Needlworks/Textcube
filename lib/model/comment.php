@@ -184,7 +184,7 @@ function getComment($owner, $id, $password) {
 
 function getCommentList($owner, $search) {
 	global $database;
-	$list = array('title' => "'$search'", 'items' => array());
+	$list = array('title' => "$search", 'items' => array());
 	$search = escapeMysqlSearchString($search);
 	$authorized = doesHaveOwnership() ? '' : 'and secret = 0';
 	if ($result = mysql_query("select id, entry, parent, name, comment, written from {$database['prefix']}Comments where entry > 0 AND owner = $owner $authorized and isFiltered = 0 and comment like '%$search%'")) {
