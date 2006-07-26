@@ -15,13 +15,13 @@ if( is_null($result) )	respondNotFoundPage();
 <script type="text/javascript" src="<?php echo $service['path']?>/script/pluginconfig.js"> </script>
 <script type="text/javascript" >//<![CDATA[
 var errorMessage ={
-	"1": "<?php echo _t('디비에서')?>",
-	"2": "<?php echo _t('플러그인 제작자 검증에서')?>"
+	"1": "<?php echo _t('데이터처리 오류 발생.')?>",
+	"2": "<?php echo _t('잘못된 입력 입니다.')?>"
 }
 function saveConfig(plugin){
 	if( !document ) return false;
 	var dataSet = document.getElementById('config_data');
-	var xmlcon= new Converter( dataSet) ;
+	var xmlcon= new Converter( dataSet , document) ;
 	var xmlData = encodeURIComponent(xmlcon.getXMLData());
 	var request = new HTTPRequest("POST" , "<?php echo $blogURL?>/owner/setting/plugins/recieveConfig");
 	PM.addRequest(request, "<?php echo _t('설정을 저장중 입니다.')?>");

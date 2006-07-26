@@ -14,7 +14,7 @@ function activatePlugin($name) {
 	mysql_query("INSERT INTO {$database['prefix']}Plugins VALUES ($owner, '$name', null)");
 	return (mysql_affected_rows() == 1);
 }
-
+ 
 function deactivatePlugin($name) {
 	global $database, $owner, $activePlugins;
 	if (!in_array($name, $activePlugins))
@@ -24,10 +24,7 @@ function deactivatePlugin($name) {
 }
 
 function getCurrentSetting( $name){
-/*
-	ToDo : 여기서 설정값 형식을 조립해줄것인가 결정
-*/
-/*	global $database , $owner, $activePlugins;
+	global $database , $owner, $activePlugins;
 	if( !in_array( $name , $activePlugins))
 		return false;
 	$name = mysql_escape_string( $name ) ;
@@ -36,12 +33,8 @@ function getCurrentSetting( $name){
 		return false;
 	$out = mysql_fetch_array($result); 
 	return $out['settings'];
-*/
 }
 function updatePluginConfig( $name , $setVal){
-/*
-	여기는 걍 설정값( 선조립되어 있음) 을 넣는 일만 함.....
-*/
 	global $database, $owner, $activePlugins;
 	if (!in_array($name, $activePlugins))
 		return false;
@@ -54,7 +47,7 @@ function updatePluginConfig( $name , $setVal){
 	AND name = '$name'"
 	);
 	if( mysql_affected_rows() == 1 )
-		return true;
-	return (mysql_error() == '');
+		return '0';
+	return (mysql_error() == '') ? '0' : '1';
 }
 ?>

@@ -28,7 +28,7 @@ function TattertoolsBirthday_TattertoolsBirthday($target) {
 }
 function TattertoolsBirthdayDataSet($DATA){
 	$cfg = fetchConfigVal( $DATA );
-	if( is_null ( $cfg ) )	 return '인수값이 안들어옴';
+	//if( is_null ( $cfg ) )	 return '인수값이 안들어옴';
 	// 등등등등 여기서 원하는 검증을 하시고 검증 실패시 사용자에게 보여줄 에러메세지를 보내주심 됩니다.
 	return true;
 }

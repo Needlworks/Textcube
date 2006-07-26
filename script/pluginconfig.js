@@ -1,5 +1,6 @@
-function Converter(data_Set ){
+function Converter(data_Set , obj_document ){
 	this.data_Set=data_Set;
+	this.doc= obj_document;
 	this.xmlHeader = '<?xml version="1.0" encoding="utf-8"?><config>';
 	this.xmlfooter = '</config>';
 }
@@ -13,49 +14,48 @@ Converter.prototype.getXMLData = function(){
 			innerXml += '<fieldset name="' + fieldsets[i].getAttribute('name') + '" >\n'; 
 			innerXml += this.makeDataSet( fieldsets[i] );
 			innerXml += '</fieldset >\n'; 
-		} catch(e){}
+		} catch(e){alert( e.description );}
 	}	
 	return this.xmlHeader + innerXml + this.xmlfooter;
 };
 
+
+Converter.prototype.getControls = function( name){
+	return this.doc.getElementsByName(name);
+};
+
 Converter.prototype.makeDataSet = function( fieldset ){
-	var ele ='';
+	var ele ='';/* FMS_name == Fucking Micro$oft 's name */
 	var fields = fieldset.getElementsByTagName("FIELD");
 	for( var i =0; i < fields.length ; i++){
 		if( undefined != fields[i].getAttribute('name') && undefined != fields[i].getAttribute('type')){
 			var type = fields[i].getAttribute('type');
+			var FMS_name = 'FMS_' + fieldset.getAttribute('name') + '_' +  fields[i].getAttribute('name') + '_control';
 			ele += '<field   name = "' + fields[i].getAttribute('name') +'" type="' + type+ '" >';
 			switch( type){
 				case 'text':
-					ele += '<![CDATA['+ this.getTextData( fields[i] )+']]>' ;break;
 				case 'textarea':
-					ele += '<![CDATA['+this.getTextareaData( fields[i] )+']]>';break;
-				case 'radio':
-					ele += this.getRadioData( fields[i] );break;
-				case 'checkbox':
-					ele += this.getCheckboxData( fields[i] );break;
+					ele += '<![CDATA['+this.getFirstConValue(  FMS_name )+']]>';break;
 				case 'select':
-					ele += this.getSelectData( fields[i] );break;
+					ele += this.getFirstConValue(  FMS_name );break;
+				case 'radio':
+					ele += this.getRadioData(  FMS_name);break;
+				case 'checkbox':
+					ele += this.getCheckboxData(  FMS_name);break;
 				default:
-					throw new error(0,"asdsd");
+					throw new error(0,"");
 			}
 			ele += '</field >\n';
 		}
 	}
 	return ele;
 };
-
-
-Converter.prototype.getTextData = function ( field){
-	var con = field.getElementsByTagName("input")[0];
-	return con.value;
+Converter.prototype.getFirstConValue = function ( name){
+	var cons = this.getControls(name);
+	return cons[0].value;
 };
-Converter.prototype.getTextareaData = function( field){
-	var con = field.getElementsByTagName("textarea")[0];
-	return con.value;
-};
-Converter.prototype.getRadioData = function( field){
-	var cons = field.getElementsByTagName("input");
+Converter.prototype.getRadioData = function( name ){
+	var cons = this.getControls(name);
 	var val="";
 	for( var i= 0 ; i < cons.length ; i++){
 		if( "radio" == cons[i].type && true == cons[i].checked ){
@@ -65,17 +65,14 @@ Converter.prototype.getRadioData = function( field){
 	}
 	return val;
 };
-Converter.prototype.getCheckboxData = function( field){
-	var cons = field.getElementsByTagName("input");
-	var val="";
+Converter.prototype.getCheckboxData = function( name ){
+	var cons = this.getControls(name);
+	var val= "" ;
 	for( var i= 0 ; i < cons.length ; i++){
 		if( "checkbox" == cons[i].type && true == cons[i].checked ){
 			val +=  "<vals>" + cons[i].value +"</vals>";
 		}
 	}
+	val = val.length > 0 ? val: '<vals></vals>';
 	return val;
-};
-Converter.prototype.getSelectData= function( field){
-	var con = field.getElementsByTagName("select")[0];
-	return con.value;
 };
