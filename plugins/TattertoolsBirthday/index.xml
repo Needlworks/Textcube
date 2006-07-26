@@ -19,8 +19,25 @@
   </requirements>
   <binding>
 	<tag name="TattertoolsBirthday" handler="TattertoolsBirthday_TattertoolsBirthday" />
-	<config dataValHandler = "TaatertoolsBirthdayDataSet" >
-		<fieldset legend="처음처럼1">
+	<config dataValHandler = "TattertoolsBirthdayDataSet" >
+		<fieldset legend="기념일를 넣어주세요" name="fieldset1">
+			<field title="월" name="month" type="select"  >
+				<op value="1">1</op>
+				<op value="2" >2</op>
+				<op value="3">3</op>
+				<op value="4">4</op>
+				<op value="5">5</op>
+				<op value="6" >6</op>
+				<op value="7">7</op>
+				<op value="8">8</op>
+				<op value="9">9</op>
+				<op value="10">10</op>
+				<op value="11">11</op>
+				<op value="12">12</op>
+			</field>			
+			<field title="일" name="day" type="text"  size ="3" />
+		</fieldset>
+		<fieldset legend="처음처럼1" name="g1">
 			<field title="셋팅1" name="t1" type="text" size="3" />
 			<field title="셋팅2" name="t2" rows="2"  type="textarea" value ="처음>>값" />
 			<field title="선택" name="t6" type="radio"  >
@@ -30,7 +47,7 @@
 				<op value="4">4</op>
 			</field>			
 		</fieldset>
-		<fieldset legend="처음처럼2">
+		<fieldset legend="처음처럼2" name="g2">
 			<field title="선택" name="t3" type="select"  >
 				<op value="1">1</op>
 				<op value="2" checked="true">2</op>
@@ -48,8 +65,8 @@
 				<op value="2" checked="true">일이삼사3</op>
 				<op value="3">오륙칠팔3</op>
 			</field>
-			
 		</fieldset>
 	</config>
   </binding>
 </plugin>
+

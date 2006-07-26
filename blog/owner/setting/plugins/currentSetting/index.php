@@ -1,135 +1,56 @@
 <?
 define('ROOT', '../../../../..');
 $IV = array(	'GET' => array(	'Name' => array('string')	));
-if( !empty( $_POST ) ){
-	$IV['POST'] = array();
-	foreach( $_POST as $key => $val)
-		$IV['POST'][$key] = array( 'any', 'mandatory' => false);
-}
 require ROOT . '/lib/includeForOwner.php';
 $pluginName = $_GET['Name'];
-$postCheck = null;
-if( !empty( $_POST) ) $postCheck = handleDataSet(	$pluginName, $_POST );
-
-$typeSchema = array(
-	'text' 
-,	'textarea'
-,	'select'
-,	'checkbox'
-,	'radio'
-);
-$result =  handleConfig($pluginName,  $postCheck);
+$result =  handleConfig($pluginName);
 if( is_null($result) )	respondNotFoundPage();
-?><?= $result ?>
-
-<?
-function handleConfig( $plugin , $postCheck){
-	global $service;
-	$manifest = @file_get_contents(ROOT . "/plugins/$plugin/index.xml");
-	$xmls = new XMLStruct();	
-	$CDSPval = '';
-	$i=0;
-	if ($manifest && $xmls->open($manifest)) {
-	// get config schema
-	//soax 
-		foreach ($xmls->selectNodes('/plugin/binding/config/fieldset') as $fieldset) {
-			$legend = !empty($fieldset['.attributes']['legend']) ? htmlspecialchars($fieldset['.attributes']['legend']) :'';
-			$CDSPval .= "<fieldset legend='$legend' >";
-			if( !empty( $fieldset['field'] ) ){
-				foreach( $fieldset['field'] as $field )
-					$CDSPval .=  TreatType( $field , null ) ;
-			}
-			$CDSPval .= "</fieldset>\n";
-			$i++;
-		}
-	}else	$CDSPval = _t('죄송합니다. 설정값을 찾을 수 없습니다.'); 	
-return
-"
-<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
-<html xmlns=\"http://www.w3.org/1999/xhtml\">
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
-	<link rel=\"stylesheet\" type=\"text/css\" href=\"{$service['path']}/style/configStyle.css\" />
-	<script type=\"text/javascript\" src=\"{$service['path']}/script/pluginconfig.js\"> </script>
-	<title>$plugin config</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="<?=$service['path']?>/style/configStyle.css" />
+<script type="text/javascript" src="<?=$service['path']?>/script/EAF.js"></script>
+<script type="text/javascript" src="<?=$service['path']?>/script/pluginconfig.js"> </script>
+<script type="text/javascript" >//<![CDATA[
+var errorMessage ={
+	"1": "<?=_t('디비에서')?>",
+	"2": "<?=_t('플러그인 제작자 검증에서')?>"
+}
+function saveConfig(plugin){
+	if( !document ) return false;
+	var dataSet = document.getElementById('config_data');
+	var xmlcon= new Converter( dataSet) ;
+	var xmlData = encodeURIComponent(xmlcon.getXMLData());
+	var request = new HTTPRequest("POST" , "<?=$blogURL?>/owner/setting/plugins/recieveConfig");
+	PM.addRequest(request, "<?=_t('설정을 저장중 입니다.')?>");
+	request.onSuccess = function () {
+		PM.removeRequest(this);
+		PM.showMessage("<?=_t('저장 완료')?>", "center", "bottom");
+	};		
+	request.onError = function () {
+		PM.removeRequest(this);
+		if( this.getText("/response/error") == "9" )
+			alert(this.getText("/response/customError"));
+		else
+			alert( errorMessage[ this.getText("/response/error") ] );
+	};
+	request.onVerify = function() {
+		return (this.getText("/response/error") == "0" );
+	};			
+	request.send("Name=" + encodeURIComponent(plugin) + "&DATA=" + xmlData);
+	xmlcon = null;
+	request = null;
+}	
+//]]></script>
+<title><?=$pluginName?> config</title>
 </head>
 <body>
-<h3>$plugin CONFIG</h3>
-<div id='config_data'>
-$CDSPval
-</div>
+<h3><?=$pluginName?> CONFIG</h3>
+<div id='config_data'><?=$result?></div>
 <div width='100%' align='center'>
-	<input type='button' value='"._t('설정')."' onclick='saveConfig();'>
+	<input type='button' value='<?=_t('설정')?>' onclick='saveConfig("<?=$pluginName?>");'>
 </div>
 </body>
 </html>
-";	
-}
-
-function TreatType(  $cmd , $dfVal ){
-	global $typeSchema;
-	if( empty($cmd['.attributes']['type']) || !in_array($cmd['.attributes']['type'] , $typeSchema  ) ) return '';
-	if( empty($cmd['.attributes']['title']) || empty($cmd['.attributes']['name'])) return '';
-	return	'<div class="fieldTitle" >'.htmlspecialchars($cmd['.attributes']['title']) . '</div><div class="fieldControl">'. call_user_func($cmd['.attributes']['type'].'Treat' , $cmd, $dfVal) .'</div>' ;
-}
-function textTreat( $cmd , $dfVal ){
-	$DSP = '<input type="text" name="'.htmlspecialchars($cmd['.attributes']['name']).'" ';
-	$DSP .= empty( $cmd['.attributes']['size'] ) ? '' : 'size="'. $cmd['.attributes']['size'] . '"' ;
-//디폴트 발류	$DSP .= empty( $dfVal[ $cmd
-	$DSP .= empty( $cmd['.attributes']['value'] ) ? '' : 'value="'. htmlspecialchars($cmd['.attributes']['value'] ). '"' ;
-	$DSP .= ' />' ;
-	return $DSP;
-}
-function textareaTreat( $cmd, $dfVal){
-	$DSP = '<textarea name="'.htmlspecialchars($cmd['.attributes']['name']).'" ';
-	$DSP .= empty( $cmd['.attributes']['rows'] ) ? '' : 'rows="'. $cmd['.attributes']['rows'] . '"' ;
-	$DSP .= empty( $cmd['.attributes']['cols'] ) ? '' : 'cols="'. $cmd['.attributes']['cols'] . '"' ;
-	$DSP .= '>';
-//디폴트 발류	$DSP .= empty( $dfVal[ $cmd
-	$DSP .= empty( $cmd['.value'] ) ? '' : htmlspecialchars($cmd['.value']);
-	$DSP .= '</textarea>' ;
-	return $DSP;
-}
-function selectTreat( $cmd, $dfVal ){
-	$DSP = '<select name="'.htmlspecialchars($cmd['.attributes']['name']).'" >';
-	foreach( $cmd['op']  as $option ){
-		$DSP .= '<option ';
-		$DSP .= empty( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
-		$DSP .= !empty( $option['.attributes']['checked'] ) && 'true' == $option['.attributes']['checked'] && is_null($dfVal) ? 'selected="true" ' : '';
-		$DSP .= !is_null($dfVal) && (empty( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value']== $dfVal ) ? 'selected="true" ' : '';
-		$DSP .= '>';
-		$DSP .= $option['.value'];
-		$DSP .= '</option>';
-	}
-	$DSP .= '</select>' ;
-	return $DSP;
-}
-function checkboxTreat( $cmd, $dfVal){
-	$checked_arr = explode( "," , $dfVal );
-	$DSP = '<div name="'.htmlspecialchars($cmd['.attributes']['name']).'" >';
-	foreach( $cmd['op']  as $option ){
-		$DSP .= '<input type="checkbox" ';
-		$DSP .= empty( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
-		$DSP .= !empty( $option['.attributes']['checked'] ) && 'true' == $option['.attributes']['checked'] && is_null($dfVal) ? 'checked="true" ' : '';
-		$DSP .= count($checked_arr) > 0  && in_array( (empty( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value'] ) , $checked_arr ) ? 'checked="true" ' : '';
-		$DSP .= '> ' ;
-		$DSP .= $option['.value'];
-	}
-	$DSP .= '</div>' ;
-	return $DSP;
-}
-function radioTreat( $cmd, $dfVal){
-	$checked_arr = explode( "," , $dfVal );
-	$DSP = '<div name="'. htmlspecialchars($cmd['.attributes']['name']) .' >';
-	foreach( $cmd['op']  as $option ){
-		$DSP .= '<input type="radio" name="'. htmlspecialchars($cmd['.attributes']['name']) .'" ';
-		$DSP .= empty( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
-		$DSP .= !empty( $option['.attributes']['checked'] ) && 'true' == $option['.attributes']['checked'] && is_null($dfVal) ? 'checked="true" ' : '';
-		$DSP .= !is_null($dfVal) && (empty( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value']== $dfVal ) ? 'selected="true" ' : '';
-		$DSP .= '> ' ;
-		$DSP .= $option['.value'];
-	}
-	$DSP .= '</div> ' ;
-	return $DSP;
-}
-?>
