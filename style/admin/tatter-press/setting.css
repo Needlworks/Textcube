@@ -533,6 +533,7 @@ input#pathDomain
 
 /* common ---------------------------------------------------------------------------------------*/
 #part-data-correct,
+#part-data-optimize,
 #part-data-backup,
 #part-data-restore,
 #part-data-remove
@@ -541,6 +542,7 @@ input#pathDomain
 }
 
 #part-data-correct .image,
+#part-data-optimize .image,
 #part-data-backup .image,
 #part-data-restore .image,
 #part-data-remove .image
