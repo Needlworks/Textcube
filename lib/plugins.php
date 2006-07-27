@@ -181,7 +181,7 @@ function handleDataSet( $plugin , $DATA ){
 		return array('error' => '3' ,'customError' => '' ) ;
 	}unset($xmls);	
 	if( ! in_array($plugin, $activePlugins) ) 
-		return array('error' => '9' , 'customError'=> _t($plugin.' 플러그인이 활서화 되어 있지 않습니다.' ) ) ;
+		return array('error' => '9' , 'customError'=> _t($plugin.'사용중인 플러그인만 설정을 변경할 수 있습니다.')) ;
 	$reSetting = true;
 	if( !empty( $configMappings[$plugin]['dataValHandler'] ) ){
 		include_once (ROOT . "/plugins/$plugin/index.php");

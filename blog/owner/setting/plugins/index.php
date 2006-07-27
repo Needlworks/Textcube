@@ -256,9 +256,15 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 										<td class="config">
 <?php
 	if ($config=='Y') {
+		if ($active) {
 ?>
 											<a href="#void" id="config_<?php echo $i?>" class="config-enabled-icon bullet" onclick="getCurrentSetting('<?php echo $pluginDir?>','<?php echo $config?>')"><?php echo _t('설정가능')?></a>
 <?php
+		} else {
+?>
+											<span id="config_<?php echo $i?>" class="config-disabled-icon bullet"><?php echo _t('미사용중')?></span>
+<?php
+		}
 	} else {
 ?>
 											<span id="config_<?php echo $i?>" class="config-disabled-icon bullet"><?php echo _t('설정없음')?></span>
