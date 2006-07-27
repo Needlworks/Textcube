@@ -504,6 +504,16 @@ input#pathDomain
 	background-color                 : #88BB88;
 }
 
+#part-setting-plugins table.data-inbox tbody tr td.scope
+{
+	text-align                       : center;
+}
+
+#part-setting-plugins table.data-inbox tbody tr td.config
+{
+	text-align                       : center;
+}
+
 #part-setting-plugins table.data-inbox tbody tr td.status a
 {
 	border-bottom                    : none;

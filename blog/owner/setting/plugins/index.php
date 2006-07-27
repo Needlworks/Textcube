@@ -56,6 +56,10 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 											
 											objTR = getParentByTagName("TR", document.getElementById("plugin" + num + "Link"));
 											objTR.className = objTR.className.replace('inactive', 'active');
+											
+											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정하기')?>')) {
+												objTR.cells[5].innerHTML = '<a href="#void" id="config_' + num +'" class="config-enabled-icon bullet" onclick="getCurrentSetting(\'' + plugin + '\',\'Y\')"><?php echo _t('설정하기')?></a>';
+											}
 										}
 										request.onError = function() {
 											alert("<?php echo _t('플러그인을 활성화하는데 실패했습니다.')?>");
@@ -71,6 +75,10 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 											
 											objTR = getParentByTagName("TR", document.getElementById("plugin" + num + "Link"));
 											objTR.className = objTR.className.replace('active', 'inactive');
+											
+											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정하기')?>')) {
+												objTR.cells[5].innerHTML = '<span class="config-disabled-icon bullet"><?php echo _t('설정하기')?></span>';
+											}
 										}
 										request.onError = function() {
 											alert("<?php echo _t('플러그인을 비활성화하는데 실패했습니다.')?>");
@@ -125,7 +133,7 @@ if (!defined('__TATTERTOOLS_CENTER__')) {
 									<dt><?php echo _t('종류')?></dt>
 									<dd>
 										<input type="radio" class="radio" id="global-scope" name="scopeType" value="all" onclick="changeList()"<?php echo  $_POST['scopeType'] == "all" ? ' checked="checked"' : ''?> /> <label for="global-scope"><?php echo _t('전체')?></label>
-										<input type="radio" class="radio" id="global-scope" name="scopeType" value="global" onclick="changeList()"<?php echo  $_POST['scopeType'] == "global" ? ' checked="checked"' : ''?> /> <label for="global-scope"><?php echo _t('일반')?></label>
+										<input type="radio" class="radio" id="common-scope" name="scopeType" value="global" onclick="changeList()"<?php echo  $_POST['scopeType'] == "global" ? ' checked="checked"' : ''?> /> <label for="common-scope"><?php echo _t('일반')?></label>
 										<input type="radio" class="radio" id="blog-scope" name="scopeType" value="blog" onclick="changeList()"<?php echo  $_POST['scopeType'] == "blog" ? ' checked="checked"' : ''?> /> <label for="blog-scope"><?php echo _t('블로그')?></label>
 										<input type="radio" class="radio" id="admin-scope" name="scopeType" value="admin" onclick="changeList()"<?php echo  $_POST['scopeType'] == "admin" ? ' checked="checked"' : ''?> /> <label for="admin-scope"><?php echo _t('관리자')?></label>
 										<input type="radio" class="radio" id="sidebar-scope" name="scopeType" value="sidebar" onclick="changeList()"<?php echo  $_POST['scopeType'] == "sidebar" ? ' checked="checked"' : ''?> /> <label for="sidebar-scope"><?php echo _t('사이드바')?></label>
@@ -243,14 +251,16 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 										<td class="scope">
 <?php
 	switch($scope) {
-		case 'global': echo _t('일반');break;
-		case 'blog': echo _t('블로그');break;
-		case 'admin': echo _t('관리자');break;
-		case 'sidebar': echo _t('사이드바');break;
-		case 'center': echo _t('센터');break;
-		default : echo _t('미지정');break;
-	}	
-?></td>
+		case 'global': echo str_repeat("\t", 11)._t('일반');break;
+		case 'blog': echo str_repeat("\t", 11)._t('블로그');break;
+		case 'admin': echo str_repeat("\t", 11)._t('관리자');break;
+		case 'sidebar': echo str_repeat("\t", 11)._t('사이드바');break;
+		case 'center': echo str_repeat("\t", 11)._t('센터');break;
+		default : echo str_repeat("\t", 11)._t('미지정');break;
+	}
+	echo CRLF;
+?>
+										</td>
 										<td class="explain"><?php echo $description?></td>
 										<td class="maker"><?php echo ($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author)?></td>
 										<td class="config">
@@ -258,16 +268,16 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	if ($config=='Y') {
 		if ($active) {
 ?>
-											<a href="#void" id="config_<?php echo $i?>" class="config-enabled-icon bullet" onclick="getCurrentSetting('<?php echo $pluginDir?>','<?php echo $config?>')"><?php echo _t('설정가능')?></a>
+											<a href="#void" id="config_<?php echo $i?>" class="config-enabled-icon bullet" onclick="getCurrentSetting('<?php echo $pluginDir?>','<?php echo $config?>')"><?php echo _t('설정하기')?></a>
 <?php
 		} else {
 ?>
-											<span id="config_<?php echo $i?>" class="config-disabled-icon bullet"><?php echo _t('미사용중')?></span>
+											<span class="config-disabled-icon bullet"><?php echo _t('설정하기')?></span>
 <?php
 		}
 	} else {
 ?>
-											<span id="config_<?php echo $i?>" class="config-disabled-icon bullet"><?php echo _t('설정없음')?></span>
+											<span class="config-none-icon bullet"><?php echo _t('없음')?></span>
 <?php
 	}
 ?>
