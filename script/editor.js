@@ -1762,18 +1762,21 @@ TTEditor.prototype.objectUnSerialize = function(str) {
 
 // HTML 문자열에서 attribute="value" 추출
 TTEditor.prototype.parseAttribute = function(str, name) {
-	var regAttribute1 = new RegExp("\\W" + name + '="([^"]*)"', "gi");
-	var regAttribute2 = new RegExp("\\W" + name + "='([^']*)'", "gi");
-	var regAttribute3 = new RegExp("\\W" + name + "=([^\\s>]*)", "gi");
+	var regAttribute1 = new RegExp("(^|\\W)" + name + '="([^"]*)"', "gi");
+	var regAttribute2 = new RegExp("(^|\\W)" + name + "='([^']*)'", "gi");
+	var regAttribute3 = new RegExp("(^|\\W)" + name + "=([^\\s>]*)", "gi");
 
-	if(result = regAttribute1.exec(str))
-		return result[1];
-	else if(result = regAttribute2.exec(str))
-		return result[1];
-	else if(result = regAttribute3.exec(str))
-		return result[1];
-	else
+	if(result = regAttribute1.exec(str)) {
+		return result[2];
+	} else if(result = regAttribute2.exec(str)) {
+		return result[2];
+	} else if(result = regAttribute3.exec(str)) {
+		return result[2];
+	} else {
 		return "";
+	}
+	
+	
 }
 
 // 직접 execCommand 명령을 내릴 수 있게 해줌
