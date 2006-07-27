@@ -100,7 +100,7 @@ unset($padding);
 unset($waterMarkPath);
 
 if (!file_exists(ROOT . '/config.php')) {
-	header("Location: ../setup.php");
+	header('Location: ' . ROOT . '/setup.php');
 	exit;
 }
 

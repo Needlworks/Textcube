@@ -347,11 +347,11 @@ function addFeed($owner, $group = 0, $url, $getEntireFeed = true, $htmlURL = '',
 	global $database;
 	if(strpos(strtolower($url), 'http://') !== 0)
 		$url = 'http://'.$url;
-	$url = mysql_escape_string($url);
-	if (fetchQueryCell("SELECT id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.owner = $owner AND r.owner = g.owner AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$url'")) {
+	$escapedURL = mysql_escape_string($url); 
+ 	if (fetchQueryCell("SELECT id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.owner = $owner AND r.owner = g.owner AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$escapedURL'")) { 
 		return 1;
 	}
-	if ($id = fetchQueryCell("SELECT id FROM {$database['prefix']}Feeds WHERE xmlURL = '$url'")) {
+	if ($id = fetchQueryCell("SELECT id FROM {$database['prefix']}Feeds WHERE xmlURL = '$escapedURL'")) {
 		mysql_query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($owner, $id, $group)");
 		return 0;
 	}
@@ -367,7 +367,7 @@ function addFeed($owner, $group = 0, $url, $getEntireFeed = true, $htmlURL = '',
 		$htmlURL = mysql_escape_string(mysql_lessen(stripHTML($htmlURL)));
 		$blogTitle = mysql_escape_string(mysql_lessen(stripHTML($blogTitle)));
 		$blogDescription = mysql_escape_string(mysql_lessen(stripHTML($blogDescription)));
-		mysql_query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '$url', '$htmlURL', '$blogTitle', '$blogDescription', 'en-US', 0)");
+		mysql_query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '$escapedURL', '$htmlURL', '$blogTitle', '$blogDescription', 'en-US', 0)");
 		$id = mysql_insert_id();
 		mysql_query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($owner, $id, $group)");
 	}
