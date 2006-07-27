@@ -606,6 +606,7 @@
 
 /* common ---------------------------------------------------------------------------------------*/
 #part-data-correct div.data-inbox .explain,
+#part-data-optimize div.data-inbox .explain,
 #part-data-backup div.data-inbox .explain,
 #part-data-restore div.data-inbox .explain,
 #part-data-remove div.data-inbox .explain
@@ -617,6 +618,8 @@
 
 #part-data-correct div.data-inbox .explain a:link,
 #part-data-correct div.data-inbox .explain a:visited,
+#part-data-optimize div.data-inbox .explain a:link,
+#part-data-optimize div.data-inbox .explain a:visited,
 #part-data-backup div.data-inbox .explain a:link,
 #part-data-backup div.data-inbox .explain a:visited,
 #part-data-restore div.data-inbox .explain a:link,
@@ -629,6 +632,8 @@
 
 #part-data-correct div.data-inbox .explain a:hover,
 #part-data-correct div.data-inbox .explain a:active,
+#part-data-optimize div.data-inbox .explain a:hover,
+#part-data-optimize div.data-inbox .explain a:active,
 #part-data-backup div.data-inbox .explain a:hover,
 #part-data-backup div.data-inbox .explain a:active,
 #part-data-restore div.data-inbox .explain a:hover,
@@ -641,6 +646,7 @@
 }
 
 #part-data-correct div.data-inbox .image,
+#part-data-optimize div.data-inbox .image,
 #part-data-backup div.data-inbox .image,
 #part-data-restore div.data-inbox .image,
 #part-data-remove div.data-inbox .image
@@ -660,6 +666,7 @@
 }
 
 #part-data-correct div.data-inbox .explain,
+#part-data-optimize div.data-inbox .explain,
 #part-data-backup div.data-inbox .explain,
 #part-data-restore div.data-inbox .explain,
 #part-data-remove div.data-inbox .explain
@@ -669,6 +676,7 @@
 }
 
 #part-data-correct div.data-inbox .image img,
+#part-data-optimize div.data-inbox .image img,
 #part-data-backup div.data-inbox .image img,
 #part-data-restore div.data-inbox .image img,
 #part-data-remove div.data-inbox .image img
@@ -682,7 +690,8 @@
 	margin-top                       : 0;
 }
 
-#part-data-correct div.data-inbox .image img
+#part-data-correct div.data-inbox .image img,
+#part-data-optimize div.data-inbox .image img
 {
 	margin-top                       : 5px;
 }
