@@ -1,25 +1,13 @@
-
 #config_data {
-	border:1px solid dotted #FF0000;
 }
-
-
-fieldset {
-	display:none;
+#config_data fieldset {
 }
-
-
 #config_data fieldset div.field {
 }
-
- label.fieldtitle  {
-	display:none;
+#config_data label.fieldtitle  {
 }
-
 #config_data fieldset div.field div.fieldcaption  {
 }
-
-
 #config_data fieldset div.field span.fieldcontrol .textcontrol  {
 }
 #config_data fieldset div.field span.fieldcontrol .selectcontrol  {

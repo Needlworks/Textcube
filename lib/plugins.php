@@ -9,7 +9,7 @@ $configMappings = array();
 $baseConfigPost = $service['path'].'/owner/setting/plugins/currentSetting';
 $configPost  = '';
 $configVal = '';
-
+$typeSchema = null;
 
 if (!empty($owner)) {
 	$activePlugins = fetchQueryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE owner = $owner");
@@ -175,7 +175,11 @@ function handleSidebars( & $obj) {
 
 function handleDataSet( $plugin , $DATA ){
 	global $configMappings, $activePlugins;
-	
+	$xmls = new XMLStruct();
+	if( ! $xmls->open($DATA) ) {
+		unset($xmls);	
+		return array('error' => '3' ,'customError' => '' ) ;
+	}unset($xmls);	
 	if( ! in_array($plugin, $activePlugins) ) 
 		return array('error' => '9' , 'customError'=> _t($plugin.' 플러그인이 활서화 되어 있지 않습니다.' ) ) ;
 	$reSetting = true;
@@ -192,58 +196,30 @@ function handleDataSet( $plugin , $DATA ){
 function fetchConfigVal( $DATA ){
 	$xmls = new XMLStruct();
 	$outVal = array();
-	if( ! $xmls->open($DATA) ) return null;
-	if( is_null(  $xmls->selectNodes('/config/fieldset') )) return null;
-	foreach ($xmls->selectNodes('/config/fieldset') as $fieldset) {
-		if (empty($fieldset['.attributes']['name']) )  return null;
-		$outVal[$fieldset['.attributes']['name']] = array();
-		foreach( $fieldset['field'] as $field ){
-			if( empty( $field['.attributes']['name'] )  || empty( $field['.attributes']['type'] ) )
-				return null;
-			if( 'checkbox' != $field['.attributes']['type'] ) 
-				$outVal[$fieldset['.attributes']['name']][$field['.attributes']['name']] = $field['.value'] ;
-			else{
-				$outVal[$fieldset['.attributes']['name']][$field['.attributes']['name']] = array();
-				if( !empty( $field['vals'] ))
-					foreach( $field['vals'] as $val )
-						array_push( $outVal[$fieldset['.attributes']['name']][$field['.attributes']['name']] , $val['.value']);
-			}
-		}
+	if( ! $xmls->open($DATA) ) {
+		unset($xmls);	
+		return null;
 	}
-	$xmls= null;	
+	if( is_null(  $xmls->selectNodes('/config/field') )){
+	 	unset($xmls);	
+		return null;
+	}
+	foreach ($xmls->selectNodes('/config/field') as $field) {
+		if( empty( $field['.attributes']['name'] )  || empty( $field['.attributes']['type'] ) ){
+		 	unset($xmls);	
+			return null;
+		}
+		$outVal[$field['.attributes']['name']] = $field['.value'] ;
+	}
+	unset($xmls);	
 	return ( $outVal);
 }
 
-function handleConfig( $plugin){
-	global $service;
-	$manifest = @file_get_contents(ROOT . "/plugins/$plugin/index.xml");
-	$xmls = new XMLStruct();	
-	$CDSPval = '';
-	$i=0;
-	$dfVal =  fetchConfigVal(getCurrentSetting($plugin));
-	$name = '';
-	if ($manifest && $xmls->open($manifest)) {
-	
-		if( is_null( $xmls->selectNodes ( '/plugin/binding/config/fieldset' )) ) return  _t('설정 값이 없습니다.'); 	
-		foreach ($xmls->selectNodes('/plugin/binding/config/fieldset') as $fieldset) {
-			$legend = !empty($fieldset['.attributes']['legend']) ? htmlspecialchars($fieldset['.attributes']['legend']) :'';
-			if( empty($fieldset['.attributes']['name']) ) continue;
-			$CDSPval .= "<fieldset name='{$fieldset['.attributes']['name']}' ><legend>$legend</legend>";
-			if( !empty( $fieldset['field'] ) ){
-				foreach( $fieldset['field'] as $field ){
-					if( empty( $field['.attributes']['name'] ) ) continue;
-					$name = 'FMS_' . $fieldset['.attributes']['name'] . '_' . $field['.attributes']['name'] ;
-					$CDSPval .=  TreatType( $field , empty($dfVal[$fieldset['.attributes']['name']][$field['.attributes']['name']]) ? null : $dfVal[$fieldset['.attributes']['name']][$field['.attributes']['name']] ,  $name) ;	
-				}
-			}
-			$CDSPval .= '</fieldset>';
-			$i++;
-		}
-	}else	$CDSPval = _t('설정 값이 없습니다.'); 	
-	return $CDSPval;
-}
 
-function TreatType(  $cmd , $dfVal , $name ){
+
+function handleConfig( $plugin){
+	global $service , $typeSchema;
+	
 	$typeSchema = array(
 		'text' 
 	,	'textarea'
@@ -251,37 +227,86 @@ function TreatType(  $cmd , $dfVal , $name ){
 	,	'checkbox'
 	,	'radio'
 	);
+	$manifest = @file_get_contents(ROOT . "/plugins/$plugin/index.xml");
+	$xmls = new XMLStruct();	
+	$CDSPval = '';
+	$i=0;
+	$dfVal =  fetchConfigVal(getCurrentSetting($plugin));
+	$name = '';
+	$clientData ='[';
+	$defaultCss = (true === file_exists( ROOT. "/plugins/$plugin/configStyle.css" ) ) ? $service['path']. "/plugins/$plugin/configStyle.css" : $service['path']. '/style/configStyle.css';
+	if ($manifest && $xmls->open($manifest)) {
+		if( is_null( $xmls->selectNodes ( '/plugin/binding/config/fieldset' )) ) 
+			return array( 'code' => _t('설정 값이 없습니다.') , 'script' => '[]' , 'css' => $defaultCss ) ;  	
+		foreach ($xmls->selectNodes('/plugin/binding/config/fieldset') as $fieldset) {
+			$legend = !empty($fieldset['.attributes']['legend']) ? htmlspecialchars($fieldset['.attributes']['legend']) :'';
+			$CDSPval .= "<fieldset ><legend>$legend</legend>";
+			if( !empty( $fieldset['field'] ) ){
+				foreach( $fieldset['field'] as $field ){
+					if( empty( $field['.attributes']['name'] ) ) continue;
+					$name = $field['.attributes']['name'] ;
+					$clientData .= getFieldName($field , $name) ;
+					$CDSPval .=  TreatType( $field , $dfVal ,  $name) ;	
+				}
+			}
+			$CDSPval .= "</fieldset>\n";
+		}
+	}else	$CDSPval = _t('설정 값이 없습니다.'); 	
+	$clientData .= ']';
+	return array( 'code' => $CDSPval , 'script' => $clientData , 'css' => $defaultCss ) ;
+}
+
+function getFieldName( $field , $name ){
+	if( 'checkbox' != $field['.attributes' ]['type'] ) return '"' . $name . '",';
+	$tname ='';
+	foreach( $field['op'] as $op ){
+		if( !empty( $op['.attributes']['name'] ) )
+			$tname .= '"' . $op['.attributes']['name'] . '",';
+	}
+	return $tname;
+}
+
+function TreatType(  $cmd , $dfVal , $name ){
+	global $typeSchema;
 	if( empty($cmd['.attributes']['type']) || !in_array($cmd['.attributes']['type'] , $typeSchema  ) ) return '';
 	if( empty($cmd['.attributes']['title']) || empty($cmd['.attributes']['name'])) return '';
-	return	'<field name="'.htmlspecialchars($cmd['.attributes']['name']).'" type="'.$cmd['.attributes']['type'].'"><fieldTitle >'.htmlspecialchars($cmd['.attributes']['title']) . '</fieldTitle ><fieldControl >' .  call_user_func($cmd['.attributes']['type'].'Treat' , $cmd, $dfVal, $name) .'</fieldControl ></field>';
+
+	$titleFw = empty($cmd['.attributes']['titledirection']) ? true : ($cmd['.attributes']['titledirection'] == 'bk' ? false : true);
+	$fieldTitle = '<label class="fieldtitle" >'.htmlspecialchars($cmd['.attributes']['title']) . '</label >';
+	$fieldContorl = '<span class="fieldcontrol" >' .  call_user_func($cmd['.attributes']['type'].'Treat' , $cmd, $dfVal, $name) .'</span >';
+	$caption = empty($cmd['caption'][0]) ? '':'<div class="fieldcaption" >'.htmlspecialchars( $cmd['caption'][0]['.value'] ) . '</div >';
+	if( $titleFw) 
+		return	'<div class="field" id="div_'.htmlspecialchars($cmd['.attributes']['name']).'" >'.$fieldTitle.$fieldContorl.$caption."</div>\n";
+	else
+		return	'<div class="field" id="div_'.htmlspecialchars($cmd['.attributes']['name']).'"  >'.$fieldContorl.$fieldTitle.$caption."</div>\n";
 }
 function textTreat( $cmd , $dfVal , $name ){
-	$dfVal = ( !is_null( $dfVal  ) ) ? $dfVal  :  (empty($cmd['.attributes']['value'] )?null:$cmd['.attributes']['value'] );
-	$DSP = '<input type="text" ';
-	$DSP .= ' name="'.$name.'_control" ';
+	$dfVal = ( !is_null( $dfVal[$name]  ) ) ? $dfVal[$name]  :  (empty($cmd['.attributes']['value'] )?null:$cmd['.attributes']['value'] );
+	$DSP = '<input type="text" class="textcontrol" ';
+	$DSP .= ' id="'.$name.'" ';
 	$DSP .= empty( $cmd['.attributes']['size'] ) ? '' : 'size="'. $cmd['.attributes']['size'] . '"' ;
 	$DSP .= is_null( $dfVal  ) ? '' : 'value="'. htmlspecialchars($dfVal). '"' ;
 	$DSP .= ' />' ;
 	return $DSP;
 }
 function textareaTreat( $cmd, $dfVal , $name){
-	$dfVal = ( !is_null( $dfVal  ) ) ? $dfVal  :  (empty($cmd['.attributes']['value'] )?null:$cmd['.attributes']['value'] );
-	$DSP = '<textarea ';
-	$DSP .= ' name="'.$name.'_control" ';
-	$DSP .= empty( $cmd['.attributes']['rows'] ) ? '' : 'rows="'. $cmd['.attributes']['rows'] . '"' ;
-	$DSP .= empty( $cmd['.attributes']['cols'] ) ? '' : 'cols="'. $cmd['.attributes']['cols'] . '"' ;
+	$dfVal = ( !is_null( $dfVal[$name]  ) ) ? $dfVal[$name] :  (empty($cmd['.value'] )?null:$cmd['.value'] );
+	$DSP = '<textarea class="textareacontrol"';
+	$DSP .= ' id="'.$name.'" ';
+	$DSP .= empty( $cmd['.attributes']['rows'] ) ? 'rows="2"' : 'rows="'. $cmd['.attributes']['rows'] . '"' ;
+	$DSP .= empty( $cmd['.attributes']['cols'] ) ? 'cols="23" ' : 'cols="'. $cmd['.attributes']['cols'] . '"' ;
 	$DSP .= '>';
 	$DSP .= is_null( $dfVal  )  ? '' : htmlspecialchars($dfVal);
 	$DSP .= '</textarea>' ;
 	return $DSP;
 }
 function selectTreat( $cmd, $dfVal , $name){
-	$DSP = '<select  name="'.$name.'_control" >';	
+	$DSP = '<select  id="'.$name.'" class="selectcontrol" >';	
 	foreach( $cmd['op']  as $option ){
 		$DSP .= '<option ';
 		$DSP .= empty( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
-		$DSP .= !empty( $option['.attributes']['checked'] ) && 'true' == $option['.attributes']['checked'] && is_null($dfVal) ? 'selected="true" ' : '';
-		$DSP .= !is_null($dfVal) && (empty( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value']== $dfVal ) ? 'selected="true" ' : '';
+		$DSP .= !empty( $option['.attributes']['checked'] ) && 'checked' == $option['.attributes']['checked'] && is_null($dfVal) ? 'selected="selected" ' : '';
+		$DSP .= !empty($dfVal[$name]) && (empty( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value']== $dfVal[$name] ) ? 'selected="selected" ' : '';
 		$DSP .= '>';
 		$DSP .= $option['.value'];
 		$DSP .= '</option>';
@@ -292,26 +317,30 @@ function selectTreat( $cmd, $dfVal , $name){
 function checkboxTreat( $cmd, $dfVal, $name){
 	$DSP = '';	
 	foreach( $cmd['op']  as $option ){
-		$DSP .= '<input type="checkbox" ';
-		$DSP .= ' name="'.$name.'_control" ';
+		if( empty( $option['.attributes']['name'] ) ) continue;
+		$checked = empty( $dfVal[$option['.attributes']['name'] ]) ? 
+				( !empty( $option['.attributes']['checked'] ) && 'checked' == $option['.attributes']['checked'] && is_null( $dfVal ) ? 'checked="checked" ' : ''   ) :
+				( '' != $dfVal[$option['.attributes']['name'] ] ? 'checked="checked" ' : '');
+		$DSP .= '<input type="checkbox" class="checkboxcontrol"';
+		$DSP .= ' id="'.$option['.attributes']['name'].'" ';
 		$DSP .= empty( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
-		$DSP .= !empty( $option['.attributes']['checked'] ) && 'true' == $option['.attributes']['checked'] && is_null($dfVal) ? 'checked="true" ' : '';
-		$DSP .= count($dfVal) > 0  && in_array( (empty( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value'] ) , $dfVal) ? 'checked="true" ' : '';
+		$DSP .= $checked;
 		$DSP .= ' />' ;
-		$DSP .= $option['.value'];
+		$DSP .= "<label class='checkboxlabel' >{$option['.value']}</label >";
 	}
 	return $DSP;
 }
 function radioTreat( $cmd, $dfVal, $name){
 	$DSP = '';
 	foreach( $cmd['op']  as $option ){
-		$DSP .= '<input type="radio"  ';
-		$DSP .= ' name="'.$name.'_control" ';
+		$DSP .= '<input type="radio"  class="radiocontrol" ';
+		$DSP .= ' name="'.$name.'" ';
+		
 		$DSP .= empty( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
-		$DSP .= !empty( $option['.attributes']['checked'] ) && 'true' == $option['.attributes']['checked'] && is_null($dfVal) ? 'checked="true" ' : '';
-		$DSP .= !is_null($dfVal) && (empty( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value']== $dfVal ) ? 'checked="true" ' : '';
+		$DSP .= !empty( $option['.attributes']['checked'] ) && 'checked' == $option['.attributes']['checked'] && is_null($dfVal) ? 'checked="checked" ' : '';
+		$DSP .= !empty($dfVal[$name]) && (empty( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value']== $dfVal[$name] ) ? 'checked="checked" ' : '';
 		$DSP .= ' />' ;
-		$DSP .= $option['.value'];
+		$DSP .= "<label class='radiolabel' >{$option['.value']}</label >";
 	}
 	return $DSP;
 }

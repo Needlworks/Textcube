@@ -10,19 +10,20 @@ if( is_null($result) )	respondNotFoundPage();
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="<?php echo $service['path']?>/style/configStyle.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $result['css']?>" />
 <script type="text/javascript" src="<?php echo $service['path']?>/script/EAF.js"></script>
 <script type="text/javascript" src="<?php echo $service['path']?>/script/pluginconfig.js"> </script>
 <script type="text/javascript" >//<![CDATA[
+ var fiednamelist = <?php echo $result['script'] ?>;
+
 var errorMessage ={
 	"1": "<?php echo _t('데이터처리 오류 발생.')?>",
 	"2": "<?php echo _t('잘못된 입력 입니다.')?>"
 }
 function saveConfig(plugin){
-	if( !document ) return false;
-	var dataSet = document.getElementById('config_data');
-	var xmlcon= new Converter( dataSet , document) ;
+	var xmlcon= new Converter(document, fiednamelist) ;
 	var xmlData = encodeURIComponent(xmlcon.getXMLData());
+//	alert( xmlcon.getXMLData());
 	var request = new HTTPRequest("POST" , "<?php echo $blogURL?>/owner/setting/plugins/recieveConfig");
 	PM.addRequest(request, "<?php echo _t('설정을 저장중 입니다.')?>");
 	request.onSuccess = function () {
@@ -48,9 +49,9 @@ function saveConfig(plugin){
 </head>
 <body>
 <h3><?php echo $pluginName?> CONFIG</h3>
-<div id='config_data'><?php echo $result?></div>
-<div width='100%' align='center'>
-	<input type='button' value='<?php echo _t('설정')?>' onclick='saveConfig("<?php echo $pluginName?>");'>
+<div id='config_data'><?php echo $result['code']?></div>
+<div align='center'>
+	<input type='button' value='<?php echo _t('설정')?>' onclick='saveConfig("<?php echo $pluginName?>");' />
 </div>
 </body>
 </html>

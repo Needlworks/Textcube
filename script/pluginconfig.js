@@ -1,61 +1,45 @@
-function Converter(data_Set , obj_document ){
-	this.data_Set=data_Set;
+function Converter(obj_document , treat_control_list ){
 	this.doc= obj_document;
+	this.targets = treat_control_list;
 	this.xmlHeader = '<?xml version="1.0" encoding="utf-8"?><config>';
 	this.xmlfooter = '</config>';
 }
-
 Converter.prototype.getXMLData = function(){
-	if( undefined == this.data_Set ) return 'aa';
-	var fieldsets = this.data_Set.getElementsByTagName( "FIELDSET");
 	var innerXml ='';
-	for( var i =0 ; i < fieldsets.length ; i++){
+	for( var i =0 ; i < this.targets.length ; i++){
 		try{			
-			innerXml += '<fieldset name="' + fieldsets[i].getAttribute('name') + '" >\n'; 
-			innerXml += this.makeDataSet( fieldsets[i] );
-			innerXml += '</fieldset >\n'; 
-		} catch(e){alert( e.description );}
+			innerXml += this.makeDataSet( this.targets[i] );
+		} catch(e){}
 	}	
 	return this.xmlHeader + innerXml + this.xmlfooter;
 };
-
-
-Converter.prototype.getControls = function( name){
-	return this.doc.getElementsByName(name);
-};
-
-Converter.prototype.makeDataSet = function( fieldset ){
-	var ele ='';/* FMS_name == Fucking Micro$oft 's name */
-	var fields = fieldset.getElementsByTagName("FIELD");
-	for( var i =0; i < fields.length ; i++){
-		if( undefined != fields[i].getAttribute('name') && undefined != fields[i].getAttribute('type')){
-			var type = fields[i].getAttribute('type');
-			var FMS_name = 'FMS_' + fieldset.getAttribute('name') + '_' +  fields[i].getAttribute('name') + '_control';
-			ele += '<field   name = "' + fields[i].getAttribute('name') +'" type="' + type+ '" >';
-			switch( type){
-				case 'text':
-				case 'textarea':
-					ele += '<![CDATA['+this.getFirstConValue(  FMS_name )+']]>';break;
-				case 'select':
-					ele += this.getFirstConValue(  FMS_name );break;
-				case 'radio':
-					ele += this.getRadioData(  FMS_name);break;
-				case 'checkbox':
-					ele += this.getCheckboxData(  FMS_name);break;
-				default:
-					throw new error(0,"");
-			}
-			ele += '</field >\n';
-		}
+Converter.prototype.makeDataSet = function( fieldName ){
+	var ele ='';
+	var con = this.getControl( fieldName);
+	var type = this.getType(con); 
+	ele += '<field   name = "' + fieldName +'" type="' + type+ '" >';
+	switch( type){
+		case 'select':
+		case 'SELECT':
+		case 'text':
+			ele += con.value;break;		
+		case 'textarea':
+		case 'TEXTAREA':
+			ele += '<![CDATA['+con.value +']]>';break;
+		case 'radio':
+			ele += this.getRadioData(  con );break;
+		case 'checkbox':	
+			ele += this.getCheckBoxData( con); break;			
+		default:
+			throw new Error(0,'알수 없는 타입');
 	}
+	ele += '</field >\n';
 	return ele;
 };
-Converter.prototype.getFirstConValue = function ( name){
-	var cons = this.getControls(name);
-	return cons[0].value;
+Converter.prototype.getCheckBoxData = function ( con){
+	return true == con.checked ? con.value: '';
 };
-Converter.prototype.getRadioData = function( name ){
-	var cons = this.getControls(name);
+Converter.prototype.getRadioData = function( cons ){
 	var val="";
 	for( var i= 0 ; i < cons.length ; i++){
 		if( "radio" == cons[i].type && true == cons[i].checked ){
@@ -65,14 +49,18 @@ Converter.prototype.getRadioData = function( name ){
 	}
 	return val;
 };
-Converter.prototype.getCheckboxData = function( name ){
-	var cons = this.getControls(name);
-	var val= "" ;
-	for( var i= 0 ; i < cons.length ; i++){
-		if( "checkbox" == cons[i].type && true == cons[i].checked ){
-			val +=  "<vals>" + cons[i].value +"</vals>";
-		}
-	}
-	val = val.length > 0 ? val: '<vals></vals>';
-	return val;
+Converter.prototype.getControl = function( name){
+
+	if( undefined == this.doc.getElementById(name)) return this.doc.getElementsByName(name);
+	if( 'radio' == this.doc.getElementById(name).type ) return this.doc.getElementsByName(name);	
+	return this.doc.getElementById(name);
 };
+Converter.prototype.getType = function( objList ){
+	if( undefined == objList ) throw new Error( 0 , 'objList 가 정의 안됨');
+	if( undefined != objList.length && 'INPUT' == objList[0].tagName)	return ( objList[0].getAttribute( 'type' ) ) ;
+	var tagName = objList.tagName ;
+	var type = objList.getAttribute( 'type' );
+	if( 'SELECT' == tagName || 'TEXTAREA' == tagName  ) return tagName;
+	if( undefined != type  ) return type;
+	throw new Error( 0 , 'type에 접근 안됨');
+}
