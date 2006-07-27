@@ -5,6 +5,7 @@ define('TATTERTOOLS_COPYRIGHT', 'Copyright ⓒ 2004-2006. Tatter &amp; Company /
 define('TATTERTOOLS_HOMEPAGE', 'http://www.tattertools.com/');
 define('TATTERTOOLS_SYNC_URL', 'http://sync.eolin.com/');
 define('CRLF', "\r\n");
+define('TAB', "	");
 
 $database['server'] = 'localhost';
 $database['database'] = '';

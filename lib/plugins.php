@@ -240,7 +240,7 @@ function handleConfig( $plugin){
 			return array( 'code' => _t('설정 값이 없습니다.') , 'script' => '[]' , 'css' => $defaultCss ) ;  	
 		foreach ($xmls->selectNodes('/plugin/binding/config/fieldset') as $fieldset) {
 			$legend = !empty($fieldset['.attributes']['legend']) ? htmlspecialchars($fieldset['.attributes']['legend']) :'';
-			$CDSPval .= "<fieldset ><legend>$legend</legend>";
+			$CDSPval .= CRLF.TAB."<fieldset>".CRLF.TAB.TAB."<legend>$legend</legend>".CRLF;
 			if( !empty( $fieldset['field'] ) ){
 				foreach( $fieldset['field'] as $field ){
 					if( empty( $field['.attributes']['name'] ) ) continue;
@@ -249,7 +249,7 @@ function handleConfig( $plugin){
 					$CDSPval .=  TreatType( $field , $dfVal ,  $name) ;	
 				}
 			}
-			$CDSPval .= "</fieldset>\n";
+			$CDSPval .= TAB."</fieldset>".CRLF;
 		}
 	}else	$CDSPval = _t('설정 값이 없습니다.'); 	
 	$clientData .= ']';
@@ -270,48 +270,48 @@ function TreatType(  $cmd , $dfVal , $name ){
 	global $typeSchema;
 	if( empty($cmd['.attributes']['type']) || !in_array($cmd['.attributes']['type'] , $typeSchema  ) ) return '';
 	if( empty($cmd['.attributes']['title']) || empty($cmd['.attributes']['name'])) return '';
-
 	$titleFw = empty($cmd['.attributes']['titledirection']) ? true : ($cmd['.attributes']['titledirection'] == 'bk' ? false : true);
-	$fieldTitle = '<label class="fieldtitle" >'.htmlspecialchars($cmd['.attributes']['title']) . '</label >';
-	$fieldContorl = '<span class="fieldcontrol" >' .  call_user_func($cmd['.attributes']['type'].'Treat' , $cmd, $dfVal, $name) .'</span >';
-	$caption = empty($cmd['caption'][0]) ? '':'<div class="fieldcaption" >'.htmlspecialchars( $cmd['caption'][0]['.value'] ) . '</div >';
+	$fieldTitle = TAB.TAB.TAB.'<label class="fieldtitle">'.htmlspecialchars($cmd['.attributes']['title']) . '</label>';
+	$fieldControl = TAB.TAB.TAB.'<span class="fieldcontrol">' .CRLF.  call_user_func($cmd['.attributes']['type'].'Treat' , $cmd, $dfVal, $name) .TAB.TAB.TAB.'</span>';
+	$caption = empty($cmd['caption'][0]) ? '':TAB.TAB.TAB.'<div class="fieldcaption">'.htmlspecialchars( $cmd['caption'][0]['.value'] ) . '</div>'.CRLF;
 	if( $titleFw) 
-		return	'<div class="field" id="div_'.htmlspecialchars($cmd['.attributes']['name']).'" >'.$fieldTitle.$fieldContorl.$caption."</div>\n";
+		return	TAB.TAB.'<div class="field" id="div_'.htmlspecialchars($cmd['.attributes']['name']).'">'.CRLF.$fieldTitle.CRLF.$fieldControl.CRLF.$caption.TAB.TAB."</div>\n";
 	else
-		return	'<div class="field" id="div_'.htmlspecialchars($cmd['.attributes']['name']).'"  >'.$fieldContorl.$fieldTitle.$caption."</div>\n";
+		return	TAB.TAB.'<div class="field" id="div_'.htmlspecialchars($cmd['.attributes']['name']).'"  >'.CRLF.$fieldControl.CRLF.$fieldTitle.CRLF.$caption.TAB.TAB."</div>\n";
 }
+
 function textTreat( $cmd , $dfVal , $name ){
 	$dfVal = ( !is_null( $dfVal[$name]  ) ) ? $dfVal[$name]  :  (empty($cmd['.attributes']['value'] )?null:$cmd['.attributes']['value'] );
-	$DSP = '<input type="text" class="textcontrol" ';
+	$DSP = TAB.TAB.TAB.TAB.'<input type="text" class="textcontrol" ';
 	$DSP .= ' id="'.$name.'" ';
 	$DSP .= empty( $cmd['.attributes']['size'] ) ? '' : 'size="'. $cmd['.attributes']['size'] . '"' ;
 	$DSP .= is_null( $dfVal  ) ? '' : 'value="'. htmlspecialchars($dfVal). '"' ;
-	$DSP .= ' />' ;
+	$DSP .= ' />'.CRLF ;
 	return $DSP;
 }
 function textareaTreat( $cmd, $dfVal , $name){
 	$dfVal = ( !is_null( $dfVal[$name]  ) ) ? $dfVal[$name] :  (empty($cmd['.value'] )?null:$cmd['.value'] );
-	$DSP = '<textarea class="textareacontrol"';
+	$DSP = TAB.TAB.TAB.TAB.'<textarea class="textareacontrol"';
 	$DSP .= ' id="'.$name.'" ';
 	$DSP .= empty( $cmd['.attributes']['rows'] ) ? 'rows="2"' : 'rows="'. $cmd['.attributes']['rows'] . '"' ;
 	$DSP .= empty( $cmd['.attributes']['cols'] ) ? 'cols="23" ' : 'cols="'. $cmd['.attributes']['cols'] . '"' ;
 	$DSP .= '>';
 	$DSP .= is_null( $dfVal  )  ? '' : htmlspecialchars($dfVal);
-	$DSP .= '</textarea>' ;
+	$DSP .= '</textarea>'.CRLF ;
 	return $DSP;
 }
 function selectTreat( $cmd, $dfVal , $name){
-	$DSP = '<select  id="'.$name.'" class="selectcontrol" >';	
+	$DSP = TAB.TAB.TAB.TAB.'<select id="'.$name.'" class="selectcontrol">'.CRLF;	
 	foreach( $cmd['op']  as $option ){
-		$DSP .= '<option ';
+		$DSP .= TAB.TAB.TAB.TAB.TAB.'<option ';
 		$DSP .= empty( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
 		$DSP .= !empty( $option['.attributes']['checked'] ) && 'checked' == $option['.attributes']['checked'] && is_null($dfVal) ? 'selected="selected" ' : '';
 		$DSP .= !empty($dfVal[$name]) && (empty( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value']== $dfVal[$name] ) ? 'selected="selected" ' : '';
 		$DSP .= '>';
 		$DSP .= $option['.value'];
-		$DSP .= '</option>';
+		$DSP .= '</option>'.CRLF;
 	}
-	$DSP .= '</select>' ;
+	$DSP .= TAB.TAB.TAB.TAB.'</select>'.CRLF ;
 	return $DSP;
 }
 function checkboxTreat( $cmd, $dfVal, $name){
@@ -321,26 +321,26 @@ function checkboxTreat( $cmd, $dfVal, $name){
 		$checked = empty( $dfVal[$option['.attributes']['name'] ]) ? 
 				( !empty( $option['.attributes']['checked'] ) && 'checked' == $option['.attributes']['checked'] && is_null( $dfVal ) ? 'checked="checked" ' : ''   ) :
 				( '' != $dfVal[$option['.attributes']['name'] ] ? 'checked="checked" ' : '');
-		$DSP .= '<input type="checkbox" class="checkboxcontrol"';
+		$DSP .= TAB.TAB.TAB.TAB.'<input type="checkbox" class="checkboxcontrol"';
 		$DSP .= ' id="'.$option['.attributes']['name'].'" ';
 		$DSP .= empty( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
 		$DSP .= $checked;
 		$DSP .= ' />' ;
-		$DSP .= "<label class='checkboxlabel' >{$option['.value']}</label >";
+		$DSP .= "<label class='checkboxlabel' >{$option['.value']}</label>".CRLF;
 	}
 	return $DSP;
 }
 function radioTreat( $cmd, $dfVal, $name){
 	$DSP = '';
 	foreach( $cmd['op']  as $option ){
-		$DSP .= '<input type="radio"  class="radiocontrol" ';
+		$DSP .= TAB.TAB.TAB.TAB.'<input type="radio"  class="radiocontrol" ';
 		$DSP .= ' name="'.$name.'" ';
 		
 		$DSP .= empty( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
 		$DSP .= !empty( $option['.attributes']['checked'] ) && 'checked' == $option['.attributes']['checked'] && is_null($dfVal) ? 'checked="checked" ' : '';
 		$DSP .= !empty($dfVal[$name]) && (empty( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value']== $dfVal[$name] ) ? 'checked="checked" ' : '';
 		$DSP .= ' />' ;
-		$DSP .= "<label class='radiolabel' >{$option['.value']}</label >";
+		$DSP .= "<label class='radiolabel' >{$option['.value']}</label >".CRLF;
 	}
 	return $DSP;
 }
