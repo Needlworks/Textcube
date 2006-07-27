@@ -1277,6 +1277,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					$property .= ' alt="'._text('사용자 삽입 이미지').'"';	
 				}
 				
+				// 현재 이미지의 가로 사이즈 계산.
 				if (eregi('width="([0-9]*%?)"', $property, $temp)) {
 					$currentWidth = $temp[1];
 					if (eregi("^([0-9]+)%$", $currentWidth)) {
@@ -1286,6 +1287,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					$property .= ' width="1"';
 				}
 				
+				// 현재 이미지의 세로 사이즈 계산.
 				if (eregi('height="([0-9]*%?)"', $property, $temp)) {
 					$currentHeight = $temp[1];
 					if (eregi("^([0-9]+)%$", $currentHeight)) {
@@ -1295,11 +1297,17 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					$property .= ' height="1"';
 				}
 				
-				if (!isset($currentWidth) && isset($currentHeight)) {
-					$currentWidth = floor($originWidth * $currentHeight / $originHeight);
-				} else if (isset($currentWidth) && !isset($currentHeight)) {
+				// 가로만 지정된 이미지의 경우.
+				if (isset($currentWidth) && !isset($currentHeight)) {
+					// 비어있는 세로를 가로의 크기를 이용하여 계산.
 					$currentHeight = floor($originHeight * $currentWidth / $originWidth);
-				} else {
+				// 세로만 지정된 이미지의 경우.
+				} else if (!isset($currentWidth) && isset($currentHeight)) {
+					// 비어있는 가로를 세로의 크기를 이용하여 계산.
+					$currentWidth = floor($originWidth * $currentHeight / $originHeight);
+				// 둘 다 지정되지 않은 이미지의 경우.
+				} else if (!isset($currentWidth) && !isset($currentHeight)) {
+					// 둘 다 비어 있을 경우는 오리지널 사이즈로 대치.
 					$currentWidth = $originWidth;
 					$currentHeight = $originHeight;
 				}
