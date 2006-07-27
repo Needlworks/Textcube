@@ -1,24 +1,53 @@
-
-#config_data {
-	border:1px solid dotted #FF0000;
+body
+{
+	background-color                 : #FFFFFF;
+	font-size                        : small;
 }
 
-
-fieldset {
-	display:none;
+h3
+{
+	font-size                        : 1.5em;
 }
 
+#config_data
+{
+	background-color                 : #EAF4FF;
+	color                            : #2A64A3 !important;
+	margin                           : 0 10px;
+	padding                          : 10px;
+	border-top                       : 4px solid #9DCAFB;
+	font-family                      : Arial, Tahoma, Verdana, '±¼¸²', Gulim, sans-serif;
+	font-size                        : 0.925em;
+}
+
+#config_data legend
+{
+	font-size                        : 1em;
+	color                            : #242424;					
+}
+
+#config_data field
+{
+	display                          : block;
+}
+
+#config_data fieldset
+{
+	margin-top                       : 10px;
+}
+
+#config_data field
+{
+	display                          : block;
+}
 
 #config_data fieldset div.field {
+	margin                           : 10px;
 }
 
- label.fieldtitle  {
-	display:none;
+#config_data fieldset div.field div.fieldcaption{
+	margin-bottom                           : 5px;
 }
-
-#config_data fieldset div.field div.fieldcaption  {
-}
-
 
 #config_data fieldset div.field span.fieldcontrol .textcontrol  {
 }
@@ -31,3 +60,9 @@ fieldset {
 #config_data fieldset div.field span.fieldcontrol .radiocontrol  {
 }
 
+.submit
+{
+	width                            : 100%;
+	height                           : 30px;
+	text-align                       : center;
+}
