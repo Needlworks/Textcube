@@ -1,9 +1,6 @@
 <?
 define('ROOT', '../../../..');
 $IV = array(
-	'POST' => array(
-		'Filename' => array('filename')
-	),
 	'FILES' => array(
 		'Filedata' => array('file')
 	),

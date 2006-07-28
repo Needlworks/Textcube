@@ -1,7 +1,10 @@
 <?
+/// Copyright (C) 2004-2006, Tatter & Company. All rights reserved.
+
 define('ROOT', '../../../../../..');
 $IV = array(
-	'POST' => array(
+	'GET' => array(
+		'name' => array('string', 'mandatory' => false),
 		'itemColor' => array('string', 'mandatory' => false),
 		'itemBgColor' => array('string', 'mandatory' => false),
 		'activeItemColor' => array('string', 'mandatory' => false),
@@ -9,16 +12,24 @@ $IV = array(
 		'labelLength' => array('string', 'mandatory' => false),
 		'showValue' => array('string', 'mandatory' => false)
 	)
-);
+); 
+
 require ROOT . '/lib/includeForOwner.php';
-$categories = getCategories($owner);
 $selected = 0;
-$treeSkin = getCategoriesSkin();
-if (empty($_GET['url'])) {
-	$categoriesSkin = $treeSkin;
-} else {
-	$categoriesSkin = array('name' => $treeSkin['name'], 'url' => $_GET['url'], 'labelLength' => $_GET['labelLength'], 'showValue' => $_GET['showValue'], 'itemColor' => $_GET['itemColor'], 'itemBgColor' => $_GET['itemBgColor'], 'activeItemColor' => $_GET['activeItemColor'], 'itemBgColor' => $_GET['itemBgColor'], 'activeItemBgColor' => $_GET['activeItemBgColor']);
-}
+if (isset($_GET['name']))
+	$skinSetting['tree'] = $_GET['name'];
+if (isset($_GET['itemColor']))
+	$skinSetting['colorOnTree'] = $_GET['itemColor'];
+if (isset($_GET['itemBgColor']))
+	$skinSetting['bgColorOnTree'] = $_GET['itemBgColor'];
+if (isset($_GET['activeItemColor']))
+	$skinSetting['activeColorOnTree'] = $_GET['activeItemColor'];
+if (isset($_GET['activeItemBgColor']))
+	$skinSetting['activeBgColorOnTree'] = $_GET['activeItemBgColor'];
+if (isset($_GET['labelLength']))
+	$skinSetting['labelLengthOnTree'] = $_GET['labelLength'];
+if (isset($_GET['showValue']))
+	$skinSetting['showValueOnTree'] = $_GET['showValue'];
 ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -40,6 +51,6 @@ body {
 <script type="text/javascript">
 </script>
 <body>
-	<?=getCategoriesViewInSkinSetting($categories, $selected, $categoriesSkin)?>
+	<?=getCategoriesViewInSkinSetting(getEntriesTotalCount($owner), getCategories($owner), $selected)?>
 </body>
 </html>
