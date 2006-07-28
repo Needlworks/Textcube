@@ -7,8 +7,9 @@ $IV = array(
 		'page' => array('int', 1, 'default' => 1)
 	),
 	'POST' => array(
-		'withSearch' => array(array('on'), 'mandatory' => false),
-		'search' => array('string', 'mandatory' => false)
+		'withSearch' => array(array('on'), 'default' => null),
+		'search' => array('string', 'mandatory' => false),
+		'withSearch' => array('any' , 'default' => null)
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

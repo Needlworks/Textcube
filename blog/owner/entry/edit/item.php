@@ -8,7 +8,6 @@ $IV = array(
 	),
 	'POST' => array(
 		'category' => array('int', 'default' => 0),
-		'withSearch' => array(array('on'), 'mandatory' => false),
 		'search' => array('string', 'default' => '')
 	)
 );
