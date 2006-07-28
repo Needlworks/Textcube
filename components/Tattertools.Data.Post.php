@@ -139,15 +139,12 @@ class Post {
 		return true;
 	}
 	
-	function remove($filter = '') {
+	function remove($id) {
 		global $database, $owner;
-		if (is_numeric($filter)) {
-			$this->id = $filter;
-			$filter = 'id = ' . $filter;
+		if (!is_numeric($id)) {
+			return false;
 		}
-		if (!empty($filter))
-			$filter = 'AND ' . $filter;
-		$result = mysql_query("DELETE FROM FROM {$database['prefix']}Entries WHERE owner = $owner AND category >= 0 $filter");
+		$result = mysql_query("DELETE FROM FROM {$database['prefix']}Entries WHERE owner = $owner AND category >= 0 id = $id");
 		if ($result && ($this->_count = mysql_affected_rows()))
 			return true;
 		return false;
@@ -228,12 +225,18 @@ class Post {
 
 		for ($i = 1; $i < 1000; $i++) {
 			$query->setAttribute('slogan', $this->slogan, false);
-			if (!$query->update())
-				return $this->_error('update');
-			if (DBQuery::queryCount("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan ='" . $this->slogan . "'") == 1)
+			if (!DBQuery::queryExistence(
+				"SELECT id FROM {$database['prefix']}Entries " 
+				. "WHERE owner = $owner AND slogan ='{$this->slogan}'")
+				) 
+			{
+				if (!$query->update())
+					return $this->_error('update');
 				return true;
+			}
 			$this->slogan = $slogan0 . '-' . $i;
 		}
+		// if try saveSlogan again, slogan string has more $i
 		return $this->_error('limit');
 	}
 	
@@ -265,8 +268,11 @@ class Post {
 			return $this->_error('tags');
 		requireComponent('Tattertools.Data.Tag');
 		foreach ($this->tags as $tag) {
-			if (!DBQuery::execute("INSERT INTO {$database['prefix']}TagRelations SELECT owner," . Tag::getId($tag, true) . ",id FROM {$database['prefix']}Entries WHERE owner = $owner AND id = {$this->id} AND draft = 0 AND category >= 0 LIMIT 1"))
-				return $this->_error('insert');
+			$tagid = Tag::getId($tag, true);
+			if ($tagid != null) {
+				if (!DBQuery::execute("INSERT INTO {$database['prefix']}TagRelations SELECT owner, $tagid ,id FROM {$database['prefix']}Entries WHERE owner = $owner AND id = {$this->id} AND draft = 0 AND category >= 0 LIMIT 1"))
+					return $this->_error('insert');
+			}
 		}
 		return true;
 	}
@@ -317,6 +323,11 @@ class Post {
 	/*@static@*/
 	function updateComments($id = null) {
 		global $database, $owner;
+		
+		if (($id !== null) && !is_numeric($id)) {
+			return false;
+		}
+		
 		$posts = ($id === null ? DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND category >= 0 AND draft = 0") : array($id));
 		if (!is_array($posts))
 			return false;
@@ -335,6 +346,11 @@ class Post {
 	/*@static@*/
 	function updateTrackbacks($id = null) {
 		global $database, $owner;
+
+		if (($id !== null) && !is_numeric($id)) {
+			return false;
+		}
+
 		$posts = ($id === null ? DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND category >= 0 AND draft = 0") : array($id));
 		if (!is_array($posts))
 			return false;
@@ -411,7 +427,7 @@ class Post {
 		if (isset($this->location))
 			$query->setAttribute('location', $this->location, true);
 		if (isset($this->password))
-			$query->setAttribute('password', $this->password, false);
+			$query->setAttribute('password', $this->password, true);
 		if (isset($this->acceptComment))
 			$query->setAttribute('acceptComment', Validator::getBit($this->acceptComment));
 		if (isset($this->acceptTrackback))
