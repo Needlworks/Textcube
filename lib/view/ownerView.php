@@ -155,7 +155,19 @@ function printOwnerEditorScript($entryId = false) {
 		var fileName = document.forms[0].fileList.value.split("|")[0];
 		
 		if((new RegExp("\\.(gif|jpe?g|png)$", "gi").exec(fileName))) {
-			document.getElementById('previewSelected').innerHTML = '<img style="width: '+width+'px; height: 94px" src="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'" alt="" onerror="this.src=\'<?=$service['path']?>/image/spacer.gif\'"/>';
+			var width = new RegExp('width="(\\d+)').exec(fileList.value);
+			width = width[1];
+			var height = new RegExp('height="(\\d+)').exec(fileList.value);
+			height = height[1];
+			if(width > 120) {
+				height = 120 / width * height;
+				width = 120;
+			}
+			if(height > 90) {
+				width = 90 / height * width;
+				height = 90;
+			}
+			document.getElementById('previewSelected').innerHTML = '<img src="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?=$service['path']?>/image/spacer.gif\'"/>';
 			//setAttribute('src',"<?=$service['path']?>/attach/<?=$owner?>/"+  fileName);
 			//document.getElementById('selectedImage').setAttribute('src',"<?=$service['path']?>/image/spacer.gif");
 			return false;
@@ -552,7 +564,8 @@ function printEntryFileList($attachments, $entryId) {
 	 
 	?>				  
 	<td width="130" valign="top" align="center">
-		<div id="previewSelected" style="width:120px; height:90px; background:#FFFFFF"><table width="100%" height="100%"><tr><td valign="middle" align="center"><?=_t('미리보기')?></td></tr></table></div>
+		<div id="previewSelected" style="width:120px; height:90px; overflow: hidden; margin: 3px 5px 0px 0px; background-color: #fff; border: 2px solid #bdf">
+		<table width="100%" height="100%"><tr><td valign="middle" align="center"><?=_t('미리보기')?></td></tr></table></div>
 	</td>
 	<td valign="top" align="center" width="415">	
 		<table>
