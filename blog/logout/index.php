@@ -5,7 +5,7 @@ if (isset($_GET['requestURI']))
 	$_POST['requestURI'] = $_GET['requestURI'];
 $IV = array(
 	'POST' => array(
-		'requestURI' => array('string')
+		'requestURI' => array('string', 'mandatory' => false)
 	)
 );
 if(!Validator::validate($IV))
