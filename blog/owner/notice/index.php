@@ -2,7 +2,7 @@
 define('ROOT', '../../..');
 $IV = array(
 	'POST' => array(
-		'withSearch' => array('any' ,'mandatory' => false),
+		'withSearch' => array(array('on'), 'mandatory' => false),
 		'search' => array('string' ,'mandatory' => false)		
 	)
 );
