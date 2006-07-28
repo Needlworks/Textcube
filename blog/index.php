@@ -31,7 +31,13 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 			'r2_url' => array('string')
 		)
 	);
-}else{ $IV = array();}
+}else{ 
+	$IV = array(
+		'GET' => array(
+			'page' => array('int', 1, 'default' => 1)
+		)
+	);
+}
 require ROOT . '/lib/include.php';
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	$result = receiveNotifiedComment($_POST);
