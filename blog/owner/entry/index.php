@@ -6,7 +6,7 @@ $IV = array(
 		'category' => array('int', 'default' => 0),
 		'withSearch' => array(array('on'), 'mandatory' => false),
 		'search' => array('string', 'default' => ''),
-		'perPage' => array('int', 10, 30, 'mandatory' => false)
+		'perPage' => array('int', 1, 'mandatory' => false)
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

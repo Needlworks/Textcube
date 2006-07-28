@@ -13,7 +13,7 @@ if(count($_POST) > 0) {
 			'ip' => array('ip', 'default' => ''),
 			'withSearch' => array(array('on'), 'mandatory' => false),
 			'search' => array('string', 'default' => ''),
-			'perPage' => array('int', 10, 30, 'mandatory' => false)
+			'perPage' => array('int', 1, 'mandatory' => false)
 		)
 	);
 }
