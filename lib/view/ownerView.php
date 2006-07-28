@@ -169,7 +169,7 @@ function printOwnerEditorScript($entryId = false) {
 					width = 90 / height * width;
 					height = 90;
 				}
-				document.getElementById('previewSelected').innerHTML = '<img src="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?=$service['path']?>/image/spacer.gif\'"/>';
+				document.getElementById('previewSelected').innerHTML = '<img src="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'?randseed='+Math.random()+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?=$service['path']?>/image/spacer.gif\'"/>';
 				//setAttribute('src',"<?=$service['path']?>/attach/<?=$owner?>/"+  fileName);
 				//document.getElementById('selectedImage').setAttribute('src',"<?=$service['path']?>/image/spacer.gif");
 			}
