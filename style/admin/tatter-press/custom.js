@@ -16,7 +16,8 @@ function makeTempSideBar() {
 				i--;
 			}
 		}
-		document.getElementById("editor").removeChild(document.getElementById("property-section"));
+		
+		removeItselfById("property-section");
 		
 		if (document.getElementById("tag-location-container")) {
 			tempDL = document.getElementById("tag-location-container").childNodes;

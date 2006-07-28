@@ -91,11 +91,12 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 									document.getElementById("part-setting-plugins").submit();
 								}
 								
-								window.addEventListener("load", loadPluginList, false);
+								window.addEventListener("load", execLoadFunction, false);
 								
-								function loadPluginList() {
-									document.getElementById('submit-button-box').parentNode.removeChild(document.getElementById('submit-button-box'));
+								function execLoadFunction() {
+									removeItselfById('submit-button-box');
 								}
+								
 								var currentSetting='';
 								function getCurrentSetting( plugin, setYN){
 									if( "N" == setYN ) return ;

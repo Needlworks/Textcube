@@ -819,3 +819,7 @@ function getParentByTagName(tag, obj)
 	}
 	return obj;
 }
+
+function removeItselfById(id) {
+	document.getElementById(id).parentNode.removeChild(document.getElementById(id));
+}

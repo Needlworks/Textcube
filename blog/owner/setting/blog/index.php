@@ -356,9 +356,9 @@ if ($service['type'] != 'single') {
 									}
 								}
 								
-								window.addEventListener("load", loadBlogSetting, false);
+								window.addEventListener("load", execLoadFunction, false);
 								
-								function loadBlogSetting() {
+								function execLoadFunction() {
 									if (document.getElementById('topPadding').value != "direct") {
 										document.getElementById('topPadding').removeAttribute('disabled');
 										document.getElementById('topPaddingManual').setAttribute('disabled', 'disabled');
