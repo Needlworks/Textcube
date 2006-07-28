@@ -239,9 +239,11 @@ class FeedItem {
 		if (empty($this->link))
 			return false;
 		
-		if (isset($this->group)) {
-			if (is_numeric($this->group) && ($this->group > 0))
-				FeedGroup::getName($this->group);
+		if (!is_numeric($this->feed)) {
+			return false;
+		}
+		if (!is_numeric($this->published)) {
+			return false;
 		}
 		
 		$query = new TableQuery($database['prefix'] . 'FeedItems');
@@ -256,7 +258,7 @@ class FeedItem {
 			$query->setAttribute('author', $this->author, true);
 			$query->setAttribute('written', $this->published);
 			$this->id = $query->insert();
-			echo mysql_error(), '<br/>';
+			//echo mysql_error(), '<br/>';
 			if ($this->id === false)
 				return false;
 		}
