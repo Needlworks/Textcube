@@ -79,7 +79,7 @@ function publishRSS($owner, $data) {
 		echo '		<item>', CRLF;
 		echo '			<title>', htmlspecialchars($item['title'], ENT_QUOTES), '</title>', CRLF;
 		echo '			<link>', $item['link'], '</link>', CRLF;
-		echo '			<description>', htmlspecialchars(getEntryContentView($owner, $item['id'], $item['description'], array(), 'Post', true), ENT_QUOTES), '</description>', CRLF;
+		echo '			<description>', htmlspecialchars(getEntryContentView($owner, $item['id'], $item['description'], array(), 'Post', true, true), ENT_QUOTES), '</description>', CRLF;
 		foreach ($item['categories'] as $category) {
 			if ($category = trim($category))
 				echo '			<category>', htmlspecialchars($category, ENT_QUOTES), '</category>', CRLF;
