@@ -70,7 +70,6 @@ function printFilterBox($mode, $title) {
 					</tr>
 				</table> 
 			</td>
-		</tr>	
 			
 		</tr>
   </table>
