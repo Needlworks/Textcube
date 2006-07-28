@@ -52,6 +52,14 @@ class Skin {
 
 	function Skin($name) {
 		global $service;
+		global $owner;
+		
+		if (strncmp($name, 'customize/', 10) == 0) {
+			$name = "customize/$owner";
+		} else {
+			$name = Path::getBaseName($name);
+		}
+		
 		$filename = ROOT . "/skin/$name/skin.html";
 		if (!$sval = file_get_contents($filename))
 			respondErrorPage('Skin');
@@ -110,7 +118,7 @@ class Skin {
 	}
 }
 
-class KeywordSkin {
+/*class KeywordSkin {
 	var $outter;
 	var $skin;
 	var $keylog;
@@ -127,7 +135,7 @@ class KeywordSkin {
 		list($sval, $this->skin) = cutSkinTag($sval, 't3');
 		$this->outter = $sval;
 	}
-}
+}*/
 
 function cutSkinTag($contents, $tag) {
 	$tagSize = strlen($tag) + 4;
