@@ -51,6 +51,10 @@ function getEntry($owner, $id, $draft = false) {
 
 function getEntryAttributes($owner, $id, $attributeNames) {
 	global $database;
+	
+	if (stristr($attributeNames, "from") != false) // security check!
+		return null;
+	
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
 	$attributes = fetchQueryRow("SELECT $attributeNames FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0 $visibility");
 	return $attributes;
