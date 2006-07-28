@@ -117,7 +117,7 @@ class Comment {
 		global $database, $owner;
 		if (!Validator::number($id, 1))
 			return null;
-		return DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE owner = $owner AND id = {$this->parent}");
+		return DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE owner = $owner AND id = {$id}");
 	}
 	
 	function _buildQuery() {
