@@ -2,7 +2,7 @@
 define('ROOT', '../../../..');
 $IV = array(
 	'POST' => array(
-		'skinName' => array('string')
+		'skinName' => array('string' ,'mandatory' => false)
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

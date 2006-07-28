@@ -1,5 +1,17 @@
 <?
 define('ROOT', '../../../..');
+$IV = array(
+	'POST' => array(
+		'mode' => array( array( 'ip','content' , 'url', 'name') ,'default'=>null),
+		'contentValue' => array('string' , 'default' => null),
+		'ipValue' => array('ip' , 'default' => null),
+		'urlValue' => array('url' , 'default' => null),
+		'nameValue' => array('string' , 'default' => null)
+	),
+	'GET' => array(
+		'history' => array( 'string' , 'default' => null )
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 requireComponent('Tattertools.Data.Filter');
 if (!empty($_POST['mode']) && !empty($_POST[($_POST['mode'] . 'Value')])) {
