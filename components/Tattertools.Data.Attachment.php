@@ -167,7 +167,7 @@ class Attachment {
 		global $database, $owner;
 		$query = new TableQuery($database['prefix'] . 'Attachments');
 		$query->setQualifier('owner', $owner);
-		$query->setQualifier('name', $this->name, false);
+		$query->setQualifier('name', $this->name, true);
 		if (isset($this->parent)) {
 			if (!Validator::number($this->parent, -1))
 				return $this->_error('parent');
