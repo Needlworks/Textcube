@@ -1,5 +1,13 @@
 <?
 define('ROOT', '../../../../..');
+$IV = array(
+	'GET' => array(
+		'command' => array('any', 'mandatory' => false),
+		'id' => array('id', 'mandatory' => false ),
+		'mode' => array(array('ip', 'url', 'content', 'name' ) ),
+		'value' => array('string', 'mandatory' =>false)
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 requireComponent('Tattertools.Data.Filter');
 $filter = new Filter();

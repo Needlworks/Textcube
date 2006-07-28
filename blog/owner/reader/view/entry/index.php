@@ -1,5 +1,15 @@
 <?
 define('ROOT', '../../../../..');
+$IV = array(
+	'POST' => array(
+		'group' => array('int', 'min' => 0),
+		'feed' => array('int', 'min' => 0, 'mandatory' => false),
+		'entry' => array('int', 'min' => 0, 'mandatory' => false),
+		'unread' => array(array('0','1')),
+		'starred' => array(array('0','1')),
+		'keyword' => array('string', 'mandatory' => false)
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 $result = array('error' => '0');
 ob_start();

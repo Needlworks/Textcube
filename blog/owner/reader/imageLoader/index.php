@@ -1,5 +1,10 @@
 <?
 define('ROOT', '../../../..');
+$IV = array(
+	'GET' => array(
+		'url' => array('string')
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 requireComponent('Eolin.PHP.HTTPRequest');
 if (preg_match('/\.jpe?g/i', $_GET['url']))

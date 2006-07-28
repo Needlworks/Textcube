@@ -1,6 +1,11 @@
 <?
 define('ROOT', '../../..');
 define('__TATTERTOOLS_READER__', true);
+$IV = array(
+	'GET' => array(
+		'forceRefresh' => array('any', 'mandatory' => false)
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/header6.php';
 $setting = getReaderSetting($owner);

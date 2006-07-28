@@ -1,5 +1,10 @@
 <?
 define('ROOT', '../../../..');
+$IV = array(
+	'GET' => array(
+		'password' => array('any' ,'mandatory' => false)
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/header5.php';
 require ROOT . '/lib/piece/owner/contentMenu51.php';
@@ -173,6 +178,7 @@ if ($service['type'] != 'single') {
 			window.location.href='<?=$blogURL?>/owner/setting/account/';
 		}
 		request.onError = function() {
+			alert(Number(this.getText("/response/error")));
 			switch(Number(this.getText("/response/error"))) {
 				case 2:
 					alert('<?=_t('이메일이 바르지 않습니다')?>');

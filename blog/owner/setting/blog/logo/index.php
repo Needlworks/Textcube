@@ -1,5 +1,14 @@
 <?
 define('ROOT', '../../../../..');
+$IV = array(
+	'POST' => array(
+		'mode' => array(array('0','1'), 'mandatory' => false )
+	),
+	'FILES' => array(
+		'logo' => array('file', 'mandatory' => false)
+	)
+	
+);
 require ROOT . '/lib/includeForOwner.php';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
