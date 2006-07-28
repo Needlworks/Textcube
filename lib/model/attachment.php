@@ -66,6 +66,9 @@ function addAttachment($owner, $parent, $file) {
 			$extension = 'xxx';
 			break;
 	}
+	if (strlen($extension) > 6) {
+		$extension = 'xxx';
+	}
 	$path = ROOT . "/attach/$owner";
 	if (!is_dir($path)) {
 		mkdir($path);
