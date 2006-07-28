@@ -53,6 +53,8 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 
 	// 디자인모드의 IFRAME을 생성한다
 	this.iframe = document.createElement("iframe");
+	this.iframe.id = "tatterVisualEditor";
+	this.iframe.instance = this;
 	this.iframe.className = "tatterVisualArea";
 	this.iframe.setAttribute("border", "0");
 	this.iframe.setAttribute("frameBorder", "0");
