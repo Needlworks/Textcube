@@ -820,8 +820,12 @@ function printEntryFileList($attachments, $entryId) {
 															}
 															
 															request.onSuccess = function() {
-																var result = this.getText("/response/result");
-																document.getElementById('fileSize').innerHTML = result;
+																try {
+																	var result = this.getText("/response/result");
+																	document.getElementById('fileSize').innerHTML = result;
+																} catch(e) {
+																
+																}
 															}
 															
 															request.onError = function() {
