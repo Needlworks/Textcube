@@ -82,7 +82,6 @@ function printFilterBox($mode, $title) {
 					</tr>
 				</table> 
 			</td>
-			
 		</tr>
   </table>
 </td>
@@ -173,6 +172,10 @@ function printFilterBox($mode, $title) {
 			alert("<?=_t('내용을 입력해 주세요')?>");
 			return false;
 		}
+		if(mode == 'url') {			
+			var reg = new RegExp('^http://', "gi");
+			target.value = target.value.replace(reg,'');
+		}		
 		
 		if(mode == 'ip') {
 			reg = /\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
