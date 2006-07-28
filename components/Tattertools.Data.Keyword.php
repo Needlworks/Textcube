@@ -97,15 +97,12 @@ class Keyword {
 		return true;
 	}
 	
-	function remove($filter = '') {
+	function remove($id) {
 		global $database, $owner;
-		if (is_numeric($filter)) {
-			$this->id = $filter;
-			$filter = 'id = ' . $filter;
+		if (!is_numeric($id)) {
+			return false;
 		}
-		if (!empty($filter))
-			$filter = 'AND ' . $filter;
-		$result = mysql_query("DELETE FROM FROM {$database['prefix']}Entries WHERE owner = $owner AND category = -1 $filter");
+		$result = mysql_query("DELETE FROM FROM {$database['prefix']}Entries WHERE owner = $owner AND category = -1 AND id = $id ");
 		if ($result && ($this->_count = mysql_affected_rows()))
 			return true;
 		return false;
