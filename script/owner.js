@@ -26,7 +26,7 @@ function checkTimestamp(value) {
 }
 
 function checkBlogName(name) {
-	return name.match(/^[a-z0-9]+$/i);
+	return name.match(/^[a-z0-9]+(-[a-z0-9]+)*$/i);
 }
 
 function checkDomainName(name) {

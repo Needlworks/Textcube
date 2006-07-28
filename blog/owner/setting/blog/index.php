@@ -39,25 +39,30 @@ if ($service['type'] != 'single') {
 ?>
 	var primaryDomain = "<?=escapeJSInCData($blog['name'])?>";
 	var secondaryDomain = "<?=escapeJSInCData($blog['secondaryDomain'])?>";
-	var defaultDomain = "<?=escapeJSInCData($blog['defaultDomain'])?>";
+	var defaultDomain = <?=escapeJSInCData($blog['defaultDomain'])?>;
+
+	var newPrimaryDomain = primaryDomain;
+	var newSecondaryDomain = secondaryDomain;
+	var newDefaultDomain = defaultDomain;
 <?
 	} else if ($service['type'] == 'path') {
 ?>
 	var pathDomain = "<?=escapeJSInCData($blog['name'])?>";
+	var newPathDomain = pathDomain;
 <?
 	}
 ?>
 	function setDomains() {
 <?
-	if ($service['type'] == 'domain') {
+		if ($service['type'] == 'domain') {
 ?>
 		if ((document.forms[0].primaryDomain.value != primaryDomain) && (!checkBlogName(document.forms[0].primaryDomain.value))) {
-			alert("<?=_t('블로그 주소가 올바르지 않습니다.')?>");
+			alert("<?=_t('1차 도메인 블로그 주소가 올바르지 않습니다.')?>");
 			document.forms[0].primaryDomain.focus();
 			return;
 		}
-		if ((document.forms[0].secondaryDomain.value != secondaryDomain) && (!checkDomainName(document.forms[0].secondaryDomain.value))) {
-			alert("<?=_t('블로그 주소가 올바르지 않습니다.')?>");
+		if ((document.forms[0].secondaryDomain.value != secondaryDomain) && (document.forms[0].secondaryDomain.value.trim() != "") && (!checkDomainName(document.forms[0].secondaryDomain.value))) {
+			alert("<?=_t('2차 도메인 블로그 주소가 올바르지 않습니다.')?>");
 			document.forms[0].secondaryDomain.focus();
 			return;
 		}
@@ -76,57 +81,69 @@ if ($service['type'] != 'single') {
 <?
 	if ($service['type'] == 'domain') {
 ?>
-		if (document.forms[0].defaultDomain[defaultDomain].checked == false) {
-			var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/default/" + (document.forms[0].defaultDomain[1].checked ? 1 : 0));
+		newPrimaryDomain = document.forms[0].primaryDomain.value;
+		newSecondaryDomain = document.forms[0].secondaryDomain.value;
+		newDefaultDomain = document.forms[0].defaultDomain[0].checked ? 0 : 1;
+	
+		if(primaryDomain != newPrimaryDomain || secondaryDomain != newSecondaryDomain || defaultDomain != newDefaultDomain) {
+			var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/setting/domain/set/");
 			request.onSuccess = function() {
-				defaultDomain = document.forms[0].defaultDomain[1].checked ? 1 : 0;
 				PM.showMessage("<?=_t('저장되었습니다')?>", "center", "bottom");
+				if(newDefaultDomain == 0 && newPrimaryDomain != primaryDomain) {
+					alert("<?=_t('변경된 1차 블로그 주소로 이동합니다')?>");
+					window.location.href = "http://" + newPrimaryDomain + ".<?=$service['domain']?><?=$blogURL?>/owner/setting/blog";
+				}
+				else if(newDefaultDomain == 1 && newSecondaryDomain != secondaryDomain) {
+					alert("<?=_t('변경된 2차 블로그 주소로 이동합니다')?>");
+					window.location.href = "http://" + newSecondaryDomain + "<?=$blogURL?>/owner/setting/blog";
+				}
+				primaryDomain = newPrimaryDomain;
+				secondaryDomain = newSecondaryDomain;
+				defaultDomain = newDefaultDomain;
 			}
 			request.onError = function() {
-				alert("<?=_t('기본 블로그 도메인을 변경하지 못했습니다')?>");
+				switch(parseInt(this.getText("/response/error"))) {
+					case 1:
+						alert("<?=_t('기본 블로그 도메인을 변경하지 못했습니다')?>");
+						break;
+					case 2:
+						alert("<?=_t('1차 블로그 도메인을 변경하지 못했습니다')?>");
+						break;
+					case 3:
+						alert("<?=_t('2차 블로그 도메인을 변경하지 못했습니다')?>");
+						break;
+					case 4:
+						alert("<?=_t('2차 블로그 도메인이 비어있어서 기본 도메인으로 설정할 수 없습니다')?>");
+						document.forms[0].defaultDomain[0].checked = true;
+						break;
+					default:
+						alert("<?=_t('알 수 없는 에러가 발생했습니다')?>");
+				}
 			}
-			request.send();
-		}
-		if (document.forms[0].primaryDomain.value != primaryDomain) {
-			var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/primary/?name=" + encodeURIComponent(document.forms[0].primaryDomain.value));
-			request.onSuccess = function() {
-				primaryDomain = document.forms[0].primaryDomain.value;
-				PM.showMessage("<?=_t('저장되었습니다')?>", "center", "bottom");
-				if (document.forms[0].defaultDomain[0].checked)
-					location = "http://" + primaryDomain + ".<?=$service['domain']?><?=$blogURL?>/owner/setting/blog";
-			}
-			request.onError = function() {
-				alert("<?=_t('1차 블로그 도메인을 변경하지 못했습니다')?>");
-			}
-			request.send();
-		}
-		if (document.forms[0].secondaryDomain.value != secondaryDomain) {
-			var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/secondary?domain=" + encodeURIComponent(document.forms[0].secondaryDomain.value));
-			request.onSuccess = function() {
-				secondaryDomain = document.forms[0].secondaryDomain.value;
-				PM.showMessage("<?=_t('저장되었습니다')?>", "center", "bottom");
-				if (document.forms[0].defaultDomain[1].checked)
-					location = "http://" + secondaryDomain + "<?=$blogURL?>/owner/setting/blog";
-			}
-			request.onError = function() {
-				alert("<?=_t('1차 블로그 도메인을 변경하지 못했습니다')?>");
-			}
-			request.send();
+			request.send("defaultDomain=" + newDefaultDomain + "&primaryDomain=" + encodeURIComponent(newPrimaryDomain) + "&secondaryDomain=" + encodeURIComponent(newSecondaryDomain));
 		}
 <?
 	} else if ($service['type'] == 'path') {
 ?>
-		if (document.forms[0].pathDomain.value != pathDomain) {
-			var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/domain/primary?name=" + encodeURIComponent(document.forms[0].pathDomain.value));
+		newPathDomain = document.forms[0].pathDomain.value;
+		if(pathDomain != newPathDomain) {
+			var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/setting/domain/set/");
 			request.onSuccess = function() {
-				pathDomain = document.forms[0].pathDomain.value;
 				PM.showMessage("<?=_t('저장되었습니다')?>", "center", "bottom");
-				location = "http://<?=$service['domain']?><?=$service['path']?>/" + pathDomain + "/owner/setting/blog";
+				alert("<?=_t('변경된 블로그 주소로 이동합니다')?>");
+				window.location.href = "http://<?=$service['domain']?><?=$service['path']?>/" + newPathDomain + "/owner/setting/blog";
+				pathDomain = newPathDomain;
 			}
 			request.onError = function() {
-				alert("<?=_t('블로그 주소를 변경하지 못했습니다')?>");
+				switch(parseInt(this.getText("/response/error"))) {
+					case 1:
+						alert("<?=_t('블로그 주소를 변경하지 못했습니다')?>");
+						break;
+					default:
+						alert("<?=_t('알 수 없는 에러가 발생했습니다')?>");
+				}
 			}
-			request.send();
+			request.send("defaultDomain=0&primaryDomain=" + encodeURIComponent(newPathDomain) + "&secondaryDomain=");
 		}
 <?
 	}
