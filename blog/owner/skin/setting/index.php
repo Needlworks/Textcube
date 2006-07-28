@@ -112,7 +112,7 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="post-per-count-line" class="line">
-											<dt><label for="entriesOnPage"><?php echo  _t('페이지 당 포스트 수')?></label></dt>
+											<dt><label for="entriesOnPage"><?php echo _t('페이지 당 포스트 수')?></label></dt>
 											<dd><?php echo _f('블로그 글을 한 페이지 당 %1개 보여줍니다.', $arg)?></dd>
 										</dl>
 <?php
@@ -137,7 +137,7 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-post-line" class="line">
-											<dt><label for="entriesOnRecent"><?php echo  _t('출력될 최신 글 수')?></label></dt>
+											<dt><label for="entriesOnRecent"><?php echo _t('출력될 최신 글 수')?></label></dt>
 											<dd><?php echo _f('최신 글을 %1개 보여줍니다.', $arg)?></dd>
 										</dl>
 <?php
@@ -162,7 +162,7 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-comment-line" class="line">
-											<dt><label for="commentsOnRecent"><?php echo  _t('출력될 최신 댓글 수')?></label></dt>
+											<dt><label for="commentsOnRecent"><?php echo _t('출력될 최신 댓글 수')?></label></dt>
 											<dd><?php echo _f('최신 댓글을 %1개 보여줍니다.', $arg)?></dd>
 										</dl>
 <?php
@@ -187,7 +187,7 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-trackback-line" class="line">
-											<dt><label for="trackbacksOnRecent"><?php echo  _t('출력될 최신 트랙백 수')?></label></dt>
+											<dt><label for="trackbacksOnRecent"><?php echo _t('출력될 최신 트랙백 수')?></label></dt>
 											<dd><?php echo _f('최신 트랙백을 %1개 보여줍니다.', $arg)?></dd>
 										</dl>
 <?php
@@ -212,7 +212,7 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-archive-line" class="line">
-											<dt><label for="archivesOnPage"><?php echo  _t('출력될 저장소 수')?></label></dt>
+											<dt><label for="archivesOnPage"><?php echo _t('출력될 저장소 수')?></label></dt>
 											<dd><?php echo _f('저장소를 %1달 보여줍니다.', $arg)?></dd>
 										</dl>
 									</fieldset>
@@ -267,7 +267,7 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-notice-length-line" class="line">
-											<dt><label for="recentNoticeLength"><?php echo  _t('최신 공지 길이')?></label></dt>
+											<dt><label for="recentNoticeLength"><?php echo _t('최신 공지 길이')?></label></dt>
 											<dd><?php echo _f('최신 공지를 %1 글자로 표시합니다.', $arg)?></dd>
 										</dl>
 <?php
@@ -292,7 +292,7 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-post-length-line" class="line">
-											<dt><label for="recentEntryLength"><?php echo  _t('최신 글 길이')?></label></dt>
+											<dt><label for="recentEntryLength"><?php echo _t('최신 글 길이')?></label></dt>
 											<dd><?php echo _f('최신 글을 %1 글자로 표시합니다.', $arg)?></dd>
 										</dl>
 <?php
@@ -317,7 +317,7 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-comment-length-line" class="line">
-											<dt><label for="recentCommentLength"><?php echo  _t('최신 댓글 길이')?></label></dt>
+											<dt><label for="recentCommentLength"><?php echo _t('최신 댓글 길이')?></label></dt>
 											<dd><?php echo _f('최신 댓글을 %1 글자로 표시합니다.', $arg)?></dd>
 										</dl>
 <?php
@@ -342,7 +342,7 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-trackback-length-line" class="line">
-											<dt><label for="recentTrackbackLength"><?php echo  _t('최신 트랙백 길이')?></label></dt>
+											<dt><label for="recentTrackbackLength"><?php echo _t('최신 트랙백 길이')?></label></dt>
 											<dd><?php echo _f('최신 트랙백을 %1 글자로 표시합니다.', $arg)?></dd>
 										</dl>
 <?php
@@ -367,7 +367,7 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-link-length-line" class="line">
-											<dt><label for="linkLength"><?php echo  _t('링크 길이')?></label></dt>
+											<dt><label for="linkLength"><?php echo _t('링크 길이')?></label></dt>
 											<dd><?php echo _f('링크를 %1 글자로 표시합니다.', $arg)?></dd>
 
 										</dl>
@@ -406,7 +406,7 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="tag-count-line" class="line">
-											<dt><label for="tagsOnTagbox"><?php echo  _t('태그상자의 태그 수')?></label></dt>
+											<dt><label for="tagsOnTagbox"><?php echo _t('태그상자의 태그 수')?></label></dt>
 											<dd><?php echo _f('태그상자의 태그를 %1개 표시합니다.', $arg)?></dd>
 										</dl>
 									</fieldset>
@@ -435,7 +435,7 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl class="line">
-											<dt><label for="commentsOnGuestbook"><?php echo  _t('페이지 당 방명록 수')?></label></dt>
+											<dt><label for="commentsOnGuestbook"><?php echo _t('페이지 당 방명록 수')?></label></dt>
 											<dd><?php echo _f('방명록 한 페이지 당 %1개 글을 표시합니다.', $arg)?></dd>
 										</dl>
 									</fieldset>
@@ -500,11 +500,11 @@ if ($dh = opendir($skinPath)) {
 												<dd><input type="text" id="bgColorOnTree" class="text-input" name="bgColorOnTree" value="<?php echo $skinSetting['bgColorOnTree']?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="label-langth-line" class="line">
-												<dt><label for="labelLengthOnTree"><?php echo  _t('레이블 길이')?></label></dt>
+												<dt><label for="labelLengthOnTree"><?php echo _t('레이블 길이')?></label></dt>
 												<dd><?php echo _f('레이블을 %1 글자로 표시합니다.', '<input type="text" id="labelLengthOnTree" class="text-input" name="labelLengthOnTree" value="' . $skinSetting['labelLengthOnTree'] . '" size="3" maxlength="6" onchange="changeTreeStyle()" />')?></dd>
 											</dl>
 											<dl id="count-display-line" class="line">
-												<dt><label for="showValue"><?php echo  _t('포스트 갯수 출력')?></label></dt>
+												<dt><label for="showValue"><?php echo _t('포스트 갯수 출력')?></label></dt>
 												<dd><input type="checkbox" class="checkbox" id="showValue" name="showValueOnTree" onclick="changeTreeStyle()" <?php echo $skinSetting['showValueOnTree'] ? 'checked="checked"' : ''?> /> <label for="showValue"><?php echo _t('카테고리의 글 수를 표시합니다.')?></label></dd>
 											</dl>
 										</fieldset>

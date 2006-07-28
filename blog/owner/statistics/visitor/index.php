@@ -66,7 +66,7 @@ for ($i=0; $i<sizeof($temp); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo  $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="window.location.href='<?php echo $blogURL?>/owner/statistics/visitor/<?php echo $record['date']?>'">
+										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="window.location.href='<?php echo $blogURL?>/owner/statistics/visitor/<?php echo $record['date']?>'">
 											<td class="date"><a href="<?php echo $blogURL?>/owner/statistics/visitor/<?php echo $record['date']?>"><?php echo Timestamp::formatDate2(getTimeFromPeriod($record['date']))?></a></td>
 											<td class="count"><a href="<?php echo $blogURL?>/owner/statistics/visitor/<?php echo $record['date']?>"><?php echo $record['visits']?></a></td>
 										</tr>
@@ -94,7 +94,7 @@ if (isset($suri['id'])) {
 		$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 		$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo  $className?> inactive-class">
+										<tr class="<?php echo $className?> inactive-class">
 											<td class="date"><?php echo Timestamp::formatDate(getTimeFromPeriod($record['date']))?></td>
 											<td class="count"><?php echo $record['visits']?></td>
 										</tr>

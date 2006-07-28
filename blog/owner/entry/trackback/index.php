@@ -115,7 +115,7 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 						
 						<div id="part-post-trackback" class="part">
 							<h2 class="caption">
-								<span class="main-text"><?php echo  _t('받은 트랙백 목록입니다')?></span>
+								<span class="main-text"><?php echo _t('받은 트랙백 목록입니다')?></span>
 <?php
 if (strlen($site) > 0 || strlen($ip) > 0) {
 	if (strlen($site) > 0) {
@@ -138,15 +138,15 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 									<input type="hidden" name="page" value="<?php echo $suri['page']?>" />
 									
 									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
-										<option value="0"><?php echo  _t('전체')?></option>
+										<option value="0"><?php echo _t('전체')?></option>
 <?php
 foreach (getCategories($owner) as $category) {
 ?>
-										<option value="<?php echo  $category['id']?>"<?php echo  ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?php echo  htmlspecialchars($category['name'])?></option>
+										<option value="<?php echo $category['id']?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?php echo htmlspecialchars($category['name'])?></option>
 <?php
 	foreach ($category['children'] as $child) {
 ?>
-										<option value="<?php echo  $child['id']?>"<?php echo  ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;― <?php echo  htmlspecialchars($child['name'])?></option>
+										<option value="<?php echo $child['id']?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;― <?php echo htmlspecialchars($child['name'])?></option>
 <?php
 	}
 }
@@ -196,18 +196,18 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo  $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $trackback['id']?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
 											<td class="date"><?php echo Timestamp::formatDate($trackback['written'])?></td>
 											<td class="site">
 <?php
 	if ($isFilterURL) {
 ?>
-												<a id="urlFilter<?php echo $currentSite?>-<?php echo  $i?>" class="block-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo  urlencode($filteredURL)?>&amp;mode=url&amp;command=unblock" onclick="changeState(this,'<?php echo $filteredURL?>','url'); return false;" title="<?php echo _t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?php echo _t('[차단됨]')?></span></a>
+												<a id="urlFilter<?php echo $currentSite?>-<?php echo $i?>" class="block-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode($filteredURL)?>&amp;mode=url&amp;command=unblock" onclick="changeState(this,'<?php echo $filteredURL?>','url'); return false;" title="<?php echo _t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?php echo _t('[차단됨]')?></span></a>
 <?php
 	} else {
 ?>
-												<a id="urlFilter<?php echo $currentSite?>-<?php echo  $i?>" class="unblock-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo  urlencode($filteredURL)?>&amp;mode=url&amp;command=block" onclick="changeState(this,'<?php echo $filteredURL?>','url'); return false;" title="<?php echo _t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?php echo _t('[허용됨]')?></span></a>
+												<a id="urlFilter<?php echo $currentSite?>-<?php echo $i?>" class="unblock-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode($filteredURL)?>&amp;mode=url&amp;command=block" onclick="changeState(this,'<?php echo $filteredURL?>','url'); return false;" title="<?php echo _t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?php echo _t('[허용됨]')?></span></a>
 <?php
 	}
 ?>
@@ -217,27 +217,27 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	if (!empty($trackback['categoryName'])) {
 ?>
-											<span class="categorized"><?php echo  $trackback['categoryName']?></span>
+											<span class="categorized"><?php echo $trackback['categoryName']?></span>
 <?php
 	} else {
 ?>
-											<span class="uncategorized"><?php echo  _t('분류 없음')?></span>
+											<span class="uncategorized"><?php echo _t('분류 없음')?></span>
 <?php
 	}
 ?>
 											</td>
 											<td class="title">
-												<a href="<?php echo $trackback['url']?>" onclick="window.open(this.href); return false;" title="<?php echo  _t('트랙백을 보낸 포스트를 보여줍니다.')?>"><?php echo htmlspecialchars($trackback['subject'])?></a>
+												<a href="<?php echo $trackback['url']?>" onclick="window.open(this.href); return false;" title="<?php echo _t('트랙백을 보낸 포스트를 보여줍니다.')?>"><?php echo htmlspecialchars($trackback['subject'])?></a>
 											</td>
 											<td class="ip">
 <?php
 	if ($isIpFiltered) {
 ?>
-												<a id="ipFilter<?php echo urlencode($trackback['ip'])?>-<?php echo  $i?>" class="block-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo  urlencode($trackback['ip'])?>&amp;mode=ip&amp;command=unblock" onclick="changeState(this,'<?php echo urlencode($trackback['ip'])?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?php echo _t('[차단됨]')?></span></a>
+												<a id="ipFilter<?php echo urlencode($trackback['ip'])?>-<?php echo $i?>" class="block-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode($trackback['ip'])?>&amp;mode=ip&amp;command=unblock" onclick="changeState(this,'<?php echo urlencode($trackback['ip'])?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?php echo _t('[차단됨]')?></span></a>
 <?php
 	} else {
 ?>
-												<a id="ipFilter<?php echo urlencode($trackback['ip'])?>-<?php echo  $i?>" class="unblock-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo  urlencode($trackback['ip'])?>&amp;mode=ip&amp;command=block" onclick="changeState(this,'<?php echo urlencode($trackback['ip'])?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?php echo _t('[허용됨]')?></span></a>
+												<a id="ipFilter<?php echo urlencode($trackback['ip'])?>-<?php echo $i?>" class="unblock-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode($trackback['ip'])?>&amp;mode=ip&amp;command=block" onclick="changeState(this,'<?php echo urlencode($trackback['ip'])?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?php echo _t('[허용됨]')?></span></a>
 <?php
 	}
 ?>
@@ -281,23 +281,23 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 											</span>
 										</div>
 										<div class="page-count">
-											<?php echo  getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0)?>
+											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0)?>
 											<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">
 <?php
 for ($i = 10; $i <= 30; $i += 5) {
 	if ($i == $perPage) {
 ?>
-												<option value="<?php echo  $i?>" selected="selected"><?php echo  $i?></option>
+												<option value="<?php echo $i?>" selected="selected"><?php echo $i?></option>
 <?php
 	} else {
 ?>
-												<option value="<?php echo  $i?>"><?php echo  $i?></option>
+												<option value="<?php echo $i?>"><?php echo $i?></option>
 <?php
 	}
 }
 ?>
 											</select>
-											<?php echo  getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1)?>
+											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1)?>
 										</div>
 									</div>
 								</div>
@@ -306,7 +306,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							<hr class="hidden" />
 							
 							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL?>/owner/entry/trackback">
-								<h2><?php echo  _t('검색')?></h2>
+								<h2><?php echo _t('검색')?></h2>
 								
 								<div class="section">
 									<label for="search"><?php echo _t('제목')?>, <?php echo _t('사이트명')?>, <?php echo _t('내용')?></label>

@@ -64,7 +64,7 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 						<div id="part-link-edit" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('링크 정보를 수정합니다')?></span></h2>
 							
-							<form id="editForm" method="post" action="<?php echo  $blogURL?>/owner/link/edit/">
+							<form id="editForm" method="post" action="<?php echo $blogURL?>/owner/link/edit/">
 								<input type="hidden" name="id" value="<?php echo $suri['value']?>" />
 								
 								<div class="data-inbox">

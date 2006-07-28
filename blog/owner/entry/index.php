@@ -55,15 +55,15 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 												document.getElementById("privateIcon_" + entry).className = 'private-on-icon';
 												document.getElementById("privateIcon_" + entry).setAttribute('title', '<?php echo _t('현재 비공개 상태입니다.')?>');
 												
-												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="<?php echo  $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=protect" onclick="setEntryVisibility('+entry+', 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?php echo _t('보호')?></span></a>';
+												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=protect" onclick="setEntryVisibility('+entry+', 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?php echo _t('보호')?></span></a>';
 												document.getElementById("protectedIcon_" + entry).className = 'protected-off-icon';
 												document.getElementById("protectedIcon_" + entry).removeAttribute('title');
 												
-												document.getElementById("publicIcon_" + entry).innerHTML = '<a href="<?php echo  $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?php echo _t('공개')?></span></a>';
+												document.getElementById("publicIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?php echo _t('공개')?></span></a>';
 												document.getElementById("publicIcon_" + entry).className = 'public-off-icon';
 												document.getElementById("publicIcon_" + entry).removeAttribute('title');
 																									
-												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo  $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?php echo _t('비발행')?></span></a>';
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?php echo _t('비발행')?></span></a>';
 												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
@@ -72,7 +72,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 												
 												break;
 											case 1:
-												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo  $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?php echo _t('비공개')?></span></a>';
+												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?php echo _t('비공개')?></span></a>';
 												document.getElementById("privateIcon_" + entry).className = 'private-off-icon';
 												document.getElementById("privateIcon_" + entry).removeAttribute('title');
 												
@@ -80,11 +80,11 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 												document.getElementById("protectedIcon_" + entry).className = 'protected-on-icon';
 												document.getElementById("protectedIcon_" + entry).setAttribute('title', '<?php echo _t('현재 보호 상태입니다.')?>');
 												
-												document.getElementById("publicIcon_" + entry).innerHTML = '<a href="<?php echo  $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?php echo _t('공개')?></span></a>';
+												document.getElementById("publicIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?php echo _t('공개')?></span></a>';
 												document.getElementById("publicIcon_" + entry).className = 'public-off-icon';
 												document.getElementById("publicIcon_" + entry).removeAttribute('title');
 												
-												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo  $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?php echo _t('비발행')?></span></a>';
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?php echo _t('비발행')?></span></a>';
 												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
 												
 												tempLink = document.createElement("A");
@@ -92,7 +92,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 												tempLink.className = "protect-off-button button";
 												tempLink.setAttribute("href", "<?php echo $blogURL?>/owner/entry/edit/" + entry + "#status-line");
 												tempLink.setAttribute("onclick", "showProtectSetter(" + entry + "); return false;");
-												tempLink.setAttribute("title", "<?php echo  _t('보호 패스워드를 설정합니다.')?>");
+												tempLink.setAttribute("title", "<?php echo _t('보호 패스워드를 설정합니다.')?>");
 												tempLink.innerHTML = '<span class="text"><?php echo _t('보호설정')?></span>';
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
@@ -101,11 +101,11 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 												
 												break;
 											case 2:
-												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo  $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?php echo _t('비공개')?></span></a>';
+												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?php echo _t('비공개')?></span></a>';
 												document.getElementById("privateIcon_" + entry).className = 'private-off-icon';
 												document.getElementById("privateIcon_" + entry).removeAttribute('title');
 												
-												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="<?php echo  $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=protect" onclick="setEntryVisibility('+entry+', 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?php echo _t('보호')?></span></a>';
+												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=protect" onclick="setEntryVisibility('+entry+', 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?php echo _t('보호')?></span></a>';
 												document.getElementById("protectedIcon_" + entry).className = 'protected-off-icon';
 												document.getElementById("protectedIcon_" + entry).removeAttribute('title');
 												
@@ -113,7 +113,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 												document.getElementById("publicIcon_" + entry).className = 'public-on-icon';
 												document.getElementById("publicIcon_" + entry).setAttribute('title', '<?php echo _t('현재 공개 상태입니다.')?>');
 												
-												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo  $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?php echo _t('비발행')?></span></a>';
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?php echo _t('비발행')?></span></a>';
 												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
@@ -122,11 +122,11 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 																							
 												break;
 											case 3:
-												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo  $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?php echo _t('비공개')?></span></a>';
+												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?php echo _t('비공개')?></span></a>';
 												document.getElementById("privateIcon_" + entry).className = 'private-off-icon';
 												document.getElementById("privateIcon_" + entry).removeAttribute('title');
 												
-												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="<?php echo  $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=protect" onclick="setEntryVisibility('+entry+', 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?php echo _t('보호')?></span></a>';
+												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=protect" onclick="setEntryVisibility('+entry+', 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?php echo _t('보호')?></span></a>';
 												document.getElementById("protectedIcon_" + entry).className = 'protected-off-icon';
 												document.getElementById("protectedIcon_" + entry).removeAttribute('title');
 												
@@ -134,7 +134,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 												document.getElementById("publicIcon_" + entry).className = 'public-on-icon';
 												document.getElementById("publicIcon_" + entry).setAttribute('title', '<?php echo _t('현재 공개 상태입니다.')?>');
 												
-												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo  $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=syndicate" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span class="text"><?php echo _t('발행')?></span></a>';
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=syndicate" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span class="text"><?php echo _t('발행')?></span></a>';
 												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-on-icon';
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
@@ -338,7 +338,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 												tempA.className = "remove-button button";
 												tempA.setAttribute("href", "#void");
 												tempA.setAttribute("onclick", "removeTrackbackLog('" + field[0] + "','" + id + "');");
-												tempA.setAttribute("title", "<?php echo  _t('이 트랙백을 삭제합니다.')?>");
+												tempA.setAttribute("title", "<?php echo _t('이 트랙백을 삭제합니다.')?>");
 												
 												tempSpan = document.createElement("SPAN");
 												tempSpan.className = "text";
@@ -468,10 +468,10 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 									
 									if (obj.options[index].value == "delete") {
 										button.className = button.className.replace("apply-button", "delete-button");
-										button.innerHTML = '<span class="text"><?php echo  _t('삭제')?></span>';
+										button.innerHTML = '<span class="text"><?php echo _t('삭제')?></span>';
 									} else {
 										button.className = button.className.replace("delete-button", "apply-button");
-										button.innerHTML = '<span class="text"><?php echo  _t('적용')?></span>';
+										button.innerHTML = '<span class="text"><?php echo _t('적용')?></span>';
 									}
 								}
 								
@@ -510,28 +510,28 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 									
 									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
 										<optgroup class="category" label="<?php echo _t('글 종류')?>">
-											<option value="-2"<?php echo  ($categoryId == -2 ? ' selected="selected"' : '')?>><?php echo  _t('공지')?></option>
-											<option value="-1"<?php echo  ($categoryId == -1 ? ' selected="selected"' : '')?>><?php echo  _t('키워드')?></option>
+											<option value="-2"<?php echo ($categoryId == -2 ? ' selected="selected"' : '')?>><?php echo _t('공지')?></option>
+											<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '')?>><?php echo _t('키워드')?></option>
 										</optgroup>
 										<optgroup class="category" label="<?php echo _t('분류')?>">
-											<option value="0"<?php echo  ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?php echo htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
+											<option value="0"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?php echo htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'))?></option>
 <?php
 foreach (getCategories($owner) as $category) {
 	if ($category['id']!= 0) {
 ?>
-											<option value="<?php echo  $category['id']?>"<?php echo  ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?php echo  htmlspecialchars($category['name'])?></option>
+											<option value="<?php echo $category['id']?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?php echo htmlspecialchars($category['name'])?></option>
 <?php
 	}
 	foreach ($category['children'] as $child) {
 		if ($category['id']!= 0) {
 ?>
-											<option value="<?php echo  $child['id']?>"<?php echo  ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;― <?php echo  htmlspecialchars($child['name'])?></option>
+											<option value="<?php echo $child['id']?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;― <?php echo htmlspecialchars($child['name'])?></option>
 <?php
 		}
 	}
 }
 ?>
-											<option value="-3"<?php echo  ($categoryId == -3 ? ' selected="selected"' : '')?>><?php echo  _t('(분류 없음)')?></option>
+											<option value="-3"<?php echo ($categoryId == -3 ? ' selected="selected"' : '')?>><?php echo _t('(분류 없음)')?></option>
 										</optgroup>
 									</select>
 									<!--a id="category-move-button" class="move-button button" href="#void"><span class="text"><?php echo _t('이동')?></span></a-->
@@ -561,7 +561,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($entries) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo  $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $entry['id']?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
 											<td class="date"><?php echo Timestamp::formatDate($entry['published'])?></td>
 											<td class="status">
@@ -569,19 +569,19 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	if ($entry['visibility'] == 0) {
 ?>
 												<span id="privateIcon_<?php echo $entry['id']?>" class="private-on-icon" title="<?php echo _t('현재 비공개 상태입니다.')?>"><span class="text"><?php echo _t('비공개')?></span></span>
-												<span id="protectedIcon_<?php echo $entry['id']?>" class="protected-off-icon"><a href="<?php echo  $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=protect" onclick="setEntryVisibility(<?php echo $entry['id']?>, 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?php echo _t('보호')?></span></a></span>
-												<span id="publicIcon_<?php echo $entry['id']?>" class="public-off-icon"><a href="<?php echo  $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?php echo $entry['id']?>, 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?php echo _t('공개')?></span></a></span>
+												<span id="protectedIcon_<?php echo $entry['id']?>" class="protected-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=protect" onclick="setEntryVisibility(<?php echo $entry['id']?>, 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?php echo _t('보호')?></span></a></span>
+												<span id="publicIcon_<?php echo $entry['id']?>" class="public-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?php echo $entry['id']?>, 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?php echo _t('공개')?></span></a></span>
 <?php
 	} else if ($entry['visibility'] == 1) {
 ?>
-												<span id="privateIcon_<?php echo $entry['id']?>" class="private-off-icon"><a href="<?php echo  $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=private" onclick="setEntryVisibility(<?php echo $entry['id']?>, 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?php echo _t('비공개')?></span></a></span>
+												<span id="privateIcon_<?php echo $entry['id']?>" class="private-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=private" onclick="setEntryVisibility(<?php echo $entry['id']?>, 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?php echo _t('비공개')?></span></a></span>
 												<span id="protectedIcon_<?php echo $entry['id']?>" class="protected-on-icon" title="<?php echo _t('현재 보호 상태입니다.')?>"><span class="text"><?php echo _t('보호')?></span></span>
-												<span id="publicIcon_<?php echo $entry['id']?>" class="public-off-icon"><a href="<?php echo  $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?php echo $entry['id']?>, 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?php echo _t('공개')?></span></a></span>
+												<span id="publicIcon_<?php echo $entry['id']?>" class="public-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?php echo $entry['id']?>, 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?php echo _t('공개')?></span></a></span>
 <?php
 	} else if ($entry['visibility'] == 2 || $entry['visibility'] == 3) {
 ?>
-												<span id="privateIcon_<?php echo $entry['id']?>" class="private-off-icon"><a href="<?php echo  $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=private" onclick="setEntryVisibility(<?php echo $entry['id']?>, 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?php echo _t('비공개')?></span></a></span>
-												<span id="protectedIcon_<?php echo $entry['id']?>" class="protected-off-icon"><a href="<?php echo  $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=protect" onclick="setEntryVisibility(<?php echo $entry['id']?>, 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?php echo _t('보호')?></span></a></span>
+												<span id="privateIcon_<?php echo $entry['id']?>" class="private-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=private" onclick="setEntryVisibility(<?php echo $entry['id']?>, 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?php echo _t('비공개')?></span></a></span>
+												<span id="protectedIcon_<?php echo $entry['id']?>" class="protected-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=protect" onclick="setEntryVisibility(<?php echo $entry['id']?>, 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.')?>"><span class="text"><?php echo _t('보호')?></span></a></span>
 												<span id="publicIcon_<?php echo $entry['id']?>" class="public-on-icon" title="<?php echo _t('현재 공개 상태입니다.')?>"><span class="text"><?php echo _t('공개')?></span></span>
 <?php
 	}
@@ -591,11 +591,11 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?php
 	if ($entry['visibility'] == 3) {
 ?>
-												<span id="syndicatedIcon_<?php echo $entry['id']?>" class="syndicated-on-icon"><a href="<?php echo  $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?php echo $entry['id']?>, 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span class="text"><?php echo _t('발행')?></span></a></span>
+												<span id="syndicatedIcon_<?php echo $entry['id']?>" class="syndicated-on-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?php echo $entry['id']?>, 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.')?>"><span class="text"><?php echo _t('발행')?></span></a></span>
 <?php
 	} else {
 ?>
-												<span id="syndicatedIcon_<?php echo $entry['id']?>" class="syndicated-off-icon"><a href="<?php echo  $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=syndicate" onclick="setEntryVisibility(<?php echo $entry['id']?>, 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?php echo _t('비발행')?></span></a></span>
+												<span id="syndicatedIcon_<?php echo $entry['id']?>" class="syndicated-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=syndicate" onclick="setEntryVisibility(<?php echo $entry['id']?>, 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.')?>"><span class="text"><?php echo _t('비발행')?></span></a></span>
 <?php
 	}
 ?>
@@ -604,19 +604,19 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?php
 	if ($entry['category'] == 0) {
 ?>
-												<span class="uncategorized"><?php echo  _t('분류 없음')?></span>
+												<span class="uncategorized"><?php echo _t('분류 없음')?></span>
 <?php
 	} else if (!empty($entry['categoryLabel'])) {
 ?>
-												<a id="category_<?php echo $entry['id']?>" class="categorized" href="<?php echo  $blogURL?>/owner/entry?category=<?php echo  $entry['category']?>"><?php echo  htmlspecialchars($entry['categoryLabel'])?></a>
+												<a id="category_<?php echo $entry['id']?>" class="categorized" href="<?php echo $blogURL?>/owner/entry?category=<?php echo $entry['category']?>"><?php echo htmlspecialchars($entry['categoryLabel'])?></a>
 <?php
 	} else if ($categoryId == -2) {
 ?>
-												<span class="notice"><?php echo  _t('공지')?></span>
+												<span class="notice"><?php echo _t('공지')?></span>
 <?php
 	} else if ($categoryId == -1) {
 ?>
-												<span class="keyword"><?php echo  _t('키워드')?></span>
+												<span class="keyword"><?php echo _t('키워드')?></span>
 <?php
 	}
 ?>
@@ -632,13 +632,13 @@ if ($categoryId == -1) {
 	$editmode = 'entry';
 }
 ?>
-												<a href="<?php echo  $blogURL?>/owner/<?php echo $editmode?>/edit/<?php echo $entry['id']?>" onclick="document.getElementById('list-form').action='<?php echo $blogURL?>/owner/<?php echo $editmode?>/edit/<?php echo $entry['id']?>'<?php echo ($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.getElementById('list-form').submit(); return false;"><?php echo htmlspecialchars($entry['title'])?></a>
+												<a href="<?php echo $blogURL?>/owner/<?php echo $editmode?>/edit/<?php echo $entry['id']?>" onclick="document.getElementById('list-form').action='<?php echo $blogURL?>/owner/<?php echo $editmode?>/edit/<?php echo $entry['id']?>'<?php echo ($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '')?>; document.getElementById('list-form').submit(); return false;"><?php echo htmlspecialchars($entry['title'])?></a>
 											</td>
 											<td class="protect">
 <?php
 if ($entry['visibility'] == 1) {
 ?>
-												<a id="protectedSettingIcon_<?php echo $entry['id']?>" class="protect-off-button button" href="<?php echo  $blogURL?>/owner/entry/edit/<?php echo $entry['id']?>#status-line" onclick="showProtectSetter('<?php echo $entry['id']?>'); return false;" title="<?php echo _t('보호 패스워드를 설정합니다.')?>"><span class="text"><?php echo _t('보호설정')?></span></a>
+												<a id="protectedSettingIcon_<?php echo $entry['id']?>" class="protect-off-button button" href="<?php echo $blogURL?>/owner/entry/edit/<?php echo $entry['id']?>#status-line" onclick="showProtectSetter('<?php echo $entry['id']?>'); return false;" title="<?php echo _t('보호 패스워드를 설정합니다.')?>"><span class="text"><?php echo _t('보호설정')?></span></a>
 <?php
 }
 ?>
@@ -647,7 +647,7 @@ if ($entry['visibility'] == 1) {
 												<a id="trackbackIcon_<?php echo $entry['id']?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?php echo $entry['id']?>,event)" title="<?php echo _t('관련글에 트랙백을 보냅니다.')?>"><span class="text"><?php echo _t('트랙백')?></span></a>
 											</td>
 											<td class="delete">
-												<a class="delete-button button" href="<?php echo  $blogURL?>/owner/entry/delete/<?php echo $entry['id']?>?javascript=disabled" onclick="deleteEntry(<?php echo $entry['id']?>); return false;" title="<?php echo _t('이 포스트를 삭제합니다.')?>"><span class="text"><?php echo _t('삭제')?></span></a>
+												<a class="delete-button button" href="<?php echo $blogURL?>/owner/entry/delete/<?php echo $entry['id']?>?javascript=disabled" onclick="deleteEntry(<?php echo $entry['id']?>); return false;" title="<?php echo _t('이 포스트를 삭제합니다.')?>"><span class="text"><?php echo _t('삭제')?></span></a>
 											</td>
 										</tr>
 <?php
@@ -662,7 +662,7 @@ if ($entry['visibility'] == 1) {
 									<input type="hidden" name="page" value="<?php echo $suri['page']?>" />
 									
 									<div id="change-section" class="section">
-										<h2><?php echo  _t('페이지 네비게이션')?></h2>
+										<h2><?php echo _t('페이지 네비게이션')?></h2>
 										
 										<label for="commandBox"><?php echo _t('선택한 글을')?></label>
 										<select id="commandBox" onchange="toggleDeleteButton(this)"> 
@@ -677,13 +677,13 @@ if ($entry['visibility'] == 1) {
 		foreach ($categories as $category) {
 			if ($category['id']!= 0) {
 ?>
-												<option class="parent-category" value="category_<?php echo  $child['id']?>" label="<?php echo htmlspecialchars($category['name'])?>"><?php echo htmlspecialchars($category['name'])?></option>
+												<option class="parent-category" value="category_<?php echo $child['id']?>" label="<?php echo htmlspecialchars($category['name'])?>"><?php echo htmlspecialchars($category['name'])?></option>
 <?php
 			}
 			foreach ($category['children'] as $child) {
 				if ($category['id']!= 0) {
 ?>
-												<option class="child-category" value="category_<?php echo  $child['id']?>" label="<?php echo htmlspecialchars($category['name'])?>/<?php echo htmlspecialchars($child['name'])?>">― <?php echo htmlspecialchars($child['name'])?></option>
+												<option class="child-category" value="category_<?php echo $child['id']?>" label="<?php echo htmlspecialchars($category['name'])?>/<?php echo htmlspecialchars($child['name'])?>">― <?php echo htmlspecialchars($child['name'])?></option>
 <?php
 				}
 			}
@@ -721,24 +721,24 @@ echo str_repeat("\t", 12).getPagingView($paging, $pagingTemplate, $pagingItemTem
 											</span>
 										</div>
 										<div class="page-count">
-											<?php echo  getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0)?>
+											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0)?>
 											
 											<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">
 <?php
 for ($i = 10; $i <= 30; $i += 5) {
 	if ($i == $perPage) {
 ?>
-												<option value="<?php echo  $i?>" selected="selected"><?php echo  $i?></option>
+												<option value="<?php echo $i?>" selected="selected"><?php echo $i?></option>
 <?php
 	} else {
 ?>
-												<option value="<?php echo  $i?>"><?php echo  $i?></option>
+												<option value="<?php echo $i?>"><?php echo $i?></option>
 <?php
 	}
 }
 ?>
 											</select>
-											<?php echo  getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1).CRLF?>
+											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1).CRLF?>
 										</div>
 									</div>
 								</div>
@@ -747,7 +747,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							<hr class="hidden" />
 							
 							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL?>/owner/entry">
-								<h2><?php echo  _t('검색')?></h2>
+								<h2><?php echo _t('검색')?></h2>
 								
 								<div class="section">
 									<label for="search"><?php echo _t('제목')?>, <?php echo _t('내용')?></label>

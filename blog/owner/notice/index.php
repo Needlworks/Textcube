@@ -18,13 +18,13 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 											document.getElementById("privateIcon_" + entry).className = 'private-on-icon';
 											document.getElementById("privateIcon_" + entry).setAttribute('title', '<?php echo _t('현재 비공개 상태입니다.')?>');
 											
-											document.getElementById("publicIcon_" + entry).innerHTML = '<a href="<?php echo  $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?php echo _t('공개')?></span></a>';
+											document.getElementById("publicIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?php echo _t('공개')?></span></a>';
 											document.getElementById("publicIcon_" + entry).className = 'public-off-icon';
 											document.getElementById("publicIcon_" + entry).removeAttribute('title');
 											
 											break;
 										case 2:
-											document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo  $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?php echo _t('비공개')?></span></a>';
+											document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?php echo _t('비공개')?></span></a>';
 											document.getElementById("privateIcon_" + entry).className = 'private-off-icon';
 											document.getElementById("privateIcon_" + entry).removeAttribute('title');
 											
@@ -137,9 +137,9 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 						<div id="part-notice-list" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('등록된 공지 목록입니다')?></span></h2>
 							
-							<form id="list-form" method="post" action="<?php echo  $blogURL?>/owner/notice">
+							<form id="list-form" method="post" action="<?php echo $blogURL?>/owner/notice">
 								<div class="grouping">
-									<input type="hidden" name="page" value="<?php echo  $suri['page']?>" />
+									<input type="hidden" name="page" value="<?php echo $suri['page']?>" />
 									
 									<table class="data-inbox" cellspacing="0" cellpadding="0">
 										<thead>
@@ -159,7 +159,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($entries) - 1) ? ' last-line' : '';
 ?>
-											<tr class="<?php echo  $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+											<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $entry['id']?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
 												<td class="date"><?php echo Timestamp::format3($entry['published'])?></td>
 												<td class="status">
@@ -167,18 +167,18 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	if ($entry['visibility'] == 0) {
 ?>
 													<span id="privateIcon_<?php echo $entry['id']?>" class="private-on-icon" title="<?php echo _t('현재 비공개 상태입니다.')?>"><span class="text"><?php echo _t('비공개')?></span></span>
-													<span id="publicIcon_<?php echo $entry['id']?>" class="public-off-icon"><a href="<?php echo  $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?php echo $entry['id']?>, 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?php echo _t('공개')?></span></a></span>
+													<span id="publicIcon_<?php echo $entry['id']?>" class="public-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?php echo $entry['id']?>, 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.')?>"><span class="text"><?php echo _t('공개')?></span></a></span>
 <?php
 	} else if ($entry['visibility'] == 2 || $entry['visibility'] == 3) {
 ?>
-													<span id="privateIcon_<?php echo $entry['id']?>" class="private-off-icon"><a href="<?php echo  $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=private" onclick="setEntryVisibility(<?php echo $entry['id']?>, 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?php echo _t('비공개')?></span></a></span>
+													<span id="privateIcon_<?php echo $entry['id']?>" class="private-off-icon"><a href="<?php echo $blogURL?>/owner/entry/visibility/<?php echo $entry['id']?>?javascript=disabled&amp;command=private" onclick="setEntryVisibility(<?php echo $entry['id']?>, 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.')?>"><span class="text"><?php echo _t('비공개')?></span></a></span>
 													<span id="publicIcon_<?php echo $entry['id']?>" class="public-on-icon" title="<?php echo _t('현재 공개 상태입니다.')?>"><span class="text"><?php echo _t('공개')?></span></span>
 <?php
 	}
 ?>
 												</td>
 												<td class="title"><a href="<?php echo $blogURL?>/owner/notice/edit/<?php echo $entry['id']?>"><?php echo htmlspecialchars($entry['title'])?></a></td>
-												<td class="delete"><a class="delete-button button" href="<?php echo  $blogURL?>/owner/notice/delete/<?php echo $entry['id']?>?javascript=disabled" onclick="deleteEntry(<?php echo $entry['id']?>); return false;" title="<?php echo _t('이 공지를 삭제합니다.')?>"><span class="text"><?php echo _t('삭제')?></span></a></td>
+												<td class="delete"><a class="delete-button button" href="<?php echo $blogURL?>/owner/notice/delete/<?php echo $entry['id']?>?javascript=disabled" onclick="deleteEntry(<?php echo $entry['id']?>); return false;" title="<?php echo _t('이 공지를 삭제합니다.')?>"><span class="text"><?php echo _t('삭제')?></span></a></td>
 											</tr>
 <?php
 }
@@ -219,8 +219,8 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 								</div>
 							</form>
 							
-							<form id="search-form" class="data-inbox" method="post" action="<?php echo  $blogURL?>/owner/notice">
-								<h2><?php echo  _t('검색')?></h2>
+							<form id="search-form" class="data-inbox" method="post" action="<?php echo $blogURL?>/owner/notice">
+								<h2><?php echo _t('검색')?></h2>
 								
 								<div class="grouping">
 									<label for="search"><?php echo _t('제목')?>, <?php echo _t('내용')?></label>

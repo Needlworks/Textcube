@@ -474,18 +474,18 @@ if (!empty($blog['logo']) && file_exists(ROOT."/attach/$owner/{$blog['logo']}"))
 	$logoInfo = getimagesize(ROOT."/attach/$owner/{$blog['logo']}");
 	if ($logoInfo[0] > 150) {
 ?>
-												<a href="<?php echo  $service['path']?>/attach/<?php echo  $owner?>/<?php echo  $blog['logo']?>" onclick="window.open(this.href); return false;"><img src="<?php echo  $service['path']?>/attach/<?php echo  $owner?>/<?php echo  $blog['logo']?>" width="150" border="1" alt="<?php echo  _t('사용자 로고')?>" /></a>
+												<a href="<?php echo $service['path']?>/attach/<?php echo $owner?>/<?php echo $blog['logo']?>" onclick="window.open(this.href); return false;"><img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/<?php echo $blog['logo']?>" width="150" border="1" alt="<?php echo _t('사용자 로고')?>" /></a>
 <?php
 	} else {
 ?>
-												<img src="<?php echo  $service['path']?>/attach/<?php echo  $owner?>/<?php echo  $blog['logo']?>" border="1" alt="<?php echo  _t('사용자 로고')?>" />
+												<img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/<?php echo $blog['logo']?>" border="1" alt="<?php echo _t('사용자 로고')?>" />
 <?php
 	}
 }
 ?>
 
 												<input type="file" class="file-input" name="logo" />
-												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteLogo" name="deleteLogo" value="yes"<?php echo  empty($blog['logo']) ? ' disabled="disabled"' : '';?> /> <label for="deleteLogo"><?php echo _t('로고를 초기화합니다.')?></label></div>
+												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteLogo" name="deleteLogo" value="yes"<?php echo empty($blog['logo']) ? ' disabled="disabled"' : '';?> /> <label for="deleteLogo"><?php echo _t('로고를 초기화합니다.')?></label></div>
 											</dd>
 										</dl>
 										<dl id="favicon-line" class="line">
@@ -494,16 +494,16 @@ if (!empty($blog['logo']) && file_exists(ROOT."/attach/$owner/{$blog['logo']}"))
 <?php
 if (file_exists(ROOT."/attach/$owner/favicon.ico") && !eregi(' MSIE', $_SERVER['HTTP_USER_AGENT'], $temp)) {
 ?>
-												<img src="<?php echo  $service['path']?>/attach/<?php echo  $owner?>/favicon.ico" border="1" alt="<?php echo  _t('파비콘')?>" />
+												<img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/favicon.ico" border="1" alt="<?php echo _t('파비콘')?>" />
 <?php
 } else if (file_exists(ROOT."/attach/$owner/favicon.ico") && eregi(' MSIE', $_SERVER['HTTP_USER_AGENT'], $temp)) {
 ?>
-												<a id="favicon-preview" href="<?php echo  $service['path']?>/attach/<?php echo  $owner?>/favicon.ico"><?php echo  _t('미리 보기')?></a>
+												<a id="favicon-preview" href="<?php echo $service['path']?>/attach/<?php echo $owner?>/favicon.ico"><?php echo _t('미리 보기')?></a>
 <?php
 }
 ?>
 												<input type="file" class="file-input" name="favicon" />
-												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteFavicon" name="deleteFavicon" value="yes"<?php echo  file_exists(ROOT."/attach/$owner/favicon.ico") ? '' : ' disabled="disabled"';?> /> <label for="deleteFavicon"><?php echo _t('파비콘을 초기화합니다.')?></label></div>
+												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteFavicon" name="deleteFavicon" value="yes"<?php echo file_exists(ROOT."/attach/$owner/favicon.ico") ? '' : ' disabled="disabled"';?> /> <label for="deleteFavicon"><?php echo _t('파비콘을 초기화합니다.')?></label></div>
 											</dd>
 										</dl>
 									</fieldset>
@@ -521,14 +521,14 @@ if (file_exists(ROOT."/attach/$owner/index.gif")) {
 	$blogIconInfo = getimagesize(ROOT."/attach/$owner/index.gif");
 	if ($blogIconInfo != false) {
 ?>
-												<img src="<?php echo  $service['path']?>/attach/<?php echo  $owner?>/index.gif"<?php echo  ($blogIconInfo[0] > 48) ? ' width="48"' : ''?> border="1" alt="<?php echo  _t('블로그 아이콘')?>" />
+												<img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/index.gif"<?php echo ($blogIconInfo[0] > 48) ? ' width="48"' : ''?> border="1" alt="<?php echo _t('블로그 아이콘')?>" />
 <?php
 	}
 }
 ?>
 												<input type="file" class="file-input" name="blogIcon" />
-												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteBlogIcon" name="deleteBlogIcon" value="yes"<?php echo  file_exists(ROOT."/attach/$owner/index.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteBlogIcon"><?php echo _t('블로그 아이콘을 초기화합니다.')?></label></div>
-												<p><?php echo  _t('블로그 아이콘은 댓글과 방명록에서 사용됩니다. 크기는 16×16 이상, 48×48 이하까지 지원합니다.')?></p>
+												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteBlogIcon" name="deleteBlogIcon" value="yes"<?php echo file_exists(ROOT."/attach/$owner/index.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteBlogIcon"><?php echo _t('블로그 아이콘을 초기화합니다.')?></label></div>
+												<p><?php echo _t('블로그 아이콘은 댓글과 방명록에서 사용됩니다. 크기는 16×16 이상, 48×48 이하까지 지원합니다.')?></p>
 											</dd>
 										</dl>
 <?php
@@ -542,10 +542,10 @@ if ($blogIconSize == false) {
 											<dt><span class="label"><?php echo _t('블로그 아이콘을')?></span></dt>
 											<dd>
 												<select name="blogIconSize">
-													<option value="16"<?php echo  $blogIconSize == '16' ? ' selected="selected"' : ''?>><?php echo  _t('16×16 크기로 출력')?></option>
-													<option value="32"<?php echo  $blogIconSize == '32' ? ' selected="selected"' : ''?>><?php echo  _t('32×32 크기로 출력')?></option>
-													<option value="48"<?php echo  $blogIconSize == '48' ? ' selected="selected"' : ''?>><?php echo  _t('48×48 크기로 출력')?></option>
-													<!--option value="max"><?php echo  _t('사용할 수 있는 최대 크기로 출력.')?></option-->
+													<option value="16"<?php echo $blogIconSize == '16' ? ' selected="selected"' : ''?>><?php echo _t('16×16 크기로 출력')?></option>
+													<option value="32"<?php echo $blogIconSize == '32' ? ' selected="selected"' : ''?>><?php echo _t('32×32 크기로 출력')?></option>
+													<option value="48"<?php echo $blogIconSize == '48' ? ' selected="selected"' : ''?>><?php echo _t('48×48 크기로 출력')?></option>
+													<!--option value="max"><?php echo _t('사용할 수 있는 최대 크기로 출력.')?></option-->
 												</select>
 											</dd>
 										</dl>
@@ -579,33 +579,33 @@ if (extension_loaded('gd')) {
 		$waterMarkInfo = getimagesize(ROOT."/attach/$owner/watermark.gif");
 		if ($waterMarkInfo[0] > 150) {
 ?>
-												<a href="<?php echo  $service['path']?>/attach/<?php echo  $owner?>/watermark.gif" onclick="window.open(this.href); return false;"><img src="<?php echo  $service['path']?>/attach/<?php echo  $owner?>/watermark.gif" width="150" border="1" alt="<?php echo  _t('워터마크 이미지')?>" /></a>
+												<a href="<?php echo $service['path']?>/attach/<?php echo $owner?>/watermark.gif" onclick="window.open(this.href); return false;"><img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/watermark.gif" width="150" border="1" alt="<?php echo _t('워터마크 이미지')?>" /></a>
 <?php
 		} else {
 ?>
-												<img src="<?php echo  $service['path']?>/attach/<?php echo  $owner?>/watermark.gif" border="1" alt="<?php echo  _t('워터마크 이미지')?>" />
+												<img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/watermark.gif" border="1" alt="<?php echo _t('워터마크 이미지')?>" />
 <?php
 		}
 	}
 ?>
 												<input type="file" class="file-input" name="waterMark" /><br />
-												<input type="checkbox" class="checkbox" id="deleteWaterMark" name="deleteWaterMark" value="yes"<?php echo  file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteWaterMark"><?php echo _t('워터 마크를 초기화합니다.')?></label>
+												<input type="checkbox" class="checkbox" id="deleteWaterMark" name="deleteWaterMark" value="yes"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteWaterMark"><?php echo _t('워터 마크를 초기화합니다.')?></label>
 											</dd>
 										</dl>
 										<dl id="watermark-gamma-line" class="line">
 											<dt><span class="label"><?php echo _t('워터마크 투명도')?></span></dt>
 											<dd>
-												<select name="gammaForWaterMark"<?php echo  file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
+												<select name="gammaForWaterMark"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
 <?php
 	$gammaForWaterMark = getWaterMarkGamma();
 	for ($i=100; $i>=0; $i--) {
 ?>
-													<option value="<?php echo  $i?>"<?php echo  $i == $gammaForWaterMark ? ' selected="selected"' : ''?><?php echo  file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>><?php echo  $i?></option>
+													<option value="<?php echo $i?>"<?php echo $i == $gammaForWaterMark ? ' selected="selected"' : ''?><?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>><?php echo $i?></option>
 <?php
 	}
 ?>
 												</select>
-												<p><?php echo  _t('0은 완전투명(안 보임), 100은 완전 불투명.')?></p>
+												<p><?php echo _t('0은 완전투명(안 보임), 100은 완전 불투명.')?></p>
 											</dd>
 										</dl>
 <?php
@@ -638,20 +638,20 @@ if (extension_loaded('gd')) {
 											<dt><span class="label"><?php echo _t('워터마크 위치')?></span></dt>
 											<dd>
 												<div id="vertical-position">
-													<select name="verticalType"<?php echo  file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
-														<option value="top"<?php echo  isset($top) ? ' selected="selected"' : ''?>>상단</option>
-														<option value="middle"<?php echo  isset($middle) ? ' selected="selected"' : ''?>>중앙</option>
-														<option value="bottom"<?php echo  isset($bottom) ? ' selected="selected"' : ''?>>하단</option>
+													<select name="verticalType"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
+														<option value="top"<?php echo isset($top) ? ' selected="selected"' : ''?>>상단</option>
+														<option value="middle"<?php echo isset($middle) ? ' selected="selected"' : ''?>>중앙</option>
+														<option value="bottom"<?php echo isset($bottom) ? ' selected="selected"' : ''?>>하단</option>
 													</select>
-													<input type="text" class="text-input" name="verticalPosition" value="<?php echo  $verticalValue?>"<?php echo  file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
+													<input type="text" class="text-input" name="verticalPosition" value="<?php echo $verticalValue?>"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
 												</div>
 												<div id="horizontal-position">
-													<select name="horizontalType"<?php echo  file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
-														<option value="left"<?php echo  isset($left) ? ' selected="selected"' : ''?>>좌측</option>
-														<option value="center"<?php echo  isset($center) ? ' selected="selected"' : ''?>>중앙</option>
-														<option value="right"<?php echo  isset($right) ? ' selected="selected"' : ''?>>우측</option>
+													<select name="horizontalType"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
+														<option value="left"<?php echo isset($left) ? ' selected="selected"' : ''?>>좌측</option>
+														<option value="center"<?php echo isset($center) ? ' selected="selected"' : ''?>>중앙</option>
+														<option value="right"<?php echo isset($right) ? ' selected="selected"' : ''?>>우측</option>
 													</select>
-													<input type="text" class="text-input" name="horizontalPosition" value="<?php echo  $horizontalValue?>" <?php echo  file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
+													<input type="text" class="text-input" name="horizontalPosition" value="<?php echo $horizontalValue?>" <?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
 												</div>
 											</dd>
 										</dl>
@@ -682,22 +682,22 @@ if (extension_loaded('gd')) {
 												<div id="<?php echo $paddingOrder[$i]?>-padding">
 													<span class="label"><?php echo $paddingText[$i]?></span>
 													<select id="<?php echo $paddingOrder[$i]?>Padding" name="<?php echo $paddingOrder[$i]?>Padding" onchange="checkManualInput(this)" disabled="disabled">
-														<option value="0"<?php echo  $thumbnailPadding[$tempIndex] == 0 ? ' selected="selected"' : ''?>>0px</option>
-														<option value="5"<?php echo  $thumbnailPadding[$tempIndex] == 5 ? ' selected="selected"' : ''?>>5px</option>
-														<option value="10"<?php echo  $thumbnailPadding[$tempIndex] == 10 ? ' selected="selected"' : ''?>>10px</option>
-														<option value="15"<?php echo  $thumbnailPadding[$tempIndex] == 15 ? ' selected="selected"' : ''?>>15px</option>
-														<option value="20"<?php echo  $thumbnailPadding[$tempIndex] == 20 ? ' selected="selected"' : ''?>>20px</option>
-														<option value="25"<?php echo  $thumbnailPadding[$tempIndex] == 25 ? ' selected="selected"' : ''?>>25px</option>
-														<option value="direct"<?php echo  !in_array($thumbnailPadding[$tempIndex], array(0, 5, 10, 15, 20, 25)) ? ' selected="selected"' : ''?>><?php echo _t('직접입력')?></option>
+														<option value="0"<?php echo $thumbnailPadding[$tempIndex] == 0 ? ' selected="selected"' : ''?>>0px</option>
+														<option value="5"<?php echo $thumbnailPadding[$tempIndex] == 5 ? ' selected="selected"' : ''?>>5px</option>
+														<option value="10"<?php echo $thumbnailPadding[$tempIndex] == 10 ? ' selected="selected"' : ''?>>10px</option>
+														<option value="15"<?php echo $thumbnailPadding[$tempIndex] == 15 ? ' selected="selected"' : ''?>>15px</option>
+														<option value="20"<?php echo $thumbnailPadding[$tempIndex] == 20 ? ' selected="selected"' : ''?>>20px</option>
+														<option value="25"<?php echo $thumbnailPadding[$tempIndex] == 25 ? ' selected="selected"' : ''?>>25px</option>
+														<option value="direct"<?php echo !in_array($thumbnailPadding[$tempIndex], array(0, 5, 10, 15, 20, 25)) ? ' selected="selected"' : ''?>><?php echo _t('직접입력')?></option>
 													</select>
-													<input type="text" class="text-input" id="<?php echo $paddingOrder[$i]?>PaddingManual" name="<?php echo $paddingOrder[$i]?>PaddingManual" value="<?php echo  ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'}?>" />px
+													<input type="text" class="text-input" id="<?php echo $paddingOrder[$i]?>PaddingManual" name="<?php echo $paddingOrder[$i]?>PaddingManual" value="<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'}?>" />px
 												</div>
 <?php
 	}
 ?>
 												<div id="padding-color">
 													<span class="label"><?php echo _t('여백 색상')?></span>
-													<input type="text" class="text-input" name="paddingColor" value="<?php echo  $colorOfPadding?>" />
+													<input type="text" class="text-input" name="paddingColor" value="<?php echo $colorOfPadding?>" />
 												</div>
 											</dd>
 										</dl>
@@ -832,7 +832,7 @@ foreach ($supportedLanguages as $locale => $language) {
 <?php
 foreach (Timezone::getList() as $timezone) {
 ?>
-													<option value="<?php echo $timezone?>"<?php echo ($timezone == $blog['timezone'] ? ' selected="selected"' : '')?>><?php echo  _t($timezone)?></option>
+													<option value="<?php echo $timezone?>"<?php echo ($timezone == $blog['timezone'] ? ' selected="selected"' : '')?>><?php echo _t($timezone)?></option>
 <?php
 }
 ?>
@@ -922,7 +922,7 @@ while ($tempAdminSkin = $dir->read()) {
 		$skinDir = trim($tempAdminSkin);
 		$skinName = htmlspecialchars($xmls->getValue('/adminSkin/information/name[lang()]'));
 ?>
-													<option value="<?php echo  $skinDir?>"<?php echo $currentAdminSkin==$skinDir ?' selected="selected"':''?>><?php echo $skinName?></option>
+													<option value="<?php echo $skinDir?>"<?php echo $currentAdminSkin==$skinDir ?' selected="selected"':''?>><?php echo $skinName?></option>
 <?php
 	}
 }
@@ -953,7 +953,7 @@ while ($dir = $dirHandler->read()) {
 	} else {
 		$skinName = $xmls->getValue('/skin/information/name');
 ?>
-													<option value="<?php echo  trim($dir)?>"<?php echo $editorTemplate==$dir?' selected="selected"':''?>><?php echo _f('%1 스킨의 템플릿', $skinName)?></option>
+													<option value="<?php echo trim($dir)?>"<?php echo $editorTemplate==$dir?' selected="selected"':''?>><?php echo _f('%1 스킨의 템플릿', $skinName)?></option>
 <?php
 	}
 }

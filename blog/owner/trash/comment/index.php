@@ -121,7 +121,7 @@ require ROOT . '/lib/piece/owner/contentMenu91.php';
 						
 						<div id="part-trash-comment" class="part">
 							<h2 class="caption">
-								<span class="main-text"><?php echo  _t('삭제 대기중인 댓글 목록입니다')?></span>
+								<span class="main-text"><?php echo _t('삭제 대기중인 댓글 목록입니다')?></span>
 <?php
 if (strlen($name) > 0 || strlen($ip) > 0) {
 	if (strlen($name) > 0) {
@@ -144,15 +144,15 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 									<input type="hidden" name="page" value="<?php echo $suri['page']?>" />
 									
 									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
-										<option value="0"><?php echo  _t('전체')?></option>
+										<option value="0"><?php echo _t('전체')?></option>
 <?php
 foreach (getCategories($owner) as $category) {
 ?>
-										<option value="<?php echo  $category['id']?>"<?php echo  ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?php echo  htmlspecialchars($category['name'])?></option>
+										<option value="<?php echo $category['id']?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '')?>><?php echo htmlspecialchars($category['name'])?></option>
 <?php
 	foreach ($category['children'] as $child) {
 ?>
-										<option value="<?php echo  $child['id']?>"<?php echo  ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;― <?php echo  htmlspecialchars($child['name'])?></option>
+										<option value="<?php echo $child['id']?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '')?>>&nbsp;― <?php echo htmlspecialchars($child['name'])?></option>
 <?php
 	}
 }
@@ -211,18 +211,18 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo  $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="selection"><input type="checkbox" name="entry" value="<?php echo $comment['id']?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
 											<td class="date"><?php echo Timestamp::formatDate($comment['written'])?></td>
 											<td class="name">
 <?php
 	if ($isNameFiltered) {
 ?>
-												<a id="nameFilter<?php echo $currentNumber?>-<?php echo  $i?>" class="block-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo  urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=unblock&amp;id=<?php echo $filter->id?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name'])?>', '<?php echo $filter->id?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?php echo _t('[차단됨]')?></span></a>
+												<a id="nameFilter<?php echo $currentNumber?>-<?php echo $i?>" class="block-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=unblock&amp;id=<?php echo $filter->id?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name'])?>', '<?php echo $filter->id?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?php echo _t('[차단됨]')?></span></a>
 <?php
 	} else {
 ?>
-												<a id="nameFilter<?php echo $currentNumber?>-<?php echo  $i?>" class="unblock-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo  urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=block&amp;id=<?php echo $filter->id?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name'])?>', '<?php echo $filter->id?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?php echo _t('[허용됨]')?></span></a>
+												<a id="nameFilter<?php echo $currentNumber?>-<?php echo $i?>" class="unblock-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=block&amp;id=<?php echo $filter->id?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name'])?>', '<?php echo $filter->id?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?php echo _t('[허용됨]')?></span></a>
 <?php
 	}
 ?>
@@ -247,11 +247,11 @@ for ($i=0; $i<sizeof($comments); $i++) {
 <?php
 	if ($isIpFiltered) {
 ?>
-												<a id="ipFilter<?php echo $currentIP?>-<?php echo  $i?>" class="block-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo  urlencode(escapeJSInAttribute($comment['ip']))?>&amp;mode=ip&amp;command=unblock&amp;id=<?php echo $filter->id?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['ip'])?>', '<?php echo $filter->id?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?php echo _t('[차단됨]')?></span></a>
+												<a id="ipFilter<?php echo $currentIP?>-<?php echo $i?>" class="block-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['ip']))?>&amp;mode=ip&amp;command=unblock&amp;id=<?php echo $filter->id?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['ip'])?>', '<?php echo $filter->id?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?php echo _t('[차단됨]')?></span></a>
 <?php
 	} else {
 ?>
-												<a id="ipFilter<?php echo $currentIP?>-<?php echo  $i?>" class="unblock-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo  urlencode(escapeJSInAttribute($comment['ip']))?>&amp;mode=ip&amp;command=block&amp;id=<?php echo $filter->id?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['ip'])?>', '<?php echo $filter->id?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?php echo _t('[허용됨]')?></span></a>
+												<a id="ipFilter<?php echo $currentIP?>-<?php echo $i?>" class="unblock-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['ip']))?>&amp;mode=ip&amp;command=block&amp;id=<?php echo $filter->id?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['ip'])?>', '<?php echo $filter->id?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?php echo _t('[허용됨]')?></span></a>
 <?php
 	}
 ?>
@@ -294,23 +294,23 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 											</span>
 										</div>
 										<div class="page-count">
-											<?php echo  getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0)?>
+											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0)?>
 											<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">					
 <?php
 for ($i = 10; $i <= 30; $i += 5) {
 	if ($i == $perPage) {
 ?>
-												<option value="<?php echo  $i?>" selected="selected"><?php echo  $i?></option>
+												<option value="<?php echo $i?>" selected="selected"><?php echo $i?></option>
 <?php
 	} else {
 ?>
-												<option value="<?php echo  $i?>"><?php echo  $i?></option>
+												<option value="<?php echo $i?>"><?php echo $i?></option>
 <?php
 	}
 }
 ?>
 											</select>
-											<?php echo  getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1)?>
+											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1)?>
 										</div>
 									</div>
 								</div>
@@ -319,7 +319,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							<hr class="hidden" />
 							
 							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL?>/owner/trash/comment">
-								<h2><?php echo  _t('검색')?></h2>
+								<h2><?php echo _t('검색')?></h2>
 								
 								<div class="section">
 									<label for="search"><?php echo _t('이름')?>, <?php echo _t('사이트명')?>, <?php echo _t('내용')?></label>

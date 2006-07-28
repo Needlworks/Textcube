@@ -303,17 +303,17 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 									if (editWindow.style.display == "block" || editWindow.style.display == "inline") {
 										if (document.getElementById("visualEditorWindow")) {
 											indicatorMode.className = indicatorMode.className.replace("inactive-class", "active-class");
-											indicatorMode.innerHTML = '<span class="text"><?php echo  _t('HTML 모드')?></span>';
-											indicatorMode.setAttribute("title", "<?php echo  _t('클릭하시면 WYSIWYG 모드로 변경합니다.')?>");
+											indicatorMode.innerHTML = '<span class="text"><?php echo _t('HTML 모드')?></span>';
+											indicatorMode.setAttribute("title", "<?php echo _t('클릭하시면 WYSIWYG 모드로 변경합니다.')?>");
 										} else {
 											indicatorMode.className = indicatorMode.className.replace("inactive-class", "active-class");
-											indicatorMode.innerHTML = '<span class="text"><?php echo  _t('HTML 모드')?></span>';
+											indicatorMode.innerHTML = '<span class="text"><?php echo _t('HTML 모드')?></span>';
 											indicatorMode.removeAttribute("title");
 										}
 									} else {
 										indicatorMode.className = indicatorMode.className.replace("active-class", "inactive-class");
-										indicatorMode.setAttribute("title", "<?php echo  _t('클릭하시면 HTML 모드로 변경합니다.')?>");
-										indicatorMode.innerHTML = '<span class="text"><?php echo  _t('WYSIWYG 모드')?></span>';
+										indicatorMode.setAttribute("title", "<?php echo _t('클릭하시면 HTML 모드로 변경합니다.')?>");
+										indicatorMode.innerHTML = '<span class="text"><?php echo _t('WYSIWYG 모드')?></span>';
 									}
 								}
 								
@@ -364,7 +364,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 									
 								<div id="editor" class="data-inbox">
 									<div id="title-section" class="section">
-										<h3><?php echo  _t('머리말')?></h3>
+										<h3><?php echo _t('머리말')?></h3>
 										
 										<dl id="title-line" class="line">
 <?php
@@ -414,7 +414,7 @@ if (defined('__TATTERTOOLS_KEYWORD__')) {
 									</div>
 									
 									<div id="textarea-section" class="section">
-										<h3><?php echo  _t('본문')?></h3>
+										<h3><?php echo _t('본문')?></h3>
 											
 <?php
 printEntryEditorPalette();
@@ -429,21 +429,21 @@ printEntryEditorPalette();
 												//]]>
 											</script>
 										</div>
-										<div id="status-container" class="container"><span id="pathStr"><?php echo  _t('path')?></span><span class="divider"> : </span><span id="pathContent"></span></div>
+										<div id="status-container" class="container"><span id="pathStr"><?php echo _t('path')?></span><span class="divider"> : </span><span id="pathContent"></span></div>
 <?php
 if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 		$view = fireEvent('AddPostEditorToolbox', '');
 		if (!empty($view)) {
 ?>
-										<div id="toolbox-container" class="container"><?php echo  $view?></div>
+										<div id="toolbox-container" class="container"><?php echo $view?></div>
 <?php
 		}
 	} else {
 		$view = fireEvent('AddNoticeEditorToolbox', '');
 		if (!empty($view)) {
 ?>
-										<div id="toolbox-container" class="container"><?php echo  $view?></div>
+										<div id="toolbox-container" class="container"><?php echo $view?></div>
 <?php
 		}
 	}
@@ -451,7 +451,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 	$view = fireEvent('AddKeywordEditorToolbox', '');
 	if (!empty($view)) {
 ?>
-										<div id="toolbox-container" class="container"><?php echo  $view?></div>
+										<div id="toolbox-container" class="container"><?php echo $view?></div>
 <?php
 	}
 }
@@ -461,7 +461,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 									<hr class="hidden" />
 									
 									<div id="property-section" class="section">
-										<h3><?php echo  _t('속성 상자')?></h3>
+										<h3><?php echo _t('속성 상자')?></h3>
 										
 										<div id="property-container" class="container">
 <?php
@@ -473,7 +473,7 @@ printEntryEditorProperty();
 									<hr class="hidden" />
 									
 									<div id="taglocal-section" class="section">
-										<h3><?php echo  _t('태그 &amp; 위치')?></h3>
+										<h3><?php echo _t('태그 &amp; 위치')?></h3>
 												
 										<div id="tag-location-container" class="container">
 											<dl id="tag-line">
@@ -520,7 +520,7 @@ printEntryEditorProperty();
 									<hr class="hidden" />
 									
 									<div id="upload-section" class="section">
-										<h3><?php echo  _t('업로드')?></h3>
+										<h3><?php echo _t('업로드')?></h3>
 										
 										<div id="attachment-container" class="container">
 <?php

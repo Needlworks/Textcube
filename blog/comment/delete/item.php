@@ -102,7 +102,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title><?php echo  _text('댓글 삭제') ?></title>
+	<title><?php echo _text('댓글 삭제') ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/owner.css" />
 	<script type="text/javascript">
@@ -117,7 +117,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 <body>
 	<form name="deleteComment" method="post" action="<?php echo $blogURL?>/comment/delete/<?php echo $suri['id']?>">
 		<div id="comment-box">
-			<img src="<?php echo $service['path']?>/image/logo_CommentPopup.gif" alt="<?php echo  _text('태터툴즈 로고')?>" />	
+			<img src="<?php echo $service['path']?>/image/logo_CommentPopup.gif" alt="<?php echo _text('태터툴즈 로고')?>" />	
 			
 			<div id="command-box">
 				<div class="edit-line">

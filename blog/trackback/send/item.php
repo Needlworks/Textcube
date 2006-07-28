@@ -111,7 +111,7 @@ $entry = getEntry($owner, $suri['id']);
 	<form name="trackback" method="post" action="<?php echo $suri['url']?>">
 	
 		<div id="trackback-box">
-			<img src="<?php echo $service['path']?>/image/logo_CommentPopup.gif" alt="<?php echo  _text('태터툴즈 로고')?>" />
+			<img src="<?php echo $service['path']?>/image/logo_CommentPopup.gif" alt="<?php echo _text('태터툴즈 로고')?>" />
 			
 			<div class="title"><span class="text"><?php echo _text('트랙백을 전송합니다')?></span></div>
 	      	<div id="command-box">

@@ -180,19 +180,19 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 	$className .= $comment['parent'] ? ' reply-line' : null;
 	$className .= ($i == sizeof($mergedComments) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo  $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id']?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
 											<td class="date"><?php echo Timestamp::formatDate($comment['written'])?></td>
-											<td class="site"><a href="<?php echo $comment['siteUrl']?>" onclick="window.open(this.href); return false;" title="<?php echo  _t('사이트를 연결합니다.')?>"><?php echo htmlspecialchars($comment['siteTitle'])?></a></td>
+											<td class="site"><a href="<?php echo $comment['siteUrl']?>" onclick="window.open(this.href); return false;" title="<?php echo _t('사이트를 연결합니다.')?>"><?php echo htmlspecialchars($comment['siteTitle'])?></a></td>
 											<td class="name">
 <?php
 	if ($isNameFiltered) {
 ?>
-												<a id="nameFilter<?php echo $currentNumber?>-<?php echo  $i?>" class="block-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo  urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=unblock" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name'])?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?php echo _t('[차단됨]')?></span></a>
+												<a id="nameFilter<?php echo $currentNumber?>-<?php echo $i?>" class="block-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=unblock" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name'])?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?php echo _t('[차단됨]')?></span></a>
 <?php
 	} else {
 ?>
-												<a id="nameFilter<?php echo $currentNumber?>-<?php echo  $i?>" class="unblock-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo  urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=block" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name'])?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?php echo _t('[허용됨]')?></span></a>
+												<a id="nameFilter<?php echo $currentNumber?>-<?php echo $i?>" class="unblock-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=block" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name'])?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?php echo _t('[허용됨]')?></span></a>
 <?php
 	}
 ?>
@@ -263,7 +263,7 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 							<hr class="hidden" />
 							
 							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL?>/owner/entry/notify">
-								<h2><?php echo  _t('검색')?></h2>
+								<h2><?php echo _t('검색')?></h2>
 								
 								<div class="section">
 									<label for="search"><?php echo _t('제목')?>, <?php echo _t('사이트명')?>, <?php echo _t('내용')?></label>

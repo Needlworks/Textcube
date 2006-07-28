@@ -224,7 +224,7 @@ if ($service['type'] != 'single') {
 							<h2 class="caption"><span class="main-text"><?php echo _t('회원정보를 관리합니다')?></span></h2>
 							
 							<div class="data-inbox">
-								<form id="info-section" class="section" method="post" action="<?php echo  $blogURL?>/owner/setting/account">
+								<form id="info-section" class="section" method="post" action="<?php echo $blogURL?>/owner/setting/account">
 									<fieldset class="container">
 										<legend><?php echo _t('아이디 및 이메일')?></legend>
 										
@@ -247,7 +247,7 @@ if ($service['type'] != 'single') {
 								
 								<hr class="hidden" />
 								
-								<form id="account-section" class="section" method="post" action="<?php echo  $blogURL?>/owner/setting/account">
+								<form id="account-section" class="section" method="post" action="<?php echo $blogURL?>/owner/setting/account">
 									<fieldset class="container">
 										<legend><?php echo _t('비밀번호 변경')?></legend>
 										
@@ -278,7 +278,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 						<div id="part-setting-invite" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('친구를 초대합니다')?></span></h2>
 							
-							<form class="data-inbox" method="post" action="<?php echo  $blogURL?>/owner/setting/account">
+							<form class="data-inbox" method="post" action="<?php echo $blogURL?>/owner/setting/account">
 								<div id="letter-section" class="section">
 									<dl>
 										<dt class="title"><span class="label"><?php echo _t('초대장')?></span></dt>
@@ -335,7 +335,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 		$className = ($count % 2) == 1 ? 'even-line' : 'odd-line';
 		$className .= ($count == sizeof($invitedList) - 1) ? ' last-line' : '';
 ?>
-													<tr class="<?php echo  $className?> inactive-class">
+													<tr class="<?php echo $className?> inactive-class">
 														<td class="email"><?php echo htmlspecialchars($value['name'])?>(<?php echo htmlspecialchars($value['loginid'])?>)</td>
 														<td class="address"><a href="<?php echo getBlogURL($value['blogName'])?>" onclick="window.open(this.href); return false;"><?php echo getBlogURL($value['blogName'])?></a></td>
 														<td class="date"><?php echo Timestamp::format5($value['created'])?></td>

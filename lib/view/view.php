@@ -5,7 +5,7 @@ function printHtmlHeader($title = '') {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><?php echo  $title?></title>
+	<title><?php echo $title?></title>
 </head>
 <body>
 <?php 
@@ -32,10 +32,10 @@ function getUpperView($paging) {
 	ob_start();
 ?>
 	<!--
-		<?php echo  TATTERTOOLS_NAME." ".TATTERTOOLS_VERSION.CRLF?>
+		<?php echo TATTERTOOLS_NAME." ".TATTERTOOLS_VERSION.CRLF?>
 		
-		Homepage: <?php echo  TATTERTOOLS_HOMEPAGE.CRLF?>
-		<?php echo  TATTERTOOLS_COPYRIGHT.CRLF?>
+		Homepage: <?php echo TATTERTOOLS_HOMEPAGE.CRLF?>
+		<?php echo TATTERTOOLS_COPYRIGHT.CRLF?>
 	-->
 	<script type="text/javascript">
 		//<![CDATA[
@@ -44,13 +44,13 @@ function getUpperView($paging) {
 			var adminSkin = "<?php echo $adminSkinSetting['skin']?>";
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo  $service['path']?>/script/EAF.js"></script>
-	<script type="text/javascript" src="<?php echo  $service['path']?>/script/common.js"></script>
-	<script type="text/javascript" src="<?php echo  $service['path']?>/script/gallery.js" ></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/EAF.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/gallery.js" ></script>
 <?php 
 	if (doesHaveOwnership()) {
 ?>
-	<script type="text/javascript" src="<?php echo  $service['path']?>/script/owner.js" ></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js" ></script>
 <?php 
 	}
 ?>
@@ -73,26 +73,26 @@ function getUpperView($paging) {
 				}
 				switch (event.keyCode) {
 					case 81: //Q
-						window.location = "<?php echo  $blogURL?>/owner";
+						window.location = "<?php echo $blogURL?>/owner";
 						break;
 					case 82: //R
-						window.location = "<?php echo  $blogURL?>/owner/reader";
+						window.location = "<?php echo $blogURL?>/owner/reader";
 						break;
 					case 84: //T
-						window.location = "<?php echo  $blogURL?>/owner/reader/?forceRefresh";
+						window.location = "<?php echo $blogURL?>/owner/reader/?forceRefresh";
 						break;
 <?php 
 	if (isset($paging['prev'])) {
 ?>
 					case 65: //A
-						window.location = "<?php echo  escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}")?>";
+						window.location = "<?php echo escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}")?>";
 						break;
 <?php 
 	}
 	if (isset($paging['next'])) {
 ?>
 					case 83: //S
-						window.location = "<?php echo  escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}")?>";
+						window.location = "<?php echo escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}")?>";
 						break;
 <?php 
 	}
@@ -127,7 +127,7 @@ function getUpperView($paging) {
 				request.onError = function() {
 					alert(this.getText("/response/description"));
 				}
-				var queryString = "key=<?php echo  md5(filemtime(ROOT . '/config.php'))?>";
+				var queryString = "key=<?php echo md5(filemtime(ROOT . '/config.php'))?>";
 				for (i=0; i<oForm.elements.length; i++) {
 					if(oForm.elements[i].name == "name") {
 						queryString += "&name_" + entryId +"=" + encodeURIComponent(oForm["name"].value);
@@ -166,7 +166,7 @@ function getUpperView($paging) {
 				width = 450;
 				height = 400;
 				if(openWindow != '') openWindow.close();
-				openWindow = window.open("<?php echo  $blogURL?>/comment/delete/" + id, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+				openWindow = window.open("<?php echo $blogURL?>/comment/delete/" + id, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
 				openWindow.focus();
 				alignCenter(openWindow,width,height);
 			}
@@ -175,7 +175,7 @@ function getUpperView($paging) {
 				width = 450;
 				height = 380;
 				if(openWindow != '') openWindow.close();
-				openWindow = window.open("<?php echo  $blogURL?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+				openWindow = window.open("<?php echo $blogURL?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
 				openWindow.focus();
 				alignCenter(openWindow,width,height);
 			}
@@ -184,7 +184,7 @@ function getUpperView($paging) {
 				width =  825;
 				height = 550;
 				if(openWindow != '') openWindow.close();
-				openWindow = window.open("<?php echo  $blogURL?>/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child,"tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+				openWindow = window.open("<?php echo $blogURL?>/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child,"tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
 				openWindow.focus();
 				alignCenter(openWindow,width,height);
 			}
@@ -193,7 +193,7 @@ function getUpperView($paging) {
 				width = 450;
 				height = 360;
 				if(openWindow != '') openWindow.close();
-				openWindow = window.open("<?php echo  $blogURL?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+				openWindow = window.open("<?php echo $blogURL?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
 				openWindow.focus();
 				alignCenter(openWindow,width,height);
 			}
@@ -202,7 +202,7 @@ function getUpperView($paging) {
 				width = 700;
 				height = 500;
 				if(openWindow != '') openWindow.close();
-				openWindow = window.open("<?php echo  $blogURL?>/trackback/send/" + id, "tatter", "width=580,height=400,location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+				openWindow = window.open("<?php echo $blogURL?>/trackback/send/" + id, "tatter", "width=580,height=400,location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
 				openWindow.focus();
 				alignCenter(openWindow,width,height);
 			}
@@ -210,7 +210,7 @@ function getUpperView($paging) {
 			function copyUrl(url){		
 				if(isIE) {
 					window.clipboardData.setData('Text',url);
-					window.alert("<?php echo  _text('엮인글 주소가 복사되었습니다.')?>");
+					window.alert("<?php echo _text('엮인글 주소가 복사되었습니다.')?>");
 				}
 			}
 			
@@ -219,21 +219,21 @@ function getUpperView($paging) {
 <?php 
 	if (doesHaveOwnership()) {
 ?> 
-				if (!confirm("<?php echo  _text('선택된 트랙백을 삭제합니다. 계속 하시겠습니까?')?>"))
+				if (!confirm("<?php echo _text('선택된 트랙백을 삭제합니다. 계속 하시겠습니까?')?>"))
 					return;
 
-				var request = new HTTPRequest("GET", "<?php echo  $blogURL?>/trackback/delete/" + id);
+				var request = new HTTPRequest("GET", "<?php echo $blogURL?>/trackback/delete/" + id);
 				request.onSuccess = function() {
 					document.getElementById('entry'+entryId+'Trackback').innerHTML= this.getText("/response/result");
 				}
 				request.onError = function() {
-					alert('<?php echo  _text('실패했습니다.')?>');
+					alert('<?php echo _text('실패했습니다.')?>');
 				}
 				request.send();
 <?php 
 	} else {
 ?>
-				alert('<?php echo  _text('실패했습니다.')?>');
+				alert('<?php echo _text('실패했습니다.')?>');
 <?php 
 	}
 ?>
@@ -242,7 +242,7 @@ function getUpperView($paging) {
 	if (doesHaveOwnership()) {
 ?>
 			function changeVisibility(id, visibility) {
-				var request = new HTTPRequest("GET", "<?php echo  $blogURL?>/owner/entry/visibility/" + id + "?visibility=" + visibility);
+				var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/entry/visibility/" + id + "?visibility=" + visibility);
 				request.onSuccess = function() {
 					window.location.reload();
 				}
@@ -250,9 +250,9 @@ function getUpperView($paging) {
 			}
 			
 			function deleteEntry(id) {
-				if (!confirm("<?php echo  _text('이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?')?>"))
+				if (!confirm("<?php echo _text('이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?')?>"))
 					return;
-				var request = new HTTPRequest("GET", "<?php echo  $blogURL?>/owner/entry/delete/" + id);
+				var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/entry/delete/" + id);
 				request.onSuccess = function() {
 					window.location.reload();
 				}
@@ -266,9 +266,9 @@ function getUpperView($paging) {
 				var password = document.getElementById("entry" + id + "password");
 				if (!password)
 					return;
-				document.cookie = "GUEST_PASSWORD=" + escape(password.value) + ";path=<?php echo  $blogURL?>";
+				document.cookie = "GUEST_PASSWORD=" + escape(password.value) + ";path=<?php echo $blogURL?>";
 				
-				var request = new HTTPRequest("POST", "<?php echo  $blogURL?>/" + id);
+				var request = new HTTPRequest("POST", "<?php echo $blogURL?>/" + id);
 				request.async = false;
 				request.send("partial=");
 				var entry = document.getElementById("entry" + id);
@@ -583,7 +583,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 	foreach ($tree['children'] as $level1) {
 		if (!empty($level1['children'])) {
 ?>
-		expandFolder(<?php echo  $level1['id']?>, true);
+		expandFolder(<?php echo $level1['id']?>, true);
 <?php 
 		}
 	}
@@ -595,11 +595,11 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 		var oImg = oLevel1.getElementsByTagName("img")[0];
 		switch (expand) {
 			case true:
-				oImg.src = "<?php echo  $skin['url']?>/tab_opened.gif";
+				oImg.src = "<?php echo $skin['url']?>/tab_opened.gif";
 				showLayer("category_" + category + "_children");
 				return true;
 			case false:
-				oImg.src = "<?php echo  $skin['url']?>/tab_closed.gif";
+				oImg.src = "<?php echo $skin['url']?>/tab_closed.gif";
 				hideLayer("category_" + category + "_children");
 				return true;
 		}
@@ -613,12 +613,12 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 			case "isleaf":
 				return true;
 			case "closed":
-				oImg.src = "<?php echo  $skin['url']?>/tab_opened.gif";
+				oImg.src = "<?php echo $skin['url']?>/tab_opened.gif";
 				showLayer("category_" + category + "_children");
 				expanded = true;
 				return true;
 			case "opened":
-				oImg.src = "<?php echo  $skin['url']?>/tab_closed.gif";
+				oImg.src = "<?php echo $skin['url']?>/tab_closed.gif";
 				hideLayer("category_" + category + "_children");
 				expanded = false;
 				return true;
@@ -634,7 +634,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 			var oLevel = document.getElementById("category_" + selectedNode);
 			var oChild = oLevel.getElementsByTagName("table")[0];
 			
-			oChild.style.color = "#<?php echo  $skin['itemColor']?>";			
+			oChild.style.color = "#<?php echo $skin['itemColor']?>";			
 <?php 
 	if ($skin['itemBgColor'] != '')
 		echo "			oChild.style.backgroundColor = \"#{$skin['itemBgColor']}\"";
@@ -643,11 +643,11 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 ?>			
 						
 			root.setAttribute('currentselectednode',category);
-			document.getElementById('text_'+selectedNode).style.color="#<?php echo  $skin['itemColor']?>";
+			document.getElementById('text_'+selectedNode).style.color="#<?php echo $skin['itemColor']?>";
 			
 			var oLevel = document.getElementById("category_" + category);
 			var oChild = oLevel.getElementsByTagName("table")[0];
-			oChild.style.color = "#<?php echo  $skin['activeItemColor']?>";
+			oChild.style.color = "#<?php echo $skin['activeItemColor']?>";
 <?php 
 	if ($skin['activeItemBgColor'] != '')
 		echo "			oChild.style.backgroundColor = \"#{$skin['activeItemBgColor']}\"";
@@ -655,7 +655,7 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 		echo "			oChild.style.backgroundColor = \"\"";
 ?>			
 			
-			document.getElementById('text_'+category).style.color="#<?php echo  $skin['activeItemColor']?>";
+			document.getElementById('text_'+category).style.color="#<?php echo $skin['activeItemColor']?>";
 			
 			selectedNode = category;
 		} catch(e) {
@@ -700,23 +700,23 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 		$itemBgColor = 'background-color: #' . $skin['itemBgColor'] . ';';
 	}
 ?>
-	<table id="treeComponent" currentselectednode="<?php echo  $selected?>" cellpadding="0" cellspacing="0" style="width: 100%;"><tr>
+	<table id="treeComponent" currentselectednode="<?php echo $selected?>" cellpadding="0" cellspacing="0" style="width: 100%;"><tr>
 	<td>
 		<table id="category_0" name="treeNode" cellpadding="0" cellspacing="0"><tr>
-			<td class="ib" style="font-size: 1px"><img src="<?php echo  $skin['url']?>/tab_top.gif" width="16" onclick="expandTree()" alt="" /></td>
+			<td class="ib" style="font-size: 1px"><img src="<?php echo $skin['url']?>/tab_top.gif" width="16" onclick="expandTree()" alt="" /></td>
 			<td valign="top" style="font-size:9pt; padding-left:3px">
 				<table onclick="<?php 
 	if ($action == 1) {
 ?> alert(3);onclick_setimp(window, this, c_ary, t_ary); <?php 
 	}
-?>" id="imp0" cellpadding="0" cellspacing="0" style="<?php echo  $itemBgColor?>"><tr>
+?>" id="imp0" cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor?>"><tr>
 					<?php 
 	if (empty($tree['link']))
 		$link = 'onclick="selectNode(0)"';
 	else
 		$link = 'onclick="window.location.href=\'' . escapeJSInAttribute($tree['link']) . '\'"';
 ?>
-					<td class="branch3" <?php echo  $link?>><div id="text_0" style=" color: #<?php echo  $skin['itemColor']?>;"><?php echo  htmlspecialchars($tree['label'])?> <?php 
+					<td class="branch3" <?php echo $link?>><div id="text_0" style=" color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars($tree['label'])?> <?php 
 	if ($skin['showValue'])
 		print "<span class=\"c_cnt\">({$tree['value']})</span>";
 ?></div></td>
@@ -734,18 +734,18 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 		else
 			$link = 'onclick="window.location.href=\'' . escapeJSInAttribute($row['link']) . '\'"';
 ?>
-		<table name="treeNode"  id="category_<?php echo  $row['id']?>" cellpadding="0" cellspacing="0"><tr>
-			<td class="ib" style="width:39px; font-size: 1px; background-image: url('<?php echo  $skin['url']?>/navi_back_noactive<?php echo  ($i ? '' : '_end')?>.gif')"><a class="click" onclick="toggleFolder('<?php echo  $row['id']?>')"><img src="<?php echo  $skin['url']?>/tab_<?php echo  (count($row['children']) ? 'closed' : 'isleaf')?>.gif" width="39" alt="" /></a></td>
+		<table name="treeNode"  id="category_<?php echo $row['id']?>" cellpadding="0" cellspacing="0"><tr>
+			<td class="ib" style="width:39px; font-size: 1px; background-image: url('<?php echo $skin['url']?>/navi_back_noactive<?php echo ($i ? '' : '_end')?>.gif')"><a class="click" onclick="toggleFolder('<?php echo $row['id']?>')"><img src="<?php echo $skin['url']?>/tab_<?php echo (count($row['children']) ? 'closed' : 'isleaf')?>.gif" width="39" alt="" /></a></td>
 			<td>
-				<table cellpadding="0" cellspacing="0" style="<?php echo  $itemBgColor?>"><tr>
-					<td class="branch3" <?php echo  $link?>><div id="text_<?php echo  $row['id']?>" style="color: #<?php echo  $skin['itemColor']?>;"><?php echo  htmlspecialchars(UTF8::lessenAsEm($row['label'], $skin['labelLength']))?> <?php 
+				<table cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor?>"><tr>
+					<td class="branch3" <?php echo $link?>><div id="text_<?php echo $row['id']?>" style="color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($row['label'], $skin['labelLength']))?> <?php 
 		if ($skin['showValue'])
 			print "<span class=\"c_cnt\">({$row['value']})</span>";
 ?></div></td>
 				</tr></table>
 			</td>
 		</tr></table>
-		<div id="category_<?php echo  $row['id']?>_children" style="display:none">
+		<div id="category_<?php echo $row['id']?>_children" style="display:none">
 <?php 
 		$j = count($row['children']);
 		foreach ($row['children'] as $irow) {
@@ -761,14 +761,14 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 			else
 				$link = 'onclick="window.location.href=\'' . escapeJSInAttribute($irow['link']) . '\'"';
 ?>
-				<table id="category_<?php echo  $irow['id']?>" name="treeNode" cellpadding="0" cellspacing="0"><tr>
-				<td style="width:39px; font-size: 1px"><img src="<?php echo  $skin['url']?>/navi_back_active<?php echo  ($i ? '' : '_end')?>.gif" width="17" height="18" alt="" /><img src="<?php echo  $skin['url']?>/tab_treed<?php 
+				<table id="category_<?php echo $irow['id']?>" name="treeNode" cellpadding="0" cellspacing="0"><tr>
+				<td style="width:39px; font-size: 1px"><img src="<?php echo $skin['url']?>/navi_back_active<?php echo ($i ? '' : '_end')?>.gif" width="17" height="18" alt="" /><img src="<?php echo $skin['url']?>/tab_treed<?php 
 			if (!$j)
 				print "_end";
 ?>.gif" width="22" alt="" /></td>
 				<td>
-					<table <?php echo  $link?> cellpadding="0" cellspacing="0" style="<?php echo  $itemBgColor?>"><tr>
-					<td class="branch3"><div id="text_<?php echo  $irow['id']?>" style="color: #<?php echo  $skin['itemColor']?>;"><?php echo  htmlspecialchars(UTF8::lessenAsEm($irow['label'], $skin['labelLength']))?> <?php echo  ($skin['showValue'] ? "<span class=\"c_cnt\">({$irow['value']})</span>" : '')?></div></td>
+					<table <?php echo $link?> cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor?>"><tr>
+					<td class="branch3"><div id="text_<?php echo $irow['id']?>" style="color: #<?php echo $skin['itemColor']?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($irow['label'], $skin['labelLength']))?> <?php echo ($skin['showValue'] ? "<span class=\"c_cnt\">({$irow['value']})</span>" : '')?></div></td>
 					</tr></table>
 				</td>
 				</tr></table>
@@ -788,11 +788,11 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 <?php 
 		if ($parentOfSelected) {
 ?>
-	expandFolder(<?php echo  $parentOfSelected?>, true);
+	expandFolder(<?php echo $parentOfSelected?>, true);
 <?php 
 		}
 ?>
-	selectNode(<?php echo  $selected?>);
+	selectNode(<?php echo $selected?>);
 //]]>
 </script>
 <?php 
@@ -829,11 +829,11 @@ function getCalendarView($calendar) {
 ?>
 <table id="tt-calendar" cellpadding="0" cellspacing="1" style="width: 100%; table-layout: fixed">
 	<caption class="tt-cal-month cal_month">
-		<a class="tt-prev-month" href="<?php echo  $blogURL?>/archive/<?php echo  $previous?>" title="<?php echo  _text('1개월 앞의 달력을 보여줍니다.')?>">&laquo;</a>
+		<a class="tt-prev-month" href="<?php echo $blogURL?>/archive/<?php echo $previous?>" title="<?php echo _text('1개월 앞의 달력을 보여줍니다.')?>">&laquo;</a>
 		&nbsp;
-		<a class="tt-current-month" href="<?php echo  $blogURL?>/archive/<?php echo  $current?>" title="<?php echo  _text('현재 달의 달력을 보여줍니다.')?>"><?php echo  $currentMonthStr?></a>
+		<a class="tt-current-month" href="<?php echo $blogURL?>/archive/<?php echo $current?>" title="<?php echo _text('현재 달의 달력을 보여줍니다.')?>"><?php echo $currentMonthStr?></a>
 		&nbsp;
-		<a class="tt-next-month" href="<?php echo  $blogURL?>/archive/<?php echo  $next?>" title="<?php echo  _text('1개월 뒤의 달력을 보여줍니다.')?>">&raquo;</a>
+		<a class="tt-next-month" href="<?php echo $blogURL?>/archive/<?php echo $next?>" title="<?php echo _text('1개월 뒤의 달력을 보여줍니다.')?>">&raquo;</a>
 	</caption>
 	<thead>
 		<tr>
@@ -1370,10 +1370,10 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 	global $service;
 ?>
 													<div id="groupAdder">
-														<div class="title"><span class="text"><?php echo  _t('그룹 등록하기')?></span></div>
+														<div class="title"><span class="text"><?php echo _t('그룹 등록하기')?></span></div>
 														<div class="button-box">
-															<input type="text" id="newGroupTitle" class="text-input" value="<?php echo _t('그룹을 추가하세요.')?>" onfocus="if(this.value == '<?php echo  _t('그룹을 추가하세요.')?>') this.value = ''" onblur="if(this.value == '') this.value = '<?php echo  _t('그룹을 추가하세요.')?>'" onkeydown="if(event.keyCode==13) Reader.addGroup(this.value)" />
-															<a class="add-button button" href="#void" onclick="Reader.addGroup(document.getElementById('newGroupTitle').value)"><span class="text"><?php echo  _t('추가')?></span></a>
+															<input type="text" id="newGroupTitle" class="text-input" value="<?php echo _t('그룹을 추가하세요.')?>" onfocus="if(this.value == '<?php echo _t('그룹을 추가하세요.')?>') this.value = ''" onblur="if(this.value == '') this.value = '<?php echo _t('그룹을 추가하세요.')?>'" onkeydown="if(event.keyCode==13) Reader.addGroup(this.value)" />
+															<a class="add-button button" href="#void" onclick="Reader.addGroup(document.getElementById('newGroupTitle').value)"><span class="text"><?php echo _t('추가')?></span></a>
 														</div>
 													</div>
 													
@@ -1386,16 +1386,16 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 		$className = ($count % 2) == 1 ? 'even-line' : 'odd-line';
 		$className .= ($selectedGroup == $group['id']) ? ' active-class' : ' inactive-class';
 ?>
-														<li id="groupList<?php echo  $group['id']?>" class="<?php echo  $className?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+														<li id="groupList<?php echo $group['id']?>" class="<?php echo $className?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 															<div class="title">
-																<a href="#void" onclick="Reader.selectGroup(this, <?php echo  $group['id']?>)"><?php echo  htmlspecialchars($group['title'])?></a>
+																<a href="#void" onclick="Reader.selectGroup(this, <?php echo $group['id']?>)"><?php echo htmlspecialchars($group['title'])?></a>
 															</div>
 <?php 
 		if ($group['id']) {
 ?>
 															
 															<div class="button-box">
-																<a class="edit-button button" href="#void" onclick="Reader.editGroup(<?php echo  $group['id']?>, '<?php echo  $group['title']?>'); return false;" title="<?php echo _t('이 그룹 정보를 수정합니다.')?>"><span class="text"><?php echo _t('수정')?></span></a>
+																<a class="edit-button button" href="#void" onclick="Reader.editGroup(<?php echo $group['id']?>, '<?php echo $group['title']?>'); return false;" title="<?php echo _t('이 그룹 정보를 수정합니다.')?>"><span class="text"><?php echo _t('수정')?></span></a>
 															</div>
 <?php 
 		}
@@ -1408,7 +1408,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 													</ul>
 													
 													<div id="groupEditor" style="display: none;">
-														<div class="title"><span><?php echo  _t('그룹 수정하기')?></span></div>
+														<div class="title"><span><?php echo _t('그룹 수정하기')?></span></div>
 														<div class="input-box">
 															<div class="input-field">
 																<input type="text" id="changeGroupTitle" class="text-input" name="changeGroupTitle" />
@@ -1429,11 +1429,11 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 	global $service;
 ?>
 													<div id="feedAdder">
-														<div class="title"><span><?php echo  _t('피드 등록하기')?></span></div>
+														<div class="title"><span><?php echo _t('피드 등록하기')?></span></div>
 														<div class="button-box">
-															<input type="text" id="newFeedURL" class="text-input" name="newFeedURL" value="<?php echo  _t('피드 주소를 입력하세요.')?>" onfocus="if(this.value == '<?php echo  _t('피드 주소를 입력하세요.')?>') this.value = ''" onblur="if(this.value == '') this.value = '<?php echo  _t('피드 주소를 입력하세요.')?>'" onkeydown="if(event.keyCode==13) Reader.addFeed(this.value)" />
-															<a class="add-button button" href="#void" onclick="Reader.addFeed(document.getElementById('newFeedURL').value)"><span class="text"><?php echo  _t('추가')?></span></a>
-															<?php echo  fireEvent('AddFeedURLToolbox', '')?>
+															<input type="text" id="newFeedURL" class="text-input" name="newFeedURL" value="<?php echo _t('피드 주소를 입력하세요.')?>" onfocus="if(this.value == '<?php echo _t('피드 주소를 입력하세요.')?>') this.value = ''" onblur="if(this.value == '') this.value = '<?php echo _t('피드 주소를 입력하세요.')?>'" onkeydown="if(event.keyCode==13) Reader.addFeed(this.value)" />
+															<a class="add-button button" href="#void" onclick="Reader.addFeed(document.getElementById('newFeedURL').value)"><span class="text"><?php echo _t('추가')?></span></a>
+															<?php echo fireEvent('AddFeedURLToolbox', '')?>
 														</div>
 													</div>
 													
@@ -1449,13 +1449,13 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 			$status = 'UpdateNo';
 		$className = ($count % 2) == 1 ? 'even-line' : 'odd-line';
 ?>
-														<li class="<?php echo  $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectFeed(this, <?php echo  $feed['id']?>)">
-															<div class="title"><?php echo  $feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" onclick="window.open(this.href); event.cancelBubble=true; return false;" title="'._t('이 피드의 원본 사이트를 새 창으로 엽니다.').'">' : ''?><?php echo  htmlspecialchars($feed['title'])?><?php echo  $feed['blogURL'] ? "</a>\n" : ''?></div>
-															<div class="description"><?php echo  $feed['description']?'<span class="divider"> | </span>':'&nbsp;'?><?php echo  htmlspecialchars($feed['description'])?></div>
+														<li class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectFeed(this, <?php echo $feed['id']?>)">
+															<div class="title"><?php echo $feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" onclick="window.open(this.href); event.cancelBubble=true; return false;" title="'._t('이 피드의 원본 사이트를 새 창으로 엽니다.').'">' : ''?><?php echo htmlspecialchars($feed['title'])?><?php echo $feed['blogURL'] ? "</a>\n" : ''?></div>
+															<div class="description"><?php echo $feed['description']?'<span class="divider"> | </span>':'&nbsp;'?><?php echo htmlspecialchars($feed['description'])?></div>
 															<div class="button-box">
-																<a id="iconFeedStatus<?php echo  $feed['id']?>" class="update-button button" onclick="Reader.updateFeed(<?php echo  $feed['id']?>, '<?php echo _t('피드를 업데이트 했습니다.')?>'); event.cancelBubble=true; return false;" title="<?php echo _t('이 피드를 업데이트 합니다.')?>"><span class="text"><?php echo _t('피드 업데이트')?></span></a>
+																<a id="iconFeedStatus<?php echo $feed['id']?>" class="update-button button" onclick="Reader.updateFeed(<?php echo $feed['id']?>, '<?php echo _t('피드를 업데이트 했습니다.')?>'); event.cancelBubble=true; return false;" title="<?php echo _t('이 피드를 업데이트 합니다.')?>"><span class="text"><?php echo _t('피드 업데이트')?></span></a>
 																<span class="divider">|</span>
-																<a class="edit-button button" href="#void" onclick="Reader.editFeed(<?php echo  $feed['id']?>, '<?php echo  htmlspecialchars($feed['xmlURL'])?>')" title="<?php echo _t('이 피드 정보를 수정합니다.')?>"><span class="text"><?php echo _t('수정')?></span></a>
+																<a class="edit-button button" href="#void" onclick="Reader.editFeed(<?php echo $feed['id']?>, '<?php echo htmlspecialchars($feed['xmlURL'])?>')" title="<?php echo _t('이 피드 정보를 수정합니다.')?>"><span class="text"><?php echo _t('수정')?></span></a>
 															</div>
 														</li>
 <?php
@@ -1465,7 +1465,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 													</ul>
 													
 													<div id="feedEditor" style="display: none;">
-														<div class="title"><span class="text"><?php echo  _t('피드 수정하기')?></span></div>
+														<div class="title"><span class="text"><?php echo _t('피드 수정하기')?></span></div>
 														<div class="input-box">
 															<div class="input-field">
 																<select id="changeFeedGroup">
@@ -1474,7 +1474,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 		if ($group['id'] == 0)
 			$group['title'] = _t('그룹 없음');
 ?>
-																	<option value="<?php echo  $group['id']?>"><?php echo  htmlspecialchars($group['title'])?></option>
+																	<option value="<?php echo $group['id']?>"><?php echo htmlspecialchars($group['title'])?></option>
 <?php 
 	}
 ?>
@@ -1500,8 +1500,8 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 ?>
 												<script type="text/javascript">
 													//<![CDATA[
-														var scrapedPostText = "<?php echo  _t('스크랩 포스트')?>";
-														var disscrapedPostText = "<?php echo  _t('미스크랩 포스트')?>";
+														var scrapedPostText = "<?php echo _t('스크랩 포스트')?>";
+														var disscrapedPostText = "<?php echo _t('미스크랩 포스트')?>";
 													//]]>
 												</script>
 												
@@ -1517,25 +1517,25 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 		$className .= ($count == 0) ? ' active-class' : ' inactive-class';
 		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="'._t('팟캐스트 포스트입니다.').'"><span class="text">' . _t('팟캐스트') . '</span></span>' : '';
 ?>
-														<tr id="entryTitleList<?php echo  $entry['id']?>" class="<?php echo  $className?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo  $entry['id']?>)">
+														<tr id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $className?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
 															<td>
 																<div class="icons">
 <?php
 			if ($entry['item']) {
 ?>
-																	<span id="star<?php echo  $entry['id']?>" class="scrap-on-icon bullet" title="<?php echo _t('이 포스트를 스크랩 해제합니다.')?>" onclick="Reader.toggleStarred(<?php echo  $entry['id']?>)"><span class="text"><?php echo  _t('스크랩 포스트')?></span></span>
+																	<span id="star<?php echo $entry['id']?>" class="scrap-on-icon bullet" title="<?php echo _t('이 포스트를 스크랩 해제합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text"><?php echo _t('스크랩 포스트')?></span></span>
 <?php
 			} else {
 ?>
-																	<span id="star<?php echo  $entry['id']?>" class="scrap-off-icon bullet" title="<?php echo _t('이 포스트를 스크랩합니다.')?>" onclick="Reader.toggleStarred(<?php echo  $entry['id']?>)"><span class="text"><?php echo  _t('미스크랩 포스트')?></span></span>
+																	<span id="star<?php echo $entry['id']?>" class="scrap-off-icon bullet" title="<?php echo _t('이 포스트를 스크랩합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text"><?php echo _t('미스크랩 포스트')?></span></span>
 <?php
 			}
 ?>
-																	<?php echo  $podcast?>
+																	<?php echo $podcast?>
 																</div>
 																<div class="content">
-																	<div class="title"><span class="text"><?php echo  htmlspecialchars($entry['entry_title'])?></span></div>
-																	<div class="blog"><?php echo  htmlspecialchars($entry['blog_title'])?></div>
+																	<div class="title"><span class="text"><?php echo htmlspecialchars($entry['entry_title'])?></span></div>
+																	<div class="blog"><?php echo htmlspecialchars($entry['blog_title'])?></div>
 																</div>
 															</td>
 														</tr>
@@ -1548,17 +1548,17 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 													
 												<div id="additionalFeedContainer"></div>
 												<div id="feedLoadingIndicator" class="system-message" style="display: none;">
-													<?php echo  _t('피드를 읽어오고 있습니다...')?>
+													<?php echo _t('피드를 읽어오고 있습니다...')?>
 												</div>
 												
 												<script type="text/javascript">
 													//<![CDATA[
-														Reader.setShownEntries(<?php echo  $count?>);
-														Reader.setTotalEntries(<?php echo  getFeedEntriesTotalCount($owner, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword)?>);
+														Reader.setShownEntries(<?php echo $count?>);
+														Reader.setTotalEntries(<?php echo getFeedEntriesTotalCount($owner, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword)?>);
 <?php 
 	if (isset($firstEntryId)) {
 ?>
-														Reader.selectedEntryObject = document.getElementById("entryTitleList<?php echo  $firstEntryId?>").parentNode;
+														Reader.selectedEntryObject = document.getElementById("entryTitleList<?php echo $firstEntryId?>").parentNode;
 <?php 
 	}
 ?>
@@ -1580,25 +1580,25 @@ function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false
 		$class .= ' inactive-class';
 		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="'._t('팟캐스트 포스트입니다.').'"><span class="text">' . _t('팟캐스트') . '</span></span>' : '';
 ?>
-													<tr id="entryTitleList<?php echo  $entry['id']?>" class="<?php echo  $class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo  $entry['id']?>)">
+													<tr id="entryTitleList<?php echo $entry['id']?>" class="<?php echo $class?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id']?>)">
 														<td>
 															<div class="icons">
 <?php
 		if ($entry['item']) {
 ?>
-																<span id="star<?php echo  $entry['id']?>" class="scrap-on-icon bullet" title="<?php echo _t('이 포스트를 스크랩 해제합니다.')?>" onclick="Reader.toggleStarred(<?php echo  $entry['id']?>)"><span class="text"><?php echo  _t('스크랩 포스트')?></span></span>
+																<span id="star<?php echo $entry['id']?>" class="scrap-on-icon bullet" title="<?php echo _t('이 포스트를 스크랩 해제합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text"><?php echo _t('스크랩 포스트')?></span></span>
 <?php
 		} else {
 ?>
-																<span id="star<?php echo  $entry['id']?>" class="scrap-off-icon bullet" title="<?php echo _t('이 포스트를 스크랩합니다.')?>" onclick="Reader.toggleStarred(<?php echo  $entry['id']?>)"><span class="text"><?php echo  _t('미스크랩 포스트')?></span></span>
+																<span id="star<?php echo $entry['id']?>" class="scrap-off-icon bullet" title="<?php echo _t('이 포스트를 스크랩합니다.')?>" onclick="Reader.toggleStarred(<?php echo $entry['id']?>)"><span class="text"><?php echo _t('미스크랩 포스트')?></span></span>
 <?php
 		}
 ?>
-																<?php echo  $podcast?>
+																<?php echo $podcast?>
 															</div>
 															<div class="content">
-																<div class="title"><?php echo  htmlspecialchars($entry['entry_title'])?></div>
-																<div class="blog"><?php echo  htmlspecialchars($entry['blog_title'])?></div>
+																<div class="title"><?php echo htmlspecialchars($entry['entry_title'])?></div>
+																<div class="blog"><?php echo htmlspecialchars($entry['blog_title'])?></div>
 															</div>
 														</td>
 													</tr>
@@ -1618,32 +1618,32 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 	}
 ?>
 												<div id="entryHead">
-													<div class="title"><a href="<?php echo  htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;"><?php echo  htmlspecialchars($entry['entry_title'])?></a></div>
-													<div class="writing-info"><span class="by">by </span><span class="name"><?php echo  htmlspecialchars($entry['author'] ? eregi_replace("^\((.+)\)$", "\\1", $entry['author']) : $entry['blog_title'])?></span><span class="divider"> : </span><span class="date"><?php echo  date('Y-m-d H:i:s', $entry['written'])?></span></div>
-													<div class="open"><a id="entryPermalink" href="<?php echo  htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;" title="<?php echo _t('이 포스트를 새 창으로 엽니다.')?>"><span class="text"><?php echo  _t('새 창으로')?></span></a></div>
+													<div class="title"><a href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($entry['entry_title'])?></a></div>
+													<div class="writing-info"><span class="by">by </span><span class="name"><?php echo htmlspecialchars($entry['author'] ? eregi_replace("^\((.+)\)$", "\\1", $entry['author']) : $entry['blog_title'])?></span><span class="divider"> : </span><span class="date"><?php echo date('Y-m-d H:i:s', $entry['written'])?></span></div>
+													<div class="open"><a id="entryPermalink" href="<?php echo htmlspecialchars($entry['permalink'])?>" onclick="window.open(this.href); return false;" title="<?php echo _t('이 포스트를 새 창으로 엽니다.')?>"><span class="text"><?php echo _t('새 창으로')?></span></a></div>
 												</div>
 												
-												<div id="entryBody" xml:lang="<?php echo  htmlspecialchars($entry['language'])?>">
+												<div id="entryBody" xml:lang="<?php echo htmlspecialchars($entry['language'])?>">
 <?php 
 	if ($entry['enclosure']) {
 		if (preg_match('/\.mp3$/i', $entry['enclosure'])) {
 ?>
-													<p><span class="podcast-icon bullet"><span class="text"><?php echo _t('팟캐스트')?></span></span><a href="<?php echo  htmlspecialchars($entry['enclosure'])?>"><?php echo  htmlspecialchars($entry['enclosure'])?></a></p>
+													<p><span class="podcast-icon bullet"><span class="text"><?php echo _t('팟캐스트')?></span></span><a href="<?php echo htmlspecialchars($entry['enclosure'])?>"><?php echo htmlspecialchars($entry['enclosure'])?></a></p>
 <?php 
 		} else {
 ?>
-													<p><span class="podcast-icon bullet"><span class="text"><?php echo _t('팟캐스트')?></span></span><a href="<?php echo  htmlspecialchars($entry['enclosure'])?>"><?php echo  htmlspecialchars($entry['enclosure'])?></a></p>
+													<p><span class="podcast-icon bullet"><span class="text"><?php echo _t('팟캐스트')?></span></span><a href="<?php echo htmlspecialchars($entry['enclosure'])?>"><?php echo htmlspecialchars($entry['enclosure'])?></a></p>
 <?php 
 		}
 	}
 ?>
-													<?php echo  $entry['description']?>
+													<?php echo $entry['description']?>
 												</div>
 												
 												<script type="text/javascript">
 													//<![CDATA[
-														Reader.selectedEntry = <?php echo  escapeJSInAttribute($entry['id'])?>;
-														Reader.setBlogTitle('<?php echo  escapeJSInAttribute($entry['blog_title'])?>');
+														Reader.selectedEntry = <?php echo escapeJSInAttribute($entry['id'])?>;
+														Reader.setBlogTitle('<?php echo escapeJSInAttribute($entry['blog_title'])?>');
 														Reader.doPostProcessingOnEntry();
 													//]]>
 												</script>
@@ -1659,7 +1659,7 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 	}
 ?>
 													<div class="button-box">
-														<a class="non-read-button button" href="#void" onclick="Reader.markAsUnread(<?php echo  $entry['id']?>)"><span class="text"><?php echo  _t('안 읽은 글로 표시')?></span></a>
+														<a class="non-read-button button" href="#void" onclick="Reader.markAsUnread(<?php echo $entry['id']?>)"><span class="text"><?php echo _t('안 읽은 글로 표시')?></span></a>
 													</div>
 												</div>
 <?php 

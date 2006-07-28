@@ -15,7 +15,7 @@ if (empty($_POST['perPage'])) {
 }  
 
 ?>
-						<form method="post" action="<?php echo  $blogURL?>/owner/statistics/referer">
+						<form method="post" action="<?php echo $blogURL?>/owner/statistics/referer">
 							<div id="part-statistics-rank" class="part">
 								<h2 class="caption"><span class="main-text"><?php echo _t('리퍼러 순위')?></span></h2>
 								
@@ -35,7 +35,7 @@ for ($i=0; $i<sizeof($temp); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo  $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="rank"><?php echo $i + 1?>.</td>
 											<td class="site"><a href="http://<?php echo escapeJSInAttribute($record['host'])?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($record['host'])?></a> <span class="count">(<?php echo $record['count']?>)</span></td>
 										</tr>
@@ -83,7 +83,7 @@ for ($i=0; $i<sizeof($refereres); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($referers) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo  $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="date"><?php echo Timestamp::formatDate($record['referred'])?></td>
 											<td class="address"><a href="<?php echo escapeJSInAttribute($record['url'])?>" onclick="window.open(this.href); return false;" title="<?php echo htmlspecialchars($record['url'])?>"><?php echo fireEvent('ViewRefererURL', htmlspecialchars(UTF8::lessenAsEm($record['url'], 70)), $record)?></a></td>
 										</tr>

@@ -6,17 +6,17 @@ function respondMessagePage($message) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title><?php echo  TATTERTOOLS_NAME?></title>
+	<title><?php echo TATTERTOOLS_NAME?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?php echo  $service['path'] ?>/style/owner.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'] ?>/style/owner.css" />
 </head>
 <body id="body-message-page">
 	<div class="message-box">
-		<h1><?php echo  TATTERTOOLS_NAME?></h1>
+		<h1><?php echo TATTERTOOLS_NAME?></h1>
 		
-		<div class="message"><?php echo  $message?></div>
+		<div class="message"><?php echo $message?></div>
 		<div class="button-box">
-			<input type="button" class="button-input" value="<?php echo  _text('이전')?>" onclick="window.history.go(-1)" />
+			<input type="button" class="button-input" value="<?php echo _text('이전')?>" onclick="window.history.go(-1)" />
 		</div>
 	</div>
 </body>
@@ -30,11 +30,11 @@ function respondAlertPage($message) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title><?php echo  TATTERTOOLS_NAME?></title>
+	<title><?php echo TATTERTOOLS_NAME?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<script type="text/javascript">
 		//<![CDATA[
-			alert("<?php echo  $message?>");
+			alert("<?php echo $message?>");
 		//]]>	
 	</script>
 </head>
@@ -49,17 +49,17 @@ function respondErrorPage($message=NULL, $buttonValue=NULL, $buttonLink=NULL) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title><?php echo  TATTERTOOLS_NAME?></title>
+	<title><?php echo TATTERTOOLS_NAME?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?php echo  $service['path'] ?>/style/owner.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'] ?>/style/owner.css" />
 </head>
 <body id="body-message-page">
 	<div class="message-box">
-		<h1><?php echo  TATTERTOOLS_NAME?></h1>
+		<h1><?php echo TATTERTOOLS_NAME?></h1>
 		
-		<div class="message"><?php echo  $message?></div>
+		<div class="message"><?php echo $message?></div>
 		<div class="button-box">
-			<input type="button" class="button-input" value="<?php echo  !empty($buttonValue) ? $buttonValue : _text('이전')?>" onclick="<?php echo  !empty($buttonLink) ? 'window.location.href=\''.$buttonLink.'\'' : 'window.history.go(-1)'?>" />
+			<input type="button" class="button-input" value="<?php echo !empty($buttonValue) ? $buttonValue : _text('이전')?>" onclick="<?php echo !empty($buttonLink) ? 'window.location.href=\''.$buttonLink.'\'' : 'window.history.go(-1)'?>" />
 		</div>
 	</div>
 </body>
@@ -73,12 +73,12 @@ function respondNoticePage($message, $redirection) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title><?php echo  TATTERTOOLS_NAME?></title>
+	<title><?php echo TATTERTOOLS_NAME?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<script type="text/javascript">
 		//<![CDATA[
-			alert("<?php echo  $message?>");
-			window.location.href = "<?php echo  $redirection?>";
+			alert("<?php echo $message?>");
+			window.location.href = "<?php echo $redirection?>";
 		//]]>
 	</script>
 </head>

@@ -17,7 +17,7 @@ if (count($host) > 1) {
 unset($host);
 
 if (!empty($_GET['test'])) {
-    echo getFingerPrint();
+   echo getFingerPrint();
     exit;
 }
 
@@ -106,9 +106,9 @@ if (empty($_POST['step'])) {
     <input type="hidden" name="step" value="1" />
     <h2><span class="step"><?php echo _f('%1단계', 1)?></span> : <?php echo _t('태터툴즈 설치를 시작합니다.')?></h2>
 		<div id="langSel" > <?php drowSetLang( $baseLanguage, 'Norm');?></div> 
-    <div id="info"><b><?php echo  TATTERTOOLS_VERSION?></b><br />
-      <?php echo  TATTERTOOLS_COPYRIGHT?><br />
-      Homepage: <a href="<?php echo  TATTERTOOLS_HOMEPAGE?>"><?php echo  TATTERTOOLS_HOMEPAGE?></a></div>
+    <div id="info"><b><?php echo TATTERTOOLS_VERSION?></b><br />
+      <?php echo TATTERTOOLS_COPYRIGHT?><br />
+      Homepage: <a href="<?php echo TATTERTOOLS_HOMEPAGE?>"><?php echo TATTERTOOLS_HOMEPAGE?></a></div>
     <div id="content">
       <ol>
         <li><?php echo _t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 태터툴즈)의 저작권자는 Tatter &amp; Company와 Tatter &amp; Friends입니다.')?></li>
@@ -272,21 +272,21 @@ function checkStep($step, $check = true) {
     </div>
     <div id="warning"><?php
         if ($error == 1)
-            echo _t('데이터베이스 서버에 연결할 수 없습니다. 정보를 다시 입력해 주십시오.');
+           echo _t('데이터베이스 서버에 연결할 수 없습니다. 정보를 다시 입력해 주십시오.');
         else if ($error == 2)
-            echo _t('데이터베이스를 사용할 수가 없습니다. 정보를 다시 입력해 주십시오.');
+           echo _t('데이터베이스를 사용할 수가 없습니다. 정보를 다시 입력해 주십시오.');
         else if ($error == 3)
-            echo _t('테이블 식별자가 올바르지 않습니다. 다시 입력해 주십시오.');
+           echo _t('테이블 식별자가 올바르지 않습니다. 다시 입력해 주십시오.');
         else if ($error == 6)
-            echo _t('데이터베이스에 연결할 수 없습니다.');
+           echo _t('데이터베이스에 연결할 수 없습니다.');
         else if ($error == 7)
-            echo _t('데이터베이스에 접근할 수 없습니다.');
+           echo _t('데이터베이스에 접근할 수 없습니다.');
         else if ($error == 8)
-            echo _t('새로운 테이블 식별자가 올바르지 않습니다. 다시 입력해 주십시오.');
+           echo _t('새로운 테이블 식별자가 올바르지 않습니다. 다시 입력해 주십시오.');
         else if ($check)
-            echo _t('표시된 정보가 부족합니다.');
+           echo _t('표시된 정보가 부족합니다.');
         else
-            echo '&nbsp;';
+           echo '&nbsp;';
 ?></div>
   <div id="navigation">
     <a href="#" onclick="window.history.back()" title="<?php echo _t('이전')?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?php echo _t('이전')?>" /></a>
@@ -483,22 +483,22 @@ EOS;
     <ul>
 <?php
         if (mysql_query('SET CHARACTER SET utf8'))
-            echo '<li>Character Set: OK</li>';
+           echo '<li>Character Set: OK</li>';
         else {
-            echo '<li style="color:navy">Character Set: ', _t('UTF8 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'), '</li>';
+           echo '<li style="color:navy">Character Set: ', _t('UTF8 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'), '</li>';
         }
         if (mysql_query('SET SESSION collation_connection = \'utf8_general_ci\''))
-            echo '<li>Collation: OK</li>';
+           echo '<li>Collation: OK</li>';
         else {
-            echo '<li style="color:navy">Collation: ', _t('UTF8 General 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'), '</li>';
+           echo '<li style="color:navy">Collation: ', _t('UTF8 General 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'), '</li>';
         }
         if (mysql_query("CREATE TABLE {$_POST['dbPrefix']}Setup (a INT NOT NULL)")) {
             mysql_query("DROP TABLE {$_POST['dbPrefix']}Setup");
-            echo '<li>', _t('테이블 생성 권한'), ': OK</li>';
+           echo '<li>', _t('테이블 생성 권한'), ': OK</li>';
         }
         else {
             $error = 6;
-            echo '<li style="color:red">', _t('테이블 생성 권한'), ': ', _t('없음'), '</li>';
+           echo '<li style="color:red">', _t('테이블 생성 권한'), ': ', _t('없음'), '</li>';
         }
 ?>
     </ul>
@@ -581,88 +581,88 @@ EOS;
         if (file_exists($filename)) {
             if (is_writable($filename)) {
                 if (filesize($filename))
-                    echo '<li style="color:navy">', _f('설정 파일: OK (경고: "%1" 파일을 덮어 쓰게 됩니다.)', $filename), '</li>';
+                   echo '<li style="color:navy">', _f('설정 파일: OK (경고: "%1" 파일을 덮어 쓰게 됩니다.)', $filename), '</li>';
                 else
-                    echo '<li>', _t('웹 설정 파일'), ': OK</li>';
+                   echo '<li>', _t('웹 설정 파일'), ': OK</li>';
             }
             else {
                 $error = 8;
-                echo '<li style="color:red">', _t('웹 설정 파일'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0666'), '</li>';
+               echo '<li style="color:red">', _t('웹 설정 파일'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0666'), '</li>';
             }
         }
         else if (is_writable($root))
-            echo '<li>', _t('웹 설정 파일'), ': OK</li>';
+           echo '<li>', _t('웹 설정 파일'), ': OK</li>';
         else {
             $error = 9;
-            echo '<li style="color:red">', _t('웹 설정 파일'), ': ', _f('"%1"에 %2 파일을 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, '.htaccess', '0777'), '</li>';
+           echo '<li style="color:red">', _t('웹 설정 파일'), ': ', _f('"%1"에 %2 파일을 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, '.htaccess', '0777'), '</li>';
         }
         
         $filename = $root . '/config.php';
         if (file_exists($filename)) {
             if (is_writable($filename)) {
                 if (filesize($filename))
-                    echo '<li style="color:navy">', _f('설정 파일: OK (경고: "%1" 파일을 덮어 쓰게 됩니다.)', $filename), '</li>';
+                   echo '<li style="color:navy">', _f('설정 파일: OK (경고: "%1" 파일을 덮어 쓰게 됩니다.)', $filename), '</li>';
                 else
-                    echo '<li>', _t('설정 파일'), ': OK</li>';
+                   echo '<li>', _t('설정 파일'), ': OK</li>';
             }
             else {
                 $error = 10;
-                echo '<li style="color:red">', _t('설정 파일'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0666'), '</li>';
+               echo '<li style="color:red">', _t('설정 파일'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0666'), '</li>';
             }
         }
         else if (is_writable($root))
-            echo '<li>', _t('설정 파일'), ': OK</li>';
+           echo '<li>', _t('설정 파일'), ': OK</li>';
         else {
             $error = 11;
-            echo '<li style="color:red">', _t('설정 파일'), ': ', _f('"%1"에 %2 파일을 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'config.php', '0777'), '</li>';
+           echo '<li style="color:red">', _t('설정 파일'), ': ', _f('"%1"에 %2 파일을 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'config.php', '0777'), '</li>';
         }
         
         $filename = $root . '/attach';
         if (file_exists($filename)) {
             if (is_dir($filename) && is_writable($filename))
-                echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
+               echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
             else {
                 $error = 12;
-                echo '<li style="color:red">', _t('첨부 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '</li>';
+               echo '<li style="color:red">', _t('첨부 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '</li>';
             }
         } else if (mkdir($filename)) {
 			@chmod($filename, 0777);
-            echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
+           echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
         } else {
             $error = 13;
-            echo '<li style="color:red">', _t('첨부 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'attach', '0777'), '</li>';
+           echo '<li style="color:red">', _t('첨부 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'attach', '0777'), '</li>';
         }
         
         $filename = $root . '/cache';
         if (is_dir($filename)) {
             if (is_writable($filename))
-                echo '<li>', _t('캐시 디렉토리'), ': OK</li>';
+               echo '<li>', _t('캐시 디렉토리'), ': OK</li>';
             else {
                 $error = 12;
-                echo '<li style="color:red">', _t('캐시 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '</li>';
+               echo '<li style="color:red">', _t('캐시 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '</li>';
             }
         } else if (mkdir($filename)) {
 			@chmod($filename, 0777);
-            echo '<li>', _t('캐시 디렉토리'), ': OK</li>';
+           echo '<li>', _t('캐시 디렉토리'), ': OK</li>';
         } else {
             $error = 13;
-            echo '<li style="color:red">', _t('캐시 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'cache', '0777'), '</li>';
+           echo '<li style="color:red">', _t('캐시 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'cache', '0777'), '</li>';
         }
         
         $filename = $root . '/skin/customize';
         if (is_dir($filename)) {
             if (is_writable($filename))
-                echo '<li>', _t('스킨 디렉토리'), ': OK</li>';
+               echo '<li>', _t('스킨 디렉토리'), ': OK</li>';
             else {
                 $error = 14;
-                echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '</li>';
+               echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '</li>';
             }
         } else if (mkdir($filename)) {
 			@chmod($filename, 0777);
-            echo '<li>', _t('스킨 디렉토리'), ': OK</li>';
+           echo '<li>', _t('스킨 디렉토리'), ': OK</li>';
         } else {
             $error = 15;
-            echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', "$root/skin", 'customize', '0777'), '</li>';
+           echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', "$root/skin", 'customize', '0777'), '</li>';
         }
 ?>
     </ul>
@@ -877,15 +877,15 @@ RewriteRule ^testrewrite$ setup.php [L]"
       </table>
       <div id="warning"><?php
         if ($error == 51)
-            echo _t('이메일이 올바르지 않습니다.');
+           echo _t('이메일이 올바르지 않습니다.');
         else if ($error == 52)
-            echo _t('비밀번호가 일치하지 않습니다.');
+           echo _t('비밀번호가 일치하지 않습니다.');
         else if ($error == 53)
-            echo _t('블로그 식별자가 올바르지 않습니다.');
+           echo _t('블로그 식별자가 올바르지 않습니다.');
         else if ($check)
-            echo _t('표시된 정보가 부족합니다.');
+           echo _t('표시된 정보가 부족합니다.');
         else
-            echo '&nbsp;';
+           echo '&nbsp;';
 ?></div>
     </div>
   <div id="navigation">

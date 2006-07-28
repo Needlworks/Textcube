@@ -67,7 +67,7 @@ require ROOT . '/lib/piece/owner/contentMenu21.php';
 						<div id="part-link-add" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('링크 정보를 추가합니다')?></span></h2>
 								
-							<form id="addForm" method="post" action="<?php echo  $blogURL?>/owner/link/add/">
+							<form id="addForm" method="post" action="<?php echo $blogURL?>/owner/link/add/">
 								<div class="data-inbox">
 									<dl id="rss-address-line" class="line">
 										<dt><label for="rss"><?php echo _t('<acronym title="Rich Site Summary">RSS</acronym> 주소')?></label></dt>

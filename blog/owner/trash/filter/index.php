@@ -49,7 +49,7 @@ function printFilterBox($mode, $title) {
 			$className = ($count % 2) == 1 ? 'even-line' : 'odd-line';
 			$className .= ($i == sizeof($filtersList) - 1) ? ' last-line' : '';
 ?>
-											<tr class="<?php echo  $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+											<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="content"><span title="<?php echo escapeJSInAttribute($entity)?>"><?php echo UTF8::lessenAsEm($entity, 30)?></span></td>
 												<td class="delete"><a class="delete-button button" href="#void" onclick="deleteFilter(parentNode.parentNode,'<?php echo $mode?>', '<?php echo urlencode($entity)?>',<?php echo $value[0]?>);" title="<?php echo _t('이 필터링을 제거합니다.')?>"><span class="text"><?php echo _t('삭제')?></span></a></td>
 											</tr>
@@ -260,7 +260,7 @@ if (!@is_null($history)) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('필터를 설정합니다')?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo  _t('댓글, 트랙백, 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우거나 무시합니다.')?></p>
+								<p class="explain"><?php echo _t('댓글, 트랙백, 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우거나 무시합니다.')?></p>
 							</div>
 							
 							<div class="data-inbox">

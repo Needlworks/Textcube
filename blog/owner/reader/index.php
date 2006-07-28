@@ -173,7 +173,7 @@ if (getUserId() == 1) {
 												<dd>
 													<div class="javascript-yes"><input type="radio" id="allowScript1" class="radio" name="allowScript" value="1"<?php echo $setting['allowScript'] == 1 ? ' checked="checked"' : ''?> /> <label for="allowScript1"><?php echo _t('허용')?></label></div>
 													<div class="javascript-no"><input type="radio" id="allowScript2" class="radio" name="allowScript" value="2"<?php echo $setting['allowScript'] == 2 ? ' checked="checked"' : ''?> /> <label for="allowScript2"><?php echo _t('거부')?></label></div>
-													<em><?php echo  _t('허용 시 문제가 발생할 수 있습니다.')?></em>
+													<em><?php echo _t('허용 시 문제가 발생할 수 있습니다.')?></em>
 												</dd>
 											</dl>
 											<dl id="link-line" class="line">
