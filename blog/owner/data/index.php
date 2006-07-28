@@ -29,21 +29,21 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 								
 								function correctData() {
 									document.getElementById("correctingIndicator").style.width = "0%";
-									document.getElementById("correctingDataDialogTitle").innerHTML = '<?php echo _t('데이터를 교정하고 있습니다. 잠시만 기다려 주십시오...')?>';
+									document.getElementById("correctingDataDialogTitle").innerHTML = '<?php echo _t('데이터를 교정하고 있습니다. 잠시만 기다려 주십시오.')?>';
 									PM.showPanel("correctingDataDialog");
 									document.getElementById("dataCorrector").submit();
 								}
 
 								function optimizeData() {
 									document.getElementById("optimizingIndicator").style.width = "0%";
-									document.getElementById("optimizingDataDialogTitle").innerHTML = '<?php echo _t('데이터베이스를 최적화하고 있습니다. 잠시만 기다려 주십시오...')?>';
+									document.getElementById("optimizingDataDialogTitle").innerHTML = '<?php echo _t('데이터베이스를 최적화하고 있습니다. 잠시만 기다려 주십시오.')?>';
 									PM.showPanel("optimizingDataDialog");
 									document.getElementById("dataOptimizer").submit();
 								}
 								
 								function backupData() {
 									var request = new HTTPRequest("POST", "<?php echo $blogURL?>/owner/data/backup?includeFileContents=" + document.getElementById("includeFileContents-yes").checked);
-									PM.addRequest(request, "<?php echo _t('백업을 저장하고 있습니다...')?>");
+									PM.addRequest(request, "<?php echo _t('백업을 저장하고 있습니다.')?>");
 									request.onSuccess = function () {
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('백업이 저장되었습니다.')?>", "center", "bottom");
@@ -87,7 +87,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 									}
 									hideDialog();
 									document.getElementById("progressIndicator").style.width = "0%";
-									document.getElementById("progressDialogTitle").innerHTML = '<?php echo _t('데이터를 복원하고 있습니다. 잠시만 기다려 주십시오...')?>';
+									document.getElementById("progressDialogTitle").innerHTML = '<?php echo _t('데이터를 복원하고 있습니다. 잠시만 기다려 주십시오.')?>';
 									document.getElementById("progressText").innerHTML = '<?php echo _t('백업파일을 올리고 있습니다.')?>';
 									PM.showPanel("progressDialog");
 									dataImporter.submit();
@@ -102,7 +102,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 										return false;
 									}
 									var request = new HTTPRequest("POST", "<?php echo $blogURL?>/owner/data/remove");
-									PM.addRequest(request, "<?php echo _t('데이터를 삭제하고 있습니다...')?>");
+									PM.addRequest(request, "<?php echo _t('데이터를 삭제하고 있습니다.')?>");
 									request.onSuccess = function () {
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('데이터가 삭제되었습니다.')?>", "center", "bottom");

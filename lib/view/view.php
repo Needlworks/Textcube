@@ -1548,7 +1548,7 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 													
 												<div id="additionalFeedContainer"></div>
 												<div id="feedLoadingIndicator" class="system-message" style="display: none;">
-													<?php echo _t('피드를 읽어오고 있습니다...')?>
+													<?php echo _t('피드를 읽어오고 있습니다.')?>
 												</div>
 												
 												<script type="text/javascript">

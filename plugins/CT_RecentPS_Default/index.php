@@ -32,7 +32,7 @@ function CT_RecentPS_Default($target) {
 	global $owner;
 
 	$target .= '<ul>';
-	$target .= _getRecentEntriesView(_getRecentEntries($owner),'<li> <a href="[##_rctps_rep_link_##]"> [##_rctps_rep_title_##].</a> <span class="cnt">[##_rctps_rep_rp_cnt_##]</span> </li>');
+	$target .= _getRecentEntriesView(_getRecentEntries($owner),'<li> <a href="[##_rctps_rep_link_##]"> [##_rctps_rep_title_##]</a> <span class="cnt">[##_rctps_rep_rp_cnt_##]</span> </li>');
 	$target .= '</ul>';
 
 	return $target;

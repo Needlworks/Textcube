@@ -39,7 +39,7 @@ function CT_RecentRP_Default($target) {
 	global $owner;
 
 	$target .= '<ul>';
-	$target .= _getRecentCommentsView(_getRecentComments($owner),'<li> <a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##].</a>
+	$target .= _getRecentCommentsView(_getRecentComments($owner),'<li> <a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##]</a>
               <span class="name">[##_rctrp_rep_name_##]</span> <span class="date">[##_rctrp_rep_time_##]</span> </li>');
 	$target .= '</ul>';
 

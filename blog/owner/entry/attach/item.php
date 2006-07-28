@@ -26,7 +26,7 @@ require ROOT . '/lib/includeForOwner.php';
 					var oSelect = window.parent.document.getElementById('fileList');	
 					var oOption = window.parent.document.createElement("option");
 					
-					oOption.innerHTML= fileName+ " <?php echo _t('업로드 중...')?>"; 
+					oOption.innerHTML= fileName+ " <?php echo _t('업로드 중…')?>"; 
 					oOption.value=fileName;
 					oSelect.appendChild(oOption);
 					oSelect.setAttribute('size',Math.max(8,Math.min(oSelect.length,30)));
