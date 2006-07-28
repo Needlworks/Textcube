@@ -25,10 +25,6 @@ function getArrayValue($array, $key) {
 	return $array[$key];
 }
 
-function checkDomainName($name) {
-	return ereg('^([[:alnum:]]+(-[[:alnum:]]+)*\.)+[[:alnum:]]+(-[[:alnum:]]+)*$', $name);
-}
-
 function getAttributesFromString($str) {
 	$attributes = array();
 	preg_match_all('/([^=\s]+)\s*=\s*"([^"]*)/', $str, $matches); 
