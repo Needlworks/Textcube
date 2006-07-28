@@ -301,7 +301,7 @@ function getTrackbacksView($entryId, & $skin) {
 		$style = 'none';
 	}
 	$trackbacksView = "<div id=\"entry{$entryId}Trackback\" style=\"display:$style\">" . str_replace('[##_tb_rep_##]', $trackbacksView, $skin->trackbacks) . '</div>';
-	dress('tb_address', "<span onclick=\"copyUrl('$hostURL$blogURL/trackback/$entryId')\">$hostURL$blogURL/trackback/$entryId</span>", $trackbacksView);
+	dress('tb_address', "<span onclick=\"copyUrl('$defaultURL/trackback/$entryId')\">$defaultURL/trackback/$entryId</span>", $trackbacksView);
 	return $trackbacksView;
 }
 
