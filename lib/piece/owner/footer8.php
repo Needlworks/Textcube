@@ -39,15 +39,14 @@
 				return;
 		}
 		switch (oEvent.keyCode) {
+<? if (!defined('__TATTERTOOLS_EDIT__')) { ?>
 			case 81: //Q
-				window.location = "<?=$blogURL?>/";
+				try { window.location = "<?=$blogURL?>/"; } catch(e) { }
 				break;
 			case 82: //R
-				window.location = "<?=$blogURL?>/owner/reader";
+				try { window.location = "<?=$blogURL?>/owner/reader"; } catch(e) { };
 				break;
-<?
-if (defined('__TATTERTOOLS_READER__')) {
-?>
+<? } if (defined('__TATTERTOOLS_READER__')) { ?>
 			case 65: //A
 			case 72: //H
 				Reader.prevEntry();
@@ -94,6 +93,7 @@ if (isset($paging['next'])) {
 <?
 }
 ?>
+			default:
 		}	
 	}
 	

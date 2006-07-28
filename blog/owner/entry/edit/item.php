@@ -12,6 +12,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+define('__TATTERTOOLS_EDIT__', true);
 if (defined('__TATTERTOOLS_KEYWORD__'))
 	respondNotFoundPage();
 if (defined('__TATTERTOOLS_POST__'))
