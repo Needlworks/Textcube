@@ -31,6 +31,8 @@ function selectSkin($owner, $skinName) {
 			return _t('실패 했습니다');
 	} else {
 		$skinName = Path::getBaseName($skinName);
+		if (($skinName === '.') || ($skinName ==='..'))
+			return _t('실패 했습니다');
 	}
 		
 	if (file_exists(ROOT . "/skin/$skinName/index.xml")) {
@@ -158,6 +160,13 @@ function setSkinSetting($owner, $setting) {
 			return false;
 	} else {
 		$skinSetting['skin'] = Path::getBaseName($skinSetting['skin']);
+		if (($skinSetting['skin'] === '.') || ($skinSetting['skin'] ==='..'))
+			return _t('실패 했습니다');
+	}
+	
+	$skinpath = ROOT . '/skin/' . $skinSetting['skin'];
+	if (!is_dir($skinpath))
+		return _t('실패 했습니다');
 	}
 
 	
