@@ -1,5 +1,15 @@
 <?php
 define('ROOT', '../../../../..');
+$IV = array(
+	'POST' => array(
+		'mode' => array(array('0','1'), 'mandatory' => false)
+	),
+	'FILES' => array(
+		'blogIcon' => array('file', 'mandatory' => false),
+		'favicon' => array('file', 'mandatory' => false ),
+		'logo' => array('file', 'mandatory' => false)
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 
 // 로고 처리.

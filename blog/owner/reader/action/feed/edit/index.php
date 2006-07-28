@@ -1,5 +1,13 @@
 <?php
 define('ROOT', '../../../../../..');
+$IV = array(
+	'POST' => array(
+		'id'            => array('id'),
+		'old_group'             => array('int', 'min' => 0),
+		'new_group'             => array('int', 'min' => 0),
+		'url'           => array('string', 'max' => 255)
+	)
+); 
 require ROOT . '/lib/includeForOwner.php';
 $result = array('error' => editFeed($owner, $_POST['id'], $_POST['old_group'], $_POST['new_group'], $_POST['url']));
 ob_start();

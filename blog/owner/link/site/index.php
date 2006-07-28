@@ -1,5 +1,10 @@
 <?php
 define('ROOT', '../../../..');
+$IV = array(
+	'GET' => array(
+		'rss' => array('url', 'min' => 0, 'max' => 255)
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 if (!empty($_GET['rss'])) {
 	list($st, $header, $body, $lmdate, $rval) = @xml_parser($_GET['rss'], '');

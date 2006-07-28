@@ -1,5 +1,10 @@
 <?php
 define('ROOT', '../../../../..');
+$IV = array(
+	'GET' => array(
+		'timezone' => array('any')
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 if (isset($_GET['timezone'])) {
 	requireComponent('Tattertools.Data.BlogSetting');

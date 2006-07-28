@@ -1,5 +1,11 @@
 <?php
 define('ROOT', '../../../../../..');
+$IV = array(
+	'POST' => array(
+		'title' => array('string', 'max' => 255),
+		'current' => array('int', 'min' => 0)
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 $result = array('error' => addFeedGroup($owner, $_POST['title']));
 ob_start();

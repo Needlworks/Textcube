@@ -1,5 +1,11 @@
 <?php
 define('ROOT', '../../..');
+$IV = array(  
+	'POST' => array(  
+		'withSearch' => array('any', 'mandatory' => false),  
+		'search' => array('string', 'mandatory' => false)  
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 respondNotFoundPage();
 $search = empty($_POST['withSearch']) ? '' : $_POST['search'];

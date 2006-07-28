@@ -1,5 +1,11 @@
 <?php
 define('ROOT', '../../../../../..');
+$IV = array(
+	'POST' => array(
+		'id' => array('id'),
+		'current'       => array('int', 'min' => 0)
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 $result = array('error' => deleteFeedGroup($owner, $_POST['id']));
 ob_start();
