@@ -26,6 +26,7 @@ class UserInfo {
 					$this->$key = $value;
 				}
 			}
+			$this->password = null;
 			return ;
 		}
 	}
@@ -48,7 +49,9 @@ class UserInfo {
 			return $this->_error('query generate error');		
 		if (!$query->insert())
 			return $this->_error('insert');
-			$this->id = $query->id;
+		$this->id = $query->id;
+		
+		$this->password = null;
 		return true;
 	}
 	
@@ -60,7 +63,9 @@ class UserInfo {
 			return $this->_error('query generate error');		
 		if (!$query->update())
 			return $this->_error('update');
-			$this->id = $query->id;
+		$this->id = $query->id;
+		
+		$this->password = null;
 		return true;
 	}
 	
@@ -76,11 +81,12 @@ class UserInfo {
 		return $this->loginid;
 	}
 	
-	function getPassword() {
+/*	function getPassword() { // deprecated
+		exit;
 		if (is_null($this->password)) 
 			$this->getUser();
 		return $this->password;
-	}
+	}*/
 	
 	function getName() {
 		if (is_null($this->name)) 
