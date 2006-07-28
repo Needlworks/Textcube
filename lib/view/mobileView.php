@@ -125,22 +125,22 @@ function printMobileCommentView($entryId) {
 ?>
 		<div class="comment">
 			<div class="name">
-				<strong><?=htmlspecialchars($commentItem['name'])?></strong>
+				<? if(!empty($commentItem['name'])) { ?><strong><?=htmlspecialchars($commentItem['name'])?></strong><? } ?>
 				<a href="<?=$blogURL?>/comment/comment/<?=$commentItem['id']?>">RE</a>
 				<a href="<?=$blogURL?>/comment/delete/<?=$commentItem['id']?>">DEL</a><br/>
 				(<?=Timestamp::format5($commentItem['written'])?>)
 			</div>
-			<div class="body"><?=nl2br(addLinkSense(htmlspecialchars($commentItem['comment'])))?></div>
+			<div class="body"><?=($commentItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment'])))?></div>
 			<?
 			foreach (getCommentComments($commentItem['id']) as $commentSubItem) {
 ?>
 			<blockquote>
 				<div class="name">
-					<strong><?=htmlspecialchars($commentSubItem['name'])?></strong>
+					<? if(!empty($commentSubItem['name'])) { ?><strong><?=htmlspecialchars($commentSubItem['name'])?></strong><? } ?>
 					<a href="<?=$blogURL?>/comment/delete/<?=$commentSubItem['id']?>">DEL</a><br/>
 					(<?=Timestamp::format5($commentSubItem['written'])?>)
 				</div>
-				<div class="body"><?=nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment'])))?></div>
+				<div class="body"><?=($commentSubItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment'])))?></div>
 			</blockquote>
 			<?
 			}
