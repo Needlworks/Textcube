@@ -453,14 +453,14 @@ if ($service['type'] != 'single') {
 						<td align="center">
 							<script type="text/javascript">
 								if(!isIE) {									
-									document.write('<img id="favicon" width="16" height="16" style="border-style:solid; border-width:1px; border-color:#404040" src="<?="$blogURL/favicon.ico"?>" alt="" />');
+									document.write('<img id="favicon" width="16" height="16" style="border-style:solid; border-width:1px; border-color:#404040" src="<?="$blogURL/favicon.ico"?>?' +(Math.random()*10000) + '" alt="" />');
 								} else {
 									document.write('<a href="<?="$blogURL/favicon.ico"?>" target="_blank"><?=_t('미리보기')?></a>');
 								}
 							</script>
 						</td>
 						<td valign="middle">
-							<iframe src="<?=$blogURL?>/owner/setting/blog/favicon" style="margin:opx; padding:0px;display:block; border-color:#FFFFFF\" frameborder="0" scrolling="no"  height="30"></iframe>
+							<iframe src="<?=$blogURL?>/owner/setting/blog/favicon" style="margin:opx; padding:0px;display:block; border-color:#FFFFFF\" frameborder="0" scrolling="no" width="400" height="30"></iframe>
 						</td>
                     </tr>
 <?

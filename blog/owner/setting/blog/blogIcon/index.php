@@ -1,6 +1,9 @@
 <?
 define('ROOT', '../../../../..');
 $IV = array(
+	'POST' => array(
+		'mode' => array(array('0', '1'), 'mandatory' => false)
+	),
 	'FILES' => array(
 		'blogIcon' => array('file', 'mandatory' => false)
 	)
@@ -45,23 +48,32 @@ function trace(msg,mode) {
 }
 <?
 if (count($_FILES) == 1) {
-	$fileExt = Path::getExtension($_FILES['blogIcon']['name']);
-	if (($fileExt != '.gif') && ($fileExt != '.jpg')) {
-?>	
-		alert('<?=_t('실패 했습니다')?>');
-<?
-	} else {
-
-		requireComponent('Tattertools.Data.Attachment');
-		Attachment::confirmFolder();
-		
-		if (move_uploaded_file($_FILES['blogIcon']['tmp_name'], ROOT . "/attach/$owner/index.gif")) {
-			@chmod(ROOT . "/attach/$owner/index.gif", 0666);
+	if($_POST['mode'] == 1) {
+		@unlink(ROOT . "/attach/$owner/index.gif");
 ?>
 		window.parent.document.getElementById('blogIcon').src = "<?=$blogURL?>/index.gif?"+(Math.random()*10000);
+<?
+	}
+	else {
 	
+		$fileExt = Path::getExtension($_FILES['blogIcon']['name']);
+		if (($fileExt != '.gif') && ($fileExt != '.jpg')) {
+?>	
+			alert('<?=_t('실패 했습니다')?>');
 <?
 		} else {
+
+			requireComponent('Tattertools.Data.Attachment');
+			Attachment::confirmFolder();
+			
+			if (move_uploaded_file($_FILES['blogIcon']['tmp_name'], ROOT . "/attach/$owner/index.gif")) {
+				@chmod(ROOT . "/attach/$owner/index.gif", 0666);
+?>
+				window.parent.document.getElementById('blogIcon').src = "<?=$blogURL?>/index.gif?"+(Math.random()*10000);
+	
+<?
+			} else {
+			}
 		}
 	}
 }
@@ -69,6 +81,13 @@ if (count($_FILES) == 1) {
 window.onload=function() {
 	//window.resizeTo(document.body.clientWidth,document.body.clientHeight);
 }
+
+	function deleteBlogIcon() {
+		if(confirm("<?=_t('블로그 아이콘을 삭제하시겠습니까?')?>")) {
+			document.forms[0].mode.value = "1";
+			document.forms[0].submit();
+		}
+	}
 //]]>
 </script>
 <style type="text/css">
@@ -86,6 +105,8 @@ body {
 <body>
 <form method="post" action="<?=$blogURL?>/owner/setting/blog/blogIcon" enctype="multipart/form-data">
   &nbsp;&nbsp;&nbsp;<input type="file" name="blogIcon" onchange="document.forms[0].submit()" />
+  <input type="hidden" name="mode" value="0" />
+  <input type="button" name="delete" value="<?=_t('삭제')?>" onclick="deleteBlogIcon()" />
 </form>
 </body>
 </html>

@@ -1,6 +1,9 @@
 <?
 define('ROOT', '../../../../..');
 $IV = array(
+	'POST' => array(
+		'mode' => array(array('0', '1'), 'mandatory' => false)
+	),
 	'FILES' => array(
 		'favicon' => array('file', 'mandatory' => false)
 	)
@@ -45,24 +48,35 @@ function trace(msg,mode) {
 }
 <?
 if (count($_FILES) == 1) {
-	if (Path::getExtension($_FILES['favicon']['name']) != '.ico') {
-?>	
-		alert('<?=_t('변경하지 못했습니다.')?>');
-<?
-	} else {
-	
-		requireComponent('Tattertools.Data.Attachment');
-		Attachment::confirmFolder();
-		
-		if (move_uploaded_file($_FILES['favicon']['tmp_name'], ROOT . "/attach/$owner/favicon.ico")) {
-			@chmod(ROOT . "/attach/$owner/favicon.ico", 0666);
+	if($_POST['mode'] == 1) {
+		@unlink(ROOT . "/attach/$owner/favicon.ico");
 ?>
 		var favicon = window.parent.document.getElementById('favicon');
 		if (favicon)
 			favicon.src = "<?="$blogURL/favicon.ico"?>?"+(Math.random()*10000);
 		
 <?
+	}
+	else {
+		if (Path::getExtension($_FILES['favicon']['name']) != '.ico') {
+?>	
+			alert('<?=_t('변경하지 못했습니다.')?>');
+<?
 		} else {
+	
+			requireComponent('Tattertools.Data.Attachment');
+			Attachment::confirmFolder();
+			
+			if (move_uploaded_file($_FILES['favicon']['tmp_name'], ROOT . "/attach/$owner/favicon.ico")) {
+				@chmod(ROOT . "/attach/$owner/favicon.ico", 0666);
+?>
+			var favicon = window.parent.document.getElementById('favicon');
+			if (favicon)
+				favicon.src = "<?="$blogURL/favicon.ico"?>?"+(Math.random()*10000);
+		
+<?
+			} else {
+			}
 		}
 	}
 }
@@ -70,6 +84,13 @@ if (count($_FILES) == 1) {
 window.onload=function() {
 	//window.resizeTo(document.body.clientWidth,document.body.clientHeight);
 }
+
+	function deleteFavicon() {
+		if(confirm("<?=_t('Favicon을 삭제하시겠습니까?')?>")) {
+			document.forms[0].mode.value = "1";
+			document.forms[0].submit();
+		}
+	}
 //]]>
 </script>
 <style type="text/css">
@@ -87,6 +108,8 @@ body {
 <body>
 <form method="post" action="<?=$blogURL?>/owner/setting/blog/favicon" enctype="multipart/form-data">
   &nbsp;&nbsp;&nbsp;<input type="file" name="favicon" onchange="document.forms[0].submit()" />
+  <input type="hidden" name="mode" value="0" />
+  <input type="button" name="delete" value="<?=_t('삭제')?>" onclick="deleteFavicon()" />
 </form>
 </body>
 </html>
