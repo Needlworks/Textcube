@@ -7,6 +7,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 $result = setEnclosure($_POST['fileName'], $_POST['order']);
 printRespond(array('error' => $result < 3 ? 0 : 1, 'order' => $result));
 ?>

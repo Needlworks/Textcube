@@ -127,10 +127,10 @@ class Keyword {
 	}
 	
 	function getLink() {
-		global $hostURL, $blogURL;
+		global $defaultURL;
 		if (!Validator::number($this->id, 1))
 			return null;
-		return "$hostURL$blogURL/keyword/{$this->id}";
+		return "$defaultURL/keyword/{$this->id}";
 	}
 	
 	function getAttachments() {

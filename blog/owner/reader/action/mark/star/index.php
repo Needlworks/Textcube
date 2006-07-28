@@ -6,5 +6,6 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 respondResultPage(markAsStar($owner, $_POST['id'], true));
 ?>

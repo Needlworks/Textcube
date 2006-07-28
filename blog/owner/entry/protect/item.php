@@ -6,5 +6,6 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 respondResultPage(protectEntry($suri['id'], isset($_POST['password']) ? $_POST['password'] : ''));
 ?>

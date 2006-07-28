@@ -93,17 +93,15 @@ function deleteTrackback($owner, $id) {
 }
 
 function sendTrackback($owner, $entryId, $url) {
-	global $database;
-	global $hostURL, $blogURL, $blog;
+	global $database, $defaultURL, $blog;
 	requireComponent('Eolin.PHP.HTTPRequest');
 	$entry = getEntry($owner, $entryId);
 	if (!$entry)
 		return false;
-	$link = "$hostURL$blogURL/$entryId";
+	$link = "$defaultURL/$entryId";
 	$title = $entry['title'];
 	$excerpt = UTF8::lessen(removeAllTags(stripHTML($entry['content'])), 255);
 	$blogTitle = $blog['title'];
-	$blogURL = "$hostURL$blogURL/";
 	$isNeedConvert = strpos($url, '/rserver.php?') !== false || strpos($url, 'blog.daum.net') !== false || strpos($url, 'blog.naver.com') !== false || strpos($url, 'blog.empas.com') !== false || strpos($url, '.egloos.com/tb/') !== false || strpos($url, 'blog.paran.com') !== false;
 	if ($isNeedConvert) {
 		$title = UTF8::convert($title);

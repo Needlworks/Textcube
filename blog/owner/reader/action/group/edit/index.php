@@ -8,6 +8,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 $result = array('error' => editFeedGroup($owner, $_POST['id'], $_POST['title']));
 ob_start();
 printFeedGroups($owner, $_POST['current']);

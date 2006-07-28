@@ -1,5 +1,4 @@
 <?
-ini_set('magic_quotes_gpc', 'off');
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();

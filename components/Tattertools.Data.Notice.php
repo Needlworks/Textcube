@@ -121,10 +121,10 @@ class Notice {
 	}
 	
 	function getLink() {
-		global $hostURL, $blogURL;
+		global $defaultURL;
 		if (!Validator::number($this->id, 1))
 			return null;
-		return "$hostURL$blogURL/notice/{$this->id}";
+		return "$defaultURL/notice/{$this->id}";
 	}
 	
 	function getAttachments() {

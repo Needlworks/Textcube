@@ -7,6 +7,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 if(changeCategoryOfEntries($owner,$_POST['targets'], $_POST['category'])) {
 	respondResultPage(0);
 } else {

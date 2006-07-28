@@ -2,6 +2,7 @@
 define('__TATTERTOOLS_MOBILE__', true);
 define('ROOT', '../../../../..');
 require ROOT . '/lib/include.php';
+requireStrictRoute();
 list($entryId) = getCommentAttributes($owner, $suri['id'], 'entry');
 if (deleteComment($owner, $suri['id'], $entryId, '') === false) {
 	printMobileErrorPage(_t('답글을 삭제할 수 없습니다'), _t('관리자가 아닙니다'), "$blogURL/comment/delete/{$suri['id']}");

@@ -7,6 +7,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 if (changeSetting($owner, $_POST['email'], $_POST['nickname'])) {
 	respondResultPage(0);
 }

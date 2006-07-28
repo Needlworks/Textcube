@@ -7,6 +7,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 if (changePassword($owner, $_POST['pwd'], $_POST['prevPwd'])) {
 	respondResultPage(0);
 }

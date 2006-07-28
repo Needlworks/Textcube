@@ -6,6 +6,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 if (setBlogDescription($owner, trim($_POST['description']))) {
 	respondResultPage(0);
 }

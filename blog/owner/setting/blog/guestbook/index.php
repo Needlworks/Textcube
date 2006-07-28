@@ -7,6 +7,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 if (setGuestbook($owner, $_GET['write'], $_GET['comment'])) {
 	respondResultPage(0);
 }

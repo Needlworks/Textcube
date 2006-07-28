@@ -12,9 +12,8 @@ $IV = array(
 );
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
-if (($service['type'] == 'single') || (getUserId() > 1))
-	return false;
+if ($service['type'] == 'single') || (getUserId() > 1))
+	respondResultPage(false);
+
 respondResultPage($result);
-
-
 ?>

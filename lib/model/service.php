@@ -7,7 +7,7 @@ function getOwner($name) {
 
 function getOwnerBySecondaryDomain($domain) {
 	global $database;
-	return fetchQueryCell("select owner from {$database['prefix']}BlogSettings where secondaryDomain = '$domain'");
+	return DBQuery::queryCell("SELECT owner FROM {$database['prefix']}BlogSettings WHERE secondaryDomain = '$domain' OR  secondaryDomain = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "'");
 }
 
 function getBlogSetting($owner) {
@@ -23,6 +23,23 @@ function getSkinSetting($owner) {
 	if ($result = mysql_query("select * from {$database['prefix']}SkinSettings where owner = $owner"))
 		return mysql_fetch_array($result);
 	return false;
+}
+
+function getDefaultURL($uid) {
+	global $database, $service;
+	$blog = DBQuery::queryRow("SELECT name, secondaryDomain, defaultDomain FROM {$database['prefix']}BlogSettings WHERE owner = $uid");
+	switch ($service['type']) {
+		case 'domain':
+			if ($blog['defaultDomain'] && $blog['secondaryDomain'])
+				return ('http://' . $blog['secondaryDomain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $service['path']);
+			else
+				return ('http://' . $blog['name'] . '.' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $service['path']);
+		case 'path':
+			return ('http://' . $blog['secondaryDomain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $service['path'] . '/' . $blog['name']);
+		case 'single':
+		default:
+			return ('http://' . $blog['secondaryDomain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $service['path']);
+	}
 }
 
 function getBlogURL($name = null, $domain = null, $path = null, $type = null) {

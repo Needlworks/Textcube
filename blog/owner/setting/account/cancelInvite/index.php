@@ -6,6 +6,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 $result = cancelInvite($_POST['userid']);
 if ($result) {
 	respondResultPage(0);

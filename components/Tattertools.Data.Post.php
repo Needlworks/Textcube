@@ -190,10 +190,10 @@ class Post {
 	}
 	
 	function getLink() {
-		global $hostURL, $blogURL;
+		global $defaultURL;
 		if (!Validator::number($this->id, 1))
 			return null;
-		return "$hostURL$blogURL/sync/{$this->id}";
+		return "$defaultURL/sync/{$this->id}";
 	}
 	
 	function getAttachments() {

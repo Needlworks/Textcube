@@ -18,6 +18,8 @@ if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 		exit;
 	}
 }
+
+ini_set('zlib.output_compression', 'off');
 header('Content-Disposition: attachment; filename="' . UTF8::convert($attachment['label']) . '"');
 header('Content-Transfer-Encoding: binary');
 header('Last-Modified: ' . Timestamp::getRFC1123GMT($fstat['mtime']));

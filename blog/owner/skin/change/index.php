@@ -6,6 +6,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 $result = selectSkin($owner, $_POST['skinName']);
 if ($result === true) {
 	printRespond(array('error' => 0));

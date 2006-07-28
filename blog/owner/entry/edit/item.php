@@ -344,6 +344,16 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 		this.savedData = this.getData();
 	}
 	var entryManager;
+	
+	function keepSessionAlive() {
+		var request = new HTTPRequest("<?=$blogURL?>/owner/keep/");
+		request.persistent = false;
+		request.onVerify = function () {
+			return true;
+		}
+		request.send();
+	}
+	window.setInterval("keepSessionAlive()", 600000);
 //]]>
 </script>
             <table cellspacing="0" width="100%">

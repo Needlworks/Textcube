@@ -246,12 +246,7 @@ var servicePath = "<?=$service['path']?>"; var blogURL = "<?=$blogURL?>";
 			return;
 		document.cookie = "GUEST_PASSWORD=" + escape(password.value) + ";path=<?=$blogURL?>";
 		
-		var request = new HTTPRequest("POST", "<?=$blogURL?>/" + id);
-		request.async = false;
-		request.send("partial=");
-		var entry = document.getElementById("entry" + id);
-		if (entry)
-			entry.innerHTML = request.getText();
+		window.location.href = window.location.href;
 	}
 //]]>
 </script>
@@ -283,7 +278,7 @@ function getScriptsOnFoot() {
 }
 
 function getTrackbacksView($entryId, & $skin) {
-	global $suri, $hostURL, $blogURL, $skinSetting;
+	global $suri, $defaultURL, $skinSetting;
 	$trackbacksView = '';
 	foreach (getTrackbacks($entryId) as $trackback) {
 		$trackbackView = "<a id=\"trackback{$trackback['id']}\"></a>" . $skin->trackback;

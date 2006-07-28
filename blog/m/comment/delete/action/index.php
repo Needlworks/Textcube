@@ -8,6 +8,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/include.php';
+requireStrictRoute();
 list($entryId) = getCommentAttributes($owner, $_POST['replyId'], 'entry');
 if (deleteComment($owner, $_POST['replyId'], $entryId, isset($_POST['password']) ? $_POST['password'] : '') === false) {
 	printMobileErrorPage(_t('답글을 삭제할 수 없습니다'), _t('비밀번호가 틀렸습니다'), "$blogURL/comment/delete/{$_POST['replyId']}");

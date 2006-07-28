@@ -14,6 +14,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 if ($entry = getEntry($owner, $suri['id'])) {
 	$entry['visibility'] = $_POST['visibility'];
 	$entry['category'] = $_POST['category'];
