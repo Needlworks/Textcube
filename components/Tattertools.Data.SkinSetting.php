@@ -60,8 +60,8 @@ class SkinSetting {
 		$query = new TableQuery($database['prefix'] . 'SkinSettings');
 		$query->setQualifier('owner', $owner);
 		if (isset($this->skin)) {
-			if (!Validator::path($this->skin) || !file_exists(ROOT . '/skin/' . $this->skin))
-				return $this->_error('skin');
+			if (strncmp('customize/' , $this->skin, 10) == 0)
+				$this->skin = "customize/{$owner}";
 			$query->setAttribute('skin', $this->skin, false);
 		}
 		if (isset($this->entriesOnRecent)) {
