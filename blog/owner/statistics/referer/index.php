@@ -3,6 +3,17 @@ define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/header4.php';
 require ROOT . '/lib/piece/owner/contentMenu41.php';
+
+$page = 20; //getPersonalization($owner, 'rowsPerPage');
+if (empty($_POST['perPage'])) {
+	$perPage = $page;
+} else if ($page != $_POST['perPage']) {
+	//setPersonalization($owner, 'rowsPerPage', $_POST['perPage']);
+	$perPage = $_POST['perPage'];
+} else {
+	$perPage = $_POST['perPage'];
+}
+
 ?>
             <table cellspacing="0" width="100%">
               <tr>
@@ -45,13 +56,40 @@ foreach (getRefererStatistics($owner) as $record) {
                           <tr>
                             <td style="width:18px"><img alt="" src="<?=$service['path']?>/image/owner/sectionDescriptionIcon.gif" width="18" height="18"/></td>
                             <td style="padding:3px 0px 0px 4px"><?=_t('리퍼러 로그')?></td>
+							<td align="right">
+							  <table cellspacing="0">
+								<tr>
+								  <td class="row"><?=getArrayValue(explode('%1', _t('한 페이지에 목록 %1건 표시')), 0)?></td>
+								  <td>
+								  
+									<select name="perPage" onchange="document.forms[0].page.value=1; document.forms[0].submit()">					
+<?
+for ($i = 10; $i <= 100; $i += 5) {
+	if ($i == $perPage) {
+?>
+			                           <option value="<?=$i?>" selected="selected"><?=$i?></option>
+<?
+	} else {
+?>
+						               <option value="<?=$i?>"><?=$i?></option>
+<?
+	}
+}
+?>
+			                        </select>
+								  </td>
+								  <td class="row"><?=getArrayValue(explode('%1', _t('한 페이지에 목록 %1건 표시')), 1)?></td>
+								</tr>
+							  </table>
+							</td>
                           </tr>
                         </table>
                         <table cellspacing="0" width="100%" style="width:100%; border:solid #00A6ED; border-width:2px 0px 2px 0px">
 <?
 $more = false;
 $i = 0;
-foreach (getRefererLogs() as $record) {
+list($refereres, $paging) = getRefererLogsWithPage($suri['page'], $perPage);
+foreach ($refereres as $record) {
 	$i++;
 	if ($more) {
 ?>
@@ -70,6 +108,21 @@ foreach (getRefererLogs() as $record) {
 }
 ?>
                         </table>
+                        <table cellspacing="0" width="100%">
+							<tr style="height:22px;">
+								<td style="padding:0px 7px 0px 7px; font-size:12px;" width="55"><?=_t('총')?> <?=$paging['total']?><?=_t('건')?></td>
+                                <td style="padding:0px 7px 0px 7px; font-size:12px;">
+<?
+$paging['url'] = 'javascript: document.forms[0].page.value=';
+$paging['prefix'] = '';
+$paging['postfix'] = '; document.forms[0].submit()';
+$pagingTemplate = '[##_paging_rep_##]';
+$pagingItemTemplate = '<a class="pageLink" [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
+print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
+?>
+								</td>
+							</tr>
+						</table>
                       </td>
                     </tr>
                   </table>

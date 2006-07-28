@@ -45,4 +45,5 @@ echo "window.open('", _t('http://www.tattertools.com/doc/17'), "')";
       <table cellspacing="0" style="width:100%; background-color:#FFFFFF">
         <tr>
           <td valign="top" style="height:50px; padding:5px 15px 15px 15px">
-		  <form method="post" action="<?=$blogURL?>/owner/statistics">
+		  <form method="post" action="<?=$blogURL?>/owner/statistics/referer">
+		  <input type="hidden" name="page" value="<?=$suri['page']?>" />
