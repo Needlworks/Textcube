@@ -25,6 +25,14 @@ function selectSkin($owner, $skinName) {
 	global $database, $service;
 	if (empty($skinName))
 		return _t('실패 했습니다');
+		
+	if (strncmp($skinName, 'customize/', 10) == 0) {
+		if (strcmp($skinName, "customize/$owner") != 0)
+			return _t('실패 했습니다');
+	} else {
+		$skinName = Path::getBaseName($skinName);
+	}
+		
 	if (file_exists(ROOT . "/skin/$skinName/index.xml")) {
 		$xml = file_get_contents(ROOT . "/skin/$skinName/index.xml");
 		$xmls = new XMLStruct();
@@ -144,6 +152,15 @@ function writeSkinHtml($owner, $contents, $mode) {
 function setSkinSetting($owner, $setting) {
 	global $database;
 	global $skinSetting;
+
+	if (strncmp($skinSetting['skin'], 'customize/', 10) == 0) {
+		if (strcmp($skinSetting['skin'], "customize/$owner") != 0)
+			return false;
+	} else {
+		$skinSetting['skin'] = Path::getBaseName($skinSetting['skin']);
+	}
+
+	
 	foreach ($setting as $key => $value) {
 		$setting[$key] = mysql_escape_string($value);
 	}
@@ -174,8 +191,8 @@ function setSkinSetting($owner, $setting) {
 	$sql = "
 	UPDATE {$database['prefix']}BlogSettings 
 	SET 
-		entriesOnPage 			= " . $setting['entriesOnPage'] . '
-	WHERE owner =' . $owner;
+		entriesOnPage 			= '{$setting['entriesOnPage']}'
+	WHERE owner = $owner ";
 	if (update($sql) > - 1) {
 		return true;
 	} else {
