@@ -2,10 +2,10 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'GET' => array(
-		'command' => array('any', 'mandatory' => false),
-		'id' => array('id', 'mandatory' => false ),
-		'mode' => array(array('ip', 'url', 'content', 'name' ) ),
-		'value' => array('string', 'mandatory' =>false)
+		'command' => array(array('block', 'unblock')),
+		'id' => array('id', 'default' => null),
+		'mode' => array(array('ip', 'url', 'content', 'name')),
+		'value' => array('string', 'default' => null)
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

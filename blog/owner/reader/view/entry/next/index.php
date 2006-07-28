@@ -2,12 +2,12 @@
 define('ROOT', '../../../../../..');
 $IV = array(
 	'POST' => array(
-		'group' => array('int', 'min' => 0, 'default' => 0),
-		'feed' => array('int', 'min' => 0, 'default' => 0),
-		'entry' => array('int', 'min' => 0, 'default' => 0),
-		'unread' => array(array('0','1')),
-		'starred' => array(array('0','1')),
-		'keyword' => array('string', 'mandatory' => false)
+		'group' => array('int', 0),
+		'feed' => array('int', 0, 'default' => 0),
+		'entry' => array('int', 0, 'default' => 0),
+		'unread' => array(array('0', '1')),
+		'starred' => array(array('0', '1')),
+		'keyword' => array('string', 'default' => '')
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

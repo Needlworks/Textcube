@@ -2,10 +2,10 @@
 define('ROOT', '../../../../../..');
 $IV = array(
 	'POST' => array(
-		'id' 		=> array('id'),
-		'old_group' 		=> array('int', 'min' => 0),
-		'new_group'		=> array('int', 'min' => 0),
-		'url' 		=> array('string', 'max' => 255)
+		'id' => array('id'),
+		'old_group' => array('int', 0),
+		'new_group' => array('int', 0),
+		'url' => array('string')
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

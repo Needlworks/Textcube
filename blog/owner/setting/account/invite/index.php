@@ -2,12 +2,12 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
-		'email' => array('string'),
-		'name' => array('string', 'mandatory' => false),
+		'email' => array('email'),
+		'name' => array('string', 'default' => ''),
 		'identify' => array('string'),
-		'comment' => array('string', 'mandatory' => false),
-		'senderName' => array('string', 'mandatory' => false),
-		'senderEmail'  => array('string')
+		'comment' => array('string', 'default' => ''),
+		'senderName' => array('string', 'default' => ''),
+		'senderEmail' => array('email')
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

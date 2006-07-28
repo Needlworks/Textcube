@@ -2,12 +2,11 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
-		'mode' => array(array('0','1'), 'mandatory' => false )
+		'mode' => array(array('0', '1'), 'mandatory' => false)
 	),
 	'FILES' => array(
 		'logo' => array('file', 'mandatory' => false)
 	)
-	
 );
 require ROOT . '/lib/includeForOwner.php';
 ?>

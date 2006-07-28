@@ -2,7 +2,7 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'GET' => array(
-		'title' => array('string', 'mandatory' => false)
+		'title' => array('string', 'default' => '')
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

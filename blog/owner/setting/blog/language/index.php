@@ -2,8 +2,7 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'GET' => array(
-		'language' 
-		=> array('language')	
+		'language'=> array('language')
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

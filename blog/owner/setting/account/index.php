@@ -70,7 +70,7 @@ function Trim(sInString) {
 				}
 				if(pwd.value != pwd2.value) {
 					alert("<?=_t('입력된 비밀번호가 서로 다릅니다')?>");
-					select.pwd();
+					pwd.select();
 					return false;
 				}
 			} else {

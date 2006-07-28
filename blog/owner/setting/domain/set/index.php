@@ -1,5 +1,12 @@
 <?
 define('ROOT', '../../../../..');
+$IV = array(
+	'POST' => array(
+		'defaultDomain' => array(array('0', '1')),
+		'primaryDomain' => array('string'),
+		'secondaryDomain' => array('domain', 'default' => '')
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
 

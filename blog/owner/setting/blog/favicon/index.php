@@ -2,7 +2,7 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'FILES' => array(
-		'favicon' => array('file', 'mandatory' => false )
+		'favicon' => array('file', 'mandatory' => false)
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
