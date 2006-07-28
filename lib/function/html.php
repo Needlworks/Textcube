@@ -66,7 +66,7 @@ function avoidFlashBorder($html, $tag='object') {
 		$result .= substr($html, $pos2, $pos1 - $pos2);
 		$pos2 = $pos1;
 		while(true) {
-			if(($pos2 = strpos($html, "</$tag>", $pos2)) === false)
+			if(($pos2 = strpos($str, "</$tag>", $pos2)) === false)
 				return $result . '<script type="text/javascript">writeCode("' . str_replace('"', '\"', substr($html, $pos1)) . '")</script>';
 			$pos2 += strlen($tag) + 3;
 			$chunk = substr($str, $pos1, $pos2 - $pos1);
