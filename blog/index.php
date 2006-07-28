@@ -1,12 +1,11 @@
 <?
 define('ROOT', '..');
-require ROOT . '/lib/include.php';
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	$IV = array(
 		'POST' => array(
 			'mode' => array(array('fb')),
 			's_home_title' => array('string'),
-			's_name' => array('string'),
+			's_name' => array('string' ),
 			's_no' => array('id'),
 			'url' => array('string'),
 			's_url' => array('string'),
@@ -27,8 +26,9 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 			'r2_url' => array('string')
 		)
 	);
-	if(!Validator::validate($IV))
-		respondNotFoundPage();
+}else{ $IV = array();}
+require ROOT . '/lib/include.php';
+if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	$result = receiveNotifiedComment($_POST);
 	if ($result > 0)
 		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><response><error>1</error><message>error($result)</message></response>";

@@ -4,7 +4,7 @@ define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
 		'replyId' => array('id'),
-		'password' => array('string')
+		'password' => array('string', 'mandatory' => false)
 	)
 );
 require ROOT . '/lib/include.php';

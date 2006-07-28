@@ -2,8 +2,8 @@
 define('ROOT', '../../../..');
 $IV = array(
 	'POST' => array(
-		'confirmativePassword' => array('string'),
-		'removeAttachments' => array(array('1'), 'mandatory' => false)
+		'confirmativePassword' => array('string', 'mandatory' => false),
+		'removeAttachments' => array(array('1'), 'dafault' => null)
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
