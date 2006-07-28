@@ -21,7 +21,7 @@ if(isset($_POST['mode'])) {
 		$IV = array(
 			'POST' => array(
 				'mode' => array('any'),
-				'name' => array('string'),
+				'name' => array('string' , 'default' => ''),
 				'password' => array('string', 'default' => ''),
 				'oldPassword' => array('string', 'default' => ''),
 				'secret' => array(array('on'), 'mandatory' => false),

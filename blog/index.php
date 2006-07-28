@@ -4,7 +4,7 @@ require ROOT . '/lib/include.php';
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	$IV = array(
 		'POST' => array(
-			'mode' => array('any'),
+			'mode' => array(array('fb')),
 			's_home_title' => array('string'),
 			's_name' => array('string'),
 			's_no' => array('id'),
@@ -36,6 +36,9 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><response><error>0</error></response>";
 	exit;
 } else {
+	$IV = array(	'POST' => array() );
+	if(!Validator::validate($IV))
+		respondNotFoundPage();
 	notifyComment();
 }
 publishEntries();
