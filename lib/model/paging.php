@@ -21,10 +21,10 @@ function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=') {
 	$paging['pages'] = intval(ceil($paging['total'] / $count));
 	$paging['page'] = is_numeric($page) ? $page : 1;
 	if ($paging['page'] > $paging['pages']) {
-		$paging['page'] = $paging['pages'] + 1;
+		$paging['page'] = $paging['pages'];
 		if ($paging['pages'] > 0)
-			$paging['prev'] = $paging['pages'];
-		return array(array(), $paging);
+			$paging['prev'] = $paging['pages'] - 1;
+		//return array(array(), $paging);
 	}
 	if ($paging['page'] > 1)
 		$paging['prev'] = $paging['page'] - 1;
