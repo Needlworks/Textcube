@@ -276,7 +276,7 @@ if ($service['type'] != 'single') {
                 <tr>
                     <td class="entryEditTableLeftCell">E-mail |</td>
                     <td style="color:#FF0000">
-						<input type="text" id="email" style="width: 200px" value="<?=htmlspecialchars($user['loginid'])?>" />
+						<input type="text" id="email" style="width: 200px" value="<?=htmlspecialchars(User::getEmail())?>" />
 						&nbsp; <?=_t('(로그인시 ID로 사용됩니다)')?>
                     </td>
                 </tr>
@@ -366,7 +366,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 
 							<tr>
 								<td align="right" background="<?=$service['path']?>/image/owner/Invite_bg.gif" style="padding: 20px 45px 20px 0px;"><?=_t('보내는 사람')?>  :
-									<input id="invitation_sender" name="text2" type="text" style="background-image:url(<?=$service['path']?>/image/owner/invitationBg.gif); overflow:visible; width:200px"  value="<?=htmlspecialchars($user['name'] . '<' .$user['loginid'] . '>')?>"/></td>
+									<input id="invitation_sender" name="text2" type="text" style="background-image:url(<?=$service['path']?>/image/owner/invitationBg.gif); overflow:visible; width:200px"  value="<?=htmlspecialchars($user['name'] . '<' . User::getEmail() . '>')?>"/></td>
 							</tr>
 							<tr>
 								<td><img src="<?=$service['path']?>/image/owner/Invite_bottom.gif" width="547" height="17" /></td>
@@ -415,7 +415,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 ?>								<td style="padding:2px 10px 2px 5px; font-family:Verdana; font-size:11px; color:#333; text-align: right;" nowrap="nowrap"><?=timeInterval($value['created'], time()) . ' ' . _t('전')?></td>
 							
 
-								<td style="padding:2px 10px 2px 5px; font-family:Verdana; font-size:11px; color:#333; text-align: right;" nowrap="nowrap"><?=fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']}")?></td>
+								<td style="padding:2px 10px 2px 5px; font-family:Verdana; font-size:11px; color:#333; text-align: right;" nowrap="nowrap"><?=fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']} AND host = $owner AND lastLogin = 0")?></td>
 							
 								<td style="padding:2px 10px 2px 5px;"><input type="button" name="Submit" style="border:1px solid #3D6283; background-color:#6699CC; font-size:11px; color:#fff; height:16px; padding:0px 0px 1px 0px" value="<?=_t('초대취소')?>" onclick="cancelInvite(<?=$value['userid']?>,this);" title="<?=_t('초대에 응하지 않은 사용자의 계정을 삭제합니다')?>"/></td>
 <?
