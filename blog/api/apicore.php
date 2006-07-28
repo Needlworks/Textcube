@@ -1,13 +1,13 @@
 <?php
-includeOnce( "Eolin.PHP.Core" );
-includeOnce( "Eolin.PHP.XMLStruct" );
-includeOnce( "Eolin.PHP.XMLTree" );
-includeOnce( "Eolin.PHP.XMLRPC" );
-includeOnce( "Tattertools.Control.RSS" );
-includeOnce( "Tattertools.Core" );
-includeOnce( "Tattertools.Control.Auth" );
-includeOnce( "Tattertools.Data.Post" );
-includeOnce( "Tattertools.Data.Category" );
+requireComponent( "Eolin.PHP.Core" );
+requireComponent( "Eolin.PHP.XMLStruct" );
+requireComponent( "Eolin.PHP.XMLTree" );
+requireComponent( "Eolin.PHP.XMLRPC" );
+requireComponent( "Tattertools.Control.RSS" );
+requireComponent( "Tattertools.Core" );
+requireComponent( "Tattertools.Control.Auth" );
+requireComponent( "Tattertools.Data.Post" );
+requireComponent( "Tattertools.Data.Category" );
 
 /*--------- Tatter tools Core component load   -----------*/
 DEBUG( "\nTRANSACTION ---------- start   ----------- [" . date("r") . "]\n");
@@ -18,16 +18,27 @@ DEBUG( "\nTRANSACTION ---------- api -----------\n");
 
 /*--------- Basic functions -----------*/
 
+function _get_request_id( $id )
+{
+	if( $_GET["id"] )
+	{
+		DEBUG( "\nUse url request id: ". $_GET["id"] . "\n");
+		return $_GET["id"];
+	}
+	return $id;
+}
+
 function _get_canonical_id( $id )
 {
-	global $blogapi_dir;
-	$alias_file = $blogapi_dir . "/.htaliases";
+	$alias_file = ROOT . "/.htaliases";
+	$canon = _get_request_id( $id );
+
 	if( !file_exists( $alias_file ) )
 	{
-		return $id;
+		return $canon;
 	}
+
 	$fd = fopen( $alias_file, "r" );
-	$canon = $id;
 	while( !feof($fd) )
 	{
 		$line = fgets( $fd, 1024 );
@@ -427,7 +438,7 @@ function _getAttachments($owner,$parent){
 }
 function _deleteAttachment($owner,$parent,$name){
 	global $database, $blogapi_dir;
-	@unlink("$blogapi_dir/../../attach/$owner/$name");
+	@unlink(ROOT . "/attach/$owner/$name");
 	$name=mysql_escape_string($name);
 	$parent_clause = "";
 	if( $parent >= 0 )

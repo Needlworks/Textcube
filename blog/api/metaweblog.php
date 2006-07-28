@@ -255,7 +255,7 @@ function metaWeblog_editPost()
 
 function metaWeblog_newMediaObject()
 {
-	global $blogapi_dir, $owner;
+	global $owner;
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	$params = func_get_args();
 	DEBUG( "Params: " );
@@ -267,7 +267,7 @@ function metaWeblog_newMediaObject()
 	}
 	$mediaOjbect = $params[3]['bits'];
 
-	$tmp_dir = "$blogapi_dir/../../attach/temp";
+	$tmp_dir = ROOT. "/attach/temp";
 	if( !is_dir( $tmp_dir ) )
 	{
 		mkdir( $tmp_dir );

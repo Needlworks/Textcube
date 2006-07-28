@@ -1,8 +1,11 @@
 <?php
+define('ROOT', '../..');
+require ROOT . '/lib/include.php';
+
 /*--------- Debugging environment -----------*/
 global $debug, $debug_file, $blogapi_dir;
 $debug = 0; /* DEBUGLOG */
-$debug_file = "../../plugins/BlogAPI/.htdebug.log";
+$debug_file = ROOT . "/.htdebug.log";
 $blogapi_dir = dirname( __FILE__ );
 
 if( $debug )
@@ -32,31 +35,6 @@ function DEBUG( $str, $internal = false)
 	fputs( $debugfd, $str );
 }
 
-/*--------- Tatter tools Core component load   -----------*/
-
-function includeOnce($name){
-	global $blogapi_dir;
-	if(!ereg('^[[:alnum:]]+[[:alnum:].]+$',$name))
-		return ;
-	if( TATTERTOOLS_VERSION < "1.0.6" && file_exists( $blogapi_dir . "/$name.php" ) )
-	{
-		DEBUG ( $blogapi_dir . "/$name.php\n");
-		include_once( $blogapi_dir . "/$name.php");
-	}
-	else
-	{
-		$componet_file = $blogapi_dir . "/../../components/$name.php";
-		if( file_exists( $componet_file ) )
-		{
-			include_once( $componet_file );
-		}
-		else
-		{
-			print( "File($componet_file) doesn't exist\n" );
-		}
-	}
-}
-
 /*--------- API main ---------------*/
 function BlogAPI()
 {
@@ -69,18 +47,16 @@ function BlogAPI()
 function AddRSD($target)
 {
 	global $hostURL, $blogURL;
-	$target .= '<link rel="EditURI" type="application/rsd+xml" title="RSD" href="'.$hostURL.$blogURL.'/plugin/BlogAPI/rsd" />'.CRLF;
+	$target .= '<link rel="EditURI" type="application/rsd+xml" title="RSD" href="'.$hostURL.$blogURL.'/api/rsd" />'.CRLF;
 	return $target;
 }
 
 function SendRSD()
 {
 	global $hostURL, $blogURL;
-	global $service;
 	global $owner;
 	$homeurl = $hostURL.$blogURL;
-	$apiurl = $homeurl . "/plugin/BlogAPI";
-	$blogid = $service['domain'] . $blogURL;
+	$apiurl = $homeurl . "/api";
 	$blogid = $owner;
 
 	print( '<?xml version="1.0" encoding="utf-8" ?> 
@@ -97,27 +73,12 @@ function SendRSD()
 </rsd>' );
 }
 
-function BlogAPITest()
+if( substr( $_SERVER["REQUEST_URI"], -8 ) == "/api/rsd" )
 {
-	global $debug,$service, $blog;
-	if( !$debug )
-	{
-		print( "<b>Set \"\$debug = 1;\" in " . __FILE__ );
-		return;
-	}
-	print( "<pre>" );
-	print( dirname(__FILE__) . "\n" );
-	print( "Test page for checking.\n" );
-	print( "Tatter tools version: " . TATTERTOOLS_VERSION . "\n");
-	print( "Tatter tools root: " . ROOT . "\n");
-	print( "Included " );
-	print_r( get_included_files() );
-	print( "</pre>" );
+	SendRSD();
 }
-
-function BlogAPIAtom()
+else
 {
-	includeOnce( "atom" );
-	DoAtom();
+	BlogAPI();
 }
 ?>
