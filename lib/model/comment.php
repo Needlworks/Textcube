@@ -329,6 +329,12 @@ function updateComment($owner, $comment, $password) {
 
 function deleteComment($owner, $id, $entry, $password) {
 	global $database;
+	
+	$guestcomment = false;
+	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE owner = $owner AND id = $id AND replier IS NULL")) {
+		$guestcomment = true;
+	}
+	
 	$sql = "delete from {$database['prefix']}Comments where owner = $owner and id = $id and entry = $entry";
 	if (!doesHaveOwnership()) {
 		if (doesHaveMembership())
