@@ -60,7 +60,16 @@ class Skin {
 			$name = Path::getBaseName($name);
 		}
 		
+		if (($name == '.') || ($name == '..')) {
+			respondErrorPage('Skin');
+		}
+		
 		$filename = ROOT . "/skin/$name/skin.html";
+		
+		if (!is_file($filename)) {
+			respondErrorPage('Skin');
+		}
+		
 		if (!$sval = file_get_contents($filename))
 			respondErrorPage('Skin');
 
