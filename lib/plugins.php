@@ -82,7 +82,7 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 		include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
 		if (function_exists($mapping['listener'])) {
 			if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
-				$configVal = & getCurrentSetting($mapping['plugin']);
+				$configVal = getCurrentSetting($mapping['plugin']);
 			else
 				$configVal =null;
 			$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
