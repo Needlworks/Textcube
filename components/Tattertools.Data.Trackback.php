@@ -74,13 +74,8 @@ class Trackback {
 			return $this->_error('entry');
 		if (!isset($this->url))
 			return $this->_error('url');
-		if (!isset($this->site))
-			return $this->_error('site');
-		if (!isset($this->title))
-			return $this->_error('title');
 		if (!isset($this->ip))
 			$this->ip = $_SERVER['REMOTE_ADDR'];
-
 		if (!$query = $this->_buildQuery())
 			return false;
 		if (!$query->hasAttribute('written'))
@@ -120,14 +115,10 @@ class Trackback {
 		}
 		if (isset($this->site)) {
 			$this->site = trim($this->site);
-			if (empty($this->site))
-				return $this->_error('site');
 			$query->setAttribute('site', $this->site, true);
 		}
 		if (isset($this->title)) {
 			$this->title = trim($this->title);
-			if (empty($this->title))
-				return $this->_error('title');
 			$query->setAttribute('subject', $this->title, true);
 		}
 		if (isset($this->excerpt)) {
