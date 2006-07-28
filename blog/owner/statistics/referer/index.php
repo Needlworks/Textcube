@@ -3,8 +3,19 @@ define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/header4.php';
 require ROOT . '/lib/piece/owner/contentMenu41.php';
+
+$page = 20; //getPersonalization($owner, 'rowsPerPage');  
+if (empty($_POST['perPage'])) {  
+	$perPage = $page;  
+} else if ($page != $_POST['perPage']) {  
+	//setPersonalization($owner, 'rowsPerPage', $_POST['perPage']);  
+	$perPage = $_POST['perPage'];  
+} else {  
+	$perPage = $_POST['perPage'];  
+}  
+
 ?>
-						<form method="post" action="<?php echo  $blogURL?>/owner/statistics">
+						<form method="post" action="<?php echo  $blogURL?>/owner/statistics/referer">
 							<div id="part-statistics-rank" class="part">
 								<h2 class="caption"><span class="main-text"><?php echo _t('리퍼러 순위')?></span></h2>
 								
@@ -39,7 +50,22 @@ for ($i=0; $i<sizeof($temp); $i++) {
 							
 							<div id="part-statistics-log" class="part">
 								<h2 class="caption"><span class="main-text"><?php echo _t('리퍼러 로그')?></span></h2>
-								
+								<select name="perPage" onchange="document.forms[0].page.value=1; document.forms[0].submit()">					
+<?php
+for ($i = 10; $i <= 100; $i += 5) {
+	if ($i == $perPage) {
+?>
+			                           <option value="<?=$i?>" selected="selected"><?=$i?></option>
+<?php
+	} else {
+?>
+						               <option value="<?=$i?>"><?=$i?></option>
+<?php
+	}
+}
+?>
+		                        </select>
+								<span class="text"><?php echo getArrayValue(explode('%1', _t('한 페이지에 목록 %1건 표시')), 1)?></span>
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
@@ -48,13 +74,14 @@ for ($i=0; $i<sizeof($temp); $i++) {
 										</tr>
 									</thead>
 									<tbody>
-<?php
-$temp = getRefererLogs();
-for ($i=0; $i<sizeof($temp); $i++) {
-	$record = $temp[$i];
+<?
+$more = false;
+list($refereres, $paging) = getRefererLogsWithPage($suri['page'], $perPage);
+for ($i=0; $i<sizeof($refereres); $i++) {
+	$record = $refereres[$i];
 	
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
-	$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
+	$className .= ($i == sizeof($referers) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo  $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="date"><?php echo Timestamp::formatDate($record['referred'])?></td>
@@ -65,6 +92,14 @@ for ($i=0; $i<sizeof($temp); $i++) {
 ?>
 									</tbody>
 								</table>
+<?php
+//$paging['onclick_url'] = 'document.getElementById('list-form').page.value=';
+//$paging['onclick_prefix'] = '';
+//$paging['onclick_postfix'] = '; document.getElementById('list-form').submit()';
+$pagingTemplate = '[##_paging_rep_##]';
+$pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
+echo str_repeat("\t", 12).getPagingView($paging, $pagingTemplate, $pagingItemTemplate).CRLF;
+?>
 							</div>
 						</form>
 <?php
