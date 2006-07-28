@@ -39,11 +39,16 @@ if ($service['type'] != 'single') {
 ?>
 								var primaryDomain = "<?php echo escapeJSInCData($blog['name'])?>";
 								var secondaryDomain = "<?php echo escapeJSInCData($blog['secondaryDomain'])?>";
-								var defaultDomain = "<?php echo escapeJSInCData($blog['defaultDomain'])?>";
+								var defaultDomain = <?=escapeJSInCData($blog['defaultDomain'])?>;
+
+								var newPrimaryDomain = primaryDomain;
+								var newSecondaryDomain = secondaryDomain;
+								var newDefaultDomain = defaultDomain;
 <?php
 	} else if ($service['type'] == 'path') {
 ?>
 								var pathDomain = "<?php echo escapeJSInCData($blog['name'])?>";
+								var newPathDomain = pathDomain;
 <?php
 	}
 ?>
@@ -52,12 +57,12 @@ if ($service['type'] != 'single') {
 	if ($service['type'] == 'domain') {
 ?>
 									if ((document.getElementById('multi-form').primaryDomain.value != primaryDomain) && (!checkBlogName(document.getElementById('multi-form').primaryDomain.value))) {
-										alert("<?php echo _t('블로그 주소가 올바르지 않습니다.')?>");
+										alert("<?php echo _t('1차 블로그 주소가 올바르지 않습니다.')?>");
 										document.getElementById('multi-form').primaryDomain.focus();
 										return;
 									}
-									if ((document.getElementById('multi-form').secondaryDomain.value != secondaryDomain) && (!checkDomainName(document.getElementById('multi-form').secondaryDomain.value))) {
-										alert("<?php echo _t('블로그 주소가 올바르지 않습니다.')?>");
+									if ((document.getElementById('multi-form').secondaryDomain.value != secondaryDomain) && (document.getElementById('multi-form').secondaryDomain.value.trim() != "") &&  (!checkDomainName(document.getElementById('multi-form').secondaryDomain.value))) {
+										alert("<?php echo _t('2차 블로그 주소가 올바르지 않습니다.')?>");
 										document.forms[0].secondaryDomain.focus();
 										return;
 									}
@@ -76,58 +81,92 @@ if ($service['type'] != 'single') {
 <?php
 	if ($service['type'] == 'domain') {
 ?>
-									if (document.getElementById('multi-form').defaultDomain[defaultDomain].checked == false) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/setting/domain/default/" + (document.getElementById('multi-form').defaultDomain[1].checked ? 1 : 0));
+									newPrimaryDomain = document.getElementById('multi-form').primaryDomain.value;
+									newSecondaryDomain = document.getElementById('multi-form').secondaryDomain.value;
+									newDefaultDomain = document.getElementById('multi-form').defaultDomain[defaultDomain].checked ? 0 : 1;
+								
+									if(primaryDomain != newPrimaryDomain || secondaryDomain != newSecondaryDomain || defaultDomain != newDefaultDomain) {
+										var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/setting/domain/set/");
 										request.onSuccess = function() {
-											defaultDomain = document.getElementById('multi-form').defaultDomain[1].checked ? 1 : 0;
-											PM.showMessage("<?php echo _t('저장되었습니다.')?>", "center", "bottom");
+											PM.showMessage("<?=_t('저장되었습니다')?>", "center", "bottom");
+											if(newDefaultDomain == 0 && newPrimaryDomain != primaryDomain) {
+												alert("<?=_t('변경된 1차 블로그 주소로 이동합니다')?>");
+												window.location.href = "http://" + newPrimaryDomain + ".<?=$service['domain']?><?=$blogURL?>/owner/setting/blog";
+											}
+											else if(newDefaultDomain == 1 && newSecondaryDomain != secondaryDomain) {
+												alert("<?=_t('변경된 2차 블로그 주소로 이동합니다')?>");
+												window.location.href = "http://" + newSecondaryDomain + "<?=$blogURL?>/owner/setting/blog";
+											}
+											primaryDomain = newPrimaryDomain;
+											secondaryDomain = newSecondaryDomain;
+											defaultDomain = newDefaultDomain;
 										}
 										request.onError = function() {
-											alert("<?php echo _t('기본 블로그 도메인을 변경하지 못했습니다.')?>");
+											var msg = '';
+											switch(parseInt(this.getText("/response/error"))) {
+												case 1:
+													msg = "<?=_t('기본 블로그 도메인을 변경하지 못했습니다')?>";
+													break;
+												case 2:
+													msg = "<?=_t('1차 블로그 도메인을 변경하지 못했습니다')?>";						
+													switch(parseInt(this.getText("/response/msg"))) {
+														case 1:
+															msg += "\n\n<?=_t('올바르지 않은 블로그 주소입니다')?>";
+															break;
+														case 2:
+															msg += "\n\n<?=_t('이미 사용중인 블로그 주소입니다')?>";
+															break;
+														case 3:
+															msg += "\n\n<?=_t('이미 사용중인 블로그 주소입니다')?>";
+															break;
+													}						
+													break;
+												case 3:
+													msg = "<?=_t('2차 블로그 주소를 변경하지 못했습니다')?>";
+													switch(parseInt(this.getText("/response/msg"))) {
+														case 1:
+															msg += "\n\n<?=_t('이미 사용중인 블로그 주소입니다')?>";
+															break;
+														case 2:
+															msg += "\n\n<?=_t('올바르지 않은 블로그 주소입니다')?>";
+															break;
+													}						
+													break;
+												case 4:
+													msg = "<?=_t('2차 블로그 주소가 비어있어서 기본 블로그 주소로 설정할 수 없습니다')?>";
+													document.forms[0].defaultDomain[0].checked = true;
+													break;
+												default:
+													msg = "<?=_t('알 수 없는 에러가 발생했습니다')?>";
+											}
+											alert(msg);
 										}
-										request.send();
-									}
-									if (document.getElementById('multi-form').primaryDomain.value != primaryDomain) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/setting/domain/primary/?name=" + encodeURIComponent(document.getElementById('multi-form').primaryDomain.value));
-										request.onSuccess = function() {
-											primaryDomain = document.getElementById('multi-form').primaryDomain.value;
-											PM.showMessage("<?php echo _t('저장되었습니다.')?>", "center", "bottom");
-											if (document.getElementById('multi-form').defaultDomain[0].checked)
-												location = "http://" + primaryDomain + ".<?php echo $service['domain']?><?php echo $blogURL?>/owner/setting/blog";
-										}
-										request.onError = function() {
-											alert("<?php echo _t('1차 블로그 도메인을 변경하지 못했습니다')?>");
-										}
-										request.send();
-									}
-									if (document.getElementById('multi-form').secondaryDomain.value != secondaryDomain) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/setting/domain/secondary?domain=" + encodeURIComponent(document.getElementById('multi-form').secondaryDomain.value));
-										request.onSuccess = function() {
-											secondaryDomain = document.getElementById('multi-form').secondaryDomain.value;
-											PM.showMessage("<?php echo _t('저장되었습니다.')?>", "center", "bottom");
-											if (document.getElementById('multi-form').defaultDomain[1].checked)
-												location = "http://" + secondaryDomain + "<?php echo $blogURL?>/owner/setting/blog";
-										}
-										request.onError = function() {
-											alert("<?php echo _t('1차 블로그 도메인을 변경하지 못했습니다')?>");
-										}
-										request.send();
+										request.send("defaultDomain=" + newDefaultDomain + "&primaryDomain=" + encodeURIComponent(newPrimaryDomain) + "&secondaryDomain=" + encodeURIComponent(newSecondaryDomain));
 									}
 <?php
 	} else if ($service['type'] == 'path') {
 ?>
-									if (document.getElementById('multi-form').pathDomain.value != pathDomain) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/setting/domain/primary?name=" + encodeURIComponent(document.getElementById('multi-form').pathDomain.value));
+									newPathDomain = document.getElementById('multi-form').pathDomain.value;
+									if(pathDomain != newPathDomain) {
+										var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/setting/domain/set/");
 										request.onSuccess = function() {
-											pathDomain = document.getElementById('multi-form').pathDomain.value;
-											PM.showMessage("<?php echo _t('저장되었습니다.')?>", "center", "bottom");
-											location = "http://<?php echo $service['domain']?><?php echo $blogURL?>/" + pathDomain + "/owner/setting/blog";
+											PM.showMessage("<?=_t('저장되었습니다')?>", "center", "bottom");
+											alert("<?=_t('변경된 블로그 주소로 이동합니다')?>");
+											window.location.href = "http://<?=$service['domain']?><?=$service['path']?>/" + newPathDomain + "/owner/setting/blog";
+											pathDomain = newPathDomain;
 										}
 										request.onError = function() {
-											alert("<?php echo _t('블로그 주소를 변경하지 못했습니다.')?>");
+											switch(parseInt(this.getText("/response/error"))) {
+												case 1:
+													alert("<?=_t('블로그 주소를 변경하지 못했습니다')?>");
+													break;
+												default:
+													alert("<?=_t('알 수 없는 에러가 발생했습니다')?>");
+											}
 										}
-										request.send();
+										request.send("defaultDomain=0&primaryDomain=" + encodeURIComponent(newPathDomain) + "&secondaryDomain=");
 									}
+
 <?php
 	}
 ?>

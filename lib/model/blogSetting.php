@@ -58,13 +58,13 @@ function changeBlogLogo($owner, $file) {
 }
 
 function checkBlogName($name) {
-	return ereg('^[[:alnum:]]+$', $name);
+	return ereg('^[[:alnum:]]+(-[[:alnum:]]+)*$', $name);
 }
 
 function setPrimaryDomain($owner, $name) {
 	global $database;
 	global $service, $blog;
-	$name = strtolower($name);
+	$name = strtolower(trim($name));
 	if ($name == $blog['name'])
 		return true;
 	if (!checkBlogName($name))
@@ -84,10 +84,10 @@ function setPrimaryDomain($owner, $name) {
 function setSecondaryDomain($owner, $domain) {
 	global $database;
 	global $blog;
-	$domain = strtolower($domain);
+	$domain = strtolower(trim($domain));
 	if ($domain == $blog['secondaryDomain'])
 		return true;
-	if (!checkDomainName($domain))
+	if (!empty($domain) && !checkDomainName($domain))
 		return false;
 	mysql_query("update {$database['prefix']}BlogSettings set secondaryDomain = '$domain' where owner = $owner");
 	if (mysql_affected_rows() != 1)
@@ -101,6 +101,8 @@ function setDefaultDomain($owner, $default) {
 	global $database;
 	global $blog;
 	$default = $default == 1 ? 1 : 0;
+	if (empty($blog['secondaryDomain']) && $default == 1)
+		return false;
 	if ($default == $blog['defaultDomain'])
 		return true;
 	mysql_query("update {$database['prefix']}BlogSettings set defaultDomain = $default where owner = $owner");
