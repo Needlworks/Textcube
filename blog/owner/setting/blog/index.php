@@ -57,12 +57,12 @@ if ($service['type'] != 'single') {
 		if ($service['type'] == 'domain') {
 ?>
 		if ((document.forms[0].primaryDomain.value != primaryDomain) && (!checkBlogName(document.forms[0].primaryDomain.value))) {
-			alert("<?=_t('1차 도메인 블로그 주소가 올바르지 않습니다.')?>");
+			alert("<?=_t('1차 블로그 주소가 올바르지 않습니다.')?>");
 			document.forms[0].primaryDomain.focus();
 			return;
 		}
 		if ((document.forms[0].secondaryDomain.value != secondaryDomain) && (document.forms[0].secondaryDomain.value.trim() != "") && (!checkDomainName(document.forms[0].secondaryDomain.value))) {
-			alert("<?=_t('2차 도메인 블로그 주소가 올바르지 않습니다.')?>");
+			alert("<?=_t('2차 블로그 주소가 올바르지 않습니다.')?>");
 			document.forms[0].secondaryDomain.focus();
 			return;
 		}
@@ -102,23 +102,44 @@ if ($service['type'] != 'single') {
 				defaultDomain = newDefaultDomain;
 			}
 			request.onError = function() {
+				var msg = '';
 				switch(parseInt(this.getText("/response/error"))) {
 					case 1:
-						alert("<?=_t('기본 블로그 도메인을 변경하지 못했습니다')?>");
+						msg = "<?=_t('기본 블로그 도메인을 변경하지 못했습니다')?>";
 						break;
 					case 2:
-						alert("<?=_t('1차 블로그 도메인을 변경하지 못했습니다')?>");
+						msg = "<?=_t('1차 블로그 도메인을 변경하지 못했습니다')?>";						
+						switch(parseInt(this.getText("/response/msg"))) {
+							case 1:
+								msg += "\n\n<?=_t('올바르지 않은 블로그 주소입니다')?>";
+								break;
+							case 2:
+								msg += "\n\n<?=_t('이미 사용중인 블로그 주소입니다')?>";
+								break;
+							case 3:
+								msg += "\n\n<?=_t('이미 사용중인 블로그 주소입니다')?>";
+								break;
+						}						
 						break;
 					case 3:
-						alert("<?=_t('2차 블로그 도메인을 변경하지 못했습니다')?>");
+						msg = "<?=_t('2차 블로그 주소를 변경하지 못했습니다')?>";
+						switch(parseInt(this.getText("/response/msg"))) {
+							case 1:
+								msg += "\n\n<?=_t('이미 사용중인 블로그 주소입니다')?>";
+								break;
+							case 2:
+								msg += "\n\n<?=_t('올바르지 않은 블로그 주소입니다')?>";
+								break;
+						}						
 						break;
 					case 4:
-						alert("<?=_t('2차 블로그 도메인이 비어있어서 기본 도메인으로 설정할 수 없습니다')?>");
+						msg = "<?=_t('2차 블로그 주소가 비어있어서 기본 블로그 주소로 설정할 수 없습니다')?>";
 						document.forms[0].defaultDomain[0].checked = true;
 						break;
 					default:
-						alert("<?=_t('알 수 없는 에러가 발생했습니다')?>");
+						msg = "<?=_t('알 수 없는 에러가 발생했습니다')?>";
 				}
+				alert(msg);
 			}
 			request.send("defaultDomain=" + newDefaultDomain + "&primaryDomain=" + encodeURIComponent(newPrimaryDomain) + "&secondaryDomain=" + encodeURIComponent(newSecondaryDomain));
 		}

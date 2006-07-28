@@ -12,10 +12,10 @@ requireStrictRoute();
 
 if(empty($_POST['secondaryDomain']) && $_POST['defaultDomain'] == 1)
 	respondResultPage(4);
-else if(!setPrimaryDomain($owner, $_POST['primaryDomain']))
-	respondResultPage(2);
-else if(!setSecondaryDomain($owner, $_POST['secondaryDomain']))
-	respondResultPage(3);
+else if( ($result = setPrimaryDomain($owner, $_POST['primaryDomain'])) > 0 )
+	printRespond(array('error' => 2, 'msg' => $result));
+else if( ($result = setSecondaryDomain($owner, $_POST['secondaryDomain'])) > 0 )
+	printRespond(array('error' => 3, 'msg' => $result));
 else if(!setDefaultDomain($owner, $_POST['defaultDomain']))
 	respondResultPage(1);
 else
