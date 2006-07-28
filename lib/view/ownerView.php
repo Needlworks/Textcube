@@ -155,21 +155,24 @@ function printOwnerEditorScript($entryId = false) {
 		var fileName = document.forms[0].fileList.value.split("|")[0];
 		
 		if((new RegExp("\\.(gif|jpe?g|png)$", "gi").exec(fileName))) {
-			var width = new RegExp('width="(\\d+)').exec(fileList.value);
-			width = width[1];
-			var height = new RegExp('height="(\\d+)').exec(fileList.value);
-			height = height[1];
-			if(width > 120) {
-				height = 120 / width * height;
-				width = 120;
+			try {
+				var width = new RegExp('width="(\\d+)').exec(fileList.value);
+				width = width[1];
+				var height = new RegExp('height="(\\d+)').exec(fileList.value);
+				height = height[1];
+				if(width > 120) {
+					height = 120 / width * height;
+					width = 120;
+				}
+				if(height > 90) {
+					width = 90 / height * width;
+					height = 90;
+				}
+				document.getElementById('previewSelected').innerHTML = '<img src="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?=$service['path']?>/image/spacer.gif\'"/>';
+				//setAttribute('src',"<?=$service['path']?>/attach/<?=$owner?>/"+  fileName);
+				//document.getElementById('selectedImage').setAttribute('src',"<?=$service['path']?>/image/spacer.gif");
 			}
-			if(height > 90) {
-				width = 90 / height * width;
-				height = 90;
-			}
-			document.getElementById('previewSelected').innerHTML = '<img src="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?=$service['path']?>/image/spacer.gif\'"/>';
-			//setAttribute('src',"<?=$service['path']?>/attach/<?=$owner?>/"+  fileName);
-			//document.getElementById('selectedImage').setAttribute('src',"<?=$service['path']?>/image/spacer.gif");
+			catch(e) { }
 			return false;
 		}
 		
