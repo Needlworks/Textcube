@@ -1,11 +1,12 @@
 <?
 define('ROOT', '../../../../..');
+$IV = array(
+	'POST' => array(
+		'targets' => array('list')
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
-$targets = explode('~*_)', $_POST['targets']);
-for ($i = 0; $i < count($targets); $i++) {
-	if ($targets[$i] == '')
-		continue;
-	deleteTrackback($owner, $targets[$i]);
-}
+foreach(explode(',', $_POST['targets']) as $target)
+	deleteTrackback($owner, $target);
 respondResultPage(0);
 ?>

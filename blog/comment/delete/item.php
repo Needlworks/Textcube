@@ -1,5 +1,40 @@
 <?
 define('ROOT', '../../..');
+if(isset($_POST['mode'])) {
+	if($_POST['mode'] == 'delete') {
+		$IV = array(
+			'POST' => array(
+				'mode' => array('any'),
+				'password' => array('string', 'default' => '')
+			)
+		);
+	}
+	else if($_POST['mode'] == 'edit') {
+		$IV = array(
+			'POST' => array(
+				'mode' => array('any'),
+				'password' => array('string', 'default' => '')
+			)
+		);
+	}
+	else if($_POST['mode'] == 'commit') {
+		$IV = array(
+			'POST' => array(
+				'mode' => array('any'),
+				'name' => array('string'),
+				'password' => array('string', 'default' => ''),
+				'oldPassword' => array('string', 'default' => ''),
+				'secret' => array(array('on'), 'mandatory' => false),
+				'homepage' => array('string', 'default' => 'http://'),
+				'comment' => array('string')
+			)
+		);
+	}
+	else {
+		header('HTTP/1.1 404 Not Found');
+		exit;
+	}
+}
 require ROOT . '/lib/include.php';
 list($replier) = getCommentAttributes($owner, $suri['id'], 'replier');
 if (!empty($_POST['mode'])) {

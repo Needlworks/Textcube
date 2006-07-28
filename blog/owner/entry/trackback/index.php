@@ -1,5 +1,22 @@
 <?
 define('ROOT', '../../../..');
+if (isset($_POST['page']))
+	$_GET['page'] = $_POST['page'];
+if(count($_POST) > 0) {
+	$IV = array(
+		'GET' => array(
+			'page' => array('int', 1, 'default' => 1)
+		),
+		'POST' => array(
+			'category' => array('int', 'default' => 0),
+			'site' => array('string', 'default' => ''),
+			'ip' => array('ip', 'default' => ''),
+			'withSearch' => array(array('on'), 'mandatory' => false),
+			'search' => array('string', 'default' => ''),
+			'perPage' => array('int', 10, 30, 'mandatory' => false)
+		)
+	);
+}
 require ROOT . '/lib/includeForOwner.php';
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $site = empty($_POST['site']) ? '' : $_POST['site'];
@@ -91,18 +108,17 @@ require ROOT . '/lib/piece/owner/contentMeta0End.php';
 			if (!confirm("<?=_t('선택된 트랙백을 삭제합니다. 계속하시겠습니까?\t')?>"))
 				return false;
 			var oElement;
-			var targets = '';
+			var targets = new Array();
 			for (i = 0; document.forms[0].elements[i]; i ++) {
 				oElement = document.forms[0].elements[i];
-				if ((oElement.name == "entry") && oElement.checked) {
-					targets+=oElement.value+'~*_)';										
-				}
+				if ((oElement.name == "entry") && oElement.checked)
+					targets[targets.length] = oElement.value;
 			}
 			var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/trackback/delete/");
 			request.onSuccess = function() {
 				document.forms[0].submit();
 			}
-			request.send("targets=" + targets);
+			request.send("targets=" + targets.join(","));
 		} catch(e) {
 			alert(e.message);
 		}
@@ -272,7 +288,7 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 												<tr>
 													<!--<td style="padding:0px 7px 0px 10px; font-size:12px;"><?=_t('이름') . ' | ' . _t('홈페이지 이름') . ' | ' . _t('내용')?></td>-->
 													<td style="padding:0px 5px 0px 5px;">
-													<input type="text" name="searchInput" value="<?=htmlspecialchars($search)?>" class="text1" style="width:70px" onkeydown="if (event.keyCode == '13') { document.forms[0].withSearch.value = 'on'; document.forms[0].submit(); }" />
+													<input type="text" name="search" value="<?=htmlspecialchars($search)?>" class="text1" style="width:70px" onkeydown="if (event.keyCode == '13') { document.forms[0].withSearch.value = 'on'; document.forms[0].submit(); }" />
 													</td>
 													<td>
 													  	<table class="buttonTop" cellspacing="0" onclick="document.forms[0].withSearch.value = 'on'; document.forms[0].submit();">

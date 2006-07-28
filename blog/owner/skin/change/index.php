@@ -1,5 +1,10 @@
 <?
 define('ROOT', '../../../..');
+$IV = array(
+	'POST' => array(
+		'skinName' => array('string')
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 $result = selectSkin($owner, $_POST['skinName']);
 if ($result === true) {

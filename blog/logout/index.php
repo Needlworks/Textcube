@@ -3,6 +3,13 @@ define('ROOT', '../..');
 require ROOT . '/lib/include.php';
 if (isset($_GET['requestURI']))
 	$_POST['requestURI'] = $_GET['requestURI'];
+$IV = array(
+	'POST' => array(
+		'requestURI' => array('string')
+	)
+);
+if(!Validator::validate($IV))
+	respondNotFoundPage();
 if (doesHaveMembership()) {
 	logout();
 	if (!empty($_POST['requestURI']))

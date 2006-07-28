@@ -1,5 +1,16 @@
 <?
 define('ROOT', '../..');
+$IV = array(
+	'POST' => array(
+		'url' => array('url', 'mandatory' => false),
+		'title' => array('string', 'mandatory' => false),
+		'excerpt' => array('string', 'mandatory' => false),
+		'blog_name' => array('string', 'mandatory' => false)
+	),
+	'SERVER' => array(
+		'CONTENT_TYPE' => array('string', 'mandatory' => false)
+	)
+);
 require ROOT . '/lib/include.php';
 if (empty($_POST['url']))
 	printRespond(array('error' => 1, 'message' => 'URL is not exist'));

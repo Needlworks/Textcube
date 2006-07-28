@@ -1,5 +1,17 @@
 <?
 define('ROOT', '../../../..');
+$IV = array(
+	'GET' => array(
+		'draft' => array('any', 'mandatory' => false),
+		'popupEditor' => array('any', 'mandatory' => false),
+		'returnURL' => array('string', 'mandatory' => false)
+	),
+	'POST' => array(
+		'category' => array('int', 'default' => 0),
+		'withSearch' => array(array('on'), 'mandatory' => false),
+		'search' => array('string', 'default' => '')
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 if (defined('__TATTERTOOLS_KEYWORD__'))
 	respondNotFoundPage();
@@ -509,7 +521,14 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						  <tr>
 <?
-printEntryFileList(getAttachments($owner, $entry['id'], 'label'), $entry['id']);
+$param = array(
+		'uploadPath'=> "$blogURL/owner/entry/attachmulti/{$entry['id']}", 
+		'singleUploadPath'=> "$blogURL/owner/entry/attach/{$entry['id']}", 
+		'deletePath'=>"$blogURL/owner/entry/detach/multi/". ($entry['id'] ? $entry['id'] : '0') ,
+		'labelingPath'=> "$blogURL/owner/entry/attachmulti/list/{$entry['id']}", 
+		'refreshPath'=> "$blogURL/owner/entry/attachmulti/refresh/". ($entry['id'] ? $entry['id'] : '0') , 
+		'fileSizePath'=> "$blogURL/owner/entry/size?parent={$entry['id']}");		
+printEntryFileList(getAttachments($owner, $entry['id'], 'label'), $param);
 ?>
 							
 							<td width="110" align="center" valign="top">

@@ -53,10 +53,10 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 			}
 		}
 		PM.addRequest(request, "<?=_t('링크를 수정하고 있습니다')?>");
-		request.send("id=<?=$suri['value']?>&name=" + encodeURIComponent(oForm.name.value) + "&url=" + encodeURIComponent(oForm.url.value) + "&rss=" + encodeURIComponent(oForm.rss.value));  
+		request.send("id=<?=$suri['id']?>&name=" + encodeURIComponent(oForm.name.value) + "&url=" + encodeURIComponent(oForm.url.value) + "&rss=" + encodeURIComponent(oForm.rss.value));  
 	}
 </script>
-	  <input type="hidden" name="id" value="<?=$suri['value']?>"/>
+	  <input type="hidden" name="id" value="<?=$suri['id']?>"/>
       <table cellspacing="0" style="width:100%; background-color:#FFFFFF">
         <tr>
           <td valign="top" style="height:50px; padding:5px 15px 15px 15px">

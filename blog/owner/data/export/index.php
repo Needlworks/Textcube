@@ -1,5 +1,10 @@
 <?
 define('ROOT', '../../../..');
+$IV = array(
+	'GET' => array(
+		'includeFileContents' => array(array('true', 'false'))
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 requireComponent('Eolin.PHP.OutputWriter');
 requireComponent('Eolin.PHP.Base64Stream');

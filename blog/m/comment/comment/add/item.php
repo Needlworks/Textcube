@@ -3,6 +3,17 @@ define('__TATTERTOOLS_MOBILE__', true);
 define('ROOT', '../../../../..');
 require ROOT . '/lib/include.php';
 $replyId = $suri['id'];
+$IV = array(
+	'POST' => array(
+		"name_$replyId" => array('string', 'mandatory' => false),
+		"password_$replyId" => array('string'),
+		"secret_$replyId" => array(array('on'), 'mandatory' => false),
+		"homepage_$replyId" => array('string', 'default' => 'http://'),
+		"comment_$replyId" => array('string', 'mandatory' => false)
+	)
+);
+if(!Validator::validate($IV))
+	respondNotFoundPage();
 list($entryId) = getCommentAttributes($owner, $replyId, 'entry');
 if (!doesHaveOwnership() && empty($_POST["name_$replyId"])) {
 	printMobileErrorPage(_t('답글을 작성할 수 없습니다'), _t('이름을 입력해주세요'), "$blogURL/comment/comment/$replyId");

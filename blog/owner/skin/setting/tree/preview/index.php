@@ -1,5 +1,15 @@
 <?
 define('ROOT', '../../../../../..');
+$IV = array(
+	'POST' => array(
+		'itemColor' => array('string', 'mandatory' => false),
+		'itemBgColor' => array('string', 'mandatory' => false),
+		'activeItemColor' => array('string', 'mandatory' => false),
+		'activeItemBgColor' => array('string', 'mandatory' => false),
+		'labelLength' => array('string', 'mandatory' => false),
+		'showValue' => array('string', 'mandatory' => false)
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 $categories = getCategories($owner);
 $selected = 0;
