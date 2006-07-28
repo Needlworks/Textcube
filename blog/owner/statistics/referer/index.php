@@ -7,7 +7,7 @@ $IV = array(
 		'page' => array('int', 1, 'default' => 1)
 	),
 	'POST' => array(
-		'perPage' => array('int', 1, 'mandatory' => false)
+		'perPage' => array('int', 1, 'default' => 20)
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
@@ -61,7 +61,7 @@ foreach (getRefererStatistics($owner) as $record) {
 ?>
                         </table>
                       </td>
-                      <td style="padding-left:10px">
+                      <td style="padding-left:10px" valign="top">
                         <table cellspacing="0" style="width:100%; height:28px">
                           <tr>
                             <td style="width:18px"><img alt="" src="<?=$service['path']?>/image/owner/sectionDescriptionIcon.gif" width="18" height="18"/></td>
