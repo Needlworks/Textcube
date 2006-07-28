@@ -51,25 +51,7 @@ function nl2brWithHTML($str) {
 }
 
 function addLinkSense($text, $attributes = '') {
-	$text = eregi_replace("http://", "temporaryHttp://", $text);
-	
-	while (eregi("temporaryHttp://", $text)) {
-		eregi("([href=\"'\t\n\r]*)temporaryHttp://([^ \t\r\n\"']+)", $text, $temp);
-		if (eregi("href=", $temp[0])) {
-			$text = str_replace($temp[0], str_replace("temporaryHttp://", "http://", $temp[0]), $text);
-		} else {
-			if (eregi("\?", $temp[0])) {
-				$text = str_replace($temp[0], "$temp[1]<a href=\"http://$temp[2]\"$attributes rel=\"external nofollow\">$temp[2]</a>", $text);
-			} else {
-				eregi("([^a-z0-9]*)$", $temp[2], $temp2);
-				if (!empty($temp2[1])) {
-					$temp[2] = eregi_replace("([^a-z0-9]*)$", "", $temp[2]);
-				}
-				$text = str_replace($temp[0], "$temp[1]<a href=\"http://$temp[2]\"$attributes rel=\"external nofollow\">$temp[2]</a>$temp2[1]", $text);
-			}
-		}
-	}
-	return $text;
+	return ereg_replace("(^| |\t|\r|\n|\"|')(http://[^ \t\r\n\"']+)","\\1<a href=\"\\2\"$attributes rel=\"external nofollow\">\\2</a>",$text);
 }
 
 function addProtocolSense($url, $protocol = 'http://') {

@@ -103,7 +103,7 @@ function getCommentCommentsNotified($parent) {
 			if (($comment['secret'] == 1) && !$authorized) {
 				$comment['name'] = '';
 				$comment['homepage'] = '';
-				$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
+				$comment['comment'] = _t('관리자만 볼 수 있는 댓글입니다.');
 			}
 			array_push($comments, $comment);
 		}
