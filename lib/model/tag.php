@@ -99,11 +99,12 @@ function addTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 {
 	if ($taglist == null)
 		return;
-		
-	$taglist = array_filter($taglist, 'removeEmptyTagHelper');
-		
-	foreach($taglist as &$tag) {
+
+	$tmptaglist = array_filter($taglist, 'removeEmptyTagHelper');
+	$taglist = array();
+	foreach($tmptaglist as $tag) {
 		$tag = mysql_real_escape_string(trim($tag));
+		array_push($taglist, $tag);
 	}
 
 	// step 1. Insert Tags
@@ -131,19 +132,22 @@ function modifyTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 	if ($taglist == null)
 		$taglist = array();
 		
-	$taglist = array_filter($taglist, 'removeEmptyTagHelper');
-	
-	foreach($taglist as &$tag) {
+	$tmptaglist = array_filter($taglist, 'removeEmptyTagHelper');
+	$taglist = array();
+	foreach($tmptaglist as $tag) {
 		$tag = mysql_real_escape_string(trim($tag));
+		array_push($taglist, $tag);
 	}
 	
 	// step 1. Get deleted Tag
-	$oldtaglist = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Tags WHERE EXISTS
+	$tmpoldtaglist = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Tags WHERE EXISTS
 							(SELECT * FROM {$database['prefix']}TagRelations WHERE owner = $owner AND entry = $entry AND tag = id)");
-	if ($oldtaglist == null)
-		$oldtaglist = array();
-	foreach($oldtaglist as &$tag) {
+	if ($tmpoldtaglist == null)
+		$tmpoldtaglist = array();
+	$oldtaglist = array();
+	foreach($tmpoldtaglist as $tag) {
 		$tag = mysql_real_escape_string(trim($tag));
+		array_push($oldtaglist, $tag);
 	}
 	
 	$deletedTagList = array_diff($oldtaglist, $taglist);
