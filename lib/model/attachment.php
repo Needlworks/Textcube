@@ -58,7 +58,6 @@ function addAttachment($owner, $parent, $file) {
 	$attachment = array();
 	$attachment['parent'] = $parent ? $parent : 0;
 	$attachment['label'] = Path::getBaseName($file['name']);
-	$label = mysql_escape_string($attachment['label']);
 	$attachment['size'] = $file['size'];
 	$extension = getFileExtension($attachment['label']);
 	switch (strtolower($extension)) {
