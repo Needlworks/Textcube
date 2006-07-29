@@ -899,7 +899,9 @@ function printEntryFileList($attachments, $entryId) {
 				  
 			</script>			
 				<span id="uploaderNest">
-					<script type="text/javascript">if(hasRightVersion && isWin){ writeCode(uploaderStr); }</script>
+					<script type="text/javascript">
+						if(<?=(isset($service['flashuploader']) && $service['flashuploader'] === false) ? 'false' : 'hasRightVersion && isIE'?>){ writeCode(uploaderStr); }
+					</script>
 				</span>
 				</td>
 			</tr>
