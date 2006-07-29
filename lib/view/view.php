@@ -303,86 +303,8 @@ function getTrackbacksView($entryId, & $skin) {
 function getCommentView($entryId, & $skin) {
 	global $blogURL, $owner, $suri, $paging, $blog;
 	$authorized = doesHaveOwnership();
-
-	$commentView = "<form method=\"post\" action=\"$blogURL/comment/add/$entryId\" onsubmit=\"return false\" style=\"margin: 0\">{$skin->comment}</form>";
-	$comments = getEntryComments($entryId);
-	$commentItemsView = '';
-	$commentSubItemsView = '';
-	while (RecordSet::next($comments)) {
-		if ($comments->secret && !doesHaveOwnership()) {
-			$comments->name = '';
-			$comments->homepage = '';
-			$comments->comment = _t('관리자만 볼 수 있는 댓글입니다');
-		}
-		if (isset($comments->parent)) {
-			$commentSubItemView = "<a id=\"comment{$comments->id}\"></a>{$skin->commentSubItem}";
-			if (empty($comments->homepage))
-				dress('rp_rep_name', fireEvent('ViewCommenter', htmlspecialchars($comments->name), $comments), $commentSubItemView);
-			else
-				dress('rp_rep_name', fireEvent('ViewCommenter', '<a href="' . htmlspecialchars(addProtocolSense($comments->homepage)) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($comments->name) . '</a>', $comments), $commentSubItemView);
-			dress('rp_rep_desc', fireEvent('ViewCommentContent', ($comments->secret && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($comments->comment), ' onclick="return openLinkInNewWindow(this)"')), $comments), $commentSubItemView);
-			dress('rp_rep_date', Timestamp::format5($comments->written), $commentSubItemView);
-			dress('rp_rep_link',"$blogURL/{$entryId}#comment{$comments->id}", $commentSubItemView);
-			dress('rp_rep_onclick_delete', "deleteComment({$comments->id});return false", $commentSubItemView);
-			$commentSubItemsView = $commentSubItemView . $commentSubItemsView;
-		} else {
-			$commentItemView = "<a id=\"comment{$comments->id}\"></a>" . $skin->commentItem;
-			dress('rp2_rep', $commentSubItemsView, $commentItemView);
-			$commentSubItemsView = '';
-			if (empty($comments->homepage))
-				dress('rp_rep_name', fireEvent('ViewCommenter', htmlspecialchars($comments->name), $comments), $commentItemView);
-			else
-				dress('rp_rep_name', fireEvent('ViewCommenter', '<a href="' . htmlspecialchars(addProtocolSense($comments->homepage)) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($comments->name) . '</a>', $comments), $commentItemView);
-			dress('rp_rep_desc', fireEvent('ViewCommentContent', ($comments->secret && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($comments->comment
-			), ' onclick="return openLinkInNewWindow(this)"')), $comments), $commentItemView);
-			dress('rp_rep_date', Timestamp::format5($comments->written), $commentItemView);
-			dress('rp_rep_onclick_reply', "commentComment({$comments->id});return false", $commentItemView);
-			dress('rp_rep_onclick_delete', "deleteComment({$comments->id});return false", $commentItemView);
-			dress('rp_rep_link', "$blogURL/{$entryId}#comment{$comments->id}", $commentItemView);
-			$commentItemsView = $commentItemView . $commentItemsView;
-		}
-	}
-
-	dress('rp_rep', $commentItemsView, $commentView);
-	if (!doesHaveOwnership()) {
-		$commentMemberView = $skin->commentMember;
-		if (!doesHaveMembership()) {
-			$commentGuestView = $skin->commentGuest;
-			dress('rp_input_name', 'name', $commentGuestView);
-			dress('rp_input_password', 'password', $commentGuestView);
-			dress('rp_input_homepage', 'homepage', $commentGuestView);
-			if (!empty($_POST["name_$entryId"]))
-				$guestName = $_POST["name_$entryId"];
-			else if (!empty($_COOKIE['guestName']))
-				$guestName = $_COOKIE['guestName'];
-			else
-				$guestName = '';
-			dress('guest_name', $guestName, $commentGuestView);
-			if (!empty($_POST["homepage_$entryId"]) && $_POST["homepage_$entryId"] != 'http://') {
-				if (strpos($_POST["homepage_$entryId"], 'http://') === 0)
-					$guestHomepage = $_POST["homepage_$entryId"];
-				else
-					$guestHomepage = 'http://' . $_POST["homepage_$entryId"];
-			} else if (!empty($_COOKIE['guestHomepage']))
-				$guestHomepage = $_COOKIE['guestHomepage'];
-			else
-				$guestHomepage = 'http://';
-			dress('guest_homepage', $guestHomepage, $commentGuestView);
-			dress('rp_guest', $commentGuestView, $commentMemberView);
-		}
-		dress('rp_input_is_secret', 'secret', $commentMemberView);
-		dress('rp_member', $commentMemberView, $commentView);
-	}
-	dress('rp_input_comment', 'comment', $commentView);
-	dress('rp_onclick_submit', "addComment(this, $entryId);return false", $commentView);
-	dress('rp_textarea_body', 'comment', $commentView);
-	dress('rp_textarea_body_value', '', $commentView);
-	return $commentView;
-}
-
-function getGuestCommentView($entryId, & $skin) {
-	global $blogURL, $owner, $suri, $paging, $blog, $skinSetting;
-	$authorized = doesHaveOwnership();
+	$skinValue = getSkinSetting($owner);
+	$blogSetting = getBlogSetting($owner);
 	if ($entryId > 0) {
 		$prefix1 = 'rp';
 		$prefix2 = 'comment';
@@ -417,7 +339,7 @@ function getGuestCommentView($entryId, & $skin) {
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentSubItem['name']), $commentSubItem), $commentSubItemView);
 			else
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentSubItem['name']) . '</a>', $commentSubItem), $commentSubItemView);
-			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentSubItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
+			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentSubItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
 			dress($prefix1 . '_rep_date', Timestamp::format5($commentSubItem['written']), $commentSubItemView);
 			dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentSubItem['id']}", $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']});return false", $commentSubItemView);
@@ -428,7 +350,7 @@ function getGuestCommentView($entryId, & $skin) {
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentItem['name']), $commentItem), $commentItemView);
 		else
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentItem['name']) . '</a>', $commentItem), $commentItemView);
-		dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentItem), $commentItemView);
+		dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentItem), $commentItemView);
 		dress($prefix1 . '_rep_date', Timestamp::format5($commentItem['written']), $commentItemView);
 		if ($prefix1 == 'guest' && $authorized != true && $blogSetting['allowWriteDoubleCommentOnGuestbook'] == 0) {
 			$doubleCommentPermissionScript = 'alert(\'' . _t('댓글을 사용할 수 없습니다') . '\');return false;';

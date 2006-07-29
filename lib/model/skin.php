@@ -167,8 +167,6 @@ function setSkinSetting($owner, $setting) {
 	$skinpath = ROOT . '/skin/' . $skinSetting['skin'];
 	if (!is_dir($skinpath))
 		return _t('실패 했습니다');
-	}
-
 	
 	foreach ($setting as $key => $value) {
 		$setting[$key] = mysql_escape_string($value);
