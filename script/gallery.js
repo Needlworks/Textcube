@@ -16,6 +16,8 @@ function TTGallery(containerId)
 	this.width = new Array();
 	this.height = new Array();
 	this.imageCache = new Array();
+	
+	this.container = null;
 };
 
 TTGallery.prototype.appendImage = function(src, caption, width, height)
@@ -80,6 +82,8 @@ TTGallery.prototype.getCaption = function()
 
 TTGallery.prototype.show = function(offset)
 {
+    this.container = document.getElementById(this.containerId);
+    
 	if(this.numImages == 0) {
 		var div = document.createElement("div");
 		div.style.textAlign = "center";
@@ -87,7 +91,8 @@ TTGallery.prototype.show = function(offset)
 		div.style.margin = "10px auto";
 		div.style.font = "bold 2em/1 Verdana, Sans-serif";
 		div.innerHTML = "NO IMAGES";
-		this.container.appendChild(div);	
+		this.container.appendChild(div);
+		this.container = null;
 		return;
 	}
 
@@ -113,6 +118,8 @@ TTGallery.prototype.show = function(offset)
 
 	if(this.container.filters)
 		this.container.filters[0].Play();
+		
+	this.container = null;
 };
 
 TTGallery.prototype.prev = function()
