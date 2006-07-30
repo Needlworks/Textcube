@@ -292,7 +292,7 @@ function addEntry($owner, $entry) {
 		$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 	}
 	$title = mysql_escape_string($entry['title']);
-	$content = mysql_escape_string(filterJavaScript($entry['content']));
+	$content = mysql_escape_string($entry['content']);
 	$password = generatePassword();
 	$location = mysql_escape_string($entry['location']);
 	if (isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
@@ -360,7 +360,7 @@ function updateEntry($owner, $entry) {
 	
 	$location = mysql_escape_string($entry['location']);
 	$title = mysql_escape_string($entry['title']);
-	$content = mysql_escape_string(filterJavaScript($entry['content']));
+	$content = mysql_escape_string($entry['content']);
 	switch ($entry['published']) {
 		case 0:
 			$published = 'published';
@@ -404,7 +404,7 @@ function saveDraftEntry($entry) {
 	$entry['location'] = mysql_lessen(trim($entry['location']));
 	$location = mysql_escape_string($entry['location']);
 	$title = mysql_escape_string($entry['title']);
-	$content = mysql_escape_string(filterJavaScript($entry['content']));
+	$content = mysql_escape_string($entry['content']);
 	$draft = getDraftEntryId($entry['id']);
 	if ($draft) {
 		$result = mysql_query("UPDATE {$database['prefix']}Entries
