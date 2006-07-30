@@ -181,6 +181,11 @@ function printFilterBox($mode, $title) {
 										alert("<?php echo _t('내용을 입력해 주십시오.')?>");
 										return false;
 									}
+
+									if(mode == 'url') {
+										var reg = new RegExp('^http://', "gi");
+										target.value = target.value.replace(reg,'');
+									}
 									
 									if(mode == 'ip') {
 										reg = /\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
