@@ -2,8 +2,8 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
-		'pwd'   => array('any'),
-		'prevPwd'       => array('any')
+		'pwd' => array('string'),
+		'prevPwd' => array('string')
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

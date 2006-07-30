@@ -2,7 +2,7 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'GET' => array(
-		'timezone' => array('any')
+		'timezone' => array('string')
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

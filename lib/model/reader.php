@@ -347,8 +347,8 @@ function addFeed($owner, $group = 0, $url, $getEntireFeed = true, $htmlURL = '',
 	global $database;
 	if(strpos(strtolower($url), 'http://') !== 0)
 		$url = 'http://'.$url;
-	$escapedURL = mysql_escape_string($url); 
- 	if (fetchQueryCell("SELECT id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.owner = $owner AND r.owner = g.owner AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$escapedURL'")) { 
+	$escapedURL = mysql_escape_string($url);
+	if (DBQuery::queryExistence("SELECT f.id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.owner = $owner AND r.owner = g.owner AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$escapedURL'")) {
 		return 1;
 	}
 	if ($id = fetchQueryCell("SELECT id FROM {$database['prefix']}Feeds WHERE xmlURL = '$escapedURL'")) {

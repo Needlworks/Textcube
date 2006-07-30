@@ -2,9 +2,9 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'GET' => array(
-    		'title' => array('string', 'mandatory' => false)
-	)  
-); 
+		'title' => array('string', 'default' => '')
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 if (!empty($_GET['title']) && setBlogTitle($owner, trim($_GET['title']))) {
 	respondResultPage(0);

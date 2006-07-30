@@ -1,9 +1,14 @@
 <?php
 define('ROOT', '../../..');
+if (isset($_POST['page']))
+	$_GET['page'] = $_POST['page'];
 $IV = array(
+	'GET' => array(
+		'page' => array('int', 1, 'default' => 1)
+	),
 	'POST' => array(
 		'withSearch' => array(array('on'), 'mandatory' => false),
-		'search' => array('string' ,'mandatory' => false)
+		'search' => array('string', 'default' => '')
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

@@ -236,9 +236,6 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 	$loginid = mysql_real_escape_string($email);	
 	$name = mysql_real_escape_string($name);
 	$identify = mysql_real_escape_string($identify);
-	$comment = $comment;
-	$senderName = $senderName;
-	$senderEmail = $senderEmail;
 	$password = generatePassword();
 
 	$blogName = $identify;
