@@ -120,6 +120,7 @@ function removeEmptyTagHelper($var)
 
 function addTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 {
+	global $database;
 	if ($taglist == null)
 		return;
 
@@ -152,6 +153,7 @@ function addTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 
 function modifyTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 {
+	global $database;
 	if ($taglist == null)
 		$taglist = array();
 		
@@ -222,6 +224,7 @@ function modifyTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 
 function deleteTagsWithEntryId($owner, $entry)
 {
+	global $database;
 	$taglist = DBQuery::queryColumn("SELECT tag FROM {$database['prefix']}TagRelations WHERE owner = $owner AND entry = $entry");
 	if ($taglist != null) {
 		$tagliststr = implode(',', $taglist);

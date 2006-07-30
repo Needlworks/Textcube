@@ -355,7 +355,7 @@ function updateEntry($owner, $entry) {
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
 
-	$tags = getTagsWithEntryString($entry['tags']);
+	$tags = getTagsWithEntryString($entry['tag']);
 	modifyTagsWithEntryId($owner, $entry['id'], $tags);
 	
 	$location = mysql_escape_string($entry['location']);
