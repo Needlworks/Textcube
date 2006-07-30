@@ -306,19 +306,15 @@ function importer($path, $node, $line) {
 			$post->modified = @$node['modified'][0]['.value'];
 			if (!empty($node['category'][0]['.value']))
 				$post->category = Category::getId($node['category'][0]['.value']);
-			if (!$post->add())
-				user_error(__LINE__ . $post->error);
 			if (isset($node['tag'])) {
 				$post->tags = array();
 				for ($i = 0; $i < count($node['tag']); $i++) {
 					if (!empty($node['tag'][$i]['.value']))
 						array_push($post->tags, $node['tag'][$i]['.value']);
 				}
-				if (!empty($post->tags)) {
-					if (!$post->saveTags())
-						user_error(__LINE__ . $post->error);
-				}
 			}
+			if (!$post->add())
+				user_error(__LINE__ . $post->error);
 			if (isset($node['attachment'])) {
 				for ($i = 0; $i < count($node['attachment']); $i++) {
 					$attachment = new Attachment();
