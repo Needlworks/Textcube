@@ -150,7 +150,7 @@ class UserInfo {
 		if (isset($this->created)) {
 			if (!Validator::number($this->created, 0))
 				return $this->_error('created');
-			$query->setAttribute('created', $this->userid);
+			$query->setAttribute('created', $this->created);
 		}
 		
 		if (isset($this->lastLogin)) {
