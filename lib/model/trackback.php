@@ -45,7 +45,8 @@ function getRecentTrackbacks($owner) {
 
 function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 	global $database;
-
+	if (empty($url))
+		return 5;
 	requireComponent('Tattertools.Data.Post');
 	if (!Post::doesAcceptTrackback($entry))
 		return 3;
