@@ -2,20 +2,17 @@
 define('ROOT', '../..');
 $IV = array(
 	'POST' => array(
-		'url' => array('url', 'mandatory' => false),
-		'title' => array('string', 'mandatory' => false),
-		'excerpt' => array('string', 'mandatory' => false),
-		'blog_name' => array('string', 'mandatory' => false)
+		'url' => array('url', 'default' => ''),
+		'title' => array('string', 'default' => ''),
+		'excerpt' => array('string', 'default' => ''),
+		'blog_name' => array('string', 'default' => '')
 	),
 	'SERVER' => array(
-		'CONTENT_TYPE' => array('string', 'mandatory' => false)
+		'CONTENT_TYPE' => array('string', 'default' => '')
 	)
 );
 require ROOT . '/lib/include.php';
-if (empty($_POST['url']))
-	printRespond(array('error' => 1, 'message' => 'URL is not exist'));
-else
-	$url = $_POST['url'];
+$url = $_POST['url'];
 $title = !empty($_POST['title']) ? $_POST['title'] : '';
 $excerpt = !empty($_POST['excerpt']) ? $_POST['excerpt'] : '';
 $blog_name = !empty($_POST['blog_name']) ? $_POST['blog_name'] : '';
@@ -25,7 +22,6 @@ if (!empty($_SERVER["CONTENT_TYPE"]) && strpos($_SERVER["CONTENT_TYPE"], 'charse
 	$charset = $charsetArray[1];
 	$ary[] = trim($charset);
 }
-
 $result = receiveTrackback($owner, $suri['id'], $title, $url, $excerpt, $blog_name);
 if ($result == 0) {
 	respondResultPage(0);
@@ -38,6 +34,8 @@ if ($result == 0) {
 		printRespond(array('error' => 1, 'message' => 'The entry is not accept trackback'));
 	} else if ($result == 4) {
 		printRespond(array('error' => 1, 'message' => 'already exists trackback'));
+	} else if ($result == 5) {
+		printRespond(array('error' => 1, 'message' => 'URL is not exist or invalid'));
 	}
 }
 ?> 
