@@ -8,11 +8,11 @@ $IV = array(
 	),
 	'POST' => array(
 		'key' => array('string', 32, 32),
-		"name_$entryId" => array('string', 'mandatory' => false),
-		"password_$entryId" => array('string', 'mandatory' => false),
+		"name_$entryId" => array('string', 'default' => ''),
+		"password_$entryId" => array('string', 'default' => ''),
 		"secret_$entryId" => array(array('1'), 'mandatory' => false),
 		"homepage_$entryId" => array('string', 'default' => 'http://'),
-		"comment_$entryId" => array('string', 'mandatory' => false)
+		"comment_$entryId" => array('string', 'default' => '')
 	)
 );
 if(!Validator::validate($IV))

@@ -1,17 +1,18 @@
 <?php
 define('ROOT', '../..');
-require ROOT . '/lib/include.php';
-if (isset($_GET['requestURI']))
-	$_POST['requestURI'] = $_GET['requestURI'];
 //else
 //	$_POST['requestURI'] = $_SERVER['HTTP_REFERER'];
 $IV = array(
+	'GET' => array(
+		'requestURI' => array('string', 'default' => null)
+	),
 	'POST' => array(
-		'requestURI' => array('string', 'mandatory' => false)
+		'requestURI' => array('string', 'default' => null)
 	)
 );
-if(!Validator::validate($IV))
-	respondNotFoundPage();
+require ROOT . '/lib/include.php';
+if (isset($_GET['requestURI']))
+	$_POST['requestURI'] = $_GET['requestURI'];
 if (doesHaveMembership()) {
 	logout();
 	if (!empty($_POST['requestURI']))
