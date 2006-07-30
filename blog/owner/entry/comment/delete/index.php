@@ -1,11 +1,12 @@
 <?php
 define('ROOT', '../../../../..');
+$IV = array(
+	'POST' => array(
+		'targets' => array('list')
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
-$targets = explode('~*_)', $_POST['targets']);
-for ($i = 0; $i < count($targets); $i++) {
-	if ($targets[$i] == '')
-		continue;
-	trashCommentInOwner($owner, $targets[$i], false);
-}
+foreach(explode(',', $_POST['targets']) as $target)
+	trashCommentInOwner($owner, $target, false);
 respondResultPage(0);
 ?>

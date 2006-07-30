@@ -1,5 +1,18 @@
 <?php
 define('ROOT', '../../../..');
+$IV = array(
+	'POST' => array(
+		'visibility' => array('int', 0, 3),
+		'category' => array('int', 'default' => 0),
+		'title' => array('string'),
+		'content' => array('string'),
+		'location' => array('string', 'default' => '/'),
+		'tag' => array('string', 'default' => ''),
+		'acceptComment' => array(array('0', '1'), 'default' => '0'),
+		'acceptTrackback' => array(array('0', '1'), 'default' => '0'),
+		'published' => array('int', 0, 2, 'default' => 1)
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 $entry['visibility'] = $_POST['visibility'];
 $entry['category'] = empty($_POST['category']) ? 0 : $_POST['category'];

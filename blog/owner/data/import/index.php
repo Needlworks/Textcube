@@ -1,6 +1,16 @@
 <?php
 ini_set('display_errors', 'off');
 define('ROOT', '../../../..');
+$IV = array(
+	'POST' => array(
+		'importFrom' => array(array('server', 'uploaded', 'web')),
+		'backupURL' => array('url', 'mandatory' => false),
+		'correctData' => array(array('on'), 'mandatory' => false)
+	),
+	'FILES' => array(
+		'backupPath' => array('file', 'mandatory' => false)
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">

@@ -1,5 +1,10 @@
 <?php
 define('ROOT', '../../../..');
+$IV = array(
+	'POST' => array(
+		'perPage' => array('int', 10, 30, 'mandatory' => false)
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/header4.php';
 require ROOT . '/lib/piece/owner/contentMenu41.php';

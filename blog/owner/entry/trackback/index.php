@@ -1,5 +1,22 @@
 <?php
 define('ROOT', '../../../..');
+if (isset($_POST['page']))
+	$_GET['page'] = $_POST['page'];
+if(count($_POST) > 0) {
+	$IV = array(
+		'GET' => array(
+			'page' => array('int', 1, 'default' => 1)
+		),
+		'POST' => array(
+			'category' => array('int', 'default' => 0),
+			'site' => array('string', 'default' => ''),
+			'ip' => array('ip', 'default' => ''),
+			'withSearch' => array(array('on'), 'mandatory' => false),
+			'search' => array('string', 'default' => ''),
+			'perPage' => array('int', 10, 30, 'mandatory' => false)
+		)
+	);
+}
 require ROOT . '/lib/includeForOwner.php';
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $site = empty($_GET['site']) ? '' : $_GET['site'];
@@ -67,18 +84,17 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 										if (!confirm("<?php echo _t('선택된 트랙백을 삭제합니다. 계속 하시겠습니까?')?>"))
 											return false;
 										var oElement;
-											var targets = '';
+											var targets = new Array();
 										for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
 											oElement = document.getElementById('list-form').elements[i];
-											if ((oElement.name == "entry") && oElement.checked) {
-												targets+=oElement.value+'~*_)';
-											}
+											if ((oElement.name == "entry") && oElement.checked)
+												targets[targets.length] = oElement.value;
 										}
 										var request = new HTTPRequest("POST", "<?php echo $blogURL?>/owner/entry/trackback/delete/");
 										request.onSuccess = function() {
 											document.getElementById('list-form').submit();
 										}
-										request.send("targets=" + targets);
+										request.send("targets=" + targets.join(","));
 									} catch(e) {
 										alert(e.message);
 									}

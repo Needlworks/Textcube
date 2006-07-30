@@ -1,6 +1,12 @@
 <?php
 define('__TATTERTOOLS_MOBILE__', true);
 define('ROOT', '../../../../..');
+$IV = array(
+	'POST' => array(
+		'replyId' => array('id'),
+		'password' => array('string')
+	)
+);
 require ROOT . '/lib/include.php';
 list($entryId) = getCommentAttributes($owner, $_POST['replyId'], 'entry');
 if (deleteComment($owner, $_POST['replyId'], $entryId, isset($_POST['password']) ? $_POST['password'] : '') === false) {

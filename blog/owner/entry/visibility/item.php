@@ -1,5 +1,10 @@
 <?php
 define('ROOT', '../../../..');
+$IV = array(
+	'GET' => array(
+		'visibility' => array('int', 0, 3, 'default' => 0)
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 if (isset($_GET['javascript']) && $_GET['javascript'] == "disabled") {
 	switch ($_GET['command']) {

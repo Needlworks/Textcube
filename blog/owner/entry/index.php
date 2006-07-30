@@ -1,5 +1,14 @@
 <?php
 define('ROOT', '../../..');
+$IV = array(
+	'POST' => array(
+		'categoryAtHome' => array('int', 'mandatory' => false),
+		'category' => array('int', 'default' => 0),
+		'withSearch' => array(array('on'), 'mandatory' => false),
+		'search' => array('string', 'default' => ''),
+		'perPage' => array('int', 10, 30, 'mandatory' => false)
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 publishEntries();
 if (isset($_GET['category']))
@@ -243,17 +252,17 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 										case 'delete':
 											if (!confirm("<?php echo _t('선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?')?>"))
 												return false;
-											var targets = "";
+											var targets = new Array();
 											for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
 												var oElement = document.getElementById('list-form').elements[i];
 												if ((oElement.name == "entry") && oElement.checked)
-													targets += oElement.value +'~*_)';
+													targets[targets.length] = oElement.value;
 											}
 											var request = new HTTPRequest("POST", "<?php echo $blogURL?>/owner/entry/delete/");
 											request.onSuccess = function () {
 												document.getElementById('list-form').submit();
 											}
-											request.send("targets="+targets);
+											request.send("targets="+targets.join(","));
 											break;
 										case 'category':
 											var targets = "";

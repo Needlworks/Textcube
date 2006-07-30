@@ -1,9 +1,12 @@
 <?php
 define('__TATTERTOOLS_MOBILE__', true);
 define('ROOT', '../../..');
+$IV = array(
+	'GET' => array(
+		'f' => array('filename')
+	)
+);
 require ROOT . '/lib/include.php';
-if (empty($_GET['f']))
-	respondNotFoundPage();
 $imagePath = ROOT . "/attach/$owner/{$_GET['f']}";
 if ($fp = @fopen($imagePath, 'r')) {
 	$imageInfo = @getimagesize($imagePath);

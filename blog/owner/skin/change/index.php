@@ -1,5 +1,10 @@
 <?php
 define('ROOT', '../../../..');
+$IV = array(
+	'POST' => array(
+		'skinName' => array('string')
+	)
+);
 require ROOT . '/lib/includeForOwner.php';
 
 $branchFlag = isset($_GET['javascript']) && $_GET['javascript'] == "disabled" ? true : false;

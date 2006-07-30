@@ -1,5 +1,22 @@
 <?php
 define('ROOT', '../../../..');
+if (isset($_POST['page']))
+	$_GET['page'] = $_POST['page'];
+if(count($_POST) > 0) {
+	$IV = array(
+		'GET' => array(
+			'page' => array('int', 1, 'default' => 1)
+		),
+		'POST' => array(
+			'category' => array('int', 'default' => 0),
+			'name' => array('string', 'default' => ''),
+			'ip' => array('ip', 'default' => ''),
+			'withSearch' => array(array('on'), 'mandatory' => false),
+			'search' => array('string', 'default' => ''),
+			'perPage' => array('int', 10, 30, 'mandatory' => false)
+		)
+	);
+}
 require ROOT . '/lib/includeForOwner.php';
 requireComponent('Tattertools.Data.Filter');
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
@@ -32,19 +49,18 @@ require ROOT . '/lib/piece/owner/contentMenu01.php';
 										return false;
 									
 									var oElement;
-									var targets = '';
+									var targets = new Array();
 									for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
 										oElement = document.getElementById('list-form').elements[i];
-										if ((oElement.name == "entry") && oElement.checked) {
-											targets += oElement.value +'~*_)';
-										}
+										if ((oElement.name == "entry") && oElement.checked)
+											targets[targets.length] = oElement.value;
 									}
 									
 									var request = new HTTPRequest("POST", "<?php echo $blogURL?>/owner/entry/comment/delete/");
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
-									request.send("targets=" + targets);
+									request.send("targets=" + targets.join(","));
 								}
 								
 								function checkAll(checked) {

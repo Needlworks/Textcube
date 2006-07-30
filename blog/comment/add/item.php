@@ -1,12 +1,28 @@
 <?php
 define('ROOT', '../../..');
 require ROOT . '/lib/include.php';
+$entryId = $suri['id'];
+$IV = array(
+	'GET' => array(
+		'__T__' => array('any', 13, 13)
+	),
+	'POST' => array(
+		'key' => array('string', 32, 32),
+		"name_$entryId" => array('string', 'mandatory' => false),
+		"password_$entryId" => array('string', 'mandatory' => false),
+		"secret_$entryId" => array(array('1'), 'mandatory' => false),
+		"homepage_$entryId" => array('string', 'default' => 'http://'),
+		"comment_$entryId" => array('string', 'mandatory' => false)
+	)
+);
+if(!Validator::validate($IV))
+	printRespond(array('error' => 1, 'description' => 'Illigal parameters'));
+requireStrictRoute();
 header('Content-Type: text/xml; charset=utf-8');
 if (!isset($_GET['__T__']) || !isset($_POST['key']) || $_POST['key'] != md5(filemtime(ROOT . '/config.php'))) {
 	print ("<?xml version=\"1.0\" encoding=\"utf-8\"?><response><error>0</error><commentBlock></commentBlock><recentCommentBlock></recentCommentBlock></response>");
 	exit;
 }
-$entryId = $suri['id'];
 $userName = isset($_POST["name_$entryId"]) ? $_POST["name_$entryId"] : '';
 $userPassword = isset($_POST["password_$entryId"]) ? $_POST["password_$entryId"] : '';
 $userEmail = isset($_POST["email_$entryId"]) ? $_POST["email_$entryId"] : '';

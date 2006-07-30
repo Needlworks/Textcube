@@ -11,12 +11,55 @@ else
 	$_POST['requestURI'] = $_SERVER['HTTP_REFERER'];
 $message = '';
 $showPasswordReset = false;
-if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
+
+if (isset($_GET['session']) && isset($_GET['requestURI'])) {
+	$IV = array(
+		'GET' => array(
+			'session' => array('string', 16, 16),
+			'requestURI' => array('string')
+		)
+	);
+	if(!Validator::validate($IV))
+		respondNotFoundPage();
+	header('Set-Cookie: TSSESSION=' . $_GET['session'] . '; path=/; domain=' . $_SERVER['HTTP_HOST']);
+	header('Location: ' . $_GET['requestURI']);
+	exit;
+} else if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
+	$IV = array(
+		'GET' => array(
+			'try' => array('int', 0, 'default' => 0),
+			'throughDaum' => array(array('true'), 'mandatory' => false)
+		),
+		'POST' => array(
+			'loginid' => array('string'),
+			'reset' => array(array('on')),
+
+			'requestURI' => array('string'),
+			'save' => array(array('on'), 'mandatory' => false)
+		)
+	);
+	if(!Validator::validate($IV))
+		respondNotFoundPage();
 	if (resetPassword($owner, $_POST['loginid']))
 		$message = _text('지정된 이메일로 로그인 정보가 전달되었습니다.');
 	else
 		$message = _text('권한이 없습니다.');
 } else if (!empty($_POST['loginid']) && !empty($_POST['password'])) {
+	$IV = array(
+		'GET' => array(
+			'try' => array('int', 0, 'default' => 0),
+			'throughDaum' => array(array('true'), 'mandatory' => false)
+		),
+		'POST' => array(
+			'loginid' => array('string'),
+			'password' => array('string'),
+			
+			'requestURI' => array('string'),
+			'save' => array(array('on'), 'mandatory' => false)
+		)
+	);
+	if(!Validator::validate($IV))
+		respondNotFoundPage();
 	if (!login($_POST['loginid'], $_POST['password'])) {
 		$message = _text('아이디 또는 비밀번호가 틀렸습니다.');
 		if (!doesHaveMembership() && isLoginId($owner, $_POST['loginid']))

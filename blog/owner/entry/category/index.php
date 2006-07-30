@@ -1,5 +1,16 @@
 <?php
 define('ROOT', '../../../..');
+if(count($_POST) > 0) {
+	$IV = array(
+		'POST' => array(
+			'deleteCategory' => array('id', 'mandatory' => false),
+			'direction' => array(array('up', 'down'), 'mandatory' => false),
+			'id' => array('int', 'mandatory' => false),
+			'newCategory' => array('string', 'mandatory' => false),
+			'modifyCategoryName' => array('string', 'mandatory' => false)
+		)
+	);
+}
 require ROOT . '/lib/includeForOwner.php';
 if (!empty($_POST['id']))
 	$selected = $_POST['id'];

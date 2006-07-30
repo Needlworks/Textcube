@@ -1,5 +1,12 @@
 <?php
 define('ROOT', '../..');
+$IV = array(
+	'GET' => array(
+		'id' => array('string', 'default' => false),
+		'cursor' => array('int', 'default' => false),
+		'filter' => array('string', 'default' => '1')
+	)
+);
 require ROOT . '/lib/include.php';
 header('Content-Type: text/xml; charset=utf-8');
 $id = isset($_GET['id']) ? $_GET['id'] : false;
