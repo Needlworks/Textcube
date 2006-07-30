@@ -6,6 +6,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 
 $branchFlag = isset($_GET['javascript']) && $_GET['javascript'] == "disabled" ? true : false;
 $result = $branchFlag ? selectSkin($owner, $_GET['skinName']) : selectSkin($owner, $_POST['skinName']);

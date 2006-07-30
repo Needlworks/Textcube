@@ -1,6 +1,7 @@
 <?php
 define('ROOT', '../../..');
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 $entryId = deleteTrackback($owner, $suri['id']);
 if ($entryId !== false) {
 	$skin = new Skin($skinSetting['skin']);

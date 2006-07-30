@@ -14,6 +14,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 $entry['id'] = $suri['id'];
 $entry['draft'] = 1;
 $entry['visibility'] = $_POST['visibility'];

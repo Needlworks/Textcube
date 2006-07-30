@@ -7,6 +7,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 $result = array('error' => deleteFeed($owner, $_POST['id']));
 ob_start();
 printFeeds($owner, $_POST['group']);

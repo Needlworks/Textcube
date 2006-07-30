@@ -261,19 +261,13 @@ function getUpperView($paging) {
 <?php 
 	}
 ?>
-			
 			function reloadEntry(id) {
 				var password = document.getElementById("entry" + id + "password");
 				if (!password)
 					return;
 				document.cookie = "GUEST_PASSWORD=" + escape(password.value) + ";path=<?php echo $blogURL?>";
-				
-				var request = new HTTPRequest("POST", "<?php echo $blogURL?>/" + id);
-				request.async = false;
-				request.send("partial=");
-				var entry = document.getElementById("entry" + id);
-				if (entry)
-					entry.innerHTML = request.getText();
+
+				window.location.href = window.location.href;				
 			}
 		//]]>
 	</script>
@@ -305,7 +299,7 @@ function getScriptsOnFoot() {
 }
 
 function getTrackbacksView($entryId, & $skin) {
-	global $suri, $hostURL, $blogURL, $service, $skinSetting;
+	global $suri, $defaultURL, $skinSetting;
 	$trackbacksView = '';
 	foreach (getTrackbacks($entryId) as $trackback) {
 		$trackbackView = "<a id=\"trackback{$trackback['id']}\"></a>" . $skin->trackback;

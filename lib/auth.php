@@ -29,10 +29,13 @@ function logout() {
 
 function requireLogin() {
 	global $service, $hostURL, $blogURL;
-	if (!empty($service['loginURL']))
+	if (!empty($service['loginURL'])) {
 		header("Location: {$service['loginURL']}?requestURI=" . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}"));
-	else {
-		header("Location: $blogURL/login?requestURI=" . rawurlencode("{$_SERVER['REQUEST_URI']}"));
+	} else {
+		if (String::endsWith($_SERVER['HTTP_HOST'], '.' . $service['domain']))
+			header("Location: $blogURL/login?requestURI=" . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}"));
+		else
+			header('Location: ' . getBlogURL() . '/login?requestURI=' . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}"));
 	}
 	exit;
 }
@@ -65,6 +68,27 @@ function requireOwnership() {
 		return true;
 	requireLogin();
 	return false;
+}
+
+function requireStrictRoute() {
+	if (isset($_SERVER['HTTP_REFERER']) && ($url = parse_url($_SERVER['HTTP_REFERER'])) && ($url['host'] == $_SERVER['HTTP_HOST']))
+		return;
+	header('HTTP/1.1 412 Precondition Failed');
+	header('Content-Type: text/html');
+	header("Connection: close");
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Precondition Failed</title>
+</head>
+<body>
+<h1>Precondition Failed</h1>
+</body>
+</html>
+<?
+	exit;
 }
 
 function isLoginId($userid, $loginid) {

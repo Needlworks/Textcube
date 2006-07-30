@@ -6,5 +6,6 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 respondResultPage(markAsUnread($owner, $_POST['id']));
 ?>

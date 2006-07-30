@@ -1,12 +1,11 @@
 <?php
 
 function refreshRSS($owner) {
-	global $database;
-	global $hostURL, $blogURL, $blog;
+	global $database, $serviceURL, $defaultURL, $blog;
 	$channel = array();
 	$author = fetchQueryCell("SELECT CONCAT(' (', name, ')') FROM {$database['prefix']}Users WHERE userid = $owner");
 	$channel['title'] = $blog['title'];
-	$channel['link'] = "$hostURL$blogURL/";
+	$channel['link'] = "$defaultURL/";
 	$channel['description'] = $blog['description'];
 	$channel['language'] = $blog['language'];
 	$channel['pubDate'] = Timestamp::getRFC1123();
@@ -21,24 +20,25 @@ function refreshRSS($owner) {
 	while ($row = mysql_fetch_array($result)) {
 		if (!$blog['publishWholeOnRSS']) {
 			$content = UTF8::lessen(removeAllTags(stripHTML($row['content'])), 255) . "<p><strong><a href=\"$hostURL$blogURL/" . ($blog['useSlogan'] ? "entry/{$row['slogan']}" : $row['id']) . "\">" . _text('글 전체보기') . "</a></strong></p>";
+			$content = UTF8::lessen(removeAllTags(stripHTML($row['content'])), 255) . "<p><strong><a href=\"$defaultURL/" . ($blog['useSlogan'] ? "entry/{$row['slogan']}" : $row['id']) . "\">" . _t('글 전체보기') . "</a></strong></p>";
 		} else {
 			$content = $row['content'];
 		}
 		$item = array(
 			'id' => $row['id'], 
 			'title' => $row['title'], 
-			'link' => "$hostURL$blogURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']), 
+			'link' => "$defaultURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']), 
 			'categories' => array(), 'description' => $content, 
 			'author' => $author, 
 			'pubDate' => Timestamp::getRFC1123($row['published']),
-			'comments' => "$hostURL$blogURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']) . '#entry' . $row['id'] . 'comment',
-			'guid' => "$hostURL$blogURL/" . $row['id']
+			'comments' => "$defaultURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']) . '#entry' . $row['id'] . 'comment',
+			'guid' => "$defaultURL/" . $row['id']
 		);
 		if (!empty($row['id'])) {
 			$sql = "SELECT name, size, mime FROM {$database['prefix']}Attachments WHERE parent= {$row['id']} AND owner =$owner AND enclosure = 1";
 			$attaches = fetchQueryRow($sql);
 			if (count($attaches) > 0) {
-				$item['enclosure'] = array('url' => "$hostURL$blogURL/attach/$owner/{$attaches['name']}", 'length' => $attaches['size'], 'type' => $attaches['mime']);
+				$item['enclosure'] = array('url' => "$serviceURL/attach/$owner/{$attaches['name']}", 'length' => $attaches['size'], 'type' => $attaches['mime']);
 			}
 		}
 		array_push($item['categories'], $row['categoryName']);

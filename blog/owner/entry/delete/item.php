@@ -1,6 +1,7 @@
 <?php
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 if (isset($_GET['javascript']) && $_GET['javascript'] == "disabled") {
 	deleteEntry($owner, $suri['id']);
 	header("Location: ".$_SERVER['HTTP_REFERER']);

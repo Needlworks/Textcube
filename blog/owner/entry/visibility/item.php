@@ -6,6 +6,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 if (isset($_GET['javascript']) && $_GET['javascript'] == "disabled") {
 	switch ($_GET['command']) {
 		case "protect":
@@ -27,4 +28,5 @@ if (isset($_GET['javascript']) && $_GET['javascript'] == "disabled") {
 } else {
 	respondResultPage(setEntryVisibility($suri['id'], isset($_GET['visibility']) ? $_GET['visibility'] : 0));
 }
+respondResultPage(setEntryVisibility($suri['id'], isset($_GET['visibility']) ? $_GET['visibility'] : 0));
 ?>

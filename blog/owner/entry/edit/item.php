@@ -307,6 +307,16 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 								}
 								
 								var entryManager;
+
+								function keepSessionAlive() {
+									var request = new HTTPRequest("<?=$blogURL?>/owner/keep/");
+									request.persistent = false;
+									request.onVerify = function () {
+										return true;
+									}
+									request.send();
+								}
+								window.setInterval("keepSessionAlive()", 600000);
 								
 								function changeEditorMode() {
 									editWindow = document.getElementById("editWindow");
@@ -359,6 +369,8 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 						<form method="post" action="<?php echo $blogURL?>/owner/entry">
 							<div id="part-editor" class="part">
 								<h2 class="caption"><span class="main-text"><?php
+
+
 if (defined('__TATTERTOOLS_POST__')) {
 	if (defined('__TATTERTOOLS_NOTICE__')) {
 		echo _t('공지를 작성합니다');

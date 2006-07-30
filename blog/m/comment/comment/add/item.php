@@ -2,6 +2,7 @@
 define('__TATTERTOOLS_MOBILE__', true);
 define('ROOT', '../../../../..');
 require ROOT . '/lib/include.php';
+requireStrictRoute();
 $replyId = $suri['id'];
 $IV = array(
 	'POST' => array(

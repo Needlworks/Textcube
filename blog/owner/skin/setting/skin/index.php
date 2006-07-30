@@ -21,6 +21,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 if (setSkinSetting($owner, $_POST)) {
 	printRespond(array('error' => 0));
 } else {

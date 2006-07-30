@@ -8,5 +8,6 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 respondResultPage(addLink($owner, $_POST));
 ?>

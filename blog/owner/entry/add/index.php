@@ -14,6 +14,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 $entry['visibility'] = $_POST['visibility'];
 $entry['category'] = empty($_POST['category']) ? 0 : $_POST['category'];
 $entry['title'] = $_POST['title'];

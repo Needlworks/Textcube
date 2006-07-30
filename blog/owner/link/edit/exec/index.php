@@ -9,5 +9,6 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 respondResultPage(updateLink($owner, $_POST));
 ?>

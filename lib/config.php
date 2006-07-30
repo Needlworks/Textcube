@@ -35,4 +35,18 @@ requireComponent('Eolin.PHP.UnifiedEnvironment');
 requireComponent('Eolin.PHP.Core');
 requireComponent('Tattertools.Core');
 requireComponent('Tattertools.Core.BackwardCompatibility');
+
+if (isset($IV)) {
+	if (!Validator::validate($IV)) {
+		header('HTTP/1.1 404 Not Found');
+		exit;
+	}
+}
+
+$basicIV = array(
+	'SCRIPT_NAME' => array('string'),
+	'REQUEST_URI' => array('string'),
+	'REDIRECT_URL' => array('string', 'mandatory' => false)
+);
+Validator::validateArray($_SERVER, $basicIV);
 ?>

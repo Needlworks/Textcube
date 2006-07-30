@@ -11,5 +11,6 @@ $IV = array(
 );
 
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 respondResultPage(setReaderSetting($owner, $_POST));
 ?>

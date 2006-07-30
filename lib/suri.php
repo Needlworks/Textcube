@@ -38,6 +38,7 @@ if ($service['type'] == 'single') {
 	if ($owner === null)
 		respondNotFoundPage();
 }
+
 $blog = getBlogSetting($owner);
 $skinSetting = getSkinSetting($owner);
 $depth = substr_count(ROOT, '/');
@@ -55,9 +56,49 @@ if ($depth > 0) {
 if (is_numeric($suri['value']))
 	$suri['id'] = $suri['value'];
 $suri['page'] = empty($_POST['page']) ? (empty($_GET['page']) ? true : $_GET['page']) : $_POST['page'];
-$hostURL = "http://{$_SERVER['HTTP_HOST']}" . (isset($service['port']) ? ":{$service['port']}" : '');
-$blogURL = $service['type'] == 'path' ? "{$service['path']}/{$blog['name']}" : $service['path'];
+
+$serviceURL = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $service['path'];
+switch ($service['type']) {
+	case 'domain':
+		$pathURL = $service['path'];
+		if ($blog['defaultDomain'] && $blog['secondaryDomain']) {
+			$defaultURL = 'http://' . $blog['secondaryDomain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+			if ($_SERVER['HTTP_HOST'] == $blog['secondaryDomain'])
+				$baseURL = $service['path'];
+			else
+				$baseURL = $defaultURL;
+		} else {
+			$defaultURL = 'http://' . $blog['name'] . '.' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+			if ($_SERVER['HTTP_HOST'] == ($blog['name'] . '.' . $service['domain']))
+				$baseURL = $service['path'];
+			else
+				$baseURL = $defaultURL;
+		}
+		break;
+	case 'path':
+		$pathURL = $service['path'] . '/' . $blog['name'];
+		$defaultURL = 'http://' . $blog['secondaryDomain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+		if ($_SERVER['HTTP_HOST'] == $service['domain'])
+			$baseURL = $service['path'] . '/' . $blog['name'];
+		else
+			$baseURL = $defaultURL;
+		break;
+	case 'single':
+	default:
+		$pathURL = $service['path'];
+		$defaultURL = 'http://' . $blog['secondaryDomain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+		if ($_SERVER['HTTP_HOST'] == $service['domain'])
+			$baseURL = $service['path'];
+		else
+			$baseURL = $defaultURL;
+		break;
+}
+
+$hostURL = 'http://' . $_SERVER['HTTP_HOST'] . (isset($service['port']) ? ':' . $service['port'] : '');
+$blogURL = $pathURL;
 $folderURL = rtrim($blogURL . $suri['directive'], '/');
+
+
 if (defined('__TATTERTOOLS_MOBILE__')) {
 	$blogURL .= '/m';
 }

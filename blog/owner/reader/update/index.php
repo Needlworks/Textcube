@@ -1,6 +1,7 @@
 <?php
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 set_time_limit(360);
 ob_implicit_flush();
 ?>

@@ -18,6 +18,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/include.php';
+
 if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];
 if (isset($_GET['password']))
@@ -43,16 +44,20 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 		if (!doesHaveMembership() && isLoginId($owner, $_POST['loginid']))
 			$showPasswordReset = true;
 	}
-	if (doesHaveMembership()) {
-		if (!empty($_POST['requestURI']))
+}
+
+if (doesHaveOwnership()) {
+	if (!empty($_POST['requestURI'])) {
+		if (($url = parse_url($_POST['requestURI'])) && isset($url['host']) && !String::endsWith($url['host'], '.' . $service['domain']))
+			header("Location: http://{$url['host']}{$service['path']}/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id()));
+		else
 			header("Location: {$_POST['requestURI']}");
-		else {
-			$blog = getBlogSetting($_SESSION['userid']);
-			header("Location: $blogURL");
-		}
-		exit;
+	} else {
+		$blog = getBlogSetting($_SESSION['userid']);
+		header("Location: $blogURL");
 	}
-} else if (doesHaveMembership() && !doesHaveOwnership()) {
+	exit;
+} else if (doesHaveMembership()) {
 	$message = _text('권한이 없습니다.');
 }
 ?>

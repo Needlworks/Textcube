@@ -536,13 +536,12 @@ function protectEntry($id, $password) {
 }
 
 function syndicateEntry($id, $syndicate = true) {
-	global $database, $owner;
-	global $hostURL, $blogURL;
+	global $database, $owner, $defaultURL;
 	$mode = ($syndicate ? 1 : 0);
 	requireComponent('Eolin.PHP.HTTPRequest');
 	$request = new HTTPRequest('POST', TATTERTOOLS_SYNC_URL);
 	$request->contentType = 'application/x-www-form-urlencoded; charset=utf-8';
-	if ($request->send("mode=$mode&path=" . urlencode("$hostURL$blogURL/sync/$id")) && (checkResponseXML($request->responseText) === 0))
+	if ($request->send("mode=$mode&path=" . urlencode("$defaultURL/sync/$id")) && (checkResponseXML($request->responseText) === 0))
 		return true;
 	return false;
 }

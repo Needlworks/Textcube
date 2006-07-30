@@ -6,6 +6,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 foreach(explode(',', $_POST['targets']) as $target) {
 	if (!deleteEntry($owner, $target))
 		respondResultPage(-1);

@@ -12,6 +12,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 if (setTreeSetting($owner, $_POST)) {
 	header("Location: $blogURL/owner/skin/setting");
 } else {
