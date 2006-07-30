@@ -100,13 +100,13 @@ function addAttachment($owner, $parent, $file) {
 
 function deleteAttachment($owner, $parent, $name) {
 	global $database;
-	@unlink(ROOT . "/attach/$owner/$name");
-	clearRSS();
-	if ($parent === false) {
-		return true;
-	}
-	$name = mysql_escape_string($name);
-	if (mysql_query("delete from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
+	if (!Validator::filename($name)) 
+		return false;
+	$origname = $name;
+	$name = mysql_real_escape_string($name);
+	if (DBQuery::query("delete from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
+		@unlink(ROOT . "/attach/$owner/$origname");
+		clearRSS();
 		return true;
 	}
 	return false;
@@ -129,12 +129,12 @@ function deleteAttachmentMulti($owner, $parent, $names) {
 	foreach ($files as $name) {
 		if ($name == '')
 			continue;
-		unlink(ROOT . "/attach/$owner/$name");
-		if ($parent === false) {
+		if (!Validator::filename($name)) 
 			continue;
-		}
-		$name = mysql_escape_string($name);
-		if (mysql_query("delete from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
+		$origname = $name;
+		$name = mysql_real_escape_string($name);
+		if (DBQuery::query("delete from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
+			unlink(ROOT . "/attach/$owner/$origname");
 		} else {
 		}
 	}
