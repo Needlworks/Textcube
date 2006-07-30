@@ -13,7 +13,7 @@ ob_implicit_flush();
 		<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
-				var servicePath = "<?php echo $blogURL?>";
+				var servicePath = "<?php echo $service['path']?>";
 				var blogURL = "<?php echo $blogURL?>";
 				var adminSkin = "<?php echo $adminSkinSetting['skin']?>";
 			//]]>
