@@ -61,6 +61,14 @@ class Skin {
 
 	function Skin($name) {
 		global $service, $blogURL;
+		global $owner;
+		
+		if (strncmp($name, 'customize/', 10) == 0) {
+			$name = "customize/$owner";
+		} else {
+			$name = Path::getBaseName($name);
+		}
+		
 		$filename = ROOT . "/skin/$name/skin.html";
 		if (!$sval = file_get_contents($filename))
 			respondErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
