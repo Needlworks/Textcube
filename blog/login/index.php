@@ -7,7 +7,6 @@ $IV = array(
 		'requestURI' => array('string', 'default' => null ),
 		'session' => array('string' , 16, 16, 'default' => null),
 		'try' => array(array(1,2,3), 'default' => null),
-		'throughDaum' => array(array('true'), 'default' => null) 
 	),
 	'POST' => array(
 		'loginid' => array('string', 'default' => null),
