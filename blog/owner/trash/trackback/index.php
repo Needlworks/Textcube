@@ -1,5 +1,22 @@
 <?php
 define('ROOT', '../../../..');
+if (isset($_POST['page']))
+	$_GET['page'] = $_POST['page'];
+if(count($_POST) > 0) {
+	$IV = array(
+		'GET' => array(
+			'page' => array('int', 1, 'default' => 1)
+		),
+		'POST' => array(
+			'category' => array('int', 'default' => 0),
+			'site' => array('string', 'default' => ''),
+			'ip' => array('ip', 'default' => ''),
+			'withSearch' => array(array('on'), 'mandatory' => false),
+			'search' => array('string', 'default' => ''),
+			'perPage' => array('int', 10, 30, 'mandatory' => false)
+		)
+	);
+}
 require ROOT . '/lib/includeForOwner.php';
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $site = empty($_GET['site']) ? '' : $_GET['site'];

@@ -9,6 +9,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 requireComponent('Tattertools.Data.Filter');
 $filter = new Filter();
 
