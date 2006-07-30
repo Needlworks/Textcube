@@ -1,18 +1,17 @@
 <?php
 define('ROOT', '../../..');
+$IV = array(
+	'POST' => array(
+		'name' => array('string', 'default' => ''),
+		'comment' => array('string' , 'default' => ''),
+		'mode' => array(array('commit') , 'default' => ''),
+		'homepage' => array('string', 'default' => ''),
+		'password' => array('string' , 'default' => ''),
+		'secret' => array(array('on'), 'default' => null)
+	)
+);
 require ROOT . '/lib/include.php';
 if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']) && !empty($_POST['mode']) && ($_POST['mode'] == 'commit')) {
-	$IV = array(
-		'POST' => array(
-			'name' => array('string', 'default' => ''),
-			'password' => array('string', 'default' => ''),
-			'secret' => array(array('on'), 'mandatory' => false),
-			'homepage' => array('string', 'default' => 'http://'),
-			'comment' => array('string', 'default' => '')
-		)
-	);
-	if(!Validator::validate($IV))
-		respondNotFoundPage();
 	if (!empty($_POST['name']))
 		setcookie('guestName', $_POST['name'], time() + 2592000, "$blogURL/");
 	if (!empty($_POST['email']))

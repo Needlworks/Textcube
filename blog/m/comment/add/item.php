@@ -5,11 +5,11 @@ require ROOT . '/lib/include.php';
 $entryId = $suri['id'];
 $IV = array(
 	'POST' => array(
-		"name_$entryId" => array('string', 'mandatory' => false),
-		"password_$entryId" => array('string'),
-		"secret_$entryId" => array(array('on'), 'mandatory' => false),
+		"name_$entryId" => array('string', 'default' => null),
+		"password_$entryId" => array('string', 'default' => ''),
+		"secret_$entryId" => array(array('on'), 'default' => null),
 		"homepage_$entryId" => array('string', 'default' => 'http://'),
-		"comment_$entryId" => array('string', 'mandatory' => false)
+		"comment_$entryId" => array('string', 'default' => '')
 	)
 );
 if(!Validator::validate($IV))

@@ -4,11 +4,11 @@ define('ROOT', '../../../..');
 $IV = array(
 	'POST' => array(
 		'importFrom' => array(array('server', 'uploaded', 'web')),
-		'backupURL' => array('url', 'mandatory' => false),
-		'correctData' => array(array('on'), 'mandatory' => false)
+		'backupURL' => array('url', 'default' => null),
+		'correctData' => array(array('on'), 'default' => null)
 	),
 	'FILES' => array(
-		'backupPath' => array('file', 'mandatory' => false)
+		'backupPath' => array('file', 'default' => array() )
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
