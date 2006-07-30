@@ -7,7 +7,7 @@ $IV = array(
 		'page' => array('int', 1, 'default' => 1)
 	),
 	'POST' => array(
-		'perPage' => array('int', 1, 'mandatory' => false)
+		'perPage' => array('int', 1, 'default' => 20)
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
