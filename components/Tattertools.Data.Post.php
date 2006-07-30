@@ -310,7 +310,9 @@ class Post {
 		
 		$tags = explode(',', $entryTag);
 		
-		foreach ($tags as &$tag) {
+		$ret = array();
+		
+		foreach ($tags as $tag) {
 			$tag = mysql_lessen($tag, 255, '');
 			$tag = str_replace('&quot;', '"', $tag);
 			$tag = str_replace('&#39;', '\'', $tag);
@@ -319,9 +321,11 @@ class Post {
 			$tag = preg_replace('/^(-|\s)+/', '', $tag);
 			$tag = preg_replace('/(-|\s)+$/', '', $tag);
 			$tag = trim($tag);
+			
+			array_push($ret, $tag);
 		}
 		
-		return $tags;
+		return $ret;
 	}	
 
 	/*@protected@*/
