@@ -272,15 +272,12 @@ if ($service['type'] != 'single') {
 												var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/setting/blog/timezone?timezone=" + encodeURIComponent(document.getElementById('language-form').timezone.value));
 												request.onSuccess = function() {
 													timezone = document.getElementById('language-form').timezone.value;
-													window.location.href = "<?php echo $blogURL?>/owner/setting/blog";
 												}
 												request.onError = function() {
 													alert("<?php echo _t('블로그 시간대를 변경할 수 없습니다.')?>");
 													window.location.href = "<?php echo $blogURL?>/owner/setting/blog";
 												}
 												request.send();
-											} else {
-												window.location.href = "<?php echo $blogURL?>/owner/setting/blog";
 											}
 										}
 										request.onError = function() {
