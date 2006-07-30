@@ -7,6 +7,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 		'POST' => array(
 			'mode' => array('any'),
 			's_home_title' => array('string'),
+			's_home' => array('string'),
 			's_no' => array('id'),
 			'url' => array('string'),
 			's_url' => array('string'),
