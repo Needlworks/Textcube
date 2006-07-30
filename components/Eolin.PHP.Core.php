@@ -458,11 +458,6 @@ class Validator {
 	}
 	
 	/*@static@*/
-	function domain($domain) {
-		return preg_match('/^([[:alnum:]]+(-[[:alnum:]]+)*\\.)+[[:alnum:]]+(-[[:alnum:]]+)*$/', $domain);
-	}
-	
-	/*@static@*/
 	function isList($value) {
 		if (!preg_match('/^[1-9][0-9]{0,9}(,[1-9][0-9]{0,9})*,?$/', $value))
 			return false;
