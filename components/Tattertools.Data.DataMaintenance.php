@@ -3,6 +3,9 @@ class DataMaintenance {
 	/*@static@*/
 	function removeAll($removeAttachments = true) {
 		global $database, $owner;
+		
+		$tags = DBQuery::queryColumn("SELECT tag FROM {$database['prefix']}TagRelations WHERE owner = $owner");
+		
 		mysql_query("UPDATE {$database['prefix']}BlogStatistics SET visits = 0 WHERE owner = $owner");
 		mysql_query("DELETE FROM {$database['prefix']}DailyStatistics WHERE owner = $owner");
 		mysql_query("DELETE FROM {$database['prefix']}Categories WHERE owner = $owner");
@@ -22,6 +25,9 @@ class DataMaintenance {
 		mysql_query("DELETE FROM {$database['prefix']}FeedReads WHERE owner = $owner");
 		mysql_query("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE owner = $owner");
 		mysql_query("DELETE FROM {$database['prefix']}FeedGroups WHERE owner = $owner AND id <> 0");
+		
+		$tagliststr = implode(', ', $tags);
+		DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id in ( $tagliststr ) AND NOT EXISTS (SELECT * FROM {$database['prefix']}TagRelations WHERE (tag = id))");
 		
 		if (file_exists(ROOT . "/cache/rss/$owner.xml"))
 			unlink(ROOT . "/cache/rss/$owner.xml");

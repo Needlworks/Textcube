@@ -122,7 +122,7 @@ class Post {
 				mysql_query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin + 1 WHERE owner = $owner AND " . $target);
 		}
 		$this->saveSlogan();
-		$this->saveTags();
+		$this->addTags();
 		if (($this->visibility == 'public') || ($this->visibility == 'syndicated')) {
 			requireComponent('Tattertools.Control.RSS');
 			RSS::refresh();
@@ -139,18 +139,55 @@ class Post {
 		return true;
 	}
 	
-	function remove($id) { 
-		global $database, $owner; 
-		if (!is_numeric($id)) { 
-			return false; 
-		} 
-		$result = mysql_query("DELETE FROM FROM {$database['prefix']}Entries WHERE owner = $owner AND category >= 0 id = $id"); 
-		if ($result && ($this->_count = mysql_affected_rows()))
+	function remove($id) { // attachment & category is own your risk!
+		global $database, $owner;
+		// step 0. Get Information
+		if (!isset($this->id) || !Validator::number($this->id, 1))
+			return $this->_error('id');
+
+		if (!$query = $this->_buildQuery())
+			return false;
+			
+		if (!$entry = $query->getRow('category, visibility'))
+			return $this->_error('id');
+			
+		// step 1. Check Syndication
+		if ($old['visibility'] == 3) {
+			requireComponent('Eolin.API.Syndication');
+			Syndication::leave($this->getLink());
+		}
+		
+		// step 2. Delete Entry
+		$result = DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $this->id");
+		if (mysql_affected_rows() > 0) {
+		// step 3. Delete Comment
+			DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $this->id");
+		
+		// step 4. Delete Trackback
+			DBQuery::query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $this->id");
+		
+		// step 5. Delete Trackback Logs
+			DBQuery::query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner AND entry = $this->id");
+		
+		// step 6. update Category
+			// TODO : Update Category
+		
+		// step 7. Delete Attachment
+			// TODO : Delete Attachment
+		
+		// step 8. Delete Tags
+			$this->deleteTags();
+		
+		// step 9. Clear RSS
+			requireComponent('Tattertools.Control.RSS');
+			RSS::refresh();
+		
 			return true;
+		}
 		return false;
 	}
 	
-	function update() {
+	function update() { // attachment & category is own your risk!
 		if (!isset($this->id) || !Validator::number($this->id, 1))
 			return $this->_error('id');
 
@@ -158,7 +195,9 @@ class Post {
 			return false;
 		if (!$old = $query->getRow('category, visibility'))
 			return $this->_error('id');
-		//TODO: $old['category']
+			
+		$bChangedCategory = ($old['category'] != $this->category);
+		
 		if ($old['visibility'] == 3) {
 			requireComponent('Eolin.API.Syndication');
 			Syndication::leave($this->getLink());
@@ -168,11 +207,16 @@ class Post {
 		
 		if (!$query->update())
 			return $this->_error('update');
+			
+		if ($bChangedCategory) {
+			// TODO : Recalculate Category
+		}
 
 		if (isset($this->slogan))
 			$this->saveSlogan();
-		if (isset($this->tags))
-			$this->saveTags();
+
+		$this->updateTags();
+
 		if ($this->visibility == 'syndicated') {
 			requireComponent('Eolin.API.Syndication');
 			if (!Syndication::join($this->getLink())) {
@@ -182,6 +226,9 @@ class Post {
 				$query->update();
 			}
 		}
+		requireComponent('Tattertools.Control.RSS');
+		RSS::refresh();
+		
 		return true;
 	}
 	
@@ -254,26 +301,74 @@ class Post {
 		return false;
 	}
 	
-	function saveTags() {
+	/*@static, protected@*/
+	function getTagsWithEntryString($entryTag) 
+	{
+		global $database;
+		if ($entryTag == null) 
+			return array();
+		
+		$tags = explode(',', $entryTag);
+		
+		foreach ($tags as &$tag) {
+			$tag = mysql_lessen($tag, 255, '');
+			$tag = str_replace('&quot;', '"', $tag);
+			$tag = str_replace('&#39;', '\'', $tag);
+			$tag = preg_replace('/ +/', ' ', $tag);
+			$tag = preg_replace('/[\x00-\x1f]|[\x7f]/', '', $tag);
+			$tag = preg_replace('/^(-|\s)+/', '', $tag);
+			$tag = preg_replace('/(-|\s)+$/', '', $tag);
+			$tag = trim($tag);
+		}
+		
+		return $tags;
+	}	
+
+	/*@protected@*/
+	function addTags() {
+		// Don't call outside of object!
 		global $database, $owner;
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (!is_array($this->tags)) {
-			$this->tags = trim($this->tags);
-			if (empty($this->tags))
-				return $this->_error('tags');
-			$this->tags = explode(',', $this->tags);
+			$this->tags = getTagsWithEntryString($this->tags);
 		}
 		if (empty($this->tags))
-			return $this->_error('tags');
+			return;
+		
 		requireComponent('Tattertools.Data.Tag');
-		foreach ($this->tags as $tag) {
-			$tagid = Tag::getId($tag, true); 
-			if ($tagid != null) {
-				if (!DBQuery::execute("INSERT INTO {$database['prefix']}TagRelations SELECT owner, $tagid ,id FROM {$database['prefix']}Entries WHERE owner = $owner AND id = {$this->id} AND draft = 0 AND category >= 0 LIMIT 1")) 
-					return $this->_error('insert');
-			}
+		Tag::addTagsWithEntryId($owner, $this->id, $this->tags);
+		
+		return true;
+	}
+	
+	/*@protected@*/
+	function updateTags() {
+		// Don't call outside of object!
+		global $database, $owner;
+		if (!Validator::number($this->id, 1))
+			return $this->_error('id');
+		if (!is_array($this->tags)) {
+			$this->tags = getTagsWithEntryString($this->tags);
+
 		}
+		
+		requireComponent('Tattertools.Data.Tag');
+		Tag::modifyTagsWithEntryId($owner, $this->id, $this->tags);
+		
+		return true;
+	}
+
+	/*@protected@*/
+	function deleteTags() {
+		// Don't call outside of object!
+		global $database, $owner;
+		if (!Validator::number($this->id, 1))
+			return $this->_error('id');
+		
+		requireComponent('Tattertools.Data.Tag');
+		Tag::deleteTagsWithEntryId($owner, $this->id);
+		
 		return true;
 	}
 	
