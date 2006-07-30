@@ -103,10 +103,12 @@ function getTagFrequency($tag, $max, $min) {
 }
 
 function deleteGarbageTags() {
-	global $database, $owner;
-	$gc = fetchQueryColumn("SELECT t.id FROM {$database['prefix']}Tags t LEFT JOIN {$database['prefix']}TagRelations r ON t.id = r.tag WHERE r.owner = $owner AND r.tag IS NULL");
+	return; // because of bug, deprecated.
+	/*global $database, $owner;
+	$gc = fetchQueryColumn("SELECT t.id FROM {$database['prefix']}Tags t 
+	LEFT JOIN {$database['prefix']}TagRelations r ON t.id = r.tag WHERE r.owner = $owner AND r.tag IS NULL");
 	foreach ($gc as $g)
-		mysql_query("DELETE FROM {$database['prefix']}Tags WHERE id = $g");
+		DBQuery::query("DELETE FROM {$database['prefix']}Tags WHERE id = $g");*/
 }
 
 function suggestLocalTags($owner, $filter) {
