@@ -862,7 +862,7 @@ function printEntryFileList($attachments, $entryId) {
 															+ '<param name="movie" value="<?php echo $service['path']?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="path=<?php echo $blogURL?>&owner=<?php echo $owner?>&entryid=<?php echo $entryId?>&enclosure=<?php echo $enclosureFileName?>&maxSize=<?php echo $maxSize?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION']?>" />'
 															+ '<embed id="uploader2" src="<?php echo $service['path']?>/script/uploader/uploader.swf" flashvars="path=<?php echo $blogURL?>&owner=<?php echo $owner?>&entryid=<?php echo $entryId?>&enclosure=<?php echo $enclosureFileName?>&maxSize=<?php echo $maxSize?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION']?>" width="1" height="1" align="middle" wmode="transparent" quality="high" class="color-ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
 														
-														if (hasRightVersion && isWin) {
+														if (hasRightVersion && isIE) {
 															writeCode(uploaderStr);
 														}
 													//]]>
