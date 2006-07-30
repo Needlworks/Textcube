@@ -26,8 +26,11 @@ class DataMaintenance {
 		mysql_query("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE owner = $owner");
 		mysql_query("DELETE FROM {$database['prefix']}FeedGroups WHERE owner = $owner AND id <> 0");
 		
-		$tagliststr = implode(', ', $tags);
-		DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id in ( $tagliststr ) AND NOT EXISTS (SELECT * FROM {$database['prefix']}TagRelations WHERE (tag = id))");
+		if (count($tags) > 0) 
+		{
+			$tagliststr = implode(', ', $tags);
+			DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id in ( $tagliststr ) AND NOT EXISTS (SELECT * FROM {$database['prefix']}TagRelations WHERE (tag = id))");
+		}
 		
 		if (file_exists(ROOT . "/cache/rss/$owner.xml"))
 			unlink(ROOT . "/cache/rss/$owner.xml");
