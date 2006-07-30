@@ -102,9 +102,10 @@ function getNumberEntryInCategories($id) {
 
 function addCategory($owner, $parent, $name) {
 	global $database;
+
 	if (empty($name))
 		return false;
-	if (!is_numeric($parent))
+	if (!is_null($parent) && !Validator::id($parent))
 		return false;
 	if ($parent !== null) {
 		$label = fetchQueryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $parent");
@@ -115,7 +116,7 @@ function addCategory($owner, $parent, $name) {
 		$parent = 'NULL';
 		$label = $name;
 	}
-	
+
 	$label = mysql_escape_string($label);
 	$name = mysql_escape_string($name);
 
