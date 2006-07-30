@@ -12,6 +12,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+define('__TATTERTOOLS_EDIT__', true);
 if (defined('__TATTERTOOLS_POST__'))
 	$suri['id'] = 0;
 if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {

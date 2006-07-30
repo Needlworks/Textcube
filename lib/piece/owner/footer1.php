@@ -32,13 +32,16 @@
 						return;
 				}
 				switch (oEvent.keyCode) {
+<?
+if (!defined('__TATTERTOOLS_EDIT__')) { ?>
 					case 81: //Q
-						window.location = "<?php echo $blogURL?>/";
+						try { window.location = "<?=$blogURL?>/"; } catch(e) { };
 						break;
 					case 82: //R
-						window.location = "<?php echo $blogURL?>/owner/reader";
+						try { window.location = "<?=$blogURL?>/owner/reader"; } catch(e) { };
 						break;
 <?php 
+}
 if (defined('__TATTERTOOLS_READER__')) {
 ?>
 					case 65: //A
@@ -87,6 +90,7 @@ if (isset($paging['next'])) {
 <?php 
 }
 ?>
+					default:
 				}
 			}
 		//]]>
