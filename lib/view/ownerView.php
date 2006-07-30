@@ -16,6 +16,7 @@ function printOwnerEditorScript($entryId = false) {
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
+								var entryId = <?=$entryId ? $entryId : 0?>; 
 								var strictXHTML = <?php echo getUserSetting('strictXHTML', 0)==1 ? 'true' : 'false'?>;
 								var skinContentWidth = <?php echo $contentWidth?>;
 								var s_enterURL = "<?php echo _t('URL을 입력하세요.')?>";

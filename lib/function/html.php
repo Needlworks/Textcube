@@ -58,6 +58,26 @@ function addProtocolSense($url, $protocol = 'http://') {
 	return ereg('^[[:alnum:]]+:', $url) ? $url : $protocol . $url;
 }
 
+function avoidFlashBorder($html, $tag='object') {
+	$pos1 = $pos2 = 0;
+	$str = strtolower($html);
+	$result = '';
+	while(($pos1 = strpos($str, "<$tag", $pos2)) !== false) {
+		$result .= substr($html, $pos2, $pos1 - $pos2);
+		$pos2 = $pos1;
+		while(true) {
+			if(($pos2 = strpos($html, "</$tag>", $pos2)) === false)
+				return $result . '<script type="text/javascript">writeCode("' . str_replace('"', '\"', substr($html, $pos1)) . '")</script>';
+			$pos2 += strlen($tag) + 3;
+			$chunk = substr($str, $pos1, $pos2 - $pos1);
+			if(substr_count($chunk, "<$tag") == substr_count($chunk, "</$tag>"))
+				break;
+		}
+		$result .= '<script type="text/javascript">writeCode("'.str_replace('"', '\"', substr($html, $pos1, $pos2 - $pos1)).'")</script>';
+	}
+	return $result . substr($html, $pos2);
+}
+
 function str_tag_on($str) {
 	$str = str_replace("&amp;", "&", $str);
 	$str = str_replace("&lt;", "<", $str);
