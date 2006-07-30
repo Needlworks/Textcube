@@ -2,10 +2,14 @@
 
 function getCategoryId($owner, $name, $parentName = false) {
 	global $database;
+	
+	$name = mysql_real_escape_string($name);
 	if ($parentName === false)
 		$sql = "SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND name = '$name'";
-	else
+	else {
+		$parentName = mysql_real_escape_string($parentName);
 		$sql = "SELECT c.id FROM {$database['prefix']}Categories c LEFT JOIN {$database['prefix']}Categories c2 ON c.parent = c2.id AND c.owner = c2.owner WHERE c.owner = $owner AND c.name = '$name' AND c2.name = '$parentName'";
+	}
 	return fetchQueryCell($sql);
 }
 
@@ -100,8 +104,10 @@ function addCategory($owner, $parent, $name) {
 	global $database;
 	if (empty($name))
 		return false;
+	if (!is_numeric($parent))
+		return false;
 	if ($parent !== null) {
-		$label = fetchQueryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $owner AND parent IS NULL");
+		$label = fetchQueryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $parent");
 		if ($label === null)
 			return false;
 		$label .= '/' . $name;
@@ -132,6 +138,9 @@ function addCategory($owner, $parent, $name) {
 
 function deleteCategory($owner, $id) {
 	global $database;
+	
+	if (!is_numeric($id))
+		return false;
 	return executeQuery("DELETE FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
 }
 
@@ -145,17 +154,15 @@ function modifyCategory($owner, $id, $name, $bodyid) {
 	$label = $row['name'];
 	$parentId = $row['id'];	
 	if (!empty($parentId)) {
-		$parentStr = "AND parent=$parentId";
+		$parentStr = "AND parent = $parentId";
 	} else
 		$parentStr = 'AND parent is null';
 	
-	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND name='$name' AND bodyId='$bodyid' $parentStr";
-	
+	$label = mysql_real_escape_string(empty($label) ? $name : "$label/$name");
+	$name = mysql_real_escape_string($name);
+	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND name='$name' $parentStr";	
 	if(fetchQueryCell($sql) >0)
 		return false;	
-		
-	$label = mysql_escape_string(empty($label) ? $name : "$label/$name");
-	$name = mysql_escape_string($name);
 	$bodyid = mysql_escape_string($bodyid);
 	
 	$result = mysql_query("UPDATE {$database['prefix']}Categories SET name = '$name', label = '$label', bodyId = '$bodyid'  WHERE owner = $owner AND id = $id");
