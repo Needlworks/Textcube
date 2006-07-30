@@ -1,7 +1,12 @@
 <?php
 define('ROOT', '..');
+if (isset($_POST['page']))
+	$_GET['page'] = $_POST['page'];
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	$IV = array(
+		'GET' => array(
+			'page' => array('int', 1, 'default' => 1)
+		),
 		'POST' => array(
 			'mode' => array(array('fb')),
 			's_home_title' => array('string'),
