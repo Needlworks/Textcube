@@ -2,9 +2,6 @@
 define('ROOT', '../../../..');
 if(count($_POST) > 0) {
 	$IV = array(
-		'POST' => array(
-			'fileName' => array('filename')
-		),
 		'FILES' => array(
 			'attachment' => array('file')
 		)
