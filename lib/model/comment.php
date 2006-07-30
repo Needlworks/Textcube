@@ -270,7 +270,7 @@ function addComment($owner, & $comment) {
 					`{$database['prefix']}CommentsNotifiedQueue` 
 					( `owner` , `id` , `commentId` , `sendStatus` , `checkDate` , `written` ) 
 				VALUES 
-					($owner ,'', '" . mysql_insert_id() . "', '0', '0', '" . time() . "');");
+					($owner ,'', '" . $id . "', '0', '0', UNIX_TIMESTAMP());");
 		}
 		updateCommentsOfEntry($owner, $comment['entry']);
 		fireEvent($comment['entry'] ? 'AddComment' : 'AddGuestComment', $id, $comment);
@@ -317,12 +317,23 @@ function updateComment($owner, $comment, $password) {
 		$homepage = mysql_escape_string($comment['homepage']);
 	}
 	$comment0 = mysql_escape_string($comment['comment']);
+	
+	$guestcomment = false;
+	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE owner = $owner AND id = {$comment['id']} AND replier IS NULL")) {
+		$guestcomment = true;
+	}
+	
 	$wherePassword = '';
 	if (!doesHaveOwnership()) {
-		if (doesHaveMembership())
+		if ($guestcomment == false) {
+			if (!doesHaveMembership())
+				return false;
 			$wherePassword = ' and replier = ' . getUserId();
+		}
 		else
+		{
 			$wherePassword = ' and password = \'' . md5($password) . '\'';
+		}
 	}
 	$result = mysql_query("update {$database['prefix']}Comments
 				set
@@ -343,18 +354,25 @@ function deleteComment($owner, $id, $entry, $password) {
 	global $database;
 	
 	$guestcomment = false;
-	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE owner = $owner AND id = $id AND replier IS NULL")) {
+	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE owner = $owner AND id = {$comment['id']} AND replier IS NULL")) {
 		$guestcomment = true;
 	}
 	
+	$wherePassword = '';
+	
 	$sql = "delete from {$database['prefix']}Comments where owner = $owner and id = $id and entry = $entry";
 	if (!doesHaveOwnership()) {
-		if (doesHaveMembership())
-			$sql .= ' and replier = ' . getUserId();
+		if ($guestcomment == false) {
+			if (!doesHaveMembership())
+				return false;
+			$wherePassword = ' and replier = ' . getUserId();
+		}
 		else
-			$sql .= ' and password = \'' . md5($password) . '\'';
+		{
+			$wherePassword = ' and password = \'' . md5($password) . '\'';
+		}
 	}
-	$result = mysql_query($sql);
+	$result = DBQuery::query($sql . $wherePassword);
 	if (mysql_affected_rows() > 0) {
 		mysql_query("delete from {$database['prefix']}Comments where owner = $owner and parent = $id");
 		updateCommentsOfEntry($owner, $entry);
