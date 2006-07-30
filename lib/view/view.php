@@ -1107,7 +1107,7 @@ function bindKeywords($keywords, $content) {
 	return $content;
 }
 
-function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolutePath = false) {
+function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolutePath = false, $bRssMode = false) {
 	global $service, $owner, $hostURL, $blogURL;
 	$view = str_replace('[##_ATTACH_PATH_##]', ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$owner" : $folderURL), $content);
 	$count = 0;
@@ -1120,14 +1120,14 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 		if ($attributes[0] == 'Gallery') {
 			if (count($attributes) % 2 == 1)
 				array_pop($attributes);
-			if (defined('__TATTERTOOLS_MOBILE__')) {
+			if (defined('__TATTERTOOLS_MOBILE__') || ($bRssMode == true)) {
 				$images = array_slice($attributes, 1, count($attributes) - 2);
 				for ($i = 0; $i < count($images); $i++) {
 					if (!empty($images[$i])) {
 						if ($i % 2 == 0)
-							$buf .= '<div>' . getAttachmentBinder($images[$i], '', $folderPath, $folderURL, 1, $useAbsolutePath) . '</div>';
+							$buf .= '<div align="center">' . getAttachmentBinder($images[$i], '', $folderPath, $folderURL, 1, $useAbsolutePath) . '</div>';
 						else
-							$buf .= "<div>$images[$i]</div>";
+							$buf .= "<div align=\"center\">$images[$i]</div>";
 					}
 				}
 			} else {
@@ -1136,8 +1136,10 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				for ($i = 1; $i < sizeof($attributes) - 2; $i += 2)
 					array_push($items, array($attributes[$i], $attributes[$i + 1]));
 				$galleryAttributes = getAttributesFromString($attributes[sizeof($attributes) - 1]);
-				if ($useAbsolutePath && $count == 1)
+				if (($useAbsolutePath == true) && ($bWritedGalleryJS == false)) {
+					$bWritedGalleryJS = true;
 					$buf .= '[HTML]' . printScript('gallery.js') . '[/HTML]';
+				}
 				$buf .= '<div id="' . $id . '"></div>';
 				$buf .= '<script type="text/javascript">var ' . $id . ' = new TTGallery("' . $id . '");';
 				foreach ($items as $item) {
