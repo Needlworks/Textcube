@@ -24,5 +24,16 @@
 		<listener event="ViewRecentCommentDate">convertDateLangRCD</listener>
 		<listener event="ViewRecentTrackbackDate">convertDateLangRTD</listener>
 		<listener event="ViewTrackbackDate">convertDateLangTD</listener>
+		
+		<!--config dataValHandler = "checkDateFormat">
+			<fieldset legend="저장소 날짜 형식">
+				<field title="언어권" name="month" type="select">
+					<op value="ko">한국어</op>
+					<op value="en">english</op>
+					<op value="ja" checked="checked">日本語</op>
+				</field>
+				<field title="형식" name="day" type="text" size ="3" titledirection="bk" value="13"></field>
+			</fieldset>
+		</config-->
 	</binding>
 </plugin>
