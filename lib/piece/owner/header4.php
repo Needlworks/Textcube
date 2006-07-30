@@ -21,7 +21,6 @@
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/gallery.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path']?>/style/base.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'].$adminSkinSetting['skin']?>/custom.js"></script>
 </head>
 <body id="body-statistics">
