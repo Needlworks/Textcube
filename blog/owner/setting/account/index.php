@@ -241,7 +241,7 @@ if ($service['type'] != 'single') {
 										<dl id="blogger-email-line" class="line">
 											<dt><label for="email"><?php echo _t('e-mail')?></label></dt>
 											<dd>
-												<input type="text" id="email" class="text-input" value="<?php echo htmlspecialchars($user['loginid'])?>" />
+												<input type="text" id="email" class="text-input" value="<?php echo htmlspecialchars(User::getEmail())?>" />
 												<em><?php echo _t('(로그인시 ID로 사용됩니다)')?></em>
 											</dd>
 										</dl>
@@ -306,7 +306,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 											
 											<div id="letter-foot">												<div id="sender-line" class="line">
 													<label for="invitation_sender"><?php echo _t('보내는 사람')?></label>
-													<input type="text" id="invitation_sender" class="text-input" name="text2" value="<?php echo htmlspecialchars($user['name'] . '<' . $user['loginid'] . '>')?>" />
+													<input type="text" id="invitation_sender" class="text-input" name="text2" value="<?php echo htmlspecialchars($user['name'] . '<' . User::getEmail() . '>')?>" />
 												</div>
 											</div>
 										</dd>
@@ -349,7 +349,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 		if ($value['lastLogin'] == 0) {
 ?>
 														<td class="status"><?php echo _f('%1 전', timeInterval($value['created'], time()))?></td>
-														<td class="password"><?php echo fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']}")?></td>
+														<td class="password"><?php echo fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']} AND host = $owner AND lastLogin = 0")?></td>
 														<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?php echo $value['userid']?>,this);" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.')?>"><span class="text"><?php echo _t('초대취소')?></span></a></td>
 <?php
 		}
