@@ -332,8 +332,10 @@ function addEntry($owner, $entry) {
 		syndicateEntry($id, true);
 	if ($entry['visibility'] >= 2)
 		clearRSS();
-	if (!empty($entry['tag']))
-		saveTags($owner, $entry, $id);
+	if (!empty($entry['tag'])) {
+		$tags = getTagsWithEntryString($entry['tag']);
+		addTagsWithEntryId($owner, $id, $tags);
+	}
 	return $id;
 }
 
@@ -352,7 +354,10 @@ function updateEntry($owner, $entry) {
 	//	return false;
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
-	saveTags($owner, $entry, $entry['id']);
+
+	$tags = getTagsWithEntryString($entry['tags']);
+	modifyTagsWithEntryId($owner, $entry['id'], $tags);
+	
 	$location = mysql_escape_string($entry['location']);
 	$title = mysql_escape_string($entry['title']);
 	$content = mysql_escape_string(filterJavaScript($entry['content']));
@@ -464,10 +469,12 @@ function deleteEntry($owner, $id) {
 		$result = mysql_query("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $id");
 		$result = mysql_query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id");
 		$result = mysql_query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner AND entry = $id");
-		$result = mysql_query("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $owner AND entry = $id");
-		deleteGarbageTags();
+
 		updateEntriesOfCategory($owner, $target['category']);
 		deleteAttachments($owner, $id);
+		
+		deleteTagsWithEntryId($owner, $id);
+		
 		clearRSS();
 		return true;
 	}
@@ -558,11 +565,12 @@ function publishEntries() {
 	}
 }
 
-function saveTags($owner, $entry, $entryId) {
+function getTagsWithEntryString($entryTag) 
+{
 	global $database;
-	$tags = explode(',', $entry['tag']);
-	mysql_query("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $owner and entry = $entryId");
-	foreach ($tags as $tag) {
+	$tags = explode(',', $entryTag);
+	
+	foreach ($tags as &$tag) {
 		$tag = mysql_lessen($tag, 255, '');
 		$tag = str_replace('&quot;', '"', $tag);
 		$tag = str_replace('&#39;', '\'', $tag);
@@ -570,18 +578,10 @@ function saveTags($owner, $entry, $entryId) {
 		$tag = preg_replace('/[\x00-\x1f]|[\x7f]/', '', $tag);
 		$tag = preg_replace('/^(-|\s)+/', '', $tag);
 		$tag = preg_replace('/(-|\s)+$/', '', $tag);
-		$tag = mysql_escape_string($tag);
-		if ($tag != '') {
-			$result = mysql_query("SELECT id FROM {$database['prefix']}Tags WHERE name = '$tag'");
-			list($id) = mysql_fetch_array($result);
-			if (!$id) {
-				mysql_query("INSERT INTO {$database['prefix']}Tags VALUES(NULL, '$tag')");
-				$id = fetchQueryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '$tag'");
-			}
-			mysql_query("INSERT INTO {$database['prefix']}TagRelations VALUES ($owner, $id, $entryId)");
-		}
+		$tag = trim($tag);
 	}
-	deleteGarbageTags();
+	
+	return $tags;
 }
 
 function getEntryVisibilityName($visibility) {
