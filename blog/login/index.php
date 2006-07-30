@@ -24,7 +24,7 @@ if (isset($_GET['password']))
 	$_POST['password'] = $_GET['password'];
 if (!empty($_GET['requestURI']))
 	$_POST['requestURI'] = $_GET['requestURI'];
-else
+else if (empty($_POST['requestURI']))
 	$_POST['requestURI'] = $_SERVER['HTTP_REFERER'];
 $message = '';
 $showPasswordReset = false;
@@ -49,7 +49,7 @@ if (doesHaveOwnership()) {
 	if (!empty($_POST['requestURI'])) {
 		if (($url = parse_url($_POST['requestURI'])) && isset($url['host']) && !String::endsWith($url['host'], '.' . $service['domain'])) {
 			if ($url['host'] != $service['domain']) {
-				header("Location: http://{$url['host']}{$service['path']}/login?xx=ccc&requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id()));
+				header("Location: http://{$url['host']}{$service['path']}/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id()));
 			} else {
 				header("Location: {$_POST['requestURI']}");
 			}

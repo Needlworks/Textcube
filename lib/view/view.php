@@ -41,7 +41,6 @@ function getUpperView($paging) {
 		//<![CDATA[
 			var servicePath = "<?php echo  $service['path']?>";
 			var blogURL = "<?php echo  $blogURL?>";
-			var adminSkin = "<?php echo  $adminSkinSetting['skin']?>";
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo  $service['path']?>/script/EAF.js"></script>
@@ -570,122 +569,121 @@ function printTreeView($tree, $selected, $skin, $xhtml = false) {
 	$action = 0;
 ?>
 <script type="text/javascript">
-//<![CDATA[
-	var expanded = false;
-	function expandTree() {
+	//<![CDATA[
+		var expanded = false;
+		function expandTree() {
 <?php 
 	foreach ($tree['children'] as $level1) {
 		if (!empty($level1['children'])) {
 ?>
-		expandFolder(<?php echo  $level1['id']?>, true);
+			expandFolder(<?php echo  $level1['id']?>, true);
 <?php 
 		}
 	}
 ?>
-	}
-	
-	function expandFolder(category, expand) {
-		var oLevel1 = document.getElementById("category_" + category);
-		var oImg = oLevel1.getElementsByTagName("img")[0];
-		switch (expand) {
-			case true:
-				oImg.src = "<?php echo  $skin['url']?>/tab_opened.gif";
-				showLayer("category_" + category + "_children");
-				return true;
-			case false:
-				oImg.src = "<?php echo  $skin['url']?>/tab_closed.gif";
-				hideLayer("category_" + category + "_children");
-				return true;
 		}
-		return false;
-	}
-	
-	function toggleFolder(category) {
-		var oLevel1 = document.getElementById("category_" + category);
-		var oImg = oLevel1.getElementsByTagName("img")[0];
-		switch (oImg.src.substr(oImg.src.length - 10, 6)) {
-			case "isleaf":
-				return true;
-			case "closed":
-				oImg.src = "<?php echo  $skin['url']?>/tab_opened.gif";
-				showLayer("category_" + category + "_children");
-				expanded = true;
-				return true;
-			case "opened":
-				oImg.src = "<?php echo  $skin['url']?>/tab_closed.gif";
-				hideLayer("category_" + category + "_children");
-				expanded = false;
-				return true;
-		}
-		return false;
-	}
-	var selectedNode = 0;
-	function selectNode(category) {
 		
-		try {
-			var root = document.getElementById('treeComponent');
-			var prevSelectedNode= root.getAttribute('currentselectednode');			
-			var oLevel = document.getElementById("category_" + selectedNode);
-			var oChild = oLevel.getElementsByTagName("table")[0];
-			
-			oChild.style.color = "#<?php echo  $skin['itemColor']?>";			
+		function expandFolder(category, expand) {
+			var oLevel1 = document.getElementById("category_" + category);
+			var oImg = oLevel1.getElementsByTagName("img")[0];
+			switch (expand) {
+				case true:
+					oImg.src = "<?php echo  $skin['url']?>/tab_opened.gif";
+					showLayer("category_" + category + "_children");
+					return true;
+				case false:
+					oImg.src = "<?php echo  $skin['url']?>/tab_closed.gif";
+					hideLayer("category_" + category + "_children");
+					return true;
+			}
+			return false;
+		}
+		
+		function toggleFolder(category) {
+			var oLevel1 = document.getElementById("category_" + category);
+			var oImg = oLevel1.getElementsByTagName("img")[0];
+			switch (oImg.src.substr(oImg.src.length - 10, 6)) {
+				case "isleaf":
+					return true;
+				case "closed":
+					oImg.src = "<?php echo  $skin['url']?>/tab_opened.gif";
+					showLayer("category_" + category + "_children");
+					expanded = true;
+					return true;
+				case "opened":
+					oImg.src = "<?php echo  $skin['url']?>/tab_closed.gif";
+					hideLayer("category_" + category + "_children");
+					expanded = false;
+					return true;
+			}
+			return false;
+		}
+		var selectedNode = 0;
+		function selectNode(category) {
+			try {
+				var root = document.getElementById('treeComponent');
+				var prevSelectedNode= root.getAttribute('currentselectednode');
+				var oLevel = document.getElementById("category_" + selectedNode);
+				var oChild = oLevel.getElementsByTagName("table")[0];
+				
+				oChild.style.color = "#<?php echo  $skin['itemColor']?>";
 <?php 
 	if ($skin['itemBgColor'] != '')
-		echo "			oChild.style.backgroundColor = \"#{$skin['itemBgColor']}\"";
+		echo "				oChild.style.backgroundColor = \"#{$skin['itemBgColor']}\"";
 	else
-		echo "			oChild.style.backgroundColor = \"\"";
+		echo "				oChild.style.backgroundColor = \"\"";
 ?>			
-						
-			root.setAttribute('currentselectednode',category);
-			document.getElementById('text_'+selectedNode).style.color="#<?php echo  $skin['itemColor']?>";
-			
-			var oLevel = document.getElementById("category_" + category);
-			var oChild = oLevel.getElementsByTagName("table")[0];
-			oChild.style.color = "#<?php echo  $skin['activeItemColor']?>";
+				
+				root.setAttribute('currentselectednode',category);
+				document.getElementById('text_'+selectedNode).style.color="#<?php echo  $skin['itemColor']?>";
+				
+				var oLevel = document.getElementById("category_" + category);
+				var oChild = oLevel.getElementsByTagName("table")[0];
+				oChild.style.color = "#<?php echo  $skin['activeItemColor']?>";
 <?php 
 	if ($skin['activeItemBgColor'] != '')
-		echo "			oChild.style.backgroundColor = \"#{$skin['activeItemBgColor']}\"";
+		echo "				oChild.style.backgroundColor = \"#{$skin['activeItemBgColor']}\"";
 	else
-		echo "			oChild.style.backgroundColor = \"\"";
+		echo "				oChild.style.backgroundColor = \"\"";
 ?>			
+				
+				document.getElementById('text_'+category).style.color="#<?php echo  $skin['activeItemColor']?>";
+				
+				selectedNode = category;
+			} catch(e) {
+				alert(e.message);
+			}
 			
-			document.getElementById('text_'+category).style.color="#<?php echo  $skin['activeItemColor']?>";
-			
-			selectedNode = category;
-		} catch(e) {
-			alert(e.message);
 		}
 		
-	}
-	
-	function setTreeStyle(skin) {
-		try {
-			treeNodes = document.getElementsByName("treeNode");
-			for(var i=0; i<treeNodes.length; i++) {	
-				if( ('category_'+selectedNode) == (treeNodes[i].getAttribute('id').value) ) {
-					var oLevel = document.getElementById('category_'+i);
-					var oChild = oLevel.getElementsByTagName("table")[0];
-					oChild.style.color ='#'+skin['activeItemColor'];
-					if (skin['activeItemBgColor'] != '' && skin['activeItemBgColor'] != undefined) {
-						oChild.style.backgroundColor ='#'+skin['activeItemBgColor'];						
-					} else {
-						oChild.style.backgroundColor ="";						
-					}
-					alert(oChild.style.backgroundColor);
-				} else{
-					var oLevel = document.getElementById("category_" + i);
-					var oChild = oLevel.getElementsByTagName("table")[0];
-					oChild.style.color ='#'+skin['colorOnTree'];
-					oChild.style.backgroundColor ='#'+skin['bgColorOnTree'];
-					var oLevel = document.getElementById('text_'+i).style.color='#'+skin['colorOnTree'];
-					alert(document.getElementById('text_'+i).style.color);
-				}						
+		function setTreeStyle(skin) {
+			try {
+				treeNodes = document.getElementsByName("treeNode");
+				for(var i=0; i<treeNodes.length; i++) {	
+					if( ('category_'+selectedNode) == (treeNodes[i].getAttribute('id').value) ) {
+						var oLevel = document.getElementById('category_'+i);
+						var oChild = oLevel.getElementsByTagName("table")[0];
+						oChild.style.color ='#'+skin['activeItemColor'];
+						if (skin['activeItemBgColor'] != '' && skin['activeItemBgColor'] != undefined) {
+							oChild.style.backgroundColor ='#'+skin['activeItemBgColor'];						
+						} else {
+							oChild.style.backgroundColor ="";						
+						}
+						alert(oChild.style.backgroundColor);
+					} else{
+						var oLevel = document.getElementById("category_" + i);
+						var oChild = oLevel.getElementsByTagName("table")[0];
+						oChild.style.color ='#'+skin['colorOnTree'];
+						oChild.style.backgroundColor ='#'+skin['bgColorOnTree'];
+						var oLevel = document.getElementById('text_'+i).style.color='#'+skin['colorOnTree'];
+						alert(document.getElementById('text_'+i).style.color);
+					}						
+				}
+			} catch(e) {
+				alert(e.message);
 			}
-		} catch(e) {
-			alert(e.message);
 		}
-	}
-//]]>
+	//]]>
 </script>
 	<?php 
 	if ($skin['itemBgColor'] == "") {
