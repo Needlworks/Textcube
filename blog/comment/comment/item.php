@@ -39,16 +39,16 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		printHtmlHeader();
 ?>
 <script type="text/javascript">	
-	alert("<?php echo  _text('댓글이 등록되었습니다.')?>");
+	alert("<?php echo _text('댓글이 등록되었습니다.')?>");
 	
 <?php
 		notifyComment();
 ?>
-	var obj = opener.document.getElementById("entry<?php echo  $comment['entry']?>Comment");
-	obj.innerHTML = "<?php echo  str_innerHTML(removeAllTags(getCommentView($comment['entry'], $skin)))?>";
+	var obj = opener.document.getElementById("entry<?php echo $comment['entry']?>Comment");
+	obj.innerHTML = "<?php echo str_innerHTML(removeAllTags(getCommentView($comment['entry'], $skin)))?>";
 	try {
 	obj = opener.document.getElementById("recentComments");
-	obj.innerHTML = "<?php echo  str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
+	obj.innerHTML = "<?php echo str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
 	} catch(e) { }
 	try {
 <?php
@@ -56,12 +56,12 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		$commentCount = ($commentCount > 0) ? "$commentCount" : '';
 		list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 ?>
-	obj = opener.document.getElementById("commentCount<?php echo  $comment['entry']?>");
-	obj.innerHTML = "<?php echo  str_replace('"', '\"', $commentView)?>";
+	obj = opener.document.getElementById("commentCount<?php echo $comment['entry']?>");
+	obj.innerHTML = "<?php echo str_replace('"', '\"', $commentView)?>";
 	} catch(e) { }
 	try {
-	obj = opener.document.getElementById("commentCountOnRecentEntries<?php echo  $comment['entry']?>");
-	obj.innerHTML = "<?php echo  $commentCount?>";
+	obj = opener.document.getElementById("commentCountOnRecentEntries<?php echo $comment['entry']?>");
+	obj.innerHTML = "<?php echo $commentCount?>";
 	} catch(e) { }
 	window.close();
 </script>

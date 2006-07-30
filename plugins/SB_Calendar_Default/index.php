@@ -61,11 +61,11 @@ function _getCalendarView($calendar){
 	ob_start();?>
 <table cellpadding="0" cellspacing="1" style="width: 100%; table-layout: fixed">
 <caption class="cal_month">
-<a href="<?php echo  $blogURL?>/archive/<?php echo  $previous?>">&lt;&lt;</a>
+<a href="<?php echo $blogURL?>/archive/<?php echo $previous?>">&lt;&lt;</a>
 &nbsp;
-<a href="<?php echo  $blogURL?>/archive/<?php echo  $current?>"><?php echo  Timestamp::format('%Y/%m',_getTimeFromPeriod($current))?></a>
+<a href="<?php echo $blogURL?>/archive/<?php echo $current?>"><?php echo Timestamp::format('%Y/%m',_getTimeFromPeriod($current))?></a>
 &nbsp;
-<a href="<?php echo  $blogURL?>/archive/<?php echo  $next?>">&gt;&gt;</a>
+<a href="<?php echo $blogURL?>/archive/<?php echo $next?>">&gt;&gt;</a>
 </caption>
 <thead>
   <tr>

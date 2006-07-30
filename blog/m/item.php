@@ -7,7 +7,7 @@ $entry = $entries ? $entries[0] : null;
 printMobileHtmlHeader();
 ?>
 <div id="content">
-	<h2><?php echo  htmlspecialchars($entry['title'])?></h2>	
+	<h2><?php echo htmlspecialchars($entry['title'])?></h2>	
 	<hr />
 	<?php printMobileEntryContentView($owner, $entry, getKeywordNames($owner)); ?>
 </div>

@@ -13,18 +13,18 @@ requireStrictRoute();
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 	<head>
-		<title><?php echo  _t('File Uploader')?></title>
+		<title><?php echo _t('File Uploader')?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo  $service['path'].$adminSkinSetting['skin']?>/editor.css" />
-		<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo  $service['path'].$adminSkinSetting['skin']?>/editor.ie.css" /><![endif]-->
-		<script type="text/javascript" src="<?php echo  $service['path']?>/script/EAF.js"></script>
-		<script type="text/javascript" src="<?php echo  $service['path']?>/script/common.js"></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/editor.css" />
+		<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/editor.ie.css" /><![endif]-->
+		<script type="text/javascript" src="<?php echo $service['path']?>/script/EAF.js"></script>
+		<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
 				oSelect = window.parent.document.getElementById('fileList');
 				
 				function addAttachOption(value) {
-					window.parent.makeCrossDamainSubmit("<?php echo  $blogURL?>/owner/entry/attach/<?php echo  $suri['id']?>","ie");
+					window.parent.makeCrossDamainSubmit("<?php echo $blogURL?>/owner/entry/attach/<?php echo $suri['id']?>","ie");
 					if (isWin) {
 						var fileName = value.substring(value.lastIndexOf('\\')+1);
 					} else {
@@ -34,7 +34,7 @@ requireStrictRoute();
 					var oSelect = window.parent.document.getElementById('fileList');	
 					var oOption = window.parent.document.createElement("option");
 					
-					oOption.innerHTML= fileName+ " <?php echo  _t('업로드 중…')?>"; 
+					oOption.innerHTML= fileName+ " <?php echo _t('업로드 중…')?>"; 
 					oOption.value=fileName;
 					oSelect.appendChild(oOption);
 					oSelect.setAttribute('size',Math.max(8,Math.min(oSelect.length,30)));
@@ -63,7 +63,7 @@ if (count($_FILES) == 1) {
 ?>
 
 				for( i=0; i<oSelect.options.length; i++) {
-					if(oSelect.options[i].value == "<?php echo  escapeJSInCData($_POST['fileName'])?>") {
+					if(oSelect.options[i].value == "<?php echo escapeJSInCData($_POST['fileName'])?>") {
 						oSelect.remove(i);
 					}
 				}
@@ -73,7 +73,7 @@ if (count($_FILES) == 1) {
 ?>
 				
 				for( i=0; i<oSelect.options.length; i++) {
-					if(oSelect.options[i].value == "<?php echo  escapeJSInCData($_POST['fileName'])?>") {
+					if(oSelect.options[i].value == "<?php echo escapeJSInCData($_POST['fileName'])?>") {
 						oSelect.remove(i);
 					}
 				}
@@ -82,15 +82,15 @@ if (count($_FILES) == 1) {
 ?>
 				
 				var oOption = window.parent.document.createElement("option");	
-				oOption.innerHTML= "<?php echo  escapeJSInCData(getPrettyAttachmentLabel($attachment))?>";
-				oOption.value = "<?php echo  escapeJSInCData(getAttachmentValue($attachment))?>";
+				oOption.innerHTML= "<?php echo escapeJSInCData(getPrettyAttachmentLabel($attachment))?>";
+				oOption.value = "<?php echo escapeJSInCData(getAttachmentValue($attachment))?>";
 				try {
 <?php
 		if (!empty($attachment)) {
 ?>
 				for( i=0; i<oSelect.options.length; i++) {
-					//alert(oSelect.options[i].value+"   "+ "<?php echo  escapeJSInCData($attachment['label'])?>");
-					if(oSelect.options[i].value == "<?php echo  escapeJSInCData($attachment['label'])?>") {
+					//alert(oSelect.options[i].value+"   "+ "<?php echo escapeJSInCData($attachment['label'])?>");
+					if(oSelect.options[i].value == "<?php echo escapeJSInCData($attachment['label'])?>") {
 						oSelect.remove(i);
 					}
 				}
@@ -99,7 +99,7 @@ if (count($_FILES) == 1) {
 ?>
 				oSelect.appendChild(oOption);
 				//oSelect.selectedIndex = oSelect.options.length - 1;
-				//window.parent.document.getElementById("selectedImage").src = "<?php echo  (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$owner/{$attachment['name']}" : "{$blogURL}/image/spacer.gif")?>";
+				//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$owner/{$attachment['name']}" : "{$blogURL}/image/spacer.gif")?>";
 					window.parent.refreshFileSize();
 				} catch(e) {
 				alert('['+e.message+']');

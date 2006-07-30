@@ -35,18 +35,18 @@ if (isset($_GET['showValue']))
 <head>
 	<title>Tree Structure Preview</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?php echo  $service['path'].$adminSkinSetting['skin']?>/skin.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo  $service['path'].$adminSkinSetting['skin']?>/skin.opera.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo  $service['path'].$adminSkinSetting['skin']?>/skin.ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/skin.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/skin.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/skin.ie.css" /><![endif]-->
 	<script type="text/javascript">
 		//<![CDATA[
-			var servicePath = "<?php echo  $service['path']?>";
-			var blogURL = "<?php echo  $blogURL?>";
-			var adminSkin = "<?php echo  $adminSkinSetting['skin']?>";
+			var servicePath = "<?php echo $service['path']?>";
+			var blogURL = "<?php echo $blogURL?>";
+			var adminSkin = "<?php echo $adminSkinSetting['skin']?>";
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo  $service['path']?>/script/common.js"></script>
-	<script type="text/javascript" src="<?php echo  $service['path']?>/script/owner.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path']?>/script/owner.js"></script>
 	<style type="text/css">
 		<!--
 			body
@@ -57,6 +57,6 @@ if (isset($_GET['showValue']))
 	</style>
 </head>
 <body id="tree-iframe">
-<?php echo  getCategoriesViewInSkinSetting(getEntriesTotalCount($owner), getCategories($owner), $selected)?>
+<?php echo getCategoriesViewInSkinSetting(getEntriesTotalCount($owner), getCategories($owner), $selected)?>
 </body>
 </html>

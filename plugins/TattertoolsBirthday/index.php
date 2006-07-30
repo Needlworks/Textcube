@@ -19,7 +19,7 @@ function TattertoolsBirthday_TattertoolsBirthday($target) {
 ?>
       <div class="listbox">
         <h3>태터툴즈 생일</h3>
-        <div style="text-align:center"><?php echo  $month?>월 <?php echo  $day?>일: <?php echo  $message?></div>
+        <div style="text-align:center"><?php echo $month?>월 <?php echo $day?>일: <?php echo $message?></div>
       </div>
 <?php
 	$target = ob_get_contents();
