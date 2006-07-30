@@ -1,19 +1,18 @@
 <?php
+ini_set('magic_quotes_gpc', 'off');
 define('ROOT', '../../../../..');
-require ROOT . '/lib/includeForOwner.php';
-requireStrictRoute();
-
 $IV = array(
 	'POST' => array(
-		'body' => array('string'),
-		'mode' => array('string')
+		'skin' => array('string','default'=>''),
+		'style' => array('string','default'=>'')
 	)
 );
-if(!Validator::validate($IV))
-	printRespond(array('error' => 1));
+
+require ROOT . '/lib/includeForOwner.php';
+requireStrictRoute();
 	
-$result = writeSkinHtml($owner, $_POST['body'], $_POST['mode']);
-if ($result === true)
+$result = writeSkin($owner, $_POST['skin'], $_POST['style']);
+if ( $result === true)
 	printRespond(array('error' => 0));
 else
 	printRespond(array('error' => 1, 'msg' => $result));
