@@ -263,7 +263,7 @@ TTReader.prototype.refreshEntryList = function(group, feed)
 				PM.showMessage(s_unknownError + " (refreshEntryList)", "center", "bottom");
 		}
 	}
-	request.send("group=" + group + "&feed=" + feed + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
+	request.send("group=" + (group == undefined ? 0  : group) + "&feed=" + ( feed == undefined ? 0 : feed) + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
 }
 
 TTReader.prototype.imageLoadingFailed = function(event)
@@ -321,7 +321,7 @@ TTReader.prototype.refreshEntry = function(group, feed, entry)
 				PM.showMessage(s_unknownError + " (refreshEntry)", "center", "bottom");
 		}
 	}
-	request.send("group=" + group + "&feed=" + feed + "&entry=" + entry + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
+	request.send("group=" + (group == undefined ? 0 : group) + "&feed=" + ( feed == undefined ? 0 : feed) + "&entry=" + entry + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
 }
 
 TTReader.prototype.prevEntry = function()

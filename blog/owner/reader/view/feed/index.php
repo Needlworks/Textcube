@@ -2,7 +2,7 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
-		'group' => array('int', 'min' => 0,  'mandatory' => false),
+		'group' => array('int', 'min' => 0,  'default' => 0),
 		'starred'       => array(array('0','1'), 'mandatory' => false),
 		'keyword'       => array('string', 'mandatory' => false)
 	)  
