@@ -93,6 +93,10 @@ function updateVisitorStatistics($owner) {
 
 function setTotalStatistics($owner) {
 	global $database;
+	DBQuery::query("DELETE FROM {$database['prefix']}DailyStatistics WHERE owner = $owner");
+	$prevCount = DBQuery::queryCell("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE owner = $owner");
+	if ((!is_null($prevCount)) && ($prevCount == 0))
+		return true;
 	mysql_query("update {$database['prefix']}BlogStatistics set visits = 0 where owner = $owner");
 	if (mysql_affected_rows() == 0)
 		mysql_query("insert into {$database['prefix']}BlogStatistics values($owner, 0)");

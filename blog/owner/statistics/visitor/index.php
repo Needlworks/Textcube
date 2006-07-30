@@ -11,7 +11,8 @@ require ROOT . '/lib/piece/owner/contentMenu40.php';
 									if (confirm("<?php echo _t('방문자의 수를 초기화하면 방문객의 수가 0이 됩니다.\n정말 초기화하시겠습니까?')?>")) {
 										var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/statistics/visitor/set/0");
 										request.onSuccess = function() {
-											document.getElementById("total").innerHTML = 0;
+											//document.getElementById("total").innerHTML = 0;
+											window.location = '<?=$blogURL?>/owner/statistics/visitor';
 											return true;
 										}
 										request.onError = function() {
