@@ -47,10 +47,15 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 
 if (doesHaveOwnership()) {
 	if (!empty($_POST['requestURI'])) {
-		if (($url = parse_url($_POST['requestURI'])) && isset($url['host']) && !String::endsWith($url['host'], '.' . $service['domain']))
-			header("Location: http://{$url['host']}{$service['path']}/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id()));
-		else
+		if (($url = parse_url($_POST['requestURI'])) && isset($url['host']) && !String::endsWith($url['host'], '.' . $service['domain'])) {
+			if ($url['host'] != $service['domain']) {
+				header("Location: http://{$url['host']}{$service['path']}/login?xx=ccc&requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id()));
+			} else {
+				header("Location: {$_POST['requestURI']}");
+			}
+		} else {
 			header("Location: {$_POST['requestURI']}");
+		}
 	} else {
 		$blog = getBlogSetting($_SESSION['userid']);
 		header("Location: $blogURL");
