@@ -24,24 +24,24 @@ if (!empty($_POST['mode'])) {
 ?>
 <script type="text/javascript">
 	//<![CDATA[
-		alert("<?php echo _text('댓글이 삭제되었습니다.')?>");
-		var obj = opener.document.getElementById("entry<?php echo $entryId?>Comment");
-		obj.innerHTML = "<?php echo str_innerHTML(removeAllTags(getCommentView($entryId, $skin)))?>";
+		alert("<?php echo  _text('댓글이 삭제되었습니다.')?>");
+		var obj = opener.document.getElementById("entry<?php echo  $entryId?>Comment");
+		obj.innerHTML = "<?php echo  str_innerHTML(removeAllTags(getCommentView($entryId, $skin)))?>";
 		obj = opener.document.getElementById("recentComments");
 		if(obj)
-			obj.innerHTML = "<?php echo str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
+			obj.innerHTML = "<?php echo  str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
 <?php
 $commentCount = getCommentCount($owner, $entryId);
 $commentCount = ($commentCount > 0) ? $commentCount : '';
 list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 ?>
 		try {
-			obj = opener.document.getElementById("commentCount<?php echo $entryId?>");
-			obj.innerHTML = "<?php echo str_replace('"', '\"', $commentView)?>";
+			obj = opener.document.getElementById("commentCount<?php echo  $entryId?>");
+			obj.innerHTML = "<?php echo  str_replace('"', '\"', $commentView)?>";
 		} catch(e) { }		
 		try {
-			obj = opener.document.getElementById("commentCountOnRecentEntries<?php echo $entryId?>");
-			obj.innerHTML = "<?php echo $commentCount?>";
+			obj = opener.document.getElementById("commentCountOnRecentEntries<?php echo  $entryId?>");
+			obj.innerHTML = "<?php echo  $commentCount?>";
 		} catch(e) { }		
 		window.close();
 	//]]>
@@ -75,7 +75,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					printHtmlHeader();
 ?>
 <script type="text/javascript">
-	alert("<?php echo _text('귀하는 차단되었으므로 사용하실 수 없습니다.')?>");
+	alert("<?php echo  _text('귀하는 차단되었으므로 사용하실 수 없습니다.')?>");
 	window.close();
 </script>
 <?php
@@ -87,14 +87,14 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 ?>
 <script type="text/javascript">
 	//<![CDATA[		
-		alert("<?php echo _text('댓글이 수정되었습니다.')?>");
+		alert("<?php echo  _text('댓글이 수정되었습니다.')?>");
 		
 		try {
-			var obj = opener.document.getElementById("entry<?php echo $comment['entry']?>Comment");
-			obj.innerHTML = "<?php echo str_innerHTML(removeAllTags(getCommentView($comment['entry'], $skin)))?>";
+			var obj = opener.document.getElementById("entry<?php echo  $comment['entry']?>Comment");
+			obj.innerHTML = "<?php echo  str_innerHTML(removeAllTags(getCommentView($comment['entry'], $skin)))?>";
 			var recentComment = opener.document.getElementById("recentComments");
 			if(recentComment)
-				recentComment.innerHTML = "<?php echo str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
+				recentComment.innerHTML = "<?php echo  str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments))?>";
 			window.close();
 		} catch(e) {
 			// alert(e.message);
@@ -113,39 +113,39 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title><?php echo _text('댓글 삭제') ?></title>
+	<title><?php echo  _text('댓글 삭제') ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path']?>/style/owner.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo  $service['path']?>/style/owner.css" />
 	<script type="text/javascript">
 		//<![CDATA[
-			var servicePath = "<?php echo $service['path']?>";
-			var blogURL = "<?php echo $blogURL?>";
-			var adminSkin = "<?php echo $adminSkinSetting['skin']?>";
+			var servicePath = "<?php echo  $service['path']?>";
+			var blogURL = "<?php echo  $blogURL?>";
+			var adminSkin = "<?php echo  $adminSkinSetting['skin']?>";
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path']?>/script/common.js"></script>
+	<script type="text/javascript" src="<?php echo  $service['path']?>/script/common.js"></script>
 </head>
 <body>
-	<form name="deleteComment" method="post" action="<?php echo $blogURL?>/comment/delete/<?php echo $suri['id']?>">
+	<form name="deleteComment" method="post" action="<?php echo  $blogURL?>/comment/delete/<?php echo  $suri['id']?>">
 		<div id="comment-box">
-			<img src="<?php echo $service['path']?>/image/logo_CommentPopup.gif" alt="<?php echo _text('태터툴즈 로고')?>" />	
+			<img src="<?php echo  $service['path']?>/image/logo_CommentPopup.gif" alt="<?php echo  _text('태터툴즈 로고')?>" />	
 			
 			<div id="command-box">
 				<div class="edit-line">
-					<input type="radio" id="edit" class="radio" name="mode" value="edit" checked="checked" /> <label for="edit"><?php echo _text('댓글을 수정합니다.')?></label>
+					<input type="radio" id="edit" class="radio" name="mode" value="edit" checked="checked" /> <label for="edit"><?php echo  _text('댓글을 수정합니다.')?></label>
 				</div>
 				<div class="delete-line">			
-					<input type="radio" id="delete" class="radio" name="mode" value="delete" />  <label for="delete"><?php echo _text('댓글을 삭제합니다.')?></label>
+					<input type="radio" id="delete" class="radio" name="mode" value="delete" />  <label for="delete"><?php echo  _text('댓글을 삭제합니다.')?></label>
 				</div>
 				<div class="password-line">
 <?php
 if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId()))) {
 ?>				  
-					<label for="password"><?php echo _text('비밀번호')?><span class="divider"> | </span></label><input type="password" id="password" class="text-input" name="password" />
+					<label for="password"><?php echo  _text('비밀번호')?><span class="divider"> | </span></label><input type="password" id="password" class="text-input" name="password" />
 <?php
 }
 ?>
-					<input type="button" class="button-input" name="Submit" value="<?php echo _text('다음')?>" onclick="document.deleteComment.submit()" />				
+					<input type="button" class="button-input" name="Submit" value="<?php echo  _text('다음')?>" onclick="document.deleteComment.submit()" />				
 				</div>
 			</div>
 		</div>

@@ -13,7 +13,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><?php echo _text('태터툴즈를 점검합니다.')?></title>
+	<title><?php echo  _text('태터툴즈를 점검합니다.')?></title>
 	<style type="text/css" media="screen">
 		body
 		{
@@ -28,7 +28,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 	</style>
 </head>
 <body>
-	<h3><?php echo _text('태터툴즈를 점검합니다.')?></h3>
+	<h3><?php echo  _text('태터툴즈를 점검합니다.')?></h3>
 	
 	<p>
 		<ul>
@@ -339,7 +339,7 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings NoCommentMes
 
 ?>
 </ul>
-<?php echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'))?>
+<?php echo  ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'))?>
 </p>
 </body>
 </html>

@@ -87,7 +87,7 @@ function requireStrictRoute() {
 <h1>Precondition Failed</h1>
 </body>
 </html>
-<?
+<?php
 	exit;
 }
 

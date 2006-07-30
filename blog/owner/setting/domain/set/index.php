@@ -1,4 +1,4 @@
-<?
+<?php
 define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(

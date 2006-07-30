@@ -8,7 +8,7 @@ $entry = $entries ? $entries[0] : null;
 printMobileHtmlHeader();
 ?>
 <div id="content">
-<h2><?php echo _text('답글에 답글을 작성합니다.')?></h2>
+<h2><?php echo  _text('답글에 답글을 작성합니다.')?></h2>
 <?php
 printMobileCommentFormView($suri['id']);
 ?>

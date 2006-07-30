@@ -65,22 +65,22 @@ if (doesHaveOwnership()) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><?php echo _text('Tattertools - Login')?></title>
+	<title><?php echo  _text('Tattertools - Login')?></title>
 	
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/basic.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/login.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/basic.opera.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/login.opera.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/basic.ie.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin']?>/login.ie.css" /><![endif]-->
-	<script type="text/javascript" src="<?php echo $service['path']?>/style/base.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'].$adminSkinSetting['skin']?>/custom.js"></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo  $service['path'].$adminSkinSetting['skin']?>/basic.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo  $service['path'].$adminSkinSetting['skin']?>/login.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo  $service['path'].$adminSkinSetting['skin']?>/basic.opera.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo  $service['path'].$adminSkinSetting['skin']?>/login.opera.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo  $service['path'].$adminSkinSetting['skin']?>/basic.ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo  $service['path'].$adminSkinSetting['skin']?>/login.ie.css" /><![endif]-->
+	<script type="text/javascript" src="<?php echo  $service['path']?>/style/base.js"></script>
+	<script type="text/javascript" src="<?php echo  $service['path'].$adminSkinSetting['skin']?>/custom.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			window.addEventListener("load", execLoadFunction, false);
 			
 			function execLoadFunction() {
-				document.forms[0].<?php echo (empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password')?>.focus();
+				document.forms[0].<?php echo  (empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password')?>.focus();
 			}
 		//]]>
 	</script>
@@ -89,33 +89,33 @@ if (doesHaveOwnership()) {
 	<div id="temp-wrap">
 		<div id="all-wrap">
 			<form method="post" action="">
-				<input type="hidden" name="requestURI" value="<?php echo htmlspecialchars($_POST['requestURI'])?>" />
+				<input type="hidden" name="requestURI" value="<?php echo  htmlspecialchars($_POST['requestURI'])?>" />
 				
 				<div id="data-outbox">
 					<div id="login-box">
 						<div id="logo-box">
-							<img src="<?php echo $service['path'].$adminSkinSetting['skin']?>/image/logo_tattertools.png" alt="<?php echo _text('태터툴즈 로고')?>" />
+							<img src="<?php echo  $service['path'].$adminSkinSetting['skin']?>/image/logo_tattertools.png" alt="<?php echo  _text('태터툴즈 로고')?>" />
 			            </div>
 			            
 			            <div id="field-box">
 			            	<dl id="email-line">
-			            		<dt><label for="loginid"><?php echo _text('이메일')?></label></dt>
-			            		<dd><input type="text" class="text-input" id="loginid" name="loginid" value="<?php echo htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid'])?>" maxlength="64" tabindex="1" /></dd>
+			            		<dt><label for="loginid"><?php echo  _text('이메일')?></label></dt>
+			            		<dd><input type="text" class="text-input" id="loginid" name="loginid" value="<?php echo  htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid'])?>" maxlength="64" tabindex="1" /></dd>
 			            	</dl>
 			            	<dl id="password-line">
-			            		<dt><label for="password"><?php echo _text('비밀번호')?></label></dt>
+			            		<dt><label for="password"><?php echo  _text('비밀번호')?></label></dt>
 								<dd><input type="password" class="text-input" id="password" name="password" onkeydown="if (event.keyCode == 13) document.forms[0].submit()" maxlength="64" tabindex="2" /></dd>
 							</dl>
 							<dl id="checkbox-line">
-								<dt><span class="label"><?php echo _text('선택사항')?></span></dt>
+								<dt><span class="label"><?php echo  _text('선택사항')?></span></dt>
 								<dd>
-									<div id="email-save"><input type="checkbox" id="save" class="checkbox" name="save"<?php echo (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"')?> /> <label for="save"><?php echo _text('이메일 저장')?></label></div>
-									<?php echo ($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /> <label for="reset">' . _text('암호 초기화') . '</label></div>'.CRLF : '')?>
+									<div id="email-save"><input type="checkbox" id="save" class="checkbox" name="save"<?php echo  (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"')?> /> <label for="save"><?php echo  _text('이메일 저장')?></label></div>
+									<?php echo  ($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /> <label for="reset">' . _text('암호 초기화') . '</label></div>'.CRLF : '')?>
 								</dd>
 							</dl>
 							
 							<div class="button-box">
-								<a class="login-button button" href="#void" onclick="document.forms[0].submit()"><span class="text"><?php echo _text('로그인')?></span></a>
+								<a class="login-button button" href="#void" onclick="document.forms[0].submit()"><span class="text"><?php echo  _text('로그인')?></span></a>
 							</div>
 						</div>
 						
@@ -123,7 +123,7 @@ if (doesHaveOwnership()) {
 if (!empty($message)) {
 ?>
 						<div id="message-box">
-							<?php echo $message.CRLF?>
+							<?php echo  $message.CRLF?>
 						</div>
 <?php
 }

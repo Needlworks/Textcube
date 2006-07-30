@@ -19,7 +19,7 @@ $entry = $entries ? $entries[0] : null;
 printMobileHtmlHeader();
 ?>
 <div id="content">
-	<h2><?php echo _text('답글이 삭제됐습니다.')?></h2>
+	<h2><?php echo  _text('답글이 삭제됐습니다.')?></h2>
 </div>
 <?php
 printMobileNavigation($entry);

@@ -8,42 +8,42 @@ printMobileHtmlHeader(htmlspecialchars($blog['title']));
 ?>
 <div id="pannels">
 	<!--
-	<h2><?php echo _text('카테고리')?></h2>
-	<?php echo getCategoriesView(getCategories($owner), true, getCategoriesSkin(), true)?>
+	<h2><?php echo  _text('카테고리')?></h2>
+	<?php echo  getCategoriesView(getCategories($owner), true, getCategoriesSkin(), true)?>
 	-->
-	<h2><?php echo _text('최근에 달린 답글')?></h2>
+	<h2><?php echo  _text('최근에 달린 답글')?></h2>
 	<?php
 		$comments = getRecentComments($owner);
 		if(count($comments) > 0)
 			echo '<ul>';
 		foreach ($comments as $comment) {
 		?>
-			<li><a href="<?php echo $blogURL?>/comment/<?php echo $comment['entry']?>"><?php echo htmlspecialchars($comment['comment'])?></a><br /><?php echo htmlspecialchars($comment['name'])?> (<?php echo Timestamp::format2($comment['written'])?>)</li>
+			<li><a href="<?php echo  $blogURL?>/comment/<?php echo  $comment['entry']?>"><?php echo  htmlspecialchars($comment['comment'])?></a><br /><?php echo  htmlspecialchars($comment['name'])?> (<?php echo  Timestamp::format2($comment['written'])?>)</li>
 		<?php
 		}
 		if(count($comments) > 0)
 			echo '</ul>';
 		?>
-	<h2><?php echo _text('최근에 달린 트랙백')?></h2>
+	<h2><?php echo  _text('최근에 달린 트랙백')?></h2>
 	<?php
 		$trackbacks = getRecentTrackbacks($owner);
 		if(count($trackbacks) > 0)
 			echo '<ul>';
 		foreach ($trackbacks as $trackback) {
 		?>
-			<li><a href="<?php echo $blogURL?>/trackback/<?php echo $trackback['entry']?>"><?php echo htmlspecialchars($trackback['subject'])?></a><br /><?php echo htmlspecialchars($trackback['site'])?> (<?php echo Timestamp::format2($trackback['written'])?>)</li>
+			<li><a href="<?php echo  $blogURL?>/trackback/<?php echo  $trackback['entry']?>"><?php echo  htmlspecialchars($trackback['subject'])?></a><br /><?php echo  htmlspecialchars($trackback['site'])?> (<?php echo  Timestamp::format2($trackback['written'])?>)</li>
 		<?php
 		}
 		if(count($trackbacks) > 0)
 			echo '</ul>';
 	?>
 	<!--
-	<h2><?php echo _text('글 보관함')?></h2>
+	<h2><?php echo  _text('글 보관함')?></h2>
 	<ul>
 	<?php
 foreach (getArchives($owner) as $archive) {
 ?>
-	<li><a href="<?php echo $blogURL?>/archive/<?php echo $archive['period']?>"><?php echo getPeriodLabel($archive['period'])?></a> (<?php echo $archive['count']?>)</li>
+	<li><a href="<?php echo  $blogURL?>/archive/<?php echo  $archive['period']?>"><?php echo  getPeriodLabel($archive['period'])?></a> (<?php echo  $archive['count']?>)</li>
 	<?php
 }
 ?>

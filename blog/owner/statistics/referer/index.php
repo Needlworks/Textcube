@@ -37,13 +37,13 @@ if (empty($_POST['perPage'])) {
 						
 						
 						<div id="part-statistics-rank" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('리퍼러 순위')?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo  _t('리퍼러 순위')?></span></h2>
 							
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
 									<tr>
-										<th class="number"><span class="text"><?php echo _t('순위')?></span></th>
-										<th class="site"><span class="text"><?php echo _t('리퍼러')?></span></th>
+										<th class="number"><span class="text"><?php echo  _t('순위')?></span></th>
+										<th class="site"><span class="text"><?php echo  _t('리퍼러')?></span></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -55,9 +55,9 @@ for ($i=0; $i<sizeof($temp); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
-									<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-										<td class="rank"><?php echo $i + 1?>.</td>
-										<td class="site"><a href="http://<?php echo escapeJSInAttribute($record['host'])?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($record['host'])?></a> <span class="count">(<?php echo $record['count']?>)</span></td>
+									<tr class="<?php echo  $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+										<td class="rank"><?php echo  $i + 1?>.</td>
+										<td class="site"><a href="http://<?php echo  escapeJSInAttribute($record['host'])?>" onclick="window.open(this.href); return false;"><?php echo  htmlspecialchars($record['host'])?></a> <span class="count">(<?php echo  $record['count']?>)</span></td>
 									</tr>
 <?php
 }
@@ -68,18 +68,18 @@ for ($i=0; $i<sizeof($temp); $i++) {
 						
 						<hr class="hidden" />
 						
-						<form id="part-statistics-log" class="part" method="post" action="<?php echo $blogURL?>/owner/statistics/referer">
-							<h2 class="caption"><span class="main-text"><?php echo _t('리퍼러 로그')?></span></h2>
+						<form id="part-statistics-log" class="part" method="post" action="<?php echo  $blogURL?>/owner/statistics/referer">
+							<h2 class="caption"><span class="main-text"><?php echo  _t('리퍼러 로그')?></span></h2>
 							
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
 									<tr>
-										<th class="number"><span class="text"><?php echo _t('날짜')?></span></th>
-										<th class="site"><span class="text"><?php echo _t('주소')?></span></th>
+										<th class="number"><span class="text"><?php echo  _t('날짜')?></span></th>
+										<th class="site"><span class="text"><?php echo  _t('주소')?></span></th>
 									</tr>
 								</thead>
 								<tbody>
-<?
+<?php
 $more = false;
 list($refereres, $paging) = getRefererLogsWithPage($suri['page'], $perPage);
 for ($i=0; $i<sizeof($refereres); $i++) {
@@ -88,9 +88,9 @@ for ($i=0; $i<sizeof($refereres); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($referers) - 1) ? ' last-line' : '';
 ?>
-									<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-										<td class="date"><?php echo Timestamp::formatDate($record['referred'])?></td>
-										<td class="address"><a href="<?php echo escapeJSInAttribute($record['url'])?>" onclick="window.open(this.href); return false;" title="<?php echo htmlspecialchars($record['url'])?>"><?php echo fireEvent('ViewRefererURL', htmlspecialchars(UTF8::lessenAsEm($record['url'], 70)), $record)?></a></td>
+									<tr class="<?php echo  $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+										<td class="date"><?php echo  Timestamp::formatDate($record['referred'])?></td>
+										<td class="address"><a href="<?php echo  escapeJSInAttribute($record['url'])?>" onclick="window.open(this.href); return false;" title="<?php echo  htmlspecialchars($record['url'])?>"><?php echo  fireEvent('ViewRefererURL', htmlspecialchars(UTF8::lessenAsEm($record['url'], 70)), $record)?></a></td>
 									</tr>
 <?php
 }
@@ -115,25 +115,25 @@ echo str_repeat("\t", 8).getPagingView($paging, $pagingTemplate, $pagingItemTemp
 										</span>
 									</div>
 									<div class="page-count">
-										<?php echo getArrayValue(explode('%1', _t('한 페이지에 목록 %1건 표시')), 0)?>
+										<?php echo  getArrayValue(explode('%1', _t('한 페이지에 목록 %1건 표시')), 0)?>
 										<select name="perPage" onchange="document.getElementById('part-statistics-log').submit()">					
 <?php
 for ($i = 10; $i <= 100; $i += 5) {
 	if ($i == $perPage) {
 ?>
-											<option value="<?=$i?>" selected="selected"><?=$i?></option>
+											<option value="<?php echo $i?>" selected="selected"><?php echo $i?></option>
 <?php
 	} else {
 ?>
-											<option value="<?=$i?>"><?=$i?></option>
+											<option value="<?php echo $i?>"><?php echo $i?></option>
 <?php
 	}
 }
 ?>
 										</select>
-										<?php echo getArrayValue(explode('%1', _t('한 페이지에 목록 %1건 표시')), 1)?>
+										<?php echo  getArrayValue(explode('%1', _t('한 페이지에 목록 %1건 표시')), 1)?>
 										
-										<input type="submit" id="log-pages-submit" value="<?php echo _t('갱신')?>" />
+										<input type="submit" id="log-pages-submit" value="<?php echo  _t('갱신')?>" />
 									</div>
 								</div>
 							</div>

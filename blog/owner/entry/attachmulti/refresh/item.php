@@ -38,8 +38,8 @@ foreach ($attachments as $i => $attachment) {
 	$value = htmlspecialchars(getAttachmentValue($attachment));
 	$label = $prefix . htmlspecialchars(getPrettyAttachmentLabel($attachment));
 ?>
-		        <option  <?php echo $style?> value="<?php echo $value?>">
-	            <?php echo $label?>
+		        <option  <?php echo  $style?> value="<?php echo  $value?>">
+	            <?php echo  $label?>
 	            </option>
                 <?php
 }
