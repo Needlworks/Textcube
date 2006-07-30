@@ -417,8 +417,9 @@ function getResponse(uri,content) {
 			return result;		
 		} else {
 			loading = false
+			var returnValue = oHttp.responseXML.selectNodes("/response/descendant::*");
 			delete oHttp;
-			return oHttp.responseXML.selectNodes("/response/descendant::*");
+			return returnValue;
 		} 
 		delete oHttp;
 	} catch(e) {
