@@ -32,7 +32,11 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 		)
 	);
 } else {
-	$IV = array();
+	$IV = array(
+		'GET' => array(
+			'page' => array('int', 1, 'default' => 1)
+		)
+	);
 }
 require ROOT . '/lib/include.php';
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
