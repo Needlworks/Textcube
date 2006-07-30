@@ -50,10 +50,10 @@ function addAttachment($owner, $parent, $file) {
 	global $database;	
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
-	if (fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$parent AND label='{$file['name']}'")>0) {
+	$filename = mysql_real_escape_string($file['name']);
+	if (fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$parent AND label='$filename'")>0) {
 		return false;
 	}
-		
 	$attachment = array();
 	$attachment['parent'] = $parent ? $parent : 0;
 	$attachment['label'] = Path::getBaseName($file['name']);
@@ -88,7 +88,9 @@ function addAttachment($owner, $parent, $file) {
 	if (!move_uploaded_file($file['tmp_name'], $attachment['path']))
 		return false;
 	@chmod($attachment['path'], 0666);
-	$result = mysql_query("insert into {$database['prefix']}Attachments values ($owner, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
+	$name = mysql_real_escape_string($attachment['name']);
+	$label = mysql_real_escape_string($attachment['label']);	
+	$result = DBQuery::query("insert into {$database['prefix']}Attachments values ($owner, {$attachment['parent']}, '$name', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	if (!$result) {
 		@unlink($attachment['path']);
 		return false;
