@@ -1,5 +1,5 @@
 <?
-/// Copyright (C) 2004-2006, Tatter & Company. All rights reserved.
+
 
 class String {
 	/*@static@*/

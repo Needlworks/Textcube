@@ -116,7 +116,7 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
               <tr valign="top">
 			  	<td width="300" valign="top" style="padding:5px">
 				<div style="height: 100%; border: 1px solid #ccc; background-color: #fff; padding: 10px; min-height: 200px;">
-				<?=getCategoriesViewInOwner($categories, $selected, getCategoriesSkin())?>
+				<?=getCategoriesViewInOwner(getEntriesTotalCount($owner), $categories, $selected)?>
 				</div>
 				</td>
                 <td style="padding:10px 5px 10px 5px">

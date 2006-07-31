@@ -9,7 +9,7 @@ printMobileHtmlHeader(htmlspecialchars($blog['title']));
 <div id="pannels">
 	<!--
 	<h2><?=_t('카테고리')?></h2>
-	<?=getCategoriesView(getCategories($owner), true, getCategoriesSkin(), true)?>
+	<?=getCategoriesView(getEntriesTotalCount($owner), getCategories($owner), true, true)?>
 	-->
 	<h2><?=_t('최근에 달린 답글')?></h2>
 	<?
