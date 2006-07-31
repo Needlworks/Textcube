@@ -322,8 +322,8 @@ function getTrackbacksView($entryId, & $skin) {
 
 function getCommentView($entryId, & $skin) {
 	global $database, $blogURL, $owner, $suri, $paging, $blog;
-	if ($entryId <= 0)
-		return getGuestCommentView($entryId, $skin);
+	//if ($entryId <= 0)
+	//	return getGuestCommentView($entryId, $skin);
 	$authorized = doesHaveOwnership();
 	$skinValue = getSkinSetting($owner);
 	$blogSetting = getBlogSetting($owner);
