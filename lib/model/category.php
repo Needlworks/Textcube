@@ -23,11 +23,11 @@ function getCategoryIdByLabel($owner, $label) {
 
 function getCategoryNameById($owner, $id) {
 	global $database;
-	if ($id === null)
-		return '';
-//	if ($id === 0)
-//		return _text('분류 전체보기');
-	return fetchQueryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
+	$result = fetchQueryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
+	if (is_null($result))
+		return _text('전체');
+	else
+		return $result;
 }
 
 function getCategoryBodyIdById($owner, $id) {
