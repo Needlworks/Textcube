@@ -465,15 +465,9 @@ function getCommentView($entryId, & $skin) {
 	return $commentView;
 }
 
-function getRootCategoryName() {
-	global $database, $owner;
-	$cell = fetchQueryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $owner AND id = 0");
-	return is_null($cell) ? _t('전체') : $cell;
-}
-
 function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) {
 	global $blogURL, $owner;
-	$tree = array('id' => 0, 'label' => getRootCategoryName(), 'value' => $totalPosts, 'link' => "$blogURL/category", 'children' => array());
+	$tree = array('id' => 0, 'label' => getCategoryNameById($owner, 0), 'value' => $totalPosts, 'link' => "$blogURL/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
@@ -490,7 +484,7 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 
 function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 	global $blogURL, $owner;
-	$tree = array('id' => 0, 'label' => getRootCategoryName(), 'value' => $totalPosts, 'link' => "$blogURL/owner/entry/category", 'children' => array());
+	$tree = array('id' => 0, 'label' => getCategoryNameById($owner, 0), 'value' => $totalPosts, 'link' => "$blogURL/owner/entry/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
@@ -507,7 +501,7 @@ function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 
 function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 	global $owner;
-	$tree = array('id' => 0, 'label' => getRootCategoryName(), 'value' => $totalPosts, 'link' => "", 'children' => array());
+	$tree = array('id' => 0, 'label' => getCategoryNameById($owner, 0), 'value' => $totalPosts, 'link' => "", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
