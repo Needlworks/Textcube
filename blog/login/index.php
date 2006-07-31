@@ -51,7 +51,6 @@ if (doesHaveOwnership()) {
 			header("Location: http://{$url['host']}{$pathURL}/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id()));
 		else
 			header("Location: {$_POST['requestURI']}");
-		}
 	} else {
 		$blog = getBlogSetting($_SESSION['userid']);
 		header("Location: $blogURL");

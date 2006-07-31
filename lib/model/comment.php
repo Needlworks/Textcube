@@ -303,11 +303,8 @@ function updateComment($owner, $comment, $password) {
 	$comment['comment'] = mysql_lessen($comment['comment'], 65535);
 	
 	$setPassword = '';
-	if ($user !== null && empty($comment['replier']) == $user['id']) {
-		if (empty($comment['name']))
-			$name = mysql_escape_string($user['name']);
-		else
-			$name = mysql_escape_string($comment['name']);
+	if ($user !== null && !is_null($comment['replier']) && $comment['replier'] == $owner) {
+		$name = mysql_escape_string($user['name']);
 		$setPassword = 'password = \'\',';
 		$homepage = mysql_escape_string($user['homepage']);
 	} else {
