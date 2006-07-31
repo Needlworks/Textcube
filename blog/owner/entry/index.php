@@ -296,6 +296,10 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 												}
 												//document.getElementById('list-form').submit();
 											}
+											
+											request.onError = function () {
+												alert("<?php echo _t('분류를 변경하지 못했습니다.')?>");
+											}
 											request.send("category="+category+"&targets="+targets);
 											break;
 									}
@@ -691,13 +695,13 @@ if ($entry['visibility'] == 1) {
 		foreach ($categories as $category) {
 			if ($category['id']!= 0) {
 ?>
-												<option class="parent-category" value="category_<?php echo $child['id']?>" label="<?php echo htmlspecialchars($category['name'])?>"><?php echo htmlspecialchars($category['name'])?></option>
+												<option class="parent-category" value="category_<?php echo $category['id']?>" label="<?php echo htmlspecialchars($category['name'])?>"><?php echo htmlspecialchars($category['name'])?></option>
 <?php
 			}
 			foreach ($category['children'] as $child) {
 				if ($category['id']!= 0) {
 ?>
-												<option class="child-category" value="category_<?php echo $child['id']?>" label="<?php echo htmlspecialchars($category['name'])?>/<?php echo htmlspecialchars($child['name'])?>">― <?php echo htmlspecialchars($child['name'])?></option>
+												<option class="child-category" value="category_<?php echo $category['id']?>" label="<?php echo htmlspecialchars($category['name'])?>/<?php echo htmlspecialchars($child['name'])?>">― <?php echo htmlspecialchars($child['name'])?></option>
 <?php
 				}
 			}
