@@ -149,19 +149,19 @@ display:none;
 	background:url(images/bg_header.gif) no-repeat;
 }
 
-body#page #header {
+body#tt-body-page #header {
 	background:url(images/bg_header.gif) no-repeat;
 }
 
-body#tag #header {
+body#tt-body-tag #header {
 	background:url(images/bg_header01.gif) no-repeat;
 }
 
-body#category #header, body#archive #header {
+body#tt-body-category #header, body#tt-body-archive #header {
 	background:url(images/bg_header02.gif) no-repeat;
 }
 
-body#notice #header {
+body#tt-body-notice #header {
 	background:url(images/bg_header03.gif) no-repeat;
 }
 
