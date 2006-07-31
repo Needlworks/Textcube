@@ -62,7 +62,7 @@ function getCategoryLinkById($owner, $id) {
 
 function getCategories($owner) {
 	global $database;
-	$rows = fetchQueryAll("SELECT * FROM {$database['prefix']}Categories WHERE owner = $owner ORDER BY parent, priority");
+	$rows = fetchQueryAll("SELECT * FROM {$database['prefix']}Categories WHERE owner = $owner AND id > 0 ORDER BY parent, priority");
 	$categories = array();
 	foreach ($rows as $category) {
 		if ($category['parent'] == null) {
