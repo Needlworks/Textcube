@@ -477,10 +477,9 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
-			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => $category2['entries'], 'link' => "$blogURL/category/" . encodeURL($category1['label']), 'children' => array()));
+			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => $category2['entries'], 'link' => "$blogURL/category/" . encodeURL($category2['label']), 'children' => array()));
 		}
 		array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $category1['entries'], 'link' => "$blogURL/category/" . encodeURL($category1['label']), 'children' => $children));
-		    
 	}
 	ob_start();
 	printTreeView($tree, $selected, $xhtml);
@@ -495,7 +494,7 @@ function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
-			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => $category2['entries'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => $category2['entries'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
 		}
 		array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $category1['entries'], 'link' => "$blogURL/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
 	}
