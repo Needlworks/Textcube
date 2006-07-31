@@ -63,13 +63,15 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 			if ($comment === false)
 				respondErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
 			if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment'])) {
-				$comment['name'] = empty($_POST['name']) ? '' : $_POST['name'];
+				if (!doesHaveMembership())
+					$comment['name'] = empty($_POST['name']) ? '' : $_POST['name'];
 				$comment['password'] = empty($_POST['password']) ? '' : $_POST['password'];
 				$comment['email'] = empty($_POST['email']) || ($_POST['email'] == '') ? '' : $_POST['email'];
 				$comment['homepage'] = empty($_POST['homepage']) || ($_POST['homepage'] == 'http://') ? '' : $_POST['homepage'];
 				$comment['secret'] = empty($_POST['secret']) ? 0 : 1;
 				$comment['comment'] = $_POST['comment'];
 				$comment['ip'] = $_SERVER['REMOTE_ADDR'];
+				
 				$result = updateComment($owner, $comment, isset($_POST['oldPassword']) ? $_POST['oldPassword'] : '');
 				if ($result === 'blocked') {
 					printHtmlHeader();

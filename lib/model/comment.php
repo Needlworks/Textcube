@@ -297,16 +297,17 @@ function updateComment($owner, $comment, $password) {
 			return 'blocked';
 	}
 	
-	$comment['homepage'] = stripHTML($comment['homepage']);
 	$comment['name'] = mysql_lessen($comment['name'], 80);
 	$comment['email'] = mysql_lessen($comment['email'], 80);
 	$comment['homepage'] = mysql_lessen($comment['homepage'], 80);
 	$comment['comment'] = mysql_lessen($comment['comment'], 65535);
 	
 	$setPassword = '';
-	if ($user !== null) {
-		$comment['replier'] = $user['id'];
-		$name = mysql_escape_string($user['name']);
+	if ($user !== null && empty($comment['replier']) == $user['id']) {
+		if (empty($comment['name']))
+			$name = mysql_escape_string($user['name']);
+		else
+			$name = mysql_escape_string($comment['name']);
 		$setPassword = 'password = \'\',';
 		$homepage = mysql_escape_string($user['homepage']);
 	} else {
