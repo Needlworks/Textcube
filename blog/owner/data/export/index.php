@@ -68,7 +68,7 @@ $category = new Category();
 if ($category->open()) {
 	do {
 		if($category->id != 0) {
-		    	$category->escape();
+		   	$category->escape();
 			$writer->write('<category>' . '<name>' . $category->name . '</name>' . '<priority>' . $category->priority . '</priority>');
 			if ($childCategory = $category->getChildren()) {
 				do {
@@ -77,9 +77,9 @@ if ($category->open()) {
 				} while ($childCategory->shift());
 				$childCategory->close();
 			}
+			$writer->write('</category>');
+			$writer->write(CRLF);
 		}
-		$writer->write('</category>');
-		$writer->write(CRLF);
 	} while ($category->shift());
 	$category->close();
 }
