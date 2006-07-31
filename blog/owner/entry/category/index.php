@@ -117,7 +117,7 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 							
 							<div class="data-inbox">
 								<div id="treePreview">
-<?php echo getCategoriesViewInOwner($categories, $selected, getCategoriesSkin())?>
+<?php echo getCategoriesViewInOwner(getEntriesTotalCount($owner), $categories, $selected)?>
 								</div>
 								
 								<form class="section" method="post" action="<?php echo $blogURL?>/owner/entry/category">

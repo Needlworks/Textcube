@@ -5,7 +5,7 @@ $IV = array(
 		'loginid' => array('string', 'mandatory' => false ),
 		'password' => array('string', 'default' => null),
 		'requestURI' => array('string', 'default' => null ),
-		'session' => array('string' , 16, 16, 'default' => null),
+		'session' => array('string' , 32, 32, 'default' => null),
 		'try' => array(array(1,2,3), 'default' => null),
 	),
 	'POST' => array(
@@ -47,13 +47,9 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 
 if (doesHaveOwnership()) {
 	if (!empty($_POST['requestURI'])) {
-		if (($url = parse_url($_POST['requestURI'])) && isset($url['host']) && !String::endsWith($url['host'], '.' . $service['domain'])) {
-			if ($url['host'] != $service['domain']) {
-				header("Location: http://{$url['host']}{$service['path']}/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id()));
-			} else {
-				header("Location: {$_POST['requestURI']}");
-			}
-		} else {
+		if (($url = parse_url($_POST['requestURI'])) && isset($url['host']) && !String::endsWith($url['host'], '.' . $service['domain']))
+			header("Location: http://{$url['host']}{$pathURL}/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id()));
+		else
 			header("Location: {$_POST['requestURI']}");
 		}
 	} else {

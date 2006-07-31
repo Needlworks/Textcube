@@ -1,5 +1,4 @@
 <?php
-/// Copyright ⓒ 2004-2006. Tatter & Company / Tatter & Friends.
 
 class String {
 	/*@static@*/
