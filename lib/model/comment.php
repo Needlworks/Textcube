@@ -352,7 +352,7 @@ function deleteComment($owner, $id, $entry, $password) {
 	global $database;
 	
 	$guestcomment = false;
-	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE owner = $owner AND id = {$comment['id']} AND replier IS NULL")) {
+	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE owner = $owner AND id = $id AND replier IS NULL")) {
 		$guestcomment = true;
 	}
 	
@@ -361,8 +361,9 @@ function deleteComment($owner, $id, $entry, $password) {
 	$sql = "delete from {$database['prefix']}Comments where owner = $owner and id = $id and entry = $entry";
 	if (!doesHaveOwnership()) {
 		if ($guestcomment == false) {
-			if (!doesHaveMembership())
+			if (!doesHaveMembership()) {
 				return false;
+			}
 			$wherePassword = ' and replier = ' . getUserId();
 		}
 		else
@@ -370,7 +371,7 @@ function deleteComment($owner, $id, $entry, $password) {
 			$wherePassword = ' and password = \'' . md5($password) . '\'';
 		}
 	}
-	$result = DBQuery::query($sql . $wherePassword);
+	$result = mysql_query($sql . $wherePassword);
 	if (mysql_affected_rows() > 0) {
 		mysql_query("delete from {$database['prefix']}Comments where owner = $owner and parent = $id");
 		updateCommentsOfEntry($owner, $entry);

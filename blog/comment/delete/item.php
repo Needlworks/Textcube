@@ -49,8 +49,11 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 <?php
 				printHtmlFooter();
 				exit;
+			} else {
+				respondErrorPage(_text('패스워드가 일치하지 않습니다.'));
+				exit;
 			}
-			respondErrorPage(_text('패스워드가 틀렸습니다.'));
+			
 		case 'edit':
 			$comment = getComment($owner, $suri['id'], isset($_POST['password']) ? $_POST['password'] : '');
 			if ($comment === false)

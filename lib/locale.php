@@ -14,7 +14,6 @@ if (is_file($__locale['directory'] . '/' . $blog['blogLanguage'] . ".php")) {
 
 function getOutLanguage($languageFile) {
 	include($languageFile);
-	
 	return $__text;
 }
 
@@ -26,7 +25,7 @@ function _text($t) {
 	if (isset($__outText) && isset($__outText[$t])) {
 		return $__outText[$t];
 	} else {
-		return _t($t);
+		return $t;
 	}
 }
 ?>
