@@ -44,7 +44,7 @@ function writeValue($value, $label) {
 											document.getElementById('currentPreview').innerHTML = document.getElementById('preview_'+name).innerHTML;
 											document.getElementById('currentInfo').innerHTML = document.getElementById('info_'+name).innerHTML;
 											//document.getElementById('currentButton').innerHTML = document.getElementById('button_'+name).innerHTML;
-											window.location.href = "#currentSkinAnchor";
+											//window.location.href = "#currentSkinAnchor";
 											//eleganceScroll('currentSkin',8);
 											/*
 											document.getElementById('currentSkinPreview').innerHTML = document.getElementById('preivew_'+name).innerHTML
