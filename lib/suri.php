@@ -77,13 +77,7 @@ switch ($service['type']) {
 		break;
 	case 'path':
 		$pathURL = $service['path'] . '/' . $blog['name'];
-		
-		// 임시방편. 확인이 필요.
-		if (empty($blog['secondaryDomain']))
-			$defaultURL = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
-		else
-			$defaultURL = 'http://' . $blog['secondaryDomain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
-		
+		$defaultURL = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
 		if ($_SERVER['HTTP_HOST'] == $service['domain'])
 			$baseURL = $service['path'] . '/' . $blog['name'];
 		else
@@ -92,13 +86,7 @@ switch ($service['type']) {
 	case 'single':
 	default:
 		$pathURL = $service['path'];
-		
-		// 임시방편. 확인이 필요.
-		if (empty($blog['secondaryDomain']))
-			$defaultURL = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
-		else
-			$defaultURL = 'http://' . $blog['secondaryDomain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
-		
+		$defaultURL = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
 		if ($_SERVER['HTTP_HOST'] == $service['domain'])
 			$baseURL = $service['path'];
 		else
