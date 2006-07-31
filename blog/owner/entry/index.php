@@ -701,7 +701,7 @@ if ($entry['visibility'] == 1) {
 			foreach ($category['children'] as $child) {
 				if ($category['id']!= 0) {
 ?>
-												<option class="child-category" value="category_<?php echo $category['id']?>" label="<?php echo htmlspecialchars($category['name'])?>/<?php echo htmlspecialchars($child['name'])?>">― <?php echo htmlspecialchars($child['name'])?></option>
+												<option class="child-category" value="category_<?php echo $child['id']?>" label="<?php echo htmlspecialchars($category['name'])?>/<?php echo htmlspecialchars($child['name'])?>">― <?php echo htmlspecialchars($child['name'])?></option>
 <?php
 				}
 			}

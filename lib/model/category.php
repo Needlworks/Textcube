@@ -102,13 +102,13 @@ function getNumberEntryInCategories($id) {
 
 function addCategory($owner, $parent, $name) {
 	global $database;
-
+	
 	if (empty($name))
 		return false;
 	if (!is_null($parent) && !Validator::id($parent))
 		return false;
 	if ($parent !== null) {
-		$label = fetchQueryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $parent");
+		$label = fetchQueryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $parent");
 		if ($label === null)
 			return false;
 		$label .= '/' . $name;
@@ -147,6 +147,7 @@ function deleteCategory($owner, $id) {
 
 function modifyCategory($owner, $id, $name, $bodyid) {
 	global $database;
+	echo $name;
 	if($id==0) checkRootCategoryExistence($owner);
 	if ((empty($name)) && (empty($bodyid)))
 		return false;
@@ -161,9 +162,10 @@ function modifyCategory($owner, $id, $name, $bodyid) {
 	
 	$label = mysql_real_escape_string(empty($label) ? $name : "$label/$name");
 	$name = mysql_real_escape_string($name);
-	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND name='$name' $parentStr";	
-	if(fetchQueryCell($sql) >0)
-		return false;	
+	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND id=$id";
+	// $sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND name='$name' $parentStr";	
+	if(DBQuery::queryCell($sql) == false)
+		return false;
 	$bodyid = mysql_escape_string($bodyid);
 	
 	$result = mysql_query("UPDATE {$database['prefix']}Categories SET name = '$name', label = '$label', bodyId = '$bodyid'  WHERE owner = $owner AND id = $id");

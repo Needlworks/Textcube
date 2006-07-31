@@ -7,7 +7,8 @@ if(count($_POST) > 0) {
 			'direction' => array(array('up', 'down'), 'mandatory' => false),
 			'id' => array('int', 'mandatory' => false),
 			'newCategory' => array('string', 'mandatory' => false),
-			'modifyCategoryName' => array('string', 'mandatory' => false)
+			'modifyCategoryName' => array('string', 'mandatory' => false),
+			'modifyCategoryBodyId' => array('string', 'default' => 'category')
 		)
 	);
 }
@@ -52,6 +53,7 @@ if (!empty($_POST['newCategory'])) {
 } else {
 	$history = '';
 }
+
 $categories = getCategories($owner);
 $name = getCategoryNameById($owner, $selected) ? getCategoryNameById($owner, $selected) : _t('전체');
 $bodyid = getCategoryBodyIdById($owner, $selected);
