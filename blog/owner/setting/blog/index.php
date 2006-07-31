@@ -459,7 +459,7 @@ if ($service['type'] != 'single') {
 						<td class="entryEditTableLeftCell"><?=_t('블로그 아이콘')?> |</td>
 						<td align="center"><img id="blogIcon" width="16" height="16" style="border-style:solid; border-width:1px; border-color:#404040" src="<?=$blogURL?>/index.gif" alt="" onerror="this.src='<?=$service['path']?>/image/Tattertools.gif'"/></td>
 						<td valign="middle">
-						<iframe src="<?=$blogURL?>/owner/setting/blog/blogIcon" style="margin:opx; padding:0px;display:block; border-color:#FFFFFF\" frameborder="0" scrolling="no"  height="30"></iframe>
+						<iframe src="<?=$blogURL?>/owner/setting/blog/blogIcon" style="margin:opx; padding:0px;display:block; border-color:#FFFFFF\" frameborder="0" scrolling="no" width="400" height="30"></iframe>
 						</td>
                     </tr>
 					
