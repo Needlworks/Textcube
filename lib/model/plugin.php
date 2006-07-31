@@ -4,7 +4,7 @@ function activatePlugin($name) {
 	global $database, $owner, $activePlugins;
 	if (in_array($name, $activePlugins))
 		return true;
-	if (!ereg('^[[:alnum:] _-]+$', $name))
+	if (!ereg("^[[:alnum:] _\-]+$", $name))
 		return false;
 	if (!is_dir(ROOT . "/plugins/$name"))
 		return false;
@@ -18,9 +18,10 @@ function activatePlugin($name) {
 function deactivatePlugin($name) {
 	global $database, $owner, $activePlugins;
 	if (!in_array($name, $activePlugins))
-		return;
+		return false;
 	$name = mysql_escape_string($name);
 	mysql_query("DELETE FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$name'");
+	return true;
 }
 
 function getCurrentSetting( $name){
