@@ -4,7 +4,7 @@ class DataMaintenance {
 	function removeAll($removeAttachments = true) {
 		global $database, $owner;
 		
-		$tags = DBQuery::queryColumn("SELECT tag FROM {$database['prefix']}TagRelations WHERE owner = $owner");
+		$tags = DBQuery::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE owner = $owner");
 		
 		mysql_query("UPDATE {$database['prefix']}BlogStatistics SET visits = 0 WHERE owner = $owner");
 		mysql_query("DELETE FROM {$database['prefix']}DailyStatistics WHERE owner = $owner");
@@ -19,7 +19,7 @@ class DataMaintenance {
 		mysql_query("DELETE FROM {$database['prefix']}RefererLogs WHERE owner = $owner");
 		mysql_query("DELETE FROM {$database['prefix']}RefererStatistics WHERE owner = $owner");
 		mysql_query("DELETE FROM {$database['prefix']}Plugins WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}UserSettings WHERE owner = $owner");
+		mysql_query("DELETE FROM {$database['prefix']}UserSettings WHERE user = $owner");
 		
 		mysql_query("DELETE FROM {$database['prefix']}Filters WHERE owner = $owner");
 		mysql_query("DELETE FROM {$database['prefix']}FeedStarred WHERE owner = $owner");
@@ -30,7 +30,11 @@ class DataMaintenance {
 		if (count($tags) > 0) 
 		{
 			$tagliststr = implode(', ', $tags);
-			DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id in ( $tagliststr ) AND NOT EXISTS (SELECT * FROM {$database['prefix']}TagRelations WHERE (tag = id))");
+			$nottargets = DBQuery::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");
+			if (count($nottargets) > 0) {
+				$nottargetstr	= implode(', ', $nottargets);
+				DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");
+			}		
 		}
 		
 		if (file_exists(ROOT . "/cache/rss/$owner.xml"))
