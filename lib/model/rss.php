@@ -10,6 +10,14 @@ function refreshRSS($owner) {
 	$channel['language'] = $blog['language'];
 	$channel['pubDate'] = Timestamp::getRFC1123();
 	$channel['generator'] = TATTERTOOLS_NAME . ' ' . TATTERTOOLS_VERSION;
+
+	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$owner/{$blog['logo']}")) {
+		$logoInfo = getimagesize(ROOT."/attach/$owner/{$blog['logo']}");
+		$channel['url'] = $defaultURL."/attach/".$owner."/".$blog['logo'];
+		$channel['width'] = $logoInfo[0];
+		$channel['height'] = $logoInfo[1];
+	}
+
 	if ($blog['publishEolinSyncOnRSS']) {
 		$result = mysql_query("SELECT e.*, c.name AS categoryName FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 ORDER BY e.published DESC LIMIT {$blog['entriesOnRSS']}");
 	} else { $result = mysql_query("SELECT e.*, c.name AS categoryName FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 AND e.visibility = 3 AND e.category >= 0 ORDER BY e.published DESC LIMIT {$blog['entriesOnRSS']}");
@@ -19,7 +27,6 @@ function refreshRSS($owner) {
 	$channel['items'] = array();
 	while ($row = mysql_fetch_array($result)) {
 		if (!$blog['publishWholeOnRSS']) {
-			$content = UTF8::lessen(removeAllTags(stripHTML($row['content'])), 255) . "<p><strong><a href=\"$hostURL$blogURL/" . ($blog['useSlogan'] ? "entry/{$row['slogan']}" : $row['id']) . "\">" . _text('글 전체보기') . "</a></strong></p>";
 			$content = UTF8::lessen(removeAllTags(stripHTML($row['content'])), 255) . "<p><strong><a href=\"$defaultURL/" . ($blog['useSlogan'] ? "entry/{$row['slogan']}" : $row['id']) . "\">" . _t('글 전체보기') . "</a></strong></p>";
 		} else {
 			$content = $row['content'];
@@ -79,6 +86,18 @@ function publishRSS($owner, $data) {
 	echo '		<language>', $data['channel']['language'], '</language>', CRLF;
 	echo '		<pubDate>', $data['channel']['pubDate'], '</pubDate>', CRLF;
 	echo '		<generator>', $data['channel']['generator'], '</generator>', CRLF;
+
+	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$owner/{$blog['logo']}")) {
+		echo '		<image>', CRLF;
+		echo '		<title>', htmlspecialchars($data['channel']['title'], ENT_QUOTES), '</title>', CRLF;
+		echo '		<url>', $data['channel']['url'], '</url>', CRLF;
+		echo '		<link>', $data['channel']['link'], '</link>', CRLF;
+		echo '		<width>', $data['channel']['width'], '</width>', CRLF;
+		echo '		<height>', $data['channel']['height'], '</height>', CRLF;
+		echo '		<description>', htmlspecialchars($data['channel']['description'], ENT_QUOTES), '</description>', CRLF;
+		echo '		</image>', CRLF;
+	}
+
 	foreach ($data['channel']['items'] as $item) {
 		echo '		<item>', CRLF;
 		echo '			<title>', htmlspecialchars($item['title'], ENT_QUOTES), '</title>', CRLF;

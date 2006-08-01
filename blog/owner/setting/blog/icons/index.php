@@ -2,12 +2,19 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
-		'mode' => array(array('0','1'), 'mandatory' => false)
+		'mode' => array(array('0','1'), 'mandatory' => false),
+		'blogIconSize' => array(array('16','32','48'), 'mandatory' => false),
+		'deleteLogo' => array('string'),
+		'deleteBlogIcon' => array('string'),
+		'deleteFavicon' => array('string')
 	),
 	'FILES' => array(
 		'blogIcon' => array('file', 'mandatory' => false),
-		'favicon' => array('file', 'mandatory' => false ),
+		'favicon' => array('file', 'mandatory' => false),
 		'logo' => array('file', 'mandatory' => false)
+	),
+	'SERVER' => array(
+		'HTTP_REFERER' => array('string')
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
