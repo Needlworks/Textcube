@@ -452,7 +452,9 @@ function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 	return $view;
 }
 
-function printTreeView($tree, $selected, $skin, $xhtml = false) {
+function printTreeView($tree, $selected, $xhtml = false) {
+	global $skinSetting, $service;
+	$skin = array('name' => "{$skinSetting['skin']}", 'url' => $service['path'] . "/image/tree/{$skinSetting['tree']}", 'labelLength' => $skinSetting['labelLengthOnTree'], 'showValue' => $skinSetting['showValueOnTree'], 'bgColor' => "{$skinSetting['bgColorOnTree']}", 'itemColor' => "{$skinSetting['colorOnTree']}", 'itemBgColor' => "{$skinSetting['bgColorOnTree']}", 'activeItemColor' => "{$skinSetting['activeColorOnTree']}", 'activeItemBgColor' => "{$skinSetting['activeBgColorOnTree']}", );
 	if ($xhtml) {
 		echo '<ul>';
 		$isSelected = ($tree['id'] === $selected) ? ' class="selected"' : '';
