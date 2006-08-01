@@ -359,15 +359,19 @@ function getCommentView($entryId, & $skin) {
 			$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . $commentItemView;
 		dress($prefix1 . '_rep_id',"comment{$commentItem['id']}", $commentItemView);
 		$commentSubItemsView = '';
+		$blogIconSize = getUserSetting('blogIconSize', 32);
 		foreach (getCommentComments($commentItem['id']) as $commentSubItem) {
 			$commentSubItemView = ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
 			if (!dress($prefix1 . '_rep_id', "comment{$commentSubItem['id']}", $commentSubItemView))
 				$commentSubItemView = "<a id=\"comment{$commentSubItem['id']}\"></a>" . $commentSubItemView;
 			dress($prefix1 . '_rep_id',"comment{$commentSubItem['id']}", $commentSubItemView);
-			if (empty($commentSubItem['homepage']))
+			if (empty($commentSubItem['homepage'])) {
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentSubItem['name']), $commentSubItem), $commentSubItemView);
-			else
+			} else {
+				$slash = ($commentSubItem['homepage']{strlen($commentSubItem['homepage']) - 1} == '/' ? '' : '/');
+				dress($prefix1 . '_rep_icon', fireEvent(($isComment ? 'ViewCommentIcon' : 'ViewGuestCommentIcon'), "<img class=\"tt-comment-icon\" src=\"{$commentSubItem['homepage']}{$slash}index.gif\" width=\"$blogIconSize\" height=\"$blogIconSize\" onerror=\"this.parentNode.removeChild(this)\" />", $commentSubItem), $commentSubItemView);
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentSubItem['name']) . '</a>', $commentSubItem), $commentSubItemView);
+			}
 			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentSubItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
 			dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentSubItem['written'])), $commentSubItemView);
 			dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentSubItem['id']}", $commentSubItemView);
@@ -381,10 +385,13 @@ function getCommentView($entryId, & $skin) {
 			$commentSubItemsView .= $commentSubItemView;
 		}
 		dress(($isComment ? 'rp2_rep' : 'guest_reply_rep'), $commentSubItemsView, $commentItemView);
-		if (empty($commentItem['homepage']))
+		if (empty($commentItem['homepage'])) {
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentItem['name']), $commentItem), $commentItemView);
-		else
+		} else {
+			$slash = ($commentItem['homepage']{strlen($commentItem['homepage']) - 1} == '/' ? '' : '/');
+			dress($prefix1 . '_rep_icon', fireEvent(($isComment ? 'ViewCommentIcon' : 'ViewGuestCommentIcon'), "<img class=\"tt-guestbook-icon\" src=\"{$commentItem['homepage']}{$slash}index.gif\" width=\"$blogIconSize\" height=\"$blogIconSize\" onerror=\"this.parentNode.removeChild(this)\" />", $commentItem), $commentItemView);
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentItem['name']) . '</a>', $commentItem), $commentItemView);
+		}
 		dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentItem), $commentItemView);
 		dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentItem['written'])), $commentItemView);
 		if ($prefix1 == 'guest' && $authorized != true && $blogSetting['allowWriteDoubleCommentOnGuestbook'] == 0) {

@@ -3,7 +3,7 @@ define('ROOT', '..');
 require ROOT . '/lib/include.php';
 $fp = @fopen(ROOT . "/attach/$owner/index.gif", 'rb');
 if (!$fp) {
-	$fp = @fopen(ROOT . '/image/Tattertools.gif', 'rb');
+	$fp = @fopen(ROOT . '/image/Tattertools.png', 'rb');
 	if (!$fp)
 		respondNotFoundPage();
 }

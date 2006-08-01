@@ -4,9 +4,9 @@ $IV = array(
 	'POST' => array(
 		'mode' => array(array('0','1'), 'mandatory' => false),
 		'blogIconSize' => array(array('16','32','48'), 'mandatory' => false),
-		'deleteLogo' => array('string'),
-		'deleteBlogIcon' => array('string'),
-		'deleteFavicon' => array('string')
+		'deleteLogo' => array('string', 'default' => NULL),
+		'deleteBlogIcon' => array('string', 'default' => NULL),
+		'deleteFavicon' => array('string', 'default' => NULL)
 	),
 	'FILES' => array(
 		'blogIcon' => array('file', 'mandatory' => false),

@@ -167,7 +167,7 @@ if ($depth <= 1) {
 													<input type="text" id="modifyCategoryBodyId" class="text-input" name="modifyCategoryBodyId" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?php echo $bodyid?>" />
 													<a class="save-button button" href="#void" onclick="modifyCategory(); return false;"><span class="text"><?php echo _t('저장하기')?></span></a>
 												</div>
-												<p><?php echo _t('Body id는 블로그의 <acronym title="Cascading Style Sheet">CSS</acronym> 활용을 위해 사용합니다.')?></p>
+												<p><?php echo _t('Body id는 블로그의 <acronym title="Cascading Style Sheet">CSS</acronym> 활용을 위해 사용합니다. 디폴트인 "category"를 그냥 사용하셔도 사용에 지장은 없습니다.')?></p>
 											</dd>
 										</dl>
 										<dl id="label-move-line" class="line">
