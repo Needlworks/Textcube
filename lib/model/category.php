@@ -147,7 +147,6 @@ function deleteCategory($owner, $id) {
 
 function modifyCategory($owner, $id, $name, $bodyid) {
 	global $database;
-	echo $name;
 	if($id==0) checkRootCategoryExistence($owner);
 	if ((empty($name)) && (empty($bodyid)))
 		return false;
