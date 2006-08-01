@@ -90,6 +90,10 @@ function getMIMEType($ext, $filename = null) {
 				return 'application/x-tar';
 			case 'zip':
 				return 'application/zip';
+			case 'rar':
+				return 'application/x-rar-compressed';
+			case '7z':
+				return 'application/x-7z-compressed';
 		}
 	}
 	return '';

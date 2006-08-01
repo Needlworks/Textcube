@@ -1331,9 +1331,9 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 			break;
 		default:
 			if (file_exists(ROOT . '/image/' . getFileExtension($filename) . '.gif')) {
-				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '"><img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/' . getFileExtension($filename) . '.gif" alt="file icon" align="" /> ' . htmlspecialchars($fileInfo['label']) . '</a>';
+				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '"><img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/' . getFileExtension($filename) . '.gif" alt="file icon" /> ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			} else {
-				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '"><img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/unknown.gif" alt="" align="bottom" /> ' . htmlspecialchars($fileInfo['label']) . '</a>';
+				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '"><img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/unknown.gif" alt="" /> ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			}
 			break;
 	}
