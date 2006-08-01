@@ -12,6 +12,7 @@ $IV = array(
 		"password_$entryId" => array('string', 'default' => ''),
 		"secret_$entryId" => array(array('1'), 'mandatory' => false),
 		"homepage_$entryId" => array('string', 'default' => 'http://'),
+		"email_$entryId" => array('string', 'default' => ''),
 		"comment_$entryId" => array('string', 'default' => '')
 	)
 );

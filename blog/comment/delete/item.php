@@ -8,6 +8,7 @@ $IV = array(
 		'name' => array('string' , 'default' => ''),
 		'comment' => array('string' , 'default' => ''),
 		'homepage' => array('string', 'default' => ''),
+		'email' => array('string', 'default' => ''),
 		'secret' => array(array('on'), 'default' => null)
 	)
 );

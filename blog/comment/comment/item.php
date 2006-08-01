@@ -6,6 +6,7 @@ $IV = array(
 		'comment' => array('string' , 'default' => ''),
 		'mode' => array(array('commit') , 'default' => ''),
 		'homepage' => array('string', 'default' => ''),
+		'email' => array('string', 'default' => ''),
 		'password' => array('string' , 'default' => ''),
 		'secret' => array(array('on'), 'default' => null)
 	)
