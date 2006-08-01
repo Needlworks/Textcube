@@ -902,6 +902,22 @@ class Timestamp {
 
 class DBQuery {	
 	/*@static@*/ 
+	function query($query) {
+		if (!defined('__ANALYZE__')) {
+			if (defined('__DEBUG__')) {
+				$result = mysql_query($query);
+				if ($result === false)
+					trigger_error($query . DBQuery::getCallStack(1));
+				return $result;
+			} else {
+				return mysql_query($query);
+			}
+		} else {
+			return PHPAnalyzer::queryIndirectly($query);
+		}
+	}
+
+	/*@static@*/ 
 	function queryExistence($query) {
 		if ($result = mysql_query($query)) {
 			if (mysql_num_rows($result) > 0) {
