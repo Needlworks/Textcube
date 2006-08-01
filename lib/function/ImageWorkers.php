@@ -541,12 +541,7 @@ function deleteAllThumbnails($path) {
 }
 
 function getWaterMarkPosition() {
-	global $database, $owner;
-	
-	$waterMarkPosition = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
-	if ($waterMarkPosition == false) {
-		$waterMarkPosition = "left=10|bottom=10";
-	}
+	$waterMarkPosition = getUserSetting("waterMarkPosition", "left=10|bottom=10");
 	
 	list($horizontalPos, $verticalPos) = explode("|", $waterMarkPosition);
 	$horizontalPos = explode("=", $horizontalPos);
@@ -587,19 +582,10 @@ function getWaterMarkPosition() {
 }
 
 function getWaterMarkGamma() {
-	global $database, $owner;
-	
-	$gammaForWaterMark = getUserSetting("gammaForWaterMark", false);
-	if ($gammaForWaterMark == false) {
-		return 100;
-	} else {
-		return intval($gammaForWaterMark);
-	}
+	return intval(getUserSetting("gammaForWaterMark", "100"));
 }
 
 function getThumbnailPadding() {
-	global $database, $owner;
-	
 	$thumbnailPadding = getUserSetting("thumbnailPadding", false);
 	if ($thumbnailPadding == false) {
 		return array("top" => 0, "right" => 0, "bottom" => 0, "left" => 0);
@@ -610,14 +596,7 @@ function getThumbnailPadding() {
 }
 
 function getThumbnailPaddingColor() {
-	global $database, $owner;
-	
-	$bgColorForPadding = getUserSetting("thumbnailPaddingColor", false);
-	if ($bgColorForPadding == false) {
-		return "FFFFFF"; 
-	} else {
-		return $bgColorForPadding;
-	}
+	return getUserSetting("thumbnailPaddingColor", "FFFFFF");
 }
 
 function checkExistingThumbnail($originSrc, $thumbnailSrc, $argWidth, $argHeight, $paddingArray=NULL, $waterMarkArray=NULL) {

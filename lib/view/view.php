@@ -321,7 +321,7 @@ function getTrackbacksView($entryId, & $skin) {
 }
 
 function getCommentView($entryId, & $skin) {
-	global $database, $blogURL, $owner, $suri, $paging, $blog;
+	global $database, $blogURL, $service, $owner, $suri, $paging, $blog;
 	//if ($entryId <= 0)
 	//	return getGuestCommentView($entryId, $skin);
 	$authorized = doesHaveOwnership();
@@ -353,13 +353,15 @@ function getCommentView($entryId, & $skin) {
 		$comments = getComments($entryId);
 	}
 	
+	$slash = ($commentSubItem['homepage']{strlen($commentSubItem['homepage']) - 1} == '/' ? '' : '/');
+	$onErrorJs = file_exists(ROOT."/image/emptyIcon.png") ? "this.src='{$service['path']}/image/emptyIcon.png'" : "this.parentNode.removeChild(this)";
+	$blogIconSize = getUserSetting('blogIconSize', 32);
 	foreach ($comments as $commentItem) {
 		$commentItemView = ($isComment ? $skin->commentItem : $skin->guestItem);
 		if (!dress($prefix1 . '_rep_id', "comment{$commentItem['id']}", $commentItemView))
 			$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . $commentItemView;
 		dress($prefix1 . '_rep_id',"comment{$commentItem['id']}", $commentItemView);
 		$commentSubItemsView = '';
-		$blogIconSize = getUserSetting('blogIconSize', 32);
 		foreach (getCommentComments($commentItem['id']) as $commentSubItem) {
 			$commentSubItemView = ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
 			if (!dress($prefix1 . '_rep_id', "comment{$commentSubItem['id']}", $commentSubItemView))
@@ -368,8 +370,7 @@ function getCommentView($entryId, & $skin) {
 			if (empty($commentSubItem['homepage'])) {
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentSubItem['name']), $commentSubItem), $commentSubItemView);
 			} else {
-				$slash = ($commentSubItem['homepage']{strlen($commentSubItem['homepage']) - 1} == '/' ? '' : '/');
-				dress($prefix1 . '_rep_icon', fireEvent(($isComment ? 'ViewCommentIcon' : 'ViewGuestCommentIcon'), "<img class=\"tt-comment-icon\" src=\"{$commentSubItem['homepage']}{$slash}index.gif\" width=\"$blogIconSize\" height=\"$blogIconSize\" onerror=\"this.parentNode.removeChild(this)\" />", $commentSubItem), $commentSubItemView);
+				dress($prefix1 . '_rep_icon', fireEvent(($isComment ? 'ViewCommentIcon' : 'ViewGuestCommentIcon'), "<img class=\"tt-comment-icon\" src=\"{$commentSubItem['homepage']}{$slash}index.gif\" width=\"$blogIconSize\" height=\"$blogIconSize\" onerror=\"{$onErrorJs}\" />", $commentSubItem), $commentSubItemView);
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentSubItem['name']) . '</a>', $commentSubItem), $commentSubItemView);
 			}
 			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentSubItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
@@ -389,7 +390,7 @@ function getCommentView($entryId, & $skin) {
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentItem['name']), $commentItem), $commentItemView);
 		} else {
 			$slash = ($commentItem['homepage']{strlen($commentItem['homepage']) - 1} == '/' ? '' : '/');
-			dress($prefix1 . '_rep_icon', fireEvent(($isComment ? 'ViewCommentIcon' : 'ViewGuestCommentIcon'), "<img class=\"tt-guestbook-icon\" src=\"{$commentItem['homepage']}{$slash}index.gif\" width=\"$blogIconSize\" height=\"$blogIconSize\" onerror=\"this.parentNode.removeChild(this)\" />", $commentItem), $commentItemView);
+			dress($prefix1 . '_rep_icon', fireEvent(($isComment ? 'ViewCommentIcon' : 'ViewGuestCommentIcon'), "<img class=\"tt-guestbook-icon\" src=\"{$commentItem['homepage']}{$slash}index.gif\" width=\"$blogIconSize\" height=\"$blogIconSize\" onerror=\"{$onErrorJs}\" />", $commentItem), $commentItemView);
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentItem['name']) . '</a>', $commentItem), $commentItemView);
 		}
 		dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentItem), $commentItemView);

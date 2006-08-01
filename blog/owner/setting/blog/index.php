@@ -529,10 +529,7 @@ if (file_exists(ROOT."/attach/$owner/index.gif")) {
 											</dd>
 										</dl>
 <?php
-$blogIconSize = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'blogIconSize'");
-if ($blogIconSize == false) {
-	$blogIconSize = "16";
-}
+$blogIconSize = getUserSetting('blogIconSize', 32);
 ?>
 	
 										<dl id="blogicon-size-line" class="line">
@@ -606,30 +603,23 @@ if (extension_loaded('gd')) {
 											</dd>
 										</dl>
 <?php
-	$waterMarkPosition = getUserSetting("waterMarkPosition");
-	if ($waterMarkPosition == false) {
-		$bottom = 0;
-		$center = 0;
+	$waterMarkPosition = getUserSetting("waterMarkPosition", "left=10|bottom=10");
+	$waterMarkPosition = explode("|", $waterMarkPosition);
+	parse_str($waterMarkPosition[0]);
+	parse_str($waterMarkPosition[1]);
+	
+	if (isset($left))
+		$horizontalValue = $left;
+	if (isset($right))
+		$horizontalValue = $right;
+	if (isset($center))
 		$horizontalValue = 0;
+	if (isset($top))
+		$verticalValue = $top;
+	if (isset($bottom))
+		$verticalValue = $bottom;
+	if (isset($middle))
 		$verticalValue = 0;
-	} else {
-		$waterMarkPosition = explode("|", $waterMarkPosition);
-		parse_str($waterMarkPosition[0]);
-		parse_str($waterMarkPosition[1]);
-		
-		if (isset($left))
-			$horizontalValue = $left;
-		if (isset($right))
-			$horizontalValue = $right;
-		if (isset($center))
-			$horizontalValue = 0;
-		if (isset($top))
-			$verticalValue = $top;
-		if (isset($bottom))
-			$verticalValue = $bottom;
-		if (isset($middle))
-			$verticalValue = 0;
-	}
 ?>
 										<dl id="watermark-position-line" class="line">
 											<dt><span class="label"><?php echo _t('워터마크 위치')?></span></dt>
@@ -661,10 +651,7 @@ if (extension_loaded('gd')) {
 										</dl>
 <?php
 	$thumbnailPadding = getThumbnailPadding();
-	$colorOfPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
-	if ($colorOfPadding == false) {
-		$colorOfPadding = "FFFFFF";
-	}
+	$colorOfPadding = getThumbnailPaddingColor();
 ?>
 										<dl id="padding-line" class="line">
 											<dt><span class="label"><?php echo _t('썸네일 여백')?></span></dt>
