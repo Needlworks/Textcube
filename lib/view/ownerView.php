@@ -148,12 +148,13 @@ function printOwnerEditorScript($entryId = false) {
 								
 								function selectAttachment() {
 									try {
+										fileList = document.getElementById('fileList');
 										width = document.getElementById('previewSelected').clientWidth;
 										height = document.getElementById('previewSelected').clientHeight;
 										var code = '';
-										if (document.forms[0].fileList.selectedIndex < 0)
+										if (fileList.selectedIndex < 0)
 											return false;
-										var fileName = document.forms[0].fileList.value.split("|")[0];
+										var fileName = fileList.value.split("|")[0];
 										
 										if((new RegExp("\\.(gif|jpe?g|png)$", "gi").exec(fileName))) {
 											try {
