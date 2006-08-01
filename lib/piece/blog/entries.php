@@ -2,6 +2,10 @@
 $entriesView = '';
 
 foreach ($entries as $entry) {
+	if ($suri['directive'] == '/notice')
+		$permalink = "$blogURL/notice/{$entry['id']}";
+	else
+		$permalink = "$blogURL/" . ($blog['useSlogan'] ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
 	if ($entry['category'] == - 2) {
 		$entryView = $skin->noticeItem;
 		dress('notice_rep_date', fireEvent('ViewNoticeDate', Timestamp::format5($entry['published'])), $entryView);
@@ -27,10 +31,6 @@ foreach ($entries as $entry) {
 			dress('tag_label_rep', implode(",\r\n", $tags), $tagLabelView);
 			dress('tag_label', $tagLabelView, $entryView);
 		}
-		if ($suri['directive'] == '/notice')
-			$permalink = "$blogURL/notice/{$entry['id']}";
-		else
-			$permalink = "$blogURL/" . ($blog['useSlogan'] ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
 		if (doesHaveOwnership()) {
 			$managementView = $skin->management;
 			dress('s_ad_m_link', "$blogURL/owner/entry/edit/{$entry['id']}?returnURL=" . (@$service['useEncodedURL'] ? $permalink : str_replace('%2F', '/', rawurlencode($permalink))), $managementView);
@@ -73,6 +73,7 @@ foreach ($entries as $entry) {
 	} else {
 		$protectedEntryView = $skin->entryProtected;
 		dress('article_rep_id', $entry['id'], $protectedEntryView);
+		dress('article_rep_link', $permalink, $protectedEntryView);
 		dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $protectedEntryView);
 		dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published'])), $protectedEntryView);
 		dress('article_password', "entry{$entry['id']}password", $protectedEntryView);
