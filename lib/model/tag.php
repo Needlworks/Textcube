@@ -100,8 +100,14 @@ function addTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 	global $database;
 	if ($taglist == null)
 		return;
+		
+	if (false) removeEmptyTagHelper(""); // for optimizer
 
 	$tmptaglist = array_filter($taglist, 'removeEmptyTagHelper');
+
+	if (count($tmptaglist) == 0)
+		return;
+
 	$taglist = array();
 	foreach($tmptaglist as $tag) {
 		$tag = mysql_real_escape_string(trim($tag));
@@ -144,6 +150,8 @@ function modifyTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 	global $database;
 	if ($taglist == null)
 		$taglist = array();
+		
+	if (false) removeEmptyTagHelper(""); // for optimizer
 		
 	$tmptaglist = array_filter($taglist, 'removeEmptyTagHelper');
 	$taglist = array();

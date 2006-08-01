@@ -1,13 +1,26 @@
 <?
 class Tag {
+	/*@protected, static@*/
+	function removeEmptyTagHelper($var)
+	{
+		return (strlen($var) > 0);
+	}
+
 	/*@static@*/
 	function addTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 	{
 		global $database;
+		
+		if (false) removeEmptyTagHelper(""); // for optimizer
+		
 		if ($taglist == null)
 			return;
 			
 		$tmptaglist = array_filter($taglist, 'removeEmptyTagHelper');
+		
+		if (count($tmptaglist) == 0)
+			return;
+
 		$taglist = array();
 		foreach($tmptaglist as $tag) {
 			$tag = mysql_real_escape_string(trim($tag));
@@ -49,6 +62,9 @@ class Tag {
 	function modifyTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 	{
 		global $database;
+		
+		if (false) removeEmptyTagHelper(""); // for optimizer
+		
 		if ($taglist == null)
 			$taglist = array();
 			

@@ -548,6 +548,35 @@ class Post {
 		return $query;
 	}
 
+	/*@static@*/
+	function correctTagsAll() {
+		global $database;
+		$targetrelations = DBQuery::queryAll("SELECT * FROM {$database['prefix']}TagRelations");
+		foreach ($targetrelations as $target) {
+			$oldtag = DBQuery::queryRow("SELECT id, name FROM {$database['prefix']}Tags WHERE id = {$target['tag']}");
+			if ($oldtag != null) {		
+				$tagid = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . mysql_real_escape_string($oldtag['name']) . "' LIMIT 1 ");
+				if ($tagid == null) { 
+					DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE owner = {$target['owner']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
+				} else {
+					if ($tagid == $oldtag['id']) continue;
+					DBQuery::execute("UPDATE {$database['prefix']}TagRelations SET tag = $tagid WHERE owner = {$target['owner']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
+				}
+			} else { // Ooops!
+				DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE owner = {$target['owner']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
+			}
+		}
+
+		$tags = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Tags");
+		foreach($tags as $tag) {
+			$count = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}TagRelations WHERE tag = $tag ");
+			if ($count == 0) {
+				DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id = $tag ");
+			}
+		}
+		
+	}
+
 	function _error($error) {
 		$this->error = $error;
 		return false;
