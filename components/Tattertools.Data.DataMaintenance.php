@@ -34,7 +34,9 @@ class DataMaintenance {
 			if (count($nottargets) > 0) {
 				$nottargetstr	= implode(', ', $nottargets);
 				DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");
-			}		
+			} else {
+				DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) ");
+			}
 		}
 		
 		if (file_exists(ROOT . "/cache/rss/$owner.xml"))

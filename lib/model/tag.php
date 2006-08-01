@@ -249,7 +249,9 @@ function modifyTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 		if (count($nottargets) > 0) {
 			$nottargetstr	= implode(', ', $nottargets);
 			DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");
-		}		
+		} else {
+				DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr )");
+		}
 
 	}
 }
@@ -266,7 +268,9 @@ function deleteTagsWithEntryId($owner, $entry)
 		if (count($nottargets) > 0) {
 			$nottargetstr	= implode(', ', $nottargets);
 			DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");
-		}		
+		} else {
+			DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr )");
+		}
 	}
 }
 ?>
