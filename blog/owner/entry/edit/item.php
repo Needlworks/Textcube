@@ -531,14 +531,7 @@ if (!defined('__TATTERTOOLS_KEYWORD__')) {
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						  <tr>
 <?
-$param = array(
-		'uploadPath'=> "$blogURL/owner/entry/attachmulti/{$entry['id']}", 
-		'singleUploadPath'=> "$blogURL/owner/entry/attach/{$entry['id']}", 
-		'deletePath'=>"$blogURL/owner/entry/detach/multi/". ($entry['id'] ? $entry['id'] : '0') ,
-		'labelingPath'=> "$blogURL/owner/entry/attachmulti/list/{$entry['id']}", 
-		'refreshPath'=> "$blogURL/owner/entry/attachmulti/refresh/". ($entry['id'] ? $entry['id'] : '0') , 
-		'fileSizePath'=> "$blogURL/owner/entry/size?parent={$entry['id']}");		
-printEntryFileList(getAttachments($owner, $entry['id'], 'label'), $param);
+printEntryFileList(getAttachments($owner, $entry['id'], 'label'), $entry['id']);
 ?>
 							
 							<td width="110" align="center" valign="top">
