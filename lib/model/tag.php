@@ -140,15 +140,26 @@ function addTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 	
 	// step 2. Insert Relations
 	$tagliststr =  '\'' . implode('\' , \'', $taglist) . '\'';
+	/*
 	DBQuery::execute("INSERT INTO {$database['prefix']}TagRelations
-							(SELECT $owner, t.id, $entry FROM tt_Tags as t 
+							(SELECT $owner, t.id, $entry FROM {$database['prefix']}Tags as t 
 									WHERE 
 										name in ( $tagliststr ) AND  
 										t.id NOT IN 
-											( SELECT tag FROM tt_TagRelations WHERE 
+											( SELECT tag FROM {$database['prefix']}TagRelations WHERE 
 												(tag = t.id) AND (entry = $entry) AND (owner = $owner)
 											)
 							)");
+	*/
+	// For MySQL 3, Simple Query Version
+	$tagIDs = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Tags WHERE name in ( $tagliststr )");
+	$tagrelations = array();
+	foreach($tagIDs as $tagid)
+	{
+		array_push($tagrelations, " ($owner, $tagid, $entry) ");
+	}
+	$tagRelationStr = implode(', ', $tagrelations);
+	DBQuery::execute("INSERT IGNORE INTO {$database['prefix']}TagRelations VALUES $tagRelationStr");
 }
 
 function modifyTagsWithEntryId($owner, $entry, /*string array*/$taglist)
@@ -165,8 +176,12 @@ function modifyTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 	}
 	
 	// step 1. Get deleted Tag
-	$tmpoldtaglist = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Tags WHERE EXISTS
-							(SELECT * FROM {$database['prefix']}TagRelations WHERE owner = $owner AND entry = $entry AND tag = id)");
+	$toldlist = DBQuery::queryColumn("SELECT tag FROM {$database['prefix']}TagRelations WHERE owner = $owner AND entry = $entry");
+	$tmpoldtaglist	 = null;
+	if (count($toldlist) > 0) {
+		$toldliststr = implode(', ', $toldlist);
+		$tmpoldtaglist = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Tags WHERE id IN ( $toldliststr )");
+	}
 	if ($tmpoldtaglist == null)
 		$tmpoldtaglist = array();
 	$oldtaglist = array();
@@ -186,15 +201,26 @@ function modifyTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 	
 	// step 3. Insert Relation
 		$tagliststr =  '\'' . implode('\' , \'', $insertedTagList) . '\'';
+		/*
 		DBQuery::execute("INSERT INTO {$database['prefix']}TagRelations
-								(SELECT $owner, t.id, $entry FROM tt_Tags as t 
+								(SELECT $owner, t.id, $entry FROM {$database['prefix']}Tags as t 
 										WHERE 
 											name in ( $tagliststr ) AND  
 											t.id NOT IN 
-												( SELECT tag FROM tt_TagRelations WHERE 
+												( SELECT tag FROM {$database['prefix']}TagRelations WHERE 
 													(tag = t.id) AND (entry = $entry) AND (owner = $owner)
 												)
 								)");
+		*/
+		// For MySQL 3, Simple Query Version
+		$tagIDs = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Tags WHERE name in ( $tagliststr )");
+		$tagrelations = array();
+		foreach($tagIDs as $tagid)
+		{
+			array_push($tagrelations, " ($owner, $tagid, $entry) ");
+		}
+		$tagRelationStr = implode(', ', $tagrelations);
+		DBQuery::execute("INSERT IGNORE INTO {$database['prefix']}TagRelations VALUES $tagRelationStr");
 	}
 	
 	// step 4. Delete Tag
@@ -202,22 +228,28 @@ function modifyTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 	{
 		// small step, get tag id list
 		$tagliststr =  '\'' . implode('\' , \'', $deletedTagList) . '\'';
+		$t1list = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Tags WHERE name in ( $tagliststr )");
+		if ($t1list == null) 
+			return; // What?
+		$t1liststr = implode(', ', $t1list);
 		$taglist = DBQuery::queryColumn(
-				"SELECT id FROM {$database['prefix']}Tags WHERE EXISTS (SELECT * FROM {$database['prefix']}TagRelations 
-						WHERE owner = $owner AND entry = $entry AND tag = id)
-							AND name in ( $tagliststr )");
+				"SELECT tag FROM {$database['prefix']}TagRelations 
+						WHERE owner = $owner AND entry = $entry AND tag in ( $t1liststr )");
 		if ($taglist == null) 
 			return; // What?
 		
 		// now delete tag
-		$tagliststr = implode(',', $taglist);
-		DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id in ( $tagliststr ) AND NOT EXISTS (SELECT * FROM {$database['prefix']}TagRelations WHERE (tag = id) AND ((entry <> $entry) OR (owner <> $owner)))");
+		$tagliststr = implode(', ', $taglist);
 	
 	// step 5. Delete Relation
 		DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $owner AND entry = $entry AND tag in ( $tagliststr )");
 	
-	// step 6. Delete Tag one more time
-		DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id in ( $tagliststr ) AND NOT EXISTS (SELECT * FROM {$database['prefix']}TagRelations WHERE (tag = id))");
+	// step 6. Delete Tag
+		$nottargets = DBQuery::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");
+		if (count($nottargets) > 0) {
+			$nottargetstr	= implode(', ', $nottargets);
+			DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");
+		}		
 
 	}
 }
@@ -229,9 +261,12 @@ function deleteTagsWithEntryId($owner, $entry)
 	if ($taglist != null) {
 		$tagliststr = implode(',', $taglist);
 		
-		DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id in ( $tagliststr ) AND NOT EXISTS (SELECT * FROM {$database['prefix']}TagRelations WHERE (tag = id) AND ((entry <> $entry) OR (owner <> $owner)))");
 		DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $owner AND entry = $entry");
-		DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id in ( $tagliststr ) AND NOT EXISTS (SELECT * FROM {$database['prefix']}TagRelations WHERE (tag = id))");
+		$nottargets = DBQuery::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");
+		if (count($nottargets) > 0) {
+			$nottargetstr	= implode(', ', $nottargets);
+			DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");
+		}		
 	}
 }
 ?>
