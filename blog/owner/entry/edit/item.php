@@ -548,14 +548,7 @@ printEntryEditorProperty();
 										
 										<div id="attachment-container" class="container">
 <?php
-$param = array(
-		'uploadPath'=> "$blogURL/owner/entry/attachmulti/{$entry['id']}", 
-		'singleUploadPath'=> "$blogURL/owner/entry/attach/{$entry['id']}", 
-		'deletePath'=>"$blogURL/owner/entry/detach/multi/". ($entry['id'] ? $entry['id'] : '0') ,
-		'labelingPath'=> "$blogURL/owner/entry/attachmulti/list/{$entry['id']}", 
-		'refreshPath'=> "$blogURL/owner/entry/attachmulti/refresh/". ($entry['id'] ? $entry['id'] : '0') , 
-		'fileSizePath'=> "$blogURL/owner/entry/size?parent={$entry['id']}");		
-printEntryFileList(getAttachments($owner, $entry['id'], 'label'), $param);
+printEntryFileList(getAttachments($owner, $entry['id'], 'label'), $entry['id']);
 ?>
 										</div>
 										
