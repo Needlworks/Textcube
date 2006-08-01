@@ -4,7 +4,7 @@ $IV = array(
 	'POST' => array(
 		'mode' => array( array( 'ip','content' , 'url', 'name') ,'default'=>null),
 		'contentValue' => array('string' , 'default' => null),
-		'ipValue' => array('ip' , 'default' => null),
+		'ipValue' => array('string' , 'default' => null),
 		'urlValue' => array('url' , 'default' => null),
 		'nameValue' => array('string' , 'default' => null)
 	),
@@ -14,7 +14,15 @@ $IV = array(
 );
 require ROOT . '/lib/includeForOwner.php';
 requireComponent('Tattertools.Data.Filter');
-if (!empty($_POST['mode']) && !empty($_POST[($_POST['mode'] . 'Value')])) {
+
+$checkIPreturnBehaivor ='';
+if( 'ip' == $_POST['mode'] && ! Validator::ip($_POST['ipValue'])) {
+	$checkIPreturnBehaivor = "checkIPpattern('{$_POST['ipValue']}');";
+}else if( 'content' == $_POST['mode'] 		&& '' == $_POST['contentValue']  ) {
+	$checkIPreturnBehaivor = 'alert('._t('내용을 입력해 주세요').');';
+}else if( 'name' == $_POST['mode'] 			&&  '' == $_POST['nameValue'] ) {
+	$checkIPreturnBehaivor = 'alert('._t('내용을 입력해 주세요').');';
+}else if (!empty($_POST['mode']) && !empty($_POST[($_POST['mode'] . 'Value')])) {
 	$filter = new Filter();
 	$filter->type = $_POST['mode'];
 	$filter->pattern = $_POST[($_POST['mode'] . 'Value')];
@@ -92,7 +100,7 @@ function printFilterBox($mode, $title) {
 ?>
 <script type="text/javascript">
 	//<![CDATA[
-
+	<?php echo $checkIPreturnBehaivor ?>
 	function edit(caller, table ,column,  field) {			
 		/*
 		var target 	= document.getElementById(field) ;
@@ -164,6 +172,16 @@ function printFilterBox($mode, $title) {
 		}
 		request.send();
 	}
+	
+	function checkIPpattern(value){
+		reg = /\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
+		if(!reg.test(value)) {
+			alert("<?=_t('잘못된 IP주소 입니다')?>");
+			return false;
+		}
+		return true;
+	}
+	
 	function add(mode) {
 	
 		var target 	= document.getElementById(mode) ;
@@ -177,13 +195,8 @@ function printFilterBox($mode, $title) {
 			target.value = target.value.replace(reg,'');
 		}		
 		
-		if(mode == 'ip') {
-			reg = /\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
-			if(!reg.test(target.value)) {
-				alert("<?=_t('잘못된 IP주소 입니다')?>");
-				return;
-			};
-		}
+		if(mode == 'ip' && !checkIPpattern( target.value ) )return;
+		
 		document.getElementById('mode').value = mode;
 		document.forms[0].submit();
 	}
