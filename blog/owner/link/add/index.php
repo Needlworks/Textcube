@@ -18,9 +18,6 @@ require ROOT . '/lib/piece/owner/contentMenu21.php';
 			uri = document.forms[0].rss.value;
 		}
 		var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/link/site/?rss=" + uri);
-		request.onVerify = function() {
-			return (this.getText("/response/url") != "")
-		}
 		request.onSuccess = function () {
 			PM.removeRequest(this);
 			document.forms[0].name.value = this.getText("/response/name");
