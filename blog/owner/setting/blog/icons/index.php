@@ -3,7 +3,7 @@ define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
 		'mode' => array(array('0','1'), 'mandatory' => false),
-		'blogIconSize' => array(array('16','32','48'), 'mandatory' => false),
+		'blogIconSize' => array(array('0','16','32','48'), 'mandatory' => false),
 		'deleteLogo' => array('string', 'default' => NULL),
 		'deleteBlogIcon' => array('string', 'default' => NULL),
 		'deleteFavicon' => array('string', 'default' => NULL)
@@ -62,7 +62,7 @@ if ($_POST['deleteBlogIcon'] == "yes") {
 if (!empty($_FILES['blogIcon']['tmp_name'])) {
 	$fileExt = Path::getExtension($_FILES['blogIcon']['name']);
 	
-	if (($fileExt != '.gif') && ($fileExt != '.jpg') && ($fileExt != '.png')) {
+	if (!in_array($fileExt, array('.gif', '.jpg', '.jpeg', '.png'))) {
 		print ('alert("' . _t('변경하지 못했습니다.') . '");');
 	} else { 
 		requireComponent('Tattertools.Data.Attachment');
@@ -74,12 +74,8 @@ if (!empty($_FILES['blogIcon']['tmp_name'])) {
 	}
 }
 
-if (in_array($_POST['blogIconSize'], array("16", "32", "48"))) {
-	if (DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'blogIconSize'")) {
-		DBQuery::execute("UPDATE `{$database['prefix']}UserSettings` SET `value` = '{$_POST['blogIconSize']}' WHERE `user` = $owner AND `name` = 'blogIconSize'");
-	} else {
-		DBQuery::execute("INSERT `{$database['prefix']}UserSettings` (`user`, `name`, `value`) VALUES ($owner, 'blogIconSize', '{$_POST['blogIconSize']}')");
-	}
+if (in_array($_POST['blogIconSize'], array("0", "16", "32", "48"))) {
+	setUserSetting("blogIconSize", $_POST['blogIconSize']);
 }
 
 header("Location: ".$_SERVER['HTTP_REFERER']);
