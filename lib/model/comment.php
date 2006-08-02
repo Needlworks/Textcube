@@ -372,7 +372,7 @@ function deleteComment($owner, $id, $entry, $password) {
 function getRecentComments($owner) {
 	global $skinSetting, $database;
 	$comments = array();
-	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}Comments WHERE owner = $owner AND entry>0 ORDER BY written DESC LIMIT {$skinSetting['commentsOnRecent']}" : "SELECT r.* FROM {$database['prefix']}Comments r, {$database['prefix']}Entries e WHERE r.owner = $owner AND r.owner = e.owner AND r.entry = e.id AND e.draft = 0 AND e.visibility > 0 AND entry > 0 ORDER BY r.written DESC LIMIT {$skinSetting['commentsOnRecent']}";
+	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}Comments WHERE owner = $owner AND entry>0 ORDER BY written DESC LIMIT {$skinSetting['commentsOnRecent']}" : "SELECT r.* FROM {$database['prefix']}Comments r, {$database['prefix']}Entries e WHERE r.owner = $owner AND r.owner = e.owner AND r.entry = e.id AND e.draft = 0 AND e.visibility >= 2 AND entry > 0 ORDER BY r.written DESC LIMIT {$skinSetting['commentsOnRecent']}";
 	if ($result = mysql_query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
