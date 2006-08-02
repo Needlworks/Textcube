@@ -342,7 +342,7 @@ class Post {
 		
 		requireComponent('Tattertools.Data.Tag');
 		Tag::addTagsWithEntryId($owner, $this->id, $this->tags);
-		
+
 		return true;
 	}
 	
@@ -572,15 +572,15 @@ class Post {
 			}
 			mysql_free_result($targetresult);
 		}
-
-		$tags = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Tags");
-		foreach($tags as $tag) {
-			$count = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}TagRelations WHERE tag = $tag ");
-			if ($count == 0) {
+		
+		$targetresult = mysql_query("SELECT id FROM {$database['prefix']}Tags LEFT JOIN {$database['prefix']}TagRelations ON id = tag WHERE tag IS NULL");
+		if ($targetresult != false) {
+			while ($target = mysql_fetch_array($targetresult)) {
+				$tag = $target['id'];
 				DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id = $tag ");
 			}
+			mysql_free_result($targetresult);
 		}
-		
 	}
 
 	function _error($error) {
