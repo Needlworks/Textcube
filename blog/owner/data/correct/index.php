@@ -100,7 +100,7 @@ setProgress($item++ / $items * 100, _t('분류의 글 정보를 다시 계산해
 requireComponent('Tattertools.Data.Post');
 updateEntriesOfCategory($owner);
 
-setProgress($item++ / $items * 100, _t('태그 정보를 갱신합니다');
+setProgress($item++ / $items * 100, _t('태그 정보를 갱신합니다'));
 Post::correctTagsAll();
 
 if ($result = mysql_query("SELECT id, name, homepage, comment FROM {$database['prefix']}Comments WHERE owner = $owner")) {
