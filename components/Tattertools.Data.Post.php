@@ -552,20 +552,25 @@ class Post {
 	/*@static@*/
 	function correctTagsAll() {
 		global $database;
-		$targetrelations = DBQuery::queryAll("SELECT * FROM {$database['prefix']}TagRelations");
-		foreach ($targetrelations as $target) {
-			$oldtag = DBQuery::queryRow("SELECT id, name FROM {$database['prefix']}Tags WHERE id = {$target['tag']}");
-			if ($oldtag != null) {		
-				$tagid = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . mysql_real_escape_string($oldtag['name']) . "' LIMIT 1 ");
-				if ($tagid == null) { 
+		$targetresult = mysql_query("SELECT * FROM {$database['prefix']}TagRelations");
+		if ($targetresult != false) {
+			while ($target = mysql_fetch_array($targetresult)) {
+				$oldtag = DBQuery::queryRow("SELECT id, name FROM {$database['prefix']}Tags WHERE id = {$target['tag']}");
+				if ($oldtag != null) {		
+					$tagid = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . mysql_real_escape_string($oldtag['name']) . "' LIMIT 1 ");
+					if ($tagid == null) { 
+						DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE owner = {$target['owner']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
+					} else {
+						if ($tagid == $oldtag['id']) continue;
+						if (DBQuery::execute("UPDATE {$database['prefix']}TagRelations SET tag = $tagid WHERE owner = {$target['owner']} AND tag = {$target['tag']} AND entry = {$target['entry']}") == false) { // maybe duplicated tag
+							DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE owner = {$target['owner']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
+						}
+					}
+				} else { // Ooops!
 					DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE owner = {$target['owner']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
-				} else {
-					if ($tagid == $oldtag['id']) continue;
-					DBQuery::execute("UPDATE {$database['prefix']}TagRelations SET tag = $tagid WHERE owner = {$target['owner']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 				}
-			} else { // Ooops!
-				DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE owner = {$target['owner']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 			}
+			mysql_free_result($targetresult);
 		}
 
 		$tags = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Tags");
