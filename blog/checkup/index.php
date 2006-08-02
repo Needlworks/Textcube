@@ -66,7 +66,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}RefererLogs url")) { // 
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
-if (!DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}Filters WHERE owner = 0")) { // Since 1.0.2
+if (!doesExistTable($database['prefix'] . 'Filters')) { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('필터와 관련된 구조를 변경합니다.'), ': ';
 	$query = "
@@ -93,7 +93,7 @@ if (!DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}Filters 
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 	}
 }
-if (DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}FeedOwners WHERE owner = 0")) { // Since 1.0.2
+if (doesExistTable($database['prefix'] . 'FeedOwners')) { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('리더와 관련된 구조를 변경합니다.'), ': ';
 	if (DBQuery::execute("DROP TABLE {$database['prefix']}FeedOwners"))
@@ -101,7 +101,7 @@ if (DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}FeedOwner
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
-if (DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}MonthlyStatistics WHERE owner = 0")) { // Since 1.0.2
+if (doesExistTable($database['prefix'] . 'MonthlyStatistics')) { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('통계와 관련된 구조를 변경합니다.'), ': ';
 	if (DBQuery::execute("DROP TABLE {$database['prefix']}MonthlyStatistics"))
@@ -249,7 +249,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Categories bodyId")) {
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
-if (!DBQuery::queryExistence("DESC {$database['prefix']}ServiceSettings name")) {
+if (!doesExistTable($database['prefix'] . 'ServiceSettings')) {
 	$changed = true;
 	echo '<li>', _text('서비스 설정을 위한 테이블을 추가합니다.'), ': ';
 	$query = "
@@ -264,7 +264,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}ServiceSettings name")) 
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
-if (!DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}UserSettings WHERE user = 0")) { // Since 1.0.7
+if (!doesExistTable($database['prefix'] . 'UserSettings')) { // Since 1.0.7
 	$changed = true;
 	echo '<li>', _t('사용자 설정값과 관련된 구조를 변경합니다'), ': ';
 	$query = "

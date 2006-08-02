@@ -60,4 +60,15 @@ function executeQuery($query) {
 function escapeMysqlSearchString($str) {
 	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', mysql_escape_string($str))) : $str;
 }
+
+function doesExistTable($tablename)
+{
+	$likeEscape = array ( '/_/' , '/%/' );
+	$likeReplace = array ( '\\_' , '\\%' );
+	$escapename = preg_replace($likeEscape, $likeReplace, $tablename);
+	$result = mysql_query("SHOW TABLES LIKE '$escapename' ");
+	if ($result == false) return false;
+	if (mysql_num_rows($result) > 0) return true;
+	return false;
+}
 ?>
