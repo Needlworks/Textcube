@@ -337,7 +337,7 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings NoCommentMes
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-if (DBQuery::queryCell("DESC {$database['prefix']}Tags name" , 'key' != 'UNI') { 
+if (DBQuery::queryCell("DESC {$database['prefix']}Tags name" , 'key' != 'UNI')) { 
 	$changed = true;
 	echo '<li>', _text('태그 테이블에 인덱스 키를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Tags ADD UNIQUE INDEX name (name)")){
