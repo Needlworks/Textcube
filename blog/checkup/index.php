@@ -34,6 +34,17 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 <p>
 <ul>
 <?
+
+function doesExistTable($tablename)
+{
+	$likeEscape = array ( '/_/' , '/%/' );
+	$likeReplace = array ( '\\_' , '\\%' );
+	$escapename = preg_replace($likeEscape, $likeReplace, $tablename);
+	$result = mysql_query("SHOW TABLES LIKE '$escapename' ");
+	if ($result == false) return false;
+	if (mysql_num_rows($result) > 0) return true;
+	return false;
+}
 $changed = false;
 if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings recentNoticeLength")) { // Since 1.0.1
 	$changed = true;
@@ -67,7 +78,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}RefererLogs url")) { // 
 	else
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 }
-if (!DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}Filters WHERE owner = 0")) { // Since 1.0.2
+if (!doesExistTable($database['prefix'] . 'Filters')) { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _t('필터와 관련된 구조를 변경합니다'), ': ';
 	$query = "
@@ -94,7 +105,7 @@ if (!DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}Filters 
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 	}
 }
-if (DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}FeedOwners WHERE owner = 0")) { // Since 1.0.2
+if (doesExistTable($database['prefix'] . 'FeedOwners')) { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _t('리더와 관련된 구조를 변경합니다'), ': ';
 	if (DBQuery::execute("DROP TABLE {$database['prefix']}FeedOwners"))
@@ -102,7 +113,7 @@ if (DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}FeedOwner
 	else
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 }
-if (DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}MonthlyStatistics WHERE owner = 0")) { // Since 1.0.2
+if (doesExistTable($database['prefix'] . 'MonthlyStatistics')) { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _t('통계와 관련된 구조를 변경합니다'), ': ';
 	if (DBQuery::execute("DROP TABLE {$database['prefix']}MonthlyStatistics"))
@@ -194,7 +205,7 @@ if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type'
 	else
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 }
-if (!DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}ServiceSettings")) { // Since 1.0.7
+if (!doesExistTable($database['prefix'] . 'ServiceSettings')) { // Since 1.0.7
 	$changed = true;
 	echo '<li>', _t('서비스 설정값과 관련된 구조를 변경합니다'), ': ';
 	$query = "
@@ -227,7 +238,7 @@ if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSett
 		}
 	}
 }
-if (!DBQuery::queryExistence("SELECT count(*) FROM {$database['prefix']}UserSettings WHERE user = 0")) { // Since 1.0.7
+if (!doesExistTable($database['prefix'] . 'UserSettings')) { // Since 1.0.7
 	$changed = true;
 	echo '<li>', _t('사용자 설정값과 관련된 구조를 변경합니다'), ': ';
 	$query = "
