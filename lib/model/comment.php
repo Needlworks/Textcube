@@ -10,9 +10,9 @@ function getCommentsWithPagingForOwner($owner, $category, $name, $ip, $search, $
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($name))
-		$sql .= ' AND c.name = \'' . mysql_escape_string($name) . '\'';
+		$sql .= ' AND c.name = \'' . mysql_real_escape_string($name) . '\'';
 	if (!empty($ip))
-		$sql .= ' AND c.ip = \'' . mysql_escape_string($ip) . '\'';
+		$sql .= ' AND c.ip = \'' . mysql_real_escape_string($ip) . '\'';
 	if (!empty($search)) {
 		$search = escapeMysqlSearchString($search);
 		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
@@ -63,9 +63,9 @@ function getCommentsNotifiedWithPagingForOwner($owner, $category, $name, $ip, $s
 					{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
 			WHERE c.owner = $owner";
 		if (!empty($name))
-			$sql .= ' AND c.name = \'' . mysql_escape_string($name) . '\'';
+			$sql .= ' AND c.name = \'' . mysql_real_escape_string($name) . '\'';
 		if (!empty($ip))
-			$sql .= ' AND c.ip = \'' . mysql_escape_string($ip) . '\'';
+			$sql .= ' AND c.ip = \'' . mysql_real_escape_string($ip) . '\'';
 		if (!empty($search)) {
 			$search = escapeMysqlSearchString($search);
 			$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
@@ -234,18 +234,18 @@ function addComment($owner, & $comment) {
 	$parent = $comment['parent'] == null ? 'null' : "'{$comment['parent']}'";
 	if ($user !== null) {
 		$comment['replier'] = $user['id'];
-		$name = mysql_escape_string($user['name']);
-		$email = $user['email'];
+		$name = mysql_real_escape_string($user['name']);
+		$email = mysql_real_escape_string($user['email']);
 		$password = '';
-		$homepage = mysql_escape_string($user['homepage']);
+		$homepage = mysql_real_escape_string($user['homepage']);
 	} else {
 		$comment['replier'] = 'null';
-		$name = mysql_escape_string($comment['name']);
-		$email = mysql_escape_string($comment['email']);
+		$name = mysql_real_escape_string($comment['name']);
+		$email = mysql_real_escape_string($comment['email']);
 		$password = empty($comment['password']) ? '' : md5($comment['password']);
 		$homepage = mysql_escape_string($comment['homepage']);
 	}
-	$comment0 = mysql_escape_string($comment['comment']);
+	$comment0 = mysql_real_escape_string($comment['comment']);
 	$result = mysql_query("INSERT INTO {$database['prefix']}Comments VALUES (
 			$owner,
 			{$comment['replier']},
@@ -304,17 +304,18 @@ function updateComment($owner, $comment, $password) {
 	
 	$setPassword = '';
 	if ($user !== null && !is_null($comment['replier']) && $comment['replier'] == $owner) {
-		$name = mysql_escape_string($user['name']);
+		$name = mysql_real_escape_string($user['name']);
 		$setPassword = 'password = \'\',';
-		$homepage = mysql_escape_string($user['homepage']);
+		$email = mysql_real_escape_string($comment['email']);
+		$homepage = mysql_real_escape_string($user['homepage']);
 	} else {
-		$name = mysql_escape_string($comment['name']);
+		$name = mysql_real_escape_string($comment['name']);
 		if ($comment['password'] !== true)
 			$setPassword = 'password = \'' . (empty($comment['password']) ? '' : md5($comment['password'])) . '\', ';
-		$email = mysql_escape_string($comment['email']);
-		$homepage = mysql_escape_string($comment['homepage']);
+		$email = mysql_real_escape_string($comment['email']);
+		$homepage = mysql_real_escape_string($comment['homepage']);
 	}
-	$comment0 = mysql_escape_string($comment['comment']);
+	$comment0 = mysql_real_escape_string($comment['comment']);
 	
 	$guestcomment = false;
 	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE owner = $owner AND id = {$comment['id']} AND replier IS NULL")) {

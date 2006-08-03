@@ -58,7 +58,7 @@ function executeQuery($query) {
 }
 
 function escapeMysqlSearchString($str) {
-	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', mysql_escape_string($str))) : $str;
+	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', mysql_real_escape_string($str))) : $str;
 }
 
 function doesExistTable($tablename)

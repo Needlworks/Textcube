@@ -64,7 +64,7 @@ if (!empty($owner)) {
 					$configMappings[$plugin] = array( 'config' => 'ok') ;
 			}
 		} else {
-			$plugin = mysql_escape_string($plugin);
+			$plugin = mysql_real_escape_string($plugin);
 			mysql_query("DELETE FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$plugin'");
 		}
 	}

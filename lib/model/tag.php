@@ -2,7 +2,7 @@
 
 function getTagId($owner, $name) {
 	global $database;
-	$name = mysql_escape_string($name);
+	$name = mysql_real_escape_string($name);
 	return fetchQueryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '$name'");
 }
 
@@ -86,9 +86,9 @@ function getTagFrequencyRange() {
 function getTagFrequency($tag, $max, $min) {
 	global $database, $owner;
 	if (doesHaveOwnership())
-		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r WHERE t.id = r.tag AND r.owner = $owner AND t.name = '" . mysql_escape_string($tag) . "'");
+		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r WHERE t.id = r.tag AND r.owner = $owner AND t.name = '" . mysql_real_escape_string($tag) . "'");
 	else
-		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r, `{$database['prefix']}Entries` e WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $owner AND t.name = '" . mysql_escape_string($tag) . "'");
+		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r, `{$database['prefix']}Entries` e WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $owner AND t.name = '" . mysql_real_escape_string($tag) . "'");
 	$dist = $max / 3;
 	if ($count == $min)
 		return 5;

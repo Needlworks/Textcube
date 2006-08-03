@@ -22,6 +22,7 @@ if (!empty($_GET['test'])) {
 }
 
 include 'components/Eolin.PHP.Core.php';
+include 'components/Eolin.PHP.UnifiedEnvironment.php';
 
 $root = substr($_SERVER['SCRIPT_FILENAME'], 0, strlen($_SERVER['SCRIPT_FILENAME']) - 10);
 $path = stripPath(substr($_SERVER['PHP_SELF'], 0, strlen($_SERVER['PHP_SELF']) - 10));
@@ -927,11 +928,11 @@ RewriteRule ^testrewrite$ setup.php [L]"
 			exit;
 		}
 
-		$loginid = mysql_escape_string($_POST['email']);
+		$loginid = mysql_real_escape_string($_POST['email']);
 		$password = md5($_POST['password']);
-		$name = mysql_escape_string($_POST['name']);
-		$baseLanguage = mysql_escape_string( $_POST['Lang']);
-		$baseTimezone = mysql_escape_string( substr(_t('default:Asia/Seoul'),8));
+		$name = mysql_real_escape_string($_POST['name']);
+		$baseLanguage = mysql_real_escape_string( $_POST['Lang']);
+		$baseTimezone = mysql_real_escape_string( substr(_t('default:Asia/Seoul'),8));
 
         $charset = 'TYPE=MyISAM DEFAULT CHARSET=utf8';
         if (!@mysql_query('SET CHARACTER SET utf8'))
@@ -1344,7 +1345,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
 			}
         }
 		else {
-			$password2 = mysql_escape_string($_POST['password']);
+			$password2 = mysql_real_escape_string($_POST['password']);
             $schema = "
 				UPDATE {$_POST['dbPrefix']}Users SET loginid = '$loginid', name = '$name' WHERE userid = 1;
 				UPDATE {$_POST['dbPrefix']}Users SET password = '$password' WHERE userid = 1 AND password <> '$password2';

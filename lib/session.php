@@ -29,10 +29,10 @@ function writeSession($id, $data) {
 	if (strlen($id) < 32)
 		return false;
 	$userid = isset($_SESSION['userid']) ? $_SESSION['userid'] : 'null';
-	$data = mysql_escape_string($data);
-	$server = mysql_escape_string($_SERVER['HTTP_HOST']);
-	$request = mysql_escape_string($_SERVER['REQUEST_URI']);
-	$referer = isset($_SERVER['HTTP_REFERER']) ? mysql_escape_string($_SERVER['HTTP_REFERER']) : '';
+	$data = mysql_real_escape_string($data);
+	$server = mysql_real_escape_string($_SERVER['HTTP_HOST']);
+	$request = mysql_real_escape_string($_SERVER['REQUEST_URI']);
+	$referer = isset($_SERVER['HTTP_REFERER']) ? mysql_real_escape_string($_SERVER['HTTP_REFERER']) : '';
 	$timer = getMicrotimeAsFloat() - $sessionMicrotime;
 	$result = mysql_query("UPDATE {$database['prefix']}Sessions SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 	if ($result && (mysql_affected_rows() == 1))

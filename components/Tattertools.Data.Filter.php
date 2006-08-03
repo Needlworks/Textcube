@@ -101,7 +101,7 @@ class Filter {
 	function isFiltered($type, $value) {
 		global $database, $owner;
 		$type = mysql_real_escape_string($type);
-		$value = mysql_escape_string($value);
+		$value = mysql_real_escape_string($value);
 		return DBQuery::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE owner = $owner AND type = '$type' AND '$value' LIKE CONCAT('%', pattern, '%')");
 	}
 	

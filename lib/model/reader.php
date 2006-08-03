@@ -303,7 +303,7 @@ function getFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = f
 
 function addFeedGroup($owner, $title) {
 	global $database;
-	$title = mysql_escape_string(mysql_lessen(stripHTML($title)));
+	$title = mysql_real_escape_string(mysql_lessen(stripHTML($title)));
 	if (empty($title))
 		return 1;
 	if (fetchQueryCell("SELECT id FROM {$database['prefix']}FeedGroups WHERE owner = $owner AND title = '$title'") !== null) {
@@ -318,7 +318,7 @@ function addFeedGroup($owner, $title) {
 
 function editFeedGroup($owner, $id, $title) {
 	global $database;
-	$title = mysql_escape_string(stripHTML($title));
+	$title = mysql_real_escape_string(stripHTML($title));
 	if (empty($title))
 		return 1;
 	$prevTitle = fetchQueryCell("SELECT title FROM {$database['prefix']}FeedGroups WHERE owner = $owner AND id = $id");
@@ -347,7 +347,7 @@ function addFeed($owner, $group = 0, $url, $getEntireFeed = true, $htmlURL = '',
 	global $database;
 	if(strpos(strtolower($url), 'http://') !== 0)
 		$url = 'http://'.$url;
-	$escapedURL = mysql_escape_string($url);
+	$escapedURL = mysql_real_escape_string($url);
 	if (DBQuery::queryExistence("SELECT f.id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.owner = $owner AND r.owner = g.owner AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$escapedURL'")) {
 		return 1;
 	}
@@ -364,9 +364,9 @@ function addFeed($owner, $group = 0, $url, $getEntireFeed = true, $htmlURL = '',
 		mysql_query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($owner, $id, $group)");
 		saveFeedItems($id, $xml);
 	} else {
-		$htmlURL = mysql_escape_string(mysql_lessen(stripHTML($htmlURL)));
-		$blogTitle = mysql_escape_string(mysql_lessen(stripHTML($blogTitle)));
-		$blogDescription = mysql_escape_string(mysql_lessen(stripHTML($blogDescription)));
+		$htmlURL = mysql_real_escape_string(mysql_lessen(stripHTML($htmlURL)));
+		$blogTitle = mysql_real_escape_string(mysql_lessen(stripHTML($blogTitle)));
+		$blogDescription = mysql_real_escape_string(mysql_lessen(stripHTML($blogDescription)));
 		mysql_query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '$escapedURL', '$htmlURL', '$blogTitle', '$blogDescription', 'en-US', 0)");
 		$id = mysql_insert_id();
 		mysql_query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($owner, $id, $group)");
@@ -449,9 +449,9 @@ function getRemoteFeed($url) {
 	} else
 		return array(3, null, null);
 
-	$feed['blogURL'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['blogURL']))));
-	$feed['title'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['title']))));
-	$feed['description'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['description']))));
+	$feed['blogURL'] = mysql_real_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['blogURL']))));
+	$feed['title'] = mysql_real_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['title']))));
+	$feed['description'] = mysql_real_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['description']))));
 
 	return array(0, $feed, $xml);
 }
@@ -544,12 +544,12 @@ function saveFeedItem($feedId, $item) {
 
 	$item = fireEvent('SaveFeedItem', $item);
 
-	$item['permalink'] = mysql_escape_string(mysql_lessen(UTF8::correct($item['permalink'])));
-	$item['author'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($item['author']))));
-	$item['title'] = mysql_escape_string(mysql_lessen(UTF8::correct(stripHTML($item['title']))));
-	$item['description'] = mysql_escape_string(mysql_lessen(UTF8::correct($item['description']), 65535));
-	$tagString = mysql_escape_string(mysql_lessen(UTF8::correct(implode(', ', $item['tags']))));
-	$enclosureString = mysql_escape_string(mysql_lessen(UTF8::correct(implode('|', $item['enclosures']))));
+	$item['permalink'] = mysql_real_escape_string(mysql_lessen(UTF8::correct($item['permalink'])));
+	$item['author'] = mysql_real_escape_string(mysql_lessen(UTF8::correct(stripHTML($item['author']))));
+	$item['title'] = mysql_real_escape_string(mysql_lessen(UTF8::correct(stripHTML($item['title']))));
+	$item['description'] = mysql_real_escape_string(mysql_lessen(UTF8::correct($item['description']), 65535));
+	$tagString = mysql_real_escape_string(mysql_lessen(UTF8::correct(implode(', ', $item['tags']))));
+	$enclosureString = mysql_real_escape_string(mysql_lessen(UTF8::correct(implode('|', $item['enclosures']))));
 
 	if ($item['written'] > gmmktime() + 86400)
 		return false;

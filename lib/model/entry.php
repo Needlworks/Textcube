@@ -291,10 +291,10 @@ function addEntry($owner, $entry) {
 		$slogan = "$slogan0-$i";
 		$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 	}
-	$title = mysql_escape_string($entry['title']);
-	$content = mysql_escape_string($entry['content']);
+	$title = mysql_real_escape_string($entry['title']);
+	$content = mysql_real_escape_string($entry['content']);
 	$password = generatePassword();
-	$location = mysql_escape_string($entry['location']);
+	$location = mysql_real_escape_string($entry['location']);
 	if (isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
 		$published = $entry['published'];
 		$entry['visibility'] = 0 - $entry['visibility'];
@@ -358,9 +358,9 @@ function updateEntry($owner, $entry) {
 	$tags = getTagsWithEntryString($entry['tag']);
 	modifyTagsWithEntryId($owner, $entry['id'], $tags);
 	
-	$location = mysql_escape_string($entry['location']);
-	$title = mysql_escape_string($entry['title']);
-	$content = mysql_escape_string($entry['content']);
+	$location = mysql_real_escape_string($entry['location']);
+	$title = mysql_real_escape_string($entry['title']);
+	$content = mysql_real_escape_string($entry['content']);
 	switch ($entry['published']) {
 		case 0:
 			$published = 'published';
@@ -402,9 +402,9 @@ function saveDraftEntry($entry) {
 //		return false;
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
-	$location = mysql_escape_string($entry['location']);
-	$title = mysql_escape_string($entry['title']);
-	$content = mysql_escape_string($entry['content']);
+	$location = mysql_real_escape_string($entry['location']);
+	$title = mysql_real_escape_string($entry['title']);
+	$content = mysql_real_escape_string($entry['content']);
 	$draft = getDraftEntryId($entry['id']);
 	if ($draft) {
 		$result = mysql_query("UPDATE {$database['prefix']}Entries
@@ -537,7 +537,7 @@ function setEntryVisibility($id, $visibility) {
 
 function protectEntry($id, $password) {
 	global $database, $owner;
-	$password = mysql_escape_string($password);
+	$password = mysql_real_escape_string($password);
 	$result = mysql_query("UPDATE {$database['prefix']}Entries SET password = '$password', modified = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id AND visibility = 1");
 	return ($result && (mysql_affected_rows() > 0));
 }

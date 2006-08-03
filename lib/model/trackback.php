@@ -11,9 +11,9 @@ function getTrackbacksWithPagingForOwner($owner, $category, $site, $ip, $search,
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($site))
-		$sql .= ' AND t.site = \'' . mysql_escape_string($site) . '\'';
+		$sql .= ' AND t.site = \'' . mysql_real_escape_string($site) . '\'';
 	if (!empty($ip))
-		$sql .= ' AND t.ip = \'' . mysql_escape_string($ip) . '\'';
+		$sql .= ' AND t.ip = \'' . mysql_real_escape_string($ip) . '\'';
 	if (!empty($search)) {
 		$search = escapeMysqlSearchString($search);
 		$sql .= " AND (t.site LIKE '%$search%' OR t.subject LIKE '%$search%' OR t.excerpt LIKE '%$search%')";
@@ -135,7 +135,7 @@ function sendTrackback($owner, $entryId, $url) {
 		$isSuccess = $request->send($content);
 	}
 	if ($isSuccess && (checkResponseXML($request->responseText) === 0)) {
-		$url = mysql_escape_string($url);
+		$url = mysql_real_escape_string($url);
 		mysql_query("insert into {$database['prefix']}TrackbackLogs values ($owner, '', $entryId, '$url', UNIX_TIMESTAMP())");
 		return true;
 	}
@@ -177,7 +177,7 @@ function lastIndexOf($string, $item) {
 }
 
 function getURLForFilter($value) {
-	$value = mysql_escape_string($value);
+	$value = mysql_real_escape_string($value);
 	$value = str_replace('http://', '', $value);
 	$lastSlashPos = lastIndexOf($value, '/');
 	if ($lastSlashPos > - 1) {
