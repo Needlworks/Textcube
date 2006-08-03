@@ -34,7 +34,7 @@ function getCategoryBodyIdById($owner, $id) {
 	global $database;
 	$result = fetchQueryCell("SELECT bodyId FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
 	if (($id === 0) || ($result == '') || ($id === null))
-		return 'body-tt-category';
+		return 'tt-body-category';
 	return $result;
 }
 
