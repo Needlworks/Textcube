@@ -61,7 +61,7 @@
 /* rank -----------------------------------------------------------------------------------------*/
 #part-statistics-rank
 {
-	position                         : absolute;
+	float                            : left;
 }
 
 #part-statistics-rank table.data-inbox
@@ -88,4 +88,9 @@
 #part-statistics-log .caption
 {
 	margin                           : 0;
+}
+
+#part-statistics-log #page-navigation
+{
+	clear                            : none;
 }

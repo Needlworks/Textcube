@@ -34,11 +34,11 @@ requireStrictRoute();
 					var oSelect = window.parent.document.getElementById('fileList');	
 					var oOption = window.parent.document.createElement("option");
 					
-					oOption.innerHTML= fileName+ " <?php echo _t('업로드 중…')?>"; 
-					oOption.value=fileName;
+					oOption.innerHTML = fileName;
+					oOption.value = fileName;
 					oSelect.appendChild(oOption);
-					oSelect.setAttribute('size',Math.max(8,Math.min(oSelect.length,30)));
-					document.getElementById('fileNameInput').setAttribute('value',fileName);
+					oSelect.setAttribute('size', Math.max(8,Math.min(oSelect.length,30)));
+					document.getElementById('fileNameInput').setAttribute('value', fileName);
 				}
 				
 				function checkUploadMode(oEvent) {
@@ -135,10 +135,10 @@ if (count($_FILES) == 1) {
 					
 				}
 				
-				if (uploader!=null) {
+				if (uploader != null) {
 					document.write('<input type="file" class="file-input" name="attachment" onclick="uploader.SetVariable(\'/:openBroswer\',\'true\');return false;" onchange="addAttachOption(this.value);document.forms[0].submit()" />');
 				} else {
-					document.write('<input type="file" class="file-input" name="attachment" onchange="addAttachOption(this.value);document.forms[0].submit()" />');
+					document.write('<input type="file" class="file-input" name="attachment" onchange="addAttachOption(this.value); document.forms[0].submit()" />');
 				}
 			//]]>	
 		</script>

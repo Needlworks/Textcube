@@ -13,5 +13,24 @@
 /* rank -----------------------------------------------------------------------------------------*/
 #part-statistics-rank
 {
-	left                             : -200px;
+	float                            : left;
+}
+
+/* log ------------------------------------------------------------------------------------------*/
+#part-statistics-log
+{
+	float                            : right;
+	margin-left                      : 5px;
+}
+
+#data-outbox
+{
+	background-color : #FFFFFF;
+	height : 1px;
+}
+
+#part-statistics-log #page-section .page-count
+{
+	top                              : 20px !important;
+	right                            : 15px !important;
 }
