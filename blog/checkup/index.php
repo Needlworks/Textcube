@@ -342,9 +342,9 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Tags name" , 'Key') != 'UNI') 
 	echo '<li>', _text('태그 테이블에 인덱스 키를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Tags ADD UNIQUE INDEX name (name)")){
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-		echo '<li><span style="color:#33CC33;">', _text('관리자 화면의 환경 설정에서 데이터 교정을 수행하시기 바랍니다.'), '</span></li>';
 	} else {
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span>';
+		echo '<span style="color:#33CC33;">', _text('관리자 화면의 환경 설정에서 데이터 교정을 수행하시기 바랍니다.'), '</span></li>';
 	}
 }
 
