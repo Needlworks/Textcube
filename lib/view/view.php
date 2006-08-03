@@ -1377,7 +1377,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 ?>
 															
 															<div class="button-box">
-																<a class="edit-button button" href="#void" onclick="Reader.editGroup(<?php echo $group['id']?>, '<?php echo $group['title']?>'); return false;" title="<?php echo _t('이 그룹 정보를 수정합니다.')?>"><span class="text"><?php echo _t('수정')?></span></a>
+																<a class="edit-button button" href="#void" onclick="Reader.editGroup(<?php echo $group['id']?>, '<?php echo escapeJSInAttribute($group['title'])?>'); return false;" title="<?php echo _t('이 그룹 정보를 수정합니다.')?>"><span class="text"><?php echo _t('수정')?></span></a>
 															</div>
 <?php 
 		}
@@ -1437,7 +1437,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 															<div class="button-box">
 																<a id="iconFeedStatus<?php echo $feed['id']?>" class="update-button button" onclick="Reader.updateFeed(<?php echo $feed['id']?>, '<?php echo _t('피드를 업데이트 했습니다.')?>'); event.cancelBubble=true; return false;" title="<?php echo _t('이 피드를 업데이트 합니다.')?>"><span class="text"><?php echo _t('피드 업데이트')?></span></a>
 																<span class="divider">|</span>
-																<a class="edit-button button" href="#void" onclick="Reader.editFeed(<?php echo $feed['id']?>, '<?php echo htmlspecialchars($feed['xmlURL'])?>')" title="<?php echo _t('이 피드 정보를 수정합니다.')?>"><span class="text"><?php echo _t('수정')?></span></a>
+																<a class="edit-button button" href="#void" onclick="Reader.editFeed(<?php echo $feed['id']?>, '<?php echo escapeJSInAttribute($feed['xmlURL'])?>')" title="<?php echo _t('이 피드 정보를 수정합니다.')?>"><span class="text"><?php echo _t('수정')?></span></a>
 															</div>
 														</li>
 <?php
@@ -1625,7 +1625,7 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 												<script type="text/javascript">
 													//<![CDATA[
 														Reader.selectedEntry = <?php echo escapeJSInAttribute($entry['id'])?>;
-														Reader.setBlogTitle('<?php echo escapeJSInAttribute($entry['blog_title'])?>');
+														Reader.setBlogTitle("<?php echo escapeJSInAttribute($entry['blog_title'])?>");
 														Reader.doPostProcessingOnEntry();
 													//]]>
 												</script>
