@@ -107,7 +107,7 @@ function deleteAttachment($owner, $parent, $name) {
 		return false;
 	$origname = $name;
 	$name = mysql_real_escape_string($name);
-	if (DBQuery::execute("delete from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
+	if (DBQuery::execute("delete from {$database['prefix']}Attachments where owner = $owner and name = '$name'") && (mysql_affected_rows() == 1)) {
 		@unlink(ROOT . "/attach/$owner/$origname");
 		clearRSS();
 		return true;
