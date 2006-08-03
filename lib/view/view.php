@@ -1180,7 +1180,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 			<td class="pointerCursor" onclick="Reader.selectGroup(this, <?=$group['id']?>)"><img src="<?=$service['path']?>/image/owner/reader/iconCategory<?=$group['id'] ? 'Open' : 'T'?>.gif" /> <?=htmlspecialchars($group['title'])?></td>
 			<td align="right" width="30"><?
 		if ($group['id']) {
-?><img class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/btnModify.gif" onclick="Reader.editGroup(<?=$group['id']?>, '<?=$group['title']?>')"/><?
+?><img class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/btnModify.gif" onclick="Reader.editGroup(<?=$group['id']?>, '<?=escapeJSInAttribute($group['title'])?>')"/><?
 		}
 ?></td>
 		</tr>
@@ -1228,7 +1228,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 ?>
 		<tr height="20" feedid="<?=$feed['id']?>">
 			<td class="pointerCursor overflowCell" onclick="Reader.selectFeed(this, <?=$feed['id']?>)"><img id="iconFeedStatus<?=$feed['id']?>" class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/icon<?=$status?>.gif" width="10" height="10" alt="Refresh this feed" onclick="Reader.updateFeed(<?=$feed['id']?>); event.cancelBubble=true;return false"/> <?=$feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" onclick="window.open(this.href); event.cancelBubble=true; return false">' : ''?><strong><?=htmlspecialchars($feed['title'])?></strong><?=$feed['blogURL'] ? '</a>' : ''?> <span style="color: #888" title="<?=escapeJSInAttribute($feed['description'])?>"><?=$feed['description']?'| ':''?><?=htmlspecialchars($feed['description'])?></span></td>
-			<td align="right" width="30"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/btnModify.gif" onclick="Reader.editFeed(<?=$feed['id']?>, '<?=htmlspecialchars($feed['xmlURL'])?>')"/></td>
+			<td align="right" width="30"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/reader/btnModify.gif" onclick="Reader.editFeed(<?=$feed['id']?>, '<?=escapeJSInAttribute($feed['xmlURL'])?>')"/></td>
 		</tr>
 		<tr height="1">
 			<td colspan="2" background="<?=$service['path']?>/image/owner/reader/dotline.gif"></td>
@@ -1402,7 +1402,7 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 	<script type="text/javascript">
 	//<![CDATA[
 		Reader.selectedEntry = <?=escapeJSInAttribute($entry['id'])?>;
-		Reader.setBlogTitle('<?=escapeJSInAttribute($entry['blog_title'])?>');
+		Reader.setBlogTitle("<?=escapeJSInAttribute($entry['blog_title'])?>");
 		Reader.doPostProcessingOnEntry();
 	//]]>
 	</script>
