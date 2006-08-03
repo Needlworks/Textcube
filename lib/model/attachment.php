@@ -136,7 +136,7 @@ function deleteAttachmentMulti($owner, $parent, $names) {
 			continue;
 		$origname = $name;
 		$name = mysql_real_escape_string($name);
-		if (DBQuery::query("delete from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
+		if (DBQuery::query("delete from {$database['prefix']}Attachments where owner = $owner and name = '$name'") && (mysql_affected_rows() == 1)) {
 			unlink(ROOT . "/attach/$owner/$origname");
 		} else {
 		}
