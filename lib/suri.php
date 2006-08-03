@@ -77,7 +77,7 @@ switch ($service['type']) {
 		break;
 	case 'path':
 		$pathURL = $service['path'] . '/' . $blog['name'];
-		$defaultURL = 'http://' . $blog['secondaryDomain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+		$defaultURL = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
 		if ($_SERVER['HTTP_HOST'] == $service['domain'])
 			$baseURL = $service['path'] . '/' . $blog['name'];
 		else
@@ -86,7 +86,7 @@ switch ($service['type']) {
 	case 'single':
 	default:
 		$pathURL = $service['path'];
-		$defaultURL = 'http://' . $blog['secondaryDomain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+		$defaultURL = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
 		if ($_SERVER['HTTP_HOST'] == $service['domain'])
 			$baseURL = $service['path'];
 		else
