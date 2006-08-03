@@ -342,7 +342,7 @@ function deleteComment($owner, $id, $entry, $password) {
 	global $database;
 	
 	$guestcomment = false;
-	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE owner = $owner AND id = {$comment['id']} AND replier IS NULL")) {
+	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE owner = $owner AND id = $id AND replier IS NULL")) {
 		$guestcomment = true;
 	}
 	
