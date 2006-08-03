@@ -88,11 +88,11 @@ function setSecondaryDomain($owner, $domain) {
 	if ($domain == $blog['secondaryDomain'])
 		return true;
 	if (empty($domain))
-		DBQuery::query("UPDATE {$database['prefix']}BlogSettings SET secondaryDomain = '' WHERE owner = $owner");
+		DBQuery::execute("UPDATE {$database['prefix']}BlogSettings SET secondaryDomain = '' WHERE owner = $owner");
 	else if (Validator::domain($domain)) {
 		if (DBQuery::queryExistence("SELECT * FROM {$database['prefix']}BlogSettings WHERE owner <> $owner AND (secondaryDomain = '$domain' OR secondaryDomain = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')"))
 			return false;
-		DBQuery::query("UPDATE {$database['prefix']}BlogSettings SET secondaryDomain = '$domain' WHERE owner = $owner");
+		DBQuery::execute("UPDATE {$database['prefix']}BlogSettings SET secondaryDomain = '$domain' WHERE owner = $owner");
 	}
 	else
 		return false;

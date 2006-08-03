@@ -158,16 +158,16 @@ class Post {
 		}
 		
 		// step 2. Delete Entry
-		$result = DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $this->id");
+		$result = DBQuery::execute("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $this->id");
 		if (mysql_affected_rows() > 0) {
 		// step 3. Delete Comment
-			DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $this->id");
+			DBQuery::execute("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $this->id");
 		
 		// step 4. Delete Trackback
-			DBQuery::query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $this->id");
+			DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $this->id");
 		
 		// step 5. Delete Trackback Logs
-			DBQuery::query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner AND entry = $this->id");
+			DBQuery::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner AND entry = $this->id");
 		
 		// step 6. update Category
 			// TODO : Update Category

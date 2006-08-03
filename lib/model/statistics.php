@@ -41,7 +41,7 @@ function getRefererStatistics($owner) {
 }
 
 function getRefererLogsWithPage($page, $count) {  
-	global $database, $owner;  
+	global $database, $owner;
 	return fetchWithPaging("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE owner = $owner ORDER BY referred DESC", $page, $count);  
 }  
 
@@ -93,7 +93,7 @@ function updateVisitorStatistics($owner) {
 
 function setTotalStatistics($owner) {
 	global $database;
-	DBQuery::query("DELETE FROM {$database['prefix']}DailyStatistics WHERE owner = $owner");
+	DBQuery::execute("DELETE FROM {$database['prefix']}DailyStatistics WHERE owner = $owner");
 	$prevCount = DBQuery::queryCell("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE owner = $owner");
 	if ((!is_null($prevCount)) && ($prevCount == 0))
 		return true;

@@ -92,7 +92,7 @@ function addAttachment($owner, $parent, $file) {
 	@chmod($attachment['path'], 0666);
 	$name = mysql_real_escape_string($attachment['name']);
 	$label = mysql_real_escape_string($attachment['label']);	
-	$result = DBQuery::query("insert into {$database['prefix']}Attachments values ($owner, {$attachment['parent']}, '$name', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
+	$result = DBQuery::execute("insert into {$database['prefix']}Attachments values ($owner, {$attachment['parent']}, '$name', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	if (!$result) {
 		@unlink($attachment['path']);
 		return false;
@@ -106,7 +106,7 @@ function deleteAttachment($owner, $parent, $name) {
 		return false;
 	$origname = $name;
 	$name = mysql_real_escape_string($name);
-	if (DBQuery::query("delete from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
+	if (DBQuery::execute("delete from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
 		@unlink(ROOT . "/attach/$owner/$origname");
 		clearRSS();
 		return true;
@@ -135,7 +135,7 @@ function deleteAttachmentMulti($owner, $parent, $names) {
 			continue;
 		$origname = $name;
 		$name = mysql_real_escape_string($name);
-		if (DBQuery::query("delete from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
+		if (DBQuery::execute("delete from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
 			unlink(ROOT . "/attach/$owner/$origname");
 		} else {
 		}

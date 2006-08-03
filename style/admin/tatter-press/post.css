@@ -88,3 +88,10 @@
 {
 	vertical-align                   : middle;
 }
+
+#body-id-line p
+{
+	line-height                      : 1.5em;
+	margin                           : 5px 0;
+	width                            : 350px;
+}
