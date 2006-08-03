@@ -5,7 +5,7 @@ function setBlogTitle($owner, $title) {
 	global $blog;
 	if ($title == $blog['title'])
 		return true;
-	mysql_query("update {$database['prefix']}BlogSettings set title = '" . mysql_escape_string($title) . "' where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogSettings set title = '" . mysql_real_escape_string($title) . "' where owner = $owner");
 	if (mysql_affected_rows() != 1)
 		return false;
 	$blog['title'] = $title;
@@ -18,7 +18,7 @@ function setBlogDescription($owner, $description) {
 	global $blog;
 	if ($description == $blog['description'])
 		return true;
-	mysql_query("update {$database['prefix']}BlogSettings set description = '" . mysql_escape_string($description) . "' where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogSettings set description = '" . mysql_real_escape_string($description) . "' where owner = $owner");
 	if (mysql_affected_rows() != 1)
 		return false;
 	$blog['description'] = $description;
@@ -186,8 +186,8 @@ function setGuestbook($owner, $write, $comment) {
 
 function changeSetting($owner, $email, $nickname) {
 	global $database;
-	$email = mysql_escape_string($email);
-	$nickname = mysql_escape_string($nickname);
+	$email = mysql_real_escape_string($email);
+	$nickname = mysql_real_escape_string($nickname);
 	if ($email == '' || $nickname == '') {
 		return false;
 	}

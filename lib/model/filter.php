@@ -22,7 +22,7 @@ function closeFilter($owner, $mode, $value) {
 		default:
 			return false;
 	}
-	$value = mysql_escape_string($value);
+	$value = mysql_real_escape_string($value);
 	if ($value == '')
 		return false;
 	$sql = "DELETE FROM {$database['prefix']}$table WHERE owner = $owner AND $column = '$value'";
@@ -32,7 +32,7 @@ function closeFilter($owner, $mode, $value) {
 
 function openFilter($owner, $mode, $value) {
 	global $database;
-	$value = mysql_escape_string($value);
+	$value = mysql_real_escape_string($value);
 	switch ($mode) {
 		case 'sitename':
 			$table = 'URLFilters';
@@ -57,7 +57,7 @@ function openFilter($owner, $mode, $value) {
 		return false;
 	if ($table == 'URLFilters')
 		$value = str_replace('http://', '', $value);
-	$value = mysql_escape_string($value);
+	$value = mysql_real_escape_string($value);
 	$sql = "INSERT INTO {$database['prefix']}$table (owner, $column, written) VALUES ($owner, '$value', UNIX_TIMESTAMP())";
 	$result = mysql_query($sql);
 	return ($result && mysql_affected_rows() > 0) ? true : false;
@@ -85,8 +85,8 @@ function modifyFilter($owner, $mode, $oldValue, $newValue) {
 		default:
 			return false;
 	}
-	$newValue = mysql_escape_string($newValue);
-	$oldValue = mysql_escape_string($oldValue);
+	$newValue = mysql_real_escape_string($newValue);
+	$oldValue = mysql_real_escape_string($oldValue);
 	$sql = "UPDATE {$database['prefix']}$table SET 
 					owner	= $owner, 
 					$column	= '$newValue'
@@ -129,7 +129,7 @@ function getFilters($owner, $mode) {
 
 function isFiltered($owner, $mode, $value) {
 	global $database;
-	$value = mysql_escape_string($value);
+	$value = mysql_real_escape_string($value);
 	switch ($mode) {
 		case 'sitename':
 			$table = 'URLFilters';

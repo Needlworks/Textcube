@@ -3,7 +3,7 @@
 function login($loginid, $password) {
 	global $database;
 	global $service;
-	$loginid = mysql_escape_string($loginid);
+	$loginid = mysql_real_escape_string($loginid);
 	if ((strlen($password) == 32) && preg_match('/[0-9a-f]/i', $password))
 		$secret = '(`password` = \'' . md5($password) . "' OR `password` = '$password')";
 	else
@@ -92,7 +92,7 @@ function requireStrictRoute() {
 
 function isLoginId($userid, $loginid) {
 	global $database;
-	$loginid = mysql_escape_string($loginid);
+	$loginid = mysql_real_escape_string($loginid);
 	$result = mysql_query("select userid from {$database['prefix']}Users where userid = $userid and loginid = '$loginid'");
 	if ($result && (mysql_num_rows($result) == 1))
 		return true;
@@ -119,7 +119,7 @@ function resetPassword($userid, $loginid) {
 	$message = str_replace('[##_sender_##]', '', $message);
 	if (!mail($loginid, encodeMail(_t('블로그 로그인 암호가 초기화되었습니다.')), $message, $headers))
 		return false;
-	$loginid = mysql_escape_string($loginid);
+	$loginid = mysql_real_escape_string($loginid);
 	return true;
 }
 ?>

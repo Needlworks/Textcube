@@ -3,7 +3,7 @@
 function setTreeSetting($owner, $setting) {
 	global $database;
 	foreach ($setting as $key => $value)
-		$setting[$key] = mysql_escape_string($value);
+		$setting[$key] = mysql_real_escape_string($value);
 	$sql = "
 	UPDATE {$database['prefix']}SkinSettings
 	SET 
@@ -169,7 +169,7 @@ function setSkinSetting($owner, $setting) {
 		return _t('실패 했습니다');
 	
 	foreach ($setting as $key => $value) {
-		$setting[$key] = mysql_escape_string($value);
+		$setting[$key] = mysql_real_escape_string($value);
 	}
 	$sql = "
 	UPDATE {$database['prefix']}SkinSettings 

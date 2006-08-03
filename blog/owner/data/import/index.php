@@ -175,7 +175,7 @@ if(!$acceptNewLineOnEditor) {
 	$query = new TableQuery($database['prefix'] . 'Entries');
 	if ($entries = $query->getAll('owner, id, draft, content')) {
 		foreach($entries as $entry) {
-			$newContent = mysql_escape_string(nl2brWithHTML($entry['content']));
+			$newContent = mysql_real_escape_string(nl2brWithHTML($entry['content']));
 			DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE owner = {$entry['owner']} AND id = {$entry['id']} AND draft = {$entry['draft']}");
 		}
 	}

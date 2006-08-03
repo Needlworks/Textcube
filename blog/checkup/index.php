@@ -228,7 +228,7 @@ if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSett
 		echo '<li>', _t('[HTML][/HTML] 블럭을 제거합니다'), ': ';
 		if ($entries = $query->getAll('owner, id, draft, content')) {
 			foreach($entries as $entry) {
-				$newContent = mysql_escape_string(nl2brWithHTML($entry['content']));
+				$newContent = mysql_real_escape_string(nl2brWithHTML($entry['content']));
 				DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE owner = {$entry['owner']} AND id = {$entry['id']} AND draft = {$entry['draft']}");
 			}
 			setServiceSetting('acceptNewLineOnEditor', '1');

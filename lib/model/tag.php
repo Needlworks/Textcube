@@ -2,7 +2,7 @@
 
 function getTagId($owner, $name) {
 	global $database;
-	$name = mysql_escape_string($name);
+	$name = mysql_real_escape_string($name);
 	return fetchQueryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '$name'");
 }
 
@@ -64,7 +64,7 @@ function getTagFrequencyRange() {
 
 function getTagFrequency($tag, $max, $min) {
 	global $database, $owner;
-	$count = fetchQueryCell("select count(*) from {$database['prefix']}Tags t, {$database['prefix']}TagRelations r where t.id=r.tag and r.owner = $owner and t.name = '" . mysql_escape_string($tag) . "'");
+	$count = fetchQueryCell("select count(*) from {$database['prefix']}Tags t, {$database['prefix']}TagRelations r where t.id=r.tag and r.owner = $owner and t.name = '" . mysql_real_escape_string($tag) . "'");
 	$dist = $max / 3;
 	if ($count == $min)
 		return 5;

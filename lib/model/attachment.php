@@ -12,13 +12,13 @@ function getAttachments($owner, $parent, $orderBy = null, $sort='ASC') {
 
 function getAttachmentByName($owner, $parent, $name) {
 	global $database;
-	$name = mysql_escape_string($name);
+	$name = mysql_real_escape_string($name);
 	return fetchQueryRow("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'");
 }
 
 function getAttachmentByOnlyName($owner, $name) {
 	global $database;
-	$name = mysql_escape_string($name);
+	$name = mysql_real_escape_string($name);
 	return fetchQueryRow("select * from {$database['prefix']}Attachments where owner = $owner and name = '$name'");
 }
 
@@ -26,7 +26,7 @@ function getAttachmentByLabel($owner, $parent, $label) {
 	global $database;
 	if ($parent === false)
 		$parent = 0;
-	$label = mysql_escape_string($label);
+	$label = mysql_real_escape_string($label);
 	return fetchQueryRow("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent and label = '$label'");
 }
 
@@ -155,13 +155,13 @@ function deleteAttachments($owner, $parent) {
 
 function downloadAttachment($name) {
 	global $database, $owner;
-	$name = mysql_escape_string($name);
+	$name = mysql_real_escape_string($name);
 	mysql_query("UPDATE {$database['prefix']}Attachments SET downloads = downloads + 1 WHERE owner = $owner AND name = '$name'");
 }
 
 function setEnclosure($name, $order) {
 	global $database, $owner;
-	$name = mysql_escape_string($name);
+	$name = mysql_real_escape_string($name);
 	if (($parent = fetchQueryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE owner = $owner AND name = '$name'")) !== null) {
 		executeQuery("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent");
 		if ($order) {

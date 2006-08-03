@@ -17,7 +17,7 @@ function getCategoryIdByLabel($owner, $label) {
 	global $database;
 	if (empty($label))
 		return 0;
-	$label = mysql_escape_string($label);
+	$label = mysql_real_escape_string($label);
 	return fetchQueryCell("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND label = '$label'");
 }
 
@@ -96,8 +96,8 @@ function addCategory($owner, $parent, $name) {
 		$label = $name;
 	}
 
-	$label = mysql_escape_string($label);
-	$name = mysql_escape_string($name);
+	$label = mysql_real_escape_string($label);
+	$name = mysql_real_escape_string($name);
 
 	if($parent == 'NULL') {
 		$parentStr = 'AND parent is null';
@@ -156,12 +156,12 @@ function updateEntriesOfCategory($owner, $id = - 1) {
 	$result = mysql_query("SELECT * FROM {$database['prefix']}Categories WHERE owner = $owner AND parent IS NULL");
 	while ($row = mysql_fetch_array($result)) {
 		$parent = $row['id'];
-		$parentName = mysql_escape_string($row['name']);
+		$parentName = mysql_real_escape_string($row['name']);
 		$countParent = fetchQueryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND visibility > 0 AND category = $parent");
 		$countInLoginParent = fetchQueryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND category = $parent");
 		$result2 = mysql_query("SELECT * FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $parent");
 		while ($rowChild = mysql_fetch_array($result2)) {
-			$rowChild['name'] = mysql_escape_string($rowChild['name']);
+			$rowChild['name'] = mysql_real_escape_string($rowChild['name']);
 			$countChild = fetchQueryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
 			$countInLogInChild = fetchQueryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND category = {$rowChild['id']}");
 			mysql_query("UPDATE {$database['prefix']}Categories SET entries = $countChild, entriesInLogin = $countInLogInChild, `label` = '$parentName/{$rowChild['name']}' WHERE owner = $owner AND id = {$rowChild['id']}");
