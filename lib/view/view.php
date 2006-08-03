@@ -862,11 +862,11 @@ function getRandomTagsView($tags, & $template) {
 	return $view;
 }
 
-function getEntryContentView($owner, $id, $content, $keywords = array(), $type = 'Post', $useAbsolutePath = false) {
+function getEntryContentView($owner, $id, $content, $keywords = array(), $type = 'Post', $useAbsolutePath = false, $bRssMode = false) {
 	global $service;
 	$path = ROOT . "/attach/$owner";
 	$url = "{$service['path']}/attach/$owner";
-	$view = bindAttachments($id, $path, $url, $content, $useAbsolutePath);
+	$view = bindAttachments($id, $path, $url, $content, $useAbsolutePath, $bRssMode);
 	$view = bindKeywords($keywords, $view);
 	$view = bindTags($id, $view);
 	if (defined('__TATTERTOOLS_MOBILE__'))
@@ -905,6 +905,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 	global $service, $owner, $hostURL, $blogURL;
 	$view = str_replace('[##_ATTACH_PATH_##]', ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$owner" : $folderURL), $content);
 	$count = 0;
+	$bWritedGalleryJS = false;
 	while ((($start = strpos($view, '[##_')) !== false) && (($end = strpos($view, '_##]', $start + 4)) !== false)) {
 		$count++;
 		$attributes = explode('|', substr($view, $start + 4, $end - $start - 4));
