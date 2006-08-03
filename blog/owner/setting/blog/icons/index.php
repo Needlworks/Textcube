@@ -20,7 +20,7 @@ $IV = array(
 require ROOT . '/lib/includeForOwner.php';
 
 // 로고 처리.
-if ($_POST['deleteLogo'] == "yes") {
+if ($_POST['deleteLogo'] == "yes" || !empty($_FILES['logo']['tmp_name'])) {
 	removeBlogLogo($owner);
 }
 
@@ -28,10 +28,10 @@ if (!empty($_FILES['logo']['tmp_name'])) {
 	$fileExt = Path::getExtension($_FILES['logo']['name']);
 	
 	if (($fileExt != '.gif') && ($fileExt != '.jpg') && ($fileExt != '.png')) {
-		print ('alert("' . _t('변경하지 못했습니다.') . '");');
+		print ('alert("' . _t('로고를 변경하지 못했습니다.') . '");');
 	} else { 
 		if (changeBlogLogo($owner, $_FILES['logo']) === false) {
-			print ('alert("' . _t('변경하지 못했습니다.') . '");');
+			print ('alert("' . _t('로고를 변경하지 못했습니다.') . '");');
 		}
 	}
 }
@@ -43,7 +43,7 @@ if ($_POST['deleteFavicon'] == "yes") {
 
 if (!empty($_FILES['favicon']['tmp_name'])) {
 	if (Path::getExtension($_FILES['favicon']['name']) != '.ico') {
-		print ('alert("' . _t('변경하지 못했습니다.') . '");');
+		print ('alert("' . _t('파비콘을 변경하지 못했습니다.') . '");');
 	} else { 
 		requireComponent('Tattertools.Data.Attachment');
 		Attachment::confirmFolder();
@@ -63,7 +63,7 @@ if (!empty($_FILES['blogIcon']['tmp_name'])) {
 	$fileExt = Path::getExtension($_FILES['blogIcon']['name']);
 	
 	if (!in_array($fileExt, array('.gif', '.jpg', '.jpeg', '.png'))) {
-		print ('alert("' . _t('변경하지 못했습니다.') . '");');
+		print ('alert("' . _t('블로그 아이콘을 변경하지 못했습니다.') . '");');
 	} else { 
 		requireComponent('Tattertools.Data.Attachment');
 		Attachment::confirmFolder();
