@@ -7,7 +7,6 @@
 	#menu a:hover {
 	text-decoration:none;	
 	color:#2e67b4;
-	background:url("../../image/owner/reader/menuIndicate.gif") no-repeat bottom center;
 	}
 
 	#progress {
@@ -26,7 +25,6 @@
 	#utilmenu a:hover {
 	text-decoration:none;	
 	color:#2e67b4;
-	background:url("../../image/owner/reader/menuIndicate.gif") no-repeat bottom center;		
 	}	
 
   #resizable {
