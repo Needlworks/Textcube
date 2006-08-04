@@ -920,8 +920,8 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				for ($i = 0; $i < count($images); $i++) {
 					if (!empty($images[$i])) {
 						if ($i % 2 == 0)
-							$buf .= '<div align="center">' . getAttachmentBinder($images[$i], '', $folderPath, $folderURL, 1, $useAbsolutePath) . '</div>';
-						else
+							$buf .= '<div align="center">' . getAttachmentBinder($images[$i], '', $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . '</div>';
+						else if (strlen($images[$i]) > 0)
 							$buf .= "<div align=\"center\">$images[$i]</div>";
 					}
 				}
@@ -1106,7 +1106,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 	return $view;
 }
 
-function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $imageBlocks = 1, $useAbsolutePath = false) {
+function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $imageBlocks = 1, $useAbsolutePath = false, $bRssMode = false) {
 	global $service, $owner, $blogURL, $hostURL;
 	$path = "$folderPath/$filename";
 	if ($useAbsolutePath)
@@ -1118,6 +1118,9 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 		case 'jpg':case 'jpeg':case 'gif':case 'png':case 'bmp':
 			if (defined('__TATTERTOOLS_MOBILE__')) {
 				return fireEvent('ViewAttachedImageMobile', "<img src=\"$blogURL/imageResizer/?f=" . urlencode($filename) . "\" alt=\"\"/>", $path);
+			} else if ($bRssMode = true) {
+				$property = str_replace('&quot;', '"', $property);
+				return fireEvent('ViewAttachedImage', "<img src=\"$url\" $property/>", $path);
 			} else {
 				list($width, $height) = @getimagesize($path);
 				$setWidth = $width;
