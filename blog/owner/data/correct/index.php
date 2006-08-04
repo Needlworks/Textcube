@@ -80,7 +80,7 @@ function setProgress($progress, $text = null, $sub = null) {
 }
 
 setProgress(0, _t('교정 대상을 확인하고 있습니다'));
-$items = 4 + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE owner = $owner") + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE owner = $owner");
+$items = 3 + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE owner = $owner") + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE owner = $owner");
 
 set_time_limit(0);
 $item = 0;
@@ -97,10 +97,6 @@ Post::updateTrackbacks();
 setProgress($item++ / $items * 100, _t('분류의 글 정보를 다시 계산해서 저장합니다'));
 requireComponent('Tattertools.Data.Post');
 updateEntriesOfCategory($owner);
-
-setProgress($item++ / $items * 100, _t('태그 정보를 갱신합니다.'));
-Post::correctTagsAll();
-
 
 if ($result = mysql_query("SELECT id, name, homepage, comment FROM {$database['prefix']}Comments WHERE owner = $owner")) {
 	while ($comment = mysql_fetch_assoc($result)) {

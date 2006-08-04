@@ -264,11 +264,13 @@ if (!doesExistTable($database['prefix'] . 'UserSettings')) { // Since 1.0.7
 if (DBQuery::queryCell("DESC {$database['prefix']}Tags name" , 'Key') != 'UNI') { // Since 1.0.7
 	$changed = true;
 	echo '<li>', _t('태그 테이블에 인덱스를 추가합니다'), ': ';
+	requireComponent('Tattertools.Data.Post');
+	Post::correctTagsAll();
+	
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Tags ADD UNIQUE INDEX name (name)"))
 		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
 	else {
-		echo '<span style="color:#FF0066;">', _t('실패'), '</span>';
-		echo '<span>',_t('데이터 교정을 수행하시기 바랍니다.'),'</span></li>';
+		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 	}
 }
 ?>
