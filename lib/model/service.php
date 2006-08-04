@@ -20,9 +20,29 @@ function getBlogSetting($owner) {
 
 function getSkinSetting($owner) {
 	global $database;
-	if ($result = mysql_query("select * from {$database['prefix']}SkinSettings where owner = $owner"))
-		return mysql_fetch_array($result);
-	return false;
+	if ($result = mysql_query("select * from {$database['prefix']}SkinSettings where owner = $owner")) {
+		$retval = mysql_fetch_array($result);
+		if ($retval != FALSE) {
+			if (!Validator::filename($retval['skin']) && ($retval['skin'] !="customize/$owner")) {
+				$retval['skin'] = $service['skin'];
+			}
+			return $retval;
+		}
+	}
+	
+	$retval = array( 'owner' => $owner , 'skin' => $service['skin'], 
+		'entriesOnRecent' => 5, 'commentsOnRecent' => 5, 'commentsOnGuestbook' => 5, 
+		'tagsOnTagbox' => 30, 'tagboxAlign' => 3, 'trackbacksOnRecent' => 5, 
+		'expandComment' => 1, 'expandTrackback' => 1, 
+		'recentNoticeLength' => 25, 'recentEntryLength' => 30, 
+		'recentCommentLength' => 30, 'recentTrackbackLength' => 30, 
+		'linkLength' => 30, 'showListOnCategory' => 1, 'showListOnArchive' => 1, 
+		'tree' => 'base', 
+		'colorOnTree' => '000000', 'bgColorOnTree' => '', 
+		'activeColorOnTree' => 'FFFFFF', 'activeBgColorOnTree' => '00ADEF', 
+		'labelLengthOnTree' => 27, 'showValueOnTree' => 1 );
+	
+	return $retval;	
 }
 
 function getDefaultURL($uid) {
