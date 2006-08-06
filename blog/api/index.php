@@ -73,7 +73,7 @@ function SendRSD()
 </rsd>' );
 }
 
-if( substr( $_SERVER["REQUEST_URI"], -8 ) == "/api/rsd" )
+if( substr( $_SERVER["REQUEST_URI"], -8 ) == "/api?rsd" )
 {
 	SendRSD();
 }

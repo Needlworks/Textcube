@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="ko">Blog API</title>
+  <title xml:lang="en">Blog API</title>
+  <link>http://www.tattertools.com/plugins</link>
+  <version>1.0</version>
+  <description xml:lang="en">This plugin supports RSD link in skin for api</description>
+  <description xml:lang="ko">스킨에 RSD link를 추가하여 api를 자동으로 검출되게 합니다.</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://www.tattertools.com">Tatter &amp; Company</author>
+  <author xml:lang="ko" link="http://www.tattertools.com">태터앤컴퍼니</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
+  <scope>blog</scope>
+  <requirements>
+    <tattertools>1.0.6</tattertools>
+  </requirements>
+  <binding>
+	<tag name="SKIN_head_end" handler="AddRSD" />
+  </binding>
+</plugin>
