@@ -340,6 +340,8 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings NoCommentMes
 if (DBQuery::queryCell("DESC {$database['prefix']}Tags name" , 'Key') != 'UNI') {
 	$changed = true;
 	echo '<li>', _text('태그 테이블에 인덱스 키를 추가합니다.'), ': ';
+	requireComponent('Tattertools.Data.Post');
+	Post::correctTagsAll();
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Tags ADD UNIQUE INDEX name (name)")){
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	} else {
