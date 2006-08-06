@@ -1,17 +1,16 @@
 <?php
-ini_set('magic_quotes_gpc', 'off');
 define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
-		'skin' => array('string','default'=>''),
-		'style' => array('string','default'=>'')
+		'body' => array('string'),
+		'mode' => array('string')
 	)
 );
 
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
 	
-$result = writeSkin($owner, $_POST['skin'], $_POST['style']);
+$result = writeSkinHtml($owner, $_POST['body'], $_POST['mode']);
 if ( $result === true)
 	printRespond(array('error' => 0));
 else
