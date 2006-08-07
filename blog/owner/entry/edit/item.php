@@ -26,7 +26,7 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 	$entry['category'] = -1;
 }
 
-IF (ISSET($_GET['popupEditor'])) {
+if (isset($_GET['popupEditor'])) {
 	require ROOT . '/lib/piece/owner/header8.php';
 } else {
 	require ROOT . '/lib/piece/owner/header0.php';

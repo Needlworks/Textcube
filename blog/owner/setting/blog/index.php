@@ -674,7 +674,10 @@ if (extension_loaded('gd')) {
 														<option value="25"<?php echo $thumbnailPadding[$tempIndex] == 25 ? ' selected="selected"' : '';?>>25px</option>
 														<option value="direct"<?php echo !in_array($thumbnailPadding[$tempIndex], array(0, 5, 10, 15, 20, 25)) ? ' selected="selected"' : '';?>><?php echo _t('직접입력');?></option>
 													</select>
-													<input type="text" class="text-input" id="<?php echo $paddingOrder[$i];?>PaddingManual" name="<?php echo $paddingOrder[$i];?>PaddingManual" value="<?php echo ${'thumbnail'.ucfirst($paddingOrder[$i]).'Padding'};?>" />px
+<?php
+	$temp = 'thumbnail'.ucfirst($paddingOrder[$i]).'Padding';
+?>
+													<input type="text" class="text-input" id="<?php echo $paddingOrder[$i];?>PaddingManual" name="<?php echo $paddingOrder[$i];?>PaddingManual" value="<?php echo $$temp;?>" />px
 												</div>
 <?php
 	}
