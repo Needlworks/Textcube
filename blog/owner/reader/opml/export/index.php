@@ -9,9 +9,9 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n";
 ?>
 <opml version="1.0">
 <head>
-<title>Tattertools <?php echo TATTERTOOLS_VERSION?> Reader Feeds</title>
-<ownerName><?php echo htmlspecialchars($writer)?></ownerName>
-<ownerEmail><?php echo User::getEmail()?></ownerEmail>
+<title>Tattertools <?php echo TATTERTOOLS_VERSION;?> Reader Feeds</title>
+<ownerName><?php echo htmlspecialchars($writer);?></ownerName>
+<ownerEmail><?php echo User::getEmail();?></ownerEmail>
 </head>
 <body>
 <?php
@@ -19,7 +19,7 @@ foreach (getFeeds($owner) as $feed) {
 $feed['title'] = str_replace('\\\'', '\'', escapeJSInAttribute($feed['title']));
 $feed['description'] = str_replace('\\\'', '\'', escapeJSInAttribute($feed['description']));
 ?>
-<outline text="<?php echo $feed['title']?>" description="<?php echo $feed['description']?>" htmlUrl="<?php echo escapeJSInAttribute($feed['blogURL'])?>" title="<?php echo $feed['title']?>" type="rss" version="RSS" xmlUrl="<?php echo escapeJSInAttribute($feed['xmlURL'])?>" />
+<outline text="<?php echo $feed['title'];?>" description="<?php echo $feed['description'];?>" htmlUrl="<?php echo escapeJSInAttribute($feed['blogURL']);?>" title="<?php echo $feed['title'];?>" type="rss" version="RSS" xmlUrl="<?php echo escapeJSInAttribute($feed['xmlURL']);?>" />
 <?php
 }
 ?>

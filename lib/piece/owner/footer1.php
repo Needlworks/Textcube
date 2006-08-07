@@ -5,8 +5,8 @@
 			<hr class="hidden" />
 			
 			<div id="layout-footer">
-				<div id="copyright"><span class="text"><?php echo TATTERTOOLS_COPYRIGHT?></span></div>
-				<div id="version"><span class="text"><?php echo TATTERTOOLS_NAME?> <?php echo TATTERTOOLS_VERSION?></span></div>
+				<div id="copyright"><span class="text"><?php echo TATTERTOOLS_COPYRIGHT;?></span></div>
+				<div id="version"><span class="text"><?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?></span></div>
 			</div>
 		</div>
 	</div>
@@ -35,10 +35,10 @@
 <?php
 if (!defined('__TATTERTOOLS_EDIT__')) { ?>
 					case 81: //Q
-						try { window.location = "<?php echo $blogURL?>/"; } catch(e) { };
+						try { window.location = "<?php echo $blogURL;?>/"; } catch(e) { };
 						break;
 					case 82: //R
-						try { window.location = "<?php echo $blogURL?>/owner/reader"; } catch(e) { };
+						try { window.location = "<?php echo $blogURL;?>/owner/reader"; } catch(e) { };
 						break;
 <?php 
 }
@@ -78,14 +78,14 @@ if (defined('__TATTERTOOLS_READER__')) {
 if (isset($paging['prev'])) {
 ?>
 					case 65: //A
-						window.location = "<?php echo "{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}"?>";
+						window.location = "<?php echo "{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}";?>";
 						break;
 <?php 
 }
 if (isset($paging['next'])) {
 ?>
 					case 83: //S
-						window.location = "<?php echo "{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}"?>";
+						window.location = "<?php echo "{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}";?>";
 						break;
 <?php 
 }

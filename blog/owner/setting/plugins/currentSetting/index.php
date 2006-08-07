@@ -10,25 +10,25 @@ if( is_null($result) )	respondNotFoundPage();
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $result['css']?>" />
-<script type="text/javascript" src="<?php echo $service['path']?>/script/EAF.js"></script>
-<script type="text/javascript" src="<?php echo $service['path']?>/script/pluginconfig.js"> </script>
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $result['css'];?>" />
+<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF.js"></script>
+<script type="text/javascript" src="<?php echo $service['path'];?>/script/pluginconfig.js"> </script>
 <script type="text/javascript" >//<![CDATA[
-var fiednamelist = <?php echo $result['script'] ?>;
+var fiednamelist = <?php echo $result['script'] ;?>;
 
 var errorMessage ={
-	"1": "<?php echo _t('데이터처리 오류 발생.')?>",
-	"2": "<?php echo _t('잘못된 입력 입니다.')?>"
+	"1": "<?php echo _t('데이터처리 오류 발생.');?>",
+	"2": "<?php echo _t('잘못된 입력 입니다.');?>"
 }
 function saveConfig(plugin){
 	var xmlcon= new Converter(document, fiednamelist) ; 
     	var xmlData = encodeURIComponent(xmlcon.getXMLData());
 //      alert( xmlcon.getXMLData());	
-	var request = new HTTPRequest("POST" , "<?php echo $blogURL?>/owner/setting/plugins/recieveConfig");
-	PM.addRequest(request, "<?php echo _t('설정을 저장중 입니다.')?>");
+	var request = new HTTPRequest("POST" , "<?php echo $blogURL;?>/owner/setting/plugins/recieveConfig");
+	PM.addRequest(request, "<?php echo _t('설정을 저장중 입니다.');?>");
 	request.onSuccess = function () {
 		PM.removeRequest(this);
-		PM.showMessage("<?php echo _t('저장 완료')?>", "center", "bottom");
+		PM.showMessage("<?php echo _t('저장 완료');?>", "center", "bottom");
 	};		
 	request.onError = function () {
 		PM.removeRequest(this);
@@ -45,15 +45,15 @@ function saveConfig(plugin){
 	request = null;
 }	
 //]]></script>
-<title><?php echo $pluginName?> config</title>
+<title><?php echo $pluginName;?> config</title>
 </head>
 <body>
-	<h3 class="caption"><?php echo $pluginName?> <?php echo _t('설정')?></h3>
+	<h3 class="caption"><?php echo $pluginName;?> <?php echo _t('설정');?></h3>
 	<div id='config_data'>
-	<?php echo $result['code']?>
+	<?php echo $result['code'];?>
 	</div>
 	<div class="submit">
-		<input type='button' value='<?php echo _t('설정')?>' onclick='saveConfig("<?php echo $pluginName?>");' />
+		<input type='button' value='<?php echo _t('설정');?>' onclick='saveConfig("<?php echo $pluginName;?>");' />
 	</div>
 </body>
 </html>

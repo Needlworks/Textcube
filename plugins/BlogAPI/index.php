@@ -1,4 +1,4 @@
-<?
+<?php
 function AddRSD($target)
 {
 	global $hostURL, $blogURL;

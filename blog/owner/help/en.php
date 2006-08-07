@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>HELP</title>
-<link rel="stylesheet" type="text/css" href="<?php echo $service['../gettingStart/path']?>/style/owner.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $service['../gettingStart/path'];?>/style/owner.css" />
 <style>
 <!----
 body {

@@ -23,7 +23,7 @@ if ($xml = @file_get_contents($_FILES['opmlFile']['tmp_name'])) {
 	list($status, $result) = importOPMLFromFile($owner, $xml);
 	if ($status == 0) {
 ?>
-					var str = "<?php echo _f('%1개의 피드를 가져왔습니다.\n피드를 업데이트 해 주십시오.', $result['total'])?>";
+					var str = "<?php echo _f('%1개의 피드를 가져왔습니다.\n피드를 업데이트 해 주십시오.', $result['total']);?>";
 					parent.Reader.refreshFeedGroup();
 					parent.Reader.refreshFeedList(0);
 					parent.Reader.refreshEntryList(0, 0);

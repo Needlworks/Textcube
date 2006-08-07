@@ -25,11 +25,11 @@ function finish($error = null) {
 <?php
 	if ($error) {
 ?>
-			alert("<?php echo $error?>");
+			alert("<?php echo $error;?>");
 <?php
 	} else {
 ?>
-			alert("<?php echo _t('성공적으로 교정되었습니다.')?>");
+			alert("<?php echo _t('성공적으로 교정되었습니다.');?>");
 <?php
 	}
 ?>
@@ -39,7 +39,7 @@ function finish($error = null) {
 			window.parent.document.getElementById("correctingTextSub").innerHTML = "";
 		//]]>
 	</script>
-	<?php echo _t('완료.')?>
+	<?php echo _t('완료.');?>
 </body>
 </html>
 <?php
@@ -73,7 +73,7 @@ function setProgress($progress, $text = null, $sub = null) {
 ?>
 <script type="text/javascript">
 	//<![CDATA[
-		<?php echo $diff?>
+		<?php echo $diff;?>
 	//]]>
 </script>
 <?php

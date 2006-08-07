@@ -69,9 +69,9 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 						<script type="text/javascript">
 							//<![CDATA[
 								function removeCategory() {
-									if(confirm('<?php echo _t('삭제할까요?')?>')) {
+									if(confirm('<?php echo _t('삭제할까요?');?>')) {
 										var oform=document.forms[0];  
-										oform.deleteCategory.value=<?php echo $selected?>; 
+										oform.deleteCategory.value=<?php echo $selected;?>; 
 										 
 										oform.submit()
 									}
@@ -80,26 +80,26 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 								function moveCategory(direction) {
 									var oform=document.forms[0];
 									oform.direction.value=direction
-									oform.id.value=<?php echo $selected?>;
+									oform.id.value=<?php echo $selected;?>;
 									oform.submit()
 								}
 								
 								function addCategory() {
 									var oform=document.forms[0];
-									oform.id.value=<?php echo $selected?>;
+									oform.id.value=<?php echo $selected;?>;
 									oform.submit()
 								}
 								
 								function modifyCategory() {
 									var oform=document.forms[0];
-									oform.id.value=<?php echo $selected?>;
+									oform.id.value=<?php echo $selected;?>;
 									oform.submit()
 								}
 								
 								window.addEventListener("load", expandTreeInit, false);
 								function expandTreeInit() {
 									try {
-										<?php echo $history?>
+										<?php echo $history;?>
 										expandTree();
 									} catch(e) {
 										alert(e.message);
@@ -113,83 +113,83 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 						</script>
 						
 						<div id="part-post-tree" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('분류를 관리할 수 있습니다')?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('분류를 관리할 수 있습니다');?></span></h2>
 							
 							<div class="data-inbox">
 								<div id="treePreview">
-<?php echo getCategoriesViewInOwner(getEntriesTotalCount($owner), $categories, $selected)?>
+<?php echo getCategoriesViewInOwner(getEntriesTotalCount($owner), $categories, $selected);?>
 								</div>
 								
-								<form class="section" method="post" action="<?php echo $blogURL?>/owner/entry/category">
+								<form class="section" method="post" action="<?php echo $blogURL;?>/owner/entry/category">
 									<fieldset id="property-box" class="container">
-										<legend><?php echo _t('분류 관리 및 설정')?></legend>
+										<legend><?php echo _t('분류 관리 및 설정');?></legend>
 										
-										<input type="hidden" name="page" value="<?php echo $suri['page']?>" />
+										<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 										<input type="hidden" name="deleteCategory" />
 										<input type="hidden" name="direction" />
 										<input type="hidden" name="id" />
 																					
 										<dl id="label-create-line" class="line">
-											<dt><label for="newCategory"><?php echo _t('생성')?></label></dt>
+											<dt><label for="newCategory"><?php echo _t('생성');?></label></dt>
 <?php
 if ($depth <= 1) {
 ?>
 											<dd>
 												<div class="field-box">
 													<input type="text" id="newCategory" class="text-input" name="newCategory" onkeyup="if (event.keyCode == 13 && validateText(this.value)){addCategory()}" />
-													<a class="add-button button" href="#void" onclick="addCategory()"><span class="text"><?php echo _t('추가하기')?></span></a>
+													<a class="add-button button" href="#void" onclick="addCategory()"><span class="text"><?php echo _t('추가하기');?></span></a>
 												</div>
 												<p>
-													<?php echo _f('"%1"의 하위에 새 분류를 생성합니다.', htmlspecialchars("$name"))?>
+													<?php echo _f('"%1"의 하위에 새 분류를 생성합니다.', htmlspecialchars("$name"));?>
 												</p>
 											</dd>
 <?php
 } else {
 ?>
-											<dd><p><?php echo _t('분류는 2단까지 허용됩니다.')?></p></dd>
+											<dd><p><?php echo _t('분류는 2단까지 허용됩니다.');?></p></dd>
 <?php
 }
 ?>											
 										</dl>
 										<dl id="label-change-line" class="line">
-											<dt><label for="modifyCategoryName"><?php echo _t('레이블 변경')?></label></dt>
+											<dt><label for="modifyCategoryName"><?php echo _t('레이블 변경');?></label></dt>
 											<dd>
 												<div class="field-box">
-													<input type="text" id="modifyCategoryName" class="text-input" name="modifyCategoryName" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?php echo $name?>" />
-													<a class="save-button button" href="#void" onclick="modifyCategory(); return false;"><span class="text"><?php echo _t('저장하기')?></span></a>
+													<input type="text" id="modifyCategoryName" class="text-input" name="modifyCategoryName" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?php echo $name;?>" />
+													<a class="save-button button" href="#void" onclick="modifyCategory(); return false;"><span class="text"><?php echo _t('저장하기');?></span></a>
 												</div>
 											</dd>
 										</dl>
 										<dl id="body-id-line" class="line">
-											<dt><label for="modifyCategoryBodyId"><?php echo _t('Body Id 변경')?></label></dt>
+											<dt><label for="modifyCategoryBodyId"><?php echo _t('Body Id 변경');?></label></dt>
 											<dd>
 												<div class="field-box">
-													<input type="text" id="modifyCategoryBodyId" class="text-input" name="modifyCategoryBodyId" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?php echo $bodyid?>" <?php if ($selected == 0) echo "readonly"?> />
-													<a class="save-button button" href="#void" onclick="modifyCategory(); return false;"><span class="text"><?php echo _t('저장하기')?></span></a>
+													<input type="text" id="modifyCategoryBodyId" class="text-input" name="modifyCategoryBodyId" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?php echo $bodyid;?>" <?php if ($selected == 0) echo "readonly"?> />
+													<a class="save-button button" href="#void" onclick="modifyCategory(); return false;"><span class="text"><?php echo _t('저장하기');?></span></a>
 												</div>
-												<p><?php echo _t('Body id는 블로그의 <acronym title="Cascading Style Sheet">CSS</acronym> 활용을 위해 사용합니다. 디폴트인 "tt-body-category"를 그냥 사용하셔도 사용에 지장은 없습니다.')?></p>
+												<p><?php echo _t('Body id는 블로그의 <acronym title="Cascading Style Sheet">CSS</acronym> 활용을 위해 사용합니다. 디폴트인 "tt-body-category"를 그냥 사용하셔도 사용에 지장은 없습니다.');?></p>
 											</dd>
 										</dl>
 										<dl id="label-move-line" class="line">
-											<dt><span class="label"><?php echo _t('정렬순서 변경')?></span></dt>
+											<dt><span class="label"><?php echo _t('정렬순서 변경');?></span></dt>
 <?php
 if ($selected > 0) {
 ?>
 											<dd>
 												<div class="field-box">
-													<a class="up-button button" href="#void" onclick="moveCategory('up');"><span class="text"><?php echo _t('위로')?></span></a><span class="divider"> | </span><a class="down-button button" href="#void" onclick="moveCategory('down');"><span class="text"><?php echo _t('아래로')?></span></a>
+													<a class="up-button button" href="#void" onclick="moveCategory('up');"><span class="text"><?php echo _t('위로');?></span></a><span class="divider"> | </span><a class="down-button button" href="#void" onclick="moveCategory('down');"><span class="text"><?php echo _t('아래로');?></span></a>
 												</div>
 											</dd>
 <?php
 } else {
 ?>
-											<dd><p><?php echo _t('최상단 분류는 이동할 수 없습니다.')?></p></dd>
+											<dd><p><?php echo _t('최상단 분류는 이동할 수 없습니다.');?></p></dd>
 <?php
 }
 ?>												
 										</dl>
 										<dl id="label-remove-line" class="line">
-											<dt><span class="label"><?php echo _t('분류 삭제')?></span></dt>
+											<dt><span class="label"><?php echo _t('분류 삭제');?></span></dt>
 											<dd>
 												
 <?php
@@ -202,7 +202,7 @@ if ($selected == 0) {
 } else {
 ?>
 												<div class="field-box">
-													<a class="remove-button button" href="#void" onclick="removeCategory();"><span class="text"><?php echo _t('삭제하기')?></span></a>
+													<a class="remove-button button" href="#void" onclick="removeCategory();"><span class="text"><?php echo _t('삭제하기');?></span></a>
 												</div>
 <?php
 }

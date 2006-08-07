@@ -10,17 +10,17 @@ ob_implicit_flush();
 	<head>
 		<title>Update all feeds</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<script type="text/javascript" src="<?php echo $serviceURL?>/script/common.js"></script>
+		<script type="text/javascript" src="<?php echo $serviceURL;?>/script/common.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
-				var servicePath = "<?php echo $service['path']?>";
-				var blogURL = "<?php echo $blogURL?>";
-				var adminSkin = "<?php echo $adminSkinSetting['skin']?>";
+				var servicePath = "<?php echo $service['path'];?>";
+				var blogURL = "<?php echo $blogURL;?>";
+				var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 			//]]>
 		</script>
 	</head>
 	<body>
-		<?php echo str_repeat('<!-- flush buffer -->', 400)?>
+		<?php echo str_repeat('<!-- flush buffer -->', 400);?>
 		<script type="text/javascript">
 			//<![CDATA[
 				var progress = parent.document.getElementById("progress");
@@ -34,7 +34,7 @@ foreach ($feeds as $feed) {
 ?>
 		<script type="text/javascript">
 			//<![CDATA[
-				var icon = parent.document.getElementById("iconFeedStatus<?php echo $feed['id']?>");
+				var icon = parent.document.getElementById("iconFeedStatus<?php echo $feed['id'];?>");
 				if(icon) {
 					try{
 						parent.Reader.startScroll("feedBox", getOffsetTop(icon) - getOffsetTop(parent.document.getElementById("feedBox")) - 50);
@@ -49,9 +49,9 @@ foreach ($feeds as $feed) {
 ?>
 		<script type="text/javascript">
 			//<![CDATA[
-				/* update complete : [<?php echo $result?>] <?php echo $feed['xmlURL']?> */
+				/* update complete : [<?php echo $result;?>] <?php echo $feed['xmlURL'];?> */
 				if(icon) {
-					switch(<?php echo $result?>) {
+					switch(<?php echo $result;?>) {
 						case 0:
 							icon.src = servicePath + "/style/default/image/reader/iconUpdate.gif";
 							break;
@@ -59,7 +59,7 @@ foreach ($feeds as $feed) {
 							icon.src = servicePath + "/style/default/image/reader/iconFailure.gif";
 					}			
 				}
-				progress.innerHTML = "(<?php echo sprintf('%.1f', $count * 100 / sizeof($feeds))?>%)";
+				progress.innerHTML = "(<?php echo sprintf('%.1f', $count * 100 / sizeof($feeds));?>%)";
 			//]]>
 		</script>		
 <?php

@@ -33,9 +33,9 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 						<script type="text/javascript">
 							//<![CDATA[
 								function deleteComment(id) {
-									if (!confirm("<?php echo _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?')?>"))
+									if (!confirm("<?php echo _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/entry/notify/delete/" + id);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/notify/delete/" + id);
 									request.onSuccess = function () {
 										document.getElementById('list-form').submit();
 									}
@@ -43,7 +43,7 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 								}
 								
 								function deleteComments() {	
-									if (!confirm("<?php echo _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?')?>"))
+									if (!confirm("<?php echo _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return false;
 									var oElement;
 									var targets = new Array();
@@ -52,7 +52,7 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 										if ((oElement.name == "entry") && oElement.checked)
 											targets[targets.length] += oElement.value;
 									}
-									var request = new HTTPRequest("POST", "<?php echo $blogURL?>/owner/entry/notify/delete/");
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/notify/delete/");
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
@@ -82,7 +82,7 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 										param 	+= '&mode=' 	+ mode;
 										param 	+= '&command=' 	+ command;
 										
-										var request = new HTTPRequest("GET", "<?php echo $blogURL?>/owner/trash/filter/change/" + param);
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/trash/filter/change/" + param);
 										var iconList = document.getElementsByTagName("a");	
 										for (var i = 0; i < iconList.length; i++) {
 											icon = iconList[i];
@@ -91,12 +91,12 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 											} else {
 												if (command == 'block') {
 													icon.className = 'block-icon bullet';
-													icon.innerHTML = '<span class="text"><?php echo _t('[차단됨]')?></span>';
-													icon.setAttribute('title', "<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>");
+													icon.innerHTML = '<span class="text"><?php echo _t('[차단됨]');?></span>';
+													icon.setAttribute('title', "<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>");
 												} else {
 													icon.className = 'unblock-icon bullet';
-													icon.innerHTML = '<span class="text"><?php echo _t('[허용됨]')?></span>';
-													icon.setAttribute('title', "<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>");
+													icon.innerHTML = '<span class="text"><?php echo _t('[허용됨]');?></span>';
+													icon.setAttribute('title', "<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.');?>");
 												}
 											}
 										}
@@ -125,18 +125,18 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 									
 						<div id="part-post-notify" class="part">
 							<h2 class="caption">
-								<span class="main-text"><?php echo _t('댓글 알리미입니다')?></span>
+								<span class="main-text"><?php echo _t('댓글 알리미입니다');?></span>
 <?php
 if (strlen($name) > 0 || strlen($ip) > 0) {
 	if (strlen($name) > 0) {
 ?>
-								<span class="filter-condition"><?php echo htmlspecialchars($name)?></span>
+								<span class="filter-condition"><?php echo htmlspecialchars($name);?></span>
 <?php
 	}
 	
 	if (strlen($ip) > 0) {
 ?>
-								<span class="filter-condition"><?php echo htmlspecialchars($ip)?></span>
+								<span class="filter-condition"><?php echo htmlspecialchars($ip);?></span>
 <?php
 	}
 }
@@ -144,19 +144,19 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 							</h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 \'홈페이지\' 기입란에 자신의 홈페이지의 setup.php 파일이 존재하는 경로까지 정확하게 입력하셔야 합니다.(예:setup.php 파일이 존재하는 위치가 <samp>http//www.xxx.com/tt/setup.php</samp>라면 <kbd>http//www.xxx.com/tt</kbd>까지 입력.)')?></p>
+								<p class="explain"><?php echo _t('다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 \'홈페이지\' 기입란에 자신의 홈페이지의 setup.php 파일이 존재하는 경로까지 정확하게 입력하셔야 합니다.(예:setup.php 파일이 존재하는 위치가 <samp>http//www.xxx.com/tt/setup.php</samp>라면 <kbd>http//www.xxx.com/tt</kbd>까지 입력.)');?></p>
 							</div>
 							
-							<form id="list-form" method="post" action="<?php echo $blogURL?>/owner/entry/notify">
+							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/entry/notify">
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
 											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" disabled="disabled" /></th>
-											<th class="date"><span class="text"><?php echo _t('등록일자')?></span></th>
-											<th class="site"><span class="text"><?php echo _t('사이트명')?></span></th>
-											<th class="name"><span class="text"><?php echo _t('이름')?></span></th>
-											<th class="content"><span class="text"><?php echo _t('내용')?></span></th>
-											<th class="delete"><span class="text"><?php echo _t('삭제')?></span></th>
+											<th class="date"><span class="text"><?php echo _t('등록일자');?></span></th>
+											<th class="site"><span class="text"><?php echo _t('사이트명');?></span></th>
+											<th class="name"><span class="text"><?php echo _t('이름');?></span></th>
+											<th class="content"><span class="text"><?php echo _t('내용');?></span></th>
+											<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -196,30 +196,30 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 	$className .= $comment['parent'] ? ' reply-line' : null;
 	$className .= ($i == sizeof($mergedComments) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo $className?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id']?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
-											<td class="date"><?php echo Timestamp::formatDate($comment['written'])?></td>
-											<td class="site"><a href="<?php echo $comment['siteUrl']?>" onclick="window.open(this.href); return false;" title="<?php echo _t('사이트를 연결합니다.')?>"><?php echo htmlspecialchars($comment['siteTitle'])?></a></td>
+										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
+											<td class="date"><?php echo Timestamp::formatDate($comment['written']);?></td>
+											<td class="site"><a href="<?php echo $comment['siteUrl'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('사이트를 연결합니다.');?>"><?php echo htmlspecialchars($comment['siteTitle']);?></a></td>
 											<td class="name">
 <?php
 	if ($isNameFiltered) {
 ?>
-												<a id="nameFilter<?php echo $currentNumber?>-<?php echo $i?>" class="block-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=unblock" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name'])?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.')?>"><span class="text"><?php echo _t('[차단됨]')?></span></a>
+												<a id="nameFilter<?php echo $currentNumber;?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $blogURL;?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>&amp;mode=name&amp;command=unblock" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name']);?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
 <?php
 	} else {
 ?>
-												<a id="nameFilter<?php echo $currentNumber?>-<?php echo $i?>" class="unblock-icon bullet" href="<?php echo $blogURL?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['name']))?>&amp;mode=name&amp;command=block" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name'])?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.')?>"><span class="text"><?php echo _t('[허용됨]')?></span></a>
+												<a id="nameFilter<?php echo $currentNumber;?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $blogURL;?>/owner/trash/filter/change/?javascript=disabled&amp;value=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>&amp;mode=name&amp;command=block" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name']);?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
 <?php
 	}
 ?>
-												<a href="?name=<?php echo urlencode(escapeJSInAttribute($comment['name']))?>" title="<?php echo _t('이 이름으로 등록된 댓글 목록을 보여줍니다.')?>"><?php echo htmlspecialchars($comment['name'])?></a>
+												<a href="?name=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>" title="<?php echo _t('이 이름으로 등록된 댓글 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($comment['name']);?></a>
 											</td>
 											<td class="content">
 <?php
 	if ($comment['parent']) {
 		if ($lastVisitNotifiedPage > time() - 86400) {
 ?>
-												<span class="new-icon bullet" title=">?php echo _t('새로 등록된 댓글입니다.')?>"><span class="text">[<?php echo _t('새 댓글')?>]</span></span>
+												<span class="new-icon bullet" title=">?php echo _t('새로 등록된 댓글입니다.')?>"><span class="text">[<?php echo _t('새 댓글');?>]</span></span>
 <?php
 		}
 	} else {										
@@ -235,10 +235,10 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 		echo !empty($comment['title']) || !empty($comment['parent']) ? '<br />' : '';
 	}
 ?>
-												<a class="commentURL" href="<?php echo $comment['url']?>" onclick="window.open(this.href); return false;" title="<?php echo _t('댓글이 작성된 위치로 직접 이동합니다.')?>"><?php echo htmlspecialchars($comment['comment'])?></a>
+												<a class="commentURL" href="<?php echo $comment['url'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('댓글이 작성된 위치로 직접 이동합니다.');?>"><?php echo htmlspecialchars($comment['comment']);?></a>
 											</td>
 											<td class="delete">
-												<a class="delete-button button" href="<?php echo $blogURL?>/owner/entry/notify/delete/<?php echo $comment['id']?>?javascript=disabled" onclick="deleteComment(<?php echo $comment['id']?>); return false;" title="<?php echo _t('이 댓글을 삭제합니다.')?>"><span class="text"><?php echo _t('삭제')?></span></a>
+												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/notify/delete/<?php echo $comment['id'];?>?javascript=disabled" onclick="deleteComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 											</td>
 										</tr>
 <?php
@@ -250,17 +250,17 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 								<hr class="hidden" />
 								
 								<div class="data-subbox">
-									<input type="hidden" name="page" value="<?php echo $suri['page']?>" />
+									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 									<input type="hidden" name="name" value="" />
 									
 									<div id="delete-section" class="section">
-										<span class="label"><?php echo _t('선택한 알림을')?></span>
-										<a class="delete-button button" href="#void" onclick="deleteComments();"><span class="text"><?php echo _t('삭제')?></span></a>
+										<span class="label"><?php echo _t('선택한 알림을');?></span>
+										<a class="delete-button button" href="#void" onclick="deleteComments();"><span class="text"><?php echo _t('삭제');?></span></a>
 									</div>
 									
 									<div id="page-section" class="section">
 										<div id="page-navigation">
-											<span id="total-count"><?php echo _f('총 %1건', empty($paging['total']) ? "0" : $paging['total'])?></span>
+											<span id="total-count"><?php echo _f('총 %1건', empty($paging['total']) ? "0" : $paging['total']);?></span>
 											<span id="page-list">
 <?php
 //$paging['url'] = 'document.getElementById('list-form').page.value=';
@@ -278,14 +278,14 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 							
 							<hr class="hidden" />
 							
-							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL?>/owner/entry/notify">
-								<h2><?php echo _t('검색')?></h2>
+							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/entry/notify">
+								<h2><?php echo _t('검색');?></h2>
 								
 								<div class="section">
-									<label for="search"><?php echo _t('제목')?>, <?php echo _t('사이트명')?>, <?php echo _t('내용')?></label>
-									<input type="text" id="search" class="text-input" name="search" value="<?php echo htmlspecialchars($search)?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
+									<label for="search"><?php echo _t('제목');?>, <?php echo _t('사이트명');?>, <?php echo _t('내용');?></label>
+									<input type="text" id="search" class="text-input" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
-									<a class="search-button button" href="#void" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();"><span class="text"><?php echo _t('검색')?></span></a>
+									<a class="search-button button" href="#void" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();"><span class="text"><?php echo _t('검색');?></span></a>
 								</div>
 							</form>
 						</div>
