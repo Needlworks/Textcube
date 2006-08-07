@@ -1,0 +1,14 @@
+@charset "utf-8";
+
+/* Center ****************************************************************************************/
+
+/* dashboard ------------------------------------------------------------------------------------*/
+
+#part-center-dashboard .section
+{
+	border                           : 2px solid #CDCDCD;
+	float                            : left;
+	margin-right                     : 15px;
+	padding                          : 5px;
+	width                            : 250px;
+}

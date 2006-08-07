@@ -1,163 +1,68 @@
 @charset "utf-8";
 
-/* Blog ******************************************************************************************/
+/* Center ****************************************************************************************/
 
-/* basic ----------------------------------------------------------------------------------------*/
+/* common ---------------------------------------------------------------------------------------*/
 
-h3
+#pseudo-box
 {
-	display                          : block !important;
-	font-size                        : 1em;
-}
-									   }
-
-#part-setting-basic dl dt
-{
-	padding-top                      : 4px;
-	width                            : 160px;
+	position                         : static;
 }
 
-/* common section */
-#part-setting-basic #common-form
+#part-center-dashboard .section
 {
+	border                           : 2px solid #CDCDCD;
 	float                            : left;
-	width                            : 400px;
+	margin-right                     : 15px;
+	padding                          : 5px;
+	width                            : 250px;
 }
 
-#part-setting-basic #common-form .text-input
-{
-	width                            : 196px;
-}
-
-#part-setting-basic #common-form textarea
-{
-	width                            : 200px;
-}
-
-#part-setting-basic #common-form .button-box
-{
-	padding                          : 20px 0 10px 43px;
-	width                            : 400px;
-}
-
-#part-setting-basic #common-form .button-box .button
-{
-	margin                           : 0 auto;
-}
-
-/* multi section */
-#part-setting-basic #multi-form
-{
-	float                            : left;
-	width                            : 500px;
-}
-
-#part-setting-basic #multi-form .text-input
-{
-	margin                           : 0 2px;
-}
-
-#part-setting-basic #multi-form .button-box
-{
-	padding                          : 20px 0 10px 0;
-	width                            : 500px;
-}
-
-#part-setting-basic #multi-form .button-box .button
-{
-	margin                           : 0 auto;
-}
-
-#second-blog-address-line dt
-{
-	padding-top                      : 3px !important;
-}
-
-/* list -----------------------------------------------------------------------------------------*/
-#list-section .title
-{
-	padding-top                      : 7px;
-	width                            : 160px;
-}
-
-#list-section dl
-{
-	height                           : auto !important;
-}
-
-#list-section dt
-{
-	float                            : none !important;
-	position                         : absolute;
-}
-
-#list-section dd
-{
-	float                            : none !important;
-	margin                           : 0 10px 0 175px;
-}
-
-#list-section table
-{
-	border-bottom                    : 2px solid #009DEA;
-	border-collapse                  : collapse;
-	width                            : 100%;
-}
-
-#list-section table thead
+#part-center-dashboard .section h3
 {
 	background-color                 : #009DEA;
 	background-image                 : url("./image/table-head.gif");
 	background-position              : left top;
 	background-repeat                : repeat-x;
-}
-
-#list-section table thead tr th
-{
 	color                            : #FFFFFF;
-	font-weight                      : bold;
-	text-transform                   : uppercase;
-	padding                          : 6px 5px 4px 5px;
+	display                          : block !important;
+	font-size                        : 1em;
+	margin-bottom                    : 10px;
+	padding                          : 5px;
 }
 
-#list-section table thead tr th.cancel
+#part-center-dashboard .section ul,
+#part-center-dashboard .section ul li
 {
-	padding                          : 2px 9px 0 5px !important;
-	width                            : 25px;
+	list-style-type                  : disc;
 }
 
-#list-section table tbody tr th
+#part-center-dashboard .section ul li
 {
-	padding                          : 6px 5px 4px 5px;
+	margin-left                      : 20px;
+	text-align                       : left;
 }
 
-#list-section table tbody tr td
+#part-center-dashboard .section ul li a:link,
+#part-center-dashboard .section ul li a:visited
 {
-	background-color                 : #FFFFFF;
-	border-bottom                    : 1px dotted #CCCCCC;
-	color                            : #536576;
-	padding                          : 3px 5px;
+	color                            : #5A8FC9;
+	text-decoration                  : none;
 }
 
-
-#list-section table tbody tr .cancel-button
+#part-center-dashboard .section ul li a:hover,
+#part-center-dashboard .section ul li a:active
 {
-	background-color                 : transparent;
-	background-image                 : url("./image/delete2.gif");
-	background-position              : left top;
-	height                           : 11px;
-	margin                           : 0 auto;
-	padding                          : 0;
-	width                            : 11px;
+	text-decoration                  : underline;
 }
 
-#list-section table thead tr th.cancel span,
-#list-section table tbody tr .cancel-button span
+#part-center-dashboard .section ul li .name,
+#part-center-dashboard .section ul li .date
 {
-	display                          : none;
+	font-size                        : 0.95em;
 }
 
-/* Plugins ***************************************************************************************/
+/* Plugin ****************************************************************************************/
 
 /* sorting setting ------------------------------------------------------------------------------*/
 #plugin-display-box
@@ -193,151 +98,62 @@ h3
 	margin-left                      : 40px;
 }
 
-/* list table head ------------------------------------------------------------------------------*/
-#part-setting-plugins table.data-inbox
-{
-	table-layout                     : fixed;
-	width                            : 100%;
-}
-
-#part-setting-plugins table.data-inbox thead tr .title
-{
-	width                            : 25%;
-}
-
-#part-setting-plugins table.data-inbox thead tr .version
-{
-	width                            : 50px;
-}
-
-#part-setting-plugins table.data-inbox thead tr .scope
-{
-	width                            : 65px;
-}
-
-#part-setting-plugins table.data-inbox thead tr .maker
-{
-	width                            : 150px;
-}
-
-#part-setting-plugins table.data-inbox thead tr .config
-{
-	width                            : 60px;
-}
-
-#part-setting-plugins table.data-inbox thead tr .status
-{
-	width                            : 60px;
-}
-
 /* list table body ------------------------------------------------------------------------------*/
-#part-setting-plugins table.data-inbox tbody tr td.status .active-icon
+#part-center-plugins table.data-inbox tbody tr td.status .active-class
 {
 	background-image                 : url("./image/icon_plugin.gif");
 	background-position              : left bottom;
 	background-repeat                : no-repeat;
 	cursor                           : pointer;
 	display                          : block;
-	float                            : left;
-	height                           : 13px;
-	margin-right                     : 1px;
-	width                            : 12px;
+	padding-left                     : 16px;
 }
 
-#part-setting-plugins table.data-inbox tbody tr td.status .inactive-icon
+#part-center-plugins table.data-inbox tbody tr td.status .inactive-class
 {
 	background-image                 : url("./image/icon_plugin.gif");
-	background-position              : left top;
+	background-position              : left -1px;
 	background-repeat                : no-repeat;
 	cursor                           : pointer;
 	display                          : block;
-	float                            : left;
-	height                           : 13px;
-	margin-right                     : 1px;
-	width                            : 12px;
+	padding-left                     : 16px;
 }
 
-/* dialog ---------------------------------------------------------------------------------------*/
-.part .dialog
+/* About****************************************************************************************/
+
+#part-center-about p
 {
-	background-color                 : #FFFFFF;
-	border                           : 5px solid #BCD2E5;
-	margin-left                      : 10px;
-	padding                          : 10px;
-	width                            : 550px;
+	padding-left                     : 15px;
 }
 
-.part .dialog h3
+#part-center-about .section
 {
-	border-bottom                    : 1px dotted #CCCCCC;
-	display                          : block !important;
-	font-size                        : 1em;
-	padding                          : 9px 10px 15px 10px;
+	border                           : 2px solid #CDCDCD;
+	margin-bottom                    : 5px;
+	padding                          : 15px;
 }
 
-.part .dialog .message-body
+#part-center-about .section h3
 {
-	border-bottom                    : 1px dotted #CCCCCC;
-	padding-bottom                   : 4px;
+	display                          : block;
 }
 
-.part .dialog .message-body .explain
+#part-center-about .section .container
 {
-	border-bottom                    : 1px dotted #CCCCCC;
-	font-family                      : µ¸¿ò, Dotum, ±¼¸², Gulim, sans-serif;
-	font-size                        : 90%;
-	padding                          : 5px 5px 3px 5px;
+	margin                           : 5px 10px;
 }
 
-.part .dialog .message-body .explain em,
-.part .dialog .message-body .explain strong
+#part-center-about .section .container h4
 {
-	color                            : #FF0000;
-	font-weight                      : normal;
+	margin-bottom                    : 5px;
 }
 
-.part .dialog .message-body .explain .asterisk
+#part-center-about .section .container table thead
 {
 	display                          : none;
 }
 
-.part .dialog .message
+#part-center-about .section .container table colgroup col.name
 {
-	padding                          : 20px 10px;
-	text-align                       : center;
-}
-
-.part .dialog .message-body .selection
-{
-	background-color                 : #EEEEEE;
-	margin                           : 0 3px;
-	padding                          : 10px 10px 6px 10px;
-	text-align                       : center;
-}
-
-/* system dialog --------------------------------------------------------------------------------*/
-.part .system-dialog
-{
-	background-color                 : #FFFFFF;
-	border                           : 5px solid #BCD2E5;
-	margin-left                      : 10px;
-	padding                          : 10px;
-	width                            : 550px;
-}
-
-.part .system-dialog h4
-{
-	display                          : block !important;
-}
-
-.part .system-dialog .message-sub
-{
-	border                           : 1px solid #EEEEEE;
-	margin-top                       : 10px;
-	padding                          : 10px;
-}
-
-.part .system-dialog .progressBar
-{
-	background-color                 : #1C6D9C !important;
+	width                            : 100px;
 }

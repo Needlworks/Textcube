@@ -9,24 +9,29 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 						
 							<h3>Brand yourself! : <?php echo TATTERTOOLS_NAME;?><?php echo TATTERTOOLS_VERSION;?></h3>
 							
-							<p><?php echo _t('ⓒ2004 - 2006. 모든 저작권은 개발자 및 공헌자에게 있습니다. 태터툴즈는 태터앤컴퍼니와 태터앤프렌즈에서 개발합니다.<br />태터툴즈와 태터툴즈 로고는 태터앤컴퍼니의 상표입니다.');?> </p>
+							<div class="main-explain-box">
+								<p class="explain"><?php echo _t('ⓒ 2004 - 2006. 모든 저작권은 개발자 및 공헌자에게 있습니다. 태터툴즈는 태터앤컴퍼니와 태터앤프렌즈에서 개발합니다.<br />태터툴즈와 태터툴즈 로고는 태터앤컴퍼니의 상표입니다.')?></p>
+							</div>
 							
-							<div id="role-description" class="section">
+							<div id="developer-description" class="section">
 								<h3><?php echo _t('개발자');?></h3>
 								
 								<div id="maintainer-container" class="container">
 									<h4><?php echo _t('Maintainer');?></h4>
 									
 									<table>
+										<colgroup>
+											<col class="name"></col>
+										</colgroup>
 										<thead>
 											<tr>
-											<td></td>
+												<th class="name"><?php echo _t('이름')?></th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr><td>gendoh</td></tr>
-											<tr><td>inureyes</td></tr>
-											<tr><td>papacha</td></tr>
+											<tr><td class="name">gendoh</td></tr>
+											<tr><td class="name">inureyes</td></tr>
+											<tr><td class="name">papacha</td></tr>
 										</tbody>
 									</table>
 								</div>
@@ -34,56 +39,60 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 								<div id="developer-container" class="container">
 									<h4><?php echo _t('Developer');?></h4>
 									<table>
+										<colgroup>
+											<col class="name"></col>
+											<col class="role"></col>
+										</colgroup>
 										<thead>
 											<tr>
-												<td></td>
-												<td></td>
+												<th class="name"><?php echo _t('이름')?></th>
+												<th class="role"><?php echo _t('분야')?></th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
-												<td>coolengineer</td>
-												<td>XML-RPC API interface<td>
+												<td class="name">coolengineer</td>
+												<td class="role"><?php echo _t('XML-RPC API interface');?><td>
 											</tr>
 											<tr>
-												<td>crizin</td>
-												<td>reader / editor</td>
+												<td class="name">crizin</td>
+												<td class="role"><?php echo _t('reader / editor');?></td>
 											</tr>
 											<tr>
-												<td>egoing</td>
-												<td>imazing / owner function</td>
+												<td class="name">egoing</td>
+												<td class="role"><?php echo _t('imazing / owner function');?></td>
 											</tr>
 											<tr>
-												<td>gendoh</td>
-												<td>security / EAS / quality assurance</td>
+												<td class="name">gendoh</td>
+												<td class="role"><?php echo _t('security / EAS / quality assurance');?></td>
 											</tr>
 											<tr>
-												<td>ghost_ghost</td>
-												<td>plugin setting / xml schema</td>
+												<td class="name">ghost_ghost</td>
+												<td class="role"><?php echo _t('plugin setting / xml schema');?></td>
 											</tr>
 											<tr>
-												<td>graphittie</td>
-												<td>UI / xhtml specification / documentation</td>
+												<td class="name">graphittie</td>
+												<td class="role"><?php echo _t('UI / xhtml specification / documentation');?></td>
 											</tr>
 											<tr>
-												<td>inureyes</td>
-												<td>function addition / bug tracking / DB management</td>
+												<td class="name">inureyes</td>
+												<td class="role"><?php echo _t('function addition / bug tracking / DB management');?></td>
 											</tr>
 											<tr>
-												<td>leezche</td>
-												<td>skin</td>
+												<td class="name">leezche</td>
+												<td class="role"><?php echo _t('skin');?></td>
 											</tr>
 											<tr>
-												<td>nani</td>
-												<td>skin</td>
+												<td class="name">nani</td>
+												<td class="role"><?php echo _t('skin');?></td>
 											</tr>
 											<tr>
-												<td>papacha</td>
-												<td>library / component / quality assurance</td>
+												<td class="name">papacha</td>
+												<td class="role"><?php echo _t('library / component / quality assurance');?></td>
 											</tr>
 											<tr>
-												<td>peris</td>
-												<td>plugin architecture</td>
+												<td class="name">peris</td>
+												<td class="role"><?php echo _t('plugin architecture');?></td>
 											</tr>
 										</tbody>
 									</table>
@@ -93,24 +102,28 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 									<h4><?php echo _t('Internationalization');?></h4>
 									
 									<table>
+										<colgroup>
+											<col class="name"></col>
+											<col class="role"></col>
+										</colgroup>
 										<thead>
 											<tr>
-												<td></td>
-												<td></td>
+												<th class="name"><?php echo _t('이름')?></th>
+												<th class="role"><?php echo _t('언어')?></th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
-												<td>Louice P.</td>
-												<td>Japanese</td>
+												<td class="name">Louice P.</td>
+												<td class="role"><?php echo _t('Japanese');?></td>
 											</tr>
 											<tr>
-												<td>Hanul</td>
-												<td>Japanese</td>
+												<td class="name">Hanul</td>
+												<td class="role"><?php echo _t('Japanese');?></td>
 											</tr>
 											<tr>
-												<td>KIM</td>
-												<td>Chinese</td>
+												<td class="name">KIM</td>
+												<td class="role"><?php echo _t('Chinese');?></td>
 											</tr>
 										</tbody>
 									</table>
@@ -120,31 +133,35 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 									<h4><?php echo _t('Support manager');?></h4>
 									
 									<table>
+										<colgroup>
+											<col class="name"></col>
+											<col class="role"></col>
+										</colgroup>
 										<thead>
 											<tr>
-												<td></td>
-												<td></td>
+												<th class="name"><?php echo _t('이름')?></th>
+												<th class="role"><?php echo _t('역할')?></th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
-												<td>J.Parker</td>
-												<td>plugin manager</td>
+												<td class="name">J.Parker</td>
+												<td class="role"><?php echo _t('plugin manager');?></td>
 											</tr>
 											<tr>
-												<td>nani</td>
-												<td>skin manager</td>
+												<td class="name">nani</td>
+												<td class="role"><?php echo _t('skin manager');?></td>
 											</tr>
 											<tr>
-												<td>LonnieNa</td>
-												<td>manual manager</td>
+												<td class="name">LonnieNa</td>
+												<td class="role"><?php echo _t('manual manager');?></td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
 							</div>
 							
-							<div id="role-description" class="section">
+							<div id="supporter-description" class="section">
 								<h3><?php echo _t('공헌자');?></h3>
 								
 								<div id="contributor-container" class="container">

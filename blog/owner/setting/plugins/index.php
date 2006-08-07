@@ -107,7 +107,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 							//]]>
 						</script>
 						
-						<form id="part-setting-plugins" class="part" method="post" action="<?php echo $blogURL;?>/owner/setting/plugins">
+						<form id="part-<?php echo (defined('__TATTERTOOLS_CENTER__')) ? 'center' : 'setting'?>-plugins" class="part" method="post" action="<?php echo $blogURL?>/owner/setting/plugins">
 							<h2 class="caption"><span class="main-text"><?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo _t('설치된 알리미 플러그인입니다');
@@ -130,7 +130,7 @@ else
 <?php
 if (!defined('__TATTERTOOLS_CENTER__')) {
 ?>
-									<dl id="scope-line" class="line">
+								<dl id="scope-line" class="line">
 									<dt><?php echo _t('종류');?></dt>
 									<dd>
 										<input type="radio" class="radio" id="global-scope" name="scopeType" value="all" onclick="changeList()"<?php echo $_POST['scopeType'] == "all" ? ' checked="checked"' : '';?> /> <label for="global-scope"><?php echo _t('전체');?></label>
