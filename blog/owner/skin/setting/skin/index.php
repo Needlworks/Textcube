@@ -2,11 +2,13 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
+		'entriesOnPage' => array('int'),
 		'entriesOnRecent' => array('int'),
 		'commentsOnRecent' => array('int'),
 		'commentsOnGuestbook' => array('int'),
-		'tagsOnTagbox' => array('int'),
+		'archivesOnPage' => array('int'),
 		'tagboxAlign' => array('int'),
+		'tagsOnTagbox' => array('int'),
 		'trackbacksOnRecent' => array('int'),
 		'showListOnCategory' => array('int'),
 		'showListOnArchive' => array('int'),
@@ -16,8 +18,7 @@ $IV = array(
 		'recentEntryLength' => array('int'),
 		'recentCommentLength' => array('int'),
 		'recentTrackbackLength' => array('int'),
-		'linkLength' => array('int'),
-		'entriesOnPage' => array('int')
+		'linkLength' => array('int')
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

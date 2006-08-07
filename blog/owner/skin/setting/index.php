@@ -64,6 +64,9 @@ $selected = 0;
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('저장되었습니다.')?>", "center", "bottom");
 									}
+									request.onError = function() {
+										PM.showMessage("<?php echo _t('저장하지 못했습니다.')?>", "center", "bottom");
+									}
 									request.send(param);
 								}
 										
@@ -369,9 +372,9 @@ ob_end_clean();
 										<dl id="recent-link-length-line" class="line">
 											<dt><label for="linkLength"><?php echo _t('링크 길이')?></label></dt>
 											<dd><?php echo _f('링크를 %1 글자로 표시합니다.', $arg)?></dd>
-
 										</dl>
 									</fieldset>
+									
 									<fieldset id="tag-setting-container" class="container">
 										<legend><?php echo _t('태그 조절')?></legend>
 										
