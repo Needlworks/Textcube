@@ -401,6 +401,103 @@ function getCommentView($entryId, & $skin) {
 	return $commentView;
 }
 
+function getGuestCommentView($entryId, & $skin) {
+	global $blogURL, $owner, $suri, $paging, $blog, $skinSetting;
+	$authorized = doesHaveOwnership();
+	if ($entryId > 0) {
+		$prefix1 = 'rp';
+		$prefix2 = 'comment';
+		$isComment = true;
+		$SubItem = 'commentSubItem';
+	} else {
+		$prefix1 = 'guest';
+		$prefix2 = 'guest';
+		$isComment = false;
+		$SubItem = 'guestSubItem';
+	}
+	$commentView = "<form method=\"post\" action=\"$blogURL/comment/add/$entryId\" onsubmit=\"return false\" style=\"margin: 0\">" . ($isComment ? $skin->comment : $skin->guest) . '</form>';
+	$commentItemsView = '';
+	if ($entryId == 0) {
+		list($comments, $paging) = getCommentsWithPagingForGuestbook($owner, $suri['page'], $skinSetting['commentsOnGuestbook']);
+		foreach ($comments as $key => $value) {
+			if ($value['secret'] == 1 && !$authorized) {
+				$comments[$key]['name'] = '';
+				$comments[$key]['homepage'] = '';
+				$comments[$key]['comment'] = _t('관리자만 볼 수 있는 댓글입니다');
+			}
+		}
+	} else {
+		$comments = getComments($entryId);
+	}
+	foreach ($comments as $commentItem) {
+		$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . ($isComment ? $skin->commentItem : $skin->guestItem);
+		$commentSubItemsView = '';
+		foreach (getCommentComments($commentItem['id']) as $commentSubItem) {
+			$commentSubItemView = "<a id=\"comment{$commentSubItem['id']}\"></a>" . ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
+			if (empty($commentSubItem['homepage']))
+				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentSubItem['name']), $commentSubItem), $commentSubItemView);
+			else
+				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentSubItem['name']) . '</a>', $commentSubItem), $commentSubItemView);
+			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentSubItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
+			dress($prefix1 . '_rep_date', Timestamp::format5($commentSubItem['written']), $commentSubItemView);
+			dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentSubItem['id']}", $commentSubItemView);
+			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']});return false", $commentSubItemView);
+			$commentSubItemsView .= $commentSubItemView;
+		}
+		dress(($isComment ? 'rp2_rep' : 'guest_reply_rep'), $commentSubItemsView, $commentItemView);
+		if (empty($commentItem['homepage']))
+			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentItem['name']), $commentItem), $commentItemView);
+		else
+			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentItem['name']) . '</a>', $commentItem), $commentItemView);
+		dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentItem), $commentItemView);
+		dress($prefix1 . '_rep_date', Timestamp::format5($commentItem['written']), $commentItemView);
+		if ($prefix1 == 'guest' && $authorized != true && $blog['allowWriteDoubleCommentOnGuestbook'] == 0) {
+			$doubleCommentPermissionScript = 'alert(\'' . _t('댓글을 사용할 수 없습니다') . '\');return false;';
+		} else {
+			$doubleCommentPermissionScript = '';
+		}
+		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']});return false", $commentItemView);
+		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
+		dress($prefix1 . '_rep_link', "$blogURL/{$entryId}#comment{$commentItem['id']}", $commentItemView);
+		$commentItemsView .= $commentItemView;
+	}
+	dress($prefix1 . '_rep', $commentItemsView, $commentView);
+	if (!doesHaveOwnership()) {
+		$commentMemberView = ($isComment ? $skin->commentMember : $skin->guestMember);
+		if (!doesHaveMembership()) {
+			$commentGuestView = ($isComment ? $skin->commentGuest : $skin->guestGuest);
+			dress($prefix1 . '_input_name', 'name', $commentGuestView);
+			dress($prefix1 . '_input_password', 'password', $commentGuestView);
+			dress($prefix1 . '_input_homepage', 'homepage', $commentGuestView);
+			if (!empty($_POST["name_$entryId"]))
+				$guestName = htmlspecialchars($_POST["name_$entryId"]);
+			else if (!empty($_COOKIE['guestName']))
+				$guestName = htmlspecialchars($_COOKIE['guestName']);
+			else
+				$guestName = '';
+			dress('guest_name', $guestName, $commentGuestView);
+			if (!empty($_POST["homepage_$entryId"]) && $_POST["homepage_$entryId"] != 'http://') {
+				if (strpos($_POST["homepage_$entryId"], 'http://') === 0)
+					$guestHomepage = htmlspecialchars($_POST["homepage_$entryId"]);
+				else
+					$guestHomepage = 'http://' . htmlspecialchars($_POST["homepage_$entryId"]);
+			} else if (!empty($_COOKIE['guestHomepage']))
+				$guestHomepage = htmlspecialchars($_COOKIE['guestHomepage']);
+			else
+				$guestHomepage = 'http://';
+			dress('guest_homepage', $guestHomepage, $commentGuestView);
+			dress($prefix1 . ($isComment ? '_guest' : '_form'), $commentGuestView, $commentMemberView);
+		}
+		dress($prefix1 . '_input_is_secret', 'secret', $commentMemberView);
+		dress($prefix1 . '_member', $commentMemberView, $commentView);
+	}
+	dress($prefix1 . '_input_comment', 'comment', $commentView);
+	dress($prefix1 . '_onclick_submit', "addComment(this, $entryId);return false", $commentView);
+	dress($prefix1 . '_textarea_body', 'comment', $commentView);
+	dress($prefix1 . '_textarea_body_value', '', $commentView);
+	return $commentView;
+}
+
 function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) {
 	global $blogURL, $owner;
 	$tree = array('id' => 0, 'label' => _t('전체'), 'value' => $totalPosts, 'link' => "$blogURL/category", 'children' => array());
