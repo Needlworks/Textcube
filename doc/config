@@ -13,3 +13,4 @@ $service['skin'] = 'skin_name';
 $service['timeout'] = 3600;
 $service['disableEolinSuggestion'] = false;
 $service['useEncodedURL'] = false;
+$service['adminSkin'] = 'default';

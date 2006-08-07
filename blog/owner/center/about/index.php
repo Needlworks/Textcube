@@ -59,6 +59,10 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('reader / editor');?></td>
 											</tr>
 											<tr>
+												<td class="name">daybreaker</td>
+												<td class="role"><?php echo _t('xhtml specification / quality assurance');?></td>
+											</tr>
+											<tr>
 												<td class="name">egoing</td>
 												<td class="role"><?php echo _t('imazing / owner function');?></td>
 											</tr>

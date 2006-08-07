@@ -1,3 +1,123 @@
+== v1.1 개발관련노트 ==
+=== 추가된 점 ===
+=== 변경된 점 ===
+=== 버그 수정 ===
+
+
+
+== v1.0.6.1 개발관련노트 ==
+=== 패치내역 ===
+ *  다중사용자 모드에서 일괄 분류 변경시에 타 사용자 글의 분류까지 변경시키는 버그 수정
+ * 일괄 분류 변경시에 '전체'로 변경 누락 수정
+ * 글 편집에서 window.onload event가 발생하기 전에 저장할 때 생기는 오류 수정
+ * 데이터 복원시에 스킨 이름 보안성 검사 미흡으로 인한 버그 수정
+
+== v1.0.6 개발관련노트 ==
+=== 추가된 점 ===
+ *  "트랙백을 봅니다"에서 IP 필터링 스위치 추가
+ * 레이블 명을 기준으로 첨부파일 관리자의 파일 정렬 순서를 변경
+ * 관리자 화면에서 선택된 글의 카테고리 일괄 변경 기능
+ * XMLRPC 모듈 수정 (XMLStruct 의 변화 수용)
+ * 스킨의 html, head, body 태그의 특정한 위치에 스킨 수정 없이 지정되는 치환자 자동 삽입
+ * RSS 2.0 스펙에서 추가 제공된 item의 comments와 guid 속성을 추가
+ * 플러그인에 Eolin SpamServer를 사용한 집단 안티스팸 플러그인 베타버전 추가 (optional)
+
+=== 변경된 점 ===
+ * 일반 - 자바스크립트 필터링 항목 추가
+ * 일반 - 효과적인 댓글 스팸 탐지를 위한 이벤트 처리 후 data strip
+ * 일반 - 블로그 시간대 설정 표기 방법 변경(locale text id를 timezone 설정값 사용)
+ * 일반 - 블로그 시간대 추가. (유럽 일부, 미국 일부, 호주 일부)
+ * 일반 - 언어 리소스 보정
+ * 일반 - RSS 생성시 태터툴즈 치환자가 전송되지 않도록 플러그인 전처리 후 전송
+ * 일반 - RSS 생성시 글 제목 및 내용 등에 single quote (')가 들어간 경우를 parsing하지 못하는 많은 리더 및 브라우저를 위해 character reference 처리
+ * 일반 - 신뢰할 수 있는 UI로 변경을 위하여 삭제 독립, 셀렉트 박스 선택 후 적용버튼으로 절차 변경
+ * 에디터 - 플래시 삽입버튼 제거
+ * 에디터 - 미디어 삽입버튼을 누르면 object 태그 삽입 창이 뜨도록 수정
+ * 에디터 - 첨부파일을 붙일 때 미디어/플래시 파일인 경우 object 태그를 직접 삽입
+ * 에디터 - 글을 쓰거나 자바스크립트를 제거하는 부분에서 <object type="text/x-scriptlet"> 태그도 제거
+ * 에디터 - 본문 저장시 iframe 태그 제거
+ * 에디터 - 동영상 삽입 취소버튼 추가
+ * 에디터 - 업로드시 정렬 기능
+
+=== 버그 수정 ===
+ * 일반 - 다국어 처리 누락 수정
+ * 일반 - 파이어폭스에서 주크박스 재생리스트가 펼쳐지지 않는 문제
+ * 일반 - 블로그에 글이 하나도 없을 때 모바일 페이지로 접근하면 무한히 redirect 되는 현상 수정
+ * 일반 - 2단계 카테고리 이름을 수정한 직후에 3단계 카테고리(!) 추가가 가능하던 문제 수정
+ * 일반 - 오타수정
+ * 일반 - 댓글 입력 폼에서 쿠키에 저장된 이름, 홈페이지 주소를 출력할 때 htmlspecialchars 처리
+ * 일반 - 카테고리 수정할 때 수정되는 카테고리 이름에 htmlspecialchars 처리
+ * 일반 - single quote가 들어간 카테고리 이름이 여러개 생성될 수 있는 문제 수정
+ * 일반 - 바꾸려는 문자열에 $가 들어있을 때의 오류 수정
+ * 일반 - mobile 페이지 XHTML 오류 수정
+ * 일반 - 블로그를 root에 설치하지 않고, 디렉토리에 설치한 경우 iMazing 전체보기가 오동작하는 문제를 해결
+ * 일반 - 트랙백 삭제시 트랙백 개수가 잘못 표시되는 오류 수정
+ * 일반 - 초대받은 사람이 많은 경우 UI가 틀어지는 문제 (account/index.php)
+ * 일반 - RSS에 갤러리 스크립트가 들어갔을 때 open_img 함수가 없는 곳에서 크게보기 버튼을 누르면 스크립트 에러가 나는 문제 수정
+ * 일반 - 블로그 만든 직 후 아이콘과 파비콘 업로드가 되지 않는 문제점 수정
+ * 일반 - 여러 글 선택 후 작업시 선택한 글이 없을 경우 글 선택을 요구
+ * 일반 - 데이터 교정 처리 form object access 오류 수정
+ * 일반 - Comments 테이블에 사용자 임의 필드가 추가되었을 경우도 insert가 가능하도록 수정
+ * 에디터 - 동영상 삽입 취소버튼 추가
+ * 에디터 - 속성 편집화면 레이아웃 깨지는 문제 수정
+ * 에디터 - 브라우저 사이즈가 변해도 깨지지 않도록 수정
+ * 에디터 - 파이어폭스에서 자막 수정이나 오브젝트 삽입할 때 글목록 화면으로 튕기는 문제 수정
+ * 에디터 - 오브젝트 추가할 때 확장자가 없는 파일은 플래시 파일로 간주
+ * 에디터 - 삽입되는 플래시 배경은 투명하게
+ * 에디터 - 페이지 로딩 완료 전 파일업로드 클릭시 null 에러 수정
+ * 에디터 - 블로그 화면에서 연 트랙백 전송창에서 전송버튼 대신 enter를 누르면 바로 전송되도록 수정
+ * 에디터 - 다른 확장자의 파일을 올릴 때 에러를 내고는 업로드가 되어 버리는 문제 수정
+ * 리더 - cyworld rss paper의 시간을 읽어오지 못하는 문제 수정
+ * 리더 - 피드 삭제함수 버그 수정, 사용자와 관련된 테이블 삭제하는 함수 추가
+=== 치환자 추가 ===
+meta 스킨 치환자
+    SKIN_html_start
+    SKIN_head_start
+    SKIN_head_end
+    SKIN_body_start
+    SKIN_body_end
+    SKIN_html_end
+
+의 치환자를 스킨에 따로 추가하지 않아도 사용가능. 이 치환자들은 플러그인에서 사용하기 위하여 만들어 졌음.
+SKIN_*_start 는 해당 태그 다음 줄의 맨 앞에, SKIN_*_end 는 해당 태그의 바로 앞에 추가됨.
+
+    [##_SKIN_html_start_##] - HTML 시작부분에 코드를 삽입.
+    [##_SKIN_head_start_##] - head 시작부분에 코드를 삽입.
+    [##_SKIN_head_end_##]  - head 끝부분에 코드를 삽입.
+    [##_SKIN_body_start_##] - body 시작부분에 코드를 삽입.
+    [##_SKIN_body_end_##] - body 끝부분에 코드를 삽입.
+    [##_SKIN_html_end_##] - HTML 끝부분에 코드를 삽입.
+
+여러 플러그인에서 중복 사용 할 수 있지만, 이벤트 핸들러들은 독립적이어야 함.
+다른 플러그인들을 위하여 반드시 $target을 상속받아 $target을 돌려줘야 함.
+
+예제)
+
+    index.xml
+    코드:
+    ..
+    <tag name="SKIN_head_end" handler="head_end1" />
+    ...
+
+    index.php
+    코드:
+    function head_end1($target) {
+          return "<script>1</script>".CRLF.$target;
+    }
+
+plugin2
+
+    index.xml
+    코드:
+    ...
+    <tag name="SKIN_head_end" handler="head_end2" />
+    ...
+
+    index.php
+    코드:
+    function head_end2($target) {
+          return "<script>2</script>".CRLF.$target; 
+
 
 == v1.0.5 개발관련노트 ==
 === 추가되는 부분 ===
@@ -62,3 +182,63 @@
  * 에디터 - 새글에 대한 autosave 작동 후 첨부파일의 문제
  * 백업 / 마이그레이터 - 데이터 복원(import/migration)시에 일부 글이 누락되는 문제
 		  
+=== 스킨에 추가된 치환자들 ===
+[##_rp_rep_link_##] - Comment에 대한 permalink
+[##_s_ad_m_onclick_##] - 글 편집 팝업창 열기
+
+=== 스킨에 추가된 치환자의 사용 예 ===
+아래는 스킨 치환자가 추가된 부분의 예이다.
+
+    댓글 퍼머링크의 예 씀:
+
+    <s_rp_rep>
+          <li> <span class="name">[##_rp_rep_name_##]</span>
+          <span class="date">[##_rp_rep_date_##]</span> <span class="control">
+                <a href="[##_rp_rep_link_##]">PERMALINK</a>
+                <a href="#" onclick="[##_rp_rep_onclick_delete_##]">MODIFY/DELETE</a>
+               <a href="#" onclick="[##_rp_rep_onclick_reply_##]">REPLY   </a></span>
+    ...
+
+    팝업 글 수정의 예 씀:
+
+    ...
+    <s_ad_div>
+          <div class="admin"><a href="[##_s_ad_m_link_##]">수정</a> :
+          <a href="#" onclick="[##_s_ad_m_onclick_##]">수정(창으로)</a> |
+          ([##_s_ad_s1_label   _##])→<a href="#"
+    ...
+    </s_ad_div>
+    ...
+
+=== 플러그인에 추가된 이벤트들 ===
+UpdatingVisitorStatistics - 방문자 통계 정보 갱신 여부
+ViewRefererURL - 리퍼러 로그 URL를 출력할 때
+ViewRSS - RSS 피드를 출력할 때
+SaveFeedItem - 리더에서 읽어온 피드를 저장할 때
+AddingComment - 댓글 추가 여부
+ModifyingComment - 댓글 수정 여부
+AddingTrackback - 트랙백 수신 여부
+AddingRefererLog - 리퍼러 로그 추가 여부
+
+=== 플러그인 다국어 지원 변경 예 ===
+아래는 다국어 지원이 적용된 예이다.
+
+    <?xml version="1.0" encoding="utf-8"?>
+       <plugin version="1.0">
+         <title xml:lang="en">Plugin Example</title>
+         <title xml:lang="ko">플러그인 예제</title>
+         <version>0.3</version>
+         <description xml:lang="en">Example.</description>
+         <description xml:lang="ko">예제입니다.</description>
+         <license>GPL</license>
+         <link>http://www.tattertools.com</link>
+         <author link="http://www.tattertools.com"><![CDATA[inureyes]]></author>
+         <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
+         <requirements>
+           <tattertools>1.0.5</tattertools>
+    ...
+
+=== 환경설정 파일 (config.php)에서 조정할 수 있는 변수들 ===
+$service['timeout'] = 3600;    - 세션 종료 및 자동 로그아웃까지의 시간
+$service['disableEolinSuggestion'] = false;    - 이올린의 태그 제안기능을 사용하지 않음으로 설정 (true)
+$service['useEncodedURL'] = false;   - 블로그에 출력되는 모든 링크를 RFC1738 규격에 따라 16진수로 인코딩.

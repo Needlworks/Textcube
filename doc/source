@@ -1,0 +1,4 @@
+From version 1.0, tattertools has added multi-user support. Due to the problem about driving speed,
+we started to use the 'Hermes' optimizer developed by Tatter and Company to make the public version.
+If you found it too hard to modify tattertools or need the original source, visit 
+http://dev.tattertools.com. You can get the sources without optimization process using Subversion.
