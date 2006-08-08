@@ -42,7 +42,16 @@ require ROOT . '/lib/piece/owner/contentMenu00.php';
 						<script type="text/javascript">
 							//<![CDATA[
 <?php
-if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION)) {
+if (!file_exists(ROOT . '/cache/CHECKUP')) {
+?>
+								window.addEventListener("load", execLoadFunction, false);
+								function execLoadFunction() {
+									if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
+										window.location.href = "<?php echo $blogURL;?>/checkup";
+								}
+<?php
+}
+if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 ?>
 								window.addEventListener("load", execLoadFunction, false);
 								function execLoadFunction() {
