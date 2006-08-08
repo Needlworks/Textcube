@@ -7,12 +7,12 @@
   <description xml:lang="en">This plugin supports RSD link in skin for api</description>
   <description xml:lang="ko">스킨에 RSD link를 추가하여 api를 자동으로 검출되게 합니다.</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://www.tattertools.com">Tatter &amp; Company</author>
-  <author xml:lang="ko" link="http://www.tattertools.com">태터앤컴퍼니</author>
+  <author xml:lang="en" link="http://www.tattertools.com">Tatter &amp; Friends</author>
+  <author xml:lang="ko" link="http://www.tattertools.com">태터앤프렌즈</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <scope>blog</scope>
   <requirements>
-    <tattertools>1.0.6</tattertools>
+    <tattertools>1.1</tattertools>
   </requirements>
   <binding>
 	<tag name="SKIN_head_end" handler="AddRSD" />

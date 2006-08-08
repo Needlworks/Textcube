@@ -24,7 +24,7 @@ function saveConfig(plugin){
 	var xmlcon= new Converter(document, fiednamelist) ; 
     	var xmlData = encodeURIComponent(xmlcon.getXMLData());
 //      alert( xmlcon.getXMLData());	
-	var request = new HTTPRequest("POST" , "<?php echo $blogURL;?>/owner/setting/plugins/recieveConfig");
+	var request = new HTTPRequest("POST" , "<?php echo $blogURL;?>/owner/setting/plugins/receiveConfig");
 	PM.addRequest(request, "<?php echo _t('설정을 저장중 입니다.');?>");
 	request.onSuccess = function () {
 		PM.removeRequest(this);
