@@ -239,9 +239,11 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	if ($_POST['scopeType'] != 'all')
 		if ($scope != $_POST['scopeType'])
 			continue;
-	if (!defined('__TATTERTOOLS_CENTER__') && $scope == 'dashboard')
-		continue;
-
+	if (!defined('__TATTERTOOLS_CENTER__')) {
+		if ($scope == 'dashboard') {
+			continue;
+		}
+	}
 	if ($active == true && !in_array("activated", $_POST['listedPluginStatus']))
 		continue;
 	else if ($active == false && !in_array("deactivated", $_POST['listedPluginStatus']))
@@ -261,7 +263,7 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 		case 'blog': echo str_repeat("\t", 11)._t('블로그');break;
 		case 'admin': echo str_repeat("\t", 11)._t('관리자');break;
 		case 'sidebar': echo str_repeat("\t", 11)._t('사이드바');break;
-		case 'center': echo str_repeat("\t", 11)._t('센터');break;
+		case 'dashboard': echo str_repeat("\t", 11)._t('센터');break;
 		default : echo str_repeat("\t", 11)._t('미지정');break;
 	}
 	echo CRLF;
