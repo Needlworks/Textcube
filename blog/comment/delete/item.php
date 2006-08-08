@@ -13,6 +13,9 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/include.php';
+if (false) {
+	fetchConfigVal();
+}
 list($replier) = getCommentAttributes($owner, $suri['id'], 'replier');
 if (!empty($_POST['mode'])) {
 	switch ($_POST['mode']) {

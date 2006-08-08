@@ -12,6 +12,9 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/include.php';
+if (false) {
+	fetchConfigVal();
+}
 $url = $_POST['url'];
 $title = !empty($_POST['title']) ? $_POST['title'] : '';
 $excerpt = !empty($_POST['excerpt']) ? $_POST['excerpt'] : '';

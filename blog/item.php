@@ -30,6 +30,9 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	$IV = array();
 }
 require ROOT . '/lib/include.php';
+if (false) {
+	fetchConfigVal();
+}
 publishEntries();
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	$result = receiveNotifiedComment($_POST);

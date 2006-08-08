@@ -1,6 +1,9 @@
 <?php
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
+if (false) {
+	fetchConfigVal();
+}
 $suri['value'] = stripHTML($suri['value']);
 $search = $suri['value'];
 if (!empty($search) && !empty($suri['page'])) {

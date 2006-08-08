@@ -11,6 +11,9 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/include.php';
+if (false) {
+	fetchConfigVal();
+}
 if (isset($_GET['requestURI']))
 	$_POST['requestURI'] = $_GET['requestURI'];
 if (doesHaveMembership()) {

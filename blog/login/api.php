@@ -11,5 +11,6 @@ if (false) {
 	doesHaveOwnership();
 	authorizeSession();
 	login();
+	fetchConfigVal();
 }
 ?>

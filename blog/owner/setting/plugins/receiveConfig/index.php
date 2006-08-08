@@ -5,6 +5,9 @@ $IV = array(	'POST' => array(	'Name' => array('string'),
 									)
 		);
 require ROOT . '/lib/includeForOwner.php';
+if (false) {
+    fetchConfigVal();
+}
 $pluginName = $_POST['Name'];
 $DATA = $_POST['DATA'];
 $result = handleDataSet($pluginName, $DATA );

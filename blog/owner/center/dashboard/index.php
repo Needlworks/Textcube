@@ -3,6 +3,9 @@ define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/headerA.php';
 require ROOT . '/lib/piece/owner/contentMenuA0.php';
+if (false) {
+	fetchConfigVal();
+}
 ?>
 						<div method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
 							<div id="part-center-dashboard" class="part">

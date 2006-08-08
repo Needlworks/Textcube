@@ -1,6 +1,9 @@
 <?php
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
+if (false) {
+	fetchConfigVal();
+}
 list($entries, $paging) = getEntryWithPagingBySlogan($owner, $suri['value']);
 require ROOT . '/lib/piece/blog/begin.php';
 if (empty($entries)) {

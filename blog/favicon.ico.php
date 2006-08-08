@@ -1,6 +1,9 @@
 <?php
 define('ROOT', '..');
 require ROOT . '/lib/include.php';
+if (false) {
+	fetchConfigVal();
+}
 $fp = @fopen(ROOT . "/attach/$owner/favicon.ico", 'rb');
 if (!$fp) {
 	$fp = @fopen(ROOT . '/image/Tattertools.ico', 'rb');

@@ -193,6 +193,7 @@ function handleDataSet( $plugin , $DATA ){
 	$result = updatePluginConfig($plugin, $DATA);
 	return array('error' => $result , 'customError'=> '' ) ;
 }
+
 function fetchConfigVal( $DATA ){
 	$xmls = new XMLStruct();
 	$outVal = array();

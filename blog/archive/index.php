@@ -1,6 +1,9 @@
 <?php
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
+if (false) {
+	fetchConfigVal();
+}
 $period = Timestamp::getDate();
 if (($suri['page'] === true || $suri['page'] === '1') && $skinSetting['showListOnArchive'])
 	$list = array('title' => getPeriodLabel($period), 'items' => getEntryListByPeriod($owner, $period));

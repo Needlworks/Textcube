@@ -2,6 +2,9 @@
 define('__TATTERTOOLS_MOBILE__', true);
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
+if (false) {
+	fetchConfigVal();
+}
 list($entries, $paging) = getEntryWithPaging($owner, $suri['id']);
 $entry = $entries ? $entries[0] : null;
 printMobileHtmlHeader();

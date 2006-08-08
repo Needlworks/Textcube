@@ -1,6 +1,9 @@
 <?php
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
+if (false) {
+	fetchConfigVal();
+}
 publishEntries();
 if (!file_exists(ROOT . "/cache/rss/$owner.xml"))
 	refreshRSS($owner);

@@ -12,6 +12,9 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+if (false) {
+	fetchConfigVal();
+}
 define('__TATTERTOOLS_EDIT__', true);
 if (defined('__TATTERTOOLS_POST__'))
 	$suri['id'] = 0;

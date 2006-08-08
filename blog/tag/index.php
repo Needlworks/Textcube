@@ -1,6 +1,9 @@
 <?php
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
+if (false) {
+	fetchConfigVal();
+}
 if (strlen($suri['value'])) {
 	$tag = getTagId($owner, $suri['value']);
 	if ($suri['page'] === true || $suri['page'] === '1')

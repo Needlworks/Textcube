@@ -1,7 +1,9 @@
 <?php
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
-
+if (false) {
+	fetchConfigVal();
+}
 /*--------- Debugging environment -----------*/
 global $debug, $debug_file, $blogapi_dir;
 $debug = 0; /* DEBUGLOG */

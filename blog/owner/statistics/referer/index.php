@@ -13,7 +13,9 @@ $IV = array(
 require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/header4.php';
 require ROOT . '/lib/piece/owner/contentMenu41.php';
-
+if (false) {
+	fetchConfigVal();
+}
 $page = getUserSetting('rowsPerPage', 20);
 if (empty($_POST['perPage'])) {  
 	$perPage = $page;  

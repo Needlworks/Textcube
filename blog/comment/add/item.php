@@ -1,6 +1,9 @@
 <?php
 define('ROOT', '../../..');
 require ROOT . '/lib/include.php';
+if (false) {
+	fetchConfigVal();
+}
 $entryId = $suri['id'];
 $IV = array(
 	'GET' => array(
