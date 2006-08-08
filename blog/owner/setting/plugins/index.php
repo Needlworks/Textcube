@@ -107,7 +107,12 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 							//]]>
 						</script>
 						
-						<form id="part-<?php echo (defined('__TATTERTOOLS_CENTER__')) ? 'center' : 'setting'?>-plugins" class="part" method="post" action="<?php echo $blogURL?>/owner/setting/plugins">
+						<form id="part-<?php echo (defined('__TATTERTOOLS_CENTER__')) ? 'center' : 'setting';?>-plugins" class="part" method="post" action="<?php
+if (defined('__TATTERTOOLS_CENTER__'))
+	echo $blogURL."/owner/center/setting";
+else
+	echo $blogURL."/owner/setting/plugins";
+?>">
 							<h2 class="caption"><span class="main-text"><?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo _t('설치된 알리미 플러그인입니다');
