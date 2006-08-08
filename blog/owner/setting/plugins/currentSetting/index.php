@@ -2,6 +2,15 @@
 define('ROOT', '../../../../..');
 $IV = array(	'GET' => array(	'Name' => array('string')	));
 require ROOT . '/lib/includeForOwner.php';
+
+if (false) { // For optimization process
+	textTreat();
+	textareaTreat();
+	selectTreat();
+	checkboxTreat();
+	radioTreat();
+}
+
 $pluginName = $_GET['Name'];
 $result =  handleConfig($pluginName);
 if( is_null($result) )	respondNotFoundPage();
