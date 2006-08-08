@@ -2931,7 +2931,7 @@ class CSetupDialog {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo TATTERTOOLS_NAME." ".TATTERTOOLS_VERSION?> Setup</title>
-	<link rel="stylesheet" media="screen" type="text/css" href="style/setup/style.new.css" />
+	<link rel="stylesheet" media="screen" type="text/css" href="style/setup/style.developing.css" />
 	<script type="text/javascript">
 		//<![CDATA[
 			function current(){ 

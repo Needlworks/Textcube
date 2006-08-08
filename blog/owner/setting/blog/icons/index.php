@@ -1,5 +1,6 @@
 <?php
 define('ROOT', '../../../../..');
+	
 $IV = array(
 	'POST' => array(
 		'mode' => array(array('0','1'), 'mandatory' => false),
@@ -17,8 +18,8 @@ $IV = array(
 		'HTTP_REFERER' => array('string')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
 
+require ROOT . '/lib/includeForOwner.php';
 $errorText = array();
 
 // 로고 처리.
@@ -69,9 +70,11 @@ if (!empty($_FILES['blogIcon']['tmp_name'])) {
 	} else { 
 		requireComponent('Tattertools.Data.Attachment');
 		Attachment::confirmFolder();
-
+		
 		if (move_uploaded_file($_FILES['blogIcon']['tmp_name'], ROOT . "/attach/$owner/index.gif")) {
 			@chmod(ROOT . "/attach/$owner/index.gif", 0666);
+		} else {
+			
 		}
 	}
 }

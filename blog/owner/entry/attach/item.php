@@ -4,6 +4,9 @@ if(count($_POST) > 0) {
 	$IV = array(
 		'FILES' => array(
 			'attachment' => array('file')
+		),
+		'POST' => array(
+			'fileName' => array('string')
 		)
 	);
 }
@@ -21,7 +24,7 @@ requireStrictRoute();
 		<script type="text/javascript" src="<?php echo $service['path'];?>/script/common.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
-				oSelect = window.parent.document.getElementById('fileList');
+				var oSelect = window.parent.document.getElementById('fileList');
 				
 				function addAttachOption(value) {
 					window.parent.makeCrossDamainSubmit("<?php echo $blogURL;?>/owner/entry/attach/<?php echo $suri['id'];?>","ie");
@@ -30,15 +33,14 @@ requireStrictRoute();
 					} else {
 						var fileName = value.substring(value.lastIndexOf('/')+1);
 					}
-					
-					var oSelect = window.parent.document.getElementById('fileList');	
 					var oOption = window.parent.document.createElement("option");
-					
-					oOption.innerHTML = fileName;
+					oOption.text = fileName;
 					oOption.value = fileName;
-					oSelect.appendChild(oOption);
+					oSelect.options.add(oOption);
 					oSelect.setAttribute('size', Math.max(8,Math.min(oSelect.length,30)));
+					
 					document.getElementById('fileNameInput').setAttribute('value', fileName);
+					//document.forms[0].submit()
 				}
 				
 				function checkUploadMode(oEvent) {
@@ -88,18 +90,18 @@ if (count($_FILES) == 1) {
 <?php
 		if (!empty($attachment)) {
 ?>
-				for( i=0; i<oSelect.options.length; i++) {
-					//alert(oSelect.options[i].value+"   "+ "<?php echo escapeJSInCData($attachment['label']);?>");
-					if(oSelect.options[i].value == "<?php echo escapeJSInCData($attachment['label']);?>") {
-						oSelect.remove(i);
+					for( i=0; i<oSelect.options.length; i++) {
+						//alert(oSelect.options[i].value+"   "+ "<?php echo escapeJSInCData($attachment['label'])?>");
+						if(oSelect.options[i].value == "<?php echo escapeJSInCData($attachment['label'])?>") {
+							oSelect.remove(i);
+						}
 					}
-				}
 <?php
 		}
 ?>
-				oSelect.appendChild(oOption);
-				//oSelect.selectedIndex = oSelect.options.length - 1;
-				//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$owner/{$attachment['name']}" : "{$blogURL}/image/spacer.gif");?>";
+					oSelect.appendChild(oOption);
+					//oSelect.selectedIndex = oSelect.options.length - 1;
+					//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$owner/{$attachment['name']}" : "{$blogURL}/image/spacer.gif")?>";
 					window.parent.refreshFileSize();
 				} catch(e) {
 				alert('['+e.message+']');
@@ -136,9 +138,9 @@ if (count($_FILES) == 1) {
 				}
 				
 				if (uploader != null) {
-					document.write('<input type="file" class="file-input" name="attachment" onclick="uploader.SetVariable(\'/:openBroswer\',\'true\');return false;" onchange="addAttachOption(this.value);document.forms[0].submit()" />');
+					document.write('<input type="file" class="file-input" name="attachment" onclick="uploader.SetVariable(\'/:openBroswer\',\'true\');return false;" onchange="addAttachOption(this.value);" />');
 				} else {
-					document.write('<input type="file" class="file-input" name="attachment" onchange="addAttachOption(this.value); document.forms[0].submit()" />');
+					document.write('<input type="file" class="file-input" name="attachment" onchange="addAttachOption(this.value);" />');
 				}
 			//]]>	
 		</script>
