@@ -125,7 +125,8 @@ class UTF8 {
 	
 	/*@static@*/
 	function length($str) {
-		for ($i = $length = 0; $i < strlen($str); $length++) {
+		$len = strlen($str);
+		for ($i = $length = 0; $i < $len; $length++) {
 			$high = ord($str{$i});
 			if ($high < 0x80)
 				$i += 1;
@@ -141,7 +142,8 @@ class UTF8 {
 	
 	/*@static@*/
 	function lengthAsEm($str) {
-		for ($i = $length = 0; $i < strlen($str); ) {
+		$len = strlen($str);
+		for ($i = $length = 0; $i < $len; ) {
 			$high = ord($str{$i});
 			if ($high < 0x80) {
 				$i += 1;
@@ -165,7 +167,8 @@ class UTF8 {
 			$tail = '';
 		else
 			$chars -= UTF8::length($tail);
-		for ($i = $adapted = 0; $i < strlen($str); $adapted = $i) {
+		$len = strlen($str);
+		for ($i = $adapted = 0; $i < $len; $adapted = $i) {
 			$high = ord($str{$i});
 			if ($high < 0x80)
 				$i += 1;
@@ -187,7 +190,8 @@ class UTF8 {
 			$tail = '';
 		else
 			$bytes -= strlen($tail);
-		for ($i = $adapted = 0; $i < strlen($str); $adapted = $i) {
+		$len = strlen($str);
+		for ($i = $adapted = 0; $i < $len; $adapted = $i) {
 			$high = ord($str{$i});
 			if ($high < 0x80)
 				$i += 1;
@@ -209,7 +213,8 @@ class UTF8 {
 			$tail = '';
 		else
 			$ems -= strlen($tail);
-		for ($i = $adapted = 0; $i < strlen($str); $adapted = $i) {
+		$len = strlen($str);
+		for ($i = $adapted = 0; $i < $len; $adapted = $i) {
 			$high = ord($str{$i});
 			if ($high < 0x80) {
 				$i += 1;
