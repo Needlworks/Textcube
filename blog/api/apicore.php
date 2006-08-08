@@ -18,7 +18,7 @@ DEBUG( "\nTRANSACTION ---------- api -----------\n");
 
 /*--------- Basic functions -----------*/
 
-function _get_request_id( $id )
+function api_get_request_id( $id )
 {
 	if( $_GET["id"] )
 	{
@@ -28,10 +28,10 @@ function _get_request_id( $id )
 	return $id;
 }
 
-function _get_canonical_id( $id )
+function api_get_canonical_id( $id )
 {
 	$alias_file = ROOT . "/.htaliases";
-	$canon = _get_request_id( $id );
+	$canon = api_get_request_id( $id );
 
 	if( !file_exists( $alias_file ) )
 	{
@@ -57,25 +57,25 @@ function _get_canonical_id( $id )
 	return $canon;
 }
 
-function _login( $id, $password )
+function api_login( $id, $password )
 {
 	DEBUG( "\n_login: ID: $id, PASSWORD: $password\n" );
 
 	$auth = new Auth;
 	if( !$auth->login( $id, $password ) )
 	{
-		$canon_id = _get_canonical_id($id);
+		$canon_id = api_get_canonical_id($id);
 		if( !$auth->login( $canon_id, $password ) )
 		{
-			DEBUG( "_login: Authentication failed.\n" );
+			DEBUG( "api_login: Authentication failed.\n" );
 			return new XMLRPCFault( 1, "Authentication failed: $id($canon_id)" );
 		}
 	}
-	DEBUG( "_login: Authenticated.\n" );
+	DEBUG( "api_login: Authenticated.\n" );
 	return false;
 }
 
-function _utf8_substr($str,$start) 
+function api_utf8_substr($str,$start) 
 { 
 	preg_match_all("/./u", $str, $ar); 
 
@@ -87,24 +87,24 @@ function _utf8_substr($str,$start)
 	} 
 } 
 
-function _get_title( $content )
+function api_get_title( $content )
 {
 	if( preg_match( "{<title>(.+)?</title>}", $content, $match ) )
 	{
 		return $match[1];
 	}
 	$title = preg_replace( "{<.*?>}", "", $content);
-	$title = _utf8_substr( $title, 0, 40 );
+	$title = api_utf8_substr( $title, 0, 40 );
 	return $title;
 }
 
-function _escape_content( $content )
+function api_escape_content( $content )
 {
 	$content = str_replace( "\r", '', $content );
 	return htmlspecialchars($content);
 }
 
-function _timestamp( $date8601 )
+function api_timestamp( $date8601 )
 {
 	if( substr( $date8601, 8,1 ) != "T" )
 	{
@@ -120,7 +120,7 @@ function _timestamp( $date8601 )
 			substr( $date8601, 0, 4 ) );
 }
 
-function _dateiso8601( $timestamp )
+function api_dateiso8601( $timestamp )
 {
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	$params = func_get_args();
@@ -138,13 +138,13 @@ function send_failure( $msg )
 			"</member>\n" .
 			"<member>\n" .
 			"<name>faultString</name>\n" .
-			"<value><string>" . _escape_content($msg) . "</string></value>\n" .
+			"<value><string>" . api_escape_content($msg) . "</string></value>\n" .
 			"</member>\n" .
 			"</struct></value></fault>\n" .
 			"</methodResponse>\n" );
 }
 
-function _getCategoryIdByName( $name_array )
+function api_getCategoryIdByName( $name_array )
 {
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	DEBUG( "Finding: " . $name . "\n" );
@@ -174,7 +174,7 @@ function _getCategoryIdByName( $name_array )
 
 }
 
-function _getCategoryNameById( $id )
+function api_getCategoryNameById( $id )
 {
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	DEBUG( "Finding: " . $name . "\n" );
@@ -203,7 +203,7 @@ function _getCategoryNameById( $id )
 
 }
 
-function _make_post( $param, $ispublic, $postid = -1 )
+function api_make_post( $param, $ispublic, $postid = -1 )
 {
 	$post = new Post();
 	if( $postid != -1 )
@@ -218,17 +218,17 @@ function _make_post( $param, $ispublic, $postid = -1 )
 	$post->title = $param['title'];
 	$post->tags = array_merge( split(",", $param['mt_excerpt']) , $param['tagwords'] );
 
-	$post->created = _timestamp( $param['dateCreated'] );
-	$post->modified = _timestamp( $param['dateCreated'] );
+	$post->created = api_timestamp( $param['dateCreated'] );
+	$post->modified = api_timestamp( $param['dateCreated'] );
 
-	$post->category = _getCategoryIdByName( $param['categories'] );
+	$post->category = api_getCategoryIdByName( $param['categories'] );
 	$post->acceptComment = $param['mt_allow_comments'] !== 0 ? true : false;
 	$post->acceptTrackback = $param['mt_allow_pings'] !== 0 ? true : false;
 
 	if( $ispublic )
 	{
 		$post->visibility = "public";
-		$post->published = _timestamp( $param['dateCreated'] );
+		$post->published = api_timestamp( $param['dateCreated'] );
 	}
 	else
 	{
@@ -238,7 +238,7 @@ function _make_post( $param, $ispublic, $postid = -1 )
 	return $post;
 }
 
-function _get_post( $post, $type = "bl" )
+function api_get_post( $post, $type = "bl" )
 { 
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	$post->loadTags();
@@ -248,12 +248,12 @@ function _get_post( $post, $type = "bl" )
 	global $service, $hostURL, $blogURL;
 	return array( 
 				"userid" => "",
-				"dateCreated" => _dateiso8601( $post->created ),
-				"datePosted" => _dateiso8601( $post->published ),
-				"dateModified" => _dateiso8601( $post->modified ),
-				"title" =>  _escape_content($post->title),
+				"dateCreated" => api_dateiso8601( $post->created ),
+				"datePosted" => api_dateiso8601( $post->published ),
+				"dateModified" => api_dateiso8601( $post->modified ),
+				"title" =>  api_escape_content($post->title),
 				"postid" => $post->id,
-				"categories" => array( _getCategoryNameById($post->category) ),
+				"categories" => array( api_getCategoryNameById($post->category) ),
 				"link" => $hostURL . $blogURL . "/" . $post->id ,
 				"permaLink" => $hostURL . $blogURL . "/" . $post->id ,
 				"description" => ($type == "mt" ? $post->content : "" ),
@@ -266,7 +266,7 @@ function _get_post( $post, $type = "bl" )
 
 /* Copied from blog/owner/entry/attach/index.php:getMIMEType,addAttachment */
 
-function _getMIMEType($ext,$filename=null){
+function api_getMIMEType($ext,$filename=null){
 	if($filename){
 		return '';
 	}else{
@@ -337,14 +337,14 @@ function _getMIMEType($ext,$filename=null){
 }
 
 
-function _file_hash( $content )
+function api_file_hash( $content )
 {
 	$md5sum = md5( $content );
 	return sprintf( "ta%stt%ser%s", substr( $md5sum, 0, 7 ), substr( $md5sum, 7, 7 ), substr( $md5sum, 14, 7 ) );
 }
 
 
-function _addAttachment($owner,$parent,$file){
+function api_addAttachment($owner,$parent,$file){
 	global $database;
 	/*
 	if(empty($file['name'])||($file['error']!=0))
@@ -380,10 +380,10 @@ function _addAttachment($owner,$parent,$file){
 	}
 
 	/* Select unique file name from md5sum of content */
-	$attachment['name'] = _file_hash( $file['content'] )  . ".$extension";
+	$attachment['name'] = api_file_hash( $file['content'] )  . ".$extension";
 	$attachment['path'] = "$path/{$attachment['name']}";
 
-	_deleteAttachment($owner,-1,$attachment['name']);
+	api_deleteAttachment($owner,-1,$attachment['name']);
 
 	if( $file['content'] )
 	{
@@ -427,7 +427,7 @@ DEBUG("\nCHECK " . __LINE__ );
 /* Up to here, copied from blog/owner/entry/attach/index.php */
 
 /* Work around , copied from blog/owner/entry/delete/item.php -r594 */
-function _getAttachments($owner,$parent){
+function api_getAttachments($owner,$parent){
 	global $database;
 	$attachments=array();
 	if($result=mysql_query("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent")){
@@ -436,7 +436,7 @@ function _getAttachments($owner,$parent){
 	}
 	return $attachments;
 }
-function _deleteAttachment($owner,$parent,$name){
+function api_deleteAttachment($owner,$parent,$name){
 	global $database, $blogapi_dir;
 	@unlink(ROOT . "/attach/$owner/$name");
 	$name=mysql_escape_string($name);
@@ -452,13 +452,13 @@ function _deleteAttachment($owner,$parent,$name){
 	DEBUG("\nDelete failure: " . mysql_error() );
 	return false;
 }
-function _deleteAttachments($owner,$parent){
-	$attachments=_getAttachments($owner,$parent);
+function api_deleteAttachments($owner,$parent){
+	$attachments=api_getAttachments($owner,$parent);
 	foreach($attachments as $attachment)
-		_deleteAttachment($owner,$parent,$attachment['name']);
+		api_deleteAttachment($owner,$parent,$attachment['name']);
 }
 
-function _deleteGarbageTags(){
+function api_deleteGarbageTags(){
 	global $database,$owner;
 	$gc=fetchQueryColumn("SELECT t.id FROM {$database['prefix']}Tags t LEFT JOIN {$database['prefix']}TagRelations r ON t.id = r.tag WHERE r.owner = $owner AND r.tag IS NULL");
 	foreach($gc as $g)
@@ -466,7 +466,7 @@ function _deleteGarbageTags(){
 }
 /* Work around end */
 
-function _get_attaches( $content, $parent )
+function api_get_attaches( $content, $parent )
 {
 	global $owner;
 	preg_match_all( "/attach\/$owner\/(ta.{7}tt.{7}er.{7}\.[a-z]{2,5})/", $content, $matches );
@@ -474,7 +474,7 @@ function _get_attaches( $content, $parent )
 	return $matches[1];
 }
 
-function _update_attaches( $attaches, $parent )
+function api_update_attaches( $attaches, $parent )
 {
 	global $database, $owner;
 	foreach( $attaches as $att )
@@ -485,7 +485,7 @@ function _update_attaches( $attaches, $parent )
 }
 
 /*--------- API main ---------------*/
-function _BlogAPI()
+function api_BlogAPI()
 {
 	include "blogger.php";
 	include "metaweblog.php";

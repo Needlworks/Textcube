@@ -6,7 +6,7 @@ function metaWeblog_getCategories()
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	global $service, $hostURL, $blogURL;
 	$params = func_get_args();
-	$result = _login( $params[1], $params[2] );
+	$result = api_login( $params[1], $params[2] );
 	if( $result )
 	{
 		return $result;
@@ -47,7 +47,7 @@ function mt_getCategoryList()
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	global $service;
 	$params = func_get_args();
-	$result = _login( $params[1], $params[2] );
+	$result = api_login( $params[1], $params[2] );
 	if( $result )
 	{
 		return $result;
@@ -83,7 +83,7 @@ function metaWeblog_getRecentPosts()
 {
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	$params = func_get_args();
-	$result = _login( $params[1], $params[2] );
+	$result = api_login( $params[1], $params[2] );
 	if( $result )
 	{
 		return $result;
@@ -98,7 +98,7 @@ function metaWeblog_getRecentPosts()
 
 	for($i=0; $post->_count > 0 && $i<$params[3]; $i++ )
 	{
-		array_push( $out, _get_post( $post, "mt" ) );
+		array_push( $out, api_get_post( $post, "mt" ) );
 		if( !$post->shift() )
 		{
 			break;
@@ -114,7 +114,7 @@ function metaWeblog_getPost()
 {
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	$params = func_get_args();
-	$result = _login( $params[1], $params[2] );
+	$result = api_login( $params[1], $params[2] );
 	if( $result )
 	{
 		return $result;
@@ -123,7 +123,7 @@ function metaWeblog_getPost()
 	$post = new Post();
 	$post->open( intval( $params[0] ) );
 
-	$ret = _get_post( $post, "mt" );
+	$ret = api_get_post( $post, "mt" );
 	$post->close();
 
 	DEBUG( $ret, true );
@@ -134,15 +134,15 @@ function metaWeblog_newPost()
 {
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	$params = func_get_args();
-	$result = _login( $params[1], $params[2] );
+	$result = api_login( $params[1], $params[2] );
 	if( $result )
 	{
 		return $result;
 	}
 
-	$post = _make_post( $params[3], $params[4] );
+	$post = api_make_post( $params[3], $params[4] );
 
-	$attaches = _get_attaches( $post->content );
+	$attaches = api_get_attaches( $post->content );
 
 	if( !$post->add() )
 	{
@@ -151,7 +151,7 @@ function metaWeblog_newPost()
 		return XMLRPCFault( 1, "Tattertools posting error" );
 	}
 
-	_update_attaches( $attaches, $post->id );
+	api_update_attaches( $attaches, $post->id );
 	RSS::refresh();
 
 	DEBUG( $post, true );
@@ -167,7 +167,7 @@ function mt_setPostCategories()
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	$params = func_get_args();
 
-	$result = _login( $params[1], $params[2] );
+	$result = api_login( $params[1], $params[2] );
 	if( $result )
 	{
 		return $result;
@@ -205,7 +205,7 @@ function mt_getPostCategories()
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	global $service;
 	$params = func_get_args();
-	$result = _login( $params[1], $params[2] );
+	$result = api_login( $params[1], $params[2] );
 	if( $result )
 	{
 		return $result;
@@ -228,23 +228,23 @@ function metaWeblog_editPost()
 	$params = func_get_args();
 	DEBUG( "Params: " );
 	DEBUG( $params, true );
-	$result = _login( $params[1], $params[2] );
+	$result = api_login( $params[1], $params[2] );
 	if( $result )
 	{
 		return $result;
 	}
 
-	$post = _make_post( $params[3], $params[4], $params[0] );
+	$post = api_make_post( $params[3], $params[4], $params[0] );
 	if( !$post )
 	{
 		return XMLRPCFault( 1, "Tattertools editing error" );
 	}
 
-	$attaches = _get_attaches( $post->content );
+	$attaches = api_get_attaches( $post->content );
 
 	$ret = $post->update();
 
-	_update_attaches( $attaches, $post->id );
+	api_update_attaches( $attaches, $post->id );
 	RSS::refresh();
 
 	DEBUG( $post, true );
@@ -260,7 +260,7 @@ function metaWeblog_newMediaObject()
 	$params = func_get_args();
 	DEBUG( "Params: " );
 	DEBUG( $params, true );
-	$result = _login( $params[1], $params[2] );
+	$result = api_login( $params[1], $params[2] );
 	if( $result )
 	{
 		return $result;
@@ -284,7 +284,7 @@ function metaWeblog_newMediaObject()
 		'size' => count($params[3]['bits']) 
 		);
 		
-	$attachment = _addAttachment( $owner, 0, $file );
+	$attachment = api_addAttachment( $owner, 0, $file );
 	if( !$attachment )
 	{
 		return new XMLRPCFault( 1, "Can't create file" );

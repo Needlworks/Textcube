@@ -12,7 +12,7 @@ function blogger_getUsersBlogs()
 	DEBUG( "\n" );
 
 	$params = func_get_args();
-	$result = _login( $params[1], $params[2] );
+	$result = api_login( $params[1], $params[2] );
 	if( $result )
 	{
 		return $result;
@@ -34,7 +34,7 @@ function blogger_newPost()
 	$params = func_get_args();
 	$post = new Post();
 	$post->content = $params[4];
-	$post->title = htmlspecialchars(_get_title($params[4]));
+	$post->title = htmlspecialchars(api_get_title($params[4]));
 
 	if( $params[5] )
 	{
@@ -45,7 +45,7 @@ function blogger_newPost()
 		$post->visibility = "private";
 	}
 
-	$result = _login( $params[2], $params[3] );
+	$result = api_login( $params[2], $params[3] );
 	if( $result )
 	{
 		return $result;
@@ -70,14 +70,14 @@ function blogger_editPost()
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	$params = func_get_args();
 
-	$result = _login( $params[2], $params[3] );
+	$result = api_login( $params[2], $params[3] );
 	if( $result )
 	{
 		return $result;
 	}
 
 	$post = new Post();
-	$post->title = htmlspecialchars(_get_title( $params[4] ));
+	$post->title = htmlspecialchars(api_get_title( $params[4] ));
 	$post->id = intval($params[1]);
 	$post->content = htmlspecialchars($params[4]);
 
@@ -102,7 +102,7 @@ function blogger_deletePost()
 {
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	$params = func_get_args();
-	$result = _login( $params[2], $params[3] );
+	$result = api_login( $params[2], $params[3] );
 	if( $result )
 	{
 		return $result;
@@ -127,7 +127,7 @@ function blogger_deletePost()
 			$result=mysql_query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id");
 			$result=mysql_query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner AND entry = $id");
 			$result=mysql_query("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $owner AND entry = $id");
-			_deleteAttachments($owner,$id);
+			api_deleteAttachments($owner,$id);
 			RSS::refresh();
 		}
 	}
@@ -142,7 +142,7 @@ function blogger_getRecentPosts()
 {
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	$params = func_get_args();
-	$result = _login( $params[2], $params[3] );
+	$result = api_login( $params[2], $params[3] );
 	if( $result )
 	{
 		return $result;
@@ -154,7 +154,7 @@ function blogger_getRecentPosts()
 
 	for($i=0; $i<$params[4]; $i++ )
 	{
-		array_push( $out, _get_post( $post, "bl" ) );
+		array_push( $out, api_get_post( $post, "bl" ) );
 		if( !$post->shift() )
 		{
 			break;
@@ -169,7 +169,7 @@ function blogger_getPost()
 {
 	DEBUG( "Enter: " . __FUNCTION__ . "\n" );
 	$params = func_get_args();
-	$result = _login( $params[2], $params[3] );
+	$result = api_login( $params[2], $params[3] );
 	if( $result )
 	{
 		return $result;
@@ -178,7 +178,7 @@ function blogger_getPost()
 	$post = new Post();
 	$post->open( intval( $params[1] ) );
 
-	$ret = _get_post( $post );
+	$ret = api_get_post( $post );
 	$post->close();
 
 	return $ret;
@@ -188,7 +188,7 @@ function blogger_getPost()
 function blogger_getTemplate()
 {
 	$params = func_get_args();
-	$result = _login( $params[2], $params[3] );
+	$result = api_login( $params[2], $params[3] );
 	if( $result )
 	{
 		return $result;

@@ -28,7 +28,7 @@ function DEBUG( $str, $internal = false)
 	global $debug, $debugfd;
 	if( !$debug )
 	{
-		return;
+		return "";
 	}
 	if( $internal )
 	{
@@ -42,7 +42,7 @@ function BlogAPI()
 {
 	include_once "apicore.php";
 
-	_BlogAPI();
+	api_BlogAPI();
 	return "";
 }
 
