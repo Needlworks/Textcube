@@ -2228,14 +2228,14 @@ class CSetupDialog {
 				break;
 		}
 ?>
-		<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+		<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 			<div id="layoutBody">
-				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계')?></span> : <?php echo $this->title?></h2>
+				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계');?></span> : <?php echo $this->title;?></h2>
 <?php
 				$this->_createFields();
 ?>
-				<div id="<?php echo $this->type?>DialogBox" class="dialog-box">
-					<div class="message"><?php echo $this->message?></div>
+				<div id="<?php echo $this->type;?>DialogBox" class="dialog-box">
+					<div class="message"><?php echo $this->message;?></div>
 					<div class="buttons">
 <?php
 				$this->_createDialogButtons();
@@ -2292,9 +2292,9 @@ class CSetupDialog {
 				$this->_createNewButton("PREV", array("name" => "process", "value" => $_POST['process'] - 1, "title" => _t($this->textPrevButton)));
 				$this->_createNewButton("NEXT", array("name" => "process", "value" => $_POST['process'], "title" => _t($this->textNextButton)));
 ?>
-		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 			<div id="layoutBody">
-				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계')?></span> : <?php echo _t('관리자 정보를 입력해 주십시오.')?></h2>
+				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계');?></span> : <?php echo _t('관리자 정보를 입력해 주십시오.');?></h2>
 				
 <?php
 				$this->_createFields();
@@ -2305,39 +2305,39 @@ class CSetupDialog {
 					<table>
 						<tbody>
 							<tr>
-								<td class="head"><label for="email"><?php echo _t('이메일')?></label></td>
+								<td class="head"><label for="email"><?php echo _t('이메일');?></label></td>
 								<td>
-									<input type="text" id="email" name="email" value="<?php echo (isset($_POST['email']) ? $_POST['email'] : '')?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('email', $argNotes) ? ' input-error' : '')?>" />
+									<input type="text" id="email" name="email" value="<?php echo (isset($_POST['email']) ? $_POST['email'] : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('email', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 							<tr>
-								<td class="head"><label for="password"><?php echo _t('비밀번호')?></label></td>
+								<td class="head"><label for="password"><?php echo _t('비밀번호');?></label></td>
 								<td>
-									<input type="password" id="password" name="password" value="<?php echo (isset($_POST['password']) ? $_POST['password'] : '')?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('password', $argNotes) ? ' input-error' : '')?>" />
+									<input type="password" id="password" name="password" value="<?php echo (isset($_POST['password']) ? $_POST['password'] : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('password', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 							<tr>
-								<td class="head"><label for="password2"><?php echo _t('비밀번호 확인')?></label></td>
+								<td class="head"><label for="password2"><?php echo _t('비밀번호 확인');?></label></td>
 								<td>
-									<input type="password" id="password2" name="password2" value="<?php echo (isset($_POST['password2']) ? $_POST['password2'] : '')?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('password2', $argNotes) ? ' input-error' : '')?>" />
+									<input type="password" id="password2" name="password2" value="<?php echo (isset($_POST['password2']) ? $_POST['password2'] : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('password2', $argNotes) ? ' input-error' : '');?>" />
 								</td class="head">
 							</tr>
 <?php
 				if ($_POST['blogType'] == "domain" || $_POST['blogType'] == "path") {
 ?>
 							<tr>
-								<td class="head"><label for="blog"><?php echo _t('블로그 식별자')?></label></td>
+								<td class="head"><label for="blog"><?php echo _t('블로그 식별자');?></label></td>
 								<td>
-									<input type="text" id="blog" name="blog" value="<?php echo (isset($_POST['blog']) ? htmlspecialchars($_POST['blog']) : '')?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('blog', $argNotes) ? ' input-error' : '')?>" />
+									<input type="text" id="blog" name="blog" value="<?php echo (isset($_POST['blog']) ? htmlspecialchars($_POST['blog']) : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('blog', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 <?php
 				}
 ?>
 							<tr>
-								<td class="head"><label for="name"><?php echo _t('필명')?></label></td>
+								<td class="head"><label for="name"><?php echo _t('필명');?></label></td>
 								<td>
-									<input type="text" id="name" name="name" value="<?php echo (isset($_POST['name']) ? $_POST['name'] : '')?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('name', $argNotes) ? ' input-error' : '')?>" />
+									<input type="text" id="name" name="name" value="<?php echo (isset($_POST['name']) ? $_POST['name'] : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('name', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 						</tbody>
@@ -2349,13 +2349,13 @@ class CSetupDialog {
 				if (!empty($argNotes['title'])) {
 ?>
 				<div id="messageBox" class="warning-message-box">
-					<?php echo $argNotes['title'].CRLF?>
+					<?php echo $argNotes['title'].CRLF;?>
 				</div>
 <?php
 				} else if (!empty($this->message)) {
 ?>
 				<div id="messageBox">
-					<?php echo $this->message.CRLF?>
+					<?php echo $this->message.CRLF;?>
 				</div>
 <?php
 				}
@@ -2401,9 +2401,9 @@ class CSetupDialog {
 				$this->_createNewButton("PREV", array("name" => "process", "value" => $_POST['process'] - 1, "title" => _t($this->textPrevButton)));
 				$this->_createNewButton("NEXT", array("name" => "process", "value" => $_POST['process'], "title" => _t($this->textNextButton)));
 ?>
-		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 			<div id="layoutBody">
-				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계')?></span> : <?php echo $this->title?></h2>
+				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계');?></span> : <?php echo $this->title;?></h2>
 				
 <?php
 				$this->_createFields();
@@ -2414,33 +2414,33 @@ class CSetupDialog {
 					<table>
 						<tbody>
 							<tr>
-								<td class="head"><label for="dbServer"><?php echo _t('데이터베이스 서버')?></label></td>
+								<td class="head"><label for="dbServer"><?php echo _t('데이터베이스 서버');?></label></td>
 								<td>
-									<input type="text" id="dbServer" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : 'localhost')?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbServer', $argNotes) ? ' input-error' : '')?>" />
+									<input type="text" id="dbServer" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : 'localhost');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbServer', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 							<tr>
-								<td class="head"><label for="dbName"><?php echo _t('데이터베이스 이름')?></label></td>
+								<td class="head"><label for="dbName"><?php echo _t('데이터베이스 이름');?></label></td>
 								<td>
-									<input type="text" id="dbName" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '')?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbName', $argNotes) ? ' input-error' : '')?>" />
+									<input type="text" id="dbName" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbName', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 							<tr>
-								<td class="head"><label for="dbUser"><?php echo _t('데이터베이스 사용자 아이디')?></label></td>
+								<td class="head"><label for="dbUser"><?php echo _t('데이터베이스 사용자 아이디');?></label></td>
 								<td>
-									<input type="text" id="dbUser" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '')?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbUser', $argNotes) ? ' input-error' : '')?>" />
+									<input type="text" id="dbUser" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbUser', $argNotes) ? ' input-error' : '');?>" />
 								</td class="head">
 							</tr>
 							<tr>
-								<td class="head"><label for="dbPassword"><?php echo _t('데이터베이스 사용자 암호')?></label></td>
+								<td class="head"><label for="dbPassword"><?php echo _t('데이터베이스 사용자 암호');?></label></td>
 								<td>
-									<input type="password" id="dbPassword" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '')?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbPassword', $argNotes) ? ' input-error' : '')?>" />
+									<input type="password" id="dbPassword" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbPassword', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 							<tr>
-								<td class="head"><label for="dbPrefix"><?php echo _t('테이블 식별자')?></label></td>
+								<td class="head"><label for="dbPrefix"><?php echo _t('테이블 식별자');?></label></td>
 								<td>
-									<input type="text" id="dbPrefix" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : 'tt_')?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbPrefix', $argNotes) ? ' input-error' : '')?>" />
+									<input type="text" id="dbPrefix" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : 'tt_');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbPrefix', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 						</tbody>
@@ -2450,7 +2450,7 @@ class CSetupDialog {
 				$this->_createHelpMenu();
 ?>
 				<p id="messageBox" class="warning-message-box">
-					<?php echo $this->message.CRLF?>
+					<?php echo $this->message.CRLF;?>
 				</p>
 			</div>
 <?php
@@ -2468,19 +2468,19 @@ class CSetupDialog {
 				$strDomain = ($argNotes == 3 ? substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.') + 1) : $_SERVER['HTTP_HOST']);
 				$this->_createNewField("hidden", array("name" => "domain", "value" => $strDomain));
 ?>
-		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 			<div id="layoutBody">
-				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계')?></span> : <?php echo _t('블로그 타입을 선택해 주십시오.')?></h2>
+				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계');?></span> : <?php echo _t('블로그 타입을 선택해 주십시오.');?></h2>
 				
 <?php
 				$this->_createFields();
 ?>
 				<div class="content-box">
 					<dl id="singleGroup" class="group">
-						<dt><input type="radio" class="radio-input" id="blogSingleType" name="blogType" value="single"<?php echo $gbIsWindows != true ? ' style="vertical-align: middle;"' : '';?> checked="checked" /> <label for="blogSingleType"><?php echo _t('단일 블로그.')?></label></dt>
+						<dt><input type="radio" class="radio-input" id="blogSingleType" name="blogType" value="single"<?php echo $gbIsWindows != true ? ' style="vertical-align: middle;"' : '';?> checked="checked" /> <label for="blogSingleType"><?php echo _t('단일 블로그.');?></label></dt>
 						<dd>
 							<ul>
-								<li><samp>http://<?php echo $strDomain?><?php echo $_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}"?><?php echo PATH?>/</samp></li>
+								<li><samp>http://<?php echo $strDomain;?><?php echo $_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}";?><?php echo PATH;?>/</samp></li>
 							</ul>
 						</dd>
 					</dl>
@@ -2488,11 +2488,11 @@ class CSetupDialog {
 				if ($iRewrite >= 2) {
 ?>
 					<dl id="domainGroup" class="group">
-						<dt><input type="radio" class="radio-input" id="blogDomainType" name="blogType" value="domain"<?php echo $gbIsWindows != true ? ' style="vertical-align: middle;"' : '';?> /> <label for="blogDomainType"><?php echo _t('도메인네임(DNS)으로 블로그 식별')?></label></dt>
+						<dt><input type="radio" class="radio-input" id="blogDomainType" name="blogType" value="domain"<?php echo $gbIsWindows != true ? ' style="vertical-align: middle;"' : '';?> /> <label for="blogDomainType"><?php echo _t('도메인네임(DNS)으로 블로그 식별');?></label></dt>
 						<dd>
 							<ul>
-								<li><samp>http://<strong>blog1</strong>.<?php echo $strDomain?><?=($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}")?><?php echo PATH?>/</samp></li>
-								<li><samp>http://<strong>blog2</strong>.<?php echo $strDomain?><?=($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}")?><?php echo PATH?>/</samp></li>
+								<li><samp>http://<strong>blog1</strong>.<?php echo $strDomain;?><?=($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}")?><?php echo PATH;?>/</samp></li>
+								<li><samp>http://<strong>blog2</strong>.<?php echo $strDomain;?><?=($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}")?><?php echo PATH;?>/</samp></li>
 							</ul>
 						</dd>
 					</dl>
@@ -2500,11 +2500,11 @@ class CSetupDialog {
 				}
 ?>
 					<dl id="pathGroup" class="group">
-						<dt><input type="radio" class="radio-input" id="blogMultiType" name="blogType" value="path"<?php echo $gbIsWindows != true ? ' style="vertical-align: middle;"' : '';?> /> <label for="blogMultiType"><?php echo _t('다중 사용자. 하위 경로(Path)로 블로그 식별.')?></label></dt>
+						<dt><input type="radio" class="radio-input" id="blogMultiType" name="blogType" value="path"<?php echo $gbIsWindows != true ? ' style="vertical-align: middle;"' : '';?> /> <label for="blogMultiType"><?php echo _t('다중 사용자. 하위 경로(Path)로 블로그 식별.');?></label></dt>
 						<dd>
 							<ul>
-								<li><samp>http://<?php echo $strDomain?><?=($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}")?><?php echo PATH?>/<strong>blog1</strong></samp></li>
-								<li><samp>http://<?php echo $strDomain?><?=($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}")?><?php echo PATH?>/<strong>blog2</strong></samp></li>
+								<li><samp>http://<?php echo $strDomain;?><?=($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}")?><?php echo PATH;?>/<strong>blog1</strong></samp></li>
+								<li><samp>http://<?php echo $strDomain;?><?=($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}")?><?php echo PATH;?>/<strong>blog2</strong></samp></li>
 							</ul>
 						</dd>
 					</dl>
@@ -2522,15 +2522,15 @@ class CSetupDialog {
 			// *설치 삭제 시작 알림.
 			case "설치 삭제 시작 알림":
 ?>
-		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 			<div id="layoutBody">
-				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계')?></span> : <?php echo $this->title?></h2>
+				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계');?></span> : <?php echo $this->title;?></h2>
 <?php
 				$this->_createFields();
 ?>
 				
-				<div id="messageBox" class="<?php echo $this->type?>-message-box">
-					<?php echo $this->message?>
+				<div id="messageBox" class="<?php echo $this->type;?>-message-box">
+					<?php echo $this->message;?>
 				</div>
 			</div>
 			
@@ -2545,18 +2545,18 @@ class CSetupDialog {
 				$this->_createNewButton("PREV", array("disabled" => "disabled"));
 				$this->_createNewButton("NEXT", array("name" => "process", "value" => $_POST['process'] + 1, "title" => _t($this->textContinueButton)));
 ?>
-		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 			<div id="layoutBody">
-				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계')?></span> : <?php echo _t('설치를 시작합니다.')?></h2>
+				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계');?></span> : <?php echo _t('설치를 시작합니다.');?></h2>
 <?php
 				$this->_createFields();
 				//$this->_createHelpMenu();
 ?>
-				<div id="<?php echo $strErrorID?>ContentBox" class="content-box">
+				<div id="<?php echo $strErrorID;?>ContentBox" class="content-box">
 				</div>
 
-				<p id="messageBox" class="<?php echo $this->type?>-message-box">
-					<?php echo _t('NEXT 버튼을 누르시면 태터툴즈 설치를 시작합니다.').CRLF?>
+				<p id="messageBox" class="<?php echo $this->type;?>-message-box">
+					<?php echo _t('NEXT 버튼을 누르시면 태터툴즈 설치를 시작합니다.').CRLF;?>
 				</p>
 			</div>
 			
@@ -2570,7 +2570,7 @@ class CSetupDialog {
 			case "셋업 타입 선택":
 ?>
 		<div id="layoutBody">
-			<h2><span class="step"><?php echo _t('2단계')?></span> : <?php echo _t('작업 유형을 선택해 주십시오.')?></h2>
+			<h2><span class="step"><?php echo _t('2단계');?></span> : <?php echo _t('작업 유형을 선택해 주십시오.');?></h2>
 			
 			<table id="formGroup" cellpadding="0" cellspacing="0" border="0">
 				<tbody>
@@ -2580,38 +2580,38 @@ class CSetupDialog {
 <?php
 				if ($gCheckLogin === -1 && !checkInstalledVersion()) {
 ?>
-							<form name="setup1" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+							<form name="setup1" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 								<input type="hidden" name="mode" value="install" />
 								<input type="hidden" name="process" value="0" />
-								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage?>" />
+								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage;?>" />
 								
-								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 설치합니다')?>" />
-								<p><?php echo _t('태터툴즈 설치를 시작합니다. 데이터베이스를 설치하고 설정파일을 작성합니다.')?></p>
+								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 설치합니다');?>" />
+								<p><?php echo _t('태터툴즈 설치를 시작합니다. 데이터베이스를 설치하고 설정파일을 작성합니다.');?></p>
 							</form>
 							
-							<form name="setup2" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
-								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 재설정합니다')?>"  disabled="disabled" />
-								<p><?php echo _t('설치된 태터툴즈가 없습니다. 재설정 기능은 비활성화 됩니다.')?></p>
+							<form name="setup2" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 재설정합니다');?>"  disabled="disabled" />
+								<p><?php echo _t('설치된 태터툴즈가 없습니다. 재설정 기능은 비활성화 됩니다.');?></p>
 							</form>
 <?php
 				} else {
 ?>
-							<form name="setup4" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+							<form name="setup4" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 								<input type="hidden" name="mode" value="uninstall" />
 								<input type="hidden" name="process" value="0" />
-								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage?>" />
+								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage;?>" />
 								
-								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 제거합니다')?>" />
-								<p><?php echo _t('태터툴즈를 제거합니다. 모든 컨텐츠가 삭제되오니 반드시 백업 후 진행하시기 바랍니다.')?></p>
+								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 제거합니다');?>" />
+								<p><?php echo _t('태터툴즈를 제거합니다. 모든 컨텐츠가 삭제되오니 반드시 백업 후 진행하시기 바랍니다.');?></p>
 							</form>
 							
-							<form name="setup2" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+							<form name="setup2" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 								<input type="hidden" name="mode" value="reset" />
 								<input type="hidden" name="process" value="0" />
-								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage?>" />
+								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage;?>" />
 								
-								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 재설정합니다')?>" />
-								<p><?php echo _t('설정과 사용자 정보를 재설정합니다. 이외의 블로그 데이터는 영향을 받지 않습니다.')?></p>
+								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 재설정합니다');?>" />
+								<p><?php echo _t('설정과 사용자 정보를 재설정합니다. 이외의 블로그 데이터는 영향을 받지 않습니다.');?></p>
 							</form>
 <?php
 				}
@@ -2621,33 +2621,33 @@ class CSetupDialog {
 				$bCheckResult = existsErrorInDatabase();
 				if ($bCheckResult == false) {
 ?>
-							<form name="setup3" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
-								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 복구합니다')?>"  disabled="disabled" />
-								<p><?php echo _t('이 버튼은 태터툴즈 데이터베이스에서 오류가 발견되면 자동으로 활성화 됩니다.')?></p>
+							<form name="setup3" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 복구합니다');?>"  disabled="disabled" />
+								<p><?php echo _t('이 버튼은 태터툴즈 데이터베이스에서 오류가 발견되면 자동으로 활성화 됩니다.');?></p>
 							</form>
 <?php
 				} else if ($bCheckResult == "broken tables") {
 ?>
-							<form name="setup3" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+							<form name="setup3" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 								<input type="hidden" name="mode" value="repair" />
 								<input type="hidden" name="process" value="0" />
-								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage?>" />
+								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage;?>" />
 								
 								
-								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 복구합니다')?>" />
-								<p><?php echo _t('태터툴즈 데이터베이스의 오류를 복구합니다. 이유 없이 로그인 되지 않을 경우 사용합니다.')?></p>
+								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 복구합니다');?>" />
+								<p><?php echo _t('태터툴즈 데이터베이스의 오류를 복구합니다. 이유 없이 로그인 되지 않을 경우 사용합니다.');?></p>
 							</form>
 <?php
 				} else if ($bCheckResult == "overhead tables") {
 ?>
-							<form name="setup3" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+							<form name="setup3" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 								<input type="hidden" name="mode" value="optimize" />
 								<input type="hidden" name="process" value="0" />
-								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage?>" />
+								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage;?>" />
 								
 								
-								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 최적화합니다')?>" />
-								<p><?php echo _t('태터툴즈 데이터가 일부 비효율적인 상태입니다.')?></p>
+								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 최적화합니다');?>" />
+								<p><?php echo _t('태터툴즈 데이터가 일부 비효율적인 상태입니다.');?></p>
 							</form>
 <?php
 				}
@@ -2664,29 +2664,29 @@ class CSetupDialog {
 				$this->_createNewButton("NEXT", array("name" => "process", "value" => 1, "title" => _t($this->textNextButton)));
 ?>
 		<div id="layoutBody">
-			<h2><span class="step"><?php echo _t('1단계')?></span> : <?php echo _t('태터툴즈 설치를 시작합니다.')?></h2>
+			<h2><span class="step"><?php echo _t('1단계');?></span> : <?php echo _t('태터툴즈 설치를 시작합니다.');?></h2>
 			
-			<form id="languageSelect" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+			<form id="languageSelect" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 				<?php $this->_drowSetLang($this->baseLanguage, 'normal');?>
 			</form>
 			
 			<div id="info">
-				<strong><?php echo TATTERTOOLS_VERSION?></strong><br />
-				<?php echo TATTERTOOLS_COPYRIGHT?><br />
-				Homepage: <a href="<?php echo TATTERTOOLS_HOMEPAGE?>"><?php echo TATTERTOOLS_HOMEPAGE?></a>
+				<strong><?php echo TATTERTOOLS_VERSION;?></strong><br />
+				<?php echo TATTERTOOLS_COPYRIGHT;?><br />
+				Homepage: <a href="<?php echo TATTERTOOLS_HOMEPAGE;?>"><?php echo TATTERTOOLS_HOMEPAGE;?></a>
 			</div>
 			<div id="content">
 				<ol>
-					<li><?php echo _t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 태터툴즈)의 저작권자는 Tatter &amp; Company와 Tatter &amp; Friends입니다.')?></li>
-					<li><?php echo _t('태터툴즈는 <a href="http://www.gnu.org/licenses/gpl.html" title="GNU GPL 문서로 이동합니다.">GPL 라이센스</a>로 제공되며, 모든 사람이 자유롭게 이용할 수 있습니다.')?></li>
-					<li><?php echo _t('프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고책임은 모두 사용자에게 있습니다.')?></li>
-					<li><?php echo _t('스킨 및 트리, 플러그인의 저작권은 각 제작자에게 있습니다.')?></li>
+					<li><?php echo _t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 태터툴즈)의 저작권자는 Tatter &amp; Company와 Tatter &amp; Friends입니다.');?></li>
+					<li><?php echo _t('태터툴즈는 <a href="http://www.gnu.org/licenses/gpl.html" title="GNU GPL 문서로 이동합니다.">GPL 라이센스</a>로 제공되며, 모든 사람이 자유롭게 이용할 수 있습니다.');?></li>
+					<li><?php echo _t('프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고책임은 모두 사용자에게 있습니다.');?></li>
+					<li><?php echo _t('스킨 및 트리, 플러그인의 저작권은 각 제작자에게 있습니다.');?></li>
 				</ol>
 			</div>
 		</div>
-		<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+		<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 			<input type="hidden" name="mode" value="basic" />
-			<input type="hidden" name="lang" value="<?php echo $this->baseLanguage?>" />
+			<input type="hidden" name="lang" value="<?php echo $this->baseLanguage;?>" />
 <?php
 				$this->_createButtonBox();
 ?>
@@ -2698,52 +2698,52 @@ class CSetupDialog {
 				$this->_createNewButton("NO", array("name" => "process", "value" => $_POST['process'] - 1, "title" => _t($this->textPrevButton)));
 				$this->_createNewButton("YES", array("name" => "process", "value" => $_POST['process'] + 1, "title" => _t($this->textNextButton)));
 ?>
-		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 			<div id="layoutBody">
-				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계')?></span> : <?php echo _t('입력하신 관리자 정보를 확인합니다.')?></h2>
+				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계');?></span> : <?php echo _t('입력하신 관리자 정보를 확인합니다.');?></h2>
 				
 <?php
 				$this->_createFields(array("password"));
 ?>
-				<input type="hidden" name="password" value="<?php echo md5($_POST['password'])?>" class="readonly-input" readonly="readonly" />
+				<input type="hidden" name="password" value="<?php echo md5($_POST['password']);?>" class="readonly-input" readonly="readonly" />
 
 				<div class="content-box">
 					<table>
 						<tbody>
 							<tr>
-								<td class="head"><?php echo _t('이메일')?></td>
+								<td class="head"><?php echo _t('이메일');?></td>
 								<td>
-									<input type="text" value="<?php echo $_POST['email']?>" class="readonly-input" readonly="readonly" />
+									<input type="text" value="<?php echo $_POST['email'];?>" class="readonly-input" readonly="readonly" />
 								</td>
 							</tr>
 							<tr>
-								<td class="head"><?php echo _t('비밀번호')?></td>
+								<td class="head"><?php echo _t('비밀번호');?></td>
 								<td>
-									<input type="password" value="<?php echo str_repeat('*', strlen($_POST['password']))?>" class="readonly-input" readonly="readonly" />
+									<input type="password" value="<?php echo str_repeat('*', strlen($_POST['password']));?>" class="readonly-input" readonly="readonly" />
 								</td>
 							</tr>
 							<tr>
-								<td class="head"><?php echo _t('비밀번호 확인')?></td>
+								<td class="head"><?php echo _t('비밀번호 확인');?></td>
 								<td>
-									<input type="password" value="<?php echo str_repeat('*', strlen($_POST['password2']))?>" class="readonly-input" readonly="readonly" />
+									<input type="password" value="<?php echo str_repeat('*', strlen($_POST['password2']));?>" class="readonly-input" readonly="readonly" />
 								</td>
 							</tr>
 <?php
 				if ($_POST['blogType'] == "domain" || $_POST['blogType'] == "path") {
 ?>
 							<tr>
-								<td class="head"><?php echo _t('블로그 식별자')?></td>
+								<td class="head"><?php echo _t('블로그 식별자');?></td>
 								<td>
-									<input type="text" value="<?php echo $_POST['blog']?>" class="readonly-input" readonly="readonly" />
+									<input type="text" value="<?php echo $_POST['blog'];?>" class="readonly-input" readonly="readonly" />
 								</td>
 							</tr>
 <?php
 				}
 ?>
 							<tr>
-								<td class="head"><?php echo _t('필명')?></td>
+								<td class="head"><?php echo _t('필명');?></td>
 								<td>
-									<input type="text" value="<?php echo $_POST['name']?>" class="readonly-input" readonly="readonly" />
+									<input type="text" value="<?php echo $_POST['name'];?>" class="readonly-input" readonly="readonly" />
 								</td>
 							</tr>
 						</tbody>
@@ -2753,7 +2753,7 @@ class CSetupDialog {
 				$this->_createHelpMenu();
 ?>
 				<div id="messageBox" class="normal-message-box">
-					<?php echo $this->message.CRLF?>
+					<?php echo $this->message.CRLF;?>
 				</div>
 			</div>
 <?php
@@ -2767,9 +2767,9 @@ class CSetupDialog {
 				$this->_createNewButton("NO", array("name" => "process", "value" => $_POST['process'] - 1, "title" => _t($this->textPrevButton)));
 				$this->_createNewButton("YES", array("name" => "process", "value" => $_POST['process'] + 1, "title" => _t($this->textNextButton)));
 ?>
-		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 			<div id="layoutBody">
-				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계')?></span> : <?php echo _t('입력하신 데이터베이스 정보를 확인합니다.')?></h2>
+				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계');?></span> : <?php echo _t('입력하신 데이터베이스 정보를 확인합니다.');?></h2>
 				
 <?php
 				$this->_createFields();
@@ -2778,33 +2778,33 @@ class CSetupDialog {
 					<table>
 						<tbody>
 							<tr>
-								<td class="head"><?php echo _t('데이터베이스 서버')?></td>
+								<td class="head"><?php echo _t('데이터베이스 서버');?></td>
 								<td>
-									<input type="text" value="<?php echo $_POST['dbServer']?>" class="readonly-input" readonly="readonly" />
+									<input type="text" value="<?php echo $_POST['dbServer'];?>" class="readonly-input" readonly="readonly" />
 								</td>
 							</tr>
 							<tr>
-								<td class="head"><?php echo _t('데이터베이스 이름')?></td>
+								<td class="head"><?php echo _t('데이터베이스 이름');?></td>
 								<td>
-									<input type="text" value="<?php echo $_POST['dbName']?>" class="readonly-input" readonly="readonly" />
+									<input type="text" value="<?php echo $_POST['dbName'];?>" class="readonly-input" readonly="readonly" />
 								</td>
 							</tr>
 							<tr>
-								<td class="head"><?php echo _t('데이터베이스 사용자명')?></td>
+								<td class="head"><?php echo _t('데이터베이스 사용자명');?></td>
 								<td>
-									<input type="text" value="<?php echo $_POST['dbUser']?>" class="readonly-input" readonly="readonly" />
+									<input type="text" value="<?php echo $_POST['dbUser'];?>" class="readonly-input" readonly="readonly" />
 								</td>
 							</tr>
 							<tr>
-								<td class="head"><?php echo _t('데이터베이스 암호')?></td>
+								<td class="head"><?php echo _t('데이터베이스 암호');?></td>
 								<td>
-									<input type="password" value="<?php echo $_POST['dbPassword']?>" class="readonly-input" readonly="readonly" />
+									<input type="password" value="<?php echo $_POST['dbPassword'];?>" class="readonly-input" readonly="readonly" />
 								</td>
 							</tr>
 							<tr>
-								<td class="head"><?php echo _t('테이블 식별자')?></td>
+								<td class="head"><?php echo _t('테이블 식별자');?></td>
 								<td>
-									<input type="text" value="<?php echo $_POST['dbPrefix']?>" class="readonly-input" readonly="readonly" />
+									<input type="text" value="<?php echo $_POST['dbPrefix'];?>" class="readonly-input" readonly="readonly" />
 								</td>
 							</tr>
 						</tbody>
@@ -2814,7 +2814,7 @@ class CSetupDialog {
 				$this->_createHelpMenu();
 ?>
 				<p id="messageBox" class="normal-message-box align-center">
-					<?php echo _t('이 정보를 이용하여 설치를 시작하시겠습니까?').CRLF?>
+					<?php echo _t('이 정보를 이용하여 설치를 시작하시겠습니까?').CRLF;?>
 				</p>
 			</div>
 <?php
@@ -2850,15 +2850,15 @@ class CSetupDialog {
 				
 				$this->_createNewButton("OK", array("name" => "process", "value" => $_POST['process'] + 1, "title" => _t('셋업 메인 화면으로 이동합니다.')));
 ?>
-		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 			<div id="layoutBody">
-				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계')?></span> : <?php echo $this->title?></h2>
+				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계');?></span> : <?php echo $this->title;?></h2>
 <?php
 				$this->_createFields();
 ?>
 				
-				<div id="messageBox" class="<?php echo $this->type?>-message-box">
-					<?php echo $this->message?>
+				<div id="messageBox" class="<?php echo $this->type;?>-message-box">
+					<?php echo $this->message;?>
 				</div>
 			</div>
 			
@@ -2891,16 +2891,16 @@ class CSetupDialog {
 				$this->_createNewButton("OK", array("name" => "process", "value" => 101, "title" => _t('셋업 메인 화면으로 이동합니다.')));
 					
 ?>
-		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+		<form name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 			<div id="layoutBody">
-				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계')?></span> : <?php echo $this->title?></h2>
+				<h2><span class="step"><?php echo _t($grgProcessOrder[$_POST['process']]['step'].'단계');?></span> : <?php echo $this->title;?></h2>
 				
 <?php
 				$this->_createFields();
 ?>
 				
-				<div id="messageBox" class="<?php echo $this->type?>-message-box">
-					<?php echo $this->message?>
+				<div id="messageBox" class="<?php echo $this->type;?>-message-box">
+					<?php echo $this->message;?>
 				</div>
 			</div>
 			
@@ -2930,7 +2930,7 @@ class CSetupDialog {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><?php echo TATTERTOOLS_NAME." ".TATTERTOOLS_VERSION?> Setup</title>
+	<title><?php echo TATTERTOOLS_NAME." ".TATTERTOOLS_VERSION;?> Setup</title>
 	<link rel="stylesheet" media="screen" type="text/css" href="style/setup/style.developing.css" />
 	<script type="text/javascript">
 		//<![CDATA[
@@ -2941,9 +2941,9 @@ class CSetupDialog {
 	</script>
 </head>
 <body>
-	<div id="container" class="step-<?php echo $grgProcessOrder[$_POST['process']]['step']?>">
+	<div id="container" class="step-<?php echo $grgProcessOrder[$_POST['process']]['step'];?>">
 		<div id="layoutHead">
-			<h1><?php echo _t('태터툴즈 설치 매니저')?></h1>
+			<h1><?php echo _t('태터툴즈 설치 매니저');?></h1>
 		</div>
 		
 		<hr class="hidden" />
@@ -3177,11 +3177,11 @@ class CSetupDialog {
 <?php
 		if (!empty($this->linkToManual)) {
 ?>
-					<a id="help" href="<?php echo $this->linkToManual?>" title="<?php echo _t('이 대화상자에 관련된 도움말을 보여줍니다.')?>"><?php echo _t('도움말')?></a>
+					<a id="help" href="<?php echo $this->linkToManual;?>" title="<?php echo _t('이 대화상자에 관련된 도움말을 보여줍니다.');?>"><?php echo _t('도움말');?></a>
 <?php
 		} else {
 ?>
-					<span id="help" class="text"><?php echo _t('도움말')?></span>
+					<span id="help" class="text"><?php echo _t('도움말');?></span>
 <?php
 		}
 ?>

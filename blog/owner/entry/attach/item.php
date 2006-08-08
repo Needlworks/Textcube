@@ -91,8 +91,8 @@ if (count($_FILES) == 1) {
 		if (!empty($attachment)) {
 ?>
 					for( i=0; i<oSelect.options.length; i++) {
-						//alert(oSelect.options[i].value+"   "+ "<?php echo escapeJSInCData($attachment['label'])?>");
-						if(oSelect.options[i].value == "<?php echo escapeJSInCData($attachment['label'])?>") {
+						//alert(oSelect.options[i].value+"   "+ "<?php echo escapeJSInCData($attachment['label']);?>");
+						if(oSelect.options[i].value == "<?php echo escapeJSInCData($attachment['label']);?>") {
 							oSelect.remove(i);
 						}
 					}
@@ -101,7 +101,7 @@ if (count($_FILES) == 1) {
 ?>
 					oSelect.appendChild(oOption);
 					//oSelect.selectedIndex = oSelect.options.length - 1;
-					//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$owner/{$attachment['name']}" : "{$blogURL}/image/spacer.gif")?>";
+					//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$owner/{$attachment['name']}" : "{$blogURL}/image/spacer.gif");?>";
 					window.parent.refreshFileSize();
 				} catch(e) {
 				alert('['+e.message+']');
