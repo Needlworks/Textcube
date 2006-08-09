@@ -19,6 +19,7 @@ requireStrictRoute();
 		<title><?php echo _t('File Uploader');?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.opera.css" />
 		<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.ie.css" /><![endif]-->
 		<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF.js"></script>
 		<script type="text/javascript" src="<?php echo $service['path'];?>/script/common.js"></script>
@@ -27,20 +28,19 @@ requireStrictRoute();
 				var oSelect = window.parent.document.getElementById('fileList');
 				
 				function addAttachOption(value) {
-					window.parent.makeCrossDamainSubmit("<?php echo $blogURL;?>/owner/entry/attach/<?php echo $suri['id'];?>","ie");
+					//window.parent.makeCrossDamainSubmit("<?php echo $blogURL;?>/owner/entry/attach/<?php echo $suri['id'];?>","ie");
 					if (isWin) {
 						var fileName = value.substring(value.lastIndexOf('\\')+1);
 					} else {
 						var fileName = value.substring(value.lastIndexOf('/')+1);
-					}
+					}	
 					var oOption = window.parent.document.createElement("option");
-					oOption.text = fileName;
+					oOption.text = fileName + " <?php echo _t('업로드 중…');?>";
 					oOption.value = fileName;
 					oSelect.options.add(oOption);
 					oSelect.setAttribute('size', Math.max(8,Math.min(oSelect.length,30)));
 					
 					document.getElementById('fileNameInput').setAttribute('value', fileName);
-					//document.forms[0].submit()
 				}
 				
 				function checkUploadMode(oEvent) {
@@ -102,7 +102,7 @@ if (count($_FILES) == 1) {
 					oSelect.appendChild(oOption);
 					//oSelect.selectedIndex = oSelect.options.length - 1;
 					//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$owner/{$attachment['name']}" : "{$blogURL}/image/spacer.gif");?>";
-					window.parent.refreshFileSize();
+					parent.refreshFileSize();
 				} catch(e) {
 				alert('['+e.message+']');
 			}
@@ -120,6 +120,11 @@ if (count($_FILES) == 1) {
 				margin                           : 0 !important;
 				padding                          : 0 !important;
 			}
+			
+			.file-input
+			{
+				font-size                        : 75%;
+			}
 		-->
 	</style>
 </head>
@@ -129,18 +134,18 @@ if (count($_FILES) == 1) {
 			//<![CDATA[
 				try {
 					if(isIE) {
-						uploader = window.parent.document.getElementById("uploader");
+						uploader = parent.document.getElementById("uploader");
 					} else {
-						uploader = window.parent.document.getElementById("uploader2");
+						uploader = parent.document.getElementById("uploader2");
 					}
 				} catch(e) {		
 					
 				}
 				
 				if (uploader != null) {
-					document.write('<input type="file" class="file-input" name="attachment" onclick="uploader.SetVariable(\'/:openBroswer\',\'true\');return false;" onchange="addAttachOption(this.value);" />');
+					document.write('<input type="file" class="file-input" name="attachment" onclick="uploader.SetVariable(\'/:openBroswer\',\'true\');return false;" onchange="addAttachOption(this.value); document.forms[0].submit();" />');
 				} else {
-					document.write('<input type="file" class="file-input" name="attachment" onchange="addAttachOption(this.value);" />');
+					document.write('<input type="file" class="file-input" name="attachment" onchange="addAttachOption(this.value); document.forms[0].submit();" />');
 				}
 			//]]>	
 		</script>

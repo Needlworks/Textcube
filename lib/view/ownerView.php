@@ -170,9 +170,9 @@ function printOwnerEditorScript($entryId = false) {
 													width = 90 / height * width;
 													height = 90;
 												}
-												document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'?randseed='+Math.random()+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?php echo $service['path'];?>/image/spacer.gif\'"/>';
-												//setAttribute('src',"<?php echo $service['path'];?>/attach/<?php echo $owner;?>/"+  fileName);
-												//document.getElementById('selectedImage').setAttribute('src',"<?php echo $service['path'];?>/image/spacer.gif");
+												document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/' + fileName + '?randseed=' + Math.random() + '" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="<?php echo _t('이미지 미리보기')?>" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?php echo $service['path']?>/image/spacer.gif\'"/>';
+												//setAttribute('src',"<?php echo $service['path']?>/attach/<?php echo $owner?>/" + fileName);
+												//document.getElementById('selectedImage').setAttribute('src',"<?php echo $service['path']?>/image/spacer.gif");
 											}
 											catch(e) { }
 											return false;
@@ -608,9 +608,9 @@ function printEntryFileList($attachments, $entryId) {
 															alert(e.message);
 														}
 													}
-													window.onLoad = function() {
-														disablePageManager()
-													}														
+													
+													window.addEventListener("load", disablePageManager);
+													
 													function enablePageManager() {
 														try {
 															entryManager.pageHolder.isHolding = pageHolding ;
@@ -708,7 +708,6 @@ function printEntryFileList($attachments, $entryId) {
 															}
 														}	
 													}
-													
 													
 													function getUploadObj() {
 														try {
@@ -843,6 +842,7 @@ function printEntryFileList($attachments, $entryId) {
 													refreshAttachFormSize();
 												//]]>
 											</script>
+											
 <?php
 	require_once ROOT.'/script/detectFlash.inc';
 	$maxSize = min( return_bytes(ini_get('upload_max_filesize')) , return_bytes(ini_get('post_max_size')) );
@@ -878,7 +878,7 @@ function printEntryFileUploadButton($entryId) {
 										<div id="fileUploadNest" class="container">
 											<script type="text/javascript">
 												//<![CDATA[
-													attachId = 0;
+													//var attachId = 0;
 													function makeCrossDamainSubmit(uri,userAgent) {
 														var property =new Array();
 														property['ie'] = new Array();
@@ -887,24 +887,21 @@ function printEntryFileUploadButton($entryId) {
 														
 														property['moz'] = new Array();
 														property['moz']['width'] = '215px';
-														property['moz']['height'] = '25px';		
+														property['moz']['height'] = '22px';		
 														
 														property['etc'] = new Array();
 														property['etc']['width'] = '240px';
 														property['etc']['height'] = '22px';
 														
-														var str = '<iframe src="'+uri+'" id="attachHiddenNest_'+(attachId)+'"  style="display: block; height: '+property[userAgent]['height']+'; width: '+property[userAgent]['width']+';" frameborder="no" scrolling="no"></iframe>'
-														//var div = document.createElement('div');
-														//div.innerHTML= str;									
-														//document.getElementById('fileUploadNest').appendChild(div);
-														document.getElementById('fileUploadNest').innerHTML = str;
-														
-														if(attachId) { 
-															document.getElementById('attachHiddenNest_'+(attachId-1)+'').style.width = 0;
-															document.getElementById('attachHiddenNest_'+(attachId-1)+'').style.height = 0;
+														//var str = '<iframe id="attachHiddenNest_' + attachId + '" src="' + uri + '" style="display: block; height: ' + property[userAgent]['height']+'; width: ' + property[userAgent]['width'] + ';" frameborder="no" scrolling="no"></iframe>';						
+														var str = '<iframe id="attachHiddenNest" src="' + uri + '" style="display: block; height: ' + property[userAgent]['height']+'; width: ' + property[userAgent]['width'] + ';" frameborder="no" scrolling="no"></iframe>';						
+														document.getElementById('fileUploadNest').innerHTML = str + document.getElementById('fileUploadNest').innerHTML;
+														/*if (document.getElementById('attachHiddenNest_' + (attachId - 1))) {
+															document.getElementById('attachHiddenNest_' + (attachId - 1)).style.display = "none";
+															document.getElementById('attachHiddenNest_' + (attachId - 1)).style.width = 0;
+															document.getElementById('attachHiddenNest_' + (attachId - 1)).style.height = 0;
 														}
-														
-														attachId++;
+														attachId++;*/
 													}
 													
 													if (getUploadObj()) {
