@@ -202,7 +202,6 @@ TTEditor.prototype.ttml2html = function() {
 			break;
 	}
 
-
 	// 이미지 치환자 처리
 	var regImage = new RegExp("\\[##_(([1-3][CLR])(\\|[^|]*?)+)_##\\]", "");
 	while(result = regImage.exec(str)) {
@@ -225,7 +224,7 @@ TTEditor.prototype.ttml2html = function() {
 			var imageName = servicePath + adminSkin + "/image/spacer.gif";
 			var imageAttr = this.styleUnknown;
 		}
-
+		
 		switch(imageType) {
 			case "1L":
 				var replace = '<img class="tatterImageLeft" src="' + imageName + '" ' + imageAttr + longDesc + " />";
@@ -620,7 +619,9 @@ TTEditor.prototype.showProperty = function(obj)
 			getObject(propertyWindowId + "_width1").value = trim(editor.removeQuot(editor.parseAttribute(values[2], "width")));
 			getObject(propertyWindowId + "_alt1").value = trim(editor.unHtmlspecialchars(editor.removeQuot(editor.parseAttribute(values[2], "alt"))));
 			getObject(propertyWindowId + "_caption1").value = trim(editor.unHtmlspecialchars(editor.removeQuot(values[3])));
-
+			if (editor.parseAttribute(values[2], "class").match("tt-thumbnail"))
+				getObject(propertyWindowId + "_resample1").checked = true;
+			
 			editor.propertyFilename1 = values[1];
 
 			if(objectCount == 1) {
@@ -657,6 +658,8 @@ TTEditor.prototype.showProperty = function(obj)
 				getObject(propertyWindowId + "_width2").value = trim(editor.removeQuot(editor.parseAttribute(values[5], "width")));
 				getObject(propertyWindowId + "_alt2").value = trim(editor.unHtmlspecialchars(editor.removeQuot(editor.parseAttribute(values[5], "alt"))));
 				getObject(propertyWindowId + "_caption2").value = trim(editor.unHtmlspecialchars(editor.removeQuot(values[6])));
+				if (editor.parseAttribute(values[5], "class").match("tt-thumbnail"))
+					getObject(propertyWindowId + "_resample2").checked = true;
 			}
 
 			editor.propertyFilename2 = values[4];
@@ -665,6 +668,8 @@ TTEditor.prototype.showProperty = function(obj)
 				getObject(propertyWindowId + "_width3").value = trim(editor.removeQuot(editor.parseAttribute(values[8], "width")));
 				getObject(propertyWindowId + "_alt3").value = trim(editor.unHtmlspecialchars(editor.removeQuot(editor.parseAttribute(values[8], "alt"))));
 				getObject(propertyWindowId + "_caption3").value = trim(editor.unHtmlspecialchars(editor.removeQuot(values[9])));
+				if (editor.parseAttribute(values[8], "class").match("tt-thumbnail"))
+					getObject(propertyWindowId + "_resample3").checked = true;
 			}
 
 			editor.propertyFilename3 = values[7];
@@ -823,7 +828,8 @@ TTEditor.prototype.setProperty = function()
 			var imageSize = "";
 			var imageAlt = "";
 			var imageCaption = "";
-
+			var imageResample = "";
+			
 			try {
 				var value = parseInt(getObject(editor.propertyWindowId + "_width1").value);
 				if(!isNaN(value) && value > 0 && value < 10000)
@@ -832,16 +838,25 @@ TTEditor.prototype.setProperty = function()
 			try {
 				if(editor.isImageFile(editor.propertyFilename1))
 					imageAlt = 'alt="' + editor.htmlspecialchars(getObject(editor.propertyWindowId + "_alt1").value) + '"';
-			} catch(e) { imageAlt = 'alt = ""'; }
-			try { imageCaption = editor.htmlspecialchars(getObject(editor.propertyWindowId + "_caption1").value); } catch(e) { imageCaption = ''; }
-
-			var longdesc = editor.propertyHeader + '|' + editor.propertyFilename1 + '|' + imageSize + imageAlt + '|' + imageCaption;
+			} catch(e) { imageAlt = 'alt=""'; }
+			try {
+				imageCaption = editor.htmlspecialchars(getObject(editor.propertyWindowId + "_caption1").value);
+			} catch(e) { imageCaption = ''; }
+			try {
+				if (getObject(editor.propertyWindowId + "_resample1").checked == true)
+					imageResample = 'class="tt-thumbnail" ';
+				else
+					imageResample = '';
+			} catch(e) { imageResample = ''; }
+			
+			var longdesc = editor.propertyHeader + '|' + editor.propertyFilename1 + '|' + imageSize + imageResample + imageAlt + '|' + imageCaption;
 
 			if(objectCount > 1) {
 				imageSize = "";
 				imageAlt = "";
 				imageCaption = "";
-
+				imageResample = "";
+				
 				try {
 					var value = parseInt(getObject(editor.propertyWindowId + "_width2").value);
 					if(!isNaN(value) && value > 0 && value < 10000)
@@ -851,16 +866,25 @@ TTEditor.prototype.setProperty = function()
 					if(editor.isImageFile(editor.propertyFilename2))
 						imageAlt = 'alt="' + editor.htmlspecialchars(getObject(editor.propertyWindowId + "_alt2").value) + '"';
 				} catch(e) { imageAlt = 'alt = ""'; }
-				try { imageCaption = editor.htmlspecialchars(getObject(editor.propertyWindowId + "_caption2").value); } catch(e) { imageCaption = ''; }
-
-				longdesc += '|' + editor.propertyFilename2 + '|' + imageSize + imageAlt + '|' + imageCaption;
+				try {
+					imageCaption = editor.htmlspecialchars(getObject(editor.propertyWindowId + "_caption2").value);
+				} catch(e) { imageCaption = ''; }
+				try {
+					if (getObject(editor.propertyWindowId + "_resample2").checked == true)
+						imageResample = 'class="tt-thumbnail" ';
+					else
+						imageResample = '';
+				} catch(e) { imageResample = ''; }
+				
+				longdesc += '|' + editor.propertyFilename2 + '|' + imageSize + imageResample + imageAlt + '|' + imageCaption;
 			}
 
 			if(objectCount > 2) {
 				imageSize = "";
 				imageAlt = "";
 				imageCaption = "";
-
+				imageResample = "";
+				
 				try {
 					var value = parseInt(getObject(editor.propertyWindowId + "_width3").value);
 					if(!isNaN(value) && value > 0 && value < 10000)
@@ -870,9 +894,17 @@ TTEditor.prototype.setProperty = function()
 					if(editor.isImageFile(editor.propertyFilename3))
 						imageAlt = 'alt="' + editor.htmlspecialchars(getObject(editor.propertyWindowId + "_alt3").value) + '"';
 				} catch(e) { imageAlt = 'alt = ""'; }
-				try { imageCaption = editor.htmlspecialchars(getObject(editor.propertyWindowId + "_caption3").value); } catch(e) { imageCaption = ''; }
-
-				longdesc += '|' + editor.propertyFilename3 + '|' + imageSize + imageAlt + '|' + imageCaption;
+				try {
+					imageCaption = editor.htmlspecialchars(getObject(editor.propertyWindowId + "_caption3").value);
+				} catch(e) { imageCaption = ''; }
+				try {
+					if (getObject(editor.propertyWindowId + "_resample3").checked == true)
+						imageResample = 'class="tt-thumbnail" ';
+					else
+						imageResample = '';
+				} catch(e) { imageResample = ''; }
+				
+				longdesc += '|' + editor.propertyFilename3 + '|' + imageSize + imageResample + imageAlt + '|' + imageCaption;
 			}
 
 			editor.selectedElement.setAttribute("longDesc", longdesc);

@@ -369,7 +369,7 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 								}
 							//]]>
 						</script>
-						<form method="post" action="<?php echo $blogURL;?>/owner/entry">
+						<form id="editor-form" method="post" action="<?php echo $blogURL;?>/owner/entry">
 							<div id="part-editor" class="part">
 								<h2 class="caption"><span class="main-text"><?php
 
@@ -577,24 +577,24 @@ printEntryFileUploadButton($entry['id']);
 									<div id="power-section" class="section">
 										<div id="power-container" class="container">
 											<dl id="permalink-line" class="line">
-	<?php
-	if (defined('__TATTERTOOLS_POST__')) {
-	?>
+<?php
+if (defined('__TATTERTOOLS_POST__')) {
+?>
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
 												<dd>
 													<samp><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="text-input" name="permalink" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
 												</dd>
-	<?php
-	} else {
-	?>
+<?php
+} else {
+?>
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
 												<dd>
 													<span class="disabled"><?php echo htmlspecialchars($entry['slogan']);?></span>
 													<input type="hidden" id="permalink" class="text-input" name="permalink" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
 												</dd>
-	<?php
-	}
-	?>
+<?php
+}
+?>
 											</dl>
 											<dl id="date-line" class="line">
 												<dt><span class="label"><?php echo _t('등록일자');?></span></dt>
@@ -652,7 +652,6 @@ if (!defined('__TATTERTOOLS_KEYWORD__') && !defined('__TATTERTOOLS_NOTICE__')) {
 												  	<div class="trackback-yes"><input type="checkbox" id="acceptTrackback" class="checkbox" name="acceptTrackback"<?php echo ($entry['acceptTrackback'] ? ' checked="checked"' : '');?> /> <label for="acceptTrackback"><span class="text"><?php echo _t('트랙백 수신을 허용합니다.');?></span></label></div>
 												</dd>
 											</dl>
-
 <?php
 } else {
 ?>

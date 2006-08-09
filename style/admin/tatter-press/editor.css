@@ -655,6 +655,17 @@
 	width                            : 168px;
 }
 
+.entry-editor-property .title
+{
+	background-image                 : url("./image/edit/bg_box_body.gif");
+	background-position              : left top;
+	background-repeat                : repeat-y;
+	color                            : #666666;
+	font-weight                      : bold;
+	padding                          : 10px 8px 5px 8px;
+	text-align                       : center;
+}
+
 .entry-editor-property dl
 {
 	background-image                 : url("./image/edit/bg_box_body.gif");
@@ -976,6 +987,7 @@
 /* power ----------------------------------------------------------------------------------------*/
 #power-section
 {
+	float                            : left;
 	width                            : 652px;
 }
 
@@ -1083,6 +1095,8 @@
 /* button box -----------------------------------------------------------------------------------*/
 .button-box
 {
+	clear                            : none;
+	float                            : left;
 	padding                          : 30px 0;
 	width                            : 650px !important;
 }

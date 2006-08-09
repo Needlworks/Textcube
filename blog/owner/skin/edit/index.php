@@ -11,6 +11,7 @@ require ROOT . '/lib/piece/owner/contentMenu31.php';
 							//<![CDATA[
 								function setSkin(mode) {
 									var skin = document.getElementById(mode);
+									
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/edit/skin/");
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");

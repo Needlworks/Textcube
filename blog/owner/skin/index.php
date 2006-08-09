@@ -111,7 +111,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 												<a class="apply-button button" href="<?php echo $blogURL;?>/owner/skin/change/?javascript=disabled&amp;skinName=<?php echo urlencode($skinSetting['skin']);?>" onclick="selectSkin('<?php echo $skinSetting['skin'];?>'); return false;"><span class="text"><?php echo _t('적용');?></span></a>
 											</span-->
 											<span class="hidden">|</span>
-											<a class="edit-button button" href="<?php echo $blogURL;?>/owner/skin/edit" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('편집하기');?></span></a>
+											<a class="edit-button button" href="<?php echo $blogURL;?>/owner/skin/edit"><span class="text"><?php echo _t('편집하기');?></span></a>
 										</div>
 <?php
 } else {
@@ -124,7 +124,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 										<div class="button-box">
 											<span id="currentButton"></span>
 											<span class="hidden">|</span>
-											<a class="edit-button button" href="<?php echo $blogURL;?>/owner/skin/edit" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('편집하기');?></span></a>
+											<a class="edit-button button" href="<?php echo $blogURL;?>/owner/skin/edit"><span class="text"><?php echo _t('편집하기');?></span></a>
 										</div>
 <?php
 }

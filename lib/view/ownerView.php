@@ -1004,8 +1004,7 @@ function printEntryEditorProperty() {
 													<dd><input type="text" class="text-input" id="propertyImage1_caption1" onkeyup="editor.setProperty()" /></dd>
 												</dl>
 												<dl class="line">
-													<dt class="property-name"><label for="propertyImage1_resample1"><?php echo _t('리샘플링 사용');?></label></dt>
-													<dd><input type="checkbox" id="propertyImage1_resample1"  onmouseup="editor.setProperty()" /></dd>
+													<dd><input type="checkbox" id="propertyImage1_resample1" onclick="editor.setProperty()" /> <label for="propertyImage1_resample1"><?php echo _t('리샘플링 사용');?></label></dd>
 												</dl>
 											</div>
 											
@@ -1026,8 +1025,7 @@ function printEntryEditorProperty() {
 													<dd><input type="text" class="text-input" id="propertyImage2_caption1" onkeyup="editor.setProperty()" /></dd>
 												</dl>
 												<dl class="line">
-													<dt class="property-name"><label for="propertyImage2_resample1"><?php echo _t('리샘플링 사용');?></label></dt>
-													<dd><input type="checkbox" id="propertyImage2_resample1"  onmouseup="editor.setProperty()" /></dd>
+													<dd><input type="checkbox" id="propertyImage2_resample1" onclick="editor.setProperty()" /> <label for="propertyImage2_resample1"><?php echo _t('리샘플링 사용');?></label></dd>
 												</dl>
 												
 												<div class="title"><?php echo _t('두번째 이미지');?></div>
@@ -1040,12 +1038,11 @@ function printEntryEditorProperty() {
 													<dd><input type="text" class="text-input" id="propertyImage2_alt2" onkeyup="editor.setProperty()" /></dd>
 												</dl>
 												<dl class="line">
-													<dt class="property-name"><label for="propertyImage2_caption2"><?php echo _t('자막');?></label></dt>
+													<dt class="property-name"><label for="propertyImage2_resample2"><?php echo _t('자막');?></label></dt>
 													<dd><input type="text" class="text-input" id="propertyImage2_caption2" onkeyup="editor.setProperty()" /></dd>
 												</dl>
 												<dl class="line">
-													<dt class="property-name"><label for="propertyImage2_resample2"><?php echo _t('리샘플링 사용');?></label></dt>
-													<dd><input type="checkbox" id="propertyImage2_resample2"  onmouseup="editor.setProperty()" /></dd>
+													<dd><input type="checkbox" id="propertyImage2_resample2" onclick="editor.setProperty()" /> <label for="propertyImage2_resample2"><?php echo _t('리샘플링 사용');?></label></dd>
 												</dl>
 											</div>
 											
@@ -1066,8 +1063,7 @@ function printEntryEditorProperty() {
 													<dd><input type="text" class="text-input" id="propertyImage3_caption1" onkeyup="editor.setProperty()" /></dd>
 												</dl>
 												<dl class="line">
-													<dt class="property-name"><label for="propertyImage3_resample1"><?php echo _t('리샘플링 사용');?></label></dt>
-													<dd><input type="checkbox" id="propertyImage3_resample1"  onmouseup="editor.setProperty()" /></dd>
+													<dd><input type="checkbox" id="propertyImage3_resample1" onclick="editor.setProperty()" /> <label for="propertyImage3_resample1"><?php echo _t('리샘플링 사용');?></label></dd>
 												</dl>
 												
 												<div class="title"><?php echo _t('두번째 이미지');?></div>
@@ -1084,8 +1080,7 @@ function printEntryEditorProperty() {
 													<dd><input type="text" class="text-input" id="propertyImage3_caption2" onkeyup="editor.setProperty()" /></dd>
 												</dl>
 												<dl class="line">
-													<dt class="property-name"><label for="propertyImage3_resample2"><?php echo _t('리샘플링 사용');?></label></dt>
-													<dd><input type="checkbox" id="propertyImage3_resample2"  onmouseup="editor.setProperty()" /></dd>
+													<dd><input type="checkbox" id="propertyImage3_resample2" onclick="editor.setProperty()" /> <label for="propertyImage3_resample2"><?php echo _t('리샘플링 사용');?></label></dd>
 												</dl>
 												
 												<div class="title"><?php echo _t('세번째 이미지');?></div>
@@ -1102,8 +1097,7 @@ function printEntryEditorProperty() {
 													<dd><input type="text" class="text-input" id="propertyImage3_caption3" onkeyup="editor.setProperty()" /></dd>
 												</dl>
 												<dl class="line">
-													<dt class="property-name"><label for="propertyImage3_resample3"><?php echo _t('리샘플링 사용');?></label></dt>
-													<dd><input type="checkbox" id="propertyImage3_resample3"  onmouseup="editor.setProperty()" /></dd>
+													<dd><input type="checkbox" id="propertyImage3_resample3" onclick="editor.setProperty()" /> <label for="propertyImage3_resample3"><?php echo _t('리샘플링 사용');?></label></dd>
 												</dl>
 											</div>
 											

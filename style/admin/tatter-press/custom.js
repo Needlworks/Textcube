@@ -87,6 +87,13 @@ function insertDivClear() {
 		document.getElementById("part-setting-basic").appendChild(tempDiv);
 		document.getElementById("clear").style.clear = "both";
 	}
+	
+	if (document.getElementById("part-editor")) {
+		tempDiv = document.createElement("DIV");
+		tempDiv.id = "clear";
+		document.getElementById("part-editor").appendChild(tempDiv);
+		document.getElementById("clear").style.clear = "both";
+	}
 }
 
 /* document.getElementsBySelector(selector)
