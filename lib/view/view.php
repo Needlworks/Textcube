@@ -1270,6 +1270,8 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				$buf .= '</div>' . $caption . '</center>';
 			}
 		} else {
+			$contentWidth = getContentWidth();
+			
 			switch (count($attributes)) {
 				case 4:
 					if (defined('__TATTERTOOLS_MOBILE__')) {
@@ -1280,7 +1282,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 							$caption = '';
 						} else {
 							$marginBottom = '';
-							$caption = "<p class=\"cap1\" style=\"margin-top: 8px\">{$attributes[3]}</p>";
+							$caption = '<p class="cap1" style="margin-top: 8px">' . $attributes[3] . '</p>';
 						}
 						if ($attributes[0] == '1L') {
 							$prefix = '<div class="imageblock left" style="float: left; margin-right: 10px' . $marginBottom . '">';
@@ -1292,20 +1294,27 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 					}
 					break;
 				case 7:
+					$eachImageWidth = floor(($contentWidth - 5 * 3) / 2);
+					list($newProperty1, $onclickFlag1) = createNewProperty($attributes[1], $eachImageWidth, $attributes[2]);
+					list($newProperty2, $onclickFlag2) = createNewProperty($attributes[4], $eachImageWidth, $attributes[5]);
 					if (defined('__TATTERTOOLS_MOBILE__')) {
-						$buf = '<div>' . getAttachmentBinder($attributes[1], $attributes[2], $folderPath, $folderURL, 1, $useAbsolutePath) . "</div><div>$attributes[3]</div>";
-						$buf .= '<div>' . getAttachmentBinder($attributes[4], $attributes[5], $folderPath, $folderURL, 1, $useAbsolutePath) . "</div><div>$attributes[6]</div>";
+						$buf = '<div>' . getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[3]</div>";
+						$buf .= '<div>' . getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[6]</div>";
 					} else {
-						$buf = '<div class="imageblock dual" style="text-align: center"><table style="margin: 0px auto" cellspacing="5"><tr><td>' . getAttachmentBinder($attributes[1], $attributes[2], $folderPath, $folderURL, 2, $useAbsolutePath) . "<div class=\"cap1\">{$attributes[3]}</div></td><td>" . getAttachmentBinder($attributes[4], $attributes[5], $folderPath, $folderURL, 2, $useAbsolutePath) . "<div class=\"cap1\">{$attributes[6]}</div></td></tr></table></div>";
+						$buf = '<div class="imageblock dual" style="text-align: center;"><table cellspacing="5" cellpadding="0" border="0" style="margin: 0 auto;"><tr><td>' . getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 2, $useAbsolutePath, $bRssMode, $onclickFlag1) . '<p class="cap1">' . $attributes[3] . '</p></td><td>' . getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 2, $useAbsolutePath, $bRssMode, $onclickFlag2) . '<p class="cap2">' . $attributes[6] . '</p></td></tr></table></div>';
 					}
 					break;
 				case 10:
+					$eachImageWidth = floor(($contentWidth - 5 * 4) / 3);
+					list($newProperty1, $onclickFlag1) = createNewProperty($attributes[1], $eachImageWidth, $attributes[2]);
+					list($newProperty2, $onclickFlag2) = createNewProperty($attributes[4], $eachImageWidth, $attributes[5]);
+					list($newProperty3, $onclickFlag3) = createNewProperty($attributes[7], $eachImageWidth, $attributes[8]);
 					if (defined('__TATTERTOOLS_MOBILE__')) {
-						$buf = '<div>' . getAttachmentBinder($attributes[1], $attributes[2], $folderPath, $folderURL, 1, $useAbsolutePath) . "</div><div>$attributes[3]</div>";
-						$buf .= '<div>' . getAttachmentBinder($attributes[4], $attributes[5], $folderPath, $folderURL, 1, $useAbsolutePath) . "</div><div>$attributes[6]</div>";
-						$buf .= '<div>' . getAttachmentBinder($attributes[7], $attributes[8], $folderPath, $folderURL, 1, $useAbsolutePath) . "</div><div>$attributes[9]</div>";
+						$buf = '<div>' . getAttachmentBinder($attributes[1], $attributes[2], $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[3]</div>";
+						$buf .= '<div>' . getAttachmentBinder($attributes[4], $attributes[5], $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[6]</div>";
+						$buf .= '<div>' . getAttachmentBinder($attributes[7], $attributes[8], $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[9]</div>";
 					} else {
-						$buf = '<div class="imageblock triple" style="text-align: center"><table style="margin: 0px auto" cellspacing="5"><tr><td>' . getAttachmentBinder($attributes[1], $attributes[2], $folderPath, $folderURL, 3, $useAbsolutePath) . "<div class=\"cap1\">{$attributes[3]}</div></td><td>" . getAttachmentBinder($attributes[4], $attributes[5], $folderPath, $folderURL, 3, $useAbsolutePath) . "<div class=\"cap1\">{$attributes[6]}</div></td><td>" . getAttachmentBinder($attributes[7], $attributes[8], $folderPath, $folderURL, 3, $useAbsolutePath) . "<div class=\"cap1\">{$attributes[9]}</div></td></tr></table></div>";
+						$buf = '<div class="imageblock triple" style="text-align: center"><table cellspacing="5" cellpadding="0" border="0" style="margin: 0 auto;">><tr><td>' . getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag1) . '<p class="cap1">' . $attributes[3] . '</p></td><td>' . getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag2) . '<p class="cap2">' . $attributes[6] . '</p></td><td>' . getAttachmentBinder($attributes[7], $newProperty3, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag3) . '<p class="cap3">' . $attributes[9] . '</p></td></tr></table></div>';
 					}
 					break;
 			}
@@ -1315,7 +1324,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 	return $view;
 }
 
-function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $imageBlocks = 1, $useAbsolutePath = false, $bRssMode = false) {
+function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $imageBlocks = 1, $useAbsolutePath = false, $bRssMode = false, $onclickFlag=false) {
 	global $database, $skinSetting, $service, $owner, $blogURL, $hostURL, $waterMarkArray, $paddingArray;
 	$path = "$folderPath/$filename";
 	if ($useAbsolutePath)
@@ -1331,78 +1340,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 				$property = str_replace('&quot;', '"', $property);
 				return fireEvent('ViewAttachedImage', "<img src=\"$url\" $property/>", $path);
 			} else {*/
-				$contentWidth = 400;
-				
-				if ($xml = @file_get_contents(ROOT."/skin/{$skinSetting['skin']}/index.xml")) {
-					$xmls = new XMLStruct();
-					$xmls->open($xml,$service['encoding']);
-					if ($xmls->getValue('/skin/default/contentWidth')) {
-						$contentWidth = $xmls->getValue('/skin/default/contentWidth');
-					}
-				}
-				
-				if ($tempInfo = getimagesize(ROOT."/attach/$owner/$filename")) {
-					list($originWidth, $originHeight, $type, $attr) = $tempInfo;
-				} else {
-					// 에러?
-					return '<span class="message">'._text('에러가 발생한 이미지입니다.').'</span>';
-				}
-				
-				if (eregi('alt=""', $property)) {
-					$property = str_replace('alt=""', 'alt="'._text('사용자 삽입 이미지').'"', $property);
-				} else if (eregi('alt="[^"]+"', $property)) {
-					// 이미 있으므로 통과
-				} else {
-					$property .= ' alt="'._text('사용자 삽입 이미지').'"';	
-				}
-				
-				// 현재 이미지의 가로 사이즈 계산.
-				if (eregi('width="([0-9]*%?)"', $property, $temp)) {
-					$currentWidth = $temp[1];
-					if (eregi("^([0-9]+)%$", $currentWidth)) {
-						$currentWidth = $originWidth * ($temp[1]/100);
-					}
-				} else {
-					$property .= ' width="1"';
-				}
-				
-				// 현재 이미지의 세로 사이즈 계산.
-				if (eregi('height="([0-9]*%?)"', $property, $temp)) {
-					$currentHeight = $temp[1];
-					if (eregi("^([0-9]+)%$", $currentHeight)) {
-						$currentHeight = $originHeight * ($temp[1]/100);
-					}
-				} else {
-					$property .= ' height="1"';
-				}
-				
-				// 가로만 지정된 이미지의 경우.
-				if (isset($currentWidth) && !isset($currentHeight)) {
-					// 비어있는 세로를 가로의 크기를 이용하여 계산.
-					$currentHeight = floor($originHeight * $currentWidth / $originWidth);
-				// 세로만 지정된 이미지의 경우.
-				} else if (!isset($currentWidth) && isset($currentHeight)) {
-					// 비어있는 가로를 세로의 크기를 이용하여 계산.
-					$currentWidth = floor($originWidth * $currentHeight / $originHeight);
-				// 둘 다 지정되지 않은 이미지의 경우.
-				} else if (!isset($currentWidth) && !isset($currentHeight)) {
-					// 둘 다 비어 있을 경우는 오리지널 사이즈로 대치.
-					$currentWidth = $originWidth;
-					$currentHeight = $originHeight;
-				}
-				
-				if ($currentWidth > $contentWidth) {
-					$tempWidth = $contentWidth;
-					$tempHeight = floor($currentHeight * $contentWidth / $currentWidth);
-				} else {
-					$tempWidth = $currentWidth;
-					$tempHeight = $currentHeight;
-				}
-				
-				$property = eregi_replace('(^| )width="([0-9]+%?)"', '\1width="'.$tempWidth.'"', $property);
-				$property = eregi_replace('(^| )height="([0-9]+%?)"', '\1height="'.$tempHeight.'"', $property);
-				
-				if ($originWidth > $tempWidth || $originHeight > $tempHeight) {
+				if ($onclickFlag == true) {
 					$imageStr = '<img src="'.$url.'" '.$property.' style="cursor: pointer;" onclick="open_img(\''.$url.'\')" />';
 				} else {
 					$imageStr = '<img src="'.$url.'" '.$property.' />';		
@@ -1754,53 +1692,75 @@ function printScript($filename, $obfuscate = true) {
 	return "$file</script>";
 }
 
-// img의 width/height에 맞춰 이미지를 리샘플링하는 함수. 썸네일 함수가 아님! 주의.
-function makeThumbnail($imgString, $originSrc, $paddingArray=NULL, $waterMarkArray=NULL) {
-	global $database, $owner, $blogURL;
+function createNewProperty($filename, $imageWidth, $property) {
+	global $owner;
 	
-	if (!eregi(' src="http://[^"]+"', $imgString) && eregi('class="tt-thumbnail"', $imgString, $extra)) {
-		$originFileName = basename($originSrc);
-		
-		// 여기로 넘어오는 값은 이미 getAttachmentBinder() 함수에서 고정값으로 변환된 값이므로 % 값은 고려할 필요 없음. 
-		if (ereg('width="([1-9][0-9]*)"', $imgString, $temp)) {
-			$tempWidth = $temp[1];
-		}
-		
-		// 여기로 넘어오는 값은 이미 getAttachmentBinder() 함수에서 고정값으로 변환된 값이므로 % 값은 고려할 필요 없음. 
-		if (ereg('height="([1-9][0-9]*)"', $imgString, $temp)) {
-			$tempHeight = $temp[1];
-		}
-		
-		$newTempFileName = eregi_replace("\.([[:alnum:]]+)$", ".thumbnail.\\1", $originFileName);
-		$tempSrc = ROOT."/cache/thumbnail/$owner/".$newTempFileName;
-		
-		// 보안상 cache 디렉토리를 공개하지 않도록 남겨놓는다.
-		$tempURL = $blogURL."/thumbnail/$owner/".$newTempFileName;
-		
-		$iCheckResult = checkExistingThumbnail($originSrc, $tempSrc, $tempWidth, $tempHeight, $paddingArray, $waterMarkArray);
-		switch ($iCheckResult) {
-			case 1:
-				deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "^".eregi_replace("\.([[:alnum:]]+)$", "\.", $originFileName));
-			case 2:
-				@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
-				if (resampleImage($tempWidth, $tempHeight, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
-					$tempImageInfo = getImagesize($tempSrc);
-					$imgString = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $imgString);
-					$imgString = eregi_replace('width="([^"]+)"', 'width="'.$tempImageInfo[0].'"', $imgString);
-					$imgString = eregi_replace('height="([^"]+)"', 'height="'.$tempImageInfo[1].'"', $imgString);
-				} else {
-					@unlink($tempSrc);
-				}
-				break;
-			default:
-				$tempImageInfo = getImagesize($tempSrc);
-				$imgString = eregi_replace('src="([^"]+)"', 'src="'.$tempURL.'"', $imgString);
-				$imgString = eregi_replace('width="([^"]+)"', 'width="'.$tempImageInfo[0].'"', $imgString);
-				$imgString = eregi_replace('height="([^"]+)"', 'height="'.$tempImageInfo[1].'"', $imgString);
-				break;
-		}
+	if ($tempInfo = getimagesize(ROOT."/attach/$owner/$filename")) {
+		list($originWidth, $originHeight, $type, $attr) = $tempInfo;
+	} else {
+		return array($property, false);
 	}
-
-	return $imgString;
+	
+	if (eregi('alt=""', $property)) {
+		$property = str_replace('alt=""', 'alt="'._text('사용자 삽입 이미지').'"', $property);
+	} else if (eregi('alt="[^"]+"', $property)) {
+		// 이미 있으므로 통과
+	} else {
+		$property .= ' alt="'._text('사용자 삽입 이미지').'"';	
+	}
+	
+	// 현재 이미지의 가로 사이즈 계산.
+	if (eregi('width="([0-9]*%?)"', $property, $temp)) {
+		$currentWidth = $temp[1];
+		if (eregi("^([0-9]+)%$", $currentWidth)) {
+			$currentWidth = $originWidth * ($temp[1]/100);
+		}
+	} else {
+		$property .= ' width="1"';
+	}
+	
+	// 현재 이미지의 세로 사이즈 계산.
+	if (eregi('height="([0-9]*%?)"', $property, $temp)) {
+		$currentHeight = $temp[1];
+		if (eregi("^([0-9]+)%$", $currentHeight)) {
+			$currentHeight = $originHeight * ($temp[1]/100);
+		}
+	} else {
+		$property .= ' height="1"';
+	}
+	
+	// 가로만 지정된 이미지의 경우.
+	if (isset($currentWidth) && !isset($currentHeight)) {
+		// 비어있는 세로를 가로의 크기를 이용하여 계산.
+		$currentHeight = floor($originHeight * $currentWidth / $originWidth);
+	// 세로만 지정된 이미지의 경우.
+	} else if (!isset($currentWidth) && isset($currentHeight)) {
+		// 비어있는 가로를 세로의 크기를 이용하여 계산.
+		$currentWidth = floor($originWidth * $currentHeight / $originHeight);
+	// 둘 다 지정되지 않은 이미지의 경우.
+	} else if (!isset($currentWidth) && !isset($currentHeight)) {
+		// 둘 다 비어 있을 경우는 오리지널 사이즈로 대치.
+		$currentWidth = $originWidth;
+		$currentHeight = $originHeight;
+	}
+	
+	if ($currentWidth > $imageWidth) {
+		$tempWidth = $imageWidth;
+		$tempHeight = floor($currentHeight * $imageWidth / $currentWidth);
+	} else {
+		$tempWidth = $currentWidth;
+		$tempHeight = $currentHeight;
+	}
+	
+	$property = eregi_replace('(^| )width="([0-9]+%?)"', '\1width="'.$tempWidth.'"', $property);
+	$property = eregi_replace('(^| )height="([0-9]+%?)"', '\1height="'.$tempHeight.'"', $property);
+	
+	if ($originWidth > $tempWidth || $originHeight > $tempHeight) {
+		$onclickFlag = true;
+	} else {
+		$onclickFlag = false;
+	}
+	
+	return array($property, $onclickFlag);
 }
 ?>
