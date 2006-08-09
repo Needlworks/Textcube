@@ -30,6 +30,8 @@ if ($service['type'] == 'single') {
 			$owner = 1;
 		} else if (ereg('^/+([^/]+)(.*)$', $url, $matches)) {
 			$owner = getOwner($matches[1]);
+			if ($owner === null)
+				$owner = 1;
 			$url = $matches[2];
 		} else {
 			respondNotFoundPage();
