@@ -28,7 +28,7 @@
 														if (navigator.plugins != null && navigator.plugins.length > 0) {
 															if (navigator.plugins["Shockwave Flash 2.0"] || navigator.plugins["Shockwave Flash"]) {
 																var swVer2 = navigator.plugins["Shockwave Flash 2.0"] ? " 2.0" : "";
-																		var flashDescription = navigator.plugins["Shockwave Flash" + swVer2].description;
+																var flashDescription = navigator.plugins["Shockwave Flash" + swVer2].description;
 																descArray = flashDescription.split(" ");
 																tempArrayMajor = descArray[2].split(".");
 																versionMajor = tempArrayMajor[0];
@@ -38,9 +38,9 @@
 																} else {
 																	tempArrayMinor = descArray[4].split("r");
 																}
-																		versionRevision = tempArrayMinor[1] > 0 ? tempArrayMinor[1] : 0;
-																			flashVer = versionMajor + "." + versionMinor + "." + versionRevision;
-																	} else {
+																versionRevision = tempArrayMinor[1] > 0 ? tempArrayMinor[1] : 0;
+																flashVer = versionMajor + "." + versionMinor + "." + versionRevision;
+															} else {
 																flashVer = -1;
 															}
 														}
@@ -52,7 +52,6 @@
 														else if (navigator.userAgent.toLowerCase().indexOf("webtv") != -1) flashVer = 2;
 														// Can't detect in all other cases
 														else {
-															
 															flashVer = -1;
 														}
 														return flashVer;
@@ -65,7 +64,7 @@
 													function DetectFlashVer(reqMajorVer, reqMinorVer, reqRevision) 
 													{
 													 	reqVer = parseFloat(reqMajorVer + "." + reqRevision);
-														 	// loop backwards through the versions until we find the newest version	
+														// loop backwards through the versions until we find the newest version	
 														for (i=25;i>0;i--) {	
 															if (isIE && isWin && !isOpera) {
 																versionStr = VBGetSwfVer(i);
@@ -88,7 +87,7 @@
 																
 																versionString		 = versionMajor + "." + versionRevision;	 // 7.0r24 == 7.24
 																versionNum				= parseFloat(versionString);
-																		// is the major.revision >= requested major.revision AND the minor version >= requested minor
+																// is the major.revision >= requested major.revision AND the minor version >= requested minor
 																if ( (versionMajor > reqMajorVer) && (versionNum >= reqVer) ) {
 																	return true;
 																} else {

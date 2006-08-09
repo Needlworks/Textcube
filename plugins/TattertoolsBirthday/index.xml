@@ -20,7 +20,7 @@
   <binding>
 	<tag name="TattertoolsBirthday" handler="TattertoolsBirthday_TattertoolsBirthday" />
 	<config dataValHandler = "TattertoolsBirthdayDataSet" >
-		<fieldset legend="기념일를 넣어주세요" >
+		<fieldset legend="기념일을 넣어주세요" >
 			<field title="월" name="month" type="select"  titledirection="bk" >
 				<caption> 월입니다.. 월 </caption>
 				<op value="1">1</op>
