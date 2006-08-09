@@ -378,19 +378,16 @@ function resampleImage($width=NULL, $height=NULL, $fileName=NULL, $resizeFlag=NU
 			$tempWaterMark = imagecreatefrompng($waterMark['path']);
 		}
 		
-		if ($waterMarkInfo[0] != $waterMarkWidth || $waterMarkInfo[1] != $waterMarkHeight) {
-			// 새로운 트루타입 이미지 디바이스를 생성.
-			$tempWaterMarkSource = imagecreatetruecolor($waterMarkWidth, $waterMarkHeight);
+		// 새로운 트루타입 이미지 디바이스를 생성.
+		$tempWaterMarkSource = imagecreatetruecolor($waterMarkWidth, $waterMarkHeight);
+		$bgColorBy16 = hexRGB("FF00FF");
+		$temp = imagecolorallocate($tempWaterMarkSource, $bgColorBy16['R'], $bgColorBy16['G'], $bgColorBy16['B']);
+		imagecolortransparent($tempWaterMarkSource, $temp);
+		imagefill($tempWaterMarkSource, 0, 0, $temp);
 			
-			//imagealphablending($tempResultImage, 0); //bgColor가 대신 alpha blending을 막아줌.
-			//$bgColorBy16 = hexRGB("FFFFFF");
-			//$temp = imagecolorallocate($tempWaterMark, $bgColorBy16['R'], $bgColorBy16['G'], $bgColorBy16['B']);
-			//imagefilledrectangle($tempWaterMark, 0, 0, $waterMarkWidth, $waterMarkHeight, $temp);
+		// 이미지 디바이스에 크기가 조정된 원본 이미지를 여백을 적용하여 붙인다.
+		imagecopyresampled($tempWaterMarkSource, $tempWaterMark, 0, 0, 0, 0, $waterMarkWidth, $waterMarkHeight, imagesx($tempWaterMark), imagesy($tempWaterMark));
 			
-			// 이미지 디바이스에 크기가 조정된 원본 이미지를 여백을 적용하여 붙인다.
-			imagecopyresampled($tempWaterMarkSource, $tempWaterMark, 0, 0, 0, 0, $waterMarkWidth, $waterMarkHeight, imagesx($tempWaterMark), imagesy($tempWaterMark));
-		}
-		
 		if (function_exists("imagecopymerge")) {
 			imagecopymerge($tempResultImage, $tempWaterMarkSource, $xPosition, $yPosition, 0, 0, $waterMarkWidth, $waterMarkHeight, $waterMark['gamma']);
 		} else {
