@@ -16,7 +16,7 @@ function closeSession() {
 
 function readSession($id) {
 	global $database, $service;
-	if ($result = mysql_query("SELECT data FROM {$database['prefix']}Sessions WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
+	if ($result = sessionQuery("SELECT data FROM {$database['prefix']}Sessions WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
 		if ($session = mysql_fetch_array($result))
 			return $session['data'];
 	}
@@ -34,7 +34,7 @@ function writeSession($id, $data) {
 	$request = mysql_real_escape_string($_SERVER['REQUEST_URI']);
 	$referer = isset($_SERVER['HTTP_REFERER']) ? mysql_real_escape_string($_SERVER['HTTP_REFERER']) : '';
 	$timer = getMicrotimeAsFloat() - $sessionMicrotime;
-	$result = mysql_query("UPDATE {$database['prefix']}Sessions SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
+	$result = sessionQuery("UPDATE {$database['prefix']}Sessions SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 	if ($result && (mysql_affected_rows() == 1))
 		return true;
 	return false;
@@ -44,27 +44,27 @@ function destroySession($id, $setCookie = false) {
 	global $database;
 	if (!isset($_SESSION['userid']))
 		return;
-	@mysql_query("DELETE FROM {$database['prefix']}Sessions WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
+	@sessionQuery("DELETE FROM {$database['prefix']}Sessions WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 	gcSession();
 }
 
 function gcSession($maxLifeTime = false) {
 	global $database, $service;
-	@mysql_query("DELETE FROM {$database['prefix']}Sessions WHERE updated < (UNIX_TIMESTAMP() - {$service['timeout']})");
-	$result = @mysql_query("SELECT DISTINCT v.id, v.address FROM {$database['prefix']}SessionVisits v LEFT JOIN {$database['prefix']}Sessions s ON v.id = s.id AND v.address = s.address WHERE s.id IS NULL AND s.address IS NULL");
+	@sessionQuery("DELETE FROM {$database['prefix']}Sessions WHERE updated < (UNIX_TIMESTAMP() - {$service['timeout']})");
+	$result = @sessionQuery("SELECT DISTINCT v.id, v.address FROM {$database['prefix']}SessionVisits v LEFT JOIN {$database['prefix']}Sessions s ON v.id = s.id AND v.address = s.address WHERE s.id IS NULL AND s.address IS NULL");
 	if ($result) {
 		$gc = array();
 		while ($g = mysql_fetch_row($result))
 			array_push($gc, $g);
 		foreach ($gc as $g)
-			@mysql_query("DELETE FROM {$database['prefix']}SessionVisits WHERE id = '{$g[0]}' AND address = '{$g[1]}'");
+			@sessionQuery("DELETE FROM {$database['prefix']}SessionVisits WHERE id = '{$g[0]}' AND address = '{$g[1]}'");
 	}
 	return true;
 }
 
 function getAnonymousSession() {
 	global $database;
-	$result = mysql_query("SELECT id FROM {$database['prefix']}Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
+	$result = sessionQuery("SELECT id FROM {$database['prefix']}Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
 	if ($result && (list($id) = mysql_fetch_array($result)))
 		return $id;
 	return false;
@@ -76,7 +76,7 @@ function newAnonymousSession() {
 		if (($id = getAnonymousSession()) !== false)
 			return $id;
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		mysql_query("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+		sessionQuery("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if (mysql_affected_rows() > 0)
 			return $id;
 	}
@@ -102,7 +102,7 @@ function newSession() {
 	global $database;
 	for ($i = 0; ($i < 100) && !setSessionAnonymous(); $i++) {
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		mysql_query("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) SELECT DISTINCT '$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+		sessionQuery("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) SELECT DISTINCT '$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if (mysql_affected_rows() > 0) {
 			session_id($id);
 			return true;
@@ -113,7 +113,7 @@ function newSession() {
 
 function isSessionAuthorized($id) {
 	global $database;
-	$result = mysql_query("select id from {$database['prefix']}Sessions where id = '$id' and address = '{$_SERVER['REMOTE_ADDR']}' and (userid is not null or preexistence is not null)");
+	$result = sessionQuery("select id from {$database['prefix']}Sessions where id = '$id' and address = '{$_SERVER['REMOTE_ADDR']}' and (userid is not null or preexistence is not null)");
 	if ($result && (mysql_num_rows($result) == 1))
 		return true;
 	return false;
@@ -134,7 +134,7 @@ function authorizeSession($userid) {
 		return true;
 	for ($i = 0; $i < 100; $i++) {
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = mysql_query("INSERT INTO {$database['prefix']}Sessions(id, address, userid, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+		$result = sessionQuery("INSERT INTO {$database['prefix']}Sessions(id, address, userid, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if ($result && (mysql_affected_rows() == 1)) {
 			@session_id($id);
 			header("Set-Cookie: TSSESSION=$id; path=/; domain={$service['domain']}");
@@ -143,6 +143,17 @@ function authorizeSession($userid) {
 	}
 	return false;
 }
+
+function sessionQuery($sql) {
+	global $database;
+	$result = mysql_query($sql);
+	if(!$result) {
+		mysql_query("REPAIR TABLE {$database['prefix']}Sessions");
+		$result = mysql_query($sql);
+	}
+	return $result;
+}
+
 session_name('TSSESSION');
 setSession();
 session_set_save_handler('openSession', 'closeSession', 'readSession', 'writeSession', 'destroySession', 'gcSession');
