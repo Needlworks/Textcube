@@ -95,7 +95,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 	$xml = file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/index.xml");
 	$xmls = new XMLStruct();
 	$xmls->open($xml, $service['encoding']);
-	writeValue('<span class="skin-name">' . $xmls->getValue('/skin/information/name') . '</span> <span class="version">ver.' . $xmls->getValue('/skin/information/version') . '</span>', _t('제목'));
+	writeValue('<span class="skin-name">' . $xmls->getValue('/skin/information/name') . '</span> <span class="version">ver.' . $xmls->getValue('/skin/information/version') . ($skinSetting['skin'] == "customize/$owner" ? _t('(사용자 수정본)') : NULL) . '</span>', _t('제목'));
 	writeValue($xmls->getValue('/skin/information/license'), _t('저작권'));
 	writeValue($xmls->getValue('/skin/author/name'), _t('만든이'));
 	writeValue($xmls->getValue('/skin/author/homepage'), _t('홈페이지'));

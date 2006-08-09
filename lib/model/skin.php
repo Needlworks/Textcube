@@ -1,5 +1,4 @@
 <?php
-
 function setTreeSetting($owner, $setting) {
 	global $database;
 	foreach ($setting as $key => $value)
