@@ -183,13 +183,7 @@ function cutSkinTag($contents, $tag) {
 }
 
 function removeAllTags($contents) {
-	while (($begin = strpos($contents, '[##_')) !== false) {
-		$end = strpos($contents, '_##]', $begin + 4);
-		if ($end === false)
-			break;
-		$contents = substr($contents, 0, $begin) . substr($contents, $end + 4);
-	}
-	return $contents;
+	 return preg_replace('@\\[#[#M].?.?([^#M][^#][^\\]])+[#M]#\\]@s', '', $contents);
 }
 
 function replaceSkinTag($contents, $tag) {
