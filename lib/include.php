@@ -12,6 +12,7 @@ require 'function/ImageWorkers.php';
 require 'function/mail.php';
 require 'functions.php';
 require 'database.php';
+require 'model/api.php';
 require 'model/service.php';
 require 'model/archive.php';
 require 'model/attachment.php';

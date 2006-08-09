@@ -1,57 +1,16 @@
 <?php
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
-if (false) {
-	fetchConfigVal();
-}
-/*--------- Debugging environment -----------*/
-global $debug, $debug_file, $blogapi_dir;
-$debug = 0; /* DEBUGLOG */
-$debug_file = ROOT . "/.htdebug.log";
-$blogapi_dir = dirname( __FILE__ );
 
-if( $debug )
-{
-	global $debugfd, $debug_file;
-	$debugfd = fopen( $debug_file, "a" );
-}
-else
-{
-	if( file_exists( $debug_file ) )
-	{
-		unlink( $debug_file );
-	}
-}
-
-function DEBUG( $str, $internal = false)
-{
-	global $debug, $debugfd;
-	if( !$debug )
-	{
-		return "";
-	}
-	if( $internal )
-	{
-		$str = var_export( $str, true );
-	}
-	fputs( $debugfd, $str );
-}
+requireComponent( "Eolin.PHP.XMLStruct" );
+requireComponent( "Eolin.PHP.XMLTree" );
+requireComponent( "Eolin.PHP.XMLRPC" );
+requireComponent( "Tattertools.Control.RSS" );
+requireComponent( "Tattertools.Control.Auth" );
+requireComponent( "Tattertools.Data.Post" );
+requireComponent( "Tattertools.Data.Category" );
 
 /*--------- API main ---------------*/
-function BlogAPI()
-{
-	include_once "apicore.php";
-
-	api_BlogAPI();
-	return "";
-}
-
-function AddRSD($target)
-{
-	global $hostURL, $blogURL;
-	$target .= '<link rel="EditURI" type="application/rsd+xml" title="RSD" href="'.$hostURL.$blogURL.'/api/rsd" />'.CRLF;
-	return $target;
-}
 
 function SendRSD()
 {
@@ -81,6 +40,6 @@ if( substr( $_SERVER["REQUEST_URI"], -8 ) == "/api?rsd" )
 }
 else
 {
-	BlogAPI();
+	api_BlogAPI();
 }
 ?>
