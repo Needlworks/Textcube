@@ -111,4 +111,18 @@ function getNumericValue($value) {
 	}
 	return $value;
 }
+
+function getContentWidth() {
+	global $skinSetting;
+	
+	$contentWidth = 400;			
+	if ($xml = @file_get_contents(ROOT."/skin/{$skinSetting['skin']}/index.xml")) {
+		$xmls = new XMLStruct();
+		$xmls->open($xml,$service['encoding']);
+		if ($xmls->getValue('/skin/default/contentWidth')) {
+			$contentWidth = $xmls->getValue('/skin/default/contentWidth');
+		}
+	}
+	return $contentWidth;
+}
 ?>
