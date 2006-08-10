@@ -676,7 +676,7 @@ ul#feedList li .button:active
 {
 	color                            : #FFFFFF !important;
 	display                          : inline;
-	font-family                      : µ∏øÚ, Dotum, ±º∏≤, Gulim, sans-serif;
+	font-family                      : ÎèãÏõÄ, Dotum, Íµ¥Î¶º, Gulim, sans-serif;
 	font-size                        : 90%;
 	letter-spacing                   : -1px;
 	margin-right                     : 5px;
@@ -715,6 +715,11 @@ ul#feedList li .button:active
 	color                            : #000000;
 	font-weight                      : bold;
 	margin-left                      : 5px;
+}
+
+#post-content .title
+{
+	text-align                       : left;
 }
 
 #post-content .title .divider
