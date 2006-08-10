@@ -274,7 +274,7 @@ function TreatType(  $cmd , $dfVal , $name ){
 	$titleFw = empty($cmd['.attributes']['titledirection']) ? true : ($cmd['.attributes']['titledirection'] == 'bk' ? false : true);
 	$fieldTitle = TAB.TAB.TAB.'<label class="fieldtitle">'.htmlspecialchars($cmd['.attributes']['title']) . '</label>';
 	$fieldControl = TAB.TAB.TAB.'<span class="fieldcontrol">' .CRLF.  call_user_func($cmd['.attributes']['type'].'Treat' , $cmd, $dfVal, $name) .TAB.TAB.TAB.'</span>';
-	$caption = empty($cmd['caption'][0]) ? '':TAB.TAB.TAB.'<div class="fieldcaption">'.htmlspecialchars( $cmd['caption'][0]['.value'] ) . '</div>'.CRLF;
+	$caption = empty($cmd['caption'][0]) ? '':TAB.TAB.TAB.'<div class="fieldcaption">'. $cmd['caption'][0]['.value']  . '</div>'.CRLF;
 	if( $titleFw) 
 		return	TAB.TAB.'<div class="field" id="div_'.htmlspecialchars($cmd['.attributes']['name']).'">'.CRLF.$fieldTitle.CRLF.$fieldControl.CRLF.$caption.TAB.TAB."</div>\n";
 	else
