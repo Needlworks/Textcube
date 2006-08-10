@@ -52,7 +52,7 @@ function writeValue($value, $label) {
 											*/
 										}
 										request.onError = function() {
-											alert(result['msg']);
+											alert(this.getText("/response/msg"));
 										}
 										request.send("skinName=" + encodeURIComponent(name));
 									} catch(e) {

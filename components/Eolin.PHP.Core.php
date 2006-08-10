@@ -512,12 +512,12 @@ class Validator {
 		if (strlen($value) > 64)
 			return false;
 		$parts = explode('@', $value, 2);
-		return ((count($parts) == 2) && preg_match('@[\\w!#-\'*+/=?^`{-~-]+(\\.[\\w!#-\'*+/=?^`{-~-]+)*@', $parts[0]) && Validator::domain($parts[1]));
+		return ((count($parts) == 2) && preg_match('@[\\w!#\-\'*+/=?^`{-~-]+(\\.[\\w!#-\'*+/=?^`{-~-]+)*@', $parts[0]) && Validator::domain($parts[1]));
 	}
 	
 	/*@static@*/
 	function language($value) {
-		return preg_match('/^[[:alpha:]]{2}(-[[:alpha:]]{2})?$/', $value);
+		return preg_match('/^[[:alpha:]]{2}(\-[[:alpha:]]{2})?$/', $value);
 	}
 
 	/*@static@*/
@@ -527,12 +527,12 @@ class Validator {
 	
 	/*@static@*/
 	function directory($value) {
-		return preg_match('/^[-\w]+( [-\w]+)*$/', $value);
+		return preg_match('/^[\-\w]+( [\-\w]+)*$/', $value);
 	}
 	
 	/*@static@*/
 	function path($value) {
-		return preg_match('/^[-\w]+( [-\w]+)*(\/[-\w]+( [-\w]+)*)*$/', $value);
+		return preg_match('/^[\-\w]+( [\-\w]+)*(\/[\-\w]+( [\-\w]+)*)*$/', $value);
 	}
 	
 	/*@static@*/

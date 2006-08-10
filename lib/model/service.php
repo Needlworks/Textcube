@@ -19,11 +19,12 @@ function getBlogSetting($owner) {
 }
 
 function getSkinSetting($owner) {
-	global $database;
-	if ($result = mysql_query("select * from {$database['prefix']}SkinSettings where owner = $owner")) {
+	global $database, $service;
+	
+	if ($result = mysql_query("SELECT * FROM {$database['prefix']}SkinSettings WHERE owner = $owner")) {
 		$retval = mysql_fetch_array($result);
 		if ($retval != FALSE) {
-			if (!Validator::filename($retval['skin']) && ($retval['skin'] !="customize/$owner")) {
+			if (!Validator::directory($retval['skin']) && ($retval['skin'] !="customize/$owner")) {
 				$retval['skin'] = $service['skin'];
 			}
 			return $retval;
