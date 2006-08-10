@@ -317,6 +317,9 @@ TTEditor.prototype.html2ttml = function() {
 	// 쓸모없는 &nbsp; 제거
 	str = str.replace(new RegExp("([^ ])&nbsp;([^ ])", "gi"), "$1 $2");
 
+	// 적절한 줄바꿈
+	str = str.replace(new RegExp("(<br(?:\\s*/?|\\s+[^>]*)>)", "gi"), "$1\r\n");
+
 	// 비어있는 a 태그 제거
 	var regEmptyAnchor = new RegExp("<a>(((?!<a>).)*?)</a>", "i");
 	while(result = regEmptyAnchor.exec(str))

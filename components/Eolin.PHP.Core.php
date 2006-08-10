@@ -1115,6 +1115,21 @@ class TableQuery {
 			return true;
 		return false;
 	}
+
+	function replace() {
+		$this->id = null;
+		if (empty($this->table))
+			return false;
+		$attributes = array_merge($this->_qualifiers, $this->_attributes);
+		if (empty($attributes))
+			return false;
+		$this->_query = 'REPLACE INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
+		if (mysql_query($this->_query)) {
+			$this->id = mysql_insert_id();
+			return true;
+		}
+		return false;
+	}
 	
 	function delete() {
 		if (empty($this->table))

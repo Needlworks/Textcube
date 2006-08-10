@@ -221,7 +221,7 @@ if (!doesExistTable($database['prefix'] . 'ServiceSettings')) { // Since 1.0.7
 		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 	}
 }
-if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSettings WHERE name = 'acceptNewLineOnEditor' AND value = '1'")) { // Since 1.0.7
+if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSettings WHERE name = 'newlineStyle' AND value >= 1.1")) { // Since 1.0.7
 	$query = new TableQuery($database['prefix'] . 'Entries');
 	if($query->doesExist()) {
 		$changed = true;
@@ -231,7 +231,7 @@ if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSett
 				$newContent = mysql_real_escape_string(nl2brWithHTML($entry['content']));
 				DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE owner = {$entry['owner']} AND id = {$entry['id']} AND draft = {$entry['draft']}");
 			}
-			setServiceSetting('acceptNewLineOnEditor', '1');
+			setServiceSetting('newlineStyle', '1.1');
 			echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
 		} else {
 			echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
