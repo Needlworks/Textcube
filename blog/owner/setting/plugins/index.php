@@ -88,7 +88,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 								}
 								
 								function changeList() {
-									document.getElementById("part-setting-plugins").submit();
+									document.getElementById("part-<?php echo (defined('__TATTERTOOLS_CENTER__')) ? 'center' : 'setting';?>-plugins").submit();
 								}
 								
 								window.addEventListener("load", execLoadFunction, false);
