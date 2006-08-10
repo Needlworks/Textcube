@@ -43,7 +43,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								function togglePlugin(plugin, num) {
+								function togglePlugin(plugin, num, width, height) {
 									tempStr = document.getElementById("plugin" + num + "Link").innerHTML;
 									
 									if (!tempStr.match('<?php echo _t('사용중');?>')) {
@@ -58,7 +58,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 											objTR.className = objTR.className.replace('inactive', 'active');
 											
 											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정하기');?>')) {
-												objTR.cells[5].innerHTML = '<a href="#void" id="config_' + num +'" class="config-enabled-icon bullet" onclick="getCurrentSetting(\'' + plugin + '\',\'Y\')"><?php echo _t('설정하기');?></a>';
+												objTR.cells[5].innerHTML = '<a href="#void" id="config_' + num +'" class="config-enabled-icon bullet" onclick="getCurrentSetting(\'' + plugin + '\',\'Y\',\''+width+'\',\''+height+'\')"><?php echo _t('설정하기');?></a>';
 											}
 										}
 										request.onError = function() {
@@ -98,10 +98,10 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 								}
 								
 								var currentSetting='';
-								function getCurrentSetting( plugin, setYN){
+								function getCurrentSetting( plugin, setYN, width, height){
 									if( "N" == setYN ) return ;
 									if( '' != currentSetting ) currentSetting.close();
-									window.open('<?php echo $blogURL;?>/owner/setting/plugins/currentSetting/?Name='+plugin,'CurrentSetting', 'width=500, height=400, scrollbars=1, status=0, resizable=1');	
+									window.open('<?php echo $blogURL;?>/owner/setting/plugins/currentSetting/?Name='+plugin,'CurrentSetting', 'width='+width+', height='+height+', scrollbars=1, status=0, resizable=1');	
 									return;
 								}								
 							//]]>
@@ -206,7 +206,9 @@ while ($plugin = $dir->read()) {
 						"authorLink" => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
 						"author" => htmlspecialchars($xmls->getValue('/plugin/author[lang()]')),
 						"scope" => htmlspecialchars($xmls->getValue('/plugin/scope[lang()]')),
-						"config" => $xmls->doesExist('/plugin/binding/config')
+						"config" => $xmls->doesExist('/plugin/binding/config'),
+						"width" => $xmls->getAttribute('/plugin/binding/config/window', 'width'),
+						"height" => $xmls->getAttribute('/plugin/binding/config/window', 'height')
 						);
 		
 		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
@@ -232,6 +234,8 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	$author = $pluginAttrs[$pluginDir]['author'];
 	$scope = $pluginAttrs[$pluginDir]['scope'];
 	$config = $pluginAttrs[$pluginDir]['config']? 'Y':'N';
+	$width = $pluginAttrs[$pluginDir]['width']?$pluginAttrs[$pluginDir]['width']:500;
+	$height = $pluginAttrs[$pluginDir]['height']?$pluginAttrs[$pluginDir]['height']:400;
 	$active = in_array($pluginDir, $activePlugins);
 
 	if (empty($scope)) $scope = 'none';
@@ -276,7 +280,7 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	if ($config=='Y') {
 		if ($active) {
 ?>
-											<a href="#void" id="config_<?php echo $i;?>" class="config-enabled-icon bullet" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>')"><?php echo _t('설정하기');?></a>
+											<a href="#void" id="config_<?php echo $i;?>" class="config-enabled-icon bullet" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>')"><?php echo _t('설정하기');?></a>
 <?php
 		} else {
 ?>
@@ -294,11 +298,11 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 <?php
 	if ($active) {
 ?>
-											<a id="plugin<?php echo $i;?>Link" class="active-class" href="#void" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>)" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>"><span class="text"><?php echo _t('사용중');?></span></a>
+											<a id="plugin<?php echo $i;?>Link" class="active-class" href="#void" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>')" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>"><span class="text"><?php echo _t('사용중');?></span></a>
 <?php
 	} else {
 ?>
-											<a id="plugin<?php echo $i;?>Link" class="inactive-class" href="#void" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>)" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>"><span class="text"><?php echo _t('미사용');?></span></a>
+											<a id="plugin<?php echo $i;?>Link" class="inactive-class" href="#void" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>')" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>"><span class="text"><?php echo _t('미사용');?></span></a>
 <?php
 	}
 ?>
