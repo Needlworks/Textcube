@@ -2491,8 +2491,8 @@ class CSetupDialog {
 						<dt><input type="radio" class="radio-input" id="blogDomainType" name="blogType" value="domain"<?php echo $gbIsWindows != true ? ' style="vertical-align: middle;"' : '';?> /> <label for="blogDomainType"><?php echo _t('도메인네임(DNS)으로 블로그 식별');?></label></dt>
 						<dd>
 							<ul>
-								<li><samp>http://<strong>blog1</strong>.<?php echo $strDomain;?><?=($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}")?><?php echo PATH;?>/</samp></li>
-								<li><samp>http://<strong>blog2</strong>.<?php echo $strDomain;?><?=($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}")?><?php echo PATH;?>/</samp></li>
+								<li><samp>http://<strong>blog1</strong>.<?php echo $strDomain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo PATH;?>/</samp></li>
+								<li><samp>http://<strong>blog2</strong>.<?php echo $strDomain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo PATH;?>/</samp></li>
 							</ul>
 						</dd>
 					</dl>
@@ -2503,8 +2503,8 @@ class CSetupDialog {
 						<dt><input type="radio" class="radio-input" id="blogMultiType" name="blogType" value="path"<?php echo $gbIsWindows != true ? ' style="vertical-align: middle;"' : '';?> /> <label for="blogMultiType"><?php echo _t('다중 사용자. 하위 경로(Path)로 블로그 식별.');?></label></dt>
 						<dd>
 							<ul>
-								<li><samp>http://<?php echo $strDomain;?><?=($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}")?><?php echo PATH;?>/<strong>blog1</strong></samp></li>
-								<li><samp>http://<?php echo $strDomain;?><?=($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}")?><?php echo PATH;?>/<strong>blog2</strong></samp></li>
+								<li><samp>http://<?php echo $strDomain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo PATH;?>/<strong>blog1</strong></samp></li>
+								<li><samp>http://<?php echo $strDomain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo PATH;?>/<strong>blog2</strong></samp></li>
 							</ul>
 						</dd>
 					</dl>
@@ -2997,12 +2997,12 @@ class CSetupDialog {
 ?> 
 	Select Default Language :
 	<select id="lang" name="lang" onchange="current();"> 
-<?
+<?php
 		foreach ($availableLanguages as $key => $value) 
 			print('<option value="'.$key.'"'.($key == $argCurrentLang ? ' selected="selected"' : '').' >'.$value.'</option>'.CRLF); 
 ?>
 	</select>
-<? 
+<?php 
 		return true;
 	}
 	
