@@ -66,19 +66,19 @@ function setPrimaryDomain($owner, $name) {
 	global $service, $blog;
 	$name = strtolower(trim($name));
 	if ($name == $blog['name'])
-		return true;
+		return 0;
 	if (!checkBlogName($name))
-		return false;
+		return 1;
 	if (mysql_num_rows(mysql_query("select * from {$database['prefix']}ReservedWords where '$name' like word")) > 0)
-		return false;
+		return 2;
 	if (mysql_num_rows(mysql_query("select * from {$database['prefix']}BlogSettings where name = '$name'")) > 0)
-		return false;
+		return 3;
 	mysql_query("update {$database['prefix']}BlogSettings set name = '$name' where owner = $owner");
 	if (mysql_affected_rows() != 1)
-		return false;
+		return 4;
 	$blog['name'] = $name;
 	clearRSS();
-	return true;
+	return 0;
 }
 
 function setSecondaryDomain($owner, $domain) {
@@ -86,21 +86,21 @@ function setSecondaryDomain($owner, $domain) {
 	global $blog;
 	$domain = strtolower(trim($domain));
 	if ($domain == $blog['secondaryDomain'])
-		return true;
+		return 0;
 	if (empty($domain))
 		DBQuery::query("UPDATE {$database['prefix']}BlogSettings SET secondaryDomain = '' WHERE owner = $owner");
 	else if (Validator::domain($domain)) {
 		if (DBQuery::queryExistence("SELECT * FROM {$database['prefix']}BlogSettings WHERE owner <> $owner AND (secondaryDomain = '$domain' OR secondaryDomain = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')"))
-			return false;
+			return 1;
 		DBQuery::query("UPDATE {$database['prefix']}BlogSettings SET secondaryDomain = '$domain' WHERE owner = $owner");
 	}
 	else
-		return false;
+		return 2;
 	if (mysql_affected_rows() != 1)
-		return false;
+		return 3;
 	$blog['secondaryDomain'] = $domain;
 	clearRSS();
-	return true;
+	return 0;
 }
 
 function setDefaultDomain($owner, $default) {
