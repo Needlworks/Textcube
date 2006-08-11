@@ -156,13 +156,40 @@ if ($service['type'] != 'single') {
 				pathDomain = newPathDomain;
 			}
 			request.onError = function() {
+				var msg = '';
 				switch(parseInt(this.getText("/response/error"))) {
 					case 1:
-						alert("<?=_t('블로그 주소를 변경하지 못했습니다')?>");
+						msg = "<?=_t('블로그 주소를 변경하지 못했습니다')?>";
+						break;
+					case 2:
+						msg = "<?=_t('1차 블로그 도메인을 변경하지 못했습니다')?>";						
+						switch(parseInt(this.getText("/response/msg"))) {
+							case 1:
+								msg += "\n\n<?=_t('올바르지 않은 블로그 주소입니다')?>";
+								break;
+							case 2:
+								msg += "\n\n<?=_t('이미 사용중인 블로그 주소입니다')?>";
+								break;
+							case 3:
+								msg += "\n\n<?=_t('이미 사용중인 블로그 주소입니다')?>";
+								break;
+						}						
+						break;
+					case 3:
+						msg = "<?=_t('2차 블로그 주소를 변경하지 못했습니다')?>";
+						switch(parseInt(this.getText("/response/msg"))) {
+							case 1:
+								msg += "\n\n<?=_t('이미 사용중인 블로그 주소입니다')?>";
+								break;
+							case 2:
+								msg += "\n\n<?=_t('올바르지 않은 블로그 주소입니다')?>";
+								break;
+						}						
 						break;
 					default:
-						alert("<?=_t('알 수 없는 에러가 발생했습니다')?>");
+						msg = "<?=_t('알 수 없는 에러가 발생했습니다')?>";
 				}
+				alert(msg);
 			}
 			request.send("defaultDomain=0&primaryDomain=" + encodeURIComponent(newPathDomain) + "&secondaryDomain=");
 		}
