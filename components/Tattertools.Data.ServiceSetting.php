@@ -49,10 +49,10 @@ class ServiceSetting {
 		return false;
 	}
 
-	function add() {
+	function set() {
 		if (!$query = $this->_buildQuery())
 			return false;
-		return $query->insert();
+		return $query->replace();
 	}
 	
 	function update() {
@@ -69,7 +69,7 @@ class ServiceSetting {
 
 	function _buildQuery() {
 		global $database;
-		$query = new TableQuery($database['prefix'] . 'UserSettings');
+		$query = new TableQuery($database['prefix'] . 'ServiceSettings');
 		$query->setQualifier('name', $this->name, false);
 		if (isset($this->value))
 			$query->setAttribute('value', $this->value, true);

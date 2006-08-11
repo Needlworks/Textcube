@@ -48,10 +48,10 @@ requireComponent('Tattertools.Data.PluginSetting');
 requireComponent('Tattertools.Data.GuestComment');
 requireComponent('Tattertools.Data.Filter');
 requireComponent('Tattertools.Data.Feed');
-requireComponent('Tattertools.Data.ServiceSetting');
 requireComponent('Tattertools.Data.UserSetting');
+$newlineStyle = (!is_null(getServiceSetting('newlineStyle')) ? ' format="'.getServiceSetting('newlineStyle').'"' : '');
 $writer->write('<?xml version="1.0" encoding="utf-8" ?>');
-$writer->write('<blog type="tattertools/1.0" migrational="false">');
+$writer->write('<blog type="tattertools/1.1" migrational="false">');
 $setting = new BlogSetting();
 if ($setting->load()) {
 	$setting->escape();
@@ -86,7 +86,8 @@ if ($category->open()) {
 $post = new Post();
 if ($post->open('', '*', 'published, id')) {
 	do {
-		$writer->write('<post' . ' slogan="' . $post->slogan . '"' . '>' . '<id>' . $post->id . '</id>' . '<visibility>' . $post->visibility . '</visibility>' . '<title>' . htmlspecialchars($post->title) . '</title>' . '<content>' . htmlspecialchars(UTF8::correct($post->content)) . '</content>' . '<location>' . htmlspecialchars($post->location) . '</location>' . ($post->password !== null ? '<password>' . htmlspecialchars($post->password) . '</password>' : '') . '<acceptComment>' . $post->acceptComment . '</acceptComment>' . '<acceptTrackback>' . $post->acceptTrackback . '</acceptTrackback>' . '<published>' . $post->published . '</published>' . '<created>' . $post->created . '</created>' . '<modified>' . $post->modified . '</modified>');
+		$writer->write('<post' . ' slogan="' . $post->slogan . '"' . $newlineStyle . '>' . '<id>' . $post->id . '</id>' . '<visibility>' . $post->visibility . '</visibility>' . '<title>' . htmlspecialchars($post->title) . '</title>' . '<content>' . htmlspecialchars(UTF8::correct($post->content)) . '</content>' . '<location>' . htmlspecialchars($post->location) . '</location>' . ($post->password !== null ? '<password>' . htmlspecialchars($post->password) . '</password>' : '') . '<acceptComment>' . $post->acceptComment . '</acceptComment>' . '<acceptTrackback>' . $post->acceptTrackback . '</acceptTrackback>' . '<published>' . $post->published . '</published>' . '<created>' . $post->created . '</created>' . '<modified>' . $post->modified . '</modified>');
+
 		if ($post->category)
 			$writer->write('<category>' . htmlspecialchars(Category::getLabel($post->category)) . '</category>');
 		if ($post->loadTags()) {
@@ -146,7 +147,8 @@ if ($post->open('', '*', 'published, id')) {
 $notice = new Notice();
 if ($notice->open()) {
 	do {
-		$writer->write('<notice>' . '<visibility>' . $notice->visibility . '</visibility>' . '<title>' . htmlspecialchars(UTF8::correct($notice->title)) . '</title>' . '<content>' . htmlspecialchars(UTF8::correct($notice->content)) . '</content>' . '<published>' . $notice->published . '</published>' . '<created>' . $notice->created . '</created>' . '<modified>' . $notice->modified . '</modified>');
+		$writer->write('<notice' . $newlineStyle . '>' . '<visibility>' . $notice->visibility . '</visibility>' . '<title>' . htmlspecialchars(UTF8::correct($notice->title)) . '</title>' . '<content>' . htmlspecialchars(UTF8::correct($notice->content)) . '</content>' . '<published>' . $notice->published . '</published>' . '<created>' . $notice->created . '</created>' . '<modified>' . $notice->modified . '</modified>');
+
 		$writer->write(CRLF);
 		if ($attachment = $notice->getAttachments()) {
 			do {
@@ -169,7 +171,8 @@ if ($notice->open()) {
 $keyword = new Keyword();
 if ($keyword->open()) {
 	do {
-		$writer->write('<keyword>' . '<visibility>' . $keyword->visibility . '</visibility>' . '<name>' . htmlspecialchars(UTF8::correct($keyword->name)) . '</name>' . '<description>' . htmlspecialchars(UTF8::correct($keyword->description)) . '</description>' . '<published>' . $keyword->published . '</published>' . '<created>' . $keyword->created . '</created>' . '<modified>' . $keyword->modified . '</modified>');
+		$writer->write('<keyword' . $newlineStyle . '>' . '<visibility>' . $keyword->visibility . '</visibility>' . '<name>' . htmlspecialchars(UTF8::correct($keyword->name)) . '</name>' . '<description>' . htmlspecialchars(UTF8::correct($keyword->description)) . '</description>' . '<published>' . $keyword->published . '</published>' . '<created>' . $keyword->created . '</created>' . '<modified>' . $keyword->modified . '</modified>');
+
 		$writer->write(CRLF);
 		if ($attachment = $keyword->getAttachments()) {
 			do {
@@ -240,14 +243,6 @@ $setting = new PluginSetting();
 if ($setting->open()) {
 	do {
 		$writer->write('<plugin>' . '<name>' . $setting->name . '</name>' . '<setting>' . htmlspecialchars($setting->setting) . '</setting>' . '</plugin>');
-		$writer->write(CRLF);
-	} while ($setting->shift());
-	$setting->close();
-}
-$setting = new ServiceSetting();
-if ($setting->open()) {
-	do {
-		$writer->write('<serviceSetting>' . '<name>' . $setting->name . '</name>' . '<value>' . htmlspecialchars($setting->value) . '</value>' . '</serviceSetting>');
 		$writer->write(CRLF);
 	} while ($setting->shift());
 	$setting->close();
