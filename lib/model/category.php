@@ -87,7 +87,7 @@ function addCategory($owner, $parent, $name) {
 	if (!is_null($parent) && !Validator::id($parent))
 		return false;
 	if ($parent !== null) {
-		$label = fetchQueryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $parent");
+		$label = fetchQueryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $parent");
 		if ($label === null)
 			return false;
 		$label .= '/' . $name;
