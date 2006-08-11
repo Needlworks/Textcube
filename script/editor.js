@@ -65,8 +65,6 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	this.iframe.setAttribute("allowtransparency", "true");
 	this.iframe.style.height = STD.isIE ? "448px" : "452px";
 	this.iframe.style.margin = "0px auto";
-	if(this.editMode == "TEXTAREA")
-		this.iframe.style.display = "none";
 	this.iframe.style.width = Math.min(skinContentWidth + (STD.isIE ? 36 : 39), 650) + "px";
 
 	// IFRAME을 감싸는 DIV
@@ -120,6 +118,9 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	editor.contentDocument.addEventListener("mousemove", docEventHandler, false);
 	editor.contentDocument.addEventListener("mousedown", docEventHandler, false);
 	editor.contentDocument.addEventListener("mouseup", docEventHandler, false);
+	
+	if(this.editMode == "TEXTAREA")
+		this.iframe.style.display = "none";
 	
 	// 가끔씩 Firefox에서 커서가 움직이지 않는 문제 수정
 	setTimeout("try{editor.contentDocument.designMode='on'}catch(e){}", 100);
