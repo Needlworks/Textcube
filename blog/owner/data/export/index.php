@@ -58,7 +58,8 @@ if ($setting->load()) {
 	$writer->write('<setting>' . '<name>' . $setting->name . '</name>' . '<secondaryDomain>' . $setting->secondaryDomain . '</secondaryDomain>' . '<defaultDomain>' . Validator::getBit($setting->defaultDomain) . '</defaultDomain>' . '<title>' . $setting->title . '</title>' . '<description>' . UTF8::correct($setting->description) . '</description>' . '<banner><name>' . $setting->banner . '</name>');
 	if ($includeFileContents && file_exists(ROOT . "/attach/$owner/{$setting->banner}")) {
 		$writer->write('<content>');
-		Base64Stream::encode(ROOT . "/attach/$owner/{$setting->banner}", $writer);
+		if (!empty($setting->banner) && file_exists($setting->banner))
+			Base64Stream::encode(ROOT . "/attach/$owner/{$setting->banner}", $writer);
 		$writer->write('</content>');
 	}
 	$writer->write('</banner>' . '<useSlogan>' . Validator::getBit($setting->useSlogan) . '</useSlogan>' . '<postsOnPage>' . $setting->postsOnPage . '</postsOnPage>' . '<postsOnList>' . $setting->postsOnList . '</postsOnList>' . '<postsOnFeed>' . $setting->postsOnFeed . '</postsOnFeed>' . '<publishWholeOnFeed>' . Validator::getBit($setting->publishWholeOnFeed) . '</publishWholeOnFeed>' . '<acceptGuestComment>' . Validator::getBit($setting->acceptGuestComment) . '</acceptGuestComment>' . '<acceptCommentOnGuestComment>' . Validator::getBit($setting->acceptCommentOnGuestComment) . '</acceptCommentOnGuestComment>' . '<language>' . $setting->language . '</language>' . '<timezone>' . $setting->timezone . '</timezone>' . '</setting>');
