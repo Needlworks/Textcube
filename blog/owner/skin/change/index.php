@@ -8,12 +8,11 @@ $IV = array(
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
 
-$branchFlag = isset($_GET['javascript']) && $_GET['javascript'] == "disabled" ? true : false;
+$isAjaxRequest = isset($_GET['javascript']) && $_GET['javascript'] == "disabled" ? false : true;
 $result = $branchFlag ? selectSkin($owner, $_GET['skinName']) : selectSkin($owner, $_POST['skinName']);
-
 if ($result === true) {
-	$branchFlag ? header("Location: ".$_SERVER['HTTP_REFERER']) : printRespond(array('error' => 0));
+	$isAjaxRequest ? printRespond(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
-	$branchFlag ? header("Location: ".$_SERVER['HTTP_REFERER']) : printRespond(array('error' => 1, 'msg' => $result));
+	$isAjaxRequest ? printRespond(array('error' => 1, 'msg' => "!!")) : header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 ?>

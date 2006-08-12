@@ -52,7 +52,10 @@ function writeValue($value, $label) {
 											*/
 										}
 										request.onError = function() {
-											alert(this.getText("/response/msg"));
+											msg = this.getText("/response/msg");
+											if (this.getText("/response/msg") == null)
+												msg = "<?php echo _t('올바른 스킨 디렉토리명이 아닙니다.\n디렉토리명에는 알파벳, 숫자, 언더바(_), 공백문자, 대쉬(_)만 사용하실 수 있습니다.');?>";
+											alert(msg);
 										}
 										request.send("skinName=" + encodeURIComponent(name));
 									} catch(e) {
@@ -118,11 +121,11 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 ?>
 										<div id="currentInfo">
 											<div id="customizedTable">
-												<?php echo _t('수정된 스킨입니다.').CRLF;?>
+												<?php echo _t('선택하신 스킨이 존재하지 않습니다. 다른 스킨을 선택해 주시기 바랍니다.').CRLF;?>
 											</div>
 										</div>
 										<div class="button-box">
-											<span id="currentButton"></span>
+											<!--span id="currentButton"></span-->
 											<span class="hidden">|</span>
 											<a class="edit-button button" href="<?php echo $blogURL;?>/owner/skin/edit"><span class="text"><?php echo _t('편집하기');?></span></a>
 										</div>
