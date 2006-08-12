@@ -152,7 +152,7 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 							<form id="category-form" class="category-box" action="<?php echo $blogURL;?>/owner/trash/trackback" method="post">
 								<div class="section">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
-									<select id="category" name="category" onchange="document.category-form.page.value=1; document.category-form.submit()">
+									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
 										<option value="0"><?php echo _t('전체');?></option>
 <?php
 foreach (getCategories($owner) as $category) {
@@ -326,9 +326,9 @@ for ($i = 10; $i <= 30; $i += 5) {
 								
 								<div class="section">
 									<label for="search"><?php echo _t('제목');?>, <?php echo _t('사이트명');?>, <?php echo _t('내용');?></label>
-									<input type="text" id="search" class="text-input" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.search-form.withSearch.value = 'on'; document.search-form.submit(); }" />
+									<input type="text" id="search" class="text-input" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
-									<a class="search-button button" href="#void" onclick="document.search-form.withSearch.value = 'on'; document.search-form.submit();"><span class="text"><?php echo _t('검색');?></span></a>
+									<a class="search-button button" href="#void" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();"><span class="text"><?php echo _t('검색');?></span></a>
 								</div>
 							</form>
 						</div>
