@@ -592,14 +592,14 @@ TTReader.prototype.saveSetting = function()
 				PM.showMessage(s_unknownError + " (saveSetting)", "center", "bottom");
 		}
 	}
-	var f = document.forms[0];
+	var f = document.getElementById('reader-section');
 	var updateCycle = f.updateCycle ? f.updateCycle.value : "";
 	var feedLife = f.feedLife ? f.feedLife.value : "";
-	var loadImage = f.loadImage ? (f.loadImage[0].checked ? 1 : 2) : "";
+	var loadImage = f.loadImage ? (document.getElementById('loadImage1').checked ? 1 : 2) : "";
 	var allowScript = f.allowScript ? (f.allowScript[0].checked ? 1 : 2) : "";
 	var newWindow = f.newWindow ? (f.newWindow[0].checked ? 1 : 2) : "";
 	request.send("updateCycle=" + updateCycle + "&feedLife=" + feedLife + "&loadImage=" + loadImage + "&allowScript=" + allowScript + "&newWindow=" + newWindow);
-	Reader.optionForceLoadImage = (f.loadImage[1] && f.loadImage[1].checked) ? true : false;
+	Reader.optionForceLoadImage = (document.getElementById('loadImage1') && document.getElementById('loadImage1').checked) ? true : false;
 	Reader.optionForceNewWindow = (f.newWindow[1] && f.newWindow[1].checked) ? true : false;
 }
 

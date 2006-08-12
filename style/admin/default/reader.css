@@ -632,11 +632,6 @@ ul#feedList li .edit-button span
 	width                            : 170px;
 }
 
-#configure .data-inbox .section fieldset
-{
-	border-top                       : 1px solid #000000;
-}
-
 #configure .data-inbox .section .title
 {
 	background-image                 : url("./image/reader/iconSetupitem.gif");
@@ -722,7 +717,7 @@ ul#feedList li .edit-button span
 	height                           : 2.6em;
 	margin                           : 0 auto;
 	padding-top                      : 10px;
-	width                            : 168px;
+	width                            : 170px;
 }
 
 #configure .data-inbox #opml-section .button-box .button

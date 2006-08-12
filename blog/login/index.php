@@ -72,6 +72,9 @@ if (doesHaveOwnership()) {
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/login.opera.css" />
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/login.ie.css" /><![endif]-->
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/byTattertools.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/custom.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[

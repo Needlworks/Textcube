@@ -129,7 +129,7 @@ printFeeds($owner);
 								<h2 class="caption"><span class="main-text"><?php echo _t('설정');?></span></h2>
 								
 								<div class="data-inbox">
-									<div id="reader-section" class="section">
+									<form id="reader-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/reader/config/save/" target="hiddenFrame">
 <?php
 if (getUserId() == 1) {
 ?>
@@ -193,7 +193,7 @@ if (getUserId() == 1) {
 										<div class="button-box">
 											<a class="save-button button" href="#void" onclick="Reader.saveSetting()"><span class="text"><?php echo _t('저장하기');?></span></a>
 										</div>
-									</div>
+									</form>
 									
 									<form id="opml-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/reader/opml/import/file/" enctype="multipart/form-data" target="hiddenFrame">
 										<fieldset class="container">
