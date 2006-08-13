@@ -49,11 +49,11 @@ $writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 					<ul id="main-menu">
 						<li id="menu-tattertools"><a href="<?php echo TATTERTOOLS_HOMEPAGE;?>" onclick="window.open(this.href); return false;" title="<?php echo _t('태터툴즈 홈페이지로 이동합니다.');?>"><span class="text"><?php echo _t('태터툴즈 홈페이지');?></span></a></li>
 						<li id="menu-center"><a href="<?php echo $blogURL;?>/owner/center/dashboard"><span><?php echo _t('센터');?></span></a></li>
-						<li id="menu-post"><a href="<?php echo $blogURL;?>/owner/entry"><span class="text"><?php echo _t('글관리');?></span></a></li>
-						<li id="menu-link"><a href="<?php echo $blogURL;?>/owner/link"><span class="text"><?php echo _t('링크관리');?></span></a></li>
-						<li id="menu-skin"><a href="<?php echo $blogURL;?>/owner/skin"><span class="text"><?php echo _t('스킨관리');?></span></a></li>
+						<li id="menu-post"><a href="<?php echo $blogURL;?>/owner/entry"><span class="text"><?php echo _t('글');?></span></a></li>
+						<li id="menu-link"><a href="<?php echo $blogURL;?>/owner/link"><span class="text"><?php echo _t('링크');?></span></a></li>
+						<li id="menu-skin"><a href="<?php echo $blogURL;?>/owner/skin"><span class="text"><?php echo _t('스킨');?></span></a></li>
 						<li id="menu-trash"><a href="<?php echo $blogURL;?>/owner/trash/comment"><span class="text"><?php echo _t('휴지통');?></span></a></li>
-						<li id="menu-plugin"><a href="<?php echo $blogURL;?>/owner/plugin"><span class="text"><?php echo _t('플러그인');?></span></a></li>
+						<li id="menu-plugin"><a href="<?php echo $blogURL;?>/owner/plugin"><span class="text"><?php echo _t('확장기능');?></span></a></li>
 						<li id="menu-setting"><a href="<?php echo $blogURL;?>/owner/setting/blog"><span class="text"><?php echo _t('환경설정');?></span></a></li>
 						<li id="menu-reader" class="selected"><a href="<?php echo $blogURL;?>/owner/reader"><span class="text"><?php echo _t('리더');?></span></a></li>
 					</ul>
