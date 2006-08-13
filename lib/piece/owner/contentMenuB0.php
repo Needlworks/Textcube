@@ -1,5 +1,5 @@
 			<div id="layout-body">
-				<h2><?php echo _t('서브메뉴 : 플러그인);?></h2>
+				<h2><?php echo _t('서브메뉴 : 플러그인');?></h2>
 				
 				<div id="sub-menu-box">
 					<ul id="sub-menu">
