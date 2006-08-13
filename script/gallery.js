@@ -17,6 +17,11 @@ function TTGallery(containerId)
 	this.height = new Array();
 	this.imageCache = new Array();
 	
+	this.nextText = "NEXT";
+	this.prevText = "PREVIOUS";
+	this.enlargeText = "ZOOM";
+	this.altText = "gellery image";
+	
 	this.container = null;
 };
 
@@ -43,7 +48,7 @@ TTGallery.prototype.getControl = function()
 	control.className = "galleryControl";
 	control.style.color = "#777";
 	control.style.font = "bold 0.9em Verdana, Sans-serif";
-	control.innerHTML = '(' + (this.offset + 1) + '/' + this.numImages + ') <a href="#" onclick="document.getElementById(\'' + this.containerId + '\').instance.prev(); return false" style="border: 0px"><img src="' + servicePath + '/image/gallery_prev.gif" width="20" height="16" alt="PREVIOUS" style="vertical-align: middle" /></a> <a href="#" onclick="document.getElementById(\'' + this.containerId + '\').instance.showImagePopup1(); return false" style="border: 0px"><img src="' + servicePath + '/image/gallery_enlarge.gif" width="70" height="19" alt="ZOOM" style="vertical-align: middle" /></a> <a href="#" onclick="document.getElementById(\'' + this.containerId + '\').instance.next(); return false" style="border: 0px"><img src="' + servicePath + '/image/gallery_next.gif" width="20" height="16" alt="NEXT" style="vertical-align: middle" /></a>';
+	control.innerHTML = '(' + (this.offset + 1) + '/' + this.numImages + ') <a href="#void" onclick="document.getElementById(\'' + this.containerId + '\').instance.prev(); return false;"><img src="' + servicePath + '/image/gallery/gallery_prev.gif" style="vertical-align: middle;" alt="' + this.prevText + '" /></a> <a href="#void" onclick="document.getElementById(\'' + this.containerId + '\').instance.showImagePopup1(); return false;"><img src="' + servicePath + '/image/gallery/gallery_enlarge.gif" style="vertical-align: middle;" alt="' + this.enlargeText + '" /></a> <a href="#void" onclick="document.getElementById(\'' + this.containerId + '\').instance.next(); return false;"><img src="' + servicePath + '/image/gallery/gallery_next.gif" style="vertical-align: middle;" alt="' + this.nextText + '" /></a>';
 
 	return control;
 };
@@ -56,6 +61,7 @@ TTGallery.prototype.getImage = function()
 	image.width = this.width[this.offset];
 	image.height = this.height[this.offset];
 	image.onclick = this.showImagePopup2;
+	image.alt = this.altText;
 	image.style.cursor = "pointer";
 
 	return image;
