@@ -7,8 +7,8 @@ if (defined('__TATTERTOOLS_CENTER__')) {
 	$scopeType = 'dashboard';
 	$_POST['scopeType'] = $scopeType;
 } else {
-	require ROOT . '/lib/piece/owner/header5.php';
-	require ROOT . '/lib/piece/owner/contentMenu53.php';
+	require ROOT . '/lib/piece/owner/headerB.php';
+	require ROOT . '/lib/piece/owner/contentMenuB0.php';
 }
 
 if (empty($_POST['sortType'])) {
