@@ -10,7 +10,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 		'POST' => array(
 			'mode' => array(array('fb')),
 			's_home_title' => array('string'),
-			's_home' => array('string'),
+			's_name' => array('string'),
 			's_no' => array('id'),
 			'url' => array('string'),
 			's_url' => array('string'),
@@ -45,12 +45,12 @@ if (false) {
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	$result = receiveNotifiedComment($_POST);
 	if ($result > 0)
-		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><response><error>1</error><message>error($result)</message></response>";
+	    	echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><response><error>1</error><message>error($result)</message></response>";
 	else
 		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><response><error>0</error></response>";
 	exit;
 } else {
-	$IV = array(    'POST' => array() );
+	$IV = array('POST' => array());
 	if(!Validator::validate($IV))
 		respondNotFoundPage();
 	notifyComment();
