@@ -727,6 +727,12 @@ if (extension_loaded('gd')) {
 						
 <?php
 }
+
+if ($blog['publishWholeOnRSS'] == false && $blog['publishEolinSyncOnRSS'] == false) {
+	DBQuery::execute("UPDATE `{$database['prefix']}BlogSetting` SET `publishWholeOnRSS` = 1 WHERE `owner` = $owner");
+} else if ($blog['publishWholeOnRSS'] == true && $blog['publishEolinSyncOnRSS'] == true) {
+	DBQuery::execute("UPDATE `{$database['prefix']}BlogSetting` SET `publishWholeOnRSS` = 0 WHERE `owner` = $owner");
+}
 ?>
 						<div id="part-setting-rss" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 공개 정책을 설정합니다');?></span></h2>
@@ -741,8 +747,8 @@ if (extension_loaded('gd')) {
 										<dl id="open-type-line" class="line">
 											<dt><span class="label"><?php echo _t('공개 정도');?></span></dt>
 											<dd>
-												<input type="radio" id="publishEolinSyncOnRSS1" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['useSlogan'] ? ' checked="checked"' : '');?> /> <label for="publishEolinSyncOnRSS1"><span class="text"><?php echo _t('공개된 모든 글을 <acronym title="Rich Site Summary">RSS</acronym>로 내보냅니다.');?></span></label><br />
-												<input type="radio" id="publishEolinSyncOnRSS0" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ? '' : ' checked="checked"');?> /> <label for="publishEolinSyncOnRSS0"><span class="text"><?php echo _t('이올린에 발행된 글만을 RSS로 내보냅니다.');?></span></label>
+												<input type="radio" id="publishEolinSyncOnRSS1" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishWholeOnRSS'] ? ' checked="checked"' : '');?> /> <label for="publishEolinSyncOnRSS1"><span class="text"><?php echo _t('공개된 모든 글을 <acronym title="Rich Site Summary">RSS</acronym>로 내보냅니다.');?></span></label><br />
+												<input type="radio" id="publishEolinSyncOnRSS0" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ? ' checked="checked"' : '');?> /> <label for="publishEolinSyncOnRSS0"><span class="text"><?php echo _t('이올린에 발행된 글만을 RSS로 내보냅니다.');?></span></label>
 											</dd>
 										</dl>
 										<dl id="post-count-line" class="line">
