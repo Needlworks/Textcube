@@ -1380,7 +1380,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 			return "<span id=\"$id\"></span><script type=\"text/javascript\">writeCode(" . '\'<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="400" height="300"><param name="src" value="' . $url . '" /><param name="controller" value="true" /><param name="pluginspage" value="http://www.apple.com/QuickTime/download/" /><!--[if !IE]> <--><object type="video/quicktime" data="' . $url . '" width="400" height="300" class="mov"><param name="controller" value="true" /><param name="pluginspage" value="http://www.apple.com/QuickTime/download/" /></object><!--> <![endif]--></object>\'' . ", \"$id\")</script>";
 			break;
 		default:
-			if (file_exists(ROOT . '/image/' . getFileExtension($filename) . '.gif')) {
+			if (file_exists(ROOT . '/image/extension/' . getFileExtension($filename) . '.gif')) {
 				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '"><img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/' . getFileExtension($filename) . '.gif" alt="file icon" /> ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			} else {
 				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '"><img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/unknown.gif" alt="" /> ' . htmlspecialchars($fileInfo['label']) . '</a>';
