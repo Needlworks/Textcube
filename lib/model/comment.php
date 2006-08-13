@@ -438,6 +438,19 @@ function trashCommentInOwner($owner, $id) {
 	return false;
 }
 
+function revertCommentInOwner($owner, $id) {
+	global $database;
+	$entryId = fetchQueryCell("SELECT entry FROM {$database['prefix']}Comments WHERE owner = $owner AND id = $id");
+	$result = mysql_query("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE owner = $owner AND id = $id");
+	if ($result && (mysql_affected_rows() == 1)) {
+		if (mysql_query("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE owner = $owner AND parent = $id")) {
+			updateCommentsOfEntry($owner, $entryId);
+			return true;
+		}
+	}
+	return false;
+}
+
 function deleteCommentNotifiedInOwner($owner, $id) {
 	global $database;
 	$entryId = fetchQueryCell("SELECT entry FROM {$database['prefix']}CommentsNotified WHERE owner = $owner AND id = $id");
