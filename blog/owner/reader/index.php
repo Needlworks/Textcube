@@ -37,7 +37,7 @@ $setting = getReaderSetting($owner);
 					var s_removingFeed = "<?php echo _t('피드를 삭제하고 있습니다.');?>";
 					var s_saved = "<?php echo _t('저장되었습니다.');?>";
 					var s_markedAsUnread = "<?php echo _t('읽지 않은 상태로 변경됐습니다.');?>";
-					var s_loadingList = "<?php echo _t('포스트 목록을 불러오고 있습니다.');?>";
+					var s_loadingList = "<?php echo _t('글 목록을 불러오고 있습니다.');?>";
 					var s_opmlImportComplete = "<?php echo _t('OPML 파일을 가져왔습니다.');?>";
 					var s_opmlUploadComplete = "<?php echo _t('개의 피드를 가져왔습니다.\n피드를 업데이트 해 주십시오.');?>";
 					var s_xmlBroken = "<?php echo _t('올바른 XML 파일이 아닙니다.');?>";
@@ -81,10 +81,10 @@ if ($setting['newWindow'] == 2) {
 				
 				<div id="reader-menu-box">
 					<ul id="reader-menu">
-						<li id="all-read"><a href="<?php echo $blogURL . '/owner/reader';?>"><span class="text"><?php echo _t('전체보기');?></span></a></li>
-						<li id="scrap"><span id="starredOnlyIndicator" class="scrap-off-icon bullet"><span class="text"></span></span><a href="#void" onclick="Reader.showStarredOnly(); return false;"><span class="text"><?php echo _t('스크랩된 글 보기');?></span></a></li>
+						<li id="all-read"><a href="<?php echo $blogURL . '/owner/reader';?>"><span class="text"><?php echo _t('전체 보기');?></span></a></li>
+						<li id="scrap"><span id="starredOnlyIndicator" class="scrap-off-icon bullet"><span class="text"></span></span><a href="#void" onclick="Reader.showStarredOnly(); return false;"><span class="text"><?php echo _t('스크랩한 글 보기');?></span></a></li>
 						<li id="setting"><a id="settingLabel" href="#void" onclick="Reader.toggleConfigure(); return false;"><span class="text"><?php echo _t('설정');?></span></a></li>
-						<li id="feed-update"><a href="#void" onclick="Reader.updateAllFeeds(); return false;"><span class="text"><?php echo _t('모든 피드 업데이트');?><span id="progress"></span></span></a></li>
+						<li id="feed-update"><a href="#void" onclick="Reader.updateAllFeeds(); return false;"><span class="text"><?php echo _t('모든 피드 새로고침');?><span id="progress"></span></span></a></li>
 						<li id="search">
 							<input type="text" id="keyword" class="text-input" onkeydown="if(event.keyCode==13) Reader.showSearch()" />
 							<a class="search-button button" href="#void" onclick="Reader.showSearch()"><span class="text"><?php echo _t('검색');?></span></a>
@@ -98,7 +98,7 @@ if ($setting['newWindow'] == 2) {
 					<div id="data-outbox">
 						<div id="pannel" style="display: <?php echo getUserSetting('readerPannelVisibility', 1) == 1 ? 'block' : 'none';?>;">
 							<div id="groupsAndFeeds" class="part">
-								<h2 class="caption"><span class="main-text"><?php echo _t('피드 리스트');?></span></h2>
+								<h2 class="caption"><span class="main-text"><?php echo _t('피드 목록');?></span></h2>
 								
 								<div class="data-inbox">
 									<div id="group-section" class="section">
@@ -113,7 +113,7 @@ printFeedGroups($owner);
 									<hr class="hidden" />
 									
 									<div id="feed-section" class="section">
-										<h3><?php echo _t('현재 그룹 내의 피드 리스트');?></h3>
+										<h3><?php echo _t('현재 그룹 내의 피드 목록');?></h3>
 									
 										<div id="feedBox" class="section" style="height: <?php echo getUserSetting('readerPannelHeight', 150);?>px;">
 <?php
@@ -231,11 +231,11 @@ if (getUserId() == 1) {
 						<div id="toggleBar" onmousedown="Reader.startResizing(event)">
 							<script type="text/javascript">
 								//<![CDATA[
-									var show_str = '<?php echo _t('패널보기');?>';
+									var show_str = '<?php echo _t('패널 보기');?>';
 									var hide_str = '<?php echo _t('패널 가리기');?>';
 									
 									document.write('<a id="toggleButton" class="pannel-<?php echo getUserSetting('readerPannelVisibility', 1) == 1 ? 'show' : 'hide';?>" href="#void" onclick="Reader.togglePannel(event)">');
-									document.write('<span class="text"><?php echo getUserSetting('readerPannelVisibility', 1) == 1 ? _t('패널 가리기') : _t('패널보기');?></span>');
+									document.write('<span class="text"><?php echo getUserSetting('readerPannelVisibility', 1) == 1 ? _t('패널 가리기') : _t('패널 보기');?></span>');
 									document.write('</a>');
 								//]]>
 							</script>
@@ -245,13 +245,13 @@ if (getUserId() == 1) {
 						
 						<div id="scrollPoint">
 							<div id="post-information" class="part">
-								<h2 class="caption"><span class="main-text"><?php echo _t('포스트 리스트');?></span></h2>
+								<h2 class="caption"><span class="main-text"><?php echo _t('글 목록');?></span></h2>
 								
 								<div id="post-list" class="data-inbox">
 									<div class="title">
-										<a id="totalList" href="<?php echo $blogURL;?>/owner/reader" title="<?php echo _t('포스트 리스트를 전부 출력합니다.');?>"><span class="text"><?php echo _t('전체 목록');?></span></a><span class="count">(<span id="entriesShown">0</span>/<span id="entriesTotal">0</span>)</span>
+										<a id="totalList" href="<?php echo $blogURL;?>/owner/reader" title="<?php echo _t('글 목록을 전부 출력합니다.');?>"><span class="text"><?php echo _t('전체 목록');?></span></a><span class="count">(<span id="entriesShown">0</span>/<span id="entriesTotal">0</span>)</span>
 										<span class="hidden">|</span>
-										<a id="iconMoreEntries" href="#void" onclick="Reader.listScroll(1); return false;" title="<?php echo _t('지나간 포스팅 정보를 더 읽어옵니다.');?>"><span class="text"><?php echo _t('더 읽어오기');?></span></a>
+										<a id="iconMoreEntries" href="#void" onclick="Reader.listScroll(1); return false;" title="<?php echo _t('지나간 글 정보를 더 읽어옵니다.');?>"><span class="text"><?php echo _t('더 읽어오기');?></span></a>
 									</div>
 									
 									<div id="listup" class="section" onscroll="Reader.listScroll(0)">
@@ -289,7 +289,7 @@ printFeedEntries($owner);
 							<hr class="hidden" />
 							
 							<div id="content-information" class="part">
-								<h2 class="caption"><span class="main-text"><?php echo _t('포스트 내용');?></span></h2>
+								<h2 class="caption"><span class="main-text"><?php echo _t('글 내용');?></span></h2>
 								
 								<div id="post-content" class="data-inbox">
 									<div class="title">

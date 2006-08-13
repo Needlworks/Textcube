@@ -271,8 +271,8 @@ input.text-readonly-input
 #menu-link,
 #menu-skin,
 #menu-trash,
-#menu-statistics,
 #menu-setting,
+#menu-plugin,
 #menu-reader
 {
 	background-image                 : url("./image/mainMenuSeparate.gif");
@@ -288,8 +288,8 @@ input.text-readonly-input
 #menu-link a,
 #menu-skin a,
 #menu-trash a,
-#menu-statistics a,
 #menu-setting a,
+#menu-plugin a,
 #menu-reader a
 {
 	padding                          : 4px 0 2px 0;
