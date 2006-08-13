@@ -108,6 +108,18 @@ function trashTrackback($owner, $id) {
 	return false;
 }
 
+function revertTrackback($owner, $id) {
+    	global $database;
+	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
+	if ($entry === null)
+		return false;
+	if (!executeQuery("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 0 WHERE owner = $owner AND id = $id"))
+		return false;
+	if (updateTrackbacksOfEntry($owner, $entry))
+		return $entry;
+	return false;
+}
+
 function sendTrackback($owner, $entryId, $url) {
 	global $database, $defaultURL, $blog;
 	requireComponent('Eolin.PHP.HTTPRequest');
