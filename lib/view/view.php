@@ -1274,23 +1274,29 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 			
 			switch (count($attributes)) {
 				case 4:
+					list($newProperty, $onclickFlag) = createNewProperty($attributes[1], $contentWidth, $attributes[2]);
+					
 					if (defined('__TATTERTOOLS_MOBILE__')) {
-						$buf = '<div>' . getAttachmentBinder($attributes[1], $attributes[2], $folderPath, $folderURL, 1, $useAbsolutePath) . "</div><div>$attributes[3]</div>";
+						$buf = '<div>' . getAttachmentBinder($attributes[1], $newProperty, $folderPath, $folderURL, 1, $useAbsolutePath) . "</div><div>$attributes[3]</div>";
 					} else {
 						if (trim($attributes[3]) == '') {
-							$marginBottom = '; margin-bottom: 10px';
 							$caption = '';
 						} else {
-							$marginBottom = '';
-							$caption = '<p class="cap1" style="margin-top: 8px">' . $attributes[3] . '</p>';
+							$caption = '<p class="cap1">' . $attributes[3] . '</p>';
 						}
-						if ($attributes[0] == '1L') {
-							$prefix = '<div class="imageblock left" style="float: left; margin-right: 10px' . $marginBottom . '">';
-						} else if ($attributes[0] == '1C')
-							$prefix = '<div class="imageblock center" style="text-align: center; clear: both' . $marginBottom . '">';
-						else if ($attributes[0] == '1R')
-							$prefix = '<div class="imageblock right" style="float: right; margin-left: 10px' . $marginBottom . '">';
-						$buf = $prefix . getAttachmentBinder($attributes[1], $attributes[2], $folderPath, $folderURL, 1, $useAbsolutePath) . $caption . '</div>';
+						switch ($attributes[0]) {
+							case '1L':
+								$prefix = '<div class="imageblock left" style="float: left; margin-right: 10px;">';
+								break;
+							case '1R':
+								$prefix = '<div class="imageblock right" style="float: right; margin-left: 10px;">';
+								break;
+							case '1C':
+							default:
+								$prefix = '<div class="imageblock center" style="text-align: center; clear: both;">';
+								break;
+						}
+						$buf = $prefix . getAttachmentBinder($attributes[1], $newProperty, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode, $onclickFlag) . $caption . '</div>';
 					}
 					break;
 				case 7:
@@ -1310,9 +1316,9 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 					list($newProperty2, $onclickFlag2) = createNewProperty($attributes[4], $eachImageWidth, $attributes[5]);
 					list($newProperty3, $onclickFlag3) = createNewProperty($attributes[7], $eachImageWidth, $attributes[8]);
 					if (defined('__TATTERTOOLS_MOBILE__')) {
-						$buf = '<div>' . getAttachmentBinder($attributes[1], $attributes[2], $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[3]</div>";
-						$buf .= '<div>' . getAttachmentBinder($attributes[4], $attributes[5], $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[6]</div>";
-						$buf .= '<div>' . getAttachmentBinder($attributes[7], $attributes[8], $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[9]</div>";
+						$buf = '<div>' . getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[3]</div>";
+						$buf .= '<div>' . getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[6]</div>";
+						$buf .= '<div>' . getAttachmentBinder($attributes[7],$newProperty3, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[9]</div>";
 					} else {
 						$buf = '<div class="imageblock triple" style="text-align: center"><table cellspacing="5" cellpadding="0" border="0" style="margin: 0 auto;">><tr><td>' . getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag1) . '<p class="cap1">' . $attributes[3] . '</p></td><td>' . getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag2) . '<p class="cap2">' . $attributes[6] . '</p></td><td>' . getAttachmentBinder($attributes[7], $newProperty3, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag3) . '<p class="cap3">' . $attributes[9] . '</p></td></tr></table></div>';
 					}

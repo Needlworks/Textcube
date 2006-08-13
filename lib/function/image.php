@@ -699,6 +699,7 @@ function makeThumbnail($imgString, $originSrc, $paddingArray=NULL, $waterMarkArr
 				deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "^".eregi_replace("\.([[:alnum:]]+)$", "\.", $originFileName));
 			case 2:
 				@copy(ROOT."/attach/$owner/$originFileName", $tempSrc);
+				
 				if (resampleImage($contentWidth, NULL, $tempSrc, "reduce", "file", $paddingArray, $waterMarkArray)) {
 					$tempImageInfo = getImagesize($tempSrc);
 					if ($tempImageInfo[0] > $tempWidth|| $tempImageInfo[1] > $tempHeight) {
@@ -709,6 +710,10 @@ function makeThumbnail($imgString, $originSrc, $paddingArray=NULL, $waterMarkArr
 					$imgString = eregi_replace('width="([^"]+)"', 'width="'.$tempImageInfo[0].'"', $imgString);
 					$imgString = eregi_replace('height="([^"]+)"', 'height="'.$tempImageInfo[1].'"', $imgString);
 				} else {
+					$tempImageInfo = getImagesize($tempSrc);
+					list($tempWidth, $tempHeight) = calcOptimizedImageSize($tempImageInfo[0], $tempImageInfo[1], $boxWidth=$contentWidth);
+					$imgString = eregi_replace('width="([^"]+)"', 'width="'.$tempWidth.'"', $imgString);
+					$imgString = eregi_replace('height="([^"]+)"', 'height="'.$tempHeight.'"', $imgString);
 					@unlink($tempSrc);
 				}
 				break;
@@ -720,7 +725,7 @@ function makeThumbnail($imgString, $originSrc, $paddingArray=NULL, $waterMarkArr
 				break;
 		}
 	}
-
+	
 	return $imgString;
 }
 ?>
