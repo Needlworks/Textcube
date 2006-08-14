@@ -1,0 +1,29 @@
+@media all and (min-width: 0px)
+{
+	/* Common ****************************************************************************************/
+	#data-outbox .button-box .save-button span
+	{
+		line-height                      : 24px;
+		padding-top                      : 0;
+	}
+	
+	#data-outbox .part select
+	{
+		height                           : 20px;
+		margin-top                       : 0 !important;
+		vertical-align                   : middle;
+	}
+	
+	/* Plugins ***************************************************************************************/
+	
+	#part-setting-plugins table.data-inbox .tr-last-body td
+	{
+		border-bottom                    : 2px solid #00A6ED;
+	}
+	
+	#part-setting-plugins table.data-inbox .tr-body .explain,
+	#part-setting-plugins table.data-inbox .tr-last-body .explain
+	{
+		padding                          : 4px 5px 3px 0;
+	}
+}

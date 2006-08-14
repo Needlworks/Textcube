@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><?php echo htmlspecialchars($blog['title']);?> &gt; <?php echo _t('확장기능');?></title>
+	<title><?php echo htmlspecialchars($blog['title']);?> &gt; <?php echo _t('플러그인');?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/center.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.opera.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/center.opera.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.opera.css" />
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/center.ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.ie.css" /><![endif]-->
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $service['path'];?>";
@@ -51,7 +51,6 @@ $writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 						<li id="menu-post"><a href="<?php echo $blogURL;?>/owner/entry"><span class="text"><?php echo _t('글');?></span></a></li>
 						<li id="menu-link"><a href="<?php echo $blogURL;?>/owner/link"><span class="text"><?php echo _t('링크');?></span></a></li>
 						<li id="menu-skin"><a href="<?php echo $blogURL;?>/owner/skin"><span class="text"><?php echo _t('스킨');?></span></a></li>
-						<li id="menu-trash"><a href="<?php echo $blogURL;?>/owner/trash/comment"><span class="text"><?php echo _t('휴지통');?></span></a></li>
 						<li id="menu-plugin" class="selected"><a href="<?php echo $blogURL;?>/owner/plugin"><span class="text"><?php echo _t('플러그인');?></span></a></li>
 						<li id="menu-setting"><a href="<?php echo $blogURL;?>/owner/setting/blog"><span class="text"><?php echo _t('환경설정');?></span></a></li>
 						<li id="menu-reader"><a href="<?php echo $blogURL;?>/owner/reader"><span class="text"><?php echo _t('리더');?></span></a></li>

@@ -133,19 +133,6 @@
 		padding-top                      : 0;
 	}
 	
-	/* Plugins ***************************************************************************************/
-	
-	#part-setting-plugins table.data-inbox .tr-last-body td
-	{
-		border-bottom                    : 2px solid #00A6ED;
-	}
-	
-	#part-setting-plugins table.data-inbox .tr-body .explain,
-	#part-setting-plugins table.data-inbox .tr-last-body .explain
-	{
-		padding                          : 4px 5px 3px 0;
-	}
-	
 	/* Data ******************************************************************************************/
 	
 	/* dialog ---------------------------------------------------------------------------------------*/
