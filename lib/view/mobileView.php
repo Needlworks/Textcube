@@ -130,7 +130,7 @@ function printMobileCommentView($entryId) {
 				<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentItem['id'];?>">DEL</a><br />
 				(<?php echo Timestamp::format5($commentItem['written']);?>)
 			</div>
-			<div class="body"><?php echo ($commentItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment'])));?></div>
+			<div class="body"><?php echo ($commentItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment'])));?></div>
 			<?php
 			foreach (getCommentComments($commentItem['id']) as $commentSubItem) {
 ?>
@@ -140,7 +140,7 @@ function printMobileCommentView($entryId) {
 					<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentSubItem['id'];?>">DEL</a><br />
 					(<?php echo Timestamp::format5($commentSubItem['written']);?>)
 				</div>
-				<div class="body"><?php echo ($commentSubItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment'])));?></div>
+				<div class="body"><?php echo ($commentSubItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment'])));?></div>
 			</blockquote>
 			<?php
 			}
