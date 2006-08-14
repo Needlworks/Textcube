@@ -627,34 +627,31 @@ TTEditor.prototype.showProperty = function(obj)
 
 			if(objectCount == 1) {
 				var size = editor.parseImageSize(editor.selectedElement, "array");
-				if(!isNaN(size[0]) && !isNaN(size[1])) {
-					if(editor.propertyCurrentImage == editor.selectedElement.getAttribute("src")) {
-						var newWidth = size[0];
-						var newHeight = parseInt(size[0] * editor.propertyCurrentProportion1);
-						editor.propertyCurrentProportion1 = newHeight / newWidth;
-						editor.selectedElement.removeAttribute("width");
-						editor.selectedElement.removeAttribute("height");
-						editor.selectedElement.style.width = newWidth + "px";
-						editor.selectedElement.style.height = newHeight + "px";
-					}
-					else {
-						editor.propertyCurrentProportion1 = size[1] / size[0];
-						editor.propertyCurrentImage = editor.selectedElement.getAttribute("src");
-					}
+
+				if(editor.propertyCurrentImage == editor.selectedElement.getAttribute("src")) {
+					var newWidth = size[0];
+					var newHeight = parseInt(size[0] * editor.propertyCurrentProportion1);
+					editor.propertyCurrentProportion1 = newHeight / newWidth;
+					editor.selectedElement.removeAttribute("width");
+					editor.selectedElement.removeAttribute("height");
+					editor.selectedElement.style.width = newWidth + "px";
+					editor.selectedElement.style.height = newHeight + "px";
+				}
+				else {
+					editor.propertyCurrentProportion1 = size[1] / size[0];
+					editor.propertyCurrentImage = editor.selectedElement.getAttribute("src");
 				}
 			}
 			else {
 				var size = editor.parseImageSize(values[2], "array");
-				if(!isNaN(size[0]) && !isNaN(size[1])) {
-					editor.propertyCurrentProportion1 = size[1] / size[0];
-					if(objectCount > 1) {
-						var size = editor.parseImageSize(values[5], "array");
-						editor.propertyCurrentProportion2 = size[1] / size[0];
-					}
-					if(objectCount > 2) {
-						var size = editor.parseImageSize(values[8], "array");
-						editor.propertyCurrentProportion3 = size[1] / size[0];
-					}
+				editor.propertyCurrentProportion1 = size[1] / size[0];
+				if(objectCount > 1) {
+					var size = editor.parseImageSize(values[5], "array");
+					editor.propertyCurrentProportion2 = size[1] / size[0];
+				}
+				if(objectCount > 2) {
+					var size = editor.parseImageSize(values[8], "array");
+					editor.propertyCurrentProportion3 = size[1] / size[0];
 				}
 			}
 
@@ -809,13 +806,7 @@ TTEditor.prototype.setProperty = function()
 	}
 	else if(editor.selectedElement.tagName && editor.selectedElement.tagName.toLowerCase() == "img" && attribute) {
 		if(editor.propertyWindowId.indexOf("propertyImage") == 0) {
-			var size = editor.parseImageSize(editor.selectedElement, "array");
 			var objectCount = editor.propertyWindowId.charAt(editor.propertyWindowId.length-1);
-
-			var imageSize = 'width="' + size[0] + '" height="' + parseInt(size[0] * editor.propertyCurrentProportion1) + '" ';
-			var imageAlt = "";
-			var imageCaption = "";
-			var imageResample = "";
 
 			// 1L,1C,1R일 경우에는 수정된 속성의 크기로 실제 이미지 크기를 변경
 			if(objectCount == 1) {
@@ -831,11 +822,15 @@ TTEditor.prototype.setProperty = function()
 						var newHeight = parseInt(value * editor.propertyCurrentProportion1);
 						editor.selectedElement.style.width = newWidth + "px";
 						editor.selectedElement.style.height = newHeight + "px";
-						imageSize = 'width="' + newWidth + '" height="' + newHeight + '" ';
 					}
 				} catch(e) { }
 			}
 
+			var imageSize = "";
+			var imageAlt = "";
+			var imageCaption = "";
+			var imageResample = "";
+			
 			try {
 				var value = parseInt(getObject(editor.propertyWindowId + "_width1").value);
 				if(!isNaN(value) && value > 0 && value < 10000)
@@ -1801,9 +1796,9 @@ TTEditor.prototype.objectUnSerialize = function(str) {
 
 // HTML 문자열에서 attribute="value" 추출
 TTEditor.prototype.parseAttribute = function(str, name) {
-	var regAttribute1 = new RegExp("(?:\\W|^)" + name + '="([^"]*)"', "gi");
-	var regAttribute2 = new RegExp("(?:\\W|^)" + name + "='([^']*)'", "gi");
-	var regAttribute3 = new RegExp("(?:\\W|^)" + name + "=([^\\s>]*)", "gi");
+	var regAttribute1 = new RegExp("(^|\\W)" + name + '="([^"]*)"', "gi");
+	var regAttribute2 = new RegExp("(^|\\W)" + name + "='([^']*)'", "gi");
+	var regAttribute3 = new RegExp("(^|\\W)" + name + "=([^\\s>]*)", "gi");
 
 	if(result = regAttribute1.exec(str)) {
 		return result[2];
