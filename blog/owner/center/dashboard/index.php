@@ -9,7 +9,7 @@ if (false) {
 ?>
 						<div method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
 							<div id="part-center-dashboard" class="part">
-								<h2 class="caption"><span class="main-text"><?php echo _t('태터툴즈에 대한 여러가지 정보를 봅니다');?></span></h2>
+								<h2 class="caption"><span class="main-text"><?php echo _t('알리미들을 봅니다');?></span></h2>
 							
 <?php
 foreach ($centerMappings as $mapping) {

@@ -1,5 +1,5 @@
 <?php
-define('ROOT', '../../../../..');
+define('ROOT', '../../../..');
 $IV = array(	'POST' => array(	'Name' => array('string'),	
 									'DATA' => array('string')
 									)

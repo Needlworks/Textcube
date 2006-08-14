@@ -1,5 +1,5 @@
 <?php
-define('ROOT', '../../../../..');
+define('ROOT', '../../../..');
 $IV = array(	'GET' => array(	'Name' => array('string')	));
 require ROOT . '/lib/includeForOwner.php';
 

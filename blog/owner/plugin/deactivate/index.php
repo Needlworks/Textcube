@@ -1,5 +1,5 @@
 <?php
-define('ROOT', '../../../../..');
+define('ROOT', '../../../..');
 $IV = array(
 	'GET' => array(
 		'name' => array('directory', 'default'=> null)
