@@ -190,8 +190,8 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-trackback-line" class="line">
-											<dt><label for="trackbacksOnRecent"><?php echo _t('출력될 최신 트랙백 수');?></label></dt>
-											<dd><?php echo _f('최신 트랙백을 %1개 보여줍니다.', $arg);?></dd>
+											<dt><label for="trackbacksOnRecent"><?php echo _t('출력될 최신 글걸기 수');?></label></dt>
+											<dd><?php echo _f('최신 글걸기를 %1개 보여줍니다.', $arg);?></dd>
 										</dl>
 <?php
 ob_start();
@@ -241,7 +241,7 @@ ob_end_clean();
 											<dt><span class="label"><?php echo _t('글을 표시할 때');?></span></dt>
 											<dd>
 												<input type="checkbox" id="expandComment" class="checkbox" name="expandComment"<?php echo $skinSetting['expandComment'] ? ' checked="checked"' : '';?> /> <label for="expandComment"><?php echo _t('댓글을 기본으로 펼칩니다.');?></label><br />
-												<input type="checkbox" id="expandTrackback" class="checkbox" name="expandTrackback"<?php echo $skinSetting['expandTrackback'] ? ' checked="checked"' : '';?> /> <label for="expandTrackback"><?php echo _t('트랙백을 기본으로 펼칩니다.');?></label>
+												<input type="checkbox" id="expandTrackback" class="checkbox" name="expandTrackback"<?php echo $skinSetting['expandTrackback'] ? ' checked="checked"' : '';?> /> <label for="expandTrackback"><?php echo _t('글걸기를 기본으로 펼칩니다.');?></label>
 											</dd>
 										</dl>
 									</fieldset>
@@ -345,8 +345,8 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-trackback-length-line" class="line">
-											<dt><label for="recentTrackbackLength"><?php echo _t('최신 트랙백 길이');?></label></dt>
-											<dd><?php echo _f('최신 트랙백을 %1 글자로 표시합니다.', $arg);?></dd>
+											<dt><label for="recentTrackbackLength"><?php echo _t('최신 글걸기 길이');?></label></dt>
+											<dd><?php echo _f('최신 글걸기를 %1 글자로 표시합니다.', $arg);?></dd>
 										</dl>
 <?php
 ob_start();

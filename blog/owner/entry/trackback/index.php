@@ -68,7 +68,7 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 								}
 								
 								function trashTrackback(id) {
-									if (!confirm("<?php echo _t('선택된 트랙백을 휴지통으로 옮깁니다. 계속 하시겠습니까?');?>"))
+									if (!confirm("<?php echo _t('선택된 글걸기를 휴지통으로 옮깁니다. 계속 하시겠습니까?');?>"))
 										return;
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trackback/delete/" + id);
 									request.onSuccess = function() {
@@ -79,7 +79,7 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 								
 								function trashTrackbacks() {
 									try {
-										if (!confirm("<?php echo _t('선택된 트랙백을 삭제합니다. 계속 하시겠습니까?');?>"))
+										if (!confirm("<?php echo _t('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>"))
 											return false;
 										var oElement;
 											var targets = new Array();
@@ -129,7 +129,7 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 						
 						<div id="part-post-trackback" class="part">
 							<h2 class="caption">
-								<span class="main-text"><?php echo _t('받은 트랙백 목록입니다');?></span>
+								<span class="main-text"><?php echo _t('걸린 글 목록입니다');?></span>
 <?php
 if (strlen($site) > 0 || strlen($ip) > 0) {
 	if (strlen($site) > 0) {
@@ -225,7 +225,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	}
 ?>
-												<a href="?site=<?php echo urlencode(escapeJSInAttribute($trackback['site']));?>" title="<?php echo _t('이 사이트에서 보낸 트랙백 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['site']);?></a>
+												<a href="?site=<?php echo urlencode(escapeJSInAttribute($trackback['site']));?>" title="<?php echo _t('이 사이트에서 보낸 글걸기 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['site']);?></a>
 											</td>
 											<td class="category">
 <?php
@@ -241,7 +241,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 ?>
 											</td>
 											<td class="title">
-												<a href="<?php echo $trackback['url'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('트랙백을 보낸 포스트를 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['subject']);?></a>
+												<a href="<?php echo $trackback['url'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('글걸기를 보낸 글을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['subject']);?></a>
 											</td>
 											<td class="ip">
 <?php
@@ -256,10 +256,10 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	}
 ?>
 
-												<a href="?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 트랙백 목록을 보여줍니다.');?>"><?php echo $trackback['ip'];?></a>
+												<a href="?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 글걸기 목록을 보여줍니다.');?>"><?php echo $trackback['ip'];?></a>
 											</td>
 											<td class="delete">
-												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trackback/delete/<?php echo $trackback['id'];?>?javascript=disabled" onclick="trashTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 트랙백을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trackback/delete/<?php echo $trackback['id'];?>?javascript=disabled" onclick="trashTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 글걸기를 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 											</td>
 										</tr>
 <?php
@@ -276,7 +276,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 									<input type="hidden" name="ip" value="" />
 									
 									<div id="delete-section" class="section">
-										<span class="label"><?php echo _t('선택한 트랙백을');?></span>
+										<span class="label"><?php echo _t('선택한 글걸기를');?></span>
 										<a class="delete-button button" href="#void" onclick="trashTrackbacks();"><span class="text"><?php echo _t('삭제');?></span></a>
 									</div>
 									
