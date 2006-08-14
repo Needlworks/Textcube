@@ -218,7 +218,7 @@ function getUpperView($paging) {
 <?php 
 	if (doesHaveOwnership()) {
 ?> 
-				if (!confirm("<?php echo _text('선택된 트랙백을 삭제합니다. 계속 하시겠습니까?');?>"))
+				if (!confirm("<?php echo _text('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>"))
 					return;
 
 				var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/trackback/delete/" + id);

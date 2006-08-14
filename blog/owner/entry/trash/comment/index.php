@@ -120,8 +120,8 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 									}
 								}
 								
-								window.addEventListener("load", activateFormElement, false);
-								function activateFormElement() {
+								window.addEventListener("load", execLoadFunction, false);
+								function execLoadFunction() {
 									document.getElementById('allChecked').disabled = false;
 									removeItselfById('category-move-button');
 									
@@ -217,7 +217,7 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 												<input type="radio" class="radio" id="track-type-comment" name="trashType" value="comment" onclick="document.getElementById('trash-form').submit()" checked="checked" /> <label for="track-type-comment"><?php echo _t('댓글');?></label>
 											</div>
 											<div id="track-radio-trackback">
-												<input type="radio" class="radio" id="track-type-trackback" name="trashType" value="trackback" onclick="document.getElementById('trash-form').submit()" /> <label for="track-type-trackback"><?php echo _t('트랙백');?></label>
+												<input type="radio" class="radio" id="track-type-trackback" name="trashType" value="trackback" onclick="document.getElementById('trash-form').submit()" /> <label for="track-type-trackback"><?php echo _t('글걸기');?></label>
 											</div>
 										</dd>
 									</dl>

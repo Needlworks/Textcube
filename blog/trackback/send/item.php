@@ -6,7 +6,7 @@ $entry = getEntry($owner, $suri['id']);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title><?php echo _text('트랙백 전송');?></title>
+	<title><?php echo _text('글걸기 시도');?></title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/style/owner.css" />
 	<script type="text/javascript">
@@ -24,7 +24,7 @@ $entry = getEntry($owner, $suri['id']);
 
 			function onclick_delete(form, num) {
 				trim_all(form);
-				if (!confirm("<?php echo _text('지정하신 관련글(트랙백) 로그를 삭제하시겠습니까?');?>")) return false;
+				if (!confirm("<?php echo _text('지정하신 관련글(글걸기) 로그를 삭제하시겠습니까?');?>")) return false;
 				form.mode.value = 'delete';
 				form.exenum.value = num;
 				form.submit();
@@ -40,7 +40,7 @@ $entry = getEntry($owner, $suri['id']);
 						trackbackField.select();
 					}
 					request.onError = function() {
-						alert("<?php echo _text('트랙백 전송에 실패하였습니다.');?>");
+						alert("<?php echo _text('글걸기 전송에 실패하였습니다.');?>");
 					}
 					request.send();
 				} catch(e) {
@@ -82,7 +82,7 @@ $entry = getEntry($owner, $suri['id']);
 			}
 			
 			function removeTrackbackLog(id,entry) {
-				if(confirm("<?php echo _text('선택된 트랙백을 삭제합니다. 계속 하시겠습니까?');?>")) {
+				if(confirm("<?php echo _text('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>")) {
 					var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trackback/log/remove/" + id);
 					request.onSuccess = function() {
 						showTrackbackSender(entry);
@@ -113,7 +113,7 @@ $entry = getEntry($owner, $suri['id']);
 		<div id="trackback-box">
 			<img src="<?php echo $service['path'];?>/image/logo_CommentPopup.gif" alt="<?php echo _text('태터툴즈 로고');?>" />
 			
-			<div class="title"><span class="text"><?php echo _text('트랙백을 전송합니다');?></span></div>
+			<div class="title"><span class="text"><?php echo _text('글걸기를 시도합니다');?></span></div>
 	      	<div id="command-box">
 	      		<dl class="title-line">
 	      			<dt><span class="label"><?php echo _text('제목');?></span><span class="divider"> | </span></dt>

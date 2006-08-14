@@ -277,7 +277,7 @@ if (!@is_null($history)) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('필터를 설정합니다');?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('댓글, 트랙백, 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우거나 무시합니다.');?></p>
+								<p class="explain"><?php echo _t('댓글, 글걸기, 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우거나 무시합니다.');?></p>
 							</div>
 							
 							<div class="data-inbox">

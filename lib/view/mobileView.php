@@ -72,7 +72,7 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 	}
 	if ($jumpToTrackback) {
 ?>
-		<li><a href="<?php echo $blogURL;?>/trackback/<?php echo $entry['id'];?>" accesskey="5"><?php echo _text('트랙백보기');?> (<?php echo $entry['trackbacks'];?>)</a></li>
+		<li><a href="<?php echo $blogURL;?>/trackback/<?php echo $entry['id'];?>" accesskey="5"><?php echo _text('걸린 글 보기');?> (<?php echo $entry['trackbacks'];?>)</a></li>
 		<?php
 	}
 	if ($suri['directive'] != '/m/pannels') {
@@ -91,7 +91,7 @@ function printMobileTrackbackView($entryId) {
 	if (count($trackbacks) == 0) {
 ?>
 		<div class="trackback">
-			<?php echo _text('트랙백이 없습니다');?>
+			<?php echo _text('걸린 글이 없습니다');?>
 		</div>
 		<?php
 	} else {

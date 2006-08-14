@@ -92,7 +92,7 @@ setProgress($item++ / $items * 100, _t('글의 댓글 정보를 다시 계산해
 requireComponent('Tattertools.Data.Post');
 Post::updateComments();
 
-setProgress($item++ / $items * 100, _t('글의 트랙백 정보를 다시 계산해서 저장합니다.'));
+setProgress($item++ / $items * 100, _t('글의 걸린 글 정보를 다시 계산해서 저장합니다.'));
 requireComponent('Tattertools.Data.Post');
 Post::updateTrackbacks();
 
@@ -120,7 +120,7 @@ if ($result = mysql_query("SELECT id, name, homepage, comment FROM {$database['p
 
 if ($result = mysql_query("SELECT id, url, site, subject, excerpt FROM {$database['prefix']}Trackbacks WHERE owner = $owner")) {
 	while ($trackback = mysql_fetch_assoc($result)) {
-		setProgress($item++ / $items * 100, _t('트랙백 데이터를 교정하고 있습니다.'));
+		setProgress($item++ / $items * 100, _t('글걸기 데이터를 교정하고 있습니다.'));
 		$correction = '';
 		if (!UTF8::validate($trackback['url']))
 			$correction .= ' url = \'' . mysql_real_escape_string(UTF8::correct($trackback['url'], '?')) . '\'';

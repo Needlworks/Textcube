@@ -38,44 +38,44 @@
 }
 
 /* list table head ------------------------------------------------------------------------------*/
-#part-setting-plugins table.data-inbox
+#part-plugin-list table.data-inbox
 {
 	table-layout                     : fixed;
 	width                            : 100%;
 }
 
-#part-setting-plugins table.data-inbox thead tr .title
+#part-plugin-list table.data-inbox thead tr .title
 {
 	width                            : 25%;
 }
 
-#part-setting-plugins table.data-inbox thead tr .version
+#part-plugin-list table.data-inbox thead tr .version
 {
 	width                            : 50px;
 }
 
-#part-setting-plugins table.data-inbox thead tr .scope
+#part-plugin-list table.data-inbox thead tr .scope
 {
 	width                            : 65px;
 }
 
-#part-setting-plugins table.data-inbox thead tr .maker
+#part-plugin-list table.data-inbox thead tr .maker
 {
 	width                            : 150px;
 }
 
-#part-setting-plugins table.data-inbox thead tr .config
+#part-plugin-list table.data-inbox thead tr .config
 {
 	width                            : 60px;
 }
 
-#part-setting-plugins table.data-inbox thead tr .status
+#part-plugin-list table.data-inbox thead tr .status
 {
 	width                            : 60px;
 }
 
 /* list table body ------------------------------------------------------------------------------*/
-#part-setting-plugins table.data-inbox tbody tr td.status .active-class
+#part-plugin-list table.data-inbox tbody tr td.status .active-class
 {
 	background-image                 : url("./image/icon_plugin.gif");
 	background-position              : left bottom;
@@ -85,7 +85,7 @@
 	padding-left                     : 16px;
 }
 
-#part-setting-plugins table.data-inbox tbody tr td.status .inactive-class
+#part-plugin-list table.data-inbox tbody tr td.status .inactive-class
 {
 	background-image                 : url("./image/icon_plugin.gif");
 	background-position              : left -1px;

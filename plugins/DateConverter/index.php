@@ -40,8 +40,8 @@ function convertDateFormat($argTarget, $argType) {
 	$rgDateFormat['notice date'] = array("language" => "korean", "format" => "%Y년 %M월{ %D일}{ %H시}{ %I분}{ %S초}");				// 공지 날짜.
 	$rgDateFormat['post date'] = array("language" => "english", "format" => "{%M}{ %o,} %Y{ %H}{:%I}{:%S}");						// 포스트 날짜.
 	$rgDateFormat['recent comment date'] = array("language" => "english", "format" => "{%M}{ %d,}{ %Y}{ %H}{:%I}{:%S}");			// 최근 댓글 날짜.
-	$rgDateFormat['recent trackback date'] = array("language" => "english", "format" => "{%o }%M");									// 최근 트랙백 날짜.
-	$rgDateFormat['trackback date'] = array("language" => "english", "format" => "%M{ %d,} %Y{ %H}{:%I}{:%S}");						// 트랙백 날짜.
+	$rgDateFormat['recent trackback date'] = array("language" => "english", "format" => "{%o }%M");									// 최근 걸린 글 날짜.
+	$rgDateFormat['trackback date'] = array("language" => "english", "format" => "%M{ %d,} %Y{ %H}{:%I}{:%S}");						// 걸린 글 날짜.
 	
 	$strLanguage = $rgDateFormat[$argType]['language'];
 	

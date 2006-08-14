@@ -24,7 +24,7 @@ printMobileHtmlHeader(htmlspecialchars($blog['title']));
 		if(count($comments) > 0)
 			echo '</ul>';
 		?>
-	<h2><?php echo _text('최근에 달린 트랙백');?></h2>
+	<h2><?php echo _text('최근에 받은 글걸기');?></h2>
 	<?php
 		$trackbacks = getRecentTrackbacks($owner);
 		if(count($trackbacks) > 0)

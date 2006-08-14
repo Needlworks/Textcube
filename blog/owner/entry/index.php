@@ -4,7 +4,8 @@ if (isset($_POST['page']))
 	$_GET['page'] = $_POST['page'];
 $IV = array(
 	'GET' => array(
-		'page' => array('int', 1, 'default' => 1)
+		'page' => array('int', 1, 'default' => 1),
+		'category' => array('int', 'default' => 0),
 	),
 	'POST' => array(
 		'categoryAtHome' => array('int', 'mandatory' => false),
@@ -16,26 +17,39 @@ $IV = array(
 );
 require ROOT . '/lib/includeForOwner.php';
 publishEntries();
-if (isset($_GET['category']))
-	$_POST['category'] = $_GET['category'];
-if (isset($_POST['categoryAtHome']))
-	$_POST['category'] = $_POST['categoryAtHome'];
-$categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
+
+// 카테고리 설정.
+if (isset($_GET['category'])) {
+	$categoryId = $_GET['category'];
+} else if (isset($_POST['categoryAtHome'])) {
+	$categoryId = $_POST['categoryAtHome'];
+} else if (empty($_POST['category'])) {
+	$categoryId = 0;
+} else {
+	$categoryId = $_POST['category'];
+}
+
+// 찾기 키워드 설정.
 if (isset($_GET['search']))
 	$search = empty($_GET['search']) ? '' : trim($_GET['search']);
 else
 	$search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
+
+// 페이지당 출력되는 포스트 수.
 $perPage = getUserSetting('rowsPerPage', 10);
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
 	setUserSetting('rowsPerPage', $_POST['perPage']);
 }
+
 list($entries, $paging) = getEntriesWithPagingForOwner($owner, $categoryId, $search, $suri['page'], $perPage);
+
 $paging['postfix'] = '';
 if ($categoryId != 0)
 	$paging['postfix'] .= "&amp;category=$categoryId";
 if (!empty($search))
 	$paging['postfix'] .= '&amp;search='.urlencode($search);
+
 require ROOT . '/lib/piece/owner/header0.php';
 require ROOT . '/lib/piece/owner/contentMenu00.php';
 ?>
@@ -199,10 +213,6 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 									request.send();
 								}
 								
-								function deleteSelected() {
-								
-								}
-								
 								function protectEntry(id) {
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/protect/" + id);
 									request.onSuccess = function () {
@@ -316,14 +326,14 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 								}
 								
 								function removeTrackbackLog(id,entry) {
-									if (confirm("<?php echo _t('선택된 트랙백을 삭제합니다. 계속 하시겠습니까?');?>")) {
+									if (confirm("<?php echo _t('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>")) {
 										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/entry/trackback/log/remove/" + id);
 										request.onSuccess = function () {
 											document.getElementById("logs_"+entry).innerHTML = "";
 											printTrackbackLog(entry);
 										}
 										request.onError = function () {
-											alert("<?php echo _t('트랙백을 삭제하는데 실패했습니다.');?>");
+											alert("<?php echo _t('글걸기를 삭제하는데 실패했습니다.');?>");
 										}
 										request.send();
 									}
@@ -365,7 +375,7 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 												tempA.className = "remove-button button";
 												tempA.setAttribute("href", "#void");
 												tempA.setAttribute("onclick", "removeTrackbackLog('" + field[0] + "','" + id + "');");
-												tempA.setAttribute("title", "<?php echo _t('이 트랙백을 삭제합니다.');?>");
+												tempA.setAttribute("title", "<?php echo _t('이 글걸기를 삭제합니다.');?>");
 												
 												tempSpan = document.createElement("SPAN");
 												tempSpan.className = "text";
@@ -452,7 +462,7 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 										
 										newSection = document.createElement("DIV");
 										newSection.className = "layer-section";
-										newSection.innerHTML = '<label for="trackbackForm_' + id + '"><?php echo _t('트랙백 주소');?></label><span class="divider"> | </span><input type="text" id="trackbackForm_' + id + '" class="text-input" name="trackbackURL" value="http://" size="50" onkeydown="if (event.keyCode == 13) sendTrackback(' + id + ')" /> ';
+										newSection.innerHTML = '<label for="trackbackForm_' + id + '"><?php echo _t('글걸기 주소');?></label><span class="divider"> | </span><input type="text" id="trackbackForm_' + id + '" class="text-input" name="trackbackURL" value="http://" size="50" onkeydown="if (event.keyCode == 13) sendTrackback(' + id + ')" /> ';
 										
 										tempLink = document.createElement("A");
 										tempLink.className = "send-button button";
@@ -484,7 +494,7 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 										printTrackbackLog(id);
 									}
 									request.onError = function () {
-										alert("<?php echo _t('트랙백 전송에 실패하였습니다.');?>");
+										alert("<?php echo _t('글걸기에 실패하였습니다.');?>");
 									}
 									request.send();
 								}
@@ -576,7 +586,7 @@ foreach (getCategories($owner) as $category) {
 											<th class="category"><span class="text"><?php echo _t('분류');?></span></th>
 											<th class="title"><span class="text"><?php echo _t('제목');?></span></th>
 											<th class="protect"><span class="text"><?php echo _t('보호설정');?></span></th>
-											<th class="trackback"><span class="text"><?php echo _t('트랙백');?></span></th>
+											<th class="trackback"><span class="text"><?php echo _t('글걸기');?></span></th>
 											<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
 										</tr>
 									</thead>
