@@ -47,7 +47,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 									tempStr = document.getElementById("plugin" + num + "Link").innerHTML;
 									
 									if (!tempStr.match('<?php echo _t('사용중');?>')) {
-										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/setting/plugins/activate?name=" + plugin);
+										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/plugin/activate?name=" + plugin);
 										request.onSuccess = function() {												
 											document.getElementById("plugin" + num + "Link").className = 'active-class';
 											
@@ -66,7 +66,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 										}
 										request.send();
 									} else {
-										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/setting/plugins/deactivate?name=" + plugin);
+										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/plugin/deactivate?name=" + plugin);
 										request.onSuccess = function() {
 											document.getElementById("plugin" + num + "Link").className = 'inactive-class';
 											
@@ -101,7 +101,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 								function getCurrentSetting( plugin, setYN, width, height){
 									if( "N" == setYN ) return ;
 									if( '' != currentSetting ) currentSetting.close();
-									window.open('<?php echo $blogURL;?>/owner/setting/plugins/currentSetting/?Name='+plugin,'CurrentSetting', 'width='+width+', height='+height+', scrollbars=1, status=0, resizable=1');	
+									window.open('<?php echo $blogURL;?>/owner/plugin/currentSetting/?Name='+plugin,'CurrentSetting', 'width='+width+', height='+height+', scrollbars=1, status=0, resizable=1');	
 									return;
 								}								
 							//]]>
@@ -111,7 +111,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo $blogURL."/owner/center/setting";
 else
-	echo $blogURL."/owner/setting/plugins";
+	echo $blogURL."/owner/plugin";
 ?>">
 							<h2 class="caption"><span class="main-text"><?php
 if (defined('__TATTERTOOLS_CENTER__'))
