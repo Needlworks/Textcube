@@ -296,4 +296,72 @@
 	{
 		padding                          : 3px;
 	}
+	
+	/* Trash *****************************************************************************************/
+	
+	/* list category --------------------------------------------------------------------------------*/
+	#part-post-trash .caption .category select
+	{
+		vertical-align                   : middle;
+	}
+	
+	/* list table body ------------------------------------------------------------------------------*/
+	#part-post-trash table.data-inbox .tr-body td
+	{
+		height                           : 20px;
+		padding-top                      : 3px !important;
+	}
+
+	#part-post-trash table.data-inbox .tr-last-body td
+	{
+		height                           : 22px !important;
+		padding-top                      : 3px !important;
+		padding-bottom                   : 3px !important;
+	}
+	
+	#part-post-trash table.data-inbox .tr-body .name .bullet,
+	#part-post-trash table.data-inbox .tr-last-body .name .bullet,
+	#part-post-trash table.data-inbox .tr-body .ip .bullet,
+	#part-post-trash table.data-inbox .tr-last-body .ip .bullet
+	{
+		margin-top                       : 4px !important;
+	}
+	
+	/* multi-selection deleter ----------------------------------------------------------------------*/
+	#part-post-trash #delete-section .label
+	{
+		margin-top                       : 0;
+		padding-top                      : 0;
+	}
+	
+	#part-post-trash #delete-section .delete-button span
+	{
+		padding-top                      : 4px;
+	}
+
+	/* lines per page -------------------------------------------------------------------------------*/
+	#part-post-trash #page-section .page-count select
+	{
+		vertical-align                   : middle;
+		width                            : 40px;
+	}
+
+	/* search ---------------------------------------------------------------------------------------*/
+	#part-post-trash #search-section
+	{
+		right                            : 3px;
+	}
+	
+	#part-post-trash #search-section input#search
+	{
+		float                            : left;
+		margin-top                       : 2px;
+		padding                          : 3px;
+		width                            : 70px;
+	}
+
+	#part-post-trash #search-section .search-button span
+	{
+		padding-top                      : 4px;
+	}
 }

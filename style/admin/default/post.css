@@ -561,3 +561,71 @@ table.data-inbox tbody tr td .new-icon span
 	margin                           : 5px 0;
 	width                            : 330px;
 }
+
+/* Trash *****************************************************************************************/
+
+/* sorting setting ------------------------------------------------------------------------------*/
+#trash-form
+{
+	margin                           : -27px 0 12px auto;
+}
+
+#trash-form fieldset
+{
+	text-align                       : right;
+}
+
+#trash-type-line dt
+{
+	display                          : none;
+}
+
+#trash-type-line dd
+{
+	float                            : none !important;
+}
+
+#trash-type-line dd div
+{
+	display                          : inline;
+}
+
+#track-radio-trackback
+{
+	margin-left                      : 20px;
+}
+
+/* trash table body -----------------------------------------------------------------------------*/
+
+#part-post-trash table.data-inbox tbody tr td .block-icon
+{
+	background-image                 : url("./image/icon_block.gif");
+	background-position              : left bottom;
+	display                          : block;
+	float                            : left;
+	height                           : 6px;
+	margin                           : 2px 3px 0 0;
+	width                            : 16px;
+}
+
+#part-post-trash table.data-inbox tbody tr td .unblock-icon
+{
+	background-image                 : url("./image/icon_block.gif");
+	background-position              : left top;
+	display                          : block;
+	float                            : left;
+	height                           : 6px;
+	margin                           : 3px 3px 0 0;
+	width                            : 16px;
+}
+
+#part-post-trash table.data-inbox tbody tr td .block-icon span,
+#part-post-trash table.data-inbox tbody tr td .unblock-icon span
+{
+	display                          : none;
+}
+
+#part-post-trash table.data-inbox tbody tr td.content .entry-title
+{
+	font-weight                      : bold;
+}
