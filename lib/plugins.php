@@ -132,7 +132,7 @@ function handleCenters($mapping) {
 }
 
 function handleSidebars( & $obj) {
-	global $service, $sidebarMappings, $pluginURL;
+	global $service, $sidebarMappings, $pluginURL, $configMappings, $configVal;
 	
 	$content_temp = '';
 
@@ -161,6 +161,10 @@ function handleSidebars( & $obj) {
 						break;
 					case 'sidebar_contents':
 						if (function_exists($mapping['handler'])) {
+							if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
+								$configVal = getCurrentSetting($mapping['plugin']);
+							else
+								$configVal ='';
 							$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 							$target = call_user_func($mapping['handler'], $target, $content);
 						}
