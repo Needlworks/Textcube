@@ -208,16 +208,22 @@ function addComment($owner, & $comment) {
 	
 	if (!doesHaveOwnership()) {
 		requireComponent('Tattertools.Data.Filter');
-		if (Filter::isFiltered('ip', $comment['ip']))
+		if (Filter::isFiltered('ip', $comment['ip'])) {
+			$blockType = "ip";
 			$filtered = 1;
-		else if (Filter::isFiltered('name', $comment['name']))
+		} else if (Filter::isFiltered('name', $comment['name'])) {
+			$blockType = "name";
 			$filtered = 1;
-		else if  (Filter::isFiltered('url', $comment['homepage']))
+		} else if (Filter::isFiltered('url', $comment['homepage'])) {
+			$blockType = "homepage";
 			$filtered = 1;
-		elseif  (Filter::isFiltered('content', $comment['comment']))
+		} elseif (Filter::isFiltered('content', $comment['comment'])) {
+			$blockType = "comment";
 			$filtered = 1;
-		else if (!fireEvent('AddingComment', true, $comment))
+		} else if (!fireEvent('AddingComment', true, $comment)) {
+			$blockType = "etc";
 			$filtered = 1;
+		}
 	}
 
 	$comment['homepage'] = stripHTML($comment['homepage']);
@@ -274,7 +280,11 @@ function addComment($owner, & $comment) {
 		}
 		updateCommentsOfEntry($owner, $comment['entry']);
 		fireEvent($comment['entry'] ? 'AddComment' : 'AddGuestComment', $id, $comment);
-		return $id;
+		
+		if ($filtered == 1)
+			return $blockType;
+		else
+			return $id;
 	}
 	return false;
 }

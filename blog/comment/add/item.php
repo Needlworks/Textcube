@@ -61,9 +61,28 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	$comment['secret'] = $userSecret;
 	$comment['comment'] = $userComment;
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
+	
 	$result = addComment($owner, $comment);
-	if ($result === 'blocked') {
-		echo '<?xml version="1.0" encoding="utf-8"?><response><error>1</error><description><![CDATA[', _text('귀하는 차단되었으므로 사용하실 수 없습니다.'), ']]></description></response>';
+	
+	if (in_array($result, array("ip", "name", "homepage", "comment", "etc"))) {
+		switch ($result) {
+			case "name":
+				$errorString = _text('차단된 이름을 사용하고 계시므로 댓글을 남기실 수 없습니다.');
+				break;
+			case "ip":
+				$errorString = _text('차단된 IP를 사용하고 계시므로 댓글을 남기실 수 없습니다.');
+				break;
+			case "homepage":
+				$errorString = _text('차단된 홈페이지 주소를 사용하고 계시므로 댓글을 남기실 수 없습니다.');
+				break;
+			case "comment":
+				$errorString = _text('금칙어를 사용하고 계시므로 댓글을 남기실 수 없습니다.');
+				break;
+			case "etc":
+				$errorString = _text('귀하는 차단되었으므로 사용하실 수 없습니다.');
+				break;
+		}
+		echo '<?xml version="1.0" encoding="utf-8"?><response><error>1</error><description><![CDATA[', $errorString, ']]></description></response>';
 	} else if ($result === false) {
 		echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _text('댓글을 달 수 없습니다.'), ']]></description></response>';
 	} else {
