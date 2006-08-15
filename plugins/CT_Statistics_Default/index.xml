@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="en">Statistics</title>
+  <title xml:lang="ko">통계</title>
+  <link>http://www.tattertools.com/</link>
+  <version>1.0</version>
+  <description xml:lang="en">Default Blog Statistics Plugin</description>
+  <description xml:lang="ko">기본 통계 알리미</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
+  <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
+  <scope>dashboard</scope>
+  <requirements>
+    <tattertools>1.1</tattertools>
+  </requirements>
+  <binding>
+	<center handler="CT_Statistics_Default" />
+  </binding>
+</plugin>
