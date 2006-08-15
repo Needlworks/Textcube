@@ -31,36 +31,39 @@ function convertDateFormat($argTarget, $argType) {
 	include ROOT.'/'.implode('/', $temp)."/language.php";
 	
 	$rgDateFormat = array();
-	$rgDateFormat['archive date'] = array("language" => "english", "format" => "%Y|%M");											// 저장소 날짜.
-	$rgDateFormat['calendar head'] = array("language" => "english", "format" => "%m %Y");											// 달력 머릿날짜.
-	$rgDateFormat['comment date'] = array("language" => "japanese", "format" => "%Y年 %M月{ %D日}{ %H時}{ %I分}");					// 댓글 날짜.
-	$rgDateFormat['comment list date'] = array("language" => "korean", "format" => "%Y년 %M월{ %D일}");								// 댓글 목록 날짜.
-	$rgDateFormat['guestbook comment date'] = array("language" => "korean", "format" => "%Y년 %M월{ %D일}{ %H시}{ %I분}");			// 방명록 날짜.
-	$rgDateFormat['list date'] = array("language" => "korean", "format" => "%Y년 %M월{ %D일}");										// 목록 날짜.
-	$rgDateFormat['notice date'] = array("language" => "korean", "format" => "%Y년 %M월{ %D일}{ %H시}{ %I분}{ %S초}");				// 공지 날짜.
-	$rgDateFormat['post date'] = array("language" => "english", "format" => "{%M}{ %o,} %Y{ %H}{:%I}{:%S}");						// 포스트 날짜.
-	$rgDateFormat['recent comment date'] = array("language" => "english", "format" => "{%M}{ %d,}{ %Y}{ %H}{:%I}{:%S}");			// 최근 댓글 날짜.
-	$rgDateFormat['recent trackback date'] = array("language" => "english", "format" => "{%o }%M");									// 최근 걸린 글 날짜.
-	$rgDateFormat['trackback date'] = array("language" => "english", "format" => "%M{ %d,} %Y{ %H}{:%I}{:%S}");						// 걸린 글 날짜.
+	$rgDateFormat['archive date'] = array("language" => "english", "format" => "{%Y|}{%M}");											// 저장소 날짜.
+	$rgDateFormat['calendar head'] = array("language" => "english", "format" => "{%m }{%Y}");											// 달력 머릿날짜.
+	$rgDateFormat['comment date'] = array("language" => "japanese", "format" => "{%Y年}{ %M月}{ %D日}{ %H時}{ %I分}");					// 댓글 날짜.
+	$rgDateFormat['comment list date'] = array("language" => "korean", "format" => "{%Y년}{ %M월}{ %D일}");								// 댓글 목록 날짜.
+	$rgDateFormat['guestbook comment date'] = array("language" => "korean", "format" => "{%Y년}{ %M월}{ %D일}{ %H시}{ %I분}");			// 방명록 날짜.
+	$rgDateFormat['list date'] = array("language" => "korean", "format" => "{%Y년}{ %M월}{ %D일}");										// 목록 날짜.
+	$rgDateFormat['notice date'] = array("language" => "korean", "format" => "{%Y년}{ %M월}{ %D일}{ %H시}{ %I분}{ %S초}");				// 공지 날짜.
+	$rgDateFormat['post date'] = array("language" => "english", "format" => "{%M}{ %o,}{ %Y}{ %H}{:%I}{:%S}");							// 포스트 날짜.
+	$rgDateFormat['recent comment date'] = array("language" => "english", "format" => "{%M}{ %d,}{ %Y}{ %H시}{ %I분}{ %S초}");			// 최근 댓글 날짜.
+	$rgDateFormat['recent trackback date'] = array("language" => "english", "format" => "{%o }%M");										// 최근 걸린 글 날짜.
+	$rgDateFormat['trackback date'] = array("language" => "english", "format" => "%M{ %d,} %Y{ %H}{:%I}{:%S}");							// 걸린 글 날짜.
 	
-	$strLanguage = $rgDateFormat[$argType]['language'];
+	if (isset($rgDateFormat[$argType]))
+		$strLanguage = $rgDateFormat[$argType]['language'];
+	else
+		return $argTarget;
 	
 	if (empty($strLanguage) || $strLanguage == "default") {
 		$strLanguage = "korean";
 	}
 	
-	eregi("^(([0-9]{4})/([0-9]{2})/?([0-9]{2})?)? ?(([0-9]{2}):([0-9]{2}):?([0-9]{2})?)?$", $argTarget, $rgTemp);
-	$strYear = $rgTemp[2];
-	$strMonth = $rgTemp[3];
-	$strDay = $rgTemp[4];
-	$strHour = $rgTemp[6];
-	$strMinute = $rgTemp[7];
-	$strSecond = $rgTemp[9];
+	eregi("^([0-9]{4})?/?([0-9]{2})?/?([0-9]{2})? ?([0-9]{2})?:?([0-9]{2})?:?([0-9]{2})?$", $argTarget, $rgTemp);
+	$strYear = $rgTemp[1];
+	$strMonth = $rgTemp[2];
+	$strDay = $rgTemp[3];
+	$strHour = $rgTemp[4];
+	$strMinute = $rgTemp[5];
+	$strSecond = $rgTemp[6];
 	
 	$rgCustomIdentifier = array();
 	if ($strYear != false) {
 		$rgCustomIdentifier['%Y'] = $strYear;
-		$rgCustomIdentifier['%y'] = eregi_replace("^[0-9]{2}", "", $strYear);
+		$rgCustomIdentifier['%y'] = eregi_replace("^0", "", $strYear);
 	}
 	if ($strMonth != false) {
 		if (isset($rgDateInformation[$strLanguage]['month'][$strMonth])) {
@@ -72,12 +75,12 @@ function convertDateFormat($argTarget, $argType) {
 			}
 		} else {
 			$rgCustomIdentifier['%M'] = $strMonth;
-			$rgCustomIdentifier['%m'] = eregi_replace("^[0-9]{2}", "", $strYear);
+			$rgCustomIdentifier['%m'] = eregi_replace("^0", "", $strYear);
 		}
 	}
 	if ($strDay != false) {
 		$rgCustomIdentifier['%D'] = $strDay;
-		$rgCustomIdentifier['%d'] = eregi_replace("^[0-9]{2}", "", $strYear);
+		$rgCustomIdentifier['%d'] = eregi_replace("^0", "", $strDay);
 		if (isset($rgDateInformation[$strLanguage]['day ordinal postfix']['00'])) {
 			$rgCustomIdentifier['%o'] = $rgCustomIdentifier['%d'].$rgDateInformation[$strLanguage]['day ordinal postfix']['00'];
 		} else if (isset($rgDateInformation[$strLanguage]['day ordinal postfix'][$strDay])) {
