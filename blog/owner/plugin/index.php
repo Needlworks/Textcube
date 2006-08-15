@@ -140,7 +140,7 @@ else
 ?>">
 							<h2 class="caption"><span class="main-text"><?php
 if (defined('__TATTERTOOLS_CENTER__'))
-	echo _t('설치된 알리미 플러그인입니다');
+	echo _t('설치된 자투리 플러그인입니다');
 else 
 	echo _t('설치된 플러그인입니다');
 ?></span></h2>
