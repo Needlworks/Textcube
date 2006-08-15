@@ -107,7 +107,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 							//]]>
 						</script>
 						
-						<form id="<?php echo (defined('__TATTERTOOLS_CENTER__')) ? 'part-center-plugins' : 'part-plugin-list';?>" class="part" method="post" action="<?php
+						<form id="<?php echo (defined('__TATTERTOOLS_CENTER__')) ? 'part-center-plugins' : 'part-setting-plugins';?>" class="part" method="post" action="<?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo $blogURL."/owner/center/setting";
 else
