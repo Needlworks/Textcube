@@ -17,6 +17,7 @@
   <requirements>
     <tattertools>1.0.2</tattertools>
   </requirements>
+  <scope>blog</scope>
   <binding>
 	<tag name="TattertoolsBirthday" handler="TattertoolsBirthday_TattertoolsBirthday" />
 	<config dataValHandler = "TattertoolsBirthdayDataSet" >

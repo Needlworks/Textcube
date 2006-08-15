@@ -87,7 +87,7 @@ $selected = 0;
 						</script>
 						
 						<div id="part-skin-setting" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('스킨에 맞춘 내용 출력을 설정합니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('스킨에 맞춘 출력을 설정합니다');?></span></h2>
 							
 							<div class="data-inbox">
 								<form id="skinSetting" class="section" method="post" action="<?php echo $blogURL;?>/owner/skin/setting/skin" enctype="application/x-www-form-urlencoded">
