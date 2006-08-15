@@ -787,29 +787,28 @@ function getTagChunks(str, tagName) {
 
 function toggleMoreLess(obj, num, txtMore, txtLess)
 {
-	more = document.getElementById('more' + num);
-	content = document.getElementById('content' + num);
+	oMore = document.getElementById('more' + num);
+	oContent = document.getElementById('content' + num);
 	
-	if (content.style.display == 'none') {
-		content.style.display = 'block';
-		more.className = "tt-less-before";
+	if (oContent.style.display == 'none') {
+		oContent.style.display = 'block';
+		oMore.className = "tt-less-before";
 		obj.innerHTML = txtLess;
 		
-		less = document.createElement("p");
-		less.id = "less" + num;
-		less.className = "tt-less-after";
-		less.setAttribute("onclick", "toggleMoreLess(this, '" + num + "', '" + txtMore + "', '" + txtLess + "');");
-		less.style.cursor = "pointer";
-		less.innerHTML = txtLess;
-		after = content.nextSibling;
-		content.parentNode.insertBefore(less, after);
-	} else {
-		content.style.display = 'none';
-		more.className = "tt-more-before";
-		more.childNodes[0].innerHTML = txtMore;
+		oLess = document.createElement("P");
+		oLess.id = "less" + num;
+		oLess.className = "tt-less-after";
+		oLess.innerHTML = '<span style="cursor: pointer;" onclick="toggleMoreLess(this, \'' + num + '\', \'' + txtMore + '\', \'' + txtLess + '\'); return false;">' + txtLess + '</span>';
 		
-		less = document.getElementById('less' + num);
-		content.parentNode.removeChild(less);
+		after = oContent.nextSibling;
+		oContent.parentNode.insertBefore(oLess, after);
+	} else {
+		oContent.style.display = 'none';
+		oMore.className = "tt-more-before";
+		oMore.childNodes[0].innerHTML = txtMore;
+		
+		oLess = document.getElementById('less' + num);
+		oContent.parentNode.removeChild(oLess);
 	}
 }
 
