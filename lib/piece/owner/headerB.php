@@ -7,6 +7,27 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.opera.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.opera.css" />
+<?php
+$plugin = $_GET['name'];
+$pluginAttrs = array();
+$pluginDir = $plugin;
+if (file_exists(ROOT . "/plugins/$plugin/style.css")) {
+?>
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/style.css" />
+<?php
+}
+if (file_exists(ROOT . "/plugins/$plugin/style.opera.css")) {
+?>
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/style.opera.css" />
+<?php
+}
+if (file_exists(ROOT . "/plugins/$plugin/style.ie.css")) {
+?>
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/style.ie.css" />
+	<![endif]-->
+<?php
+}
+?>
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.ie.css" /><![endif]-->
 	<script type="text/javascript">
