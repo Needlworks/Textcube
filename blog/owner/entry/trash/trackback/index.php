@@ -209,7 +209,7 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 												<input type="radio" class="radio" id="track-type-comment" name="trashType" value="comment" onclick="document.getElementById('trash-form').submit()" /> <label for="track-type-comment"><?php echo _t('댓글');?></label>
 											</div>
 											<div id="track-radio-trackback">
-												<input type="radio" class="radio" id="track-type-trackback" name="trashType" value="trackback" onclick="document.getElementById('trash-form').submit()" checked="checked" /> <label for="track-type-trackback"><?php echo _t('트랙백');?></label>
+												<input type="radio" class="radio" id="track-type-trackback" name="trashType" value="trackback" onclick="document.getElementById('trash-form').submit()" checked="checked" /> <label for="track-type-trackback"><?php echo _t('글걸기');?></label>
 											</div>
 										</dd>
 									</dl>
@@ -258,7 +258,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo odd-line;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $trackback['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
 											<td class="date"><?php echo Timestamp::formatDate($trackback['written']);?></td>
 											<td class="site">
