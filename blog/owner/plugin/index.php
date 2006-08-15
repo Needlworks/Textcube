@@ -65,6 +65,11 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정하기');?>')) {
 												objTR.cells[5].innerHTML = '<a href="#void" id="config_' + num +'" class="config-enabled-icon bullet" onclick="getCurrentSetting(\'' + plugin + '\',\'Y\',\''+width+'\',\''+height+'\')"><?php echo _t('설정하기');?></a>';
 											}
+											tempStr = document.getElementById("plugin" + num + "Scope").innerHTML;
+											if (tempStr.match('<?php echo _t('관리자');?>'))
+											{
+												changeList();
+											}
 										}
 										request.onError = function() {
 											alert("<?php echo _t('플러그인을 활성화하는데 실패했습니다.');?>");
@@ -84,6 +89,11 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정하기');?>')) {
 												objTR.cells[5].innerHTML = '<span class="config-disabled-icon bullet"><?php echo _t('설정하기');?></span>';
 											}
+											tempStr = document.getElementById("plugin" + num + "Scope").innerHTML;
+											if (tempStr.match('<?php echo _t('관리자');?>'))
+											{
+												changeList();
+											}
 										}
 										request.onError = function() {
 											alert("<?php echo _t('플러그인을 비활성화하는데 실패했습니다.');?>");
@@ -93,7 +103,12 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 								}
 								
 								function changeList() {
-									document.getElementById("part-<?php echo (defined('__TATTERTOOLS_CENTER__')) ? 'center' : 'setting';?>-plugins").submit();
+									document.getElementById("part-<?php
+if (defined('__TATTERTOOLS_CENTER__'))
+	echo 'center';
+else 
+	echo 'setting';
+									?>-plugins").submit();
 								}
 								
 								window.addEventListener("load", execLoadFunction, false);
@@ -112,7 +127,12 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 							//]]>
 						</script>
 						
-						<form id="<?php echo (defined('__TATTERTOOLS_CENTER__')) ? 'part-center-plugins' : 'part-setting-plugins';?>" class="part" method="post" action="<?php
+						<form id="<?php
+if (defined('__TATTERTOOLS_CENTER__'))
+	echo 'part-center-plugins';
+else
+	echo 'part-setting-plugins';
+						?>" class="part" method="post" action="<?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo $blogURL."/owner/center/setting";
 else
@@ -130,7 +150,7 @@ else
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo _t('알리미는 태터툴즈 알림판에 기능을 추가하는 역할을 합니다. 이 곳에서 사용 여부를 결정합니다.');
 else
-	echo _t('플러그인은 태터툴즈의 기능을 확장해 줍니다. 설치된 플러그인은 이 메뉴에서 사용 여부를 결정합니다.');
+	echo _t('플러그인은 태터툴즈의 기능을 확장해 줍니다. 이 곳에서 설치된 플러그인의 사용 여부를 결정할 수 있습니다.');
 ?></p>
 							</div>
 							
@@ -165,7 +185,7 @@ if (!defined('__TATTERTOOLS_CENTER__')) {
 									<dt><?php echo _t('상태');?></dt>
 									<dd>
 										<input type="checkbox" class="checkbox" id="activated-plugin" name="listedPluginStatus[]" value="activated" onclick="changeList()"<?php echo in_array("activated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /> <label for="activated-plugin"><?php echo _t('사용중인 플러그인');?></label>
-										<input type="checkbox" class="checkbox" id="deactivated-plugin" name="listedPluginStatus[]" value="deactivated" onclick="changeList()"<?php echo in_array("deactivated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /> <label for="deactivated-plugin"><?php echo _t('미사용인 플러그인');?></label>
+										<input type="checkbox" class="checkbox" id="deactivated-plugin" name="listedPluginStatus[]" value="deactivated" onclick="changeList()"<?php echo in_array("deactivated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /> <label for="deactivated-plugin"><?php echo _t('사용하지 않는 플러그인');?></label>
 									</dd>
 								</dl>
 								
@@ -265,7 +285,7 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 									<tr class="<?php echo $className;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="title"><?php echo ($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title);?></td>
 										<td class="version"><?php echo $version;?></td>
-										<td class="scope">
+										<td id="plugin<?php echo $i;?>Scope" class="scope">
 <?php
 	switch($scope) {
 		case 'global': echo str_repeat("\t", 11)._t('일반');break;
