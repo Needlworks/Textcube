@@ -3,7 +3,11 @@ define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/headerB.php';
 require ROOT . '/lib/piece/owner/contentMenuB0.php';
-
+if (false) {
+	fetchConfigVal();
+	getUserSetting();
+	setUserSetting();
+}
 $plugin = $_GET['name'];
 $pluginAttrs = array();
 $pluginDir = $plugin;

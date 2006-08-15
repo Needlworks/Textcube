@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="en">Referer Log</title>
+  <title xml:lang="ko">리퍼러 기록</title>
+  <link>http://forum.tattertools.com/ko/</link>
+  <version>1.0</version>
+  <description xml:lang="en">Default Referer log Plugin</description>
+  <description xml:lang="ko">기본 리퍼러 기록</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
+  <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
+  <scope>admin</scope>
+  <requirements>
+    <tattertools>1.1</tattertools>
+  </requirements>
+  <binding>
+    <adminMenu>Referers</adminMenu>
+  </binding>
+</plugin>
