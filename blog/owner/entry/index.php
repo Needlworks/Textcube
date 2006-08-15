@@ -5,7 +5,7 @@ if (isset($_POST['page']))
 $IV = array(
 	'GET' => array(
 		'page' => array('int', 1, 'default' => 1),
-		'category' => array('int', 'default' => 0),
+		'category' => array('int', 'default' => 0)
 	),
 	'POST' => array(
 		'categoryAtHome' => array('int', 'mandatory' => false),
@@ -19,7 +19,7 @@ require ROOT . '/lib/includeForOwner.php';
 publishEntries();
 
 // 카테고리 설정.
-if (isset($_GET['category'])) {
+if (isset($_GET['category']) && !isset($_POST['category'])) {
 	$categoryId = $_GET['category'];
 } else if (isset($_POST['categoryAtHome'])) {
 	$categoryId = $_POST['categoryAtHome'];

@@ -148,7 +148,7 @@ else
 							<div class="main-explain-box">
 								<p class="explain"><?php
 if (defined('__TATTERTOOLS_CENTER__'))
-	echo _t('알리미는 태터툴즈 알림판에 기능을 추가하는 역할을 합니다. 이 곳에서 사용 여부를 결정합니다.');
+	echo _t('자투리 플러그인은 조각보에 기능을 추가하는 역할을 합니다. 이 곳에서 자투리들의 사용 여부를 결정할 수 있습니다.');
 else
 	echo _t('플러그인은 태터툴즈의 기능을 확장해 줍니다. 이 곳에서 설치된 플러그인의 사용 여부를 결정할 수 있습니다.');
 ?></p>
