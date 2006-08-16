@@ -1,7 +1,6 @@
 <?
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
-$suri['value'] = $suri['value'];
 $search = $suri['value'];
 if (!empty($search) && !empty($suri['page'])) {
 	$list = array('title' => $search, 'items' => getEntryListBySearch($owner, $search));
