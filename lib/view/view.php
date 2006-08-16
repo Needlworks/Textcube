@@ -1215,7 +1215,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 		case 'jpg':case 'jpeg':case 'gif':case 'png':case 'bmp':
 			if (defined('__TATTERTOOLS_MOBILE__')) {
 				return fireEvent('ViewAttachedImageMobile', "<img src=\"$blogURL/imageResizer/?f=" . urlencode($filename) . "\" alt=\"\"/>", $path);
-			} else if ($bRssMode = true) {
+			} else if ($bRssMode == true) {
 				$property = str_replace('&quot;', '"', $property);
 				return fireEvent('ViewAttachedImage', "<img src=\"$url\" $property/>", $path);
 			} else {
