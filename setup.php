@@ -1244,7 +1244,8 @@ CREATE TABLE {$_POST['dbPrefix']}TagRelations (
 CREATE TABLE {$_POST['dbPrefix']}Tags (
   id int(11) NOT NULL auto_increment,
   name varchar(255) NOT NULL default '',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  UNIQUE KEY name (name)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}TrackbackLogs (
   owner int(11) NOT NULL default '0',
