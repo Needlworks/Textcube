@@ -145,7 +145,7 @@ else
 						?>" class="part" method="post" action="<?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo $blogURL."/owner/center/setting";
-else if (defined('__TATTERTOOLS_CENTER__'))
+else if (defined('__TATTERTOOLS_SIDEBAR__'))
 	echo $blogURL."/owner/skin/sidebar";
 else
 	echo $blogURL."/owner/plugin";
