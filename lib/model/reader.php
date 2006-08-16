@@ -303,7 +303,7 @@ function getFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = f
 
 function addFeedGroup($owner, $title) {
 	global $database;
-	$title = mysql_real_escape_string(mysql_lessen(stripHTML($title)));
+	$title = mysql_real_escape_string(mysql_lessen($title));
 	if (empty($title))
 		return 1;
 	if (fetchQueryCell("SELECT id FROM {$database['prefix']}FeedGroups WHERE owner = $owner AND title = '$title'") !== null) {
@@ -318,7 +318,7 @@ function addFeedGroup($owner, $title) {
 
 function editFeedGroup($owner, $id, $title) {
 	global $database;
-	$title = mysql_real_escape_string(stripHTML($title));
+	$title = mysql_real_escape_string($title);
 	if (empty($title))
 		return 1;
 	$prevTitle = fetchQueryCell("SELECT title FROM {$database['prefix']}FeedGroups WHERE owner = $owner AND id = $id");
@@ -364,8 +364,8 @@ function addFeed($owner, $group = 0, $url, $getEntireFeed = true, $htmlURL = '',
 		mysql_query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($owner, $id, $group)");
 		saveFeedItems($id, $xml);
 	} else {
-		$htmlURL = mysql_real_escape_string(mysql_lessen(stripHTML($htmlURL)));
-		$blogTitle = mysql_real_escape_string(mysql_lessen(stripHTML($blogTitle)));
+		$htmlURL = mysql_real_escape_string(mysql_lessen($htmlURL));
+		$blogTitle = mysql_real_escape_string(mysql_lessen($blogTitle));
 		$blogDescription = mysql_real_escape_string(mysql_lessen(stripHTML($blogDescription)));
 		mysql_query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '$escapedURL', '$htmlURL', '$blogTitle', '$blogDescription', 'en-US', 0)");
 		$id = mysql_insert_id();
@@ -449,8 +449,8 @@ function getRemoteFeed($url) {
 	} else
 		return array(3, null, null);
 
-	$feed['blogURL'] = mysql_real_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['blogURL']))));
-	$feed['title'] = mysql_real_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['title']))));
+	$feed['blogURL'] = mysql_real_escape_string(mysql_lessen(UTF8::correct($feed['blogURL'])));
+	$feed['title'] = mysql_real_escape_string(mysql_lessen(UTF8::correct($feed['title'])));
 	$feed['description'] = mysql_real_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['description']))));
 
 	return array(0, $feed, $xml);
@@ -471,15 +471,15 @@ function saveFeedItems($feedId, $xml) {
 				$item['description'] = $xmls->getValue("/rss/channel/item[$i]/description");
 			$item['tags'] = array();
 			for ($j = 0; $tag = $xmls->getValue("/rss/channel/item[$i]/category[$j]"); $j++)
-				if(stripHTML($tag) != '')
-					array_push($item['tags'], stripHTML($tag));
+				if(!empty($tag))
+					array_push($item['tags'], $tag);
 			for ($j = 0; $tag = $xmls->getValue("/rss/channel/item[$i]/subject[$j]"); $j++)
-				if(stripHTML($tag) != '')
-					array_push($item['tags'], stripHTML($tag));
+				if(!empty($tag))
+					array_push($item['tags'], $tag);
 			$item['enclosures'] = array();
 			for ($j = 0; $url = $xmls->getAttribute("/rss/channel/item[$i]/enclosure[$j]", 'url'); $j++)
-				if(stripHTML($url) != '')
-					array_push($item['enclosures'], stripHTML($url));
+				if(!empty($url))
+					array_push($item['enclosures'], $url);
 			if ($xmls->getValue("/rss/channel/item[$i]/pubDate"))
 				$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/pubDate"));
 			else if ($xmls->getValue("/rss/channel/item[$i]/dc:date"))
@@ -503,12 +503,12 @@ function saveFeedItems($feedId, $xml) {
 				$item['description'] = $xmls->getValue("/feed/entry[$i]/summary");
 			$item['tags'] = array();
 			for ($j = 0; $tag = $xmls->getValue("/feed/entry[$i]/dc:subject[$j]"); $j++)
-				if(stripHTML($tag) != '')
-					array_push($item['tags'], stripHTML($tag));
+				if(!empty($tag))
+					array_push($item['tags'], $tag);
 			$item['enclosures'] = array();
 			for ($j = 0; $url = $xmls->getAttribute("/feed/entry[$i]/enclosure[$j]", 'url'); $j++)
-				if(stripHTML($url) != '')
-					array_push($item['enclosures'], stripHTML($url));
+				if(!empty($url))
+					array_push($item['enclosures'], $url);
 			$item['written'] = parseDate($xmls->getValue("/feed/entry[$i]/issued"));
 			saveFeedItem($feedId, $item);
 		}
@@ -545,8 +545,8 @@ function saveFeedItem($feedId, $item) {
 	$item = fireEvent('SaveFeedItem', $item);
 
 	$item['permalink'] = mysql_real_escape_string(mysql_lessen(UTF8::correct($item['permalink'])));
-	$item['author'] = mysql_real_escape_string(mysql_lessen(UTF8::correct(stripHTML($item['author']))));
-	$item['title'] = mysql_real_escape_string(mysql_lessen(UTF8::correct(stripHTML($item['title']))));
+	$item['author'] = mysql_real_escape_string(mysql_lessen(UTF8::correct($item['author'])));
+	$item['title'] = mysql_real_escape_string(mysql_lessen(UTF8::correct($item['title'])));
 	$item['description'] = mysql_real_escape_string(mysql_lessen(UTF8::correct($item['description']), 65535));
 	$tagString = mysql_real_escape_string(mysql_lessen(UTF8::correct(implode(', ', $item['tags']))));
 	$enclosureString = mysql_real_escape_string(mysql_lessen(UTF8::correct(implode('|', $item['enclosures']))));
