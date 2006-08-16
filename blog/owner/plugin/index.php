@@ -32,7 +32,11 @@ if (empty($_POST['scopeType'])) {
 	$scopeType = getUserSetting("pluginListScopeType","all");
 	$_POST['scopeType'] = $scopeType;
 }
-if (!defined('__TATTERTOOLS_CENTER__')) setUserSetting("pluginListScopeType",$_POST['scopeType']);
+if (!defined('__TATTERTOOLS_CENTER__')) {
+	if (!defined('__TATTERTOOLS_SIDEBAR__')) {
+		setUserSetting("pluginListScopeType",$_POST['scopeType']);
+	}
+}
 
 if (empty($_POST['listedPluginStatus'])) {
 	$listType = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'listedPluginStatus'");
