@@ -1570,7 +1570,7 @@ function printEntryEditorProperty() {
 		  </table>
 			<table width="100%" border="0" cellpadding="0" cellspacing="0">
 			  <tr>
-				<td height="20" align="right"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/attach_MoveUp.gif" width="40" height="14" alt="<?=_t('위로')?>" onclick="editor.moveUpFileList('propertyiMazing_list')"/> <img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/attach_MoveDown.gif" width="50" height="14" alt="<?=_t('아래로')?>" onclick="editor.moveDownFileList('propertyiMazing_list')"/></td>
+				<td height="20" align="right"><span class="pointerCursor" onclick="editor.moveUpFileList('propertyiMazing_list')"><img src="<?=$service['path']?>/image/owner/edit/attach_MoveUp.gif" width="15" height="14" alt="" style="vertical-align: middle"/><?=_t('위로')?></span> <span class="pointerCursor" onclick="editor.moveDownFileList('propertyiMazing_list')"><img src="<?=$service['path']?>/image/owner/edit/attach_MoveDown.gif" width="15" height="14" alt="" style="vertical-align: middle"/><?=_t('아래로')?></span></td>
 			  </tr>
 			</table></td>
 		</tr>
@@ -1624,7 +1624,7 @@ function printEntryEditorProperty() {
 		  </table>
 			<table width="100%" border="0" cellpadding="0" cellspacing="0">
 			  <tr>
-				<td height="20" align="right"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/attach_MoveUp.gif" width="40" height="14" alt="<?=_t('위로')?>" onclick="editor.moveUpFileList('propertyGallery_list')"/> <img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/attach_MoveDown.gif" width="50" height="14" alt="<?=_t('아래로')?>" onclick="editor.moveDownFileList('propertyGallery_list')"/></td>
+				<td height="20" align="right"><span class="pointerCursor" onclick="editor.moveUpFileList('propertyGallery_list')"><img src="<?=$service['path']?>/image/owner/edit/attach_MoveUp.gif" width="15" height="14" alt="" style="vertical-align: middle"/><?=_t('위로')?></span> <span class="pointerCursor" onclick="editor.moveDownFileList('propertyGallery_list')"><img src="<?=$service['path']?>/image/owner/edit/attach_MoveDown.gif" width="15" height="14" alt="" style="vertical-align: middle"/><?=_t('아래로')?></span></td>
 			  </tr>
 			</table></td>
 		</tr>
@@ -1678,7 +1678,7 @@ function printEntryEditorProperty() {
 		  </table>
 			<table width="100%" border="0" cellpadding="0" cellspacing="0">
 			  <tr>
-				<td height="20" align="right"><img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/attach_MoveUp.gif" width="40" height="14" alt="<?=_t('위로')?>" onclick="editor.moveUpFileList('propertyJukebox_list')"/> <img class="pointerCursor" src="<?=$service['path']?>/image/owner/edit/attach_MoveDown.gif" width="50" height="14" alt="<?=_t('아래로')?>" onclick="editor.moveDownFileList('propertyJukebox_list')"/></td>
+				<td height="20" align="right"><span class="pointerCursor" onclick="editor.moveUpFileList('propertyJukebox_list')"><img src="<?=$service['path']?>/image/owner/edit/attach_MoveUp.gif" width="15" height="14" alt="" style="vertical-align: middle"/><?=_t('위로')?></span> <span class="pointerCursor" onclick="editor.moveDownFileList('propertyJukebox_list')"><img src="<?=$service['path']?>/image/owner/edit/attach_MoveDown.gif" width="15" height="14" alt="" style="vertical-align: middle"/><?=_t('아래로')?></span></td>
 			  </tr>
 			</table></td>
 		</tr>
