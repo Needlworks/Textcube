@@ -294,3 +294,60 @@
 {
 	width                            : 102px;
 }
+
+/* Plugin ****************************************************************************************/
+
+/* sorting setting ------------------------------------------------------------------------------*/
+#plugin-display-box
+{
+	padding                          : 15px 10px 5px 10px;
+	text-align                       : right;
+}
+
+#scope-line,
+#sorting-line,
+#activate-status-line
+{
+	display                          : inline;
+}
+
+#scope-line dt,
+#sorting-line dt,
+#activate-status-line dt
+{
+	display                          : none;
+}
+
+#scope-line dd,
+#sorting-line dd,
+#activate-status-line dd
+{
+	display                          : inline !important;
+	float                            : none !important;
+}
+
+#activated-plugin
+{
+	margin-left                      : 40px;
+}
+
+/* list table body ------------------------------------------------------------------------------*/
+#part-sidebar-plugins table.data-inbox tbody tr td.status .active-class
+{
+	background-image                 : url("./image/icon_plugin.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	cursor                           : pointer;
+	display                          : block;
+	padding-left                     : 16px;
+}
+
+#part-sidebar-plugins table.data-inbox tbody tr td.status .inactive-class
+{
+	background-image                 : url("./image/icon_plugin.gif");
+	background-position              : left -1px;
+	background-repeat                : no-repeat;
+	cursor                           : pointer;
+	display                          : block;
+	padding-left                     : 16px;
+}

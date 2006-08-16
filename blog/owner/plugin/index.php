@@ -1,7 +1,8 @@
 <?php
 if (defined('__TATTERTOOLS_CENTER__')) {
 	define('ROOT', '../../../..');
-	
+} else if (defined('__TATTERTOOLS_SIDEBAR__')) {
+	define('ROOT', '../../../..');	
 } else {
 	define('ROOT', '../../..');
 }
@@ -10,6 +11,11 @@ if (defined('__TATTERTOOLS_CENTER__')) {
 	require ROOT . '/lib/piece/owner/headerA.php';
 	require ROOT . '/lib/piece/owner/contentMenuA1.php';
 	$scopeType = 'dashboard';
+	$_POST['scopeType'] = $scopeType;
+} else if (defined('__TATTERTOOLS_SIDEBAR__')) {
+	require ROOT . '/lib/piece/owner/header3.php';
+	require ROOT . '/lib/piece/owner/contentMenu33.php';
+	$scopeType = 'sidebar';
 	$_POST['scopeType'] = $scopeType;
 } else {
 	require ROOT . '/lib/piece/owner/headerB.php';
@@ -106,7 +112,9 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 									document.getElementById("part-<?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo 'center';
-else 
+else if (defined('__TATTERTOOLS_SIDEBAR__'))
+	echo 'sidebar';
+else
 	echo 'setting';
 									?>-plugins").submit();
 								}
@@ -130,17 +138,23 @@ else
 						<form id="<?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo 'part-center-plugins';
+else if (defined('__TATTERTOOLS_SIDEBAR__'))
+	echo 'part-sidebar-plugins';
 else
 	echo 'part-setting-plugins';
 						?>" class="part" method="post" action="<?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo $blogURL."/owner/center/setting";
+else if (defined('__TATTERTOOLS_CENTER__'))
+	echo $blogURL."/owner/skin/sidebar";
 else
 	echo $blogURL."/owner/plugin";
 ?>">
 							<h2 class="caption"><span class="main-text"><?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo _t('설치된 자투리 플러그인입니다');
+else if (defined('__TATTERTOOLS_SIDEBAR__'))
+	echo _t('설치된 사이드바 플러그인입니다');
 else 
 	echo _t('설치된 플러그인입니다');
 ?></span></h2>
@@ -149,6 +163,8 @@ else
 								<p class="explain"><?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo _t('자투리 플러그인은 조각보에 기능을 추가하는 역할을 합니다. 이 곳에서 자투리들의 사용 여부를 결정할 수 있습니다.');
+else if (defined('__TATTERTOOLS_SIDEBAR__'))
+	echo _t('사이드바 플러그인은 스킨의 사이드바 기능을 확장합니다. 이 곳에서 설치된 플러그인의 사용 여부를 결정할 수 있습니다.');
 else
 	echo _t('플러그인은 태터툴즈의 기능을 확장해 줍니다. 이 곳에서 설치된 플러그인의 사용 여부를 결정할 수 있습니다.');
 ?></p>
@@ -159,6 +175,7 @@ else
 
 <?php
 if (!defined('__TATTERTOOLS_CENTER__')) {
+	if (!defined('__TATTERTOOLS_SIDEBAR__')) {
 ?>
 								<dl id="scope-line" class="line">
 									<dt><?php echo _t('종류');?></dt>
@@ -167,11 +184,11 @@ if (!defined('__TATTERTOOLS_CENTER__')) {
 										<input type="radio" class="radio" id="common-scope" name="scopeType" value="global" onclick="changeList()"<?php echo $_POST['scopeType'] == "global" ? ' checked="checked"' : '';?> /> <label for="common-scope"><?php echo _t('일반');?></label>
 										<input type="radio" class="radio" id="blog-scope" name="scopeType" value="blog" onclick="changeList()"<?php echo $_POST['scopeType'] == "blog" ? ' checked="checked"' : '';?> /> <label for="blog-scope"><?php echo _t('블로그');?></label>
 										<input type="radio" class="radio" id="admin-scope" name="scopeType" value="admin" onclick="changeList()"<?php echo $_POST['scopeType'] == "admin" ? ' checked="checked"' : '';?> /> <label for="admin-scope"><?php echo _t('관리자');?></label>
-										<input type="radio" class="radio" id="sidebar-scope" name="scopeType" value="sidebar" onclick="changeList()"<?php echo $_POST['scopeType'] == "sidebar" ? ' checked="checked"' : '';?> /> <label for="sidebar-scope"><?php echo _t('사이드바');?></label>
 										<input type="radio" class="radio" id="none-scope" name="scopeType" value="none" onclick="changeList()"<?php echo $_POST['scopeType'] == "none" ? ' checked="checked"' : '';?> /> <label for="none-scope"><?php echo _t('미지정');?></label>
 									</dd>
 								</dl>
 <?php
+	}
 }
 ?>
 								<dl id="sorting-line" class="line">
@@ -273,6 +290,12 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 			continue;
 		}
 	}
+	if (!defined('__TATTERTOOLS_SIDEBAR__')) {
+		if ($scope == 'sidebar') {
+			continue;
+		}
+	}
+
 	if ($active == true && !in_array("activated", $_POST['listedPluginStatus']))
 		continue;
 	else if ($active == false && !in_array("deactivated", $_POST['listedPluginStatus']))
@@ -292,7 +315,7 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 		case 'blog': echo str_repeat("\t", 11)._t('블로그');break;
 		case 'admin': echo str_repeat("\t", 11)._t('관리자');break;
 		case 'sidebar': echo str_repeat("\t", 11)._t('사이드바');break;
-		case 'dashboard': echo str_repeat("\t", 11)._t('센터');break;
+		case 'dashboard': echo str_repeat("\t", 11)._t('자투리');break;
 		default : echo str_repeat("\t", 11)._t('미지정');break;
 	}
 	echo CRLF;
