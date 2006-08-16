@@ -1030,7 +1030,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				$galleryAttributes = getAttributesFromString($attributes[sizeof($attributes) - 1]);
 				if (($useAbsolutePath == true) && ($bWritedGalleryJS == false)) {
 					$bWritedGalleryJS = true;
-					$buf .= '[HTML]' . printScript('gallery.js') . '[/HTML]';
+					$buf .= printScript('gallery.js');
 				}
 				$buf .= '<div id="' . $id . '"></div>';
 				$buf .= '<script type="text/javascript">var ' . $id . ' = new TTGallery("' . $id . '");';

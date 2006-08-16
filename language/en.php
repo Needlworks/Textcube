@@ -533,7 +533,6 @@ $__text['위 2와 3의 문제는 아래 내용을 웹서버 설정에 포함시�
 $__text['위로 스크롤'] = 'Page scroll up';
 $__text['위로 올리기'] = 'Move-up';
 $__text['위로'] = 'Move up';
-$__text['위지윅 모드에서는 [HTML][/HTML] 블럭을 사용할 수 없습니다.'] = 'WYSIWYG mode doesn\'t support [HTML][/HTML] Block.';
 $__text['위지윅/텍스트 모드 변경'] = 'WYSIWYG Editor Mode / Text Mode';
 $__text['유지'] = 'Keep';
 $__text['유형'] = 'Type';
