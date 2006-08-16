@@ -455,8 +455,8 @@ TTEditor.prototype.html2ttml = function() {
 	while(result = regObject.exec(str)) {
 		var body = result[0];
 		var object = this.objectUnSerialize(this.parseAttribute(body, "longdesc"));
-		var widthString = new RegExp("width=[\"']?\\w+[\"']?").exec(object);
-		var heightString = new RegExp("height=[\"']?\\w+[\"']?").exec(object);
+		var widthString = new RegExp("width=[\"']?\\w+[\"']?","i").exec(object);
+		var heightString = new RegExp("height=[\"']?\\w+[\"']?","i").exec(object);
 		var size = this.parseImageSize(body, "array");
 		if(widthString)
 			object = object.replaceAll(widthString[0], 'width="' + size[0] + '"');

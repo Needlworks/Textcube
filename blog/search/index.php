@@ -4,7 +4,6 @@ require ROOT . '/lib/include.php';
 if (false) {
 	fetchConfigVal();
 }
-$suri['value'] = $suri['value'];
 $search = $suri['value'];
 if (!empty($search) && !empty($suri['page'])) {
 	$list = array('title' => $search, 'items' => getEntryListBySearch($owner, $search));
