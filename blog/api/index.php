@@ -20,6 +20,8 @@ function SendRSD()
 	$apiurl = $homeurl . "/api";
 	$blogid = $owner;
 
+	header( "Content-type: text/xml", true );
+
 	print( '<?xml version="1.0" encoding="utf-8" ?> 
 <rsd xmlns="http://archipelago.phrasewise.com/rsd" version="1.0">
     <service xmlns="">
