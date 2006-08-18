@@ -22,7 +22,7 @@ Converter.prototype.makeDataSet = function( fieldName ){
 		case 'select':
 		case 'SELECT':
 		case 'text':
-			ele += con.value;break;		
+			ele += '<![CDATA['+con.value+']]>';break;		
 		case 'textarea':
 		case 'TEXTAREA':
 			ele += '<![CDATA['+con.value +']]>';break;

@@ -24,7 +24,6 @@
 		<window width="500" height="520" />
 		<fieldset legend="기념일을 넣어주세요" >
 			<field title="월" name="month" type="select"  titledirection="bk" >
-				<caption> 월입니다.. 월 </caption>
 				<op value="1">1</op>
 				<op value="2" >2</op>
 				<op value="3" checked="checked">3</op>
@@ -39,35 +38,9 @@
 				<op value="12">12</op>
 			</field>			
 			<field title="일" name="day" type="text"  size ="3" titledirection="bk"  value="13">
-				<caption > 날짜는 숫자로만 넣어주삼</caption>
-			</field>
-		</fieldset>
-		<fieldset legend="예제1" >
-			<field title="셋팅1" name="t1" type="text" size="3" />
-			<field title="셋팅2" name="t2" rows="2"  type="textarea" value ="처음>>값" />
-			<field title="선택" name="t6" type="radio"  >
-				<op value="1">1</op>
-				<op value="2" checked="checked">2</op>
-				<op value="3">3</op>
-				<op value="4">4</op>
-			</field>			
-		</fieldset>
-		<fieldset legend="예제2" >
-			<field title="선택" name="t3" type="select"  >
-				<op value="1">1</op>
-				<op value="2" checked="true">2</op>
-				<op value="3">3</op>
-				<op value="4">4</op>
-			</field>
-			<field title="체크박스" name="t4" type="checkbox"  >
-				<op name="c1" value="1">가나다라</op>
-				<op name="c2" value="2" checked="checked">일이삼사</op>
-				<op name="c3" value="3">오륙칠팔</op>
-				<op name="c4" value="4">가나다라2</op>
-				<op name="c5" value="5" checked="checked">일이삼사2</op>
+				<caption > 날짜는 숫자로만 넣어주세요.</caption>
 			</field>
 		</fieldset>
 	</config>
   </binding>
 </plugin>
-

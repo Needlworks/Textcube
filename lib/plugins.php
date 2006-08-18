@@ -307,11 +307,15 @@ function textareaTreat( $cmd, $dfVal , $name){
 }
 function selectTreat( $cmd, $dfVal , $name){
 	$DSP = TAB.TAB.TAB.TAB.'<select id="'.$name.'" class="selectcontrol">'.CRLF;	
+    $df = empty($dfVal[$name] ) ? NULL: $dfVal[$name];
 	foreach( $cmd['op']  as $option ){
+		$ov = empty($option['.attributes']['value']) ? NULL :$option['.attributes']['value']; 
+		$oc = empty($option['.attributes']['checked']) ? NULL:$option['.attributes']['checked'];
+		
 		$DSP .= TAB.TAB.TAB.TAB.TAB.'<option ';
-		$DSP .= !is_string( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
-		$DSP .= is_string( $option['.attributes']['checked'] ) && 'checked' == $option['.attributes']['checked'] && is_null($dfVal) ? 'selected="selected" ' : '';
-		$DSP .= is_string($dfVal[$name]) && (!is_string( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value']== $dfVal[$name] ) ? 'selected="selected" ' : '';
+		$DSP .= !is_string( $ov ) ? '' : 'value="'.htmlspecialchars($ov).'" ';
+		$DSP .= is_string( $oc ) && 'checked' == $oc && is_null($dfVal) ? 'selected="selected" ':'';
+		$DSP .= is_string($df) && (!is_string( $ov ) ? false : $ov== $df ) ? 'selected="selected" ' : '';
 		$DSP .= '>';
 		$DSP .= $option['.value'];
 		$DSP .= '</option>'.CRLF;
@@ -322,10 +326,12 @@ function selectTreat( $cmd, $dfVal , $name){
 function checkboxTreat( $cmd, $dfVal, $name){
 	$DSP = '';	
 	foreach( $cmd['op']  as $option ){
-		if( !is_string( $option['.attributes']['name'] ) ) continue;
-		$checked = !is_string( $dfVal[$option['.attributes']['name'] ]) ? 
-				( is_string( $option['.attributes']['checked'] ) && 'checked' == $option['.attributes']['checked'] && is_null( $dfVal ) ? 'checked="checked" ' : ''   ) :
-				( '' != $dfVal[$option['.attributes']['name'] ] ? 'checked="checked" ' : '');
+		if( empty($option['.attributes']['name']) || !is_string( $option['.attributes']['name'] ) ) continue;
+		$df = empty( $dfVal[$option['.attributes']['name']] ) ? NULL : $dfVal[$option['.attributes']['name']];
+		$oc = empty( $option['.attributes']['checked'] ) ? NULL : $option['.attributes']['checked'];
+		$checked = !is_string( $df ) ? 
+				( is_string( $oc ) && 'checked' == $oc && is_null( $dfVal ) ? 'checked="checked" ' : ''   ) :
+				( '' != $df ? 'checked="checked" ' : '');
 		$DSP .= TAB.TAB.TAB.TAB.'<input type="checkbox" class="checkboxcontrol"';
 		$DSP .= ' id="'.$option['.attributes']['name'].'" ';
 		$DSP .= !is_string( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
@@ -337,13 +343,14 @@ function checkboxTreat( $cmd, $dfVal, $name){
 }
 function radioTreat( $cmd, $dfVal, $name){
 	$DSP = '';
+	$df = empty( $dfVal[$name]) ? NULL :$dfVal[$name];
 	foreach( $cmd['op']  as $option ){
 		$DSP .= TAB.TAB.TAB.TAB.'<input type="radio"  class="radiocontrol" ';
 		$DSP .= ' name="'.$name.'" ';
-		
+		$oc = empty( $option['.attributes']['checked'] ) ? NULL: $option['.attributes']['checked'];
 		$DSP .= !is_string( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
-		$DSP .= is_string( $option['.attributes']['checked'] ) && 'checked' == $option['.attributes']['checked'] && is_null($dfVal) ? 'checked="checked" ' : '';
-		$DSP .= is_string($dfVal[$name]) && (!is_string( $option['.attributes']['value'] ) ? '' : $option['.attributes']['value']== $dfVal[$name] ) ? 'checked="checked" ' : '';
+		$DSP .= is_string( $oc ) && 'checked' == $oc && is_null($dfVal) ? 'checked="checked" ' : '';
+		$DSP .= is_string($df) && (!is_string( $option['.attributes']['value'] ) ? false : $option['.attributes']['value']== $df ) ? 'checked="checked" ' : '';
 		$DSP .= ' />' ;
 		$DSP .= "<label class='radiolabel' >{$option['.value']}</label >".CRLF;
 	}
