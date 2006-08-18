@@ -218,7 +218,7 @@ if (extension_loaded('gd')) {
 														<option value="middle"<?php echo isset($middle) ? ' selected="selected"' : '';?>>중앙</option>
 														<option value="bottom"<?php echo isset($bottom) ? ' selected="selected"' : '';?>>하단</option>
 													</select>
-													<input type="text" class="text-input" name="verticalPosition" value="<?php echo $verticalValue;?>"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
+													<input type="text" class="input-text" name="verticalPosition" value="<?php echo $verticalValue;?>"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
 												</div>
 												<div id="horizontal-position">
 													<select name="horizontalType"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
@@ -226,7 +226,7 @@ if (extension_loaded('gd')) {
 														<option value="center"<?php echo isset($center) ? ' selected="selected"' : '';?>>중앙</option>
 														<option value="right"<?php echo isset($right) ? ' selected="selected"' : '';?>>우측</option>
 													</select>
-													<input type="text" class="text-input" name="horizontalPosition" value="<?php echo $horizontalValue;?>" <?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
+													<input type="text" class="input-text" name="horizontalPosition" value="<?php echo $horizontalValue;?>" <?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
 												</div>
 											</dd>
 										</dl>
@@ -265,14 +265,14 @@ if (extension_loaded('gd')) {
 <?php
 	$temp = 'thumbnail'.ucfirst($paddingOrder[$i]).'Padding';
 ?>
-													<input type="text" class="text-input" id="<?php echo $paddingOrder[$i];?>PaddingManual" name="<?php echo $paddingOrder[$i];?>PaddingManual" value="<?php echo $$temp;?>" />px
+													<input type="text" class="input-text" id="<?php echo $paddingOrder[$i];?>PaddingManual" name="<?php echo $paddingOrder[$i];?>PaddingManual" value="<?php echo $$temp;?>" />px
 												</div>
 <?php
 	}
 ?>
 												<div id="padding-color">
 													<span class="label"><?php echo _t('여백 색상');?></span>
-													<input type="text" class="text-input" name="paddingColor" value="<?php echo $colorOfPadding;?>" />
+													<input type="text" class="input-text" name="paddingColor" value="<?php echo $colorOfPadding;?>" />
 												</div>
 											</dd>
 										</dl>

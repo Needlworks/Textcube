@@ -22,7 +22,7 @@ select
 	width                            : auto;
 }
 
-input.text-input
+input.input-text
 {
 	font-size                        : 12px;
 	height                           : 15px;
@@ -77,7 +77,7 @@ h1
 	vertical-align                   : middle;
 }
 
-.data-subbox .text-input
+.data-subbox .input-text
 {
 	vertical-align                   : middle;
 }

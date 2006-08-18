@@ -235,12 +235,12 @@ if ($service['type'] != 'single') {
 										
 										<dl id="blogger-name-line" class="line">
 											<dt><label for="nickname"><?php echo _t('필명');?></label></dt>
-											<dd><input type="text" id="nickname" class="text-input" value="<?php echo $user['name'];?>" onkeydown="if(event.keyCode == 13) save();" /></dd>
+											<dd><input type="text" id="nickname" class="input-text" value="<?php echo $user['name'];?>" onkeydown="if(event.keyCode == 13) save();" /></dd>
 										</dl>
 										<dl id="blogger-email-line" class="line">
 											<dt><label for="email"><?php echo _t('e-mail');?></label></dt>
 											<dd>
-												<input type="text" id="email" class="text-input" value="<?php echo htmlspecialchars(User::getEmail());?>" />
+												<input type="text" id="email" class="input-text" value="<?php echo htmlspecialchars(User::getEmail());?>" />
 												<em><?php echo _t('(로그인시 ID로 사용됩니다)');?></em>
 											</dd>
 										</dl>
@@ -258,15 +258,15 @@ if ($service['type'] != 'single') {
 										
 										<dl id="current-password-line" class="line">
 											<dt><label for="prevPwd"><?php echo _t('현재 비밀번호');?></label></dt>
-											<dd><input type="password" id="prevPwd" class="text-input" value="<?php echo (empty($_GET['password']) ? '' : $_GET['password']);?>" /></dd>
+											<dd><input type="password" id="prevPwd" class="input-text" value="<?php echo (empty($_GET['password']) ? '' : $_GET['password']);?>" /></dd>
 										</dl>
 										<dl id="new-password1-line" class="line">
 											<dt><label for="pwd"><?php echo _t('새로운 비밀번호');?></label></dt>
-											<dd><input type="password" id="pwd" class="text-input" /></dd>
+											<dd><input type="password" id="pwd" class="input-text" /></dd>
 										</dl>
 										<dl id="new-password2-line" class="line">
 											<dt><label for="pwd2"><?php echo _t('비밀번호 확인');?></label></dt>
-											<dd><input type="password" id="pwd2" class="text-input" onkeydown="if(event.keyCode == 13) savePwd();" /></dd>
+											<dd><input type="password" id="pwd2" class="input-text" onkeydown="if(event.keyCode == 13) savePwd();" /></dd>
 										</dl>
 									</fieldset>
 									<div class="button-box">
@@ -291,11 +291,11 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 											<div id="letter-head">
 												<div id="receiver-line" class="line">
 													<label for="invitation_receiver"><?php echo _t('받는 사람');?></label>
-													<input type="text" id="invitation_receiver" class="text-input" name="text" value="<?php echo _t('이름&lt;이메일&gt; 혹은 이메일');?>" onclick="if(!this.selected) this.select();this.selected=true;" onblur="this.selected=false;" onkeydown="refreshReceiver(event)" />
+													<input type="text" id="invitation_receiver" class="input-text" name="text" value="<?php echo _t('이름&lt;이메일&gt; 혹은 이메일');?>" onclick="if(!this.selected) this.select();this.selected=true;" onblur="this.selected=false;" onkeydown="refreshReceiver(event)" />
 												</div>
 												<div id="blog-addredd-line" class="line">
 													<label for="invitation_identify"><?php echo _t('블로그 주소');?></label>
-													<span class="inter-word"><?php echo link_cut($urlRule[0]);?></span><input type="text" id="invitation_identify" class="text-input" name="text" /><span class="inter-word"><?php echo $urlRule[1];?></span>
+													<span class="inter-word"><?php echo link_cut($urlRule[0]);?></span><input type="text" id="invitation_identify" class="input-text" name="text" /><span class="inter-word"><?php echo $urlRule[1];?></span>
 												</div>
 											</div>
 														
@@ -305,7 +305,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 											
 											<div id="letter-foot">												<div id="sender-line" class="line">
 													<label for="invitation_sender"><?php echo _t('보내는 사람');?></label>
-													<input type="text" id="invitation_sender" class="text-input" name="text2" value="<?php echo htmlspecialchars($user['name'] . '<' . User::getEmail() . '>');?>" />
+													<input type="text" id="invitation_sender" class="input-text" name="text2" value="<?php echo htmlspecialchars($user['name'] . '<' . User::getEmail() . '>');?>" />
 												</div>
 											</div>
 										</dd>

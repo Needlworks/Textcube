@@ -267,7 +267,7 @@
 	height                           : 2.2em;
 }
 
-#property-box dl dd .text-input
+#property-box dl dd .input-text
 {
 	text-transform                   : uppercase;
 }

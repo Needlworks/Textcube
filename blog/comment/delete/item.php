@@ -153,7 +153,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 <?php
 if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId()))) {
 ?>				  
-					<label for="password"><?php echo _text('비밀번호');?><span class="divider"> | </span></label><input type="password" id="password" class="text-input" name="password" />
+					<label for="password"><?php echo _text('비밀번호');?><span class="divider"> | </span></label><input type="password" id="password" class="input-text" name="password" />
 <?php
 }
 ?>

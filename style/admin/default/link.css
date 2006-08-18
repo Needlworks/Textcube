@@ -18,8 +18,8 @@
 	width                            : 150px;
 }
 
-#part-link-add div.data-inbox dl dd .text-input,
-#part-link-edit div.data-inbox dl dd .text-input
+#part-link-add div.data-inbox dl dd .input-text,
+#part-link-edit div.data-inbox dl dd .input-text
 {
 	float                            : left;
 	margin-top                       : 2px;

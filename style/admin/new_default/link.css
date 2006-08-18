@@ -1,0 +1,124 @@
+@charset "utf-8";
+
+/* List ******************************************************************************************/
+
+#part-link-list .caption
+{
+	margin-bottom                    : 25px;
+}
+
+#part-link-list table.data-inbox
+{
+	margin-bottom                    : 100px;
+}
+
+/* table header */
+
+#part-link-list table.data-inbox thead tr th.homepage
+{
+	padding-left                     : 20px;
+	text-align                       : left;
+	width                            : 300px;
+}
+
+#part-link-list table.data-inbox thead tr th.address
+{
+	padding-left                     : 20px;
+	text-align                       : left;
+}
+
+#part-link-list table.data-inbox thead tr th.delete
+{
+	width                            : 20px;
+}
+
+#part-link-list table.data-inbox thead tr th.delete span
+{
+	display                          : none;
+}
+
+/* table body */
+
+#part-link-list table.data-inbox tbody tr td.homepage
+{
+	background-position              : right bottom;
+	padding-left                     : 25px;
+	text-align                       : left;
+	width                            : 300px;
+}
+
+#part-link-list table.data-inbox tbody tr td.address
+{
+	padding-left                     : 25px;
+	text-align                       : left;
+}
+
+/* Add *******************************************************************************************/
+
+#part-link-add div.data-inbox,
+#part-link-edit div.data-inbox
+{
+	height                           : 120px;
+	margin                           : 25px auto 0 auto;
+	width                            : 680px;
+}
+
+#part-link-add div.data-inbox dl,
+#part-link-edit div.data-inbox dl
+{
+	border                           : none;
+}
+
+#part-link-add div.data-inbox dl dt,
+#part-link-edit div.data-inbox dl dt
+{
+	padding-right                    : 0;
+	width                            : 120px;
+}
+
+#part-link-add div.data-inbox dl dd .input-text,
+#part-link-edit div.data-inbox dl dd .input-text
+{
+	width                            : 400px;
+}
+
+#part-link-add .button-box,
+#part-link-edit .button-box
+{
+	background-color                 : #F2F2F2;
+	background-image                 : url("./image/bg_link_button_box.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	clear                            : both;
+	margin                           : 0 auto 150px auto;
+	padding                          : 12px 10px 10px 10px;
+	width                            : 680px;
+}
+
+#part-link-add .button-box a,
+#part-link-edit .button-box a
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : auto;
+	line-height                      : auto;
+	padding                          : 10px 10px 8px 10px;
+	vertical-align                   : middle;
+}
+
+#part-link-add .button-box .input-button,
+#part-link-edit .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : auto;
+	line-height                      : auto;
+	padding                          : 8px 8px 6px 8px;
+	vertical-align                   : middle;
+}

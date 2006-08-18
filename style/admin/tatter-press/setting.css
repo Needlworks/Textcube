@@ -25,7 +25,7 @@
 	width                            : 370px;
 }
 
-#part-setting-basic #common-form .text-input
+#part-setting-basic #common-form .input-text
 {
 	width                            : 197px;
 }
@@ -108,7 +108,7 @@ input#pathDomain
 	padding-top                     : 5px;
 }
 
-#part-setting-thumbnail .text-input
+#part-setting-thumbnail .input-text
 {
 	margin-right                     : 3px;
 	vertical-align                   : middle;
@@ -125,7 +125,7 @@ input#pathDomain
 	line-height                      : 2.2em;
 }
 
-#padding-color .text-input
+#padding-color .input-text
 {
 	width                            : 60px;
 }
@@ -232,8 +232,8 @@ input#pathDomain
 	margin                           : 30px 0 15px 0;
 }
 
-#part-setting-account #info-section .text-input,
-#part-setting-account #account-section .text-input
+#part-setting-account #info-section .input-text,
+#part-setting-account #account-section .input-text
 {
 	width                            : 200px;
 }
@@ -299,7 +299,7 @@ input#pathDomain
 	float                            : left;
 }
 
-#letter-head .text-input
+#letter-head .input-text
 {
 	display                          : block;
 	float                            : left;
@@ -358,7 +358,7 @@ input#pathDomain
 	width                            : 140px;
 }
 
-#letter-foot .text-input
+#letter-foot .input-text
 {
 	display                          : block;
 	float                            : left;
@@ -535,14 +535,14 @@ input#pathDomain
 	text-align                       : center;
 }
 
-.part .dialog #remoteBackup input.text-input
+.part .dialog #remoteBackup input.input-text
 {
 	margin-bottom                    : 2px;
 	padding                          : 2px;
 	width                            : 350px;
 }
 
-.part .dialog #admin-password input.text-input
+.part .dialog #admin-password input.input-text
 {
 	margin-bottom                    : 2px;
 	padding                          : 2px;

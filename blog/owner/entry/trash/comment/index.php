@@ -340,7 +340,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 									
 									<div id="delete-section" class="section">
 										<span class="label"><?php echo _t('선택한 댓글을');?></span>
-										<a class="delete-button button" href="#void" onclick="deleteComments();"><span class="text"><?php echo _t('삭제');?></span></a>
+										<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteComments();" />
 									</div>
 									
 									<div id="page-section" class="section">
@@ -387,9 +387,9 @@ for ($i = 10; $i <= 30; $i += 5) {
 								
 								<div class="section">
 									<label for="search"><?php echo _t('이름');?>, <?php echo _t('사이트명');?>, <?php echo _t('내용');?></label>
-									<input type="text" id="search" class="text-input" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
+									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
-									<a class="search-button button" href="#void" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();"><span class="text"><?php echo _t('검색');?></span></a>
+									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();" />
 								</div>
 							</form>
 						</div>

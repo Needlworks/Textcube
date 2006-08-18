@@ -27,7 +27,7 @@
 	font-size                        : 0.9em;
 }
 
-.entry-editor-property dl dd input.text-input
+.entry-editor-property dl dd input.input-text
 {
 	width                            : 103px !important;
 }
@@ -71,7 +71,7 @@
 }
 
 /* location */
-#location-line dd .text-input
+#location-line dd .input-text
 {
 	margin-top                       : -3px !important;
 }

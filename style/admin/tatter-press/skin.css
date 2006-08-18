@@ -159,7 +159,7 @@
 	width                            : 200px;
 }
 
-#property-box dl dd .text-input
+#property-box dl dd .input-text
 {
 	text-transform                   : uppercase;
 	width                            : 60px;

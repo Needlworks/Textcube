@@ -17,7 +17,7 @@ samp
 
 /* Special Class *********************************************************************************/
 
-input.text-input,
+input.input-text,
 input.text-readonly-input
 {
 	margin                           : -1px 0;

@@ -9,7 +9,7 @@
 }
 
 /* menu -----------------------------------------------------------------------------------------*/
-#search .text-input
+#search .input-text
 {
 	margin-top                       : 0 !important;
 	padding                          : 1px !important;
@@ -38,7 +38,7 @@
 	position                         : relative;
 }
 
-#groupAdder .button-box .text-input
+#groupAdder .button-box .input-text
 {
 	margin-top                       : 0;
 	padding                          : 3px 2px 0 2px !important;
@@ -50,7 +50,7 @@
 }
 
 /* feed box */
-#feedAdder .button-box .text-input
+#feedAdder .button-box .input-text
 {
 	margin-top                       : 0;
 	padding                          : 3px 2px 0 2px !important;

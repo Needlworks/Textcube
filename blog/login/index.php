@@ -101,11 +101,11 @@ if (doesHaveOwnership()) {
 			            <div id="field-box">
 			            	<dl id="email-line">
 			            		<dt><label for="loginid"><?php echo _text('이메일');?></label></dt>
-			            		<dd><input type="text" class="text-input" id="loginid" name="loginid" value="<?php echo htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid']);?>" maxlength="64" tabindex="1" /></dd>
+			            		<dd><input type="text" class="input-text" id="loginid" name="loginid" value="<?php echo htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid']);?>" maxlength="64" tabindex="1" /></dd>
 			            	</dl>
 			            	<dl id="password-line">
 			            		<dt><label for="password"><?php echo _text('비밀번호');?></label></dt>
-								<dd><input type="password" class="text-input" id="password" name="password" onkeydown="if (event.keyCode == 13) document.forms[0].submit()" maxlength="64" tabindex="2" /></dd>
+								<dd><input type="password" class="input-text" id="password" name="password" onkeydown="if (event.keyCode == 13) document.forms[0].submit()" maxlength="64" tabindex="2" /></dd>
 							</dl>
 							<dl id="checkbox-line">
 								<dt><span class="label"><?php echo _text('선택사항');?></span></dt>

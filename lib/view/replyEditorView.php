@@ -64,11 +64,11 @@ if (!doesHaveOwnership()) {
 ?>
 				<dl class="name-line">
 					<dt><label for="name"><?php echo _text('이름');?></label></dt>
-					<dd><input type="text" id="name" class="text-input" name="name" value="<?php echo htmlspecialchars($comment['name']);?>" /></dd>
+					<dd><input type="text" id="name" class="input-text" name="name" value="<?php echo htmlspecialchars($comment['name']);?>" /></dd>
 				</dl>
 				<dl class="password-line">
 					<dt><label for="password"><?php echo _text('비밀번호');?></label></dt>
-					<dd><input type="password" class="text-input" id="password" name="password" value="<?php echo isset($_POST['password']) ? $_POST['password'] : '';?>" /></dd>
+					<dd><input type="password" class="input-text" id="password" name="password" value="<?php echo isset($_POST['password']) ? $_POST['password'] : '';?>" /></dd>
 				</dl>
 <?php 
 	}
@@ -76,12 +76,12 @@ if (!doesHaveOwnership()) {
 
     			<dl class="email-line">
 					<dt><label for="email"><?php echo _text('E-Mail');?></label></dt>
-					<dd><input type="text" class="text-input" id="email" name="email" value="<?php echo (empty($comment['email']) ? '' : htmlspecialchars($comment['email']));?>" /></dd>
+					<dd><input type="text" class="input-text" id="email" name="email" value="<?php echo (empty($comment['email']) ? '' : htmlspecialchars($comment['email']));?>" /></dd>
 				</dl>
 				
     			<dl class="homepage-line">
 					<dt><label for="homepage"><?php echo _text('홈페이지');?></label></dt>
-					<dd><input type="text" class="text-input" id="homepage" name="homepage" value="<?php echo (empty($comment['homepage']) ? 'http://' : htmlspecialchars($comment['homepage']));?>" /></dd>
+					<dd><input type="text" class="input-text" id="homepage" name="homepage" value="<?php echo (empty($comment['homepage']) ? 'http://' : htmlspecialchars($comment['homepage']));?>" /></dd>
 				</dl>
 				<dl class="secret-line">
 					<dd>

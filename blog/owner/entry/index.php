@@ -462,7 +462,7 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 										
 										newSection = document.createElement("DIV");
 										newSection.className = "layer-section";
-										newSection.innerHTML = '<label for="trackbackForm_' + id + '"><?php echo _t('글걸기 주소');?></label><span class="divider"> | </span><input type="text" id="trackbackForm_' + id + '" class="text-input" name="trackbackURL" value="http://" size="50" onkeydown="if (event.keyCode == 13) sendTrackback(' + id + ')" /> ';
+										newSection.innerHTML = '<label for="trackbackForm_' + id + '"><?php echo _t('글걸기 주소');?></label><span class="divider"> | </span><input type="text" id="trackbackForm_' + id + '" class="input-text" name="trackbackURL" value="http://" size="50" onkeydown="if (event.keyCode == 13) sendTrackback(' + id + ')" /> ';
 										
 										tempLink = document.createElement("A");
 										tempLink.className = "send-button button";
@@ -505,15 +505,15 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 									
 									if (obj.options[index].value == "delete") {
 										button.className = button.className.replace("apply-button", "delete-button");
-										button.innerHTML = '<span class="text"><?php echo _t('삭제');?></span>';
+										button.value = '<?php echo _t('삭제');?>';
 									} else {
 										button.className = button.className.replace("delete-button", "apply-button");
-										button.innerHTML = '<span class="text"><?php echo _t('적용');?></span>';
+										button.value = '<?php echo _t('적용');?>';
 									}
 								}
 								
-								window.addEventListener("load", activateFormElement, false);
-								function activateFormElement() {
+								window.addEventListener("load", execLoadFunction, false);
+								function execLoadFunction() {
 									document.getElementById('allChecked').disabled = false;
 									//document.getElementById('category-move-button').style.display = "none";
 								}
@@ -740,7 +740,7 @@ if ($entry['visibility'] == 1) {
 												<option value="delete"><?php echo _t('삭제합니다.');?></option>
 											</optgroup>
 										</select>
-										<a id="apply-button" class="apply-button button" href="#void" onclick="processBatch(document.getElementById('commandBox'));"><span class="text"><?php echo _t('적용');?></span></a>
+										<input type="button" id="apply-button" class="apply-button input-button" value="<?php echo _t('적용');?>" onclick="processBatch(document.getElementById('commandBox'));" />
 									</div>
 									
 									<div id="page-section" class="section">
@@ -788,9 +788,9 @@ for ($i = 10; $i <= 30; $i += 5) {
 								
 								<div class="section">
 									<label for="search"><?php echo _t('제목');?>, <?php echo _t('내용');?></label>
-									<input type="text" id="search" class="text-input" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
+									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
-									<a class="search-button button" href="#void" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();"><span class="text"><?php echo _t('검색');?></span></a>
+									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();" />
 								</div>
 							</form>
 						</div>

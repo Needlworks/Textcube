@@ -292,7 +292,7 @@
 	
 	/* Category **************************************************************************************/
 	
-	#property-box dl dd .text-input
+	#property-box dl dd .input-text
 	{
 		padding                          : 3px;
 	}

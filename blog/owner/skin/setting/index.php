@@ -444,7 +444,7 @@ ob_end_clean();
 									</fieldset>
 								
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setSkin(); return false;"><span class="text"><?php echo _t('저장하기');?></span></a>
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setSkin(); return false;" />
 									</div>
 								</form>
 							</div>
@@ -457,7 +457,10 @@ ob_end_clean();
 							
 							<form id="setSkinForm" method="post" action="<?php echo $blogURL;?>/owner/skin/setting/tree" enctype="application/x-www-form-urlencoded">
 								<div class="data-inbox">
-									<iframe id="treePreview" src="<?php echo $blogURL;?>/owner/skin/setting/tree/preview" width="300" height="300" frameborder="0" style="overflow: visible;"></iframe>
+									<div id="tree-preview-box">
+										<div class="title"><?php echo _t('미리보기');?></div>
+										<iframe id="treePreview" src="<?php echo $blogURL;?>/owner/skin/setting/tree/preview" width="300" height="300" frameborder="0" style="overflow: visible;"></iframe>
+									</div>
 									
 									<div class="section">
 										<fieldset id="property-box" class="container">
@@ -488,23 +491,23 @@ if ($dh = opendir($skinPath)) {
 											</dl>
 											<dl id="selected-color-line" class="line">
 												<dt><label for="activeColorOnTree"><?php echo _t('선택된 글자색');?></label></dt>
-												<dd><input type="text" id="activeColorOnTree" class="text-input" name="activeColorOnTree" value="<?php echo $skinSetting['activeColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+												<dd><input type="text" id="activeColorOnTree" class="input-text" name="activeColorOnTree" value="<?php echo $skinSetting['activeColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="selected-bgcolor-line" class="line">
 												<dt><label for="activeBgColorOnTree"><?php echo _t('선택된 배경색');?></label></dt>
-												<dd><input type="text" id="activeBgColorOnTree" class="text-input" name="activeBgColorOnTree" value="<?php echo $skinSetting['activeBgColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+												<dd><input type="text" id="activeBgColorOnTree" class="input-text" name="activeBgColorOnTree" value="<?php echo $skinSetting['activeBgColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="unselected-color-line" class="line">
 												<dt><label for="colorOnTree"><?php echo _t('선택되지 않은 글자색');?></label></dt>
-												<dd><input type="text" id="colorOnTree" class="text-input" name="colorOnTree" value="<?php echo $skinSetting['colorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+												<dd><input type="text" id="colorOnTree" class="input-text" name="colorOnTree" value="<?php echo $skinSetting['colorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="unselected-bgcolor-line" class="line">
 												<dt><label for="bgColorOnTree"><?php echo _t('선택되지 않은 배경색');?></label></dt>
-												<dd><input type="text" id="bgColorOnTree" class="text-input" name="bgColorOnTree" value="<?php echo $skinSetting['bgColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+												<dd><input type="text" id="bgColorOnTree" class="input-text" name="bgColorOnTree" value="<?php echo $skinSetting['bgColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="label-langth-line" class="line">
 												<dt><label for="labelLengthOnTree"><?php echo _t('레이블 길이');?></label></dt>
-												<dd><?php echo _f('레이블을 %1 글자로 표시합니다.', '<input type="text" id="labelLengthOnTree" class="text-input" name="labelLengthOnTree" value="' . $skinSetting['labelLengthOnTree'] . '" size="3" maxlength="6" onchange="changeTreeStyle()" />');?></dd>
+												<dd><?php echo _f('레이블을 %1 글자로 표시합니다.', '<input type="text" id="labelLengthOnTree" class="input-text" name="labelLengthOnTree" value="' . $skinSetting['labelLengthOnTree'] . '" size="3" maxlength="6" onchange="changeTreeStyle()" />');?></dd>
 											</dl>
 											<dl id="count-display-line" class="line">
 												<dt><label for="showValue"><?php echo _t('포스트 갯수 출력');?></label></dt>
@@ -513,7 +516,7 @@ if ($dh = opendir($skinPath)) {
 										</fieldset>
 									
 										<div class="button-box">
-											<a class="save-button button" href="#void" onclick="document.getElementById('setSkinForm').submit()"><span class="text"><?php echo _t('저장하기');?></span></a>
+											<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="document.getElementById('setSkinForm').submit()" />
 										</div>
 									</div>
 								</div>

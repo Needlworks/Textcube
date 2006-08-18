@@ -81,7 +81,7 @@ function printFilterBox($mode, $title) {
 									</table>
 									
 									<div class="input-field">
-										<input type="text" class="text-input" name="<?php echo $mode;?>Value" onkeyup="if(event.keyCode=='13') {add('<?php echo $mode;?>')}" />
+										<input type="text" class="input-text" name="<?php echo $mode;?>Value" onkeyup="if(event.keyCode=='13') {add('<?php echo $mode;?>')}" />
 									</div>
 									
 									<div class="button-box">

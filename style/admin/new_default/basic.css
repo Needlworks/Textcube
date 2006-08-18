@@ -1,0 +1,820 @@
+@charset "utf-8";
+
+/* Basic Tag *************************************************************************************/
+
+*
+{
+	margin                           : 0;
+	padding                          : 0;
+}
+
+a:link,
+a:visited
+{
+	color                            : #666666;
+	text-decoration                  : none;
+}
+
+a:hover,
+a:active
+{
+	color                            : #4163A2;
+	text-decoration                  : underline;
+}
+
+body
+{
+	background-color                 : #F2F2F2;
+	color                            : #666666;
+	font-family                      : 굴림, Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-size                        : small;
+	margin                           : 0 10px 0 10px;
+}
+
+dl
+{
+	border-top                       : 1px solid #DDDDDD;
+	clear                            : both;
+}
+
+ dt
+ {
+ 	/*background-color                 : #F2F2F2;*/
+ 	color                            : #333333;
+	float                            : left;
+	line-height                      : 2.5em;
+	padding-right                    : 10px;
+	text-align                       : right;
+	width                            : 170px;
+}
+
+ dd
+{
+	float                            : left;
+	line-height                      : 2.5em;
+	padding-left                     : 10px;
+}
+
+em
+{
+	font-style                       : normal;
+}
+
+fieldset
+{
+ 	background-image                 : url("./image/bg_dt.png");
+	background-repeat                : repeat-y;
+	border-bottom                    : 1px solid #DDDDDD;
+	border-left                      : none;
+	border-right                     : none;
+	border-top                       : 1px solid #CCCCCC;
+	/*float                            : left;*/
+	margin                           : 0 0 30px 0;
+	/*width                            : 460px;*/
+}
+
+h1,
+h2
+{
+	display                          : none;
+}
+
+h3
+{
+	font-size                        : 1em;
+}
+
+legend
+{
+	display                          : none;
+}
+
+ol,
+ol li,
+ul,
+ul li
+{
+	list-style-type                  : none;
+}
+
+optgroup
+{
+	font-style                       : normal;
+	padding                          : 0 5px;
+}
+
+optgroup option
+{
+	padding                          : 0 15px;
+}
+
+optgroup.delete option
+{
+	color                            : #FF0000;
+}
+
+kbd,
+samp
+{
+	font-size                        : 1em;
+}
+
+select
+{
+	border                           : 1px solid #777777;
+	font-size                        : 1em;
+	height                           : 1.8em;
+	padding                          : 0.2em;
+	vertical-align                   : middle;
+}
+
+table
+{
+	border-collapse                  : collapse;
+}
+
+textarea
+{
+	border                           : 1px solid #999999;
+	font-size                        : 1em;
+}
+
+/* Layout ****************************************************************************************/
+
+#temp-wrap
+{
+	width                            : 100%;
+}
+	
+#all-wrap
+{
+	font-size                        : 0.925em;
+	text-align                       : justify;
+}
+
+/* Layout Header **********************************************************************************/
+
+/* main description */
+
+#main-description-box
+{
+	background-image                 : url("./image/bg_header.png");
+	background-repeat                : repeat-x;
+	height                           : 49px;
+	position                         : relative;
+}
+
+#main-description
+{
+	bottom                           : 5px;
+	left                             : 160px;
+	position                         : absolute;
+}
+
+#main-description li
+{
+	float                            : left;
+	line-height                      : 1.5em;
+}
+
+#description-blog
+{
+	width                            : auto;
+}
+
+#description-blog a
+{
+	background-image                 : url("./image/img_to_my_blog.gif");
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	color                            : #517DB9;
+	font-weight                      : bold;
+	padding                          : 4px 20px 0 0;
+}
+
+#description-logout a
+{
+	background-image                 : url("./image/img_logout.gif");
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	color                            : #517DB9;
+	padding                          : 4px 20px 0 0;
+}
+
+/* main menu */
+
+#main-menu-box
+{
+	background-color                 : #7A9BC9;
+	background-image                 : url("./image/bg_menu.png");
+	background-position              : center bottom;
+	background-repeat                : repeat-x;
+	height                           : 3em;
+	line-height                      : 3em;
+	margin-top                       : 1px;
+}
+
+#main-menu li
+{
+	float                            : left;
+	margin                           : 0 3px;
+	padding                          : 0 8px;
+}
+
+#main-menu li a:link,
+#main-menu li a:visited
+{
+	color                            : #FFFFFF;
+	text-decoration                  : none;
+}
+
+#main-menu li a:hover,
+#main-menu li a:active
+{
+	text-decoration                  : underline;
+}
+
+#main-menu li.selected
+{
+	background-color                 : #6881B8;
+	background-image                 : url("./image/bg_menu_selected.png");
+	background-position              : center bottom;
+	background-repeat                : repeat-x;
+	height                           : 36px;
+	font-weight                      : bold;
+}
+
+#menu-tattertools
+{
+	background-image                 : url("./image/img_header_tattertools.gif");
+	background-repeat                : no-repeat;
+	height                           : 22px;
+	left                             : 16px;
+	position                         : absolute;
+	text-indent                      : -1000px;
+	top                              : 19px;
+	width                            : 130px;
+	z-index                          : 100;
+}
+
+#menu-tattertools a
+{
+	display                          : block;
+	height                           : 22px;
+	width                            : 130px;
+}
+
+/* Layout Body ***********************************************************************************/
+
+#sub-menu-box
+{
+	height                           : 2.4em;
+	line-height                      : 2.4em;
+}
+
+#sub-menu li
+{
+	background-image                 : url("./image/bg_submenu_divider.png");
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	float                            : left;
+	padding                          : 0 8px;
+}
+
+#sub-menu li a:link,
+#sub-menu li a:visited
+{
+	text-decoration                  : none;
+}
+
+#sub-menu li a:hover,
+#sub-menu li a:active
+{
+	text-decoration                  : underline;
+}
+
+#sub-menu li.selected a
+{
+	color                            : #000000;
+	font-weight                      : bold;
+}
+
+#sub-menu-helper
+{
+	background-image                 : none !important;
+}
+
+/* pseudo box */
+
+#pseudo-box
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url("./image/bg_body_top.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border-left                      : 1px solid #BBBBBB;
+	border-right                     : 1px solid #BBBBBB;
+	position                         : relative;
+	width                            : 980px;
+}
+
+#data-outbox
+{
+	padding                          : 10px;
+}
+
+.part .caption
+{
+	background-color                 : #D2D2CC;
+	background-image                 : url("./image/bg_title_left.png");
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	clear                            : both;
+	color                            : #000000;
+	display                          : block;
+	height                           : 2.5em;
+	font-size                        : 1em;
+	font-weight                      : normal;
+	line-height                      : 2.5em;
+	margin-bottom                    : 10px;
+	padding-left                     : 35px;
+}
+
+.main-explain-box .explain
+{
+	line-height                      : 1.5em;
+	padding                          : 0 20px;
+}
+
+.main-explain-box .explain a:link,
+.main-explain-box .explain a:visited
+{
+	color                            : #FF6600;
+	text-decoration                  : underline;
+}
+
+.main-explain-box .explain a:hover,
+.main-explain-box .explain a:active
+{
+	color                            : #FC924B;
+	text-decoration                  : underline;
+}
+
+/* category form */
+
+#category-form
+{
+	margin                           : 20px 0 6px 15px;
+}
+
+/* data inbox */
+
+.data-inbox
+{
+	margin                           : 2px 10px;
+	width                            : 940px;
+}
+
+table.data-inbox
+{
+	border-top                       : 1px solid #D2D2CC;
+}
+
+table.data-inbox thead tr
+{
+	background-color                 : #F3F3F1;
+	background-image                 : url("./image/bg_thead.png");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+}
+
+table.data-inbox thead tr th
+{
+	color                            : #333333;
+	font-weight                      : normal;
+	padding                          : 8px;
+	text-align                       : center;
+}
+
+table.data-inbox tbody tr td
+{
+	background-image                 : url("./image/bg_tbody.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	padding                          : 8px;
+	text-align                       : center;
+	/*vertical-align                   : top;*/
+}
+
+table.data-inbox tbody tr td.selection
+{
+	background-position              : right bottom;
+}
+
+/* icons in table.data-inbox */
+
+table.data-inbox tbody tr .status .private-on-icon
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .private-off-icon
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .private-off-icon a
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .private-on-icon span,
+table.data-inbox tbody tr .status .private-off-icon span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .status .protected-on-icon
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .protected-off-icon
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .protected-off-icon a
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .protected-on-icon span,
+table.data-inbox tbody tr .status .protected-off-icon span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .status .public-on-icon
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .public-off-icon
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .public-off-icon a
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .public-on-icon span,
+table.data-inbox tbody tr .status .public-off-icon span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .syndicate .syndicated-on-icon
+{
+	background-image                 : url("./image/icon_syndicated.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 16px;
+	width                            : 16px;
+}
+
+table.data-inbox tbody tr .syndicate .syndicated-off-icon
+{
+	background-image                 : url("./image/icon_syndicated.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 16px;
+	width                            : 16px;
+}
+
+table.data-inbox tbody tr .syndicate .syndicated-off-icon a,
+table.data-inbox tbody tr .syndicate .syndicated-on-icon a
+{
+	display                          : block;
+	height                           : 16px;
+	width                            : 16px;
+}
+
+table.data-inbox tbody tr .syndicate .syndicated-off-icon span,
+table.data-inbox tbody tr .syndicate .syndicated-on-icon span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .protect .protect-on-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_protectedsetting.gif");
+	background-position              : left bottom;
+	height                           : 13px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 26px;
+}
+
+table.data-inbox tbody tr .protect .protect-off-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_protectedsetting.gif");
+	background-position              : left top;
+	height                           : 13px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 26px;
+}
+
+table.data-inbox tbody tr .protect .protect-on-button span,
+table.data-inbox tbody tr .protect .protect-off-button span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .trackback .trackback-on-button
+{
+	background-image                 : url("./image/icon_trackback.gif");
+	background-position              : left bottom;
+	display                          : block;
+	height                           : 15px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .trackback .trackback-off-button
+{
+	background-image                 : url("./image/icon_trackback.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 15px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .trackback .trackback-on-button span,
+table.data-inbox tbody tr .trackback .trackback-off-button span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .delete .delete-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_delete.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 11px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 11px;
+}
+
+table.data-inbox tbody tr .delete .delete-button span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr td .block-icon
+{
+	background-image                 : url("./image/icon_block_on.gif");
+	background-position              : left bottom;
+	display                          : block;
+	float                            : left;
+	height                           : 12px;
+	margin                           : 0 3px 0 0;
+	width                            : 16px;
+}
+
+table.data-inbox tbody tr td .unblock-icon
+{
+	background-image                 : url("./image/icon_block_off.gif");
+	background-position              : left top;
+	display                          : block;
+	float                            : left;
+	height                           : 12px;
+	margin                           : 0 3px 0 0;
+	width                            : 16px;
+}
+
+table.data-inbox tbody tr td .block-icon span,
+table.data-inbox tbody tr td .unblock-icon span
+{
+	display                          : none;
+}
+
+/* special columns in table.data-inbox */
+
+table.data-inbox tbody tr .category,
+table.data-inbox tbody tr .title
+{
+	text-align                       : left;
+}
+
+/* rollover in table.data-inbox */
+
+table.data-inbox tbody tr td.rollover-class
+{
+	background-color                 : #EEEEEE;
+}
+
+table.data-inbox tbody tr td.inactive-class
+{
+	background-color                 : transparent;
+}
+
+/* data subbox */
+
+.data-subbox
+{
+	background-color                 : #EEEEEE;
+	border-top                       : 1px solid #BBBBBB;
+	margin                           : 0 auto 110px auto;
+	padding                          : 8px;
+	width                            : 924px;
+}
+
+.data-subbox select
+{
+	margin                           : 0 5px;
+}
+
+#page-navigation
+{
+	bottom                           : 65px;
+	position                         : absolute;
+	text-align                       : center;
+	width                            : 940px;
+}
+
+#page-navigation span
+{
+	display                          : block;
+}
+
+#page-list
+{
+	margin-bottom                    : 5px;
+}
+
+#page-section .page-count
+{
+	position                         : absolute;
+	right                            : 30px;
+	bottom                           : 127px;
+}
+
+#search-form
+{
+	background-color                 : transparent;
+	border                           : none;
+	margin                           : 0;
+	position                         : absolute;
+	right                            : 18px;
+	text-align                       : right;
+	top                              : 53px;
+	width                            : 300px;
+	z-index                          : 1;
+}
+
+#search-form label
+{
+	display                          : none;
+}
+
+/* Layout Footer *********************************************************************************/
+
+#layout-footer
+{
+	background-image                 : url("./image/bg_body_bottom.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	font-family                      : Tahoma, sans-serif;
+	font-size                        : 0.9em;
+	padding                          : 13px 0 10px 0;
+	text-align                       : center;
+	width                            : 980px;	
+}
+
+#layout-footer div
+{
+	display                          : inline;
+	padding-left                     : 5px;
+}
+
+/* Etc *******************************************************************************************/
+
+.hidden
+{
+	display                          : none;
+}
+
+.clear
+{
+	clear                            : both;
+	height                           : 0;
+	overflow                         : hidden;
+	width                            : 100px;
+}
+
+input.input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url("./image/bg_button.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #777777;
+	font-size                        : 1em;
+	height                           : 1.8em;
+	line-height                      : 1.8em;
+	padding                          : 0 5px;
+	vertical-align                   : middle;
+}
+
+input.checkbox,
+input.radio
+{
+	vertical-align                   : middle;
+}
+
+input.input-text
+{
+	border                           : 1px solid #777777;
+	font-size                        : 1em;
+	height                           : 1.3em;
+	line-height                      : 1.3em;
+	padding-top                      : 0.4em;
+	vertical-align                   : middle;
+}
+
+.button-box
+{
+	text-align                       : center;
+}

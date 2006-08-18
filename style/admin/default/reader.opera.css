@@ -13,7 +13,7 @@
 		height                           : 28px;
 	}
 	
-	#search .text-input
+	#search .input-text
 	{
 		padding                          : 2px;
 	}
@@ -31,7 +31,7 @@
 	}
 	
 	/* group box ------------------------------------------------------------------------------------*/
-	#groupAdder .button-box .text-input
+	#groupAdder .button-box .input-text
 	{
 		height                           : 21px;
 	}
@@ -44,7 +44,7 @@
 		top                              : 0;
 	}
 	
-	#feedAdder .button-box .text-input
+	#feedAdder .button-box .input-text
 	{
 		height                           : 21px;
 	}

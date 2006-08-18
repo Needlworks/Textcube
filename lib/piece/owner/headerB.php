@@ -44,7 +44,7 @@ if (file_exists(ROOT . "/plugins/$plugin/style.ie.css")) {
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/custom.js"></script>
 </head>
-<body id="body-center">
+<body id="body-plugin">
 	<div id="temp-wrap">
 		<div id="all-wrap">
 			<div id="layout-header">

@@ -67,7 +67,7 @@ legend
 	display                          : none;
 }
 
-input.text-input
+input.input-text
 {
 	background-color                 : #F4F4F4;
 	border                           : 1px solid #B2B2B2;
@@ -108,7 +108,7 @@ textarea
 	padding                          : 2px;
 }
 
-input.text-input:focus,
+input.input-text:focus,
 textarea:focus,
 label:focus
 {

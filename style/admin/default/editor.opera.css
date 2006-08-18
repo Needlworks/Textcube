@@ -15,7 +15,7 @@
 		padding-top                      : 2px;
 	}
 
-	#body-post #title-container .text-input
+	#body-post #title-container .input-text
 	{
 		padding                          : 3px;
 	}
@@ -38,7 +38,7 @@
 		width                            : 576px;
 	}
 	
-	dl#tag-line dd .text-input
+	dl#tag-line dd .input-text
 	{
 		padding                          : 4px;
 	}
@@ -54,7 +54,7 @@
 		width                            : 576px;
 	}
 	
-	dl#location-line dd .text-input
+	dl#location-line dd .input-text
 	{
 		margin-top                       : -3px;
 		padding                          : 4px;
@@ -66,7 +66,7 @@
 	}
 	
 	/* power ----------------------------------------------------------------------------------------*/
-	#power-section dl dd .text-input
+	#power-section dl dd .input-text
 	{
 		padding                          : 4px;
 	}

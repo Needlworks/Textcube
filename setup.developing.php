@@ -2307,19 +2307,19 @@ class CSetupDialog {
 							<tr>
 								<td class="head"><label for="email"><?php echo _t('이메일');?></label></td>
 								<td>
-									<input type="text" id="email" name="email" value="<?php echo (isset($_POST['email']) ? $_POST['email'] : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('email', $argNotes) ? ' input-error' : '');?>" />
+									<input type="text" id="email" name="email" value="<?php echo (isset($_POST['email']) ? $_POST['email'] : '');?>" class="input-text<?php echo ($_POST['check'] == 'true' && in_array('email', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 							<tr>
 								<td class="head"><label for="password"><?php echo _t('비밀번호');?></label></td>
 								<td>
-									<input type="password" id="password" name="password" value="<?php echo (isset($_POST['password']) ? $_POST['password'] : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('password', $argNotes) ? ' input-error' : '');?>" />
+									<input type="password" id="password" name="password" value="<?php echo (isset($_POST['password']) ? $_POST['password'] : '');?>" class="input-text<?php echo ($_POST['check'] == 'true' && in_array('password', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 							<tr>
 								<td class="head"><label for="password2"><?php echo _t('비밀번호 확인');?></label></td>
 								<td>
-									<input type="password" id="password2" name="password2" value="<?php echo (isset($_POST['password2']) ? $_POST['password2'] : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('password2', $argNotes) ? ' input-error' : '');?>" />
+									<input type="password" id="password2" name="password2" value="<?php echo (isset($_POST['password2']) ? $_POST['password2'] : '');?>" class="input-text<?php echo ($_POST['check'] == 'true' && in_array('password2', $argNotes) ? ' input-error' : '');?>" />
 								</td class="head">
 							</tr>
 <?php
@@ -2328,7 +2328,7 @@ class CSetupDialog {
 							<tr>
 								<td class="head"><label for="blog"><?php echo _t('블로그 식별자');?></label></td>
 								<td>
-									<input type="text" id="blog" name="blog" value="<?php echo (isset($_POST['blog']) ? htmlspecialchars($_POST['blog']) : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('blog', $argNotes) ? ' input-error' : '');?>" />
+									<input type="text" id="blog" name="blog" value="<?php echo (isset($_POST['blog']) ? htmlspecialchars($_POST['blog']) : '');?>" class="input-text<?php echo ($_POST['check'] == 'true' && in_array('blog', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 <?php
@@ -2337,7 +2337,7 @@ class CSetupDialog {
 							<tr>
 								<td class="head"><label for="name"><?php echo _t('필명');?></label></td>
 								<td>
-									<input type="text" id="name" name="name" value="<?php echo (isset($_POST['name']) ? $_POST['name'] : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('name', $argNotes) ? ' input-error' : '');?>" />
+									<input type="text" id="name" name="name" value="<?php echo (isset($_POST['name']) ? $_POST['name'] : '');?>" class="input-text<?php echo ($_POST['check'] == 'true' && in_array('name', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 						</tbody>
@@ -2416,31 +2416,31 @@ class CSetupDialog {
 							<tr>
 								<td class="head"><label for="dbServer"><?php echo _t('데이터베이스 서버');?></label></td>
 								<td>
-									<input type="text" id="dbServer" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : 'localhost');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbServer', $argNotes) ? ' input-error' : '');?>" />
+									<input type="text" id="dbServer" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : 'localhost');?>" class="input-text<?php echo ($_POST['check'] == 'true' && in_array('dbServer', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 							<tr>
 								<td class="head"><label for="dbName"><?php echo _t('데이터베이스 이름');?></label></td>
 								<td>
-									<input type="text" id="dbName" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbName', $argNotes) ? ' input-error' : '');?>" />
+									<input type="text" id="dbName" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" class="input-text<?php echo ($_POST['check'] == 'true' && in_array('dbName', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 							<tr>
 								<td class="head"><label for="dbUser"><?php echo _t('데이터베이스 사용자 아이디');?></label></td>
 								<td>
-									<input type="text" id="dbUser" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbUser', $argNotes) ? ' input-error' : '');?>" />
+									<input type="text" id="dbUser" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" class="input-text<?php echo ($_POST['check'] == 'true' && in_array('dbUser', $argNotes) ? ' input-error' : '');?>" />
 								</td class="head">
 							</tr>
 							<tr>
 								<td class="head"><label for="dbPassword"><?php echo _t('데이터베이스 사용자 암호');?></label></td>
 								<td>
-									<input type="password" id="dbPassword" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbPassword', $argNotes) ? ' input-error' : '');?>" />
+									<input type="password" id="dbPassword" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" class="input-text<?php echo ($_POST['check'] == 'true' && in_array('dbPassword', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 							<tr>
 								<td class="head"><label for="dbPrefix"><?php echo _t('테이블 식별자');?></label></td>
 								<td>
-									<input type="text" id="dbPrefix" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : 'tt_');?>" class="text-input<?php echo ($_POST['check'] == 'true' && in_array('dbPrefix', $argNotes) ? ' input-error' : '');?>" />
+									<input type="text" id="dbPrefix" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : 'tt_');?>" class="input-text<?php echo ($_POST['check'] == 'true' && in_array('dbPrefix', $argNotes) ? ' input-error' : '');?>" />
 								</td>
 							</tr>
 						</tbody>

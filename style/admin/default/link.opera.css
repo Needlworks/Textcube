@@ -15,8 +15,8 @@
 		margin-top                       : 4px;
 	}
 	
-	#part-link-add div.data-inbox dd .text-input,
-	#part-link-edit div.data-inbox dd .text-input
+	#part-link-add div.data-inbox dd .input-text,
+	#part-link-edit div.data-inbox dd .input-text
 	{
 		padding                          : 3px;
 	}

@@ -47,7 +47,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 										<textarea id="skin" name="skin_html" cols="60" rows="25" onkeyup="saved=false" style="font-family: 'Courier New', Courier, monospace"><?php echo htmlspecialchars($skin);?></textarea>
 									</div>
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setSkin('skin');"><span class="text"><?php echo _t('저장하기');?></span></a>
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setSkin('skin');" />
 									</div>
 								</form>
 								
@@ -65,7 +65,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 										<textarea id="style" name="s_cache_style_css" cols="60" rows="25" onkeyup="saved=false" style="font-family: 'Courier New', Courier, monospace"><?php echo htmlspecialchars($style);?></textarea>
 									</div>
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setSkin('style');"><span class="text"><?php echo _t('저장하기');?></span></a>
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setSkin('style');" />
 									</div>
 								</form>
 							</div>

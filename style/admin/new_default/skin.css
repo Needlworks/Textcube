@@ -1,0 +1,393 @@
+@charset "utf-8";
+
+/* Select ****************************************************************************************/
+
+#part-skin-list .section,
+#part-skin-current .section
+{
+	clear                            : both;
+	margin-bottom                    : 20px;
+	position                         : relative;
+}
+
+#part-skin-list .section .preview,
+#part-skin-current .section .preview
+{
+	border                           : 1px solid #BBBBBB;
+	padding                          : 3px;
+	float                            : left;
+	/*position                         : absolute;*/
+	width                            : 150px;
+}
+
+#part-skin-list .section .preview img,
+#part-skin-current .section .preview img
+{
+	vertical-align                   : top;
+}
+
+#part-skin-list .section .information,
+#part-skin-current .section .information
+{
+	margin-left                      : 190px;
+}
+
+#part-skin-list .section .information table,
+#part-skin-current .section .information table
+{
+	width                            : 750px;
+}
+
+#part-skin-list .section .information table tr td,
+#part-skin-current .section .information table tr td
+{
+	background-image                 : url("./image/bg_tbody.gif");
+	background-position              : left bottom;
+	padding                          : 8px;
+}
+
+#part-skin-list .section .information table tr td.name,
+#part-skin-current .section .information table tr td.name
+{
+	background-position              : right bottom;
+	font-weight                      : bold;
+	text-align                       : right;
+	width                            : 100px;
+}
+
+#part-skin-list .section .information table tr.explain-line td.name,
+#part-skin-current .section .information table tr.explain-line td.name
+{
+	background-position              : right top;
+}
+
+#part-skin-list .section .information table tr.explain-line td.explain,
+#part-skin-current .section .information table tr.explain-line td.explain
+{
+	background-position              : left top;
+}
+
+#part-skin-list .section .information .button-box a,
+#part-skin-current .section .information .button-box a
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url("./image/bg_button.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #777777;
+	font-size                        : 1em;
+	line-height                      : 1.5em;
+	padding                          : 3px 5px 1px 5px;
+	vertical-align                   : middle;
+}
+
+#part-skin-current .section .information .button-box .edit-button
+{
+	left                             : 42px;
+	position                         : absolute;
+	top                              : 170px;
+	width                            : 60px;
+}
+
+#part-skin-list .section .information .button-box .preview-button
+{
+	left                             : 5px;
+	position                         : absolute;
+	top                              : 170px;
+	width                            : 60px;
+}
+
+#part-skin-list .section .information .button-box .apply-button
+{
+	left                             : 82px;
+	position                         : absolute;
+	top                              : 170px;
+	width                            : 60px;
+}
+
+#part-skin-list .caption,
+#part-skin-more .caption
+{
+	margin-bottom                    : 10px;
+}
+
+#part-skin-list .main-explain-box
+{
+	margin-bottom                    : 20px;
+}
+
+#part-skin-more
+{
+	margin-bottom                    : 100px;
+}
+
+/* Edit ******************************************************************************************/
+
+#part-skin-edit .section
+{
+	margin-bottom                    : 20px;
+}
+
+#part-skin-edit .section .file-name
+{
+	background-image                 : url("./image/img_skin_edit_bullet.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	color                            : #6B90C3;
+	font-family                      : Verdana, Arial, Tahoma, "Lucida Grande", sans-serif;
+	font-size                        : 1.1em;
+	font-weight                      : bold;
+	margin-left                      : 9px;
+	padding-left                     : 7px;
+}
+
+#part-skin-edit .edit-area
+{
+	background-color                 : #F5F5F5;
+	padding                          : 5px;
+}
+
+#part-skin-edit .edit-area textarea
+{
+	height                           : 400px;
+	width                            : 927px;
+}
+
+#part-skin-edit .section .button-box
+{
+	background-color                 : #F5F5F5;
+	padding                          : 5px 5px 12px 5px;
+}
+
+
+/* Setting ***************************************************************************************/
+
+#part-skin-setting .caption
+{
+	margin-bottom                    : 20px;
+}
+
+#part-skin-setting .section .button-box
+{
+	padding-bottom                   : 30px;
+}
+
+/* Tree -----------------------------------------------------------------------------------------*/
+
+#part-skin-tree div.data-inbox
+{
+	height                           : 488px;
+	position                         : relative;
+}
+
+#part-skin-tree div.data-inbox .section
+{
+	padding                          : 30px 0 0 310px;
+}
+
+#tree-preview-box
+{
+	background-color                 : #EEEEEE;
+	height                           : 370px;
+	left                             : 0;
+	padding                          : 10px 0;
+	position                         : absolute;
+	top                              : 0;
+	width                            : 280px;
+}
+
+#tree-preview-box .title
+{
+	background-image                 : url("./image/img_bullet_tree_preview.gif");
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	margin                           : 0 10px;
+	padding-left                     : 11px;
+}
+
+#tree-preview-box iframe
+{
+	border                           : 1px solid #999999;
+	display                          : block;
+	height                           : 355px;
+	margin                           : 0 auto;
+	overflow                         : auto;
+	width                            : 260px;
+}
+
+#property-box
+{
+	background-image                 : none;
+	border-top                       : none;
+	width                            : 560px;
+}
+
+#property-box dl dt
+{
+	font-weight                      : bold;
+}
+
+#property-box dl dd
+{
+	border-left                      : 1px solid #EEEEEE;
+}
+
+#property-box dl dd .input-text
+{
+	text-transform                   : uppercase;
+}
+
+/* tree iframe */
+#tree-iframe
+{
+	font-family                      : ±¼¸², Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-size                        : 0.75em;
+	margin                           : 10px !important;
+}
+
+/* plugin ****************************************************************************************/
+
+#part-skin-plugins .main-explain-box
+{
+	margin-bottom                    : 40px;
+}
+
+#part-skin-plugins fieldset
+{
+	background-image                 : none;
+	border                           : none;
+	position                         : absolute;
+	right                            : 20px;
+	top                              : 75px;
+}
+
+#part-skin-plugins fieldset dl
+{
+	border                           : none;
+}
+
+#part-skin-plugins fieldset dl dt
+{
+	font-weight                      : bold;
+}
+
+/* table head */
+#part-skin-plugins table.data-inbox tr .title
+{
+	width                            : 170px;
+}
+
+#part-skin-plugins table.data-inbox tr .version
+{
+	width                            : 60px;
+}
+
+#part-skin-plugins table.data-inbox tr .scope
+{
+	display                          : none;
+}
+
+#part-skin-plugins table.data-inbox tr .maker
+{
+	width                            : 100px;
+}
+
+#part-skin-plugins table.data-inbox tr .config
+{
+	width                            : 70px;
+}
+
+#part-skin-plugins table.data-inbox tr .status
+{
+	width                            : 70px;
+}
+
+/* table body */
+
+#part-skin-plugins table.data-inbox tbody tr td.title
+{
+	background-position              : right bottom;
+}
+
+#part-skin-plugins table.data-inbox tbody tr td.title,
+#part-skin-plugins table.data-inbox tbody tr td.version,
+#part-skin-plugins table.data-inbox tbody tr td.explain,
+#part-skin-plugins table.data-inbox tbody tr td.maker
+{
+	text-align                       : left;
+}
+
+/* plugin icons */
+
+#part-skin-plugins table.data-inbox tbody tr td.config a
+{
+	background-image                 : url("./image/icon_config_on.gif");
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	color                            : #5A8FC9;
+	cursor                           : pointer;
+	margin                           : 0 auto;
+	padding                          : 1px 0 1px 22px;
+}
+
+#part-skin-plugins table.data-inbox tbody tr td.config span
+{
+	background-image                 : url("./image/icon_config_off.gif");
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	cursor                           : pointer;
+	margin                           : 0 auto;
+	padding                          : 1px 0 1px 22px;
+}
+
+#part-skin-plugins table.data-inbox tbody tr td.status a
+{
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	cursor                           : pointer;
+	margin                           : 0 auto;
+	padding                          : 1px 0 1px 14px;
+}
+
+#part-skin-plugins table.data-inbox tbody tr.active-class td.status a
+{
+	background-image                 : url("./image/icon_plugin_on.gif");
+	color                            : #5A8FC9;
+}
+
+#part-skin-plugins table.data-inbox tbody tr.inactive-class td.status a
+{
+	background-image                 : url("./image/icon_plugin_off.gif");
+}
+
+/* data subbox */
+
+#part-skin-plugins .data-subbox
+{
+	height                           : 2.5em;
+	margin-bottom                    : 50px;
+	position                         : relative;
+}
+
+#part-skin-plugins .data-subbox dl
+{
+	border                           : none;
+}
+
+#part-skin-plugins .data-subbox dl dt
+{
+	font-weight                      : bold;
+	width                            : auto;
+}
+
+#activate-status-line
+{
+	right                            : 10px;
+	bottom                           : 0.6em;
+	position                         : absolute;
+}
+
+#part-plugin-more
+{
+	margin-bottom                    : 100px;
+}

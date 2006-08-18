@@ -191,7 +191,7 @@ samp strong
 }
 
 /* input field -----------------------------------------------------------------------------------------*/
-.text-input
+.input-text
 {
 	background-color           : #FFFFFF;
 	border                     : 1px solid #CCCCCC;
@@ -201,7 +201,7 @@ samp strong
 	width                      : 200px;
 }
 
-.text-input:focus
+.input-text:focus
 {
 	border                     : 1px solid #0F0F9F;
 }

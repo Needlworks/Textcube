@@ -61,7 +61,7 @@ body
 	margin-top                       : 30px;
 }
 
-#comment-box #command-box .text-input
+#comment-box #command-box .input-text
 {
 	border                           : 1px solid #9DCAFB;
 	/*height                           : 1.7em;*/
@@ -146,7 +146,7 @@ body
 	padding-top                      : 4px;
 }
 
-#trackback-box #command-box .input-line dd .text-input
+#trackback-box #command-box .input-line dd .input-text
 {
 	border                           : 1px solid #9DCAFB;
 	/*height                           : 1.7em;*/
@@ -320,7 +320,7 @@ body
 	cursor                           : pointer;
 }
 
-#comment-reply-box #command-box .text-input
+#comment-reply-box #command-box .input-text
 {
 	border                           : 1px solid #9DCAFB;
 	font-size                        : 1em;

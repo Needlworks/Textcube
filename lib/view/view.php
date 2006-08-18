@@ -1403,7 +1403,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 													<div id="groupAdder">
 														<div class="title"><span class="text"><?php echo _t('그룹 등록하기');?></span></div>
 														<div class="button-box">
-															<input type="text" id="newGroupTitle" class="text-input" value="<?php echo _t('그룹을 추가하세요.');?>" onfocus="if(this.value == '<?php echo _t('그룹을 추가하세요.');?>') this.value = ''" onblur="if(this.value == '') this.value = '<?php echo _t('그룹을 추가하세요.');?>'" onkeydown="if(event.keyCode==13) Reader.addGroup(this.value)" />
+															<input type="text" id="newGroupTitle" class="input-text" value="<?php echo _t('그룹을 추가하세요.');?>" onfocus="if(this.value == '<?php echo _t('그룹을 추가하세요.');?>') this.value = ''" onblur="if(this.value == '') this.value = '<?php echo _t('그룹을 추가하세요.');?>'" onkeydown="if(event.keyCode==13) Reader.addGroup(this.value)" />
 															<a class="add-button button" href="#void" onclick="Reader.addGroup(document.getElementById('newGroupTitle').value)"><span class="text"><?php echo _t('추가');?></span></a>
 														</div>
 													</div>
@@ -1442,7 +1442,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 														<div class="title"><span><?php echo _t('그룹 수정하기');?></span></div>
 														<div class="input-box">
 															<div class="input-field">
-																<input type="text" id="changeGroupTitle" class="text-input" name="changeGroupTitle" />
+																<input type="text" id="changeGroupTitle" class="input-text" name="changeGroupTitle" />
 															</div>
 															<div class="button-box">
 																<a class="delete-button button" href="#void" onclick="Reader.deleteGroup()"><span class="text"><?php echo _t('삭제하기');?></span></a>
@@ -1462,7 +1462,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 													<div id="feedAdder">
 														<div class="title"><span><?php echo _t('피드 등록하기');?></span></div>
 														<div class="button-box">
-															<input type="text" id="newFeedURL" class="text-input" name="newFeedURL" value="<?php echo _t('피드 주소를 입력하세요.');?>" onfocus="if(this.value == '<?php echo _t('피드 주소를 입력하세요.');?>') this.value = ''" onblur="if(this.value == '') this.value = '<?php echo _t('피드 주소를 입력하세요.');?>'" onkeydown="if(event.keyCode==13) Reader.addFeed(this.value)" />
+															<input type="text" id="newFeedURL" class="input-text" name="newFeedURL" value="<?php echo _t('피드 주소를 입력하세요.');?>" onfocus="if(this.value == '<?php echo _t('피드 주소를 입력하세요.');?>') this.value = ''" onblur="if(this.value == '') this.value = '<?php echo _t('피드 주소를 입력하세요.');?>'" onkeydown="if(event.keyCode==13) Reader.addFeed(this.value)" />
 															<a class="add-button button" href="#void" onclick="Reader.addFeed(document.getElementById('newFeedURL').value)"><span class="text"><?php echo _t('추가');?></span></a>
 															<?php echo fireEvent('AddFeedURLToolbox', '');?>
 														</div>

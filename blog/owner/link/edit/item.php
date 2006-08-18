@@ -70,20 +70,20 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 								<div class="data-inbox">
 									<dl id="rss-address-line" class="line">
 										<dt><label for="rss"><?php echo _t('<acronym title="Rich Site Summary">RSS</acronym> 주소');?></label></dt>
-										<dd><input type="text" class="text-input" id="rss" name="rss" value="<?php echo $link['rss'];?>" /> <a class="get-info-button button" href="#void" onclick="getSiteInfo();"><span class="text"><?php echo _t('정보가져오기');?></span></a></dd>
+										<dd><input type="text" class="input-text" id="rss" name="rss" value="<?php echo $link['rss'];?>" /> <input type="button" class="get-info-button input-button" value="<?php echo _t('정보가져오기');?>" onclick="getSiteInfo();" /></dd>
 									</dl>
 									<dl id="homepage-title-line" class="line">
 										<dt><label for="name"><?php echo _t('홈페이지 제목');?></label></dt>
-										<dd><input type="text" class="text-input" id="name" name="name" value="<?php echo htmlspecialchars($link['name']);?>" /></dd>
+										<dd><input type="text" class="input-text" id="name" name="name" value="<?php echo htmlspecialchars($link['name']);?>" /></dd>
 									</dl>
 									<dl id="homepage-address-line" class="line">
 										<dt><label for="url"><?php echo _t('홈페이지 주소');?></label></dt>
-										<dd><input type="text" class="text-input" id="url" name="url" value="<?php echo htmlspecialchars($link['url']);?>" /></dd>
+										<dd><input type="text" class="input-text" id="url" name="url" value="<?php echo htmlspecialchars($link['url']);?>" /></dd>
 									</dl>
 								</div>
 								
 								<div class="button-box">
-									<a class="edit-button button" href="#void" onclick="updateLink()"><span class="text"><?php echo _t('저장하기');?></span></a>
+									<input type="submit" class="edit-button input-button" value="<?php echo _t('저장하기');?>" onclick="updateLink()" />
 									<span class="hidden">|</span>
 									<a class="cancel-button button" href="<?php echo $blogURL;?>/owner/link"><span class="text"><?php echo _t('취소하기');?></span></a>
 								</div>

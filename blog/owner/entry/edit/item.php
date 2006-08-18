@@ -406,7 +406,7 @@ if (defined('__TATTERTOOLS_KEYWORD__')) {
 }
 ?>
 											<dd>
-												<input type="text" id="title" class="text-input" name="title" value="<?php echo htmlspecialchars($entry['title']);?>" size="60" />
+												<input type="text" id="title" class="input-text" name="title" value="<?php echo htmlspecialchars($entry['title']);?>" size="60" />
 											</dd>
 										</dl>
 										<dl id="category-line" class="line">
@@ -517,16 +517,16 @@ printEntryEditorProperty();
 												//<![CDATA[
 													try {
 														var oLocationTag = new LocationTag(document.getElementById("location"), "<?php echo $blog['language'];?>", <?php echo isset($service['disableEolinSuggestion']) && $service['disableEolinSuggestion'] ? 'true' : 'false';?>);
-														oLocationTag.setInputClassName("text-input");
+														oLocationTag.setInputClassName("input-text");
 														oLocationTag.setValue("<?php echo addslashes($entry['location']);?>");	
 													} catch (e) {
-														document.getElementById("location").innerHTML = '<input type="text" class="text-input" name="location" value="<?php echo addslashes($entry['location']);?>" /><br /><?php echo _t('지역태그 스크립트를 사용할 수 없습니다. 슬래시(/)로 구분된 지역을 직접 입력해 주십시오.(예: /대한민국/서울/강남역)');?>';
+														document.getElementById("location").innerHTML = '<input type="text" class="input-text" name="location" value="<?php echo addslashes($entry['location']);?>" /><br /><?php echo _t('지역태그 스크립트를 사용할 수 없습니다. 슬래시(/)로 구분된 지역을 직접 입력해 주십시오.(예: /대한민국/서울/강남역)');?>';
 														// TODO : 이부분(스크립트를 실행할 수 없는 환경일 때)은 직접 입력보다는 0.96 스타일의 팝업이 좋을 듯
 													}
 													
 													try {
 														var oTag = new Tag(document.getElementById("tag"), "<?php echo $blog['language'];?>", <?php echo isset($service['disableEolinSuggestion']) && $service['disableEolinSuggestion'] ? 'true' : 'false';?>);
-														oTag.setInputClassName("text-input");
+														oTag.setInputClassName("input-text");
 <?php
 		$tags = array();
 		if (!defined('__TATTERTOOLS_POST__')) {
@@ -537,7 +537,7 @@ printEntryEditorProperty();
 		}
 ?>
 													} catch(e) {
-														document.getElementById("tag").innerHTML = '<input type="text" class="text-input" name="tag" value="<?php echo addslashes(str_replace('"', '&quot;', implode(', ', $tags)));?>" /><br /><?php echo _t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해 주십시오.(예: 태터툴즈, BLOG, 테스트)');?>';
+														document.getElementById("tag").innerHTML = '<input type="text" class="input-text" name="tag" value="<?php echo addslashes(str_replace('"', '&quot;', implode(', ', $tags)));?>" /><br /><?php echo _t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해 주십시오.(예: 태터툴즈, BLOG, 테스트)');?>';
 													}
 												//]]>
 											</script> 
@@ -582,7 +582,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 ?>
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
 												<dd>
-													<samp><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="text-input" name="permalink" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
+													<samp><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="input-text" name="permalink" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
 												</dd>
 <?php
 } else {
@@ -590,7 +590,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
 												<dd>
 													<span class="disabled"><?php echo htmlspecialchars($entry['slogan']);?></span>
-													<input type="hidden" id="permalink" class="text-input" name="permalink" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
+													<input type="hidden" id="permalink" class="input-text" name="permalink" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
 												</dd>
 <?php
 }
@@ -613,7 +613,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 ?>
 													<div class="publish-preserve">
 														<input type="radio" id="publishedPreserve" class="radio" name="published" value="2" <?php echo (isset($entry['appointed']) ? 'checked="checked"' : '');?> /> <label for="publishedPreserve" onclick="document.getElementById('appointed').select()"><?php echo _t('예약');?></label>
-														<input type="text" id="appointed" class="text-input" name="appointed" value="<?php echo Timestamp::format5(isset($entry['appointed']) ? $entry['appointed'] : $entry['published']);?>" onfocus="document.forms[0].published[document.forms[0].published.length - 1].checked = true" />
+														<input type="text" id="appointed" class="input-text" name="appointed" value="<?php echo Timestamp::format5(isset($entry['appointed']) ? $entry['appointed'] : $entry['published']);?>" onfocus="document.forms[0].published[document.forms[0].published.length - 1].checked = true" />
 													</div>
 												</dd>
 											</dl>

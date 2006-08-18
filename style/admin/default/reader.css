@@ -125,7 +125,7 @@ h2
 	padding                          : 0 0 0 12px !important;
 }
 
-#search .text-input
+#search .input-text
 {
 	border                           : 1px solid #2E67B4;
 	float                            : left;
@@ -249,7 +249,7 @@ h2
 	width                            : 211px;
 }
 
-#groupAdder .button-box .text-input
+#groupAdder .button-box .input-text
 {
 	border                           : 1px solid #999999;
 	float                            : left;
@@ -413,7 +413,7 @@ ul#groupList li .edit-button span
 	width                            : 531px;
 }
 
-#feedAdder .button-box .text-input
+#feedAdder .button-box .input-text
 {
 	border                           : 1px solid #999999;
 	float                            : left;

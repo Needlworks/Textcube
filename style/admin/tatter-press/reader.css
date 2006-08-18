@@ -111,7 +111,7 @@
 	margin                           : 10px 0;
 }
 
-#groupAdder .button-box .text-input
+#groupAdder .button-box .input-text
 {
 	vertical-align                   : middle;
 	width                            : 160px;
@@ -248,7 +248,7 @@ ul#groupList li .button:active
 	margin                           : 10px 0;
 }
 
-#feedAdder .button-box .text-input
+#feedAdder .button-box .input-text
 {
 	vertical-align                   : middle;
 	width                            : 480px;

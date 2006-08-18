@@ -1,0 +1,36 @@
+@charset "utf-8";
+
+/* Dashboard *************************************************************************************/
+
+#part-center-dashboard .section
+{
+	margin                           : 0 8px 25px 8px;
+}
+
+#part-center-dashboard .section h3
+{
+	width                            : 431px;
+}
+
+/* Setting ***************************************************************************************/
+
+/* data subbox */
+
+#part-center-plugins .data-subbox
+{
+	padding-top                      : 0.4em;
+	padding-bottom                   : 0;
+}
+
+#activate-status-line
+{
+	bottom                           : 0.3em;
+}
+
+/* Credit ****************************************************************************************/
+
+#supporter-description h3
+{
+	height                           : 2.45em;
+	line-height                      : 2.45em;
+}

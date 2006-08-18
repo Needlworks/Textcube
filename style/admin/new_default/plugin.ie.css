@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+/* Setting ***************************************************************************************/
+
+/* data subbox */
+
+#part-plugin-list .data-subbox
+{
+	padding-top                      : 0.4em;
+	padding-bottom                   : 0;
+}
+
+#activate-status-line
+{
+	bottom                           : 0.3em;
+}

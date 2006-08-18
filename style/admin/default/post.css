@@ -377,7 +377,7 @@ table.data-inbox tbody tr td .new-icon span
 	width                            : 67px;
 }
 
-#part-post-list table.data-inbox tbody tr.hidden-layer td .text-input
+#part-post-list table.data-inbox tbody tr.hidden-layer td .input-text
 {
 	width                            : 400px !important;
 }
@@ -511,7 +511,7 @@ table.data-inbox tbody tr td .new-icon span
 	padding-top                      : 1px;
 }
 
-#property-box dl dd .text-input
+#property-box dl dd .input-text
 {
 	float                            : left;
 	margin-top                       : 2px;

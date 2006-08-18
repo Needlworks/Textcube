@@ -17,12 +17,12 @@
 	/* Blog ******************************************************************************************/
 	
 	/* basic ----------------------------------------------------------------------------------------*/
-	#part-setting-basic #common-section .text-input
+	#part-setting-basic #common-section .input-text
 	{
 		padding                          : 3px;
 	}
 	
-	#part-setting-basic #common-section dl dd .text-input
+	#part-setting-basic #common-section dl dd .input-text
 	{
 		padding                          : 3px;
 	}
@@ -33,7 +33,7 @@
 		padding-top                       : 0;
 	}
 
-	#part-setting-basic #multi-section dl dd .text-input
+	#part-setting-basic #multi-section dl dd .input-text
 	{
 		padding                          : 3px;
 	}
@@ -79,12 +79,12 @@
 		padding-top                      : 0;
 	}
 	
-	#part-setting-account #info-section .text-input
+	#part-setting-account #info-section .input-text
 	{
 		padding                          : 3px;
 	}
 	
-	#part-setting-account #account-section .text-input
+	#part-setting-account #account-section .input-text
 	{
 		padding                          : 3px;
 	}
@@ -120,7 +120,7 @@
 		padding                          : 0;
 	}
 	
-	#part-setting-filter div.data-inbox .section .text-input
+	#part-setting-filter div.data-inbox .section .input-text
 	{
 		padding                          : 3px;
 		width                            : 200px;
@@ -149,7 +149,7 @@
 		padding-top                      : 3px;
 	}
 	
-	.part .dialog #admin-password input.text-input
+	.part .dialog #admin-password input.input-text
 	{
 		padding                          : 3px;
 	}

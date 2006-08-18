@@ -16,7 +16,7 @@
 	width                            : 400px;
 }
 
-#part-setting-basic #common-form .text-input
+#part-setting-basic #common-form .input-text
 {
 	width                            : 196px;
 }
@@ -44,7 +44,7 @@
 	width                            : 500px;
 }
 
-#part-setting-basic #multi-form .text-input
+#part-setting-basic #multi-form .input-text
 {
 	margin                           : 0 2px;
 }
@@ -148,7 +148,7 @@
 	line-height                      : 1.8em;
 }
 
-#part-setting-thumbnail dl dd .text-input
+#part-setting-thumbnail dl dd .input-text
 {
 	margin-right                     : 2px;
 }
@@ -243,7 +243,7 @@
 	width                            : 160px;
 }
 
-#part-setting-account .text-input
+#part-setting-account .input-text
 {
 	width                            : 200px;
 }
@@ -316,7 +316,7 @@
 	float                            : left;
 }
 
-#letter-head .text-input
+#letter-head .input-text
 {
 	display                          : block;
 	float                            : left;
@@ -389,7 +389,7 @@
 	width                            : 120px;
 }
 
-#letter-foot .text-input
+#letter-foot .input-text
 {
 	display                          : block;
 	float                            : left;
@@ -684,7 +684,7 @@
 	text-align                       : center;
 }
 
-.part .dialog #remoteBackup input.text-input
+.part .dialog #remoteBackup input.input-text
 {
 	margin-bottom                    : 2px;
 	padding                          : 2px;
@@ -692,7 +692,7 @@
 	width                            : 350px;
 }
 
-.part .dialog #admin-password input.text-input
+.part .dialog #admin-password input.input-text
 {
 	margin-bottom                    : 2px;
 	padding                          : 2px;

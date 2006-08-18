@@ -33,7 +33,7 @@
 	width                            : 160px;
 }
 
-#title-line dd .text-input
+#title-line dd .input-text
 {
 	border                           : 1px solid #92B5E8;
 	vertical-align                   : middle;
@@ -303,7 +303,7 @@
 	padding                          : 2px;
 	top                              : 88px;
 	left                             : 80px;
-	z-index                          : 10;
+	z-index                          : 100;
 	border                           : 1px solid #CCCCCC;
 	width                            : 336px;
 }
@@ -315,7 +315,7 @@
 	padding                          : 2px;
 	top                              : 88px;
 	left                             : 100px;
-	z-index                          : 10;
+	z-index                          : 100;
 	border                           : 1px solid #CCCCCC;
 	width                            : 336px;
 }
@@ -327,7 +327,7 @@
 	padding                          : 2px;
 	top                              : 88px;
 	left                             : 290px;
-	z-index                          : 10;
+	z-index                          : 100;
 	border                           : 1px solid #CCCCCC;
 	width                            : 80px;
 }
@@ -589,7 +589,7 @@
 	width                            : 105px !important;
 }
 
-.entry-editor-property dl dd input.text-input
+.entry-editor-property dl dd input.input-text
 {
 	border                           : 1px solid #92B5E8;
 	width                            : 105px !important;
@@ -679,7 +679,7 @@
 }
 
 /* tag */
-dl#tag-line dd .text-input
+dl#tag-line dd .input-text
 {
 	border                           : 1px solid #92B5E8;
 	margin                           : -3px 0 5px 0;
@@ -704,7 +704,7 @@ dl#tag-line dd .text-input
 }
 
 /* location */
-#location-line dd .text-input
+#location-line dd .input-text
 {
 	border                           : 1px solid #92B5E8;
 	width                            : 130px;
@@ -934,7 +934,7 @@ dl#permalink-line dd
 	line-height                      : 1.7em;
 }
 
-dl#permalink-line dd .text-input
+dl#permalink-line dd .input-text
 {
 	border                           : 1px solid #92B5E8;
 	margin-left                      : 2px;
@@ -954,7 +954,7 @@ dl#entrytype-line dt
 	padding-top                      : 0;
 }
 
-dl#date-line dd .text-input
+dl#date-line dd .input-text
 {
 	border                           : 1px solid #92B5E8;
 	width                            : 120px;

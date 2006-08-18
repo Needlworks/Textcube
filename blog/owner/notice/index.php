@@ -128,8 +128,8 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 									oForm.submit();
 								}
 								
-								window.addEventListener("load", activateFormElement, false);
-								function activateFormElement() {
+								window.addEventListener("load", execLoadFunction, false);
+								function execLoadFunction() {
 									document.getElementById('allChecked').disabled = false;
 								}
 								
@@ -235,7 +235,7 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 								
 								<div class="grouping">
 									<label for="search"><?php echo _t('제목');?>, <?php echo _t('내용');?></label>
-									<input type="text" id="search" class="text-input" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
+									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
 									<a class="search-button button" href="#void" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();"><span class="text"><?php echo _t('검색');?></span></a>
 								</div>

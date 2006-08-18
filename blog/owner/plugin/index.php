@@ -72,8 +72,8 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 											objTR = getParentByTagName("TR", document.getElementById("plugin" + num + "Link"));
 											objTR.className = objTR.className.replace('inactive', 'active');
 											
-											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정하기');?>')) {
-												objTR.cells[5].innerHTML = '<a href="#void" id="config_' + num +'" class="config-enabled-icon bullet" onclick="getCurrentSetting(\'' + plugin + '\',\'Y\',\''+width+'\',\''+height+'\')"><?php echo _t('설정하기');?></a>';
+											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정');?>')) {
+												objTR.cells[5].innerHTML = '<a href="#void" id="config_' + num +'" class="config-enabled-icon bullet" onclick="getCurrentSetting(\'' + plugin + '\',\'Y\',\''+width+'\',\''+height+'\')"><?php echo _t('설정');?></a>';
 											}
 											tempStr = document.getElementById("plugin" + num + "Scope").innerHTML;
 											if (tempStr.match('<?php echo _t('관리자');?>'))
@@ -96,8 +96,8 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 											objTR = getParentByTagName("TR", document.getElementById("plugin" + num + "Link"));
 											objTR.className = objTR.className.replace('active', 'inactive');
 											
-											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정하기');?>')) {
-												objTR.cells[5].innerHTML = '<span class="config-disabled-icon bullet"><?php echo _t('설정하기');?></span>';
+											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정');?>')) {
+												objTR.cells[5].innerHTML = '<span class="config-disabled-icon bullet"><?php echo _t('설정');?></span>';
 											}
 											tempStr = document.getElementById("plugin" + num + "Scope").innerHTML;
 											if (tempStr.match('<?php echo _t('관리자');?>'))
@@ -113,14 +113,14 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 								}
 								
 								function changeList() {
-									document.getElementById("part-<?php
+									document.getElementById("<?php
 if (defined('__TATTERTOOLS_CENTER__'))
-	echo 'center';
+	echo 'part-center-plugins';
 else if (defined('__TATTERTOOLS_SIDEBAR__'))
-	echo 'sidebar';
+	echo 'part-skin-plugins';
 else
-	echo 'setting';
-									?>-plugins").submit();
+	echo 'part-plugin-list';
+									?>").submit();
 								}
 								
 								window.addEventListener("load", execLoadFunction, false);
@@ -143,9 +143,9 @@ else
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo 'part-center-plugins';
 else if (defined('__TATTERTOOLS_SIDEBAR__'))
-	echo 'part-sidebar-plugins';
+	echo 'part-skin-plugins';
 else
-	echo 'part-setting-plugins';
+	echo 'part-plugin-list';
 						?>" class="part" method="post" action="<?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo $blogURL."/owner/center/setting";
@@ -332,11 +332,11 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	if ($config=='Y') {
 		if ($active) {
 ?>
-											<a href="#void" id="config_<?php echo $i;?>" class="config-enabled-icon bullet" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>')"><?php echo _t('설정하기');?></a>
+											<a href="#void" id="config_<?php echo $i;?>" class="config-enabled-icon bullet" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>')"><?php echo _t('설정');?></a>
 <?php
 		} else {
 ?>
-											<span class="config-disabled-icon bullet"><?php echo _t('설정하기');?></span>
+											<span class="config-disabled-icon bullet"><?php echo _t('설정');?></span>
 <?php
 		}
 	} else {
@@ -368,7 +368,7 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 							</table>
 						</form>
 						
-						<div id="part-setting-more" class="part">
+						<div id="part-plugin-more" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('플러그인을 구하려면');?></span></h2>
 							
 							<div class="main-explain-box">

@@ -1,0 +1,86 @@
+@charset "utf-8";
+
+/* Comment ****************************************************************************************/
+
+/* data subbox */
+
+#part-post-comment .data-subbox
+{
+	padding-top                      : 8px;
+}
+
+#part-post-comment #page-section .page-count
+{
+	bottom                           : 130px;
+}
+
+#part-post-comment #search-form
+{
+	top                              : 50px;
+}
+
+/* Notify *****************************************************************************************/
+
+/* data subbox */
+
+#part-post-notify .data-subbox
+{
+	padding-top                      : 8px;
+}
+
+#part-post-notify #search-form
+{
+	top                              : 88px;
+}
+
+/* Trackback **************************************************************************************/
+
+/* data subbox */
+
+#part-post-trackback .data-subbox
+{
+	padding-top                      : 8px;
+}
+
+#part-post-trackback #page-section .page-count
+{
+	bottom                           : 130px;
+}
+
+#part-post-trackback #search-form
+{
+	top                              : 50px;
+}
+
+/* Tree ******************************************************************************************/
+
+#property-box dl dd p
+{
+	height                           : 1.5em;
+	line-height                      : 1.5em;
+}
+
+#label-create-line dd .field-box,
+#body-id-line dd .field-box
+{
+	margin-bottom                    : 5px;
+}
+
+/* Trash ******************************************************************************************/
+
+/* data subbox */
+
+#part-post-trash .data-subbox
+{
+	padding-top                      : 8px;
+}
+
+#part-post-trash #page-section .page-count
+{
+	bottom                           : 130px;
+}
+
+#part-post-trash #search-form
+{
+	top                              : 50px;
+}

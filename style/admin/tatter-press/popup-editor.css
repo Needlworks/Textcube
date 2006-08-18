@@ -32,7 +32,7 @@ body
 	display                          : none;
 }
 
-#title-line input.text-input
+#title-line input.input-text
 {
 	vertical-align                   : middle;
 	width                            : 642px;
@@ -701,7 +701,7 @@ body
 	width                            : 172px;
 }
 
-.entry-editor-property dl dd input.text-input
+.entry-editor-property dl dd input.input-text
 {
 	display                          : block;
 	width                            : 160px !important;
@@ -809,8 +809,8 @@ body
 	width                            : 172px;
 }
 
-#tag-line dd ul li input.text-input,
-#location-line dd ul li input.text-input
+#tag-line dd ul li input.input-text,
+#location-line dd ul li input.input-text
 {
 	width                            : 160px !important;
 }
@@ -1009,7 +1009,7 @@ body
 	padding                          : 5px 0;
 }
 
-#permalink-line dd .text-input
+#permalink-line dd .input-text
 {
 	width                            : 200px;
 }
@@ -1076,7 +1076,7 @@ body
 	width                            : 172px;
 }
 
-#date-line dd input.text-input
+#date-line dd input.input-text
 {
 	display                          : block;
 	width                            : 160px !important;

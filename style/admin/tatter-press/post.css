@@ -84,7 +84,7 @@
 }
 
 #property-box dl .button,
-#property-box dl .text-input
+#property-box dl .input-text
 {
 	vertical-align                   : middle;
 }

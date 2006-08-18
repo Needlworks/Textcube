@@ -86,7 +86,7 @@ if ($setting['newWindow'] == 2) {
 						<li id="setting"><a id="settingLabel" href="#void" onclick="Reader.toggleConfigure(); return false;"><span class="text"><?php echo _t('설정');?></span></a></li>
 						<li id="feed-update"><a href="#void" onclick="Reader.updateAllFeeds(); return false;"><span class="text"><?php echo _t('모든 피드 새로고침');?><span id="progress"></span></span></a></li>
 						<li id="search">
-							<input type="text" id="keyword" class="text-input" onkeydown="if(event.keyCode==13) Reader.showSearch()" />
+							<input type="text" id="keyword" class="input-text" onkeydown="if(event.keyCode==13) Reader.showSearch()" />
 							<a class="search-button button" href="#void" onclick="Reader.showSearch()"><span class="text"><?php echo _t('검색');?></span></a>
 						</li>
 					</ul>
@@ -212,7 +212,7 @@ if (getUserId() == 1) {
 											</dl>
 											<dl id="opmlRequest" class="line" style="display: none;">
 												<dt><label for="opmlRequestValue"><?php echo _t('URL로 읽어오기');?></label></dt>
-												<dd><input type="text" id="opmlRequestValue" class="text-input" /></dd>
+												<dd><input type="text" id="opmlRequestValue" class="input-text" /></dd>
 											</dl>
 										</fieldset>
 										

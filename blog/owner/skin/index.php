@@ -18,9 +18,9 @@ while ($file = $dirHandler->read()) {
 	array_push($skins, array('name' => $file, 'path' => ROOT . "/skin/$file/", 'preview' => $preview));
 }
 
-function writeValue($value, $label) {
+function writeValue($value, $label, $className) {
 ?>
-										<tr>
+										<tr class="<?php echo $className;?>-line">
 											<td class="name"><?php echo $label;?></td>
 											<td class="explain"><?php echo nl2br(addLinkSense($value, ' onclick="window.open(this.href); return false;"'));?></td>
 										</tr>
@@ -98,12 +98,12 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 	$xml = file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/index.xml");
 	$xmls = new XMLStruct();
 	$xmls->open($xml, $service['encoding']);
-	writeValue('<span class="skin-name">' . $xmls->getValue('/skin/information/name') . '</span> <span class="version">ver.' . $xmls->getValue('/skin/information/version') . ($skinSetting['skin'] == "customize/$owner" ? _t('(사용자 수정본)') : NULL) . '</span>', _t('제목'));
-	writeValue($xmls->getValue('/skin/information/license'), _t('저작권'));
-	writeValue($xmls->getValue('/skin/author/name'), _t('만든이'));
-	writeValue($xmls->getValue('/skin/author/homepage'), _t('홈페이지'));
-	writeValue($xmls->getValue('/skin/author/email'), _t('e-mail'));
-	writeValue($xmls->getValue('/skin/information/description'), _t('설명'));
+	writeValue('<span class="skin-name">' . $xmls->getValue('/skin/information/name') . '</span> <span class="version">ver.' . $xmls->getValue('/skin/information/version') . ($skinSetting['skin'] == "customize/$owner" ? _t('(사용자 수정본)') : NULL) . '</span>', _t('제목'), "title");
+	writeValue($xmls->getValue('/skin/information/license'), _t('저작권'), "license");
+	writeValue($xmls->getValue('/skin/author/name'), _t('만든이'), "maker");
+	writeValue($xmls->getValue('/skin/author/homepage'), _t('홈페이지'), "homepage");
+	writeValue($xmls->getValue('/skin/author/email'), _t('e-mail'), "email");
+	writeValue($xmls->getValue('/skin/information/description'), _t('설명'), "explain");
 ?>
 											</table>
 										</div>
@@ -178,12 +178,12 @@ for ($i = 0; $i < count($skins); $i++) {
 		$xml = file_get_contents(ROOT . "/skin/{$skin['name']}/index.xml");
 		$xmls = new XMLStruct();
 		$xmls->open($xml, $service['encoding']);
-		writeValue('<span class="skin-name">' . $xmls->getValue('/skin/information/name') . '</span> <span class="version">ver.' . $xmls->getValue('/skin/information/version') . '</span>', _t('제목'));
-		writeValue($xmls->getValue('/skin/information/license'), _t('저작권'));
-		writeValue($xmls->getValue('/skin/author/name'), _t('만든이'));
-		writeValue($xmls->getValue('/skin/author/homepage'), _t('홈페이지'));
-		writeValue($xmls->getValue('/skin/author/email'), _t('e-mail'));
-		writeValue($xmls->getValue('/skin/information/description'), _t('설명'));
+		writeValue('<span class="skin-name">' . $xmls->getValue('/skin/information/name') . '</span> <span class="version">ver.' . $xmls->getValue('/skin/information/version') . '</span>', _t('제목'), "title");
+		writeValue($xmls->getValue('/skin/information/license'), _t('저작권'), "license");
+		writeValue($xmls->getValue('/skin/author/name'), _t('만든이'), "maker");
+		writeValue($xmls->getValue('/skin/author/homepage'), _t('홈페이지'), "homepage");
+		writeValue($xmls->getValue('/skin/author/email'), _t('e-mail'), "email");
+		writeValue($xmls->getValue('/skin/information/description'), _t('설명'), "explain");
 	} else {
 		writeValue($skin['name'], _t('제목'));
 	}

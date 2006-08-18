@@ -257,7 +257,7 @@ if ($backup) {
 											<label for="backupPath"><?php echo _t('백업파일 경로');?></label><span class="divider"> : </span><input type="file" id="backupPath" class="file-input" name="backupPath" <?php echo ($backup ? 'disabled="disabled"' : '');?> />
 										</div>
 										<div id="remoteBackup" style="display: none;">
-											<label for="backupURL"><?php echo _t('백업파일 <acronym title="Uniform Resource Locator">URL</acronym>');?></label><span class="divider"> : </span><input type="text" id="backupURL" class="text-input" name="backupURL" value="http://" disabled="disabled" onkeydown="if (event.keyCode == 13) { importData(); return false; }" />
+											<label for="backupURL"><?php echo _t('백업파일 <acronym title="Uniform Resource Locator">URL</acronym>');?></label><span class="divider"> : </span><input type="text" id="backupURL" class="input-text" name="backupURL" value="http://" disabled="disabled" onkeydown="if (event.keyCode == 13) { importData(); return false; }" />
 										</div>
 									</div>
 									<div class="button-box">
@@ -315,7 +315,7 @@ if ($backup) {
 									</div>
 									<div id="admin-password">
 										<label for="confirmativePassword"><?php echo _t('데이터를 삭제하시려면 관리자 비밀번호를 입력하십시오.');?></label>
-										<input type="password" id="confirmativePassword" class="text-input" name="confirmativePassword" onkeydown="if (event.keyCode == 13) { removeData(); return false; }" />
+										<input type="password" id="confirmativePassword" class="input-text" name="confirmativePassword" onkeydown="if (event.keyCode == 13) { removeData(); return false; }" />
 									</div>
 								</div>
 								<div class="button-box">
