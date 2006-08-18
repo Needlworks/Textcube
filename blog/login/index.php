@@ -116,7 +116,7 @@ if (doesHaveOwnership()) {
 							</dl>
 							
 							<div class="button-box">
-								<a class="login-button button" href="#void" onclick="document.forms[0].submit()"><span class="text"><?php echo _text('로그인');?></span></a>
+								<input type="submit" class="login-button input-button" value="<?php echo _text('로그인');?>" />
 							</div>
 						</div>
 						
