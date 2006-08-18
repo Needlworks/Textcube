@@ -510,8 +510,8 @@ for ($i = 5; $i <= 30; $i += 5) {
 										<dl id="post-address-line" class="line">
 											<dt><span class="label"><?php echo _t('글 주소');?></span></dt>
 											<dd>
-												<input type="radio" id="useSlogan1" class="radio" name="useSlogan"<?php echo ($blog['useSlogan'] ? ' checked="checked"' : '');?> /> <label for="useSlogan1"><span class="text"><?php echo _t('문자를 사용합니다.');?> <samp><?php echo _f('(예: %1/entry/태터툴즈로-오신-것을-환영합니다)', getBlogURL());?></samp></span></label><br />
-												<input type="radio" id="useSlogan0" class="radio" name="useSlogan"<?php echo ($blog['useSlogan'] ? '' : ' checked="checked"');?> /> <label for="useSlogan0"><span class="text"><?php echo _t('숫자를 사용합니다.');?> <samp><?php echo _f('(예: %1/123)', getBlogURL());?></samp></span></label>
+												<input type="radio" id="useSlogan1" class="radio" name="useSlogan"<?php echo ($blog['useSlogan'] ? ' checked="checked"' : '');?> /> <label for="useSlogan1"><span class="text"><?php echo _t('문자를 사용합니다.');?> <samp><?php echo _f('(예: %1/entry/태터툴즈로-오신-것을-환영합니다)',link_cut(getBlogURL()));?></samp></span></label><br />
+												<input type="radio" id="useSlogan0" class="radio" name="useSlogan"<?php echo ($blog['useSlogan'] ? '' : ' checked="checked"');?> /> <label for="useSlogan0"><span class="text"><?php echo _t('숫자를 사용합니다.');?> <samp><?php echo _f('(예: %1/123)', link_cut(getBlogURL()));?></samp></span></label>
 											</dd>
 										</dl>
 										<dl id="guestbook-authority-line" class="line">
