@@ -614,9 +614,10 @@ function eleganceScroll(target, acceleration) {
 }
 
 function showJukeboxList(id,height){
+	target = document.getElementById('jukeBoxContainer'+id);
 	divTarget = document.getElementById('jukeBox'+id+'Div');
 	flashTarget = document.getElementById('jukeBox'+id+'Flash');
-	flashTarget.style.height = divTarget.style.height = height+'px';
+	target.style.height = flashTarget.style.height = divTarget.style.height = height+'px';
 }
 
 function setUserSetting(name, value) {
