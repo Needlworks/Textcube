@@ -2,6 +2,11 @@
 
 /* Common ****************************************************************************************/
 
+#sub-menu-about
+{
+	background-image                 : none !important;
+}
+
 .part .caption
 {
 	margin-bottom                    : 10px;
@@ -25,6 +30,17 @@
 	line-height                      : 32px;
 	padding-left                     : 25px;
 	width                            : 456px;
+}
+
+#part-center-dashboard .section ul li
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	padding                          : 7px 10px 5px 10px;
+}
+
+#part-center-dashboard .section ul li span.cnt
+{
+	color                            : #FF6600 !important;
 }
 
 /* Setting ***************************************************************************************/

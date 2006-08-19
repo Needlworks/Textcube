@@ -2,12 +2,12 @@
 
 /* Common *****************************************************************************************/
 
-/* table header */
-
-table.data-inbox tr .selection
+#sub-menu-trash
 {
-	width                            : 20px;
+	background-image                 : none !important;
 }
+
+/* table header */
 
 table.data-inbox tr .date
 {
@@ -41,6 +41,81 @@ table.data-inbox tbody tr td.name,
 table.data-inbox tbody tr td.ip
 {
 	text-align                       : left;
+}
+
+/* Post *******************************************************************************************/
+
+/* table header */
+
+#part-post-list table.data-inbox tr .status
+{
+	width                            : 51px;
+}
+
+#part-post-list table.data-inbox tr .syndicate
+{
+	width                            : 23px;
+}
+
+#part-post-list table.data-inbox tr .protect
+{
+	padding-right                    : 0;
+	width                            : 31px;
+}
+
+#part-post-list table.data-inbox tr .trackback
+{
+	padding-right                    : 0;
+}
+
+#part-post-list table.data-inbox thead tr th.syndicate span,
+#part-post-list table.data-inbox thead tr th.protect span,
+#part-post-list table.data-inbox thead tr th.trackback span,
+#part-post-list table.data-inbox thead tr th.delete span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox thead tr th.title
+{
+	padding-left                     : 65px;
+	text-align                       : left;
+}
+
+#part-post-list table.data-inbox tr .delete
+{
+	padding-right                    : 5px;
+}
+
+/* table body */
+
+#part-post-list table.data-inbox tbody tr td.status,
+{
+	padding-right                    : 0;
+}
+
+#part-post-list table.data-inbox tbody tr td.syndicate
+{
+	background-position              : right bottom;
+	padding                          : 0;
+}
+
+#part-post-list table.data-inbox tbody tr td.trackback,
+#part-post-list table.data-inbox tbody tr td.delete
+{
+	background-position              : right bottom;
+	padding-left                     : 0;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td
+{
+	border                           : 1px solid #999999;
+	text-align                       : right;
+}
+
+.hidden-layer table tr td
+{
+	border                           : none !important;
 }
 
 /* Comment ****************************************************************************************/
