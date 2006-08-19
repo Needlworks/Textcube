@@ -1,0 +1,96 @@
+@charset "utf-8";
+
+/* Common *****************************************************************************************/
+
+#sub-menu-etc
+{
+	background-image                 : none !important;
+}
+
+.part .button-box
+{
+	clear                            : both;
+	margin-bottom                    : 30px;
+}
+
+.part .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none !important;
+	display                          : block;
+	font-weight                      : bold;
+	height                           : 30px !important;
+	margin                           : 0 auto;
+	width                            : 74px;
+}
+
+/* Basic *****************************************************************************************/
+
+#part-setting-basic .section dl dd .input-text
+{
+	width                            : 300px;
+}
+
+#part-setting-basic .section dl dd textarea
+{
+	margin-top                       : 8px;
+	width                            : 300px;
+}
+
+#part-setting-profile .section dl dd img
+{
+	display                          : block;
+	margin-top                       : 8px;
+}
+
+#multi-form dl dd .input-text
+{
+	width                            : 100px !important;
+}
+
+#open-type-line dd,
+#post-address-line dd
+{
+	padding-bottom                   : 3px;
+	padding-top                      : 5px;
+	line-height                      : 1.5em;
+}
+
+/* Etc *******************************************************************************************/
+
+#part-setting-thumbnail .section dl dd img
+{
+	display                          : block;
+	margin-top                       : 8px;
+}
+
+#watermark-resize-line dd,
+#blog-language-line dd p
+{
+	padding-bottom                   : 3px;
+	padding-top                      : 5px;
+	line-height                      : 1.5em;
+}
+
+#watermark-position-line dd,
+#padding-line dd
+{
+	padding-bottom                   : 3px;
+	padding-top                      : 5px;
+	line-height                      : 2.1em;
+}
+
+#watermark-position-line dd .input-text,
+#topPaddingManual,
+#rightPaddingManual,
+#bottomPaddingManual,
+#leftPaddingManual
+{
+	margin-right                     : 3px;
+	width                            : 30px !important;
+}
+
+#padding-line dd .input-text
+{
+	width                            : 50px;
+}

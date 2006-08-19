@@ -278,7 +278,7 @@ if (extension_loaded('gd')) {
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setThumbnail()"><span class="text"><?php echo _t('저장하기');?></span></a>
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setThumbnail(); return false;" />
 									</div>
 								</form>
 							</div>
@@ -344,7 +344,7 @@ foreach (Timezone::getList() as $timezone) {
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setLocale()"><span class="text"><?php echo _t('저장하기');?></span></a>
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setLocale(); return false;" />
 									</div>
 								</div>
 							</form>
@@ -388,7 +388,7 @@ $strictXHTML = getUserSetting('strictXHTML', 0);
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setEditor()"><span class="text"><?php echo _t('저장하기');?></span></a>
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setEditor(); return false;" />
 									</div>
 								</div>
 							</form>
@@ -466,7 +466,7 @@ while ($dir = $dirHandler->read()) {
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setAdminSkin()"><span class="text"><?php echo _t('저장하기');?></span></a>
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setAdminSkin(); return false;" />
 									</div>
 								</div>
 							</form>

@@ -303,7 +303,7 @@ if ($service['type'] != 'single') {
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setBlog()"><span class="text"><?php echo _t('저장하기');?></span></a>
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setBlog(); return false;" />
 									</div>
 								</form>
 <?php
@@ -343,7 +343,7 @@ if ($service['type'] != 'single') {
 ?>
 									</fieldset>
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setDomains()"><span class="text"><?php echo _t('저장하기');?></span></a>
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setDomains(); return false;" />
 									</div>
 								</form>
 <?php
@@ -446,7 +446,7 @@ $blogIconSize = getUserSetting('blogIconSize', '0');
 								</div>
 								
 								<div class="button-box">
-									<a class="save-button button" href="#void" onclick="setIcons()"><span class="text"><?php echo _t('저장하기');?></span></a>
+									<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setIcons(); return false;" />
 								</div>
 							</form>
 						</div>
@@ -523,7 +523,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="setRSS()"><span class="text"><?php echo _t('저장하기');?></span></a>
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setRSS(); return false;" />
 									</div>
 								</div>
 							</form>

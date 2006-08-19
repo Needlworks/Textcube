@@ -55,6 +55,11 @@ dl
 	padding-left                     : 10px;
 }
 
+dd select
+{
+	margin                           : 0 3px 0 0;
+}
+
 em
 {
 	font-style                       : normal;
@@ -121,10 +126,10 @@ samp
 
 select
 {
-	border                           : 1px solid #777777;
+	/*border                           : 1px solid #777777;*/
 	font-size                        : 1em;
 	height                           : 1.8em;
-	padding                          : 0.2em;
+	/*padding                          : 0.2em;*/
 	vertical-align                   : middle;
 }
 
@@ -167,19 +172,22 @@ textarea
 #main-description
 {
 	bottom                           : 5px;
-	left                             : 160px;
+	right                            : 10px;
 	position                         : absolute;
+	text-align                       : right;
+	width                            : 100%;
 }
 
 #main-description li
 {
-	float                            : left;
+	display                          : inline;
 	line-height                      : 1.5em;
 }
 
-#description-blog
+#description-blogger
 {
-	width                            : auto;
+	float                            : left;
+	margin-left                      : 160px;
 }
 
 #description-blog a
@@ -418,6 +426,11 @@ table.data-inbox tbody tr td
 	padding                          : 8px;
 	text-align                       : center;
 	/*vertical-align                   : top;*/
+}
+
+table.data-inbox tbody tr.active-class
+{
+	background-color                 : #EFF6FF;
 }
 
 table.data-inbox tr .selection
