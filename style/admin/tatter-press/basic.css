@@ -67,25 +67,6 @@ legend
 	display                          : none;
 }
 
-input.input-text
-{
-	background-color                 : #F4F4F4;
-	border                           : 1px solid #B2B2B2;
-	color                            : #000000;
-	font-family                      : Verdana, Arial, Helvetica, sans-serif;
-	padding                          : 3.5px;
-}
-
-input.text-readonly-input
-{
-	background                       : #CDCDCD;
-	border                           : 1px solid #B2B2B2;
-	color                            : #565656;
-	font-family                      : Verdana, Arial, Helvetica, sans-serif;
-	font-size                        : inherit;
-	padding                          : 3.5px;
-}
-
 select
 {
 	background-color                 : #F4F4F4;
@@ -617,6 +598,21 @@ dl dd
 	border-bottom                    : 3px double #999999;
 	border-left                      : 3px double #CCCCCC;
 	padding                          : 7px;
+	vertical-align                   : middle;
+}
+
+.button-box .input-button
+{
+	background-image                 : url("./image/bg_button.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border-top                       : 3px double #CCCCCC;
+	border-right                     : 3px double #999999;
+	border-bottom                    : 3px double #999999;
+	border-left                      : 3px double #CCCCCC;
+	height                           : 3.05em;
+	padding                          : 7px;
+	vertical-align                   : middle;
 }
 
 /* Foot *******************************************************************************************/
@@ -716,4 +712,32 @@ dl dd
 	margin                           : 0;
 	padding                          : 0;
 	vertical-align                   : middle;
+}
+
+.input-button
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #999999;
+	font-size                        : 1em;
+	height                           : 2em;
+}
+
+input.input-text
+{
+	background-color                 : #F4F4F4;
+	border                           : 1px solid #B2B2B2;
+	color                            : #000000;
+	font-family                      : Verdana, Arial, Helvetica, sans-serif;
+	height                           : 1.2em;
+	padding                          : 3.5px;
+}
+
+input.text-readonly-input
+{
+	background                       : #CDCDCD;
+	border                           : 1px solid #B2B2B2;
+	color                            : #565656;
+	font-family                      : Verdana, Arial, Helvetica, sans-serif;
+	font-size                        : inherit;
+	padding                          : 3.5px;
 }

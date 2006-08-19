@@ -121,6 +121,7 @@ optgroup.delete option
 kbd,
 samp
 {
+	font-family                      : 굴림, Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
 	font-size                        : 1em;
 }
 
