@@ -11,19 +11,20 @@
 $plugin = $_GET['name'];
 $pluginAttrs = array();
 $pluginDir = $plugin;
-if (file_exists(ROOT . "/plugins/$plugin/style.css")) {
+$adminSkinDir = getUserSetting("adminSkin", "default");
+if (file_exists(ROOT . "/plugins/$plugin/$adminSkinDir.css")) {
 ?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/style.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/<?php echo $adminSkinDir;?>.css" />
 <?php
 }
-if (file_exists(ROOT . "/plugins/$plugin/style.opera.css")) {
+if (file_exists(ROOT . "/plugins/$plugin/$adminSkinDir.opera.css")) {
 ?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/style.opera.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/<?php echo $adminSkinDir;?>.opera.css" />
 <?php
 }
-if (file_exists(ROOT . "/plugins/$plugin/style.ie.css")) {
+if (file_exists(ROOT . "/plugins/$plugin/$adminSkinDir.ie.css")) {
 ?>
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/style.ie.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/<?php echo $adminSkinDir;?>.ie.css" />
 	<![endif]-->
 <?php
 }
