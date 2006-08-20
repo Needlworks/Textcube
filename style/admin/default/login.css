@@ -98,10 +98,12 @@ dl dd .input-text
 	width                            : 140px;
 }
 
-.button-box .button
+.button-box .input-button
 {
-	margin-left                      : auto !important;
-	width                            : 86px;
+	background-image                 : url("./image/button1.gif");
+	display                          : block;
+	margin-left                      : auto;
+	width                            : 106px;
 }
 
 .button-box .button span

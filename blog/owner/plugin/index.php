@@ -117,7 +117,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo 'part-center-plugins';
 else if (defined('__TATTERTOOLS_SIDEBAR__'))
-	echo 'part-skin-plugins';
+	echo 'part-sidebar-plugins';
 else
 	echo 'part-plugin-list';
 									?>").submit();
@@ -143,7 +143,7 @@ else
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo 'part-center-plugins';
 else if (defined('__TATTERTOOLS_SIDEBAR__'))
-	echo 'part-skin-plugins';
+	echo 'part-sidebar-plugins';
 else
 	echo 'part-plugin-list';
 						?>" class="part" method="post" action="<?php

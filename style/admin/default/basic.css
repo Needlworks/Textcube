@@ -483,11 +483,6 @@ input.text-readonly-input
 	margin-top                       : 2px;*/
 }
 
-#category-form .button
-{
-	width                            : 70px;
-}
-
 #data-outbox .main-explain-box .explain
 {
 	background-color                 : #EFEFEF;
@@ -621,6 +616,79 @@ input.text-readonly-input
 	background-color                 : transparent;
 }
 
+/* fieldset -------------------------------------------------------------------------------------*/
+fieldset
+{
+	border                           : none;
+}
+
+legend
+{
+	display                          : none;
+}
+
+#data-outbox dl
+{
+	clear                            : both;
+	height                           : 1.5em;
+	margin                           : 0 0 6px 0;
+}
+
+#data-outbox dl dt
+{
+	float                            : left;
+	font-weight                      : bold;
+	margin-right                     : 15px;
+	padding-top                      : 2px;
+	text-align                       : right;
+	width                            : 200px;
+}
+
+#data-outbox dl dd
+{
+	float                            : left;
+}
+
+/* button ---------------------------------------------------------------------------------------*/
+
+#data-outbox a.button:link, 
+#data-outbox a.button:visited
+{
+	color                            : #000000;
+}
+
+#data-outbox a.button:hover, 
+#data-outbox a.button:active
+{
+	color                            : #565656;
+	text-decoration                  : none;
+}
+
+#data-outbox .button-box
+{
+	clear                            : both;
+	text-align                       : center;
+}
+
+#data-outbox .input-button,
+#data-outbox .button-box .button
+{
+	border                           : none;
+	background-image                 : url("./image/button_106.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	font-weight                      : bold;
+	height                           : 24px;
+	line-height                      : 26px;
+	text-align                       : center;
+	width                            : 106px;
+}
+
+#data-outbox .button-box .divider
+{
+	display                          : none;
+}
+
 /* data subbox ----------------------------------------------------------------------------------*/
 #data-outbox div.data-subbox
 {
@@ -647,15 +715,12 @@ input.text-readonly-input
 
 #change-section label
 {
-	display                          : block;
-	float                            : left;
-	padding-top                      : 6px;
+	vertical-align                   : middle;
 }
 
 #change-section select
 {
-	float                            : left;
-	margin                           : 2px 0 0 3px;
+	vertical-align                   : middle;
 }
 
 #change-section select optgroup option
@@ -666,26 +731,19 @@ input.text-readonly-input
 
 #delete-section .label
 {
-	display                          : block;
-	float                            : left;
-	padding-top                      : 5px;
+	vertical-align                   : middle;
 }
 
-#data-outbox div.data-subbox .button
+#data-outbox div.data-subbox .input-button
 {
-	float                            : left;
+	background-image                 : url("./image/button_70.gif");
+	vertical-align                   : middle;
 	width                            : 70px;
 }
 
-#data-outbox div.data-subbox .delete-button span
+#data-outbox div.data-subbox #delete-section .input-button
 {
 	color                            : #FF0000;
-	width                            : 66px;
-}
-
-#data-outbox div.data-subbox .delete-button:hover span
-{
-	color                            : #FF6F6F;
 }
 
 /* lines per page */
@@ -695,8 +753,12 @@ input.text-readonly-input
 	position                         : absolute;
 	right                            : 13px;
 	text-align                       : right;
-	vertical-align                   : 2px;
 	width                            : 300px;
+}
+
+#page-section .page-count select
+{
+	vertical-align                   : middle;
 }
 
 /* page navigation */
@@ -740,14 +802,14 @@ input.text-readonly-input
 /* search */
 #search-form
 {
-	border                           : none !important;
-	background-color                 : transparent !important;
-	padding                          : 0 !important;
+	border                           : none;
+	background-color                 : transparent;
+	padding                          : 0;
 	position                         : absolute;
 	bottom                           : 62px;
 	right                            : 33px;
-	margin                           : 5px 0 0 auto !important;
-	width                            : 163px !important;
+	margin                           : 5px 0 0 auto;
+	width                            : 178px;
 }
 
 #search-form label
@@ -757,104 +819,15 @@ input.text-readonly-input
 
 #search-form input#search
 {
-	float                            : left;
-	margin-top                       : 2px;
-	width                            : 70px;
+	vertical-align                   : middle;
+	width                            : 80px;
 }
 
-/* fieldset -------------------------------------------------------------------------------------*/
-fieldset
+#search-form .input-button
 {
-	border                           : none;
-}
-
-legend
-{
-	display                          : none;
-}
-
-#data-outbox dl
-{
-	clear                            : both;
-	height                           : 1.5em;
-	margin                           : 0 0 6px 0;
-}
-
-#data-outbox dl dt
-{
-	float                            : left;
-	font-weight                      : bold;
-	margin-right                     : 15px;
-	padding-top                      : 2px;
-	text-align                       : right;
-	width                            : 200px;
-}
-
-#data-outbox dl dd
-{
-	float                            : left;
-}
-
-/* button ---------------------------------------------------------------------------------------*/
-#data-outbox .button
-{
-	background-color                 : #CCCCCC;
-	background-image                 : url("./image/button2.gif");
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	cursor                           : pointer;
-	display                          : block;
-	margin-left                      : 3px;
-	overflow                         : hidden;
-	padding-left                     : 4px;
-}
-
-#data-outbox .button span 
-{
-	background-color                 : #CCCCCC;
-	background-image                 : url("./image/button2.gif");
-	background-position              : right top;
-	background-repeat                : no-repeat;
-	display                          : block;
-	font-weight                      : bold;
-	overflow                         : visible;
-	padding                          : 6px 4px 3px 0; /* 4px 4px 4px 0 !important; for english */
-	text-align                       : center;
-}
-
-#data-outbox a.button:link, 
-#data-outbox a.button:visited
-{
-	color                            : #000000;
-}
-
-#data-outbox a.button:hover, 
-#data-outbox a.button:active
-{
-	color                            : #565656;
-	text-decoration                  : none;
-}
-
-#data-outbox .button-box
-{
-	clear                            : both;
-}
-
-#data-outbox .button-box .button
-{
-	background-image                 : url("./image/button2.gif");
-	width                            : 106px;
-}
-
-#data-outbox .button-box .button span
-{
-	background-image                 : url("./image/button2.gif");
-	width                            : 102px;
-}
-
-#data-outbox .button-box .divider
-{
-	display                          : none;
+	background-image                 : url("./image/button_85.gif");
+	vertical-align                   : middle;
+	width                            : 85px;
 }
 
 /* Footer ****************************************************************************************/

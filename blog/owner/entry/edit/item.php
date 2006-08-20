@@ -671,15 +671,15 @@ if (isset($_GET['popupEditor'])) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
 								<div class="button-box two-button-box">
-									<a href="#void" class="save-button button" onclick="entryManager.save()"><span class="text"><?php echo _t('저장하기');?></span></a>
+									<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save()" />
 									<span class="hidden">|</span>
-									<a href="#void" class="preview-button button" onclick="entryManager.preview()"><span class="text"><?php echo _t('미리보기');?></span></a>
+									<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview()" />
 								</div>
 <?php
 	} else {
 ?>
 								<div class="button-box one-button-box">
-									<a href="#void" class="save-button button" onclick="entryManager.save()"><span class="text"><?php echo _t('저장하기');?></span></a>
+									<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save()" />
 								</div>
 <?php
 	}
@@ -687,19 +687,19 @@ if (isset($_GET['popupEditor'])) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
 								<div class="button-box three-button-box">
-									<a href="#void" class="save-button button" onclick="entryManager.save()"><span class="text"><?php echo _t('저장하기');?></span></a>
+									<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save()" />
 									<span class="hidden">|</span>
-							       	<a href="#void" class="preview-button button" onclick="entryManager.preview()"><span class="text"><?php echo _t('미리보기');?></span></a>
+							       	<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview()" />
 									<span class="hidden">|</span>
-									<a href="#void" class="list-button button" onclick="document.forms[0].action='<?php echo $blogURL;?>/owner/entry'; document.forms[0].submit()"><span class="text"><?php echo _t('목록으로');?></span></a>
+									<a href="<?php echo $blogURL;?>/owner/entry" class="list-button button"><span class="text"><?php echo _t('목록으로');?></span></a>
 								</div>
 <?php
 	} else {
 ?>
 								<div class="button-box two-button-box">
-									<a href="#void" class="save-button button" onclick="entryManager.save()"><span class="text"><?php echo _t('저장하기');?></span></a>
+									<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save()" />
 									<span class="hidden">|</span>
-									<a href="#void" class="list-button button" onclick="document.forms[0].action='<?php echo $blogURL;?>/owner/entry'; document.forms[0].submit()"><span class="text"><?php echo _t('목록으로');?></span></a>
+									<a href="<?php echo $blogURL;?>/owner/entry" class="list-button button"><span class="text"><?php echo _t('목록으로');?></span></a>
 								</div>
 <?php
 	}

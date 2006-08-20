@@ -993,9 +993,3 @@ dl#power-line
 	margin                           : 20px auto 0 auto;
 	width                            : 336px;
 }
-
-.button-box .button
-{
-	float                            : left;
-	margin                           : 0 1px !important;
-}

@@ -21,19 +21,15 @@
 #part-link-add div.data-inbox dl dd .input-text,
 #part-link-edit div.data-inbox dl dd .input-text
 {
-	float                            : left;
-	margin-top                       : 2px;
+	vertical-align                   : middle;
 	width                            : 300px;
 }
 
-.get-info-button
+#rss-address-line dd .input-button
 {
-	width                            : 150px;
-}
-
-.get-info-button span
-{
-	width                            : 146px;
+	background-image                 : url("./image/button_150.gif");
+	vertical-align                   : middle;
+	width                            : 150px ;
 }
 
 /* button box -----------------------------------------------------------------------------------*/

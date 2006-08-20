@@ -469,6 +469,11 @@ table.data-inbox tbody tr td .new-icon span
 }
 
 /* tree -----------------------------------------------------------------------------------------*/
+#tree-preview-box .title
+{
+	display                          : none;
+}
+
 #treePreview
 {
 	left                             : 15px;
@@ -507,14 +512,13 @@ table.data-inbox tbody tr td .new-icon span
 
 #property-box dl dd .field-box
 {
-	height : 2.1em;
+	height                           : 2.1em;
 	padding-top                      : 1px;
 }
 
 #property-box dl dd .input-text
 {
-	float                            : left;
-	margin-top                       : 2px;
+	vertical-align                   : middle;
 	width                            : 150px;
 }
 
@@ -527,28 +531,18 @@ table.data-inbox tbody tr td .new-icon span
 #property-box dl dd .save-button,
 #property-box dl dd .remove-button
 {
-	float                            : left;
-	width                            : 76px;
-}
-
-#property-box dl dd .add-button span,
-#property-box dl dd .save-button span,
-#property-box dl dd .remove-button span
-{
-	width                            : 72px;
+	background-image                 : url("./image/button_85.gif");
+	vertical-align                   : middle;
+	width                            : 85px;
 }
 
 #property-box dl dd .up-button,
 #property-box dl dd .down-button
 {
-	float                            : left;
-	width                            : 60px;
-}
-
-#property-box dl dd .up-button span,
-#property-box dl dd .down-button span
-{
-	width                            : 56px;
+	background-image                 : url("./image/button_70.gif");
+	margin-right                     : 4px;
+	vertical-align                   : middle;
+	width                            : 70px;
 }
 
 #property-box dl dd .divider

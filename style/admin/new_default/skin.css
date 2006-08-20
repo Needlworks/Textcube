@@ -254,12 +254,12 @@
 
 /* plugin ****************************************************************************************/
 
-#part-skin-plugins .main-explain-box
+#part-sidebar-plugins .main-explain-box
 {
 	margin-bottom                    : 40px;
 }
 
-#part-skin-plugins fieldset
+#part-sidebar-plugins fieldset
 {
 	background-image                 : none;
 	border                           : none;
@@ -268,65 +268,65 @@
 	top                              : 75px;
 }
 
-#part-skin-plugins fieldset dl
+#part-sidebar-plugins fieldset dl
 {
 	border                           : none;
 }
 
-#part-skin-plugins fieldset dl dt
+#part-sidebar-plugins fieldset dl dt
 {
 	font-weight                      : bold;
 }
 
 /* table head */
-#part-skin-plugins table.data-inbox tr .title
+#part-sidebar-plugins table.data-inbox tr .title
 {
 	width                            : 170px;
 }
 
-#part-skin-plugins table.data-inbox tr .version
+#part-sidebar-plugins table.data-inbox tr .version
 {
 	width                            : 60px;
 }
 
-#part-skin-plugins table.data-inbox tr .scope
+#part-sidebar-plugins table.data-inbox tr .scope
 {
 	display                          : none;
 }
 
-#part-skin-plugins table.data-inbox tr .maker
+#part-sidebar-plugins table.data-inbox tr .maker
 {
 	width                            : 100px;
 }
 
-#part-skin-plugins table.data-inbox tr .config
+#part-sidebar-plugins table.data-inbox tr .config
 {
 	width                            : 70px;
 }
 
-#part-skin-plugins table.data-inbox tr .status
+#part-sidebar-plugins table.data-inbox tr .status
 {
 	width                            : 70px;
 }
 
 /* table body */
 
-#part-skin-plugins table.data-inbox tbody tr td.title
+#part-sidebar-plugins table.data-inbox tbody tr td.title
 {
 	background-position              : right bottom;
 }
 
-#part-skin-plugins table.data-inbox tbody tr td.title,
-#part-skin-plugins table.data-inbox tbody tr td.version,
-#part-skin-plugins table.data-inbox tbody tr td.explain,
-#part-skin-plugins table.data-inbox tbody tr td.maker
+#part-sidebar-plugins table.data-inbox tbody tr td.title,
+#part-sidebar-plugins table.data-inbox tbody tr td.version,
+#part-sidebar-plugins table.data-inbox tbody tr td.explain,
+#part-sidebar-plugins table.data-inbox tbody tr td.maker
 {
 	text-align                       : left;
 }
 
 /* plugin icons */
 
-#part-skin-plugins table.data-inbox tbody tr td.config a
+#part-sidebar-plugins table.data-inbox tbody tr td.config a
 {
 	background-image                 : url("./image/icon_config_on.gif");
 	background-position              : left center;
@@ -337,7 +337,7 @@
 	padding                          : 1px 0 1px 22px;
 }
 
-#part-skin-plugins table.data-inbox tbody tr td.config span
+#part-sidebar-plugins table.data-inbox tbody tr td.config span
 {
 	background-image                 : url("./image/icon_config_off.gif");
 	background-position              : left center;
@@ -347,7 +347,7 @@
 	padding                          : 1px 0 1px 22px;
 }
 
-#part-skin-plugins table.data-inbox tbody tr td.status a
+#part-sidebar-plugins table.data-inbox tbody tr td.status a
 {
 	background-position              : left center;
 	background-repeat                : no-repeat;
@@ -356,32 +356,32 @@
 	padding                          : 1px 0 1px 14px;
 }
 
-#part-skin-plugins table.data-inbox tbody tr.active-class td.status a
+#part-sidebar-plugins table.data-inbox tbody tr.active-class td.status a
 {
 	background-image                 : url("./image/icon_plugin_on.gif");
 	color                            : #5A8FC9;
 }
 
-#part-skin-plugins table.data-inbox tbody tr.inactive-class td.status a
+#part-sidebar-plugins table.data-inbox tbody tr.inactive-class td.status a
 {
 	background-image                 : url("./image/icon_plugin_off.gif");
 }
 
 /* data subbox */
 
-#part-skin-plugins .data-subbox
+#part-sidebar-plugins .data-subbox
 {
 	height                           : 2.5em;
 	margin-bottom                    : 50px;
 	position                         : relative;
 }
 
-#part-skin-plugins .data-subbox dl
+#part-sidebar-plugins .data-subbox dl
 {
 	border                           : none;
 }
 
-#part-skin-plugins .data-subbox dl dt
+#part-sidebar-plugins .data-subbox dl dt
 {
 	font-weight                      : bold;
 	width                            : auto;

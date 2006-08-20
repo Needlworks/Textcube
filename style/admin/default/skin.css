@@ -230,7 +230,12 @@
 	position                         : relative;
 }
 
-#part-skin-tree div.data-inbox iframe
+#tree-preview-box .title
+{
+	display                          : none;
+}
+
+#treePreview
 {
 	background-color                 : #FFFFFF;
 	border                           : 2px solid #EEEEEE;

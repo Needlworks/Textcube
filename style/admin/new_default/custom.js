@@ -12,7 +12,7 @@ function execLoadTransform() {
 	tempIds = new Array();
 	tempIds[0] = "part-center-plugins";
 	tempIds[1] = "part-plugin-list";
-	tempIds[2] = "part-skin-plugins";
+	tempIds[2] = "part-sidebar-plugins";
 	
 	for (i=0; i<tempIds.length; i++) {
 		if (document.getElementById(tempIds[i])) {
