@@ -624,7 +624,7 @@ TTEditor.prototype.showProperty = function(obj)
 				getObject(propertyWindowId + "_resample1").checked = true;
 			
 			editor.propertyFilename1 = values[1];
-
+			
 			if(objectCount == 1) {
 				var size = editor.parseImageSize(editor.selectedElement, "array");
 
@@ -634,8 +634,10 @@ TTEditor.prototype.showProperty = function(obj)
 					editor.propertyCurrentProportion1 = newHeight / newWidth;
 					editor.selectedElement.removeAttribute("width");
 					editor.selectedElement.removeAttribute("height");
-					editor.selectedElement.style.width = newWidth + "px";
-					editor.selectedElement.style.height = newHeight + "px";
+					if (!isNaN(newWidth))
+						editor.selectedElement.style.width = newWidth + "px";
+					if (!isNaN(newHeight))
+						editor.selectedElement.style.height = newHeight + "px";
 				}
 				else {
 					editor.propertyCurrentProportion1 = size[1] / size[0];
