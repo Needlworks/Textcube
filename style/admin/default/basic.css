@@ -677,6 +677,7 @@ legend
 	background-image                 : url("./image/button_106.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
+	cursor                           : pointer;
 	font-weight                      : bold;
 	height                           : 24px;
 	line-height                      : 26px;

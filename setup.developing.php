@@ -2585,12 +2585,12 @@ class CSetupDialog {
 								<input type="hidden" name="process" value="0" />
 								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage;?>" />
 								
-								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 설치합니다');?>" />
+								<input type="submit" class="input-button" value="<?php echo _t('태터툴즈를 설치합니다');?>" />
 								<p><?php echo _t('태터툴즈 설치를 시작합니다. 데이터베이스를 설치하고 설정파일을 작성합니다.');?></p>
 							</form>
 							
 							<form name="setup2" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 재설정합니다');?>"  disabled="disabled" />
+								<input type="submit" class="input-button" value="<?php echo _t('태터툴즈를 재설정합니다');?>"  disabled="disabled" />
 								<p><?php echo _t('설치된 태터툴즈가 없습니다. 재설정 기능은 비활성화 됩니다.');?></p>
 							</form>
 <?php
@@ -2601,7 +2601,7 @@ class CSetupDialog {
 								<input type="hidden" name="process" value="0" />
 								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage;?>" />
 								
-								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 제거합니다');?>" />
+								<input type="submit" class="input-button" value="<?php echo _t('태터툴즈를 제거합니다');?>" />
 								<p><?php echo _t('태터툴즈를 제거합니다. 모든 컨텐츠가 삭제되오니 반드시 백업 후 진행하시기 바랍니다.');?></p>
 							</form>
 							
@@ -2610,7 +2610,7 @@ class CSetupDialog {
 								<input type="hidden" name="process" value="0" />
 								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage;?>" />
 								
-								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 재설정합니다');?>" />
+								<input type="submit" class="input-button" value="<?php echo _t('태터툴즈를 재설정합니다');?>" />
 								<p><?php echo _t('설정과 사용자 정보를 재설정합니다. 이외의 블로그 데이터는 영향을 받지 않습니다.');?></p>
 							</form>
 <?php
@@ -2622,7 +2622,7 @@ class CSetupDialog {
 				if ($bCheckResult == false) {
 ?>
 							<form name="setup3" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 복구합니다');?>"  disabled="disabled" />
+								<input type="submit" class="input-button" value="<?php echo _t('태터툴즈를 복구합니다');?>"  disabled="disabled" />
 								<p><?php echo _t('이 버튼은 태터툴즈 데이터베이스에서 오류가 발견되면 자동으로 활성화 됩니다.');?></p>
 							</form>
 <?php
@@ -2634,7 +2634,7 @@ class CSetupDialog {
 								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage;?>" />
 								
 								
-								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 복구합니다');?>" />
+								<input type="submit" class="input-button" value="<?php echo _t('태터툴즈를 복구합니다');?>" />
 								<p><?php echo _t('태터툴즈 데이터베이스의 오류를 복구합니다. 이유 없이 로그인 되지 않을 경우 사용합니다.');?></p>
 							</form>
 <?php
@@ -2646,7 +2646,7 @@ class CSetupDialog {
 								<input type="hidden" name="lang" value="<?php echo $this->baseLanguage;?>" />
 								
 								
-								<input type="submit" class="button-input" value="<?php echo _t('태터툴즈를 최적화합니다');?>" />
+								<input type="submit" class="input-button" value="<?php echo _t('태터툴즈를 최적화합니다');?>" />
 								<p><?php echo _t('태터툴즈 데이터가 일부 비효율적인 상태입니다.');?></p>
 							</form>
 <?php

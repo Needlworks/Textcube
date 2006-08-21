@@ -69,7 +69,7 @@ body
 	vertical-align                   : middle;
 }
 
-#comment-box #command-box .button-input
+#comment-box #command-box .input-button
 {
 	border                           : 1px solid #6297D1;
 	background-color                 : #83AFE0;
@@ -154,10 +154,10 @@ body
 	margin-top                       : -7px;
 	padding                          : 3px;
 	vertical-align                   : middle;
-	width                            : 360px;
+	width                            : 350px;
 }
 
-#trackback-box #command-box .button-input
+#trackback-box #command-box .input-button
 {
 	border                           : 1px solid #6297D1;
 	background-color                 : #83AFE0;
@@ -242,7 +242,7 @@ body
 	text-align                       : center;
 }
 
-#trackback-box .button-box .button-input
+#trackback-box .button-box .input-button
 {
 	border                           : 1px solid #6297D1;
 	background-color                 : #83AFE0;
@@ -359,7 +359,7 @@ body
 	text-align                       : right;
 }
 
-#comment-reply-box #command-box .button-input
+#comment-reply-box #command-box .input-button
 {
 	border                           : 1px solid #6297D1;
 	background-color                 : #83AFE0;
@@ -397,7 +397,7 @@ body
 	margin-bottom                    : 10px;
 }
 
-#body-message-page .button-input
+#body-message-page .input-button
 {
 	border                           : 1px solid #878787;
 	background-color                 : #EFEFEF;
@@ -438,7 +438,7 @@ body
 	margin-bottom                    : 10px;
 }
 
-#body-message-page .button-input
+#body-message-page .input-button
 {
 	border                           : 1px solid #878787;
 	background-color                 : #EFEFEF;

@@ -157,7 +157,7 @@ if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId()))
 <?php
 }
 ?>
-					<input type="button" class="button-input" name="Submit" value="<?php echo _text('다음');?>" onclick="document.deleteComment.submit()" />				
+					<input type="button" class="input-button" name="Submit" value="<?php echo _text('다음');?>" onclick="document.deleteComment.submit()" />				
 				</div>
 			</div>
 		</div>

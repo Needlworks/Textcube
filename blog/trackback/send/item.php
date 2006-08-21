@@ -123,7 +123,7 @@ $entry = getEntry($owner, $suri['id']);
 					<dt><label for="url"><?php echo _text('주소입력');?></label><span class="divider"> | </span></dt>
 					<dd>
 						<input type="text" id="url" class="input-text" name="url" onkeydown="if (event.keyCode == 13) { sendTrackback(<?php echo $suri['id'];?>); return false;}" />
-						<input type="button" class="button-input" name="Submit" value="<?php echo _text('전송');?>" onclick="sendTrackback(<?php echo $suri['id'];?>)" />				
+						<input type="button" class="input-button" name="Submit" value="<?php echo _text('전송');?>" onclick="sendTrackback(<?php echo $suri['id'];?>)" />				
 					</dd>
 				</dl>
 				
@@ -131,7 +131,7 @@ $entry = getEntry($owner, $suri['id']);
 			</div>
 			
 			<div class="button-box">
-				<input type="button" class="button-input" value="<?php echo _text('닫기');?>" onclick="window.close()" />
+				<input type="button" class="input-button" value="<?php echo _text('닫기');?>" onclick="window.close()" />
 			</div>
 		</div>
 	</form>
