@@ -45,7 +45,7 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 										param  	=  '?value='	+ encodeURIComponent(value);
 										param 	+= '&mode=' 	+ mode;
 										param 	+= '&command=' 	+ command;
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/etc/filter/change/" + param);
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/filter/change/" + param);
 										var iconList = document.getElementsByTagName("a");	
 										for (var i = 0; i < iconList.length; i++) {
 											icon = iconList[i];
