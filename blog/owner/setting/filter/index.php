@@ -33,8 +33,8 @@ if (!empty($_POST['mode'])) {
 if (!empty($_GET['history'])) {
 	$history = $_GET['history'];
 }
-require ROOT . '/lib/piece/owner/header9.php';
-require ROOT . '/lib/piece/owner/contentMenu92.php';
+require ROOT . '/lib/piece/owner/header5.php';
+require ROOT . '/lib/piece/owner/contentMenu53.php';
 
 function printFilterBox($mode, $title) {
 	global $service;
@@ -273,7 +273,7 @@ if (!@is_null($history)) {
 							//]]>
 						</script>
 						
-						<div id="part-trash-filter" class="part">
+						<div id="part-setting-filter" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('필터를 설정합니다');?></span></h2>
 							
 							<div class="main-explain-box">
@@ -281,25 +281,25 @@ if (!@is_null($history)) {
 							</div>
 							
 							<div class="data-inbox">
-								<form id="ipSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/trash/filter">
+								<form id="ipSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/filter">
 <?php echo printFilterBox('ip', _t('IP 필터링'));?>
 								</form>
 										
 								<hr class="hidden" />
 										
-								<form id="urlSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/trash/filter">
+								<form id="urlSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/filter">
 <?php echo printFilterBox('url', _t('홈페이지 필터링'));?>
 								</form>
 								
 								<hr class="hidden" />
 								
-								<form id="contentSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/trash/filter">
+								<form id="contentSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/filter">
 <?php echo printFilterBox('content', _t('본문 필터링'));?>
 								</form>
 								
 								<hr class="hidden" />
 								
-								<form id="nameSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/trash/filter">
+								<form id="nameSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/filter">
 <?php echo printFilterBox('name', _t('이름 필터링'));?>
 								</form>
 							</div>
