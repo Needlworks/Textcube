@@ -73,17 +73,17 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 			case 'delete':
 				if (!confirm("<?=_t('선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속하시겠습니까?\t')?>"))
 					return false;
-				var targets = "";
+				var targets = new Array();
 				for (var i = 0; i < document.forms[0].elements.length; i++) {
 					var oElement = document.forms[0].elements[i];
 					if ((oElement.name == "entry") && oElement.checked)
-						targets += oElement.value +'~*_)';
+						targets.push(oElement.value);
 				}
 				var request = new HTTPRequest("POST", "<?=$blogURL?>/owner/entry/delete/");
 				request.onSuccess = function () {
 					document.forms[0].submit();
 				}
-				request.send("targets="+targets);
+				request.send("targets="+targets.join(','));
 				break;
 		}
 	}
