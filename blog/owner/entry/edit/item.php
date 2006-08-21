@@ -14,8 +14,12 @@ $IV = array(
 require ROOT . '/lib/includeForOwner.php';
 if (false) {
 	fetchConfigVal();
+
 }
+
+
 define('__TATTERTOOLS_EDIT__', true);
+
 if (defined('__TATTERTOOLS_POST__'))
 	$suri['id'] = 0;
 if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
@@ -578,7 +582,7 @@ printEntryFileUploadButton($entry['id']);
 										<div id="power-container" class="container">
 											<dl id="permalink-line" class="line">
 <?php
-if (defined('__TATTERTOOLS_POST__')) {
+if (defined('__TATTERTOOLS_POST__') || isset($_GET['draft'])) {
 ?>
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
 												<dd>
