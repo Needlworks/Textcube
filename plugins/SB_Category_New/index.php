@@ -109,7 +109,7 @@ function _getCategoryNameById($owner, $id) {
 
 function _getCategoriesView($categories,$selected,$skin,$viewForm){
 	global $blogURL, $owner;
-	$tree = array('id' => 0, 'label' => _getCategoryNameById($owner, 0), 'value' => $totalPosts, 'link' => "$blogURL/category", 'children' => array());
+	$tree = array('id' => 0, 'label' => _getCategoryNameById($owner, 0), 'value' => _getEntriesTotalCount($owner), 'link' => "$blogURL/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
