@@ -31,7 +31,7 @@ require ROOT . '/lib/piece/owner/contentMenu51.php';
 										var email = document.getElementById('email');
 										var nickname = document.getElementById('nickname');
 										if(!checkMail(email.value)) {
-											alert("<?php echo _t('이메일 형식이 옳바르지 않습니다.');?>");
+											alert("<?php echo _t('이메일 형식이 올바르지 않습니다.');?>");
 											email.select();
 											return false;
 										}
@@ -311,7 +311,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 										</dd>
 									</dl>
 									<div class="button-box">
-										<a class="invite-button button" href="#void" onclick="sendInvitation()"><span class="text"><?php echo _t('초대장 발송');?></span></a>
+										<a class="invite-button button" href="#void" onclick="sendInvitation();return false;"><span class="text"><?php echo _t('초대장 발송');?></span></a>
 									</div>
 								</div>
 								
@@ -349,7 +349,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 ?>
 														<td class="status"><?php echo _f('%1 전', timeInterval($value['created'], time()));?></td>
 														<td class="password"><?php echo fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']} AND host = $owner AND lastLogin = 0");?></td>
-														<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?php echo $value['userid'];?>,this);" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대취소');?></span></a></td>
+														<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?php echo $value['userid'];?>,this);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대취소');?></span></a></td>
 <?php
 		}
 ?>
