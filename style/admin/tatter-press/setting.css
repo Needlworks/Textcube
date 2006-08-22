@@ -411,6 +411,62 @@ input#pathDomain
 	overflow                         : hidden;
 }
 
+/* Filter ****************************************************************************************/
+
+#part-setting-filter div.data-inbox .section
+{
+	float                            : left;
+	margin                           : 10px 0 0 20px;
+	width                            : 220px;
+}
+
+#part-setting-filter div.data-inbox .section .title
+{
+	font-weight                      : bold;
+}
+
+#part-setting-filter div.data-inbox .section table
+{
+	border                           : 1px solid #CCCCCC;
+	margin                           : 10px 0 3px 0;
+	width                            : 100%;
+}
+
+#part-setting-filter div.data-inbox .section table tr.odd-line,
+#part-setting-filter div.data-inbox .section table tr.even-line
+{
+	background-color                 : transparent;
+}
+
+#part-setting-filter div.data-inbox .section table tr td.content
+{
+	line-height                      : 14px;
+	padding                          : 3px 5px;
+}
+
+#part-setting-filter div.data-inbox .section table tr td.delete
+{
+	padding                          : 2px 3px !important;
+	text-align                       : center;
+	width                            : 45px;
+}
+
+#part-setting-filter div.data-inbox .section table tr td.delete .delete-button
+{
+	padding                          : 3px 4px 2px 4px !important;
+}
+
+#part-setting-filter div.data-inbox .section .input-text
+{
+	margin                           : 0;
+	width                            : 210px;
+}
+
+#part-setting-filter .button-box
+{
+	margin                           : 20px 0;
+}
+
 /* Data ******************************************************************************************/
 
 /* common ---------------------------------------------------------------------------------------*/

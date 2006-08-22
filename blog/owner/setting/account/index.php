@@ -311,7 +311,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 										</dd>
 									</dl>
 									<div class="button-box">
-										<a class="invite-button button" href="#void" onclick="sendInvitation();return false;"><span class="text"><?php echo _t('초대장 발송');?></span></a>
+										<a class="invite-button button" href="#void" onclick="sendInvitation()"><span class="text"><?php echo _t('초대장 발송');?></span></a>
 									</div>
 								</div>
 								
