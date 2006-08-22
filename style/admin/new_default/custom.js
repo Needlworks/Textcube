@@ -26,10 +26,16 @@ function execLoadTransform() {
 		}
 	}
 	
-	if (document.getElementById("part-center-dashboard")) {
-		tempClear = document.createElement("DIV");
-		tempClear.className = "clear";
-		document.getElementById("part-center-dashboard").appendChild(tempClear);
+	tempIds = new Array();
+	tempIds[0] = "part-center-dashboard";
+	tempIds[1] = "part-setting-filter";
+	
+	for (i=0; i<tempIds.length; i++) {
+		if (document.getElementById(tempIds[i])) {
+			tempClear = document.createElement("DIV");
+			tempClear.className = "clear";
+			document.getElementById(tempIds[i]).appendChild(tempClear);
+		}
 	}
 }
 

@@ -85,7 +85,7 @@ function printFilterBox($mode, $title) {
 									</div>
 									
 									<div class="button-box">
-										<a class="add-button button" href="#void" onclick="add('<?php echo $mode;?>')"><span class="text"><?php echo _t('추가하기');?></span></a>
+										<input type="submit" class="add-button input-button" value="<?php echo _t('추가하기');?>" onclick="add('<?php echo $mode;?>'); return false;" />
 									</div>
 <?php
 }

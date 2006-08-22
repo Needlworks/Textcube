@@ -94,3 +94,76 @@
 {
 	width                            : 50px;
 }
+
+/* Filter ****************************************************************************************/
+
+#part-setting-filter div.data-inbox
+{
+	margin-top                       : 20px;
+}
+
+#part-setting-filter div.data-inbox .section
+{
+	float                            : left;
+	margin-left                      : 20px;
+	width                            : 200px;
+}
+
+#part-setting-filter div.data-inbox .section .title
+{
+	font-weight                      : bold;
+	margin-bottom                    : 5px;
+}
+
+#part-setting-filter div.data-inbox .section table
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #A0A0C0;
+	table-layout                     : fixed;
+	width                            : 100%;
+}
+
+#part-setting-filter div.data-inbox .section table tbody tr td.content,
+#part-setting-filter div.data-inbox .section table tbody tr td.empty
+{
+	padding                          : 5px 5px 3px 5px;
+}
+
+#part-setting-filter div.data-inbox .section table tbody tr td.delete
+{
+	width                            : 20px;
+}
+
+#part-setting-filter div.data-inbox .section table tbody tr td .delete-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_trash.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 11px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 11px;
+}
+
+#part-setting-filter div.data-inbox .section table tbody tr td .delete-button span
+{
+	display                          : none;
+}
+
+#part-setting-filter div.data-inbox .section .input-text
+{
+	margin-top                       : 2px;
+	width                            : 197px;
+}
+
+#part-setting-filter .button-box
+{
+	clear                            : both;
+	margin                           : 20px 0 10px 0;
+}
+
+#part-setting-filter .button-box .add-button
+{
+	margin                           : 0 auto;
+}
