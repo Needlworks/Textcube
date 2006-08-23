@@ -1,54 +1,62 @@
 <?php
 define('ROOT', '../../..');
+
 if (isset($_POST['page']))
 	$_GET['page'] = $_POST['page'];
+
 $IV = array(
 	'GET' => array(
+		'category' => array('int', 'mandatory' => false),
 		'page' => array('int', 1, 'default' => 1),
-		'category' => array('int', 'default' => 0)
+		'search' => array('string', 'default' => NULL)
 	),
 	'POST' => array(
+		'category' => array('int', 'mandatory' => false),
 		'categoryAtHome' => array('int', 'mandatory' => false),
-		'category' => array('int', 'default' => 0),
-		'withSearch' => array(array('on'), 'mandatory' => false),
-		'search' => array('string', 'default' => ''),
-		'perPage' => array('int', 1, 'mandatory' => false)
+		'perPage' => array('int', 1, 'mandatory' => false),
+		'search' => array('string', 'default' => NULL),
+		'withSearch' => array(array('on'), 'mandatory' => false)
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
 publishEntries();
 
 // 카테고리 설정.
-if (isset($_GET['category']) && !isset($_POST['category'])) {
+if (isset($_POST['category'])) {
+	$categoryId = $_POST['category'];
+} else if (isset($_GET['category'])) {
 	$categoryId = $_GET['category'];
 } else if (isset($_POST['categoryAtHome'])) {
 	$categoryId = $_POST['categoryAtHome'];
-} else if (empty($_POST['category'])) {
-	$categoryId = 0;
 } else {
-	$categoryId = $_POST['category'];
+	$categoryId = 0;	
 }
 
 // 찾기 키워드 설정.
-if (isset($_GET['search']))
-	$search = empty($_GET['search']) ? '' : trim($_GET['search']);
-else
-	$search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
+$searchKeyword = NULL;
+if (isset($_POST['search']) && !empty($_POST['search']))
+	$searchKeyword = trim($_POST['search']);
+else if (isset($_GET['search']) && !empty($_GET['search']))
+	$searchKeyword = trim($_GET['search']);
 
 // 페이지당 출력되는 포스트 수.
-$perPage = getUserSetting('rowsPerPage', 10);
-if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
-	$perPage = $_POST['perPage'];
-	setUserSetting('rowsPerPage', $_POST['perPage']);
+$perPage = getUserSetting('entryPerPage', 10);
+if (in_array($_POST['perPage'], array(10, 15, 20, 25, 30))) {
+	if ($_POST['perPage'] != $perPage) {
+		setUserSetting('entryPerPage', $_POST['perPage']);
+		$perPage = $_POST['perPage'];
+	}
 }
 
-list($entries, $paging) = getEntriesWithPagingForOwner($owner, $categoryId, $search, $suri['page'], $perPage);
+// 컨텐츠 목록 생성.
+list($entries, $paging) = getEntriesWithPagingForOwner($owner, $categoryId, $searchKeyword, $suri['page'], $perPage);
 
-$paging['postfix'] = '';
+// query string 생성.
+$paging['postfix'] = NULL;
 if ($categoryId != 0)
 	$paging['postfix'] .= "&amp;category=$categoryId";
-if (!empty($search))
-	$paging['postfix'] .= '&amp;search='.urlencode($search);
+if (!empty($searchKeyword))
+	$paging['postfix'] .= '&amp;search='.urlencode($searchKeyword);
 
 require ROOT . '/lib/piece/owner/header0.php';
 require ROOT . '/lib/piece/owner/contentMenu00.php';
@@ -290,13 +298,14 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 											break;
 										case 'category':
 											var targets = "";
+											var currentCategory = "<?php echo $categoryId;?>";
 											var category = obj.options[obj.options.selectedIndex].value.replace('category_', '');
 											var label = obj.options[obj.options.selectedIndex].getAttribute('label');
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/changeCategory/");
 											for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
 												var oElement = document.getElementById('list-form').elements[i];
 												if ((oElement.name == "entry") && oElement.checked) {
-													targets += oElement.value +',';
+													targets += oElement.value + ',';
 												}
 											}
 											targets = targets.substr(0,targets.length-1);
@@ -306,19 +315,56 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 											}
 											
 											request.onSuccess = function () {
-												for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
-													var oElement = document.getElementById('list-form').elements[i];
-													if ((oElement.name == "entry") && oElement.checked) {
-														document.getElementById("category_" + oElement.value).innerHTML = label;
-														document.getElementById("category_" + oElement.value).name = category;
+												hrefString = "<?php echo $blogURL;?>/owner/entry/";
+												queryPage = document.getElementById('list-form').page.value;
+												queryCategory = document.getElementById('category-form').category.value;
+												querySearch = document.getElementById('search-form').search.value;
+												
+												queryString = "";
+												if (queryPage != "") {
+													queryString = "page=" + queryPage;
+												}
+												if (queryCategory != "") {
+													if (queryString == "")
+														queryString = queryCategory;
+													else
+														queryString = queryString + "&category=" + queryCategory;
+												}
+												if (querySearch != "") {
+													if (queryString == "")
+														queryString = querySearch;
+													else
+														queryString = queryString + "&search=" + querySearch;	
+												}
+												if (queryString != "")
+													queryString = "?" + queryString;
+												
+												// 공지/키워드 화면에서 선택된 포스트를 카테고리로 변경할 경우 or 카테고리 리스트에서 포스트를 공지/키워드 포스트로 전환할 경우.
+												if (((category == -1 || category == -2) && currentCategory != category) || ((currentCategory == -1 || currentCategory == -2) && (category != -1 && category != -2))) {
+													window.location.href = hrefString + queryString;
+												} else {
+													for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
+														var oElement = document.getElementById('list-form').elements[i];
+														if ((oElement.name == "entry") && oElement.checked) {
+															id = "category_" + oElement.value;
+															if (label == "<?php echo _t('분류 없음');?>") {
+																document.getElementById(id).className = "uncategorized";
+															} else {
+																document.getElementById(id).className = "categorized";
+															}
+															document.getElementById(id).innerHTML = label;
+														}
 													}
 												}
-												//document.getElementById('list-form').submit();
 											}
 											
 											request.onError = function () {
 												alert("<?php echo _t('분류를 변경하지 못했습니다.');?>");
 											}
+											
+											// "분류없음"이 DB 상으로는 카테고리 "0"으로 설정되어야 함.
+											if (category == -3)
+												category = 0;
 											request.send("category="+category+"&targets="+targets);
 											break;
 									}
@@ -515,7 +561,7 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 								window.addEventListener("load", execLoadFunction, false);
 								function execLoadFunction() {
 									document.getElementById('allChecked').disabled = false;
-									//document.getElementById('category-move-button').style.display = "none";
+									removeItselfById('category-move-button');
 								}
 								
 								function toggleThisTr(obj) {
@@ -551,16 +597,16 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 											<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '');?>><?php echo _t('키워드');?></option>
 										</optgroup>
 										<optgroup class="category" label="<?php echo _t('분류');?>">
-											<option value="0"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '');?>><?php echo htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'));?></option>
+											<option value="0"<?php echo ($categoryId == 0 ? ' selected="selected"' : '');?>><?php echo htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'));?></option>
 <?php
 foreach (getCategories($owner) as $category) {
-	if ($category['id']!= 0) {
+	if ($category['id'] != 0) {
 ?>
 											<option value="<?php echo $category['id'];?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($category['name']);?></option>
 <?php
 	}
 	foreach ($category['children'] as $child) {
-		if ($category['id']!= 0) {
+		if ($category['id'] != 0) {
 ?>
 											<option value="<?php echo $child['id'];?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '');?>>&nbsp;― <?php echo htmlspecialchars($child['name']);?></option>
 <?php
@@ -571,7 +617,7 @@ foreach (getCategories($owner) as $category) {
 											<option value="-3"<?php echo ($categoryId == -3 ? ' selected="selected"' : '');?>><?php echo _t('(분류 없음)');?></option>
 										</optgroup>
 									</select>
-									<!--a id="category-move-button" class="move-button button" href="#void"><span class="text"><?php echo _t('이동');?></span></a-->
+									<input type="submit" id="category-move-button" class="move-button button" value="<?php echo _t('이동');?>" />
 								</div>
 							</form>
 							
@@ -641,7 +687,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?php
 	if ($entry['category'] == 0) {
 ?>
-												<span class="uncategorized"><?php echo _t('분류 없음');?></span>
+												<a id="category_<?php echo $entry['id'];?>" class="uncategorized" href="<?php echo $blogURL;?>/owner/entry?category=-3"><?php echo _t('분류 없음');?></a>
 <?php
 	} else if (!empty($entry['categoryLabel'])) {
 ?>
@@ -709,7 +755,6 @@ if ($entry['visibility'] == 1) {
 	if (count($categories) >0) {
 ?>
 											<optgroup class="category" label="<?php echo _t('아래의 분류로 변경합니다.');?>">
-												<option class="parent-category" value="category_0" label="<?php echo htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'));?>"><?php echo htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'));?></option>
 <?php
 		foreach ($categories as $category) {
 			if ($category['id']!= 0) {
@@ -725,6 +770,9 @@ if ($entry['visibility'] == 1) {
 				}
 			}
 		}
+?>
+												<option class="parent-category" value="category_-3" label="<?php echo _t('분류 없음');?>">(<?php echo _t('분류 없음');?>)</option>
+<?php
 	}
 ?>
 											</optgroup>
@@ -748,9 +796,6 @@ if ($entry['visibility'] == 1) {
 											<span id="total-count"><?php echo _f('총 %1건', empty($paging['total']) ? "0" : $paging['total']);?></span>
 											<span id="page-list">
 <?php
-//$paging['onclick_url'] = 'document.getElementById('list-form').page.value=';
-//$paging['onclick_prefix'] = '';
-//$paging['onclick_postfix'] = '; document.getElementById('list-form').submit()';
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 echo str_repeat("\t", 12).getPagingView($paging, $pagingTemplate, $pagingItemTemplate).CRLF;
@@ -788,7 +833,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 								
 								<div class="section">
 									<label for="search"><?php echo _t('제목');?>, <?php echo _t('내용');?></label>
-									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
+									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($searchKeyword);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
 									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();" />
 								</div>
