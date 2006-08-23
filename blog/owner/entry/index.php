@@ -8,13 +8,13 @@ $IV = array(
 	'GET' => array(
 		'category' => array('int', 'mandatory' => false),
 		'page' => array('int', 1, 'default' => 1),
-		'search' => array('string', 'default' => NULL)
+		'search' => array('string', 'mandatory' => false)
 	),
 	'POST' => array(
 		'category' => array('int', 'mandatory' => false),
 		'categoryAtHome' => array('int', 'mandatory' => false),
 		'perPage' => array('int', 1, 'mandatory' => false),
-		'search' => array('string', 'default' => NULL),
+		'search' => array('string', 'mandatory' => false),
 		'withSearch' => array(array('on'), 'mandatory' => false)
 	)
 );
@@ -40,10 +40,10 @@ else if (isset($_GET['search']) && !empty($_GET['search']))
 	$searchKeyword = trim($_GET['search']);
 
 // 페이지당 출력되는 포스트 수.
-$perPage = getUserSetting('entryPerPage', 10);
+$perPage = getUserSetting('rowsPerPage', 10);
 if (in_array($_POST['perPage'], array(10, 15, 20, 25, 30))) {
 	if ($_POST['perPage'] != $perPage) {
-		setUserSetting('entryPerPage', $_POST['perPage']);
+		setUserSetting('rowsPerPage', $_POST['perPage']);
 		$perPage = $_POST['perPage'];
 	}
 }
