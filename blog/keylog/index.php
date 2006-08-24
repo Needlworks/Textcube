@@ -4,7 +4,6 @@ require ROOT . '/lib/include.php';
 if (false) {
 	fetchConfigVal();
 }
-respondNotFoundPage();
 if (strlen($suri['value'])) {
 	if (!$keyword = getKeywordByName($owner, $suri['value']))
 		respondErrorPage();

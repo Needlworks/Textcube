@@ -4,13 +4,19 @@ $entriesView = '';
 foreach ($entries as $entry) {
 	if ($suri['directive'] == '/notice')
 		$permalink = "$blogURL/notice/{$entry['id']}";
+	else if ($suri['directive'] == '/page')
+		$permalink = "$blogURL/page/{$entry['id']}";
 	else
 		$permalink = "$blogURL/" . ($blog['useSlogan'] ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
 	if ($entry['category'] == - 2) {
 		$entryView = $skin->noticeItem;
 		dress('notice_rep_date', fireEvent('ViewNoticeDate', Timestamp::format5($entry['published'])), $entryView);
 		dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', $entry['title'], $entry['id'])), $entryView);
-		dress('notice_rep_link', "$blogURL/notice/{$entry['id']}", $entryView);
+		if ($suri['directive'] == '/notice')
+			dress('notice_rep_link', "$blogURL/notice/{$entry['id']}", $entryView);
+		else
+			dress('notice_rep_link', "$blogURL/page/{$entry['id']}", $entryView);
+		    
 		dress('notice_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], getKeywordNames($owner), 'Notice'), $entryView);
 		$entriesView .= $entryView;
 	} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && ($_COOKIE['GUEST_PASSWORD'] == $entry['password']))) {

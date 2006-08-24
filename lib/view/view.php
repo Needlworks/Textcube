@@ -1107,7 +1107,28 @@ function bindTags($id, $content) {
 }
 
 function bindKeywords($keywords, $content) {
-	return $content;
+	global $blogURL;
+	$flags = array();
+	foreach ($keywords as $i => $keyword) {
+		for ($offset = 0; ($start = strpos($content, $keyword, $offset)) !== false; $offset = $start + strlen($keyword)) {
+			if (array_key_exists($start, $flags))
+				continue;
+			$flags[$start] = $i;
+		}
+	}
+	ksort($flags);
+	
+	$view = '';
+	$offset = 0;
+	foreach ($flags as $start => $flag) {
+		if ($start < $offset)
+			continue;
+		$view .= substr($content, $offset, $start - $offset);
+		$view .= "<span class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/" . rawurlencode($keywords[$flag]) . "')\">{$keywords[$flag]}</span>";
+		$offset = $start + strlen($keywords[$flag]);
+	}
+	$view .= substr($content, $offset);
+	return $view;
 }
 
 function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolutePath = false, $bRssMode = false) {
