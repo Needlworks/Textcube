@@ -8,8 +8,8 @@ foreach ($keylog as $item) {
 	dress('blog_rep_link', "$blogURL/{$item['id']}", $itemView);
 	dress('blog_rep_title', $item['title'], $itemView);
 	dress('blog_rep_regdate', Timestamp::format3($item['published']), $itemView);
-	if ($item['content'] > 0)
-		dress('blog_rep_rp_cnt', "({$item['content']})", $itemView);
+	if ($item['comments'] > 0)
+		dress('blog_rep_rp_cnt', "({$item['comments']})", $itemView);
 	$itemsView .= $itemView;
 }
 dress('blog_rep', $itemsView, $keylogView);
