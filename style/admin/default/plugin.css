@@ -61,7 +61,7 @@
 
 #part-plugin-list table.data-inbox thead tr .maker
 {
-	width                            : 150px;
+	width                            : 120px;
 }
 
 #part-plugin-list table.data-inbox thead tr .config
@@ -75,6 +75,11 @@
 }
 
 /* list table body ------------------------------------------------------------------------------*/
+#part-plugin-list table.data-inbox tbody tr .config
+{
+	text-align                       : center;
+}
+
 #part-plugin-list table.data-inbox tbody tr td.status .active-class
 {
 	background-image                 : url("./image/icon_plugin.gif");

@@ -991,5 +991,6 @@ dl#power-line
 {
 	height                           : 23px;
 	margin                           : 20px auto 0 auto;
-	width                            : 336px;
+	text-align                       : left !important;
+	width                            : 326px;
 }

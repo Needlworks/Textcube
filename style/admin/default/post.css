@@ -446,6 +446,22 @@ table.data-inbox tbody tr td .new-icon span
 
 /* Comment ***************************************************************************************/
 
+/* comment table head ---------------------------------------------------------------------------*/
+#part-post-comment table.data-inbox thead tr .date
+{
+	width                            : 52px;
+}
+
+#part-post-comment table.data-inbox thead tr .name
+{
+	width                            : 140px;
+}
+
+#part-post-comment table.data-inbox thead tr .ip
+{
+	width                            : 95px;
+}
+
 /* comment table body ---------------------------------------------------------------------------*/
 #part-post-comment table.data-inbox tbody tr td.content .entry-title
 {
@@ -454,6 +470,22 @@ table.data-inbox tbody tr td .new-icon span
 
 /* Notify ****************************************************************************************/
 
+/* notify table head ---------------------------------------------------------------------------*/
+#part-post-notify table.data-inbox thead tr .date
+{
+	width                            : 52px;
+}
+
+#part-post-notify table.data-inbox thead tr .site
+{
+	width                            : 170px;
+}
+
+#part-post-notify table.data-inbox thead tr .name
+{
+	width                            : 140px;
+}
+
 /* notify table body ----------------------------------------------------------------------------*/
 #part-post-notify table.data-inbox tbody tr td.content .entry-title
 {
@@ -461,6 +493,22 @@ table.data-inbox tbody tr td .new-icon span
 }
 
 /* Trackback *************************************************************************************/
+
+/* trackback table head ---------------------------------------------------------------------------*/
+#part-post-trackback table.data-inbox thead tr .date
+{
+	width                            : 52px;
+}
+
+#part-post-trackback table.data-inbox thead tr .site
+{
+	width                            : 170px;
+}
+
+#part-post-trackback table.data-inbox thead tr .ip
+{
+	width                            : 95px;
+}
 
 /* trackback table body -------------------------------------------------------------------------*/
 #part-post-trackback table.data-inbox tbody tr td.content .entry-title
@@ -596,6 +644,27 @@ table.data-inbox tbody tr td .new-icon span
 #track-radio-trackback
 {
 	margin-left                      : 20px;
+}
+
+/* trash table head ---------------------------------------------------------------------------*/
+#part-post-trash table.data-inbox thead tr .date
+{
+	width                            : 52px;
+}
+
+#part-post-trash table.data-inbox thead tr .site
+{
+	width                            : 170px;
+}
+
+#part-post-trash table.data-inbox thead tr .name
+{
+	width                            : 140px;
+}
+
+#part-post-trash table.data-inbox thead tr .ip
+{
+	width                            : 95px;
 }
 
 /* trash table body -----------------------------------------------------------------------------*/

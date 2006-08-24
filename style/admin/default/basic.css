@@ -673,8 +673,7 @@ legend
 	text-align                       : center;
 }
 
-#data-outbox .input-button,
-#data-outbox .button-box .button
+#data-outbox .input-button
 {
 	border                           : none;
 	background-image                 : url("./image/button_106.gif");
@@ -684,6 +683,23 @@ legend
 	font-weight                      : bold;
 	height                           : 24px;
 	line-height                      : 26px;
+	text-align                       : center;
+	width                            : 106px;
+}
+
+#data-outbox .button-box .button
+{
+	background-image                 : url("./image/button_106.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	border                           : none;
+	cursor                           : pointer;
+	display                          : block;
+	float                            : right;
+	font-weight                      : bold;
+	height                           : 24px;
+	line-height                      : 26px;
+	margin-top                       : -24px;
 	text-align                       : center;
 	width                            : 106px;
 }

@@ -45,6 +45,38 @@ input.text-readonly-input
 
 /* Data Box **************************************************************************************/
 
+/* button ---------------------------------------------------------------------------------------*/
+#data-outbox .input-button
+{
+	border                           : none;
+	background-image                 : url("./image/button_106.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	cursor                           : pointer;
+	font-weight                      : bold;
+	height                           : 24px;
+	line-height                      : 26px;
+	text-align                       : center;
+	width                            : 106px;
+}
+
+#data-outbox .button-box .button
+{
+	background-image                 : url("./image/button_106.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	border                           : none;
+	cursor                           : pointer;
+	display                          : block;
+	float                            : right;
+	font-weight                      : bold;
+	height                           : 24px;
+	line-height                      : 26px;
+	margin-top                       : -24px;
+	text-align                       : center;
+	width                            : 106px;
+}
+
 /* data subbox ----------------------------------------------------------------------------------*/
 #data-outbox div.data-subbox
 {
@@ -104,9 +136,4 @@ input.text-readonly-input
 	width                            : 185px;
 }
 
-
 /* button ---------------------------------------------------------------------------------------*/
-#data-outbox .button span 
-{
-	padding                          : 6px 4px 4px 0;
-}
