@@ -130,9 +130,8 @@ $waterMarkArray['path'] = $waterMarkPath;
 $waterMarkArray['position'] = getWaterMarkPosition();
 $waterMarkArray['gamma'] = getWaterMarkGamma();
 
-$padding = getThumbnailPadding();
-
 $paddingArray = array();
+$padding = getThumbnailPadding();
 $paddingArray['top'] = $padding['top'];
 $paddingArray['right'] = $padding['right'];
 $paddingArray['bottom'] = $padding['bottom'];
