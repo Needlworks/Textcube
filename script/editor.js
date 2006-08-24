@@ -743,41 +743,44 @@ TTEditor.prototype.showProperty = function(obj)
 		}
 
 		getObject(propertyWindowId).style.display = "block";
-	}
+	} else {
+		var node = obj;
 
-	var node = obj;
+		while(node.parentNode) {
+			if(node.tagName && node.tagName.toLowerCase() == "div" && node.getAttribute("more") != null && node.getAttribute("less") != null) {
+				var moreText = node.getAttribute("more");
+				var lessText = node.getAttribute("less");
+				getObject("propertyMoreLess").style.display = "block";
+				getObject("propertyMoreLess_more").value = trim(editor.unHtmlspecialchars(moreText));
+				getObject("propertyMoreLess_less").value = trim(editor.unHtmlspecialchars(lessText));
+				editor.propertyWindowId = "propertyMoreLess";
+				getObject("propertyHyperLink").style.display = "none";
+				
+				return;
+			} else if(node.tagName.toLowerCase() == "a" && node.href) {
+				getObject("propertyHyperLink").style.display = "block";
+				getObject("propertyHyperLink_url").value = node.href;
+				getObject("propertyHyperLink_target").value = node.target;
+				if(getObject("propertyHyperLink_target").selectedIndex == -1)
+					getObject("propertyHyperLink_target").value = "_self";
+				editor.selectedAnchorElement = node;
+				editor.propertyWindowId = "propertyHyperLink";
+				getObject("propertyMoreLess").style.display = "none";
+				
+				return;
+			}
 
-	while(node.parentNode) {
-		if(node.tagName && node.tagName.toLowerCase() == "div" && node.getAttribute("more") != null && node.getAttribute("less") != null) {
-			var moreText = node.getAttribute("more");
-			var lessText = node.getAttribute("less");
-
-			getObject("propertyMoreLess_more").value = trim(editor.unHtmlspecialchars(moreText));
-			getObject("propertyMoreLess_less").value = trim(editor.unHtmlspecialchars(lessText));
-
-			getObject("propertyMoreLess").style.display = "block";
-
-			editor.propertyWindowId = "propertyMoreLess";
-
-			return;
+			node = node.parentNode;
 		}
-		else if(node.tagName.toLowerCase() == "a" && node.href) {
-			getObject("propertyHyperLink").style.display = "block";
-			getObject("propertyHyperLink_url").value = node.href;
-			getObject("propertyHyperLink_target").value = node.target;
-			if(getObject("propertyHyperLink_target").selectedIndex == -1)
-				getObject("propertyHyperLink_target").value = "_self";
-			editor.selectedAnchorElement = node;
-		}
-
-		node = node.parentNode;
+		
+		if(STD.isIE)
+			var isEmpty = (editor.getSelectionRange().htmlText == "");
+		else
+			var isEmpty = (editor.getSelectionRange().startOffset == editor.getSelectionRange().endOffset);
+		
+		if (editor.selectedAnchorElement == null && isEmpty)
+			getObject("propertyHyperLink").style.display = "none";
 	}
-	if(STD.isIE)
-		var isEmpty = (editor.getSelectionRange().htmlText == "");
-	else
-		var isEmpty = (editor.getSelectionRange().startOffset == editor.getSelectionRange().endOffset);
-	if(editor.selectedAnchorElement == null && isEmpty)
-		getObject("propertyHyperLink").style.display = "none";
 }
 
 // 속성창에서 수정된 내용을 반영
@@ -1307,6 +1310,7 @@ function TTCommand(command, value1, value2) {
 					return;
 				}
 			}
+			getObject("propertyMoreLess").style.display = "none";
 			getObject("propertyHyperLink").style.display = "block";
 			getObject("propertyHyperLink_url").value = "";
 			getObject("propertyHyperLink_target").selectedIndex = 0;
