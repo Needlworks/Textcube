@@ -475,7 +475,7 @@ class Post {
 	
 	/*@static@*/
 	function validateSlogan($slogan) {
-		return preg_match('/^[^!-\/:-@[-`{-~\s]+$/', $slogan);
+		return preg_match('/^[^!-,.\/:-@[-`{-~\s]+$/', $slogan);
 	}
 	
 	/*@static@*/
