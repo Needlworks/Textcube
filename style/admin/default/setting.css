@@ -519,7 +519,7 @@
 
 #part-setting-filter div.data-inbox .section .title
 {
-	margin-bottom                    : 5px;
+	margin                           : 10px 0 5px 0;
 }
 
 #part-setting-filter div.data-inbox .section table
@@ -546,6 +546,7 @@
 	background-color                 : transparent;
 	background-image                 : url("./image/delete2.gif");
 	background-position              : left top;
+	display                          : block;
 	height                           : 11px;
 	margin                           : 0 auto;
 	padding                          : 0;
@@ -557,7 +558,7 @@
 	display                          : none;
 }
 
-#part-setting-filter div.data-inbox .section .text-input
+#part-setting-filter div.data-inbox .section .input-text
 {
 	margin-top                       : 2px;
 	width                            : 194px;

@@ -58,52 +58,30 @@ input.text-readonly-input
 /* multi-selection deleter in sub-box */
 #change-section 
 {
-	height                           : 18px !important;
-	top                              : -2px !important;
-	padding                          : 0 0 0 3px !important;
+	height                           : 18px;
+	top                              : -2px;
+	padding                          : 0 0 0 3px;
 	position                         : relative;
-}
-
-#change-section label
-{
-	float                            : left !important;
-	padding-top                      : 6px;
-	position                         : relative;
-	z-index                          : 100;
-}
-
-#change-section select
-{
-	float                            : left !important;
-	margin-top                       : 2px !important;
-	vertical-align                   : middle;
-}
-
-#change-section .button
-{
-	float                            : left !important;
-	position : relative;
-	z-index : 100;
 }
 
 #delete-section
 {
 	position                         : relative;
-	top                              : -2px !important;
+	top                              : -2px;
 	z-index : 100;
 }
 
 #delete-section .label
 {
-	padding-top                      : 6px !important;
+	padding-top                      : 6px;
 }
 
 
 /* lines per page */
 #page-section .page-count
 {
-	top                              : 45px !important;
-	right                            : 51px !important;
+	top                              : 42px;
+	right                            : 51px;
 }
 
 #page-section .page-count select
@@ -115,27 +93,17 @@ input.text-readonly-input
 /* page navigation */
 #page-navigation
 {
-	margin-top                       : 6px !important;
+	margin-top                       : 6px;
 }
 
 /* search */
 #search-form
 {
-	right                            : 30px !important;
-	bottom                           : 117px !important;
-	width                            : 175px !important;
+	right                            : 45px;
+	bottom                           : 117px;
+	width                            : 185px;
 }
 
-#search-form .search-button
-{
-	float                            : left;
-	width                            : 70px !important;
-}
-
-#search-form .search-button span
-{
-	width                            : 66px !important;
-}
 
 /* button ---------------------------------------------------------------------------------------*/
 #data-outbox .button span 

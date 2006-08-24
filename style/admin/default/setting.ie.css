@@ -42,6 +42,13 @@
 	width                            : 135px !important;
 }
 
+/* Filter ****************************************************************************************/
+
+#part-setting-filter div.data-inbox .section .input-text
+{
+	width                            : 192px;
+}
+
 /* Data ******************************************************************************************/
 
 #part-data-correct .main-explain-box .explain,

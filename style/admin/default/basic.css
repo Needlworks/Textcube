@@ -550,6 +550,7 @@ input.text-readonly-input
 {
 	color                            : #FFFFFF;
 	font-weight                      : bold;
+	text-align                       : center;
 	text-transform                   : uppercase;
 	padding                          : 6px 5px 4px 5px;
 }
@@ -557,6 +558,7 @@ input.text-readonly-input
 #data-outbox table.data-inbox thead tr .selection
 {
 	padding                          : 0 5px;
+	width                            : 12px;
 }
 
 #data-outbox table.data-inbox thead tr .delete
@@ -595,6 +597,7 @@ input.text-readonly-input
 	background-color                 : transparent;
 	background-image                 : url("./image/delete2.gif");
 	background-position              : left top;
+	display                          : block;
 	height                           : 11px;
 	margin                           : 0 auto;
 	padding                          : 0;
