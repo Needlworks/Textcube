@@ -845,9 +845,9 @@ legend
 
 #search-form .input-button
 {
-	background-image                 : url("./image/button_85.gif");
+	background-image                 : url("./image/button_85.gif") !important;
 	vertical-align                   : middle;
-	width                            : 85px;
+	width                            : 85px !important;
 }
 
 /* Footer ****************************************************************************************/

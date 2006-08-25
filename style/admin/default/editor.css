@@ -568,6 +568,7 @@
 .entry-editor-property dl
 {
 	padding-bottom                   : 1px;
+	clear                            : both;
 }
 
 .entry-editor-property dl dt
@@ -586,13 +587,13 @@
 
 .entry-editor-property dl dd
 {
-	width                            : 105px !important;
+	width                            : auto !important;
 }
 
 .entry-editor-property dl dd input.input-text
 {
 	border                           : 1px solid #92B5E8;
-	width                            : 105px !important;
+	width                            : 103px !important;
 }
 
 .entry-editor-property dl dd select
@@ -616,38 +617,34 @@
 
 .entry-editor-property .button-box
 {
-	clear                            : both;
+	clear                            : both !important;
+	float                            : none !important;
 	margin                           : 0 0 0 auto !important;
 	padding-top                      : 10px;
-	width                            : 156px !important;
+	text-align                       : right !important;
 }
 
 .entry-editor-property .button-box .button
 {
-	border                           : 1px solid #666666;
+	border                           : 1px solid #666666 !important;
 	background-color                 : #EEEEEE !important;
 	background-image                 : none !important;
-	float                            : left;
+	display                          : inline !important;
+	float                            : none !important;
+	line-height                      : 1em;
+	padding                          : 6px 5px 3px 5px;
 	width                            : 70px !important;
-}
-
-.entry-editor-property .button-box .button span
-{
-	background-color                 : transparent !important;
-	background-image                 : none !important;
-	color                            : #000000;
-	font-size                        : 0.9em;
-	width                            : 66px !important;
 }
 
 .entry-editor-property .button-box .button:hover span
 {
 	color                            : #565656;
+	line-height                      : 1em;
 }
 
-.entry-editor-property dl dd.button-box
+.entry-editor-property preview-box
 {
-	float                            : none !important;
+	clear                            : both;
 }
 
 .entry-editor-property .preview-box img
