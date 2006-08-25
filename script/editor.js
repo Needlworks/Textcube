@@ -679,18 +679,17 @@ TTEditor.prototype.showProperty = function(obj)
 		}
 		else if(objectType == "Object") {
 			getObject(propertyWindowId + "_caption1").value = trim(editor.unHtmlspecialchars(editor.removeQuot(values[3])));
-			getObject(propertyWindowId + "_filename1").innerHTML = editor.getFilenameFromFilelist(values[1]);
+			getObject(propertyWindowId + "_filename1").value = editor.getFilenameFromFilelist(values[1]);
 			editor.propertyFilename1 = values[1];
-
 			if(objectCount > 1) {
 				getObject(propertyWindowId + "_caption2").value = trim(editor.unHtmlspecialchars(editor.removeQuot(values[6])));
-				getObject(propertyWindowId + "_filename2").innerHTML = editor.getFilenameFromFilelist(values[4]);
+				getObject(propertyWindowId + "_filename2").value = editor.getFilenameFromFilelist(values[4]);
 				editor.propertyFilename2 = values[4];
 			}
 
 			if(objectCount > 2) {
 				getObject(propertyWindowId + "_caption3").value = trim(editor.unHtmlspecialchars(editor.removeQuot(values[9])));
-				getObject(propertyWindowId + "_filename3").innerHTML = editor.getFilenameFromFilelist(values[7]);
+				getObject(propertyWindowId + "_filename3").value = editor.getFilenameFromFilelist(values[7]);
 				editor.propertyFilename3 = values[7];
 			}
 		}
