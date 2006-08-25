@@ -132,14 +132,14 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 									trashSelect.setAttribute("disabled", "disabled");
 									
 									trashOption = document.createElement("OPTION");
-									trashOption.text = "<?php echo _t('전체');?>";
+									trashOption.innerHTML = "<?php echo _t('전체');?>";
 									trashOption.value = "0";
 									trashSelect.appendChild(trashOption);
 <?php
 foreach (getCategories($owner) as $category) {
 ?>
 									trashOption = document.createElement("OPTION");
-									trashOption.text = "<?php echo htmlspecialchars($category['name']);?>";
+									trashOption.innerHTML = "<?php echo htmlspecialchars($category['name']);?>";
 									trashOption.value = "<?php echo $category['id'];?>";
 <?php
 	if ($category['id'] == $categoryId) {
@@ -154,7 +154,7 @@ foreach (getCategories($owner) as $category) {
 	foreach ($category['children'] as $child) {
 ?>
 									trashOption = document.createElement("OPTION");
-									trashOption.text = " ― <?php echo htmlspecialchars($child['name']);?>";
+									trashOption.innerHTML = " ― <?php echo htmlspecialchars($child['name']);?>";
 									trashOption.value = "<?php echo $child['id'];?>";
 <?php
 		if ($child['id'] == $categoryId) {
