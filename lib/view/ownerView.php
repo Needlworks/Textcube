@@ -149,8 +149,8 @@ function printOwnerEditorScript($entryId = false) {
 								function selectAttachment() {
 									try {
 										fileList = document.getElementById('fileList');
-										width = document.getElementById('previewSelected').clientWidth;
-										height = document.getElementById('previewSelected').clientHeight;
+										boxWidth = document.getElementById('previewSelected').clientWidth;
+										boxHeight = document.getElementById('previewSelected').clientHeight;
 										var code = '';
 										if (fileList.selectedIndex < 0)
 											return false;
@@ -162,17 +162,15 @@ function printOwnerEditorScript($entryId = false) {
 												width = width[1];
 												var height = new RegExp('height="(\\d+)').exec(fileList.value);
 												height = height[1];
-												if(width > 120) {
-													height = 120 / width * height;
-													width = 120;
+												if(width > boxWidth) {
+													height = boxWidth / width * height;
+													width = boxWidth;
 												}
-												if(height > 90) {
-													width = 90 / height * width;
-													height = 90;
+												if(height > boxHeight) {
+													width = boxHeight / height * width;
+													height = boxHeight;
 												}
-												document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/' + fileName + '?randseed=' + Math.random() + '" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="<?php echo _t('이미지 미리보기');?>" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?php echo $service['path'];?>/image/spacer.gif\'"/>';
-												//setAttribute('src',"<?php echo $service['path'];?>/attach/<?php echo $owner;?>/" + fileName);
-												//document.getElementById('selectedImage').setAttribute('src',"<?php echo $service['path'];?>/image/spacer.gif");
+												document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/' + fileName + '?randseed=' + Math.random() + '" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="<?php echo _t('이미지 미리보기');?>" style="margin-top: ' + ((boxHeight-height)/2) + 'px; margin-left: ' + ((boxWidth-width)/2) + 'px; vertical-align: top;" onerror="this.src=\'<?php echo $service['path'];?>/image/spacer.gif\'"/>';
 											}
 											catch(e) { }
 											return false;
@@ -193,8 +191,8 @@ function printOwnerEditorScript($entryId = false) {
 										}
 										
 										if((new RegExp("\\.(mov)$", "gi").exec(fileName))) {			
-											code = '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="'+width+'" height="'+height+'"><param name="src" value="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" /><param name="controller" value="true"><param name="scale" value="Aspect">';
-											code += '<!--[if !IE]> <--><object type="video/quicktime" data="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" width="'+width+'" height="'+height+'" showcontrols="true" TYPE="video/quicktime" scale="Aspect" nomenu="true"><param name="showcontrols" value="true"><param name="scale" value="ToFit"></object><!--> <![endif]--></object>';
+											code = '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="'+boxWidth+'" height="'+boxHeight+'"><param name="src" value="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" /><param name="controller" value="true"><param name="scale" value="Aspect">';
+											code += '<!--[if !IE]> <--><object type="video/quicktime" data="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" width="'+boxWidth+'" height="'+boxHeight+'" showcontrols="true" TYPE="video/quicktime" scale="Aspect" nomenu="true"><param name="showcontrols" value="true"><param name="scale" value="ToFit"></object><!--> <![endif]--></object>';
 											
 											writeCode(code,'previewSelected');
 											
@@ -202,12 +200,12 @@ function printOwnerEditorScript($entryId = false) {
 										}
 										
 										if((new RegExp("\\.(mp2|wma|mid|midi|mpg|wav)$", "gi").exec(fileName))) {
-											code ='<object width="'+width+'" height="'+height+'" classid="CLSID:22D6F312-B0F6-11D0-94AB-0080C74C7E95" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701" standby="Loading for you" type="application/x-oleobject" align="middle">';		
+											code ='<object width="'+boxWidth+'" height="'+boxHeight+'" classid="CLSID:22D6F312-B0F6-11D0-94AB-0080C74C7E95" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701" standby="Loading for you" type="application/x-oleobject" align="middle">';		
 											code +='<param name="FileName" value="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'">';
 											code +='<param name="ShowStatusBar" value="False">';
 											code +='<param name="DefaultFrame" value="mainFrame">';
 											code +='<param name="showControls" value="false">';
-											code +='<embed type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/" src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" align="middle" width="'+width+'" height="'+height+'" showControls="false" defaultframe="mainFrame" showstatusbar="false"></embed>';
+											code +='<embed type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/" src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" align="middle" width="'+boxWidth+'" height="'+boxHeight+'" showControls="false" defaultframe="mainFrame" showstatusbar="false"></embed>';
 											code +='</object>';
 											
 											writeCode(code,'previewSelected');
@@ -215,20 +213,19 @@ function printOwnerEditorScript($entryId = false) {
 											return false;
 										}
 											
-										code +='<embed type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/" src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" align="middle" width="'+width+'" height="'+height+'" showControls="false" defaultframe="mainFrame" showstatusbar="false"></embed>';
-										
-										writeCode(code,'previewSelected');
+										//code +='<embed type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/" src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" align="middle" width="'+boxWidth+'" height="'+boxHeight+'" showControls="false" defaultframe="mainFrame" showstatusbar="false"></embed>';
+										//writeCode(code,'previewSelected');
 											
 										
 										if((new RegExp("\\.(rm|ram)$", "gi").exec(fileName))) {		
 										/*
-											code = '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="'+width+'" height="'+height+'"><param name="src" value="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" /><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE">';
-											code += '<!--[if !IE]> <--><object type="audio/x-pn-realaudio-plugin" data="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" width="'+width+'" height="'+height+'" ><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE"></object><!--> <![endif]--></object>';			
+											code = '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="'+boxWidth+'" height="'+boxHeight+'"><param name="src" value="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" /><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE">';
+											code += '<!--[if !IE]> <--><object type="audio/x-pn-realaudio-plugin" data="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" width="'+boxWidth+'" height="'+boxHeight+'" ><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE"></object><!--> <![endif]--></object>';			
 										*/
 										}
 										
 										if (code == undefined || code == '') {
-											document.getElementById('previewSelected').innerHTML = "<table width=\"100%\" height=\"100%\"><tr><td valign=\"middle\" align=\"center\"><?php echo _t('미리보기');?></td></tr></table>";
+											document.getElementById('previewSelected').innerHTML = "<table width=\"100%\" height=\"100%\"><tr><td valign=\"middle\" align=\"center\"><?php echo _t('미리보기 없음');?></td></tr></table>";
 											return true;
 										}
 										
@@ -546,7 +543,7 @@ function printEntryFileList($attachments, $entryId) {
 		$fileName = "{$service['path']}/attach/$owner/{$attachments[0]['name']}";
 	}
 ?>
-											<div id="previewSelected" style="width: 120px; height: 94px;"><span class="text"><?php echo _t('미리보기');?></span></div>
+											<div id="previewSelected" style="width: 120px; height: 90px;"><span class="text"><?php echo _t('미리보기');?></span></div>
 											
 											<div id="attachManagerSelectNest">				
 												<span id="attachManagerSelect">
@@ -938,20 +935,22 @@ function printEntryEditorProperty() {
 											<div id="propertyHyperLink" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('하이퍼링크');?></h4>
 												
-												<dl class="line">
-													<dt class="property-name"><label for="propertyInsertObject_url"><?php echo _t('URL');?></label></dt>
-													<dd><input type="text" id="propertyHyperLink_url" class="input-text" onkeyup="editor.setProperty()"/></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyInsertObject_type"><?php echo _t('대상');?></label></dt>
-													<dd>
-														<select id="propertyHyperLink_target" style="width: 105px" onchange="getObject('propertyInsertObject_part_url').style.display=getObject('propertyInsertObject_part_raw').style.display='none';getObject('propertyInsertObject_part_' + this.value).style.display = 'block'">
-															<option value="_blank"><?php echo _t('새창');?></option>
-															<option value="_self"><?php echo _t('현재창');?></option>
-															<option value=""><?php echo _t('사용 안함');?></option>
-														</select>
-													</dd>
-												</dl>
+												<div class="group">
+													<dl class="line">
+														<dt class="property-name"><label for="propertyInsertObject_url"><?php echo _t('URL');?></label></dt>
+														<dd><input type="text" id="propertyHyperLink_url" class="input-text" onkeyup="editor.setProperty()"/></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyInsertObject_type"><?php echo _t('대상');?></label></dt>
+														<dd>
+															<select id="propertyHyperLink_target" style="width: 105px" onchange="getObject('propertyInsertObject_part_url').style.display=getObject('propertyInsertObject_part_raw').style.display='none';getObject('propertyInsertObject_part_' + this.value).style.display = 'block'">
+																<option value="_blank"><?php echo _t('새창');?></option>
+																<option value="_self"><?php echo _t('현재창');?></option>
+																<option value=""><?php echo _t('사용 안함');?></option>
+															</select>
+														</dd>
+													</dl>
+												</div>
 												<div class="button-box">
 													<span class="insert-button button" onclick="TTCommand('ExcuteCreateLink')"><span class="text"><?php echo _t('적용하기');?></span></span>
 													<span class="divider"> | </span>
@@ -962,25 +961,27 @@ function printEntryEditorProperty() {
 											<div id="propertyInsertObject" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('오브젝트 삽입');?></h4>
 												
-												<dl class="line">
-													<dt class="property-name"><label for="propertyInsertObject_type"><?php echo _t('유형');?></label></dt>
-													<dd>
-														<select id="propertyInsertObject_type" style="width: 105px" onchange="getObject('propertyInsertObject_part_url').style.display=getObject('propertyInsertObject_part_raw').style.display='none';getObject('propertyInsertObject_part_' + this.value).style.display = 'block'">
-															<option value="url"><?php echo _t('주소입력');?></option>
-															<option value="raw"><?php echo _t('코드 붙여넣기');?></option>
-														</select>
-													</dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyInsertObject_url"><?php echo _t('파일 주소');?></label></dt>
-													<dd><input type="text" id="propertyInsertObject_url" class="input-text" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyInsertObject_chunk"><?php echo _t('코드');?></label></dt>
-													<dd>
-														<textarea id="propertyInsertObject_chunk" cols="30" rows="10"></textarea>
-													</dd>
-												</dl>
+												<div class="group">
+													<dl class="line">
+														<dt class="property-name"><label for="propertyInsertObject_type"><?php echo _t('유형');?></label></dt>
+														<dd>
+															<select id="propertyInsertObject_type" style="width: 105px" onchange="getObject('propertyInsertObject_part_url').style.display=getObject('propertyInsertObject_part_raw').style.display='none';getObject('propertyInsertObject_part_' + this.value).style.display = 'block'">
+																<option value="url"><?php echo _t('주소입력');?></option>
+																<option value="raw"><?php echo _t('코드 붙여넣기');?></option>
+															</select>
+														</dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyInsertObject_url"><?php echo _t('파일 주소');?></label></dt>
+														<dd><input type="text" id="propertyInsertObject_url" class="input-text" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyInsertObject_chunk"><?php echo _t('코드');?></label></dt>
+														<dd>
+															<textarea id="propertyInsertObject_chunk" cols="30" rows="10"></textarea>
+														</dd>
+													</dl>
+												</div>
 												<div class="button-box">
 													<span class="insert-button button" onclick="TTCommand('InsertObject')"><span class="text"><?php echo _t('삽입하기');?></span></span>
 													<span class="divider"> | </span>
@@ -991,387 +992,430 @@ function printEntryEditorProperty() {
 											<div id="propertyImage1" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('Image');?></h4>
 												
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage1_width1"><?php echo _t('폭');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage1_width1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage1_alt1"><?php echo _t('대체 텍스트');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage1_alt1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage1_caption1"><?php echo _t('자막');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage1_caption1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dd><input type="checkbox" id="propertyImage1_resample1" onclick="editor.setProperty()" /> <label for="propertyImage1_resample1"><?php echo _t('리샘플링 사용');?></label></dd>
-												</dl>
+												<div class="group">
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage1_width1"><?php echo _t('폭');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage1_width1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage1_alt1"><?php echo _t('대체 텍스트');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage1_alt1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage1_caption1"><?php echo _t('자막');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage1_caption1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dd><input type="checkbox" id="propertyImage1_resample1" onclick="editor.setProperty()" /> <label for="propertyImage1_resample1"><?php echo _t('리샘플링 사용');?></label></dd>
+													</dl>
+												</div>
 											</div>
 											
 											<div id="propertyImage2" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('Image');?></h4>
 												
-												<div class="title"><?php echo _t('첫번째 이미지');?></div>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage2_width1"><?php echo _t('폭');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage2_width1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage2_alt1"><?php echo _t('대체 텍스트');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage2_alt1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage2_caption1"><?php echo _t('자막');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage2_caption1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dd><input type="checkbox" id="propertyImage2_resample1" onclick="editor.setProperty()" /> <label for="propertyImage2_resample1"><?php echo _t('리샘플링 사용');?></label></dd>
-												</dl>
+												<div class="group">
+													<div class="title"><?php echo _t('첫번째 이미지');?></div>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage2_width1"><?php echo _t('폭');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage2_width1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage2_alt1"><?php echo _t('대체 텍스트');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage2_alt1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage2_caption1"><?php echo _t('자막');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage2_caption1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dd><input type="checkbox" id="propertyImage2_resample1" onclick="editor.setProperty()" /> <label for="propertyImage2_resample1"><?php echo _t('리샘플링 사용');?></label></dd>
+													</dl>
+												</div>
 												
-												<div class="title"><?php echo _t('두번째 이미지');?></div>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage2_width2"><?php echo _t('폭');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage2_width2" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage2_alt2"><?php echo _t('대체 텍스트');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage2_alt2" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage2_resample2"><?php echo _t('자막');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage2_caption2" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dd><input type="checkbox" id="propertyImage2_resample2" onclick="editor.setProperty()" /> <label for="propertyImage2_resample2"><?php echo _t('리샘플링 사용');?></label></dd>
-												</dl>
+												<div class="group">
+													<div class="title"><?php echo _t('두번째 이미지');?></div>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage2_width2"><?php echo _t('폭');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage2_width2" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage2_alt2"><?php echo _t('대체 텍스트');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage2_alt2" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage2_resample2"><?php echo _t('자막');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage2_caption2" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dd><input type="checkbox" id="propertyImage2_resample2" onclick="editor.setProperty()" /> <label for="propertyImage2_resample2"><?php echo _t('리샘플링 사용');?></label></dd>
+													</dl>
+												</div>
 											</div>
 											
 											<div id="propertyImage3" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('Image');?></h4>
 												
-												<div class="title"><?php echo _t('첫번째 이미지');?></div>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage3_width1"><?php echo _t('폭');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage3_width1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage3_alt1"><?php echo _t('대체 텍스트');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage3_alt1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage3_caption1"><?php echo _t('자막');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage3_caption1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dd><input type="checkbox" id="propertyImage3_resample1" onclick="editor.setProperty()" /> <label for="propertyImage3_resample1"><?php echo _t('리샘플링 사용');?></label></dd>
-												</dl>
+												<div class="group">
+													<div class="title"><?php echo _t('첫번째 이미지');?></div>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage3_width1"><?php echo _t('폭');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage3_width1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage3_alt1"><?php echo _t('대체 텍스트');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage3_alt1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage3_caption1"><?php echo _t('자막');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage3_caption1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dd><input type="checkbox" id="propertyImage3_resample1" onclick="editor.setProperty()" /> <label for="propertyImage3_resample1"><?php echo _t('리샘플링 사용');?></label></dd>
+													</dl>
+												</div>
 												
-												<div class="title"><?php echo _t('두번째 이미지');?></div>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage3_width2"><?php echo _t('폭');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage3_width2" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage3_alt2"><?php echo _t('대체 텍스트');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage3_alt2" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage3_caption2"><?php echo _t('자막');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage3_caption2" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dd><input type="checkbox" id="propertyImage3_resample2" onclick="editor.setProperty()" /> <label for="propertyImage3_resample2"><?php echo _t('리샘플링 사용');?></label></dd>
-												</dl>
+												<div class="group">
+													<div class="title"><?php echo _t('두번째 이미지');?></div>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage3_width2"><?php echo _t('폭');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage3_width2" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage3_alt2"><?php echo _t('대체 텍스트');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage3_alt2" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage3_caption2"><?php echo _t('자막');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage3_caption2" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dd><input type="checkbox" id="propertyImage3_resample2" onclick="editor.setProperty()" /> <label for="propertyImage3_resample2"><?php echo _t('리샘플링 사용');?></label></dd>
+													</dl>
+												</div>
 												
-												<div class="title"><?php echo _t('세번째 이미지');?></div>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage3_width3"><?php echo _t('폭');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage3_width3" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage3_alt3"><?php echo _t('대체 텍스트');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage3_alt3" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyImage3_caption3"><?php echo _t('자막');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyImage3_caption3" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dd><input type="checkbox" id="propertyImage3_resample3" onclick="editor.setProperty()" /> <label for="propertyImage3_resample3"><?php echo _t('리샘플링 사용');?></label></dd>
-												</dl>
+												<div class="group">
+													<div class="title"><?php echo _t('세번째 이미지');?></div>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage3_width3"><?php echo _t('폭');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage3_width3" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage3_alt3"><?php echo _t('대체 텍스트');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage3_alt3" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyImage3_caption3"><?php echo _t('자막');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyImage3_caption3" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dd><input type="checkbox" id="propertyImage3_resample3" onclick="editor.setProperty()" /> <label for="propertyImage3_resample3"><?php echo _t('리샘플링 사용');?></label></dd>
+													</dl>
+												</div>
 											</div>
 											
 											<div id="propertyObject" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('Object');?></h4>
 												
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject_width"><?php echo _t('폭');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyObject_width" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject_height"><?php echo _t('높이');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyObject_height" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject_chunk"><?php echo _t('코드');?></label></dt>
-													<dd><textarea id="propertyObject_chunk" cols="30" rows="10" onkeyup="editor.setProperty()"></textarea></dd>
-												</dl>
+												<div class="group">
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject_width"><?php echo _t('폭');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyObject_width" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject_height"><?php echo _t('높이');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyObject_height" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject_chunk"><?php echo _t('코드');?></label></dt>
+														<dd><textarea id="propertyObject_chunk" cols="30" rows="10" onkeyup="editor.setProperty()"></textarea></dd>
+													</dl>
+												</div>
 											</div>
 											
 											<div id="propertyObject1" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('Object 1');?></h4>
 												
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject1_caption1"><?php echo _t('자막');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyObject1_caption1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject1_filename1"><?php echo _t('파일명');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyObject1_filename1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
+												<div class="group">
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject1_caption1"><?php echo _t('자막');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyObject1_caption1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject1_filename1"><?php echo _t('파일명');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyObject1_filename1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+												</div>
 											</div>
 											
 											<div id="propertyObject2" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('Object');?></h4>
 												
-												<div class="title"><?php echo _t('첫번째 오브젝트');?></div>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject2_caption1"><?php echo _t('자막');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyObject2_caption1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject2_filename1"><?php echo _t('파일명');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyObject2_filename1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
+												<div class="group">
+													<div class="title"><?php echo _t('첫번째 오브젝트');?></div>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject2_caption1"><?php echo _t('자막');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyObject2_caption1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject2_filename1"><?php echo _t('파일명');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyObject2_filename1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+												</div>
 												
-												<div class="title"><?php echo _t('두번째 오브젝트');?></div>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject2_caption2"><?php echo _t('자막');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyObject2_caption2" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject2_filename2"><?php echo _t('파일명');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyObject2_filename2" onkeyup="editor.setProperty()" /></dd>
-												</dl>
+												<div class="group">
+													<div class="title"><?php echo _t('두번째 오브젝트');?></div>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject2_caption2"><?php echo _t('자막');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyObject2_caption2" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject2_filename2"><?php echo _t('파일명');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyObject2_filename2" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+												</div>
 											</div>
 											
 											<div id="propertyObject3" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('Object');?></h4>
 												
-												<div class="title"><?php echo _t('첫번째 오브젝트');?></div>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject3_caption1"><?php echo _t('자막');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyObject3_caption1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject3_filename1"><?php echo _t('파일명');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyObject3_filename1" onkeyup="editor.setProperty()" /></dd>
-												</dl>
+												<div class="group">
+													<div class="title"><?php echo _t('첫번째 오브젝트');?></div>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject3_caption1"><?php echo _t('자막');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyObject3_caption1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject3_filename1"><?php echo _t('파일명');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyObject3_filename1" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+												</div>
 												
-												<div class="title"><?php echo _t('두번째 오브젝트');?></div>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject3_caption2"><?php echo _t('자막');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyObject3_caption2" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject3_filename2"><?php echo _t('파일명');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyObject3_filename2" onkeyup="editor.setProperty()" /></dd>
-												</dl>
+												<div class="group">
+													<div class="title"><?php echo _t('두번째 오브젝트');?></div>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject3_caption2"><?php echo _t('자막');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyObject3_caption2" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject3_filename2"><?php echo _t('파일명');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyObject3_filename2" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+												</div>
 												
-												<div class="title"><?php echo _t('세번째 오브젝트');?></div>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject3_caption3"><?php echo _t('자막');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyObject3_caption3" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyObject3_filename3"><?php echo _t('파일명');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyObject3_filename3" onkeyup="editor.setProperty()" /></dd>
-												</dl>
+												<div class="group">
+													<div class="title"><?php echo _t('세번째 오브젝트');?></div>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject3_caption3"><?php echo _t('자막');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyObject3_caption3" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyObject3_filename3"><?php echo _t('파일명');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyObject3_filename3" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+												</div>
 											</div>
 											
 											<div id="propertyiMazing" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('iMazing');?></h4>
 												
-												<div class="title"><?php echo _t('설정');?></div>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyiMazing_width"><?php echo _t('폭');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyiMazing_width" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyiMazing_height"><?php echo _t('높이');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyiMazing_height" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyiMazing_frame"><?php echo _t('테두리');?></label></dt>
-													<dd>
-														<select id="propertyiMazing_frame" onchange="editor.setProperty()">
-															<option value="net_imazing_frame_none"><?php echo _t('테두리 없음');?></option>
-														</select>
-													</dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyiMazing_tran"><?php echo _t('장면전환효과');?></label></dt>
-													<dd>
-														<select id="propertyiMazing_tran" onchange="editor.setProperty()">
-															<option value="net_imazing_show_window_transition_none"><?php echo _t('효과없음');?></option>
-															<option value="net_imazing_show_window_transition_alpha"><?php echo _t('투명전환');?></option>
-															<option value="net_imazing_show_window_transition_contrast"><?php echo _t('플래쉬');?></option>
-															<option value="net_imazing_show_window_transition_sliding"><?php echo _t('슬라이딩');?></option>
-														</select>
-													</dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyiMazing_nav"><?php echo _t('내비게이션');?></label></dt>
-													<dd>
-														<select id="propertyiMazing_nav" onchange="editor.setProperty()">
-															<option value="net_imazing_show_window_navigation_none"><?php echo _t('기본');?></option>
-															<option value="net_imazing_show_window_navigation_simple"><?php echo _t('심플');?></option>
-															<option value="net_imazing_show_window_navigation_sidebar"><?php echo _t('사이드바');?></option>
-														</select>
-													</dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><?php echo _t('슬라이드쇼 간격');?></dt>
-													<dd><input type="text" class="input-text" id="propertyiMazing_sshow" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><?php echo _t('화면당 이미지 수');?></dt>
-													<dd><input type="text" class="input-text" id="propertyiMazing_page" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyiMazing_align"><?php echo _t('정렬방법');?></label></dt>
-													<dd>
-														<select id="propertyiMazing_align" onchange="editor.setProperty()">
-															<option value="h"><?php echo _t('가로');?></option>
-															<option value="v"><?php echo _t('세로');?></option>
-														</select>
-													</dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyiMazing_caption"><?php echo _t('자막');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyiMazing_caption" onkeyup="editor.setProperty()" /></dd>
-												</dl>
+												<div class="group">
+													<div class="title"><?php echo _t('설정');?></div>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyiMazing_width"><?php echo _t('폭');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyiMazing_width" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyiMazing_height"><?php echo _t('높이');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyiMazing_height" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyiMazing_frame"><?php echo _t('테두리');?></label></dt>
+														<dd>
+															<select id="propertyiMazing_frame" onchange="editor.setProperty()">
+																<option value="net_imazing_frame_none"><?php echo _t('테두리 없음');?></option>
+															</select>
+														</dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyiMazing_tran"><?php echo _t('장면전환효과');?></label></dt>
+														<dd>
+															<select id="propertyiMazing_tran" onchange="editor.setProperty()">
+																<option value="net_imazing_show_window_transition_none"><?php echo _t('효과없음');?></option>
+																<option value="net_imazing_show_window_transition_alpha"><?php echo _t('투명전환');?></option>
+																<option value="net_imazing_show_window_transition_contrast"><?php echo _t('플래쉬');?></option>
+																<option value="net_imazing_show_window_transition_sliding"><?php echo _t('슬라이딩');?></option>
+															</select>
+														</dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyiMazing_nav"><?php echo _t('내비게이션');?></label></dt>
+														<dd>
+															<select id="propertyiMazing_nav" onchange="editor.setProperty()">
+																<option value="net_imazing_show_window_navigation_none"><?php echo _t('기본');?></option>
+																<option value="net_imazing_show_window_navigation_simple"><?php echo _t('심플');?></option>
+																<option value="net_imazing_show_window_navigation_sidebar"><?php echo _t('사이드바');?></option>
+															</select>
+														</dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><?php echo _t('슬라이드쇼 간격');?></dt>
+														<dd><input type="text" class="input-text" id="propertyiMazing_sshow" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><?php echo _t('화면당 이미지 수');?></dt>
+														<dd><input type="text" class="input-text" id="propertyiMazing_page" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyiMazing_align"><?php echo _t('정렬방법');?></label></dt>
+														<dd>
+															<select id="propertyiMazing_align" onchange="editor.setProperty()">
+																<option value="h"><?php echo _t('가로');?></option>
+																<option value="v"><?php echo _t('세로');?></option>
+															</select>
+														</dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyiMazing_caption"><?php echo _t('자막');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyiMazing_caption" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+												</div>
 												
-												<div class="title"><?php echo _t('파일');?></div>
-												<dl class="line">
-													<dd>
-														<select id="propertyiMazing_list" class="file-list" size="10" onchange="editor.listChanged('propertyiMazing_list')" onclick="editor.listChanged('propertyiMazing_list')"></select>
-													</dd>
-													<dd class="button-box">
+												<div class="group">
+													<div class="title"><?php echo _t('파일');?></div>
+													<dl class="line">
+														<dd>
+															<select id="propertyiMazing_list" class="file-list" size="10" onchange="editor.listChanged('propertyiMazing_list')" onclick="editor.listChanged('propertyiMazing_list')"></select>
+														</dd>
+													</dl>
+													<div class="button-box">
 														<span class="up-button button" onclick="editor.moveUpFileList('propertyiMazing_list')" title="<?php echo _t('선택한 항목을 위로 이동합니다.');?>"><span class="text"><?php echo _t('위로');?></span></span>
 														<span class="divider"> | </span>
 														<span class="dn-button button" onclick="editor.moveDownFileList('propertyiMazing_list')" title="<?php echo _t('선택한 항목을 아래로 이동합니다.');?>"><span class="text"><?php echo _t('아래로');?></span></span>
-													</dd>
-												</dl>
-												<div id="propertyiMazing_preview" class="preview-box" style="display: none;"></div>
+													</div>
+													<div id="propertyiMazing_preview" class="preview-box" style="display: none;"></div>
+												</div>
 											</div>
 											
 											<div id="propertyGallery" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('Gallery');?></h4>
 												
-												<div class="title"><?php echo _t('설정');?></div>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyGallery_width"><?php echo _t('최대너비');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyGallery_width" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyGallery_height"><?php echo _t('최대높이');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyGallery_height" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyGallery_caption"><?php echo _t('자막');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyGallery_caption" onkeyup="editor.setProperty()" /></dd>
-												</dl>
+												<div class="group">
+													<div class="title"><?php echo _t('설정');?></div>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyGallery_width"><?php echo _t('최대너비');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyGallery_width" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyGallery_height"><?php echo _t('최대높이');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyGallery_height" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyGallery_caption"><?php echo _t('자막');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyGallery_caption" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+												</div>
 												
-												<div class="title"><?php echo _t('파일');?></div>
-												<dl class="line">
-													<dd>
-														<select id="propertyGallery_list" class="file-list" size="10" onchange="editor.listChanged('propertyGallery_list')" onclick="editor.listChanged('propertyGallery_list')"></select>
-													</dd>
-													<dd class="button-box">
+												<div class="group">
+													<div class="title"><?php echo _t('파일');?></div>
+													<dl class="line">
+														<dd>
+															<select id="propertyGallery_list" class="file-list" size="10" onchange="editor.listChanged('propertyGallery_list')" onclick="editor.listChanged('propertyGallery_list')"></select>
+														</dd>
+													</dl>
+													<div class="button-box">
 														<span class="up-button button" onclick="editor.moveUpFileList('propertyGallery_list')" title="<?php echo _t('선택한 항목을 위로 이동합니다.');?>"><span class="text"><?php echo _t('위로');?></span></span>
 														<span class="divider"> | </span>
 														<span class="dn-button button" onclick="editor.moveDownFileList('propertyGallery_list')" title="<?php echo _t('선택한 항목을 아래로 이동합니다.');?>"><span class="text"><?php echo _t('아래로');?></span></span>
-													</dd>
-												</dl>
-												<div id="propertyGallery_preview" class="preview-box" style="display: none;"></div>
+													</div>
+													<div id="propertyGallery_preview" class="preview-box" style="display: none;"></div>
+												</div>
 											</div>
 											
 											<div id="propertyJukebox" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('Jukebox');?></h4>
 												
-												<dl class="line">
-													<dt class="property-name"><label for="propertyJukebox_title"><?php echo _t('제목');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyJukebox_title" onkeyup="editor.setProperty()" /></dd>
-												</dl>
+												<div class="group">
+													<dl class="line">
+														<dt class="property-name"><label for="propertyJukebox_title"><?php echo _t('제목');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyJukebox_title" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyJukebox_autoplay"><?php echo _t('자동재생');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyJukebox_autoplay" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyJukebox_visibility"><?php echo _t('플레이어 보이기');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyJukebox_visibility" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+												</div>
 												
-												<dl class="line">
-													<dt class="property-name"><label for="propertyJukebox_autoplay"><?php echo _t('자동재생');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyJukebox_autoplay" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyJukebox_visibility"><?php echo _t('플레이어 보이기');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyJukebox_visibility" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												
-												<div class="title"><?php echo _t('파일');?></div>
-												<dl class="line">
-													<dd>
-														<select id="propertyJukebox_list" class="file-list" size="10" onchange="editor.listChanged('propertyJukebox_list')" onclick="editor.listChanged('propertyJukebox_list')"></select>
-													</dd>
-													<dd class="button-box">
+												<div class="group">
+													<div class="title"><?php echo _t('파일');?></div>
+													<dl class="line">
+														<dd>
+															<select id="propertyJukebox_list" class="file-list" size="10" onchange="editor.listChanged('propertyJukebox_list')" onclick="editor.listChanged('propertyJukebox_list')"></select>
+														</dd>
+													</dl>
+													<div class="button-box">
 														<span class="up-button button" onclick="editor.moveUpFileList('propertyJukebox_list')" title="<?php echo _t('선택한 항목을 위로 이동합니다.');?>"><span class="text"><?php echo _t('위로');?></span></span>
 														<span class="divider"> | </span>
 														<span class="dn-button button" onclick="editor.moveDownFileList('propertyJukebox_list')" title="<?php echo _t('선택한 항목을 아래로 이동합니다.');?>"><span class="text"><?php echo _t('아래로');?></span></span>
-													</dd>
-												</dl>
+													</div>
+												</div>
 											</div>
 											
 											<div id="propertyEmbed" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('Embed');?></h4>
 												
-												<dl class="line">
-													<dt class="property-name"><label for="propertyEmbed_width"><?php echo _t('폭');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyEmbed_width" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyEmbed_height"><?php echo _t('높이');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyEmbed_height" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyEmbed_src"><acronym class="text" title="Uniform Resource Locator">URL</acronym></label></dt>
-													<dd><input type="text" class="input-text" id="propertyEmbed_src" onkeyup="editor.setProperty()" /></dd>
-												</dl>
+												<div class="group">
+													<dl class="line">
+														<dt class="property-name"><label for="propertyEmbed_width"><?php echo _t('폭');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyEmbed_width" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyEmbed_height"><?php echo _t('높이');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyEmbed_height" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyEmbed_src"><acronym class="text" title="Uniform Resource Locator">URL</acronym></label></dt>
+														<dd><input type="text" class="input-text" id="propertyEmbed_src" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+												</div>
 											</div>
 											
 											<div id="propertyFlash" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('Embed');?></h4>
 												
-												<dl class="line">
-													<dt class="property-name"><label for="propertyFlash_width"><?php echo _t('폭');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyFlash_width" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyFlash_height"><?php echo _t('높이');?></label></dt>
-													<dd><input type="text" class="input-text" id="propertyFlash_height" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyFlash_src">URL</label></dt>
-													<dd><input type="text" class="input-text" id="propertyFlash_src" onkeyup="editor.setProperty()" /></dd>
-												</dl>
+												<div class="group">
+													<dl class="line">
+														<dt class="property-name"><label for="propertyFlash_width"><?php echo _t('폭');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyFlash_width" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyFlash_height"><?php echo _t('높이');?></label></dt>
+														<dd><input type="text" class="input-text" id="propertyFlash_height" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyFlash_src">URL</label></dt>
+														<dd><input type="text" class="input-text" id="propertyFlash_src" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+												</div>
 											</div>
 											
 											<div id="propertyMoreLess" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('More/Less');?></h4>
 												
-												<dl class="line">
-													<dt class="property-name"><label for="propertyMoreLess_more">More Text</label></dt>
-													<dd><input type="text" class="input-text" id="propertyMoreLess_more" onkeyup="editor.setProperty()" /></dd>
-												</dl>
-												<dl class="line">
-													<dt class="property-name"><label for="propertyMoreLess_less">Less Text</label></dt>
-													<dd><input type="text" class="input-text" id="propertyMoreLess_less" onkeyup="editor.setProperty()" /></dd>
-												</dl>
+												<div class="group">
+													<dl class="line">
+														<dt class="property-name"><label for="propertyMoreLess_more">More Text</label></dt>
+														<dd><input type="text" class="input-text" id="propertyMoreLess_more" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+													<dl class="line">
+														<dt class="property-name"><label for="propertyMoreLess_less">Less Text</label></dt>
+														<dd><input type="text" class="input-text" id="propertyMoreLess_less" onkeyup="editor.setProperty()" /></dd>
+													</dl>
+												</div>
 											</div>
 <?php
 }
