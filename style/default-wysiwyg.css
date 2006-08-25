@@ -65,25 +65,19 @@ img.tatterJukebox
 	margin                           : 5px auto;
 }
 
-img.tatterImageDual,
-img.tatterImageTriple
-{
-	background-image                 : url("./image/edit/attachAlignCenter.gif");
-}
-
 img.tatterImazing
 {
-	background-image                 : url("./image/edit/attachAlignImazing.gif");
+	background-image                 : url("../image/owner/wysiwyg/mark_iMazing.gif");
 }
 
 img.tatterGallery
 {
-	background-image                 : url("./image/edit/attachAlignSequence.gif");
+	background-image                 : url("../image/owner/wysiwyg/mark_gallery.gif");
 }
 
 img.tatterJukebox
 {
-	background-image                 : url("./image/edit/attachMP3.gif");
+	background-image                 : url("../image/owner/wysiwyg/mark_jukebox.gif");
 }
 
 img.tatterImageRight
@@ -94,18 +88,18 @@ img.tatterImageRight
 
 img.tatterImageDual
 {
-	background-image                 : url("./image/edit/attachAlign2Center.gif");
+	background-image                 : url("../image/owner/wysiwyg/mark_2images.gif");
 }
 
 img.tatterImageTriple
 {
-	background-image                 : url("./image/edit/attachAlign3Center.gif");
+	background-image                 : url("../image/owner/wysiwyg/mark_3images.gif");
 }
 
 img.tatterEmbed,
 img.tatterObject
 {
-	background-image                 : url("./image/edit/setEmbed_over.gif");
+	background-image                 : url("../image/owner/wysiwyg/mark_embed.gif");
 	margin                           : 5px;
 	min-width                        : 200px;
 	min-height                       : 200px;
@@ -113,7 +107,7 @@ img.tatterObject
 
 img.tatterFlash
 {
-	background-image                 : url("./image/edit/setFlash_over.gif");
+	background-image                 : url("../image/owner/wysiwyg/mark_flash.gif");
 }
 
 div.tattermoreless

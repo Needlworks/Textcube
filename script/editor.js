@@ -22,7 +22,7 @@ var TTEditor = function() {
 	this.textLess = "";
 
 	this.editMode = "TEXTAREA";
-	this.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-image: url(\'' + servicePath + '/image/unknown.gif\')"';
+	this.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-image: url(\'' + servicePath + '/image/extension/unknown.gif\')"';
 }
 
 // 각종 환경 초기화
