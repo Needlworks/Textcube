@@ -13,10 +13,8 @@ function stripHTML($text, $allowTags = array()) {
 	}
 	$text = preg_replace('/&nbsp;?/', ' ', $text);
 	$text = trim(preg_replace('/\s+/', ' ', $text));
-	if(!empty($text)) {
-		$text = preg_replace('/&apos;?/', '\'', $text);
-		$text = html_entity_decode($text, ENT_QUOTES);
-	}
+	if(!empty($text))
+		$text = str_replace(array('&#39;', '&apos;', '&quot;'), array('\'', '\'', '"'), $text);
 	return $text;
 }
 
