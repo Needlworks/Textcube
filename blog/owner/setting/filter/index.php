@@ -8,9 +8,9 @@ $IV = array(
 		'urlValue' => array('url' , 'default' => null),
 		'nameValue' => array('string' , 'default' => null)
 	),
-	'GET' => array(
-		'history' => array( 'string' , 'default' => null )
-	)
+	//'GET' => array(
+	//	'history' => array( 'string' , 'default' => null )
+	//)
 );
 require ROOT . '/lib/includeForOwner.php';
 requireComponent('Tattertools.Data.Filter');
@@ -28,11 +28,11 @@ if (!empty($_POST['mode'])) {
 	$filter->type = $_POST['mode'];
 	$filter->pattern = $_POST[($_POST['mode'] . 'Value')];
 	$filter->add();
-	$history = $_POST['mode'];
+	//$history = $_POST['mode'];
 }
-if (!empty($_GET['history'])) {
-	$history = $_GET['history'];
-}
+//if (!empty($_GET['history'])) {
+//	$history = $_GET['history'];
+//}
 require ROOT . '/lib/piece/owner/header5.php';
 require ROOT . '/lib/piece/owner/contentMenu53.php';
 
@@ -63,7 +63,7 @@ function printFilterBox($mode, $title) {
 ?>
 											<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="content"><span title="<?php echo escapeJSInAttribute($entity);?>"><?php echo UTF8::lessenAsEm($entity, 30);?></span></td>
-												<td class="delete"><a class="delete-button button" href="#void" onclick="deleteFilter(parentNode.parentNode,'<?php echo $mode;?>', '<?php echo urlencode($entity);?>',<?php echo $value[0];?>);" title="<?php echo _t('이 필터링을 제거합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
+												<td class="delete"><a class="delete-button button" href="#void" onclick="deleteFilter(parentNode.parentNode,'<?php echo $mode;?>', '<?php echo urlencode($entity);?>',<?php echo $value[0];?>); return false;" title="<?php echo _t('이 필터링을 제거합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
 											</tr>
 <?php
 			$id++;
@@ -118,7 +118,7 @@ function printFilterBox($mode, $title) {
 										param += '&oldValue=' 	+ encodeURI(oldValue);
 															
 										if(	target.value != oldValue) {
-											var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/filter/modify/" + param);
+											var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/filter/modify/" + param);
 											request.onSuccess = function() {
 												caller.innerHTML = "<?php echo _t('수정');?>";
 												this.onblur = '';
@@ -141,22 +141,30 @@ function printFilterBox($mode, $title) {
 									if (!confirm('<?php echo _t('선택된 목록을 필터링에서 제외합니다. 계속 하시겠습니까?');?>')) return false;
 									var execute = 'close';
 									
-									param  = '?mode=' 	+ mode;
-									param += '&value=' 	+ value;
+									param  = '?mode=' + mode;
+									param += '&value=' + value;
 									param += '&command=unblock';
-									param += '&id='+id;
+									param += '&id=' + id;
 									
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/trash/filter/change/" + param);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/filter/change/" + param);
 									request.onSuccess = function() {
 										var parent = caller.parentNode;
 										parent.removeChild(caller);
-										if(parent.childNodes.length == 0) {	
+										
+										if(parent.rows.length == 0) {	
 											var tr = document.createElement("tr");
+											tr.className = "odd-line inactive-class";
+											tr.setAttribute("onmouseover", "rolloverClass(this, 'over')");
+											tr.setAttribute("onmouseout", "rolloverClass(this, 'out')");
 											var td = document.createElement("td");
+											td.className = "empty";
 											td.appendChild(document.createTextNode("<?php echo _t('등록된 내용이 없습니다.');?>"));
 											tr.appendChild(td);
 											parent.appendChild(tr);
 										}
+									}
+									request.onError = function() {
+										alert("<?php echo _t('필터링을 삭제하지 못했습니다.');?>");
 									}
 									request.send();
 								}
@@ -260,15 +268,14 @@ function printFilterBox($mode, $title) {
 								}
 								*/
 <?php
-if (!@is_null($history)) {
-?>
-								this.onload =  function()
-								{
+/*/if (!@is_null($history)) {
+
+								window.addEventListener("load", execLoadFunction, false);
+								function execLoadFunction() {
 									var target = document.getElementById('<?php echo $history;?>');
 									target.select();
 								}
-<?php
-}
+}*/
 ?>
 							//]]>
 						</script>

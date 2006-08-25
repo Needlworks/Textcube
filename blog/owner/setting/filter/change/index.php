@@ -5,7 +5,8 @@ $IV = array(
 		'command' => array('any', 'mandatory' => false),
 		'id' => array('id', 'mandatory' => false ),
 		'mode' => array(array('ip', 'url', 'content', 'name' ) ),
-		'value' => array('string', 'mandatory' =>false)
+		'value' => array('string', 'mandatory' => false),
+		'javascript' => array('string', 'mandatory' => false)
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

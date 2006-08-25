@@ -494,7 +494,7 @@ table.data-inbox tbody tr td .new-icon span
 
 /* Trackback *************************************************************************************/
 
-/* trackback table head ---------------------------------------------------------------------------*/
+/* trackback table head -------------------------------------------------------------------------*/
 #part-post-trackback table.data-inbox thead tr .date
 {
 	width                            : 52px;
@@ -510,7 +510,13 @@ table.data-inbox tbody tr td .new-icon span
 	width                            : 95px;
 }
 
-/* trackback table body -------------------------------------------------------------------------*/
+/* trackback table body -----------------------------------------------------------------------*/
+#part-post-trackback table.data-inbox tbody tr td
+{
+	padding-bottom                   : 5px;
+	padding-top                      : 5px;
+}
+
 #part-post-trackback table.data-inbox tbody tr td.content .entry-title
 {
 	font-weight                      : bold;
@@ -668,6 +674,12 @@ table.data-inbox tbody tr td .new-icon span
 }
 
 /* trash table body -----------------------------------------------------------------------------*/
+
+#part-post-trash table.data-inbox tbody tr td
+{
+	padding-bottom                   : 5px;
+	padding-top                      : 5px;
+}
 
 #part-post-trash table.data-inbox tbody tr td .block-icon
 {

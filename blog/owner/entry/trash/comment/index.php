@@ -43,6 +43,9 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 									request.onSuccess = function () {
 										document.getElementById('list-form').submit();
 									}
+									request.onError = function () {
+										alert("<?php echo _t('댓글을 삭제하지 못했습니다.');?>");
+									}
 									request.send();
 								}
 								
@@ -60,6 +63,9 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/trash/comment/delete/");
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
+									}
+									request.onError = function () {
+										alert("<?php echo _t('댓글을 삭제하지 못했습니다.');?>");
 									}
 									request.send("targets=" + targets);
 								}
@@ -340,7 +346,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 									
 									<div id="delete-section" class="section">
 										<span class="label"><?php echo _t('선택한 댓글을');?></span>
-										<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteComments();" />
+										<input type="submit" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteComments(); return false;" />
 									</div>
 									
 									<div id="page-section" class="section">

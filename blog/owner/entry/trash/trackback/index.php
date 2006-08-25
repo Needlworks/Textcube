@@ -76,6 +76,9 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
+									request.onError = function () {
+										alert("<?php echo _t('글걸기를 삭제하지 못했습니다.');?>");
+									}
 									request.send();
 								}
 								
@@ -94,6 +97,9 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/trash/trackback/delete/");
 										request.onSuccess = function() {
 											document.getElementById('list-form').submit();
+										}
+										request.onError = function () {
+											alert("<?php echo _t('글걸기를 삭제하지 못했습니다.');?>");
 										}
 										request.send("targets=" + targets);
 									} catch(e) {
@@ -306,7 +312,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 												<a href="<?php echo $blogURL;?>/owner/entry/trash/trackback?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 트랙백 목록을 보여줍니다.');?>"><span class="text"><?php echo $trackback['ip'];?></span></a>
 											</td>
 											<td class="delete">
-												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trash/trackback/delete/<?php echo $trackback['id'];?>?javascript=disabled" onclick="deleteTrackback(<?php echo $trackback['id'];?>)" title="<?php echo _t('이 트랙백을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trash/trackback/delete/<?php echo $trackback['id'];?>?javascript=disabled" onclick="deleteTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 트랙백을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 											</td>
 										</tr>
 <?php
@@ -324,7 +330,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 									
 									<div id="delete-section" class="section">
 										<span class="label"><?php echo _t('선택한 글걸기를');?></span>
-										<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteTrackbacks();" />
+										<input type="submit" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteTrackbacks(); return false;" />
 									</div>
 									
 									<div id="page-section" class="section">
