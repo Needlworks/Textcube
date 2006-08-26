@@ -1188,10 +1188,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 							$setWidth = $setWidth * $galleryAttributes['height'] / $setHeight;
 							$setHeight = $galleryAttributes['height'];
 						}
-						if ($useAbsolutePath)
-							$buf .= "			{$id}.appendImage('{$hostURL}{$service['path']}/attach/{$owner}/{$item[0]}', '{$item[1]}', " . intval($setWidth) . ", " . intval($setHeight) . ");" . CRLF;
-						else
-							$buf .= "			{$id}.appendImage('{$folderURL}/{$item[0]}', '" . $item[1] . "', " . intval($setWidth) . ", " . intval($setHeight) . ");" . CRLF;
+						$buf .= $id . '.appendImage("' . ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$owner/$item[0]" : "$folderURL/$item[0]") . '", "' . htmlspecialchars($item[1]) . '", ' . intval($setWidth) . ', ' . intval($setHeight) . ");";
 					}
 				}
 				$buf .= "			{$id}.show();" . CRLF;
