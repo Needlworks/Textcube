@@ -1,6 +1,33 @@
 <?php
 define('ROOT', '../../../../..');
+
+$IV = array(
+	'POST' => array(
+		'ajaxRequest' => array('string', 'mandatory' => false),
+		'deleteWaterMark' => array('string', 'mandatory' => false),
+		'horizontalType' => array('string', 'mandatory' => false),
+		'verticalType' => array('string', 'mandatory' => false),
+		'horizontalPosition' => array('int', 'mandatory' => false),
+		'verticalPosition' => array('int', 'mandatory' => false),
+		'topPadding' => array('any', 'mandatory' => false),
+		'rightPadding' => array('any', 'mandatory' => false),
+		'bottomPadding' => array('any', 'mandatory' => false),
+		'leftPadding' => array('any', 'mandatory' => false),
+		'topPaddingManual' => array('int', 'mandatory' => false),
+		'rightPaddingManual' => array('int', 'mandatory' => false),
+		'bottomPaddingManual' => array('int', 'mandatory' => false),
+		'leftPaddingManual' => array('int', 'mandatory' => false),
+		'paddingColor' => array('string', 'default' => "FFFFFF")
+	),
+	'FILES' => array(
+		'waterMark' => array('file')
+	)
+);
+
 require ROOT . '/lib/includeForOwner.php';
+
+$isAjaxRequest = false; // checkAjaxRequest();
+$errorArray = array();
 
 // 워터마크 처리.
 if ($_POST['deleteWaterMark'] == "yes") {
@@ -26,29 +53,6 @@ if (!empty($_FILES['waterMark']['tmp_name'])) {
 	$forceToInit = true;
 }
 
-// 워터마크 투명도.
-if (eregi("^[0-9]+$", $_POST['horizontalPosition'], $temp)) {
-	$_POST['gammaForWaterMark'] = eregi_replace("^0*([0-9]*)$", '\1', $_POST['gammaForWaterMark']);
-	
-	if ($_POST['gammaForWaterMark'] < 0) {
-		$strNewGamma = 0;
-	} else if ($_POST['gammaForWaterMark'] > 100) {
-		$strNewGamma = 100;
-	} else {
-		$strNewGamma = $_POST['gammaForWaterMark'];
-	}
-	
-	$strOldGamma = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'gammaForWaterMark'");
-	
-	if ($strOldGamma == false) {
-		DBQuery::execute("INSERT `{$database['prefix']}UserSettings` (`user`, `name`, `value`) VALUES ($owner, 'gammaForWaterMark', '$strNewGamma')");
-		deleteAllThumbnails(ROOT."/cache/thumbnail/$owner");
-	} else if ($strNewGamma != $strOldGamma) {
-		DBQuery::execute("UPDATE `{$database['prefix']}UserSettings` SET `value` = '$strNewGamma' WHERE `user` = $owner AND `name` = 'gammaForWaterMark'");
-		deleteAllThumbnails(ROOT."/cache/thumbnail/$owner");
-	}
-}
-
 // 워터마크 포지션.
 if ($forceToInit == true) {
 	$_POST['horizontalType'] = "left";
@@ -66,6 +70,10 @@ if (!eregi("^[0-9]+$", $_POST['verticalPosition'], $temp))
 	$bErrorFlag = true;
 if (!eregi("^[0-9]+$", $_POST['horizontalPosition'], $temp))
 	$bErrorFlag = true;
+
+// 워터마크 포지션 값에 오류가 있으면 이전 값으로 되돌림.
+if ($bErrorFlag == true)
+	$errorArray['position'] = getUserSetting("waterMarkPosition", "left=10|bottom=10");
 
 if ($bErrorFlag == false) {
 	$_POST['verticalPosition'] = eregi_replace("^0*([0-9]*)$", '\1', $_POST['verticalPosition']);
@@ -104,6 +112,10 @@ if (!eregi("^[0-9]+$", $_POST['rightPadding'], $temp))
 	$bErrorFlag = true;
 if (!eregi("^[0-9]+$", $_POST['leftPadding'], $temp))
 	$bErrorFlag = true;
+
+// 썸네일 여백 값에 오류가 있으면 이전 값으로 되돌림.
+if ($bErrorFlag == true)
+	$errorArray['padding'] = getThumbnailPadding();
 
 if ($bErrorFlag == false) {
 	$_POST['topPadding'] = eregi_replace("^0*([0-9]*)$", '\1', $_POST['topPadding']);
@@ -145,8 +157,13 @@ if (eregi("^#?([A-F0-9]{3,6})$", $_POST['paddingColor'], $temp)) {
 		deleteAllThumbnails(ROOT."/cache/thumbnail/$owner");
 	}
 } else {
-	print(_t('색상지정이 올바르지 않습니다.'));
+	$errorArray['paddingColor'] = getThumbnailPaddingColor();
 }
 
-header("Location: ".$_SERVER['HTTP_REFERER']);
+if (count($errorArray) > 0)
+	$errorArray['error'] = 1;
+else
+	$errorArray['error'] = 0;
+
+$isAjaxRequest ? printRespond($errorArray) : header("Location: ".$_SERVER['HTTP_REFERER']);
 ?>
