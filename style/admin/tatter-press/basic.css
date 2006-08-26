@@ -126,6 +126,7 @@ samp
 	background-color                 : #F4F4F4;
 	border                           : 1px solid #B2B2B2;
 	color                            : #000000;
+	cursor                           : pointer;
 	padding                          : 2px 7px;
 	white-space                      : pre;
 	vertical-align                   : middle;
@@ -718,6 +719,7 @@ dl dd
 {
 	background-color                 : #FFFFFF;
 	border                           : 1px solid #999999;
+	cursor                           : pointer;
 	font-size                        : 1em;
 	height                           : 2em;
 }

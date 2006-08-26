@@ -178,7 +178,7 @@ if (extension_loaded('gd')) {
 		}
 	}
 ?>
-												<input type="file" class="file-input" name="waterMark" /><br />
+												<input type="file" class="input-file" name="waterMark" /><br />
 												<input type="checkbox" class="checkbox" id="deleteWaterMark" name="deleteWaterMark" value="yes"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteWaterMark"><?php echo _t('워터 마크를 초기화합니다.');?></label>
 											</dd>
 										</dl>

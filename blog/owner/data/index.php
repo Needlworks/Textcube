@@ -254,7 +254,7 @@ if ($backup) {
 											<div id="select-correct" title="<?php echo _t('백업파일에 비정상적인 글자가 포함된 경우 복원에 실패할 수 있습니다. 비정상적인 글자를 교정하여 복원이 가능하도록 합니다. 이를 사용할 경우 복원에 많은 시간이 소요될 수 있습니다.');?>"><input type="checkbox" id="correctData" class="checkbox" name="correctData" value="on" /> <label for="correctData"><?php echo _t('백업파일에 포함된 비정상적인 글자를 교정합니다.');?></label></div>
 										</div>
 										<div id="uploadBackup" style="display: <?php echo ($backup ? 'none' : 'block');?>;">
-											<label for="backupPath"><?php echo _t('백업파일 경로');?></label><span class="divider"> : </span><input type="file" id="backupPath" class="file-input" name="backupPath" <?php echo ($backup ? 'disabled="disabled"' : '');?> />
+											<label for="backupPath"><?php echo _t('백업파일 경로');?></label><span class="divider"> : </span><input type="file" id="backupPath" class="input-file" name="backupPath" <?php echo ($backup ? 'disabled="disabled"' : '');?> />
 										</div>
 										<div id="remoteBackup" style="display: none;">
 											<label for="backupURL"><?php echo _t('백업파일 <acronym title="Uniform Resource Locator">URL</acronym>');?></label><span class="divider"> : </span><input type="text" id="backupURL" class="input-text" name="backupURL" value="http://" disabled="disabled" onkeydown="if (event.keyCode == 13) { importData(); return false; }" />

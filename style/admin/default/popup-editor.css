@@ -309,7 +309,7 @@ body
 	background-color                 : #FFFFFF;
 	position                         : absolute;
 	padding                          : 2px;
-	top                              : 66px;
+	top                              : 88px;
 	left                             : 80px;
 	z-index                          : 10;
 	border                           : 1px solid #CCCCCC;
@@ -321,7 +321,7 @@ body
 	background-color                 : #FFFFFF;
 	position                         : absolute;
 	padding                          : 2px;
-	top                              : 66px;
+	top                              : 88px;
 	left                             : 100px;
 	z-index                          : 10;
 	border                           : 1px solid #CCCCCC;
@@ -333,7 +333,7 @@ body
 	background-color                 : #FFFFFF;
 	position                         : absolute;
 	padding                          : 2px;
-	top                              : 66px;
+	top                              : 88px;
 	left                             : 290px;
 	z-index                          : 10;
 	border                           : 1px solid #CCCCCC;
@@ -821,7 +821,7 @@ dl#tag-line dd .input-text
 	background-color                 : #D0E5F1 !important;
 }
 
-#body-editor-attachment .file-input
+#body-editor-attachment .input-file
 {
 	font-size                        : 12px;
 }

@@ -380,7 +380,7 @@ if (!empty($blog['logo']) && file_exists(ROOT."/attach/$owner/{$blog['logo']}"))
 }
 ?>
 
-												<input type="file" class="file-input" name="logo" />
+												<input type="file" class="input-file" name="logo" />
 												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteLogo" name="deleteLogo" value="yes"<?php echo empty($blog['logo']) ? ' disabled="disabled"' : '';?> /> <label for="deleteLogo"><?php echo _t('로고를 초기화합니다.');?></label></div>
 											</dd>
 										</dl>
@@ -398,7 +398,7 @@ if (file_exists(ROOT."/attach/$owner/favicon.ico") && !eregi(' MSIE', $_SERVER['
 <?php
 }
 ?>
-												<input type="file" class="file-input" name="favicon" />
+												<input type="file" class="input-file" name="favicon" />
 												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteFavicon" name="deleteFavicon" value="yes"<?php echo file_exists(ROOT."/attach/$owner/favicon.ico") ? '' : ' disabled="disabled"';?> /> <label for="deleteFavicon"><?php echo _t('파비콘을 초기화합니다.');?></label></div>
 											</dd>
 										</dl>
@@ -422,7 +422,7 @@ if (file_exists(ROOT."/attach/$owner/index.gif")) {
 	}
 }
 ?>
-												<input type="file" class="file-input" name="blogIcon" />
+												<input type="file" class="input-file" name="blogIcon" />
 												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteBlogIcon" name="deleteBlogIcon" value="yes"<?php echo file_exists(ROOT."/attach/$owner/index.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteBlogIcon"><?php echo _t('블로그 아이콘을 초기화합니다.');?></label></div>
 												<p><?php echo _t('블로그 아이콘은 댓글과 방명록에서 사용됩니다. 크기는 16×16 이상, 48×48 이하까지 지원합니다.');?></p>
 											</dd>

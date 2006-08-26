@@ -91,7 +91,7 @@ input#pathDomain
 	line-height                      : 26px;
 }
 
-#part-setting-profile .file-input
+#part-setting-profile .input-file
 {
 	font-size                        : 1em;
 }
@@ -459,7 +459,7 @@ input#pathDomain
 #part-setting-filter div.data-inbox .section .input-text
 {
 	margin                           : 0;
-	width                            : 210px;
+	width                            : 211px;
 }
 
 #part-setting-filter .button-box

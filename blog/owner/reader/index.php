@@ -208,7 +208,7 @@ if (getUserId() == 1) {
 											</dl>
 											<dl id="opmlUpload" class="line">
 												<dt><label for="opmlUploadValue"><?php echo _t('<acronym title="Outline Processor Markup Language">OPML</acronym> 업로드');?></label></dt>
-												<dd><input type="file" id="opmlUploadValue" class="file-input" name="opmlFile" /></dd>
+												<dd><input type="file" id="opmlUploadValue" class="input-file" name="opmlFile" /></dd>
 											</dl>
 											<dl id="opmlRequest" class="line" style="display: none;">
 												<dt><label for="opmlRequestValue"><?php echo _t('URL로 읽어오기');?></label></dt>

@@ -52,6 +52,13 @@ function makeTempSideBar() {
 		tempBlog = tempBlog.replace(/<\/a>/i, '</a>,');
 		document.getElementById("description-blog").innerHTML = tempBlog;
 	}
+	
+	if (document.getElementById("part-setting-filter")) {
+		tempDiv = document.createElement("DIV");
+		tempDiv.className = "clear";
+		tempDiv.style.clear = "both";
+		document.getElementById("part-setting-filter").appendChild(tempDiv);
+	}
 }
 
 window.addEventListener("load", changeLoginStr, false);

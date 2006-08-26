@@ -121,7 +121,7 @@ if (count($_FILES) == 1) {
 				padding                          : 0 !important;
 			}
 			
-			.file-input
+			.input-file
 			{
 				font-size                        : 75%;
 			}
@@ -143,9 +143,9 @@ if (count($_FILES) == 1) {
 				}
 				
 				if (uploader != null) {
-					document.write('<input type="file" class="file-input" name="attachment" onclick="uploader.SetVariable(\'/:openBroswer\',\'true\');return false;" onchange="addAttachOption(this.value); document.forms[0].submit();" />');
+					document.write('<input type="file" class="input-file" name="attachment" onclick="uploader.SetVariable(\'/:openBroswer\',\'true\');return false;" onchange="addAttachOption(this.value); document.forms[0].submit();" />');
 				} else {
-					document.write('<input type="file" class="file-input" name="attachment" onchange="addAttachOption(this.value); document.forms[0].submit();" />');
+					document.write('<input type="file" class="input-file" name="attachment" onchange="addAttachOption(this.value); document.forms[0].submit();" />');
 				}
 			//]]>	
 		</script>
