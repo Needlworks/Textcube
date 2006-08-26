@@ -162,7 +162,7 @@ foreach (getCategories($owner) as $category) {
 		}
 ?>
 									trashSelect.appendChild(trashOption);
-<?
+<?php
 	}
 }
 ?>

@@ -20,8 +20,8 @@ function _printTreeView($tree,$selected,$skin,$viewForm){
 ?>
 <ul id="category">
 	<li id="cate_total">
-		<img src="<?php echo $skin['url']?>/tab_top.gif" alt="top" style="cursor:pointer" onclick="toggleCategoryAll(this);" />
-		<a href="<?php echo htmlspecialchars($tree['link'])?>" style="<?php echo $isSelected?>"><?php echo htmlspecialchars($tree['label'])?> <span class="c_cnt">(<?php echo $tree['value']?>)</span></a>
+		<img src="<?php echo $skin['url'];?>/tab_top.gif" alt="top" style="cursor:pointer" onclick="toggleCategoryAll(this);" />
+		<a href="<?php echo htmlspecialchars($tree['link']);?>" style="<?php echo $isSelected;?>"><?php echo htmlspecialchars($tree['label']);?> <span class="c_cnt">(<?php echo $tree['value'];?>)</span></a>
 <?php
 	if(count($tree['children'])>0) {
 ?>
@@ -43,10 +43,10 @@ function _printTreeView($tree,$selected,$skin,$viewForm){
 					$img = 'tab_closed.gif';
 				}
 ?>
-			<li class="<?php echo $class?>">
-				<img src="<?php echo $skin['url'].'/'.$img?>" alt="toggle" style="cursor:pointer" onclick="toggleCategory(this);" /><a href="<?php echo htmlspecialchars($child['link'])?>" style="<?php echo $isSelected?>"><?php echo htmlspecialchars($child['label'])?> <span class="c_cnt">(<?php echo $child['value']?>)</span></a>
+			<li class="<?php echo $class;?>">
+				<img src="<?php echo $skin['url'].'/'.$img;?>" alt="toggle" style="cursor:pointer" onclick="toggleCategory(this);" /><a href="<?php echo htmlspecialchars($child['link']);?>" style="<?php echo $isSelected;?>"><?php echo htmlspecialchars($child['label']);?> <span class="c_cnt">(<?php echo $child['value'];?>)</span></a>
 
-				<ul class="sub_cate"<?php echo $style?>>
+				<ul class="sub_cate"<?php echo $style;?>>
 <?php
 				$j = 0;
 				foreach($child['children'] as $leaf){
@@ -59,7 +59,7 @@ function _printTreeView($tree,$selected,$skin,$viewForm){
 						: 'color:#'.$skin['itemColor'].';background-color:#'.$skin['itemBgColor'].';';
 ?>
 					<li>
-						<img src="<?php echo $treeSrc?>" alt="tree" /><a href="<?php echo htmlspecialchars($leaf['link'])?>" style="<?php echo $isSelected?>"><?php echo htmlspecialchars($leaf['label'])?> <span class="c_cnt">(<?php echo $leaf['value']?>)</span></a>
+						<img src="<?php echo $treeSrc;?>" alt="tree" /><a href="<?php echo htmlspecialchars($leaf['link']);?>" style="<?php echo $isSelected;?>"><?php echo htmlspecialchars($leaf['label']);?> <span class="c_cnt">(<?php echo $leaf['value'];?>)</span></a>
 					</li>
 <?php
 					$j++;
@@ -69,8 +69,8 @@ function _printTreeView($tree,$selected,$skin,$viewForm){
 <?php
 			} else {
 ?>
-			<li class="<?php echo $class?>">
-				<img src="<?php echo $skin['url']?>/tab_isleaf.gif" alt="leaf" /><a href="<?php echo htmlspecialchars($child['link'])?>" style="<?php echo $isSelected?>"><?php echo htmlspecialchars($child['label'])?> <span class="c_cnt">(<?php echo $child['value']?>)</span></a>
+			<li class="<?php echo $class;?>">
+				<img src="<?php echo $skin['url'];?>/tab_isleaf.gif" alt="leaf" /><a href="<?php echo htmlspecialchars($child['link']);?>" style="<?php echo $isSelected;?>"><?php echo htmlspecialchars($child['label']);?> <span class="c_cnt">(<?php echo $child['value'];?>)</span></a>
 <?php
 			}
 ?>
@@ -179,14 +179,14 @@ function SB_Category_New_Head($target) {
 
 	/* main category */
 	#category .cate {
-		background-image: url(<?php echo $skin['url']?>/navi_back_active.gif);
+		background-image: url(<?php echo $skin['url'];?>/navi_back_active.gif);
 		background-repeat: repeat-y;
 		background-position: left top;
 		padding:1px 0 0 0;
 	}
 
 	#category .cate_end {
-		background-image: url(<?php echo $skin['url']?>/navi_back_noactive_end.gif);
+		background-image: url(<?php echo $skin['url'];?>/navi_back_noactive_end.gif);
 		background-repeat: no-repeat;
 		background-position: left top;
 		padding:1px 0 0 0;
@@ -199,7 +199,7 @@ function SB_Category_New_Head($target) {
 </style>
 <script type="text/javascript">
 //<![CDATA[
-	var categoryToggle = <?php echo $data['viewForm'] ? 'true' : 'false'; ?>;
+	var categoryToggle = <?php echo $data['viewForm'] ? 'true' : 'false'; ;?>;
 
 	function toggleCategoryAll(obj) {
 		var parent = obj.parentNode;
@@ -214,7 +214,7 @@ function SB_Category_New_Head($target) {
 		for(var i = 0; i < img.length; i++) {
 			if(img[i].alt != 'toggle') continue;
 
-			img[i].src = categoryToggle ? '<?php echo $skin['url']?>/tab_closed.gif' : '<?php echo $skin['url']?>/tab_opened.gif';
+			img[i].src = categoryToggle ? '<?php echo $skin['url'];?>/tab_closed.gif' : '<?php echo $skin['url'];?>/tab_opened.gif';
 		}
 
 		categoryToggle = categoryToggle ? false : true;
@@ -225,10 +225,10 @@ function SB_Category_New_Head($target) {
 		var ul = parent.getElementsByTagName('ul');
 		if(ul[0].style.display == 'none') {
 			ul[0].style.display = 'block';
-			obj.src = '<?php echo $skin['url']?>/tab_opened.gif';
+			obj.src = '<?php echo $skin['url'];?>/tab_opened.gif';
 		} else {
 			ul[0].style.display = 'none';
-			obj.src = '<?php echo $skin['url']?>/tab_closed.gif';
+			obj.src = '<?php echo $skin['url'];?>/tab_closed.gif';
 		}
 	}
 //]]>
