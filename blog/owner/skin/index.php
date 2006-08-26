@@ -111,7 +111,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 											<!--span id="currentButton">
 												<a class="preview-button button" href="<?php echo $blogURL;?>/owner/skin/preview/?skin=<?php echo $skinSetting['skin'];?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('미리보기');?></span></a>
 												<span class="hidden">|</span>
-												<a class="apply-button button" href="<?php echo $blogURL;?>/owner/skin/change/?javascript=disabled&amp;skinName=<?php echo urlencode($skinSetting['skin']);?>" onclick="selectSkin('<?php echo $skinSetting['skin'];?>'); return false;"><span class="text"><?php echo _t('적용');?></span></a>
+												<a class="apply-button button" href="<?php echo $blogURL;?>/owner/skin/change/?skinName=<?php echo urlencode($skinSetting['skin']);?>" onclick="selectSkin('<?php echo $skinSetting['skin'];?>'); return false;"><span class="text"><?php echo _t('적용');?></span></a>
 											</span-->
 											<span class="hidden">|</span>
 											<a class="edit-button button" href="<?php echo $blogURL;?>/owner/skin/edit"><span class="text"><?php echo _t('편집하기');?></span></a>
@@ -193,7 +193,7 @@ for ($i = 0; $i < count($skins); $i++) {
 										<div id="button_<?php echo $skin['name'];?>" class="button-box">
 											<a class="preview-button button" href="<?php echo $blogURL;?>/owner/skin/preview/?skin=<?php echo $skin['name'];?>" onclick="window.open(this.href); return false;"><span><?php echo _t('미리보기');?></span></a>
 											<span class="hidden">|</span>
-											<a class="apply-button button" href="<?php echo $blogURL;?>/owner/skin/change/?javascript=disabled&amp;skinName=<?php echo urlencode($skin['name']);?>" onclick="selectSkin('<?php echo $skin['name'];?>'); return false;"><span><?php echo _t('적용');?></span></a>
+											<a class="apply-button button" href="<?php echo $blogURL;?>/owner/skin/change/?skinName=<?php echo urlencode($skin['name']);?>" onclick="selectSkin('<?php echo $skin['name'];?>'); return false;"><span><?php echo _t('적용');?></span></a>
 										</div>
 									</div>
 								</div>

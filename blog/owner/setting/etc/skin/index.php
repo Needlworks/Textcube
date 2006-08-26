@@ -3,8 +3,8 @@ define('ROOT', '../../../../..');
 
 $IV = array(
 	'POST' => array(
-		'adminSkin' => array('directory', 'default' => 'default'),
-		'javascript' => array('string', 'mandatory' => false)
+		'ajaxRequest' => array('string', 'mandatory' => false),
+		'adminSkin' => array('directory', 'default' => 'default')
 	)
 );
 

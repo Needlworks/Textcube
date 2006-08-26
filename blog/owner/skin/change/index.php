@@ -9,11 +9,11 @@ require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
 
 $isAjaxRequest = checkAjaxRequest();
-$result = $isAjaxRequest ? selectSkin($owner, $_GET['skinName']) : selectSkin($owner, $_POST['skinName']);
+$result = $isAjaxRequest ? selectSkin($owner, $_POST['skinName']) : selectSkin($owner, $_GET['skinName']);
 
 if ($result === true) {
 	$isAjaxRequest ? printRespond(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
-	$isAjaxRequest ? printRespond(array('error' => 1, 'msg' => "<?php echo _t('½ºÅ²À» º¯°æÇÏÁö ¸øÇß½À´Ï´Ù.');?>")) : header("Location: ".$_SERVER['HTTP_REFERER']);
+	$isAjaxRequest ? printRespond(array('error' => 1, 'msg' => _t('ìŠ¤í‚¨ì„ ë³€ê²½í•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.'))) : header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 ?>

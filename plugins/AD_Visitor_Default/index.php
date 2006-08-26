@@ -44,7 +44,7 @@ $date = $_GET['date'];
 										<span class="divider"> : </span>
 										<span id="total"><?php echo number_format($stats['total']);?></span>
 									</div>
-									<a class="init-button button" href="<?php echo $blogURL;?>/owner/statistics/visitor/set/0?javascript=disabled" onclick="setTotalStatistics(); return false;"><span class="text"><?php echo _t('초기화');?></span></a>
+									<a class="init-button button" href="<?php echo $blogURL;?>/owner/statistics/visitor/set/0" onclick="setTotalStatistics(); return false;"><span class="text"><?php echo _t('초기화');?></span></a>
 								</div>
 							
 								<hr class="hidden" />

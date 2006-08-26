@@ -35,9 +35,9 @@ function filterJavaScript($str, $removeScript = true) {
 }
 
 function checkAjaxRequest() {
-	if ($_POST['javascript'] == "disabled" || $_GET['javascript'] == "disabled")
-		return false;
-	else
+	//if ($_GET['ajaxRequest'] == "on" || $_POST['ajaxRequest'] == "on")
 		return true;
+	//else
+	//	return false;
 }	
 ?>

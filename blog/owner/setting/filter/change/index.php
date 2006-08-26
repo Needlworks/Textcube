@@ -1,20 +1,22 @@
 <?php
 define('ROOT', '../../../../..');
+
 $IV = array(
 	'GET' => array(
+		'ajaxRequest' => array('string', 'mandatory' => false),
 		'command' => array('any', 'mandatory' => false),
 		'id' => array('id', 'mandatory' => false ),
 		'mode' => array(array('ip', 'url', 'content', 'name' ) ),
-		'value' => array('string', 'mandatory' => false),
-		'javascript' => array('string', 'mandatory' => false)
+		'value' => array('string', 'mandatory' => false)
 	)
 );
+
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
 requireComponent('Tattertools.Data.Filter');
-$filter = new Filter();
 
 $isAjaxRequest = checkAjaxRequest();
+$filter = new Filter();
 
 if ($_GET['command'] == 'unblock') {
 	if (empty($_GET['id'])) {

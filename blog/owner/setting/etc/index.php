@@ -9,8 +9,8 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 								var title = "<?php echo escapeJSInCData($blog['title']);?>";
 								var description = "<?php echo escapeJSInCData(trim($blog['description']));?>";
 								
-								function setThumbnail() {
-									document.getElementById('thumbnail-form').submit();
+								function setResample() {
+									document.getElementById('resample-form').submit();
 								}
 		
 								var language = "<?php echo $blog['language'];?>";
@@ -25,6 +25,7 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 										request.onSuccess = function() {
 											language = document.getElementById('language-form').adminLanguage.value;
 											skinLanguage = document.getElementById('language-form').blogLanguage.value;
+											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 										}
 										request.onError = function() {
 											errorType = "language";
@@ -33,9 +34,10 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 									}
 									
 									if (document.getElementById('language-form').timezone.value != timezone) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/timezone?timezone=" + encodeURIComponent(document.getElementById('language-form').timezone.value));
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/etc/timezone?timezone=" + encodeURIComponent(document.getElementById('language-form').timezone.value));
 										request.onSuccess = function() {
 											timezone = document.getElementById('language-form').timezone.value;
+											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 										}
 										request.onError = function() {
 											if (errorType == "language")
@@ -52,8 +54,6 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 										alert("<?php echo _t('블로그 시간대를 변경할 수 없습니다.');?>");
 									else if (errorType == "both")
 										alert("<?php echo _t('블로그 언어와 시간대를 변경할 수 없습니다.');?>");
-									else if (errorType == "")
-										PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 								}
 
 								var editorMode = "<?php echo getUserSetting('editorMode', 1);?>";
@@ -147,11 +147,11 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 <?php
 if (extension_loaded('gd')) {
 ?>
-						<div id="part-setting-thumbnail" class="part">
+						<div id="part-setting-resample" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('이미지 리샘플링을 설정합니다');?></span></h2>
 							
 							<div class="data-inbox">
-								<form id="thumbnail-form" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/etc/thumbnail" enctype="multipart/form-data">
+								<form id="resample-form" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/etc/resample" enctype="multipart/form-data">
 									<fieldset class="container">
 										<legend><?php echo _t('이미지 리샘플링 정보');?></legend>
 										
@@ -264,7 +264,7 @@ if (extension_loaded('gd')) {
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setThumbnail(); return false;" />
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setResample(); return false;" />
 									</div>
 								</form>
 							</div>

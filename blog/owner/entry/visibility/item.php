@@ -1,13 +1,20 @@
 <?php
 define('ROOT', '../../../..');
+
 $IV = array(
 	'GET' => array(
 		'visibility' => array('int', 0, 3, 'default' => 0)
 	)
 );
+
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
-if (isset($_GET['javascript']) && $_GET['javascript'] == "disabled") {
+
+$isAjaxRequest = checkAjaxRequest();
+
+if ($isAjaxRequest) {
+	respondResultPage(setEntryVisibility($suri['id'], isset($_GET['visibility']) ? $_GET['visibility'] : 0));
+} else {
 	switch ($_GET['command']) {
 		case "protect":
 			$_GET['command'] = 1;
@@ -25,8 +32,5 @@ if (isset($_GET['javascript']) && $_GET['javascript'] == "disabled") {
 	}
 	setEntryVisibility($suri['id'], $_GET['command']);
 	header("Location: ".$_SERVER['HTTP_REFERER']);
-} else {
-	respondResultPage(setEntryVisibility($suri['id'], isset($_GET['visibility']) ? $_GET['visibility'] : 0));
 }
-respondResultPage(setEntryVisibility($suri['id'], isset($_GET['visibility']) ? $_GET['visibility'] : 0));
 ?>

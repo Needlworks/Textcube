@@ -120,45 +120,45 @@
 	display                          : block;
 }
 
-/* thumbnail ----------------------------------------------------------------------------------*/
-#part-setting-thumbnail .data-inbox
+/* resample ----------------------------------------------------------------------------------*/
+#part-setting-resample .data-inbox
 {
 	padding-top                      : 3px !important;
 }
 
-#part-setting-thumbnail img
+#part-setting-resample img
 {
 	display                          : block;
 	margin-bottom                    : 5px;
 }
 
-#part-setting-thumbnail dl
+#part-setting-resample dl
 {
 	clear                            : both;
 	padding-top                      : 10px;
 }
 
-#part-setting-thumbnail dl dt
+#part-setting-resample dl dt
 {
 	padding-top                      : 5px;
 }
 
-#part-setting-thumbnail dl dd
+#part-setting-resample dl dd
 {
 	line-height                      : 1.8em;
 }
 
-#part-setting-thumbnail dl dd .input-text
+#part-setting-resample dl dd .input-text
 {
 	margin-right                     : 2px;
 }
 
-#part-setting-thumbnail .button-box
+#part-setting-resample .button-box
 {
 	padding                          : 20px 0 10px 0;
 }
 
-#part-setting-thumbnail .button-box .button
+#part-setting-resample .button-box .button
 {
 	margin                           : 0 auto;
 }

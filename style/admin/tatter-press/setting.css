@@ -96,31 +96,31 @@ input#pathDomain
 	font-size                        : 1em;
 }
 
-/* thumbnail ------------------------------------------------------------------------------------*/
-#part-setting-thumbnail img
+/* resample ------------------------------------------------------------------------------------*/
+#part-setting-resample img
 {
 	display                          : block;
 	margin-bottom                    : 5px;
 }
 
-#part-setting-thumbnail #thumbnail-form dl
+#part-setting-resample #resample-form dl
 {
 	padding-top                     : 5px;
 }
 
-#part-setting-thumbnail .input-text
+#part-setting-resample .input-text
 {
 	margin-right                     : 3px;
 	vertical-align                   : middle;
 	width                            : 30px;
 }
 
-#part-setting-thumbnail dl dt
+#part-setting-resample dl dt
 {
 	width                            : 150px !important;
 }
 
-#part-setting-thumbnail dl dd
+#part-setting-resample dl dd
 {
 	line-height                      : 2.2em;
 }
@@ -130,7 +130,7 @@ input#pathDomain
 	width                            : 60px;
 }
 
-#part-setting-thumbnail .button-box
+#part-setting-resample .button-box
 {
 	margin                           : 25px 0;
 }

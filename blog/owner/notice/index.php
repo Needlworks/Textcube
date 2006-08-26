@@ -29,13 +29,13 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 											document.getElementById("privateIcon_" + entry).className = 'private-on-icon';
 											document.getElementById("privateIcon_" + entry).setAttribute('title', '<?php echo _t('현재 비공개 상태입니다.');?>');
 											
-											document.getElementById("publicIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?></span></a>';
+											document.getElementById("publicIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?></span></a>';
 											document.getElementById("publicIcon_" + entry).className = 'public-off-icon';
 											document.getElementById("publicIcon_" + entry).removeAttribute('title');
 											
 											break;
 										case 2:
-											document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?javascript=disabled&amp;command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?></span></a>';
+											document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?></span></a>';
 											document.getElementById("privateIcon_" + entry).className = 'private-off-icon';
 											document.getElementById("privateIcon_" + entry).removeAttribute('title');
 											
@@ -48,10 +48,10 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 									request.onError = function () {
 										switch (visibility) {
 											case 0:
-												window.location.href = "<?php echo $blogURL;?>/owner/entry/visibility/" + id + "?javascript=disabled&amp;command=private";
+												window.location.href = "<?php echo $blogURL;?>/owner/entry/visibility/" + id + "?command=private";
 												break;
 											case 2:
-												window.location.href = "<?php echo $blogURL;?>/owner/entry/visibility/" + id + "?javascript=disabled&amp;command=public";
+												window.location.href = "<?php echo $blogURL;?>/owner/entry/visibility/" + id + "?command=public";
 												break;
 										}
 									}
@@ -178,18 +178,18 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	if ($entry['visibility'] == 0) {
 ?>
 													<span id="privateIcon_<?php echo $entry['id'];?>" class="private-on-icon" title="<?php echo _t('현재 비공개 상태입니다.');?>"><span class="text"><?php echo _t('비공개');?></span></span>
-													<span id="publicIcon_<?php echo $entry['id'];?>" class="public-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?javascript=disabled&amp;command=public" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?></span></a></span>
+													<span id="publicIcon_<?php echo $entry['id'];?>" class="public-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=public" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?></span></a></span>
 <?php
 	} else if ($entry['visibility'] == 2 || $entry['visibility'] == 3) {
 ?>
-													<span id="privateIcon_<?php echo $entry['id'];?>" class="private-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?javascript=disabled&amp;command=private" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?></span></a></span>
+													<span id="privateIcon_<?php echo $entry['id'];?>" class="private-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=private" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?></span></a></span>
 													<span id="publicIcon_<?php echo $entry['id'];?>" class="public-on-icon" title="<?php echo _t('현재 공개 상태입니다.');?>"><span class="text"><?php echo _t('공개');?></span></span>
 <?php
 	}
 ?>
 												</td>
 												<td class="title"><a href="<?php echo $blogURL;?>/owner/notice/edit/<?php echo $entry['id'];?>"><?php echo htmlspecialchars($entry['title']);?></a></td>
-												<td class="delete"><a class="delete-button button" href="<?php echo $blogURL;?>/owner/notice/delete/<?php echo $entry['id'];?>?javascript=disabled" onclick="deleteEntry(<?php echo $entry['id'];?>); return false;" title="<?php echo _t('이 공지를 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
+												<td class="delete"><a class="delete-button button" href="<?php echo $blogURL;?>/owner/notice/delete/<?php echo $entry['id'];?>" onclick="deleteEntry(<?php echo $entry['id'];?>); return false;" title="<?php echo _t('이 공지를 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
 											</tr>
 <?php
 }

@@ -724,6 +724,11 @@ dl dd
 	height                           : 2em;
 }
 
+input.input-file
+{
+	font-size                        : 1em;
+}
+
 input.input-text
 {
 	background-color                 : #F4F4F4;

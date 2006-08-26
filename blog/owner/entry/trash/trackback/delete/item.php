@@ -1,12 +1,6 @@
 <?php
 define('ROOT', '../../../../../..');
 
-$IV = array(
-	'GET' => array (
-		'javascript' => array('string', 'mandatory' => false)
-	)
-);
-
 require ROOT . '/lib/includeForOwner.php';
 
 $isAjaxRequest = checkAjaxRequest();
