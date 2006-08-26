@@ -33,4 +33,11 @@ function filterJavaScript($str, $removeScript = true) {
 		$str = str_replace('<script', '<script defer="defer"', $str);
 	return $str;
 }
+
+function checkAjaxRequest() {
+	if ($_POST['javascript'] == "disabled" || $_GET['javascript'] == "disabled")
+		return false;
+	else
+		return true;
+}	
 ?>

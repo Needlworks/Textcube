@@ -1,22 +1,26 @@
 <?php
 define('ROOT', '../../../..');
+
 if (isset($_POST['page']))
 	$_GET['page'] = $_POST['page'];
+
 $IV = array(
 	'GET' => array(
+		'name' => array('string', 'mandatory' => false),
 		'page' => array('int', 1, 'default' => 1)
 	),
 	'POST' => array(
 		'category' => array('int', 'default' => 0),
-		'name' => array('string', 'default' => ''),
 		'ip' => array('ip', 'default' => ''),
-		'withSearch' => array(array('on'), 'mandatory' => false),
+		'name' => array('string', 'mandatory' => false),
+		'perPage' => array('int', 1, 'mandatory' => false),
 		'search' => array('string', 'default' => ''),
-		'perPage' => array('int', 1, 'mandatory' => false)
+		'withSearch' => array(array('on'), 'mandatory' => false)
 	)
 );	
 require ROOT . '/lib/includeForOwner.php';
 requireComponent('Tattertools.Data.Filter');
+
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $name = empty($_GET['name']) ? '' : $_GET['name'];
 $ip = empty($_GET['ip']) ? '' : $_GET['ip'];

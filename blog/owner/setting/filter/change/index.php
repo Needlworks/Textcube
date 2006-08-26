@@ -14,7 +14,7 @@ requireStrictRoute();
 requireComponent('Tattertools.Data.Filter');
 $filter = new Filter();
 
-$branchFlag = isset($_GET['javascript']) && $_GET['javascript'] == "disabled" ? true : false;
+$isAjaxRequest = checkAjaxRequest();
 
 if ($_GET['command'] == 'unblock') {
 	if (empty($_GET['id'])) {
@@ -24,16 +24,16 @@ if ($_GET['command'] == 'unblock') {
 		$filter->id = $_GET['id'];
 	}
 	if ($filter->remove()) {
-		$branchFlag ? header("Location: ".$_SERVER['HTTP_REFERER']) : printRespond(array('error' => 0));
+		$isAjaxRequest ? printRespond(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	} else {
-		$branchFlag ? header("Location: ".$_SERVER['HTTP_REFERER']) : printRespond(array('error' => - 1, 'msg' => mysql_error()));
+		$isAjaxRequest ? printRespond(array('error' => 1, 'msg' => mysql_error())) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	}
 } else {
 	$filter->type = $_GET['mode'];
 	$filter->pattern = $_GET['value'];
 	if ($filter->add())
-		$branchFlag ? header("Location: ".$_SERVER['HTTP_REFERER']) : printRespond(array('error' => 0));
+		$isAjaxRequest ? printRespond(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
-		$branchFlag ? header("Location: ".$_SERVER['HTTP_REFERER']) : printRespond(array('error' => - 1, 'msg' => mysql_error()));
+		$isAjaxRequest ? printRespond(array('error' => 1, 'msg' => mysql_error())) : header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 ?>

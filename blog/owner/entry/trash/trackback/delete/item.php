@@ -9,9 +9,10 @@ $IV = array(
 
 require ROOT . '/lib/includeForOwner.php';
 
-$branchFlag = isset($_GET['javascript']) && $_GET['javascript'] == "disabled" ? true : false;
+$isAjaxRequest = checkAjaxRequest();
+
 if (deleteTrackback($owner, $suri['id']) !== true)
-	$branchFlag ? header("Location: ".$_SERVER['HTTP_REFERER']) : respondResultPage(0);
+	$isAjaxRequest ? respondResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 else
-	$branchFlag ? header("Location: ".$_SERVER['HTTP_REFERER']) : respondResultPage( - 1);
+	$isAjaxRequest ? respondResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
 ?>

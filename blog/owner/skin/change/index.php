@@ -8,11 +8,12 @@ $IV = array(
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
 
-$isAjaxRequest = isset($_GET['javascript']) && $_GET['javascript'] == "disabled" ? false : true;
-$result = $branchFlag ? selectSkin($owner, $_GET['skinName']) : selectSkin($owner, $_POST['skinName']);
+$isAjaxRequest = checkAjaxRequest();
+$result = $isAjaxRequest ? selectSkin($owner, $_GET['skinName']) : selectSkin($owner, $_POST['skinName']);
+
 if ($result === true) {
 	$isAjaxRequest ? printRespond(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
-	$isAjaxRequest ? printRespond(array('error' => 1, 'msg' => "!!")) : header("Location: ".$_SERVER['HTTP_REFERER']);
+	$isAjaxRequest ? printRespond(array('error' => 1, 'msg' => "<?php echo _t('스킨을 변경하지 못했습니다.');?>")) : header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 ?>

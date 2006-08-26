@@ -2,8 +2,11 @@
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
+
+$isAjaxRequest = checkAjaxRequest();
+
 if (trashTrackback($owner, $suri['id']) !== true)
-	respondResultPage(0);
+	$isAjaxRequest ? respondResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 else
-	$branchFlag ? header("Location: ".$_SERVER['HTTP_REFERER']) : respondResultPage( - 1);
+	$isAjaxRequest ? respondResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
 ?>
