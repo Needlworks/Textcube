@@ -110,13 +110,10 @@ unset($url, $domain);
 $adminSkinSetting = array();
 $adminSkinSetting['skin'] = "/style/admin/".getUserSetting("adminSkin", "default");
 
-$tempTemplate = getUserSetting("visualEditorTemplate");
-if (empty($tempTemplate))
-	$adminSkinSetting['editorTemplate'] = "/style/default-wysiwyg.css";
+if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/wysiwyg.css"))
+	$adminSkinSetting['editorTemplate'] = "/skin/{$skinSetting['skin']}/wysiwyg.css";
 else
-	$adminSkinSetting['editorTemplate'] = "/skin/$tempTemplate/wysiwyg.css";
-unset($tempTemplate);
-unset($tempAdminSkin);
+	$adminSkinSetting['editorTemplate'] = "/style/default-wysiwyg.css";
 
 // 워터 마크 파일이 있는 곳.
 if (file_exists(ROOT."/attach/$owner/watermark.gif")) {

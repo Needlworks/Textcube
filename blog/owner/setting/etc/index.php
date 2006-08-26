@@ -16,49 +16,52 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 								var language = "<?php echo $blog['language'];?>";
 								var skinLanguage = "<?php echo $blog['blogLanguage'];?>";
 								var timezone = "<?php echo $blog['timezone'];?>";
+								var errorType = "";
 								
 								function setLocale() {
-									if ((document.getElementById('language-form').adminLanguage.value != language) || (document.getElementById('language-form').blogLanguage.value != skinLanguage)) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/language?language=" + encodeURIComponent(document.getElementById('language-form').adminLanguage.value) + "&blogLanguage=" + encodeURIComponent(document.getElementById('language-form').blogLanguage.value));
+									errorType = "";
+									if (document.getElementById('language-form').adminLanguage.value != language || document.getElementById('language-form').blogLanguage.value != skinLanguage) {
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/etc/language?language=" + encodeURIComponent(document.getElementById('language-form').adminLanguage.value) + "&blogLanguage=" + encodeURIComponent(document.getElementById('language-form').blogLanguage.value));
 										request.onSuccess = function() {
 											language = document.getElementById('language-form').adminLanguage.value;
 											skinLanguage = document.getElementById('language-form').blogLanguage.value;
-											if (document.getElementById('language-form').timezone.value != timezone) {
-												PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
-												var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/timezone?timezone=" + encodeURIComponent(document.getElementById('language-form').timezone.value));
-												request.onSuccess = function() {
-													timezone = document.getElementById('language-form').timezone.value;
-												}
-												request.onError = function() {
-													alert("<?php echo _t('블로그 시간대를 변경할 수 없습니다.');?>");
-													window.location.href = "<?php echo $blogURL;?>/owner/setting/blog";
-												}
-												request.send();
-											}
 										}
 										request.onError = function() {
-											alert("<?php echo _t('블로그 언어를 변경할 수 없습니다.');?>");
+											errorType = "language";
 										}
 										request.send();
 									}
-									else if (document.getElementById('language-form').timezone.value != timezone) {
+									
+									if (document.getElementById('language-form').timezone.value != timezone) {
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/timezone?timezone=" + encodeURIComponent(document.getElementById('language-form').timezone.value));
 										request.onSuccess = function() {
 											timezone = document.getElementById('language-form').timezone.value;
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 										}
 										request.onError = function() {
-											alert("<?php echo _t('블로그 시간대를 변경할 수 없습니다.');?>");
+											if (errorType == "language")
+												errorType = "both";
+											else
+												errorType = "timezone";
 										}
 										request.send();
 									}
+									
+									if (errorType == "language")
+										alert("<?php echo _t('블로그 언어를 변경할 수 없습니다.');?>");
+									else if (errorType == "timezone")
+										alert("<?php echo _t('블로그 시간대를 변경할 수 없습니다.');?>");
+									else if (errorType == "both")
+										alert("<?php echo _t('블로그 언어와 시간대를 변경할 수 없습니다.');?>");
+									else if (errorType == "")
+										PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 								}
 
 								var editorMode = "<?php echo getUserSetting('editorMode', 1);?>";
 								var strictXHTML = "<?php echo getUserSetting('strictXHTML', 0);?>";
+								
 								function setEditor() {
 									if (document.getElementById('editor-form').editorMode.value != editorMode || document.getElementById('editor-form').strictXHTML.value != strictXHTML) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/editor/?editorMode=" + document.getElementById('editor-form').editorMode.value + "&strictXHTML=" + document.getElementById('editor-form').strictXHTML.value);
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/etc/editor/?editorMode=" + document.getElementById('editor-form').editorMode.value + "&strictXHTML=" + document.getElementById('editor-form').strictXHTML.value);
 										request.onSuccess = function() {
 											editorMode = document.getElementById('editor-form').editorMode.value;
 											strictXHTML = document.getElementById('editor-form').strictXHTML.value;
@@ -67,8 +70,8 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 										request.onError = function() {
 											alert("<?php echo _t('에디터 설정을 변경할 수 없습니다');?>");
 										}
+										request.send();
 									}
-									request.send();
 								}
 								
 								function setAdminSkin() {
@@ -110,7 +113,6 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 								}
 								
 								window.addEventListener("load", execLoadFunction, false);
-								
 								function execLoadFunction() {
 									if (document.getElementById('topPadding').value != "direct") {
 										document.getElementById('topPadding').removeAttribute('disabled');
@@ -146,13 +148,19 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 if (extension_loaded('gd')) {
 ?>
 						<div id="part-setting-thumbnail" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('썸네일을 설정합니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('이미지 리샘플링을 설정합니다');?></span></h2>
 							
 							<div class="data-inbox">
-								<form id="thumbnail-form" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/blog/thumbnail" enctype="multipart/form-data">
+								<form id="thumbnail-form" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/etc/thumbnail" enctype="multipart/form-data">
 									<fieldset class="container">
-										<legend><?php echo _t('썸네일 정보');?></legend>
+										<legend><?php echo _t('이미지 리샘플링 정보');?></legend>
 										
+										<dl id="resampling-default-line" class="line">
+											<dt><span class="label"><?php echo _t('리샘플링 기본 설정');?></span></dt>
+											<dd>
+												<input type="checkbox" class="checkbox" id="useResamplingAsDefault" name="useResamplingAsDefault" value="yes"<?php echo (getUserSetting("resamplingDefault", "NULL") == "yes") ? ' checked="checked"' : NULL;?> /> <label for="useResamplingAsDefault"><?php echo _t('이미지 리샘플링 기능을 기본으로 사용합니다.');?></label>
+											</dd>
+										</dl>
 										<dl id="watermark-line" class="line">
 											<dt><span class="label"><?php echo _t('워터 마크');?></span></dt>
 											<dd>
@@ -172,22 +180,6 @@ if (extension_loaded('gd')) {
 ?>
 												<input type="file" class="file-input" name="waterMark" /><br />
 												<input type="checkbox" class="checkbox" id="deleteWaterMark" name="deleteWaterMark" value="yes"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteWaterMark"><?php echo _t('워터 마크를 초기화합니다.');?></label>
-											</dd>
-										</dl>
-										<dl id="watermark-gamma-line" class="line">
-											<dt><span class="label"><?php echo _t('워터마크 투명도');?></span></dt>
-											<dd>
-												<select name="gammaForWaterMark"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
-<?php
-	$gammaForWaterMark = getWaterMarkGamma();
-	for ($i=100; $i>=0; $i--) {
-?>
-													<option value="<?php echo $i;?>"<?php echo $i == $gammaForWaterMark ? ' selected="selected"' : '';?><?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>><?php echo $i;?></option>
-<?php
-	}
-?>
-												</select>
-												<p><?php echo _t('0은 완전투명(안 보임), 100은 완전 불투명.');?></p>
 											</dd>
 										</dl>
 <?php
@@ -230,14 +222,8 @@ if (extension_loaded('gd')) {
 												</div>
 											</dd>
 										</dl>
-										<dl id="watermark-resize-line" class="line">
-											<dt><span class="label"><?php echo _t('워터마크 자동 조절');?></span></dt>
-											<dd>
-												<input type="radio" id="waterMarkAutoResizeYes" class="radio" name="waterMarkAutoResize"<?php echo ($blog['useSlogan'] ? ' checked="checked"' : '');?> /> <label for="waterMarkAutoResizeYes"><span class="text"><?php echo _t('이미지 크기가 워터마크보다 작은 경우, 워터마크의 크기를 이미지에 맞춥니다.');?></span></label><br />
-												<input type="radio" id="waterMarkAutoResizeNo" class="radio" name="waterMarkAutoResize"<?php echo ($blog['useSlogan'] ? '' : ' checked="checked"');?> /> <label for="waterMarkAutoResizeNo"><span class="text"><?php echo _t('이미지 크기가 워터마크보다 작아도 워터마크의 크기를 조절하지 않습니다.');?></span></label>
-											</dd>
-										</dl>
-<?php
+
+<?php	
 	$thumbnailPadding = getThumbnailPadding();
 	$colorOfPadding = getThumbnailPaddingColor();
 ?>
@@ -291,7 +277,7 @@ if (extension_loaded('gd')) {
 						<div id="part-setting-language" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('언어, 시간대를 설정합니다');?></span></h2>
 							
-							<form id="language-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/blog">
+							<form id="language-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/etc/language">
 								<div id="language-section" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('언어 및 시간대');?></legend>
@@ -355,7 +341,7 @@ foreach (Timezone::getList() as $timezone) {
 						<div id="part-setting-editor" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('글 작성 환경을 설정합니다');?></span></h2>
 							
-							<form id="editor-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/blog">
+							<form id="editor-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/etc/editor">
 								<div id="editor-section" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('글 작성 환경을 설정합니다');?></legend>
@@ -399,7 +385,7 @@ $strictXHTML = getUserSetting('strictXHTML', 0);
 						<div id="part-setting-admin" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('관리자 화면 스킨을 설정합니다');?></span></h2>
 							
-							<form id="admin-skin-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/blog/skin">
+							<form id="admin-skin-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/etc/skin">
 								<div id="admin-skin-section" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('관리자 스킨을 설정합니다');?></legend>
@@ -433,39 +419,9 @@ while ($tempAdminSkin = $dir->read()) {
 												</select>
 											</dd>
 										</dl>
-										<dl id="editor-template-line" class="line">
-											<dt><label for="editorTemplate"><?php echo _t('위지윅 에디터 템플릿');?></label></dt>
-											<dd>
-												<select id="editorTemplate" name="editorTemplate">
-<?php
-$editorTemplate = getUserSetting('visualEditorTemplate');
-?>
-													<option value=""<?php echo empty($editorTemplate)?' selected="selected"':'';?>><?php echo _t('기본 템플릿');?></option>
-<?php
-$dirHandler = dir(ROOT . "/skin");
-while ($dir = $dirHandler->read()) {
-	if (!ereg('^[[:alnum:] _-]+$', $dir))
-		continue;
-	if (!is_dir(ROOT . '/skin/' . $dir))
-		continue;
-	if (!file_exists(ROOT . "/skin/$dir/index.xml") || !file_exists(ROOT . "/skin/$dir/wysiwyg.css"))
-		continue;
-	$xmls = new XMLStruct();
-	if (!$xmls->open(file_get_contents(ROOT . "/skin/$dir/index.xml"))) {
-		continue;
-	} else {
-		$skinName = $xmls->getValue('/skin/information/name');
-?>
-													<option value="<?php echo trim($dir);?>"<?php echo $editorTemplate==$dir?' selected="selected"':'';?>><?php echo _f('%1 스킨의 템플릿', $skinName);?></option>
-<?php
-	}
-}
-?>
-												</select>
-											</dd>
-										</dl>
 									</fieldset>
 									<div class="button-box">
+										<input type="hidden" name="javascript" value="disabled" />
 										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setAdminSkin(); return false;" />
 									</div>
 								</div>
