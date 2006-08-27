@@ -1284,8 +1284,8 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				} else {
 					$caption = '';
 				}
-				$buf = '<center>';
-				$buf .= '<div id="jukeBox' . $id . 'Div" style="width:' . $width . '; height:' . $height . ';"><div id="jukeBoxContainer'.$id.'"></div>';
+				$buf = '<center>'; 
+				$buf .= '<div id="jukeBox' . $id . 'Div" style="width:' . $width . '; height:' . $height . ';"><div id="jukeBoxContainer'.$id.'" style="width:' . $width . '; height:' . $height . ';"></div>';
 				$buf .= '<script type="text/javascript">writeCode(getEmbedCode(\'' . $service['path'] . '/script/jukebox/flash/main.swf\',\'100%\',\'100%\',\'jukeBox' . $id . 'Flash\',\'#FFFFFF\',"sounds=' . $imgStr . '&amp;autoplay=' . $params['autoplay'] . '&amp;visible=' . $params['visible'] . '&amp;id=' . $id . '","false"), "jukeBoxContainer'.$id.'")</script><noscript>';
 				for ($i = 0; $i < count($imgs); $i++) {
 					if ($i % 2 == 0)
@@ -1349,7 +1349,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 					} else {
 						$buf = '<div class="imageblock triple" style="text-align: center"><table cellspacing="5" cellpadding="0" border="0" style="margin: 0 auto;"><tr><td>' . getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag1) . '<p class="cap1">' . $attributes[3] . '</p></td><td>' . getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag2) . '<p class="cap2">' . $attributes[6] . '</p></td><td>' . getAttachmentBinder($attributes[7], $newProperty3, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag3) . '<p class="cap3">' . $attributes[9] . '</p></td></tr></table></div>';
 					}
-					break;
+					break; 
 			}
 		}
 		$view = substr($view, 0, $start) . $buf . substr($view, $end + 4);
