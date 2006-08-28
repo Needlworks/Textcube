@@ -241,9 +241,24 @@ function handleConfig( $plugin){
 	$clientData ='[';
 	$defaultCss = (true === file_exists( ROOT. "/plugins/$plugin/configStyle.css" ) ) ? $service['path']. "/plugins/$plugin/configStyle.css" : $service['path']. '/style/configStyle.css';
 	if ($manifest && $xmls->open($manifest)) {
-		if( is_null( $xmls->selectNodes ( '/plugin/binding/config/fieldset' )) ) 
+		//설정 핸들러가 존재시 바꿈
+		$config = $xmls->selectNode('/plugin/binding/config');
+		unset( $xmls );
+		if( !empty($config['.attributes']['manifestHandler']) ){
+			$handler = $config['.attributes']['manifestHandler'] ;
+			$oldconfig = $config;
+			include_once (ROOT . "/plugins/$plugin/index.php");
+			$manifest = call_user_func( $handler , $plugin );
+			$newXmls = new XMLStruct();
+			if($newXmls->open( $manifest) ){	 
+				unset( $config );
+				$config = $newXmls->selectNode('/config');
+			}
+			unset( $newXmls);
+		}
+		if( is_null( $config['fieldset'] ) ) 
 			return array( 'code' => _t('설정 값이 없습니다.') , 'script' => '[]' , 'css' => $defaultCss ) ;  	
-		foreach ($xmls->selectNodes('/plugin/binding/config/fieldset') as $fieldset) {
+		foreach ($config['fieldset'] as $fieldset) {
 			$legend = !empty($fieldset['.attributes']['legend']) ? htmlspecialchars($fieldset['.attributes']['legend']) :'';
 			$CDSPval .= CRLF.TAB."<fieldset>".CRLF.TAB.TAB."<legend>$legend</legend>".CRLF;
 			if( !empty( $fieldset['field'] ) ){
