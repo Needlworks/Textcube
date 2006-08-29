@@ -777,13 +777,15 @@ if(!String.prototype.count) {
 function getTagChunks(str, tagName) {
 	var chunks = new Array();
 	var pos1 = pos2 = 0;
-	while((pos1 = str.indexOf("<" + tagName, pos2)) > -1) {
+	lowerStr = str.toLowerCase();
+	lowerTagName = tagName.toLowerCase();
+	while((pos1 = lowerStr.indexOf("<" + lowerTagName, pos2)) > -1) {
 		do {
-			if((pos2 = str.indexOf("</" + tagName + ">", pos2)) == -1)
+			if((pos2 = lowerStr.indexOf("</" + lowerTagName + ">", pos2)) == -1)
 				return chunks;
-			var temp = str.substring(pos1, pos2 + tagName.length + 3);
-			pos2 += tagName.length + 3;
-		} while(temp.count("<" + tagName) != temp.count("</" + tagName + ">"));
+			var temp = str.substring(pos1, pos2 + lowerTagName.length + 3);
+			pos2 += lowerTagName.length + 3;
+		} while(temp.count("<" + lowerTagName) != temp.count("</" + lowerTagName + ">"));
 		chunks[chunks.length] = temp;
 	}
 	return chunks;
