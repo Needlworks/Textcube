@@ -60,11 +60,15 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 		if ($entryId > 0) {
 			$commentCount = getCommentCount($owner, $entryId);
 			$commentCount = ($commentCount > 0) ? "($commentCount)" : '';
-			$commentBlock = escapeCData(removeAllTags(getCommentView($entryId, $skin)));
+			$commentBlock = getCommentView($entryId, $skin);
+			dress('article_rep_id', $entryId, $commentBlock);
+			$commentBlock = escapeCData(removeAllTags($commentBlock));
 			$recentCommentBlock = escapeCData(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));
 		} else {
 			$commentCount = '';
-			$commentBlock = escapeCData(removeAllTags(getCommentView($entryId, $skin)));
+			$commentBlock = getCommentView($entryId, $skin);
+			dress('article_rep_id', $entryId, $commentBlock);
+			$commentBlock = escapeCData(removeAllTags($commentBlock));
 			$recentCommentBlock = escapeCData(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));
 		}
 		echo '<?xml version="1.0" encoding="utf-8"?><response><error>0</error><commentCount>'.$commentCount.'</commentCount><commentBlock><![CDATA[', $commentBlock, ']]></commentBlock><recentCommentBlock><![CDATA[', $recentCommentBlock, ']]></recentCommentBlock></response>';
