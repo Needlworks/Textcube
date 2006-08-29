@@ -1,7 +1,73 @@
 <?
+	function replace_num_entity($ord)
+	{
+		$ord = $ord[1];
+		if (preg_match('/^x([0-9a-f]+)$/i', $ord, $match))
+		{
+			$ord = hexdec($match[1]);
+		}
+		else
+		{
+			$ord = intval($ord);
+		}
+
+		$no_bytes = 0;
+		$byte = array();
+		if ($ord < 128)
+		{
+			return chr($ord);
+		}
+		elseif ($ord < 2048)
+		{
+			$no_bytes = 2;
+		}
+		elseif ($ord < 65536)
+		{
+			$no_bytes = 3;
+		}
+		elseif ($ord < 1114112)
+		{
+			$no_bytes = 4;
+		}
+		else
+		{
+			return;
+		}
+		switch($no_bytes)
+		{
+			case 2:
+			{
+				$prefix = array(31, 192);
+				break;
+			}
+			case 3:
+			{
+				$prefix = array(15, 224);
+				break;
+			}
+			case 4:
+			{
+				$prefix = array(7, 240);
+			}
+		}
+		for ($i = 0; $i < $no_bytes; $i++)
+		{
+			$byte[$no_bytes - $i - 1] = (($ord & (63 * pow(2, 6 * $i))) / pow(2, 6 * $i)) & 63 | 128;
+		}
+		$byte[0] = ($byte[0] & $prefix[0]) | $prefix[1];
+		$ret = '';
+		for ($i = 0; $i < $no_bytes; $i++)
+		{
+			$ret .= chr($byte[$i]);
+		}
+		return $ret;
+	}
+		
 class XMLRPC {
 	var $url, $methodName, $params, $result, $fault;
 	
+	var $useOldXmlRPC = false; // for 2003-before-version
+
 	function XMLRPC() {
 		$this->_registry = array();
 	}
@@ -24,15 +90,19 @@ class XMLRPC {
 		echo '</params></methodCall>';
 		$request->content = ob_get_contents();
 		ob_end_clean();
-		if (!$request->send()) 
+		if (!$request->send()) {
 			return false;
+		}
 
-		if ($request->getResponseHeader('Content-Type') != 'text/xml') 
+		if ((!is_null($request->getResponseHeader('Content-Type'))) && ($request->getResponseHeader('Content-Type') != 'text/xml'))  {
 			return false;
+		}
 		$xmls = new XMLStruct();
+		$request->responseText = preg_replace_callback('/&#([0-9a-fx]+);/mi', 'replace_num_entity', $request->responseText);
 		$xmls->open($request->responseText);
-		if ($xmls->error)
+		if ($xmls->error) {
 			return false;
+		}
 			
 		if (isset($xmls->struct['methodResponse'][0]['fault'][0]['value']))
 			$this->fault = $this->_decodeValue($xmls->struct['methodResponse'][0]['fault'][0]['value'][0]);
@@ -111,7 +181,11 @@ class XMLRPC {
 	
 	function _encodeValue($value) {
 		echo '<value>';
-		if (is_int($value)) {
+		if (is_a($value, 'XMLCustomType')) {
+			echo "<{$value->name}>";
+			echo $value->value;
+			echo "</{$value->name}>";
+		} else if (is_int($value)) {
 			echo '<i4>';
 			echo $value;
 			echo '</i4>';
@@ -146,11 +220,15 @@ class XMLRPC {
 			}
 		} else if ((strlen($value) == 17) && ($value{8} == 'T') && ($value{11} == ':') && ($value{14} == ':')) {
 			echo '<dateTime.iso8601>';
-			echo $value;
+			echo $value->time;
 			echo '</dateTime.iso8601>';
 		} else {
 			echo '<string>';
+			if ($this->useOldXmlRPC == true) {
+				echo XMLRPC::encodingStringEx($value);
+			} else {
 			echo htmlspecialchars($value);
+			}
 			echo '</string>';
 		}
 		echo '</value>';
@@ -206,6 +284,83 @@ class XMLRPC {
 		}
 		return null;
 	}
+	
+ 	function encodingStringEx($text)
+    {
+		$l = strlen($text);
+		$retString = '';
+        // ### TODO: Use a buffer rather than going character by
+        // ### character to scale better for large text sizes.
+        //char[] buf = new char[32];
+        for ($i = 0; $i < $l; $i++)
+        {
+            $c = $text{$i};
+            switch ($c)
+            {
+            case '\t':
+            case '\n':
+                $retString .= $c;
+                break;
+            case '\r':
+                // Avoid normalization of CR to LF.                
+                $retString .= "&#" . ord($c) . ';';
+                break;
+            case '<':
+                $retString .= '&lt;';
+                break;
+            case '>':
+                $retString .= '&gt;';
+                break;
+            case '&':
+                $retString .= '&amp;';
+                break;
+            default:
+                // Though the XML spec requires XML parsers to support
+                // Unicode, not all such code points are valid in XML
+                // documents.  Additionally, previous to 2003-06-30
+                // the XML-RPC spec only allowed ASCII data (in
+                // <string> elements).  For interoperability with
+                // clients rigidly conforming to the pre-2003 version
+                // of the XML-RPC spec, we entity encode characters
+                // outside of the valid range for ASCII, too.
+
+                // Replace the code point with a character reference.
+				$high = ord($text{$i});
+				$corrected = '';
+				if ($high < 0x20) { // Special Characters.
+					$corrected = '?';
+				} else if ($high < 0x80) { // 1byte.
+					$corrected = $text{$i};
+				} else if ($high <= 0xC1) {
+					$corrected = '?';
+				} else if ($high < 0xE0) { // 2byte.
+					if (($i + 1 >= $l) || (($text{$i + 1} & "\xC0") != "\x80"))
+						$corrected = '?';
+					else
+						$corrected = '&#' . ((ord($text{$i}) & 0x1f) * 0x40 + (ord($text{$i + 1}) & 0x3f)) . ';'; 
+					$i += 1;
+				} else if ($high < 0xF0) { // 3byte.
+					if (($i + 2 >= $l) || (($text{$i + 1} & "\xC0") != "\x80") || (($text{$i + 2} & "\xC0") != "\x80"))
+						$corrected = '?';
+					else
+						$corrected = '&#' . (((ord($text{$i}) & 0x0f) * 0x40 + (ord($text{$i + 1})& 0x3f))  * 0x40 + (ord($text{$i + 2}) & 0x3f)) . ';'; 
+					$i += 2;
+				} else if ($high < 0xF5) { // 4byte.
+					if (($i + 3 >= $l) || (($text{$i + 1} & "\xC0") != "\x80") || (($text{$i + 2} & "\xC0") != "\x80") || (($text{$i + 3} & "\xC0") != "\x80"))
+						$corrected = '?';
+					else
+						$corrected = '&#' . ((((ord($text{$i}) & 0x07) * 0x40 + (ord($text{$i + 1}) & 0x3f)) * 0x40 + (ord($text{$i + 2}) & 0x3f ) ) * 0x40 + (ord($text{$i + 3}) & 0x3f)) . ';'; 
+					$i += 3;
+				} else { // F5~FF is invalid by RFC3629.
+					$corrected = '?';
+				}
+                
+                $retString .= $corrected;
+            }
+        }
+        
+        return $retString;
+    }   
 }
 
 class XMLRPCFault {
@@ -214,6 +369,15 @@ class XMLRPCFault {
 	function XMLRPCFault($code = 0, $string = 'Error') {
 		$this->code = $code;
 		$this->string = $string;
+	}
+}
+
+class XMLCustomType {
+	var $value, $name;
+	
+	function XMLCustomType($varString, $varName) {
+		$this->name = $varName;
+		$this->value = $varString;
 	}
 }
 ?>
