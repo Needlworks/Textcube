@@ -6,7 +6,7 @@ if (false) {
 }
 $fp = @fopen(ROOT . "/attach/$owner/favicon.ico", 'rb');
 if (!$fp) {
-	$fp = @fopen(ROOT . '/image/Tattertools.ico', 'rb');
+	$fp = @fopen(ROOT . '/image/icon_favicon_default.ico', 'rb');
 	if (!$fp)
 		respondNotFoundPage();
 }

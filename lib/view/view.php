@@ -354,7 +354,29 @@ function getCommentView($entryId, & $skin) {
 	}
 	
 	$slash = ($commentSubItem['homepage']{strlen($commentSubItem['homepage']) - 1} == '/' ? '' : '/');
-	$onErrorJs = file_exists(ROOT."/image/emptyIcon.png") ? "this.src='{$service['path']}/image/emptyIcon.png'" : "this.parentNode.removeChild(this)";
+	
+	// 블로그 아이콘의 onError 이벤트 자바스크립트 생성.
+	if (file_exists(ROOT."/skin/{$skinSetting['skin']}/image/icon_guest_default.png")) {
+		$onErrorJs = "this.src='{$service['path']}/skin/{$skinSetting['skin']}/image/icon_guest_default.png'";
+	} else if (file_exists(ROOT."/image/icon_guest_default.png")) {
+		$onErrorJs = "this.src='{$service['path']}/image/icon_guest_default.png'";
+	} else {
+		$onErrorJs = "this.parentNode.removeChild(this)";
+	}
+	
+	// 비밀 모드의 블로그 아이콘 onError 이벤트 자바스크립트 생성.
+	if (file_exists(ROOT."/skin/{$skinSetting['skin']}/image/icon_guest_secret.png")) {
+		$onErrorJsSecret = "this.src='{$service['path']}/skin/{$skinSetting['skin']}/image/icon_guest_secret.png'";
+	} else if (file_exists(ROOT."/image/icon_guest_secret.png")) {
+		$onErrorJsSecret = "this.src='{$service['path']}/image/icon_guest_secret.png'";
+	} else {
+		$onErrorJsSecret = "this.parentNode.removeChild(this)";
+	}
+	
+	// 관리자가 로그인한 상태라면 비밀 모드는 필요없다.
+	if ($authorized)
+		$onErrorJsSecret = $onErrorJs;
+	
 	$blogIconSize = getUserSetting('blogIconSize', 0);
 	foreach ($comments as $commentItem) {
 		$commentItemView = ($isComment ? $skin->commentItem : $skin->guestItem);
@@ -370,11 +392,14 @@ function getCommentView($entryId, & $skin) {
 			if (empty($commentSubItem['homepage'])) {
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentSubItem['name']), $commentSubItem), $commentSubItemView);
 			} else {
-				if ($blogIconSize != '0')
-					dress($prefix1 . '_rep_icon', fireEvent(($isComment ? 'ViewCommentIcon' : 'ViewGuestCommentIcon'), "<img class=\"tt-icon\" src=\"{$commentSubItem['homepage']}{$slash}index.gif\" width=\"$blogIconSize\" height=\"$blogIconSize\" onerror=\"{$onErrorJs}\" />", $commentSubItem), $commentSubItemView);
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentSubItem['name']) . '</a>', $commentSubItem), $commentSubItemView);
 			}
-			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentSubItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
+			if ($blogIconSize != '0') {
+				// 비밀 댓글인 경우, 관리자 로그인 상태가 아니면 블로그 아이콘을 익명 아이콘으로 바꿔준다.
+				$onErrorScript = $commentSubItem['secret'] == 1 ? $onErrorJsSecret : $onErrorJs;
+				dress($prefix1 . '_rep_icon', fireEvent(($isComment ? 'ViewCommentIcon' : 'ViewGuestCommentIcon'), "<img class=\"tt-icon\" src=\"{$commentSubItem['homepage']}{$slash}index.gif\" width=\"$blogIconSize\" height=\"$blogIconSize\" onerror=\"{$onErrorScript}\" />", $commentSubItem), $commentSubItemView);
+			}
+			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
 			dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentSubItem['written'])), $commentSubItemView);
 			dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentSubItem['id']}", $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']}); return false;", $commentSubItemView);
@@ -390,11 +415,14 @@ function getCommentView($entryId, & $skin) {
 		if (empty($commentItem['homepage'])) {
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentItem['name']), $commentItem), $commentItemView);
 		} else {
-			if ($blogIconSize != '0')
-				dress($prefix1 . '_rep_icon', fireEvent(($isComment ? 'ViewCommentIcon' : 'ViewGuestCommentIcon'), "<img class=\"tt-icon\" src=\"{$commentItem['homepage']}{$slash}index.gif\" width=\"$blogIconSize\" height=\"$blogIconSize\" onerror=\"{$onErrorJs}\" />", $commentItem), $commentItemView);
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentItem['name']) . '</a>', $commentItem), $commentItemView);
 		}
-		dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentItem), $commentItemView);
+		if ($blogIconSize != '0') {
+			// 비밀 댓글인 경우, 관리자 로그인 상태가 아니면 블로그 아이콘을 익명 아이콘으로 바꿔준다.
+			$onErrorScript = $commentItem['secret'] == 1 ? $onErrorJsSecret : $onErrorJs;
+			dress($prefix1 . '_rep_icon', fireEvent(($isComment ? 'ViewCommentIcon' : 'ViewGuestCommentIcon'), "<img class=\"tt-icon\" src=\"{$commentItem['homepage']}{$slash}index.gif\" width=\"$blogIconSize\" height=\"$blogIconSize\" onerror=\"{$onErrorScript}\" />", $commentItem), $commentItemView);
+		}
+		dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense(htmlspecialchars($commentItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentItem), $commentItemView);
 		dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentItem['written'])), $commentItemView);
 		if ($prefix1 == 'guest' && $authorized != true && $blogSetting['allowWriteDoubleCommentOnGuestbook'] == 0) {
 			$doubleCommentPermissionScript = 'alert(\'' . _text('댓글을 사용할 수 없습니다.') . '\'); return false;';
@@ -912,13 +940,13 @@ function getCalendarView($calendar) {
 	</caption>
 	<thead>
 		<tr>
-			<th class="tt-cal-cell tt-cal-sunday cal_week2">S</th>
-			<th class="tt-cal-cell tt-cal-commonday cal_week1">M</th>
-			<th class="tt-cal-cell tt-cal-commonday cal_week1">T</th>
-			<th class="tt-cal-cell tt-cal-commonday cal_week1">W</th>
-			<th class="tt-cal-cell tt-cal-commonday cal_week1">T</th>
-			<th class="tt-cal-cell tt-cal-commonday cal_week1">F</th>
-			<th class="tt-cal-cell tt-cal-satureday cal_week1">S</th>
+			<th class="tt-cal-cell tt-cal-sunday cal_week2"><?php echo fireEvent('ViewCalendarHeadWeekday', _text('일요일'));?></th>
+			<th class="tt-cal-cell tt-cal-commonday cal_week1"><?php echo fireEvent('ViewCalendarHeadWeekday',_text('월요일'));?></th>
+			<th class="tt-cal-cell tt-cal-commonday cal_week1"><?php echo fireEvent('ViewCalendarHeadWeekday',_text('화요일'));?></th>
+			<th class="tt-cal-cell tt-cal-commonday cal_week1"><?php echo fireEvent('ViewCalendarHeadWeekday',_text('수요일'));?></th>
+			<th class="tt-cal-cell tt-cal-commonday cal_week1"><?php echo fireEvent('ViewCalendarHeadWeekday',_text('목요일'));?></th>
+			<th class="tt-cal-cell tt-cal-commonday cal_week1"><?php echo fireEvent('ViewCalendarHeadWeekday',_text('금요일'));?></th>
+			<th class="tt-cal-cell tt-cal-satureday cal_week1"><?php echo fireEvent('ViewCalendarHeadWeekday',_text('토요일'));?></th>
 		</tr>
 	</thead>
 	<tbody>

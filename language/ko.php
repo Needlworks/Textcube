@@ -772,5 +772,12 @@ $__text['기본 블로그 도메인을 변경하지 못했습니다'] = '기본 
 //$__text['삽입하기'] = '';
 //$__text['페이지 오류'] = '';
 //$__text['글이 하나도 없습니다'] = '';
+$__text['일요일'] = '일';
+$__text['월요일'] = '월';
+$__text['화요일'] = '화';
+$__text['수요일'] = '수';
+$__text['목요일'] = '목';
+$__text['금요일'] = '금';
+$__text['토요일'] = '토';
 $__text['fontDisplayName:fontCode:fontFamily'] = 'fontDisplayName:fontCode:fontFamily|바탕:Batang:Serif|바탕체:BatangChe: Serif|굴림:Gulim:Sans-serif|굴림체:GulimChe:Sans-serif|돋움:Dotum:Sans-serif|돋움체:DotumChe:Sans-serif';
 ?>

@@ -6,7 +6,7 @@ if (false) {
 }
 $fp = @fopen(ROOT . "/attach/$owner/index.gif", 'rb');
 if (!$fp) {
-	$fp = @fopen(ROOT . '/image/Tattertools.png', 'rb');
+	$fp = @fopen(ROOT . '/image/icon_blogIcon_default.png', 'rb');
 	if (!$fp)
 		respondNotFoundPage();
 }
