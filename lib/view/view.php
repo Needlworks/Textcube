@@ -824,6 +824,7 @@ function getCalendarView($calendar) {
 	$next = addPeriod($current, 1);
 	$firstWeekday = date('w', mktime(0, 0, 0, $calendar['month'], 1, $calendar['year']));
 	$lastDay = date('t', mktime(0, 0, 0, $calendar['month'], 1, $calendar['year']));
+	$lastDayBeforeMonth = date('t', mktime(0, 0, 0, $calendar['month'] - 1, 1, $calendar['year']));
 	$today = ($current == Timestamp::get('Ym') ? Timestamp::get('j') : null);
 	ob_start();
 ?>
@@ -849,8 +850,10 @@ function getCalendarView($calendar) {
 <tbody>
   <tr>
 <?
-	for ($weekday = 0; $weekday < $firstWeekday; $weekday++)
-		echo '    <td class="cal_day1"></td>', CRLF;
+	for ($weekday = 0; $weekday < $firstWeekday; $weekday++) {
+		$curday = $lastDayBeforeMonth - ($firstWeekday - $weekday) + 1 ;
+		echo '    <td class="cal_day1">' , $curday , '</td>', CRLF;
+	}
 	for ($day = 1; $weekday < 7; $weekday++, $day++) {
 		if (isset($calendar['days'][$day]))
 			echo '    <td class="', ($day == $today ? 'cal_day4' : 'cal_day3'), "\"><a class=\"cal_click\" href=\"$blogURL/archive/$current", ($day > 9 ? $day : '0' . $day), "\">$day</a></td>", CRLF;
@@ -866,8 +869,9 @@ function getCalendarView($calendar) {
 			else
 				echo '    <td class="', ($day == $today ? 'cal_day4' : 'cal_day3'), "\">$day</td>", CRLF;
 		if ($day > $lastDay) {
-			for (; $weekday < 7; $weekday++)
-				echo '    <td class="cal_day2"></td>', CRLF;
+			for ($addday = 1; $weekday < 7; $weekday++, $addday++) {
+				echo '    <td class="cal_day2">', $addday, '</td>', CRLF;
+			}
 			echo '  </tr>', CRLF;
 			break;
 		}
