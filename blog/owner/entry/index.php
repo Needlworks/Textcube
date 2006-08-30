@@ -66,8 +66,8 @@ require ROOT . '/lib/piece/owner/contentMenu00.php';
 <?php
 if (!file_exists(ROOT . '/cache/CHECKUP')) {
 ?>
-								window.addEventListener("load", execLoadFunction, false);
-								function execLoadFunction() {
+								window.addEventListener("load", checkTattertoolsVersion, false);
+								function checkTattertoolsVersion() {
 									if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
 										window.location.href = "<?php echo $blogURL;?>/checkup";
 								}
@@ -75,8 +75,8 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 }
 if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 ?>
-								window.addEventListener("load", execLoadFunction, false);
-								function execLoadFunction() {
+								window.addEventListener("load", checkTattertoolsVersion, false);
+								function checkTattertoolsVersion() {
 									if (confirm("<?php echo _t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
 										window.location.href = "<?php echo $blogURL;?>/checkup";
 								}
