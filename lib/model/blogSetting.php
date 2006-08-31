@@ -236,12 +236,16 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 	if ($result && (mysql_num_rows($result) > 0)) {
 		return 61;
 	}
-	$result = mysql_query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES ('', '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, $owner)");
+	$result = mysql_query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, $owner)");
 	if (!$result || (mysql_affected_rows() == 0)) {
 		return 11;
-	}
+	} 
 	$id = mysql_insert_id();
-	$result = mysql_query("INSERT INTO `{$database['prefix']}BlogSettings` (owner, name) VALUES ($id, '$identify')");
+	
+	$language = fetchQueryCell("SELECT language FROM `{$database['prefix']}BlogSettings` WHERE owner=1");
+	$language = empty($language) ? 'en' : $language;
+
+	$result = mysql_query("INSERT INTO `{$database['prefix']}BlogSettings` (owner, name, language) VALUES ($id, '$identify', '$language')");
 	if (!$result || (mysql_affected_rows() == 0)) {
 		mysql_query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
 		return 12;
