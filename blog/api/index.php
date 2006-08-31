@@ -42,6 +42,10 @@ if( substr( $_SERVER["REQUEST_URI"], -8 ) == "/api?rsd" )
 }
 else
 {
+	if( strpos( $_SERVER["REQUEST_URI"], "api?rnd" ) !== false ) /* Writely.com */
+	{
+		api_setHint( "TagsFromCategories" );
+	}
 	api_BlogAPI();
 }
 ?>

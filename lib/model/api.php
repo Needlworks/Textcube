@@ -1,6 +1,26 @@
 <?php
 /*--------- Basic functions -----------*/
 
+function api_setHint( $hint )
+{
+	global $arr_hint;
+	if( !$arr_hint )
+	{
+		$arr_hint = array();
+	}
+	$arr_hint[$hint] = true;
+}
+
+function api_checkHint( $hint )
+{
+	global $arr_hint;
+	if( $arr_hint )
+	{
+		return $arr_hint[$hint];
+	}
+	return false;
+}
+
 function api_get_request_id( $id )
 {
 	if( $_GET["id"] )
@@ -185,12 +205,21 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 
 	$post->content = $param['description'];
 	$post->title = $param['title'];
-	$post->tags = array_merge( split(",", $param['mt_excerpt']) , $param['tagwords'] );
+
+	global $arr_hint;
+	if( api_checkHint("TagsFromCategories") )
+	{
+		$post->tags = array_merge( $param['categories'], split(",", $param['mt_excerpt']) , $param['tagwords'] );
+	}
+	else
+	{
+		$post->tags = array_merge( split(",", $param['mt_excerpt']) , $param['tagwords'] );
+		$post->category = api_getCategoryIdByName( $param['categories'] );
+	}
 
 	$post->created = api_timestamp( $param['dateCreated'] );
 	$post->modified = api_timestamp( $param['dateCreated'] );
 
-	$post->category = api_getCategoryIdByName( $param['categories'] );
 	$post->acceptComment = $param['mt_allow_comments'] !== 0 ? true : false;
 	$post->acceptTrackback = $param['mt_allow_pings'] !== 0 ? true : false;
 
@@ -418,12 +447,6 @@ function api_deleteAttachments($owner,$parent){
 		api_deleteAttachment($owner,$parent,$attachment['name']);
 }
 
-function api_deleteGarbageTags(){
-	global $database,$owner;
-	$gc=fetchQueryColumn("SELECT t.id FROM {$database['prefix']}Tags t LEFT JOIN {$database['prefix']}TagRelations r ON t.id = r.tag WHERE r.owner = $owner AND r.tag IS NULL");
-	foreach($gc as $g)
-		mysql_query("DELETE FROM {$database['prefix']}Tags WHERE id = $g");
-}
 /* Work around end */
 
 function api_get_attaches( $content, $parent )
@@ -487,6 +510,7 @@ function api_BlogAPI()
 function blogger_getUsersBlogs()
 {
 	global $service, $blog, $hostURL, $blogURL;
+	global $owner;
 
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
@@ -498,7 +522,7 @@ function blogger_getUsersBlogs()
 	$blogs = array( 
 		array( 
 				"url" => $hostURL . $blogURL,
-				"blogid" => $service['domain'] . $blogURL,
+				"blogid" => "$owner",
 				"blogName" => $blog['title'],
 		) 
 	);
@@ -702,6 +726,8 @@ function metaWeblog_getCategories()
 			'rssUrl' => "$hostURL$blogURL/SubRSS.php?ct1=" . $category->id,
 			'categoryName' => $category->name,
 			'description' => $category->name,
+			'title' => $category->name,
+			'categoryid' => $category->id,
 			'categoryId' => $category->id,
 			'isPrimary' => true ) );
 			
