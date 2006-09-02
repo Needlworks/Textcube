@@ -707,23 +707,23 @@ for ($i=0; $i<sizeof($entries); $i++) {
 											<td class="title">
 												<?php echo ($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '');?>
 <?php
-if ($categoryId == -1) {
-	$editmode = 'keyword';
-} else if ($categoryId == -2) {
-	$editmode = 'notice';
-} else {
-	$editmode = 'entry';
-}
+	if ($categoryId == -1) {
+		$editmode = 'keyword';
+	} else if ($categoryId == -2) {
+		$editmode = 'notice';
+	} else {
+		$editmode = 'entry';
+	}
 ?>
 												<a href="<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entry['id'];?>" onclick="document.getElementById('list-form').action='<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entry['id'];?>'<?php echo ($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '');?>; document.getElementById('list-form').submit(); return false;"><?php echo htmlspecialchars($entry['title']);?></a>
 											</td>
 											<td class="protect">
 <?php
-if ($entry['visibility'] == 1) {
+	if ($entry['visibility'] == 1) {
 ?>
 												<a id="protectedSettingIcon_<?php echo $entry['id'];?>" class="protect-off-button button" href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $entry['id'];?>#status-line" onclick="showProtectSetter('<?php echo $entry['id'];?>'); return false;" title="<?php echo _t('보호 패스워드를 설정합니다.');?>"><span class="text"><?php echo _t('보호설정');?></span></a>
 <?php
-}
+	}
 ?>
 											</td>
 											<td class="trackback">
@@ -734,7 +734,7 @@ if ($entry['visibility'] == 1) {
 											</td>
 										</tr>
 <?php
-								}
+}
 ?>
 									</tbody>
 								</table>
