@@ -1488,9 +1488,12 @@ class XMLStruct {
 }
 
 class Image {
-	var $imageFile = NULL;
-	var $resultImageDevice = NULL;
-	var $extraPadding = 0;
+	function Image() {
+		$this->extraPadding = 0;
+		$this->imageFile = 
+		$this->resultImageDevice = 
+			NULL;
+	}
 	
 	function resample($width, $height, $padding=NULL) {
 		if (empty($width) && empty($height))

@@ -33,26 +33,20 @@ body
 
 dl
 {
-	border-top                       : 1px solid #DDDDDD;
 	clear                            : both;
+	position                         : relative;
 }
 
  dt
  {
  	/*background-color                 : #F2F2F2;*/
  	color                            : #333333;
-	float                            : left;
-	line-height                      : 2.5em;
+ 	left                             : 0;
 	padding-right                    : 10px;
+	position                         : absolute;
 	text-align                       : right;
+	top                              : 0;
 	width                            : 170px;
-}
-
- dd
-{
-	float                            : left;
-	line-height                      : 2.5em;
-	padding-left                     : 10px;
 }
 
 dd select
@@ -129,7 +123,6 @@ select
 {
 	/*border                           : 1px solid #777777;*/
 	font-size                        : 1em;
-	height                           : 1.8em;
 	/*padding                          : 0.2em;*/
 	vertical-align                   : middle;
 }
