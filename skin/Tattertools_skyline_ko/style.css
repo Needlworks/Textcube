@@ -693,6 +693,14 @@ padding-left:38px;
 	width:25px;
 	}
 
+/* keyword log */
+#keyword ul {
+	padding: 0;
+	margin: 0 0 0 10px;
+}
+
+
+
 /* paging */
 .paging{
 	padding-top:10px;
