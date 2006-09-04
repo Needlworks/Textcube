@@ -694,12 +694,33 @@ padding-left:38px;
 	}
 
 /* keyword log */
-#keyword ul {
-	padding: 0;
-	margin: 0 0 0 10px;
+#keyword {
+	background: #FFF;
+	padding: 10px;
 }
 
+#keyword .view {
+	border: 1px dotted #DDD;
+	padding: 10px;
+	margin: 10px;
+}
 
+#keyword .title {
+	margin-top: 20px;
+}
+
+#keyword ul {
+	padding: 0;
+	margin: 10px 0 0 10px;
+	list-style: none;
+}
+
+#keyword .date { color: #999; }
+
+#keyword .cnt {
+	font: 10px Verdana, Arial, sans-serif;
+	color: #666;
+}
 
 /* paging */
 .paging{
