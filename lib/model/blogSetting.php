@@ -257,10 +257,7 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 	} 
 	$id = mysql_insert_id();
 	
-	$language = fetchQueryCell("SELECT language FROM `{$database['prefix']}BlogSettings` WHERE owner=1");
-	$language = empty($language) ? 'en' : $language;
-
-	$result = mysql_query("INSERT INTO `{$database['prefix']}BlogSettings` (owner, name, language) VALUES ($id, '$identify', '$language')");
+	$result = mysql_query("INSERT INTO `{$database['prefix']}BlogSettings` (owner, name, language) VALUES ($id, '$identify', '{$service['language']}')");
 	if (!$result || (mysql_affected_rows() == 0)) {
 		mysql_query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
 		return 12;
