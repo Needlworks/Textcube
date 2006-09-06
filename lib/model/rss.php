@@ -76,6 +76,7 @@ function refreshRSS($owner) {
 }
 
 function publishRSS($owner, $data) {
+	global $blog, $owner;
 	ob_start();
 	echo '<?xml version="1.0" encoding="UTF-8"?>', CRLF;
 	echo '<rss version="2.0">', CRLF;
