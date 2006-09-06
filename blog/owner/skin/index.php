@@ -54,7 +54,7 @@ function writeValue($value, $label, $className) {
 										request.onError = function() {
 											msg = this.getText("/response/msg");
 											if (this.getText("/response/msg") == null)
-												msg = "<?php echo _t('올바른 스킨 디렉토리명이 아닙니다.\n디렉토리명에는 알파벳, 숫자, 언더바(_), 공백문자, 대쉬(_)만 사용하실 수 있습니다.');?>";
+												msg = "<?php echo _t('올바른 스킨 디렉토리명이 아닙니다.\n디렉토리명에는 알파벳, 숫자, 언더바(_), 공백문자, 대쉬(-)만 사용하실 수 있습니다.');?>";
 											alert(msg);
 										}
 										request.send("skinName=" + encodeURIComponent(name));
