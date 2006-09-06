@@ -429,11 +429,11 @@ function printEntryFileList($attachments, $param) {
 												//<![CDATA[
 													function addAttachment() {
 														if(isIE) {
-															document.frames[0].document.forms[0].action = "<?=$param['singleUploadPath']?>";
+															document.frames[0].document.forms[0].action = "<?php echo $param['singleUploadPath']?>";
 															document.frames[0].document.forms[0].attachment.click();
 														} else {
 															var attachHidden = document.getElementById('attachHiddenNest');
-															attachHidden.contentDocument.forms[0].action = "<?=$param['singleUploadPath']?>";
+															attachHidden.contentDocument.forms[0].action = "<?php echo $param['singleUploadPath']?>";
 															attachHidden.contentDocument.forms[0].attachment.click();
 														}
 													}
@@ -442,7 +442,7 @@ function printEntryFileList($attachments, $param) {
 														var fileList = document.getElementById('fileList');		
 														
 														if (fileList.selectedIndex < 0) {
-															alert("<?=_t('삭제할 파일을 선택해 주십시오\t')?>");
+															alert("<?php echo _t('삭제할 파일을 선택해 주십시오\t')?>");
 															return false;
 														}
 														
@@ -458,10 +458,10 @@ function printEntryFileList($attachments, $param) {
 																}
 															}
 														} catch(e) {
-															alert("<?=_t('파일을 삭제하지 못했습니다')?> ::"+e.message);
+															alert("<?php echo _t('파일을 삭제하지 못했습니다')?> ::"+e.message);
 														}
 												
-														var request = new HTTPRequest("POST", "<?=$param['deletePath']?>");
+														var request = new HTTPRequest("POST", "<?php echo $param['deletePath']?>");
 														request.onVerify = function () { 
 															return true 
 														}
@@ -482,7 +482,7 @@ function printEntryFileList($attachments, $param) {
 														}
 														
 														request.onError = function() {
-															alert("<?=_t('파일을 삭제하지 못했습니다')?>");
+															alert("<?php echo _t('파일을 삭제하지 못했습니다')?>");
 														}
 														request.send("names="+targetStr);
 													}
@@ -511,32 +511,32 @@ function printEntryFileList($attachments, $param) {
 																	width = 90 / height * width;
 																	height = 90;
 																}
-																document.getElementById('previewSelected').innerHTML = '<img src="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'?randseed='+Math.random()+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?=$service['path']?>/image/spacer.gif\'"/>';
-																//setAttribute('src',"<?=$service['path']?>/attach/<?=$owner?>/"+  fileName);
-																//document.getElementById('selectedImage').setAttribute('src',"<?=$service['path']?>/image/spacer.gif");
+																document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $service['path']?>/attach/<?php echo $owner?>/'+fileName+'?randseed='+Math.random()+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?php echo $service['path']?>/image/spacer.gif\'"/>';
+																//setAttribute('src',"<?php echo $service['path']?>/attach/<?php echo $owner?>/"+  fileName);
+																//document.getElementById('selectedImage').setAttribute('src',"<?php echo $service['path']?>/image/spacer.gif");
 															}
 															catch(e) { }
 															return false;
 														}
 														
 														if((new RegExp("\\.(mp3)$", "gi").exec(fileName))) {
-															var str = getEmbedCode("<?=$service['path']?>/script/jukebox/flash/mini.swf?__TT__="+(Math.random()*1000),"100%","100%", "jukeBox0Flash","#FFFFFF", "sounds=<?=$service['path']?>/attach/<?=$owner?>/"+fileName, "false"); 
+															var str = getEmbedCode("<?php echo $service['path']?>/script/jukebox/flash/mini.swf?__TT__="+(Math.random()*1000),"100%","100%", "jukeBox0Flash","#FFFFFF", "sounds=<?php echo $service['path']?>/attach/<?php echo $owner?>/"+fileName, "false"); 
 															writeCode(str, 'previewSelected');
 															return false;
 														}
 														
 														if((new RegExp("\\.(swf)$", "gi").exec(fileName))) {			
 															
-															code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="100%" height="100%"><param name="movie" value="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'"/><param name="allowScriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/>';
-															code += '<!--[if !IE]> <--><object type="application/x-shockwave-flash" data="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'" width="100%" height="100%"><param name="allowScriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/></object><!--> <![endif]--></object>';
+															code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="100%" height="100%"><param name="movie" value="<?php echo $service['path']?>/attach/<?php echo $owner?>/'+fileName+'"/><param name="allowScriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/>';
+															code += '<!--[if !IE]> <--><object type="application/x-shockwave-flash" data="<?php echo $service['path']?>/attach/<?php echo $owner?>/'+fileName+'" width="100%" height="100%"><param name="allowScriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/></object><!--> <![endif]--></object>';
 															
 															writeCode(code,'previewSelected');
 															return false;
 														}
 														
 														if((new RegExp("\\.(mov)$", "gi").exec(fileName))) {			
-															code = '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="'+width+'" height="'+height+'"><param name="src" value="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'"/><param name="controller" value="true"><param name="scale" value="Aspect">';
-															code += '<!--[if !IE]> <--><object type="video/quicktime" data="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'" width="'+width+'" height="'+height+'" showcontrols="true" TYPE="video/quicktime" scale="Aspect" nomenu="true"><param name="showcontrols" value="true"><param name="scale" value="ToFit"></object><!--> <![endif]--></object>';
+															code = '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="'+width+'" height="'+height+'"><param name="src" value="<?php echo $service['path']?>/attach/<?php echo $owner?>/'+fileName+'"/><param name="controller" value="true"><param name="scale" value="Aspect">';
+															code += '<!--[if !IE]> <--><object type="video/quicktime" data="<?php echo $service['path']?>/attach/<?php echo $owner?>/'+fileName+'" width="'+width+'" height="'+height+'" showcontrols="true" TYPE="video/quicktime" scale="Aspect" nomenu="true"><param name="showcontrols" value="true"><param name="scale" value="ToFit"></object><!--> <![endif]--></object>';
 															
 															writeCode(code,'previewSelected');
 															
@@ -546,11 +546,11 @@ function printEntryFileList($attachments, $param) {
 													
 														if((new RegExp("\\.(mp2|wma|mid|midi|mpg|wav)$", "gi").exec(fileName))) {
 															code ='<object width="'+width+'" height="'+height+'" classid="CLSID:22D6F312-B0F6-11D0-94AB-0080C74C7E95" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701" standby="Loading for you" type="application/x-oleobject" align="middle">';		
-															code +='<param name="FileName" value="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'">';
+															code +='<param name="FileName" value="<?php echo $service['path']?>/attach/<?php echo $owner?>/'+fileName+'">';
 															code +='<param name="ShowStatusBar" value="False">';
 															code +='<param name="DefaultFrame" value="mainFrame">';
 															code +='<param name="showControls" value="false">';
-															code +='<embed type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/" src="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'" align="middle" width="'+width+'" height="'+height+'" showControls="false" defaultframe="mainFrame" showstatusbar="false"></embed>';
+															code +='<embed type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/" src="<?php echo $service['path']?>/attach/<?php echo $owner?>/'+fileName+'" align="middle" width="'+width+'" height="'+height+'" showControls="false" defaultframe="mainFrame" showstatusbar="false"></embed>';
 															code +='</object>';
 															
 															writeCode(code,'previewSelected');
@@ -560,13 +560,13 @@ function printEntryFileList($attachments, $param) {
 														
 														if((new RegExp("\\.(rm|ram)$", "gi").exec(fileName))) {		
 														/*
-															code = '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="'+width+'" height="'+height+'"><param name="src" value="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'"/><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE">';
-															code += '<!--[if !IE]> <--><object type="audio/x-pn-realaudio-plugin" data="<?=$service['path']?>/attach/<?=$owner?>/'+fileName+'" width="'+width+'" height="'+height+'" ><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE"></object><!--> <![endif]--></object>';			
+															code = '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="'+width+'" height="'+height+'"><param name="src" value="<?php echo $service['path']?>/attach/<?php echo $owner?>/'+fileName+'"/><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE">';
+															code += '<!--[if !IE]> <--><object type="audio/x-pn-realaudio-plugin" data="<?php echo $service['path']?>/attach/<?php echo $owner?>/'+fileName+'" width="'+width+'" height="'+height+'" ><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE"></object><!--> <![endif]--></object>';			
 														*/
 														}
 														
 														if (code == undefined || code == '') {
-															document.getElementById('previewSelected').innerHTML = "<table width=\"100%\" height=\"100%\"><tr><td valign=\"middle\" align=\"center\"><?=_t('미리보기')?></td></tr></table>";
+															document.getElementById('previewSelected').innerHTML = "<table width=\"100%\" height=\"100%\"><tr><td valign=\"middle\" align=\"center\"><?php echo _t('미리보기')?></td></tr></table>";
 															return true;
 														}
 														
@@ -574,7 +574,7 @@ function printEntryFileList($attachments, $param) {
 														
 														return false;
 														} catch (e) {
-															document.getElementById('previewSelected').innerHTML = "<table width=\"100%\" height=\"100%\"><tr><td valign=\"middle\" align=\"center\"><?=_t('미리보기')?></td></tr></table>";	
+															document.getElementById('previewSelected').innerHTML = "<table width=\"100%\" height=\"100%\"><tr><td valign=\"middle\" align=\"center\"><?php echo _t('미리보기')?></td></tr></table>";	
 															alert(e.message);
 															return true;
 														}
@@ -862,8 +862,8 @@ function printEntryFileList($attachments, $param) {
 														uploaderStr = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
 															+ 'width="0" height="0"'
 															+ 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
-															+ '<param name="movie" value="<?=$service['path']?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="uploadPath=<?=$param['uploadPath']?>&labelingPath=<?=$param['labelingPath']?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" />'
-															+ '<embed id="uploader2" src="<?=$service['path']?>/script/uploader/uploader.swf" flashvars="uploadPath=<?=$param['uploadPath']?>&labelingPath=<?=$param['labelingPath']?>&maxSize=<?=$maxSize?>&sessionName=TSSESSION&sessionValue=<?=$_COOKIE['TSSESSION']?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
+															+ '<param name="movie" value="<?php echo $service['path']?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="uploadPath=<?php echo $param['uploadPath']?>&labelingPath=<?php echo $param['labelingPath']?>&maxSize=<?php echo $maxSize?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION']?>" />'
+															+ '<embed id="uploader2" src="<?php echo $service['path']?>/script/uploader/uploader.swf" flashvars="uploadPath=<?php echo $param['uploadPath']?>&labelingPath=<?php echo $param['labelingPath']?>&maxSize=<?php echo $maxSize?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION']?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
 														
 														if (hasRightVersion) {
 															writeCode(uploaderStr);
