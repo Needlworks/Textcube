@@ -540,7 +540,7 @@ function printEntryFileList($attachments, $param) {
 					}
 					
 					if((new RegExp("\\.(mp3)$", "gi").exec(fileName))) {
-						var str = getEmbedCode("<?=$service['path']?>/script/jukebox/flash/mini.swf?__TT__="+(Math.random()*1000),"100%","100%", "jukeBox0Flash","#FFFFFF", "sounds=<?=$service['path']?>/attach/<?=$owner?>/"+fileName, "false"); 
+						var str = getEmbedCode("<?=$service['path']?>/script/jukebox/flash/mini.swf","100%","100%", "jukeBox0Flash","#FFFFFF", "sounds=<?=$service['path']?>/attach/<?=$owner?>/"+fileName+"&autoplay=false", "false"); 
 						writeCode(str, 'previewSelected');
 						return false;
 					}
