@@ -13,7 +13,7 @@ function refreshRSS($owner) {
 
 	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$owner/{$blog['logo']}")) {
 		$logoInfo = getimagesize(ROOT."/attach/$owner/{$blog['logo']}");
-		$channel['url'] = $defaultURL."/attach/".$owner."/".$blog['logo'];
+		$channel['url'] = $serviceURL."/attach/".$owner."/".$blog['logo'];
 		$channel['width'] = $logoInfo[0];
 		$channel['height'] = $logoInfo[1];
 	}
