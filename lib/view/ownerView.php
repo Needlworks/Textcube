@@ -520,7 +520,7 @@ function printEntryFileList($attachments, $param) {
 														}
 														
 														if((new RegExp("\\.(mp3)$", "gi").exec(fileName))) {
-															var str = getEmbedCode("<?php echo $service['path'];?>/script/jukebox/flash/mini.swf?__TT__="+(Math.random()*1000),"100%","100%", "jukeBox0Flash","#FFFFFF", "sounds=<?php echo $service['path'];?>/attach/<?php echo $owner;?>/"+fileName, "false"); 
+															var str = getEmbedCode("<?php echo $service['path'];?>/script/jukebox/flash/mini.swf","100%","100%", "jukeBox0Flash","#FFFFFF", "sounds=<?php echo $service['path'];?>/attach/<?php echo $owner;?>/"+fileName+"&autoplay=false", "false");
 															writeCode(str, 'previewSelected');
 															return false;
 														}
@@ -535,22 +535,20 @@ function printEntryFileList($attachments, $param) {
 														}
 														
 														if((new RegExp("\\.(mov)$", "gi").exec(fileName))) {			
-															code = '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="'+width+'" height="'+height+'"><param name="src" value="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'"/><param name="controller" value="true"><param name="scale" value="Aspect">';
-															code += '<!--[if !IE]> <--><object type="video/quicktime" data="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" width="'+width+'" height="'+height+'" showcontrols="true" TYPE="video/quicktime" scale="Aspect" nomenu="true"><param name="showcontrols" value="true"><param name="scale" value="ToFit"></object><!--> <![endif]--></object>';
-															
+															code = '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="'+width+'" height="'+height+'"><param name="src" value="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'"/><param name="controller" value="true"><param name="autoplay" value="false"><param name="scale" value="Aspect">';
+															code += '<!--[if !IE]> <--><object type="video/quicktime" data="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" width="'+width+'" height="'+height+'" showcontrols="true" TYPE="video/quicktime" scale="Aspect" nomenu="true"><param name="showcontrols" value="true"><param name="autoplay" value="false"><param name="scale" value="ToFit"></object><!--> <![endif]--></object>';
 															writeCode(code,'previewSelected');
-															
 															return false;
 														}
-														
 													
-														if((new RegExp("\\.(mp2|wma|mid|midi|mpg|wav)$", "gi").exec(fileName))) {
+														if((new RegExp("\\.(mp2|wma|mid|midi|mpg|wav|avi|mp4)$", "gi").exec(fileName))) {
 															code ='<object width="'+width+'" height="'+height+'" classid="CLSID:22D6F312-B0F6-11D0-94AB-0080C74C7E95" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701" standby="Loading for you" type="application/x-oleobject" align="middle">';		
 															code +='<param name="FileName" value="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'">';
 															code +='<param name="ShowStatusBar" value="False">';
 															code +='<param name="DefaultFrame" value="mainFrame">';
-															code +='<param name="showControls" value="false">';
-															code +='<embed type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/" src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" align="middle" width="'+width+'" height="'+height+'" showControls="false" defaultframe="mainFrame" showstatusbar="false"></embed>';
+															code +='<param name="autoplay" value="false">';
+															code +='<param name="showControls" value="true">';
+															code +='<embed type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/" src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" align="middle" width="'+width+'" height="'+height+'" showControls="true" defaultframe="mainFrame" showstatusbar="false" autoplay="false"></embed>';
 															code +='</object>';
 															
 															writeCode(code,'previewSelected');
