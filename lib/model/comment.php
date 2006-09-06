@@ -405,6 +405,20 @@ function trashComment($owner, $id, $entry, $password) {
 	return false;
 }
 
+function revertComment($owner, $id, $entry, $password) {
+	global $database;
+	if (!doesHaveOwnership()) {
+		return false;
+	}
+	$sql = "update {$database['prefix']}Comments set isFiltered = 0 where owner = $owner and id = $id and entry = $entry";
+	$result = mysql_query($sql);
+	if (mysql_affected_rows() > 0) {
+		updateCommentsOfEntry($owner, $entry);
+		return true;
+	}
+	return false;
+}
+
 function getRecentComments($owner) {
 	global $skinSetting, $database;
 	$comments = array();

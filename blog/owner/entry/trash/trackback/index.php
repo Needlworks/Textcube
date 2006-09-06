@@ -106,7 +106,45 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 										alert(e.message);
 									}
 								}
+
+								function revertTrackback(id) {
+									if (!confirm("<?php echo _t('선택된 글걸기를 복원합니다. 계속 하시겠습니까?');?>"))
+										return;
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trash/trackback/revert/" + id);
+									request.onSuccess = function() {
+										document.getElementById('list-form').submit();
+									}
+									request.onError = function () {
+										alert("<?php echo _t('글걸기를 삭제하지 못했습니다.');?>");
+									}
+									request.send();
+								}
 								
+								function revertTrackbacks() {
+									try {
+										if (!confirm("<?php echo _t('선택된 글걸기를 복원합니다. 계속 하시겠습니까?');?>"))
+											return false;
+										var oElement;
+										var targets = '';
+										for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
+											oElement = document.getElementById('list-form').elements[i];
+											if ((oElement.name == "entry") && oElement.checked) {
+												targets+=oElement.value+'~*_)';
+											}
+										}
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/trash/trackback/revert/");
+										request.onSuccess = function() {
+											document.getElementById('list-form').submit();
+										}
+										request.onError = function () {
+											alert("<?php echo _t('글걸기를 삭제하지 못했습니다.');?>");
+										}
+										request.send("targets=" + targets);
+									} catch(e) {
+										alert(e.message);
+									}
+								}
+
 								function checkAll(checked) {
 									for (i = 0; document.getElementById('list-form').elements[i]; i++) {
 										if (document.getElementById('list-form').elements[i].name == "entry") {
@@ -234,6 +272,7 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 											<th class="category"><span class="text"><?php echo _t('분류');?></span></th>
 											<th class="title"><span class="text"><?php echo _t('제목');?></span></th>
 											<th class="ip"><acronym title="Internet Protocol">ip</acronym></th>
+											<th class="delete"><span class="text"><?php echo _t('복원');?></span></th>
 											<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
 										</tr>
 									</thead>
@@ -310,6 +349,9 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	}
 ?>
 												<a href="<?php echo $blogURL;?>/owner/entry/trash/trackback?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 트랙백 목록을 보여줍니다.');?>"><span class="text"><?php echo $trackback['ip'];?></span></a>
+											</td>
+											<td class="revert">
+												<a class="revert-button button" href="<?php echo $blogURL;?>/owner/entry/trash/trackback/revert/<?php echo $trackback['id'];?>" onclick="revertTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 트랙백을 복원합니다.');?>"><span class="text"><?php echo _t('복원');?></span></a>
 											</td>
 											<td class="delete">
 												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trash/trackback/delete/<?php echo $trackback['id'];?>" onclick="deleteTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 트랙백을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>

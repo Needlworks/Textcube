@@ -69,7 +69,41 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 									}
 									request.send("targets=" + targets);
 								}
+
+								function revertComment(id) {
+									if (!confirm("<?php echo _t('선택된 댓글을 복원합니다. 계속 하시겠습니까?');?>"))
+										return;
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trash/comment/revert/" + id);
+									request.onSuccess = function () {
+										document.getElementById('list-form').submit();
+									}
+									request.onError = function () {
+										alert("<?php echo _t('댓글을 복원하지 못했습니다.');?>");
+									}
+									request.send();
+								}
 								
+								function revertComments() {	
+									if (!confirm("<?php echo _t('선택된 댓글을 복원합니다. 계속 하시겠습니까?');?>"))
+										return false;
+									var oElement;
+									var targets = '';
+									for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
+										oElement = document.getElementById('list-form').elements[i];
+										if ((oElement.name == "entry") && oElement.checked) {
+											targets += oElement.value +'~*_)';
+										}
+									}
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/trash/comment/revert/");
+									request.onSuccess = function() {
+										document.getElementById('list-form').submit();
+									}
+									request.onError = function () {
+										alert("<?php echo _t('댓글을 복원하지 못했습니다.');?>");
+									}
+									request.send("targets=" + targets);
+								}
+
 								function checkAll(checked) {
 									for (i = 0; document.getElementById('list-form').elements[i]; i++) {
 										if (document.getElementById('list-form').elements[i].name == "entry") {
@@ -241,6 +275,7 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 											<th class="name"><span class="text"><?php echo _t('이름');?></span></th>
 											<th class="content"><span class="text"><?php echo _t('내용');?></span></th>
 											<th class="ip"><acronym title="Internet Protocol">ip</acronym></th>
+											<th class="revert"><span class="text"><?php echo _t('복원');?></span></th>
 											<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
 										</tr>
 									</thead>
@@ -326,6 +361,9 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	}
 ?>
 												<a href="<?php echo $blogURL;?>/owner/entry/trash/comment?ip=<?php echo urlencode(escapeJSInAttribute($comment['ip']));?>" title="<?php echo _t('이 IP로 등록된 댓글 목록을 보여줍니다.');?>"><?php echo $comment['ip'];?></a>
+											</td>
+											<td class="revert">
+												<a class="revert-button button" href="<?php echo $blogURL;?>/owner/entry/trash/comment/revert/<?php echo $comment['id'];?>" onclick="revertComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 복원합니다.');?>"><span class="text"><?php echo _t('복원');?></span></a>
 											</td>
 											<td class="delete">
 												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trash/comment/delete/<?php echo $comment['id'];?>" onclick="deleteComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
