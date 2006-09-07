@@ -92,45 +92,6 @@ function printFilterBox($mode, $title) {
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								function edit(caller, table ,column,  field) {			
-									/*
-									var target 	= document.getElementById(field) ;
-									var oldValue = target.value;
-									if(caller.innerHTML == "<?php echo _t('완료');?>")
-									{
-										
-									}
-									 
-									caller.innerHTML = "<?php echo _t('완료');?>";
-									
-									target.select();
-									
-									target.onkeydown = function() {
-										if (event.keyCode == '13') {
-											target.blur();
-										}
-									}
-									
-									target.onblur=function() {
-										param = '?table=' 	+ table;
-										param += '&column=' + column;
-										param += '&newValue=' 	+ encodeURI(target.value);
-										param += '&oldValue=' 	+ encodeURI(oldValue);
-															
-										if(	target.value != oldValue) {
-											var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/filter/modify/" + param);
-											request.onSuccess = function() {
-												caller.innerHTML = "<?php echo _t('수정');?>";
-												this.onblur = '';
-												this.onkeydown = '';
-											}
-											request.send();
-									
-											return false;
-										} 
-									}
-									*/
-								}
 								
 								function changeColor(caller, color) {
 									var target 	= document.getElementById(field) ;
@@ -219,64 +180,6 @@ function printFilterBox($mode, $title) {
 									}
 								}
 								
-								/* deprecate
-								function add(target, table, column, field) {
-									var target = document.getElementById(target);
-									try {
-										tr = document.createElement("tr");
-										tr.className ="rowLink";
-										td 			= document.createElement("td");
-										input 		= document.createElement("input");
-										
-										input.id    = "filterById3";
-										input.type	= "text";
-										input.style.width = "70px";
-										input.style.borderStyle = 'none';
-										input.style.borderColor = '#FFFFFF';
-										input.value = field.value;
-										
-										td.appendChild(input);		
-										tr.appendChild(td);
-												
-										td = document.createElement("td");
-										
-										td.className = "rowLink";
-										
-										td.border=1;
-										
-										a = document.createElement("div");
-										
-										text = document.createTextNode("<?php echo _t('수정');?>");		
-										a.appendChild(text);		
-										
-										td.appendChild(a);
-										tr.appendChild(td);
-										
-										td = document.createElement("td");
-										text = document.createTextNode("<?php echo _t('삭제');?>");
-										td.appendChild(text);		
-										tr.appendChild(td);
-										
-										target.appendChild(tr);
-										field.value = "";
-										field.select();
-										
-										alert(target.innerHTML);
-									} catch (e) {
-										alert(e.message+"  "+e.name);
-									}
-								}
-								*/
-<?php
-/*/if (!@is_null($history)) {
-
-								window.addEventListener("load", execLoadFunction, false);
-								function execLoadFunction() {
-									var target = document.getElementById('<?php echo $history;?>');
-									target.select();
-								}
-}*/
-?>
 							//]]>
 						</script>
 						
