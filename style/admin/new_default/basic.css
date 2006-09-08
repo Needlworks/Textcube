@@ -33,25 +33,22 @@ body
 
 dl
 {
-	clear                            : both;
 	position                         : relative;
 }
 
- dt
- {
- 	/*background-color                 : #F2F2F2;*/
- 	color                            : #333333;
- 	left                             : 0;
-	padding-right                    : 10px;
+dl dt
+{
+	font-weight                      : bold;
+	left                             : 0;
+	line-height                      : 2em;
 	position                         : absolute;
-	text-align                       : right;
 	top                              : 0;
-	width                            : 170px;
 }
 
-dd select
+dl dd
 {
-	margin                           : 0 3px 0 0;
+	line-height                      : 2em;
+	margin-left                      : 100px;
 }
 
 em

@@ -2,6 +2,32 @@
 
 /* Common *****************************************************************************************/
 
+fieldset
+{
+	border-top                       : 1px solid #DDDDDD;
+	padding-top                      : 1px;
+}
+
+dl
+{
+	border-top                       : 1px solid #DDDDDD;
+}
+
+dl dt
+{
+	font-weight                      : normal;
+	padding                          : 5px 3px 4px 3px;
+	text-align                       : right;
+	width                            : 170px;
+}
+
+dl dd
+{
+	line-height                      : 1.2em;
+	margin-left                      : 190px;
+	padding                          : 5px 3px 4px 3px;
+}
+
 #sub-menu-etc
 {
 	background-image                 : none !important;
@@ -26,21 +52,45 @@
 
 /* Basic *****************************************************************************************/
 
-#part-setting-basic .section dl dd .input-text
+#part-setting-basic dl
+{
+	border-top                       : 1px solid #DDDDDD;
+}
+
+#part-setting-basic dl dt
+{
+	font-weight                      : normal;
+	padding                          : 5px 3px 4px 3px;
+	text-align                       : right;
+	width                            : 170px;
+}
+
+#part-setting-basic dl dd
+{
+	line-height                      : 1.2em;
+	margin-left                      : 190px;
+	padding                          : 5px 3px 4px 3px;
+}
+
+#part-setting-basic dl dd .input-text
 {
 	width                            : 300px;
 }
 
-#part-setting-basic .section dl dd textarea
+#part-setting-basic dl dd textarea
 {
-	margin-top                       : 8px;
 	width                            : 300px;
 }
 
-#part-setting-profile .section dl dd img
+#part-setting-profile dl dd
+{
+	line-height                      : 2em;
+}
+
+#part-setting-profile dl dd .input-file
 {
 	display                          : block;
-	margin-top                       : 8px;
+	font-size                        : 1em;
 }
 
 #multi-form dl dd .input-text
@@ -54,6 +104,52 @@
 	padding-bottom                   : 3px;
 	padding-top                      : 5px;
 	line-height                      : 1.5em;
+}
+
+#pathDomain
+{
+	margin-left                      : 3px;
+}
+
+/* Account ***************************************************************************************/
+
+#part-setting-account fieldset
+{
+	background-image                 : none !important;
+	border-top                       : none !important;
+	padding-bottom                   : 20px;
+}
+
+#part-setting-account dl
+{
+	border-top                       : none !important;
+}
+	
+#part-setting-account dl dt
+{
+	font-weight                      : bold;
+	padding                          : 5px 3px 4px 3px;
+	text-align                       : right;
+	left                             : 0;
+	width                            : 170px;
+}
+
+#part-setting-account dl dd
+{
+	line-height                      : 1.2em;
+	margin-left                      : 190px;
+	padding                          : 5px 3px 4px 3px;
+}
+
+#part-setting-account dl dd .input-text
+{
+	border                           : 1px solid #999999;
+	width                            : 170px;
+}
+
+#part-setting-account em
+{
+	color                            : #FF0000;
 }
 
 /* Etc *******************************************************************************************/
@@ -166,4 +262,219 @@
 #part-setting-filter .button-box .add-button
 {
 	margin                           : 0 auto;
+}
+
+/* Data ******************************************************************************************/
+
+#part-data-correct div.data-inbox,
+#part-data-optimize div.data-inbox,
+#part-data-backup div.data-inbox,
+#part-data-restore div.data-inbox,
+#part-data-remove div.data-inbox
+{
+	position                         : relative;
+}
+
+#part-data-correct div.data-inbox .image,
+#part-data-optimize div.data-inbox .image,
+#part-data-backup div.data-inbox .image,
+#part-data-restore div.data-inbox .image,
+#part-data-remove div.data-inbox .image
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #536576;
+	color                            : #000000;
+	cursor                           : pointer;
+	font-family                      : Verdana, Tahoma, sans-serif;
+	font-size                        : 90%;
+	height                           : 49px;
+	margin                           : 0 20px 10px 15px;
+	padding                          : 10px 10px 7px 10px;
+	text-align                       : center;
+	width                            : 80px;
+}
+#part-data-correct div.data-inbox .explain,
+#part-data-optimize div.data-inbox .explain,
+#part-data-backup div.data-inbox .explain,
+#part-data-restore div.data-inbox .explain,
+#part-data-remove div.data-inbox .explain
+{
+	background-color                 : transparent !important;
+	margin                           : 10px 0 0 0 !important;
+	padding                          : 0 !important;
+	position                         : absolute;
+	left                             : 140px;
+	top                              : 0;
+}
+
+#part-data-correct div.data-inbox .explain a:link,
+#part-data-correct div.data-inbox .explain a:visited,
+#part-data-optimize div.data-inbox .explain a:link,
+#part-data-optimize div.data-inbox .explain a:visited,
+#part-data-backup div.data-inbox .explain a:link,
+#part-data-backup div.data-inbox .explain a:visited,
+#part-data-restore div.data-inbox .explain a:link,
+#part-data-restore div.data-inbox .explain a:visited,
+#part-data-remove div.data-inbox .explain a:link,
+#part-data-remove div.data-inbox .explain a:visited
+{
+	color                            : #666666 !important;
+	text-decoration                  : none !important;
+}
+
+#part-data-correct div.data-inbox .explain a:hover,
+#part-data-correct div.data-inbox .explain a:active,
+#part-data-optimize div.data-inbox .explain a:hover,
+#part-data-optimize div.data-inbox .explain a:active,
+#part-data-backup div.data-inbox .explain a:hover,
+#part-data-backup div.data-inbox .explain a:active,
+#part-data-restore div.data-inbox .explain a:hover,
+#part-data-restore div.data-inbox .explain a:active,
+#part-data-remove div.data-inbox .explain a:hover,
+#part-data-remove div.data-inbox .explain a:active
+{
+	color                            : #44444 !important;
+	text-decoration                  : none !important;
+}
+
+
+/* dialog ---------------------------------------------------------------------------------------*/
+.part .dialog
+{
+	background-color                 : #FFFFFF;
+	border                           : 5px solid #BCD2E5;
+	margin-left                      : 10px;
+	padding                          : 10px;
+	width                            : 550px;
+}
+
+.part .dialog h3
+{
+	border-bottom                    : 1px dotted #CCCCCC;
+	display                          : block !important;
+	font-size                        : 1em;
+	padding                          : 9px 10px 15px 10px;
+}
+
+.part .dialog .message-body
+{
+	border-bottom                    : 1px dotted #CCCCCC;
+	padding-bottom                   : 4px;
+}
+
+.part .dialog .message-body .explain
+{
+	border-bottom                    : 1px dotted #CCCCCC;
+	font-family                      : µ¸¿ò, Dotum, ±¼¸², Gulim, sans-serif;
+	font-size                        : 90%;
+	padding                          : 5px 5px 3px 5px;
+}
+
+.part .dialog .message-body .explain em,
+.part .dialog .message-body .explain strong
+{
+	color                            : #FF0000;
+	font-weight                      : normal;
+}
+
+.part .dialog .message-body .explain .asterisk
+{
+	display                          : none;
+}
+
+.part .dialog .message
+{
+	padding                          : 20px 10px;
+	text-align                       : center;
+}
+
+.part .dialog .message-body .selection
+{
+	background-color                 : #EEEEEE;
+	margin                           : 0 3px;
+	padding                          : 10px 10px 6px 10px;
+	text-align                       : center;
+}
+
+.part .dialog .message-body .selection .select-yes,
+.part .dialog .message-body .selection .select-no,
+#part-data-restore .dialog .selection #select-server,
+#part-data-restore .dialog .selection #select-upload,
+#part-data-restore .dialog .selection #select-web
+{
+	display                          : inline;
+}
+
+#part-data-restore .dialog .selection #select-correct
+{
+	margin-top                       : 5px;
+	text-align                       : center;
+}
+
+.part .dialog #uploadBackup,
+.part .dialog #remoteBackup,
+.part .dialog #admin-password
+{
+	margin-top                       : 5px;
+	padding                          : 5px;
+	text-align                       : center;
+}
+
+.part .dialog #remoteBackup input.input-text
+{
+	margin-bottom                    : 2px;
+	padding                          : 2px;
+	vertical-align                   : middle;
+	width                            : 350px;
+}
+
+.part .dialog #admin-password input.input-text
+{
+	margin-bottom                    : 2px;
+	padding                          : 2px;
+}
+
+.part .dialog .button-box
+{
+	padding-top                      : 20px;
+}
+
+.part .dialog .button-box a
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : auto;
+	line-height                      : auto;
+	padding                          : 10px 10px 8px 10px;
+	vertical-align                   : middle;
+}
+
+/* system dialog --------------------------------------------------------------------------------*/
+.part .system-dialog
+{
+	background-color                 : #FFFFFF;
+	border                           : 5px solid #000000;
+	margin-left                      : 10px;
+	padding                          : 10px;
+	width                            : 550px;
+}
+
+.part .system-dialog h4
+{
+	display                          : block !important;
+}
+
+.part .system-dialog .message-sub
+{
+	border                           : 1px solid #EEEEEE;
+	margin-top                       : 10px;
+	padding                          : 10px;
+}
+
+.part .system-dialog .progressBar
+{
+	background-color                 : #1C6D9C !important;
 }

@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+/* Account ***************************************************************************************/
+
+#part-setting-account fieldset
+{
+	background-image                 : none !important;
+	border-top                       : none !important;
+	padding                          : 10px 0 20px 0;
+}
+
+#part-setting-account dl
+{
+	border-top                       : none !important;
+}
+	
+#part-setting-account dl dt
+{
+	margin-left                      : -180px;
+}

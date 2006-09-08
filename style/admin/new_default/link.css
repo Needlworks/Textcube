@@ -79,14 +79,24 @@
 #part-link-add div.data-inbox dl dt,
 #part-link-edit div.data-inbox dl dt
 {
-	padding-right                    : 0;
-	width                            : 120px;
+	font-weight                      : normal;
+	line-height                      : 2em;
+	padding                          : 3px 12px 3px 0;
+	text-align                       : right;
+	width                            : 100px !important;
+}
+
+#part-link-add div.data-inbox dl dd,
+#part-link-edit div.data-inbox dl dd
+{
+	margin-left                      : 110px;
+	padding                          : 3px 0;
 }
 
 #part-link-add div.data-inbox dl dd .input-text,
 #part-link-edit div.data-inbox dl dd .input-text
 {
-	width                            : 400px;
+	width                            : 420px;
 }
 
 #part-link-add .button-box,
@@ -98,7 +108,7 @@
 	background-repeat                : repeat-x;
 	clear                            : both;
 	margin                           : 0 auto 150px auto;
-	padding                          : 12px 10px 10px 10px;
+	padding                          : 20px 10px 20px 10px;
 	width                            : 680px;
 }
 

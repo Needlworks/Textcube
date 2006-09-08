@@ -246,7 +246,7 @@ if ($service['type'] != 'single') {
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="save()"><span class="text"><?php echo _t('변경하기');?></span></a>
+										<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="save(); return false;" />
 									</div>
 								</form>
 								
@@ -270,7 +270,7 @@ if ($service['type'] != 'single') {
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<a class="save-button button" href="#void" onclick="savePwd()"><span class="text"><?php echo _t('변경하기');?></span></a>
+										<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="savePwd(); return false;" />
 									</div>
 								</form>
 							</div>

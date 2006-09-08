@@ -175,6 +175,7 @@ table.data-inbox tbody tr td.ip
 #part-post-notify .main-explain-box
 {
 	margin-bottom                    : 40px;
+	text-align                       : left;
 }
 
 #part-post-notify #search-form
@@ -242,15 +243,27 @@ table.data-inbox tbody tr td.ip
 #property-box
 {
 	background-image                 : none;
-	border-top                       : none;
+	border                           : none;
 	width                            : 560px;
+}
+
+#property-box dl
+{
+	border-bottom                       : 1px solid #DDDDDD
 }
 
 #property-box dl dt
 {
 	color                            : #6C90C3;
 	font-weight                      : bold;
-	width                            : 150px;
+	padding                          : 6px 0;
+	text-align                       : right;
+	width                            : 90px;
+}
+
+#property-box dl dd
+{
+	padding                          : 6px 0;
 }
 
 #body-id-line dd p

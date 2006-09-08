@@ -149,7 +149,6 @@
 
 #part-center-plugins .data-subbox
 {
-	height                           : 2.5em;
 	margin-bottom                    : 50px;
 	position                         : relative;
 }
@@ -161,14 +160,18 @@
 
 #part-center-plugins .data-subbox dl dt
 {
-	font-weight                      : bold;
-	width                            : auto;
+	width                            : 50px;
+}
+
+#part-center-plugins .data-subbox dl dd
+{
+	margin-left                      : 50px;
 }
 
 #activate-status-line
 {
 	right                            : 10px;
-	bottom                           : 0.6em;
+	top                              : 0.7em;
 	position                         : absolute;
 }
 
