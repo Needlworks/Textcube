@@ -10,7 +10,7 @@ foreach ($commentList['items'] as $item) {
 	$itemsView .= $itemView;
 }
 dress('rplist_rep', $itemsView, $commentListView);
-dress('rplist_conform', htmlspecialchars($commentList['title']), $commentListView);
+dress('rplist_conform', htmlspecialchars(fireEvent('ViewCommentListTitle', $commentList['title'])), $commentListView);
 dress('rplist_count', count($commentList['items']), $commentListView);
 dress('rplist', $commentListView, $view);
 ?>
