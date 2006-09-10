@@ -459,7 +459,7 @@ table.data-inbox tbody tr td .new-icon span
 
 #part-post-comment table.data-inbox thead tr .ip
 {
-	width                            : 95px;
+	width                            : 120px;
 }
 
 /* comment table body ---------------------------------------------------------------------------*/
@@ -507,7 +507,7 @@ table.data-inbox tbody tr td .new-icon span
 
 #part-post-trackback table.data-inbox thead tr .ip
 {
-	width                            : 95px;
+	width                            : 120px;
 }
 
 /* trackback table body -----------------------------------------------------------------------*/
