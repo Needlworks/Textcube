@@ -4,10 +4,11 @@ $IV = array(
 	'POST' => array(
 		'visibility' => array('int', 0, 3),
 		'category' => array('int', 'default' => 0),
-		'location' => array('string', 'default' => '/'),
-		'tag' => array('string', 'default' => ''),
 		'title' => array('string'),
 		'content' => array('string'),
+		'permalink' => array('string', 'default' => ''),
+		'location' => array('string', 'default' => '/'),
+		'tag' => array('string', 'default' => ''),
 		'acceptComment' => array(array('0', '1'), 'default' => '0'),
 		'acceptTrackback' => array(array('0', '1'), 'default' => '0'),
 		'published' => array('int', 0, 'default' => 1)
@@ -22,6 +23,7 @@ if ($entry = getEntry($owner, $suri['id'])) {
 	$entry['tag'] = empty($_POST['tag']) ? '' : $_POST['tag'];
 	$entry['title'] = $_POST['title'];
 	$entry['content'] = $_POST['content'];
+	$entry['slogan'] = $_POST['permalink'];
 	$entry['acceptComment'] = empty($_POST['acceptComment']) ? 0 : 1;
 	$entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 	$entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
