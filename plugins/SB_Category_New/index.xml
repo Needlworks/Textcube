@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+	<title xml:lang="en">Default Category New</title>
+	<title xml:lang="ko">기본 카테고리 New</title>
+	<link>http://www.tattertools.com/</link>
+	<version>1.0</version>
+	<description xml:lang="en">Default Category New Plugin</description>
+	<description xml:lang="ko">기본 카테고리 New 플러그인</description>
+	<license>GPL</license>
+	<author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
+	<author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>
+	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
+	<scope>sidebar</scope>
+	<requirements>
+	<tattertools>1.1</tattertools>
+	</requirements>
+	<binding>
+		<sidebar class="category" title="카테고리" handler="SB_Category_New" />
+		<tag name="SKIN_head_end" handler="SB_Category_New_Head" />
+		<config dataValHandler="">
+			<window width="400" height="200" />
+			<fieldset legend="보기 설정">
+				<field title="출력 형식" name="viewForm" type="radio">
+					<op value="0" checked="checked">닫힘</op>
+					<op value="1">펼침</op>
+				</field>
+			</fieldset>
+		</config>
+	</binding>
+</plugin>
