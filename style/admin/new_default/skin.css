@@ -383,6 +383,11 @@
 	padding                          : 1px 0 1px 22px;
 }
 
+#part-sidebar-plugins table.data-inbox tbody tr td.config .config-none-icon
+{
+	cursor                           : default;
+}
+
 #part-sidebar-plugins table.data-inbox tbody tr td.status a
 {
 	background-position              : left center;
@@ -430,6 +435,35 @@
 	right                            : 10px;
 	top                              : 0.7em;
 	position                         : absolute;
+}
+
+/* sidebar order control */
+#part-sidebar-order .data-inbox
+{
+	background-color                 : #EEEEEE;
+	margin                           : 0 auto 50px auto;
+	padding                          : 10px;
+	text-align                       : center;
+	width                            : 320px;
+}
+
+#part-sidebar-order .data-inbox table
+{
+	margin                           : 0 auto;
+	width                            : 300px;
+}
+
+#part-sidebar-order .data-inbox table tbody tr td
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #DDDDDD;
+	padding                          : 10px;
+}
+
+#part-sidebar-order .data-inbox table tbody tr td .plugin-name
+{
+	font-weight                      : bold;
+	margin-bottom                    : 5px;
 }
 
 #part-plugin-more

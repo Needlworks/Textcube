@@ -48,9 +48,10 @@ if (!empty($owner)) {
 				unset($center);
 			}
 			if ($xmls->doesExist('/plugin/binding/sidebar')) {
+				$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
 				foreach ($xmls->selectNodes('/plugin/binding/sidebar') as $sidebar) {
 					if (!empty($sidebar['.attributes']['handler'])) {
-						array_push($sidebarMappings, array('plugin' => $plugin, 'class' => $sidebar['.attributes']['class'], 'title' => $sidebar['.attributes']['title'], 'handler' => $sidebar['.attributes']['handler']));
+						array_push($sidebarMappings, array('plugin' => $plugin, 'class' => $sidebar['.attributes']['class'], 'title' => $sidebar['.attributes']['title'], 'display' => $title, 'handler' => $sidebar['.attributes']['handler']));
 					}
 				}
 				unset($sidebar);
@@ -131,14 +132,14 @@ function handleCenters($mapping) {
 	return $target;
 }
 
-function handleSidebars( & $obj) {
+function cutSidebars(& $sval, & $obj) {
 	global $service, $sidebarMappings, $pluginURL, $configMappings, $configVal;
 	
-	$content_temp = '';
-
+	$replacer = '';
+	
 	foreach ($sidebarMappings as $mapping) {
 		include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
-		$content_temp .= $obj->sidebarItem;
+		$content_temp = $obj->sidebarItem;
 
 		if (preg_match_all('/\[##_(\w+)_##\]/', $content_temp, $matches)) {
 			foreach ($matches[1] as $tag) {
@@ -173,8 +174,81 @@ function handleSidebars( & $obj) {
 				}
 			}
 		}
+		$obj->sidebarElement[$mapping['plugin']] = array($mapping['display'], $content_temp);
+		$replacer .= "[##_sidebar_module_{$obj->inlineSidebarCount}_##]";
+		$obj->inlineSidebarCount++;
 	}
-	$obj->sidebarItem = $content_temp;
+	
+	dress('sidebar_rep_element', $replacer, $obj->sidebar);
+}
+
+// 내장형 사이드바 모듈 속성 배열.
+function getBasicSidebarList() {
+	$innerSidebarModules = array();
+	
+	$innerSidebarModules['%Category%'] = array(
+						"title" => _t('스킨 내장형 분류'),
+						"description" => _t('스킨에 내장되어 있는 분류 사이드바 모듈입니다.')
+						);
+	$innerSidebarModules['%CategoryList%'] = array(
+						"title" => _t('스킨 내장형 분류(XHTML)'),
+						"description" => _t('스킨에 내장되어 있는 XHTML형 분류 사이드바 모듈입니다.')
+						);
+	$innerSidebarModules['%Calendar%'] = array(
+						"title" => _t('스킨 내장형 달력'),
+						"description" => _t('스킨에 내장되어 있는 달력 사이드바 모듈입니다.')
+						);
+	$innerSidebarModules['%TagList%'] = array(
+						"title" => _t('스킨 내장형 태그 목록'),
+						"description" => _t('스킨에 내장되어 있는 태그 목록 사이드바 모듈입니다.')
+						);
+	$innerSidebarModules['%RecentPosts%'] = array(
+						"title" => _t('스킨 내장형 최근 글 목록'),
+						"description" => _t('스킨에 내장되어 있는 최근 등록글 목록 사이드바 모듈입니다.')
+						);
+	$innerSidebarModules['%RecentTrackback%'] = array(
+						"title" => _t('스킨 내장형 최근 글걸기 목록'),
+						"description" => _t('스킨에 내장되어 있는 최근 글걸기 목록 사이드바 모듈입니다.')
+						);
+	$innerSidebarModules['%RecentArchive%'] = array(
+						"title" => _t('스킨 내장형 최근 저장소 목록'),
+						"description" => _t('스킨에 내장되어 있는 최근 저장소 목록 사이드바 모듈입니다.')
+						);
+	$innerSidebarModules['%Link%'] = array(
+						"title" => _t('스킨 내장형 링크 목록'),
+						"description" => _t('스킨에 내장되어 있는 링크 사이드바 모듈입니다.')
+						);
+	$innerSidebarModules['%Counter%'] = array(
+						"title" => _t('스킨 내장형 카운터'),
+						"description" => _t('스킨에 내장되어 있는 카운터 사이드바 모듈입니다.')
+						);
+	
+	return $innerSidebarModules;
+}
+
+function handleSidebars(& $sval, & $obj) {
+	cutSidebars($sval, $obj);
+	$orderKeys = getSidebarModuleOrder($obj);
+	for ($i=0; $i<count($orderKeys); $i++) {
+		dress("sidebar_module_{$i}", $obj->sidebarElement[$orderKeys[$i]][1], $obj->sidebar);
+	}
+	dress("sidebar", $obj->sidebar, $sval);
+}
+
+function getSidebarModuleOrder(& $obj) {
+	global $skinSetting;
+	
+	if (!is_object($obj))
+		$obj = new Skin($skinSetting['skin']);
+	
+	$orderKeys = getUserSetting('sidebarOrder');
+	if (is_null($orderKeys)) {
+		$sidebarOrder = array_keys($obj->sidebarElement);
+		setUserSetting("sidebarOrder", implode("|", $sidebarOrder));
+		return $sidebarOrder;
+	} else {
+		return explode("|", $orderKeys);
+	}
 }
 
 function handleDataSet( $plugin , $DATA ){

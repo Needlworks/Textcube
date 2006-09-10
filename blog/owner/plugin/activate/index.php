@@ -1,13 +1,33 @@
 <?php
 define('ROOT', '../../../..');
 $IV = array(
-	'GET' => array(
-		'name' => array('directory' , 'default' => null)
+	'POST' => array(
+		'name' => array('directory', 'default' => null),
+		'scope' => array('string', 'default' => 'global')
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
-if (!empty($_GET['name']) && activatePlugin($_GET['name']))
+
+if ($_POST['scope'] == "sidebar-basic") {
+	$_POST['name'] = "%{$_POST['name']}%";
+	$sidebarOrder = explode("|", getUserSetting('sidebarOrder'));
+	if (!in_array($_POST['name'], $sidebarOrder))
+		array_push($sidebarOrder, $_POST['name']);
+	setUserSetting('sidebarOrder', implode("|", $sidebarOrder));
 	respondResultPage(0);
-respondResultPage(1);
+} else {
+	$xmls = new XMLStruct();
+	$xmls->open(file_get_contents(ROOT . "/plugins/{$_POST['name']}/index.xml"));
+	if ($xmls->getValue('/plugin/scope') == "sidebar") {
+		$sidebarOrder = explode("|", getUserSetting('sidebarOrder'));
+		if (!in_array($_POST['name'], $sidebarOrder))
+			array_push($sidebarOrder, $_POST['name']);
+		setUserSetting('sidebarOrder', implode("|", $sidebarOrder));
+	}
+	
+	if (!empty($_POST['name']) && activatePlugin($_POST['name']))
+		respondResultPage(0);
+	respondResultPage(1);
+}
 ?>

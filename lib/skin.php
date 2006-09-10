@@ -58,7 +58,10 @@ class Skin {
 	var $pageTitle;
 	var $pageError;
 	var $aux;
-
+	var $sidebar;
+	var $sidebarElement;
+	var $inlineSidebarCount = 0;
+	
 	function Skin($name) {
 		global $service, $blogURL;
 		global $owner;
@@ -86,67 +89,123 @@ class Skin {
 		$sval = replaceSkinTag($sval, 'head');
 		$sval = replaceSkinTag($sval, 'body');
 		handleTags($sval);
-
-		list($sval, $this->sidebarTitles) = cutSkinTag($sval, 'sidebar_titles');
-		list($sval, $this->sidebarItem) = cutSkinTag($sval, 'sidebar_rep');
-		handleSidebars($this);
-		dress('sidebar_rep', $this->sidebarItem, $sval);
+		
+		list($sval, $this->sidebar) = $this->cutSkinTag($sval, 'sidebar');
+		list($this->sidebar, $this->sidebarElement) = $this->cutSkinTagForSidebar($this->sidebar, 'sidebar_element');
+		list($this->sidebar, $this->sidebarTitles) = $this->cutSkinTag($this->sidebar, 'sidebar_titles');
+		list($this->sidebar, $this->sidebarItem) = $this->cutSkinTag($this->sidebar, 'sidebar_rep_element');
+		handleSidebars($sval, $this);
 
 		$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
-		list($sval, $this->listItem) = cutSkinTag($sval, 'list_rep');
-		list($sval, $this->list) = cutSkinTag($sval, 'list');
-		list($sval, $this->commentListItem) = cutSkinTag($sval, 'rplist_rep');
-		list($sval, $this->commentList) = cutSkinTag($sval, 'rplist');
-		list($sval, $this->rss_rep) = cutSkinTag($sval, 'rss_rep');
-		list($sval, $this->rss_date) = cutSkinTag($sval, 'rss_date');
-		list($sval, $this->rss) = cutSkinTag($sval, 'rss');
-		list($sval, $this->keywordItem) = cutSkinTag($sval, 'keyword_rep');
-		list($sval, $this->keywordGroup) = cutSkinTag($sval, 'keyword_date_rep');
-		list($sval, $this->keyword) = cutSkinTag($sval, 'keyword');
-		list($sval, $this->noticeItem) = cutSkinTag($sval, 'notice_rep');
-		list($sval, $this->recentNoticeItem) = cutSkinTag($sval, 'rct_notice_rep');
-		list($sval, $this->recentNotice) = cutSkinTag($sval, 'rct_notice');
-		list($sval, $this->locativeEntry) = cutSkinTag($sval, 'local_info_rep');
-		list($sval, $this->locativeSpot) = cutSkinTag($sval, 'local_spot_rep');
-		list($sval, $this->locative) = cutSkinTag($sval, 'local');
-		list($sval, $this->guestSubItem) = cutSkinTag($sval, 'guest_reply_rep');
-		list($sval, $this->guestItem) = cutSkinTag($sval, 'guest_rep');
-		list($sval, $this->guestGuest) = cutSkinTag($sval, 'guest_form');
-		list($sval, $this->guestMember) = cutSkinTag($sval, 'guest_member');
-		list($sval, $this->guest) = cutSkinTag($sval, 'guest');
-		list($sval, $this->entryProtected) = cutSkinTag($sval, 'article_protected');
-		list($sval, $this->management) = cutSkinTag($sval, 'ad_div');
-		list($sval, $this->trackbackCountNone) = cutSkinTag($sval, 'tb_none');
-		list($sval, $this->trackbackCountSingle) = cutSkinTag($sval, 'tb_single');
-		list($sval, $this->trackbackCountMultiple) = cutSkinTag($sval, 'tb_multiple');
-		list($sval, $this->commentCountNone) = cutSkinTag($sval, 'rp_none');
-		list($sval, $this->commentCountSingle) = cutSkinTag($sval, 'rp_single');
-		list($sval, $this->commentCountMultiple) = cutSkinTag($sval, 'rp_multiple');
-		list($sval, $this->trackback) = cutSkinTag($sval, 'tb_rep');
-		list($sval, $this->trackbacks) = cutSkinTag($sval, 'tb');
-		list($sval, $this->tagLabel) = cutSkinTag($sval, 'tag_label');
-		list($sval, $this->siteTagItem) = cutSkinTag($sval, 'tag_rep');
-		list($sval, $this->siteTag) = cutSkinTag($sval, 'tag');
-		list($sval, $this->randomTags) = cutSkinTag($sval, 'random_tags');
-		list($sval, $this->commentSubItem) = cutSkinTag($sval, 'rp2_rep');
-		list($sval, $this->commentItem) = cutSkinTag($sval, 'rp_rep');
-		list($sval, $this->commentGuest) = cutSkinTag($sval, 'rp_guest');
-		list($sval, $this->commentMember) = cutSkinTag($sval, 'rp_member');
-		list($sval, $this->commentForm) = cutSkinTag($sval, 'rp_form');
-		list($sval, $this->comment) = cutSkinTag($sval, 'rp');
-		list($sval, $this->pageError) = cutSkinTag($sval, 'page_error');
-		list($sval, $this->entry) = cutSkinTag($sval, 'article_rep');
-		list($sval, $this->pagingItem) = cutSkinTag($sval, 'paging_rep');
-		list($sval, $this->paging) = cutSkinTag($sval, 'paging');
-		list($sval, $this->archive) = cutSkinTag($sval, 'archive_rep');
-		list($sval, $this->search) = cutSkinTag($sval, 'search');
-		list($sval, $this->recentEntry) = cutSkinTag($sval, 'rctps_rep');
-		list($sval, $this->recentComments) = cutSkinTag($sval, 'rctrp_rep');
-		list($sval, $this->recentTrackback) = cutSkinTag($sval, 'rcttb_rep');
-		list($sval, $this->s_link_rep) = cutSkinTag($sval, 'link_rep');
-		list($sval, $this->skin) = cutSkinTag($sval, 't3');
-		list($sval, $this->pageTitle) = cutSkinTag($sval, 'page_title');
+		list($sval, $this->listItem) = $this->cutSkinTag($sval, 'list_rep');
+		list($sval, $this->list) = $this->cutSkinTag($sval, 'list');
+		list($sval, $this->commentListItem) = $this->cutSkinTag($sval, 'rplist_rep');
+		list($sval, $this->commentList) = $this->cutSkinTag($sval, 'rplist');
+		list($sval, $this->rss_rep) = $this->cutSkinTag($sval, 'rss_rep');
+		list($sval, $this->rss_date) = $this->cutSkinTag($sval, 'rss_date');
+		list($sval, $this->rss) = $this->cutSkinTag($sval, 'rss');
+		list($sval, $this->keywordItem) = $this->cutSkinTag($sval, 'keyword_rep');
+		list($sval, $this->keywordGroup) = $this->cutSkinTag($sval, 'keyword_date_rep');
+		list($sval, $this->keyword) = $this->cutSkinTag($sval, 'keyword');
+		list($sval, $this->noticeItem) = $this->cutSkinTag($sval, 'notice_rep');
+		list($sval, $this->recentNoticeItem) = $this->cutSkinTag($sval, 'rct_notice_rep');
+		list($sval, $this->recentNotice) = $this->cutSkinTag($sval, 'rct_notice');
+		list($sval, $this->locativeEntry) = $this->cutSkinTag($sval, 'local_info_rep');
+		list($sval, $this->locativeSpot) = $this->cutSkinTag($sval, 'local_spot_rep');
+		list($sval, $this->locative) = $this->cutSkinTag($sval, 'local');
+		list($sval, $this->guestSubItem) = $this->cutSkinTag($sval, 'guest_reply_rep');
+		list($sval, $this->guestItem) = $this->cutSkinTag($sval, 'guest_rep');
+		list($sval, $this->guestGuest) = $this->cutSkinTag($sval, 'guest_form');
+		list($sval, $this->guestMember) = $this->cutSkinTag($sval, 'guest_member');
+		list($sval, $this->guest) = $this->cutSkinTag($sval, 'guest');
+		list($sval, $this->entryProtected) = $this->cutSkinTag($sval, 'article_protected');
+		list($sval, $this->management) = $this->cutSkinTag($sval, 'ad_div');
+		list($sval, $this->trackbackCountNone) = $this->cutSkinTag($sval, 'tb_none');
+		list($sval, $this->trackbackCountSingle) = $this->cutSkinTag($sval, 'tb_single');
+		list($sval, $this->trackbackCountMultiple) = $this->cutSkinTag($sval, 'tb_multiple');
+		list($sval, $this->commentCountNone) = $this->cutSkinTag($sval, 'rp_none');
+		list($sval, $this->commentCountSingle) = $this->cutSkinTag($sval, 'rp_single');
+		list($sval, $this->commentCountMultiple) = $this->cutSkinTag($sval, 'rp_multiple');
+		list($sval, $this->trackback) = $this->cutSkinTag($sval, 'tb_rep');
+		list($sval, $this->trackbacks) = $this->cutSkinTag($sval, 'tb');
+		list($sval, $this->tagLabel) = $this->cutSkinTag($sval, 'tag_label');
+		list($sval, $this->siteTagItem) = $this->cutSkinTag($sval, 'tag_rep');
+		list($sval, $this->siteTag) = $this->cutSkinTag($sval, 'tag');
+		list($sval, $this->randomTags) = $this->cutSkinTag($sval, 'random_tags');
+		list($sval, $this->commentSubItem) = $this->cutSkinTag($sval, 'rp2_rep');
+		list($sval, $this->commentItem) = $this->cutSkinTag($sval, 'rp_rep');
+		list($sval, $this->commentGuest) = $this->cutSkinTag($sval, 'rp_guest');
+		list($sval, $this->commentMember) = $this->cutSkinTag($sval, 'rp_member');
+		list($sval, $this->commentForm) = $this->cutSkinTag($sval, 'rp_form');
+		list($sval, $this->comment) = $this->cutSkinTag($sval, 'rp');
+		list($sval, $this->pageError) = $this->cutSkinTag($sval, 'page_error');
+		list($sval, $this->entry) = $this->cutSkinTag($sval, 'article_rep');
+		list($sval, $this->pagingItem) = $this->cutSkinTag($sval, 'paging_rep');
+		list($sval, $this->paging) = $this->cutSkinTag($sval, 'paging');
+		list($sval, $this->archive) = $this->cutSkinTag($sval, 'archive_rep');
+		list($sval, $this->search) = $this->cutSkinTag($sval, 'search');
+		list($sval, $this->recentEntry) = $this->cutSkinTag($sval, 'rctps_rep');
+		list($sval, $this->recentComments) = $this->cutSkinTag($sval, 'rctrp_rep');
+		list($sval, $this->recentTrackback) = $this->cutSkinTag($sval, 'rcttb_rep');
+		list($sval, $this->s_link_rep) = $this->cutSkinTag($sval, 'link_rep');
+		list($sval, $this->skin) = $this->cutSkinTag($sval, 't3');
+		list($sval, $this->pageTitle) = $this->cutSkinTag($sval, 'page_title');
 		$this->outter = $sval;
+	}
+	
+	function cutSkinTag($contents, $tag) {
+		$tagSize = strlen($tag) + 4;
+		$begin = strpos($contents, "<s_$tag>");
+		if ($begin === false)
+			return array($contents, '');
+		$end = strpos($contents, "</s_$tag>", $begin + 5);
+		if ($end === false)
+			return array($contents, '');
+		$inner = substr($contents, $begin + $tagSize, $end - $begin - $tagSize);
+		$outter = substr($contents, 0, $begin) . "[##_{$tag}_##]" . substr($contents, $end + $tagSize + 1);
+		return array($outter, $inner);
+	}
+	
+	function cutSkinTagForSidebar($contents, $tag) {
+		$sidebarElement = array();
+		$innerSidebarModules = getBasicSidebarList();
+		$tempList = split("<s_$tag>|</s_$tag>", $contents);
+		
+		for ($i=0; $i<count($tempList); $i++) {
+			if (($i % 2) == 1) {
+				if (ereg("\[##_category_##\]", $tempList[$i])) {
+					// 사이드바 플러그인의 id는 디렉토리명이기 때문에 %를 사용할 수 없다($IV 체크에 의거).
+					// 따라서 내장 모듈에 %를 사용하면 unique 값이 된다(=중복선언의 위험이 없다).
+					$id = "%Category%";
+				} else if (ereg("\[##_category_list_##\]", $tempList[$i])) {
+					$id = "%CategoryList%";
+				} else if (ereg("\[##_calendar_##\]", $tempList[$i])) {
+					$id = "%Calendar%";
+				} else if (ereg("<s_random_tags>", $tempList[$i])) {
+					$id = "%TagList%";
+				} else if (ereg("<s_rctps_rep>", $tempList[$i])) {
+					$id = "%RecentPosts%";
+				} else if (ereg("<s_rcttb_rep>", $tempList[$i])) {
+					$id = "%RecentTrackback%";
+				} else if (ereg("<s_archive_rep>", $tempList[$i])) {
+					$id = "%RecentArchive%";
+				} else if (ereg("<s_link_rep>", $tempList[$i])) {
+					$id = "%Link%";
+				} else if (ereg("\[##_count_today_##\]", $tempList[$i])) {
+					$id = "%Counter%";
+				} else {
+					$tempList[$i] = "<s_{$tag}>{$tempList[$i]}</s_{$tag}>";
+					continue;
+				}
+				
+				$sidebarElement[$id][0] = $innerSidebarModules[$id]['title'];
+				$sidebarElement[$id][1] = $tempList[$i];
+				$tempList[$i] = "[##_sidebar_module_{$this->inlineSidebarCount}_##]";
+				$this->inlineSidebarCount++;
+			}
+		}
+		
+		return array(implode("", $tempList), $sidebarElement);
 	}
 }
 
@@ -162,24 +221,24 @@ class KeywordSkin {
 		if (!$sval = file_get_contents($filename))
 			respondErrorPage("KeywordSkin");
 		$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
-		list($sval, $this->keylogItem) = cutSkinTag($sval, 'blog_rep');
-		list($sval, $this->keylog) = cutSkinTag($sval, 'blog');
-		list($sval, $this->skin) = cutSkinTag($sval, 't3');
+		list($sval, $this->keylogItem) = $this->cutSkinTag($sval, 'blog_rep');
+		list($sval, $this->keylog) = $this->cutSkinTag($sval, 'blog');
+		list($sval, $this->skin) = $this->cutSkinTag($sval, 't3');
 		$this->outter = $sval;
 	}
-}
-
-function cutSkinTag($contents, $tag) {
-	$tagSize = strlen($tag) + 4;
-	$begin = strpos($contents, "<s_$tag>");
-	if ($begin === false)
-		return array($contents, '');
-	$end = strpos($contents, "</s_$tag>", $begin + 5);
-	if ($end === false)
-		return array($contents, '');
-	$inner = substr($contents, $begin + $tagSize, $end - $begin - $tagSize);
-	$outter = substr($contents, 0, $begin) . "[##_{$tag}_##]" . substr($contents, $end + $tagSize + 1);
-	return array($outter, $inner);
+	
+	function cutSkinTag($contents, $tag) {
+		$tagSize = strlen($tag) + 4;
+		$begin = strpos($contents, "<s_$tag>");
+		if ($begin === false)
+			return array($contents, '');
+		$end = strpos($contents, "</s_$tag>", $begin + 5);
+		if ($end === false)
+			return array($contents, '');
+		$inner = substr($contents, $begin + $tagSize, $end - $begin - $tagSize);
+		$outter = substr($contents, 0, $begin) . "[##_{$tag}_##]" . substr($contents, $end + $tagSize + 1);
+		return array($outter, $inner);
+	}
 }
 
 function removeAllTags($contents) {
