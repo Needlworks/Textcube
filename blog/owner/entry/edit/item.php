@@ -588,24 +588,10 @@ printEntryFileUploadButton($entry['id']);
 									<div id="power-section" class="section">
 										<div id="power-container" class="container">
 											<dl id="permalink-line" class="line">
-<?php
-if (defined('__TATTERTOOLS_POST__') || isset($_GET['draft'])) {
-?>
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
 												<dd>
 													<samp><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="input-text" name="permalink" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
 												</dd>
-<?php
-} else {
-?>
-												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
-												<dd>
-													<span class="disabled"><?php echo htmlspecialchars($entry['slogan']);?></span>
-													<input type="hidden" id="permalink" class="input-text" name="permalink" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
-												</dd>
-<?php
-}
-?>
 											</dl>
 											<dl id="date-line" class="line">
 												<dt><span class="label"><?php echo _t('등록일자');?></span></dt>
