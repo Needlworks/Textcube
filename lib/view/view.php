@@ -355,29 +355,6 @@ function getCommentView($entryId, & $skin) {
 	
 	$slash = ($commentSubItem['homepage']{strlen($commentSubItem['homepage']) - 1} == '/' ? '' : '/');
 	
-	// 블로그 아이콘의 onError 이벤트 자바스크립트 생성.
-	if (file_exists(ROOT."/skin/{$skinSetting['skin']}/image/icon_guest_default.png")) {
-		$onErrorJs = "this.src='{$service['path']}/skin/{$skinSetting['skin']}/image/icon_guest_default.png'";
-	} else if (file_exists(ROOT."/image/icon_guest_default.png")) {
-		$onErrorJs = "this.src='{$service['path']}/image/icon_guest_default.png'";
-	} else {
-		$onErrorJs = "this.parentNode.removeChild(this)";
-	}
-	
-	// 비밀 모드의 블로그 아이콘 onError 이벤트 자바스크립트 생성.
-	if (file_exists(ROOT."/skin/{$skinSetting['skin']}/image/icon_guest_secret.png")) {
-		$onErrorJsSecret = "this.src='{$service['path']}/skin/{$skinSetting['skin']}/image/icon_guest_secret.png'";
-	} else if (file_exists(ROOT."/image/icon_guest_secret.png")) {
-		$onErrorJsSecret = "this.src='{$service['path']}/image/icon_guest_secret.png'";
-	} else {
-		$onErrorJsSecret = "this.parentNode.removeChild(this)";
-	}
-	
-	// 관리자가 로그인한 상태라면 비밀 모드는 필요없다.
-	if ($authorized)
-		$onErrorJsSecret = $onErrorJs;
-	
-	$blogIconSize = getUserSetting('blogIconSize', 0);
 	foreach ($comments as $commentItem) {
 		$commentItemView = ($isComment ? $skin->commentItem : $skin->guestItem);
 		if (!dress($prefix1 . '_rep_id', "comment{$commentItem['id']}", $commentItemView))
@@ -393,11 +370,6 @@ function getCommentView($entryId, & $skin) {
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentSubItem['name']), $commentSubItem), $commentSubItemView);
 			} else {
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentSubItem['name']) . '</a>', $commentSubItem), $commentSubItemView);
-			}
-			if ($blogIconSize != '0') {
-				// 비밀 댓글인 경우, 관리자 로그인 상태가 아니면 블로그 아이콘을 익명 아이콘으로 바꿔준다.
-				$onErrorScript = $commentSubItem['secret'] == 1 ? $onErrorJsSecret : $onErrorJs;
-				dress($prefix1 . '_rep_icon', fireEvent(($isComment ? 'ViewCommentIcon' : 'ViewGuestCommentIcon'), "<img class=\"tt-icon\" src=\"{$commentSubItem['homepage']}{$slash}index.gif\" width=\"$blogIconSize\" height=\"$blogIconSize\" onerror=\"{$onErrorScript}\" />", $commentSubItem), $commentSubItemView);
 			}
 			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
 			dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentSubItem['written'])), $commentSubItemView);
@@ -416,11 +388,6 @@ function getCommentView($entryId, & $skin) {
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentItem['name']), $commentItem), $commentItemView);
 		} else {
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentItem['name']) . '</a>', $commentItem), $commentItemView);
-		}
-		if ($blogIconSize != '0') {
-			// 비밀 댓글인 경우, 관리자 로그인 상태가 아니면 블로그 아이콘을 익명 아이콘으로 바꿔준다.
-			$onErrorScript = $commentItem['secret'] == 1 ? $onErrorJsSecret : $onErrorJs;
-			dress($prefix1 . '_rep_icon', fireEvent(($isComment ? 'ViewCommentIcon' : 'ViewGuestCommentIcon'), "<img class=\"tt-icon\" src=\"{$commentItem['homepage']}{$slash}index.gif\" width=\"$blogIconSize\" height=\"$blogIconSize\" onerror=\"{$onErrorScript}\" />", $commentItem), $commentItemView);
 		}
 		dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense(htmlspecialchars($commentItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentItem), $commentItemView);
 		dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentItem['written'])), $commentItemView);

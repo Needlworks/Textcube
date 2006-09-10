@@ -427,21 +427,6 @@ if (file_exists(ROOT."/attach/$owner/index.gif")) {
 												<p><?php echo _t('블로그 아이콘은 댓글과 방명록에서 사용됩니다. 크기는 16×16 이상, 48×48 이하까지 지원합니다.');?></p>
 											</dd>
 										</dl>
-<?php
-$blogIconSize = getUserSetting('blogIconSize', '0');
-?>
-	
-										<dl id="blogicon-size-line" class="line">
-											<dt><span class="label"><?php echo _t('블로그 아이콘을');?></span></dt>
-											<dd>
-												<select name="blogIconSize">
-													<option value="0"<?php echo $blogIconSize == '0' ? ' selected="selected"' : '';?>><?php echo _t('출력하지 않음');?></option>
-													<option value="16"<?php echo $blogIconSize == '16' ? ' selected="selected"' : '';?>><?php echo _t('16×16 크기로 출력');?></option>
-													<option value="32"<?php echo $blogIconSize == '32' ? ' selected="selected"' : '';?>><?php echo _t('32×32 크기로 출력');?></option>
-													<option value="48"<?php echo $blogIconSize == '48' ? ' selected="selected"' : '';?>><?php echo _t('48×48 크기로 출력');?></option>
-												</select>
-											</dd>
-										</dl>
 									</fieldset>
 								</div>
 								

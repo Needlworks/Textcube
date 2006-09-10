@@ -79,10 +79,6 @@ if (!empty($_FILES['blogIcon']['tmp_name'])) {
 	}
 }
 
-if (in_array($_POST['blogIconSize'], array("0", "16", "32", "48"))) {
-	setUserSetting("blogIconSize", $_POST['blogIconSize']);
-}
-
 if (!empty($errorText)) {
 	respondErrorPage(implode("<br />\n", $errorText), _t('확인'), $_SERVER['HTTP_REFERER']);
 } else {
