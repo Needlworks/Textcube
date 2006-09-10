@@ -337,7 +337,7 @@
 }
 
 /* list table body ------------------------------------------------------------------------------*/
-#part-skin-plugins table.data-inbox tbody tr td.status .active-class
+#part-sidebar-plugins table.data-inbox tbody tr td.status .active-class
 {
 	background-image                 : url("./image/icon_plugin.gif");
 	background-position              : left bottom;
@@ -347,7 +347,7 @@
 	padding-left                     : 16px;
 }
 
-#part-skin-plugins table.data-inbox tbody tr td.status .inactive-class
+#part-sidebar-plugins table.data-inbox tbody tr td.status .inactive-class
 {
 	background-image                 : url("./image/icon_plugin.gif");
 	background-position              : left -1px;
