@@ -1,0 +1,1052 @@
+@charset "utf-8";
+
+/* Common ****************************************************************************************/
+
+h3
+{
+	display                          : none;
+}
+
+/* Editor ****************************************************************************************/
+
+#editor
+{
+	margin-left                      : 10px;
+	position                         : relative;
+}
+
+/* title ----------------------------------------------------------------------------------------*/
+#title-section
+{
+	margin                           : 0 20px 0 0;
+	padding                          : 5px 3px 5px 5px;
+	width                            : 658px;
+}
+
+#title-section dl
+{
+	border                           : none;
+	margin-bottom                    : 6px;
+}
+
+#title-section dl dt
+{
+	color                            : #666666;
+	font-weight                      : bold;
+	padding                          : 5px 0 3px 0;
+	width                            : 70px !important;
+}
+
+#title-section dl dd
+{
+	margin-left                      : 80px;
+}
+
+#title-section dl dd select
+{
+	vertical-align                   : middle;
+	width                            : 160px;
+}
+
+#title-line dd .input-text
+{
+	border                           : 1px solid #999999;
+	vertical-align                   : middle;
+	width                            : 560px;
+}
+
+#category-line
+{
+	margin-bottom                    : 3px !important;
+}
+
+#category-line dt
+{
+	padding                          : 5px 0 3px 0;
+}
+
+#category-line dd div
+{
+	display                          : inline;
+}
+
+#category-line dd .radio
+{
+	vertical-align                   : middle;
+}
+
+/* command buttons ------------------------------------------------------------------------------*/
+#textarea-section
+{
+	background-color                 : #F2F2F2;
+	clear                            : both;
+	margin                           : 0 20px 0 0;
+	padding                          : 0 0 5px 0;
+	width                            : 650px;
+}
+
+#editor-palette
+{
+	height                           : 28px;
+}
+
+#editor-palette .title
+{
+	display                          : none;
+}
+
+#editor-palette .font-relatives
+{
+	border                           : none;
+	clear                            : none;
+	float                            : left;
+	padding                          : 2px 0 0 2px;
+}
+
+#editor-palette .mode
+{
+	border                           : none;
+	clear                            : none;
+	float                            : left;
+	padding                          : 2px 0 0 5px;
+}
+
+#editor-palette .font-style,
+#editor-palette .paragraph,
+#editor-palette .special
+{
+	background-image                 : url("./image/edit/dotted_vertical.gif");
+	background-position              : left 10px;
+	background-repeat                : no-repeat;
+	border                           : none;
+	clear                            : none;
+	float                            : left;
+	padding                          : 2px 0 0 0;
+}
+
+#editor-palette dl dd
+{
+	padding                          : 3px 0 0 7px;
+}
+
+#editor-palette .button
+{
+	background-image                 : none;
+	float                            : left;
+	height                           : 20px;
+	margin                           : 4px 0 0 0;
+	padding                          : 0;
+	width                            : 20px;
+}
+
+#editor-palette .button span
+{
+	display                          : none !important;
+}
+
+#editor-palette .button:link,
+#editor-palette .button:visited
+{
+	background-position              : left top;
+}
+
+#editor-palette .button:hover,
+#editor-palette .button:active
+{
+	background-position              : left bottom;
+}
+
+#editor-palette .active-class
+{
+	background-position              : left bottom !important;
+}
+
+#editor-palette .inactive-class
+{
+	background-position              : left top !important;
+}
+
+#editor-palette .inactive-class:hover,
+#editor-palette .inactive-class:active
+{
+	background-position              : left bottom !important;
+}
+
+#fontFamilyChanger
+{
+	height                           : 19px;
+	margin                           : 0;
+	width                            : 116px;
+}
+
+#fontFamilyChanger option
+{
+	background-color                 : #EFEFEF;
+}
+
+#fontFamilyChanger option.head-option
+{
+	background-color                 : #FFFFFF;
+}
+
+#fontSizeChanger
+{
+	height                           : 19px;
+	margin                           : 0;
+	width                            : 50px;
+}
+
+#fontSizeChanger option
+{
+	background-color                 : #EFEFEF;
+}
+
+#fontSizeChanger option.head-option
+{
+	background-color                 : #FFFFFF;
+}
+
+#indicatorBold
+{
+	background-image                 : url("./image/edit/setBold.gif") !important;
+}
+
+#indicatorItalic
+{
+	background-image                 : url("./image/edit/setItalic.gif") !important;
+}
+
+#indicatorUnderline
+{
+	background-image                 : url("./image/edit/setUnderLine.gif") !important;
+}
+
+#indicatorStrike
+{
+	background-image                 : url("./image/edit/setLineThrough.gif") !important;
+}
+
+#indicatorColorPalette
+{
+	background-image                 : url("./image/edit/setColor.gif") !important;
+}
+
+#indicatorMarkPalette
+{
+	background-image                 : url("./image/edit/setMark.gif") !important;
+}
+
+#indicatorTextBox
+{
+	background-image                 : url("./image/edit/textBox.gif") !important;
+}
+
+#indicatorRemoveFormat
+{
+	background-image                 : url("./image/edit/set_remove.gif") !important;
+}
+
+#indicatorJustifyLeft
+{
+	background-image                 : url("./image/edit/setAlignLeft.gif") !important;
+}
+
+#indicatorJustifyCenter
+{
+	background-image                 : url("./image/edit/setAlignCenter.gif") !important;
+}
+
+#indicatorJustifyRight
+{
+	background-image                 : url("./image/edit/setAlignRight.gif") !important;
+}
+
+#indicatorUnorderedList
+{
+	background-image                 : url("./image/edit/set_ul.gif") !important;
+}
+
+#indicatorOrderedList
+{
+	background-image                 : url("./image/edit/set_ol.gif") !important;
+}
+
+#indicatorOutdent
+{
+	background-image                 : url("./image/edit/set_outdent.gif") !important;
+}
+
+#indicatorIndent
+{
+	background-image                 : url("./image/edit/set_indent.gif") !important;
+}
+
+#indicatorBlockquote
+{
+	background-image                 : url("./image/edit/set_blockquote.gif") !important;
+}
+
+#indicatorCodeBlock
+{
+	background-image                 : url("./image/edit/setCode.gif") !important;
+}
+
+#indicatorHtmlBlock
+{
+	background-image                 : url("./image/edit/setHtml.gif") !important;
+}
+
+#indicatorCreateLink
+{
+	background-image                 : url("./image/edit/setLink.gif") !important;
+}
+
+#indicatorMediaBlock
+{
+	background-image                 : url("./image/edit/setEmbed.gif") !important;
+}
+
+#indicatorFlashBlock
+{
+	background-image                 : url("./image/edit/setFlash.gif") !important;
+}
+
+#indicatorMoreLessBlock
+{
+	background-image                 : url("./image/edit/setMoreLess.gif") !important;
+}
+
+#indicatorMode
+{
+	background-image                 : url("./image/edit/set_switch.gif") !important;
+	height                           : 13px !important;
+	margin-top                       : 8px !important;
+	width                            : 42px !important;
+}
+
+.mode dd
+{
+	padding                          : 3px 0 0 2px !important;
+}
+
+/* command buttons' sub box ---------------------------------------------------------------------*/
+#colorPalette
+{
+	background-color                 : #FFFFFF;
+	position                         : absolute;
+	padding                          : 2px;
+	top                              : 88px;
+	left                             : 80px;
+	z-index                          : 100;
+	border                           : 1px solid #CCCCCC;
+	width                            : 336px;
+}
+
+#markPalette
+{
+	background-color                 : #FFFFFF;
+	position                         : absolute;
+	padding                          : 2px;
+	top                              : 88px;
+	left                             : 100px;
+	z-index                          : 100;
+	border                           : 1px solid #CCCCCC;
+	width                            : 336px;
+}
+
+#textBox
+{
+	background-color                 : #FFFFFF;
+	position                         : absolute;
+	padding                          : 2px;
+	top                              : 88px;
+	left                             : 290px;
+	z-index                          : 100;
+	border                           : 1px solid #CCCCCC;
+	width                            : 80px;
+}
+
+#colorPalette table,
+#markPalette table,
+#textBox table
+{
+	border-collapse                  : collapse;
+	border-spacing                   : 0;
+	background-color                 : #FFFFFF;
+	margin                           : 0;
+	width                            : auto;
+}
+
+#colorPalette table tr td,
+#markPalette table tr td,
+#textBox table tr td
+{
+	border                           : none !important;
+	cursor                           : pointer;
+	height                           : 16px;
+	padding                          : 0 !important;
+	text-indent                      : -5000px;
+	width                            : 16px;
+}
+
+/* colors */
+.color-000000
+{
+	background-color                 : #000000;
+}
+
+.color-0000FF
+{
+	background-color                 : #0000FF;
+}
+
+.color-003366
+{
+	background-color                 : #003366;
+}
+
+.color-006699
+{
+	background-color                 : #006699;
+}
+
+.color-008000
+{
+	background-color                 : #008000;
+}
+
+.color-009966
+{
+	background-color                 : #009966;
+}
+
+.color-177FCD
+{
+	background-color                 : #177FCD;
+}
+
+.color-333333
+{
+	background-color                 : #333333;
+}
+
+.color-666699
+{
+	background-color                 : #666699;
+}
+
+.color-670787
+{
+	background-color                 : #670787;
+}
+
+.color-8E8E8E
+{
+	background-color                 : #8E8E8E;
+}
+
+.color-993366
+{
+	background-color                 : #993366;
+}
+
+.color-999966
+{
+	background-color                 : #999966;
+}
+
+.color-99CC66
+{
+	background-color                 : #99CC66;
+}
+
+.color-9B18C1
+{
+	background-color                 : #9B18C1;
+}
+
+.color-C1C1C1
+{
+	background-color                 : #C1C1C1;
+}
+
+.color-C9EDFF
+{
+	background-color                 : #C9EDFF;
+}
+
+.color-CC9900
+{
+	background-color                 : #CC9900;
+}
+
+.color-D0FF9D
+{
+	background-color                 : #D0FF9D;
+}
+
+.color-D41A01
+{
+	background-color                 : #D41A01;
+}
+
+.color-E4E4E4
+{
+	background-color                 : #E4E4E4;
+}
+
+.color-FAFFA9
+{
+	background-color                 : #FAFFA9;
+}
+
+.color-FF0000
+{
+	background-color                 : #FF0000;
+}
+
+.color-FF3399
+{
+	background-color                 : #FF3399;
+}
+
+.color-FF7635
+{
+	background-color                 : #FF7635;
+}
+
+.color-FF9900
+{
+	background-color                 : #FF9900;
+}
+
+.color-FFDAED
+{
+	background-color                 : #FFDAED;
+}
+
+/* textarea -------------------------------------------------------------------------------------*/
+#editor-textbox
+{
+	background-color                 : #F2F2F2;
+	border                           : 1px solid #999999;
+	clear                            : both;
+	text-align                       : center;
+}
+
+#editWindow
+{
+	border                           : none;
+	display                          : block;
+	height                           : 452px;
+	width                            : 648px;
+}
+
+#visualEditorWindow
+{
+	border                           : 1px solid #DDDDDD;
+	display                          : block;
+	height                           : 450px;
+	width                            : 648px;
+}
+
+#status-container
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/edit/resize_bar.gif");
+	background-position              : center top;
+	background-repeat                : no-repeat;
+	cursor                           : n-resize;
+	padding                          : 3px 5px 3px 5px;
+}
+
+#status-container span
+{
+	display                          : none;
+}
+
+#toolbox-container
+{
+	background-color                 : #F2F2F2;
+	line-height                      : 5px;
+	margin-top                       : 2px;
+	padding                          : 2px 5px;
+}
+
+/* property box --------------------------------------------------------------------------------*/
+.entry-editor-property
+{
+	background-color                 : #FFFFFF;
+	border                           : 2px solid #999999;
+	padding                          : 0 10px 10px 10px;
+	position                         : absolute;
+	left                             : 670px;
+	top                              : 9px;
+	width                            : 245px;
+}
+
+.entry-editor-property h4
+{
+	color                            : #000000;
+	display                          : block;
+	font-family                      : 굴림, Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-size                        : 0.9em;
+	font-weight                      : bold;
+	margin                           : 10px 0 5px 0;
+}
+
+.entry-editor-property .title
+{
+	color                            : #666666;
+	font-size                        : 0.9em;
+	font-weight                      : bold;
+	margin                           : 10px 0 3px 0;
+}
+
+.entry-editor-property dl
+{
+	clear                            : both;
+	padding-bottom                   : 1px;
+	position                         : relative;
+}
+
+.entry-editor-property dl dt
+{
+	border-bottom                    : 1px dashed #CCCCCC;
+	bottom                           : none !important;
+	color                            : #666666;
+	font-family                      : Arial, Tahoma, Verdana, sans-serif;
+	font-weight                      : normal !important;
+	margin-right                     : 0 !important;
+	padding                          : 6px 0 1px 0;
+	text-align                       : left !important;
+	left                             : 0;
+	position                         : absolute;
+	top                              : 0;
+	width                            : 150px !important;
+}
+
+.entry-editor-property dl dd
+{
+	float                            : none;
+	height                           : auto;
+	margin-left                      : 150px;
+	width                            : auto !important;
+}
+
+.entry-editor-property dl dd input.input-text
+{
+	border                           : 1px solid #92B5E8;
+	width                            : 90px !important;
+}
+
+.entry-editor-property dl dd select
+{
+	border                           : 1px solid #92B5E8;
+	width                            : 90px !important;
+}
+
+.entry-editor-property dl dd select.file-list
+{
+	height                           : 220px;
+	margin-bottom                    : 0;
+	width                            : 200px !important;
+}
+
+.entry-editor-property dl dd textarea
+{
+	border                           : 1px solid #92B5E8;
+	width                            : 108px !important;
+}
+
+.entry-editor-property dl.resample-property-box dd
+{
+	margin-left                      : 0;
+	padding                          : 5px 0 0 5px;
+}
+
+.entry-editor-property .button-box
+{
+	clear                            : both !important;
+	float                            : none !important;
+	margin                           : 0 0 0 auto !important;
+	padding-top                      : 10px;
+	text-align                       : right !important;
+}
+
+.entry-editor-property .button-box .button
+{
+	border                           : 1px solid #666666 !important;
+	background-color                 : #EEEEEE !important;
+	background-image                 : none !important;
+	display                          : inline !important;
+	float                            : none !important;
+	line-height                      : 1em;
+	padding                          : 6px 5px 3px 5px;
+	width                            : 70px !important;
+}
+
+.entry-editor-property .button-box .button:hover span
+{
+	color                            : #565656;
+	line-height                      : 1em;
+}
+
+.entry-editor-property preview-box
+{
+	clear                            : both;
+}
+
+.entry-editor-property .preview-box img
+{
+	border                           : 1px solid #000000;
+	margin-top                       : 5px;
+}
+
+/* tag and location -----------------------------------------------------------------------------*/
+#taglocal-section
+{
+	background-color                 : #F2F2F2 !important;
+	margin                           : 0 20px 5px 0;
+	padding                          : 4px 5px 3px 5px;
+	width                            : 640px !important;
+}
+
+#taglocal-section dl
+{
+	border                           : none;
+	position                         : relative;
+}
+
+#taglocal-section dl dt
+{
+	color                            : #6B90C3;
+	font-weight                      : bold;
+	left                             : 0;
+	line-height                      : 20px;
+	padding                          : 0;
+	position                         : absolute;
+	top                              : 0;
+	text-align                       : right;
+	width                            : 70px;
+}
+
+#taglocal-section dl dd
+{
+	margin-left                      : 80px;
+}
+
+#taglocal-section dl dd .input-text
+{
+	border                           : 1px solid #CCCCCC;
+	margin                           : -2px 0 5px 0;
+	vertical-align                   : middle;
+	width                            : 130px;
+}
+
+#taglocal-section dl dd ul
+{
+	line-height                      : 20px;
+}
+
+#taglocal-section dl dd ul li
+{
+	background-image                 : url("./image/comma.gif");
+	background-position              : right 10px;
+	background-repeat                : no-repeat;
+	display                          : inline;
+	margin-right                     : 5px;
+	padding                          : 0 4px 0 0;
+	vertical-align                   : middle;
+	white-space                      : pre;
+}
+
+#taglocal-section dl dd ul li.lastChild
+{
+	background-image                 : none;
+}
+
+/* upload ---------------------------------------------------------------------------------------*/
+#upload-section
+{
+	background-color                 : #F5F5F5;
+	margin                           : 5px 20px 2px 0;
+	position                         : relative;
+	width                            : 650px;
+}
+
+#upload-section h3
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url("./image/edit/bg_upload_head.png");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	display                          : block;
+	padding                          : 10px 10px 3px 10px;
+}
+
+#attachment-container
+{
+	position                         : relative;
+}
+
+#previewSelected
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #878787;
+	left                             : 12px;
+	position                         : absolute;
+	top                              : 10px;
+}
+
+#previewSelected span
+{
+	display                          : block;
+	margin                           : 40px auto 0 auto;
+	text-align                       : center;
+}
+
+#attachManagerSelectNest
+{
+	margin-left                      : 144px;
+	width                            : 415px;
+}
+
+#fileList
+{
+	height                           : 120px;
+	margin-top                       : 10px;
+	width                            : 393px !important;
+}
+
+#fileUploadNest
+{
+	height                           : 3em;
+	margin-left                      : 144px;
+	padding-top                      : 3px;
+	position                         : relative;
+	width                            : 390px;
+}
+
+#fileUploadNest iframe
+{
+	float                            : left;
+	margin-right                     : 3px;
+}
+
+#uploaderNest
+{
+	display                          : block;
+	margin-left                      : 136px;
+}
+
+#upload-section .button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url("./image/bg_button.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #777777;
+	font-size                        : 1em;
+	height                           : 2em;
+	line-height                      : 2em;
+	padding                          : 3px 8px;
+	vertical-align                   : middle;
+}
+
+#upload-section .button span
+{
+	background-color                 : transparent;
+	background-image                 : none;
+	padding                          : 0 !important;
+}
+
+#fileSize
+{
+	margin-top                       : 5px;
+	position                         : absolute;
+	right                            : 0;
+	top                              : 5px;
+}
+
+/* iframe */
+#body-editor-attachment
+{
+	background-color                 : #F5F5F5;
+}
+
+#body-editor-attachment .input-file
+{
+	font-size                        : 12px;
+}
+
+/* insert buttons */
+#insert-container
+{
+	position                         : absolute;
+	top                              : 36px;
+	right                            : 5px;
+	width                            : 100px;
+}
+
+#insert-container
+{
+	float                            : left;
+}
+
+#insert-container a
+{
+	background-repeat                : no-repeat;
+	float                            : left;
+	height                           : 25px;
+	margin                           : 2px;
+	width                            : 27px;
+}
+
+#insert-container a:link,
+#insert-container a:visited
+{
+	background-position              : left top;
+}
+
+#insert-container a:hover,
+#insert-container a:active
+{
+	background-position              : left bottom;
+}
+
+#insert-container a span
+{
+	display                          : none;
+}
+
+#insert-container .image-left
+{
+	background-image                 : url("./image/edit/attachAlignLeft2.gif");
+}
+
+#insert-container .image-center
+{
+	background-image                 : url("./image/edit/attachAlignCenter2.gif");
+}
+
+#insert-container .image-right
+{
+	background-image                 : url("./image/edit/attachAlignRight2.gif");
+}
+
+#insert-container .image-2center
+{
+	background-image                 : url("./image/edit/attachAlign2Center2.gif");
+}
+
+#insert-container .image-3center
+{
+	background-image                 : url("./image/edit/attachAlign3Center2.gif");
+}
+
+#insert-container .image-free
+{
+	background-image                 : url("./image/edit/attachAlignFree2.gif");
+}
+
+#insert-container .image-imazing
+{
+	background-image                 : url("./image/edit/attachAlignImazing2.gif");
+}
+
+#insert-container .image-sequence
+{
+	background-image                 : url("./image/edit/attachAlignSequence2.gif");
+}
+
+#insert-container .image-mp3
+{
+	background-image                 : url("./image/edit/attachMP32.gif");
+}
+
+#insert-container .image-podcast
+{
+	background-image                 : url("./image/edit/attachAlignPodcast2.gif");
+}
+
+/* power ----------------------------------------------------------------------------------------*/
+#power-section
+{
+	line-height                      : 17px;
+	margin                           : 0 20px 0 0x;
+	position                         : relative;
+	padding                          : 0 0 8px 0;
+	width                            : 650px;
+}
+
+#power-section dl
+{
+	border-top                       : 1px solid #DDDDDD;
+	position                         : relative;
+}
+
+#power-section dl dt
+{
+	border-right                     : 1px solid #EEEEEE;
+	font-weight                      : bold;
+	padding                          : 5px 0 3px 10px;
+	position                         : absolute;
+	text-align                       : left;
+	top                              : 0;
+	width                            : 110px;
+}
+
+#power-section dl dd
+{
+	padding                          : 5px 0 3px 0;
+	margin-left                      : 130px;
+}
+
+#power-section dl dd .input-text
+{
+	margin-left                      : 2px;
+	vertical-align                   : middle;
+}
+
+dl#permalink-line dd .input-text
+{
+	border                           : 1px solid #999999;
+	width                            : 250px;
+}
+
+dl#date-line dd div,
+dl#status-line dd div,
+dl#entrytype-line dd div,
+dl#power-line dd div
+{
+	display                          : inline;
+}
+
+dl#power-line
+{
+	border-bottom                    : 1px solid #DDDDDD !important;
+}
+
+/* button box -----------------------------------------------------------------------------------*/
+.one-button-box
+{
+	height                           : 23px;
+	margin                           : 20px auto 0 auto;
+	width                            : 114px;
+}
+
+.two-button-box
+{
+	height                           : 23px;
+	margin                           : 20px auto 0 auto;
+	width                            : 224px;
+}
+
+.three-button-box
+{
+	height                           : 23px;
+	margin                           : 20px auto 0 auto;
+	text-align                       : left !important;
+	width                            : 326px;
+}
