@@ -187,6 +187,8 @@ class Skin {
 					$id = "%RecentPosts%";
 				} else if (ereg("<s_rcttb_rep>", $tempList[$i])) {
 					$id = "%RecentTrackback%";
+				} else if (ereg("<s_rctrp_rep>", $tempList[$i])) {
+					$id = "%RecentComment%";
 				} else if (ereg("<s_archive_rep>", $tempList[$i])) {
 					$id = "%RecentArchive%";
 				} else if (ereg("<s_link_rep>", $tempList[$i])) {

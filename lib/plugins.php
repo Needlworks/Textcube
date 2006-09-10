@@ -210,6 +210,10 @@ function getBasicSidebarList() {
 						"title" => _t('스킨 내장형 최근 글걸기 목록'),
 						"description" => _t('스킨에 내장되어 있는 최근 글걸기 목록 사이드바 모듈입니다.')
 						);
+	$innerSidebarModules['%RecentComment%'] = array(
+						"title" => _t('스킨 내장형 최근 댓글 목록'),
+						"description" => _t('스킨에 내장되어 있는 최근 댓글 목록 사이드바 모듈입니다.')
+						);
 	$innerSidebarModules['%RecentArchive%'] = array(
 						"title" => _t('스킨 내장형 최근 저장소 목록'),
 						"description" => _t('스킨에 내장되어 있는 최근 저장소 목록 사이드바 모듈입니다.')
