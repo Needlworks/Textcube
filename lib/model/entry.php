@@ -355,6 +355,21 @@ function updateEntry($owner, $entry) {
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
 
+	if(empty($entry['slogan'])) {
+		$slogan = $slogan0 = getSlogan($entry['title']);
+	} else {
+		$slogan = $slogan0 = getSlogan($entry['slogan']);
+	}
+	$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' AND id = {$entry['id']} LIMIT 1");
+	if (!$result) {
+		$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
+		for ($i = 1; mysql_num_rows($result) > 0; $i++) {
+			if ($i > 100)
+				return false;
+			$slogan = "$slogan0-$i";
+			$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
+		}
+	}
 	$tags = getTagsWithEntryString($entry['tag']);
 	modifyTagsWithEntryId($owner, $entry['id'], $tags);
 	
@@ -380,6 +395,7 @@ function updateEntry($owner, $entry) {
 				location = '$location',
 				title = '$title',
 				content = '$content',
+				slogan = '$slogan',
 				acceptComment = {$entry['acceptComment']},
 				acceptTrackback = {$entry['acceptTrackback']},
 				published = $published,
