@@ -33,7 +33,7 @@ h3
 {
 	color                            : #666666;
 	font-weight                      : bold;
-	padding                          : 5px 0 3px 0;
+	padding                          : 0 0 3px 0;
 	width                            : 70px !important;
 }
 
@@ -87,7 +87,7 @@ h3
 
 #editor-palette
 {
-	height                           : 28px;
+	height                           : 31px;
 }
 
 #editor-palette .title
@@ -108,7 +108,7 @@ h3
 	border                           : none;
 	clear                            : none;
 	float                            : left;
-	padding                          : 2px 0 0 5px;
+	padding                          : 0 0 0 5px;
 }
 
 #editor-palette .font-style,
@@ -116,7 +116,7 @@ h3
 #editor-palette .special
 {
 	background-image                 : url("./image/edit/dotted_vertical.gif");
-	background-position              : left 10px;
+	background-position              : 2px 4px;
 	background-repeat                : no-repeat;
 	border                           : none;
 	clear                            : none;
@@ -126,6 +126,7 @@ h3
 
 #editor-palette dl dd
 {
+	margin-left                      : 0;
 	padding                          : 3px 0 0 7px;
 }
 
@@ -134,7 +135,7 @@ h3
 	background-image                 : none;
 	float                            : left;
 	height                           : 20px;
-	margin                           : 4px 0 0 0;
+	margin                           : 1px 0 0 0;
 	padding                          : 0;
 	width                            : 20px;
 }
@@ -326,7 +327,7 @@ h3
 
 .mode dd
 {
-	padding                          : 3px 0 0 2px !important;
+	padding                          : 2px 0 0 2px !important;
 }
 
 /* command buttons' sub box ---------------------------------------------------------------------*/
@@ -335,7 +336,7 @@ h3
 	background-color                 : #FFFFFF;
 	position                         : absolute;
 	padding                          : 2px;
-	top                              : 88px;
+	top                              : 25px;
 	left                             : 80px;
 	z-index                          : 100;
 	border                           : 1px solid #CCCCCC;
@@ -347,7 +348,7 @@ h3
 	background-color                 : #FFFFFF;
 	position                         : absolute;
 	padding                          : 2px;
-	top                              : 88px;
+	top                              : 25px;
 	left                             : 100px;
 	z-index                          : 100;
 	border                           : 1px solid #CCCCCC;
@@ -359,7 +360,7 @@ h3
 	background-color                 : #FFFFFF;
 	position                         : absolute;
 	padding                          : 2px;
-	top                              : 88px;
+	top                              : 25px;
 	left                             : 290px;
 	z-index                          : 100;
 	border                           : 1px solid #CCCCCC;
@@ -383,7 +384,8 @@ h3
 {
 	border                           : none !important;
 	cursor                           : pointer;
-	height                           : 16px;
+	height                           : 12px !important;
+	line-height                      : 1.5em;
 	padding                          : 0 !important;
 	text-indent                      : -5000px;
 	width                            : 16px;
@@ -605,7 +607,6 @@ h3
 
 .entry-editor-property dl
 {
-	clear                            : both;
 	padding-bottom                   : 1px;
 	position                         : relative;
 }
@@ -618,7 +619,8 @@ h3
 	font-family                      : Arial, Tahoma, Verdana, sans-serif;
 	font-weight                      : normal !important;
 	margin-right                     : 0 !important;
-	padding                          : 6px 0 1px 0;
+	height                           : 1.85em;
+	padding                          : 0;
 	text-align                       : left !important;
 	left                             : 0;
 	position                         : absolute;
@@ -628,7 +630,6 @@ h3
 
 .entry-editor-property dl dd
 {
-	float                            : none;
 	height                           : auto;
 	margin-left                      : 150px;
 	width                            : auto !important;
@@ -661,8 +662,18 @@ h3
 
 .entry-editor-property dl.resample-property-box dd
 {
-	margin-left                      : 0;
+	margin-left                      : 0 !important;
 	padding                          : 5px 0 0 5px;
+}
+
+.entry-editor-property dl.file-list-line dd
+{
+	margin-left                      : 0 !important;
+}
+
+.entry-editor-property dl.file-list-line dd select
+{
+	width                            : 245px !important;
 }
 
 .entry-editor-property .button-box
@@ -672,6 +683,7 @@ h3
 	margin                           : 0 0 0 auto !important;
 	padding-top                      : 10px;
 	text-align                       : right !important;
+	width                            : 220px;
 }
 
 .entry-editor-property .button-box .button
@@ -692,15 +704,16 @@ h3
 	line-height                      : 1em;
 }
 
-.entry-editor-property preview-box
+.entry-editor-property .preview-box
 {
-	clear                            : both;
+	text-align                       : center;
 }
 
 .entry-editor-property .preview-box img
 {
 	border                           : 1px solid #000000;
 	margin-top                       : 5px;
+	width                            : 220px !important;
 }
 
 /* tag and location -----------------------------------------------------------------------------*/
@@ -778,9 +791,6 @@ h3
 #upload-section h3
 {
 	background-color                 : #FFFFFF;
-	background-image                 : url("./image/edit/bg_upload_head.png");
-	background-position              : left bottom;
-	background-repeat                : repeat-x;
 	display                          : block;
 	padding                          : 10px 10px 3px 10px;
 }
@@ -822,8 +832,7 @@ h3
 #fileUploadNest
 {
 	height                           : 3em;
-	margin-left                      : 144px;
-	padding-top                      : 3px;
+	margin                           : -8px 0 0 144px;
 	position                         : relative;
 	width                            : 390px;
 }
@@ -1029,24 +1038,34 @@ dl#power-line
 }
 
 /* button box -----------------------------------------------------------------------------------*/
-.one-button-box
+.button-box
 {
-	height                           : 23px;
-	margin                           : 20px auto 0 auto;
-	width                            : 114px;
+	padding                          : 20px 0 10px 0;
+	width                            : 650px;
 }
 
-.two-button-box
+.button-box a
 {
-	height                           : 23px;
-	margin                           : 20px auto 0 auto;
-	width                            : 224px;
+	background-color                 : #FFFFFF;
+	background-image                 : none;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : auto;
+	line-height                      : auto;
+	padding                          : 10px 10px 8px 10px;
+	vertical-align                   : middle;
 }
 
-.three-button-box
+.button-box .input-button
 {
-	height                           : 23px;
-	margin                           : 20px auto 0 auto;
-	text-align                       : left !important;
-	width                            : 326px;
+	background-color                 : #FFFFFF;
+	background-image                 : none;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : auto;
+	line-height                      : auto;
+	padding                          : 8px 8px 6px 8px;
+	vertical-align                   : middle;
 }

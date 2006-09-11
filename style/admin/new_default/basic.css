@@ -814,6 +814,7 @@ input.input-button
 	background-position              : left top;
 	background-repeat                : repeat-x;
 	border                           : 1px solid #777777;
+	cursor                           : pointer;
 	font-size                        : 1em;
 	height                           : 1.8em;
 	line-height                      : 1.8em;
@@ -840,4 +841,9 @@ input.input-text
 .button-box
 {
 	text-align                       : center;
+}
+
+.button-box a.button
+{
+	text-decoration                  : none;
 }
