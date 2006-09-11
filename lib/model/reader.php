@@ -614,6 +614,8 @@ function updateRandomFeed() {
 
 function updateFeed($feedRow) {
 	global $database;
+	if($feedRow['modified'] > gmmktime() - 300)
+		return true;
 	list($status, $feed, $xml) = getRemoteFeed($feedRow['xmlURL']);
 	if ($status > 0) {
 		executeQuery("UPDATE {$database['prefix']}Feeds SET modified = 0 WHERE xmlURL = '{$feedRow['xmlURL']}'");
