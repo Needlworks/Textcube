@@ -36,7 +36,6 @@ if (isset($_GET['showValue']))
 	<title>Tree Structure Preview</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/skin.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/skin.opera.css" />
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/skin.ie.css" /><![endif]-->
 	<script type="text/javascript">
 		//<![CDATA[

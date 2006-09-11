@@ -5,8 +5,6 @@
 	<title><?php echo htmlspecialchars($blog['title']);?> &gt; <?php echo _t('플러그인');?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.opera.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.opera.css" />
 <?php
 $plugin = $_GET['name'];
 $pluginAttrs = array();
@@ -15,11 +13,6 @@ $adminSkinDir = getUserSetting("adminSkin", "default");
 if (file_exists(ROOT . "/plugins/$plugin/$adminSkinDir.css")) {
 ?>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/<?php echo $adminSkinDir;?>.css" />
-<?php
-}
-if (file_exists(ROOT . "/plugins/$plugin/$adminSkinDir.opera.css")) {
-?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/<?php echo $adminSkinDir;?>.opera.css" />
 <?php
 }
 if (file_exists(ROOT . "/plugins/$plugin/$adminSkinDir.ie.css")) {
