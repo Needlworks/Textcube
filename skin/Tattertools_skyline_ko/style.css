@@ -486,12 +486,15 @@ padding-left:38px;
 	background:url(images/iconIndentArrow_local.gif) no-repeat 10px 12px;
 	background-color:#f5f5f5;
 }
-.guestbook .list .name a{
-	font-size:12px;
-	font-weight:bold;
-	color:#666;
-	padding-right:12px;
-	background:url(images/icon_homepage.gif) no-repeat 0px right;
+.guestbook .list .name a
+{
+	font-size: 12px;
+	font-weight: bold;
+	color: #666;
+	padding-right: 12px;
+	background-position: right 0px;
+	background-image: url(images/icon_homepage.gif);
+	background-repeat: no-repeat;
 }
 .guestbook .list .tt-admin-comment span,
 .guestbook .list .tt-admin-comment a,
