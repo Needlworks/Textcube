@@ -20,6 +20,7 @@ class Skin {
 	var $locativeSpot;
 	var $locativeEntry;
 	var $guest;
+	var $guestForm;
 	var $guestGuest;
 	var $guestMember;
 	var $guestItem;
@@ -115,6 +116,7 @@ class Skin {
 		list($sval, $this->guestItem) = $this->cutSkinTag($sval, 'guest_rep');
 		list($sval, $this->guestGuest) = $this->cutSkinTag($sval, 'guest_form');
 		list($sval, $this->guestMember) = $this->cutSkinTag($sval, 'guest_member');
+		list($sval, $this->guestForm) = $this->cutSkinTag($sval, 'guest_input_form');
 		list($sval, $this->guest) = $this->cutSkinTag($sval, 'guest');
 		list($sval, $this->entryProtected) = $this->cutSkinTag($sval, 'article_protected');
 		list($sval, $this->management) = $this->cutSkinTag($sval, 'ad_div');
@@ -134,7 +136,7 @@ class Skin {
 		list($sval, $this->commentItem) = $this->cutSkinTag($sval, 'rp_rep');
 		list($sval, $this->commentGuest) = $this->cutSkinTag($sval, 'rp_guest');
 		list($sval, $this->commentMember) = $this->cutSkinTag($sval, 'rp_member');
-		list($sval, $this->commentForm) = $this->cutSkinTag($sval, 'rp_form');
+		list($sval, $this->commentForm) = $this->cutSkinTag($sval, 'rp_input_form');
 		list($sval, $this->comment) = $this->cutSkinTag($sval, 'rp');
 		list($sval, $this->entry) = $this->cutSkinTag($sval, 'article_rep');
 		list($sval, $this->pagingItem) = $this->cutSkinTag($sval, 'paging_rep');

@@ -334,9 +334,9 @@ function getCommentView($entryId, & $skin) {
 		$isComment = false;
 		$SubItem = 'guestSubItem';
 	}
-	$commentView = "<form method=\"post\" action=\"$blogURL/comment/add/$entryId\" onsubmit=\"return false\" style=\"margin: 0\">" . ($isComment ? $skin->comment : $skin->guest) . '</form>';
+	$commentView = ($isComment ? $skin->comment : $skin->guest);
 	$commentItemsView = '';
-	if ($entryId == 0) {
+	if ($isComment == false) {
 		list($comments, $paging) = getCommentsWithPagingForGuestbook($owner, $suri['page'], $skinValue['commentsOnGuestbook']);
 		foreach ($comments as $key => $value) {
 			if ($value['secret'] == 1 && !$authorized) {
@@ -404,10 +404,20 @@ function getCommentView($entryId, & $skin) {
 	
 	$acceptComment = fetchQueryCell("SELECT `acceptComment` FROM `{$database['prefix']}Entries` WHERE `id` = $entryId");
 	
-	if (doesHaveOwnership() || ($isComment && $acceptComment == 1) || ($entryId == 0)) {
+	if (doesHaveOwnership() || ($isComment && $acceptComment == 1) || ($isComment == false)) {
+		$useForm = false;
 		if ($isComment) {
-			$commentRrevView = $commentView;
-			$commentView = $skin->commentForm;
+			if (strlen($skin->commentForm) > 0) {
+				$commentRrevView = $commentView;
+				$commentView = $skin->commentForm;
+				$useForm = true;
+			}
+		} else {
+			if (strlen($skin->guestForm) > 0) {
+				$commentRrevView = $commentView;
+				$commentView = $skin->guestForm;
+				$useForm = true;
+			}
 		}
 		
 		if (!doesHaveOwnership()) {
@@ -445,9 +455,11 @@ function getCommentView($entryId, & $skin) {
 		dress($prefix1 . '_textarea_body', 'comment', $commentView);
 		dress($prefix1 . '_textarea_body_value', '', $commentView);
 		
-		if ($isComment) {
-			dress($prefix1 . '_form', $commentView, $commentRrevView);
+		if ($useForm == true) {
+			dress($prefix1 . '_input_form', "<form method=\"post\" action=\"$blogURL/comment/add/$entryId\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>', $commentRrevView);
 			$commentView = $commentRrevView;
+		} else {
+			$commentView = "<form method=\"post\" action=\"$blogURL/comment/add/$entryId\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>';
 		}
 	}
 	

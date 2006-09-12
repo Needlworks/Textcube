@@ -102,6 +102,7 @@
         <div class="guestbook">
           <h3>방명록</h3>
           <!-- guestbook write -->
+          <s_guest_input_form>
           <div class="write">
             <s_guest_member>
               <s_guest_form>
@@ -126,6 +127,7 @@
               <input class="submit" type="submit" value="save a comment" onclick="[##_guest_onclick_submit_##]"/>
             </p>
           </div>
+          </s_guest_input_form>
           <!-- guestbook list -->
           <div class="list">
             <ol>
@@ -167,10 +169,6 @@
         </div>
         <hr />
       </s_article_protected>
-	<!-- error404 page entries -->
-	<s_page_error>
-		<div id="page-error">존재하지 않는 페이지입니다.</div>
-	</s_page_error>
       <!-- entries -->
       <s_article_rep>
         <div class="entry">
@@ -219,7 +217,7 @@
                   </s_rp_rep>
                 </ol>
               </div>
-              <s_rp_form>
+              <s_rp_input_form>
               <!-- comment write-->
               <div class="write">
                 <h4>Write a comment</h4>
@@ -244,7 +242,7 @@
                   <input type="submit" value="Submit Comment" onclick="[##_rp_onclick_submit_##]" class="submit" />
                 </p>
               </div>
-              </s_rp_form>
+              </s_rp_input_form>
             </div>
           </s_rp>
         </div>
