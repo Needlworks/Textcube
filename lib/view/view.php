@@ -327,12 +327,10 @@ function getCommentView($entryId, & $skin) {
 	$blogSetting = getBlogSetting($owner);
 	if ($entryId > 0) {
 		$prefix1 = 'rp';
-		$prefix2 = 'comment';
 		$isComment = true;
 		$SubItem = 'commentSubItem';
 	} else {
 		$prefix1 = 'guest';
-		$prefix2 = 'guestbook';
 		$isComment = false;
 		$SubItem = 'guestSubItem';
 	}
@@ -370,11 +368,11 @@ function getCommentView($entryId, & $skin) {
 			dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentSubItem['written'])), $commentSubItemView);
 			dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentSubItem['id']}", $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']}); return false;", $commentSubItemView);
-			$rp_class = 'tt-guest-'.$prefix2;
+			$rp_class = $prefix1 . '_general';
 			if ($owner == $commentSubItem['replier'])
-				$rp_class = 'tt-admin-'.$prefix2;
+				$rp_class = $prefix1 . '_admin';
 			else if ($commentSubItem['secret'] == 1)
-				$rp_class = 'tt-secret-'.$prefix2;
+				$rp_class = $prefix1 . '_secret';
 			dress($prefix1 . '_rep_class', $rp_class, $commentSubItemView);
 			$commentSubItemsView .= $commentSubItemView;
 		}
@@ -394,11 +392,11 @@ function getCommentView($entryId, & $skin) {
 		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']}); return false", $commentItemView);
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
 		dress($prefix1 . '_rep_link', "$blogURL/{$entryId}#comment{$commentItem['id']}", $commentItemView);
-		$rp_class = 'tt-guest-'.$prefix2;
+		$rp_class = $prefix1 . '_general';
 		if ($owner == $commentItem['replier'])
-			$rp_class = 'tt-admin-'.$prefix2;
+			$rp_class = $prefix1 . '_admin';
 		else if ($commentItem['secret'] == 1)
-			$rp_class = 'tt-secret-'.$prefix2;
+			$rp_class = $prefix1 . '_secret';			
 		dress($prefix1 . '_rep_class', $rp_class, $commentItemView);
 		$commentItemsView .= $commentItemView;
 	}
@@ -406,7 +404,7 @@ function getCommentView($entryId, & $skin) {
 	
 	$acceptComment = fetchQueryCell("SELECT `acceptComment` FROM `{$database['prefix']}Entries` WHERE `id` = $entryId");
 	
-	if (doesHaveOwnership() || ($isComment && $acceptComment == 1) || ($prefix2 == "guestbook")) {
+	if (doesHaveOwnership() || ($isComment && $acceptComment == 1) || ($entryId == 0)) {
 		if ($isComment) {
 			$commentRrevView = $commentView;
 			$commentView = $skin->commentForm;
@@ -461,12 +459,10 @@ function getGuestCommentView($entryId, & $skin) {
 	$authorized = doesHaveOwnership();
 	if ($entryId > 0) {
 		$prefix1 = 'rp';
-		$prefix2 = 'comment';
 		$isComment = true;
 		$SubItem = 'commentSubItem';
 	} else {
 		$prefix1 = 'guest';
-		$prefix2 = 'guest';
 		$isComment = false;
 		$SubItem = 'guestSubItem';
 	}
