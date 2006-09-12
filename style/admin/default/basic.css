@@ -739,7 +739,12 @@ table.data-inbox tbody tr td.inactive-class
 
 #page-navigation span
 {
-	display                          : block;
+	/*display                          : block;*/
+}
+
+#page-navigation span .selected
+{
+	color                            : #BBB;
 }
 
 #page-list
@@ -752,6 +757,11 @@ table.data-inbox tbody tr td.inactive-class
 	position                         : absolute;
 	right                            : 30px;
 	bottom                           : 128px;
+}
+
+#page-section .page-count select
+{
+	width                            : 50px;
 }
 
 #search-form
