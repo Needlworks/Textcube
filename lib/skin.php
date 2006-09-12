@@ -149,7 +149,6 @@ class Skin {
 		list($sval, $this->recentTrackback) = $this->cutSkinTag($sval, 'rcttb_rep');
 		list($sval, $this->s_link_rep) = $this->cutSkinTag($sval, 'link_rep');
 		list($sval, $this->skin) = $this->cutSkinTag($sval, 't3');
-		list($sval, $this->pageTitle) = $this->cutSkinTag($sval, 'page_title');
 		$this->outter = $sval;
 	}
 	

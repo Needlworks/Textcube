@@ -1,11 +1,8 @@
 <?php
 $writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
 $pageTitle = trim($pageTitle);
-if (!empty($pageTitle)) {
-	$pageTitleView = $skin->pageTitle;
-	dress('page_post_title', htmlspecialchars($pageTitle), $pageTitleView);
-	dress('page_title', $pageTitleView, $view);
-}
+
+dress('page_title', htmlspecialchars($pageTitle), $view);
 dress('blogger', htmlspecialchars($writer), $view);
 dress('title', htmlspecialchars($blog['title']), $view);
 dress('desc', htmlspecialchars($blog['description']), $view);
