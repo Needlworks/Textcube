@@ -305,15 +305,6 @@ if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSett
 	}
 }
 
-if (!DBQuery::queryExistence("DESC {$database['prefix']}Comments email")) {
-	$changed = true;
-	echo '<li>', _text('댓글 테이블에 이메일 주소 저장을 위한 필드를 추가합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD email varchar(80) default '' after homepage"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
-
 if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings blogLanguage")) {
 	$changed = true;
 	echo '<li>', _text('설정 테이블에 블로그 언어 설정을 위한 필드를 추가합니다.'), ': ';

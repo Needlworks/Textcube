@@ -343,10 +343,6 @@ function importer($path, $node, $line) {
 					$comment = new Comment();
 					$comment->entry = $post->id;
 					$cursor = & $node['comment'][$i];
-					if (!empty($cursor['commenter'][0]['.attributes']['id']) && !empty($cursor['commenter'][0]['.attributes']['email'])) {
-						if (User::getEmail($cursor['commenter'][0]['.attributes']['id']) == $cursor['commenter'][0]['.attributes']['email'])
-							$comment->commenter = $cursor['commenter'][0]['.attributes']['id'];
-					}
 					$comment->name = $cursor['commenter'][0]['name'][0]['.value'];
 					if (!empty($cursor['commenter'][0]['homepage'][0]['.value']))
 						$comment->homepage = $cursor['commenter'][0]['homepage'][0]['.value'];
@@ -366,10 +362,6 @@ function importer($path, $node, $line) {
 							$childComment->entry = $post->id;
 							$childComment->parent = $comment->id;
 							$cursor = & $node['comment'][$i]['comment'][$j];
-							if (!empty($cursor['commenter'][0]['.attributes']['id']) && !empty($cursor['commenter'][0]['.attributes']['email'])) {
-								if (User::getEmail($cursor['commenter'][0]['.attributes']['id']) == $cursor['commenter'][0]['.attributes']['email'])
-									$childComment->commenter = $cursor['commenter'][0]['.attributes']['id'];
-							}
 							$childComment->name = $cursor['commenter'][0]['name'][0]['.value'];
 							if (!empty($cursor['commenter'][0]['homepage'][0]['.value']))
 								$childComment->homepage = $cursor['commenter'][0]['homepage'][0]['.value'];
@@ -647,10 +639,6 @@ function importer($path, $node, $line) {
 		case '/blog/guestbook/comment':
 			setProgress($item++ / $items * 100, _t('방명록을 복원하고 있습니다.'));
 			$comment = new GuestComment();
-			if (!empty($node['commenter'][0]['.attributes']['id']) && !empty($node['commenter'][0]['.attributes']['email'])) {
-				if (User::getEmail($node['commenter'][0]['.attributes']['id']) == $node['commenter'][0]['.attributes']['email'])
-					$comment->commenter = $node['commenter'][0]['.attributes']['id'];
-			}
 			$comment->name = $node['commenter'][0]['name'][0]['.value'];
 			if (!empty($node['commenter'][0]['homepage'][0]['.value']))
 				$comment->homepage = $node['commenter'][0]['homepage'][0]['.value'];
@@ -667,10 +655,6 @@ function importer($path, $node, $line) {
 					$childComment = new GuestComment();
 					$childComment->parent = $comment->id;
 					$cursor = & $node['comment'][$j];
-					if (!empty($cursor['commenter'][0]['.attributes']['id']) && !empty($cursor['commenter'][0]['.attributes']['email'])) {
-						if (User::getEmail($cursor['commenter'][0]['.attributes']['id']) == $cursor['commenter'][0]['.attributes']['email'])
-							$childComment->commenter = $cursor['commenter'][0]['.attributes']['id'];
-					}
 					$childComment->name = $cursor['commenter'][0]['name'][0]['.value'];
 					if (!empty($cursor['commenter'][0]['homepage'][0]['.value']))
 						$childComment->homepage = $cursor['commenter'][0]['homepage'][0]['.value'];

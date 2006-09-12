@@ -132,8 +132,6 @@ function getUpperView($paging) {
 						queryString += "&name_" + entryId +"=" + encodeURIComponent(oForm["name"].value);
 					} else if(oForm.elements[i].name == "password") {
 						queryString += "&password_" + entryId +"=" + encodeURIComponent(oForm["password"].value);
-					} else if(oForm.elements[i].name == "email") {
-						queryString += "&email_" + entryId +"=" + encodeURIComponent(oForm["email"].value);
 					} else if(oForm.elements[i].name == "homepage") {
 						queryString += "&homepage_" + entryId +"=" + encodeURIComponent(oForm["homepage"].value);
 					} else if(oForm.elements[i].name == "secret") {
@@ -421,7 +419,6 @@ function getCommentView($entryId, & $skin) {
 				dress($prefix1 . '_input_name', 'name', $commentGuestView);
 				dress($prefix1 . '_input_password', 'password', $commentGuestView);
 				dress($prefix1 . '_input_homepage', 'homepage', $commentGuestView);
-				dress($prefix1 . '_input_email', 'email', $commentGuestView);
 				if (!empty($_POST["name_$entryId"]))
 					$guestName = htmlspecialchars($_POST["name_$entryId"]);
 				else if (!empty($_COOKIE['guestName']))
@@ -429,13 +426,6 @@ function getCommentView($entryId, & $skin) {
 				else
 					$guestName = '';
 				dress('guest_name', $guestName, $commentGuestView);
-				if (!empty($_POST["email_$entryId"]))
-					$guestEmail = htmlspecialchars($_POST["email_$entryId"]);
-				else if (!empty($_COOKIE['guestEmail']))
-					$guestEmail = htmlspecialchars($_COOKIE['guestEmail']);
-				else
-					$guestEmail = '';
-				dress('guest_email', $guestEmail, $commentGuestView);
 				if (!empty($_POST["homepage_$entryId"]) && $_POST["homepage_$entryId"] != 'http://') {
 					if (strpos($_POST["homepage_$entryId"], 'http://') === 0)
 						$guestHomepage = htmlspecialchars($_POST["homepage_$entryId"]);

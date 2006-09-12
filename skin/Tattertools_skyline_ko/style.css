@@ -665,6 +665,7 @@ padding-left:38px;
 .comment .write p{
 	padding:2px;
 	margin:0;
+	line-height:1.8em;
 }
 .comment .write input{
 	border:1px solid #999;

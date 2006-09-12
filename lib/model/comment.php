@@ -228,7 +228,6 @@ function addComment($owner, & $comment) {
 
 	$comment['homepage'] = stripHTML($comment['homepage']);
 	$comment['name'] = mysql_lessen($comment['name'], 80);
-	$comment['email'] = mysql_lessen($comment['email'], 80);
 	$comment['homepage'] = mysql_lessen($comment['homepage'], 80);
 	$comment['comment'] = mysql_lessen($comment['comment'], 65535);
 	
@@ -241,13 +240,11 @@ function addComment($owner, & $comment) {
 	if ($user !== null) {
 		$comment['replier'] = $user['id'];
 		$name = mysql_real_escape_string($user['name']);
-		$email = mysql_real_escape_string($user['email']);
 		$password = '';
 		$homepage = mysql_real_escape_string($user['homepage']);
 	} else {
 		$comment['replier'] = 'null';
 		$name = mysql_real_escape_string($comment['name']);
-		$email = mysql_real_escape_string($comment['email']);
 		$password = empty($comment['password']) ? '' : md5($comment['password']);
 		$homepage = mysql_escape_string($comment['homepage']);
 	}
@@ -261,7 +258,6 @@ function addComment($owner, & $comment) {
 			'$name',
 			'$password',
 			'$homepage',
-			'$email',
 			{$comment['secret']},
 			'$comment0',
 			'{$comment['ip']}',
@@ -308,7 +304,6 @@ function updateComment($owner, $comment, $password) {
 	}
 	
 	$comment['name'] = mysql_lessen($comment['name'], 80);
-	$comment['email'] = mysql_lessen($comment['email'], 80);
 	$comment['homepage'] = mysql_lessen($comment['homepage'], 80);
 	$comment['comment'] = mysql_lessen($comment['comment'], 65535);
 	
@@ -316,13 +311,11 @@ function updateComment($owner, $comment, $password) {
 	if ($user !== null && !is_null($comment['replier']) && $comment['replier'] == $owner) {
 		$name = mysql_real_escape_string($user['name']);
 		$setPassword = 'password = \'\',';
-		$email = mysql_real_escape_string($comment['email']);
 		$homepage = mysql_real_escape_string($user['homepage']);
 	} else {
 		$name = mysql_real_escape_string($comment['name']);
 		if ($comment['password'] !== true)
 			$setPassword = 'password = \'' . (empty($comment['password']) ? '' : md5($comment['password'])) . '\', ';
-		$email = mysql_real_escape_string($comment['email']);
 		$homepage = mysql_real_escape_string($comment['homepage']);
 	}
 	$comment0 = mysql_real_escape_string($comment['comment']);
@@ -349,7 +342,6 @@ function updateComment($owner, $comment, $password) {
 					name = '$name',
 					$setPassword
 					homepage = '$homepage',
-					email = '$email',
 					secret = {$comment['secret']},
 					comment = '$comment0',
 					ip = '{$comment['ip']}',

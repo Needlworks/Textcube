@@ -1,8 +1,6 @@
 <?php 
 if (empty($comment['name']) && isset($_COOKIE['guestName']))
 	$comment['name'] = $_COOKIE['guestName'];
-if (empty($comment['email']) && isset($_COOKIE['guestEmail']))
-	$comment['email'] = $_COOKIE['guestEmail'];
 if ((empty($comment['homepage']) || $comment['homepage'] == 'http://') && isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://')
 	$comment['homepage'] = $_COOKIE['guestHomepage'];
 ?>
@@ -73,12 +71,6 @@ if (!doesHaveOwnership()) {
 <?php 
 	}
 ?>
-
-    			<dl class="email-line">
-					<dt><label for="email"><?php echo _text('E-Mail');?></label></dt>
-					<dd><input type="text" class="input-text" id="email" name="email" value="<?php echo (empty($comment['email']) ? '' : htmlspecialchars($comment['email']));?>" /></dd>
-				</dl>
-				
     			<dl class="homepage-line">
 					<dt><label for="homepage"><?php echo _text('홈페이지');?></label></dt>
 					<dd><input type="text" class="input-text" id="homepage" name="homepage" value="<?php echo (empty($comment['homepage']) ? 'http://' : htmlspecialchars($comment['homepage']));?>" /></dd>

@@ -6,7 +6,6 @@ $IV = array(
 		'comment' => array('string' , 'default' => ''),
 		'mode' => array(array('commit') , 'default' => ''),
 		'homepage' => array('string', 'default' => ''),
-		'email' => array('string', 'default' => ''),
 		'password' => array('string' , 'default' => ''),
 		'secret' => array(array('on'), 'default' => null)
 	)
@@ -18,8 +17,6 @@ if (false) {
 if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']) && !empty($_POST['mode']) && ($_POST['mode'] == 'commit')) {
 	if (!empty($_POST['name']))
 		setcookie('guestName', $_POST['name'], time() + 2592000, "$blogURL/");
-	if (!empty($_POST['email']))
-		setcookie('guestEmail', $_POST['email'], time() + 2592000, "$blogURL/");
 	if (!empty($_POST['homepage']) && ($_POST['homepage'] != 'http://')) {
 		if (strpos($_POST['homepage'], 'http://') === 0)
 			setcookie('guestHomepage', $_POST['homepage'], time() + 2592000, "$blogURL/");
@@ -33,7 +30,6 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	$comment['parent'] = $suri['id'];
 	$comment['name'] = empty($_POST['name']) ? '' : $_POST['name'];
 	$comment['password'] = empty($_POST['password']) ? '' : $_POST['password'];
-	$comment['email'] = empty($_POST['email']) || ($_POST['email'] == '') ? '' : $_POST['email'];
 	$comment['homepage'] = empty($_POST['homepage']) || ($_POST['homepage'] == 'http://') ? '' : $_POST['homepage'];
 	$comment['secret'] = empty($_POST['secret']) ? 0 : 1;
 	$comment['comment'] = $_POST['comment'];
@@ -75,6 +71,6 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	}
 }
 $pageTitle = _text('댓글에 댓글 달기');
-$comment = array('name' => '', 'password' => '', 'email' => '', 'homepage' => 'http://', 'secret' => 0, 'comment' => '');
+$comment = array('name' => '', 'password' => '', 'homepage' => 'http://', 'secret' => 0, 'comment' => '');
 require ROOT . '/lib/view/replyEditorView.php';
 ?>
