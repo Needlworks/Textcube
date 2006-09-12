@@ -3,23 +3,34 @@
   <title xml:lang="ko">블로그 아이콘 표시</title>
   <title xml:lang="en">Show blog icon on comments or guestbook</title>
   <title xml:lang="ja">ブログのアイコン表示</title>
-  <title xml:lang="zh-CN">表示日志个性图标</title>
+  <title xml:lang="zh-CN">表示日志?性??</title>
   <link>http://www.tattertools.com/plugins</link>
-  <version>1.0</version>
+  <version>1.1</version>
   <description xml:lang="ko">댓글과 방명록의 작성자 홈페이지에 블로그 아이콘(index.gif)이 있으면 같이 표시됩니다.</description>
   <description xml:lang="en">This plugin displays blog icon (index.gif) along with comments or guestbook.</description>
-  <description xml:lang="ja">コメントと掲示板の作成者ページにブログのアイコン (index.gif) があったら名前の側に表示します。</description>
-  <description xml:lang="zh-CN">评论和留言的作者的网站若有个性图标(index.gif),则会显示.</description>
+  <description xml:lang="ja">コメントと?示板の作成者ペ?ジにブログのアイコン (index.gif) があったら名前の側に表示します。</description>
+  <description xml:lang="zh-CN">??和留言的作者的?站若有?性??(index.gif),???示.</description>
   <license>GPL</license>
   <author link="http://www.tattertools.com">Tatter &amp; Company</author>
   <author xml:lang="ko" link="http://www.tattertools.com">태터앤컴퍼니</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <scope>blog</scope>
   <requirements>
-    <tattertools>1.0</tattertools>
+    <tattertools>1.1</tattertools>
   </requirements>
   <binding>
     <listener event="ViewCommenter">BlogIcon_main</listener>
     <listener event="ViewGuestCommenter">BlogIcon_main</listener>
+	<config dataValHandler="">
+		<window width="500" height="310" />
+		<fieldset legend="원하시는 블로그 아이콘 크기를 선택해주세요.">
+			<field title="블로그 아이콘을 " name="ico_size" type="select">
+				<op value="16">16×16 크기로 출력</op>
+				<op value="32" checked="checked">32×32 크기로 출력</op>
+				<op value="48">48×48 크기로 출력</op>
+				<caption><![CDATA[<font color='black'> (단위: px) 기본값은 32×32 입니다. <br>환경설정에서 블로그 아이콘을 업로드 해야 아이콘이 출력됩니다.<p>예)<br><img src="http://blog.tattertools.com/index.gif" width="16" height="16" border="1"> (16×16), <img src="http://blog.tattertools.com/index.gif" width="32" height="32" border="1"> (32×32),  <img src="http://blog.tattertools.com/index.gif" width="48" height="48" border="1"> (48×48)</font>]]></caption>
+			</field>
+		</fieldset>
+ 	</config>
   </binding>
 </plugin>

@@ -1,8 +1,14 @@
 <?php
-function BlogIcon_main($target, $mother) {
+function BlogIcon_main($target, $mother) {  
+	global $configVal;
+	$data = fetchConfigVal( $configVal);
+
+	if (!is_null($data))	$ico_size = $data['ico_size'];
+	if (is_null($ico_size))	$ico_size = 32;
+  
 	if (empty($mother['homepage']))
 		return $target;
 	$slash = ($mother['homepage']{strlen($mother['homepage']) - 1} == '/' ? '' : '/');
-	return "<img src=\"{$mother['homepage']}{$slash}index.gif\" width=\"32\" height=\"32\" onerror=\"this.parentNode.removeChild(this)\" /> $target";
+	return "<img src=\"{$mother['homepage']}{$slash}index.gif\" width=\"{$ico_size}\" height=\"{$ico_size}\" onerror=\"this.parentNode.removeChild(this)\" /> $target";
 }
 ?>
