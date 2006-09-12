@@ -227,6 +227,14 @@ function getBasicSidebarList() {
 						"description" => _t('스킨에 내장되어 있는 카운터 사이드바 모듈입니다.')
 						);
 	
+	$innerSidebarModules['%notice%'] = array(
+						"title" => _t('스킨 내장형 공지'),
+						"description" => _t('스킨에 내장되어 있는 공지 사이드바 모듈입니다.')
+						);
+	$innerSidebarModules['%search%'] = array(
+						"title" => _t('스킨 내장형 검색'),
+						"description" => _t('스킨에 내장되어 있는 검색 사이드바 모듈입니다.')
+						);
 	return $innerSidebarModules;
 }
 

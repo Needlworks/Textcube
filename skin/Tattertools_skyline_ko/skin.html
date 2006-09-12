@@ -267,10 +267,15 @@
       <!-- blog infomation -->
 		  <div class="blogimg">
 				<img src="[##_image_##]" alt="BLOG main image" />
-			</div>	
-      <div class="bloginfo"> 
-        [##_desc_##] 
 			</div>
+  	  <s_sidebar>
+         <s_sidebar_element>
+      <div class="bloginfo">
+        [##_desc_##] 
+      </div>
+  	      </s_sidebar_element>
+
+	  <s_sidebar_element>
       <!-- notice -->
       <s_rct_notice>
         <div class="notice">
@@ -281,6 +286,9 @@
           </ul>
         </div>
       </s_rct_notice>
+	  </s_sidebar_element>
+
+	  <s_sidebar_element>
       <!-- search -->
       <div class="search">
         <s_search>
@@ -288,7 +296,9 @@
           <input value="search" type="button" onclick="[##_search_onclick_submit_##]" class="submit"/>
         </s_search>
       </div>
-      [##_TattertoolsBirthday_##]
+	  </s_sidebar_element>
+
+      <s_sidebar_element>
       <div class="category">
         <h3>카테고리</h3>
       <!-- category 			-->	
@@ -298,7 +308,9 @@
         <div class="box"> [##_category_list_##]  </div>
 			-->		
 			</div>		
+      </s_sidebar_element>
 
+	  <s_sidebar_element>
       <!-- taglist -->
       <div class="tagbox">
         <h3>태그목록</h3>
@@ -308,6 +320,9 @@
           </li>
         </ul>
       </div>
+      </s_sidebar_element>
+
+      <s_sidebar_element>
       <!-- recent entry -->
       <div class="listbox">
         <h3>최근에 올라온 글 </h3>
@@ -317,6 +332,9 @@
           </s_rctps_rep>
         </ul>
       </div>
+	  </s_sidebar_element>
+
+	  <s_sidebar_element>
       <!-- recent comment -->
       <div class="listbox">
         <h3>최근에 달린 댓글</h3>
@@ -327,6 +345,9 @@
           </s_rctrp_rep>
         </ul>
       </div>
+      </s_sidebar_element>
+
+      <s_sidebar_element>
       <!-- recent trackback -->
       <div class="listbox">
         <h3>최근에 받은 트랙백</h3>
@@ -337,6 +358,9 @@
           </s_rcttb_rep>
         </ul>
       </div>
+	  </s_sidebar_element>
+
+	  <s_sidebar_element>
       <!-- archive -->
       <div class="listbox">
         <h3>글 보관함</h3>
@@ -346,11 +370,17 @@
           </s_archive_rep>
         </ul>
       </div>
-      <!-- calender -->
+	  </s_sidebar_element>
+
+      <s_sidebar_element>
+      <!-- calendar -->
       <div class="listbox">
         <h3>달력</h3>
         <div class="box">[##_calendar_##]</div>
       </div>
+	  </s_sidebar_element>
+
+	  <s_sidebar_element>
       <!-- link -->
       <div class="listbox">
         <h3>링크</h3>
@@ -360,12 +390,29 @@
           </s_link_rep>
         </ul>
       </div>
+	  </s_sidebar_element>
+
+	  <s_sidebar_element>
       <!-- counter -->
       <div class="counter"> Total : [##_count_total_##] <br />
         Today : [##_count_today_##] Yesterday : [##_count_yesterday_##] </div>
+	  </s_sidebar_element>
+
+	  <s_sidebar_element>
       <!-- etc -->
       <div class="ad"> <a href="http://www.tattertools.com" onclick="window.open(this.href); return false"> <img src="./images/tattertools.gif" alt="Tattertools" /></a> </div>
       <div class="ad"> <a href="[##_rss_url_##]" onclick="window.open(this.href); return false"> <img src="./images/rss.gif" alt="rss"/> </a> </div>
+	  </s_sidebar_element>
+
+	      <s_sidebar_rep_element>
+	      <div class="[##_sidebar_class_##]">
+	        <s_sidebar_titles><h3 style="cursor:pointer;" onclick="clickshow('[##_sidebar_id_##]');">[##_sidebar_title_##]</h3></s_sidebar_titles>
+	        <div id="[##_sidebar_id_##]">
+	          [##_sidebar_contents_##]
+	        </div>
+	      </div>
+	      </s_sidebar_rep_element>
+   	  </s_sidebar>
     </div>
     <hr />
     <hr />
