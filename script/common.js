@@ -795,19 +795,19 @@ function toggleMoreLess(obj, num, txtMore, txtLess)
 	
 	if (oContent.style.display == 'none') {
 		oContent.style.display = 'block';
-		oMore.className = "tt-less-before";
+		oMore.className = "moreless_top";
 		obj.innerHTML = txtLess;
 		
 		oLess = document.createElement("P");
 		oLess.id = "less" + num;
-		oLess.className = "tt-less-after";
+		oLess.className = "moreless_bottom";
 		oLess.innerHTML = '<span style="cursor: pointer;" onclick="toggleMoreLess(this, \'' + num + '\', \'' + txtMore + '\', \'' + txtLess + '\'); return false;">' + txtLess + '</span>';
 		
 		after = oContent.nextSibling;
 		oContent.parentNode.insertBefore(oLess, after);
 	} else {
 		oContent.style.display = 'none';
-		oMore.className = "tt-more-before";
+		oMore.className = "moreless_fold";
 		oMore.childNodes[0].innerHTML = txtMore;
 		
 		oLess = document.getElementById('less' + num);
