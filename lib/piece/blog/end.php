@@ -49,8 +49,8 @@ dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($owner), $skin->r
 dress('link_rep', getLinksView(getLinks($owner), $skin->s_link_rep), $view);
 dress('rss_url', "$blogURL/rss", $view);
 dress('owner_url', "$blogURL/owner", $view);
-dress('version_number', TATTERTOOLS_VERSION, $view);
-dress('version_name', TATTERTOOLS_NAME, $view);
+dress('tattertools_name', TATTERTOOLS_VERSION, $view);
+dress('tattertools_version', TATTERTOOLS_NAME, $view);
 if (isset($paging))
 	dress('paging', getPagingView($paging, $skin->paging, $skin->pagingItem), $view);
 $view = removeAllTags($view);
