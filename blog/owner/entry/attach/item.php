@@ -35,7 +35,7 @@ requireStrictRoute();
 						var fileName = value.substring(value.lastIndexOf('/')+1);
 					}	
 					var oOption = window.parent.document.createElement("option");
-					oOption.text = fileName + " <?php echo _t('업로드 중…');?>";
+					oOption.text = fileName + " <?php echo _t('업로드 중..');?>";
 					oOption.value = fileName;
 					oSelect.options.add(oOption);
 					oSelect.setAttribute('size', Math.max(8,Math.min(oSelect.length,30)));

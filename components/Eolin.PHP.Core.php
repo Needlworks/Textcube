@@ -161,7 +161,7 @@ class UTF8 {
 	}
 	
 	/*@static@*/
-	function lessen($str, $chars, $tail = '…') {
+	function lessen($str, $chars, $tail = '..') {
 		if (UTF8::length($str) <= $chars)
 			$tail = '';
 		else
@@ -184,7 +184,7 @@ class UTF8 {
 	}
 	
 	/*@static@*/
-	function lessenAsByte($str, $bytes, $tail = '…') {
+	function lessenAsByte($str, $bytes, $tail = '..') {
 		if (strlen($str) <= $bytes)
 			$tail = '';
 		else
@@ -207,7 +207,7 @@ class UTF8 {
 	}
 	
 	/*@static@*/
-	function lessenAsEm($str, $ems, $tail = '…') {
+	function lessenAsEm($str, $ems, $tail = '..') {
 		if (UTF8::lengthAsEm($str) <= $ems)
 			$tail = '';
 		else

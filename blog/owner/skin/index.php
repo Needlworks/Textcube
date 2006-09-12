@@ -138,7 +138,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 						</div>
 						
 						<div id="currentSkinLoading" class="system-message" style="display: none;">
-							<?php echo _t('로딩 중…');?>
+							<?php echo _t('로딩 중..');?>
 						</div>
 						
 						<hr class="hidden" />

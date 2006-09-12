@@ -108,9 +108,9 @@ function str_cut($str, $maxlen, $type) {
 	$str = str_tag_off(str_trans($str));
 	$return_str = str_tag_off(str_trans($return_str));
 	if ($type)
-		return "<span title=\"$str\">{$return_str}…</span>";
+		return "<span title=\"$str\">{$return_str}..</span>";
 	else
-		return $return_str . "…";
+		return $return_str . "..";
 }
 
 function link_cut($url, $checkURL = 35)

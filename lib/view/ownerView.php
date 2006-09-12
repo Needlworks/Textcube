@@ -729,7 +729,7 @@ function printEntryFileList($attachments, $param) {
 															if(fileName == undefined || fileSize == undefined) 
 																continue;							
 															var oOption = document.createElement("option");
-															oOption.innerHTML= fileName+' ('+Math.ceil((fileSize/1024))+'KB)  <?php echo _t('대기 중…');?>';
+															oOption.innerHTML= fileName+' ('+Math.ceil((fileSize/1024))+'KB)  <?php echo _t('대기 중..');?>';
 															oOption.setAttribute("value",fileName);
 															oOption.style.backgroundColor="#A4C3F0";
 															fileListObj.insertBefore(oOption,fileListObj[i]);
