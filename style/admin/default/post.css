@@ -89,7 +89,7 @@ table.data-inbox tbody tr td.ip
 
 /* table body */
 
-#part-post-list table.data-inbox tbody tr td.status,
+#part-post-list table.data-inbox tbody tr td.status
 {
 	padding-right                    : 0;
 }

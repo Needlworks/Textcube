@@ -614,7 +614,7 @@ h3
 .entry-editor-property dl dt
 {
 	border-bottom                    : 1px dashed #CCCCCC;
-	bottom                           : none !important;
+	border                           : none !important;
 	color                            : #666666;
 	font-family                      : Arial, Tahoma, Verdana, sans-serif;
 	font-weight                      : normal !important;
@@ -983,7 +983,7 @@ h3
 #power-section
 {
 	line-height                      : 17px;
-	margin                           : 0 20px 0 0x;
+	margin                           : 0 20px 0 0px;
 	position                         : relative;
 	padding                          : 0 0 8px 0;
 	width                            : 650px;
@@ -1052,7 +1052,7 @@ dl#power-line
 	color                            : #000000;
 	font-weight                      : bold;
 	height                           : auto;
-	line-height                      : auto;
+	line-height                      : normal;
 	padding                          : 10px 10px 8px 10px;
 	vertical-align                   : middle;
 }
@@ -1065,7 +1065,7 @@ dl#power-line
 	color                            : #000000;
 	font-weight                      : bold;
 	height                           : auto;
-	line-height                      : auto;
+	line-height                      : normal;
 	padding                          : 8px 8px 6px 8px;
 	vertical-align                   : middle;
 }
