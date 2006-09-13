@@ -2,6 +2,13 @@
 define('ROOT', '../../../..');
 if (isset($_POST['page']))
 	$_GET['page'] = $_POST['page'];
+	
+if (isset($_GET['category'])) $_POST['category'] = $_GET['category'];
+if (isset($_GET['site'])) $_POST['site'] = $_GET['site'];
+if (isset($_GET['ip'])) $_POST['ip'] = $_GET['ip'];
+if (isset($_GET['withSearch'])) $_POST['withSearch'] = $_GET['withSearch'];
+if (isset($_GET['search'])) $_POST['search'] = $_GET['search'];
+
 $IV = array(
 	'GET' => array(
 		'page' => array('int', 1, 'default' => 1)

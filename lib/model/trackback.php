@@ -3,23 +3,35 @@ require 'correctTT.php';
 
 function getTrackbacksWithPagingForOwner($owner, $category, $site, $ip, $search, $page, $count) {
 	global $database;
+	
+	$postfix = '';
 	$sql = "SELECT t.*, c.name categoryName FROM {$database['prefix']}Trackbacks t LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Categories c ON t.owner = c.owner AND e.category = c.id WHERE t.owner = $owner AND t.isFiltered = 0";
 	if ($category > 0) {
 		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
+		$postfix .= '&category=' . rawurlencode($category);
 	} else
 		$sql .= ' AND e.category >= 0';
-	if (!empty($site))
+	if (!empty($site)) {
 		$sql .= ' AND t.site = \'' . mysql_real_escape_string($site) . '\'';
-	if (!empty($ip))
+		$postfix .= '&site=' . rawurlencode($site);
+	}
+	if (!empty($ip)) {
 		$sql .= ' AND t.ip = \'' . mysql_real_escape_string($ip) . '\'';
+		$postfix .= '&ip=' . rawurlencode($ip);
+	}
 	if (!empty($search)) {
 		$search = escapeMysqlSearchString($search);
 		$sql .= " AND (t.site LIKE '%$search%' OR t.subject LIKE '%$search%' OR t.excerpt LIKE '%$search%')";
+		$postfix .= '&search=' . rawurlencode($search);
 	}
 	$sql .= ' ORDER BY t.written DESC';
-	return fetchWithPaging($sql, $page, $count);
+	list($trackbacks, $paging) = fetchWithPaging($sql, $page, $count);
+	if (strlen($postfix) > 0) {
+		$paging['postfix'] .= $postfix . '&withSearch=on';
+	}
+	return array($trackbacks, $paging);
 }
 
 function getTrackbacks($entry) {
