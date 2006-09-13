@@ -49,7 +49,6 @@ input.text-readonly-input
 #data-outbox .input-button
 {
 	border                           : none;
-	background-image                 : url("./image/button_106.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	cursor                           : pointer;
@@ -62,7 +61,6 @@ input.text-readonly-input
 
 #data-outbox .button-box .button
 {
-	background-image                 : url("./image/button_106.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	border                           : none;

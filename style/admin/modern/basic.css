@@ -676,7 +676,6 @@ legend
 #data-outbox .input-button
 {
 	border                           : none;
-	background-image                 : url("./image/button_106.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	cursor                           : pointer;
@@ -689,7 +688,6 @@ legend
 
 #data-outbox .button-box .button
 {
-	background-image                 : url("./image/button_106.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	border                           : none;
@@ -756,9 +754,7 @@ legend
 
 #data-outbox div.data-subbox .input-button
 {
-	background-image                 : url("./image/button_70.gif");
 	vertical-align                   : middle;
-	width                            : 70px;
 }
 
 #data-outbox div.data-subbox .delete-button
@@ -841,13 +837,6 @@ legend
 {
 	vertical-align                   : middle;
 	width                            : 80px;
-}
-
-#search-form .input-button
-{
-	background-image                 : url("./image/button_85.gif") !important;
-	vertical-align                   : middle;
-	width                            : 85px !important;
 }
 
 /* Footer ****************************************************************************************/

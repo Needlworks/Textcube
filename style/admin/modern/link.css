@@ -27,9 +27,7 @@
 
 #rss-address-line dd .input-button
 {
-	background-image                 : url("./image/button_150.gif");
 	vertical-align                   : middle;
-	width                            : 150px ;
 }
 
 /* button box -----------------------------------------------------------------------------------*/

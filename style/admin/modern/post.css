@@ -594,7 +594,6 @@ table.data-inbox tbody tr td .new-icon span
 #property-box dl dd .save-button,
 #property-box dl dd .remove-button
 {
-	background-image                 : url("./image/button_85.gif");
 	vertical-align                   : middle;
 	width                            : 85px;
 }
@@ -602,10 +601,8 @@ table.data-inbox tbody tr td .new-icon span
 #property-box dl dd .up-button,
 #property-box dl dd .down-button
 {
-	background-image                 : url("./image/button_70.gif");
 	margin-right                     : 4px;
 	vertical-align                   : middle;
-	width                            : 70px;
 }
 
 #property-box dl dd .divider
