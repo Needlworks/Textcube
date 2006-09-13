@@ -121,7 +121,7 @@
 	color                            : #000000;
 	font-weight                      : bold;
 	height                           : auto;
-	line-height                      : auto;
+	line-height                      : normal;
 	padding                          : 10px 10px 8px 10px;
 	vertical-align                   : middle;
 }
@@ -135,7 +135,7 @@
 	color                            : #000000;
 	font-weight                      : bold;
 	height                           : auto;
-	line-height                      : auto;
+	line-height                      : normal;
 	padding                          : 8px 8px 6px 8px;
 	vertical-align                   : middle;
 }

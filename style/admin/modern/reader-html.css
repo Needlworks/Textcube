@@ -403,15 +403,15 @@
 
 #entryBody frameset
 {
-	display: block ! important !important;
-	position: static ! important !important;
-	float: none ! important !important;
-	border: none ! important !important;
+	display: block !important;
+	position: static !important;
+	float: none !important;
+	border: none !important;
 }
 
 #entryBody frame
 {
-	border: none ! important !important;
+	border: none !important;
 }
 
 #entryBody iframe
@@ -426,8 +426,8 @@
 
 #entryBody spacer
 {
-	position: static ! important !important;
-	float: none ! important !important;
+	position: static !important;
+	float: none !important;
 }
 
 /* focusable content: anything w/ tabindex >=0 is focusable */
