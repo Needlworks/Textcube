@@ -66,6 +66,7 @@ function saveConfig(plugin){
 	</div>
 	<div class="submit">
 		<input type='button' value='<?php echo _t('설정');?>' onclick='saveConfig("<?php echo $pluginName;?>");' />
+		<input type='button' value='<?php echo _t('닫기');?>' onclick='self.close();' />
 	</div>
 </body>
 </html>

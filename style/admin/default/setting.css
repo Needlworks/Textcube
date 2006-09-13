@@ -233,7 +233,7 @@ dl dd
 #part-setting-filter div.data-inbox .section table tbody tr td .delete-button
 {
 	background-color                 : transparent;
-	background-image                 : url("./image/icon_trash.gif");
+	background-image                 : url("./image/icon_delete.gif");
 	background-position              : left top;
 	display                          : block;
 	height                           : 11px;

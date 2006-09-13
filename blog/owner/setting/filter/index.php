@@ -59,7 +59,7 @@ function printFilterBox($mode, $title) {
 			$entity = $value[1];
 			
 			$className = ($count % 2) == 1 ? 'even-line' : 'odd-line';
-			$className .= ($i == sizeof($filtersList) - 1) ? ' last-line' : '';
+			$className .= ($id == sizeof($filtersList) - 1) ? ' last-line' : '';
 ?>
 											<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 												<td class="content"><span title="<?php echo escapeJSInAttribute($entity);?>"><?php echo UTF8::lessenAsEm($entity, 30);?></span></td>
