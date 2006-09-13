@@ -113,7 +113,7 @@ function getNumericValue($value) {
 }
 
 function getContentWidth() {
-	global $skinSetting;
+	global $skinSetting, $service;
 	
 	$contentWidth = 400;			
 	if ($xml = @file_get_contents(ROOT."/skin/{$skinSetting['skin']}/index.xml")) {

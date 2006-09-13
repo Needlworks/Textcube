@@ -242,7 +242,8 @@ function handleSidebars(& $sval, & $obj) {
 	cutSidebars($sval, $obj);
 	$orderKeys = getSidebarModuleOrder($obj);
 	for ($i=0; $i<count($orderKeys); $i++) {
-		dress("sidebar_module_{$i}", $obj->sidebarElement[$orderKeys[$i]][1], $obj->sidebar);
+		if (strlen($orderKeys[$i]) > 0)
+			dress("sidebar_module_{$i}", $obj->sidebarElement[$orderKeys[$i]][1], $obj->sidebar);
 	}
 	dress("sidebar", $obj->sidebar, $sval);
 }

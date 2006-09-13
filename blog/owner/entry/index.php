@@ -41,7 +41,7 @@ else if (isset($_GET['search']) && !empty($_GET['search']))
 
 // 페이지당 출력되는 포스트 수.
 $perPage = getUserSetting('rowsPerPage', 10);
-if (in_array($_POST['perPage'], array(10, 15, 20, 25, 30))) {
+if ( isset($_POST['perPage']) && (in_array($_POST['perPage'], array(10, 15, 20, 25, 30)))) {
 	if ($_POST['perPage'] != $perPage) {
 		setUserSetting('rowsPerPage', $_POST['perPage']);
 		$perPage = $_POST['perPage'];

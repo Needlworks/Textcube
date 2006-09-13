@@ -93,6 +93,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			$commentBlock = getCommentView($entryId, $skin);
 			dress('article_rep_id', $entryId, $commentBlock);
 			$commentBlock = escapeCData(removeAllTags($commentBlock));
+			$commentCount = 0;
 			$recentCommentBlock = escapeCData(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));
 		}
 		echo '<?xml version="1.0" encoding="utf-8"?><response><error>0</error><commentView>'.$commentView.'</commentView><commentCount>'.$commentCount.'</commentCount><commentBlock><![CDATA[', $commentBlock, ']]></commentBlock><recentCommentBlock><![CDATA[', $recentCommentBlock, ']]></recentCommentBlock></response>';

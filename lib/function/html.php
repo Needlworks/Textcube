@@ -117,7 +117,7 @@ function link_cut($url, $checkURL = 35)
 {
 	$leftURL	= $checkURL - 14;
 	$rightURL	= -8;
-	$link = ($link == '' || $link == $url) ? ((strlen($url) > $checkURL) ? substr($url, 0 , $leftURL).' &hellip; '.substr($url, $rightURL) : $url) : stripslashes($link);
+	$link = (strlen($url) > $checkURL) ? substr($url, 0 , $leftURL).' &hellip; '.substr($url, $rightURL) : $url;
 	return $link;
 }
 ?>

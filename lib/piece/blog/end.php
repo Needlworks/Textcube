@@ -36,7 +36,7 @@ if (sizeof($notices) > 0) {
 	$itemsView = '';
 	foreach ($notices as $notice) {
 		$itemView = $skin->recentNoticeItem;
-		dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $entry['id'])), $itemView);
+		dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
 		dress('notice_rep_link', "$blogURL/notice/{$notice['id']}", $itemView);
 		$itemsView .= $itemView;
 	}

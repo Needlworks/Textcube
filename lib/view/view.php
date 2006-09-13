@@ -296,7 +296,7 @@ function getScriptsOnFoot() {
 }
 
 function getTrackbacksView($entryId, & $skin) {
-	global $suri, $defaultURL, $skinSetting;
+	global $suri, $defaultURL, $skinSetting, $blogURL, $service;
 	$trackbacksView = '';
 	foreach (getTrackbacks($entryId) as $trackback) {
 		$trackbackView = "<a id=\"trackback{$trackback['id']}\"></a>" . $skin->trackback;
@@ -348,8 +348,6 @@ function getCommentView($entryId, & $skin) {
 	} else {
 		$comments = getComments($entryId);
 	}
-	
-	$slash = ($commentSubItem['homepage']{strlen($commentSubItem['homepage']) - 1} == '/' ? '' : '/');
 	
 	foreach ($comments as $commentItem) {
 		$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . ($isComment ? $skin->commentItem : $skin->guestItem);

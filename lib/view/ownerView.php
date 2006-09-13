@@ -417,7 +417,7 @@ function printEntryFileList($attachments, $param) {
 		
 		$initialFileListForFlash .= escapeJSInAttribute($value.'(_!'.$label.'!^|');
 ?>
-														<option<?php echo $style;?> value="<?php echo $value;?>"><?php echo $label;?></option>
+														<option value="<?php echo $value;?>"><?php echo $label;?></option>
 <?php
 	}
 ?>
