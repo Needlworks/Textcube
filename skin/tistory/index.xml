@@ -32,12 +32,12 @@
 		<showListOnCategory>1</showListOnCategory>
 		<showListOnArchive>1</showListOnArchive>
 		<commentMessage>
-			<none>No Comment</none>
-			<single>Comment (1)</single>
+			<none>댓글이 없음</none>
+			<single>댓글 &lt;span class="cnt"&gt;[##_article_rep_rp_cnt_##]&lt;/span&gt;</single>
 		</commentMessage>
 		<trackbackMessage>
-			<none>No trackback</none>
-			<single>Trackback (1)</single>
+			<none>트랙백 받은적 없음</none>
+			<single>트랙백 &lt;span class="cnt"&gt;[##_article_rep_tb_cnt_##]&lt;/span&gt;</single>
 		</trackbackMessage>
 		<tree>
 			<color>000000</color> 
