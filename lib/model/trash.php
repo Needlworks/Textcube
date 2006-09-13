@@ -3,45 +3,69 @@
 
 function getTrashTrackbackWithPagingForOwner($owner, $category, $site, $ip, $search, $page, $count) {
 	global $database;
+	
+	$postfix = '';
 	$sql = "SELECT t.*, c.name categoryName FROM {$database['prefix']}Trackbacks t LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Categories c ON t.owner = c.owner AND e.category = c.id WHERE t.owner = $owner AND t.isFiltered = 1";
 	if ($category > 0) {
 		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
+		$postfix .= '&category=' . rawurlencode($category);
 	} else
 		$sql .= ' AND e.category >= 0';
-	if (!empty($site))
+	if (!empty($site)) {
 		$sql .= ' AND t.site = \'' . mysql_escape_string($site) . '\'';
-	if (!empty($ip))
+		$postfix .= '&site=' . rawurlencode($site);
+	}
+	if (!empty($ip)) {
 		$sql .= ' AND t.ip = \'' . mysql_escape_string($ip) . '\'';
+		$postfix .= '&ip=' . rawurlencode($ip);
+	}
 	if (!empty($search)) {
 		$search = escapeMysqlSearchString($search);
 		$sql .= " AND (t.site LIKE '%$search%' OR t.subject LIKE '%$search%' OR t.excerpt LIKE '%$search%')";
+		$postfix .= '&search=' . rawurlencode($search);
 	}
 	$sql .= ' ORDER BY t.written DESC';
-	return fetchWithPaging($sql, $page, $count);
+	list($trackbacks, $paging) =  fetchWithPaging($sql, $page, $count);
+	if (strlen($postfix) > 0) {
+		$paging['postfix'] .= $postfix . '&withSearch=on';
+	}
+	return array($trackbacks, $paging);
 }
 
 
 function getTrashCommentsWithPagingForOwner($owner, $category, $name, $ip, $search, $page, $count) {
 	global $database;
 	$sql = "SELECT c.*, e.title, c2.name parentName FROM {$database['prefix']}Comments c LEFT JOIN {$database['prefix']}Entries e ON c.owner = e.owner AND c.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.owner = c2.owner WHERE c.owner = $owner AND c.isFiltered = 1";
+
+	$postfix = '';	
 	if ($category > 0) {
 		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
+		$postfix .= '&category=' . rawurlencode($category);
 	} else
 		$sql .= ' AND e.category >= 0';
-	if (!empty($name))
+	if (!empty($name)) {
 		$sql .= ' AND c.name = \'' . mysql_escape_string($name) . '\'';
-	if (!empty($ip))
-		$sql .= ' AND c.ip = \'' . mysql_escape_string($ip) . '\'';
+		$postfix .= '&name=' . rawurlencode($name);
+	}
+	if (!empty($ip)) {
+		$sql .= ' AND t.ip = \'' . mysql_escape_string($ip) . '\'';
+		$postfix .= '&ip=' . rawurlencode($ip);
+	}
 	if (!empty($search)) {
 		$search = escapeMysqlSearchString($search);
 		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
+		$postfix .= '&search=' . rawurlencode($search);
 	}
 	$sql .= ' ORDER BY c.written DESC';
-	return fetchWithPaging($sql, $page, $count);
+	list($comments, $paging) =  fetchWithPaging($sql, $page, $count);
+	if (strlen($postfix) > 0) {
+		$paging['postfix'] .= $postfix . '&withSearch=on';
+	}
+	return array($comments, $paging);
 }
 
 function getTrackbackTrash($entry) {

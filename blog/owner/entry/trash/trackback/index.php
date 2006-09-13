@@ -3,21 +3,28 @@ if (!defined('ROOT'))
 	define('ROOT', '../../../../..');
 if (isset($_POST['page']))
 	$_GET['page'] = $_POST['page'];
-if(count($_POST) > 0) {
-	$IV = array(
-		'GET' => array(
-			'page' => array('int', 1, 'default' => 1)
-		),
-		'POST' => array(
-			'category' => array('int', 'default' => 0),
-			'site' => array('string', 'default' => ''),
-			'ip' => array('ip', 'default' => ''),
-			'withSearch' => array(array('on'), 'mandatory' => false),
-			'search' => array('string', 'default' => ''),
-			'perPage' => array('int', 10, 30, 'mandatory' => false)
-		)
-	);
-}
+
+if (isset($_GET['category'])) $_POST['category'] = $_GET['category'];
+if (isset($_GET['name'])) $_POST['name'] = $_GET['name'];
+if (isset($_GET['ip'])) $_POST['ip'] = $_GET['ip'];
+if (isset($_GET['withSearch'])) $_POST['withSearch'] = $_GET['withSearch'];
+if (isset($_GET['search'])) $_POST['search'] = $_GET['search'];
+if (isset($_GET['trashType'])) $_POST['trashType'] = $_GET['trashType'];
+
+$IV = array(
+	'GET' => array(
+		'page' => array('int', 1, 'default' => 1)
+	),
+	'POST' => array(
+		'category' => array('int', 'default' => 0),
+		'site' => array('string', 'default' => ''),
+		'ip' => array('ip', 'default' => ''),
+		'withSearch' => array(array('on'), 'mandatory' => false),
+		'search' => array('string', 'default' => ''),
+		'perPage' => array('int', 10, 30, 'mandatory' => false)
+	)
+);
+
 require ROOT . '/lib/includeForOwner.php';
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $site = empty($_GET['site']) ? '' : $_GET['site'];

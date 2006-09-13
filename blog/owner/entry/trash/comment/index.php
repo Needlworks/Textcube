@@ -3,22 +3,29 @@ if (!defined('ROOT'))
 	define('ROOT', '../../../../..');
 if (isset($_POST['page']))
 	$_GET['page'] = $_POST['page'];
-if(count($_POST) > 0) {
-	$IV = array(
-		'GET' => array(
-			'page' => array('int', 1, 'default' => 1)
-		),
-		'POST' => array(
-			'category' => array('int', 'default' => 0),
-			'name' => array('string', 'default' => ''),
-			'ip' => array('ip', 'default' => ''),
-			'withSearch' => array(array('on'), 'mandatory' => false),
-			'search' => array('string', 'default' => ''),
-			'perPage' => array('int', 10, 30, 'mandatory' => false),
-			'trashType' => array('string', 'default' => 'comment')
-		)
-	);
-}
+	
+if (isset($_GET['category'])) $_POST['category'] = $_GET['category'];
+if (isset($_GET['name'])) $_POST['name'] = $_GET['name'];
+if (isset($_GET['ip'])) $_POST['ip'] = $_GET['ip'];
+if (isset($_GET['withSearch'])) $_POST['withSearch'] = $_GET['withSearch'];
+if (isset($_GET['search'])) $_POST['search'] = $_GET['search'];
+if (isset($_GET['trashType'])) $_POST['trashType'] = $_GET['trashType'];
+
+$IV = array(
+	'GET' => array(
+		'page' => array('int', 1, 'default' => 1)
+	),
+	'POST' => array(
+		'category' => array('int', 'default' => 0),
+		'name' => array('string', 'default' => ''),
+		'ip' => array('ip', 'default' => ''),
+		'withSearch' => array(array('on'), 'mandatory' => false),
+		'search' => array('string', 'default' => ''),
+		'perPage' => array('int', 10, 30, 'mandatory' => false),
+		'trashType' => array('string', 'default' => 'comment')
+	)
+);
+
 require ROOT . '/lib/includeForOwner.php';
 requireComponent('Tattertools.Data.Filter');
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
@@ -169,7 +176,6 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 									trashSelect.id = "category";
 									trashSelect.name = "category";
 									trashSelect.setAttribute("onchange", "document.getElementById('trash-form').page.value=1; document.getElementById('trash-form').submit()");
-									trashSelect.setAttribute("disabled", "disabled");
 									
 									trashOption = document.createElement("OPTION");
 									trashOption.innerHTML = "<?php echo _t('전체');?>";
@@ -209,7 +215,7 @@ foreach (getCategories($owner) as $category) {
 }
 ?>
 									
-									document.getElementById('track-radio-trackback').appendChild(trashSelect);
+									document.getElementById('track-radio-comment').appendChild(trashSelect);
 								}
 								
 								function toggleThisTr(obj) {
