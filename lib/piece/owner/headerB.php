@@ -6,7 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.css" />
 <?php
-$plugin = $_GET['name'];
+$plugin = isset($_GET['name']) ? $_GET['name'] : '';
 $pluginAttrs = array();
 $pluginDir = $plugin;
 $adminSkinDir = getUserSetting("adminSkin", "default");

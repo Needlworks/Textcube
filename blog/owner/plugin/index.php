@@ -264,7 +264,7 @@ if (!defined('__TATTERTOOLS_CENTER__')) {
 $plugins = array();
 $pluginAttrs = array();
 
-if ($_POST['sidebarType'] == "inner") {
+if ((isset($_POST['sidebarType'])) && ($_POST['sidebarType'] == "inner")) {
 	// 사이드바이면 기본 내장 플러그인 모듈을 리스트에 포함시킨다.
 	$skin = new Skin($skinSetting['skin']);
 	
@@ -488,7 +488,7 @@ if (defined('__TATTERTOOLS_SIDEBAR__')) {
 								<table cellpadding="0" cellspacing="0" border="0">
 									<tbody>
 <?php
-	if (!is_object($skin))
+	if ((!isset($skin)) || (!is_object($skin)))
 		$skin = new Skin($skinSetting['skin']);
 	$orderKeys = getSidebarModuleOrder($skin);
 	if (count($orderKeys) > 0 && count($skin->sidebarElement) > 0) {

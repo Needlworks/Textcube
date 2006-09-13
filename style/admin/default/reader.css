@@ -178,11 +178,21 @@ h2
 }
 
 /* pseudo box */
-#pseudo-box,
-#data-outbox
+#pseudo-box
 {
 	background-image                 : none !important;
 }
+
+#data-outbox
+{
+	padding-top : 0px;
+}
+
+#data-outbox div
+{
+	margin-top : 0px;
+}
+
 
 /* pannel ---------------------------------------------------------------------------------------*/
 #groupsAndFeeds .data-inbox
@@ -649,7 +659,7 @@ ul#feedList li .edit-button span
 #configure .data-inbox .section .title
 {
 	background-image                 : url("./image/reader/iconSetupitem.gif");
-	background-position              : top 4px;
+	background-position              : 0px 4px;
 	background-repeat                : no-repeat;
 	color                            : #000000;
 	display                          : block !important;
