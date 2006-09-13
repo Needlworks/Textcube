@@ -221,8 +221,9 @@ function getTrackbackCountPart($trackbackCount, &$skin) {
 		dress('article_rep_tb_cnt', 1, $singleTrackbackMessage);
 		$trackbackView = $singleTrackbackMessage;
 	} else {
-		dress('article_rep_tb_cnt', $trackbackCount, $skin->trackbackCount);
-		$trackbackView = $skin->trackbackCount;
+		$trackbackPart = $skin->trackbackCount;
+		dress('article_rep_tb_cnt', $trackbackCount, $trackbackPart);
+		$trackbackView = $trackbackPart;
 	}
 	
 	return array("tb_count", $trackbackView);
