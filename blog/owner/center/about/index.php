@@ -181,7 +181,6 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 								</div>
 							</div>
 						</div>
-					</div>
 <?php
 require ROOT . '/lib/piece/owner/footer1.php';
 ?>

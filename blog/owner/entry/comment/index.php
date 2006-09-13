@@ -3,6 +3,12 @@ define('ROOT', '../../../..');
 
 if (isset($_POST['page']))
 	$_GET['page'] = $_POST['page'];
+if (isset($_GET['category'])) $_POST['category'] = $_GET['category'];
+if (isset($_GET['ip'])) $_POST['ip'] = $_GET['ip'];
+if (isset($_GET['name'])) $_POST['name'] = $_GET['name'];
+if (isset($_GET['perPage'])) $_POST['perPage'] = $_GET['perPage'];
+if (isset($_GET['search'])) $_POST['search'] = $_GET['search'];
+if (isset($_GET['withSearch'])) $_POST['withSearch'] = $_GET['withSearch'];
 
 $IV = array(
 	'GET' => array(

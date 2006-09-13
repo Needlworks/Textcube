@@ -7,7 +7,7 @@ if (false) {
 	fetchConfigVal();
 }
 ?>
-						<div method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
+						<form method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
 							<div id="part-center-dashboard" class="part">
 								<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
 							
@@ -22,7 +22,7 @@ foreach ($centerMappings as $mapping) {
 }
 ?>
 							</div>
-						</div>
+						</form>
 <?php
 require ROOT . '/lib/piece/owner/footer1.php';
 ?>

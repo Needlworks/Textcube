@@ -118,6 +118,7 @@ function handleTags( & $content) {
 
 function handleCenters($mapping) {
 	global $service, $pluginURL, $configMappings, $configVal;
+	$target = '';
 
 	include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
 	if (function_exists($mapping['handler'])) {

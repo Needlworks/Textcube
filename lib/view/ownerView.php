@@ -367,7 +367,7 @@ function printOwnerEditorScript($entryId = false) {
 }
 
 function printEntryFileList($attachments, $param) {
-	global $owner, $service, $blogURL;
+	global $owner, $service, $blogURL, $adminSkinSetting;
 	if(empty($attachments) || (
 	strpos($attachments[0]['name'] ,'.gif') === false &&
 	strpos($attachments[0]['name'] ,'.jpg') === false &&

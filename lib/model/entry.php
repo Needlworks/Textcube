@@ -24,7 +24,7 @@ function getEntry($owner, $id, $draft = false) {
 			if (!doesHaveOwnership())
 				return;
 			deleteAttachments($owner, 0);
-			return array('id' => 0, 'draft' => 0, 'visibility' => 0, 'category' => 0, 'location' => '', 'title' => '', 'content' => '', 'acceptComment' => 1, 'acceptTrackback' => 1, 'published' => time());
+			return array('id' => 0, 'draft' => 0, 'visibility' => 0, 'category' => 0, 'location' => '', 'title' => '', 'content' => '', 'acceptComment' => 1, 'acceptTrackback' => 1, 'published' => time(), 'slogan' => '');
 		}
 	}
 	if ($draft) {

@@ -11,14 +11,14 @@ $IV = array(
 		'acceptComment' => array(array('0', '1'), 'default' => '0'),
 		'acceptTrackback' => array(array('0', '1'), 'default' => '0'),
 		'published' => array('int', 0, 'default' => 1)
-	)
-);
+		)
+	);
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
 $entry['visibility'] = $_POST['visibility'];
 $entry['category'] = empty($_POST['category']) ? 0 : $_POST['category'];
 $entry['title'] = $_POST['title'];
-if ($_POST['permalink'] != '') {
+if ((isset($_POST['permalink'])) && ($_POST['permalink'] != '')) {
 	$entry['slogan'] = $_POST['permalink'];
 }
 $entry['content'] = $_POST['content'];

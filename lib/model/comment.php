@@ -2,23 +2,39 @@
 
 function getCommentsWithPagingForOwner($owner, $category, $name, $ip, $search, $page, $count) {
 	global $database;
+	
+	$postfix = '';
+	
 	$sql = "SELECT c.*, e.title, c2.name parentName FROM {$database['prefix']}Comments c LEFT JOIN {$database['prefix']}Entries e ON c.owner = e.owner AND c.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.owner = c2.owner WHERE c.owner = $owner AND c.isFiltered = 0";
 	if ($category > 0) {
 		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
+		$postfix .= '&category=' . rawurlencode($category);
 	} else
 		$sql .= ' AND e.category >= 0';
-	if (!empty($name))
+	if (!empty($name)) {
 		$sql .= ' AND c.name = \'' . mysql_real_escape_string($name) . '\'';
-	if (!empty($ip))
+		$postfix .= '&name=' . rawurlencode($name);
+	}
+	if (!empty($ip)) {
 		$sql .= ' AND c.ip = \'' . mysql_real_escape_string($ip) . '\'';
+		$postfix .= '&ip=' . rawurlencode($ip);
+	}
 	if (!empty($search)) {
 		$search = escapeMysqlSearchString($search);
 		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
+		$postfix .= '&search=' . rawurlencode($search);
 	}
+	
 	$sql .= ' ORDER BY c.written DESC';
-	return fetchWithPaging($sql, $page, $count);
+	list($comments, $paging) = fetchWithPaging($sql, $page, $count);
+	if (strlen($postfix) > 0) {
+		$postfix .= '&withSearch=on';
+		$paging['postfix'] .= $postfix;
+	}
+	
+	return array($comments, $paging);
 }
 
 function getCommentsNotifiedWithPagingForOwner($owner, $category, $name, $ip, $search, $page, $count) {
