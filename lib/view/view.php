@@ -350,10 +350,10 @@ function getCommentView($entryId, & $skin) {
 	}
 	
 	foreach ($comments as $commentItem) {
-		$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . ($isComment ? $skin->commentItem : $skin->guestItem);
+		$commentItemView = ($isComment ? $skin->commentItem : $skin->guestItem);
 		$commentSubItemsView = '';
 		foreach (getCommentComments($commentItem['id']) as $commentSubItem) {
-			$commentSubItemView = "<a id=\"comment{$commentSubItem['id']}\"></a>" . ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
+			$commentSubItemView = ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
 
 			if (empty($commentSubItem['homepage'])) {
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentSubItem['name']), $commentSubItem), $commentSubItemView);
@@ -370,6 +370,10 @@ function getCommentView($entryId, & $skin) {
 			else if ($commentSubItem['secret'] == 1)
 				$rp_class = $prefix1 . '_secret';
 			dress($prefix1 . '_rep_class', $rp_class, $commentSubItemView);
+			
+			if (dress($prefix1 . '_rep_id', 'comment' . $commentSubItem['id'], $commentSubItemView) == false) {
+				$commentSubItemView = "<a id=\"comment{$commentSubItem['id']}\"></a>" . $commentSubItemView;
+			}
 			$commentSubItemsView .= $commentSubItemView;
 		}
 		dress(($isComment ? 'rp2_rep' : 'guest_reply_rep'), $commentSubItemsView, $commentItemView);
@@ -394,6 +398,9 @@ function getCommentView($entryId, & $skin) {
 		else if ($commentItem['secret'] == 1)
 			$rp_class = $prefix1 . '_secret';			
 		dress($prefix1 . '_rep_class', $rp_class, $commentItemView);
+		if (dress($prefix1 . '_rep_id', 'comment' . $commentItem['id'], $commentItemView) == false) {
+			$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . $commentItemView;
+		}
 		$commentItemsView .= $commentItemView;
 	}
 	dress($prefix1 . '_rep', $commentItemsView, $commentView);
