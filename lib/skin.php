@@ -23,7 +23,9 @@ class Skin {
 	var $guestForm;
 	var $guestGuest;
 	var $guestMember;
+	var $guestContainer;
 	var $guestItem;
+	var $guestSubContainer;
 	var $guestSubItem;
 	var $search;
 	var $recentEntry;
@@ -42,9 +44,12 @@ class Skin {
 	var $commentForm;
 	var $commentGuest;
 	var $commentMember;
+	var $commentContainer;
 	var $commentItem;
+	var $commentSubContainer;
 	var $commentSubItem;
 	var $trackbacks;
+	var $trackbackContainer;
 	var $trackback;
 	var $trackbackCount;
 	var $tagLabel;
@@ -108,8 +113,22 @@ class Skin {
 		list($sval, $this->locativeEntry) = $this->cutSkinTag($sval, 'local_info_rep');
 		list($sval, $this->locativeSpot) = $this->cutSkinTag($sval, 'local_spot_rep');
 		list($sval, $this->locative) = $this->cutSkinTag($sval, 'local');
-		list($sval, $this->guestSubItem) = $this->cutSkinTag($sval, 'guest_reply_rep');
-		list($sval, $this->guestItem) = $this->cutSkinTag($sval, 'guest_rep');
+
+		list($sval, $this->guestSubContainer) = $this->cutSkinTag($sval, 'guest_reply_container');
+		if ($this->guestSubContainer == '') {
+			$this->guestSubContainer = '[##_guest_reply_rep_##]';
+			list($sval, $this->guestSubItem) = $this->cutSkinTag($sval, 'guest_reply_rep', '[##_guest_reply_container_##]');
+		} else {
+			list($this->guestSubContainer, $this->guestSubItem) = $this->cutSkinTag($this->guestSubContainer, 'guest_reply_rep');
+		}
+		list($sval, $this->guestContainer) = $this->cutSkinTag($sval, 'guest_container');
+		if ($this->guestContainer == '') {
+			$this->guestContainer = '[##_guest_rep_##]';
+			list($sval, $this->guestItem) = $this->cutSkinTag($sval, 'guest_rep', '[##_guest_container_##]');
+		} else {
+			list($this->guestContainer, $this->guestItem) = $this->cutSkinTag($this->guestContainer, 'guest_rep');
+		}
+		
 		list($sval, $this->guestGuest) = $this->cutSkinTag($sval, 'guest_form');
 		list($sval, $this->guestMember) = $this->cutSkinTag($sval, 'guest_member');
 		list($sval, $this->guestForm) = $this->cutSkinTag($sval, 'guest_input_form');
@@ -118,18 +137,42 @@ class Skin {
 		list($sval, $this->management) = $this->cutSkinTag($sval, 'ad_div');
 		list($sval, $this->trackbackCount) = $this->cutSkinTag($sval, 'tb_count');
 		list($sval, $this->commentCount) = $this->cutSkinTag($sval, 'rp_count');
-		list($sval, $this->trackback) = $this->cutSkinTag($sval, 'tb_rep');
+		
+		list($sval, $this->trackbackContainer) = $this->cutSkinTag($sval, 'tb_container');
+		if ($this->trackbackContainer == '') {
+			$this->trackbackContainer = '[##_tb_rep_##]';
+			list($sval, $this->trackback) = $this->cutSkinTag($sval, 'tb_rep', '[##_tb_container_##]');
+		} else {
+			list($this->trackbackContainer, $this->trackback) = $this->cutSkinTag($this->trackbackContainer, 'tb_rep');
+		}		
+		
 		list($sval, $this->trackbacks) = $this->cutSkinTag($sval, 'tb');
 		list($sval, $this->tagLabel) = $this->cutSkinTag($sval, 'tag_label');
 		list($sval, $this->siteTagItem) = $this->cutSkinTag($sval, 'tag_rep');
 		list($sval, $this->siteTag) = $this->cutSkinTag($sval, 'tag');
 		list($sval, $this->randomTags) = $this->cutSkinTag($sval, 'random_tags');
-		list($sval, $this->commentSubItem) = $this->cutSkinTag($sval, 'rp2_rep');
-		list($sval, $this->commentItem) = $this->cutSkinTag($sval, 'rp_rep');
+		
+		list($sval, $this->commentSubContainer) = $this->cutSkinTag($sval, 'rp2_container');
+		if ($this->commentSubContainer == '') {
+			$this->commentSubContainer = '[##_rp2_rep_##]';
+			list($sval, $this->commentSubItem) = $this->cutSkinTag($sval, 'rp2_rep', '[##_rp2_container_##]');
+		} else {
+			list($this->commentSubContainer, $this->commentSubItem) = $this->cutSkinTag($this->commentSubContainer, 'rp2_rep');
+		}
+		list($sval, $this->commentContainer) = $this->cutSkinTag($sval, 'rp_container');
+		if ($this->commentContainer == '') {
+			$this->commentContainer = '[##_rp_rep_##]';
+			list($sval, $this->commentItem) = $this->cutSkinTag($sval, 'rp_rep', '[##_rp_container_##]');
+		} else {
+			list($this->commentContainer, $this->commentItem) = $this->cutSkinTag($this->commentContainer, 'rp_rep');
+		}
+		
 		list($sval, $this->commentGuest) = $this->cutSkinTag($sval, 'rp_guest');
 		list($sval, $this->commentMember) = $this->cutSkinTag($sval, 'rp_member');
 		list($sval, $this->commentForm) = $this->cutSkinTag($sval, 'rp_input_form');
 		list($sval, $this->comment) = $this->cutSkinTag($sval, 'rp');
+		
+		
 		list($sval, $this->entry) = $this->cutSkinTag($sval, 'article_rep');
 		list($sval, $this->pagingItem) = $this->cutSkinTag($sval, 'paging_rep');
 		list($sval, $this->paging) = $this->cutSkinTag($sval, 'paging');
@@ -143,7 +186,10 @@ class Skin {
 		$this->outter = $sval;
 	}
 	
-	function cutSkinTag($contents, $tag) {
+	function cutSkinTag($contents, $tag, $replace = null) {
+		if (is_null($replace)) {
+			$replace = "[##_{$tag}_##]";
+		}
 		$tagSize = strlen($tag) + 4;
 		$begin = strpos($contents, "<s_$tag>");
 		if ($begin === false)
@@ -152,7 +198,7 @@ class Skin {
 		if ($end === false)
 			return array($contents, '');
 		$inner = substr($contents, $begin + $tagSize, $end - $begin - $tagSize);
-		$outter = substr($contents, 0, $begin) . "[##_{$tag}_##]" . substr($contents, $end + $tagSize + 1);
+		$outter = substr($contents, 0, $begin) . $replace . substr($contents, $end + $tagSize + 1);
 		return array($outter, $inner);
 	}
 	

@@ -111,22 +111,22 @@ function selectSkin($owner, $skinName) {
 		if (is_null($value)) 
 			setUserSetting('noneCommentMessage', NULL);
 		else
-			setUserSetting('noneCommentMessage', mysql_escape_string($value));
+			setUserSetting('noneCommentMessage', $value);
 		$value = $xmls->getValue('/skin/default/commentMessage/single'); 
 		if (is_null($value))
 			setUserSetting('singleCommentMessage', NULL);
 		else
-			setUserSetting('singleCommentMessage', mysql_escape_string($value));
+			setUserSetting('singleCommentMessage', $value);
 		$value = $xmls->getValue('/skin/default/trackbackMessage/none'); 
 		if (is_null($value))
 			setUserSetting('noneTrackbackMessage', NULL);
 		else
-			setUserSetting('noneTrackbackMessage', mysql_escape_string($value));
+			setUserSetting('noneTrackbackMessage', $value);
 		$value = $xmls->getValue('/skin/default/trackbackMessage/single'); 
 		if (is_null($value))
 			setUserSetting('singleTrackbackMessage', NULL);
 		else
-			setUserSetting('singleTrackbackMessage', mysql_escape_string($value));
+			setUserSetting('singleTrackbackMessage', $value);
 	} else {
 		setUserSetting('noneCommentMessage', NULL);
 		setUserSetting('singleCommentMessage', NULL);

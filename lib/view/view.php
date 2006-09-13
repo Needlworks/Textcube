@@ -297,23 +297,35 @@ function getScriptsOnFoot() {
 
 function getTrackbacksView($entryId, & $skin) {
 	global $suri, $defaultURL, $skinSetting, $blogURL, $service;
+	$trackbacksContainer = $skin->trackbackContainer;
 	$trackbacksView = '';
-	foreach (getTrackbacks($entryId) as $trackback) {
-		$trackbackView = "<a id=\"trackback{$trackback['id']}\"></a>" . $skin->trackback;
+	$trackbacks = getTrackbacks($entryId);
+	foreach ($trackbacks as $trackback) {
+		$trackbackView = $skin->trackback;
 		dress('tb_rep_title', htmlspecialchars($trackback['subject']), $trackbackView);
 		dress('tb_rep_site', htmlspecialchars($trackback['site']), $trackbackView);
 		dress('tb_rep_url', htmlspecialchars($trackback['url']), $trackbackView);
 		dress('tb_rep_desc', htmlspecialchars($trackback['excerpt']), $trackbackView);
 		dress('tb_rep_onclick_delete', "deleteTrackback({$trackback['id']}, $entryId)", $trackbackView);
 		dress('tb_rep_date', fireEvent('ViewTrackbackDate', Timestamp::format5($trackback['written'])), $trackbackView);
+		if (dress('tb_rep_id', 'trackback' . $trackback['id'] , $trackbackView) == false) {
+			$trackbackView = "<a id=\"trackback{$trackback['id']}\"></a>" . $trackbackView;
+		}
 		$trackbacksView .= $trackbackView;
 	}
+	
+	if (count($trackbacks) > 0) {
+		dress('tb_rep', $trackbacksView, $trackbacksContainer);
+	} else {
+		$trackbacksContainer = '';
+	}
+	
 	if ($skinSetting['expandTrackback'] == 1 || (($suri['url'] != $blogURL.'/index.php' && $suri['url'] != $service['path'].'/index.php') && ($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
 		$style = 'block';
 	} else {
 		$style = 'none';
 	}
-	$trackbacksView = "<div id=\"entry{$entryId}Trackback\" style=\"display:$style\">" . str_replace('[##_tb_rep_##]', $trackbacksView, $skin->trackbacks) . '</div>';
+	$trackbacksView = "<div id=\"entry{$entryId}Trackback\" style=\"display:$style\">" . str_replace('[##_tb_container_##]', $trackbacksContainer, $skin->trackbacks) . '</div>';
 	dress('tb_address', "<span onclick=\"copyUrl('$defaultURL/trackback/$entryId')\">$defaultURL/trackback/$entryId</span>", $trackbacksView);
 	return $trackbacksView;
 }
@@ -352,7 +364,8 @@ function getCommentView($entryId, & $skin) {
 	foreach ($comments as $commentItem) {
 		$commentItemView = ($isComment ? $skin->commentItem : $skin->guestItem);
 		$commentSubItemsView = '';
-		foreach (getCommentComments($commentItem['id']) as $commentSubItem) {
+		$subComments = getCommentComments($commentItem['id']);
+		foreach ($subComments as $commentSubItem) {
 			$commentSubItemView = ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
 
 			if (empty($commentSubItem['homepage'])) {
@@ -376,7 +389,11 @@ function getCommentView($entryId, & $skin) {
 			}
 			$commentSubItemsView .= $commentSubItemView;
 		}
-		dress(($isComment ? 'rp2_rep' : 'guest_reply_rep'), $commentSubItemsView, $commentItemView);
+		$commentSubContainer = ($isComment ? $skin->commentSubContainer : $skin->guestSubContainer);
+		dress(($isComment ? 'rp2_rep' : 'guest_reply_rep'), $commentSubItemsView, $commentSubContainer);
+		if (count($subComments) > 0) {
+			dress(($isComment ? 'rp2_container' : 'guest_reply_container'), $commentSubContainer, $commentItemView);
+		}
 		if (empty($commentItem['homepage'])) {
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentItem['name']), $commentItem), $commentItemView);
 		} else {
@@ -403,7 +420,12 @@ function getCommentView($entryId, & $skin) {
 		}
 		$commentItemsView .= $commentItemView;
 	}
-	dress($prefix1 . '_rep', $commentItemsView, $commentView);
+	
+	$commentContainer = ($isComment ? $skin->commentContainer : $skin->guestContainer);
+	dress(($isComment ? 'rp_rep' : 'guest_rep'), $commentItemsView, $commentContainer);
+	if (count($comments) > 0) {
+		dress($prefix1 . '_container', $commentContainer, $commentView);
+	}	
 	
 	$acceptComment = fetchQueryCell("SELECT `acceptComment` FROM `{$database['prefix']}Entries` WHERE `id` = $entryId");
 	

@@ -120,6 +120,7 @@
               </div>
           </s_guest_input_form>
           <!-- guestbook list -->
+          <s_guest_container>
           <div class="clist">
             <ol>
               <s_guest_rep>
@@ -128,6 +129,7 @@
                     <span class="name">[##_guest_rep_name_##]</span> <span class="date"> [##_guest_rep_date_##]</span> <span class="control"> <a href="#" onclick="[##_guest_rep_onclick_delete_##]">수정 | 삭제</a><a href="#" onclick="[##_guest_rep_onclick_reply_##]"> | 답글</a> </span>
                     <p>[##_guest_rep_desc_##]</p>
                   </div>
+                  <s_guest_reply_container>
                   <ul>
                     <s_guest_reply_rep>
                       <li id='[##_guest_rep_id_##]'>
@@ -138,10 +140,12 @@
                       </li>
                     </s_guest_reply_rep>
                   </ul>
+                  </s_guest_reply_container>
                 </li>
               </s_guest_rep>
             </ol>
           </div>
+          </s_guest_container>
         </div>
         <hr />
       </s_guest>
@@ -191,19 +195,22 @@
           <s_tb>
             <div class="trackback">
               <p class="add">Trackback Address :: [##_tb_address_##]</p>
+              <s_tb_container>
               <ol>
                 <s_tb_rep>
-                  <li> Tracked from <span class="name"><a href="[##_tb_rep_url_##]" onclick="window.open(this.href); return false" rel="external nofollow">[##_tb_rep_site_##]</a></span> <span class="date">[##_tb_rep_date_##]</span> <span class="control"><a href="#" onclick="[##_tb_rep_onclick_delete_##]; return false">삭제</a></span>
+                  <li id="[##_tb_rep_id_##]"> Tracked from <span class="name"><a href="[##_tb_rep_url_##]" onclick="window.open(this.href); return false" rel="external nofollow">[##_tb_rep_site_##]</a></span> <span class="date">[##_tb_rep_date_##]</span> <span class="control"><a href="#" onclick="[##_tb_rep_onclick_delete_##]; return false">삭제</a></span>
                     <h4>Subject: <a href="[##_tb_rep_url_##]" onclick="window.open(this.href); return false" rel="external nofollow">[##_tb_rep_title_##] </a></h4>
                     [##_tb_rep_desc_##] </li>
                 </s_tb_rep>
               </ol>
+              </s_tb_container>
             </div>
           </s_tb>
           <!-- comment -->
           <s_rp>
             <div class="comment">
               <!-- comment list -->
+              <s_rp_container>
               <div class="commentlist">
                 <ol>
                   <s_rp_rep><li id='[##_rp_rep_id_##]'>
@@ -213,6 +220,7 @@
                         <span class="control"><a href="[##_rp_rep_link_##]">댓글주소</a> | <a href="#" onclick="[##_rp_rep_onclick_delete_##]">수정 | 삭제</a> | <a href="#" onclick="[##_rp_rep_onclick_reply_##]">댓글</a></span>                                        
                         <p>[##_rp_rep_desc_##]</p>
                     </div>
+                    <s_rp2_container>
                     <ol>
                         <s_rp2_rep><li id='[##_rp_rep_id_##]'>
                             <div class="[##_rp_rep_class_##]">
@@ -223,9 +231,11 @@
                             </div>
                         </li></s_rp2_rep>
                     </ol>
+                    </s_rp2_container>
                   </li></s_rp_rep>
                 </ol>
               </div>
+              </s_rp_container>
               <s_rp_input_form> <!-- comment write-->
                   <div class="write">
                     <s_rp_member>
