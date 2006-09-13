@@ -211,46 +211,20 @@ function getURLForFilter($value) {
 }
 
 function getTrackbackCountPart($trackbackCount, &$skin) {
-	if ($trackbackCount == 0) {
-		if (!empty($skin->trackbackCountNone)) {
-			$trackbackView = $skin->trackbackCountNone;
-			if (eregi("\[##_article_rep_tb_cnt_##\]", $trackbackView)) {
-				dress('article_rep_tb_cnt', 0, $trackbackView);
-			}
-			$result = "tb_none";
-		} else if (!empty($skin->trackbackCountSingle)) {
-			$trackbackView = $skin->trackbackCountSingle;
-			if (eregi("\[##_article_rep_tb_cnt_##\]", $trackbackView)) {
-				dress('article_rep_tb_cnt', 0, $trackbackView);
-			}
-			$result = "tb_single";
-		} else {
-			$trackbackView = $skin->trackbackCountMultiple;
-			if (eregi("\[##_article_rep_tb_cnt_##\]", $trackbackView)) {
-				dress('article_rep_tb_cnt', 0, $trackbackView);
-			}
-			$result = "tb_multiple";
-		}
-	} else if ($trackbackCount == 1) {
-		if (!empty($skin->trackbackCountSingle)) {
-			$trackbackView = $skin->trackbackCountSingle;
-			if (eregi("\[##_article_rep_tb_cnt_##\]", $trackbackView)) {
-				dress('article_rep_tb_cnt', 1, $trackbackView);
-			}
-			$result = "tb_single";
-		} else {
-			$trackbackView = $skin->trackbackCountMultiple;
-			if (eregi("\[##_article_rep_tb_cnt_##\]", $trackbackView)) {
-				dress('article_rep_tb_cnt', 1, $trackbackView);
-			}
-			$result = "tb_multiple";
-		}
-	} else {			
-		$trackbackView = $skin->trackbackCountMultiple;
-		dress('article_rep_tb_cnt', $trackbackCount, $trackbackView);
-		$result = "tb_multiple";
+	$noneTrackbackMessage = getUserSetting('noneTrackbackMessage');
+	$singleTrackbackMessage = getUserSetting('singleTrackbackMessage');
+	
+	if ($trackbackCount == 0 && !empty($noneTrackbackMessage)) {
+		dress('article_rep_tb_cnt', 0, $noneTrackbackMessage);
+		$trackbackView = $noneTrackbackMessage;
+	} else if ($trackbackCount == 1 && !empty($singleTrackbackMessage)) {
+		dress('article_rep_tb_cnt', 1, $singleTrackbackMessage);
+		$trackbackView = $singleTrackbackMessage;
+	} else {
+		dress('article_rep_tb_cnt', $trackbackCount, $skin->trackbackCount);
+		$trackbackView = $skin->trackbackCount;
 	}
 	
-	return array($result, $trackbackView);
+	return array("tb_count", $trackbackView);
 }
 ?>

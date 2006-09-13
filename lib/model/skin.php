@@ -104,8 +104,35 @@ function selectSkin($owner, $skinName) {
 		if (isset($value))
 			array_push($assignments, 'showValueOnTree=' . ($value ? '1' : '0'));
 		$sql = "UPDATE {$database['prefix']}SkinSettings SET " . implode(',', $assignments) . " WHERE owner = $owner";
+		
+		// none/single/multiple
+		$value = $xmls->getValue('/skin/default/commentMessage/none'); 
+		
+		if (is_null($value)) 
+			setUserSetting('noneCommentMessage', NULL);
+		else
+			setUserSetting('noneCommentMessage', mysql_escape_string($value));
+		$value = $xmls->getValue('/skin/default/commentMessage/single'); 
+		if (is_null($value))
+			setUserSetting('singleCommentMessage', NULL);
+		else
+			setUserSetting('singleCommentMessage', mysql_escape_string($value));
+		$value = $xmls->getValue('/skin/default/trackbackMessage/none'); 
+		if (is_null($value))
+			setUserSetting('noneTrackbackMessage', NULL);
+		else
+			setUserSetting('noneTrackbackMessage', mysql_escape_string($value));
+		$value = $xmls->getValue('/skin/default/trackbackMessage/single'); 
+		if (is_null($value))
+			setUserSetting('singleTrackbackMessage', NULL);
+		else
+			setUserSetting('singleTrackbackMessage', mysql_escape_string($value));
 	} else {
-		$sql = "UPDATE {$database['prefix']}SkinSettings SET skin = '$skinName' WHERE owner = $owner";
+		setUserSetting('noneCommentMessage', NULL);
+		setUserSetting('singleCommentMessage', NULL);
+		setUserSetting('noneTrackbackMessage', NULL);
+		setUserSetting('singleTrackbackMessage', NULL);
+		$sql = "UPDATE {$database['prefix']}SkinSettings SET skin='{$skinName}' WHERE owner = $owner";
 	}
 	$result = mysql_query($sql);
 	if (!$result) {

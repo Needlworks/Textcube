@@ -38,9 +38,7 @@ class Skin {
 	var $s_ps;
 	var $s_ps_rep;
 	var $comment;
-	var $commentCountNone;
-	var $commentCountSingle;
-	var $commentCountMultiple;
+	var $commentCount;
 	var $commentForm;
 	var $commentGuest;
 	var $commentMember;
@@ -48,9 +46,7 @@ class Skin {
 	var $commentSubItem;
 	var $trackbacks;
 	var $trackback;
-	var $trackbackCountNone;
-	var $trackbackCountSingle;
-	var $trackbackCountMultiple;
+	var $trackbackCount;
 	var $tagLabel;
 	var $siteTag;
 	var $siteTagItem;
@@ -120,12 +116,8 @@ class Skin {
 		list($sval, $this->guest) = $this->cutSkinTag($sval, 'guest');
 		list($sval, $this->entryProtected) = $this->cutSkinTag($sval, 'article_protected');
 		list($sval, $this->management) = $this->cutSkinTag($sval, 'ad_div');
-		list($sval, $this->trackbackCountNone) = $this->cutSkinTag($sval, 'tb_none');
-		list($sval, $this->trackbackCountSingle) = $this->cutSkinTag($sval, 'tb_single');
-		list($sval, $this->trackbackCountMultiple) = $this->cutSkinTag($sval, 'tb_multiple');
-		list($sval, $this->commentCountNone) = $this->cutSkinTag($sval, 'rp_none');
-		list($sval, $this->commentCountSingle) = $this->cutSkinTag($sval, 'rp_single');
-		list($sval, $this->commentCountMultiple) = $this->cutSkinTag($sval, 'rp_multiple');
+		list($sval, $this->trackbackCount) = $this->cutSkinTag($sval, 'tb_count');
+		list($sval, $this->commentCount) = $this->cutSkinTag($sval, 'rp_count');
 		list($sval, $this->trackback) = $this->cutSkinTag($sval, 'tb_rep');
 		list($sval, $this->trackbacks) = $this->cutSkinTag($sval, 'tb');
 		list($sval, $this->tagLabel) = $this->cutSkinTag($sval, 'tag_label');
@@ -171,7 +163,11 @@ class Skin {
 		
 		for ($i=0; $i<count($tempList); $i++) {
 			if (($i % 2) == 1) {
-				if (ereg("\[##_category_##\]", $tempList[$i])) {
+				if (ereg("\[##_image_##\]", $tempList[$i])) {
+					$id = "%BlogLogo%";
+				} else if (ereg("\[##_search_onclick_submit_##\]", $tempList[$i])) {
+					$id = "%Search%";
+				} else if (ereg("\[##_category_##\]", $tempList[$i])) {
 					// 사이드바 플러그인의 id는 디렉토리명이기 때문에 %를 사용할 수 없다($IV 체크에 의거).
 					// 따라서 내장 모듈에 %를 사용하면 unique 값이 된다(=중복선언의 위험이 없다).
 					$id = "%Category%";

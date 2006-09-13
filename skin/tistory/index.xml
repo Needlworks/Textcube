@@ -30,7 +30,15 @@
 		<lengthOfRecentTrackback>30</lengthOfRecentTrackback> 
 		<lengthOfLink>30</lengthOfLink>
 		<showListOnCategory>1</showListOnCategory>
-		<showListOnArchive>1</showListOnArchive> 
+		<showListOnArchive>1</showListOnArchive>
+		<commentMessage>
+			<none>No Comment</none>
+			<single>Comment (1)</single>
+		</commentMessage>
+		<trackbackMessage>
+			<none>No trackback</none>
+			<single>Trackback (1)</single>
+		</trackbackMessage>
 		<tree>
 			<color>000000</color> 
 			<bgColor>ffffff</bgColor>

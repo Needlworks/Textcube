@@ -32,7 +32,7 @@ function getSkinSetting($owner) {
 	}
 	
 	$retval = array( 'owner' => $owner , 'skin' => $service['skin'], 
-		'entriesOnRecent' => 5, 'commentsOnRecent' => 5, 'commentsOnGuestbook' => 5, 
+		'entriesOnRecent' => 5, 'commentsOnRecent' => 5, 'commentsOnGuestbook' => 5,
 		'tagsOnTagbox' => 30, 'tagboxAlign' => 3, 'trackbacksOnRecent' => 5, 
 		'expandComment' => 1, 'expandTrackback' => 1, 
 		'recentNoticeLength' => 25, 'recentEntryLength' => 30, 

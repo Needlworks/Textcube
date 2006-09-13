@@ -182,7 +182,7 @@
           <!-- tag label -->
           <s_tag_label> <div class="tagbox"> <span class="tagtext">TAG </span> [##_tag_label_rep_##] </div> </s_tag_label>
           <!-- trackback, comment -->
-          <div class="tbrp_box"> <a href="#tb" onclick="[##_article_rep_tb_link_##]"><s_tb_none>Trackback</s_tb_none><s_tb_single>Trackback <span class="cnt">[##_article_rep_tb_cnt_##]</span></s_tb_single><s_tb_multiple>Trackbacks <span class="cnt">[##_article_rep_tb_cnt_##]</span></s_tb_multiple></a> : <a href="#rp" onclick="[##_article_rep_rp_link_##]"><s_rp_none>Comment</s_rp_none><s_rp_single>Comment <span class="cnt">[##_article_rep_rp_cnt_##]</span></s_rp_single><s_rp_multiple>Comments <span class="cnt">[##_article_rep_rp_cnt_##]</span></s_rp_multiple></a> </div>
+          <div class="tbrp_box"> <a href="#tb" onclick="[##_article_rep_tb_link_##]"><s_tb_multiple>Trackbacks <span class="cnt">[##_article_rep_tb_cnt_##]</span></s_tb_multiple></a> : <a href="#rp" onclick="[##_article_rep_rp_link_##]"><s_rp_multiple>Comments <span class="cnt">[##_article_rep_rp_cnt_##]</span></s_rp_multiple></a> </div>
           [##_article_div_area_##]
           <!-- trackback -->
           <s_tb>
@@ -264,15 +264,15 @@
 				<a href="[##_blog_link_##]login">로그인</a> : 
 				<a href="[##_blog_link_##]logout">로그아웃</a> 
 			</div>
+		<s_sidebar>
+         <s_sidebar_element>
       <!-- blog infomation -->
 		  <div class="blogimg">
 				<img src="[##_image_##]" alt="BLOG main image" />
 			</div>
-  	  <s_sidebar>
-         <s_sidebar_element>
-      <div class="bloginfo">
-        [##_desc_##] 
-      </div>
+	      <div class="bloginfo">
+	        [##_desc_##] 
+	      </div>
   	      </s_sidebar_element>
 
 	  <s_sidebar_element>
@@ -402,7 +402,7 @@
 
 	      <s_sidebar_rep_element>
 	      <div class="[##_sidebar_class_##]">
-	        <s_sidebar_titles><h3 style="cursor:pointer;" onclick="clickshow('[##_sidebar_id_##]');">[##_sidebar_title_##]</h3></s_sidebar_titles>
+	         <h3 style="cursor:pointer;" onclick="clickshow('[##_sidebar_id_##]');">[##_sidebar_title_##]</h3></s_sidebar_titles>
 	        <div id="[##_sidebar_id_##]">
 	          [##_sidebar_contents_##]
 	        </div>

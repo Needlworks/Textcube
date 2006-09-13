@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<skin version="1.01 " language="ko">
+<skin version="1.01" language="ko">
 	<information>
 		<name>한글기본스킨_XHTML</name> 
 		<version>1.01</version>
@@ -21,7 +21,7 @@
 		<recentTrackbacks>5</recentTrackbacks>
 		<itemsOnGuestbook>10</itemsOnGuestbook>
 		<tagsInCloud>30</tagsInCloud>
-		<sortInCloud>3</sortInCloud> 
+		<sortInCloud>3</sortInCloud>
 		<expandComment>1</expandComment>
 		<expandTrackback>1</expandTrackback> 
 		<lengthOfRecentNotice>27</lengthOfRecentNotice>
@@ -30,7 +30,15 @@
 		<lengthOfRecentTrackback>45</lengthOfRecentTrackback> 
 		<lengthOfLink>30</lengthOfLink>
 		<showListOnCategory>1</showListOnCategory>
-		<showListOnArchive>1</showListOnArchive> 
+		<showListOnArchive>1</showListOnArchive>
+		<commentMessage>
+			<none>No Comment</none>
+			<single>Comment (1)</single>
+		</commentMessage>
+		<trackbackMessage>
+			<none>No trackback</none>
+			<single>Trackback (1)</single>
+		</trackbackMessage>
 		<tree>
 			<color>000000</color> 
 			<bgColor>ffffff</bgColor>

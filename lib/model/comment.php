@@ -621,46 +621,20 @@ function getCommentCount($owner, $entryId) {
 }
 
 function getCommentCountPart($commentCount, &$skin) {
-	if ($commentCount == 0) {
-		if (!empty($skin->commentCountNone)) {
-			$commentView = $skin->commentCountNone;
-			if (eregi("\[##_article_rep_rp_cnt_##\]", $commentView)) {
-				dress('article_rep_rp_cnt', 0, $commentView);
-			}
-			$result = "rp_none";
-		} else if (!empty($skin->commentCountSingle)) {
-			$commentView = $skin->commentCountSingle;
-			if (eregi("\[##_article_rep_rp_cnt_##\]", $commentView)) {
-				dress('article_rep_rp_cnt', 0, $commentView);
-			}
-			$result = "rp_single";
-		} else {
-			$commentView = $skin->commentCountMultiple;
-			if (eregi("\[##_article_rep_rp_cnt_##\]", $commentView)) {
-				dress('article_rep_rp_cnt', 0, $commentView);
-			}
-			$result = "rp_multiple";
-		}
-	} else if ($commentCount == 1) {
-		if (!empty($skin->commentCountSingle)) {
-			$commentView = $skin->commentCountSingle;
-			if (eregi("\[##_article_rep_rp_cnt_##\]", $commentView)) {
-				dress('article_rep_rp_cnt', 1, $commentView);
-			}
-			$result = "rp_single";
-		} else {
-			$commentView = $skin->commentCountMultiple;
-			if (eregi("\[##_article_rep_rp_cnt_##\]", $commentView)) {
-				dress('article_rep_rp_cnt', 1, $commentView);
-			}
-			$result = "rp_multiple";
-		}
-	} else {			
-		$commentView = $skin->commentCountMultiple;
-		dress('article_rep_rp_cnt', $commentCount, $commentView);
-		$result = "rp_multiple";
+	$noneCommentMessage = getUserSetting('noneCommentMessage');
+	$singleCommentMessage = getUserSetting('singleCommentMessage');
+	
+	if ($commentCount == 0 && !empty($noneCommentMessage)) {
+		dress('article_rep_rp_cnt', 0, $noneCommentMessage);
+		$commentView = $noneCommentMessage;
+	} else if ($commentCount == 1 && !empty($singleCommentMessage)) {
+		dress('article_rep_rp_cnt', 1, $singleCommentMessage);
+		$commentView = $singleCommentMessage;
+	} else {
+		dress('article_rep_rp_cnt', $commentCount, $skin->commentCount);
+		$commentView = $skin->commentCount;
 	}
 	
-	return array($result, $commentView);
+	return array("rp_count", $commentView);
 }
 ?>
