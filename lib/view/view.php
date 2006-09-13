@@ -608,7 +608,7 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 		array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => (doesHaveOwnership() ? $category1['entriesInLogin'] : $category1['entries']), 'link' => "$blogURL/category/" . encodeURL($category1['label']), 'children' => $children));
 	}
 	ob_start();
-	printTreeView($tree, $selected, $xhtml);
+	printTreeView($tree, $selected, false, $xhtml);
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;
@@ -642,13 +642,13 @@ function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 		array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => (doesHaveOwnership() ? $category1['entriesInLogin'] : $category1['entries']), 'link' => "", 'children' => $children));
 	}
 	ob_start();
-	printTreeView($tree, $selected);
+	printTreeView($tree, $selected, true);
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;
 }
 
-function printTreeView($tree, $selected, $xhtml=false) {
+function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 	$skin = getCategoriesSkin();
 	if ($xhtml) {
 		echo '<ul>';
@@ -800,9 +800,9 @@ function printTreeView($tree, $selected, $xhtml=false) {
 		$itemBgColor = 'background-color: #' . $skin['itemBgColor'] . ';';
 	}
 ?>
-	<table id="treeComponent" currentselectednode="<?php echo $selected;?>" cellpadding="0" cellspacing="0" style="width: 100%;"><tr>
+	<table id="treeComponent" <?php echo ($embedJava==true) ? 'currentselectednode="' . $selected . '"' : ''?> cellpadding="0" cellspacing="0" style="width: 100%;"><tr>
 	<td>
-		<table id="category_0" name="treeNode" cellpadding="0" cellspacing="0"><tr>
+		<table id="category_0" <?php echo ($embedJava==true) ? 'name="treeNode"' : ''; ?> cellpadding="0" cellspacing="0"><tr>
 			<td class="ib" style="font-size: 1px"><img src="<?php echo $skin['url'];?>/tab_top.gif" width="16" onclick="expandTree()" alt="" /></td>
 			<td valign="top" style="font-size:9pt; padding-left:3px">
 				<table onclick="<?php 
@@ -835,7 +835,7 @@ function printTreeView($tree, $selected, $xhtml=false) {
 		else
 			$link = 'onclick="window.location.href=\'' . escapeJSInAttribute($row['link']) . '\'"';
 ?>
-		<table name="treeNode"  id="category_<?php echo $row['id'];?>" cellpadding="0" cellspacing="0"><tr>
+		<table <?php echo ($embedJava==true) ? 'name="treeNode"' : ''; ?>  id="category_<?php echo $row['id'];?>" cellpadding="0" cellspacing="0"><tr>
 			<td class="ib" style="width:39px; font-size: 1px; background-image: url('<?php echo $skin['url'];?>/navi_back_noactive<?php echo ($i ? '' : '_end');?>.gif')"><a class="click" onclick="toggleFolder('<?php echo $row['id'];?>')"><img src="<?php echo $skin['url'];?>/tab_<?php echo (count($row['children']) ? 'closed' : 'isleaf');?>.gif" width="39" alt="" /></a></td>
 			<td>
 				<table cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor;?>"><tr>
@@ -862,7 +862,7 @@ function printTreeView($tree, $selected, $xhtml=false) {
 			else
 				$link = 'onclick="window.location.href=\'' . escapeJSInAttribute($irow['link']) . '\'"';
 ?>
-				<table id="category_<?php echo $irow['id'];?>" name="treeNode" cellpadding="0" cellspacing="0"><tr>
+				<table id="category_<?php echo $irow['id'];?>" <?php echo ($embedJava==true) ? 'name="treeNode"' : ''; ?> cellpadding="0" cellspacing="0"><tr>
 				<td style="width:39px; font-size: 1px"><img src="<?php echo $skin['url'];?>/navi_back_active<?php echo ($i ? '' : '_end');?>.gif" width="17" height="18" alt="" /><img src="<?php echo $skin['url'];?>/tab_treed<?php 
 			if (!$j)
 				print "_end";

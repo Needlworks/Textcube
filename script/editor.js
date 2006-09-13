@@ -359,6 +359,10 @@ TTEditor.prototype.html2ttml = function() {
 
 	// 빈줄을 br 태그로
 	str = str.replace(new RegExp("<p[^>]*?>&nbsp;</p>", "gi"), "<br />");
+	
+	// <br> 을 <br />로
+	str = str.replaceAll("<br>", "<br />");
+	str = str.replaceAll("<BR>", "<br />");
 
 	// 빈 태그 제거
 	str = str.replace(new RegExp("<(\\w+)[^>]*></\\1>", "gi"), "");
