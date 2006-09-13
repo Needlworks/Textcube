@@ -621,8 +621,8 @@ function getCommentCount($owner, $entryId) {
 }
 
 function getCommentCountPart($commentCount, &$skin) {
-	$noneCommentMessage = getUserSetting('noneCommentMessage');
-	$singleCommentMessage = getUserSetting('singleCommentMessage');
+	$noneCommentMessage = $skin->noneCommentMessage;
+	$singleCommentMessage = $skin->singleCommentMessage;
 	
 	if ($commentCount == 0 && !empty($noneCommentMessage)) {
 		dress('article_rep_rp_cnt', 0, $noneCommentMessage);

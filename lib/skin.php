@@ -62,9 +62,22 @@ class Skin {
 	var $sidebarElement;
 	var $inlineSidebarCount = 0;
 	
+	
+	var $noneCommentMessage;
+	var $singleCommentMessage;
+	var $noneTrackbackMessage;
+	var $singleTrackbackMessage;
+	
+	
 	function Skin($name) {
 		global $service, $blogURL;
 		global $owner;
+		
+		$this->noneCommentMessage = getUserSetting('noneCommentMessage');
+		$this->singleCommentMessage = getUserSetting('singleCommentMessage');
+		$this->noneTrackbackMessage = getUserSetting('noneTrackbackMessage');
+		$this->singleTrackbackMessage = getUserSetting('singleTrackbackMessage');
+		
 		
 		if (strncmp($name, 'customize/', 10) == 0) {
 			$name = "customize/$owner";
@@ -136,7 +149,17 @@ class Skin {
 		list($sval, $this->entryProtected) = $this->cutSkinTag($sval, 'article_protected');
 		list($sval, $this->management) = $this->cutSkinTag($sval, 'ad_div');
 		list($sval, $this->trackbackCount) = $this->cutSkinTag($sval, 'tb_count');
+		if ($this->trackbackCount == '') {
+			list($sval, $this->trackbackCount) = $this->cutSkinReplacer($sval, 'article_rep_tb_cnt','[##_tb_count_##]');
+			$this->noneTrackbackMessage = '';
+			$this->singleTrackbackMessage = '';
+		}
 		list($sval, $this->commentCount) = $this->cutSkinTag($sval, 'rp_count');
+		if ($this->commentCount == '') {
+			list($sval, $this->commentCount) = $this->cutSkinReplacer($sval, 'article_rep_rp_cnt','[##_rp_count_##]');
+			$this->noneCommentMessage = '';
+			$this->singleCommentMessage = '';
+		}
 		
 		list($sval, $this->trackbackContainer) = $this->cutSkinTag($sval, 'tb_container');
 		if ($this->trackbackContainer == '') {
@@ -194,11 +217,25 @@ class Skin {
 		$begin = strpos($contents, "<s_$tag>");
 		if ($begin === false)
 			return array($contents, '');
-		$end = strpos($contents, "</s_$tag>", $begin + 5);
+		$end = strpos($contents, "</s_$tag>", $begin + 4);
 		if ($end === false)
 			return array($contents, '');
 		$inner = substr($contents, $begin + $tagSize, $end - $begin - $tagSize);
 		$outter = substr($contents, 0, $begin) . $replace . substr($contents, $end + $tagSize + 1);
+		return array($outter, $inner);
+	}
+	
+	function cutSkinReplacer($contents, $tag, $replace = null) {
+		if (is_null($replace)) {
+			$replace = "[##_{$tag}_##]";
+		}
+		$tagSize = strlen("[##_{$tag}_##]");
+		$pos = strpos($contents, "[##_{$tag}_##]");
+		if ($pos === false) {
+			return array($contents, '');
+		}
+		$inner = "[##_{$tag}_##]";
+		$outter = substr($contents, 0, $pos) . $replace . substr($contents, $pos + $tagSize);
 		return array($outter, $inner);
 	}
 	

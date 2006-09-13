@@ -211,8 +211,8 @@ function getURLForFilter($value) {
 }
 
 function getTrackbackCountPart($trackbackCount, &$skin) {
-	$noneTrackbackMessage = getUserSetting('noneTrackbackMessage');
-	$singleTrackbackMessage = getUserSetting('singleTrackbackMessage');
+	$noneTrackbackMessage = $skin->noneTrackbackMessage;
+	$singleTrackbackMessage = $skin->singleTrackbackMessage;
 	
 	if ($trackbackCount == 0 && !empty($noneTrackbackMessage)) {
 		dress('article_rep_tb_cnt', 0, $noneTrackbackMessage);
