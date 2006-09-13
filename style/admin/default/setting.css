@@ -333,7 +333,7 @@ dl dd
 #part-data-remove div.data-inbox .explain a:hover,
 #part-data-remove div.data-inbox .explain a:active
 {
-	color                            : #44444 !important;
+	color                            : #444444 !important;
 	text-decoration                  : none !important;
 }
 
@@ -447,7 +447,7 @@ dl dd
 	color                            : #000000;
 	font-weight                      : bold;
 	height                           : auto;
-	line-height                      : auto;
+	line-height                      : normal;
 	padding                          : 10px 10px 8px 10px;
 	vertical-align                   : middle;
 }
