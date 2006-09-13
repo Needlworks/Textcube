@@ -1214,7 +1214,7 @@ CREATE TABLE {$_POST['dbPrefix']}Sessions (
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}SkinSettings (
   owner int(11) NOT NULL default '0',
-  skin varchar(32) NOT NULL default 'Tattertools_skyline_ko',
+  skin varchar(32) NOT NULL default 'tistory',
   entriesOnRecent int(11) NOT NULL default '10',
   commentsOnRecent int(11) NOT NULL default '10',
   commentsOnGuestbook int(11) NOT NULL default '5',
@@ -1384,7 +1384,7 @@ ini_set('display_errors', 'off');
 \$service['type'] = '{$_POST['type']}';
 \$service['domain'] = '{$_POST['domain']}';
 \$service['path'] = '$path';
-\$service['skin'] = 'Tattertools_skyline_ko';
+\$service['skin'] = 'tistory';
 ?>"
             );
             fclose($fp);
