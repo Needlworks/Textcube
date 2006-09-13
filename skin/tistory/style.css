@@ -367,10 +367,6 @@ margin-bottom:5px;
 	color:#666;
 	letter-spacing:-1px;
 }
-#content .cnt {
-	font:10px Verdana;
-	color:#666;
-}
 #content .date {
 	font:10px Verdana;
 	letter-spacing:-1px;	
@@ -634,7 +630,6 @@ color:#999;
 	font:11px verdana;
 }
 .entry .tbrp_box .cnt{
-	font:10px verdana;
 	color:#f60;
 }
 /* entry trackback */
