@@ -1,4 +1,7 @@
 <?php
+requireComponent( "Tattertools.Model.Statistics");
+requireComponent( "Tattertools.Model.Paging");
+requireComponent( "Tattertools.Function.Misc");
 if (isset($_POST['page']))
 	$_GET['page'] = $_POST['page'];
 $IV = array(
@@ -42,7 +45,7 @@ if (empty($_POST['perPage'])) {
 								</thead>
 								<tbody>
 <?php
-$temp = getRefererStatistics($owner);
+$temp = Statistics::getRefererStatistics($owner);
 for ($i=0; $i<sizeof($temp); $i++) {
 	$record = $temp[$i];
 	
@@ -75,7 +78,7 @@ for ($i=0; $i<sizeof($temp); $i++) {
 								<tbody>
 <?php
 $more = false;
-list($refereres, $paging) = getRefererLogsWithPage($suri['page'], $perPage);
+list($refereres, $paging) = Statistics::getRefererLogsWithPage($suri['page'], $perPage);
 for ($i=0; $i<sizeof($refereres); $i++) {
 	$record = $refereres[$i];
 	
@@ -102,12 +105,12 @@ for ($i=0; $i<sizeof($refereres); $i++) {
 $paging['prefix'] = '?name=AD_Referer_Default&page=';
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
-echo str_repeat("\t", 8).getPagingView($paging, $pagingTemplate, $pagingItemTemplate).CRLF;
+echo str_repeat("\t", 8).Paging::getPagingView($paging, $pagingTemplate, $pagingItemTemplate).CRLF;
 ?>
 										</span>
 									</div>
 									<div class="page-count">
-										<?php echo getArrayValue(explode('%1', _t('한 페이지에 목록 %1건 표시')), 0);?>
+										<?php echo Misc::getArrayValue(explode('%1', _t('한 페이지에 목록 %1건 표시')), 0);?>
 										<select name="perPage" onchange="document.getElementById('part-statistics-log').submit()">					
 <?php
 for ($i = 10; $i <= 100; $i += 5) {
@@ -123,7 +126,7 @@ for ($i = 10; $i <= 100; $i += 5) {
 }
 ?>
 										</select>
-										<?php echo getArrayValue(explode('%1', _t('한 페이지에 목록 %1건 표시')), 1);?>
+										<?php echo Misc::getArrayValue(explode('%1', _t('한 페이지에 목록 %1건 표시')), 1);?>
 										
 										<input type="submit" id="log-pages-submit" value="<?php echo _t('갱신');?>" />
 									</div>

@@ -1,5 +1,6 @@
 <?php
-$stats = getStatistics($owner);
+requireComponent( "Tattertools.Model.Statistics");
+$stats = Statistics::getStatistics($owner);
 $date = $_GET['date'];
 ?>
 						<script type="text/javascript">
@@ -57,7 +58,7 @@ $date = $_GET['date'];
 									</thead>
 									<tbody>
 <?php
-$temp = getMonthlyStatistics($owner);
+$temp = Statistics::getMonthlyStatistics($owner);
 for ($i=0; $i<sizeof($temp); $i++) {
 	$record = $temp[$i];
 	
@@ -85,7 +86,7 @@ for ($i=0; $i<sizeof($temp); $i++) {
 									<tbody>
 <?php
 if (isset($date)) {
-	$temp = getDailyStatistics($date);
+	$temp = Statistics::getDailyStatistics($date);
 	for ($i=0; $i<sizeof($temp); $i++) {
 		$record = $temp[$i];
 		
