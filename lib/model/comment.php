@@ -631,8 +631,9 @@ function getCommentCountPart($commentCount, &$skin) {
 		dress('article_rep_rp_cnt', 1, $singleCommentMessage);
 		$commentView = $singleCommentMessage;
 	} else {
-		dress('article_rep_rp_cnt', $commentCount, $skin->commentCount);
-		$commentView = $skin->commentCount;
+		$commentPart = $skin->commentCount;
+		dress('article_rep_rp_cnt', $commentCount, $commentPart);
+		$commentView = $commentPart;
 	}
 	
 	return array("rp_count", $commentView);
