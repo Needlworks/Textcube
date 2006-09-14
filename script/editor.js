@@ -433,64 +433,6 @@ TTEditor.prototype.html2ttml = function() {
 		str = str.replaceAll(body, '<embed loop="true" menu="false" quality="high" ' + this.parseImageSize(body, "string") + ' type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" src="' + this.parseAttribute(body, "longdesc") + '"></embed>');
 	}
 
-	if(!strictXHTML)
-		return str;
-
-	// <b> -> <strong>, <i> -> <em>, <u> -> <ins>, <strike> -> <del>
-	str = str.replace(new RegExp("<b([^>]*?)>(.*?)</b>", "gi"), "<strong$1>$2</strong>");
-	str = str.replace(new RegExp("<i([^>]*?)>(.*?)</i>", "gi"), "<em$1>$2</em>");
-	str = str.replace(new RegExp("<u([^>]*?)>(.*?)</u>", "gi"), "<ins$1>$2</ins>");
-	str = str.replace(new RegExp("<strike([^>]*?)>(.*?)</strike>", "gi"), "<del$1>$2</del>");
-
-	var regTag = new RegExp("<([^\\s>]+)\\s*([^>]*)(/?)>", "g");
-	while(result = regTag.exec(str)) {
-		var tagBody = result[0];
-		var tagStart = "<" + result[1];
-		var tagFinish = result[3] + ">";
-
-		if(tagStart.indexOf("<!--") == 0)
-			continue;
-
-		var attributeString = result[2];
-
-		var regAttribute = new RegExp("(\\s*[^=]*)=((?:\"[^\"]+\")|(?:'[^']+')|(?:[^\\s]+))", "g");
-
-		var attributes = new Array();
-
-		while(result = regAttribute.exec(attributeString))
-			attributes.push(new Array(result[1].trim(), result[2].replace(new RegExp("['\"](.*)['\"]", "g"), "$1").trim()));
-
-		var sb = new StringBuffer();
-
-		for(var i in attributes) {
-			if(trim(attributes[i][0].toLowerCase()) == "style") {
-				var regStyle = new RegExp("([\\w-]+): ([^;]*)", "gi");
-				var sbStyle = new StringBuffer();
-
-				while(result = regStyle.exec(attributes[i][1]))
-					sbStyle.append(result[1].toLowerCase() + ": " + result[2] + "; ");
-
-				sb.append(" style=\"" + sbStyle.toString().replace(new RegExp("(.*); $", "g"), "$1") + "\"");
-			}
-			else
-				sb.append(" " + attributes[i][0].toLowerCase() + "=\"" + attributes[i][1] + "\"");
-		}
-
-		var tagAttributes = sb.toString();
-
-		switch(tagStart.toLowerCase()) {
-			case "<img":
-			case "<br":
-			case "<hr":
-				tagFinish = (tagFinish == ">") ? "/>" : tagFinish;
-		}
-
-		if(tagStart.toLowerCase() == "<img" && tagAttributes.indexOf("alt=") == -1)
-			tagFinish = ' alt=""' + tagFinish;
-
-		str = str.replaceAll(tagBody, tagStart.toLowerCase() + tagAttributes + tagFinish);
-	}
-
 	return str;
 }
 

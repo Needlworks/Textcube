@@ -308,13 +308,11 @@ if ($service['type'] != 'single') {
 	}
 
 	var editorMode = "<?=getUserSetting('editorMode', 1)?>";
-	var strictXHTML = "<?=getUserSetting('strictXHTML', 0)?>";
 	function setEditor() {
-		if (document.forms[0].editorMode.value != editorMode || document.forms[0].strictXHTML.value != strictXHTML) {
-			var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/editor/?editorMode=" + document.forms[0].editorMode.value + "&strictXHTML=" + document.forms[0].strictXHTML.value);
+		if (document.forms[0].editorMode.value != editorMode) {
+			var request = new HTTPRequest("GET", "<?=$blogURL?>/owner/setting/blog/editor/?editorMode=" + document.forms[0].editorMode.value);
 			request.onSuccess = function() {
 				editorMode = document.forms[0].editorMode.value;
-				strictXHTML = document.forms[0].strictXHTML.value;
 				PM.showMessage("<?=_t('저장되었습니다')?>", "center", "bottom");
 			}
 			request.onError = function() {
@@ -714,20 +712,6 @@ foreach (Timezone::getList() as $timezone) {
                         <select name="editorMode">
 							<option value="1"<?=$editorMode==1?' selected':''?>><?=_t('위지윅 모드')?></option>
 							<option value="2"<?=$editorMode==2?' selected':''?>><?=_t('HTML 직접 편집')?></option>
-                        </select>
-                      </td>
-                    </tr>
-                  </table>
-                  <table cellspacing="0">
-                    <tr>
-                      <td class="entryEditTableLeftCell"><?=_t('XHTML 준수')?> |</td>
-                      <td>
-					  	<?
-							$strictXHTML = getUserSetting('strictXHTML', 0);
-						?>
-                        <select name="strictXHTML">
-							<option value="0"<?=$strictXHTML==0?' selected':''?>><?=_t('처리하지 않음')?></option>
-							<option value="1"<?=$strictXHTML==1?' selected':''?>><?=_t('올바른 XHTML 코드로 다듬어 출력')?></option>
                         </select>
                       </td>
                     </tr>

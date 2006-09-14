@@ -17,7 +17,6 @@ function printOwnerEditorScript($entryId = false) {
 <script type="text/javascript">
 //<![CDATA[
 	var entryId = <?=$entryId ? $entryId : 0?>; 
-	var strictXHTML = <?=getUserSetting('strictXHTML', 0)==1 ? 'true' : 'false'?>;
 	var skinContentWidth = <?=$contentWidth?>;
 	var s_enterURL = "<?=_t('URL을 입력하세요')?>";
 	var s_unknownFileType = "<?=_t('알 수 없는 형식의 파일명입니다')?>";
