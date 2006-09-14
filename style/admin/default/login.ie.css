@@ -15,6 +15,7 @@ dd .input-text
 
 .login-button
 {
-	height                           : 30px !important;
-	padding-top                      : 4px !important;
+
+	line-height : normal !important;
+
 }

@@ -845,7 +845,6 @@ h3
 
 #uploaderNest
 {
-	display                          : block;
 	margin-left                      : 136px;
 }
 
@@ -856,6 +855,7 @@ h3
 	background-position              : left top;
 	background-repeat                : repeat-x;
 	border                           : 1px solid #777777;
+	display                          : inline !important;
 	font-size                        : 1em;
 	height                           : 2em;
 	line-height                      : 2em;

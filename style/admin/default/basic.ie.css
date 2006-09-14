@@ -2,6 +2,16 @@
 
 /* Basic Tag *************************************************************************************/
 
+dl
+{
+	border                           : 1px solid #FFFFFF !important; /* border를 주지 않으면 위치를 잘못 잡는 IE의 버그로 인해 디자인과 관계 없이 포함됨 */
+}
+
+dt
+{
+	top                              : 5px !important;
+}
+
  dd
 {
 	line-height                      : 2.5em;
@@ -57,6 +67,20 @@ table.data-inbox tbody tr td.status a
 }
 
 /* Etc *******************************************************************************************/
+
+input.input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url("./image/bg_button.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #777777;
+	cursor                           : pointer;
+	font-size                        : 1em;
+	margin-top                       : -2px;
+	padding                          : 9px 0 4px 0 !important;
+	vertical-align                   : middle;
+}
 
 input.input-text
 {

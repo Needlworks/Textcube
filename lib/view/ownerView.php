@@ -1008,7 +1008,7 @@ function printEntryEditorProperty() {
 														<dt class="property-name"><label for="propertyImage1_caption1"><?php echo _t('자막');?></label></dt>
 														<dd><input type="text" class="input-text" id="propertyImage1_caption1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
-													<dl class="line">
+													<dl class="resample-property-box line">
 														<dd><input type="checkbox" id="propertyImage1_resample1" onclick="editor.setProperty()" /> <label for="propertyImage1_resample1"><?php echo _t('리샘플링 사용');?></label></dd>
 													</dl>
 												</div>
@@ -1031,7 +1031,7 @@ function printEntryEditorProperty() {
 														<dt class="property-name"><label for="propertyImage2_caption1"><?php echo _t('자막');?></label></dt>
 														<dd><input type="text" class="input-text" id="propertyImage2_caption1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
-													<dl class="line">
+													<dl class="resample-property-box line">
 														<dd><input type="checkbox" id="propertyImage2_resample1" onclick="editor.setProperty()" /> <label for="propertyImage2_resample1"><?php echo _t('리샘플링 사용');?></label></dd>
 													</dl>
 												</div>
@@ -1050,7 +1050,7 @@ function printEntryEditorProperty() {
 														<dt class="property-name"><label for="propertyImage2_resample2"><?php echo _t('자막');?></label></dt>
 														<dd><input type="text" class="input-text" id="propertyImage2_caption2" onkeyup="editor.setProperty()" /></dd>
 													</dl>
-													<dl class="line">
+													<dl class="resample-property-box line">
 														<dd><input type="checkbox" id="propertyImage2_resample2" onclick="editor.setProperty()" /> <label for="propertyImage2_resample2"><?php echo _t('리샘플링 사용');?></label></dd>
 													</dl>
 												</div>
@@ -1073,7 +1073,7 @@ function printEntryEditorProperty() {
 														<dt class="property-name"><label for="propertyImage3_caption1"><?php echo _t('자막');?></label></dt>
 														<dd><input type="text" class="input-text" id="propertyImage3_caption1" onkeyup="editor.setProperty()" /></dd>
 													</dl>
-													<dl class="line">
+													<dl class="resample-property-box line">
 														<dd><input type="checkbox" id="propertyImage3_resample1" onclick="editor.setProperty()" /> <label for="propertyImage3_resample1"><?php echo _t('리샘플링 사용');?></label></dd>
 													</dl>
 												</div>
@@ -1092,7 +1092,7 @@ function printEntryEditorProperty() {
 														<dt class="property-name"><label for="propertyImage3_caption2"><?php echo _t('자막');?></label></dt>
 														<dd><input type="text" class="input-text" id="propertyImage3_caption2" onkeyup="editor.setProperty()" /></dd>
 													</dl>
-													<dl class="line">
+													<dl class="resample-property-box line">
 														<dd><input type="checkbox" id="propertyImage3_resample2" onclick="editor.setProperty()" /> <label for="propertyImage3_resample2"><?php echo _t('리샘플링 사용');?></label></dd>
 													</dl>
 												</div>
@@ -1111,7 +1111,7 @@ function printEntryEditorProperty() {
 														<dt class="property-name"><label for="propertyImage3_caption3"><?php echo _t('자막');?></label></dt>
 														<dd><input type="text" class="input-text" id="propertyImage3_caption3" onkeyup="editor.setProperty()" /></dd>
 													</dl>
-													<dl class="line">
+													<dl class="resample-property-box line">
 														<dd><input type="checkbox" id="propertyImage3_resample3" onclick="editor.setProperty()" /> <label for="propertyImage3_resample3"><?php echo _t('리샘플링 사용');?></label></dd>
 													</dl>
 												</div>
@@ -1321,7 +1321,7 @@ function printEntryEditorProperty() {
 												
 												<div class="group">
 													<div class="title"><?php echo _t('파일');?></div>
-													<dl class="line">
+													<dl class="file-list-line line">
 														<dd>
 															<select id="propertyGallery_list" class="file-list" size="10" onchange="editor.listChanged('propertyGallery_list')" onclick="editor.listChanged('propertyGallery_list')"></select>
 														</dd>

@@ -668,9 +668,9 @@ if (isset($_GET['popupEditor'])) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
 								<div class="button-box two-button-box">
-									<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
-									<span class="hidden">|</span>
 									<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
+									<span class="hidden">|</span>
+									<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
 								</div>
 <?php
 	} else {
@@ -684,9 +684,9 @@ if (isset($_GET['popupEditor'])) {
 	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
 								<div class="button-box three-button-box">
-									<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
+									<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
 									<span class="hidden">|</span>
-							       	<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
+							       	<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
 									<span class="hidden">|</span>
 									<a href="<?php echo $blogURL;?>/owner/entry" class="list-button button"><span class="text"><?php echo _t('목록으로');?></span></a>
 								</div>
