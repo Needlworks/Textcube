@@ -23,7 +23,7 @@ table.data-inbox tr .syndicate
 
 #part-post-comment #page-section .page-count
 {
-	bottom                           : 130px;
+	bottom                           : 128px;
 }
 
 #part-post-comment #search-form
@@ -56,7 +56,7 @@ table.data-inbox tr .syndicate
 
 #part-post-trackback #page-section .page-count
 {
-	bottom                           : 130px;
+	bottom                           : 128px;
 }
 
 #part-post-trackback #search-form
@@ -66,16 +66,44 @@ table.data-inbox tr .syndicate
 
 /* Tree ******************************************************************************************/
 
+#property-box dl
+{
+	border-bottom                    : 1px solid #DDDDDD !important;
+}
+
+#property-box dl dt
+{
+	top                              : 2px !important;
+}
+
 #property-box dl dd p
 {
 	height                           : 1.5em;
 	line-height                      : 1.5em;
 }
 
+#property-box dl dd .input-button
+{
+	margin-top                       : 0.5px !important;
+}
+
 #label-create-line dd .field-box,
 #body-id-line dd .field-box
 {
 	margin-bottom                    : 5px;
+}
+
+#label-move-line dt,
+#label-remove-line dt
+{
+	padding                          : 5px 0 0 0 !important;
+}
+
+#label-move-line dd,
+#label-remove-line dd
+{
+	height                           : 2em;
+	line-height                      : 3em !important;
 }
 
 /* Trash ******************************************************************************************/

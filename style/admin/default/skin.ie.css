@@ -39,11 +39,38 @@
 	margin-top                       : 20px;
 }
 
+/* Setting ***************************************************************************************/
+
+#part-skin-setting fieldset
+{
+	padding                          : 2px 0 0 0 !important;
+}
+
+#part-skin-setting fieldset dl
+{
+	border-top                       : 1px solid #DDDDDD !important;
+}
+
+#part-skin-setting dl dt
+{
+	top                              : 0 !important;
+}
+
 /* Tree -----------------------------------------------------------------------------------------*/
 
 #property-box
 {
 	border-top                       : none;
+}
+
+#property-box dl
+{
+	border-top                       : 1px solid #DDDDDD !important;
+}
+
+#property-box dl dt
+{
+	padding-top                      : 0 !important;
 }
 
 /* plugin ****************************************************************************************/

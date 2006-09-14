@@ -59,6 +59,16 @@ table.data-inbox thead tr th
 	top                              : 53px;
 }
 
+#search-form .input-button
+{
+	margin-top                       : 0;
+}
+
+#page-section .page-count
+{
+	bottom                           : 134px;
+}
+
 /* plugin status icon */
 
 table.data-inbox tbody tr td.status a
@@ -70,16 +80,9 @@ table.data-inbox tbody tr td.status a
 
 input.input-button
 {
-	background-color                 : #FFFFFF;
-	background-image                 : url("./image/bg_button.png");
-	background-position              : left top;
-	background-repeat                : repeat-x;
-	border                           : 1px solid #777777;
-	cursor                           : pointer;
-	font-size                        : 1em;
 	margin-top                       : -2px;
-	padding                          : 9px 0 4px 0 !important;
-	vertical-align                   : middle;
+	padding-right                    : 2px !important;
+	padding-left                     : 2px !important;
 }
 
 input.input-text

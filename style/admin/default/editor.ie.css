@@ -110,3 +110,16 @@ dl#power-line
 	height                           : 2.7em;
 	line-height                      : 2.7em !important;
 }
+
+/* button box -----------------------------------------------------------------------------------*/
+.button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : auto;
+	line-height                      : normal;
+	padding                          : 9px 0 4px 0 !important;
+}
