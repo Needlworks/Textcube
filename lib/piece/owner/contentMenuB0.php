@@ -59,7 +59,7 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 
 	if ($active) {
 ?>
-						<li id="sub-menu-plugin"<?php echo ($_GET['name']==$pluginDir ? ' class="selected"' : '');?>><a href="<?php echo $blogURL;?>/owner/plugin/adminMenu?name=<?php echo $pluginDir;?>"><span class="text"><?php echo $title;?></span></a></li>
+						<li id="sub-menu-plugin"<?php echo ((isset($_GET['name']) && ($_GET['name']==$pluginDir)) ? ' class="selected"' : '');?>><a href="<?php echo $blogURL;?>/owner/plugin/adminMenu?name=<?php echo $pluginDir;?>"><span class="text"><?php echo $title;?></span></a></li>
 <?php
 	}
 }
