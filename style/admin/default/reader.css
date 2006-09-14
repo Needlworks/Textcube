@@ -908,7 +908,9 @@ ul#feedList li .edit-button span
 	border-bottom                    : 1px dashed #B4B4A1;
 	color                            : #999999;
 	cursor                           : pointer;
+	overflow                         : hidden;
 	padding                          : 5px 5px 2px 5px;
+	word-break                       : break-all;
 }
 
 #listup table tr td .content
@@ -1126,7 +1128,7 @@ ul#feedList li .edit-button span
 	background-color                 : #FFFFFF;
 	border                           : 1px solid #858574;
 	color                            : #213141;
-	margin-top                       : 3px;
+	margin-top                       : 3px !important;
 	position                         : relative;
 	width                            : auto;
 }
@@ -1177,6 +1179,7 @@ ul#feedList li .edit-button span
 {
 	background-color                 : #F5F5F5;
 	border-top                       : 1px solid #DDDDDD;
+	clear                            : both;
 	padding                          : 10px;
 	position                         : relative;
 }

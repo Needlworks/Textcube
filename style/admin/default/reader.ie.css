@@ -87,11 +87,6 @@ ul#feedList li
 }
 
 /* content in detail ----------------------------------------------------------------------------*/
-#entry
-{
-	margin-top                       : 3px !important;
-}
-
 #entryPermalink
 {
 	right                            : 10px;

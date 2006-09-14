@@ -274,7 +274,7 @@ textarea
 #sub-menu li
 {
 	background-image                 : url("./image/bg_submenu_divider.png");
-	background-position              : right center;
+	background-position              : left center;
 	background-repeat                : no-repeat;
 	float                            : left;
 	padding                          : 0 8px;
@@ -296,11 +296,6 @@ textarea
 {
 	color                            : #000000;
 	font-weight                      : bold;
-}
-
-#sub-menu-option
-{
-	background-image                 : none !important;
 }
 
 #sub-menu-helper

@@ -1,14 +1,6 @@
 window.addEventListener("load", execLoadTransform, false);
 
 function execLoadTransform() {
-	if (document.getElementById("page-navigation")) {
-		tempTotalCount = document.createElement("SPAN");
-		tempTotalCount.id = "total-count";
-		tempTotalCount.innerHTML = document.getElementById("total-count").innerHTML;
-		removeItselfById("total-count");
-		document.getElementById("page-navigation").appendChild(tempTotalCount);
-	}
-	
 	tempIds = new Array();
 	tempIds[0] = "part-center-plugins";
 	tempIds[1] = "part-plugin-list";

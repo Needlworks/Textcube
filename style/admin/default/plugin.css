@@ -7,6 +7,11 @@
 	margin-bottom                    : 10px;
 }
 
+#sub-menu-plugin
+{
+	background-image                 : none !important;
+}
+
 /* Setting ***************************************************************************************/
 
 #part-plugin-list .main-explain-box

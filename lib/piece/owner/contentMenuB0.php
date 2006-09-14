@@ -3,7 +3,7 @@
 				
 				<div id="sub-menu-box">
 					<ul id="sub-menu">
-						<li id="sub-menu-plugin"<?php echo ((!isset($_GET['name'])) ? '' : ' class="selected"');?>><a href="<?php echo $blogURL;?>/owner/plugin"><span class="text"><?php echo _t('플러그인 목록');?></span></a></li>
+						<li id="sub-menu-plugin"<?php echo ((!isset($_GET['name'])) ? ' class="selected"' : '');?>><a href="<?php echo $blogURL;?>/owner/plugin"><span class="text"><?php echo _t('플러그인 목록');?></span></a></li>
 <?php
 $plugins = array();
 $pluginAttrs = array();
@@ -59,7 +59,7 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 
 	if ($active) {
 ?>
-						<li id="sub-menu-plugin"<?php echo ((isset($_GET['name']) && ($_GET['name']==$pluginDir)) ? ' class="selected"' : '');?>><a href="<?php echo $blogURL;?>/owner/plugin/adminMenu?name=<?php echo $pluginDir;?>"><span class="text"><?php echo $title;?></span></a></li>
+						<li <?php echo ((isset($_GET['name']) && ($_GET['name']==$pluginDir)) ? ' class="selected"' : '');?>><a href="<?php echo $blogURL;?>/owner/plugin/adminMenu?name=<?php echo $pluginDir;?>"><span class="text"><?php echo $title;?></span></a></li>
 <?php
 	}
 }
