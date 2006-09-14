@@ -3,6 +3,11 @@
 /* Visitor ***************************************************************************************/
 
 /* common ---------------------------------------------------------------------------------------*/
+#part-statistics-visitor
+{
+	padding-bottom                   : 20px;
+}
+
 #part-statistics-visitor .data-inbox
 {
 	float                            : left;
@@ -11,6 +16,12 @@
 }
 
 /* visitor count --------------------------------------------------------------------------------*/
+#statistics-counter-inbox
+{
+	background-color                 : #EFEFEF;
+	padding                          : 10px;
+}
+
 #statistics-counter-inbox .label
 {
 	display                          : block;
@@ -24,25 +35,23 @@
 
 #total
 {
-	color                            : #50B0C0;
+	color                            : #FF0000;
 	display                          : block;
 	font-family                      : Arial, Tahoma, Verdana, sans-serif;
 	font-size                        : 300%;
 	font-weight                      : bold;
-	margin-top                       : 10px;
+	margin                           : 10px 0;
 	text-align                       : center;
 }
 
 #statistics-counter-inbox .button
 {
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #999999;
     display                          : block;
 	margin                           : 0 auto;
+	padding                          : 3px 5px;
 	width                            : 36px;
-}
-
-#statistics-counter-inbox .button span
-{
-	width                            : 102px;
 }
 
 /* month / day ----------------------------------------------------------------------------------*/
@@ -55,43 +64,4 @@
 #statistics-month-inbox tbody tr td
 {
 	cursor                           : pointer;
-}
-
-/* Referer ***************************************************************************************/
-
-/* rank -----------------------------------------------------------------------------------------*/
-#part-statistics-rank
-{
-	float                            : left;
-}
-
-#part-statistics-rank table.data-inbox
-{
-	width                            : auto;
-}
-
-#part-statistics-rank table.data-inbox tbody tr td.rank
-{
-	text-align                       : center;
-}
-
-#part-statistics-rank table.data-inbox tbody tr td.site
-{
-	overflow                         : hidden;
-}
-
-/* log ------------------------------------------------------------------------------------------*/
-#part-statistics-log
-{
-	margin-left                      : 200px;
-}
-
-#part-statistics-log .caption
-{
-	margin                           : 0;
-}
-
-#part-statistics-log #page-navigation
-{
-	clear                            : none;
 }

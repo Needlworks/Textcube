@@ -1,96 +1,24 @@
 @charset "utf-8";
 
-/* Visitor ***************************************************************************************/
-
-/* common ---------------------------------------------------------------------------------------*/
-#part-statistics-visitor .data-inbox
-{
-	float                            : left;
-	margin-right                     : 10px !important;
-	width                            : 210px !important;
-}
-
-/* visitor count --------------------------------------------------------------------------------*/
-#statistics-counter-inbox .label
-{
-	display                          : block;
-	text-align                       : center;
-}
-
-#statistics-counter-inbox .divider
-{
-	display                          : none;
-}
-
-#total
-{
-	color                            : #50B0C0;
-	display                          : block;
-	font-family                      : Arial, Tahoma, Verdana, snas-serif;
-	font-size                        : 300%;
-	font-weight                      : bold;
-	margin-top                       : 10px;
-	text-align                       : center;
-}
-
-#statistics-counter-inbox .button
-{
-	margin                           : 0 auto;
-	width                            : 106px;
-}
-
-#statistics-counter-inbox .button span
-{
-	width                            : 102px;
-}
-
-/* month / day ----------------------------------------------------------------------------------*/
-#statistics-day-inbox,
-#statistics-month-inbox
-{
-	margin-top                       : 5px;
-}
-
-#statistics-month-inbox tbody tr td
-{
-	cursor                           : pointer;
-}
-
 /* Referer ***************************************************************************************/
 
-/* rank -----------------------------------------------------------------------------------------*/
 #part-statistics-rank
 {
-	float                            : left;
+	margin-bottom                    : 30px;
 }
 
-#part-statistics-rank table.data-inbox
+#part-statistics-rank table.data-inbox tr td.site
 {
-	width                            : auto;
+	text-align                       : left !important;
 }
 
-#part-statistics-rank table.data-inbox tbody tr td.rank
+#part-statistics-log table.data-inbox tr td.address
 {
-	text-align                       : center;
+	text-align                       : left !important;
 }
 
-#part-statistics-rank table.data-inbox tbody tr td.site
+#part-statistics-log .data-subbox
 {
-	overflow                         : hidden;
-}
-
-/* log ------------------------------------------------------------------------------------------*/
-#part-statistics-log
-{
-	margin-left                      : 250px;
-}
-
-#part-statistics-log .caption
-{
-	margin                           : 0;
-}
-
-#part-statistics-log #page-navigation
-{
-	clear                            : none;
+	height                           : 1.8em;
+	width                            : 924px;
 }

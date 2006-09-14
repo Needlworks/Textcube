@@ -34,13 +34,13 @@ if (empty($_POST['perPage'])) {
 						
 						
 						<div id="part-statistics-rank" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('리퍼러 순위');?></span></h2>
+							<h2 class="caption"><span class="main-text">리퍼러 순위</span></h2>
 							
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
 									<tr>
-										<th class="number"><span class="text"><?php echo _t('순위');?></span></th>
-										<th class="site"><span class="text"><?php echo _t('리퍼러');?></span></th>
+										<th class="number"><span class="text">순위</span></th>
+										<th class="site"><span class="text">리퍼러</span></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -66,13 +66,13 @@ for ($i=0; $i<sizeof($temp); $i++) {
 						<hr class="hidden" />
 						
 						<form id="part-statistics-log" class="part" method="post" action="<?php echo $blogURL;?>/owner/plugin/adminMenu?name=AD_Referer_Default">
-							<h2 class="caption"><span class="main-text"><?php echo _t('리퍼러 로그');?></span></h2>
+							<h2 class="caption"><span class="main-text">리퍼러 로그</span></h2>
 							
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
 									<tr>
-										<th class="number"><span class="text"><?php echo _t('날짜');?></span></th>
-										<th class="site"><span class="text"><?php echo _t('주소');?></span></th>
+										<th class="number"><span class="text">날짜</span></th>
+										<th class="site"><span class="text">주소</span></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -110,7 +110,7 @@ echo str_repeat("\t", 8).Paging::getPagingView($paging, $pagingTemplate, $paging
 										</span>
 									</div>
 									<div class="page-count">
-										<?php echo Misc::getArrayValue(explode('%1', _t('한 페이지에 목록 %1건 표시')), 0);?>
+										<?php echo Misc::getArrayValue(explode('%1', '한 페이지에 목록 %1건 표시'), 0);?>
 										<select name="perPage" onchange="document.getElementById('part-statistics-log').submit()">					
 <?php
 for ($i = 10; $i <= 100; $i += 5) {
@@ -126,9 +126,9 @@ for ($i = 10; $i <= 100; $i += 5) {
 }
 ?>
 										</select>
-										<?php echo Misc::getArrayValue(explode('%1', _t('한 페이지에 목록 %1건 표시')), 1);?>
+										<?php echo Misc::getArrayValue(explode('%1', '한 페이지에 목록 %1건 표시'), 1);?>
 										
-										<input type="submit" id="log-pages-submit" value="<?php echo _t('갱신');?>" />
+										<input type="submit" id="log-pages-submit" value="갱신" />
 									</div>
 								</div>
 							</div>

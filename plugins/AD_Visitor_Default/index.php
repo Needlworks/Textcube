@@ -6,7 +6,7 @@ $date = $_GET['date'];
 						<script type="text/javascript">
 							//<![CDATA[
 								function setTotalStatistics() {
-									if (confirm("<?php echo _t('방문자의 수를 초기화하면 방문객의 수가 0이 됩니다.\n정말 초기화하시겠습니까?');?>")) {
+									if (confirm("방문자의 수를 초기화하면 방문객의 수가 0이 됩니다.\n정말 초기화하시겠습니까?")) {
 										var request = new HTTPRequest("GET", "<?php echo $pathURL;?>/plugin/AD_Visitor_Default/set/0");
 										request.onSuccess = function() {
 											//document.getElementById("total").innerHTML = 0;
@@ -14,7 +14,7 @@ $date = $_GET['date'];
 											return true;
 										}
 										request.onError = function() {
-											alert("<?php echo _t('저장하지 못했습니다.');?>");
+											alert("저장하지 못했습니다.");
 											return false;
 										}
 										request.send();
@@ -32,20 +32,28 @@ $date = $_GET['date'];
 									}
 									return x1 + x2;
 								}
+								
+								window.addEventListener("load", execLoadFunction, false);
+								
+								function execLoadFunction() {
+									tempDiv = document.createElement("DIV");
+									tempDiv.style.clear = "both";
+									document.getElementById("part-statistics-visitor").appendChild(tempDiv);
+								}
 							//]]>
 						</script>
 					 		
 					 	<form method="post" action="<?php echo $pathURL;?>/plugin/AD_Visitor_Default/set/0">
 					 		<div id="part-statistics-visitor" class="part">
-					 			<h2 class="caption"><span class="main-text"><?php echo _t('방문자 통계정보를 보여줍니다');?></span></h2>
+					 			<h2 class="caption"><span class="main-text">방문자 통계정보를 보여줍니다</span></h2>
 					 			
 						 		<div id="statistics-counter-inbox" class="data-inbox">
 									<div class="title">
-										<span class="label"><span class="text"><?php echo _t('현재까지의 방문자 수');?></span></span>
+										<span class="label"><span class="text">현재까지의 방문자 수</span></span>
 										<span class="divider"> : </span>
 										<span id="total"><?php echo number_format($stats['total']);?></span>
 									</div>
-									<a class="init-button button" href="<?php echo $blogURL;?>/owner/statistics/visitor/set/0" onclick="setTotalStatistics(); return false;"><span class="text"><?php echo _t('초기화');?></span></a>
+									<a class="init-button button" href="<?php echo $blogURL;?>/owner/statistics/visitor/set/0" onclick="setTotalStatistics(); return false;"><span class="text">초기화</span></a>
 								</div>
 							
 								<hr class="hidden" />
@@ -53,7 +61,7 @@ $date = $_GET['date'];
 								<table id="statistics-month-inbox" class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th colspan="2"><span class="text"><?php echo _t('월별 방문자 수');?></span></th>
+											<th colspan="2"><span class="text">월별 방문자 수</span></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -80,7 +88,7 @@ for ($i=0; $i<sizeof($temp); $i++) {
 								<table id="statistics-day-inbox" class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th colspan="2"><span class="text"><?php echo _t('일별 방문자 수');?></span></th>
+											<th colspan="2"><span class="text">일별 방문자 수</span></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -103,5 +111,6 @@ if (isset($date)) {
 ?>
 									</tbody>
 								</table>
+								
 							</div>
 						</form>
