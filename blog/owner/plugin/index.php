@@ -308,7 +308,7 @@ if ((isset($_POST['sidebarType'])) && ($_POST['sidebarType'] == "inner")) {
 										<td class="title"><?php echo $innerSidebars[$innerSidebarId]['title'];?></td>
 										<td class="version"><?php echo TATTERTOOLS_VERSION;?></td>
 										<td id="plugin<?php echo $i;?>Scope" class="scope"><?php echo _t('사이드바');?></td>
-										<td class="explain"><?php echo $innerSidebars[$innerSidebarId]['description']?></td>
+										<td class="explain"><?php echo $innerSidebars[$innerSidebarId]['description'];?></td>
 										<td class="maker"><a href="http://forum.tattertools.com"><?php echo _t('태터앤프렌즈');?></a></td>
 										<td class="config"><span class="config-none-icon bullet"><?php echo _t('없음');?></span></td>
 										<td class="status">
