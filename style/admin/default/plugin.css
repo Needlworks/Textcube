@@ -130,7 +130,7 @@
 
 #part-plugin-list .data-subbox dl
 {
-	border                           : none;
+	border                           : 1px solid #F2F2F2 !important;
 }
 
 #part-plugin-list .data-subbox dl dt
@@ -148,6 +148,11 @@
 	right                            : 10px;
 	top                              : 0.7em;
 	position                         : absolute;
+}
+
+#sorting-line
+{
+	margin-top                       : -3px;
 }
 
 #part-plugin-more
