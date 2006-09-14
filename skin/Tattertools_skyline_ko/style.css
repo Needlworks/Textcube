@@ -442,29 +442,45 @@ padding-left:38px;
 .guestbook .write {
 	margin-bottom:20px;
 }
-.guestbook .write p{
+
+.guestbook .write dl{
 	padding:2px;
 	margin:0;
 }
+
+.guestbook .write dt {
+	padding-right: 0.7em;
+	text-align: right;
+	width: 6.5em;
+}
+
+.guestbook .write dd {
+	margin: -1.5em 0 0 7em;
+}
+
+.guestbook .write  dt.submit{
+	display:none;
+}
+
 .guestbook .write input{
 	border:1px solid #999;
 	height:18px;
 	width:200px;
 }
-.guestbook .write .homepage{
-	height:18px;
-	width:400px;
-}
+
 .guestbook .write .submit{
 	border:1px solid #aaa;
 	background-color:#ddd;
 	height:25px;
 	width:98%;
+	margin-top:20px;
 	color:#333;
 }
+
 .guestbook .write label{
-	font:10px Verdana, Arial, sans-serif;
+	font:9pt Verdana, Arial, sans-serif;
 }
+
 .guestbook .write textarea{
 	width:98%;
 	height:150px;
@@ -476,6 +492,7 @@ padding-left:38px;
 	padding:5px 0;
 	margin:0;
 }
+
 .guestbook .list ol li{
 	padding:10px 10px 10px 25px;
 	background:url(images/iconGuestbook.gif) no-repeat 0 12px;	
@@ -662,10 +679,20 @@ padding-left:38px;
 .comment .write {
 	margin-bottom:20px;
 }
-.comment .write p{
+
+.comment .write dl{
 	padding:2px;
 	margin:0;
-	line-height:1.8em;
+}
+
+.comment .write dt {
+	padding-right: 0.7em;
+	text-align: right;
+	width: 6.5em;
+}
+
+.comment .write dd {
+	margin: -1.5em 0 0 7em;
 }
 .comment .write input{
 	border:1px solid #999;
@@ -674,16 +701,23 @@ padding-left:38px;
 .comment .write .homepage{
 	width:260px;
 }
+
 .comment .write .submit{
 	border:1px solid #aaa;
 	background-color:#ddd;
+	margin-top:20px;
 	height:25px;
 	width:98%;
 	color:#333;
 }
 .comment .write label{
-	font:10px Verdana, Arial, sans-serif;
+	font:9pt Verdana, Arial, sans-serif;
 }
+
+.comment .write dt.submit{
+	display:none;
+}
+
 .comment .write textarea{
 	width:98%;
 	height:150px;

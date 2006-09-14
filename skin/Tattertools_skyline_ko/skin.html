@@ -127,13 +127,14 @@
 
 					<dt class="contents"><label for="guestBody">contents : </label></dt>
 					<dd><textarea rows="6" cols="60" id="guestBody" name="[##_guest_textarea_body_##]"></textarea></dd>
+					<dt class="submit"><label>confirm : </label></dt>
 					<dd><input class="submit" type="submit" value="save a comment" onclick="[##_guest_onclick_submit_##]"/></dd>
 				</dl>
 			</div>
 			</s_guest_input_form>
 
 			<!-- guestbook list -->
-			<div class="clist">
+			<div class="list">
 				<ol>
 				<s_guest_rep>
 					<li id='[##_guest_rep_id_##]'>
@@ -283,12 +284,12 @@
 					<dt><label for="homepage_[##_article_rep_id_##]">홈페이지 : </label></dt>
 					<dd><input type="text" class="homepage" id="homepage_[##_article_rep_id_##]" name="[##_rp_input_homepage_##]" value="[##_guest_homepage_##]"/></dd>
 				</s_rp_guest>
-					<dt>비밀글</dt>
-					<dd><input type="checkbox" id="secret_[##_article_rep_id_##]" name="[##_rp_input_is_secret_##]" class="checkbox" /></dd>
+					<dt><label for="secret_[##_article_rep_id_##]">비밀글 : </label></dt>
+					<dd>숨겨진 댓글로 씁니다 <input type="checkbox" id="secret_[##_article_rep_id_##]" name="[##_rp_input_is_secret_##]" class="checkbox" /></dd>
 			</s_rp_member>
 					<dt class="contents"><label for="comment_[##_article_rep_id_##]">내용 : </label></dt>
 					<dd><textarea name="[##_rp_input_comment_##]" cols="100%" rows="6" id="comment_[##_article_rep_id_##]"></textarea></dd>
-					<dt>확인 : </dt>
+					<dt class="submit">확인 : </dt>
 					<dd><input type="submit" value="확인" onclick="[##_rp_onclick_submit_##]" class="submit" /></dd>
 				</dl>
 			</div>
@@ -314,186 +315,189 @@
 
 	<div id="sidebar">
 
-	<!-- owner -->
-	<div class="owner">
-		<p>
-			<a href="[##_owner_url_##]">관리자</a> : 
-			<a href="[##_owner_url_##]post">새글쓰기</a>
-		</p>
-		<p>[##_tattertools_name_##]<br />[##_tattertools_version_##]</p>
-	</div>
-
-	<s_sidebar_element>
-	<!-- blog infomation -->
-	<div class="blogimg">
-		<img src="[##_image_##]" alt="BLOG main image" />
-	</div>
-	<div class="bloginfo"> 
-		[##_desc_##] 
-	</div>
-	</s_sidebar_element>
-
-	<s_sidebar_element>
-	<!-- notice -->
-	<s_rct_notice>
-	<div class="notice">
-		<ul>
-		<s_rct_notice_rep>
-			<li> <a href="[##_notice_rep_link_##]">[##_notice_rep_title_##]</a> </li>
-		</s_rct_notice_rep>
-		</ul>
-	</div>
-	</s_rct_notice>
-	</s_sidebar_element>
-
-	<s_sidebar_element>
-	<!-- search -->
-	<div class="search">
-	<s_search>
-		<input type="text" name="[##_search_name_##]" value="[##_search_text_##]"  onkeypress="if (event.keyCode == 13) { [##_search_onclick_submit_##] }"/>
-		<input value="검색" type="button" onclick="[##_search_onclick_submit_##]" class="submit"/>
-	</s_search>
-	</div>
-	</s_sidebar_element>
-
-	<s_sidebar_element>
-	<!-- category --> 
-	<div class="category">
-		<h3>카테고리</h3>
-   		<div class="box">
-			[##_category_##]
+		<!-- owner -->
+		<div class="owner">
+			<p>
+				<a href="[##_owner_url_##]">관리자</a> : 
+				<a href="[##_owner_url_##]post">새글쓰기</a>
+			</p>
+			<p>[##_tattertools_name_##]<br />[##_tattertools_version_##]</p>
 		</div>
-		<!-- category list        
-		<div class="box"> [##_category_list_##]  </div>
-		-->
-	</div>
-	</s_sidebar_element>
 
-	<s_sidebar_element>
-	<!-- taglist -->
-	<div class="tagbox">
-		<h3>태그목록</h3>
-		<ul>
-			<li>
-			<s_random_tags>
-				<a href="[##_tag_link_##]" class="[##_tag_class_##]"> [##_tag_name_##]</a>
-			</s_random_tags>
-			</li>
-		</ul>
-	</div>
-	</s_sidebar_element>
+		<s_sidebar_element>
+		<!-- blog infomation -->
+		<div class="blogimg">
+			<img src="[##_image_##]" alt="BLOG main image" />
+		</div>
+		<div class="bloginfo"> 
+			[##_desc_##] 
+		</div>
+		</s_sidebar_element>
 
-	<s_sidebar_element>
-	<!-- recent entry -->
-	<div class="listbox">
-		<h3>최근에 올라온 글 </h3>
-		<ul>
-		<s_rctps_rep>
-			<li> <a href="[##_rctps_rep_link_##]"> [##_rctps_rep_title_##].</a> <span class="cnt">[##_rctps_rep_rp_cnt_##]</span> </li>
-		</s_rctps_rep>
-		</ul>
-	</div>
-	</s_sidebar_element>
+		<s_sidebar_element>
+		<!-- notice -->
+		<s_rct_notice>
+		<div class="notice">
+			<ul>
+			<s_rct_notice_rep>
+				<li> <a href="[##_notice_rep_link_##]">[##_notice_rep_title_##]</a> </li>
+			</s_rct_notice_rep>
+			</ul>
+		</div>
+		</s_rct_notice>
+		</s_sidebar_element>
 
-	<s_sidebar_element>
-	<!-- recent comment -->
-	<div class="listbox">
-		<h3>최근에 달린 댓글</h3>
-		<ul id="recentComments">
-		<s_rctrp_rep>
-			<li>
-				<a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##].</a><br />
-				<span class="name">[##_rctrp_rep_name_##]</span> <span class="date">[##_rctrp_rep_time_##]</span>
-			</li>
-		</s_rctrp_rep>
-		</ul>
-	</div>
-	</s_sidebar_element>
+		<s_sidebar_element>
+		<!-- search -->
+		<div class="search">
+		<s_search>
+			<input type="text" name="[##_search_name_##]" value="[##_search_text_##]"  onkeypress="if (event.keyCode == 13) { [##_search_onclick_submit_##] }"/>
+			<input value="검색" type="button" onclick="[##_search_onclick_submit_##]" class="submit"/>
+		</s_search>
+		</div>
+		</s_sidebar_element>
 
-	<s_sidebar_element>
-	<!-- recent trackback -->
-	<div class="listbox">
-		<h3>최근에 받은 트랙백</h3>
-		<ul>
-		<s_rcttb_rep>
-			<li>
-				<a href="[##_rcttb_rep_link_##]">[##_rcttb_rep_desc_##]. </a><br />
-				<span class="name">[##_rcttb_rep_name_##]</span> <span class="date">[##_rcttb_rep_time_##]</span>
-			</li>
-		</s_rcttb_rep>
-		</ul>
-	</div>
-	</s_sidebar_element>
+		<s_sidebar_element>
+		<!-- category --> 
+		<div class="category">
+			<h3>카테고리</h3>
+			<div class="box">
+				[##_category_##]
+			</div>
+			<!-- category list        
+			<div class="box"> [##_category_list_##]  </div>
+			-->
+		</div>
+		</s_sidebar_element>
 
-	<s_sidebar_element>
-	<!-- archive -->
-	<div class="listbox">
-		<h3>글 보관함</h3>
-		<ul>
-		<s_archive_rep>
-			<li>
-				<a href="[##_archive_rep_link_##]">[##_archive_rep_date_##] </a>
-				<span class="cnt">([##_archive_rep_count_##])</span>
-			</li>
-		</s_archive_rep>
-		</ul>
-	</div>
-	</s_sidebar_element>
+		<s_sidebar_element>
+		<!-- taglist -->
+		<div class="tagbox">
+			<h3>태그목록</h3>
+			<ul>
+				<li>
+				<s_random_tags>
+					<a href="[##_tag_link_##]" class="[##_tag_class_##]"> [##_tag_name_##]</a>
+				</s_random_tags>
+				</li>
+			</ul>
+		</div>
+		</s_sidebar_element>
 
-	<s_sidebar_element>
-	<!-- calender -->
-	<div class="listbox">
-		<h3>달력</h3>
-		<div class="calender">[##_calendar_##]</div>
-	</div>
-	</s_sidebar_element>
+		<s_sidebar_element>
+		<!-- recent entry -->
+		<div class="listbox">
+			<h3>최근에 올라온 글 </h3>
+			<ul>
+			<s_rctps_rep>
+				<li> <a href="[##_rctps_rep_link_##]"> [##_rctps_rep_title_##].</a> <span class="cnt">[##_rctps_rep_rp_cnt_##]</span> </li>
+			</s_rctps_rep>
+			</ul>
+		</div>
+		</s_sidebar_element>
 
-	<s_sidebar_element>
-	<!-- link -->
-	<div class="listbox">
-		<h3>링크</h3>
-		<ul>
-		<s_link_rep>
-			<li> <a href="[##_link_url_##]" onclick="window.open(this.href); return false"> [##_link_site_##].</a> </li>
-		</s_link_rep>
-		</ul>
-	</div>
-	</s_sidebar_element>
+		<s_sidebar_element>
+		<!-- recent comment -->
+		<div class="listbox">
+			<h3>최근에 달린 댓글</h3>
+			<ul id="recentComments">
+			<s_rctrp_rep>
+				<li>
+					<a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##].</a><br />
+					<span class="name">[##_rctrp_rep_name_##]</span> <span class="date">[##_rctrp_rep_time_##]</span>
+				</li>
+			</s_rctrp_rep>
+			</ul>
+		</div>
+		</s_sidebar_element>
 
-	<s_sidebar_element>
-	<!-- counter -->
-	<div class="counter">
-		Total : [##_count_total_##] <br />
-		Today : [##_count_today_##] Yesterday : [##_count_yesterday_##] 
-	</div>
-	</s_sidebar_element>
+		<s_sidebar_element>
+		<!-- recent trackback -->
+		<div class="listbox">
+			<h3>최근에 받은 트랙백</h3>
+			<ul>
+			<s_rcttb_rep>
+				<li>
+					<a href="[##_rcttb_rep_link_##]">[##_rcttb_rep_desc_##]. </a><br />
+					<span class="name">[##_rcttb_rep_name_##]</span> <span class="date">[##_rcttb_rep_time_##]</span>
+				</li>
+			</s_rcttb_rep>
+			</ul>
+		</div>
+		</s_sidebar_element>
 
-	<!-- etc -->
-	<div class="ad">
-		<a href="http://www.tattertools.com" onclick="window.open(this.href); return false">
-			<img src="./images/tattertools.gif" alt="Tattertools" />
-		</a> 
-	</div>
+		<s_sidebar_element>
+		<!-- archive -->
+		<div class="listbox">
+			<h3>글 보관함</h3>
+			<ul>
+			<s_archive_rep>
+				<li>
+					<a href="[##_archive_rep_link_##]">[##_archive_rep_date_##] </a>
+					<span class="cnt">([##_archive_rep_count_##])</span>
+				</li>
+			</s_archive_rep>
+			</ul>
+		</div>
+		</s_sidebar_element>
 
-	<div class="ad">
-		<a href="[##_rss_url_##]" onclick="window.open(this.href); return false">
-			<img src="./images/rss.gif" alt="rss"/>
-		</a> 
-	</div>
-</div>
+		<s_sidebar_element>
+		<!-- calender -->
+		<div class="listbox">
+			<h3>달력</h3>
+			<div class="calender">[##_calendar_##]</div>
+		</div>
+		</s_sidebar_element>
 
-<hr />
-<hr />
+		<s_sidebar_element>
+		<!-- link -->
+		<div class="listbox">
+			<h3>링크</h3>
+			<ul>
+			<s_link_rep>
+				<li> <a href="[##_link_url_##]" onclick="window.open(this.href); return false"> [##_link_site_##].</a> </li>
+			</s_link_rep>
+			</ul>
+		</div>
+		</s_sidebar_element>
 
-<!-- footer -->
-<div id="footer">
-	<div id="sidemenu">
-		<a href="[##_localog_link_##]">위치로그</a> : <a href="[##_taglog_link_##]">태그</a> : <a href="[##_guestbook_link_##]">방명록</a> : <a href="[##_owner_url_##]">관리자</a> 
+		<s_sidebar_element>
+		<!-- counter -->
+		<div class="counter">
+			Total : [##_count_total_##] <br />
+			Today : [##_count_today_##] Yesterday : [##_count_yesterday_##] 
+		</div>
+		</s_sidebar_element>
+
+		<!-- etc -->
+		<div class="ad">
+			<a href="http://www.tattertools.com" onclick="window.open(this.href); return false">
+				<img src="./images/tattertools.gif" alt="Tattertools" />
+			</a> 
+		</div>
+
+		<div class="ad">
+			<a href="[##_rss_url_##]" onclick="window.open(this.href); return false">
+				<img src="./images/rss.gif" alt="rss"/>
+			</a> 
+		</div>
 	</div>
-	<a href="[##_blog_link_##]"> [##_blogger_##]</a>’s Blog is powered by 
-	<a href="http://tattertools.com" onclick="window.open(this.href); return false">Tattertools.com </a>
-/ Designed by <a href="http://plyfly.net" onclick="window.open(this.href); return false">plyfly.net</a>
-</div>
+	<hr />
+	<hr />
+
+	<!-- footer -->
+	<div id="footer">
+		<div id="sidemenu">
+			<a href="[##_keylog_link_##]">키로그</a> :
+			<a href="[##_localog_link_##]">위치로그</a> : 
+			<a href="[##_taglog_link_##]">태그</a> : 
+			<a href="[##_guestbook_link_##]">방명록</a> : 
+			<a href="[##_owner_url_##]">관리자</a> 
+		</div>
+		<a href="[##_blog_link_##]"> [##_blogger_##]</a>’s Blog is powered by 
+		<a href="http://tattertools.com" onclick="window.open(this.href); return false">Tattertools.com </a>
+	/ Designed by <a href="http://plyfly.net" onclick="window.open(this.href); return false">plyfly.net</a>
+	</div>
 </div>
 </body>
 </html>
