@@ -1,5 +1,14 @@
 @charset "utf-8";
 
+/* Basic *****************************************************************************************/
+
+#part-setting-basic dl dt,
+#part-setting-profile dl dt,
+#part-setting-rss dl dt
+{
+	padding-top                      : 0 !important;
+}
+
 /* Account ***************************************************************************************/
 
 #part-setting-account fieldset
@@ -17,4 +26,14 @@
 #part-setting-account dl dt
 {
 	top                             : 1px !important;
+}
+
+/* Etc *******************************************************************************************/
+
+#part-setting-resample dl dt,
+#part-setting-language dl dt,
+#part-setting-editor dl dt,
+#part-setting-admin dl dt
+{
+	padding-top                      : 0 !important;
 }
