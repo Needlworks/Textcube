@@ -273,11 +273,6 @@ table.data-inbox tbody tr td.ip
 	width                            : 350px;
 }
 
-#property-box dl dd 
-{
-	text-transform                   : uppercase;
-}
-
 /* Trash *****************************************************************************************/
 
 #part-post-trash .caption

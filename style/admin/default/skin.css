@@ -289,15 +289,10 @@
 	padding                          : 3px 5px;
 }
 
-#property-box dl dd .input-text
-{
-	text-transform                   : uppercase;
-}
-
 /* tree iframe */
 #tree-iframe
 {
-	font-family                      : ±¼¸², Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-family                      : êµ´ë¦¼, Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
 	font-size                        : 0.75em;
 	margin                           : 10px !important;
 }

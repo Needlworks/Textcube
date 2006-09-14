@@ -630,9 +630,9 @@ ul#feedList li .edit-button span
 /* configure ------------------------------------------------------------------------------------*/
 #configure
 {
-	background-color                 : #92B2D9;
+	background-color                 : #D2D2CC;
 	margin-top                       : -5px;
-	padding                          : 0 6px;
+	padding                          : 0;
 }
 
 #configure .data-inbox
@@ -641,7 +641,14 @@ ul#feedList li .edit-button span
 	border                           : none !important;
 	clear                            : both;
 	position                         : relative;
+	margin-left                      : 6px;
 	padding                          : 0 !important;
+	width                            : 948px;
+}
+
+#configure .data-inbox .section fieldset
+{
+	background-image                 : none;
 }
 
 #configure .data-inbox .section dl
@@ -651,8 +658,12 @@ ul#feedList li .edit-button span
 
 #configure .data-inbox .section dt
 {
-	padding-top                      : 5px;
 	width                            : 170px;
+}
+
+#configure .data-inbox .section dd
+{
+	margin-left                      : 170px;
 }
 
 #configure .data-inbox .section .title
