@@ -312,7 +312,8 @@
 		<hr />
 		</s_paging>
 	</div>
-
+	
+	<s_sidebar>
 	<div id="sidebar">
 
 		<!-- owner -->
@@ -480,9 +481,19 @@
 			<a href="[##_rss_url_##]" onclick="window.open(this.href); return false">
 				<img src="./images/rss.gif" alt="rss"/>
 			</a> 
-		</div>
+		</div>v
+		
+		<s_sidebar_rep_element>
+	      <div class="[##_sidebar_class_##]">
+	        <s_sidebar_titles><h3 style="cursor:pointer;" onclick="clickshow('[##_sidebar_id_##]');">[##_sidebar_title_##]</h3></s_sidebar_titles>
+	        <div id="[##_sidebar_id_##]">
+	          [##_sidebar_contents_##]
+	        </div>
+	      </div>
+	   </s_sidebar_rep_element>
 	</div>
-	<hr />
+	</s_sidebar>
+	
 	<hr />
 
 	<!-- footer -->
