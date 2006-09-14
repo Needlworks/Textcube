@@ -1,6 +1,9 @@
 <?php
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
+respondNotFoundPage();
+exit;
+
 if (false) {
 	fetchConfigVal();
 }
