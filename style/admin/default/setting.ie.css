@@ -11,10 +11,10 @@
 
 #part-setting-account dl
 {
-	border-top                       : none !important;
+	border-top                       : 1px solid #FEFEFE !important;
 }
 	
 #part-setting-account dl dt
 {
-	margin-left                      : -180px;
+	top                             : 1px !important;
 }

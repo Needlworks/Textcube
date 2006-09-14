@@ -131,24 +131,22 @@ h2
 
 #search .input-text
 {
-	border                           : 1px solid #2E67B4;
-	float                            : left;
-	margin-right                     : 3px;
+	border                           : 1px solid #999999;
 	padding                          : 1px;
 }
 
 #search .button
 {
-	background-color                 : #6494C1;
-	border                           : 1px solid #306098;
-	color                            : #FFFFFF !important;
-	float                            : left;
-	/*font-family                      : µ¸¿ò, Dotum, sans-serif;*/
-	font-size                        : 90%;
+	background-color                 : #FFFFFF;
+	background-image                 : url("./image/bg_button.png") !important;
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #777777;
+	cursor                           : pointer;
+	font-size                        : 1em;
 	font-weight                      : normal;
-	height                           : 13px !important;
-	padding                          : 3px 5px 0 5px !important;
-	text-align                       : center;
+	padding                          : 3px 5px !important;
+	vertical-align                   : middle;
 }
 
 #feed-update
@@ -178,7 +176,8 @@ h2
 }
 
 /* pseudo box */
-#pseudo-box
+#pseudo-box,
+#data-outbox
 {
 	background-image                 : none !important;
 }
@@ -659,7 +658,7 @@ ul#feedList li .edit-button span
 #configure .data-inbox .section .title
 {
 	background-image                 : url("./image/reader/iconSetupitem.gif");
-	background-position              : 0px 4px;
+	background-position              : top 4px;
 	background-repeat                : no-repeat;
 	color                            : #000000;
 	display                          : block !important;
@@ -783,6 +782,7 @@ ul#feedList li .edit-button span
 	padding                          : 0 !important;
 	text-align                       : center;
 	width                            : 100%;
+	margin-bottom                    : 5px;
 }
 
 #toggleButton

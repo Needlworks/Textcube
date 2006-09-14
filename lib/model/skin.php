@@ -107,7 +107,6 @@ function selectSkin($owner, $skinName) {
 		
 		// none/single/multiple
 		$value = $xmls->getValue('/skin/default/commentMessage/none'); 
-		
 		if (is_null($value)) 
 			setUserSetting('noneCommentMessage', NULL);
 		else
