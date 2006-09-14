@@ -321,7 +321,9 @@ class KeywordSkin {
 }
 
 function removeAllTags($contents) {
-	return preg_replace('/\[#M_[^|]*\|[^|]*\|/Us', '', str_replace('_M#]', '', preg_replace('/\[##_.+_##\]/Us', '', $contents)));
+	$contents = preg_replace('/\[#M_[^|]*\|[^|]*\|/Us', '', str_replace('_M#]', '', preg_replace('/\[##_.+_##\]/Us', '', $contents)));
+	$contents = preg_replace('@(<s_|</s_)[0-1a-zA-Z_]+>@', '', $contents);
+	return $contents;	
 }
 
 function replaceSkinTag($contents, $tag) {
