@@ -1,7 +1,7 @@
 <?php
 requireComponent( "Tattertools.Model.Statistics");
 requireComponent( "Tattertools.Model.Paging");
-requireComponent( "Tattertools.Function.Misc");
+requireComponent( "Tattertools.Function.misc");
 if (isset($_POST['page']))
 	$_GET['page'] = $_POST['page'];
 $IV = array(
@@ -78,9 +78,9 @@ for ($i=0; $i<sizeof($temp); $i++) {
 								<tbody>
 <?php
 $more = false;
-list($refereres, $paging) = Statistics::getRefererLogsWithPage($suri['page'], $perPage);
-for ($i=0; $i<sizeof($refereres); $i++) {
-	$record = $refereres[$i];
+list($referers, $paging) = Statistics::getRefererLogsWithPage($suri['page'], $perPage);
+for ($i=0; $i<sizeof($referers); $i++) {
+	$record = $referers[$i];
 	
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($referers) - 1) ? ' last-line' : '';
@@ -110,7 +110,7 @@ echo str_repeat("\t", 8).Paging::getPagingView($paging, $pagingTemplate, $paging
 										</span>
 									</div>
 									<div class="page-count">
-										<?php echo Misc::getArrayValue(explode('%1', '한 페이지에 목록 %1건 표시'), 0);?>
+										<?php echo misc::getArrayValue(explode('%1', '한 페이지에 목록 %1건 표시'), 0);?>
 										<select name="perPage" onchange="document.getElementById('part-statistics-log').submit()">					
 <?php
 for ($i = 10; $i <= 100; $i += 5) {
