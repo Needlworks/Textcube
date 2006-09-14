@@ -1,17 +1,17 @@
 <?php
 requireComponent( "Tattertools.Model.Statistics");
 $stats = Statistics::getStatistics($owner);
-$date = $_GET['date'];
+$date = isset($_GET['date']) ? $_GET['date'] : '';
 ?>
 <!-- This tab space below this line is inserted for the indentation of original admin page -->
 						<script type="text/javascript">
 							//<![CDATA[
 								function setTotalStatistics() {
 									if (confirm("방문자의 수를 초기화하면 방문객의 수가 0이 됩니다.\n정말 초기화하시겠습니까?")) {
-										var request = new HTTPRequest("GET", "<?php echo $pathURL;?>/plugin/AD_Visitor_Default/set/0");
+										var request = new HTTPRequest("GET", "<?php echo $pathURL;?>/plugins/AD_Visitor_Default/set/item.php");
 										request.onSuccess = function() {
 											//document.getElementById("total").innerHTML = 0;
-											window.location = '<?php echo $blogURL;?>/owner/plugin/adminMenu?name=AD_Visitor_Default';
+											window.location = '<?php echo $blogURL;?>/owner/plugins/adminMenu?name=AD_Visitor_Default';
 											return true;
 										}
 										request.onError = function() {
