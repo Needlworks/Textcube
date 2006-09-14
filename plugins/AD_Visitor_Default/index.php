@@ -3,6 +3,7 @@ requireComponent( "Tattertools.Model.Statistics");
 $stats = Statistics::getStatistics($owner);
 $date = $_GET['date'];
 ?>
+<!-- This tab space below this line is inserted for the indentation of original admin page -->
 						<script type="text/javascript">
 							//<![CDATA[
 								function setTotalStatistics() {

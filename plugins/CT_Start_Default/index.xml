@@ -4,8 +4,8 @@
   <title xml:lang="ko">시작하기</title>
   <link>http://www.tattertools.com/</link>
   <version>1.0</version>
-  <description xml:lang="en">Default Start Plugin</description>
-  <description xml:lang="ko">시작하기</description>
+  <description xml:lang="en">Start tasks what you want to.</description>
+  <description xml:lang="ko">종류에 따라 원하는 일을 시작합니다.</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
   <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>

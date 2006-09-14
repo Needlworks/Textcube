@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="en">Default Recent entry</title>
-  <title xml:lang="ko">기본 최근 글</title>
+  <title xml:lang="en">Recent entries</title>
+  <title xml:lang="ko">최근 글</title>
   <link>http://www.tattertools.com/</link>
   <version>1.0</version>
-  <description xml:lang="en">Default Recent entry Plugin</description>
-  <description xml:lang="ko">기본 최근 글 플러그인</description>
+  <description xml:lang="en">Recent entry Plugin</description>
+  <description xml:lang="ko">최근 글 플러그인</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
   <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>

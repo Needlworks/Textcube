@@ -292,10 +292,14 @@ if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSett
 	if($query->doesExist()) {
 		$changed = true;
 		echo '<li>', _t('[HTML][/HTML] 블럭을 제거합니다'), ': ';
-		if ($entries = $query->getAll('owner, id, draft, content')) {
+		if ($entries = $query->getAll('owner, id')) {
 			foreach($entries as $entry) {
-				$newContent = mysql_real_escape_string(nl2brWithHTML($entry['content']));
-				DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE owner = {$entry['owner']} AND id = {$entry['id']} AND draft = {$entry['draft']}");
+				$query->setQualifier('owner',$entry['owner']);
+				$query->setQualifier('id',$entry['id']);
+				$originalEntry = $query->getRow('owner, '.$entry['id'].',draft,content');
+				$newContent = mysql_real_escape_string(nl2brWithHTML($originalEntry['content']));
+				DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE owner = {$entry['owner']} AND id = {$entry['id']} AND draft = {$originalEntry['draft']}");
+				$query->resetQualifiers();
 			}
 			setServiceSetting('newlineStyle', '1.1');
 			echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
