@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="en">Keyword Statistics</title>
+  <title xml:lang="ko">키워드 통계</title>
+  <link>http://forum.tattertools.com/ko/</link>
+  <version>1.0</version>
+  <description xml:lang="en">Keyword Statistics</description>
+  <description xml:lang="ko">리퍼러에서 검색 키워드를 추출하여 통계를 출력합니다.</description>
+  <license>GPL</license>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
+  <scope>admin</scope>
+  <requirements>
+    <tattertools>1.1</tattertools>
+  </requirements>
+  <binding>
+    <adminMenu>RefererKeyword</adminMenu>
+  </binding>
+</plugin>
