@@ -458,9 +458,10 @@ if ($blog['publishWholeOnRSS'] == false && $blog['publishEolinSyncOnRSS'] == fal
 										<dl id="open-type-line" class="line">
 											<dt><span class="label"><?php echo _t('공개 정도');?></span></dt>
 											<dd>
-												<input type="radio" id="publishEolinSyncOnRSS1" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishWholeOnRSS'] ? ' checked="checked"' : '');?> /> <label for="publishEolinSyncOnRSS1"><span class="text"><?php echo _t('공개된 모든 글을 <acronym title="Rich Site Summary">RSS</acronym>로 내보냅니다.');?></span></label><br />
-												<input type="radio" id="publishEolinSyncOnRSS0" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ? ' checked="checked"' : '');?> /> <label for="publishEolinSyncOnRSS0"><span class="text"><?php echo _t('이올린에 발행된 글만을 RSS로 내보냅니다.');?></span></label>
+												<input type="radio" id="publishEolinSyncOnRSS1" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ? ' checked="checked"' : '');?> /> <label for="publishEolinSyncOnRSS1"><span class="text"><?php echo _t('공개된 모든 글을 <acronym title="Rich Site Summary">RSS</acronym>로 내보냅니다.');?></span></label><br />
+												<input type="radio" id="publishEolinSyncOnRSS0" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ?   '' : 'checked="checked"');?> /> <label for="publishEolinSyncOnRSS0"><span class="text"><?php echo _t('이올린에 발행된 글만을 RSS로 내보냅니다.');?></span></label>
 											</dd>
+
 										</dl>
 										<dl id="post-count-line" class="line">
 											<dt><label for="entriesOnRSS"><?php echo _t('글 개수');?></label></dt>
@@ -485,6 +486,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 													<option value="0"<?php echo ($blog['publishWholeOnRSS'] ? '' : ' selected="selected"');?>><?php echo _t('부분공개');?></option>
 												</select><?php echo getArrayValue(explode('%1', _t('RSS 파일의 글 본문은 %1를 원칙으로 합니다.')), 1);?>
 											</dd>
+
 										</dl>
 									</fieldset>
 								</div>
