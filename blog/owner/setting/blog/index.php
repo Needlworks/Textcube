@@ -367,7 +367,7 @@ if ($service['type'] != 'single') {
 											<dd>
 <?php
 if (!empty($blog['logo']) && file_exists(ROOT."/attach/$owner/{$blog['logo']}")) {
-	$logoInfo = getimagesize(ROOT."/attach/$owner/{$blog['logo']}");
+	$logoInfo = @getimagesize(ROOT."/attach/$owner/{$blog['logo']}");
 	if ($logoInfo[0] > 150) {
 ?>
 												<a href="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/<?php echo $blog['logo'];?>" onclick="window.open(this.href); return false;"><img src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/<?php echo $blog['logo'];?>" width="150" border="1" alt="<?php echo _t('사용자 로고');?>" /></a>

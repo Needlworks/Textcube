@@ -4,11 +4,11 @@ define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
 		'ajaxRequest' => array('string', 'mandatory' => false),
-		'deleteWaterMark' => array('string', 'mandatory' => false),
-		'horizontalType' => array('string', 'mandatory' => false),
-		'verticalType' => array('string', 'mandatory' => false),
-		'horizontalPosition' => array('int', 'mandatory' => false),
-		'verticalPosition' => array('int', 'mandatory' => false),
+		'deleteWaterMark' => array('string', 'default' => "no"),
+		'horizontalType' => array('string', 'default' => "left"),
+		'verticalType' => array('string', 'default' => "top"),
+		'horizontalPosition' => array('int', 'default' => 0),
+		'verticalPosition' => array('int', 'default' => 0),
 		'topPadding' => array('any', 'mandatory' => false),
 		'rightPadding' => array('any', 'mandatory' => false),
 		'bottomPadding' => array('any', 'mandatory' => false),
@@ -34,12 +34,15 @@ if ($_POST['deleteWaterMark'] == "yes") {
 	unlink(ROOT."/attach/$owner/watermark.gif");
 }
 
-$forceToInit = false;
+// 업로드된 새 워터마크가 있는 경우.
 if (!empty($_FILES['waterMark']['tmp_name'])) {
 	$fileExt = Path::getExtension($_FILES['waterMark']['name']);
 	
-	if (($fileExt != '.gif') && ($fileExt != '.jpg') && ($fileExt != '.png')) {
-		print('alert("' . _t('변경하지 못했습니다.') . '");');
+	if (!in_array($fileExt, array('.gif', '.jpg', '.png'))) {
+		if ($isAjaxRequest) {
+			printRespond(array('error' => 1, 'msg' => _t('변경하지 못했습니다.')));
+		}
+		exit;
 	} else { 
 		requireComponent('Tattertools.Data.Attachment');
 		Attachment::confirmFolder();
@@ -50,11 +53,6 @@ if (!empty($_FILES['waterMark']['tmp_name'])) {
 		}
 	}
 } else if (!file_exists(ROOT."/attach/$owner/watermark.gif")) {
-	$forceToInit = true;
-}
-
-// 워터마크 포지션.
-if ($forceToInit == true) {
 	$_POST['horizontalType'] = "left";
 	$_POST['verticalType'] = "top";
 	$_POST['horizontalPosition'] = "0";
@@ -62,20 +60,19 @@ if ($forceToInit == true) {
 }
 
 $bErrorFlag = false;
-if (strtolower($_POST['verticalType']) != "top" && strtolower($_POST['verticalType']) != "middle" && strtolower($_POST['verticalType']) != "bottom")
+if (in_array(strtolower($_POST['verticalType']), array("top", "middle", "bottom")))
 	$bErrorFlag = true;
-if (strtolower($_POST['horizontalType']) != "left" && strtolower($_POST['horizontalType']) != "center" && strtolower($_POST['horizontalType']) != "right")
+if (in_array(strtolower($_POST['horizontalType']), array("left", "center", "right")))
 	$bErrorFlag = true;
-if (!eregi("^[0-9]+$", $_POST['verticalPosition'], $temp))
+if (!eregi("^[0-9]+$", $_POST['verticalPosition']))
 	$bErrorFlag = true;
-if (!eregi("^[0-9]+$", $_POST['horizontalPosition'], $temp))
+if (!eregi("^[0-9]+$", $_POST['horizontalPosition']))
 	$bErrorFlag = true;
 
 // 워터마크 포지션 값에 오류가 있으면 이전 값으로 되돌림.
-if ($bErrorFlag == true)
+if ($bErrorFlag == true) {
 	$errorArray['position'] = getUserSetting("waterMarkPosition", "left=10|bottom=10");
-
-if ($bErrorFlag == false) {
+} else {
 	$_POST['verticalPosition'] = eregi_replace("^0*([0-9]*)$", '\1', $_POST['verticalPosition']);
 	$_POST['verticalPosition'] = empty($_POST['verticalPosition']) ? 0 : $_POST['verticalPosition'];
 	$_POST['horizontalPosition'] = eregi_replace("^0*([0-9]*)$", '\1', $_POST['horizontalPosition']);
@@ -84,11 +81,8 @@ if ($bErrorFlag == false) {
 	$strNewPosition = "{$_POST['horizontalType']}={$_POST['horizontalPosition']}|{$_POST['verticalType']}={$_POST['verticalPosition']}";
 	$strOldPosition = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
 	
-	if ($strOldPosition == false) {
-		DBQuery::execute("INSERT `{$database['prefix']}UserSettings` (`user`, `name`, `value`) VALUES ($owner, 'waterMarkPosition', '$strNewPosition')");
-		deleteAllThumbnails(ROOT."/cache/thumbnail/$owner");
-	} else if ($strNewPosition != $strOldPosition) {
-		DBQuery::execute("UPDATE `{$database['prefix']}UserSettings` SET `value` = '$strNewPosition' WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
+	if ($strOldPosition == false || $strNewPosition != $strOldPosition) {
+		setUserSetting('waterMarkPosition', $strNewPosition);
 		deleteAllThumbnails(ROOT."/cache/thumbnail/$owner");
 	}
 }
@@ -104,13 +98,13 @@ if ($_POST['leftPadding'] == "direct")
 	$_POST['leftPadding'] = $_POST['leftPaddingManual'];
 
 $bErrorFlag = false;
-if (!eregi("^[0-9]+$", $_POST['topPadding'], $temp))
+if (!eregi("^[0-9]+$", $_POST['topPadding']))
 	$bErrorFlag = true;
-if (!eregi("^[0-9]+$", $_POST['bottomPadding'], $temp))
+if (!eregi("^[0-9]+$", $_POST['bottomPadding']))
 	$bErrorFlag = true;
-if (!eregi("^[0-9]+$", $_POST['rightPadding'], $temp))
+if (!eregi("^[0-9]+$", $_POST['rightPadding']))
 	$bErrorFlag = true;
-if (!eregi("^[0-9]+$", $_POST['leftPadding'], $temp))
+if (!eregi("^[0-9]+$", $_POST['leftPadding']))
 	$bErrorFlag = true;
 
 // 썸네일 여백 값에 오류가 있으면 이전 값으로 되돌림.
@@ -133,13 +127,10 @@ if ($bErrorFlag == false) {
 		$_POST['leftPadding'] = 0;
 	
 	$strNewPadding = "{$_POST['topPadding']}|{$_POST['rightPadding']}|{$_POST['bottomPadding']}|{$_POST['leftPadding']}";
-	$strOldPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPadding'");
+	$strOldPadding = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = ");
 	
-	if ($strOldPadding == false) {
-		DBQuery::execute("INSERT `{$database['prefix']}UserSettings` (`user`, `name`, `value`) VALUES ($owner, 'thumbnailPadding', '$strNewPadding')");
-		deleteAllThumbnails(ROOT."/cache/thumbnail/$owner");
-	} else if ($strNewPadding != $strOldPadding) {
-		DBQuery::execute("UPDATE `{$database['prefix']}UserSettings` SET `value` = '$strNewPadding' WHERE `user` = $owner AND `name` = 'thumbnailPadding'");
+	if ($strOldPadding == false || $strNewPadding != $strOldPadding) {
+		setUserSetting('thumbnailPadding', $strNewPadding);
 		deleteAllThumbnails(ROOT."/cache/thumbnail/$owner");
 	}
 }
@@ -149,11 +140,8 @@ if (eregi("^#?([A-F0-9]{3,6})$", $_POST['paddingColor'], $temp)) {
 	$strNewColor = $temp[1];
 	$strOldColor = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
 	
-	if ($strOldColor == false) {
-		DBQuery::execute("INSERT `{$database['prefix']}UserSettings` (`user`, `name`, `value`) VALUES ($owner, 'thumbnailPaddingColor', '$strNewColor')");
-		deleteAllThumbnails(ROOT."/cache/thumbnail/$owner");
-	} else if ($strNewColor != $strOldColor) {
-		DBQuery::execute("UPDATE `{$database['prefix']}UserSettings` SET `value` = '$strNewColor' WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
+	if ($strOldColor == false && $strNewColor != $strOldColor) {
+		setUserSetting('thumbnailPaddingColor', $strNewColor);
 		deleteAllThumbnails(ROOT."/cache/thumbnail/$owner");
 	}
 } else {

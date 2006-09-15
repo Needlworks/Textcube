@@ -77,7 +77,7 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 								function setAdminSkin() {
 									document.getElementById('admin-skin-form').submit();
 								}
-								/*
+								
 								function checkManualInput(obj) {
 									if (obj.options[obj.options.selectedIndex].value == "direct") {
 										switch (obj.id) {
@@ -110,8 +110,8 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 												break;
 										}
 									}
-								}*/
-								/*
+								}
+								
 								window.addEventListener("load", execLoadFunction, false);
 								function execLoadFunction() {
 									if (document.getElementById('topPadding').value != "direct") {
@@ -138,7 +138,7 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 									} else {
 										document.getElementById('leftPadding').removeAttribute('disabled');
 									}
-								}*/
+								}
 							//]]>
 						</script>
 			
