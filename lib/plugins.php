@@ -232,9 +232,13 @@ function getBasicSidebarList() {
 						"title" => _t('스킨 내장형 공지'),
 						"description" => _t('스킨에 내장되어 있는 공지 사이드바 모듈입니다.')
 						);
-	$innerSidebarModules['%search%'] = array(
+	$innerSidebarModules['%Search%'] = array(
 						"title" => _t('스킨 내장형 검색'),
 						"description" => _t('스킨에 내장되어 있는 검색 사이드바 모듈입니다.')
+						);
+	$innerSidebarModules['%BlogLogo%'] = array(
+						"title" => _t('스킨 내장형 블로그로고'),
+						"description" => _t('스킨에 내장되어 있는 블로그 로고 사이드바 모듈입니다.')
 						);
 	return $innerSidebarModules;
 }
