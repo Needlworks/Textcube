@@ -1723,8 +1723,8 @@ class Image {
 			$bgColorBy16 = $this->hexRGB("FF00FF");
 			$temp = imagecolorallocate($tempWaterMarkDevice, $bgColorBy16['R'], $bgColorBy16['G'], $bgColorBy16['B']);
 			imagecolortransparent($this->resultImageDevice, $temp);
-			imagefill($tempWaterMarkSource, 0, 0, $temp);
-			imagecopy($tempWaterMarkSource, $waterMarkDevice, 0, 0, 0, 0, $waterMarkWidth, $waterMarkHeight);
+			imagefill($tempWaterMarkDevice, 0, 0, $temp);
+			imagecopy($tempWaterMarkDevice, $waterMarkDevice, 0, 0, 0, 0, $waterMarkWidth, $waterMarkHeight);
 			
 			if (function_exists("imagecopymerge"))
 				imagecopymerge($this->resultImageDevice, $tempWaterMarkDevice, $xPosition, $yPosition, 0, 0, $waterMarkWidth, $waterMarkHeight, $gamma);

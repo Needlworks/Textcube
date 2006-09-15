@@ -3,6 +3,9 @@ define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/headerB.php';
 require ROOT . '/lib/piece/owner/contentMenuB0.php';
+
+requireStrictRoute();
+
 if (false) {
 	fetchConfigVal();
 	getUserSetting();
