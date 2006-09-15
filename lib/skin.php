@@ -103,11 +103,13 @@ class Skin {
 		$sval = replaceSkinTag($sval, 'body');
 		handleTags($sval);
 		
+		/* // 사이드바 현재 동작 한함. 관련된 모든 부분을 재작성 하시오.
 		list($sval, $this->sidebar) = $this->cutSkinTag($sval, 'sidebar');
 		list($this->sidebar, $this->sidebarElement) = $this->cutSkinTagForSidebar($this->sidebar, 'sidebar_element');
 		list($this->sidebar, $this->sidebarTitles) = $this->cutSkinTag($this->sidebar, 'sidebar_titles');
 		list($this->sidebar, $this->sidebarItem) = $this->cutSkinTag($this->sidebar, 'sidebar_rep_element');
 		handleSidebars($sval, $this);
+		*/
 
 		$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
 		list($sval, $this->listItem) = $this->cutSkinTag($sval, 'list_rep');
