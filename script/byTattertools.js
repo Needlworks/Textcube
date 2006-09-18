@@ -382,7 +382,7 @@ function set_preview_image(obj1, obj2, path1, path2) {
 }
 
 function set_preview_no_image(obj) {
-	obj.src = servicePath + '/image/spacer.gif';
+	obj.src = servicePath + adminSkin + '/image/spacer.gif';
 }
 
 function check_date(year, month, day, hour, min, sec) {

@@ -104,7 +104,7 @@ function printOwnerEditorScript($entryId = false) {
 											
 											if(!(new RegExp("\.(jpe?g|gif|png|bmp)$", "i").test(value[0])))
 											{
-												src = servicePath + "/image/spacer.gif";
+												src = servicePath + adminSkin + "/image/spacer.gif";
 												value[1] = editor.styleUnknown;
 												attributes = "";				
 											}
@@ -160,7 +160,7 @@ function printOwnerEditorScript($entryId = false) {
 									var imageinfo = prefix.split("^");
 									try {
 										if(editor.editMode == "WYSIWYG") {			
-											var prefix = '<img class="tatterImageDual" src="' + servicePath + '/image/spacer.gif" width="200" height="100" longdesc="2C|' + editor.addQuot(imageinfo[1]) + '|' + editor.addQuot(imageinfo[2]) + '" />';
+											var prefix = '<img class="tatterImageDual" src="' + servicePath + adminSkin + '/image/spacer.gif" width="200" height="100" longdesc="2C|' + editor.addQuot(imageinfo[1]) + '|' + editor.addQuot(imageinfo[2]) + '" />';
 											TTCommand("Raw", prefix);
 											return true;
 										}
@@ -200,7 +200,7 @@ function printOwnerEditorScript($entryId = false) {
 									var imageinfo = prefix.split("^");
 									try {
 										if(editor.editMode == "WYSIWYG") {
-											var prefix = '<img class="tatterImageTriple" src="' + servicePath + '/image/spacer.gif" width="300" height="100" longdesc="3C|' + editor.addQuot(imageinfo[1]) + '|' + editor.addQuot(imageinfo[2]) + '|' + editor.addQuot(imageinfo[3]) + '" />';
+											var prefix = '<img class="tatterImageTriple" src="' + servicePath + adminSkin + '/image/spacer.gif" width="300" height="100" longdesc="3C|' + editor.addQuot(imageinfo[1]) + '|' + editor.addQuot(imageinfo[2]) + '|' + editor.addQuot(imageinfo[3]) + '" />';
 											TTCommand("Raw", prefix);
 											return true;
 										}
@@ -272,7 +272,7 @@ function printOwnerEditorScript($entryId = false) {
 										}
 										try {
 											if(editor.editMode == "WYSIWYG") {
-												TTCommand("Raw", '<img class="tatterImazing" src="' + servicePath + '/image/spacer.gif" width="400" height="300" longdesc="iMazing|' + fileList + '|' + Properties + '|" />');
+												TTCommand("Raw", '<img class="tatterImazing" src="' + servicePath + adminSkin + '/image/spacer.gif" width="400" height="300" longdesc="iMazing|' + fileList + '|' + Properties + '|" />');
 												return true;
 											}
 										} catch(e) { }
@@ -309,7 +309,7 @@ function printOwnerEditorScript($entryId = false) {
 										fileList = fileList.substr(0,fileList.length-1);
 										try {
 											if(editor.editMode == "WYSIWYG") {
-												TTCommand("Raw", '<img class="tatterGallery" src="' + servicePath + '/image/spacer.gif" width="400" height="300" longdesc="Gallery|' + fileList + '|width=&quot;400&quot; height=&quot;300&quot;" />');
+												TTCommand("Raw", '<img class="tatterGallery" src="' + servicePath + adminSkin + '/image/spacer.gif" width="400" height="300" longdesc="Gallery|' + fileList + '|width=&quot;400&quot; height=&quot;300&quot;" />');
 												return true;
 											}
 										} catch(e) { }
@@ -351,7 +351,7 @@ function printOwnerEditorScript($entryId = false) {
 										fileList = fileList.substr(0,fileList.length-1);
 										try {
 											if(editor.editMode == "WYSIWYG") {
-												TTCommand("Raw", '<img class="tatterJukebox" src="' + servicePath + '/image/spacer.gif" width="200" height="30" longdesc="Jukebox|' + fileList + '|autoplay=0 visible=1|" />');
+												TTCommand("Raw", '<img class="tatterJukebox" src="' + servicePath + adminSkin + '/image/spacer.gif" width="200" height="30" longdesc="Jukebox|' + fileList + '|autoplay=0 visible=1|" />');
 												return true;
 											}
 										} catch(e) { }
@@ -511,9 +511,7 @@ function printEntryFileList($attachments, $param) {
 																	width = 90 / height * width;
 																	height = 90;
 																}
-																document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'?randseed='+Math.random()+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?php echo $service['path'];?>/image/spacer.gif\'"/>';
-																//setAttribute('src',"<?php echo $service['path'];?>/attach/<?php echo $owner;?>/"+  fileName);
-																//document.getElementById('selectedImage').setAttribute('src',"<?php echo $service['path'];?>/image/spacer.gif");
+																document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'?randseed='+Math.random()+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/spacer.gif\'"/>';																
 															}
 															catch(e) { }
 															return false;
@@ -906,7 +904,7 @@ function printEntryFileUploadButton($entryId) {
 													
 													if (getUploadObj()) {
 														try {
-															document.write('<a id="uploadBtn" class="upload-button button" href="#void" onclick="browser();"><span class="text"><?php echo _t('파일 업로드');?></span></a>');
+															document.write('<a id="uploadBtn" class="upload-button button" href="#void" onclick="browser(); return false"><span class="text"><?php echo _t('파일 업로드');?></span></a>');
 															document.write('<a id="stopUploadBtn" class="stop-button button" href="#void" onclick="stopUpload();" style="display: none;"><span class="text"><?php echo _t('업로드 중지');?></span></a>');			
 														} catch(e) {
 															
