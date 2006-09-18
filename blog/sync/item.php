@@ -17,7 +17,7 @@ if ($result && ($row = mysql_fetch_array($result))) {
 	echo '	<siteURL>', htmlspecialchars("$defaultURL/"), '</siteURL>', CRLF;
 	echo '	<postURL>', htmlspecialchars($item['link']), '</postURL>', CRLF;
 	echo '	<subject>', htmlspecialchars($item['title']), '</subject>', CRLF;
-	echo '	<description>', htmlspecialchars(stripHTML(getEntryContentView($owner, $suri['id'], $item['description']))), '</description>', CRLF;
+	echo '	<description>', htmlspecialchars(getEntryContentView($owner, $suri['id'], $item['description'])), '</description>', CRLF;
 	foreach ($item['categories'] as $category) {
 		if ($category = trim($category))
 			echo '	<category>', htmlspecialchars($category), '</category>', CRLF;
