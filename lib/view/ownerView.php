@@ -905,7 +905,7 @@ function printEntryFileUploadButton($entryId) {
 													if (getUploadObj()) {
 														try {
 															document.write('<a id="uploadBtn" class="upload-button button" href="#void" onclick="browser(); return false"><span class="text"><?php echo _t('파일 업로드');?></span></a>');
-															document.write('<a id="stopUploadBtn" class="stop-button button" href="#void" onclick="stopUpload();" style="display: none;"><span class="text"><?php echo _t('업로드 중지');?></span></a>');			
+															document.write('<a id="stopUploadBtn" class="stop-button button" href="#void" onclick="stopUpload(); return false" style="display: none;"><span class="text"><?php echo _t('업로드 중지');?></span></a>');			
 														} catch(e) {
 															
 														}								
