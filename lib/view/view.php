@@ -1753,6 +1753,7 @@ function printScript($filename, $obfuscate = true) {
 function createNewProperty($filename, $imageWidth, $property) {
 	global $owner;
 	
+	if (!file_exists(ROOT."/attach/$owner/$filename")) return array($property, false);
 	if ($tempInfo = getimagesize(ROOT."/attach/$owner/$filename")) {
 		list($originWidth, $originHeight, $type, $attr) = $tempInfo;
 	} else {

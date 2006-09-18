@@ -1834,6 +1834,9 @@ class Image {
 	}
 	
 	function checkExistingThumbnail($originSrc, $thumbnailSrc, $argWidth, $argHeight, $paddingArray=NULL, $waterMarkArray=NULL) {
+		if (!file_exists($originSrc)) {
+			return 0;
+		}
 		$originImageInfo = getimagesize($originSrc);
 		list($tempWidth, $tempHeight) = Image::calcOptimizedImageSize($originImageInfo[0], $originImageInfo[1], $argWidth, $argHeight);
 		

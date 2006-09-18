@@ -1,6 +1,7 @@
 <?php
 // 사용되지 않는 함수이나 만약을 위해 남겨둠.
 function isLarge($target, $maxX, $maxY) {
+	if (!file_exists($target)) return false;
 	$size = getImageSize($target);
 	$sx = $size[0];
 	$sy = $size[1];
@@ -16,6 +17,7 @@ function isLarge($target, $maxX, $maxY) {
 
 // 사용되지 않는 함수이나 만약을 위해 남겨둠.
 function resizing($maxX, $maxY, $src_file, $tag_file) {
+	if (!file_exists($src_file)) return false;
 	list($width, $height, $type, $attr) = getimagesize($src_file);
 	if ($type == 1) {
 		$src_img = imagecreatefromgif($src_file);
