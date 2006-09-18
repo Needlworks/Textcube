@@ -169,16 +169,16 @@ if (extension_loaded('gd')) {
 		$waterMarkInfo = getimagesize(ROOT."/attach/$owner/watermark.gif");
 		if ($waterMarkInfo[0] > 150) {
 ?>
-												<a href="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/watermark.gif" onclick="window.open(this.href); return false;"><img src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/watermark.gif" width="150" border="1" alt="<?php echo _t('워터마크 이미지');?>" /></a>
+												<a href="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/watermark.gif?randomseed=<?php echo rand();?>" onclick="window.open(this.href); return false;"><img src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/watermark.gif?randomseed=<?php echo rand();?>" width="150" border="1" alt="<?php echo _t('워터마크 이미지');?>" /></a>
 <?php
 		} else {
 ?>
-												<img src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/watermark.gif" border="1" alt="<?php echo _t('워터마크 이미지');?>" />
+												<img src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/watermark.gif?randomseed=<?php echo rand();?>" border="1" alt="<?php echo _t('워터마크 이미지');?>" />
 <?php
 		}
 	}
 ?>
-												<input type="file" class="input-file" name="waterMark" /><br />
+												<br /><input type="file" class="input-file" name="waterMark" /><br />
 												<input type="checkbox" class="checkbox" id="deleteWaterMark" name="deleteWaterMark" value="yes"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteWaterMark"><?php echo _t('워터 마크를 초기화합니다.');?></label>
 											</dd>
 										</dl>

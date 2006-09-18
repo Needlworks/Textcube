@@ -160,6 +160,11 @@ dl dd
 	margin-top                       : 8px;
 }
 
+#part-setting-resample .section dl dd a img
+{
+	display                          : inline;
+}
+
 #watermark-resize-line dd,
 #blog-language-line dd p
 {

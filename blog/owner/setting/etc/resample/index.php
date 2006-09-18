@@ -42,6 +42,8 @@ if (!empty($_FILES['waterMark']['tmp_name'])) {
 		if ($isAjaxRequest) {
 			printRespond(array('error' => 1, 'msg' => _t('변경하지 못했습니다.')));
 		}
+		// TODO : --???? error handling needed
+		header("Location: ".$_SERVER['HTTP_REFERER']);
 		exit;
 	} else { 
 		requireComponent('Tattertools.Data.Attachment');
