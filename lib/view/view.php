@@ -121,7 +121,7 @@ function getUpperView($paging) {
 					if(document.getElementById("commentCount" + entryId))
 						document.getElementById("commentCount" + entryId).innerHTML = this.getText("/response/commentView");
 					if(document.getElementById("commentCountOnRecentEntries" + entryId))
-						document.getElementById("commentCountOnRecentEntries" + entryId).innerHTML = this.getText("/response/commentCount");
+						document.getElementById("commentCountOnRecentEntries" + entryId).innerHTML = "(" + this.getText("/response/commentCount") + ")";
 				}
 				request.onError = function() {
 					alert(this.getText("/response/description"));
