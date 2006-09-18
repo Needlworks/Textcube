@@ -6,7 +6,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>', CRLF;
 $result = mysql_query("SELECT e.*, c.name AS categoryName FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.id = {$suri['id']} AND e.draft = 0 AND e.visibility = 3");
 if ($result && ($row = mysql_fetch_array($result))) {
 	$author = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
-	$item = array('title' => $row['title'], 'description' => $row['content'], 'link' => "$defaultURL/{$row['id']}", 'categories' => array(), 'location' => $row['location'], 'pubDate' => Timestamp::getRFC1123GMT($row['published']));
+	$item = array('title' => $row['title'], 'description' => $row['content'], 'link' => "$defaultURL/".($blog['useSlogan'] ? "entry/{$row['slogan']}": $row['id']), 'categories' => array(), 'location' => $row['location'], 'pubDate' => Timestamp::getRFC1123GMT($row['published']));
 	array_push($item['categories'], $row['categoryName']);
 	$tag_result = mysql_query("select name from {$database['prefix']}Tags, {$database['prefix']}TagRelations where id = tag and owner = $owner and entry = {$row['id']} order by name");
 	while (list($tag) = mysql_fetch_array($tag_result))
