@@ -43,6 +43,19 @@
 	color                            : #FF6600 !important;
 }
 
+#part-center-dashboard .section dl
+{
+	position						 : static;
+}
+#part-center-dashboard .section dl dt
+{
+	position						 : static;
+}
+#part-center-dashboard .section dl dd
+{
+	position						 : static;
+}
+
 /* Setting ***************************************************************************************/
 
 #part-center-plugins .main-explain-box

@@ -12,13 +12,18 @@ if (false) {
 								<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
 							
 <?php
+$i = 0;
 foreach ($centerMappings as $mapping) {
+	$i++;
 ?>
 								<div id="<?php echo $mapping['plugin'];?>" class="section">
 									<h3><?php echo $mapping['title'];?></h3>
 <?php echo handleCenters($mapping);?>
 								</div>
 <?php
+	if (($i % 2) == 0) {
+		echo '<hr style="visibility:hidden" />';
+	}
 }
 ?>
 							</div>
