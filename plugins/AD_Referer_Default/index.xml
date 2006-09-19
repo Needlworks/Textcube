@@ -15,6 +15,27 @@
     <tattertools>1.1</tattertools>
   </requirements>
   <binding>
-    <adminMenu>Referers</adminMenu>
+    <adminMenu>
+      <viewMethods>
+        <method>
+          <title xml:lang="en">Referer Log</title>
+          <title xml:lang="ko">리퍼러 기록</title>
+          <handler>AD_Referer_Default</handler>
+          <params>
+            <param>
+              <name>page</name>
+              <type>int</type>
+              <mandatory>1</mandatory>
+              <default>1</default>
+            </param>
+            <param>
+              <name>perPage</name>
+              <type>int</type>
+              <mandatory>0</mandatory>
+            </param>
+          </params>
+        </method>
+      </viewMethods>
+    </adminMenu>
   </binding>
 </plugin>
