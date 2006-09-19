@@ -68,14 +68,14 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 										request.onSuccess = function() {												
 											document.getElementById("plugin" + num + "Link").className = 'active-class';
 											
-											document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?php echo _t('사용중');?></span>';
+											document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?php echo _t('사용중');?><\/span>';
 											document.getElementById("plugin" + num + "Link").setAttribute('title', '<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>');
 											
 											objTR = getParentByTagName("TR", document.getElementById("plugin" + num + "Link"));
 											objTR.className = objTR.className.replace('inactive', 'active');
 											
 											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정');?>')) {
-												objTR.cells[5].innerHTML = '<a href="#void" id="config_' + num +'" class="config-enabled-icon bullet" onclick="getCurrentSetting(\'' + plugin + '\',\'Y\',\''+width+'\',\''+height+'\')"><?php echo _t('설정');?></a>';
+												objTR.cells[5].innerHTML = '<a href="#void" id="config_' + num +'" class="config-enabled-icon bullet" onclick="getCurrentSetting(\'' + plugin + '\',\'Y\',\''+width+'\',\''+height+'\')"><?php echo _t('설정');?><\/a>';
 											}
 											tempStr = document.getElementById("plugin" + num + "Scope").innerHTML;
 											if (tempStr.match('<?php echo _t('관리자');?>') || tempStr.match('<?php echo _t('사이드바');?>'))
@@ -92,14 +92,14 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 										request.onSuccess = function() {
 											document.getElementById("plugin" + num + "Link").className = 'inactive-class';
 											
-											document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?php echo _t('미사용');?></span>';
+											document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?php echo _t('미사용');?><\/span>';
 											document.getElementById("plugin" + num + "Link").setAttribute('title', '<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>');
 											
 											objTR = getParentByTagName("TR", document.getElementById("plugin" + num + "Link"));
 											objTR.className = objTR.className.replace('active', 'inactive');
 											
 											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정');?>')) {
-												objTR.cells[5].innerHTML = '<span class="config-disabled-icon bullet"><?php echo _t('설정');?></span>';
+												objTR.cells[5].innerHTML = '<span class="config-disabled-icon bullet"><?php echo _t('설정');?><\/span>';
 											}
 											tempStr = document.getElementById("plugin" + num + "Scope").innerHTML;
 											if (tempStr.match('<?php echo _t('관리자');?>') || tempStr.match('<?php echo _t('사이드바');?>'))

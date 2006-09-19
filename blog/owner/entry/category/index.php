@@ -139,7 +139,7 @@ if ($depth <= 1) {
 ?>
 											<dd>
 												<div class="field-box">
-													<input type="text" id="newCategory" class="input-text" name="newCategory" onkeyup="if (event.keyCode == 13 && validateText(this.value)){addCategory()}" />
+													<input type="text" id="newCategory" class="input-text" name="newCategory" onkeyup="if (event.keyCode == 13 &amp;&amp; validateText(this.value)){addCategory()}" />
 													<input type="button" class="add-button input-button" value="<?php echo _t('추가하기');?>" onclick="addCategory(); return false;" />
 												</div>
 												<p>
@@ -158,7 +158,7 @@ if ($depth <= 1) {
 											<dt><label for="modifyCategoryName"><?php echo _t('레이블 변경');?></label></dt>
 											<dd>
 												<div class="field-box">
-													<input type="text" id="modifyCategoryName" class="input-text" name="modifyCategoryName" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?php echo $name;?>" />
+													<input type="text" id="modifyCategoryName" class="input-text" name="modifyCategoryName" onkeyup="if (event.keyCode == '13' &amp;&amp; validateText(this.value)) modifyCategory();" value="<?php echo $name;?>" />
 													<input type="button" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="modifyCategory(); return false;" />
 												</div>
 											</dd>
@@ -167,7 +167,7 @@ if ($depth <= 1) {
 											<dt><label for="modifyCategoryBodyId"><?php echo _t('Body Id 변경');?></label></dt>
 											<dd>
 												<div class="field-box">
-													<input type="text" id="modifyCategoryBodyId" class="input-text" name="modifyCategoryBodyId" onkeyup="if (event.keyCode == '13' && validateText(this.value)) modifyCategory();" value="<?php echo $bodyid;?>" <?php if ($selected == 0) echo "readonly"?> />
+													<input type="text" id="modifyCategoryBodyId" class="input-text" name="modifyCategoryBodyId" onkeyup="if (event.keyCode == '13' &amp;&amp; validateText(this.value)) modifyCategory();" value="<?php echo $bodyid;?>" <?php if ($selected == 0) echo "readonly"?> />
 													<input type="button" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="modifyCategory(); return false;" />
 												</div>
 												<p><?php echo _t('Body id는 블로그의 <acronym title="Cascading Style Sheet">CSS</acronym> 활용을 위해 사용합니다. 디폴트인 "tt-body-category"를 그냥 사용하셔도 사용에 지장은 없습니다.');?></p>

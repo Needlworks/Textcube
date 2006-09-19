@@ -428,7 +428,7 @@ function getResponse(uri,content) {
 		var escapeSpace = document.getElementsByName('body');
 		var iframeElement = document.createElement('div');
 		document.body.appendChild(iframeElement);
-		iframeElement.innerHTML = '<iframe src="'+uri+'"style="display:none" onload="location.href=location.href"></iframe>';	
+		iframeElement.innerHTML = '<iframe src="'+uri+'"style="display:none" onload="location.href=location.href"><\/iframe>';	
 		
 		return false;
 	}
@@ -801,7 +801,7 @@ function toggleMoreLess(obj, num, txtMore, txtLess)
 		oLess = document.createElement("P");
 		oLess.id = "less" + num;
 		oLess.className = "moreless_bottom";
-		oLess.innerHTML = '<span style="cursor: pointer;" onclick="toggleMoreLess(this, \'' + num + '\', \'' + txtMore + '\', \'' + txtLess + '\'); return false;">' + txtLess + '</span>';
+		oLess.innerHTML = '<span style="cursor: pointer;" onclick="toggleMoreLess(this, \'' + num + '\', \'' + txtMore + '\', \'' + txtLess + '\'); return false;">' + txtLess + '<\/span>';
 		
 		after = oContent.nextSibling;
 		oContent.parentNode.insertBefore(oLess, after);

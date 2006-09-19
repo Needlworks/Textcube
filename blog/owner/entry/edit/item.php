@@ -332,17 +332,17 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 									if (editWindow.style.display == "block" || editWindow.style.display == "inline") {
 										if (document.getElementById("visualEditorWindow")) {
 											indicatorMode.className = indicatorMode.className.replace("inactive-class", "active-class");
-											indicatorMode.innerHTML = '<span class="text"><?php echo _t('HTML 모드');?></span>';
+											indicatorMode.innerHTML = '<span class="text"><?php echo _t('HTML 모드');?><\/span>';
 											indicatorMode.setAttribute("title", "<?php echo _t('클릭하시면 WYSIWYG 모드로 변경합니다.');?>");
 										} else {
 											indicatorMode.className = indicatorMode.className.replace("inactive-class", "active-class");
-											indicatorMode.innerHTML = '<span class="text"><?php echo _t('HTML 모드');?></span>';
+											indicatorMode.innerHTML = '<span class="text"><?php echo _t('HTML 모드');?><\/span>';
 											indicatorMode.removeAttribute("title");
 										}
 									} else {
 										indicatorMode.className = indicatorMode.className.replace("active-class", "inactive-class");
 										indicatorMode.setAttribute("title", "<?php echo _t('클릭하시면 HTML 모드로 변경합니다.');?>");
-										indicatorMode.innerHTML = '<span class="text"><?php echo _t('WYSIWYG 모드');?></span>';
+										indicatorMode.innerHTML = '<span class="text"><?php echo _t('WYSIWYG 모드');?><\/span>';
 									}
 								}
 								

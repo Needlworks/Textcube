@@ -1220,8 +1220,8 @@ function TTCommand(command, value1, value2) {
 							var range = editor.getSelectionRange();
 							var dummyNode = document.createElement("div");
 							dummyNode.appendChild(range.extractContents());
-							var html = dummyNode.innerHTML.replace(new RegExp("<br />", "gi"), "</li><li>");
-							range.insertNode(range.createContextualFragment("<ul><li>" + html + "</li></ul>"));
+							var html = dummyNode.innerHTML.replace(new RegExp("<br \/>", "gi"), "<\/li><li>");
+							range.insertNode(range.createContextualFragment("<ul><li>" + html + "<\/li><\/ul>"));
 						}
 					}
 				}
@@ -1260,8 +1260,8 @@ function TTCommand(command, value1, value2) {
 							var range = editor.getSelectionRange();
 							var dummyNode = document.createElement("div");
 							dummyNode.appendChild(range.extractContents());
-							var html = dummyNode.innerHTML.replace(new RegExp("<br />", "gi"), "</li><li>");
-							range.insertNode(range.createContextualFragment("<ol><li>" + html + "</li></ol>"));
+							var html = dummyNode.innerHTML.replace(new RegExp("<br />", "gi"), "<\/li><li>");
+							range.insertNode(range.createContextualFragment("<ol><li>" + html + "<\/li><\/ol>"));
 						}
 					}
 				}

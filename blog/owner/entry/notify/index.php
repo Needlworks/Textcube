@@ -92,11 +92,11 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 											} else {
 												if (command == 'block') {
 													icon.className = 'block-icon bullet';
-													icon.innerHTML = '<span class="text"><?php echo _t('[차단됨]');?></span>';
+													icon.innerHTML = '<span class="text"><?php echo _t('[차단됨]');?><\/span>';
 													icon.setAttribute('title', "<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>");
 												} else {
 													icon.className = 'unblock-icon bullet';
-													icon.innerHTML = '<span class="text"><?php echo _t('[허용됨]');?></span>';
+													icon.innerHTML = '<span class="text"><?php echo _t('[허용됨]');?><\/span>';
 													icon.setAttribute('title', "<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.');?>");
 												}
 											}

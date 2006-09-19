@@ -295,7 +295,15 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 												</div>
 												<div id="blog-addredd-line" class="line">
 													<label for="invitation_identify"><?php echo _t('블로그 주소');?></label>
-													<span class="inter-word"><?php echo link_cut($urlRule[0]);?></span><input type="text" id="invitation_identify" class="input-text" name="text" /><span class="inter-word"><?php echo $urlRule[1];?></span>
+													<span class="inter-word"><?php echo link_cut($urlRule[0]);?></span><input type="text" id="invitation_identify" class="input-text" name="text" />
+			
+<?php 
+if (!empty($urlRule[1])) {
+?>
+													<span class="inter-word"><?php echo $urlRule[1];?></span>
+<?php 
+}
+?>
 												</div>
 											</div>
 														

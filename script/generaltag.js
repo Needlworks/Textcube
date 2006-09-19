@@ -74,7 +74,7 @@ function eolinTagFunction_showLocalSuggestion(id, cursor, filter)
 						{
 							for(var j=0; j<instance.suggestion.childNodes.length; j++)
 							{
-								if(tags[i] == instance.suggestion.childNodes[j].innerHTML.replace(new RegExp("</?strong>", "gi"), ""))
+								if(tags[i] == instance.suggestion.childNodes[j].innerHTML.replace(new RegExp("<\/?strong>", "gi"), ""))
 								{
 									instance.suggestion.removeChild(instance.suggestion.childNodes[j]);
 									break;
@@ -344,7 +344,7 @@ Tag.prototype.suggestionMouseClick = function(obj)
 	var input = this.getInput();
 
 	this.hideSuggestion();
-	this.setValue(obj.innerHTML.replace(new RegExp("</?strong>", "gi"), "").replaceAll("&amp;", "&"));
+	this.setValue(obj.innerHTML.replace(new RegExp("<\/?strong>", "gi"), "").replaceAll("&amp;", "&"));
 }
 
 // script의 src를 변경해 서버로부터 tag 리스트를 전송받는다
@@ -428,7 +428,7 @@ Tag.prototype.highlightRow = function()
 			this.suggestion.childNodes[i].className = (i == this.suggestion.selectedIndex - 1) ? "hover" : "";
 
 		// 선택된 열의 값을 input box에 채운다
-		this.getInput().value = this.typingText = this.suggestion.childNodes[this.suggestion.selectedIndex-1].innerHTML.replace(new RegExp("</?strong>", "gi"), "").unhtmlspecialchars();
+		this.getInput().value = this.typingText = this.suggestion.childNodes[this.suggestion.selectedIndex-1].innerHTML.replace(new RegExp("<\/?strong>", "gi"), "").unhtmlspecialchars();
 	}
 }
 

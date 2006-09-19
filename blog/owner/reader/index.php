@@ -235,8 +235,8 @@ if (getUserId() == 1) {
 									var hide_str = '<?php echo _t('패널 가리기');?>';
 									
 									document.write('<a id="toggleButton" class="pannel-<?php echo getUserSetting('readerPannelVisibility', 1) == 1 ? 'show' : 'hide';?>" href="#void" onclick="Reader.togglePannel(event)">');
-									document.write('<span class="text"><?php echo getUserSetting('readerPannelVisibility', 1) == 1 ? _t('패널 가리기') : _t('패널 보기');?></span>');
-									document.write('</a>');
+									document.write('<span class="text"><?php echo getUserSetting('readerPannelVisibility', 1) == 1 ? _t('패널 가리기') : _t('패널 보기');?><\/span>');
+									document.write('<\/a>');
 								//]]>
 							</script>
 						</div>

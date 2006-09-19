@@ -25,21 +25,21 @@ require ROOT . '/lib/piece/owner/contentMenu70.php';
 									var request = new HTTPRequest("<?php echo $blogURL;?>/owner/entry/visibility/" + entry + "?visibility=" + visibility);
 									switch (visibility) {
 										case 0:
-											document.getElementById("privateIcon_" + entry).innerHTML = '<span class="text"><?php echo _t('비공개');?></span>';
+											document.getElementById("privateIcon_" + entry).innerHTML = '<span class="text"><?php echo _t('비공개');?><\/span>';
 											document.getElementById("privateIcon_" + entry).className = 'private-on-icon';
 											document.getElementById("privateIcon_" + entry).setAttribute('title', '<?php echo _t('현재 비공개 상태입니다.');?>');
 											
-											document.getElementById("publicIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?></span></a>';
+											document.getElementById("publicIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?><\/span><\/a>';
 											document.getElementById("publicIcon_" + entry).className = 'public-off-icon';
 											document.getElementById("publicIcon_" + entry).removeAttribute('title');
 											
 											break;
 										case 2:
-											document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?></span></a>';
+											document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?><\/span><\/a>';
 											document.getElementById("privateIcon_" + entry).className = 'private-off-icon';
 											document.getElementById("privateIcon_" + entry).removeAttribute('title');
 											
-											document.getElementById("publicIcon_" + entry).innerHTML = '<span class="text"><?php echo _t('공개');?></span>';
+											document.getElementById("publicIcon_" + entry).innerHTML = '<span class="text"><?php echo _t('공개');?><\/span>';
 											document.getElementById("publicIcon_" + entry).className = 'public-on-icon';
 											document.getElementById("publicIcon_" + entry).setAttribute('title', '<?php echo _t('현재 공개 상태입니다.');?>');
 																						

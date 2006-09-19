@@ -96,19 +96,19 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 									request.onSuccess = function () {
 										switch (visibility) {
 											case 0:
-												document.getElementById("privateIcon_" + entry).innerHTML = '<span class="text"><?php echo _t('비공개');?></span>';
+												document.getElementById("privateIcon_" + entry).innerHTML = '<span class="text"><?php echo _t('비공개');?><\/span>';
 												document.getElementById("privateIcon_" + entry).className = 'private-on-icon';
 												document.getElementById("privateIcon_" + entry).setAttribute('title', '<?php echo _t('현재 비공개 상태입니다.');?>');
 												
-												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=protect" onclick="setEntryVisibility('+entry+', 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.');?>"><span class="text"><?php echo _t('보호');?></span></a>';
+												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=protect" onclick="setEntryVisibility('+entry+', 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.');?>"><span class="text"><?php echo _t('보호');?><\/span><\/a>';
 												document.getElementById("protectedIcon_" + entry).className = 'protected-off-icon';
 												document.getElementById("protectedIcon_" + entry).removeAttribute('title');
 												
-												document.getElementById("publicIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?></span></a>';
+												document.getElementById("publicIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?><\/span><\/a>';
 												document.getElementById("publicIcon_" + entry).className = 'public-off-icon';
 												document.getElementById("publicIcon_" + entry).removeAttribute('title');
 																									
-												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('비발행');?></span></a>';
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('비발행');?><\/span><\/a>';
 												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
@@ -117,19 +117,19 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 												
 												break;
 											case 1:
-												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?></span></a>';
+												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?><\/span><\/a>';
 												document.getElementById("privateIcon_" + entry).className = 'private-off-icon';
 												document.getElementById("privateIcon_" + entry).removeAttribute('title');
 												
-												document.getElementById("protectedIcon_" + entry).innerHTML = '<span class="text"><?php echo _t('보호');?></span>';
+												document.getElementById("protectedIcon_" + entry).innerHTML = '<span class="text"><?php echo _t('보호');?><\/span>';
 												document.getElementById("protectedIcon_" + entry).className = 'protected-on-icon';
 												document.getElementById("protectedIcon_" + entry).setAttribute('title', '<?php echo _t('현재 보호 상태입니다.');?>');
 												
-												document.getElementById("publicIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?></span></a>';
+												document.getElementById("publicIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?><\/span><\/a>';
 												document.getElementById("publicIcon_" + entry).className = 'public-off-icon';
 												document.getElementById("publicIcon_" + entry).removeAttribute('title');
 												
-												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('비발행');?></span></a>';
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('비발행');?><\/span><\/a>';
 												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
 												
 												tempLink = document.createElement("A");
@@ -138,7 +138,7 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 												tempLink.setAttribute("href", "<?php echo $blogURL;?>/owner/entry/edit/" + entry + "#status-line");
 												tempLink.setAttribute("onclick", "showProtectSetter(" + entry + "); return false;");
 												tempLink.setAttribute("title", "<?php echo _t('보호 패스워드를 설정합니다.');?>");
-												tempLink.innerHTML = '<span class="text"><?php echo _t('보호설정');?></span>';
+												tempLink.innerHTML = '<span class="text"><?php echo _t('보호설정');?><\/span>';
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
 												tempTr = tempTd.parentNode;
@@ -146,19 +146,19 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 												
 												break;
 											case 2:
-												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?></span></a>';
+												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?><\/span><\/a>';
 												document.getElementById("privateIcon_" + entry).className = 'private-off-icon';
 												document.getElementById("privateIcon_" + entry).removeAttribute('title');
 												
-												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=protect" onclick="setEntryVisibility('+entry+', 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.');?>"><span class="text"><?php echo _t('보호');?></span></a>';
+												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=protect" onclick="setEntryVisibility('+entry+', 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.');?>"><span class="text"><?php echo _t('보호');?><\/span><\/a>';
 												document.getElementById("protectedIcon_" + entry).className = 'protected-off-icon';
 												document.getElementById("protectedIcon_" + entry).removeAttribute('title');
 												
-												document.getElementById("publicIcon_" + entry).innerHTML = '<span class="text"><?php echo _t('공개');?></span>';
+												document.getElementById("publicIcon_" + entry).innerHTML = '<span class="text"><?php echo _t('공개');?><\/span>';
 												document.getElementById("publicIcon_" + entry).className = 'public-on-icon';
 												document.getElementById("publicIcon_" + entry).setAttribute('title', '<?php echo _t('현재 공개 상태입니다.');?>');
 												
-												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('비발행');?></span></a>';
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('비발행');?><\/span><\/a>';
 												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
@@ -167,19 +167,19 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 																							
 												break;
 											case 3:
-												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?></span></a>';
+												document.getElementById("privateIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=private" onclick="setEntryVisibility('+entry+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?><\/span><\/a>';
 												document.getElementById("privateIcon_" + entry).className = 'private-off-icon';
 												document.getElementById("privateIcon_" + entry).removeAttribute('title');
 												
-												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=protect" onclick="setEntryVisibility('+entry+', 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.');?>"><span class="text"><?php echo _t('보호');?></span></a>';
+												document.getElementById("protectedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=protect" onclick="setEntryVisibility('+entry+', 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.');?>"><span class="text"><?php echo _t('보호');?><\/span><\/a>';
 												document.getElementById("protectedIcon_" + entry).className = 'protected-off-icon';
 												document.getElementById("protectedIcon_" + entry).removeAttribute('title');
 												
-												document.getElementById("publicIcon_" + entry).innerHTML = '<span class="text"><?php echo _t('공개');?></span>';
+												document.getElementById("publicIcon_" + entry).innerHTML = '<span class="text"><?php echo _t('공개');?><\/span>';
 												document.getElementById("publicIcon_" + entry).className = 'public-on-icon';
 												document.getElementById("publicIcon_" + entry).setAttribute('title', '<?php echo _t('현재 공개 상태입니다.');?>');
 												
-												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.');?>"><span class="text"><?php echo _t('발행');?></span></a>';
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.');?>"><span class="text"><?php echo _t('발행');?><\/span><\/a>';
 												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-on-icon';
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
@@ -465,13 +465,13 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 											newCell.setAttribute("align", "right");
 											newSection = document.createElement("DIV");
 											newSection.className = "layer-section";
-											newSection.innerHTML = '<label for="entry' + id + 'Password"><?php echo _t('비밀번호');?></label><span class="divider"> | </span><input type="text" id="entry' + id + 'Password" class="password-input" value="' + this.getText("/response/password") + '" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(' + id + ')" /> ';
+											newSection.innerHTML = '<label for="entry' + id + 'Password"><?php echo _t('비밀번호');?><\/label><span class="divider"> | <\/span><input type="text" id="entry' + id + 'Password" class="password-input" value="' + this.getText("/response/password") + '" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(' + id + ')" \/> ';
 											
 											tempLink = document.createElement("A");
 											tempLink.className = "edit-button button";
 											tempLink.setAttribute("href", "#void");
 											tempLink.setAttribute("onclick", "protectEntry(" + id + ")");
-											tempLink.innerHTML = '<span class="text"><?php echo _t('수정');?></span>';
+											tempLink.innerHTML = '<span class="text"><?php echo _t('수정');?><\/span>';
 											
 											newSection.appendChild(tempLink);
 											
@@ -508,13 +508,13 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 										
 										newSection = document.createElement("DIV");
 										newSection.className = "layer-section";
-										newSection.innerHTML = '<label for="trackbackForm_' + id + '"><?php echo _t('글걸기 주소');?></label><span class="divider"> | </span><input type="text" id="trackbackForm_' + id + '" class="input-text" name="trackbackURL" value="http://" size="50" onkeydown="if (event.keyCode == 13) sendTrackback(' + id + ')" /> ';
+										newSection.innerHTML = '<label for="trackbackForm_' + id + '"><?php echo _t('글걸기 주소');?><\/label><span class="divider"> | <\/span><input type="text" id="trackbackForm_' + id + '" class="input-text" name="trackbackURL" value="http://" size="50" onkeydown="if (event.keyCode == 13) sendTrackback(' + id + ')" \/> ';
 										
 										tempLink = document.createElement("A");
 										tempLink.className = "send-button button";
 										tempLink.setAttribute("href", "#void");
 										tempLink.setAttribute("onclick", "sendTrackback(" + id + ")");
-										tempLink.innerHTML = '<span class="text"><?php echo _t('전송');?></span>';
+										tempLink.innerHTML = '<span class="text"><?php echo _t('전송');?><\/span>';
 										
 										newDiv = document.createElement("DIV");
 										newDiv.id = "logs_" + id;
@@ -749,7 +749,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 										
 										<label for="commandBox"><?php echo _t('선택한 글을');?></label>
 										<select id="commandBox" onchange="toggleDeleteButton(this)"> 
-											<option></option>
+											<option selected style="font-style:italic"><?php echo _t('[행동을 지정합니다.]');?></option>
 <?php
 	$categories = getCategories($owner);
 	if (count($categories) >0) {

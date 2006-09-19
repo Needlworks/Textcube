@@ -562,7 +562,7 @@ function printEntryFileList($attachments, $param) {
 														}
 														
 														if (code == undefined || code == '') {
-															document.getElementById('previewSelected').innerHTML = "<table width=\"100%\" height=\"100%\"><tr><td valign=\"middle\" align=\"center\"><?php echo _t('미리보기');?></td></tr></table>";
+															document.getElementById('previewSelected').innerHTML = "<table width=\"100%\" height=\"100%\"><tr><td valign=\"middle\" align=\"center\"><?php echo _t('미리보기');?><\/td><\/tr><\/table>";
 															return true;
 														}
 														
@@ -570,7 +570,7 @@ function printEntryFileList($attachments, $param) {
 														
 														return false;
 														} catch (e) {
-															document.getElementById('previewSelected').innerHTML = "<table width=\"100%\" height=\"100%\"><tr><td valign=\"middle\" align=\"center\"><?php echo _t('미리보기');?></td></tr></table>";	
+															document.getElementById('previewSelected').innerHTML = "<table width=\"100%\" height=\"100%\"><tr><td valign=\"middle\" align=\"center\"><?php echo _t('미리보기');?><\/td><\/tr><\/table>";	
 															alert(e.message);
 															return true;
 														}
@@ -586,7 +586,7 @@ function printEntryFileList($attachments, $param) {
 																if (fileList[i].selected) {
 																	var fileName = fileList[i].value.split("|")[0];
 																	if(STD.isIE) {
-																		document.getElementById('fileDownload').innerHTML='<iframe style="display:none;" src="'+blogURL+'/attachment/'+fileName+'"></iframe>';
+																		document.getElementById('fileDownload').innerHTML='<iframe style="display:none;" src="'+blogURL+'\/attachment\/'+fileName+'"><\/iframe>';
 																		
 																	} else {
 																		window.location = blogURL+'/attachment/'+fileName;

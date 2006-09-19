@@ -69,14 +69,14 @@ TTReader.prototype.togglePannel = function(event)
 	{
 		getObject("pannel").style.display = "block";
 		getObject("toggleButton").className = "pannel-show";
-		getObject("toggleButton").innerHTML = '<span class="text">' + hide_str + '</span>';
+		getObject("toggleButton").innerHTML = '<span class="text">' + hide_str + '<\/span>';
 		setUserSetting("readerPannelVisibility", 1);
 	}
 	else
 	{
 		getObject("pannel").style.display = "none";
 		getObject("toggleButton").className = "pannel-hide";
-		getObject("toggleButton").innerHTML = '<span class="text">' + show_str + '</span>';
+		getObject("toggleButton").innerHTML = '<span class="text">' + show_str + '<\/span>';
 		setUserSetting("readerPannelVisibility", 0);
 	}
 	getObject("floatingList").style.top = "0px";
@@ -89,14 +89,14 @@ TTReader.prototype.toggleConfigure = function()
 	if(getObject("groupsAndFeeds").style.display == "none") {
 		getObject("groupsAndFeeds").style.display = "block";
 		getObject("configure").style.display = "none";
-		getObject("settingLabel").innerHTML = '<span class="text">' + configureLabel + '</span>';
+		getObject("settingLabel").innerHTML = '<span class="text">' + configureLabel + '<\/span>';
 	}
 	else {
 		if(this.isPannelCollapsed)
 			this.togglePannel();
 		getObject("groupsAndFeeds").style.display = "none";
 		getObject("configure").style.display = "block";
-		getObject("settingLabel").innerHTML = '<span class="text">' + pannelLabel + '</span>';
+		getObject("settingLabel").innerHTML = '<span class="text">' + pannelLabel + '<\/span>';
 	}
 	getObject("floatingList").style.top = "0px";
 	this.floatingListOffset = getObject("floatingList").offsetTop;
@@ -581,7 +581,7 @@ TTReader.prototype.saveSetting = function()
 	request.onSuccess = function () {
 		getObject("groupsAndFeeds").style.display = "block";
 		getObject("configure").style.display = "none";
-		getObject("settingLabel").innerHTML = '<span class="text">' + configureLabel + '</span>';
+		getObject("settingLabel").innerHTML = '<span class="text">' + configureLabel + '<\/span>';
 		PM.showMessage(s_saved, "center", "bottom");
 	}
 	request.onError= function () {
@@ -624,14 +624,14 @@ TTReader.prototype.toggleStarred = function(id)
 			request._ttreader = this;
 			request.onSuccess = function() {
 				getObject("star" + id).className = getObject("star" + id).className.replace('-on-', '-off-');
-				getObject("star" + id).innerHTML = '<span class="text">' + disscrapedPostText + '</span>';
+				getObject("star" + id).innerHTML = '<span class="text">' + disscrapedPostText + '<\/span>';
 			}
 		} else {
 			var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/mark/star/");
 			request._ttreader = this;
 			request.onSuccess = function() {
 				getObject("star" + id).className = getObject("star" + id).className.replace('-off-', '-on-');
-				getObject("star" + id).innerHTML = '<span class="text">' + scrapedPostText + '</span>';
+				getObject("star" + id).innerHTML = '<span class="text">' + scrapedPostText + '<\/span>';
 			}
 		}
 		request.send("id=" + id);
@@ -736,18 +736,18 @@ TTReader.prototype.openEntryInNewWindow = function()
 TTReader.prototype.updateFeed = function(id, message)
 {
 	getObject("iconFeedStatus" + id).className = "updating-button button";
-	getObject("iconFeedStatus" + id).innerHTML = '<span>' + this.feedUpdating + '</span>';
+	getObject("iconFeedStatus" + id).innerHTML = '<span>' + this.feedUpdating + '<\/span>';
 	var request = new HTTPRequest("GET", this.blogURL + "/owner/reader/update/" + id);
 	request.onSuccess = function () {
 		getObject("iconFeedStatus" + id).className = "update-button button";
-		getObject("iconFeedStatus" + id).innerHTML = '<span>' + this.feedUpdate + '</span>';
+		getObject("iconFeedStatus" + id).innerHTML = '<span>' + this.feedUpdate + '<\/span>';
 		Reader.refreshFeedList(Reader.selectedGroup);
 		Reader.refreshEntryList(Reader.selectedGroup, Reader.selectedFeed);
 		PM.showMessage(message, "center", "bottom");
 	}
 	request.onError= function () {
 		getObject("iconFeedStatus" + id).className = "failure-button button";
-		getObject("iconFeedStatus" + id).innerHTML = '<span>' + this.feedFailure + '</span>';
+		getObject("iconFeedStatus" + id).innerHTML = '<span>' + this.feedFailure + '<\/span>';
 		switch(parseInt(this.getText("/response/error")))
 		{
 			case 1:
