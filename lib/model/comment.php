@@ -262,7 +262,7 @@ function addComment($owner, & $comment) {
 		$comment['replier'] = 'null';
 		$name = mysql_real_escape_string($comment['name']);
 		$password = empty($comment['password']) ? '' : md5($comment['password']);
-		$homepage = mysql_escape_string($comment['homepage']);
+		$homepage = mysql_real_escape_string($comment['homepage']);
 	}
 	$comment0 = mysql_real_escape_string($comment['comment']);
 	$result = mysql_query("INSERT INTO {$database['prefix']}Comments 

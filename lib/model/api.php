@@ -351,7 +351,7 @@ function api_addAttachment($owner,$parent,$file){
 	$attachment=array();
 	$attachment['parent']=$parent?$parent:0;
 	$attachment['label']=Path::getBaseName($file['name']);
-	$label=mysql_escape_string($attachment['label']);
+	$label=mysql_real_escape_string($attachment['label']);
 	$attachment['size']=$file['size'];
 	$extension=Path::getExtension($attachment['label']);
 	$extension = substr( $extension, 1 );
@@ -430,7 +430,7 @@ function api_getAttachments($owner,$parent){
 function api_deleteAttachment($owner,$parent,$name){
 	global $database;
 	@unlink(ROOT . "/attach/$owner/$name");
-	$name=mysql_escape_string($name);
+	$name=mysql_real_escape_string($name);
 	$parent_clause = "";
 	if( $parent >= 0 )
 	{

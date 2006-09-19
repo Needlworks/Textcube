@@ -28,7 +28,7 @@ function getCurrentSetting( $name){
 	global $database , $owner, $activePlugins;
 	if( !in_array( $name , $activePlugins))
 		return false;
-	$name = mysql_escape_string( $name ) ;
+	$name = mysql_real_escape_string( $name ) ;
 	$result = mysql_query("SELECT settings FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$name'");
 	if( false === $result ) 
 		return false;
@@ -39,8 +39,8 @@ function updatePluginConfig( $name , $setVal){
 	global $database, $owner, $activePlugins;
 	if (!in_array($name, $activePlugins))
 		return false;
-	$name = mysql_escape_string( $name ) ;
-	$setVal = mysql_escape_string( $setVal ) ;
+	$name = mysql_real_escape_string( $name ) ;
+	$setVal = mysql_real_escape_string( $setVal ) ;
 	mysql_query(
 	"UPDATE {$database['prefix']}Plugins 
 	SET settings = '$setVal' 

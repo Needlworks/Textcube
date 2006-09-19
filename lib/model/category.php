@@ -165,7 +165,7 @@ function modifyCategory($owner, $id, $name, $bodyid) {
 	// $sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND name='$name' $parentStr";	
 	if(DBQuery::queryCell($sql) == false)
 		return false;
-	$bodyid = mysql_escape_string($bodyid);
+	$bodyid = mysql_real_escape_string($bodyid);
 	
 	$result = mysql_query("UPDATE {$database['prefix']}Categories SET name = '$name', label = '$label', bodyId = '$bodyid'  WHERE owner = $owner AND id = $id");
 	if ($result && (mysql_affected_rows() > 0))
