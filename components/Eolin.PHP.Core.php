@@ -8,7 +8,7 @@ class String {
 			return false;
 		return (strcmp(substr($string, $longer), $end) == 0);
 	}
-
+	
 	/*@static@*/
 	function startsWith($string, $start) {
 		return (strncmp($string, $start, strlen($start)) == 0);
@@ -37,25 +37,25 @@ class UTF8 {
 				if (++$i >= $length) {
 					return $truncated;
 				} else if (($str{$i} & "\xC0") == "\x80") {
-					if (++$i >= $length)
-						return $truncated;
-					else if (($str{$i} & "\xC0") == "\x80")
-						continue;
-				}
-			} else if ($high < 0xF5) {
-				if (++$i >= $length) {
-					return $truncated;
-				} else if (($str{$i} & "\xC0") == "\x80") {
-					if (++$i >= $length) {
-						return $truncated;
-					} else if (($str{$i} & "\xC0") == "\x80")  {
 						if (++$i >= $length)
 							return $truncated;
 						else if (($str{$i} & "\xC0") == "\x80")
 							continue;
 					}
-				}
-			} // F5~FF is invalid by RFC 3629
+			} else if ($high < 0xF5) {
+					if (++$i >= $length) {
+						return $truncated;
+					} else if (($str{$i} & "\xC0") == "\x80") {
+							if (++$i >= $length) {
+								return $truncated;
+							} else if (($str{$i} & "\xC0") == "\x80")  {
+									if (++$i >= $length)
+										return $truncated;
+									else if (($str{$i} & "\xC0") == "\x80")
+										continue;
+								}
+						}
+				} // F5~FF is invalid by RFC 3629
 			return false;
 		}
 		return true;
@@ -96,20 +96,20 @@ class UTF8 {
 							$corrected .= $str{$i} . $str{$i + 1} . $str{$i + 2};
 						$i += 2;
 					} else if ($high < 0xF5) { // 4byte.
-						if (($i + 3 >= $strlen) || (($str{$i + 1} & "\xC0") != "\x80") || (($str{$i + 2} & "\xC0") != "\x80") || (($str{$i + 3} & "\xC0") != "\x80"))
+							if (($i + 3 >= $strlen) || (($str{$i + 1} & "\xC0") != "\x80") || (($str{$i + 2} & "\xC0") != "\x80") || (($str{$i + 3} & "\xC0") != "\x80"))
+								$corrected .= $broken;
+							else
+								$corrected .= $str{$i} . $str{$i + 1} . $str{$i + 2} . $str{$i + 3};
+							$i += 3;
+						} else { // F5~FF is invalid by RFC3629.
 							$corrected .= $broken;
-						else
-							$corrected .= $str{$i} . $str{$i + 1} . $str{$i + 2} . $str{$i + 3};
-						$i += 3;
-					} else { // F5~FF is invalid by RFC3629.
-						$corrected .= $broken;
-					}
+						}
 					break;
 			}
 		}
 		return $corrected;
 	}
-
+	
 	/*@static@*/
 	function bring($str, $encoding = null) {
 		global $service;
@@ -251,8 +251,8 @@ class Validator {
 								addr-spec = local-part "@" domain
 								local-part = dot-atom
 	**/
-
-
+	
+	
 	/*@static@*/
 	function validate(&$iv) {
 		if (isset($iv['GET'])) {
@@ -265,7 +265,7 @@ class Validator {
 		} else {
 			$_GET = array();
 		}
-
+		
 		if (isset($iv['POST'])) {
 			if (!Validator::validateArray($_POST, $iv['POST']))
 				return false;
@@ -276,7 +276,7 @@ class Validator {
 		} else {
 			$_POST = array();
 		}
-
+		
 		if (isset($iv['REQUEST'])) {
 			if (!Validator::validateArray($_REQUEST, $iv['REQUEST']))
 				return false;
@@ -287,7 +287,7 @@ class Validator {
 		} else {
 			$_REQUEST = array();
 		}
-
+		
 		if (isset($iv['SERVER'])) {
 			if (!Validator::validateArray($_SERVER, $iv['SERVER']))
 				return false;
@@ -305,7 +305,7 @@ class Validator {
 		}
 		return true;
 	}
-
+	
 	/*@static@*/
 	function validateArray(&$array, &$rules) {
 		foreach ($rules as $key => $rule) {
@@ -320,7 +320,7 @@ class Validator {
 					$rule[1] = $rule['min'];
 				if (isset($rule['max']))
 					$rule[2] = $rule['max'];
-					
+				
 				switch ($rule[0]) {
 					case 'any':
 						if (isset($rule[1]) && (strlen($value) < $rule[1]))
@@ -354,7 +354,7 @@ class Validator {
 								return false;
 						}
 						$value = $array[$key] = UTF8::correct($value);
-							
+						
 						if (isset($rule[1]) && (UTF8::length($value) < $rule[1]))
 							return false;
 						if (isset($rule[2]) && (UTF8::length($value) > $rule[2]))
@@ -435,7 +435,7 @@ class Validator {
 		}
 		return true;
 	}
-
+	
 	/*@static@*/
 	function number($value, $min = null, $max = null) {
 		if (!is_numeric($value))
@@ -467,7 +467,7 @@ class Validator {
 			return false;
 		return true;
 	}
-
+	
 	/**
 	 *	Valid: Jan 1 1971 ~ Dec 31 2037 GMT
 	 */
@@ -475,7 +475,7 @@ class Validator {
 	function timestamp($value) {
 		return (Validator::isInteger($value) && ($value >= 31536000) && ($value < 2145916800));
 	}
-
+	
 	/*@static@*/
 	function period($value, $length = null) {
 		if (preg_match('/\\d+/', $value)) {
@@ -496,12 +496,12 @@ class Validator {
 		}
 		return false;
 	}
-
+	
 	/*@static@*/
 	function ip($value) {
 		return preg_match('/^\\d{1,3}(\\.\\d{1,3}){3}$/', $value);
 	}
-
+	
 	/*@static@*/
 	function domain($value) {
 		return ((strlen($value) <= 64) && preg_match('/^([[:alnum:]]+(-[[:alnum:]]+)*\\.)+[[:alnum:]]+(-[[:alnum:]]+)*$/', $value));
@@ -519,7 +519,7 @@ class Validator {
 	function language($value) {
 		return preg_match('/^[[:alpha:]]{2}(\-[[:alpha:]]{2})?$/', $value);
 	}
-
+	
 	/*@static@*/
 	function filename($value) {
 		return preg_match('/^\w+(\.\w+)*$/', $value);
@@ -568,10 +568,10 @@ class Locale {
 			$__locale['locale'] = $locale;
 			return true;
 		} else if (($common != $locale) && file_exists($__locale['directory'] . '/' . $common . '.php')) {
-			include($__locale['directory'] . '/' . $common . '.php');
-			$__locale['locale'] = $common;
-			return true;
-		}
+				include($__locale['directory'] . '/' . $common . '.php');
+				$__locale['locale'] = $common;
+				return true;
+			}
 		return false;
 	}
 	
@@ -629,7 +629,7 @@ $__locale = array(
 	'locale' => null,
 	'directory' => './locale',
 	'domain' => null,
-);
+	);
 
 function _t($t) {
 	global $__locale, $__text;
@@ -691,20 +691,20 @@ class Timezone {
 		else
 			return sprintf("%+03d:%02d", intval(Timezone::getOffset() / 3600), abs((Timezone::getOffset() / 60) % 60));
 	}
-
+	
 	/*@static@*/
 	function set($timezone) {
 		if (@strncmp($_ENV['OS'], 'Windows', 7) == 0)
 			$timezone = Timezone::getAlternative($timezone);
-			
+		
 		return putenv('TZ=' . $timezone);
 	}
-
+	
 	/*@static@*/
 	function setOffset($offset) {
 		return Timezone::setISO8601(sprintf("%+02d:%02d", floor($offset / 3600), abs(($offset / 60) % 60)));
 	}
-
+	
 	/*@static@*/
 	function setRFC822($timezone) {
 		if (($timezone == 'GMT') || ($timezone == 'UT'))
@@ -718,7 +718,7 @@ class Timezone {
 		else
 			return false;
 	}
-
+	
 	/*@static@*/
 	function setISO8601($timezone) {
 		if ($timezone == 'Z')
@@ -756,9 +756,9 @@ class Timezone {
 			'Australia/Adelaide',
 			'Australia/Darwin',
 			'Australia/Perth',
-		);
+			);
 	}
-
+	
 	/*@static@*/
 	function getAlternative($timezone) {	
 		switch ($timezone) {
@@ -954,31 +954,31 @@ class DBQuery {
 		}
 		return null;
 	}
-
+	
 	/*@static@*/
 	function queryColumn($query) {
 		$column = array();
 		if ($result = mysql_query($query)) {
 			while ($row = mysql_fetch_row($result))
-				array_push($column, $row[0]);
+			array_push($column, $row[0]);
 			mysql_free_result($result);
 			return $column;
 		}
 		return null;
 	}
-
+	
 	/*@static@*/
 	function queryAll($query, $type = MYSQL_BOTH) {
 		$all = array();
 		if ($result = mysql_query($query)) {
 			while ($row = mysql_fetch_array($result, $type))
-				array_push($all, $row);
+			array_push($all, $row);
 			mysql_free_result($result);
 			return $all;
 		}
 		return null;
 	}
-
+	
 	/*@static@*/
 	function execute($query) {
 		return mysql_query($query) ? true : false;
@@ -1013,7 +1013,7 @@ class TableQuery {
 	function getAttribute($name) {
 		return $this->_attributes[$name];
 	}
-
+	
 	function setAttribute($name, $value, $escape = null) {
 		if ($value === null)
 			$this->_attributes[$name] = 'NULL';
@@ -1040,7 +1040,7 @@ class TableQuery {
 	function getQualifier($name) {
 		return $this->_qualifiers[$name];
 	}
-
+	
 	function setQualifier($name, $value, $escape = null) {
 		if ($value === null)
 			$this->_qualifiers[$name] = 'NULL';
@@ -1098,7 +1098,7 @@ class TableQuery {
 			return true;
 		return false;
 	}
-
+	
 	function replace() {
 		$this->id = null;
 		if (empty($this->table))
@@ -1162,7 +1162,7 @@ class Path {
 		$args = func_get_args();
 		return implode('/', $args);
 	}
-
+	
 	/*@static@*/
 	function removeFiles($directory) {
 		if (!$dir = dir($directory))
@@ -1178,8 +1178,48 @@ class Path {
 
 class XMLStruct {
 	var $struct, $error;
+
+	/* static helper function */
+
+	/*@static@*/
+	function getValueByLocale($param)
+	{
+		for ($i = 0; $i < count($param); $i++) {
+			switch (Locale::match(@$param[$i]['.attributes']['xml:lang'])) {
+				case 3:
+					$matched = $param[$i];
+					unset($secondBest);
+					unset($thirdBest);
+					$i = count($param); // for exit loop
+					break;
+				case 2:
+					$secondBest = $param[$i];
+					break;
+				case 1:
+					$thirdBest = $param[$i];
+					break;
+				case 0:
+					if (!isset($thirdBest))
+						$thirdBest = $param[$i];
+					break;
+			}
+		}
+		if (isset($secondBest)) {
+			$matched = $secondBest;
+		} else if (isset($thirdBest)) {
+			$matched = $thirdBest;
+		}
+		
+		if (!isset($matched))
+			return null;
+		
+		if (isset($matched['.value']))
+			return $matched['.value'];
+		return null;
+	}
 	
 	function XMLStruct() {
+	
 	}
 	
 	function open($xml, $encoding = null) {

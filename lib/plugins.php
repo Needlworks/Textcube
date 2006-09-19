@@ -4,6 +4,8 @@ $eventMappings = array();
 $tagMappings = array();
 $sidebarMappings = array();
 $centerMappings = array();
+$adminMenuMappings = array();
+$adminHandlerMappings = array();
 
 $configMappings = array();
 $baseConfigPost = $service['path'].'/owner/setting/plugins/currentSetting';
@@ -64,6 +66,66 @@ if (!empty($owner)) {
 				else
 					$configMappings[$plugin] = array( 'config' => 'ok') ;
 			}
+			if ($xmls->doesExist('/plugin/binding/adminMenu')){
+				$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
+				
+				if ($xmls->doesExist('/plugin/binding/adminMenu/viewMethods')){
+					foreach($xmls->selectNodes('/plugin/binding/adminMenu/viewMethods/method') as $adminViewMenu) {
+						$menutitle = htmlspecialchars(XMLStruct::getValueByLocale($adminViewMenu['title']));
+						if (empty($menutitle)) continue;
+						if (!isset($adminViewMenu['handler'][0]['.value'])) continue;
+						$viewhandler = htmlspecialchars($adminViewMenu['handler'][0]['.value']);	
+						if (empty($viewhandler)) continue;
+						$params = array();
+						if (isset($adminViewMenu['params'][0]['param'])) {
+							foreach($adminViewMenu['params'][0]['param'] as $methodParam) {
+									if (!isset($methodParam['name'][0]['.value']) || !isset($methodParam['type'][0]['.value'])) continue;
+									array_push($params,array(
+											'name' => $methodParam['name'][0]['.value'],
+											'type' => $methodParam['type'][0]['.value'],
+											'mandatory' => @$methodParam['mandatory'][0]['.value'],
+											'default' => @$methodParam['default'][0]['.value']
+											));
+							}
+						}
+								
+						$adminMenuMappings[$plugin . '/' . $viewhandler] 
+							= array('plugin' => $plugin, 'title' => $menutitle, 'handler' => $viewhandler, 'params' => $params);
+					}
+				}
+				
+				unset($menutitle);
+				unset($viewhandler);
+				unset($adminViewMenu);
+				unset($params);
+				
+				if ($xmls->doesExist('/plugin/binding/adminMenu/methods')){
+					foreach($xmls->selectNodes('/plugin/binding/adminMenu/methods/method') as $adminMethods) {
+						$method = array();
+						$method['plugin'] = $plugin;
+						if (!isset($adminMethods['handler'][0]['.value'])) continue;
+						$method['handler'] = $adminMethods['handler'][0]['.value'];
+						$method['params'] = array();
+							if (isset($adminMethods['params'][0]['param'])) {
+							foreach($adminMethods['params'][0]['param'] as $methodParam) {
+								if (!isset($methodParam['name'][0]['.value']) || !isset($methodParam['type'][0]['.value'])) continue;
+								array_push($method['params'],array(
+									'name' => $methodParam['name'][0]['.value'],
+									'type' => $methodParam['type'][0]['.value'],
+									'mandatory' => @$methodParam['mandatory'][0]['.value'],
+									'default' => @$methodParam['default'][0]['.value']
+								));
+							}
+						}
+						$adminHandlerMappings[$plugin . '/' . $method['handler']] = $method;
+					}
+				}
+				
+				unset($method);
+				unset($methodParam);
+				unset($adminMethods);
+				
+			}
 		} else {
 			$plugin = mysql_real_escape_string($plugin);
 			mysql_query("DELETE FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$plugin'");
@@ -71,6 +133,12 @@ if (!empty($owner)) {
 	}
 	unset($xmls);
 	unset($plugin);
+	
+	/*
+	echo '<pre>';
+	var_dump($adminMenuMappings);
+	echo '</pre>';
+	exit;*/
 }
 
 function fireEvent($event, $target = null, $mother = null, $condition = true) {

@@ -15,6 +15,26 @@
     <tattertools>1.1</tattertools>
   </requirements>
   <binding>
-    <adminMenu>visitors</adminMenu>
+    <adminMenu>
+      <viewMethods>
+        <method>
+          <title xml:lang="en">Visitors</title>
+          <title xml:lang="ko">방문자 기록</title>
+          <handler>AD_Visitor_Default</handler>
+          <params>
+            <param>
+              <name>date</name>
+              <type>int</type>
+              <mandatory>0</mandatory>
+            </param>
+          </params>
+        </method>
+      </viewMethods>
+      <methods>
+        <method>
+          <handler>AD_Visitor_Default_set</handler>
+        </method>
+      </methods>
+    </adminMenu>
   </binding>
 </plugin>
