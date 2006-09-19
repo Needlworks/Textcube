@@ -36,8 +36,12 @@ if ((isset($_GET['name'])) && (isset($adminHandlerMappings[$_GET['name']])))
 		$handler = $adminHandlerMappings[$_GET['name']]['handler'];
 		
 		$pluginAccessURL = $blogURL . '/owner/plugin/adminMenu?name=' . $plugin;
-		$pluginMenuURL = $blogURL . '/owner/plugin/adminMenu?name=' . $plugin . '/' . $handler;
+		$pluginMenuURL = 'invalid link';
 		$pluginHandlerURL = $blogURL . '/owner/plugin/adminHandler?name=' . $plugin;
+		$pluginSelfURL = $blogURL . '/owner/plugin/adminHandler?name=' . $plugin . '/' . $handler;
+		
+		$pluginAccessParam = '?name=' . $plugin;
+		$pluginSelfParam = '?name=' . $plugin . '/' . $handler;
 		
 		include_once (ROOT . "/plugins/$plugin/index.php");
 		call_user_func($handler);

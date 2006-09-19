@@ -25,7 +25,6 @@
             <param>
               <name>page</name>
               <type>int</type>
-              <mandatory>1</mandatory>
               <default>1</default>
             </param>
             <param>

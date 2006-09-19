@@ -1,13 +1,13 @@
 <?php
 function AD_Referer_Default()
 {
-	global $owner, $pluginMenuURL, $pluginAccessURL, $pluginHandlerURL;
+	global $owner, $pluginMenuURL, $pluginSelfParam ;
 	requireComponent( "Tattertools.Model.Statistics");
 	requireComponent( "Tattertools.Model.Paging");
 	requireComponent( "Tattertools.Function.misc");
-	if (isset($_POST['page']))
+	if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['page']))
 		$_GET['page'] = $_POST['page'];
-		
+	
 	$page = getUserSetting('rowsPerPage', 20);
 	
 	if (empty($_POST['perPage'])) {  
@@ -99,7 +99,7 @@ function AD_Referer_Default()
 									<div id="page-navigation">
 										<span id="page-list">
 <?php
-	$paging['prefix'] = $pluginMenuURL . '&page=';
+	$paging['prefix'] = $pluginSelfParam . '&page=';
 	$pagingTemplate = '[##_paging_rep_##]';
 	$pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 	echo str_repeat("\t", 8).Paging::getPagingView($paging, $pagingTemplate, $pagingItemTemplate).CRLF;
