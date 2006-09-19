@@ -4,7 +4,7 @@ function BlogIcon_main($target, $mother) {
 	$data = fetchConfigVal( $configVal);
 
 	if (!is_null($data))	$ico_size = $data['ico_size'];
-	if (is_null($ico_size))	$ico_size = 32;
+	if (!isset($ico_size) || is_null($ico_size))	$ico_size = 32;
   
 	if (empty($mother['homepage']))
 		return $target;
