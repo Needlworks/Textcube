@@ -13,6 +13,16 @@
     <tattertools>1.1</tattertools>
   </requirements>
   <binding>
-    <adminMenu>RefererKeyword</adminMenu>
+    <adminMenu>
+      <viewMethods>
+        <method>
+          <title xml:lang="en">Keyword Statistics</title>
+          <title xml:lang="ko">키워드 통계</title>
+          <handler>refererkeyword</handler>
+          <params>
+          </params>
+        </method>
+      </viewMethods>
+    </adminMenu>
   </binding>
 </plugin>

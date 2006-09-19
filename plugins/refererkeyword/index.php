@@ -36,6 +36,8 @@ function urlutfchr($text){
 return urldecode(preg_replace_callback('/%u([[:alnum:]]{4})/', 'tostring', $text));
 }
 
+function refererkeyword()
+{
 
 $more = false;
 
@@ -116,3 +118,7 @@ for ($i=0; $i<sizeof($keywordlist); $i++) {
 								</tbody>
 							</table>
 						</div>
+
+<?php
+}
+?>
