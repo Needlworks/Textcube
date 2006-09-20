@@ -215,9 +215,11 @@ function handleSidebars(& $sval, & $obj) {
 				if (preg_match("/^[0-9]+$/", $orderConfig[$j]['id'])) {
 					$str .= $obj->sidebarBasicModules[$i][$orderConfig[$j]['id']];
 				} else {
-					$str .= "[##_temp_sidebar_element_$j_##]";
+					$str .= "[##_temp_sidebar_element_{$j}_##]";
 					$parameters = explode("|", $orderConfig[$j]['parameters']);
-					$sidebarStorage["temp_sidebar_element_$j"] = call_user_func($orderConfig[$j]['id'], $parameters[0], $parameters[1]);
+					if (count($parameters) == 2) {					
+						$sidebarStorage["temp_sidebar_element_$j"] = call_user_func($orderConfig[$j]['id'], $parameters[0], $parameters[1]);
+					}				
 				}
 			}
 		}
