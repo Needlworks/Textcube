@@ -388,7 +388,8 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 								function printTrackbackLog(id) {
 									var request = new HTTPRequest("<?php echo $blogURL;?>/owner/entry/trackback/log/" + id);
 									request.onVerify = function () {
-										var resultRow = this.getText("/response/result").split('*');
+										var resultResponse = this.getText("/response/result");
+										var resultRow = resultResponse.split('*');
 										if (resultRow.length == 1)
 											tempTable ='';
 										else {
