@@ -431,7 +431,10 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 												tempTd_3.appendChild(tempA);
 												tempTr.appendChild(tempTd_3);
 												
-												tempTable.appendChild(tempTr);
+												tempTbody = document.createElement("TBODY");
+												tempTbody.appendChild(tempTr);
+												
+												tempTable.appendChild(tempTbody);
 											}
 										}
 										if (tempTable != '' ) {
