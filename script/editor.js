@@ -154,13 +154,13 @@ function docEventHandler(event) {
 			editor.rowResizeDown = false;
 
 			if(editor.rowResize) {
-				attachManagerSelectNest.style.display = 'none';
+				attachManagerSelectNest.style.visibility = 'hidden';
 				editor.rowResizeDown = true;
 			}
 			break;
 		case "mouseup":
 			editor.rowResizeDown = false;
-			attachManagerSelectNest.style.display = 'block';
+			attachManagerSelectNest.style.visibility = 'visible';
 			break;
 		case "selectstart":
 			return editor.rowResizeDown ? false : true;
