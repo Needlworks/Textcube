@@ -1,8 +1,6 @@
 <?php
 if (defined('__TATTERTOOLS_CENTER__')) {
 	define('ROOT', '../../../..');
-} else if (defined('__TATTERTOOLS_SIDEBAR__')) {
-	define('ROOT', '../../../..');	
 } else {
 	define('ROOT', '../../..');
 }
@@ -12,13 +10,6 @@ if (defined('__TATTERTOOLS_CENTER__')) {
 	require ROOT . '/lib/piece/owner/contentMenuA1.php';
 	$scopeType = 'dashboard';
 	$_POST['scopeType'] = $scopeType;
-} else if (defined('__TATTERTOOLS_SIDEBAR__')) {
-	require ROOT . '/lib/piece/owner/header3.php';
-	require ROOT . '/lib/piece/owner/contentMenu33.php';
-	$scopeType = 'sidebar';
-	$_POST['scopeType'] = $scopeType;
-	if (empty($_POST['sidebarType']))
-		$_POST['sidebarType'] = "upload";
 } else {
 	require ROOT . '/lib/piece/owner/headerB.php';
 	require ROOT . '/lib/piece/owner/contentMenuB0.php';
@@ -35,9 +26,7 @@ if (empty($_POST['scopeType'])) {
 	$_POST['scopeType'] = $scopeType;
 }
 if (!defined('__TATTERTOOLS_CENTER__')) {
-	if (!defined('__TATTERTOOLS_SIDEBAR__')) {
-		setUserSetting("pluginListScopeType",$_POST['scopeType']);
-	}
+	setUserSetting("pluginListScopeType",$_POST['scopeType']);
 }
 
 if (empty($_POST['listedPluginStatus'])) {
@@ -114,32 +103,10 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 									}
 								}
 								
-<?php
-if (defined('__TATTERTOOLS_SIDEBAR__')) {
-?>
-								function changeSidebarOrder(obj, dir, type) {
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/sidebar/order");
-									request.onSuccess = function() {
-										document.getElementById("sidebar-order-form").submit();
-									}
-									request.onError = function() {
-										msg = this.getText("/response/msg");
-										if (msg == null)
-											alert("<?php echo _t('알 수 없는 오류가 발생했습니다.');?>");
-										else
-											alert(msg);
-									}
-									request.send("module=" + obj.replace(/%/g, "") + "&direction=" + dir + "&type=" + type);
-								}
-<?php
-}
-?>
 								function changeList() {
 									document.getElementById("<?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo 'part-center-plugins';
-else if (defined('__TATTERTOOLS_SIDEBAR__'))
-	echo 'part-sidebar-plugins';
 else
 	echo 'part-plugin-list';
 									?>").submit();
@@ -164,23 +131,17 @@ else
 						<form id="<?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo 'part-center-plugins';
-else if (defined('__TATTERTOOLS_SIDEBAR__'))
-	echo 'part-sidebar-plugins';
 else
 	echo 'part-plugin-list';
 						?>" class="part" method="post" action="<?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo $blogURL."/owner/center/setting";
-else if (defined('__TATTERTOOLS_SIDEBAR__'))
-	echo $blogURL."/owner/skin/sidebar";
 else
 	echo $blogURL."/owner/plugin";
 ?>">
 							<h2 class="caption"><span class="main-text"><?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo _t('설치된 자투리 플러그인입니다');
-else if (defined('__TATTERTOOLS_SIDEBAR__'))
-	echo _t('설치된 사이드바 플러그인입니다');
 else 
 	echo _t('설치된 플러그인입니다');
 ?></span></h2>
@@ -189,8 +150,6 @@ else
 								<p class="explain"><?php
 if (defined('__TATTERTOOLS_CENTER__'))
 	echo _t('자투리 플러그인은 조각보에 기능을 추가하는 역할을 합니다. 이 곳에서 자투리들의 사용 여부를 결정할 수 있습니다.');
-else if (defined('__TATTERTOOLS_SIDEBAR__'))
-	echo _t('사이드바 플러그인은 스킨의 사이드바 기능을 확장합니다. 이 곳에서 설치된 플러그인의 사용 여부를 결정할 수 있습니다.');
 else
 	echo _t('플러그인은 태터툴즈의 기능을 확장해 줍니다. 이 곳에서 설치된 플러그인의 사용 여부를 결정할 수 있습니다.');
 ?></p>
@@ -201,17 +160,6 @@ else
 
 <?php
 if (!defined('__TATTERTOOLS_CENTER__')) {
-	if (defined('__TATTERTOOLS_SIDEBAR__')) {
-?>
-								<dl id="scope-line" class="line">
-									<dt><?php echo _t('종류');?></dt>
-									<dd>
-										<input type="radio" class="radio" id="inner-scope" name="sidebarType" value="inner" onclick="changeList()"<?php echo $_POST['sidebarType'] == "inner" ? ' checked="checked"' : '';?> /> <label for="inner-scope"><?php echo _t('스킨 내장형');?></label>
-										<input type="radio" class="radio" id="upload-scope" name="sidebarType" value="upload" onclick="changeList()"<?php echo $_POST['sidebarType'] == "upload" ? ' checked="checked"' : '';?> /> <label for="upload-scope"><?php echo _t('업로드형');?></label>
-									</dd>
-								</dl>
-<?php
-	} else {
 ?>
 								<dl id="scope-line" class="line">
 									<dt><?php echo _t('종류');?></dt>
@@ -219,12 +167,12 @@ if (!defined('__TATTERTOOLS_CENTER__')) {
 										<input type="radio" class="radio" id="global-scope" name="scopeType" value="all" onclick="changeList()"<?php echo $_POST['scopeType'] == "all" ? ' checked="checked"' : '';?> /> <label for="global-scope"><?php echo _t('전체');?></label>
 										<input type="radio" class="radio" id="common-scope" name="scopeType" value="global" onclick="changeList()"<?php echo $_POST['scopeType'] == "global" ? ' checked="checked"' : '';?> /> <label for="common-scope"><?php echo _t('일반');?></label>
 										<input type="radio" class="radio" id="blog-scope" name="scopeType" value="blog" onclick="changeList()"<?php echo $_POST['scopeType'] == "blog" ? ' checked="checked"' : '';?> /> <label for="blog-scope"><?php echo _t('블로그');?></label>
+										<input type="radio" class="radio" id="sidebar-scope" name="scopeType" value="sidebar" onclick="changeList()"<?php echo $_POST['scopeType'] == "sidebar" ? ' checked="checked"' : '';?> /> <label for="sidebar-scope"><?php echo _t('사이드바');?></label>
 										<input type="radio" class="radio" id="admin-scope" name="scopeType" value="admin" onclick="changeList()"<?php echo $_POST['scopeType'] == "admin" ? ' checked="checked"' : '';?> /> <label for="admin-scope"><?php echo _t('관리자');?></label>
 										<input type="radio" class="radio" id="none-scope" name="scopeType" value="none" onclick="changeList()"<?php echo $_POST['scopeType'] == "none" ? ' checked="checked"' : '';?> /> <label for="none-scope"><?php echo _t('미지정');?></label>
 									</dd>
 								</dl>
 <?php
-	}
 }
 ?>
 								<dl id="sorting-line" class="line">
@@ -264,91 +212,20 @@ if (!defined('__TATTERTOOLS_CENTER__')) {
 $plugins = array();
 $pluginAttrs = array();
 
-if ((isset($_POST['sidebarType'])) && ($_POST['sidebarType'] == "inner")) {
-	// 사이드바이면 기본 내장 플러그인 모듈을 리스트에 포함시킨다.
-	$skin = new Skin($skinSetting['skin']);
-	
-	$innerSidebars = getBasicSidebarList();
-	$innerSidebarIds = array_keys($innerSidebars);
-	
-	for ($i=0; $i<count($innerSidebarIds); $i++) {
-		$innerSidebarId = $innerSidebarIds[$i];
-		$plugins[$innerSidebarId] = $innerSidebars[$innerSidebarId]['title'];
-		$pluginAttrs[$innerSidebarId] = array(
-							"title" => $innerSidebars[$innerSidebarId]['title'],
-							"description" => $innerSidebars[$innerSidebarId]['description']
-						);
-	}
-	
-	if ($_POST['sortType'] == "ascend") {
-		asort($plugins);
+$dir = dir(ROOT . '/plugins/');
+while ($plugin = $dir->read()) {
+	if (!ereg('^[[:alnum:] _-]+$', $plugin))
+		continue;
+	if (!is_dir(ROOT . '/plugins/' . $plugin))
+		continue;
+	if (!file_exists(ROOT . "/plugins/$plugin/index.xml"))
+		continue;
+	$xmls = new XMLStruct();
+	if (!$xmls->open(file_get_contents(ROOT . "/plugins/$plugin/index.xml"))) {
+		continue;
 	} else {
-		arsort($plugins);
-	}
-
-	$innerSidebarIds = array_keys($plugins);
-	$sidebarOrder = getSidebarModuleOrder($skin);
-	$rowCount = 0;
-
-	for ($i=0; $i<count($innerSidebarIds); $i++) {
-		$innerSidebarId = $innerSidebarIds[$i];
-		$active = in_array($innerSidebarId, $sidebarOrder);
-		
-		if (isset($skin->sidebarElement[$innerSidebarId])) {
-			if ($active == true && !in_array("activated", $_POST['listedPluginStatus']))
-				continue;
-			else if ($active == false && !in_array("deactivated", $_POST['listedPluginStatus']))
-				continue;
-			
-			$className = ($rowCount % 2) == 1 ? 'even-line' : 'odd-line';
-			$className .= ($i == sizeof($plugins) - 1) ? ' last-line' : '';
-			$className .= $active ? ' active-class' : ' inactive-class';
-?>
-									<tr class="<?php echo $className;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-										<td class="title"><?php echo $innerSidebars[$innerSidebarId]['title'];?></td>
-										<td class="version"><?php echo TATTERTOOLS_VERSION;?></td>
-										<td id="plugin<?php echo $i;?>Scope" class="scope"><?php echo _t('사이드바');?></td>
-										<td class="explain"><?php echo $innerSidebars[$innerSidebarId]['description'];?></td>
-										<td class="maker"><a href="http://forum.tattertools.com"><?php echo _t('태터앤프렌즈');?></a></td>
-										<td class="config"><span class="config-none-icon bullet"><?php echo _t('없음');?></span></td>
-										<td class="status">
-<?php
-			if ($active) {
-?>
-											<a id="plugin<?php echo $i;?>Link" class="active-class" href="#void" onclick="togglePlugin('<?php echo str_replace('%', '', $innerSidebarId);?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', 'sidebar-basic')" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>"><span class="text"><?php echo _t('사용중');?></span></a>
-<?php
-			} else {
-?>
-											<a id="plugin<?php echo $i;?>Link" class="inactive-class" href="#void" onclick="togglePlugin('<?php echo str_replace('%', '', $innerSidebarId);?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', 'sidebar-basic')" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>"><span class="text"><?php echo _t('미사용');?></span></a>
-<?php
-			}
-?>
-										</td>
-									</tr>
-<?php
-			$rowCount++;
-		}
-	}
-?>
-								</tbody>
-							</table>
-						</form>
-<?php	
-} else {
-	$dir = dir(ROOT . '/plugins/');
-	while ($plugin = $dir->read()) {
-		if (!ereg('^[[:alnum:] _-]+$', $plugin))
-			continue;
-		if (!is_dir(ROOT . '/plugins/' . $plugin))
-			continue;
-		if (!file_exists(ROOT . "/plugins/$plugin/index.xml"))
-			continue;
-		$xmls = new XMLStruct();
-		if (!$xmls->open(file_get_contents(ROOT . "/plugins/$plugin/index.xml"))) {
-			continue;
-		} else {
-			$pluginDir = trim($plugin);
-			$pluginAttrs[$pluginDir] = array(
+		$pluginDir = trim($plugin);
+		$pluginAttrs[$pluginDir] = array(
 							"link" => $xmls->getValue('/plugin/link[lang()]'),
 							"title" => htmlspecialchars($xmls->getValue('/plugin/title[lang()]')),
 							"version" => htmlspecialchars($xmls->getValue('/plugin/version[lang()]')),
@@ -361,167 +238,114 @@ if ((isset($_POST['sidebarType'])) && ($_POST['sidebarType'] == "inner")) {
 							"height" => $xmls->getAttribute('/plugin/binding/config/window', 'height')
 							);
 			
-			$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
+		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
+	}
+}
+
+if ($_POST['sortType'] == "ascend") {
+	asort($plugins);
+} else {
+	arsort($plugins);
+}
+
+$arrayKeys = array_keys($plugins);
+$rowCount = 0;
+
+for ($i=0; $i<count($arrayKeys); $i++) {
+	$pluginDir = $arrayKeys[$i];
+	
+	$link = $pluginAttrs[$pluginDir]['link'];
+	$title = $pluginAttrs[$pluginDir]['title'];
+	$version = $pluginAttrs[$pluginDir]['version'];
+	$description = $pluginAttrs[$pluginDir]['description'];
+	$authorLink = $pluginAttrs[$pluginDir]['authorLink'];
+	$author = $pluginAttrs[$pluginDir]['author'];
+	$scope = $pluginAttrs[$pluginDir]['scope'];
+	$config = $pluginAttrs[$pluginDir]['config']? 'Y':'N';
+	$width = $pluginAttrs[$pluginDir]['width']?$pluginAttrs[$pluginDir]['width']:500;
+	$height = $pluginAttrs[$pluginDir]['height']?$pluginAttrs[$pluginDir]['height']:400;
+	$active = in_array($pluginDir, $activePlugins);
+	
+	if (empty($scope))
+		$scope = 'none';
+	
+	if ($_POST['scopeType'] != 'all')
+		if ($scope != $_POST['scopeType'])
+			continue;
+	if (!defined('__TATTERTOOLS_CENTER__')) {
+		if ($scope == 'dashboard') {
+			continue;
 		}
 	}
 	
-	if ($_POST['sortType'] == "ascend") {
-		asort($plugins);
-	} else {
-		arsort($plugins);
-	}
-
-	$arrayKeys = array_keys($plugins);
-	$rowCount = 0;
-
-	for ($i=0; $i<count($arrayKeys); $i++) {
-		$pluginDir = $arrayKeys[$i];
-		
-		$link = $pluginAttrs[$pluginDir]['link'];
-		$title = $pluginAttrs[$pluginDir]['title'];
-		$version = $pluginAttrs[$pluginDir]['version'];
-		$description = $pluginAttrs[$pluginDir]['description'];
-		$authorLink = $pluginAttrs[$pluginDir]['authorLink'];
-		$author = $pluginAttrs[$pluginDir]['author'];
-		$scope = $pluginAttrs[$pluginDir]['scope'];
-		$config = $pluginAttrs[$pluginDir]['config']? 'Y':'N';
-		$width = $pluginAttrs[$pluginDir]['width']?$pluginAttrs[$pluginDir]['width']:500;
-		$height = $pluginAttrs[$pluginDir]['height']?$pluginAttrs[$pluginDir]['height']:400;
-		$active = in_array($pluginDir, $activePlugins);
-		
-		if (empty($scope))
-			$scope = 'none';
-		
-		if ($_POST['scopeType'] != 'all')
-			if ($scope != $_POST['scopeType'])
-				continue;
-		if (!defined('__TATTERTOOLS_CENTER__')) {
-			if ($scope == 'dashboard') {
-				continue;
-			}
-		}
-		if (!defined('__TATTERTOOLS_SIDEBAR__')) {
-			if ($scope == 'sidebar' || $scope == 'sidebar-basic') {
-				continue;
-			}
-		}
-		
-		if ($active == true && !in_array("activated", $_POST['listedPluginStatus']))
-			continue;
-		else if ($active == false && !in_array("deactivated", $_POST['listedPluginStatus']))
-			continue;
-		
-		$className = ($rowCount % 2) == 1 ? 'even-line' : 'odd-line';
-		$className .= ($i == sizeof($plugins) - 1) ? ' last-line' : '';
-		$className .= $active ? ' active-class' : ' inactive-class';
+	if ($active == true && !in_array("activated", $_POST['listedPluginStatus']))
+		continue;
+	else if ($active == false && !in_array("deactivated", $_POST['listedPluginStatus']))
+		continue;
+	
+	$className = ($rowCount % 2) == 1 ? 'even-line' : 'odd-line';
+	$className .= ($i == sizeof($plugins) - 1) ? ' last-line' : '';
+	$className .= $active ? ' active-class' : ' inactive-class';
 ?>
 									<tr class="<?php echo $className;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="title"><?php echo ($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title);?></td>
 										<td class="version"><?php echo $version;?></td>
 										<td id="plugin<?php echo $i;?>Scope" class="scope">
 <?php
-		switch($scope) {
-			case 'global': echo str_repeat("\t", 11)._t('일반');break;
-			case 'blog': echo str_repeat("\t", 11)._t('블로그');break;
-			case 'admin': echo str_repeat("\t", 11)._t('관리자');break;
-			case 'sidebar_basic':
-			case 'sidebar': echo str_repeat("\t", 11)._t('사이드바');break;
-			case 'dashboard': echo str_repeat("\t", 11)._t('자투리');break;
-			default : echo str_repeat("\t", 11)._t('미지정');break;
-		}
-		echo CRLF;
+	switch($scope) {
+		case 'global': echo str_repeat("\t", 11)._t('일반');break;
+		case 'blog': echo str_repeat("\t", 11)._t('블로그');break;
+		case 'admin': echo str_repeat("\t", 11)._t('관리자');break;
+		case 'sidebar': echo str_repeat("\t", 11)._t('사이드바');break;
+		case 'dashboard': echo str_repeat("\t", 11)._t('자투리');break;
+		default : echo str_repeat("\t", 11)._t('미지정');break;
+	}
+	echo CRLF;
 ?>
 										</td>
 										<td class="explain"><?php echo $description;?></td>
 										<td class="maker"><?php echo ($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author);?></td>
 										<td class="config">
 <?php
-		if ($config=='Y') {
-			if ($active) {
+	if ($config=='Y') {
+		if ($active) {
 ?>
 											<a href="#void" id="config_<?php echo $i;?>" class="config-enabled-icon bullet" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>')"><?php echo _t('설정');?></a>
 <?php
-			} else {
+		} else {
 ?>
 											<span class="config-disabled-icon bullet"><?php echo _t('설정');?></span>
 <?php
-			}
-		} else {
+		}
+	} else {
 ?>
 											<span class="config-none-icon bullet"><?php echo _t('없음');?></span>
 <?php
-		}
+	}
 ?>
 										</td>
 										<td class="status">
 <?php
-		if ($active) {
+	if ($active) {
 ?>
 											<a id="plugin<?php echo $i;?>Link" class="active-class" href="#void" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', '<?php echo $scope;?>')" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>"><span class="text"><?php echo _t('사용중');?></span></a>
 <?php
-		} else {
+	} else {
 ?>
 											<a id="plugin<?php echo $i;?>Link" class="inactive-class" href="#void" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', '<?php echo $scope;?>')" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>"><span class="text"><?php echo _t('미사용');?></span></a>
 <?php
-		}
+	}
 ?>
 										</td>
 									</tr>
 <?php
-		$rowCount++;
-	}
+	$rowCount++;
+}
 ?>
 								</tbody>
 							</table>
 						</form>
-<?php
-}
-?>
-
-<?php
-if (defined('__TATTERTOOLS_SIDEBAR__')) {
-?>
-						<div id="part-sidebar-order" class="part" method="post" action="<?php echo $blogURL.'/owner/skin/sidebar/order';?>">
-							<h2 class="caption"><span class="main-text"><?php echo _t('사이드바 순서를 조정합니다');?></span></h2>
-							
-							<form id="sidebar-order-form" class="data-inbox">
-								<table cellpadding="0" cellspacing="0" border="0">
-									<tbody>
-<?php
-	if ((!isset($skin)) || (!is_object($skin)))
-		$skin = new Skin($skinSetting['skin']);
-	$orderKeys = getSidebarModuleOrder($skin);
-	if (count($orderKeys) > 0 && count($skin->sidebarElement) > 0) {
-		foreach ($orderKeys as $orderKey) {
-			if (isset($skin->sidebarElement[$orderKey])) {
-				$sidebarType = ereg("^%.+%$", $orderKey) ? "sidebar-basic" : "sidebar";
-?>
-										<tr>
-											<td>
-												<div class="plugin-name"><?php echo $skin->sidebarElement[$orderKey][0];?></div>
-												<a class="up-button button" href="#void" onclick="changeSidebarOrder('<?php echo $orderKey;?>','up','<?php echo $sidebarType;?>'); return false;"><span class="text"><?php echo _t('위로');?></span></a>
-												<span class="divider">|</span>
-												<a class="down-button button" href="#void" onclick="changeSidebarOrder('<?php echo $orderKey;?>','down','<?php echo $sidebarType;?>'); return false;"><span class="text"><?php echo _t('아래로');?></span></a>
-											</td>
-										</tr>
-<?php
-			}
-		}
-	} else {
-?>
-										<tr>
-											<td><?php echo _t('없음');?></td>
-										</tr>
-<?php
-	}
-?>
-									</tbody>
-								</table>
-							</form>
-						</div>
-<?php
-}
-?>
+						
 						<div id="part-plugin-more" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('플러그인을 구하려면');?></span></h2>
 							

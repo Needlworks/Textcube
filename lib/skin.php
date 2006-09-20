@@ -58,16 +58,14 @@ class Skin {
 	var $randomTags;
 	var $s_link_rep;
 	var $aux;
-	var $sidebar;
-	var $sidebarElement;
-	var $inlineSidebarCount = 0;
-	
+	var $sidebarRepeatTemplates;
+	var $sidebarBasicModules;
+	var $sidebarDefaultOrder = array();
 	
 	var $noneCommentMessage;
 	var $singleCommentMessage;
 	var $noneTrackbackMessage;
 	var $singleTrackbackMessage;
-	
 	
 	function Skin($name) {
 		global $service, $blogURL;
@@ -77,7 +75,6 @@ class Skin {
 		$this->singleCommentMessage = getUserSetting('singleCommentMessage');
 		$this->noneTrackbackMessage = getUserSetting('noneTrackbackMessage');
 		$this->singleTrackbackMessage = getUserSetting('singleTrackbackMessage');
-		
 		
 		if (strncmp($name, 'customize/', 10) == 0) {
 			$name = "customize/$owner";
@@ -103,13 +100,25 @@ class Skin {
 		$sval = replaceSkinTag($sval, 'body');
 		handleTags($sval);
 		
-		/* // 사이드바 현재 동작 한함. 관련된 모든 부분을 재작성 하시오.
-		list($sval, $this->sidebar) = $this->cutSkinTag($sval, 'sidebar');
-		list($this->sidebar, $this->sidebarElement) = $this->cutSkinTagForSidebar($this->sidebar, 'sidebar_element');
-		list($this->sidebar, $this->sidebarTitles) = $this->cutSkinTag($this->sidebar, 'sidebar_titles');
-		list($this->sidebar, $this->sidebarItem) = $this->cutSkinTag($this->sidebar, 'sidebar_rep_element');
+		// 사이드바 작업.
+		$sidebarCount = 0;
+		
+		// - 사이드바가 여러개일 수 있으므로 루프로 돌린다.
+		while (ereg("<s_sidebar>", $sval)) {
+			list($sval, $sidebarContent) = $this->cutSkinTag($sval, "sidebar", "[##_sidebar_{$sidebarCount}_##]");
+			
+			$rgSidebarContent = split("<s_sidebar_element>|</s_sidebar_element>", $sidebarContent);
+			for ($i=0; $i<count($rgSidebarContent); $i++) {
+				if ($i % 2 == 1) {
+					// - 각 모듈을 나중에 가져다 쓰기 위해 기본 모듈 배열 안에 저장한다.
+					if (!isset($this->sidebarBasicModules[$sidebarCount]))
+						$this->sidebarBasicModules[$sidebarCount] = array();
+					array_push($this->sidebarBasicModules[$sidebarCount], $rgSidebarContent[$i]);
+				}
+			}
+			$sidebarCount++;
+		}
 		handleSidebars($sval, $this);
-		*/
 
 		$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
 		list($sval, $this->listItem) = $this->cutSkinTag($sval, 'list_rep');
@@ -218,10 +227,10 @@ class Skin {
 		$tagSize = strlen($tag) + 4;
 		$begin = strpos($contents, "<s_$tag>");
 		if ($begin === false)
-			return array($contents, '');
+			return array($contents, NULL);
 		$end = strpos($contents, "</s_$tag>", $begin + 4);
 		if ($end === false)
-			return array($contents, '');
+			return array($contents, NULL);
 		$inner = substr($contents, $begin + $tagSize, $end - $begin - $tagSize);
 		$outter = substr($contents, 0, $begin) . $replace . substr($contents, $end + $tagSize + 1);
 		return array($outter, $inner);
@@ -239,54 +248,6 @@ class Skin {
 		$inner = "[##_{$tag}_##]";
 		$outter = substr($contents, 0, $pos) . $replace . substr($contents, $pos + $tagSize);
 		return array($outter, $inner);
-	}
-	
-	function cutSkinTagForSidebar($contents, $tag) {
-		$sidebarElement = array();
-		$innerSidebarModules = getBasicSidebarList();
-		$tempList = split("<s_$tag>|</s_$tag>", $contents);
-		
-		for ($i=0; $i<count($tempList); $i++) {
-			if (($i % 2) == 1) {
-				if (ereg("\[##_image_##\]", $tempList[$i])) {
-					$id = "%BlogLogo%";
-				} else if (ereg("\[##_search_onclick_submit_##\]", $tempList[$i])) {
-					$id = "%Search%";
-				} else if (ereg("\[##_category_##\]", $tempList[$i])) {
-					// 사이드바 플러그인의 id는 디렉토리명이기 때문에 %를 사용할 수 없다($IV 체크에 의거).
-					// 따라서 내장 모듈에 %를 사용하면 unique 값이 된다(=중복선언의 위험이 없다).
-					$id = "%Category%";
-				} else if (ereg("\[##_category_list_##\]", $tempList[$i])) {
-					$id = "%CategoryList%";
-				} else if (ereg("\[##_calendar_##\]", $tempList[$i])) {
-					$id = "%Calendar%";
-				} else if (ereg("<s_random_tags>", $tempList[$i])) {
-					$id = "%TagList%";
-				} else if (ereg("<s_rctps_rep>", $tempList[$i])) {
-					$id = "%RecentPosts%";
-				} else if (ereg("<s_rcttb_rep>", $tempList[$i])) {
-					$id = "%RecentTrackback%";
-				} else if (ereg("<s_rctrp_rep>", $tempList[$i])) {
-					$id = "%RecentComment%";
-				} else if (ereg("<s_archive_rep>", $tempList[$i])) {
-					$id = "%RecentArchive%";
-				} else if (ereg("<s_link_rep>", $tempList[$i])) {
-					$id = "%Link%";
-				} else if (ereg("\[##_count_today_##\]", $tempList[$i])) {
-					$id = "%Counter%";
-				} else {
-					$tempList[$i] = "<s_{$tag}>{$tempList[$i]}</s_{$tag}>";
-					continue;
-				}
-				
-				$sidebarElement[$id][0] = $innerSidebarModules[$id]['title'];
-				$sidebarElement[$id][1] = $tempList[$i];
-				$tempList[$i] = "[##_sidebar_module_{$this->inlineSidebarCount}_##]";
-				$this->inlineSidebarCount++;
-			}
-		}
-		
-		return array(implode("", $tempList), $sidebarElement);
 	}
 }
 

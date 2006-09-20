@@ -201,139 +201,27 @@ function handleCenters($mapping) {
 	return $target;
 }
 
-function cutSidebars(& $sval, & $obj) {
-	global $service, $sidebarMappings, $pluginURL, $configMappings, $configVal;
-	
-	$replacer = '';
-	
-	foreach ($sidebarMappings as $mapping) {
-		include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
-		$content_temp = $obj->sidebarItem;
-
-		if (preg_match_all('/\[##_(\w+)_##\]/', $content_temp, $matches)) {
-			foreach ($matches[1] as $tag) {
-				$target = $title = '';
-
-				switch($tag) {
-					case 'sidebar_id':
-						dress('sidebar_id', $mapping['plugin'], $content_temp);
-						break;
-					case 'sidebar_class':
-						dress('sidebar_class', $mapping['class'], $content_temp);
-						break;
-					case 'sidebar_titles':
-						if($mapping['title']) {
-							dress('sidebar_titles', $obj->sidebarTitles, $content_temp);
-							dress('sidebar_title', $mapping['title'], $content_temp);
-						} else {
-							dress('sidebar_titles', '', $content_temp);
-						}
-						break;
-					case 'sidebar_contents':
-						if (function_exists($mapping['handler'])) {
-							if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
-								$configVal = getCurrentSetting($mapping['plugin']);
-							else
-								$configVal ='';
-							$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
-							$target = call_user_func($mapping['handler'], $target, $content);
-						}
-						dress('sidebar_contents', $target, $content_temp);
-						break;
+function handleSidebars(& $sval, & $obj) {
+	$sidebarCount = count($obj->sidebarBasicModules);
+	for ($i=0; $i<$sidebarCount; $i++) {
+		$str = "";
+		
+		// 저장된 사이드바 정렬 순서 정보를 가져온다.
+		$orderConfig = getSidebarModuleOrderData($i);
+		if (is_null($orderConfig)) {
+			$str = implode("", $obj->sidebarBasicModules[$i]);
+		} else {
+			for ($j=0; $j<count($orderConfig); $j++) {
+				if (preg_match("/^[0-9]+$/", $orderConfig[$j]['id'])) {
+					$str .= $obj->sidebarBasicModules[$i][$orderConfig[$j]['id']];
+				} else {
+					$str .= "[##_temp_sidebar_element_$j_##]";
+					$parameters = explode("|", $orderConfig[$j]['parameters']);
+					$sidebarStorage["temp_sidebar_element_$j"] = call_user_func($orderConfig[$j]['id'], $parameters[0], $parameters[1]);
 				}
 			}
 		}
-		$obj->sidebarElement[$mapping['plugin']] = array($mapping['display'], $content_temp);
-		$replacer .= "[##_sidebar_module_{$obj->inlineSidebarCount}_##]";
-		$obj->inlineSidebarCount++;
-	}
-	
-	dress('sidebar_rep_element', $replacer, $obj->sidebar);
-}
-
-// 내장형 사이드바 모듈 속성 배열.
-function getBasicSidebarList() {
-	$innerSidebarModules = array();
-	
-	$innerSidebarModules['%Category%'] = array(
-						"title" => _t('스킨 내장형 분류'),
-						"description" => _t('스킨에 내장되어 있는 분류 사이드바 모듈입니다.')
-						);
-	$innerSidebarModules['%CategoryList%'] = array(
-						"title" => _t('스킨 내장형 분류(XHTML)'),
-						"description" => _t('스킨에 내장되어 있는 XHTML형 분류 사이드바 모듈입니다.')
-						);
-	$innerSidebarModules['%Calendar%'] = array(
-						"title" => _t('스킨 내장형 달력'),
-						"description" => _t('스킨에 내장되어 있는 달력 사이드바 모듈입니다.')
-						);
-	$innerSidebarModules['%TagList%'] = array(
-						"title" => _t('스킨 내장형 태그 목록'),
-						"description" => _t('스킨에 내장되어 있는 태그 목록 사이드바 모듈입니다.')
-						);
-	$innerSidebarModules['%RecentPosts%'] = array(
-						"title" => _t('스킨 내장형 최근 글 목록'),
-						"description" => _t('스킨에 내장되어 있는 최근 등록글 목록 사이드바 모듈입니다.')
-						);
-	$innerSidebarModules['%RecentTrackback%'] = array(
-						"title" => _t('스킨 내장형 최근 글걸기 목록'),
-						"description" => _t('스킨에 내장되어 있는 최근 글걸기 목록 사이드바 모듈입니다.')
-						);
-	$innerSidebarModules['%RecentComment%'] = array(
-						"title" => _t('스킨 내장형 최근 댓글 목록'),
-						"description" => _t('스킨에 내장되어 있는 최근 댓글 목록 사이드바 모듈입니다.')
-						);
-	$innerSidebarModules['%RecentArchive%'] = array(
-						"title" => _t('스킨 내장형 최근 저장소 목록'),
-						"description" => _t('스킨에 내장되어 있는 최근 저장소 목록 사이드바 모듈입니다.')
-						);
-	$innerSidebarModules['%Link%'] = array(
-						"title" => _t('스킨 내장형 링크 목록'),
-						"description" => _t('스킨에 내장되어 있는 링크 사이드바 모듈입니다.')
-						);
-	$innerSidebarModules['%Counter%'] = array(
-						"title" => _t('스킨 내장형 카운터'),
-						"description" => _t('스킨에 내장되어 있는 카운터 사이드바 모듈입니다.')
-						);
-	
-	$innerSidebarModules['%notice%'] = array(
-						"title" => _t('스킨 내장형 공지'),
-						"description" => _t('스킨에 내장되어 있는 공지 사이드바 모듈입니다.')
-						);
-	$innerSidebarModules['%Search%'] = array(
-						"title" => _t('스킨 내장형 검색'),
-						"description" => _t('스킨에 내장되어 있는 검색 사이드바 모듈입니다.')
-						);
-	$innerSidebarModules['%BlogLogo%'] = array(
-						"title" => _t('스킨 내장형 블로그로고'),
-						"description" => _t('스킨에 내장되어 있는 블로그 로고 사이드바 모듈입니다.')
-						);
-	return $innerSidebarModules;
-}
-
-function handleSidebars(& $sval, & $obj) {
-	cutSidebars($sval, $obj);
-	$orderKeys = getSidebarModuleOrder($obj);
-	for ($i=0; $i<count($orderKeys); $i++) {
-		if (strlen($orderKeys[$i]) > 0)
-			dress("sidebar_module_{$i}", $obj->sidebarElement[$orderKeys[$i]][1], $obj->sidebar);
-	}
-	dress("sidebar", $obj->sidebar, $sval);
-}
-
-function getSidebarModuleOrder(& $obj) {
-	global $skinSetting;
-	
-	if (!is_object($obj))
-		$obj = new Skin($skinSetting['skin']);
-	
-	$orderKeys = getUserSetting('sidebarOrder');
-	if (is_null($orderKeys)) {
-		$sidebarOrder = array_keys($obj->sidebarElement);
-		setUserSetting("sidebarOrder", implode("|", $sidebarOrder));
-		return $sidebarOrder;
-	} else {
-		return explode("|", $orderKeys);
+		dress("sidebar_{$i}", $str, $sval);
 	}
 }
 
