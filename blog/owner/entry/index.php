@@ -777,10 +777,10 @@ for ($i=0; $i<sizeof($entries); $i++) {
 		}
 ?>
 												<option class="parent-category" value="category_-3" label="<?php echo _t('분류 없음');?>">(<?php echo _t('분류 없음');?>)</option>
+											</optgroup>
 <?php
 	}
 ?>
-											</optgroup>
 											<optgroup class="status" label="<?php echo _t('아래의 상태로 변경합니다.');?>">
 												<option value="classify"><?php echo _t('비공개로 변경합니다.');?></option>
 												<option value="publish"><?php echo _t('공개로 변경합니다.');?></option>
