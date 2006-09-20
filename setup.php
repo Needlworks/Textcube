@@ -1287,6 +1287,7 @@ CREATE TABLE {$_POST['dbPrefix']}Users (
   UNIQUE KEY loginid (loginid)
 ) $charset;
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
+INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, language, timezone) VALUES (1, '{$_POST['blog']}', '$baseLanguage', '$baseTimezone');
 INSERT INTO {$_POST['dbPrefix']}SkinSettings (owner) VALUES (1);
 INSERT INTO {$_POST['dbPrefix']}FeedSettings (owner) values(1);
