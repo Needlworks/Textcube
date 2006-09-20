@@ -29,8 +29,12 @@ if ((isset($_GET['name'])) && (isset($adminHandlerMappings[$_GET['name']])))
 		
 		$IV['GET'][$param['name']] = $ivItem;
 	}
-	$IV['POST'] = $IV['GET'];
 	
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		$IV['POST'] = $IV['GET'];
+		$IV['GET'] = array();
+	}
+		
 	if (Validator::validate($IV)) {
 		$plugin = $adminHandlerMappings[$_GET['name']]['plugin'];
 		$handler = $adminHandlerMappings[$_GET['name']]['handler'];

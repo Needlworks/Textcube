@@ -30,7 +30,11 @@ if ((isset($_GET['name'])) && (isset($adminMenuMappings[$_GET['name']])))
 		
 		$IV['GET'][$param['name']] = $ivItem;
 	}
-	$IV['POST'] = $IV['GET'];
+	
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		$IV['POST'] = $IV['GET'];
+		$IV['GET'] = array();
+	}
 	
 	if (Validator::validate($IV)) {
 		$plugin = $adminMenuMappings[$_GET['name']]['plugin'];
