@@ -524,6 +524,7 @@ if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 										newDiv.id = "logs_" + id;
 										newDiv.className = "trackback-log-box";
 										newDiv.style.display = "none";
+										newDiv.align = "right";
 										
 										newSection.appendChild(tempLink);
 										newSection.appendChild(newDiv);
