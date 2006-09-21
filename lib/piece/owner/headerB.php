@@ -8,14 +8,14 @@
 <?php
 $plugin = isset($_GET['name']) ? $_GET['name'] : '';
 $pluginAttrs = array();
-$pluginDir = $plugin;
+$pluginDir = strtok($plugin,'/');
 $adminSkinDir = getUserSetting("adminSkin", "default");
-if (file_exists(ROOT . "/plugins/$plugin/$adminSkinDir.css")) {
+if (file_exists(ROOT . "/plugins/$pluginDir/$adminSkinDir.css")) {
 ?>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/<?php echo $adminSkinDir;?>.css" />
 <?php
 }
-if (file_exists(ROOT . "/plugins/$plugin/$adminSkinDir.ie.css")) {
+if (file_exists(ROOT . "/plugins/$pluginDir/$adminSkinDir.ie.css")) {
 ?>
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/<?php echo $adminSkinDir;?>.ie.css" />
 	<![endif]-->
