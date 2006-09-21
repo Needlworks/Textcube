@@ -1389,9 +1389,9 @@ function TTCommand(command, value1, value2) {
 							'<!--[if !IE]> <-->' +
 							'<object type="application/x-shockwave-flash" transparent="yes" data="' + url + '" width="400" height="300">' +
 							'<p><a href="' + url + '">Can\'t display this flash media</a></p>' +
-							'</object>' +
+							'<\/object>' +
 							'<!--> <![endif]-->' +
-							'</object>';
+							'<\/object>';
 				}
 				else {
 					var type = null;
