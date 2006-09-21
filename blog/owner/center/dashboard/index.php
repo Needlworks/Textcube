@@ -194,7 +194,6 @@ if ($existSeperator == false) {
 				
 				var request = new HTTPRequest("POST", requestURL);
 				request.onSuccess = function () {
-					reordering();
 				}
 				request.onError = function () {
 					globalChker = false;
@@ -203,6 +202,7 @@ if ($existSeperator == false) {
 					return true;
 				}
 				request.send();
+				reordering();
 			}
 			return retVal;
 		}
