@@ -241,8 +241,7 @@ if (isset($_GET['popupEditor'])) {
 <?php
 } else {
 ?>
-											document.forms[0].action = "<?php echo $blogURL;?>/owner/entry";
-											document.forms[0].submit();
+											window.location.href = "<?php echo $blogURL;?>/owner/entry";
 <?php
 }
 ?>
