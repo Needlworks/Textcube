@@ -49,9 +49,9 @@ body {
 			iMazing<?php echo $_GET["d"];?>+='<param name="menu" value="false"  />';
 			iMazing<?php echo $_GET["d"];?>+='<param name="quality" value="high"  />';
 			iMazing<?php echo $_GET["d"];?>+='<param name="bgcolor" value="#FFFFFF" />';
-			iMazing<?php echo $_GET["d"];?>+='</object>';
+			iMazing<?php echo $_GET["d"];?>+='<\/object>';
 			iMazing<?php echo $_GET["d"];?>+='<!--> <![endif]-->';
-			iMazing<?php echo $_GET["d"];?>+='</object>';
+			iMazing<?php echo $_GET["d"];?>+='<\/object>';
 			writeCode(iMazing<?php echo $_GET["d"];?>);
 		</script>
 	</body>

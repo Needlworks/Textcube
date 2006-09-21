@@ -534,7 +534,7 @@ function printEntryFileList($attachments, $param) {
 														
 														if((new RegExp("\\.(mov)$", "gi").exec(fileName))) {			
 															code = '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="'+width+'" height="'+height+'"><param name="src" value="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'"/><param name="controller" value="true"><param name="autoplay" value="false"><param name="scale" value="Aspect">';
-															code += '<!--[if !IE]> <--><object type="video/quicktime" data="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" width="'+width+'" height="'+height+'" showcontrols="true" TYPE="video/quicktime" scale="Aspect" nomenu="true"><param name="showcontrols" value="true"><param name="autoplay" value="false"><param name="scale" value="ToFit"></object><!--> <![endif]--></object>';
+															code += '<!--[if !IE]> <--><object type="video/quicktime" data="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" width="'+width+'" height="'+height+'" showcontrols="true" TYPE="video/quicktime" scale="Aspect" nomenu="true"><param name="showcontrols" value="true"><param name="autoplay" value="false"><param name="scale" value="ToFit"><\/object><!--> <![endif]--><\/object>';
 															writeCode(code,'previewSelected');
 															return false;
 														}
@@ -546,8 +546,8 @@ function printEntryFileList($attachments, $param) {
 															code +='<param name="DefaultFrame" value="mainFrame">';
 															code +='<param name="autoplay" value="false">';
 															code +='<param name="showControls" value="true">';
-															code +='<embed type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/" src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" align="middle" width="'+width+'" height="'+height+'" showControls="true" defaultframe="mainFrame" showstatusbar="false" autoplay="false"></embed>';
-															code +='</object>';
+															code +='<embed type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/" src="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" align="middle" width="'+width+'" height="'+height+'" showControls="true" defaultframe="mainFrame" showstatusbar="false" autoplay="false"><\/embed>';
+															code +='<\/object>';
 															
 															writeCode(code,'previewSelected');
 															
@@ -557,7 +557,7 @@ function printEntryFileList($attachments, $param) {
 														if((new RegExp("\\.(rm|ram)$", "gi").exec(fileName))) {		
 														/*
 															code = '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="'+width+'" height="'+height+'"><param name="src" value="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'"/><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE">';
-															code += '<!--[if !IE]> <--><object type="audio/x-pn-realaudio-plugin" data="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" width="'+width+'" height="'+height+'" ><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE"></object><!--> <![endif]--></object>';			
+															code += '<!--[if !IE]> <--><object type="audio/x-pn-realaudio-plugin" data="<?php echo $service['path'];?>/attach/<?php echo $owner;?>/'+fileName+'" width="'+width+'" height="'+height+'" ><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE"><\/object><!--> <![endif]--><\/object>';			
 														*/
 														}
 														
@@ -891,8 +891,8 @@ function printEntryFileUploadButton($entryId) {
 														property['etc']['width'] = '240px';
 														property['etc']['height'] = '22px';
 														
-														//var str = '<iframe id="attachHiddenNest_' + attachId + '" src="' + uri + '" style="display: block; height: ' + property[userAgent]['height']+'; width: ' + property[userAgent]['width'] + ';" frameborder="no" scrolling="no"></iframe>';						
-														var str = '<iframe id="attachHiddenNest" src="' + uri + '" style="display: block; height: ' + property[userAgent]['height']+'; width: ' + property[userAgent]['width'] + ';" frameborder="no" scrolling="no"></iframe>';						
+																
+														var str = '<iframe id="attachHiddenNest" src="' + uri + '" style="display: block; height: ' + property[userAgent]['height']+'; width: ' + property[userAgent]['width'] + ';" frameborder="no" scrolling="no"><\/iframe>';						
 														document.getElementById('fileUploadNest').innerHTML = str + document.getElementById('fileUploadNest').innerHTML;
 														/*if (document.getElementById('attachHiddenNest_' + (attachId - 1))) {
 															document.getElementById('attachHiddenNest_' + (attachId - 1)).style.display = "none";
@@ -904,8 +904,8 @@ function printEntryFileUploadButton($entryId) {
 													
 													if (getUploadObj()) {
 														try {
-															document.write('<a id="uploadBtn" class="upload-button button" href="#void" onclick="browser(); return false"><span class="text"><?php echo _t('파일 업로드');?></span></a>');
-															document.write('<a id="stopUploadBtn" class="stop-button button" href="#void" onclick="stopUpload(); return false" style="display: none;"><span class="text"><?php echo _t('업로드 중지');?></span></a>');			
+															document.write('<a id="uploadBtn" class="upload-button button" href="#void" onclick="browser(); return false"><span class="text"><?php echo _t('파일 업로드');?><\/span><\/a>');
+															document.write('<a id="stopUploadBtn" class="stop-button button" href="#void" onclick="stopUpload(); return false" style="display: none;"><span class="text"><?php echo _t('업로드 중지');?><\/span><\/a>');			
 														} catch(e) {
 															
 														}								
