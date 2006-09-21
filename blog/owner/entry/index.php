@@ -72,8 +72,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										window.location.href = "<?php echo $blogURL;?>/checkup";
 								}
 <?php
-}
-if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
+} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 ?>
 								window.addEventListener("load", checkTattertoolsVersion, false);
 								function checkTattertoolsVersion() {
