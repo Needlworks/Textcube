@@ -513,12 +513,12 @@ color:#333;
 	background:url("images/iconIndentArrow_local.gif") no-repeat 10px 12px;
 	background-color:#f5f5f5;
 }
-.guestbook .clist .tt-admin-comment span,
-.guestbook .clist .tt-admin-comment a,
-.guestbook .clist .tt-admin-comment p{
+.guestbook .clist .guest_admin span,
+.guestbook .clist .guest_admin a,
+.guestbook .clist .guest_admin p{
 	color:#a2348f !important;
 }
-.guestbook .clist .tt-secret-comment p{
+.guestbook .clist .guest_secret p{
 	color:#FF7F7F !important;
 }
 .guestbook .clist li .name{
@@ -684,12 +684,12 @@ color:#999;
 .entry .commentlist p{
 color:#222;
 }
-.entry .commentlist .tt-admin-comment span,
-.entry .commentlist .tt-admin-comment a,
-.entry .commentlist .tt-admin-comment p{
+.entry .commentlist .rp_admin span,
+.entry .commentlist .rp_admin a,
+.entry .commentlist .rp_admin p{
 	color:#a2348f !important;
 }
-.entry .commentlist .tt-secret-comment p{
+.entry .commentlist .rp_secret p{
 	color:#FF7F7F !important;
 }
 .entry .control{
