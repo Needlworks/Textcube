@@ -53,6 +53,11 @@ dress('tattertools_name', TATTERTOOLS_VERSION, $view);
 dress('tattertools_version', TATTERTOOLS_NAME, $view);
 if (isset($paging))
 	dress('paging', getPagingView($paging, $skin->paging, $skin->pagingItem), $view);
+
+$sidebarElements = array_keys($skin->sidebarStorage);
+foreach ($sidebarElements as $element) {
+	dress($element, $skin->sidebarStorage[$element], $view);
+}
 $view = removeAllTags($view);
 print $view;
 ?>

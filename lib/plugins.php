@@ -209,17 +209,15 @@ function handleSidebars(& $sval, & $obj) {
 		// 저장된 사이드바 정렬 순서 정보를 가져온다.
 		$orderConfig = getSidebarModuleOrderData($i);
 		if (is_null($orderConfig)) {
-			$str = implode("", $obj->sidebarBasicModules[$i]);
+			$str = $obj->sidebarOriginalContent[$i];
 		} else {
 			for ($j=0; $j<count($orderConfig); $j++) {
 				if (preg_match("/^[0-9]+$/", $orderConfig[$j]['id'])) {
-					$str .= $obj->sidebarBasicModules[$i][$orderConfig[$j]['id']];
+					$str .= $obj->sidebarBasicModules[$i][$orderConfig[$j]['id']]['body'];
 				} else {
 					$str .= "[##_temp_sidebar_element_{$j}_##]";
 					$parameters = explode("|", $orderConfig[$j]['parameters']);
-					if (count($parameters) == 2) {					
-						$sidebarStorage["temp_sidebar_element_$j"] = call_user_func($orderConfig[$j]['id'], $parameters[0], $parameters[1]);
-					}				
+					$obj->sidebarStorage["temp_sidebar_element_{$j}"] = call_user_func($orderConfig[$j]['id'], $parameters[0], $parameters[1]);
 				}
 			}
 		}

@@ -58,9 +58,9 @@ class Skin {
 	var $randomTags;
 	var $s_link_rep;
 	var $aux;
-	var $sidebarRepeatTemplates;
-	var $sidebarBasicModules;
-	var $sidebarDefaultOrder = array();
+	var $sidebarBasicModules = array();
+	var $sidebarStorage = array();
+	var $sidebarOriginalContent = array();
 	
 	var $noneCommentMessage;
 	var $singleCommentMessage;
@@ -105,15 +105,21 @@ class Skin {
 		
 		// - 사이드바가 여러개일 수 있으므로 루프로 돌린다.
 		while (ereg("<s_sidebar>", $sval)) {
-			list($sval, $sidebarContent) = $this->cutSkinTag($sval, "sidebar", "[##_sidebar_{$sidebarCount}_##]");
+			list($sval, $this->sidebarOriginalContent[$sidebarCount]) = $this->cutSkinTag($sval, "sidebar", "[##_sidebar_{$sidebarCount}_##]");
 			
-			$rgSidebarContent = split("<s_sidebar_element>|</s_sidebar_element>", $sidebarContent);
+			$rgSidebarContent = split("<s_sidebar_element>|</s_sidebar_element>", $this->sidebarOriginalContent[$sidebarCount]);
 			for ($i=0; $i<count($rgSidebarContent); $i++) {
 				if ($i % 2 == 1) {
 					// - 각 모듈을 나중에 가져다 쓰기 위해 기본 모듈 배열 안에 저장한다.
 					if (!isset($this->sidebarBasicModules[$sidebarCount]))
 						$this->sidebarBasicModules[$sidebarCount] = array();
-					array_push($this->sidebarBasicModules[$sidebarCount], $rgSidebarContent[$i]);
+					preg_match("/<!\-\-(.+)\-\->/", $rgSidebarContent[$i], $temp);
+					if (isset($temp[1])) {
+						$tempTitle = trim($temp[1]);
+					} else {
+						$tempTitle = $rgSidebarContent[$i];
+					}
+					array_push($this->sidebarBasicModules[$sidebarCount], array("title" => $tempTitle, "body" => $rgSidebarContent[$i]));
 				}
 			}
 			$sidebarCount++;
