@@ -4,6 +4,11 @@ require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/headerA.php';
 require ROOT . '/lib/piece/owner/contentMenuA0.php';
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	if (isset($_POST['pos'])) $_GET['pos'] = $_POST['pos'];
+	if (isset($_POST['rel'])) $_GET['rel'] = $_POST['rel'];
+}
+
 ?>
 <script src="<?php echo $service['path'];?>/script/dojo/dojo.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -67,6 +72,8 @@ $oldcenterlayout = array();
 if (count($centerMappings) == 0) {
 	$layout = '';
 	setUserSetting('centerLayout', '');
+	unset($_GET['pos']);
+	unset($_GET['rel']);
 }
 
 if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ){
@@ -84,12 +91,31 @@ if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ){
 	
 	$newlayout = array_merge($newlayout, $centerMappings);
 } else if (count($centerMappings) > 0) {
+	unset($_GET['pos']);
+	unset($_GET['rel']);
 	$middlepos = (count($centerMappings) + 1)/2;
 	array_splice($centerMappings, $middlepos , 0, array(array('plugin' => 'TatterToolsSeperator')));
 	$newlayout = $addedlayout = $centerMappings;
 }
 
-if ((count($centerMappings) > 0) || (count($addedlayout) > 0)) {
+if ((isset($_GET['pos'])) && (($_GET['pos'] < 0) || ($_GET['pos']) >= count($newlayout))) {
+	unset($_GET['pos']);
+	unset($_GET['rel']);
+}
+
+$modified = false;
+if (isset($_GET['pos']) && is_numeric($_GET['pos'])) {
+	if (isset($_GET['rel']) && is_numeric($_GET['rel']) && (is_numeric($_GET['rel']))) {
+		$newpos = $_GET['pos'] + $_GET['rel'];
+		if ($newpos < 0) $newpos = 0;
+		if ($newpos >= count($newlayout)) $newpos = count($newlayout) - 1;
+		$item = array_splice($newlayout, $_GET['pos'], 1);
+		array_splice($newlayout, $newpos, 0, $item);
+		$modified = true;
+	}
+}
+
+if ((count($centerMappings) > 0) || (count($addedlayout) > 0) || ($modified == true)) {
 	setUserSetting('centerLayout', serialize($newlayout));
 }
 
@@ -98,6 +124,7 @@ unset($layout);
 unset($oldcenterlayout);
 
 $existSeperator = false;
+$positionCounter = 0;
 echo '<div id="dojo_boardbar0" class="panel">';
 foreach ($newlayout as $mapping) {
 	if ($mapping['plugin'] == 'TatterToolsSeperator') {
@@ -106,11 +133,18 @@ foreach ($newlayout as $mapping) {
 	} else {
 ?>
 		<div id="<?php echo $mapping['plugin'];?>" class="section">
-			<h3><?php echo $mapping['title'];?></h3>
+			<h3>
+				<?php echo $mapping['title'];?> 
+				<a href="<?php echo $blogURL;?>/owner/center/dashboard?pos=<?php echo $positionCounter ?>&amp;rel=-1">
+					<?php echo _T("위로"); ?></a>
+				<a href="<?php echo $blogURL;?>/owner/center/dashboard?pos=<?php echo $positionCounter ?>&amp;rel=1">
+					<?php echo _T("아래로"); ?></a>
+			</h3>
 			<?php echo handleCenters($mapping);?>
 		</div>
 <?php
 	}
+	$positionCounter++;
 }
 echo '</div>';
 if ($existSeperator == false) {
