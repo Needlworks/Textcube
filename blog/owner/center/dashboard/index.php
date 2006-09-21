@@ -3,7 +3,13 @@ define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/headerA.php';
 require ROOT . '/lib/piece/owner/contentMenuA0.php';
+
 ?>
+<script src="<?php echo $service['path'];?>/script/dojo/dojo.js" type="text/javascript"></script>
+<script type="text/javascript">
+	dojo.require("dojo.dnd.HtmlDragAndDrop");
+</script>
+
 						<script type="text/javascript">
 <?php
 if (!file_exists(ROOT . '/cache/CHECKUP')) {
@@ -23,9 +29,6 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								}
 <?php
 }
-
-
-
 if (false) {
 	fetchConfigVal();
 }
@@ -34,24 +37,44 @@ if (false) {
 						<form method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
 							<div id="part-center-dashboard" class="part">
 								<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
-							
 <?php
 $i = 0;
+$total = count($centerMappings);
+$sepPosition = $total/2;
 foreach ($centerMappings as $mapping) {
-	$i++;
+	if (($i == 0) || ($i == $sepPosition)) {
+		echo '<div id="dojo_boardbar' , $i / $sepPosition , '" class="panel">';
+	}
 ?>
 								<div id="<?php echo $mapping['plugin'];?>" class="section">
 									<h3><?php echo $mapping['title'];?></h3>
-<?php echo handleCenters($mapping);?>
+									<?php echo handleCenters($mapping);?>
 								</div>
 <?php
-	if (($i % 2) == 0) {
-		echo '<hr style="visibility:hidden" />';
+	if (($i == $sepPosition - 1) || ($i == $total - 1)) {
+		echo '</div>';
 	}
+	$i++;
 }
 ?>
 							</div>
 						</form>
+
+<script type="text/javascript">
+	new dojo.dnd.HtmlDropTarget(document.getElementById('dojo_boardbar0'), ["dashboard"]);
+	<?php if ($i > 1) { ?>
+	new dojo.dnd.HtmlDropTarget(document.getElementById('dojo_boardbar1'), ["dashboard"]);
+	<?php } ?>
+<?php
+foreach ($centerMappings as $mapping) {
+?>
+	new dojo.dnd.HtmlDragSource(document.getElementById('<?php echo $mapping['plugin'];?>'), ["dashboard"]);
+<?php
+}
+?>
+
+</script>
+						
 <?php
 require ROOT . '/lib/piece/owner/footer1.php';
 ?>
