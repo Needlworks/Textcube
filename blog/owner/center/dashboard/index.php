@@ -16,23 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </script>
 
 <script type="text/javascript">
-	DragPanel = function(node, type) {
-		dojo.dnd.HtmlDragSource.call(this, node, type);
-	}
-		
-	dojo.inherits(DragPanel, dojo.dnd.HtmlDragSource);
-	
-	dojo.lang.extend(DragPanel, {
-		onDragStart: function() {
-			this.parentMethod = DragPanel.superclass.onDragStart;
-			var dragObj = this.parentMethod();
-			delete this.parentMethod;
-			dragObj.disableX = true;
-			return dragObj;
-		}
-	});
-
-
 <?php
 if (!file_exists(ROOT . '/cache/CHECKUP')) {
 ?>
@@ -125,19 +108,21 @@ unset($oldcenterlayout);
 
 $existSeperator = false;
 $positionCounter = 0;
+$secondposition = 0;
 echo '<div id="dojo_boardbar0" class="panel">';
 foreach ($newlayout as $mapping) {
 	if ($mapping['plugin'] == 'TatterToolsSeperator') {
 		echo '</div><div id="dojo_boardbar1" class="panel">';
 		$existSeperator = true;
+		$secondposition = $positionCounter;
 	} else {
 ?>
 		<div id="<?php echo $mapping['plugin'];?>" class="section">
 			<h3>
 				<?php echo $mapping['title'];?> 
-				<a href="<?php echo $blogURL;?>/owner/center/dashboard?pos=<?php echo $positionCounter ?>&amp;rel=-1">
+				<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $blogURL;?>/owner/center/dashboard?pos=<?php echo $positionCounter ?>&amp;rel=-1">
 					<?php echo _T("위로"); ?></a>
-				<a href="<?php echo $blogURL;?>/owner/center/dashboard?pos=<?php echo $positionCounter ?>&amp;rel=1">
+				<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $blogURL;?>/owner/center/dashboard?pos=<?php echo $positionCounter ?>&amp;rel=1">
 					<?php echo _T("아래로"); ?></a>
 			</h3>
 			<?php echo handleCenters($mapping);?>
@@ -149,6 +134,7 @@ foreach ($newlayout as $mapping) {
 echo '</div>';
 if ($existSeperator == false) {
 	echo '<div id="dojo_boardbar1" class="panel"></div>';
+	$secondposition = $positionCounter;
 }
 
 ?>
@@ -156,16 +142,92 @@ if ($existSeperator == false) {
 </form>
 
 <script type="text/javascript">
-	new dojo.dnd.HtmlDropTarget(document.getElementById('dojo_boardbar0'), ["dashboard"]);
-	new dojo.dnd.HtmlDropTarget(document.getElementById('dojo_boardbar1'), ["dashboard"]);
+	DragPanel = function(node, type) {
+		dojo.dnd.HtmlDragSource.call(this, node, type);
+	}
+	dojo.inherits(DragPanel, dojo.dnd.HtmlDragSource);
+	
+	DropPanel = function(node, type) {
+		dojo.dnd.HtmlDropTarget.call(this, node, type);
+	}
+	dojo.inherits(DropPanel, dojo.dnd.HtmlDropTarget);
+	
+	var globalChker = true;
+	
+	function reordering() {
+		var pos = 0;
+		var pNode = document.getElementById('dojo_boardbar0').firstChild;
+		while (pNode != null) {
+			if (pNode.className == "section") pNode.pos = pos++;
+			pNode = pNode.nextSibling;
+		}
+		document.getElementById('dojo_boardbar1').plusposition = pos++;
+		pNode = document.getElementById('dojo_boardbar1').firstChild;
+		while (pNode != null) {
+			if (pNode.className == "section") pNode.pos = pos++;
+			pNode = pNode.nextSibling;
+		}
+	}
+	dojo.lang.extend(DropPanel, {
+		onDrop: function(e) {
+			this.parentMethod = DropPanel.superclass.onDrop;
+			var retVal = this.parentMethod(e);
+			delete this.parentMethod;
+			
+			if ((retVal == true) && (globalChker == true)) {
+				var node = e.dragObject.domNode;
+				var prevNode = node.previousSibling;
+				var insertposition = 0;
+				while (prevNode != null) {
+					if (prevNode.className == "section") break;
+					prevNode = prevNode.previousSibling;
+				}
+				if (prevNode != null) {
+					insertposition = prevNode.pos + 1;
+				} else {
+					insertposition = this.domNode.plusposition + 1;
+				}
+				var rel = insertposition - node.pos;
+				if (insertposition > node.pos) rel--;
+				if (rel == 0) return retVal;
+				var requestURL = "<?php echo $blogURL;?>/owner/center/dashboard?pos=" + node.pos.toString() + "&rel=" + rel.toString();
+				
+				var request = new HTTPRequest("POST", requestURL);
+				request.onSuccess = function () {
+					reordering();
+				}
+				request.onError = function () {
+					globalChker = false;
+				}
+				request.onVerify = function () {
+					return true;
+				}
+				request.send();
+			}
+			return retVal;
+		}
+	});
+	
+
+	var pan0 = new DropPanel(document.getElementById('dojo_boardbar0'), ["dashboard"]);
+	document.getElementById('dojo_boardbar0').plusposition = -1;
+	var pan1 = new DropPanel(document.getElementById('dojo_boardbar1'), ["dashboard"]);
+	document.getElementById('dojo_boardbar1').plusposition = <?php echo $secondposition;?>;
 
 <?php
+$positionCounter = 0;
 foreach ($newlayout as $mapping) {
 	if ($mapping['plugin'] != 'TatterToolsSeperator') {
 ?>
+		document.getElementById('<?php echo $mapping['plugin'];?>').pos = <?php echo $positionCounter;?>;
 		new DragPanel(document.getElementById('<?php echo $mapping['plugin'];?>'), ["dashboard"]);
-<?php
+		
+		
+		document.getElementById('<?php echo $mapping['plugin'];?>dojoup').parentNode.removeChild(document.getElementById('<?php echo $mapping['plugin'];?>dojoup'));
+		document.getElementById('<?php echo $mapping['plugin'];?>dojodown').parentNode.removeChild(document.getElementById('<?php echo $mapping['plugin'];?>dojodown'));
+		<?php
 	}
+	$positionCounter++;
 }
 ?>
 
