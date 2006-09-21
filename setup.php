@@ -1290,7 +1290,7 @@ CREATE TABLE {$_POST['dbPrefix']}Users (
 CREATE TABLE {$_POST['dbPrefix']}UserSettings (
   user int(11) NOT NULL default '0',
   name varchar(32) NOT NULL default '',
-  value varchar(255) NOT NULL default '',
+  value text NOT NULL default '',
   PRIMARY KEY (user,name)
 ) $charset;
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);

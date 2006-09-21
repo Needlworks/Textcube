@@ -271,7 +271,7 @@ if (!doesExistTable($database['prefix'] . 'UserSettings')) { // Since 1.0.7
 		CREATE TABLE {$database['prefix']}UserSettings (
 		  user int(11) NOT NULL default '0',
 		  name varchar(32) NOT NULL default '',
-		  value varchar(255) NOT NULL default '',
+		  value text NOT NULL default '',
 		  PRIMARY KEY (user,name)
 		) TYPE=MyISAM
 	";
@@ -344,6 +344,17 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Tags name" , 'Key') != 'UNI') 
 		echo '<span style="color:#33CC33;">', _text('관리자 화면의 환경 설정에서 데이터 교정을 수행하시기 바랍니다.'), '</span></li>';
 	}
 }
+
+if (DBQuery::queryCell("DESC {$database['prefix']}UserSettings value", 'Type') != 'text') { // Since 1.1
+	$changed = true;
+	echo '<li>', _text('사용자 설정값 테이블의 필드 속성을 변경합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}UserSettings CHANGE value value text NOT NULL DEFAULT ''")) {
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	} else {
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+	}
+}
+
 
 ?>
 </ul>
