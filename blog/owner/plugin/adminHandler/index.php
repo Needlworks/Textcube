@@ -11,14 +11,12 @@ if (false) {
 	setUserSetting();
 }
 
-if (isset($_POST['name'])) $_GET['name'] = $_POST['name'];
-
-if ((isset($_GET['name'])) && (isset($adminHandlerMappings[$_GET['name']]))) 
+if ((isset($_REQUEST['name'])) && (isset($adminHandlerMappings[$_REQUEST['name']]))) 
 {
 	
 	$IV = array (
-		'GET' => array(
-			'name' => array('string', 'default' => '')
+		'REQUEST' => array(
+			'name' => array('string')
 			)
 		);
 	
@@ -27,17 +25,12 @@ if ((isset($_GET['name'])) && (isset($adminHandlerMappings[$_GET['name']])))
 		if (isset($param['default']) && !is_null($param['default']) ) $ivItem['default'] = $param['default'];
 		if (isset($param['mandatory']) && !is_null($param['mandatory']) ) $ivItem['mandatory'] = $param['mandatory'];
 		
-		$IV['GET'][$param['name']] = $ivItem;
+		$IV['REQUEST'][$param['name']] = $ivItem;
 	}
 	
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		$IV['POST'] = $IV['GET'];
-		$IV['GET'] = array();
-	}
-		
 	if (Validator::validate($IV)) {
-		$plugin = $adminHandlerMappings[$_GET['name']]['plugin'];
-		$handler = $adminHandlerMappings[$_GET['name']]['handler'];
+		$plugin = $adminHandlerMappings[$_REQUEST['name']]['plugin'];
+		$handler = $adminHandlerMappings[$_REQUEST['name']]['handler'];
 		
 		$pluginAccessURL = $blogURL . '/owner/plugin/adminMenu?name=' . $plugin;
 		$pluginMenuURL = 'invalid link';
