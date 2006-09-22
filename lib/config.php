@@ -1,7 +1,7 @@
 <?php
 define('TATTERTOOLS_NAME', 'Tattertools');
-define('TATTERTOOLS_VERSION', '1.1 beta1');
-define('TATTERTOOLS_COPYRIGHT', 'Copyright ⓒ 2004-2006. Tatter &amp; Company / Tatter &amp; Friends.');
+define('TATTERTOOLS_VERSION', '1.1 beta2');
+define('TATTERTOOLS_COPYRIGHT', 'Copyright &copy; 2004-2006. Tatter &amp; Company / Tatter &amp; Friends.');
 define('TATTERTOOLS_HOMEPAGE', 'http://www.tattertools.com/');
 define('TATTERTOOLS_SYNC_URL', 'http://sync.eolin.com/');
 define('CRLF', "\r\n");
