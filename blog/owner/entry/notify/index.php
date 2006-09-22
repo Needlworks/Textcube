@@ -258,7 +258,6 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 										<span class="label"><?php echo _t('선택한 알림을');?></span>
 										<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteComments();" />
 									</div>
-									
 									<div id="page-section" class="section">
 										<div id="page-navigation">
 											<span id="total-count"><?php echo _f('총 %1건', empty($paging['total']) ? "0" : $paging['total']);?></span>
@@ -272,6 +271,26 @@ $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]<
 print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 ?>
 											</span>
+										</div>
+										<div class="page-count">
+											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0);?>
+											
+											<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">
+	<?php
+	for ($i = 10; $i <= 30; $i += 5) {
+	if ($i == $perPage) {
+	?>
+												<option value="<?php echo $i;?>" selected="selected"><?php echo $i;?></option>
+	<?php
+	} else {
+	?>
+												<option value="<?php echo $i;?>"><?php echo $i;?></option>
+	<?php
+	}
+	}
+	?>
+											</select>
+											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1).CRLF;?>
 										</div>
 									</div>
 								</div>
