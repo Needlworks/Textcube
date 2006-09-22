@@ -110,7 +110,7 @@ function AD_Referer_Default()
 										<?php echo misc::getArrayValue(explode('%1', '한 페이지에 목록 %1건 표시'), 0);?>
 										<select name="perPage" onchange="document.getElementById('part-statistics-log').submit()">					
 <?php
-	for ($i = 10; $i <= 100; $i += 5) {
+	for ($i = 10; $i <= 30; $i += 5) {
 		if ($i == $perPage) {
 ?>
 											<option value="<?php echo $i;?>" selected="selected"><?php echo $i;?></option>
