@@ -1148,7 +1148,8 @@ function bindKeywords($keywords, $content) {
 		if ($start < $offset)
 			continue;
 		$view .= substr($content, $offset, $start - $offset);
-		$view .= "<span class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/" . rawurlencode($keywords[$flag]) . "')\">{$keywords[$flag]}</span>";
+		//$view .= "<span class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/" . rawurlencode($keywords[$flag]) . "')\">{$keywords[$flag]}</span>";
+		$view = fireEvent('BindKeyword', $view);
 		$offset = $start + strlen($keywords[$flag]);
 	}
 	$view .= substr($content, $offset);
