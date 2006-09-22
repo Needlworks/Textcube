@@ -41,7 +41,8 @@ if ((isset($_REQUEST['name'])) && (isset($adminHandlerMappings[$_REQUEST['name']
 		$pluginSelfParam = '?name=' . $plugin . '/' . $handler;
 		
 		include_once (ROOT . "/plugins/$plugin/index.php");
-		call_user_func($handler);
+		if (function_exists($handler))
+			call_user_func($handler);
 	}
 }
 

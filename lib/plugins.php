@@ -217,7 +217,11 @@ function handleSidebars(& $sval, & $obj) {
 				} else {
 					$str .= "[##_temp_sidebar_element_{$j}_##]";
 					$parameters = explode("|", $orderConfig[$j]['parameters']);
-					$obj->sidebarStorage["temp_sidebar_element_{$j}"] = call_user_func($orderConfig[$j]['id'], $parameters[0], $parameters[1]);
+					if (function_exists($orderConfig[$j]['id'])) {
+						$obj->sidebarStorage["temp_sidebar_element_{$j}"] = call_user_func($orderConfig[$j]['id'], $parameters[0], $parameters[1]);
+					} else {
+						$obj->sidebarStorage["temp_sidebar_element_{$j}"] = "";
+					}
 				}
 			}
 		}
@@ -296,7 +300,8 @@ function handleConfig( $plugin){
 			$handler = $config['.attributes']['manifestHandler'] ;
 			$oldconfig = $config;
 			include_once (ROOT . "/plugins/$plugin/index.php");
-			$manifest = call_user_func( $handler , $plugin );
+			if (function_exists($handler))
+				$manifest = call_user_func( $handler , $plugin );
 			$newXmls = new XMLStruct();
 			if($newXmls->open( $manifest) ){	 
 				unset( $config );
