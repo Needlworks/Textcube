@@ -102,11 +102,12 @@ class Skin {
 		
 		// 사이드바 작업.
 		$sidebarCount = 0;
-		
+		$noNameCount = 1;
 		// - 사이드바가 여러개일 수 있으므로 루프로 돌린다.
 		while (ereg("<s_sidebar>", $sval)) {
 			list($sval, $this->sidebarOriginalContent[$sidebarCount]) = $this->cutSkinTag($sval, "sidebar", "[##_sidebar_{$sidebarCount}_##]");
 			
+			$moduleCount = 0;
 			$rgSidebarContent = split("<s_sidebar_element>|</s_sidebar_element>", $this->sidebarOriginalContent[$sidebarCount]);
 			for ($i=0; $i<count($rgSidebarContent); $i++) {
 				if ($i % 2 == 1) {
@@ -117,9 +118,11 @@ class Skin {
 					if (isset($temp[1])) {
 						$tempTitle = trim($temp[1]);
 					} else {
-						$tempTitle = $rgSidebarContent[$i];
+						$tempTitle = _f('(이름 없음 %1)', $noNameCount); //$rgSidebarContent[$i];
+						$noNameCount++;
 					}
-					array_push($this->sidebarBasicModules[$sidebarCount], array("title" => $tempTitle, "body" => $rgSidebarContent[$i]));
+					$this->sidebarBasicModules[$sidebarCount]["{$sidebarCount}-{$moduleCount}"] = array("title" => $tempTitle, "body" => $rgSidebarContent[$i]);
+					$moduleCount++;
 				}
 			}
 			$sidebarCount++;

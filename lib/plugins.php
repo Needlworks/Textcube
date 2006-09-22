@@ -201,20 +201,19 @@ function handleCenters($mapping) {
 	return $target;
 }
 
+// 저장된 사이드바 정렬 순서 정보를 가져온다.
 function handleSidebars(& $sval, & $obj) {
+	$newSidebarAllOrders = array();
 	$sidebarCount = count($obj->sidebarBasicModules);
+	$sidebarAllOrders = getSidebarModuleOrderData($sidebarCount);
 	for ($i=0; $i<$sidebarCount; $i++) {
 		$str = "";
-		
-		// 저장된 사이드바 정렬 순서 정보를 가져온다.
-		$orderConfig = getSidebarModuleOrderData($i);
-		if (is_null($orderConfig)) {
-			$str = $obj->sidebarOriginalContent[$i];
-		} else {
-			for ($j=0; $j<count($orderConfig); $j++) {
-				if (preg_match("/^[0-9]+$/", $orderConfig[$j]['id'])) {
-					$str .= $obj->sidebarBasicModules[$i][$orderConfig[$j]['id']]['body'];
-				} else {
+		if (count($sidebarAllOrders[$i]) > 0) {
+			$currentSidebarOrder = $sidebarAllOrders[$i];
+			for ($j=0; $j<count($currentSidebarOrder); $j++) {
+				if (preg_match("/^([0-9]+)\-([0-9]+)$/", $currentSidebarOrder[$j]['id'])) {
+					$str .= $obj->sidebarBasicModules[$i][$currentSidebarOrder[$j]['id']]['body'];
+				} else if (function_exists($currentSidebarOrder[$j]['id'])) {
 					$str .= "[##_temp_sidebar_element_{$j}_##]";
 					$parameters = explode("|", $orderConfig[$j]['parameters']);
 					if (function_exists($orderConfig[$j]['id'])) {
@@ -224,8 +223,19 @@ function handleSidebars(& $sval, & $obj) {
 					}
 				}
 			}
+		} else {
+			$newSidebarAllOrders[$i] = array();
+			for ($j=0; $j<count($obj->sidebarBasicModules[$i]); $j++) {
+				$str .= $obj->sidebarBasicModules[$i][$j]['body'];
+				array_push($newSidebarAllOrders[$i], array("id" => "$i-$j", "parameters" => NULL));
+			}
 		}
+		
 		dress("sidebar_{$i}", $str, $sval);
+	}
+	
+	if (count($newSidebarAllOrders) > 0) {
+		setUserSetting("sidebarOrder", serialize($newSidebarAllOrders));
 	}
 }
 
