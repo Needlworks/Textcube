@@ -203,31 +203,48 @@ function handleCenters($mapping) {
 
 // 저장된 사이드바 정렬 순서 정보를 가져온다.
 function handleSidebars(& $sval, & $obj) {
-	$newSidebarAllOrders = array();
+	$newSidebarAllOrders = array(); 
+	// [sidebar id][element id](type, id, parameters)
+	// type : 1=skin text, 2=default handler, 3=plug-in
+	// id : type1=sidebar i, type2=handler id, type3=plug-in handler name
+	// parameters : type1=sidebar j, blah blah~
+	
 	$sidebarCount = count($obj->sidebarBasicModules);
 	$sidebarAllOrders = getSidebarModuleOrderData($sidebarCount);
+	
 	for ($i=0; $i<$sidebarCount; $i++) {
 		$str = "";
-		if (count($sidebarAllOrders[$i]) > 0) {
+		if ((!is_null($sidebarAllOrders)) && ((!is_null($sidebarAllOrders[$i])))) {
 			$currentSidebarOrder = $sidebarAllOrders[$i];
 			for ($j=0; $j<count($currentSidebarOrder); $j++) {
-				if (preg_match("/^([0-9]+)\-([0-9]+)$/", $currentSidebarOrder[$j]['id'])) {
-					$str .= $obj->sidebarBasicModules[$i][$currentSidebarOrder[$j]['id']]['body'];
-				} else if (function_exists($currentSidebarOrder[$j]['id'])) {
-					$str .= "[##_temp_sidebar_element_{$j}_##]";
-					$parameters = explode("|", $orderConfig[$j]['parameters']);
-					if (function_exists($orderConfig[$j]['id'])) {
-						$obj->sidebarStorage["temp_sidebar_element_{$j}"] = call_user_func($orderConfig[$j]['id'], $parameters[0], $parameters[1]);
-					} else {
-						$obj->sidebarStorage["temp_sidebar_element_{$j}"] = "";
+				if ($currentSidebarOrder[$j]['type'] == 1) { // skin text
+					$skini = $currentSidebarOrder[$j]['id'];
+					$skinj = $currentSidebarOrder[$j]['parameters'];
+					if (isset($obj->sidebarBasicModules[$skini]) && isset($obj->sidebarBasicModules[$skini][$skinj])) {
+						$str .= $obj->sidebarBasicModules[$skini][$skinj]['body'];
 					}
+				} else if ($currentSidebarOrder[$j]['type'] == 2) { // default handler
+					// TODO : implement
+				} else if ($currentSidebarOrder[$j]['type'] == 3) { // plugin
+					if (function_exists($currentSidebarOrder[$j]['id'])) {
+						$str .= "[##_temp_sidebar_element_{$i}-{$j}_##]";
+						$parameters = explode("|", $orderConfig[$j]['parameters']);
+						if (function_exists($orderConfig[$j]['id'])) {
+							$obj->sidebarStorage["temp_sidebar_element_{$i}-{$j}"] = call_user_func($orderConfig[$j]['id'], $parameters[0], $parameters[1]);
+						} else {
+							$obj->sidebarStorage["temp_sidebar_element_{$i}-{$j}"] = "";
+						}
+					}
+				} else {
+					// WHAT?
 				}
 			}
 		} else {
 			$newSidebarAllOrders[$i] = array();
+			
 			for ($j=0; $j<count($obj->sidebarBasicModules[$i]); $j++) {
 				$str .= $obj->sidebarBasicModules[$i][$j]['body'];
-				array_push($newSidebarAllOrders[$i], array("id" => "$i-$j", "parameters" => NULL));
+				array_push($newSidebarAllOrders[$i], array('type' => '1', 'id' => "$i", 'parameters' => "$j"));
 			}
 		}
 		

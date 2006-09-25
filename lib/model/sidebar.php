@@ -5,11 +5,8 @@ function getSidebarModuleOrderData($sidebarCount) {
 	} else {
 		$emptyArray = array();
 	}
-	for ($i=0; $i<$sidebarCount; $i++) {
-		if (!isset($emptyArray[$i])) {
-			$emptyArray[$i] = array();
-		}
-	}
+	
+	if ($emptyArray === false) return null;
 	return $emptyArray;
 }
 

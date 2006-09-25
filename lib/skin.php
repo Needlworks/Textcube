@@ -108,25 +108,32 @@ class Skin {
 			list($sval, $this->sidebarOriginalContent[$sidebarCount]) = $this->cutSkinTag($sval, "sidebar", "[##_sidebar_{$sidebarCount}_##]");
 			
 			$moduleCount = 0;
-			$rgSidebarContent = split("<s_sidebar_element>|</s_sidebar_element>", $this->sidebarOriginalContent[$sidebarCount]);
+			$matchcount = preg_match_all('@<s_sidebar_element>.*</s_sidebar_element>@isU', $this->sidebarOriginalContent[$sidebarCount], $matches);
+			if ($matchcount !== false) {
+				$rgSidebarContent = $matches[0];	
+			} else {
+				$rgSidebarContent = array();
+			}
+	
 			for ($i=0; $i<count($rgSidebarContent); $i++) {
-				if ($i % 2 == 1) {
-					// - 각 모듈을 나중에 가져다 쓰기 위해 기본 모듈 배열 안에 저장한다.
-					if (!isset($this->sidebarBasicModules[$sidebarCount]))
-						$this->sidebarBasicModules[$sidebarCount] = array();
-					preg_match("/<!\-\-(.+)\-\->/", $rgSidebarContent[$i], $temp);
-					if (isset($temp[1])) {
-						$tempTitle = trim($temp[1]);
-					} else {
-						$tempTitle = _f('(이름 없음 %1)', $noNameCount); //$rgSidebarContent[$i];
-						$noNameCount++;
-					}
-					$this->sidebarBasicModules[$sidebarCount]["{$sidebarCount}-{$moduleCount}"] = array("title" => $tempTitle, "body" => $rgSidebarContent[$i]);
-					$moduleCount++;
+				$taglength = 19; //strlen('<s_sidebar_element>');
+				$rgSidebarContent[$i] = substr($rgSidebarContent[$i], $taglength, strlen($rgSidebarContent[$i]) - 39);//2*$taglength - 1);
+				// - 각 모듈을 나중에 가져다 쓰기 위해 기본 모듈 배열 안에 저장한다.
+				if (!isset($this->sidebarBasicModules[$sidebarCount]))
+					$this->sidebarBasicModules[$sidebarCount] = array();
+				preg_match("/<!\-\-(.+)\-\->/", $rgSidebarContent[$i], $temp);
+				if (isset($temp[1])) {
+					$tempTitle = trim($temp[1]);
+				} else {
+					$tempTitle = _f('(이름 없음 %1)', $noNameCount); //$rgSidebarContent[$i];
+					$noNameCount++;
 				}
+				$this->sidebarBasicModules[$sidebarCount][$moduleCount] = array("title" => $tempTitle, "body" => $rgSidebarContent[$i]);
+				$moduleCount++;
 			}
 			$sidebarCount++;
 		}
+
 		handleSidebars($sval, $this);
 
 		$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
