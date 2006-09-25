@@ -14,7 +14,7 @@ require ROOT . '/lib/piece/owner/contentMenu33.php';
 							<h2 class="caption"><span class="main-text"><?php echo _t('사이드바 기능을 관리합니다');?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain">다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 '홈페이지' 기입란에 자신의 블로그 주소(<samp>http://127.0.0.1/branch/graphittie</samp>)를 입력하셔야 합니다.</p>
+								<p class="explain"><?php echo _t('사이드바의 출력을 수정합니다.');?></p>
 							</div>
 							
 							<div id="sidebar-box" class="data-inbox">
@@ -32,6 +32,13 @@ $sidebarCount = count($skin->sidebarBasicModules);
 // 사용중인 사이드바 모듈 리스트 출력.
 $bFirstRadio = true;
 $sidebarConfig = getSidebarModuleOrderData($sidebarCount);
+
+if (is_null($sidebarConfig)) {
+	for ($i=0; $i<$sidebarCount; $i++) {
+		$sidebarConfig[$i] = array();
+	}
+}
+
 for ($i=0; $i<$sidebarCount; $i++) {
 	$orderConfig = $sidebarConfig[$i];
 ?>
@@ -41,10 +48,13 @@ for ($i=0; $i<$sidebarCount; $i++) {
 									<ul id="sidebar-<?php echo $i;?>" class="sidebar">
 <?php
 	for ($j=0; $j<count($orderConfig); $j++) {
-		if (preg_match("/^([0-9]+)\-([0-9]+)$/", $orderConfig[$j]['id'], $temp)) {
+		if ($orderConfig[$j]['type'] == 1) { // skin text
+			$skini = $orderConfig[$j]['id'];
+			$skinj = $orderConfig[$j]['parameters'];
 ?>
 										<li class="sidebar-module sidebar-basic-module">
-											<?php echo $skin->sidebarBasicModules[$temp[1]][$temp[0]]['title'];?>
+											<h5><?php echo $skin->sidebarBasicModules[$skini][$skinj]['title'];?></h5>
+											<p><?php echo htmlspecialchars($skin->sidebarBasicModules[$skini][$skinj]['body']);?></p>
 											<div class="button-box">
 <?php
 			if ($j == 0) {
@@ -73,36 +83,42 @@ for ($i=0; $i<$sidebarCount; $i++) {
 										</li>
 <?php
 			array_push($usedSidebarBasicModule, $orderConfig[$j]['id']);
-		} else if (function_exists($orderConfig[$j]['id'])) {
+		} else if ($orderConfig[$j]['type'] == 2) { // default handler
+			// TODO : implement it!
+		} else if ($orderConfig[$j]['type'] == 3) { // plugin
+			if (function_exists($orderConfig[$j]['id'])) {
 ?>
 										<li class="sidebar-module sidebar-plugin-module">
 											<?php echo $sidebarPluginArray[$orderConfig[$j]['id']]['display'];?>
 											<div class="button-box">
 <?php
-			if ($j == 0) {
+				if ($j == 0) {
 ?>
 												<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module_disabled.jpg" border="0" alt="<?php echo _t('위로');?>" />
 <?php
-			} else {
+				} else {
 ?>
 												<a href="sidebar/order/?sidebarNumber=<?php echo $i;?>&amp;targetSidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j - 1;?>" title="<?php echo _t('이 사이드바 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
 <?php
-			}
+				}
 				
-			if ($j == count($orderConfig) - 1) {
+				if ($j == count($orderConfig) - 1) {
 ?>
 												<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module_disabled.jpg" border="0" alt="<?php echo _t('아래로');?>" />
 <?php
-			} else {
+				} else {
 ?>
 												<a href="sidebar/order/?sidebarNumber=<?php echo $i;?>&amp;targetSidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j + 1;?>" title="<?php echo _t('이 사이드바 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
 <?php
-			}
+				}
 ?>
 												<a href="sidebar/delete/?module=<?php echo $i.'-'.$j;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.jpg" border="0" alt="<?php echo _t('삭제');?>" /></a>
 											</div>
 										</li>
 <?php
+			}
+		} else {
+			// other type
 		}
 	}
 ?>
@@ -127,9 +143,9 @@ $sortedArray = array();
 for ($i=0; $i<$sidebarCount; $i++) {
 	$moduleCountInSidebar = count($skin->sidebarBasicModules[$i]);
 	for ($j=0; $j<$moduleCountInSidebar; $j++) {
-		if (!in_array("{$i}-{$j}", $usedSidebarBasicModule)) {
-			$sortedArray[$skin->sidebarBasicModules[$i]["{$i}-{$j}"]['title']] = "{$i}-{$j}";
-		}
+		//if (!in_array("{$i}-{$j}", $usedSidebarBasicModule)) {
+			$sortedArray[$skin->sidebarBasicModules[$i][$j]['title']] = "{$i}-{$j}";
+		//}
 	}
 }
 
