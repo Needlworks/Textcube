@@ -469,26 +469,110 @@
 	margin                           : 0 auto 50px auto;
 	padding                          : 10px;
 	text-align                       : center;
-	width                            : 320px;
 }
+
+#part-sidebar-order .data-inbox h3
+{
+	font-size                        : 1.7em;
+}
+
+#part-sidebar-order .data-inbox h4
+{
+	font-size                        : 1.5em;
+	text-align                       : left;
+	margin-left                      : 20px;
+}
+
+#sidebar-box
+{
+	width                            : 500px;
+	float                            : left;
+}
+
+#sidebar-box .section
+{
+	width                            : 250px;
+	float                            : left;
+}
+
+#sidebar-element-box
+{
+	width                            : 230px;
+	float                            : right;
+}
+
+#part-sidebar-order .data-inbox .sidebar
+{
+	float                            : left;
+	width                            : 230px;
+}
+
+#part-sidebar-order .data-inbox .sidebar h3
+{
+	font-size                        : 1.2em;
+}
+#part-sidebar-order .data-inbox .sidebar h4
+{
+	font-size                        : 1.1em;
+}
+
+#sidebar-element-box h3
+{
+	font-size                        : 1.2em !important;
+}
+
+#sidebar-element-box h4
+{
+	font-size                        : 1.1em !important;
+}
+
+
+
+#part-sidebar-order .data-inbox .sidebar-module
+{
+	margin                           : 10px auto;
+	border                           : 1px solid;
+}
+
+#part-sidebar-order .data-inbox .sidebar-module *
+{
+	margin                           : 0 0 0 0;
+}
+
+#part-sidebar-order .data-inbox .sidebar-module li
+{
+	margin-left                      : 20px;
+	text-align                       : left;
+}
+
 
 #part-sidebar-order .data-inbox table
 {
 	margin                           : 0 auto;
-	width                            : 300px;
+	width                            : 90%;
+}
+
+#part-sidebar-order .data-inbox table table
+{
+	border                           : none;
 }
 
 #part-sidebar-order .data-inbox table tbody tr td
 {
 	background-color                 : #FFFFFF;
-	border                           : 1px solid #DDDDDD;
-	padding                          : 10px;
+	padding                          : 0 0 0 0;
 }
 
 #part-sidebar-order .data-inbox table tbody tr td .plugin-name
 {
 	font-weight                      : bold;
-	margin-bottom                    : 5px;
+}
+
+#part-sidebar-order .data-inbox table .ib
+{
+	width                            : 12%;
+	padding                          : 0 0 0 0;
+	text-align                       : left;
 }
 
 #part-plugin-more

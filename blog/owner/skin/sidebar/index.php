@@ -130,14 +130,15 @@ function pretty_dress($view)
 						
 						<form id="part-sidebar-order" class="part" method="post" action="sidebar/register">
 							<h2 class="caption"><span class="main-text"><?php echo _t('사이드바 기능을 관리합니다');?></span></h2>
-							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('사이드바의 출력을 수정합니다.');?></p>
+								<p class="explain"><?php echo _t('사이드바의 편집 관련 기능.');?></p>
 							</div>
-							<div class="main-explain-box">
-								<h3><?php echo _t('안전 모드');?></h3>
+							
+							<h2><?php echo _t('편집 관련 기능');?></h2>
+							<div>
 								<a href="<?php echo $blogURL; ?>/owner/skin/sidebar?safe" title="<?php echo _t('안전모드');?>"><?php echo _t('안전모드');?></a>
-								<a href="<?php echo $blogURL; ?>/owner/skin/sidebar?tag" title="<?php echo _t('태그모드');?>"><?php echo _t('태그모드');?></a>						
+								<a href="<?php echo $blogURL; ?>/owner/skin/sidebar?tag" title="<?php echo _t('태그모드');?>"><?php echo _t('태그모드');?></a>
+								<a class="button" href="sidebar/initialize" onclick="if (!confirm('<?php echo _t('정말 사이드바 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('사이드바의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>						
 							</div>
 							
 <?php
@@ -196,7 +197,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 			$skini = $orderConfig[$j]['id'];
 			$skinj = $orderConfig[$j]['parameters'];
 ?>
-										<li class="sidebar-module sidebar-basic-module" style="border:1px solid">
+										<li class="sidebar-module sidebar-basic-module" id="sidebar-element-<?php echo "{$i}-{$j}";?>">
 											<h5><?php echo $skin->sidebarBasicModules[$skini][$skinj]['title'];?></h5>
 											<div class="button-box">
 <?php
@@ -237,7 +238,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 			if (function_exists($handler)) {
 			
 ?>
-										<li class="sidebar-module sidebar-plugin-module" style="border:1px solid">
+										<li class="sidebar-module sidebar-plugin-module" >
 											<?php echo $sidebarPluginArray[$sidbarPluginIndex]['display'], '::', $sidebarPluginArray[$sidbarPluginIndex]['title'];?>
 											<div class="button-box">
 <?php
@@ -280,8 +281,8 @@ for ($i=0; $i<$sidebarCount; $i++) {
 ?>
 							</div>
 							
-							<div class="data-subbox">
-								<h3><?php echo _t('추가 가능한 사이드바 모듈');?></h3>
+							<div id="sidebar-element-box" class="data-inbox">
+								<h3><?php echo _t('추가 가능한 모듈');?></h3>
 								
 								<fieldset id="sidebar-basic-module-box" class="section">
 									<legend><?php echo _t('추가 가능한 모듈(스킨 기본)');?></legend>
@@ -305,7 +306,8 @@ for ($i=0; $i<$sidebarCount; $i++) {
 foreach ($sortedArray as $nowKey) {
 ?>
 										<li class="sidebar-module">
-											<input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey['title'];?>"><?php echo $nowKey['title'];?></label><div><?php echo pretty_dress($nowKey['body']);?></div>
+											<h4><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey['title'];?>"><?php echo $nowKey['title'];?></label></h4>
+											<div><?php echo pretty_dress($nowKey['body']);?></div>
 										</li>
 <?php
 }
@@ -331,11 +333,69 @@ foreach ($sidebarPluginArray as $nowKey) {
 								</fieldset>
 								
 								<div class="button-box">
-									<input type="submit" class="input-button" value="<?php echo _t('모듈 추가');?>" title="<?php echo _t('사이드바에 선택된 모듈의 기능을 추가합니다.');?>"/>
-									<a class="button" href="sidebar/initialize" onclick="if (!confirm('<?php echo _t('정말 사이드바 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('사이드바의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>
+									<input type="submit" class="input-button" value="<?php echo _t('모듈 추가');?>" title="<?php echo _t('사이드바에 선택된 모듈의 기능을 추가합니다.');?>"/>									
 								</div>
 							</div>
 						</form>
+						
+
+<script src="<?php echo $service['path'];?>/script/dojo/dojo.js" type="text/javascript"></script>
+<script type="text/javascript">
+	dojo.require("dojo.dnd.HtmlDragAndDrop");
+</script>
+<script type="text/javascript">
+	DragPanel = function(node, type) {
+		dojo.dnd.HtmlDragSource.call(this, node, type);
+	}
+	dojo.inherits(DragPanel, dojo.dnd.HtmlDragSource);
+	
+	DropPanel = function(node, type) {
+		dojo.dnd.HtmlDropTarget.call(this, node, type);
+	}
+	dojo.inherits(DropPanel, dojo.dnd.HtmlDropTarget);
+	
+	var globalChker = true;
+	
+	function initPages()
+	{
+	
+		var inputs = document.getElementsByTagName("input");
+		for (i=0; i < inputs.length;) {
+			if (inputs[i].className == 'radio') {
+				inputs[i].parentNode.removeChild(inputs[i]);
+			} else {
+				i++
+ 			}
+		}
+		inputs = document.getElementsByTagName("div");
+		for (i=0; i < inputs.length; ) {
+			if (inputs[i].className == 'button-box') {
+				inputs[i].parentNode.removeChild(inputs[i]);
+			} else {
+				i++
+ 			}
+		}
+
+
+<?php
+for ($i=0; $i<$sidebarCount; $i++) {
+	echo "new DropPanel(document.getElementById('sidebar-ul-{$i}'), [\"sidebar\"]);";
+	$orderConfig = $sidebarConfig[$i];
+	for ($j=0; $j<count($orderConfig); $j++) {
+		if ($orderConfig[$j]['type'] == 1) { // skin text
+			echo "new DragPanel(document.getElementById('sidebar-element-{$i}-{$j}'), [\"sidebar\"]);";
+		}	
+	}
+}
+?>
+
+
+
+	}
+	dojo.addOnLoad(initPages);
+		
+	
+</script>						
 <?php
 require ROOT . '/lib/piece/owner/footer1.php';
 ?>
