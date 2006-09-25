@@ -53,7 +53,7 @@ if (!empty($owner)) {
 				$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
 				foreach ($xmls->selectNodes('/plugin/binding/sidebar') as $sidebar) {
 					if (!empty($sidebar['.attributes']['handler'])) {
-						array_push($sidebarMappings, array('plugin' => $plugin, 'class' => $sidebar['.attributes']['class'], 'title' => $sidebar['.attributes']['title'], 'display' => $title, 'handler' => $sidebar['.attributes']['handler']));
+						array_push($sidebarMappings, array('plugin' => $plugin, 'title' => $sidebar['.attributes']['title'], 'display' => $title, 'handler' => $sidebar['.attributes']['handler']));
 					}
 				}
 				unset($sidebar);
@@ -226,13 +226,16 @@ function handleSidebars(& $sval, & $obj) {
 				} else if ($currentSidebarOrder[$j]['type'] == 2) { // default handler
 					// TODO : implement
 				} else if ($currentSidebarOrder[$j]['type'] == 3) { // plugin
-					if (function_exists($currentSidebarOrder[$j]['id'])) {
-						$str .= "[##_temp_sidebar_element_{$i}-{$j}_##]";
-						$parameters = explode("|", $orderConfig[$j]['parameters']);
-						if (function_exists($orderConfig[$j]['id'])) {
-							$obj->sidebarStorage["temp_sidebar_element_{$i}-{$j}"] = call_user_func($orderConfig[$j]['id'], $parameters[0], $parameters[1]);
+					$plugin = $currentSidebarOrder[$j]['id']['plugin'];
+					$handler = $currentSidebarOrder[$j]['id']['handler'];
+					include_once (ROOT . "/plugins/{$plugin}/index.php");
+					if (function_exists($handler)) {
+						$str .= "[##_temp_sidebar_element_{$i}_{$j}_##]";
+						$parameters = $currentSidebarOrder[$j]['parameters'];
+						if (function_exists($handler)) {
+							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
 						} else {
-							$obj->sidebarStorage["temp_sidebar_element_{$i}-{$j}"] = "";
+							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"] = "";
 						}
 					}
 				} else {

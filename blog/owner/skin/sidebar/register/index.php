@@ -2,20 +2,28 @@
 define('ROOT', '../../../../..');
 
 $IV = array(
-	'POST' => array(
+	'REQUEST' => array(
 		'sidebarNumber' => array('int'),
-		'modulePos' => array('int', 'mandatory' => false),
-		'moduleId' => array('string')
-	)
-);
+		'modulePos' => array('int', 'default' => -1),
+		'moduleId' => array('string', 'default' => '')
+		)
+	);
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
 
 $skin = new Skin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
-$sidebarOrder = addSidebarModuleOrderData(getSidebarModuleOrderData($sidebarCount), $_POST['sidebarNumber'], $_POST['modulePos'], array("id" => $_POST['moduleId'], "parameters" => NULL));
-setUserSetting("sidebarOrder", serialize($sidebarOrder));
 
-//printRespond(array('error' => 0));
+$module = explode(':', $_REQUEST['moduleId']);
+if (($module !== false) && (count($module) == 3) && 
+	($_REQUEST['sidebarNumber'] >= 0) 	&& ($_REQUEST['sidebarNumber'] < $sidebarCount))
+{
+	$sidebarOrder = getSidebarModuleOrderData($sidebarCount);
+	$sidebarOrder = addSidebarModuleOrderData($sidebarOrder, $_REQUEST['sidebarNumber'], $_REQUEST['modulePos'], $module);
+	if ($sidebarOrder != null) {
+		setUserSetting("sidebarOrder", serialize($sidebarOrder));
+	}
+}
+
 header("Location: ".$_SERVER['HTTP_REFERER']);
 ?>

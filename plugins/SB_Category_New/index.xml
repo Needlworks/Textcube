@@ -15,7 +15,7 @@
 	<tattertools>1.1</tattertools>
 	</requirements>
 	<binding>
-		<sidebar class="category" title="카테고리" handler="SB_Category_New" />
+		<sidebar title="카테고리" handler="SB_Category_New" />
 		<tag name="SKIN_head_end" handler="SB_Category_New_Head" />
 		<config dataValHandler="">
 			<window width="400" height="200" />

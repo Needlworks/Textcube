@@ -3,7 +3,7 @@ function getSidebarModuleOrderData($sidebarCount) {
 	if (!is_null($tempValue = getUserSetting("sidebarOrder", NULL))) {
 		$emptyArray = unserialize($tempValue);
 	} else {
-		$emptyArray = array();
+		$emptyArray = false;
 	}
 	
 	if ($emptyArray === false) return null;
@@ -11,9 +11,45 @@ function getSidebarModuleOrderData($sidebarCount) {
 }
 
 function addSidebarModuleOrderData($dataArray, $sidebarNumber, $modulePos, $newModuleData) {
-	if (empty($dataArray[$sidebarNumber]))
+	global $skin, $sidebarMappings;
+	
+	if (!isset($dataArray[$sidebarNumber]) || empty($dataArray[$sidebarNumber]))
 		$dataArray[$sidebarNumber] = array();
-	array_push($dataArray[$sidebarNumber], $newModuleData);
+	
+	if ($modulePos <= 0) {
+		$modulePos = count($dataArray[$sidebarNumber]);
+	} else if ($modulePos >= count($dataArray[$sidebarNumber])){
+		$modulePos = count($dataArray[$sidebarNumber]) - 1;
+	}
+	
+	if ($newModuleData[0] == 1) {
+		if (isset($skin->sidebarBasicModules[$newModuleData[1]]) && isset($skin->sidebarBasicModules[$newModuleData[1]][$newModuleData[2]])) 
+		{
+			array_splice($dataArray[$sidebarNumber], $modulePos, 0, 
+				array(array('type' => 1, 'id' => $newModuleData[1], 'parameters' => $newModuleData[2])));
+		} else {
+			return null;
+		}
+	} else  if ($newModuleData[0] == 2) {
+		return null;
+	} else if ($newModuleData[0] == 3) {
+			$plugin = $newModuleData[1];
+			$handler = $newModuleData[2];
+		
+		$matched = false;
+		
+		foreach($sidebarMappings as $item) {
+			if (($item['plugin'] == $newModuleData[1]) && ($item['handler'] == $newModuleData[2])) {
+				array_splice($dataArray[$sidebarNumber], $modulePos, 0, 
+					array(array('type' => 3, 'id' => array('plugin' => $newModuleData[1], 'handler' => $newModuleData[2]),
+					'parameters' => '')));
+				$matched = true;
+			}
+		}
+		
+		if ($matched == false) return null;
+	}
+	
 	return $dataArray;
 }
 

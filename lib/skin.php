@@ -128,7 +128,7 @@ class Skin {
 					$tempTitle = _f('(이름 없음 %1)', $noNameCount); //$rgSidebarContent[$i];
 					$noNameCount++;
 				}
-				$this->sidebarBasicModules[$sidebarCount][$moduleCount] = array("title" => $tempTitle, "body" => $rgSidebarContent[$i]);
+				$this->sidebarBasicModules[$sidebarCount][$moduleCount] = array('title' => $tempTitle, 'body' => $rgSidebarContent[$i]);
 				$moduleCount++;
 			}
 			$sidebarCount++;
