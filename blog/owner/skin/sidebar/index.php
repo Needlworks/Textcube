@@ -41,7 +41,7 @@ function pretty_dress($view)
 	}
 	if (isset($_REQUEST['tag'])) {
 		// safe mode
-		return '<div class="sidebar-element-safebox">' . htmlspecialchars($view) . '</div>';
+		return '<div class="sidebar-element-safebox"><p>' . nl2br(htmlspecialchars($view, ENT_QUOTES)) . '</p></div>';
 	}
 	
 	$writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
@@ -111,6 +111,11 @@ function pretty_dress($view)
 	dress('owner_url', "$blogURL/owner", $view);
 	dress('tattertools_name', TATTERTOOLS_NAME, $view);
 	dress('tattertools_version', TATTERTOOLS_VERSION, $view);
+	
+	$tagSearches = array ( '@<a @i' , '@</a *>@i', '@ id *= *".*"@isU', '@ onkey(down|up|press) *="@i', '@ on(click|load|unload) *="@i', '@<input +@i'      , '@<script.*</script *>@siU' );
+	$tagReplaces = array ( '<span ' , '</span>'  , ''                , ' onnothing="'                , ' onnothing="'                 , '<input disabled ' , ''                        );
+	
+	$view = preg_replace($tagSearches, $tagReplaces, $view);
 	
 	return correctSidebarImage($view);
 }
