@@ -39,6 +39,10 @@ function pretty_dress($view)
 		// safe mode
 		return '<div class="sidebar-element-safebox">&hellip;</div>';
 	}
+	if (isset($_REQUEST['tag'])) {
+		// safe mode
+		return '<div class="sidebar-element-safebox">' . htmlspecialchars($view) . '</div>';
+	}
 	
 	$writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
 	$pageTitle = _t('페이지 제목');
@@ -123,9 +127,12 @@ function pretty_dress($view)
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('사이드바의 출력을 수정합니다.');?></p>
 							</div>
+							<div class="main-explain-box">
+								<h3><?php echo _t('안전 모드');?></h3>
+								<a href="<?php echo $blogURL; ?>/owner/skin/sidebar?safe" title="<?php echo _t('안전모드');?>"><?php echo _t('안전모드');?></a>
+								<a href="<?php echo $blogURL; ?>/owner/skin/sidebar?tag" title="<?php echo _t('태그모드');?>"><?php echo _t('태그모드');?></a>						
+							</div>
 							
-							<div id="sidebar-box" class="data-inbox">
-								<h3><?php echo _t('사이드바')?></h3>
 <?php
 $sidebarPluginArray = array();
 for ($i=0; $i<count($sidebarMappings); $i++) {
@@ -142,6 +149,19 @@ $skin = new Skin($skinSetting['skin']);
 $usedSidebarBasicModule = array();
 $sidebarCount = count($skin->sidebarBasicModules);
 
+if ($sidebarCount == 0) {
+?>
+							<div id="sidebar-box" class="data-inbox">
+								<h3><?php echo _t('사이드바');?></h3>
+								<div class="main-explain-box">
+									<p class="explain"><?php echo _t('사용중인 스킨이 사이드바 기능을 지원하지 않습니다.');?></p>
+								</div>
+							</div>
+<?php
+	require ROOT . '/lib/piece/owner/footer1.php';
+	exit;
+}
+
 // 사용중인 사이드바 모듈 리스트 출력.
 $bFirstRadio = true;
 $sidebarConfig = getSidebarModuleOrderData($sidebarCount);
@@ -151,6 +171,10 @@ if (is_null($sidebarConfig)) {
 		$sidebarConfig[$i] = array();
 	}
 }
+?>
+							<div id="sidebar-box" class="data-inbox">
+								<h3><?php echo _t('사이드바');?></h3>
+<?php
 
 for ($i=0; $i<$sidebarCount; $i++) {
 	$orderConfig = $sidebarConfig[$i];
@@ -231,6 +255,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 				}
 ?>
 												<a href="sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;targetSidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.jpg" border="0" alt="<?php echo _t('삭제');?>" /></a>
+												<!-- TODO : sidebar plugin settting -->									
 											</div>
 										</li>
 <?php
