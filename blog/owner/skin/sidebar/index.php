@@ -4,6 +4,33 @@ require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/header3.php';
 require ROOT . '/lib/piece/owner/contentMenu33.php';
 
+function correctSidebarImage( $subject ){
+	$pattern_with_src = '/(?:\ssrc\s*=\s*["\']?)([^\s^"^>^\']+)(?:[\s">\'])/i';
+	$pattern_with_background = '/(?:\sbackground\s*=\s*["\']??)([^\s^"^>^\']+)(?:[\s">\'])/i';
+	$pattern_with_url_func = '/(?:url\s*\(\s*\'?)([^)]+)(?:\'?\s*\))/i';
+	$return_val = preg_replace_callback($pattern_with_src , 'correctImagePath', $subject );
+	$return_val = preg_replace_callback($pattern_with_background , 'correctImagePath', $return_val);
+	$return_val = preg_replace_callback($pattern_with_url_func , 'correctImagePath', $return_val );
+	return $return_val;
+} 
+
+function correctImagePath($match ){
+	global $skinSetting, $serviceURL;
+	$pathArr = explode( "/" , $match[1]);
+	if( false === $pathArr  ) 
+		return $match[0];
+	$c = count( $pathArr);
+	if( $c <= 1 ) 
+		return $match[0];
+	if( $pathArr[$c-1] == "" ) 
+		return $match[0];// ./s/b/c/ 이런식으로 경로만 들어있는 경우 스킵
+	if( false !== array_search( "http:" , $pathArr) ) 
+		return $match[0] ; // full url의 경우 스킵
+	if( $pathArr[0] != '.'  && $pathArr[0] != '..' ) 
+		return $match[0] ; //첫 디렉토리가 현재 디렉토리가 아닌경우 스킵
+	return str_replace( $match[1],  $serviceURL . "/skin/{$skinSetting['skin']}/" . $match[1], $match[0]);;
+}
+
 function pretty_dress($view)
 {
 	global $owner, $blog, $blogURL, $database, $service, $stats, $skinSetting;
@@ -15,7 +42,7 @@ function pretty_dress($view)
 	
 	$writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
 	$pageTitle = _t('페이지 제목');
-
+	
 	dress('page_title', htmlspecialchars($pageTitle), $view);
 	dress('blogger', htmlspecialchars($writer), $view);
 	dress('title', htmlspecialchars($blog['title']), $view);
@@ -49,7 +76,7 @@ function pretty_dress($view)
 	dress('calendar', getCalendarView(getCalendar($owner, true)), $view);
 	list($view, $randomView) = Skin::cutSkinTag($view, 'random_tags');
 	dress('random_tags', getRandomTagsView(getRandomTags($owner), $randomView), $view);
-
+	
 	list($view, $recentNoticeItem) = Skin::cutSkinTag($view, 'rct_notice_rep');	
 	list($view, $noticeView) = Skin::cutSkinTag($view, 'rct_notice');
 	$notices = getNotices($owner);
@@ -81,7 +108,7 @@ function pretty_dress($view)
 	dress('tattertools_name', TATTERTOOLS_NAME, $view);
 	dress('tattertools_version', TATTERTOOLS_VERSION, $view);
 	
-	return $view;
+	return correctSidebarImage($view);
 }
 ?>
 						<script type="text/javascript">
