@@ -4,6 +4,8 @@ require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/header3.php';
 require ROOT . '/lib/piece/owner/contentMenu33.php';
 
+$stats = getStatistics($owner);
+
 function correctSidebarImage( $subject ){
 	$pattern_with_src = '/(?:\ssrc\s*=\s*["\']?)([^\s^"^>^\']+)(?:[\s">\'])/i';
 	$pattern_with_background = '/(?:\sbackground\s*=\s*["\']??)([^\s^"^>^\']+)(?:[\s">\'])/i';
