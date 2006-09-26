@@ -375,7 +375,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 				
 				var prevNode = e.dragObject.domNode.previousSibling;
 				while (prevNode != null) {
-					if (prevNode.className.indexOf("sidebar-module") != -1) break;
+					if ((prevNode.nodeType != 3/* TEXT_NODE */) && (prevNode.className.indexOf("sidebar-module") != -1)) break;
 					prevNode = prevNode.previousSibling;
 				}
 				if (prevNode != null) {
@@ -412,7 +412,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 ?>
 			pos = 0;
 			while (pNode != null) {
-				if (pNode.className.indexOf("sidebar-module") != -1) pNode.modulePos = pos++;
+				if ((pNode.nodeType != 3/* TEXT_NODE */) && (pNode.className.indexOf("sidebar-module") != -1)) pNode.modulePos = pos++;
 				pNode = pNode.nextSibling;
 			}
 <?php
