@@ -3,7 +3,6 @@ define('ROOT', '../../../..');
 $IV = array(
 	'POST' => array(
 		'name' => array('directory', 'default'=> null),
-		'scope' => array('string', 'default' => 'global')
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
