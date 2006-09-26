@@ -20,7 +20,8 @@ function execLoadTransform() {
 	
 	tempIds = new Array();
 	tempIds[0] = "part-center-dashboard";
-	tempIds[1] = "part-setting-filter";
+	tempIds[1] = "part-sidebar-order";
+	tempIds[2] = "part-setting-filter";
 	
 	for (i=0; i<tempIds.length; i++) {
 		if (document.getElementById(tempIds[i])) {

@@ -131,7 +131,7 @@ function pretty_dress($view)
 						<form id="part-sidebar-order" class="part" method="post" action="sidebar/register">
 							<h2 class="caption"><span class="main-text"><?php echo _t('사이드바 기능을 관리합니다');?></span></h2>
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('사이드바의 편집 관련 기능.');?></p>
+								<p class="explain"><?php echo _t('블로그의 사이드바 구성을 변경하실 수 있습니다. 사이드바에 새로운 요소를 추가/삭제하실 수 있으며 요소들 간의 자유로운 위치 이동기능도 지원합니다.');?></p>
 							</div>
 							
 							<h2><?php echo _t('편집 관련 기능');?></h2>

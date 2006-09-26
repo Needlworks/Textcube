@@ -315,267 +315,98 @@
 	vertical-align                   : middle;
 }
 
-/* plugin ****************************************************************************************/
+/* Sidebar ***************************************************************************************/
 
-#part-sidebar-plugins .main-explain-box
+#sidebar-box
 {
-	margin-bottom                    : 40px;
+	float                            : left;
+	min-height                       : 656px;
+	overflow-x                       : scroll;
+	width                            : 660px;
 }
 
-#part-sidebar-plugins fieldset
-{
-	background-image                 : none;
-	border                           : none;
-	position                         : absolute;
-	right                            : 20px;
-	top                              : 75px;
-}
-
-#part-sidebar-plugins fieldset dl
-{
-	border                           : none;
-}
-
-#part-sidebar-plugins fieldset dl dt
-{
-	font-weight                      : bold;
-}
-
-/* table head */
-#part-sidebar-plugins table.data-inbox tr .title
-{
-	width                            : 170px;
-}
-
-#part-sidebar-plugins table.data-inbox tr .version
-{
-	width                            : 60px;
-}
-
-#part-sidebar-plugins table.data-inbox tr .scope
+#sidebar-box h3
 {
 	display                          : none;
 }
 
-#part-sidebar-plugins table.data-inbox tr .maker
-{
-	width                            : 100px;
-}
-
-#part-sidebar-plugins table.data-inbox tr .config
-{
-	width                            : 70px;
-}
-
-#part-sidebar-plugins table.data-inbox tr .status
-{
-	width                            : 70px;
-}
-
-/* table body */
-#part-sidebar-plugins table.data-inbox tbody tr td.title
-{
-	background-position              : right bottom;
-}
-
-#part-sidebar-plugins table.data-inbox tbody tr td.title,
-#part-sidebar-plugins table.data-inbox tbody tr td.version,
-#part-sidebar-plugins table.data-inbox tbody tr td.explain,
-#part-sidebar-plugins table.data-inbox tbody tr td.maker
-{
-	text-align                       : left;
-}
-
-/* plugin icons */
-#part-sidebar-plugins table.data-inbox tbody tr td.config a
-{
-	background-image                 : url("./image/icon_config_on.gif");
-	background-position              : left center;
-	background-repeat                : no-repeat;
-	color                            : #5A8FC9;
-	cursor                           : pointer;
-	margin                           : 0 auto;
-	padding                          : 1px 0 1px 22px;
-}
-
-#part-sidebar-plugins table.data-inbox tbody tr td.config span
-{
-	background-image                 : url("./image/icon_config_off.gif");
-	background-position              : left center;
-	background-repeat                : no-repeat;
-	cursor                           : pointer;
-	margin                           : 0 auto;
-	padding                          : 1px 0 1px 22px;
-}
-
-#part-sidebar-plugins table.data-inbox tbody tr td.config .config-none-icon
-{
-	cursor                           : default;
-}
-
-#part-sidebar-plugins table.data-inbox tbody tr td.status a
-{
-	background-position              : left center;
-	background-repeat                : no-repeat;
-	cursor                           : pointer;
-	margin                           : 0 auto;
-	padding                          : 1px 0 1px 14px;
-}
-
-#part-sidebar-plugins table.data-inbox tbody tr.active-class td.status a
-{
-	background-image                 : url("./image/icon_plugin_on.gif");
-	color                            : #5A8FC9;
-}
-
-#part-sidebar-plugins table.data-inbox tbody tr.inactive-class td.status a
-{
-	background-image                 : url("./image/icon_plugin_off.gif");
-}
-
-/* data subbox */
-#part-sidebar-plugins .data-subbox
-{
-	margin-bottom                    : 50px;
-	position                         : relative !important;
-}
-
-#part-sidebar-plugins .data-subbox dl
-{
-	border                           : none;
-}
-
-#part-sidebar-plugins .data-subbox dl dt
-{
-	width                            : 50px;
-}
-
-#part-sidebar-plugins .data-subbox dl dd
-{
-	margin-left                      : 50px;
-}
-
-#activate-status-line
-{
-	right                            : 10px;
-	top                              : 0.7em;
-	position                         : absolute;
-}
-
-/* sidebar order control */
-#part-sidebar-order .data-inbox
-{
-	background-color                 : #EEEEEE;
-	margin                           : 0 auto 50px auto;
-	padding                          : 10px;
-	text-align                       : center;
-}
-
-#part-sidebar-order .data-inbox h3
-{
-	font-size                        : 1.7em;
-}
-
-#part-sidebar-order .data-inbox h4
-{
-	font-size                        : 1.5em;
-	text-align                       : left;
-	margin-left                      : 20px;
-}
-
-#sidebar-box
-{
-	width                            : 500px;
-	float                            : left;
-}
-
 #sidebar-box .section
 {
-	width                            : 250px;
 	float                            : left;
+	width                            : 250px;
+}
+
+#sidebar-box .section h4
+{
+	margin                           : 7px 0 0 10px;
+}
+
+#sidebar-box .section h4 .radio
+{
+	display                          : none;
+}
+
+#sidebar-box .section ul li.sidebar-module
+{
+	border                           : 1px solid #DDDDDD;
+	padding                          : 10px;
+	margin                           : 2px;
+	overflow                         : hidden;
+}
+
+#sidebar-box .section ul li.sidebar-module *
+{
+	font-size                        : 1em;
+}
+
+#sidebar-box .section ul li.sidebar-module .button-box
+{
+	display                          : none;
 }
 
 #sidebar-element-box
 {
-	width                            : 230px;
-	float                            : right;
-}
-
-#part-sidebar-order .data-inbox .sidebar
-{
+	background-image                 : none;
 	float                            : left;
-	width                            : 230px;
-}
-
-#part-sidebar-order .data-inbox .sidebar h3
-{
-	font-size                        : 1.2em;
-}
-#part-sidebar-order .data-inbox .sidebar h4
-{
-	font-size                        : 1.1em;
+	width                            : 250px;
 }
 
 #sidebar-element-box h3
 {
-	font-size                        : 1.2em !important;
+	display                          : none;
 }
 
-#sidebar-element-box h4
+#sidebar-element-box fieldset
 {
-	font-size                        : 1.1em !important;
-}
-
-
-
-#part-sidebar-order .data-inbox .sidebar-module
-{
-	margin                           : 10px auto;
-	border                           : 1px solid;
-}
-
-#part-sidebar-order .data-inbox .sidebar-module *
-{
-	margin                           : 0 0 0 0;
-}
-
-#part-sidebar-order .data-inbox .sidebar-module li
-{
-	margin-left                      : 20px;
-	text-align                       : left;
-}
-
-
-#part-sidebar-order .data-inbox table
-{
-	margin                           : 0 auto;
-	width                            : 90%;
-}
-
-#part-sidebar-order .data-inbox table table
-{
+	background-image                 : none;
 	border                           : none;
+	margin-bottom                    : 5px;
 }
 
-#part-sidebar-order .data-inbox table tbody tr td
+#sidebar-element-box fieldset legend
 {
-	background-color                 : #FFFFFF;
-	padding                          : 0 0 0 0;
-}
-
-#part-sidebar-order .data-inbox table tbody tr td .plugin-name
-{
+	display                          : block;
 	font-weight                      : bold;
+	padding                          : 8px 0 2px 10px;
 }
 
-#part-sidebar-order .data-inbox table .ib
+#sidebar-element-box fieldset>ul
 {
-	width                            : 12%;
-	padding                          : 0 0 0 0;
-	text-align                       : left;
+	border                           : 1px solid #DDDDDD;
+	height                           : 300px;
+	overflow-y                       : scroll;
 }
 
-#part-plugin-more
+#sidebar-element-box fieldset ul li.sidebar-module
 {
-	margin-bottom                    : 100px;
+	border                           : 1px solid #DDDDDD;
+	font-size                        : 1em;
+	padding                          : 10px;
+	margin                           : 2px;
+	overflow                         : hidden;
+}
+
+#sidebar-element-box fieldset ul li.sidebar-module .radio
+{
+	display                          : none;
 }
