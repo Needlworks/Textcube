@@ -73,6 +73,9 @@ if (!empty($owner)) {
 					foreach($xmls->selectNodes('/plugin/binding/adminMenu/viewMethods/method') as $adminViewMenu) {
 						$menutitle = htmlspecialchars(XMLStruct::getValueByLocale($adminViewMenu['title']));
 						if (empty($menutitle)) continue;
+						$menuposition = empty($adminViewMenu['position'][0]['.value'])?'menu-plugin':$adminViewMenu['position'][0]['.value'];
+						$menuhelpurl = empty($adminViewMenu['helpurl'][0]['.value'])?'':$adminViewMenu['helpurl'][0]['.value'];
+						
 						if (!isset($adminViewMenu['handler'][0]['.value'])) continue;
 						$viewhandler = htmlspecialchars($adminViewMenu['handler'][0]['.value']);	
 						if (empty($viewhandler)) continue;
@@ -90,7 +93,7 @@ if (!empty($owner)) {
 						}
 								
 						$adminMenuMappings[$plugin . '/' . $viewhandler] 
-							= array('plugin' => $plugin, 'title' => $menutitle, 'handler' => $viewhandler, 'params' => $params);
+							= array('plugin' => $plugin, 'title' => $menutitle,'position' => $menuposition , 'handler' => $viewhandler, 'params' => $params , 'helpurl'=>$menuhelpurl);
 					}
 				}
 				
@@ -211,6 +214,8 @@ function handleSidebars(& $sval, & $obj) {
 	
 	$sidebarCount = count($obj->sidebarBasicModules);
 	$sidebarAllOrders = getSidebarModuleOrderData($sidebarCount);
+	
+	var_dump( $sidebarAllOrders);
 	
 	for ($i=0; $i<$sidebarCount; $i++) {
 		$str = "";
