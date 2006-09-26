@@ -215,8 +215,6 @@ function handleSidebars(& $sval, & $obj) {
 	$sidebarCount = count($obj->sidebarBasicModules);
 	$sidebarAllOrders = getSidebarModuleOrderData($sidebarCount);
 	
-	var_dump( $sidebarAllOrders);
-	
 	for ($i=0; $i<$sidebarCount; $i++) {
 		$str = "";
 		if ((!is_null($sidebarAllOrders)) && ((!is_null($sidebarAllOrders[$i])))) {
