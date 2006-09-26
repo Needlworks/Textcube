@@ -317,6 +317,20 @@
 
 /* Sidebar ***************************************************************************************/
 
+#sidebar-preview-mode
+{
+	background-image                 : none;
+	border                           : none;
+	margin-top                       : 30px;
+	text-align                       : center;
+}
+
+#sidebar-preview-mode a
+{
+	border                           : 1px solid #DDDDDD;
+	padding                          : 3px 5px;
+}
+
 #sidebar-box
 {
 	float                            : left;
@@ -338,6 +352,7 @@
 
 #sidebar-box .section h4
 {
+	font-size                        : 1em;
 	margin                           : 7px 0 0 10px;
 }
 
@@ -349,6 +364,7 @@
 #sidebar-box .section ul li.sidebar-module
 {
 	border                           : 1px solid #DDDDDD;
+	cursor                           : move;
 	padding                          : 10px;
 	margin                           : 2px;
 	overflow                         : hidden;
@@ -399,11 +415,21 @@
 
 #sidebar-element-box fieldset ul li.sidebar-module
 {
+	/*background-color                 : #C9C9C9;
+	background-image                 : url('./image/bg_sidebar_item.png');
+	background-position              : 3px 3px;
+	background-repeat                : no-repeat;*/
 	border                           : 1px solid #DDDDDD;
+	cursor                           : move;
 	font-size                        : 1em;
 	padding                          : 10px;
 	margin                           : 2px;
 	overflow                         : hidden;
+}
+
+#sidebar-element-box fieldset ul li.sidebar-module *
+{
+	font-size                        : 1em;
 }
 
 #sidebar-element-box fieldset ul li.sidebar-module .radio

@@ -1,87 +1,28 @@
 @charset "utf-8";
 
-/* Select ****************************************************************************************/
+/* Sidebar ***************************************************************************************/
 
-#part-skin-list .section .information table,
-#part-skin-current .section .information table
+#sidebar-box
 {
-	margin-top                       : -160px;
-	width                            : 750px;
+	height                           : 656px;
 }
 
-#part-skin-current .section .information .button-box .edit-button
+#sidebar-element-box fieldset ul
 {
-	left                             : -114px;
-	position                         : absolute;
-	top                              : 325px;
-	width                            : 60px;
+	border                           : 1px solid #DDDDDD;
+	height                           : 300px;
+	overflow-y                       : scroll;
 }
 
-#part-skin-list .section .information .button-box .preview-button
+#sidebar-element-box fieldset ul ul
 {
-	left                             : -152px;
-	position                         : absolute;
-	top                              : 325px;
-	width                            : 60px;
+	border                           : none;
+	height                           : auto;
+	overflow-y                       : inherit;
 }
 
-#part-skin-list .section .information .button-box .apply-button
+#sidebar-element-box fieldset ul li.sidebar-module
 {
-	left                             : -77px;
-	position                         : absolute;
-	top                              : 325px;
-	width                            : 60px;
-}
-
-#part-skin-list .caption,
-#part-skin-more .caption
-{
-	margin-top                       : 20px;
-}
-
-/* Setting ***************************************************************************************/
-
-#part-skin-setting fieldset
-{
-	padding                          : 2px 0 0 0 !important;
-}
-
-#part-skin-setting fieldset dl
-{
-	border-top                       : 1px solid #DDDDDD !important;
-}
-
-#part-skin-setting dl dt
-{
-	top                              : 0 !important;
-}
-
-/* Tree -----------------------------------------------------------------------------------------*/
-
-#property-box
-{
-	border-top                       : none;
-}
-
-#property-box dl
-{
-	border-top                       : 1px solid #DDDDDD !important;
-}
-
-#property-box dl dt
-{
-	padding-top                      : 0 !important;
-}
-
-/* plugin ****************************************************************************************/
-
-#part-sidebar-plugins .data-subbox
-{
-	padding-top                      : 0.4em;
-	padding-bottom                   : 0;
-}
-
-#activate-status-line
-{
-	bottom                           : 0.3em;
+	overflow                         : hidden;
+	width                            : 210px;
 }
