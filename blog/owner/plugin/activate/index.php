@@ -8,26 +8,7 @@ $IV = array(
 );
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
-
-if ($_POST['scope'] == "sidebar-basic") {
-	$_POST['name'] = "%{$_POST['name']}%";
-	$sidebarOrder = explode("|", getUserSetting('sidebarOrder'));
-	if (!in_array($_POST['name'], $sidebarOrder))
-		array_push($sidebarOrder, $_POST['name']);
-	setUserSetting('sidebarOrder', implode("|", $sidebarOrder));
+if (!empty($_POST['name']) && activatePlugin($_POST['name']))
 	respondResultPage(0);
-} else {
-	$xmls = new XMLStruct();
-	$xmls->open(file_get_contents(ROOT . "/plugins/{$_POST['name']}/index.xml"));
-	if ($xmls->getValue('/plugin/scope') == "sidebar") {
-		$sidebarOrder = explode("|", getUserSetting('sidebarOrder'));
-		if (!in_array($_POST['name'], $sidebarOrder))
-			array_push($sidebarOrder, $_POST['name']);
-		setUserSetting('sidebarOrder', implode("|", $sidebarOrder));
-	}
-	
-	if (!empty($_POST['name']) && activatePlugin($_POST['name']))
-		respondResultPage(0);
-	respondResultPage(1);
-}
+respondResultPage(1);
 ?>
