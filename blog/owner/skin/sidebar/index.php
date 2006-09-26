@@ -238,7 +238,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 			if (function_exists($handler)) {
 			
 ?>
-										<li class="sidebar-module sidebar-plugin-module" >
+										<li class="sidebar-module sidebar-plugin-module" id="sidebar-element-<?php echo "{$i}-{$j}";?>">
 											<?php echo $sidebarPluginArray[$sidbarPluginIndex]['display'], '::', $sidebarPluginArray[$sidbarPluginIndex]['title'];?>
 											<div class="button-box">
 <?php
@@ -305,7 +305,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 
 foreach ($sortedArray as $nowKey) {
 ?>
-										<li class="sidebar-module">
+										<li class="sidebar-module" id="<?php echo "add-sidebar-element-{$nowKey['identifier']}";?>">
 											<h4><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey['title'];?>"><?php echo $nowKey['title'];?></label></h4>
 											<div><?php echo pretty_dress($nowKey['body']);?></div>
 										</li>
@@ -323,7 +323,7 @@ foreach ($sortedArray as $nowKey) {
 // 사이드바 플러그인 모듈을 리스트에 포함시킨다.
 foreach ($sidebarPluginArray as $nowKey) {
 ?>
-										<li class="sidebar-module">
+										<li class="sidebar-module" id="<?php echo "add-sidebar-module-{$nowKey['identifier']}";?>">
 											<input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey;?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label>
 										</li>
 <?php
@@ -348,6 +348,11 @@ foreach ($sidebarPluginArray as $nowKey) {
 		dojo.dnd.HtmlDragSource.call(this, node, type);
 	}
 	dojo.inherits(DragPanel, dojo.dnd.HtmlDragSource);
+
+	DragPanelAdd = function(node, type) {
+		dojo.dnd.HtmlDragSource.call(this, node, type);
+	}
+	dojo.inherits(DragPanelAdd, dojo.dnd.HtmlDragSource);
 	
 	DropPanel = function(node, type) {
 		dojo.dnd.HtmlDropTarget.call(this, node, type);
@@ -355,6 +360,65 @@ foreach ($sidebarPluginArray as $nowKey) {
 	dojo.inherits(DropPanel, dojo.dnd.HtmlDropTarget);
 	
 	var globalChker = true;
+
+	dojo.lang.extend(DropPanel, {
+		onDrop: function(e) {
+			this.parentMethod = DropPanel.superclass.onDrop;
+			var retVal = this.parentMethod(e);
+			delete this.parentMethod;
+			
+			if ((retVal == true) && (globalChker == true)) {
+				var targetSidebar = this.domNode.sidebar;
+				var targetPosition = 0;
+				var sourceSidebar = e.dragObject.domNode.sidebarNumber;
+				var sourcePostion = e.dragObject.domNode.modulePos;
+				
+				var prevNode = e.dragObject.domNode.previousSibling;
+				while (prevNode != null) {
+					if (prevNode.className.indexOf("sidebar-module") != -1) break;
+					prevNode = prevNode.previousSibling;
+				}
+				if (prevNode != null) {
+					targetPosition = prevNode.modulePos + 1;
+				}
+				
+				e.dragObject.domNode.sidebarNumber = targetSidebar;
+				
+				var requestURL = "<?php echo $blogURL;?>/owner/skin/sidebar/order?sidebarNumber=" + sourceSidebar + "&targetSidebarNumber=" + targetSidebar + "&modulePos=" + sourcePostion + "&targetPos=" + targetPosition;
+				
+				var request = new HTTPRequest("POST", requestURL);
+				request.onSuccess = function () {
+				}
+				request.onError = function () {
+					globalChker = false;
+				}
+				request.onVerify = function () {
+					return true;
+				}
+				request.send();
+				reordering();
+			}
+			return retVal;
+		}
+	});
+
+	function reordering() {
+		var pos = 0;
+		var pNode = null;
+		
+<?php
+		for ($i=0; $i<$sidebarCount; $i++) {
+			echo "pNode = document.getElementById('sidebar-ul-{$i}').firstChild;";
+?>
+			pos = 0;
+			while (pNode != null) {
+				if (pNode.className.indexOf("sidebar-module") != -1) pNode.modulePos = pos++;
+				pNode = pNode.nextSibling;
+			}
+<?php
+		}
+?>
+	}
 	
 	function initPages()
 	{
@@ -368,7 +432,7 @@ foreach ($sidebarPluginArray as $nowKey) {
  			}
 		}
 		inputs = document.getElementsByTagName("div");
-		for (i=0; i < inputs.length; ) {
+		for (i=0; i < inputs.length;) {
 			if (inputs[i].className == 'button-box') {
 				inputs[i].parentNode.removeChild(inputs[i]);
 			} else {
@@ -376,16 +440,25 @@ foreach ($sidebarPluginArray as $nowKey) {
  			}
 		}
 
-
 <?php
 for ($i=0; $i<$sidebarCount; $i++) {
 	echo "new DropPanel(document.getElementById('sidebar-ul-{$i}'), [\"sidebar\"]);";
+	echo "document.getElementById('sidebar-ul-{$i}').sidebar = {$i};";
 	$orderConfig = $sidebarConfig[$i];
 	for ($j=0; $j<count($orderConfig); $j++) {
-		if ($orderConfig[$j]['type'] == 1) { // skin text
-			echo "new DragPanel(document.getElementById('sidebar-element-{$i}-{$j}'), [\"sidebar\"]);";
-		}	
+		echo "new DragPanel(document.getElementById('sidebar-element-{$i}-{$j}'), [\"sidebar\"]);";
+		echo "document.getElementById('sidebar-element-{$i}-{$j}').sidebarNumber = {$i};";
+		echo "document.getElementById('sidebar-element-{$i}-{$j}').modulePos = {$j};";
 	}
+}
+
+foreach ($sortedArray as $nowKey) {
+	echo "new DragPanelAdd(document.getElementById('add-sidebar-element-{$nowKey['identifier']}'), [\"sidebar\"]);";
+	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').indentifire = 'module{$nowKey['identifier']}';";
+}
+foreach ($sidebarPluginArray as $nowKey) {
+	echo "new DragPanelAdd(document.getElementById('add-sidebar-modue-{$nowKey['identifier']}'), [\"sidebar\"]);";
+	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').indentifire = 'module{$nowKey['identifier']}';";
 }
 ?>
 
