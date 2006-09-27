@@ -33,9 +33,36 @@ function correctImagePath($match ){
 	return str_replace( $match[1],  $serviceURL . "/skin/{$skinSetting['skin']}/" . $match[1], $match[0]);;
 }
 
+function getBlogContentForSideBar()
+{
+	global $owner, $blog, $blogURL, $database, $service, $stats, $skinSetting;
+
+	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
+	global $pd_recentComment, $pd_recentTrackback, $pd_link;
+	
+	$categories = getCategories($owner);
+	$totalPosts = getEntriesTotalCount($owner);
+	
+	$pd_category = getCategoriesView($totalPosts, $categories, isset($category) ? $category : true);
+	$pd_categoryXhtml = getCategoriesView($totalPosts, $categories, isset($category) ? $category : true, true);
+	$pd_archive = getArchives($owner);
+	$pd_calendar = getCalendarView(getCalendar($owner, true));
+	$pd_tags = getRandomTags($owner);
+	$pd_notices = getNotices($owner);
+	$pd_recentEntry = getRecentEntries($owner);
+	$pd_recentComment = getRecentComments($owner);
+	$pd_recentTrackback = getRecentTrackbacks($owner);
+	$pd_link = getLinks($owner);
+}
+
+
 function pretty_dress($view)
 {
 	global $owner, $blog, $blogURL, $database, $service, $stats, $skinSetting;
+	
+	/* local static */
+	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
+	global $pd_recentComment, $pd_recentTrackback, $pd_link;
 	
 	if (isset($_REQUEST['safe'])) {
 		// safe mode
@@ -69,23 +96,21 @@ function pretty_dress($view)
 	dress('search_onclick_submit', "try{window.location.href='$blogURL/search/' + document.getElementsByName('search')[0].value.replaceAll('%', '%25'); return false;}catch(e){}", $searchView);
 	dress('search', $searchView, $view);
 	
-	$totalPosts = getEntriesTotalCount($owner);
-	$categories = getCategories($owner);
-	dress('category', getCategoriesView($totalPosts, $categories, isset($category) ? $category : true), $view);
-	dress('category_list', getCategoriesView($totalPosts, $categories, isset($category) ? $category : true, true), $view);
+	dress('category', $pd_category, $view);
+	dress('category_list', $pd_categoryXhtml, $view);
 	dress('count_total', $stats['total'], $view);
 	dress('count_today', $stats['today'], $view);
 	dress('count_yesterday', $stats['yesterday'], $view);
 	
 	list($view, $archiveView) = Skin::cutSkinTag($view, 'archive_rep');
-	dress('archive_rep', getArchivesView(getArchives($owner), $archiveView), $view);
-	dress('calendar', getCalendarView(getCalendar($owner, true)), $view);
+	dress('archive_rep', getArchivesView($pd_archive, $archiveView), $view);
+	dress('calendar', $pd_calendar, $view);
 	list($view, $randomView) = Skin::cutSkinTag($view, 'random_tags');
-	dress('random_tags', getRandomTagsView(getRandomTags($owner), $randomView), $view);
+	dress('random_tags', getRandomTagsView($pd_tags, $randomView), $view);
 	
 	list($view, $recentNoticeItem) = Skin::cutSkinTag($view, 'rct_notice_rep');	
 	list($view, $noticeView) = Skin::cutSkinTag($view, 'rct_notice');
-	$notices = getNotices($owner);
+	$notices = $pd_notices;
 	if (sizeof($notices) == 0) {
 		$notices = array( array('title' => _t('공지 제목'), 'id' => -1));
 	}
@@ -102,13 +127,13 @@ function pretty_dress($view)
 	}
 	
 	list($view, $recentEntry) = Skin::cutSkinTag($view, 'rctps_rep');	
-	dress('rctps_rep', getRecentEntriesView(getRecentEntries($owner), $recentEntry), $view);
+	dress('rctps_rep', getRecentEntriesView($pd_recentEntry, $recentEntry), $view);
 	list($view, $recentComments) = Skin::cutSkinTag($view, 'rctrp_rep');	
-	dress('rctrp_rep', getRecentCommentsView(getRecentComments($owner), $recentComments), $view);
+	dress('rctrp_rep', getRecentCommentsView($pd_recentComment, $recentComments), $view);
 	list($view, $recentTrackback) = Skin::cutSkinTag($view, 'rcttb_rep');	
-	dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($owner), $recentTrackback), $view);
+	dress('rcttb_rep', getRecentTrackbacksView($pd_recentTrackback, $recentTrackback), $view);
 	list($view, $s_link_rep) = Skin::cutSkinTag($view, 'link_rep');	
-	dress('link_rep', getLinksView(getLinks($owner), $s_link_rep), $view);
+	dress('link_rep', getLinksView($pd_link, $s_link_rep), $view);
 	dress('rss_url', "$blogURL/rss", $view);
 	dress('owner_url', "$blogURL/owner", $view);
 	dress('tattertools_name', TATTERTOOLS_NAME, $view);
@@ -157,6 +182,8 @@ for ($i=0; $i<count($sidebarMappings); $i++) {
 $skin = new Skin($skinSetting['skin']);
 $usedSidebarBasicModule = array();
 $sidebarCount = count($skin->sidebarBasicModules);
+
+getBlogContentForSideBar();
 
 if ($sidebarCount == 0) {
 ?>
