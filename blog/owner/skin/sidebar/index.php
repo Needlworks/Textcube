@@ -464,11 +464,10 @@ foreach ($sidebarPluginArray as $nowKey) {
 					targetPosition = prevNode.modulePos + 1;
 				}
 				
-				e.dragObject.domNode.sidebarNumber = targetSidebar;
-				
 				if (e.dragObject.domNode.ajaxtype == 'reorder') {
 					var sourceSidebar = e.dragObject.domNode.sidebarNumber;
 					var sourcePostion = e.dragObject.domNode.modulePos;
+					e.dragObject.domNode.sidebarNumber = targetSidebar;
 				
 					var requestURL = "<?php echo $blogURL;?>/owner/skin/sidebar/order?sidebarNumber=" + sourceSidebar + "&targetSidebarNumber=" + targetSidebar + "&modulePos=" + sourcePostion + "&targetPos=" + targetPosition;
 					
@@ -483,6 +482,8 @@ foreach ($sidebarPluginArray as $nowKey) {
 					}
 					request.send();
 				} else if (e.dragObject.domNode.ajaxtype == 'register') {
+					e.dragObject.domNode.sidebarNumber = targetSidebar;
+				
 					var requestURL = "<?php echo $blogURL;?>/owner/skin/sidebar/register?sidebarNumber=" + targetSidebar + "&modulePos=" + targetPosition + "&moduleId=" + e.dragObject.domNode.identifier;
 
 					var request = new HTTPRequest("POST", requestURL);
@@ -534,7 +535,18 @@ foreach ($sidebarPluginArray as $nowKey) {
 ?>
 			pos = 0;
 			while (pNode != null) {
-				if ((pNode.nodeType != 3/* TEXT_NODE */) && (pNode.className.indexOf("sidebar-module") != -1)) pNode.modulePos = pos++;
+				if ((pNode.nodeType != 3/* TEXT_NODE */) && (pNode.className.indexOf("sidebar-module") != -1)) { 
+					pNode.modulePos = pos++;
+					
+					var p2Node = pNode.firstChild;
+					while (p2Node != null) {
+						if ((p2Node.tagName != null) && (p2Node.tagName.toLowerCase() == 'a')) break;
+						p2Node = p2Node.nextSibling;
+					}
+					if (p2Node != null) {
+						p2Node.href = "sidebar/delete/?sidebarNumber=" + pNode.sidebarNumber + "&modulePos=" + pNode.modulePos;
+					}
+				}
 				pNode = pNode.nextSibling;
 			}
 <?php
