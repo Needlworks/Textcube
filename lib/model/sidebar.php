@@ -57,8 +57,7 @@ function deleteSidebarModuleOrderData($dataArray, $sidebarNumber, $modulePos) {
 	if (!isset($dataArray[$sidebarNumber]))
 		$dataArray[$sidebarNumber] = array();
 	
-	array_pick($dataArray[$sidebarNumber], $modulePos);
-	sort($dataArray[$sidebarNumber]);
+	array_splice($dataArray[$sidebarNumber], $modulePos, 1);
 	
 	return $dataArray;
 }
