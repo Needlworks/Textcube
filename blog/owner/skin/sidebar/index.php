@@ -250,7 +250,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 			}
 ?>
 											
-												<a href="sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;targetSidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.jpg" border="0" alt="<?php echo _t('삭제');?>" /></a>
+												<a href="sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.jpg" border="0" alt="<?php echo _t('삭제');?>" /></a>
 											</div>
 											<div><?php echo pretty_dress($skin->sidebarBasicModules[$skini][$skinj]['body']);?></div>
 										</li>
@@ -267,7 +267,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 			
 ?>
 										<li class="sidebar-module sidebar-plugin-module" id="sidebar-element-<?php echo "{$i}-{$j}";?>">
-											<?php echo $sidebarPluginArray[$sidbarPluginIndex]['display'], '::', $sidebarPluginArray[$sidbarPluginIndex]['title'];?>
+											<h5><?php echo $sidebarPluginArray[$sidbarPluginIndex]['display'], '::', $sidebarPluginArray[$sidbarPluginIndex]['title'];?></h5>
 											<div class="button-box">
 <?php
 				if ($j == 0) {
@@ -290,7 +290,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 <?php
 				}
 ?>
-												<a href="sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;targetSidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.jpg" border="0" alt="<?php echo _t('삭제');?>" /></a>
+												<a href="sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.jpg" border="0" alt="<?php echo _t('삭제');?>" /></a>
 												<!-- TODO : sidebar plugin settting -->									
 											</div>
 										</li>
@@ -391,6 +391,37 @@ foreach ($sidebarPluginArray as $nowKey) {
 		dojo.dnd.HtmlDragSource.call(this, node, type);
 		this.dragClass = "ajax-floating-panel";
 		this.opacity = 0.9;
+		
+		var pNode = this.domNode.firstChild;
+		while (pNode != null) {
+			if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'h5')) break;
+			pNode = pNode.nextSibling;
+		}
+		if (pNode != null) {
+			pNode.style.display = 'inline';
+			if (dojo.render.html.ie55||dojo.render.html.ie60) {
+				pNode.style.styleFloat = 'left';
+			} else {
+				pNode.style.setProperty('float', 'left', '');
+			}
+			var newNode = document.createElement('a');
+			newNode.href = "sidebar/delete/?sidebarNumber=<?php echo 1;?>&modulePos=<?php echo 1;?>";
+			newNode.title = "<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"
+			newNode.innerHTML = '<img style="float:right" src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.jpg" border="0" alt="<?php echo _t('삭제');?>" />';
+			if (pNode.nextSibling != null) {		
+				this.domNode.insertBefore(newNode,pNode.nextSibling);
+			} else {
+				this.domNode.appendChild(newNode);
+			}
+		}
+		var pNode = this.domNode.firstChild;
+		while (pNode != null) {
+			if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'div')) break;
+			pNode = pNode.nextSibling;
+		}
+		if (pNode != null) {
+			pNode.style.clear = 'both';
+		}
 	}
 	dojo.inherits(DragPanel, dojo.dnd.HtmlDragSource);
 
