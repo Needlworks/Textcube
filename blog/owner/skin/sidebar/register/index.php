@@ -16,10 +16,6 @@ $sidebarCount = count($skin->sidebarBasicModules);
 
 $module = explode(':', $_REQUEST['moduleId']);
 
-var_dump($_REQUEST['sidebarNumber']);
-var_dump($_REQUEST['modulePos']);
-var_dump($module);
-
 if (($module !== false) && (count($module) == 3) && 
 	($_REQUEST['sidebarNumber'] >= 0) 	&& ($_REQUEST['sidebarNumber'] < $sidebarCount))
 {
