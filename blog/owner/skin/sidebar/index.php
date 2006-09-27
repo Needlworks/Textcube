@@ -164,7 +164,7 @@ function pretty_dress($view)
 								
 								<a id="safe-mode-button" class="button" href="<?php echo $blogURL; ?>/owner/skin/sidebar?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a>
 								<a id="tag-mode-button" class="button" href="<?php echo $blogURL; ?>/owner/skin/sidebar?tag" title="<?php echo _t('실제 블로그 사이드바에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a>
-								<a id="init-button" class="button" class="button" href="sidebar/initialize" onclick="if (!confirm('<?php echo _t('정말 사이드바 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('사이드바의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>						
+								<a id="init-button" class="button" href="sidebar/initialize" onclick="if (!confirm('<?php echo _t('정말 사이드바 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('사이드바의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>						
 							</fieldset>
 							
 <?php
@@ -330,6 +330,21 @@ for ($i=0; $i<$sidebarCount; $i++) {
 		);
 	}
 }
+for ($i=0;$i<$sidebarCount; $i++){
+	for ($j=0; $j<count($sidebarConfig[$i]) ; $j++) {
+		if ($sidebarConfig[$i][$j]['type'] == 1) {
+			$identifier = implode(':', array(1, $sidebarConfig[$i][$j]['id'], $sidebarConfig[$i][$j]['parameters']));
+			$pos = 0;
+			while ($pos<count($sortedArray)) {
+				if ($sortedArray[$pos]['identifier'] == $identifier) break;
+				$pos++;
+			}
+			if ($pos<count($sortedArray)) {
+				array_splice($sortedArray, $pos, 1);
+			}
+		}
+	}
+}
 
 foreach ($sortedArray as $nowKey) {
 ?>
@@ -395,7 +410,8 @@ foreach ($sidebarPluginArray as $nowKey) {
 
 	dojo.lang.extend(DropPanel, {
 		onDrop: function(e) {
-			if (e.dragObject.domNode.ajaxtype == 'register') {
+			if ((e.dragObject.domNode.ajaxtype == 'register') && (e.dragObject.domNode.moduleCategory == 'plugin')) 
+			{
 				e.dragObject.domNode = e.dragObject.domNode.cloneNode(true);
 			}
 			this.parentMethod = DropPanel.superclass.onDrop;
@@ -530,11 +546,13 @@ foreach ($sortedArray as $nowKey) {
 	echo "new DragPanelAdd(document.getElementById('add-sidebar-element-{$nowKey['identifier']}'), [\"sidebar\"]);";
 	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').identifier = '{$nowKey['identifier']}';";
 	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').ajaxtype = 'register';";
+	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').moduleCategory = 'sidebar_element';";
 }
 foreach ($sidebarPluginArray as $nowKey) {
-	echo "new DragPanelAdd(document.getElementById('add-sidebar-modue-{$nowKey['identifier']}'), [\"sidebar\"]);";
+	echo "new DragPanelAdd(document.getElementById('add-sidebar-module-{$nowKey['identifier']}'), [\"sidebar\"]);";
 	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').identifier = '{$nowKey['identifier']}';";
 	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').ajaxtype = 'register';";
+	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').moduleCategory = 'plugin';";
 }
 ?>
 
