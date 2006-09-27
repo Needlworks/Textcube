@@ -392,6 +392,8 @@ foreach ($sidebarPluginArray as $nowKey) {
 		this.dragClass = "ajax-floating-panel";
 		this.opacity = 0.9;
 		
+		var sourceSidebar = this.domNode.sidebarNumber;
+		var sourcePostion = this.domNode.modulePos;
 		var pNode = this.domNode.firstChild;
 		while (pNode != null) {
 			if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'h5')) break;
@@ -405,7 +407,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 				pNode.style.setProperty('float', 'left', '');
 			}
 			var newNode = document.createElement('a');
-			newNode.href = "sidebar/delete/?sidebarNumber=<?php echo 1;?>&modulePos=<?php echo 1;?>";
+			newNode.href = "sidebar/delete/?sidebarNumber=" + sourceSidebar + "&modulePos=" + sourcePostion;
 			newNode.title = "<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"
 			newNode.innerHTML = '<img style="float:right" src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.jpg" border="0" alt="<?php echo _t('삭제');?>" />';
 			if (pNode.nextSibling != null) {		
@@ -562,28 +564,28 @@ foreach ($sidebarPluginArray as $nowKey) {
 
 <?php
 for ($i=0; $i<$sidebarCount; $i++) {
-	echo "new DropPanel(document.getElementById('sidebar-ul-{$i}'), [\"sidebar\"]);";
 	echo "document.getElementById('sidebar-ul-{$i}').sidebar = {$i};";
+	echo "new DropPanel(document.getElementById('sidebar-ul-{$i}'), [\"sidebar\"]);";
 	$orderConfig = $sidebarConfig[$i];
 	for ($j=0; $j<count($orderConfig); $j++) {
-		echo "new DragPanel(document.getElementById('sidebar-element-{$i}-{$j}'), [\"sidebar\"]);";
 		echo "document.getElementById('sidebar-element-{$i}-{$j}').sidebarNumber = {$i};";
 		echo "document.getElementById('sidebar-element-{$i}-{$j}').modulePos = {$j};";
 		echo "document.getElementById('sidebar-element-{$i}-{$j}').ajaxtype = 'reorder';";
+		echo "new DragPanel(document.getElementById('sidebar-element-{$i}-{$j}'), [\"sidebar\"]);";
 	}
 }
 
 foreach ($sortedArray as $nowKey) {
-	echo "new DragPanelAdd(document.getElementById('add-sidebar-element-{$nowKey['identifier']}'), [\"sidebar\"]);";
 	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').identifier = '{$nowKey['identifier']}';";
 	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').ajaxtype = 'register';";
 	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').moduleCategory = 'sidebar_element';";
+	echo "new DragPanelAdd(document.getElementById('add-sidebar-element-{$nowKey['identifier']}'), [\"sidebar\"]);";
 }
 foreach ($sidebarPluginArray as $nowKey) {
-	echo "new DragPanelAdd(document.getElementById('add-sidebar-module-{$nowKey['identifier']}'), [\"sidebar\"]);";
 	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').identifier = '{$nowKey['identifier']}';";
 	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').ajaxtype = 'register';";
 	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').moduleCategory = 'plugin';";
+	echo "new DragPanelAdd(document.getElementById('add-sidebar-module-{$nowKey['identifier']}'), [\"sidebar\"]);";
 }
 ?>
 
