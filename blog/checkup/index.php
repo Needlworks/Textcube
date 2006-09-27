@@ -276,10 +276,10 @@ if (!doesExistTable($database['prefix'] . 'UserSettings')) { // Since 1.0.7
 		) TYPE=MyISAM
 	";
 	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query)) {
-		DBQuery::execute("INSERT INTO {$database['prefix']}UserSetting(user, name, value) SELECT owner, 'rowsPerPage', rowsPerPage FROM {$database['prefix']}Personalization");
-		DBQuery::execute("INSERT INTO {$database['prefix']}UserSetting(user, name, value) SELECT owner, 'readerPannelVisibility', readerPannelVisibility FROM {$database['prefix']}Personalization");
-		DBQuery::execute("INSERT INTO {$database['prefix']}UserSetting(user, name, value) SELECT owner, 'readerPannelHeight', readerPannelHeight FROM {$database['prefix']}Personalization");
-		DBQuery::execute("INSERT INTO {$database['prefix']}UserSetting(user, name, value) SELECT owner, 'lastVisitNotifiedPage', lastVisitNotifiedPage FROM {$database['prefix']}Personalization");
+		DBQuery::execute("INSERT INTO {$database['prefix']}UserSettings(user, name, value) SELECT owner, 'rowsPerPage', rowsPerPage FROM {$database['prefix']}Personalization");
+		DBQuery::execute("INSERT INTO {$database['prefix']}UserSettings(user, name, value) SELECT owner, 'readerPannelVisibility', readerPannelVisibility FROM {$database['prefix']}Personalization");
+		DBQuery::execute("INSERT INTO {$database['prefix']}UserSettings(user, name, value) SELECT owner, 'readerPannelHeight', readerPannelHeight FROM {$database['prefix']}Personalization");
+		DBQuery::execute("INSERT INTO {$database['prefix']}UserSettings(user, name, value) SELECT owner, 'lastVisitNotifiedPage', lastVisitNotifiedPage FROM {$database['prefix']}Personalization");
 		DBQuery::execute("DROP TABLE {$database['prefix']}Personalization");
 		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
 	} else {
