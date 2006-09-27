@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="en">Banner Plug-in</title>
+  <title xml:lang="ko">배너출력</title>
+  <link>http://www.tattertools.com/</link>
+  <version>1.0</version>
+  <description xml:lang="en">Display banner on sidebar.</description>
+  <description xml:lang="ko">사이드바에 배너를 출력해 줍니다.</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
+  <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
+  <scope>sidebar</scope>
+  <requirements>
+    <tattertools>1.1</tattertools>
+  </requirements>
+  <binding>
+    <sidebar title="ImageBanner" handler="SB_Banner_withImage">
+      <params>
+        <param>
+          <name>imgsrc</name>
+          <type>string</type>
+        </param>
+        <param>
+          <name>href</name>
+          <type>string</type>
+        </param>
+      </params>
+    </sidebar>
+  </binding>
+</plugin>
