@@ -349,7 +349,7 @@ for ($i=0;$i<$sidebarCount; $i++){
 foreach ($sortedArray as $nowKey) {
 ?>
 										<li class="sidebar-module" id="<?php echo "add-sidebar-element-{$nowKey['identifier']}";?>">
-											<h4><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey['title'];?>"><?php echo $nowKey['title'];?></label></h4>
+											<h5><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey['title'];?>"><?php echo $nowKey['title'];?></label></h5>
 											<div><?php echo pretty_dress($nowKey['body']);?></div>
 										</li>
 <?php
@@ -367,7 +367,7 @@ foreach ($sortedArray as $nowKey) {
 foreach ($sidebarPluginArray as $nowKey) {
 ?>
 										<li class="sidebar-module" id="<?php echo "add-sidebar-module-{$nowKey['identifier']}";?>">
-											<input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey;?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label>
+											<h5><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey;?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label></h5>
 										</li>
 <?php
 }
@@ -387,14 +387,10 @@ foreach ($sidebarPluginArray as $nowKey) {
 	dojo.require("dojo.dnd.HtmlDragAndDrop");
 </script>
 <script type="text/javascript">
-	DragPanel = function(node, type) {
-		dojo.dnd.HtmlDragSource.call(this, node, type);
-		this.dragClass = "ajax-floating-panel";
-		this.opacity = 0.9;
-		
-		var sourceSidebar = this.domNode.sidebarNumber;
-		var sourcePostion = this.domNode.modulePos;
-		var pNode = this.domNode.firstChild;
+	function decorateDragPanel(node) {
+		var sourceSidebar = node.sidebarNumber;
+		var sourcePostion = node.modulePos;
+		var pNode = node.firstChild;
 		while (pNode != null) {
 			if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'h5')) break;
 			pNode = pNode.nextSibling;
@@ -411,12 +407,12 @@ foreach ($sidebarPluginArray as $nowKey) {
 			newNode.title = "<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"
 			newNode.innerHTML = '<img style="float:right" src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.jpg" border="0" alt="<?php echo _t('삭제');?>" />';
 			if (pNode.nextSibling != null) {		
-				this.domNode.insertBefore(newNode,pNode.nextSibling);
+				node.insertBefore(newNode,pNode.nextSibling);
 			} else {
-				this.domNode.appendChild(newNode);
+				node.appendChild(newNode);
 			}
 		}
-		var pNode = this.domNode.firstChild;
+		var pNode = node.firstChild;
 		while (pNode != null) {
 			if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'div')) break;
 			pNode = pNode.nextSibling;
@@ -424,6 +420,15 @@ foreach ($sidebarPluginArray as $nowKey) {
 		if (pNode != null) {
 			pNode.style.clear = 'both';
 		}
+	}
+
+	DragPanel = function(node, type) {
+		dojo.dnd.HtmlDragSource.call(this, node, type);
+		this.dragClass = "ajax-floating-panel";
+		this.opacity = 0.9;
+		
+		decorateDragPanel(this.domNode);
+		
 	}
 	dojo.inherits(DragPanel, dojo.dnd.HtmlDragSource);
 
@@ -440,12 +445,26 @@ foreach ($sidebarPluginArray as $nowKey) {
 	dojo.inherits(DropPanel, dojo.dnd.HtmlDropTarget);
 	
 	var globalChker = true;
+	var globalNewNodeCounter = 0;
 
 	dojo.lang.extend(DropPanel, {
 		onDrop: function(e) {
 			if ((e.dragObject.domNode.ajaxtype == 'register') && (e.dragObject.domNode.moduleCategory == 'plugin')) 
 			{
-				e.dragObject.domNode = e.dragObject.domNode.cloneNode(true);
+				var newNode = document.createElement(e.dragObject.domNode.tagName);
+				newNode.id = 'newDragPanel_' + globalNewNodeCounter++;
+				newNode.className = 'sidebar-module sidebar-plugin-module';
+				newNode.ajaxtype = 'register';
+				newNode.moduleCategory = e.dragObject.domNode.moduleCategory;
+				newNode.identifier = e.dragObject.domNode.identifier;
+				newNode.innerHTML = e.dragObject.domNode.innerHTML;
+				e.dragObject.domNode = newNode;
+				
+				new DragPanel(newNode, ["sidebar"]);
+			}
+			if ((e.dragObject.domNode.ajaxtype == 'register') && (e.dragObject.domNode.moduleCategory == 'sidebar_element')) 
+			{
+				decorateDragPanel(e.dragObject.domNode);
 			}
 			this.parentMethod = DropPanel.superclass.onDrop;
 			var retVal = this.parentMethod(e);
@@ -483,7 +502,8 @@ foreach ($sidebarPluginArray as $nowKey) {
 					request.send();
 				} else if (e.dragObject.domNode.ajaxtype == 'register') {
 					e.dragObject.domNode.sidebarNumber = targetSidebar;
-				
+					e.dragObject.domNode.ajaxtype = 'reorder';
+					
 					var requestURL = "<?php echo $blogURL;?>/owner/skin/sidebar/register?sidebarNumber=" + targetSidebar + "&modulePos=" + targetPosition + "&moduleId=" + e.dragObject.domNode.identifier;
 
 					var request = new HTTPRequest("POST", requestURL);
@@ -496,6 +516,8 @@ foreach ($sidebarPluginArray as $nowKey) {
 						return true;
 					}
 					request.send();
+				} else {
+					alert(e.dragObject.domNode.ajaxtype);
 				}
 				reordering();
 			}
