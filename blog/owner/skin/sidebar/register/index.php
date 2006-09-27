@@ -15,6 +15,11 @@ $skin = new Skin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
 
 $module = explode(':', $_REQUEST['moduleId']);
+
+var_dump($_REQUEST['sidebarNumber']);
+var_dump($_REQUEST['modulePos']);
+var_dump($module);
+
 if (($module !== false) && (count($module) == 3) && 
 	($_REQUEST['sidebarNumber'] >= 0) 	&& ($_REQUEST['sidebarNumber'] < $sidebarCount))
 {
@@ -25,5 +30,6 @@ if (($module !== false) && (count($module) == 3) &&
 	}
 }
 
-header("Location: ".$_SERVER['HTTP_REFERER']);
+if ($_SERVER['REQUEST_METHOD'] != 'POST')
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 ?>

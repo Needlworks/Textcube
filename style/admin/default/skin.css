@@ -368,6 +368,7 @@
 	padding                          : 10px;
 	margin                           : 2px;
 	overflow                         : hidden;
+	max-height                       : 100px;
 }
 
 #sidebar-box .section ul li.sidebar-module *
@@ -436,3 +437,18 @@
 {
 	display                          : none;
 }
+
+/* classes for AJAX *******************************************************************************/
+.ajax-floating-panel
+{
+	border                           : 1px solid #DDDDDD;
+	cursor                           : move;
+	padding                          : 10px;
+	margin                           : 2px;
+	overflow                         : hidden;
+
+
+
+	width                            : 230px;
+} /* same as #sidebar-box .section ul li.sidebar-module */ /* plus width of "#sidebar-box .section" */
+

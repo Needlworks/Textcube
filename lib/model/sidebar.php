@@ -16,10 +16,10 @@ function addSidebarModuleOrderData($dataArray, $sidebarNumber, $modulePos, $newM
 	if (!isset($dataArray[$sidebarNumber]) || empty($dataArray[$sidebarNumber]))
 		$dataArray[$sidebarNumber] = array();
 	
-	if ($modulePos <= 0) {
+	if ($modulePos < 0) {
 		$modulePos = count($dataArray[$sidebarNumber]);
-	} else if ($modulePos >= count($dataArray[$sidebarNumber])){
-		$modulePos = count($dataArray[$sidebarNumber]) - 1;
+	} else if ($modulePos > count($dataArray[$sidebarNumber])){
+		$modulePos = count($dataArray[$sidebarNumber]);
 	}
 	
 	if ($newModuleData[0] == 1) {

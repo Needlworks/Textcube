@@ -347,11 +347,15 @@ foreach ($sidebarPluginArray as $nowKey) {
 <script type="text/javascript">
 	DragPanel = function(node, type) {
 		dojo.dnd.HtmlDragSource.call(this, node, type);
+		this.dragClass = "ajax-floating-panel";
+		this.opacity = 0.9;
 	}
 	dojo.inherits(DragPanel, dojo.dnd.HtmlDragSource);
 
 	DragPanelAdd = function(node, type) {
 		dojo.dnd.HtmlDragSource.call(this, node, type);
+		this.dragClass = "ajax-floating-panel";
+		this.opacity = 0.9;
 	}
 	dojo.inherits(DragPanelAdd, dojo.dnd.HtmlDragSource);
 	
@@ -364,6 +368,9 @@ foreach ($sidebarPluginArray as $nowKey) {
 
 	dojo.lang.extend(DropPanel, {
 		onDrop: function(e) {
+			if (e.dragObject.domNode.ajaxtype == 'register') {
+				e.dragObject.domNode = e.dragObject.domNode.cloneNode(true);
+			}
 			this.parentMethod = DropPanel.superclass.onDrop;
 			var retVal = this.parentMethod(e);
 			delete this.parentMethod;
@@ -371,8 +378,6 @@ foreach ($sidebarPluginArray as $nowKey) {
 			if ((retVal == true) && (globalChker == true)) {
 				var targetSidebar = this.domNode.sidebar;
 				var targetPosition = 0;
-				var sourceSidebar = e.dragObject.domNode.sidebarNumber;
-				var sourcePostion = e.dragObject.domNode.modulePos;
 				
 				var prevNode = e.dragObject.domNode.previousSibling;
 				while (prevNode != null) {
@@ -385,21 +390,61 @@ foreach ($sidebarPluginArray as $nowKey) {
 				
 				e.dragObject.domNode.sidebarNumber = targetSidebar;
 				
-				var requestURL = "<?php echo $blogURL;?>/owner/skin/sidebar/order?sidebarNumber=" + sourceSidebar + "&targetSidebarNumber=" + targetSidebar + "&modulePos=" + sourcePostion + "&targetPos=" + targetPosition;
+				if (e.dragObject.domNode.ajaxtype == 'reorder') {
+					var sourceSidebar = e.dragObject.domNode.sidebarNumber;
+					var sourcePostion = e.dragObject.domNode.modulePos;
 				
-				var request = new HTTPRequest("POST", requestURL);
-				request.onSuccess = function () {
+					var requestURL = "<?php echo $blogURL;?>/owner/skin/sidebar/order?sidebarNumber=" + sourceSidebar + "&targetSidebarNumber=" + targetSidebar + "&modulePos=" + sourcePostion + "&targetPos=" + targetPosition;
+					
+					var request = new HTTPRequest("POST", requestURL);
+					request.onSuccess = function () {
+					}
+					request.onError = function () {
+						globalChker = false;
+					}
+					request.onVerify = function () {
+						return true;
+					}
+					request.send();
+				} else if (e.dragObject.domNode.ajaxtype == 'register') {
+					var requestURL = "<?php echo $blogURL;?>/owner/skin/sidebar/register?sidebarNumber=" + targetSidebar + "&modulePos=" + targetPosition + "&moduleId=" + e.dragObject.domNode.identifier;
+
+					var request = new HTTPRequest("POST", requestURL);
+					request.onSuccess = function () {
+					}
+					request.onError = function () {
+						globalChker = false;
+					}
+					request.onVerify = function () {
+						return true;
+					}
+					request.send();
 				}
-				request.onError = function () {
-					globalChker = false;
-				}
-				request.onVerify = function () {
-					return true;
-				}
-				request.send();
 				reordering();
 			}
 			return retVal;
+		},
+		
+		createDropIndicator: function() {
+			this.parentMethod = DropPanel.superclass.createDropIndicator;
+			var retVal = this.parentMethod();
+			delete this.parentMethod;
+			
+			with (this.dropIndicator.style) {
+				borderBottomWidth = "1px";
+				borderBottomColor = "black";
+				borderBottomStyle = "solid";
+				borderLeftWidth = "1px";
+				borderLeftColor = "black";
+				borderLeftStyle = "solid";
+				borderRightWidth = "1px";
+				borderRightColor = "black";
+				borderRightStyle = "solid";
+				height = "5px";
+				background = "silver";
+			};
+
+			return retVal;		
 		}
 	});
 
@@ -450,16 +495,19 @@ for ($i=0; $i<$sidebarCount; $i++) {
 		echo "new DragPanel(document.getElementById('sidebar-element-{$i}-{$j}'), [\"sidebar\"]);";
 		echo "document.getElementById('sidebar-element-{$i}-{$j}').sidebarNumber = {$i};";
 		echo "document.getElementById('sidebar-element-{$i}-{$j}').modulePos = {$j};";
+		echo "document.getElementById('sidebar-element-{$i}-{$j}').ajaxtype = 'reorder';";
 	}
 }
 
 foreach ($sortedArray as $nowKey) {
 	echo "new DragPanelAdd(document.getElementById('add-sidebar-element-{$nowKey['identifier']}'), [\"sidebar\"]);";
-	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').indentifire = 'module{$nowKey['identifier']}';";
+	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').identifier = '{$nowKey['identifier']}';";
+	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').ajaxtype = 'register';";
 }
 foreach ($sidebarPluginArray as $nowKey) {
 	echo "new DragPanelAdd(document.getElementById('add-sidebar-modue-{$nowKey['identifier']}'), [\"sidebar\"]);";
-	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').indentifire = 'module{$nowKey['identifier']}';";
+	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').identifier = '{$nowKey['identifier']}';";
+	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').ajaxtype = 'register';";
 }
 ?>
 
