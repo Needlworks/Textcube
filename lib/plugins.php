@@ -53,7 +53,15 @@ if (!empty($owner)) {
 				$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
 				foreach ($xmls->selectNodes('/plugin/binding/sidebar') as $sidebar) {
 					if (!empty($sidebar['.attributes']['handler'])) {
-						array_push($sidebarMappings, array('plugin' => $plugin, 'title' => $sidebar['.attributes']['title'], 'display' => $title, 'handler' => $sidebar['.attributes']['handler']));
+						// parameter parsing
+						$parameters = array();
+						if (isset($sidebar['params']) && isset($sidebar['params'][0]) && isset($sidebar['params'][0]['param'])) {
+							foreach($sidebar['params'][0]['param'] as $param) {
+								$parameter = array('name' => $param['name'][0]['.value'], 'type' => $param['type'][0]['.value'], 'title' => XMLStruct::getValueByLocale($param['title']));
+								array_push($parameters, $parameter);				
+							}
+						}
+						array_push($sidebarMappings, array('plugin' => $plugin, 'title' => $sidebar['.attributes']['title'], 'display' => $title, 'handler' => $sidebar['.attributes']['handler'], 'parameters' => $parameters));
 					}
 				}
 				unset($sidebar);

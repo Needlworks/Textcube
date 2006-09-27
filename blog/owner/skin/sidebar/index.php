@@ -175,7 +175,8 @@ for ($i=0; $i<count($sidebarMappings); $i++) {
 			'type' => 3, 'id' => $sidebarMappings[$i]['handler'],
 			'plugin' => $sidebarMappings[$i]['plugin'], 'title' =>$sidebarMappings[$i]['title'], 
 			'display' => $sidebarMappings[$i]['display'],
-			'identifier' => implode(':', array(3,$sidebarMappings[$i]['plugin'],$sidebarMappings[$i]['handler']))
+			'identifier' => implode(':', array(3,$sidebarMappings[$i]['plugin'],$sidebarMappings[$i]['handler'])),
+			'parameters' => $sidebarMappings[$i]['parameters']
 		);
 }
 
@@ -293,6 +294,22 @@ for ($i=0; $i<$sidebarCount; $i++) {
 												<a href="sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.jpg" border="0" alt="<?php echo _t('삭제');?>" /></a>
 												<!-- TODO : sidebar plugin settting -->									
 											</div>
+<?php 
+				$pluginparameters = $sidebarPluginArray[$sidbarPluginIndex]['parameters'];
+				if (count($pluginparameters) > 0) {
+					echo '<div>';
+?>
+												<input type="button" value="<?php echo _t('편집');?>" />
+													
+<?php 
+					echo '</div>';
+				}
+?>
+												<div>
+<?php
+												echo call_user_func($handler, $orderConfig[$j]['parameters']);
+?>
+												</div>
 										</li>
 <?php
 			}
@@ -368,6 +385,23 @@ foreach ($sidebarPluginArray as $nowKey) {
 ?>
 										<li class="sidebar-module" id="<?php echo "add-sidebar-module-{$nowKey['identifier']}";?>">
 											<h5><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey;?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label></h5>
+<?php 
+	$pluginparameters = $nowKey['parameters'];
+	if (count($pluginparameters) > 0) {
+		echo '<div>';
+?>
+											<input disabled="disabled" type="button" value="<?php echo _t('편집');?>" />
+													
+<?php 
+		echo '</div>';
+	}
+?>
+											<div>
+<?php
+	include_once (ROOT . "/plugins/{$nowKey['plugin']}/index.php");
+	echo call_user_func($nowKey['id'], array('preview' => ''));
+?>
+											</div>
 										</li>
 <?php
 }
@@ -414,11 +448,10 @@ foreach ($sidebarPluginArray as $nowKey) {
 		}
 		var pNode = node.firstChild;
 		while (pNode != null) {
-			if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'div')) break;
+			if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'div')) {
+				pNode.style.clear = 'both';
+			}
 			pNode = pNode.nextSibling;
-		}
-		if (pNode != null) {
-			pNode.style.clear = 'both';
 		}
 	}
 
@@ -458,6 +491,22 @@ foreach ($sidebarPluginArray as $nowKey) {
 				newNode.moduleCategory = e.dragObject.domNode.moduleCategory;
 				newNode.identifier = e.dragObject.domNode.identifier;
 				newNode.innerHTML = e.dragObject.domNode.innerHTML;
+				
+				var pNode = newNode.firstChild;
+				while (pNode != null) {
+					if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'div')) {
+						pNode = pNode.firstChild;
+						break;
+					}
+					pNode = pNode.nextSibling;
+				}
+				while (pNode != null) {
+					if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'input')) {
+						pNode.removeAttribute('disabled');
+					}
+					pNode = pNode.nextSibling;
+				}
+				
 				e.dragObject.domNode = newNode;
 				
 				new DragPanel(newNode, ["sidebar"]);

@@ -144,7 +144,7 @@ function _getCategoriesSkin(){
 	return $skin;
 }
 
-function SB_Category_New($target) {
+function SB_Category_New($parameters) {
 	global $configVal, $owner, $category;
 
 	$data = fetchConfigVal($configVal);
@@ -152,7 +152,7 @@ function SB_Category_New($target) {
 	$viewForm = (is_null($data['viewForm'])) ? 0 : $data['viewForm'];
 	$category = (isset($category)) ? $category : true;
 
-	return $target._getCategoriesView(_getCategories($owner), $category, _getCategoriesSkin(), $viewForm);
+	return _getCategoriesView(_getCategories($owner), $category, _getCategoriesSkin(), $viewForm);
 }
 
 function SB_Category_New_Head($target) {
