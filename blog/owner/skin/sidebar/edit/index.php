@@ -73,6 +73,7 @@ ob_start();
 if (count($params) > 0) {
 	foreach($params as $item) {
 		if ($data['type'] != 'invalid') {
+			echo '<div>';
 			echo '<label ';
 			echo 'for="' , $item['name'] , '" ';
 			echo ' >';
@@ -84,6 +85,7 @@ if (count($params) > 0) {
 			echo 'name="' , $item['name'] , '" ';
 			echo 'value="' , $item['value'] , '" ';
 			echo ' />';
+			echo '</div>';
 		}
 	}
 }
@@ -102,9 +104,9 @@ echo '<form action="setPlugin?sidebarNumber=', $sidebarNumber, '&modulePos=', $m
 echo $result;
 
 if ($ajaxcall == false) {
-	echo '<input type="submit" value="' , _t('전송') , '" >';
+	echo '<input class="button" type="submit" value="' , _t('전송') , '" >';
 } else {
-	echo '<input type="submit" value="' , _t('전송') , '" onclick="',$ajaxmethod,'; return false">';
+	echo '<input class="button" type="submit" value="' , _t('전송') , '" onclick="',$ajaxmethod,'; return false">';
 }
 echo '</form>';
 

@@ -457,3 +457,42 @@
 	width                            : 230px;
 } /* same as #sidebar-box .section ul li.sidebar-module */ /* plus width of "#sidebar-box .section" */
 
+.ajax-popup-window
+{
+	width                            : 40%;
+	background-color                 : White;
+	border                           : solid 1px black;
+	padding                          : 20px;
+}
+
+.ajax-popup-window form
+{
+	text-align                       : center;
+}
+
+
+.ajax-popup-window div
+{
+	line-height                      : 2em;
+	display                          : block;
+	text-align                       : right;
+}
+
+.ajax-popup-window input
+{
+	display                          : inline;
+	width                            : 70%;
+}
+
+.ajax-popup-window label
+{
+	float                            : left;
+}
+
+.ajax-popup-window .button
+{
+	width                            : 10%;
+	text-align                       : center;
+	line-height                      : 2em;
+}
+

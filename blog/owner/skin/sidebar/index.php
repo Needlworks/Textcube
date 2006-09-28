@@ -705,8 +705,18 @@ dojo.widget.defineWidget(
 				dlg.setContent(this._request.responseText);
 				var btn = document.createElement('input');
 				btn.type = 'button';
-				btn.value = 'close';
-				dlg.domNode.appendChild(btn);
+				btn.value = '<?php echo _t('닫기');?>';
+				btn.className = 'button';
+				
+				var pNode = dlg.domNode.firstChild;
+				while (pNode != null) {
+					if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'form')) {
+						pNode.appendChild(btn);
+						break;
+					}
+					pNode = pNode.nextSibling;
+				}
+				
 				
 				dlg.setCloseControl(btn);
 				dlg.show();
@@ -760,6 +770,7 @@ dojo.widget.defineWidget(
 	function initPages()
 	{
 		dlg = dojo.widget.createWidget("popupWindow", {}, document.getElementById('body-skin').firstChild, 'after');
+		dlg.domNode.className = 'ajax-popup-window';
 		var inputs = document.getElementsByTagName("input");
 		for (i=0; i < inputs.length;) {
 			if (inputs[i].className == 'radio') {
