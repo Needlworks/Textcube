@@ -361,6 +361,11 @@
 	display                          : none;
 }
 
+#sidebar-box .section ul
+{
+	min-height                       : 200px;
+}
+
 #sidebar-box .section ul li.sidebar-module
 {
 	border                           : 1px solid #DDDDDD;

@@ -539,7 +539,11 @@ foreach ($sidebarPluginArray as $nowKey) {
 					var requestURL = "<?php echo $blogURL;?>/owner/skin/sidebar/register?sidebarNumber=" + targetSidebar + "&modulePos=" + targetPosition + "&moduleId=" + e.dragObject.domNode.identifier;
 
 					var request = new HTTPRequest("POST", requestURL);
+					request.sidebar = targetSidebar;
+					request.modulepos = targetPosition;
+					request.moduleCategory = e.dragObject.domNode.moduleCategory;
 					request.onSuccess = function () {
+						if (this.moduleCategory == 'plugin') previewPlugin(this.sidebar, this.modulepos);
 					}
 					request.onError = function () {
 						globalChker = false;
@@ -665,7 +669,7 @@ dojo.widget.defineWidget(
 			pNode = pNode.nextSibling;
 		}
 		if (pNode != null) {
-			var requestURL = "sidebar/setPlugin?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + "&ajaxcall";
+			var requestURL = "sidebar/setPlugin?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + "&ajaxcall=true";
 			pNode = pNode.firstChild;
 			while (pNode != null) {
 				if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'input') && pNode.type.toLowerCase() == 'text') {
@@ -674,7 +678,10 @@ dojo.widget.defineWidget(
 				pNode = pNode.nextSibling;
 			}
 			var request = new HTTPRequest("POST", requestURL);
+			request.sidebar = sidebar;
+			request.modulepos = modulepos;
 			request.onSuccess = function () {
+				previewPlugin(this.sidebar, this.modulepos);
 				return true;
 			}
 			request.onError = function () {
@@ -704,6 +711,42 @@ dojo.widget.defineWidget(
 				dlg.setCloseControl(btn);
 				dlg.show();
 			}
+		}
+		request.onError = function () {
+			globalChker = false;
+		}
+		request.onVerify = function () {
+			return true;
+		}
+		request.send();
+	}
+	
+	function previewPlugin(sidebar, modulepos) {
+		var requestURL = "sidebar/preview?sidebarNumber=" + sidebar + "&modulePos=" + modulepos;
+		
+		var request = new HTTPRequest("GET", requestURL);
+		request.sidebar = sidebar;
+		request.modulepos = modulepos
+		request.onSuccess = function () {
+			var pNode = document.getElementById('sidebar-ul-' + this.sidebar);
+			if (pNode != null) pNode = pNode.firstChild;
+			
+			while (pNode != null) {
+				if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'li')) {
+					if (this.modulepos <= 0) break;
+					this.modulepos--;
+				}
+				pNode = pNode.nextSibling;
+			}
+			
+			if (pNode != null) pNode = pNode.lastChild;
+			while (pNode != null) {
+				if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'div')) {
+					break;
+				}
+				pNode = pNode.previousSibling;
+			}
+			if (pNode != null) pNode.innerHTML = this._request.responseText;
 		}
 		request.onError = function () {
 			globalChker = false;
