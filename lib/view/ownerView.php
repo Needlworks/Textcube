@@ -1284,7 +1284,7 @@ function printEntryEditorProperty() {
 												
 												<div class="group">
 													<div class="title"><?php echo _t('파일');?></div>
-													<dl class="line">
+													<dl class="file-list-line line">
 														<dd>
 															<select id="propertyiMazing_list" class="file-list" size="10" onchange="editor.listChanged('propertyiMazing_list')" onclick="editor.listChanged('propertyiMazing_list')"></select>
 														</dd>
