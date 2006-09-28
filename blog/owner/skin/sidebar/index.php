@@ -307,7 +307,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 ?>
 												<div>
 <?php
-												echo call_user_func($handler, $orderConfig[$j]['parameters']);
+				echo pretty_dress(call_user_func($handler, $orderConfig[$j]['parameters']));
 ?>
 												</div>
 										</li>
@@ -389,7 +389,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 											<div>
 <?php
 	include_once (ROOT . "/plugins/{$nowKey['plugin']}/index.php");
-	echo call_user_func($nowKey['id'], array('preview' => ''));
+	echo pretty_dress(call_user_func($nowKey['id'], array('preview' => '')));
 ?>
 											</div>
 										</li>
@@ -716,7 +716,7 @@ dojo.widget.defineWidget(
 	
 	function initPages()
 	{
-		dlg = dojo.widget.createWidget("popupWindow", {}, document.getElementById('temp-wrap'), 'after');
+		dlg = dojo.widget.createWidget("popupWindow", {}, document.getElementById('body-skin').firstChild, 'after');
 		var inputs = document.getElementsByTagName("input");
 		for (i=0; i < inputs.length;) {
 			if (inputs[i].className == 'radio') {
