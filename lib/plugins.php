@@ -153,7 +153,7 @@ if (!empty($owner)) {
 }
 
 function fireEvent($event, $target = null, $mother = null, $condition = true) {
-	global $service, $eventMappings, $pluginURL,  $configMappings , $configVal;
+	global $service, $eventMappings, $pluginURL, $configMappings, $configVal;
 	if (!$condition)
 		return $target;
 	if (!isset($eventMappings[$event]))

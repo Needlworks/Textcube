@@ -22,26 +22,27 @@
 	// %s = 앞의 0을 표시하지 않는 초. [0~59]
 
 function convertDateFormat($argTarget, $argType) {
-	global $pluginURL;
+	global $pluginURL, $configVal;
 	
 	$temp = explode('/', $pluginURL);
 	array_shift($temp);
 	array_shift($temp);
 	
 	include ROOT.'/'.implode('/', $temp)."/language.php";
+	$tempArray = fetchConfigVal($configVal);
 	
 	$rgDateFormat = array();
-	$rgDateFormat['archive date'] = array("language" => "english", "format" => "{%Y|}{%M}");											// 저장소 날짜.
-	$rgDateFormat['calendar head'] = array("language" => "english", "format" => "{%m }{%Y}");											// 달력 머릿날짜.
-	$rgDateFormat['comment date'] = array("language" => "japanese", "format" => "{%Y年}{ %M月}{ %D日}{ %H時}{ %I分}");					// 댓글 날짜.
-	$rgDateFormat['comment list date'] = array("language" => "korean", "format" => "{%Y년}{ %M월}{ %D일}");								// 댓글 목록 날짜.
-	$rgDateFormat['guestbook comment date'] = array("language" => "korean", "format" => "{%Y년}{ %M월}{ %D일}{ %H시}{ %I분}");			// 방명록 날짜.
-	$rgDateFormat['list date'] = array("language" => "korean", "format" => "{%Y년}{ %M월}{ %D일}");										// 목록 날짜.
-	$rgDateFormat['notice date'] = array("language" => "korean", "format" => "{%Y년}{ %M월}{ %D일}{ %H시}{ %I분}{ %S초}");				// 공지 날짜.
-	$rgDateFormat['post date'] = array("language" => "english", "format" => "{%M}{ %o,}{ %Y}{ %H}{:%I}{:%S}");							// 포스트 날짜.
-	$rgDateFormat['recent comment date'] = array("language" => "english", "format" => "{%M}{ %d,}{ %Y}{ %H시}{ %I분}{ %S초}");			// 최근 댓글 날짜.
-	$rgDateFormat['recent trackback date'] = array("language" => "english", "format" => "{%o }%M");										// 최근 걸린 글 날짜.
-	$rgDateFormat['trackback date'] = array("language" => "english", "format" => "%M{ %d,} %Y{ %H}{:%I}{:%S}");							// 걸린 글 날짜.
+	$rgDateFormat['archive date'] = array("language" => $tempArray['language'], "format" => $tempArray['archive_date']);
+	$rgDateFormat['calendar head'] = array("language" => $tempArray['language'], "format" => $tempArray['calendar_date']);
+	$rgDateFormat['comment date'] = array("language" => $tempArray['language'], "format" => $tempArray['comment_date']);
+	$rgDateFormat['comment list date'] = array("language" => $tempArray['language'], "format" => $tempArray['comment_list_date']);
+	$rgDateFormat['guestbook date'] = array("language" => $tempArray['language'], "format" => $tempArray['guestbook_date']);
+	$rgDateFormat['list date'] = array("language" => $tempArray['language'], "format" => $tempArray['archive_date']);
+	$rgDateFormat['notice date'] = array("language" => $tempArray['language'], "format" => $tempArray['notice date']);
+	$rgDateFormat['post date'] = array("language" => $tempArray['language'], "format" => $tempArray['tempArray']);
+	$rgDateFormat['recent comment date'] = array("language" => $tempArray['language'], "format" => $tempArray['recent_comment_date']);
+	$rgDateFormat['recent trackback date'] = array("language" => $tempArray['language'], "format" => $tempArray['recent_trackback_date']);
+	$rgDateFormat['trackback date'] = array("language" => $tempArray['language'], "format" => $tempArray['trackback_date']);
 	
 	if (isset($rgDateFormat[$argType]))
 		$strLanguage = $rgDateFormat[$argType]['language'];
@@ -75,7 +76,7 @@ function convertDateFormat($argTarget, $argType) {
 			}
 		} else {
 			$rgCustomIdentifier['%M'] = $strMonth;
-			$rgCustomIdentifier['%m'] = eregi_replace("^0", "", $strYear);
+			$rgCustomIdentifier['%m'] = eregi_replace("^0", "", $strMonth);
 		}
 	}
 	if ($strDay != false) {
@@ -139,7 +140,7 @@ function convertDateLangCD($argTarget, $argMother) {
 }
 
 function convertDateLangGCD($argTarget, $argMother) {
-	return convertDateFormat($argTarget, "guestbook comment date");
+	return convertDateFormat($argTarget, "guestbook date");
 }
 
 function convertDateLangAD($argTarget, $argMother) {
