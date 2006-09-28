@@ -16,4 +16,16 @@ function SB_Banner_withImage($parameters)
 	return $retVal;
 }
 
+function SB_Banner_withCode($parameters)
+{
+	if (isset($parameters['preview'])) {
+		// preview mode
+		$retval = '<html codes~>';
+		return htmlspecialchars($retval);
+	}
+	if (!isset($parameters['text'])) return '';
+	$text = $parameters['text'];
+	return $text;
+}
+
 ?>
