@@ -476,6 +476,7 @@
 	line-height                      : 2em;
 	display                          : block;
 	text-align                       : right;
+	clear                            : both;
 }
 
 .ajax-popup-window input
@@ -491,8 +492,9 @@
 
 .ajax-popup-window .button
 {
-	width                            : 10%;
+	width                            : 80px;
 	text-align                       : center;
 	line-height                      : 2em;
+	float                            : none;
 }
 
