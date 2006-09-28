@@ -672,8 +672,14 @@ dojo.widget.defineWidget(
 			var requestURL = "sidebar/setPlugin?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + "&ajaxcall=true";
 			pNode = pNode.firstChild;
 			while (pNode != null) {
-				if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'input') && pNode.type.toLowerCase() == 'text') {
-					requestURL += '&' + encodeURIComponent(pNode.name) + '=' + encodeURIComponent(pNode.value);
+				if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'div')) {
+					var p2Node = pNode.firstChild;
+					while (p2Node != null) {
+						if ((p2Node.tagName != null) && (p2Node.tagName.toLowerCase() == 'input') && p2Node.type.toLowerCase() == 'text') {
+							requestURL += '&' + encodeURIComponent(p2Node.name) + '=' + encodeURIComponent(p2Node.value);
+						}
+						p2Node = p2Node.nextSibling;
+					}
 				}
 				pNode = pNode.nextSibling;
 			}
