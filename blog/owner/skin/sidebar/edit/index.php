@@ -1,6 +1,12 @@
 <?php
 define('ROOT', '../../../../..');
 
+$ajaxcall= false;
+if (isset($_REQUEST['ajaxcall'])) {
+	$ajaxcall= true;
+	$ajaxmethod = $_REQUEST['ajaxcall'];
+}
+
 $IV = array(
 	'REQUEST' => array(
 		'sidebarNumber' => array('int'),
@@ -9,7 +15,7 @@ $IV = array(
 	);
 
 require ROOT . '/lib/includeForOwner.php';
-//requireStrictRoute();
+requireStrictRoute();
 
 $skin = new Skin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
@@ -85,11 +91,26 @@ if (count($params) > 0) {
 $result = ob_get_contents();
 ob_end_clean();
 
-echo '<form action="" method="POST" >';
+if ($ajaxcall == false) {
+	require ROOT . '/lib/piece/owner/header3.php';
+	require ROOT . '/lib/piece/owner/contentMenu33.php';
+}
+
+
+echo '<form action="setPlugin?sidebarNumber=', $sidebarNumber, '&modulePos=', $modulePos, '" method="POST" >';
 
 echo $result;
 
-echo '<input type="submit" value="' , _t('전송') , '" >';
+if ($ajaxcall == false) {
+	echo '<input type="submit" value="' , _t('전송') , '" >';
+} else {
+	echo '<input type="submit" value="' , _t('전송') , '" onclick="',$ajaxmethod,'; return false">';
+}
 echo '</form>';
+
+if ($ajaxcall == false) {
+	require ROOT . '/lib/piece/owner/footer1.php';
+}
+
 
 ?>

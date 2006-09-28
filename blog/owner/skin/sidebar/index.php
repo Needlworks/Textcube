@@ -296,14 +296,14 @@ for ($i=0; $i<$sidebarCount; $i++) {
 											</div>
 <?php 
 				$pluginparameters = $sidebarPluginArray[$sidbarPluginIndex]['parameters'];
+				echo '<div>';
 				if (count($pluginparameters) > 0) {
-					echo '<div>';
 ?>
-												<input type="button" value="<?php echo _t('편집');?>" />
+												<a href="sidebar/edit?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>"><?php echo _t('편집');?></a>
 													
 <?php 
-					echo '</div>';
 				}
+				echo '</div>';
 ?>
 												<div>
 <?php
@@ -385,17 +385,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 ?>
 										<li class="sidebar-module" id="<?php echo "add-sidebar-module-{$nowKey['identifier']}";?>">
 											<h5><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey;?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label></h5>
-<?php 
-	$pluginparameters = $nowKey['parameters'];
-	if (count($pluginparameters) > 0) {
-		echo '<div>';
-?>
-											<input disabled="disabled" type="button" value="<?php echo _t('편집');?>" />
-													
-<?php 
-		echo '</div>';
-	}
-?>
+											<div></div>								
 											<div>
 <?php
 	include_once (ROOT . "/plugins/{$nowKey['plugin']}/index.php");
@@ -416,9 +406,17 @@ foreach ($sidebarPluginArray as $nowKey) {
 						</form>
 						
 
+<script type="text/javascript">
+	djConfig = {
+		parseWidgets: false, 
+		isDebug: true 
+	};
+</script>
 <script src="<?php echo $service['path'];?>/script/dojo/dojo.js" type="text/javascript"></script>
 <script type="text/javascript">
 	dojo.require("dojo.dnd.HtmlDragAndDrop");
+	dojo.require("dojo.widget.Parse");
+	dojo.require("dojo.widget.Dialog");	
 </script>
 <script type="text/javascript">
 	function decorateDragPanel(node) {
@@ -491,21 +489,6 @@ foreach ($sidebarPluginArray as $nowKey) {
 				newNode.moduleCategory = e.dragObject.domNode.moduleCategory;
 				newNode.identifier = e.dragObject.domNode.identifier;
 				newNode.innerHTML = e.dragObject.domNode.innerHTML;
-				
-				var pNode = newNode.firstChild;
-				while (pNode != null) {
-					if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'div')) {
-						pNode = pNode.firstChild;
-						break;
-					}
-					pNode = pNode.nextSibling;
-				}
-				while (pNode != null) {
-					if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'input')) {
-						pNode.removeAttribute('disabled');
-					}
-					pNode = pNode.nextSibling;
-				}
 				
 				e.dragObject.domNode = newNode;
 				
@@ -617,7 +600,21 @@ foreach ($sidebarPluginArray as $nowKey) {
 					if (p2Node != null) {
 						p2Node.href = "sidebar/delete/?sidebarNumber=" + pNode.sidebarNumber + "&modulePos=" + pNode.modulePos;
 					}
+					
+					if (pNode.moduleCategory == 'plugin') {
+						p2Node = pNode.firstChild;
+						while (p2Node != null) {
+							if ((p2Node.tagName != null) && (p2Node.tagName.toLowerCase() == 'div')) {
+								break;
+							}
+							p2Node = p2Node.nextSibling;
+						}
+						if (p2Node != null) {
+							p2Node.innerHTML = '<a onclick="editSidebarPlugin('+ pNode.sidebarNumber + ',' + pNode.modulePos + '); return false" ><?php echo _t('편집');?></a>';
+						}
+					}
 				}
+				
 				pNode = pNode.nextSibling;
 			}
 <?php
@@ -625,9 +622,101 @@ foreach ($sidebarPluginArray as $nowKey) {
 ?>
 	}
 	
+	var dlg;
+	
+dojo.widget.defineWidget(
+	"dojo.widget.popupWindow",
+	dojo.widget.html.Dialog,
+	{
+		isContainer: false, // can we contain other widgets?
+		templatePath: "",
+		loadContents: function() {
+			return;
+		},
+		setContent: function(/*String*/ data){
+			this.domNode.innerHTML = data;
+		},
+		placeDialog: function() {
+			var scroll_offset = dojo.html.getScrollOffset();
+			var viewport_size = dojo.html.getViewportSize();
+
+			// find the size of the dialog
+			var w = dojo.style.getOuterWidth(this.domNode);
+			var h = dojo.style.getOuterHeight(this.domNode);
+			if (w<200) w = 200;
+			if (h<200) h = 200;
+
+			var x = scroll_offset[0] + (viewport_size[0] - w)/2;
+			var y = scroll_offset[1] + (viewport_size[1] - h)/2;
+
+			with(this.domNode.style) {
+				left = x + "px";
+				top = y + "px";
+			}
+		}
+	});
+	
+	function submitSidebarPlugin(sidebar, modulepos) {
+		var pNode = dlg.domNode.firstChild;
+		while (pNode != null) {
+			if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'form')) {
+				break;
+			}
+			pNode = pNode.nextSibling;
+		}
+		if (pNode != null) {
+			var requestURL = "sidebar/setPlugin?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + "&ajaxcall";
+			pNode = pNode.firstChild;
+			while (pNode != null) {
+				if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'input') && pNode.type.toLowerCase() == 'text') {
+					requestURL += '&' + encodeURIComponent(pNode.name) + '=' + encodeURIComponent(pNode.value);
+				}
+				pNode = pNode.nextSibling;
+			}
+			var request = new HTTPRequest("POST", requestURL);
+			request.onSuccess = function () {
+				return true;
+			}
+			request.onError = function () {
+				globalChker = false;
+			}
+			request.onVerify = function () {
+				return true;
+			}
+			request.send();
+		}
+
+		dlg.hide();
+	}
+	
+	function editSidebarPlugin(sidebar, modulepos) {
+		var requestURL = "sidebar/edit?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + "&ajaxcall=submitSidebarPlugin(" + sidebar + "," + modulepos + ")";
+
+		var request = new HTTPRequest("GET", requestURL);
+		request.onSuccess = function () {
+			if (dlg != null) {
+				dlg.setContent(this._request.responseText);
+				var btn = document.createElement('input');
+				btn.type = 'button';
+				btn.value = 'close';
+				dlg.domNode.appendChild(btn);
+				
+				dlg.setCloseControl(btn);
+				dlg.show();
+			}
+		}
+		request.onError = function () {
+			globalChker = false;
+		}
+		request.onVerify = function () {
+			return true;
+		}
+		request.send();
+	}
+	
 	function initPages()
 	{
-	
+		dlg = dojo.widget.createWidget("popupWindow", {}, document.getElementById('temp-wrap'), 'after');
 		var inputs = document.getElementsByTagName("input");
 		for (i=0; i < inputs.length;) {
 			if (inputs[i].className == 'radio') {
@@ -654,6 +743,11 @@ for ($i=0; $i<$sidebarCount; $i++) {
 		echo "document.getElementById('sidebar-element-{$i}-{$j}').sidebarNumber = {$i};";
 		echo "document.getElementById('sidebar-element-{$i}-{$j}').modulePos = {$j};";
 		echo "document.getElementById('sidebar-element-{$i}-{$j}').ajaxtype = 'reorder';";
+		
+		if ($orderConfig[$j]['type'] == 3) {
+			echo "document.getElementById('sidebar-element-{$i}-{$j}').moduleCategory = 'plugin';";
+		}
+		
 		echo "new DragPanel(document.getElementById('sidebar-element-{$i}-{$j}'), [\"sidebar\"]);";
 	}
 }
@@ -673,7 +767,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 ?>
 
 
-
+	reordering();
 	}
 	dojo.addOnLoad(initPages);
 		
