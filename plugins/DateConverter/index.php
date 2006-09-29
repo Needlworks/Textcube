@@ -21,14 +21,17 @@
 	// %S = 앞의 0을 표시하는 초. [00~59]
 	// %s = 앞의 0을 표시하지 않는 초. [0~59]
 
+include_once "language.php";
+
 function convertDateFormat($argTarget, $argType) {
 	global $pluginURL, $configVal;
+	
+	if ($configVal == null) return $argTarget;
 	
 	$temp = explode('/', $pluginURL);
 	array_shift($temp);
 	array_shift($temp);
 	
-	include ROOT.'/'.implode('/', $temp)."/language.php";
 	$tempArray = fetchConfigVal($configVal);
 	
 	$rgDateFormat = array();
@@ -38,8 +41,8 @@ function convertDateFormat($argTarget, $argType) {
 	$rgDateFormat['comment list date'] = array("language" => $tempArray['language'], "format" => $tempArray['comment_list_date']);
 	$rgDateFormat['guestbook date'] = array("language" => $tempArray['language'], "format" => $tempArray['guestbook_date']);
 	$rgDateFormat['list date'] = array("language" => $tempArray['language'], "format" => $tempArray['archive_date']);
-	$rgDateFormat['notice date'] = array("language" => $tempArray['language'], "format" => $tempArray['notice date']);
-	$rgDateFormat['post date'] = array("language" => $tempArray['language'], "format" => $tempArray['tempArray']);
+	$rgDateFormat['notice date'] = array("language" => $tempArray['language'], "format" => $tempArray['notice_date']);
+	$rgDateFormat['post date'] = array("language" => $tempArray['language'], "format" => $tempArray['post_date']);
 	$rgDateFormat['recent comment date'] = array("language" => $tempArray['language'], "format" => $tempArray['recent_comment_date']);
 	$rgDateFormat['recent trackback date'] = array("language" => $tempArray['language'], "format" => $tempArray['recent_trackback_date']);
 	$rgDateFormat['trackback date'] = array("language" => $tempArray['language'], "format" => $tempArray['trackback_date']);
