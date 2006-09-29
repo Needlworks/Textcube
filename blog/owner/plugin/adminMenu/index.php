@@ -44,8 +44,13 @@ if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))
 		
 		$pluginURL = "{$service['path']}/plugins/{$plugin}";
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
-		if (function_exists($handler))
+		if (function_exists($handler)) {
+			if( !empty( $configMappings[$plugin]['config'] ) ) 				
+				$configVal = getCurrentSetting($plugin);
+			else
+				$configVal ='';
 			call_user_func($handler);
+		}
 	}
 }
 require ROOT . '/lib/piece/owner/footer1.php';

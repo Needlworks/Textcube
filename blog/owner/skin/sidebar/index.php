@@ -265,7 +265,10 @@ for ($i=0; $i<$sidebarCount; $i++) {
 			include_once (ROOT . "/plugins/{$plugin}/index.php");
 			$sidbarPluginIndex = $plugin . '/' . $handler;
 			if (function_exists($handler)) {
-			
+				if( !empty( $configMappings[$plugin]['config'] ) ) 				
+					$configVal = getCurrentSetting($plugin);
+				else
+					$configVal ='';
 ?>
 										<li class="sidebar-module sidebar-plugin-module" id="sidebar-element-<?php echo "{$i}-{$j}";?>">
 											<h5><?php echo $sidebarPluginArray[$sidbarPluginIndex]['display'], '::', $sidebarPluginArray[$sidbarPluginIndex]['title'];?></h5>

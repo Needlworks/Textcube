@@ -214,7 +214,7 @@ function handleCenters($mapping) {
 
 // 저장된 사이드바 정렬 순서 정보를 가져온다.
 function handleSidebars(& $sval, & $obj) {
-	global $service, $pluginURL;
+	global $service, $pluginURL, $configVal, $configMappings;
 	$newSidebarAllOrders = array(); 
 	// [sidebar id][element id](type, id, parameters)
 	// type : 1=skin text, 2=default handler, 3=plug-in
@@ -245,6 +245,11 @@ function handleSidebars(& $sval, & $obj) {
 						$str .= "[##_temp_sidebar_element_{$i}_{$j}_##]";
 						$parameters = $currentSidebarOrder[$j]['parameters'];
 						$pluginURL = "{$service['path']}/plugins/{$plugin}";
+						if( !empty( $configMappings[$plugin]['config'] ) ) 				
+							$configVal = getCurrentSetting($plugin);
+						else
+							$configVal ='';
+						
 						if (function_exists($handler)) {
 							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
 						} else {
@@ -273,7 +278,7 @@ function handleSidebars(& $sval, & $obj) {
 }
 
 function handleDataSet( $plugin , $DATA ){
-	global $configMappings, $activePlugins, $service, $pluginURL;
+	global $configMappings, $activePlugins, $service, $pluginURL, $configMapping, $configVal;
 	$xmls = new XMLStruct();
 	if( ! $xmls->open($DATA) ) {
 		unset($xmls);	
@@ -285,8 +290,13 @@ function handleDataSet( $plugin , $DATA ){
 	if( !empty( $configMappings[$plugin]['dataValHandler'] ) ){
 		$pluginURL = "{$service['path']}/plugins/{$plugin}";
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
-		if( function_exists( $configMappings[$plugin]['dataValHandler'] ) )
+		if( function_exists( $configMappings[$plugin]['dataValHandler'] ) ) {
+			if( !empty( $configMappings[$plugin]['config'] ) ) 				
+				$configVal = getCurrentSetting($plugin);
+			else
+				$configVal ='';
 			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , $DATA);
+		}
 		if( true !== $reSetting )	
 			return array( 'error' => '9', 'customError' => $reSetting)	;
 	}
@@ -319,7 +329,7 @@ function fetchConfigVal( $DATA ){
 
 
 function handleConfig( $plugin){
-	global $service , $typeSchema, $pluginURL;
+	global $service , $typeSchema, $pluginURL, $configMappings, $configVal;
 	
 	$typeSchema = array(
 		'text' 
@@ -344,8 +354,13 @@ function handleConfig( $plugin){
 			$handler = $config['.attributes']['manifestHandler'] ;
 			$oldconfig = $config;
 			include_once (ROOT . "/plugins/$plugin/index.php");
-			if (function_exists($handler))
+			if (function_exists($handler)) {
+				if( !empty( $configMappings[$plugin]['config'] ) ) 				
+					$configVal = getCurrentSetting($plugin);
+				else
+					$configVal ='';
 				$manifest = call_user_func( $handler , $plugin );
+			}
 			$newXmls = new XMLStruct();
 			if($newXmls->open( $manifest) ){	 
 				unset( $config );
