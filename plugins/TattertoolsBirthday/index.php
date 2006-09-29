@@ -14,7 +14,7 @@ function TattertoolsBirthday_TattertoolsBirthday($target) {
 	if ($dDay == 0)
 		$message = '<span class="congratu">탄생을 축하합니다!</span>';
 	else
-		$message = "앞으로 {$dDay}일 남음";
+		$message = "<span>앞으로 {$dDay}일 남음</span>";
 	ob_start();
 ?>
       <div class="listbox">

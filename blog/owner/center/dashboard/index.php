@@ -9,11 +9,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (isset($_POST['rel'])) $_GET['rel'] = $_POST['rel'];
 }
 
+if (isset($_REQUEST['edit'])) {
 ?>
 <script src="<?php echo $service['path'];?>/script/dojo/dojo.js" type="text/javascript"></script>
 <script type="text/javascript">
 	dojo.require("dojo.dnd.HtmlDragAndDrop");
 </script>
+<?php
+}
+?>
 
 <script type="text/javascript">
 <?php
@@ -45,6 +49,14 @@ if (false) {
 <form method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
 	<div id="part-center-dashboard" class="part">
 		<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
+<?php
+if (!isset($_REQUEST['edit'])) {
+?>
+		<a href="<?php echo $blogURL;?>/owner/center/dashboard?edit"><?php echo _t('편집');?></a>
+<?php
+}
+?>
+		
 <?php
 
 $layout = getUserSetting('centerLayout', '');
@@ -120,10 +132,17 @@ foreach ($newlayout as $mapping) {
 		<div id="<?php echo $mapping['plugin'];?>" class="section">
 			<h3>
 				<?php echo $mapping['title'];?> 
-				<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $blogURL;?>/owner/center/dashboard?pos=<?php echo $positionCounter ?>&amp;rel=-1">
+<?php
+		if (isset($_REQUEST['edit'])) {
+?>
+				
+				<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $blogURL;?>/owner/center/dashboard?pos=<?php echo $positionCounter ?>&amp;rel=-1&edit">
 					<?php echo _T("위로"); ?></a>
-				<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $blogURL;?>/owner/center/dashboard?pos=<?php echo $positionCounter ?>&amp;rel=1">
+				<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $blogURL;?>/owner/center/dashboard?pos=<?php echo $positionCounter ?>&amp;rel=1&edit">
 					<?php echo _T("아래로"); ?></a>
+<?php
+		}
+?>
 			</h3>
 			<?php echo handleCenters($mapping);?>
 		</div>
@@ -140,6 +159,10 @@ if ($existSeperator == false) {
 ?>
 	</div>
 </form>
+
+<?php
+if (isset($_REQUEST['edit'])) {
+?>
 
 <script type="text/javascript">
 	DragPanel = function(node, type) {
@@ -232,6 +255,10 @@ foreach ($newlayout as $mapping) {
 ?>
 
 </script>
+
+<?php
+	}
+?>
 						
 <?php
 require ROOT . '/lib/piece/owner/footer1.php';
