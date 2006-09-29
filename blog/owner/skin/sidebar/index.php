@@ -716,7 +716,7 @@ dojo.widget.defineWidget(
 				dlg.setContent(this._request.responseText);
 				var btn = document.createElement('input');
 				btn.type = 'button';
-				btn.value = '<?php echo _t('닫기');?>';
+				btn.value = '<?php echo _t('취소');?>';
 				btn.className = 'button';
 				
 				var pNode = dlg.domNode.firstChild;

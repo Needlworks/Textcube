@@ -95,6 +95,8 @@ $referredstart = $record['referred'];
 
 $keywordlist = array_sort($keywordlist,'desc');
 $keywordkeys = array_keys($keywordlist);
+$beforekeywordvalue = '';
+$rank = 0;
 for ($i=0; $i<sizeof($keywordlist); $i++) {
 	$keywordkey = $keywordkeys[$i];
 	$keywordvalue = $keywordlist[$keywordkey];
