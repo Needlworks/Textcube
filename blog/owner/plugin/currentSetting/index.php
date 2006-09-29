@@ -39,6 +39,7 @@ if( is_null($result) )	respondNotFoundPage();
 			request.onSuccess = function () {
 				PM.removeRequest(this);
 				PM.showMessage("<?php echo _t('저장 완료');?>", "center", "bottom");
+				window.close();
 			};		
 			request.onError = function () {
 				PM.removeRequest(this);

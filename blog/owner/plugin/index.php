@@ -232,12 +232,22 @@ while ($plugin = $dir->read()) {
 							"description" => htmlspecialchars($xmls->getValue('/plugin/description[lang()]')),
 							"authorLink" => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
 							"author" => htmlspecialchars($xmls->getValue('/plugin/author[lang()]')),
-							"scope" => htmlspecialchars($xmls->getValue('/plugin/scope')),
+							"scope" => array(),
 							"config" => $xmls->doesExist('/plugin/binding/config'),
 							"width" => $xmls->getAttribute('/plugin/binding/config/window', 'width'),
 							"height" => $xmls->getAttribute('/plugin/binding/config/window', 'height')
 							);
-			
+		if ($xmls->doesExist('/plugin/binding/adminMenu'))
+			array_push($pluginAttrs[$pluginDir]['scope'], 'admin');
+		if ($xmls->doesExist('/plugin/binding/tag'))
+			array_push($pluginAttrs[$pluginDir]['scope'], 'blog');
+		if ($xmls->doesExist('/plugin/binding/center'))
+			array_push($pluginAttrs[$pluginDir]['scope'], 'dashboard');
+		if ($xmls->doesExist('/plugin/binding/listener'))
+			array_push($pluginAttrs[$pluginDir]['scope'], 'global');
+		if ($xmls->doesExist('/plugin/binding/sidebar'))
+			array_push($pluginAttrs[$pluginDir]['scope'], 'sidebar');
+
 		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
 	}
 }
@@ -266,11 +276,11 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	$height = $pluginAttrs[$pluginDir]['height']?$pluginAttrs[$pluginDir]['height']:400;
 	$active = in_array($pluginDir, $activePlugins);
 	
-	if (empty($scope))
-		$scope = 'none';
-	
+	if (count($scope) == 0)
+		$scope = array('none');
+		
 	if ($_POST['scopeType'] != 'all')
-		if ($scope != $_POST['scopeType'])
+		if (!in_array($_POST['scopeType'], $scope))
 			continue;
 	if (!defined('__TATTERTOOLS_CENTER__')) {
 		if ($scope == 'dashboard') {
@@ -292,13 +302,19 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 										<td class="version"><?php echo $version;?></td>
 										<td id="plugin<?php echo $i;?>Scope" class="scope">
 <?php
-	switch($scope) {
-		case 'global': echo str_repeat("\t", 11)._t('일반');break;
-		case 'blog': echo str_repeat("\t", 11)._t('블로그');break;
-		case 'admin': echo str_repeat("\t", 11)._t('관리자');break;
-		case 'sidebar': echo str_repeat("\t", 11)._t('사이드바');break;
-		case 'dashboard': echo str_repeat("\t", 11)._t('자투리');break;
-		default : echo str_repeat("\t", 11)._t('미지정');break;
+	echo str_repeat("\t", 11);
+	for($j = 0;$j< count($scope); $j++) {
+		if ($j != 0) {
+			echo ', ';
+		}
+		switch($scope[$j]) {
+			case 'global': echo _t('일반');break;
+			case 'blog': echo _t('블로그');break;
+			case 'admin': echo _t('관리자');break;
+			case 'sidebar': echo _t('사이드바');break;
+			case 'dashboard': echo _t('자투리');break;
+			default : echo _t('미지정');break;
+		}
 	}
 	echo CRLF;
 ?>
