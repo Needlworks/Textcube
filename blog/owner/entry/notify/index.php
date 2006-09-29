@@ -51,9 +51,9 @@ require ROOT . '/lib/piece/owner/contentMenu05.php';
 									for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
 										oElement = document.getElementById('list-form').elements[i];
 										if ((oElement.name == "entry") && oElement.checked)
-											targets[targets.length] += oElement.value;
+											targets[targets.length] = oElement.value;
 									}
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/notify/delete/");
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/notify/delete");
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
