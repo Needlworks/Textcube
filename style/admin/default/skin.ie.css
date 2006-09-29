@@ -1,5 +1,33 @@
 @charset "utf-8";
 
+/* Select ****************************************************************************************/
+
+#part-skin-list .section .preview,
+#part-skin-current .section .preview
+{
+	margin-left                      : -190px;
+}
+
+#part-skin-current .section .information .button-box .edit-button
+{
+	left                             : -146px;
+}
+
+#part-skin-list .section .information .button-box .preview-button
+{
+	left                             : -185px;
+}
+
+#part-skin-list .section .information .button-box .apply-button
+{
+	left                             : -108px;
+}
+
+#part-skin-more
+{
+	margin-top                       : 20px;
+}
+
 /* Sidebar ***************************************************************************************/
 
 #sidebar-box

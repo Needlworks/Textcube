@@ -22,8 +22,8 @@
 {
 	border                           : 1px solid #BBBBBB;
 	padding                          : 3px;
-	float                            : left;
-	/*position                         : absolute;*/
+	/*float                            : left;*/
+	position                         : absolute;
 	width                            : 150px;
 }
 
