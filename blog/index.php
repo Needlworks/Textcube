@@ -10,25 +10,25 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 		'POST' => array(
 			'mode' => array(array('fb')),
 			's_home_title' => array('string', 'default'=>''),
-			's_name' => array('string', 'default'=>''),
+			's_name' => array('string' , 'default'=>''),
 			's_no' => array('int'),
-			'url' => array('string'),
-			's_url' => array('string'),
-			's_post_title' => array('string'),
+			'url' => array('string', 'default'=>''),
+			's_url' => array('string', 'default'=>''),
+			's_post_title' => array('string', 'default'=>''),
 			'r1_no' => array('int'),
-			'r1_name' => array('string'),
-			'r1_rno' => array('string'),
+			'r1_name' => array('string', 'default'=>''),
+			'r1_rno' => array('int'),
 			'r1_homepage' => array('string', 'default'=>''),
 			'r1_regdate' => array('timestamp'),
 			'r1_body' => array('string'),
-			'r1_url' => array('string'),
+			'r1_url' => array('string', 'default'=>''),
 			'r2_no' => array('int'),
-			'r2_name' => array('string'),
+			'r2_name' => array('string', 'default'=>''),
 			'r2_rno' => array('int'),
 			'r2_homepage' => array('string', 'default'=>''),
 			'r2_regdate' => array('timestamp'),
 			'r2_body' => array('string'),
-			'r2_url' => array('string')
+			'r2_url' => array('string', 'default'=>'')
 		)
 	);
 } else {
