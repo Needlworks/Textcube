@@ -381,11 +381,6 @@
 	font-size                        : 1em;
 }
 
-#sidebar-box .section ul li.sidebar-module .button-box
-{
-	display                          : none;
-}
-
 #sidebar-element-box
 {
 	background-image                 : none;
