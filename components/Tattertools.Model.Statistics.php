@@ -19,6 +19,13 @@ class Statistics {
 		global $database, $owner;
 		return DBQuery::queryAll("SELECT date, visits FROM {$database['prefix']}DailyStatistics WHERE owner = $owner AND LEFT(date, 6) = $period ORDER BY date DESC");
 	}
+	
+	function getWeeklyStatistics() {
+		global $database, $owner;
+		$now_day = date('Ymd', strtotime("now"));
+		$old_day = date('Ymd', strtotime("-1 week"));
+		return DBQuery::queryAll("SELECT date, visits FROM {$database['prefix']}DailyStatistics WHERE owner = $owner AND  date BETWEEN $old_day AND $now_day ORDER BY date DESC");
+	}
 
 	function getMonthlyStatistics($owner) {
 		global $database;

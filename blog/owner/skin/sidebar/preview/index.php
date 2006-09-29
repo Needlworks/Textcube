@@ -162,7 +162,7 @@ if (($_REQUEST['sidebarNumber'] >= 0) 	&& ($_REQUEST['sidebarNumber'] < $sidebar
 	$target = $sidebarOrder[$_REQUEST['sidebarNumber']][$_REQUEST['modulePos']];
 	
 	if ($target['type'] == 3) {
-
+		$pluginURL = "{$service['path']}/plugins/{$target['id']['plugin']}";
 		include_once (ROOT . "/plugins/{$target['id']['plugin']}/index.php");
 		echo pretty_dress(call_user_func($target['id']['handler'], $target['parameters']));
 	}

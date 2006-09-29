@@ -18,6 +18,7 @@ $sidebarOrder = getSidebarModuleOrderData($sidebarCount);
 
 if ($_REQUEST['targetPos'] < 0 || $_REQUEST['targetPos'] >= count($sidebarOrder[$_REQUEST['sidebarNumber']]) || $_REQUEST['targetSidebarNumber'] < 0 || $_REQUEST['targetSidebarNumber'] >= count($sidebarOrder)) {
 	//printRespond(array('error' => 1, 'msg' => _t('더 이상 이동할 수 없습니다.')));
+	echo 'nyam';
 } else {
 	if (($_REQUEST['sidebarNumber'] == $_REQUEST['targetSidebarNumber'])
 		&& ($_REQUEST['modulePos'] < $_REQUEST['targetPos'])) 
@@ -28,6 +29,7 @@ if ($_REQUEST['targetPos'] < 0 || $_REQUEST['targetPos'] >= count($sidebarOrder[
 	array_splice($sidebarOrder[$_REQUEST['targetSidebarNumber']], $_REQUEST['targetPos'], 0, $temp);
 	
 	setUserSetting("sidebarOrder", serialize($sidebarOrder));
+	echo 'goood';
 }
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST')

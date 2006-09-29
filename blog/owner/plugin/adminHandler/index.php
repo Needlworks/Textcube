@@ -40,7 +40,8 @@ if ((isset($_REQUEST['name'])) && (isset($adminHandlerMappings[$_REQUEST['name']
 		$pluginAccessParam = '?name=' . $plugin;
 		$pluginSelfParam = '?name=' . $plugin . '/' . $handler;
 		
-		include_once (ROOT . "/plugins/$plugin/index.php");
+		$pluginURL = "{$service['path']}/plugins/{$plugin}";
+		include_once (ROOT . "/plugins/{$plugin}/index.php");
 		if (function_exists($handler))
 			call_user_func($handler);
 	}

@@ -307,6 +307,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 ?>
 												<div>
 <?php
+				$pluginURL = "{$service['path']}/plugins/{$orderConfig[$j]['id']['plugin']}";
 				echo pretty_dress(call_user_func($handler, $orderConfig[$j]['parameters']));
 ?>
 												</div>
@@ -388,6 +389,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 											<div></div>								
 											<div>
 <?php
+	$pluginURL = "{$service['path']}/plugins/{$nowKey['plugin']}";
 	include_once (ROOT . "/plugins/{$nowKey['plugin']}/index.php");
 	echo pretty_dress(call_user_func($nowKey['id'], array('preview' => '')));
 ?>

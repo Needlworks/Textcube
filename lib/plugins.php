@@ -214,6 +214,7 @@ function handleCenters($mapping) {
 
 // 저장된 사이드바 정렬 순서 정보를 가져온다.
 function handleSidebars(& $sval, & $obj) {
+	global $service, $pluginURL;
 	$newSidebarAllOrders = array(); 
 	// [sidebar id][element id](type, id, parameters)
 	// type : 1=skin text, 2=default handler, 3=plug-in
@@ -243,6 +244,7 @@ function handleSidebars(& $sval, & $obj) {
 					if (function_exists($handler)) {
 						$str .= "[##_temp_sidebar_element_{$i}_{$j}_##]";
 						$parameters = $currentSidebarOrder[$j]['parameters'];
+						$pluginURL = "{$service['path']}/plugins/{$plugin}";
 						if (function_exists($handler)) {
 							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
 						} else {
@@ -271,7 +273,7 @@ function handleSidebars(& $sval, & $obj) {
 }
 
 function handleDataSet( $plugin , $DATA ){
-	global $configMappings, $activePlugins;
+	global $configMappings, $activePlugins, $service, $pluginURL;
 	$xmls = new XMLStruct();
 	if( ! $xmls->open($DATA) ) {
 		unset($xmls);	
@@ -281,7 +283,8 @@ function handleDataSet( $plugin , $DATA ){
 		return array('error' => '9' , 'customError'=> _t($plugin.'사용중인 플러그인만 설정을 변경할 수 있습니다.')) ;
 	$reSetting = true;
 	if( !empty( $configMappings[$plugin]['dataValHandler'] ) ){
-		include_once (ROOT . "/plugins/$plugin/index.php");
+		$pluginURL = "{$service['path']}/plugins/{$plugin}";
+		include_once (ROOT . "/plugins/{$plugin}/index.php");
 		if( function_exists( $configMappings[$plugin]['dataValHandler'] ) )
 			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , $DATA);
 		if( true !== $reSetting )	
@@ -316,7 +319,7 @@ function fetchConfigVal( $DATA ){
 
 
 function handleConfig( $plugin){
-	global $service , $typeSchema;
+	global $service , $typeSchema, $pluginURL;
 	
 	$typeSchema = array(
 		'text' 
