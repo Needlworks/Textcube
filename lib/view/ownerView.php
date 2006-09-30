@@ -104,7 +104,7 @@ function printOwnerEditorScript($entryId = false) {
 											
 											if(!(new RegExp("\.(jpe?g|gif|png|bmp)$", "i").test(value[0])))
 											{
-												src = servicePath + adminSkin + "/image/spacer.gif";
+											src = servicePath + adminSkin + "/image/spacer.gif";
 												value[1] = editor.styleUnknown;
 												attributes = "";				
 											}
@@ -407,8 +407,10 @@ function printEntryFileList($attachments, $param) {
 			$class = '';
 		}
 		if (!empty($attachment['enclosure']) && $attachment['enclosure'] == 1) {
+			$style = 'style="background-color:#c6a6e7; color:#000000"';		
 			$enclosureFileName = $attachment['name'];
 		} else {
+			$style = '';
 			$prefix = '';
 		}
 		
@@ -417,7 +419,7 @@ function printEntryFileList($attachments, $param) {
 		
 		$initialFileListForFlash .= escapeJSInAttribute($value.'(_!'.$label.'!^|');
 ?>
-														<option value="<?php echo $value;?>"><?php echo $label;?></option>
+		<option  <?=$style?> value="<?=$value?>"><?=$label?></option>
 <?php
 	}
 ?>
@@ -608,11 +610,11 @@ function printEntryFileList($attachments, $param) {
 															STD.removeEventListener(window);					
 															window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);					
 														} catch(e) {
-															alert(e.message);
 														}
 													}
 													
-													window.addEventListener("load", disablePageManager);
+													STD.addEventListener(window);
+													window.addEventListener("load", disablePageManager, false);
 													
 													function enablePageManager() {
 														try {
@@ -862,7 +864,7 @@ function printEntryFileList($attachments, $param) {
 															+ '<embed id="uploader2" src="<?php echo $service['path'];?>/script/uploader/uploader.swf" flashvars="uploadPath=<?php echo $param['uploadPath'];?>&labelingPath=<?php echo $param['labelingPath'];?>&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION'];?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
 														
 														if (hasRightVersion) {
-															writeCode(uploaderStr);
+															if(<?=(isset($service['flashuploader']) && $service['flashuploader'] === false) ? 'false' : 'hasRightVersion'?>){ writeCode(uploaderStr); }
 														}
 													//]]>
 												</script>
