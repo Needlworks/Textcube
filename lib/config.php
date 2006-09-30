@@ -21,7 +21,7 @@ $service['timezone'] = 'Asia/Seoul';
 $service['encoding'] = 'EUC-KR';
 $service['umask'] = 0;
 $service['skin'] = 'tistory';
-$service['flashuploader'] = false;
+//$service['flashuploader'] = false;
 
 if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && ($_SERVER['SERVER_PORT'] != 443))
 	$service['port'] = $_SERVER['SERVER_PORT'];
