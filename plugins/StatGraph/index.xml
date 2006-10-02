@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+	<title>Graphic Statistics</title>
+	<link>http://gendoh.tistory,com</link>
+	<version>0.95</version>
+	<description>
+ 		접속자 통계를 Graph로 표시합니다. [##_StatisticsGraph_##] 태그를 스킨에 삽입하거나 사이드바에서 추가하면 됩니다.
+ 		PHP의 메모리 허용이 적은 경우 동작하지 않을 수 있습니다. 20M을 권장합니다.
+	</description>
+	<license>GPL</license>
+	<author link="http://gendoh.tistory,com"><![CDATA[겐도]]></author>
+	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
+	<requirements>
+    	<tattertools>1.1</tattertools>
+	</requirements>
+	<binding>
+		<tag name="StatisticsGraph" handler="DisplayStatisticsGraph" />
+    <sidebar title="StatisticsGraph" handler="DisplayStatisticsGraph"></sidebar>
+  </binding>
+</plugin>
