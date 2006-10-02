@@ -3,16 +3,19 @@ define('ROOT', '../../../..');
 
 $IV = array(
 	'GET' => array(
-		'visibility' => array('int', 0, 3, 'default' => 0)
-	)
-);
+		'visibility' => array('int', 0, 3, 'default' => 0),
+		'command' =>  array('string', 'mandatory' => false)
+		)
+	);
 
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
 
-$isAjaxRequest = checkAjaxRequest();
+//$isAjaxRequest = checkAjaxRequest();
 
-if ($isAjaxRequest) {
+//if ($isAjaxRequest) 
+if (!isset($_GET['command']))
+{
 	respondResultPage(setEntryVisibility($suri['id'], isset($_GET['visibility']) ? $_GET['visibility'] : 0));
 } else {
 	switch ($_GET['command']) {

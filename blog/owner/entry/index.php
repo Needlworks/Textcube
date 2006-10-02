@@ -189,20 +189,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										}
 									}
 									request.onError = function () {
-										switch (visibility) {
-											case 0:
-												window.location.href = "<?php echo $blogURL;?>/owner/entry/visibility/" + id + "?command=private";
-												break;
-											case 1:
-												window.location.href = "<?php echo $blogURL;?>/owner/entry/visibility/" + id + "?command=protect";
-												break;
-											case 2:
-												window.location.href = "<?php echo $blogURL;?>/owner/entry/visibility/" + id + "?command=public";
-												break;
-											case 3:
-												window.location.href = "<?php echo $blogURL;?>/owner/entry/visibility/" + id + "?command=syndicate";
-												break;
-										}
+											window.location = "<?php echo $blogURL;?>/owner/entry";
 									}
 									request.send();
 								}
