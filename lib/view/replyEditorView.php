@@ -82,6 +82,8 @@ if (!doesHaveOwnership()) {
 					</dd>
 				</dl>
 <?php 
+} else if ($user['name'] != $comment['name']) {
+	$confirmString = "if (confirm('관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.\\n계속 하시겠습니까?'))";
 }
 ?>			
 				<dl class="content-line">
@@ -90,7 +92,7 @@ if (!doesHaveOwnership()) {
 				</dl>
 				
 				<div class="button-box">
-					<input type="button" class="input-button" name="Submit" value="<?php echo _text('완료');?>" onclick="submitComment()" />
+					<input type="button" class="input-button" name="Submit" value="<?php echo _text('완료');?>" onclick="<?php echo $confirmString;?> submitComment()" />
 				</div>
 			</div>
 		</div>
