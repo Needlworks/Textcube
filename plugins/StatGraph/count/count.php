@@ -1,7 +1,10 @@
 <?
 
 define('ROOT', '../../..');
-require ROOT . '/lib/include.php';
+//require ROOT . '/lib/include.php';
+require ROOT . '/lib/config.php';
+include_once ROOT . '/config.php';
+require ROOT . '/lib/database.php';
 
 include ("src/jpgraph.php");
 include ("src/jpgraph_scatter.php");
