@@ -50,14 +50,6 @@ if (false) {
 	<div id="part-center-dashboard" class="part">
 		<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
 <?php
-if (!isset($_REQUEST['edit'])) {
-?>
-		<a href="<?php echo $blogURL;?>/owner/center/dashboard?edit"><?php echo _t('편집');?></a>
-<?php
-}
-?>
-		
-<?php
 
 $layout = getUserSetting('centerLayout', '');
 $newlayout = array();
@@ -156,6 +148,13 @@ if ($existSeperator == false) {
 	$secondposition = $positionCounter;
 }
 
+if (!isset($_REQUEST['edit'])) {
+?>
+		<div class="button-box">
+			<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" >
+		</div>
+<?php
+}
 ?>
 	</div>
 </form>
