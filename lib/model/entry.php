@@ -82,8 +82,9 @@ function getEntryListByTag($owner, $tag) {
 	global $database;
 	if ($tag === null)
 		return array();
+	$tag = mysql_real_escape_string($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$sql = "SELECT e.* FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = $tag ORDER BY published DESC";
+	$sql = "SELECT e.* FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' ORDER BY published DESC";
 	return fetchQueryAll($sql);
 }
 
@@ -130,8 +131,9 @@ function getEntriesWithPagingByTag($owner, $tag, $page, $count) {
 	global $database, $folderURL, $suri;
 	if ($tag === null)
 		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
+	$tag = mysql_real_escape_string($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$sql = "SELECT e.*, c.label categoryLabel FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = $tag ORDER BY e.published DESC";
+	$sql = "SELECT e.*, c.label categoryLabel FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
@@ -225,7 +227,7 @@ function getEntryWithPagingBySlogan($owner, $slogan) {
 	$entries = array();
 	$paging = initPaging("$blogURL/entry", '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$result = mysql_query("SELECT e.*, c.label categoryLabel FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 ORDER BY e.published DESC");
+	$result = mysql_query("SELECT e.id, e.slogan, c.label categoryLabel FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 ORDER BY e.published DESC");
 	if (!$result)
 		return array($entries, $paging);
 	$paging['pages'] = mysql_num_rows($result);
@@ -250,9 +252,20 @@ function getEntryWithPagingBySlogan($owner, $slogan) {
 			$paging['prev'] = $paging['before'][count($paging['before']) - 1];
 		if (isset($paging['after'][0]))
 			$paging['next'] = $paging['after'][0];
+		
+		$label = $entries[0]['categoryLabel'];
+		$entry = getEntry($owner, $entries[0]['id']);
+		$entry['categoryLabel'] = $label;
+		$entries = array($entry);
 		return array($entries, $paging);
 	}
 	$paging['page'] = $paging['pages'] + 1;
+	if (count($entries) > 0) {
+		$label = $entries[0]['categoryLabel'];
+		$entry = getEntry($owner, $entries[0]['id']);
+		$entries = array($entry);
+		$entry['categoryLabel'] = $label;
+	}
 	return array($entries, $paging);
 }
 
@@ -284,16 +297,18 @@ function addEntry($owner, $entry) {
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
+	$slogan = mysql_real_escape_string($slogan);
 	$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 	for ($i = 1; mysql_num_rows($result) > 0; $i++) {
 		if ($i > 100)
 			return false;
 		$slogan = "$slogan0-$i";
+		$slogan = mysql_real_escape_string($slogan);
 		$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 	}
 	$title = mysql_real_escape_string($entry['title']);
 	$content = mysql_real_escape_string($entry['content']);
-	$password = generatePassword();
+$password = mysql_real_escape_string(generatePassword());
 	$location = mysql_real_escape_string($entry['location']);
 	if (isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
 		$published = $entry['published'];
@@ -360,13 +375,15 @@ function updateEntry($owner, $entry) {
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
+	$slogan = mysql_real_escape_string($slogan);
 	$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' AND id = {$entry['id']} LIMIT 1");
-	if (!$result) {
+	if (mysql_num_rows($result) == 0) { // if changed
 		$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 		for ($i = 1; mysql_num_rows($result) > 0; $i++) {
 			if ($i > 100)
 				return false;
 			$slogan = "$slogan0-$i";
+			$slogan = mysql_real_escape_string($slogan);
 			$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 		}
 	}
