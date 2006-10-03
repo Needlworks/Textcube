@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="en">Feed Subscription Log</title>
+  <title xml:lang="ko">피드 구독 통계</title>
+  <link>http://forum.tattertools.com/ko/</link>
+  <version>1.0</version>
+  <description xml:lang="en">Shows Feed Subscription Log using Tattertools Components.</description>
+  <description xml:lang="ko">태터툴즈 컴포넌트를 이용하여 피드 구독 통계를 보여줍니다.</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
+  <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
+  <scope>admin</scope>
+  <requirements>
+    <tattertools>1.1</tattertools>
+  </requirements>
+  <binding>
+    <adminMenu>
+      <viewMethods>
+        <method>
+          <title xml:lang="en">Feed Subscription</title>
+          <title xml:lang="ko">피드 통계</title>
+          <handler>AD_Subscription_Default</handler>
+        </method>
+      </viewMethods>
+    </adminMenu>
+	<listener event="ViewRSS">updateSubscriptionStatistics</listener>
+  </binding>
+  <storage>
+    <table>
+      <name>SubscriptionLogs</name>
+      <fields>
+        <field>
+          <name>ip</name>
+            <attribute>int</attribute>
+            <length>11</length>
+          </field>
+          <field>
+            <name>host</name>
+            <attribute>varchar</attribute>
+            <length>24</length>
+          </field>
+          <field>
+            <name>useragent</name>
+            <attribute>varchar</attribute>
+            <length>128</length>
+          </field>
+          <field>
+            <name>referred</name>
+            <attribute>int</attribute>
+            <length>11</length>
+            <default>0</default>
+          </field>
+      </fields>
+      <key>useragent</key>
+    </table>
+    <table>
+      <name>SubscriptionStatistics</name>
+      <fields>
+          <field>
+            <name>ip</name>
+            <attribute>int</attribute>
+            <length>11</length>
+            <isnull>0</isnull>
+          </field>
+          <field>
+            <name>host</name>
+            <attribute>varchar</attribute>
+            <length>24</length>
+            <isnull>0</isnull>
+          </field>
+          <field>
+            <name>useragent</name>
+            <attribute>varchar</attribute>
+            <length>128</length>
+            <isnull>0</isnull>
+          </field>
+          <field>
+            <name>subscribed</name>
+            <attribute>int</attribute>
+            <length>11</length>
+            <isnull>0</isnull>
+            <default>0</default>
+          </field>
+          <field>
+            <name>referred</name>
+            <attribute>int</attribute>
+            <length>11</length>
+            <isnull>0</isnull>
+            <default>0</default>
+          </field>
+      </fields>
+      <key>useragent</key>
+     </table>
+  </storage>
+</plugin>

@@ -4,6 +4,8 @@ $eventMappings = array();
 $tagMappings = array();
 $sidebarMappings = array();
 $centerMappings = array();
+$storageMappings = array();
+$storageKeymappings = array();
 $adminMenuMappings = array();
 $adminHandlerMappings = array();
 
@@ -19,6 +21,26 @@ if (!empty($owner)) {
 	foreach ($activePlugins as $plugin) {
 		$manifest = @file_get_contents(ROOT . "/plugins/$plugin/index.xml");
 		if ($manifest && $xmls->open($manifest)) {
+			if ($xmls->doesExist('/plugin/storage')) {
+				foreach ($xmls->selectNodes('/plugin/storage/table') as $table) {
+					if(empty($table['name'][0]['.value'])) continue;
+					$tableName = htmlspecialchars($table['name'][0]['.value']);
+					if (!empty($table['fields'][0]['field'])) {
+						foreach($table['fields'][0]['field'] as $field) {
+							array_push($storageMappings, array('name' => $field['name'][0]['.value'], 'attribute' => $field['attribute'][0]['.value'], 'length' => $field['length'][0]['.value'], 'isnull' => $field['isnull'][0]['.value'], 'default' => $field['default'][0]['.value']));
+						}
+					}
+					if (!empty($table['key'][0]['.value'])) {
+						foreach($table['key'] as $key) {
+							array_push($storageKeymappings, $key['.value']);
+						}
+					}
+					treatPluginTable($tableName,$storageMappings,$storageKeymappings);
+					unset($tableName);
+					unset($storageMappings);
+					unset($storageKeymappings);
+				}
+			}
 			if ($xmls->doesExist('/plugin/binding/listener')) {
 				foreach ($xmls->selectNodes('/plugin/binding/listener') as $listener) {
 					if (!empty($listener['.attributes']['event']) && !empty($listener['.value'])) {

@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+/* Subscribe Statistics********************************************************************************/
+
+#part-statistics-total
+{
+	margin-bottom                    : 30px;
+}
+
+#part-statistics-total table.data-inbox tr td.number
+{
+	width                            : 200px;
+	text-align                       : center !important;
+	font-size                        : 22px;
+}
+
+#part-statistics-rank table.data-inbox tr td.site
+{
+	text-align                       : left !important;
+}
+
+#part-statistics-rank table.data-inbox tr td.aggregator span.robot
+{
+	color                            : #C33;
+}

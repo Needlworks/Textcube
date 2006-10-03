@@ -51,4 +51,32 @@ function updatePluginConfig( $name , $setVal){
 		return '0';
 	return (mysql_error() == '') ? '0' : '1';
 }
+function treatPluginTable($name, $fields, $keys){
+	global $database;
+	if(doesExistTable($database['prefix'] . $name)){
+		return true;
+	} else {
+		$query = "
+			CREATE TABLE {$database['prefix']}{$name} (
+				owner int(11) NOT NULL default '0',";
+
+		foreach($fields as $field) {
+			$isNull = ($field['isnull'] == 0) ? ' NOT NULL ' : ' NULL ';
+			$defaultValue = " DEFAULT '".$field['default']."' ";
+			$sentence = $field['name']." ".$field['attribute']."(".$field['length'].")".$isNull.$defaultValue.",";
+			$query .= $sentence;
+		}
+
+		if(!empty($keys)) {
+			$query .= " PRIMARY KEY (owner,";
+			print_r($keys);
+			foreach($keys as $key) $query .= $key;
+			$query .= ")";
+		} else $query .= " PRIMARY KEY (owner)";
+		$query .= ") TYPE=MyISAM DEFAULT CHARSET=utf8";
+		if (DBQuery::execute($query)) return true;
+		else return false;
+	}
+	return true;
+}
 ?>
