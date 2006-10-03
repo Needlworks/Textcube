@@ -16,13 +16,13 @@ if (count($host) > 1) {
 }
 unset($host);
 
+include 'components/Eolin.PHP.Core.php';
+include 'components/Eolin.PHP.UnifiedEnvironment.php';
+
 if (!empty($_GET['test'])) {
    echo getFingerPrint();
     exit;
 }
-
-include 'components/Eolin.PHP.Core.php';
-include 'components/Eolin.PHP.UnifiedEnvironment.php';
 
 $root = substr($_SERVER['SCRIPT_FILENAME'], 0, strlen($_SERVER['SCRIPT_FILENAME']) - 10);
 $path = stripPath(substr($_SERVER['PHP_SELF'], 0, strlen($_SERVER['PHP_SELF']) - 10));
