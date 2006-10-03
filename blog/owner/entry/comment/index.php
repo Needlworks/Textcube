@@ -14,9 +14,10 @@ $IV = array(
 	'GET' => array(
 		'name' => array('string', 'mandatory' => false),
 		'page' => array('int', 1, 'default' => 1),
-		'ip' => array('ip', 'default' => ''),
+		'ip' => array('ip', 'mandatory' => false),
 	),
 	'POST' => array(
+		'ip' => array('ip', 'mandatory' => false),
 		'name' => array('string', 'mandatory' => false),
 		'category' => array('int', 'default' => 0),
 		'perPage' => array('int', 1, 'mandatory' => false),
@@ -28,8 +29,10 @@ require ROOT . '/lib/includeForOwner.php';
 requireComponent('Tattertools.Data.Filter');
 
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
-$name = empty($_GET['name']) ? '' : $_GET['name'];
-$ip = empty($_GET['ip']) ? '' : $_GET['ip'];
+$name = isset($_GET['name']) && !empty($_GET['name']) ? $_GET['name'] : '';
+$name = isset($_POST['name']) && !empty($_POST['name']) ? $_POST['name'] : $name;
+$ip = isset($_GET['ip']) && !empty($_GET['ip']) ? $_GET['ip'] : '';
+$ip = isset($_POST['ip']) && !empty($_POST['ip']) ? $_POST['ip'] : $ip;
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
 $perPage = getUserSetting('rowsPerPage', 10); 
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
