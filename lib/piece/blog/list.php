@@ -20,7 +20,7 @@ if (isset($list)) {
 		);
 	}
 	dress('list_rep', $itemsView, $listView);
-	dress('list_conform', htmlspecialchars(fireEvent('ViewListHeadTitle', $list['title'])), $listView);
+	dress('list_conform', fireEvent('ViewListHeadTitle', htmlspecialchars($list['title']) ), $listView);
 	dress('list_count', count($list['items']), $listView);
 	dress('list', $listView, $view);
 }
