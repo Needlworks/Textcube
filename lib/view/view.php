@@ -1099,7 +1099,7 @@ function getEntryContentView($owner, $id, $content, $keywords = array(), $type =
 	$path = ROOT . "/attach/$owner";
 	$url = "{$service['path']}/attach/$owner";
 	$view = bindAttachments($id, $path, $url, $content, $useAbsolutePath, $bRssMode);
-$view = is_array($keywords)?bindKeywords($keywords, $view):$view;
+	$view = is_array($keywords)?bindKeywords($keywords, $view):$view;
 	$view = bindTags($id, $view);
 	if (defined('__TATTERTOOLS_MOBILE__'))
 		$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var'));
@@ -1149,7 +1149,7 @@ function bindKeywords($keywords, $content) {
 			continue;
 		$view .= substr($content, $offset, $start - $offset);
 		//$view .= "<span class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/" . rawurlencode($keywords[$flag]) . "')\">{$keywords[$flag]}</span>";
-		$view = fireEvent('BindKeyword', $view);
+		$view .= fireEvent('BindKeyword', $keywords[$flag]);
 		$offset = $start + strlen($keywords[$flag]);
 	}
 	$view .= substr($content, $offset);
