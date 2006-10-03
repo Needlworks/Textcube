@@ -5,12 +5,14 @@ if (isset($_POST['page']))
 if(count($_POST) > 0) {
 	$IV = array(
 		'GET' => array(
+			'name' => array('string', 'mandatory' => false),
+			'ip' => array('ip', 'mandatory' => false),
 			'page' => array('int', 1, 'default' => 1)
 		),
 		'POST' => array(
 			'category' => array('int', 'default' => 0),
-			'name' => array('string', 'default' => ''),
-			'ip' => array('ip', 'default' => ''),
+			'name' => array('string', 'mandatory' => false),
+			'ip' => array('ip', 'mandatory' => false),
 			'withSearch' => array(array('on'), 'mandatory' => false),
 			'search' => array('string', 'default' => ''),
 			'perPage' => array('int', 1, 'mandatory' => false)
@@ -19,8 +21,10 @@ if(count($_POST) > 0) {
 }
 require ROOT . '/lib/includeForOwner.php';
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
-$name = empty($_GET['name']) ? '' : $_GET['name'];
-$ip = empty($_GET['ip']) ? '' : $_GET['ip'];
+$name = isset($_GET['name']) && !empty($_GET['name']) ? $_GET['name'] : '';
+$name = isset($_POST['name']) && !empty($_POST['name']) ? $_POST['name'] : $name;
+$ip = isset($_GET['ip']) && !empty($_GET['ip']) ? $_GET['ip'] : '';
+$ip = isset($_POST['ip']) && !empty($_POST['ip']) ? $_POST['ip'] : $ip;
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
 $perPage = getUserSetting('rowsPerPage', 10); 
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
