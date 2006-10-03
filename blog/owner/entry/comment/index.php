@@ -13,12 +13,12 @@ if (isset($_GET['withSearch'])) $_POST['withSearch'] = $_GET['withSearch'];
 $IV = array(
 	'GET' => array(
 		'name' => array('string', 'mandatory' => false),
-		'page' => array('int', 1, 'default' => 1)
+		'page' => array('int', 1, 'default' => 1),
+		'ip' => array('ip', 'default' => ''),
 	),
 	'POST' => array(
-		'category' => array('int', 'default' => 0),
-		'ip' => array('ip', 'default' => ''),
 		'name' => array('string', 'mandatory' => false),
+		'category' => array('int', 'default' => 0),
 		'perPage' => array('int', 1, 'mandatory' => false),
 		'search' => array('string', 'default' => ''),
 		'withSearch' => array(array('on'), 'mandatory' => false)
