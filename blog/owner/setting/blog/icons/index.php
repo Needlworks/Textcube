@@ -87,7 +87,7 @@ if (!empty($_FILES['blogIcon']['tmp_name'])) {
 }
 
 if (!empty($errorText)) {
-	$errorText = implode('<br />',$errorText);
+	$errorText = urlencode(implode('<br />',$errorText));
 } else {
 	$errorText = urlencode(_T('저장되었습니다.'));
 }

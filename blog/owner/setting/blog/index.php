@@ -520,7 +520,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 if (isset($_GET['message'])) {
 	$msg = escapeJSInCData($_GET['message']);
 ?>
-	<script>PM.showMessage("<?php echo $msg;?>", "center", "bottom");</script>
+	<script> window.onload = function() { PM.showMessage("<?php echo $msg;?>", "center", "bottom"); } </script>
 <?php
 }
 
