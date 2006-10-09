@@ -159,8 +159,15 @@ function organizeAggregatorInfo($info)
 		$startDate = $record['subscribed'];
 		$referred = $record['referred'];
 		if(array_key_exists($aggregatorName,$aggregatorInfo)) {
-			$aggregatorInfo[$aggregatorName]['subscribers'] += $subscribers;
-			$totalSubscribers += $subscribers;
+			if(($subscribers > $aggregatorInfo[$aggregatorName]['subscribers'])&&($subscribers!==1)) {
+				$totalSubscribers -= $aggregatorInfo[$aggregatorName]['subscribers'];
+				$totalSubscribers += $subscribers;
+				$aggregatorInfo[$aggregatorName]['subscribers'] = $subscribers;
+			} else if($subscribers==1) {
+				$aggregatorInfo[$aggregatorName]['subscribers'] += $subscribers;
+				$totalSubscribers += $subscribers;
+			}
+
 			if($aggregatorInfo[$aggregatorName]['subscribed'] > $startDate)
 				$aggregatorInfo[$aggregatorName]['subscribed'] = $startDate;
 			if($aggregatorInfo[$aggregatorName]['referred'] < $referred)
