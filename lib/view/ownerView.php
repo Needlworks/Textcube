@@ -932,7 +932,7 @@ function printEntryFileUploadButton($entryId) {
 <?php
 }
 
-function printEntryEditorProperty() {
+function printEntryEditorProperty($alt=NULL) {
 	global $service;
 ?>
 											<div id="propertyHyperLink" class="entry-editor-property" style="display: none;">
@@ -1109,7 +1109,7 @@ function printEntryEditorProperty() {
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyImage3_caption3"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage3_caption3" onkeyup="editor.setProperty()" /></dd>
+														<dd><input type="text" class="input-text" id="propertyImage3_caption3" value="<?php echo $alt;?>" onkeyup="editor.setProperty()" /></dd>
 													</dl>
 													<dl class="resample-property-box line">
 														<dd><input type="checkbox" id="propertyImage3_resample3" onclick="editor.setProperty()" /> <label for="propertyImage3_resample3"><?php echo _t('리샘플링 사용');?></label></dd>
@@ -1591,7 +1591,7 @@ function printEntryEditorPalette() {
 function getAttachmentValue($attachment) {
 	global $g_attachmentFolderPath;
 	if (strpos($attachment['mime'], 'image') === 0)
-		return "{$attachment['name']}|width=\"{$attachment['width']}\" height=\"{$attachment['height']}\" alt=\"\"";		
+		return "{$attachment['name']}|width=\"{$attachment['width']}\" height=\"{$attachment['height']}\" alt=\"" . _text('사용자 삽입 이미지') . "\"";		
 	else
 		return "{$attachment['name']}|";
 }

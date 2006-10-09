@@ -1759,13 +1759,13 @@ function createNewProperty($filename, $imageWidth, $property) {
 		return array($property, false);
 	}
 	
-	if (eregi('alt=""', $property)) {
-		$property = str_replace('alt=""', 'alt="'._text('사용자 삽입 이미지').'"', $property);
-	} else if (eregi('alt="[^"]+"', $property)) {
+	//if (eregi('alt=""', $property)) {
+	//	$property = str_replace('alt=""', 'alt="'._text('사용자 삽입 이미지').'"', $property);
+	//} else if (eregi('alt="[^"]+"', $property)) {
 		// 이미 있으므로 통과
-	} else {
-		$property .= ' alt="'._text('사용자 삽입 이미지').'"';	
-	}
+	//} else {
+	//	$property .= ' alt="'._text('사용자 삽입 이미지').'"';	
+	//}
 	
 	// 현재 이미지의 가로 사이즈 계산.
 	if (eregi('width="([0-9]*%?)"', $property, $temp)) {
