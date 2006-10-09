@@ -61,12 +61,12 @@ function printOwnerEditorScript($entryId = false) {
 								}
 								
 								function insertColorTag(col1) {
-									//hideLayer("colorPalette");
+									hideLayer("colorPalette");
 									TTCommand("Color", col1);
 								}
 								
 								function insertMarkTag(col1) {
-									//hideLayer("markPalette");
+									hideLayer("markPalette");
 									TTCommand("Mark", col1);
 								}
 								
@@ -1484,27 +1484,27 @@ function printEntryEditorPalette() {
 													<div id="colorPalette" style="display: none;">
 														<table cellspacing="0" cellpadding="0">
 															<tr>
-																<td class="color-008000" onclick="insertColorTag('#008000')">#008000</td>
-																<td class="color-009966" onclick="insertColorTag('#009966')">#009966</td>
-																<td class="color-99CC66" onclick="insertColorTag('#99CC66')">#99CC66</td>
-																<td class="color-999966" onclick="insertColorTag('#999966')">#999966</td>
-																<td class="color-CC9900" onclick="insertColorTag('#CC9900')">#CC9900</td>
-																<td class="color-D41A01" onclick="insertColorTag('#D41A01')">#D41A01</td>
-																<td class="color-FF0000" onclick="insertColorTag('#FF0000')">#FF0000</td>
-																<td class="color-FF7635" onclick="insertColorTag('#FF7635')">#FF7635</td>
-																<td class="color-FF9900" onclick="insertColorTag('#FF9900')">#FF9900</td>
-																<td class="color-FF3399" onclick="insertColorTag('#FF3399')">#FF3399</td>
-																<td class="color-9B18C1" onclick="insertColorTag('#9B18C1')">#9B18C1</td>
-																<td class="color-993366" onclick="insertColorTag('#993366')">#993366</td>
-																<td class="color-666699" onclick="insertColorTag('#666699')">#666699</td>
-																<td class="color-0000FF" onclick="insertColorTag('#0000FF')">#0000FF</td>
-																<td class="color-177FCD" onclick="insertColorTag('#177FCD')">#177FCD</td>
-																<td class="color-006699" onclick="insertColorTag('#006699')">#006699</td>
-																<td class="color-003366" onclick="insertColorTag('#003366')">#003366</td>
-																<td class="color-333333" onclick="insertColorTag('#333333')">#333333</td>
-																<td class="color-000000" onclick="insertColorTag('#000000')">#000000</td>			
-																<td class="color-8E8E8E" onclick="insertColorTag('#8E8E8E')">#8E8E8E</td>
-																<td class="color-C1C1C1" onclick="insertColorTag('#C1C1C1')">#C1C1C1</td>
+																<td><a href="#void" onclick="insertColorTag('#008000')"><span class="color-008000">#008000</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#009966')"><span class="color-009966">#009966</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#99CC66')"><span class="color-99CC66">#99CC66</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#999966')"><span class="color-999966">#999966</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#CC9900')"><span class="color-CC9900">#CC9900</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#D41A01')"><span class="color-D41A01">#D41A01</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#FF0000')"><span class="color-FF0000">#FF0000</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#FF7635')"><span class="color-FF7635">#FF7635</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#FF9900')"><span class="color-FF9900">#FF9900</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#FF3399')"><span class="color-FF3399">#FF3399</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#9B18C1')"><span class="color-9B18C1">#9B18C1</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#993366')"><span class="color-993366">#993366</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#666699')"><span class="color-666699">#666699</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#0000FF')"><span class="color-0000FF">#0000FF</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#177FCD')"><span class="color-177FCD">#177FCD</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#006699')"><span class="color-006699">#006699</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#003366')"><span class="color-003366">#003366</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#333333')"><span class="color-333333">#333333</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#000000')"><span class="color-000000">#000000</span></a></td>			
+																<td><a href="#void" onclick="insertColorTag('#8E8E8E')"><span class="color-8E8E8E">#8E8E8E</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#C1C1C1')"><span class="color-C1C1C1">#C1C1C1</span></a></td>
 															</tr>
 														</table>
 													</div>
@@ -1512,27 +1512,27 @@ function printEntryEditorPalette() {
 													<div id="markPalette" style="display: none;">
 														<table cellspacing="0" cellpadding="0">
 															<tr>
-																<td class="color-008000" onclick="insertMarkTag('#008000')">#008000</td>
-																<td class="color-009966" onclick="insertMarkTag('#009966')">#009966</td>
-																<td class="color-99CC66" onclick="insertMarkTag('#99CC66')">#99CC66</td>
-																<td class="color-999966" onclick="insertMarkTag('#999966')">#999966</td>
-																<td class="color-CC9900" onclick="insertMarkTag('#CC9900')">#CC9900</td>
-																<td class="color-D41A01" onclick="insertMarkTag('#D41A01')">#D41A01</td>
-																<td class="color-FF0000" onclick="insertMarkTag('#FF0000')">#FF0000</td>
-																<td class="color-FF7635" onclick="insertMarkTag('#FF7635')">#FF7635</td>
-																<td class="color-FF9900" onclick="insertMarkTag('#FF9900')">#FF9900</td>
-																<td class="color-FF3399" onclick="insertMarkTag('#FF3399')">#FF3399</td>
-																<td class="color-9B18C1" onclick="insertMarkTag('#9B18C1')">#9B18C1</td>
-																<td class="color-993366" onclick="insertMarkTag('#993366')">#993366</td>
-																<td class="color-666699" onclick="insertMarkTag('#666699')">#666699</td>
-																<td class="color-0000FF" onclick="insertMarkTag('#0000FF')">#0000FF</td>
-																<td class="color-177FCD" onclick="insertMarkTag('#177FCD')">#177FCD</td>
-																<td class="color-006699" onclick="insertMarkTag('#006699')">#006699</td>
-																<td class="color-003366" onclick="insertMarkTag('#003366')">#003366</td>
-																<td class="color-333333" onclick="insertMarkTag('#333333')">#333333</td>
-																<td class="color-000000" onclick="insertMarkTag('#000000')">#000000</td>			
-																<td class="color-8E8E8E" onclick="insertMarkTag('#8E8E8E')">#8E8E8E</td>
-																<td class="color-C1C1C1" onclick="insertMarkTag('#C1C1C1')">#C1C1C1</td>
+																<td><a href="#void" onclick="insertMarkTag('#008000')"><span class="color-008000">#008000</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#009966')"><span class="color-009966">#009966</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#99CC66')"><span class="color-99CC66">#99CC66</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#999966')"><span class="color-999966">#999966</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#CC9900')"><span class="color-CC9900">#CC9900</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#D41A01')"><span class="color-D41A01">#D41A01</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#FF0000')"><span class="color-FF0000">#FF0000</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#FF7635')"><span class="color-FF7635">#FF7635</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#FF9900')"><span class="color-FF9900">#FF9900</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#FF3399')"><span class="color-FF3399">#FF3399</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#9B18C1')"><span class="color-9B18C1">#9B18C1</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#993366')"><span class="color-993366">#993366</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#666699')"><span class="color-666699">#666699</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#0000FF')"><span class="color-0000FF">#0000FF</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#177FCD')"><span class="color-177FCD">#177FCD</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#006699')"><span class="color-006699">#006699</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#003366')"><span class="color-003366">#003366</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#333333')"><span class="color-333333">#333333</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#000000')"><span class="color-000000">#000000</span></a></td>			
+																<td><a href="#void" onclick="insertMarkTag('#8E8E8E')"><span class="color-8E8E8E">#8E8E8E</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#C1C1C1')"><span class="color-C1C1C1">#C1C1C1</span></a></td>
 															</tr>
 														</table>
 													</div>
@@ -1540,11 +1540,11 @@ function printEntryEditorPalette() {
 													<div id="textBox" style="display: none;">
 														<table cellspacing="0" cellpadding="0">
 															<tr>
-																<td class="color-FFDAED" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FFDAED');">#FFDAED</td>
-																<td class="color-C9EDFF" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#C9EDFF');">#C9EDFF</td>
-																<td class="color-D0FF9D" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#D0FF9D');">#D0FF9D</td>
-																<td class="color-FAFFA9" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FAFFA9');">#FAFFA9</td>
-																<td class="color-E4E4E4" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#E4E4E4');">#E4E4E4</td>
+																<td><a href="#void" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FFDAED');"><span class="color-FFDAED">#FFDAED</span></a></td>
+																<td><a href="#void" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#C9EDFF');"><span class="color-C9EDFF">#C9EDFF</span></a></td>
+																<td><a href="#void" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#D0FF9D');"><span class="color-D0FF9D">#D0FF9D</span></a></td>
+																<td><a href="#void" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FAFFA9');"><span class="color-FAFFA9">#FAFFA9</span></a></td>
+																<td><a href="#void" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#E4E4E4');"><span class="color-E4E4E4">#E4E4E4</span></a></td>
 															</tr>
 														</table>
 													</div>

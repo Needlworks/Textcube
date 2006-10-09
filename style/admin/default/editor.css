@@ -387,8 +387,16 @@ h3
 	height                           : 12px !important;
 	line-height                      : 1.5em;
 	padding                          : 0 !important;
-	text-indent                      : -5000px;
 	width                            : 16px;
+}
+
+#colorPalette table tr td span,
+#markPalette table tr td span,
+#textBox table tr td span
+{
+	display                          : block;
+	width                            : 16px;
+	text-indent                      : -5000px;
 }
 
 /* colors */

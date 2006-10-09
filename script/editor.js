@@ -571,6 +571,7 @@ TTEditor.prototype.showProperty = function(obj)
 	getObject("propertyEmbed").style.display = "none";
 	//getObject("propertyFlash").style.display = "none";
 	getObject("propertyMoreLess").style.display = "none";
+	changeButtonStatus(null, null);
 
 	if(obj.className == "tatterObject") {
 		editor.propertyHeader = "tatterObject";
@@ -1479,7 +1480,7 @@ function TTCommand(command, value1, value2) {
 			} else
 				insertTag(value1, value2);
 	}
-
+    changeButtonStatus(null, null);
 	try { editor.contentDocument.body.focus(); } catch(e) { }
 }
 

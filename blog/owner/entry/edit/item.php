@@ -356,10 +356,14 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 										document.getElementById('indicatorTextBox').className = document.getElementById('indicatorTextBox').className.replace('active-class', 'inactive-class');
 									}
 									
-									if (document.getElementById(palette).style.display == "block") {
-										obj.className = obj.className.replace('inactive-class', 'active-class');
-									} else {
-										obj.className = obj.className.replace('active-class', 'inactive-class');
+									if (obj != null) {
+										if (document.getElementById(palette).style.display == "block") {
+											obj.className = obj.className.replace('inactive-class', 'active-class');
+										} else {
+											if (!obj.className.match('inactive-class')) {
+												obj.className = obj.className.replace('active-class', 'inactive-class');
+											}
+										}
 									}
 								}
 								
