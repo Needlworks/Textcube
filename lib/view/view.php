@@ -429,22 +429,22 @@ function getCommentView($entryId, & $skin) {
 	
 	$acceptComment = fetchQueryCell("SELECT `acceptComment` FROM `{$database['prefix']}Entries` WHERE `id` = $entryId");
 	
-	if (doesHaveOwnership() || ($isComment && $acceptComment == 1) || ($isComment == false)) {
-		$useForm = false;
-		if ($isComment) {
-			if (!($skin->commentForm == '')) {
-				$commentRrevView = $commentView;
-				$commentView = $skin->commentForm;
-				$useForm = true;
-			}
-		} else {
-			if (!($skin->guestForm == '')) {
-				$commentRrevView = $commentView;
-				$commentView = $skin->guestForm;
-				$useForm = true;
-			}
+	$useForm = false;
+	if ($isComment) {
+		if (!($skin->commentForm == '')) {
+			$commentRrevView = $commentView;
+			$commentView = $skin->commentForm;
+			$useForm = true;
 		}
-		
+	} else {
+		if (!($skin->guestForm == '')) {
+			$commentRrevView = $commentView;
+			$commentView = $skin->guestForm;
+			$useForm = true;
+		}
+	}
+
+	if (doesHaveOwnership() || ($isComment && $acceptComment == 1) || ($isComment == false) || ($useForm == false)) {
 		if (!doesHaveOwnership()) {
 			$commentMemberView = ($isComment ? $skin->commentMember : $skin->guestMember);
 			if (!doesHaveMembership()) {
@@ -479,13 +479,15 @@ function getCommentView($entryId, & $skin) {
 		dress($prefix1 . '_onclick_submit', "addComment(this, $entryId); return false", $commentView);
 		dress($prefix1 . '_textarea_body', 'comment', $commentView);
 		dress($prefix1 . '_textarea_body_value', '', $commentView);
-		
-		if ($useForm == true) {
-			dress($prefix1 . '_input_form', "<form method=\"post\" action=\"$blogURL/comment/add/$entryId\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>', $commentRrevView);
-			$commentView = $commentRrevView;
-		} else {
-			$commentView = "<form method=\"post\" action=\"$blogURL/comment/add/$entryId\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>';
-		}
+	} else if ($useForm == true) {
+		$commentView = '';
+	}
+	
+	if ($useForm == true) {
+		dress($prefix1 . '_input_form', "<form method=\"post\" action=\"$blogURL/comment/add/$entryId\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>', $commentRrevView);
+		$commentView = $commentRrevView;
+	} else {
+		$commentView = "<form method=\"post\" action=\"$blogURL/comment/add/$entryId\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>';
 	}
 	
 	return $commentView;

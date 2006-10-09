@@ -61,14 +61,14 @@ foreach ($entries as $entry) {
 		dress('article_rep_category_link', "$blogURL/category/" . encodeURL($entry['categoryLabel']), $entryView);
 		dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published'])), $entryView);
 		dress('entry_archive_link', "$blogURL/archive/" . Timestamp::getDate($entry['published']), $entryView);
-		if ($entry['acceptComment'])
+		if ($entry['acceptComment'] || ($entry['comments'] > 0))
 			dress('article_rep_rp_link', "toggleLayer('entry{$entry['id']}Comment'); return false", $entryView);
 		else
 			dress('article_rep_rp_link', "alert('" . _text('이 글에는 댓글을 달 수 없습니다.') . "'); return false", $entryView);
 		list($tempTag, $commentView) = getCommentCountPart($entry['comments'], $skin);
 		dress($tempTag, "<span id=\"commentCount{$entry['id']}\">{$commentView}</span>", $entryView);
 		
-		if ($entry['acceptTrackback'])
+		if ($entry['acceptTrackback'] || ($entry['trackbacks'] > 0))
 			dress('article_rep_tb_link', "toggleLayer('entry{$entry['id']}Trackback'); return false", $entryView);
 		else
 			dress('article_rep_tb_link', "alert('" . _text('이 글에는 글을 걸 수 없습니다.') . "'); return false", $entryView);
