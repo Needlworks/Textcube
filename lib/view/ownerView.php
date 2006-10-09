@@ -1590,10 +1590,13 @@ function printEntryEditorPalette() {
 
 function getAttachmentValue($attachment) {
 	global $g_attachmentFolderPath;
-	if (strpos($attachment['mime'], 'image') === 0)
-		return "{$attachment['name']}|width=\"{$attachment['width']}\" height=\"{$attachment['height']}\" alt=\"" . _text('사용자 삽입 이미지') . "\"";		
-	else
+	if (strpos($attachment['mime'], 'image') === 0) {
+		$resamplingDefault = getUserSetting("resamplingDefault", NULL);
+		$resampleString = $resamplingDefault == "yes" ? " class=\"tt-thumbnail\"" : NULL;
+		return "{$attachment['name']}|{$resampleString}width=\"{$attachment['width']}\" height=\"{$attachment['height']}\" alt=\"" . _text('사용자 삽입 이미지') . "\"";		
+	} else {
 		return "{$attachment['name']}|";
+	}
 }
 
 function getPrettyAttachmentLabel($attachment) {

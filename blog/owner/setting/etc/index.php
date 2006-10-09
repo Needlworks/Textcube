@@ -158,7 +158,7 @@ if (extension_loaded('gd')) {
 										<dl id="resampling-default-line" class="line">
 											<dt><span class="label"><?php echo _t('리샘플링 기본 설정');?></span></dt>
 											<dd>
-												<input type="checkbox" class="checkbox" id="useResamplingAsDefault" name="useResamplingAsDefault" value="yes"<?php echo (getUserSetting("resamplingDefault", "NULL") == "yes") ? ' checked="checked"' : NULL;?> /> <label for="useResamplingAsDefault"><?php echo _t('이미지 리샘플링 기능을 기본으로 사용합니다.');?></label>
+												<input type="checkbox" class="checkbox" id="useResamplingAsDefault" name="useResamplingAsDefault" value="yes"<?php echo (getUserSetting("resamplingDefault", NULL) == "yes") ? ' checked="checked"' : NULL;?> /> <label for="useResamplingAsDefault"><?php echo _t('이미지 리샘플링 기능을 기본으로 사용합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="watermark-line" class="line">

@@ -17,7 +17,8 @@ $IV = array(
 		'rightPaddingManual' => array('int', 'mandatory' => false),
 		'bottomPaddingManual' => array('int', 'mandatory' => false),
 		'leftPaddingManual' => array('int', 'mandatory' => false),
-		'paddingColor' => array('string', 'default' => "FFFFFF")
+		'paddingColor' => array('string', 'default' => "FFFFFF"),
+		'useResamplingAsDefault' => array('string', 'mandatory' => false)
 	),
 	'FILES' => array(
 		'waterMark' => array('file')
@@ -28,6 +29,12 @@ require ROOT . '/lib/includeForOwner.php';
 
 $isAjaxRequest = false; // checkAjaxRequest();
 $errorArray = array();
+
+if ($_POST['useResamplingAsDefault'] == "yes") {
+	setUserSetting("resamplingDefault", "yes");
+} else {
+	removeUserSetting("resamplingDefault");
+}
 
 // 워터마크 처리.
 if ($_POST['deleteWaterMark'] == "yes") {
