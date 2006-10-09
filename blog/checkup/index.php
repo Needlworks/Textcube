@@ -301,12 +301,12 @@ if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSett
 				DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE owner = {$entry['owner']} AND id = {$entry['id']} AND draft = {$originalEntry['draft']}");
 				$query->resetQualifiers();
 			}
-			setServiceSetting('newlineStyle', '1.1');
 			echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
 		} else {
 			echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
 		}
 	}
+	setServiceSetting('newlineStyle', '1.1');
 }
 
 if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings blogLanguage")) {
