@@ -1469,6 +1469,9 @@ function TTCommand(command, value1, value2) {
 						var range = editor.contentDocument.createRange();
 						range.setStart(editor.contentDocument.body,0);
 						range.setEnd(editor.contentDocument.body,0);
+						var dummyNode = document.createElement("div");
+						dummyNode.appendChild(range.extractContents());
+						range.insertNode(range.createContextualFragment(value1 + dummyNode.innerHTML + value2));
 					}
 					else {
 						var range = editor.getSelectionRange();
