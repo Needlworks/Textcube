@@ -4,13 +4,12 @@
   <title xml:lang="ko">최근 댓글</title>
   <link>http://www.tattertools.com/</link>
   <version>1.0</version>
-  <description xml:lang="en">Recent Reply Plugin</description>
-  <description xml:lang="ko">최근 댓글 플러그인</description>
+  <description xml:lang="en">Shows recent replies</description>
+  <description xml:lang="ko">최근에 작성된 댓글들을 보여줍니다</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
   <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
-  <scope>dashboard</scope>
   <requirements>
     <tattertools>1.1</tattertools>
   </requirements>

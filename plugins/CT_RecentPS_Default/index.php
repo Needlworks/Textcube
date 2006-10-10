@@ -1,4 +1,29 @@
 <?php
+/* Recent Entries plugin for Tattertools 1.1
+   ----------------------------------
+   Version 1.0
+   Tatter and Friends development team.
+
+   Creator          : Peris
+   Maintainer       : Peris, inureyes, graphittie
+
+   Created at       : 2006.7.25
+   Last modified at : 2006.10.10
+ 
+ This plugin shows recent entries on 'quilt'.
+ For the detail, visit http://forum.tattertools.com/ko
+
+
+ General Public License
+ http://www.gnu.org/licenses/gpl.html
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+*/
+
 // lib/model/entry.php : 263 line
 function _getRecentEntries($owner){
 	global $database,$skinSetting;
@@ -19,7 +44,7 @@ function _getRecentEntriesView($entries,$template){
 		$view = $template;
 		dress('rctps_rep_link',"$blogURL/{$entry['id']}",$view);
 		dress('rctps_rep_edit_link',"$blogURL/owner/entry/edit/{$entry['id']}",$view);	
-		dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],$skinSetting['recentEntryLength'])),$view);
+		dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],50)),$view);
 		dress('rctps_rep_rp_cnt',"<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments']>0?"({$entry['comments']})":'').'</span>',$view);
 		print $view;
 	}

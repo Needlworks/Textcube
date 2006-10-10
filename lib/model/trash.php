@@ -102,7 +102,7 @@ function deleteTrackbackTrash($owner, $id) {
 }
 
 function restoreTrackbackTrash($owner, $id) {
-    	global $database;
+   	global $database;
 	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
 		return false;
@@ -112,4 +112,11 @@ function restoreTrackbackTrash($owner, $id) {
 		return $entry;
 	return false;
 }
+
+function trashVan() {
+   	global $database;
+	executeQuery("DELETE FROM {$database['prefix']}Comments where written < UNIX_TIMESTAMP() - 1296000 AND isFiltered = 1");
+	executeQuery("DELETE FROM {$database['prefix']}Trackbacks where written < UNIX_TIMESTAMP() - 1296000 AND isFiltered = 1");
+}
+
 ?>

@@ -4,6 +4,8 @@ require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/headerA.php';
 require ROOT . '/lib/piece/owner/contentMenuA0.php';
 
+trashVan();
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (isset($_POST['pos'])) $_GET['pos'] = $_POST['pos'];
 	if (isset($_POST['rel'])) $_GET['rel'] = $_POST['rel'];

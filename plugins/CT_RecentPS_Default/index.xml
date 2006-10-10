@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="en">Recent entries</title>
+  <title xml:lang="en">Recent Entries</title>
   <title xml:lang="ko">최근 글</title>
   <link>http://www.tattertools.com/</link>
   <version>1.0</version>
-  <description xml:lang="en">Recent entry Plugin</description>
-  <description xml:lang="ko">최근 글 플러그인</description>
+  <description xml:lang="en">Shows recent entries</description>
+  <description xml:lang="ko">최근에 작성된 글들을 보여줍니다</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
   <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
-  <scope>dashboard</scope>
   <requirements>
     <tattertools>1.1</tattertools>
   </requirements>

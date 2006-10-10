@@ -249,7 +249,11 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 }
 ?>
 							</h2>
-							
+
+							<div class="main-explain-box">
+								<p class="explain"><?php echo _t('휴지통에 버려진 댓글은 15일이 지나면 자동으로 지워집니다. 광고 댓글의 차단 및 분석을 위하여 휴지통의 데이터를 사용하는 플러그인이 있을 수 있으므로 수동으로 지우지 않는 것을 권장합니다.');?></p>
+							</div>							
+
 							<form id="trash-form" method="post" action="<?php echo $blogURL;?>/owner/entry/trash">
 								<fieldset class="section">
 									<legend><?php echo _t('삭제된 파일 보기 설정');?></legend>
