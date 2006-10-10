@@ -71,21 +71,23 @@ if (!doesHaveOwnership()) {
 					<dt><label for="password"><?php echo _text('비밀번호');?></label></dt>
 					<dd><input type="password" class="input-text" id="password" name="password" value="<?php echo isset($_POST['password']) ? $_POST['password'] : '';?>" /></dd>
 				</dl>
-<?php 
-	}
-?>
     			<dl class="homepage-line">
 					<dt><label for="homepage"><?php echo _text('홈페이지');?></label></dt>
 					<dd><input type="text" class="input-text" id="homepage" name="homepage" value="<?php echo (empty($comment['homepage']) ? 'http://' : htmlspecialchars($comment['homepage']));?>" /></dd>
 				</dl>
+<?php 
+	}
+?>
 				<dl class="secret-line">
 					<dd>
 						<input type="checkbox" class="checkbox" id="secret" name="secret"<?php echo ($comment['secret'] ? ' checked="checked"' : false);?> />
 						<label for="secret"><?php echo _text('비밀글로 등록');?></label>
 					</dd>
 				</dl>
-<?php 
-} else if ($user['name'] != $comment['name']) {
+	<?php 
+}
+
+if ((doesHaveOwnership()) && (!isset($comment['replier']) || ($comment['replier'] != getUserId()))) {
 	$confirmString = "if (confirm('관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.\\n계속 하시겠습니까?'))";
 }
 ?>			
