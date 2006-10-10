@@ -301,7 +301,7 @@ function importer($path, $node, $line) {
 						array_push($post->tags, $node['tag'][$i]['.value']);
 				}
 			}
-			if(floatval(@$node['.attributes']['format']) < 1.1)
+			if (floatval(getServiceSetting('newlineStyle')) >= 1.1 && floatval(@$node['.attributes']['format']) < 1.1)
 				$post->content = nl2brWithHTML($post->content);
 			if (!$post->add())
 				user_error(__LINE__ . $post->error);
@@ -420,7 +420,7 @@ function importer($path, $node, $line) {
 			$notice->published = $node['published'][0]['.value'];
 			$notice->created = @$node['created'][0]['.value'];
 			$notice->modified = @$node['modified'][0]['.value'];
-			if(floatval(@$node['.attributes']['format']) < 1.1)
+			if (floatval(getServiceSetting('newlineStyle')) >= 1.1 && floatval(@$node['.attributes']['format']) < 1.1)
 				$notice->content = nl2brWithHTML($notice->content);
 			if (!$notice->add())
 				user_error(__LINE__ . $notice->error);
@@ -470,7 +470,7 @@ function importer($path, $node, $line) {
 			$keyword->published = $node['published'][0]['.value'];
 			$keyword->created = @$node['created'][0]['.value'];
 			$keyword->modified = @$node['modified'][0]['.value'];
-			if(floatval(@$node['.attributes']['format']) < 1.1)
+			if (floatval(getServiceSetting('newlineStyle')) >= 1.1 && floatval(@$node['.attributes']['format']) < 1.1)
 				$keyword->description = nl2brWithHTML($keyword->description);
 			if (!$keyword->add())
 				user_error(__LINE__ . $keyword->error);
