@@ -159,13 +159,14 @@ function pretty_dress($view)
 								<p class="explain"><?php echo _t('블로그의 사이드바 구성을 변경하실 수 있습니다. 사이드바에 새로운 요소를 추가/삭제하실 수 있으며 요소들 간의 자유로운 위치 이동기능도 지원합니다.');?></p>
 							</div>
 							
-							<fieldset id="sidebar-preview-mode">
+							<div id="sidebar-preview-mode">
+								<fieldset>
 								<legend><?php echo _t('편집 관련 기능');?></legend>
-								
 								<a id="safe-mode-button" class="button" href="<?php echo $blogURL; ?>/owner/skin/sidebar?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a>
 								<a id="tag-mode-button" class="button" href="<?php echo $blogURL; ?>/owner/skin/sidebar?tag" title="<?php echo _t('실제 블로그 사이드바에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a>
-								<a id="init-button" class="button" href="sidebar/initialize" onclick="if (!confirm('<?php echo _t('정말 사이드바 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('사이드바의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>						
-							</fieldset>
+								<a id="init-button" class="button" href="sidebar/initialize" onclick="if (!confirm('<?php echo _t('정말 사이드바 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('사이드바의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>
+								</fieldset>						
+							</div>
 							
 <?php
 $sidebarPluginArray = array();
@@ -571,17 +572,9 @@ foreach ($sidebarPluginArray as $nowKey) {
 			delete this.parentMethod;
 			
 			with (this.dropIndicator.style) {
-				borderBottomWidth = "1px";
-				borderBottomColor = "black";
-				borderBottomStyle = "solid";
-				borderLeftWidth = "1px";
-				borderLeftColor = "black";
-				borderLeftStyle = "solid";
-				borderRightWidth = "1px";
-				borderRightColor = "black";
-				borderRightStyle = "solid";
-				height = "5px";
-				background = "silver";
+				borderTopWidth = "5px";
+				borderTopColor = "silver";
+				borderTopStyle = "solid";
 			};
 
 			return retVal;		
