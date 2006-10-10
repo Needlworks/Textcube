@@ -18,7 +18,7 @@
 	float                            : left;
 	width                            : 480px;
 	margin                           : 0 0 0 0;
-	min-height                       : 40px;
+	padding-bottom                   : 25px;
 }
 
 

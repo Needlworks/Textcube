@@ -106,6 +106,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 									request.onSuccess = function () {
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('데이터가 삭제되었습니다.');?>", "center", "bottom");
+										confirmativePassword.value = '';
 									}
 									request.onError = function () {
 										PM.removeRequest(this);
@@ -126,7 +127,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 									<div class="title"><?php echo _t('CORRECT');?></div>
 								</div>
 								<p class="explain">
-									<a href="#void" onclick="correctData()"><?php echo _t('비정상적인 데이터를 교정합니다.<br />동적인 캐쉬 데이터는 재계산하여 저장합니다.');?></a>
+									<?php echo _t('비정상적인 데이터를 교정합니다.<br />동적인 캐쉬 데이터는 재계산하여 저장합니다.');?>
 								</p>
 							</div>
 							
@@ -155,7 +156,7 @@ if (getUserId() == 1) {
 									<div class="title"><?php echo _t('OPTIMIZE');?></div>
 								</div>
 								<p class="explain">
-									<a href="#void" onclick="optimizeData()"><?php echo _t('잦은 입출력으로 비효율적이 된 데이터베이스를 최적화 합니다.');?></a>
+									<?php echo _t('잦은 입출력으로 비효율적이 된 데이터베이스를 최적화 합니다.');?>
 								</p>
 							</div>
 							
@@ -184,7 +185,7 @@ if (getUserId() == 1) {
 									<div class="title"><?php echo _t('EXPORT');?></div>
 								</div>
 								<p class="explain">
-									<a href="#void" onclick="showDialog('DBExport')"><?php echo _t('현재의 모든 데이터를 백업파일로 보관합니다.<br />첨부파일을 포함시킬 수 있으며, 복원할 경우 자동으로 첨부파일이 처리됩니다.<br />백업파일은 서버에 저장하거나 다운받으실 수 있습니다.');?></a>
+									<?php echo _t('현재의 모든 데이터를 백업파일로 보관합니다.<br />첨부파일을 포함시킬 수 있으며, 복원할 경우 자동으로 첨부파일이 처리됩니다.<br />백업파일은 서버에 저장하거나 다운받으실 수 있습니다.');?>
 								</p>
 							</div>
 							
@@ -221,7 +222,7 @@ if (getUserId() == 1) {
 									<div class="title"><?php echo _t('IMPORT');?></div>
 								</div>
 								<p class="explain">
-									<a href="#void" onclick="showDialog('DBImport')"><?php echo _t('백업파일을 읽어서 데이터를 복원합니다.<br />백업파일에 첨부파일이 포함되어 있으면 첨부파일도 자동으로 복원됩니다.<br />마이그레이션 데이터도 복원을 통해 가져올 수 있습니다.');?></a>
+									<?php echo _t('백업파일을 읽어서 데이터를 복원합니다.<br />백업파일에 첨부파일이 포함되어 있으면 첨부파일도 자동으로 복원됩니다.<br />마이그레이션 데이터도 복원을 통해 가져올 수 있습니다.');?>
 								</p>
 							</div>
 							<div id="DBImportDialog" class="dialog" style="position: absolute; display: none; z-index: 10;">
@@ -289,7 +290,7 @@ if ($backup) {
 									<div class="title"><?php echo _t('REMOVE');?></div>
 								</div>
 								<p class="explain">
-									<a href="#void" onclick="showDialog('DBRemove')"><?php echo _t('태터툴즈의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일로만 가능하므로 먼저 백업을 하시기 바랍니다.');?></a>
+									<?php echo _t('태터툴즈의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일로만 가능하므로 먼저 백업을 하시기 바랍니다.');?>
 								</p>
 							</div>
 							

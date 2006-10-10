@@ -67,7 +67,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 												objTR.cells[5].innerHTML = '<a href="#void" id="config_' + num +'" class="config-enabled-icon bullet" onclick="getCurrentSetting(\'' + plugin + '\',\'Y\',\''+width+'\',\''+height+'\')"><?php echo _t('설정');?><\/a>';
 											}
 											tempStr = document.getElementById("plugin" + num + "Scope").innerHTML;
-											if (tempStr.match('<?php echo _t('관리자');?>') || tempStr.match('<?php echo _t('사이드바');?>'))
+											if (tempStr.match('<?php echo _t('관리자');?>'))
 											{
 												changeList();
 											}
@@ -91,7 +91,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 												objTR.cells[5].innerHTML = '<span class="config-disabled-icon bullet"><?php echo _t('설정');?><\/span>';
 											}
 											tempStr = document.getElementById("plugin" + num + "Scope").innerHTML;
-											if (tempStr.match('<?php echo _t('관리자');?>') || tempStr.match('<?php echo _t('사이드바');?>'))
+											if (tempStr.match('<?php echo _t('관리자');?>'))
 											{
 												changeList();
 											}
