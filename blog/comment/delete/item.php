@@ -112,6 +112,8 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 <?php
 					printHtmlFooter();
 					exit;
+				} else {
+					respondErrorPage(_text('수정이 실패하였습니다.'));
 				}
 			}
 	}

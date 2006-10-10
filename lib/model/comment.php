@@ -321,12 +321,14 @@ function updateComment($owner, $comment, $password) {
 			return 'blocked';
 	}
 	
+	$comment['homepage'] = stripHTML($comment['homepage']);
 	$comment['name'] = mysql_lessen($comment['name'], 80);
 	$comment['homepage'] = mysql_lessen($comment['homepage'], 80);
 	$comment['comment'] = mysql_lessen($comment['comment'], 65535);
 	
 	$setPassword = '';
-	if ($user !== null && !is_null($comment['replier']) && $comment['replier'] == $owner) {
+	if ($user !== null) {
+		$comment['replier'] = $user['id'];
 		$name = mysql_real_escape_string($user['name']);
 		$setPassword = 'password = \'\',';
 		$homepage = mysql_real_escape_string($user['homepage']);
@@ -355,6 +357,9 @@ function updateComment($owner, $comment, $password) {
 			$wherePassword = ' and password = \'' . md5($password) . '\'';
 		}
 	}
+	
+	$replier = is_null($comment['replier']) ? 'null' : "'{$comment['replier']}'";
+	
 	$result = mysql_query("update {$database['prefix']}Comments
 				set
 					name = '$name',
@@ -364,7 +369,8 @@ function updateComment($owner, $comment, $password) {
 					comment = '$comment0',
 					ip = '{$comment['ip']}',
 					written = UNIX_TIMESTAMP(),
-					isFiltered = {$comment['isFiltered']}
+					isFiltered = {$comment['isFiltered']},
+					replier = {$replier}
 				where owner = $owner and id = {$comment['id']} $wherePassword");
 	return $result ? true : false;
 }
