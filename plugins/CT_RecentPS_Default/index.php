@@ -18,6 +18,7 @@ function _getRecentEntriesView($entries,$template){
 	foreach($entries as $entry){
 		$view = $template;
 		dress('rctps_rep_link',"$blogURL/{$entry['id']}",$view);
+		dress('rctps_rep_edit_link',"$blogURL/owner/entry/edit/{$entry['id']}",$view);	
 		dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],$skinSetting['recentEntryLength'])),$view);
 		dress('rctps_rep_rp_cnt',"<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments']>0?"({$entry['comments']})":'').'</span>',$view);
 		print $view;
@@ -29,10 +30,10 @@ function _getRecentEntriesView($entries,$template){
 
 // lib/piece/blog/end.php : 47 line
 function CT_RecentPS_Default($target) {
-	global $owner;
+	global $owner,$pluginURL;
 
 	$target .= '<ul>';
-	$target .= _getRecentEntriesView(_getRecentEntries($owner),'<li> <a href="[##_rctps_rep_link_##]"> [##_rctps_rep_title_##]</a> <span class="cnt">[##_rctps_rep_rp_cnt_##]</span> </li>');
+	$target .= _getRecentEntriesView(_getRecentEntries($owner),'<li><a href="[##_rctps_rep_edit_link_##]"><img src="'.$pluginURL.'/images/edit.png" style="border:none;" /></a><a href="[##_rctps_rep_link_##]"> [##_rctps_rep_title_##]</a> <span class="cnt">[##_rctps_rep_rp_cnt_##]</span> </li>');
 	$target .= '</ul>';
 
 	return $target;
