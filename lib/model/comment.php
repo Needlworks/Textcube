@@ -533,6 +533,7 @@ function notifyComment() {
 		executeQuery("DELETE FROM `{$database['prefix']}CommentsNotifiedQueue` WHERE `id`={$queue['queueId']}");
 		return false;
 	}
+	$entry = (fetchQueryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id={$comments['entry']}"));
 	if( $entry['id'] == 0){
 		$r1_comment_check_url = rawurlencode("$defaultURL/guestbook#comment" . $parentComments['id']);
 		$r2_comment_check_url = rawurlencode("$defaultURL/guestbook#comment" . $comments['id']);
@@ -540,8 +541,7 @@ function notifyComment() {
 		$r1_comment_check_url = rawurlencode("$defaultURL/" . ($blog['useSlogan'] ? "entry/{$entry['slogan']}" : $entry['id']) . "#comment" . $parentComments['id']);
 		$r2_comment_check_url = rawurlencode("$defaultURL/" . ($blog['useSlogan'] ? "entry/{$entry['slogan']}" : $entry['id']) . "#comment" . $comments['id']);
 	}
-	
-	$entry = (fetchQueryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id={$comments['entry']}"));
+		
 	$data = "url=" . rawurlencode($defaultURL) . "&mode=fb" . "&s_home_title=" . rawurlencode($blog['title']) . "&s_post_title=" . rawurlencode($entry['title']) . "&s_name=" . rawurlencode($comments['name']) . "&s_no=" . rawurlencode($comments['entry']) . "&s_url=" . rawurlencode("$defaultURL/" . ($blog['useSlogan'] ? "entry/{$entry['slogan']}" : $entry['id'])) . "&r1_name=" . rawurlencode($parentComments['name']) . "&r1_no=" . rawurlencode($parentComments['id']) . "&r1_pno=" . rawurlencode($comments['entry']) . "&r1_rno=0" . "&r1_homepage=" . rawurlencode($parentComments['homepage']) . "&r1_regdate=" . rawurlencode($parentComments['written']) . "&r1_url=" . $r1_comment_check_url. "&r2_name=" . rawurlencode($comments['name']) . "&r2_no=" . rawurlencode($comments['id']) . "&r2_pno=" . rawurlencode($comments['entry']) . "&r2_rno=" . rawurlencode($comments['parent']) . "&r2_homepage=" . rawurlencode($comments['homepage']) . "&r2_regdate=" . rawurlencode($comments['written']) . "&r2_url=" . $r2_comment_check_url . "&r1_body=" . rawurlencode($parentComments['comment']) . "&r2_body=" . rawurlencode($comments['comment']);
 	requireComponent('Eolin.PHP.HTTPRequest');
 	if (strpos($parentComments['homepage'], "http://") === false) {
