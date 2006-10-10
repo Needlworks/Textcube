@@ -61,23 +61,19 @@ foreach ($entries as $entry) {
 		dress('article_rep_category_link', "$blogURL/category/" . encodeURL($entry['categoryLabel']), $entryView);
 		dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published'])), $entryView);
 		dress('entry_archive_link', "$blogURL/archive/" . Timestamp::getDate($entry['published']), $entryView);
-		if ($entry['acceptComment'] || ($entry['comments'] > 0)){
+		if ($entry['acceptComment'] || ($entry['comments'] > 0))
 			dress('article_rep_rp_link', "toggleLayer('entry{$entry['id']}Comment'); return false", $entryView);
-			dress('article_rep_rp_id', "entry{$entry['id']}Comment", $entryView);
-		} else {
+		else
 			dress('article_rep_rp_link', "alert('" . _text('이 글에는 댓글을 달 수 없습니다.') . "'); return false", $entryView);
-			dress('article_rep_rp_id', "false", $entryView);
-		}
+
 		list($tempTag, $commentView) = getCommentCountPart($entry['comments'], $skin);
 		dress($tempTag, "<span id=\"commentCount{$entry['id']}\">{$commentView}</span>", $entryView);
 		
-		if ($entry['acceptTrackback'] || ($entry['trackbacks'] > 0)){
+		if ($entry['acceptTrackback'] || ($entry['trackbacks'] > 0))
 			dress('article_rep_tb_link', "toggleLayer('entry{$entry['id']}Trackback'); return false", $entryView);
-			dress('article_rep_tb_id', "entry{$entry['id']}Trackback", $entryView);
-		} else {
+		else
 			dress('article_rep_tb_link', "alert('" . _text('이 글에는 글을 걸 수 없습니다.') . "'); return false", $entryView);
-			dress('article_rep_tb_id', "false", $entryView);
-		}
+
 		list($tempTag, $trackbackView) = getTrackbackCountPart($entry['trackbacks'], $skin);
 		dress($tempTag, $trackbackView, $entryView);
 		
