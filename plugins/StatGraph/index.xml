@@ -14,6 +14,6 @@
 	</requirements>
 	<binding>
 		<tag name="StatisticsGraph" handler="DisplayStatisticsGraph" />
-    <sidebar title="StatisticsGraph" handler="DisplayStatisticsGraph"></sidebar>
+    <sidebar title="Statistics" handler="DisplayStatisticsGraph"></sidebar>
   </binding>
 </plugin>
