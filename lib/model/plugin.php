@@ -56,26 +56,23 @@ function treatPluginTable($name, $fields, $keys){
 	if(doesExistTable($database['prefix'] . $name)){
 		return true;
 	} else {
-		$query = "
-			CREATE TABLE {$database['prefix']}{$name} (
-				owner int(11) NOT NULL default '0',";
+		$query = "CREATE TABLE {$database['prefix']}{$name} (owner int(11) NOT NULL default '0',";
 
 		foreach($fields as $field) {
 			$isNull = ($field['isnull'] == 0) ? ' NOT NULL ' : ' NULL ';
-			$defaultValue = " DEFAULT '".$field['default']."' ";
-			$sentence = $field['name']." ".$field['attribute']."(".$field['length'].")".$isNull.$defaultValue.",";
+			$defaultValue = is_null($field['default']) ? '' : " DEFAULT '" . mysql_real_escape_string($field['default']) . "' ";
+			$fieldLength = ($field['length'] >= 0) ? "(".$field['length'].")" : '';
+			$sentence = $field['name'] . " " . $field['attribute'] . $fieldLength . $isNull . $defaultValue . ",";
 			$query .= $sentence;
 		}
-
-		if(!empty($keys)) {
-			$query .= " PRIMARY KEY (owner,";
-			print_r($keys);
-			foreach($keys as $key) $query .= $key;
-			$query .= ")";
-		} else $query .= " PRIMARY KEY (owner)";
+		
+		array_unshift($keys, 'owner');
+		$query .= " PRIMARY KEY (" . implode(',',$keys) . ")";
 		$query .= ") TYPE=MyISAM DEFAULT CHARSET=utf8";
+		
 		if (DBQuery::execute($query)) return true;
 		else return false;
+		
 	}
 	return true;
 }

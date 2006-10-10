@@ -23,11 +23,26 @@ if (!empty($owner)) {
 		if ($manifest && $xmls->open($manifest)) {
 			if ($xmls->doesExist('/plugin/storage')) {
 				foreach ($xmls->selectNodes('/plugin/storage/table') as $table) {
+					$storageMappings = array();
+					$storageKeymappings = array();					 
 					if(empty($table['name'][0]['.value'])) continue;
 					$tableName = htmlspecialchars($table['name'][0]['.value']);
 					if (!empty($table['fields'][0]['field'])) {
-						foreach($table['fields'][0]['field'] as $field) {
-							array_push($storageMappings, array('name' => $field['name'][0]['.value'], 'attribute' => $field['attribute'][0]['.value'], 'length' => $field['length'][0]['.value'], 'isnull' => $field['isnull'][0]['.value'], 'default' => $field['default'][0]['.value']));
+						foreach($table['fields'][0]['field'] as $field) 
+						{
+							if (!isset($field['name']))
+								continue; // Error? maybe loading fail, so skipping is needed.
+							$fieldName = $field['name'][0]['.value'];
+							
+							if (!isset($field['attribute']))
+								continue; // Error? maybe loading fail, so skipping is needed.
+							$fieldAttribute = $field['attribute'][0]['.value'];
+							
+							$fieldLength = isset($field['length']) ? $field['length'][0]['.value'] : -1;
+							$fieldIsNull = isset($field['isnull']) ? $field['isnull'][0]['.value'] : 1;
+							$fieldDefault = isset($field['default']) ? $field['default'][0]['.value'] : null;
+							
+							array_push($storageMappings, array('name' => $fieldName, 'attribute' => $fieldAttribute, 'length' => $fieldLength, 'isnull' => $fieldIsNull, 'default' => $fieldDefault));
 						}
 					}
 					if (!empty($table['key'][0]['.value'])) {
@@ -167,11 +182,6 @@ if (!empty($owner)) {
 	unset($xmls);
 	unset($plugin);
 	
-	/*
-	echo '<pre>';
-	var_dump($adminMenuMappings);
-	echo '</pre>';
-	exit;*/
 }
 
 function fireEvent($event, $target = null, $mother = null, $condition = true) {
