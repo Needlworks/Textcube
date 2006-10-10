@@ -7,6 +7,10 @@ function eolinTagFunction_WatchInputBox(id)
 	{
 		var instance = document.getElementById(id).instance;
 		var input = instance.getInput();
+		if (input.value.charAt(input.value.length - 1) == ',') {
+		    instance.setValue(input.value.substring(0, input.value.length - 1));
+		    return;
+		}
 
 		// 값이 달라졌는지 체크
 		if(input.value != instance.typingText)
@@ -312,6 +316,8 @@ Tag.prototype.createSuggestInput = function()
 					return event.keyCode;
 				break;
 			case 13:	// Enter
+			case 9 :    // tab
+			case 188 :    // comma
 				instance.setValue(this.value);
 				break;
 			case 27:	// ESC

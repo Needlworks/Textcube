@@ -6,11 +6,14 @@ function eolinLocationTagFunction_WatchInputBox(id)
 	try
 	{
 		var instance = document.getElementById(id).instance;
-
+		if (instance.input.value.charAt(instance.input.value.length - 1) == '/') {
+		    instance.setValue(instance.input.value, true);
+		    return;
+		}
 		if(instance.input.value != instance.typingText)
 		{
 			instance.typingText = instance.input.value;
-			instance.requestSuggestion();
+   			instance.requestSuggestion();
 		}
 	}
 	catch(e) { }
@@ -153,6 +156,8 @@ function LocationTag(container, language, disable)
 					return event.keyCode;
 				break;
 			case 13:	// Enter
+			case 9 :    // tab
+			case 191:   // slash
 				instance.setValue(this.value, true);
 				break;
 			case 27:	// ESC
