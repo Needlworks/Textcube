@@ -414,8 +414,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 
 <script type="text/javascript">
 	djConfig = {
-		parseWidgets: false, 
-		isDebug: true 
+		parseWidgets: false
 	};
 </script>
 <script src="<?php echo $service['path'];?>/script/dojo/dojo.js" type="text/javascript"></script>
