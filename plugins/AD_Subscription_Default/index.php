@@ -13,7 +13,7 @@ function AD_Subscription_Default()
 								window.addEventListener("load", execLoadFunction, false);
 								
 								function execLoadFunction() {
-									removeItselfById('log-pages-submit');
+									//removeItselfById('log-pages-submit');
 								}
 							//]]>
 						</script>
