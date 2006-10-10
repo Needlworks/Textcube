@@ -215,7 +215,10 @@ if (is_null($sidebarConfig)) {
 <?php
 
 for ($i=0; $i<$sidebarCount; $i++) {
-	$orderConfig = $sidebarConfig[$i];
+	if (array_key_exists($i, $sidebarConfig))
+		$orderConfig = $sidebarConfig[$i];
+	else
+		$orderConfig = array();
 ?>
 								<div class="section">
 									<h4><input type="radio" id="sidebar-<?php echo $i + 1;?>" class="radio" name="sidebarNumber" value="<?php echo $i;?>"<?php echo $bFirstRadio ? " checked" : NULL;?> /><label for="sidebar-<?php echo $i + 1;?>"><?php echo _t('사이드바').' '.($i + 1);?></label></h4>
@@ -353,9 +356,10 @@ for ($i=0; $i<$sidebarCount; $i++) {
 	}
 }
 for ($i=0;$i<$sidebarCount; $i++){
-	for ($j=0; $j<count($sidebarConfig[$i]) ; $j++) {
-		if ($sidebarConfig[$i][$j]['type'] == 1) {
-			$identifier = implode(':', array(1, $sidebarConfig[$i][$j]['id'], $sidebarConfig[$i][$j]['parameters']));
+	$orderConfig = array_key_exists($i,$sidebarConfig) ? $sidebarConfig[$i] : array();
+	for ($j=0; $j<count($orderConfig) ; $j++) {
+		if ($orderConfig[$j]['type'] == 1) {
+			$identifier = implode(':', array(1, $orderConfig[$j]['id'], $orderConfig[$j]['parameters']));
 			$pos = 0;
 			while ($pos<count($sortedArray)) {
 				if ($sortedArray[$pos]['identifier'] == $identifier) break;
@@ -795,7 +799,8 @@ dojo.widget.defineWidget(
 for ($i=0; $i<$sidebarCount; $i++) {
 	echo "document.getElementById('sidebar-ul-{$i}').sidebar = {$i};";
 	echo "new DropPanel(document.getElementById('sidebar-ul-{$i}'), [\"sidebar\"]);";
-	$orderConfig = $sidebarConfig[$i];
+	
+	$orderConfig = array_key_exists($i, $sidebarConfig) ? $sidebarConfig[$i] :  array();
 	for ($j=0; $j<count($orderConfig); $j++) {
 		echo "document.getElementById('sidebar-element-{$i}-{$j}').sidebarNumber = {$i};";
 		echo "document.getElementById('sidebar-element-{$i}-{$j}').modulePos = {$j};";

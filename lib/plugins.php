@@ -258,7 +258,7 @@ function handleSidebars(& $sval, & $obj) {
 	
 	for ($i=0; $i<$sidebarCount; $i++) {
 		$str = "";
-		if ((!is_null($sidebarAllOrders)) && ((!is_null($sidebarAllOrders[$i])))) {
+		if ((!is_null($sidebarAllOrders)) && ((array_key_exists($i, $sidebarAllOrders)))) {
 			$currentSidebarOrder = $sidebarAllOrders[$i];
 			for ($j=0; $j<count($currentSidebarOrder); $j++) {
 				if ($currentSidebarOrder[$j]['type'] == 1) { // skin text
