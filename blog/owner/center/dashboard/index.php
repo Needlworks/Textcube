@@ -188,7 +188,7 @@ if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ){
 } else if (count($centerMappings) > 0) { // TODO 1/3
 	unset($_GET['pos']);
 	unset($_GET['rel']);
-	$middlepos = (count($centerMappings) + 1)/3;
+	$middlepos = (count($centerMappings) + 2)/3;
 	array_splice($centerMappings, $middlepos , 0, array(array('plugin' => 'TatterToolsSeperator')));
 	array_splice($centerMappings, $middlepos * 2, 0, array(array('plugin' => 'TatterToolsSeperator')));
 	$newlayout = $addedlayout = $centerMappings;
