@@ -17,7 +17,7 @@ if ((isset($_REQUEST['owner'])) && is_numeric($_REQUEST['owner'])) {
 requireComponent('Tattertools.Model.Statistics');
 $row = Statistics::getWeeklyStatistics();
 
-array_reverse($row);
+$row = array_reverse($row);
 
 // YÃà ¹è¿­
 $pos = 0;
