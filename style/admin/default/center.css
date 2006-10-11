@@ -89,7 +89,7 @@
 #part-center-dashboard .panel
 {
 	float                            : left;
-	width                            : 380px;
+	width                            : 294px;
 	margin                           : 0 0 0 0;
 	padding-bottom                   : 25px;
 }
@@ -99,7 +99,7 @@
 {
 	float                            : left;
 	margin                           : 0 12px 25px 12px;
-	width                            : 456px;
+	width                            : 294px;
 }
 
 #part-center-dashboard .section h3
@@ -110,7 +110,7 @@
 	height                           : 32px;
 	line-height                      : 32px;
 	padding-left                     : 25px;
-	width                            : 456px;
+	width                            : 294px;
 }
 
 #part-center-dashboard .section ul li
