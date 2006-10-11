@@ -173,6 +173,11 @@ if (!defined('__TATTERTOOLS_CENTER__')) {
 									</dd>
 								</dl>
 <?php
+} else {
+?>
+								<label for="useTTdashboard"><?php echo _t('조각보에서 태터툴즈 독립 패널을 봅니다');?></label>
+								<input type="checkbox" class="checkbox" id="useTTdashboard" />
+<?php
 }
 ?>
 								<dl id="sorting-line" class="line">

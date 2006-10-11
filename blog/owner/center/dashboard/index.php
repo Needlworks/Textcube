@@ -46,116 +46,116 @@ if (false) {
 ?>
 </script>
 	
-	
-	
 <form method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
 	<div id="part-center-dashboard" class="part">
 <?php
-if (!isset($_REQUEST['edit'])) {
-	echo '<h2 class="caption"><span class="main-text">' . _t('태터툴즈') . '</span></h2>';
+$tattertoolsDashboard = getUserSetting("tattertoolsDashboard",true);
+if($tattertoolsDashboard) {
+	if (!isset($_REQUEST['edit'])) {
+		echo '<h2 class="caption"><span class="main-text">' . _t('태터툴즈') . '</span></h2>';
 ?>
 	<div class="bloginfo-section">
 <?php
-	echo '<h3>' . _t('바로가기') . '</h3>';
-	$stats = getStatistics($owner);
-	$target = '';
-	$target .= '<ul>';
-	$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새 글을 씁니다').'</a></li>'.CRLF;
-	$target .= '<li><a href="'.$blogURL.'/owner/skin">'. _t('스킨을 변경합니다').'</a></li>'.CRLF;
-	$target .= '<li><a href="'.$blogURL.'/owner/skin/setting">'. _t('블로그에 표시되는 값들을 변경합니다').'</a></li>'.CRLF;
-	$target .= '<li><a href="'.$blogURL.'/owner/entry/category">'. _t('카테고리를 변경합니다').'</a></li>'.CRLF;
-	$target .= '<li><a href="'.$blogURL.'/owner/plugin">'. _t('플러그인을 켜거나 끕니다').'</a></li>'.CRLF;
-	$target .= '<li><a href="'.$blogURL.'/owner/reader">'. _t('RSS 리더를 봅니다').'</a></li>'.CRLF;
-	$target .= '</ul>';
-	$target .= '<h3>' . _t('종합정보') . '</h3>';
-	$target .= '<ul>';
-	$target .= '<li>'. _t('오늘/어제방문자'). ' : ' . number_format($stats['today']) . '/' . number_format($stats['yesterday']) . '</li>'.CRLF;
-	$target .= '<li>'. _t('총방문자'). ' : ' . number_format($stats['total']) . '</li>'.CRLF;
-	$target .= '<li>'. _t('글개수'). ' : ' . number_format(getEntriesTotalCount($owner)) . '</li>'.CRLF;
-	$target .= '<li>'. _t('댓글/걸린글개수'). ' : ' . number_format(getCommentCount($owner)) . '/' . number_format(getTrackbackCount($owner)) . '</li>'.CRLF;
-	$target .= '</ul>';
-	echo $target;
+		echo '<h3>' . _t('바로가기') . '</h3>';
+		$stats = getStatistics($owner);
+		$target = '';
+		$target .= '<ul>';
+		$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새 글을 씁니다').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/skin">'. _t('스킨을 변경합니다').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/skin/setting">'. _t('블로그에 표시되는 값들을 변경합니다').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/entry/category">'. _t('카테고리를 변경합니다').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/plugin">'. _t('플러그인을 켜거나 끕니다').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/reader">'. _t('RSS 리더를 봅니다').'</a></li>'.CRLF;
+		$target .= '</ul>';
+		$target .= '<h3>' . _t('종합정보') . '</h3>';
+		$target .= '<ul>';
+		$target .= '<li>'. _t('오늘/어제방문자'). ' : ' . number_format($stats['today']) . '/' . number_format($stats['yesterday']) . '</li>'.CRLF;
+		$target .= '<li>'. _t('총방문자'). ' : ' . number_format($stats['total']) . '</li>'.CRLF;
+		$target .= '<li>'. _t('글개수'). ' : ' . number_format(getEntriesTotalCount($owner)) . '</li>'.CRLF;
+		$target .= '<li>'. _t('댓글/걸린글개수'). ' : ' . number_format(getCommentCount($owner)) . '/' . number_format(getTrackbackCount($owner)) . '</li>'.CRLF;
+		$target .= '</ul>';
+		echo $target;
 ?>
 	</div>
 
 <?php
 	
-	echo '<div class="notice-section">';
-	echo '<h3>' . _t('태터툴즈 공지사항') . '</h3>';
-	
-	$noticeURL = 'http://blog.tattertools.com/rss';
-	list($result, $feed, $xml) = getRemoteFeed($noticeURL);
-	if ($result == 0) {
-		$xmls = new XMLStruct();
-		$noticeEntries = array();
-		if ($xmls->open($xml, $service['encoding'])) {
-			if ($xmls->getAttribute('/rss', 'version')) {
-				for ($i = 0; $link = $xmls->getValue("/rss/channel/item[$i]/link"); $i++) {
-					$item = array('permalink' => rawurldecode($link));
-					$item['title'] = $xmls->getValue("/rss/channel/item[$i]/title");
-					if ($xmls->getValue("/rss/channel/item[$i]/pubDate"))
-						$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/pubDate"));
-					else if ($xmls->getValue("/rss/channel/item[$i]/dc:date"))
-						$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/dc:date"));
-					else
-						$item['written'] = 0;
-					array_push($noticeEntries, $item);
-				}
-			} else if ($xmls->getAttribute('/feed', 'version')) {
-				for ($i = 0; $link = $xmls->getValue("/feed/entry[$i]/id"); $i++) {
-					for ($j = 0; $rel = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'rel'); $j++) {
-						if($rel == 'alternate') {
-							$link = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'href');
-							break;
-						}
+		echo '<div class="notice-section">';
+		echo '<h3>' . _t('태터툴즈 공지사항') . '</h3>';
+		
+		$noticeURL = 'http://blog.tattertools.com/rss';
+		list($result, $feed, $xml) = getRemoteFeed($noticeURL);
+		if ($result == 0) {
+			$xmls = new XMLStruct();
+			$noticeEntries = array();
+			if ($xmls->open($xml, $service['encoding'])) {
+				if ($xmls->getAttribute('/rss', 'version')) {
+					for ($i = 0; $link = $xmls->getValue("/rss/channel/item[$i]/link"); $i++) {
+						$item = array('permalink' => rawurldecode($link));
+						$item['title'] = $xmls->getValue("/rss/channel/item[$i]/title");
+						if ($xmls->getValue("/rss/channel/item[$i]/pubDate"))
+							$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/pubDate"));
+						else if ($xmls->getValue("/rss/channel/item[$i]/dc:date"))
+							$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/dc:date"));
+						else
+							$item['written'] = 0;
+						array_push($noticeEntries, $item);
 					}
-					$item = array('permalink' => rawurldecode($link));
-					$item['author'] = $xmls->getValue("/feed/entry[$i]/author/name");
-					$item['title'] = $xmls->getValue("/feed/entry[$i]/title");
-					$item['written'] = parseDate($xmls->getValue("/feed/entry[$i]/issued"));
-					array_push($noticeEntries, $item);
+				} else if ($xmls->getAttribute('/feed', 'version')) {
+					for ($i = 0; $link = $xmls->getValue("/feed/entry[$i]/id"); $i++) {
+						for ($j = 0; $rel = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'rel'); $j++) {
+							if($rel == 'alternate') {
+								$link = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'href');
+								break;
+							}
+						}
+						$item = array('permalink' => rawurldecode($link));
+						$item['author'] = $xmls->getValue("/feed/entry[$i]/author/name");
+						$item['title'] = $xmls->getValue("/feed/entry[$i]/title");
+						$item['written'] = parseDate($xmls->getValue("/feed/entry[$i]/issued"));
+						array_push($noticeEntries, $item);
+					}
+				} else if ($xmls->getAttribute('/rdf:RDF', 'xmlns')) {
+					for ($i = 0; $link = $xmls->getValue("/rdf:RDF/item[$i]/link"); $i++) {
+						$item = array('permalink' => rawurldecode($link));
+						$item['author'] = $xmls->getValue("/rdf:RDF/item[$i]/dc:creator");
+						$item['title'] = $xmls->getValue("/rdf:RDF/item[$i]/title");
+						$item['written'] = parseDate($xmls->getValue("/rdf:RDF/item[$i]/dc:date"));
+						array_push($noticeEntries, $item);
+					}
 				}
-			} else if ($xmls->getAttribute('/rdf:RDF', 'xmlns')) {
-				for ($i = 0; $link = $xmls->getValue("/rdf:RDF/item[$i]/link"); $i++) {
-					$item = array('permalink' => rawurldecode($link));
-					$item['author'] = $xmls->getValue("/rdf:RDF/item[$i]/dc:creator");
-					$item['title'] = $xmls->getValue("/rdf:RDF/item[$i]/title");
-					$item['written'] = parseDate($xmls->getValue("/rdf:RDF/item[$i]/dc:date"));
-					array_push($noticeEntries, $item);
+			}	
+			
+			if (count($noticeEntries) > 0) {
+				echo '<ol>';
+				foreach($noticeEntries as $item) {
+					echo '<li>';
+					echo '<a href="' , $item['permalink'] , '">';
+					echo '<span class="titlespan">' , htmlspecialchars($item['title']) , '</span>';
+					echo '<span class="timespan">' , Timestamp::format5($item['written']) , '</span>';
+					echo '</a>';
+					echo '</li>';
 				}
+				echo '</ol>';
+				echo '<ul>';
+				echo '<li><span> from ' , $noticeURL , '</span></li>';
+				echo '</ul>';
+			} else {
+				echo _t('공지사항이 없습니다.');
 			}
-		}	
-		
-		if (count($noticeEntries) > 0) {
-			echo '<ol>';
-			foreach($noticeEntries as $item) {
-				echo '<li>';
-				echo '<a href="' , $item['permalink'] , '">';
-				echo '<span class="titlespan">' , htmlspecialchars($item['title']) , '</span>';
-				echo '<span class="timespan">' , Timestamp::format5($item['written']) , '</span>';
-				echo '</a>';
-				echo '</li>';
-			}
-			echo '</ol>';
-			echo '<ul>';
-			echo '<li><span> from ' , $noticeURL , '</span></li>';
-			echo '</ul>';
+			
 		} else {
-			echo _t('공지사항이 없습니다.');
+			echo _t('공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 보심시오');
 		}
-		
-	} else {
-		echo _t('공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 보심시오');
+
+		unset($feed);
+		unset($xmls);
+		unset($noticeEntries);
+		echo '</div>';
 	}
-
-	unset($feed);
-	unset($xmls);
-	unset($noticeEntries);
-	echo '</div>';
 }
-
-
 ?>
+
 		<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
 <?php
 
