@@ -13,10 +13,40 @@
 }
 
 /* Dashboard *************************************************************************************/
+#part-center-dashboard .notice-section
+{
+	float                            : left;
+	margin                           : 0 12px 25px 12px;
+}
+
+#part-center-dashboard .notice-section ol
+{
+	list-style                       : decimal inside;
+	width                            : 712px;
+}
+
+#part-center-dashboard .notice-section ol li
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	padding                          : 7px 10px 5px 20px;
+	list-style                       : decimal inside;
+	display                          : block;
+}
+#part-center-dashboard .notice-section ol li .titlespan
+{
+	width                            : 50%;
+}
+#part-center-dashboard .notice-section ol li .timespan
+{
+	position                         : absolute;
+	left                             : 60%;
+}
+
+
 #part-center-dashboard .panel
 {
 	float                            : left;
-	width                            : 480px;
+	width                            : 380px;
 	margin                           : 0 0 0 0;
 	padding-bottom                   : 25px;
 }
@@ -26,7 +56,7 @@
 {
 	float                            : left;
 	margin                           : 0 12px 25px 12px;
-	width                            : 456px;
+	width                            : 356px;
 }
 
 #part-center-dashboard .section h3
@@ -37,7 +67,7 @@
 	height                           : 32px;
 	line-height                      : 32px;
 	padding-left                     : 25px;
-	width                            : 456px;
+	width                            : 356px;
 }
 
 #part-center-dashboard .section ul li
@@ -69,6 +99,7 @@
 #part-center-dashboard .button-box
 {
 	margin-bottom                    : 20px;
+	clear                            : both;
 }
 
 #part-center-dashboard .button-box .input-button
