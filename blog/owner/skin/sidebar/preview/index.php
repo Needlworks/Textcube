@@ -155,6 +155,7 @@ function pretty_dress($view)
 
 $skin = new Skin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
+getBlogContentForSideBar();
 
 if (($_REQUEST['sidebarNumber'] >= 0) 	&& ($_REQUEST['sidebarNumber'] < $sidebarCount))
 {
