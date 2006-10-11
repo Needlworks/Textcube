@@ -38,13 +38,14 @@ function _getRecentEntries($owner){
 
 // lib/view/view.php : 889 line
 function _getRecentEntriesView($entries,$template){
+	requireComponent("Eolin.PHP.Core");
 	global $blogURL,$skinSetting;
 	ob_start();
 	foreach($entries as $entry){
 		$view = $template;
 		dress('rctps_rep_link',"$blogURL/{$entry['id']}",$view);
 		dress('rctps_rep_edit_link',"$blogURL/owner/entry/edit/{$entry['id']}",$view);	
-		dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],50)),$view);
+		dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],30)),$view);
 		dress('rctps_rep_rp_cnt',"<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments']>0?"({$entry['comments']})":'').'</span>',$view);
 		print $view;
 	}
@@ -57,9 +58,9 @@ function _getRecentEntriesView($entries,$template){
 function CT_RecentPS_Default($target) {
 	global $owner,$pluginURL;
 
-	$target .= '<ul>';
+	$target .= '<ol>';
 	$target .= _getRecentEntriesView(_getRecentEntries($owner),'<li><a href="[##_rctps_rep_edit_link_##]"><img src="'.$pluginURL.'/images/edit.png" style="border:none;" /></a><a href="[##_rctps_rep_link_##]"> [##_rctps_rep_title_##]</a> <span class="cnt">[##_rctps_rep_rp_cnt_##]</span> </li>');
-	$target .= '</ul>';
+	$target .= '</ol>';
 
 	return $target;
 }

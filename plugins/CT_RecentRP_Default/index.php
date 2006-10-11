@@ -44,13 +44,14 @@ function _getRecentComments($owner) {
 
 // lib/view/view.php : 906 line
 function _getRecentCommentsView($comments, $template) {
+	requireComponent("Eolin.PHP.Core");
 	global $blogURL, $skinSetting;
 	ob_start();
 	foreach ($comments as $comment) {
 		$view = "$template";
 		dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
-		dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 50)), $view);
-		dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format2($comment['written'])), $view);
+		dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 30)), $view);
+		dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::formatTime($comment['written'])), $view);
 		dress('rctrp_rep_name', htmlspecialchars($comment['name']), $view);
 		print $view;
 	}
@@ -63,10 +64,13 @@ function _getRecentCommentsView($comments, $template) {
 function CT_RecentRP_Default($target) {
 	global $owner;
 
-	$target .= '<ul>';
-	$target .= _getRecentCommentsView(_getRecentComments($owner),'<li> <a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##]</a>
-              <span class="name">[##_rctrp_rep_name_##]</span> <span class="date">[##_rctrp_rep_time_##]</span> </li>');
-	$target .= '</ul>';
+	$target .= '<ol>';
+	$target .= _getRecentCommentsView(_getRecentComments($owner),'<li>
+<span class="date">[##_rctrp_rep_time_##]</span>
+<a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##]</a>
+<span style="color:#3A3">[##_rctrp_rep_name_##]</span>
+</li>');
+	$target .= '</ol>';
 
 	return $target;
 }
