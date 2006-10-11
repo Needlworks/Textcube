@@ -13,16 +13,39 @@
 }
 
 /* Dashboard *************************************************************************************/
+#part-center-dashboard .bloginfo-section
+{
+	margin                           : 0 12px 25px 12px;
+	width                            : 230px;
+	float:left;
+}
+#part-center-dashboard .bloginfo-section h3
+{
+	background-image                 : url("./image/bg_dashboard_header.png");
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	height                           : 32px;
+	line-height                      : 32px;
+	padding-left                     : 25px;
+	width                            : 210px;
+}
+
+#part-center-dashboard .bloginfo-section ul li
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	padding                          : 7px 10px 5px 10px;
+}
+
+
 #part-center-dashboard .notice-section
 {
-	float                            : left;
 	margin                           : 0 12px 25px 12px;
+	width: 650px;
 }
 
 #part-center-dashboard .notice-section ol
 {
 	list-style                       : decimal inside;
-	width                            : 712px;
 }
 
 #part-center-dashboard .notice-section ol li
@@ -34,13 +57,33 @@
 }
 #part-center-dashboard .notice-section ol li .titlespan
 {
-	width                            : 50%;
+	width                            : 500px;
 }
 #part-center-dashboard .notice-section ol li .timespan
 {
-	position                         : absolute;
-	left                             : 60%;
+	position : absolute;
+	left                             : 850px;
+	width:200px;
 }
+#part-center-dashboard .notice-section ul li
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	padding                          : 7px 10px 5px 20px;
+	display                          : block;
+	text-align : right;
+}
+
+#part-center-dashboard .notice-section h3
+{
+	background-image                 : url("./image/bg_dashboard_header.png");
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	height                           : 32px;
+	line-height                      : 32px;
+	padding-left                     : 25px;
+	width                            : 550px;
+}
+
 
 
 #part-center-dashboard .panel
@@ -56,7 +99,7 @@
 {
 	float                            : left;
 	margin                           : 0 12px 25px 12px;
-	width                            : 356px;
+	width                            : 456px;
 }
 
 #part-center-dashboard .section h3
@@ -67,7 +110,7 @@
 	height                           : 32px;
 	line-height                      : 32px;
 	padding-left                     : 25px;
-	width                            : 356px;
+	width                            : 456px;
 }
 
 #part-center-dashboard .section ul li

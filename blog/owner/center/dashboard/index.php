@@ -52,9 +52,37 @@ if (false) {
 	<div id="part-center-dashboard" class="part">
 <?php
 if (!isset($_REQUEST['edit'])) {
-	echo '<h2 class="caption"><span class="main-text">' . _t('태터툴즈 공지사항') . '</span></h2>';
-	echo '<div class="notice-section">';
+	echo '<h2 class="caption"><span class="main-text">' . _t('태터툴즈') . '</span></h2>';
+?>
+	<div class="bloginfo-section">
+<?php
+	echo '<h3>' . _t('바로가기') . '</h3>';
+	$stats = getStatistics($owner);
+	$target = '';
+	$target .= '<ul>';
+	$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새 글을 씁니다').'</a></li>'.CRLF;
+	$target .= '<li><a href="'.$blogURL.'/owner/skin">'. _t('스킨을 변경합니다').'</a></li>'.CRLF;
+	$target .= '<li><a href="'.$blogURL.'/owner/skin/setting">'. _t('블로그에 표시되는 값들을 변경합니다').'</a></li>'.CRLF;
+	$target .= '<li><a href="'.$blogURL.'/owner/entry/category">'. _t('카테고리를 변경합니다').'</a></li>'.CRLF;
+	$target .= '<li><a href="'.$blogURL.'/owner/plugin">'. _t('플러그인을 켜거나 끕니다').'</a></li>'.CRLF;
+	$target .= '<li><a href="'.$blogURL.'/owner/reader">'. _t('RSS 리더를 봅니다').'</a></li>'.CRLF;
+	$target .= '</ul>';
+	$target .= '<h3>' . _t('종합정보') . '</h3>';
+	$target .= '<ul>';
+	$target .= '<li>'. _t('오늘/어제방문자'). ' : ' . number_format($stats['today']) . '/' . number_format($stats['yesterday']) . '</li>'.CRLF;
+	$target .= '<li>'. _t('총방문자'). ' : ' . number_format($stats['total']) . '</li>'.CRLF;
+	$target .= '<li>'. _t('글개수'). ' : ' . number_format(getEntriesTotalCount($owner)) . '</li>'.CRLF;
+	$target .= '<li>'. _t('댓글/걸린글개수'). ' : ' . number_format(getCommentCount($owner)) . '/' . number_format(getTrackbackCount($owner)) . '</li>'.CRLF;
+	$target .= '</ul>';
+	echo $target;
+?>
+	</div>
 
+<?php
+	
+	echo '<div class="notice-section">';
+	echo '<h3>' . _t('태터툴즈 공지사항') . '</h3>';
+	
 	$noticeURL = 'http://blog.tattertools.com/rss';
 	list($result, $feed, $xml) = getRemoteFeed($noticeURL);
 	if ($result == 0) {
@@ -109,6 +137,9 @@ if (!isset($_REQUEST['edit'])) {
 				echo '</li>';
 			}
 			echo '</ol>';
+			echo '<ul>';
+			echo '<li><span> from ' , $noticeURL , '</span></li>';
+			echo '</ul>';
 		} else {
 			echo _t('공지사항이 없습니다.');
 		}
@@ -154,11 +185,12 @@ if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ){
 	}
 	
 	$newlayout = array_merge($newlayout, $centerMappings);
-} else if (count($centerMappings) > 0) {
+} else if (count($centerMappings) > 0) { // TODO 1/3
 	unset($_GET['pos']);
 	unset($_GET['rel']);
-	$middlepos = (count($centerMappings) + 1)/2;
+	$middlepos = (count($centerMappings) + 1)/3;
 	array_splice($centerMappings, $middlepos , 0, array(array('plugin' => 'TatterToolsSeperator')));
+	array_splice($centerMappings, $middlepos * 2, 0, array(array('plugin' => 'TatterToolsSeperator')));
 	$newlayout = $addedlayout = $centerMappings;
 }
 
@@ -187,15 +219,16 @@ unset($addedlayout);
 unset($layout);
 unset($oldcenterlayout);
 
-$existSeperator = false;
+
+$boardbarNumber = 0;
 $positionCounter = 0;
-$secondposition = 0;
+$secondposition = array(0, 0);
 echo '<div id="dojo_boardbar0" class="panel">';
 foreach ($newlayout as $mapping) {
 	if ($mapping['plugin'] == 'TatterToolsSeperator') {
-		echo '</div><div id="dojo_boardbar1" class="panel">';
-		$existSeperator = true;
-		$secondposition = $positionCounter;
+		echo '</div><div id="dojo_boardbar'. ($boardbarNumber + 1).'" class="panel">';
+		$secondposition[$boardbarNumber] = $positionCounter;
+		$boardbarNumber++;
 	} else {
 ?>
 		<div id="<?php echo $mapping['plugin'];?>" class="section">
@@ -220,9 +253,17 @@ foreach ($newlayout as $mapping) {
 	$positionCounter++;
 }
 echo '</div>';
-if ($existSeperator == false) {
+if ($boardbarNumber < 1) {
 	echo '<div id="dojo_boardbar1" class="panel"></div>';
-	$secondposition = $positionCounter;
+	$secondposition[$boardbarNumber] = $positionCounter;
+	$boardbarNumber++;
+	$positionCounter++;
+}
+if ($boardbarNumber < 2) {
+	echo '<div id="dojo_boardbar2" class="panel"></div>';
+	$secondposition[$boardbarNumber] = $positionCounter;
+	$boardbarNumber++;
+	$positionCounter++;
 }
 
 if (!isset($_REQUEST['edit'])) {
@@ -262,6 +303,12 @@ if (isset($_REQUEST['edit'])) {
 		}
 		document.getElementById('dojo_boardbar1').plusposition = pos++;
 		pNode = document.getElementById('dojo_boardbar1').firstChild;
+		while (pNode != null) {
+			if (pNode.className == "section") pNode.pos = pos++;
+			pNode = pNode.nextSibling;
+		}
+		document.getElementById('dojo_boardbar2').plusposition = pos++;
+		pNode = document.getElementById('dojo_boardbar2').firstChild;
 		while (pNode != null) {
 			if (pNode.className == "section") pNode.pos = pos++;
 			pNode = pNode.nextSibling;
@@ -311,7 +358,9 @@ if (isset($_REQUEST['edit'])) {
 	var pan0 = new DropPanel(document.getElementById('dojo_boardbar0'), ["dashboard"]);
 	document.getElementById('dojo_boardbar0').plusposition = -1;
 	var pan1 = new DropPanel(document.getElementById('dojo_boardbar1'), ["dashboard"]);
-	document.getElementById('dojo_boardbar1').plusposition = <?php echo $secondposition;?>;
+	document.getElementById('dojo_boardbar1').plusposition = <?php echo $secondposition[0];?>;
+	var pan1 = new DropPanel(document.getElementById('dojo_boardbar2'), ["dashboard"]);
+	document.getElementById('dojo_boardbar2').plusposition = <?php echo $secondposition[1];?>;
 
 <?php
 $positionCounter = 0;

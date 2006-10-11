@@ -210,6 +210,14 @@ function getURLForFilter($value) {
 	return $value;
 }
 
+function getTrackbackCount($owner, $entryId = null) {
+	global $database;
+	if (is_null($entryId))
+		return fetchQueryCell("SELECT SUM(trackbacks) FROM `{$database['prefix']}Entries` WHERE `owner` = $owner");
+	return fetchQueryCell("SELECT `trackbacks` FROM `{$database['prefix']}Entries` WHERE `owner` = $owner AND `id` = $entryId");
+}
+
+
 function getTrackbackCountPart($trackbackCount, &$skin) {
 	$noneTrackbackMessage = $skin->noneTrackbackMessage;
 	$singleTrackbackMessage = $skin->singleTrackbackMessage;
