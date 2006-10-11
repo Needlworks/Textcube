@@ -16,7 +16,7 @@
 #part-center-dashboard .bloginfo-section
 {
 	margin                           : 0 12px 25px 12px;
-	width                            : 230px;
+	width                            : 280px;
 	float:left;
 }
 #part-center-dashboard .bloginfo-section h3
@@ -27,7 +27,7 @@
 	height                           : 32px;
 	line-height                      : 32px;
 	padding-left                     : 25px;
-	width                            : 210px;
+	width                            : 255px;
 }
 
 #part-center-dashboard .bloginfo-section ul li
@@ -40,7 +40,7 @@
 #part-center-dashboard .notice-section
 {
 	margin                           : 0 12px 25px 12px;
-	width: 650px;
+	width: 620px;
 }
 
 #part-center-dashboard .notice-section ol
@@ -81,7 +81,7 @@
 	height                           : 32px;
 	line-height                      : 32px;
 	padding-left                     : 25px;
-	width                            : 550px;
+	width                            : 600px;
 }
 
 
