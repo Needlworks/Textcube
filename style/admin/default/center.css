@@ -167,7 +167,20 @@
 
 #part-center-plugins fieldset
 {
+	background-image                 : none;
+	border                           : none;
+	margin-bottom                    : 0;
+	padding-right                    : 10px;
+}
+
+#part-center-plugins fieldset dl dt
+{
 	display                          : none;
+}
+
+#part-center-plugins fieldset dl dd
+{
+	text-align                       : right;
 }
 
 /* table head */

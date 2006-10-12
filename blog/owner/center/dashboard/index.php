@@ -49,7 +49,12 @@ if (false) {
 <form method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
 	<div id="part-center-dashboard" class="part">
 <?php
-$tattertoolsDashboard = getUserSetting("tattertoolsDashboard",true);
+$tattertoolsDashboard = getUserSetting("tattertoolsDashboard");
+if (is_null($tattertoolsDashboard)) {
+	setUserSetting("tattertoolsDashboard", 1);
+	$tattertoolsDashboard = 1;
+}
+
 if($tattertoolsDashboard) {
 	if (!isset($_REQUEST['edit'])) {
 		echo '<h2 class="caption"><span class="main-text">' . _t('태터툴즈') . '</span></h2>';
