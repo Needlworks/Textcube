@@ -437,14 +437,6 @@ if (file_exists(ROOT."/attach/$owner/index.gif")) {
 						</div>
 						
 						<hr class="hidden" />
-						
-<?php
-if ($blog['publishWholeOnRSS'] == false && $blog['publishEolinSyncOnRSS'] == false) {
-	DBQuery::execute("UPDATE `{$database['prefix']}BlogSetting` SET `publishWholeOnRSS` = 1 WHERE `owner` = $owner");
-} else if ($blog['publishWholeOnRSS'] == true && $blog['publishEolinSyncOnRSS'] == true) {
-	DBQuery::execute("UPDATE `{$database['prefix']}BlogSetting` SET `publishWholeOnRSS` = 0 WHERE `owner` = $owner");
-}
-?>
 						<div id="part-setting-rss" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 공개 정책을 설정합니다');?></span></h2>
 							
