@@ -1,9 +1,9 @@
 <?php
 function CT_Tattertools_Notice($target) {
+	global $service;
 	requireComponent("Eolin.PHP.Core");
-	requireComponent("Tattertools.Model.Reader");
 	$noticeURL = 'http://blog.tattertools.com/rss';
-	list($result, $feed, $xml) = Reader::getRemoteFeed($noticeURL);
+	list($result, $feed, $xml) = getRemoteFeed($noticeURL);
 	if ($result == 0) {
 		$xmls = new XMLStruct();
 		$noticeEntries = array();
