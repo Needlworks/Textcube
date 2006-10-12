@@ -1,14 +1,81 @@
 <?php
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForOwner.php';
-require ROOT . '/lib/piece/owner/headerA.php';
-require ROOT . '/lib/piece/owner/contentMenuA0.php';
 
-trashVan();
+if (!isset($_REQUEST['ajaxcall'])) {
+	require ROOT . '/lib/piece/owner/headerA.php';
+	require ROOT . '/lib/piece/owner/contentMenuA0.php';
+	trashVan();
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (isset($_POST['pos'])) $_GET['pos'] = $_POST['pos'];
 	if (isset($_POST['rel'])) $_GET['rel'] = $_POST['rel'];
+}
+
+$layout = getUserSetting('centerLayout', '');
+$newlayout = array();
+$addedlayout = array();
+$oldcenterlayout = array();
+
+if (count($centerMappings) == 0) {
+	$layout = '';
+	setUserSetting('centerLayout', '');
+	unset($_GET['pos']);
+	unset($_GET['rel']);
+}
+
+if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ){
+	
+	foreach($oldcenterlayout as $item) {
+		if ($item['plugin'] == 'TatterToolsSeperator') {
+			array_push($newlayout, $item);
+		} else if (($pos = array_search($item, $centerMappings, true)) !== false) {
+			array_push($newlayout, $item);
+			unset($centerMappings[$pos]);
+		} else {
+			array_push($addedlayout, $item);
+		}
+	}
+	
+	$newlayout = array_merge($newlayout, $centerMappings);
+} else if (count($centerMappings) > 0) { // TODO 1/3
+	unset($_GET['pos']);
+	unset($_GET['rel']);
+	$middlepos = (count($centerMappings) + 2)/3;
+	array_splice($centerMappings, $middlepos , 0, array(array('plugin' => 'TatterToolsSeperator')));
+	array_splice($centerMappings, $middlepos * 2, 0, array(array('plugin' => 'TatterToolsSeperator')));
+	$newlayout = $addedlayout = $centerMappings;
+}
+
+if ((isset($_GET['pos'])) && (($_GET['pos'] < 0) || ($_GET['pos']) >= count($newlayout))) {
+	unset($_GET['pos']);
+	unset($_GET['rel']);
+}
+
+$modified = false;
+if (isset($_GET['pos']) && is_numeric($_GET['pos'])) {
+	if (isset($_GET['rel']) && is_numeric($_GET['rel']) && (is_numeric($_GET['rel']))) {
+		$newpos = $_GET['pos'] + $_GET['rel'];
+		if ($newpos < 0) $newpos = 0;
+		if ($newpos >= count($newlayout)) $newpos = count($newlayout) - 1;
+		$item = array_splice($newlayout, $_GET['pos'], 1);
+		array_splice($newlayout, $newpos, 0, $item);
+		$modified = true;
+	}
+}
+
+if ((count($centerMappings) > 0) || (count($addedlayout) > 0) || ($modified == true)) {
+	setUserSetting('centerLayout', serialize($newlayout));
+}
+
+unset($addedlayout);
+unset($layout);
+unset($oldcenterlayout);
+
+if (isset($_REQUEST['ajaxcall'])) {
+	respondResultPage(0);
+	exit;
 }
 
 if (isset($_REQUEST['edit'])) {
@@ -19,33 +86,35 @@ if (isset($_REQUEST['edit'])) {
 </script>
 <?php
 }
-?>
 
+?>
 <script type="text/javascript">
 <?php
-if (!file_exists(ROOT . '/cache/CHECKUP')) {
+	if (!file_exists(ROOT . '/cache/CHECKUP')) {
 ?>
-	window.addEventListener("load", checkTattertoolsVersion, false);
-	function checkTattertoolsVersion() {
-		if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
-			window.location.href = "<?php echo $blogURL;?>/checkup";
-	}
+		window.addEventListener("load", checkTattertoolsVersion, false);
+		function checkTattertoolsVersion() {
+			if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
+				window.location.href = "<?php echo $blogURL;?>/checkup";
+		}
 <?php
-} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
+	} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 ?>
-	window.addEventListener("load", checkTattertoolsVersion, false);
-	function checkTattertoolsVersion() {
-		if (confirm("<?php echo _t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
-			window.location.href = "<?php echo $blogURL;?>/checkup";
-	}
+		window.addEventListener("load", checkTattertoolsVersion, false);
+		function checkTattertoolsVersion() {
+			if (confirm("<?php echo _t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
+				window.location.href = "<?php echo $blogURL;?>/checkup";
+		}
 <?php
-}
+	}
+?>
+</script>
+<?php
+
 if (false) {
 	fetchConfigVal();
 }
-?>
-</script>
-	
+?>	
 <form method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
 	<div id="part-center-dashboard" class="part">
 <?php
@@ -164,67 +233,6 @@ if($tattertoolsDashboard) {
 		<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
 <?php
 
-$layout = getUserSetting('centerLayout', '');
-$newlayout = array();
-$addedlayout = array();
-$oldcenterlayout = array();
-
-if (count($centerMappings) == 0) {
-	$layout = '';
-	setUserSetting('centerLayout', '');
-	unset($_GET['pos']);
-	unset($_GET['rel']);
-}
-
-if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ){
-	
-	foreach($oldcenterlayout as $item) {
-		if ($item['plugin'] == 'TatterToolsSeperator') {
-			array_push($newlayout, $item);
-		} else if (($pos = array_search($item, $centerMappings, true)) !== false) {
-			array_push($newlayout, $item);
-			unset($centerMappings[$pos]);
-		} else {
-			array_push($addedlayout, $item);
-		}
-	}
-	
-	$newlayout = array_merge($newlayout, $centerMappings);
-} else if (count($centerMappings) > 0) { // TODO 1/3
-	unset($_GET['pos']);
-	unset($_GET['rel']);
-	$middlepos = (count($centerMappings) + 2)/3;
-	array_splice($centerMappings, $middlepos , 0, array(array('plugin' => 'TatterToolsSeperator')));
-	array_splice($centerMappings, $middlepos * 2, 0, array(array('plugin' => 'TatterToolsSeperator')));
-	$newlayout = $addedlayout = $centerMappings;
-}
-
-if ((isset($_GET['pos'])) && (($_GET['pos'] < 0) || ($_GET['pos']) >= count($newlayout))) {
-	unset($_GET['pos']);
-	unset($_GET['rel']);
-}
-
-$modified = false;
-if (isset($_GET['pos']) && is_numeric($_GET['pos'])) {
-	if (isset($_GET['rel']) && is_numeric($_GET['rel']) && (is_numeric($_GET['rel']))) {
-		$newpos = $_GET['pos'] + $_GET['rel'];
-		if ($newpos < 0) $newpos = 0;
-		if ($newpos >= count($newlayout)) $newpos = count($newlayout) - 1;
-		$item = array_splice($newlayout, $_GET['pos'], 1);
-		array_splice($newlayout, $newpos, 0, $item);
-		$modified = true;
-	}
-}
-
-if ((count($centerMappings) > 0) || (count($addedlayout) > 0) || ($modified == true)) {
-	setUserSetting('centerLayout', serialize($newlayout));
-}
-
-unset($addedlayout);
-unset($layout);
-unset($oldcenterlayout);
-
-
 $boardbarNumber = 0;
 $positionCounter = 0;
 $secondposition = array(0, 0);
@@ -243,9 +251,9 @@ foreach ($newlayout as $mapping) {
 		if (isset($_REQUEST['edit'])) {
 ?>
 				
-				<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $blogURL;?>/owner/center/dashboard?pos=<?php echo $positionCounter ?>&amp;rel=-1&edit">
+				<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter ?>&amp;rel=-1&edit">
 					<?php echo _T("위로"); ?></a>
-				<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $blogURL;?>/owner/center/dashboard?pos=<?php echo $positionCounter ?>&amp;rel=1&edit">
+				<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter ?>&amp;rel=1&edit">
 					<?php echo _T("아래로"); ?></a>
 <?php
 		}
@@ -341,7 +349,7 @@ if (isset($_REQUEST['edit'])) {
 				var rel = insertposition - node.pos;
 				if (insertposition > node.pos) rel--;
 				if (rel == 0) return retVal;
-				var requestURL = "<?php echo $blogURL;?>/owner/center/dashboard?pos=" + node.pos.toString() + "&rel=" + rel.toString();
+				var requestURL = "dashboard?ajaxcall=true&pos=" + node.pos.toString() + "&rel=" + rel.toString();
 				
 				var request = new HTTPRequest("POST", requestURL);
 				request.onSuccess = function () {
