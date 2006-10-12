@@ -302,10 +302,6 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 	}
 	$message = str_replace('[##_sender_##]', _text('보내는 사람') . ': ' . $senderName, $message);
 	if (!mail($email, encodeMail($subject), $message, $headers)) {
-		mysql_query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
-		mysql_query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $id");
-		mysql_query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $id");
-		mysql_query("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $id");
 		return 14;
 	} else {
 		return 15;

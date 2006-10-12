@@ -189,7 +189,7 @@ if ($service['type'] != 'single') {
 												alert('<?php echo _t('실패했습니다.');?>');
 												break;
 											case 14:
-												alert('<?php echo _t('실패했습니다.');?>');
+												alert('<?php echo _t('메일 전송에 실패하였습니다.');?>');
 												break;
 											default:
 												alert('<?php echo _t('실패했습니다.');?>');
