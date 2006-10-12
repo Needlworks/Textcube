@@ -498,7 +498,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										
 										newSection = document.createElement("DIV");
 										newSection.className = "layer-section";
-										newSection.innerHTML = '<label for="trackbackForm_' + id + '"><?php echo _t('글걸기 주소');?><\/label><span class="divider"> | <\/span><input type="text" id="trackbackForm_' + id + '" class="input-text" name="trackbackURL" value="http://" size="50" onkeydown="if (event.keyCode == 13) sendTrackback(' + id + ')" \/> ';
+										newSection.innerHTML = '<label for="trackbackForm_' + id + '"><?php echo _t('글걸기 주소');?><\/label><span class="divider"> | <\/span><input type="text" id="trackbackForm_' + id + '" class="input-text" name="trackbackURL" value="http://" size="50" onkeydown="if (event.keyCode == 13) { sendTrackback(' + id + '); return false;}" \/> ';
 										
 										tempLink = document.createElement("A");
 										tempLink.className = "send-button button";
