@@ -139,20 +139,20 @@ if($tattertoolsDashboard) {
 		$stats = getStatistics($owner);
 		$target = '';
 		$target .= '<ul>';
-		$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새 글을 씁니다').'</a></li>'.CRLF;
-		$target .= '<li><a href="'.$blogURL.'/owner/skin">'. _t('스킨을 변경합니다').'</a></li>'.CRLF;
-		$target .= '<li><a href="'.$blogURL.'/owner/skin/setting">'. _t('블로그에 표시되는 값들을 변경합니다').'</a></li>'.CRLF;
-		$target .= '<li><a href="'.$blogURL.'/owner/entry/category">'. _t('카테고리를 변경합니다').'</a></li>'.CRLF;
-		$target .= '<li><a href="'.$blogURL.'/owner/plugin">'. _t('플러그인을 켜거나 끕니다').'</a></li>'.CRLF;
-		$target .= '<li><a href="'.$blogURL.'/owner/reader">'. _t('RSS 리더를 봅니다').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새글 쓰기').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/skin">'. _t('스킨 변경').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/skin/setting">'. _t('블로그 표시설정').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/entry/category">'. _t('카테고리 변경').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/plugin">'. _t('플러그인 관리').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/reader">'. _t('RSS 리더').'</a></li>'.CRLF;
 		$target .= '</ul>';
 		$target .= '<h3>' . _t('종합정보') . '</h3>';
-		$target .= '<ul>';
-		$target .= '<li>'. _t('오늘/어제방문자'). ' : ' . number_format($stats['today']) . '/' . number_format($stats['yesterday']) . '</li>'.CRLF;
-		$target .= '<li>'. _t('총방문자'). ' : ' . number_format($stats['total']) . '</li>'.CRLF;
-		$target .= '<li>'. _t('글개수'). ' : ' . number_format(getEntriesTotalCount($owner)) . '</li>'.CRLF;
-		$target .= '<li>'. _t('댓글/걸린글개수'). ' : ' . number_format(getCommentCount($owner)) . '/' . number_format(getTrackbackCount($owner)) . '</li>'.CRLF;
-		$target .= '</ul>';
+		$target .= '<table><tbody>';
+		$target .= '<tr><th>'. _t('오늘/어제방문자'). '</th><td>' . number_format($stats['today']) . '/' . number_format($stats['yesterday']) . '</td></tr>'.CRLF;
+		$target .= '<tr><th>'. _t('총 방문자'). '</th><td>' . number_format($stats['total']) . '</td></tr>'.CRLF;
+		$target .= '<tr><th>'. _t('글 개수'). '</th><td>' . number_format(getEntriesTotalCount($owner)) . '</td></tr>'.CRLF;
+		$target .= '<tr><th>'. _t('댓글/걸린글 개수'). '</th><td>' . number_format(getCommentCount($owner)) . '/' . number_format(getTrackbackCount($owner)) . '</td></tr>'.CRLF;
+		$target .= '</tbody></table>';
 		echo $target;
 ?>
 	</div>
@@ -162,8 +162,10 @@ if($tattertoolsDashboard) {
 		echo '<div class="notice-section">';
 		echo '<h3>' . _t('태터툴즈 공지사항') . '</h3>';
 		
-		$noticeURL = 'http://blog.tattertools.com/rss';
-		list($result, $feed, $xml) = getRemoteFeed($noticeURL);
+		$noticeURL = 'http://blog.tattertools.com';
+		$noticeURLRSS = 'http://blog.tattertools.com/rss';
+
+		list($result, $feed, $xml) = getRemoteFeed($noticeURLRSS);
 		if ($result == 0) {
 			$xmls = new XMLStruct();
 			$noticeEntries = array();
@@ -206,6 +208,8 @@ if($tattertoolsDashboard) {
 			}	
 			
 			if (count($noticeEntries) > 0) {
+				// customize point. 사이트 공지를 넣고 싶다면 이것을 줄이고 또 출력하면 된다~
+				array_splice($noticeEntries, 10, count($noticeEntries) - 10); 
 				echo '<ol>';
 				foreach($noticeEntries as $item) {
 					echo '<li>';
@@ -217,7 +221,7 @@ if($tattertoolsDashboard) {
 				}
 				echo '</ol>';
 				echo '<ul>';
-				echo '<li><span> from ' , $noticeURL , '</span></li>';
+				echo '<li><span> from <a href="' , $noticeURL , '">' , $noticeURL , '</span></a></li>';
 				echo '</ul>';
 			} else {
 				echo _t('공지사항이 없습니다.');
@@ -287,7 +291,7 @@ if ($boardbarNumber < 2) {
 if (!isset($_REQUEST['edit'])) {
 ?>
 		<div class="button-box">
-			<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" >
+			<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" />
 		</div>
 <?php
 }

@@ -16,7 +16,7 @@
 #part-center-dashboard .bloginfo-section
 {
 	margin                           : 0 12px 25px 12px;
-	width                            : 280px;
+	width                            : 304px;
 	float:left;
 }
 #part-center-dashboard .bloginfo-section h3
@@ -27,20 +27,42 @@
 	height                           : 32px;
 	line-height                      : 32px;
 	padding-left                     : 25px;
-	width                            : 255px;
+	width                            : 280px;
 }
 
 #part-center-dashboard .bloginfo-section ul li
 {
 	border-bottom                    : 1px solid #EEEEEE;
-	padding                          : 7px 10px 5px 10px;
+	padding                          : 7px 10px 5px 15px;
+}
+
+#part-center-dashboard .bloginfo-section table
+{
+	width                            : 294px;
+}
+
+#part-center-dashboard .bloginfo-section table tbody tr th
+{
+	height                           : 24px;
+	text-align                       : center;
+	border                           : 1px solid #EEEEEE;
+	width                            : 50%;
+}
+
+#part-center-dashboard .bloginfo-section table tbody tr td
+{
+	height                           : 24px;
+	text-align                       : right;
+	padding-right                    : 10px;
+	border                           : 1px solid #EEEEEE;
 }
 
 
 #part-center-dashboard .notice-section
 {
 	margin                           : 0 12px 25px 12px;
-	width: 620px;
+	width                            : 600px;
+	float                            : left;
 }
 
 #part-center-dashboard .notice-section ol
@@ -57,20 +79,21 @@
 }
 #part-center-dashboard .notice-section ol li .titlespan
 {
-	width                            : 500px;
+	width                            : 480px;
 }
 #part-center-dashboard .notice-section ol li .timespan
 {
-	position : absolute;
+	position                         : absolute;
 	left                             : 850px;
-	width:200px;
+	width                            : 120px;
 }
+
 #part-center-dashboard .notice-section ul li
 {
 	border-bottom                    : 1px solid #EEEEEE;
 	padding                          : 7px 10px 5px 20px;
 	display                          : block;
-	text-align : right;
+	text-align                       : right;
 }
 
 #part-center-dashboard .notice-section h3
