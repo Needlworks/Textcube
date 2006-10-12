@@ -498,6 +498,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 				newNode.moduleCategory = e.dragObject.domNode.moduleCategory;
 				newNode.identifier = e.dragObject.domNode.identifier;
 				newNode.innerHTML = e.dragObject.domNode.innerHTML;
+				newNode.hasPropertyEdit = e.dragObject.domNode.hasPropertyEdit;
 				
 				e.dragObject.domNode = newNode;
 				
@@ -606,7 +607,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 						p2Node.href = "sidebar/delete/?sidebarNumber=" + pNode.sidebarNumber + "&modulePos=" + pNode.modulePos;
 					}
 					
-					if (pNode.moduleCategory == 'plugin') {
+					if ((pNode.moduleCategory == 'plugin') && (pNode.hasPropertyEdit == true)) {
 						p2Node = pNode.firstChild;
 						while (p2Node != null) {
 							if ((p2Node.tagName != null) && (p2Node.tagName.toLowerCase() == 'div')) {
@@ -805,9 +806,16 @@ for ($i=0; $i<$sidebarCount; $i++) {
 		echo "document.getElementById('sidebar-element-{$i}-{$j}').sidebarNumber = {$i};";
 		echo "document.getElementById('sidebar-element-{$i}-{$j}').modulePos = {$j};";
 		echo "document.getElementById('sidebar-element-{$i}-{$j}').ajaxtype = 'reorder';";
+		echo "document.getElementById('sidebar-element-{$i}-{$j}').hasPropertyEdit = false;";
 		
 		if ($orderConfig[$j]['type'] == 3) {
 			echo "document.getElementById('sidebar-element-{$i}-{$j}').moduleCategory = 'plugin';";
+			echo "document.getElementById('sidebar-element-{$i}-{$j}').hasPropertyEdit = ";
+			$plugin = $orderConfig[$j]['id']['plugin'];
+			$handler = $orderConfig[$j]['id']['handler'];
+			$sidbarPluginIndex = $plugin . '/' . $handler;
+			echo count($sidebarPluginArray[$sidbarPluginIndex]['parameters']) > 0 ? 'true' : 'false';
+			echo ";";
 		}
 		
 		echo "new DragPanel(document.getElementById('sidebar-element-{$i}-{$j}'), [\"sidebar\"]);";
@@ -818,12 +826,16 @@ foreach ($sortedArray as $nowKey) {
 	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').identifier = '{$nowKey['identifier']}';";
 	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').ajaxtype = 'register';";
 	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').moduleCategory = 'sidebar_element';";
+	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').hasPropertyEdit = false;";
 	echo "new DragPanelAdd(document.getElementById('add-sidebar-element-{$nowKey['identifier']}'), [\"sidebar\"]);";
 }
 foreach ($sidebarPluginArray as $nowKey) {
 	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').identifier = '{$nowKey['identifier']}';";
 	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').ajaxtype = 'register';";
 	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').moduleCategory = 'plugin';";
+	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').hasPropertyEdit = ";
+	echo count($nowKey['parameters']) > 0 ? 'true' : 'false';
+	echo ";";
 	echo "new DragPanelAdd(document.getElementById('add-sidebar-module-{$nowKey['identifier']}'), [\"sidebar\"]);";
 }
 ?>
