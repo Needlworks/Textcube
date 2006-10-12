@@ -1351,8 +1351,10 @@ function TTCommand(command, value1, value2) {
 				if(target != "_self")
 					link += ' target="' + target + '"';
 				link += ">";
-				if(STD.isIE)
+				if(STD.isIE) {
+				    editor.selection.select();
 					editor.selection.pasteHTML(link + editor.selection.htmlText + "</a>");
+				}
 				else
 					TTCommand("Raw", link, "</a>");
 				getObject("propertyHyperLink").style.display = "none";
