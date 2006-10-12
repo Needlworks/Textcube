@@ -83,7 +83,7 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 								</div>
 								
 								<div class="button-box">
-									<input type="submit" class="edit-button input-button" value="<?php echo _t('저장하기');?>" onclick="updateLink()" />
+									<input type="submit" class="edit-button input-button" value="<?php echo _t('저장하기');?>" onclick="updateLink(); return false;" />
 									<span class="hidden">|</span>
 									<a class="cancel-button button" href="<?php echo $blogURL;?>/owner/link"><span class="text"><?php echo _t('취소하기');?></span></a>
 								</div>
