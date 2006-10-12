@@ -4,10 +4,12 @@
 #part-center-dashboard .bloginfo-section
 {
 	width                            : 280px;
+	margin                           : 0 7px 25px 7px;
 }
 #part-center-dashboard .bloginfo-section h3
 {
-	width                            : 255px;
+	padding-left                     : 25px;
+	width                            : 280px;
 }
 #part-center-dashboard .bloginfo-section table
 {
@@ -17,6 +19,7 @@
 #part-center-dashboard .notice-section
 {
 	width                            : 620px;
+	margin                           : 0 7px 25px 7px;
 }
 
 #part-center-dashboard .section
