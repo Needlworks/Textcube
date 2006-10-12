@@ -27,15 +27,22 @@ if (count($centerMappings) == 0) {
 
 if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ){
 	
+	$seperatorCount = 0;
+	
 	foreach($oldcenterlayout as $item) {
 		if ($item['plugin'] == 'TatterToolsSeperator') {
 			array_push($newlayout, $item);
+			$seperatorCount++;
 		} else if (($pos = array_search($item, $centerMappings, true)) !== false) {
 			array_push($newlayout, $item);
 			unset($centerMappings[$pos]);
 		} else {
 			array_push($addedlayout, $item);
 		}
+	}
+	while ($seperatorCount < 2) {
+		array_push($centerMappings, array('plugin' => 'TatterToolsSeperator'));
+		$seperatorCount++;
 	}
 	
 	$newlayout = array_merge($newlayout, $centerMappings);
