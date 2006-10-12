@@ -3,7 +3,7 @@ function CT_Tattertools_Notice($target) {
 	global $service;
 	requireComponent("Eolin.PHP.Core");
 	$noticeURL = 'http://blog.tattertools.com/rss';
-	list($result, $feed, $xml) = getRemoteFeed($noticeURL);
+	list($result, $feed, $xml) = CT_Tattertools_Notice_getRemoteFeed($noticeURL);
 	if ($result == 0) {
 		$xmls = new XMLStruct();
 		$noticeEntries = array();
@@ -73,5 +73,87 @@ function CT_Tattertools_Notice($target) {
 	unset($xmls);
 	unset($noticeEntries);
 	return $target;
+}
+
+function CT_Tattertools_Notice_getRemoteFeed($url) {
+	global $service;
+	$xml = fireEvent('GetRemoteFeed', null, $url);
+	if (empty($xml)) {
+		requireComponent('Eolin.PHP.HTTPRequest');
+		$request = new HTTPRequest($url);
+		$request->timeout = 3;
+		if (!$request->send())
+			return array(2, null, null);
+		$xml = $request->responseText;
+	}
+	$feed = array('xmlURL' => $url);
+	$xmls = new XMLStruct();
+	if (!$xmls->open($xml, $service['encoding'])) {
+		if(preg_match_all('/<link .*?rel\s*=\s*[\'"]?alternate.*?>/i', $xml, $matches)) {
+			foreach($matches[0] as $link) {
+				$attributes = getAttributesFromString($link);
+				if(isset($attributes['href'])) {
+					$urlInfo = parse_url($url);
+					$rssInfo = parse_url($attributes['href']);
+					$rssURL = false;
+					if(isset($rssInfo['scheme']) && $rssInfo['scheme'] == 'http')
+						$rssURL = $attributes['href'];
+					else if(isset($rssInfo['path'])) {
+						if($rssInfo['path']{0} == '/')
+							$rssURL = "{$urlInfo['scheme']}://{$urlInfo['host']}{$rssInfo['path']}";							
+						else
+							$rssURL = "{$urlInfo['scheme']}://{$urlInfo['host']}".(isset($urlInfo['path']) ? rtrim($urlInfo['path'], '/') : '').'/'.$rssInfo['path'];
+					}
+					if($rssURL && $url != $rssURL)
+						return getRemoteFeed($rssURL);
+				}
+			}
+		}
+		return array(3, null, null);
+	}
+	if ($xmls->getAttribute('/rss', 'version')) {
+		$feed['blogURL'] = $xmls->getValue('/rss/channel/link');
+		$feed['title'] = $xmls->getValue('/rss/channel/title');
+		$feed['description'] = $xmls->getValue('/rss/channel/description');
+		if (Validator::language($xmls->getValue('/rss/channel/language')))
+			$feed['language'] = $xmls->getValue('/rss/channel/language');
+		else if (Validator::language($xmls->getValue('/rss/channel/dc:language')))
+			$feed['language'] = $xmls->getValue('/rss/channel/dc:language');
+		else
+			$feed['language'] = 'en-US';
+		$feed['modified'] = gmmktime();
+	} else if ($xmls->getAttribute('/feed', 'version')) {
+		$feed['blogURL'] = $xmls->getAttribute('/feed/link', 'href');
+		$feed['title'] = $xmls->getValue('/feed/title');
+		$feed['description'] = $xmls->getValue('/feed/tagline');
+		if(Validator::language($xmls->getAttribute('/feed', 'xml:lang')))
+			$feed['language'] = $xmls->getAttribute('/feed', 'xml:lang');
+		else
+			$feed['language'] = 'en-US';
+		$feed['modified'] = gmmktime();
+	} else if ($xmls->getAttribute('/rdf:RDF', 'xmlns')) {
+		if($xmls->getAttribute('/rdf:RDF/channel/link', 'href'))
+			$feed['blogURL'] = $xmls->getAttribute('/rdf:RDF/channel/link', 'href');
+		else if($xmls->getValue('/rdf:RDF/channel/link'))
+			$feed['blogURL'] = $xmls->getValue('/rdf:RDF/channel/link');
+		else
+			$feed['blogURL'] = '';
+		$feed['title'] = $xmls->getValue('/rdf:RDF/channel/title');
+		$feed['description'] = $xmls->getValue('/rdf:RDF/channel/description');
+		if(Validator::language($xmls->getValue('/rdf:RDF/channel/dc:language')))
+			$feed['language'] = $xmls->getValue('/rdf:RDF/channel/dc:language');
+		else if(Validator::language($xmls->getAttribute('/rdf:RDF', 'xml:lang')))
+			$feed['language'] = $xmls->getAttribute('/rdf:RDF', 'xml:lang');
+		else
+			$feed['language'] = 'en-US';
+		$feed['modified'] = gmmktime();
+	} else
+		return array(3, null, null);
+
+	$feed['blogURL'] = mysql_real_escape_string(mysql_lessen(UTF8::correct($feed['blogURL'])));
+	$feed['title'] = mysql_real_escape_string(mysql_lessen(UTF8::correct($feed['title'])));
+	$feed['description'] = mysql_real_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['description']))));
+
+	return array(0, $feed, $xml);
 }
 ?>
