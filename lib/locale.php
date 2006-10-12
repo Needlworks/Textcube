@@ -28,4 +28,16 @@ function _text($t) {
 		return $t;
 	}
 }
+
+function _textf($t) {
+	$t = _text($t);
+	if (func_num_args() <= 1)
+		return $t;
+	for ($i = 1; $i < func_num_args(); $i++) {
+		$arg = func_get_arg($i);
+		$t = str_replace('%' . $i, $arg, $t);
+	}
+	return $t;
+}
+
 ?>

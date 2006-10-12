@@ -285,9 +285,9 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 	}
 	$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TATTERTOOLS_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 	if (empty($name))
-		$subject = _text('귀하를 %1님이 초대합니다', $senderName);
+		$subject = _textf('귀하를 %1님이 초대합니다', $senderName);
 	else
-		$subject = _text('%1님을 %2님이 초대합니다', $name, $senderName);
+		$subject = _textf('%1님을 %2님이 초대합니다', $name, $senderName);
 	$message = file_get_contents(ROOT . "/style/letter/letter.html");
 	$message = str_replace('[##_title_##]', _text('초대장'), $message);
 	$message = str_replace('[##_content_##]', $comment, $message);
