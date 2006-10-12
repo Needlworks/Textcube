@@ -103,35 +103,21 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 									}
 								}
 								
+<?php
+if (defined('__TATTERTOOLS_CENTER__')) {
+?>
 								function changeList() {
-									document.getElementById("<?php
-if (defined('__TATTERTOOLS_CENTER__'))
-	echo 'part-center-plugins';
-else
-	echo 'part-plugin-list';
-									?>").submit();
+									document.getElementById("part-center-plugins").submit();
 								}
-								
-								function useIndependentPanel() {
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/useIndependentPanel");
-									request.onSuccess = function() {												
-										// 동작 없음.
-									}
-									request.onError = function() {
-										alert("<?php echo _t('독립 패널 설정을 변경하지 못했습니다.');?>");
-										
-										// 클릭되었던 체크박스를 원 상태로 되돌리기.
-										if (document.getElementById("useTTdashboard").checked == true)
-											document.getElementById("useTTdashboard").checked = false;
-										else
-											document.getElementById("useTTdashboard").checked = true
-										
-									}
-									if (document.getElementById("useTTdashboard").checked == true)
-										request.send("useIndependentPanel=on");
-									else
-										request.send("useIndependentPanel=off");
+<?php
+} else {
+?>
+								function changeList() {
+									document.getElementById("part-plugin-list").submit();
 								}
+<?php
+}
+?>
 								
 								window.addEventListener("load", execLoadFunction, false);
 								
@@ -195,8 +181,16 @@ if (!defined('__TATTERTOOLS_CENTER__')) {
 								</dl>
 <?php
 } else {
-	$tattertoolsDashboard = getUserSetting("tattertoolsDashboard");
-	if (is_null($tattertoolsDashboard)) {
+	if (empty($_POST['useTTdashboard'])) {
+		$tattertoolsDashboard = getUserSetting("tattertoolsDashboard");
+		if (is_null($tattertoolsDashboard)) {
+			setUserSetting("tattertoolsDashboard", 1);
+			$tattertoolsDashboard = 1;
+		} else {
+			setUserSetting("tattertoolsDashboard", 0);
+			$tattertoolsDashboard = 0;
+		}
+	} else {
 		setUserSetting("tattertoolsDashboard", 1);
 		$tattertoolsDashboard = 1;
 	}
@@ -204,7 +198,7 @@ if (!defined('__TATTERTOOLS_CENTER__')) {
 								<dl id="independent-notice-line" class="line">
 									<dt><?php echo _t('독립패널 설정');?></dt>
 									<dd>
-										<input type="checkbox" class="checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="useIndependentPanel()"<?php echo $tattertoolsDashboard == 1 ? " checked" : NULL;?> />
+										<input type="checkbox" class="checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="changeList()"<?php echo $tattertoolsDashboard == 1 ? " checked" : NULL;?> />
 										<label for="useTTdashboard"><?php echo _t('조각보에 태터툴즈 독립 패널을 표시합니다.');?></label>
 									</dd>
 								</dl>
