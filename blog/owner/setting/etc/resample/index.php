@@ -3,7 +3,6 @@ define('ROOT', '../../../../..');
 
 $IV = array(
 	'POST' => array(
-		'ajaxRequest' => array('string', 'mandatory' => false),
 		'deleteWaterMark' => array('string', 'default' => "no"),
 		'horizontalType' => array('string', 'default' => "left"),
 		'verticalType' => array('string', 'default' => "top"),
@@ -18,22 +17,30 @@ $IV = array(
 		'bottomPaddingManual' => array('int', 'mandatory' => false),
 		'leftPaddingManual' => array('int', 'mandatory' => false),
 		'paddingColor' => array('string', 'default' => "FFFFFF"),
-		'useResamplingAsDefault' => array('string', 'mandatory' => false)
+		'useResamplingAsDefault' => array('string', 'mandatory' => false),
+		'useWatermarkAsDefault' => array('string', 'mandatory' => false)
 	),
 	'FILES' => array(
-		'waterMark' => array('file')
+		'waterMark' => array('file', 'mandatory' => false)
 	)
 );
 
 require ROOT . '/lib/includeForOwner.php';
 
-$isAjaxRequest = false; // checkAjaxRequest();
+$isAjaxRequest = checkAjaxRequest();
 $errorArray = array();
 
+// 기본 설정
 if ($_POST['useResamplingAsDefault'] == "yes") {
 	setUserSetting("resamplingDefault", "yes");
 } else {
 	removeUserSetting("resamplingDefault");
+}
+
+if ($_POST['useWatermarkAsDefault'] == "yes") {
+	setUserSetting("waterMarkDefault", "yes");
+} else {
+	removeUserSetting("waterMarkDefault");
 }
 
 // 워터마크 처리.
@@ -69,28 +76,28 @@ if (!empty($_FILES['waterMark']['tmp_name'])) {
 }
 
 $bErrorFlag = false;
-if (in_array(strtolower($_POST['verticalType']), array("top", "middle", "bottom")))
+if (!in_array(strtolower($_POST['verticalType']), array("top", "middle", "bottom")))
 	$bErrorFlag = true;
-if (in_array(strtolower($_POST['horizontalType']), array("left", "center", "right")))
+if (!in_array(strtolower($_POST['horizontalType']), array("left", "center", "right")))
 	$bErrorFlag = true;
-if (!eregi("^[0-9]+$", $_POST['verticalPosition']))
+if (!preg_match("/^[0-9]+$/", $_POST['verticalPosition']))
 	$bErrorFlag = true;
-if (!eregi("^[0-9]+$", $_POST['horizontalPosition']))
+if (!preg_match("/^[0-9]+$/", $_POST['horizontalPosition']))
 	$bErrorFlag = true;
 
 // 워터마크 포지션 값에 오류가 있으면 이전 값으로 되돌림.
 if ($bErrorFlag == true) {
-	$errorArray['position'] = getUserSetting("waterMarkPosition", "left=10|bottom=10");
+	$errorArray['position'] = true;
 } else {
-	$_POST['verticalPosition'] = eregi_replace("^0*([0-9]*)$", '\1', $_POST['verticalPosition']);
+	$_POST['verticalPosition'] = preg_replace("/^0*/", '', $_POST['verticalPosition']);
 	$_POST['verticalPosition'] = empty($_POST['verticalPosition']) ? 0 : $_POST['verticalPosition'];
-	$_POST['horizontalPosition'] = eregi_replace("^0*([0-9]*)$", '\1', $_POST['horizontalPosition']);
+	$_POST['horizontalPosition'] = preg_replace("/^0*/", '', $_POST['horizontalPosition']);
 	$_POST['horizontalPosition'] = empty($_POST['horizontalPosition']) ? 0 : $_POST['horizontalPosition'];
 	
 	$strNewPosition = "{$_POST['horizontalType']}={$_POST['horizontalPosition']}|{$_POST['verticalType']}={$_POST['verticalPosition']}";
-	$strOldPosition = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'waterMarkPosition'");
+	$strOldPosition = getUserSetting("waterMarkPosition");
 	
-	if ($strOldPosition == false || $strNewPosition != $strOldPosition) {
+	if (is_null($strOldPosition) || $strNewPosition != $strOldPosition) {
 		setUserSetting('waterMarkPosition', $strNewPosition);
 		deleteAllThumbnails(ROOT."/cache/thumbnail/$owner");
 	}
@@ -107,24 +114,24 @@ if ($_POST['leftPadding'] == "direct")
 	$_POST['leftPadding'] = $_POST['leftPaddingManual'];
 
 $bErrorFlag = false;
-if (!eregi("^[0-9]+$", $_POST['topPadding']))
+if (!preg_match("/^[0-9]+$/", $_POST['topPadding']))
 	$bErrorFlag = true;
-if (!eregi("^[0-9]+$", $_POST['bottomPadding']))
+if (!preg_match("/^[0-9]+$/", $_POST['bottomPadding']))
 	$bErrorFlag = true;
-if (!eregi("^[0-9]+$", $_POST['rightPadding']))
+if (!preg_match("/^[0-9]+$/", $_POST['rightPadding']))
 	$bErrorFlag = true;
-if (!eregi("^[0-9]+$", $_POST['leftPadding']))
+if (!preg_match("/^[0-9]+$/", $_POST['leftPadding']))
 	$bErrorFlag = true;
 
 // 썸네일 여백 값에 오류가 있으면 이전 값으로 되돌림.
 if ($bErrorFlag == true)
-	$errorArray['padding'] = getThumbnailPadding();
+	$errorArray['padding'] = true;
 
 if ($bErrorFlag == false) {
-	$_POST['topPadding'] = eregi_replace("^0*([0-9]*)$", '\1', $_POST['topPadding']);
-	$_POST['bottomPadding'] = eregi_replace("^0*([0-9]*)$", '\1', $_POST['bottomPadding']);
-	$_POST['rightPadding'] = eregi_replace("^0*([0-9]*)$", '\1', $_POST['rightPadding']);
-	$_POST['leftPadding'] = eregi_replace("^0*([0-9]*)$", '\1', $_POST['leftPadding']);
+	$_POST['topPadding'] = preg_replace("/^0*/", '', $_POST['topPadding']);
+	$_POST['bottomPadding'] = preg_replace("/^0*/", '', $_POST['bottomPadding']);
+	$_POST['rightPadding'] = preg_replace("/^0*/", '', $_POST['rightPadding']);
+	$_POST['leftPadding'] = preg_replace("/^0*/", '', $_POST['leftPadding']);
 	
 	if (empty($_POST['topPadding']))
 		$_POST['topPadding'] = 0;
@@ -145,22 +152,22 @@ if ($bErrorFlag == false) {
 }
 
 // 썸네일 여백 색상.
-if (eregi("^#?([A-F0-9]{3,6})$", $_POST['paddingColor'], $temp)) {
+if (preg_match("/^#?([A-F0-9]{3,6})$/i", $_POST['paddingColor'], $temp)) {
 	$strNewColor = $temp[1];
-	$strOldColor = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'thumbnailPaddingColor'");
+	$strOldColor = getUserSetting("thumbnailPaddingColor");
 	
-	if ($strOldColor == false && $strNewColor != $strOldColor) {
+	if (is_null($strOldColor) && $strNewColor != $strOldColor) {
 		setUserSetting('thumbnailPaddingColor', $strNewColor);
 		deleteAllThumbnails(ROOT."/cache/thumbnail/$owner");
 	}
 } else {
-	$errorArray['paddingColor'] = getThumbnailPaddingColor();
+	$errorArray['paddingColor'] = true;
 }
 
 if (count($errorArray) > 0)
-	$errorArray['error'] = 1;
+	$errorResult['error'] = 1;
 else
-	$errorArray['error'] = 0;
+	$errorResult['error'] = 0;
 
-$isAjaxRequest ? printRespond($errorArray) : header("Location: ".$_SERVER['HTTP_REFERER']);
+$isAjaxRequest ? printRespond($errorResult) : header("Location: ".$_SERVER['HTTP_REFERER']);
 ?>

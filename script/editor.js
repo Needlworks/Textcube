@@ -625,11 +625,16 @@ TTEditor.prototype.showProperty = function(obj)
 			getObject(propertyWindowId + "_width1").value = trim(editor.removeQuot(editor.parseAttribute(values[2], "width")));
 			getObject(propertyWindowId + "_alt1").value = trim(editor.unHtmlspecialchars(editor.removeQuot(editor.parseAttribute(values[2], "alt"))));
 			getObject(propertyWindowId + "_caption1").value = trim(editor.unHtmlspecialchars(editor.removeQuot(values[3])));
-			if (editor.parseAttribute(values[2], "class").match("tt-thumbnail"))
+			if (editor.parseAttribute(values[2], "class").match("tt-resampling")) {
 				getObject(propertyWindowId + "_resample1").checked = true;
+			} else if (editor.parseAttribute(values[2], "class").match("tt-watermark")) {
+				getObject(propertyWindowId + "_watermark1").checked = true;
+				getObject(propertyWindowId + "_resample1").checked = true;
+			}
 			
 			editor.propertyFilename1 = values[1];
 			
+			// 1번 이미지.
 			if(objectCount == 1) {
 				var size = editor.parseImageSize(editor.selectedElement, "array");
 
@@ -661,23 +666,33 @@ TTEditor.prototype.showProperty = function(obj)
 					editor.propertyCurrentProportion3 = size[1] / size[0];
 				}
 			}
-
+			
+			// 2번 이미지.
 			if(objectCount > 1) {
 				getObject(propertyWindowId + "_width2").value = trim(editor.removeQuot(editor.parseAttribute(values[5], "width")));
 				getObject(propertyWindowId + "_alt2").value = trim(editor.unHtmlspecialchars(editor.removeQuot(editor.parseAttribute(values[5], "alt"))));
 				getObject(propertyWindowId + "_caption2").value = trim(editor.unHtmlspecialchars(editor.removeQuot(values[6])));
-				if (editor.parseAttribute(values[5], "class").match("tt-thumbnail"))
+				if (editor.parseAttribute(values[5], "class").match("tt-resampling")) {
 					getObject(propertyWindowId + "_resample2").checked = true;
+				} else if (editor.parseAttribute(values[5], "class").match("tt-watermark")) {
+					getObject(propertyWindowId + "_watermark2").checked = true;
+					getObject(propertyWindowId + "_resample2").checked = true;
+				}
 			}
 
 			editor.propertyFilename2 = values[4];
-
+			
+			// 3번 이미지.
 			if(objectCount > 2) {
 				getObject(propertyWindowId + "_width3").value = trim(editor.removeQuot(editor.parseAttribute(values[8], "width")));
 				getObject(propertyWindowId + "_alt3").value = trim(editor.unHtmlspecialchars(editor.removeQuot(editor.parseAttribute(values[8], "alt"))));
 				getObject(propertyWindowId + "_caption3").value = trim(editor.unHtmlspecialchars(editor.removeQuot(values[9])));
-				if (editor.parseAttribute(values[8], "class").match("tt-thumbnail"))
+				if (editor.parseAttribute(values[8], "class").match("tt-resampling")) {
 					getObject(propertyWindowId + "_resample3").checked = true;
+				} else if (editor.parseAttribute(values[8], "class").match("tt-watermark")) {
+					getObject(propertyWindowId + "_watermark3").checked = true;
+					getObject(propertyWindowId + "_resample3").checked = true;
+				}
 			}
 
 			editor.propertyFilename3 = values[7];
@@ -818,6 +833,7 @@ TTEditor.prototype.setProperty = function()
 			var objectCount = editor.propertyWindowId.charAt(editor.propertyWindowId.length-1);
 
 			// 1L,1C,1R일 경우에는 수정된 속성의 크기로 실제 이미지 크기를 변경
+			// 1번 이미지.
 			if(objectCount == 1) {
 				editor.selectedElement.removeAttribute("width");
 				editor.selectedElement.removeAttribute("height");
@@ -853,14 +869,21 @@ TTEditor.prototype.setProperty = function()
 				imageCaption = editor.htmlspecialchars(getObject(editor.propertyWindowId + "_caption1").value);
 			} catch(e) { imageCaption = ''; }
 			try {
-				if (getObject(editor.propertyWindowId + "_resample1").checked == true)
-					imageResample = 'class="tt-thumbnail" ';
-				else
+				if (getObject(editor.propertyWindowId + "_watermark1").checked == true) {
+					imageResample = 'class="tt-watermark" ';
+					getObject(editor.propertyWindowId + "_resample1").checked = true;
+				} else if (getObject(editor.propertyWindowId + "_resample1").checked == true) {
+					imageResample = 'class="tt-resampling" ';
+				} else {
 					imageResample = '';
+					getObject(editor.propertyWindowId + "_watermark1").checked = false;
+					getObject(editor.propertyWindowId + "_resample1").checked = false;
+				}
 			} catch(e) { imageResample = ''; }
 			
 			var longdesc = editor.propertyHeader + '|' + editor.propertyFilename1 + '|' + imageSize + imageResample + imageAlt + '|' + imageCaption;
-
+			
+			// 2번 이미지.
 			if(objectCount > 1) {
 				imageSize = "";
 				imageAlt = "";
@@ -880,15 +903,22 @@ TTEditor.prototype.setProperty = function()
 					imageCaption = editor.htmlspecialchars(getObject(editor.propertyWindowId + "_caption2").value);
 				} catch(e) { imageCaption = ''; }
 				try {
-					if (getObject(editor.propertyWindowId + "_resample2").checked == true)
-						imageResample = 'class="tt-thumbnail" ';
-					else
+					if (getObject(editor.propertyWindowId + "_watermark2").checked == true) {
+						imageResample = 'class="tt-watermark" ';
+						getObject(editor.propertyWindowId + "_resample2").checked = true;
+					} else if (getObject(editor.propertyWindowId + "_resample2").checked == true) {
+						imageResample = 'class="tt-resampling" ';
+					} else {
 						imageResample = '';
+						getObject(editor.propertyWindowId + "_watermark2").checked = false;
+						getObject(editor.propertyWindowId + "_resample2").checked = false;
+					}
 				} catch(e) { imageResample = ''; }
 				
 				longdesc += '|' + editor.propertyFilename2 + '|' + imageSize + imageResample + imageAlt + '|' + imageCaption;
 			}
-
+			
+			// 3번 이미지.
 			if(objectCount > 2) {
 				imageSize = "";
 				imageAlt = "";
@@ -908,10 +938,16 @@ TTEditor.prototype.setProperty = function()
 					imageCaption = editor.htmlspecialchars(getObject(editor.propertyWindowId + "_caption3").value);
 				} catch(e) { imageCaption = ''; }
 				try {
-					if (getObject(editor.propertyWindowId + "_resample3").checked == true)
-						imageResample = 'class="tt-thumbnail" ';
-					else
+					if (getObject(editor.propertyWindowId + "_watermark3").checked == true) {
+						imageResample = 'class="tt-watermark" ';
+						getObject(editor.propertyWindowId + "_resample3").checked = true;
+					} else if (getObject(editor.propertyWindowId + "_resample3").checked == true) {
+						imageResample = 'class="tt-resampling" ';
+					} else {
 						imageResample = '';
+						getObject(editor.propertyWindowId + "_watermark3").checked = false;
+						getObject(editor.propertyWindowId + "_resample3").checked = false;
+					}
 				} catch(e) { imageResample = ''; }
 				
 				longdesc += '|' + editor.propertyFilename3 + '|' + imageSize + imageResample + imageAlt + '|' + imageCaption;
@@ -1824,8 +1860,6 @@ TTEditor.prototype.parseAttribute = function(str, name) {
 	} else {
 		return "";
 	}
-	
-	
 }
 
 // 직접 execCommand 명령을 내릴 수 있게 해줌
