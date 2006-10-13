@@ -826,3 +826,40 @@ function getParentByTagName(tag, obj)
 function removeItselfById(id) {
 	document.getElementById(id).parentNode.removeChild(document.getElementById(id));
 }
+
+function makeQueryStringByForm(formId) {
+	queryString = "";
+	tempForm = document.getElementById(formId);
+	
+	for (i=0; i<tempForm.elements.length; i++) {
+		if (queryString != "")
+			linker = "&";
+		else
+			linker = "";
+		
+		// disabled 상태이면 패스.
+		if (tempForm.elements[i].disabled == true)
+			continue;
+		
+		if (tempForm.elements[i].tagName.toLowerCase() == "input") {
+			switch (tempForm.elements[i].type) {
+				case "checkbox":
+				case "radio":
+					if (tempForm.elements[i].checked == true)
+						queryString += linker + tempForm.elements[i].name + "=" + tempForm.elements[i].value;
+					break;
+				case "text":
+				case "password":
+					queryString += linker + tempForm.elements[i].name + "=" + tempForm.elements[i].value;
+					break;
+			}
+		} else if (tempForm.elements[i].tagName.toLowerCase() == "select") {
+			num = tempForm.elements[i].selectedIndex;
+			queryString += linker + tempForm.elements[i].name + "=" + tempForm.elements[i].options[num].value;
+		} else if (tempForm.elements[i].tagName.toLowerCase() == "textarea") {
+			queryString += linker + tempForm.elements[i].name + "=" + tempForm.elements[i].value;
+		}
+	}
+	
+	return queryString;
+}
