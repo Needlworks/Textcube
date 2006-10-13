@@ -37,11 +37,11 @@ function eolinTagFunction_showLocalSuggestion(id, cursor, filter)
 	var input = instance.getInput();
 
 	// 편집중인 내용이 빈 상태면 suggestion 윈도우 감추고 리턴
-	if(input.value.trim() == "")
+	/*if(input.value.trim() == "")
 	{
 		instance.hideSuggestion();
 		return;
-	}
+	}*/
 
 	var xmlhttp = createHttp();
 
@@ -102,7 +102,7 @@ function eolinTagFunction_showLocalSuggestion(id, cursor, filter)
 							
 						instance.suggestion.innerHTML = htmlText.toString();
 
-						if(!instance.allowEolinSuggestion) {
+						if(!instance.allowEolinSuggestion || instance.getInput().value.trim() == "") {
 							instance.suggestion.style.left = getOffsetLeft(input) + "px";
 							instance.suggestion.style.top = getOffsetTop(input) + input.offsetHeight + "px";
 							instance.suggestion.style.display = "block";
@@ -133,8 +133,6 @@ function eolinTagFunction_showSuggestion()
 	// Container의 ID를 통해 instance를 가져온다
 	try { var instance = document.getElementById(arguments[0]).instance; }
 	catch(e) { return; }
-
-	debug("<span style=\"color: red\">Received " + instance.cursor + "</span>");
 
 	// 보내온 cursor와 현재 cursor가 같지 않으면 필요없는 데이터이므로 버린다
 	// 텍스트 박스를 벗어난 후에 도착한 데이터도 버린다
@@ -361,18 +359,13 @@ Tag.prototype.requestSuggestion = function()
 	instance.isTyping = true;
 	instance.cursor++;
 
-	if(!instance.allowEolinSuggestion) {
+	if(!instance.allowEolinSuggestion || (instance.getInput().value.trim() == "")) {
 		eolinTagFunction_showLocalSuggestion(instance.container.getAttribute("id"), instance.cursor, "name like '" + instance.getInput().value + "%'")
 		return;
 	}
 
-	debug("Request " + instance.cursor);
-
 	var script = document.createElement("script");
-//	script.setAttribute("id", "eolinTagScript");
 	script.setAttribute("src", "http://suggest.eolin.com/tag/tatter/?id=" + instance.container.getAttribute("id") + "&cursor=" + instance.cursor + "&language=" + instance.language + "&word=" + encodeURIComponent(instance.getInput().value));
-//	if(document.getElementById("eolinTagScript"))
-//		document.body.removeChild(document.getElementById("eolinTagScript"));
 	document.body.appendChild(script);
 }
 
