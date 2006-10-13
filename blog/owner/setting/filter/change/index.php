@@ -3,7 +3,6 @@ define('ROOT', '../../../../..');
 
 $IV = array(
 	'GET' => array(
-		'ajaxRequest' => array('string', 'mandatory' => false),
 		'command' => array('any', 'mandatory' => false),
 		'id' => array('id', 'mandatory' => false ),
 		'mode' => array(array('ip', 'url', 'content', 'name' ) ),
