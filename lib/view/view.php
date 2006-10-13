@@ -1434,9 +1434,9 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 			break;
 		default:
 			if (file_exists(ROOT . '/image/extension/' . getFileExtension($filename) . '.gif')) {
-				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '"><img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/' . getFileExtension($filename) . '.gif" alt="' . _text('첨부 파일 아이콘') . '" /> ' . htmlspecialchars($fileInfo['label']) . '</a>';
+				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/' . getFileExtension($filename) . '.gif" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			} else {
-				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '"><img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/unknown.gif" alt="' . _text('첨부 파일 아이콘') . '" /> ' . htmlspecialchars($fileInfo['label']) . '</a>';
+				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/unknown.gif" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			}
 			break;
 	}
