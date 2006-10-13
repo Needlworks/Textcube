@@ -407,7 +407,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												tempA = document.createElement("A");
 												tempA.className = "remove-button button";
 												tempA.setAttribute("href", "#void");
-												tempA.setAttribute("onclick", "removeTrackbackLog('" + field[0] + "','" + id + "');");
+												tempA.onclick = function() { removeTrackbackLog(field[0], id); return false };
 												tempA.setAttribute("title", "<?php echo _t('이 글걸기를 삭제합니다.');?>");
 												
 												tempSpan = document.createElement("SPAN");
@@ -503,7 +503,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										tempLink = document.createElement("A");
 										tempLink.className = "send-button button";
 										tempLink.setAttribute("href", "#void");
-										tempLink.setAttribute("onclick", "sendTrackback(" + id + ")");
+										tempLink.onclick = function() {sendTrackback(id); return false };
 										tempLink.innerHTML = '<span class="text"><?php echo _t('전송');?><\/span>';
 										
 										newDiv = document.createElement("DIV");
