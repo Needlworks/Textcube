@@ -484,7 +484,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 								</div>
 								<div id="etc-section" class="section">
 									<fieldset class="container">
-										<legend><?php echo _t('기타 설정');?></legend>
+										<legend><?php echo _t('기타');?></legend>
 										
 										<dl id="post-address-line" class="line">
 											<dt><span class="label"><?php echo _t('글 주소');?></span></dt>
