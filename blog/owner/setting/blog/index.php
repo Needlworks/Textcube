@@ -291,8 +291,6 @@ if ($service['type'] != 'single') {
 									<fieldset class="container">
 										<legend><?php echo _t('블로그 정보');?></legend>
 										
-										<input type="hidden" name="javascript" value="disabled" />
-										
 										<dl id="blog-title-line" class="line">
 											<dt><label for="title"><?php echo _t('블로그 제목');?></label></dt>
 											<dd><input type="text" id="title" class="input-text" name="title" value="<?php echo htmlspecialchars($blog['title']);?>" /></dd>
@@ -313,8 +311,6 @@ if ($service['type'] != 'single') {
 								<form id="multi-form" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/blog/domain">
 									<fieldset class="container">
 										<legend><?php echo _t('블로그 주소');?></legend>
-										
-										<input type="hidden" name="javascript" value="disabled" />
 									
 <?php
 	if ($service['type'] == 'domain') {
@@ -444,8 +440,6 @@ if (file_exists(ROOT."/attach/$owner/index.gif")) {
 								<div id="rss-section" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('RSS 설정');?></legend>
-										
-										<input type="hidden" name="javascript" value="disabled" />
 										
 										<dl id="open-type-line" class="line">
 											<dt><span class="label"><?php echo _t('공개 정도');?></span></dt>

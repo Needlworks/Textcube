@@ -82,10 +82,6 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 									}
 								}
 								
-								function setAdminSkin() {
-									document.getElementById('admin-skin-form').submit();
-								}
-								
 								function checkManualInput(obj) {
 									if (obj.options[obj.options.selectedIndex].value == "direct") {
 										switch (obj.id) {
@@ -291,8 +287,6 @@ if (extension_loaded('gd')) {
 									<fieldset class="container">
 										<legend><?php echo _t('언어 및 시간대');?></legend>
 										
-										<input type="hidden" name="javascript" value="disabled" />
-										
 										<dl id="admin-language-line" class="line">
 											<dt><label for="admin-language"><?php echo _t('관리자 화면 언어');?></label></dt>
 											<dd>
@@ -354,8 +348,6 @@ foreach (Timezone::getList() as $timezone) {
 								<div id="editor-section" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('글 작성 환경을 설정합니다');?></legend>
-										
-										<input type="hidden" name="javascript" value="disabled" />
 										
 										<dl id="editor-line" class="line">
 											<dt><label for="editorMode"><?php echo _t('기본 작성 모드');?></label></dt>
@@ -430,8 +422,7 @@ while ($tempAdminSkin = $dir->read()) {
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<input type="hidden" name="javascript" value="disabled" />
-										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setAdminSkin(); return false;" />
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" />
 									</div>
 								</div>
 							</form>
