@@ -35,9 +35,9 @@ function filterJavaScript($str, $removeScript = true) {
 }
 
 function checkAjaxRequest() {
-	//if ($_GET['ajaxRequest'] == "on" || $_POST['ajaxRequest'] == "on")
+	if (preg_match("/__T__=[0-9]{13}/", $_SERVER['QUERY_STRING']))
 		return true;
-	//else
-	//	return false;
+	else
+		return false;
 }	
 ?>
