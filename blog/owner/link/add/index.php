@@ -65,7 +65,11 @@ require ROOT . '/lib/piece/owner/contentMenu21.php';
 						</script>
 						
 						<div id="part-link-add" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('링크 정보를 추가합니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('새로운 링크를 추가합니다');?></span></h2>
+
+							<div class="main-explain-box">
+								<p class="explain"><?php echo _t('RSS 주소를 입력해서 링크의 정보를 읽어올 수 있습니다. 수동으로 제목과 주소를 입력하셔도 됩니다.');?></p>
+							</div>
 								
 							<form id="addForm" method="post" action="<?php echo $blogURL;?>/owner/link/add/">
 								<div class="data-inbox">

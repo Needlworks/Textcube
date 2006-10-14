@@ -390,7 +390,8 @@
 }
 
 
-#part-center-about .section .container table tbody tr td.name
+#part-center-about .section .container table tbody tr td.name,
+#part-center-about .section .container table tbody tr td.id
 {
 	width                            : 100px;
 }
@@ -399,7 +400,7 @@
 #internationalization-container table,
 #support-container table
 {
-	width                            : 300px;
+	width                            : 400px;
 }
 
 #developer-description .container h4

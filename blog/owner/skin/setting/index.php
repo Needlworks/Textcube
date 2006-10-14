@@ -87,7 +87,7 @@ $selected = 0;
 						</script>
 						
 						<div id="part-skin-setting" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('스킨에 맞춘 출력을 설정합니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('스킨 출력에 따른 여러 값들을 변경합니다');?></span></h2>
 							
 							<div class="data-inbox">
 								<form id="skinSetting" class="section" method="post" action="<?php echo $blogURL;?>/owner/skin/setting/skin" enctype="application/x-www-form-urlencoded">
@@ -115,8 +115,8 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="post-per-count-line" class="line">
-											<dt><label for="entriesOnPage"><?php echo _t('페이지 당 포스트 수');?></label></dt>
-											<dd><?php echo _f('블로그 글을 한 페이지 당 %1개 보여줍니다.', $arg);?></dd>
+											<dt><label for="entriesOnPage"><?php echo _t('한 쪽당 글 수');?></label></dt>
+											<dd><?php echo _f('블로그 글을 한 쪽당 %1개 보여줍니다.', $arg);?></dd>
 										</dl>
 <?php
 ob_start();
@@ -140,8 +140,8 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-post-line" class="line">
-											<dt><label for="entriesOnRecent"><?php echo _t('출력될 최신 글 수');?></label></dt>
-											<dd><?php echo _f('최신 글을 %1개 보여줍니다.', $arg);?></dd>
+											<dt><label for="entriesOnRecent"><?php echo _t('출력될 최근 글 수');?></label></dt>
+											<dd><?php echo _f('최근에 쓴 글을 %1개 보여줍니다.', $arg);?></dd>
 										</dl>
 <?php
 ob_start();
@@ -165,8 +165,8 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-comment-line" class="line">
-											<dt><label for="commentsOnRecent"><?php echo _t('출력될 최신 댓글 수');?></label></dt>
-											<dd><?php echo _f('최신 댓글을 %1개 보여줍니다.', $arg);?></dd>
+											<dt><label for="commentsOnRecent"><?php echo _t('출력될 최근 댓글 수');?></label></dt>
+											<dd><?php echo _f('최근에 달린 댓글을 %1개 보여줍니다.', $arg);?></dd>
 										</dl>
 <?php
 ob_start();
@@ -190,8 +190,8 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-trackback-line" class="line">
-											<dt><label for="trackbacksOnRecent"><?php echo _t('출력될 최신 글걸기 수');?></label></dt>
-											<dd><?php echo _f('최신 글걸기를 %1개 보여줍니다.', $arg);?></dd>
+											<dt><label for="trackbacksOnRecent"><?php echo _t('출력될 최근 글걸기 수');?></label></dt>
+											<dd><?php echo _f('최근에 걸린 글걸기를 %1개 보여줍니다.', $arg);?></dd>
 										</dl>
 <?php
 ob_start();
@@ -216,7 +216,8 @@ ob_end_clean();
 ?>
 										<dl id="recent-archive-line" class="line">
 											<dt><label for="archivesOnPage"><?php echo _t('출력될 저장소 수');?></label></dt>
-											<dd><?php echo _f('저장소를 %1달 보여줍니다.', $arg);?></dd>
+											<dd><?php echo _f('저장소에 글 목록을 %1달치만큼 보여줍니다.', $arg);?></dd>
+
 										</dl>
 									</fieldset>
 									
@@ -224,14 +225,14 @@ ob_end_clean();
 										<legend><?php echo _t('클릭 설정');?></legend>
 										
 										<dl id="category-click-line" class="line">
-											<dt><span class="label"><?php echo _t('분류 클릭 시');?></span></dt>
+											<dt><span class="label"><?php echo _t('분류 선택 시');?></span></dt>
 											<dd>
 												<input type="radio" id="showListOnCategoryTitles" class="radio" name="showListOnCategory" value="titles"<?php echo $skinSetting['showListOnCategory'] ? ' checked="checked"' : '';?> /> <label for="showListOnCategoryTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
 												<input type="radio" id="showListOnCategoryContents" class="radio" name="showListOnCategory" value="contents"<?php echo $skinSetting['showListOnCategory'] ? '' : ' checked="checked"';?> /> <label for="showListOnCategoryContents"><?php echo _t('글 내용을 표시합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="archive-click-line" class="line">
-											<dt><span class="label"><?php echo _t('저장소 클릭 시');?></span></dt>
+											<dt><span class="label"><?php echo _t('저장소 선택 시');?></span></dt>
 											<dd>
 												<input type="radio" id="showListOnArchiveTitles" class="radio" name="showListOnArchive" value="titles"<?php echo $skinSetting['showListOnArchive'] ? ' checked="checked"' : '';?> /> <label for="showListOnArchiveTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
 												<input type="radio" id="showListOnArchiveContents" class="radio" name="showListOnArchive" value="contents"<?php echo $skinSetting['showListOnArchive'] ? '' : ' checked="checked"';?> /> <label for="showListOnArchiveContents"><?php echo _t('글 내용을 표시합니다.');?></label>
@@ -270,8 +271,8 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-notice-length-line" class="line">
-											<dt><label for="recentNoticeLength"><?php echo _t('최신 공지 길이');?></label></dt>
-											<dd><?php echo _f('최신 공지를 %1 글자로 표시합니다.', $arg);?></dd>
+											<dt><label for="recentNoticeLength"><?php echo _t('최근 공지 길이');?></label></dt>
+											<dd><?php echo _f('최근 공지를 %1 글자로 표시합니다.', $arg);?></dd>
 										</dl>
 <?php
 ob_start();
@@ -295,8 +296,8 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-post-length-line" class="line">
-											<dt><label for="recentEntryLength"><?php echo _t('최신 글 길이');?></label></dt>
-											<dd><?php echo _f('최신 글을 %1 글자로 표시합니다.', $arg);?></dd>
+											<dt><label for="recentEntryLength"><?php echo _t('최근 글 길이');?></label></dt>
+											<dd><?php echo _f('최근 글을 %1 글자로 표시합니다.', $arg);?></dd>
 										</dl>
 <?php
 ob_start();
@@ -320,8 +321,8 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-comment-length-line" class="line">
-											<dt><label for="recentCommentLength"><?php echo _t('최신 댓글 길이');?></label></dt>
-											<dd><?php echo _f('최신 댓글을 %1 글자로 표시합니다.', $arg);?></dd>
+											<dt><label for="recentCommentLength"><?php echo _t('최근 댓글 길이');?></label></dt>
+											<dd><?php echo _f('최근 댓글을 %1 글자로 표시합니다.', $arg);?></dd>
 										</dl>
 <?php
 ob_start();
@@ -345,8 +346,8 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-trackback-length-line" class="line">
-											<dt><label for="recentTrackbackLength"><?php echo _t('최신 글걸기 길이');?></label></dt>
-											<dd><?php echo _f('최신 글걸기를 %1 글자로 표시합니다.', $arg);?></dd>
+											<dt><label for="recentTrackbackLength"><?php echo _t('최근 글걸기 길이');?></label></dt>
+											<dd><?php echo _f('최근 글걸기를 %1 글자로 표시합니다.', $arg);?></dd>
 										</dl>
 <?php
 ob_start();
@@ -438,8 +439,8 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl class="line">
-											<dt><label for="commentsOnGuestbook"><?php echo _t('페이지 당 방명록 수');?></label></dt>
-											<dd><?php echo _f('방명록 한 페이지 당 %1개 글을 표시합니다.', $arg);?></dd>
+											<dt><label for="commentsOnGuestbook"><?php echo _t('쪽 당 방명록 수');?></label></dt>
+											<dd><?php echo _f('방명록 한 쪽 당 %1개 글을 표시합니다.', $arg);?></dd>
 										</dl>
 									</fieldset>
 								
@@ -453,7 +454,7 @@ ob_end_clean();
 						<hr class="hidden" />
 						
 						<div id="part-skin-tree" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('스킨에 맞춘 분류의 출력을 설정합니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('스킨에 맞춘 분류의 출력을 변경합니다');?></span></h2>
 							
 							<form id="setSkinForm" method="post" action="<?php echo $blogURL;?>/owner/skin/setting/tree" enctype="application/x-www-form-urlencoded">
 								<div class="data-inbox">
@@ -467,7 +468,7 @@ ob_end_clean();
 											<legend><?php echo _t('트리 속성');?></legend>
 											
 											<dl id="tree-skin-line" class="line">
-												<dt><label for="tree"><?php echo _t('트리선택');?></label></dt>
+												<dt><label for="tree"><?php echo _t('분류 스킨 선택');?></label></dt>
 												<dd>
 													<select id="tree" name="tree" onchange="changeTreeStyle()">
 <?php
@@ -506,12 +507,12 @@ if ($dh = opendir($skinPath)) {
 												<dd><input type="text" id="bgColorOnTree" class="input-text" name="bgColorOnTree" value="<?php echo $skinSetting['bgColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="label-langth-line" class="line">
-												<dt><label for="labelLengthOnTree"><?php echo _t('레이블 길이');?></label></dt>
-												<dd><?php echo _f('레이블을 %1 글자로 표시합니다.', '<input type="text" id="labelLengthOnTree" class="input-text" name="labelLengthOnTree" value="' . $skinSetting['labelLengthOnTree'] . '" size="3" maxlength="6" onchange="changeTreeStyle()" />');?></dd>
+												<dt><label for="labelLengthOnTree"><?php echo _t('분류 길이');?></label></dt>
+												<dd><?php echo _f('분류를 %1 글자로 표시합니다.', '<input type="text" id="labelLengthOnTree" class="input-text" name="labelLengthOnTree" value="' . $skinSetting['labelLengthOnTree'] . '" size="3" maxlength="6" onchange="changeTreeStyle()" />');?></dd>
 											</dl>
 											<dl id="count-display-line" class="line">
-												<dt><label for="showValue"><?php echo _t('포스트 갯수 출력');?></label></dt>
-												<dd><input type="checkbox" class="checkbox" id="showValue" name="showValueOnTree" onclick="changeTreeStyle()" <?php echo $skinSetting['showValueOnTree'] ? 'checked="checked"' : '';?> /> <label for="showValue"><?php echo _t('카테고리의 글 수를 표시합니다.');?></label></dd>
+												<dt><label for="showValue"><?php echo _t('글 수 출력');?></label></dt>
+												<dd><input type="checkbox" class="checkbox" id="showValue" name="showValueOnTree" onclick="changeTreeStyle()" <?php echo $skinSetting['showValueOnTree'] ? 'checked="checked"' : '';?> /> <label for="showValue"><?php echo _t('각 분류의 글 수를 표시합니다.');?></label></dd>
 											</dl>
 										</fieldset>
 									

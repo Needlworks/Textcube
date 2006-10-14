@@ -69,7 +69,7 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 						<script type="text/javascript">
 							//<![CDATA[
 								function removeCategory() {
-									if(confirm('<?php echo _t('삭제할까요?');?>')) {
+									if(confirm('<?php echo _t('삭제하시겠습니까?');?>')) {
 										var oform=document.forms[0];  
 										oform.deleteCategory.value=<?php echo $selected;?>; 
 										 
@@ -113,7 +113,7 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 						</script>
 						
 						<div id="part-post-tree" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('분류를 관리할 수 있습니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('분류를 관리합니다');?></span></h2>
 							
 							<div class="data-inbox">
 								<div id="tree-preview-box">
@@ -133,7 +133,7 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 										<input type="hidden" name="id" />
 																					
 										<dl id="label-create-line" class="line">
-											<dt><label for="newCategory"><?php echo _t('생성');?></label></dt>
+											<dt><label for="newCategory"><?php echo _t('만들기');?></label></dt>
 <?php
 if ($depth <= 1) {
 ?>
@@ -143,7 +143,7 @@ if ($depth <= 1) {
 													<input type="button" class="add-button input-button" value="<?php echo _t('추가하기');?>" onclick="addCategory(); return false;" />
 												</div>
 												<p>
-													<?php echo _f('"%1"의 하위에 새 분류를 생성합니다.', htmlspecialchars("$name"));?>
+													<?php echo _f('"%1"의 하위에 새 분류를 만듭니다.', htmlspecialchars("$name"));?>
 												</p>
 											</dd>
 <?php
@@ -155,7 +155,7 @@ if ($depth <= 1) {
 ?>											
 										</dl>
 										<dl id="label-change-line" class="line">
-											<dt><label for="modifyCategoryName"><?php echo _t('레이블 변경');?></label></dt>
+											<dt><label for="modifyCategoryName"><?php echo _t('이름 변경');?></label></dt>
 											<dd>
 												<div class="field-box">
 													<input type="text" id="modifyCategoryName" class="input-text" name="modifyCategoryName" onkeyup="if (event.keyCode == '13' &amp;&amp; validateText(this.value)) modifyCategory();" value="<?php echo escapeJSInAttribute($name);?>" />
@@ -170,7 +170,7 @@ if ($depth <= 1) {
 													<input type="text" id="modifyCategoryBodyId" class="input-text" name="modifyCategoryBodyId" onkeyup="if (event.keyCode == '13' &amp;&amp; validateText(this.value)) modifyCategory();" value="<?php echo escapeJSInAttribute($bodyid);?>" <?php if ($selected == 0) echo "readonly"?> />
 													<input type="button" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="modifyCategory(); return false;" />
 												</div>
-												<p><?php echo _t('Body id는 블로그의 <acronym title="Cascading Style Sheet">CSS</acronym> 활용을 위해 사용합니다. 디폴트인 "tt-body-category"를 그냥 사용하셔도 사용에 지장은 없습니다.');?></p>
+												<p><?php echo _t('Body id는 블로그 스킨의 <acronym title="Cascading Style Sheet">CSS</acronym> 활용을 위해 사용합니다.<br /> 기본값인 "tt-body-category"를 그냥 사용하셔도 사용에 지장은 없습니다.');?></p>
 											</dd>
 										</dl>
 										<dl id="label-move-line" class="line">

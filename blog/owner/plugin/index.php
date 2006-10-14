@@ -156,9 +156,9 @@ else
 							<div class="main-explain-box">
 								<p class="explain"><?php
 if (defined('__TATTERTOOLS_CENTER__'))
-	echo _t('자투리 플러그인은 조각보에 기능을 추가하는 역할을 합니다. 이 곳에서 자투리들의 사용 여부를 결정할 수 있습니다.');
+	echo _t('자투리는 조각보에 기능을 추가합니다. 이 곳에서 자투리들의 사용 여부를 결정할 수 있습니다.');
 else
-	echo _t('플러그인은 태터툴즈의 기능을 확장해 줍니다. 이 곳에서 설치된 플러그인의 사용 여부를 결정할 수 있습니다.');
+	echo _t('플러그인은 태터툴즈의 기능을 확장합니다. 이 곳에서 설치된 플러그인의 사용 여부를 결정할 수 있습니다.');
 ?></p>
 							</div>
 							
@@ -396,7 +396,7 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('플러그인을 구하려면');?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('추가 플러그인은 <a href="http://www.tattertools.com/plugin" onclick="window.open(this.href); return false;" title="태터툴즈 홈페이지에 개설되어 있는 플러그인 업로드 게시판으로 연결합니다.">태터툴즈 홈페이지의 플러그인 게시판</a>에서 구하실 수 있습니다. 일반적으로 플러그인 파일을 태터툴즈의 plugin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 플러그인은 이 메뉴에서 \'사용중\'으로 전환하여 사용을 시작합니다. 추천 플러그인에 대한 정보는 <a href="http://plugin.tattertools.com" onclick="window.open(this.href); return false;">TnF의 플러그인 리뷰</a>를 참고하십시오.');?></p>
+								<p class="explain"><?php echo _t('플러그인은 <a href="http://www.tattertools.com/plugin" onclick="window.open(this.href); return false;" title="태터툴즈 홈페이지에 개설되어 있는 플러그인 업로드 게시판으로 연결합니다.">태터툴즈 홈페이지의 플러그인 게시판</a>에서 구하실 수 있습니다. 일반적으로 플러그인 파일을 태터툴즈의 plugin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 플러그인은 이 메뉴에서 \'사용중\'으로 전환하여 사용을 시작합니다. 추천 플러그인에 대한 정보는 <a href="http://plugin.tattertools.com" onclick="window.open(this.href); return false;">태터앤 프렌즈의 플러그인 리뷰</a>를 참고하십시오.');?></p>
 							</div>
 						</div>
 <?php
