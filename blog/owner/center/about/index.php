@@ -140,7 +140,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('Japanese');?></td>
 											</tr>
 											<tr>
-												<td class="id">Hanul</td>
+												<td class="id">!Nazu</td>
 												<td class="name"></td>
 												<td class="role"><?php echo _t('Japanese');?></td>
 											</tr>
