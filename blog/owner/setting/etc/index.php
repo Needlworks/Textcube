@@ -169,6 +169,7 @@ if (extension_loaded('gd')) {
 										<dl id="watermark-line" class="line">
 											<dt><span class="label"><?php echo _t('워터 마크');?></span></dt>
 											<dd>
+												<p><?php echo _t('워터 마크는 그림이나 사진의 소유권을 표시하거나 위조를 방지하기 위하여 넣는 무늬입니다.');?></p>
 <?php
 	if (file_exists(ROOT."/attach/$owner/watermark.gif")) {			
 		$waterMarkInfo = getimagesize(ROOT."/attach/$owner/watermark.gif");
@@ -233,7 +234,7 @@ if (extension_loaded('gd')) {
 	$colorOfPadding = getThumbnailPaddingColor();
 ?>
 										<dl id="padding-line" class="line">
-											<dt><span class="label"><?php echo _t('썸네일 여백');?></span></dt>
+											<dt><span class="label"><?php echo _t('조각그림 여백');?></span></dt>
 											<dd>
 <?php
 	$paddingOrder = array("top", "bottom", "left", "right");
@@ -300,6 +301,7 @@ foreach ($supportedLanguages as $locale => $language) {
 }
 ?>
 												</select>
+												<p><?php echo _t('관리자 화면의 언어를 설정합니다.<br />한국어 블로그를 운영하고 계신다면 한국어를 선택해 주십시오.');?></p>
 											</dd>
 										</dl>
 										<dl id="blog-language-line" class="line">
@@ -314,7 +316,7 @@ foreach ($supportedLanguages as $locale => $language) {
 }
 ?>
 												</select>
-												<p><?php echo _t('이 언어설정은 외부 블로그에 표시되는 메세지의 언어를 설정합니다.<br />한국어 블로그를 운영하고 계신다면 한국어를 선택해 주십시오.');?></p>
+												<p><?php echo _t('외부 블로그에 표시되는 메세지의 언어를 설정합니다.<br />달력이나 댓글 입력창에 적용됩니다. 한국어 블로그를 운영하고 계신다면 한국어를 선택해 주십시오.');?></p>
 											</dd>
 										</dl>
 										<dl id="timezone-line" class="line">
@@ -392,7 +394,7 @@ $strictXHTML = getUserSetting('strictXHTML', 0);
 										<legend><?php echo _t('관리자 스킨을 설정합니다');?></legend>
 										
 										<dl id="admin-skin--line" class="line">
-											<dt><label for="adminSkin"><?php echo _t('관리자 화면용 스킨');?></label></dt>
+											<dt><label for="adminSkin"><?php echo _t('관리자 화면 스킨');?></label></dt>
 											<dd>
 												<select id="adminSkin" name="adminSkin">
 <?php

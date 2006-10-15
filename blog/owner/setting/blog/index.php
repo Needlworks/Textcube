@@ -351,7 +351,7 @@ if ($service['type'] != 'single') {
 						<hr class="hidden" />
 						
 						<div id="part-setting-profile" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('프로필을 설정합니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('특징을 설정합니다');?></span></h2>
 							
 							<form id="icons-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/blog/icons" enctype="multipart/form-data">
 								<div id="icons-upload-section" class="section">
@@ -359,7 +359,7 @@ if ($service['type'] != 'single') {
 										<legend><?php echo _t('블로그 로고 및 파비콘');?></legend>
 										
 										<dl id="blog-picture-line" class="line">
-											<dt><span class="label"><?php echo _t('로고 이미지');?></span></dt>
+											<dt><span class="label"><?php echo _t('로고 그림');?></span></dt>
 											<dd>
 <?php
 if (!empty($blog['logo']) && file_exists(ROOT."/attach/$owner/{$blog['logo']}")) {
@@ -381,7 +381,7 @@ if (!empty($blog['logo']) && file_exists(ROOT."/attach/$owner/{$blog['logo']}"))
 											</dd>
 										</dl>
 										<dl id="favicon-line" class="line">
-											<dt><span class="label"><?php echo _t('Favicon');?></span></dt>
+											<dt><span class="label"><?php echo _t('파비콘');?></span></dt>
 											<dd>
 <?php
 if (file_exists(ROOT."/attach/$owner/favicon.ico") && !eregi(' MSIE', $_SERVER['HTTP_USER_AGENT'], $temp)) {
@@ -396,6 +396,7 @@ if (file_exists(ROOT."/attach/$owner/favicon.ico") && !eregi(' MSIE', $_SERVER['
 ?>
 												<input type="file" class="input-file" name="favicon" />
 												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteFavicon" name="deleteFavicon" value="yes"<?php echo file_exists(ROOT."/attach/$owner/favicon.ico") ? '' : ' disabled="disabled"';?> /> <label for="deleteFavicon"><?php echo _t('파비콘을 초기화합니다.');?></label></div>
+												<p><?php echo _t('파비콘은 웹 브라우저의 즐겨찾기나 주소 입력줄에 보이는 그림입니다.');?></p>
 											</dd>
 										</dl>
 									</fieldset>
@@ -491,7 +492,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 											<dt><label for="allowCommentGuestbook"><?php echo _t('방명록 사용권한');?></label></dt>
 											<dd>
 												<!--input type="checkbox" id="allowWriteGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /> <label for="allowWriteGuestbook"><?php echo _t('손님이 글쓰기 허용');?></label-->
-												<input type="checkbox" id="allowCommentGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteDoubleCommentOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /> <label for="allowCommentGuestbook"><?php echo _t('손님이 댓글쓰기 허용.');?></label>
+												<input type="checkbox" id="allowCommentGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteDoubleCommentOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /> <label for="allowCommentGuestbook"><?php echo _t('손님이 댓글을 쓰는 것을 허용합니다.');?></label>
 											</dd>
 										</dl>
 									</fieldset>
