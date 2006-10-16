@@ -528,7 +528,7 @@ function getGuestCommentView($entryId, & $skin) {
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentSubItem['name']), $commentSubItem), $commentSubItemView);
 			else
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentSubItem['name']) . '</a>', $commentSubItem), $commentSubItemView);
-			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentSubItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('鍮꾨? ?볤?').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
+			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentSubItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
 			dress($prefix1 . '_rep_date', Timestamp::format5($commentSubItem['written']), $commentSubItemView);
 			dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentSubItem['id']}", $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']});return false", $commentSubItemView);
@@ -1199,7 +1199,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				$buf .= "			var {$id} = new TTGallery(\"{$cssId}\");" . CRLF;
 				$buf .= "			{$id}.prevText = \"" . _text('이전 이미지 보기 버튼') . "\"; " . CRLF;
 				$buf .= "			{$id}.nextText = \"" . _text('다음 이미지 보기 버튼') . "\"; " . CRLF;
-				$buf .= "			{$id}.enlargeText = \"" . _text('원본 사이즈로 보기 버튼') . "\"; " . CRLF;
+				$buf .= "			{$id}.enlargeText = \"" . _text('원본 크기로 보기 버튼') . "\"; " . CRLF;
 				$buf .= "			{$id}.altText = \"" . _text('갤러리 이미지') . "\"; " . CRLF;
 				
 				foreach ($items as $item) {
@@ -1529,7 +1529,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 															<div class="title"><?php echo $feed['blogURL'] ? '<a href="' . htmlspecialchars($feed['blogURL']) . '" onclick="window.open(this.href); event.cancelBubble=true; return false;" title="'._t('이 피드의 원본 사이트를 새 창으로 엽니다.').'">' : '';?><?php echo htmlspecialchars($feed['title']);?><?php echo $feed['blogURL'] ? "</a>\n" : '';?></div>
 															<div class="description"><?php echo $feed['description']?'<span class="divider"> | </span>':'&nbsp;';?><?php echo htmlspecialchars($feed['description']);?></div>
 															<div class="button-box">
-																<a id="iconFeedStatus<?php echo $feed['id'];?>" class="update-button button" onclick="Reader.updateFeed(<?php echo $feed['id'];?>, '<?php echo _t('피드를 업데이트 했습니다.');?>'); event.cancelBubble=true; return false;" title="<?php echo _t('이 피드를 업데이트 합니다.');?>"><span class="text"><?php echo _t('피드 업데이트');?></span></a>
+																<a id="iconFeedStatus<?php echo $feed['id'];?>" class="update-button button" onclick="Reader.updateFeed(<?php echo $feed['id'];?>, '<?php echo _t('피드를 갱신 했습니다.');?>'); event.cancelBubble=true; return false;" title="<?php echo _t('이 피드를 갱신 합니다.');?>"><span class="text"><?php echo _t('피드 갱신');?></span></a>
 																<span class="divider">|</span>
 																<a class="edit-button button" href="#void" onclick="Reader.editFeed(<?php echo $feed['id'];?>, '<?php echo escapeJSInAttribute($feed['xmlURL']);?>')" title="<?php echo _t('이 피드 정보를 수정합니다.');?>"><span class="text"><?php echo _t('수정');?></span></a>
 															</div>

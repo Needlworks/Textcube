@@ -31,11 +31,11 @@ function correctImagePath($match ){
 	if( $c <= 1 ) 
 		return $match[0];
 	if( $pathArr[$c-1] == "" ) 
-		return $match[0];// ./s/b/c/ ÀÌ·±½ÄÀ¸·Î °æ·Î¸¸ µé¾îÀÖ´Â °æ¿ì ½ºÅµ
+		return $match[0];// ./s/b/c/ ì´ëŸ°ì‹ìœ¼ë¡œ ê²½ë¡œë§Œ ë“¤ì–´ìžˆëŠ” ê²½ìš° ìŠ¤í‚µ
 	if( false !== array_search( "http:" , $pathArr) ) 
-		return $match[0] ; // full urlÀÇ °æ¿ì ½ºÅµ
+		return $match[0] ; // full urlì˜ ê²½ìš° ìŠ¤í‚µ
 	if( $pathArr[0] != '.'  && $pathArr[0] != '..' ) 
-		return $match[0] ; //Ã¹ µð·ºÅä¸®°¡ ÇöÀç µð·ºÅä¸®°¡ ¾Æ´Ñ°æ¿ì ½ºÅµ
+		return $match[0] ; //ì²« ë””ë ‰í† ë¦¬ê°€ í˜„ìž¬ ë””ë ‰í† ë¦¬ê°€ ì•„ë‹Œê²½ìš° ìŠ¤í‚µ
 	return str_replace( $match[1],  $serviceURL . "/skin/{$skinSetting['skin']}/" . $match[1], $match[0]);;
 }
 
@@ -80,7 +80,7 @@ function pretty_dress($view)
 	}
 	
 	$writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
-	$pageTitle = _t('ÆäÀÌÁö Á¦¸ñ');
+	$pageTitle = _t('íŽ˜ì´ì§€ ì œëª©');
 	
 	dress('page_title', htmlspecialchars($pageTitle), $view);
 	dress('blogger', htmlspecialchars($writer), $view);
@@ -118,7 +118,7 @@ function pretty_dress($view)
 	list($view, $noticeView) = Skin::cutSkinTag($view, 'rct_notice');
 	$notices = $pd_notices;
 	if (sizeof($notices) == 0) {
-		$notices = array( array('title' => _t('°øÁö Á¦¸ñ'), 'id' => -1));
+		$notices = array( array('title' => _t('ê³µì§€ ì œëª©'), 'id' => -1));
 	}
 	if (sizeof($notices) > 0) {
 		$itemsView = '';
