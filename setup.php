@@ -16,8 +16,8 @@ if (count($host) > 1) {
 }
 unset($host);
 
-define ('ROOT', '.');
-include 'lib/config.php';
+include 'components/Eolin.PHP.Core.php';
+include 'components/Eolin.PHP.UnifiedEnvironment.php';
 
 if (!empty($_GET['test'])) {
    echo getFingerPrint();
