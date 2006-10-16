@@ -16,8 +16,8 @@ if (count($host) > 1) {
 }
 unset($host);
 
-include 'components/Eolin.PHP.Core.php';
-include 'components/Eolin.PHP.UnifiedEnvironment.php';
+define ('ROOT', '.');
+include 'lib/config.php';
 
 if (!empty($_GET['test'])) {
    echo getFingerPrint();
@@ -49,7 +49,21 @@ if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0))
 </head>
 <body>
 <p><?php echo _t('다시 설정하시려면 config.php를 먼저 삭제하셔야 합니다.');?></p>
-<form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>"> <?php drowSetLang( $baseLanguage , 'ERR')?> </form> 
+<form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>"> 
+<?php
+	if( Locale::setDirectory('language')) {
+		$currentLang = isset($_REQUEST['Lang']) ? $_REQUEST['Lang'] : '';
+		$availableLanguages =   Locale::getSupportedLocales(); 
+?> 
+Select Language : <select name="Lang" id = "Lang" onchange= "current();" > 
+<?php
+		foreach( $availableLanguages as $key => $value) 
+			print('<option value="'.$key.'" '.( $key == $currentLang ? ' selected="selected" ' : '').' >'.$value.'</option>'); 
+?></select> 
+<?php 
+	}
+?>
+</form> 
 </body>
 </html>
 <?php
@@ -1509,54 +1523,70 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
      </tr>
 <?php
         $tables = array();
+		$ckeckedString = 'checked ';
         if ($result = mysql_query("SHOW TABLES")) {
             while ($table = mysql_fetch_array($result)) {
 				$table = $table[0];
-				if (ereg('Entries$', $table) && checkTables('1.0.2', $prefix = substr($table, 0, strlen($table) - 7))) {
+				if (ereg('Entries$', $table) && checkTables('1.1', $prefix = substr($table, 0, strlen($table) - 7))) {
+?>
+      <tr>
+        <th><?php echo $prefix;?></th>
+        <th>1.1</th>
+        <td><?php echo implode(', ', getTables('1.1', $prefix));?></td>
+	    <th><input type="radio" name="target" value="1.1_<?php echo $prefix;?>" <?php echo $ckeckedString;?>/></th>
+      </tr>
+<?php
+					$ckeckedString = '';
+				} else if (ereg('Entries$', $table) && checkTables('1.0.2', $prefix = substr($table, 0, strlen($table) - 7))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
         <th>1.0.2</th>
         <td><?php echo implode(', ', getTables('1.0.2', $prefix));?></td>
-	    <th><input type="radio" name="target" value="1.0.2_<?php echo $prefix;?>" /></th>
+	    <th><input type="radio" name="target" value="1.0.2_<?php echo $prefix;?>" <?php echo $ckeckedString;?>/></th>
       </tr>
 <?php
+					$ckeckedString = '';
 				} else if (ereg('Entries$', $table) && checkTables('1.0.0', $prefix = substr($table, 0, strlen($table) - 7))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
         <th>1.0.0</th>
         <td><?php echo implode(', ', getTables('1.0.0', $prefix));?></td>
-	    <th><input type="radio" name="target" value="1.0.0_<?php echo $prefix;?>" /></th>
+	    <th><input type="radio" name="target" value="1.0.0_<?php echo $prefix;?>" <?php echo $ckeckedString;?>/></th>
       </tr>
 <?php
+					$ckeckedString = '';
 				} else if (ereg('Entries$', $table) && checkTables('1.0.b2', $prefix = substr($table, 0, strlen($table) - 7))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
         <th>1.0 Beta 2</th>
         <td><?php echo implode(', ', getTables('1.0.b2', $prefix));?></td>
-	    <th><input type="radio" name="target" value="1.0.b2_<?php echo $prefix;?>" /></th>
+	    <th><input type="radio" name="target" value="1.0.b2_<?php echo $prefix;?>" <?php echo $ckeckedString;?>/></th>
       </tr>
 <?php
+					$ckeckedString = '';
 				} else if (ereg('^t3_(.*)_10ofmg$', $table) && checkTables('0.97', $prefix = substr($table, 3, strlen($table) - 10))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
         <th>0.97 (Classic)</th>
         <td><?php echo implode(', ', getTables('0.97', $prefix));?></td>
-	    <th><input type="radio" name="target" value="0.97_<?php echo $prefix;?>" /></th>
+	    <th><input type="radio" name="target" value="0.97_<?php echo $prefix;?>" <?php echo $ckeckedString;?>/></th>
       </tr>
 <?php
+					$ckeckedString = '';
 				} else if (ereg('^t3_(.*)_ct1$', $table) && checkTables('0.96', $prefix = substr($table, 3, strlen($table) - 7))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
         <th>0.96x</th>
         <td><?php echo implode(', ', getTables('0.96', $prefix));?></td>
-	    <th><input type="radio" name="target" value="0.96_<?php echo $prefix;?>" /></th>
+	    <th><input type="radio" name="target" value="0.96_<?php echo $prefix;?>" <?php echo $ckeckedString;?>/></th>
       </tr>
 <?php
+					$ckeckedString = '';
 				}
 			}
 		}
@@ -1589,7 +1619,7 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
-        <th>1.0.2</th>
+        <th><?php echo $version;?></th>
         <td><?php echo implode(', ', getTables($version, $prefix));?></td>
       </tr>
 <?php
@@ -1653,7 +1683,7 @@ function checkTables($version, $prefix) {
 	foreach ($tables as $table) {
 		if ($result = mysql_query("DESCRIBE $table"))
 			mysql_free_result($result);
-		else
+		else 
 			return false;
 	}
 	return true;
@@ -1661,6 +1691,8 @@ function checkTables($version, $prefix) {
 
 function getTables($version, $prefix) {
 	switch ($version) {
+		case '1.1':
+			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}UserSettings");
 		case '1.0.2':
 			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}Personalization", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users");
 		case '1.0.0':
