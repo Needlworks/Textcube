@@ -97,14 +97,35 @@ function respondResultPage($error) {
 	exit;
 }
 
-function printRespond($result) {
+function printRespond($result, $useCDATA=true) {
 	header('Content-Type: text/xml; charset=utf-8');
 	$xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 	$xml .= "<response>\n";
-	foreach ($result as $key => $value) {
-		$xml .= "	<$key><![CDATA[$value]]></$key>\n";
-	}
+	$xml .= printRespondValue($result, $useCDATA);
 	$xml .= "</response>\n";
 	die($xml);
+}
+
+function printRespondValue($array, $useCDATA=true) {
+	$xml = '';
+	if(is_array($array)) {
+		foreach($array as $key => $value) {
+			if(is_null($value))
+				continue;
+			else if(is_array($value)) {
+				if(is_numeric($key))
+					$xml .= printRespondValue($value, $useCDATA)."\n";
+				else
+					$xml .= "<$key>".printRespondValue($value, $useCDATA)."</$key>\n";
+			}
+			else {
+				if($useCDATA)
+					$xml .= "<$key><![CDATA[".escapeCData($value)."]]></$key>\n";
+				else
+					$xml .= "<$key>".htmlspecialchars($value)."</$key>\n";
+			}
+		}
+	}
+	return $xml;
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 class HTTPRequest {
-	var $method = 'GET', $url, $contentType = 'application/x-www-form-urlencoded', $content = '', $eTag, $lastModified, $timeout = 10, $responseText, $pathToSave;
+	var $method = 'GET', $url, $async = false, $contentType = 'application/x-www-form-urlencoded', $content = '', $eTag, $lastModified, $timeout = 10, $responseText, $pathToSave;
 	
 	function HTTPRequest() {
 		switch (func_num_args()) {
@@ -55,6 +55,8 @@ class HTTPRequest {
 				fwrite($socket, $this->content);
 				fwrite($socket, "\r\n");
 			}
+			if($this->async)
+				return true;
 			
 			for (; $trial < 5; $trial++) {
 				if (!$line = fgets($socket)) {

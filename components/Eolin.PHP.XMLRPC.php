@@ -64,7 +64,7 @@
 	}
 		
 class XMLRPC {
-	var $url, $methodName, $params, $result, $fault;
+	var $url, $async = false, $methodName, $params, $result, $fault;
 	
 	var $useOldXmlRPC = false; // for 2003-before-version
 
@@ -80,6 +80,7 @@ class XMLRPC {
 		$request->method = 'POST';
 		$request->url = $this->url;
 		$request->contentType = 'text/xml';
+		$request->async = $this->async;
 		ob_start();
 		echo '<?xml version="1.0" encoding="utf-8"?><methodCall><methodName>' . func_get_arg(0) . '</methodName><params>';
 		for ($i = 1; $i < func_num_args(); $i++) {
@@ -93,7 +94,9 @@ class XMLRPC {
 		if (!$request->send()) {
 			return false;
 		}
-
+		if ($this->async) {
+			return true;
+		}
 		if ((!is_null($request->getResponseHeader('Content-Type'))) && ($request->getResponseHeader('Content-Type') != 'text/xml'))  {
 			return false;
 		}

@@ -218,7 +218,7 @@ function updateCommentsOfEntry($owner, $entryId) {
 }
 
 function addComment($owner, & $comment) {
-	global $database, $user;
+	global $database, $user, $blog, $defaultURL;
 	
 	$filtered = 0;
 	
@@ -239,6 +239,23 @@ function addComment($owner, & $comment) {
 		} else if (!fireEvent('AddingComment', true, $comment)) {
 			$blockType = "etc";
 			$filtered = 1;
+		}
+	}
+
+	if(!$comment['secret']) {
+		requireComponent('Eolin.PHP.Core');
+		requireComponent('Eolin.PHP.XMLRPC');
+		$rpc = new XMLRPC();
+		$rpc->url = TATTERTOOLS_SYNC_URL;
+		if($entry = getEntry($owner, $comment['entry'])) {
+			$summary = array(
+				'permalink' => "$defaultURL/".($blog['useSlogan'] ? "entry/{$entry['slogan']}": $entry['id']),
+				'name' => is_null($user) ? $comment['name'] : $user['name'],
+				'homepage' => is_null($user) ? $comment['homepage'] : $user['homepage'],
+				'ip' => $comment['ip']
+			);
+			$rpc->async = true;
+			$rpc->call('sync.comment', $summary);
 		}
 	}
 

@@ -344,7 +344,7 @@ $password = mysql_real_escape_string(generatePassword());
 	mysql_query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE owner = $owner AND parent = 0");
 	updateEntriesOfCategory($owner, $entry['category']);
 	if ($entry['visibility'] == 3)
-		syndicateEntry($id, true);
+		syndicateEntry($id, 'create');
 	if ($entry['visibility'] >= 2)
 		clearRSS();
 	if (!empty($entry['tag'])) {
@@ -422,7 +422,7 @@ function updateEntry($owner, $entry) {
 		mysql_query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = {$entry['id']} AND draft = 1");
 	updateEntriesOfCategory($owner, $entry['category']);
 	if ($entry['visibility'] == 3)
-		syndicateEntry($entry['id'], true);
+		syndicateEntry($entry['id'], 'modify');
 	mysql_query("UPDATE {$database['prefix']}Attachments SET parent = {$entry['id']} WHERE owner = $owner AND parent = 0");
 	if ($entry['visibility'] >= 2)
 		clearRSS();
@@ -496,7 +496,7 @@ function deleteEntry($owner, $id) {
 	global $database, $blog;
 	$target = getEntry($owner, $id);
 	if (fetchQueryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id") == 3)
-		syndicateEntry($id, false);
+		syndicateEntry($id, 'delete');
 	$result = mysql_query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id");
 	if (mysql_affected_rows() > 0) {
 		$result = mysql_query("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $id");
@@ -552,9 +552,9 @@ function setEntryVisibility($id, $visibility) {
 	if (mysql_affected_rows() == 0)
 		return true;
 	if ($oldVisibility == 3)
-		syndicateEntry($id, false);
+		syndicateEntry($id, 'delete');
 	else if ($visibility == 3) {
-		if (!syndicateEntry($id)) {
+		if (!syndicateEntry($id, 'create')) {
 			mysql_query("UPDATE {$database['prefix']}Entries SET visibility = $oldVisibility, modified = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id");
 			return false;
 		}
@@ -575,15 +575,32 @@ function protectEntry($id, $password) {
 	return ($result && (mysql_affected_rows() > 0));
 }
 
-function syndicateEntry($id, $syndicate = true) {
-	global $database, $owner, $defaultURL;
-	$mode = ($syndicate ? 1 : 0);
-	requireComponent('Eolin.PHP.HTTPRequest');
-	$request = new HTTPRequest('POST', TATTERTOOLS_SYNC_URL);
-	$request->contentType = 'application/x-www-form-urlencoded; charset=utf-8';
-	if ($request->send("mode=$mode&path=" . urlencode("$defaultURL/sync/$id")) && (checkResponseXML($request->responseText) === 0))
-		return true;
-	return false;
+function syndicateEntry($id, $mode) {
+	global $database, $blog, $owner, $defaultURL;
+	requireComponent('Eolin.PHP.Core');
+	requireComponent('Eolin.PHP.XMLRPC');
+	$rpc = new XMLRPC();
+	$rpc->url = TATTERTOOLS_SYNC_URL;
+	$summary = array('blogURL' => $defaultURL, 'syncURL' => "$defaultURL/sync/$id");
+	if($mode == 'create') {
+		$entry = getEntry($owner, $id);
+		$summary['blogAuthor'] = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
+		$summary['blogTitle'] = $blog['title'];
+		$summary['language'] = $blog['language'];
+		$summary['permalink'] = "$defaultURL/".($blog['useSlogan'] ? "entry/{$entry['slogan']}": $entry['id']);
+		$summary['title'] = $entry['title'];
+		$summary['content'] = UTF8::lessenAsByte(getEntryContentView($owner, $entry['id'], $entry['content']), 1023, '');
+		$summary['tags'] = array();
+		foreach(DBQuery::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND owner = $owner AND entry = $id ORDER BY name") as $tag)
+			array_push($summary['tags'], $tag['name']);
+		$summary['location'] = $entry['location'];
+		$summary['written'] = Timestamp::getRFC1123($entry['published']);
+	}
+	if(!$rpc->call("sync.$mode", $summary))
+		return false;
+	if($rpc->result['error'])
+		return false;
+	return true;
 }
 
 function publishEntries() {
