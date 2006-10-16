@@ -1596,10 +1596,10 @@ function printEntryEditorPalette() {
 											</dl>
 											<dl class="mode">
 												<dt class="title">
-													<span class="label"><?php echo _t('편집 모드');?></span>
+													<span class="label"><?php echo _t('편집 환경');?></span>
 												</dt>
 												<dd class="command-box">
-													<a id="indicatorMode" class="inactive-class button" href="#void" onclick="TTCommand('ToggleMode'); changeEditorMode();" title="<?php echo _t('클릭하시면 HTML 모드로 변경합니다.');?>"><span class="text"><?php echo _t('WISWIG 모드');?></span></a>
+													<a id="indicatorMode" class="inactive-class button" href="#void" onclick="TTCommand('ToggleMode'); changeEditorMode();" title="<?php echo _t('클릭하시면 HTML 편집기로 변경합니다.');?>"><span class="text"><?php echo _t('WYSIWYG 편집기');?></span></a>
 												</dd>
 											</dl>
 										</div>

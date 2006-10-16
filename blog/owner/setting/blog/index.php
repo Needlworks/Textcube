@@ -489,7 +489,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 											</dd>
 										</dl>
 										<dl id="guestbook-authority-line" class="line">
-											<dt><label for="allowCommentGuestbook"><?php echo _t('방명록 사용권한');?></label></dt>
+											<dt><label for="allowCommentGuestbook"><?php echo _t('방명록 사용 권한');?></label></dt>
 											<dd>
 												<!--input type="checkbox" id="allowWriteGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /> <label for="allowWriteGuestbook"><?php echo _t('손님이 글쓰기 허용');?></label-->
 												<input type="checkbox" id="allowCommentGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteDoubleCommentOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /> <label for="allowCommentGuestbook"><?php echo _t('손님이 댓글을 쓰는 것을 허용합니다.');?></label>
