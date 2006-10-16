@@ -162,9 +162,17 @@ function pretty_dress($view)
 							<div id="sidebar-preview-mode">
 								<fieldset>
 								<legend><?php echo _t('편집 관련 기능');?></legend>
+<?php	if ((isset($_REQUEST['safe'])) || (isset($_REQUEST['tag']))) { ?>
+								<a id="safe-mode-button" class="button" href="<?php echo $blogURL; ?>/owner/skin/sidebar?safe" title="<?php echo _t('실제로 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
+<?php	} ?>						
+<?php	if (!isset($_REQUEST['safe'])) { ?>
 								<a id="safe-mode-button" class="button" href="<?php echo $blogURL; ?>/owner/skin/sidebar?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a>
+<?php	} ?>						
+<?php	if (!isset($_REQUEST['tag'])) { ?>
 								<a id="tag-mode-button" class="button" href="<?php echo $blogURL; ?>/owner/skin/sidebar?tag" title="<?php echo _t('실제 블로그 사이드바에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a>
+<?php	} ?>						
 								<a id="init-button" class="button" href="sidebar/initialize" onclick="if (!confirm('<?php echo _t('정말 사이드바 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('사이드바의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>
+								
 								</fieldset>						
 							</div>
 							
