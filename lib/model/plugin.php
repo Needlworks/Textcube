@@ -76,4 +76,19 @@ function treatPluginTable($name, $fields, $keys){
 	}
 	return true;
 }
+
+function clearPluginTable($name) {
+	global $database, $owner;
+	$name = mysql_real_escape_string($name);
+	mysql_query("DELETE FROM {$database['prefix']}{$name} WHERE owner = $owner");
+	return (mysql_affected_rows() == 1);
+}
+
+function deletePluginTable($name) {
+	global $database, $owner;
+	if($owner !== 0) return false;
+	$name = mysql_real_escape_string($name);
+	mysql_query("DROP {$database['prefix']}{$name}");
+	return true;
+} 
 ?>
