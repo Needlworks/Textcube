@@ -116,6 +116,9 @@ function getThumbnailPaddingColor() {
 // img의 width/height에 맞춰 이미지를 리샘플링하는 함수. 썸네일 함수가 아님! 주의.
 function makeThumbnail($imgString, $originSrc, $paddingArray=NULL, $waterMarkArray=NULL) {
 	global $database, $owner, $blogURL;
+	
+	requireComponent('Tattertools.Function.Image');
+	
 	$contentWidth = getContentWidth();
 	
 	if (!preg_match('/ src="http:\/\/[^"]+"/i', $imgString) && preg_match('/class="(tt-resampling|tt-watermark)"/i', $imgString, $temp)) {
