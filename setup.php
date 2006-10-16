@@ -17,7 +17,7 @@ if (count($host) > 1) {
 unset($host);
 
 define ('ROOT', '.');
-include 'lib/config.php';
+require 'lib/config.php';
 
 if (!empty($_GET['test'])) {
    echo getFingerPrint();
