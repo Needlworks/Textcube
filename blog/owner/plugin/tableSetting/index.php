@@ -10,20 +10,11 @@ if ($owner == 1) {
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								function clearPluginTable(plugin, num) {
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/dbsetting/clear");
-									request.onSuccess = function() {
-										alert("<?php echo _t('해당 테이블의 데이터가 삭제되었습니다.');?>");
-										changeList();
-									}
-									request.onError = function() {
-										alert("<?php echo _t('테이블의 데이터를 지우지 못했습니다.');?>");
-									}
-									request.send("name=" + plugin);
-								}
-
-								function deletePluginTable(plugin, num) {
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/dbsetting/delete");
+								function deletePluginTable(name, type) {
+									var queryURL = "<?php echo $blogURL;?>/owner/plugin/tableSetting/delete";
+									queryURL += '?name=' + encodeURI(name);
+									queryURL += '&type=' + type;
+									var request = new HTTPRequest("POST", queryURL);
 									request.onSuccess = function() {
 										alert("<?php echo _t('해당 테이블이 삭제되었습니다.');?>");
 										changeList();
@@ -31,7 +22,7 @@ if ($owner == 1) {
 									request.onError = function() {
 										alert("<?php echo _t('테이블의 데이터를 지우지 못했습니다.');?>");
 									}
-									request.send("name=" + plugin);
+									request.send();
 								}
 
 								function changeList() {
@@ -57,6 +48,7 @@ if ($owner == 1) {
 									<tr>
 										<th class="title"><span class="text"><?php echo _t('플러그인 이름');?></span></th>
 										<th class="version"><span class="text"><?php echo _t('버전');?></span></th>
+										<th class="using"><span class="text"><?php echo _t('사용여부');?></span></th>
 										<th class="tablename"><span class="text"><?php echo _t('테이블 이름');?></span></th>
 										<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
 									</tr>
@@ -100,16 +92,22 @@ foreach($plugintables as $plugindb)
 	$className = $oddline ? 'odd-line' : 'even-line';
 	$oddline = !$oddline;
 	
+	$activeStatus = false;
+	if (in_array($plugindb['plugin'], $activePlugins)) {
+		$activeStatus = true;
+	}
+	
 ?>
 									<tr class="<?php echo $className;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="title"><?php echo $plugindb['plugin'];?></td>
 										<td class="version"><?php echo $plugindb['version'];?></td>
+										<td class="using <?php echo $activeStatus ? 'active-class': 'inactive-class';?>"><?php echo $activeStatus ? _t('사용중'): _t('미사용');?></td>
 <?php
 	$tables = implode(', ', $plugindb['tables']);
 ?>
 										<td class="tablename"><?php echo $tables;?></td>
 										
-										<td class="delete"><a id="plugin<?php echo 'a';?>Link" class="active-class" href="#void" onclick="clearPluginTable('<?php echo 'abs';?>'); return false" title="<?php echo _t('이 테이블을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
+										<td class="delete"><a id="plugin<?php echo 'a';?>Link" class="active-class" href="#void" onclick="deletePluginTable('<?php echo $plugindb['plugin'],'/',$plugindb['version'];?>', 1); return false" title="<?php echo _t('이 테이블을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
 									</tr>
 <?php
 }
@@ -122,8 +120,9 @@ foreach($dbtables as $dbname)
 									<tr class="<?php echo $className;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="title"><?php echo _t('알 수 없음');?></td>
 										<td class="version"></td>
+										<td class="using"></td>
 										<td class="tablename"><?php echo $dbname;?></td>
-										<td class="delete"><a id="plugin<?php echo 'a';?>Link" class="active-class" href="#void" onclick="clearPluginTable('<?php echo 'abs';?>'); return false" title="<?php echo _t('이 테이블을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
+										<td class="delete"><a id="plugin<?php echo 'a';?>Link" class="active-class" href="#void" onclick="deletePluginTable('<?php echo $dbname;?>', 2); return false" title="<?php echo _t('이 테이블을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
 									</tr>
 	<?php
 }
