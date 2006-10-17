@@ -71,9 +71,9 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 		$query .= ") TYPE=MyISAM DEFAULT CHARSET=utf8";
 		
 		if (DBQuery::execute($query)) {
-			$keyname = 'Database_' . $name;
-			$value = $plugin;
-			DBQuery::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value/$version'");
+				$keyname = 'Database_' . $name;
+				$value = $plugin;
+				DBQuery::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value/$version'");
 			return true;
 		}
 		else return false;
