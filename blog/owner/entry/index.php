@@ -358,14 +358,14 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								}
 								
 								function removeTrackbackLog(id,entry) {
-									if (confirm("<?php echo _t('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>")) {
+									if (confirm("<?php echo _t('선택된 글걸기를 지웁니다. 계속 하시겠습니까?');?>")) {
 										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/entry/trackback/log/remove/" + id);
 										request.onSuccess = function () {
 											document.getElementById("logs_"+entry).innerHTML = "";
 											printTrackbackLog(entry);
 										}
 										request.onError = function () {
-											alert("<?php echo _t('글걸기를 삭제하는데 실패했습니다.');?>");
+											alert("<?php echo _t('글걸기를 지우지 못했습니다.');?>");
 										}
 										request.send();
 									}

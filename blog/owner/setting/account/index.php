@@ -36,7 +36,7 @@ require ROOT . '/lib/piece/owner/contentMenu51.php';
 											return false;
 										}
 										if(nickname.value == '') {
-											alert("<?php echo _t('닉네임을 입력해 주십시오.');?>");
+											alert("<?php echo _t('별칭을 입력해 주십시오.');?>");
 											nick.select();
 											return false;
 										}
