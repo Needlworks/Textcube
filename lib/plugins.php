@@ -21,6 +21,10 @@ if (!empty($owner)) {
 	foreach ($activePlugins as $plugin) {
 		$manifest = @file_get_contents(ROOT . "/plugins/$plugin/index.xml");
 		if ($manifest && $xmls->open($manifest)) {
+			$version = '';
+			if ($xmls->doesExist('/plugin/version')) {
+				$version = $xmls->getValue('/plugin/version');
+			}
 			if ($xmls->doesExist('/plugin/storage')) {
 				foreach ($xmls->selectNodes('/plugin/storage/table') as $table) {
 					$storageMappings = array();
@@ -50,7 +54,7 @@ if (!empty($owner)) {
 							array_push($storageKeymappings, $key['.value']);
 						}
 					}
-					treatPluginTable($tableName,$storageMappings,$storageKeymappings);
+					treatPluginTable($plugin, $tableName,$storageMappings,$storageKeymappings, $version);
 					unset($tableName);
 					unset($storageMappings);
 					unset($storageKeymappings);

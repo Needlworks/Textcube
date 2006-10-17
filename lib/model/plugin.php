@@ -14,7 +14,7 @@ function activatePlugin($name) {
 	mysql_query("INSERT INTO {$database['prefix']}Plugins VALUES ($owner, '$name', null)");
 	return (mysql_affected_rows() == 1);
 }
- 
+
 function deactivatePlugin($name) {
 	global $database, $owner, $activePlugins;
 	if (!in_array($name, $activePlugins))
@@ -42,16 +42,16 @@ function updatePluginConfig( $name , $setVal){
 	$name = mysql_real_escape_string( $name ) ;
 	$setVal = mysql_real_escape_string( $setVal ) ;
 	mysql_query(
-	"UPDATE {$database['prefix']}Plugins 
-	SET settings = '$setVal' 
-	WHERE owner = $owner 
-	AND name = '$name'"
-	);
+		"UPDATE {$database['prefix']}Plugins 
+			SET settings = '$setVal' 
+			WHERE owner = $owner 
+			AND name = '$name'"
+		);
 	if( mysql_affected_rows() == 1 )
 		return '0';
 	return (mysql_error() == '') ? '0' : '1';
 }
-function treatPluginTable($name, $fields, $keys){
+function treatPluginTable($plugin, $name, $fields, $keys, $version){
 	global $database;
 	if(doesExistTable($database['prefix'] . $name)){
 		return true;
@@ -70,7 +70,12 @@ function treatPluginTable($name, $fields, $keys){
 		$query .= " PRIMARY KEY (" . implode(',',$keys) . ")";
 		$query .= ") TYPE=MyISAM DEFAULT CHARSET=utf8";
 		
-		if (DBQuery::execute($query)) return true;
+		if (DBQuery::execute($query)) {
+			$keyname = 'Database_' . $name;
+			$value = $plugin;
+			DBQuery::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value/$version'");
+			return true;
+		}
 		else return false;
 		
 	}

@@ -7,7 +7,6 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.css" />
 <?php
 $plugin = isset($_GET['name']) ? $_GET['name'] : '';
-$pluginAttrs = array();
 $pluginDir = strtok($plugin,'/');
 $adminSkinDir = getUserSetting("adminSkin", "default");
 if (file_exists(ROOT . "/plugins/$pluginDir/$adminSkinDir.css")) {

@@ -5,24 +5,6 @@ require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/headerB.php';
 require ROOT . '/lib/piece/owner/contentMenuB1.php';
 
-
-if (empty($_POST['listedPluginStatus'])) {
-	$listType = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'listedPluginStatus'");
-	$_POST['listedPluginStatus'] = ($listType == false) ? array("activated", "deactivated") : explode("|", $listType);
-} else if (is_array($_POST['listedPluginStatus'])) {
-	sort($_POST['listedPluginStatus']);
-	if ($_POST['listedPluginStatus'] != array("activated") && $_POST['listedPluginStatus'] != array("deactivated") && $_POST['listedPluginStatus'] != array("activated", "deactivated")) {
-		$_POST['listedPluginStatus'] = array("activated", "deactivated");
-	}
-} else {
-	$_POST['listedPluginStatus'] = array("activated", "deactivated");
-}
-
-if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'listedPluginStatus'")) {
-	DBQuery::execute("INSERT `{$database['prefix']}UserSettings` (`user`, `name`, `value`) VALUES ($owner, 'listedPluginStatus', '".implode("|", $_POST['listedPluginStatus'])."')");
-} else {
-	DBQuery::execute("UPDATE `{$database['prefix']}UserSettings` SET `value` = '".implode("|", $_POST['listedPluginStatus'])."' WHERE `user` = $owner AND `name` = 'listedPluginStatus'");
-}
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -57,7 +39,6 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 								window.addEventListener("load", execLoadFunction, false);
 								
 								function execLoadFunction() {
-									removeItselfById('submit-button-box');
 								}
 							//]]>
 						</script>
@@ -72,85 +53,77 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
 									<tr>
-										<th class="title"><span class="text"><?php echo _t('테이블 이름');?></span></th>
-										<th class="dependency"><span class="text"><?php echo _t('의존성');?></span></th>
-										<th class="clean"><span class="text"><?php echo _t('데이터 삭제');?></span></th>
-										<th class="delete"><span class="text"><?php echo _t('테이블 삭제');?></span></th>
+										<th class="title"><span class="text"><?php echo _t('플러그인 이름');?></span></th>
+										<th class="version"><span class="text"><?php echo _t('버전');?></span></th>
+										<th class="tablename"><span class="text"><?php echo _t('테이블 이름');?></span></th>
+										<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
 									</tr>
 								</thead>
 								<tbody>
 <?php
-$plugins = array();
-$pluginAttrs = array();
 
-$dir = dir(ROOT . '/plugins/');
-while ($plugin = $dir->read()) {
-	if (!ereg('^[[:alnum:] _-]+$', $plugin))
-		continue;
-	if (!is_dir(ROOT . '/plugins/' . $plugin))
-		continue;
-	if (!file_exists(ROOT . "/plugins/$plugin/index.xml"))
-		continue;
-	$xmls = new XMLStruct();
-	if (!$xmls->open(file_get_contents(ROOT . "/plugins/$plugin/index.xml"))) {
-		continue;
-	} else {
-		for ($i = 0; $pluginTable = $xmls->getValue("/plugin/storage/table[$i]/name"); $i++) {
-			if(array_key_exists($pluginTable,$pluginAttrs)) {
-				$dependency = array(
-					"title" => htmlspecialchars($xmls->getValue('/plugin/title[lang()]'))
-				);
-				array_push($pluginAttrs[$pluginTable], $dependency);
-			} else {
-				$dependency = array(
-					"title" => htmlspecialchars($xmls->getValue('/plugin/title[lang()]'))
-				);
-				$pluginAttrs[$pluginTable] = array();
-				$plugins[$pluginTable] = array();
-				array_push($pluginAttrs[$pluginTable], $dependency);
-				array_push($plugins[$pluginTable],$pluginTable);
-			}
-			if ($xmls->doesExist('/plugin/binding/adminMenu'))
-				array_push($pluginAttrs[$pluginTable]['scope'], 'admin');
-			if ($xmls->doesExist('/plugin/binding/tag'))
-				array_push($pluginAttrs[$pluginTable]['scope'], 'blog');
-			if ($xmls->doesExist('/plugin/binding/center'))
-				array_push($pluginAttrs[$pluginTable]['scope'], 'dashboard');
-			if ($xmls->doesExist('/plugin/binding/listener'))
-				array_push($pluginAttrs[$pluginTable]['scope'], 'global');
-			if ($xmls->doesExist('/plugin/binding/sidebar'))
-				array_push($pluginAttrs[$pluginTable]['scope'], 'sidebar');
-		}
+
+$likeEscape = array ( '/_/' , '/%/' );
+$likeReplace = array ( '\\_' , '\\%' );
+$escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
+$query = "show tables like '{$escapename}%'";
+$dbtables = DBQuery::queryColumn($query);
+
+$prefix = $database['prefix'];
+$definedTables = array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings");
+
+$dbtables = array_values(array_diff($dbtables, $definedTables));
+
+$query = "select name, value from {$database['prefix']}ServiceSettings WHERE name like 'Database\_%'";
+$plugintablesraw = DBQuery::queryAll($query);
+$plugintables = array();
+foreach($plugintablesraw as $table) {
+	$dbname = $database['prefix'] . substr($table['name'], 9);
+	$values = explode('/', $table['value'], 2);
+	$plugin = $values[0];
+	$version = $values[1];
+	if (!array_key_exists($plugin .'/'. $version, $plugintables)) {
+		$plugintables[$plugin .'/'. $version] = array('plugin' => $plugin, 'version' => $version, 'tables' => array());
+	}
+	array_push($plugintables[$plugin .'/'. $version]['tables'], $dbname);
+	
+	if (($pos = array_search($dbname, $dbtables)) !== false) {
+		array_splice($dbtables, $pos, 1);
 	}
 }
 
-$arrayKeys = array_keys($plugins);
-$rowCount = 0;
-
-for ($i=0; $i<count($arrayKeys); $i++) {
-	$pluginTable = $arrayKeys[$i];
+$oddline = true;
+foreach($plugintables as $plugindb)
+{
+	$className = $oddline ? 'odd-line' : 'even-line';
+	$oddline = !$oddline;
 	
-	$title = $pluginAttrs[$pluginTable]['title'];
-	$tablename = $pluginTable;
-	if (count($scope) == 0)
-		$scope = array('none');
-
-
-	$className = ($rowCount % 2) == 1 ? 'even-line' : 'odd-line';
-	$className .= ($i == sizeof($plugins) - 1) ? ' last-line' : '';
-	$className .= $active ? ' active-class' : ' inactive-class';
 ?>
 									<tr class="<?php echo $className;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-										<td class="title"><?php echo $tablename;?></td>
-										<td class="dependency"><?php
-foreach($pluginAttrs[$pluginTable] as $tables) {
-	echo $tables['title'];
-};?></td>
-										<td class="clean"><a id="plugin<?php echo $i;?>Link" class="active-class" href="#void" onclick="clearPluginTable('<?php echo $pluginDir;?>',<?php echo $i;?>)" title="<?php echo _t('이 테이블의 데이터를 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
-										<td class="delete"><a id="plugin<?php echo $i;?>Link" class="active-class" href="#void" onclick="clearPluginTable('<?php echo $pluginDir;?>',<?php echo $i;?>)" title="<?php echo _t('이 테이블을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
+										<td class="title"><?php echo $plugindb['plugin'];?></td>
+										<td class="version"><?php echo $plugindb['version'];?></td>
+<?php
+	$tables = implode(', ', $plugindb['tables']);
+?>
+										<td class="tablename"><?php echo $tables;?></td>
+										
+										<td class="delete"><a id="plugin<?php echo 'a';?>Link" class="active-class" href="#void" onclick="clearPluginTable('<?php echo 'abs';?>'); return false" title="<?php echo _t('이 테이블을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
 									</tr>
 <?php
-	$rowCount++;
+}
+foreach($dbtables as $dbname)
+{
+	$className = $oddline ? 'odd-line' : 'even-line';
+	$oddline = !$oddline;
+	
+?>
+									<tr class="<?php echo $className;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+										<td class="title"><?php echo _t('알 수 없음');?></td>
+										<td class="version"></td>
+										<td class="tablename"><?php echo $dbname;?></td>
+										<td class="delete"><a id="plugin<?php echo 'a';?>Link" class="active-class" href="#void" onclick="clearPluginTable('<?php echo 'abs';?>'); return false" title="<?php echo _t('이 테이블을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
+									</tr>
+	<?php
 }
 ?>
 								</tbody>
