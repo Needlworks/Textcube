@@ -609,7 +609,7 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $setting->error);
 			return true;
 		case '/blog/personalization':
-			setProgress($item++ / $items * 100, _t('사용자 편의설정을 복원하고 있습니다.'));
+			setProgress($item++ / $items * 100, _t('사용자 편의 설정을 복원하고 있습니다.'));
 			$setting = new UserSetting();
 			$setting->name = 'rowsPerPage';
 			$setting->value = $node['rowsPerPage'][0]['.value'];
