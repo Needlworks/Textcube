@@ -84,7 +84,7 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 										document.getElementById('list-form').submit();
 									}
 									request.onError = function () {
-										alert("<?php echo _t('글걸기를 삭제하지 못했습니다.');?>");
+										alert("<?php echo _t('글걸기를 지우지 못했습니다.');?>");
 									}
 									request.send();
 								}
@@ -106,7 +106,7 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 											document.getElementById('list-form').submit();
 										}
 										request.onError = function () {
-											alert("<?php echo _t('글걸기를 삭제하지 못했습니다.');?>");
+											alert("<?php echo _t('글걸기를 지우지 못했습니다.');?>");
 										}
 										request.send("targets=" + targets);
 									} catch(e) {
@@ -122,7 +122,7 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 										document.getElementById('list-form').submit();
 									}
 									request.onError = function () {
-										alert("<?php echo _t('글걸기를 삭제하지 못했습니다.');?>");
+										alert("<?php echo _t('글걸기를 복원하지 못했습니다.');?>");
 									}
 									request.send();
 								}
