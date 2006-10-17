@@ -1427,7 +1427,7 @@ function TTCommand(command, value1, value2) {
 							'<param name="movie" value="' + url + '"/>' +
 							'<!--[if !IE]> <-->' +
 							'<object type="application/x-shockwave-flash" transparent="yes" data="' + url + '" width="400" height="300">' +
-							'<p><a href="' + url + '">Can\'t display this flash media</a></p>' +
+							'<p><a href="' + url + '">[Flash] ' + url + '</a></p>' +
 							'<\/object>' +
 							'<!--> <![endif]-->' +
 							'<\/object>';
