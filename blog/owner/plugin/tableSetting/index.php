@@ -18,11 +18,11 @@ if ($owner == 1) {
 									queryURL += '&type=' + type;
 									var request = new HTTPRequest("POST", queryURL);
 									request.onSuccess = function() {
-										alert("<?php echo _t('해당 테이블이 삭제되었습니다.');?>");
+										alert("<?php echo _t('테이블이 삭제되었습니다.');?>");
 										changeList();
 									}
 									request.onError = function() {
-										alert("<?php echo _t('테이블의 데이터를 지우지 못했습니다.');?>");
+										alert("<?php echo _t('테이블을 지우지 못했습니다.');?>");
 									}
 									request.send();
 								}
