@@ -5,6 +5,8 @@ require ROOT . '/lib/includeForOwner.php';
 require ROOT . '/lib/piece/owner/headerB.php';
 require ROOT . '/lib/piece/owner/contentMenuB1.php';
 
+if ($owner == 1) {
+
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -130,5 +132,10 @@ foreach($dbtables as $dbname)
 							</table>
 						</form>
 <?php
+} else { // when not owner ==1
+?>
+	<h2 class="caption"><span class="main-text"><?php echo _t('블로그 소유자만 테이블을 관리할 수 있습니다.');?></span></h2>
+<?php
+}
 require ROOT . '/lib/piece/owner/footer1.php';
 ?>
