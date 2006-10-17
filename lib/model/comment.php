@@ -217,6 +217,23 @@ function updateCommentsOfEntry($owner, $entryId) {
 	return $commentCount;
 }
 
+function sendCommentPing($entryId, $permalink, $name, $homepage) {
+	global $database, $owner, $blog;
+	if($slogan = DBQuery::queryCell("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entryId AND draft = 0 AND visibility = 3 AND acceptComment = 1")) {
+		requireComponent('Eolin.PHP.Core');
+		requireComponent('Eolin.PHP.XMLRPC');
+		$rpc = new XMLRPC();
+		$rpc->url = TATTERTOOLS_SYNC_URL;
+		$summary = array(
+			'permalink' => $permalink,
+			'name' => $name,
+			'homepage' => $homepage
+		);
+		$rpc->async = true;
+		$rpc->call('sync.comment', $summary);
+	}
+}
+
 function addComment($owner, & $comment) {
 	global $database, $user, $blog, $defaultURL;
 	
@@ -239,23 +256,6 @@ function addComment($owner, & $comment) {
 		} else if (!fireEvent('AddingComment', true, $comment)) {
 			$blockType = "etc";
 			$filtered = 1;
-		}
-	}
-
-	if(!$comment['secret']) {
-		requireComponent('Eolin.PHP.Core');
-		requireComponent('Eolin.PHP.XMLRPC');
-		$rpc = new XMLRPC();
-		$rpc->url = TATTERTOOLS_SYNC_URL;
-		if($entry = getEntry($owner, $comment['entry'])) {
-			$summary = array(
-				'permalink' => "$defaultURL/".($blog['useSlogan'] ? "entry/{$entry['slogan']}": $entry['id']),
-				'name' => is_null($user) ? $comment['name'] : $user['name'],
-				'homepage' => is_null($user) ? $comment['homepage'] : $user['homepage'],
-				'ip' => $comment['ip']
-			);
-			$rpc->async = true;
-			$rpc->call('sync.comment', $summary);
 		}
 	}
 

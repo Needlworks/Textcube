@@ -55,6 +55,21 @@ function getRecentTrackbacks($owner) {
 	return $trackbacks;
 }
 
+function sendTrackbackPing($entryId, $permalink, $url, $site, $title) {
+	requireComponent('Eolin.PHP.Core');
+	requireComponent('Eolin.PHP.XMLRPC');
+	$rpc = new XMLRPC();
+	$rpc->url = TATTERTOOLS_SYNC_URL;
+	$summary = array(
+		'permalink' => $permalink,
+		'url' => $url,
+		'blogName' => $site,
+		'title' => $title
+	);
+	$rpc->async = true;
+	$rpc->call('sync.trackback', $summary);
+}
+
 function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 	global $database, $blog, $defaultURL;
 	if (empty($url))
@@ -75,22 +90,6 @@ function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 
 	$title = correctTTForXmlText($title);
 	$excerpt = correctTTForXmlText($excerpt);
-
-	requireComponent('Eolin.PHP.Core');
-	requireComponent('Eolin.PHP.XMLRPC');
-	$rpc = new XMLRPC();
-	$rpc->url = TATTERTOOLS_SYNC_URL;
-	if($entryData = getEntry($owner, $entry)) {
-		$summary = array(
-			'permalink' => "$defaultURL/".($blog['useSlogan'] ? "entry/{$entryData['slogan']}": $entry),
-			'url' => $url,
-			'blogName' => $site,
-			'title' => $title,
-			'ip' => $_SERVER['REMOTE_ADDR']
-		);
-		$rpc->async = true;
-		$rpc->call('sync.trackback', $summary);
-	}
 
 	$url = mysql_lessen($url);
 	$site = mysql_lessen($site);
