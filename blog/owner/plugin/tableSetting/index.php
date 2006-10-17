@@ -11,6 +11,8 @@ if ($owner == 1) {
 						<script type="text/javascript">
 							//<![CDATA[
 								function deletePluginTable(name, type) {
+									if(!confirm("<?php echo _t('해당 테이블을 정말 삭제하시겠습니까? 사용중인 플러그인은 자동으로 해제됩니다.');?>"))
+											return;								
 									var queryURL = "<?php echo $blogURL;?>/owner/plugin/tableSetting/delete";
 									queryURL += '?name=' + encodeURI(name);
 									queryURL += '&type=' + type;
