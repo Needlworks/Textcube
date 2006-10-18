@@ -140,6 +140,11 @@ if($tattertoolsDashboard) {
 		$target = '';
 		$target .= '<ul>';
 		$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새글 쓰기').'</a></li>'.CRLF;
+		$latestPost = getLatestPost($owner);
+		if($latestPost) {
+			$title = UTF8::lessenAsEm(htmlspecialchars($latestPost['title']),10);
+			$target .= '<li><a href="'.$blogURL.'/owner/entry/edit/'.$latestPost['id'].'">'. _f('최근글(%1)수정',$title).'</a></li>'.CRLF;
+		}
 		$target .= '<li><a href="'.$blogURL.'/owner/skin">'. _t('스킨 변경').'</a></li>'.CRLF;
 		$target .= '<li><a href="'.$blogURL.'/owner/skin/setting">'. _t('블로그 표시설정').'</a></li>'.CRLF;
 		$target .= '<li><a href="'.$blogURL.'/owner/entry/category">'. _t('카테고리 변경').'</a></li>'.CRLF;
