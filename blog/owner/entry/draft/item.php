@@ -26,8 +26,10 @@ $entry['tag'] = empty($_POST['tag']) ? '' : $_POST['tag'];
 $entry['acceptComment'] = empty($_POST['acceptComment']) ? 0 : 1;
 $entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 $entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
-if (saveDraftEntry($entry) !== false)
+if (saveDraftEntry($entry) !== false){
+	setUserSetting('LatestEditedEntry',$id);
 	respondResultPage(0);
+}
 else
 	respondResultPage(1);
 ?>

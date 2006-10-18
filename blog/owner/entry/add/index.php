@@ -27,7 +27,9 @@ $entry['tag'] = empty($_POST['tag']) ? '' : $_POST['tag'];
 $entry['acceptComment'] = empty($_POST['acceptComment']) ? 0 : 1;
 $entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 $entry['published'] = empty($_POST['published']) ? 1 : $_POST['published'];
-if ($id = addEntry($owner, $entry))
+if ($id = addEntry($owner, $entry)){
 	fireEvent('AddPost', $id, $entry);
+	setUserSetting('LatestEditedEntry',$id);
+}
 respondResultPage($id !== false);
 ?>
