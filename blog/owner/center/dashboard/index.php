@@ -260,10 +260,10 @@ foreach ($newlayout as $mapping) {
 		if (isset($_REQUEST['edit'])) {
 ?>
 				
-				<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter ;?>&amp;rel=-1&edit">
-					<?php echo _T("위로"); ;?></a>
-				<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter ;?>&amp;rel=1&edit">
-					<?php echo _T("아래로"); ;?></a>
+				<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter ?>&amp;rel=-1&edit">
+					<?php echo _t("위로");></a>
+				<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit">
+					<?php echo _t("아래로");?></a>
 <?php
 		}
 ?>
