@@ -66,7 +66,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 				return false; // nothing can be done
 			} else if (strcmp($version, $values[1]) != 0) {
 				DBQuery::execute("UPDATE {$database['prefix']}ServiceSettings SET value ='$value/$version' WHERE name='$keyname'");
-				$eventName = 'UpdateDB_' . $plugin . '_' . $name;
+				$eventName = 'UpdateDB_' . $name;
 				fireEvent($eventName, $values[1]);
 			}
 		}
