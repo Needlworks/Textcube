@@ -143,7 +143,7 @@ if($tattertoolsDashboard) {
 		$latestEntryId = getUserSetting('LatestEditedEntry',0);
 		if($latestEntryId !== 0){
 			$latestEntry = getEntry($owner,$latestEntryId);
-			$target .= '<li><a href="'.$blogURL.'/owner/entry/edit/'.$latestEntry['id'].'">'. _f('최근글(%1)수정',UTF8::lessenAsEm(htmlspecialchars($latestEntry['title']),10).'</a></li>'.CRLF;
+			$target .= '<li><a href="'.$blogURL.'/owner/entry/edit/'.$latestEntry['id'].'">'. _f('최근글(%1)수정',UTF8::lessenAsEm(htmlspecialchars($latestEntry['title']),10)).'</a></li>'.CRLF;
 		}
 		$target .= '<li><a href="'.$blogURL.'/owner/skin">'. _t('스킨 변경').'</a></li>'.CRLF;
 		$target .= '<li><a href="'.$blogURL.'/owner/skin/setting">'. _t('블로그 표시설정').'</a></li>'.CRLF;
