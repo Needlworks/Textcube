@@ -574,7 +574,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 	} else if ($categoryId == -2) {
 		echo _t('등록된 공지 목록입니다');
 	} else if ($categoryId == -5) {
-		echo _t('공지와 키워드를 포함한 모든 글의 목록입니다');
+		echo _t('공지와 키로그를 포함한 모든 글의 목록입니다');
 	} else {
 		echo _t('등록된 글 목록입니다');
 	}
