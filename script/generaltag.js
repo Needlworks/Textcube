@@ -314,8 +314,11 @@ Tag.prototype.createSuggestInput = function()
 					return event.keyCode;
 				break;
 			case 13:	// Enter
-			case 9 :    // tab
 			case 188 :    // comma
+				instance.setValue(this.value);
+				break;
+			case 9 :    // tab
+			    if (this.value.trim() == "") return event.keyCode;
 				instance.setValue(this.value);
 				break;
 			case 27:	// ESC

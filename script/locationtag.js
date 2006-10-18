@@ -156,9 +156,12 @@ function LocationTag(container, language, disable)
 					return event.keyCode;
 				break;
 			case 13:	// Enter
-			case 9 :    // tab
 			case 191:   // slash
 				instance.setValue(this.value, true);
+				break;
+			case 9 :    // tab
+			    if (this.value.trim() == "") return event.keyCode;
+				instance.setValue(this.value);
 				break;
 			case 27:	// ESC
 				instance.hideSuggestion();
