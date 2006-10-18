@@ -354,10 +354,8 @@ function changePassword($owner, $pwd, $prevPwd) {
 	return executeQuery($sql);
 }
 
-function setEditor($owner, $editorMode, $strictXHTML) {
+function setEditor($owner, $editorMode) {
 	if(!setUserSetting('editorMode', $editorMode))
-		return false;
-	if(!setUserSetting('strictXHTML', $strictXHTML))
 		return false;
 	return true;
 }

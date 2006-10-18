@@ -349,7 +349,7 @@ function checkStep($step, $check = true) {
     <h3>PHP</h3>
     <ul>
 <?php
-        $functions = <<<EOS
+        $functions = "
 addslashes
 array_flip
 array_key_exists
@@ -470,7 +470,7 @@ xml_set_character_data_handler
 xml_set_default_handler
 xml_set_element_handler
 xml_set_object
-EOS;
+";
         $required = array();
         foreach (explode("\n", str_replace("\r", '', trim($functions))) as $function) {
             if (!function_exists($function))

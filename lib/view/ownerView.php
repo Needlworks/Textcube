@@ -17,7 +17,6 @@ function printOwnerEditorScript($entryId = false) {
 						<script type="text/javascript">
 							//<![CDATA[
 								var entryId = <?php echo $entryId ? $entryId : 0;?>; 
-								var strictXHTML = <?php echo getUserSetting('strictXHTML', 0)==1 ? 'true' : 'false';?>;
 								var skinContentWidth = <?php echo $contentWidth;?>;
 								var s_enterURL = "<?php echo _t('URL을 입력하세요.');?>";
 								var s_unknownFileType = "<?php echo _t('알 수 없는 형식의 파일명입니다.');?>";
@@ -419,7 +418,7 @@ function printEntryFileList($attachments, $param) {
 		
 		$initialFileListForFlash .= escapeJSInAttribute($value.'(_!'.$label.'!^|');
 ?>
-		<option  <?=$style?> value="<?=$value?>"><?=$label?></option>
+		<option  <?php echo $style?> value="<?php echo $value?>"><?php echo $label?></option>
 <?php
 	}
 ?>
@@ -864,7 +863,7 @@ function printEntryFileList($attachments, $param) {
 															+ '<embed id="uploader2" src="<?php echo $service['path'];?>/script/uploader/uploader.swf" flashvars="uploadPath=<?php echo $param['uploadPath'];?>&labelingPath=<?php echo $param['labelingPath'];?>&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION'];?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
 														
 														if (hasRightVersion) {
-															if(<?=(isset($service['flashuploader']) && $service['flashuploader'] === false) ? 'false' : 'hasRightVersion'?>){ writeCode(uploaderStr); }
+															if(<?php echo (isset($service['flashuploader']) && $service['flashuploader'] === false) ? 'false' : 'hasRightVersion'?>){ writeCode(uploaderStr); }
 														}
 													//]]>
 												</script>

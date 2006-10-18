@@ -65,14 +65,12 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 								}
 
 								var editorMode = "<?php echo getUserSetting('editorMode', 1);?>";
-								var strictXHTML = "<?php echo getUserSetting('strictXHTML', 0);?>";
 								
 								function setEditor() {
-									if (document.getElementById('editor-form').editorMode.value != editorMode || document.getElementById('editor-form').strictXHTML.value != strictXHTML) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/etc/editor/?editorMode=" + document.getElementById('editor-form').editorMode.value + "&strictXHTML=" + document.getElementById('editor-form').strictXHTML.value);
+									if (document.getElementById('editor-form').editorMode.value != editorMode) {
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/etc/editor/?editorMode=" + document.getElementById('editor-form').editorMode.value);
 										request.onSuccess = function() {
 											editorMode = document.getElementById('editor-form').editorMode.value;
-											strictXHTML = document.getElementById('editor-form').strictXHTML.value;
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 										}
 										request.onError = function() {
@@ -360,18 +358,6 @@ $editorMode = getUserSetting('editorMode', 1);
 												<select id="editorMode" name="editorMode">
 													<option value="1"<?php echo $editorMode==1?' selected="selected"':'';?>><?php echo _t('위지윅 모드');?></option>
 													<option value="2"<?php echo $editorMode==2?' selected="selected"':'';?>><?php echo _t('HTML 직접 편집');?></option>
-												</select>
-											</dd>
-										</dl>
-										<dl id="strictXHTML-line" class="line">
-											<dt><label for="strictXHTML"><?php echo _t('<abbr title="eXtensible HyperText Markup Language">XHTML</abbr> 준수');?></label></dt>
-											<dd>
-<?php
-$strictXHTML = getUserSetting('strictXHTML', 0);
-?>
-												<select id="strictXHTML" name="strictXHTML">
-													<option value="0"<?php echo $strictXHTML==0?' selected="selected"':'';?>><?php echo _t('처리하지 않음');?></option>
-													<option value="1"<?php echo $strictXHTML==1?' selected="selected"':'';?>><?php echo _t('올바른 XHTML 코드로 다듬어 출력');?></option>
 												</select>
 											</dd>
 										</dl>
