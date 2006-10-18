@@ -8,7 +8,7 @@
    Maintainer       : inureyes, gendoh, graphittie
 
    Created at       : 2006.8.22
-   Last modified at : 2006.10.10
+   Last modified at : 2006.10.11
 
  This plugin adds start panel on 'quilt'.
  For the detail, visit http://forum.tattertools.com/ko
@@ -24,9 +24,15 @@
 
 */
 function CT_Start_Default($target) {
+	requireComponent("Eolin.PHP.Core");
 	global $owner, $blogURL;
 	$target .= '<ul>';
 	$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새 글을 씁니다').'</a></li>'.CRLF;
+	$latestPost = CT_Start_getLatestPost($owner);
+	if($latestPost) {
+		$title = UTF8::lessenAsEm(htmlspecialchars($latestPost['title']),10);
+		$target .= '<li><a href="'.$blogURL.'/owner/entry/edit/'.$latestPost['id'].'">'. _f('최근에 쓴 글(%1)을 수정합니다',$title).'</a></li>'.CRLF;
+	}
 	$target .= '<li><a href="'.$blogURL.'/owner/skin">'. _t('스킨을 변경합니다').'</a></li>'.CRLF;
 	$target .= '<li><a href="'.$blogURL.'/owner/skin/sidebar">'. _t('사이드바 구성을 변경합니다').'</a></li>'.CRLF;
 	$target .= '<li><a href="'.$blogURL.'/owner/skin/setting">'. _t('블로그에 표시되는 값들을 변경합니다').'</a></li>'.CRLF;
@@ -35,5 +41,13 @@ function CT_Start_Default($target) {
 	$target .= '<li><a href="'.$blogURL.'/owner/reader">'. _t('RSS 리더를 봅니다').'</a></li>'.CRLF;
 	$target .= '</ul>';
 	return $target;
+}
+
+function CT_Start_getLatestPost($owner) {
+	global $database;
+	$entry=array();
+	$result=mysql_query("SELECT id, title FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 ORDER BY published DESC LIMIT 1");
+	$entry = mysql_fetch_array($result);
+	return $entry;
 }
 ?>
