@@ -34,7 +34,7 @@ if( is_null($result) )	respondNotFoundPage();
 		function saveConfig(plugin){
 			var xmlcon= new Converter(document, fiednamelist) ; 
 		   	var xmlData = encodeURIComponent(xmlcon.getXMLData());
-			var request = new HTTPRequest("POST" , "<?php echo $targetURL;;?>");
+			var request = new HTTPRequest("POST" , "<?php echo $targetURL;?>");
 			PM.addRequest(request, "<?php echo _t('설정을 저장하고 있습니다.');?>");
 			request.onSuccess = function () {
 				PM.removeRequest(this);

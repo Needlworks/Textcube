@@ -42,5 +42,5 @@ if($entry = DBQuery::queryRow("SELECT e.*, c.name AS categoryName FROM {$databas
 }
 else
 	echo '<version>1.1</version>', "\r\n", '<status>0</status>', "\r\n";
-echo "</response>"
+echo "</response>";
 ?>

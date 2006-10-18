@@ -42,7 +42,7 @@ else
 	$entries = $_GET['entries'];
 if (!empty($_POST['newCategory'])) {
 	$history = addCategory($owner, ($selected == 0) ? null : $_POST['id'], trim($_POST['newCategory'])) ? 'document.getElementById("newCategory").select();' : '';
-} else if (!empty($_POST['modifyCategoryName']) OR !empty($_POST['modifyCategoryBodyId'])) {
+} else if (!empty($_POST['modifyCategoryName']) || !empty($_POST['modifyCategoryBodyId'])) {
 	$history = modifyCategory($owner, $_POST['id'], trim($_POST['modifyCategoryName']),trim($_POST['modifyCategoryBodyId'])) ? 'document.getElementById("modifyCategoryName").select();' : '';
 	$tempParentId = fetchQueryCell("SELECT `parent` FROM `{$database['prefix']}Categories` WHERE `id` = {$_POST['id']}");
 	if (preg_match('/^[0-9]+$/', $tempParentId, $temp)) {
@@ -167,7 +167,7 @@ if ($depth <= 1) {
 											<dt><label for="modifyCategoryBodyId"><?php echo _t('Body Id 변경');?></label></dt>
 											<dd>
 												<div class="field-box">
-													<input type="text" id="modifyCategoryBodyId" class="input-text" name="modifyCategoryBodyId" onkeyup="if (event.keyCode == '13' &amp;&amp; validateText(this.value)) modifyCategory();" value="<?php echo escapeJSInAttribute($bodyid);?>" <?php if ($selected == 0) echo "readonly"?> />
+													<input type="text" id="modifyCategoryBodyId" class="input-text" name="modifyCategoryBodyId" onkeyup="if (event.keyCode == '13' &amp;&amp; validateText(this.value)) modifyCategory();" value="<?php echo escapeJSInAttribute($bodyid);?>" <?php if ($selected == 0) echo "readonly";?> />
 													<input type="button" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="modifyCategory(); return false;" />
 												</div>
 												<p><?php echo _t('Body id는 블로그 스킨의 <acronym title="Cascading Style Sheet">CSS</acronym> 활용을 위해 사용합니다.<br /> 기본값인 "tt-body-category"를 그냥 사용하셔도 사용에 지장은 없습니다.');?></p>

@@ -10,7 +10,6 @@ $IV = array(
 		'loaded' => array('int', 'default' => 0)
 	)
 );
-die('aaaa')
 require ROOT . '/lib/includeForOwner.php';
 $result = array('error' => '0');
 ob_start();

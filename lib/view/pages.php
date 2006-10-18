@@ -51,7 +51,7 @@ function respondErrorPage($message=NULL, $buttonValue=NULL, $buttonLink=NULL) {
 <head>
 	<title><?php echo TATTERTOOLS_NAME;?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path']; ;?>/style/owner.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/style/owner.css" />
 </head>
 <body id="body-message-page">
 	<div class="message-box">

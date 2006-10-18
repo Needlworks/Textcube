@@ -30,7 +30,7 @@ function correctImagePath($match ){
 		return $match[0] ; // full url의 경우 스킵
 	if( $pathArr[0] != '.'  && $pathArr[0] != '..' ) 
 		return $match[0] ; //첫 디렉토리가 현재 디렉토리가 아닌경우 스킵
-	return str_replace( $match[1],  $serviceURL . "/skin/{$skinSetting['skin']}/" . $match[1], $match[0]);;
+	return str_replace( $match[1],  $serviceURL . "/skin/{$skinSetting['skin']}/" . $match[1], $match[0]);
 }
 
 function getBlogContentForSideBar()
