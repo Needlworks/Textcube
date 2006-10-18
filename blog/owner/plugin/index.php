@@ -181,7 +181,7 @@ if (!defined('__TATTERTOOLS_CENTER__')) {
 								</dl>
 <?php
 } else {
-	if (empty($_POST['useTTdashboard'])) {
+	if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useTTdashboard']))) {
 		$tattertoolsDashboard = getUserSetting("tattertoolsDashboard");
 		if (is_null($tattertoolsDashboard)) {
 			setUserSetting("tattertoolsDashboard", 1);
