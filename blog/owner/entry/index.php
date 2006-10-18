@@ -701,13 +701,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 											<td class="title">
 												<?php echo ($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '');?>
 <?php
-	if ($categoryId == -1) {
-		$editmode = 'keyword';
-	} else if ($categoryId == -2) {
-		$editmode = 'notice';
-	} else {
-		$editmode = 'entry';
-	}
+	$editmode = 'entry';
 ?>
 												<a href="<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entry['id'];?>" onclick="document.getElementById('list-form').action='<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entry['id'];?>'<?php echo ($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '');?>; document.getElementById('list-form').submit(); return false;"><?php echo htmlspecialchars($entry['title']);?></a>
 											</td>

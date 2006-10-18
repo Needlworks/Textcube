@@ -283,13 +283,7 @@ if (isset($_GET['popupEditor'])) {
 										var data = this.getData();
 										if (data == null)
 											return;
-<?php
-if (defined('__TATTERTOOLS_NOTICE__')) {
-?>
-										return;
-<?php
-} else {
-?>
+
 										if (data == this.savedData) {
 											window.open("<?php echo $blogURL;?>/owner/entry/preview/<?php echo $entry['id'];?>", "previewEntry<?php echo $entry['id'];?>");
 											return;
@@ -305,9 +299,6 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 										request.onError = function () {
 										}
 										request.send(data);
-<?php
-}
-?>
 									}
 									this.savedData = this.getData();
 								}
@@ -382,17 +373,9 @@ if (defined('__TATTERTOOLS_NOTICE__')) {
 
 
 if (defined('__TATTERTOOLS_POST__')) {
-	if (defined('__TATTERTOOLS_NOTICE__')) {
-		echo _t('공지를 작성합니다');
-	} else {
-		echo _t('글을 작성합니다');
-	}
+	echo _t('글을 작성합니다');
 } else {
-	if (defined('__TATTERTOOLS_NOTICE__')) {
-		echo _t('선택한 공지를 수정합니다');
-	} else {
-		echo _t('선택한 글을 수정합니다');
-	}
+	echo _t('선택한 글을 수정합니다');
 }
 ?></span></h2>
 									
@@ -401,17 +384,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 										<h3><?php echo _t('머리말');?></h3>
 										
 										<dl id="title-line" class="line">
-<?php
-if (defined('__TATTERTOOLS_KEYWORD__')) {
-?>
-											<dt><label for="title"><?php echo _t('키워드');?></label></dt>
-<?php
-} else {
-?>
 											<dt><label for="title"><?php echo _t('제목');?></label></dt>
-<?php
-}
-?>
 											<dd>
 												<input type="text" id="title" class="input-text" name="title" value="<?php echo htmlspecialchars($entry['title']);?>" size="60" />
 											</dd>
@@ -465,30 +438,12 @@ printEntryEditorPalette();
 										</div>
 										<div id="status-container" class="container"><span id="pathStr"><?php echo _t('path');?></span><span class="divider"> : </span><span id="pathContent"></span></div>
 <?php
-if (!defined('__TATTERTOOLS_KEYWORD__')) {
-	if (!defined('__TATTERTOOLS_NOTICE__')) {
-		$view = fireEvent('AddPostEditorToolbox', '');
-		if (!empty($view)) {
-?>
-										<div id="toolbox-container" class="container"><?php echo $view;?></div>
-<?php
-		}
-	} else {
-		$view = fireEvent('AddNoticeEditorToolbox', '');
-		if (!empty($view)) {
-?>
-										<div id="toolbox-container" class="container"><?php echo $view;?></div>
-<?php
-		}
-	}
-} else {
-	$view = fireEvent('AddKeywordEditorToolbox', '');
+	$view = fireEvent('AddPostEditorToolbox', '');
 	if (!empty($view)) {
 ?>
 										<div id="toolbox-container" class="container"><?php echo $view;?></div>
 <?php
 	}
-}
 ?>
 									</div>
 									
@@ -621,30 +576,11 @@ if (defined('__TATTERTOOLS_POST__')) {
 												<dt><span class="label"><?php echo _t('공개여부');?></span></dt>
 												<dd>
 													<div class="status-private"><input type="radio" id="visibility_private" class="radio" name="visibility" value="0"<?php echo (abs($entry['visibility']) == 0 ? ' checked="checked"' : '');?> /> <label for="visibility_private"><?php echo _t('비공개');?></label></div>
-<?php
-if (!defined('__TATTERTOOLS_KEYWORD__')) {
-	if (!defined('__TATTERTOOLS_NOTICE__')) {
-?>
 													<div class="status-protected"><input type="radio" id="visibility_protected" class="radio" name="visibility" value="1"<?php echo (abs($entry['visibility']) == 1 ? ' checked="checked"' : '');?> /> <label for="visibility_protected"><?php echo _t('보호');?></label></div>
-<?php
-	}
-}
-?>
 													<div class="status-public"><input type="radio" id="visibility_public" class="radio" name="visibility" value="2"<?php echo (abs($entry['visibility']) == 2 ? ' checked="checked"' : '');?> /> <label for="visibility_public"><?php echo _t('공개');?></label></div>
-<?php
-if (!defined('__TATTERTOOLS_KEYWORD__')) {
-	if (!defined('__TATTERTOOLS_NOTICE__')) {
-?>
 													<div class="status-syndicated"><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /> <label for="visibility_syndicated"><?php echo _t('발행');?></label></div>
-<?php
-	}
-}
-?>
 												</dd>
 											</dl>
-<?php
-if (!defined('__TATTERTOOLS_KEYWORD__') && !defined('__TATTERTOOLS_NOTICE__')) {
-?>
 											<dl id="power-line" class="line">
 												<dt><span class="label"><?php echo _t('권한');?></span></dt>
 												<dd>
@@ -652,14 +588,6 @@ if (!defined('__TATTERTOOLS_KEYWORD__') && !defined('__TATTERTOOLS_NOTICE__')) {
 												  	<div class="trackback-yes"><input type="checkbox" id="acceptTrackback" class="checkbox" name="acceptTrackback"<?php echo ($entry['acceptTrackback'] ? ' checked="checked"' : '');?> /> <label for="acceptTrackback"><span class="text"><?php echo _t('글걸기를 허용합니다.');?></span></label></div>
 												</dd>
 											</dl>
-<?php
-} else {
-?>
-											<input type="hidden" id="acceptComment"  name="acceptComment" value="<?php echo ($entry['acceptComment'] ? 'checked="checked"' : '');?>" />
-											<input type="hidden" id="acceptTrackback" name="acceptTrackback" value="<?php echo ($entry['acceptTrackback'] ? 'checked="checked"' : '0');?>" />
-<?php
-}
-?>
 										</div>
 									</div>
 								</div>
@@ -668,7 +596,6 @@ if (!defined('__TATTERTOOLS_KEYWORD__') && !defined('__TATTERTOOLS_NOTICE__')) {
 										
 <?php
 if (isset($_GET['popupEditor'])) {
-	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
 								<div class="button-box two-button-box">
 									<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
@@ -676,15 +603,7 @@ if (isset($_GET['popupEditor'])) {
 									<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
 								</div>
 <?php
-	} else {
-?>
-								<div class="button-box one-button-box">
-									<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
-								</div>
-<?php
-	}
 } else {
-	if (!defined('__TATTERTOOLS_NOTICE__')) {
 ?>
 								<div class="button-box three-button-box">
 									<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
@@ -694,15 +613,6 @@ if (isset($_GET['popupEditor'])) {
 									<a href="<?php echo $blogURL;?>/owner/entry" class="list-button button"><span class="text"><?php echo _t('목록으로');?></span></a>
 								</div>
 <?php
-	} else {
-?>
-								<div class="button-box two-button-box">
-									<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
-									<span class="hidden">|</span>
-									<a href="<?php echo $blogURL;?>/owner/entry" class="list-button button"><span class="text"><?php echo _t('목록으로');?></span></a>
-								</div>
-<?php
-	}
 }
 ?>
 								<input type="hidden" name="categoryAtHome" value="<?php echo (isset($_POST['category']) ? $_POST['category'] : '0');?>" />
