@@ -380,8 +380,10 @@ function getCommentView($entryId, & $skin) {
 			$rp_class = $prefix1 . '_general';
 			if ($owner == $commentSubItem['replier'])
 				$rp_class = $prefix1 . '_admin';
-			else if ($commentSubItem['secret'] == 1)
+			else if ($commentSubItem['secret'] == 1) {
 				$rp_class = $prefix1 . '_secret';
+				if (!$authorized) $rp_class .= ' hiddenComment';
+			}
 			dress($prefix1 . '_rep_class', $rp_class, $commentSubItemView);
 			
 			if (dress($prefix1 . '_rep_id', 'comment' . $commentSubItem['id'], $commentSubItemView) == false) {
@@ -412,8 +414,10 @@ function getCommentView($entryId, & $skin) {
 		$rp_class = $prefix1 . '_general';
 		if ($owner == $commentItem['replier'])
 			$rp_class = $prefix1 . '_admin';
-		else if ($commentItem['secret'] == 1)
-			$rp_class = $prefix1 . '_secret';			
+		else if ($commentItem['secret'] == 1) {
+			$rp_class = $prefix1 . '_secret';
+			if (!$authorized) $rp_class .= ' hiddenComment';
+		}
 		dress($prefix1 . '_rep_class', $rp_class, $commentItemView);
 		if (dress($prefix1 . '_rep_id', 'comment' . $commentItem['id'], $commentItemView) == false) {
 			$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . $commentItemView;
