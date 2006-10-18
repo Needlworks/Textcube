@@ -54,6 +54,22 @@ function updatePluginConfig( $name , $setVal){
 function treatPluginTable($plugin, $name, $fields, $keys, $version){
 	global $database;
 	if(doesExistTable($database['prefix'] . $name)){
+		$keyname = 'Database_' . $name;
+		$value = $plugin;		
+		$query = "SELECT value FROM {$database['prefix']}ServiceSettings WHERE name='{$keyname}'";
+		$result = DBQuery::queryCell($query);
+		if (is_null($result)) {
+			DBQuery::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value/$version'");
+		} else {
+			$values = explode('/', $result, 2);
+			if (strcmp($plugin, $values[0]) != 0) { // diff plugin
+				return false; // nothing can be done
+			} else if (strcmp($version, $values[1]) != 0) {
+				DBQuery::execute("UPDATE {$database['prefix']}ServiceSettings SET value ='$value/$version' WHERE name='$keyname'");
+				$eventName = 'UpdateDB_' . $plugin . '_' . $name;
+				fireEvent($eventName, $values[1]);
+			}
+		}
 		return true;
 	} else {
 		$query = "CREATE TABLE {$database['prefix']}{$name} (owner int(11) NOT NULL default '0',";
