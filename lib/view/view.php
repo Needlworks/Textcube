@@ -1365,7 +1365,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 						$buf = '<div>' . getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[3]</div>";
 						$buf .= '<div>' . getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[6]</div>";
 					} else {
-						$buf = '<div class="imageblock dual" style="text-align: center;"><table cellspacing="5" cellpadding="0" border="0" style="margin: 0 auto;"><tr><td>' . getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 2, $useAbsolutePath, $bRssMode, $onclickFlag1) . '<p class="cap1">' . $attributes[3] . '</p></td><td>' . getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 2, $useAbsolutePath, $bRssMode, $onclickFlag2) . '<p class="cap2">' . $attributes[6] . '</p></td></tr></table></div>';
+						$buf = '<div class="imageblock dual" style="text-align: center;"><table cellspacing="5" cellpadding="0" border="0" style="margin: 0 auto;"><tr><td>' . getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 2, $useAbsolutePath, $bRssMode, $onclickFlag1) . '<p class="cap1">' . $attributes[3] . '</p></td><td>' . getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 2, $useAbsolutePath, $bRssMode, $onclickFlag2) . '<p class="cap1">' . $attributes[6] . '</p></td></tr></table></div>';
 					}
 					break;
 				case 10:
@@ -1378,7 +1378,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 						$buf .= '<div>' . getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[6]</div>";
 						$buf .= '<div>' . getAttachmentBinder($attributes[7],$newProperty3, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[9]</div>";
 					} else {
-						$buf = '<div class="imageblock triple" style="text-align: center"><table cellspacing="5" cellpadding="0" border="0" style="margin: 0 auto;"><tr><td>' . getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag1) . '<p class="cap1">' . $attributes[3] . '</p></td><td>' . getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag2) . '<p class="cap2">' . $attributes[6] . '</p></td><td>' . getAttachmentBinder($attributes[7], $newProperty3, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag3) . '<p class="cap3">' . $attributes[9] . '</p></td></tr></table></div>';
+						$buf = '<div class="imageblock triple" style="text-align: center"><table cellspacing="5" cellpadding="0" border="0" style="margin: 0 auto;"><tr><td>' . getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag1) . '<p class="cap1">' . $attributes[3] . '</p></td><td>' . getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag2) . '<p class="cap1">' . $attributes[6] . '</p></td><td>' . getAttachmentBinder($attributes[7], $newProperty3, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag3) . '<p class="cap1">' . $attributes[9] . '</p></td></tr></table></div>';
 					}
 					break; 
 			}
