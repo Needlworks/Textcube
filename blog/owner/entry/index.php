@@ -29,7 +29,7 @@ if (isset($_POST['category'])) {
 } else if (isset($_POST['categoryAtHome'])) {
 	$categoryId = $_POST['categoryAtHome'];
 } else {
-	$categoryId = 0;	
+	$categoryId = -5;	
 }
 
 // 찾기 키워드 설정.
@@ -573,6 +573,8 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 		echo _t('등록된 키워드 목록입니다');
 	} else if ($categoryId == -2) {
 		echo _t('등록된 공지 목록입니다');
+	} else if ($categoryId == -5) {
+		echo _t('공지와 키워드를 포함한 모든 종류의 글 목록입니다');
 	} else {
 		echo _t('등록된 글 목록입니다');
 	}
@@ -583,6 +585,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 									
 									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
+										<option value="-5"<?php echo ($categoryId == -3 ? ' selected="selected"' : '');?>><?php echo _t('모든 글');?></option>
 										<optgroup class="category" label="<?php echo _t('글 종류');?>">
 											<option value="-2"<?php echo ($categoryId == -2 ? ' selected="selected"' : '');?>><?php echo _t('공지');?></option>
 											<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '');?>><?php echo _t('키워드');?></option>
@@ -684,13 +687,13 @@ for ($i=0; $i<sizeof($entries); $i++) {
 ?>
 												<a id="category_<?php echo $entry['id'];?>" class="categorized" href="<?php echo $blogURL;?>/owner/entry?category=<?php echo $entry['category'];?>"><?php echo htmlspecialchars($entry['categoryLabel']);?></a>
 <?php
-	} else if ($categoryId == -2) {
+	} else if ($entry['category'] == -2) {
 ?>
-												<span class="notice"><?php echo _t('공지');?></span>
+												<a id="category_<?php echo $entry['id'];?>" class="notice" href="<?php echo $blogURL;?>/owner/entry?category=-2"><?php echo _t('공지');?></a>
 <?php
-	} else if ($categoryId == -1) {
+	} else if ($entry['category'] == -1) {
 ?>
-												<span class="keyword"><?php echo _t('키워드');?></span>
+												<a id="category_<?php echo $entry['id'];?>" class="notice" href="<?php echo $blogURL;?>/owner/entry?category=-1"><?php echo _t('키워드');?></a>
 <?php
 	}
 ?>
