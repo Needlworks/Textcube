@@ -550,6 +550,9 @@ printEntryFileUploadButton($entry['id']);
 												<dd>
 													<samp><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="input-text" name="permalink" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
 												</dd>
+												<dd>
+													<p><?php echo _t('입력하지 않으면 글의 제목이 절대 주소가 됩니다.');?></p>
+												</dd>
 											</dl>
 											<dl id="date-line" class="line">
 												<dt><span class="label"><?php echo _t('등록일자');?></span></dt>

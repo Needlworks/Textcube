@@ -652,13 +652,4 @@ function getEntryVisibilityName($visibility) {
 			return _text('발행');
 	}
 }
-function getLatestPost($owner) {
-	global $database;
-	$entry=array();
-	$result=mysql_query("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 ORDER BY published DESC LIMIT 1");
-	$entry = mysql_fetch_array($result);
-	return $entry;
-}
-
-
 ?>
