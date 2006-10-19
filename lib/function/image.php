@@ -117,6 +117,12 @@ function getThumbnailPaddingColor() {
 function makeThumbnail($imgString, $originSrc, $paddingArray=NULL, $waterMarkArray=NULL) {
 	global $database, $owner, $blogURL;
 	
+	if (is_null(getUserSetting("resamplingDefault"))) {
+		return $imgString;
+	} else {
+		$waterMarkOn = getUserSetting("waterMarkDefault", "no");
+	}
+	
 	requireComponent('Tattertools.Function.Image');
 	
 	$contentWidth = getContentWidth();
@@ -160,7 +166,7 @@ function makeThumbnail($imgString, $originSrc, $paddingArray=NULL, $waterMarkArr
 				// 리샘플링 시작.
 				if ($AttachedImage->resample($tempWidth, $tempHeight, $paddingArray)) {
 					// 워터마크 적용.
-					if ($resampleType == "watermarked") {
+					if ($resampleType == "watermarked" && $waterMarkOn == "yes") {
 						$waterMarkType = $AttachedImage->getImageType($waterMarkArray['path']);
 						$AttachedImage->impressWaterMark($waterMarkArray['path'], $waterMarkArray['position'], $waterMarkArray['gamma']);
 					}
@@ -176,7 +182,8 @@ function makeThumbnail($imgString, $originSrc, $paddingArray=NULL, $waterMarkArr
 								@unlink(str_replace(".resampled.", ".watermarked.", $tempSrc));
 								break;
 							case "watermarked":
-								@unlink(str_replace(".watermarked.", ".resampled.", $tempSrc));
+								if ($waterMarkOn == "yes")
+									@unlink(str_replace(".watermarked.", ".resampled.", $tempSrc));
 								break;
 						}
 						
@@ -184,14 +191,14 @@ function makeThumbnail($imgString, $originSrc, $paddingArray=NULL, $waterMarkArr
 						$originImageInfo = getimagesize($originSrc);
 						$tempFileName = preg_replace("/\.([[:alnum:]]+)$/i", ".w{$originImageInfo[0]}-h{$originImageInfo[1]}.{$resampleType}.\\1", $originFileName);
 						
-						if ($resampleType == "watermarked") {
-							$AttachedImage->resample($originImageInfo[0], $originImageInfo[1], NULL);
-							$AttachedImage->impressWaterMark($waterMarkArray['path'], $waterMarkArray['position'], $waterMarkArray['gamma']);
-							$AttachedImage->createThumbnailIntoFile(ROOT."/cache/thumbnail/$owner/$tempFileName");
-							
-							@unlink(ROOT."/cache/thumbnail/$owner/".str_replace(".watermarked.", ".resampled.", $tempFileName));
-							
-							$imgString = preg_replace('/onclick="open_img\(\'([^\']+)\'\)"/', "onclick=\"open_img('$blogURL/thumbnail/$owner/$tempFileName')\"", $imgString);
+						if ($resampleType == "watermarked" && $waterMarkOn == "yes") {
+							if ($AttachedImage->resample($originImageInfo[0], $originImageInfo[1], NULL)) {
+								$AttachedImage->impressWaterMark($waterMarkArray['path'], $waterMarkArray['position'], $waterMarkArray['gamma']);
+								if ($AttachedImage->createThumbnailIntoFile(ROOT."/cache/thumbnail/$owner/$tempFileName")) {
+									@unlink(ROOT."/cache/thumbnail/$owner/".str_replace(".watermarked.", ".resampled.", $tempFileName));
+									$imgString = preg_replace('/onclick="open_img\(\'([^\']+)\'\)"/', "onclick=\"open_img('$blogURL/thumbnail/$owner/$tempFileName')\"", $imgString);
+								}
+							}
 						} else {
 							@unlink(ROOT."/cache/thumbnail/$owner/".str_replace(".resampled.", ".watermarked.", $tempFileName));
 						}
@@ -215,8 +222,17 @@ function makeThumbnail($imgString, $originSrc, $paddingArray=NULL, $waterMarkArr
 				$imgString = preg_replace('/height="([^"]+)"/i', 'height="'.$tempHeight.'"', $imgString);
 				
 				$originImageInfo = getimagesize($originSrc);
-				$tempFileName = preg_replace("/\.([[:alnum:]]+)$/i", ".x{$originImageInfo[0]}-y{$originImageInfo[1]}.thumbnail.\\1", $originFileName);
-				$imgString = preg_replace('/onclick="open_img\(\'([^\']+)\'\)"/', "onclick=\"open_img('$blogURL/thumbnail/$owner/$tempFileName')\"", $imgString);
+				$tempFileName = preg_replace("/\.([[:alnum:]]+)$/i", ".w{$originImageInfo[0]}-h{$originImageInfo[1]}.{$resampleType}.\\1", $originFileName);
+				
+				if ($resampleType == "watermarked") {
+					if (file_exists(ROOT."/cache/thumbnail/$owner/$tempFileName")) {
+						$imgString = preg_replace('/onclick="open_img\(\'([^\']+)\'\)"/', "onclick=\"open_img('$blogURL/thumbnail/$owner/$tempFileName')\"", $imgString);
+					} else if (file_exists(ROOT."/cache/thumbnail/$owner/".str_replace(".watermarked.", ".resampled.", $tempFileName))) {
+						$imgString = preg_replace('/onclick="open_img\(\'([^\']+)\'\)"/', "onclick=\"open_img('$blogURL/thumbnail/$owner/".str_replace(".watermarked.", ".resampled.", $tempFileName)."')\"", $imgString);
+					}
+				} else if ($resampleType == "resampled" && file_exists(ROOT."/cache/thumbnail/$owner/$tempFileName")) {
+					$imgString = preg_replace('/onclick="open_img\(\'([^\']+)\'\)"/', "onclick=\"open_img('$blogURL/thumbnail/$owner/$tempFileName')\"", $imgString);
+				}
 				break;
 		}
 	}

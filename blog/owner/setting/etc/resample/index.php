@@ -27,20 +27,23 @@ $IV = array(
 
 require ROOT . '/lib/includeForOwner.php';
 
-$isAjaxRequest = checkAjaxRequest();
+$isAjaxRequest = false; // checkAjaxRequest();
 $errorArray = array();
 
 // 기본 설정
 if (isset($_POST['useResamplingAsDefault']) && ($_POST['useResamplingAsDefault'] == "yes")) {
 	setUserSetting("resamplingDefault", "yes");
-} else {
+} else if (getUserSetting("resamplingDefault") == "yes") {
 	removeUserSetting("resamplingDefault");
+	removeUserSetting("waterMarkDefault");
+	deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "*");
 }
 
 if (isset($_POST['useWatermarkAsDefault']) && ($_POST['useWatermarkAsDefault'] == "yes")) {
 	setUserSetting("waterMarkDefault", "yes");
-} else {
+} else  if (getUserSetting("waterMarkDefault") == "yes") {
 	removeUserSetting("waterMarkDefault");
+	deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "*");
 }
 
 // 워터마크 처리.
