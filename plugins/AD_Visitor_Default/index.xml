@@ -33,6 +33,13 @@
       <methods>
         <method>
           <handler>AD_Visitor_Default_set</handler>
+          <params>
+            <param>
+              <name>ajaxcall</name>
+              <type>string</type>
+              <mandatory>0</mandatory>
+            </param>
+          </params>
         </method>
       </methods>
     </adminMenu>

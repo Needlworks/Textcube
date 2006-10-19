@@ -133,6 +133,28 @@ class misc {
 		} else {
 			return false;
 		}	
-	}	
+	}
+	function escapeJSInAttribute($str) {
+		return htmlspecialchars(str_replace(array('\\', '\r', '\n', '\''), array('\\\\', '\\r', '\\n', '\\\''), $str));
+	}
+	
+	function getTimeFromPeriod($period) {
+		if (is_numeric($period)) {
+			$year = 0;
+			$month = 1;
+			$day = 1;
+			switch (strlen($period)) {
+				case 8:
+					$day = substr($period, 6, 2);
+				case 6:
+					$month = substr($period, 4, 2);
+				case 4:
+					$year = substr($period, 0, 4);
+					if (checkdate($month, $day, $year))
+						return mktime(0, 0, 0, $month, $day, $year);
+			}
+		}
+		return false;
+	}
 }
 ?>

@@ -51,7 +51,7 @@ function AD_Referer_Default()
 ?>
 									<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="rank"><?php echo $i + 1;?>.</td>
-										<td class="site"><a href="http://<?php echo escapeJSInAttribute($record['host']);?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($record['host']);?></a> <span class="count">(<?php echo $record['count'];?>)</span></td>
+										<td class="site"><a href="http://<?php echo misc::escapeJSInAttribute($record['host']);?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($record['host']);?></a> <span class="count">(<?php echo $record['count'];?>)</span></td>
 									</tr>
 <?php
 	}
@@ -84,7 +84,7 @@ function AD_Referer_Default()
 ?>
 									<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="date"><?php echo Timestamp::formatDate($record['referred']);?></td>
-										<td class="address"><a href="<?php echo escapeJSInAttribute($record['url']);?>" onclick="window.open(this.href); return false;" title="<?php echo htmlspecialchars($record['url']);?>"><?php echo fireEvent('ViewRefererURL', htmlspecialchars(UTF8::lessenAsEm($record['url'], 70)), $record);?></a></td>
+										<td class="address"><a href="<?php echo misc::escapeJSInAttribute($record['url']);?>" onclick="window.open(this.href); return false;" title="<?php echo htmlspecialchars($record['url']);?>"><?php echo fireEvent('ViewRefererURL', htmlspecialchars(UTF8::lessenAsEm($record['url'], 70)), $record);?></a></td>
 									</tr>
 <?php
 	}

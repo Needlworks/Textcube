@@ -3,16 +3,17 @@
 function AD_Visitor_Default()
 {
 	global $owner, $pluginMenuURL, $pluginAccessURL, $pluginHandlerURL;
-requireComponent( "Tattertools.Model.Statistics");
-$stats = Statistics::getStatistics($owner);
-$date = isset($_GET['date']) ? $_GET['date'] : '';
+	requireComponent( "Tattertools.Model.Statistics");
+	requireComponent('Tattertools.Function.misc');
+	$stats = Statistics::getStatistics($owner);
+	$date = isset($_GET['date']) ? $_GET['date'] : '';
 ?>
 <!-- This tab space below this line is inserted for the indentation of original admin page -->
 						<script type="text/javascript">
 							//<![CDATA[
 								function setTotalStatistics() {
 									if (confirm("방문자의 수를 초기화하면 방문객의 수가 0이 됩니다.\n정말 초기화하시겠습니까?")) {
-										var request = new HTTPRequest("GET", "<?php echo $pluginHandlerURL;?>/AD_Visitor_Default_set");
+										var request = new HTTPRequest("GET", "<?php echo $pluginHandlerURL;?>/AD_Visitor_Default_set&ajaxcall");
 										request.onSuccess = function() {
 											//document.getElementById("total").innerHTML = 0;
 											window.location = '<?php echo $pluginMenuURL;?>';
@@ -79,7 +80,7 @@ for ($i=0; $i<sizeof($temp); $i++) {
 	$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="window.location.href='<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['date'];?>'">
-											<td class="date"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['date'];?>"><?php echo Timestamp::formatDate2(getTimeFromPeriod($record['date']));?></a></td>
+											<td class="date"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['date'];?>"><?php echo Timestamp::formatDate2(misc::getTimeFromPeriod($record['date']));?></a></td>
 											<td class="count"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['date'];?>"><?php echo $record['visits'];?></a></td>
 										</tr>
 <?php
@@ -107,7 +108,7 @@ if (isset($date)) {
 		$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class">
-											<td class="date"><?php echo Timestamp::formatDate(getTimeFromPeriod($record['date']));?></td>
+											<td class="date"><?php echo Timestamp::formatDate(misc::getTimeFromPeriod($record['date']));?></td>
 											<td class="count"><?php echo $record['visits'];?></td>
 										</tr>
 <?php
@@ -126,7 +127,15 @@ if (isset($date)) {
 function AD_Visitor_Default_set()
 {
 	global $owner;
-	$isAjaxRequest = checkAjaxRequest();
-	$isAjaxRequest ? respondResultPage(setTotalStatistics($owner) ? 0 : -1) : header("Location: ".$_SERVER['HTTP_REFERER']);
+	requireComponent( "Tattertools.Model.Statistics");
+	$isAjaxRequest = isset($_REQUEST['ajaxcall']) ? true : false;
+	if ($isAjaxRequest) {
+		$result = Statistics::setTotalStatistics($owner) ? 0 : -1;
+		header('Content-Type: text/xml; charset=utf-8');
+		print ("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<response>\n<error>$result</error>\n</response>");
+		exit;
+	} else {
+		header("Location: ".$_SERVER['HTTP_REFERER']);
+	}
 }
 ?>

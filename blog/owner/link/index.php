@@ -15,9 +15,6 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('링크가 삭제되었습니다.');?>", "center", "bottom");
 										var node = document.getElementById("link_" + id);
-										node1 = node.nextSibling;
-										if(node1)
-											node1.parentNode.removeChild(node1);
 										node.parentNode.removeChild(node);
 									}
 									request.onError= function () {

@@ -49,7 +49,7 @@ class Statistics {
 
 	function getRefererLogsWithPage($page, $count) {  
 		global $database, $owner;
-		return fetchWithPaging("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE owner = $owner ORDER BY referred DESC", $page, $count);  
+		return Statistics::fetchWithPaging("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE owner = $owner ORDER BY referred DESC", $page, $count);  
 	}  
 
 	function getRefererLogs() {
@@ -108,6 +108,37 @@ class Statistics {
 		if (mysql_affected_rows() == 0)
 			mysql_query("insert into {$database['prefix']}BlogStatistics values($owner, 0)");
 		return mysql_affected_rows() ? true : false;
+	}
+	
+	function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=') {
+		global $folderURL;
+		requireComponent('Eolin.PHP.Core');
+		if ($url === null)
+			$url = $folderURL;
+		$paging = array('url' => $url, 'prefix' => $prefix, 'postfix' => '');
+		if (empty($sql))
+			return array(array(), $paging);
+		if (eregi('[[:space:]]{1}(FROM.*)$', $sql, $matches))
+			$from = $matches[1];
+		else
+			return array(array(), $paging);
+		$paging['total'] = DBQuery::queryCell("SELECT COUNT(*) $from");
+		if ($paging['total'] === null)
+			return array(array(), $paging);
+		$paging['pages'] = intval(ceil($paging['total'] / $count));
+		$paging['page'] = is_numeric($page) ? $page : 1;
+		if ($paging['page'] > $paging['pages']) {
+			$paging['page'] = $paging['pages'];
+			if ($paging['pages'] > 0)
+				$paging['prev'] = $paging['pages'] - 1;
+			//return array(array(), $paging);
+		}
+		if ($paging['page'] > 1)
+			$paging['prev'] = $paging['page'] - 1;
+		if ($paging['page'] < $paging['pages'])
+			$paging['next'] = $paging['page'] + 1;
+		$offset = ($paging['page'] - 1) * $count;
+		return array(DBQuery::queryAll("$sql LIMIT $offset, $count"), $paging);
 	}
 }
 ?>
