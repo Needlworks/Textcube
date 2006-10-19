@@ -1,8 +1,248 @@
-== v1.1 개발관련노트 ==
-=== 추가된 점 ===
-=== 변경된 점 ===
-=== 버그 수정 ===
+== v1.1.0 core 개발관련노트 ==
+=== 개요 ===
+Plug what you want
+* 플러그인 구조 고도화 및 이벤트 다수 추가
+* 플러그인 환경설정 지원
+* 플러그인 종류 추가 (블로그/ 관리자 / 사이드바)
+* 블로그 화면에서의 사이드바 플러그인 지원
+Escape from Spam world
+* spam tracking을 위한 local information 저장소로서의 휴지통 추가
+* 휴지통 기능과 연계한 EAS plugin의 작동
+Personalize your tattertools
+* 관리자 메뉴 구조의 전체적인 개편
+* 센터 및 알림판 추가
+* 패널 플러그인을 위한 조각보와 자투리 개념 추가
+* 리더 안정화및 알림판과의 연동
+* CSS 기반의 관리자 인터페이스 스킨 기능
+Internationalization
+* 관리자 화면과 블로그 메세지의 언어 설정 분리
+* 향상된 Timezone 지원
+* 유니코드 미지원 서버에 대한 유니코드 에뮬레이션 처리 강화
+* 라틴 문자권에서의 단수/복수 표현 지원을 위한 스킨 치환자 추가
+Communication
+* metaweblogAPI, BloggerAPI를 사용한 블로그 포스팅 지원
+Gifts
+* 키로그 기능 추가
+* 글 / 공지 / 키로그 사이의 자유로운 변환
 
+=== 추가된 점 ===
+ * 스킨 - 유연한 CSS 레이아웃 지원을 위한 body id 기능 추가
+ * 스킨 - paging에서 이전 페이지 / 다음 페이지가 없는 경우에도 class를 지정하여 캐스캐이드가 가능하게 구현
+ * 스킨 - 댓글 앵커 문제를 위한 치환자 추가
+ * 스킨 - 버전 표기 치환자 추가
+ * 스킨 - 날짜 관련 이벤트의 추가
+ * 스킨 - 스킨에서 댓글 / 트랙백 메세지 출력시 CJK 문자권역 이외 반영
+ * 스킨 - 스킨 변경시 스킨 폭에 따른 예전 글들의 이미지 출력 크기 재조정
+ * 에디터 - 퍼머링크의 사용자 임의 설정
+ * 에디터 - Visual editor의 CSS template화
+ * 에디터 - 사용자가 에디터 템플릿을 선택가능하도록 했던 것을 스킨 정보에서 자동으로 검출하도록 함
+ * 에디터 - 언어권역별로 에디터에서 선택할 수 있는 기본 폰트를 언어팩에서 지정
+ * 관리자 - 카테고리가 지정되지 않은 글목록 보기 추가
+ * 관리자 - 플러그인 설정 화면에 정렬기능(오름차순/내림차순)을 추가
+ * 플러그인 - 플러그인 종류(관리자/사이드바 등)의 자동 검출 및 구분
+ * 플러그인 - 플러그인이 동적으로 테이블을 생성하고 관리하는 스키마 추가
+ * 플러그인 - 관리자 플러그인 구조 추가
+ * 플러그인 - Plugin API for customization
+   * GUI (Property Editor)
+   * Save/Load/Reset data
+   * 설정을 저장하고 불러오는 함수들의 지원
+   * Data Import/Export의 대상에 포함
+ * 관리자 - 데이터베이스 최적화 메뉴 추가
+ * 블로그 - 모바일 페이지 쿠키 지원
+ * 블로그 - more/less 버튼의 사용자 편의성 추가
+ * 블로그 - 루트 카테고리 이름 수정기능 추가
+ * 블로그 - RSS 피드에 프로필 이미지 추가
+ * 블로그 - 사이드바 시스템 추가
+ * 블로그 - 댓글, 방명록의 종류에 따른 클래스 추가
+ * 블로그 - 예전 글 저장소의 출력 수를 임의로 조정 가능
+ * 일반 - Blog API 지원
+ * 일반 - 휴지통 기능 추가
+ * 일반 - 이올린에 싱크한 글만 RSS로 내보내기 옵션 추가
+ * 일반 - 블로그에 업로드 되어 사용하는 이미지들의 리샘플링을 위한 리샘플러및 워터마크 기능 추가
+ * 컴포넌트 - 통계 관련 / 키로그 관련 함수들의 component 추가
+ * 리더 - '모든 글을 읽은 것으로 하기' 옵션 추가
+
+=== 변경된 점 ===
+ * 일반 - xhtml 1.1 기준에 따른 관리자 인터페이스 루틴의 전체 재작성
+ * 일반 - Javascript 사용 불가능 환경에서의 동작을 위한 개선
+ * 에디터 - xhtml specification 만족을 위한 에디터 관련 수정
+ * 에디터 - 기본 글 작성모드 선택 가능
+ * 관리자 - 관리자 인터페이스 정리
+ * 일반 - 에러 메세지의 세분화
+ * 일반 - php의 strict grammar 적용
+ * 블로그 - 캘린더의 소스 개선 및 클래스 추가와 강화
+ * 스킨 - paging의 style="color:red" 부분 삭제
+ * 스킨 - 댓글을 달 수 없을때 form을 출력하지 않음
+ * 스킨 - 댓글, 방명록, 트랙백 항목의 없을때 빈 리스트가 생겨 의미론적으로 어그러지는 문제 해결
+
+=== 버그 수정 ===
+ * 에디터 - 하이퍼링크를 만들때 target, title 등을 입력할 수 있도록 변경
+ * 에디터 - firefox 업로더 실행시 firefox가 닫혀버리는 문제 수정.
+ * 에디터 - 용량초과와 같은 예외 상황에 대한 피드백 구현. 
+ * 에디터 - 선택 부분안에 지정된 배경색 등의 스타일을 초기화 하도록 수정
+ * 에디터 - 저장하는 도중에 자동 저장 기능이 동작하여 저장 후에도 드래프트가 남는 문제 수정
+ * 에디터 - 스타일쉬트에서 지정한 디폴트 컬러나 검은색을 지정할 수 없는 문제 수정
+ * 일반 - html 구성 요소들의 의미론에 맞도록 순서 수정
+ * 일반 - http://www.xxx.com/index.php처럼 직접 접근시 스킨 설정과 상관없이 트랙백과 댓글이 펼쳐지는 문제 수정
+ * 일반 - utf-8을 처리하기 위한 아파치 모듈과의 충돌로 인하여 일부 서버에서 한글 검색이 되지 않는 문제 수정
+ * 일반 - 세션 테이블이 깨질 경우 자동복구 루틴 추가
+ * 관리자 - 백업 루틴 개선
+ * 관리자 - 마이그레이션 루틴 수정
+ * 관리자 - 글 관리 목록 통합
+ * 관리자 - 프로필 저장 실패시 에러메세지 출력
+ * 관리자 - 초대 기능 수정
+ * 리더 - 읽지 않은 글만 볼때 전체 피드 갯수가 제대로 표시되지 않는 문제 수정
+ * 블로그 - 비공개 글의 태그가 노출되는 문제 수정
+ 위의 사항이 다였으면 좋겠지만 읽기도 귀찮을테니 이정도만 명기합니다.
+
+=== 플러그인 설정기능 ===
+ 플러그인 설정은 각 플러그인의 index.xml에서 정의하고 사용할 수 있습니다. 아래의 예제를 참조하세요.
+ index.xml내의 binding 브렌치에서 다음과 같이 환경설정 패널을 정의할 수 있습니다.
+
+예) index.xml
+------------------------------------------------------------------------------
+20 	  <binding>
+21 	        <tag name="TattertoolsBirthday" handler="TattertoolsBirthday_TattertoolsBirthday" />
+22 	        <config dataValHandler = "TattertoolsBirthdayDataSet" >
+23 	                <window width="500" height="520" />
+24 	                <fieldset legend="기념일을 넣어주세요" >
+25 	                        <field title="월" name="month" type="select"  titledirection="bk" >
+26 	                                <caption> 월입니다.. 월 </caption>
+27 	                                <op value="1">1</op>
+28 	                                <op value="2" >2</op>
+29 	                                <op value="3" checked="checked">3</op>
+30 	                                <op value="4">4</op>
+31 	                                <op value="5">5</op>
+32 	                                <op value="6" >6</op>
+33 	                                <op value="7">7</op>
+34 	                                <op value="8">8</op>
+35 	                                <op value="9">9</op>
+36 	                                <op value="10">10</op>
+37 	                                <op value="11">11</op>
+38 	                                <op value="12">12</op>
+39 	                        </field>                       
+40 	                        <field title="일" name="day" type="text"  size ="3" titledirection="bk"  value="13">
+41 	                                <caption > 날짜는 숫자로만 넣어주삼</caption>
+42 	                        </field>
+43 	                </fieldset>
+44 	                <fieldset legend="예제1" >
+45 	                        <field title="셋팅1" name="t1" type="text" size="3" />
+46 	                        <field title="셋팅2" name="t2" rows="2"  type="textarea" value ="처음>>값" />
+47 	                        <field title="선택" name="t6" type="radio"  >
+48 	                                <op value="1">1</op>
+49 	                                <op value="2" checked="checked">2</op>
+50 	                                <op value="3">3</op>
+51 	                                <op value="4">4</op>
+52 	                        </field>                       
+53 	                </fieldset>
+54 	                <fieldset legend="예제2" >
+55 	                        <field title="선택" name="t3" type="select"  >
+56 	                                <op value="1">1</op>
+57 	                                <op value="2" checked="true">2</op>
+58 	                                <op value="3">3</op>
+59 	                                <op value="4">4</op>
+60 	                        </field>
+61 	                        <field title="체크박스" name="t4" type="checkbox"  >
+62 	                                <op name="c1" value="1">가나다라</op>
+63 	                                <op name="c2" value="2" checked="checked">일이삼사</op>
+64 	                                <op name="c3" value="3">오륙칠팔</op>
+65 	                                <op name="c4" value="4">가나다라2</op>
+66 	                                <op name="c5" value="5" checked="checked">일이삼사2</op>
+67 	                        </field>
+68 	                </fieldset>
+69 	        </config>
+70 	  </binding>
+
+
+플러그인에서는 다음과 같이 불러올 수 있습니다.
+
+예) index.php
+------------------------------------------------------------------------------
+2 	function TattertoolsBirthday_TattertoolsBirthday($target) {
+3 	        global $configVal;
+4 	        requireComponent('Tattertools.Function.misc');
+5 	        $data = misc::fetchConfigVal( $configVal);
+
+=== 스킨 ===
+==== 댓글/ 트랙백의 복수형 지원 ====
+라틴 문자권에서의 단수/복수 지원, 또는 미려한 표현을 위하여 댓글과 트랙백에 단수형과 정보가 없는 경우의 표현을 추가할 수 있습니다.
+아래는 예제입니다.
+
+예) index.xml
+------------------------------------------------------------------------------
+18 	        <default>
+19 	                <recentEntries>5</recentEntries>   
+20 	                <recentComments>5</recentComments>
+21 	                <recentTrackbacks>5</recentTrackbacks>
+22 	                <itemsOnGuestbook>10</itemsOnGuestbook>
+23 	                <tagsInCloud>30</tagsInCloud>
+24 	                <sortInCloud>3</sortInCloud>
+25 	                <expandComment>0</expandComment>
+26 	                <expandTrackback>0</expandTrackback>
+27 	                <lengthOfRecentNotice>25</lengthOfRecentNotice>
+28 	                <lengthOfRecentEntry>27</lengthOfRecentEntry>
+29 	                <lengthOfRecentComment>30</lengthOfRecentComment>
+30 	                <lengthOfRecentTrackback>30</lengthOfRecentTrackback>
+31 	                <lengthOfLink>30</lengthOfLink>
+32 	                <showListOnCategory>1</showListOnCategory>
+33 	                <showListOnArchive>1</showListOnArchive>
+34 	                <commentMessage>
+35 	                        <none>댓글이 없습니다.</none>
+36 	                        <single>댓글 &lt;span class="cnt"&gt;하나&lt;/span&gt; 달렸습니다.</single>
+37 	                </commentMessage>
+38 	                <trackbackMessage>
+39 	                        <none>받은 트랙백이 없고</none>
+40 	                        <single>트랙백은 &lt;span class="cnt"&gt;하나&lt;/span&gt;</single>
+41 	                </trackbackMessage>
+42 	                <tree>
+43 	                        <color>000000</color>
+44 	                        <bgColor>ffffff</bgColor>
+45 	                        <activeColor>000000</activeColor>
+46 	                        <activeBgColor>eeeeee</activeBgColor>
+47 	                        <labelLength>27</labelLength>
+48 	                        <showValue>1</showValue>
+49 	                </tree>
+50 	                <contentWidth>500</contentWidth>
+51 	        </default>
+
+
+==== 치환자 추가 ====
+ 1.1 코어에서는 1.0의 치환자를 지원함과 동시에 1.1의 새 치환자 셋을 지원합니다. 대부분의 경우는 호환되지만 일부의 경우 많은 부분이 변경되었습니다. 
+ 별도의 파일을 참조하세요.
+==== 사이드바 ====
+태터툴즈 1.1 코어부터는 블로그의 사이드바를 지원합니다. 사이드바는 유연한 블로그 스킨 환경 및 손쉬운 기능 추가를 위한 기능입니다.
+내부 구조는 복잡하지만 플러그인이나 스킨 제작자들이 쉽게 사용이 가능하도록 모든 부분이 추상화 되어 있습니다.
+
+스킨에 사이드바를 추가하기 위해서는 사이드바가 표현되어야 할 위치를 <s_sidebar></s_sidebar> 로 묶는 것으로 가능합니다.
+복수개의 사이드바가 존재할 수 있습니다.
+
+* 스킨 내장 사이드바
+스킨의 몇몇 요소를 사이드바의 요소로 만들 수 있습니다. <s_sidebar_element></s_sidebar_element> 로 해당 부분을 묶으면 됩니다.
+아래는 예제입니다.
+
+예) skin.html
+------------------------------------------------------------------------------
+287 	        <s_sidebar>
+288 	                <s_sidebar_element>
+289 	                        <!-- 관리자 모듈 -->
+290 	                        <div class="owner">
+291 	                                <p><a href="[##_owner_url_##]">관리자</a> :
+292 	                                <a href="[##_owner_url_##]/entry/post">새글쓰기</a></p>
+293 	                                <p>[##_tattertools_name_##]<br />[##_tattertools_version_##]</p>
+294 	                        </div>
+295 	                </s_sidebar_element>
+296 	                <s_sidebar_element>
+297 	                        <!-- 블로그 로고 모듈 -->
+298 	                        <div class="blogimg">
+299 	                                <img src="[##_image_##]" alt="BLOG main image" />
+300 	                        </div> 
+301 	                        <div class="bloginfo">
+302 	                                [##_desc_##]
+303 	                        </div>
+304 	                </s_sidebar_element>
+
+* 플러그인 사이드바
+플러그인에서 사이드바를 생성할 수 있습니다. 기본 플러그인 중 배너 플러그인을 참조하세요.
 
 
 == v1.0.6.1 개발관련노트 ==
