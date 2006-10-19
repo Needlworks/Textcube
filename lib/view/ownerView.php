@@ -934,6 +934,20 @@ function printEntryFileUploadButton($entryId) {
 function printEntryEditorProperty($alt=NULL) {
 	global $service;
 ?>
+											<script type="text/javascript">
+												//<![CDATA[
+													function checkResampling(flag, type, num) {
+														resampleCheckbox = document.getElementById("propertyImage" + type + "_resample" + num);
+														watermarkCheckbox = document.getElementById("propertyImage" + type + "_watermark" + num);
+														
+														if (flag == "resample" && resampleCheckbox.checked == false && watermarkCheckbox.checked == true)
+															watermarkCheckbox.checked = false;
+														else if (flag == "watermark" && watermarkCheckbox.checked == true && resampleCheckbox.checked == false)
+															resampleCheckbox.checked = true;
+													}
+												//]]>
+											</script>
+												
 											<div id="propertyHyperLink" class="entry-editor-property" style="display: none;">
 												<h4><?php echo _t('하이퍼링크');?></h4>
 												
@@ -1009,8 +1023,8 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="resample-property-box line">
 														<dd>
-															<input type="checkbox" id="propertyImage1_resample1" onclick="editor.setProperty()" /> <label for="propertyImage1_resample1"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
-															<input type="checkbox" id="propertyImage1_watermark1" onclick="editor.setProperty()" /> <label for="propertyImage1_watermark1"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
+															<input type="checkbox" id="propertyImage1_resample1" onclick="checkResampling('resample', 1, 1); editor.setProperty()" /> <label for="propertyImage1_resample1"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
+															<input type="checkbox" id="propertyImage1_watermark1" onclick="checkResampling('watermark', 1, 1); editor.setProperty()" /> <label for="propertyImage1_watermark1"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
 														</dd>
 													</dl>
 												</div>
@@ -1035,8 +1049,8 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="resample-property-box line">
 														<dd>
-															<input type="checkbox" id="propertyImage2_resample1" onclick="editor.setProperty()" /> <label for="propertyImage2_resample1"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
-															<input type="checkbox" id="propertyImage2_watermark1" onclick="editor.setProperty()" /> <label for="propertyImage2_watermark1"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
+															<input type="checkbox" id="propertyImage2_resample1" onclick="checkResampling('resample', 2, 1); editor.setProperty()" /> <label for="propertyImage2_resample1"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
+															<input type="checkbox" id="propertyImage2_watermark1" onclick="checkResampling('watermark', 2, 1); editor.setProperty()" /> <label for="propertyImage2_watermark1"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
 														</dd>
 													</dl>
 												</div>
@@ -1057,8 +1071,8 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="resample-property-box line">
 														<dd>
-															<input type="checkbox" id="propertyImage2_resample2" onclick="editor.setProperty()" /> <label for="propertyImage2_resample2"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
-															<input type="checkbox" id="propertyImage2_watermark2" onclick="editor.setProperty()" /> <label for="propertyImage2_watermark2"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
+															<input type="checkbox" id="propertyImage2_resample2" onclick="checkResampling('resample', 2, 2); editor.setProperty()" /> <label for="propertyImage2_resample2"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
+															<input type="checkbox" id="propertyImage2_watermark2" onclick="checkResampling('watermark', 2, 2); editor.setProperty()" /> <label for="propertyImage2_watermark2"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
 														</dd>
 													</dl>
 												</div>
@@ -1083,8 +1097,8 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="resample-property-box line">
 														<dd>
-															<input type="checkbox" id="propertyImage3_resample1" onclick="editor.setProperty()" /> <label for="propertyImage3_resample1"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
-															<input type="checkbox" id="propertyImage3_watermark1" onclick="editor.setProperty()" /> <label for="propertyImage3_watermark1"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
+															<input type="checkbox" id="propertyImage3_resample1" onclick="checkResampling('resample', 3, 1); editor.setProperty()" /> <label for="propertyImage3_resample1"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
+															<input type="checkbox" id="propertyImage3_watermark1" onclick="checkResampling('watermark', 3, 1); editor.setProperty()" /> <label for="propertyImage3_watermark1"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
 														</dd>
 													</dl>
 												</div>
@@ -1105,8 +1119,8 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="resample-property-box line">
 														<dd>
-															<input type="checkbox" id="propertyImage3_resample2" onclick="editor.setProperty()" /> <label for="propertyImage3_resample2"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
-															<input type="checkbox" id="propertyImage3_watermark2" onclick="editor.setProperty()" /> <label for="propertyImage3_watermark2"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
+															<input type="checkbox" id="propertyImage3_resample2" onclick="checkResampling('resample', 3, 2); editor.setProperty()" /> <label for="propertyImage3_resample2"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
+															<input type="checkbox" id="propertyImage3_watermark2" onclick="checkResampling('watermark', 3, 2); editor.setProperty()" /> <label for="propertyImage3_watermark2"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
 														</dd>
 													</dl>
 												</div>
@@ -1127,8 +1141,8 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="resample-property-box line">
 														<dd>
-															<input type="checkbox" id="propertyImage3_resample3" onclick="editor.setProperty()" /> <label for="propertyImage3_resample3"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
-															<input type="checkbox" id="propertyImage3_watermark3" onclick="editor.setProperty()" /> <label for="propertyImage3_watermark3"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
+															<input type="checkbox" id="propertyImage3_resample3" onclick="checkResampling('resample', 3, 3); editor.setProperty()" /> <label for="propertyImage3_resample3"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
+															<input type="checkbox" id="propertyImage3_watermark3" onclick="checkResampling('watermark', 3, 3); editor.setProperty()" /> <label for="propertyImage3_watermark3"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
 														</dd>
 													</dl>
 												</div>
