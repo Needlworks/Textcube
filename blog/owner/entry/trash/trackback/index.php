@@ -1,6 +1,5 @@
 <?php
-if (!defined('ROOT'))
-	define('ROOT', '../../../../..');
+define('ROOT', '../../../../..');
 if (isset($_POST['page']))
 	$_GET['page'] = $_POST['page'];
 
@@ -171,8 +170,7 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 									trashSelect = document.createElement("SELECT");
 									trashSelect.id = "category";
 									trashSelect.name = "category";
-									trashSelect.setAttribute("onchange", "document.getElementById('trash-form').page.value=1; document.getElementById('trash-form').submit()");
-									//trashSelect.setAttribute("disabled", "disabled");
+									trashSelect.onchange = function() { document.getElementById('trash-form').page.value=1; document.getElementById('trash-form').submit(); return false; };
 									
 									trashOption = document.createElement("OPTION");
 									trashOption.innerHTML = "<?php echo _t('전체');?>";
