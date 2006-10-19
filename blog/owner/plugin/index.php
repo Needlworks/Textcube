@@ -1,9 +1,6 @@
 <?php
-if (defined('__TATTERTOOLS_CENTER__')) {
-	define('ROOT', '../../../..');
-} else {
-	define('ROOT', '../../..');
-}
+define('ROOT', '../../..');
+
 require ROOT . '/lib/includeForOwner.php';
 if (defined('__TATTERTOOLS_CENTER__')) {
 	require ROOT . '/lib/piece/owner/headerA.php';
