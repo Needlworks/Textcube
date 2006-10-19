@@ -53,7 +53,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 						<script type="text/javascript" src="<?php echo $service['path'];?>/script/locationtag.js"></script>
 						<script type="text/javascript">
 							//<![CDATA[
-								var enclosured = "<?php echo getEnclosure($entry['id'])?>";
+								var enclosured = "<?php echo getEnclosure($entry['id']);?>";
 								
 								window.onerror = function(errType, errURL,errLineNum) {
 									window.status = "Error: " + errType +" (on line " + errLineNum + " of " + errURL + ")";
