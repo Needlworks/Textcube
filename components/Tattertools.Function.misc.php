@@ -125,5 +125,14 @@ class misc {
 		}
 		return $contentWidth;
 	}
+	
+	function dress($tag, $value, & $contents) {
+		if (eregi("\[##_{$tag}_##\]", $contents, $temp)) {
+			$contents = str_replace("[##_{$tag}_##]", $value, $contents);
+			return true;
+		} else {
+			return false;
+		}	
+	}	
 }
 ?>

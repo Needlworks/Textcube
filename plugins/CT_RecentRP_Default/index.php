@@ -45,14 +45,15 @@ function _getRecentComments($owner) {
 // lib/view/view.php : 906 line
 function _getRecentCommentsView($comments, $template) {
 	requireComponent("Eolin.PHP.Core");
+	requireComponent("Tattertools.Function.misc");
 	global $blogURL, $skinSetting;
 	ob_start();
 	foreach ($comments as $comment) {
 		$view = "$template";
-		dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
-		dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 30)), $view);
-		dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::formatTime($comment['written'])), $view);
-		dress('rctrp_rep_name', htmlspecialchars($comment['name']), $view);
+		misc::dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
+		misc::dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 30)), $view);
+		misc::dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::formatTime($comment['written'])), $view);
+		misc::dress('rctrp_rep_name', htmlspecialchars($comment['name']), $view);
 		print $view;
 	}
 	$view = ob_get_contents();

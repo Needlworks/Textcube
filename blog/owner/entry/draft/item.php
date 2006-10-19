@@ -11,8 +11,8 @@ $IV = array(
 		'acceptComment' => array(array('0', '1'), 'default' => '0'),
 		'acceptTrackback' => array(array('0', '1'), 'default' => '0'),
 		'published' => array('int', 0, 'default' => 0)
-	)
-);
+		)
+	);
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
 $entry['id'] = $suri['id'];
@@ -26,7 +26,7 @@ $entry['tag'] = empty($_POST['tag']) ? '' : $_POST['tag'];
 $entry['acceptComment'] = empty($_POST['acceptComment']) ? 0 : 1;
 $entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 $entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
-if (saveDraftEntry($entry) !== false){
+if (($id = saveDraftEntry($entry)) !== false){
 	setUserSetting('LatestEditedEntry',$id);
 	respondResultPage(0);
 }

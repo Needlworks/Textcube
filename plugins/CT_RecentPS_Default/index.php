@@ -39,14 +39,15 @@ function _getRecentEntries($owner){
 // lib/view/view.php : 889 line
 function _getRecentEntriesView($entries,$template){
 	requireComponent("Eolin.PHP.Core");
+	requireComponent("Tattertools.Function.misc");
 	global $blogURL,$skinSetting;
 	ob_start();
 	foreach($entries as $entry){
 		$view = $template;
-		dress('rctps_rep_link',"$blogURL/{$entry['id']}",$view);
-		dress('rctps_rep_edit_link',"$blogURL/owner/entry/edit/{$entry['id']}",$view);	
-		dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],30)),$view);
-		dress('rctps_rep_rp_cnt',"<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments']>0?"({$entry['comments']})":'').'</span>',$view);
+		misc::dress('rctps_rep_link',"$blogURL/{$entry['id']}",$view);
+		misc::dress('rctps_rep_edit_link',"$blogURL/owner/entry/edit/{$entry['id']}",$view);	
+		misc::dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],30)),$view);
+		misc::dress('rctps_rep_rp_cnt',"<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments']>0?"({$entry['comments']})":'').'</span>',$view);
 		print $view;
 	}
 	$view=ob_get_contents();

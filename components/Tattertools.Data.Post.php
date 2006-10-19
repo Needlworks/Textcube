@@ -335,7 +335,7 @@ class Post {
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (!is_array($this->tags)) {
-			$this->tags = getTagsWithEntryString($this->tags);
+			$this->tags = Post::getTagsWithEntryString($this->tags);
 		}
 		if (empty($this->tags))
 			return;
@@ -353,7 +353,7 @@ class Post {
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (!is_array($this->tags)) {
-			$this->tags = getTagsWithEntryString($this->tags);
+			$this->tags = Post::getTagsWithEntryString($this->tags);
 
 		}
 		

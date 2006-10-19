@@ -19,11 +19,11 @@ $IV = array(
 		'paddingColor' => array('string', 'default' => "FFFFFF"),
 		'useResamplingAsDefault' => array('string', 'mandatory' => false),
 		'useWatermarkAsDefault' => array('string', 'mandatory' => false)
-	),
+		),
 	'FILES' => array(
 		'waterMark' => array('file', 'mandatory' => false)
-	)
-);
+		)
+	);
 
 require ROOT . '/lib/includeForOwner.php';
 
@@ -31,20 +31,20 @@ $isAjaxRequest = checkAjaxRequest();
 $errorArray = array();
 
 // 기본 설정
-if ($_POST['useResamplingAsDefault'] == "yes") {
+if (isset($_POST['useResamplingAsDefault']) && ($_POST['useResamplingAsDefault'] == "yes")) {
 	setUserSetting("resamplingDefault", "yes");
 } else {
 	removeUserSetting("resamplingDefault");
 }
 
-if ($_POST['useWatermarkAsDefault'] == "yes") {
+if (isset($_POST['useWatermarkAsDefault']) && ($_POST['useWatermarkAsDefault'] == "yes")) {
 	setUserSetting("waterMarkDefault", "yes");
 } else {
 	removeUserSetting("waterMarkDefault");
 }
 
 // 워터마크 처리.
-if ($_POST['deleteWaterMark'] == "yes") {
+if (isset($_POST['deleteWaterMark']) && ($_POST['deleteWaterMark'] == "yes")) {
 	unlink(ROOT."/attach/$owner/watermark.gif");
 }
 
