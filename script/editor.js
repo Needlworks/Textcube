@@ -429,7 +429,7 @@ TTEditor.prototype.html2ttml = function() {
 	}
 
 	// Jukebox 처리
-	var regJukebox = new RegExp("<img[^>]*class=[\"']?tatterJukebox[^>]*>", "gi");
+	var regJukebox = new RegExp("<img[^>]*class=[\"']?tatterJukebox[^>]*>", "i");
 	while(result = regJukebox.exec(str)) {
 		var body = result[0];
 
@@ -1361,7 +1361,7 @@ function TTCommand(command, value1, value2) {
 				var ext = new RegExp("\\.(\\w+)(?:$|\\?)").exec(url);
 				ext = (ext && ext.length == 2) ? ext[1].toLowerCase() : "";
 				var code = "";
-				if(ext == "swf"  || ext == "") {
+				if(ext == "swf" || ext == "") {
 					code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="400" height="300">' +
 							'<param name="wmode" value="transparent"/>' +
 							'<param name="movie" value="' + url + '"/>' +
@@ -1527,8 +1527,8 @@ TTEditor.prototype.eventHandler = function(event) {
 // execCommand 후 불필요하게 삽입된 여백등을 제거해준다
 TTEditor.prototype.trimContent = function() {
 	var html = this.contentDocument.body.innerHTML;
-	html = html.replace(new RegExp("<p>\\s*(<br />)+", "gi"), "<p>");
-	html = html.replace(new RegExp("(<br />)+\\s*</p>", "gi"), "</p>");
+	html = html.replace(new RegExp("<p>\\s*(<br\\s/?)+", "gi"), "<p>");
+	html = html.replace(new RegExp("(<br\\s/?>)+\\s*</p>", "gi"), "</p>");
 	html = html.replace(new RegExp("<p></p>", "gi"), "");
 	html = html.replace(new RegExp("<li>\\s*<p>", "gi"), "<li>");
 	html = html.replace(new RegExp("</p>\\s*</li>", "gi"), "</li>");

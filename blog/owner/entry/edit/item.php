@@ -14,12 +14,8 @@ $IV = array(
 require ROOT . '/lib/includeForOwner.php';
 if (false) {
 	fetchConfigVal();
-
 }
-
-
 define('__TATTERTOOLS_EDIT__', true);
-
 if (defined('__TATTERTOOLS_POST__'))
 	$suri['id'] = 0;
 if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
@@ -57,7 +53,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 						<script type="text/javascript" src="<?php echo $service['path'];?>/script/locationtag.js"></script>
 						<script type="text/javascript">
 							//<![CDATA[
-								var enclosured = "<?php echo fetchQueryCell("SELECT name FROM {$database['prefix']}Entries e, {$database['prefix']}Attachments a WHERE e.owner = $owner AND e.id = {$suri['value']} AND a.parent = e.id AND a.enclosure = 1");?>";
+								var enclosured = "<?php echo getEnclosure($entry['id'])?>";
 								
 								window.onerror = function(errType, errURL,errLineNum) {
 									window.status = "Error: " + errType +" (on line " + errLineNum + " of " + errURL + ")";
@@ -302,7 +298,6 @@ if (isset($_GET['popupEditor'])) {
 									}
 									this.savedData = this.getData();
 								}
-								
 								var entryManager;
 
 								function keepSessionAlive() {

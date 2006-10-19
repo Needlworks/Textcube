@@ -173,9 +173,11 @@ function setEnclosure($name, $order) {
 		return 3;
 }
 
-function getEnclosure($owner, $entry) {
+function getEnclosure($entry) {
 	global $database, $owner;
-	return fetchQueryAll("SELECT name {$database['prefix']}Attachments SET enclosure = $order WHERE owner = $owner AND name = '$name'");
+	if ($entry < 0)
+		return null;
+	return DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE parent = $entry AND enclosure = 1 AND owner = $owner");
 }
 
 function return_bytes($val) {
