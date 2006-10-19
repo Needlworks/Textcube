@@ -1,7 +1,8 @@
 <?php
 function BlogIcon_main($target, $mother) {  
 	global $configVal;
-	$data = fetchConfigVal( $configVal);
+	requireComponent('Tattertools.Function.misc');
+	$data = misc::fetchConfigVal( $configVal);
 
 	if (!is_null($data))	$ico_size = $data['ico_size'];
 	if (!isset($ico_size) || is_null($ico_size))	$ico_size = 16;

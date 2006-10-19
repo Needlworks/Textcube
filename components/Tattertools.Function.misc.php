@@ -156,5 +156,27 @@ class misc {
 		}
 		return false;
 	}
+	
+	function fetchConfigVal( $DATA ){
+		$xmls = new XMLStruct();
+		$outVal = array();
+		if( ! $xmls->open($DATA) ) {
+			unset($xmls);	
+			return null;
+		}
+		if( is_null(  $xmls->selectNodes('/config/field') )){
+			unset($xmls);	
+			return null;
+		}
+		foreach ($xmls->selectNodes('/config/field') as $field) {
+			if( empty( $field['.attributes']['name'] )  || empty( $field['.attributes']['type'] ) ){
+				unset($xmls);	
+				return null;
+			}
+			$outVal[$field['.attributes']['name']] = $field['.value'] ;
+		}
+		unset($xmls);	
+		return ( $outVal);
+	}
 }
 ?>

@@ -33,6 +33,8 @@ function correctImagePath($match ){
 	return str_replace( $match[1],  $serviceURL . "/skin/{$skinSetting['skin']}/" . $match[1], $match[0]);
 }
 
+if (false) correctImagePath('');
+
 function getBlogContentForSideBar()
 {
 	global $owner, $blog, $blogURL, $database, $service, $stats, $skinSetting;

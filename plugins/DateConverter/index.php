@@ -32,7 +32,8 @@ function convertDateFormat($argTarget, $argType) {
 	array_shift($temp);
 	array_shift($temp);
 	
-	$tempArray = fetchConfigVal($configVal);
+	requireComponent('Tattertools.Function.misc');
+	$tempArray = misc::fetchConfigVal($configVal);
 	
 	$rgDateFormat = array();
 	$rgDateFormat['archive date'] = array("language" => $tempArray['language'], "format" => $tempArray['archive_date']);
