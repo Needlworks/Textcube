@@ -1420,7 +1420,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					$imageStr = '<img src="'.$url.'" '.$property.' />';		
 				}
 				
-				if (!is_dir(ROOT."/cache/thumbnail"){
+				if (!is_dir(ROOT."/cache/thumbnail")) {
 					@mkdir(ROOT."/cache/thumbnail");
 					@chmod(ROOT."/cache/thumbnail", 0777);
 				}
