@@ -87,8 +87,8 @@ if (!doesHaveOwnership()) {
 	<?php 
 }
 
-if (doesHaveOwnership() && (is_null($comment['replier']) || ($comment['replier'] != getUserId()))) {
-	$confirmString = "if (confirm('관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.\\n계속 하시겠습니까?'))";
+if (doesHaveOwnership() && array_key_exists('replier', $comment) && (is_null($comment['replier']) || ($comment['replier'] != getUserId()))) {
+	$confirmString = "if (confirm('"._text('관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.\\n계속 하시겠습니까?')."'))";
 }
 ?>			
 				<dl class="content-line">
