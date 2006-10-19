@@ -852,6 +852,9 @@ function makeQueryStringByForm(formId) {
 				case "password":
 					queryString += linker + tempForm.elements[i].name + "=" + tempForm.elements[i].value;
 					break;
+				case "file":
+					if (tempForm.elements[i].value != "")
+						queryString += linker + tempForm.elements[i].name + "=" + tempForm.elements[i].value;
 			}
 		} else if (tempForm.elements[i].tagName.toLowerCase() == "select") {
 			num = tempForm.elements[i].selectedIndex;
