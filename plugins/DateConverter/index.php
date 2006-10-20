@@ -22,11 +22,12 @@
 	// %s = 앞의 0을 표시하지 않는 초. [0~59]
 
 include_once "language.php";
-
+	
 function convertDateFormat($argTarget, $argType) {
 	global $pluginURL, $configVal;
-	
-	if ($configVal == null) return $argTarget;
+	global $rgDateInformation;
+
+	if (is_null($configVal)) return $argTarget;
 	
 	$temp = explode('/', $pluginURL);
 	array_shift($temp);

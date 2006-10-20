@@ -1,4 +1,6 @@
 <?php
+global $rgDateInformation;
+
 $rgDateInformation = array();
 
 // - 한국어.
@@ -75,4 +77,5 @@ $rgDateInformation['japanese']['weekday'][3] = '水曜日';
 $rgDateInformation['japanese']['weekday'][4] = '木曜日';
 $rgDateInformation['japanese']['weekday'][5] = '金曜日';
 $rgDateInformation['japanese']['weekday'][6] = '土曜日';
+
 ?>
