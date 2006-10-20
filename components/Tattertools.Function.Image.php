@@ -93,6 +93,7 @@ class Image {
 				return false;
 				break;
 		}
+		$originImageDevice = fireEvent('BeforeResizeImage', $originImageDevice, $this);
 		
 		if (Path::getExtension($this->imageFile) == ".gif") {
 			$this->resultImageDevice = imagecreate($width, $height);
@@ -105,6 +106,7 @@ class Image {
 		imagefilledrectangle($this->resultImageDevice, 0, 0, $width, $height, $temp);
 		imagecopyresampled($this->resultImageDevice, $originImageDevice, $padding['left'], $padding['top'], 0, 0, $coreWidth, $coreHeight, imagesx($originImageDevice), imagesy($originImageDevice));
 		imagedestroy($originImageDevice);
+		$this->resultImageDevice = fireEvent('AfterResizeImage', $this->resultImageDevice, $this);
 		
 		return true;
 	}
