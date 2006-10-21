@@ -178,7 +178,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												document.getElementById("publicIcon_" + entry).className = 'public-on-icon';
 												document.getElementById("publicIcon_" + entry).setAttribute('title', '<?php echo _t('현재 공개 상태입니다.');?>');
 												
-												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.');?>"><span class="text"><?php echo _t('발행');?><\/span><\/a>';
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 발행을 취소합니다.');?>"><span class="text"><?php echo _t('발행');?><\/span><\/a>';
 												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-on-icon';
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
@@ -668,7 +668,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?php
 	if ($entry['visibility'] == 3) {
 ?>
-												<span id="syndicatedIcon_<?php echo $entry['id'];?>" class="syndicated-on-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=public" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 비발행으로 전환합니다.');?>"><span class="text"><?php echo _t('발행');?></span></a></span>
+												<span id="syndicatedIcon_<?php echo $entry['id'];?>" class="syndicated-on-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=public" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 발행을 취소합니다.');?>"><span class="text"><?php echo _t('발행');?></span></a></span>
 <?php
 	} else {
 ?>
@@ -735,8 +735,8 @@ for ($i=0; $i<sizeof($entries); $i++) {
 									<div id="change-section" class="section">
 										<h2><?php echo _t('페이지 네비게이션');?></h2>
 										
-										<label for="commandBox"><?php echo _t('선택한 글을');?></label>
-										<select id="commandBox" onchange="toggleDeleteButton(this)"> 
+										<span class="label"><?php echo _t('선택한 글을');?></span>
+										<select name="commandBox" onchange="toggleDeleteButton(this)"> 
 											<option selected style="font-style:italic"><?php echo _t('[행동을 지정합니다.]');?></option>
 <?php
 	$categories = getCategories($owner);

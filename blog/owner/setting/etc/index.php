@@ -288,7 +288,7 @@ if (extension_loaded('gd')) {
 										<legend><?php echo _t('언어 및 시간대');?></legend>
 										
 										<dl id="admin-language-line" class="line">
-											<dt><label for="admin-language"><?php echo _t('관리자 화면 언어');?></label></dt>
+											<dt><span class="label"><?php echo _t('관리자 화면 언어');?></span></dt>
 											<dd>
 												<select id="admin-language" name="adminLanguage">
 <?php
@@ -304,7 +304,7 @@ foreach ($supportedLanguages as $locale => $language) {
 											</dd>
 										</dl>
 										<dl id="blog-language-line" class="line">
-											<dt><label for="blog-language"><?php echo _t('블로그 언어');?></label></dt>
+											<dt><span class="label"><?php echo _t('블로그 언어');?></span></dt>
 											<dd>
 												<select id="blog-language" name="blogLanguage">
 <?php
@@ -319,7 +319,7 @@ foreach ($supportedLanguages as $locale => $language) {
 											</dd>
 										</dl>
 										<dl id="timezone-line" class="line">
-											<dt><label for="timezone"><?php echo _t('시간대');?></label></dt>
+											<dt><span class="label"><?php echo _t('시간대');?></span></dt>
 											<dd>
 												<select id="timezone" name="timezone">
 <?php
@@ -351,7 +351,7 @@ foreach (Timezone::getList() as $timezone) {
 										<legend><?php echo _t('글 작성 환경을 설정합니다');?></legend>
 										
 										<dl id="editor-line" class="line">
-											<dt><label for="editorMode"><?php echo _t('기본 작성 모드');?></label></dt>
+											<dt><span class="label"><?php echo _t('기본 작성 모드');?></span></dt>
 											<dd>
 <?php
 $editorMode = getUserSetting('editorMode', 1);
@@ -381,7 +381,7 @@ $editorMode = getUserSetting('editorMode', 1);
 										<legend><?php echo _t('관리자 스킨을 설정합니다');?></legend>
 										
 										<dl id="admin-skin--line" class="line">
-											<dt><label for="adminSkin"><?php echo _t('관리자 화면 스킨');?></label></dt>
+											<dt><span class="label"><?php echo _t('관리자 화면 스킨');?></span></dt>
 											<dd>
 												<select id="adminSkin" name="adminSkin">
 <?php

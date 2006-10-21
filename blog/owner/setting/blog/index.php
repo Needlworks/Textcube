@@ -451,7 +451,7 @@ if (file_exists(ROOT."/attach/$owner/index.gif")) {
 
 										</dl>
 										<dl id="post-count-line" class="line">
-											<dt><label for="entriesOnRSS"><?php echo _t('글 개수');?></label></dt>
+											<dt><span class="label"><?php echo _t('글 개수');?></span></dt>
 											<dd>
 												<?php echo getArrayValue(explode('%1', _t('RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다.')), 0);?>
 												<select id="entriesOnRSS" name="entriesOnRSS">
@@ -466,7 +466,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 											</dd>
 										</dl>
 										<dl id="open-range-line" class="line">
-											<dt><label for="publishWholeOnRSS"><?php echo _t('공개 범위');?></label></dt>
+											<dt><span class="label"><?php echo _t('공개 범위');?></span></dt>
 											<dd><?php echo getArrayValue(explode('%1', _t('RSS 파일의 글 본문은 %1를 원칙으로 합니다.')), 0);?>
 												<select id="publishWholeOnRSS" name="publishWholeOnRSS">
 													<option value="1"<?php echo ($blog['publishWholeOnRSS'] ? ' selected="selected"' : '');?>><?php echo _t('전체공개');?></option>
