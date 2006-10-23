@@ -451,7 +451,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 											newRow.className = "hidden-layer";
 											
 											newCell = newRow.insertCell(0);
-											newCell.setAttribute("colspan", 9);
+											newCell.colSpan = 9;
 											newCell.setAttribute("align", "right");
 											newSection = document.createElement("DIV");
 											newSection.className = "layer-section";
