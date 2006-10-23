@@ -55,7 +55,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 										<tbody>
 											<tr>
 												<td class="id">coolengineer</td>
-												<td class="name"></td>
+												<td class="name"><a href="mailto:hojin.choi@gmail.com">Hojin Choi</a></td>
 												<td class="role"><?php echo _t('XML-RPC API interface');?></td>
 											</tr>
 											<tr>
@@ -65,7 +65,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 											</tr>
 											<tr>
 												<td class="id">daybreaker</td>
-												<td class="name"></td>
+												<td class="name"><a href="http://daybreaker.info">Kim Joongi</a></td>
 												<td class="role"><?php echo _t('xhtml specification / quality assurance');?></td>
 											</tr>
 											<tr>
@@ -110,7 +110,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 											</tr>
 											<tr>
 												<td class="id">peris</td>
-												<td class="name"></td>
+												<td class="name"><a href="mailto:cshlacid@gmail.com">Sang-hoon Choi</a></td>
 												<td class="role"><?php echo _t('plugin architecture');?></td>
 											</tr>
 										</tbody>
@@ -136,18 +136,23 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 										<tbody>
 											<tr>
 												<td class="id">Louice P.</td>
-												<td class="name"></td>
+												<td class="name"><a href="mailto:seikanet@gmail.com">Sangjib Choi</a></td>
 												<td class="role"><?php echo _t('Japanese');?></td>
 											</tr>
 											<tr>
-												<td class="id">!Nazu</td>
-												<td class="name"></td>
+												<td class="id">Ange</td>
+												<td class="name"><a href="http://nekoto.poporu.net">Ha-neul Seo</a></td>
 												<td class="role"><?php echo _t('Japanese');?></td>
 											</tr>
 											<tr>
 												<td class="id">KIM</td>
 												<td class="name"></td>
 												<td class="role"><?php echo _t('Chinese');?></td>
+											</tr>
+											<tr>
+												<td class="id">건더기</td>
+												<td class="name"><a href="http://blog.kangjang.net">John.K</a></td>
+												<td class="role"><?php echo _t('English');?></td>
 											</tr>
 										</tbody>
 									</table>
@@ -172,12 +177,12 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 										<tbody>
 											<tr>
 												<td class="id">J.Parker</td>
-												<td class="name"></td>
+												<td class="name"><a href="http://www.create74.com">Yong-ju, Park</a></td>
 												<td class="role"><?php echo _t('plugin manager');?></td>
 											</tr>
 											<tr>
 												<td class="id">nani</td>
-												<td class="name"></td>
+												<td class="name"><a href="http://sangsangbox.net">Jonggil Ko</a></td>
 												<td class="role"><?php echo _t('skin manager');?></td>
 											</tr>
 											<tr>
