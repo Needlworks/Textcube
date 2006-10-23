@@ -3,7 +3,7 @@ define('ROOT', '../..');
 require ROOT . '/lib/include.php';
 header('Content-Type: text/xml; charset=utf-8');
 echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<response>\r\n";
-list($allComments, $allTrackbacks) = DBQuery::queryRow("SELECT SUM(comments), SUM(trackbacks) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND visibility = 3", 0, MYSQL_NUM);
+list($allComments, $allTrackbacks) = DBQuery::queryRow("SELECT SUM(comments), SUM(trackbacks) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND visibility = 3", MYSQL_NUM);
 if($entry = DBQuery::queryRow("SELECT e.*, c.name AS categoryName FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.id = {$suri['id']} AND e.draft = 0 AND e.visibility = 3")) {
 	echo '<version>1.1</version>', "\r\n";
 	echo '<status>1</status>', "\r\n";

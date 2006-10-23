@@ -585,7 +585,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 									
 									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
-										<option value="-5"<?php echo ($categoryId == -3 ? ' selected="selected"' : '');?>><?php echo _t('모든 글');?></option>
+										<option value="-5"<?php echo ($categoryId == -5 ? ' selected="selected"' : '');?>><?php echo _t('모든 글');?></option>
 										<optgroup class="category" label="<?php echo _t('글 종류');?>">
 											<option value="-2"<?php echo ($categoryId == -2 ? ' selected="selected"' : '');?>><?php echo _t('공지');?></option>
 											<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '');?>><?php echo _t('키워드');?></option>
