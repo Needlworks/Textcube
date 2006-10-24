@@ -55,6 +55,16 @@ function getBlogContentForSideBar()
 	$pd_recentComment = getRecentComments($owner);
 	$pd_recentTrackback = getRecentTrackbacks($owner);
 	$pd_link = getLinks($owner);
+	
+}
+
+function freeVariablesForSideBar()
+{
+	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
+	global $pd_recentComment, $pd_recentTrackback, $pd_link;
+	
+	RecordSet::close($pd_recentComment);
+	RecordSet::close($pd_tags);
 }
 
 
@@ -206,6 +216,7 @@ if ($sidebarCount == 0) {
 								</div>
 							</div>
 <?php
+	freeVariablesForSideBar();
 	require ROOT . '/lib/piece/owner/footer1.php';
 	exit;
 }
@@ -547,5 +558,6 @@ foreach ($sidebarPluginArray as $nowKey) {
 	
 </script>						
 <?php
+freeVariablesForSideBar();
 require ROOT . '/lib/piece/owner/footer1.php';
 ?>
