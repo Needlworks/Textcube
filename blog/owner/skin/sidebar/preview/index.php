@@ -63,14 +63,6 @@ function getBlogContentForSideBar()
 	$pd_link = getLinks($owner);
 }
 
-function freeVariablesForSideBar()
-{
-	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
-	global $pd_recentComment, $pd_recentTrackback, $pd_link;
-	
-	RecordSet::close($pd_recentComment);
-	RecordSet::close($pd_tags);
-}
 
 function pretty_dress($view)
 {
@@ -178,5 +170,4 @@ if (($_REQUEST['sidebarNumber'] >= 0) 	&& ($_REQUEST['sidebarNumber'] < $sidebar
 		echo pretty_dress(call_user_func($target['id']['handler'], $target['parameters']));
 	}
 }
-freeVariablesForSideBar();
 ?>
