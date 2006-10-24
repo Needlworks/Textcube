@@ -543,17 +543,17 @@ function notifyComment() {
 		";
 	$queue = fetchQueryRow($sql);
 	if (empty($queue) && empty($queue['queueId'])) {
-		executeQuery("DELETE FROM `{$database['prefix']}CommentsNotifiedQueue` WHERE `id`={$queue['queueId']}");
+		executeQuery("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
 	$comments = (fetchQueryRow("SELECT * FROM {$database['prefix']}Comments WHERE owner = $owner AND id = {$queue['commentId']}"));
 	if (empty($comments['parent']) || $comments['secret'] == 1) {
-		executeQuery("DELETE FROM `{$database['prefix']}CommentsNotifiedQueue` WHERE `id`={$queue['queueId']}");
+		executeQuery("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
 	$parentComments = (fetchQueryRow("SELECT * FROM {$database['prefix']}Comments WHERE owner = $owner AND id = {$comments['parent']}"));
 	if (empty($parentComments['homepage'])) {
-		executeQuery("DELETE FROM `{$database['prefix']}CommentsNotifiedQueue` WHERE `id`={$queue['queueId']}");
+		executeQuery("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
 	$entry = (fetchQueryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id={$comments['entry']}"));
@@ -590,7 +590,7 @@ function notifyComment() {
 		}
 	} else {
 	}
-	executeQuery("DELETE FROM `{$database['prefix']}CommentsNotifiedQueue` WHERE `id`={$queue['queueId']}");
+	executeQuery("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 }
 
 function receiveNotifiedComment($post) {
@@ -617,17 +617,17 @@ function receiveNotifiedComment($post) {
 	$child_written = $post['r2_regdate'];
 	$child_comment = mysql_real_escape_string($post['r2_body']);
 	$child_url = mysql_real_escape_string($post['r2_url']);
-	$sql = "SELECT id FROM `{$database['prefix']}CommentsNotifiedSiteInfo` WHERE url = '$homepage'";
+	$sql = "SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'";
 	$siteId = fetchQueryCell($sql);
 	if (empty($siteId)) {
-		if (executeQuery("INSERT INTO `{$database['prefix']}CommentsNotifiedSiteInfo` VALUES ('', '$title', '$name', '$homepage', UNIX_TIMESTAMP());"))
+		if (executeQuery("INSERT INTO {$database['prefix']}CommentsNotifiedSiteInfo VALUES ('', '$title', '$name', '$homepage', UNIX_TIMESTAMP());"))
 			$siteId = mysql_insert_id();
 		else
 			return 2;
 	}
-	$parentId = fetchQueryCell("SELECT id FROM `{$database['prefix']}CommentsNotified` WHERE `entry` = $entryId AND `siteId` = $siteId AND owner = $owner AND remoteId = $parent_id");
+	$parentId = fetchQueryCell("SELECT id FROM {$database['prefix']}CommentsNotified WHERE entry = $entryId AND siteId = $siteId AND owner = $owner AND remoteId = $parent_id");
 	if (empty($parentId)) {
-		$sql = "INSERT INTO `{$database['prefix']}CommentsNotified` ( `owner` , `replier` , `id` , `entry` , `parent` , `name` , `password` , `homepage` , `secret` , `comment` , `ip` , `written`, `modified` , `siteId` , `isNew` , `url` , `remoteId` ,`entryTitle` , `entryUrl` ) 
+		$sql = "INSERT INTO {$database['prefix']}CommentsNotified ( owner , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteId , isNew , url , remoteId ,entryTitle , entryUrl ) 
 VALUES (
 $owner, NULL , '', " . $entryId . ", " . (empty($parent_parent) ? 'null' : $parent_parent) . ", '" . $parent_name . "', '', '" . $parent_homepage . "', '', '" . $parent_comment . "', '', " . $parent_written . ",UNIX_TIMESTAMP(), " . $siteId . ", 1, '" . $parent_url . "'," . $parent_id . ", '" . $entryTitle . "', '" . $entryUrl . "'
 );";
@@ -635,9 +635,9 @@ $owner, NULL , '', " . $entryId . ", " . (empty($parent_parent) ? 'null' : $pare
 			return 3;
 		$parentId = mysql_insert_id();
 	}
-	if (fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}CommentsNotified` WHERE siteId=$siteId AND remoteId=$child_id") > 0)
+	if (fetchQueryCell("SELECT count(*) FROM {$database['prefix']}CommentsNotified WHERE siteId=$siteId AND remoteId=$child_id") > 0)
 		return 4;
-	$sql = "INSERT INTO `{$database['prefix']}CommentsNotified` ( `owner` , `replier` , `id` , `entry` , `parent` , `name` , `password` , `homepage` , `secret` , `comment` , `ip` , `written`, `modified` , `siteId` , `isNew` , `url` , `remoteId` ,`entryTitle` , `entryUrl` ) 
+	$sql = "INSERT INTO {$database['prefix']}CommentsNotified ( owner , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteId , isNew , url , remoteId ,entryTitle , entryUrl ) 
 VALUES (
 $owner, NULL , '', " . $entryId . ", $parentId, '$child_name', '', '$child_homepage', '', '$child_comment', '', $child_written, UNIX_TIMESTAMP(), $siteId, 1, '$child_url',$child_id, '$entryTitle', '$entryUrl');";
 	if (!executeQuery($sql))
@@ -651,8 +651,8 @@ $owner, NULL , '', " . $entryId . ", $parentId, '$child_name', '', '$child_homep
 function getCommentCount($owner, $entryId = null) {
 	global $database;
 	if (is_null($entryId))
-		return fetchQueryCell("SELECT SUM(comments) FROM `{$database['prefix']}Entries` WHERE `owner` = $owner");
-	return fetchQueryCell("SELECT `comments` FROM `{$database['prefix']}Entries` WHERE `owner` = $owner AND `id` = $entryId");
+		return fetchQueryCell("SELECT SUM(comments) FROM {$database['prefix']}Entries WHERE owner = $owner");
+	return fetchQueryCell("SELECT comments FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entryId");
 }
 
 function getCommentCountPart($commentCount, &$skin) {
