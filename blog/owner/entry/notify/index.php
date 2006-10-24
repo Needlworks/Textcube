@@ -224,7 +224,7 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 	if ($comment['parent']) {
 		if ($lastVisitNotifiedPage > time() - 86400) {
 ?>
-												<span class="new-icon bullet" title=">?php echo _t('새로 등록된 댓글입니다.')?>"><span class="text">[<?php echo _t('새 댓글');?>]</span></span>
+												<span class="new-icon bullet" title="><?php echo _t('새로 등록된 댓글입니다.')?>"><span class="text">[<?php echo _t('새 댓글');?>]</span></span>
 <?php
 		}
 	} else {										
