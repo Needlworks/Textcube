@@ -17,8 +17,8 @@ function getOutLanguage($languageFile) {
 	return $__text;
 }
 
-// ¿ÜºÎ ½ºÅ²¿ë ¾ð¾î º¯È¯ ÇÔ¼ö.
-// _t()´Â °ü¸®ÀÚ ¾ð¾î¼³Á¤¿¡ µû¸£Áö¸¸, _text()´Â skinÀÇ ¾ð¾î¼³Á¤(¸ÞÅ¸Á¤º¸)À» µû¸¥´Ù. 1.1 ¹öÀüÀÇ Ãß°¡»çÇ×ÀÓ.
+// ì™¸ë¶€ ìŠ¤í‚¨ìš© ì–¸ì–´ ë³€í™˜ í•¨ìˆ˜.
+// _t()ëŠ” ê´€ë¦¬ìž ì–¸ì–´ì„¤ì •ì— ë”°ë¥´ì§€ë§Œ, _text()ëŠ” skinì˜ ì–¸ì–´ì„¤ì •(ë©”íƒ€ì •ë³´)ì„ ë”°ë¥¸ë‹¤. 1.1 ë²„ì „ì˜ ì¶”ê°€ì‚¬í•­ìž„.
 function _text($t) {
 	global $__outText;
 	
