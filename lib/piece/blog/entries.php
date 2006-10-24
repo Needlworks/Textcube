@@ -34,6 +34,7 @@ foreach ($entries as $entry) {
 			$tags = array();
 			foreach ($entryTags as $entryTag)
 				array_push($tags, "<a href=\"$blogURL/tag/" . encodeURL($entryTag['name']) . '">' . htmlspecialchars($entryTag['name']) . '</a>');
+			$tags = fireEvent('ViewTagLists', $tags, $entry['id']);
 			dress('tag_label_rep', implode(",\r\n", $tags), $tagLabelView);
 			dress('tag_label', $tagLabelView, $entryView);
 		}
