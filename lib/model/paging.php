@@ -31,6 +31,7 @@ function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=') {
 	if ($paging['page'] < $paging['pages'])
 		$paging['next'] = $paging['page'] + 1;
 	$offset = ($paging['page'] - 1) * $count;
+	if ($offset < 0) $offset = 0;
 	return array(fetchQueryAll("$sql LIMIT $offset, $count"), $paging);
 }
 ?>
