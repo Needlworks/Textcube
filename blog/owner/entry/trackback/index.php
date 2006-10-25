@@ -123,7 +123,7 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 								window.addEventListener("load", execLoadFunction, false);
 								function execLoadFunction() {
 									document.getElementById('allChecked').disabled = false;
-									document.getElementById('category-move-button').style.display = "none";
+									removeItselfById('category-move-button');
 								}
 								
 								function toggleThisTr(obj) {
