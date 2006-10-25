@@ -1140,7 +1140,7 @@ function bindKeywords($keywords, $content) {
 	global $blogURL;
 	$flags = array();
 	$ignoreFlag = false;
-	$exceptionList = array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'class', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr','href', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var'));
+	$exceptionList = array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'class', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr','href', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var');
 	foreach ($keywords as $i => $keyword) {
 		foreach($exceptionList as $exception) {
 			if(strcasecmp($keyword,$exception)==0)
