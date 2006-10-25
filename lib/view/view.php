@@ -1153,6 +1153,7 @@ function bindKeywords($keywords, $content) {
 				$flags[$start] = $i;
 			}
 		}
+		$ignoreFlag = false;
 	}
 	ksort($flags);
 	
