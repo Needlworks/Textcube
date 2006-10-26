@@ -13,12 +13,17 @@ if (strlen($suri['value'])) {
 	if($skinSetting['keylogSkin']!= null) {
 		require ROOT . '/lib/piece/blog/keylog.php';
 	} else {
-		respondErrorPage("No handling plugin");
+		respondErrorPage(_t('No handling plugin'));
 	}
 } else {
 	$keywords = getKeywords($owner, true);
-	require ROOT . '/lib/piece/blog/begin.php';
-	require ROOT . '/lib/piece/blog/keywords.php';
-	require ROOT . '/lib/piece/blog/end.php';
+	$skinSetting['keylogSkin'] = fireEvent('setKeylogSkin');
+	if($skinSetting['keylogSkin']!= null) {
+		require ROOT . '/lib/piece/blog/begin.php';
+		require ROOT . '/lib/piece/blog/keywords.php';
+		require ROOT . '/lib/piece/blog/end.php';
+	} else {
+		respondErrorPage(_t('No handling plugin'));
+	}
 }
 ?>
