@@ -9,42 +9,68 @@
 */
 
 dojo.provide("dojo.widget.Dialog");
-dojo.provide("dojo.widget.html.Dialog");
 
 dojo.require("dojo.widget.*");
 dojo.require("dojo.widget.ContentPane");
 dojo.require("dojo.event.*");
-dojo.require("dojo.graphics.color");
-dojo.require("dojo.html");
+dojo.require("dojo.gfx.color");
+dojo.require("dojo.html.layout");
+dojo.require("dojo.html.display");
+dojo.require("dojo.html.iframe");
 
-dojo.widget.defineWidget(
-	"dojo.widget.html.Dialog",
-	dojo.widget.html.ContentPane,
+// summary
+//	Mixin for widgets implementing a modal dialog
+dojo.declare(
+	"dojo.widget.ModalDialogBase", 
+	null,
 	{
-		templatePath: dojo.uri.dojoUri("src/widget/templates/HtmlDialog.html"),
 		isContainer: true,
-		_scrollConnected: false,
-		
-		// provide a focusable element or element id if you need to
-		// work around FF's tendency to send focus into outer space on hide
+
+		// static variables
+		shared: {bg: null, bgIframe: null},
+
+		// String
+		//	provide a focusable element or element id if you need to
+		//	work around FF's tendency to send focus into outer space on hide
 		focusElement: "",
 
-		bg: null,
+		// String
+		//	color of viewport when displaying a dialog
 		bgColor: "black",
+		
+		// Number
+		//	opacity (0~1) of viewport color (see bgColor attribute)
 		bgOpacity: 0.4,
-		followScroll: true,
-		_fromTrap: false,
-		anim: null,
-		blockDuration: 0,
-		lifetime: 0,
 
-		trapTabs: function(e){
-			if(e.target == this.tabStart) {
+		// Boolean
+		//	if true, readjusts the dialog (and dialog background) when the user moves the scrollbar
+		followScroll: true,
+
+		trapTabs: function(/*Event*/ e){
+			// summary
+			//	callback on focus
+			if(e.target == this.tabStartOuter) {
+				if(this._fromTrap) {
+					this.tabStart.focus();
+					this._fromTrap = false;
+				} else {
+					this._fromTrap = true;
+					this.tabEnd.focus();
+				}
+			} else if (e.target == this.tabStart) {
 				if(this._fromTrap) {
 					this._fromTrap = false;
 				} else {
 					this._fromTrap = true;
 					this.tabEnd.focus();
+				}
+			} else if(e.target == this.tabEndOuter) {
+				if(this._fromTrap) {
+					this.tabEnd.focus();
+					this._fromTrap = false;
+				} else {
+					this._fromTrap = true;
+					this.tabStart.focus();
 				}
 			} else if(e.target == this.tabEnd) {
 				if(this._fromTrap) {
@@ -56,115 +82,187 @@ dojo.widget.defineWidget(
 			}
 		},
 
-		clearTrap: function(e) {
+		clearTrap: function(/*Event*/ e) {
+			// summary
+			//	callback on blur
 			var _this = this;
 			setTimeout(function() {
 				_this._fromTrap = false;
 			}, 100);
 		},
 
-		postCreate: function(args, frag, parentComp) {
-			with(this.domNode.style) {
+		postCreate: function() {
+			// summary
+			//	if the target mixin class already defined postCreate,
+			//	dojo.widget.ModalDialogBase.prototype.postCreate.call(this)
+			//	should be called in its postCreate()
+			with(this.domNode.style){
 				position = "absolute";
 				zIndex = 999;
 				display = "none";
 				overflow = "visible";
 			}
-			var b = document.body;
+			var b = dojo.body();
 			b.appendChild(this.domNode);
 
-			this.bg = document.createElement("div");
-			this.bg.className = "dialogUnderlay";
-			with(this.bg.style) {
-				position = "absolute";
-				left = top = "0px";
-				zIndex = 998;
-				display = "none";
+			if(!this.shared.bg){
+				this.shared.bg = document.createElement("div");
+				this.shared.bg.className = "dialogUnderlay";
+				with(this.shared.bg.style){
+					position = "absolute";
+					left = top = "0px";
+					zIndex = 998;
+					display = "none";
+				}
+				this.setBackgroundColor(this.bgColor);
+				b.appendChild(this.shared.bg);
+				this.shared.bgIframe = new dojo.html.BackgroundIframe(this.shared.bg);
 			}
-			this.setBackgroundColor(this.bgColor);
-			b.appendChild(this.bg);
-
-			this.bgIframe = new dojo.html.BackgroundIframe(this.bg);
 		},
 
-		setBackgroundColor: function(color) {
+		setBackgroundColor: function(/*String*/ color) {
+			// summary
+			//	changes background color specified by "bgColor" parameter
+			//	usage:
+			//		setBackgrounColor("black");
+			//		setBackgroundColor(0xff, 0xff, 0xff);
 			if(arguments.length >= 3) {
-				color = new dojo.graphics.color.Color(arguments[0], arguments[1], arguments[2]);
+				color = new dojo.gfx.color.Color(arguments[0], arguments[1], arguments[2]);
 			} else {
-				color = new dojo.graphics.color.Color(color);
+				color = new dojo.gfx.color.Color(color);
 			}
-			this.bg.style.backgroundColor = color.toString();
+			this.shared.bg.style.backgroundColor = color.toString();
 			return this.bgColor = color;
 		},
-		
-		setBackgroundOpacity: function(op) {
+
+		setBackgroundOpacity: function(/*Number*/ op) {
+			// summary
+			//	changes background opacity set by "bgOpacity" parameter
 			if(arguments.length == 0) { op = this.bgOpacity; }
-			dojo.style.setOpacity(this.bg, op);
+			dojo.html.setOpacity(this.shared.bg, op);
 			try {
-				this.bgOpacity = dojo.style.getOpacity(this.bg);
+				this.bgOpacity = dojo.html.getOpacity(this.shared.bg);
 			} catch (e) {
 				this.bgOpacity = op;
 			}
 			return this.bgOpacity;
 		},
 
-		sizeBackground: function() {
+		_sizeBackground: function() {
 			if(this.bgOpacity > 0) {
-				var h = Math.max(
-					document.documentElement.scrollHeight || document.body.scrollHeight,
-					dojo.html.getViewportHeight());
-				var w = dojo.html.getViewportWidth();
-				this.bg.style.width = w + "px";
-				this.bg.style.height = h + "px";
+				
+				var viewport = dojo.html.getViewport();
+				var h = viewport.height;
+				var w = viewport.width;
+				with(this.shared.bg.style){
+					width = w + "px";
+					height = h + "px";
+				}
+				var scroll_offset = dojo.html.getScroll().offset;
+				this.shared.bg.style.top = scroll_offset.y + "px";
+				this.shared.bg.style.left = scroll_offset.x + "px";
+				// process twice since the scroll bar may have been removed
+				// by the previous resizing
+				var viewport = dojo.html.getViewport();
+				if (viewport.width != w) { this.shared.bg.style.width = viewport.width + "px"; }
+				if (viewport.height != h) { this.shared.bg.style.height = viewport.height + "px"; }
 			}
-			this.bgIframe.onResized();
 		},
 
-		showBackground: function() {
-			this.sizeBackground();
+		_showBackground: function() {
 			if(this.bgOpacity > 0) {
-				this.bg.style.display = "block";
+				this.shared.bg.style.display = "block";
 			}
 		},
 
-		placeDialog: function() {
-			var scroll_offset = dojo.html.getScrollOffset();
-			var viewport_size = dojo.html.getViewportSize();
-
+		placeModalDialog: function() {
+			var scroll_offset = dojo.html.getScroll().offset;
+			var viewport_size = dojo.html.getViewport();
+			
 			// find the size of the dialog
-			var w = dojo.style.getOuterWidth(this.containerNode);
-			var h = dojo.style.getOuterHeight(this.containerNode);
+			var mb = dojo.html.getMarginBox(this.containerNode);
+			
+			var x = scroll_offset.x + (viewport_size.width - mb.width)/2;
+			var y = scroll_offset.y + (viewport_size.height - mb.height)/2;
 
-			var x = scroll_offset[0] + (viewport_size[0] - w)/2;
-			var y = scroll_offset[1] + (viewport_size[1] - h)/2;
-
-			with(this.domNode.style) {
+			with(this.domNode.style){
 				left = x + "px";
 				top = y + "px";
 			}
 		},
 
-		show: function() {
-			this.setBackgroundOpacity();
-			this.showBackground();
-
-			dojo.widget.html.Dialog.superclass.show.call(this);
-
-			// FIXME: moz doesn't generate onscroll events for mouse or key scrolling (wtf)
-			// we should create a fake event by polling the scrolltop/scrollleft every X ms.
-			// this smells like it should be a dojo feature rather than just for this widget.
-
+		showModalDialog: function() {
+			// summary
+			//	call this function in show() of subclass
 			if (this.followScroll && !this._scrollConnected){
 				this._scrollConnected = true;
-				dojo.event.connect(window, "onscroll", this, "onScroll");
+				dojo.event.connect(window, "onscroll", this, "_onScroll");
 			}
 			
+			this.setBackgroundOpacity();
+			this._sizeBackground();
+			this._showBackground();
+		},
+
+		hideModalDialog: function(){
+			// summary
+			//	call this function in hide() of subclass
+
+			// workaround for FF focus going into outer space
+			if (this.focusElement) { 
+				dojo.byId(this.focusElement).focus(); 
+				dojo.byId(this.focusElement).blur();
+			}
+
+			this.shared.bg.style.display = "none";
+			this.shared.bg.style.width = this.shared.bg.style.height = "1px";
+
+			if (this._scrollConnected){
+				this._scrollConnected = false;
+				dojo.event.disconnect(window, "onscroll", this, "_onScroll");
+			}
+		},
+
+		_onScroll: function(){
+			var scroll_offset = dojo.html.getScroll().offset;
+			this.shared.bg.style.top = scroll_offset.y + "px";
+			this.shared.bg.style.left = scroll_offset.x + "px";
+			this.placeModalDialog();
+		},
+
+		checkSize: function() {
+			if(this.isShowing()){
+				this._sizeBackground();
+				this.placeModalDialog();
+				this.onResized();
+			}
+		}
+	});
+
+// summary
+//	Pops up a modal dialog window, blocking access to the screen and also graying out the screen
+//	Dialog is extended from ContentPane so it supports all the same parameters (href, etc.)
+dojo.widget.defineWidget(
+	"dojo.widget.Dialog",
+	[dojo.widget.ContentPane, dojo.widget.ModalDialogBase],
+	{
+		templatePath: dojo.uri.dojoUri("src/widget/templates/Dialog.html"),
+
+		// Integer
+		//	number of seconds for which the user cannot dismiss the dialog
+		blockDuration: 0,
+		
+		// Integer
+		//	if set, this controls the number of seconds the dialog will be displayed before automatically disappearing
+		lifetime: 0,
+
+		show: function() {
 			if(this.lifetime){
 				this.timeRemaining = this.lifetime;
 				if(!this.blockDuration){
-					dojo.event.connect(this.bg, "onclick", this, "hide");
+					dojo.event.connect(this.shared.bg, "onclick", this, "hide");
 				}else{
-					dojo.event.disconnect(this.bg, "onclick", this, "hide");
+					dojo.event.disconnect(this.shared.bg, "onclick", this, "hide");
 				}
 				if(this.timerNode){
 					this.timerNode.innerHTML = Math.ceil(this.timeRemaining/1000);
@@ -176,16 +274,18 @@ dojo.widget.defineWidget(
 						this.closeNode.style.display = "none";
 					}
 				}
-				this.timer = setInterval(dojo.lang.hitch(this, "onTick"), 100);
+				this.timer = setInterval(dojo.lang.hitch(this, "_onTick"), 100);
 			}
 
-			this.checkSize();
+			this.showModalDialog();
+			dojo.widget.Dialog.superclass.show.call(this);
 		},
 
 		onLoad: function(){
 			// when href is specified we need to reposition
 			// the dialog after the data is loaded
-			this.placeDialog();
+			this.placeModalDialog();
+			dojo.widget.Dialog.superclass.onLoad.call(this);
 		},
 		
 		fillInTemplate: function(){
@@ -193,45 +293,43 @@ dojo.widget.defineWidget(
 		},
 
 		hide: function(){
-			// workaround for FF focus going into outer space
-			if (this.focusElement) { 
-				dojo.byId(this.focusElement).focus(); 
-				dojo.byId(this.focusElement).blur();
-			}
-			
+			this.hideModalDialog();
+			dojo.widget.Dialog.superclass.hide.call(this);
+
 			if(this.timer){
 				clearInterval(this.timer);
-			}
-
-			this.bg.style.display = "none";
-			this.bg.style.width = this.bg.style.height = "1px";
-
-			dojo.widget.html.Dialog.superclass.hide.call(this);
-
-			if (this._scrollConnected){
-				this._scrollConnected = false;
-				dojo.event.disconnect(window, "onscroll", this, "onScroll");
 			}
 		},
 		
 		setTimerNode: function(node){
+			// summary
+			//	specify into which node to write the remaining # of seconds
+			// TODO: make this a parameter too
 			this.timerNode = node;
 		},
 
 		setCloseControl: function(node) {
+			// summary
+			//	specify which node is the close button for this dialog
+			// TODO: make this a parameter too
 			this.closeNode = node;
 			dojo.event.connect(node, "onclick", this, "hide");
 		},
 
 		setShowControl: function(node) {
+			// summary
+			//	when specified node is clicked, show this dialog
+			// TODO: make this a parameter too
 			dojo.event.connect(node, "onclick", this, "show");
 		},
 		
-		onTick: function(){
+		_onTick: function(){
+			// summary
+			//	callback every second that the timer clicks
 			if(this.timer){
 				this.timeRemaining -= 100;
 				if(this.lifetime - this.timeRemaining >= this.blockDuration){
-					dojo.event.connect(this.bg, "onclick", this, "hide");
+					dojo.event.connect(this.shared.bg, "onclick", this, "hide");
 					if(this.closeNode){
 						this.closeNode.style.visibility = "visible";
 					}
@@ -243,27 +341,6 @@ dojo.widget.defineWidget(
 					this.timerNode.innerHTML = Math.ceil(this.timeRemaining/1000);
 				}
 			}
-		},
-
-		onScroll: function(){
-			this.placeDialog();
-			this.domNode.style.display = "block";
-		},
-
-		// Called when the browser window's size is changed
-		checkSize: function() {
-			if(this.isShowing()){
-				this.sizeBackground();
-				this.placeDialog();
-				this.domNode.style.display="block";
-				this.onResized();
-			}
-		},
-		
-		killEvent: function(evt){
-			evt.preventDefault();
-			evt.stopPropagation();
 		}
-
 	}
 );

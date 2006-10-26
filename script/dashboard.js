@@ -1,7 +1,7 @@
 
 
 	dojo.require("dojo.dnd.HtmlDragAndDrop");
-
+	
 	DragPanel = function(node, type) {
 		dojo.dnd.HtmlDragSource.call(this, node, type);
 	}
@@ -11,7 +11,6 @@
 		dojo.dnd.HtmlDropTarget.call(this, node, type);
 	}
 	dojo.inherits(DropPanel, dojo.dnd.HtmlDropTarget);
-	
 	var globalChker = true;
 	
 	function reordering() {
@@ -34,6 +33,7 @@
 			pNode = pNode.nextSibling;
 		}
 	}
+	
 	dojo.lang.extend(DropPanel, {
 		onDrop: function(e) {
 			this.parentMethod = DropPanel.superclass.onDrop;
@@ -73,4 +73,3 @@
 			return retVal;
 		}
 	});
-	

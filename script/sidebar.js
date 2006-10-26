@@ -130,7 +130,7 @@
 
 	var dlg;
 	
-    dojo.widget.defineWidget( "dojo.widget.popupWindow", dojo.widget.html.Dialog,
+    dojo.widget.defineWidget( "dojo.widget.popupWindow", dojo.widget.Dialog,
 	    {
 		    isContainer: false, // can we contain other widgets?
 		    templatePath: "",
@@ -249,7 +249,7 @@
 		}
 		if (pNode != null) {
 			pNode.style.display = 'inline';
-			if (dojo.render.html.ie55||dojo.render.html.ie60) {
+			if (dojo.render.html.ie55 || dojo.render.html.ie60 || dojo.render.html.ie70) {
 				pNode.style.styleFloat = 'left';
 			} else {
 				pNode.style.setProperty('float', 'left', '');

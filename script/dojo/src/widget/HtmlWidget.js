@@ -10,8 +10,9 @@
 
 dojo.provide("dojo.widget.HtmlWidget");
 dojo.require("dojo.widget.DomWidget");
-dojo.require("dojo.html");
-dojo.require("dojo.html.extras");
+dojo.require("dojo.html.util");
+dojo.require("dojo.html.display");
+dojo.require("dojo.html.layout");
 dojo.require("dojo.lang.extras");
 dojo.require("dojo.lang.func");
 dojo.require("dojo.lfx.toggle");
@@ -22,6 +23,7 @@ dojo.declare("dojo.widget.HtmlWidget", dojo.widget.DomWidget, {
 	templateCssPath: null,
 	templatePath: null,
 
+	lang: "",
 	// for displaying/hiding widget
 	toggle: "plain",
 	toggleDuration: 150,
@@ -32,6 +34,7 @@ dojo.declare("dojo.widget.HtmlWidget", dojo.widget.DomWidget, {
 	},
 
 	postMixInProperties: function(args, frag){
+		if(this.lang === ""){this.lang = null;}
 		// now that we know the setting for toggle, get toggle object
 		// (default to plain toggler if user specified toggler not present)
 		this.toggleObj =
@@ -57,7 +60,7 @@ dojo.declare("dojo.widget.HtmlWidget", dojo.widget.DomWidget, {
 
 	destroyRendering: function(finalize){
 		try{
-			if(!finalize){
+			if(!finalize && this.domNode){
 				dojo.event.browser.clean(this.domNode);
 			}
 			this.domNode.parentNode.removeChild(this.domNode);
@@ -69,11 +72,11 @@ dojo.declare("dojo.widget.HtmlWidget", dojo.widget.DomWidget, {
 	// Displaying/hiding the widget
 	/////////////////////////////////////////////////////////
 	isShowing: function(){
-		return dojo.style.isShowing(this.domNode);
+		return dojo.html.isShowing(this.domNode);
 	},
 
 	toggleShowing: function(){
-		// dojo.style.toggleShowing(this.domNode);
+		// dojo.html.toggleShowing(this.domNode);
 		if(this.isHidden){
 			this.show();
 		}else{
@@ -123,12 +126,13 @@ dojo.declare("dojo.widget.HtmlWidget", dojo.widget.DomWidget, {
 
 		// If my parent has been resized and I have style="height: 100%"
 		// or something similar then my size has changed too.
-		w=w||dojo.style.getOuterWidth(this.domNode);
-		h=h||dojo.style.getOuterHeight(this.domNode);
-		if(this.width == w && this.height == h){ return false; }
+		var wh = dojo.html.getMarginBox(this.domNode);
+		var width=w||wh.width;
+		var height=h||wh.height;
+		if(this.width == width && this.height == height){ return false; }
 
-		this.width=w;
-		this.height=h;
+		this.width=width;
+		this.height=height;
 		return true;
 	},
 
@@ -143,10 +147,13 @@ dojo.declare("dojo.widget.HtmlWidget", dojo.widget.DomWidget, {
 
 	// Explicitly set this widget's size (in pixels).
 	resizeTo: function(w, h){
-		if(!this._isResized(w,h)){ return; }
-		dojo.style.setOuterWidth(this.domNode, w);
-		dojo.style.setOuterHeight(this.domNode, h);
-		this.onResized();
+		dojo.html.setMarginBox(this.domNode, { width: w, height: h });
+		
+		// can't do sizing if widget is hidden because referencing node.offsetWidth/node.offsetHeight returns 0.
+		// do sizing on show() instead.
+		if(this.isShowing()){
+			this.onResized();
+		}
 	},
 
 	resizeSoon: function(){
@@ -158,6 +165,6 @@ dojo.declare("dojo.widget.HtmlWidget", dojo.widget.DomWidget, {
 	// Called when my size has changed.
 	// Must notify children if their size has (possibly) changed
 	onResized: function(){
-		dojo.lang.forEach(this.children, function(child){ child.checkSize(); });
+		dojo.lang.forEach(this.children, function(child){ if(child.checkSize){child.checkSize();} });
 	}
 });
