@@ -8,7 +8,6 @@
 }
 
 /* table header */
-
 table.data-inbox tr .date
 {
 	width                            : 60px;
@@ -26,7 +25,7 @@ table.data-inbox tr .site
 
 table.data-inbox tr .ip
 {
-	width                            : 120px;
+	width                            : 100px;
 }
 
 table.data-inbox thead tr th.ip
@@ -35,6 +34,12 @@ table.data-inbox thead tr th.ip
 }
 
 /* table body */
+table.data-inbox tbody tr td.date,
+table.data-inbox tbody tr td.ip
+{
+	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
+	font-size                        : 0.9em;
+}
 
 table.data-inbox tbody tr td.site,
 table.data-inbox tbody tr td.name,
@@ -46,7 +51,6 @@ table.data-inbox tbody tr td.ip
 /* Post *******************************************************************************************/
 
 /* table header */
-
 #part-post-list table.data-inbox tr .status
 {
 	width                            : 51px;
@@ -54,18 +58,24 @@ table.data-inbox tbody tr td.ip
 
 #part-post-list table.data-inbox tr .syndicate
 {
-	width                            : 23px;
+	width                            : 13px;
 }
 
 #part-post-list table.data-inbox tr .protect
 {
 	padding-right                    : 0;
-	width                            : 31px;
+	width                            : 37px;
 }
 
 #part-post-list table.data-inbox tr .trackback
 {
 	padding-right                    : 0;
+}
+
+#part-post-list table.data-inbox thead tr th.trackback,
+#part-post-list table.data-inbox thead tr th.delete
+{
+	width                            : 20px;
 }
 
 #part-post-list table.data-inbox thead tr th.syndicate span,
@@ -88,16 +98,9 @@ table.data-inbox tbody tr td.ip
 }
 
 /* table body */
-
 #part-post-list table.data-inbox tbody tr td.status
 {
-	padding-right                    : 0;
-}
-
-#part-post-list table.data-inbox tbody tr td.syndicate
-{
-	background-position              : right bottom;
-	padding                          : 0;
+	padding-right                    : 5px;
 }
 
 #part-post-list table.data-inbox tbody tr td.trackback,
@@ -109,13 +112,78 @@ table.data-inbox tbody tr td.ip
 
 #part-post-list table.data-inbox tbody tr.hidden-layer td
 {
+	background-image                 : none;
 	border                           : 1px solid #999999;
+	padding                          : 10px;
 	text-align                       : right;
 }
 
 .hidden-layer table tr td
 {
 	border                           : none !important;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td label
+{
+	font-weight                      : bold;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td .input-button
+{
+	padding                          : 0 3px !important;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td .close-button
+{
+	background-image                 : url("./image/img_close_button.png");
+	background-position              : left center;
+	display                          : none;
+	background-repeat                : no-repeat;
+	height                           : 11px;
+	padding-left                     : 1px;
+	width                            : 39px;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td .close-button span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td table
+{
+	margin-top                       : 5px;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td table tr td
+{
+	border-bottom                    : 1px solid #DDDDDD !important;
+	font-size                        : 0.9em;
+	font-family                      : "Courier New", "Courier", monospace;
+	height                           : auto !important;
+	letter-spacing                   : -1px;
+	line-height                      : auto !important;
+	padding                          : 2px 5px !important;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td table tr td.address
+{
+	padding-left                     : 15px !important;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td table tr td.remove a
+{
+	background-image                 : url("./image/img_close_x.png");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 11px;
+	margin-top                       : 2px;
+	width                            : 11px;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td table tr td.remove span
+{
+	display                          : none;
 }
 
 /* Comment ****************************************************************************************/
@@ -222,9 +290,10 @@ table.data-inbox tbody tr td.ip
 #tree-preview-box .title
 {
 	background-image                 : url("./image/img_bullet_tree_preview.gif");
-	background-position              : left center;
+	background-position              : left 4px;
 	background-repeat                : no-repeat;
-	margin                           : 0 10px;
+	color                            : #333333;
+	margin                           : 0 10px 3px 10px;
 	padding-left                     : 11px;
 }
 
@@ -275,7 +344,12 @@ table.data-inbox tbody tr td.ip
 
 /* Trash *****************************************************************************************/
 
-#part-post-trash .caption
+#part-post-trash #search-form
+{
+	top                              : 100px;
+}
+
+#part-post-trash .main-explain-box p
 {
 	margin-bottom                    : 50px;
 }
@@ -285,8 +359,8 @@ table.data-inbox tbody tr td.ip
 	background-image                 : none;
 	border                           : none;
 	position                         : absolute;
-	left                             : 30px;
-	top                              : 57px;
+	left                             : 0;
+	top                              : 107px;
 }
 
 #part-post-trash fieldset dl
@@ -296,16 +370,20 @@ table.data-inbox tbody tr td.ip
 
 #part-post-trash fieldset dl dt
 {
-	width                            : auto;
+	display                          : none;
 }
 
-#part-post-trash fieldset dl div
+#part-post-trash fieldset dl dd
+{
+	margin-left                      : 30px;
+}
+
+#part-post-trash fieldset dl dd div
 {
 	display                          : inline;
 }
 
 /* table header */
-
 #part-post-trash table.data-inbox thead tr th.delete
 {
 	width                            : 20px;

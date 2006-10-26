@@ -13,116 +13,13 @@
 }
 
 /* Dashboard *************************************************************************************/
-#part-center-dashboard .bloginfo-section
+
+/* 바로가기 */
+#shortcut-collection
 {
+	float                            : left;
 	margin                           : 0 12px 25px 12px;
 	width                            : 304px;
-	float:left;
-}
-#part-center-dashboard .bloginfo-section h3
-{
-	background-image                 : url("./image/bg_dashboard_header.png");
-	background-position              : left center;
-	background-repeat                : no-repeat;
-	height                           : 32px;
-	line-height                      : 32px;
-	padding-left                     : 25px;
-	width                            : 280px;
-}
-
-#part-center-dashboard .bloginfo-section ul li
-{
-	border-bottom                    : 1px solid #EEEEEE;
-	padding                          : 7px 10px 5px 15px;
-}
-
-#part-center-dashboard .bloginfo-section table
-{
-	width                            : 294px;
-}
-
-#part-center-dashboard .bloginfo-section table tbody tr th
-{
-	height                           : 24px;
-	text-align                       : center;
-	border                           : 1px solid #EEEEEE;
-	width                            : 50%;
-}
-
-#part-center-dashboard .bloginfo-section table tbody tr td
-{
-	height                           : 24px;
-	text-align                       : right;
-	padding-right                    : 10px;
-	border                           : 1px solid #EEEEEE;
-}
-
-
-#part-center-dashboard .notice-section
-{
-	margin                           : 0 12px 25px 12px;
-	width                            : 600px;
-	float                            : left;
-}
-
-#part-center-dashboard .notice-section ol
-{
-	list-style                       : decimal inside;
-}
-
-#part-center-dashboard .notice-section ol li
-{
-	border-bottom                    : 1px solid #EEEEEE;
-	padding                          : 7px 10px 5px 20px;
-	list-style                       : decimal inside;
-	display                          : block;
-}
-#part-center-dashboard .notice-section ol li .titlespan
-{
-	width                            : 480px;
-}
-#part-center-dashboard .notice-section ol li .timespan
-{
-	position                         : absolute;
-	left                             : 850px;
-	width                            : 120px;
-}
-
-#part-center-dashboard .notice-section ul li
-{
-	border-bottom                    : 1px solid #EEEEEE;
-	padding                          : 7px 10px 5px 20px;
-	display                          : block;
-	text-align                       : right;
-}
-
-#part-center-dashboard .notice-section h3
-{
-	background-image                 : url("./image/bg_dashboard_header.png");
-	background-position              : left center;
-	background-repeat                : no-repeat;
-	height                           : 32px;
-	line-height                      : 32px;
-	padding-left                     : 25px;
-	width                            : 600px;
-}
-
-
-
-#part-center-dashboard .panel
-{
-	float                            : left;
-	width                            : 320px;
-	margin                           : 0 0 0 0;
-	padding-bottom                   : 25px;
-}
-
-
-#part-center-dashboard .section
-{
-	float                            : left;
-	margin                           : 0 12px 25px 12px;
-	width                            : 294px;
 }
 
 #part-center-dashboard .section h3
@@ -130,55 +27,110 @@
 	background-image                 : url("./image/bg_dashboard_header.png");
 	background-position              : left center;
 	background-repeat                : no-repeat;
+	font-weight                      : normal;
 	height                           : 32px;
 	line-height                      : 32px;
 	padding-left                     : 25px;
+	width                            : 280px;
+}
+
+#shortcut-collection ul
+{
+	width                            : 295px;
+}
+
+#shortcut-collection ul li
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	padding                          : 7px 10px 5px 15px;
+}
+
+/* 종합정보 */
+#total-information
+{
+	clear                            : left;
+	float                            : left;
+	margin                           : 0 12px 25px 12px;
+	width                            : 304px;
+}
+
+#total-information h3
+{
+	background-image                 : url("./image/bg_dashboard_header.png");
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	font-weight                      : normal;
+	height                           : 32px;
+	line-height                      : 32px;
+	padding-left                     : 25px;
+	width                            : 280px;
+}
+
+#total-information table
+{
 	width                            : 294px;
 }
 
-#part-center-dashboard .section ul li
+#total-information table tbody tr th
 {
 	border-bottom                    : 1px solid #EEEEEE;
-	padding                          : 7px 10px 5px 10px;
+	border-top                       : 1px solid #EEEEEE;
+	font-weight                      : normal;
+	height                           : 30px;
+	text-align                       : center;
+	width                            : 50%;
 }
 
-#part-center-dashboard .section ul li span.cnt
+#total-information table tbody tr td
 {
-	color                            : #FF6600 !important;
+	border-bottom                    : 1px solid #EEEEEE;
+	border-left                      : 1px solid #EEEEEE;
+	border-top                       : 1px solid #EEEEEE;
+	height                           : 24px;
+	padding-right                    : 10px;
+	text-align                       : right;
 }
 
-#part-center-dashboard .section dl
+/* 공지사항 */
+#tattertools-notice h3
 {
-	position						 : static;
+	background-image                 : url("./image/bg_dashboard_header.png");
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	font-weight                      : normal;
+	height                           : 32px;
+	line-height                      : 32px;
+	padding-left                     : 25px;
+	width                            : 280px;
+	border : 1px solid red;
 }
 
-#part-center-dashboard .section dl dt
+#tattertools-notice table
 {
-	position						 : static;
+	margin                           : 0 12px 25px 12px;
+	width                            : 620px;
 }
 
-#part-center-dashboard .section dl dd
+#tattertools-notice table tbody tr td
 {
-	position						 : static;
+	border-bottom                    : 1px solid #EEEEEE;
+	border-top                       : 1px solid #EEEEEE;
+	height                           : 28px;
+	padding-left                     : 10px;
 }
 
-#part-center-dashboard .button-box
+#tattertools-notice table tbody tr td.date
 {
-	margin-bottom                    : 20px;
-	clear                            : both;
+	padding-right                    : 10px;
+	text-align                       : right;
 }
 
-#part-center-dashboard .button-box .input-button
+#cite
 {
-	background-color                 : #FFFFFF;
-	background-image                 : none;
-	border                           : 1px solid #BBBBBB;
-	color                            : #000000;
+	font-size                        : 0.95em;
 	font-weight                      : bold;
-	height                           : auto;
-	line-height                      : normal;
-	padding                          : 9px 8px 5px 8px;
-	vertical-align                   : middle;
+	text-align                       : right;
+	padding-right                    : 10px;
 }
 
 /* Setting ***************************************************************************************/

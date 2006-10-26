@@ -1,42 +1,7 @@
 @charset "utf-8";
 
 /* Dashboard *************************************************************************************/
-#part-center-dashboard .bloginfo-section
-{
-	width                            : 280px;
-	margin                           : 0 7px 25px 7px;
-}
-#part-center-dashboard .bloginfo-section h3
-{
-	padding-left                     : 25px;
-	width                            : 280px;
-}
-#part-center-dashboard .bloginfo-section table
-{
-	width                            : 280px;
-}
 
-#part-center-dashboard .notice-section
-{
-	width                            : 620px;
-	margin                           : 0 7px 25px 7px;
-}
-
-#part-center-dashboard .section
-{
-	margin                           : 0 7px 25px 7px;
-	width                            : 280px;
-}
-
-#part-center-dashboard .section h3
-{
-	width                            : 270px;
-}
-
-#part-center-dashboard .panel
-{
-	width                            : 280px;
-}
 
 /* Setting ***************************************************************************************/
 

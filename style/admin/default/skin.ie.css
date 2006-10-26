@@ -28,7 +28,7 @@
 	margin-top                       : 20px;
 }
 
-/* Sidebar ***************************************************************************************/
+/* Sidebar **************************************************************************************
 
 #sidebar-box
 {
@@ -52,5 +52,5 @@
 #sidebar-element-box fieldset ul li.sidebar-module
 {
 	overflow                         : hidden;
-	width                            : 210px;
+	width                            : 210px;*/
 }

@@ -149,11 +149,6 @@ function pretty_dress($view)
 	return correctSidebarImage($view);
 }
 ?>
-						<script type="text/javascript">
-							//<![CDATA[
-						
-							//]]>
-						</script>
 						
 						<form id="part-sidebar-order" class="part" method="post" action="sidebar/register">
 							<h2 class="caption"><span class="main-text"><?php echo _t('사이드바 기능을 관리합니다');?></span></h2>
@@ -164,16 +159,21 @@ function pretty_dress($view)
 							<div id="sidebar-preview-mode">
 								<fieldset>
 								<legend><?php echo _t('편집 관련 기능');?></legend>
-<?php	if ((isset($_REQUEST['safe'])) || (isset($_REQUEST['tag']))) { ?>
-								<a id="safe-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/sidebar?safe" title="<?php echo _t('실제로 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
-<?php	} ?>						
-<?php	if (!isset($_REQUEST['safe'])) { ?>
-								<a id="safe-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/sidebar?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a>
-<?php	} ?>						
-<?php	if (!isset($_REQUEST['tag'])) { ?>
-								<a id="tag-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/sidebar?tag" title="<?php echo _t('실제 블로그 사이드바에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a>
-<?php	} ?>						
-								<a id="init-button" class="button" href="sidebar/initialize" onclick="if (!confirm('<?php echo _t('정말 사이드바 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('사이드바의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>
+								
+<?php
+if ((!isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag'])))
+	$defaultModeSelected = " selected";
+else if ((isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag'])))
+	$safeModeSelected = " selected";
+else if ((!isset($_REQUEST['safe'])) && (isset($_REQUEST['tag'])))
+	$tagModeSelected = " selected";
+else if ((isset($_REQUEST['safe'])) && (isset($_REQUEST['tag'])))
+	$initModeSelected = " selected";
+?>
+								<a id="default-mode-button" class="button<?php echo $defaultModeSelected;?>" href="<?php echo $blogURL;?>/owner/skin/sidebar" title="<?php echo _t('실제로 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
+								<a id="safe-mode-button" class="button<?php echo $safeModeSelected;?>" href="<?php echo $blogURL;?>/owner/skin/sidebar?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a>
+								<a id="tag-mode-button" class="button<?php echo $tagModeSelected;?>" href="<?php echo $blogURL;?>/owner/skin/sidebar?tag" title="<?php echo _t('실제 블로그 사이드바에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a>					
+								<a id="init-button" class="button<?php echo $initModeSelected;?>" href="sidebar/initialize" onclick="if (!confirm('<?php echo _t('정말 사이드바 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('사이드바의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>
 								
 								</fieldset>						
 							</div>
@@ -221,7 +221,6 @@ if (is_null($sidebarConfig)) {
 }
 ?>
 							<div id="sidebar-box" class="data-inbox">
-								<h3><?php echo _t('사이드바');?></h3>
 <?php
 
 for ($i=0; $i<$sidebarCount; $i++) {
@@ -231,7 +230,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 		$orderConfig = array();
 ?>
 								<div class="section">
-									<h4><input type="radio" id="sidebar-<?php echo $i + 1;?>" class="radio" name="sidebarNumber" value="<?php echo $i;?>"<?php echo $bFirstRadio ? " checked" : NULL;?> /><label for="sidebar-<?php echo $i + 1;?>"><?php echo _t('사이드바').' '.($i + 1);?></label></h4>
+									<h3><input type="radio" id="sidebar-<?php echo $i + 1;?>" class="radio" name="sidebarNumber" value="<?php echo $i;?>"<?php echo $bFirstRadio ? " checked" : NULL;?> /><label for="sidebar-<?php echo $i + 1;?>"><?php echo _t('사이드바').' '.($i + 1);?></label></h3>
 									
 									<ul id="sidebar-ul-<?php echo $i;?>" class="sidebar">
 <?php
@@ -241,7 +240,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 			$skinj = $orderConfig[$j]['parameters'];
 ?>
 										<li class="sidebar-module sidebar-basic-module" id="sidebar-element-<?php echo "{$i}-{$j}";?>">
-											<h5><?php echo $skin->sidebarBasicModules[$skini][$skinj]['title'];?></h5>
+											<h4 class="module-title"><?php echo $skin->sidebarBasicModules[$skini][$skinj]['title'];?></h4>
 											<div class="button-box">
 <?php
 			if ($j == 0) {
@@ -267,7 +266,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 											
 												<a href="sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.jpg" border="0" alt="<?php echo _t('삭제');?>" /></a>
 											</div>
-											<div><?php echo pretty_dress($skin->sidebarBasicModules[$skini][$skinj]['body']);?></div>
+											<div class="module-content"><?php echo pretty_dress($skin->sidebarBasicModules[$skini][$skinj]['body']);?></div>
 										</li>
 <?php
 			array_push($usedSidebarBasicModule, $orderConfig[$j]['id']);
@@ -285,7 +284,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 					$configVal ='';
 ?>
 										<li class="sidebar-module sidebar-plugin-module" id="sidebar-element-<?php echo "{$i}-{$j}";?>">
-											<h5><?php echo $sidebarPluginArray[$sidbarPluginIndex]['display'], '::', $sidebarPluginArray[$sidbarPluginIndex]['title'];?></h5>
+											<h4 class="module-title"><?php echo $sidebarPluginArray[$sidbarPluginIndex]['display'], '::', $sidebarPluginArray[$sidbarPluginIndex]['title'];?></h4>
 											<div class="button-box">
 <?php
 				if ($j == 0) {
@@ -313,21 +312,20 @@ for ($i=0; $i<$sidebarCount; $i++) {
 											</div>
 <?php 
 				$pluginparameters = $sidebarPluginArray[$sidbarPluginIndex]['parameters'];
-				echo '<div>';
 				if (count($pluginparameters) > 0) {
 ?>
+											<div class="edit-button-box">
 												<a href="sidebar/edit?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>"><?php echo _t('편집');?></a>
-													
+											</div>
 <?php 
 				}
-				echo '</div>';
 ?>
-												<div>
+											<div class="module-content">
 <?php
 				$pluginURL = "{$service['path']}/plugins/{$orderConfig[$j]['id']['plugin']}";
 				echo pretty_dress(call_user_func($handler, $orderConfig[$j]['parameters']));
 ?>
-												</div>
+											</div>
 										</li>
 <?php
 			}
@@ -385,8 +383,9 @@ for ($i=0;$i<$sidebarCount; $i++){
 foreach ($sortedArray as $nowKey) {
 ?>
 										<li class="sidebar-module" id="<?php echo "add-sidebar-element-{$nowKey['identifier']}";?>">
-											<h5><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey['title'];?>"><?php echo $nowKey['title'];?></label></h5>
-											<div><?php echo pretty_dress($nowKey['body']);?></div>
+											<h4 class="module-title"><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey['title'];?>"><?php echo $nowKey['title'];?></label></h5>
+											
+											<div class="module-content"><?php echo pretty_dress($nowKey['body']);?></div>
 										</li>
 <?php
 }
@@ -403,9 +402,9 @@ foreach ($sortedArray as $nowKey) {
 foreach ($sidebarPluginArray as $nowKey) {
 ?>
 										<li class="sidebar-module" id="<?php echo "add-sidebar-module-{$nowKey['identifier']}";?>">
-											<h5><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey;?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label></h5>
-											<div></div>								
-											<div>
+											<h4 class="module-title"><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey;?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label></h5>
+																			
+											<div class="module-content">
 <?php
 	$pluginURL = "{$service['path']}/plugins/{$nowKey['plugin']}";
 	include_once (ROOT . "/plugins/{$nowKey['plugin']}/index.php");
@@ -425,77 +424,77 @@ foreach ($sidebarPluginArray as $nowKey) {
 							</div>
 						</form>
 						
-
-<script src="<?php echo $service['path'];?>/script/dojo/dojo.js" type="text/javascript"></script>
-<script src="<?php echo $service['path'];?>/script/sidebar.js" type="text/javascript"></script>
-<script type="text/javascript">
-	var decorateDragPanelString_deleteTitle = "<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>";
-	var commonString_delete = "<?php echo _t('삭제');?>";
-	var commonString_cancel = "<?php echo _t('취소');?>";
-	
-	function reordering() {
-		var pos = 0;
-		var pNode = null;
-		
+						<script src="<?php echo $service['path'];?>/script/dojo/dojo.js" type="text/javascript"></script>
+						<script src="<?php echo $service['path'];?>/script/sidebar.js" type="text/javascript"></script>
+						<script type="text/javascript">
+							//<![CDATA[
+								var decorateDragPanelString_deleteTitle = "<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>";
+								var commonString_delete = "<?php echo _t('삭제');?>";
+								var commonString_cancel = "<?php echo _t('취소');?>";
+								
+								function reordering() {
+									var pos = 0;
+									var pNode = null;
+									
 <?php
 		for ($i=0; $i<$sidebarCount; $i++) {
 			echo "pNode = document.getElementById('sidebar-ul-{$i}').firstChild;";
 ?>
-			pos = 0;
-			while (pNode != null) {
-				if ((pNode.nodeType != 3/* TEXT_NODE */) && (pNode.className.indexOf("sidebar-module") != -1)) { 
-					pNode.modulePos = pos++;
-					
-					var p2Node = pNode.firstChild;
-					while (p2Node != null) {
-						if ((p2Node.tagName != null) && (p2Node.tagName.toLowerCase() == 'a')) break;
-						p2Node = p2Node.nextSibling;
-					}
-					if (p2Node != null) {
-						p2Node.href = "sidebar/delete/?sidebarNumber=" + pNode.sidebarNumber + "&modulePos=" + pNode.modulePos;
-					}
-					
-					if ((pNode.moduleCategory == 'plugin') && (pNode.hasPropertyEdit == true)) {
-						p2Node = pNode.firstChild;
-						while (p2Node != null) {
-							if ((p2Node.tagName != null) && (p2Node.tagName.toLowerCase() == 'div')) {
-								break;
-							}
-							p2Node = p2Node.nextSibling;
-						}
-						if (p2Node != null) {
-							p2Node.innerHTML = '<a onclick="editSidebarPlugin('+ pNode.sidebarNumber + ',' + pNode.modulePos + '); return false" ><?php echo _t('편집');?></a>';
-						}
-					}
-				}
-				
-				pNode = pNode.nextSibling;
-			}
+									pos = 0;
+									while (pNode != null) {
+										if ((pNode.nodeType != 3/* TEXT_NODE */) && (pNode.className.indexOf("sidebar-module") != -1)) { 
+											pNode.modulePos = pos++;
+											
+											var p2Node = pNode.firstChild;
+											while (p2Node != null) {
+												if ((p2Node.tagName != null) && (p2Node.tagName.toLowerCase() == 'a')) break;
+												p2Node = p2Node.nextSibling;
+											}
+											if (p2Node != null) {
+												p2Node.href = "sidebar/delete/?sidebarNumber=" + pNode.sidebarNumber + "&modulePos=" + pNode.modulePos;
+											}
+											
+											if ((pNode.moduleCategory == 'plugin') && (pNode.hasPropertyEdit == true)) {
+												p2Node = pNode.firstChild;
+												while (p2Node != null) {
+													if ((p2Node.tagName != null) && (p2Node.tagName.toLowerCase() == 'div')) {
+														break;
+													}
+													p2Node = p2Node.nextSibling;
+												}
+												if (p2Node != null) {
+													p2Node.innerHTML = '<a onclick="editSidebarPlugin('+ pNode.sidebarNumber + ',' + pNode.modulePos + '); return false" ><?php echo _t('편집');?></a>';
+												}
+											}
+										}
+										
+										pNode = pNode.nextSibling;
+									}
 <?php
 		}
 ?>
-	}
-	
-	function initPages()
-	{
-		dlg = dojo.widget.createWidget("popupWindow", {}, document.getElementById('body-skin').firstChild, 'after');
-		dlg.domNode.className = 'ajax-popup-window';
-		var inputs = document.getElementsByTagName("input");
-		for (i=0; i < inputs.length;) {
-			if (inputs[i].className == 'radio') {
-				inputs[i].parentNode.removeChild(inputs[i]);
-			} else {
-				i++
- 			}
-		}
-		inputs = document.getElementsByTagName("div");
-		for (i=0; i < inputs.length;) {
-			if (inputs[i].className == 'button-box') {
-				inputs[i].parentNode.removeChild(inputs[i]);
-			} else {
-				i++
- 			}
-		}
+								}
+								
+								function initPages()
+								{
+									dlg = dojo.widget.createWidget("popupWindow", {}, document.getElementById('body-skin').firstChild, 'after');
+									dlg.domNode.className = 'ajax-popup-window';
+									var inputs = document.getElementsByTagName("input");
+									for (i=0; i < inputs.length;) {
+										if (inputs[i].className == 'radio') {
+											inputs[i].parentNode.removeChild(inputs[i]);
+										} else {
+											i++
+							 			}
+									}
+									inputs = document.getElementsByTagName("div");
+									for (i=0; i < inputs.length;) {
+										if (inputs[i].className == 'button-box') {
+											inputs[i].parentNode.removeChild(inputs[i]);
+										} else {
+											i++
+							 			}
+									}
 
 <?php
 for ($i=0; $i<$sidebarCount; $i++) {
@@ -540,12 +539,12 @@ foreach ($sidebarPluginArray as $nowKey) {
 	echo "new DragPanelAdd(document.getElementById('add-sidebar-module-{$nowKey['identifier']}'), [\"sidebar\"]);";
 }
 ?>
-		reordering();
-	}
-	dojo.addOnLoad(initPages);
-		
-	
-</script>						
+									reordering();
+								}
+								dojo.addOnLoad(initPages);
+									
+							//]]>							
+						</script>						
 <?php
 require ROOT . '/lib/piece/owner/footer1.php';
 ?>

@@ -9,23 +9,15 @@ table.data-inbox tr .syndicate
 	width                            : 12px;
 }
 
-/* table body */
-
-
 /* Comment ****************************************************************************************/
 
+/* table body */
+#part-post-comment table.data-inbox tbody tr td.delete
+{
+	padding                          : 0px 5px;
+}
+
 /* data subbox */
-
-#part-post-comment .data-subbox
-{
-	padding-top                      : 8px;
-}
-
-#part-post-comment #page-section .page-count
-{
-	bottom                           : 128px;
-}
-
 #part-post-comment #search-form
 {
 	top                              : 50px;

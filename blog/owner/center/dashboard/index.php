@@ -92,36 +92,38 @@ if (isset($_REQUEST['edit'])) {
 <?php
 }
 
+if (!file_exists(ROOT . '/cache/CHECKUP')) {
 ?>
-<script type="text/javascript">
+						<script type="text/javascript">
+							//<![CDATA[
+								window.addEventListener("load", checkTattertoolsVersion, false);
+								function checkTattertoolsVersion() {
+									if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
+										window.location.href = "<?php echo $blogURL;?>/checkup";
+								}
+							//]]>
+						</script>
 <?php
-	if (!file_exists(ROOT . '/cache/CHECKUP')) {
+} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
 ?>
-		window.addEventListener("load", checkTattertoolsVersion, false);
-		function checkTattertoolsVersion() {
-			if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
-				window.location.href = "<?php echo $blogURL;?>/checkup";
-		}
+						<script type="text/javascript">
+							//<![CDATA[
+								window.addEventListener("load", checkTattertoolsVersion, false);
+								function checkTattertoolsVersion() {
+									if (confirm("<?php echo _t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
+										window.location.href = "<?php echo $blogURL;?>/checkup";
+								}
+							//]]>
+						</script>
 <?php
-	} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
-?>
-		window.addEventListener("load", checkTattertoolsVersion, false);
-		function checkTattertoolsVersion() {
-			if (confirm("<?php echo _t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
-				window.location.href = "<?php echo $blogURL;?>/checkup";
-		}
-<?php
-	}
-?>
-</script>
-<?php
+}
 
 if (false) {
 	fetchConfigVal();
 }
 ?>	
-<form method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
-	<div id="part-center-dashboard" class="part">
+						<form method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
+							<div id="part-center-dashboard" class="part">
 <?php
 $tattertoolsDashboard = getUserSetting("tattertoolsDashboard");
 if (is_null($tattertoolsDashboard)) {
@@ -131,44 +133,63 @@ if (is_null($tattertoolsDashboard)) {
 
 if($tattertoolsDashboard) {
 	if (!isset($_REQUEST['edit'])) {
-		echo '<h2 class="caption"><span class="main-text">' . _t('태터툴즈') . '</span></h2>';
-?>
-	<div class="bloginfo-section">
-<?php
-		echo '<h3>' . _t('바로가기') . '</h3>';
 		$stats = getStatistics($owner);
-		$target = '';
-		$target .= '<ul>';
-		$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새글 쓰기').'</a></li>'.CRLF;
+?>
+								<h2 class="caption"><span class="main-text"><?php echo _t('태터툴즈');?></span></h2>
+								
+								<div id="shortcut-collection" class="section">
+									<h3><?php echo _t('바로가기');?></h3>
+									
+									<ul>
+										<li><a href="<?php echo $blogURL;?>/owner/entry/post"><?php echo _t('새글 쓰기');?></a></li>
+<?php
 		$latestEntryId = getUserSetting('LatestEditedEntry',0);
 		if($latestEntryId !== 0){
 			$latestEntry = getEntry($owner,$latestEntryId);
-			$target .= '<li><a href="'.$blogURL.'/owner/entry/edit/'.$latestEntry['id'].'">'. _f('최근글(%1)수정',UTF8::lessenAsEm(htmlspecialchars($latestEntry['title']),10)).'</a></li>'.CRLF;
-		}
-		$target .= '<li><a href="'.$blogURL.'/owner/skin">'. _t('스킨 변경').'</a></li>'.CRLF;
-		$target .= '<li><a href="'.$blogURL.'/owner/skin/setting">'. _t('블로그 표시설정').'</a></li>'.CRLF;
-		$target .= '<li><a href="'.$blogURL.'/owner/entry/category">'. _t('카테고리 변경').'</a></li>'.CRLF;
-		$target .= '<li><a href="'.$blogURL.'/owner/plugin">'. _t('플러그인 관리').'</a></li>'.CRLF;
-		$target .= '<li><a href="'.$blogURL.'/owner/reader">'. _t('RSS 리더').'</a></li>'.CRLF;
-		$target .= '</ul>';
-		$target .= '<h3>' . _t('종합정보') . '</h3>';
-		$target .= '<table><tbody>';
-		$target .= '<tr><th>'. _t('오늘/어제방문자'). '</th><td>' . number_format($stats['today']) . '/' . number_format($stats['yesterday']) . '</td></tr>'.CRLF;
-		$target .= '<tr><th>'. _t('총 방문자'). '</th><td>' . number_format($stats['total']) . '</td></tr>'.CRLF;
-		$target .= '<tr><th>'. _t('글 개수'). '</th><td>' . number_format(getEntriesTotalCount($owner)) . '</td></tr>'.CRLF;
-		$target .= '<tr><th>'. _t('댓글/걸린글 개수'). '</th><td>' . number_format(getCommentCount($owner)) . '/' . number_format(getTrackbackCount($owner)) . '</td></tr>'.CRLF;
-		$target .= '</tbody></table>';
-		echo $target;
 ?>
-	</div>
-
+										<li><a href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', UTF8::lessenAsEm(htmlspecialchars($latestEntry['title']),10));?></a></li>
 <?php
-	
-		echo '<div class="notice-section">';
-		echo '<h3>' . _t('태터툴즈 공지사항') . '</h3>';
-		
-		$noticeURL = 'http://blog.tattertools.com';
-		$noticeURLRSS = 'http://blog.tattertools.com/rss';
+		}
+?>
+										<li><a href="<?php echo $blogURL;?>/owner/skin"><?php echo _t('스킨 변경');?></a></li>
+										<li><a href="<?php echo $blogURL;?>/owner/skin/setting"><?php echo _t('블로그 표시설정');?></a></li>
+										<li><a href="<?php echo $blogURL;?>/owner/entry/category"><?php echo _t('카테고리 변경');?></a></li>
+										<li><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('플러그인 관리');?></a></li>
+										<li><a href="<?php echo $blogURL;?>/owner/reader"><?php echo _t('RSS 리더');?></a></li>
+									</ul>
+								</div>
+								
+								<div id="total-information" class="section">
+									<h3><?php echo _t('종합정보');?></h3>
+									
+									<table>
+										<tbody>
+											<tr>
+												<th><?php echo _t('오늘/어제방문자');?></th>
+												<td><?php echo number_format($stats['today']) . '/' . number_format($stats['yesterday']);?></td>
+											</tr>
+											<tr>
+												<th><?php echo _t('총 방문자');?></th>
+												<td><?php echo number_format($stats['total']);?></td>
+											</tr>
+											<tr>
+												<th><?php echo _t('글 개수');?></th>
+												<td><?php echo number_format(getEntriesTotalCount($owner));?></td>
+											</tr>
+											<tr>
+												<th><?php echo _t('댓글/걸린글 개수');?></th>
+												<td><?php echo number_format(getCommentCount($owner)) . '/' . number_format(getTrackbackCount($owner));?></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							
+								<div id="tattertools-notice" class="section">
+									<h3><?php echo _t('태터툴즈 공지사항');?></h3>
+									
+<?php
+		$noticeURL = "http://blog.tattertools.com";
+		$noticeURLRSS = "http://blog.tattertools.com/rss";
 
 		list($result, $feed, $xml) = getRemoteFeed($noticeURLRSS);
 		if ($result == 0) {
@@ -214,80 +235,106 @@ if($tattertoolsDashboard) {
 			
 			if (count($noticeEntries) > 0) {
 				// customize point. 사이트 공지를 넣고 싶다면 이것을 줄이고 또 출력하면 된다~
-				array_splice($noticeEntries, 10, count($noticeEntries) - 10); 
-				echo '<ol>';
+				array_splice($noticeEntries, 10, count($noticeEntries) - 10);
+?>
+									<table>
+										<tbody>
+<?php
 				foreach($noticeEntries as $item) {
-					echo '<li>';
-					echo '<a href="' , $item['permalink'] , '">';
-					echo '<span class="titlespan">' , htmlspecialchars($item['title']) , '</span>';
-					echo '<span class="timespan">' , Timestamp::format5($item['written']) , '</span>';
-					echo '</a>';
-					echo '</li>';
+?>
+											<tr>
+												<td class="title"><a href="<?php echo $item['permalink'];?>"><?php echo htmlspecialchars($item['title']);?></a></td>
+												<td class="date"><?php echo Timestamp::format5($item['written']);?></td>
+											</tr>
+<?php
 				}
-				echo '</ol>';
-				echo '<ul>';
-				echo '<li><span> from <a href="' , $noticeURL , '">' , $noticeURL , '</span></a></li>';
-				echo '</ul>';
+?>
+										</tbody>
+									</table>
+									
+									<div id="cite">from <a href="<?php echo $noticeURL;?>"><?php echo $noticeURL;?></a></div>
+<?php
 			} else {
-				echo _t('공지사항이 없습니다.');
+?>
+									<div id="empty-notice">
+										<?php echo _t('공지사항이 없습니다.');?>
+									</div>
+<?php
 			}
 			
 		} else {
-			echo _t('공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 보심시오');
+?>
+									<div id="fail-notice">
+										<?php echo _t('공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 주십시오.');?>
+									</div>
+<?php
 		}
 
 		unset($feed);
 		unset($xmls);
 		unset($noticeEntries);
-		echo '</div>';
 	}
+?>
+								</div>
+<?php
 }
 ?>
 
-		<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
+								<div id="part-center-quilt" class="part">
+									<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
+									
 <?php
-
 $boardbarNumber = 0;
 $positionCounter = 0;
 $secondposition = array(0, 0);
-echo '<div id="dojo_boardbar0" class="panel">';
+?>
+									<div id="dojo_boardbar0" class="panel">
+<?php
 foreach ($newlayout as $mapping) {
 	if ($mapping['plugin'] == 'TatterToolsSeperator') {
-		echo '</div><div id="dojo_boardbar'. ($boardbarNumber + 1).'" class="panel">';
+?>
+									</div>
+									<div id="dojo_boardbar'. ($boardbarNumber + 1).'" class="panel">
+<?php
 		$secondposition[$boardbarNumber] = $positionCounter;
 		$boardbarNumber++;
 	} else {
 ?>
-		<div id="<?php echo $mapping['plugin'];?>" class="section">
-			<h3>
-				<?php echo $mapping['title'];?> 
+										<div id="<?php echo $mapping['plugin'];?>" class="section">
+											<h3>
+												<?php echo $mapping['title'];?> 
 <?php
 		if (isset($_REQUEST['edit'])) {
 ?>
 				
-				<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter; ?>&amp;rel=-1&edit">
-					<?php echo _t("위로");?></a>
-				<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit">
-					<?php echo _t("아래로");?></a>
+												<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter; ?>&amp;rel=-1&edit"><?php echo _t("위로");?></a>
+												<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit"><?php echo _t("아래로");?></a>
 <?php
 		}
 ?>
-			</h3>
-			<?php echo handleCenters($mapping);?>
-		</div>
+											</h3>
+											<?php echo handleCenters($mapping);?>
+										</div>
 <?php
 	}
 	$positionCounter++;
 }
-echo '</div>';
+?>
+									</div>
+<?php
 if ($boardbarNumber < 1) {
-	echo '<div id="dojo_boardbar1" class="panel"></div>';
+?>
+
+									<div id="dojo_boardbar1" class="panel"></div>
+<?php
 	$secondposition[$boardbarNumber] = $positionCounter;
 	$boardbarNumber++;
 	$positionCounter++;
 }
 if ($boardbarNumber < 2) {
-	echo '<div id="dojo_boardbar2" class="panel"></div>';
+?>
+									<div id="dojo_boardbar2" class="panel"></div>
+<?php
 	$secondposition[$boardbarNumber] = $positionCounter;
 	$boardbarNumber++;
 	$positionCounter++;
@@ -295,32 +342,31 @@ if ($boardbarNumber < 2) {
 
 if (!isset($_REQUEST['edit'])) {
 ?>
-		<div class="button-box">
-			<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" />
-		</div>
+									<div class="button-box">
+										<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" />
+									</div>
 <?php
 }
 ?>
-	</div>
-</form>
+								</div>
+							</form>
 
 <?php
 if (isset($_REQUEST['edit'])) {
 ?>
-
-<script type="text/javascript">
-
-	var pan0 = new DropPanel(document.getElementById('dojo_boardbar0'), ["dashboard"]);
-	document.getElementById('dojo_boardbar0').plusposition = -1;
-	var pan1 = new DropPanel(document.getElementById('dojo_boardbar1'), ["dashboard"]);
-	document.getElementById('dojo_boardbar1').plusposition = <?php echo $secondposition[0];?>;
-	var pan1 = new DropPanel(document.getElementById('dojo_boardbar2'), ["dashboard"]);
-	document.getElementById('dojo_boardbar2').plusposition = <?php echo $secondposition[1];?>;
-
+							<script type="text/javascript">
+								//<![CDATA[
+									var pan0 = new DropPanel(document.getElementById('dojo_boardbar0'), ["dashboard"]);
+									document.getElementById('dojo_boardbar0').plusposition = -1;
+									var pan1 = new DropPanel(document.getElementById('dojo_boardbar1'), ["dashboard"]);
+									document.getElementById('dojo_boardbar1').plusposition = <?php echo $secondposition[0];?>;
+									var pan1 = new DropPanel(document.getElementById('dojo_boardbar2'), ["dashboard"]);
+									document.getElementById('dojo_boardbar2').plusposition = <?php echo $secondposition[1];?>;
+									
 <?php
-$positionCounter = 0;
-foreach ($newlayout as $mapping) {
-	if ($mapping['plugin'] != 'TatterToolsSeperator') {
+	$positionCounter = 0;
+	foreach ($newlayout as $mapping) {
+		if ($mapping['plugin'] != 'TatterToolsSeperator') {
 ?>
 		document.getElementById('<?php echo $mapping['plugin'];?>').pos = <?php echo $positionCounter;?>;
 		new DragPanel(document.getElementById('<?php echo $mapping['plugin'];?>'), ["dashboard"]);
@@ -328,18 +374,15 @@ foreach ($newlayout as $mapping) {
 		
 		document.getElementById('<?php echo $mapping['plugin'];?>dojoup').parentNode.removeChild(document.getElementById('<?php echo $mapping['plugin'];?>dojoup'));
 		document.getElementById('<?php echo $mapping['plugin'];?>dojodown').parentNode.removeChild(document.getElementById('<?php echo $mapping['plugin'];?>dojodown'));
-		<?php
+<?php
+		}
+		$positionCounter++;
 	}
-	$positionCounter++;
+?>
+								//]]!>
+							</script>
+<?php
 }
-?>
 
-</script>
-
-<?php
-	}
-?>
-						
-<?php
 require ROOT . '/lib/piece/owner/footer1.php';
 ?>

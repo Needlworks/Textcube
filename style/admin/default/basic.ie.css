@@ -1,93 +1,14 @@
 @charset "utf-8";
 
-/* Basic Tag *************************************************************************************/
-
-dl
-{
-	border                           : 1px solid #FFFFFF !important; /* border를 주지 않으면 위치를 잘못 잡는 IE의 버그로 인해 디자인과 관계 없이 포함됨 */
-}
-
-dt
-{
-	top                              : 5px !important;
-}
-
- dd
-{
-	line-height                      : 2.5em;
-	padding-bottom                   : 4px;
-	padding-top                      : 5px;
-}
-
-fieldset
-{
-	border-top                       : 2px solid #CCCCCC;
-
-}
-
-/* Layout Header **********************************************************************************/
-
-/* main description */
-
-#main-description
-{
-	bottom                           : 4px;
-}
+/* Layout Body ***********************************************************************************/
 
 table.data-inbox thead tr th
 {
-	padding                          : 6px;
-}
-
-/* pseudo box */
-
-.data-subbox
-{
-	padding-top                      : 2px;
-}
-
-.part .caption
-{
-	height                           : 2.45em;
-	line-height                      : 2.45em;
-}
-
-/* data subbox */
-
-#search-form
-{
-	top                              : 53px;
-}
-
-#search-form .input-button
-{
-	margin-top                       : 0;
-}
-
-#page-section .page-count
-{
-	bottom                           : 134px;
-}
-
-/* plugin status icon */
-
-table.data-inbox tbody tr td.status a
-{
-	padding-bottom                      : 0;
-}
-
-/* Etc *******************************************************************************************/
-
-input.input-button
-{
-	margin-top                       : -2px;
-	padding-right                    : 2px !important;
-	padding-left                     : 2px !important;
-}
-
-input.input-text
-{
-	height                           : 1.65em;
-	line-height                      : 1.65em;
-	padding-top                      : 0;
+	background-color                 : #F3F3F1;
+	border-bottom                    : 1px solid #D2D2CC;
+	border-top                       : 1px solid #D2D2CC;
+	color                            : #333333;
+	font-weight                      : normal;
+	padding                          : 6px 0;
+	text-align                       : center;
 }

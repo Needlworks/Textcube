@@ -455,13 +455,13 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 											newCell.setAttribute("align", "right");
 											newSection = document.createElement("DIV");
 											newSection.className = "layer-section";
-											newSection.innerHTML = '<label for="entry' + id + 'Password"><?php echo _t('비밀번호');?><\/label><span class="divider"> | <\/span><input type="text" id="entry' + id + 'Password" class="password-input" value="' + this.getText("/response/password") + '" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(' + id + ')" \/> ';
+											newSection.innerHTML = '<label for="entry' + id + 'Password"><?php echo _t('비밀번호');?><\/label><span class="divider"> | <\/span><input type="text" id="entry' + id + 'Password" class="input-text input-password" value="' + this.getText("/response/password") + '" maxlength="16" onkeydown="if (event.keyCode == 13) protectEntry(' + id + ')" \/> ';
 											
-											tempLink = document.createElement("A");
-											tempLink.className = "edit-button button";
-											tempLink.setAttribute("href", "#void");
-											tempLink.setAttribute("onclick", "protectEntry(" + id + ")");
-											tempLink.innerHTML = '<span class="text"><?php echo _t('수정');?><\/span>';
+											tempLink = document.createElement("input");
+											tempLink.type = "button";
+											tempLink.className = "input-button";
+											tempLink.onclick = function() { protectEntry(id); return false };
+											tempLink.value = '<?php echo _t('수정');?>';
 											
 											newSection.appendChild(tempLink);
 											
@@ -500,11 +500,18 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										newSection.className = "layer-section";
 										newSection.innerHTML = '<label for="trackbackForm_' + id + '"><?php echo _t('글걸기 주소');?><\/label><span class="divider"> | <\/span><input type="text" id="trackbackForm_' + id + '" class="input-text" name="trackbackURL" value="http://" size="50" onkeydown="if (event.keyCode == 13) { sendTrackback(' + id + '); return false;}" \/> ';
 										
-										tempLink = document.createElement("A");
-										tempLink.className = "send-button button";
-										tempLink.setAttribute("href", "#void");
-										tempLink.onclick = function() {sendTrackback(id); return false };
-										tempLink.innerHTML = '<span class="text"><?php echo _t('전송');?><\/span>';
+										tempSend = document.createElement("input");
+										tempSend.type = "button";
+										tempSend.className = "input-button";
+										tempSend.onclick = function() { sendTrackback(id); return false };
+										tempSend.value = '<?php echo _t('전송');?>';
+										
+										tempClose = document.createElement("A");
+										tempClose.innerHTML = "&nbsp;<span><?php echo _t('닫기');?></span>";
+										tempClose.className = "close-button button";
+										tempClose.setAttribute("href", "#void");
+										tempClose.onclick = function() { showTrackbackSender(id); return false };
+										tempClose.setAttribute("title", "<?php echo _t('이 글걸기 목록을 닫습니다.');?>");
 										
 										newDiv = document.createElement("DIV");
 										newDiv.id = "logs_" + id;
@@ -512,7 +519,8 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										newDiv.style.display = "none";
 										newDiv.align = "right";
 										
-										newSection.appendChild(tempLink);
+										newSection.appendChild(tempSend);
+										newSection.appendChild(tempClose);
 										newSection.appendChild(newDiv);
 										newCell.appendChild(newSection);
 										

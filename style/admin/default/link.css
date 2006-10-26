@@ -20,7 +20,6 @@
 }
 
 /* table header */
-
 #part-link-list table.data-inbox thead tr th.homepage
 {
 	padding-left                     : 20px;
@@ -45,7 +44,6 @@
 }
 
 /* table body */
-
 #part-link-list table.data-inbox tbody tr td.homepage
 {
 	background-position              : right bottom;
@@ -122,7 +120,7 @@
 	font-weight                      : bold;
 	height                           : auto;
 	line-height                      : normal;
-	padding                          : 10px 10px 8px 10px;
+	padding                          : 9px 10px 6px 10px !important;
 	vertical-align                   : middle;
 }
 
@@ -137,6 +135,6 @@
 	height                           : auto;
 	line-height                      : normal;
 	margin-top                       : 0.5px;
-	padding                          : 8px 0 5px 0 !important;
+	padding                          : 8px 8px 5px 8px !important;
 	vertical-align                   : middle;
 }

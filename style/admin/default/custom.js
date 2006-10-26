@@ -30,6 +30,20 @@ function execLoadTransform() {
 			document.getElementById(tempIds[i]).appendChild(tempClear);
 		}
 	}
+	
+	tempIds = new Array();
+	tempIds[0] = "sidebar-basic-module-box";
+	tempIds[1] = "sidebar-plugin-module-box";
+	
+	for (i=0; i<tempIds.length; i++) {
+		temp = document.getElementsBySelector("#" + tempIds[i] + " legend");
+		for (j=0; j<temp.length; j++) {
+			tempDiv = document.createElement("DIV");
+			tempDiv.className = "box-title";
+			tempDiv.innerHTML = temp[j].innerHTML;
+			document.getElementById(tempIds[i]).insertBefore(tempDiv, temp[j]);
+		}
+	}
 }
 
 /* document.getElementsBySelector(selector)

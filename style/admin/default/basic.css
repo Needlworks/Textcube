@@ -4,6 +4,7 @@
 
 *
 {
+
 	margin                           : 0;
 	padding                          : 0;
 }
@@ -26,7 +27,7 @@ body
 {
 	background-color                 : #F2F2F2;
 	color                            : #666666;
-	font-family                      : 굴림, Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-family                      : 'Lucida Grande', Arial, 굴림, Gulim, Tahoma, Verdana, sans-serif;
 	font-size                        : small;
 	margin                           : 0 10px 0 10px;
 }
@@ -78,6 +79,11 @@ h2
 h3
 {
 	font-size                        : 1em;
+}
+
+input
+{
+	font-family                      : 'Lucida Grande', Arial, 굴림, Gulim, Tahoma, Verdana, sans-serif;
 }
 
 legend
@@ -340,7 +346,7 @@ textarea
 {
 	background-color                 : #D2D2CC;
 	background-image                 : url("./image/bg_title_left.png");
-	background-position              : left center;
+	background-position              : left top;
 	background-repeat                : no-repeat;
 	clear                            : both;
 	color                            : #000000;
@@ -348,9 +354,21 @@ textarea
 	height                           : 2.5em;
 	font-size                        : 1em;
 	font-weight                      : normal;
-	line-height                      : 2.5em;
+	line-height                      : 2.8em;
 	margin-bottom                    : 10px;
+	overflow                         : hidden;
 	padding-left                     : 35px;
+}
+
+.part .caption span
+{
+	background-color                 : #D2D2CC;
+	background-image                 : url("./image/bg_title_right.png");
+	background-position              : right top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 2.5em;
+	line-height                      : 2.7em;
 }
 
 .main-explain-box .explain
@@ -388,24 +406,14 @@ textarea
 	width                            : 940px;
 }
 
-table.data-inbox
-{
-	border-top                       : 1px solid #D2D2CC;
-}
-
-table.data-inbox thead tr
-{
-	background-color                 : #F3F3F1;
-	background-image                 : url("./image/bg_thead.png");
-	background-position              : left bottom;
-	background-repeat                : repeat-x;
-}
-
 table.data-inbox thead tr th
 {
+	background-color                 : #F3F3F1;
+	border-bottom                    : 1px solid #D2D2CC;
+	border-top                       : 1px solid #D2D2CC;
 	color                            : #333333;
 	font-weight                      : normal;
-	padding                          : 8px 0;
+	padding                          : 6px 0;
 	text-align                       : center;
 }
 
@@ -414,7 +422,7 @@ table.data-inbox tbody tr td
 	background-image                 : url("./image/bg_tbody.gif");
 	background-position              : left bottom;
 	background-repeat                : no-repeat;
-	padding                          : 8px;
+	padding                          : 6px 8px;
 	text-align                       : center;
 	/*vertical-align                   : top;*/
 }
@@ -731,7 +739,7 @@ table.data-inbox tbody tr td.inactive-class
 
 #page-navigation
 {
-	bottom                           : 65px;
+	bottom                           : 30px;
 	position                         : absolute;
 	text-align                       : center;
 	width                            : 940px;
@@ -754,9 +762,8 @@ table.data-inbox tbody tr td.inactive-class
 
 #page-section .page-count
 {
-	position                         : absolute;
-	right                            : 30px;
-	bottom                           : 128px;
+	margin-top                       : -21px;
+	text-align                       : right;
 }
 
 #page-section .page-count select
@@ -803,6 +810,7 @@ table.data-inbox tbody tr td.inactive-class
 }
 
 /* Etc *******************************************************************************************/
+
 /* eolin suggest */
 .eolinSuggest
 {
@@ -846,7 +854,7 @@ table.data-inbox tbody tr td.inactive-class
 	width                            : 100px;
 }
 
-input.input-button
+.input-button
 {
 	background-color                 : #FFFFFF;
 	background-image                 : url("./image/bg_button.png");
@@ -857,7 +865,7 @@ input.input-button
 	font-size                        : 1em;
 	height                           : 1.8em;
 	line-height                      : 1.8em;
-	padding                          : 0 5px;
+	padding                          : 0 10px !important;
 	vertical-align                   : middle;
 }
 
