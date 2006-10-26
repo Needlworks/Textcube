@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<skin version="1.05 " language="ko">
+<skin>
 	<information>
-		<name>tistory 기본 스킨</name> 
-		<version>1.05</version>
-		<description><![CDATA[웹표준을 준수한 XHTML 기반의 Tistory 기본 스킨입니다.
-		시맨틱한 웹을 유지하기 위해 디자인 부분을 style.css 파일에 독립시켜 적용하였으며 
-		자유롭게 디자인을 수정하실 수 있습니다. 
-		블로그 이미지 사이즈 190px,	컨텐츠의 가로 사이즈 500px에 최적화되어 있습니다. 
-		]]></description>
-		<license><![CDATA[수정, 재배포 가능합니다.]]></license>
+		<name>기본 스킨 </name> 
+		<version>1.1</version>
+		<description>
+			<![CDATA[ 웹표준을 준수한 XHTML 기반의 Tistory 기본 스킨입니다.
+					  시맨틱한 웹을 유지하기 위해 디자인 부분을 style.css 파일에 독립시켜 적용하였으며 
+					  자유롭게 디자인을 수정하실 수 있습니다. 
+					  블로그 이미지 사이즈 190px, 컨텐츠의 가로 사이즈 500px에 최적화되어 있습니다. 
+			]]>
+		</description>
+		<license>
+			<![CDATA[자유롭게 수정이 가능하며, 저작권 표시하에 재배포 가능합니다.]]>
+		</license>
 	</information> 
 	<author>
 		<name>leezche</name>
@@ -30,15 +34,15 @@
 		<lengthOfRecentTrackback>30</lengthOfRecentTrackback> 
 		<lengthOfLink>30</lengthOfLink>
 		<showListOnCategory>1</showListOnCategory>
-		<showListOnArchive>1</showListOnArchive>
+		<showListOnArchive>1</showListOnArchive> 
 		<commentMessage>
-			<none>댓글이 없습니다.</none>
+			<none>댓글이 없습니다.</none> 
 			<single>댓글 &lt;span class="cnt"&gt;하나&lt;/span&gt; 달렸습니다.</single>
 		</commentMessage>
 		<trackbackMessage>
 			<none>받은 트랙백이 없고</none>
 			<single>트랙백은 &lt;span class="cnt"&gt;하나&lt;/span&gt;</single>
-		</trackbackMessage>
+		</trackbackMessage>		
 		<tree>
 			<color>000000</color> 
 			<bgColor>ffffff</bgColor>
