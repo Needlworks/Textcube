@@ -189,7 +189,7 @@ if (!empty($owner)) {
 }
 
 function fireEvent($event, $target = null, $mother = null, $condition = true) {
-	global $service, $eventMappings, $pluginURL, $configMappings, $configVal;
+	global $service, $eventMappings, $pluginURL, $pluginPath, $configMappings, $configVal;
 	if (!$condition)
 		return $target;
 	if (!isset($eventMappings[$event]))
@@ -202,6 +202,7 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 			else
 				$configVal =null;
 			$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
+			$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
 			$target = call_user_func($mapping['listener'], $target, $mother);
 		}
 	}
@@ -209,7 +210,7 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 }
 
 function handleTags( & $content) {
-	global $service, $tagMappings, $pluginURL, $configMappings, $configVal;
+	global $service, $tagMappings, $pluginURL, $pluginPath, $configMappings, $configVal;
 	if (preg_match_all('/\[##_(\w+)_##\]/', $content, $matches)) {
 		foreach ($matches[1] as $tag) {
 			if (!isset($tagMappings[$tag]))
@@ -223,6 +224,7 @@ function handleTags( & $content) {
 					else
 						$configVal ='';
 					$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
+					$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
 					$target = call_user_func($mapping['handler'], $target);
 				}
 			}
@@ -232,7 +234,7 @@ function handleTags( & $content) {
 }
 
 function handleCenters($mapping) {
-	global $service, $pluginURL, $configMappings, $configVal;
+	global $service, $pluginURL, $pluginPath, $configMappings, $configVal;
 	$target = '';
 
 	include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
@@ -242,6 +244,7 @@ function handleCenters($mapping) {
 		else
 			$configVal ='';
 		$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
+		$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
 		$target = call_user_func($mapping['handler'], $target);
 	}
 
@@ -250,7 +253,7 @@ function handleCenters($mapping) {
 
 // 저장된 사이드바 정렬 순서 정보를 가져온다.
 function handleSidebars(& $sval, & $obj) {
-	global $service, $pluginURL, $configVal, $configMappings;
+	global $service, $pluginURL, $pluginPath, $configVal, $configMappings;
 	$newSidebarAllOrders = array(); 
 	// [sidebar id][element id](type, id, parameters)
 	// type : 1=skin text, 2=default handler, 3=plug-in
@@ -281,6 +284,7 @@ function handleSidebars(& $sval, & $obj) {
 						$str .= "[##_temp_sidebar_element_{$i}_{$j}_##]";
 						$parameters = $currentSidebarOrder[$j]['parameters'];
 						$pluginURL = "{$service['path']}/plugins/{$plugin}";
+						$pluginPath = ROOT . "/plugins/{$plugin}";
 						if( !empty( $configMappings[$plugin]['config'] ) ) 				
 							$configVal = getCurrentSetting($plugin);
 						else
@@ -314,7 +318,7 @@ function handleSidebars(& $sval, & $obj) {
 }
 
 function handleDataSet( $plugin , $DATA ){
-	global $configMappings, $activePlugins, $service, $pluginURL, $configMapping, $configVal;
+	global $configMappings, $activePlugins, $service, $pluginURL, $pluginPath, $configMapping, $configVal;
 	$xmls = new XMLStruct();
 	if( ! $xmls->open($DATA) ) {
 		unset($xmls);	
@@ -325,6 +329,7 @@ function handleDataSet( $plugin , $DATA ){
 	$reSetting = true;
 	if( !empty( $configMappings[$plugin]['dataValHandler'] ) ){
 		$pluginURL = "{$service['path']}/plugins/{$plugin}";
+		$pluginPath = ROOT . "/plugins/{$plugin}";
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
 		if( function_exists( $configMappings[$plugin]['dataValHandler'] ) ) {
 			if( !empty( $configMappings[$plugin]['config'] ) ) 				
@@ -365,7 +370,7 @@ function fetchConfigVal( $DATA ){
 
 
 function handleConfig( $plugin){
-	global $service , $typeSchema, $pluginURL, $configMappings, $configVal;
+	global $service , $typeSchema, $pluginURL, $pluginPath, $configMappings, $configVal;
 	
 	$typeSchema = array(
 		'text' 
