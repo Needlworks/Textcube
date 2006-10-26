@@ -332,11 +332,13 @@
         <div id="sidebar">
 			<s_sidebar>
 				<s_sidebar_element>
+			    <!-- 블로그 로고 모듈 -->
 					<div class="blogImage"><img src="[##_image_##]" alt="블로그 이미지" /></div>
             		<div class="blogDesc">[##_desc_##] <span class="userID">[##_blogger_##]</span></div>				
 				</s_sidebar_element>
 				
 				<s_sidebar_element>
+		        <!-- 공지사항 모듈 -->
 					<s_rct_notice>
 						<div class="notice">
 							<ul>
@@ -347,8 +349,8 @@
 						</div>
 					</s_rct_notice>
 				</s_sidebar_element>
-
 				<s_sidebar_element>
+			    <!-- 관리자 모듈 -->
 					<div class="adminMenu">
 						<ul>
 							<li class="tab_admin"><a href="[##_owner_url_##]">관리자</a></li>
@@ -358,6 +360,7 @@
 				</s_sidebar_element>
 																
 				<s_sidebar_element>
+			    <!-- 검색 모듈 -->
 					<div class="search">
 						<s_search>
 							<input type="text" name="[##_search_name_##]" value="[##_search_text_##]" onkeypress="if (event.keyCode == 13) { [##_search_onclick_submit_##] }"/>
@@ -367,6 +370,7 @@
 				</s_sidebar_element>
 				
 				<s_sidebar_element>
+		        <!-- 카테고리 모듈 -->	  
 					<div class="category">
 						<h3>카테고리</h3>
 						[##_category_list_##]
@@ -374,6 +378,7 @@
 				</s_sidebar_element>
 				
 				<s_sidebar_element>
+		    	<!-- 태그목록 모듈 -->
 					<div class="tagbox">
 						<h3>태그목록</h3>
 						<ul>
@@ -385,6 +390,7 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
+			    <!-- 최근 포스트 모듈 -->
 					<div class="recentPost">
 						<h3>최근에 올라온 글 </h3>
 						<ul>
@@ -399,6 +405,7 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
+		    	<!-- 최근 댓글 모듈 -->
 					<div class="recentComment">
 						<h3>최근에 달린 댓글</h3>
 						<ul id="recentComments">
@@ -414,6 +421,7 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
+		    	<!-- 최근 트랙백 모듈 -->
 					<div class="recentTrackback">
 						<h3>최근에 받은 트랙백</h3>
 						<ul>
@@ -429,6 +437,7 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
+		    	<!-- 최근 보관함 모듈 -->
 					<div class="archive">
 						<h3>글 보관함</h3>
 						<ul>
@@ -443,6 +452,7 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
+	    		<!-- 달력 모듈 -->
 					<div class="calender">
 						<h3>달력</h3>
 						[##_calendar_##]
@@ -450,6 +460,7 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
+		    	<!-- 링크 모듈 -->
 					<div class="link">
 						<h3>링크</h3>
 						<ul>
@@ -463,20 +474,29 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
+		    	<!-- 카운터 모듈 -->
 					<div class="counter">
 						<ul>
 							<li class="total">Total : [##_count_total_##] </li>
 							<li class="today">Today : [##_count_today_##]</li>
 							<li class="yesterday">Yesterday : [##_count_yesterday_##]</li>
-							<li>[##_StatisticsGraph_##]</li>
 						</ul>
 					</div>
 				</s_sidebar_element>
 
 				<s_sidebar_element>
+	        	<!-- 배너 모듈 -->
 					<div class="botton">
 						<a href="http://www.tattertools.com" onclick="window.open(this.href); return false">
 						<img src="./images/tattertools.gif" alt="Tattertools" /> </a>
+					</div>				
+				</s_sidebar_element>					
+			</s_sidebar>
+			<!-- 최 하단에 배너를 달 수 있는 부분 -->
+			<s_sidebar>
+				<s_sidebar_element>
+	        	<!-- RSS 링크 -->
+					<div class="botton">
 						<a href="[##_rss_url_##]" onclick="window.open(this.href); return false">
 						<img src="./images/rss.gif" alt="rss"/> </a>
 					</div>				

@@ -105,6 +105,8 @@ class Skin {
 		$noNameCount = 1;
 		// - 사이드바가 여러개일 수 있으므로 루프로 돌린다.
 		while (ereg("<s_sidebar>", $sval)) {
+			if (!isset($this->sidebarBasicModules[$sidebarCount]))
+				$this->sidebarBasicModules[$sidebarCount] = array();
 			list($sval, $this->sidebarOriginalContent[$sidebarCount]) = $this->cutSkinTag($sval, "sidebar", "[##_sidebar_{$sidebarCount}_##]");
 			
 			$moduleCount = 0;
@@ -119,8 +121,6 @@ class Skin {
 				$taglength = 19; //strlen('<s_sidebar_element>');
 				$rgSidebarContent[$i] = substr($rgSidebarContent[$i], $taglength, strlen($rgSidebarContent[$i]) - 39);//2*$taglength - 1);
 				// - 각 모듈을 나중에 가져다 쓰기 위해 기본 모듈 배열 안에 저장한다.
-				if (!isset($this->sidebarBasicModules[$sidebarCount]))
-					$this->sidebarBasicModules[$sidebarCount] = array();
 				preg_match("/<!\-\-(.+)\-\->/", $rgSidebarContent[$i], $temp);
 				if (isset($temp[1])) {
 					$tempTitle = trim($temp[1]);
