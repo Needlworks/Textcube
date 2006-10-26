@@ -275,10 +275,11 @@ class KeywordSkin {
 
 	function KeywordSkin($name) {
 		global $service;
-		$filename = ROOT . "/skin/$name/skin_keyword.html";
+		$filename = ROOT . $name;
 		if (!$sval = file_get_contents($filename))
 			respondErrorPage("KeywordSkin");
-		$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
+		$skinPath = substr($name,0,strlen($name)-strlen(ltrim(strrchr($name,'/'),'/')));
+		$sval = str_replace('./', $skinPath, $sval);
 		list($sval, $this->keylogItem) = $this->cutSkinTag($sval, 'blog_rep');
 		list($sval, $this->keylog) = $this->cutSkinTag($sval, 'blog');
 		list($sval, $this->skin) = $this->cutSkinTag($sval, 't3');

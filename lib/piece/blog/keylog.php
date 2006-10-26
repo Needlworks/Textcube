@@ -1,5 +1,5 @@
 <?php
-$skin = new KeywordSkin($skinSetting['skin']);
+$skin = new KeywordSkin($skinSetting['keylogSkin']);
 $out = str_replace("[##_t3_##]", '<script type="text/javascript">var servicePath = "' . $service['path'] . '"; var blogURL = "' . $blogURL . '"; var adminSkin = "' . $adminSkinSetting['skin'] . '";</script><script type="text/javascript" src="' . $service['path'] . '/script/common.js"></script><script type="text/javascript" src="' . $service['path'] . '/script/gallery.js"></script>' . $skin->skin, $skin->outter);
 $keylogView = $skin->keylog;
 $itemsView = '';
