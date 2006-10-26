@@ -32,7 +32,7 @@ if (file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/custom.js"></script>
+	<!-- script type="text/javascript" src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/custom.js"></script -->
 </head>
 <body id="body-notice">
 	<div id="temp-wrap">
