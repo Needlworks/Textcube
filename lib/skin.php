@@ -273,9 +273,8 @@ class KeywordSkin {
 	var $keylog;
 	var $keylogItem;
 
-	function KeywordSkin($name) {
+	function KeywordSkin($filename) {
 		global $service;
-		$filename = ROOT . $name;
 		if (!$sval = file_get_contents($filename))
 			respondErrorPage("KeywordSkin");
 		$skinPath = substr($name,0,strlen($name)-strlen(ltrim(strrchr($name,'/'),'/')));

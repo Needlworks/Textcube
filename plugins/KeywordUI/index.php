@@ -9,6 +9,7 @@ function KeywordUI_bindKeyword($target,$mother) {
 }
 
 function KeywordUI_setSkin($target,$mother) {
-	return "/plugins/KeywordUI/keylogSkin.html";
+	global $pluginPath;
+	return $pluginPath."/keylogSkin.html";
 }
 ?>
