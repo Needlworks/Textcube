@@ -23,7 +23,7 @@ function api_checkHint( $hint )
 
 function api_get_request_id( $id )
 {
-	if( $_GET["id"] )
+	if(array_key_exists('id', $_GET))
 	{
 		return $_GET["id"];
 	}
@@ -34,12 +34,12 @@ function api_get_canonical_id( $id )
 {
 	$alias_file = ROOT . "/.htaliases";
 	$canon = api_get_request_id( $id );
-
+	
 	if( !file_exists( $alias_file ) )
 	{
 		return $canon;
 	}
-
+	
 	$fd = fopen( $alias_file, "r" );
 	while( !feof($fd) )
 	{
@@ -76,7 +76,7 @@ function api_login( $id, $password )
 function api_utf8_substr($str,$start) 
 { 
 	preg_match_all("/./u", $str, $ar); 
-
+	
 	if(func_num_args() >= 3) { 
 		$end = func_get_arg(2); 
 		return join("",array_slice($ar[0],$start,$end)); 
@@ -120,7 +120,6 @@ function api_timestamp( $date8601 )
 
 function api_dateiso8601( $timestamp )
 {
-	$params = func_get_args();
 	return gmstrftime( "%Y%m%dT%H:%M:%S", $timestamp );
 }
 
@@ -144,14 +143,14 @@ function send_failure( $msg )
 function api_getCategoryIdByName( $name_array )
 {
 	$category = new Category();
-	$category->open();
-
+	$category->open(false);
+	
 	$name = $name_array[0];
 	$id = $name;
-
+	
 	while(1)
 	{
-		if( $category->name == $name )
+		if( $category->label == $name )
 		{
 			$id = $category->id;
 			break;
@@ -161,19 +160,19 @@ function api_getCategoryIdByName( $name_array )
 			break;
 		}
 	}
-
+	
 	$category->close();
 	return $id;
-
+	
 }
 
 function api_getCategoryNameById( $id )
 {
 	$category = new Category();
 	$category->open();
-
+	
 	$name = $id;
-
+	
 	while(1)
 	{
 		if( $category->id == $id )
@@ -186,10 +185,10 @@ function api_getCategoryNameById( $id )
 			break;
 		}
 	}
-
+	
 	$category->close();
 	return $name;
-
+	
 }
 
 function api_make_post( $param, $ispublic, $postid = -1 )
@@ -202,9 +201,16 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 			return false;
 		}
 	}
-
+	
 	$post->content = $param['description'];
 	$post->title = $param['title'];
+	
+	$param['mt_excerpt'] = array_key_exists('mt_excerpt', $param) ? $param['mt_excerpt'] : '';
+	$param['tagwords'] = array_key_exists('tagwords', $param) ? $param['tagwords'] : array();
+	$param['categories'] = array_key_exists('categories', $param) ? $param['categories'] : '';
+	$param['dateCreated'] = array_key_exists('dateCreated', $param) ? $param['dateCreated'] : api_dateiso8601(time());
+	$param['mt_allow_comments'] = array_key_exists('mt_allow_comments', $param) ? $param['mt_allow_comments'] : '';
+	$param['mt_allow_pings'] = array_key_exists('mt_allow_pings', $param) ? $param['mt_allow_pings'] : '';
 
 	global $arr_hint;
 	if( api_checkHint("TagsFromCategories") )
@@ -216,13 +222,13 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 		$post->tags = array_merge( split(",", $param['mt_excerpt']) , $param['tagwords'] );
 		$post->category = api_getCategoryIdByName( $param['categories'] );
 	}
-
+	
 	$post->created = api_timestamp( $param['dateCreated'] );
 	$post->modified = api_timestamp( $param['dateCreated'] );
-
+	
 	$post->acceptComment = $param['mt_allow_comments'] !== 0 ? true : false;
 	$post->acceptTrackback = $param['mt_allow_pings'] !== 0 ? true : false;
-
+	
 	if( $ispublic )
 	{
 		$post->visibility = "public";
@@ -232,7 +238,7 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 	{
 		$post->visibility = "private";
 	}
-
+	
 	return $post;
 }
 
@@ -242,21 +248,21 @@ function api_get_post( $post, $type = "bl" )
 	$params = func_get_args();
 	global $service, $hostURL, $blogURL;
 	return array( 
-				"userid" => "",
-				"dateCreated" => api_dateiso8601( $post->created ),
-				"datePosted" => api_dateiso8601( $post->published ),
-				"dateModified" => api_dateiso8601( $post->modified ),
-				"title" =>  api_escape_content($post->title),
-				"postid" => $post->id,
-				"categories" => array( api_getCategoryNameById($post->category) ),
-				"link" => $hostURL . $blogURL . "/" . $post->id ,
-				"permaLink" => $hostURL . $blogURL . "/" . $post->id ,
-				"description" => ($type == "mt" ? $post->content : "" ),
-				"content" => $post->content,
-				"mt_allow_comments" => $post->acceptComment ? 1 : 0,
-				"mt_allow_pings" => $post->acceptTrackback ? 1 : 0,
-				"mt_excerpt" => join( ",", $post->tags )
-				);
+			"userid" => "",
+			"dateCreated" => api_dateiso8601( $post->created ),
+			"datePosted" => api_dateiso8601( $post->published ),
+			"dateModified" => api_dateiso8601( $post->modified ),
+			"title" =>  api_escape_content($post->title),
+			"postid" => $post->id,
+			"categories" => array( api_getCategoryNameById($post->category) ),
+			"link" => $hostURL . $blogURL . "/" . $post->id ,
+			"permaLink" => $hostURL . $blogURL . "/" . $post->id ,
+			"description" => ($type == "mt" ? $post->content : "" ),
+			"content" => $post->content,
+			"mt_allow_comments" => $post->acceptComment ? 1 : 0,
+			"mt_allow_pings" => $post->acceptTrackback ? 1 : 0,
+			"mt_excerpt" => join( ",", $post->tags )
+			);
 }
 
 /* Copied from blog/owner/entry/attach/index.php:getMIMEType,addAttachment */
@@ -341,45 +347,49 @@ function api_file_hash( $content )
 
 function api_addAttachment($owner,$parent,$file){
 	global $database;
-	/*
-	if(empty($file['name'])||($file['error']!=0))
-		return false;
-	if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$parent AND label='{$file['name']}'")>0){
-		return false;
-	}
-	*/
+	
 	$attachment=array();
 	$attachment['parent']=$parent?$parent:0;
 	$attachment['label']=Path::getBaseName($file['name']);
 	$label=mysql_real_escape_string($attachment['label']);
 	$attachment['size']=$file['size'];
 	$extension=Path::getExtension($attachment['label']);
-	$extension = substr( $extension, 1 );
 	switch(strtolower($extension)){
-		case 'exe':
-		case 'php':
-		case 'sh':
-		case 'com':
-		case 'bat':
-			$extension='xxx';
+		case '.exe':
+		case '.php':
+		case '.sh':
+		case '.com':
+		case '.bat':
+			$extension='.xxx';
 			break;
 	}
-
+	
 	/* Create directory for owner */
-	$path="../../attach/$owner";
+	$path = ROOT . "/attach/$owner";
 	if(!is_dir($path)){
 		mkdir($path);
 		if(!is_dir($path))
 			return false;
 		@chmod($path,0777);
 	}
-
-	/* Select unique file name from md5sum of content */
-	$attachment['name'] = api_file_hash( $file['content'] )  . ".$extension";
+	
+	$oldFile = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$parent AND label = '$label'");
+	
+	if ($oldFile !== null) {
+		$attachment['name'] = $oldFile;
+	} else {
+		requireComponent('Tattertools.Data.Attachment');
+		$attachment['name'] = rand(1000000000, 9999999999) . $extension;
+		
+		while (Attachment::doesExist($attachment['name']))
+		$attachment['name'] = rand(1000000000, 9999999999) . $extension;
+	}
+	
+	
 	$attachment['path'] = "$path/{$attachment['name']}";
-
+	
 	api_deleteAttachment($owner,-1,$attachment['name']);
-
+	
 	if( $file['content'] )
 	{
 		$f = fopen( $attachment['path'], "w" );
@@ -391,7 +401,7 @@ function api_addAttachment($owner,$parent,$file){
 		fclose( $f );
 		$file['tmp_name'] = $attachment['path'];
 	}
-
+	
 	if($imageAttributes=@getimagesize($file['tmp_name'])){
 		$attachment['mime']=$imageAttributes['mime'];
 		$attachment['width']=$imageAttributes[0];
@@ -401,10 +411,7 @@ function api_addAttachment($owner,$parent,$file){
 		$attachment['width']=0;
 		$attachment['height']=0;
 	}
-/*
-	if(!move_uploaded_file($file['tmp_name'],$attachment['path']))
-		return false;
-*/
+	
 	@chmod($attachment['path'],0666);
 	$result=mysql_query("insert into {$database['prefix']}Attachments values ($owner, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	if(!$result){
@@ -423,12 +430,16 @@ function api_getAttachments($owner,$parent){
 	$attachments=array();
 	if($result=mysql_query("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent")){
 		while($attachment=mysql_fetch_array($result))
-			array_push($attachments,$attachment);
+		array_push($attachments,$attachment);
 	}
 	return $attachments;
 }
 function api_deleteAttachment($owner,$parent,$name){
 	global $database;
+	
+	requireComponent('Eolin.PHP.Core');
+	$name = Path::getBaseName($name);
+	
 	@unlink(ROOT . "/attach/$owner/$name");
 	$name=mysql_real_escape_string($name);
 	$parent_clause = "";
@@ -449,20 +460,43 @@ function api_deleteAttachments($owner,$parent){
 
 /* Work around end */
 
-function api_get_attaches( $content, $parent )
+function api_get_attaches( $content)
 {
 	global $owner;
 	preg_match_all( "/attach\/$owner\/(ta.{7}tt.{7}er.{7}\.[a-z]{2,5})/", $content, $matches );
 	return $matches[1];
 }
 
-function api_update_attaches( $attaches, $parent )
+function api_update_attaches( $parent, $attaches = null)
 {
 	global $database, $owner;
-	foreach( $attaches as $att )
-	{
-		mysql_query( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0 and name='" . $att . "'");
+	if (is_null($attaches)) {
+		mysql_query( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0");		
+	} else {
+		foreach( $attaches as $att )
+		{
+			$att = mysql_real_escape_string($att);
+			mysql_query( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0 and name='" . $att . "'");
+		}
 	}
+}
+
+function api_update_attaches_with_replace($entryId)
+{
+	global $database, $owner;
+	
+	requireComponent('Eolin.PHP.Core');
+	$newFiles = DBQuery::queryAll("SELECT name, label FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=0");
+	foreach($newFiles as $newfile) {
+		$newfile['label'] = mysql_real_escape_string($newfile['label']);
+		$oldFile = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$entryId AND label='{$newfile['label']}'");
+	
+		if (!is_null($oldFile)) {
+			api_deleteAttachment($owner, $entryId, $oldFile);
+		}
+	}
+	
+	api_update_attaches($entryId);
 }
 
 /*--------- API main ---------------*/
@@ -548,7 +582,7 @@ function blogger_newPost()
 	if( !$post->add() )
 	{
 		$post->close();
-		return XMLRPCFault( 1, "Posting error" );
+		return new XMLRPCFault( 1, "Posting error" );
 	}
 
 	RSS::refresh();
@@ -709,21 +743,21 @@ function metaWeblog_getCategories()
 	}
 
 	$category = new Category();
-	$category->open();
+	$category->open(false);
 
 
 	$cat = array();
 	while($category->id)
 	{
 		array_push( $cat, array( 
-			'htmlUrl' => "$hostURL$blogURL/category/" . $category->name,
-			'rssUrl' => "$hostURL$blogURL/SubRSS.php?ct1=" . $category->id,
-			'categoryName' => $category->name,
-			'description' => $category->name,
-			'title' => $category->name,
+			'htmlUrl' => "$hostURL$blogURL/category/" . $category->label,
+			'rssUrl' => "",
+			'categoryName' => $category->label,
+			'description' => $category->label,
+			'title' => $category->label,
 			'categoryid' => $category->id,
-			'categoryId' => $category->id,
-			'isPrimary' => true ) );
+			'isPrimary' => true 
+			) );
 			
 		if( !$category->shift() )
 		{
@@ -828,15 +862,13 @@ function metaWeblog_newPost()
 
 	$post = api_make_post( $params[3], $params[4] );
 
-	$attaches = api_get_attaches( $post->content );
-
 	if( !$post->add() )
 	{
 		$post->close();
-		return XMLRPCFault( 1, "Tattertools posting error" );
+		return new XMLRPCFault( 1, "Tattertools posting error" );
 	}
 
-	api_update_attaches( $attaches, $post->id );
+	api_update_attaches($post->id );
 	RSS::refresh();
 
 
@@ -858,7 +890,7 @@ function mt_setPostCategories()
 	$post = new Post();
 	if( !$post->open( $params[0] ) )
 	{
-		return XMLRPCFault( 1, "Posting error" );
+		return new XMLRPCFault( 1, "Posting error" );
 	}
 
 	$category = "";
@@ -908,16 +940,17 @@ function metaWeblog_editPost()
 	}
 
 	$post = api_make_post( $params[3], $params[4], $params[0] );
+	$post->created = null;
 	if( !$post )
 	{
-		return XMLRPCFault( 1, "Tattertools editing error" );
+		return new XMLRPCFault( 1, "Tattertools editing error" );
 	}
-
-	$attaches = api_get_attaches( $post->content );
 
 	$ret = $post->update();
 
-	api_update_attaches( $attaches, $post->id );
+	// 기존 글의 파일들 지우기 (잘 찾아서)
+	// 새로 업로드 된 파일들 옮기기
+	api_update_attaches_with_replace( $post->id );
 	RSS::refresh();
 
 	$post->close();

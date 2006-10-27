@@ -223,7 +223,7 @@ class XMLRPC {
 			}
 		} else if ((strlen($value) == 17) && ($value{8} == 'T') && ($value{11} == ':') && ($value{14} == ':')) {
 			echo '<dateTime.iso8601>';
-			echo $value->time;
+			echo $value;
 			echo '</dateTime.iso8601>';
 		} else {
 			echo '<string>';
