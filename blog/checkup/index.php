@@ -355,6 +355,25 @@ if (DBQuery::queryCell("DESC {$database['prefix']}UserSettings value", 'Type') !
 	}
 }
 
+if (DBQuery::queryCell("DESC {$database['prefix']}Comments isFiltered", 'Type') != 'int(11)') {
+	$changed = true;
+	echo '<li>', _text('휴지통 테이블의 필드 속성을 변경합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments CHANGE isFiltered isFiltered int(11) NOT NULL DEFAULT 0")) {
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	} else {
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+	}
+}
+
+if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks isFiltered", 'Type') != 'int(11)') {
+	$changed = true;
+	echo '<li>', _text('휴지통 테이블의 필드 속성을 변경합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks CHANGE isFiltered isFiltered int(11) NOT NULL DEFAULT 0")) {
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	} else {
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+	}
+}
 
 ?>
 </ul>

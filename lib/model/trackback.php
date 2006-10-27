@@ -128,7 +128,7 @@ function trashTrackback($owner, $id) {
 	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!executeQuery("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 1 WHERE owner = $owner AND id = $id"))
+	if (!executeQuery("UPDATE {$database['prefix']}Trackbacks SET isFiltered = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($owner, $entry))
 		return $entry;

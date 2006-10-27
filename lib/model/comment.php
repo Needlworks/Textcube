@@ -429,7 +429,7 @@ function trashComment($owner, $id, $entry, $password) {
 	if (!doesHaveOwnership()) {
 		return false;
 	}
-	$sql = "update {$database['prefix']}Comments set isFiltered = 1 where owner = $owner and id = $id and entry = $entry";
+	$sql = "update {$database['prefix']}Comments set isFiltered = UNIX_TIMESTAMP() where owner = $owner and id = $id and entry = $entry";
 	$result = mysql_query($sql);
 	if (mysql_affected_rows() > 0) {
 		updateCommentsOfEntry($owner, $entry);
@@ -485,9 +485,9 @@ function deleteCommentInOwner($owner, $id) {
 function trashCommentInOwner($owner, $id) {
 	global $database;
 	$entryId = fetchQueryCell("SELECT entry FROM {$database['prefix']}Comments WHERE owner = $owner AND id = $id");
-	$result = mysql_query("UPDATE {$database['prefix']}Comments SET isFiltered = 1 WHERE owner = $owner AND id = $id");
+	$result = mysql_query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id");
 	if ($result && (mysql_affected_rows() == 1)) {
-		if (mysql_query("UPDATE {$database['prefix']}Comments SET isFiltered = 1 WHERE owner = $owner AND parent = $id")) {
+		if (mysql_query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE owner = $owner AND parent = $id")) {
 			updateCommentsOfEntry($owner, $entryId);
 			return true;
 		}

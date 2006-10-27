@@ -21,7 +21,6 @@ if (!empty($_POST['mode'])) {
 		case 'delete':
 			if (!list($entryId) = getCommentAttributes($owner, $suri['id'], 'entry'))
 				respondErrorPage(_text('댓글이 존재하지 않습니다.'));
-				
 			$result = false;
 			if (doesHaveOwnership()) {
 				$result = trashComment($owner, $suri['id'], $entryId, isset($_POST['password']) ? $_POST['password'] : '');

@@ -5,7 +5,7 @@ function getTrashTrackbackWithPagingForOwner($owner, $category, $site, $ip, $sea
 	global $database;
 	
 	$postfix = '';
-	$sql = "SELECT t.*, c.name categoryName FROM {$database['prefix']}Trackbacks t LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Categories c ON t.owner = c.owner AND e.category = c.id WHERE t.owner = $owner AND t.isFiltered = 1";
+	$sql = "SELECT t.*, c.name categoryName FROM {$database['prefix']}Trackbacks t LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Categories c ON t.owner = c.owner AND e.category = c.id WHERE t.owner = $owner AND t.isFiltered > 0";
 	if ($category > 0) {
 		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
 		array_push($categories, $category);
@@ -37,7 +37,7 @@ function getTrashTrackbackWithPagingForOwner($owner, $category, $site, $ip, $sea
 
 function getTrashCommentsWithPagingForOwner($owner, $category, $name, $ip, $search, $page, $count) {
 	global $database;
-	$sql = "SELECT c.*, e.title, c2.name parentName FROM {$database['prefix']}Comments c LEFT JOIN {$database['prefix']}Entries e ON c.owner = e.owner AND c.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.owner = c2.owner WHERE c.owner = $owner AND c.isFiltered = 1";
+	$sql = "SELECT c.*, e.title, c2.name parentName FROM {$database['prefix']}Comments c LEFT JOIN {$database['prefix']}Entries e ON c.owner = e.owner AND c.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.owner = c2.owner WHERE c.owner = $owner AND c.isFiltered > 0";
 
 	$postfix = '';	
 	if ($category > 0) {
@@ -115,8 +115,8 @@ function restoreTrackbackTrash($owner, $id) {
 
 function trashVan() {
    	global $database;
-	executeQuery("DELETE FROM {$database['prefix']}Comments where written < UNIX_TIMESTAMP() - 1296000 AND isFiltered = 1");
-	executeQuery("DELETE FROM {$database['prefix']}Trackbacks where written < UNIX_TIMESTAMP() - 1296000 AND isFiltered = 1");
+	executeQuery("DELETE FROM {$database['prefix']}Comments where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
+	executeQuery("DELETE FROM {$database['prefix']}Trackbacks where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
 }
 
 ?>
