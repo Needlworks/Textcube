@@ -66,7 +66,7 @@ function CT_TNF_Notice($target) {
 			$target .= _t('공지사항이 없습니다.');
 		}
 	} else {
-		$target .= _t('공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 보심시오');
+		$target .= _t('공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 주십시오');
 	}
 
 	unset($feed);
