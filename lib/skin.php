@@ -277,7 +277,7 @@ class KeywordSkin {
 		global $service;
 		if (!$sval = file_get_contents($filename))
 			respondErrorPage("KeywordSkin");
-		$skinPath = substr($name,0,strlen($name)-strlen(ltrim(strrchr($name,'/'),'/')));
+		$skinPath = substr($filename,0,strlen($filename)-strlen(ltrim(strrchr($filename,'/'),'/')));
 		$sval = str_replace('./', $skinPath, $sval);
 		list($sval, $this->keylogItem) = $this->cutSkinTag($sval, 'blog_rep');
 		list($sval, $this->keylog) = $this->cutSkinTag($sval, 'blog');
