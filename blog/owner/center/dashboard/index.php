@@ -294,7 +294,7 @@ foreach ($newlayout as $mapping) {
 	if ($mapping['plugin'] == 'TatterToolsSeperator') {
 ?>
 									</div>
-									<div id="dojo_boardbar'. ($boardbarNumber + 1).'" class="panel">
+									<div id="dojo_boardbar<?php echo $boardbarNumber + 1;?>" class="panel">
 <?php
 		$secondposition[$boardbarNumber] = $positionCounter;
 		$boardbarNumber++;
