@@ -14,354 +14,357 @@ function printOwnerEditorScript($entryId = false) {
 		}
 	}
 ?>
-						<script type="text/javascript">
-							//<![CDATA[
-								var entryId = <?php echo $entryId ? $entryId : 0;?>; 
-								var skinContentWidth = <?php echo $contentWidth;?>;
-								var s_enterURL = "<?php echo _t('URL을 입력하세요.');?>";
-								var s_unknownFileType = "<?php echo _t('알 수 없는 형식의 파일명입니다.');?>";
-								var s_enterObjectTag = "<?php echo _t('OBJECT 태그만 입력하세요.');?>";
-								var s_enterCorrectObjectTag = "<?php echo _t('잘못된 OBJECT 태그입니다.');?>";
-								var s_selectBoxArea = "<?php echo _t('박스로 둘러쌀 영역을 선택해주세요');?>";
-								var s_selectLinkArea = "<?php echo _t('링크를 만들 영역을 선택해주세요');?>";
- 								
- 								function savePosition() {
-									if (document.forms[0].content.createTextRange)
-										document.forms[0].content.currentPos = document.selection.createRange().duplicate();
-									return true;
-								}
-								
-								function insertTag(prefix, postfix) {
-									var oTextarea = document.forms[0].content;
-									if(isSafari) 
-										var selection = window.getSelection;
-									else
-										var selection = document.selection;
-									
-									if (selection) {			
-										if (oTextarea.createTextRange && oTextarea.currentPos) {				
-											oTextarea.currentPos.text = prefix + oTextarea.currentPos.text + postfix;
-											oTextarea.focus();
-											savePosition(oTextarea);
-										}
-										else
-											oTextarea.value = oTextarea.value + prefix + postfix;
-									}
-									else if (oTextarea.selectionStart != null && oTextarea.selectionEnd != null) {
-										var s1 = oTextarea.value.substring(0, oTextarea.selectionStart);
-										var s2 = oTextarea.value.substring(oTextarea.selectionStart, oTextarea.selectionEnd);
-										var s3 = oTextarea.value.substring(oTextarea.selectionEnd);
-										oTextarea.value = s1 + prefix + s2 + postfix + s3;
-									}
-									else
-										oTextarea.value += prefix + postfix;
-										
-									return true;	
-								}
-								
-								function insertColorTag(col1) {
-									hideLayer("colorPalette");
-									TTCommand("Color", col1);
-								}
-								
-								function insertMarkTag(col1) {
-									hideLayer("markPalette");
-									TTCommand("Mark", col1);
-								}
-								
-								function linkImage1(align) {
-									var oSelect = document.forms[0].fileList;
-									if (oSelect.selectedIndex < 0) {
-										alert("<?php echo _t('파일을 선택하십시오.');?>");
-										return false;
-									}
-									var value = oSelect.options[oSelect.selectedIndex].value.split("|");
-									var result_w = new RegExp("width=['\"]?(\\d+)").exec(value[1]);
-									var result_h = new RegExp("height=['\"]?(\\d+)").exec(value[1]);
-									if(result_w && result_h)
-									{
-										width = result_w[1];
-										height = result_h[1];
-										if(width > skinContentWidth)
-										{
-											height = parseInt(height * (skinContentWidth / width));
-											value[1] = value[1].replace(new RegExp("width=['\"]?\\d+['\"]?", "gi"), 'width="' + skinContentWidth + '"');
-											value[1] = value[1].replace(new RegExp("height=['\"]?\\d+['\"]?", "gi"), 'height="' + height + '"');
-										}
-									}
-									if(editor.isMediaFile(value[0])) {
-										getObject("propertyInsertObject_type").value = "url";
-										getObject("propertyInsertObject_url").value = "<?php echo "$hostURL$blogURL";?>" + "/attachment/" + value[0];
-										TTCommand("InsertObject");
-										return;
-									}
-									try {
-										if(editor.editMode == "WYSIWYG")
-										{
-											var src = editor.propertyFilePath + value[0];
-											var attributes = editor.addQuot(value[1]);
-											
-											if(!(new RegExp("\.(jpe?g|gif|png|bmp)$", "i").test(value[0])))
-											{
-											src = servicePath + adminSkin + "/image/spacer.gif";
-												value[1] = editor.styleUnknown;
-												attributes = "";				
-											}
-											
-											switch(align)
-											{
-												case "1L":
-													var prefix = "<img class=\"tatterImageLeft\" src=\"" + src + "\" " + value[1] + " longdesc=\"1L|" + value[0] + "|" + attributes + "|\" />";
-													break;
-												case "1C":
-													var prefix = "<img class=\"tatterImageCenter\" src=\"" + src + "\" " + value[1] + " longdesc=\"1C|" + value[0] + "|" + attributes + "|\" />";
-													break;
-												case "1R":
-													var prefix = "<img class=\"tatterImageRight\" src=\"" + src + "\" " + value[1] + " longdesc=\"1R|" + value[0] + "|" + attributes + "|\" />";
-													break;
-											}
-											TTCommand("Raw", prefix);
-											return true;
-										}
-									} catch(e) { }
-									insertTag('[##_' + align + '|' + value[0] + '|' + value[1] + '|_##]', "");
-									return true;
-								}
-								
-								function linkImage2() {
-									var oSelect = document.forms[0].fileList;
-									var count = 0;
-									var prefix = '';
-									for (var i = 0; i < oSelect.options.length; i++) {
-										if (oSelect.options[i].selected == true) {
-											var value = oSelect.options[i].value.split("|");
-											var result_w = new RegExp("width=['\"]?(\\d+)").exec(value[1]);
-											var result_h = new RegExp("height=['\"]?(\\d+)").exec(value[1]);
-											if(result_w && result_h)
-											{
-												width = result_w[1];
-												height = result_h[1];
-												if(width > skinContentWidth / 2)
-												{
-													height = parseInt(height * (skinContentWidth / 2 / width));
-													value[1] = value[1].replace(new RegExp("width=['\"]?\\d+['\"]?", "gi"), 'width="' + parseInt(skinContentWidth / 2) + '"');
-													value[1] = value[1].replace(new RegExp("height=['\"]?\\d+['\"]?", "gi"), 'height="' + height + '"');
-												}
-											}
-											prefix = prefix + '^' + value[0] + '|' + value[1] + '|';
-											count ++;
-										}
-									}
-									if (count != 2) {
-										alert("<?php echo _t('파일 리스트에서 이미지를 2개 선택해 주십시오. (ctrl + 마우스 왼쪽 클릭)');?>");
-										return false;
-									}
-									var imageinfo = prefix.split("^");
-									try {
-										if(editor.editMode == "WYSIWYG") {			
-											var prefix = '<img class="tatterImageDual" src="' + servicePath + adminSkin + '/image/spacer.gif" width="200" height="100" longdesc="2C|' + editor.addQuot(imageinfo[1]) + '|' + editor.addQuot(imageinfo[2]) + '" />';
-											TTCommand("Raw", prefix);
-											return true;
-										}
-									} catch(e) { }
-									insertTag('[##_2C|' + imageinfo[1] + '|' + imageinfo[2] + '_##]', '');
-									return true;
-								}
-								
-								function linkImage3() {
-									var oSelect = document.forms[0].fileList;
-									var count = 0;
-									var prefix = '';
-									for (var i = 0; i < oSelect.options.length; i++) {
-										if (oSelect.options[i].selected == true) {
-											var value = oSelect.options[i].value.split("|");
-											var result_w = new RegExp("width=['\"]?(\\d+)").exec(value[1]);
-											var result_h = new RegExp("height=['\"]?(\\d+)").exec(value[1]);
-											if(result_w && result_h)
-											{
-												width = result_w[1];
-												height = result_h[1];
-												if(width > skinContentWidth / 3)
-												{
-													height = parseInt(height * (skinContentWidth / 3 / width));
-													value[1] = value[1].replace(new RegExp("width=['\"]?\\d+['\"]?", "gi"), 'width="' + parseInt(skinContentWidth / 3) + '"');
-													value[1] = value[1].replace(new RegExp("height=['\"]?\\d+['\"]?", "gi"), 'height="' + height + '"');
-												}
-											}
-											prefix = prefix + '^' + value[0] + '|' + value[1] + '|';
-											count++;
-										}
-									}
-									if (count != 3) {
-										alert("<?php echo _t('파일 리스트에서 이미지를 3개 선택해 주십시오. (ctrl + 마우스 왼쪽 클릭)');?>");
-										return false;
-									}
-									var imageinfo = prefix.split("^");
-									try {
-										if(editor.editMode == "WYSIWYG") {
-											var prefix = '<img class="tatterImageTriple" src="' + servicePath + adminSkin + '/image/spacer.gif" width="300" height="100" longdesc="3C|' + editor.addQuot(imageinfo[1]) + '|' + editor.addQuot(imageinfo[2]) + '|' + editor.addQuot(imageinfo[3]) + '" />';
-											TTCommand("Raw", prefix);
-											return true;
-										}
-									} catch(e) { }
-									insertTag('[##_3C|' + imageinfo[1] + '|' + imageinfo[2] + '|' + imageinfo[3] + '_##]', '');
-									return true;
-								}
-								
-								function linkImageFree() {
-									var isWYSIWYG = false;
-									try {
-										if(editor.editMode == "WYSIWYG")
-											isWYSIWYG = true;
-									} catch(e) { }		
-									var oSelect = document.forms[0].fileList;
-									var prefix = '';
-									for (var i = 0; i < oSelect.options.length; i++) {
-										if (oSelect.options[i].selected == true) {
-											var value = oSelect.options[i].value.split("|");
-											if(new RegExp("\\.(gif|jpe?g|png|bmp)$", "i").test(value[0])) {
-												if(isWYSIWYG)
-													prefix += '<img class="tatterImageFree" src="' + editor.propertyFilePath + value[0] + '" longdesc="[##_ATTACH_PATH_##]/' + value[0] + '" ' + value[1] + ' />';
-												else
-													prefix += '<img src="[##_ATTACH_PATH_##]/' + value[0] + '" ' + value[1] + ' />';
-											}
-										}
-									}
-									TTCommand("Raw", prefix);
-									return true;
-								}
-								
-								var iMazingProperties = new Array();
-								iMazingProperties['width'] = 450;
-								iMazingProperties['height'] = 350;
-								iMazingProperties['frame'] = 'net_imazing_frame_none';
-								iMazingProperties['transition'] = 'net_imazing_show_window_transition_alpha';
-								iMazingProperties['navigation'] = 'net_imazing_show_window_navigation_simple';
-								iMazingProperties['slideshowInterval'] = 10;
-								iMazingProperties['page'] = 1;
-								iMazingProperties['align'] = 'h';
-								iMazingProperties['skinPath'] = '<?php echo $service['path'];?>/script/gallery/iMazing/';
-								
-								function viewImazing()
-								{
-									try
-									{
-										var oSelect = document.forms[0].fileList;
-										if (oSelect.selectedIndex < 0) {
-											alert("<?php echo _t('파일을 선택하십시오.');?>");
-											return false;
-										}
-										var value = oSelect.options[oSelect.selectedIndex].value.split("|");
-										
-										var fileList = '';
-										for (var i = 0; i<oSelect.length; i++) {
-											if (!oSelect.options[i].selected) continue;
-											file = (oSelect[i].value.substr(oSelect[i].value,oSelect[i].value.indexOf('|')));				
-											if(new RegExp("\\.jpe?g$", "gi").exec(file))
-												fileList += file+'||';
-										}
-										if(fileList == '') {
-											alert("<?php echo _t('이미지 파일만 삽입 가능합니다.');?>");
-											return false;
-										}
-										fileList = fileList.substr(0,fileList.length-1);
-										var Properties = '';
-										for (var name in iMazingProperties) {
-											Properties += name+'='+iMazingProperties[name]+' ';
-										}
-										try {
-											if(editor.editMode == "WYSIWYG") {
-												TTCommand("Raw", '<img class="tatterImazing" src="' + servicePath + adminSkin + '/image/spacer.gif" width="400" height="300" longdesc="iMazing|' + fileList + '|' + Properties + '|" />');
-												return true;
-											}
-										} catch(e) { }
-								
-										insertTag('[##_iMazing|' + fileList + '|' + Properties +'|_##]', '');
-										return true;
-									} catch(e) {
-										return false;
-									}
-								}
-								
-								function viewGallery()
-								{
-									try
-									{
-										var oSelect = document.forms[0].fileList;
-										if (oSelect.selectedIndex < 0) {
-											alert("<?php echo _t('파일을 선택하십시오.');?>");
-											return false;
-										}
-										var value = oSelect.options[oSelect.selectedIndex].value.split("|");
-										
-										var fileList = '';
-										for (var i = 0; i<oSelect.length; i++) {
-											if (!oSelect.options[i].selected) continue;
-											file = (oSelect[i].value.substr(oSelect[i].value,oSelect[i].value.indexOf('|')));
-											if(new RegExp("\\.(gif|jpe?g|png)$", "gi").exec(file))
-												fileList += file+'||';
-										}
-										if(fileList == '') {
-											alert("<?php echo _t('이미지 파일만 삽입 가능합니다.');?>");
-											return false;
-										}
-										fileList = fileList.substr(0,fileList.length-1);
-										try {
-											if(editor.editMode == "WYSIWYG") {
-												TTCommand("Raw", '<img class="tatterGallery" src="' + servicePath + adminSkin + '/image/spacer.gif" width="400" height="300" longdesc="Gallery|' + fileList + '|width=&quot;400&quot; height=&quot;300&quot;" />');
-												return true;
-											}
-										} catch(e) { }
-											insertTag('[##_Gallery|' + fileList + '|width="400" height="300"_##]', '');
-										return true;
-									} catch(e) {
-										return false;
-									}
-								}	
-								
-								function viewJukebox()
-								{
-									try
-									{
-										var oSelect = document.forms[0].fileList;
-										if (oSelect.selectedIndex < 0) {
-											alert("<?php echo _t('파일을 선택하십시오.');?>");
-											return false;
-										}
-										var value = oSelect.options[oSelect.selectedIndex].value.split("|");
-										
-										var fileList = '';
-										for (var i = 0; i<oSelect.length; i++) {
-											if (!oSelect.options[i].selected) continue;
-											file = (oSelect[i].value.substr(oSelect[i].value,oSelect[i].value.indexOf('|')));
-											if(new RegExp("\\.mp3$", "gi").exec(file))
-											{
-												fileList += file + "|";
-												if(result = new RegExp("(.*)\\.mp3", "gi").exec(oSelect.options[i].text))
-													fileList += result[1].replaceAll("|","") + "|";
-												else
-													fileList += "|";
-											}
-										}
-										if(fileList == '') {
-											alert("<?php echo _t('MP3 파일만 삽입 가능합니다.');?>");
-											return false;
-										}
-										fileList = fileList.substr(0,fileList.length-1);
-										try {
-											if(editor.editMode == "WYSIWYG") {
-												TTCommand("Raw", '<img class="tatterJukebox" src="' + servicePath + adminSkin + '/image/spacer.gif" width="200" height="30" longdesc="Jukebox|' + fileList + '|autoplay=0 visible=1|" />');
-												return true;
-											}
-										} catch(e) { }
-										insertTag('[##_Jukebox|' + fileList + '|autoplay=0 visible=1|_##]', '');
-										return true;
-									} catch(e) {
-										return false;
-									}
-								}	
-							//]]>
-						</script>
+<script type="text/javascript">
+//<![CDATA[
+	var entryId = <?php echo $entryId ? $entryId : 0;?>; 
+	var skinContentWidth = <?php echo $contentWidth;?>;
+	var s_enterURL = "<?php echo _t('URL을 입력하세요.');?>";
+	var s_unknownFileType = "<?php echo _t('알 수 없는 형식의 파일명입니다.');?>";
+	var s_enterObjectTag = "<?php echo _t('OBJECT 태그만 입력하세요.');?>";
+	var s_enterCorrectObjectTag = "<?php echo _t('잘못된 OBJECT 태그입니다.');?>";
+	var s_selectBoxArea = "<?php echo _t('박스로 둘러쌀 영역을 선택해주세요');?>";
+	var s_selectLinkArea = "<?php echo _t('링크를 만들 영역을 선택해주세요');?>";
+
+	window.addEventListener("scroll", function() { editor.setPropertyPosition(); }, false);
+
+	function savePosition() {
+		if (document.forms[0].content.createTextRange)
+			document.forms[0].content.currentPos = document.selection.createRange().duplicate();
+		return true;
+	}
+	
+	function insertTag(prefix, postfix) {
+		var oTextarea = document.forms[0].content;
+		if(isSafari) 
+			var selection = window.getSelection;
+		else
+			var selection = document.selection;
+		
+		if (selection) {			
+			if (oTextarea.createTextRange && oTextarea.currentPos) {				
+				oTextarea.currentPos.text = prefix + oTextarea.currentPos.text + postfix;
+				oTextarea.focus();
+				savePosition(oTextarea);
+			}
+			else
+				oTextarea.value = oTextarea.value + prefix + postfix;
+		}
+		else if (oTextarea.selectionStart != null && oTextarea.selectionEnd != null) {
+			var s1 = oTextarea.value.substring(0, oTextarea.selectionStart);
+			var s2 = oTextarea.value.substring(oTextarea.selectionStart, oTextarea.selectionEnd);
+			var s3 = oTextarea.value.substring(oTextarea.selectionEnd);
+			oTextarea.value = s1 + prefix + s2 + postfix + s3;
+		}
+		else
+			oTextarea.value += prefix + postfix;
+			
+		return true;	
+	}
+	
+	function insertColorTag(col1) {
+		hideLayer("colorPalette");
+		TTCommand("Color", col1);
+	}
+	
+	function insertMarkTag(col1) {
+		hideLayer("markPalette");
+		TTCommand("Mark", col1);
+	}
+	
+	function linkImage1(align, caption) {
+		var oSelect = document.forms[0].fileList;
+		if (oSelect.selectedIndex < 0) {
+			alert("<?php echo _t('파일을 선택하십시오.');?>");
+			return false;
+		}
+		var value = oSelect.options[oSelect.selectedIndex].value.split("|");
+		var result_w = new RegExp("width=['\"]?(\\d+)").exec(value[1]);
+		var result_h = new RegExp("height=['\"]?(\\d+)").exec(value[1]);
+		catption = (caption == undefined) ? "" : caption.replaceAll("|", "");
+		if(result_w && result_h)
+		{
+			width = result_w[1];
+			height = result_h[1];
+			if(width > skinContentWidth)
+			{
+				height = parseInt(height * (skinContentWidth / width));
+				value[1] = value[1].replace(new RegExp("width=['\"]?\\d+['\"]?", "gi"), 'width="' + skinContentWidth + '"');
+				value[1] = value[1].replace(new RegExp("height=['\"]?\\d+['\"]?", "gi"), 'height="' + height + '"');
+			}
+		}
+		if(editor.isMediaFile(value[0])) {
+			getObject("propertyInsertObject_type").value = "url";
+			getObject("propertyInsertObject_url").value = "<?php echo "$hostURL$blogURL";?>" + "/attachment/" + value[0];
+			TTCommand("InsertObject");
+			return;
+		}
+		try {
+			if(editor.editMode == "WYSIWYG")
+			{
+				var src = editor.propertyFilePath + value[0];
+				var attributes = editor.addQuot(value[1]);
+				
+				if(!(new RegExp("\.(jpe?g|gif|png|bmp)$", "i").test(value[0])))
+				{
+					src = servicePath + adminSkin + "/image/spacer.gif";
+					value[1] = editor.styleUnknown;
+					attributes = "";				
+				}
+				
+				switch(align)
+				{
+					case "1L":
+						var prefix = "<img class=\"tatterImageLeft\" src=\"" + src + "\" " + value[1] + " longdesc=\"1L|" + value[0] + "|" + attributes + "|" + catption + "\" />";
+						break;
+					case "1C":
+						var prefix = "<img class=\"tatterImageCenter\" src=\"" + src + "\" " + value[1] + " longdesc=\"1C|" + value[0] + "|" + attributes + "|" + catption + "\" />";
+						break;
+					case "1R":
+						var prefix = "<img class=\"tatterImageRight\" src=\"" + src + "\" " + value[1] + " longdesc=\"1R|" + value[0] + "|" + attributes + "|" + catption + "\" />";
+						break;
+				}
+				TTCommand("Raw", prefix);
+				return true;
+			}
+		} catch(e) { }
+		insertTag('[##_' + align + '|' + value[0] + '|' + value[1] + '|' + caption + '_##]', "");
+		return true;
+	}
+	
+	function linkImage2() {
+		var oSelect = document.forms[0].fileList;
+		var count = 0;
+		var prefix = '';
+		for (var i = 0; i < oSelect.options.length; i++) {
+			if (oSelect.options[i].selected == true) {
+				var value = oSelect.options[i].value.split("|");
+				var result_w = new RegExp("width=['\"]?(\\d+)").exec(value[1]);
+				var result_h = new RegExp("height=['\"]?(\\d+)").exec(value[1]);
+				if(result_w && result_h)
+				{
+					width = result_w[1];
+					height = result_h[1];
+					if(width > skinContentWidth / 2)
+					{
+						height = parseInt(height * (skinContentWidth / 2 / width));
+						value[1] = value[1].replace(new RegExp("width=['\"]?\\d+['\"]?", "gi"), 'width="' + parseInt(skinContentWidth / 2) + '"');
+						value[1] = value[1].replace(new RegExp("height=['\"]?\\d+['\"]?", "gi"), 'height="' + height + '"');
+					}
+				}
+				prefix = prefix + '^' + value[0] + '|' + value[1] + '|';
+				count ++;
+			}
+		}
+		if (count != 2) {
+			alert("<?php echo _t('파일 리스트에서 이미지를 2개 선택해 주십시오. (ctrl + 마우스 왼쪽 클릭)');?>");
+			return false;
+		}
+		var imageinfo = prefix.split("^");
+		try {
+			if(editor.editMode == "WYSIWYG") {			
+				var prefix = '<img class="tatterImageDual" src="' + servicePath + adminSkin + '/image/spacer.gif" width="200" height="100" longdesc="2C|' + editor.addQuot(imageinfo[1]) + '|' + editor.addQuot(imageinfo[2]) + '" />';
+				TTCommand("Raw", prefix);
+				return true;
+			}
+		} catch(e) { }
+		insertTag('[##_2C|' + imageinfo[1] + '|' + imageinfo[2] + '_##]', '');
+		return true;
+	}
+	
+	function linkImage3() {
+		var oSelect = document.forms[0].fileList;
+		var count = 0;
+		var prefix = '';
+		for (var i = 0; i < oSelect.options.length; i++) {
+			if (oSelect.options[i].selected == true) {
+				var value = oSelect.options[i].value.split("|");
+				var result_w = new RegExp("width=['\"]?(\\d+)").exec(value[1]);
+				var result_h = new RegExp("height=['\"]?(\\d+)").exec(value[1]);
+				if(result_w && result_h)
+				{
+					width = result_w[1];
+					height = result_h[1];
+					if(width > skinContentWidth / 3)
+					{
+						height = parseInt(height * (skinContentWidth / 3 / width));
+						value[1] = value[1].replace(new RegExp("width=['\"]?\\d+['\"]?", "gi"), 'width="' + parseInt(skinContentWidth / 3) + '"');
+						value[1] = value[1].replace(new RegExp("height=['\"]?\\d+['\"]?", "gi"), 'height="' + height + '"');
+					}
+				}
+				prefix = prefix + '^' + value[0] + '|' + value[1] + '|';
+				count++;
+			}
+		}
+		if (count != 3) {
+			alert("<?php echo _t('파일 리스트에서 이미지를 3개 선택해 주십시오. (ctrl + 마우스 왼쪽 클릭)');?>");
+			return false;
+		}
+		var imageinfo = prefix.split("^");
+		try {
+			if(editor.editMode == "WYSIWYG") {
+				var prefix = '<img class="tatterImageTriple" src="' + servicePath + adminSkin + '/image/spacer.gif" width="300" height="100" longdesc="3C|' + editor.addQuot(imageinfo[1]) + '|' + editor.addQuot(imageinfo[2]) + '|' + editor.addQuot(imageinfo[3]) + '" />';
+				TTCommand("Raw", prefix);
+				return true;
+			}
+		} catch(e) { }
+		insertTag('[##_3C|' + imageinfo[1] + '|' + imageinfo[2] + '|' + imageinfo[3] + '_##]', '');
+		return true;
+	}
+	
+	function linkImageFree() {
+		var isWYSIWYG = false;
+		try {
+			if(editor.editMode == "WYSIWYG")
+				isWYSIWYG = true;
+		} catch(e) { }		
+		var oSelect = document.forms[0].fileList;
+		var prefix = '';
+		for (var i = 0; i < oSelect.options.length; i++) {
+			if (oSelect.options[i].selected == true) {
+				var value = oSelect.options[i].value.split("|");
+				if(new RegExp("\\.(gif|jpe?g|png|bmp)$", "i").test(value[0])) {
+					if(isWYSIWYG)
+						prefix += '<img class="tatterImageFree" src="' + editor.propertyFilePath + value[0] + '" longdesc="[##_ATTACH_PATH_##]/' + value[0] + '" ' + value[1] + ' />';
+					else
+						prefix += '<img src="[##_ATTACH_PATH_##]/' + value[0] + '" ' + value[1] + ' />';
+				}
+			}
+		}
+		TTCommand("Raw", prefix);
+		return true;
+	}
+	
+	var iMazingProperties = new Array();
+	iMazingProperties['width'] = 450;
+	iMazingProperties['height'] = 350;
+	iMazingProperties['frame'] = 'net_imazing_frame_none';
+	iMazingProperties['transition'] = 'net_imazing_show_window_transition_alpha';
+	iMazingProperties['navigation'] = 'net_imazing_show_window_navigation_simple';
+	iMazingProperties['slideshowInterval'] = 10;
+	iMazingProperties['page'] = 1;
+	iMazingProperties['align'] = 'h';
+	iMazingProperties['skinPath'] = '<?php echo $service['path'];?>/script/gallery/iMazing/';
+	
+	function viewImazing()
+	{
+		try
+		{
+			var oSelect = document.forms[0].fileList;
+			if (oSelect.selectedIndex < 0) {
+				alert("<?php echo _t('파일을 선택하십시오.');?>");
+				return false;
+			}
+			var value = oSelect.options[oSelect.selectedIndex].value.split("|");
+			
+			var fileList = '';
+			for (var i = 0; i<oSelect.length; i++) {
+				if (!oSelect.options[i].selected) continue;
+				file = (oSelect[i].value.substr(oSelect[i].value,oSelect[i].value.indexOf('|')));				
+				if(new RegExp("\\.jpe?g$", "gi").exec(file))
+					fileList += file+'||';
+			}
+			if(fileList == '') {
+				alert("<?php echo _t('이미지 파일만 삽입 가능합니다.');?>");
+				return false;
+			}
+			fileList = fileList.substr(0,fileList.length-1);
+			var Properties = '';
+			for (var name in iMazingProperties) {
+				Properties += name+'='+iMazingProperties[name]+' ';
+			}
+			try {
+				if(editor.editMode == "WYSIWYG") {
+					TTCommand("Raw", '<img class="tatterImazing" src="' + servicePath + adminSkin + '/image/spacer.gif" width="400" height="300" longdesc="iMazing|' + fileList + '|' + Properties + '|" />');
+					return true;
+				}
+			} catch(e) { }
+	
+			insertTag('[##_iMazing|' + fileList + '|' + Properties +'|_##]', '');
+			return true;
+		} catch(e) {
+			return false;
+		}
+	}
+	
+	function viewGallery()
+	{
+		try
+		{
+			var oSelect = document.forms[0].fileList;
+			if (oSelect.selectedIndex < 0) {
+				alert("<?php echo _t('파일을 선택하십시오.');?>");
+				return false;
+			}
+			var value = oSelect.options[oSelect.selectedIndex].value.split("|");
+			
+			var fileList = '';
+			for (var i = 0; i<oSelect.length; i++) {
+				if (!oSelect.options[i].selected) continue;
+				file = (oSelect[i].value.substr(oSelect[i].value,oSelect[i].value.indexOf('|')));
+				if(new RegExp("\\.(gif|jpe?g|png)$", "gi").exec(file))
+					fileList += file+'||';
+			}
+			if(fileList == '') {
+				alert("<?php echo _t('이미지 파일만 삽입 가능합니다.');?>");
+				return false;
+			}
+			fileList = fileList.substr(0,fileList.length-1);
+			try {
+				if(editor.editMode == "WYSIWYG") {
+					TTCommand("Raw", '<img class="tatterGallery" src="' + servicePath + adminSkin + '/image/spacer.gif" width="400" height="300" longdesc="Gallery|' + fileList + '|width=&quot;400&quot; height=&quot;300&quot;" />');
+					return true;
+				}
+			} catch(e) { }
+			insertTag('[##_Gallery|' + fileList + '|width="400" height="300"_##]', '');
+			return true;
+		} catch(e) {
+			return false;
+		}
+	}	
+	
+	function viewJukebox()
+	{
+		try
+		{
+			var oSelect = document.forms[0].fileList;
+			if (oSelect.selectedIndex < 0) {
+				alert("<?php echo _t('파일을 선택하십시오.');?>");
+				return false;
+			}
+			var value = oSelect.options[oSelect.selectedIndex].value.split("|");
+			
+			var fileList = '';
+			for (var i = 0; i<oSelect.length; i++) {
+				if (!oSelect.options[i].selected) continue;
+				file = (oSelect[i].value.substr(oSelect[i].value,oSelect[i].value.indexOf('|')));
+				if(new RegExp("\\.mp3$", "gi").exec(file))
+				{
+					fileList += file + "|";
+					if(result = new RegExp("(.*)\\.mp3", "gi").exec(oSelect.options[i].text))
+						fileList += result[1].replaceAll("|","") + "|";
+					else
+						fileList += "|";
+				}
+			}
+			if(fileList == '') {
+				alert("<?php echo _t('MP3 파일만 삽입 가능합니다.');?>");
+				return false;
+			}
+			fileList = fileList.substr(0,fileList.length-1);
+			try {
+				if(editor.editMode == "WYSIWYG") {
+					TTCommand("Raw", '<img class="tatterJukebox" src="' + servicePath + adminSkin + '/image/spacer.gif" width="200" height="30" longdesc="Jukebox|' + fileList + '|autoplay=0 visible=1|" />');
+					return true;
+				}
+			} catch(e) { }
+			insertTag('[##_Jukebox|' + fileList + '|autoplay=0 visible=1|_##]', '');
+			return true;
+		} catch(e) {
+			return false;
+		}
+	}	
+//]]>
+</script>
 <?php
 }
 
@@ -933,6 +936,7 @@ function printEntryFileUploadButton($entryId) {
 
 function printEntryEditorProperty($alt=NULL) {
 	global $service;
+	$fixPosition = getUserSetting('editorPropertyPositionFix', 0);
 ?>
 											<script type="text/javascript">
 												//<![CDATA[
@@ -949,6 +953,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</script>
 												
 											<div id="propertyHyperLink" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyHyperlink-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyHyperlink-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('하이퍼링크');?></h4>
 												
 												<div class="group">
@@ -975,6 +983,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</div>
 
 											<div id="propertyInsertObject" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyInsertObject-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyInsertObject-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('오브젝트 삽입');?></h4>
 												
 												<div class="group">
@@ -1006,6 +1018,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</div>
 											
 											<div id="propertyImage1" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyImage1-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyImage1-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('Image');?></h4>
 												
 												<div class="group">
@@ -1031,6 +1047,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</div>
 											
 											<div id="propertyImage2" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyImage2-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyImage2-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('Image');?></h4>
 												
 												<div class="group">
@@ -1079,6 +1099,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</div>
 											
 											<div id="propertyImage3" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyImage3-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyImage3-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('Image');?></h4>
 												
 												<div class="group">
@@ -1149,6 +1173,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</div>
 											
 											<div id="propertyObject" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyObject-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyObject-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('Object');?></h4>
 												
 												<div class="group">
@@ -1168,6 +1196,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</div>
 											
 											<div id="propertyObject1" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyObject1-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyObject1-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('Object 1');?></h4>
 												
 												<div class="group">
@@ -1183,6 +1215,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</div>
 											
 											<div id="propertyObject2" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyObject2-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyObject2-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('Object');?></h4>
 												
 												<div class="group">
@@ -1211,6 +1247,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</div>
 											
 											<div id="propertyObject3" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyObject3-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyObject3-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('Object');?></h4>
 												
 												<div class="group">
@@ -1251,6 +1291,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</div>
 											
 											<div id="propertyiMazing" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyiMazing-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyiMazing-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('iMazing');?></h4>
 												
 												<div class="group">
@@ -1332,6 +1376,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</div>
 											
 											<div id="propertyGallery" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyGallery-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyGallery-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('Gallery');?></h4>
 												
 												<div class="group">
@@ -1367,6 +1415,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</div>
 											
 											<div id="propertyJukebox" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyJukebox-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyJukebox-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('Jukebox');?></h4>
 												
 												<div class="group">
@@ -1400,6 +1452,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</div>
 											
 											<div id="propertyEmbed" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyEmbed-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyEmbed-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('Embed');?></h4>
 												
 												<div class="group">
@@ -1419,6 +1475,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</div>
 											
 											<div id="propertyFlash" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyFlash-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyFlash-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('Embed');?></h4>
 												
 												<div class="group">
@@ -1438,6 +1498,10 @@ function printEntryEditorProperty($alt=NULL) {
 											</div>
 											
 											<div id="propertyMoreLess" class="entry-editor-property" style="display: none;">
+												<div class="entry-editor-property-option">
+													<input type="checkbox" class="checkbox" id="propertyMoreLess-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyMoreLess-fix-position"><?php echo _t('위치 고정');?></label>
+												</div>
 												<h4><?php echo _t('More/Less');?></h4>
 												
 												<div class="group">

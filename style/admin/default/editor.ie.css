@@ -26,6 +26,11 @@
 	width                            : 245px;
 }
 
+.entry-editor-property .entry-editor-property-option
+{
+	padding-top                      : 5px;
+}
+
 .entry-editor-property dl
 {
 

@@ -10,6 +10,7 @@ var TTEditor = function() {
 	this.propertyCurrentProportion2 = 0;
 	this.propertyCurrentProportion3 = 0;
 	this.propertyCurrentImage = "";
+	this.propertyOffsetTop = null;
 
 	// 커서가 있는곳의 스타일
 	this.isBold = false;
@@ -531,15 +532,6 @@ TTEditor.prototype.showProperty = function(obj)
 		getObject("propertyEmbed_src").value = attribute;
 		getObject("propertyEmbed").style.display = "block";
 	}
-	/*else if(obj.className == "tatterFlash") {
-		editor.propertyHeader = "tatterFlash";
-		editor.propertyWindowId = "propertyFlash";
-		var size = editor.parseImageSize(editor.selectedElement, "array");
-		getObject("propertyFlash_width").value = size[0];
-		getObject("propertyFlash_height").value = size[1];
-		getObject("propertyFlash_src").value = attribute;
-		getObject("propertyFlash").style.display = "block";
-	}*/
 	else if(obj.tagName && obj.tagName.toLowerCase() == "img" && attribute) {
 		var values = attribute.split("|");
 
@@ -714,7 +706,7 @@ TTEditor.prototype.showProperty = function(obj)
 				getObject("propertyMoreLess_less").value = trim(editor.unHtmlspecialchars(lessText));
 				editor.propertyWindowId = "propertyMoreLess";
 				getObject("propertyHyperLink").style.display = "none";
-				
+				editor.setPropertyPosition();
 				return;
 			} else if(node.tagName.toLowerCase() == "a" && node.href) {
 				getObject("propertyHyperLink").style.display = "block";
@@ -725,7 +717,7 @@ TTEditor.prototype.showProperty = function(obj)
 				editor.selectedAnchorElement = node;
 				editor.propertyWindowId = "propertyHyperLink";
 				getObject("propertyMoreLess").style.display = "none";
-				
+				editor.setPropertyPosition();
 				return;
 			}
 
@@ -740,6 +732,7 @@ TTEditor.prototype.showProperty = function(obj)
 		if (editor.selectedAnchorElement == null && isEmpty)
 			getObject("propertyHyperLink").style.display = "none";
 	}
+	editor.setPropertyPosition();
 }
 
 // 속성창에서 수정된 내용을 반영
@@ -1859,6 +1852,28 @@ TTEditor.prototype.removeFormatting = function(str) {
 			str = str.replace(result[0], result[1]);
 	}
 	return str;
+}
+
+TTEditor.prototype.setPropertyPosition = function(flag) {
+	if(document.getElementById(this.propertyWindowId)) {
+		if(flag) {
+			if(document.getElementById(this.propertyWindowId + "-fix-position").checked)
+				setUserSetting("editorPropertyPositionFix", 1);
+			else
+				setUserSetting("editorPropertyPositionFix", 0);
+		}
+		var win = document.getElementById(this.propertyWindowId);
+		if(document.getElementById(this.propertyWindowId + "-fix-position").checked)
+			win.style.top = "9px";
+		else {
+			if(editor.propertyOffsetTop === null)
+				editor.propertyOffsetTop = getOffsetTop(win);
+			if(STD.getScrollTop() > editor.propertyOffsetTop - 15)
+				win.style.top = (24 + STD.getScrollTop() - editor.propertyOffsetTop) + "px";
+			else
+				win.style.top = "9px";
+		}
+	}
 }
 
 var editorChanged = function () {

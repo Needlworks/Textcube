@@ -595,6 +595,12 @@ h3
 	width                            : 245px;
 }
 
+.entry-editor-property .entry-editor-property-option
+{
+	float                            : right;
+	padding-top                      : 8px;
+}
+
 .entry-editor-property h4
 {
 	color                            : #000000;
