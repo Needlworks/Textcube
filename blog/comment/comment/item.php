@@ -61,11 +61,11 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 ?>
 	obj = opener.document.getElementById("commentCount<?php echo $comment['entry'];?>");
-	obj.innerHTML = "<?php echo str_replace('"', '\"', $commentView);?>";
+	if (obj != null) obj.innerHTML = "<?php echo str_replace('"', '\"', $commentView);?>";
 	} catch(e) { }
 	try {
 	obj = opener.document.getElementById("commentCountOnRecentEntries<?php echo $comment['entry'];?>");
-	obj.innerHTML = "<?php echo $commentCount;?>";
+	if (obj != null) obj.innerHTML = "(<?php echo $commentCount;?>)";
 	} catch(e) { }
 	window.close();
 </script>
