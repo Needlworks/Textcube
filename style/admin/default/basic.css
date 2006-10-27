@@ -118,7 +118,7 @@ optgroup.delete option
 kbd,
 samp
 {
-	font-family                      : 굴림, Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-family                      : "Courier New", Courier, 굴림, Gulim, monospace;
 	font-size                        : 1em;
 }
 
@@ -185,6 +185,14 @@ textarea
 {
 	float                            : left;
 	margin-left                      : 160px;
+}
+
+#description-blog
+{
+	background-image                 : url("./image/bg_menu_divider.gif");
+	background-position              : right top;
+	background-repeat                : no-repeat;
+	padding-right                    : 10px;
 }
 
 #description-blog a
@@ -317,7 +325,7 @@ textarea
 	background-image                 : url("./image/img_helper.gif");
 	background-position              : right center;
 	background-repeat                : no-repeat;
-	color                            : #FFFFFF;
+	color                            : #DDE5F1;
 	font-family                      : Dotum, Gulim, sans-serif;
 	font-size                        : 0.9em;
 	padding                          : 5px 16px 1px 0;
@@ -722,7 +730,6 @@ table.data-inbox tbody tr td.inactive-class
 }
 
 /* data subbox */
-
 .data-subbox
 {
 	background-color                 : #EEEEEE;
@@ -739,7 +746,7 @@ table.data-inbox tbody tr td.inactive-class
 
 #page-navigation
 {
-	bottom                           : 30px;
+	bottom                           : 60px;
 	position                         : absolute;
 	text-align                       : center;
 	width                            : 940px;
@@ -757,11 +764,24 @@ table.data-inbox tbody tr td.inactive-class
 
 #page-list
 {
+	display                          : block;
 	margin-bottom                    : 5px;
+}
+
+#page-list a
+{
+	color                            : #999999;
+	padding                          : 0 1px;
+}
+
+#total-count
+{
+	color                            : #999999;
 }
 
 #page-section .page-count
 {
+	display                          : block;
 	margin-top                       : -21px;
 	text-align                       : right;
 }
@@ -863,7 +883,7 @@ table.data-inbox tbody tr td.inactive-class
 	border                           : 1px solid #777777;
 	cursor                           : pointer;
 	font-size                        : 1em;
-	height                           : 1.8em;
+	height                           : 1.75em;
 	line-height                      : 1.8em;
 	padding                          : 0 10px !important;
 	vertical-align                   : middle;

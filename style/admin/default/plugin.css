@@ -14,18 +14,21 @@
 
 /* Setting ***************************************************************************************/
 
+#part-plugin-list
+{
+	position                         : relative;
+}
+
 #part-plugin-list .main-explain-box
 {
-	margin-bottom                    : 40px;
+	margin-bottom                    : 30px;
 }
 
 #part-plugin-list fieldset
 {
 	background-image                 : none;
 	border                           : none;
-	position                         : absolute;
-	right                            : 20px;
-	top                              : 75px;
+	margin                           : 0 0 0 20px;
 }
 
 #part-plugin-list fieldset dl
@@ -148,19 +151,7 @@
 	margin-left                      : 50px;
 }
 
-#activate-status-line
-{
-	right                            : 10px;
-	top                              : 0.7em;
-	position                         : absolute;
-}
-
-#sorting-line
-{
-	margin-top                       : -3px;
-}
-
 #part-plugin-more
 {
-	margin-bottom                    : 100px;
+	margin                           : 40px 0 100px 0;
 }

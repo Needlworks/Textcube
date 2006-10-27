@@ -276,56 +276,58 @@ if($tattertoolsDashboard) {
 	}
 ?>
 								</div>
+							</div>
 <?php
 }
 ?>
 
-								<div id="part-center-quilt" class="part">
-									<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
+							<div id="part-center-quilt" class="part">
+								<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
 									
 <?php
 $boardbarNumber = 0;
 $positionCounter = 0;
 $secondposition = array(0, 0);
 ?>
-									<div id="dojo_boardbar0" class="panel">
+								<div id="dojo_boardbar0" class="panel">
 <?php
 foreach ($newlayout as $mapping) {
 	if ($mapping['plugin'] == 'TatterToolsSeperator') {
 ?>
-									</div>
-									<div id="dojo_boardbar<?php echo $boardbarNumber + 1;?>" class="panel">
+
+								</div>
+								<div id="dojo_boardbar<?php echo $boardbarNumber + 1;?>" class="panel">
 <?php
 		$secondposition[$boardbarNumber] = $positionCounter;
 		$boardbarNumber++;
 	} else {
 ?>
-										<div id="<?php echo $mapping['plugin'];?>" class="section">
-											<h3>
-												<?php echo $mapping['title'];?> 
+									<div id="<?php echo $mapping['plugin'];?>" class="section">
+										<h3>
+											<?php echo $mapping['title'];?> 
 <?php
 		if (isset($_REQUEST['edit'])) {
 ?>
 				
-												<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter; ?>&amp;rel=-1&edit"><?php echo _t("위로");?></a>
-												<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit"><?php echo _t("아래로");?></a>
+											<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter; ?>&amp;rel=-1&edit"><?php echo _t("위로");?></a>
+											<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit"><?php echo _t("아래로");?></a>
 <?php
 		}
 ?>
-											</h3>
-											<?php echo handleCenters($mapping);?>
-										</div>
+										</h3>
+										<?php echo handleCenters($mapping);?>
+									</div>
 <?php
 	}
 	$positionCounter++;
 }
 ?>
-									</div>
+								</div>
 <?php
 if ($boardbarNumber < 1) {
 ?>
 
-									<div id="dojo_boardbar1" class="panel"></div>
+								<div id="dojo_boardbar1" class="panel"></div>
 <?php
 	$secondposition[$boardbarNumber] = $positionCounter;
 	$boardbarNumber++;
@@ -333,7 +335,7 @@ if ($boardbarNumber < 1) {
 }
 if ($boardbarNumber < 2) {
 ?>
-									<div id="dojo_boardbar2" class="panel"></div>
+								<div id="dojo_boardbar2" class="panel"></div>
 <?php
 	$secondposition[$boardbarNumber] = $positionCounter;
 	$boardbarNumber++;
@@ -342,26 +344,26 @@ if ($boardbarNumber < 2) {
 
 if (!isset($_REQUEST['edit'])) {
 ?>
-									<div class="button-box">
-										<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" />
-									</div>
+								<div class="button-box">
+									<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" />
+								</div>
 <?php
 }
 ?>
-								</div>
-							</form>
+							</div>
+						</form>
 
 <?php
 if (isset($_REQUEST['edit'])) {
 ?>
-							<script type="text/javascript">
-								//<![CDATA[
-									var pan0 = new DropPanel(document.getElementById('dojo_boardbar0'), ["dashboard"]);
-									document.getElementById('dojo_boardbar0').plusposition = -1;
-									var pan1 = new DropPanel(document.getElementById('dojo_boardbar1'), ["dashboard"]);
-									document.getElementById('dojo_boardbar1').plusposition = <?php echo $secondposition[0];?>;
-									var pan1 = new DropPanel(document.getElementById('dojo_boardbar2'), ["dashboard"]);
-									document.getElementById('dojo_boardbar2').plusposition = <?php echo $secondposition[1];?>;
+						<script type="text/javascript">
+							//<![CDATA[
+								var pan0 = new DropPanel(document.getElementById('dojo_boardbar0'), ["dashboard"]);
+								document.getElementById('dojo_boardbar0').plusposition = -1;
+								var pan1 = new DropPanel(document.getElementById('dojo_boardbar1'), ["dashboard"]);
+								document.getElementById('dojo_boardbar1').plusposition = <?php echo $secondposition[0];?>;
+								var pan1 = new DropPanel(document.getElementById('dojo_boardbar2'), ["dashboard"]);
+								document.getElementById('dojo_boardbar2').plusposition = <?php echo $secondposition[1];?>;
 									
 <?php
 	$positionCounter = 0;
@@ -379,8 +381,8 @@ if (isset($_REQUEST['edit'])) {
 		$positionCounter++;
 	}
 ?>
-								//]]!>
-							</script>
+							//]]!>
+						</script>
 <?php
 }
 

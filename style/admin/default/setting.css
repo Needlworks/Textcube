@@ -4,19 +4,20 @@
 
 fieldset
 {
-	border-top                       : 1px solid #DDDDDD;
-	padding-top                      : 1px;
+	background-image                 : none;
+	border-bottom                    : none !important;
+	border-top                       : none !important;
+	margin                           : 0;
 }
 
 dl
 {
-	border-top                       : 1px solid #DDDDDD;
+	border-top                       : none !important;
 }
 
 dl dt
 {
-	font-weight                      : normal;
-	padding                          : 5px 3px 4px 3px;
+	padding                          : 5px 3px 0 3px;
 	text-align                       : right;
 	width                            : 170px;
 }
@@ -25,7 +26,7 @@ dl dd
 {
 	line-height                      : 1.2em;
 	margin-left                      : 190px;
-	padding                          : 5px 3px 4px 3px;
+	padding                          : 7px 3px 4px 3px;
 }
 
 #sub-menu-blog
@@ -36,7 +37,7 @@ dl dd
 .part .button-box
 {
 	clear                            : both;
-	margin-bottom                    : 30px;
+	text-align                       : left !important;
 }
 
 .part .button-box .input-button
@@ -47,29 +48,37 @@ dl dd
 	font-weight                      : bold;
 	height                           : 30px !important;
 	margin                           : 0 auto;
+	padding                          : 0 !important;
 	width                            : 74px;
 }
 
 /* Basic *****************************************************************************************/
 
-#part-setting-basic dl
+/* basic setting */
+#part-setting-basic
 {
-	border-top                       : 1px solid #DDDDDD;
+	float                            : left;
+	width                            : 470px;
+}
+
+#part-setting-basic .data-inbox
+{
+	width                            : 460px;
+}
+
+#part-setting-basic fieldset
+{
+	margin-bottom                    : 10px !important;
 }
 
 #part-setting-basic dl dt
 {
-	font-weight                      : normal;
-	padding                          : 5px 3px 4px 3px;
-	text-align                       : right;
-	width                            : 170px;
+	width                            : 100px;
 }
 
 #part-setting-basic dl dd
 {
-	line-height                      : 1.2em;
-	margin-left                      : 190px;
-	padding                          : 5px 3px 4px 3px;
+	margin-left                      : 120px;
 }
 
 #part-setting-basic dl dd .input-text
@@ -82,19 +91,25 @@ dl dd
 	width                            : 300px;
 }
 
-#part-setting-profile dl dd
+#part-setting-basic .button-box
 {
-	line-height                      : 2em;
+	width                            : 460px;
 }
 
-#part-setting-profile dl dd .input-file
+#part-setting-basic .button-box .input-button
 {
-	display                          : block;
-	font-size                        : 1em;
+	margin                           : 0 auto 0 123px;
+}
+
+#multi-form
+{
+	border-top                       : 1px solid #DDDDDD;
+	margin-top                       : 20px;
 }
 
 #multi-form dl dd .input-text
 {
+	margin                           : 0 2px;
 	width                            : 100px !important;
 }
 
@@ -111,13 +126,87 @@ dl dd
 	margin-left                      : 3px;
 }
 
+/* profile setting */
+#part-setting-profile
+{
+	float                            : right;
+	width                            : 470px;
+}
+
+#part-setting-profile .data-inbox
+{
+	width                            : 450px;
+}
+
+#part-setting-profile dl
+{
+	border-bottom                    : 1px solid #DDDDDD;
+}
+
+#part-setting-profile dl dt
+{
+	width                            : 100px;
+}
+
+#part-setting-profile dl dd
+{
+	line-height                      : 2em;
+	margin-left                      : 120px;
+}
+
+#part-setting-profile dl dd p
+{
+	line-height                      : 1.2em;
+	margin-top                       : 5px;
+	text-align                       : left;
+}
+
+#part-setting-profile dl dd .input-file
+{
+	display                          : block;
+	font-size                        : 1em;
+}
+
+#part-setting-profile .button-box .input-button
+{
+	margin                           : 0 auto 0 123px;
+}
+
+#blogicon-section fieldset
+{
+	margin-bottom                    : 10px;
+}
+
+/* rss setting */
+#part-setting-rss
+{
+	clear                            : both;
+	padding                          : 20px 0 60px 0 !important;
+}
+
+#part-setting-rss dl
+{
+	border-bottom                    : 1px solid #DDDDDD;
+}
+
+#etc-section fieldset
+{
+	margin-bottom                    : 10px;
+}
+
+#part-setting-rss .button-box .input-button
+{
+	margin                           : 0 auto 0 190px;
+}
+
 /* Account ***************************************************************************************/
 
+/* account management */
 #part-setting-account fieldset
 {
 	background-image                 : none !important;
 	border-top                       : none !important;
-	padding-bottom                   : 20px;
+	padding-bottom                   : 10px;
 }
 
 #part-setting-account dl
@@ -152,7 +241,91 @@ dl dd
 	color                            : #FF0000;
 }
 
+#part-setting-account .button-box
+{
+	margin-bottom                    : 10px;
+}
+
+/* invite letter */
+#part-setting-invite
+{
+	margin-top                       : 20px;
+}
+
+#letter
+{
+	width                            : 550px;
+}
+
+#letter-head label,
+#letter-foot label
+{
+	display                          : block;
+	font-family                      : ÎèãÏõÄ, Dotum, sans-serif;
+	font-size                        : 0.9em;
+	margin                           : 3px 0 1px 0;
+	text-align                       : left;
+}
+
+#letter-head .line
+{
+	margin-bottom                    : 8px;
+	text-align                       : right;
+}
+
+#invitation_receiver,
+#invitation_sender
+{
+	font-family                      : "Courier New", Courier, monospace;
+	width                            : 550px;
+}
+
+#invitation_identify
+{
+	font-family                      : "Courier New", Courier, monospace;
+	margin-left                      : 2px;
+	width                            : 380px;
+}
+
+.inter-word
+{
+	font-family                      : "Courier New", Courier, monospace;
+}
+
+#letter-body textarea
+{
+	width                            : 550px;
+}
+
+#letter-section .button-box
+{
+	margin                           : 10px 0 20px 0;
+}
+
+#letter-section .button-box .input-button
+{
+	padding                          : 0 10px;
+}
+
+/* invite list */
+#list-section table thead tr th
+{
+	background-color                 : #EFEFEF;
+	padding                          : 5px;
+	width                            : 700px;
+}
+
 /* Etc *******************************************************************************************/
+
+#part-setting-resample .button-box,
+#part-setting-language .button-box,
+#part-setting-editor .button-box,
+#part-setting-admin .button-box
+{
+	border-top                       : 1px solid #DDDDDD;
+	margin                           : 10px 0 20px 0;
+	padding-top                      : 15px;
+}
 
 #part-setting-resample .section dl dd img
 {
@@ -166,11 +339,12 @@ dl dd
 }
 
 #watermark-resize-line dd,
+#admin-language-line dd p,
 #blog-language-line dd p
 {
 	padding-bottom                   : 3px;
 	padding-top                      : 5px;
-	line-height                      : 1.5em;
+	line-height                      : 1.2em;
 }
 
 #watermark-position-line dd,
@@ -198,6 +372,11 @@ dl dd
 
 /* Filter ****************************************************************************************/
 
+#part-setting-filter
+{
+	height                           : 500px;
+}
+
 #part-setting-filter div.data-inbox
 {
 	margin-top                       : 20px;
@@ -219,19 +398,26 @@ dl dd
 #part-setting-filter div.data-inbox .section table
 {
 	background-color                 : #FFFFFF;
-	border                           : 1px solid #A0A0C0;
 	table-layout                     : fixed;
 	width                            : 100%;
 }
 
-#part-setting-filter div.data-inbox .section table tbody tr td.content,
+#part-setting-filter div.data-inbox .section table tbody tr td.content
+{
+	border-bottom : 1px solid #EFEFEF;
+	margin                           : 1px 3px 1px 3px !important;
+	padding                          : 5px 5px 3px 5px;
+}
+
 #part-setting-filter div.data-inbox .section table tbody tr td.empty
 {
-	padding                          : 5px 5px 3px 5px;
+	height                           : 300px;
+	text-align                       : center;
 }
 
 #part-setting-filter div.data-inbox .section table tbody tr td.delete
 {
+	border-bottom                    : 1px solid #EFEFEF;
 	width                            : 20px;
 }
 
@@ -252,10 +438,18 @@ dl dd
 	display                          : none;
 }
 
+#part-setting-filter div.data-inbox .section .filtering-words
+{
+	border                           : 1px solid #777777;
+	height                           : 300px;
+	overflow-y                       : scroll;
+	padding                          : 3px;
+}
+
 #part-setting-filter div.data-inbox .section .input-text
 {
 	margin-top                       : 2px;
-	width                            : 197px;
+	width                            : 198px;
 }
 
 #part-setting-filter .button-box
@@ -267,6 +461,7 @@ dl dd
 #part-setting-filter .button-box .add-button
 {
 	margin                           : 0 auto;
+	padding                          : 0 !important;
 }
 
 /* Data ******************************************************************************************/
@@ -370,7 +565,7 @@ dl dd
 .part .dialog .message-body .explain
 {
 	border-bottom                    : 1px dotted #CCCCCC;
-	font-family                      : µ∏øÚ, Dotum, ±º∏≤, Gulim, sans-serif;
+	font-family                      : ÎèãÏõÄ, Dotum, Íµ¥Î¶º, Gulim, sans-serif;
 	font-size                        : 90%;
 	padding                          : 5px 5px 3px 5px;
 }

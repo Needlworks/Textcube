@@ -794,7 +794,6 @@ for ($i=0; $i<sizeof($entries); $i++) {
 									
 									<div id="page-section" class="section">
 										<div id="page-navigation">
-											<span id="total-count"><?php echo _f('총 %1건', empty($paging['total']) ? "0" : $paging['total']);?></span>
 											<span id="page-list">
 <?php
 $pagingTemplate = '[##_paging_rep_##]';
@@ -802,6 +801,7 @@ $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]<
 echo str_repeat("\t", 12).getPagingView($paging, $pagingTemplate, $pagingItemTemplate).CRLF;
 ?>
 											</span>
+											<span id="total-count"><?php echo _f('총 %1건', empty($paging['total']) ? "0" : $paging['total']);?></span>
 										</div>
 										<div class="page-count">
 											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0);?>

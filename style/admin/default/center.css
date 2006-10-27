@@ -14,14 +14,13 @@
 
 /* Dashboard *************************************************************************************/
 
-/* 바로가기 */
-#shortcut-collection
+#part-center-dashboard
 {
-	float                            : left;
-	margin                           : 0 12px 25px 12px;
-	width                            : 304px;
+	height                           : 480px;
+	position                         : relative;
 }
 
+/* shortcut */
 #part-center-dashboard .section h3
 {
 	background-image                 : url("./image/bg_dashboard_header.png");
@@ -32,6 +31,14 @@
 	line-height                      : 32px;
 	padding-left                     : 25px;
 	width                            : 280px;
+}
+
+#shortcut-collection
+{
+	position                         : absolute;
+	left                             : 5px;
+	top                              : 40px;
+	width                            : 304px;
 }
 
 #shortcut-collection ul
@@ -45,12 +52,12 @@
 	padding                          : 7px 10px 5px 15px;
 }
 
-/* 종합정보 */
+/* total information */
 #total-information
 {
-	clear                            : left;
-	float                            : left;
-	margin                           : 0 12px 25px 12px;
+	position                         : absolute;
+	left                             : 5px;
+	top                              : 300px;
 	width                            : 304px;
 }
 
@@ -91,23 +98,25 @@
 	text-align                       : right;
 }
 
-/* 공지사항 */
+/* notice */
+#tattertools-notice
+{
+	margin-left                      : 320px;
+}
+
 #tattertools-notice h3
 {
-	background-image                 : url("./image/bg_dashboard_header.png");
-	background-position              : left center;
-	background-repeat                : no-repeat;
+	background-image                 : url("./image/bg_dashboard_header2.png");
 	font-weight                      : normal;
 	height                           : 32px;
 	line-height                      : 32px;
 	padding-left                     : 25px;
 	width                            : 280px;
-	border : 1px solid red;
 }
 
 #tattertools-notice table
 {
-	margin                           : 0 12px 25px 12px;
+	margin                           : 0 12px 25px 0;
 	width                            : 620px;
 }
 
@@ -137,7 +146,7 @@
 
 #part-center-plugins .main-explain-box
 {
-	margin-bottom                    : 40px;
+	margin-bottom                    : 30px;
 }
 
 #part-center-plugins fieldset
@@ -150,12 +159,12 @@
 
 #part-center-plugins fieldset dl dt
 {
-	display                          : none;
+	margin-left                      : 20px;
 }
 
 #part-center-plugins fieldset dl dd
 {
-	text-align                       : right;
+	margin-left                      : 140px;
 }
 
 /* table head */
@@ -190,7 +199,6 @@
 }
 
 /* table body */
-
 #part-center-plugins table.data-inbox tbody tr td.title
 {
 	background-position              : right bottom;
@@ -206,7 +214,6 @@
 }
 
 /* plugin icons */
-
 #part-center-plugins table.data-inbox tbody tr td.config a
 {
 	background-image                 : url("./image/icon_config_on.gif");
@@ -249,7 +256,6 @@
 }
 
 /* data subbox */
-
 #part-center-plugins .data-subbox
 {
 	margin-bottom                    : 50px;
@@ -271,14 +277,17 @@
 	margin-left                      : 50px;
 }
 
-#activate-status-line
+#part-plugin-more
 {
-	right                            : 10px;
-	top                              : 0.7em;
-	position                         : absolute;
+	margin                           : 40px 0 100px 0;
 }
 
 /* Credit ****************************************************************************************/
+
+#part-center-about
+{
+	position                         : relative;
+}
 
 #part-center-about h3
 {
@@ -341,18 +350,38 @@
 	background-position              : right bottom;
 }
 
-
 #part-center-about .section .container table tbody tr td.name,
 #part-center-about .section .container table tbody tr td.id
 {
 	width                            : 100px;
 }
 
+#maintainer-container
+{
+	position                         : absolute;
+	right                            : 5px;
+	top                              : 0;
+}
+
+#internationalization-container
+{
+	position                         : absolute;
+	right                            : 5px;
+	top                              : 189px;
+}
+
+#support-container
+{
+	position                         : absolute;
+	right                            : 5px;
+	top                              : 405px;
+}
+
 #maintainer-container table,
 #internationalization-container table,
 #support-container table
 {
-	width                            : 400px;
+	width                            : 320px;
 }
 
 #developer-description .container h4

@@ -161,7 +161,7 @@ table.data-inbox tbody tr td.ip
 	font-family                      : "Courier New", "Courier", monospace;
 	height                           : auto !important;
 	letter-spacing                   : -1px;
-	line-height                      : auto !important;
+	line-height                      : normal !important;
 	padding                          : 2px 5px !important;
 }
 
@@ -246,6 +246,11 @@ table.data-inbox tbody tr td.ip
 	text-align                       : left;
 }
 
+#part-post-notify table.data-inbox tbody tr td.content
+{
+	text-align                       : left;
+}
+
 #part-post-notify #search-form
 {
 	top                              : 90px;
@@ -279,7 +284,7 @@ table.data-inbox tbody tr td.ip
 #tree-preview-box
 {
 	background-color                 : #EEEEEE;
-	height                           : 370px;
+	height                           : 375px;
 	left                             : 0;
 	padding                          : 10px 0;
 	position                         : absolute;
@@ -383,6 +388,11 @@ table.data-inbox tbody tr td.ip
 	display                          : inline;
 }
 
+#track-radio-trackback
+{
+	margin-left                      : 20px;
+}
+
 /* table header */
 #part-post-trash table.data-inbox thead tr th.delete
 {
@@ -394,8 +404,17 @@ table.data-inbox tbody tr td.ip
 	display                          : none;
 }
 
-/* table body */
+#part-post-trash table.data-inbox thead tr th.revert
+{
+	width                            : 20px;
+}
 
+#part-post-trash table.data-inbox thead tr th.revert span
+{
+	display                          : none;
+}
+
+/* table body */
 #part-post-trash table.data-inbox tbody tr td.content
 {
 	text-align                       : left;
@@ -424,4 +443,19 @@ table.data-inbox tbody tr td.ip
 	color                            : #999999;
 	font-size                        : 0.9em;
 	font-family                      : 돋움, Dotum, sans-serif;
+}
+
+#part-post-trash table.data-inbox tbody tr td.revert a
+{
+	background-image                 : url("./image/icon_revert.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 15px;
+	width                            : 16px;
+}
+
+#part-post-trash table.data-inbox tbody tr td.revert a span
+{
+	display                          : none;
 }

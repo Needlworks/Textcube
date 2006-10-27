@@ -326,6 +326,20 @@
 	background-repeat                : no-repeat;	
 }
 
+#part-sidebar-order .pseudo-clear
+{
+	clear                            : both;
+	font-family                      : 돋움, Dotum, sans-serif;
+	font-size                        : 0.9em;
+	padding-top                      : 15px;
+	text-align                       : right;
+}
+
+#part-sidebar-order .pseudo-clear a
+{
+	font-weight                      : bold;
+}
+
 #sidebar-preview-mode
 {
 	background-image                 : url("./image/bg_sidebar_mode.png");
@@ -368,8 +382,8 @@
 #sidebar-box
 {
 	float                            : right;
-	height                           : 858px;
-	margin-left                      : 35px;
+	height                           : 828px;
+	margin-left                      : 30px;
 	overflow                         : auto;
 	width                            : 620px;
 }
@@ -390,6 +404,11 @@
 #sidebar-box .section h3 .radio
 {
 	display                          : none;
+}
+
+#sidebar-box .section ul.sidebar
+{
+	min-height                       : 200px;
 }
 
 #sidebar-box .section ul li.sidebar-module *
@@ -493,19 +512,16 @@
 
 #sidebar-element-box fieldset legend
 {
-	display                          : none;
-}
-
-#sidebar-element-box fieldset div.box-title
-{
+	background-color                 : #FFFFFF;
 	color                            : #476db4;
+	display                          : block;
 	font-weight                      : bold;
-	margin                           : 10px 0 5px 0;
+	padding                          : 0 4px;
 }
 
 #sidebar-element-box fieldset>ul
 {
-	height                           : 380px;
+	height                           : 538px;
 	overflow-y                       : scroll;
 }
 

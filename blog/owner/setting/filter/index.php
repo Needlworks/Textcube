@@ -47,10 +47,11 @@ function printFilterBox($mode, $title) {
 		$filter->close();
 	}
 ?>
-									<div class="title"><span class="text"><?php echo $title;?></span></div>
+									<h3><?php echo $title;?></h3>
 									
-									<table cellpadding="0" cellspacing="0">
-										<tbody>
+									<div class="filtering-words">
+										<table cellpadding="0" cellspacing="0">
+											<tbody>
 <?php
 	if ($filtersList) {
 		$id = 0;
@@ -61,24 +62,25 @@ function printFilterBox($mode, $title) {
 			$className = ($count % 2) == 1 ? 'even-line' : 'odd-line';
 			$className .= ($id == sizeof($filtersList) - 1) ? ' last-line' : '';
 ?>
-											<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="content"><span title="<?php echo escapeJSInAttribute($entity);?>"><?php echo UTF8::lessenAsEm($entity, 30);?></span></td>
-												<td class="delete"><a class="delete-button button" href="#void" onclick="deleteFilter(parentNode.parentNode,'<?php echo $mode;?>', '<?php echo urlencode($entity);?>',<?php echo $value[0];?>); return false;" title="<?php echo _t('이 필터링을 제거합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
-											</tr>
+												<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="content"><span title="<?php echo escapeJSInAttribute($entity);?>"><?php echo UTF8::lessenAsEm($entity, 30);?></span></td>
+													<td class="delete"><a class="delete-button button" href="#void" onclick="deleteFilter(parentNode.parentNode,'<?php echo $mode;?>', '<?php echo urlencode($entity);?>',<?php echo $value[0];?>); return false;" title="<?php echo _t('이 필터링을 제거합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
+												</tr>
 <?php
 			$id++;
 			$count++;
 		}
 	} else {
 ?>
-											<tr class="odd-line inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-												<td class="empty"><?php echo _t('등록된 내용이 없습니다.');?></td>
-											</tr>
+												<tr class="odd-line inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+													<td class="empty"><?php echo _t('등록된 내용이 없습니다.');?></td>
+												</tr>
 <?php
 	}
 ?>
-										</tbody>
-									</table>
+											</tbody>
+										</table>
+									</div>
 									
 									<div class="input-field">
 										<input type="text" class="input-text" name="<?php echo $mode;?>Value" onkeyup="if(event.keyCode=='13') {add('<?php echo $mode;?>')}" />
@@ -159,7 +161,7 @@ function printFilterBox($mode, $title) {
 									if(mode == 'ip') {
 										reg = /\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
 										if(!reg.test(target.value)) {
-											alert("<?php echo _t('잘못된 IP 주소 입니다.');?>");
+											alert("<?php echo _t('잘못된 IP 주소입니다.');?>");
 											return;
 										};
 									}

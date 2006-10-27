@@ -2,13 +2,3 @@
 
 /* Layout Body ***********************************************************************************/
 
-table.data-inbox thead tr th
-{
-	background-color                 : #F3F3F1;
-	border-bottom                    : 1px solid #D2D2CC;
-	border-top                       : 1px solid #D2D2CC;
-	color                            : #333333;
-	font-weight                      : normal;
-	padding                          : 6px 0;
-	text-align                       : center;
-}

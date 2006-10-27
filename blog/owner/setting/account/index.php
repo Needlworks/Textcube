@@ -277,14 +277,14 @@ if ($service['type'] != 'single') {
 						</div>
 								
 <?php
-if (($service['type'] != 'single') && (getUserId() == 1)) {
+//if (($service['type'] != 'single') && (getUserId() == 1)) {
 	$urlRule = getBlogURLRule();
 ?>
 						<div id="part-setting-invite" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('친구를 초대합니다');?></span></h2>
 							
-							<form class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/account">
-								<div id="letter-section" class="section">
+							<div class="data-inbox">
+								<form id="letter-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/account">
 									<dl>
 										<dt class="title"><span class="label"><?php echo _t('초대장');?></span></dt>
 										<dd id="letter">
@@ -298,11 +298,11 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 													<span class="inter-word"><?php echo link_cut($urlRule[0]);?></span><input type="text" id="invitation_identify" class="input-text" name="text" />
 			
 <?php 
-if (!empty($urlRule[1])) {
+//if (!empty($urlRule[1])) {
 ?>
 													<span class="inter-word"><?php echo $urlRule[1];?></span>
 <?php 
-}
+//}
 ?>
 												</div>
 											</div>
@@ -319,9 +319,9 @@ if (!empty($urlRule[1])) {
 										</dd>
 									</dl>
 									<div class="button-box">
-										<a class="invite-button button" href="#void" onclick="sendInvitation()"><span class="text"><?php echo _t('초대장 발송');?></span></a>
+										<input type="submit" class="input-button" value="<?php echo _t('초대장 발송');?>" onclick="sendInvitation(); return false;" />
 									</div>
-								</div>
+								</form>
 								
 								<div id="list-section" class="section">
 									<dl>
@@ -374,7 +374,7 @@ if (!empty($urlRule[1])) {
 							</form>
 						</div>
 <?php
-}
+//}
 
 require ROOT . '/lib/piece/owner/footer1.php';
 ?>

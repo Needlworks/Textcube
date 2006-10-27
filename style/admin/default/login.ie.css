@@ -2,20 +2,3 @@
 
 /* Login *****************************************************************************************/
 
-dt
-{
-	padding-bottom                   : 1px;
-}
-
-dd .input-text
-{
-	font-size                        : 1.3em !important;
-	padding                          : 0 0 0 5px !important;
-}
-
-.login-button
-{
-
-	line-height : normal !important;
-
-}

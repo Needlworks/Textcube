@@ -427,6 +427,10 @@ foreach ($sidebarPluginArray as $nowKey) {
 									<input type="submit" class="input-button" value="<?php echo _t('모듈 추가');?>" title="<?php echo _t('사이드바에 선택된 모듈의 기능을 추가합니다.');?>"/>									
 								</div>
 							</div>
+							
+							<p id="sidebar-description" class="pseudo-clear">
+								<em>*<?php echo _t('복수의 사이드바 사용시 사이드바의 위치는 스킨의 구조에 따라 달라집니다.');?></em>
+							</p>
 						</form>
 						
 						<script src="<?php echo $service['path'];?>/script/dojo/dojo.js" type="text/javascript"></script>
@@ -547,7 +551,6 @@ foreach ($sidebarPluginArray as $nowKey) {
 									reordering();
 								}
 								dojo.addOnLoad(initPages);
-									
 							//]]>							
 						</script>						
 <?php
