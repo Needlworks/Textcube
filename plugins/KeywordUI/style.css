@@ -1,28 +1,63 @@
 /* keyword log */
-#keyword {
-	background: #FFF;
-	padding: 10px;
+#keyword
+{
+	background              : #FFF;
+	padding                 : 10px;
 }
 
-#keyword .view {
-	border: 1px dotted #DDD;
-	padding: 10px;
-	margin: 10px;
+#keyword a
+{
+	color                   : #000;
+	text-decoration         : none;
 }
 
-#keyword .title {
-	margin-top: 20px;
+#keyword a:hover
+{
+	text-decoration         : underline;
 }
 
-#keyword ul {
-	padding: 0;
-	margin: 10px 0 0 10px;
-	list-style: none;
+#keyword .view
+{
+	border                  : 1px dotted #DDD;
+	padding                 : 10px;
+	margin                  : 10px;
+	font-size               : 9pt;
+	font-family             : Tahoma, Helvetica, Arial, sans-serif;
 }
 
-#keyword .date { color: #999; }
+#keyword .title
+{
+	margin-top              : 20px;
+}
 
-#keyword .cnt {
-	font: 10px Verdana, Arial, sans-serif;
-	color: #666;
+#keyword ul
+{
+	padding                 : 0;
+	margin                  : 10px 0 0 10px;
+	list-style              : none;
+}
+
+#keyword ul
+{
+	font-size               : 9pt;
+	font-family             : Gulim, 굴림, Arial, sans-serif;
+}
+
+#keyword .date
+{
+	color                   : #999;
+}
+
+#keyword .cnt
+{
+	font-size               : 8pt;
+	font-family             : Verdana, Helvetica, Arial, sans-serif;
+	color                   : #666;
+}
+
+#keyword h2,
+#keyword .title
+{
+	font-size               : 12pt;
+	font-family             : Dotum, 돋움, Arial, sans-serif;
 }
