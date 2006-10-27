@@ -655,7 +655,11 @@ function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 }
 
 function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
-	$skin = getCategoriesSkin();
+	global $skinSetting;
+	$skin = $skinSetting;
+	if ($embedJava == false) { // not from getCategoriesViewInSkinSetting
+		$skin = getCategoriesSkin();
+	}
 	if ($xhtml) {
 		echo '<ul>';
 		$isSelected = ($tree['id'] === $selected) ? ' class="selected"' : '';

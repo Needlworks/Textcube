@@ -4,6 +4,7 @@ define('ROOT', '../../../../../..');
 $IV = array(
 	'GET' => array(
 		'name' => array('string', 'mandatory' => false),
+		'url' => array('string', 'mandatory' => false),
 		'itemColor' => array('string', 'mandatory' => false),
 		'itemBgColor' => array('string', 'mandatory' => false),
 		'activeItemColor' => array('string', 'mandatory' => false),
@@ -15,14 +16,19 @@ $IV = array(
 
 require ROOT . '/lib/includeForOwner.php';
 $selected = 0;
+
 if (isset($_GET['name']))
 	$skinSetting['tree'] = $_GET['name'];
-if (isset($_GET['itemColor']))
-	$skinSetting['colorOnTree'] = $_GET['itemColor'];
-if (isset($_GET['itemBgColor']))
-	$skinSetting['bgColorOnTree'] = $_GET['itemBgColor'];
-if (isset($_GET['activeItemColor']))
-	$skinSetting['activeColorOnTree'] = $_GET['activeItemColor'];
+
+$skinSetting['url'] = $service['path'] . "/image/tree/{$skinSetting['tree']}";
+$skinSetting['itemColor'] = isset($_GET['itemColor']) ? $_GET['itemColor'] : $skinSetting['colorOnTree'];
+$skinSetting['itemBgColor'] = isset($_GET['itemBgColor']) ? $_GET['itemBgColor'] : $skinSetting['bgColorOnTree'];
+$skinSetting['activeItemColor'] = isset($_GET['activeItemColor']) ? $_GET['activeItemColor'] : $skinSetting['activeColorOnTree'];
+$skinSetting['activeItemBgColor'] = isset($_GET['activeItemBgColor']) ? $_GET['activeItemBgColor'] : $skinSetting['activeBgColorOnTree'];
+$skinSetting['labelLength'] = isset($_GET['labelLength']) ? $_GET['labelLength'] : $skinSetting['labelLengthOnTree'];
+$skinSetting['showValue'] = isset($_GET['showValue']) ? $_GET['showValue'] : $skinSetting['showValueOnTree'];
+
+
 if (isset($_GET['activeItemBgColor']))
 	$skinSetting['activeBgColorOnTree'] = $_GET['activeItemBgColor'];
 if (isset($_GET['labelLength']))

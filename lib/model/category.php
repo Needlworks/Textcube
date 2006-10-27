@@ -79,7 +79,7 @@ function getCategoriesSkin() {
 	global $owner, $service;
 	$sql = "select * from {$database['prefix']}SkinSettings where owner = $owner";
 	$setting = fetchQueryRow($sql);
-	$skin = array('name' => "{$setting['skin']}", 'url' => $service['path'] . "/image/tree/{$setting['tree']}", 'labelLength' => $setting['labelLengthOnTree'], 'showValue' => $setting['showValueOnTree'], 'bgColor' => "{$setting['bgColorOnTree']}", 'itemColor' => "{$setting['colorOnTree']}", 'itemBgColor' => "{$setting['bgColorOnTree']}", 'activeItemColor' => "{$setting['activeColorOnTree']}", 'activeItemBgColor' => "{$setting['activeBgColorOnTree']}", );
+	$skin = array('name' => "{$setting['skin']}", 'url' => $service['path'] . "/image/tree/{$setting['tree']}", 'labelLength' => $setting['labelLengthOnTree'], 'showValue' => $setting['showValueOnTree'], 'itemColor' => "{$setting['colorOnTree']}", 'itemBgColor' => "{$setting['bgColorOnTree']}", 'activeItemColor' => "{$setting['activeColorOnTree']}", 'activeItemBgColor' => "{$setting['activeBgColorOnTree']}", );
 	return $skin;
 }
 
