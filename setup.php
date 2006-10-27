@@ -750,9 +750,11 @@ RewriteRule ^testrewrite$ setup.php [L]"
             $rewrite = 1;
         else {
             $rewrite = 0;
+			@unlink($filename);
             checkStep(33, false);
             return false;
         }
+		@unlink($filename);
         $domain = $rewrite == 3 ? substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.') + 1) : $_SERVER['HTTP_HOST'];
 ?>
   <input type="hidden" name="step" value="<?php echo $step;?>" />
