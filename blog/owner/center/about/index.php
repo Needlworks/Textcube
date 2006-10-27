@@ -94,8 +94,8 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('function addition / bug tracking / DB management');?></td>
 											</tr>
 											<tr>
-												<td class="id">leezche</td>
-												<td class="name"></td>
+												<td class="id"><a href="http://plyfly.net">leezche</a></td>
+												<td class="name">leezche lee</td>
 												<td class="role"><?php echo _t('skin');?></td>
 											</tr>
 											<tr>
