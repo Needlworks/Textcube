@@ -9,7 +9,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 						
 							<h3>Brand yourself! : <?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?></h3>
 							<div class="main-explain-box">
-								<!--<p class="explain"><?php echo _t('이 판을 JH님께 헌정합니다.');?></p>-->
+								<!--<p class="explain"><?php echo _t('이 판올림을 JH님께 헌정합니다.');?></p>-->
 								<p class="explain"><?php echo _t('&copy; 2004 - 2006. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />태터툴즈는 태터앤컴퍼니와 태터앤프렌즈에서 개발합니다.<br />태터툴즈와 태터툴즈 로고는 태터앤컴퍼니의 상표입니다.');?></p>
 							</div>
 							
@@ -54,8 +54,8 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 										</thead>
 										<tbody>
 											<tr>
-												<td class="id">coolengineer</td>
-												<td class="name"><a href="mailto:hojin.choi@gmail.com">Hojin Choi</a></td>
+												<td class="id"><a href="mailto:hojin.choi@gmail.com">coolengineer</a></td>
+												<td class="name">Hojin Choi</td>
 												<td class="role"><?php echo _t('XML-RPC API interface');?></td>
 											</tr>
 											<tr>
@@ -95,7 +95,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 											</tr>
 											<tr>
 												<td class="id"><a href="http://plyfly.net">leezche</a></td>
-												<td class="name">leezche lee</td>
+												<td class="name">Leezche Lee</td>
 												<td class="role"><?php echo _t('skin');?></td>
 											</tr>
 											<tr>
@@ -201,13 +201,13 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 								<div id="contributor-container" class="container">
 									<h4><?php echo _t('Code Contributor');?></h4>
 									
-									<p>랜덤여신, McFuture</p>
+									<p>랜덤여신, McFuture, laziel</p>
 								</div>
 								
 								<div id="reporter-container" class="container">
 									<h4><?php echo _t('Reporter');?></h4>
 									
-									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, iamtiz, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel</p>
+									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, iamtiz, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis</p>
 								</div>
 							</div>
 						</div>
