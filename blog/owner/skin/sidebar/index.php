@@ -161,6 +161,11 @@ function pretty_dress($view)
 								<legend><?php echo _t('편집 관련 기능');?></legend>
 								
 <?php
+$defaultModeSelected = "";
+$safeModeSelected = "";
+$tagModeSelected = "";
+$initModeSelected = "";
+
 if ((!isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag'])))
 	$defaultModeSelected = " selected";
 else if ((isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag'])))

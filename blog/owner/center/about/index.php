@@ -33,7 +33,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 										<tbody>
 											<tr><td class="id"><a href="http://gendoh.tistory.com">gendoh</a></td><td class="name">Sang-il, Lee</td></tr>
 											<tr><td class="id">inureyes</td><td class="name"></td></tr>
-											<tr><td class="id">papacha</td><td class="name"></td></tr>
+											<tr><td class="id"><a href="http://papacha.net">papacha</a></td><td class="name">Sunju Jahng</td></tr>
 										</tbody>
 									</table>
 								</div>
@@ -59,8 +59,8 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('XML-RPC API interface');?></td>
 											</tr>
 											<tr>
-												<td class="id">crizin</td>
-												<td class="name"></td>
+												<td class="id"><a href="http://crizin.net">crizin</a></td>
+												<td class="name">JaeYong Lee</td>
 												<td class="role"><?php echo _t('reader / editor');?></td>
 											</tr>
 											<tr>
@@ -69,8 +69,8 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('xhtml specification / quality assurance');?></td>
 											</tr>
 											<tr>
-												<td class="id">egoing</td>
-												<td class="name"></td>
+												<td class="id"><a href="http://egoing.net">egoing</a></td>
+												<td class="name">Kim tae kyong</td>
 												<td class="role"><?php echo _t('imazing / owner function');?></td>
 											</tr>
 											<tr>
@@ -104,8 +104,8 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('skin');?></td>
 											</tr>
 											<tr>
-												<td class="id">papacha</td>
-												<td class="name"></td>
+												<td class="id"><a href="http://papacha.net">papacha</a></td>
+												<td class="name">Sunju Jahng</td>
 												<td class="role"><?php echo _t('library / component / quality assurance');?></td>
 											</tr>
 											<tr>
