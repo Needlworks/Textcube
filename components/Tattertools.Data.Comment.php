@@ -95,7 +95,7 @@ class Comment {
 		
 		if (isset($this->parent))
 			$this->entry = Comment::getEntry($this->parent);
-		if ((isset($this->entry)) && ($this->isFiltered != 1))
+		if ((isset($this->entry)) && ($this->isFiltered == 0))
 			DBQuery::execute("UPDATE {$database['prefix']}Entries SET comments = comments + 1 WHERE owner = $owner AND id = {$this->entry}");
 		return true;
 	}

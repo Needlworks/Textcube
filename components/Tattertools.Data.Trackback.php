@@ -88,7 +88,7 @@ class Trackback {
 			return $this->_error('insert');
 		$this->id = $query->id;
 
-		if ($this->isFiltered != 1) {
+		if ($this->isFiltered == 0) {
 			mysql_query("UPDATE {$database['prefix']}Entries SET trackbacks = trackbacks + 1 WHERE owner = $owner AND id = {$this->entry}");
 		}
 		return true;
