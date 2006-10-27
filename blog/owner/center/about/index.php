@@ -32,7 +32,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 										</thead>
 										<tbody>
 											<tr><td class="id"><a href="http://gendoh.tistory.com">gendoh</a></td><td class="name">Sang-il, Lee</td></tr>
-											<tr><td class="id">inureyes</td><td class="name"></td></tr>
+											<tr><td class="id"><a href="http://forest.nubimaru.com">inureyes</a></td><td class="name">Jeongkyu Shin</td></tr>
 											<tr><td class="id"><a href="http://papacha.net">papacha</a></td><td class="name">Sunju Jahng</td></tr>
 										</tbody>
 									</table>
@@ -89,8 +89,8 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('UI / sidebar / xhtml specification / documentation');?></td>
 											</tr>
 											<tr>
-												<td class="id">inureyes</td>
-												<td class="name"></td>
+												<td class="id"><a href="http://forest.nubimaru.com">inureyes</a></td>
+												<td class="name">Jeongkyu Shin</td>
 												<td class="role"><?php echo _t('function addition / bug tracking / DB management');?></td>
 											</tr>
 											<tr>
@@ -99,8 +99,8 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('skin');?></td>
 											</tr>
 											<tr>
-												<td class="id">nani</td>
-												<td class="name"></td>
+												<td class="id"><a href="http://sangsangbox.net">nani</a></td>
+												<td class="name">Jonggil Ko</td>
 												<td class="role"><?php echo _t('skin');?></td>
 											</tr>
 											<tr>
@@ -109,8 +109,8 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('library / component / quality assurance');?></td>
 											</tr>
 											<tr>
-												<td class="id">peris</td>
-												<td class="name"><a href="mailto:cshlacid@gmail.com">Sang-hoon Choi</a></td>
+												<td class="id"><a href="mailto:cshlacid@gmail.com">peris</a></td>
+												<td class="name">Sang-hoon Choi</td>
 												<td class="role"><?php echo _t('plugin architecture');?></td>
 											</tr>
 										</tbody>
@@ -135,13 +135,13 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 										</thead>
 										<tbody>
 											<tr>
-												<td class="id">Louice P.</td>
-												<td class="name"><a href="mailto:seikanet@gmail.com">Sangjib Choi</a></td>
+												<td class="id"><a href="mailto:seikanet@gmail.com">Louice P.</a></td>
+												<td class="name">Sangjib Choi</td>
 												<td class="role"><?php echo _t('Japanese');?></td>
 											</tr>
 											<tr>
-												<td class="id">Ange</td>
-												<td class="name"><a href="http://nekoto.poporu.net">Ha-neul Seo</a></td>
+												<td class="id"><a href="http://nekoto.poporu.net">Ange</a></td>
+												<td class="name">Ha-neul Seo</td>
 												<td class="role"><?php echo _t('Japanese');?></td>
 											</tr>
 											<tr>
@@ -150,8 +150,8 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('Chinese');?></td>
 											</tr>
 											<tr>
-												<td class="id">건더기</td>
-												<td class="name"><a href="http://blog.kangjang.net">John.K</a></td>
+												<td class="id"><a href="http://blog.kangjang.net">건더기</a></td>
+												<td class="name">John.K</td>
 												<td class="role"><?php echo _t('English');?></td>
 											</tr>
 										</tbody>
@@ -176,18 +176,18 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 										</thead>
 										<tbody>
 											<tr>
-												<td class="id">J.Parker</td>
-												<td class="name"><a href="http://www.create74.com">Yong-ju, Park</a></td>
+												<td class="id"><a href="http://www.create74.com">J.Parker</a></td>
+												<td class="name">Yong-ju, Park</td>
 												<td class="role"><?php echo _t('plugin manager');?></td>
 											</tr>
 											<tr>
-												<td class="id">nani</td>
-												<td class="name"><a href="http://sangsangbox.net">Jonggil Ko</a></td>
+												<td class="id"><a href="http://sangsangbox.net">nani</a></td>
+												<td class="name">Jonggil Ko</td>
 												<td class="role"><?php echo _t('skin manager');?></td>
 											</tr>
 											<tr>
-												<td class="id">LonnieNa</td>
-												<td class="name"></td>
+												<td class="id"><a href="http://blog.2pink.net">LonnieNa</a></td>
+												<td class="name">Yoon Shik</td>
 												<td class="role"><?php echo _t('manual manager');?></td>
 											</tr>
 										</tbody>
