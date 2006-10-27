@@ -85,8 +85,9 @@ document.getElementsBySelector = function(selector) {
 			var bits = token.split('#');
 			var tagName = bits[0];
 			var id = bits[1];
+			if (id.length == 0) return new Array();
 			var element = document.getElementById(id);
-			if (tagName && element.nodeName.toLowerCase() != tagName) {
+			if ((element == null) || (tagName && element.nodeName.toLowerCase() != tagName)) {
 				// tag with that ID not found, return false
 				return new Array();
 			}
