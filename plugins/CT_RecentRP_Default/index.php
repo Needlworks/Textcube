@@ -53,7 +53,7 @@ function _getRecentCommentsView($comments, $template) {
 		misc::dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
 		misc::dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 30)), $view);
 		misc::dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::formatTime($comment['written'])), $view);
-		misc::dress('rctrp_rep_name', htmlspecialchars($comment['name']), $view);
+		misc::dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm($comment['name'],10)), $view);
 		print $view;
 	}
 	$view = ob_get_contents();
