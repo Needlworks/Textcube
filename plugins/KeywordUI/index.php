@@ -27,7 +27,7 @@ function KeywordUI_bindKeyword($target,$mother) {
 	global $blogURL, $configVal;
 	requireComponent('Tattertools.Function.misc');
 	$data = misc::fetchConfigVal($configVal);
-	$target = "<span class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/" . rawurlencode($target) . "')\">{$target}</span>";
+	$target = "<a class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/" . rawurlencode($target) . "')\">{$target}</a>";
 
 	return $target;
 }
