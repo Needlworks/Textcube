@@ -31,7 +31,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 											</tr>
 										</thead>
 										<tbody>
-											<tr><td class="id">gendoh</td><td class="name"></td></tr>
+											<tr><td class="id"><a href="http://gendoh.tistory.com">gendoh</a></td><td class="name">Sang-il, Lee</td></tr>
 											<tr><td class="id">inureyes</td><td class="name"></td></tr>
 											<tr><td class="id">papacha</td><td class="name"></td></tr>
 										</tbody>
@@ -74,8 +74,8 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('imazing / owner function');?></td>
 											</tr>
 											<tr>
-												<td class="id">gendoh</td>
-												<td class="name"></td>
+												<td class="id"><a href="http://gendoh.tistory.com">gendoh</a></td>
+												<td class="name">Sang-il, Lee</td>
 												<td class="role"><?php echo _t('security / EAS / quality assurance');?></td>
 											</tr>
 											<tr>
