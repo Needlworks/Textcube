@@ -497,12 +497,6 @@ function api_BlogAPI()
 	}
 
 	$xmlrpc->receive( $xml );
-
-	if(!headers_sent())
-	{
-		send_failure( $xml );
-	}
-	return "";
 }
 
 /*--------- Blogger API functions -----------*/
