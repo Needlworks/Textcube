@@ -85,6 +85,9 @@ a:active        { color:#666;     text-decoration:none;}
     .moreless_body          { }
     .moreless_bottom        { background:url(images/iconLess.gif) top right no-repeat;  padding-right:20px; color:#999; text-align:right;} 
 
+/* 키워드 */ 
+	.key1 { cursor: pointer; border-bottom: 1px dotted #ccc; } 
+
 
 /* 반드시 들어가야하는 스타일 끝 - 이 아래는 자유롭게 추가, 삭제 가능 */
 
