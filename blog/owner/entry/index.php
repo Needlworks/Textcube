@@ -280,6 +280,11 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 											request.onSuccess = function () {
 												document.getElementById('list-form').submit();
 											}
+											
+											request.OnError = function () {
+												alert("<?php echo _t('실패했습니다..');?>");
+											}
+											
 											request.send("targets="+targets.join(","));
 											break;
 										case 'category':
