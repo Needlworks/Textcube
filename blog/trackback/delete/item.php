@@ -2,7 +2,7 @@
 define('ROOT', '../../..');
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
-$entryId = deleteTrackback($owner, $suri['id']);
+$entryId = trashTrackback($owner, $suri['id']);
 if ($entryId !== false) {
 	$skin = new Skin($skinSetting['skin']);
 	$result = getTrackbacksView($entryId, $skin);
