@@ -1148,14 +1148,10 @@ function bindKeywords($keywords, $content) {
 		# whitespaces preceding attributes
 		(?:\s+
 			(?:
-				# ="blah" or =nospacehere
-				=\s*
-				(?(?=[\'"`])
-					([\'"`]).*?\3
-				|
-					\S+
-				)
+				# quotations like ="blah"
+				=\s*([\'"`]).*?\3
 			|
+				# =nospacehere or raw character like !
 				[^>]+
 			)*
 		)?
@@ -1167,6 +1163,7 @@ function bindKeywords($keywords, $content) {
 		# TT special pattern
 		\[\#\#_.*?_\#\#]
 	)@x', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
+
 	$stack = array(); // [0] = top, [count()-1] = bottom
 	$buf = '';
 	$i = 0;
