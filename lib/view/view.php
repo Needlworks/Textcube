@@ -1276,7 +1276,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				} else {
 					$caption = '';
 				}
-				$buf .= '<center><img src="' . ($useAbsolutePath ? $hostURL : $service['path']) . '/image/gallery/gallery_enlarge.gif" alt="' . _text('확대') . '" onclick="openFullScreen(\'' . $service['path'] . '/script/gallery/iMazing/embed.php?d=' . urlencode($id) . '&f=' . urlencode($params['frame']) . '&t=' . urlencode($params['transition']) . '&n=' . urlencode($params['navigation']) . '&si=' . urlencode($params['slideshowInterval']) . '&p=' . urlencode($params['page']) . '&a=' . urlencode($params['align']) . '&o=' . $owner . '&i=' . $imgStr . '&r=' . $service['path'] . '\',\'' . str_replace("'", "\\'", $attributes[count($attributes) - 1]) . '\',\'' . $service['path'] . '\')" />';
+				$buf .= '<center><img src="' . ($useAbsolutePath ? $hostURL : $service['path']) . '/image/gallery/gallery_enlarge.gif" alt="' . _text('확대') . '" class="enlargeButton" onclick="openFullScreen(\'' . $service['path'] . '/script/gallery/iMazing/embed.php?d=' . urlencode($id) . '&f=' . urlencode($params['frame']) . '&t=' . urlencode($params['transition']) . '&n=' . urlencode($params['navigation']) . '&si=' . urlencode($params['slideshowInterval']) . '&p=' . urlencode($params['page']) . '&a=' . urlencode($params['align']) . '&o=' . $owner . '&i=' . $imgStr . '&r=' . $service['path'] . '\',\'' . str_replace("'", "\\'", $attributes[count($attributes) - 1]) . '\',\'' . $service['path'] . '\')" />';
 				$buf .= '<table>';
 				$buf .= '<tr>';
 				$buf .= '<td width="' . $params['width'] . '" height="' . $params['height'] . '">';
