@@ -201,7 +201,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 								<div id="contributor-container" class="container">
 									<h4><?php echo _t('Code Contributor');?></h4>
 									
-									<p>랜덤여신, McFuture, laziel</p>
+									<p>랜덤여신, McFuture, laziel, tokigun</p>
 								</div>
 								
 								<div id="reporter-container" class="container">

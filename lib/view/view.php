@@ -1108,9 +1108,9 @@ function getEntryContentView($owner, $id, $content, $keywords = array(), $type =
 	global $service;
 	$path = ROOT . "/attach/$owner";
 	$url = "{$service['path']}/attach/$owner";
-	$content = is_array($keywords)?bindKeywords($keywords, $content):$content;
+	//$content = is_array($keywords)?bindKeywords($keywords, $content):$content;
 	$view = bindAttachments($id, $path, $url, $content, $useAbsolutePath, $bRssMode);
-	//$view = is_array($keywords)?bindKeywords($keywords, $view):$view;
+	$view = is_array($keywords)?bindKeywords($keywords, $view):$view;
 	$view = bindTags($id, $view);
 	if (defined('__TATTERTOOLS_MOBILE__'))
 		$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var'));
@@ -1142,38 +1142,65 @@ function bindTags($id, $content) {
 }
 
 function bindKeywords($keywords, $content) {
-	global $blogURL;
-	$flags = array();
-	$ignoreFlag = false;
-	$exceptionList = array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'class', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'href', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var');
-	foreach ($keywords as $i => $keyword) {
-		foreach($exceptionList as $exception) {
-			if(strcasecmp($keyword,$exception)==0)
-				$ignoreFlag = true;
+	$result = preg_split('@(
+		# <ns:elem or </ns:elem
+		</?([A-Za-z0-9-:]+)
+		# whitespaces preceding attributes
+		(?:\s+
+			(?:
+				# ="blah" or =nospacehere
+				=\s*
+				(?(?=[\'"`])
+					([\'"`]).*?\3
+				|
+					\S+
+				)
+			|
+				[^>]+
+			)*
+		)?
+		# end of element
+		>
+		# redundant closure need to keep num of capturing patterns to 4
+		()
+	|
+		# TT special pattern
+		\[\#\#_.*?_\#\#]
+	)@x', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
+	$stack = array(); // [0] = top, [count()-1] = bottom
+	$buf = '';
+	$i = 0;
+	$pattern = array();
+	foreach ($keywords as $keyword)
+		$pattern[] = preg_quote($keyword, '/');
+	//$pattern = '/'.implode('|',$pattern).'/ie';
+	$pattern = '/'.implode('|',$pattern).'/e'; //대소문자 구별
+	while (true) {
+		if (count($stack)) {
+			$buf .= $result[$i];
+		} else {
+			 $buf .= preg_replace($pattern, 'fireEvent("BindKeyword", "$0")', $result[$i]);
 		}
-		if($ignoreFlag==false) {
-			for ($offset = 0; ($start = strpos($content, $keyword, $offset)) !== false; $offset = $start + strlen($keyword)) {
-				if (array_key_exists($start, $flags))
-					continue;
-				$flags[$start] = $i;
+		if (++$i >= count($result)) break;
+		if ($result[$i]{0} == '<') {
+			if ($result[$i]{1} == '/') {
+				$index = array_search(strtolower($result[$i+1]), $stack);
+				if ($index === false) {
+					$stack = array();
+				} else {
+					array_splice($stack, 0, $index + 1);
+				}
+			} else {
+				if (!in_array(strtolower($result[$i+1]), array('br', 'hr', 'img'))) 
+					array_unshift($stack, strtolower($result[$i+1]));
 			}
+			$buf .= $result[$i];
+			$i += 4;
+		} else {
+			$buf .= $result[$i++];
 		}
-		$ignoreFlag = false;
 	}
-	ksort($flags);
-	
-	$view = '';
-	$offset = 0;
-	foreach ($flags as $start => $flag) {
-		if ($start < $offset)
-			continue;
-		$view .= substr($content, $offset, $start - $offset);
-		//$view .= "<span class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/" . rawurlencode($keywords[$flag]) . "')\">{$keywords[$flag]}</span>";
-		$view .= fireEvent('BindKeyword', $keywords[$flag]);
-		$offset = $start + strlen($keywords[$flag]);
-	}
-	$view .= substr($content, $offset);
-	return $view;
+	return $buf;
 }
 
 function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolutePath = false, $bRssMode = false) {
