@@ -786,7 +786,11 @@ TTReader.prototype.importOPMLURL = function()
 		Reader.refreshFeedList(0);
 		Reader.refreshEntryList(0, 0);
 		Reader.refreshEntry(0, 0, 0);
-		alert(this.getText("/response/total") + s_opmlUploadComplete);
+		if(this.getText("/response/total") == 1) {
+			alert(this.getText("/response/total") + s_opmlUploadCompleteSingle);
+		} else {
+			alert(this.getText("/response/total") + s_opmlUploadCompleteMulti);
+		}
 	}
 	request.onError= function () {
 		PM.removeRequest(this);
