@@ -1042,6 +1042,7 @@ $__text['필터 설정을 복원하고 있습니다.'] = 'Restoring Filter setti
 $__text['필터'] = 'Filter';
 $__text['필터를 설정합니다'] = 'Filter';
 $__text['필터링을 삭제하지 못했습니다.'] = 'Could not delete Filter';
+$__text['하나의 피드를 가져왔습니다.\n피드를 업데이트 해 주십시오.'] = 'One feed received.\\nPlease update it.';
 $__text['하단 여백'] = 'Bottom margin';
 $__text['하드웨어'] = 'Hardware';
 $__text['하위 경로(Path)로 블로그 식별'] = 'Verify Blog with sub-path';
