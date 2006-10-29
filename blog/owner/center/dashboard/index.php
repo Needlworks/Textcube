@@ -123,7 +123,6 @@ if (false) {
 }
 ?>	
 						<form method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
-							<div id="part-center-dashboard" class="part">
 <?php
 $tattertoolsDashboard = getUserSetting("tattertoolsDashboard");
 if (is_null($tattertoolsDashboard)) {
@@ -135,6 +134,7 @@ if($tattertoolsDashboard) {
 	if (!isset($_REQUEST['edit'])) {
 		$stats = getStatistics($owner);
 ?>
+							<div id="part-center-dashboard" class="part">
 								<h2 class="caption"><span class="main-text"><?php echo _t('태터툴즈');?></span></h2>
 								
 								<div id="shortcut-collection" class="section">
@@ -269,15 +269,14 @@ if($tattertoolsDashboard) {
 									</div>
 <?php
 		}
-
-		unset($feed);
-		unset($xmls);
-		unset($noticeEntries);
-	}
 ?>
 								</div>
 							</div>
 <?php
+		unset($feed);
+		unset($xmls);
+		unset($noticeEntries);
+	}
 }
 ?>
 
@@ -346,6 +345,12 @@ if (!isset($_REQUEST['edit'])) {
 ?>
 								<div class="button-box">
 									<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" />
+								</div>
+<?php
+} else {
+?>
+								<div class="button-box">
+									<input type="button" class="input-button" value="<?php echo _t('돌아가기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard'; return false;" />
 								</div>
 <?php
 }
