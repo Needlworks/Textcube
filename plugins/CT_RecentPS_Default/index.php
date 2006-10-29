@@ -59,9 +59,9 @@ function _getRecentEntriesView($entries,$template){
 function CT_RecentPS_Default($target) {
 	global $owner,$pluginURL;
 
-	$target .= '<ol>';
-	$target .= _getRecentEntriesView(_getRecentEntries($owner),'<li><a href="[##_rctps_rep_edit_link_##]"><img src="'.$pluginURL.'/images/edit.png" style="border:none;" /></a><a href="[##_rctps_rep_link_##]"> [##_rctps_rep_title_##]</a> <span class="cnt">[##_rctps_rep_rp_cnt_##]</span> </li>');
-	$target .= '</ol>';
+	$target .= '<ol>'.CRLF;
+	$target .= _getRecentEntriesView(_getRecentEntries($owner),'											<li><a class="edit-link" href="[##_rctps_rep_edit_link_##]" style="background-image: url(\'' . $pluginURL . '/images/edit.png\'); background-position: left center; background-repeat: no-repeat; display: block; float: left; height: 12px; margin: 2px 5px 0 0; width: 12px;" title="' . _t('이 포스트를 편집합니다.') . '"><span class="text" style="display: none;">[편집하기]</span></a> <a href="[##_rctps_rep_link_##]" title="' . _t('포스트를 보여줍니다.') . '">[##_rctps_rep_title_##]</a> <span class="cnt">[##_rctps_rep_rp_cnt_##]</span></li>'.CRLF);
+	$target .= '										</ol>'.CRLF;
 
 	return $target;
 }
