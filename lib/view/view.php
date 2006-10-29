@@ -1108,7 +1108,6 @@ function getEntryContentView($owner, $id, $content, $keywords = array(), $type =
 	global $service;
 	$path = ROOT . "/attach/$owner";
 	$url = "{$service['path']}/attach/$owner";
-	//$content = is_array($keywords)?bindKeywords($keywords, $content):$content;
 	$view = bindAttachments($id, $path, $url, $content, $useAbsolutePath, $bRssMode);
 	$view = is_array($keywords)?bindKeywords($keywords, $view):$view;
 	$view = bindTags($id, $view);
