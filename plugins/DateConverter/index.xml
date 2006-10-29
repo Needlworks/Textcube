@@ -34,26 +34,26 @@
 					<op value="korean" checked="checked">한국어</op>
 					<caption>
 						<![CDATA[
-	%Y = 4자리수 연도 [0000]<br />
-	%y = 2자리수 연도 [00]<br />
+	<kbd>%Y</kbd> = 4자리수 연도.<br />
+	<kbd>%y</kbd> = 2자리수 연도.<br />
 	
-	%M = 앞의 0을 표시하는 달. [01~12] or January/Febuary/March/April...<br />
-	%m = 앞의 0을 표시하지 않는 달. [1~12] or Jan/Feb/Mar/Apr...<br />
+	<kbd>%M</kbd> = 앞의 0을 표시하는 달 또는 라틴 문자권의 완전형 월 명칭. <samp>[01~12] or January/Febuary/March/April...</samp><br />
+	<kbd>%m</kbd> = 앞의 0을 표시하지 않는 달 또는 라틴 문자권의 생략형 월 명칭. <samp>[1~12] or Jan/Feb/Mar/Apr...</samp><br />
 	
-	%D = 앞의 0을 표시하는 일(日). [01~31]<br />
-	%d = 앞의 0을 표시하지 않는 일(日). [1~31]<br />
-	%o = 서수 어미가 붙은 일(日). 주로 라틴 문자권에서 사용. [1~31] + [day ordinal postfix]<br />
+	<kbd>%D</kbd> = 앞의 0을 표시하는 일(日). <samp>[01~31]</samp><br />
+	<kbd>%d</kbd> = 앞의 0을 표시하지 않는 일(日). <samp>[1~31]</samp><br />
+	<kbd>%o</kbd> = 서수 어미가 붙은 일(日). 주로 라틴 문자권에서 사용. <samp>[1st|2nd|3rd|4th...|30th|31st]</samp><br />
 	
-	%H = 앞의 0을 표시하는 24시간. [00~24]<br />
-	%h = 앞의 0을 표시하지 않는 24시간. [0~24]<br />
-	%F = 앞의 0을 표시하는 12시간. [00~12]<br />
-	%f = 앞의 0을 표시하지 않는 12시간. [0~12]<br />
+	<kbd>%H</kbd> = 앞의 0을 표시하는 24시간. <samp>[00~24]</samp><br />
+	<kbd>%h</kbd> = 앞의 0을 표시하지 않는 24시간. <samp>[0~24]</samp><br />
+	<kbd>%F</kbd> = 앞의 0을 표시하는 12시간. <samp>[00~12]</samp><br />
+	<kbd>%f</kbd> = 앞의 0을 표시하지 않는 12시간. <samp>[0~12]</samp><br />
 	
-	%I = 앞의 0을 표시하는 분. [00~59]<br />
-	%i = 앞의 0을 표시하지 않는 분. [0~59]<br />
+	<kbd>%I</kbd> = 앞의 0을 표시하는 분. <samp>[00~59]</samp><br />
+	<kbd>%i</kbd> = 앞의 0을 표시하지 않는 분. <samp>[0~59]</samp><br />
 	
-	%S = 앞의 0을 표시하는 초. [00~59]<br />
-	%s = 앞의 0을 표시하지 않는 초. [0~59]
+	<kbd>%S</kbd> = 앞의 0을 표시하는 초. <samp>[00~59]</samp><br />
+	<kbd>%s</kbd> = 앞의 0을 표시하지 않는 초. <samp>[0~59]</samp>
 						]]>
 					</caption>
 				</field>
