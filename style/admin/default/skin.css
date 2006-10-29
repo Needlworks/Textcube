@@ -179,6 +179,8 @@
 	padding-top                      : 1px;
 }
 
+
+
 #part-skin-setting dl
 {
 	border-top                       : 1px solid #DDDDDD;
@@ -187,7 +189,7 @@
 #part-skin-setting dl dt
 {
 	font-weight                      : normal;
-	padding                          : 5px 3px 4px 3px;
+	padding                          : 3px 3px 4px 3px;
 	text-align                       : right;
 	width                            : 170px;
 }
@@ -382,7 +384,7 @@
 #sidebar-box
 {
 	float                            : right;
-	height                           : 828px;
+	height                           : 903px;
 	margin-left                      : 30px;
 	overflow                         : auto;
 	width                            : 620px;
@@ -416,6 +418,19 @@
 	color                            : inherit;
 	font-size                        : 1em;
 	font-weight                      : inherit;
+}
+
+#disabled-sidebar-box
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #DDDDDD;
+	height                           : 400px;
+}
+
+#disabled-sidebar-box p
+{
+	margin-top                       : 190px;
+	text-align                       : center;
 }
 
 .sidebar-module,
@@ -521,7 +536,7 @@
 
 #sidebar-element-box fieldset>ul
 {
-	height                           : 538px;
+	height                           : 418px;
 	overflow-y                       : scroll;
 }
 

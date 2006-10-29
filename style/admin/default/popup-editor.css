@@ -2,14 +2,6 @@
 
 /* Common ****************************************************************************************/
 
-body
-{
-	margin                           : 0;
-	padding                          : 0;
-}
-
-/* Common ****************************************************************************************/
-
 h3
 {
 	display                          : none;
@@ -395,8 +387,16 @@ h3
 	height                           : 12px !important;
 	line-height                      : 1.5em;
 	padding                          : 0 !important;
-	text-indent                      : -5000px;
 	width                            : 16px;
+}
+
+#colorPalette table tr td span,
+#markPalette table tr td span,
+#textBox table tr td span
+{
+	display                          : block;
+	width                            : 16px;
+	text-indent                      : -5000px;
 }
 
 /* colors */
@@ -597,8 +597,11 @@ h3
 
 .entry-editor-property .entry-editor-property-option
 {
-	float                            : right;
-	padding-top                      : 8px;
+	border-bottom                    : 1px solid #EEEEEE;
+	font-family                      : µ¸¿ò, Dotum, sans-serif;
+	font-size                        : 0.9em;
+	padding                          : 8px 0 3px 0;
+	text-align                       : right;
 }
 
 .entry-editor-property h4
@@ -1038,6 +1041,13 @@ dl#permalink-line dd .input-text
 	width                            : 250px;
 }
 
+dl#permalink-line dd p
+{
+	font-family                      : µ¸¿ò, Dotum, sans-serif;
+	font-size                        : 0.9em;
+	text-align                       : right;
+}
+
 dl#date-line dd div,
 dl#status-line dd div,
 dl#entrytype-line dd div,
@@ -1051,10 +1061,19 @@ dl#power-line
 	border-bottom                    : 1px solid #DDDDDD !important;
 }
 
+.publish-preserve,
+.status-protected,
+.status-public,
+.status-syndicated,
+.trackback-yes
+{
+	padding-left                     : 10px;
+}
+
 /* button box -----------------------------------------------------------------------------------*/
 .button-box
 {
-	padding                          : 20px 0 10px 0;
+	padding                          : 20px 0;
 	width                            : 650px;
 }
 
@@ -1067,7 +1086,7 @@ dl#power-line
 	font-weight                      : bold;
 	height                           : auto;
 	line-height                      : normal;
-	padding                          : 10px 10px 8px 10px;
+	padding                          : 8px 10px 8px 10px !important;
 	vertical-align                   : middle;
 }
 
@@ -1080,6 +1099,6 @@ dl#power-line
 	font-weight                      : bold;
 	height                           : auto;
 	line-height                      : normal;
-	padding                          : 8px 8px 6px 8px;
+	padding                          : 8px 8px 6px 8px !important;
 	vertical-align                   : middle;
 }

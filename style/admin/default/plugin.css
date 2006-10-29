@@ -16,6 +16,7 @@
 
 #part-plugin-list
 {
+	padding-bottom                   : 35px;
 	position                         : relative;
 }
 
@@ -31,14 +32,44 @@
 	margin                           : 0 0 0 20px;
 }
 
-#part-plugin-list fieldset dl
+#part-plugin-list fieldset .checkbox,
+#part-plugin-list fieldset .radio
 {
-	border                           : none;
+	margin-left                      : 5px;
+}
+
+#scope-line
+{
+	text-align                       : right;
+	padding-right                    : 20px;
+}
+
+#sorting-line
+{
+	background-color                 : #EEEEEE;
+	border-top                       : 1px solid #BBBBBB;
+	bottom                           : 0;
+	left                             : 10px;
+	padding                          : 5px 10px;
+	position                         : absolute;
+	width                            : 920px;
+}
+
+#activate-status-line
+{
+	position                         : absolute;
+	right                            : 20px;
+	bottom                           : 5px;
 }
 
 #part-plugin-list fieldset dl dt
 {
-	font-weight                      : bold;
+	display                          : none;
+}
+
+#part-plugin-list fieldset dl dd
+{
+	margin-left                      : 0;
 }
 
 /* table head */
