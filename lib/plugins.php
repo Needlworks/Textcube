@@ -369,8 +369,8 @@ function fetchConfigVal( $DATA ){
 
 
 
-function handleConfig( $plugin){
-	global $service , $typeSchema, $pluginURL, $pluginPath, $configMappings, $configVal;
+function handleConfig($plugin){
+	global $service , $typeSchema, $pluginURL, $pluginPath, $configMappings, $configVal, $adminSkinSetting;
 	
 	$typeSchema = array(
 		'text' 
@@ -386,7 +386,14 @@ function handleConfig( $plugin){
 	$dfVal =  fetchConfigVal(getCurrentSetting($plugin));
 	$name = '';
 	$clientData ='[';
-	$defaultCss = (true === file_exists( ROOT. "/plugins/$plugin/configStyle.css" ) ) ? $service['path']. "/plugins/$plugin/configStyle.css" : $service['path']. '/style/configStyle.css';
+	
+	if (true === file_exists(ROOT . "/plugins/$plugin/configStyle.css"))
+		$defaultCss = $service['path'] . "/plugins/$plugin/configStyle.css";
+	else if (true === file_exists(ROOT . $adminSkinSetting['skin'] . "/plugin-config.css"))
+		$defaultCss = $service['path'] . $adminSkinSetting['skin'] . "/plugin-config.css";
+	else
+		$defaultCss = $service['path'] . '/style/configStyle.css';
+	
 	if ($manifest && $xmls->open($manifest)) {
 		//설정 핸들러가 존재시 바꿈
 		$config = $xmls->selectNode('/plugin/binding/config');
@@ -413,7 +420,7 @@ function handleConfig( $plugin){
 			return array( 'code' => _t('설정 값이 없습니다.') , 'script' => '[]' , 'css' => $defaultCss ) ;  	
 		foreach ($config['fieldset'] as $fieldset) {
 			$legend = !empty($fieldset['.attributes']['legend']) ? htmlspecialchars($fieldset['.attributes']['legend']) :'';
-			$CDSPval .= CRLF.TAB."<fieldset>".CRLF.TAB.TAB."<legend>$legend</legend>".CRLF;
+			$CDSPval .= CRLF.TAB."<fieldset>".CRLF.TAB.TAB."<legend><span class=\"text\">$legend</span></legend>".CRLF;
 			if( !empty( $fieldset['field'] ) ){
 				foreach( $fieldset['field'] as $field ){
 					if( empty( $field['.attributes']['name'] ) ) continue;
