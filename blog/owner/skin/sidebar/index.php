@@ -204,12 +204,10 @@ getBlogContentForSideBar();
 
 if ($sidebarCount == 0) {
 ?>
-							<div id="sidebar-box" class="data-inbox">
-								<h3><?php echo _t('사이드바');?></h3>
-								<div class="main-explain-box">
-									<p class="explain"><?php echo _t('사용중인 스킨이 사이드바 기능을 지원하지 않습니다.');?></p>
-								</div>
+							<div id="disabled-sidebar-box" class="data-inbox">
+								<p><?php echo _t('사용중인 스킨이 사이드바 기능을 지원하지 않습니다.');?></p>
 							</div>
+						</form>
 <?php
 	require ROOT . '/lib/piece/owner/footer1.php';
 	exit;
@@ -368,6 +366,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 		);
 	}
 }
+
 for ($i=0;$i<$sidebarCount; $i++){
 	$orderConfig = array_key_exists($i,$sidebarConfig) ? $sidebarConfig[$i] : array();
 	for ($j=0; $j<count($orderConfig) ; $j++) {
