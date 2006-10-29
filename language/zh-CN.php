@@ -1,4 +1,25 @@
-<?php
+<?php // 简体中文
+/* contributed by KIM */
+
+/* Timezones */
+$__text['Asia/Seoul'] = '韩国';
+$__text['Asia/Tokyo'] = '日本';
+$__text['Asia/Shanghai'] = '中国';
+$__text['Asia/Taipei'] = '台湾';
+$__text['Europe/Berlin'] = '德国';
+$__text['Europe/Paris'] = '法国';
+$__text['Europe/London'] = '英国';
+//$__text['GMT'] = 'GMT'; 
+$__text['America/New_York'] = '纽约(美国)';
+$__text['America/Chicago'] = '芝加哥(美国)';
+$__text['America/Denver'] = '丹佛(美国)';
+$__text['America/Los_Angeles'] = '旧金山(美国)';
+$__text['Australia/Sydney'] = '悉尼(澳大利亚)';
+$__text['Australia/Melbourne'] = '墨尔本(澳大利亚)';
+$__text['Australia/Adelaide'] = '阿德莱德(澳大利亚)';
+$__text['Australia/Darwin'] = '达尔文(澳大利亚)';
+$__text['Australia/Perth'] = '珀斯(澳大利亚)';
+
 $__text["%1 설정"] = '设定: %1';
 $__text["블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다."] = "为您准备了日志空间!\n 现在就可以使用";
 $__text["아래로"] = '向下';

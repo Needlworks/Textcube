@@ -1,4 +1,5 @@
-<?php
+<?php //English
+
 $__text["%1 설정"] = '%1 Setting';
 $__text["블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다."] = "Blog has been created. Visit your blog.";
 $__text['"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.'] = 'Cannot create %2 directory in %1. Change %1 permission to %3.';
