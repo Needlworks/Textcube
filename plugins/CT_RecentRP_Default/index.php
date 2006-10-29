@@ -65,13 +65,9 @@ function _getRecentCommentsView($comments, $template) {
 function CT_RecentRP_Default($target) {
 	global $owner;
 
-	$target .= '<ol>';
-	$target .= _getRecentCommentsView(_getRecentComments($owner),'<li>
-<span class="date">[##_rctrp_rep_time_##]</span>
-<a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##]</a>
-<span style="color:#3A3">[##_rctrp_rep_name_##]</span>
-</li>');
-	$target .= '</ol>';
+	$target .= '<ol>'.CRLF;
+	$target .= _getRecentCommentsView(_getRecentComments($owner),'											<li><span class="date" style="display: block; font-family: Verdana, µ¸¿ò, Dotum, Tahoma, \'Lucida Grande\', sans-serif; font-size: 0.9em;">[##_rctrp_rep_time_##]</span> <a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##]</a> <span class="name" style="color: #ABABAB;">[##_rctrp_rep_name_##]</span></li>'.CRLF);
+	$target .= '										</ol>'.CRLF;
 
 	return $target;
 }

@@ -51,8 +51,8 @@ function CT_TNF_Notice($target) {
 			foreach($noticeEntries as $item) {
 				$target .= '<li>'.CRLF;
 				$target .= '<a href="' .$item['permalink'].'">'.CRLF;
-				$target .= '<span>'.Timestamp::formatDate($item['written']).'</span>'.CRLF;
-				$target .= '<span>'.UTF8::lessenAsEm(htmlspecialchars($item['title']),30).'</span>'.CRLF;
+				$target .= '<span class="date">'.Timestamp::formatDate($item['written']).'</span>'.CRLF;
+				$target .= '<span class="title">'.UTF8::lessenAsEm(htmlspecialchars($item['title']),30).'</span>'.CRLF;
 				$target .= '</a>'.CRLF;
 				$target .= '</li>'.CRLF;
 				if($i>3) break;
@@ -63,10 +63,10 @@ function CT_TNF_Notice($target) {
 			//$target .= '<li><span> from '.$noticeURL.'</span></li>'.CRLF;
 			//$target .= '</ul>'.CRLF;
 		} else {
-			$target .= _t('공지사항이 없습니다.');
+			$target .= _t('<p>공지사항이 없습니다.</p>');
 		}
 	} else {
-		$target .= _t('공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 주십시오');
+		$target .= _t('<p style="border: 1px solid #EEEEEE; height: 75px; padding-top: 45px; text-align: center;">공지사항을 가져올 수 없습니다.<br />잠시 후 다시 시도해 주십시오.</p>');
 	}
 
 	unset($feed);
