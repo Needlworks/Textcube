@@ -10,15 +10,6 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 								var description = "<?php echo escapeJSInCData(trim($blog['description']));?>";
 								
 								function setResample() {
-									/*var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/etc/resample/");
-									request.onSuccess = function() {
-										PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
-									}
-									request.onError = function() {
-										alert("<?php echo _t('리샘플러 설명을 변경하지 못했습니다.');?>");
-									}
-									
-									request.send(makeQueryStringByForm("resample-form"));*/
 									document.getElementById("resample-form").submit();
 								}
 		
@@ -161,7 +152,7 @@ if (extension_loaded('gd')) {
 										<dl id="resampling-default-line" class="line">
 											<dt><span class="label"><?php echo _t('기본 설정');?></span></dt>
 											<dd>
-												<input type="checkbox" class="checkbox" id="useResamplingAsDefault" name="useResamplingAsDefault" value="yes" onclick="if (this.checked == false && document.getElementById('useWatermarkAsDefault').checked == true) document.getElementById('useWatermarkAsDefault').checked = false;"<?php echo (getUserSetting("resamplingDefault") == "yes") ? ' checked="checked"' : NULL;?> /> <label for="useResamplingAsDefault"><?php echo _t('이미지 리샘플링 기능을 기본으로 사용합니다. 이 기능을 사용시 서버에 많은 부하가 걸릴 수 있으니 주의하시기 바랍니다.');?></label><br />
+												<input type="checkbox" class="checkbox" id="useResamplingAsDefault" name="useResamplingAsDefault" value="yes" onclick="if (this.checked == false && document.getElementById('useWatermarkAsDefault').checked == true) document.getElementById('useWatermarkAsDefault').checked = false;"<?php echo (getUserSetting("resamplingDefault") == "yes") ? ' checked="checked"' : NULL;?> /> <label for="useResamplingAsDefault"><?php echo _t('이미지 리샘플링 기능을 기본으로 사용합니다. <em>이 기능을 사용시 서버에 많은 부하가 걸릴 수 있으니 주의하시기 바랍니다.</em>');?></label><br />
 												<input type="checkbox" class="checkbox" id="useWatermarkAsDefault" name="useWatermarkAsDefault" value="yes" onclick="if (this.checked == true && document.getElementById('useResamplingAsDefault').checked == false) document.getElementById('useResamplingAsDefault').checked = true;"<?php echo (getUserSetting("waterMarkDefault") == "yes") ? ' checked="checked"' : NULL;?> /> <label for="useWatermarkAsDefault"><?php echo _t('워터마크 기능을 기본으로 사용합니다.');?></label>
 											</dd>
 										</dl>
