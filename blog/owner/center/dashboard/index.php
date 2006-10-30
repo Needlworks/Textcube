@@ -146,9 +146,11 @@ if($tattertoolsDashboard) {
 		$latestEntryId = getUserSetting('LatestEditedEntry',0);
 		if($latestEntryId !== 0){
 			$latestEntry = getEntry($owner,$latestEntryId);
+			if($latestEntry!=false){
 ?>
 										<li><a href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', UTF8::lessenAsEm(htmlspecialchars($latestEntry['title']),10));?></a></li>
 <?php
+			}
 		}
 ?>
 										<li><a href="<?php echo $blogURL;?>/owner/skin"><?php echo _t('스킨 변경');?></a></li>
