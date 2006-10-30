@@ -134,9 +134,11 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 			setUserSetting("tattertoolsDashboard", 0);
 			$tattertoolsDashboard = 0;
 		}
+	} else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			setUserSetting("tattertoolsDashboard", 1);
+			$tattertoolsDashboard = 1;
 	} else {
-		setUserSetting("tattertoolsDashboard", 1);
-		$tattertoolsDashboard = 1;
+		$tattertoolsDashboard = getUserSetting("tattertoolsDashboard");
 	}
 ?>
 								<dl id="independent-notice-line" class="line">
