@@ -294,13 +294,15 @@ function addEntry($owner, $entry) {
 	global $database, $blog;
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
-	if(empty($entry['slogan'])) {
+	if(empty($entry['slogan'])||($entry['category'] == -1)) {
 		$slogan = $slogan0 = getSlogan($entry['title']);
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
 	$slogan = mysql_real_escape_string($slogan);
 	$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
+	if(($result!=false)&&($entry['category'] == -1)) return false;
+
 	for ($i = 1; mysql_num_rows($result) > 0; $i++) {
 		if ($i > 100)
 			return false;
@@ -310,7 +312,7 @@ function addEntry($owner, $entry) {
 	}
 	$title = mysql_real_escape_string($entry['title']);
 	$content = mysql_real_escape_string($entry['content']);
-$password = mysql_real_escape_string(generatePassword());
+	$password = mysql_real_escape_string(generatePassword());
 	$location = mysql_real_escape_string($entry['location']);
 	if (isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
 		$published = $entry['published'];
