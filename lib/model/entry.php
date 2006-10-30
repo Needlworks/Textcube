@@ -576,6 +576,8 @@ function setEntryVisibility($id, $visibility) {
 	if ($category >= 0) {
 		if ((($oldVisibility >= 2) && ($visibility < 2)) || (($oldVisibility < 2) && ($visibility >= 2)))
 			clearRSS();
+		if ((($oldVisibility == 3) && ($visibility =< 2)) || (($oldVisibility =< 2) && ($visibility == 3)))
+			clearRSS();
 		if ($category > 0)
 			updateEntriesOfCategory($owner, $category);
 	}
