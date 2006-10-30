@@ -35,12 +35,16 @@ function api_get_canonical_id( $id )
 	$alias_file = ROOT . "/.htaliases";
 	$canon = api_get_request_id( $id );
 	
-	if( !file_exists( $alias_file ) )
+	if( $id == "" || !file_exists( $alias_file ) )
 	{
 		return $canon;
 	}
 	
 	$fd = fopen( $alias_file, "r" );
+	if( $fd == FALSE )
+	{
+		return $canon;
+	}
 	while( !feof($fd) )
 	{
 		$line = fgets( $fd, 1024 );
