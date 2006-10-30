@@ -8,7 +8,7 @@
    Maintainer       : inureyes, gendoh, graphittie
 
    Created at       : 2006.8.22
-   Last modified at : 2006.10.11
+   Last modified at : 2006.10.30
 
  This plugin adds start panel on 'quilt'.
  For the detail, visit http://forum.tattertools.com/ko
