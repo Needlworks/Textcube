@@ -387,13 +387,6 @@ function handleConfig($plugin){
 	$name = '';
 	$clientData ='[';
 	
-	if (true === file_exists(ROOT . "/plugins/$plugin/configStyle.css"))
-		$defaultCss = $service['path'] . "/plugins/$plugin/configStyle.css";
-	else if (true === file_exists(ROOT . $adminSkinSetting['skin'] . "/plugin-config.css"))
-		$defaultCss = $service['path'] . $adminSkinSetting['skin'] . "/plugin-config.css";
-	else
-		$defaultCss = $service['path'] . '/style/configStyle.css';
-	
 	if ($manifest && $xmls->open($manifest)) {
 		//설정 핸들러가 존재시 바꿈
 		$config = $xmls->selectNode('/plugin/binding/config');
@@ -417,7 +410,7 @@ function handleConfig($plugin){
 			unset( $newXmls);
 		}
 		if( is_null( $config['fieldset'] ) ) 
-			return array( 'code' => _t('설정 값이 없습니다.') , 'script' => '[]' , 'css' => $defaultCss ) ;  	
+			return array( 'code' => _t('설정 값이 없습니다.') , 'script' => '[]' ) ;  	
 		foreach ($config['fieldset'] as $fieldset) {
 			$legend = !empty($fieldset['.attributes']['legend']) ? htmlspecialchars($fieldset['.attributes']['legend']) :'';
 			$CDSPval .= CRLF.TAB."<fieldset>".CRLF.TAB.TAB."<legend><span class=\"text\">$legend</span></legend>".CRLF;
@@ -433,7 +426,7 @@ function handleConfig($plugin){
 		}
 	}else	$CDSPval = _t('설정 값이 없습니다.'); 	
 	$clientData .= ']';
-	return array( 'code' => $CDSPval , 'script' => $clientData , 'css' => $defaultCss ) ;
+	return array( 'code' => $CDSPval , 'script' => $clientData ) ;
 }
 
 function getFieldName( $field , $name ){

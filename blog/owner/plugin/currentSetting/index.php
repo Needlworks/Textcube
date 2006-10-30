@@ -20,7 +20,14 @@ if( is_null($result) )	respondNotFoundPage();
 <head>
 	<title><?php echo _f("%1 설정", $pluginName);?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $result['css'];?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'] . '/plugin-config.css';?>" />
+<?php
+if (true === file_exists(ROOT . "/plugins/$plugin/configStyle.css")) {
+?>
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . '/plugins/$pluginName/configStyle.css';?>" />
+<?php
+}
+?>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/pluginconfig.js"> </script>
 	<script type="text/javascript">
@@ -73,7 +80,8 @@ if( is_null($result) )	respondNotFoundPage();
 			</div>
 		</div>
 		<div id="layout-foot" class="button-box">
-			<input type="submit" class="input-button" value="<?php echo _t('저장하기');?>" onclick="saveConfig('<?php echo $pluginName;?>'); return false;" />
+			<input type="submit" class="input-button" value="<?php echo _t('저장');?>" onclick="saveConfig('<?php echo $pluginName;?>'); return false;" />
+			<input type="button" class="input-button" value="<?php echo _t('닫기');?>" onclick="self.close();" />
 		</div>
 	</form>
 </body>
