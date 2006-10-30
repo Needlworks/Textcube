@@ -82,7 +82,7 @@ function getEntryListByTag($owner, $tag) {
 	global $database;
 	if ($tag === null)
 		return array();
-	$tag = mysql_real_escape_string($tag);
+	$tag = mysql_tt_escape_string($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$sql = "SELECT e.* FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' ORDER BY published DESC";
 	return fetchQueryAll($sql);
@@ -131,7 +131,7 @@ function getEntriesWithPagingByTag($owner, $tag, $page, $count) {
 	global $database, $folderURL, $suri;
 	if ($tag === null)
 		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
-	$tag = mysql_real_escape_string($tag);
+	$tag = mysql_tt_escape_string($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$sql = "SELECT e.*, c.label categoryLabel FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
@@ -300,7 +300,7 @@ function addEntry($owner, $entry) {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
 
-	$slogan = mysql_real_escape_string($slogan);
+	$slogan = mysql_tt_escape_string($slogan);
 
 	if($entry['category'] == -1) {
 		$numberOfSlogan = fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND slogan = '$slogan' AND category = -1");
@@ -312,13 +312,13 @@ function addEntry($owner, $entry) {
 		if ($i > 100)
 			return false;
 		$slogan = "$slogan0-$i";
-		$slogan = mysql_real_escape_string($slogan);
+		$slogan = mysql_tt_escape_string($slogan);
 		$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 	}
-	$title = mysql_real_escape_string($entry['title']);
-	$content = mysql_real_escape_string($entry['content']);
-	$password = mysql_real_escape_string(generatePassword());
-	$location = mysql_real_escape_string($entry['location']);
+	$title = mysql_tt_escape_string($entry['title']);
+	$content = mysql_tt_escape_string($entry['content']);
+	$password = mysql_tt_escape_string(generatePassword());
+	$location = mysql_tt_escape_string($entry['location']);
 	if (isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
 		$published = $entry['published'];
 		$entry['visibility'] = 0 - $entry['visibility'];
@@ -384,7 +384,7 @@ function updateEntry($owner, $entry) {
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
-	$slogan = mysql_real_escape_string($slogan);
+	$slogan = mysql_tt_escape_string($slogan);
 	$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' AND id = {$entry['id']} LIMIT 1");
 	if (mysql_num_rows($result) == 0) { // if changed
 		$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
@@ -392,16 +392,16 @@ function updateEntry($owner, $entry) {
 			if ($i > 100)
 				return false;
 			$slogan = "$slogan0-$i";
-			$slogan = mysql_real_escape_string($slogan);
+			$slogan = mysql_tt_escape_string($slogan);
 			$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 		}
 	}
 	$tags = getTagsWithEntryString($entry['tag']);
 	modifyTagsWithEntryId($owner, $entry['id'], $tags);
 	
-	$location = mysql_real_escape_string($entry['location']);
-	$title = mysql_real_escape_string($entry['title']);
-	$content = mysql_real_escape_string($entry['content']);
+	$location = mysql_tt_escape_string($entry['location']);
+	$title = mysql_tt_escape_string($entry['title']);
+	$content = mysql_tt_escape_string($entry['content']);
 	switch ($entry['published']) {
 		case 0:
 			$published = 'published';
@@ -444,9 +444,9 @@ function saveDraftEntry($entry) {
 //		return false;
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
-	$location = mysql_real_escape_string($entry['location']);
-	$title = mysql_real_escape_string($entry['title']);
-	$content = mysql_real_escape_string($entry['content']);
+	$location = mysql_tt_escape_string($entry['location']);
+	$title = mysql_tt_escape_string($entry['title']);
+	$content = mysql_tt_escape_string($entry['content']);
 	$draft = getDraftEntryId($entry['id']);
 	if ($draft) {
 		$result = mysql_query("UPDATE {$database['prefix']}Entries
@@ -579,7 +579,7 @@ function setEntryVisibility($id, $visibility) {
 
 function protectEntry($id, $password) {
 	global $database, $owner;
-	$password = mysql_real_escape_string($password);
+	$password = mysql_tt_escape_string($password);
 	$result = mysql_query("UPDATE {$database['prefix']}Entries SET password = '$password', modified = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id AND visibility = 1");
 	return ($result && (mysql_affected_rows() > 0));
 }
