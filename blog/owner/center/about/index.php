@@ -9,15 +9,17 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 						
 							<h3>Brand yourself! : <?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?></h3>
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('이 판올림을 JH님께 헌정합니다.');?></p>
-								<p class="explain"><?php echo _t('&copy; 2004 - 2006. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />태터툴즈는 태터앤컴퍼니와 태터앤프렌즈에서 개발합니다.<br />태터툴즈와 태터툴즈 로고는 태터앤컴퍼니의 상표입니다.');?></p>
+								<p class="explain">
+									<em><?php echo _t('이 판올림을 JH님께 헌정합니다.');?></em><br />
+									<?php echo _t('&copy; 2004 - 2006. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />태터툴즈는 태터앤컴퍼니와 태터앤프렌즈에서 개발합니다.<br />태터툴즈와 태터툴즈 로고는 태터앤컴퍼니의 상표입니다.').CRLF;?>
+								</p>
 							</div>
 							
 							<div id="developer-description" class="section">
-								<h3><?php echo _t('개발자');?></h3>
+								<h3><span class="text"><?php echo _t('개발자');?></span></h3>
 								
 								<div id="maintainer-container" class="container">
-									<h4><?php echo _t('Maintainer');?></h4>
+									<h4><span class="text"><?php echo _t('Maintainer');?></span></h4>
 									
 									<table>
 										<colgroup>
@@ -39,7 +41,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 								</div>
 								
 								<div id="developer-container" class="container">
-									<h4><?php echo _t('Developer');?></h4>
+									<h4><span class="text"><?php echo _t('Developer');?></span></h4>
 									<table>
 										<colgroup>
 											<col class="name"></col>
@@ -79,13 +81,13 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('security / EAS / quality assurance');?></td>
 											</tr>
 											<tr>
-												<td class="id">ghost_ghost</td>
-												<td class="name"></td>
+												<td class="id"><span class="text">ghost_ghost</span></td>
+												<td class="name">&nbsp;</td>
 												<td class="role"><?php echo _t('plugin setting / xml schema');?></td>
 											</tr>
 											<tr>
-												<td class="id">graphittie</td>
-												<td class="name"></td>
+												<td class="id"><span class="text">graphittie</span></td>
+												<td class="name">&nbsp;</td>
 												<td class="role"><?php echo _t('UI / sidebar / xhtml specification / documentation');?></td>
 											</tr>
 											<tr>
@@ -118,7 +120,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 								</div>
 								
 								<div id="internationalization-container" class="container">
-									<h4><?php echo _t('Internationalization');?></h4>
+									<h4><span class="text"><?php echo _t('Internationalization');?></span></h4>
 									
 									<table>
 										<colgroup>
@@ -145,8 +147,8 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('Japanese');?></td>
 											</tr>
 											<tr>
-												<td class="id">KIM</td>
-												<td class="name"></td>
+												<td class="id"><span class="text">KIM</span></td>
+												<td class="name">&nbsp;</td>
 												<td class="role"><?php echo _t('Chinese');?></td>
 											</tr>
 											<tr>
@@ -159,7 +161,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 								</div>
 								
 								<div id="support-container" class="container">
-									<h4><?php echo _t('Support manager');?></h4>
+									<h4><span class="text"><?php echo _t('Support manager');?></span></h4>
 									
 									<table>
 										<colgroup>
@@ -196,7 +198,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 							</div>
 							
 							<div id="supporter-description" class="section">
-								<h3><?php echo _t('공헌자');?></h3>
+								<h3><span class="text"><?php echo _t('공헌자');?></span></h3>
 								
 								<div id="contributor-container" class="container">
 									<h4><?php echo _t('Code Contributor');?></h4>

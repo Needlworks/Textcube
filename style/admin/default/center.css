@@ -134,7 +134,7 @@
 
 #cite
 {
-	font-size                        : 0.95em;
+	font-size                        : 0.93em;
 	text-align                       : right;
 	padding-right                    : 10px;
 }
@@ -408,6 +408,16 @@
 	margin-left                      : 10px;
 }
 
+#part-center-about .main-explain-box p em
+{
+	border                           : 1px solid #DDDDDD;
+	display                          : block;
+	margin-top                       : 20px;
+	padding                          : 5px;
+	text-align                       : center;
+	width                            : 350px;
+}
+
 #developer-description
 {
 	margin-left                      : 10px;
@@ -471,14 +481,14 @@
 {
 	position                         : absolute;
 	right                            : 5px;
-	top                              : 189px;
+	top                              : 219px;
 }
 
 #support-container
 {
 	position                         : absolute;
 	right                            : 5px;
-	top                              : 405px;
+	top                              : 465px;
 }
 
 #maintainer-container table,
@@ -486,6 +496,21 @@
 #support-container table
 {
 	width                            : 320px;
+}
+
+#maintainer-container table tr td.id a,
+#developer-container table tr td.id a,
+#internationalization-container table tr td.id a,
+#support-container table tr td.id a
+{
+	font-weight                      : bold;
+
+}
+
+#developer-container table tr td.id span,
+#internationalization-container table tr td.id span
+{
+	font-weight                      : bold;
 }
 
 #developer-description .container h4
@@ -513,7 +538,7 @@
 {
 	background-color                 : #D2D2CC;
 	background-image                 : url("./image/bg_title_left.png");
-	background-position              : left center;
+	background-position              : left top;
 	background-repeat                : no-repeat;
 	clear                            : both;
 	color                            : #000000;
@@ -521,9 +546,21 @@
 	height                           : 2.5em;
 	font-size                        : 1em;
 	font-weight                      : normal;
-	line-height                      : 2.5em;
+	line-height                      : 2.8em;
 	margin                           : 30px 0 10px 0;
+	overflow                         : hidden;
 	padding                          : 0 0 0 35px;
+}
+
+#supporter-description h3 span
+{
+	background-color                 : #D2D2CC;
+	background-image                 : url("./image/bg_title_right.png");
+	background-position              : right top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 2.5em;
+	line-height                      : 2.7em;
 }
 
 #supporter-description .container
@@ -543,9 +580,4 @@
 #supporter-description .container p
 {
 	margin                           : 10px 0 10px 10px;
-}
-
-#contributor-container
-{
-	border-bottom                    : 1px solid #CCCCCC;
 }

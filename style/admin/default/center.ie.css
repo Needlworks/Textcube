@@ -1,3 +1,72 @@
 @charset "utf-8";
 
 /* Dashboard *************************************************************************************/
+
+/* shortcut */
+#shortcut-collection h3
+{
+	width                            : 275px;
+}
+
+/* total information */
+#total-information h3
+{
+	width                            : 275px;
+}
+
+#total-information table
+{
+	margin-top                       : -3px;
+}
+
+/* notice */
+#tattertools-notice h3
+{
+	width                            : 595px;
+}
+
+#tattertools-notice table
+{
+	margin                           : -3px 0 20px 0 !important;
+	width                            : 620px;
+}
+
+/* quilt */
+#part-center-quilt .button-box .input-button
+{
+	line-height                      : 1.6em !important;
+}
+
+#cite
+{
+	padding-right                    : 0;
+	width                            : 620px;
+}
+
+/* Setting ***************************************************************************************/
+
+#sorting-line
+{
+	bottom                           : 238px;
+	padding-top                      : 8px;
+}
+
+#activate-status-line
+{
+	bottom                           : 242px;
+	right                            : 30px;
+}
+
+/* Credit ****************************************************************************************/
+
+#maintainer-container,
+#internationalization-container,
+#support-container
+{
+	right                            : 15px;
+}
+
+#supporter-description h3
+{
+	height                           : 2.45em;
+}

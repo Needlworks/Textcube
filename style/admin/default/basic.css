@@ -332,7 +332,6 @@ textarea
 }
 
 /* pseudo box */
-
 #pseudo-box
 {
 	background-color                 : #FFFFFF;
@@ -400,14 +399,12 @@ textarea
 }
 
 /* category form */
-
 #category-form
 {
 	margin                           : 20px 0 6px 15px;
 }
 
 /* data inbox */
-
 .data-inbox
 {
 	margin                           : 2px 10px;
@@ -449,7 +446,6 @@ table.data-inbox tr .selection
 }
 
 /* icons in table.data-inbox */
-
 table.data-inbox tbody tr .status .private-on-icon
 {
 	background-image                 : url("./image/icon_private.gif");
@@ -710,7 +706,6 @@ table.data-inbox tbody tr td .unblock-icon span
 }
 
 /* special columns in table.data-inbox */
-
 table.data-inbox tbody tr .category,
 table.data-inbox tbody tr .title
 {
@@ -718,7 +713,6 @@ table.data-inbox tbody tr .title
 }
 
 /* rollover in table.data-inbox */
-
 table.data-inbox tbody tr td.rollover-class
 {
 	background-color                 : #EEEEEE;
