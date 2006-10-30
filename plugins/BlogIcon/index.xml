@@ -21,8 +21,6 @@
   <binding>
     <listener event="ViewCommenter">BlogIcon_main</listener>
     <listener event="ViewGuestCommenter">BlogIcon_main</listener>
-	<config dataValHandler="" manifestHandler="BlogIcon_ConfigOut">
-
-	</config>
+	<config dataValHandler="" manifestHandler="BlogIcon_ConfigOut"></config>
   </binding>
 </plugin>
