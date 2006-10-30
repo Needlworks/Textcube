@@ -300,10 +300,14 @@ function addEntry($owner, $entry) {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
 	$slogan = mysql_tt_escape_string($slogan);
+
+	if($entry['category'] == -1) {
+		$checkSlogan = mysql_query("SELECT count(slogan) FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' AND category = -1 LIMIT 1");
+		$numberOfSlogan = mysql_fetch_array($checkSlogan);
+		if($numberOfSlogan['slogan'] != 0) return false;
+	}
+
 	$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
-
-	if((mysql_num_rows($result)!=0)&&($entry['category'] == -1)) return false;
-
 	for ($i = 1; mysql_num_rows($result) > 0; $i++) {
 		if ($i > 100)
 			return false;
