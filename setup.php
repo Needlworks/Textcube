@@ -142,9 +142,23 @@ else if ($_POST['step'] == 7) {
 	checkStep(8, false);
 }
 else {
-    for ($i = 1; $i <= $_POST['step']; $i ++)
+	
+	function mysql_tt_escape_string($string) {
+		global $mysql_escaping_function;
+		return $mysql_escaping_function($string);
+	}
+	
+	for ($i = 1; $i <= $_POST['step']; $i ++) {
         if (!checkStep($i))
             break;
+        if ($i == 3) {
+			if (function_exists('mysql_real_escape_string') && (mysql_real_escape_string('ㅋ') == 'ㅋ')) {
+				$mysql_escaping_function =  create_function('$string', 'return mysql_real_escape_string($string);');
+			} else {
+				$mysql_escaping_function =  create_function('$string', 'return mysql_escape_string($string);');
+			}
+		}
+    }
     if ($i > $_POST['step'])
         checkStep($_POST['step'] + 1, false);
 }
@@ -209,17 +223,6 @@ function checkStep($step, $check = true) {
 					}
 					break;
             }
-            
-			if (function_exists('mysql_real_escape_string') && (mysql_real_escape_string('ㅋ') == 'ㅋ')) {
-				function mysql_tt_escape_string($string, $link = null) {
-					return is_null($link) ? mysql_real_escape_string($string) : mysql_real_escape_string($string, $link);
-				}
-			} else {
-				function mysql_tt_escape_string($string, $link = null) {
-					return mysql_escape_string($string);
-				}
-			}
-            
         }
 ?>
   <input type="hidden" name="step" value="3" />
