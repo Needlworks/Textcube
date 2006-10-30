@@ -15,7 +15,7 @@ foreach($adminMenuMappings as $path => $adminMenuitem)
 } 
 ?>
 						<li id="sub-menu-plugin-tablesetting" class="selected"><a href="<?php echo $blogURL;?>/owner/plugin/tableSetting"><span class="text"><?php echo _t('플러그인 데이터 관리');?></span></a></li>
-						<li id="sub-menu-helper"><a href="http://www.tattertools.com/doc/19" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
+						<li id="sub-menu-helper"><a href="<?php echo getHelpURL('plugin');?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
 					</ul>
 				</div>
 				

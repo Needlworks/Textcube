@@ -124,7 +124,7 @@ function deleteTrackback($owner, $id) {
 }
 
 function trashTrackback($owner, $id) {
-    	global $database;
+	global $database;
 	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
 		return false;
@@ -136,7 +136,7 @@ function trashTrackback($owner, $id) {
 }
 
 function revertTrackback($owner, $id) {
-    	global $database;
+	global $database;
 	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
 		return false;

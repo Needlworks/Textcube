@@ -100,4 +100,8 @@ function getBlogURLRule($domain = null, $path = null, $type = null) {
 			return array("http://$domain$path", '');
 	}
 }
+
+function getHelpURL($path) {
+	return 'http://help.tattertools.com/ko/Menu/'.$path;
+}
 ?>

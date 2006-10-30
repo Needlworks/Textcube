@@ -10,7 +10,7 @@
 						<li id="sub-menu-trackback" class="selected"><a href="<?php echo $blogURL;?>/owner/entry/trackback"><span class="text"><?php echo _t('글걸기');?></span></a></li>
 						<li id="sub-menu-category"><a href="<?php echo $blogURL;?>/owner/entry/category"><span class="text"><?php echo _t('분류 관리');?></span></a></li>
 						<li id="sub-menu-trash"><a href="<?php echo $blogURL;?>/owner/entry/trash"><span class="text"><?php echo _t('휴지통');?></span></a></li>
-						<li id="sub-menu-helper"><a href="http://www.tattertools.com/doc/7" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
+						<li id="sub-menu-helper"><a href="<?php echo getHelpURL('entry/trackback');?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
 					</ul>
 				</div>
 				

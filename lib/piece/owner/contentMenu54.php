@@ -8,7 +8,7 @@
 						<li id="sub-menu-filter"><a href="<?php echo $blogURL;?>/owner/setting/filter"><span class="text"><?php echo _t('필터');?></span></a></li>
 						<li id="sub-menu-data" class="selected"><a href="<?php echo $blogURL;?>/owner/data"><span class="text"><?php echo _t('데이터 관리');?></span></a></li>
 						<li id="sub-menu-etc"><a href="<?php echo $blogURL;?>/owner/setting/etc"><span class="text"><?php echo _t('기타 설정');?></span></a></li>
-						<li id="sub-menu-helper"><a href="http://www.tattertools.com/doc/22" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
+						<li id="sub-menu-helper"><a href="<?php echo getHelpURL('data');?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
 					</ul>
 				</div>
 				
