@@ -10,7 +10,7 @@ function activatePlugin($name) {
 		return false;
 	if (!file_exists(ROOT . "/plugins/$name/index.xml") || !file_exists(ROOT . "/plugins/$name/index.php"))
 		return false;
-	$name = mysql_real_escape_string($name);
+	$name = mysql_tt_escape_string($name);
 	mysql_query("INSERT INTO {$database['prefix']}Plugins VALUES ($owner, '$name', null)");
 	return (mysql_affected_rows() == 1);
 }
@@ -19,7 +19,7 @@ function deactivatePlugin($name) {
 	global $database, $owner, $activePlugins;
 	if (!in_array($name, $activePlugins))
 		return false;
-	$name = mysql_real_escape_string($name);
+	$name = mysql_tt_escape_string($name);
 	mysql_query("DELETE FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$name'");
 	return true;
 }
@@ -28,7 +28,7 @@ function getCurrentSetting( $name){
 	global $database , $owner, $activePlugins;
 	if( !in_array( $name , $activePlugins))
 		return false;
-	$name = mysql_real_escape_string( $name ) ;
+	$name = mysql_tt_escape_string( $name ) ;
 	$result = mysql_query("SELECT settings FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$name'");
 	if( false === $result ) 
 		return false;
@@ -39,8 +39,8 @@ function updatePluginConfig( $name , $setVal){
 	global $database, $owner, $activePlugins;
 	if (!in_array($name, $activePlugins))
 		return false;
-	$name = mysql_real_escape_string( $name ) ;
-	$setVal = mysql_real_escape_string( $setVal ) ;
+	$name = mysql_tt_escape_string( $name ) ;
+	$setVal = mysql_tt_escape_string( $setVal ) ;
 	mysql_query(
 		"UPDATE {$database['prefix']}Plugins 
 			SET settings = '$setVal' 
@@ -76,7 +76,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 
 		foreach($fields as $field) {
 			$isNull = ($field['isnull'] == 0) ? ' NOT NULL ' : ' NULL ';
-			$defaultValue = is_null($field['default']) ? '' : " DEFAULT '" . mysql_real_escape_string($field['default']) . "' ";
+			$defaultValue = is_null($field['default']) ? '' : " DEFAULT '" . mysql_tt_escape_string($field['default']) . "' ";
 			$fieldLength = ($field['length'] >= 0) ? "(".$field['length'].")" : '';
 			$sentence = $field['name'] . " " . $field['attribute'] . $fieldLength . $isNull . $defaultValue . ",";
 			$query .= $sentence;
@@ -100,7 +100,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 
 function clearPluginTable($name) {
 	global $database, $owner;
-	$name = mysql_real_escape_string($name);
+	$name = mysql_tt_escape_string($name);
 	mysql_query("DELETE FROM {$database['prefix']}{$name} WHERE owner = $owner");
 	return (mysql_affected_rows() == 1);
 }
@@ -108,7 +108,7 @@ function clearPluginTable($name) {
 function deletePluginTable($name) {
 	global $database, $owner;
 	if($owner !== 0) return false;
-	$name = mysql_real_escape_string($name);
+	$name = mysql_tt_escape_string($name);
 	mysql_query("DROP {$database['prefix']}{$name}");
 	return true;
 } 

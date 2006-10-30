@@ -14,11 +14,11 @@ function getCommentsWithPagingForOwner($owner, $category, $name, $ip, $search, $
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($name)) {
-		$sql .= ' AND c.name = \'' . mysql_real_escape_string($name) . '\'';
+		$sql .= ' AND c.name = \'' . mysql_tt_escape_string($name) . '\'';
 		$postfix .= '&name=' . rawurlencode($name);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND c.ip = \'' . mysql_real_escape_string($ip) . '\'';
+		$sql .= ' AND c.ip = \'' . mysql_tt_escape_string($ip) . '\'';
 		$postfix .= '&ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
@@ -79,9 +79,9 @@ function getCommentsNotifiedWithPagingForOwner($owner, $category, $name, $ip, $s
 					{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
 			WHERE c.owner = $owner";
 		if (!empty($name))
-			$sql .= ' AND c.name = \'' . mysql_real_escape_string($name) . '\'';
+			$sql .= ' AND c.name = \'' . mysql_tt_escape_string($name) . '\'';
 		if (!empty($ip))
-			$sql .= ' AND c.ip = \'' . mysql_real_escape_string($ip) . '\'';
+			$sql .= ' AND c.ip = \'' . mysql_tt_escape_string($ip) . '\'';
 		if (!empty($search)) {
 			$search = escapeMysqlSearchString($search);
 			$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
@@ -272,16 +272,16 @@ function addComment($owner, & $comment) {
 	$parent = $comment['parent'] == null ? 'null' : "'{$comment['parent']}'";
 	if ($user !== null) {
 		$comment['replier'] = $user['id'];
-		$name = mysql_real_escape_string($user['name']);
+		$name = mysql_tt_escape_string($user['name']);
 		$password = '';
-		$homepage = mysql_real_escape_string($user['homepage']);
+		$homepage = mysql_tt_escape_string($user['homepage']);
 	} else {
 		$comment['replier'] = 'null';
-		$name = mysql_real_escape_string($comment['name']);
+		$name = mysql_tt_escape_string($comment['name']);
 		$password = empty($comment['password']) ? '' : md5($comment['password']);
-		$homepage = mysql_real_escape_string($comment['homepage']);
+		$homepage = mysql_tt_escape_string($comment['homepage']);
 	}
-	$comment0 = mysql_real_escape_string($comment['comment']);
+	$comment0 = mysql_tt_escape_string($comment['comment']);
 	$result = mysql_query("INSERT INTO {$database['prefix']}Comments 
 		(owner,replier,id,entry,parent,name,password,homepage,secret,comment,ip,written,isFiltered)
 		VALUES (
@@ -346,16 +346,16 @@ function updateComment($owner, $comment, $password) {
 	$setPassword = '';
 	if ($user !== null) {
 		$comment['replier'] = $user['id'];
-		$name = mysql_real_escape_string($user['name']);
+		$name = mysql_tt_escape_string($user['name']);
 		$setPassword = 'password = \'\',';
-		$homepage = mysql_real_escape_string($user['homepage']);
+		$homepage = mysql_tt_escape_string($user['homepage']);
 	} else {
-		$name = mysql_real_escape_string($comment['name']);
+		$name = mysql_tt_escape_string($comment['name']);
 		if ($comment['password'] !== true)
 			$setPassword = 'password = \'' . (empty($comment['password']) ? '' : md5($comment['password'])) . '\', ';
-		$homepage = mysql_real_escape_string($comment['homepage']);
+		$homepage = mysql_tt_escape_string($comment['homepage']);
 	}
-	$comment0 = mysql_real_escape_string($comment['comment']);
+	$comment0 = mysql_tt_escape_string($comment['comment']);
 	
 	$guestcomment = false;
 	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE owner = $owner AND id = {$comment['id']} AND replier IS NULL")) {
@@ -597,26 +597,26 @@ function receiveNotifiedComment($post) {
 	if (empty($post['mode']) || $post['mode'] != 'fb')
 		return 1;
 	global $database, $owner;
-	$title = mysql_real_escape_string($post['s_home_title']);
-	$name = mysql_real_escape_string($post['s_name']);
-	$entryId = mysql_real_escape_string($post['s_no']);
-	$homepage = mysql_real_escape_string($post['url']);
-	$entryUrl = mysql_real_escape_string($post['s_url']);
-	$entryTitle = mysql_real_escape_string($post['s_post_title']);
+	$title = mysql_tt_escape_string($post['s_home_title']);
+	$name = mysql_tt_escape_string($post['s_name']);
+	$entryId = mysql_tt_escape_string($post['s_no']);
+	$homepage = mysql_tt_escape_string($post['url']);
+	$entryUrl = mysql_tt_escape_string($post['s_url']);
+	$entryTitle = mysql_tt_escape_string($post['s_post_title']);
 	$parent_id = $post['r1_no'];
-	$parent_name = mysql_real_escape_string($post['r1_name']);
+	$parent_name = mysql_tt_escape_string($post['r1_name']);
 	$parent_parent = $post['r1_rno'];
-	$parent_homepage = mysql_real_escape_string($post['r1_homepage']);
+	$parent_homepage = mysql_tt_escape_string($post['r1_homepage']);
 	$parent_written = $post['r1_regdate'];
-	$parent_comment = mysql_real_escape_string($post['r1_body']);
-	$parent_url = mysql_real_escape_string($post['r1_url']);
+	$parent_comment = mysql_tt_escape_string($post['r1_body']);
+	$parent_url = mysql_tt_escape_string($post['r1_url']);
 	$child_id = $post['r2_no'];
-	$child_name = mysql_real_escape_string($post['r2_name']);
+	$child_name = mysql_tt_escape_string($post['r2_name']);
 	$child_parent = $post['r2_rno'];
-	$child_homepage = mysql_real_escape_string($post['r2_homepage']);
+	$child_homepage = mysql_tt_escape_string($post['r2_homepage']);
 	$child_written = $post['r2_regdate'];
-	$child_comment = mysql_real_escape_string($post['r2_body']);
-	$child_url = mysql_real_escape_string($post['r2_url']);
+	$child_comment = mysql_tt_escape_string($post['r2_body']);
+	$child_url = mysql_tt_escape_string($post['r2_url']);
 	$sql = "SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'";
 	$siteId = fetchQueryCell($sql);
 	if (empty($siteId)) {

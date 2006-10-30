@@ -240,9 +240,9 @@ function updateSubscriptionStatistics($target, $mother) {
 	requireComponent('Tattertools.Data.Filter');
 	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']))
 		return;
-	$ip = mysql_real_escape_string($_SERVER['REMOTE_ADDR']);
-	$host = mysql_real_escape_string(isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '');
-	$useragent = mysql_real_escape_string(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
+	$ip = mysql_tt_escape_string($_SERVER['REMOTE_ADDR']);
+	$host = mysql_tt_escape_string(isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '');
+	$useragent = mysql_tt_escape_string(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
 	mysql_query("insert into {$database['prefix']}SubscriptionLogs values($owner, '$ip', '$host', '$useragent', UNIX_TIMESTAMP())");
 	mysql_query("delete from {$database['prefix']}SubscriptionLogs where referred < UNIX_TIMESTAMP() - 604800");
 	if (!mysql_query("update {$database['prefix']}SubscriptionStatistics set referred = UNIX_TIMESTAMP() where owner = $owner and ip = '$ip' and host = '$host' and useragent = '$useragent'") || (mysql_affected_rows() == 0))

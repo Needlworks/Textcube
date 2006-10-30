@@ -137,7 +137,7 @@ class Category {
 		global $database, $owner;
 		if (empty($label))
 			return null;
-		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND label = '" . mysql_real_escape_string($label) . "'");
+		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND label = '" . mysql_tt_escape_string($label) . "'");
 	}
 	
 	/*@static@*/

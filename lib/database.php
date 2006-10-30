@@ -13,4 +13,14 @@ if (mysql_query('SET CHARACTER SET utf8')) {
 	}
 }
 @mysql_query('SET SESSION collation_connection = \'utf8_general_ci\'');
+
+if (function_exists('mysql_real_escape_string') && (mysql_real_escape_string('ㅋ') == 'ㅋ')) {
+	function mysql_tt_escape_string($string, $link = null) {
+		return is_null($link) ? mysql_real_escape_string($string) : mysql_real_escape_string($string, $link);
+	}
+} else {
+	function mysql_tt_escape_string($string, $link = null) {
+		return mysql_escape_string($string);
+	}
+}
 ?>

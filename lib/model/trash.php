@@ -14,11 +14,11 @@ function getTrashTrackbackWithPagingForOwner($owner, $category, $site, $ip, $sea
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($site)) {
-		$sql .= ' AND t.site = \'' . mysql_real_escape_string($site) . '\'';
+		$sql .= ' AND t.site = \'' . mysql_tt_escape_string($site) . '\'';
 		$postfix .= '&site=' . rawurlencode($site);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND t.ip = \'' . mysql_real_escape_string($ip) . '\'';
+		$sql .= ' AND t.ip = \'' . mysql_tt_escape_string($ip) . '\'';
 		$postfix .= '&ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
@@ -48,11 +48,11 @@ function getTrashCommentsWithPagingForOwner($owner, $category, $name, $ip, $sear
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($name)) {
-		$sql .= ' AND c.name = \'' . mysql_real_escape_string($name) . '\'';
+		$sql .= ' AND c.name = \'' . mysql_tt_escape_string($name) . '\'';
 		$postfix .= '&name=' . rawurlencode($name);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND t.ip = \'' . mysql_real_escape_string($ip) . '\'';
+		$sql .= ' AND t.ip = \'' . mysql_tt_escape_string($ip) . '\'';
 		$postfix .= '&ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {

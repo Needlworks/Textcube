@@ -355,7 +355,7 @@ function api_addAttachment($owner,$parent,$file){
 	$attachment=array();
 	$attachment['parent']=$parent?$parent:0;
 	$attachment['label']=Path::getBaseName($file['name']);
-	$label=mysql_real_escape_string($attachment['label']);
+	$label=mysql_tt_escape_string($attachment['label']);
 	$attachment['size']=$file['size'];
 	$extension=Path::getExtension($attachment['label']);
 	switch(strtolower($extension)){
@@ -445,7 +445,7 @@ function api_deleteAttachment($owner,$parent,$name){
 	$name = Path::getBaseName($name);
 	
 	@unlink(ROOT . "/attach/$owner/$name");
-	$name=mysql_real_escape_string($name);
+	$name=mysql_tt_escape_string($name);
 	$parent_clause = "";
 	if( $parent >= 0 )
 	{
@@ -479,7 +479,7 @@ function api_update_attaches( $parent, $attaches = null)
 	} else {
 		foreach( $attaches as $att )
 		{
-			$att = mysql_real_escape_string($att);
+			$att = mysql_tt_escape_string($att);
 			mysql_query( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0 and name='" . $att . "'");
 		}
 	}
@@ -492,7 +492,7 @@ function api_update_attaches_with_replace($entryId)
 	requireComponent('Eolin.PHP.Core');
 	$newFiles = DBQuery::queryAll("SELECT name, label FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=0");
 	foreach($newFiles as $newfile) {
-		$newfile['label'] = mysql_real_escape_string($newfile['label']);
+		$newfile['label'] = mysql_tt_escape_string($newfile['label']);
 		$oldFile = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$entryId AND label='{$newfile['label']}'");
 	
 		if (!is_null($oldFile)) {

@@ -297,7 +297,7 @@ if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSett
 				$query->setQualifier('owner',$entry['owner']);
 				$query->setQualifier('id',$entry['id']);
 				$originalEntry = $query->getRow('owner, '.$entry['id'].',draft,content');
-				$newContent = mysql_real_escape_string(nl2brWithHTML($originalEntry['content']));
+				$newContent = mysql_tt_escape_string(nl2brWithHTML($originalEntry['content']));
 				DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE owner = {$entry['owner']} AND id = {$entry['id']} AND draft = {$originalEntry['draft']}");
 				$query->resetQualifiers();
 			}

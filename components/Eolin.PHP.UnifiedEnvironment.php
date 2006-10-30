@@ -29,12 +29,6 @@ if (get_magic_quotes_gpc()) {
 	$_SERVER = array_map('stripSlashesRecursively', $_SERVER);
 }
 
-if (!function_exists('mysql_real_escape_string')) {
-	function mysql_real_escape_string($string, $link = null) {
-		return mysql_escape_string($string);
-	}
-}
-
 $host = explode(':', $_SERVER['HTTP_HOST']);
 if (count($host) > 1) {
 	$_SERVER['HTTP_HOST'] = $host[0];

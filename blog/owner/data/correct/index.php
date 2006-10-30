@@ -105,11 +105,11 @@ if ($result = mysql_query("SELECT id, name, homepage, comment FROM {$database['p
 		setProgress($item++ / $items * 100, _t('댓글과 방명록 데이터를 교정하고 있습니다.'));
 		$correction = '';
 		if (!UTF8::validate($comment['name']))
-			$correction .= ' name = \'' . mysql_real_escape_string(UTF8::correct($comment['name'], '?')) . '\'';
+			$correction .= ' name = \'' . mysql_tt_escape_string(UTF8::correct($comment['name'], '?')) . '\'';
 		if (!UTF8::validate($comment['homepage']))
-			$correction .= ' homepage = \'' . mysql_real_escape_string(UTF8::correct($comment['homepage'], '?')) . '\'';
+			$correction .= ' homepage = \'' . mysql_tt_escape_string(UTF8::correct($comment['homepage'], '?')) . '\'';
 		if (!UTF8::validate($comment['comment']))
-			$correction .= ' comment = \'' . mysql_real_escape_string(UTF8::correct($comment['comment'], '?')) . '\'';
+			$correction .= ' comment = \'' . mysql_tt_escape_string(UTF8::correct($comment['comment'], '?')) . '\'';
 		if (strlen($correction) > 0) {
 			mysql_query("UPDATE {$database['prefix']}Comments SET $correction WHERE owner = $owner AND id = {$comment['id']}");
 			$corrected++;
@@ -123,13 +123,13 @@ if ($result = mysql_query("SELECT id, url, site, subject, excerpt FROM {$databas
 		setProgress($item++ / $items * 100, _t('걸린 글 데이터를 교정하고 있습니다.'));
 		$correction = '';
 		if (!UTF8::validate($trackback['url']))
-			$correction .= ' url = \'' . mysql_real_escape_string(UTF8::correct($trackback['url'], '?')) . '\'';
+			$correction .= ' url = \'' . mysql_tt_escape_string(UTF8::correct($trackback['url'], '?')) . '\'';
 		if (!UTF8::validate($trackback['site']))
-			$correction .= ' site = \'' . mysql_real_escape_string(UTF8::correct($trackback['site'], '?')) . '\'';
+			$correction .= ' site = \'' . mysql_tt_escape_string(UTF8::correct($trackback['site'], '?')) . '\'';
 		if (!UTF8::validate($trackback['subject']))
-			$correction .= ' subject = \'' . mysql_real_escape_string(UTF8::correct($trackback['subject'], '?')) . '\'';
+			$correction .= ' subject = \'' . mysql_tt_escape_string(UTF8::correct($trackback['subject'], '?')) . '\'';
 		if (!UTF8::validate($trackback['excerpt']))
-			$correction .= ' excerpt = \'' . mysql_real_escape_string(UTF8::correct($trackback['excerpt'], '?')) . '\'';
+			$correction .= ' excerpt = \'' . mysql_tt_escape_string(UTF8::correct($trackback['excerpt'], '?')) . '\'';
 		if (strlen($correction) > 0) {
 			mysql_query("UPDATE {$database['prefix']}Trackbacks SET $correction WHERE owner = $owner AND id = {$trackback['id']}");
 			$corrected++;

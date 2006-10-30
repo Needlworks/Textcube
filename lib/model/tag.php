@@ -2,7 +2,7 @@
 
 function getTagId($owner, $name) {
 	global $database;
-	$name = mysql_real_escape_string($name);
+	$name = mysql_tt_escape_string($name);
 	return fetchQueryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '$name'");
 }
 
@@ -86,9 +86,9 @@ function getTagFrequencyRange() {
 function getTagFrequency($tag, $max, $min) {
 	global $database, $owner;
 	if (doesHaveOwnership())
-		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r WHERE t.id = r.tag AND r.owner = $owner AND t.name = '" . mysql_real_escape_string($tag) . "'");
+		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r WHERE t.id = r.tag AND r.owner = $owner AND t.name = '" . mysql_tt_escape_string($tag) . "'");
 	else
-		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r, `{$database['prefix']}Entries` e WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $owner AND t.name = '" . mysql_real_escape_string($tag) . "'");
+		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r, `{$database['prefix']}Entries` e WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $owner AND t.name = '" . mysql_tt_escape_string($tag) . "'");
 	$dist = $max / 3;
 	if ($count == $min)
 		return 5;
@@ -133,7 +133,7 @@ function addTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 
 	$taglist = array();
 	foreach($tmptaglist as $tag) {
-		$tag = mysql_real_escape_string(trim($tag));
+		$tag = mysql_tt_escape_string(trim($tag));
 		array_push($taglist, $tag);
 	}
 
@@ -179,7 +179,7 @@ function modifyTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 	$tmptaglist = array_filter($taglist, 'removeEmptyTagHelper');
 	$taglist = array();
 	foreach($tmptaglist as $tag) {
-		$tag = mysql_real_escape_string(trim($tag));
+		$tag = mysql_tt_escape_string(trim($tag));
 		array_push($taglist, $tag);
 	}
 	
@@ -194,7 +194,7 @@ function modifyTagsWithEntryId($owner, $entry, /*string array*/$taglist)
 		$tmpoldtaglist = array();
 	$oldtaglist = array();
 	foreach($tmpoldtaglist as $tag) {
-		$tag = mysql_real_escape_string(trim($tag));
+		$tag = mysql_tt_escape_string(trim($tag));
 		array_push($oldtaglist, $tag);
 	}
 	

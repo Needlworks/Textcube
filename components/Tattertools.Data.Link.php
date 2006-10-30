@@ -101,7 +101,7 @@ class Link {
 		global $database, $owner;
 		if (empty($url))
 			return null;
-		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE owner = $owner AND url = '" . mysql_real_escape_string($url) . "'");
+		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE owner = $owner AND url = '" . mysql_tt_escape_string($url) . "'");
 	}
 	
 	/*@static@*/

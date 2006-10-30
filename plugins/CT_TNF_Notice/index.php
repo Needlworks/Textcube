@@ -150,9 +150,9 @@ function CT_TNF_Notice_getRemoteFeed($url) {
 	} else
 		return array(3, null, null);
 
-	$feed['blogURL'] = mysql_real_escape_string(mysql_lessen(UTF8::correct($feed['blogURL'])));
-	$feed['title'] = mysql_real_escape_string(mysql_lessen(UTF8::correct($feed['title'])));
-	$feed['description'] = mysql_real_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['description']))));
+	$feed['blogURL'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($feed['blogURL'])));
+	$feed['title'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($feed['title'])));
+	$feed['description'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['description']))));
 
 	return array(0, $feed, $xml);
 }

@@ -80,8 +80,8 @@ function updateVisitorStatistics($owner) {
 					return;
 				if (!fireEvent('AddingRefererLog', true, array('host' => $referer['host'], 'url' => $_SERVER['HTTP_REFERER'])))
 					return;
-				$host = mysql_real_escape_string($referer['host']);
-				$url = mysql_real_escape_string($_SERVER['HTTP_REFERER']);
+				$host = mysql_tt_escape_string($referer['host']);
+				$url = mysql_tt_escape_string($_SERVER['HTTP_REFERER']);
 				mysql_query("insert into {$database['prefix']}RefererLogs values($owner, '$host', '$url', UNIX_TIMESTAMP())");
 				mysql_query("delete from {$database['prefix']}RefererLogs where referred < UNIX_TIMESTAMP() - 604800");
 				if (!mysql_query("update {$database['prefix']}RefererStatistics set count = count + 1 where owner = $owner and host = '$host'") || (mysql_affected_rows() == 0))

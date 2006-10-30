@@ -11,13 +11,13 @@ function getAttachments($owner, $parent, $orderBy = null, $sort='ASC') {
 
 function getAttachmentByName($owner, $parent, $name) {
 	global $database;
-	$name = mysql_real_escape_string($name);
+	$name = mysql_tt_escape_string($name);
 	return fetchQueryRow("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'");
 }
 
 function getAttachmentByOnlyName($owner, $name) {
 	global $database;
-	$name = mysql_real_escape_string($name);
+	$name = mysql_tt_escape_string($name);
 	return fetchQueryRow("select * from {$database['prefix']}Attachments where owner = $owner and name = '$name'");
 }
 
@@ -25,7 +25,7 @@ function getAttachmentByLabel($owner, $parent, $label) {
 	global $database;
 	if ($parent === false)
 		$parent = 0;
-	$label = mysql_real_escape_string($label);
+	$label = mysql_tt_escape_string($label);
 	return fetchQueryRow("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent and label = '$label'");
 }
 
@@ -50,7 +50,7 @@ function addAttachment($owner, $parent, $file) {
 	global $database;	
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
-	$filename = mysql_real_escape_string($file['name']);
+	$filename = mysql_tt_escape_string($file['name']);
 	if (fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$parent AND label='$filename'")>0) {
 		return false;
 	}
@@ -90,8 +90,8 @@ function addAttachment($owner, $parent, $file) {
 	if (!move_uploaded_file($file['tmp_name'], $attachment['path']))
 		return false;
 	@chmod($attachment['path'], 0666);
-	$name = mysql_real_escape_string($attachment['name']);
-	$label = mysql_real_escape_string($attachment['label']);
+	$name = mysql_tt_escape_string($attachment['name']);
+	$label = mysql_tt_escape_string($attachment['label']);
 	
 	$result = DBQuery::execute("insert into {$database['prefix']}Attachments values ($owner, {$attachment['parent']}, '$name', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	if (!$result) {
@@ -106,7 +106,7 @@ function deleteAttachment($owner, $parent, $name) {
 	if (!Validator::filename($name)) 
 		return false;
 	$origname = $name;
-	$name = mysql_real_escape_string($name);
+	$name = mysql_tt_escape_string($name);
 	if (DBQuery::execute("delete from {$database['prefix']}Attachments where owner = $owner and name = '$name'") && (mysql_affected_rows() == 1)) {
 		@unlink(ROOT . "/attach/$owner/$origname");
 		clearRSS();
@@ -135,7 +135,7 @@ function deleteAttachmentMulti($owner, $parent, $names) {
 		if (!Validator::filename($name)) 
 			continue;
 		$origname = $name;
-		$name = mysql_real_escape_string($name);
+		$name = mysql_tt_escape_string($name);
 		if (DBQuery::execute("delete from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
 			unlink(ROOT . "/attach/$owner/$origname");
 		} else {
@@ -155,13 +155,13 @@ function deleteAttachments($owner, $parent) {
 
 function downloadAttachment($name) {
 	global $database, $owner;
-	$name = mysql_real_escape_string($name);
+	$name = mysql_tt_escape_string($name);
 	mysql_query("UPDATE {$database['prefix']}Attachments SET downloads = downloads + 1 WHERE owner = $owner AND name = '$name'");
 }
 
 function setEnclosure($name, $order) {
 	global $database, $owner;
-	$name = mysql_real_escape_string($name);
+	$name = mysql_tt_escape_string($name);
 	if (($parent = fetchQueryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE owner = $owner AND name = '$name'")) !== null) {
 		executeQuery("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent");
 		if ($order) {

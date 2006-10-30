@@ -557,7 +557,7 @@ class Post {
 			while ($target = mysql_fetch_array($targetresult)) {
 				$oldtag = DBQuery::queryRow("SELECT id, name FROM {$database['prefix']}Tags WHERE id = {$target['tag']}");
 				if ($oldtag != null) {		
-					$tagid = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . mysql_real_escape_string($oldtag['name']) . "' LIMIT 1 ");
+					$tagid = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . mysql_tt_escape_string($oldtag['name']) . "' LIMIT 1 ");
 					if ($tagid == null) { 
 						DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE owner = {$target['owner']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 					} else {

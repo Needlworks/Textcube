@@ -21,7 +21,7 @@ class Tag {
 
 		$taglist = array();
 		foreach($tmptaglist as $tag) {
-			$tag = mysql_real_escape_string(trim($tag));
+			$tag = mysql_tt_escape_string(trim($tag));
 			array_push($taglist, $tag);
 		}
 
@@ -67,7 +67,7 @@ class Tag {
 		$tmptaglist = array_filter($taglist, 'Tag_removeEmptyTagHelper');
 		$taglist = array();
 		foreach($tmptaglist as $tag) {
-			$tag = mysql_real_escape_string(trim($tag));
+			$tag = mysql_tt_escape_string(trim($tag));
 			array_push($taglist, $tag);
 		}
 		
@@ -82,7 +82,7 @@ class Tag {
 			$tmpoldtaglist = array();
 		$oldtaglist = array();
 		foreach($tmpoldtaglist as $tag) {
-			$tag = mysql_real_escape_string(trim($tag));
+			$tag = mysql_tt_escape_string(trim($tag));
 			array_push($oldtaglist, $tag);
 		}
 		
