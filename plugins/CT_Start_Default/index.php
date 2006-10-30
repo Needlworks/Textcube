@@ -25,14 +25,18 @@
 */
 function CT_Start_Default($target) {
 	requireComponent("Eolin.PHP.Core");
-	global $owner, $blogURL;
+	global $owner, $blogURL, $database;
 	$target .= '<ul>';
 	$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새 글을 씁니다').'</a></li>'.CRLF;
-	$latestPost = CT_Start_getLatestPost($owner);
-	if($latestPost) {
-		$title = UTF8::lessenAsEm(htmlspecialchars($latestPost['title']),10);
-		$target .= '<li><a href="'.$blogURL.'/owner/entry/edit/'.$latestPost['id'].'">'. _f('최근에 쓴 글(%1)을 수정합니다',$title).'</a></li>'.CRLF;
+<?php
+	$latestEntryId = getUserSetting('LatestEditedEntry',0);
+	if($latestEntryId !== 0){
+		$latestEntry = CT_Start_Default_getEntry($owner,$latestEntryId);
+		if($latestEntry!=false){
+			$target .= '<li><a href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $latestEntry['id'];?>">'. _f('최근글(%1) 수정', UTF8::lessenAsEm(htmlspecialchars($latestEntry['title']),10)).'</a></li>';
+		}
 	}
+
 	$target .= '<li><a href="'.$blogURL.'/owner/skin">'. _t('스킨을 변경합니다').'</a></li>'.CRLF;
 	$target .= '<li><a href="'.$blogURL.'/owner/skin/sidebar">'. _t('사이드바 구성을 변경합니다').'</a></li>'.CRLF;
 	$target .= '<li><a href="'.$blogURL.'/owner/skin/setting">'. _t('블로그에 표시되는 값들을 변경합니다').'</a></li>'.CRLF;
@@ -43,11 +47,38 @@ function CT_Start_Default($target) {
 	return $target;
 }
 
-function CT_Start_getLatestPost($owner) {
+function CT_Start_Default_getEntry($owner, $id, $draft = false) {
 	global $database;
-	$entry=array();
-	$result=mysql_query("SELECT id, title FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 ORDER BY published DESC LIMIT 1");
-	$entry = mysql_fetch_array($result);
-	return $entry;
+	if ($id == 0) {
+		if ($draft) {
+			if (!$id = getDraftEntryId())
+				return;
+		} else {
+			if (!doesHaveOwnership())
+				return;
+			deleteAttachments($owner, 0);
+			return array('id' => 0, 'draft' => 0, 'visibility' => 0, 'category' => 0, 'location' => '', 'title' => '', 'content' => '', 'acceptComment' => 1, 'acceptTrackback' => 1, 'published' => time(), 'slogan' => '');
+		}
+	}
+	if ($draft) {
+		$entry = fetchQueryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
+		if (!$entry)
+			return;
+		if ($entry['published'] == 1)
+			$entry['republish'] = true;
+		else if ($entry['published'] != 0)
+			$entry['appointed'] = $entry['published'];
+		if ($id != 0)
+			$entry['published'] = fetchQueryCell("SELECT published FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0");
+		return $entry;
+	} else {
+		$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
+		$entry = fetchQueryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0 $visibility");
+		if (!$entry)
+			return;
+		if ($entry['visibility'] < 0)
+			$entry['appointed'] = $entry['published'];
+		return $entry;
+	}
 }
 ?>
