@@ -1499,7 +1499,7 @@ TTEditor.prototype.eventHandler = function(event) {
 					}
 				}
 				else {
-					if(STD.isIE && range.parentElement().tagName != "LI") {
+					if(STD.isIE && range.parentElement && range.parentElement().tagName != "LI") {
 						event.returnValue = false;
 						event.cancelBubble = true;
 						range.pasteHTML("<br />");
