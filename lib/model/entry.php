@@ -301,10 +301,10 @@ function addEntry($owner, $entry) {
 	}
 
 	$slogan = mysql_tt_escape_string($slogan);
+	$title = mysql_tt_escape_string($entry['title']);
 
 	if($entry['category'] == -1) {
-		$numberOfSlogan = fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND slogan = '$slogan' AND category = -1");
-		if($numberOfSlogan > 0) return false;
+		if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND title = '$title' AND category = -1") > 0) return false;
 	}
 
 	$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
@@ -315,7 +315,7 @@ function addEntry($owner, $entry) {
 		$slogan = mysql_tt_escape_string($slogan);
 		$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 	}
-	$title = mysql_tt_escape_string($entry['title']);
+
 	$content = mysql_tt_escape_string($entry['content']);
 	$password = mysql_tt_escape_string(generatePassword());
 	$location = mysql_tt_escape_string($entry['location']);
@@ -385,6 +385,12 @@ function updateEntry($owner, $entry) {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
 	$slogan = mysql_tt_escape_string($slogan);
+	$title = mysql_tt_escape_string($entry['title']);
+
+	if($entry['category'] == -1) {
+		if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND title = '$title' AND category = -1") > 0) return false;
+	}
+
 	$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' AND id = {$entry['id']} LIMIT 1");
 	if (mysql_num_rows($result) == 0) { // if changed
 		$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
@@ -400,7 +406,6 @@ function updateEntry($owner, $entry) {
 	modifyTagsWithEntryId($owner, $entry['id'], $tags);
 	
 	$location = mysql_tt_escape_string($entry['location']);
-	$title = mysql_tt_escape_string($entry['title']);
 	$content = mysql_tt_escape_string($entry['content']);
 	switch ($entry['published']) {
 		case 0:
