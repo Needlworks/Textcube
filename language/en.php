@@ -129,6 +129,8 @@ $__text['개의 피드를 가져왔습니다.\n피드를 업데이트 해 주십
 $__text['갤러리 삽입'] = 'Insert Gallery';
 $__text['갱신'] = 'Update';
 $__text['거부'] = 'Block';
+$__text['걸린글'] = 'Trackback';
+$__text['걸린 글 데이터를 교정하고 있습니다.'] = 'Correcting trackback data.';
 $__text['걸린 글 목록입니다'] = 'Trackback list';
 $__text['검색'] = 'Search';
 $__text['검색어를 입력해 주십시오.'] = 'Type in seeking word.';
@@ -193,7 +195,6 @@ $__text['글 종류'] = 'Article sort';
 $__text['글 주소 표기법을 변경할 수 없습니다.'] = 'Could not change the permalink.';
 $__text['글 주소'] = 'Permalink';
 $__text['글'] = 'Post';
-$__text['글걸기 데이터를 교정하고 있습니다.'] = 'Correcting trackback data.';
 $__text['글걸기 주소'] = 'Trackback address';
 $__text['글걸기'] = 'Trackback';
 $__text['글걸기를 기본으로 펼칩니다.'] = 'Unfold trackback section by default';

@@ -120,7 +120,7 @@ if ($result = mysql_query("SELECT id, name, homepage, comment FROM {$database['p
 
 if ($result = mysql_query("SELECT id, url, site, subject, excerpt FROM {$database['prefix']}Trackbacks WHERE owner = $owner")) {
 	while ($trackback = mysql_fetch_assoc($result)) {
-		setProgress($item++ / $items * 100, _t('글걸기 데이터를 교정하고 있습니다.'));
+		setProgress($item++ / $items * 100, _t('걸린 글 데이터를 교정하고 있습니다.'));
 		$correction = '';
 		if (!UTF8::validate($trackback['url']))
 			$correction .= ' url = \'' . mysql_real_escape_string(UTF8::correct($trackback['url'], '?')) . '\'';
