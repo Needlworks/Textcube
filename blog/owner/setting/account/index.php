@@ -277,7 +277,7 @@ if ($service['type'] != 'single') {
 						</div>
 								
 <?php
-//if (($service['type'] != 'single') && (getUserId() == 1)) {
+if (($service['type'] != 'single') && (getUserId() == 1)) {
 	$urlRule = getBlogURLRule();
 ?>
 						<div id="part-setting-invite" class="part">
@@ -374,7 +374,7 @@ if ($service['type'] != 'single') {
 							</form>
 						</div>
 <?php
-//}
+}
 
 require ROOT . '/lib/piece/owner/footer1.php';
 ?>
