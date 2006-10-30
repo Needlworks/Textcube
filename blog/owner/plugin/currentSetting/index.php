@@ -15,16 +15,16 @@ $pluginName = $_GET['Name'];
 $result =  handleConfig($pluginName);
 if( is_null($result) )	respondNotFoundPage();
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title><?php echo _f("%1 설정", $pluginName);?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'] . '/plugin-config.css';?>" />
 <?php
-if (true === file_exists(ROOT . "/plugins/$plugin/configStyle.css")) {
+if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 ?>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . '/plugins/$pluginName/configStyle.css';?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginName;?>/plugin-config.css" />
 <?php
 }
 ?>

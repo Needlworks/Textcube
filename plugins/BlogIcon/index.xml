@@ -21,16 +21,8 @@
   <binding>
     <listener event="ViewCommenter">BlogIcon_main</listener>
     <listener event="ViewGuestCommenter">BlogIcon_main</listener>
-	<config dataValHandler="">
-		<window width="500" height="310" />
-		<fieldset legend="원하시는 블로그 아이콘 크기를 선택해주세요.">
-			<field title="블로그 아이콘을 " name="ico_size" type="select">
-				<op value="16" checked="checked">16x16 크기로 출력</op>
-				<op value="32">32x32 크기로 출력</op>
-				<op value="48">48x48 크기로 출력</op>
-				<caption><![CDATA[<font color='black'> (단위: px) 기본값은 32x32 입니다. <br />환경설정에서 블로그 아이콘을 업로드 해야 아이콘이 출력됩니다.<p>예)<br /><img src="http://blog.tattertools.com/index.gif" width="16" height="16" border="1"> (16x16), <img src="http://blog.tattertools.com/index.gif" width="32" height="32" border="1"> (32x32),  <img src="http://blog.tattertools.com/index.gif" width="48" height="48" border="1"> (48x48)</font>]]></caption>
-			</field>
-		</fieldset>
- 	</config>
+	<config dataValHandler="" manifestHandler="BlogIcon_ConfigOut">
+
+	</config>
   </binding>
 </plugin>

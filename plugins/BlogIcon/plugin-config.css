@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+/* Layout ****************************************************************************************/
+
+#config_data fieldset .field
+{
+	border-top                       : none;
+}
+
+#config_data fieldset .fieldcaption p
+{
+	text-align                       : center;
+}

@@ -77,7 +77,8 @@ h1
 {
 	border                           : 1px solid #DDDDDD;
 	margin-top                       : 10px;
-	padding                          : 10px;
+	overflow                         : hidden;
+	padding                          : 0 10px 10px 10px;
 }
 
 #config_data fieldset legend
@@ -87,14 +88,21 @@ h1
 
 #config_data fieldset .field
 {
-	margin-bottom                    : 2px;
+	border-top                       : 1px solid #DDDDDD;
+	margin-top                       : 5px;
+	padding                          : 5px 5px 0 5px;
 }
 
 #config_data fieldset .fieldcaption
 {
 	background-color                 : #EEEEEE;
-	margin-top                       : 10px;
+	margin-top                       : 5px;
 	padding                          : 10px;
+}
+
+#config_data fieldset .fieldtitle
+{
+	padding                          : 0 5px;
 }
 
 #config_data fieldset .textcontrol
@@ -114,5 +122,11 @@ h1
 	height                           : auto;
 	line-height                      : normal;
 	padding                          : 8px 8px 6px 8px !important;
+	vertical-align                   : middle;
+}
+
+.radiocontrol,
+.checkboxcontrol
+{
 	vertical-align                   : middle;
 }
