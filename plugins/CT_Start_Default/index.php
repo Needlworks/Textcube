@@ -28,12 +28,12 @@ function CT_Start_Default($target) {
 	global $owner, $blogURL, $database;
 	$target .= '<ul>';
 	$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새 글을 씁니다').'</a></li>'.CRLF;
-<?php
+
 	$latestEntryId = getUserSetting('LatestEditedEntry',0);
 	if($latestEntryId !== 0){
 		$latestEntry = CT_Start_Default_getEntry($owner,$latestEntryId);
 		if($latestEntry!=false){
-			$target .= '<li><a href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $latestEntry['id'];?>">'. _f('최근글(%1) 수정', UTF8::lessenAsEm(htmlspecialchars($latestEntry['title']),10)).'</a></li>';
+			$target .= '<li><a href="'.$blogURL.'/owner/entry/edit/'.$latestEntry['id']. _f('최근글(%1) 수정', UTF8::lessenAsEm(htmlspecialchars($latestEntry['title']),10)).'</a></li>';
 		}
 	}
 
