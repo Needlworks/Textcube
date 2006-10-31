@@ -72,7 +72,7 @@ class Category {
 		$this->id = null;
 		if (isset($this->parent) && !is_numeric($this->parent))
 			return $this->_error('parent');
-		$this->name = trim($this->name);
+		$this->name = mysql_lessen(trim($this->name), 127);
 		if (empty($this->name))
 			return $this->_error('name');
 		
@@ -82,7 +82,7 @@ class Category {
 			if (($parentLabel = Category::getLabel($this->parent)) === null)
 				return $this->_error('parent');
 			$query->setQualifier('parent', $this->parent);
-			$query->setAttribute('label', $parentLabel . '/' . $this->name, true);
+			$query->setAttribute('label', mysql_lessen($parentLabel . '/' . $this->name, 255), true);
 		} else {
 			$query->setAttribute('label', $this->name, true);
 		}

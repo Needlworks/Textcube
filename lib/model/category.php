@@ -117,8 +117,8 @@ function addCategory($owner, $parent, $name) {
 		$label = $name;
 	}
 
-	$label = mysql_tt_escape_string($label);
-	$name = mysql_tt_escape_string($name);
+	$label = mysql_tt_escape_string(mysql_lessen($label, 255));
+	$name = mysql_tt_escape_string(mysql_lessen($name, 127));
 
 	if($parent == 'NULL') {
 		$parentStr = 'AND parent is null';
@@ -159,13 +159,13 @@ function modifyCategory($owner, $id, $name, $bodyid) {
 	} else
 		$parentStr = 'AND parent is null';
 	
-	$label = mysql_tt_escape_string(empty($label) ? $name : "$label/$name");
-	$name = mysql_tt_escape_string($name);
+	$label = mysql_tt_escape_string(mysql_lessen(empty($label) ? $name : "$label/$name", 255));
+	$name = mysql_tt_escape_string(mysql_lessen($name, 127));
 	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND id=$id";
 	// $sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $owner AND name='$name' $parentStr";	
 	if(DBQuery::queryCell($sql) == false)
 		return false;
-	$bodyid = mysql_tt_escape_string($bodyid);
+	$bodyid = mysql_tt_escape_string(mysql_lessen($bodyid, 20));
 	
 	$result = mysql_query("UPDATE {$database['prefix']}Categories SET name = '$name', label = '$label', bodyId = '$bodyid'  WHERE owner = $owner AND id = $id");
 	if ($result && (mysql_affected_rows() > 0))
@@ -179,19 +179,21 @@ function updateEntriesOfCategory($owner, $id = - 1) {
 	$result = mysql_query("SELECT * FROM {$database['prefix']}Categories WHERE owner = $owner AND parent IS NULL");
 	while ($row = mysql_fetch_array($result)) {
 		$parent = $row['id'];
-		$parentName = mysql_tt_escape_string($row['name']);
+		$parentName = mysql_lessen($row['name'], 127);
+		$row['name'] = mysql_tt_escape_string($parentName);
 		$countParent = fetchQueryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND visibility > 0 AND category = $parent");
 		$countInLoginParent = fetchQueryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND category = $parent");
 		$result2 = mysql_query("SELECT * FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $parent");
 		while ($rowChild = mysql_fetch_array($result2)) {
-			$rowChild['name'] = mysql_tt_escape_string($rowChild['name']);
+			$label = mysql_tt_escape_string(mysql_lessen($parentName , '/' . $rowChild['name'], 255));
+			$rowChild['name'] = mysql_tt_escape_string(mysql_lessen($rowChild['name'], 127));
 			$countChild = fetchQueryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
 			$countInLogInChild = fetchQueryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND category = {$rowChild['id']}");
-			mysql_query("UPDATE {$database['prefix']}Categories SET entries = $countChild, entriesInLogin = $countInLogInChild, `label` = '$parentName/{$rowChild['name']}' WHERE owner = $owner AND id = {$rowChild['id']}");
+			mysql_query("UPDATE {$database['prefix']}Categories SET entries = $countChild, entriesInLogin = $countInLogInChild, `label` = '$label' WHERE owner = $owner AND id = {$rowChild['id']}");
 			$countParent += $countChild;
 			$countInLoginParent += $countInLogInChild;
 		}
-		mysql_query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesInLogin = $countInLoginParent, `label` = '$parentName' WHERE owner = $owner AND id = $parent");
+		mysql_query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesInLogin = $countInLoginParent, `label` = '{$row['name']}' WHERE owner = $owner AND id = $parent");
 	}
 	return true;
 }
