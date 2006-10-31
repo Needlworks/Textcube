@@ -5,7 +5,7 @@ function setBlogTitle($owner, $title) {
 	global $blog;
 	if ($title == $blog['title'])
 		return true;
-	mysql_query("update {$database['prefix']}BlogSettings set title = '" . mysql_tt_escape_string($title) . "' where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogSettings set title = '" . mysql_tt_escape_string(mysql_lessen($title, 255)) . "' where owner = $owner");
 	if (mysql_affected_rows() != 1)
 		return false;
 	$blog['title'] = $title;
@@ -18,7 +18,7 @@ function setBlogDescription($owner, $description) {
 	global $blog;
 	if ($description == $blog['description'])
 		return true;
-	mysql_query("update {$database['prefix']}BlogSettings set description = '" . mysql_tt_escape_string($description) . "' where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogSettings set description = '" . mysql_tt_escape_string(mysql_lessen($description, 255)) . "' where owner = $owner");
 	if (mysql_affected_rows() != 1)
 		return false;
 	$blog['description'] = $description;
@@ -64,7 +64,7 @@ function checkBlogName($name) {
 function setPrimaryDomain($owner, $name) {
 	global $database;
 	global $service, $blog;
-	$name = strtolower(trim($name));
+	$name = mysql_lessen(strtolower(trim($name)), 32);
 	if ($name == $blog['name'])
 		return 0;
 	if (!checkBlogName($name))
@@ -84,7 +84,7 @@ function setPrimaryDomain($owner, $name) {
 function setSecondaryDomain($owner, $domain) {
 	global $database;
 	global $blog;
-	$domain = strtolower(trim($domain));
+	$domain = mysql_lessen(strtolower(trim($domain)), 64);
 	if ($domain == $blog['secondaryDomain'])
 		return 0;
 	if (empty($domain))
@@ -179,6 +179,7 @@ function setBlogLanguage($owner, $language, $blogLanguage) {
 	global $blog;
 	if (($language == $blog['language']) && ($blogLanguage == $blog['blogLanguage']))
 		return true;
+	$blogLanguage = mysql_lessen($blogLanguage, 5);
 	mysql_query("update {$database['prefix']}BlogSettings set language = '$language' , blogLanguage = '$blogLanguage' where owner = $owner");
 	//if (mysql_affected_rows() != 1)
 	//	return false;
@@ -201,8 +202,9 @@ function setGuestbook($owner, $write, $comment) {
 
 function changeSetting($owner, $email, $nickname) {
 	global $database;
-	$email = mysql_tt_escape_string($email);
-	$nickname = mysql_tt_escape_string($nickname);
+	if (strcmp($email, mysql_lessen($email, 64)) != 0) return false;
+	$email = mysql_tt_escape_string(mysql_lessen($email, 64));
+	$nickname = mysql_tt_escape_string(mysql_lessen($nickname, 32));
 	if ($email == '' || $nickname == '') {
 		return false;
 	}
@@ -232,10 +234,12 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 		return 4;
 	if (empty($name))
 		$name = $identify;
+		
+	if (strcmp($email, mysql_lessen($email, 64)) != 0) return 11;
 
-	$loginid = mysql_tt_escape_string($email);	
-	$name = mysql_tt_escape_string($name);
-	$identify = mysql_tt_escape_string($identify);
+	$loginid = mysql_tt_escape_string(mysql_lessen($email, 64));	
+	$name = mysql_tt_escape_string(mysql_lessen($name, 32));
+	$identify = mysql_tt_escape_string(mysql_lessen($identify, 32));
 	$password = generatePassword();
 
 	$blogName = $identify;
