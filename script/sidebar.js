@@ -244,16 +244,16 @@
 		var sourcePostion = node.modulePos;
 		var pNode = node.firstChild;
 		while (pNode != null) {
-			if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'h5')) break;
+			if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'h4')) break;
 			pNode = pNode.nextSibling;
 		}
 		if (pNode != null) {
-			pNode.style.display = 'inline';
+			/*pNode.style.display = 'inline';
 			if (dojo.render.html.ie55 || dojo.render.html.ie60 || dojo.render.html.ie70) {
 				pNode.style.styleFloat = 'left';
 			} else {
 				pNode.style.setProperty('float', 'left', '');
-			}
+			}*/
 			var newNode = document.createElement('a');
 			newNode.href = "sidebar/delete/?sidebarNumber=" + sourceSidebar + "&modulePos=" + sourcePostion;
 			newNode.title = decorateDragPanelString_deleteTitle;
