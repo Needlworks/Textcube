@@ -406,8 +406,10 @@ foreach ($sortedArray as $nowKey) {
 foreach ($sidebarPluginArray as $nowKey) {
 ?>
 										<li class="sidebar-module" id="<?php echo "add-sidebar-module-{$nowKey['identifier']}";?>">
-											<h4 class="module-title"><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey;?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label></h5>
+											<h4 class="module-title"><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey;?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label></h4>
 																			
+											<div class="edit-button-box">
+											</div>
 											<div class="module-content">
 <?php
 	$pluginURL = "{$service['path']}/plugins/{$nowKey['plugin']}";
