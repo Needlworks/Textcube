@@ -73,7 +73,7 @@
 					var sourcePostion = e.dragObject.domNode.modulePos;
 					e.dragObject.domNode.sidebarNumber = targetSidebar;
 				
-					var requestURL = "sidebar/order?sidebarNumber=" + sourceSidebar + "&targetSidebarNumber=" + targetSidebar + "&modulePos=" + sourcePostion + "&targetPos=" + targetPosition;
+					var requestURL = blogURL + "/owner/skin/sidebar/order?sidebarNumber=" + sourceSidebar + "&targetSidebarNumber=" + targetSidebar + "&modulePos=" + sourcePostion + "&targetPos=" + targetPosition;
 					
 					var request = new HTTPRequest("POST", requestURL);
 					request.onSuccess = function () {
@@ -89,7 +89,7 @@
 					e.dragObject.domNode.sidebarNumber = targetSidebar;
 					e.dragObject.domNode.ajaxtype = 'reorder';
 					
-					var requestURL = "sidebar/register?sidebarNumber=" + targetSidebar + "&modulePos=" + targetPosition + "&moduleId=" + e.dragObject.domNode.identifier;
+					var requestURL = blogURL + "/owner/skin/sidebar/register?sidebarNumber=" + targetSidebar + "&modulePos=" + targetPosition + "&moduleId=" + e.dragObject.domNode.identifier;
 
 					var request = new HTTPRequest("POST", requestURL);
 					request.sidebar = targetSidebar;
@@ -169,8 +169,15 @@
 			pNode = pNode.nextSibling;
 		}
 		if (pNode != null) {
-			var requestURL = "sidebar/setPlugin?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + "&ajaxcall=true";
+			var requestURL = blogURL + "/owner/skin/sidebar/setPlugin?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + "&ajaxcall=true";
 			pNode = pNode.firstChild;
+			while (pNode != null) {
+			    if ((pNode.className != null) && (pNode.className.toLowerCase() == 'field-box')) {
+			        pNode = pNode.firstChild;
+			        break;
+			    }
+			    pNode = pNode.nextSibling;
+			}
 			while (pNode != null) {
 				if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'div')) {
 					var p2Node = pNode.firstChild;
@@ -203,7 +210,7 @@
 	}
 
 	function previewPlugin(sidebar, modulepos) {
-		var requestURL = "sidebar/preview?sidebarNumber=" + sidebar + "&modulePos=" + modulepos;
+		var requestURL = blogURL + "/owner/skin/sidebar/preview?sidebarNumber=" + sidebar + "&modulePos=" + modulepos;
 		
 		var request = new HTTPRequest("GET", requestURL);
 		request.sidebar = sidebar;
@@ -255,9 +262,9 @@
 			}*/
 			var newNode = document.createElement('a');
 			newNode.className = "module-close";
-			newNode.href = "sidebar/delete/?sidebarNumber=" + sourceSidebar + "&modulePos=" + sourcePostion;
+			newNode.href = blogURL + "/owner/skin/sidebar/delete/?sidebarNumber=" + sourceSidebar + "&modulePos=" + sourcePostion;
 			newNode.title = decorateDragPanelString_deleteTitle;
-			newNode.innerHTML = '<img style="float:right" src="' + servicePath + adminSkin + '/image/img_delete_module.gif" border="0" alt="'+ commonString_delete +'" />';
+			newNode.innerHTML = '<img style="float:right" src="' + servicePath + adminSkin + '/image/img_delete_module.gif" border="0" alt="'+ commonString_delete +'" onclick="window.location.href = \'' + newNode.href + '\'; return false; " />';
 			if (pNode.nextSibling != null) {		
 				node.insertBefore(newNode,pNode.nextSibling);
 			} else {
@@ -274,7 +281,7 @@
 	}
 
 	function editSidebarPlugin(sidebar, modulepos) {
-		var requestURL = "sidebar/edit?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + "&ajaxcall=submitSidebarPlugin(" + sidebar + "," + modulepos + ")";
+		var requestURL = blogURL + "/owner/skin/sidebar/edit?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + "&ajaxcall=submitSidebarPlugin(" + sidebar + "," + modulepos + ")";
 
 		var request = new HTTPRequest("GET", requestURL);
 		request.onSuccess = function () {
