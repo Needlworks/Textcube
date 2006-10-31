@@ -3,6 +3,7 @@ class FeedGroup {
 	/*@static@*/
 	function getId($name, $add = false) {
 		global $database, $owner;
+		$name = mysql_lessen($name);
 		if (empty($name))
 			return 0;
 		$query = new TableQuery($database['prefix'] . 'FeedGroups');
@@ -120,8 +121,8 @@ class Feed {
 			return $this->_error('group');
 
 		$query = new TableQuery($database['prefix'] . 'Feeds');
-		$query->setQualifier('xmlURL', $this->url, true);
-		$query->setAttribute('title', $this->url, true);
+		$query->setQualifier('xmlURL', mysql_lessen($this->url, 255), true);
+		$query->setAttribute('title', mysql_lessen($this->url, 255), true);
 		if (!$query->doesExist()) {
 			if (!$query->insert())
 				return $this->_error('insert');
@@ -235,7 +236,7 @@ class FeedItem {
 	function add() {
 		global $database, $owner;
 		$this->id = null;
-		$this->link = trim($this->link);
+		$this->link = mysql_lessen(trim($this->link), 255);
 		if (empty($this->link))
 			return false;
 		
@@ -256,11 +257,11 @@ class FeedItem {
 		$query->setQualifier('permalink', $this->link, true);
 		$this->id = $query->getCell('id');
 		if ($this->id === null) {
-			$query->setAttribute('title', $this->title, true);
+			$query->setAttribute('title', mysql_lessen($this->title, 255), true);
 			$query->setAttribute('description', $this->description, true);
-			$query->setAttribute('tags', $this->tags, true);
-			$query->setAttribute('enclosure', $this->enclosure, true);
-			$query->setAttribute('author', $this->author, true);
+			$query->setAttribute('tags', mysql_lessen($this->tags, 255), true);
+			$query->setAttribute('enclosure', mysql_lessen($this->enclosure, 255), true);
+			$query->setAttribute('author', mysql_lessen($this->author, 255), true);
 			$query->setAttribute('written', $this->published);
 			$this->id = $query->insert();
 			//echo mysql_error(), '<br />';

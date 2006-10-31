@@ -303,7 +303,7 @@ function getFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = f
 
 function addFeedGroup($owner, $title) {
 	global $database;
-	$title = mysql_tt_escape_string(mysql_lessen($title));
+	$title = mysql_tt_escape_string(mysql_lessen($title, 255));
 	if (empty($title))
 		return 1;
 	if (fetchQueryCell("SELECT id FROM {$database['prefix']}FeedGroups WHERE owner = $owner AND title = '$title'") !== null) {
@@ -318,7 +318,7 @@ function addFeedGroup($owner, $title) {
 
 function editFeedGroup($owner, $id, $title) {
 	global $database;
-	$title = mysql_tt_escape_string($title);
+	$title = mysql_tt_escape_string(mysql_lessen($title, 255));
 	if (empty($title))
 		return 1;
 	$prevTitle = fetchQueryCell("SELECT title FROM {$database['prefix']}FeedGroups WHERE owner = $owner AND id = $id");
@@ -449,10 +449,12 @@ function getRemoteFeed($url) {
 	} else
 		return array(3, null, null);
 
+	$feed['xmlURL'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($feed['xmlURL'])));
 	$feed['blogURL'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($feed['blogURL'])));
 	$feed['title'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($feed['title'])));
 	$feed['description'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['description']))));
-
+	$feed['language'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($feed['language']), 255)));
+	
 	return array(0, $feed, $xml);
 }
 
