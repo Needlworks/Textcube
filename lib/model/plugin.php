@@ -10,7 +10,7 @@ function activatePlugin($name) {
 		return false;
 	if (!file_exists(ROOT . "/plugins/$name/index.xml") || !file_exists(ROOT . "/plugins/$name/index.php"))
 		return false;
-	$name = mysql_tt_escape_string($name);
+	$name = mysql_tt_escape_string(mysql_lessen($name, 255));
 	mysql_query("INSERT INTO {$database['prefix']}Plugins VALUES ($owner, '$name', null)");
 	return (mysql_affected_rows() == 1);
 }
@@ -39,7 +39,7 @@ function updatePluginConfig( $name , $setVal){
 	global $database, $owner, $activePlugins;
 	if (!in_array($name, $activePlugins))
 		return false;
-	$name = mysql_tt_escape_string( $name ) ;
+	$name = mysql_tt_escape_string( mysql_lessen($name, 255) ) ;
 	$setVal = mysql_tt_escape_string( $setVal ) ;
 	mysql_query(
 		"UPDATE {$database['prefix']}Plugins 

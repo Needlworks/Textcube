@@ -76,7 +76,7 @@ class PluginSetting {
 		global $database, $owner;
 		$query = new TableQuery($database['prefix'] . 'Plugins');
 		$query->setQualifier('owner', $owner);
-		$query->setQualifier('name', mysql_tt_escape_string($this->name), true);
+		$query->setQualifier('name', mysql_tt_escape_string(mysql_lessen($this->name, 255)), true);
 		if (isset($this->setting))
 			$query->setAttribute('settings', mysql_tt_escape_string($this->setting), true);
 		return $query;
