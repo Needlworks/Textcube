@@ -81,19 +81,19 @@ class RefererLog {
 		$query = new TableQuery($database['prefix'] . 'RefererLogs');
 		$query->setQualifier('owner', $owner);
 		if (isset($this->host)) {
-			$this->host = trim($this->host);
+			$this->host = mysql_lessen(trim($url['host']), 64);
 			if (empty($this->host))
 				return $this->_error('host');
 			$query->setAttribute('host', $this->host, true);
 		}
 		if (isset($this->url)) {
-			$this->url = trim($this->url);
+			$this->url = mysql_lessen(trim($this->url), 255);
 			if (empty($this->url))
 				return $this->_error('url');
 			$url = parse_url($this->url);
 			if (empty($url['host']))
 				return $this->_error('url');
-			$this->host = $url['host'];
+			$this->host = mysql_lessen(trim($url['host']), 64);
 			$query->setAttribute('host', $this->host, true);
 			if (empty($url['scheme']))
 				$this->url = 'http://' . $this->url;
