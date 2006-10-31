@@ -70,6 +70,11 @@
 	width                            : 625px;
 }
 
+#sidebar-box .section ul.sidebar
+{
+	height                       : 200px;
+}
+
 #sidebar-element-box
 {
 	margin-left                      : 5px;
