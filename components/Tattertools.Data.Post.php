@@ -269,19 +269,22 @@ class Post {
 			$slogan0 = $this->slogan;
 		else
 			$slogan0 = $this->slogan = Post::makeSlogan($this->title);
+			
+		$slogan0 = mysql_lessen($slogan0, 255);
 
 		for ($i = 1; $i < 1000; $i++) {
-			$query->setAttribute('slogan', $this->slogan, false);
+			$checkSlogan = mysql_tt_escape_string($this->slogan);
+			$query->setAttribute('slogan', $checkSlogan, false);
 			if (!DBQuery::queryExistence(
 				"SELECT id FROM {$database['prefix']}Entries " 
-				. "WHERE owner = $owner AND slogan ='{$this->slogan}'")
+				. "WHERE owner = $owner AND slogan ='{$checkSlogan}'")
 				) 
 			{
 				if (!$query->update())
 					return $this->_error('update');
 				return true;
 			}
-			$this->slogan = $slogan0 . '-' . $i;
+			$this->slogan = mysql_lessen($slogan0, 245) . '-' . $i;
 		}
 		// if try saveSlogan again, slogan string has more $i
 		return $this->_error('limit');
@@ -494,7 +497,7 @@ class Post {
 			$query->setQualifier('id', $this->id);
 		}
 		if (isset($this->title))
-			$query->setAttribute('title', $this->title, true);
+			$query->setAttribute('title', mysql_lessen($this->title, 255), true);
 		if (isset($this->content))
 			$query->setAttribute('content', $this->content, true);
 		if (isset($this->visibility)) {
@@ -524,7 +527,7 @@ class Post {
 			$query->setAttribute('category', $this->category);
 		}
 		if (isset($this->location))
-			$query->setAttribute('location', $this->location, true);
+			$query->setAttribute('location', mysql_lessen($this->location, 255), true);
 		if (isset($this->password))
 			$query->setAttribute('password', $this->password, true);
 		if (isset($this->acceptComment))

@@ -292,15 +292,15 @@ function getRecentEntries($owner) {
 
 function addEntry($owner, $entry) {
 	global $database, $blog;
-	$entry['title'] = mysql_lessen(trim($entry['title']));
-	$entry['location'] = mysql_lessen(trim($entry['location']));
+	$entry['title'] = mysql_lessen(trim($entry['title']), 255);
+	$entry['location'] = mysql_lessen(trim($entry['location']), 255);
 	if((empty($entry['slogan']))||($entry['category'] == -1)) {
 		$slogan = $slogan0 = getSlogan($entry['title']);
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
 
-	$slogan = mysql_tt_escape_string($slogan);
+	$slogan = mysql_tt_escape_string(mysql_lessen($slogan, 255));
 	$title = mysql_tt_escape_string($entry['title']);
 
 	if($entry['category'] == -1) {
@@ -309,10 +309,9 @@ function addEntry($owner, $entry) {
 
 	$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 	for ($i = 1; mysql_num_rows($result) > 0; $i++) {
-		if ($i > 100)
+		if ($i > 1000)
 			return false;
-		$slogan = "$slogan0-$i";
-		$slogan = mysql_tt_escape_string($slogan);
+		$slogan = mysql_tt_escape_string(mysql_lessen($slogan0, 245) . '-' . $i);
 		$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 	}
 
@@ -384,7 +383,7 @@ function updateEntry($owner, $entry) {
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
-	$slogan = mysql_tt_escape_string($slogan);
+	$slogan = mysql_tt_escape_string(mysql_lessen($slogan, 255));
 	$title = mysql_tt_escape_string($entry['title']);
 
 	if($entry['category'] == -1) {
@@ -395,10 +394,9 @@ function updateEntry($owner, $entry) {
 	if (mysql_num_rows($result) == 0) { // if changed
 		$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 		for ($i = 1; mysql_num_rows($result) > 0; $i++) {
-			if ($i > 100)
+			if ($i > 1000)
 				return false;
-			$slogan = "$slogan0-$i";
-			$slogan = mysql_tt_escape_string($slogan);
+			$slogan = mysql_tt_escape_string(mysql_lessen($slogan0, 245) . '-' . $i);
 			$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 		}
 	}
