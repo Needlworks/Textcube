@@ -650,6 +650,8 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($entries) - 1) ? ' last-line' : '';
+	if ($entry['category'] == -1)
+		$className .= ' keyword-line';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $entry['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>

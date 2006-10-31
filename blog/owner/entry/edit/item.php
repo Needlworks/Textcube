@@ -606,7 +606,7 @@ if (isset($_GET['popupEditor'])) {
 									<span class="hidden">|</span>
 							       	<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
 									<span class="hidden">|</span>
-									<a href="<?php echo $blogURL;?>/owner/entry" class="list-button button"><span class="text"><?php echo _t('목록으로');?></span></a>
+									<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" click="window.location.href='<?php echo $blogURL;?>/owner/entry'" />
 								</div>
 <?php
 }
