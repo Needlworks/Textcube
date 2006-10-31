@@ -61,6 +61,7 @@ class Skin {
 	var $sidebarBasicModules = array();
 	var $sidebarStorage = array();
 	var $sidebarOriginalContent = array();
+	var $sidebarName = array();
 	
 	var $noneCommentMessage;
 	var $singleCommentMessage;
@@ -104,7 +105,7 @@ class Skin {
 		$sidebarCount = 0;
 		$noNameCount = 1;
 		// - 사이드바가 여러개일 수 있으므로 루프로 돌린다.
-		while (ereg("<s_sidebar>", $sval)) {
+	while (ereg("<s_sidebar>", $sval)) {
 			if (!isset($this->sidebarBasicModules[$sidebarCount]))
 				$this->sidebarBasicModules[$sidebarCount] = array();
 			list($sval, $this->sidebarOriginalContent[$sidebarCount]) = $this->cutSkinTag($sval, "sidebar", "[##_sidebar_{$sidebarCount}_##]");
@@ -116,7 +117,7 @@ class Skin {
 			} else {
 				$rgSidebarContent = array();
 			}
-	
+			
 			for ($i=0; $i<count($rgSidebarContent); $i++) {
 				$taglength = 19; //strlen('<s_sidebar_element>');
 				$rgSidebarContent[$i] = substr($rgSidebarContent[$i], $taglength, strlen($rgSidebarContent[$i]) - 39);//2*$taglength - 1);
@@ -131,6 +132,20 @@ class Skin {
 				$this->sidebarBasicModules[$sidebarCount][$moduleCount] = array('title' => $tempTitle, 'body' => $rgSidebarContent[$i]);
 				$moduleCount++;
 			}
+			$matchcount = preg_match('@<s_sidebar_element>@', $this->sidebarOriginalContent[$sidebarCount],$matches, PREG_OFFSET_CAPTURE);
+			if ($matchcount === false) {
+				$firstPos = strlen($this->sidebarOriginalContent[$sidebarCount]);
+			} else {
+				$firstPos = $matches[0][1];
+			}
+			var_dump(substr($this->sidebarOriginalContent[$sidebarCount],0,$firstPos - 1));
+			preg_match("/<!\-\-(.+)\-\->/", substr($this->sidebarOriginalContent[$sidebarCount],0,$firstPos - 1), $temp);
+			if (isset($temp[1])) {
+				$tempTitle = trim($temp[1]);
+			} else {
+				$tempTitle = _t('사이드바') . ' ' . ($sidebarCount + 1);
+			}
+			$this->sidebarName[$sidebarCount] = $tempTitle;
 			$sidebarCount++;
 		}
 
