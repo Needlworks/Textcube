@@ -133,7 +133,7 @@ class UserInfo {
 		}
 		
 		if (isset($this->loginid)) {
-			$this->loginid = trim($this->loginid);
+			$this->loginid = mysql_lessen(trim($this->loginid), 64);
 			if(empty($this->loginid))
 				return $this->_error('loginid');
 			$query->setAttribute('loginid', $this->loginid,true);
@@ -147,7 +147,7 @@ class UserInfo {
 		}
 	
 		if (isset($this->name)) {
-			$this->name = trim($this->name);
+			$this->name = mysql_lessen(trim($this->name), 32);
 			if(empty($this->name))
 				return $this->_error('name');
 			$query->setAttribute('name', $this->name,true);

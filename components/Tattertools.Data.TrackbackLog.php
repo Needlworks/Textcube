@@ -98,7 +98,7 @@ class TrackbackLog {
 			$query->setAttribute('entry', $this->entry);
 		}
 		if (isset($this->url)) {
-			$this->url = trim($this->url);
+			$this->url = mysql_lessen(trim($this->url), 255);
 			if (empty($this->url))
 				return $this->_error('url');
 			$query->setAttribute('url', $this->url, true);

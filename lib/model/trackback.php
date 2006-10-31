@@ -176,7 +176,7 @@ function sendTrackback($owner, $entryId, $url) {
 		$isSuccess = $request->send($content);
 	}
 	if ($isSuccess && (checkResponseXML($request->responseText) === 0)) {
-		$url = mysql_tt_escape_string($url);
+		$url = mysql_tt_escape_string(mysql_lessen($url, 255));
 		mysql_query("insert into {$database['prefix']}TrackbackLogs values ($owner, '', $entryId, '$url', UNIX_TIMESTAMP())");
 		return true;
 	}

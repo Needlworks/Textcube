@@ -113,21 +113,21 @@ class Trackback {
 			$query->setQualifier('entry', $this->entry);
 		}
 		if (isset($this->url)) {
-			$this->url = trim($this->url);
+			$this->url = mysql_lessen(trim($this->url), 255);
 			if (empty($this->url))
 				return $this->_error('url');
 			$query->setQualifier('url', $this->url, true);
 		}
 		if (isset($this->site)) {
-			$this->site = trim($this->site);
+			$this->site = mysql_lessen(trim($this->site), 255);
 			$query->setAttribute('site', $this->site, true);
 		}
 		if (isset($this->title)) {
-			$this->title = trim($this->title);
+			$this->title = mysql_lessen(trim($this->title), 255);
 			$query->setAttribute('subject', $this->title, true);
 		}
 		if (isset($this->excerpt)) {
-			$this->excerpt = trim($this->excerpt);
+			$this->excerpt = mysql_lessen(trim($this->excerpt), 255);
 			$query->setAttribute('excerpt', $this->excerpt, true);
 		}
 		if (isset($this->ip)) {
