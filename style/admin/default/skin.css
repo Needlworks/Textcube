@@ -349,7 +349,7 @@
 #part-sidebar-order
 {
 	background-image                 : url("./image/bg_sidebar.png");
-	background-position              : 275px 135px;
+	background-position              : 309px 135px;
 	background-repeat                : no-repeat;	
 }
 
@@ -413,7 +413,7 @@
 	margin                           : 0 5px 0 30px;
 	overflow                         : auto;
 	position                         : relative;
-	width                            : 620px;
+	width                            : 600px;
 	z-index                          : 100;
 }
 
@@ -555,7 +555,7 @@
 {
 	background-image                 : none;
 	float                            : left;
-	width                            : 250px;
+	width                            : 287px;
 }
 
 #sidebar-element-box h3
@@ -591,7 +591,7 @@
 
 #sidebar-element-box fieldset ul.module-list li.sidebar-module
 {
-	width                            : auto;
+	width                            : 247px;
 }
 
 #sidebar-element-box fieldset ul.module-list li.sidebar-module .edit-button-box,

@@ -56,6 +56,11 @@
 
 /* Sidebar ***************************************************************************************/
 
+#part-sidebar-order
+{
+	background-position              : 308px 135px;	
+}
+
 #sidebar-preview-mode
 {
 	background-image                 : url("./image/bg_sidebar_mode.png");
@@ -67,7 +72,7 @@
 
 #sidebar-box
 {
-	width                            : 625px;
+	width                            : 598px;
 }
 
 #sidebar-box .section ul.sidebar
