@@ -138,7 +138,6 @@ class Skin {
 			} else {
 				$firstPos = $matches[0][1];
 			}
-			var_dump(substr($this->sidebarOriginalContent[$sidebarCount],0,$firstPos - 1));
 			preg_match("/<!\-\-(.+)\-\->/", substr($this->sidebarOriginalContent[$sidebarCount],0,$firstPos - 1), $temp);
 			if (isset($temp[1])) {
 				$tempTitle = trim($temp[1]);

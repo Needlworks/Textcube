@@ -91,7 +91,8 @@ function addAttachment($owner, $parent, $file) {
 		return false;
 	@chmod($attachment['path'], 0666);
 	$name = mysql_tt_escape_string($attachment['name']);
-	$label = mysql_tt_escape_string($attachment['label']);
+	$label = mysql_tt_escape_string(mysql_lessen($attachment['label'], 64));
+	$attachment['mime'] = mysql_lessen($attachment['mime'], 32);
 	
 	$result = DBQuery::execute("insert into {$database['prefix']}Attachments values ($owner, {$attachment['parent']}, '$name', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	if (!$result) {
