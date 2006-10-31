@@ -185,7 +185,7 @@ function updateEntriesOfCategory($owner, $id = - 1) {
 		$countInLoginParent = fetchQueryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND category = $parent");
 		$result2 = mysql_query("SELECT * FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $parent");
 		while ($rowChild = mysql_fetch_array($result2)) {
-			$label = mysql_tt_escape_string(mysql_lessen($parentName , '/' . $rowChild['name'], 255));
+			$label = mysql_tt_escape_string(mysql_lessen($parentName . '/' . $rowChild['name'], 255));
 			$rowChild['name'] = mysql_tt_escape_string(mysql_lessen($rowChild['name'], 127));
 			$countChild = fetchQueryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
 			$countInLogInChild = fetchQueryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND category = {$rowChild['id']}");
