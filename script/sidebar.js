@@ -283,17 +283,23 @@
 				var btn = document.createElement('input');
 				btn.type = 'button';
 				btn.value = commonString_cancel;
-				btn.className = 'button';
+				btn.className = 'input-button';
 				
 				var pNode = dlg.domNode.firstChild;
 				while (pNode != null) {
 					if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'form')) {
-						pNode.appendChild(btn);
+					    pNode = pNode.firstChild;
 						break;
 					}
 					pNode = pNode.nextSibling;
 				}
-				
+				while (pNode != null) {
+					if ((pNode.className != null) && (pNode.className.toLowerCase() == 'button-box')) {
+        				pNode.appendChild(btn);
+						break;
+					}
+					pNode = pNode.nextSibling;
+				}
 				
 				dlg.setCloseControl(btn);
 				dlg.show();
