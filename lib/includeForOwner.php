@@ -19,7 +19,6 @@ require 'model/blogSetting.php';
 require 'model/category.php';
 require 'model/comment.php';
 require 'model/entry.php';
-require 'model/filter.php';
 require 'model/keyword.php';
 require 'model/notice.php';
 require 'model/link.php';

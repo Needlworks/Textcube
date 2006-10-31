@@ -130,7 +130,7 @@ class Filter {
 				$query->setQualifier('type', $this->type, false);
 		}
 		if (isset($this->pattern)) {
-			$this->pattern = trim($this->pattern);
+			$this->pattern = mysql_lessen(trim($this->pattern), 255);
 			if (empty($this->pattern))
 				return $this->_error('pattern');
 			if (isset($this->id))
