@@ -132,28 +132,27 @@
 	
     dojo.widget.defineWidget( "dojo.widget.popupWindow", dojo.widget.Dialog,
 	    {
-		    isContainer: false, // can we contain other widgets?
 		    templatePath: "",
 		    loadContents: function() {
+		        this.containerNode = this.domNode;
 			    return;
 		    },
 		    setContent: function(/*String*/ data){
 			    this.domNode.innerHTML = data;
 		    },
-		    placeDialog: function() {
-			    var scroll_offset = dojo.html.getScrollOffset();
-			    var viewport_size = dojo.html.getViewportSize();
-
+		    placeModalDialog: function() {
+			    var scroll_offset = dojo.html.getScroll().offset;
+			    var viewport_size = dojo.html.getViewport();
+    			
 			    // find the size of the dialog
-			    var w = dojo.style.getOuterWidth(this.domNode);
-			    var h = dojo.style.getOuterHeight(this.domNode);
-			    if (w<200) w = 200;
-			    if (h<200) h = 200;
+			    var mb = dojo.html.getMarginBox(this.containerNode);
+			    if (mb.width<200) mb.width = 200;
+			    if (mb.height<200) mb.height = 200;
+    			
+			    var x = scroll_offset.x + (viewport_size.width - mb.width)/2;
+			    var y = scroll_offset.y + (viewport_size.height - mb.height)/2;
 
-			    var x = scroll_offset[0] + (viewport_size[0] - w)/2;
-			    var y = scroll_offset[1] + (viewport_size[1] - h)/2;
-
-			    with(this.domNode.style) {
+			    with(this.domNode.style){
 				    left = x + "px";
 				    top = y + "px";
 			    }
