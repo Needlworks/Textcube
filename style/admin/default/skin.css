@@ -585,6 +585,8 @@
 {
 	height                           : 418px;
 	overflow-y                       : scroll;
+	position                         : relative;
+	z-index                          : 100;
 }
 
 #sidebar-element-box fieldset ul.module-list li.sidebar-module
