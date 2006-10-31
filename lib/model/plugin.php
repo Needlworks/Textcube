@@ -59,13 +59,17 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 		$query = "SELECT value FROM {$database['prefix']}ServiceSettings WHERE name='{$keyname}'";
 		$result = DBQuery::queryCell($query);
 		if (is_null($result)) {
-			DBQuery::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value/$version'");
+			$keyname = mysql_tt_escape_string(mysql_lessen($keyname, 32));
+			$value = mysql_tt_escape_string(mysql_lessen($plugin . '/' . $version , 255));
+			DBQuery::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
 		} else {
+			$keyname = mysql_tt_escape_string(mysql_lessen($keyname, 32));
+			$value = mysql_tt_escape_string(mysql_lessen($plugin . '/' . $version , 255));
 			$values = explode('/', $result, 2);
 			if (strcmp($plugin, $values[0]) != 0) { // diff plugin
 				return false; // nothing can be done
 			} else if (strcmp($version, $values[1]) != 0) {
-				DBQuery::execute("UPDATE {$database['prefix']}ServiceSettings SET value ='$value/$version' WHERE name='$keyname'");
+				DBQuery::execute("UPDATE {$database['prefix']}ServiceSettings SET value ='$value' WHERE name='$keyname'");
 				$eventName = 'UpdateDB_' . $name;
 				fireEvent($eventName, $values[1]);
 			}
@@ -87,9 +91,9 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 		$query .= ") TYPE=MyISAM DEFAULT CHARSET=utf8";
 		
 		if (DBQuery::execute($query)) {
-				$keyname = 'Database_' . $name;
-				$value = $plugin;
-				DBQuery::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value/$version'");
+				$keyname = mysql_tt_escape_string(mysql_lessen('Database_' . $name, 32));
+				$value = mysql_tt_escape_string(mysql_lessen($plugin . '/' . $version , 255));
+				DBQuery::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
 			return true;
 		}
 		else return false;

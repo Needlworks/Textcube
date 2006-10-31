@@ -70,9 +70,9 @@ class ServiceSetting {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'ServiceSettings');
-		$query->setQualifier('name', $this->name, false);
+		$query->setQualifier('name', mysql_lessen($this->name, 32), false);
 		if (isset($this->value))
-			$query->setAttribute('value', $this->value, true);
+			$query->setAttribute('value', mysql_lessen($this->value, 255), true);
 		return $query;
 	}
 
