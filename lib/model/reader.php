@@ -453,7 +453,7 @@ function getRemoteFeed($url) {
 	$feed['blogURL'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($feed['blogURL'])));
 	$feed['title'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($feed['title'])));
 	$feed['description'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['description']))));
-	$feed['language'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($feed['language']), 255)));
+	$feed['language'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($feed['language']), 255));
 	
 	return array(0, $feed, $xml);
 }
