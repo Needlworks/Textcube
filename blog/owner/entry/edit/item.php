@@ -16,7 +16,6 @@ if (false) {
 	fetchConfigVal();
 }
 define('__TATTERTOOLS_EDIT__', true);
-
 if (defined('__TATTERTOOLS_POST__'))
 	$suri['id'] = 0;
 if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
@@ -24,17 +23,10 @@ if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
 	if (!$entry)
 		respondErrorPage(_t('포스트 정보가 존재하지 않습니다.'));
 }
-
-$categoryDisabled = NULL;
-$permaLinkDisabled = NULL;
-
 if (defined('__TATTERTOOLS_NOTICE__')) {
 	$entry['category'] = -2;
-	$categoryDisabled = ' disabled="disabled"';
 } else if (defined('__TATTERTOOLS_KEYWORD__')) {
 	$entry['category'] = -1;
-	$categoryDisabled = ' disabled="disabled"';
-	$permaLinkDisabled = ' disabled="disabled"';
 }
 
 if (isset($_GET['popupEditor'])) {
@@ -364,13 +356,8 @@ if (isset($_GET['popupEditor'])) {
 								function checkCategory(obj) {
 									if (obj == "type_post") {
 										document.getElementById("category").disabled = false;
-										document.getElementById("permalink").disabled = false;
-									} else if (obj == "type_notice") {
+									} else {
 										document.getElementById("category").disabled = true;
-										document.getElementById("permalink").disabled = false;
-									} else if (obj == "type_keyword") {
-										document.getElementById("category").disabled = true;
-										document.getElementById("permalink").disabled = true;
 									}
 								}
 							//]]>
@@ -404,7 +391,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 												<div class="entrytype-keyword"><input type="radio" id="type_keyword" class="radio" name="entrytype" value="-1" onclick="checkCategory('type_keyword')"<?php echo ($entry['category'] == -1 ? ' checked="checked"' : '');?> /> <label for="type_keyword"><?php echo _t('키워드');?></label></div>
 												<div class="entrytype-post">
 													<input type="radio" id="type_post" class="radio" name="entrytype" value="0" onclick="checkCategory('type_post')"<?php echo ($entry['category'] >= 0 ? ' checked="checked"' : '');?> /> <label for="type_post"><?php echo _t('글');?></label>
-													<select id="category" name="category"<?php echo $categoryDisabled;?>>
+													<select id="category" name="category">
 														<option value="0"><?php echo htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'));?></option>
 <?php
 		foreach (getCategories($owner) as $category) {
@@ -556,7 +543,7 @@ printEntryFileUploadButton($entry['id']);
 											<dl id="permalink-line" class="line">
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
 												<dd>
-													<samp><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="input-text" name="permalink" value="<?php echo htmlspecialchars($entry['slogan']);?>"<?php echo $permaLinkDisabled;?> />
+													<samp><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="input-text" name="permalink" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
 													<p><?php echo _t('*입력하지 않으면 글의 제목이 절대 주소가 됩니다.');?></p>
 												</dd>
 											</dl>
