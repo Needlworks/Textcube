@@ -100,7 +100,7 @@ class RefererStatistics {
 	
 	function _buildQuery() {
 		global $database, $owner;
-		$this->host = trim($this->host);
+		$this->host = mysql_lessen(trim($this->host), 64);
 		if (empty($this->host))
 			return $this->_error('host');
 		$query = new TableQuery($database['prefix'] . 'RefererStatistics');
