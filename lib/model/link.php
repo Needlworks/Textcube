@@ -23,13 +23,13 @@ function deleteLink($owner, $id) {
 
 function addLink($owner, $link) {
 	global $database;
-	$name = trim($link['name']);
-	$url = trim($link['url']);
+	$name = mysql_lessen(trim($link['name']), 255);
+	$url = mysql_lessen(trim($link['url']), 255);
 	if (empty($name) || empty($url))
 		return - 1;
 	$name = mysql_tt_escape_string($name);
 	$url = mysql_tt_escape_string($url);
-	$rss = isset($link['rss']) ? mysql_tt_escape_string(trim($link['rss'])) : '';
+	$rss = isset($link['rss']) ? mysql_tt_escape_string(mysql_lessen(trim($link['rss']), 255)) : '';
 	if (fetchQueryCell("SELECT id FROM {$database['prefix']}Links WHERE owner = $owner AND url = '$url'"))
 		return 1;
 	if (executeQuery("INSERT INTO {$database['prefix']}Links VALUES ($owner, null, '$name', '$url', '$rss', UNIX_TIMESTAMP())"))
@@ -41,13 +41,13 @@ function addLink($owner, $link) {
 function updateLink($owner, $link) {
 	global $database;
 	$id = $link['id'];
-	$name = trim($link['name']);
-	$url = trim($link['url']);
+	$name = mysql_lessen(trim($link['name']), 255);
+	$url = mysql_lessen(trim($link['url']), 255);
 	if (empty($name) || empty($url))
 		return false;
 	$name = mysql_tt_escape_string($name);
 	$url = mysql_tt_escape_string($url);
-	$rss = isset($link['rss']) ? mysql_tt_escape_string(trim($link['rss'])) : '';
+	$rss = isset($link['rss']) ? mysql_tt_escape_string(mysql_lessen(trim($link['rss']), 255)) : '';
 	return executeQuery("update {$database['prefix']}Links
 				set
 					name = '$name',
