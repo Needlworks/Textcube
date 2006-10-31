@@ -141,7 +141,12 @@ class Trackback {
 			$query->setAttribute('written', $this->received);
 		}
 		if (isset($this->isFiltered)) {
-			$query->setAttribute('isFiltered', Validator::getBit($this->isFiltered));
+			if ($this->isFiltered) {
+				$query->setAttribute('isFiltered', 'UNIX_TIMESTAMP()');
+			} else {
+				$query->setAttribute('isFiltered', Validator::getBit($this->isFiltered));
+			}
+			
 		}
 		return $query;
 	}

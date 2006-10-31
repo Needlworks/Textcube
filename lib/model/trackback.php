@@ -103,7 +103,9 @@ function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 	$trackback->site = $site;
 	$trackback->title = $title;
 	$trackback->excerpt = $excerpt;
-	$trackback->isFiltered = $filtered;
+	if ($filtered > 0) {
+		$trackback->isFiltered = true;
+	}
 	if ($trackback->add())
 		return ($filtered == 0) ? 0 : 3;
 	else
