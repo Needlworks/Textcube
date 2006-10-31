@@ -147,13 +147,13 @@ class Comment {
 			$query->setAttribute('replier', $this->commenter);
 		}
 		if (isset($this->name)) {
-			$this->name = trim($this->name);
+			$this->name = mysql_lessen(trim($this->name), 80);
 			if (empty($this->name))
 				return $this->_error('name');
 			$query->setAttribute('name', $this->name, true);
 		}
 		if (isset($this->homepage)) {
-			$this->homepage = trim($this->homepage);
+			$this->homepage = mysql_lessen(trim($this->homepage), 80);
 			if (empty($this->homepage))
 				return $this->_error('homepage');
 			$query->setAttribute('homepage', $this->homepage, true);
@@ -178,6 +178,11 @@ class Comment {
 		}
 		if (isset($this->isFiltered)) {
 			$query->setAttribute('isFiltered', Validator::getBit($this->isFiltered));
+		}
+		if (isset($this->password)) {
+			$this->password = mysql_lessen($this->password, 32);
+			$query->setAttribute('password', $this->password);
+			$this->password = null;
 		}
 		return $query;
 	}
