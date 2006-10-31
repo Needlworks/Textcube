@@ -177,9 +177,8 @@
 {
 	border-top                       : 1px solid #DDDDDD;
 	padding-top                      : 1px;
+	width                            : 459px;
 }
-
-
 
 #part-skin-setting dl
 {
@@ -213,13 +212,39 @@
 	border                           : 1px solid #BBBBBB;
 	color                            : #000000;
 	font-weight                      : bold;
-	height                           : auto;
-	line-height                      : normal;
-	margin-top                       : 0.5px;
-	padding                          : 8px 8px 5px 8px !important;
+	height                           : 3em;
+	line-height                      : 3em;
+	padding-top                      : 8px;
+	padding-bottom                   : 6px;
 	vertical-align                   : middle;
 }
 
+#click-container
+{
+	display : block;
+}
+
+#length-container
+{
+	right                            : 20px;
+	position                         : absolute;
+	top                              : 60px;
+}
+
+#tag-setting-container
+{
+	right                            : 20px;
+	position                         : absolute;
+	top                              : 232px;
+}
+
+#guestbook-setting-container
+{
+	right                            : 20px;
+	position                         : absolute;
+	top                              : 332px;
+}
+	
 /* Tree -----------------------------------------------------------------------------------------*/
 
 #part-skin-tree div.data-inbox
@@ -236,7 +261,7 @@
 #tree-preview-box
 {
 	background-color                 : #EEEEEE;
-	height                           : 370px;
+	height                           : 375px;
 	left                             : 0;
 	padding                          : 10px 0;
 	position                         : absolute;
@@ -312,10 +337,10 @@
 	border                           : 1px solid #BBBBBB;
 	color                            : #000000;
 	font-weight                      : bold;
-	height                           : auto;
-	line-height                      : normal;
-	margin-top                       : 0.5px;
-	padding                          : 8px 8px 5px 8px !important;
+	height                           : 3em;
+	line-height                      : 3em;
+	padding-top                      : 8px;
+	padding-bottom                   : 6px;
 	vertical-align                   : middle;
 }
 
@@ -385,9 +410,11 @@
 {
 	float                            : right;
 	height                           : 903px;
-	margin-left                      : 30px;
+	margin                           : 0 5px 0 30px;
 	overflow                         : auto;
+	position                         : relative;
 	width                            : 620px;
+	z-index                          : 100;
 }
 
 #sidebar-box .section
@@ -401,11 +428,6 @@
 	color                            : #FF6600;
 	font-size                        : 1em;
 	margin                           : 7px 0 0 10px;
-}
-
-#sidebar-box .section h3 .radio
-{
-	display                          : none;
 }
 
 #sidebar-box .section ul.sidebar
@@ -440,11 +462,14 @@
 	border                           : 1px solid #CCCCCC;
 	cursor                           : move;
 	font-size                        : 12px;
+	list-style-type                  : none;
 	margin                           : 2px 5px 2px 0;
 	max-height                       : 200px;
 	overflow                         : hidden;
+	position                         : relative;
 	text-align                       : left;
 	width                            : 245px;
+	z-index                          : 50;
 }
 
 .sidebar-module *
@@ -455,7 +480,6 @@
 .sidebar-module h4.module-title,
 .ajax-floating-panel h4.module-title
 {
-	background-image                 : url("./image/icon_sidebar_module.png");
 	background-position              : right center;
 	background-repeat                : no-repeat;
 	border-bottom                    : 1px solid #CCCCCC;
@@ -466,6 +490,29 @@
 .sidebar-module h4 .radio
 {
 	display                          : none;
+}
+
+.sidebar-module .module-close
+{
+	position                         : absolute;
+	top                              : 7px;
+	right                            : 0;
+}
+
+.sidebar-module .edit-button-box,
+.ajax-floating-panel .edit-button-box
+{
+	margin-top                       : 10px;
+	text-align                       : center;
+}
+
+.sidebar-module .edit-button-box a,
+.ajax-floating-panel .edit-button-box a
+{
+	border                           : 1px solid #DDDDDD;
+	height                           : 2em;
+	line-height                      : 2em;
+	padding                          : 3px 5px 1px 5px;
 }
 
 .sidebar-module .module-content,
@@ -534,23 +581,35 @@
 	padding                          : 0 4px;
 }
 
-#sidebar-element-box fieldset>ul
+#sidebar-element-box fieldset ul.module-list
 {
 	height                           : 418px;
 	overflow-y                       : scroll;
 }
 
-#sidebar-element-box fieldset>ul li.sidebar-module
+#sidebar-element-box fieldset ul.module-list li.sidebar-module
 {
 	width                            : auto;
+}
+
+#sidebar-element-box fieldset ul.module-list li.sidebar-module .edit-button-box,
+.ajax-floating-panel .edit-button-box
+{
+	margin-top                       : 0;
+}
+
+#sidebar-element-box .sidebar-module h4,
+.ajax-floating-panel h4
+{
+	background-image                 : url("./image/icon_sidebar_module.gif");
 }
 
 /* classes for AJAX *******************************************************************************/
 
 .ajax-popup-window
 {
-	background-color                 : White;
-	border                           : solid 1px black;
+	background-color                 : #FFFFFF;
+	border                           : 1px solid black;
 	font-size                        : 12px;
 	padding                          : 20px;
 	width                            : 40%;
@@ -561,8 +620,7 @@
 	text-align                       : center;
 }
 
-
-.ajax-popup-window div
+.ajax-popup-window .line
 {
 	clear                            : both;
 	display                          : block;
@@ -570,25 +628,32 @@
 	text-align                       : right;
 }
 
-.ajax-popup-window input
+.ajax-popup-window .input-text
 {
-	display                          : inline;
-	font-size                        : 1em;
 	width                            : 70%;
 }
 
 .ajax-popup-window label
 {
 	float                            : left;
-	font-size                        : 1em;
 }
 
-.ajax-popup-window .button
+.ajax-popup-window .button-box
 {
-	float                            : none;
-	font-size                        : 1em;
-	line-height                      : 2em;
+	margin-top                       : 15px;
 	text-align                       : center;
-	width                            : 80px;
 }
 
+.ajax-popup-window .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : 3em;
+	line-height                      : 3em;
+	padding-top                      : 8px;
+	padding-bottom                   : 6px;
+	vertical-align                   : middle;
+}

@@ -537,7 +537,7 @@
 #supporter-description h3
 {
 	background-color                 : #D2D2CC;
-	background-image                 : url("./image/bg_title_left.png");
+	background-image                 : url("./image/bg_title_left.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	clear                            : both;
@@ -555,7 +555,7 @@
 #supporter-description h3 span
 {
 	background-color                 : #D2D2CC;
-	background-image                 : url("./image/bg_title_right.png");
+	background-image                 : url("./image/bg_title_right.gif");
 	background-position              : right top;
 	background-repeat                : no-repeat;
 	display                          : block;

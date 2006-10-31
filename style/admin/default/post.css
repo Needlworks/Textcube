@@ -323,7 +323,7 @@ table.data-inbox tbody tr td.ip
 
 #property-box dl
 {
-	border-bottom                       : 1px solid #DDDDDD
+	border-bottom                    : 1px solid #DDDDDD;
 }
 
 #property-box dl dt

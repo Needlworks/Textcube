@@ -2,3 +2,103 @@
 
 /* Select ****************************************************************************************/
 
+#part-skin-list .section,
+#part-skin-current .section
+{
+	border                           : 1px solid #FFFFFF;
+}
+
+/* Edit ******************************************************************************************/
+
+#part-skin-edit .section .button-box .input-button
+{
+	line-height                      : 1.6em !important;
+}
+
+/* Setting ***************************************************************************************/
+
+#part-skin-setting fieldset
+{
+	padding-top                      : 2px;
+}
+
+#click-container
+{
+	margin-top                       : 15px;
+}
+
+#tag-setting-container
+{
+	top                              : 238px;
+}
+
+#guestbook-setting-container
+{
+	top                              : 352px;
+}
+
+#part-skin-setting .button-box .input-button
+{
+	padding                          : 2px 0 0 0 !important;
+}
+
+/* Tree -----------------------------------------------------------------------------------------*/
+
+#part-skin-tree .section .button-box .input-button
+{
+	padding                          : 2px 0 0 0 !important;
+}
+
+#count-display-line dd
+{
+	padding-top                      : 7px !important;
+}
+
+/* Sidebar ***************************************************************************************/
+
+#sidebar-preview-mode
+{
+	background-image                 : url("./image/bg_sidebar_mode.png");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	border                           : none;
+	margin                           : 30px 10px 13px 10px;
+}
+
+#sidebar-box
+{
+	width                            : 625px;
+}
+
+#sidebar-element-box
+{
+	margin-left                      : 5px;
+}
+
+#sidebar-element-box fieldset
+{
+	background-color                 : #FFFFFF;
+}
+
+#sidebar-element-box fieldset legend
+{
+	display                          : inline;
+}
+
+#sidebar-element-box fieldset ul
+{
+	height                           : 418px;
+	overflow-y                       : scroll;
+}
+
+#sidebar-element-box fieldset ul li.sidebar-module
+{
+	width                            : auto;
+}
+
+/* classes for AJAX *******************************************************************************/
+
+.ajax-popup-window .button-box .input-button
+{
+	padding-top                      : 2px !important;
+}

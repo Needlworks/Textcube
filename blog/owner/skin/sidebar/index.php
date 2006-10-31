@@ -233,7 +233,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 		$orderConfig = array();
 ?>
 								<div class="section">
-									<h3><input type="radio" id="sidebar-<?php echo $i + 1;?>" class="radio" name="sidebarNumber" value="<?php echo $i;?>"<?php echo $bFirstRadio ? " checked" : NULL;?> /><label for="sidebar-<?php echo $i + 1;?>"><?php echo $skin->sidebarName[$i];?></label></h3>
+									<h3><input type="radio" id="sidebar-<?php echo $i + 1;?>" class="radio" name="sidebarNumber" value="<?php echo $i;?>"<?php echo $bFirstRadio ? " checked" : NULL;?> /> <label for="sidebar-<?php echo $i + 1;?>"><?php echo $skin->sidebarName[$i];?></label></h3>
 									
 									<ul id="sidebar-ul-<?php echo $i;?>" class="sidebar">
 <?php
@@ -267,7 +267,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 			}
 ?>
 											
-												<a href="sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.jpg" border="0" alt="<?php echo _t('삭제');?>" /></a>
+												<a href="sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
 											</div>
 											<div class="module-content"><?php echo pretty_dress($skin->sidebarBasicModules[$skini][$skinj]['body']);?></div>
 										</li>
@@ -310,7 +310,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 <?php
 				}
 ?>
-												<a href="sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.jpg" border="0" alt="<?php echo _t('삭제');?>" /></a>
+												<a href="sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
 												<!-- TODO : sidebar plugin settting -->									
 											</div>
 <?php 
@@ -351,7 +351,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 								<fieldset id="sidebar-basic-module-box" class="section">
 									<legend><?php echo _t('추가 가능한 모듈(스킨 기본)');?></legend>
 									
-									<ul>
+									<ul class="module-list">
 <?php
 // 사용중이지 않은 스킨 내장형 사이드바 모듈 리스트 출력.
 $sortedArray = array();
@@ -400,7 +400,7 @@ foreach ($sortedArray as $nowKey) {
 								<fieldset id="sidebar-plugin-module-box" class="section">
 									<legend><?php echo _t('추가 가능한 플러그인');?></legend>
 									
-									<ul>
+									<ul class="module-list">
 <?php
 // 사이드바 플러그인 모듈을 리스트에 포함시킨다.
 foreach ($sidebarPluginArray as $nowKey) {

@@ -90,7 +90,7 @@ require ROOT . '/lib/piece/owner/contentMenu21.php';
 								<div class="button-box">
 									<input type="submit" class="add-button input-button" value="<?php echo _t('추가하기');?>" onclick="addLink(); return false" />
 									<span class="hidden">|</span>
-									<a class="cancel-button button" href="<?php echo $blogURL;?>/owner/link"><span class="text"><?php echo _t('취소하기');?></span></a>
+									<input type="button" class="cancel-button input-button" value="<?php echo _t('취소하기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/link'" />
 								</div>
 							</form>
 						</div>

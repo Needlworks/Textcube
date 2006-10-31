@@ -19,3 +19,41 @@
 	left                             : -80px;
 	padding-top                      : 3px;
 }
+
+/* upload ---------------------------------------------------------------------------------------*/
+#attachment-container
+{
+	border : 1px solid #F5F5F5;
+}
+
+#previewSelected
+{
+	top                              : 12px;
+}
+
+#upload-section .button
+{
+	line-height                      : 4.2em !important;
+}
+
+#upload-section .button span
+{
+	padding-top                      : 5px !important;
+}
+
+#fileUploadNest
+{
+	height                           : 3em;
+}
+
+/* power ----------------------------------------------------------------------------------------*/
+#power-section dl dd
+{
+	padding                          : 9px 0 5px 10px;
+}
+
+/* button box -----------------------------------------------------------------------------------*/
+.button-box .input-button
+{
+	padding                          : 2px 0 0 0 !important;
+}

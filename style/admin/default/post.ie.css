@@ -1,3 +1,84 @@
 @charset "utf-8";
 
-/* Common *****************************************************************************************/
+/* Post *******************************************************************************************/
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td .input-button
+{
+	line-height                      : 1.6em !important;
+}
+
+/* Comment ****************************************************************************************/
+
+#part-post-comment .data-subbox
+{
+	padding                          : 8px;
+}
+
+#part-post-comment #search-form
+{
+	top                              : 51px;
+}
+
+/* Notify *****************************************************************************************/
+
+#part-post-notify table.data-inbox tbody tr td.delete
+{
+	width                            : 12px;
+}
+
+#part-post-notify .data-subbox
+{
+	padding                          : 8px;
+}
+
+#part-post-notify #search-form
+{
+	top                              : 88px;
+}
+
+/* Trackback **************************************************************************************/
+
+#part-post-trackback table.data-inbox tbody tr td.delete
+{
+	width                            : 12px;
+}
+
+#part-post-trackback .data-subbox
+{
+	padding                          : 8px;
+}
+
+#part-post-trackback #search-form
+{
+	top                              : 51px;
+}
+
+/* Tree ******************************************************************************************/
+
+#tree-preview-box .title
+{
+	background-position              : left 2px;
+}
+
+#property-box dl
+{
+	border-top                       : 1px solid #FFFFFF;
+	border-bottom                    : 1px solid #DDDDDD;
+}
+
+#property-box dl dt
+{
+	line-height                      : 2.3em;
+}
+
+#property-box dl dd .input-button
+{
+	line-height                      : 1.6em !important;
+}
+
+/* Trash *****************************************************************************************/
+
+#part-post-trash .data-subbox
+{
+	padding                          : 8px;
+}

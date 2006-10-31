@@ -73,14 +73,14 @@ ob_start();
 if (count($params) > 0) {
 	foreach($params as $item) {
 		if ($data['type'] != 'invalid') {
-			echo '<div>';
+			echo '<div class="line">';
 			echo '<label ';
 			echo 'for="' , $item['name'] , '" ';
 			echo ' >';
 			echo $item['title'];
 			echo '</label>';
 			
-			echo '<input ';
+			echo '<input class="input-text" ';
 			echo 'type="' , $item['type'] , '" ';
 			echo 'name="' , $item['name'] , '" ';
 			echo 'value="' , htmlentities($item['value']) , '" ';
@@ -100,14 +100,16 @@ if ($ajaxcall == false) {
 
 
 echo '<form action="setPlugin?sidebarNumber=', $sidebarNumber, '&modulePos=', $modulePos, '" method="POST" >';
-
+echo '	<div class="field-box">';
 echo $result;
-
+echo '	</div>';
+echo '	<div class="button-box">';
 if ($ajaxcall == false) {
-	echo '<input class="button" type="submit" value="' , _t('전송') , '" >';
+	echo '		<input class="input-button" type="submit" value="' , _t('전송') , '" />';
 } else {
-	echo '<input class="button" type="submit" value="' , _t('전송') , '" onclick="',$ajaxmethod,'; return false">';
+	echo '		<input class="input-button" type="submit" value="' , _t('전송') , '" onclick="',$ajaxmethod,'; return false" />';
 }
+echo '	</div>';
 echo '</form>';
 
 if ($ajaxcall == false) {

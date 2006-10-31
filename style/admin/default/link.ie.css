@@ -1,4 +1,20 @@
 @charset "utf-8";
 
-/* Add *******************************************************************************************/
+/* List ******************************************************************************************/
 
+#part-link-list table.data-inbox tbody tr td.delete
+{
+	width                            : 12px !important;
+}
+
+/* Add/Edit **************************************************************************************/
+
+.get-info-button
+{
+	line-height                      : 1.6em !important;
+}
+
+.button-box .input-button
+{
+	padding                          : 2px 0 0 0 !important;
+}

@@ -160,6 +160,11 @@
 	background-image                 : url("./image/icon_plugin_off.gif");
 }
 
+.config-none-icon
+{
+	cursor                           : default !important;
+}
+
 /* data subbox */
 #part-plugin-list .data-subbox
 {

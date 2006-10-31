@@ -352,7 +352,7 @@ textarea
 .part .caption
 {
 	background-color                 : #D2D2CC;
-	background-image                 : url("./image/bg_title_left.png");
+	background-image                 : url("./image/bg_title_left.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	clear                            : both;
@@ -370,7 +370,7 @@ textarea
 .part .caption span
 {
 	background-color                 : #D2D2CC;
-	background-image                 : url("./image/bg_title_right.png");
+	background-image                 : url("./image/bg_title_right.gif");
 	background-position              : right top;
 	background-repeat                : no-repeat;
 	display                          : block;
@@ -524,6 +524,16 @@ table.data-inbox tbody tr .status .protected-off-icon a
 
 table.data-inbox tbody tr .status .protected-on-icon span,
 table.data-inbox tbody tr .status .protected-off-icon span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr.keyword-line .status .protected-off-icon
+{
+	background-image                 : url("./image/icon_protected_disabled.gif");
+}
+
+table.data-inbox tbody tr.keyword-line .status .protected-off-icon a
 {
 	display                          : none;
 }

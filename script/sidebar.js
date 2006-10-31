@@ -254,9 +254,10 @@
 				pNode.style.setProperty('float', 'left', '');
 			}*/
 			var newNode = document.createElement('a');
+			newNode.className = "module-close";
 			newNode.href = "sidebar/delete/?sidebarNumber=" + sourceSidebar + "&modulePos=" + sourcePostion;
 			newNode.title = decorateDragPanelString_deleteTitle;
-			newNode.innerHTML = '<img style="float:right" src="' + servicePath + adminSkin + '/image/img_delete_module.jpg" border="0" alt="'+ commonString_delete +'" />';
+			newNode.innerHTML = '<img style="float:right" src="' + servicePath + adminSkin + '/image/img_delete_module.gif" border="0" alt="'+ commonString_delete +'" />';
 			if (pNode.nextSibling != null) {		
 				node.insertBefore(newNode,pNode.nextSibling);
 			} else {
