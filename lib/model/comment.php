@@ -597,26 +597,26 @@ function receiveNotifiedComment($post) {
 	if (empty($post['mode']) || $post['mode'] != 'fb')
 		return 1;
 	global $database, $owner;
-	$title = mysql_tt_escape_string($post['s_home_title']);
-	$name = mysql_tt_escape_string($post['s_name']);
+	$title = mysql_tt_escape_string(mysql_lessen($post['s_home_title'], 255));
+	$name = mysql_tt_escape_string(mysql_lessen($post['s_name'], 255));
 	$entryId = mysql_tt_escape_string($post['s_no']);
-	$homepage = mysql_tt_escape_string($post['url']);
+	$homepage = mysql_tt_escape_string(mysql_lessen($post['url'], 255));
 	$entryUrl = mysql_tt_escape_string($post['s_url']);
 	$entryTitle = mysql_tt_escape_string($post['s_post_title']);
 	$parent_id = $post['r1_no'];
-	$parent_name = mysql_tt_escape_string($post['r1_name']);
+	$parent_name = mysql_tt_escape_string(mysql_lessen($post['r1_name'], 80));
 	$parent_parent = $post['r1_rno'];
-	$parent_homepage = mysql_tt_escape_string($post['r1_homepage']);
+	$parent_homepage = mysql_tt_escape_string(mysql_lessen($post['r1_homepage'], 80));
 	$parent_written = $post['r1_regdate'];
-	$parent_comment = mysql_tt_escape_string($post['r1_body']);
-	$parent_url = mysql_tt_escape_string($post['r1_url']);
+	$parent_comment = mysql_tt_escape_string(mysql_lessen($post['r1_body'], 255));
+	$parent_url = mysql_tt_escape_string(mysql_lessen($post['r1_url'], 255));
 	$child_id = $post['r2_no'];
-	$child_name = mysql_tt_escape_string($post['r2_name']);
+	$child_name = mysql_tt_escape_string(mysql_lessen($post['r2_name'], 80));
 	$child_parent = $post['r2_rno'];
-	$child_homepage = mysql_tt_escape_string($post['r2_homepage']);
+	$child_homepage = mysql_tt_escape_string(mysql_lessen($post['r2_homepage'], 80));
 	$child_written = $post['r2_regdate'];
-	$child_comment = mysql_tt_escape_string($post['r2_body']);
-	$child_url = mysql_tt_escape_string($post['r2_url']);
+	$child_comment = mysql_tt_escape_string(mysql_lessen($post['r2_body'], 255));
+	$child_url = mysql_tt_escape_string(mysql_lessen($post['r2_url'], 255));
 	$sql = "SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'";
 	$siteId = fetchQueryCell($sql);
 	if (empty($siteId)) {
