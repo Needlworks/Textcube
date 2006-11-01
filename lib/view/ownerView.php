@@ -257,16 +257,21 @@ function printOwnerEditorScript($entryId = false) {
 			var value = oSelect.options[oSelect.selectedIndex].value.split("|");
 			
 			var fileList = '';
+			var ignored = false;
 			for (var i = 0; i<oSelect.length; i++) {
 				if (!oSelect.options[i].selected) continue;
 				file = (oSelect[i].value.substr(oSelect[i].value,oSelect[i].value.indexOf('|')));				
 				if(new RegExp("\\.jpe?g$", "gi").exec(file))
 					fileList += file+'||';
+				else
+					ignored = true;
 			}
 			if(fileList == '') {
-				alert("<?php echo _t('이미지 파일만 삽입 가능합니다.');?>");
+				alert("<?php echo _t('선택된 파일중에는 이미지 파일이 없습니다');?>");
 				return false;
 			}
+			if(ignored)
+				alert("<?php echo _t('iMazing 갤러리는 JPG 파일만 지원됩니다\nJPG 형식이 아닌 파일은 추가되지 못했습니다');?>");
 			fileList = fileList.substr(0,fileList.length-1);
 			var Properties = '';
 			for (var name in iMazingProperties) {
