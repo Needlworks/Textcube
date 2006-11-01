@@ -1,3 +1,20 @@
 @charset "utf-8";
 
 /* Basic *****************************************************************************************/
+
+/* basic setting */
+#part-setting-basic .button-box,
+#part-setting-profile .button-box,
+#part-setting-rss .button-box
+{
+	height                      : 2.5em;
+	line-height                      : 2.5em;
+}
+
+/* Filter ****************************************************************************************/
+
+#part-setting-filter div.data-inbox .section
+{
+	width                            : 184px;
+}
+

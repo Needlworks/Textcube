@@ -12,7 +12,8 @@ fieldset
 
 dl
 {
-	border-top                       : none !important;
+	border-top                       : 1px solid #FFFFFF;
+	border-bottom                    : 1px solid #FFFFFF;
 }
 
 dl dt
@@ -189,6 +190,11 @@ dl dd
 	border-bottom                    : 1px solid #DDDDDD;
 }
 
+#part-setting-rss dl dd
+{
+	padding-bottom                      : 8px;
+}
+
 #etc-section fieldset
 {
 	margin-bottom                    : 10px;
@@ -211,7 +217,8 @@ dl dd
 
 #part-setting-account dl
 {
-	border-top                       : none !important;
+	border-bottom                    : 1px solid #DDDDDD;
+	border-top                       : 1px solid #FFFFFF;
 }
 	
 #part-setting-account dl dt
@@ -313,61 +320,6 @@ dl dd
 	background-color                 : #EFEFEF;
 	padding                          : 5px;
 	width                            : 700px;
-}
-
-/* Etc *******************************************************************************************/
-
-#part-setting-resample .button-box,
-#part-setting-language .button-box,
-#part-setting-editor .button-box,
-#part-setting-admin .button-box
-{
-	border-top                       : 1px solid #DDDDDD;
-	margin                           : 10px 0 20px 0;
-	padding-top                      : 15px;
-}
-
-#part-setting-resample .section dl dd img
-{
-	display                          : block;
-	margin-top                       : 8px;
-}
-
-#part-setting-resample .section dl dd a img
-{
-	display                          : inline;
-}
-
-#watermark-resize-line dd,
-#admin-language-line dd p,
-#blog-language-line dd p
-{
-	padding-bottom                   : 3px;
-	padding-top                      : 5px;
-	line-height                      : 1.2em;
-}
-
-#watermark-position-line dd,
-#padding-line dd
-{
-	padding-bottom                   : 3px;
-	padding-top                      : 5px;
-	line-height                      : 2.1em;
-}
-
-#watermark-position-line dd .input-text,
-#topPaddingManual,
-#rightPaddingManual,
-#bottomPaddingManual,
-#leftPaddingManual
-{
-	margin-right                     : 3px;
-	width                            : 30px !important;
-}
-
-#padding-line dd .input-text
-{
-	width                            : 50px;
 }
 
 /* Filter ****************************************************************************************/
@@ -677,4 +629,59 @@ dl dd
 .part .system-dialog .progressBar
 {
 	background-color                 : #1C6D9C !important;
+}
+
+/* Etc *******************************************************************************************/
+
+#part-setting-resample .button-box,
+#part-setting-language .button-box,
+#part-setting-editor .button-box,
+#part-setting-admin .button-box
+{
+	border-top                       : 1px solid #DDDDDD;
+	margin                           : 10px 0 20px 0;
+	padding-top                      : 15px;
+}
+
+#part-setting-resample .section dl dd img
+{
+	display                          : block;
+	margin-top                       : 8px;
+}
+
+#part-setting-resample .section dl dd a img
+{
+	display                          : inline;
+}
+
+#watermark-resize-line dd,
+#admin-language-line dd p,
+#blog-language-line dd p
+{
+	padding-bottom                   : 3px;
+	padding-top                      : 5px;
+	line-height                      : 1.2em;
+}
+
+#watermark-position-line dd,
+#padding-line dd
+{
+	padding-bottom                   : 3px;
+	padding-top                      : 5px;
+	line-height                      : 2.1em;
+}
+
+#watermark-position-line dd .input-text,
+#topPaddingManual,
+#rightPaddingManual,
+#bottomPaddingManual,
+#leftPaddingManual
+{
+	margin-right                     : 3px;
+	width                            : 30px !important;
+}
+
+#padding-line dd .input-text
+{
+	width                            : 50px;
 }

@@ -1,3 +1,15 @@
 @charset "utf-8";
 
 /* Plugin ****************************************************************************************/
+
+#sorting-line
+{
+	bottom                           : 238px;
+	padding-top                      : 8px;
+}
+
+#activate-status-line
+{
+	bottom                           : 242px;
+	right                            : 30px;
+}

@@ -72,7 +72,8 @@
 
 #sidebar-box
 {
-	width                            : 598px;
+	margin-right                     : 3px !important;
+	width                            : 603px;
 }
 
 #sidebar-box .section ul.sidebar
@@ -104,6 +105,11 @@
 #sidebar-element-box fieldset ul li.sidebar-module
 {
 	width                            : auto;
+}
+
+#sidebar-description
+{
+	padding-top                      : 0 !important;
 }
 
 /* classes for AJAX *******************************************************************************/

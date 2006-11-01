@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+/* Body ******************************************************************************************/
+
+#div_language,
+#div_archive_date
+{
+	border-top                       : none !important;
+}

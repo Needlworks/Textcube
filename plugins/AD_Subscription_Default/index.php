@@ -69,8 +69,10 @@ function AD_Subscription_Default()
 						<div id="part-statistics-rank" class="part">
 							<h2 class="caption"><span class="main-text">피드 구독 순위</span></h2>
 							<div class="main-explain-box">
-								<p class="explain">크롤러에 구독자 수 정보를 넣지 않는 웹 RSS 리더의 경우 정상적인 구독자수를 판별할 수 없습니다.</p>
-								<p class="explain">빨간색으로 표기된 구독기는 검색 엔진 및 메타 프로그램을 의미합니다.</p>
+								<p class="explain">
+									크롤러에 구독자 수 정보를 넣지 않는 웹 RSS 리더의 경우 정상적인 구독자수를 판별할 수 없습니다.<br />
+									빨간색으로 표기된 구독기는 검색 엔진 및 메타 프로그램을 의미합니다.
+								</p>
 							</div>
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>

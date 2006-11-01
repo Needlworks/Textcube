@@ -624,6 +624,7 @@ h3
 
 .entry-editor-property dl
 {
+	border                           : 1px solid #FFFFFF;
 	padding-bottom                   : 1px;
 	position                         : relative;
 }

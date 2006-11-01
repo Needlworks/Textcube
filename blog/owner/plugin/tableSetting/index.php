@@ -125,11 +125,11 @@ foreach($plugintables as $plugindb)
 										<td class="version"><?php echo $plugindb['version'];?></td>
 										<td class="using <?php echo $activeStatus ? 'active-class': 'inactive-class';?>"><?php echo $activeStatus ? _t('사용중'): _t('미사용');?></td>
 <?php
-	$tables = implode(', ', $plugindb['tables']);
+	$tables = '<span class="table-name">' . implode('</span>, <span class="table-name">', $plugindb['tables']) . '</span>';
 ?>
 										<td class="tablename"><?php echo $tables;?></td>
 										
-										<td class="delete"><a id="plugin<?php echo 'a';?>Link" class="active-class" href="#void" onclick="deletePluginTable('<?php echo $plugindb['plugin'],'/',$plugindb['version'];?>', 1); return false" title="<?php echo _t('이 테이블을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
+										<td class="delete"><a id="plugin<?php echo 'a';?>Link" class="delete-button active-class" href="#void" onclick="deletePluginTable('<?php echo $plugindb['plugin'],'/',$plugindb['version'];?>', 1); return false" title="<?php echo _t('이 테이블을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
 									</tr>
 <?php
 }
@@ -143,8 +143,8 @@ foreach($dbtables as $dbname)
 										<td class="title"><?php echo _t('알 수 없음');?></td>
 										<td class="version"></td>
 										<td class="using"></td>
-										<td class="tablename"><?php echo $dbname;?></td>
-										<td class="delete"><a id="plugin<?php echo 'a';?>Link" class="active-class" href="#void" onclick="deletePluginTable('<?php echo $dbname;?>', 2); return false" title="<?php echo _t('이 테이블을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
+										<td class="tablename"><span class="table-name"><?php echo $dbname;?></span></td>
+										<td class="delete"><a id="plugin<?php echo 'a';?>Link" class="delete-button active-class" href="#void" onclick="deletePluginTable('<?php echo $dbname;?>', 2); return false" title="<?php echo _t('이 테이블을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
 									</tr>
 	<?php
 }

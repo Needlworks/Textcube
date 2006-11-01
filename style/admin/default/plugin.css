@@ -191,3 +191,10 @@
 {
 	margin                           : 40px 0 100px 0;
 }
+
+/* Data Management *******************************************************************************/
+
+#part-plugin-table-list table tbody tr td.title
+{
+	background-position              : right bottom;
+}

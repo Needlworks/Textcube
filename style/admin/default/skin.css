@@ -477,6 +477,12 @@
 	font-size                        : 1em;
 }
 
+.sidebar-module a,
+.sidebar-module input-button
+{
+	cursor                           : pointer;
+}
+
 .sidebar-module h4.module-title,
 .ajax-floating-panel h4.module-title
 {
@@ -502,7 +508,6 @@
 .sidebar-module .edit-button-box,
 .ajax-floating-panel .edit-button-box
 {
-	margin-top                       : 10px;
 	text-align                       : center;
 }
 
@@ -510,9 +515,12 @@
 .ajax-floating-panel .edit-button-box a
 {
 	border                           : 1px solid #DDDDDD;
-	height                           : 2em;
-	line-height                      : 2em;
-	padding                          : 3px 5px 1px 5px;
+	display                          : block;
+	height                           : 1.5em;
+	line-height                      : 1.5em;
+	margin                           : 10px auto 0 auto !important;
+	padding-top                      : 3px;
+	width                            : 40px;
 }
 
 .sidebar-module .module-content,
@@ -604,6 +612,11 @@
 .ajax-floating-panel h4
 {
 	background-image                 : url("./image/icon_sidebar_module.gif");
+}
+
+#sidebar-description
+{
+	padding-top                      : 5px !important;
 }
 
 /* classes for AJAX *******************************************************************************/

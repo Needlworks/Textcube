@@ -23,6 +23,12 @@ a:active
 	text-decoration                  : underline;
 }
 
+abbr,
+acronym
+{
+	cursor                           : help;
+}
+
 body
 {
 	background-color                 : #F2F2F2;
@@ -124,9 +130,8 @@ samp
 
 select
 {
-	/*border                           : 1px solid #777777;*/
 	font-size                        : 1em;
-	/*padding                          : 0.2em;*/
+	font-family                      : 'Lucida Grande', Arial, 굴림, Gulim, Tahoma, Verdana, sans-serif;
 	vertical-align                   : middle;
 }
 
@@ -383,6 +388,7 @@ h2.caption span
 .main-explain-box .explain
 {
 	line-height                      : 1.5em;
+	margin-bottom                    : 30px;
 	padding                          : 0 20px;
 }
 
