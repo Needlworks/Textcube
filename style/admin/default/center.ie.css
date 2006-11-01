@@ -32,6 +32,11 @@
 }
 
 /* quilt */
+#part-center-quilt .panel
+{
+	height                           : 100px;
+}
+
 #part-center-quilt .button-box .input-button
 {
 	line-height                      : 1.6em !important;
