@@ -34,6 +34,15 @@ $plugin = $pluginData['id']['plugin'];
 $handler = $pluginData['id']['handler'];
 $oldParameters = $pluginData['parameters'];
 
+$title = $plugin . '::' . $handler;
+
+foreach($sidebarMappings as $sm)
+{
+	if (($sm['plugin'] == $plugin) && ($sm['handler'] == $handler))
+		$title = $sm['display'] . '::' . $sm['title'];
+}
+
+
 $identifier = $plugin . '/' . $handler;
 
 $parameters = array();
@@ -99,7 +108,7 @@ if ($ajaxcall == false) {
 }
 
 
-echo '<h2 class="caption">' . $plugin . '::' . $handler . '</h2>';
+echo '<h2 class="caption">' . $title . '</h2>';
 echo '<form action="setPlugin?sidebarNumber=', $sidebarNumber, '&modulePos=', $modulePos, '" method="POST" >';
 echo '	<div class="field-box">';
 echo $result;
