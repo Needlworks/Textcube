@@ -304,7 +304,10 @@ function addEntry($owner, $entry) {
 	$title = mysql_tt_escape_string($entry['title']);
 
 	if($entry['category'] == -1) {
-		if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND title = '$title' AND category = -1") > 0) return false;
+		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
+			return false;
+		if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND title = '$title' AND category = -1") > 0)
+			return false;
 	}
 	
 	if ($entry['category'] < 0) {
@@ -378,8 +381,7 @@ function getDraftEntryId($id = 0) {
 function updateEntry($owner, $entry) {
 	global $database;
 	global $blog;
-	//if (($entry['category'] == - 1) && (($entry['visibility'] == 1) || ($entry['visibility'] == 3)))
-	//	return false;
+
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
 
@@ -392,7 +394,10 @@ function updateEntry($owner, $entry) {
 	$title = mysql_tt_escape_string($entry['title']);
 
 	if($entry['category'] == -1) {
-		if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND id <> {$entry['id']} AND draft = 0 AND title = '$title' AND category = -1") > 0) return false;
+		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
+			return false;
+		if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND id <> {$entry['id']} AND draft = 0 AND title = '$title' AND category = -1") > 0)
+			return false;
 	}
 
 	if ($entry['category'] < 0) {
@@ -453,8 +458,6 @@ function updateEntry($owner, $entry) {
 
 function saveDraftEntry($entry) {
 	global $database, $owner;
-//	if ($entry['category'] == - 1)
-//		return false;
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
 	$location = mysql_tt_escape_string($entry['location']);

@@ -15,6 +15,7 @@ require ROOT . '/lib/includeForOwner.php';
 if (false) {
 	fetchConfigVal();
 }
+$isKeyword = false;
 define('__TATTERTOOLS_EDIT__', true);
 if (defined('__TATTERTOOLS_POST__'))
 	$suri['id'] = 0;
@@ -22,11 +23,7 @@ if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
 	$entry = getEntry($owner, $suri['id'], false);
 	if (!$entry)
 		respondErrorPage(_t('포스트 정보가 존재하지 않습니다.'));
-}
-if (defined('__TATTERTOOLS_NOTICE__')) {
-	$entry['category'] = -2;
-} else if (defined('__TATTERTOOLS_KEYWORD__')) {
-	$entry['category'] = -1;
+	$isKeyword = ($entry['category'] == -1);
 }
 
 if (isset($_GET['popupEditor'])) {
@@ -353,11 +350,36 @@ if (isset($_GET['popupEditor'])) {
 									}
 								}
 								
-								function checkCategory(obj) {
-									if (obj == "type_post") {
-										document.getElementById("category").disabled = false;
-									} else {
-										document.getElementById("category").disabled = true;
+								function checkCategory(type) {
+									switch(type) {
+										case "type_keyword":
+											document.getElementById("title-line-label").innerHTML = "<?php echo _t('키워드');?>";
+											document.getElementById("category").disabled = true;
+											break;
+										case "type_notice":
+											document.getElementById("title-line-label").innerHTML = "<?php echo _t('제목');?>";
+											document.getElementById("category").disabled = true;
+											break;
+										case "type_post":
+											document.getElementById("title-line-label").innerHTML = "<?php echo _t('제목');?>";
+											document.getElementById("category").disabled = false;
+									}
+									if(type == "type_keyword") {
+										var radio = document.forms[0].visibility;
+										if(radio[1].checked)
+											radio[0].checked = true;
+										if(radio[3].checked)
+											radio[2].checked = true;
+										document.getElementById("permalink-line").style.display = "none";
+										document.getElementById("status-protected").style.display = "none";
+										document.getElementById("status-syndicated").style.display = "none";
+										document.getElementById("power-line").style.display = "none";
+									}
+									else {
+										document.getElementById("permalink-line").style.display = "";
+										document.getElementById("status-protected").style.display = "";
+										document.getElementById("status-syndicated").style.display = "";
+										document.getElementById("power-line").style.display = "";
 									}
 								}
 							//]]>
@@ -379,7 +401,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 										<h3><?php echo _t('머리말');?></h3>
 										
 										<dl id="title-line" class="line">
-											<dt><label for="title"><?php echo _t('제목');?></label></dt>
+											<dt><label for="title" id="title-line-label"><?php echo $isKeyword ? _t('키워드') : _t('제목');?></label></dt>
 											<dd>
 												<input type="text" id="title" class="input-text" name="title" value="<?php echo htmlspecialchars($entry['title']);?>" size="60" />
 											</dd>
@@ -391,7 +413,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 												<div class="entrytype-keyword"><input type="radio" id="type_keyword" class="radio" name="entrytype" value="-1" onclick="checkCategory('type_keyword')"<?php echo ($entry['category'] == -1 ? ' checked="checked"' : '');?> /> <label for="type_keyword"><?php echo _t('키워드');?></label></div>
 												<div class="entrytype-post">
 													<input type="radio" id="type_post" class="radio" name="entrytype" value="0" onclick="checkCategory('type_post')"<?php echo ($entry['category'] >= 0 ? ' checked="checked"' : '');?> /> <label for="type_post"><?php echo _t('글');?></label>
-													<select id="category" name="category">
+													<select id="category" name="category"<?php if($isKeyword) echo ' disabled="disabled"';?>>
 														<option value="0"><?php echo htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'));?></option>
 <?php
 		foreach (getCategories($owner) as $category) {
@@ -540,7 +562,7 @@ printEntryFileUploadButton($entry['id']);
 									
 									<div id="power-section" class="section">
 										<div id="power-container" class="container">
-											<dl id="permalink-line" class="line">
+											<dl id="permalink-line" class="line"<?php if($isKeyword) echo _t('style="display: none"');?>>
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
 												<dd>
 													<samp><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="input-text" name="permalink" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
@@ -571,13 +593,13 @@ if (defined('__TATTERTOOLS_POST__')) {
 											<dl id="status-line" class="line">
 												<dt><span class="label"><?php echo _t('공개여부');?></span></dt>
 												<dd>
-													<div class="status-private"><input type="radio" id="visibility_private" class="radio" name="visibility" value="0"<?php echo (abs($entry['visibility']) == 0 ? ' checked="checked"' : '');?> /> <label for="visibility_private"><?php echo _t('비공개');?></label></div>
-													<div class="status-protected"><input type="radio" id="visibility_protected" class="radio" name="visibility" value="1"<?php echo (abs($entry['visibility']) == 1 ? ' checked="checked"' : '');?> /> <label for="visibility_protected"><?php echo _t('보호');?></label></div>
-													<div class="status-public"><input type="radio" id="visibility_public" class="radio" name="visibility" value="2"<?php echo (abs($entry['visibility']) == 2 ? ' checked="checked"' : '');?> /> <label for="visibility_public"><?php echo _t('공개');?></label></div>
-													<div class="status-syndicated"><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /> <label for="visibility_syndicated"><?php echo _t('발행');?></label></div>
+													<div id="status-private" class="status-private"><input type="radio" id="visibility_private" class="radio" name="visibility" value="0"<?php echo (abs($entry['visibility']) == 0 ? ' checked="checked"' : '');?> /> <label for="visibility_private"><?php echo _t('비공개');?></label></div>
+													<div id="status-protected" class="status-protected"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_protected" class="radio" name="visibility" value="1"<?php echo (abs($entry['visibility']) == 1 ? ' checked="checked"' : '');?> /> <label for="visibility_protected"><?php echo _t('보호');?></label></div>
+													<div id="status-public" class="status-public"><input type="radio" id="visibility_public" class="radio" name="visibility" value="2"<?php echo (abs($entry['visibility']) == 2 ? ' checked="checked"' : '');?> /> <label for="visibility_public"><?php echo _t('공개');?></label></div>
+													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /> <label for="visibility_syndicated"><?php echo _t('발행');?></label></div>
 												</dd>
 											</dl>
-											<dl id="power-line" class="line">
+											<dl id="power-line" class="line"<?php if($isKeyword) echo _t('style="display: none"');?>>
 												<dt><span class="label"><?php echo _t('권한');?></span></dt>
 												<dd>
 													<div class="comment-yes"><input type="checkbox" id="acceptComment" class="checkbox" name="acceptComment"<?php echo ($entry['acceptComment'] ? ' checked="checked"' : '');?> /> <label for="acceptComment"><span class="text"><?php echo _t('댓글 작성을 허용합니다.');?></span></label></div>
