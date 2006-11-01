@@ -544,18 +544,33 @@ function deleteEntry($owner, $id) {
 
 function changeCategoryOfEntries($owner, $entries, $category) {
 	global $database;
+
 	$targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));
 	if ( count($targets)<1 || !is_numeric($category) ) 
 		return false;
-	$sql = "UPDATE  {$database['prefix']}Entries SET category = $category WHERE owner = $owner AND id IN (";
-	for ($i = 0; $i < count($targets); $i++) {
-		if(is_numeric($targets[$i]))
-			$sql .="{$targets[$i]},";
+		
+	if ($category == -1) { // Check Keyword duplication
+		foreach($targets as $entryId) {
+			$title = DBQuery::queryCell("SELECT title FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entryId AND draft = 0");
+			if (is_null($title)) return false;
+			if (DBQuery::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND id <> $entryId AND draft = 0 AND title = '$title' AND category = -1") == true) return false;
+		}
 	}
-	$sql =trim($sql, ','). ")";
-	executeQuery($sql);
-	if(mysql_affected_rows() == 0)
-		return false;	
+	
+	foreach($targets as $entryId) {
+		$oldVisibility = DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entryId AND draft = 0");
+		$visibility = 	$oldVisibility;
+		if ($category < 0) {
+			if ($visibility == 1) $visibility = 0;
+			if ($visibility == 3) $visibility = 2;
+		}
+		
+		if (($oldVisibility == 3) && ($visibility != 3))
+			syndicateEntry($entryId, 'delete');
+			
+		DBQuery::execute("UPDATE {$database['prefix']}Entries SET category = $category , visibility = $visibility WHERE owner = $owner AND id = $entryId");
+	}	
+
 	if(updateEntriesOfCategory($owner)) {
 		clearRSS();
 		return true;	
