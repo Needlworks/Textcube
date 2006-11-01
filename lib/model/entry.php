@@ -306,6 +306,11 @@ function addEntry($owner, $entry) {
 	if($entry['category'] == -1) {
 		if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND title = '$title' AND category = -1") > 0) return false;
 	}
+	
+	if ($entry['category'] < 0) {
+		if ($entry['visibility'] == 1) $entry['visibility'] = 0;
+		if ($entry['visibility'] == 3) $entry['visibility'] = 2;
+	}
 
 	$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 	for ($i = 1; mysql_num_rows($result) > 0; $i++) {
@@ -387,9 +392,14 @@ function updateEntry($owner, $entry) {
 	$title = mysql_tt_escape_string($entry['title']);
 
 	if($entry['category'] == -1) {
-		if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND title = '$title' AND category = -1") > 0) return false;
+		if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND id <> {$entry['id']} AND draft = 0 AND title = '$title' AND category = -1") > 0) return false;
 	}
 
+	if ($entry['category'] < 0) {
+		if ($entry['visibility'] == 1) $entry['visibility'] = 0;
+		if ($entry['visibility'] == 3) $entry['visibility'] = 2;
+	}
+	
 	$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' AND id = {$entry['id']} LIMIT 1");
 	if (mysql_num_rows($result) == 0) { // if changed
 		$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
@@ -451,6 +461,12 @@ function saveDraftEntry($entry) {
 	$title = mysql_tt_escape_string($entry['title']);
 	$content = mysql_tt_escape_string($entry['content']);
 	$draft = getDraftEntryId($entry['id']);
+
+	if ($entry['category'] < 0) {
+		if ($entry['visibility'] == 1) $entry['visibility'] = 0;
+		if ($entry['visibility'] == 3) $entry['visibility'] = 2;
+	}
+
 	if ($draft) {
 		$result = mysql_query("UPDATE {$database['prefix']}Entries
 				SET
@@ -552,17 +568,17 @@ function setEntryVisibility($id, $visibility) {
 	if (($visibility < 0) || ($visibility > 3))
 		return false;
 	list($oldVisibility, $category) = fetchQueryRow("SELECT visibility, category FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0");
+
+	if ($category < 0) {
+		if ($visibility == 1) $visibility = 0;
+		if ($visibility == 3) $visibility = 2;
+	}
+	
 	if ($oldVisibility === null)
-		return false;
-	if (($category == - 1) && (($visibility == 1) || ($visibility == 3)))
 		return false;
 	if ($visibility == $oldVisibility)
 		return true;
-	$result = mysql_query("UPDATE {$database['prefix']}Entries SET visibility = $visibility, modified = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id");
-	if (!$result)
-		return false;
-	if (mysql_affected_rows() == 0)
-		return true;
+
 	if ($oldVisibility == 3)
 		syndicateEntry($id, 'delete');
 	else if ($visibility == 3) {
@@ -571,6 +587,13 @@ function setEntryVisibility($id, $visibility) {
 			return false;
 		}
 	}
+
+	$result = mysql_query("UPDATE {$database['prefix']}Entries SET visibility = $visibility, modified = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id");
+	if (!$result)
+		return false;
+	if (mysql_affected_rows() == 0)
+		return true;
+
 	if ($category >= 0) {
 		if ((($oldVisibility >= 2) && ($visibility < 2)) || (($oldVisibility < 2) && ($visibility >= 2)))
 			clearRSS();

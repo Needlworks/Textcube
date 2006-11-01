@@ -167,7 +167,8 @@ class Notice {
 					$query->setAttribute('visibility', 2);
 					break;
 				default:
-					return $this->_error('visibility');
+					$query->setAttribute('visibility', 0);
+					break;
 			}
 		}
 		if (isset($this->published)) {
