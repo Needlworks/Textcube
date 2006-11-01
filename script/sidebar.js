@@ -27,6 +27,11 @@
 	}
 	dojo.inherits(DropPanel, dojo.dnd.HtmlDropTarget);
 	
+	DropDeletePanel = function(node, type) {
+		dojo.dnd.HtmlDropTarget.call(this, node, type);
+	}
+	dojo.inherits(DropDeletePanel, dojo.dnd.HtmlDropTarget);
+	
 	var globalChker = true;
 	var globalNewNodeCounter = 0;
 
@@ -73,7 +78,7 @@
 					var sourcePostion = e.dragObject.domNode.modulePos;
 					e.dragObject.domNode.sidebarNumber = targetSidebar;
 				
-					var requestURL = blogURL + "/owner/skin/sidebar/order?sidebarNumber=" + sourceSidebar + "&targetSidebarNumber=" + targetSidebar + "&modulePos=" + sourcePostion + "&targetPos=" + targetPosition;
+					var requestURL = blogURL + "/owner/skin/sidebar/order?sidebarNumber=" + sourceSidebar + "&targetSidebarNumber=" + targetSidebar + "&modulePos=" + sourcePostion + "&targetPos=" + targetPosition + viewMode;
 					
 					var request = new HTTPRequest("POST", requestURL);
 					request.onSuccess = function () {
@@ -89,7 +94,7 @@
 					e.dragObject.domNode.sidebarNumber = targetSidebar;
 					e.dragObject.domNode.ajaxtype = 'reorder';
 					
-					var requestURL = blogURL + "/owner/skin/sidebar/register?sidebarNumber=" + targetSidebar + "&modulePos=" + targetPosition + "&moduleId=" + e.dragObject.domNode.identifier;
+					var requestURL = blogURL + "/owner/skin/sidebar/register?sidebarNumber=" + targetSidebar + "&modulePos=" + targetPosition + "&moduleId=" + e.dragObject.domNode.identifier + viewMode;
 
 					var request = new HTTPRequest("POST", requestURL);
 					request.sidebar = targetSidebar;
@@ -113,6 +118,43 @@
 			return retVal;
 		},
 		
+		createDropIndicator: function() {
+			this.parentMethod = DropPanel.superclass.createDropIndicator;
+			var retVal = this.parentMethod();
+			delete this.parentMethod;
+			
+			with (this.dropIndicator.style) {
+				borderTopWidth = "5px";
+				borderTopColor = "silver";
+				borderTopStyle = "solid";
+			};
+
+			return retVal;		
+		}
+	});
+
+	dojo.lang.extend(DropDeletePanel, {
+		onDrop: function(e) {
+			if (e.dragObject.domNode.ajaxtype == 'register')
+			{
+		        if(this.dropIndicator) {
+			        dojo.html.removeNode(this.dropIndicator);
+			        delete this.dropIndicator;
+		        }
+		        return false;
+			}
+			
+			var sourceSidebar = e.dragObject.domNode.sidebarNumber;
+			var sourcePostion = e.dragObject.domNode.modulePos;
+
+			this.parentMethod = DropPanel.superclass.onDrop;
+			var retVal = this.parentMethod(e);
+			delete this.parentMethod;
+			
+			window.location.href = blogURL + "/owner/skin/sidebar/delete?sidebarNumber=" + sourceSidebar + "&modulePos=" + sourcePostion + viewMode;
+			
+			return retVal;
+		},
 		createDropIndicator: function() {
 			this.parentMethod = DropPanel.superclass.createDropIndicator;
 			var retVal = this.parentMethod();
@@ -169,7 +211,7 @@
 			pNode = pNode.nextSibling;
 		}
 		if (pNode != null) {
-			var requestURL = blogURL + "/owner/skin/sidebar/setPlugin?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + "&ajaxcall=true";
+			var requestURL = blogURL + "/owner/skin/sidebar/setPlugin?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + "&ajaxcall=true" + viewMode;
 			pNode = pNode.firstChild;
 			while (pNode != null) {
 			    if ((pNode.className != null) && (pNode.className.toLowerCase() == 'field-box')) {
@@ -210,7 +252,7 @@
 	}
 
 	function previewPlugin(sidebar, modulepos) {
-		var requestURL = blogURL + "/owner/skin/sidebar/preview?sidebarNumber=" + sidebar + "&modulePos=" + modulepos;
+		var requestURL = blogURL + "/owner/skin/sidebar/preview?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + viewMode;
 		
 		var request = new HTTPRequest("GET", requestURL);
 		request.sidebar = sidebar;
@@ -262,7 +304,7 @@
 			}*/
 			var newNode = document.createElement('a');
 			newNode.className = "module-close";
-			newNode.href = blogURL + "/owner/skin/sidebar/delete/?sidebarNumber=" + sourceSidebar + "&modulePos=" + sourcePostion;
+			newNode.href = blogURL + "/owner/skin/sidebar/delete/?sidebarNumber=" + sourceSidebar + "&modulePos=" + sourcePostion + viewMode;
 			newNode.title = decorateDragPanelString_deleteTitle;
 			newNode.innerHTML = '<img style="float:right" src="' + servicePath + adminSkin + '/image/img_delete_module.gif" border="0" alt="'+ commonString_delete +'" onclick="window.location.href = \'' + newNode.href + '\'; return false; " />';
 			if (pNode.nextSibling != null) {		
@@ -281,7 +323,7 @@
 	}
 
 	function editSidebarPlugin(sidebar, modulepos) {
-		var requestURL = blogURL + "/owner/skin/sidebar/edit?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + "&ajaxcall=submitSidebarPlugin(" + sidebar + "," + modulepos + ")";
+		var requestURL = blogURL + "/owner/skin/sidebar/edit?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + "&ajaxcall=submitSidebarPlugin(" + sidebar + "," + modulepos + ")" + viewMode;
 
 		var request = new HTTPRequest("GET", requestURL);
 		request.onSuccess = function () {

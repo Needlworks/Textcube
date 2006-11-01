@@ -8,11 +8,12 @@ if (isset($_REQUEST['ajaxcall'])) {
 }
 
 $IV = array(
-	'REQUEST' => array(
-		'sidebarNumber' => array('int'),
-		'modulePos' => array('int'),
-		)
-	);
+		'REQUEST' => array(
+			'sidebarNumber' => array('int'),
+			'modulePos' => array('int'),
+			'viewMode' => array('string', 'default' => '')
+			)
+		);
 
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
@@ -107,9 +108,10 @@ if ($ajaxcall == false) {
 	require ROOT . '/lib/piece/owner/contentMenu33.php';
 }
 
+$modeParam = !empty($_REQUEST['viewMode']) ? '&' . $_REQUEST['viewMode'] : '';
 
 echo '<h2 class="caption">' . $title . '</h2>';
-echo '<form action="setPlugin?sidebarNumber=', $sidebarNumber, '&modulePos=', $modulePos, '" method="POST" >';
+echo '<form action="setPlugin?sidebarNumber=', $sidebarNumber, '&modulePos=', $modulePos, $modeParam, '" method="POST" >';
 echo '	<div class="field-box">';
 echo $result;
 echo '	</div>';

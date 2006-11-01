@@ -5,7 +5,8 @@ $IV = array(
 	'REQUEST' => array(
 		'sidebarNumber' => array('int'),
 		'modulePos' => array('int', 'default' => -1),
-		'moduleId' => array('string', 'default' => '')
+		'moduleId' => array('string', 'default' => ''),
+		'viewMode' => array('string', 'default' => '')
 		)
 	);
 require ROOT . '/lib/includeForOwner.php';
@@ -26,6 +27,8 @@ if (($module !== false) && (count($module) == 3) &&
 	}
 }
 
+if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
+
 if ($_SERVER['REQUEST_METHOD'] != 'POST')
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+	header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 ?>

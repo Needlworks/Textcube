@@ -12,6 +12,8 @@ if (isset($_REQUEST['ajaxcall'])) {
 		'modulePos' => array('int'),
 		)
 	);*/
+	
+if (!array_key_exists($_REQUEST, 'viewMode')) $_REQUEST['viewMode'] = '';
 
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
@@ -70,6 +72,8 @@ foreach($parameters as $item)
 $sidebarOrderData[$sidebarNumber][$modulePos]['parameters'] = $newParameter;
 setUserSetting("sidebarOrder", serialize($sidebarOrderData));
 
-if ($ajaxcall == false)
-	header('Location: '. $blogURL . '/owner/skin/sidebar');
+if ($ajaxcall == false) {
+	if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
+	header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
+}
 ?>

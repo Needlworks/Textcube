@@ -149,8 +149,32 @@ function pretty_dress($view)
 	return correctSidebarImage($view);
 }
 ?>
+
+<?php
+$defaultModeSelected = "";
+$safeModeSelected = "";
+$tagModeSelected = "";
+$initModeSelected = "";
+
+$viewMode = '';
+$viewMode2 = '';
+
+if ((!isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
+	$defaultModeSelected = " selected";
+} else if ((isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
+	$safeModeSelected = " selected";
+	$viewMode = '&viewMode=safe';
+	$viewMode2 = '?viewMode=safe';
+} else if ((!isset($_REQUEST['safe'])) && (isset($_REQUEST['tag']))) {
+	$tagModeSelected = " selected";
+	$viewMode = '&viewMode=tag';
+	$viewMode2 = '?viewMode=tag';
+} else if ((isset($_REQUEST['safe'])) && (isset($_REQUEST['tag']))) {
+		$initModeSelected = " selected";
+	}
+?>
 						
-						<form id="part-sidebar-order" class="part" method="post" action="<?php echo $blogURL; ?>/owner/skin/sidebar/register">
+						<form id="part-sidebar-order" class="part" method="post" action="<?php echo $blogURL; ?>/owner/skin/sidebar/register<?php echo $viewMode2;?>">
 							<h2 class="caption"><span class="main-text"><?php echo _t('사이드바 기능을 관리합니다');?></span></h2>
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('블로그의 사이드바 구성을 변경하실 수 있습니다. 사이드바에 새로운 요소를 추가/삭제하실 수 있으며 요소들 간의 자유로운 위치 이동기능도 지원합니다.');?></p>
@@ -160,25 +184,10 @@ function pretty_dress($view)
 								<fieldset>
 								<legend><?php echo _t('편집 관련 기능');?></legend>
 								
-<?php
-$defaultModeSelected = "";
-$safeModeSelected = "";
-$tagModeSelected = "";
-$initModeSelected = "";
-
-if ((!isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag'])))
-	$defaultModeSelected = " selected";
-else if ((isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag'])))
-	$safeModeSelected = " selected";
-else if ((!isset($_REQUEST['safe'])) && (isset($_REQUEST['tag'])))
-	$tagModeSelected = " selected";
-else if ((isset($_REQUEST['safe'])) && (isset($_REQUEST['tag'])))
-	$initModeSelected = " selected";
-?>
 								<a id="default-mode-button" class="button<?php echo $defaultModeSelected;?>" href="<?php echo $blogURL;?>/owner/skin/sidebar" title="<?php echo _t('실제로 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
 								<a id="safe-mode-button" class="button<?php echo $safeModeSelected;?>" href="<?php echo $blogURL;?>/owner/skin/sidebar?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a>
 								<a id="tag-mode-button" class="button<?php echo $tagModeSelected;?>" href="<?php echo $blogURL;?>/owner/skin/sidebar?tag" title="<?php echo _t('실제 블로그 사이드바에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a>					
-								<a id="init-button" class="button<?php echo $initModeSelected;?>" href="sidebar/initialize" onclick="if (!confirm('<?php echo _t('정말 사이드바 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('사이드바의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>
+								<a id="init-button" class="button<?php echo $initModeSelected;?>" href="sidebar/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 사이드바 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('사이드바의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>
 								
 								</fieldset>						
 							</div>
@@ -252,7 +261,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 <?php
 			} else {
 ?>
-												<a href="<?php echo $blogURL; ?>/owner/skin/sidebar/order/?sidebarNumber=<?php echo $i;?>&amp;targetSidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j - 1;?>" title="<?php echo _t('이 사이드바 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
+												<a href="<?php echo $blogURL; ?>/owner/skin/sidebar/order/?sidebarNumber=<?php echo $i;?>&amp;targetSidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j - 1;?><?php echo $viewMode;?>" title="<?php echo _t('이 사이드바 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
 <?php
 			}
 				
@@ -262,12 +271,12 @@ for ($i=0; $i<$sidebarCount; $i++) {
 <?php
 			} else {
 ?>
-												<a href="<?php echo $blogURL; ?>/owner/skin/sidebar/order/?sidebarNumber=<?php echo $i;?>&amp;targetSidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j + 1;?>" title="<?php echo _t('이 사이드바 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
+												<a href="<?php echo $blogURL; ?>/owner/skin/sidebar/order/?sidebarNumber=<?php echo $i;?>&amp;targetSidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j + 2;?><?php echo $viewMode;?>" title="<?php echo _t('이 사이드바 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
 <?php
 			}
 ?>
 											
-												<a href="<?php echo $blogURL; ?>/owner/skin/sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
+												<a href="<?php echo $blogURL; ?>/owner/skin/sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?><?php echo $viewMode;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
 											</div>
 											<div class="module-content"><?php echo pretty_dress($skin->sidebarBasicModules[$skini][$skinj]['body']);?></div>
 										</li>
@@ -296,7 +305,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 <?php
 				} else {
 ?>
-												<a href="<?php echo $blogURL; ?>/owner/skin/sidebar/order/?sidebarNumber=<?php echo $i;?>&amp;targetSidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j - 1;?>" title="<?php echo _t('이 사이드바 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
+												<a href="<?php echo $blogURL; ?>/owner/skin/sidebar/order/?sidebarNumber=<?php echo $i;?>&amp;targetSidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j - 1;?><?php echo $viewMode;?>" title="<?php echo _t('이 사이드바 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
 <?php
 				}
 				
@@ -306,11 +315,11 @@ for ($i=0; $i<$sidebarCount; $i++) {
 <?php
 				} else {
 ?>
-												<a href="<?php echo $blogURL; ?>/owner/skin/sidebar/order/?sidebarNumber=<?php echo $i;?>&amp;targetSidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j + 1;?>" title="<?php echo _t('이 사이드바 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
+												<a href="<?php echo $blogURL; ?>/owner/skin/sidebar/order/?sidebarNumber=<?php echo $i;?>&amp;targetSidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j + 2;?><?php echo $viewMode;?>" title="<?php echo _t('이 사이드바 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
 <?php
 				}
 ?>
-												<a href="<?php echo $blogURL; ?>/owner/skin/sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
+												<a href="<?php echo $blogURL; ?>/owner/skin/sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?><?php echo $viewMode;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
 												<!-- TODO : sidebar plugin settting -->									
 											</div>
 <?php 
@@ -318,7 +327,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 				if (count($pluginparameters) > 0) {
 ?>
 											<div class="edit-button-box">
-												<a href="<?php echo $blogURL; ?>/owner/skin/sidebar/edit?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>"><?php echo _t('편집');?></a>
+												<a href="<?php echo $blogURL; ?>/owner/skin/sidebar/edit?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?><?php echo $viewMode;?>"><?php echo _t('편집');?></a>
 											</div>
 <?php 
 				}
@@ -351,7 +360,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 								<fieldset id="sidebar-basic-module-box" class="section">
 									<legend><?php echo _t('추가 가능한 모듈(스킨 기본)');?></legend>
 									
-									<ul class="module-list">
+									<ul class="module-list" id="sidebar-basic-module-box-ul">
 <?php
 // 사용중이지 않은 스킨 내장형 사이드바 모듈 리스트 출력.
 $sortedArray = array();
@@ -441,6 +450,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 								var decorateDragPanelString_deleteTitle = "<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>";
 								var commonString_delete = "<?php echo _t('삭제');?>";
 								var commonString_cancel = "<?php echo _t('취소');?>";
+								var viewMode = "<?php echo $viewMode;?>";
 								
 								function reordering() {
 									var pos = 0;
@@ -461,7 +471,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 												p2Node = p2Node.nextSibling;
 											}
 											if (p2Node != null) {
-												p2Node.href = blogURL + "/owner/skin/sidebar/delete/?sidebarNumber=" + pNode.sidebarNumber + "&modulePos=" + pNode.modulePos;
+												p2Node.href = blogURL + "/owner/skin/sidebar/delete/?sidebarNumber=" + pNode.sidebarNumber + "&modulePos=" + pNode.modulePos + viewMode;
 											}
 											
 											if ((pNode.moduleCategory == 'plugin') && (pNode.hasPropertyEdit == true)) {
@@ -505,6 +515,8 @@ foreach ($sidebarPluginArray as $nowKey) {
 											i++
 							 			}
 									}
+									
+									new DropDeletePanel(document.getElementById('sidebar-basic-module-box-ul'), ["sidebar"]);
 
 <?php
 for ($i=0; $i<$sidebarCount; $i++) {

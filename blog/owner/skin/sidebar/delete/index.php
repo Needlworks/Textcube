@@ -3,7 +3,8 @@ define('ROOT', '../../../../..');
 $IV = array(
 	'GET' => array(
 		'sidebarNumber' => array('int'),
-		'modulePos' => array('int')
+		'modulePos' => array('int'),
+		'viewMode' => array('string', 'default' => '')
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
@@ -14,5 +15,6 @@ $sidebarOrder = deleteSidebarModuleOrderData(getSidebarModuleOrderData($sidebarC
 setUserSetting("sidebarOrder", serialize($sidebarOrder));
 
 //printRespond(array('error' => 0));
-header("Location: ..");
+if ($_GET['viewMode'] != '') $_GET['viewMode'] = '?' . $_GET['viewMode'];
+header('Location: '. $blogURL . '/owner/skin/sidebar' . $_GET['viewMode']);
 ?>
