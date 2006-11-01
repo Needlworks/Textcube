@@ -2,7 +2,7 @@
 function CT_TNF_Notice($target) {
 	global $service;
 	requireComponent("Eolin.PHP.Core");
-	$noticeURL = 'http://blog.tattersite.com/rss';
+	$noticeURL = 'http://blog.tatterstory.net/rss';
 	list($result, $feed, $xml) = CT_TNF_Notice_getRemoteFeed($noticeURL);
 	if ($result == 0) {
 		$xmls = new XMLStruct();
