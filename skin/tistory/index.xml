@@ -37,7 +37,7 @@
 		<showListOnArchive>1</showListOnArchive> 
 		<commentMessage>
 			<none>댓글이 없습니다.</none> 
-			<single>댓글 &lt;span class="cnt"&gt;하나&lt;/span&gt; 달렸습니다.</single>
+			<single>댓글 &lt;span class="cnt"&gt;하나&lt;/span&gt;가 달렸습니다.</single>
 		</commentMessage>
 		<trackbackMessage>
 			<none>받은 트랙백이 없고</none>
