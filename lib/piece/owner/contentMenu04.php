@@ -3,7 +3,7 @@
 				
 				<div id="sub-menu-box">
 					<ul id="sub-menu">
-						<li id="sub-menu-add" class="selected"><a href="<?php echo $blogURL;?>/owner/entry/post" onclick="window.location.href = '<?php echo $blogURL;?>/owner/entry/post'<?php echo (getDraftEntryId() ? "+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')" : '');?>"><span class="text"><?php echo _t('글쓰기');?></span></a></li>
+						<li id="sub-menu-add" class="selected"><a href="<?php echo $blogURL;?>/owner/entry/post" onclick="window.location.href = '<?php echo $blogURL;?>/owner/entry/post'<?php echo (getDraftEntryId() ? "+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')" : '');?>; return false"><span class="text"><?php echo _t('글쓰기');?></span></a></li>
 						<li id="sub-menu-list"><a href="<?php echo $blogURL;?>/owner/entry"><span class="text"><?php echo _t('글 목록');?></span></a></li>
 						<li id="sub-menu-thread"><a href="<?php echo $blogURL;?>/owner/entry/comment"><span class="text"><?php echo _t('댓글');?></span></a></li>
 						<li id="sub-menu-notify"><a href="<?php echo $blogURL;?>/owner/entry/notify"><span class="text"><?php echo _t('댓글 알리미');?></span></a></li>
