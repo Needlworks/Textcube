@@ -1678,21 +1678,27 @@ TTEditor.prototype.getFilenameFromFilelist = function(name) {
 TTEditor.prototype.listChanged = function(id) {
 	if(id == "propertyGallery_list") {
 		var list = getObject("propertyGallery_list");
-		var values = list[list.selectedIndex].value.split("|");
-		getObject("propertyGallery_preview").style.display = "block";
-		getObject("propertyGallery_preview").innerHTML = '<img src="' + this.propertyFilePath + values[0] + '" width="198" />';
-		getObject("propertyGallery_caption").value = values[1];
+		if(list.selectedIndex > -1) {
+			var values = list[list.selectedIndex].value.split("|");
+			getObject("propertyGallery_preview").style.display = "block";
+			getObject("propertyGallery_preview").innerHTML = '<img src="' + this.propertyFilePath + values[0] + '" width="198" />';
+			getObject("propertyGallery_caption").value = values[1];
+		}
 	}
 	else if(id == "propertyiMazing_list") {
 		var list = getObject("propertyiMazing_list");
-		var values = list[list.selectedIndex].value.split("|");
-		getObject("propertyiMazing_preview").style.display = "block";
-		getObject("propertyiMazing_preview").innerHTML = '<img src="' + this.propertyFilePath + values[0] + '" width="198" />';
+		if(list.selectedIndex > -1) {
+			var values = list[list.selectedIndex].value.split("|");
+			getObject("propertyiMazing_preview").style.display = "block";
+			getObject("propertyiMazing_preview").innerHTML = '<img src="' + this.propertyFilePath + values[0] + '" width="198" />';
+		}
 	}
 	else if(id == "propertyJukebox_list") {
 		var list = getObject("propertyJukebox_list");
-		var values = list[list.selectedIndex].value.split("|");
-		getObject("propertyJukebox_title").value = values[1];
+		if(list.selectedIndex > -1) {
+			var values = list[list.selectedIndex].value.split("|");
+			getObject("propertyJukebox_title").value = values[1];
+		}
 	}
 }
 
