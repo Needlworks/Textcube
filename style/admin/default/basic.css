@@ -349,7 +349,8 @@ textarea
 	padding                          : 10px;
 }
 
-.part .caption
+.part .caption,
+h2.caption
 {
 	background-color                 : #D2D2CC;
 	background-image                 : url("./image/bg_title_left.gif");
@@ -367,7 +368,8 @@ textarea
 	padding-left                     : 35px;
 }
 
-.part .caption span
+.part .caption span,
+h2.caption span
 {
 	background-color                 : #D2D2CC;
 	background-image                 : url("./image/bg_title_right.gif");

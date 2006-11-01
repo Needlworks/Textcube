@@ -99,6 +99,7 @@ if ($ajaxcall == false) {
 }
 
 
+echo '<h2 class="caption">' . $plugin . '::' . $handler . '</h2>';
 echo '<form action="setPlugin?sidebarNumber=', $sidebarNumber, '&modulePos=', $modulePos, '" method="POST" >';
 echo '	<div class="field-box">';
 echo $result;
