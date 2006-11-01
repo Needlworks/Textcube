@@ -66,6 +66,17 @@ h2
 	text-decoration                  : none;
 }
 
+#sub-menu-helper
+{
+	top                              : 56px;
+}
+
+#sub-menu-helper a
+{
+	color                            : #DDE5F1 !important;
+	font-weight                      : normal !important;
+}
+
 #all-read
 {
 	background-image                 : url("./image/reader/menuIndicate.gif");
@@ -133,6 +144,7 @@ h2
 {
 	border                           : 1px solid #999999;
 	padding                          : 1px;
+	vertical-align                   : middle;
 }
 
 #search .button
@@ -145,7 +157,7 @@ h2
 	cursor                           : pointer;
 	font-size                        : 1em;
 	font-weight                      : normal;
-	padding                          : 3px 5px !important;
+	padding                          : 3px 3px 0 3px !important;
 	vertical-align                   : middle;
 }
 

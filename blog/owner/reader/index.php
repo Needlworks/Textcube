@@ -90,9 +90,7 @@ if ($setting['newWindow'] == 2) {
 							<input type="text" id="keyword" class="input-text" onkeydown="if(event.keyCode==13) Reader.showSearch()" />
 							<a class="search-button button" href="#void" onclick="Reader.showSearch()"><span class="text"><?php echo _t('검색');?></span></a>
 						</li>
-						<ul id="sub-menu">
-							<li id="sub-menu-helper"><a href="<?php echo getHelpURL('reader');?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
-						</ul>
+						<li id="sub-menu-helper"><a href="<?php echo getHelpURL('reader');?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
 					</ul>
 				</div>
 				

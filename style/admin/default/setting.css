@@ -588,7 +588,8 @@ dl dd
 
 .part .dialog .button-box
 {
-	padding-top                      : 20px;
+	padding                          : 20px 0;
+	text-align                       : center !important;
 }
 
 .part .dialog .button-box a

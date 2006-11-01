@@ -22,6 +22,11 @@
 	padding                          : 0 !important;
 }
 
+#sub-menu-helper
+{
+	top                              : 58px;
+}
+
 /* pannel ---------------------------------------------------------------------------------------*/
 #groupsAndFeeds .data-inbox
 {
