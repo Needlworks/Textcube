@@ -652,6 +652,8 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	$className .= ($i == sizeof($entries) - 1) ? ' last-line' : '';
 	if ($entry['category'] == -1)
 		$className .= ' keyword-line';
+	else if ($entry['category'] == -2)
+		$className .= ' notice-line';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $entry['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>

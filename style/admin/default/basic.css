@@ -528,12 +528,20 @@ table.data-inbox tbody tr .status .protected-off-icon span
 	display                          : none;
 }
 
-table.data-inbox tbody tr.keyword-line .status .protected-off-icon
+table.data-inbox tbody tr.keyword-line .status .protected-off-icon,
+table.data-inbox tbody tr.notice-line .status .protected-off-icon
 {
 	background-image                 : url("./image/icon_protected_disabled.gif");
 }
 
-table.data-inbox tbody tr.keyword-line .status .protected-off-icon a
+table.data-inbox tbody tr.keyword-line .status .protected-off-icon a,
+table.data-inbox tbody tr.notice-line .status .protected-off-icon a
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr.keyword-line .syndicate .syndicated-off-icon a,
+table.data-inbox tbody tr.notice-line .syndicate .syndicated-off-icon a
 {
 	display                          : none;
 }
