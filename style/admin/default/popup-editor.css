@@ -567,7 +567,7 @@ h3
 	background-position              : center top;
 	background-repeat                : no-repeat;
 	cursor                           : n-resize;
-	padding                          : 3px 5px 3px 5px;
+	padding                          : 3px 5px 4px 5px;
 }
 
 #status-container span
@@ -624,6 +624,7 @@ h3
 
 .entry-editor-property dl
 {
+	border                           : 1px solid #FFFFFF;
 	padding-bottom                   : 1px;
 	position                         : relative;
 }
@@ -850,6 +851,7 @@ h3
 {
 	height                           : 3em;
 	margin                           : -8px 0 0 144px;
+	overflow                         : hidden;
 	position                         : relative;
 	width                            : 390px;
 }
@@ -876,6 +878,7 @@ h3
 	font-size                        : 1em;
 	height                           : 2em;
 	line-height                      : 2em;
+	overflow                         : hidden;
 	padding                          : 3px 8px;
 	vertical-align                   : middle;
 }
@@ -892,7 +895,7 @@ h3
 	margin-top                       : 5px;
 	position                         : absolute;
 	right                            : 0;
-	top                              : 5px;
+	top                              : 0;
 }
 
 /* iframe */
@@ -1014,18 +1017,18 @@ h3
 
 #power-section dl dt
 {
-	border-right                     : 1px solid #EEEEEE;
 	font-weight                      : bold;
 	padding                          : 5px 0 3px 10px;
 	position                         : absolute;
 	text-align                       : left;
 	top                              : 0;
-	width                            : 110px;
+	width                            : 100px;
 }
 
 #power-section dl dd
 {
-	padding                          : 5px 0 3px 0;
+	border-left                      : 1px solid #EEEEEE;
+	padding                          : 5px 0 3px 10px;
 	margin-left                      : 130px;
 }
 
@@ -1038,7 +1041,7 @@ h3
 dl#permalink-line dd .input-text
 {
 	border                           : 1px solid #999999;
-	width                            : 250px;
+	width                            : 150px;
 }
 
 dl#permalink-line dd p
@@ -1077,19 +1080,6 @@ dl#power-line
 	width                            : 650px;
 }
 
-.button-box a
-{
-	background-color                 : #FFFFFF;
-	background-image                 : none;
-	border                           : 1px solid #BBBBBB;
-	color                            : #000000;
-	font-weight                      : bold;
-	height                           : auto;
-	line-height                      : normal;
-	padding                          : 8px 10px 8px 10px !important;
-	vertical-align                   : middle;
-}
-
 .button-box .input-button
 {
 	background-color                 : #FFFFFF;
@@ -1097,8 +1087,9 @@ dl#power-line
 	border                           : 1px solid #BBBBBB;
 	color                            : #000000;
 	font-weight                      : bold;
-	height                           : auto;
-	line-height                      : normal;
-	padding                          : 8px 8px 6px 8px !important;
+	height                           : 3em;
+	line-height                      : 3em;
+	padding-top                      : 8px;
+	padding-bottom                   : 6px;
 	vertical-align                   : middle;
 }

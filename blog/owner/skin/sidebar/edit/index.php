@@ -110,7 +110,7 @@ if ($ajaxcall == false) {
 
 $modeParam = !empty($_REQUEST['viewMode']) ? '&' . $_REQUEST['viewMode'] : '';
 
-echo '<h2 class="caption">' . $title . '</h2>';
+echo '<h2 class="caption"><span class="main-text">' . $title . '</span></h2>';
 echo '<form action="setPlugin?sidebarNumber=', $sidebarNumber, '&modulePos=', $modulePos, $modeParam, '" method="POST" >';
 echo '	<div class="field-box">';
 echo $result;

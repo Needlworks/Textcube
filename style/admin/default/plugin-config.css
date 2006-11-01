@@ -89,6 +89,7 @@ h1
 
 #config_data fieldset legend
 {
+	color                            : #000000;
 	font-weight                      : bold;
 }
 

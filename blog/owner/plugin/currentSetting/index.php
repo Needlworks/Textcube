@@ -20,7 +20,7 @@ if( is_null($result) )	respondNotFoundPage();
 <head>
 	<title><?php echo _f("%1 설정", $pluginName);?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'] . '/plugin-config.css';?>" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/plugin-config.css" />
 <?php
 if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 ?>
