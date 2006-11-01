@@ -701,6 +701,8 @@ TTEditor.prototype.showProperty = function(obj)
 			if(node.tagName && node.tagName.toLowerCase() == "div" && node.getAttribute("more") != null && node.getAttribute("less") != null) {
 				var moreText = node.getAttribute("more");
 				var lessText = node.getAttribute("less");
+				getObject("propertyInsertObject").style.display = "none";
+				getObject("propertyHyperLink").style.display = "none";
 				getObject("propertyMoreLess").style.display = "block";
 				getObject("propertyMoreLess_more").value = trim(editor.unHtmlspecialchars(moreText));
 				getObject("propertyMoreLess_less").value = trim(editor.unHtmlspecialchars(lessText));
@@ -1283,7 +1285,9 @@ function TTCommand(command, value1, value2) {
 					return;
 				}
 			}
+			editor.propertyWindowId = "propertyHyperLink";
 			getObject("propertyMoreLess").style.display = "none";
+			getObject("propertyInsertObject").style.display = "none";
 			getObject("propertyHyperLink").style.display = "block";
 			getObject("propertyHyperLink_url").value = "";
 			getObject("propertyHyperLink_target").selectedIndex = 0;
@@ -1343,6 +1347,9 @@ function TTCommand(command, value1, value2) {
 			getObject("propertyHyperLink").style.display = "none";
 			break;
 		case "ObjectBlock":
+			editor.propertyWindowId = "propertyInsertObject";
+			getObject("propertyMoreLess").style.display = "none";
+			getObject("propertyHyperLink").style.display = "none";
 			getObject("propertyInsertObject").style.display = "block";
 			break;
 		case "HideObjectBlock":
@@ -1861,14 +1868,13 @@ TTEditor.prototype.removeFormatting = function(str) {
 }
 
 TTEditor.prototype.setPropertyPosition = function(flag) {
-	if(document.getElementById(this.propertyWindowId)) {
+	if(win = document.getElementById(this.propertyWindowId)) {
 		if(flag) {
 			if(document.getElementById(this.propertyWindowId + "-fix-position").checked)
 				setUserSetting("editorPropertyPositionFix", 1);
 			else
 				setUserSetting("editorPropertyPositionFix", 0);
 		}
-		var win = document.getElementById(this.propertyWindowId);
 		if(document.getElementById(this.propertyWindowId + "-fix-position").checked)
 			win.style.top = "9px";
 		else {

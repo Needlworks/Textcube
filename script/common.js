@@ -866,3 +866,7 @@ function makeQueryStringByForm(formId) {
 	
 	return queryString;
 }
+
+function showMessage(str) {
+	PM.showMessage("" + str, "right", "bottom");
+}
