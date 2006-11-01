@@ -13,7 +13,7 @@ if (isset($_REQUEST['ajaxcall'])) {
 		)
 	);*/
 	
-if (!array_key_exists($_REQUEST, 'viewMode')) $_REQUEST['viewMode'] = '';
+if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
 
 require ROOT . '/lib/includeForOwner.php';
 requireStrictRoute();
