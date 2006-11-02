@@ -229,7 +229,7 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 		}
 	} else {										
 		echo '<a class="entryURL" href="'.$comment['entryUrl'].'" onclick="window.open(this.href); return false;" title="'._t('댓글이 작성된 포스트로 직접 이동합니다.').'">';
-		echo '<span class="entry-title">'.$comment['entryTitle'].'</span>';
+		echo '<span class="entry-title">'. htmlspecialchars($comment['entryTitle']) .'</span>';
 		
 		if ($comment['entryTitle'] != '' && $comment['parent'] != '') {
 			echo '<span class="divider"> | </span>';

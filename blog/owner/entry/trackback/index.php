@@ -194,8 +194,8 @@ foreach (getCategories($owner) as $category) {
 											<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
 										</tr>
 									</thead>
-									<tbody>
 <?php
+if (sizeof($trackbacks) > 0) echo "									<tbody>";
 $siteNumber = array();
 for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$trackback = $trackbacks[$i];
@@ -242,7 +242,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	if (!empty($trackback['categoryName'])) {
 ?>
-											<span class="categorized"><?php echo $trackback['categoryName'];?></span>
+											<span class="categorized"><?php echo htmlspecialchars($trackback['categoryName']);?></span>
 <?php
 	} else {
 ?>
@@ -275,8 +275,9 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 										</tr>
 <?php
 }
+
+if (sizeof($trackbacks) > 0) echo "									</tbody>";
 ?>
-									</tbody>
 								</table>
 								
 								<hr class="hidden" />

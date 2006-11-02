@@ -288,8 +288,8 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 											<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
 										</tr>
 									</thead>
-									<tbody>
 <?php
+if (sizeof($comments) > 0) echo "									<tbody>";
 $nameNumber = array();
 $ipNumber = array();
 for ($i=0; $i<sizeof($comments); $i++) {
@@ -345,7 +345,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 											<td class="content">
 <?php
 	echo '<a class="entryURL" href="'.$blogURL.'/'.$comment['entry'].'#comment'.$comment['id'].'" title="'._t('댓글이 작성된 포스트로 직접 이동합니다.').'">';
-	echo '<span class="entry-title">'.$comment['title'].'</span>';
+	echo '<span class="entry-title">'. htmlspecialchars($comment['title']) .'</span>';
 	
 	if ($comment['title'] != '' && $comment['parent'] != '') {
 		echo '<span class="divider"> | </span>';
@@ -380,8 +380,8 @@ for ($i=0; $i<sizeof($comments); $i++) {
 						  				</tr>
 <?php
 }
+if (sizeof($comments) > 0) echo "									</tbody>";
 ?>
-									</tbody>
 								</table>
 	    						
 		    					<hr class="hidden" />

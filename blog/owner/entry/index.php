@@ -512,7 +512,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										tempSend.value = '<?php echo _t('전송');?>';
 										
 										tempClose = document.createElement("A");
-										tempClose.innerHTML = "&nbsp;<span><?php echo _t('닫기');?></span>";
+										tempClose.innerHTML = "&nbsp;<span><?php echo _t('닫기');?><\/span>";
 										tempClose.className = "close-button button";
 										tempClose.setAttribute("href", "#void");
 										tempClose.onclick = function() { showTrackbackSender(id); return false };

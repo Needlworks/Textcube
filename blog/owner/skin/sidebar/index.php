@@ -158,17 +158,20 @@ $initModeSelected = "";
 
 $viewMode = '';
 $viewMode2 = '';
+$viewMode3 = '';
 
 if ((!isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
 	$defaultModeSelected = " selected";
 } else if ((isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
 	$safeModeSelected = " selected";
-	$viewMode = '&viewMode=safe';
+	$viewMode = '&amp;viewMode=safe';
 	$viewMode2 = '?viewMode=safe';
+	$viewMode3 = '&viewMode=safe';
 } else if ((!isset($_REQUEST['safe'])) && (isset($_REQUEST['tag']))) {
 	$tagModeSelected = " selected";
-	$viewMode = '&viewMode=tag';
+	$viewMode = '&amp;viewMode=tag';
 	$viewMode2 = '?viewMode=tag';
+	$viewMode3 = '&viewMode=tag';
 } else if ((isset($_REQUEST['safe'])) && (isset($_REQUEST['tag']))) {
 		$initModeSelected = " selected";
 	}
@@ -450,7 +453,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 								var decorateDragPanelString_deleteTitle = "<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>";
 								var commonString_delete = "<?php echo _t('삭제');?>";
 								var commonString_cancel = "<?php echo _t('취소');?>";
-								var viewMode = "<?php echo $viewMode;?>";
+								var viewMode = "<?php echo $viewMode3;?>";
 								
 								function reordering() {
 									var pos = 0;
@@ -483,7 +486,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 													p2Node = p2Node.nextSibling;
 												}
 												if (p2Node != null) {
-													p2Node.innerHTML = '<a onclick="editSidebarPlugin('+ pNode.sidebarNumber + ',' + pNode.modulePos + '); return false" ><?php echo _t('편집');?></a>';
+													p2Node.innerHTML = '<a onclick="editSidebarPlugin('+ pNode.sidebarNumber + ',' + pNode.modulePos + '); return false" ><?php echo _t('편집');?><\/a>';
 												}
 											}
 										}
