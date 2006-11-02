@@ -667,8 +667,14 @@ function publishEntries() {
 		return;
 	foreach ($entries as $i => $entry) {
 		$result = mysql_query("UPDATE {$database['prefix']}Entries SET visibility = 0 WHERE owner = $owner AND id = {$entry['id']} AND draft = 0");
-		if ($result && (mysql_affected_rows() > 0))
-			setEntryVisibility($entry['id'], abs($entry['visibility']));
+		if ($entry['visibility'] == -3) {
+			if ($result && (mysql_affected_rows() > 0) && setEntryVisibility($entry['id'], 2))
+				setEntryVisibility($entry['id'], 3);
+		}
+		else {
+			if ($result && (mysql_affected_rows() > 0))
+				setEntryVisibility($entry['id'], abs($entry['visibility']));
+		}
 	}
 }
 
