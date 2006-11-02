@@ -34,19 +34,19 @@ function EAS_AddingTrackback($target, $mother)
 	return EAS_Call(2, $mother['site'], $mother['title'], $mother['url'], $mother['excerpt']);
 }
 
-function EAS_AddingComment($targer, $mother)
+function EAS_AddingComment($target, $mother)
 {
 	global $owner, $user;
 	if ($mother['secret'] ==  true) // it's secret(only owner can see it)
 	{
 		// Don't touch
-		return true;
+		return $target;
 	}
 	
 	$type = 1; // comment
 	if ($mother['entry'] == 0) $type = 3; // guestbook
 	
-	return EAS_Call($type, $mother['name'], '', $mother['homepage'], $mother['comment']);
+	return $target && EAS_Call($type, $mother['name'], '', $mother['homepage'], $mother['comment']);
 }
 
 ?>
