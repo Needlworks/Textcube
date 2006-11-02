@@ -1,6 +1,6 @@
 <?php
 define('TATTERTOOLS_NAME', 'Tattertools');
-define('TATTERTOOLS_VERSION', '1.1.0 Release Candidate 2');
+define('TATTERTOOLS_VERSION', '1.1.0 Release Candidate 3');
 define('TATTERTOOLS_COPYRIGHT', 'Copyright &copy; 2004-2006. Tatter &amp; Company / Tatter &amp; Friends.');
 define('TATTERTOOLS_HOMEPAGE', 'http://www.tattertools.com/');
 define('TATTERTOOLS_SYNC_URL', 'http://ping.eolin.com/');

@@ -180,17 +180,22 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 											<tr>
 												<td class="id"><a href="http://www.create74.com">J.Parker</a></td>
 												<td class="name">Yong-ju, Park</td>
-												<td class="role"><?php echo _t('plugin manager');?></td>
+												<td class="role"><?php echo _t('plugin');?></td>
 											</tr>
 											<tr>
 												<td class="id"><a href="http://sangsangbox.net">nani</a></td>
 												<td class="name">Jonggil Ko</td>
-												<td class="role"><?php echo _t('skin manager');?></td>
+												<td class="role"><?php echo _t('skin');?></td>
 											</tr>
 											<tr>
 												<td class="id"><a href="http://blog.2pink.net">LonnieNa</a></td>
 												<td class="name">Yoon Shik</td>
-												<td class="role"><?php echo _t('manual manager');?></td>
+												<td class="role"><?php echo _t('manual');?></td>
+											</tr>
+											<tr>
+												<td class="id"><a href="http://lunamoth.biz">lunamoth</a></td>
+												<td class="name"></td>
+												<td class="role"><?php echo _t('manual');?></td>
 											</tr>
 										</tbody>
 									</table>
