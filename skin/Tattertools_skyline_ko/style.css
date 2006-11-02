@@ -112,21 +112,18 @@ textarea        { border:1px solid #aaa;}
 }
 #header {
 		padding:0 10px 0 20px;
-		margin-bottom:8px;
 }
 #content {
 		float:left;
 		width:540px;
 		overflow:hidden;
-		padding-right:10px;
+
 }
 #sidebar {
-		margin-left:550px;      
+		margin-left:547px;      
 		width:190px;
 }
-		/* ie의 3px 오류를 위한 hack */
-		*html #content     { margin-right:-3px; }
-		*html #sidebar    { margin-left:0;}
+
 
 #footer {
 		clear:both;
@@ -155,10 +152,11 @@ body#tt-body-notice #header {
 	background:url(images/bg_header03.gif) no-repeat;
 }
 
+#header                { line-height:1.5em;}
 #header a              { color:#fff;  padding:0 3px;}
 
 #header h1             { position:relative;  top:5px;  padding-top:30px;}
-#header .blogMenu      { position:relative;  top:-20px;  right:10px;  text-align:right;}
+#header .blogMenu      { position:relative;  top:-7px;  right:10px;  text-align:right;}
 
 #header h1 a           { font-family:batang;  font-weight:bold;  letter-spacing:-3px;}
 #header h1 a:hover     { color:#fff;  text-decoration:none;}
@@ -298,9 +296,9 @@ body#tt-body-notice #header {
 
 .paging           { padding-top:10px;  text-align:center;  font:10px Tahoma;}
 .paging .numbox   { border-left:1px solid #ccc; padding-left:6px; margin-left:6px;}
-.paging #num      { border-right:1px solid #ccc; padding-right:6px; margin-right:6px;}
-.paging #prev,
-.paging #next     { font:1.1em dotum;}
+.paging .num      { border-right:1px solid #ccc; padding-right:6px; margin-right:6px;}
+.paging .prev,
+.paging .next     { font:1.1em dotum;}
 
 
 /* ***** sidebar ***** */
@@ -353,7 +351,7 @@ body#tt-body-notice #header {
 #sidebar .archive              { font-family:verdana;}
 #sidebar .calender             { font-family:verdana;}
 
-#sidebar .counter              { font:0.85em Tahoma;  padding:5px 0;  margin:10px 0;  text-align:center;  background-color:#eee;  letter-spacing:0;}
+#sidebar .counter              { font:0.85em verdana;  padding:5px 0;  margin:10px 0;  text-align:center;  background-color:#eee;  letter-spacing:0;}
 #sidebar .counter li           { background:none;  display:inline;  padding:0 5px;}
 #sidebar .counter li.total     { display:block;  color:#000;}
 
