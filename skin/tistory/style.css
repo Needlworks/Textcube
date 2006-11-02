@@ -118,15 +118,13 @@ textarea        { border:1px solid #aaa;}
 		float:left;
 		width:540px;
 		overflow:hidden;
-		padding-right:10px;
+
 }
 #sidebar {
-		margin-left:550px;      
+		margin-left:547px;      
 		width:190px;
 }
-		/* ie의 3px 오류를 위한 hack */
-		*html #content     { margin-right:-3px; }
-		*html #sidebar    { margin-left:0;}
+
 
 #footer {
 		clear:both;
