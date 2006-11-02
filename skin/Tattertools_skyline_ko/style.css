@@ -67,7 +67,7 @@ a:active        { color:#666;     text-decoration:none;}
 /* 이미지 아래 캡션 스타일 */
     .cap1                   { color:#999;  text-align:center;}	
 /* 그림 */
-    .imageblock             { border:1px solid #ddd;  padding:5px;  margin:5px 0;}
+    .imageblock             { }
 /* 왼쪽 */
     .left                   { }
 /* 가운데 */

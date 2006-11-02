@@ -13,8 +13,8 @@ a:hover         { color:#7870ab;  text-decoration:underline;}
 a:active        { color:#666;     text-decoration:none;}
 
 /* 페이징 - 현재 페이지 */
-    .selected               { text-align:center;  border-right:1px solid #ccc;  padding-right:10px;  margin-right:10px; font-weight:bold;  color:#f30;} 
-	.no-more                { color:#ccc;}
+    .selected               { text-align:center;  border-right:1px solid #ccc;  padding-right:6px;  margin-right:6px; font-weight:bold;  color:#f30;} 
+	.no-more                { color:#ccc; font:1.1em dotum;}
 
 /* 카테고리 - 이미지 버튼 */
     .ib                     { cursor:pointer;}
@@ -24,7 +24,7 @@ a:active        { color:#666;     text-decoration:none;}
     .c_cnt                  { font:0.75em Tahoma;  color:#f30;}
 
 /* 달력 월 표시 */
-    .cal_month              { font-size:0.85em;  height:18px; font-weight:bold;}
+    .cal_month              { font:0.95em verdana;  height:18px; font-weight:bold;}
 /* 달력 요일 표시(th 영역) */
     .cal_week1              { font:0.95em dotum;  height:18px;  font-weight:normal;}
 /* 달력 일요일 표시(th 영역) */
@@ -35,7 +35,7 @@ a:active        { color:#666;     text-decoration:none;}
     .cal_current_week       { background-color:#eee;}
 	
 /* 달력 Day(td 영역) */
-    .cal_day                { font-size:0.85em;  color:#999;  text-align:center;}
+    .cal_day                { font:0.95em verdana;  color:#999;  text-align:center;}
 /* 달력 Day, 일요일 (td 영역)  */
     .cal_day_sunday         { color:#f30 !important;}
     .cal_day_sunday a        { color:#f30 !important;}
@@ -273,7 +273,7 @@ textarea        { border:1px solid #aaa;}
 .commentWrite .secretWrap         { float:right; position:relative; top:-23px; left:-10px;}
 .commentWrite .checkbox           {	border:none; padding:0;	margin:0; width:25px;}
 
-.paging           { padding-top:10px;  text-align:center;  font:10px Tahoma;}
+.paging           { padding-top:10px;  text-align:center;  font:0.85em Tahoma;}
 .paging .numbox   { border-left:1px solid #ccc; padding-left:6px; margin-left:6px;}
 .paging .num      { border-right:1px solid #ccc; padding-right:6px; margin-right:6px;}
 .paging .prev,
@@ -330,7 +330,7 @@ textarea        { border:1px solid #aaa;}
 #sidebar .archive              { font-family:verdana;}
 #sidebar .calender             { font-family:verdana;}
 
-#sidebar .counter              { font:0.85em Tahoma;  padding:5px 0;  margin:10px 0;  text-align:center;  background-color:#eee;  letter-spacing:0;}
+#sidebar .counter              { font:0.85em verdana;  padding:5px 0;  margin:10px 0;  text-align:center;  background-color:#eee;  letter-spacing:0;}
 #sidebar .counter li           { background:none;  display:inline;  padding:0 5px;}
 #sidebar .counter li.total     { display:block;  color:#000;}
 
