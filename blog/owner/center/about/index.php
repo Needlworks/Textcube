@@ -148,7 +148,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 											</tr>
 											<tr>
 												<td class="id"><span class="text">KIM</span></td>
-												<td class="name">&nbsp;</td>
+												<td class="name">KIM</td>
 												<td class="role"><?php echo _t('Chinese');?></td>
 											</tr>
 											<tr>
