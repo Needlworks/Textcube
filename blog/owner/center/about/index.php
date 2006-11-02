@@ -156,6 +156,11 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="name">John.K</td>
 												<td class="role"><?php echo _t('English');?></td>
 											</tr>
+											<tr>
+												<td class="id"><a href="http://memoriesreloaded.net">CK</a></td>
+												<td class="name">CK</td>
+												<td class="role"><?php echo _t('English');?></td>
+											</tr>
 										</tbody>
 									</table>
 								</div>
