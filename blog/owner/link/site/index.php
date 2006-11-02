@@ -11,13 +11,13 @@ if (!empty($_GET['rss'])) {
 	if ($rval) {
 		list($title, $link) = str_dbi_check(@get_siteinfo($rval));
 		if (UTF8::validate($title, true))
-			$name = correctTTForXmlText(UTF8::correct(trim($title)));
+			$name = correctTTForXmlText(UTF8::correct(htmlspecialchars(trim($title))));
 		else
-			$name = correctTTForXmlText(UTF8::bring(trim($title)));
+			$name = correctTTForXmlText(UTF8::bring(htmlspecialchars(trim($title))));
 		if (UTF8::validate($link, true))
-			$url = correctTTForXmlText(UTF8::correct(trim($link)));
+			$url = correctTTForXmlText(UTF8::correct(htmlspecialchars(trim($link))));
 		else
-			$url = correctTTForXmlText(UTF8::bring(trim($link)));
+			$url = correctTTForXmlText(UTF8::bring(htmlspecialchars(trim($link))));
 		header('Content-Type: text/xml; charset=utf-8');
 		print ("<?xml version=\"1.0\" encoding=\"utf-8\"?><response><name>$name</name><url>$url</url></response>");
 	} else {
