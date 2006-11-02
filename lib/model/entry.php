@@ -294,7 +294,7 @@ function addEntry($owner, $entry) {
 	global $database, $blog;
 	$entry['title'] = mysql_lessen(trim($entry['title']), 255);
 	$entry['location'] = mysql_lessen(trim($entry['location']), 255);
-	if((empty(trim($entry['slogan'])))||($entry['category'] == -1)) {
+	if((empty($entry['slogan']))||($entry['category'] == -1)) {
 		$slogan = $slogan0 = getSlogan($entry['title']);
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
@@ -385,7 +385,7 @@ function updateEntry($owner, $entry) {
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
 
-	if(empty(trim($entry['slogan']))) {
+	if(empty($entry['slogan'])) {
 		$slogan = $slogan0 = getSlogan($entry['title']);
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
