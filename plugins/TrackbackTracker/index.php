@@ -1,5 +1,6 @@
 <?php
 function TrackbackTracker_AddingTrackback($target, $mother) {
+	if (!$target) return false;
 	if (!$url = parse_url($mother['url']))
 		return false;
 	if (empty($url['host']))

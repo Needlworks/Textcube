@@ -282,6 +282,7 @@ function addComment($owner, & $comment) {
 		$homepage = mysql_tt_escape_string($comment['homepage']);
 	}
 	$comment0 = mysql_tt_escape_string($comment['comment']);
+	$filteredAux = ($filtered == 1 ? "UNIX_TIMESTAMP()" : 0);
 	$result = mysql_query("INSERT INTO {$database['prefix']}Comments 
 		(owner,replier,id,entry,parent,name,password,homepage,secret,comment,ip,written,isFiltered)
 		VALUES (
@@ -297,7 +298,7 @@ function addComment($owner, & $comment) {
 			'$comment0',
 			'{$comment['ip']}',
 			UNIX_TIMESTAMP(),
-			$filtered
+			$filteredAux
 		)");
 	if ($result && (mysql_affected_rows() > 0)) {
 		$id = mysql_insert_id();
