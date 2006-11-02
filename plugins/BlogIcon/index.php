@@ -10,7 +10,7 @@ function BlogIcon_main($target, $mother) {
 	if (empty($mother['homepage']))
 		return $target;
 	$slash = ($mother['homepage']{strlen($mother['homepage']) - 1} == '/' ? '' : '/');
-	return "<img src=\"{$mother['homepage']}{$slash}index.gif\" width=\"{$ico_size}\" height=\"{$ico_size}\" onerror=\"this.parentNode.removeChild(this)\" /> $target";
+	return "<img src=\"{$mother['homepage']}{$slash}index.gif\" alt=\"BlogIcon\" width=\"{$ico_size}\" height=\"{$ico_size}\" onerror=\"this.parentNode.removeChild(this)\" /> $target";
 }
 
 function BlogIcon_ConfigOut($plugin) {
@@ -31,9 +31,9 @@ function BlogIcon_ConfigOut($plugin) {
 	$manifest .= '				단위는 px, 기본값은 32x32 입니다.<br />'.CRLF;
 	$manifest .= '				환경설정에서 블로그 아이콘을 업로드 해야 아이콘이 출력됩니다.'.CRLF;
 	$manifest .= '				<p>'.CRLF;
-	$manifest .= '					<img src="' . $service['path'] . '/image/icon_blogIcon_default.png" width="16" height="16" border="1" /> (16x16),'.CRLF;
-	$manifest .= '					<img src="' . $service['path'] . '/image/icon_blogIcon_default.png" width="32" height="32" border="1" /> (32x32),'.CRLF;
-	$manifest .= '					<img src="' . $service['path'] . '/image/icon_blogIcon_default.png" width="48" height="48" border="1" /> (48x48)'.CRLF;
+	$manifest .= '					<img src="' . $service['path'] . '/image/icon_blogIcon_default.png" alt="16x16 Example" width="16" height="16" border="1" /> (16x16),'.CRLF;
+	$manifest .= '					<img src="' . $service['path'] . '/image/icon_blogIcon_default.png" alt="32x32 Example"width="32" height="32" border="1" /> (32x32),'.CRLF;
+	$manifest .= '					<img src="' . $service['path'] . '/image/icon_blogIcon_default.png" alt="48x48 Example"width="48" height="48" border="1" /> (48x48)'.CRLF;
 	$manifest .= '				</p>'.CRLF;
 	$manifest .= '				]]>'.CRLF;
 	$manifest .= '			</caption>'.CRLF;

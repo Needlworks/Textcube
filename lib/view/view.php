@@ -172,7 +172,7 @@ function getUpperView($paging) {
 				width = 450;
 				height = 380;
 				if(openWindow != '') openWindow.close();
-				openWindow = window.open("<?php echo $blogURL;?>/comment/comment/" + parent, "tatter", "width="+width+"px,height="+height+"px,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+				openWindow = window.open("<?php echo $blogURL;?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
 				openWindow.focus();
 				alignCenter(openWindow,width,height);
 			}
@@ -190,7 +190,7 @@ function getUpperView($paging) {
 				width = 450;
 				height = 360;
 				if(openWindow != '') openWindow.close();
-				openWindow = window.open("<?php echo $blogURL;?>/comment/comment/" + parent, "tatter", "width="+width+"px,height="+height+"px,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+				openWindow = window.open("<?php echo $blogURL;?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
 				openWindow.focus();
 				alignCenter(openWindow,width,height);
 			}
@@ -199,7 +199,7 @@ function getUpperView($paging) {
 				width = 700;
 				height = 500;
 				if(openWindow != '') openWindow.close();
-				openWindow = window.open("<?php echo $blogURL;?>/trackback/send/" + id, "tatter", "width=580px,height=400px,location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+				openWindow = window.open("<?php echo $blogURL;?>/trackback/send/" + id, "tatter", "width=580,height=400,location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
 				openWindow.focus();
 				alignCenter(openWindow,width,height);
 			}
@@ -813,7 +813,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 	<table id="treeComponent" <?php echo ($embedJava==true) ? 'currentselectednode="' . $selected . '"' : '';?> cellpadding="0" cellspacing="0" style="width: 100%;"><tr>
 	<td>
 		<table id="category_0" <?php echo ($embedJava==true) ? 'name="treeNode"' : '';?> cellpadding="0" cellspacing="0"><tr>
-			<td class="ib" style="font-size: 1px"><img src="<?php echo $skin['url'];?>/tab_top.gif" width="16px" onclick="expandTree()" alt="" /></td>
+			<td class="ib" style="font-size: 1px"><img src="<?php echo $skin['url'];?>/tab_top.gif" width="16" onclick="expandTree()" alt="" /></td>
 			<td valign="top" style="font-size:9pt; padding-left:3px">
 				<table onclick="<?php 
 	if ($action == 1) {
@@ -846,7 +846,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 			$link = 'onclick="window.location.href=\'' . escapeJSInAttribute($row['link']) . '\'"';
 ?>
 		<table <?php echo ($embedJava==true) ? 'name="treeNode"' : '';?>  id="category_<?php echo $row['id'];?>" cellpadding="0" cellspacing="0"><tr>
-			<td class="ib" style="width:39px; font-size: 1px; background-image: url('<?php echo $skin['url'];?>/navi_back_noactive<?php echo ($i ? '' : '_end');?>.gif')"><a class="click" onclick="toggleFolder('<?php echo $row['id'];?>')"><img src="<?php echo $skin['url'];?>/tab_<?php echo (count($row['children']) ? 'closed' : 'isleaf');?>.gif" width="39px" alt="" /></a></td>
+			<td class="ib" style="width:39px; font-size: 1px; background-image: url('<?php echo $skin['url'];?>/navi_back_noactive<?php echo ($i ? '' : '_end');?>.gif')"><a class="click" onclick="toggleFolder('<?php echo $row['id'];?>')"><img src="<?php echo $skin['url'];?>/tab_<?php echo (count($row['children']) ? 'closed' : 'isleaf');?>.gif" width="39" alt="" /></a></td>
 			<td>
 				<table cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor;?>"><tr>
 					<td class="branch3" <?php echo $link;?>><div id="text_<?php echo $row['id'];?>" style="color: #<?php echo $skin['itemColor'];?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($row['label'], $skin['labelLength']));?> <?php 
@@ -873,10 +873,10 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 				$link = 'onclick="window.location.href=\'' . escapeJSInAttribute($irow['link']) . '\'"';
 ?>
 				<table id="category_<?php echo $irow['id'];?>" <?php echo ($embedJava==true) ? 'name="treeNode"' : '';?> cellpadding="0" cellspacing="0"><tr>
-				<td style="width:39px; font-size: 1px"><img src="<?php echo $skin['url'];?>/navi_back_active<?php echo ($i ? '' : '_end');?>.gif" width="17px" height="18" alt="" /><img src="<?php echo $skin['url'];?>/tab_treed<?php 
+				<td style="width:39px; font-size: 1px"><img src="<?php echo $skin['url'];?>/navi_back_active<?php echo ($i ? '' : '_end');?>.gif" width="17" height="18" alt="" /><img src="<?php echo $skin['url'];?>/tab_treed<?php 
 			if (!$j)
 				print "_end";
-?>.gif" width="22px" alt="" /></td>
+?>.gif" width="22" alt="" /></td>
 				<td>
 					<table <?php echo $link;?> cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor;?>"><tr>
 					<td class="branch3"><div id="text_<?php echo $irow['id'];?>" style="color: #<?php echo $skin['itemColor'];?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($irow['label'], $skin['labelLength']));?> <?php echo ($skin['showValue'] ? "<span class=\"c_cnt\">({$irow['value']})</span>" : '');?></div></td>
