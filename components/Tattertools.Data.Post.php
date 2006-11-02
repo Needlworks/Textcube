@@ -474,7 +474,7 @@ class Post {
 		$slogan = preg_replace('/[!-\/:-@[-`{-~]+/', '', $slogan);
 		$slogan = preg_replace('/\s+/', '-', $slogan);
 		$slogan = trim($slogan, '-');
-		return strlen($slogan) > 0 ? $slogan : 'X';
+		return strlen($slogan) > 0 ? $slogan : 'XFile';
 	}
 	
 	/*@static@*/
