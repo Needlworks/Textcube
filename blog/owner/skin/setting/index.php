@@ -272,8 +272,8 @@ ob_end_clean();
 										<dl id="post-click-line" class="line">
 											<dt><span class="label"><?php echo _t('글을 표시할 때');?></span></dt>
 											<dd>
-												<input type="checkbox" id="expandComment" class="checkbox" name="expandComment"<?php echo $skinSetting['expandComment'] ? ' checked="checked"' : '';?> /> <label for="expandComment"><?php echo _t('댓글을 기본으로 펼칩니다.');?></label><br />
-												<input type="checkbox" id="expandTrackback" class="checkbox" name="expandTrackback"<?php echo $skinSetting['expandTrackback'] ? ' checked="checked"' : '';?> /> <label for="expandTrackback"><?php echo _t('글걸기를 기본으로 펼칩니다.');?></label>
+												<input type="checkbox" id="expandComment" class="checkbox" name="expandComment"<?php echo $skinSetting['expandComment'] ? ' checked="checked"' : '';?> /><label for="expandComment"><?php echo _t('댓글을 기본으로 펼칩니다.');?></label><br />
+												<input type="checkbox" id="expandTrackback" class="checkbox" name="expandTrackback"<?php echo $skinSetting['expandTrackback'] ? ' checked="checked"' : '';?> /><label for="expandTrackback"><?php echo _t('글걸기를 기본으로 펼칩니다.');?></label>
 											</dd>
 										</dl>
 									</fieldset>
@@ -413,9 +413,9 @@ ob_end_clean();
 										<dl id="tag-align-line" class="line">
 											<dt><span class="label"><?php echo _t('태그의 정렬방법을');?></span></dt>
 											<dd>
-												<input type="radio" id="tagboxAlignUsed" class="radio" name="tagboxAlign" value="1" <?php echo ($skinSetting['tagboxAlign'] == 1 ? 'checked = "checked"' : '');?> /> <label for="tagboxAlignUsed"><?php echo _t('인기도순으로 표시합니다.');?></label><br />
-												<input type="radio" id="tagboxAlignName" class="radio" name="tagboxAlign" value="2" <?php echo ($skinSetting['tagboxAlign'] == 2 ? 'checked = "checked"' : '');?> /> <label for="tagboxAlignName"><?php echo _t('이름순으로 표시합니다.');?></label><br />
-												<input type="radio" id="tagboxAlignRandom" class="radio" name="tagboxAlign" value="3" <?php echo ($skinSetting['tagboxAlign'] == 3 ? 'checked = "checked"' : '');?> /> <label for="tagboxAlignRandom"><?php echo _t('임의로 표시합니다.');?></label>
+												<input type="radio" id="tagboxAlignUsed" class="radio" name="tagboxAlign" value="1" <?php echo ($skinSetting['tagboxAlign'] == 1 ? 'checked = "checked"' : '');?> /><label for="tagboxAlignUsed"><?php echo _t('인기도순으로 표시합니다.');?></label><br />
+												<input type="radio" id="tagboxAlignName" class="radio" name="tagboxAlign" value="2" <?php echo ($skinSetting['tagboxAlign'] == 2 ? 'checked = "checked"' : '');?> /><label for="tagboxAlignName"><?php echo _t('이름순으로 표시합니다.');?></label><br />
+												<input type="radio" id="tagboxAlignRandom" class="radio" name="tagboxAlign" value="3" <?php echo ($skinSetting['tagboxAlign'] == 3 ? 'checked = "checked"' : '');?> /><label for="tagboxAlignRandom"><?php echo _t('임의로 표시합니다.');?></label>
 											</dd>
 										</dl>
 <?php
@@ -543,7 +543,7 @@ if ($dh = opendir($skinPath)) {
 											</dl>
 											<dl id="count-display-line" class="line">
 												<dt><label for="showValue"><?php echo _t('글 수 출력');?></label></dt>
-												<dd><input type="checkbox" class="checkbox" id="showValue" name="showValueOnTree" onclick="changeTreeStyle()" <?php echo $skinSetting['showValueOnTree'] ? 'checked="checked"' : '';?> /> <label for="showValue"><?php echo _t('각 분류의 글 수를 표시합니다.');?></label></dd>
+												<dd><input type="checkbox" class="checkbox" id="showValue" name="showValueOnTree" onclick="changeTreeStyle()" <?php echo $skinSetting['showValueOnTree'] ? 'checked="checked"' : '';?> /><label for="showValue"><?php echo _t('각 분류의 글 수를 표시합니다.');?></label></dd>
 											</dl>
 										</fieldset>
 									

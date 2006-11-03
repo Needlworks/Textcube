@@ -147,8 +147,8 @@ if (extension_loaded('gd')) {
 										<dl id="resampling-default-line" class="line">
 											<dt><span class="label"><?php echo _t('기본 설정');?></span></dt>
 											<dd>
-												<input type="checkbox" class="checkbox" id="useResamplingAsDefault" name="useResamplingAsDefault" value="yes" onclick="if (this.checked == false && document.getElementById('useWatermarkAsDefault').checked == true) document.getElementById('useWatermarkAsDefault').checked = false;"<?php echo (getUserSetting("resamplingDefault") == "yes") ? ' checked="checked"' : NULL;?> /> <label for="useResamplingAsDefault"><?php echo _t('이미지 리샘플링 기능을 기본으로 사용합니다. <em>이 기능을 사용시 서버에 많은 부하가 걸릴 수 있으니 주의하시기 바랍니다.</em>');?></label><br />
-												<input type="checkbox" class="checkbox" id="useWatermarkAsDefault" name="useWatermarkAsDefault" value="yes" onclick="if (this.checked == true && document.getElementById('useResamplingAsDefault').checked == false) document.getElementById('useResamplingAsDefault').checked = true;"<?php echo (getUserSetting("waterMarkDefault") == "yes") ? ' checked="checked"' : NULL;?> /> <label for="useWatermarkAsDefault"><?php echo _t('워터마크 기능을 기본으로 사용합니다.');?></label>
+												<input type="checkbox" class="checkbox" id="useResamplingAsDefault" name="useResamplingAsDefault" value="yes" onclick="if (this.checked == false && document.getElementById('useWatermarkAsDefault').checked == true) document.getElementById('useWatermarkAsDefault').checked = false;"<?php echo (getUserSetting("resamplingDefault") == "yes") ? ' checked="checked"' : NULL;?> /><label for="useResamplingAsDefault"><?php echo _t('이미지 리샘플링 기능을 기본으로 사용합니다. <em>이 기능을 사용시 서버에 많은 부하가 걸릴 수 있으니 주의하시기 바랍니다.</em>');?></label><br />
+												<input type="checkbox" class="checkbox" id="useWatermarkAsDefault" name="useWatermarkAsDefault" value="yes" onclick="if (this.checked == true && document.getElementById('useResamplingAsDefault').checked == false) document.getElementById('useResamplingAsDefault').checked = true;"<?php echo (getUserSetting("waterMarkDefault") == "yes") ? ' checked="checked"' : NULL;?> /><label for="useWatermarkAsDefault"><?php echo _t('워터마크 기능을 기본으로 사용합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="watermark-line" class="line">
@@ -170,7 +170,7 @@ if (extension_loaded('gd')) {
 	}
 ?>
 												<br /><input type="file" class="input-file" name="waterMark" /><br />
-												<input type="checkbox" class="checkbox" id="deleteWaterMark" name="deleteWaterMark" value="yes"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> /> <label for="deleteWaterMark"><?php echo _t('워터 마크를 초기화합니다.');?></label>
+												<input type="checkbox" class="checkbox" id="deleteWaterMark" name="deleteWaterMark" value="yes"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> /><label for="deleteWaterMark"><?php echo _t('워터 마크를 초기화합니다.');?></label>
 											</dd>
 										</dl>
 <?php
@@ -348,7 +348,7 @@ $editorMode = getUserSetting('editorMode', 1);
 												</select>
 											</dd>
 										</dl>
-										<dl id="blogapi-line class="line">
+										<dl id="blogapi-line" class="line">
 											<dt><span class="label"><?php echo _t('블로그 API 사용 여부');?></span></dt>
 											<dd>
 												<input type="checkbox" class="checkbox" id="useBlogAPI" name="useBlogAPI" value="yes" <?php echo (getUserSetting("useBlogAPI", 0) == "1") ? ' checked="checked"' : '';?> /><label for="useBlogAPI"><?php echo _t('metaWeblogAPI나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다.<br /> API 사용시 주소는 블로그 주소/api 입니다.');?></label>

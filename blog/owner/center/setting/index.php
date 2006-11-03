@@ -151,15 +151,15 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 								<dl id="sorting-line" class="line">
 									<dt><?php echo _t('정렬');?></dt>
 									<dd>
-										<input type="radio" class="radio" id="ascend-sorting" name="sortType" value="ascend" onclick="changeList()"<?php echo $_POST['sortType'] == "ascend" ? ' checked="checked"' : '';?> /> <label for="ascend-sorting"><?php echo _t('오름차순');?></label>
-										<input type="radio" class="radio" id="descend-sorting" name="sortType" value="descend" onclick="changeList()"<?php echo $_POST['sortType'] == "descend" ? ' checked="checked"' : '';?> /> <label for="descend-sorting"><?php echo _t('내림차순');?></label>
+										<input type="radio" class="radio" id="ascend-sorting" name="sortType" value="ascend" onclick="changeList()"<?php echo $_POST['sortType'] == "ascend" ? ' checked="checked"' : '';?> /><label for="ascend-sorting"><?php echo _t('오름차순');?></label>
+										<input type="radio" class="radio" id="descend-sorting" name="sortType" value="descend" onclick="changeList()"<?php echo $_POST['sortType'] == "descend" ? ' checked="checked"' : '';?> /><label for="descend-sorting"><?php echo _t('내림차순');?></label>
 									</dd>
 								</dl>
 								<dl id="activate-status-line" class="line">
 									<dt><?php echo _t('상태');?></dt>
 									<dd>
-										<input type="checkbox" class="checkbox" id="activated-plugin" name="listedPluginStatus[]" value="activated" onclick="changeList()"<?php echo in_array("activated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /> <label for="activated-plugin"><?php echo _t('사용중인 플러그인');?></label>
-										<input type="checkbox" class="checkbox" id="deactivated-plugin" name="listedPluginStatus[]" value="deactivated" onclick="changeList()"<?php echo in_array("deactivated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /> <label for="deactivated-plugin"><?php echo _t('사용하지 않는 플러그인');?></label>
+										<input type="checkbox" class="checkbox" id="activated-plugin" name="listedPluginStatus[]" value="activated" onclick="changeList()"<?php echo in_array("activated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /><label for="activated-plugin"><?php echo _t('사용중인 플러그인');?></label>
+										<input type="checkbox" class="checkbox" id="deactivated-plugin" name="listedPluginStatus[]" value="deactivated" onclick="changeList()"<?php echo in_array("deactivated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /><label for="deactivated-plugin"><?php echo _t('사용하지 않는 플러그인');?></label>
 									</dd>
 								</dl>
 								

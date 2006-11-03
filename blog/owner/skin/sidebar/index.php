@@ -248,7 +248,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 		$orderConfig = array();
 ?>
 								<div class="section">
-									<h3><input type="radio" id="sidebar-<?php echo $i + 1;?>" class="radio" name="sidebarNumber" value="<?php echo $i;?>"<?php echo $bFirstRadio ? " checked" : NULL;?> /> <label for="sidebar-<?php echo $i + 1;?>"><?php echo $skin->sidebarName[$i];?></label></h3>
+									<h3><input type="radio" id="sidebar-<?php echo $i + 1;?>" class="radio" name="sidebarNumber" value="<?php echo $i;?>"<?php echo $bFirstRadio ? " checked" : NULL;?> /><label for="sidebar-<?php echo $i + 1;?>"><?php echo $skin->sidebarName[$i];?></label></h3>
 									
 									<ul id="sidebar-ul-<?php echo $i;?>" class="sidebar">
 <?php

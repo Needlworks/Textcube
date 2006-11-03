@@ -168,12 +168,12 @@ if (!defined('__TATTERTOOLS_CENTER__')) {
 								<dl id="scope-line" class="line">
 									<dt><?php echo _t('종류');?></dt>
 									<dd>
-										<input type="radio" class="radio" id="global-scope" name="scopeType" value="all" onclick="changeList()"<?php echo $_POST['scopeType'] == "all" ? ' checked="checked"' : '';?> /> <label for="global-scope"><?php echo _t('전체');?></label>
-										<input type="radio" class="radio" id="common-scope" name="scopeType" value="global" onclick="changeList()"<?php echo $_POST['scopeType'] == "global" ? ' checked="checked"' : '';?> /> <label for="common-scope"><?php echo _t('일반');?></label>
-										<input type="radio" class="radio" id="blog-scope" name="scopeType" value="blog" onclick="changeList()"<?php echo $_POST['scopeType'] == "blog" ? ' checked="checked"' : '';?> /> <label for="blog-scope"><?php echo _t('블로그');?></label>
-										<input type="radio" class="radio" id="sidebar-scope" name="scopeType" value="sidebar" onclick="changeList()"<?php echo $_POST['scopeType'] == "sidebar" ? ' checked="checked"' : '';?> /> <label for="sidebar-scope"><?php echo _t('사이드바');?></label>
-										<input type="radio" class="radio" id="admin-scope" name="scopeType" value="admin" onclick="changeList()"<?php echo $_POST['scopeType'] == "admin" ? ' checked="checked"' : '';?> /> <label for="admin-scope"><?php echo _t('관리자');?></label>
-										<input type="radio" class="radio" id="none-scope" name="scopeType" value="none" onclick="changeList()"<?php echo $_POST['scopeType'] == "none" ? ' checked="checked"' : '';?> /> <label for="none-scope"><?php echo _t('미지정');?></label>
+										<input type="radio" class="radio" id="global-scope" name="scopeType" value="all" onclick="changeList()"<?php echo $_POST['scopeType'] == "all" ? ' checked="checked"' : '';?> /><label for="global-scope"><?php echo _t('전체');?></label>
+										<input type="radio" class="radio" id="common-scope" name="scopeType" value="global" onclick="changeList()"<?php echo $_POST['scopeType'] == "global" ? ' checked="checked"' : '';?> /><label for="common-scope"><?php echo _t('일반');?></label>
+										<input type="radio" class="radio" id="blog-scope" name="scopeType" value="blog" onclick="changeList()"<?php echo $_POST['scopeType'] == "blog" ? ' checked="checked"' : '';?> /><label for="blog-scope"><?php echo _t('블로그');?></label>
+										<input type="radio" class="radio" id="sidebar-scope" name="scopeType" value="sidebar" onclick="changeList()"<?php echo $_POST['scopeType'] == "sidebar" ? ' checked="checked"' : '';?> /><label for="sidebar-scope"><?php echo _t('사이드바');?></label>
+										<input type="radio" class="radio" id="admin-scope" name="scopeType" value="admin" onclick="changeList()"<?php echo $_POST['scopeType'] == "admin" ? ' checked="checked"' : '';?> /><label for="admin-scope"><?php echo _t('관리자');?></label>
+										<input type="radio" class="radio" id="none-scope" name="scopeType" value="none" onclick="changeList()"<?php echo $_POST['scopeType'] == "none" ? ' checked="checked"' : '';?> /><label for="none-scope"><?php echo _t('미지정');?></label>
 									</dd>
 								</dl>
 <?php
@@ -205,15 +205,15 @@ if (!defined('__TATTERTOOLS_CENTER__')) {
 								<dl id="sorting-line" class="line">
 									<dt><?php echo _t('정렬');?></dt>
 									<dd>
-										<input type="radio" class="radio" id="ascend-sorting" name="sortType" value="ascend" onclick="changeList()"<?php echo $_POST['sortType'] == "ascend" ? ' checked="checked"' : '';?> /> <label for="ascend-sorting"><?php echo _t('오름차순');?></label>
-										<input type="radio" class="radio" id="descend-sorting" name="sortType" value="descend" onclick="changeList()"<?php echo $_POST['sortType'] == "descend" ? ' checked="checked"' : '';?> /> <label for="descend-sorting"><?php echo _t('내림차순');?></label>
+										<input type="radio" class="radio" id="ascend-sorting" name="sortType" value="ascend" onclick="changeList()"<?php echo $_POST['sortType'] == "ascend" ? ' checked="checked"' : '';?> /><label for="ascend-sorting"><?php echo _t('오름차순');?></label>
+										<input type="radio" class="radio" id="descend-sorting" name="sortType" value="descend" onclick="changeList()"<?php echo $_POST['sortType'] == "descend" ? ' checked="checked"' : '';?> /><label for="descend-sorting"><?php echo _t('내림차순');?></label>
 									</dd>
 								</dl>
 								<dl id="activate-status-line" class="line">
 									<dt><?php echo _t('상태');?></dt>
 									<dd>
-										<input type="checkbox" class="checkbox" id="activated-plugin" name="listedPluginStatus[]" value="activated" onclick="changeList()"<?php echo in_array("activated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /> <label for="activated-plugin"><?php echo _t('사용중인 플러그인');?></label>
-										<input type="checkbox" class="checkbox" id="deactivated-plugin" name="listedPluginStatus[]" value="deactivated" onclick="changeList()"<?php echo in_array("deactivated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /> <label for="deactivated-plugin"><?php echo _t('사용하지 않는 플러그인');?></label>
+										<input type="checkbox" class="checkbox" id="activated-plugin" name="listedPluginStatus[]" value="activated" onclick="changeList()"<?php echo in_array("activated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /><label for="activated-plugin"><?php echo _t('사용중인 플러그인');?></label>
+										<input type="checkbox" class="checkbox" id="deactivated-plugin" name="listedPluginStatus[]" value="deactivated" onclick="changeList()"<?php echo in_array("deactivated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /><label for="deactivated-plugin"><?php echo _t('사용하지 않는 플러그인');?></label>
 									</dd>
 								</dl>
 								
@@ -392,8 +392,12 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 						<div id="part-plugin-more" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('플러그인을 구하려면');?></span></h2>
 							
+<?php
+$linkString = '<a href="http://www.tattertools.com/plugin" onclick="window.open(this.href); return false;" title="' . _t('플러그인 업로드 게시판으로 연결합니다.') . '">' . _t('플러그인 업로드 게시판'). '</a>';
+$tempString = _f('태터툴즈 홈페이지의 %1을 방문하시면 다양한 플러그인을 다운로드 하실 수 있습니다.', $linkString);
+?>
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('플러그인은 <a href="http://www.tattertools.com/plugin" onclick="window.open(this.href); return false;" title="태터툴즈 홈페이지에 개설되어 있는 플러그인 업로드 게시판으로 연결합니다.">태터툴즈 홈페이지의 플러그인 게시판</a>에서 구하실 수 있습니다. 일반적으로 플러그인 파일을 태터툴즈의 plugin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 플러그인은 이 메뉴에서 사용중으로 전환하여 사용을 시작합니다. 추천 플러그인에 대한 정보는 <a href="http://plugin.tattertools.com" onclick="window.open(this.href); return false;">태터앤 프렌즈의 플러그인 리뷰</a>를 참고하십시오.');?></p>
+								<p class="explain"><?php echo $tempString;?></p>
 							</div>
 						</div>
 <?php
