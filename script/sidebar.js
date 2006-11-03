@@ -387,7 +387,7 @@
 		btn.className = 'input-button';
 		btn.onclick = function () { window.location.reload(); return false; };
 		
-		var oDiv = document.createElement('input');
+		var oDiv = document.createElement('div');
 		oDiv.clasName = 'button-box';
 		
 		oDiv.appendChild(btn);
