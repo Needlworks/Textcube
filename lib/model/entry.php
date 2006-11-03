@@ -655,7 +655,7 @@ function syndicateEntry($id, $mode) {
 	}
 	if(!$rpc->call("sync.$mode", $summary))
 		return false;
-	if($rpc->result['error'])
+	if($rpc->fault)
 		return false;
 	return true;
 }
