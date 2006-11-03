@@ -33,6 +33,16 @@
 	text-align                       : left;
 }
 
+#part-link-list table.data-inbox thead tr th.edit
+{
+	width                            : 20px;
+}
+
+#part-link-list table.data-inbox thead tr th.edit span
+{
+	display                          : none;
+}
+
 #part-link-list table.data-inbox thead tr th.delete
 {
 	width                            : 20px;
@@ -56,6 +66,23 @@
 {
 	padding-left                     : 25px;
 	text-align                       : left;
+}
+
+#part-link-list table.data-inbox tbody tr td.edit .edit-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_modify.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 11px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 11px;
+}
+
+#part-link-list table.data-inbox tbody tr td.edit .edit-button span
+{
+	display                          : none;
 }
 
 /* Add *******************************************************************************************/

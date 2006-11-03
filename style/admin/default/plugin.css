@@ -20,31 +20,49 @@
 	position                         : relative;
 }
 
-#part-plugin-list .main-explain-box
+#part-plugin-list .main-explain-box p
 {
-	margin-bottom                    : 30px;
+	margin-bottom                    : 20px;
 }
 
 #part-plugin-list fieldset
 {
+	background-color                 : #EEEEEE;
 	background-image                 : none;
 	border                           : none;
-	margin                           : 0 0 0 20px;
+	margin                           : 0 10px 5px 10px;
+	padding                          : 4px 10px;
 }
 
-#part-plugin-list fieldset .checkbox,
-#part-plugin-list fieldset .radio
+#part-plugin-list #scope-line .checkbox,
+#part-plugin-list #scope-line .radio
 {
-	margin-left                      : 5px;
+	display                          : none;
 }
 
-#scope-line
+#part-plugin-list fieldset label
 {
-	text-align                       : right;
+	border-right                     : 1px solid #999999;
+	padding                          : 0 9px 0 7px;
+}
+
+#part-plugin-list fieldset label.selected
+{
+	color                            : #000000;
+	font-weight                      : bold;
+}
+
+#part-plugin-list #none-scope-label
+{
+	border-right                     : none !important;
+}
+
+#part-plugin-list #scope-line
+{
 	padding-right                    : 20px;
 }
 
-#sorting-line
+#part-plugin-list #sorting-line
 {
 	background-color                 : #EEEEEE;
 	border-top                       : 1px solid #BBBBBB;
@@ -55,11 +73,26 @@
 	width                            : 920px;
 }
 
-#activate-status-line
+#part-plugin-list #activate-status-line
 {
 	position                         : absolute;
 	right                            : 20px;
 	bottom                           : 5px;
+}
+
+#part-plugin-list #sorting-line .checkbox,
+#part-plugin-list #sorting-line .radio,
+#part-plugin-list #activate-status-line .checkbox,
+#part-plugin-list #activate-status-line .radio
+{
+	margin-left                      : 5px !important;
+}
+
+#part-plugin-list #sorting-line label,
+#part-plugin-list #activate-status-line label
+{
+	border                           : none !important;
+	padding                          : 0;
 }
 
 #part-plugin-list fieldset dl dt
@@ -194,7 +227,23 @@
 
 /* Data Management *******************************************************************************/
 
+#part-plugin-table-list table thead tr th.delete span
+{
+	display                          : none;
+}
+
 #part-plugin-table-list table tbody tr td.title
 {
 	background-position              : right bottom;
+}
+
+#part-plugin-table-list table tbody tr td.tablename
+{
+	font-family                      : "Courier New", "Courier", monospace;
+	text-align                       : left;
+}
+
+#part-plugin-table-list table tbody tr td.delete
+{
+	width                            : 12px;
 }

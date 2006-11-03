@@ -94,6 +94,11 @@ input
 	font-family                      : 'Lucida Grande', Arial, 굴림, Gulim, Tahoma, Verdana, sans-serif;
 }
 
+label
+{
+	cursor                           : pointer;
+}
+
 legend
 {
 	display                          : none;
