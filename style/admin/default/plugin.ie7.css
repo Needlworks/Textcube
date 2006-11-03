@@ -4,12 +4,12 @@
 
 #sorting-line
 {
-	bottom                           : 220px;
-	padding-top                      : 8px;
+	bottom                           : -3px;
+	padding-top                      : 5px;
 }
 
 #activate-status-line
 {
-	bottom                           : 224px;
+	bottom                           : 3px;
 	right                            : 30px;
 }

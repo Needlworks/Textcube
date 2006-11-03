@@ -4,7 +4,7 @@
 
 #part-link-list table.data-inbox tbody tr td.delete
 {
-	width                            : 12px !important;
+	width                            : 12px;
 }
 
 /* Add/Edit **************************************************************************************/

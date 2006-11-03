@@ -42,12 +42,7 @@
 #shortcut-collection h3
 {
 	background-image                 : url("./image/bg_dashboard_header.png");
-	width                            : 280px;
-}
-
-#shortcut-collection ul
-{
-	width                            : 300px;
+	height                           : 32px;
 }
 
 #shortcut-collection ul li
@@ -69,7 +64,7 @@
 #total-information h3
 {
 	background-image                 : url("./image/bg_dashboard_header.png");
-	width                            : 300px;
+	height                           : 32px;
 }
 
 #total-information table
@@ -80,7 +75,6 @@
 #total-information table tbody tr th
 {
 	border-bottom                    : 1px solid #EEEEEE;
-	border-top                       : 1px solid #EEEEEE;
 	font-weight                      : normal;
 	height                           : 30px;
 	text-align                       : center;
@@ -91,7 +85,6 @@
 {
 	border-bottom                    : 1px solid #EEEEEE;
 	border-left                      : 1px solid #EEEEEE;
-	border-top                       : 1px solid #EEEEEE;
 	height                           : 24px;
 	padding-right                    : 10px;
 	text-align                       : right;
@@ -101,24 +94,24 @@
 #tattertools-notice
 {
 	margin-left                      : 330px;
+	width                            : 620px;
 }
 
 #tattertools-notice h3
 {
 	background-image                 : url("./image/bg_dashboard_header2.png");
-	width                            : 620px;
+	height                           : 32px;
 }
 
 #tattertools-notice table
 {
-	margin                           : 0 12px 25px 0;
+	margin                           : 0 0 25px 0;
 	width                            : 620px;
 }
 
 #tattertools-notice table tbody tr td
 {
 	border-bottom                    : 1px solid #EEEEEE;
-	border-top                       : 1px solid #EEEEEE;
 	height                           : 28px;
 	padding-left                     : 10px;
 	text-align                       : left;

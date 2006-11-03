@@ -13,6 +13,11 @@
 	padding-top                      : 0 !important;
 }
 
+#category-line dd label
+{
+	padding-right                    : 10px;
+}
+
 /* tag and location -----------------------------------------------------------------------------*/
 #tag-location-container dl dt
 {

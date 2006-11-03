@@ -1,0 +1,47 @@
+@charset "utf-8";
+
+/* Common *****************************************************************************************/
+
+.part table.data-inbox tbody tr td.delete
+{
+	width                            : 12px;
+}
+
+/* Post *******************************************************************************************/
+
+#part-post-list .data-subbox
+{
+	background-color                 : #EEEEEE;
+	border-top                       : 1px solid #BBBBBB;
+	margin                           : 0 auto 110px auto;
+	padding                          : 0 8px 8px 8px;
+	width                            : 924px;
+}
+
+#part-post-list #search-form
+{
+	background-color                 : transparent !important;
+	border                           : none !important;
+	top                              : 58px;
+}
+
+/* Comment *****************************************************************************************/
+
+#part-post-comment #search-form
+{
+	top                              : 51px;
+}
+
+/* Trackback ***************************************************************************************/
+
+#part-post-trackback #search-form
+{
+	top                              : 51px;
+}
+
+/* Tree ******************************************************************************************/
+
+#tree-preview-box .title
+{
+	background-position              : left center;
+}

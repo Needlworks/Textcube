@@ -1,0 +1,23 @@
+@charset "utf-8";
+
+/* Select ****************************************************************************************/
+
+#part-skin-list,
+#part-skin-current
+{
+	margin-bottom                    : 20px;
+}
+
+#part-skin-list .section .preview,
+#part-skin-current .section .preview
+{
+	float                            : left;
+	position                         : static;
+}
+
+/* Setting ***************************************************************************************/
+
+#part-skin-setting .button-box .input-button
+{
+	padding                          : 0;
+}

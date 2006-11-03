@@ -432,7 +432,7 @@
 
 #sidebar-box .section ul.sidebar
 {
-	min-height                       : 200px;
+	min-height                       : 400px;
 }
 
 #sidebar-box .section ul li.sidebar-module *
@@ -573,7 +573,6 @@
 
 #sidebar-element-box fieldset
 {
-	background-color                 : #F6F6F6;
 	background-image                 : none;
 	border                           : 1px solid #CCCCCC;
 	margin-bottom                    : 5px;
@@ -582,9 +581,8 @@
 
 #sidebar-element-box fieldset legend
 {
-	background-color                 : #FFFFFF;
 	color                            : #476db4;
-	display                          : block;
+	display                          : inline;
 	font-weight                      : bold;
 	padding                          : 0 4px;
 }

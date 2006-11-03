@@ -364,7 +364,7 @@ h2.caption
 	clear                            : both;
 	color                            : #000000;
 	display                          : block;
-	height                           : 2.5em;
+	height                           : 30px;
 	font-size                        : 1em;
 	font-weight                      : normal;
 	line-height                      : 2.8em;
@@ -381,7 +381,7 @@ h2.caption span
 	background-position              : right top;
 	background-repeat                : no-repeat;
 	display                          : block;
-	height                           : 2.5em;
+	height                           : 30px;
 	line-height                      : 2.7em;
 }
 
@@ -539,7 +539,7 @@ table.data-inbox tbody tr .status .protected-off-icon span
 table.data-inbox tbody tr.keyword-line .status .protected-off-icon,
 table.data-inbox tbody tr.notice-line .status .protected-off-icon
 {
-	background-image                 : url("./image/icon_protected_disabled.gif");
+	background-image                 : none;
 }
 
 table.data-inbox tbody tr.keyword-line .status .protected-off-icon a,
@@ -902,15 +902,16 @@ table.data-inbox tbody tr td.inactive-class
 	border                           : 1px solid #777777;
 	cursor                           : pointer;
 	font-size                        : 1em;
-	height                           : 1.75em;
+	height                           : 1.8em;
 	line-height                      : 1.8em;
-	padding                          : 0 10px !important;
+	padding                          : 0 5px !important;
 	vertical-align                   : middle;
 }
 
 input.checkbox,
 input.radio
 {
+	margin-right                     : 3px;
 	vertical-align                   : middle;
 }
 

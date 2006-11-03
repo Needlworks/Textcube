@@ -86,16 +86,6 @@
 	margin-left                      : 5px;
 }
 
-#sidebar-element-box fieldset
-{
-	background-color                 : #FFFFFF;
-}
-
-#sidebar-element-box fieldset legend
-{
-	display                          : inline;
-}
-
 #sidebar-element-box fieldset ul
 {
 	height                           : 418px;
