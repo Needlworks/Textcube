@@ -753,7 +753,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 										<h2><?php echo _t('페이지 네비게이션');?></h2>
 										
 										<span class="label"><?php echo _t('선택한 글을');?></span>
-										<select name="commandBox" onchange="toggleDeleteButton(this)"> 
+										<select id="commandBox" onchange="toggleDeleteButton(this)"> 
 											<option selected style="font-style:italic"><?php echo _t('[행동을 지정합니다.]');?></option>
 <?php
 	$categories = getCategories($owner);
