@@ -166,10 +166,26 @@ if (($_REQUEST['sidebarNumber'] >= 0) 	&& ($_REQUEST['sidebarNumber'] < $sidebar
 	$sidebarOrder = getSidebarModuleOrderData($sidebarCount);
 	$target = $sidebarOrder[$_REQUEST['sidebarNumber']][$_REQUEST['modulePos']];
 	
+	$sidebarPluginArray = array();
+	for ($i=0; $i<count($sidebarMappings); $i++) {
+		$sidebarPluginArray[$sidebarMappings[$i]['plugin'] . '/' . $sidebarMappings[$i]['handler']]=
+			array( 
+				'type' => 3, 'id' => $sidebarMappings[$i]['handler'],
+				'plugin' => $sidebarMappings[$i]['plugin'], 'title' =>$sidebarMappings[$i]['title'], 
+				'display' => $sidebarMappings[$i]['display'],
+				'identifier' => implode(':', array(3,$sidebarMappings[$i]['plugin'],$sidebarMappings[$i]['handler'])),
+				'parameters' => $sidebarMappings[$i]['parameters']
+				);
+	}
+
 	if ($target['type'] == 3) {
-		$pluginURL = "{$service['path']}/plugins/{$target['id']['plugin']}";
-		include_once (ROOT . "/plugins/{$target['id']['plugin']}/index.php");
-		echo pretty_dress(call_user_func($target['id']['handler'], $target['parameters']));
+		$sidbarPluginIndex = $plugin . '/' . $handler;
+			
+		if (array_key_exists($sidbarPluginIndex,  $sidebarPluginArray)) {
+			$pluginURL = "{$service['path']}/plugins/{$target['id']['plugin']}";
+			include_once (ROOT . "/plugins/{$target['id']['plugin']}/index.php");
+			echo pretty_dress(call_user_func($target['id']['handler'], $target['parameters']));
+		}
 	}
 }
 ?>

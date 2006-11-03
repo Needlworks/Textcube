@@ -291,11 +291,25 @@ for ($i=0; $i<$sidebarCount; $i++) {
 		} else if ($orderConfig[$j]['type'] == 2) { // default handler
 			// TODO : implement it!
 		} else if ($orderConfig[$j]['type'] == 3) { // plugin
+		
 			$plugin = $orderConfig[$j]['id']['plugin'];
 			$handler = $orderConfig[$j]['id']['handler'];
-			include_once (ROOT . "/plugins/{$plugin}/index.php");
 			$sidbarPluginIndex = $plugin . '/' . $handler;
-			if (function_exists($handler)) {
+			
+			$invalidPlugin = false;
+			if (!array_key_exists($sidbarPluginIndex,  $sidebarPluginArray)) {
+				// invalid or missed plug-in
+				$sidebarPluginArray[$sidbarPluginIndex] = array();
+				$sidebarPluginArray[$sidbarPluginIndex]['title'] = $plugin;
+				$sidebarPluginArray[$sidbarPluginIndex]['handler'] = $handler;
+				$sidebarPluginArray[$sidbarPluginIndex]['display'] = $plugin;
+				$sidebarPluginArray[$sidbarPluginIndex]['parameters'] = array();
+				$invalidPlugin = true;
+			} else {
+				include_once (ROOT . "/plugins/{$plugin}/index.php");
+			}
+			//if (function_exists($handler))
+			{
 				if( !empty( $configMappings[$plugin]['config'] ) ) 				
 					$configVal = getCurrentSetting($plugin);
 				else
@@ -340,13 +354,18 @@ for ($i=0; $i<$sidebarCount; $i++) {
 ?>
 											<div class="module-content">
 <?php
-				$pluginURL = "{$service['path']}/plugins/{$orderConfig[$j]['id']['plugin']}";
-				echo pretty_dress(call_user_func($handler, $orderConfig[$j]['parameters']));
+				if (($invalidPlugin == false) && function_exists($handler)) {
+					$pluginURL = "{$service['path']}/plugins/{$orderConfig[$j]['id']['plugin']}";
+					echo pretty_dress(call_user_func($handler, $orderConfig[$j]['parameters']));
+				}
 ?>
 											</div>
 										</li>
 <?php
 			}
+			if ($invalidPlugin == true) 
+				 unset($sidebarPluginArray[$sidbarPluginIndex]);
+				
 		} else {
 			// other type
 		}
@@ -547,7 +566,9 @@ for ($i=0; $i<$sidebarCount; $i++) {
 			$plugin = $orderConfig[$j]['id']['plugin'];
 			$handler = $orderConfig[$j]['id']['handler'];
 			$sidbarPluginIndex = $plugin . '/' . $handler;
-			echo count($sidebarPluginArray[$sidbarPluginIndex]['parameters']) > 0 ? 'true' : 'false';
+			
+			echo (array_key_exists($sidbarPluginIndex, $sidebarPluginArray) 
+				&& (count($sidebarPluginArray[$sidbarPluginIndex]['parameters']) > 0)) ? 'true' : 'false';
 			echo ";";
 		}
 		
