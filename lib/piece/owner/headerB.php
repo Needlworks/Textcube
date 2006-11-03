@@ -14,15 +14,15 @@ if (file_exists(ROOT . "/plugins/$pluginDir/$adminSkinDir.css")) {
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/<?php echo $adminSkinDir;?>.css" />
 <?php
 }
-if (file_exists(ROOT . "/plugins/$pluginDir/$adminSkinDir.ie.css")) {
 ?>
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/<?php echo $adminSkinDir;?>.ie.css" />
+	<!--[if lte IE 6]>
+		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.ie.css" />
 	<![endif]-->
-<?php
-}
-?>
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.ie.css" /><![endif]-->
+	<!--[if IE 7]>
+		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie7.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.ie7.css" />
+	<![endif]-->
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $service['path'];?>";
