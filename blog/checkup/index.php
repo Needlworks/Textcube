@@ -1,6 +1,7 @@
 <?php
 define('ROOT', '../..');
 require ROOT . '/lib/include.php';
+require ROOT . '/lib/model/skin.php';
 if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION)) {
 	if ($fp = fopen(ROOT . '/cache/CHECKUP', 'w')) {
 		fwrite($fp, TATTERTOOLS_VERSION);
@@ -377,6 +378,9 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks isFiltered", 'Type'
 
 ?>
 </ul>
+<?php
+	reloadSkin(1);
+?>
 <?php echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));?>
 </p>
 </body>

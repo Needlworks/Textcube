@@ -20,6 +20,39 @@ function setTreeSetting($owner, $setting) {
 		respondErrorPage(mysql_error());
 }
 
+function reloadSkin($owner)
+{
+	global $database, $service;
+	$skinSetting = getSkinSetting($owner);
+	$skinName = $skinSetting['skin'];
+	if (file_exists(ROOT . "/skin/$skinName/index.xml")) {
+		$xml = file_get_contents(ROOT . "/skin/$skinName/index.xml");
+		$xmls = new XMLStruct();
+		if (!$xmls->open($xml, $service['encoding']))
+			return;
+		$value = $xmls->getValue('/skin/default/commentMessage/none'); 
+		if (is_null($value)) 
+			setUserSetting('noneCommentMessage', NULL);
+		else
+			setUserSetting('noneCommentMessage', $value);
+		$value = $xmls->getValue('/skin/default/commentMessage/single'); 
+		if (is_null($value))
+			setUserSetting('singleCommentMessage', NULL);
+		else
+			setUserSetting('singleCommentMessage', $value);
+		$value = $xmls->getValue('/skin/default/trackbackMessage/none'); 
+		if (is_null($value))
+			setUserSetting('noneTrackbackMessage', NULL);
+		else
+			setUserSetting('noneTrackbackMessage', $value);
+		$value = $xmls->getValue('/skin/default/trackbackMessage/single'); 
+		if (is_null($value))
+			setUserSetting('singleTrackbackMessage', NULL);
+		else
+			setUserSetting('singleTrackbackMessage', $value);
+	}
+}
+
 function selectSkin($owner, $skinName) {
 	global $database, $service;
 	if (empty($skinName))
