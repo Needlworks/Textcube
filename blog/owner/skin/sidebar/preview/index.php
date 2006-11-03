@@ -4,7 +4,9 @@ define('ROOT', '../../../../..');
 $IV = array(
 	'REQUEST' => array(
 		'sidebarNumber' => array('int'),
-		'modulePos' => array('int')
+		'modulePos' => array('int'),
+		'safe' => array('any', 'mandatory' => false),
+		'tag' => array('any', 'mandatory' => false)
 		)
 	);
 require ROOT . '/lib/includeForOwner.php';
