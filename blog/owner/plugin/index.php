@@ -310,7 +310,7 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 		if (!in_array($_POST['scopeType'], $scope))
 			continue;
 	if (!defined('__TATTERTOOLS_CENTER__')) {
-		if ($scope == 'dashboard') {
+		if (in_array('dashboard', $scope) && (count($scope) == 1)) {
 			continue;
 		}
 	}
