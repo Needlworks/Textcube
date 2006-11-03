@@ -135,7 +135,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												tempLink.id = "protectedSettingIcon_" + entry;
 												tempLink.className = "protect-off-button button";
 												tempLink.setAttribute("href", "<?php echo $blogURL;?>/owner/entry/edit/" + entry + "#status-line");
-												tempLink.setAttribute("onclick", "showProtectSetter(" + entry + "); return false;");
+												tempLink.onclick = function () { showProtectSetter(entry); return false;};
 												tempLink.setAttribute("title", "<?php echo _t('보호 패스워드를 설정합니다.');?>");
 												tempLink.innerHTML = '<span class="text"><?php echo _t('보호설정');?><\/span>';
 												
