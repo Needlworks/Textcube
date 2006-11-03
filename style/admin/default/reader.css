@@ -642,6 +642,7 @@ ul#feedList li .edit-button span
 /* configure ------------------------------------------------------------------------------------*/
 #configure
 {
+	border : 1px solid red !important;
 	background-color                 : #D2D2CC;
 	margin-top                       : -5px;
 	padding                          : 0;
@@ -665,6 +666,7 @@ ul#feedList li .edit-button span
 
 #configure .data-inbox .section dl
 {
+	border-top                       : 1px solid #DDDDDD;
 	clear                            : both;
 }
 
@@ -681,7 +683,7 @@ ul#feedList li .edit-button span
 #configure .data-inbox .section .title
 {
 	background-image                 : url("./image/reader/iconSetupitem.gif");
-	background-position              : top 4px;
+	background-position              : 4px top;
 	background-repeat                : no-repeat;
 	color                            : #000000;
 	display                          : block !important;
@@ -933,7 +935,6 @@ ul#feedList li .edit-button span
 	cursor                           : pointer;
 	overflow                         : hidden;
 	padding                          : 5px 5px 2px 5px;
-	word-break                       : break-all;
 }
 
 #listup table tr td .content

@@ -8,14 +8,14 @@
 }
 
 /* data subbox */
-.data-subbox
-{
-	padding                          : 0 8px 8px 8px;
-}
-
 #search-form
 {
 	top                              : 59px;
+}
+
+#page-section .page-count
+{
+	right                            : 30px;
 }
 
 .data-subbox .input-button,

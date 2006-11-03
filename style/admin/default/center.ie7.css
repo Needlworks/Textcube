@@ -1,0 +1,14 @@
+@charset "utf-8";
+
+/* Setting ***************************************************************************************/
+
+#sorting-line
+{
+	bottom                           : -3px;
+	padding-top                      : 5px;
+}
+
+#activate-status-line
+{
+	bottom                           : 4px;
+}

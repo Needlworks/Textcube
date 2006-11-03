@@ -48,6 +48,50 @@ table.data-inbox tbody tr td.ip
 	text-align                       : left;
 }
 
+/* data description */
+#data-description
+{
+	text-align                       : right;
+}
+
+#data-description dl
+{
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : inline;
+	font-family                      : 돋움, Dotum, sans-serif;
+	font-size                        : 0.93em;
+	font-weight                      : normal;
+	letter-spacing                   : -1px;
+	padding                          : 3px 0 1px 17px;
+}
+
+#data-description dl dt
+{
+	display                          : none;
+}
+
+#data-description dl dd
+{
+	display                          : inline;
+	margin                           : 0;
+	padding-right                    : 10px;
+	position                         : static;
+}
+
+#data-description dl.trackback-description
+{
+	background-image                 : url("./image/icon_trackback.gif");
+}
+
+#data-description dl.protect-description
+{
+	background-image                 : url("./image/icon_protectedsetting_single.gif");
+	background-position              : left 1px;
+	padding                          : 3px 0 1px 28px;
+}
+
+
 /* Post *******************************************************************************************/
 
 /* table header */
@@ -230,6 +274,11 @@ table.data-inbox tbody tr td.ip
 
 /* Notify *****************************************************************************************/
 
+#part-post-notify #search-form
+{
+	top                              : 97px !important;
+}
+
 #part-post-notify table.data-inbox thead tr th.delete
 {
 	width                            : 20px;
@@ -351,7 +400,7 @@ table.data-inbox tbody tr td.ip
 
 #part-post-trash #search-form
 {
-	top                              : 100px;
+	top                              : 108px;
 }
 
 #part-post-trash .main-explain-box p

@@ -9,15 +9,6 @@
 
 /* Post *******************************************************************************************/
 
-#part-post-list .data-subbox
-{
-	background-color                 : #EEEEEE;
-	border-top                       : 1px solid #BBBBBB;
-	margin                           : 0 auto 110px auto;
-	padding                          : 0 8px 8px 8px;
-	width                            : 924px;
-}
-
 #part-post-list #search-form
 {
 	background-color                 : transparent !important;
@@ -29,14 +20,7 @@
 
 #part-post-comment #search-form
 {
-	top                              : 51px;
-}
-
-/* Trackback ***************************************************************************************/
-
-#part-post-trackback #search-form
-{
-	top                              : 51px;
+	top                              : 58px;
 }
 
 /* Tree ******************************************************************************************/

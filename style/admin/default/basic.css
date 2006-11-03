@@ -49,6 +49,7 @@ dl dt
 	left                             : 0;
 	line-height                      : 2em;
 	position                         : absolute;
+	text-align                       : left;
 	top                              : 0;
 }
 
@@ -56,6 +57,7 @@ dl dd
 {
 	line-height                      : 2em;
 	margin-left                      : 100px;
+	text-align                       : left;
 }
 
 em
@@ -162,7 +164,6 @@ textarea
 /* Layout Header **********************************************************************************/
 
 /* main description */
-
 #main-description-box
 {
 	background-image                 : url("./image/bg_header.png");
@@ -183,7 +184,7 @@ textarea
 #main-description li
 {
 	display                          : inline;
-	line-height                      : 1.5em;
+	line-height                      : 33px;
 }
 
 #description-blogger
@@ -220,7 +221,6 @@ textarea
 }
 
 /* main menu */
-
 #main-menu-box
 {
 	background-color                 : #7A9BC9;
@@ -752,29 +752,25 @@ table.data-inbox tbody tr td.inactive-class
 /* data subbox */
 .data-subbox
 {
+	position                         : relative;
+}
+
+#change-section,
+#delete-section
+{
 	background-color                 : #EEEEEE;
 	border-top                       : 1px solid #BBBBBB;
-	margin                           : 0 auto 110px auto;
+	margin                           : 0 auto 5px auto;
 	padding                          : 8px;
 	width                            : 924px;
 }
 
-.data-subbox select
-{
-	margin                           : 0 5px;
-}
-
 #page-navigation
 {
-	bottom                           : 60px;
-	position                         : absolute;
+	background-color                 : #FFFFFF;
+	margin                           : 20px 0 40px 0;
 	text-align                       : center;
 	width                            : 940px;
-}
-
-#page-navigation span
-{
-	/*display                          : block;*/
 }
 
 #page-navigation span .selected
@@ -802,7 +798,9 @@ table.data-inbox tbody tr td.inactive-class
 #page-section .page-count
 {
 	display                          : block;
-	margin-top                       : -21px;
+	position                         : absolute;
+	top                              : 9px;
+	right                            : 20px;
 	text-align                       : right;
 }
 
@@ -817,9 +815,9 @@ table.data-inbox tbody tr td.inactive-class
 	border                           : none;
 	margin                           : 0;
 	position                         : absolute;
-	right                            : 18px;
+	right                            : 25px;
 	text-align                       : right;
-	top                              : 53px;
+	top                              : 60px;
 	width                            : 300px;
 	z-index                          : 1;
 }

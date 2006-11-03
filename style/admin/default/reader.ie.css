@@ -83,7 +83,7 @@ ul#feedList li
 /* configure ------------------------------------------------------------------------------------*/
 #configure
 {
-
+	background-color                 : #D2D2CC !important;
 }
 
 #configure .data-inbox

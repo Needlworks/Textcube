@@ -796,6 +796,17 @@ for ($i=0; $i<sizeof($entries); $i++) {
 										<input type="button" id="apply-button" class="apply-button input-button" value="<?php echo _t('적용');?>" onclick="processBatch(document.getElementById('commandBox'));" />
 									</div>
 									
+									<div id="data-description">
+										<dl class="trackback-description">
+											<dt>트랙백</dt>
+											<dd>관련글에 트랙백을 보냅니다.</dd>
+										</dl>
+										<dl class="protect-description">
+											<dt>보호글</dt>
+											<dd>보호글의 패스워드를 설정합니다.</dd>
+										</dl>
+									</div>
+									
 									<div id="page-section" class="section">
 										<div id="page-navigation">
 											<span id="page-list">

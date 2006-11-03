@@ -47,8 +47,11 @@
 
 #shortcut-collection ul li
 {
+	background-image                 : url("./image/icon_newPost.gif");
+	background-position              : 5px center;
+	background-repeat                : no-repeat;
 	border-bottom                    : 1px solid #EEEEEE;
-	padding                          : 7px 10px 5px 15px;
+	padding                          : 6px 10px 5px 22px;
 	text-align                       : left;
 }
 
@@ -249,9 +252,10 @@
 
 #activate-status-line
 {
+	bottom                           : 5px;
 	position                         : absolute;
 	right                            : 20px;
-	bottom                           : 5px;
+	z-index                          : 100;
 }
 
 #part-center-plugins fieldset dl dt
