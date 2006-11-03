@@ -84,8 +84,6 @@ class GuestComment {
 			$query->setAttribute('written', 'UNIX_TIMESTAMP()');
 		
 		if (!$query->insert()) {
-			error_log($query->_query);
-			error_log(mysql_error());
 			return $this->_error('insert');
 		}
 		$this->id = $query->id;
