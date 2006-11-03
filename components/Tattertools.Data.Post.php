@@ -277,7 +277,7 @@ class Post {
 			$query->setAttribute('slogan', $checkSlogan, false);
 			if (!DBQuery::queryExistence(
 				"SELECT id FROM {$database['prefix']}Entries " 
-				. "WHERE owner = $owner AND slogan ='{$checkSlogan}'")
+				. "WHERE owner = $owner AND id <> {$this->id} AND slogan ='{$checkSlogan}'")
 				) 
 			{
 				if (!$query->update())
