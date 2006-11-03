@@ -25,6 +25,15 @@ if (count($centerMappings) == 0) {
 	unset($_GET['rel']);
 }
 
+function findPlugin($item, $arrays)
+{
+	foreach($arrays as $key => $data) {
+		if (($item['plugin'] === $data['plugin']) && ($item['handler'] === $data['handler']))
+			return $key;
+	}
+	return false;
+}
+
 if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ){
 	
 	$seperatorCount = 0;
@@ -33,8 +42,8 @@ if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ){
 		if ($item['plugin'] == 'TatterToolsSeperator') {
 			array_push($newlayout, $item);
 			$seperatorCount++;
-		} else if (($pos = array_search($item, $centerMappings, true)) !== false) {
-			array_push($newlayout, $item);
+		} else if (($pos = findPlugin($item, $centerMappings)) !== false) {
+			array_push($newlayout, $centerMappings[$pos]);
 			unset($centerMappings[$pos]);
 		} else {
 			array_push($addedlayout, $item);
@@ -73,7 +82,12 @@ if (isset($_GET['pos']) && is_numeric($_GET['pos'])) {
 }
 
 if ((count($centerMappings) > 0) || (count($addedlayout) > 0) || ($modified == true)) {
-	setUserSetting('centerLayout', serialize($newlayout));
+	$saveLayout = array_values($newlayout);
+	for ($i = 0; $i < count($saveLayout); $i++)
+	{
+		unset($saveLayout[$i]['title']);
+	}
+	setUserSetting('centerLayout', serialize($saveLayout));
 }
 
 unset($addedlayout);
