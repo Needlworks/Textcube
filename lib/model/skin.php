@@ -224,7 +224,8 @@ function setSkinSetting($owner, $setting) {
 	$sql = "
 	UPDATE {$database['prefix']}BlogSettings 
 	SET 
-		entriesOnPage 			= '{$setting['entriesOnPage']}'
+		entriesOnPage 			= '{$setting['entriesOnPage']}',
+		entriesOnList 			= '{$setting['entriesOnList']}'
 	WHERE owner = $owner ";
 	if (update($sql) > - 1) {
 		return true;

@@ -60,8 +60,8 @@ function getEntryAttributes($owner, $id, $attributeNames) {
 	return $attributes;
 }
 
-function getEntryListByCategory($owner, $category) {
-	global $database;
+function getEntryListWithPagingByCategory($owner, $category, $page, $count) {
+	global $database, $suri, $folderURL;
 	if ($category === null)
 		return array();
 	if ($category > 0) {
@@ -75,25 +75,25 @@ function getEntryListByCategory($owner, $category) {
 				location,password,acceptComment,acceptTrackback,
 				published,created,modified,comments,trackbacks
 			FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility $cond ORDER BY published DESC";
-	return fetchQueryAll($sql);
+	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
-function getEntryListByTag($owner, $tag) {
-	global $database;
+function getEntryListWithPagingByTag($owner, $tag, $page, $count) {
+	global $database, $suri, $folderURL;
 	if ($tag === null)
 		return array();
 	$tag = mysql_tt_escape_string($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$sql = "SELECT e.* FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' ORDER BY published DESC";
-	return fetchQueryAll($sql);
+	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
-function getEntryListByPeriod($owner, $period) {
-	global $database;
+function getEntryListWithPagingByPeriod($owner, $period, $page, $count) {
+	global $database, $suri, $folderURL;
 	$cond = "AND published >= " . getTimeFromPeriod($period) . " AND published < " . getTimeFromPeriod(addPeriod($period));
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
 	$sql = "SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 $cond ORDER BY published DESC";
-	return fetchQueryAll($sql);
+	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
 function getEntryListBySearch($owner, $search) {

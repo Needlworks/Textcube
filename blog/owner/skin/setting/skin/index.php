@@ -3,6 +3,7 @@ define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
 		'entriesOnPage' => array('int'),
+		'entriesOnList' => array('int'),
 		'entriesOnRecent' => array('int'),
 		'commentsOnRecent' => array('int'),
 		'commentsOnGuestbook' => array('int'),

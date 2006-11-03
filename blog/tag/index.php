@@ -6,9 +6,9 @@ if (false) {
 }
 if (strlen($suri['value'])) {
 	$tag = getTagId($owner, $suri['value']);
-	if ($suri['page'] === true || $suri['page'] === '1')
-		$list = array('title' => $suri['value'], 'items' => getEntryListByTag($owner, $tag));
-	list($entries, $paging) = getEntriesWithPagingByTag($owner, $tag, $suri['page'], $blog['entriesOnPage']);
+	$listWithPaging = getEntryListWithPagingByTag($owner, $tag, $suri['page'], $blog['entriesOnList']);
+	$list = array('title' => $suri['value'], 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
+	list($entries, $paging) = getEntriesWithPagingByTag($owner, $tag, $suri['page'], $blog['entriesOnList']);
 	require ROOT . '/lib/piece/blog/begin.php';
 	require ROOT . '/lib/piece/blog/list.php';
 	require ROOT . '/lib/piece/blog/entries.php';
