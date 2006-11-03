@@ -28,7 +28,7 @@ function SB_Spacer($target)
 	global $configVal;
 	requireComponent('Tattertools.Function.misc');
 	$data = misc::fetchConfigVal($configVal);
-	if(!is_null($data)){
+	if(!is_null($data) && array_key_exists('height', $data)){
 		$height = $data['height'];
 	} else {
 		$height = '20';

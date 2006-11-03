@@ -10,9 +10,9 @@
 		this.dragClass = "ajax-floating-panel";
 		this.opacity = 0.9;
 		
-		decorateDragPanel(this.domNode);
-		
+        if (this.domNode.sidebarNumber != null) decorateDragPanel(this.domNode);		
 	}
+	
 	dojo.inherits(DragPanel, dojo.dnd.HtmlDragSource);
 
 	DragPanelAdd = function(node, type) {
@@ -47,14 +47,14 @@
 				newNode.identifier = e.dragObject.domNode.identifier;
 				newNode.innerHTML = e.dragObject.domNode.innerHTML;
 				newNode.hasPropertyEdit = e.dragObject.domNode.hasPropertyEdit;
-				
+
 				e.dragObject.domNode = newNode;
 				
 				new DragPanel(newNode, ["sidebar"]);
 			}
 			if ((e.dragObject.domNode.ajaxtype == 'register') && (e.dragObject.domNode.moduleCategory == 'sidebar_element')) 
 			{
-				decorateDragPanel(e.dragObject.domNode);
+				//decorateDragPanel(e.dragObject.domNode);
 			}
 			this.parentMethod = DropPanel.superclass.onDrop;
 			var retVal = this.parentMethod(e);
@@ -102,6 +102,7 @@
 					request.moduleCategory = e.dragObject.domNode.moduleCategory;
 					request.onSuccess = function () {
 						if (this.moduleCategory == 'plugin') previewPlugin(this.sidebar, this.modulepos);
+						decorateDragPanel(e.dragObject.domNode);
 					}
 					request.onError = function () {
 						globalChker = false;
@@ -252,7 +253,7 @@
 	}
 
 	function previewPlugin(sidebar, modulepos) {
-		var requestURL = blogURL + "/owner/skin/sidebar/preview?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + viewMode;
+		var requestURL = blogURL + "/owner/skin/sidebar/preview?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + previewMode;
 		
 		var request = new HTTPRequest("GET", requestURL);
 		request.sidebar = sidebar;
@@ -296,12 +297,6 @@
 			pNode = pNode.nextSibling;
 		}
 		if (pNode != null) {
-			/*pNode.style.display = 'inline';
-			if (dojo.render.html.ie55 || dojo.render.html.ie60 || dojo.render.html.ie70) {
-				pNode.style.styleFloat = 'left';
-			} else {
-				pNode.style.setProperty('float', 'left', '');
-			}*/
 			var newNode = document.createElement('a');
 			newNode.className = "module-close";
 			newNode.href = blogURL + "/owner/skin/sidebar/delete/?sidebarNumber=" + sourceSidebar + "&modulePos=" + sourcePostion + viewMode;

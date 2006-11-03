@@ -159,6 +159,7 @@ $initModeSelected = "";
 $viewMode = '';
 $viewMode2 = '';
 $viewMode3 = '';
+$previewMode = '';
 
 if ((!isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
 	$defaultModeSelected = " selected";
@@ -167,11 +168,13 @@ if ((!isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
 	$viewMode = '&amp;viewMode=safe';
 	$viewMode2 = '?viewMode=safe';
 	$viewMode3 = '&viewMode=safe';
+	$previewMode = '&safe';
 } else if ((!isset($_REQUEST['safe'])) && (isset($_REQUEST['tag']))) {
 	$tagModeSelected = " selected";
 	$viewMode = '&amp;viewMode=tag';
 	$viewMode2 = '?viewMode=tag';
 	$viewMode3 = '&viewMode=tag';
+	$previewMode = '&tag';
 } else if ((isset($_REQUEST['safe'])) && (isset($_REQUEST['tag']))) {
 		$initModeSelected = " selected";
 	}
@@ -454,6 +457,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 								var commonString_delete = "<?php echo _t('삭제');?>";
 								var commonString_cancel = "<?php echo _t('취소');?>";
 								var viewMode = "<?php echo $viewMode3;?>";
+								var previewMode = "<?php echo $previewMode;?>";
 								
 								function reordering() {
 									var pos = 0;
