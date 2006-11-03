@@ -7,7 +7,8 @@ function eolinLocationTagFunction_WatchInputBox(id)
 	{
 		var instance = document.getElementById(id).instance;
 		if (instance.input.value.charAt(instance.input.value.length - 1) == '/') {
-		    instance.setValue(instance.input.value, true);
+            if (input.value.length == 1) input.value = '';
+		    else instance.setValue(instance.input.value, true);
 		    return;
 		}
 		if(instance.input.value != instance.typingText)
@@ -146,36 +147,35 @@ function LocationTag(container, language, disable)
 		instance.isTyping = true;
 
 		event = instance.adjustEventCompatibility(event);
-
-		switch(event.keyCode)
-		{
-			case 8:		// BackSpace
-				if(this.value == "")
-					instance.moveBack();
-				else
-					return event.keyCode;
-				break;
-			case 13:	// Enter
-			case 191:   // slash
-				instance.setValue(this.value, true);
-				break;
-			case 9 :    // tab
-			    if (this.value.trim() == "") return event.keyCode;
-				instance.setValue(this.value);
-				break;
-			case 27:	// ESC
-				instance.hideSuggestion();
-				break;
-			case 38:	// Key Up
-				instance.moveUp();
-				break;
-			case 40:	// Key Down
-				instance.moveDown();
-				break;
-			default:
-				return event.keyCode;
-		}
-
+		
+	    switch(event.keyCode)
+	    {
+		    case 8:		// BackSpace
+			    if(this.value == "")
+				    instance.moveBack();
+			    else
+				    return event.keyCode;
+			    break;
+		    case 13:	// Enter
+			    instance.setValue(this.value, true);
+			    break;
+		    case 9 :    // tab
+		        if (this.value.trim() == "") return event.keyCode;
+			    instance.setValue(this.value, true);
+			    break;
+		    case 27:	// ESC
+			    instance.hideSuggestion();
+			    break;
+		    case 38:	// Key Up
+			    instance.moveUp();
+			    break;
+		    case 40:	// Key Down
+			    instance.moveDown();
+			    break;
+		    default:
+			    return event.keyCode;
+	    }
+        		
 		event.returnValue = false;
 		event.cancelBubble = true;
 
@@ -184,6 +184,32 @@ function LocationTag(container, language, disable)
 		return false;
 	}
 
+	this.input.onkeypress = function(event) { return preventEnter(event); };
+	
+	this.input.onkeyup = function(event) {
+		var instance = this.instance;
+
+		instance.isTyping = true;
+
+		event = instance.adjustEventCompatibility(event);
+		
+	    switch(event.keyCode)
+	    {
+		    case 191:   // slash
+			    instance.setValue(this.value, true);
+			    break;
+		    default:
+			    return event.keyCode;
+	    }
+        		
+		event.returnValue = false;
+		event.cancelBubble = true;
+
+		try { event.preventDefault(); } catch(e) { }
+
+		return false;
+	}
+	
 	// 10ms마다 input box의 값이 변했는지 체크
 	setInterval("eolinLocationTagFunction_WatchInputBox('" + this.container.id + "')", 10);
 

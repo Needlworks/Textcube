@@ -403,7 +403,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 										<dl id="title-line" class="line">
 											<dt><label for="title" id="title-line-label"><?php echo $isKeyword ? _t('키워드') : _t('제목');?></label></dt>
 											<dd>
-												<input type="text" id="title" class="input-text" name="title" value="<?php echo htmlspecialchars($entry['title']);?>" size="60" />
+												<input type="text" id="title" class="input-text" name="title" value="<?php echo htmlspecialchars($entry['title']);?>" onkeypress="return preventEnter(event);" size="60" />
 											</dd>
 										</dl>
 										<dl id="category-line" class="line">
@@ -565,7 +565,7 @@ printEntryFileUploadButton($entry['id']);
 											<dl id="permalink-line" class="line"<?php if($isKeyword) echo _t('style="display: none"');?>>
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
 												<dd>
-													<samp><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="input-text" name="permalink" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
+													<samp><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="input-text" name="permalink" onkeypress="return preventEnter(event);" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
 													<p><?php echo _t('*입력하지 않으면 글의 제목이 절대 주소가 됩니다.');?></p>
 												</dd>
 											</dl>
@@ -586,7 +586,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 ?>
 													<div class="publish-preserve">
 														<input type="radio" id="publishedPreserve" class="radio" name="published" value="2" <?php echo (isset($entry['appointed']) ? 'checked="checked"' : '');?> /><label for="publishedPreserve" onclick="document.getElementById('appointed').select()"><?php echo _t('예약');?></label>
-														<input type="text" id="appointed" class="input-text" name="appointed" value="<?php echo Timestamp::format5(isset($entry['appointed']) ? $entry['appointed'] : $entry['published']);?>" onfocus="document.forms[0].published[document.forms[0].published.length - 1].checked = true" />
+														<input type="text" id="appointed" class="input-text" name="appointed" value="<?php echo Timestamp::format5(isset($entry['appointed']) ? $entry['appointed'] : $entry['published']);?>" onfocus="document.forms[0].published[document.forms[0].published.length - 1].checked = true" onkeypress="return preventEnter(event);" />
 													</div>
 												</dd>
 											</dl>

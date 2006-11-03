@@ -873,3 +873,16 @@ function makeQueryStringByForm(formId) {
 function showMessage(str) {
 	PM.showMessage("" + str, "right", "bottom");
 }
+
+function preventEnter(event) {
+    if (!event) event = window.event;
+    if (event.keyCode == 13) {
+        event.returnValue = false; 
+        event.cancelBubble = true;
+        try { 
+            event.preventDefault(); 
+        } catch(e) { }
+        return false;
+    }
+    return true;
+}

@@ -8,7 +8,8 @@ function eolinTagFunction_WatchInputBox(id)
 		var instance = document.getElementById(id).instance;
 		var input = instance.getInput();
 		if (input.value.charAt(input.value.length - 1) == ',') {
-		    instance.setValue(input.value.substring(0, input.value.length - 1));
+		    if (input.value.length == 1) input.value = '';
+		    else instance.setValue(input.value.substring(0, input.value.length - 1));
 		    return;
 		}
 
@@ -341,6 +342,8 @@ Tag.prototype.createSuggestInput = function()
 
 		return false;
 	}
+	
+	input.onkeypress = function(event) { return preventEnter(event); };
 
 	return input;
 }
