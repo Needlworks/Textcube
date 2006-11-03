@@ -12,6 +12,11 @@ requireComponent( "Tattertools.Data.Category" );
 
 /*--------- API main ---------------*/
 
+if (getUserSetting('useBlogAPI', 0) != 1) {
+	respondNotFoundPage();
+	exit;
+}
+
 function SendRSD()
 {
 	global $hostURL, $blogURL;

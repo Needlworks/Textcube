@@ -508,6 +508,11 @@ function api_update_attaches_with_replace($entryId)
 /*--------- API main ---------------*/
 function api_BlogAPI()
 {
+	if (!array_key_exists('HTTP_RAW_POST_DATA', $GLOBALS)) {
+		XMLRPC::sendFault(1, 'Invalid Method Call');
+		exit;
+	}
+	
 	$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
 
 	$functions = array(
