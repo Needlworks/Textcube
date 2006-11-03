@@ -96,13 +96,13 @@ function getEntryListWithPagingByPeriod($owner, $period, $page, $count) {
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
-function getEntryListBySearch($owner, $search) {
-	global $database;
+function getEntryListWithPagingBySearch($owner, $search, $page, $count) {
+	global $database, $suri, $folderURL;
 	$search = escapeMysqlSearchString($search);
 	$cond = empty($search) ? '' : "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	$sql = "SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 $cond ORDER BY published DESC";
-	return fetchQueryAll($sql);
+	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
 function getEntriesWithPaging($owner, $page, $count) {

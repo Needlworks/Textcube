@@ -10,6 +10,7 @@ if ($skinSetting['showListOnArchive'] == 1 || $skinSetting['showListOnArchive'] 
 	$list = array('title' => getPeriodLabel($period), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 }
+$entries = array();
 if ($skinSetting['showListOnCategory'] == 1 || $skinSetting['showListOnCategory'] == 0)
 	list($entries, $paging) = getEntriesWithPagingByPeriod($owner, $period, $suri['page'], $blog['entriesOnPage']);
 require ROOT . '/lib/piece/blog/begin.php';
