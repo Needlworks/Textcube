@@ -82,14 +82,17 @@
 					
 					var request = new HTTPRequest("POST", requestURL);
 					request.onSuccess = function () {
+					    clearWaitServerResponse();
 					}
 					request.onError = function () {
 						globalChker = false;
+					    errorWaitServerResponse();
 					}
 					request.onVerify = function () {
 						return true;
 					}
 					request.send();
+					waitServerResponse();
 				} else if (e.dragObject.domNode.ajaxtype == 'register') {
 					e.dragObject.domNode.sidebarNumber = targetSidebar;
 					e.dragObject.domNode.ajaxtype = 'reorder';
@@ -101,16 +104,19 @@
 					request.modulepos = targetPosition;
 					request.moduleCategory = e.dragObject.domNode.moduleCategory;
 					request.onSuccess = function () {
+					    clearWaitServerResponse();
 						if (this.moduleCategory == 'plugin') previewPlugin(this.sidebar, this.modulepos);
 						decorateDragPanel(e.dragObject.domNode);
 					}
 					request.onError = function () {
 						globalChker = false;
+					    errorWaitServerResponse();
 					}
 					request.onVerify = function () {
 						return true;
 					}
 					request.send();
+					waitServerResponse();
 				} else {
 					alert(e.dragObject.domNode.ajaxtype);
 				}
@@ -241,6 +247,7 @@
 				return true;
 			}
 			request.onError = function () {
+			    errorWaitServerResponse();
 				globalChker = false;
 			}
 			request.onVerify = function () {
@@ -356,4 +363,37 @@
 			return true;
 		}
 		request.send();
+	}
+	
+	function waitServerResponse()
+	{
+		if (dlg != null) {
+			dlg.setContent('<p>' + commonString_saving + '</p>');
+			dlg.show();
+		}
+	}
+	
+	function clearWaitServerResponse()
+	{
+	    dlg.hide();
+	}
+	
+	function errorWaitServerResponse()
+	{
+	    dlg.setContent('<p>' + commonString_error + '</p>');
+		var btn = document.createElement('input');
+		btn.type = 'button';
+		btn.value = commonString_close;
+		btn.className = 'input-button';
+		btn.onclick = function () { window.location.reload(); return false; };
+		
+		var oDiv = document.createElement('input');
+		oDiv.clasName = 'button-box';
+		
+		oDiv.appendChild(btn);
+		var pNode = dlg.domNode;
+		pNode.appendChild(oDiv);
+			
+		dlg.setCloseControl(btn);
+		dlg.show();
 	}
