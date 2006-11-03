@@ -50,7 +50,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 		} catch(e) { }		
 		try {
 			obj = opener.document.getElementById("commentCountOnRecentEntries<?php echo $entryId;?>");
-			if (obj != null) obj.innerHTML = "(<?php echo $commentCount;?>)";
+			if (obj != null) obj.innerHTML = "<?php echo ($commentCount > 0) ? '(' . $commentCount . ')' : '';?>";
 		} catch(e) { }		
 		window.close();
 	//]]>
