@@ -519,7 +519,7 @@ function saveDraftEntry($entry) {
 
 function updateTrackbacksOfEntry($owner, $id) {
 	global $database;
-	$trackbacks = fetchQueryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id");
+	$trackbacks = fetchQueryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id AND isFiltered = 0");
 	if ($trackbacks === null)
 		return false;
 	return executeQuery("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks WHERE owner = $owner AND id = $id");
