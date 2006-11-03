@@ -60,7 +60,7 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 								
 								function setEditor() {
 									if (document.getElementById('editor-form').editorMode.value != editorMode) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/etc/editor/?editorMode=" + document.getElementById('editor-form').editorMode.value);
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/etc/editor/?editorMode=" + document.getElementById('editor-form').editorMode.value + "&amp;useBlogAPI=" + document.getElementById('editor-form').useBlogAPI.value);
 										request.onSuccess = function() {
 											editorMode = document.getElementById('editor-form').editorMode.value;
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
@@ -351,6 +351,12 @@ $editorMode = getUserSetting('editorMode', 1);
 													<option value="1"<?php echo $editorMode==1?' selected="selected"':'';?>><?php echo _t('위지윅 모드');?></option>
 													<option value="2"<?php echo $editorMode==2?' selected="selected"':'';?>><?php echo _t('HTML 직접 편집');?></option>
 												</select>
+											</dd>
+										</dl>
+										<dl id="blogapi-line class="line">
+											<dt><span class="label"><?php echo _t('블로그 API 사용 여부');?></span></dt>
+											<dd>
+												<input type="checkbox" class="checkbox" id="useBlogAPI" name="useBlogAPI" value="yes" onclick="if (this.checked == false && document.getElementById('useBlogAPI').checked == true) document.getElementById('useBlogAPI').checked = false;" <?php echo (getUserSetting("useBlogAPI") == "yes") ? ' checked="checked"' : NULL;?> /><label for="enableBlogAPI"><?php echo _t('metaWeblogAPI나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다.<br /> API 사용시 주소는 블로그 주소/api 입니다.');?></label>
 											</dd>
 										</dl>
 									</fieldset>
