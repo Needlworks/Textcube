@@ -181,7 +181,7 @@ class Comment {
 		}
 		if (isset($this->password)) {
 			$this->password = mysql_lessen($this->password, 32);
-			$query->setAttribute('password', $this->password);
+			$query->setAttribute('password', $this->password, true);
 			$this->password = null;
 		}
 		return $query;

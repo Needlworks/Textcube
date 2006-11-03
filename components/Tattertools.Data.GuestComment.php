@@ -83,8 +83,11 @@ class GuestComment {
 		if (!$query->hasAttribute('written'))
 			$query->setAttribute('written', 'UNIX_TIMESTAMP()');
 		
-		if (!$query->insert())
+		if (!$query->insert()) {
+			error_log($query->_query);
+			error_log(mysql_error());
 			return $this->_error('insert');
+		}
 		$this->id = $query->id;
 		return true;
 	}
@@ -153,7 +156,7 @@ class GuestComment {
 		}
 		if (isset($this->password)) {
 			$this->password = mysql_lessen($this->password, 32);
-			$query->setAttribute('password', $this->password);
+			$query->setAttribute('password', $this->password, true);
 			$this->password = null;
 		}
 		return $query;
