@@ -641,12 +641,12 @@ function syndicateEntry($id, $mode) {
 	$summary = array('blogURL' => $defaultURL, 'syncURL' => "$defaultURL/sync/$id");
 	if($mode == 'create') {
 		$entry = getEntry($owner, $id);
-		$summary['blogAuthor'] = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
 		$summary['blogTitle'] = $blog['title'];
 		$summary['language'] = $blog['language'];
 		$summary['permalink'] = "$defaultURL/".($blog['useSlogan'] ? "entry/{$entry['slogan']}": $entry['id']);
 		$summary['title'] = $entry['title'];
 		$summary['content'] = UTF8::lessenAsByte(getEntryContentView($owner, $entry['id'], $entry['content']), 1023, '');
+		$summary['author'] = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
 		$summary['tags'] = array();
 		foreach(DBQuery::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND owner = $owner AND entry = $id ORDER BY name") as $tag)
 			array_push($summary['tags'], $tag['name']);
