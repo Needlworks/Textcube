@@ -1126,14 +1126,14 @@ function bindTags($id, $content) {
 	for ($no = 0; (($start = strpos($content, '[#M_')) !== false) && (($end = strpos($content, '_M#]', $start + 4)) !== false); $no++) {
 		$prefix = substr($content, 0, $start);
 		list($more, $less, $full) = explode('|', substr($content, $start + 4, $end - $start - 4), 3);
+		$more2 = str_replace("'", "\\'", str_replace("\\", "\\\\", $more));
+		$less2 = str_replace("'", "\\'", str_replace("\\", "\\\\", $less));
 		$postfix = substr($content, $end + 4);
 		$content = $prefix;
 		if (defined('__TATTERTOOLS_MOBILE__')) {
 			$content .= "<div>[$more | $less]<br />$full</div>";
 		} else {
-			$content .= "<p id=\"more{$id}_$no\" class=\"moreless_fold\"><span style=\"cursor: pointer;\" onclick=\"toggleMoreLess(this, '{$id}_$no','$more','$less'); return false;\">$more</span></p><div id=\"content{$id}_$no\" class=\"moreless_content\" style=\"display: none;\">$full</div>";
-			//$content .= "<div id=\"more{$id}_$no\" style=\"display:block\"><a href=\"#\" onclick=\"hideLayer('more{$id}_$no');showLayer('less{$id}_$no');return false\"></a></div>";
-			//$content .= "<div id=\"less{$id}_$no\" style=\"display:none\"><a href=\"#\" onclick=\"showLayer('more{$id}_$no');hideLayer('less{$id}_$no');return false\"></a>$full</div>";
+			$content .= "<p id=\"more{$id}_$no\" class=\"moreless_fold\"><span style=\"cursor: pointer;\" onclick=\"toggleMoreLess(this, '{$id}_$no','$more2','$less2'); return false;\">$more</span></p><div id=\"content{$id}_$no\" class=\"moreless_content\" style=\"display: none;\">$full</div>";
 		}
 		$content .= $postfix;
 	}

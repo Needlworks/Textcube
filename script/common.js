@@ -801,7 +801,10 @@ function toggleMoreLess(obj, num, txtMore, txtLess)
 		oLess = document.createElement("P");
 		oLess.id = "less" + num;
 		oLess.className = "moreless_bottom";
-		oLess.innerHTML = '<span style="cursor: pointer;" onclick="toggleMoreLess(this, \'' + num + '\', \'' + txtMore + '\', \'' + txtLess + '\'); return false;">' + txtLess + '<\/span>';
+		txtMore2 = txtMore.replace("\\", "\\\\").replace("'", "\\'");
+		txtLess2 = txtLess.replace("\\", "\\\\").replace("'", "\\'");
+		
+		oLess.innerHTML = '<span style="cursor: pointer;" onclick="toggleMoreLess(this, \'' + num + '\', \'' + txtMore2 + '\', \'' + txtLess2 + '\'); return false;">' + txtLess + '<\/span>';
 		
 		after = oContent.nextSibling;
 		oContent.parentNode.insertBefore(oLess, after);
