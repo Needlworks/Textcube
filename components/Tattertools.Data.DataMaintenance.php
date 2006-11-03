@@ -19,7 +19,7 @@ class DataMaintenance {
 		mysql_query("DELETE FROM {$database['prefix']}RefererLogs WHERE owner = $owner");
 		mysql_query("DELETE FROM {$database['prefix']}RefererStatistics WHERE owner = $owner");
 		mysql_query("DELETE FROM {$database['prefix']}Plugins WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}UserSettings WHERE user = $owner");
+		//mysql_query("DELETE FROM {$database['prefix']}UserSettings WHERE user = $owner");
 		
 		mysql_query("DELETE FROM {$database['prefix']}Filters WHERE owner = $owner");
 		mysql_query("DELETE FROM {$database['prefix']}FeedStarred WHERE owner = $owner");

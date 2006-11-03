@@ -205,14 +205,16 @@ function scanner($path, $node, $line) {
 		case '/blog/statistics/daily':
 		case '/blog/skin':
 		case '/blog/plugin':
-		case '/blog/personalization':
 		case '/blog/guestbook/comment':
 		case '/blog/filter':
 		case '/blog/feed':
-		case '/blog/userSetting':
 			$items++;
 			if (!strpos($path, 'referer'))
 				setProgress(null, _t('백업파일을 확인하고 있습니다.'), $line);
+			return true;
+		case '/blog/personalization':
+		case '/blog/userSetting':
+			// skip
 			return true;
 	}
 }
@@ -609,32 +611,32 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $setting->error);
 			return true;
 		case '/blog/personalization':
-			setProgress($item++ / $items * 100, _t('사용자 편의 설정을 복원하고 있습니다.'));
-			$setting = new UserSetting();
-			$setting->name = 'rowsPerPage';
-			$setting->value = $node['rowsPerPage'][0]['.value'];
-			if (!$setting->add())
-				user_error(__LINE__ . $setting->error);
-			$setting->name = 'readerPannelVisibility';
-			$setting->value = $node['readerPannelVisibility'][0]['.value'];
-			if (!$setting->add())
-				user_error(__LINE__ . $setting->error);
-			$setting->name = 'readerPannelHeight';
-			$setting->value = $node['readerPannelHeight'][0]['.value'];
-			if (!$setting->add())
-				user_error(__LINE__ . $setting->error);
-			$setting->name = 'lastVisitNotifiedPage';
-			$setting->value = $node['lastVisitNotifiedPage'][0]['.value'];
-			if (!$setting->add())
-				user_error(__LINE__ . $setting->error);
+//			setProgress($item++ / $items * 100, _t('사용자 편의 설정을 복원하고 있습니다.'));
+//			$setting = new UserSetting();
+//			$setting->name = 'rowsPerPage';
+//			$setting->value = $node['rowsPerPage'][0]['.value'];
+//			if (!$setting->add())
+//				user_error(__LINE__ . $setting->error);
+//			$setting->name = 'readerPannelVisibility';
+//			$setting->value = $node['readerPannelVisibility'][0]['.value'];
+//			if (!$setting->add())
+//				user_error(__LINE__ . $setting->error);
+//			$setting->name = 'readerPannelHeight';
+//			$setting->value = $node['readerPannelHeight'][0]['.value'];
+//			if (!$setting->add())
+//				user_error(__LINE__ . $setting->error);
+//			$setting->name = 'lastVisitNotifiedPage';
+//			$setting->value = $node['lastVisitNotifiedPage'][0]['.value'];
+//			if (!$setting->add())
+//				user_error(__LINE__ . $setting->error);
 			return true;
 		case '/blog/userSetting':
-			setProgress($item++ / $items * 100, _t('사용자 편의 설정을 복원하고 있습니다'));
-			$setting = new UserSetting();
-			$setting->name = $node['name'][0]['.value'];
-			$setting->value = $node['value'][0]['.value'];
-			if (!$setting->add())
-				user_error(__LINE__ . $setting->error);
+//			setProgress($item++ / $items * 100, _t('사용자 편의 설정을 복원하고 있습니다'));
+//			$setting = new UserSetting();
+//			$setting->name = $node['name'][0]['.value'];
+//			$setting->value = $node['value'][0]['.value'];
+//			if (!$setting->add())
+//				user_error(__LINE__ . $setting->error);
 			return true;
 		case '/blog/guestbook/comment':
 			setProgress($item++ / $items * 100, _t('방명록을 복원하고 있습니다.'));
