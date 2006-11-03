@@ -17,7 +17,7 @@ $skin = new Skin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
 $sidebarOrder = getSidebarModuleOrderData($sidebarCount);
 
-if ($_REQUEST['targetPos'] < 0 || $_REQUEST['targetPos'] >= count($sidebarOrder[$_REQUEST['sidebarNumber']]) || $_REQUEST['targetSidebarNumber'] < 0 || $_REQUEST['targetSidebarNumber'] >= count($sidebarOrder)) {
+if ($_REQUEST['targetPos'] < 0 || $_REQUEST['targetPos'] > count($sidebarOrder[$_REQUEST['sidebarNumber']]) || $_REQUEST['targetSidebarNumber'] < 0 || $_REQUEST['targetSidebarNumber'] >= count($sidebarOrder)) {
 	if ($_SERVER['REQUEST_METHOD'] != 'POST')
 		header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 	else
