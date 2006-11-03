@@ -13,7 +13,6 @@ if($entry = DBQuery::queryRow("SELECT e.*, c.name AS categoryName FROM {$databas
 	echo '<url>', htmlspecialchars($defaultURL), '</url>', "\r\n";
 	echo '<title>', htmlspecialchars($blog['title']), '</title>', "\r\n";
 	echo '<description>', htmlspecialchars($blog['description']), '</description>', "\r\n";
-	echo '<author>', htmlspecialchars($blog['name']), '</author>', "\r\n";
 	echo '<comments>', $allComments, '</comments>', "\r\n";
 	echo '<trackbacks>', $allTrackbacks, '</trackbacks>', "\r\n";
 	echo '</blog>', "\r\n";
@@ -21,6 +20,7 @@ if($entry = DBQuery::queryRow("SELECT e.*, c.name AS categoryName FROM {$databas
 	echo '<permalink>', htmlspecialchars("$defaultURL/".($blog['useSlogan'] ? "entry/{$entry['slogan']}": $entry['id'])), '</permalink>', "\r\n";
 	echo '<title>', htmlspecialchars($entry['title']), '</title>', "\r\n";
 	echo '<content>', htmlspecialchars(getEntryContentView($owner, $suri['id'], $entry['content'])), '</content>', "\r\n";
+	echo '<author>', htmlspecialchars($user['name']), '</author>', "\r\n";
 	echo '<category>', htmlspecialchars($entry['categoryName']), '</category>', "\r\n";
 	$result = mysql_query("SELECT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND owner = $owner AND entry = {$entry['id']} ORDER BY name");
 	while(list($tag) = mysql_fetch_row($result))
