@@ -10,5 +10,8 @@ if(!Validator::filename($_GET['skin']) && $_GET['skin'] != "customize/$owner")
 $skinSetting['skin'] = $_GET['skin'];
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/entries.php';
+
+$pageTitle = _t('스킨 미리보기');
+
 require ROOT . '/lib/piece/blog/end.php';
 ?>
