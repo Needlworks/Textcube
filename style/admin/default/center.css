@@ -48,10 +48,10 @@
 #shortcut-collection ul li
 {
 	background-image                 : url("./image/icon_newPost.gif");
-	background-position              : 5px center;
+	background-position              : 15px center;
 	background-repeat                : no-repeat;
 	border-bottom                    : 1px solid #EEEEEE;
-	padding                          : 6px 10px 5px 22px;
+	padding                          : 6px 10px 5px 32px;
 	text-align                       : left;
 }
 
@@ -156,18 +156,29 @@
 	padding                          : 15px 0;
 }
 
+#part-center-quilt .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none !important;
+	font-weight                      : bold;
+	height                           : 30px;
+}
+
 #dojo_boardbar1,
 #dojo_boardbar2
 {
 	margin-left                      : 20px !important;
 }
 
-#part-center-quilt .section
+#part-center-quilt .section,
+.ajax-floating-panel
 {
+	font-size                        : 12px;
 	margin-bottom                    : 15px;
 }
 
-#part-center-quilt .section h3
+#part-center-quilt .section h3,
+.ajax-floating-panel h3
 {
 	background-image                 : url("./image/bg_dashboard_header.png");
 	background-position              : left top;
@@ -178,27 +189,43 @@
 	padding-left                     : 25px;
 }
 
+#part-center-quilt .section h4,
+#part-center-quilt .section h5,
+#part-center-quilt .section h6,
+.ajax-floating-panel h4,
+.ajax-floating-panel h5,
+.ajax-floating-panel h6
+{
+	font-size                        : 1em;
+}
+
 #part-center-quilt .section ol,
-#part-center-quilt .section ul
+#part-center-quilt .section ul,
+.ajax-floating-panel ol,
+.ajax-floating-panel ul
 {
 	width                            : 300px;
 }
 
 #part-center-quilt .section ol li,
-#part-center-quilt .section ul li
+#part-center-quilt .section ul li,
+.ajax-floating-panel ol li,
+.ajax-floating-panel ul li
 {
 	border-bottom                    : 1px solid #EEEEEE;
 	padding                          : 7px 10px 5px 15px;
 	text-align                       : left;
 }
 
-#part-center-quilt .section table
+#part-center-quilt .section table,
+.ajax-floating-panel table
 {
 	margin                           : 0 12px 25px 0;
 	width                            : 300px;
 }
 
-#part-center-quilt .section table tbody tr td
+#part-center-quilt .section table tbody tr td,
+.ajax-floating-panel table tbody tr td
 {
 	border-bottom                    : 1px solid #EEEEEE;
 	border-top                       : 1px solid #EEEEEE;

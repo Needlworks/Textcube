@@ -1044,7 +1044,7 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyImage1_caption1"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage1_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><textarea class="input-text" id="propertyImage1_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 													<dl class="resample-property-box line">
 														<dd>
@@ -1074,7 +1074,7 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyImage2_caption1"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage2_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><textarea class="input-text" id="propertyImage2_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 													<dl class="resample-property-box line">
 														<dd>
@@ -1096,7 +1096,7 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyImage2_resample2"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage2_caption2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><textarea class="input-text" id="propertyImage2_caption2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 													<dl class="resample-property-box line">
 														<dd>
@@ -1126,7 +1126,7 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyImage3_caption1"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage3_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><textarea class="input-text" id="propertyImage3_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 													<dl class="resample-property-box line">
 														<dd>
@@ -1148,7 +1148,7 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyImage3_caption2"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage3_caption2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><textarea class="input-text" id="propertyImage3_caption2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 													<dl class="resample-property-box line">
 														<dd>
@@ -1170,7 +1170,7 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyImage3_caption3"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage3_caption3" value="<?php echo $alt;?>" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><textarea class="input-text" id="propertyImage3_caption3" value="<?php echo $alt;?>" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 													<dl class="resample-property-box line">
 														<dd>
@@ -1214,7 +1214,7 @@ function printEntryEditorProperty($alt=NULL) {
 												<div class="group">
 													<dl class="line">
 														<dt class="property-name"><label for="propertyObject1_caption1"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyObject1_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><textarea class="input-text" id="propertyObject1_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyObject1_filename1"><?php echo _t('파일명');?></label></dt>
@@ -1234,7 +1234,7 @@ function printEntryEditorProperty($alt=NULL) {
 													<div class="title"><?php echo _t('첫번째 오브젝트');?></div>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyObject2_caption1"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyObject2_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><textarea class="input-text" id="propertyObject2_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyObject2_filename1"><?php echo _t('파일명');?></label></dt>
@@ -1246,7 +1246,7 @@ function printEntryEditorProperty($alt=NULL) {
 													<div class="title"><?php echo _t('두번째 오브젝트');?></div>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyObject2_caption2"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyObject2_caption2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><textarea class="input-text" id="propertyObject2_caption2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyObject2_filename2"><?php echo _t('파일명');?></label></dt>
@@ -1266,7 +1266,7 @@ function printEntryEditorProperty($alt=NULL) {
 													<div class="title"><?php echo _t('첫번째 오브젝트');?></div>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyObject3_caption1"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyObject3_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><textarea class="input-text" id="propertyObject3_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyObject3_filename1"><?php echo _t('파일명');?></label></dt>
@@ -1278,7 +1278,7 @@ function printEntryEditorProperty($alt=NULL) {
 													<div class="title"><?php echo _t('두번째 오브젝트');?></div>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyObject3_caption2"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyObject3_caption2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><textarea class="input-text" id="propertyObject3_caption2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyObject3_filename2"><?php echo _t('파일명');?></label></dt>
@@ -1290,7 +1290,7 @@ function printEntryEditorProperty($alt=NULL) {
 													<div class="title"><?php echo _t('세번째 오브젝트');?></div>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyObject3_caption3"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyObject3_caption3" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><textarea class="input-text" id="propertyObject3_caption3" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyObject3_filename3"><?php echo _t('파일명');?></label></dt>
@@ -1364,7 +1364,7 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyiMazing_caption"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyiMazing_caption" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><textarea class="input-text" id="propertyiMazing_caption" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 												</div>
 												
@@ -1403,7 +1403,7 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyGallery_caption"><?php echo _t('자막');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyGallery_caption" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><textarea class="input-text" id="propertyGallery_caption" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 												</div>
 												

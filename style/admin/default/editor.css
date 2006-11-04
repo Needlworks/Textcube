@@ -614,6 +614,7 @@ h3
 	color                            : #000000;
 	display                          : block;
 	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 굴림, Gulim, sans-serif;
+	font-size                        : 1em;
 	font-weight                      : bold;
 	margin                           : 10px 0 5px 0;
 	text-align                       : center;
@@ -623,7 +624,7 @@ h3
 {
 	border-bottom                    : 1px solid #666666;
 	color                            : #666666;
-	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 굴림, Gulim, sans-serif;	
+	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 굴림, Gulim, sans-serif;
 	font-weight                      : bold;
 	margin                           : 10px 0 3px 0;
 }
@@ -639,7 +640,7 @@ h3
 {
 	border                           : none;
 	color                            : #666666;
-	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 돋움, Dotum, sans-serif;
+	font-family                      : 돋움, Dotum, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
 	font-size                        : 0.93em;
 	font-weight                      : normal;
 	height                           : auto;
@@ -678,7 +679,8 @@ h3
 .entry-editor-property dl dd textarea
 {
 	border                           : 1px solid #92B5E8;
-	width                            : 108px !important;
+	height                           : 40px;
+	width                            : 238px !important;
 }
 
 .entry-editor-property dl.resample-property-box dd
@@ -712,6 +714,7 @@ h3
 	border                           : 1px solid #666666 !important;
 	background-color                 : #EEEEEE !important;
 	background-image                 : none !important;
+	cursor                           : pointer !important;
 	display                          : inline !important;
 	float                            : none !important;
 	line-height                      : 1em;
@@ -1007,7 +1010,7 @@ h3
 
 #power-section dl
 {
-	border-top                       : 1px solid #DDDDDD;
+	border-bottom                    : 1px solid #DDDDDD;
 	position                         : relative;
 }
 
@@ -1044,6 +1047,8 @@ dl#permalink-line dd p
 {
 	font-family                      : 돋움, Dotum, sans-serif;
 	font-size                        : 0.9em;
+	letter-spacing                   : -1px;
+	padding-right                    : 5px;
 	text-align                       : right;
 }
 

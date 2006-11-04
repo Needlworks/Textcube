@@ -15,6 +15,28 @@
 
 #part-setting-filter div.data-inbox .section
 {
+	overflow-x                       : hidden;
 	width                            : 184px;
 }
 
+#part-setting-filter div.data-inbox .section table
+{
+	table-layout                     : fixed;
+	width                            : 129px;
+}
+
+#part-setting-filter div.data-inbox .section table tbody tr td.content
+{
+	overflow-x                       : hidden;
+	width                            : 129px;
+}
+
+#part-setting-filter div.data-inbox .section table tbody tr td.empty
+{
+	width                            : 158px;
+}
+
+#part-setting-filter div.data-inbox .section .input-text
+{
+	width                            : 182px !important;
+}

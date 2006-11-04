@@ -380,7 +380,7 @@ dl dd
 
 #part-setting-filter div.data-inbox .section table tbody tr td.content
 {
-	border-bottom : 1px solid #EFEFEF;
+	border-bottom                    : 1px solid #EFEFEF;
 	margin                           : 1px 3px 1px 3px !important;
 	padding                          : 5px 5px 3px 5px;
 }
