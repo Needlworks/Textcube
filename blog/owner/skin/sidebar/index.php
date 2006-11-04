@@ -464,7 +464,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 							</div>
 							
 							<p id="sidebar-description" class="pseudo-clear">
-								<em>*<?php echo _t('복수의 사이드바 사용시 사이드바의 위치는 스킨의 구조에 따라 달라집니다.');?></em>
+								<em>* <?php echo _t('복수의 사이드바 사용시 사이드바의 위치는 스킨의 구조에 따라 달라집니다.');?></em>
 							</p>
 						</form>
 						
