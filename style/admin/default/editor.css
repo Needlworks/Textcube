@@ -1011,6 +1011,7 @@ h3
 #power-section dl
 {
 	border-bottom                    : 1px solid #DDDDDD;
+	border-top                       : 1px solid #FFFFFF;
 	position                         : relative;
 }
 
