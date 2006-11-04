@@ -259,15 +259,21 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										case 'classify':
 											for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
 												var oElement = document.getElementById('list-form').elements[i];
-												if ((oElement.name == "entry") && oElement.checked)
+												if ((oElement.name == "entry") && oElement.checked) {
+													if (document.getElementById("privateIcon_" + oElement.value).className == 'private-on-icon')
+														continue;				
 													setEntryVisibility(oElement.value, 0);
+												}
 											}
 											break;
 										case 'publish':
 											for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
 												var oElement = document.getElementById('list-form').elements[i];
-												if ((oElement.name == "entry") && oElement.checked)
+												if ((oElement.name == "entry") && oElement.checked) {
+													if (document.getElementById("publicIcon_" + oElement.value).className == 'public-on-icon')
+														continue;									
 													setEntryVisibility(oElement.value, 2);
+												}
 											}
 											break;
 										case 'delete':
