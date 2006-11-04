@@ -3,6 +3,8 @@
 	
 	DragPanel = function(node, type) {
 		dojo.dnd.HtmlDragSource.call(this, node, type);
+		this.dragClass = "ajax-floating-panel";
+		this.opacity = 0.9;
 	}
 	dojo.inherits(DragPanel, dojo.dnd.HtmlDragSource);
 	
