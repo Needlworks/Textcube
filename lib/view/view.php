@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 /// Copyright (c) 2004-2006, Tatter & Company / Tatter & Friends.
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
@@ -1280,7 +1280,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				$buf .= '</div>' . CRLF;
 			}
 		} else if ($attributes[0] == 'iMazing') {
-			if (defined('__TATTERTOOLS_MOBILE__')) {
+			if (defined('__TATTERTOOLS_MOBILE__')  || ($bRssMode == true)) {
 				$images = array_slice($attributes, 1, count($attributes) - 3);
 				for ($i = 0; $i < count($images); $i += 2) {
 					if (!empty($images[$i]))
