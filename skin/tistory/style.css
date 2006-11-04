@@ -121,7 +121,7 @@ textarea        { border:1px solid #aaa;}
 
 }
 #sidebar {
-		margin-left:547px;      
+		float:right;  
 		width:190px;
 }
 
@@ -153,7 +153,7 @@ textarea        { border:1px solid #aaa;}
 #content .entry             { border:5px solid #eee;  padding:10px;  margin-bottom:10px;}
 #content .guestbook, 
 #content .searchList, 
-#content .searchRplist      { padding:15px;}
+#content .searchRplist      { padding:10px;}
 
 #content .localog h3, 
 #content .taglog h3, 
@@ -187,17 +187,17 @@ textarea        { border:1px solid #aaa;}
 
 .guestbook p                { padding:2px 0; margin:0;}
 
-.guestWrite                 { padding:15px;  background-color:#f5f5f5;  border:1px solid #ddd;}
+.guestWrite                 { padding:10px;  background-color:#f5f5f5;  border:1px solid #ddd;}
 .guestWrite input           { width:150px;}
 .guestWrite textarea        { width:465px;  padding:5px;}
 .guestWrite .homepage       { width:300px;}
 .guestWrite .submit         { width:477px;  height:22px;  background-color:#ccc;  font:1.1em dotum; padding-top:3px;}
 
-.guestList                  { padding-top:10px;}
+.guestList                  { padding:10px 0 0 0;}
 .guestList ol,
 .guestList ul               { margin:0; padding:0;  list-style:none;}
 .guestList li p             { border-top:1px dashed #ccc; margin-top:5px; padding-top:5px;}
-.guestList ol li            { border:5px solid #eee;  padding:10px;  margin-bottom:10px;  width:480px; overflow:hidden;}
+.guestList ol li            { border:5px solid #eee;  padding:10px;  margin-bottom:10px;  width:490px; overflow:hidden;}
 .guestList li ul li         { margin-left:20px;  background:url("images/iconIndentArrow_local.gif") no-repeat 10px 10px;  background-color:#f5f5f5;  padding-left:25px;  border:none;  width:440px; overflow:hidden;}
 .guestList li .name         { color:#666;  font-weight:bold;}
 .guestList li .date         { font:0.8em Tahoma;}
