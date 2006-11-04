@@ -1170,7 +1170,7 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyImage3_caption3"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyImage3_caption3" value="<?php echo $alt;?>" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
+														<dd><textarea class="input-text" id="propertyImage3_caption3" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
 													<dl class="resample-property-box line">
 														<dd>
