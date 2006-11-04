@@ -182,7 +182,7 @@ if (($_REQUEST['sidebarNumber'] >= 0) 	&& ($_REQUEST['sidebarNumber'] < $sidebar
 	}
 
 	if ($target['type'] == 3) {
-		$sidbarPluginIndex = $plugin . '/' . $handler;
+		$sidbarPluginIndex = $target['id']['plugin'] . '/' . $target['id']['handler'];
 			
 		if (array_key_exists($sidbarPluginIndex,  $sidebarPluginArray)) {
 			$pluginURL = "{$service['path']}/plugins/{$target['id']['plugin']}";
