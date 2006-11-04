@@ -207,7 +207,7 @@ for ($i = 0; $i < count($skins); $i++) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('스킨을 구하려면');?></span></h2>
 							
 <?php
-$linkString = '<a href="http://www.tattertools.com/skin" onclick="window.open(this.href); return false;" title="' . _t('태터툴즈 홈페이지의 스킨 업로드 게시판으로 연결합니다.') . '">' . _t('스킨 업로드 게시판'). '</a>';
+$linkString = '<a href="http://skin.tattertools.com/" onclick="window.open(this.href); return false;" title="' . _t('태터툴즈 홈페이지의 스킨 업로드 게시판으로 연결합니다.') . '">' . _t('스킨 업로드 게시판'). '</a>';
 $tempString = _f('태터툴즈 홈페이지의 %1을 방문하시면 다양한 스킨을 다운로드 하실 수 있습니다.', $linkString);
 ?>
 							<div class="main-explain-box">

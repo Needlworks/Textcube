@@ -190,13 +190,13 @@
 	font-weight                      : normal;
 	padding                          : 3px 3px 4px 3px;
 	text-align                       : right;
-	width                            : 170px;
+	width                            : 165px;
 }
 
 #part-skin-setting dl dd
 {
 	line-height                      : 1.2em;
-	margin-left                      : 190px;
+	margin-left                      : 185px;
 	padding                          : 5px 3px 4px 3px;
 }
 
@@ -307,13 +307,13 @@
 	line-height                      : 2em;
 	padding                          : 3px 5px;
 	text-align                       : right;
-	width                            : 150px;
+	width                            : 180px;
 }
 
 #property-box dl dd
 {
 	border-left                      : 1px solid #EEEEEE;
-	margin-left                      : 160px;
+	margin-left                      : 190px;
 	padding                          : 3px 5px;
 }
 
@@ -369,19 +369,19 @@
 
 #sidebar-preview-mode
 {
-	background-image                 : url("./image/bg_sidebar_mode.png");
-	background-position              : left bottom;
+	background-image                 : url("./image/bg_sidebar_mode.gif");
+	background-position              : left 18px;
 	background-repeat                : repeat-x;
-	border                           : none;
 	margin                           : 30px 10px 13px 10px;
 }
 
 #sidebar-preview-mode fieldset
 {
+	background-color                 : transparent !important;
 	background-image                 : none;
-	border                           : none;
-	padding                          : 0 0 0 0;
-	margin                           : 0 0 0 0;
+	border                           : none !important;
+	margin                           : 0;
+	padding                          : 0;
 }
 
 #sidebar-preview-mode a
@@ -389,10 +389,12 @@
 	background-color                 : #DDDDDD;
 	border-top                       : 4px solid #DDDDDD;
 	border-right                     : 4px solid #DDDDDD;
-	border-bottom                    : 1px solid #CCCCCC;
+	border-bottom                    : none;
 	border-left                      : 4px solid #DDDDDD;
 	color                            : #000000;
-	padding                          : 7px 15px;
+	float                            : left;
+	margin-left                      : 5px;
+	padding                          : 0 15px;
 	line-height                      : 2.8em;
 }
 
@@ -537,7 +539,7 @@
 .sidebar-module .module-content h5,
 .sidebar-module .module-content h6
 {
-	display                          : none;
+	/* display                       : none; */
 }
 
 .sidebar-module .module-content ul li

@@ -2,14 +2,34 @@
 
 /* Plugin ****************************************************************************************/
 
-#sorting-line
+#part-plugin-list fieldset
 {
-	bottom                           : 220px;
+	padding                          : 9px 10px 4px 10px;
+}
+
+#part-plugin-list #sorting-line
+{
+	bottom                           : 236px;
 	padding-top                      : 8px;
 }
 
-#activate-status-line
+#part-plugin-list #activate-status-line
 {
-	bottom                           : 224px;
+	bottom                           : 240px;
 	right                            : 30px;
+	z-index                          : 100;
+}
+
+/* data description */
+#data-description
+{
+	bottom                           : 237px;
+	right                            : 10px;
+	position                         : absolute;
+}
+
+#data-description dl dd
+{
+	font-family                      : 돋움, Dotum, sans-serif !important;
+	font-size                        : 0.98em;
 }

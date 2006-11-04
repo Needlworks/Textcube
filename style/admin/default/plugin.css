@@ -16,7 +16,7 @@
 
 #part-plugin-list
 {
-	padding-bottom                   : 35px;
+	padding-bottom                   : 50px;
 	position                         : relative;
 }
 
@@ -31,25 +31,13 @@
 	background-image                 : none;
 	border                           : none;
 	margin                           : 0 10px 5px 10px;
-	padding                          : 4px 10px;
+	padding                          : 6px 10px 4px 10px;
 }
 
-#part-plugin-list #scope-line .checkbox,
-#part-plugin-list #scope-line .radio
+#part-plugin-list .line .checkbox,
+#part-plugin-list .line .radio
 {
-	display                          : none;
-}
-
-#part-plugin-list fieldset label
-{
-	border-right                     : 1px solid #999999;
-	padding                          : 0 9px 0 7px;
-}
-
-#part-plugin-list fieldset label.selected
-{
-	color                            : #000000;
-	font-weight                      : bold;
+	margin-left                      : 5px;
 }
 
 #part-plugin-list #none-scope-label
@@ -66,7 +54,7 @@
 {
 	background-color                 : #EEEEEE;
 	border-top                       : 1px solid #BBBBBB;
-	bottom                           : 0;
+	bottom                           : 15px;
 	left                             : 10px;
 	padding                          : 5px 10px;
 	position                         : absolute;
@@ -77,15 +65,7 @@
 {
 	position                         : absolute;
 	right                            : 20px;
-	bottom                           : 5px;
-}
-
-#part-plugin-list #sorting-line .checkbox,
-#part-plugin-list #sorting-line .radio,
-#part-plugin-list #activate-status-line .checkbox,
-#part-plugin-list #activate-status-line .radio
-{
-	margin-left                      : 5px !important;
+	bottom                           : 20px;
 }
 
 #part-plugin-list #sorting-line label,
@@ -198,26 +178,59 @@
 	cursor                           : default !important;
 }
 
-/* data subbox */
-#part-plugin-list .data-subbox
+/* data description */
+#data-description
 {
-	margin-bottom                    : 50px;
-	position                         : relative !important;
+	bottom                           : -8px;
+	right                            : 5px;
+	position                         : absolute;
 }
 
-#part-plugin-list .data-subbox dl
+#data-description dl
 {
-	border                           : 1px solid #F2F2F2 !important;
+	background-repeat                : no-repeat;
+	display                          : inline;
+	font-family                      : µ¸¿ò, Dotum, sans-serif;
+	font-size                        : 0.93em;
+	font-weight                      : normal;
+	letter-spacing                   : -1px;
+	padding                          : 3px 0 1px 17px;
 }
 
-#part-plugin-list .data-subbox dl dt
+#data-description dl dt
 {
-	width                            : 50px;
+	display                          : none;
 }
 
-#part-plugin-list .data-subbox dl dd
+#data-description dl dd
 {
-	margin-left                      : 50px;
+	display                          : inline;
+	margin                           : 0;
+	padding-right                    : 10px;
+	position                         : static;
+}
+
+#data-description dl.title-description,
+#data-description dl.version-description,
+#data-description dl.kind-description,
+#data-description dl.explain-description,
+#data-description dl.author-description
+{
+	display                          : none;
+}
+
+#data-description dl.setting-description
+{
+	background-image                 : url("./image/icon_config_on.gif");
+	background-position              : left 3px;
+	padding                          : 3px 0 1px 21px;
+}
+
+#data-description dl.status-description
+{
+	background-image                 : url("./image/icon_plugin_on.gif");
+	background-position              : left 1px;
+	padding                          : 3px 0 1px 15px;
 }
 
 #part-plugin-more

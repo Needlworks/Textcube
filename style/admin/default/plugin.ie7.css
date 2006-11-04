@@ -2,14 +2,19 @@
 
 /* Plugin ****************************************************************************************/
 
-#sorting-line
+#part-plugin-list fieldset
 {
-	bottom                           : -3px;
+	padding                          : 4px 10px;
+}
+
+#part-plugin-list #sorting-line
+{
+	bottom                           : 14px;
 	padding-top                      : 5px;
 }
 
-#activate-status-line
+#part-plugin-list #activate-status-line
 {
-	bottom                           : 3px;
+	bottom                           : 20px;
 	right                            : 30px;
 }

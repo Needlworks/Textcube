@@ -63,10 +63,6 @@
 
 #sidebar-preview-mode
 {
-	background-image                 : url("./image/bg_sidebar_mode.png");
-	background-position              : left bottom;
-	background-repeat                : repeat-x;
-	border                           : none;
 	margin                           : 30px 10px 13px 10px;
 }
 

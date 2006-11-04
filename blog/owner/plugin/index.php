@@ -390,13 +390,44 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 ?>
 								</tbody>
 							</table>
+
+							<div id="data-description">
+								<dl class="title-description">
+									<dt><?php echo ('제목');?></dt>
+									<dd><?php echo ('manifest 에서 정의한 플러그인 이름');?></dd>
+								</dl>
+								<dl class="version-description">	
+									<dt><?php echo ('버전');?></dt>
+									<dd><?php echo ('플러그인 버전');?></dd>
+								</dl>
+								<dl class="kind-description">	
+									<dt><?php echo ('종류');?></dt>
+									<dd><?php echo ('플러그인의 기능별 분류');?></dd>
+								</dl>
+								<dl class="explain-description">	
+									<dt><?php echo ('설명');?></dt>
+									<dd><?php echo ('작성자의 설명');?></dd>
+								</dl>
+								<dl class="author-description">	
+									<dt><?php echo ('작성자');?></dt>
+									<dd><?php echo ('해당 플러그인의 제작,수정,배포의 권한을 가진 사람 또는 단체');?></dd>
+								</dl>
+								<dl class="setting-description">	
+									<dt><?php echo ('설정');?></dt>
+									<dd><?php echo ('설정이 있는경우 각 항목을 클릭하여 설정창을 불러올 수 있습니다.');?></dd>
+								</dl>
+								<dl class="status-description">	
+									<dt><?php echo ('상태');?></dt>
+									<dd><?php echo ('상태 항목을 클릭하면 플러그인을 활성화/비활성화 할 수 있습니다.');?></dd>
+								</dl>
+							</div>	
 						</form>
 						
 						<div id="part-plugin-more" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('플러그인을 구하려면');?></span></h2>
 							
 <?php
-$linkString = '<a href="http://www.tattertools.com/plugin" onclick="window.open(this.href); return false;" title="' . _t('플러그인 업로드 게시판으로 연결합니다.') . '">' . _t('플러그인 업로드 게시판'). '</a>';
+$linkString = '<a href="http://plugin.tattertools.com/" onclick="window.open(this.href); return false;" title="' . _t('플러그인 업로드 게시판으로 연결합니다.') . '">' . _t('플러그인 업로드 게시판'). '</a>';
 $tempString = _f('태터툴즈 홈페이지의 %1을 방문하시면 다양한 플러그인을 다운로드 하실 수 있습니다.', $linkString);
 ?>
 							<div class="main-explain-box">

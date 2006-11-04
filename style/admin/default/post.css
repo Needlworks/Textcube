@@ -81,7 +81,8 @@ table.data-inbox tbody tr td.ip
 
 #data-description dl.trackback-description
 {
-	background-image                 : url("./image/icon_trackback.gif");
+	background-image                 : url("./image/icon_trackback_single.gif");
+	background-position              : left top;
 }
 
 #data-description dl.protect-description
@@ -90,7 +91,6 @@ table.data-inbox tbody tr td.ip
 	background-position              : left 1px;
 	padding                          : 3px 0 1px 28px;
 }
-
 
 /* Post *******************************************************************************************/
 

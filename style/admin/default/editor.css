@@ -613,16 +613,17 @@ h3
 {
 	color                            : #000000;
 	display                          : block;
-	font-family                      : 굴림, Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
-	font-size                        : 0.9em;
+	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 굴림, Gulim, sans-serif;
 	font-weight                      : bold;
 	margin                           : 10px 0 5px 0;
+	text-align                       : center;
 }
 
 .entry-editor-property .title
 {
+	border-bottom                    : 1px solid #666666;
 	color                            : #666666;
-	font-size                        : 0.9em;
+	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 굴림, Gulim, sans-serif;	
 	font-weight                      : bold;
 	margin                           : 10px 0 3px 0;
 }
@@ -631,37 +632,34 @@ h3
 {
 	border                           : 1px solid #FFFFFF;
 	padding-bottom                   : 1px;
-	position                         : relative;
+	position                         : static;
 }
 
 .entry-editor-property dl dt
 {
-	border-bottom                    : 1px dashed #CCCCCC;
-	border                           : none !important;
+	border                           : none;
 	color                            : #666666;
-	font-family                      : Arial, Tahoma, Verdana, sans-serif;
-	font-weight                      : normal !important;
-	margin-right                     : 0 !important;
-	height                           : 1.85em;
+	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 돋움, Dotum, sans-serif;
+	font-size                        : 0.93em;
+	font-weight                      : normal;
+	height                           : auto;
+	line-height                      : normal;
 	padding                          : 0;
-	text-align                       : left !important;
-	left                             : 0;
-	position                         : absolute;
-	top                              : 0;
-	width                            : 150px !important;
+	position                         : static;
+	text-align                       : left;
 }
 
 .entry-editor-property dl dd
 {
 	height                           : auto;
-	margin-left                      : 150px;
+	margin-left                      : 0;
 	width                            : auto !important;
 }
 
 .entry-editor-property dl dd input.input-text
 {
 	border                           : 1px solid #92B5E8;
-	width                            : 90px !important;
+	width                            : 242px;
 }
 
 .entry-editor-property dl dd select

@@ -655,7 +655,7 @@ function printEntryFileList($attachments, $param) {
 															//getUploadObj().setAttribute('height',1)
 															
 															if (isIE || isMoz) {
-																document.getElementById('uploadBtn').style.display  = 'block';
+																document.getElementById('uploadBtn').style.display  = 'inline';
 																document.getElementById('stopUploadBtn').style.display  = 'none';			
 															} else {
 																document.getElementById('uploadBtn').disabled = false;					
@@ -750,7 +750,7 @@ function printEntryFileList($attachments, $param) {
 														//document.getElementById('uploadBtn').disabled=true;		
 														if(isIE || isMoz) {
 															document.getElementById('uploadBtn').style.display  = 'none';
-															document.getElementById('stopUploadBtn').style.display  = 'block';
+															document.getElementById('stopUploadBtn').style.display  = 'inline';
 														} else {
 															document.getElementById('uploadBtn').disabled = true;
 														}
