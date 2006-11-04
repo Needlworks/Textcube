@@ -147,8 +147,8 @@ function docEventHandler(event) {
 					pageY += document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop;
 					pageY -= getOffsetTop(targetOffset);
 				}
-
-				try { targetOffset.style.height = Math.min(2000, Math.max(300, pageY)) + 'px'; } catch(e) {}
+                // max heigth : 30inch wide LCDs have 2560 * 1600 resolution. When rotated 90 degrees, their height is 2560.
+				try { targetOffset.style.height = Math.min(2600, Math.max(300, pageY)) + 'px'; } catch(e) {}
 			} else if(event.target == getObject('status-container')) {
 				editor.rowResize = true;
 			} else {
@@ -1892,7 +1892,45 @@ TTEditor.prototype.setPropertyPosition = function(flag) {
 	}
 }
 
+function getWindowCleintHeight() {
+    if (window.innerHeight != null) {
+        return window.innerHeight;
+    }
+    return document.documentElement.clientHeight;
+}
+
+TTEditor.prototype.setPropertyPositionwithScroll = function () {
+	if(win = document.getElementById(this.propertyWindowId)) {
+		if(document.getElementById(this.propertyWindowId + "-fix-position").checked)
+			win.style.top = "9px";
+		else {
+			editor.propertyOffsetTop = getOffsetTop(win);
+			var bDownScroll = true;
+			if (this.scrollTop === null) {
+			    this.scrollTop = STD.getScrollTop();
+			} else {
+			    if (this.scrollTop > STD.getScrollTop()) {
+			        bDownScroll = false;
+			    } else {
+			    }
+			}
+			
+			if (bDownScroll == true) {// check bottom line
+			    var editorHeight = win.offsetHeight;
+			    if(STD.getScrollTop() + getWindowCleintHeight() > editor.propertyOffsetTop + editorHeight + 15)
+				    win.style.top = Math.max(9, Math.min(3000, STD.getScrollTop() + getWindowCleintHeight() - editor.propertyOffsetTop + win.offsetTop - editorHeight - 15 )) + "px";
+			} else { // check top line
+			    if (STD.getScrollTop() < editor.propertyOffsetTop - 15)
+			        win.style.top = Math.max(9, Math.min(3000, 15 + STD.getScrollTop() - editor.propertyOffsetTop + win.offsetTop)) + "px";
+			}
+			
+			this.scrollTop = STD.getScrollTop();
+		}
+	}
+}
+
 var editorChanged = function () {
 	if ((entryManager != undefined) && (entryManager.saveAuto != undefined))
 		entryManager.saveAuto();
 }
+

@@ -29,7 +29,7 @@ function printOwnerEditorScript($entryId = false) {
 	var s_selectBoxArea = "<?php echo _t('박스로 둘러쌀 영역을 선택해주세요');?>";
 	var s_selectLinkArea = "<?php echo _t('링크를 만들 영역을 선택해주세요');?>";
 
-	window.addEventListener("scroll", function() { editor.setPropertyPosition(); }, false);
+	window.addEventListener("scroll", function() { editor.setPropertyPositionwithScroll(); }, false);
 
 	function savePosition() {
 		if (document.forms[0].content.createTextRange)
