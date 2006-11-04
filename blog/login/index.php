@@ -76,7 +76,6 @@ if (doesHaveOwnership()) {
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/byTattertools.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/custom.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			window.addEventListener("load", execLoadFunction, false);
