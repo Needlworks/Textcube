@@ -5,7 +5,7 @@
 define('ROOT', '../../../../../..');
 
 require ROOT . '/lib/includeForOwner.php';
-$isAjaxRequest = checkAjaxRequest();\
+$isAjaxRequest = checkAjaxRequest();
 if (deleteTrackback($owner, $suri['id']) !== true)
 	$isAjaxRequest ? respondResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 else
