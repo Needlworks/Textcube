@@ -798,12 +798,12 @@ for ($i=0; $i<sizeof($entries); $i++) {
 									
 									<div id="data-description">
 										<dl class="trackback-description">
-											<dt>트랙백</dt>
-											<dd>관련글에 트랙백을 보냅니다.</dd>
+											<dt><?php echo _t('글걸기');?></dt>
+											<dd><?php echo _t('관련글에 글을 겁니다.');?></dd>
 										</dl>
 										<dl class="protect-description">
-											<dt>보호글</dt>
-											<dd>보호글의 패스워드를 설정합니다.</dd>
+											<dt><?php echo _t('보호글');?></dt>
+											<dd><?php echo _t('보호글의 패스워드를 설정합니다.');?></dd>
 										</dl>
 									</div>
 									
