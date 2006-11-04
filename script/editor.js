@@ -148,7 +148,7 @@ function docEventHandler(event) {
 					pageY -= getOffsetTop(targetOffset);
 				}
 
-				try { targetOffset.style.height = pageY + 'px'; } catch(e) {}
+				try { targetOffset.style.height = Math.min(2000, Math.max(300, pageY)) + 'px'; } catch(e) {}
 			} else if(event.target == getObject('status-container')) {
 				editor.rowResize = true;
 			} else {
@@ -1885,7 +1885,7 @@ TTEditor.prototype.setPropertyPosition = function(flag) {
 			if(editor.propertyOffsetTop === null)
 				editor.propertyOffsetTop = getOffsetTop(win);
 			if(STD.getScrollTop() > editor.propertyOffsetTop - 15)
-				win.style.top = (24 + STD.getScrollTop() - editor.propertyOffsetTop) + "px";
+				win.style.top = Math.min(3000, 24 + STD.getScrollTop() - editor.propertyOffsetTop) + "px";
 			else
 				win.style.top = "9px";
 		}
