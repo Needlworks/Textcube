@@ -86,8 +86,7 @@
 					
 					var request = new HTTPRequest("POST", requestURL);
 					request.onSuccess = function () {
-						errorWaitServerResponse();
-					    //clearWaitServerResponse();
+					    clearWaitServerResponse();
 					}
 					request.onError = function () {
 						globalChker = false;
