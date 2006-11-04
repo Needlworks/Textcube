@@ -1917,8 +1917,8 @@ TTEditor.prototype.setPropertyPositionwithScroll = function () {
 			
 			if (bDownScroll == true) {// check bottom line
 			    var editorHeight = win.offsetHeight;
-			    if(STD.getScrollTop() + getWindowCleintHeight() > editor.propertyOffsetTop + editorHeight + 15)
-				    win.style.top = Math.max(9, Math.min(3000, STD.getScrollTop() + getWindowCleintHeight() - editor.propertyOffsetTop + win.offsetTop - editorHeight - 15 )) + "px";
+			    if(STD.getScrollTop() + getWindowCleintHeight() > editor.propertyOffsetTop + editorHeight + 45)
+				    win.style.top = Math.max(9, Math.min(3000, STD.getScrollTop() + getWindowCleintHeight() - editor.propertyOffsetTop + win.offsetTop - editorHeight - 45 )) + "px";
 			} else { // check top line
 			    if (STD.getScrollTop() < editor.propertyOffsetTop - 15)
 			        win.style.top = Math.max(9, Math.min(3000, 15 + STD.getScrollTop() - editor.propertyOffsetTop + win.offsetTop)) + "px";
