@@ -654,7 +654,7 @@ function printEntryFileList($attachments, $param) {
 															//getUploadObj().setAttribute('width',1)
 															//getUploadObj().setAttribute('height',1)
 															
-															if (isIE) {
+															if (isIE || isMoz) {
 																document.getElementById('uploadBtn').style.display  = 'block';
 																document.getElementById('stopUploadBtn').style.display  = 'none';			
 															} else {
@@ -748,7 +748,7 @@ function printEntryFileList($attachments, $param) {
 														getUploadObj().setAttribute('width',416);
 														getUploadObj().setAttribute('height',25);
 														//document.getElementById('uploadBtn').disabled=true;		
-														if(isIE) {
+														if(isIE || isMoz) {
 															document.getElementById('uploadBtn').style.display  = 'none';
 															document.getElementById('stopUploadBtn').style.display  = 'block';
 														} else {
