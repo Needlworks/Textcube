@@ -1,4 +1,8 @@
 <?php
+/// Copyright (c) 2004-2006, Tatter & Company / Tatter & Friends.
+/// All rights reserved. Licensed under the GPL.
+/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
 function printMobileEntryContentView($owner, $entry, $keywords = array()) {
 	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && ($_COOKIE['GUEST_PASSWORD'] == $entry['password'])))
 		print (getEntryContentView($owner, $entry['id'], $entry['content'], $keywords));
