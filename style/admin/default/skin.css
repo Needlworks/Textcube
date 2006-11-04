@@ -673,3 +673,11 @@
 	padding-bottom                   : 6px;
 	vertical-align                   : middle;
 }
+
+.ajax-popup-window .waiting-string,
+.ajax-popup-window .error-string
+{
+	text-align                       : center;
+}
+
+.ajax-popup-window .error-string
