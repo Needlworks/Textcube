@@ -110,7 +110,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												document.getElementById("publicIcon_" + entry).className = 'public-off-icon';
 												document.getElementById("publicIcon_" + entry).removeAttribute('title');
 																									
-												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('비발행');?><\/span><\/a>';
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('미발행');?><\/span><\/a>';
 												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
@@ -131,7 +131,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												document.getElementById("publicIcon_" + entry).className = 'public-off-icon';
 												document.getElementById("publicIcon_" + entry).removeAttribute('title');
 												
-												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('비발행');?><\/span><\/a>';
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('미발행');?><\/span><\/a>';
 												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
 												
 												tempLink = document.createElement("A");
@@ -160,7 +160,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												document.getElementById("publicIcon_" + entry).className = 'public-on-icon';
 												document.getElementById("publicIcon_" + entry).setAttribute('title', '<?php echo _t('현재 공개 상태입니다.');?>');
 												
-												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('비발행');?><\/span><\/a>';
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('미발행');?><\/span><\/a>';
 												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-off-icon';
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
@@ -698,7 +698,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?php
 	} else {
 ?>
-												<span id="syndicatedIcon_<?php echo $entry['id'];?>" class="syndicated-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=syndicate" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('비발행');?></span></a></span>
+												<span id="syndicatedIcon_<?php echo $entry['id'];?>" class="syndicated-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=syndicate" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('미발행');?></span></a></span>
 <?php
 	}
 ?>
