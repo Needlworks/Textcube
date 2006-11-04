@@ -197,17 +197,17 @@ if (extension_loaded('gd')) {
 											<dd>
 												<div id="vertical-position">
 													<select name="verticalType"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
-														<option value="top"<?php echo isset($top) ? ' selected="selected"' : '';?>>상단</option>
-														<option value="middle"<?php echo isset($middle) ? ' selected="selected"' : '';?>>중앙</option>
-														<option value="bottom"<?php echo isset($bottom) ? ' selected="selected"' : '';?>>하단</option>
+														<option value="top"<?php echo isset($top) ? ' selected="selected"' : '';?>><?php echo _t('상단');?></option>
+														<option value="middle"<?php echo isset($middle) ? ' selected="selected"' : '';?>><?php echo _t('중앙');?></option>
+														<option value="bottom"<?php echo isset($bottom) ? ' selected="selected"' : '';?>><?php echo _t('하단');?></option>
 													</select>
 													<input type="text" class="input-text" name="verticalPosition" value="<?php echo $verticalValue;?>"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
 												</div>
 												<div id="horizontal-position">
 													<select name="horizontalType"<?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?>>
-														<option value="left"<?php echo isset($left) ? ' selected="selected"' : '';?>>좌측</option>
-														<option value="center"<?php echo isset($center) ? ' selected="selected"' : '';?>>중앙</option>
-														<option value="right"<?php echo isset($right) ? ' selected="selected"' : '';?>>우측</option>
+														<option value="left"<?php echo isset($left) ? ' selected="selected"' : '';?>><?php echo _t('좌측');?></option>
+														<option value="center"<?php echo isset($center) ? ' selected="selected"' : '';?>><?php echo _t('중앙');?></option>
+														<option value="right"<?php echo isset($right) ? ' selected="selected"' : '';?>><?php echo _t('우측');?></option>
 													</select>
 													<input type="text" class="input-text" name="horizontalPosition" value="<?php echo $horizontalValue;?>" <?php echo file_exists(ROOT."/attach/$owner/watermark.gif") ? '' : ' disabled="disabled"';?> />px
 												</div>
