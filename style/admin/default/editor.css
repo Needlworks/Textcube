@@ -879,20 +879,13 @@ h3
 	background-position              : left top;
 	background-repeat                : repeat-x;
 	border                           : 1px solid #777777;
-	display                          : inline !important;
+	display                          : inline;
 	font-size                        : 1em;
 	height                           : 2em;
 	line-height                      : 2em;
 	overflow                         : hidden;
 	padding                          : 3px 8px;
 	vertical-align                   : middle;
-}
-
-#upload-section .button span
-{
-	background-color                 : transparent;
-	background-image                 : none;
-	padding                          : 0 !important;
 }
 
 #fileSize

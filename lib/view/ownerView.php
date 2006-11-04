@@ -655,10 +655,10 @@ function printEntryFileList($attachments, $param) {
 															//getUploadObj().setAttribute('height',1)
 															
 															if (isIE) {
-																document.getElementById('uploadBtn').style.display  = 'block'			
-																document.getElementById('stopUploadBtn').style.display  = 'none'			
+																document.getElementById('uploadBtn').style.display  = 'block';
+																document.getElementById('stopUploadBtn').style.display  = 'none';			
 															} else {
-																document.getElementById('uploadBtn').disabled=false;					
+																document.getElementById('uploadBtn').disabled = false;					
 															}
 															
 															document.getElementById('uploaderNest').innerHTML = uploaderStr
@@ -736,7 +736,7 @@ function printEntryFileList($attachments, $param) {
 															if(fileName == undefined || fileSize == undefined) 
 																continue;							
 															var oOption = document.createElement("option");
-															oOption.innerHTML= fileName+' ('+Math.ceil((fileSize/1024))+'KB)  <?php echo _t('대기 중..');?>';
+															oOption.innerHTML= fileName+' ('+Math.ceil((fileSize/1024))+'KB) <?php echo _t('대기 중..');?>';
 															oOption.setAttribute("value",fileName);
 															oOption.style.backgroundColor="#A4C3F0";
 															fileListObj.insertBefore(oOption,fileListObj[i]);
@@ -745,14 +745,14 @@ function printEntryFileList($attachments, $param) {
 															}
 														}
 														fileListObj.setAttribute('size',Math.max(8,Math.min(fileListObj.length,30)));
-														getUploadObj().setAttribute('width',416)
-														getUploadObj().setAttribute('height',25)
+														getUploadObj().setAttribute('width',416);
+														getUploadObj().setAttribute('height',25);
 														//document.getElementById('uploadBtn').disabled=true;		
 														if(isIE) {
-															document.getElementById('uploadBtn').style.display  = 'none'			
-															document.getElementById('stopUploadBtn').style.display  = 'block'			
+															document.getElementById('uploadBtn').style.display  = 'none';
+															document.getElementById('stopUploadBtn').style.display  = 'block';
 														} else {
-															document.getElementById('uploadBtn').disabled=true;		
+															document.getElementById('uploadBtn').disabled = true;
 														}
 													}
 													
@@ -913,8 +913,8 @@ function printEntryFileUploadButton($entryId) {
 													
 													if (getUploadObj()) {
 														try {
-															document.write('<a id="uploadBtn" class="upload-button button" href="#void" onclick="browser(); return false"><span class="text"><?php echo _t('파일 업로드');?><\/span><\/a>');
-															document.write('<a id="stopUploadBtn" class="stop-button button" href="#void" onclick="stopUpload(); return false" style="display: none;"><span class="text"><?php echo _t('업로드 중지');?><\/span><\/a>');			
+															document.write('<input type="button" id="uploadBtn" class="upload-button input-button" value="<?php echo _t('파일 업로드');?>" onclick="browser(); return false;" />');
+															document.write('<input type="button" id="stopUploadBtn" class="stop-button input-button" value="<?php echo _t('업로드 중지');?>" onclick="stopUpload(); return false;" style="display: none;" />');			
 														} catch(e) {
 															
 														}								
@@ -930,7 +930,7 @@ function printEntryFileUploadButton($entryId) {
 												//]]>
 											</script>
 												
-											<a id="deleteBtn" class="button" href="#void" onclick="deleteAttachment();"><span class="text"><?php echo _t('삭제하기');?></span></a>
+											<input type="button" id="deleteBtn" class="input-button" value="<?php echo _t('삭제하기');?>" onclick="deleteAttachment();" />
 											<div id="fileSize">
 												<?php echo getAttachmentSizeLabel($owner, $entryId);?>
 											</div>
