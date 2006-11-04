@@ -50,7 +50,7 @@ function CT_Tattertools_Notice($target) {
 			$i = 0;
 			foreach($noticeEntries as $item) {
 				$target .= '<li>'.CRLF;
-				$target .= '<a href="' .$item['permalink'].'">'.CRLF;
+				$target .= '<a href="' . $item['permalink'] . '" onclick="return openLinkInNewWindow(this);" >'.CRLF;
 				$target .= '<span>'.Timestamp::formatDate($item['written']).'</span>'.CRLF;
 				$target .= '<span>'.UTF8::lessenAsEm(htmlspecialchars($item['title']),30).'</span>'.CRLF;
 				$target .= '</a>'.CRLF;

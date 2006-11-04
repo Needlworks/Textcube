@@ -262,7 +262,7 @@ if($tattertoolsDashboard) {
 				foreach($noticeEntries as $item) {
 ?>
 											<tr>
-												<td class="title"><a href="<?php echo $item['permalink'];?>"><?php echo htmlspecialchars($item['title']);?></a></td>
+												<td class="title"><a href="<?php echo $item['permalink'];?>" onclick="return openLinkInNewWindow(this);" ><?php echo htmlspecialchars($item['title']);?></a></td>
 												<td class="date"><?php echo Timestamp::format5($item['written']);?></td>
 											</tr>
 <?php
@@ -271,7 +271,7 @@ if($tattertoolsDashboard) {
 										</tbody>
 									</table>
 									
-									<div id="cite">from <a href="<?php echo $noticeURL;?>"><?php echo $noticeURL;?></a></div>
+									<div id="cite">from <a href="<?php echo $noticeURL;?>" onclick="return openLinkInNewWindow(this);" ><?php echo $noticeURL;?></a></div>
 <?php
 			} else {
 ?>
