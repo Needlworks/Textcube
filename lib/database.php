@@ -1,4 +1,7 @@
 <?php
+/// Copyright (c) 2004-2006, Tatter & Company / Tatter & Friends.
+/// All rights reserved. Licensed under the GPL.
+/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 mysql_connect($database['server'], $database['username'], $database['password']);
 mysql_select_db($database['database']);
 if (mysql_query('SET CHARACTER SET utf8')) {

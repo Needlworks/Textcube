@@ -1,4 +1,8 @@
 <?php
+/// Copyright (c) 2004-2006, Tatter & Company / Tatter & Friends.
+/// All rights reserved. Licensed under the GPL.
+/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
 // 사용되지 않는 함수이나 만약을 위해 남겨둠.
 function isLarge($target, $maxX, $maxY) {
 	if (!file_exists($target)) return false;

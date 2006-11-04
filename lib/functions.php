@@ -1,5 +1,7 @@
 <?php
-
+/// Copyright (c) 2004-2006, Tatter & Company / Tatter & Friends.
+/// All rights reserved. Licensed under the GPL.
+/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 function requestHttp($method, $url, $content = false, $contentType = 'application/x-www-form-urlencoded') {
 	$info = parse_url($url);
 	$socket = fsockopen($info['host'], empty($info['port']) ? 80 : $info['port'], $errno, $errstr, 10);
