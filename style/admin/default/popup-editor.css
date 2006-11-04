@@ -70,6 +70,11 @@ h3
 	display                          : inline;
 }
 
+#category-line dd label
+{
+	padding-right                    : 10px;
+}
+
 #category-line dd .radio
 {
 	vertical-align                   : middle;
@@ -548,8 +553,8 @@ h3
 {
 	border                           : none;
 	display                          : block;
-	height                           : 452px;
-	width                            : 648px;
+	height                           : 448px;
+	width                            : 644px;
 }
 
 #visualEditorWindow
@@ -608,16 +613,18 @@ h3
 {
 	color                            : #000000;
 	display                          : block;
-	font-family                      : ±¼¸², Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
-	font-size                        : 0.9em;
+	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, ±¼¸², Gulim, sans-serif;
+	font-size                        : 1em;
 	font-weight                      : bold;
 	margin                           : 10px 0 5px 0;
+	text-align                       : center;
 }
 
 .entry-editor-property .title
 {
+	border-bottom                    : 1px solid #666666;
 	color                            : #666666;
-	font-size                        : 0.9em;
+	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, ±¼¸², Gulim, sans-serif;
 	font-weight                      : bold;
 	margin                           : 10px 0 3px 0;
 }
@@ -626,37 +633,34 @@ h3
 {
 	border                           : 1px solid #FFFFFF;
 	padding-bottom                   : 1px;
-	position                         : relative;
+	position                         : static;
 }
 
 .entry-editor-property dl dt
 {
-	border-bottom                    : 1px dashed #CCCCCC;
-	border                           : none !important;
+	border                           : none;
 	color                            : #666666;
-	font-family                      : Arial, Tahoma, Verdana, sans-serif;
-	font-weight                      : normal !important;
-	margin-right                     : 0 !important;
-	height                           : 1.85em;
+	font-family                      : µ¸¿ò, Dotum, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-size                        : 0.93em;
+	font-weight                      : normal;
+	height                           : auto;
+	line-height                      : normal;
 	padding                          : 0;
-	text-align                       : left !important;
-	left                             : 0;
-	position                         : absolute;
-	top                              : 0;
-	width                            : 150px !important;
+	position                         : static;
+	text-align                       : left;
 }
 
 .entry-editor-property dl dd
 {
 	height                           : auto;
-	margin-left                      : 150px;
+	margin-left                      : 0;
 	width                            : auto !important;
 }
 
 .entry-editor-property dl dd input.input-text
 {
 	border                           : 1px solid #92B5E8;
-	width                            : 90px !important;
+	width                            : 242px;
 }
 
 .entry-editor-property dl dd select
@@ -675,7 +679,8 @@ h3
 .entry-editor-property dl dd textarea
 {
 	border                           : 1px solid #92B5E8;
-	width                            : 108px !important;
+	height                           : 40px;
+	width                            : 238px !important;
 }
 
 .entry-editor-property dl.resample-property-box dd
@@ -709,6 +714,7 @@ h3
 	border                           : 1px solid #666666 !important;
 	background-color                 : #EEEEEE !important;
 	background-image                 : none !important;
+	cursor                           : pointer !important;
 	display                          : inline !important;
 	float                            : none !important;
 	line-height                      : 1em;
@@ -780,7 +786,7 @@ h3
 	line-height                      : 20px;
 }
 
-#taglocal-section dl dd ul li
+#tag ul li
 {
 	background-image                 : url("./image/comma.gif");
 	background-position              : right 10px;
@@ -788,6 +794,18 @@ h3
 	display                          : inline;
 	margin-right                     : 5px;
 	padding                          : 0 4px 0 0;
+	vertical-align                   : middle;
+	white-space                      : pre;
+}
+
+#location ul li
+{
+	background-image                 : url("./image/location_divider.gif");
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	display                          : inline;
+	margin-right                     : 5px;
+	padding                          : 0 10px 0 0;
 	vertical-align                   : middle;
 	white-space                      : pre;
 }
@@ -850,7 +868,7 @@ h3
 #fileUploadNest
 {
 	height                           : 3em;
-	margin                           : -8px 0 0 144px;
+	margin                           : 0 0 0 144px;
 	overflow                         : hidden;
 	position                         : relative;
 	width                            : 390px;
@@ -867,27 +885,20 @@ h3
 	margin-left                      : 136px;
 }
 
-#upload-section .button
+#upload-section .input-button
 {
 	background-color                 : #FFFFFF;
 	background-image                 : url("./image/bg_button.png");
 	background-position              : left top;
 	background-repeat                : repeat-x;
 	border                           : 1px solid #777777;
-	display                          : inline !important;
+	display                          : inline;
 	font-size                        : 1em;
 	height                           : 2em;
 	line-height                      : 2em;
 	overflow                         : hidden;
 	padding                          : 3px 8px;
 	vertical-align                   : middle;
-}
-
-#upload-section .button span
-{
-	background-color                 : transparent;
-	background-image                 : none;
-	padding                          : 0 !important;
 }
 
 #fileSize
@@ -1011,7 +1022,8 @@ h3
 
 #power-section dl
 {
-	border-top                       : 1px solid #DDDDDD;
+	border-bottom                    : 1px solid #DDDDDD;
+	border-top                       : 1px solid #FFFFFF;
 	position                         : relative;
 }
 
@@ -1048,6 +1060,8 @@ dl#permalink-line dd p
 {
 	font-family                      : µ¸¿ò, Dotum, sans-serif;
 	font-size                        : 0.9em;
+	letter-spacing                   : -1px;
+	padding-right                    : 5px;
 	text-align                       : right;
 }
 

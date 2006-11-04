@@ -553,8 +553,8 @@ h3
 {
 	border                           : none;
 	display                          : block;
-	height                           : 452px;
-	width                            : 648px;
+	height                           : 448px;
+	width                            : 644px;
 }
 
 #visualEditorWindow
@@ -786,7 +786,7 @@ h3
 	line-height                      : 20px;
 }
 
-#taglocal-section dl dd ul li
+#tag ul li
 {
 	background-image                 : url("./image/comma.gif");
 	background-position              : right 10px;
@@ -794,6 +794,18 @@ h3
 	display                          : inline;
 	margin-right                     : 5px;
 	padding                          : 0 4px 0 0;
+	vertical-align                   : middle;
+	white-space                      : pre;
+}
+
+#location ul li
+{
+	background-image                 : url("./image/location_divider.gif");
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	display                          : inline;
+	margin-right                     : 5px;
+	padding                          : 0 10px 0 0;
 	vertical-align                   : middle;
 	white-space                      : pre;
 }
@@ -856,7 +868,7 @@ h3
 #fileUploadNest
 {
 	height                           : 3em;
-	margin                           : -8px 0 0 144px;
+	margin                           : 0 0 0 144px;
 	overflow                         : hidden;
 	position                         : relative;
 	width                            : 390px;
@@ -873,7 +885,7 @@ h3
 	margin-left                      : 136px;
 }
 
-#upload-section .button
+#upload-section .input-button
 {
 	background-color                 : #FFFFFF;
 	background-image                 : url("./image/bg_button.png");

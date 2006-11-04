@@ -41,6 +41,11 @@
 	padding-top                      : 3px;
 }
 
+#location ul li
+{
+	margin-right                     : 2px;
+}
+
 /* upload ---------------------------------------------------------------------------------------*/
 #attachment-container
 {
@@ -52,14 +57,9 @@
 	top                              : 12px;
 }
 
-#upload-section .button
+#upload-section .input-button
 {
-	line-height                      : 4.2em !important;
-}
-
-#upload-section .button span
-{
-	padding-top                      : 5px !important;
+	line-height                      : 1.65em !important;
 }
 
 #fileUploadNest

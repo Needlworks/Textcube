@@ -642,20 +642,18 @@ ul#feedList li .edit-button span
 /* configure ------------------------------------------------------------------------------------*/
 #configure
 {
-	border : 1px solid red !important;
 	background-color                 : #D2D2CC;
-	margin-top                       : -5px;
 	padding                          : 0;
 }
 
 #configure .data-inbox
 {
-	background-color                 : #FFFFFF !important;
-	border                           : none !important;
+	background-color                 : #FFFFFF;
+	border                           : none;
 	clear                            : both;
 	position                         : relative;
 	margin-left                      : 6px;
-	padding                          : 0 !important;
+	padding                          : 0;
 	width                            : 948px;
 }
 

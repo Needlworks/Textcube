@@ -211,7 +211,7 @@ for ($i = 0; $i < count($skins); $i++) {
 							
 <?php
 $linkString = '<a href="http://skin.tattertools.com/" onclick="window.open(this.href); return false;" title="' . _t('태터툴즈 홈페이지의 스킨 업로드 게시판으로 연결합니다.') . '">' . _t('스킨 업로드 게시판'). '</a>';
-$tempString = _f('태터툴즈 홈페이지의 %1을 방문하시면 다양한 스킨을 다운로드 하실 수 있습니다.', $linkString);
+$tempString = _f('태터툴즈 홈페이지의 %1을 방문하시면 다양한 스킨을 다운로드 하실 수 있습니다. 일반적으로 스킨 파일을 태터툴즈의 skin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 스킨은 이 메뉴에서 적용 버튼을 눌러 사용하실 수 있습니다.', $linkString);
 ?>
 							<div class="main-explain-box">
 								<p class="explain"><?php echo $tempString;?></p>

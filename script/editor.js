@@ -95,9 +95,9 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	this.contentDocument.write('<link rel="stylesheet" type="text/css" href="' + servicePath + editorCSS + '" />');
 	this.contentDocument.write('<style type="text/css">')
 	if(STD.isIE)
-		this.contentDocument.write("html { padding: 10px 0px 10px; } body { padding: 10px; }");
+		this.contentDocument.write("body { padding: 10px; }");
 	else
-		this.contentDocument.write("html { padding: 0px 10px; }");
+		this.contentDocument.write("html { padding: 10px; }");
 	this.contentDocument.write("</style>");
 	this.contentDocument.write("</head><body>");
 	this.contentDocument.write(this.ttml2html());
