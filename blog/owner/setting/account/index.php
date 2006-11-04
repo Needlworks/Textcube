@@ -337,7 +337,6 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 												<thead>
 													<tr>
 														<th class="email"><span class="text"><?php echo _t('이름(e-mail)');?></span></th>
-														<th class="address"><span class="text"><?php echo _t('주소');?></span></th>
 														<th class="date"><span class="text"><?php echo _t('초대일');?></span></th>
 														<th class="status"><span class="text"><?php echo _t('경과');?></span></th>
 														<th class="password"><span class="text"><?php echo _t('비밀번호');?></span></th>
@@ -352,8 +351,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 		$className .= ($count == sizeof($invitedList) - 1) ? ' last-line' : '';
 ?>
 													<tr class="<?php echo $className;?> inactive-class">
-														<td class="email"><?php echo htmlspecialchars($value['name']);?>(<?php echo htmlspecialchars($value['loginid']);?>)</td>
-														<td class="address"><a href="<?php echo getBlogURL($value['blogName']);?>" onclick="window.open(this.href); return false;"><?php echo getBlogURL($value['blogName']);?></a></td>
+														<td class="email"><a href="<?php echo getBlogURL($value['blogName']);?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($value['name']);?>(<?php echo htmlspecialchars($value['loginid']);?>)</a></td>
 														<td class="date"><?php echo Timestamp::format5($value['created']);?></td>
 <?php
 		if ($value['lastLogin'] == 0) {

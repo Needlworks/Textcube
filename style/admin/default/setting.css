@@ -291,7 +291,7 @@ dl dd
 {
 	font-family                      : "Courier New", Courier, monospace;
 	margin-left                      : 2px;
-	width                            : 380px;
+	width                            : 150px;
 }
 
 .inter-word
@@ -312,14 +312,39 @@ dl dd
 #letter-section .button-box .input-button
 {
 	padding                          : 0 10px;
+	width                            : auto;
 }
 
 /* invite list */
+#list-section table
+{
+	width                            : 750px;
+}
+
 #list-section table thead tr th
 {
 	background-color                 : #EFEFEF;
+	border-bottom                    : 1px solid #999999;
+	border-top                       : 1px solid #999999;
 	padding                          : 5px;
-	width                            : 700px;
+	text-align                       : center;
+}
+
+#list-section table tbody tr td
+{
+	border-bottom                    : 1px solid #DDDDDD;
+	border-left                      : 1px solid #DDDDDD;
+	padding                          : 5px;
+}
+
+#list-section table tbody tr td.email
+{
+	border-left                      : none;
+}
+
+#list-section table tbody tr td.cancel
+{
+	text-align                       : center;
 }
 
 /* Filter ****************************************************************************************/
