@@ -539,6 +539,7 @@
 .sidebar-module .module-content h5,
 .sidebar-module .module-content h6
 {
+	color                            : #000000 !important;
 	/* display                       : none; */
 }
 
