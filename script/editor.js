@@ -1911,7 +1911,6 @@ TTEditor.prototype.setPropertyPositionwithScroll = function () {
 			} else {
 			    if (this.scrollTop > STD.getScrollTop()) {
 			        bDownScroll = false;
-			    } else {
 			    }
 			}
 			
