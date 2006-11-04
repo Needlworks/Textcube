@@ -93,7 +93,7 @@ if (count($params) > 0) {
 			echo '<input class="input-text" ';
 			echo 'type="' , $item['type'] , '" ';
 			echo 'name="' , $item['name'] , '" ';
-			echo 'value="' , htmlentities($item['value']) , '" ';
+			echo 'value="' , htmlspecialchars($item['value'],ENT_QUOTES) , '" ';
 			echo ' />';
 			echo '</div>';
 		}
