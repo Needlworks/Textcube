@@ -1,3 +1,7 @@
+/// Copyright (c) 2004-2006, Tatter & Company / Tatter & Friends.
+/// All rights reserved. Licensed under the GPL.
+/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
 // 입력창을 10ms마다 체크하면서 값이 변했으면 request를 보낸다.
 // 파이어폭스에서는 한글을 입력할때 keydown 이벤트가 발생하지 않기 때문에
 // 값이 변하는지 계속 보고있어야 한다.

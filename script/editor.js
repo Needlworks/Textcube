@@ -1,3 +1,7 @@
+/// Copyright (c) 2004-2006, Tatter & Company / Tatter & Friends.
+/// All rights reserved. Licensed under the GPL.
+/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
 var TTEditor = function() {
 	// 현재 수정중인 property 관련 정보들
 	this.propertyWindowId = "";

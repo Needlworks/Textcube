@@ -1,5 +1,4 @@
 
-
 	dojo.require("dojo.dnd.HtmlDragAndDrop");
 	
 	DragPanel = function(node, type) {
