@@ -287,11 +287,10 @@ function addComment($owner, & $comment) {
 	$comment0 = mysql_tt_escape_string($comment['comment']);
 	$filteredAux = ($filtered == 1 ? "UNIX_TIMESTAMP()" : 0);
 	$result = mysql_query("INSERT INTO {$database['prefix']}Comments 
-		(owner,replier,id,entry,parent,name,password,homepage,secret,comment,ip,written,isFiltered)
+		(owner,replier,entry,parent,name,password,homepage,secret,comment,ip,written,isFiltered)
 		VALUES (
 			$owner,
 			{$comment['replier']},
-			'',
 			{$comment['entry']},
 			$parent,
 			'$name',
@@ -309,9 +308,9 @@ function addComment($owner, & $comment) {
 			executeQuery("
 				INSERT INTO 
 					`{$database['prefix']}CommentsNotifiedQueue` 
-					( `owner` , `id` , `commentId` , `sendStatus` , `checkDate` , `written` ) 
+					( `owner` , `commentId` , `sendStatus` , `checkDate` , `written` ) 
 				VALUES 
-					($owner ,'', '" . $id . "', '0', '0', UNIX_TIMESTAMP());");
+					($owner , '" . $id . "', '0', '0', UNIX_TIMESTAMP());");
 		}
 		updateCommentsOfEntry($owner, $comment['entry']);
 		fireEvent($comment['entry'] ? 'AddComment' : 'AddGuestComment', $id, $comment);
