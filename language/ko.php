@@ -147,7 +147,6 @@ $__text['Australia/Perth'] = '호주/퍼스';
 //$__text['skin'] = '';
 //$__text['style="display: none"'] = '';
 //$__text['xhtml specification / quality assurance'] = '';
-//$__text['���ڸ� �� �� �ִ� ����Դϴ�.'] = '';
 //$__text['가로'] = '';
 //$__text['가운데 정렬'] = '';
 //$__text['가져오기'] = '';

@@ -155,7 +155,6 @@ $__text['fontDisplayName:fontCode:fontFamily'] = 'fontDisplayName:fontCode:fontF
 //$__text['skin'] = '';
 //$__text['style="display: none"'] = '';
 //$__text['xhtml specification / quality assurance'] = '';
-//$__text['���ڸ� �� �� �ִ� ����Դϴ�.'] = '';
 $__text['가로'] = '横';
 $__text['가운데 정렬'] = '中央揃え';
 $__text['가져오기'] = '取得';

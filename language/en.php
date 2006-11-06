@@ -134,7 +134,6 @@ $__text['[허용됨]'] = '[allowed]';
 //$__text['skin'] = '';
 //$__text['style="display: none"'] = '';
 //$__text['xhtml specification / quality assurance'] = '';
-//$__text['���ڸ� �� �� �ִ� ����Դϴ�.'] = '';
 $__text['가로'] = 'Horizon';
 $__text['가운데 정렬'] = 'Align Center';
 $__text['가져오기'] = 'Import';
