@@ -50,8 +50,9 @@
 #keyword .viewContent
 {
 	padding                 : 20px;
+	letter-spacing          : -2px;
 	font-size               : 9pt;
-	font-family             : Tahoma, Helvetica, Arial, sans-serif;
+	font-family             : Tahoma, Helvetica, Arial, Dotum, sans-serif;
 	background-image        : url(./Images/viewContent.gif);
 	background-repeat       : repeat-y;
 }
@@ -84,7 +85,7 @@
 #keyword .cnt
 {
 	font-size               : 8pt;
-	font-family             : Tahoma, Helvetica, Arial, sans-serif;
+	font-family             : Tahoma, Helvetica, Arial, Dotum, sans-serif;
 	color                   : #666;
 }
 
