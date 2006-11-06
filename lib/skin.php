@@ -290,10 +290,10 @@ class KeywordSkin {
 	var $keylogItem;
 
 	function KeywordSkin($filename) {
-		global $service, $blogURL;
+		global $service, $serviceURL;
 		if (!$sval = file_get_contents($filename))
 			respondErrorPage("KeywordSkin");
-		$origPath = $blogURL . substr($filename,strlen(ROOT));
+		$origPath = $serviceURL . substr($filename,strlen(ROOT));
 		$origPath = substr($origPath, 0, 0 - strlen(Path::getBaseName($origPath)));
 		$sval = str_replace('./', $origPath, $sval);
 		list($sval, $this->keylogItem) = $this->cutSkinTag($sval, 'blog_rep');
