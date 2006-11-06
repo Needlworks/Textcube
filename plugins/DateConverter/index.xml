@@ -8,7 +8,6 @@
 	<author link="http://www.tattertools.com">Tatter &amp; Friends</author>
 	<author xml:lang="ko" link="http://www.tattertools.com">태터앤프렌즈</author>
 	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
-	<scope>global</scope>
 	<requirements>
 		<tattertools>1.1</tattertools>
 	</requirements>

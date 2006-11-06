@@ -7,8 +7,9 @@
   <description xml:lang="en">Keyword Statistics</description>
   <description xml:lang="ko">리퍼러에서 검색 키워드를 추출하여 통계를 출력합니다.</description>
   <license>GPL</license>
+  <author link="http://forum.tattertools.com">Tatter aNd Friends (치리)</author>
+  <author xml:lang="ko" link="http://www.tattertools.com">태터앤프렌즈 (치리)</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
-  <scope>admin</scope>
   <requirements>
     <tattertools>1.1</tattertools>
   </requirements>
