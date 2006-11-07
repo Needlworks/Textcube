@@ -745,6 +745,7 @@ class Timezone {
 			'Asia/Tokyo',
 			'Asia/Shanghai',
 			'Asia/Taipei',
+			'Asia/Calcutta',
 			'Europe/Berlin',
 			'Europe/Paris',
 			'Europe/London',
@@ -772,6 +773,8 @@ class Timezone {
 				return 'CST-8';
 			case 'Asia/Taipei':
 				return 'CST-8';
+			case 'Asia/Calcutta':
+				return 'UTC-5:30';
 			case 'Europe/Berlin':
 			case 'Europe/Paris':
 				return 'UTC-1CES';
