@@ -14,6 +14,6 @@
     <tattertools>1.1</tattertools>
   </requirements>
   <binding>
-	<center handler="CT_Tatter &amp; Friends_Notice" />
+	<center handler="CT_TNF_Notice" />
   </binding>
 </plugin>
