@@ -9,8 +9,8 @@
   <description xml:lang="ko">태터툴즈 컴포넌트를 이용하여 방문자 기록을 보여줍니다.</description>
   <description xml:lang="ja">テト・ツールズのコンポーネントを利用して、詳細な統計情報を見せます。</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
-  <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>
+  <author xml:lang="en" link="http://forum.tattertools.com/">TNF</author>
+  <author xml:lang="ko" link="http://forum.tattertools.com/">태터앤프렌즈</author>
   <author xml:lang="ja" link="http://www.tattertools.com/">Tatter &amp; Friends</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>

@@ -7,8 +7,8 @@
   <description xml:lang="en">This plugin enables keyword feature in Tattertools.</description>
   <description xml:lang="ko">태터툴즈의 키워드 기능을 사용합니다.</description>
   <license>GPL</license>
-  <author link="http://forum.tattertools.com">Tatter and Friends</author>
-  <author xml:lang="ko" link="http://www.tattertools.com">태터앤프렌즈</author>
+  <author link="http://forum.tattertools.com">TNF</author>
+  <author xml:lang="ko" link="http://forum.tattertools.com">태터앤프렌즈</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
     <tattertools>1.1.0</tattertools>

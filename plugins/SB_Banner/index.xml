@@ -7,8 +7,8 @@
   <description xml:lang="en">Display banner on sidebar.</description>
   <description xml:lang="ko">사이드바에 배너를 출력해 줍니다.</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
-  <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>
+  <author xml:lang="en" link="http://forum.tattertools.com/">TNF</author>
+  <author xml:lang="ko" link="http://forum.tattertools.com/">태터앤프렌즈</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
     <tattertools>1.1</tattertools>
