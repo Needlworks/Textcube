@@ -447,7 +447,7 @@ function TreatType(  $cmd , $dfVal , $name ){
 	if( empty($cmd['.attributes']['type']) || !in_array($cmd['.attributes']['type'] , $typeSchema  ) ) return '';
 	if( empty($cmd['.attributes']['title']) || empty($cmd['.attributes']['name'])) return '';
 	$titleFw = empty($cmd['.attributes']['titledirection']) ? true : ($cmd['.attributes']['titledirection'] == 'bk' ? false : true);
-	$fieldTitle = TAB.TAB.TAB.'<label class="fieldtitle">'.htmlspecialchars($cmd['.attributes']['title']) . '</label>';
+	$fieldTitle = TAB.TAB.TAB.'<label class="fieldtitle" for="'.$name.'">'.htmlspecialchars($cmd['.attributes']['title']) . '</label>';
 	$fieldControl = TAB.TAB.TAB.'<span class="fieldcontrol">' .CRLF.  call_user_func($cmd['.attributes']['type'].'Treat' , $cmd, $dfVal, $name) .TAB.TAB.TAB.'</span>';
 	$caption = empty($cmd['caption'][0]) ? '':TAB.TAB.TAB.'<div class="fieldcaption">'. $cmd['caption'][0]['.value']  . '</div>'.CRLF;
 	if( $titleFw) 
@@ -508,7 +508,7 @@ function checkboxTreat( $cmd, $dfVal, $name){
 		$DSP .= !is_string( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
 		$DSP .= $checked;
 		$DSP .= ' />' ;
-		$DSP .= "<label class='checkboxlabel' >{$option['.value']}</label>".CRLF;
+		$DSP .= "<label class='checkboxlabel' for=\"".$option['.attributes']['name']."\">{$option['.value']}</label>".CRLF;
 	}
 	return $DSP;
 }
@@ -523,7 +523,7 @@ function radioTreat( $cmd, $dfVal, $name){
 		$DSP .= is_string( $oc ) && 'checked' == $oc && is_null($dfVal) ? 'checked="checked" ' : '';
 		$DSP .= is_string($df) && (!is_string( $option['.attributes']['value'] ) ? false : $option['.attributes']['value']== $df ) ? 'checked="checked" ' : '';
 		$DSP .= ' />' ;
-		$DSP .= "<label class='radiolabel' >{$option['.value']}</label >".CRLF;
+		$DSP .= "<label class='radiolabel' for='".$name."'>{$option['.value']}</label >".CRLF;
 	}
 	return $DSP;
 }
