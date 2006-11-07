@@ -383,26 +383,60 @@
 	background-image                 : url("./image/icon_plugin_off.gif");
 }
 
-/* data subbox */
-#part-center-plugins .data-subbox
+/* data description */
+#data-description
 {
-	margin-bottom                    : 50px;
-	position                         : relative;
+	bottom                           : -23px;
+	right                            : 5px;
+	position                         : absolute;
 }
 
-#part-center-plugins .data-subbox dl
+#data-description dl
 {
-	border                           : none;
+	background-repeat                : no-repeat;
+	display                          : inline;
+	font-family                      : 돋움, Dotum, sans-serif;
+	font-size                        : 0.93em;
+	font-weight                      : normal;
+	letter-spacing                   : -1px;
+	padding                          : 3px 0 1px 17px;
 }
 
-#part-center-plugins .data-subbox dl dt
+#data-description dl dt
 {
-	width                            : 50px;
+	display                          : none;
 }
 
-#part-center-plugins .data-subbox dl dd
+#data-description dl dd
 {
-	margin-left                      : 50px;
+	display                          : inline;
+
+	margin                           : 0;
+	padding-right                    : 10px;
+	position                         : static;
+}
+
+#data-description dl.title-description,
+#data-description dl.version-description,
+#data-description dl.kind-description,
+#data-description dl.explain-description,
+#data-description dl.author-description
+{
+	display                          : none;
+}
+
+#data-description dl.setting-description
+{
+	background-image                 : url("./image/icon_config_on.gif");
+	background-position              : left 3px;
+	padding                          : 3px 0 1px 21px;
+}
+
+#data-description dl.status-description
+{
+	background-image                 : url("./image/icon_plugin_on.gif");
+	background-position              : left 1px;
+	padding                          : 3px 0 1px 15px;
 }
 
 #part-plugin-more
