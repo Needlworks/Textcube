@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-function getPagingView( & $paging, & $template, & $itemTemplate) {
+function getPagingView( & $paging, & $template, & $itemTemplate, $blockMode = false) {
 	if (($paging === false) || empty($paging['page']))
 		return '';
 	$url = encodeURL($paging['url']);
@@ -86,6 +86,9 @@ function getPagingView( & $paging, & $template, & $itemTemplate) {
 	$divClass = $divClass . (isset($paging['next']) ? '' : 'no-more-next');
 	dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : '', $view);
 	
-	return '<div' . (!empty($divClass) ? ' class="' . $divClass . '">' : '>' ) . $view . '</div>'; 
+	$blockTag = 'div';
+	if ($blockMode == false) $blockTag = 'span';
+	
+	return '<' . $blockTag . (!empty($divClass) ? ' class="' . $divClass . '">' : '>' ) . $view . '</' . $blockTag . '>'; 
 }
 ?>

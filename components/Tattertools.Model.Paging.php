@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 class Paging {
-	function getPagingView( & $paging, & $template, & $itemTemplate) {
+	function getPagingView( & $paging, & $template, & $itemTemplate, $blockMode = false) {
 		requireComponent('Tattertools.Function.misc');
 		if (($paging === false) || empty($paging['page']))
 			return '';
@@ -86,7 +86,11 @@ class Paging {
 		misc::dress('paging_rep', $itemsView, $view);
 		$divClass = $divClass . (isset($paging['next']) ? '' : 'no-more-next');
 		misc::dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : '', $view);
-		return '<div' . (!empty($divClass) ? ' class="' . $divClass . '">' : '>' ) . $view . '</div>'; 
+		
+		$blockTag = 'div';
+		if ($blockMode == false) $blockTag = 'span';
+
+		return '<' . $blockTag . (!empty($divClass) ? ' class="' . $divClass . '">' : '>' ) . $view . '</' . $blockTag . '>'; 
 	}
 }
 ?>

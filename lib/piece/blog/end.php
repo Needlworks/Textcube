@@ -56,7 +56,7 @@ dress('owner_url', "$blogURL/owner", $view);
 dress('tattertools_name', TATTERTOOLS_NAME, $view);
 dress('tattertools_version', TATTERTOOLS_VERSION, $view);
 if (isset($paging))
-	dress('paging', getPagingView($paging, $skin->paging, $skin->pagingItem), $view);
+	dress('paging', getPagingView($paging, $skin->paging, $skin->pagingItem, true), $view);
 
 $sidebarElements = array_keys($skin->sidebarStorage);
 foreach ($sidebarElements as $element) {
