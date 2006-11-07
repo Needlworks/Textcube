@@ -1416,6 +1416,7 @@ ini_set('display_errors', 'off');
 \$service['domain'] = '{$_POST['domain']}';
 \$service['path'] = '$path';
 \$service['skin'] = 'tistory';
+//\$serviceURL = 'http://{$_POST['domain']}{$path}' ; // for path of Skin, plugin and etc.
 ?>"
             );
             fclose($fp);
