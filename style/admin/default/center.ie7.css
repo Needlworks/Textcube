@@ -4,11 +4,18 @@
 
 #sorting-line
 {
-	bottom                           : -3px;
+	bottom                           : -1px;
 	padding-top                      : 5px;
 }
 
 #activate-status-line
 {
 	bottom                           : 4px;
+}
+
+/* data description */
+#data-description
+{
+	bottom                           : -22px;
+	right                            : 0;
 }
