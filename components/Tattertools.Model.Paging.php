@@ -84,7 +84,7 @@ class Paging {
 		$divClass = isset($paging['prev']) ? '' : 'no-more-prev ';
 		misc::dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : '', $view);
 		misc::dress('paging_rep', $itemsView, $view);
-		$divClass = $divClass . (isset($paging['next']) ? '' : 'mo-more-next');
+		$divClass = $divClass . (isset($paging['next']) ? '' : 'no-more-next');
 		misc::dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : '', $view);
 		return '<div' . (!empty($divClass) ? ' class="' . $divClass . '">' : '>' ) . $view . '</div>'; 
 	}
