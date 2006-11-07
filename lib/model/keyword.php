@@ -51,6 +51,6 @@ function getKeylog($owner, $keyword) {
 	global $database;
 	$keyword = mysql_tt_escape_string($keyword);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
-	return fetchQueryAll("SELECT id, title, content, published, comments FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -1 AND (title LIKE '%$keyword%' OR content LIKE '%$keyword%') ORDER BY published DESC");
+	return fetchQueryAll("SELECT id, title, content, published, comments FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 AND (title LIKE '%$keyword%' OR content LIKE '%$keyword%') ORDER BY published DESC");
 }
 ?>
