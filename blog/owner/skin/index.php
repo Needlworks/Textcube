@@ -81,15 +81,15 @@ function writeValue($value, $label, $className) {
 <?php
 if (file_exists(ROOT."/skin/".$skinSetting['skin']."/preview.jpg")) {
 ?>
-										<img src="<?php echo $service['path'];?>/skin/<?php echo $skinSetting['skin'];?>/preview.jpg" alt="<?php echo _t('스킨 미리보기');?>" />
+										<img src="<?php echo $service['path'];?>/skin/<?php echo $skinSetting['skin'];?>/preview.jpg" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
 } else if (file_exists(ROOT."/skin/".$skinSetting['skin']."/preview.gif")) {
 ?>
-										<img src="<?php echo $service['path'];?>/skin/<?php echo $skinSetting['skin'];?>/preview.gif" alt="<?php echo _t('스킨 미리보기');?>" />
+										<img src="<?php echo $service['path'];?>/skin/<?php echo $skinSetting['skin'];?>/preview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
 } else {
 ?>
-										<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/noPreview.gif" alt="<?php echo _t('스킨 미리보기');?>" />
+										<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/noPreview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
 }
 ?>
@@ -167,11 +167,11 @@ for ($i = 0; $i < count($skins); $i++) {
 <?php
 	if ($skin['preview'] == '') {
 ?>
-										<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/noPreview.gif" alt="<?php echo _t('스킨 미리보기');?>" />
+										<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/noPreview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
 	} else {
 ?>
-										<img src="<?php echo $skin['preview'];?>" alt="<?php echo _t('스킨 미리보기');?>" />
+										<img src="<?php echo $skin['preview'];?>" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
 	}
 ?>
