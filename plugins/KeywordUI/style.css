@@ -1,8 +1,8 @@
 /* keyword log */
-#keyword
+body
 {
-	background              : #FFF;
-	padding                 : 10px;
+	margin                  : 0;
+	background              : #FFF url(./Images/bg.gif) top left repeat-x;
 }
 
 #keyword a
@@ -16,51 +16,38 @@
 	text-decoration         : underline;
 }
 
-#keyword .viewTop,
-#keyword .viewBottom
+#keyword h1
 {
-	height                  : 4px;
-	font-size               : .1em;
+	margin-left             : 20px;
+	margin-top              : 10px;
+	padding-top             : 5px;
+	padding-left            : 30px;
+	height                  : 20px;
+	font-size               : 22pt;
+	color                   : #FFF;
+	font-size               : .75em;
+	font-family             : Tahoma, Helvetica, Arial, Dotum, sans-serif;
+	background              : url(./Images/bullet.gif) 0% 50% no-repeat;
 }
 
-#keyword .viewTop,
-#keyword .viewBottom
-{
-	background-position     : top left;
-	background-repeat       : no-repeat;
-}
-
-#keyword .viewTop,
-#keyword .viewBottom,
-#keyword .viewContent
-{
-	background-position     : top left;
-}
-
-#keyword .viewTop
-{
-	background-image        : url(./Images/viewTop.gif);
-}
-
-#keyword .viewBottom
-{
-	background-image        : url(./Images/viewBottom.gif);
-}
-
-#keyword .viewContent
+#keyword .view
 {
 	padding                 : 20px;
 	letter-spacing          : -2px;
-	font-size               : 9pt;
+	font-size               : .75em;
 	font-family             : Tahoma, Helvetica, Arial, Dotum, sans-serif;
-	background-image        : url(./Images/viewContent.gif);
-	background-repeat       : repeat-y;
 }
 
+#keyword .list
+{
+	margin                  : 10px;
+}
 
 #keyword .title
 {
 	margin-top              : 20px;
+	font-size               : .75em;
+	font-family             : Dotum, Arial, sans-serif;
 }
 
 #keyword ul
@@ -73,8 +60,8 @@
 #keyword ul
 {
 	letter-spacing          : -1px;
-	font-size               : 8pt;
-	font-family             : Dotum, 돋움, Arial, sans-serif;
+	font-size               : .7em;
+	font-family             : Dotum, Arial, sans-serif;
 }
 
 #keyword .date
@@ -84,22 +71,7 @@
 
 #keyword .cnt
 {
-	font-size               : 8pt;
+	font-size               : 1em;
 	font-family             : Tahoma, Helvetica, Arial, Dotum, sans-serif;
 	color                   : #666;
-}
-
-#keyword h2
-{
-	padding-left            : 10px;
-	font-size               : 22pt;
-	color                   : #4C4746;
-	font-family             : Batang, 바탕, Times, serif;
-	background              : url(./Images/bulletHead.gif) 0% 50% no-repeat;
-}
-
-#keyword .title
-{
-	font-size               : 12pt;
-	font-family             : Dotum, 돋움, Arial, sans-serif;
 }
