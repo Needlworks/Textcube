@@ -23,7 +23,6 @@ body
 	padding-top             : 5px;
 	padding-left            : 30px;
 	height                  : 20px;
-	font-size               : 22pt;
 	color                   : #FFF;
 	font-size               : .75em;
 	font-family             : Tahoma, Helvetica, Arial, Gulim, sans-serif;
@@ -52,12 +51,8 @@ body
 #keyword ul
 {
 	padding                 : 0;
-	margin                  : 10px 0 0 10px;
+	margin                  : 10px;
 	list-style              : none;
-}
-
-#keyword ul
-{
 	letter-spacing          : -1px;
 	font-size               : .7em;
 	font-family             : Dotum, Arial, sans-serif;
