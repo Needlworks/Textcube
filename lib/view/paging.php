@@ -80,9 +80,12 @@ function getPagingView( & $paging, & $template, & $itemTemplate) {
 	$itemsView = ob_get_contents();
 	ob_end_clean();
 	$view = $template;
-	dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : 'class="prev no-more"', $view);
+	$divClass = isset($paging['prev']) ? '' : 'no-more-prev ';
+	dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : '', $view);
 	dress('paging_rep', $itemsView, $view);
-	dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : 'class="next no-more"', $view);
-	return $view;
+	$divClass = $divClass . (isset($paging['next']) ? '' : 'mo-more-next');
+	dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : '', $view);
+	
+	return '<div' . (!empty($divClass) ? ' class="' . $divClass . '">' : '>' ) . $view . '</div>'; 
 }
 ?>
