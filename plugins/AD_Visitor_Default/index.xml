@@ -13,7 +13,6 @@
   <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>
   <author xml:lang="ja" link="http://www.tattertools.com/">Tatter &amp; Friends</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
-  <scope>admin</scope>
   <requirements>
     <tattertools>1.1</tattertools>
   </requirements>
