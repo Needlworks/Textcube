@@ -26,16 +26,15 @@ body
 	font-size               : 22pt;
 	color                   : #FFF;
 	font-size               : .75em;
-	font-family             : Tahoma, Helvetica, Arial, Dotum, sans-serif;
+	font-family             : Tahoma, Helvetica, Arial, Gulim, sans-serif;
 	background              : url(./Images/bullet.gif) 0% 50% no-repeat;
 }
 
 #keyword .view
 {
 	padding                 : 50px 20px;
-	letter-spacing          : -2px;
 	font-size               : .75em;
-	font-family             : Tahoma, Helvetica, Arial, Dotum, sans-serif;
+	font-family             : Tahoma, Helvetica, Arial, Gulim, sans-serif;
 }
 
 #keyword .list

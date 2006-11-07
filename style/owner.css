@@ -7,28 +7,31 @@
 body
 {
 	background-color                 : #FFFFFF;
+	background-image                 : url(../image/bg_Owner.gif);
+	background-position              : top left;
+	background-repeat                : repeat-x;
 	font-size                        : small;
 }
 
 /* XHTML comment edit/delete 윈도우용 CSS */
 #comment-box
 {
-	border-top                       : 4px solid #9DCAFB;
-	font-family                      : Arial, Tahoma, Verdana, 굴림, Gulim, sans-serif;
+	/*border-top                       : 4px solid #9DCAFB;*/
+	font-family                      : Tahoma, Helvetica, Arial, Gulim, sans-serif;
 	font-size                        : 0.925em;
 	padding-top                      : 45px;
 }
 
 #comment-box img
 {
-	display                          : block;
-	margin                           : 0 auto 10px auto;
+	display                          : none;
+	/*margin                           : 0 auto 10px auto;*/
 }
 
 #comment-box #command-box
 {
-	background-color                 : #EAF4FF;
-	border                           : 1px solid #BFDCFC;
+	/*background-color                 : #EAF4FF;*/
+	/*border                           : 1px solid #BFDCFC;*/
 	margin                           : 0 10px;
 	padding                          : 60px 0;
 	text-align                       : center;
@@ -36,7 +39,7 @@ body
 
 #comment-box #command-box label
 {
-	color                            : #2A64A3 !important;
+	/*color                            : #2A64A3 !important;*/
 	cursor                           : pointer;
 }
 
@@ -63,7 +66,7 @@ body
 
 #comment-box #command-box .input-text
 {
-	border                           : 1px solid #9DCAFB;
+	border                           : 1px solid #BBBBBB;
 	/*height                           : 1.7em;*/
 	padding                          : 3px;
 	vertical-align                   : middle;
@@ -71,9 +74,9 @@ body
 
 #comment-box #command-box .input-button
 {
-	border                           : 1px solid #6297D1;
-	background-color                 : #83AFE0;
-	color                            : #FFFFFF;
+	border                           : 1px solid #777777;
+	background-color                 : #FFFFFF;
+	color                            : #000000;
 	font-weight                      : bold;
 	font-size                        : 1em;
 	height                           : 1.9em;
@@ -84,16 +87,16 @@ body
 /* XHTML trackback edit/delete 윈도우용 CSS */
 #trackback-box
 {
-	border-top                       : 4px solid #9DCAFB;
-	font-family                      : Arial, Tahoma, Verdana, 굴림, Gulim, sans-serif;
+	/*border-top                       : 4px solid #9DCAFB;*/
+	font-family                      : Tahoma, Helvetica, Arial, Gulim, sans-serif;
 	font-size                        : 0.925em;
 }
 
 #trackback-box img
 {
-	display                          : block;
-	float                            : right;
-	margin                           : 10px 10px 5px 0;
+	display                          : none;
+	/*float                            : right;
+	margin                           : 10px 10px 5px 0;*/
 }
 
 #trackback-box .title
@@ -101,7 +104,7 @@ body
 	background-image                 : url("../image/icon_PopupTitle.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
-	color                            : #5681B1;
+	color                            : #FFFFFF;
 	font-weight                      : bold;
 	margin                           : 20px 0 10px 12px;
 	padding                          : 1px 0 0 17px;
@@ -109,9 +112,9 @@ body
 
 #trackback-box #command-box
 {
-	background-color                 : #EAF4FF;
-	border                           : 1px solid #BFDCFC;
-	color                            : #2A64A3 !important;
+	/*color                            : #2A64A3 !important;*/
+	border                           : 1px solid #DDDDD;
+	/*color                            : #2A64A3 !important;*/
 	margin                           : 0 10px;
 	padding                          : 10px;
 }
@@ -148,7 +151,7 @@ body
 
 #trackback-box #command-box .input-line dd .input-text
 {
-	border                           : 1px solid #9DCAFB;
+	border                           : 1px solid #999999;
 	/*height                           : 1.7em;*/
 	font-size                        : 1em;
 	margin-top                       : -7px;
@@ -159,9 +162,9 @@ body
 
 #trackback-box #command-box .input-button
 {
-	border                           : 1px solid #6297D1;
-	background-color                 : #83AFE0;
-	color                            : #FFFFFF;
+	border                           : 1px solid #777777;
+	background-color                 : #FFFFFF;
+	color                            : #000000;
 	font-weight                      : bold;
 	font-size                        : 1em;
 	height                           : 1.9em;
@@ -177,10 +180,10 @@ body
 
 #trackback-box #command-box table .tr-head td
 {
-	border-top                       : 2px solid #9DCAFB;
-	border-bottom                    : 1px solid #9DCAFB;
-	background-color                 : #C9E3FF;
-	color                            : #2A64A3;
+	border-top                       : 2px solid #000000;
+	border-bottom                    : 1px solid #000000;
+	background-color                 : #FFFFFF;
+	/*color                            : #2A64A3;*/
 	font-weight                      : bold;
 	height                           : 30px;
 	padding                          : 3px 7px 0 7px;
@@ -204,7 +207,7 @@ body
 
 #trackback-box #command-box table tr td
 {
-	border-bottom                    : 1px solid #9DCAFB;
+	border-bottom                    : 1px solid #999999;
 	height                           : 30px;
 	padding                          : 3px 7px 0 7px;
 }
@@ -244,9 +247,9 @@ body
 
 #trackback-box .button-box .input-button
 {
-	border                           : 1px solid #6297D1;
-	background-color                 : #83AFE0;
-	color                            : #FFFFFF;
+	border                           : 1px solid #777777;
+	background-color                 : #FFFFFF;
+	color                            : #000000;
 	display                          : block;
 	font-weight                      : bold;
 	font-size                        : 1em;
@@ -260,16 +263,16 @@ body
 /* XHTML comment edit/delete 윈도우용 CSS */
 #comment-reply-box
 {
-	border-top                       : 4px solid #9DCAFB;
-	font-family                      : Arial, Tahoma, Verdana, 굴림, Gulim, sans-serif;
+	/*border-top                       : 4px solid #9DCAFB;*/
+	font-family                      : Tahoma, Helvetica, Arial, Gulim, sans-serif;
 	font-size                        : 0.925em;
 }
 
 #comment-reply-box img
 {
-	display                          : block;
-	float                            : right;
-	margin                           : 10px 10px 5px 0;
+	display                          : none;
+	/*float                            : right;
+	margin                           : 10px 10px 5px 0;*/
 }
 
 #comment-reply-box .title
@@ -277,17 +280,18 @@ body
 	background-image                 : url("../image/icon_PopupTitle.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
-	color                            : #5681B1;
+	color                            : #FFFFFF;
 	font-weight                      : bold;
-	margin                           : 20px 0 10px 12px;
-	padding                          : 1px 0 0 17px;
+	margin                           : 15px 0 10px 12px;
+	padding                          : 1px 0 0 25px;
+	height                           : 20px;
 }
 
 #comment-reply-box #command-box
 {
-	background-color                 : #EAF4FF;
-	border                           : 1px solid #BFDCFC;
-	color                            : #2A64A3 !important;
+	/*background-color                 : #EAF4FF;*/
+	border                           : 1px solid #DDDDD;
+	/*color                            : #2A64A3 !important;*/
 	margin                           : 0 10px;
 	padding                          : 10px;
 }
@@ -316,13 +320,13 @@ body
 
 #comment-reply-box #command-box label
 {
-	color                            : #2A64A3 !important;
+	/*color                            : #2A64A3 !important;*/
 	cursor                           : pointer;
 }
 
 #comment-reply-box #command-box .input-text
 {
-	border                           : 1px solid #9DCAFB;
+	border                           : 1px solid #999999;
 	font-size                        : 1em;
 	padding                          : 3px;
 	width                            : 296px;
@@ -346,7 +350,7 @@ body
 
 #comment-reply-box #command-box textarea
 {
-	border                           : 1px solid #9DCAFB;
+	border                           : 1px solid #999999;
 	font-size                        : 1em;
 	overflow                         : auto;
 	width                            : 303px;
@@ -361,11 +365,11 @@ body
 
 #comment-reply-box #command-box .input-button
 {
-	border                           : 1px solid #6297D1;
-	background-color                 : #83AFE0;
-	color                            : #FFFFFF;
+	border                           : 1px solid #777777;
+	background-color                 : #FFFFFF;
+	color                            : #000000;
 	font-weight                      : bold;
-	font-size                        : 94%;
+	font-size                        : 97%;
 	height                           : 1.9em;
 	padding                          : 0 6px;
 	vertical-align                   : middle;
@@ -424,7 +428,7 @@ body
 	background-position              : left top;
 	background-repeat                : repeat-x;
 	border                           : 1px solid #000000;
-	font-family                      : Arial, Tahoma, Verdana, 굴림, Gulim, sans-serif;
+	font-family                      : Tahoma, Helvetica, Arial, Gulim, sans-serif;
 	font-size                        : 0.925em;
 	margin-top                       : 140px;
 	padding                          : 20px;
