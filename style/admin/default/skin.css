@@ -62,6 +62,12 @@
 	width                            : 100px;
 }
 
+#part-skin-list .section .information table tr.title-line td.explain .version,
+#part-skin-current .section .information table tr.title-line td.explain .version
+{
+	padding-left                     : 10px;
+}
+
 #part-skin-list .section .information table tr.explain-line td.name,
 #part-skin-current .section .information table tr.explain-line td.name
 {
@@ -86,6 +92,11 @@
 	line-height                      : 1.5em;
 	padding                          : 3px 5px 1px 5px;
 	vertical-align                   : middle;
+}
+
+#customizedTable
+{
+	height                           : 200px;
 }
 
 #part-skin-current .section .information .button-box .edit-button
