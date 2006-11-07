@@ -484,7 +484,7 @@ function getCommentView($entryId, & $skin) {
 		}
 		
 		dress($prefix1 . '_input_comment', 'comment', $commentView);
-		dress($prefix1 . '_onclick_submit', "addComment(this, $entryId); return false", $commentView);
+		dress($prefix1 . '_onclick_submit', "addComment(this, $entryId); return false;", $commentView);
 		dress($prefix1 . '_textarea_body', 'comment', $commentView);
 		dress($prefix1 . '_textarea_body_value', '', $commentView);
 	} else if ($useForm == true) {
@@ -601,7 +601,7 @@ function getGuestCommentView($entryId, & $skin) {
 		dress($prefix1 . '_member', $commentMemberView, $commentView);
 	}
 	dress($prefix1 . '_input_comment', 'comment', $commentView);
-	dress($prefix1 . '_onclick_submit', "addComment(this, $entryId);return false", $commentView);
+	dress($prefix1 . '_onclick_submit', "addComment(this, $entryId);return false;", $commentView);
 	dress($prefix1 . '_textarea_body', 'comment', $commentView);
 	dress($prefix1 . '_textarea_body_value', '', $commentView);
 	return $commentView;
