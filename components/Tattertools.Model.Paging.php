@@ -81,10 +81,12 @@ class Paging {
 		$itemsView = ob_get_contents();
 		ob_end_clean();
 		$view = $template;
-		misc::dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : 'class="no-more"', $view);
+		$divClass = isset($paging['prev']) ? '' : 'no-more-prev ';
+		misc::dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : '', $view);
 		misc::dress('paging_rep', $itemsView, $view);
-		misc::dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : 'class="no-more"', $view);
-		return $view;
+		$divClass = $divClass . (isset($paging['next']) ? '' : 'mo-more-next');
+		misc::dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : '', $view);
+		return '<div' . (!empty($divClass) ? ' class="' . $divClass . '">' : '>' ) . $view . '</div>'; 
 	}
 }
 ?>
