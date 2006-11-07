@@ -160,12 +160,18 @@ function docEventHandler(event) {
 
 			if(editor.rowResize) {
 				attachManagerSelectNest.style.visibility = 'hidden';
+				document.getElementById("propertyiMazing_list").style.visibility = "hidden";
+				document.getElementById("propertyGallery_list").style.visibility = "hidden";
+				document.getElementById("propertyJukebox_list").style.visibility = "hidden";
 				editor.rowResizeDown = true;
 			}
 			break;
 		case "mouseup":
 			editor.rowResizeDown = false;
 			attachManagerSelectNest.style.visibility = 'visible';
+			document.getElementById("propertyiMazing_list").style.visibility = "visible";
+			document.getElementById("propertyGallery_list").style.visibility = "visible";
+			document.getElementById("propertyJukebox_list").style.visibility = "visible";
 			break;
 		case "selectstart":
 			return editor.rowResizeDown ? false : true;
