@@ -13,7 +13,7 @@ a:hover         { color:#666;     text-decoration:underline;}
 a:active        { color:#666;     text-decoration:none;}
 
 /* 페이징 - 현재 페이지 */
-    .selected               { text-align:center;  border-right:1px solid #ccc;  padding-right:6px;  margin-right:6px; font-weight:bold;  color:#f30;} 
+    .selected               { font-weight:bold;  color:#f30;} 
 	.no-more                { color:#ccc; font:1.1em dotum;}
 
 /* 카테고리 - 이미지 버튼 */

@@ -12,12 +12,12 @@ function getPagingView( & $paging, & $template, & $itemTemplate) {
 	ob_start();
 	if (isset($paging['first'])) {
 		$itemView = "$itemTemplate <span class=\"interword\">...</span> ";
-		dress('paging_rep_link_num', '1', $itemView);
+		dress('paging_rep_link_num', '<span>1</span>', $itemView);
 		dress('paging_rep_link', "href='$url$prefix{$paging['first']}$postfix'", $itemView);
 		print ($itemView);
 	} else if ($paging['page'] > 5) {
 		$itemView = "$itemTemplate <span class=\"interword\">...</span> ";
-		dress('paging_rep_link_num', '1', $itemView);
+		dress('paging_rep_link_num', '<span>1</span>', $itemView);
 		dress('paging_rep_link', "href='$url{$prefix}1$postfix'", $itemView);
 		print ($itemView);
 	}
@@ -28,7 +28,7 @@ function getPagingView( & $paging, & $template, & $itemTemplate) {
 	if (isset($paging['before'])) {
 		foreach ($paging['before'] as $value) {
 			$itemView = $itemTemplate;
-			dress('paging_rep_link_num', "$page", $itemView);
+			dress('paging_rep_link_num', "<span>$page</span>", $itemView);
 			dress('paging_rep_link', "href='$url$prefix$value$postfix'", $itemView);
 			print ($itemView);
 			$page++;
@@ -36,7 +36,7 @@ function getPagingView( & $paging, & $template, & $itemTemplate) {
 	} else {
 		for ($i = 0; ($i < 4) && ($page < $paging['page']); $i++) {
 			$itemView = $itemTemplate;
-			dress('paging_rep_link_num', "$page", $itemView);
+			dress('paging_rep_link_num', "<span>$page</span>", $itemView);
 			dress('paging_rep_link', "href='$url$prefix$page$postfix'", $itemView);
 			print ($itemView);
 			$page++;
@@ -44,15 +44,15 @@ function getPagingView( & $paging, & $template, & $itemTemplate) {
 	}
 	if (($page == $paging['page']) && ($page <= $paging['pages'])) {
 		$itemView = $itemTemplate;
-		dress('paging_rep_link_num', "$page", $itemView);
-		dress('paging_rep_link', 'class="selected"', $itemView);
+		dress('paging_rep_link_num', "<span class=\"selected\" >$page</span>", $itemView);
+		dress('paging_rep_link', '', $itemView);
 		print ($itemView);
 		$page++;
 	}
 	if (isset($paging['before'])) {
 		foreach ($paging['after'] as $value) {
 			$itemView = $itemTemplate;
-			dress('paging_rep_link_num', "$page", $itemView);
+			dress('paging_rep_link_num', "<span>$page</span>", $itemView);
 			dress('paging_rep_link', "href='$url$prefix$value$postfix'", $itemView);
 			print ($itemView);
 			$page++;
@@ -60,7 +60,7 @@ function getPagingView( & $paging, & $template, & $itemTemplate) {
 	} else {
 		for ($i = 0; ($i < 4) && ($page <= $paging['pages']); $i++) {
 			$itemView = $itemTemplate;
-			dress('paging_rep_link_num', "$page", $itemView);
+			dress('paging_rep_link_num', "<span>$page</span>", $itemView);
 			dress('paging_rep_link', "href='$url$prefix$page$postfix'", $itemView);
 			print ($itemView);
 			$page++;
@@ -68,12 +68,12 @@ function getPagingView( & $paging, & $template, & $itemTemplate) {
 	}
 	if (isset($paging['last'])) {
 		$itemView = " <span class=\"interword\">...</span> $itemTemplate";
-		dress('paging_rep_link_num', "{$paging['pages']}", $itemView);
+		dress('paging_rep_link_num', "<span>{$paging['pages']}</span>", $itemView);
 		dress('paging_rep_link', "href='$url$prefix{$paging['last']}$postfix'", $itemView);
 		print ($itemView);
 	} else if (($paging['pages'] - $paging['page']) > 4) {
 		$itemView = " <span class=\"interword\">...</span> $itemTemplate";
-		dress('paging_rep_link_num', "{$paging['pages']}", $itemView);
+		dress('paging_rep_link_num', "<span>{$paging['pages']}</span>", $itemView);
 		dress('paging_rep_link', "href='$url$prefix{$paging['pages']}$postfix'", $itemView);
 		print ($itemView);
 	}
