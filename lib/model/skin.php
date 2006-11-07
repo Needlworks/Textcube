@@ -174,6 +174,8 @@ function selectSkin($owner, $skinName) {
 	if (!$result) {
 		return _t('실패했습니다.');
 	}
+	
+	removeUserSetting("sidebarOrder");
 	return true;
 }
 

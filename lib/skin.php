@@ -70,7 +70,7 @@ class Skin {
 	var $noneTrackbackMessage;
 	var $singleTrackbackMessage;
 	
-	function Skin($name) {
+	function Skin($name, $previewMode = false) {
 		global $service, $blogURL;
 		global $owner;
 		
@@ -150,7 +150,7 @@ class Skin {
 			$sidebarCount++;
 		}
 
-		handleSidebars($sval, $this);
+		handleSidebars($sval, $this, $previewMode);
 
 		$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
 		list($sval, $this->listItem) = $this->cutSkinTag($sval, 'list_rep');

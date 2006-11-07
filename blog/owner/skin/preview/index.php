@@ -8,6 +8,8 @@ list($entries, $paging) = getEntriesWithPaging($owner, $suri['page'], $blog['ent
 if(!Validator::filename($_GET['skin']) && $_GET['skin'] != "customize/$owner")
 	respondNotFoundPage();
 $skinSetting['skin'] = $_GET['skin'];
+$skin = new Skin($skinSetting['skin'], true);
+
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/entries.php';
 

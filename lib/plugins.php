@@ -255,7 +255,7 @@ function handleCenters($mapping) {
 }
 
 // 저장된 사이드바 정렬 순서 정보를 가져온다.
-function handleSidebars(& $sval, & $obj) {
+function handleSidebars(& $sval, & $obj, $previewMode) {
 	global $service, $pluginURL, $pluginPath, $configVal, $configMappings;
 	$newSidebarAllOrders = array(); 
 	// [sidebar id][element id](type, id, parameters)
@@ -265,6 +265,7 @@ function handleSidebars(& $sval, & $obj) {
 	
 	$sidebarCount = count($obj->sidebarBasicModules);
 	$sidebarAllOrders = getSidebarModuleOrderData($sidebarCount);
+	if ($previewMode == true) $sidebarAllOrders = null;
 	
 	for ($i=0; $i<$sidebarCount; $i++) {
 		$str = "";
@@ -316,7 +317,8 @@ function handleSidebars(& $sval, & $obj) {
 	}
 	
 	if (count($newSidebarAllOrders) > 0) {
-		setUserSetting("sidebarOrder", serialize($newSidebarAllOrders));
+		if ($previewMode == false)
+			setUserSetting("sidebarOrder", serialize($newSidebarAllOrders));
 	}
 }
 
