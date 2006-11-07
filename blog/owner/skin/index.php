@@ -194,7 +194,7 @@ for ($i = 0; $i < count($skins); $i++) {
 											</table>
 										</div>
 										<div id="button_<?php echo $skin['name'];?>" class="button-box">
-											<a class="preview-button button" href="<?php echo $blogURL;?>/owner/skin/preview/?skin=<?php echo $skin['name'];?>" onclick="window.open(this.href); return false;"><span><?php echo _t('미리보기');?></span></a>
+											<a class="preview-button button" href="<?php echo $blogURL;?>/owner/skin/preview/?skin=<?php echo $skin['name'];?>" onclick="window.open(this.href, &quot;<?php echo $skin['name'];?>&quot;,&quot;location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0&quot;); return false;"><span><?php echo _t('미리보기');?></span></a>
 											<span class="hidden">|</span>
 											<a class="apply-button button" href="<?php echo $blogURL;?>/owner/skin/change/?skinName=<?php echo urlencode($skin['name']);?>" onclick="selectSkin('<?php echo $skin['name'];?>'); return false;"><span><?php echo _t('적용');?></span></a>
 										</div>

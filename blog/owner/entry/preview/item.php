@@ -16,5 +16,7 @@ if ($entry && ($entry['category'] >= 0)) {
 unset($entry);
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/entries.php';
+
+$pageTitle = _t('미리보기') . ' - ' . $pageTitle;
 require ROOT . '/lib/piece/blog/end.php';
 ?>
