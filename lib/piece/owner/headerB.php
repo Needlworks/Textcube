@@ -5,16 +5,6 @@
 	<title><?php echo htmlspecialchars($blog['title']);?> &gt; <?php echo _t('플러그인');?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.css" />
-<?php
-$plugin = isset($_GET['name']) ? $_GET['name'] : '';
-$pluginDir = strtok($plugin,'/');
-$adminSkinDir = getUserSetting("adminSkin", "default");
-if (file_exists(ROOT . "/plugins/$pluginDir/$adminSkinDir.css")) {
-?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/<?php echo $adminSkinDir;?>.css" />
-<?php
-}
-?>
 	<!--[if lte IE 6]>
 		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
 		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.ie.css" />
@@ -23,6 +13,16 @@ if (file_exists(ROOT . "/plugins/$pluginDir/$adminSkinDir.css")) {
 		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie7.css" />
 		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/plugin.ie7.css" />
 	<![endif]-->
+<?php
+$plugin = isset($_GET['name']) ? $_GET['name'] : '';
+$pluginDir = strtok($plugin,'/');
+$adminSkinDir = getUserSetting("adminSkin", "default");
+if (file_exists(ROOT . "/plugins/$pluginDir/plugin-main.css")) {
+?>
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/plugin-main.css" />
+<?php
+}
+?>
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $service['path'];?>";
