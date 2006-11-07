@@ -7,7 +7,7 @@
   <description xml:lang="en">Start tasks what you want to.</description>
   <description xml:lang="ko">종류에 따라 원하는 일을 시작합니다.</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://forum.tattertools.com/">TNF</author>
+  <author xml:lang="en" link="http://forum.tattertools.com/">Tatter &amp; Friends</author>
   <author xml:lang="ko" link="http://forum.tattertools.com/">태터앤프렌즈</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>

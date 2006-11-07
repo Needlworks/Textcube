@@ -5,8 +5,8 @@
 	<version>0.8</version>
 	<description xml:lang="ko">블로그에 표시되는 날짜의 언어와 형식을 변경해주는 플러그인입니다.</description>
 	<license>GPL</license>
-	<author link="http://forum.tattertools.com">TNF</author>
-	<author xml:lang="ko" link="http://forum.tattertools.com">태터앤프렌즈</author>
+	<author link="http://forum.tattertools.com/en">Tatter &amp; Friends</author>
+	<author xml:lang="ko" link="http://forum.tattertools.com/ko">태터앤프렌즈</author>
 	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
 	<requirements>
 		<tattertools>1.1</tattertools>

@@ -9,8 +9,8 @@
   <description xml:lang="ko">태터툴즈 컴포넌트를 이용하여 리퍼러 기록을 보여줍니다.</description>
   <description xml:lang="ja">テト・ツールズのコンポーネントを利用して、詳細なリファラ情報を見せます。</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://forum.tattertools.com/">TNF</author>
-  <author xml:lang="ko" link="http://forum.tattertools.com/">태터앤프렌즈</author>
+  <author xml:lang="en" link="http://forum.tattertools.com/en">Tatter &amp; Friends</author>
+  <author xml:lang="ko" link="http://forum.tattertools.com/ko">태터앤프렌즈</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
     <tattertools>1.1</tattertools>
