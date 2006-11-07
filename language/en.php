@@ -1,10 +1,4 @@
-<?php //English
-/* Contributed by Remengen */
-/* Contributed by 건더기 */
-/* Contributed by inureyes */
-/* Contributed by Chester */
-/* Contributed by CK */
-
+<?php
 $__text["%1 설정"] = '%1 Settings';
 $__text["블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다."] = "Hi, I would like to invite you to the Tattertools blog. In fact, your blog has already been created; You can visit your blog now.";
 $__text["아래로"] = 'Move down';
@@ -123,6 +117,7 @@ $__text['[허용됨]'] = '[allowed]';
 //$__text['id'] = '';
 //$__text['imazing / owner function'] = '';
 //$__text['library / component / quality assurance'] = '';
+$__text['manifest 에서 정의한 플러그인 이름'] = 'Plugin name defined by manifest';
 //$__text['manual'] = '';
 //$__text['metaWeblogAPI나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다.'] = '';
 //$__text['path'] = '';
@@ -437,7 +432,7 @@ $__text['미디어 삽입'] = 'Insert Media';
 $__text['미리 보기'] = 'Preview';
 $__text['미리보기'] = 'Preview';
 $__text['미리보기를 준비하고 있습니다.'] = 'Prepare preview';
-$__text['미발행'] = 'Private';
+//$__text['미발행'] = '';
 $__text['미사용'] = 'Inactive';
 $__text['미스크랩 포스트'] = 'Unscrapped post????';
 $__text['미지정'] = 'Uncategorized';
@@ -619,6 +614,7 @@ $__text['삭제합니다.'] = 'Delete';
 $__text['삽입하기'] = 'Insert';
 $__text['상단 여백'] = 'Upper Margin';
 //$__text['상단'] = '';
+$__text['상태 항목을 클릭하면 플러그인을 활성화/비활성화 할 수 있습니다.'] = 'Click on the status to turn on/off the plugin';
 $__text['상태'] = 'Status';
 $__text['새 공지를 추가합니다'] = 'Add a New Notice';
 $__text['새 글을 씁니다'] = 'Write';
@@ -679,8 +675,9 @@ $__text['설정 값이 없습니다.'] = 'No description';
 //$__text['설정 테이블에 블로그 언어 설정을 위한 필드를 추가합니다.'] = '';
 $__text['설정 파일'] = 'Configuration file';
 $__text['설정 파일: OK (경고: "%1" 파일을 덮어 쓰게 됩니다.)'] = 'Configuration file (Note: "%1" will be overwritten.)';
-$__text['설정'] = 'Configuration';
+$__text['설정'] = 'Settings';
 $__text['설정을 저장하고 있습니다.'] = 'Saving configuration.';
+$__text['설정이 있는경우 각 항목을 클릭하여 설정창을 불러올 수 있습니다.'] = 'Click on the settings to configure';
 $__text['설치 요구 사항을 확인하고 있습니다.'] = 'Checking the Installation Requirements';
 $__text['설치된 자투리 플러그인입니다'] = 'Installed Widgets';
 $__text['설치된 플러그인입니다'] = 'Plugin already installed';
@@ -921,6 +918,8 @@ $__text['자막'] = 'Caption';
 $__text['자바스크립트 허용'] = 'Allow Javascript';
 $__text['자투리'] = 'Widgets';
 $__text['자투리는 조각보에 기능을 추가합니다. 이 곳에서 자투리들의 사용 여부를 결정할 수 있습니다.'] = 'Widgets add function to the Dashboard. You can manage widgets here.';
+$__text['작성자'] = 'Author';
+$__text['작성자의 설명'] = 'Author description';
 $__text['작업 유형을 선택해 주십시오.'] = 'Select Action';
 $__text['작업 정보를 입력해 주십시오.'] = 'Enter Action';
 //$__text['잘못된 IP 주소입니다.'] = '';
@@ -1171,6 +1170,7 @@ $__text['플러그인 관리'] = 'Manage Plugins';
 $__text['플러그인 데이터 관리'] = 'Data management';
 $__text['플러그인 목록 갱신'] = 'Refresh plugin list';
 $__text['플러그인 목록'] = 'Plugins';
+$__text['플러그인 버전'] = 'Plugin version';
 $__text['플러그인 설정을 복원하고 있습니다.'] = 'Restoring Plugin settings';
 //$__text['플러그인 업로드 게시판'] = '';
 //$__text['플러그인 업로드 게시판으로 연결합니다.'] = '';
@@ -1181,6 +1181,7 @@ $__text['플러그인을 구하려면'] = 'How to add new plugins';
 $__text['플러그인을 비활성화하는데 실패했습니다.'] = 'Failed to turn off the Plugin.';
 $__text['플러그인을 켜거나 끕니다'] = 'Turn on / off plugins.';
 $__text['플러그인을 활성화하는데 실패했습니다.'] = 'Failed to turn on the Plugin.';
+$__text['플러그인의 기능별 분류'] = 'Plugin type';
 $__text['플러그인이 생성한 테이블입니다'] = 'Table made by Plugin.';
 $__text['플러그인이 생성한 테이블입니다. 테이블의 데이터를 삭제할 수 있습니다.'] = 'Table made by Plugin. Data may be deleted.';
 $__text['플레이어 보이기'] = 'Show Player';
@@ -1219,6 +1220,7 @@ $__text['한 쪽당 글 수'] = 'Posts per page';
 $__text['한 페이지에 글 %1건 표시'] = 'Show %1 posts per page';
 $__text['함수가 설치되어야 합니다.'] = 'Function must be installed.';
 //$__text['해당 테이블을 정말 삭제하시겠습니까? 사용중인 플러그인은 자동으로 해제됩니다.'] = '';
+$__text['해당 플러그인의 제작,수정,배포의 권한을 가진 사람 또는 단체'] = 'Person or organization that has the right to develop, edit, and distribute the plugin';
 //$__text['허용 시 문제가 발생할 수 있습니다.'] = '';
 $__text['허용'] = 'Allow';
 $__text['현재 공개 상태입니다.'] = 'Current status is public';
