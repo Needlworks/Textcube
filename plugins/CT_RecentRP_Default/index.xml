@@ -2,13 +2,16 @@
 <plugin version="1.0">
   <title xml:lang="en">Recent Replies</title>
   <title xml:lang="ko">최근 댓글</title>
-  <link>http://www.tattertools.com/</link>
+   <title xml:lang="ja">最新コメント</title>
+ <link>http://www.tattertools.com/</link>
   <version>1.0</version>
   <description xml:lang="en">Shows recent replies</description>
   <description xml:lang="ko">최근에 작성된 댓글들을 보여줍니다</description>
+  <description xml:lang="ja">最新コメント・プラグ・イン</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
   <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>
+  <author xml:lang="ja" link="http://www.tattertools.com/">Tatter &amp; Friends</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
     <tattertools>1.1</tattertools>

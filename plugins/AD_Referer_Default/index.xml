@@ -2,10 +2,12 @@
 <plugin version="1.0">
   <title xml:lang="en">Referer Log</title>
   <title xml:lang="ko">리퍼러 기록</title>
+  <title xml:lang="ja">リファラ統計</title>
   <link>http://forum.tattertools.com/ko/</link>
   <version>1.0</version>
   <description xml:lang="en">Referer log Plugin using Tattertools Components.</description>
   <description xml:lang="ko">태터툴즈 컴포넌트를 이용하여 리퍼러 기록을 보여줍니다.</description>
+  <description xml:lang="ja">テト・ツールズのコンポーネントを利用して、詳細なリファラ情報を見せます。</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://www.tattertools.com/">Tatter aNd Friends</author>
   <author xml:lang="ko" link="http://www.tattertools.com/">태터앤프렌즈</author>
@@ -19,6 +21,7 @@
         <method>
           <title xml:lang="en">Referer Log</title>
           <title xml:lang="ko">리퍼러 기록</title>
+          <title xml:lang="ja">リファラ統計</title>
           <handler>AD_Referer_Default</handler>
           <params>
             <param>
