@@ -36,10 +36,10 @@ function writeValue($value, $label, $className) {
 								
 								function selectSkin(name) {
 									if(isSkinModified) {
-										if(!confirm("<?php echo _t('수정된 스킨을 사용중입니다. 새로운 스킨을 선택하면 수정된 스킨의 내용과 사이드바의 변경점은 모두 지워집니다.\n스킨을 적용하시겠습니까?');?>"))
+										if(!confirm("<?php echo _t('수정된 스킨을 사용중입니다. 새로운 스킨을 선택하면 수정된 스킨의 내용과 스킨에 따른 출력 설정, 사이드바의 변경점은 모두 지워집니다.\n스킨을 적용하시겠습니까?');?>"))
 											return;
 									} else {
-										if(!confirm("<?php echo _t('새로운 스킨을 선택하면 사이드바의 변경점은 모두 지워집니다.\n스킨을 적용하시겠습니까?');?>"))
+										if(!confirm("<?php echo _t('새로운 스킨을 선택하면 스킨에 따른 출력 설정들과 사이드바의 변경점은 모두 지워집니다.\n스킨을 적용하시겠습니까?');?>"))
 											return;
 									}
 									try {
