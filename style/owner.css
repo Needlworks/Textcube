@@ -24,8 +24,11 @@ body
 
 #comment-box img
 {
-	display                          : none;
-	/*margin                           : 0 auto 10px auto;*/
+	/*display                          : none;
+	margin                           : 0 auto 10px auto;*/
+	position                         : absolute;
+	top                              : 15px;
+	left                             : 12px;
 }
 
 #comment-box #command-box
@@ -94,9 +97,12 @@ body
 
 #trackback-box img
 {
-	display                          : none;
-	/*float                            : right;
+	/*display                          : none;
+	float                            : right;
 	margin                           : 10px 10px 5px 0;*/
+	position                         : absolute;
+	top                              : 15px;
+	left                             : 12px;
 }
 
 #trackback-box .title
@@ -270,9 +276,12 @@ body
 
 #comment-reply-box img
 {
-	display                          : none;
-	/*float                            : right;
+	/*display                          : none;
+	float                            : right;
 	margin                           : 10px 10px 5px 0;*/
+	position                         : absolute;
+	top                              : 15px;
+	left                             : 12px;
 }
 
 #comment-reply-box .title

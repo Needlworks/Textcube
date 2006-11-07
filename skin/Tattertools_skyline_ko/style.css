@@ -5,7 +5,7 @@
 body{
 		font:0.75em/1.5 Dotum, Verdana, AppleGothic, Sans-serif;
 		background-color:#ddd;
-		color:#666; 
+		color:#666;
 }
 a:link          { color:#369;     text-decoration:none;}
 a:visited       { color:#369;     text-decoration:none;}
@@ -13,33 +13,41 @@ a:hover         { color:#666;     text-decoration:underline;}
 a:active        { color:#666;     text-decoration:none;}
 
 /* 페이징 - 현재 페이지 */
-    .selected               { font-weight:bold;  color:#f30;} 
-	.no-more                { color:#ccc; font:1.1em dotum;}
+    .selected               { font-weight:bold;  color:#f30;}
+
+    div.no-more-prev a.prev,
+    div.no-more-next a.next { color:#ccc; font:1.1em Dotum, Arial, sans-serif;}
+
+.paging           { padding-top:10px;  text-align:center;  font:10px Tahoma;}
+.paging .numbox   { border-left:1px solid #ccc; padding-left:6px; margin-left:6px;}
+.paging .num      { border-right:1px solid #ccc; padding-right:6px; margin-right:6px;}
+.paging .prev,
+.paging .next     { font:1.1em Dotum, Arial, sans-serif;}
 
 /* 카테고리 - 이미지 버튼 */
     .ib                     { cursor:pointer;}
 /* 카테고리 - 트리 셀 */
     .branch3                { cursor:pointer;}
 /* 카테고리 - 카테고리 옆 개수 스타일 */
-    .c_cnt                  { font:0.75em Tahoma;  color:#f30;}
+    .c_cnt                  { font:0.75em Tahoma, Helvetica, Arial, Gulim, sans-serif;  color:#f30;}
 
 /* 달력 월 표시 */
-    .cal_month              { font:0.95em verdana;  height:18px; font-weight:bold;}
+    .cal_month              { font:0.95em Verdana, Helvetica, Arial, Gulim, sans-serif;  height:18px; font-weight:bold;}
 /* 달력 요일 표시(th 영역) */
-    .cal_week1              { font:0.95em dotum;  height:18px;  font-weight:normal;}
+    .cal_week1              { font:0.95em Dotum, Arial, sans-serif;  height:18px;  font-weight:normal;}
 /* 달력 일요일 표시(th 영역) */
-    .cal_week2              { font:0.95em dotum;  color:#f30; }
+    .cal_week2              { font:0.95em Dotum, Arial, sans-serif;  color:#f30; }
 
 /* 달력 Week(tr 영역)  */
     .cal_week               { background-color:#fff;}
     .cal_current_week       { background-color:#eee;}
-	
+
 /* 달력 Day(td 영역) */
-    .cal_day                { font:0.95em verdana;  color:#999;  text-align:center;}
+    .cal_day                { font:0.95em Verdana, Helvetica, Arial, Gulim, sans-serif;  color:#999;  text-align:center;}
 /* 달력 Day, 일요일 (td 영역)  */
     .cal_day_sunday         { color:#f30 !important;}
     .cal_day_sunday a        { color:#f30 !important;}
-		
+
 /* 달력 지난 달 날짜 표시(td)   */
     .cal_day1               { color:#ccc;}
 /* 달력 다음 달 날짜 표시(td)   */
@@ -52,20 +60,20 @@ a:active        { color:#666;     text-decoration:none;}
     a.cal_click:link        { color:#333;  font-weight:bold;}
     a.cal_click:visited     { color:#333;  font-weight:bold;}
     a.cal_click:hover       { color:#f30;  font-weight:bold;}
-	
+
 /* 종류별 코멘트 [##_rp_rep_class_##] */
     .rp_general             { }
     .rp_admin               { background:url(images/iconAdmin.gif) no-repeat;  padding-left:20px; }
     .rp_secret              { color:#f30;   font-weight:bold;}
 /* 종류별 코멘트 [##_guest_rep_class_##] */
     .guest_general          { }
-    .guest_admin            { background:url(images/iconAdmin.gif) no-repeat; padding-left:20px;}	
+    .guest_admin            { background:url(images/iconAdmin.gif) no-repeat; padding-left:20px;}
 /* 비밀 댓글 (로그아웃시 비밀글 표현)    */
     .hiddenComment { background:url(images/iconSecret.gif) no-repeat;  padding-left:20px;  font-weight:normal;}
 
-	
+
 /* 이미지 아래 캡션 스타일 */
-    .cap1                   { color:#999;  text-align:center;}	
+    .cap1                   { color:#999;  text-align:center;}
 /* 그림 */
     .imageblock             { }
 /* 왼쪽 */
@@ -78,15 +86,15 @@ a:active        { color:#666;     text-decoration:none;}
     .dual                   { background-color:#fff; margin-bottom:5px;}
 /* 그림 3개 배치 */
     .triple                 { background-color:#fff; margin-bottom:5px;}
-	
+
 /* 본문 - more / less */
     .moreless_fold          { background:url(images/iconMore.gif) top left no-repeat;  padding-left:20px; color:#000;}
     .moreless_top           { background:url(images/iconLess.gif) top left no-repeat;  padding-left:20px; color:#000;}
     .moreless_body          { }
-    .moreless_bottom        { background:url(images/iconLess.gif) top right no-repeat;  padding-right:20px; color:#999; text-align:right;} 
+    .moreless_bottom        { background:url(images/iconLess.gif) top right no-repeat;  padding-right:20px; color:#999; text-align:right;}
 
 /* 키워드 */ 
-	.key1 { cursor: pointer; border-bottom: 1px dotted #ccc; } 
+    .key1 { cursor: pointer; border-bottom: 1px dotted #ccc; }
 
 
 /* 반드시 들어가야하는 스타일 끝 - 이 아래는 자유롭게 추가, 삭제 가능 */
@@ -103,31 +111,32 @@ textarea        { border:1px solid #aaa;}
 
 /* 블로그 레이아웃 */
 #container {
-		width:740px;	
+		width:740px;
 		border:1px solid #bbb;
-		margin:30px auto; 
-		padding:10px;  
+		margin:30px auto;
+		padding:10px;
 		background-color:#fff;
-	    background:url(images/bg_footer.gif) repeat-x bottom #fff;			
+		background:url(images/bg_footer.gif) repeat-x bottom #fff;
 }
+
 #header {
 		padding:0 10px 0 20px;
 }
+
 #content {
 		float:left;
 		width:540px;
 		overflow:hidden;
-
 }
+
 #sidebar {
-		margin-left:547px;      
+		margin-left:547px;
 		width:190px;
 }
 
-
 #footer {
 		clear:both;
-    	padding:20px 0 0 0;		
+		padding:20px 0 0 0;
 }
 
 /* ***** Header ***** */
@@ -187,9 +196,9 @@ body#tt-body-notice #header {
 .searchList li, 
 .searchRplist li            { border-bottom:1px solid #eee;  padding-bottom:2px;  margin-bottom:4px;}
 .searchList .date, 
-.searchRplist .date         { font:0.95em Verdana;  margin-right:10px; }
-.searchList .cnt            { font:0.75em Verdana;  color:#f60;} 
-.searchRplist .name         { font:0.95em dotum;    color:#999;  padding-left:8px;}
+.searchRplist .date         { font:0.95em Verdana, Helvetica, Arial, Gulim, sans-serif;  margin-right:10px; }
+.searchList .cnt            { font:0.75em Verdana, Helvetica, Arial, Gulim, sans-serif;  color:#f60;} 
+.searchRplist .name         { font:0.95em Dotum, Arial, sans-serif;    color:#999;  padding-left:8px;}
 
 .localog .spot              { background:url(images/iconIndentArrow_local.gif) 5px 0 no-repeat;  padding-left:20px;  margin-top:5px;}
 .localog .info              { background:url(images/iconIndentArrow_localinfo.gif) 5px 3px no-repeat;  padding-left:15px;  margin-top:2px;}
@@ -199,7 +208,7 @@ body#tt-body-notice #header {
 
 .taglog ul                  { padding:5px; margin:0; text-align:justify;}
 .taglog li                  { display:inline;}
-.taglog a:hover             { background-color:#eee;  color:#000;}		
+.taglog a:hover             { background-color:#eee;  color:#000;}
 .taglog li .cloud1          { background-color:#eee;  color:#a2348f;  font-weight:bold;  font-size:16px;}
 .taglog li .cloud2          { background-color:#eee;  color:#5a5194;  font-weight:bold;  font-size:15px;}
 .taglog li .cloud3          { background-color:#eee;  color:#369;  font-weight:bold;  font-size:14px;}
@@ -212,16 +221,16 @@ body#tt-body-notice #header {
 .guestWrite input           { width:150px;}
 .guestWrite textarea        { width:465px;  padding:5px;}
 .guestWrite .homepage       { width:300px;}
-.guestWrite .submit         { width:477px;  height:22px;  background-color:#ccc;  font:1.1em dotum; padding-top:3px;}
+.guestWrite .submit         { width:477px;  height:22px;  background-color:#ccc;  font:1.1em Dotum, Arial, sans-serif; padding-top:3px;}
 
 .guestList                  { padding-top:10px;}
 .guestList ol,
 .guestList ul               { margin:0; padding:0;  list-style:none;}
 .guestList li p             { border-top:1px dashed #ccc; margin-top:5px; padding-top:5px;}
 .guestList ol li            { border:5px solid #eee;  padding:10px;  margin-bottom:10px;  width:480px; overflow:hidden;}
-.guestList li ul li         { margin-left:20px;  background:url("images/iconIndentArrow_local.gif") no-repeat 10px 10px;  background-color:#f5f5f5;  padding-left:25px;  border:none;  width:440px; overflow:hidden;}
+.guestList li ul li         { margin-left:20px;  background:#f5f5f5 url("images/iconIndentArrow_local.gif") no-repeat 10px 10px;  padding-left:25px;  border:0;  width:440px; overflow:hidden;}
 .guestList li .name         { color:#666;  font-weight:bold;}
-.guestList li .date         { font:0.8em Tahoma;}
+.guestList li .date         { font:0.8em Tahoma, Helvetica, Arial, Gulim, sans-serif;}
 
 .guestList .control a.modify       { background:url(images/iconModify.gif) no-repeat;  padding:0 0 2px 53px;  text-decoration:none;}
 .guestList .control a.modify span  { display:none;}
@@ -234,8 +243,8 @@ body#tt-body-notice #header {
 .entryProtected h2, 
 .entry h2                { font-size:1.2em;  line-height:1.2em;}
 .titleWrap               { border-bottom:1px dashed #ccc;  padding-bottom:5px;  margin-bottom:10px;}
-.titleWrap .category a   { font:1em dotum;  color:#888;  margin-right:6px;}
-.titleWrap .date         { font:0.9em verdana;  color:#888;}
+.titleWrap .category a   { font:1em Dotum, Arial, sans-serif;  color:#888;  margin-right:6px;}
+.titleWrap .date         { font:0.9em Verdana, Helvetica, Arial, Gulim, sans-serif;  color:#888;}
 
 .entryProtected p.text   { background:url(images/imgProtected.gif) no-repeat ; padding-left:50px;}
 .entryProtected input    { width:200px;}
@@ -245,7 +254,7 @@ body#tt-body-notice #header {
 .article a:link          { color:#5a5194;  text-decoration:none;}
 .article a:visited       { color:#5a5194;  text-decoration:none;}
 .article a:hover         { color:#369;  text-decoration:underline;}
-.article a:active        { color:#5a5194;  text-decoration:none;}	
+.article a:active        { color:#5a5194;  text-decoration:none;}
 .article dt              { text-decoration:underline;}
 .article dd              { margin-left:20px;  padding-bottom:10px;}
 .article blockquote      { background:url(images/iconBlockquote.gif) top left no-repeat;  padding-left:25px;  margin:10px 20px;}
@@ -262,8 +271,8 @@ body#tt-body-notice #header {
 .trackback h4            { font:12px Verdana; font-weight:normal;  margin:0;}
 .trackback ol            { margin:0;  padding:0;  list-style:none;}
 .trackback li            { border-top:1px dotted #ccc;  padding:5px;}
-.trackback .date         { font:0.9em verdana;  color:#777;}
-.trackback p             { font:0.95em dotum;  color:#999;  margin:3px 0 0 0; padding:0;  letter-spacing:-1px}
+.trackback .date         { font:0.9em Verdana, Helvetica, Arial, Gulim, sans-serif;  color:#777;}
+.trackback p             { font:0.95em Dotum, Arial, sans-serif;  color:#999;  margin:3px 0 0 0; padding:0;  letter-spacing:-1px}
 
 .trackback a.delete      { background:url(images/iconDelete.gif) left top no-repeat;  padding-left:8px;  text-decoration:none;}
 .trackback a.delete span { display:none;}
@@ -272,10 +281,10 @@ body#tt-body-notice #header {
 .comment                          { border-top:1px solid #ddd;  background-color:#f5f5f5; padding:10px; margin-bottom:4px;  width:490px; overflow:hidden;} 
 .comment p                        { margin:3px 0 0 0; padding:0;}	
 
-.comment h3                       { display:none;}	
+.comment h3                       { display:none;}
 .comment ol,
 .comment ul                       { margin:0;  padding:0;  list-style:none;}
-.comment .date                    { font:0.9em verdana;  color:#777;}
+.comment .date                    { font:0.9em Verdana, Helvetica, Arial, Gulim, sans-serif;  color:#777;}
 .comment .name                    { font-weight:bold;}
 .comment ol li                    { padding:10px 5px;}
 .comment li ul li                 { padding:5px 10px 5px 25px;  background:url("images/iconIndentArrow_local.gif") no-repeat 12px 6px;}
@@ -290,7 +299,7 @@ body#tt-body-notice #header {
 .commentWrite input               { width:150px;}
 .commentWrite textarea            { width:465px;  padding:5px; position:relative; top:-16px;}
 .commentWrite .homepage           { width:300px;}
-.commentWrite .submit             { width:477px;  height:22px;  background-color:#ccc;  font:1.1em dotum; padding-top:3px; position:relative; top:-18px;}
+.commentWrite .submit             { width:477px;  height:22px;  background-color:#ccc;  font:1.1em Dotum, Arial, sans-serif; padding-top:3px; position:relative; top:-18px;}
 .commentWrite .secretWrap         { float:right; position:relative; top:-23px; left:-10px;}
 .commentWrite .checkbox           {	border:none; padding:0;	margin:0; width:25px;}
 
@@ -298,7 +307,7 @@ body#tt-body-notice #header {
 .paging .numbox   { border-left:1px solid #ccc; padding-left:6px; margin-left:6px;}
 .paging .num      { border-right:1px solid #ccc; padding-right:6px; margin-right:6px;}
 .paging .prev,
-.paging .next     { font:1.1em dotum;}
+.paging .next     { font:1.1em Dotum, Arial, sans-serif;}
 
 
 /* ***** sidebar ***** */
@@ -306,9 +315,9 @@ body#tt-body-notice #header {
 #sidebar ul                    { padding:0;  margin:0;  list-style:none;}
 #sidebar li                    { background:url(images/bul.gif) 0 6px no-repeat;  padding-left:7px;}
 #sidebar h3                    { font-size:1em;  font-weight:bold; color:#369; padding-top:20px; border-bottom:1px solid #ccc; margin-bottom:5px;}
-#sidebar .cnt                  { font:0.85em tahoma;  color:#f60;}
-#sidebar .date                 { font:0.9em tahoma;  color:#888;}
-#sidebar .name                 { font:0.9em dotum;  color:#888;}
+#sidebar .cnt                  { font:0.85em Tahoma, Helvetica, Arial, Gulim, sans-serif;  color:#f60;}
+#sidebar .date                 { font:0.9em Tahoma, Helvetica, Arial, Gulim, sans-serif;  color:#888;}
+#sidebar .name                 { font:0.9em Dotum, Arial, sans-serif;  color:#888;}
 
 #sidebar .blogImage img        { width:190px; padding-bottom:6px;}
 #sidebar .blogDesc             { color:#888;  font-size:0.9em;  line-height:1.2em;  letter-spacing:-1px;}
@@ -336,12 +345,12 @@ body#tt-body-notice #header {
 
 #sidebar .tagbox ul            { padding:5px 2px;	text-align:justify;}
 #sidebar .tagbox li            { background:none;  display:inline;}
-#sidebar .tagbox a             { letter-spacing:-1px;}	
+#sidebar .tagbox a             { letter-spacing:-1px;}
 #sidebar .tagbox li .cloud1    { background-color:#eee;  font-weight:bold;  font-size:16px;  color:#a2348f;}
 #sidebar .tagbox li .cloud2    { background-color:#eee;  font-weight:bold;  font-size:15px;  color:#5a5194;}
 #sidebar .tagbox li .cloud3    { background-color:#eee;  font-weight:bold;  font-size:14px;  color:#369;}
 #sidebar .tagbox li .cloud4    { background-color:#eee;  font-size:13px;  color:#666;}
-#sidebar .tagbox li .cloud5    { font-size:12px;  color:#888;}	
+#sidebar .tagbox li .cloud5    { font-size:12px;  color:#888;}
 #sidebar .tagbox a:hover       { background-color:#eee;  text-decoration:none;  color:#000;}	
 
 #sidebar .recentComment        {width:190px; overflow:hidden;}
@@ -351,7 +360,7 @@ body#tt-body-notice #header {
 #sidebar .archive              { font-family:verdana;}
 #sidebar .calender             { font-family:verdana;}
 
-#sidebar .counter              { font:0.85em verdana;  padding:5px 0;  margin:10px 0;  text-align:center;  background-color:#eee;  letter-spacing:0;}
+#sidebar .counter              { font:0.85em Verdana, Helvetica, Arial, Gulim, sans-serif;  padding:5px 0;  margin:10px 0;  text-align:center;  background-color:#eee;  letter-spacing:0;}
 #sidebar .counter li           { background:none;  display:inline;  padding:0 5px;}
 #sidebar .counter li.total     { display:block;  color:#000;}
 

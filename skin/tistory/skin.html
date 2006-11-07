@@ -11,22 +11,21 @@
 <body>
 <a name="top"></a>
 <s_t3>
-    <div id="container">
-        <div id="header">
+	<div id="container">
+		<div id="header">
 			<h1><a href="[##_blog_link_##]">[##_title_##]</a></h1>
 			<div class="blogMenu">
 				<ul>
 					<li class="tab_localog"><a href="[##_localog_link_##]">지역로그</a></li>
 					<li class="tab_taglog"><a href="[##_taglog_link_##]">태그</a></li>
 					<li class="tab_guestbook"><a href="[##_guestbook_link_##]">방명록</a></li>
-				</ul>	
-			</div> 
-        </div>
-        <!-- header close -->
+				</ul>
+			</div>
+		</div>
+		<!-- header close -->
 		<hr />
 
-
-        <div id="content">
+		<div id="content">
 			<s_list>
 				<div class="searchList">
 					<h3>'[##_list_conform_##]'에 해당되는 글 [##_list_count_##]건</h3>
@@ -41,7 +40,7 @@
 					</ol>
 				</div>
 			</s_list>
-			
+
 			<s_rplist>
 				<div class="searchRplist">
 					<h3>'[##_rplist_conform_##]'에 해당되는 댓글 [##_rplist_count_##]건</h3>
@@ -155,7 +154,7 @@
 				</div><!-- guestbook close -->
 			</s_guest>
 
-            <s_notice_rep>
+			<s_notice_rep>
 				<div class="entryNotice">
 					<div class="titleWrap">
 						<h2><a href="[##_notice_rep_link_##]">[##_notice_rep_title_##]</a></h2>
@@ -169,10 +168,10 @@
 			
 			<s_article_protected>
 				<div class="entryProtected">
-					<div class="titleWrap">				
+					<div class="titleWrap">
 						<h2><a href="[##_article_rep_link_##]">[##_article_rep_title_##]</a></h2>
 						<span class="date">[##_article_rep_date_##]</span>
-					</div>	
+					</div>
 					<p class="text">보호되어 있는 글입니다. <br />
 					내용을 보시려면 비밀번호를 입력하세요.</p>
 					<p><label for="[##_article_password_##]">비밀번호 ::</label>
@@ -213,11 +212,11 @@
 						<a href="#tb" onclick="[##_article_rep_tb_link_##]">
 						<s_tb_count> 트랙백 <span class="cnt">[##_article_rep_tb_cnt_##]</span>개</s_tb_count>
 						</a>
-						,  
+						, 
 						<a href="#rp" onclick="[##_article_rep_rp_link_##]">
 						<s_rp_count> 댓글 <span class="cnt">[##_article_rep_rp_cnt_##]</span>개가 달렸습니다.</s_rp_count>
-						</a> 
-					</div>			
+						</a>
+					</div>
 
 					<s_tb>
 						<div class="trackback">
@@ -302,7 +301,7 @@
 										</p>
 									</s_rp_member>
 									<p>
-									    <textarea name="[##_rp_input_comment_##]" rows="10" cols="50"></textarea>
+										<textarea name="[##_rp_input_comment_##]" rows="10" cols="50"></textarea>
 									</p>
 									<p>
 										<input type="submit" value="댓글 달기" onclick="[##_rp_onclick_submit_##]" class="submit" />
@@ -317,7 +316,7 @@
 
 			<s_paging>
 				<div class="paging">
-					<a [##_prev_page_##] class="prev">◀ 이전페이지 </a> 
+					<a [##_prev_page_##] class="prev">◀ 이전페이지 </a>
 					<span class="numbox">
 						<s_paging_rep>
 						<a [##_paging_rep_link_##] class="num"> [##_paging_rep_link_num_##]</a>
@@ -326,21 +325,20 @@
 					<a [##_next_page_##] class="next">다음페이지 ▶</a>
 				</div>
 			</s_paging>
-        </div><!-- content close -->
+		</div><!-- content close -->
 		<hr />
 
-		
-        <div id="sidebar">
+		<div id="sidebar">
 			<s_sidebar>
-			    <!-- 기본 사이드바 -->
+				<!-- 기본 사이드바 -->
 				<s_sidebar_element>
-			    <!-- 블로그 로고 모듈 -->
+				<!-- 블로그 로고 모듈 -->
 					<div class="blogImage"><img src="[##_image_##]" alt="블로그 이미지" /></div>
-            		<div class="blogDesc">[##_desc_##] <span class="userID">[##_blogger_##]</span></div>				
+					<div class="blogDesc">[##_desc_##] <span class="userID">[##_blogger_##]</span></div>
 				</s_sidebar_element>
 				
 				<s_sidebar_element>
-		        <!-- 공지사항 모듈 -->
+				<!-- 공지사항 모듈 -->
 					<s_rct_notice>
 						<div class="notice">
 							<ul>
@@ -351,18 +349,19 @@
 						</div>
 					</s_rct_notice>
 				</s_sidebar_element>
+
 				<s_sidebar_element>
-			    <!-- 관리자 모듈 -->
+				<!-- 관리자 모듈 -->
 					<div class="adminMenu">
 						<ul>
 							<li class="tab_admin"><a href="[##_owner_url_##]">관리자</a></li>
 							<li class="tab_write"><a href="[##_owner_url_##]/entry/post">글쓰기</a></li>
 						</ul>
-					</div>	
+					</div>
 				</s_sidebar_element>
-																
+
 				<s_sidebar_element>
-			    <!-- 검색 모듈 -->
+				<!-- 검색 모듈 -->
 					<div class="search">
 						<s_search>
 							<input type="text" name="[##_search_name_##]" value="[##_search_text_##]" onkeypress="if (event.keyCode == 13) { [##_search_onclick_submit_##] }"/>
@@ -372,7 +371,7 @@
 				</s_sidebar_element>
 				
 				<s_sidebar_element>
-		        <!-- 카테고리 모듈 -->	  
+				<!-- 카테고리 모듈 -->
 					<div class="category">
 						<h3>카테고리</h3>
 						[##_category_##]
@@ -380,7 +379,7 @@
 				</s_sidebar_element>
 				
 				<s_sidebar_element>
-		    	<!-- 태그목록 모듈 -->
+				<!-- 태그목록 모듈 -->
 					<div class="tagbox">
 						<h3>태그목록</h3>
 						<ul>
@@ -392,7 +391,7 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
-			    <!-- 최근 포스트 모듈 -->
+				<!-- 최근 포스트 모듈 -->
 					<div class="recentPost">
 						<h3>최근에 올라온 글 </h3>
 						<ul>
@@ -407,7 +406,7 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
-		    	<!-- 최근 댓글 모듈 -->
+				<!-- 최근 댓글 모듈 -->
 					<div class="recentComment">
 						<h3>최근에 달린 댓글</h3>
 						<ul id="recentComments">
@@ -423,7 +422,7 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
-		    	<!-- 최근 트랙백 모듈 -->
+				<!-- 최근 트랙백 모듈 -->
 					<div class="recentTrackback">
 						<h3>최근에 받은 트랙백</h3>
 						<ul>
@@ -439,7 +438,7 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
-		    	<!-- 최근 보관함 모듈 -->
+				<!-- 최근 보관함 모듈 -->
 					<div class="archive">
 						<h3>글 보관함</h3>
 						<ul>
@@ -454,7 +453,7 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
-	    		<!-- 달력 모듈 -->
+				<!-- 달력 모듈 -->
 					<div class="calendar">
 						<h3>달력</h3>
 						[##_calendar_##]
@@ -462,7 +461,7 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
-		    	<!-- 링크 모듈 -->
+				<!-- 링크 모듈 -->
 					<div class="link">
 						<h3>링크</h3>
 						<ul>
@@ -476,7 +475,7 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
-		    	<!-- 카운터 모듈 -->
+				<!-- 카운터 모듈 -->
 					<div class="counter">
 						<ul>
 							<li class="total">Total : [##_count_total_##] </li>
@@ -487,41 +486,41 @@
 				</s_sidebar_element>
 
 				<s_sidebar_element>
-	        	<!-- 배너 모듈 -->
+				<!-- 배너 모듈 -->
 					<div class="botton">
 						<a href="http://www.tattertools.com" onclick="window.open(this.href); return false">
 						<img src="./images/tattertools.gif" alt="Tattertools" /> </a>
-					</div>				
-				</s_sidebar_element>					
+					</div>
+				</s_sidebar_element>
 			</s_sidebar>
 			<s_sidebar>
-			    <!-- 배너 삽입 위치 -->
+				<!-- 배너 삽입 위치 -->
 				<s_sidebar_element>
-	        	<!-- RSS 링크 -->
+				<!-- RSS 링크 -->
 					<div class="botton">
 						<a href="[##_rss_url_##]" onclick="window.open(this.href); return false">
 						<img src="./images/rss.gif" alt="rss"/> </a>
-					</div>				
-				</s_sidebar_element>					
+					</div>
+				</s_sidebar_element>
 			</s_sidebar>
-        </div><!-- sidebar close -->
+		</div><!-- sidebar close -->
 		<hr />
-		
-		
-        <div id="footer">
+
+		<div id="footer">
 			<div class="menu">
 				<a href="[##_localog_link_##]">지역로그</a> :
 				<a href="[##_taglog_link_##]">태그</a> :
 				<a href="[##_guestbook_link_##]">방명록</a> :
 				<a href="[##_owner_url_##]">관리자</a> : 
-				<a href="[##_owner_url_##]/entry/post">글쓰기</a>			</div>
+				<a href="[##_owner_url_##]/entry/post">글쓰기</a>
+			</div>
 			<div class="copyright">
 				<a href="[##_blog_link_##]"> [##_blogger_##]</a>’s Blog is powered by 
 				<a href="http://tattertools.com" onclick="window.open(this.href); return false">[##_tattertools_name_##] [##_tattertools_version_##]</a> /
 				Designed by <a href="http://plyfly.net" onclick="window.open(this.href); return false">plyfly.net</a>
 			</div>
-        </div>
-    </div><!-- container close -->
+		</div>
+	</div><!-- container close -->
 </s_t3>
 </body>
 </html>
