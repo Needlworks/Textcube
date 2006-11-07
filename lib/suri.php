@@ -62,7 +62,7 @@ if (is_numeric($suri['value']))
 	$suri['id'] = $suri['value'];
 $suri['page'] = empty($_POST['page']) ? (empty($_GET['page']) ? true : $_GET['page']) : $_POST['page'];
 
-if(!isset($setviceURL))
+if(!isset($serviceURL))
 	$serviceURL = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $service['path'];
 switch ($service['type']) {
 	case 'domain':
