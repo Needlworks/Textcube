@@ -442,13 +442,67 @@ dl dd
 
 /* Data ******************************************************************************************/
 
+#part-data-correct
+{
+	clear                            : right;
+	float                            : right;
+	margin-bottom                    : 20px;
+	overflow                         : hidden;
+	width                            : 470px;
+}
+
+#part-data-optimize
+{
+	clear                            : left;
+	float                            : left;
+	margin-bottom                    : 20px;
+	overflow                         : hidden;
+	width                            : 470px;
+}
+
+#part-data-backup
+{
+	clear                            : right;
+	float                            : right;
+	margin-bottom                    : 20px;
+	margin-right                     : 0;
+	overflow                         : hidden;
+	width                            : 470px;
+}
+
+#part-data-restore
+{
+	clear                            : left;
+	float                            : left;
+	margin-bottom                    : 20px;
+	overflow                         : hidden;
+	width                            : 470px;
+}
+
+#part-data-remove
+{
+	clear                            : left;
+	float                            : left;
+	margin-bottom                    : 20px;
+	overflow                         : hidden;
+	width                            : 470px;
+}
+
+#blackhole
+{
+	clear                            : both;
+	display                          : block !important;
+	height                           : 0;
+	visibility                       : hidden;
+}
+
 #part-data-correct div.data-inbox,
 #part-data-optimize div.data-inbox,
 #part-data-backup div.data-inbox,
 #part-data-restore div.data-inbox,
 #part-data-remove div.data-inbox
 {
-	position                         : relative;
+	width                            : 470px;
 }
 
 #part-data-correct div.data-inbox .image,
@@ -461,6 +515,7 @@ dl dd
 	border                           : 1px solid #536576;
 	color                            : #000000;
 	cursor                           : pointer;
+	float                            : left;
 	font-family                      : Verdana, Tahoma, sans-serif;
 	font-size                        : 90%;
 	height                           : 49px;
@@ -469,6 +524,7 @@ dl dd
 	text-align                       : center;
 	width                            : 80px;
 }
+
 #part-data-correct div.data-inbox .explain,
 #part-data-optimize div.data-inbox .explain,
 #part-data-backup div.data-inbox .explain,
@@ -476,11 +532,10 @@ dl dd
 #part-data-remove div.data-inbox .explain
 {
 	background-color                 : transparent !important;
-	margin                           : 10px 0 0 0 !important;
+	margin                           : 3px 0 0 140px !important;
 	padding                          : 0 !important;
-	position                         : absolute;
-	left                             : 140px;
-	top                              : 0;
+	text-align                       : left;
+	width                            : 300px;
 }
 
 #part-data-correct div.data-inbox .explain a:link,
@@ -521,6 +576,7 @@ dl dd
 	border                           : 5px solid #BCD2E5;
 	margin-left                      : 10px;
 	padding                          : 10px;
+	top                              : 150px !important;
 	width                            : 550px;
 }
 
@@ -632,11 +688,14 @@ dl dd
 /* system dialog --------------------------------------------------------------------------------*/
 .part .system-dialog
 {
+	border : 1px solid red !important;
 	background-color                 : #FFFFFF;
 	border                           : 5px solid #000000;
 	margin-left                      : 10px;
 	padding                          : 10px;
+	top                              : 150px !important;
 	width                            : 550px;
+	z-index                          : 2000;
 }
 
 .part .system-dialog h4

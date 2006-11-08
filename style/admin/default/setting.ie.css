@@ -40,3 +40,15 @@
 {
 	width                            : 182px !important;
 }
+
+/* Data ******************************************************************************************/
+
+#part-data-correct div.data-inbox .image,
+#part-data-optimize div.data-inbox .image,
+#part-data-backup div.data-inbox .image,
+#part-data-restore div.data-inbox .image,
+#part-data-remove div.data-inbox .image
+{
+	margin                           : 0 10px 10px 7.5px;
+	padding                          : 10px 10px 7px 10px;
+}

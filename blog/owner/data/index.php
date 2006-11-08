@@ -301,15 +301,15 @@ if ($backup) {
 								<h3><?php echo _t('데이터 삭제를 시작합니다');?></h3>
 								
 								<div class="message-body">
-									<p class="explain">
 <?php
 if ($backup) {
 ?>
+									<p class="explain">
 										<?php echo _f('서버에 <em>%1</em>에 저장된 백업파일이 있습니다. 삭제후 복원에는 이 파일을 이용하실 수 있습니다.', Timestamp::format5($backup));?><br />
+									</p>
 <?php
 }
 ?>
-									</p>
 									<div class="message">
 										<?php echo _t('첨부파일을 포함하여 삭제하시겠습니까?');?>
 									</div>

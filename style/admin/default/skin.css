@@ -201,18 +201,19 @@
 	font-weight                      : normal;
 	padding                          : 3px 3px 4px 3px;
 	text-align                       : right;
-	width                            : 165px;
+	width                            : 175px;
 }
 
 #part-skin-setting dl dd
 {
 	line-height                      : 1.2em;
-	margin-left                      : 185px;
+	margin-left                      : 195px;
 	padding                          : 5px 3px 4px 3px;
 }
 
 #part-skin-setting .section .button-box
 {
+	clear                            : both;
 	padding-bottom                   : 30px;
 }
 
@@ -230,30 +231,31 @@
 	vertical-align                   : middle;
 }
 
+#per-page-container
+{
+	float                            : right;
+}
+
 #click-container
 {
-	display : block;
+	display                          : block;
+	float                            : left;
 }
 
 #length-container
 {
-	right                            : 20px;
-	position                         : absolute;
-	top                              : 60px;
+	float                            : left;
 }
 
 #tag-setting-container
 {
-	right                            : 20px;
-	position                         : absolute;
-	top                              : 232px;
+	float                            : left;
+	margin-left                      : 22px;
 }
 
 #guestbook-setting-container
 {
-	right                            : 20px;
-	position                         : absolute;
-	top                              : 332px;
+	float                            : right;
 }
 	
 /* Tree -----------------------------------------------------------------------------------------*/

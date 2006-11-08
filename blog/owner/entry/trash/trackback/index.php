@@ -452,7 +452,10 @@ for ($i = 10; $i <= 30; $i += 5) {
 									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();" />
 								</div>
 							</form>
-							<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trash/emptyTrash/?type=2" onclick="deleteTrackbackAll(); return false;" title="<?php echo _t('휴지통 비우기');?>"><span class="text"><?php echo _t('휴지통 비우기');?></span></a>
+							
+							<div class="button-box">
+								<a class="all-delete-button button" href="<?php echo $blogURL;?>/owner/entry/trash/emptyTrash/?type=2" onclick="deleteTrackbackAll(); return false;" title="<?php echo _t('휴지통의 걸린글을 한 번에 삭제합니다.');?>"><span class="text"><?php echo _t('휴지통 비우기');?></span></a>
+							</div>
 						</div>
 <?php
 require ROOT . '/lib/piece/owner/footer1.php';

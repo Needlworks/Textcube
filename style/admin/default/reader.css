@@ -601,7 +601,6 @@ ul#feedList li .edit-button span
 {
 	height                           : 2em;
 	margin                           : 0 auto;
-	width                            : 207px;
 }
 
 /* configure ------------------------------------------------------------------------------------*/
@@ -827,31 +826,14 @@ ul#feedList li .edit-button span
 	color                            : #FFFFFF !important;
 }
 
-/*#iconMoreEntries
-{
-	background-image                 : url("./image/reader/iconMoreRead.gif");
-	background-position              : left top;
-	background-repeat                : repeat-x;
-	display                          : block;
-	height                           : 13px;
-	position                         : relative;
-	left                             : 182px;
-	top                              : -1px;
-	width                            : 67px;
-}
-
-#iconMoreEntries span
-{
-	display                          : none;
-}*/
-
 #listup
 {
 	background-color                 : #F1F1E9;
 	border                           : 4px solid #B4B4A1;
 	clear                            : both;
 	height                           : 480px;
-	overflow                         : auto;
+	overflow-y                       : auto;
+	overflow-x                       : hidden;
 	padding                          : 5px;
 }
 
@@ -1082,6 +1064,7 @@ ul#feedList li .edit-button span
 	margin-top                       : 3px !important;
 	position                         : relative;
 	width                            : auto;
+	z-index                          : 50;
 }
 
 #entryHead

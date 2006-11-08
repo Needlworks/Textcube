@@ -7,19 +7,6 @@
 	line-height                      : 1.6em !important;
 }
 
-#data-description dl.trackback-description
-{
-	background-position              : 9px 1px;
-	padding-left                     : 25px;
-	border                           : 1px solid #FFFFFF;
-}
-
-#data-description dl.protect-description
-{
-	background-position              : left 2px;
-	padding-top                      : 4px !important;
-}
-
 /* Comment ****************************************************************************************/
 
 #part-post-comment .data-subbox
@@ -91,7 +78,12 @@
 
 /* Trash *****************************************************************************************/
 
-#part-post-trash .data-subbox
+#part-post-trash #search-form
 {
-	padding                          : 8px;
+	top                              : 105px;
+}
+
+.all-delete-button
+{
+	bottom                           : 74px;
 }

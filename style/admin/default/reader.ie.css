@@ -22,6 +22,12 @@
 	padding                          : 0 !important;
 }
 
+#search .input-button
+{
+	line-height                      : 1.2em !important;
+	padding                          : 0 !important;
+}
+
 #sub-menu-helper
 {
 	top                              : 58px;
@@ -81,14 +87,6 @@ ul#feedList li
 }
 
 /* configure ------------------------------------------------------------------------------------*/
-ul
-{
-	padding-bottom : 0;
-	padding-top : 0;
-	margin-top : 0;
-	margin-bottom : 0;
-}
-
 #configure
 {
 	background-color                 : #D2D2CC;
@@ -100,10 +98,9 @@ ul
 	width                            : 940px;
 }
 
-.part,
-.part .section
+#groupsAndFeeds .button-box .input-button
 {
-	border : 1px solid blue;
+	padding                          : 0 !important;
 }
 
 /* content list ---------------------------------------------------------------------------------*/

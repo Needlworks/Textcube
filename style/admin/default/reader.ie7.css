@@ -22,6 +22,11 @@
 	padding                          : 0 !important;
 }
 
+#search .input-button
+{
+	line-height                      : 1.2em;
+}
+
 #sub-menu-helper
 {
 	top                              : 58px;
@@ -81,22 +86,12 @@ ul#feedList li
 }
 
 /* configure ------------------------------------------------------------------------------------*/
-#configure
-{
-
-}
-
 #configure .data-inbox
 {
-	width                            : 940px;
+	width                            : 948px;
 }
 
 /* content list ---------------------------------------------------------------------------------*/
-#scrollPoint
-{
-	height                           : 620px;
-}
-
 #post-list .button-box .button span
 {
 	font-family                      : Dotum, sans-serif;
