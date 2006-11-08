@@ -1207,6 +1207,7 @@ function bindKeywords($keywords, $content) {
 function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolutePath = false, $bRssMode = false) {
 	global $service, $owner, $hostURL, $blogURL;
 	$view = str_replace('[##_ATTACH_PATH_##]', ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$owner" : $folderURL), $content);
+	$view = str_replace('http://tt_attach_path/', ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$owner/" : ($folderURL . '/')), $view);
 	$count = 0;
 	$bWritedGalleryJS = false;
 	while ((($start = strpos($view, '[##_')) !== false) && (($end = strpos($view, '_##]', $start + 4)) !== false)) {

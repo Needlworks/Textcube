@@ -256,7 +256,7 @@ function api_get_post( $post, $type = "bl" )
 { 
 	$post->loadTags();
 	$params = func_get_args();
-	global $service, $hostURL, $blogURL;
+	global $hostURL, $blogURL;
 	return array( 
 			"userid" => "",
 			"dateCreated" => api_dateiso8601( $post->created ),
@@ -573,7 +573,7 @@ function api_BlogAPI()
 
 function blogger_getUsersBlogs()
 {
-	global $service, $blog, $hostURL, $blogURL;
+	global $blog, $hostURL, $blogURL;
 	global $owner;
 
 	$params = func_get_args();
@@ -770,7 +770,7 @@ function blogger_getTemplate()
 
 function metaWeblog_getCategories()
 {
-	global $service, $hostURL, $blogURL;
+	global $hostURL, $blogURL;
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
 	if( $result )
@@ -948,7 +948,6 @@ function mt_setPostCategories()
 
 function mt_getPostCategories()
 {
-	global $service;
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
 	if( $result )
@@ -996,7 +995,7 @@ function metaWeblog_editPost()
 
 function metaWeblog_newMediaObject()
 {
-	global $owner, $service;
+	global $owner;
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
 	if( $result )
@@ -1027,7 +1026,10 @@ function metaWeblog_newMediaObject()
 	{
 		return new XMLRPCFault( 1, "Can't create file" );
 	}
-	$attachurl = array ( 'url' => $service['path'] . "/attach/$owner/" . $attachment['name'] );
+	
+	global $service;
+	$attachurl = array ( 'url' => 'http://tt_attach_path/' .  $attachment['name']);
+	error_log($attachurl['url']);
 	return $attachurl;
 }
 ?>
