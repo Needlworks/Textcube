@@ -181,5 +181,66 @@ class misc {
 		unset($xmls);	
 		return ( $outVal);
 	}
+	
+	function getUserSetting($name, $default = null) {
+		global $database, $owner;
+		$name = 'plugin_' . $name;
+		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE user = $owner AND name = '".mysql_tt_escape_string($name)."'");
+		return ($value === null) ? $default : $value;
+	}
+
+	function getUserSettingGlobal($name, $default = null) {
+		global $database, $owner;
+		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE user = $owner AND name = '".mysql_tt_escape_string($name)."'");
+		return ($value === null) ? $default : $value;
+	}
+	
+	function setUserSetting($name, $value) {
+		global $database, $owner;
+		$name = 'plugin_' . $name;
+		$name = mysql_tt_escape_string($name);
+		$value = mysql_tt_escape_string($value);
+		return DBQuery::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES($owner, '$name', '$value')");
+	}
+	
+	function removeUserSetting($name) {
+		global $database, $owner;
+		$name = 'plugin_' . $name;
+		return DBQuery::execute("DELETE FROM {$database['prefix']}UserSettings WHERE user = $owner AND name = '".mysql_tt_escape_string($name)."'");
+	}
+	
+	function getServiceSetting($name, $default = null) {
+		global $database;
+		$name = 'plugin_' . $name;
+		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}ServiceSettings WHERE name = '".mysql_tt_escape_string($name)."'");
+		return ($value === null) ? $default : $value;
+	}
+
+	function setServiceSetting($name, $value) {
+		global $database;
+		$name = 'plugin_' . $name;
+		$name = mysql_tt_escape_string(mysql_lessen($name, 32));
+		$value = mysql_tt_escape_string(msyql_lessen($value, 255));
+		return DBQuery::execute("REPLACE INTO {$database['prefix']}ServiceSettings VALUES('$name', '$value')");
+	}
+
+	function removeServiceSetting($name) {
+		global $database;
+		$name = 'plugin_' . $name;
+		return DBQuery::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".mysql_tt_escape_string($name)."'");
+	}
+	
+	function getUserSettingRowsPerPage() {
+		global $database, $owner;
+		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE user = $owner AND name = 'rowsPerPage'");
+		return ($value === null) ? $default : $value;
+	}
+
+	function setUserSettingRowsPerPage($value) {
+		global $database, $owner;
+		$value = mysql_tt_escape_string($value);
+		return DBQuery::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES($owner, 'rowsPerPage', '$value')");
+	}
+	
 }
 ?>

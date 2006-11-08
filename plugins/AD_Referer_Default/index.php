@@ -32,12 +32,12 @@ function AD_Referer_Default()
 	if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['page']))
 		$_GET['page'] = $_POST['page'];
 	
-	$page = getUserSetting('rowsPerPage', 20);
+	$page = misc::getUserSettingRowsPerPage(20);
 	
 	if (empty($_POST['perPage'])) {  
 		$perPage = $page;  
 	} else if ($page != $_POST['perPage']) {  
-		setUserSetting('rowsPerPage', $_POST['perPage']);  
+		misc::setUserSettingRowsPerPage($_POST['perPage']);  
 		$perPage = $_POST['perPage'];  
 	} else {  
 		$perPage = $_POST['perPage'];  

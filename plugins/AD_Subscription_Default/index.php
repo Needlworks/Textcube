@@ -57,7 +57,7 @@ function AD_Subscription_Default()
 									<tr>
 										<td class="number"><span class="text"><?php echo $totalSubscribers;?> 명</span></td>
 										<td class="aggregator"><span class="text"><?php echo sizeof($aggregatorInfo);?> 종류의 구독기및 크롤러가 구독중입니다.</span></td>
-										<td><span class="text"><?php echo getUserSetting('LatestRSSrefresh',null)!=null ? Timestamp::format5(getUserSetting('LatestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></td>
+										<td><span class="text"><?php echo misc::getUserSetting('LatestRSSrefresh',null)!=null ? Timestamp::format5(misc::getUserSetting('LatestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></td>
 										<td><?php echo $updatedSubscribers;?></td>
 									</tr>
 								</tbody>
@@ -186,11 +186,12 @@ function robotChecker($useragent)
 
 function organizeAggregatorInfo($info)
 {
+	requireComponent( "Tattertools.Function.misc");
 	global $totalSubscribers, $updatedSubscribers;
 	$aggregatorInfo = array();
 	$totalSubscribers = 0;
 	$updatedSubscribers = 0;
-	$latestUpdatedTime = getUserSetting('LatestRSSrefresh',null);
+	$latestUpdatedTime = misc::getUserSetting('LatestRSSrefresh',null);
 	for ($i=0; $i<sizeof($info); $i++) {
 		$record = $info[$i];
 		$aggregatorName = getAggregatorName($record['useragent']);
@@ -275,7 +276,8 @@ function updateSubscriptionStatistics($target, $mother) {
 }
 
 function AD_Subscription_setTime($target) {
-	setUserSetting('LatestRSSrefresh',time());
+	requireComponent( "Tattertools.Function.misc");
+	misc::setUserSetting('LatestRSSrefresh',time());
 	return true;
 }
 ?>
