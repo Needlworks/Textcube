@@ -519,6 +519,25 @@ function api_BlogAPI()
 		exit;
 	}
 	
+	if (false) {
+		blogger_getUsersBlogs();
+		blogger_newPost();
+		blogger_editPost();
+		blogger_getTemplate();
+		blogger_getRecentPosts();
+		blogger_deletePost();
+		blogger_getPost();
+		metaWeblog_newPost();
+		metaWeblog_getPost();
+		metaWeblog_getCategories();
+		metaWeblog_getRecentPosts();
+		metaWeblog_editPost();
+		metaWeblog_newMediaObject();
+		mt_getPostCategories();
+		mt_setPostCategories();
+		mt_getCategoryList();	
+	}
+	
 	$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
 
 	$functions = array(
