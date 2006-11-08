@@ -150,6 +150,8 @@ function send_failure( $msg )
 
 function api_getCategoryIdByName( $name_array )
 {
+	if ($name_array === '') return 1;
+	if (count($name_array) <= 0) return 1;
 	$category = new Category();
 	$category->open(false);
 	
@@ -975,7 +977,7 @@ function metaWeblog_editPost()
 
 function metaWeblog_newMediaObject()
 {
-	global $owner;
+	global $owner, $service;
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
 	if( $result )
@@ -1006,7 +1008,7 @@ function metaWeblog_newMediaObject()
 	{
 		return new XMLRPCFault( 1, "Can't create file" );
 	}
-	$attachurl = array ( 'url' => getBlogURL() . "/attach/$owner/" . $attachment['name'] );
+	$attachurl = array ( 'url' => $service['path'] . "/attach/$owner/" . $attachment['name'] );
 	return $attachurl;
 }
 ?>
