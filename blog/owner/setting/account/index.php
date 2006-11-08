@@ -238,7 +238,7 @@ if ($service['type'] != 'single') {
 										
 										<dl id="blogger-name-line" class="line">
 											<dt><label for="nickname"><?php echo _t('필명');?></label></dt>
-											<dd><input type="text" id="nickname" class="input-text" value="<?php echo $user['name'];?>" onkeydown="if(event.keyCode == 13) save();" /></dd>
+											<dd><input type="text" id="nickname" class="input-text" value="<?php echo htmlspecialchars($user['name']);?>" onkeydown="if(event.keyCode == 13) save();" /></dd>
 										</dl>
 										<dl id="blogger-email-line" class="line">
 											<dt><label for="email"><?php echo _t('e-mail');?></label></dt>
@@ -316,7 +316,7 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 											
 											<div id="letter-foot">												<div id="sender-line" class="line">
 													<label for="invitation_sender"><?php echo _t('보내는 사람');?></label>
-													<input type="text" id="invitation_sender" class="input-text" name="text2" value="<?php echo htmlspecialchars($user['name'] . '<' . User::getEmail() . '>');?>" />
+													<input type="text" id="invitation_sender" class="input-text" name="text2" value="<?php echo htmlspecialchars(htmlspecialchars($user['name']) . '<' . User::getEmail() . '>');?>" />
 												</div>
 											</div>
 										</dd>
