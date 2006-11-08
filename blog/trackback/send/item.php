@@ -11,7 +11,7 @@ $entry = getEntry($owner, $suri['id']);
 <head>
 	<title><?php echo _text('글걸기 시도');?></title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/style/owner.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/popup-trackback.css" />
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $service['path'];?>";
@@ -114,7 +114,7 @@ $entry = getEntry($owner, $suri['id']);
 	<form name="trackback" method="post" action="<?php echo $suri['url'];?>">
 	
 		<div id="trackback-box">
-			<img src="<?php echo $service['path'];?>/image/logo_CommentPopup.gif" alt="<?php echo _text('태터툴즈 로고');?>" />
+			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('태터툴즈 로고');?>" />
 			
 			<div class="title"><span class="text"><?php echo _text('글걸기를 시도합니다');?></span></div>
 	      	<div id="command-box">

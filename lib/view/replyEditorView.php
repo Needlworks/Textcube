@@ -15,7 +15,7 @@ if ((empty($comment['homepage']) || $comment['homepage'] == 'http://') && isset(
 <head>
 	<title><?php echo $pageTitle ;?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'];?>/style/owner.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/popup-comment.css" />
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $service['path'];?>";
@@ -42,14 +42,19 @@ if (!doesHaveMembership()) {
 		//]]>
 	</script>
 </head>
-<?php 
+<?php
+ if (doesHaveOwnership())
+ 	$writerClass = ' class="admin-comment"';
+ else
+	$writerClass = '';
+
 if (!doesHaveMembership()) {
 ?>
-<body onLoad="document.commentToComment.name.focus()">
+<body<?php echo $writerClass;?> onLoad="document.commentToComment.name.focus()">
 <?php 
 } else {
 ?>
-<body onload="document.commentToComment.comment.focus()">
+<body<?php echo $writerClass;?> onload="document.commentToComment.comment.focus()">
 <?php 
 }
 ?>
@@ -58,7 +63,7 @@ if (!doesHaveMembership()) {
 		<input type="hidden" name="oldPassword" value="<?php echo isset($_POST['password']) ? $_POST['password'] : '';?>" />
 		
 		<div id="comment-reply-box">
-			<img src="<?php echo $service['path'];?>/image/logo_CommentPopup.gif" alt="<?php echo _text('태터툴즈 로고');?>" />
+			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('태터툴즈 로고');?>" />
 			
 			<div class="title"><span class="text"><?php echo $pageTitle ;?></span></div>
 	      	<div id="command-box">

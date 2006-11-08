@@ -134,7 +134,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 <head>
 	<title><?php echo _text('댓글 삭제') ;?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'];?>/style/owner.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/popup-comment.css" />
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $service['path'];?>";
@@ -147,7 +147,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 <body>
 	<form name="deleteComment" method="post" action="<?php echo $blogURL;?>/comment/delete/<?php echo $suri['id'];?>">
 		<div id="comment-box">
-			<img src="<?php echo $service['path'];?>/image/logo_CommentPopup.gif" alt="<?php echo _text('태터툴즈 로고');?>" />	
+			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('태터툴즈 로고');?>" />	
 			
 			<div id="command-box">
 				<div class="edit-line">
