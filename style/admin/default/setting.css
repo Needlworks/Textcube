@@ -729,13 +729,12 @@ dl dd
 
 #part-setting-resample .section dl dd img
 {
-	display                          : block;
 	margin-top                       : 8px;
 }
 
-#part-setting-resample .section dl dd a img
+#watermark-line dd a img
 {
-	display                          : inline;
+	border                           : 1px solid #000000;
 }
 
 #watermark-resize-line dd,

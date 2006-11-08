@@ -296,11 +296,17 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 													<label for="invitation_receiver"><?php echo _t('받는 사람');?></label>
 													<input type="text" id="invitation_receiver" class="input-text" name="text" value="<?php echo _t('이름&lt;이메일&gt; 혹은 이메일');?>" onclick="if(!this.selected) this.select();this.selected=true;" onblur="this.selected=false;" onkeydown="refreshReceiver(event)" />
 												</div>
-												<div id="blog-addredd-line" class="line">
+												<div id="blog-address-line" class="line">
 													<label for="invitation_identify"><?php echo _t('블로그 주소');?></label>
 													<span class="inter-word"><?php echo link_cut($urlRule[0]);?></span><input type="text" id="invitation_identify" class="input-text" name="text" />
 			
+<?php 
+	if (!empty($urlRule[1])) {
+?>
 													<span class="inter-word"><?php echo $urlRule[1];?></span>
+<?php 
+	}
+?>
 												</div>
 											</div>
 														
