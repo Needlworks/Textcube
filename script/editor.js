@@ -16,6 +16,8 @@ var TTEditor = function() {
 	this.propertyCurrentImage = "";
 	this.propertyOffsetTop = null;
 
+	this.propertyNames = ["propertyHyperlink", "propertyInsertObject", "propertyImage1", "propertyImage2", "propertyImage3", "propertyObject", "propertyObject1", "propertyObject2", "propertyiMazing", "propertyGallery", "propertyJukebox", "propertyEmbed", "propertyFlash", "propertyMoreLess"];
+
 	// 커서가 있는곳의 스타일
 	this.isBold = false;
 	this.isItalic = false;
@@ -1879,13 +1881,16 @@ TTEditor.prototype.removeFormatting = function(str) {
 
 TTEditor.prototype.setPropertyPosition = function(flag) {
 	if(win = document.getElementById(this.propertyWindowId)) {
+		var isFixed = document.getElementById(this.propertyWindowId + "-fix-position").checked;
 		if(flag) {
-			if(document.getElementById(this.propertyWindowId + "-fix-position").checked)
+			if(isFixed)
 				setUserSetting("editorPropertyPositionFix", 1);
 			else
 				setUserSetting("editorPropertyPositionFix", 0);
+			for(var i in editor.propertyNames)
+				document.getElementById(editor.propertyNames[i] + "-fix-position").checked = isFixed;
 		}
-		if(document.getElementById(this.propertyWindowId + "-fix-position").checked)
+		if(isFixed)
 			win.style.top = "9px";
 		else {
 			if(editor.propertyOffsetTop === null)
