@@ -25,7 +25,7 @@
 */
 function AD_Subscription_Default()
 {
-	global $owner, $pluginMenuURL, $pluginSelfParam, $totalSubscribers;
+	global $owner, $pluginMenuURL, $pluginSelfParam, $totalSubscribers, $updatedSubscribers;
 	requireComponent( "Tattertools.Model.Statistics");
 	requireComponent( "Tattertools.Function.misc");
 
@@ -57,8 +57,8 @@ function AD_Subscription_Default()
 									<tr>
 										<td class="number"><span class="text"><?php echo $totalSubscribers;?> 명</span></td>
 										<td class="aggregator"><span class="text"><?php echo sizeof($aggregatorInfo);?> 종류의 구독기및 크롤러가 구독중입니다.</span></td>
-										<td></td>
-										<td></td>
+										<td><span class="text"><?php echo Timestamp::formatDate(getUserSetting('latestRSSrefresh',null))!=null ? Timestamp::format5(getUserSetting('latestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></td>
+										<td><?php echo $updatedSubscribers;?></td>
 									</tr>
 								</tbody>
 							</table>
@@ -186,9 +186,11 @@ function robotChecker($useragent)
 
 function organizeAggregatorInfo($info)
 {
-	global $totalSubscribers;
+	global $totalSubscribers, $updatedSubscribers;
 	$aggregatorInfo = array();
 	$totalSubscribers = 0;
+	$updatedSubscribers = 0;
+	$latestUpdatedTime = getUserSetting('LatestRSSrefresh',null);
 	for ($i=0; $i<sizeof($info); $i++) {
 		$record = $info[$i];
 		$aggregatorName = getAggregatorName($record['useragent']);
@@ -201,10 +203,17 @@ function organizeAggregatorInfo($info)
 			if(($subscribers > $aggregatorInfo[$aggregatorName]['subscribers'])&&($subscribers!==1)) {
 				$totalSubscribers -= $aggregatorInfo[$aggregatorName]['subscribers'];
 				$totalSubscribers += $subscribers;
+				if(isset($latestUpdatedTime) && $latestUpdatedTime - $referred < 0) {
+					$updatedSubscribers -=$aggregatorInfo[$aggregatorName]['subscribers'];
+					$updatedSubscribers += $subscribers;
+				}
 				$aggregatorInfo[$aggregatorName]['subscribers'] = $subscribers;
 			} else if($subscribers==1) {
 				$aggregatorInfo[$aggregatorName]['subscribers'] += $subscribers;
 				$totalSubscribers += $subscribers;
+				if(isset($latestUpdatedTime) && $latestUpdatedTime - $referred < 0) {
+					$updatedSubscribers += $subscribers;
+				}
 			}
 
 			if($aggregatorInfo[$aggregatorName]['subscribed'] > $startDate)
@@ -265,4 +274,8 @@ function updateSubscriptionStatistics($target, $mother) {
 	return $target;
 }
 
+function AD_Subscription_setTime($target) {
+	setUserSetting('LatestRSSrefresh',time());
+	return true;
+}
 ?>
