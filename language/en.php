@@ -1,4 +1,4 @@
-<?php
+<?php //English
 $__text["%1 설정"] = '%1 Settings';
 $__text["블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다."] = "Hi, I would like to invite you to the Tattertools blog. In fact, your blog has already been created; You can visit your blog now.";
 $__text["아래로"] = 'Move down';
