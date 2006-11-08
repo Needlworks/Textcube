@@ -196,6 +196,7 @@ function organizeAggregatorInfo($info)
 		$subscribers = getNumberOfSubscribers($record['useragent']);
 		$startDate = $record['subscribed'];
 		$referred = $record['referred'];
+		if(time()- $referred > 259200) continue;
 		if(array_key_exists($aggregatorName,$aggregatorInfo)) {
 			if(($subscribers > $aggregatorInfo[$aggregatorName]['subscribers'])&&($subscribers!==1)) {
 				$totalSubscribers -= $aggregatorInfo[$aggregatorName]['subscribers'];
