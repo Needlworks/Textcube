@@ -75,6 +75,7 @@ function refreshRSS($owner) {
 		return true;
 	}
 	fclose($fileHandle);
+	fireEvent('refreshRSS',$rss);
 	return false;
 }
 
