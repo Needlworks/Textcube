@@ -3,7 +3,8 @@ define('ROOT', '../../../../..');
 
 $IV = array (
 		'GET' => array(
-			'type' => array('int')
+			'type' => array('int'),
+			'ajaxcall' => array ('any', 'mandatory' => false)
 			)
 		);
 
@@ -18,5 +19,6 @@ if ($_GET['type'] == 1) {
 	respondNotFoundPage();
 }
 
-header("Location: " . $_SERVER['HTTP_REFERER']);
+if (array_key_exists('ajaxcall', $_GET)) respondErrorPage();
+else header("Location: " . $_SERVER['HTTP_REFERER']);
 ?>

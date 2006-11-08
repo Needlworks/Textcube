@@ -58,14 +58,14 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 									request.send();
 								}
 								function deleteCommentAll(id) {
-									if (!confirm("<?php echo _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?');?>"))
+									if (!confirm("<?php echo _t('휴지통 내의 모든 댓글을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trash/emptyTrash/?type=1");
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trash/emptyTrash/?type=1&ajaxcall");
 									request.onSuccess = function () {
 										window.location.reload();
 									}
 									request.onError = function () {
-										alert("<?php echo _t('댓글을 삭제하지 못했습니다.');?>");
+										alert("<?php echo _t('비우기에 실패하였습니다.');?>");
 									}
 									request.send();
 								}
