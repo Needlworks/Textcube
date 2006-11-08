@@ -321,13 +321,13 @@ if ($service['type'] != 'single') {
 										<dl id="first-blog-address-line" class="line">
 											<dt><label for="primaryDomain"><?php echo _t('1차 블로그 주소');?></label></dt>
 											<dd>
-												<input type="radio" class="radio" name="defaultDomain" <?php echo ($blog['defaultDomain'] ? '' : 'checked="checked"');?> title="<?php echo _t('기본 도메인');?>" /> http://<input type="text" id="primaryDomain" class="input-text" name="primaryDomain" value="<?php echo escapeJSInAttribute($blog['name']);?>" /><?php echo $urlRule[1];?>
+												<input type="radio" class="radio" name="defaultDomain" <?php echo ($blog['defaultDomain'] ? '' : 'checked="checked"');?> title="<?php echo _t('기본 도메인');?>" /> http://<input type="text" id="primaryDomain" class="input-text" name="primaryDomain" value="<?php echo htmlspecialchars($blog['name']);?>" /><?php echo $urlRule[1];?>
 											</dd>
 										</dl>
 										<dl id="second-blog-address-line" class="line">
 											<dt><label for="secondaryDomain"><?php echo _t('2차 블로그 주소');?></label></dt>
 											<dd>
-												<input type="radio" class="radio" name="defaultDomain" <?php echo ($blog['defaultDomain'] ? 'checked="checked"' : '');?>title="<?php echo _t('기본 도메인');?>" /> http://<input type="text" id="secondaryDomain" class="input-text" name="secondaryDomain" value="<?php echo escapeJSInAttribute($blog['secondaryDomain']);?>" /><?php echo $blogURL;?>
+												<input type="radio" class="radio" name="defaultDomain" <?php echo ($blog['defaultDomain'] ? 'checked="checked"' : '');?>title="<?php echo _t('기본 도메인');?>" /> http://<input type="text" id="secondaryDomain" class="input-text" name="secondaryDomain" value="<?php echo htmlspecialchars($blog['secondaryDomain']);?>" /><?php echo $blogURL;?>
 											</dd>
 										</dl>
 <?php
@@ -335,7 +335,7 @@ if ($service['type'] != 'single') {
 ?>
 										<dl id="blog-address-line" class="line">
 											<dt><label for="pathDomain"><?php echo _t('블로그 주소');?></label></dt>
-											<dd><?php echo $urlRule[0];?><input type="text" id="pathDomain" class="input-text" name="pathDomain" value="<?php echo escapeJSInAttribute($blog['name']);?>" /></dd>
+											<dd><?php echo $urlRule[0];?><input type="text" id="pathDomain" class="input-text" name="pathDomain" value="<?php echo htmlspecialchars($blog['name']);?>" /></dd>
 										</dl>
 <?php
 	}

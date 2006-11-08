@@ -10,16 +10,16 @@ $itemsView = '';
 foreach ($keylog as $item) {
 	$itemView = $skin->keylogItem;
 	dress('blog_rep_link', "$blogURL/{$item['id']}", $itemView);
-	dress('blog_rep_title', $item['title'], $itemView);
+	dress('blog_rep_title', htmlspecialchars($item['title']), $itemView);
 	dress('blog_rep_regdate', Timestamp::format3($item['published']), $itemView);
 	if ($item['comments'] > 0)
 		dress('blog_rep_rp_cnt', "({$item['comments']})", $itemView);
 	$itemsView .= $itemView;
 }
 dress('blog_rep', $itemsView, $keylogView);
-dress('blog_word', $keyword['title'], $keylogView);
+dress('blog_word', htmlspecialchars($keyword['title']), $keylogView);
 dress('blog_desc', getEntryContentView($owner, $keyword['id'], $keyword['content'], 'Keyword'), $keylogView);
-dress('blog_conform', $keyword['title'], $keylogView);
+dress('blog_conform', htmlspecialchars($keyword['title']), $keylogView);
 dress('blog', $keylogView, $out);
 $out = removeAllTags($out);
 print $out;
