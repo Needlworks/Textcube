@@ -145,7 +145,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('Japanese');?></td>
 											</tr>
 											<tr>
-												<td class="id"><a href="http://nekoto.poporu.net">Ange</a></td>
+												<td class="id"><a href="http://nekoto.poporu.net">!Nazu NT</a></td>
 												<td class="name">Ha-neul Seo</td>
 												<td class="role"><?php echo _t('Japanese');?></td>
 											</tr>
