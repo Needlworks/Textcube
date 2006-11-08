@@ -182,7 +182,7 @@ function getUpperView($paging) {
 			}
 			
 			function editEntry(parent,child) {	
-				width =  825;
+				width =  1020;
 				height = 550;
 				if(openWindow != '') openWindow.close();
 				openWindow = window.open("<?php echo $blogURL;?>/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child,"tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
