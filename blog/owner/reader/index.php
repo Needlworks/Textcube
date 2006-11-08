@@ -196,7 +196,7 @@ if (getUserId() == 1) {
 										</fieldset>
 										
 										<div class="button-box">
-											<a class="save-button button" href="#void" onclick="Reader.saveSetting()"><span class="text"><?php echo _t('저장하기');?></span></a>
+											<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="Reader.saveSetting(); return false;" />
 										</div>
 									</form>
 									
@@ -222,9 +222,9 @@ if (getUserId() == 1) {
 										</fieldset>
 										
 										<div class="button-box two-button-box">
-											<a class="import-button button" href="#void" onclick="if(document.getElementById('opml-section').opmlMethod[0].checked) Reader.importOPMLUpload(); else Reader.importOPMLURL();"><span class="text"><?php echo _t('가져오기');?></span></a>
+											<input type="submit" class="import-button input-button" value="<?php echo _t('가져오기');?>" onclick="if(document.getElementById('opml-section').opmlMethod[0].checked) Reader.importOPMLUpload(); else Reader.importOPMLURL(); return false;" />
 											<span class="hidden">|</span>
-											<a class="export-button button" href="#void" onclick="Reader.exportOPML()"><span class="text"><?php echo _t('내보내기');?></span></a>
+											<input type="submit" class="export-button input-button" value="<?php echo _t('내보내기');?>" onclick="Reader.exportOPML(); return false;" />
 										</div>
 									</form>
 								</div>

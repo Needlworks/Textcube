@@ -374,7 +374,7 @@ ul#groupList li .edit-button span
 
 #groupEditor .input-box
 {
-	background-color                 : #E3EFFE;
+	background-color                 : #EEEEEE;
 	margin                           : 5px 10px 0 10px !important;
 	padding                          : 20px 0 18px 0;
 }
@@ -392,24 +392,6 @@ ul#groupList li .edit-button span
 	height                           : 2em;
 	margin                           : 0 auto;
 	width                            : 207px;
-}
-
-#groupEditor .button-box .button
-{
-	background-color                 : #8DB0DC;
-	border                           : 1px solid #5788C4;
-	float                            : left;
-	height                           : 17px !important;
-	margin                           : 0 1px !important;
-	padding-top                      : 5px !important;
-	text-align                       : center;
-	width                            : 65px !important;
-}
-
-#groupEditor .button-box .button span
-{
-	color                            : #FFFFFF;
-	font-weight                      : normal;
 }
 
 /* feed box */
@@ -596,7 +578,7 @@ ul#feedList li .edit-button span
 
 #feedEditor .input-box
 {
-	background-color                 : #E3EFFE;
+	background-color                 : #EEEEEE;
 	margin                           : 5px 10px 0 10px !important;
 	padding                          : 20px 0 18px 0;
 }
@@ -611,6 +593,7 @@ ul#feedList li .edit-button span
 	color                            : #989898;
 	margin-bottom                    : 10px;
 	padding                          : 2px;
+	vertical-align                   : middle;
 	width                            : 400px !important;
 }
 
@@ -621,25 +604,8 @@ ul#feedList li .edit-button span
 	width                            : 207px;
 }
 
-#feedEditor .button-box .button
-{
-	background-color                 : #8DB0DC;
-	border                           : 1px solid #5788C4;
-	float                            : left;
-	height                           : 17px !important;
-	margin                           : 0 1px !important;
-	padding-top                      : 5px !important;
-	text-align                       : center;
-	width                            : 65px !important;
-}
-
-#feedEditor .button-box .button span
-{
-	color                            : #FFFFFF;
-	font-weight                      : normal;
-}
-
 /* configure ------------------------------------------------------------------------------------*/
+
 #configure
 {
 	background-color                 : #D2D2CC;
@@ -649,10 +615,11 @@ ul#feedList li .edit-button span
 #configure .data-inbox
 {
 	background-color                 : #FFFFFF;
-	border                           : none;
 	clear                            : both;
 	position                         : relative;
+	margin-top                       : 0;
 	margin-left                      : 6px;
+	margin-bottom                    : 0;
 	padding                          : 0;
 	width                            : 948px;
 }
@@ -660,29 +627,12 @@ ul#feedList li .edit-button span
 #configure .data-inbox .section fieldset
 {
 	background-image                 : none;
-}
-
-#configure .data-inbox .section dl
-{
-	border-top                       : 1px solid #DDDDDD;
-	clear                            : both;
-}
-
-#configure .data-inbox .section dt
-{
-	width                            : 170px;
-}
-
-#configure .data-inbox .section dd
-{
-	margin-left                      : 170px;
+	border                           : none;
+	margin-bottom                    : 0;
 }
 
 #configure .data-inbox .section .title
 {
-	background-image                 : url("./image/reader/iconSetupitem.gif");
-	background-position              : 4px top;
-	background-repeat                : no-repeat;
 	color                            : #000000;
 	display                          : block !important;
 	font-weight                      : bold;
@@ -690,18 +640,50 @@ ul#feedList li .edit-button span
 	padding-left                     : 19px;
 }
 
-#configure .data-inbox #reader-section
+#configure .data-inbox .section dl
 {
-	position                         : relative;
-	padding                          : 10px;
-	width                            : 440px;
+	border-top                       : 1px solid #DDDDDD;
+	clear                            : both;
+	padding                          : 3px 0;
 }
 
-#configure .data-inbox #reader-section .property
+#configure .data-inbox .section dl dt
 {
-	background-color                 : #E3EFFE;
-	color                            : #333333;
-	padding                          : 9px 5px 5px 5px;
+	padding-top                      : 3px;
+	text-align                       : right;
+	width                            : 160px;
+}
+
+#configure .data-inbox .section dl dd
+{
+	line-height                      : 1.5em;
+	margin-left                      : 170px;
+}
+
+#configure .data-inbox .section .button-box
+{
+	border-top                       : 1px solid #DDDDDD;
+	padding                          : 15px 0;
+}
+
+#configure .data-inbox .section .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : 3em;
+	line-height                      : 3em;
+	padding-top                      : 8px;
+	padding-bottom                   : 6px;
+	vertical-align                   : middle;
+}
+
+#configure .data-inbox #reader-section
+{
+	padding                          : 10px;
+	width                            : 440px;
 }
 
 #configure .data-inbox #reader-section dl dd div
@@ -714,32 +696,11 @@ ul#feedList li .edit-button span
 	display                          : block;
 }
 
-#configure .data-inbox #reader-section #image-line dd,
-#configure .data-inbox #reader-section #javascript-line dd,
-#configure .data-inbox #reader-section #link-line dd
+#image-line dd,
+#javascript-line dd,
+#link-line dd
 {
-	margin-top                      : 5px !important;
-}
-
-#configure .data-inbox #reader-section .button-box
-{
-	padding                          : 10px 0;
-}
-
-#configure .data-inbox #reader-section .button-box .button
-{
-	background-color                 : #8DB0DC;
-	border                           : 1px solid #5788C4;
-	height                           : 17px !important;
-	margin                           : 0 auto !important;
-	padding-top                      : 5px !important;
-	width                            : 80px !important;
-}
-
-#configure .data-inbox #reader-section .button-box .button span
-{
-	color                            : #FFFFFF;
-	font-weight                      : normal;
+	padding                          : 3px 0;
 }
 
 #configure .data-inbox #opml-section
@@ -749,38 +710,6 @@ ul#feedList li .edit-button span
 	right                            : 0;
 	left                             : 460px;
 	top                              : 0;
-}
-
-#configure .data-inbox #opml-section .property
-{
-	background-color                 : #E3EFFE;
-	color                            : #333333;
-	padding                          : 5px;
-}
-
-#configure .data-inbox #opml-section .button-box
-{
-	height                           : 2.6em;
-	margin                           : 0 auto;
-	padding-top                      : 10px;
-	width                            : 170px;
-}
-
-#configure .data-inbox #opml-section .button-box .button
-{
-	background-color                 : #8DB0DC;
-	border                           : 1px solid #5788C4;
-	float                            : left;
-	height                           : 17px !important;
-	margin                           : 0 1px !important;
-	padding-top                      : 5px !important;
-	width                            : 80px !important;
-}
-
-#configure .data-inbox #opml-section .button-box .button span
-{
-	color                            : #FFFFFF;
-	font-weight                      : normal;
 }
 
 #get-upload
@@ -1089,7 +1018,7 @@ ul#feedList li .edit-button span
 {
 	color                            : #FFFFFF !important;
 	display                          : inline;
-	font-family                      : µ∏øÚ, Dotum, ±º∏≤, Gulim, sans-serif;
+	font-family                      : ÎèãÏõÄ, Dotum, Íµ¥Î¶º, Gulim, sans-serif;
 	font-size                        : 90%;
 	letter-spacing                   : -1px;
 	margin-right                     : 5px;

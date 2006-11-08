@@ -1549,11 +1549,11 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 																<input type="text" id="changeGroupTitle" class="input-text" name="changeGroupTitle" />
 															</div>
 															<div class="button-box">
-																<a class="delete-button button" href="#void" onclick="Reader.deleteGroup()"><span class="text"><?php echo _t('삭제하기');?></span></a>
+																<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="Reader.deleteGroup(); return false;" />
 																<span class="divider">|</span>
-																<a class="edit-button button" href="#void" onclick="Reader.editGroupExecute()"><span class="text"><?php echo _t('저장하기');?></span></a>
+																<input type="submit" class="edit-button input-button" value="<?php echo _t('저장');?>" onclick="Reader.editGroupExecute(); return false;" />
 																<span class="divider">|</span>
-																<a class="cancel-button button" href="#void" onclick="Reader.cancelEditGroup()"><span class="text"><?php echo _t('취소하기');?></span></a>
+																<input type="button" class="cancel-button input-button" value="<?php echo _t('취소');?>" onclick="Reader.cancelEditGroup(); return false;" />
 															</div>
 														</div>
 													</div>
@@ -1617,11 +1617,11 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 																<input type="text" id="changeFeedURL" class="text-readonly-input" readonly="readonly" />
 															</div>
 															<div class="button-box">
-																<a class="delete-button button" href="#void" onclick="Reader.deleteFeed()"><span class="text"><?php echo _t('삭제하기');?></span></a>
+																<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="Reader.deleteFeed(); return false;" />
 																<span class="divider">|</span>
-																<a class="edit-button button" href="#void" onclick="Reader.editFeedExecute()"><span class="text"><?php echo _t('저장하기');?></span></a>
+																<input type="submit" class="edit-button input-button" value="<?php echo _t('저장');?>" onclick="Reader.editFeedExecute(); return false;" />
 																<span class="divider">|</span>
-																<a class="cancel-button button" href="#void" onclick="Reader.cancelEditFeed()"><span class="text"><?php echo _t('취소하기');?></span></a>
+																<input type="button" class="cancel-button input-button" value="<?php echo _t('취소');?>" onclick="Reader.cancelEditFeed(); return false;" />
 															</div>
 														</div>
 													</div>

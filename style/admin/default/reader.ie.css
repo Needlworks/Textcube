@@ -52,9 +52,9 @@
 	z-index                          : 30;
 }
 
-#groupEditor .button-box
+#groupEditor .button-box .input-button
 {
-	width                            : 213px;
+	line-height                      : 1.6em !important;
 }
 
 /* feed box */
@@ -75,20 +75,35 @@ ul#feedList li
 	padding                          : 2px 33px 2px 16px !important;
 }
 
-#feedEditor .button-box
+#feedEditor .button-box .input-button
 {
-	width                            : 213px;
+	line-height                      : 1.6em !important;
 }
 
 /* configure ------------------------------------------------------------------------------------*/
+ul
+{
+	padding-bottom : 0;
+	padding-top : 0;
+	margin-top : 0;
+	margin-bottom : 0;
+}
+
 #configure
 {
 	background-color                 : #D2D2CC;
+	border : 1px solid red;
 }
 
 #configure .data-inbox
 {
 	width                            : 940px;
+}
+
+.part,
+.part .section
+{
+	border : 1px solid blue;
 }
 
 /* content list ---------------------------------------------------------------------------------*/
