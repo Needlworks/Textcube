@@ -1890,45 +1890,23 @@ TTEditor.prototype.setPropertyPosition = function(flag) {
 		else {
 			if(editor.propertyOffsetTop === null)
 				editor.propertyOffsetTop = getOffsetTop(win);
-			if(STD.getScrollTop() > editor.propertyOffsetTop - 15)
-				win.style.top = Math.min(3000, 24 + STD.getScrollTop() - editor.propertyOffsetTop) + "px";
+			if(this.scrollTop === null)
+				this.scrollTop = STD.getScrollTop();
+			scrollHeight = STD.getScrollTop() - this.scrollTop;
+			if(STD.getScrollTop() > editor.propertyOffsetTop - 15) {
+				if(win.offsetHeight > getWindowCleintHeight()) {
+					if(scrollHeight > 0) { // scroll down
+						win.style.top = Math.max(9, Math.min(3000, STD.getScrollTop() + getWindowCleintHeight() - editor.propertyOffsetTop - win.offsetHeight)) + "px";
+					}
+					else { // scroll up
+						win.style.top = Math.max(9, Math.min(3000, STD.getScrollTop() + getWindowCleintHeight() - editor.propertyOffsetTop - win.offsetHeight)) + "px";
+					}
+				}
+				else
+					win.style.top = Math.min(3000, 24 + STD.getScrollTop() - editor.propertyOffsetTop) + "px";
+			}
 			else
 				win.style.top = "9px";
-		}
-	}
-}
-
-function getWindowCleintHeight() {
-    if (window.innerHeight != null) {
-        return window.innerHeight;
-    }
-    return document.documentElement.clientHeight;
-}
-
-TTEditor.prototype.setPropertyPositionwithScroll = function () {
-	if(win = document.getElementById(this.propertyWindowId)) {
-		if(document.getElementById(this.propertyWindowId + "-fix-position").checked)
-			win.style.top = "9px";
-		else {
-			editor.propertyOffsetTop = getOffsetTop(win);
-			var bDownScroll = true;
-			if (this.scrollTop === null) {
-			    this.scrollTop = STD.getScrollTop();
-			} else {
-			    if (this.scrollTop > STD.getScrollTop()) {
-			        bDownScroll = false;
-			    }
-			}
-			
-			if (bDownScroll == true) {// check bottom line
-			    var editorHeight = win.offsetHeight;
-			    if(STD.getScrollTop() + getWindowCleintHeight() > editor.propertyOffsetTop + editorHeight + 45)
-				    win.style.top = Math.max(9, Math.min(3000, STD.getScrollTop() + getWindowCleintHeight() - editor.propertyOffsetTop + win.offsetTop - editorHeight - 45 )) + "px";
-			} else { // check top line
-			    if (STD.getScrollTop() < editor.propertyOffsetTop - 15)
-			        win.style.top = Math.max(9, Math.min(3000, 15 + STD.getScrollTop() - editor.propertyOffsetTop + win.offsetTop)) + "px";
-			}
-			
 			this.scrollTop = STD.getScrollTop();
 		}
 	}

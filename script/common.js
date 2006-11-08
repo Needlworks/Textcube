@@ -626,6 +626,10 @@ function setUserSetting(name, value) {
 	request.send("name=" + encodeURIComponent(name) + "&value=" + encodeURIComponent(value));
 }
 
+function getWindowCleintHeight() {
+	return (window.innerHeight != null) ? window.innerHeight : document.documentElement.clientHeight;
+}
+
 function getOffsetTop(obj)
 { return obj ? obj.offsetTop + getOffsetTop(obj.offsetParent) : 0; }
 
