@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
 	<information>
-		<name>기본 스킨 </name> 
+		<name>기본 스킨 </name>
 		<version>1.1</version>
 		<description>
 			<![CDATA[ 웹표준을 준수한 XHTML 기반의 Tistory 기본 스킨입니다.
@@ -13,42 +13,42 @@
 		<license>
 			<![CDATA[자유롭게 수정이 가능하며, 저작권 표시하에 재배포 가능합니다.]]>
 		</license>
-	</information> 
+	</information>
 	<author>
 		<name>leezche</name>
 		<homepage>http://www.plyfly.net</homepage>
 		<email>leezche@gmail.com</email>
 	</author> 
 	<default>
-		<recentEntries>5</recentEntries>   
+		<recentEntries>5</recentEntries>
 		<recentComments>5</recentComments>
 		<recentTrackbacks>5</recentTrackbacks>
 		<itemsOnGuestbook>10</itemsOnGuestbook>
 		<tagsInCloud>30</tagsInCloud>
-		<sortInCloud>3</sortInCloud> 
+		<sortInCloud>3</sortInCloud>
 		<expandComment>0</expandComment>
-		<expandTrackback>0</expandTrackback> 
+		<expandTrackback>0</expandTrackback>
 		<lengthOfRecentNotice>25</lengthOfRecentNotice>
 		<lengthOfRecentEntry>27</lengthOfRecentEntry>
-		<lengthOfRecentComment>30</lengthOfRecentComment> 
-		<lengthOfRecentTrackback>30</lengthOfRecentTrackback> 
+		<lengthOfRecentComment>30</lengthOfRecentComment>
+		<lengthOfRecentTrackback>30</lengthOfRecentTrackback>
 		<lengthOfLink>30</lengthOfLink>
 		<showListOnCategory>1</showListOnCategory>
-		<showListOnArchive>1</showListOnArchive> 
+		<showListOnArchive>1</showListOnArchive>
 		<commentMessage>
-			<none>댓글이 없습니다.</none> 
+			<none>댓글이 없습니다.</none>
 			<single>댓글 &lt;span class="cnt"&gt;하나&lt;/span&gt;가 달렸습니다.</single>
 		</commentMessage>
 		<trackbackMessage>
 			<none>받은 트랙백이 없고</none>
 			<single>트랙백은 &lt;span class="cnt"&gt;하나&lt;/span&gt;</single>
-		</trackbackMessage>		
+		</trackbackMessage>
 		<tree>
-			<color>000000</color> 
+			<color>000000</color>
 			<bgColor>ffffff</bgColor>
-			<activeColor>000000</activeColor> 
+			<activeColor>000000</activeColor>
 			<activeBgColor>eeeeee</activeBgColor>
-			<labelLength>27</labelLength> 
+			<labelLength>27</labelLength>
 			<showValue>1</showValue>
 		</tree>
 		<contentWidth>500</contentWidth>
