@@ -121,6 +121,7 @@ function getAggregatorName($useragent)
 		'Bloglines' => 'Bloglines',
 		'Allblog.net' => '올블로그',
 		'HanRSS' => '한RSS',
+		'Netvibes' => 'Netvibes',
 		'SharpReader' => 'Sharp Reader',
 		'BlogBridge' => 'Blog Bridge',
 		'Firefox' => 'Firefox 라이브북마크',
@@ -136,7 +137,13 @@ function getAggregatorName($useragent)
 		'FeedDemon' => 'FeedDemon',
 		'UniversalFeedParser' => 'Universal Feed Parser',
 		'nhn/1noon' => '첫눈',
-		'MSIE 6.0' => 'MS 익스플로러 6'
+		'MSIE 6.0' => 'MS 익스플로러 6',
+		'YeonMo' => '연모',
+		'RMOM' => '요줌',
+		'msnbot' => 'MSN 검색엔진',
+		'FeedOnFeeds' => 'Feed On Feeds Personal aggregator',
+		'Technoratibot' => '테크노라티',
+		'sproose' => 'sproose 봇'
 	);
 	$declinePattern = array(
 		'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'=>'Internet Explorer 5.01'
@@ -152,7 +159,8 @@ function getNumberOfSubscribers($useragent)
 {
 	$agentPattern = array(
 		'Bloglines' => 'subscribers',
-		'HanRSS' => 'subscribers'
+		'HanRSS' => 'subscribers',
+		'Netvibes' => 'subscribers'
 	);
 	foreach ($agentPattern as $agentName => $keyword)
 		if(preg_match('/([0-9]+)\s*'.$keyword.'/',$useragent,$matches)) return $matches[1];
@@ -165,7 +173,11 @@ function robotChecker($useragent)
 		'Allblog.net' => 1,
 		'nhn/1noon' => 1,
 		'Feedfetcher-Google' => 1,
-		'Yahoo! Slurp' => 1
+		'Yahoo! Slurp' => 1,
+		'RMOM' => 1,
+		'msnbot' => 1,
+		'Technoratibot' => 1,
+		'sproose' => 1
 	);
 	foreach ($robotPattern as $agentName => $isRobot)
 		if((strpos($useragent,$agentName)!==false)&&($isRobot)) return true;
