@@ -197,7 +197,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 											</tr>
 											<tr>
 												<td class="id"><a href="http://blog.2pink.net">LonnieNa</a></td>
-												<td class="name">Yoon Shik</td>
+												<td class="name">Shik Yoon</td>
 												<td class="role"><?php echo _t('manual');?></td>
 											</tr>
 											<tr>
