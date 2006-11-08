@@ -118,8 +118,8 @@ function getThumbnailPaddingColor() {
 }
 
 // img의 width/height에 맞춰 이미지를 리샘플링하는 함수. 썸네일 함수가 아님! 주의.
-function makeThumbnail($imgString, $originSrc, $paddingArray=NULL, $waterMarkArray=NULL) {
-	global $database, $owner, $blogURL;
+function makeThumbnail($imgString, $originSrc, $paddingArray, $waterMarkArray, $useAbsolutePath) {
+	global $database, $owner, $blogURL, $serviceURL, $pathURL;
 	
 	if (is_null(getUserSetting("resamplingDefault"))) {
 		return $imgString;
@@ -128,10 +128,20 @@ function makeThumbnail($imgString, $originSrc, $paddingArray=NULL, $waterMarkArr
 	}
 	
 	requireComponent('Tattertools.Function.Image');
+
+	if (!is_dir(ROOT."/cache/thumbnail")) {
+		@mkdir(ROOT."/cache/thumbnail");
+		@chmod(ROOT."/cache/thumbnail", 0777);
+	}
+	
+	if (!is_dir(ROOT."/cache/thumbnail/$owner")) { 
+		@mkdir(ROOT."/cache/thumbnail/$owner");
+		@chmod(ROOT."/cache/thumbnail/$owner", 0777);
+	}
 	
 	$contentWidth = getContentWidth();
 	
-	if (!preg_match('/ src="http:\/\/[^"]+"/i', $imgString) && preg_match('/class="(tt-resampling|tt-watermark)"/i', $imgString, $temp)) {
+	if (preg_match('/class="(tt-resampling|tt-watermark)"/i', $imgString, $temp)) {
 		$originFileName = basename($originSrc);
 		
 		switch ($temp[1]) {
@@ -156,7 +166,10 @@ function makeThumbnail($imgString, $originSrc, $paddingArray=NULL, $waterMarkArr
 		$tempSrc = ROOT."/cache/thumbnail/$owner/".$newTempFileName;
 		
 		// 보안상 cache 디렉토리를 공개하지 않도록 남겨놓는다.
-		$tempURL = $blogURL."/thumbnail/$owner/".$newTempFileName;
+		$tempURL = $pathURL."/thumbnail/$owner/".$newTempFileName;
+		if ($useAbsolutePath == true) {
+			$tempURL = "$serviceURL/cache/thumbnail/$owner/$newTempFileName";
+		}
 		
 		$checkResult = Image::checkExistingThumbnail($originSrc, $tempSrc, $tempWidth, $tempHeight, $paddingArray, $waterMarkArray);
 		switch ($checkResult) {

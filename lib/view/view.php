@@ -1442,38 +1442,38 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 }
 
 function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $imageBlocks = 1, $useAbsolutePath = false, $bRssMode = false, $onclickFlag=false) {
-	global $database, $skinSetting, $service, $owner, $blogURL, $hostURL, $waterMarkArray, $paddingArray;
+	global $database, $skinSetting, $service, $owner, $blogURL, $hostURL, $waterMarkArray, $paddingArray, $serviceURL;
 	$path = "$folderPath/$filename";
 	if ($useAbsolutePath)
-		$url = "$hostURL{$service['path']}/attach/$owner/$filename";
+		$url = "$serviceURL/attach/$owner/$filename";
 	else
 		$url = "$folderURL/$filename";
 	$fileInfo = getAttachmentByOnlyName($owner, $filename);
 	switch (getFileExtension($filename)) {
 		case 'jpg':case 'jpeg':case 'gif':case 'png':case 'bmp':
+			$bPassing = false;
 			if (defined('__TATTERTOOLS_MOBILE__')) {
-				return fireEvent('ViewAttachedImageMobile', "<img src=\"$blogURL/imageResizer/?f=" . urlencode($filename) . "\" alt=\"\" />", $path);
-			} else { /*if ($bRssMode == true) {
+				if (!is_null(getUserSetting("resamplingDefault"))) {
+					$waterMarkOn = getUserSetting("waterMarkDefault", "no");
+					$exist = preg_match('/class="tt-watermark"/i', $property);
+					if (($waterMarkOn == 'yes') && ($exist == 1)) $bPassing = true;
+				}
+
+				if ($bPassing == false) 
+					return fireEvent('ViewAttachedImageMobile', "<img src=\"$blogURL/imageResizer/?f=" . urlencode($filename) . "\" alt=\"\" />", $path);
+			}
+			/*if ($bRssMode == true) {
 				$property = str_replace('&quot;', '"', $property);
 				return fireEvent('ViewAttachedImage', "<img src=\"$url\" $property/>", $path);
 			} else {*/
-				if ($onclickFlag == true) {
+			{
+				if (($onclickFlag == true) && ($bRssMode == false) && ($bPassing == false)) {
 					$imageStr = '<img src="'.$url.'" '.$property.' style="cursor: pointer;" onclick="open_img(\''.$url.'\')" />';
 				} else {
 					$imageStr = '<img src="'.$url.'" '.$property.' />';		
 				}
 				
-				if (!is_dir(ROOT."/cache/thumbnail")) {
-					@mkdir(ROOT."/cache/thumbnail");
-					@chmod(ROOT."/cache/thumbnail", 0777);
-				}
-				
-				if (!is_dir(ROOT."/cache/thumbnail/$owner")) { 
-					@mkdir(ROOT."/cache/thumbnail/$owner");
-					@chmod(ROOT."/cache/thumbnail/$owner", 0777);
-				}
-				
-				return makeThumbnail(fireEvent('ViewAttachedImage', $imageStr, $path), $path, $paddingArray, $waterMarkArray);
+				return makeThumbnail(fireEvent('ViewAttachedImage', $imageStr, $path), $path, $paddingArray, $waterMarkArray, $useAbsolutePath);
 			}
 			break;
 		case 'swf':
