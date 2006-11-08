@@ -20,5 +20,8 @@ if ($_GET['type'] == 1) {
 }
 
 if (array_key_exists('ajaxcall', $_GET)) respondResultPage(0);
-else header("Location: " . $_SERVER['HTTP_REFERER']);
+else {
+	if ($_GET['type'] == 1) header("Location: " . $blogURL  . '/owner/entry/trash/comment' );
+	else if ($_GET['type'] == 2) header("Location: " . $blogURL  . '/owner/entry/trash/trackback' );
+}
 ?>
