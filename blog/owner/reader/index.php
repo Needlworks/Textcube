@@ -87,7 +87,7 @@ if ($setting['newWindow'] == 2) {
 					<ul id="reader-menu">
 						<li id="all-read"><a href="<?php echo $blogURL . '/owner/reader';?>"><span class="text"><?php echo _t('전체 보기');?></span></a></li>
 						<li id="scrap"><span id="starredOnlyIndicator" class="scrap-off-icon bullet"><span class="text"></span></span><a href="#void" onclick="Reader.showStarredOnly(); return false;"><span class="text"><?php echo _t('스크랩한 글 보기');?></span></a></li>
-						<li id="setting"><a id="settingLabel" href="#void" onclick="Reader.toggleConfigure(); return false;"><span class="text"><?php echo _t('설정');?></span></a></li>
+						<li id="setting" class="configureText"><a id="settingLabel" href="#void" onclick="Reader.toggleConfigure(); return false;"><span class="text"><?php echo _t('설정');?></span></a></li>
 						<li id="feed-update"><a href="#void" onclick="Reader.updateAllFeeds(); return false;"><span class="text"><?php echo _t('모든 피드 새로고침');?><span id="progress"></span></span></a></li>
 						<li id="search">
 							<input type="text" id="keyword" class="input-text" onkeydown="if(event.keyCode==13) Reader.showSearch()" />

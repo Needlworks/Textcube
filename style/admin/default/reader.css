@@ -173,12 +173,21 @@ h2
 	
 #setting
 {
-	background-image                 : url("./image/reader/iconSetup.gif");
 	background-position              : left 1px;
 	background-repeat                : no-repeat;
 	height                           : 20px;
 	float                            : right;
 	padding                          : 7px 5px 0 19px !important;
+}
+
+.configureText
+{
+	background-image                 : url("./image/reader/iconSetup.gif");
+}
+
+.feedListText
+{
+	background-image                 : url("./image/reader/iconFeed.gif");
 }
 
 #setting a

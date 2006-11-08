@@ -94,6 +94,7 @@ TTReader.prototype.toggleConfigure = function()
 		getObject("groupsAndFeeds").style.display = "block";
 		getObject("configure").style.display = "none";
 		getObject("settingLabel").innerHTML = '<span class="text">' + configureLabel + '<\/span>';
+		getObject("settingLabel").parentNode.className = 'configureText';
 	}
 	else {
 		if(this.isPannelCollapsed)
@@ -101,6 +102,7 @@ TTReader.prototype.toggleConfigure = function()
 		getObject("groupsAndFeeds").style.display = "none";
 		getObject("configure").style.display = "block";
 		getObject("settingLabel").innerHTML = '<span class="text">' + pannelLabel + '<\/span>';
+		getObject("settingLabel").parentNode.className = 'feedListText';
 	}
 	getObject("floatingList").style.top = "0px";
 	this.floatingListOffset = getObject("floatingList").offsetTop;
