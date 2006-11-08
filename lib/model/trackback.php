@@ -119,6 +119,7 @@ function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 
 function deleteTrackback($owner, $id) {
 	global $database;
+	if (!is_numeric($id)) return null;
 	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
 		return false;
@@ -131,6 +132,7 @@ function deleteTrackback($owner, $id) {
 
 function trashTrackback($owner, $id) {
 	global $database;
+	if (!is_numeric($id)) return null;
 	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
 		return false;
@@ -143,6 +145,7 @@ function trashTrackback($owner, $id) {
 
 function revertTrackback($owner, $id) {
 	global $database;
+	if (!is_numeric($id)) return null;
 	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
 		return false;

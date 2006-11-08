@@ -409,6 +409,7 @@ if (sizeof($comments) > 0) echo "									</tbody>";
 									<div id="delete-section" class="section">
 										<span class="label"><?php echo _t('선택한 댓글을');?></span>
 										<input type="submit" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteComments(); return false;" />
+										<input type="submit" class="revert-button input-button" value="<?php echo _t('복구');?>" onclick="revertComments(); return false;" />
 									</div>
 									
 									<div id="page-section" class="section">

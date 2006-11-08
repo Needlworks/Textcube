@@ -399,6 +399,7 @@ if (sizeof($trackbacks) > 0) echo "									</tbody>";
 									<div id="delete-section" class="section">
 										<span class="label"><?php echo _t('선택한 글걸기를');?></span>
 										<input type="submit" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteTrackbacks(); return false;" />
+										<input type="submit" class="revert-button input-button" value="<?php echo _t('복구');?>" onclick="revertTrackbacks(); return false;" />
 									</div>
 									
 									<div id="page-section" class="section">
