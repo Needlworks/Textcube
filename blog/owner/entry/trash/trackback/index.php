@@ -91,6 +91,19 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 									request.send();
 								}
 								
+								function deleteTrackbackAll(id) {
+									if (!confirm("<?php echo _t('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>"))
+										return;
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trash/emptyTrash/?type=2");
+									request.onSuccess = function() {
+										window.location.reload();
+									}
+									request.onError = function () {
+										alert("<?php echo _t('글걸기를 지우지 못했습니다.');?>");
+									}
+									request.send();
+								}
+								
 								function deleteTrackbacks() {
 									try {
 										if (!confirm("<?php echo _t('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>"))

@@ -123,4 +123,14 @@ function trashVan() {
 	executeQuery("DELETE FROM {$database['prefix']}Trackbacks where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
 }
 
+function emptyTrash($comment = true)
+{
+   	global $database;
+	if ($comment == true) {
+		executeQuery("DELETE FROM {$database['prefix']}Comments where isFiltered > 0");
+	} else {
+		executeQuery("DELETE FROM {$database['prefix']}Trackbacks where isFiltered > 0");
+	}
+}
+
 ?>
