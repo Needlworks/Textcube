@@ -398,6 +398,9 @@ function updateComment($owner, $comment, $password) {
 function deleteComment($owner, $id, $entry, $password) {
 	global $database;
 	
+	if (!is_numeric($id)) return false;
+	if (!is_numeric($entry)) return false;
+		
 	$guestcomment = false;
 	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE owner = $owner AND id = $id AND replier IS NULL")) {
 		$guestcomment = true;
@@ -432,6 +435,8 @@ function trashComment($owner, $id, $entry, $password) {
 	if (!doesHaveOwnership()) {
 		return false;
 	}
+	if (!is_numeric($id)) return false;
+	if (!is_numeric($entry)) return false;
 	$sql = "update {$database['prefix']}Comments set isFiltered = UNIX_TIMESTAMP() where owner = $owner and id = $id and entry = $entry";
 	$result = mysql_query($sql);
 	if (mysql_affected_rows() > 0) {
@@ -442,10 +447,14 @@ function trashComment($owner, $id, $entry, $password) {
 }
 
 function revertComment($owner, $id, $entry, $password) {
+	// not used, so
+	return false;	
 	global $database;
 	if (!doesHaveOwnership()) {
 		return false;
 	}
+	if (!is_numeric($id)) return false;
+	if (!is_numeric($entry)) return false;
 	$sql = "update {$database['prefix']}Comments set isFiltered = 0 where owner = $owner and id = $id and entry = $entry";
 	$result = mysql_query($sql);
 	if (mysql_affected_rows() > 0) {
@@ -474,6 +483,7 @@ function getRecentComments($owner) {
 
 function deleteCommentInOwner($owner, $id) {
 	global $database;
+	if (!is_numeric($id)) return false;
 	$entryId = fetchQueryCell("SELECT entry FROM {$database['prefix']}Comments WHERE owner = $owner AND id = $id");
 	$result = mysql_query("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND id = $id");
 	if ($result && (mysql_affected_rows() == 1)) {
@@ -487,6 +497,7 @@ function deleteCommentInOwner($owner, $id) {
 
 function trashCommentInOwner($owner, $id) {
 	global $database;
+	if (!is_numeric($id)) return false;
 	$entryId = fetchQueryCell("SELECT entry FROM {$database['prefix']}Comments WHERE owner = $owner AND id = $id");
 	$result = mysql_query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id");
 	if ($result && (mysql_affected_rows() == 1)) {
@@ -500,6 +511,7 @@ function trashCommentInOwner($owner, $id) {
 
 function revertCommentInOwner($owner, $id) {
 	global $database;
+	if (!is_numeric($id)) return false;
 	$entryId = fetchQueryCell("SELECT entry FROM {$database['prefix']}Comments WHERE owner = $owner AND id = $id");
 	$result = mysql_query("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE owner = $owner AND id = $id");
 	if ($result && (mysql_affected_rows() == 1)) {
