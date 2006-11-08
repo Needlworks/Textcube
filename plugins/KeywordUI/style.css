@@ -1,8 +1,13 @@
 /* keyword log */
 body
 {
-	margin                  : 0;
+	margin                  : 0 0 0 10px;
 	background              : #FFF url(./Images/bg.gif) top left repeat-x;
+}
+
+#keyword
+{
+	padding-bottom          : 10px;
 }
 
 #keyword a
