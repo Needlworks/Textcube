@@ -141,7 +141,10 @@ if (extension_loaded('gd')) {
 ?>
 						<div id="part-setting-resample" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('이미지 리샘플링을 설정합니다');?></span></h2>
-							<p><?php echo _t('현재 이 기능은 실험중입니다.');?></p>
+							
+							<div class="main-explain-box">
+								<p class="explain"><em class="attention"><?php echo _t('현재 이 기능은 실험중입니다.');?></em></p>
+							</div>
 							
 							<div class="data-inbox">
 								<form id="resample-form" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/etc/resample" enctype="multipart/form-data">

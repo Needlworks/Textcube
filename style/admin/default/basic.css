@@ -884,6 +884,15 @@ table.data-inbox tbody tr td.inactive-class
 
 /* etc */
 
+.attention
+{
+	border                           : 1px solid #FF0000;
+	color                            : #FF0000;
+	display                          : block;
+	padding                          : 3px;
+	text-align                       : center;
+}
+
 .hidden
 {
 	display                          : none;
