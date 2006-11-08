@@ -513,6 +513,7 @@ function revertCommentInOwner($owner, $id) {
 
 function deleteCommentNotifiedInOwner($owner, $id) {
 	global $database;
+	if (!is_numeric($id)) return false;
 	$entryId = fetchQueryCell("SELECT entry FROM {$database['prefix']}CommentsNotified WHERE owner = $owner AND id = $id");
 	$result = mysql_query("DELETE FROM {$database['prefix']}CommentsNotified WHERE owner = $owner AND id = $id");
 	if ($result && (mysql_affected_rows() == 1)) {
