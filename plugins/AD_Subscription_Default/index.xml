@@ -15,7 +15,8 @@
   </requirements>
   <binding>
 	<listener event="refreshRSS">AD_Subscription_setTime</listener>
-    <adminMenu>
+	<listener event="ViewRSS">updateSubscriptionStatistics</listener>
+	<adminMenu>
       <viewMethods>
         <method>
           <title xml:lang="en">Feed Subscription</title>
@@ -24,7 +25,6 @@
         </method>
       </viewMethods>
     </adminMenu>
-	<listener event="ViewRSS">updateSubscriptionStatistics</listener>
   </binding>
   <storage>
     <table>

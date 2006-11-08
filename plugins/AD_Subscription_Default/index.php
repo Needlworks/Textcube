@@ -57,7 +57,7 @@ function AD_Subscription_Default()
 									<tr>
 										<td class="number"><span class="text"><?php echo $totalSubscribers;?> 명</span></td>
 										<td class="aggregator"><span class="text"><?php echo sizeof($aggregatorInfo);?> 종류의 구독기및 크롤러가 구독중입니다.</span></td>
-										<td><span class="text"><?php echo Timestamp::formatDate(getUserSetting('latestRSSrefresh',null))!=null ? Timestamp::format5(getUserSetting('latestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></td>
+										<td><span class="text"><?php echo getUserSetting('LatestRSSrefresh',null)!=null ? Timestamp::format5(getUserSetting('LatestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></td>
 										<td><?php echo $updatedSubscribers;?></td>
 									</tr>
 								</tbody>

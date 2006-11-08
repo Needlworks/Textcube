@@ -72,10 +72,10 @@ function refreshRSS($owner) {
 	if (fwrite($fileHandle, publishRSS($owner, $rss))) {
 		fclose($fileHandle);
 		@chmod($path, 0666);
+		fireEvent('refreshRSS',$rss);
 		return true;
 	}
 	fclose($fileHandle);
-	fireEvent('refreshRSS',$rss);
 	return false;
 }
 
