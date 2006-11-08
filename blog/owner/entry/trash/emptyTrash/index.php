@@ -19,6 +19,6 @@ if ($_GET['type'] == 1) {
 	respondNotFoundPage();
 }
 
-if (array_key_exists('ajaxcall', $_GET)) respondErrorPage();
+if (array_key_exists('ajaxcall', $_GET)) respondResultPage(0);
 else header("Location: " . $_SERVER['HTTP_REFERER']);
 ?>

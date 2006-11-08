@@ -57,7 +57,7 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 									}
 									request.send();
 								}
-								function deleteCommentAll(id) {
+								function deleteCommentAll() {
 									if (!confirm("<?php echo _t('휴지통 내의 모든 댓글을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trash/emptyTrash/?type=1&ajaxcall");
@@ -460,6 +460,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();" />
 								</div>
 							</form>
+							<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trash/emptyTrash/?type=1" onclick="deleteCommentAll(); return false;" title="<?php echo _t('휴지통 비우기');?>"><span class="text"><?php echo _t('휴지통 비우기');?></span></a>
 						</div>
 <?php
 require ROOT . '/lib/piece/owner/footer1.php';
