@@ -165,7 +165,6 @@ function makeThumbnail($imgString, $originSrc, $paddingArray, $waterMarkArray, $
 		$newTempFileName = preg_replace("/\.([[:alnum:]]+)$/i", ".w{$tempWidth}-h{$tempHeight}.{$resampleType}.\\1", $originFileName);
 		$tempSrc = ROOT."/cache/thumbnail/$owner/".$newTempFileName;
 		
-		// 보안상 cache 디렉토리를 공개하지 않도록 남겨놓는다.
 		$tempURL = $pathURL."/thumbnail/$owner/".$newTempFileName;
 		if ($useAbsolutePath == true) {
 			$tempURL = "$serviceURL/cache/thumbnail/$owner/$newTempFileName";
