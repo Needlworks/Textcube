@@ -352,7 +352,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 															} else {
 																document.getElementById(id).className = "categorized";
 															}
-															document.getElementById(id).innerHTML = label;
+															document.getElementById(id).innerHTML = label.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll("<", "&gt;");
 														}
 													}
 												}
