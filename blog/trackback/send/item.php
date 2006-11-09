@@ -27,7 +27,7 @@ $entry = getEntry($owner, $suri['id']);
 
 			function onclick_delete(form, num) {
 				trim_all(form);
-				if (!confirm("<?php echo _text('지정하신 관련글(글걸기) 로그를 삭제하시겠습니까?');?>")) return false;
+				if (!confirm("<?php echo _text('지정하신 글걸기 기록을 삭제 하시겠습니까?');?>")) return false;
 				form.mode.value = 'delete';
 				form.exenum.value = num;
 				form.submit();
