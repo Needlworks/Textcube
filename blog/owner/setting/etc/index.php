@@ -143,7 +143,7 @@ if (extension_loaded('gd')) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('이미지 리샘플링을 설정합니다');?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><em class="attention"><?php echo _t('현재 이 기능은 실험중입니다.');?></em></p>
+								<p class="explain"><em class="attention"><?php echo _t('현재 테스트 중인 기능입니다.');?></em></p>
 							</div>
 							
 							<div class="data-inbox">
