@@ -1029,7 +1029,6 @@ function metaWeblog_newMediaObject()
 	
 	global $service;
 	$attachurl = array ( 'url' => 'http://tt_attach_path/' .  $attachment['name']);
-	error_log($attachurl['url']);
 	return $attachurl;
 }
 ?>
