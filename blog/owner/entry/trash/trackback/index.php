@@ -92,7 +92,7 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 								}
 								
 								function deleteTrackbackAll() {
-									if (!confirm("<?php echo _t('휴지통 내의 모든 트랙백을 삭제합니다. 계속 하시겠습니까?');?>"))
+									if (!confirm("<?php echo _t('휴지통 내의 모든 글걸기를 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trash/emptyTrash/?type=2&ajaxcall");
 									request.onSuccess = function() {
@@ -360,7 +360,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 ?>
 											</td>
 											<td class="title">
-												<a href="<?php echo $trackback['url'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('트랙백을 보낸 포스트를 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['subject']);?></a>
+												<a href="<?php echo $trackback['url'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('글걸기를 보낸 글을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['subject']);?></a>
 											</td>
 											<td class="ip">
 <?php
@@ -374,13 +374,13 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	}
 ?>
-												<a href="<?php echo $blogURL;?>/owner/entry/trash/trackback?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 트랙백 목록을 보여줍니다.');?>"><span class="text"><?php echo $trackback['ip'];?></span></a>
+												<a href="<?php echo $blogURL;?>/owner/entry/trash/trackback?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 글걸기 목록을 보여줍니다.');?>"><span class="text"><?php echo $trackback['ip'];?></span></a>
 											</td>
 											<td class="revert">
-												<a class="revert-button button" href="<?php echo $blogURL;?>/owner/entry/trash/trackback/revert/<?php echo $trackback['id'];?>" onclick="revertTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 트랙백을 복원합니다.');?>"><span class="text"><?php echo _t('복원');?></span></a>
+												<a class="revert-button button" href="<?php echo $blogURL;?>/owner/entry/trash/trackback/revert/<?php echo $trackback['id'];?>" onclick="revertTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 글걸기를 복원합니다.');?>"><span class="text"><?php echo _t('복원');?></span></a>
 											</td>
 											<td class="delete">
-												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trash/trackback/delete/<?php echo $trackback['id'];?>" onclick="deleteTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 트랙백을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trash/trackback/delete/<?php echo $trackback['id'];?>" onclick="deleteTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 글걸기를 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 											</td>
 										</tr>
 <?php

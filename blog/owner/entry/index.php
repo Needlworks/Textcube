@@ -741,7 +741,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 ?>
 											</td>
 											<td class="trackback">
-												<a id="trackbackIcon_<?php echo $entry['id'];?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?php echo $entry['id'];?>,event)" title="<?php echo _t('관련글에 트랙백을 보냅니다.');?>"><span class="text"><?php echo _t('트랙백');?></span></a>
+												<a id="trackbackIcon_<?php echo $entry['id'];?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?php echo $entry['id'];?>,event)" title="<?php echo _t('관련된 글에 글을 겁니다.');?>"><span class="text"><?php echo _t('글걸기');?></span></a>
 											</td>
 											<td class="delete">
 												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/delete/<?php echo $entry['id'];?>" onclick="deleteEntry(<?php echo $entry['id'];?>); return false;" title="<?php echo _t('이 포스트를 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
