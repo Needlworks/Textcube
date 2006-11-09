@@ -14,8 +14,8 @@ a:active        { color:#666;     text-decoration:none;}
 
 /* 페이징 - 현재 페이지 */
     .selected               { font-weight:bold;  color:#f30;}
-    .no-more-prev,
-	.no-more-next { color:#ccc; font:1.1em Dotum, Arial, sans-serif;}
+    div.no-more-prev a.prev,
+    div.no-more-next a.next { color:#ccc; font:1.1em Dotum, Arial, sans-serif;}
 
 /* 카테고리 - 이미지 버튼 */
     .ib                     { cursor:pointer;}
