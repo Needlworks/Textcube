@@ -59,7 +59,8 @@
 
 #upload-section .input-button
 {
-	line-height                      : 1.65em !important;
+	line-height                      : 2em !important;
+	padding                          : 0 !important;
 }
 
 #fileUploadNest

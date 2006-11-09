@@ -63,7 +63,7 @@ table.data-inbox tbody tr td.ip
 	font-size                        : 0.93em;
 	font-weight                      : normal;
 	letter-spacing                   : -1px;
-	padding                          : 3px 0 1px 17px;
+	padding                          : 3px 0 1px 25px;
 }
 
 #data-description dl dt
@@ -75,20 +75,22 @@ table.data-inbox tbody tr td.ip
 {
 	display                          : inline;
 	margin                           : 0;
-	padding-right                    : 10px;
+	padding-right                    : 11px;
 	position                         : static;
 }
 
 #data-description dl.trackback-description
 {
 	background-image                 : url("./image/icon_trackback_single.gif");
-	background-position              : left top;
+	background-position              : 6px top;
+	background-repeat                : no-repeat;
 }
 
 #data-description dl.protect-description
 {
 	background-image                 : url("./image/icon_protectedsetting_single.gif");
 	background-position              : left 1px;
+	background-repeat                : no-repeat;
 	padding                          : 3px 0 1px 28px;
 }
 

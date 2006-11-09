@@ -868,9 +868,10 @@ h3
 #fileUploadNest
 {
 	height                           : 3em;
-	margin                           : 0 0 0 144px;
+	padding-left                     : 144px !important;
 	overflow                         : hidden;
 	position                         : relative;
+	text-align                       : left;
 	width                            : 390px;
 }
 
@@ -891,7 +892,7 @@ h3
 	background-image                 : url("./image/bg_button.png");
 	background-position              : left top;
 	background-repeat                : repeat-x;
-	border                           : 1px solid #777777;
+	border                           : 1px solid #000000;
 	display                          : inline;
 	font-size                        : 1em;
 	height                           : 2em;
