@@ -165,7 +165,7 @@ if($tattertoolsDashboard) {
 			$latestEntry = getEntry($owner,$latestEntryId);
 			if($latestEntry!=false){
 ?>
-										<li><a href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', UTF8::lessenAsEm(htmlspecialchars($latestEntry['title']),10));?></a></li>
+										<li><a href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', htmlspecialchars(UTF8::lessenAsEm($latestEntry['title'],10)));?></a></li>
 <?php
 			}
 		}
