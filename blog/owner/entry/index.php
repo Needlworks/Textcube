@@ -372,14 +372,14 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								}
 								
 								function removeTrackbackLog(id,entry) {
-									if (confirm("<?php echo _t('선택된 글걸기를 지웁니다. 계속 하시겠습니까?');?>")) {
+									if (confirm("<?php echo _t('선택된 걸린글을 지웁니다. 계속 하시겠습니까?');?>")) {
 										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/entry/trackback/log/remove/" + id);
 										request.onSuccess = function () {
 											document.getElementById("logs_"+entry).innerHTML = "";
 											printTrackbackLog(entry);
 										}
 										request.onError = function () {
-											alert("<?php echo _t('글걸기를 지우지 못했습니다.');?>");
+											alert("<?php echo _t('걸린글을 지우지 못했습니다.');?>");
 										}
 										request.send();
 									}
@@ -422,7 +422,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												tempA.className = "remove-button button";
 												tempA.setAttribute("href", "#void");
 												tempA.onclick = function() { removeTrackbackLog(field[0], id); return false };
-												tempA.setAttribute("title", "<?php echo _t('이 글걸기를 삭제합니다.');?>");
+												tempA.setAttribute("title", "<?php echo _t('이 걸린글을 삭제합니다.');?>");
 												
 												tempSpan = document.createElement("SPAN");
 												tempSpan.className = "text";
@@ -525,7 +525,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										tempClose.className = "close-button button";
 										tempClose.setAttribute("href", "#void");
 										tempClose.onclick = function() { showTrackbackSender(id); return false };
-										tempClose.setAttribute("title", "<?php echo _t('이 글걸기 목록을 닫습니다.');?>");
+										tempClose.setAttribute("title", "<?php echo _t('이 걸린글 목록을 닫습니다.');?>");
 										
 										newDiv = document.createElement("DIV");
 										newDiv.id = "logs_" + id;
@@ -553,7 +553,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										printTrackbackLog(id);
 									}
 									request.onError = function () {
-										alert("<?php echo _t('글걸기에 실패하였습니다.');?>");
+										alert("<?php echo _t('글을 걸 수 없었습니다.');?>");
 									}
 									request.send();
 								}

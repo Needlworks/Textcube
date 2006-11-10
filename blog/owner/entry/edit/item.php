@@ -606,7 +606,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 												<dt><span class="label"><?php echo _t('권한');?></span></dt>
 												<dd>
 													<div class="comment-yes"><input type="checkbox" id="acceptComment" class="checkbox" name="acceptComment"<?php echo ($entry['acceptComment'] ? ' checked="checked"' : '');?> /><label for="acceptComment"><span class="text"><?php echo _t('댓글 작성을 허용합니다.');?></span></label></div>
-												  	<div class="trackback-yes"><input type="checkbox" id="acceptTrackback" class="checkbox" name="acceptTrackback"<?php echo ($entry['acceptTrackback'] ? ' checked="checked"' : '');?> /><label for="acceptTrackback"><span class="text"><?php echo _t('글걸기를 허용합니다.');?></span></label></div>
+												  	<div class="trackback-yes"><input type="checkbox" id="acceptTrackback" class="checkbox" name="acceptTrackback"<?php echo ($entry['acceptTrackback'] ? ' checked="checked"' : '');?> /><label for="acceptTrackback"><span class="text"><?php echo _t('글을 걸 수 있게 합니다.');?></span></label></div>
 												</dd>
 											</dl>
 										</div>

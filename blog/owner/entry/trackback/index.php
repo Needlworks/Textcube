@@ -82,7 +82,7 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 								}
 								
 								function trashTrackback(id) {
-									if (!confirm("<?php echo _t('선택된 글걸기를 휴지통으로 옮깁니다. 계속 하시겠습니까?');?>"))
+									if (!confirm("<?php echo _t('선택된 걸린글을 휴지통으로 옮깁니다. 계속 하시겠습니까?');?>"))
 										return;
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trackback/delete/" + id);
 									request.onSuccess = function() {
@@ -255,7 +255,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 ?>
 											</td>
 											<td class="title">
-												<a href="<?php echo $trackback['url'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('글걸기를 보낸 글을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['subject']);?></a>
+												<a href="<?php echo $trackback['url'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('글을 건 글을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['subject']);?></a>
 											</td>
 											<td class="ip">
 <?php
@@ -291,7 +291,7 @@ if (sizeof($trackbacks) > 0) echo "									</tbody>";
 									<input type="hidden" name="ip" value="" />
 									
 									<div id="delete-section" class="section">
-										<span class="label"><?php echo _t('선택한 글걸기를');?></span>
+										<span class="label"><?php echo _t('선택한 걸린글을');?></span>
 										<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="trashTrackbacks();" />
 									</div>
 									

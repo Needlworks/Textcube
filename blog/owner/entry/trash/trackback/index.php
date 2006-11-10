@@ -86,7 +86,7 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 										document.getElementById('list-form').submit();
 									}
 									request.onError = function () {
-										alert("<?php echo _t('글걸기를 지우지 못했습니다.');?>");
+										alert("<?php echo _t('걸린글을 지우지 못했습니다.');?>");
 									}
 									request.send();
 								}
@@ -121,7 +121,7 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 											document.getElementById('list-form').submit();
 										}
 										request.onError = function () {
-											alert("<?php echo _t('글걸기를 지우지 못했습니다.');?>");
+											alert("<?php echo _t('걸린글을 지우지 못했습니다.');?>");
 										}
 										request.send("targets=" + targets);
 									} catch(e) {
@@ -130,21 +130,21 @@ require ROOT . '/lib/piece/owner/contentMenu06.php';
 								}
 
 								function revertTrackback(id) {
-									if (!confirm("<?php echo _t('선택된 글걸기를 복원합니다. 계속 하시겠습니까?');?>"))
+									if (!confirm("<?php echo _t('선택된 걸린글을 복원합니다. 계속 하시겠습니까?');?>"))
 										return;
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trash/trackback/revert/" + id);
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
 									request.onError = function () {
-										alert("<?php echo _t('글걸기를 복원하지 못했습니다.');?>");
+										alert("<?php echo _t('걸린글을 복원하지 못했습니다.');?>");
 									}
 									request.send();
 								}
 								
 								function revertTrackbacks() {
 									try {
-										if (!confirm("<?php echo _t('선택된 글걸기를 복원합니다. 계속 하시겠습니까?');?>"))
+										if (!confirm("<?php echo _t('선택된 걸린글을 복원합니다. 계속 하시겠습니까?');?>"))
 											return false;
 										var oElement;
 										var targets = '';
@@ -243,7 +243,7 @@ foreach (getCategories($owner) as $category) {
 						
 						<div id="part-post-trash" class="part">
 							<h2 class="caption">
-								<span class="main-text"><?php echo _t('삭제 대기중인 글걸기입니다');?></span>
+								<span class="main-text"><?php echo _t('삭제 대기중인 걸린글입니다');?></span>
 <?php
 if (strlen($site) > 0 || strlen($ip) > 0) {
 	if (strlen($site) > 0) {
@@ -360,7 +360,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 ?>
 											</td>
 											<td class="title">
-												<a href="<?php echo $trackback['url'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('글걸기를 보낸 글을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['subject']);?></a>
+												<a href="<?php echo $trackback['url'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('글을 건 글을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['subject']);?></a>
 											</td>
 											<td class="ip">
 <?php
@@ -397,7 +397,7 @@ if (sizeof($trackbacks) > 0) echo "									</tbody>";
 									<input type="hidden" name="ip" value="" />
 									
 									<div id="delete-section" class="section">
-										<span class="label"><?php echo _t('선택한 글걸기를');?></span>
+										<span class="label"><?php echo _t('선택한 걸린글을');?></span>
 										<input type="submit" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteTrackbacks(); return false;" />
 										<input type="submit" class="revert-button input-button" value="<?php echo _t('복구');?>" onclick="revertTrackbacks(); return false;" />
 									</div>

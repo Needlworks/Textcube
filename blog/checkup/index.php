@@ -139,7 +139,7 @@ if (DBQuery::queryCell("DESC {$database['prefix']}TagRelations owner", 'Key') !=
 }
 if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks owner", 'Key') != 'MUL') { // Since 1.0.2
 	$changed = true;
-	echo '<li>', _text('글걸기 테이블의 인덱스를 수정합니다.'), ': ';
+	echo '<li>', _text('걸린글 테이블의 인덱스를 수정합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX entry, ADD UNIQUE owner (owner, entry, url)"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
@@ -215,7 +215,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings publishEoli
 }
 if (!DBQuery::queryExistence("DESC {$database['prefix']}Trackbacks isFiltered")) {
 	$changed = true;
-	echo '<li>', _text('글걸기 테이블에 광고 및 스팸 분류를 위한 휴지통 필드를 추가합니다.'), ': ';
+	echo '<li>', _text('걸린글 테이블에 광고 및 스팸 분류를 위한 휴지통 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks ADD isFiltered INT(1) DEFAULT 0 NOT NULL AFTER written"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
@@ -231,7 +231,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Comments isFiltered")) {
 }
 if (DBQuery::queryExistence("DESC {$database['prefix']}Trackbacks sender")) {
 	$changed = true;
-	echo '<li>', _text('글걸기 테이블의 미사용 필드를 삭제합니다.'), ': ';
+	echo '<li>', _text('걸린글 테이블의 미사용 필드를 삭제합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP sender"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
