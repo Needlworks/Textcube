@@ -223,8 +223,8 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-trackback-line" class="line">
-											<dt><span class="label"><?php echo _t('출력될 최근 글걸기 수');?></span></dt>
-											<dd><?php echo _f('최근에 걸린 글걸기를 %1개 보여줍니다.', $arg);?></dd>
+											<dt><span class="label"><?php echo _t('출력될 최근 걸린글 수');?></span></dt>
+											<dd><?php echo _f('최근 걸린글을 %1개 보여줍니다.', $arg);?></dd>
 										</dl>
 <?php
 ob_start();
@@ -380,8 +380,8 @@ $arg = ob_get_contents();
 ob_end_clean();
 ?>
 										<dl id="recent-trackback-length-line" class="line">
-											<dt><span class="label"><?php echo _t('최근 글걸기 길이');?></span></dt>
-											<dd><?php echo _f('최근 글걸기를 %1 글자로 표시합니다.', $arg);?></dd>
+											<dt><span class="label"><?php echo _t('최근 걸린글 길이');?></span></dt>
+											<dd><?php echo _f('최근 걸린글을 %1 글자로 표시합니다.', $arg);?></dd>
 										</dl>
 <?php
 ob_start();

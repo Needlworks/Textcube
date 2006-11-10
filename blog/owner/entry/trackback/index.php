@@ -239,7 +239,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	}
 ?>
-												<a href="?site=<?php echo urlencode(escapeJSInAttribute($trackback['site']));?>" title="<?php echo _t('이 사이트에서 보낸 글걸기 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['site']);?></a>
+												<a href="?site=<?php echo urlencode(escapeJSInAttribute($trackback['site']));?>" title="<?php echo _t('이 사이트에서 건 글 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['site']);?></a>
 											</td>
 											<td class="category">
 <?php
@@ -270,10 +270,10 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	}
 ?>
 
-												<a href="?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 글걸기 목록을 보여줍니다.');?>"><?php echo $trackback['ip'];?></a>
+												<a href="?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 걸린글 목록을 보여줍니다.');?>"><?php echo $trackback['ip'];?></a>
 											</td>
 											<td class="delete">
-												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trackback/delete/<?php echo $trackback['id'];?>" onclick="trashTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 글걸기를 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trackback/delete/<?php echo $trackback['id'];?>" onclick="trashTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 걸린글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 											</td>
 										</tr>
 <?php
