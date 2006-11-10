@@ -886,11 +886,20 @@ table.data-inbox tbody tr td.inactive-class
 
 .attention
 {
-	border                           : 1px solid #FF0000;
-	color                            : #FF0000;
+	border                           : 1px soliD #FD2323;
+	color                            : #000000;
 	display                          : block;
+	font-weight                      : bold;
 	padding                          : 3px;
 	text-align                       : center;
+}
+
+.attention span
+{
+	background-image                 : url('./image/icon_alert.gif');
+	background-position              : left 1px;
+	background-repeat                : no-repeat;
+	padding-left                     : 19px;
 }
 
 .hidden
