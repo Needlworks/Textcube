@@ -43,7 +43,7 @@ $entry = getEntry($owner, $suri['id']);
 						trackbackField.select();
 					}
 					request.onError = function() {
-						alert("<?php echo _text('글걸기 전송에 실패하였습니다.');?>");
+						alert("<?php echo _text('글을 걸 수 없었습니다.');?>");
 					}
 					request.send();
 				} catch(e) {

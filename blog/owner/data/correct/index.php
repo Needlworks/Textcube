@@ -95,7 +95,7 @@ setProgress($item++ / $items * 100, _t('글의 댓글 정보를 다시 계산해
 requireComponent('Tattertools.Data.Post');
 Post::updateComments();
 
-setProgress($item++ / $items * 100, _t('글의 걸린 글 정보를 다시 계산해서 저장합니다.'));
+setProgress($item++ / $items * 100, _t('글의 걸린글 정보를 다시 계산해서 저장합니다.'));
 requireComponent('Tattertools.Data.Post');
 Post::updateTrackbacks();
 

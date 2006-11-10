@@ -143,7 +143,7 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 						
 						<div id="part-post-trackback" class="part">
 							<h2 class="caption">
-								<span class="main-text"><?php echo _t('걸린 글 목록입니다');?></span>
+								<span class="main-text"><?php echo _t('걸린글 목록입니다');?></span>
 <?php
 if (strlen($site) > 0 || strlen($ip) > 0) {
 	if (strlen($site) > 0) {
