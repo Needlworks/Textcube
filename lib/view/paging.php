@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-function getPagingView( & $paging, & $template, & $itemTemplate, $blockMode = false) {
+function getPagingView( & $paging, & $template, & $itemTemplate) {
 	if (($paging === false) || empty($paging['page']))
 		return '';
 	$url = encodeURL($paging['url']);
@@ -80,15 +80,12 @@ function getPagingView( & $paging, & $template, & $itemTemplate, $blockMode = fa
 	$itemsView = ob_get_contents();
 	ob_end_clean();
 	$view = $template;
-	$divClass = isset($paging['prev']) ? '' : 'no-more-prev ';
 	dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : '', $view);
 	dress('paging_rep', $itemsView, $view);
-	$divClass = $divClass . (isset($paging['next']) ? '' : 'no-more-next');
 	dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : '', $view);
+	dress('no-more-prev', isset($paging['prev']) ? '' : 'no-more-prev', $view);
+	dress('no-more-next', isset($paging['next']) ? '' : 'no-more-next', $view);
 	
-	$blockTag = 'div';
-	if ($blockMode == false) $blockTag = 'span';
-	
-	return '<' . $blockTag . (!empty($divClass) ? ' class="' . $divClass . '">' : '>' ) . $view . '</' . $blockTag . '>'; 
+	return $view; 
 }
 ?>
