@@ -379,6 +379,30 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks isFiltered", 'Type'
 	}
 }
 
+$filename = ROOT . '/.htaccess';
+$fp = fopen($filename, "r");
+$content = fread($fp, filesize($filename));
+fclose($fp);
+if (preg_match('@\(thumbnail\)/\(\[0\-9\]\+/\.\+\) cache/\$1/\$2@', $content) == 0) {
+	if ($service['type'] == 'path')
+		$insertLine = 'RewriteRule ^[[:alnum:]]+/+(thumbnail)/([0-9]+/.+) cache/$1/$2 [E=SURI:1,L]'.CRLF;
+	else
+		$insertLine = 'RewriteRule ^(thumbnail)/([0-9]+/.+) cache/$1/$2 [E=SURI:1,L]'.CRLF;
+	$findStr = 'RewriteRule !^(blog|cache)/ - [L]';
+	echo '<Li>.htaccess thumbnail rule - ', _text('수정');
+	if (strpos($content, $findStr) == false)
+		echo ': <span style="color:#33CC33;">', _text('실패'), '</span></li>';
+	else {
+		$pos = strpos($content, $findStr) + strlen($findStr);
+		while (((bin2hex($content[$pos]) == '0d') || (bin2hex($content[$pos]) == '0a')) && (strlen($content) > $pos)) $pos++;
+		$content = substr($content, 0, $pos) . $insertLine . substr($content,$pos);
+		$fp = fopen($filename, "w");
+		fwrite($fp, $content);
+		fclose($fp);
+		echo ': <span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	}
+}
+
 ?>
 </ul>
 <?php
