@@ -7,9 +7,9 @@ if(count($_POST) > 0) {
 	$IV = array(
 		'FILES' => array(
 			'attachment' => array('file')
-		),
+		), 
 		'POST' => array(
-			'fileName' => array('string')
+			'fileName' => array('string', 'mandatory' => false)
 		)
 	);
 }
@@ -31,19 +31,26 @@ requireStrictRoute();
 				var oSelect = window.parent.document.getElementById('fileList');
 				
 				function addAttachOption(value) {
-					//window.parent.makeCrossDamainSubmit("<?php echo $blogURL;?>/owner/entry/attach/<?php echo $suri['id'];?>","ie");
-					if (isWin) {
-						var fileName = value.substring(value.lastIndexOf('\\')+1);
-					} else {
-						var fileName = value.substring(value.lastIndexOf('/')+1);
-					}	
-					var oOption = window.parent.document.createElement("option");
-					oOption.text = fileName + " <?php echo _t('업로드 중..');?>";
-					oOption.value = fileName;
-					oSelect.options.add(oOption);
-					oSelect.setAttribute('size', Math.max(8,Math.min(oSelect.length,30)));
-					
-					document.getElementById('fileNameInput').setAttribute('value', fileName);
+					try {
+						//window.parent.makeCrossDamainSubmit("<?php echo $blogURL;?>/owner/entry/attach/<?php echo $suri['id'];?>","ie");	
+						if (!isSafari) {
+							if (isWin) {
+								var fileName = value.substring(value.lastIndexOf('\\')+1);
+							} else {
+								var fileName = value.substring(value.lastIndexOf('/')+1);
+							}	
+							var oOption = window.parent.document.createElement("option");
+							oOption.text = fileName + " <?php echo _t('업로드 중..');?>";
+							oOption.value = fileName;					
+							oSelect.options.add(oOption);
+							oSelect.setAttribute('size', Math.max(8,Math.min(oSelect.length,30)));
+							
+							document.getElementById('fileNameInput').setAttribute('value', fileName);
+							
+						}
+					} catch(e) {
+						alert(e.message);
+					}
 				}
 				
 				function checkUploadMode(oEvent) {
@@ -127,29 +134,17 @@ if (count($_FILES) == 1) {
 			.input-file
 			{
 				font-size                        : 75%;
+				width:180px;
 			}
 		-->
 	</style>
 </head>
 <body id="body-editor-attachment">
-	<form method="post" action="" enctype="multipart/form-data">
+	<form method="post" action="" enctype="multipart/form-data" id="uploadForm">
 		<script type="text/javascript">
-			//<![CDATA[
-				try {
-					if(isIE) {
-						uploader = parent.document.getElementById("uploader");
-					} else {
-						uploader = parent.document.getElementById("uploader2");
-					}
-				} catch(e) {		
-					
-				}
+			//<![CDATA[				
+				document.write('<input type="file" class="input-file" name="attachment" onchange="addAttachOption(this.value); document.getElementById(\'uploadForm\').submit();" />');
 				
-				if (uploader != null) {
-					document.write('<input type="file" class="input-file" name="attachment" onclick="uploader.SetVariable(\'/:openBroswer\',\'true\');return false;" onchange="addAttachOption(this.value); document.forms[0].submit();" />');
-				} else {
-					document.write('<input type="file" class="input-file" name="attachment" onchange="addAttachOption(this.value); document.forms[0].submit();" />');
-				}
 			//]]>	
 		</script>
 		<input type="hidden" id="fileNameInput" name="fileName" value="" />
