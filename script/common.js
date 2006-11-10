@@ -528,8 +528,8 @@ function open_img(img_src) {
 		'				return (window.innerWidth != null) ? window.innerWidth : document.documentElement.clientWidth;\n' + 
 		'			}\n' + 
 		'			function resize(img) {\n' + 
-		'				var imageWidth = img.width + 15;\n' + 
-		'				var imageHeight = img.height +15;\n' +
+		'				var imageWidth = img.width+5;\n' + 
+		'				var imageHeight = img.height+5;\n' +
 		'				var screenWidth = screen.availWidth;\n' + 
 		'				var screenHeight = screen.availHeight;\n' + 
 		'				var windowWidth = imageWidth;\n' + 
@@ -553,14 +553,8 @@ function open_img(img_src) {
 		'			}\n' + 
 		'		<\/script>\n' + 
 		'	<\/head>\n' + 
-		'	<body style="margin: 0px">\n' + 
-		'		<table style="width: 100%; height: 100%">\n' + 
-		'			<tr>\n' + 
-		'				<td style="text-align: center" valign="middle">\n' + 
-		'					<a href="javascript:window.close()"><img src="' + img_src + '" style="border: 0px; padding: 0; margin:0;" onload="resize(this)" /><\/a>\n' + 
-		'				<\/td>\n' + 
-		'			<\/tr>\n' + 
-		'		<\/table>\n' + 
+		'	<body style="margin: 0px; padding: 0;">\n' + 
+		'		<a href="javascript:window.close()"><img src="' + img_src + '" style="border: 0px; padding: 0; margin:0;" onload="resize(this)" /><\/a>\n' + 
 		'	<\/body>\n' + 
 		'<\/html>');
 
