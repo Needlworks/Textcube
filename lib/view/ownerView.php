@@ -1437,11 +1437,11 @@ function printEntryEditorProperty($alt=NULL) {
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyJukebox_autoplay"><?php echo _t('자동재생');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyJukebox_autoplay" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><input type="checkbox" id="propertyJukebox_autoplay" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
 													</dl>
 													<dl class="line">
 														<dt class="property-name"><label for="propertyJukebox_visibility"><?php echo _t('플레이어 보이기');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyJukebox_visibility" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
+														<dd><input type="checkbox" id="propertyJukebox_visibility" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
 													</dl>
 												</div>
 												
