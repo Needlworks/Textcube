@@ -267,7 +267,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 		echo '<span class="divider"> | </span>';
 	}
 	
-	echo empty($comment['parent']) ? '' : '<span class="explain">' . $comment['parentName'] . _t('님의 댓글에 대한 댓글') . '</span>';
+	echo empty($comment['parent']) ? '' : '<span class="explain">' . _f('%1 님의 댓글에 대한 댓글',$comment['parentName']) . '</span>';
 	echo "</a>";
 ?>
 												<?php echo ((!empty($comment['title']) || !empty($comment['parent'])) ? '<br />' : '');?>
