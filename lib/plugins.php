@@ -392,7 +392,10 @@ function handleConfig($plugin){
 	$name = '';
 	$clientData ='[';
 	
+	$title = $plugin;
+	
 	if ($manifest && $xmls->open($manifest)) {
+		$title = $xmls->getValue('/plugin/title[lang()]');
 		//설정 핸들러가 존재시 바꿈
 		$config = $xmls->selectNode('/plugin/binding/config');
 		unset( $xmls );
@@ -431,7 +434,7 @@ function handleConfig($plugin){
 		}
 	}else	$CDSPval = _t('설정 값이 없습니다.'); 	
 	$clientData .= ']';
-	return array( 'code' => $CDSPval , 'script' => $clientData ) ;
+	return array( 'code' => $CDSPval , 'script' => $clientData, 'title' => $title ) ;
 }
 
 function getFieldName( $field , $name ){

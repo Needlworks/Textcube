@@ -21,7 +21,7 @@ if( is_null($result) )	respondNotFoundPage();
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title><?php echo _f("%1 설정", $pluginName);?></title>
+	<title><?php echo _f("%1 설정", $result['title']);?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/plugin-config.css" />
 <?php
@@ -75,7 +75,7 @@ if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 <body>
 	<form method="post" action="<?php echo $targetURL;?>">
 		<div id="layout-head">
-			<h1 class="caption"><?php echo _f("%1 설정", $pluginName);?></h1>
+			<h1 class="caption"><?php echo _f("%1 설정", $result['title']);?></h1>
 		</div>
 		<div id="layout-body">
 			<div id="config_data">
