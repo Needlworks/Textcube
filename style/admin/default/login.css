@@ -78,7 +78,8 @@ dd .input-text
 	background-image                 : none !important;
 	display                          : block;
 	font-weight                      : bold;
-	height                           : 30px !important;
+	height                           : 3em;
+	line-height                      : 3em;
 	position                         : absolute;
 	right                            : -25px;
 	top                              : 153px;

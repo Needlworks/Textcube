@@ -302,6 +302,30 @@ table.data-inbox tbody tr td.ip
 	text-align                       : left;
 }
 
+#part-post-notify table.data-inbox tbody tr td.content .entryURL
+{
+	color                            : #6B90C3;
+	font-weight                      : bold;
+}
+
+#part-post-notify table.data-inbox tbody tr.reply-line td.content .new-icon
+{
+	display                          : none;
+}
+
+#part-post-notify table.data-inbox tbody tr.reply-line td.content .commentURL
+{
+	background-image                 : url('./image/icon_reply.gif');
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	padding-left                     : 26px;
+}
+
+#part-post-notify table.data-inbox tbody tr.reply-line td.content .new-icon span
+{
+	display                          : none;
+}
+
 #part-post-notify #search-form
 {
 	top                              : 90px;
@@ -330,6 +354,11 @@ table.data-inbox tbody tr td.ip
 #part-post-tree div.data-inbox .section
 {
 	padding                          : 30px 0 0 310px;
+}
+
+#part-post-tree em.attention
+{
+	margin-top                       : 15px;
 }
 
 #tree-preview-box
@@ -383,11 +412,12 @@ table.data-inbox tbody tr td.ip
 	font-weight                      : bold;
 	padding                          : 6px 0;
 	text-align                       : right;
-	width                            : 90px;
+	width                            : 110px;
 }
 
 #property-box dl dd
 {
+	margin-left                      : 125px;
 	padding                          : 6px 0;
 }
 

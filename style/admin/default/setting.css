@@ -447,6 +447,7 @@ dl dd
 	clear                            : right;
 	float                            : right;
 	margin-bottom                    : 20px;
+	overflow                         : hidden;
 	width                            : 470px;
 }
 

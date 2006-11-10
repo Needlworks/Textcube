@@ -9,11 +9,6 @@
 
 /* Comment ****************************************************************************************/
 
-#part-post-comment .data-subbox
-{
-	padding                          : 8px;
-}
-
 #part-post-comment #search-form
 {
 	top                              : 51px;
@@ -26,11 +21,6 @@
 	width                            : 12px;
 }
 
-#part-post-notify .data-subbox
-{
-	padding                          : 8px;
-}
-
 #part-post-notify #search-form
 {
 	top                              : 88px;
@@ -41,11 +31,6 @@
 #part-post-trackback table.data-inbox tbody tr td.delete
 {
 	width                            : 12px;
-}
-
-#part-post-trackback .data-subbox
-{
-	padding                          : 8px;
 }
 
 #part-post-trackback #search-form

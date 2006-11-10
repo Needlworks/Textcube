@@ -121,7 +121,7 @@
 #part-link-add div.data-inbox dl dd .input-text,
 #part-link-edit div.data-inbox dl dd .input-text
 {
-	width                            : 420px;
+	width                            : 350px;
 }
 
 #part-link-add .button-box,
@@ -145,9 +145,7 @@
 	border                           : 1px solid #BBBBBB;
 	color                            : #000000;
 	font-weight                      : bold;
-	height                           : 3em;
-	line-height                      : 3em;
-	padding-top                      : 8px;
-	padding-bottom                   : 6px;
+	height                           : 2.5em;
+	line-height                      : 2.5em;
 	vertical-align                   : middle;
 }

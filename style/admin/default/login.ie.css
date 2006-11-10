@@ -4,5 +4,7 @@
 
 .login-button
 {
+	height                           : 3em;
+	line-height                      : 3em;
 	right                            : 10px;
 }
