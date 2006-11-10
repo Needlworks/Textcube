@@ -521,26 +521,34 @@ function open_img(img_src) {
 		'		<title> :: View :: <\/title>\n' + 
 		'		<meta http-equiv="content-type" content="text/html; charset=utf-8" />\n' + 
 		'		<script type="text/javascript">\n' + 
+		'			function getWindowCleintHeight() {\n' + 
+		'				return (window.innerHeight != null) ? window.innerHeight : document.documentElement.clientHeight;\n' + 
+		'			}\n' + 
+		'			function getWindowCleintWidth() {\n' + 
+		'				return (window.innerWidth != null) ? window.innerWidth : document.documentElement.clientWidth;\n' + 
+		'			}\n' + 
 		'			function resize(img) {\n' + 
-		'				var imageWidth = img.width;\n' + 
-		'				var imageHeight = img.height;\n' + 
+		'				var imageWidth = img.width + 10;\n' + 
+		'				var imageHeight = img.height +10;\n' +
 		'				var screenWidth = screen.availWidth;\n' + 
 		'				var screenHeight = screen.availHeight;\n' + 
 		'				var windowWidth = imageWidth;\n' + 
 		'				var windowHeight = imageHeight;\n' + 
 		'				var positionX = (screenWidth - imageWidth) / 2;\n' + 
 		'				var positionY = (screenHeight - imageHeight) / 2;\n' + 
-		'				if(imageWidth > screenWidth) {\n' + 
-		'					windowWidth = screenWidth;\n' + 
+		'				if(imageWidth > screenWidth * 0.8) {\n' + 
+		'					windowWidth = screenWidth * 0.8;\n' + 
 		'					document.body.scroll ="yes";\n' + 
 		'					positionX = 0;\n' +
 		'				}\n' + 
-		'				if(imageHeight > screenHeight) {\n' + 
-		'					windowHeight = screenHeight;\n' + 
+		'				if(imageHeight > screenHeight * 0.8 ) {\n' + 
+		'					windowHeight = screenHeight * 0.8;\n' + 
 		'					document.body.scroll ="yes";\n' + 
 		'					positionY = 0;\n' +
 		'				}\n' + 
-		'				window.resizeTo(windowWidth, windowHeight);\n' + 
+        '               iWidth = windowWidth - getWindowCleintWidth();\n' + 
+        '               iHeight = windowHeight - getWindowCleintHeight();\n' + 
+        '               window.resizeBy(iWidth, iHeight);\n' + 
 		'				window.moveTo(positionX, positionY);\n' + 
 		'			}\n' + 
 		'		<\/script>\n' + 
@@ -549,7 +557,7 @@ function open_img(img_src) {
 		'		<table style="width: 100%; height: 100%">\n' + 
 		'			<tr>\n' + 
 		'				<td style="text-align: center" valign="middle">\n' + 
-		'					<a href="javascript:window.close()"><img src="' + img_src + '" style="border: 0px" onload="resize(this)" /><\/a>\n' + 
+		'					<a href="javascript:window.close()"><img src="' + img_src + '" style="border: 0px; padding: 0; margin:0;" onload="resize(this)" /><\/a>\n' + 
 		'				<\/td>\n' + 
 		'			<\/tr>\n' + 
 		'		<\/table>\n' + 
@@ -628,6 +636,10 @@ function setUserSetting(name, value) {
 
 function getWindowCleintHeight() {
 	return (window.innerHeight != null) ? window.innerHeight : document.documentElement.clientHeight;
+}
+
+function getWindowCleintWidth() {
+	return (window.innerWidth != null) ? window.innerWidth : document.documentElement.clientWidth;
 }
 
 function getOffsetTop(obj)
