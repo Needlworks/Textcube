@@ -528,8 +528,8 @@ function open_img(img_src) {
 		'				return (window.innerWidth != null) ? window.innerWidth : document.documentElement.clientWidth;\n' + 
 		'			}\n' + 
 		'			function resize(img) {\n' + 
-		'				var imageWidth = img.width + 10;\n' + 
-		'				var imageHeight = img.height +10;\n' +
+		'				var imageWidth = img.width + 15;\n' + 
+		'				var imageHeight = img.height +15;\n' +
 		'				var screenWidth = screen.availWidth;\n' + 
 		'				var screenHeight = screen.availHeight;\n' + 
 		'				var windowWidth = imageWidth;\n' + 
@@ -564,8 +564,13 @@ function open_img(img_src) {
 		'	<\/body>\n' + 
 		'<\/html>');
 
-	img_view.document.close(); // 팝업창의 문서를 닫는다.
-	try { img_view.document.focus(); }// 팝업창 문서에 포커스
+	try { 
+    	img_view.document.close(); // 팝업창의 문서를 닫는다.
+	}
+	catch(e) { }
+	try { 
+	    img_view.document.focus();// 팝업창 문서에 포커스
+	}
 	catch(e) { }
 }
 
