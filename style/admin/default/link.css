@@ -64,6 +64,8 @@
 
 #part-link-list table.data-inbox tbody tr td.address
 {
+	font-family                      : "Courier New", Courier, monospace;
+	overflow                         : hidden;
 	padding-left                     : 25px;
 	text-align                       : left;
 }
