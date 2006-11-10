@@ -397,7 +397,7 @@ function handleConfig($plugin){
 	if ($manifest && $xmls->open($manifest)) {
 		$title = $xmls->getValue('/plugin/title[lang()]');
 		//설정 핸들러가 존재시 바꿈
-		$config = $xmls->selectNode('/plugin/binding/config');
+		$config = $xmls->selectNode('/plugin/binding/config[lang()]');
 		unset( $xmls );
 		if( !empty($config['.attributes']['manifestHandler']) ){
 			$handler = $config['.attributes']['manifestHandler'] ;
@@ -413,7 +413,7 @@ function handleConfig($plugin){
 			$newXmls = new XMLStruct();
 			if($newXmls->open( $manifest) ){	 
 				unset( $config );
-				$config = $newXmls->selectNode('/config');
+				$config = $newXmls->selectNode('/config[lang()]');
 			}
 			unset( $newXmls);
 		}

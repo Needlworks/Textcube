@@ -1189,6 +1189,7 @@ class XMLStruct {
 	/*@static@*/
 	function getValueByLocale($param)
 	{
+		if (!is_array($param)) return $param;
 		for ($i = 0; $i < count($param); $i++) {
 			switch (Locale::match(@$param[$i]['.attributes']['xml:lang'])) {
 				case 3:
