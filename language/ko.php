@@ -5,6 +5,7 @@ $__text['Asia/Seoul'] = '대한민국';
 $__text['Asia/Tokyo'] = '일본';
 $__text['Asia/Shanghai'] = '중국';
 $__text['Asia/Taipei'] = '대만';
+$__text['Asia/Calcutta'] = '인도';
 $__text['Europe/Berlin'] = '독일';
 $__text['Europe/Paris'] = '프랑스';
 $__text['Europe/London'] = '영국';

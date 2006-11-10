@@ -10,6 +10,7 @@ $__text['Asia/Seoul'] = "大韓民国(ソウル)";
 $__text['Asia/Tokyo'] = "日本(東京)";
 $__text['Asia/Shanghai'] = "中華人民共和国(北京・上海)";
 $__text['Asia/Taipei'] = "台湾(台北)";
+//$__text['Asia/Calcutta'] = '';
 $__text['Asia/Calcutta'] = "インド(カルカッタ)";
 $__text['Europe/Berlin'] = "ドイツ(ベルリン)";
 $__text['Europe/Paris'] = "フランス(パリ)";
