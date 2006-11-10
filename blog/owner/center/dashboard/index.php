@@ -102,7 +102,9 @@ if (isset($_REQUEST['ajaxcall'])) {
 	exit;
 }
 
+$editClass = NULL;
 if (isset($_REQUEST['edit'])) {
+	$editClass = "-edit";
 ?>
 <script src="<?php echo $service['path'];?>/script/dojo/dojo.js" type="text/javascript"></script>
 <script src="<?php echo $service['path'];?>/script/dashboard.js" type="text/javascript"></script>
@@ -299,7 +301,7 @@ if($tattertoolsDashboard) {
 }
 ?>
 
-							<div id="part-center-quilt" class="part">
+							<div id="part-center-quilt<?php echo $editClass;?>" class="part">
 								<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
 									
 <?php

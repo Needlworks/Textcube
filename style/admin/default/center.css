@@ -141,7 +141,8 @@
 }
 
 /* quilt */
-#part-center-quilt .panel
+#part-center-quilt .panel,
+#part-center-quilt-edit .panel
 {
 	float                            : left;
 	margin-left                      : 10px;
@@ -149,14 +150,16 @@
 	width                            : 300px;
 }
 
-#part-center-quilt .button-box
+#part-center-quilt .button-box,
+#part-center-quilt-edit .button-box
 {
 	border-top                       : 1px solid #DDDDDD;
 	clear                            : both;
 	padding                          : 15px 0;
 }
 
-#part-center-quilt .button-box .input-button
+#part-center-quilt .button-box .input-button,
+#part-center-quilt-edit .button-box .input-button
 {
 	background-color                 : #FFFFFF;
 	background-image                 : none !important;
@@ -171,13 +174,21 @@
 }
 
 #part-center-quilt .section,
+#part-center-quilt-edit .section,
 .ajax-floating-panel
 {
 	font-size                        : 12px;
 	margin-bottom                    : 15px;
 }
 
+#part-center-quilt-edit .section,
+.ajax-floating-panel
+{
+	cursor                           : pointer;
+}
+
 #part-center-quilt .section h3,
+#part-center-quilt-edit .section h3,
 .ajax-floating-panel h3
 {
 	background-image                 : url("./image/bg_dashboard_header.png");
@@ -192,6 +203,9 @@
 #part-center-quilt .section h4,
 #part-center-quilt .section h5,
 #part-center-quilt .section h6,
+#part-center-quilt-edit .section h4,
+#part-center-quilt-edit .section h5,
+#part-center-quilt-edit .section h6,
 .ajax-floating-panel h4,
 .ajax-floating-panel h5,
 .ajax-floating-panel h6
@@ -201,6 +215,8 @@
 
 #part-center-quilt .section ol,
 #part-center-quilt .section ul,
+#part-center-quilt-edit .section ol,
+#part-center-quilt-edit .section ul,
 .ajax-floating-panel ol,
 .ajax-floating-panel ul
 {
@@ -209,6 +225,8 @@
 
 #part-center-quilt .section ol li,
 #part-center-quilt .section ul li,
+#part-center-quilt-edit .section ol li,
+#part-center-quilt-edit .section ul li,
 .ajax-floating-panel ol li,
 .ajax-floating-panel ul li
 {
@@ -218,6 +236,7 @@
 }
 
 #part-center-quilt .section table,
+#part-center-quilt-edit .section table,
 .ajax-floating-panel table
 {
 	margin                           : 0 12px 25px 0;
@@ -225,6 +244,7 @@
 }
 
 #part-center-quilt .section table tbody tr td,
+#part-center-quilt-edit .section table tbody tr td,
 .ajax-floating-panel table tbody tr td
 {
 	border-bottom                    : 1px solid #EEEEEE;
