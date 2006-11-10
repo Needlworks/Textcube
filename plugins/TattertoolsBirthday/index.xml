@@ -59,7 +59,7 @@
           <op value="12">Dec.</op>
         </field>
         <field title="Day" name="day" type="text"  size ="3" titledirection="bk"  value="13">
-          <caption >Specify by a numeric day between 1 to 31.</caption>
+          <caption >Specify a day between 1 to 31.</caption>
         </field>
       </fieldset>
     </config>
