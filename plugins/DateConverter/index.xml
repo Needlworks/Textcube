@@ -26,7 +26,7 @@
 		<listener event="ViewRecentTrackbackDate">convertDateLangRTD</listener>
 		<listener event="ViewTrackbackDate">convertDateLangTD</listener>
 		
-		<config dataValHandler="">
+		<config xml:lang="ko" dataValHandler="">
 			<window width="500" height="310" />
 			<fieldset legend="날짜 표현에 사용할 기본언어를 선택해 주세요.">
 				<field title="기본 언어 : " name="language" type="select">
@@ -73,5 +73,52 @@
 				<field title="트랙백 날짜 : " name="trackback_date" type="text" value="%M{ %d,} %Y{ %H}{:%I}{:%S}"></field>
 			</fieldset>
 	 	</config>
-	</binding>
+    <config xml:lang="en" dataValHandler="">
+      <window width="500" height="310" />
+      <fieldset legend="Selct default language for displaying dates.">
+        <field title="Default Language : " name="language" type="select">
+          <op value="english">english</op>
+          <op value="japanese">japanese</op>
+          <op value="korean" checked="checked">Korean</op>
+          <caption>
+            <![CDATA[
+	<kbd>%Y</kbd> = 4digits Year.<br />
+	<kbd>%y</kbd> = 2sigits Year.<br />
+	
+	<kbd>%M</kbd> = 앞의 0을 표시하는 달 또는 라틴 문자권의 완전형 월 명칭. <samp>[01~12] or January/Febuary/March/April...</samp><br />
+	<kbd>%m</kbd> = 앞의 0을 표시하지 않는 달 또는 라틴 문자권의 생략형 월 명칭. <samp>[1~12] or Jan/Feb/Mar/Apr...</samp><br />
+	
+	<kbd>%D</kbd> = 앞의 0을 표시하는 일(日). <samp>[01~31]</samp><br />
+	<kbd>%d</kbd> = 앞의 0을 표시하지 않는 일(日). <samp>[1~31]</samp><br />
+	<kbd>%o</kbd> = 서수 어미가 붙은 일(日). 주로 라틴 문자권에서 사용. <samp>[1st|2nd|3rd|4th...|30th|31st]</samp><br />
+	
+	<kbd>%H</kbd> = 앞의 0을 표시하는 24시간. <samp>[00~24]</samp><br />
+	<kbd>%h</kbd> = 앞의 0을 표시하지 않는 24시간. <samp>[0~24]</samp><br />
+	<kbd>%F</kbd> = 앞의 0을 표시하는 12시간. <samp>[00~12]</samp><br />
+	<kbd>%f</kbd> = 앞의 0을 표시하지 않는 12시간. <samp>[0~12]</samp><br />
+	
+	<kbd>%I</kbd> = 앞의 0을 표시하는 분. <samp>[00~59]</samp><br />
+	<kbd>%i</kbd> = 앞의 0을 표시하지 않는 분. <samp>[0~59]</samp><br />
+	
+	<kbd>%S</kbd> = 앞의 0을 표시하는 초. <samp>[00~59]</samp><br />
+	<kbd>%s</kbd> = 앞의 0을 표시하지 않는 초. <samp>[0~59]</samp>
+						]]>
+          </caption>
+        </field>
+      </fieldset>
+      <fieldset legend="각 부분의 날짜형식을 선택해 주세요.">
+        <field title="보관함 날짜 : " name="archive_date" type="text" value="{%Y|}{%M}"></field>
+        <field title="달력 날짜 : " name="calendar_date" type="text" value="{%m }{%Y}"></field>
+        <field title="댓글 날짜 : " name="comment_date" type="text" value="{%Y年}{ %M月}{ %D日}{ %H時}{ %I分}"></field>
+        <field title="댓글 목록 날짜 : " name="comment_list_date" type="text" value="{%Y년}{ %M월}{ %D일}"></field>
+        <field title="방명록 날짜 : " name="guestbook_date" type="text" value="{%Y년}{ %M월}{ %D일}{ %H시}{ %I분}"></field>
+        <field title="목록 날짜 : " name="list_date" type="text" value="{%Y년}{ %M월}{ %D일}"></field>
+        <field title="공지사항 날짜 : " name="notice_date" type="text" value="{%Y년}{ %M월}{ %D일}{ %H시}{ %I분}{ %S초}"></field>
+        <field title="포스트 날짜 : " name="post_date" type="text" value="{%M}{ %o,}{ %Y}{ %H}{:%I}{:%S}"></field>
+        <field title="최근 댓글 날짜 : " name="recent_comment_date" type="text" value="{%M}{ %d,}{ %Y}{ %H시}{ %I분}{ %S초}"></field>
+        <field title="최근 트랙백 날짜 : " name="recent_trackback_date" type="text" value="{%o }%M"></field>
+        <field title="트랙백 날짜 : " name="trackback_date" type="text" value="%M{ %d,} %Y{ %H}{:%I}{:%S}"></field>
+      </fieldset>
+    </config>
+  </binding>
 </plugin>

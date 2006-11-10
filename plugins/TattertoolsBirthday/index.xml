@@ -18,28 +18,50 @@
     <tattertools>1.0.2</tattertools>
   </requirements>
   <binding>
-	<tag name="TattertoolsBirthday" handler="TattertoolsBirthday_TattertoolsBirthday" />
-	<config dataValHandler = "TattertoolsBirthdayDataSet" >
-		<window width="500" height="520" />
-		<fieldset legend="기념일을 넣어주세요" >
-			<field title="월" name="month" type="select"  titledirection="bk" >
-				<op value="1">1</op>
-				<op value="2" >2</op>
-				<op value="3" checked="checked">3</op>
-				<op value="4">4</op>
-				<op value="5">5</op>
-				<op value="6" >6</op>
-				<op value="7">7</op>
-				<op value="8">8</op>
-				<op value="9">9</op>
-				<op value="10">10</op>
-				<op value="11">11</op>
-				<op value="12">12</op>
-			</field>			
-			<field title="일" name="day" type="text"  size ="3" titledirection="bk"  value="13">
-				<caption > 날짜는 숫자로만 넣어주세요.</caption>
-			</field>
-		</fieldset>
-	</config>
+	  <tag name="TattertoolsBirthday" handler="TattertoolsBirthday_TattertoolsBirthday" />
+	  <config xml:lang="ko" dataValHandler = "TattertoolsBirthdayDataSet" >
+		  <window width="500" height="520" />
+		  <fieldset legend="기념일을 넣어주세요" >
+			  <field title="월" name="month" type="select"  titledirection="bk" >
+				  <op value="1">1</op>
+				  <op value="2" >2</op>
+				  <op value="3" checked="checked">3</op>
+				  <op value="4">4</op>
+				  <op value="5">5</op>
+				  <op value="6" >6</op>
+				  <op value="7">7</op>
+				  <op value="8">8</op>
+				  <op value="9">9</op>
+				  <op value="10">10</op>
+				  <op value="11">11</op>
+				  <op value="12">12</op>
+			  </field>			
+			  <field title="일" name="day" type="text"  size ="3" titledirection="bk"  value="13">
+				  <caption > 날짜는 숫자로만 넣어주세요.</caption>
+			  </field>
+		  </fieldset>
+	  </config>
+    <config xml:lang="en" dataValHandler = "TattertoolsBirthdayDataSet" >
+      <window width="500" height="520" />
+      <fieldset legend="Select a day of remembrance." >
+        <field title="Month" name="month" type="select"  titledirection="bk" >
+          <op value="1">Jan.</op>
+          <op value="2">Feb.</op>
+          <op value="3" checked="checked">Mar.</op>
+          <op value="4">Apr.</op>
+          <op value="5">May.</op>
+          <op value="6">Jun.</op>
+          <op value="7">Jul.</op>
+          <op value="8">Aug.</op>
+          <op value="9">Sep.</op>
+          <op value="10">Oct.</op>
+          <op value="11">Nov.</op>
+          <op value="12">Dec.</op>
+        </field>
+        <field title="Day" name="day" type="text"  size ="3" titledirection="bk"  value="13">
+          <caption >Specify by a numeric day between 1 to 31.</caption>
+        </field>
+      </fieldset>
+    </config>
   </binding>
 </plugin>
