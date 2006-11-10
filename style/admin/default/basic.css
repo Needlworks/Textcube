@@ -438,12 +438,9 @@ table.data-inbox thead tr th
 
 table.data-inbox tbody tr td
 {
-	background-image                 : url("./image/bg_tbody.gif");
-	background-position              : left bottom;
-	background-repeat                : no-repeat;
+	border-bottom                    : 1px solid #E3E3DE;
 	padding                          : 6px 8px;
 	text-align                       : center;
-	/*vertical-align                   : top;*/
 }
 
 table.data-inbox tbody tr.active-class

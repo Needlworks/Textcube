@@ -1,24 +1,59 @@
 @charset "utf-8";
 
-/* Referer ***************************************************************************************/
+/* Rank ******************************************************************************************/
 
 #part-statistics-rank
 {
-	margin-bottom                    : 30px;
+	float                            : left;
+	width                            : 29%;
+}
+
+#part-statistics-rank table.data-inbox
+{
+	width                            : auto;
+}
+
+#part-statistics-rank table.data-inbox tr th.number
+{
+	text-align                       : center;
+	width                            : 50px;
+}
+
+#part-statistics-rank table.data-inbox tr th.site
+{
+	text-align                       : center;
 }
 
 #part-statistics-rank table.data-inbox tr td.site
 {
-	text-align                       : left !important;
+	font-family                      : "Courier New", Courier, monospace;
+	overflow                         : hidden;
+	text-align                       : left;
+}
+
+/* Log *******************************************************************************************/
+
+#part-statistics-log
+{
+	float                            : right;
+	overflow                         : hidden;
+	width                            : 69%;
+}
+
+#part-statistics-log table.data-inbox
+{
+	width                            : auto;
 }
 
 #part-statistics-log table.data-inbox tr td.address
 {
-	text-align                       : left !important;
+	font-family                      : "Courier New", Courier, monospace;
+	overflow                         : hidden;
+	text-align                       : left;
 }
 
 #part-statistics-log .data-subbox
 {
 	height                           : 1.8em;
-	width                            : 924px;
+	width                            : 69% !important%;
 }

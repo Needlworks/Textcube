@@ -116,8 +116,6 @@ function AD_Referer_Default()
 								</tbody>
 							</table>
 							
-							<hr class="hidden" />
-							
 							<div class="data-subbox">
 								<div id="page-section" class="section">
 									<div id="page-navigation">
@@ -154,6 +152,8 @@ function AD_Referer_Default()
 								</div>
 							</div>
 						</form>
+						
+						<div class="clear"></div>
 <?php 
 }
 ?>

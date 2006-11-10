@@ -44,24 +44,16 @@ function AD_Subscription_Default()
 						
 						<div id="part-statistics-total" class="part">
 							<h2 class="caption"><span class="main-text">전체 피드 통계</span></h2>
-							<table class="data-inbox" cellspacing="0" cellpadding="0">
-								<thead>
-									<tr>
-										<th class="number"><span class="text">전체 구독자수</span></th>
-										<th class="aggregator"><span class="text">구독기</span></th>
-										<th class="lastRSSupdate"><span class="text">최종 RSS 갱신일</span></th>
-										<th class="updatedAggregators"><span class="text">이후 갱신된 RSS 구독기</span></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td class="number"><span class="text"><?php echo $totalSubscribers;?> 명</span></td>
-										<td class="aggregator"><span class="text"><?php echo sizeof($aggregatorInfo);?> 종류의 구독기및 크롤러가 구독중입니다.</span></td>
-										<td><span class="text"><?php echo misc::getUserSetting('LatestRSSrefresh',null)!=null ? Timestamp::format5(misc::getUserSetting('LatestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></td>
-										<td><?php echo $updatedSubscribers;?></td>
-									</tr>
-								</tbody>
-							</table>
+							<dl class="data-inbox">
+								<dt class="number"><span class="text">전체 구독자수</span></dt>
+								<dd class="number"><span class="text"><?php echo $totalSubscribers;?> 명</span></dd>
+								<dt class="aggregator"><span class="text">구독기</span></dt>
+								<dd class="aggregator"><span class="text"><?php echo sizeof($aggregatorInfo);?> 종류의 구독기 및 크롤러가 구독중입니다.</span></dd>
+								<dt class="lastRSSupdate"><span class="text">최종 RSS 갱신일</span></dt>
+								<dd class="lastRSSupdate"><span class="text"><?php echo misc::getUserSetting('LatestRSSrefresh',null)!=null ? Timestamp::format5(misc::getUserSetting('LatestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></dd>
+								<dt class="updatedAggregators"><span class="text">이후 갱신된 RSS 구독기</span></dt>
+								<dd class="updatedAggregators"><span class="text"><?php echo $updatedSubscribers;?></span></dd>
+							</dl>
 						</div>
 
 						<hr class="hidden" />
@@ -110,7 +102,7 @@ function AD_Subscription_Default()
 							</table>
 						</div>
 						
-						<hr class="hidden" />
+						<div class="clear"></div>
 <?php 
 }
 

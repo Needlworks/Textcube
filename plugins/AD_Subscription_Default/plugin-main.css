@@ -1,25 +1,66 @@
 @charset "utf-8";
 
-/* Subscribe Statistics********************************************************************************/
+/* Subscribe Statistics ********************************************************************************/
 
 #part-statistics-total
 {
-	margin-bottom                    : 30px;
+	border                           : 1px solid #000000;
+	float                            : left;
+	padding                          : 5px 0;
+	width                            : 29%;
 }
 
-#part-statistics-total table.data-inbox tr td.number
+#part-statistics-total .caption
 {
-	width                            : 200px;
-	text-align                       : center !important;
-	font-size                        : 22px;
+	display                          : none;
 }
 
-#part-statistics-rank table.data-inbox tr td.site
+#part-statistics-total dl.data-inbox
 {
-	text-align                       : left !important;
+	width                            : auto;
 }
 
-#part-statistics-rank table.data-inbox tr td.aggregator span.robot
+#part-statistics-total dl.data-inbox dt
 {
-	color                            : #C33;
+	background-color                 : #F3F3F1;
+	border                           : 1px solid #D2D2CC;
+	color                            : #333333;
+	padding                          : 1px 0;
+	position                         : static;
+	text-align                       : center;
+	text-align                       : center;
+}
+
+#part-statistics-total dl.data-inbox dd
+{
+	border-bottom                    : 1px soliD #E3E3DE;
+	margin                           : 0 0 10px 0;
+	text-align                       : center;
+}
+
+/* Feed Rank *******************************************************************************************/
+
+#part-statistics-rank
+{
+	float                            : right;
+	overflow                         : hidden;
+	width                            : 69%;
+}
+
+#part-statistics-rank table.data-inbox
+{
+	width                            : auto;
+}
+
+#part-statistics-rank table.data-inbox tr td.address
+{
+	font-family                      : "Courier New", Courier, monospace;
+	overflow                         : hidden;
+	text-align                       : left;
+}
+
+#part-statistics-rank .data-subbox
+{
+	height                           : 1.8em;
+	width                            : 69% !important%;
 }
