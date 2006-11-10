@@ -93,7 +93,7 @@ require ROOT . '/lib/piece/owner/contentMenu02.php';
 								
 								function trashTrackbacks() {
 									try {
-										if (!confirm("<?php echo _t('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>"))
+										if (!confirm("<?php echo _t('선택된 걸린글을 지웁니다. 계속 하시겠습니까?');?>"))
 											return false;
 										var oElement;
 											var targets = new Array();
