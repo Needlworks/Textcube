@@ -91,12 +91,12 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 											<tr>
 												<td class="id"><span class="text">graphittie</span></td>
 												<td class="name">&nbsp;</td>
-												<td class="role"><?php echo _t('UI / sidebar / xhtml specification / documentation');?></td>
+												<td class="role"><?php echo _t('UI / sidebar / xhtml specification');?></td>
 											</tr>
 											<tr>
 												<td class="id"><a href="http://inureyes.tistory.com">inureyes</a></td>
 												<td class="name">Jeongkyu Shin</td>
-												<td class="role"><?php echo _t('function addition / bug tracking / DB management');?></td>
+												<td class="role"><?php echo _t('function addition / bug tracking / DB management / documentation');?></td>
 											</tr>
 											<tr>
 												<td class="id"><a href="http://plyfly.net">leezche</a></td>
