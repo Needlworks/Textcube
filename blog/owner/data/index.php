@@ -136,7 +136,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 							
 							<form id="dataCorrector" method="get" action="<?php echo $blogURL;?>/owner/data/correct" target="blackhole"></form>
 							
-							<div id="correctingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 10;">
+							<div id="correctingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 100;">
 								<h3 id="correctingDataDialogTitle"></h3>
 								<div class="message-sub">
 									<span id="correctingText"></span>
@@ -165,7 +165,7 @@ if (getUserId() == 1) {
 							
 							<form id="dataOptimizer" method="get" action="<?php echo $blogURL;?>/owner/data/optimize" target="blackhole"></form>
 							
-							<div id="optimizingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 10;">
+							<div id="optimizingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 100;">
 								<h3 id="optimizingDataDialogTitle"></h3>
 								<div class="message-sub">
 									<span id="optimizingText"></span>
@@ -192,7 +192,7 @@ if (getUserId() == 1) {
 								</p>
 							</div>
 							
-							<form id="DBExportDialog" class="dialog" method="get" action="<?php echo $blogURL;?>/owner/data/backup" style="position: absolute; display: none; z-index: 10;">
+							<form id="DBExportDialog" class="dialog" method="get" action="<?php echo $blogURL;?>/owner/data/backup" style="position: absolute; display: none; z-index: 100;">
 								<h3><?php echo _t('데이터 백업을 시작합니다');?></h3>
 								
 								<div class="message-body">
@@ -228,7 +228,7 @@ if (getUserId() == 1) {
 									<?php echo _t('백업파일을 읽어서 데이터를 복원합니다.<br />백업파일에 첨부파일이 포함되어 있으면 첨부파일도 자동으로 복원됩니다.<br />마이그레이션 데이터도 복원을 통해 가져올 수 있습니다.');?>
 								</p>
 							</div>
-							<div id="DBImportDialog" class="dialog" style="position: absolute; display: none; z-index: 10;">
+							<div id="DBImportDialog" class="dialog" style="position: absolute; display: none; z-index: 100;">
 								<form id="dataImporter" method="post" action="<?php echo $blogURL;?>/owner/data/import" enctype="multipart/form-data" target="blackhole">
 									<h3><?php echo _t('데이터 복원을 시작합니다');?></h3>
 									
@@ -272,7 +272,7 @@ if ($backup) {
  								</form>
 							</div>
 							
-							<div id="progressDialog" class="system-dialog" style="position: absolute; display: none; z-index: 10;">
+							<div id="progressDialog" class="system-dialog" style="position: absolute; display: none; z-index: 100;">
 								<h3 id="progressDialogTitle"></h3>
 								<div class="message-sub">
 									<p id="progressText"></p>
@@ -297,7 +297,7 @@ if ($backup) {
 								</p>
 							</div>
 							
-							<form id="DBRemoveDialog" class="dialog" method="get" action="<?php echo $blogURL;?>/owner/data/remove" style="position: absolute; display: none; z-index: 10;">
+							<form id="DBRemoveDialog" class="dialog" method="get" action="<?php echo $blogURL;?>/owner/data/remove" style="position: absolute; display: none; z-index: 100;">
 								<h3><?php echo _t('데이터 삭제를 시작합니다');?></h3>
 								
 								<div class="message-body">

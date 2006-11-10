@@ -447,7 +447,6 @@ dl dd
 	clear                            : right;
 	float                            : right;
 	margin-bottom                    : 20px;
-	overflow                         : hidden;
 	width                            : 470px;
 }
 
@@ -456,7 +455,6 @@ dl dd
 	clear                            : left;
 	float                            : left;
 	margin-bottom                    : 20px;
-	overflow                         : hidden;
 	width                            : 470px;
 }
 
@@ -466,7 +464,6 @@ dl dd
 	float                            : right;
 	margin-bottom                    : 20px;
 	margin-right                     : 0;
-	overflow                         : hidden;
 	width                            : 470px;
 }
 
@@ -475,7 +472,6 @@ dl dd
 	clear                            : left;
 	float                            : left;
 	margin-bottom                    : 20px;
-	overflow                         : hidden;
 	width                            : 470px;
 }
 
@@ -484,7 +480,6 @@ dl dd
 	clear                            : left;
 	float                            : left;
 	margin-bottom                    : 20px;
-	overflow                         : hidden;
 	width                            : 470px;
 }
 
@@ -568,7 +563,6 @@ dl dd
 	text-decoration                  : none !important;
 }
 
-
 /* dialog ---------------------------------------------------------------------------------------*/
 .part .dialog
 {
@@ -576,7 +570,6 @@ dl dd
 	border                           : 5px solid #BCD2E5;
 	margin-left                      : 10px;
 	padding                          : 10px;
-	top                              : 150px !important;
 	width                            : 550px;
 }
 
@@ -688,14 +681,11 @@ dl dd
 /* system dialog --------------------------------------------------------------------------------*/
 .part .system-dialog
 {
-	border : 1px solid red !important;
 	background-color                 : #FFFFFF;
 	border                           : 5px solid #000000;
 	margin-left                      : 10px;
 	padding                          : 10px;
-	top                              : 150px !important;
 	width                            : 550px;
-	z-index                          : 2000;
 }
 
 .part .system-dialog h4
