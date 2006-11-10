@@ -85,7 +85,7 @@ $entry = getEntry($owner, $suri['id']);
 			}
 			
 			function removeTrackbackLog(id,entry) {
-				if(confirm("<?php echo _text('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>")) {
+				if(confirm("<?php echo _text('선택된 걸린글을 지웁니다. 계속 하시겠습니까?');?>")) {
 					var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trackback/log/remove/" + id);
 					request.onSuccess = function() {
 						showTrackbackSender(entry);
