@@ -69,6 +69,7 @@ requireComponent('Tattertools.Model.Statistics');
 
 $refereres = Statistics::getRefererLogs();
 $keywordlist = array();
+$record = array();
 
 for ($i=0; $i<sizeof($refereres); $i++) {
 	$record = $refereres[$i];
@@ -89,7 +90,7 @@ for ($i=0; $i<sizeof($refereres); $i++) {
 	elseif ($keyword) { $keywordlist[$keyword] = 1; }
 
 }
-$referredstart = $record['referred'];
+$referredstart = array_key_exists('referred', $record) ? $record['referred'] : '';
 ?>
 				 		<div id="part-statistics-visitor" class="part">
 					 			<h2 class="caption"><span class="main-text"><?php echo _t('키워드 통계')." (".Timestamp::formatDate($referredstart)." ~ ".Timestamp::formatDate($referredend)." )";?></span></h2>
