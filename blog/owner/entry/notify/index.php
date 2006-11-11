@@ -176,10 +176,8 @@ setUserSetting('lastVisitNotifiedPage', time());
 for ($i = 0; $i < count($comments); $i++) {
 	array_push($mergedComments, $comments[$i]);
 	$result = getCommentCommentsNotified($comments[$i]['id']);
-	if (empty($_POST['search']) && empty($_POST['name'])) {
-		for ($j = 0; $j < count($result); $j++) {
-			array_push($mergedComments, $result[$j]);
-		}
+	for ($j = 0; $j < count($result); $j++) {
+		array_push($mergedComments, $result[$j]);
 	}
 }
 
