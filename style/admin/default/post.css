@@ -8,25 +8,25 @@
 }
 
 /* table header */
-table.data-inbox tr .date
+table.data-inbox tbody tr .date
 {
 	border-left                      : 1px solid #E3E3DE;
 	width                            : 60px;
 }
 
-table.data-inbox tr .name
+table.data-inbox tbody tr .name
 {
 	border-left                      : 1px solid #E3E3DE;
 	width                            : 150px;
 }
 
-table.data-inbox tr .site
+table.data-inbox tbody tr .site
 {
 	border-left                      : 1px solid #E3E3DE;
 	width                            : 180px;
 }
 
-table.data-inbox tr .ip
+table.data-inbox tbody tr .ip
 {
 	border-left                      : 1px solid #E3E3DE;
 	width                            : 120px;
@@ -101,25 +101,25 @@ table.data-inbox tbody tr td.ip
 /* Post *******************************************************************************************/
 
 /* table header */
-#part-post-list table.data-inbox tr .status
+#part-post-list table.data-inbox tbody tr .status
 {
 	border-left                      : 1px solid #E3E3DE;
 	width                            : 51px;
 }
 
-#part-post-list table.data-inbox tr .syndicate
+#part-post-list table.data-inbox tbody tr .syndicate
 {
 	border-left                      : 1px solid #E3E3DE;
 	width                            : 13px;
 }
 
-#part-post-list table.data-inbox tr .category,
-#part-post-list table.data-inbox tr .title
+#part-post-list table.data-inbox tbody tr .category,
+#part-post-list table.data-inbox tbody tr .title
 {
 	border-left                      : 1px solid #E3E3DE;
 }
 
-#part-post-list table.data-inbox tr .protect
+#part-post-list table.data-inbox tbody tr .protect
 {
 	border-left                      : 1px solid #E3E3DE;
 	padding-right                    : 0;
@@ -247,7 +247,7 @@ table.data-inbox tbody tr td.ip
 
 /* Comment ****************************************************************************************/
 
-#part-post-comment table.data-inbox tr .content
+#part-post-comment table.data-inbox tbody tr .content
 {
 	border-left                      : 1px solid #E3E3DE;
 }
@@ -282,7 +282,7 @@ table.data-inbox tbody tr td.ip
 	font-family                      : 돋움, Dotum, sans-serif;
 }
 
-#part-post-comment table.data-inbox tr .delete
+#part-post-comment table.data-inbox tbody tr .delete
 {
 	border-left                      : 1px solid #E3E3DE;
 	width                            : 20px;
@@ -300,12 +300,12 @@ table.data-inbox tbody tr td.ip
 	top                              : 97px !important;
 }
 
-#part-post-notify table.data-inbox tr .content
+#part-post-notify table.data-inbox tbody tr .content
 {
 	border-left                      : 1px solid #E3E3DE;
 }
 
-#part-post-notify table.data-inbox tr .delete
+#part-post-notify table.data-inbox tbody tr .delete
 {
 	border-left                      : 1px solid #E3E3DE;
 	width                            : 20px;
@@ -358,13 +358,13 @@ table.data-inbox tbody tr td.ip
 
 /* Trackback **************************************************************************************/
 
-#part-post-trackback table.data-inbox tr .category,
-#part-post-trackback table.data-inbox tr .title
+#part-post-trackback table.data-inbox tbody tr .category,
+#part-post-trackback table.data-inbox tbody tr .title
 {
 	border-left                      : 1px solid #E3E3DE;
 }
 
-#part-post-trackback table.data-inbox tr .delete
+#part-post-trackback table.data-inbox tbody tr .delete
 {
 	border-left                      : 1px solid #E3E3DE;
 	width                            : 20px;
@@ -506,8 +506,8 @@ table.data-inbox tbody tr td.ip
 	margin-left                      : 20px;
 }
 
-#part-post-trash table.data-inbox tr .content,
-#part-post-trash table.data-inbox tr .delete
+#part-post-trash table.data-inbox tbody tr .content,
+#part-post-trash table.data-inbox tbody tr .delete
 {
 	border-left                      : 1px solid #E3E3DE;
 }

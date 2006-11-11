@@ -19,9 +19,9 @@
 	margin-bottom                    : 100px;
 }
 
-#part-link-list table.data-inbox tr .address,
-#part-link-list table.data-inbox tr .edit,
-#part-link-list table.data-inbox tr .delete
+#part-link-list table.data-inbox tbody tr .address,
+#part-link-list table.data-inbox tbody tr .edit,
+#part-link-list table.data-inbox tbody tr .delete
 {
 	border-left                      : 1px solid #E3E3DE;
 }
