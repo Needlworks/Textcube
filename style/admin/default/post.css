@@ -8,28 +8,24 @@
 }
 
 /* table header */
-table.data-inbox tbody tr .date
+table.data-inbox tr .date
 {
-	border-left                      : 1px solid #E3E3DE;
 	width                            : 60px;
 }
 
-table.data-inbox tbody tr .name
+table.data-inbox tr .name
 {
-	border-left                      : 1px solid #E3E3DE;
 	width                            : 150px;
 }
 
-table.data-inbox tbody tr .site
+table.data-inbox tr .site
 {
-	border-left                      : 1px solid #E3E3DE;
 	width                            : 180px;
 }
 
-table.data-inbox tbody tr .ip
+table.data-inbox tr .ip
 {
-	border-left                      : 1px solid #E3E3DE;
-	width                            : 120px;
+	width                            : 125px;
 }
 
 table.data-inbox thead tr th.ip
@@ -38,6 +34,14 @@ table.data-inbox thead tr th.ip
 }
 
 /* table body */
+table.data-inbox tbody tr .date,
+table.data-inbox tbody tr .name,
+table.data-inbox tbody tr .site,
+table.data-inbox tbody tr .ip
+{
+	border-left                      : 1px solid #E3E3DE;
+}
+
 table.data-inbox tbody tr td.date,
 table.data-inbox tbody tr td.ip
 {
@@ -101,27 +105,18 @@ table.data-inbox tbody tr td.ip
 /* Post *******************************************************************************************/
 
 /* table header */
-#part-post-list table.data-inbox tbody tr .status
+#part-post-list table.data-inbox tr .status
 {
-	border-left                      : 1px solid #E3E3DE;
 	width                            : 51px;
 }
 
-#part-post-list table.data-inbox tbody tr .syndicate
+#part-post-list table.data-inbox tr .syndicate
 {
-	border-left                      : 1px solid #E3E3DE;
 	width                            : 13px;
 }
 
-#part-post-list table.data-inbox tbody tr .category,
-#part-post-list table.data-inbox tbody tr .title
+#part-post-list table.data-inbox tr .protect
 {
-	border-left                      : 1px solid #E3E3DE;
-}
-
-#part-post-list table.data-inbox tbody tr .protect
-{
-	border-left                      : 1px solid #E3E3DE;
 	padding-right                    : 0;
 	width                            : 37px;
 }
@@ -157,6 +152,15 @@ table.data-inbox tbody tr td.ip
 }
 
 /* table body */
+#part-post-list table.data-inbox tbody tr .status,
+#part-post-list table.data-inbox tbody tr .syndicate,
+#part-post-list table.data-inbox tbody tr .category,
+#part-post-list table.data-inbox tbody tr .title,
+#part-post-list table.data-inbox tbody tr .protect
+{
+	border-left                      : 1px solid #E3E3DE;
+}
+
 #part-post-list table.data-inbox tbody tr td.status
 {
 	padding-right                    : 5px;
@@ -247,13 +251,19 @@ table.data-inbox tbody tr td.ip
 
 /* Comment ****************************************************************************************/
 
-#part-post-comment table.data-inbox tbody tr .content
+#part-post-comment table.data-inbox tr .delete
 {
-	border-left                      : 1px solid #E3E3DE;
+	width                            : 12px;
+}
+
+#part-post-comment table.data-inbox thead tr th.delete span
+{
+	display                          : none;
 }
 
 #part-post-comment table.data-inbox tbody tr td.content
 {
+	border-left                      : 1px solid #E3E3DE;
 	text-align                       : left;
 }
 
@@ -285,12 +295,6 @@ table.data-inbox tbody tr td.ip
 #part-post-comment table.data-inbox tbody tr .delete
 {
 	border-left                      : 1px solid #E3E3DE;
-	width                            : 20px;
-}
-
-#part-post-comment table.data-inbox thead tr th.delete span
-{
-	display                          : none;
 }
 
 /* Notify *****************************************************************************************/
@@ -299,16 +303,9 @@ table.data-inbox tbody tr td.ip
 {
 	top                              : 97px !important;
 }
-
-#part-post-notify table.data-inbox tbody tr .content
+#part-post-notify table.data-inbox tr .delete
 {
-	border-left                      : 1px solid #E3E3DE;
-}
-
-#part-post-notify table.data-inbox tbody tr .delete
-{
-	border-left                      : 1px solid #E3E3DE;
-	width                            : 20px;
+	width                            : 12px;
 }
 
 #part-post-notify table.data-inbox thead tr th.delete span
@@ -324,6 +321,7 @@ table.data-inbox tbody tr td.ip
 
 #part-post-notify table.data-inbox tbody tr td.content
 {
+	border-left                      : 1px solid #E3E3DE;
 	text-align                       : left;
 }
 
@@ -351,6 +349,11 @@ table.data-inbox tbody tr td.ip
 	display                          : none;
 }
 
+#part-post-notify table.data-inbox tbody tr .delete
+{
+	border-left                      : 1px solid #E3E3DE;
+}
+
 #part-post-notify #search-form
 {
 	top                              : 90px;
@@ -358,16 +361,16 @@ table.data-inbox tbody tr td.ip
 
 /* Trackback **************************************************************************************/
 
+#part-post-trackback table.data-inbox tr .delete
+{
+	width                            : 12px;
+}
+
+#part-post-trackback table.data-inbox tbody tr .delete,
 #part-post-trackback table.data-inbox tbody tr .category,
 #part-post-trackback table.data-inbox tbody tr .title
 {
 	border-left                      : 1px solid #E3E3DE;
-}
-
-#part-post-trackback table.data-inbox tbody tr .delete
-{
-	border-left                      : 1px solid #E3E3DE;
-	width                            : 20px;
 }
 
 #part-post-trackback table.data-inbox thead tr th.delete span
@@ -506,36 +509,26 @@ table.data-inbox tbody tr td.ip
 	margin-left                      : 20px;
 }
 
-#part-post-trash table.data-inbox tbody tr .content,
-#part-post-trash table.data-inbox tbody tr .delete
-{
-	border-left                      : 1px solid #E3E3DE;
-}
-
 /* table header */
-#part-post-trash table.data-inbox thead tr th.delete
+#part-post-trash table.data-inbox tr .revert,
+#part-post-trash table.data-inbox tr .delete
 {
-	width                            : 20px;
+	width                            : 12px;
 }
 
-#part-post-trash table.data-inbox thead tr th.delete span
-{
-	display                          : none;
-}
-
-#part-post-trash table.data-inbox thead tr th.revert
-{
-	width                            : 20px;
-}
-
+#part-post-trash table.data-inbox thead tr th.delete span,
 #part-post-trash table.data-inbox thead tr th.revert span
 {
 	display                          : none;
 }
 
 /* table body */
-#part-post-trash table.data-inbox tbody tr td.content
+#part-post-trash table.data-inbox tbody tr .category,
+#part-post-trash table.data-inbox tbody tr .title,
+#part-post-trash table.data-inbox tbody tr .revert,
+#part-post-trash table.data-inbox tbody tr .delete
 {
+	border-left                      : 1px solid #E3E3DE;
 	text-align                       : left;
 }
 
