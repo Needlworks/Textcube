@@ -29,7 +29,7 @@ function AD_Visitor_Default()
 	requireComponent( "Tattertools.Model.Statistics");
 	requireComponent('Tattertools.Function.misc');
 	$stats = Statistics::getStatistics($owner);
-	$date = isset($_GET['date']) ? $_GET['date'] : '';
+	$date = isset($_GET['date']) ? $_GET['date'] : date('Ym', strtotime("now"));
 ?>
 <!-- This tab space below this line is inserted for the indentation of original admin page -->
 						<script type="text/javascript">
