@@ -38,7 +38,7 @@ if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0))
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Tattertools 1.0 Setup</title>
+<title><?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?> Setup</title>
 <script  type="text/javascript">
 //<![CDATA[
 	function current(){ 
@@ -75,7 +75,7 @@ Select Language : <select name="Lang" id = "Lang" onchange= "current();" >
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Tattertools 1.0 Setup</title>
+<title><?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?> Setup</title>
 <link rel="stylesheet" media="screen" type="text/css" href="style/setup/style.css" />
 <script type="text/javascript">
 //<![CDATA[
@@ -112,7 +112,7 @@ Select Language : <select name="Lang" id = "Lang" onchange= "current();" >
 <body onload="init()">
 <div id="container">
   <form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-  <div id="title"><h1><img src="style/setup/title.gif" width="250" height="54" alt="Tattertools Setup" /></h1></div>
+  <div id="title"><h1><img src="style/setup/title.gif" width="250" height="54" alt="<?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?> Setup" /></h1></div>
   <input type="hidden" name="Lang" id="Lang" value="<?php echo $baseLanguage;?>" />
 <?php
 if (empty($_POST['step'])) {
@@ -1680,7 +1680,7 @@ function testMyself($host, $path, $port) {
         return false;
     fputs($socket, "GET $path HTTP/1.1\r\n");
     fputs($socket, "Host: $host\r\n");
-    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Tattertools 1.0 Setup)\r\n");
+    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Tattertools 1.1 Setup)\r\n");
     fputs($socket, "Connection: close\r\n");
     fputs($socket, "\r\n");
     $response = '';
