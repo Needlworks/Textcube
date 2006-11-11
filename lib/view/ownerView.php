@@ -118,13 +118,13 @@ function printOwnerEditorScript($entryId = false) {
 				switch(align)
 				{
 					case "1L":
-						var prefix = "<img class=\"tatterImageLeft\" src=\"" + src + "\" " + value[1] + " longdesc=\"1L|" + value[0] + "|" + attributes + "|" + catption + "\" />";
+						var prefix = "<img class=\"tatterImageLeft\" src=\"" + src + "\" " + value[1] + " longdesc=\"1L|" + value[0] + "|" + attributes + "|" + caption + "\" />";
 						break;
 					case "1C":
-						var prefix = "<img class=\"tatterImageCenter\" src=\"" + src + "\" " + value[1] + " longdesc=\"1C|" + value[0] + "|" + attributes + "|" + catption + "\" />";
+						var prefix = "<img class=\"tatterImageCenter\" src=\"" + src + "\" " + value[1] + " longdesc=\"1C|" + value[0] + "|" + attributes + "|" + caption + "\" />";
 						break;
 					case "1R":
-						var prefix = "<img class=\"tatterImageRight\" src=\"" + src + "\" " + value[1] + " longdesc=\"1R|" + value[0] + "|" + attributes + "|" + catption + "\" />";
+						var prefix = "<img class=\"tatterImageRight\" src=\"" + src + "\" " + value[1] + " longdesc=\"1R|" + value[0] + "|" + attributes + "|" + caption + "\" />";
 						break;
 				}
 				TTCommand("Raw", prefix);
