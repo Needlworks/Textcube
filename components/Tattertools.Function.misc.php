@@ -230,7 +230,7 @@ class misc {
 		return DBQuery::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".mysql_tt_escape_string($name)."'");
 	}
 	
-	function getUserSettingRowsPerPage() {
+	function getUserSettingRowsPerPage($default = null) {
 		global $database, $owner;
 		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE user = $owner AND name = 'rowsPerPage'");
 		return ($value === null) ? $default : $value;
