@@ -25,7 +25,8 @@
 */
 function CT_Statistics_Default($target) {
 	global $owner;
-	$stats = getStatistics($owner);
+	requireComponent( "Tattertools.Model.Statistics");
+	$stats = Statistics::getStatistics($owner);
 	
 	$target .= '<ul class="CT_Statistics_Default">';
 	$target .= '<li class="TotalCount"><h4>Total Counts</h4><div style="text-align:right; width:100%">';
