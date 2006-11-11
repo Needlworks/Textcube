@@ -10,7 +10,8 @@ $service['type'] = 'path';
 $service['domain'] = 'domain.ext';
 $service['path'] = '/path1/path2';
 $service['skin'] = 'skin_name';
-$service['timeout'] = 3600;
-$service['disableEolinSuggestion'] = false;
-$service['useEncodedURL'] = false;
-$service['adminSkin'] = 'default';
+$service['timeout'] = 3600; // Session timeout limit
+$service['disableEolinSuggestion'] = false; // Disable auto-suggestion using EOLIN server. 
+//Usually it searches local tag by default.
+$service['useEncodedURL'] = false; // URL encoding using RFC1738
+$serviceURL = ''; // Useful if using other web program under the same domain
