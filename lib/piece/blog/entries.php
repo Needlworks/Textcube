@@ -90,7 +90,7 @@ foreach ($entries as $entry) {
 		dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $protectedEntryView);
 		dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published'])), $protectedEntryView);
 		dress('article_password', "entry{$entry['id']}password", $protectedEntryView);
-		dress('article_dissolve', "reloadEntry({$entry['id']})", $protectedEntryView);
+		dress('article_dissolve', "reloadEntry({$entry['id']});return false;", $protectedEntryView);
 		if (isset($_POST['partial']))
 			$entriesView .= $protectedEntryView;
 		else
