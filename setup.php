@@ -1427,9 +1427,9 @@ ini_set('display_errors', 'off');
         $fp = fopen($filename, 'w+');
         if ($fp) {
             fwrite($fp, $_POST['type'] == 'path' ?
-"<IfModule mod_url.c>
-CheckURL Off
-</ifModule>
+"#<IfModule mod_url.c>
+#CheckURL Off
+#</ifModule>
 RewriteEngine On
 RewriteBase $path/
 RewriteCond %{ENV:REDIRECT_SURI} !^$
@@ -1456,9 +1456,9 @@ RewriteRule ^[[:alnum:]]+/+(.+)/[0-9]+$ blog/$1/item.php [E=SURI:1,L]
 RewriteRule ^[[:alnum:]]+/+(.+)$ blog/$1/index.php [E=SURI:1,L]
 "
                     :
-"<IfModule mod_url.c>
-CheckURL Off
-</IfModule>
+"#<IfModule mod_url.c>
+#CheckURL Off
+#</IfModule>
 RewriteEngine On
 RewriteBase $path/
 RewriteCond %{ENV:REDIRECT_SURI} !^$
