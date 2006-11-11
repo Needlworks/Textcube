@@ -1130,6 +1130,8 @@ function bindTags($id, $content) {
 	for ($no = 0; (($start = strpos($content, '[#M_')) !== false) && (($end = strpos($content, '_M#]', $start + 4)) !== false); $no++) {
 		$prefix = substr($content, 0, $start);
 		list($more, $less, $full) = explode('|', substr($content, $start + 4, $end - $start - 4), 3);
+		if (strlen($more) == 0) $more = 'more..';
+		if (strlen($less) == 0) $less = 'less..';
 		$more2 = str_replace("'", "\\'", str_replace("\\", "\\\\", $more));
 		$less2 = str_replace("'", "\\'", str_replace("\\", "\\\\", $less));
 		$postfix = substr($content, $end + 4);

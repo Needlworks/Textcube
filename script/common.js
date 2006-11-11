@@ -811,6 +811,9 @@ function toggleMoreLess(obj, num, txtMore, txtLess)
 	oMore = document.getElementById('more' + num);
 	oContent = document.getElementById('content' + num);
 	
+	if (txtMore.Length == 0) txtMore = 'more...';
+	if (txtLess.Length == 0) txtLess = 'less...';
+	
 	if (oContent.style.display == 'none') {
 		oContent.style.display = 'block';
 		oMore.className = "moreless_top";
