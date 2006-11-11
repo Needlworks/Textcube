@@ -540,7 +540,7 @@ if ($dh = opendir($skinPath)) {
 												<dt><label for="bgColorOnTree"><?php echo _t('선택되지 않은 배경색');?></label></dt>
 												<dd><input type="text" id="bgColorOnTree" class="input-text" name="bgColorOnTree" value="<?php echo $skinSetting['bgColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
-											<dl id="label-langth-line" class="line">
+											<dl id="label-length-line" class="line">
 												<dt><label for="labelLengthOnTree"><?php echo _t('분류 길이');?></label></dt>
 												<dd><?php echo _f('분류를 %1 글자로 표시합니다.', '<input type="text" id="labelLengthOnTree" class="input-text" name="labelLengthOnTree" value="' . $skinSetting['labelLengthOnTree'] . '" size="3" maxlength="6" onchange="changeTreeStyle()" />');?></dd>
 											</dl>
