@@ -883,12 +883,14 @@ table.data-inbox tbody tr td.inactive-class
 
 .attention
 {
-	border                           : 1px soliD #FD2323;
-	color                            : #000000;
+	border                           : 1px solid #FD2323;
+	color                            : #000;
 	display                          : block;
 	font-weight                      : bold;
 	padding                          : 3px;
 	text-align                       : center;
+	height                           : 20px;
+	vertical-align                   : middle;
 }
 
 .attention span
@@ -914,11 +916,11 @@ table.data-inbox tbody tr td.inactive-class
 
 .input-button
 {
-	background-color                 : #FFFFFF;
+	background-color                 : #fff;
 	background-image                 : url("./image/bg_button.png");
 	background-position              : left top;
 	background-repeat                : repeat-x;
-	border                           : 1px solid #777777;
+	border                           : 1px solid #777;
 	cursor                           : pointer;
 	font-size                        : 1em;
 	height                           : 1.8em;
