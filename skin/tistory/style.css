@@ -329,7 +329,7 @@ textarea        { border:1px solid #aaa;}
 
 
 #sidebar .archive              { font-family:verdana;}
-#sidebar .calender             { font-family:verdana;}
+#sidebar .calendar             { font-family:verdana;}
 
 #sidebar .counter              { font:0.85em Verdana, Helvetica, Arial, Gulim, sans-serif;  padding:5px 0;  margin:10px 0;  text-align:center;  background-color:#eee;  letter-spacing:0;}
 #sidebar .counter li           { background:none;  display:inline;  padding:0 5px;}
