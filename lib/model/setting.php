@@ -12,7 +12,7 @@ function getServiceSetting($name, $default = null) {
 function setServiceSetting($name, $value) {
 	global $database;
 	$name = mysql_tt_escape_string(mysql_lessen($name, 32));
-	$value = mysql_tt_escape_string(msyql_lessen($value, 255));
+	$value = mysql_tt_escape_string(mysql_lessen($value, 255));
 	return DBQuery::execute("REPLACE INTO {$database['prefix']}ServiceSettings VALUES('$name', '$value')");
 }
 
