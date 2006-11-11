@@ -84,7 +84,7 @@ function printOwnerEditorScript($entryId = false) {
 		var value = oSelect.options[oSelect.selectedIndex].value.split("|");
 		var result_w = new RegExp("width=['\"]?(\\d+)").exec(value[1]);
 		var result_h = new RegExp("height=['\"]?(\\d+)").exec(value[1]);
-		catption = (caption == undefined) ? "" : caption.replaceAll("|", "");
+		caption = (typeof caption == "undefined") ? "" : caption.replaceAll("|", "");
 		if(result_w && result_h)
 		{
 			width = result_w[1];
