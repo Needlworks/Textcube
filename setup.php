@@ -112,7 +112,7 @@ Select Language : <select name="Lang" id = "Lang" onchange= "current();" >
 <body onload="init()">
 <div id="container">
   <form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-  <div id="title"><h1><img src="style/setup/title.gif" width="204" height="44" alt="Tattertools Setup" /></h1></div>
+  <div id="title"><h1><img src="style/setup/title.gif" width="250" height="54" alt="Tattertools Setup" /></h1></div>
   <input type="hidden" name="Lang" id="Lang" value="<?php echo $baseLanguage;?>" />
 <?php
 if (empty($_POST['step'])) {
