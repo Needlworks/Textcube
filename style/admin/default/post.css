@@ -99,7 +99,7 @@ table.data-inbox tbody tr td.ip
 	background-image                 : url("./image/icon_protectedsetting_single.gif");
 	background-position              : left 1px;
 	background-repeat                : no-repeat;
-	padding                          : 3px 0 1px 28px;
+	padding                          : 3px 0 1px 29px;
 }
 
 /* Post *******************************************************************************************/
@@ -164,6 +164,13 @@ table.data-inbox tbody tr td.ip
 #part-post-list table.data-inbox tbody tr td.status
 {
 	padding-right                    : 5px;
+}
+
+#part-post-list table.data-inbox tbody tr td.category a.uncategorized,
+#part-post-list table.data-inbox tbody tr.keyword-line td.category a,
+#part-post-list table.data-inbox tbody tr.notice-line td.category a
+{
+	color                            : #BCBCBC;
 }
 
 #part-post-list table.data-inbox tbody tr td.trackback,
@@ -525,6 +532,7 @@ table.data-inbox tbody tr td.ip
 /* table body */
 #part-post-trash table.data-inbox tbody tr .category,
 #part-post-trash table.data-inbox tbody tr .title,
+#part-post-trash table.data-inbox tbody tr .content,
 #part-post-trash table.data-inbox tbody tr .revert,
 #part-post-trash table.data-inbox tbody tr .delete
 {
@@ -586,5 +594,5 @@ table.data-inbox tbody tr td.ip
 	padding                          : 0 5px;
 	position                         : absolute;
 	right                            : 25px;
-	bottom                           : 95px;
+	bottom                           : 118px;
 }

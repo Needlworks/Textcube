@@ -40,6 +40,18 @@
 
 /* Etc *******************************************************************************************/
 
+.attention
+{
+	height                           : 20px;
+	line-height                      : 25px;
+	overflow                         : hidden;
+}
+
+.attention span
+{
+	background-position              : left top;
+}
+
 .input-button
 {
 	height                           : 1.75em;
