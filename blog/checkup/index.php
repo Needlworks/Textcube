@@ -394,7 +394,7 @@ if (preg_match('@\(thumbnail\)/\(\[0\-9\]\+/\.\+\) cache/\$1/\$2@', $content) ==
 		echo ': <span style="color:#33CC33;">', _text('실패'), '</span></li>';
 	else {
 		$pos = strpos($content, $findStr) + strlen($findStr);
-		while (((bin2hex($content[$pos]) == '0d') || (bin2hex($content[$pos]) == '0a')) && (strlen($content) > $pos)) $pos++;
+		while (((bin2hex($content[$pos]) == '0d') || (bin2hex($content[$pos]) == '0a') || (bin2hex($content[$pos]) == '20')) && (strlen($content) > $pos)) $pos++;
 		$content = substr($content, 0, $pos) . $insertLine . substr($content,$pos);
 		$fp = fopen($filename, "w");
 		fwrite($fp, $content);
