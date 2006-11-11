@@ -16,8 +16,8 @@
 
 $images = explode('*!',$_GET['i']);
 $imageStr = '';
-define('ROOT', '../../../');
-include(ROOT.'/lib/include.php');
+define('ROOT', '../../..');
+require ROOT . '/lib/include.php';
 foreach($images as $value) {
 	$imageStr .= $value.'*!';
 }
