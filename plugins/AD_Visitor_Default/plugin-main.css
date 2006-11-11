@@ -19,12 +19,14 @@
 #statistics-counter-inbox
 {
 	background-color                 : #EFEFEF;
+	margin-left                      : 70px;
 	padding                          : 10px;
 }
 
 #statistics-counter-inbox .label
 {
 	display                          : block;
+	font-weight                      : bold;
 	text-align                       : center;
 }
 
@@ -35,7 +37,7 @@
 
 #total
 {
-	color                            : #FF0000;
+	color                            : #000000;
 	display                          : block;
 	font-family                      : Arial, Tahoma, Verdana, sans-serif;
 	font-size                        : 300%;
@@ -49,6 +51,7 @@
 	background-color                 : #FFFFFF;
 	border                           : 1px solid #999999;
     display                          : block;
+    line-height                      : 2em;
 	margin                           : 0 auto;
 	padding                          : 3px 5px;
 	width                            : 36px;

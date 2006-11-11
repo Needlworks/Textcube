@@ -69,9 +69,9 @@ function AD_Subscription_Default()
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
 									<tr>
-										<th class="number"><span class="text">순위</span></th>
+										<th class="rank"><span class="text">순위</span></th>
 										<th class="aggregator"><span class="text">구독기</span></th>
-										<th class="number"><span class="text">구독자 수</span></th>
+										<th class="count"><span class="text">구독자 수</span></th>
 										<th class="subscribed"><span class="text">구독 시작일</span></th>
 										<th class="referred"><span class="text">최근 구독일</span></th>
 									</tr>
@@ -90,9 +90,9 @@ function AD_Subscription_Default()
 			echo '<span class="robot">'.$agent.'</span>';
 		else echo $agent;
 ?></td>
-										<td class="number"><?php echo $info["subscribers"];?></td>
+										<td class="count"><?php echo $info["subscribers"];?>명</td>
 										<td class="subscribed"><?php echo Timestamp::formatDate($info["subscribed"]);?></td>
-										<td class="subscribed"><?php echo Timestamp::formatDate($info["referred"]);?></td>
+										<td class="referred"><?php echo Timestamp::formatDate($info["referred"]);?></td>
 									</tr>
 <?php
 		$i++;

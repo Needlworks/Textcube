@@ -4,9 +4,7 @@
 
 #part-statistics-total
 {
-	border                           : 1px solid #000000;
 	float                            : left;
-	padding                          : 5px 0;
 	width                            : 29%;
 }
 
@@ -25,7 +23,8 @@
 	background-color                 : #F3F3F1;
 	border                           : 1px solid #D2D2CC;
 	color                            : #333333;
-	padding                          : 1px 0;
+	height                           : 2.5em;
+	padding                          : 6px 0 0 0;
 	position                         : static;
 	text-align                       : center;
 	text-align                       : center;
@@ -52,15 +51,25 @@
 	width                            : auto;
 }
 
-#part-statistics-rank table.data-inbox tr td.address
+#part-statistics-rank table.data-inbox tr th,
+#part-statistics-rank table.data-inbox tr tr
 {
-	font-family                      : "Courier New", Courier, monospace;
-	overflow                         : hidden;
+	padding-left                     : 5px;
+	padding-right                    : 5px;
+}
+
+#part-statistics-rank table.data-inbox tr th.rank
+{
+	width                            : 50px;
+}
+
+#part-statistics-rank table.data-inbox tr tr.aggregator
+{
 	text-align                       : left;
 }
 
 #part-statistics-rank .data-subbox
 {
 	height                           : 1.8em;
-	width                            : 69% !important%;
+	width                            : 69% !important;
 }
