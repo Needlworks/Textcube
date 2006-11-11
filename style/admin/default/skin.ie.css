@@ -67,7 +67,7 @@
 	margin-left                      : 5px;
 }
 
-#sidebar-element-box fieldset ul
+#sidebar-element-box fieldset ul.module-list
 {
 	height                           : 418px;
 	overflow-y                       : scroll;

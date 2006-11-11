@@ -93,26 +93,36 @@
 
 #part-plugin-list table.data-inbox tr .version
 {
+	border-left                      : 1px solid #E3E3DE;
 	width                            : 60px;
 }
 
 #part-plugin-list table.data-inbox tr .scope
 {
+	border-left                      : 1px solid #E3E3DE;
 	width                            : 60px;
+}
+
+#part-plugin-list table.data-inbox tr .explain
+{
+	border-left                      : 1px solid #E3E3DE;
 }
 
 #part-plugin-list table.data-inbox tr .maker
 {
+	border-left                      : 1px solid #E3E3DE;
 	width                            : 100px;
 }
 
 #part-plugin-list table.data-inbox tr .config
 {
+	border-left                      : 1px solid #E3E3DE;
 	width                            : 100px;
 }
 
 #part-plugin-list table.data-inbox tr .status
 {
+	border-left                      : 1px solid #E3E3DE;
 	width                            : 70px;
 }
 

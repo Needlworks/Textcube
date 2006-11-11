@@ -55,16 +55,11 @@
 #part-statistics-log .data-subbox
 {
 	height                           : auto;
-	width                            : 660px;
+	width                            : 100%;
 }
 
 #page-navigation
 {
 	margin                           : 10px 0 0 0;
 	width                            : auto !important;
-}
-
-.page-count
-{
-
 }

@@ -19,6 +19,13 @@
 	margin-bottom                    : 100px;
 }
 
+#part-link-list table.data-inbox tr .address,
+#part-link-list table.data-inbox tr .edit,
+#part-link-list table.data-inbox tr .delete
+{
+	border-left                      : 1px solid #E3E3DE;
+}
+	
 /* table header */
 #part-link-list table.data-inbox thead tr th.homepage
 {

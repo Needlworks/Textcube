@@ -2,6 +2,11 @@
 
 /* List ******************************************************************************************/
 
+#part-link-list table.data-inbox tbody tr td.edit
+{
+	width                            : 10px;
+}
+
 #part-link-list table.data-inbox tbody tr td.delete
 {
 	width                            : 12px;
