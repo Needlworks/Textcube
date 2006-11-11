@@ -38,7 +38,7 @@ if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0))
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?> Setup</title>
+<title><?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?> - Setup</title>
 <script  type="text/javascript">
 //<![CDATA[
 	function current(){ 
@@ -75,7 +75,7 @@ Select Language : <select name="Lang" id = "Lang" onchange= "current();" >
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?> Setup</title>
+<title><?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?> - Setup</title>
 <link rel="stylesheet" media="screen" type="text/css" href="style/setup/style.css" />
 <script type="text/javascript">
 //<![CDATA[
