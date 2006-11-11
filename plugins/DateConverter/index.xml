@@ -77,9 +77,9 @@
       <window width="500" height="310" />
       <fieldset legend="Selct default language for displaying dates.">
         <field title="Default Language : " name="language" type="select">
-          <op value="english">english</op>
-          <op value="japanese">japanese</op>
-          <op value="korean" checked="checked">korean</op>
+          <op value="english">English</op>
+          <op value="japanese">Japanese</op>
+          <op value="korean" checked="checked">Korean</op>
           <caption>
             <![CDATA[
 	<kbd>%Y</kbd> = the 4-digit year.<br />
