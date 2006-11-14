@@ -316,9 +316,10 @@ if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSett
 if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings blogLanguage")) {
 	$changed = true;
 	echo '<li>', _text('설정 테이블에 블로그 언어 설정을 위한 필드를 추가합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD blogLanguage varchar(5) not null default 'en' after language"))
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD blogLanguage varchar(5) not null default 'en' after language")) {
+		DBQuery::execute("UPDATE {$database['prefix']}BlogSettings SET blogLanguage = language");
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
+	} else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 

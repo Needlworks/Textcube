@@ -8,7 +8,7 @@ Locale::setDirectory(ROOT . '/language');
 Locale::set(isset($blog['language']) ? $blog['language'] : $service['language']);
 
 if (!isset($blog['blogLanguage'])) {
-	$blog['blogLanguage'] = $__locale['locale'];
+	$blog['blogLanguage'] = $service['language'];
 }
 
 if (is_file($__locale['directory'] . '/' . $blog['blogLanguage'] . ".php")) {

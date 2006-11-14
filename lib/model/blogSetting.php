@@ -264,7 +264,7 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 	} 
 	$id = mysql_insert_id();
 	
-	$result = mysql_query("INSERT INTO `{$database['prefix']}BlogSettings` (owner, name, language) VALUES ($id, '$identify', '{$service['language']}')");
+	$result = mysql_query("INSERT INTO `{$database['prefix']}BlogSettings` (owner, name, language, blogLanguage) VALUES ($id, '$identify', '{$service['language']}', '{$service['language']}')");
 	if (!$result || (mysql_affected_rows() == 0)) {
 		mysql_query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
 		return 12;
