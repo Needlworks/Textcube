@@ -740,6 +740,11 @@ h3
 	width                            : 220px !important;
 }
 
+#propertyObject_chunk
+{
+	height                           : 200px;
+}
+
 /* tag and location -----------------------------------------------------------------------------*/
 #taglocal-section
 {
