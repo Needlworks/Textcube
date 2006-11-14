@@ -266,7 +266,7 @@ function getUpperView($paging) {
 				var password = document.getElementById("entry" + id + "password");
 				if (!password)
 					return;
-				document.cookie = "GUEST_PASSWORD=" + escape(password.value) + ";path=<?php echo $blogURL;?>";
+				document.cookie = "GUEST_PASSWORD=" + escape(password.value) + ";path=<?php echo $service['path'];?>";
 
 				window.location.href = window.location.href;				
 			}
