@@ -1480,14 +1480,17 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 			break;
 		case 'swf':
 			$id = md5($url) . rand(1, 10000);
+			if (($useAbsolutePath) && (strncasecmp($url, 'http://', 7) == 0)) $url = substr($url, 7);
 			return "<span id=\"$id\"><script type=\"text/javascript\">writeCode(getEmbedCode('$url','300','400','$id','#FFFFFF',''), \"$id\");</script></span>";
 			break;
 		case 'wmv':case 'avi':case 'asf':case 'mpg':case 'mpeg':
 			$id = md5($url) . rand(1, 10000);
+			if (($useAbsolutePath) && (strncasecmp($url, 'http://', 7) == 0)) $url = substr($url, 7);
 			return "<span id=\"$id\"><script type=\"text/javascript\">writeCode('<embed $property autostart=\"0\" src=\"$url\"></embed>', \"$id\")</script></span>";
 			break;
 		case 'mp3':case 'mp2':case 'wma':case 'wav':case 'mid':case 'midi':
 			$id = md5($url) . rand(1, 10000);
+			if (($useAbsolutePath) && (strncasecmp($url, 'http://', 7) == 0)) $url = substr($url, 7);
 			return "<span id=\"$id\"><script type=\"text/javascript\">writeCode('<embed $property autostart=\"0\" height=\"45\" src=\"$url\"></embed>', \"$id\")</script></span>";
 			break;
 		case 'mov':
