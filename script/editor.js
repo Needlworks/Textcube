@@ -16,7 +16,7 @@ var TTEditor = function() {
 	this.propertyCurrentImage = "";
 	this.propertyOffsetTop = null;
 
-	this.propertyNames = ["propertyHyperlink", "propertyInsertObject", "propertyImage1", "propertyImage2", "propertyImage3", "propertyObject", "propertyObject1", "propertyObject2", "propertyiMazing", "propertyGallery", "propertyJukebox", "propertyEmbed", "propertyFlash", "propertyMoreLess"];
+	this.propertyNames = ["propertyHyperLink", "propertyInsertObject", "propertyImage1", "propertyImage2", "propertyImage3", "propertyObject", "propertyObject1", "propertyObject2", "propertyiMazing", "propertyGallery", "propertyJukebox", "propertyEmbed", "propertyFlash", "propertyMoreLess"];
 
 	// 커서가 있는곳의 스타일
 	this.isBold = false;

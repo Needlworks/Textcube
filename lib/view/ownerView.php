@@ -963,8 +963,8 @@ function printEntryEditorProperty($alt=NULL) {
 												
 											<div id="propertyHyperLink" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyHyperlink-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
-													<label for="propertyHyperlink-fix-position"><?php echo _t('위치 고정');?></label>
+													<input type="checkbox" class="checkbox" id="propertyHyperLink-fix-position" onclick="editor.setPropertyPosition(1)"<?=$fixPosition?' checked="checked"' : ''?>/>
+													<label for="propertyHyperLink-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('하이퍼링크');?></h4>
 												
