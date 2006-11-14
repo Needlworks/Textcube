@@ -237,8 +237,8 @@ function getURLForFilter($value) {
 function getTrackbackCount($owner, $entryId = null) {
 	global $database;
 	if (is_null($entryId))
-		return fetchQueryCell("SELECT SUM(trackbacks) FROM `{$database['prefix']}Entries` WHERE `owner` = $owner");
-	return fetchQueryCell("SELECT `trackbacks` FROM `{$database['prefix']}Entries` WHERE `owner` = $owner AND `id` = $entryId");
+		return fetchQueryCell("SELECT SUM(trackbacks) FROM {$database['prefix']}Entries WHERE owner = $owner  AND isFiltered = 0" );
+	return fetchQueryCell("SELECT trackbacks FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entryId  AND isFiltered = 0");
 }
 
 

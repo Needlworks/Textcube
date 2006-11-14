@@ -657,8 +657,8 @@ $owner, NULL , '', " . $entryId . ", $parentId, '$child_name', '', '$child_homep
 function getCommentCount($owner, $entryId = null) {
 	global $database;
 	if (is_null($entryId))
-		return fetchQueryCell("SELECT SUM(comments) FROM {$database['prefix']}Entries WHERE owner = $owner");
-	return fetchQueryCell("SELECT comments FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entryId");
+		return fetchQueryCell("SELECT SUM(comments) FROM {$database['prefix']}Entries WHERE owner = $owner AND isFiltered = 0");
+	return fetchQueryCell("SELECT comments FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entryId AND isFiltered = 0");
 }
 
 function getCommentCountPart($commentCount, &$skin) {

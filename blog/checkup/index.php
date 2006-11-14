@@ -216,7 +216,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings publishEoli
 if (!DBQuery::queryExistence("DESC {$database['prefix']}Trackbacks isFiltered")) {
 	$changed = true;
 	echo '<li>', _text('걸린글 테이블에 광고 및 스팸 분류를 위한 휴지통 필드를 추가합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks ADD isFiltered INT(1) DEFAULT 0 NOT NULL AFTER written"))
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks ADD isFiltered INT(11) DEFAULT 0 NOT NULL AFTER written"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
@@ -224,7 +224,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Trackbacks isFiltered"))
 if (!DBQuery::queryExistence("DESC {$database['prefix']}Comments isFiltered")) {
 	$changed = true;
 	echo '<li>', _text('덧글및 방명록 테이블에 광고 및 스팸 분류를 위한 휴지통 필드를 추가합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD isFiltered INT(1) DEFAULT 0 NOT NULL AFTER written"))
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD isFiltered INT(11) DEFAULT 0 NOT NULL AFTER written"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
