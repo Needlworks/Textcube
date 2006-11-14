@@ -208,7 +208,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings archivesOnP
 if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings publishEolinSyncOnRSS")) {
 	$changed = true;
 	echo '<li>', _text('블로그 설정 테이블에 RSS 공개 정도 설정 필드를 추가합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD publishEolinSyncOnRSS INT(1) DEFAULT 0 NOT NULL AFTER publishWholeOnRSS"))
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD publishEolinSyncOnRSS INT(1) DEFAULT 1 NOT NULL AFTER publishWholeOnRSS"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
