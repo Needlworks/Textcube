@@ -422,11 +422,10 @@ function printEntryFileList($attachments, $param) {
 			$enclosureFileName = $attachment['name'];
 		} else {
 			$style = '';
-			$prefix = '';
 		}
 		
 		$value = htmlspecialchars(getAttachmentValue($attachment));
-		$label = $prefix.htmlspecialchars(getPrettyAttachmentLabel($attachment));
+		$label = htmlspecialchars(getPrettyAttachmentLabel($attachment));
 		
 		$initialFileListForFlash .= escapeJSInAttribute($value.'(_!'.$label.'!^|');
 ?>

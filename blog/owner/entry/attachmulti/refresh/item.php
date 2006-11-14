@@ -36,10 +36,9 @@ foreach ($attachments as $i => $attachment) {
 		$enclosureFileName = $attachment['name'];
 	} else {
 		$style = '';
-		$prefix = '';
 	}
 	$value = htmlspecialchars(getAttachmentValue($attachment));
-	$label = $prefix . htmlspecialchars(getPrettyAttachmentLabel($attachment));
+	$label = htmlspecialchars(getPrettyAttachmentLabel($attachment));
 ?>
 		        <option  <?php echo $style;?> value="<?php echo $value;?>">
 	            <?php echo $label;?>
