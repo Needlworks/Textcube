@@ -11,6 +11,61 @@ else if (file_exists(ROOT . "/cache/backup/$owner.xml"))
 	$backup = filemtime(ROOT . "/cache/backup/$owner.xml");
 require ROOT . '/lib/piece/owner/header5.php';
 require ROOT . '/lib/piece/owner/contentMenu54.php';
+
+if (isset($checkFunction)) unset($checkFunction);
+
+?>
+						<script type="text/javascript">
+							//<![CDATA[
+								function checkForceTattertoolsVersion() {
+									if (confirm("<?php echo _t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
+										window.location.href = "<?php echo $blogURL;?>/checkup";
+									else
+										alert("<?php echo _t('점검 없이 이 기능을 사용할 수 없습니다.');?>");
+								}
+							//]]>
+						</script>
+<?php
+
+if (!file_exists(ROOT . '/cache/CHECKUP')) {
+?>
+						<script type="text/javascript">
+							//<![CDATA[
+								window.addEventListener("load", checkTattertoolsVersion, false);
+								function checkTattertoolsVersion() {
+									if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
+										window.location.href = "<?php echo $blogURL;?>/checkup";
+								}
+							//]]>
+						</script>
+<?php
+	$checkFunction = 'checkForceTattertoolsVersion();';
+} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
+?>
+						<script type="text/javascript">
+							//<![CDATA[
+								window.addEventListener("load", checkTattertoolsVersion, false);
+								function checkTattertoolsVersion() {
+									if (confirm("<?php echo _t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
+										window.location.href = "<?php echo $blogURL;?>/checkup";
+								}
+							//]]>
+						</script>
+<?php
+	$checkFunction = 'checkForceTattertoolsVersion();';
+}
+
+function forceCheckBlog($passFunction)
+{
+	global $checkFunction;
+	
+	if (!isset($checkFunction))
+		return $passFunction;
+	return $checkFunction;
+}
+
+if (false) forceCheckBlog('');
+
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -125,7 +180,7 @@ require ROOT . '/lib/piece/owner/contentMenu54.php';
 							<h2 class="caption"><span class="main-text"><?php echo _t('데이터를 교정합니다');?></span></h2>
 							
 							<div class="data-inbox main-explain-box">
-								<div class="image" onclick="correctData()">
+								<div class="image" onclick="correctData(); return false">
 									<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/dbCorrect.gif" alt="<?php echo _t('데이터 교정 이미지');?>" />
 									<div class="title"><?php echo _t('CORRECT');?></div>
 								</div>
@@ -220,7 +275,7 @@ if (getUserId() == 1) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('데이터를 복원합니다');?></span></h2>
 							
 							<div class="data-inbox main-explain-box">
-								<div class="image" onclick="showDialog('DBImport')">
+								<div class="image" onclick="<?php echo forceCheckBlog("showDialog('DBImport');"); ?> return false">
 									<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/dbImport.gif" alt="<?php echo _t('데이터 복원 이미지');?>" />
 									<div class="title"><?php echo _t('IMPORT');?></div>
 								</div>
