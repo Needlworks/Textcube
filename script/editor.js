@@ -1388,8 +1388,8 @@ function TTCommand(command, value1, value2) {
 					var type = null;
 
 					switch(ext) {
+						case "mp3": type = "audio/mpeg"; break;
 						case "mid": type = "audio/x-ms-mid"; break;
-						case "mp3": type = "audio/x-ms-mp3"; break;
 						case "wav": type = "audio/x-ms-wav"; break;
 						case "wax": type = "audio/x-ms-wax"; break;
 						case "wma": type = "audio/x-ms-wma"; break;
@@ -1404,14 +1404,34 @@ function TTCommand(command, value1, value2) {
 						case "wvx": type = "video/x-ms-wvx"; break;
 					}
 
-					if(type)
-						code = '<object width="320" height="280" src="' + url + '" type="' + type + '">' +
-							'<param name="FileName" value="' + url + '" />' +
-							'<param name="AutoStart" value="0" />' +
-							'</object>';
-					else {
+					if(type === null) {
 						alert(s_unknownFileType);
 						return;
+					}
+					else if(type == "video/quicktime") {
+								code = '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B"codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="320" height="260">' +
+								'<param name="src" value="' + url + '"/>' +
+								'<param name="controller" value="true"/>' +
+								'<param name="autoplay" value="false"/>' +
+								'<!--[if !IE]>-->' +
+								'<object type="video/quicktime" data="' + url + '" width="320" height="260">' +
+								'<param name="autoplay" value="false"/>' +
+								'<param name="controller" value="true"/>' +
+								'</object>' +
+								'<!--<![endif]-->' +
+								'</object>';
+					}
+					else {
+						code = '<object classid="clsid:22D6F312-B0F6-11D0-94AB-0080C74C7E95">' +
+								'<param name="Filename" value="' + url + '"/>' +
+								'<param name="AutoStart" value="false"/>' +
+								'<!--[if !IE]> <-->' +
+								'<object type="' + type + '" data="' + url + '" width="320" height="' + (type == "audio/mpeg" ? "20" : "240") + '">' +
+								'<param name="AutoStart" value="0"/>' +
+								'<embed pluginspage="http://www.microsoft.com/Windows/Downloads/Contents/Products/MediaPlayer/" src="' + url + '" width="320" height="' + (type == "audio/mpeg" ? "20" : "240") + '" type="application/x-mplayer2" autostart="0"></embed>' +
+								'</object>' +
+								'<!--> <![endif]-->' +
+								'</object>';
 					}
 				}
 			}

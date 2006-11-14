@@ -1008,11 +1008,11 @@ function printEntryEditorProperty($alt=NULL) {
 															</select>
 														</dd>
 													</dl>
-													<dl class="line">
+													<dl id="propertyInsertObject_part_url" class="line">
 														<dt class="property-name"><label for="propertyInsertObject_url"><?php echo _t('파일 주소');?></label></dt>
 														<dd><input type="text" id="propertyInsertObject_url" class="input-text" onkeypress="return preventEnter(event);" /></dd>
 													</dl>
-													<dl class="line">
+													<dl id="propertyInsertObject_part_raw" class="line" style="display: none">
 														<dt class="property-name"><label for="propertyInsertObject_chunk"><?php echo _t('코드');?></label></dt>
 														<dd>
 															<textarea id="propertyInsertObject_chunk" cols="30" rows="10"></textarea>
