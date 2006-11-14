@@ -90,7 +90,7 @@ class Post {
 		global $database, $owner;
 		if (isset($this->id) && !Validator::number($this->id, 1))
 			return $this->_error('id');
-		if (isset($this->category) && !Validator::number($this->category, 1))
+		if (isset($this->category) && !Validator::number($this->category, 0))
 			return $this->_error('category');
 		$this->title = trim($this->title);
 		if (empty($this->title))

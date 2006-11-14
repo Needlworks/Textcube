@@ -130,8 +130,9 @@ class Category {
 	/*@static@*/
 	function doesExist($id) {
 		global $database, $owner;
-		if (!Validator::number($id, 1))
+		if (!Validator::number($id, 0))
 			return false;
+		if ($id == 0) return true; // not specified case
 		return DBQuery::queryExistence("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
 	}
 	

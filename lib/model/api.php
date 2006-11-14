@@ -150,8 +150,8 @@ function send_failure( $msg )
 
 function api_getCategoryIdByName( $name_array )
 {
-	if ($name_array === '') return 1;
-	if (count($name_array) <= 0) return 1;
+	if ($name_array === '') return 0;
+	if (count($name_array) <= 0) return 0;
 	$category = new Category();
 	$category->open(false);
 	
@@ -897,7 +897,10 @@ function metaWeblog_newPost()
 	}
 
 	$post = api_make_post( $params[3], $params[4] );
-
+	
+	if ($post === false) {
+		return new XMLRPCFault( 1, "Tattertools posting error" );
+	}
 	if( !$post->add() )
 	{
 		$post->close();
