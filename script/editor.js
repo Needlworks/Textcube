@@ -1091,8 +1091,12 @@ function TTCommand(command, value1, value2) {
 		case "RemoveFormat":
 			if(isWYSIWYG) {
 				if(STD.isIE) {
-					if(editor.getSelectionRange().htmlText != "")
-						editor.getSelectionRange().pasteHTML(editor.removeFormatting(editor.getSelectionRange().htmlText));
+					if(editor.getSelectionRange().htmlText != "") {
+						if(editor.getSelectionRange().parentElement().outerHTML == editor.getSelectionRange().htmlText)
+							editor.getSelectionRange().parentElement().outerHTML = editor.removeFormatting(editor.getSelectionRange().htmlText);
+						else
+							editor.getSelectionRange().pasteHTML(editor.removeFormatting(editor.getSelectionRange().htmlText));
+					}
 				}
 				else {
 					if(editor.getSelectionRange().startOffset != editor.getSelectionRange().endOffset) {
