@@ -39,7 +39,9 @@ function checkResponseXML($responseText) {
 }
 
 function str_innerHTML($str) {
-	return str_replace('"', '\"', preg_replace('/\r\n|\r|\n/', '', $str));
+	$pattern = array( '/\r\n|\r|\n/' , '@</@' , '@"@');
+	$replace = array( ''             , '<\/'  , '\"' );
+	return preg_replace($pattern, $replace, $str);
 }
 
 function update($sql) {
