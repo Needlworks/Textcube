@@ -15,7 +15,8 @@ a:active        { color:#666;     text-decoration:none;}
 /* 페이징 - 현재 페이지 */
     .selected               { font-weight:bold;  color:#f30;}
     .no-more-prev,
-	.no-more-next { color:#ccc; font:1.1em Dotum, Arial, sans-serif;}
+	.no-more-next { color:#ccc;}
+
 
 /* 카테고리 - 이미지 버튼 */
     .ib                     { cursor:pointer;}
@@ -274,11 +275,9 @@ textarea        { border:1px solid #aaa;}
 .commentWrite .secretWrap         { float:right; position:relative; top:-23px; left:-10px;}
 .commentWrite .checkbox           {	border:none; padding:0;	margin:0; width:25px;}
 
-.paging           { padding-top:10px;  text-align:center;  font:0.85em Tahoma, Helvetica, Arial, Gulim, sans-serif;}
-.paging .numbox   { border-left:1px solid #ccc; padding-left:6px; margin-left:6px;}
-.paging .num      { border-right:1px solid #ccc; padding-right:6px; margin-right:6px;}
-.paging .prev,
-.paging .next     { font:1.1em Dotum, Arial, sans-serif; }
+.paging           { padding-top:10px;  text-align:center;  font-size:0.95em;}
+.paging .numbox   { border-left:1px solid #ccc; padding-left:6px; margin-left:6px;  font:0.95em verdana;}
+.paging .num      { border-right:1px solid #ccc; padding-right:8px; margin-right:5px;}
 
 
 /* ***** sidebar ***** */
