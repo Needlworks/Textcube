@@ -45,25 +45,35 @@ function getCommentsNotifiedWithPagingForOwner($owner, $category, $name, $ip, $s
 	if (empty($name) && empty($ip) && empty($search)) {
 		$sql = "SELECT 
 					c.*, 
-					c2.name AS parentName, 
-					c2.url AS parentUrl, 
 					csiteinfo.title AS siteTitle,
 					csiteinfo.name AS nickname,
 					csiteinfo.url AS siteUrl,
 					csiteinfo.modified AS siteModified
 				FROM 
-						{$database['prefix']}CommentsNotified c 
-					LEFT JOIN 
-						{$database['prefix']}CommentsNotified c2 ON c2.parent = c.id AND c.owner = c2.owner 
-					LEFT JOIN 
+					{$database['prefix']}CommentsNotified c
+				LEFT JOIN 
 						{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
 				WHERE c.owner = $owner AND (c.parent is null)";
 		$sql .= ' ORDER BY c.modified DESC';
 	} else {
+		if (!empty($search)) {
+			$search = escapeMysqlSearchString($search);
+		}
+				
+		$preQuery = "SELECT parent FROM {$database['prefix']}CommentsNotified WHERE parent is not null ";
+		if (!empty($name))
+			$preQuery .= ' AND name = \''. mysql_tt_escape_string($name) . '\' ';
+		if (!empty($ip))
+			$preQuery .= ' AND ip = \''. mysql_tt_escape_string($ip) . '\' ';
+		if (!empty($search)) {
+			$preQuery .= " AND (name LIKE '%$search%') OR (homepage LIKE '%$search%') OR (comment LIKE '%$search%') ";
+		}
+		
+		$childList = array_unique(fetchQueryColumn($preQuery));
+		$childListStr = (count($childList) == 0) ? '' : ('AND c.id IN ( ' . implode(', ',$childList) . ' ) ') ;
+		
 		$sql = "SELECT 
 				c.*, 
-				c2.name AS parentName, 
-				c2.url AS parentUrl, 
 				csiteinfo.title AS siteTitle,
 				csiteinfo.name AS nickname,
 				csiteinfo.url AS siteUrl,
@@ -71,20 +81,16 @@ function getCommentsNotifiedWithPagingForOwner($owner, $category, $name, $ip, $s
 			FROM 
 					{$database['prefix']}CommentsNotified c 
 				LEFT JOIN 
-					{$database['prefix']}CommentsNotified c2 ON c2.parent = c.id AND c.owner = c2.owner 
-				LEFT JOIN 
 					{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
 			WHERE c.owner = $owner AND (c.parent is null) ";
 		if (!empty($name))
-			$sql .= ' AND (( c.name = \'' . mysql_tt_escape_string($name) . '\') OR ( c2.name = \''. mysql_tt_escape_string($name) . '\'))';
+			$sql .= ' AND ( c.name = \'' . mysql_tt_escape_string($name) . '\') ' ;
 		if (!empty($ip))
-			$sql .= ' AND (( c.ip = \'' . mysql_tt_escape_string($ip) . '\') OR ( c2.ip = \''. mysql_tt_escape_string($ip) . '\'))';
+			$sql .= ' AND ( c.ip = \'' . mysql_tt_escape_string($ip) . '\') ';
 		if (!empty($search)) {
-			$search = escapeMysqlSearchString($search);
-			$sql .= " AND ((c.name LIKE '%$search%') OR (c.homepage LIKE '%$search%') OR (c.comment LIKE '%$search%') ";
-			$sql .= " OR (c2.name LIKE '%$search%') OR (c2.homepage LIKE '%$search%') OR (c2.comment LIKE '%$search%') )";
+			$sql .= " AND ((c.name LIKE '%$search%') OR (c.homepage LIKE '%$search%') OR (c.comment LIKE '%$search%')) ";
 		}
-		$sql .= ' ORDER BY c.modified ASC';
+		$sql .= $childListStr . ' ORDER BY c.modified ASC ';
 	}
 	return fetchWithPaging($sql, $page, $count);
 }
@@ -93,10 +99,8 @@ function getCommentCommentsNotified($parent) {
 	global $database, $owner;
 	$comments = array();
 	$authorized = doesHaveOwnership();
-	$sql = "SELECT 
+	$sql = "SELECT
 				c.*, 
-				null as parentName, 
-				null as parentUrl, 
 				csiteinfo.title AS siteTitle,
 				csiteinfo.name AS nickname,
 				csiteinfo.url AS siteUrl,
