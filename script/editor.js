@@ -533,6 +533,8 @@ TTEditor.prototype.showProperty = function(obj)
 		getObject("propertyObject_width").value = size[0];
 		getObject("propertyObject_height").value = size[1];
 		getObject("propertyObject_chunk").value = this.objectUnSerialize(attribute);
+		getObject("propertyInsertObject").style.display = "none";
+		getObject("propertyHyperLink").style.display = "none";
 		getObject("propertyObject").style.display = "block";
 	}
 	else if(obj.className == "tatterEmbed") {
@@ -731,6 +733,8 @@ TTEditor.prototype.showProperty = function(obj)
 				editor.selectedAnchorElement = node;
 				editor.propertyWindowId = "propertyHyperLink";
 				getObject("propertyMoreLess").style.display = "none";
+				getObject("propertyInsertObject").style.display = "none";
+				getObject("propertyObject").style.display = "none";
 				editor.setPropertyPosition();
 				return;
 			}
@@ -1304,6 +1308,7 @@ function TTCommand(command, value1, value2) {
 			editor.propertyWindowId = "propertyHyperLink";
 			getObject("propertyMoreLess").style.display = "none";
 			getObject("propertyInsertObject").style.display = "none";
+			getObject("propertyObject").style.display = "none";
 			getObject("propertyHyperLink").style.display = "block";
 			getObject("propertyHyperLink_url").value = "";
 			getObject("propertyHyperLink_target").selectedIndex = 0;
@@ -1366,6 +1371,7 @@ function TTCommand(command, value1, value2) {
 			editor.propertyWindowId = "propertyInsertObject";
 			getObject("propertyMoreLess").style.display = "none";
 			getObject("propertyHyperLink").style.display = "none";
+			getObject("propertyObject").style.display = "none";
 			getObject("propertyInsertObject").style.display = "block";
 			break;
 		case "HideObjectBlock":
@@ -1373,7 +1379,11 @@ function TTCommand(command, value1, value2) {
 			break;
 		case "InsertObject":
 			if(getObject("propertyInsertObject_type").value == "url") {
-				var url = getObject("propertyInsertObject_url").value;
+				var url = getObject("propertyInsertObject_url").value.trim();
+				if(url == "") {
+					alert(s_enterURL);
+					return;
+				}
 				var ext = new RegExp("\\.(\\w+)(?:$|\\?)").exec(url);
 				ext = (ext && ext.length == 2) ? ext[1].toLowerCase() : "";
 				var code = "";
@@ -1945,4 +1955,3 @@ var editorChanged = function () {
 	if ((entryManager != undefined) && (entryManager.saveAuto != undefined))
 		entryManager.saveAuto();
 }
-
