@@ -115,6 +115,7 @@ textarea        { border:1px solid #aaa;}
 		padding:0 10px 0 20px;
 		background-color:#7870ab;
 		margin-bottom:8px;
+		min-height:90px;
 }
 #content {
 		float:left;
@@ -136,8 +137,8 @@ textarea        { border:1px solid #aaa;}
 /* ***** Header ***** */
 #header a              { color:#fff;  padding:0 3px;}
 
-#header h1             { position:relative;  top:5px;  padding-top:30px;}
-#header .blogMenu      { position:relative;  top:-10px;  right:10px;  text-align:right;}
+#header h1             { float: left; padding: 2.9em 0 0.3em 0;}
+#header .blogMenu      { text-align:right; padding: 6em 0 0.3em 0;}
 
 #header h1 a           { font-family:batang;  font-weight:bold;  letter-spacing:-3px;}
 #header h1 a:hover     { color:#ccf;  text-decoration:none;}
