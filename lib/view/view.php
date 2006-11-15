@@ -1132,8 +1132,8 @@ function bindTags($id, $content) {
 		list($more, $less, $full) = explode('|', substr($content, $start + 4, $end - $start - 4), 3);
 		if (strlen($more) == 0) $more = 'more..';
 		if (strlen($less) == 0) $less = 'less..';
-		$more2 = str_replace("'", "\\'", str_replace("\\", "\\\\", $more));
-		$less2 = str_replace("'", "\\'", str_replace("\\", "\\\\", $less));
+		$more2 = htmlspecialchars(str_replace("\"", "&quot;", str_replace("'", "&#39;", $more)));
+		$less2 = htmlspecialchars(str_replace("\"", "&quot;", str_replace("'", "&#39;", $less)));
 		$postfix = substr($content, $end + 4);
 		$content = $prefix;
 		if (defined('__TATTERTOOLS_MOBILE__')) {
