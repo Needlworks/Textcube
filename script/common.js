@@ -749,6 +749,11 @@ function writeCode(str, id) {
 	if(id == undefined) document.write(str);
 	else document.getElementById(id).innerHTML = str;
 }
+
+function writeCode2(str, id) {
+	if(id == undefined) document.write(str);
+	else document.getElementById(id).innerHTML = str;
+}
     
 var StringBuffer = function()
 { this.buffer = new Array(); }

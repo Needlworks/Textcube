@@ -58,22 +58,38 @@ function addProtocolSense($url, $protocol = 'http://') {
 	return ereg('^[[:alnum:]]+:', $url) ? $url : $protocol . $url;
 }
 
+function decorateSrcInObejct($html)
+{
+	$count = preg_match_all('@src="(.+)"@iU', $html, $matches, PREG_PATTERN_ORDER);
+	while ($count > 0) {
+		$orig = $matches[0][$count - 1];
+		$filename = $matches[1][$count - 1];
+		if (strncasecmp($filename, 'http://' , 7) != 0) {
+			$html = str_replace($orig, substr($orig,0,4) . '"http://' . $_SERVER['HTTP_HOST'] . $filename . '"', $html);
+		}
+		$count--;
+	}
+	return $html;
+}
+
 function avoidFlashBorder($html, $tag='object') {
 	$pos1 = $pos2 = 0;
+	
 	$str = strtolower($html);
+	
 	$result = '';
 	while(($pos1 = strpos($str, "<$tag", $pos2)) !== false) {
 		$result .= substr($html, $pos2, $pos1 - $pos2);
 		$pos2 = $pos1;
 		while(true) {
 			if(($pos2 = strpos($str, "</$tag>", $pos2)) === false)
-				return $result . '<script type="text/javascript">writeCode("' . str_replace(array('"', "\r", "\n"), array('\"', '', "\\\r\n"), substr($html, $pos1)) . '")</script>';
+				return $result . '<script type="text/javascript">writeCode2("' . str_replace(array('"', "\r", "\n"), array('\"', '', "\\\r\n"), decorateSrcInObejct(substr($html, $pos1))) . '")</script>';
 			$pos2 += strlen($tag) + 3;
 			$chunk = substr($str, $pos1, $pos2 - $pos1);
 			if(substr_count($chunk, "<$tag") == substr_count($chunk, "</$tag>"))
 				break;
 		}
-		$result .= '<script type="text/javascript">writeCode("' . str_replace(array('"', "\r", "\n"), array('\"', '', "\\\r\n"), substr($html, $pos1, $pos2 - $pos1)) . '")</script>';
+		$result .= '<script type="text/javascript">writeCode2("' . str_replace(array('"', "\r", "\n"), array('\"', '', "\\\r\n"), decorateSrcInObejct(substr($html, $pos1, $pos2 - $pos1))) . '")</script>';
 	}
 	return $result . substr($html, $pos2);
 }
