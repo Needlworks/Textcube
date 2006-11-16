@@ -20,10 +20,10 @@ foreach ($entries as $entry) {
 			dress('notice_rep_link', "$blogURL/notice/{$entry['id']}", $entryView);
 		else
 			dress('notice_rep_link', "$blogURL/page/{$entry['id']}", $entryView);
-		    
+		
 		dress('notice_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], getKeywordNames($owner), 'Notice'), $entryView);
 		$entriesView .= $entryView;
-	} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && ($_COOKIE['GUEST_PASSWORD'] == $entry['password']))) {
+	} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
 		$entryView = $skin->entry;
 		dress('tb', getTrackbacksView($entry['id'], $skin), $entryView);
 		if ($skinSetting['expandComment'] == 1 || (($suri['url'] != $blogURL.'/index.php' && $suri['url'] != $service['path'].'/index.php') && ($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
