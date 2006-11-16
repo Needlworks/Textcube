@@ -49,11 +49,11 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 ?>
 		try {
 			obj = opener.document.getElementById("commentCount<?php echo $entryId;?>");
-			if (obj != null) obj.innerHTML = "<?php echo str_replace('"', '\"', $commentView);?>";
+			if (obj != null) obj.innerHTML = "<?php echo str_innerHTML($commentView);?>";
 		} catch(e) { }		
 		try {
 			obj = opener.document.getElementById("commentCountOnRecentEntries<?php echo $entryId;?>");
-			if (obj != null) obj.innerHTML = "<?php echo ($commentCount > 0) ? '(' . $commentCount . ')' : '';?>";
+			if (obj != null) obj.innerHTML = "<?php echo str_innerHTML(($commentCount > 0) ? '(' . $commentCount . ')' : '');?>";
 		} catch(e) { }		
 		window.close();
 	//]]>

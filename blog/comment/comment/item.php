@@ -60,15 +60,15 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	try {
 <?php
 		$commentCount = getCommentCount($owner, $comment['entry']);
-		$commentCount = ($commentCount > 0) ? "$commentCount" : '';
 		list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
+		$commentCount = ($commentCount > 0) ? "($commentCount)" : '';
 ?>
 	obj = opener.document.getElementById("commentCount<?php echo $comment['entry'];?>");
-	if (obj != null) obj.innerHTML = "<?php echo str_replace('"', '\"', $commentView);?>";
+	if (obj != null) obj.innerHTML = "<?php echo str_innerHTML($commentView);?>";
 	} catch(e) { }
 	try {
 	obj = opener.document.getElementById("commentCountOnRecentEntries<?php echo $comment['entry'];?>");
-	if (obj != null) obj.innerHTML = "(<?php echo $commentCount;?>)";
+	if (obj != null) obj.innerHTML = "(<?php echo str_innerHTML($commentCount);?>)";
 	} catch(e) { }
 	window.close();
 </script>

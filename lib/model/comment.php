@@ -433,7 +433,11 @@ function trashComment($owner, $id, $entry, $password) {
 	if (!is_numeric($entry)) return false;
 	$sql = "update {$database['prefix']}Comments set isFiltered = UNIX_TIMESTAMP() where owner = $owner and id = $id and entry = $entry";
 	$result = mysql_query($sql);
-	if (mysql_affected_rows() > 0) {
+	$affected = mysql_affected_rows();
+	$sql = "update {$database['prefix']}Comments set isFiltered = UNIX_TIMESTAMP() where owner = $owner and parent = $id and entry = $entry";
+	$result = mysql_query($sql);
+	$affected = mysql_affected_rows();
+	if ($affected + mysql_affected_rows() > 0) {
 		updateCommentsOfEntry($owner, $entry);
 		return true;
 	}
@@ -661,8 +665,8 @@ $owner, NULL , '', " . $entryId . ", $parentId, '$child_name', '', '$child_homep
 function getCommentCount($owner, $entryId = null) {
 	global $database;
 	if (is_null($entryId))
-		return fetchQueryCell("SELECT SUM(comments) FROM {$database['prefix']}Entries WHERE owner = $owner AND isFiltered = 0");
-	return fetchQueryCell("SELECT comments FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entryId AND isFiltered = 0");
+		return fetchQueryCell("SELECT SUM(comments) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft= 0 ");
+	return fetchQueryCell("SELECT comments FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entryId AND draft = 0");
 }
 
 function getCommentCountPart($commentCount, &$skin) {

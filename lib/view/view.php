@@ -160,7 +160,9 @@ function getUpperView($paging) {
 			var openWindow='';
 
 			function alignCenter(win,width,height) {
-				win.moveTo(screen.width/2-width/2,screen.height/2-height/2);
+				try{ // sometimes fail.
+					win.moveTo(screen.width/2-width/2,screen.height/2-height/2);
+				} catch (e) {}
 			}	
 			
 			function deleteComment(id) {
