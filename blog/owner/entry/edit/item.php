@@ -49,7 +49,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 	printOwnerEditorScript($entry['id']);
 }
 ?>
-						<script type="text/javascript" src="<?php echo $service['path'];?>/script/generaltag.js?<?php echo TATTERTOOLS_VERSION;?>"></script>
+						<script type="text/javascript" src="<?php echo $service['path'];?>/script/generaltag.js"></script>
 						<script type="text/javascript" src="<?php echo $service['path'];?>/script/locationtag.js"></script>
 						<script type="text/javascript">
 							//<![CDATA[
