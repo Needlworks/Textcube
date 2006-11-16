@@ -201,9 +201,9 @@ TTEditor.prototype.ttml2html = function() {
 						block = block.substring(block.indexOf("[#M_") + 4, block.length);
 				}
 
-				var more = block.substring(0, block.indexOf("|"));
+				var more = this.htmlspecialchars(block.substring(0, block.indexOf("|")));
 				var remain = block.substring(block.indexOf("|") + 1, block.length);
-				var less = remain.substring(0, remain.indexOf("|"));
+				var less = this.htmlspecialchars(remain.substring(0, remain.indexOf("|")));
 				remain = remain.substring(remain.indexOf("|"), remain.length);
 				var body = remain.substring(remain.indexOf("|") + 1, remain.length);
 
