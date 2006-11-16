@@ -116,6 +116,10 @@ function deltree($dir) {
 
 function deleteFilesByRegExp($path, $regexp) {
 	$path = eregi("/$", $path, $temp) ? $path : $path."/";
+	
+	if (!file_exists($path))
+		return false;
+	
 	$handle = opendir($path);
 	while ($tempFile = readdir($handle)) {
 		if (($regexp == "*" || eregi("$regexp", $tempFile, $temp)) && ($tempFile != "." && $tempFile != "..")) {
