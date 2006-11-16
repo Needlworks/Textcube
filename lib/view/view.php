@@ -1266,6 +1266,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 							$setWidth = $setWidth * $galleryAttributes['height'] / $setHeight;
 							$setHeight = $galleryAttributes['height'];
 						}
+						$item[1] = str_replace("'", '&#39;', $item[1]);
 						$buf .= $id . '.appendImage("' . ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$owner/$item[0]" : "$folderURL/$item[0]") . '", "' . htmlspecialchars($item[1]) . '", ' . intval($setWidth) . ', ' . intval($setHeight) . ");";
 					}
 				}
@@ -1274,12 +1275,14 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				$buf .= '	</script>' . CRLF;
 				$buf .= '	<noscript>' . CRLF;
 				foreach ($items as $item) {
+					$buf .= '<div class="imageblock center" style="text-align: center; clear: both;">';
 					if ($useAbsolutePath)
 						$buf .= '		<img src="' . $hostURL . $service['path'] . "/attach/" . $owner . "/" . $item[0] . '" alt="' . _text('사용자 삽입 이미지') . '" />' . CRLF;
 					else
 						$buf .= '		<img src="' . $folderURL . "/" . $item[0] . '" alt="' . _text('사용자 삽입 이미지') . '" />' . CRLF;
 					if(!empty($item[1]))
-						$buf .= '		<p class="cap1">'.htmlspecialchars($item[1]).'</p>' . CRLF;
+						$buf .= '		<p class="cap1">'. $item[1] .'</p>' . CRLF;
+					$buf .= '</div>';
 				}
 				$buf .= '	</noscript>' . CRLF;
 				$buf .= '</div>' . CRLF;
@@ -1309,7 +1312,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				} else {
 					$caption = '';
 				}
-				$buf .= '<center><img src="' . ($useAbsolutePath ? $hostURL : $service['path']) . '/image/gallery/gallery_enlarge.gif" alt="' . _text('확대') . '" style="cursor:pointer" onclick="openFullScreen(\'' . $service['path'] . '/script/gallery/iMazing/embed.php?d=' . urlencode($id) . '&f=' . urlencode($params['frame']) . '&t=' . urlencode($params['transition']) . '&n=' . urlencode($params['navigation']) . '&si=' . urlencode($params['slideshowInterval']) . '&p=' . urlencode($params['page']) . '&a=' . urlencode($params['align']) . '&o=' . $owner . '&i=' . $imgStr . '\',\'' . str_replace("'", "\\'", $attributes[count($attributes) - 1]) . '\',\'' . $service['path'] . '\')" />';
+				$buf .= '<center><img src="' . ($useAbsolutePath ? $hostURL : $service['path']) . '/image/gallery/gallery_enlarge.gif" alt="' . _text('확대') . '" style="cursor:pointer" onclick="openFullScreen(\'' . $service['path'] . '/script/gallery/iMazing/embed.php?d=' . urlencode($id) . '&f=' . urlencode($params['frame']) . '&t=' . urlencode($params['transition']) . '&n=' . urlencode($params['navigation']) . '&si=' . urlencode($params['slideshowInterval']) . '&p=' . urlencode($params['page']) . '&a=' . urlencode($params['align']) . '&o=' . $owner . '&i=' . $imgStr . '\',\'' . htmlspecialchars(str_replace("'", "&#39;", $attributes[count($attributes) - 1])) . '\',\'' . $service['path'] . '\')" />';
 				$buf .= '<table>';
 				$buf .= '<tr>';
 				$buf .= '<td width="' . $params['width'] . 'px" height="' . $params['height'] . 'px">';

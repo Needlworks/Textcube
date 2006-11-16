@@ -73,11 +73,17 @@ TTGallery.prototype.getImage = function()
 TTGallery.prototype.getCaption = function()
 {
 	var captionText = this.caption[this.offset];
-	captionText = captionText.replace(new RegExp("&amp;?", "gi"), "&");
 	captionText = captionText.replace(new RegExp("&lt;?", "gi"), "<");
 	captionText = captionText.replace(new RegExp("&gt;?", "gi"), ">");
 	captionText = captionText.replace(new RegExp("&quot;?", "gi"), "\"");
 	captionText = captionText.replace(new RegExp("&#39;?", "gi"), "'");
+	captionText = captionText.replace(new RegExp("&amp;?", "gi"), "&");
+
+	captionText = captionText.replace(new RegExp("&lt;?", "gi"), "<");
+	captionText = captionText.replace(new RegExp("&gt;?", "gi"), ">");
+	captionText = captionText.replace(new RegExp("&quot;?", "gi"), "\"");
+	captionText = captionText.replace(new RegExp("&#39;?", "gi"), "'");
+	captionText = captionText.replace(new RegExp("&amp;?", "gi"), "&");
 	
 	var caption = document.createElement("div");
 	caption.style.textAlign = "center";
