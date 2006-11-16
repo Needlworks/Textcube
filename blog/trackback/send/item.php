@@ -107,8 +107,8 @@ $entry = getEntry($owner, $suri['id']);
 			}
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
 </head>
 <body>
 	<form name="trackback" method="post" action="<?php echo $suri['url'];?>">

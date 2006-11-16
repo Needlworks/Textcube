@@ -49,7 +49,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 	printOwnerEditorScript($entry['id']);
 }
 ?>
-						<script type="text/javascript" src="<?php echo $service['path'];?>/script/generaltag.js"></script>
+						<script type="text/javascript" src="<?php echo $service['path'];?>/script/generaltag.js?<?php echo TATTERTOOLS_VERSION;?>"></script>
 						<script type="text/javascript" src="<?php echo $service['path'];?>/script/locationtag.js"></script>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -448,7 +448,7 @@ printEntryEditorPalette();
 ?>
 										<div id="editor-textbox" class="container">
 											<textarea id="editWindow" name="content" cols="80" rows="20" onselect="savePosition(); editorChanged()" onclick="savePosition();editorChanged()" onkeyup="savePosition();editorChanged()"><?php echo htmlspecialchars($entry['content']);?></textarea>
-											<script type="text/javascript" src="<?php echo $service['path'];?>/script/editor.js?version=<?php echo urlencode(TATTERTOOLS_NAME . TATTERTOOLS_VERSION ); ?>" ></SCRIPT>
+											<script type="text/javascript" src="<?php echo $service['path'];?>/script/editor2.js"></script>
 											<script type="text/javascript">
 												//<![CDATA[
 													var editor = new TTEditor();

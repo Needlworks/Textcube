@@ -24,8 +24,8 @@ requireStrictRoute();
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.css" />
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.opera.css" />
 		<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.ie.css" /><![endif]-->
-		<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF.js"></script>
-		<script type="text/javascript" src="<?php echo $service['path'];?>/script/common.js"></script>
+		<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
+		<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
 				var oSelect = window.parent.document.getElementById('fileList');

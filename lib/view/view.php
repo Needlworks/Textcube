@@ -47,8 +47,8 @@ function getUpperView($paging) {
 			var blogURL = "<?php echo $blogURL;?>";
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js" ></script>
 <?php 
 	if (doesHaveOwnership()) {

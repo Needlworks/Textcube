@@ -23,7 +23,7 @@ if ((empty($comment['homepage']) || $comment['homepage'] == 'http://') && isset(
 			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			function submitComment() {
