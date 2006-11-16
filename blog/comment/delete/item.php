@@ -142,7 +142,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 </head>
 <body>
 	<form name="deleteComment" method="post" action="<?php echo $blogURL;?>/comment/delete/<?php echo $suri['id'];?>">
@@ -164,7 +164,7 @@ if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId()))
 <?php
 }
 ?>
-					<input type="button" class="input-button" name="Submit" value="<?php echo _text('다음');?>" onclick="document.deleteComment.submit()" />				
+					<input type="button" class="input-button" name="Submit" value="<?php echo _text('다음');?>" onClick="document.deleteComment.submit()" />				
 				</div>
 			</div>
 		</div>
