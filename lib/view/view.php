@@ -266,6 +266,11 @@ function getUpperView($paging) {
 ?>
 			function reloadEntry(id) {
 				var password = document.getElementById("entry" + id + "password");
+				if (!password) {
+					passwords = document.getElementsByName("entry" + id + "password");
+					if (passwords != null && passwords.Count > 0)
+						password = passwords;
+				}
 				if (!password)
 					return;
 				document.cookie = "GUEST_PASSWORD=" + escape(password.value) + ";path=<?php echo $service['path'];?>";
