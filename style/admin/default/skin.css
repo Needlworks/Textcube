@@ -535,6 +535,7 @@
 	position                         : absolute;
 	top                              : 7px;
 	right                            : 0;
+	width                            : 13px;
 }
 
 .sidebar-module .edit-button-box,
