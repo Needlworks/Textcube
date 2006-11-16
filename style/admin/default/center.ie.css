@@ -47,20 +47,20 @@
 
 #sorting-line
 {
-	bottom                           : 257px;
+	bottom                           : 239px;
 	padding-top                      : 8px;
 }
 
 #activate-status-line
 {
-	bottom                           : 262px;
+	bottom                           : 244px;
 	right                            : 30px;
 }
 
 /* data description */
 #data-description
 {
-	bottom                           : 260px;
+	bottom                           : 242px;
 	right                            : 10px;
 	position                         : absolute;
 }
