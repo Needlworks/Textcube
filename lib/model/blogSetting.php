@@ -263,8 +263,8 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 		return 11;
 	} 
 	$id = mysql_insert_id();
-	$baseTimezone = mysql_tt_escape_string( substr(_t('default:Asia/Seoul'),8));
-	$result = mysql_query("INSERT INTO `{$database['prefix']}BlogSettings` (owner, name, language, blogLanguage, timezone) VALUES ($id, '$identify', '{$service['language']}', '{$service['language']}', '{$baseTimezone)'");
+	$baseTimezone = mysql_tt_escape_string(substr(_t('default:Asia/Seoul'),8));
+	$result = mysql_query("INSERT INTO `{$database['prefix']}BlogSettings` (owner, name, language, blogLanguage, timezone) VALUES ($id, '$identify', '{$service['language']}', '{$service['language']}', '{$baseTimezone}'");
 	if (!$result || (mysql_affected_rows() == 0)) {
 		mysql_query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
 		return 12;
