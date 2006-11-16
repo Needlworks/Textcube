@@ -9,13 +9,13 @@
 
 #part-plugin-list #sorting-line
 {
-	bottom                           : 255px;
+	bottom                           : 272px;
 	padding-top                      : 8px;
 }
 
 #part-plugin-list #activate-status-line
 {
-	bottom                           : 260px;
+	bottom                           : 277px;
 	right                            : 30px;
 	z-index                          : 100;
 }
@@ -23,7 +23,7 @@
 /* data description */
 #data-description
 {
-	bottom                           : 257px;
+	bottom                           : 274px;
 	right                            : 10px;
 	position                         : absolute;
 }
