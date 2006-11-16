@@ -149,7 +149,10 @@ function makeThumbnail($imgString, $originSrc, $paddingArray, $waterMarkArray, $
 				$resampleType = "resampled";
 				break;
 			case "tt-watermark":
-				$resampleType = "watermarked";
+				if ($waterMarkOn == 'no')
+					$resampleType = "resampled";
+				else
+					$resampleType = "watermarked";
 				break;
 		}
 		
