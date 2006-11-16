@@ -444,17 +444,16 @@ dl dd
 
 #part-data-correct
 {
-	clear                            : right;
-	float                            : right;
+	clear                            : left;
+	float                            : left;
 	margin-bottom                    : 20px;
-	overflow                         : hidden;
 	width                            : 470px;
 }
 
 #part-data-optimize
 {
-	clear                            : left;
-	float                            : left;
+	clear                            : right;
+	float                            : right;
 	margin-bottom                    : 20px;
 	width                            : 470px;
 }
@@ -490,6 +489,15 @@ dl dd
 	display                          : block !important;
 	height                           : 0;
 	visibility                       : hidden;
+}
+
+#part-data-correct .caption,
+#part-data-optimize .caption, 
+#part-data-backup .caption,
+#part-data-restore .caption,
+#part-data-remove .caption
+{
+	clear : none;
 }
 
 #part-data-correct div.data-inbox,
@@ -687,6 +695,7 @@ dl dd
 	margin-left                      : 10px;
 	padding                          : 10px;
 	width                            : 550px;
+	z-index                          : 500;
 }
 
 .part .system-dialog h4
