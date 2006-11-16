@@ -511,9 +511,10 @@ function revertCommentInOwner($owner, $id) {
 	global $database;
 	if (!is_numeric($id)) return false;
 	$entryId = fetchQueryCell("SELECT entry FROM {$database['prefix']}Comments WHERE owner = $owner AND id = $id");
+	$parent = fetchQueryCell("SELECT parent FROM {$database['prefix']}Comments WHERE owner = $owner AND id = $id");
 	$result = mysql_query("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE owner = $owner AND id = $id");
 	if ($result && (mysql_affected_rows() == 1)) {
-		if (mysql_query("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE owner = $owner AND parent = $id")) {
+		if (is_null($parent) || mysql_query("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE owner = $owner AND id = $parent")) {
 			updateCommentsOfEntry($owner, $entryId);
 			return true;
 		}
