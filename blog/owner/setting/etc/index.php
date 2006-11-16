@@ -23,19 +23,7 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 								
 								function setLocale() {
 									errorType = "";
-									if (document.getElementById('language-form').adminLanguage.value != language || document.getElementById('language-form').blogLanguage.value != skinLanguage) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/etc/language?language=" + encodeURIComponent(document.getElementById('language-form').adminLanguage.value) + "&blogLanguage=" + encodeURIComponent(document.getElementById('language-form').blogLanguage.value));
-										request.onSuccess = function() {
-											language = document.getElementById('language-form').adminLanguage.value;
-											skinLanguage = document.getElementById('language-form').blogLanguage.value;
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
-										}
-										request.onError = function() {
-											errorType = "language";
-										}
-										request.send();
-									}
-									
+
 									if (document.getElementById('language-form').timezone.value != timezone) {
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/etc/timezone?timezone=" + encodeURIComponent(document.getElementById('language-form').timezone.value));
 										request.onSuccess = function() {
@@ -47,6 +35,24 @@ require ROOT . '/lib/piece/owner/contentMenu55.php';
 												errorType = "both";
 											else
 												errorType = "timezone";
+										}
+										request.send();
+									}
+
+									if (document.getElementById('language-form').adminLanguage.value != language || document.getElementById('language-form').blogLanguage.value != skinLanguage) {
+										var needRefresh = false;
+										if (document.getElementById('language-form').adminLanguage.value != language) needRefresh = true;
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/etc/language?language=" + encodeURIComponent(document.getElementById('language-form').adminLanguage.value) + "&blogLanguage=" + encodeURIComponent(document.getElementById('language-form').blogLanguage.value));
+										request.onSuccess = function() {
+											language = document.getElementById('language-form').adminLanguage.value;
+											skinLanguage = document.getElementById('language-form').blogLanguage.value;
+											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											if (needRefresh == true) {
+												window.location.href = "<?php echo $blogURL;?>/owner/setting/etc";
+											}
+										}
+										request.onError = function() {
+											errorType = "language";
 										}
 										request.send();
 									}
