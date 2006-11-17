@@ -436,7 +436,6 @@ function trashComment($owner, $id, $entry, $password) {
 	$affected = mysql_affected_rows();
 	$sql = "update {$database['prefix']}Comments set isFiltered = UNIX_TIMESTAMP() where owner = $owner and parent = $id and entry = $entry";
 	$result = mysql_query($sql);
-	$affected = mysql_affected_rows();
 	if ($affected + mysql_affected_rows() > 0) {
 		updateCommentsOfEntry($owner, $entry);
 		return true;
