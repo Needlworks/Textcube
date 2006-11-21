@@ -18,7 +18,7 @@ class BlogSetting {
 		$this->useSlogan =
 		$this->entriesOnPage =
 		$this->entriesOnList =
-		$this->entriesOnFeed =
+		$this->postsOnFeed =		
 		$this->publishWholeOnFeed =
 		$this->acceptGuestComment =
 		$this->acceptCommentOnGuestComment =
