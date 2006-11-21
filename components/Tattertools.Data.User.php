@@ -36,7 +36,7 @@ class UserInfo {
 	
 	function add() {
 		global $database, $owner;
-		if(!isset($this->userid))		
+		if(isset($this->userid))
 			return $this->_error('insert');
 		if(!isset($this->password))		
 			return $this->_error('password');
