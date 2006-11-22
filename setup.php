@@ -966,6 +966,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
 		$loginid = mysql_tt_escape_string($_POST['email']);
 		$password = md5($_POST['password']);
 		$name = mysql_tt_escape_string($_POST['name']);
+		$blog = mysql_tt_escape_string($_POST['blog']);
 		$baseLanguage = mysql_tt_escape_string( $_POST['Lang']);
 		$baseTimezone = mysql_tt_escape_string( substr(_t('default:Asia/Seoul'),8));
 
@@ -1330,7 +1331,7 @@ CREATE TABLE {$_POST['dbPrefix']}UserSettings (
 ) $charset;
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
-INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, language, blogLanguage, timezone) VALUES (1, '{$_POST['blog']}', '$baseLanguage', '$baseLanguage', '$baseTimezone');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, language, blogLanguage, timezone) VALUES (1, '$blog', '$baseLanguage', '$baseLanguage', '$baseTimezone');
 INSERT INTO {$_POST['dbPrefix']}SkinSettings (owner) VALUES (1);
 INSERT INTO {$_POST['dbPrefix']}FeedSettings (owner) values(1);
 INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
