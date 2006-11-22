@@ -9,6 +9,7 @@ $IV = array(
 		'category' => array('int', 'default' => 0),
 		'title' => array('string'),
 		'content' => array('string'),
+		'permalink' => array('string', 'default' => ''),
 		'location' => array('string', 'default' => '/'),
 		'tag' => array('string', 'default' => ''),
 		'acceptComment' => array(array('0', '1'), 'default' => '0'),
