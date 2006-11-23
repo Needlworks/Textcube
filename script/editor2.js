@@ -464,7 +464,7 @@ TTEditor.prototype.html2ttml = function() {
 	}
 
 	// MORE/LESS 처리 후 남은 태그 제거
-	str = str.replace(new RegExp("<div.*?class=[\"']?removeme.*?\\[#M_", "gi"), "[#M_");
+	str = str.replace(new RegExp("<div[^<>]+class=[\"']?removeme.*?\\[#M_", "gi"), "[#M_");
 	str = str.replace(new RegExp("_M#\\]</div>", "gi"), "_M#]");
 
 	// Object 처리
