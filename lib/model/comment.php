@@ -557,7 +557,7 @@ function notifyComment() {
 		";
 	$queue = fetchQueryRow($sql);
 	if (empty($queue) && empty($queue['queueId'])) {
-		executeQuery("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
+		//executeQuery("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
 	$comments = (fetchQueryRow("SELECT * FROM {$database['prefix']}Comments WHERE owner = $owner AND id = {$queue['commentId']}"));
