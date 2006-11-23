@@ -314,7 +314,7 @@ function moveCategory($owner, $id, $direction) {
 	} else {
 		// 위치를 바꿀 대상이 1 depth이면.
 		if ($nextId == 'NULL') {
-			$myName = fetchQueryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId");
+			$myName = mysql_tt_escape_string(fetchQueryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId"));
 			$overlapCount = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` IS NULL");
 			// 1 depth에 같은 이름이 있으면 2 depth로 직접 이동.
 			if ($overlapCount > 0) {
@@ -326,7 +326,7 @@ function moveCategory($owner, $id, $direction) {
 					$nextPriority = $row['priority'];
 					
 					// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
-					$myName = fetchQueryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId");
+					$myName = mysql_tt_escape_string(fetchQueryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId"));
 					$overlapCount = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId");
 					// 같은 이름이 없으면 이동 시작.
 					if ($overlapCount == 0) {
