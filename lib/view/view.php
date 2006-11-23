@@ -130,28 +130,78 @@ function getUpperView($paging) {
 				request.onError = function() {
 					alert(this.getText("/response/description"));
 				}
+				
 				var queryString = "key=<?php echo md5(filemtime(ROOT . '/config.php'));?>";
+				
+				tempComment = 'comment_' + entryId;
+				tempHomepage = 'homepage_' + entryId;
+				tempName = 'name_' + entryId;
+				tempPassword = 'password_' + entryId;
+				tempSecret = 'secret_' + entryId;
+				
 				for (i=0; i<oForm.elements.length; i++) {
-					if(oForm.elements[i].name == "name") {
-						queryString += "&name_" + entryId +"=" + encodeURIComponent(oForm["name"].value);
-					} else if(oForm.elements[i].name == "password") {
-						queryString += "&password_" + entryId +"=" + encodeURIComponent(oForm["password"].value);
-					} else if(oForm.elements[i].name == "homepage") {
-						queryString += "&homepage_" + entryId +"=" + encodeURIComponent(oForm["homepage"].value);
-					} else if(oForm.elements[i].name == "secret") {
-						if (oForm.elements[i].checked) {
-							queryString += "&secret_" + entryId +"=1";
+					if (queryString != "")
+						linker = "&";
+					else
+						linker = "";
+					
+					// disabled 상태이면 패스.
+					if (oForm.elements[i].disabled == true)
+						continue;
+					
+					if (oForm.elements[i].tagName.toLowerCase() == "input") {
+						switch (oForm.elements[i].type) {
+							case "checkbox":
+							case "radio":
+								if (oForm.elements[i].checked == true) {
+									if (oForm.elements[i].name == tempSecret)
+										queryString += linker + oForm.elements[i].name + '=' + oForm.elements[i].value;
+									else if (oForm.elements[i].id == tempSecret)
+										queryString += linker + oForm.elements[i].id + '=' + oForm.elements[i].value;
+									else if (oForm.elements[i].name != '')
+										queryString += linker + oForm.elements[i].name + '_' + entryId + '=' + oForm.elements[i].value;
+									else if (oForm.elements[i].id != '')
+										queryString += linker + oForm.elements[i].id + "=" + oForm.elements[i].value;
+								}
+								break;
+							case "text":
+							case "password":
+							case "hidden":
+							case "button":
+							case "submit":
+								if (oForm.elements[i].name == tempName)
+									queryString += linker + oForm.elements[i].name + '=' + oForm.elements[i].value;
+								else if (oForm.elements[i].id == tempName)
+									queryString += linker + oForm.elements[i].id + '=' + oForm.elements[i].value;
+								else if (oForm.elements[i].name == tempPassword)
+									queryString += linker + oForm.elements[i].name + '=' + oForm.elements[i].value;
+								else if (oForm.elements[i].id == tempPassword)
+									queryString += linker + oForm.elements[i].id + '=' + oForm.elements[i].value;
+								else if (oForm.elements[i].name == tempHomepage)
+									queryString += linker + oForm.elements[i].name + '=' + oForm.elements[i].value;
+								else if (oForm.elements[i].id == tempHomepage)
+									queryString += linker + oForm.elements[i].id + '=' + oForm.elements[i].value;
+								else if (oForm.elements[i].name != '')
+									queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + oForm.elements[i].value;
+								else if (oForm.elements[i].id != '')
+									queryString += linker + oForm.elements[i].id + "=" + oForm.elements[i].value;
+								break;
+							//case "file":
+							//	break;
 						}
-					} else if(oForm.elements[i].name == "comment") {
-						queryString += "&comment_" + entryId +"=" + encodeURIComponent(oForm["comment"].value);
-					} else {
-						if(oForm.elements[i].type == "radio") {
-							queryString += "&" + oForm.elements[i].name + "_" + entryId +"=" + oForm.elements[i].value;
-						} else if(oForm.elements[i].type == "checkbox") {
-							queryString += "&" + oForm.elements[i].name + "_" + entryId +"=1";
-						} else if(oForm.elements[i].name != '') {
-							queryString += "&" + oForm.elements[i].name + "_" + entryId +"=" + encodeURIComponent(oForm.elements[i].value);
-						}
+					} else if (oForm.elements[i].tagName.toLowerCase() == "select") {
+						num = oForm.elements[i].selectedIndex;
+						if (oForm.elements[i].name != '')
+							queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + oForm.elements[i].options[num].value;
+						else if (oForm.elements[i].id != '')
+							queryString += linker + oForm.elements[i].id + "=" + oForm.elements[i].options[num].value;
+					} else if (oForm.elements[i].tagName.toLowerCase() == "textarea") {
+						if (oForm.elements[i].name == tempComment)
+							queryString += linker + oForm.elements[i].name + '=' + oForm.elements[i].value;
+						else if (oForm.elements[i].name != '')
+							queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + oForm.elements[i].value;
+						else if (oForm.elements[i].id != '')
+							queryString += linker + oForm.elements[i].id + "=" + oForm.elements[i].value;
 					}
 				}
 				request.send(queryString);
