@@ -22,10 +22,13 @@ if (file_exists(ROOT . "/plugins/$pluginDir/plugin-main.css")) {
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/plugin-main.css" />
 <?php
 }
+
 if (file_exists(ROOT . "/plugins/$pluginDir/plugin-main.ie.css")) {
 ?>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/plugin-main.ie.css" />
 <?php
+}
+
 if (file_exists(ROOT . "/plugins/$pluginDir/plugin-main.ie7.css")) {
 ?>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/plugin-main.ie7.css" />
