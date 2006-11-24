@@ -13,5 +13,5 @@ requireStrictRoute();
 if (setBlogDescription($owner, trim($_POST['description']))) {
 	respondResultPage(0);
 }
-respondResultPage( - 1);
+respondResultPage(-1);
 ?>
