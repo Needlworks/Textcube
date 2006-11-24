@@ -156,7 +156,7 @@ function api_getCategoryIdByName( $name_array )
 	$category->open(false);
 	
 	$name = $name_array[0];
-	$id = 1;
+	$id = 0;
 	
 	while(1)
 	{
