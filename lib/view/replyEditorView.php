@@ -105,7 +105,7 @@ if (doesHaveOwnership() && array_key_exists('replier', $comment) && (is_null($co
 				</dl>
 				
 				<div class="button-box">
-					<input type="button" class="input-button" name="Submit" value="<?php echo _text('완료');?>" onclick="<?php echo $confirmString;?> submitComment()" />
+					<input type="button" class="input-button" value="<?php echo _text('완료');?>" onclick="<?php echo $confirmString;?> submitComment()" />
 				</div>
 			</div>
 		</div>
