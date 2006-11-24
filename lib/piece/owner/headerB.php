@@ -25,13 +25,17 @@ if (file_exists(ROOT . "/plugins/$pluginDir/plugin-main.css")) {
 
 if (file_exists(ROOT . "/plugins/$pluginDir/plugin-main.ie.css")) {
 ?>
+	<!--[if lte IE 6]>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/plugin-main.ie.css" />
+	<![endif]-->
 <?php
 }
 
 if (file_exists(ROOT . "/plugins/$pluginDir/plugin-main.ie7.css")) {
 ?>
+	<!--[if IE 7]>
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/plugin-main.ie7.css" />
+	<![endif]-->
 <?php
 }
 ?>
