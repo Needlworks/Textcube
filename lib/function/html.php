@@ -13,7 +13,7 @@ function stripHTML($text, $allowTags = array()) {
 				$text = str_replace($matches[0][$i], '', $text);
 		}
 	}
-	$text = preg_replace('/&nbsp;?/', ' ', $text);
+	$text = preg_replace('/&nbsp;?|\xc2\xa0\x20/', ' ', $text);
 	$text = trim(preg_replace('/\s+/', ' ', $text));
 	if(!empty($text))
 		$text = str_replace(array('&#39;', '&apos;', '&quot;'), array('\'', '\'', '"'), $text);
