@@ -62,15 +62,15 @@
 			<fieldset legend="각 부분의 날짜형식을 선택해 주세요.">
 				<field title="보관함 날짜 : " name="archive_date" type="text" value="{%Y|}{%M}"></field>
 				<field title="달력 날짜 : " name="calendar_date" type="text" value="{%m }{%Y}"></field>
-				<field title="댓글 날짜 : " name="comment_date" type="text" value="{%Y年}{ %M月}{ %D日}{ %H時}{ %I分}"></field>
 				<field title="댓글 목록 날짜 : " name="comment_list_date" type="text" value="{%Y년}{ %M월}{ %D일}"></field>
-				<field title="방명록 날짜 : " name="guestbook_date" type="text" value="{%Y년}{ %M월}{ %D일}{ %H시}{ %I분}"></field>
 				<field title="목록 날짜 : " name="list_date" type="text" value="{%Y년}{ %M월}{ %D일}"></field>
+				<field title="댓글 날짜 : " name="comment_date" type="text" value="{%Y年}{ %M月}{ %D日}{ %H時}{ %I分}"></field>
+				<field title="방명록 날짜 : " name="guestbook_date" type="text" value="{%Y년}{ %M월}{ %D일}{ %H시}{ %I분}"></field>
 				<field title="공지사항 날짜 : " name="notice_date" type="text" value="{%Y년}{ %M월}{ %D일}{ %H시}{ %I분}{ %S초}"></field>
 				<field title="포스트 날짜 : " name="post_date" type="text" value="{%M}{ %o,}{ %Y}{ %H}{:%I}{:%S}"></field>
+				<field title="트랙백 날짜 : " name="trackback_date" type="text" value="%M{ %d,} %Y{ %H}{:%I}{:%S}"></field>
 				<field title="최근 댓글 날짜 : " name="recent_comment_date" type="text" value="{%M}{ %d,}{ %Y}{ %H시}{ %I분}{ %S초}"></field>
 				<field title="최근 트랙백 날짜 : " name="recent_trackback_date" type="text" value="{%o }%M"></field>
-				<field title="트랙백 날짜 : " name="trackback_date" type="text" value="%M{ %d,} %Y{ %H}{:%I}{:%S}"></field>
 			</fieldset>
 	 	</config>
     <config xml:lang="en" dataValHandler="">

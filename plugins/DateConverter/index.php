@@ -58,13 +58,55 @@ function convertDateFormat($argTarget, $argType) {
 		$strLanguage = "korean";
 	}
 	
-	eregi("^([0-9]{4})?/?([0-9]{2})?/?([0-9]{2})? ?([0-9]{2})?:?([0-9]{2})?:?([0-9]{2})?$", $argTarget, $rgTemp);
-	$strYear = $rgTemp[1];
-	$strMonth = $rgTemp[2];
-	$strDay = $rgTemp[3];
-	$strHour = $rgTemp[4];
-	$strMinute = $rgTemp[5];
-	$strSecond = $rgTemp[6];
+	$strYear = NULL;
+	$strMonth = NULL;
+	$strDay = NULL;
+	$strHour = NULL;
+	$strMinute = NULL;
+	$strSecond = NULL;
+	
+	switch ($argType) {
+		case 'archive date':
+		case 'calendar head':
+			preg_match('@^([0-9]{4})/([0-9]{2})$@', $argTarget, $rgTemp);
+			$strYear = $rgTemp[1];
+			$strMonth = $rgTemp[2];
+			break;
+		case 'comment list date':
+		case 'list date':
+			if (preg_match('@^([0-9]{4})/([0-9]{2}/([0-9]{2})$@', $argTarget, $rgTemp)) {
+				$strYear = $rgTemp[1];
+				$strMonth = $rgTemp[2];
+				$strDay = $rgTemp[3];
+			} else if (preg_match('@^([0-9]{2}):([0-9]{2}):([0-9]{2})$@', $argTarget, $rgTemp)) {
+				$strHour = $rgTemp[1];
+				$strMinute = $rgTemp[2];
+				$strSecond = $rgTemp[3];
+			}
+			break;
+		case 'comment date':
+		case 'guestbook date':
+		case 'notice date':
+		case 'post date':
+		case 'trackback date':
+			preg_match('@^([0-9]{4})/([0-9]{2})/([0-9]{2}) ([0-9]{2}):([0-9]{2})$@', $argTarget, $rgTemp);
+			$strYear = $rgTemp[1];
+			$strMonth = $rgTemp[2];
+			$strDay = $rgTemp[3];
+			$strHour = $rgTemp[4];
+			$strMinute = $rgTemp[5];
+			break;
+		case 'recent comment date':
+		case 'recent trackback date':
+			if (preg_match('@^([0-9]{2})/([0-9]{2})$@', $argTarget, $rgTemp)) {
+				$strMonth = $rgTemp[1];
+				$strDay = $rgTemp[2];
+			} else if (preg_match('@^([0-9]{2}):([0-9]{2})$@', $argTarget, $rgTemp)) {
+				$strHour = $rgTemp[1];
+				$strMinute = $rgTemp[2];
+			}
+			break;
+	}
 	
 	$rgCustomIdentifier = array();
 	if ($strYear != false) {
