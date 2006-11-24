@@ -54,6 +54,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 						<script type="text/javascript">
 							//<![CDATA[
 								var enclosured = "<?php echo getEnclosure($entry['id']);?>";
+								var originalPermalink = "<?php echo htmlspecialchars($entry['slogan']);?>";
 								
 								window.onerror = function(errType, errURL,errLineNum) {
 									window.status = "Error: " + errType +" (on line " + errLineNum + " of " + errURL + ")";
@@ -225,6 +226,14 @@ if (defined('__TATTERTOOLS_POST__')) {
 												return false;
 											}
 											PM.removeRequest(this);
+											var returnURI = "";
+											var oForm = document.forms[0];
+											var changedPermalink = trim(oForm.permalink.value);
+											if(originalPermalink == changedPermalink) {
+												returnURI = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
+											} else {
+												returnURI = "<?php echo escapeJSInCData("$blogURL/" . $entry['id']);?>";
+											}
 <?php
 if (isset($_GET['popupEditor'])) {
 ?>
@@ -233,7 +242,7 @@ if (isset($_GET['popupEditor'])) {
 <?php
 } else if (isset($_GET['returnURL'])) {
 ?>
-											window.location = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
+											window.location = returnURI;
 <?php
 } else {
 ?>

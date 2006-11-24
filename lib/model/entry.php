@@ -715,4 +715,13 @@ function getEntryVisibilityName($visibility) {
 			return _text('발행');
 	}
 }
+
+function getSloganById($owner, $id) {
+	global $database;
+	$result = fetchQueryCell("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id");
+	if (is_null($result))
+		return false;
+	else
+		return $result;
+}
 ?>
