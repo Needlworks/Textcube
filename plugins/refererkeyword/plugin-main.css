@@ -44,41 +44,6 @@
 	width                            : 102px;
 }
 
-/* month / day ----------------------------------------------------------------------------------*/
-#statistics-day-inbox,
-#statistics-month-inbox
-{
-	margin-top                       : 5px;
-}
-
-#statistics-month-inbox tbody tr td
-{
-	cursor                           : pointer;
-}
-
-/* Referer ***************************************************************************************/
-
-/* rank -----------------------------------------------------------------------------------------*/
-#part-statistics-rank
-{
-	float                            : left;
-}
-
-#part-statistics-rank table.data-inbox
-{
-	width                            : auto;
-}
-
-#part-statistics-rank table.data-inbox tbody tr td.rank
-{
-	text-align                       : center;
-}
-
-#part-statistics-rank table.data-inbox tbody tr td.site
-{
-	overflow                         : hidden;
-}
-
 /* log ------------------------------------------------------------------------------------------*/
 #part-statistics-log
 {
@@ -93,6 +58,11 @@
 #part-statistics-log #page-navigation
 {
 	clear                            : none;
+}
+
+#part-statistics-log table.data-inbox
+{
+	width : 600px;
 }
 
 #part-statistics-log table.data-inbox tbody tr td.rank
