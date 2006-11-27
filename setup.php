@@ -1125,7 +1125,8 @@ CREATE TABLE {$_POST['dbPrefix']}Entries (
   trackbacks int(11) NOT NULL default '0',
   PRIMARY KEY (owner, id, draft),
   KEY owner (owner),
-  KEY category (category)
+  KEY category (category),
+  KEY id (id)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}FeedGroupRelations (
   owner int(11) NOT NULL default '0',

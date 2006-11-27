@@ -382,6 +382,15 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks isFiltered", 'Type'
 	}
 }
 
+if (DBQuery::queryCell("DESC {$database['prefix']}Entries id", 'Key') != 'MUL') { // Since 1.0.3
+	$changed = true;
+	echo '<li>', _text('본문 테이블에 태그 검색 향상을 위한 인덱스를 추가합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD INDEX id (id)"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
