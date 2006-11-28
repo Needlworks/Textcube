@@ -384,30 +384,13 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks isFiltered", 'Type'
 
 if (DBQuery::queryCell("DESC {$database['prefix']}Entries id", 'Key') == 'PRI') { // Since 1.1.0.3
 	$changed = true;
-	echo '<li>', _text('본문 테이블에서 필요없는 인덱스를 제거합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD INDEX id"))
+	echo '<li>', _text('본문 테이블에 태그 검색 향상을 위한 인덱스를 추가합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD INDEX id (id)"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-if (DBQuery::queryCell("DESC {$database['prefix']}Entries owner", 'Key') == 'PRI') {
-	$changed = true;
-	echo '<li>', _text('본문 테이블에서 필요없는 인덱스를 제거합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD INDEX owner"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
-
-if (DBQuery::queryCell("DESC {$database['prefix']}TagRelations owner", 'Key') == 'PRI') {
-	$changed = true;
-	echo '<li>', _text('태그 관계 테이블에서 필요없는 인덱스를 제거합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}TagRelations ADD INDEX owner"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
 
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
