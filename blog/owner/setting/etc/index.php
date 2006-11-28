@@ -161,7 +161,13 @@ if (extension_loaded('gd')) {
 											<dt><span class="label"><?php echo _t('기본 설정');?></span></dt>
 											<dd>
 												<input type="checkbox" class="checkbox" id="useResamplingAsDefault" name="useResamplingAsDefault" value="yes" onclick="if (this.checked == false && document.getElementById('useWatermarkAsDefault').checked == true) document.getElementById('useWatermarkAsDefault').checked = false;"<?php echo (getUserSetting("resamplingDefault") == "yes") ? ' checked="checked"' : NULL;?> /><label for="useResamplingAsDefault"><?php echo _t('이미지 리샘플링 기능을 기본으로 사용합니다. <em>이 기능 사용시 서버에 많은 부하가 걸릴 수 있으니 주의하시기 바랍니다.</em>');?></label><br />
+<?php
+	if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
+?>
 												<input type="checkbox" class="checkbox" id="useWatermarkAsDefault" name="useWatermarkAsDefault" value="yes" onclick="if (this.checked == true && document.getElementById('useResamplingAsDefault').checked == false) document.getElementById('useResamplingAsDefault').checked = true;"<?php echo (getUserSetting("waterMarkDefault") == "yes") ? ' checked="checked"' : NULL;?> /><label for="useWatermarkAsDefault"><?php echo _t('워터마크 기능을 기본으로 사용합니다.');?></label>
+<?php
+	}
+?>
 											</dd>
 										</dl>
 										<dl id="watermark-line" class="line">

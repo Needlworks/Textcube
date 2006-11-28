@@ -121,7 +121,7 @@ function getThumbnailPaddingColor() {
 function makeThumbnail($imgString, $originSrc, $paddingArray, $waterMarkArray, $useAbsolutePath) {
 	global $database, $owner, $blogURL, $serviceURL, $pathURL;
 	
-	if (is_null(getUserSetting("resamplingDefault"))) {
+	if (!extension_loaded('gd') || is_null(getUserSetting("resamplingDefault"))) {
 		return $imgString;
 	} else {
 		$waterMarkOn = getUserSetting("waterMarkDefault", "no");

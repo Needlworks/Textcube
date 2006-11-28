@@ -1045,12 +1045,24 @@ function printEntryEditorProperty($alt=NULL) {
 														<dt class="property-name"><label for="propertyImage1_caption1"><?php echo _t('자막');?></label></dt>
 														<dd><textarea class="input-text" id="propertyImage1_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
+<?php
+	if (extension_loaded('gd')) {
+?>
 													<dl class="resample-property-box line">
 														<dd>
 															<input type="checkbox" id="propertyImage1_resample1" onclick="checkResampling('resample', 1, 1); editor.setProperty()" /> <label for="propertyImage1_resample1"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
+<?php
+		if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
+?>
 															<input type="checkbox" id="propertyImage1_watermark1" onclick="checkResampling('watermark', 1, 1); editor.setProperty()" /> <label for="propertyImage1_watermark1"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
+<?php
+		}
+?>
 														</dd>
 													</dl>
+<?php
+	}
+?>
 												</div>
 											</div>
 											
@@ -1075,12 +1087,24 @@ function printEntryEditorProperty($alt=NULL) {
 														<dt class="property-name"><label for="propertyImage2_caption1"><?php echo _t('자막');?></label></dt>
 														<dd><textarea class="input-text" id="propertyImage2_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
+<?php
+	if (extension_loaded('gd')) {
+?>
 													<dl class="resample-property-box line">
 														<dd>
 															<input type="checkbox" id="propertyImage2_resample1" onclick="checkResampling('resample', 2, 1); editor.setProperty()" /> <label for="propertyImage2_resample1"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
+<?php
+		if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
+?>
 															<input type="checkbox" id="propertyImage2_watermark1" onclick="checkResampling('watermark', 2, 1); editor.setProperty()" /> <label for="propertyImage2_watermark1"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
+<?php
+		}
+?>
 														</dd>
 													</dl>
+<?php
+	}
+?>
 												</div>
 												
 												<div class="group">
@@ -1097,12 +1121,24 @@ function printEntryEditorProperty($alt=NULL) {
 														<dt class="property-name"><label for="propertyImage2_resample2"><?php echo _t('자막');?></label></dt>
 														<dd><textarea class="input-text" id="propertyImage2_caption2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
+<?php
+	if (extension_loaded('gd')) {
+?>
 													<dl class="resample-property-box line">
 														<dd>
 															<input type="checkbox" id="propertyImage2_resample2" onclick="checkResampling('resample', 2, 2); editor.setProperty()" /> <label for="propertyImage2_resample2"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
+<?php
+		if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
+?>
 															<input type="checkbox" id="propertyImage2_watermark2" onclick="checkResampling('watermark', 2, 2); editor.setProperty()" /> <label for="propertyImage2_watermark2"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
+<?php
+		}
+?>
 														</dd>
 													</dl>
+<?php
+	}
+?>
 												</div>
 											</div>
 											
@@ -1127,12 +1163,24 @@ function printEntryEditorProperty($alt=NULL) {
 														<dt class="property-name"><label for="propertyImage3_caption1"><?php echo _t('자막');?></label></dt>
 														<dd><textarea class="input-text" id="propertyImage3_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
+<?php
+	if (extension_loaded('gd')) {
+?>
 													<dl class="resample-property-box line">
 														<dd>
 															<input type="checkbox" id="propertyImage3_resample1" onclick="checkResampling('resample', 3, 1); editor.setProperty()" /> <label for="propertyImage3_resample1"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
+<?php
+		if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
+?>
 															<input type="checkbox" id="propertyImage3_watermark1" onclick="checkResampling('watermark', 3, 1); editor.setProperty()" /> <label for="propertyImage3_watermark1"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
+<?php
+		}
+?>	
 														</dd>
 													</dl>
+<?php
+	}
+?>
 												</div>
 												
 												<div class="group">
@@ -1149,12 +1197,24 @@ function printEntryEditorProperty($alt=NULL) {
 														<dt class="property-name"><label for="propertyImage3_caption2"><?php echo _t('자막');?></label></dt>
 														<dd><textarea class="input-text" id="propertyImage3_caption2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
+<?php
+	if (extension_loaded('gd')) {
+?>
 													<dl class="resample-property-box line">
 														<dd>
 															<input type="checkbox" id="propertyImage3_resample2" onclick="checkResampling('resample', 3, 2); editor.setProperty()" /> <label for="propertyImage3_resample2"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
+<?php
+		if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
+?>
 															<input type="checkbox" id="propertyImage3_watermark2" onclick="checkResampling('watermark', 3, 2); editor.setProperty()" /> <label for="propertyImage3_watermark2"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
+<?php
+		}
+?>
 														</dd>
 													</dl>
+<?php
+	}
+?>
 												</div>
 												
 												<div class="group">
@@ -1171,12 +1231,24 @@ function printEntryEditorProperty($alt=NULL) {
 														<dt class="property-name"><label for="propertyImage3_caption3"><?php echo _t('자막');?></label></dt>
 														<dd><textarea class="input-text" id="propertyImage3_caption3" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
 													</dl>
+<?php
+	if (extension_loaded('gd')) {
+?>
 													<dl class="resample-property-box line">
 														<dd>
 															<input type="checkbox" id="propertyImage3_resample3" onclick="checkResampling('resample', 3, 3); editor.setProperty()" /> <label for="propertyImage3_resample3"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
+<?php
+		if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
+?>	
 															<input type="checkbox" id="propertyImage3_watermark3" onclick="checkResampling('watermark', 3, 3); editor.setProperty()" /> <label for="propertyImage3_watermark3"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
+<?php
+		}
+?>
 														</dd>
 													</dl>
+<?php
+	}
+?>
 												</div>
 											</div>
 											
