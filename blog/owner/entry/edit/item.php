@@ -225,15 +225,8 @@ if (defined('__TATTERTOOLS_POST__')) {
 											entryManager.pageHolder.isHolding = function () {
 												return false;
 											}
-											PM.removeRequest(this);
-											var returnURI = "";
 											var oForm = document.forms[0];
 											var changedPermalink = trim(oForm.permalink.value);
-											if(originalPermalink == changedPermalink) {
-												returnURI = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
-											} else {
-												returnURI = "<?php echo escapeJSInCData("$blogURL/" . $entry['id']);?>";
-											}
 <?php
 if (isset($_GET['popupEditor'])) {
 ?>
@@ -242,6 +235,13 @@ if (isset($_GET['popupEditor'])) {
 <?php
 } else if (isset($_GET['returnURL'])) {
 ?>
+											PM.removeRequest(this);
+											var returnURI = "";
+											if(originalPermalink == changedPermalink) {
+												returnURI = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
+											} else {
+												returnURI = "<?php echo escapeJSInCData("$blogURL/" . $entry['id']);?>";
+											}
 											window.location = returnURI;
 <?php
 } else {
