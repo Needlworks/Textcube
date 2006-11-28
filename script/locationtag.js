@@ -163,6 +163,12 @@ function LocationTag(container, language, disable)
 		    case 13:	// Enter
 			    instance.setValue(this.value, true);
 			    break;
+			case 191:   // slash
+				if(!event.shiftKey)
+					instance.setValue(this.value, true);
+				else
+					return event.keyCode;
+				break;
 		    case 9 :    // tab
 		        if (this.value.trim() == "") return event.keyCode;
 			    instance.setValue(this.value, true);
