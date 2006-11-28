@@ -170,7 +170,7 @@ function makeThumbnail($imgString, $originSrc, $paddingArray, $waterMarkArray, $
 		
 		$tempURL = $pathURL."/thumbnail/$owner/".$newTempFileName;
 		if ($useAbsolutePath == true) {
-			$tempURL = "$serviceURL/cache/thumbnail/$owner/$newTempFileName";
+			$tempURL = "$serviceURL/thumbnail/$owner/$newTempFileName";
 		}
 		
 		$checkResult = Image::checkExistingThumbnail($originSrc, $tempSrc, $tempWidth, $tempHeight, $paddingArray, $waterMarkArray);
