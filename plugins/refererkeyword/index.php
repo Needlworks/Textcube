@@ -79,7 +79,7 @@ for ($i=0; $i<sizeof($refereres); $i++) {
 			$keyword = urldecode(rawurldecode($matches[2]));
 		else if(strpos($record['url'], 'yahoo.') !== false && preg_match('/\Wp=([^&]+)/i', $record['url'], $matches))
 			$keyword = urldecode(rawurldecode($matches[1]));
-		else if(preg_match('/\/search\/([^\/]+)/i', $record['url'], $matches))
+		else if(preg_match('@/search/(?:\w+/)*([^/?]+)@i', $record['url'], $matches))
 			$keyword = urldecode(rawurldecode($matches[1]));
 		if(!UTF8::validate($keyword))
 			$keyword = UTF8::correct(UTF8::bring($keyword));
