@@ -23,7 +23,7 @@ function printHtmlFooter() {
 }
 
 function dress($tag, $value, & $contents) {
-	if (eregi("\[##_{$tag}_##\]", $contents, $temp)) {
+	if (preg_match("@\\[##_{$tag}_##\\]@iU", $contents)) {
 		$contents = str_replace("[##_{$tag}_##]", $value, $contents);
 		return true;
 	} else {
@@ -356,7 +356,7 @@ function getScriptsOnFoot() {
 	return $view;
 }
 
-function getTrackbacksView($entryId, & $skin) {
+function getTrackbacksView($entryId, $skin) {
 	global $suri, $defaultURL, $skinSetting, $blogURL, $service;
 	$trackbacksContainer = $skin->trackbackContainer;
 	$trackbacksView = '';
@@ -391,8 +391,8 @@ function getTrackbacksView($entryId, & $skin) {
 	return $trackbacksView;
 }
 
-function getCommentView($entryId, & $skin) {
-	global $database, $blogURL, $service, $owner, $suri, $paging, $blog;
+function getCommentView($entryId, $skin) {
+	global $database, $blogURL, $service, $owner, $suri, $paging;
 	//if ($entryId <= 0)
 	//	return getGuestCommentView($entryId, $skin);
 	$authorized = doesHaveOwnership();
@@ -401,11 +401,9 @@ function getCommentView($entryId, & $skin) {
 	if ($entryId > 0) {
 		$prefix1 = 'rp';
 		$isComment = true;
-		$SubItem = 'commentSubItem';
 	} else {
 		$prefix1 = 'guest';
 		$isComment = false;
-		$SubItem = 'guestSubItem';
 	}
 	$commentView = ($isComment ? $skin->comment : $skin->guest);
 	$commentItemsView = '';
@@ -558,17 +556,15 @@ function getCommentView($entryId, & $skin) {
 	return $commentView;
 }
 
-function getGuestCommentView($entryId, & $skin) {
+function getGuestCommentView($entryId, $skin) {
 	global $blogURL, $owner, $suri, $paging, $blog, $skinSetting;
 	$authorized = doesHaveOwnership();
 	if ($entryId > 0) {
 		$prefix1 = 'rp';
 		$isComment = true;
-		$SubItem = 'commentSubItem';
 	} else {
 		$prefix1 = 'guest';
 		$isComment = false;
-		$SubItem = 'guestSubItem';
 	}
 	$commentView = "<form method=\"post\" action=\"$blogURL/comment/add/$entryId\" onsubmit=\"return false\" style=\"margin: 0\">" . ($isComment ? $skin->comment : $skin->guest) . '</form>';
 	$commentItemsView = '';
@@ -980,7 +976,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 	}
 }
 
-function getArchivesView($archives, & $template) {
+function getArchivesView($archives, $template) {
 	global $blogURL;
 	ob_start();
 	foreach ($archives as $archive) {
@@ -1097,7 +1093,7 @@ function getCalendarView($calendar) {
 	return $view;
 }
 
-function getRecentEntriesView($entries, & $template) {
+function getRecentEntriesView($entries, $template) {
 	global $blogURL, $skinSetting;
 	ob_start();
 	foreach ($entries as $entry) {
@@ -1112,7 +1108,7 @@ function getRecentEntriesView($entries, & $template) {
 	return $view;
 }
 
-function getRecentCommentsView($comments, & $template) {
+function getRecentCommentsView($comments, $template) {
 	global $blogURL, $skinSetting;
 	ob_start();
 	foreach ($comments as $comment) {
@@ -1128,7 +1124,7 @@ function getRecentCommentsView($comments, & $template) {
 	return $view;
 }
 
-function getRecentTrackbacksView($trackbacks, & $template) {
+function getRecentTrackbacksView($trackbacks, $template) {
 	global $blogURL, $skinSetting;
 	ob_start();
 	foreach ($trackbacks as $trackback) {
@@ -1144,7 +1140,7 @@ function getRecentTrackbacksView($trackbacks, & $template) {
 	return $view;
 }
 
-function getLinksView($links, & $template) {
+function getLinksView($links, $template) {
 	global $blogURL, $skinSetting;
 	ob_start();
 	foreach ($links as $link) {
@@ -1158,7 +1154,7 @@ function getLinksView($links, & $template) {
 	return $view;
 }
 
-function getRandomTagsView($tags, & $template) {
+function getRandomTagsView($tags, $template) {
 	global $blogURL;
 	ob_start();
 	list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();
@@ -1282,7 +1278,6 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 		$count++;
 		$attributes = explode('|', substr($view, $start + 4, $end - $start - 4));
 		$prefix = '';
-		$postfix = '';
 		$buf = '';
 		if ($attributes[0] == 'Gallery') {
 			if (count($attributes) % 2 == 1)
@@ -1829,7 +1824,7 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 ?>
 												<div id="entryHead">
 													<div class="title"><a href="<?php echo htmlspecialchars($entry['permalink']);?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($entry['entry_title']);?></a></div>
-													<div class="writing-info"><span class="by">by </span><span class="name"><?php echo htmlspecialchars($entry['author'] ? eregi_replace("^\((.+)\)$", "\\1", $entry['author']) : $entry['blog_title']);?></span><span class="divider"> : </span><span class="date"><?php echo date('Y-m-d H:i:s', $entry['written']);?></span></div>
+													<div class="writing-info"><span class="by">by </span><span class="name"><?php echo htmlspecialchars($entry['author'] ? eregi_replace("^\\((.+)\\)$", "\\1", $entry['author']) : $entry['blog_title']);?></span><span class="divider"> : </span><span class="date"><?php echo date('Y-m-d H:i:s', $entry['written']);?></span></div>
 													<div class="open"><a id="entryPermalink" href="<?php echo htmlspecialchars($entry['permalink']);?>" onclick="window.open(this.href); return false;" title="<?php echo _t('이 포스트를 새 창으로 엽니다.');?>"><span class="text"><?php echo _t('새 창으로');?></span></a></div>
 												</div>
 												
