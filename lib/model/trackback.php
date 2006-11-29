@@ -167,7 +167,15 @@ function sendTrackback($owner, $entryId, $url) {
 	$entry['content'] = getEntryContentView($owner, $entryId, $entry['content'], getKeywordNames($owner));
 	$excerpt = UTF8::lessen(removeAllTags(stripHTML($entry['content'])), 255);
 	$blogTitle = $blog['title'];
-	$isNeedConvert = strpos($url, '/rserver.php?') !== false || strpos($url, 'blog.naver.com') !== false || strpos($url, '.egloos.com/tb/') !== false;
+	$isNeedConvert = 
+		strpos($url, '/rserver.php?') !== false // 구버전 태터
+		|| strpos($url, 'blog.naver.com/tb') !== false // 네이버 블로그
+		|| strpos($url, 'news.naver.com/tb/') !== false // 네이버 뉴스
+		|| strpos($url, 'blog.empas.com') !== false // 엠파스 블로그
+		|| strpos($url, 'blog.yahoo.com') !== false // 야후 블로그
+		|| strpos($url, 'www.blogin.com/tb/') !== false // 블로긴
+		|| strpos($url, 'cytb.cyworld.nate.com') !== false // 싸이 페이퍼
+		;
 	if ($isNeedConvert) {
 		$title = UTF8::convert($title);
 		$excerpt = UTF8::convert($excerpt);
