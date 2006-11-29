@@ -168,13 +168,13 @@ function sendTrackback($owner, $entryId, $url) {
 	$excerpt = UTF8::lessen(removeAllTags(stripHTML($entry['content'])), 255);
 	$blogTitle = $blog['title'];
 	$isNeedConvert = 
-		strpos($url, '/rserver.php?') !== false // ±¸¹öÀü ÅÂÅÍ
-		|| strpos($url, 'blog.naver.com/tb') !== false // ³×ÀÌ¹ö ºí·Î±×
-		|| strpos($url, 'news.naver.com/tb/') !== false // ³×ÀÌ¹ö ´º½º
-		|| strpos($url, 'blog.empas.com') !== false // ¿¥ÆÄ½º ºí·Î±×
-		|| strpos($url, 'blog.yahoo.com') !== false // ¾ßÈÄ ºí·Î±×
-		|| strpos($url, 'www.blogin.com/tb/') !== false // ºí·Î±ä
-		|| strpos($url, 'cytb.cyworld.nate.com') !== false // ½ÎÀÌ ÆäÀÌÆÛ
+		strpos($url, '/rserver.php?') !== false // êµ¬ë²„ì „ íƒœí„°
+		|| strpos($url, 'blog.naver.com/tb') !== false // ë„¤ì´ë²„ ë¸”ë¡œê·¸
+		|| strpos($url, 'news.naver.com/tb/') !== false // ë„¤ì´ë²„ ë‰´ìŠ¤
+		|| strpos($url, 'blog.empas.com') !== false // ì— íŒŒìŠ¤ ë¸”ë¡œê·¸
+		|| strpos($url, 'blog.yahoo.com') !== false // ì•¼í›„ ë¸”ë¡œê·¸
+		|| strpos($url, 'www.blogin.com/tb/') !== false // ë¸”ë¡œê¸´
+		|| strpos($url, 'cytb.cyworld.nate.com') !== false // ì‹¸ì´ í˜ì´í¼
 		;
 	if ($isNeedConvert) {
 		$title = UTF8::convert($title);
