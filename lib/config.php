@@ -30,8 +30,7 @@ if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && (
 	$service['port'] = $_SERVER['SERVER_PORT'];
 
 function requireComponent($name) {
-	if (!ereg('^[[:alnum:]]+[[:alnum:].]+$', $name))
-		return;
+	//if (!ereg('^[[:alnum:]]+[[:alnum:].]+$', $name))		return;
 	include_once (ROOT . "/components/$name.php");
 }
 requireComponent('Eolin.PHP.UnifiedEnvironment');
