@@ -1373,6 +1373,8 @@ function TTCommand(command, value1, value2) {
 			getObject("propertyHyperLink").style.display = "none";
 			getObject("propertyObject").style.display = "none";
 			getObject("propertyInsertObject").style.display = "block";
+			getObject("propertyInsertObject_url").value = "";
+			getObject("propertyInsertObject_chunk").value = "";
 			break;
 		case "HideObjectBlock":
 			getObject("propertyInsertObject").style.display = "none";
