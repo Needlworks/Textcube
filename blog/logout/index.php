@@ -17,6 +17,10 @@ require ROOT . '/lib/include.php';
 if (false) {
 	fetchConfigVal();
 }
+
+if (substr($blogURL, -1) != '/') $blogURL .= '/';
+if (substr($user['homepage'], -1) != '/') $user['homepage'] .= '/';
+
 if (isset($_GET['requestURI']))
 	$_POST['requestURI'] = $_GET['requestURI'];
 if (doesHaveMembership()) {
@@ -28,4 +32,5 @@ if (doesHaveMembership()) {
 } else {
 	header("Location: $blogURL");
 }
+
 ?>
