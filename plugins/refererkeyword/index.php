@@ -75,7 +75,7 @@ for ($i=0; $i<sizeof($refereres); $i++) {
 	$record = $refereres[$i];
 	if ($i==0) $referredend = $record['referred'];
 		$keyword = "";
-		if(preg_match('/\W(q|query|k|keyword|search|stext|nlia|aqa)(?:=|%3D)([^&]+)/i', $record['url'], $matches))
+		if(preg_match('/\W(q|query|k|keyword|search|stext|nlia|aqa|wd)(?:=|%3D)([^&]+)/i', $record['url'], $matches))
 			$keyword = urldecode(rawurldecode($matches[2]));
 		else if(strpos($record['url'], 'yahoo.') !== false && preg_match('/\Wp=([^&]+)/i', $record['url'], $matches))
 			$keyword = urldecode(rawurldecode($matches[1]));
