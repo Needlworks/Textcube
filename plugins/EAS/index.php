@@ -20,7 +20,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 			
 		if ($type == 2) // Trackback Case
 		{
-			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'trackbacks WHERE';
+			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'Trackbacks WHERE';
 			$sql .= ' url = \'' . mysql_tt_escape_string($url) . '\'';
 			$sql .= ' AND isFiltered > 0';
 			
@@ -32,7 +32,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 		} else { // Comment Case
 			$tableName = $database['prefix'] . 'Comments';	
 
-			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'trackbacks WHERE';
+			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'Comments WHERE';
 			$sql .= ' comment = \'' . mysql_tt_escape_string($content) . '\'';
 			$sql .= ' AND homepage = \'' . mysql_tt_escape_string($url) . '\'';
 			$sql .= ' AND name = \'' . mysql_tt_escape_string($name) . '\'';
