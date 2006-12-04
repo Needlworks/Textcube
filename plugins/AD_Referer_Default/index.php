@@ -67,7 +67,7 @@ function AD_Referer_Default()
 								<tbody>
 <?php
 	$temp = Statistics::getRefererStatistics($owner);
-	for ($i=0; $i<sizeof($temp); $i++) {
+	for ($i=0; $i<count($temp); $i++) {
 		$record = $temp[$i];
 		
 		$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
@@ -100,7 +100,7 @@ function AD_Referer_Default()
 <?php
 	$more = false;
 	list($referers, $paging) = Statistics::getRefererLogsWithPage($_GET['page'], $perPage);
-	for ($i=0; $i<sizeof($referers); $i++) {
+	for ($i=0; $i<count($referers); $i++) {
 		$record = $referers[$i];
 		
 		$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
