@@ -547,6 +547,7 @@ h3
 	border                           : 1px solid #999999;
 	clear                            : both;
 	text-align                       : center;
+	overflow-x                       : hidden;
 }
 
 #editWindow
