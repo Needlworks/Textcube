@@ -61,7 +61,7 @@ if ($setting->load()) {
 	$writer->write('<setting>' . '<name>' . $setting->name . '</name>' . '<secondaryDomain>' . $setting->secondaryDomain . '</secondaryDomain>' . '<defaultDomain>' . Validator::getBit($setting->defaultDomain) . '</defaultDomain>' . '<title>' . $setting->title . '</title>' . '<description>' . UTF8::correct($setting->description) . '</description>' . '<banner><name>' . $setting->banner . '</name>');
 	if ($includeFileContents && file_exists(ROOT . "/attach/$owner/{$setting->banner}")) {
 		$writer->write('<content>');
-		if (!empty($setting->banner) && file_exists($setting->banner))
+		if (!empty($setting->banner) && file_exists(ROOT . "/attach/$owner/" . $setting->banner))
 			Base64Stream::encode(ROOT . "/attach/$owner/{$setting->banner}", $writer);
 		$writer->write('</content>');
 	}
