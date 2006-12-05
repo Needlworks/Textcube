@@ -656,7 +656,7 @@ function blogger_editPost()
 	$post->close();
 
 	RSS::refresh();
-
+	if($ret!=false) setUserSetting('LatestEditedEntry',$post->id);
 	return $ret ? 1 : 0;
 }
 
@@ -913,6 +913,7 @@ function metaWeblog_newPost()
 
 	$id = "{$post->id}";
 	$post->close();
+	if($id) setUserSetting('LatestEditedEntry',$id);
 	return $id;
 }
  
@@ -992,7 +993,7 @@ function metaWeblog_editPost()
 	RSS::refresh();
 
 	$post->close();
-
+	if($ret!=false) setUserSetting('LatestEditedEntry',$post->id);
 	return $ret ? 1 : 0;
 }
 
