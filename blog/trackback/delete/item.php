@@ -8,10 +8,15 @@ requireStrictRoute();
 $entryId = trashTrackback($owner, $suri['id']);
 if ($entryId !== false) {
 	$skin = new Skin($skinSetting['skin']);
-	$result = getTrackbacksView($entryId, $skin);
+	
+	$trackbackCount = getTrackbackCount($owner, $entryId);
+	list($tempTag, $trackbackCountContent) = getTrackbackCountPart($trackbackCount, $skin);
+	$recentTrackbackContent = getRecentTrackbacksView(getRecentTrackbacks($owner), $skin->recentTrackback);
+	$trackbackListContent = getTrackbacksView($entryId, $skin);
+	
 }
-if ($result === false)
+if ($trackbackListContent === false)
 	printRespond(array('error' => 1));
 else
-	printRespond(array('error' => 0, 'result' => $result));
+	printRespond(array('error' => 0, 'trackbackList' => $trackbackListContent, 'trackbackCount' => $trackbackCountContent, 'recentTrackbacks' => $recentTrackbackContent));
 ?>

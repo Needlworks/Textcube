@@ -80,7 +80,7 @@ foreach ($entries as $entry) {
 			dress('article_rep_tb_link', "alert('" . _text('이 글에는 글을 걸 수 없습니다.') . "'); return false", $entryView);
 
 		list($tempTag, $trackbackView) = getTrackbackCountPart($entry['trackbacks'], $skin);
-		dress($tempTag, $trackbackView, $entryView);
+		dress($tempTag, "<span id=\"trackbackCount{$entry['id']}\">{$trackbackView}</span>", $entryView);
 		
 		$entriesView .= $entryView;
 	} else {

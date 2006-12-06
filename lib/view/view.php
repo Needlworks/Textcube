@@ -277,7 +277,16 @@ function getUpperView($paging) {
 
 				var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/trackback/delete/" + id);
 				request.onSuccess = function() {
-					document.getElementById('entry'+entryId+'Trackback').innerHTML= this.getText("/response/result");
+					document.getElementById('entry' + entryId + 'Trackback').innerHTML = this.getText("/response/trackbackList");
+					document.getElementById('entry' + entryId + 'Trackback').style.display = "block";
+					try {
+						obj = document.getElementById('trackbackCount' + entryId);
+						if (obj != null) obj.innerHTML = this.getText("/response/trackbackCount");
+					} catch(e) { }
+					try {
+						obj = document.getElementById("recentTrackbacks");
+						if(obj != null) obj.innerHTML = this.getText("/response/recentTrackbacks");
+					} catch(e) { }
 				}
 				request.onError = function() {
 					alert('<?php echo _text('실패했습니다.');?>');

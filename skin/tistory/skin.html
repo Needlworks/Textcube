@@ -224,7 +224,7 @@
 											<h4>Subject: <a href="[##_tb_rep_url_##]" onclick="window.open(this.href); return false" rel="external nofollow">[##_tb_rep_title_##]</a></h4>
 											<span class="from">Tracked from <span class="name">[##_tb_rep_site_##]</span></span>
 											<span class="date">[##_tb_rep_date_##]</span>
-											<a href="#" onclick="[##_tb_rep_onclick_delete_##]; return false" class="delete">&nbsp;<span>삭제</span></a>
+											<a href="#void" onclick="[##_tb_rep_onclick_delete_##]; return false" class="delete">&nbsp;<span>삭제</span></a>
 											<p>[##_tb_rep_desc_##]</p>
 										</li>
 									</s_tb_rep>
@@ -421,7 +421,7 @@
 				<!-- 최근 트랙백 모듈 -->
 					<div class="recentTrackback">
 						<h3>최근에 받은 트랙백</h3>
-						<ul>
+						<ul id="recentTrackbacks">
 							<s_rcttb_rep>
 								<li>
 									<a href="[##_rcttb_rep_link_##]">[##_rcttb_rep_desc_##].</a>
