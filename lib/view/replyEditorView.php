@@ -39,6 +39,9 @@ if (!doesHaveMembership()) {
 				if (!checkValue(oForm.comment, '<?php echo _text('댓글을 입력해 주십시오.');?>')) return false;
 				oForm.submit();
 			}
+			function confirmOverwrite() {
+				return confirm('<?php echo _text('관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.\n계속 하시겠습니까?')?>');
+			}
 		//]]>
 	</script>
 </head>
@@ -96,7 +99,7 @@ if (!doesHaveOwnership()) {
 }
 
 if (doesHaveOwnership() && array_key_exists('replier', $comment) && (is_null($comment['replier']) || ($comment['replier'] != getUserId()))) {
-	$confirmString = "if (confirm('"._text('관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.\\n계속 하시겠습니까?')."'))";
+	$confirmString = "if( confirmOverwrite() )";
 }
 ?>			
 				<dl class="content-line">
