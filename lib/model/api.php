@@ -987,8 +987,8 @@ function metaWeblog_editPost()
 
 	$ret = $post->update();
 
-	// ±âÁ¸ ±ÛÀÇ ÆÄÀÏµé Áö¿ì±â (Àß Ã£¾Æ¼­)
-	// »õ·Î ¾÷·Îµå µÈ ÆÄÀÏµé ¿Å±â±â
+	// ê¸°ì¡´ ê¸€ì˜ íŒŒì¼ë“¤ ì§€ìš°ê¸° (ìž˜ ì°¾ì•„ì„œ)
+	// ìƒˆë¡œ ì—…ë¡œë“œ ëœ íŒŒì¼ë“¤ ì˜®ê¸°ê¸°
 	api_update_attaches_with_replace( $post->id );
 	RSS::refresh();
 
