@@ -40,7 +40,7 @@ $row = Statistics::getWeeklyStatistics();
 
 $row = array_reverse($row);
 
-// YÃà ¹è¿­
+// Yì¶• ë°°ì—´
 $pos = 0;
 for ($i = 7; $i >= 0; $i--) {
     $week = strtotime("-".$i." day");
@@ -53,7 +53,7 @@ for ($i = 7; $i >= 0; $i--) {
 }
 
 // Create the graph. These two calls are always required
-$graph = new Graph(175,120,"auto"); //±×·¡ÇÁÀÇ Å©±â¸¦ ÁöÁ¤
+$graph = new Graph(175,120,"auto"); //ê·¸ëž˜í”„ì˜ í¬ê¸°ë¥¼ ì§€ì •
 $graph->img->SetAntiAliasing();
 $graph->SetMargin(0,10,5,0);
 $graph->SetFrame(false);
