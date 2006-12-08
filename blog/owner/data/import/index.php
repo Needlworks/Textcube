@@ -330,6 +330,7 @@ function importer($path, $node, $line) {
 						$post2 = new Post();
 						if ($post2->open($post->id, 'id, content')) {
 							$post2->content = str_replace($cursor['name'][0]['.value'], $attachment->name, $post2->content);
+                            $post2->loadTags();
 							$post2->update();
 							$post2->close();
 						}
