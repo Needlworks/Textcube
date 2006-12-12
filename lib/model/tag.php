@@ -91,7 +91,7 @@ function getTagFrequency($tag, $max, $min) {
 	if (doesHaveOwnership())
 		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r WHERE t.id = r.tag AND r.owner = $owner AND t.name = '" . mysql_tt_escape_string($tag) . "'");
 	else
-		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r, `{$database['prefix']}Entries` e WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $owner AND t.name = '" . mysql_tt_escape_string($tag) . "'");
+		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, `{$database['prefix']}TagRelations` r, `{$database['prefix']}Entries` e WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = e.owner AND r.owner = $owner AND t.name = '" . mysql_tt_escape_string($tag) . "'");
 	$dist = $max / 3;
 	if ($count == $min)
 		return 5;
