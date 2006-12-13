@@ -10,7 +10,7 @@ if (!$entry = getEntry($owner, $suri['id'], true))
 if ($entry && ($entry['category'] >= 0)) {
 	if (isset($entry['appointed']))
 		$entry['published'] = $entry['appointed'];
-	$entry['categoryLabel'] = getCategoryLabelById($owner, $entry['id']);
+	$entry['categoryLabel'] = getCategoryLabelById($owner, $entry['category']);
 	$entries[0] = $entry;
 }
 unset($entry);

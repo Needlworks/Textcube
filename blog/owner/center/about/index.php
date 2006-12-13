@@ -221,6 +221,8 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 									<a href="http://www.mcfuture.net">McFuture</a>,
 									<a href="http://laziel.com">laziel</a>,
 									<a href="http://tokigun.net">tokigun</a>
+									<a href="http://story.isloco.com">linus</a>
+									<a href="http://nya.pe.kr">NYA</a>
 									</p>
 								</div>
 								
