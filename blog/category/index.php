@@ -8,6 +8,8 @@ if (false) {
 	fetchConfigVal();
 }
 $category = empty($suri['value']) ? 0 : getCategoryIdByLabel($owner, $suri['value']);
+if(!doesHaveOwnership() && getCategoryVisibility($owner, $category) < 2)
+	$category = null;
 if ($skinSetting['showListOnCategory'] == 1 || $skinSetting['showListOnCategory'] == 2) {
 	$listWithPaging = getEntryListWithPagingByCategory($owner, $category, $suri['page'], $blog['entriesOnList']);
 	$list = array('title' => (empty($suri['value']) ? _t('전체') : $suri['value']), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);

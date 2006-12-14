@@ -397,4 +397,23 @@ function checkRootCategoryExistence($owner) {
 	}
 	return false;
 }
+
+function getCategoryVisibility($owner, $id) {
+	global $database;
+	$result = fetchQueryCell("SELECT visibility FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
+	if (is_null($result))
+		return 2;
+	else
+		return $result;
+}
+
+function setCategoryVisibility($owner, $id, $visibility) {
+	global $database;
+	if($id == 0) return false;
+	$result = mysql_query("UPDATE {$database['prefix']}Categories SET visibility = $visibility WHERE owner = $owner AND id = $id");
+	if ($result && (mysql_affected_rows() > 0))
+		clearRSS();
+	updateEntriesOfCategory($owner);
+	return $result ? $visibility : false;
+}
 ?>

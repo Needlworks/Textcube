@@ -11,7 +11,8 @@ if(count($_POST) > 0) {
 			'id' => array('int', 'mandatory' => false),
 			'newCategory' => array('string', 'mandatory' => false),
 			'modifyCategoryName' => array('string', 'mandatory' => false),
-			'modifyCategoryBodyId' => array('string', 'default' => 'tt-body-category')
+			'modifyCategoryBodyId' => array('string', 'default' => 'tt-body-category'),
+			'visibility' => array('int', 'mandatory' => false)
 		)
 	);
 }
@@ -22,6 +23,14 @@ else if (empty($_GET['id']))
 	$selected = 0;
 else
 	$selected = $_GET['id'];
+
+if (!empty($_POST['visibility'])) {
+	$setVisibility = $_POST['visibility'];
+	$visibility = setCategoryVisibility($owner,$selected,$setVisibility);
+} else {
+	$visibility = getCategoryVisibility($owner, $selected);
+}
+
 if (!empty($_POST['deleteCategory'])) {
 	$parent = getParentCategoryId($owner, $_POST['deleteCategory']);
 	$selected = (is_null($parent)) ? 0 : $parent;
@@ -29,8 +38,10 @@ if (!empty($_POST['deleteCategory'])) {
 	$_POST['modifyCategoryBodyId'] = '';
 	deleteCategory($owner, $_POST['deleteCategory']);
 }
+
 if (!empty($_POST['direction']))
 	moveCategory($owner, $selected, $_POST['direction']);
+
 if ($selected == 0)
 	$depth = 0;
 else if (!empty($_GET['name1']) && !empty($_GET['name2']))
@@ -39,10 +50,12 @@ else if (!empty($_GET['name1']) && empty($_GET['name2']))
 	$depth = 1;
 else
 	$depth = 0;
+
 if (empty($_GET['entries']) || $_GET['entries'] == 0)
 	$entries = 0;
 else
 	$entries = $_GET['entries'];
+
 if (!empty($_POST['newCategory'])) {
 	$history = addCategory($owner, ($selected == 0) ? null : $_POST['id'], trim($_POST['newCategory'])) ? 'document.getElementById("newCategory").select();' : '';
 } else if (!empty($_POST['modifyCategoryName']) || !empty($_POST['modifyCategoryBodyId'])) {
@@ -98,6 +111,17 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 									oform.id.value=<?php echo $selected;?>;
 									oform.submit()
 								}
+
+								function changeCategoryVisibility() {
+									var oform=document.forms[0];
+									if (document.getElementById('currentVisibility').checked) {
+										oform.visibility.value = 1;
+									} else {
+										oform.visibility.value = 2;
+									}
+									oform.id.value=<?php echo $selected;?>;
+									oform.submit()
+								}
 								
 								window.addEventListener("load", expandTreeInit, false);
 								function expandTreeInit() {
@@ -134,6 +158,7 @@ require ROOT . '/lib/piece/owner/contentMenu03.php';
 										<input type="hidden" name="deleteCategory" />
 										<input type="hidden" name="direction" />
 										<input type="hidden" name="id" />
+										<input type="hidden" name="visibility" />
 																					
 										<dl id="label-create-line" class="line">
 											<dt><label for="newCategory"><?php echo _t('만들기');?></label></dt>
@@ -193,6 +218,12 @@ if ($selected > 0) {
 <?php
 }
 ?>												
+										</dl>
+										<dl id="label-visibility-line" class="line">
+											<dt><span class="label"><?php echo _t('공개 설정');?></span></dt>
+											<dd>
+												<input type="checkbox" id="currentVisibility" class="checkbox" name="currentVisibility"<?php echo $visibility != 2 ? ' checked="checked"' : '';?> onclick="changeCategoryVisibility();return false;" /><label for="currentVisibility"><?php echo _t('이 카테고리를 비공개로 설정합니다.');?></label>
+											</dd>
 										</dl>
 										<dl id="label-remove-line" class="line">
 											<dt><span class="label"><?php echo _t('분류 삭제');?></span></dt>
