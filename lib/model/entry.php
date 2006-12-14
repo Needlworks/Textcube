@@ -67,8 +67,11 @@ function getEntryListWithPagingByCategory($owner, $category, $page, $count) {
 	global $database, $suri, $folderURL;
 	if ($category === null)
 		return array();
+	if (!doesHaveOwnership() && getCategoryVisibility($owner, $category) < 2)
+		return array();
+	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	if ($category > 0) {
-		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
+		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category $visibility");
 		array_push($categories, $category);
 		$cond = 'AND category IN (' . implode(', ', $categories) . ')';
 	} else

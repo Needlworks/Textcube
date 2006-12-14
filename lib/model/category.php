@@ -401,7 +401,7 @@ function checkRootCategoryExistence($owner) {
 function getCategoryVisibility($owner, $id) {
 	global $database;
 	$result = fetchQueryCell("SELECT visibility FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
-	if (is_null($result))
+	if ($result==false)
 		return 2;
 	else
 		return $result;
