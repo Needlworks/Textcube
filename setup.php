@@ -1053,7 +1053,8 @@ CREATE TABLE {$_POST['dbPrefix']}Comments (
   PRIMARY KEY  (id),
   KEY owner (owner),
   KEY entry (entry),
-  KEY parent (parent)
+  KEY parent (parent),
+  KEY isFiltered (isFiltered)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}CommentsNotified (
   owner int(11) NOT NULL default '0',
@@ -1311,7 +1312,8 @@ CREATE TABLE {$_POST['dbPrefix']}Trackbacks (
   written int(11) NOT NULL default '0',
   isFiltered int(11) NOT NULL default '0',
   PRIMARY KEY (id),
-  UNIQUE KEY owner (owner, entry, url)
+  UNIQUE KEY owner (owner, entry, url),
+  KEY isFiltered (isFiltered)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Users (
   userid int(11) NOT NULL auto_increment,

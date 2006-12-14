@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('TATTERTOOLS_NAME', 'Tattertools');
-define('TATTERTOOLS_VERSION', '1.1.0.3a1 : Friends');
+define('TATTERTOOLS_VERSION', '1.1.1a1 : Friends');
 define('TATTERTOOLS_COPYRIGHT', 'Copyright &copy; 2004-2006. Tatter &amp; Company / Tatter &amp; Friends. All rights reserved. Licensed under the GPL.');
 define('TATTERTOOLS_HOMEPAGE', 'http://www.tattertools.com/');
 define('TATTERTOOLS_SYNC_URL', 'http://ping.eolin.com/');

@@ -382,7 +382,7 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks isFiltered", 'Type'
 	}
 }
 
-// Since 1.1.0.3
+// Since 1.1.1
 $indexes = DBQuery::queryAll("Show index from {$database['prefix']}Entries");
 $idkey = FALSE;
 foreach($indexes as $index)
@@ -396,6 +396,23 @@ if ($idkey == FALSE) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (DBQuery::queryCell("DESC {$database['prefix']}Comments isFiltered", 'Key') != 'MUL') {
+	$changed = true;
+	echo '<li>', _text('댓글 테이블에 필터 인덱스를 추가합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD INDEX isFiltered (isFiltered)"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
+if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks isFiltered", 'Key') != 'MUL') {
+	$changed = true;
+	echo '<li>', _text('글걸기 테이블에 필터 인덱스를 추가합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks ADD INDEX isFiltered (isFiltered)"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
 
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
