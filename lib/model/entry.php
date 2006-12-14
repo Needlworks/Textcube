@@ -86,7 +86,7 @@ function getEntryListWithPagingByTag($owner, $tag, $page, $count) {
 	if ($tag === null)
 		return array();
 	$tag = mysql_tt_escape_string($tag);
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
 	$sql = "SELECT e.* FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' ORDER BY published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
@@ -110,7 +110,7 @@ function getEntryListWithPagingBySearch($owner, $search, $page, $count) {
 
 function getEntriesWithPaging($owner, $page, $count) {
 	global $database;
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
 	$sql = "SELECT e.*, c.label categoryLabel FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count);
 }
@@ -125,7 +125,7 @@ function getEntriesWithPagingByCategory($owner, $category, $page, $count) {
 		$cond = 'AND e.category IN (' . implode(', ', $categories) . ')';
 	} else
 		$cond = 'AND e.category >= 0';
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
 	$sql = "SELECT e.*, c.label AS categoryLabel FROM {$database['prefix']}Entries AS e LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id WHERE e.owner = $owner AND e.draft = 0 $visibility $cond ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
@@ -135,7 +135,7 @@ function getEntriesWithPagingByTag($owner, $tag, $page, $count) {
 	if ($tag === null)
 		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
 	$tag = mysql_tt_escape_string($tag);
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
 	$sql = "SELECT e.*, c.label categoryLabel FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
@@ -150,7 +150,7 @@ function getEntriesWithPagingByNotice($owner, $page, $count) {
 function getEntriesWithPagingByPeriod($owner, $period, $page, $count) {
 	global $database, $folderURL, $suri;
 	$cond = "AND published >= " . getTimeFromPeriod($period) . " AND published < " . getTimeFromPeriod(addPeriod($period));
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
 	$sql = "SELECT e.*, c.label categoryLabel FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 $cond ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
@@ -159,7 +159,7 @@ function getEntriesWithPagingBySearch($owner, $search, $page, $count) {
 	global $database, $folderURL, $suri;
 	$search = escapeMysqlSearchString($search);
 	$cond = empty($search) ? '' : "AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND c.visibility > 1';
 	$sql = "SELECT e.*, c.label categoryLabel FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 $cond ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
