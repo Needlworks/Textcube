@@ -11,12 +11,14 @@
 a:link,
 a:visited
 {
+	color                            : #5A8FC9;
 	text-decoration                  : none;
 }
 
 a:hover,
 a:active
 {
+	color                            : #4163A2;
 	text-decoration                  : underline;
 }
 
@@ -29,10 +31,11 @@ acronym
 
 body
 {
-	font-family                      : ±¼¸², Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-family                      : 'Lucida Grande', Arial, Gulim, Tahoma, Verdana, sans-serif;
 	font-size                        : small;
 	margin                           : 14px 0 0 0;
 }
+
 
 em
 {
@@ -40,11 +43,25 @@ em
 	font-style                       : normal;
 }
 
+fieldset
+{
+	border-bottom                    : 1px solid #DDDDDD;
+	border-left                      : none;
+	border-right                     : none;
+	border-top                       : 1px solid #CCCCCC;
+	/*float                            : left;*/
+	margin                           : 0 0 30px 0;
+	/*width                            : 460px;*/
+}
+
 h1,
-h2,
-h3
+h2
 {
 	display                          : none;
+}
+
+h3
+{
 	font-size                        : 1em;
 }
 
@@ -65,7 +82,9 @@ label
 }
 
 ol,
-ol li
+ol li,
+ul,
+ul li
 {
 	list-style-type                  : none;
 }
@@ -97,12 +116,6 @@ textarea
 	border                           : 1px solid #878787;
 	font-family                      : ±¼¸², Gulim, Verdana, Tahoma, Arial, 'Lucida Grande', sans-serif;
 	font-size                        : 1em;
-}
-
-ul,
-ul li
-{
-	list-style-type                  : none;
 }
 
 /* Special Class *********************************************************************************/
@@ -483,7 +496,7 @@ input.text-readonly-input
 	margin-top                       : 2px;*/
 }
 
-#data-outbox .main-explain-box .explain
+.main-explain-box .explain
 {
 	background-color                 : #EFEFEF;
 	display                          : block;
@@ -492,32 +505,19 @@ input.text-readonly-input
 	text-align                       : left;
 }
 
-#data-outbox .main-explain-box .explain a:link,
-#data-outbox .main-explain-box .explain a:visited
+.main-explain-box .explain a:link,
+.main-explain-box .explain a:visited
 {
 	color                            : #999999;
 }
 
-#data-outbox .main-explain-box .explain a:hover,
-#data-outbox .main-explain-box .explain a:active
+.main-explain-box .explain a:hover,
+.main-explain-box .explain a:active
 {
 	color                            : #BBBBBB;
 }
 							
 /* data inbox -----------------------------------------------------------------------------------*/
-#data-outbox .data-inbox a:link,
-#data-outbox .data-inbox a:visited
-{
-	color                            : #5A8FC9;
-	text-decoration                  : none;
-}
-
-#data-outbox .data-inbox a:hover,
-#data-outbox .data-inbox a:active
-{
-	text-decoration                  : underline;
-}
-
 #data-outbox div.data-inbox,
 #data-outbox form.data-inbox
 {
@@ -654,26 +654,26 @@ legend
 
 /* button ---------------------------------------------------------------------------------------*/
 
-#data-outbox a.button:link, 
-#data-outbox a.button:visited
+a.button:link, 
+a.button:visited
 {
 	color                            : #000000;
 }
 
-#data-outbox a.button:hover, 
-#data-outbox a.button:active
+a.button:hover, 
+a.button:active
 {
 	color                            : #565656;
 	text-decoration                  : none;
 }
 
-#data-outbox .button-box
+.button-box
 {
 	clear                            : both;
 	text-align                       : center;
 }
 
-#data-outbox .input-button
+.input-button
 {
 	border                           : none;
 	background-position              : left top;
@@ -686,7 +686,7 @@ legend
 	width                            : 106px;
 }
 
-#data-outbox .button-box .button
+.button-box .button
 {
 	background-position              : left top;
 	background-repeat                : no-repeat;
@@ -702,13 +702,13 @@ legend
 	width                            : 106px;
 }
 
-#data-outbox .button-box .divider
+.button-box .divider
 {
 	display                          : none;
 }
 
 /* data subbox ----------------------------------------------------------------------------------*/
-#data-outbox div.data-subbox
+div.data-subbox
 {
 	background-color                 : #EBF2F8;
 	border-bottom                    : 2px solid #00A6ED;
@@ -717,7 +717,7 @@ legend
 	position                         : relative;
 }
 
-#data-outbox div.data-subbox h2
+div.data-subbox h2
 {
 	display                          : none;
 }
@@ -752,12 +752,12 @@ legend
 	vertical-align                   : middle;
 }
 
-#data-outbox div.data-subbox .input-button
+div.data-subbox .input-button
 {
 	vertical-align                   : middle;
 }
 
-#data-outbox div.data-subbox .delete-button
+div.data-subbox .delete-button
 {
 	color                            : #FF0000;
 }
@@ -882,7 +882,56 @@ legend
 	font-size                        : 9pt;
 }
 
+/* Etc *******************************************************************************************/
+
+/* eolin suggest */
+.eolinSuggest
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #BBBBBB;
+}
+
+.eolinSuggest li
+{
+	margin                           : 3px;
+	cursor                           : pointer;
+}
+
+.eolinSuggest li.hover
+{
+	background-color                 : #edf !important;
+}
+
+.eolinSuggest li.disabled
+{
+	color                            : #777;
+}
+
+.eolinSuggest
+{
+	font-size                        : 9pt;
+}
+
 /* etc */
+.attention
+{
+	border                           : 1px solid #FD2323;
+	color                            : #000;
+	display                          : block;
+	font-weight                      : bold;
+	padding                          : 3px;
+	text-align                       : center;
+	vertical-align                   : middle;
+}
+
+.attention span
+{
+	background-image                 : url('./image/icon_alert.gif');
+	background-position              : left 1px;
+	background-repeat                : no-repeat;
+	padding-left                     : 19px;
+}
+
 .hidden,
 .clear
 {

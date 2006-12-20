@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+/* Plugin ****************************************************************************************/
+
+#part-plugin-list fieldset
+{
+	padding                          : 4px 10px;
+}
+
+#part-plugin-list #sorting-line
+{
+	bottom                           : 14px;
+	padding-top                      : 5px;
+}
+
+#part-plugin-list #activate-status-line
+{
+	bottom                           : 20px;
+	right                            : 30px;
+}

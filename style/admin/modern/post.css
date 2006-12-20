@@ -710,3 +710,14 @@ table.data-inbox tbody tr td .new-icon span
 {
 	font-weight                      : bold;
 }
+
+/* data description */
+#data-description
+{
+	text-align                       : right;
+}
+
+#data-description dl
+{
+	display                          : none;
+}
