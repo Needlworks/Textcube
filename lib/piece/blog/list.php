@@ -26,6 +26,6 @@ if (isset($list)) {
 	dress('list_rep', $itemsView, $listView);
 	dress('list_conform', fireEvent('ViewListHeadTitle', htmlspecialchars($list['title']) ), $listView);
 	dress('list_count', isset($list['count']) ? $list['count'] : '0', $listView);
-	dress('list', $listView, $view);
+	dress('list', fireEvent('ViewList', $listView, $list), $view);
 }
 ?>
