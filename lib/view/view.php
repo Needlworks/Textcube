@@ -499,7 +499,7 @@ function getCommentView($entryId, $skin) {
 		dress($prefix1 . '_container', $commentContainer, $commentView);
 	}	
 	
-	$acceptComment = fetchQueryCell("SELECT `acceptComment` FROM `{$database['prefix']}Entries` WHERE `id` = $entryId");
+	$acceptComment = DBQuery::queryCell("SELECT `acceptComment` FROM `{$database['prefix']}Entries` WHERE `id` = $entryId");
 	
 	$useForm = false;
 	if ($isComment) {

@@ -8,7 +8,7 @@ function printOwnerEditorScript($entryId = false) {
 	
 	$contentWidth = 500;
 	
-	if($skin = fetchQueryCell("SELECT skin FROM {$database['prefix']}SkinSettings WHERE owner = $owner")) {
+	if($skin = DBQuery::queryCell("SELECT skin FROM {$database['prefix']}SkinSettings WHERE owner = $owner")) {
 		if($xml = @file_get_contents(ROOT."/skin/$skin/index.xml")) {
 			$xmls = new XMLStruct();
 			$xmls->open($xml, $service['encoding']);

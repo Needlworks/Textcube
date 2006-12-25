@@ -5,7 +5,7 @@
 
 function getOwner($name) {
 	global $database;
-	return fetchQueryCell("select owner from {$database['prefix']}BlogSettings where name = '$name'");
+	return DBQuery::queryCell("select owner from {$database['prefix']}BlogSettings where name = '$name'");
 }
 
 function getOwnerBySecondaryDomain($domain) {

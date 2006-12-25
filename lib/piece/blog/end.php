@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-$writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
+$writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
 $pageTitle = trim($pageTitle);
 
 dress('page_title', htmlspecialchars($pageTitle), $view);

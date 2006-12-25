@@ -11,7 +11,7 @@ function getTrackbacksWithPagingForOwner($owner, $category, $site, $ip, $search,
 	$postfix = '';
 	$sql = "SELECT t.*, c.name categoryName FROM {$database['prefix']}Trackbacks t LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Categories c ON t.owner = c.owner AND e.category = c.id WHERE t.owner = $owner AND t.isFiltered = 0";
 	if ($category > 0) {
-		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
+		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 		$postfix .= '&category=' . rawurlencode($category);
@@ -120,10 +120,10 @@ function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 function deleteTrackback($owner, $id) {
 	global $database;
 	if (!is_numeric($id)) return null;
-	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
+	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!executeQuery("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id"))
+	if (!DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($owner, $entry))
 		return $entry;
@@ -133,10 +133,10 @@ function deleteTrackback($owner, $id) {
 function trashTrackback($owner, $id) {
 	global $database;
 	if (!is_numeric($id)) return null;
-	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
+	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!executeQuery("UPDATE {$database['prefix']}Trackbacks SET isFiltered = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id"))
+	if (!DBQuery::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($owner, $entry))
 		return $entry;
@@ -146,10 +146,10 @@ function trashTrackback($owner, $id) {
 function revertTrackback($owner, $id) {
 	global $database;
 	if (!is_numeric($id)) return null;
-	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
+	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!executeQuery("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 0 WHERE owner = $owner AND id = $id"))
+	if (!DBQuery::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 0 WHERE owner = $owner AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($owner, $entry))
 		return $entry;
@@ -245,8 +245,8 @@ function getURLForFilter($value) {
 function getTrackbackCount($owner, $entryId = null) {
 	global $database;
 	if (is_null($entryId))
-		return fetchQueryCell("SELECT SUM(trackbacks) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft= 0");
-	return fetchQueryCell("SELECT trackbacks FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entryId AND draft= 0");
+		return DBQuery::queryCell("SELECT SUM(trackbacks) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft= 0");
+	return DBQuery::queryCell("SELECT trackbacks FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entryId AND draft= 0");
 }
 
 

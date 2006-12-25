@@ -6,7 +6,7 @@
 function refreshRSS($owner) {
 	global $database, $serviceURL, $defaultURL, $blog;
 	$channel = array();
-	$author = fetchQueryCell("SELECT CONCAT(' (', name, ')') FROM {$database['prefix']}Users WHERE userid = $owner");
+	$author = DBQuery::queryCell("SELECT CONCAT(' (', name, ')') FROM {$database['prefix']}Users WHERE userid = $owner");
 	$channel['title'] = $blog['title'];
 	$channel['link'] = "$defaultURL/";
 	$channel['description'] = $blog['description'];
@@ -46,7 +46,7 @@ function refreshRSS($owner) {
 		);
 		if (!empty($row['id'])) {
 			$sql = "SELECT name, size, mime FROM {$database['prefix']}Attachments WHERE parent= {$row['id']} AND owner =$owner AND enclosure = 1";
-			$attaches = fetchQueryRow($sql);
+			$attaches = DBQuery::queryRow($sql);
 			if (count($attaches) > 0) {
 				$item['enclosure'] = array('url' => "$serviceURL/attach/$owner/{$attaches['name']}", 'length' => $attaches['size'], 'type' => $attaches['mime']);
 			}

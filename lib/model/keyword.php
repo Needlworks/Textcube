@@ -15,7 +15,7 @@ function getKeywordByName($owner, $name) {
 function getKeywordCount($owner) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	return fetchQueryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -1");
+	return DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -1");
 }
 
 function getKeywordNames($owner) {
@@ -31,7 +31,7 @@ function getKeywordNames($owner) {
 function getKeywords($owner) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	return fetchQueryAll("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -1 ORDER BY published DESC");
+	return DBQuery::queryAll("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -1 ORDER BY published DESC");
 }
 
 function getKeywordsWithPaging($owner, $search, $page, $count) {
@@ -51,6 +51,6 @@ function getKeylog($owner, $keyword) {
 	global $database;
 	$keyword = mysql_tt_escape_string($keyword);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
-	return fetchQueryAll("SELECT id, title, content, published, comments FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 AND (title LIKE '%$keyword%' OR content LIKE '%$keyword%') ORDER BY published DESC");
+	return DBQuery::queryAll("SELECT id, title, content, published, comments FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 AND (title LIKE '%$keyword%' OR content LIKE '%$keyword%') ORDER BY published DESC");
 }
 ?>

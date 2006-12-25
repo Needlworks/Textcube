@@ -222,8 +222,8 @@ function changeSetting($owner, $email, $nickname) {
 
 function getCertificationLink($owner) {
 	global $database;
-	$blogSettings = fetchQueryRow("SELECT * FROM `{$database['prefix']}BlogSettings` WHERE owner=$owner");
-	$users = fetchQueryRow("SELECT * FROM `{$database['prefix']}Users` WHERE userid=$owner");
+	$blogSettings = DBQuery::queryRow("SELECT * FROM `{$database['prefix']}BlogSettings` WHERE owner=$owner");
+	$users = DBQuery::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE userid=$owner");
 	return getBlogURL($blogSettings['name']) . '/login?loginid=' . rawurlencode($users['loginid']) . '&password=' . rawurlencode($users['password']) . '&requestURI=' . rawurlencode(getBlogURL($blogSettings['name']) . "/owner/setting/account?password=" . rawurlencode($users['password']));
 }
 
@@ -317,19 +317,19 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 
 function getInvited($owner) {
 	global $database;
-	return fetchQueryAll("SELECT _users.*,_blogSettings.name AS blogName FROM `{$database['prefix']}Users` AS _users LEFT JOIN `{$database['prefix']}BlogSettings` AS _blogSettings ON _users.userid = _blogSettings.owner WHERE `host` = $owner ORDER BY created ASC");
+	return DBQuery::queryAll("SELECT _users.*,_blogSettings.name AS blogName FROM `{$database['prefix']}Users` AS _users LEFT JOIN `{$database['prefix']}BlogSettings` AS _blogSettings ON _users.userid = _blogSettings.owner WHERE `host` = $owner ORDER BY created ASC");
 }
 
 function cancelInvite($userid) {
 	global $owner, $database;
-	if (fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `lastLogin` = 0") == 0)
+	if (DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `lastLogin` = 0") == 0)
 		return false;
-	if (fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = $owner") === 0)
+	if (DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = $owner") === 0)
 		return false;
-	if (executeQuery("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid")) {
-		if (executeQuery("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $userid")) {
-			if (executeQuery("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $userid")) {
-				if (executeQuery("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $userid")) {
+	if (DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid")) {
+		if (DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $userid")) {
+			if (DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $userid")) {
+				if (DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $userid")) {
 					return true;
 				} else {
 					return false;
@@ -353,12 +353,12 @@ function changePassword($owner, $pwd, $prevPwd) {
 		$secret = '(`password` = \'' . md5($prevPwd) . "' OR `password` = '$prevPwd')";
 	else
 		$secret = '`password` = \'' . md5($prevPwd) . '\'';
-	$count = fetchQueryCell("select count(*) from {$database['prefix']}Users where userid = $owner and $secret");
+	$count = DBQuery::queryCell("select count(*) from {$database['prefix']}Users where userid = $owner and $secret");
 	if ($count == 0)
 		return false;
 	$pwd = md5($pwd);
 	$sql = "UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $owner";
-	return executeQuery($sql);
+	return DBQuery::execute($sql);
 }
 
 function setEditor($owner, $editorMode) {

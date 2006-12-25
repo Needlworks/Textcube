@@ -11,7 +11,7 @@ function getTrashTrackbackWithPagingForOwner($owner, $category, $site, $ip, $sea
 	$postfix = '';
 	$sql = "SELECT t.*, c.name categoryName FROM {$database['prefix']}Trackbacks t LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Categories c ON t.owner = c.owner AND e.category = c.id WHERE t.owner = $owner AND t.isFiltered > 0";
 	if ($category > 0) {
-		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
+		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 		$postfix .= '&category=' . rawurlencode($category);
@@ -45,7 +45,7 @@ function getTrashCommentsWithPagingForOwner($owner, $category, $name, $ip, $sear
 
 	$postfix = '';	
 	if ($category > 0) {
-		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
+		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 		$postfix .= '&category=' . rawurlencode($category);
@@ -95,10 +95,10 @@ function getRecentTrackbackTrash($owner) {
 
 function deleteTrackbackTrash($owner, $id) {
 	global $database;
-	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
+	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!executeQuery("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id"))
+	if (!DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($owner, $entry))
 		return $entry;
@@ -107,10 +107,10 @@ function deleteTrackbackTrash($owner, $id) {
 
 function restoreTrackbackTrash($owner, $id) {
    	global $database;
-	$entry = fetchQueryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
+	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!executeQuery("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 0 WHERE owner = $owner AND id = $id"))
+	if (!DBQuery::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 0 WHERE owner = $owner AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($owner, $entry))
 		return $entry;
@@ -119,17 +119,17 @@ function restoreTrackbackTrash($owner, $id) {
 
 function trashVan() {
    	global $database;
-	executeQuery("DELETE FROM {$database['prefix']}Comments where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
-	executeQuery("DELETE FROM {$database['prefix']}Trackbacks where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
+	DBQuery::execute("DELETE FROM {$database['prefix']}Comments where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
+	DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
 }
 
 function emptyTrash($comment = true)
 {
    	global $database;
 	if ($comment == true) {
-		executeQuery("DELETE FROM {$database['prefix']}Comments where isFiltered > 0");
+		DBQuery::execute("DELETE FROM {$database['prefix']}Comments where isFiltered > 0");
 	} else {
-		executeQuery("DELETE FROM {$database['prefix']}Trackbacks where isFiltered > 0");
+		DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks where isFiltered > 0");
 	}
 }
 

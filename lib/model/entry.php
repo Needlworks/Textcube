@@ -6,7 +6,7 @@
 function getEntriesTotalCount($owner) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
-	return fetchQueryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries e
+	return DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
 		WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0");
 }
@@ -16,7 +16,7 @@ function getEntries($owner, $attributes = '*', $condition = false, $order = 'pub
 	if (!empty($condition))
 		$condition = 'AND ' . $condition;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	return fetchQueryAll("SELECT $attributes FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility $condition ORDER BY $order");
+	return DBQuery::queryAll("SELECT $attributes FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility $condition ORDER BY $order");
 }
 
 function getEntry($owner, $id, $draft = false) {
@@ -33,7 +33,7 @@ function getEntry($owner, $id, $draft = false) {
 		}
 	}
 	if ($draft) {
-		$entry = fetchQueryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
+		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
 		if (!$entry)
 			return;
 		if ($entry['published'] == 1)
@@ -41,11 +41,11 @@ function getEntry($owner, $id, $draft = false) {
 		else if ($entry['published'] != 0)
 			$entry['appointed'] = $entry['published'];
 		if ($id != 0)
-			$entry['published'] = fetchQueryCell("SELECT published FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0");
+			$entry['published'] = DBQuery::queryCell("SELECT published FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0");
 		return $entry;
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-		$entry = fetchQueryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0 $visibility");
+		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0 $visibility");
 		if (!$entry)
 			return;
 		if ($entry['visibility'] < 0)
@@ -61,7 +61,7 @@ function getEntryAttributes($owner, $id, $attributeNames) {
 		return null;
 	
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$attributes = fetchQueryRow("SELECT $attributeNames FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0 $visibility");
+	$attributes = DBQuery::queryRow("SELECT $attributeNames FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0 $visibility");
 	return $attributes;
 }
 
@@ -73,7 +73,7 @@ function getEntryListWithPagingByCategory($owner, $category, $page, $count) {
 		return array();
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	if ($category > 0) {
-		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category $visibility");
+		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category $visibility");
 		array_push($categories, $category);
 		$cond = 'AND category IN (' . implode(', ', $categories) . ')';
 	} else
@@ -138,7 +138,7 @@ function getEntriesWithPagingByCategory($owner, $category, $page, $count) {
 	if ($category === null)
 		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
 	if ($category > 0) {
-		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
+		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
 		array_push($categories, $category);
 		$cond = 'AND e.category IN (' . implode(', ', $categories) . ')';
 	} else
@@ -202,7 +202,7 @@ function getEntriesWithPagingForOwner($owner, $category, $search, $page, $count)
 		LEFT JOIN {$database['prefix']}Entries d ON e.owner = d.owner AND e.id = d.id AND d.draft = 1 
 		WHERE e.owner = $owner AND e.draft = 0";
 	if ($category > 0) {
-		$categories = fetchQueryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
+		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 	} else if ($category == -3) {
@@ -353,7 +353,7 @@ function addEntry($owner, $entry) {
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
 			return false;
-		if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND title = '$title' AND category = -1") > 0)
+		if(DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND title = '$title' AND category = -1") > 0)
 			return false;
 	}
 	
@@ -420,9 +420,9 @@ function addEntry($owner, $entry) {
 function getDraftEntryId($id = 0) {
 	global $database, $owner;
 	if ($id)
-		return fetchQueryCell("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
+		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
 	else
-		return fetchQueryCell("SELECT d.id FROM {$database['prefix']}Entries d LEFT JOIN {$database['prefix']}Entries e ON d.owner = e.owner AND d.id = e.id AND e.draft = 0 WHERE d.owner = $owner AND d.draft = 1 AND e.id IS NULL ORDER BY d.id LIMIT 1");
+		return DBQuery::queryCell("SELECT d.id FROM {$database['prefix']}Entries d LEFT JOIN {$database['prefix']}Entries e ON d.owner = e.owner AND d.id = e.id AND e.draft = 0 WHERE d.owner = $owner AND d.draft = 1 AND e.id IS NULL ORDER BY d.id LIMIT 1");
 }
 
 function updateEntry($owner, $entry) {
@@ -443,7 +443,7 @@ function updateEntry($owner, $entry) {
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
 			return false;
-		if(fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND id <> {$entry['id']} AND draft = 0 AND title = '$title' AND category = -1") > 0)
+		if(DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND id <> {$entry['id']} AND draft = 0 AND title = '$title' AND category = -1") > 0)
 			return false;
 	}
 
@@ -564,16 +564,16 @@ function saveDraftEntry($entry) {
 
 function updateTrackbacksOfEntry($owner, $id) {
 	global $database;
-	$trackbacks = fetchQueryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id AND isFiltered = 0");
+	$trackbacks = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id AND isFiltered = 0");
 	if ($trackbacks === null)
 		return false;
-	return executeQuery("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks WHERE owner = $owner AND id = $id");
+	return DBQuery::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks WHERE owner = $owner AND id = $id");
 }
 
 function deleteEntry($owner, $id) {
 	global $database, $blog;
 	$target = getEntry($owner, $id);
-	if (fetchQueryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id") == 3)
+	if (DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id") == 3)
 		syndicateEntry($id, 'delete');
 	$result = mysql_query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id");
 	if (mysql_affected_rows() > 0) {
@@ -632,7 +632,7 @@ function setEntryVisibility($id, $visibility) {
 	global $database, $owner;
 	if (($visibility < 0) || ($visibility > 3))
 		return false;
-	list($oldVisibility, $category) = fetchQueryRow("SELECT visibility, category FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0");
+	list($oldVisibility, $category) = DBQuery::queryRow("SELECT visibility, category FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0");
 
 	if ($category < 0) {
 		if ($visibility == 1) $visibility = 0;
@@ -707,7 +707,7 @@ function syndicateEntry($id, $mode) {
 
 function publishEntries() {
 	global $database, $owner;
-	$entries = fetchQueryAll("SELECT id, visibility FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND visibility < 0 AND published < UNIX_TIMESTAMP()");
+	$entries = DBQuery::queryAll("SELECT id, visibility FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND visibility < 0 AND published < UNIX_TIMESTAMP()");
 	if (count($entries) == 0)
 		return;
 	foreach ($entries as $i => $entry) {
@@ -761,7 +761,7 @@ function getEntryVisibilityName($visibility) {
 
 function getSloganById($owner, $id) {
 	global $database;
-	$result = fetchQueryCell("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id");
+	$result = DBQuery::queryCell("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id");
 	if (is_null($result))
 		return false;
 	else

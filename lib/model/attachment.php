@@ -16,13 +16,13 @@ function getAttachments($owner, $parent, $orderBy = null, $sort='ASC') {
 function getAttachmentByName($owner, $parent, $name) {
 	global $database;
 	$name = mysql_tt_escape_string($name);
-	return fetchQueryRow("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'");
+	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'");
 }
 
 function getAttachmentByOnlyName($owner, $name) {
 	global $database;
 	$name = mysql_tt_escape_string($name);
-	return fetchQueryRow("select * from {$database['prefix']}Attachments where owner = $owner and name = '$name'");
+	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where owner = $owner and name = '$name'");
 }
 
 function getAttachmentByLabel($owner, $parent, $label) {
@@ -30,7 +30,7 @@ function getAttachmentByLabel($owner, $parent, $label) {
 	if ($parent === false)
 		$parent = 0;
 	$label = mysql_tt_escape_string($label);
-	return fetchQueryRow("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent and label = '$label'");
+	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent and label = '$label'");
 }
 
 function getAttachmentSize($owner=null, $parent = null) {
@@ -42,7 +42,7 @@ function getAttachmentSize($owner=null, $parent = null) {
 		$ownerStr = "owner = $owner ";
 	if ($parent == 0 || !empty($parent))
 		$parentStr = "and parent = $parent";
-	return fetchQueryCell("select sum(size) from {$database['prefix']}Attachments where $ownerStr $parentStr");
+	return DBQuery::queryCell("select sum(size) from {$database['prefix']}Attachments where $ownerStr $parentStr");
 }
 
 function getAttachmentSizeLabel($owner=null, $parent = null) {
@@ -55,7 +55,7 @@ function addAttachment($owner, $parent, $file) {
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
 	$filename = mysql_tt_escape_string($file['name']);
-	if (fetchQueryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$parent AND label='$filename'")>0) {
+	if (DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$parent AND label='$filename'")>0) {
 		return false;
 	}
 	$attachment = array();
@@ -167,11 +167,11 @@ function downloadAttachment($name) {
 function setEnclosure($name, $order) {
 	global $database, $owner;
 	$name = mysql_tt_escape_string($name);
-	if (($parent = fetchQueryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE owner = $owner AND name = '$name'")) !== null) {
-		executeQuery("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent");
+	if (($parent = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE owner = $owner AND name = '$name'")) !== null) {
+		DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent");
 		if ($order) {
 			clearRSS();
-			return executeQuery("UPDATE {$database['prefix']}Attachments SET enclosure = 1 WHERE owner = $owner AND name = '$name'") ? 1 : 2;
+			return DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 1 WHERE owner = $owner AND name = '$name'") ? 1 : 2;
 		} else
 			return 0;
 	} else

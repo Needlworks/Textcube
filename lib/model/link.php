@@ -15,7 +15,7 @@ function getLinks($owner) {
 
 function getLink($owner, $id) {
 	global $database;
-	return fetchQueryRow("select * from {$database['prefix']}Links where owner = $owner and id = $id");
+	return DBQuery::queryRow("select * from {$database['prefix']}Links where owner = $owner and id = $id");
 }
 
 function deleteLink($owner, $id) {
@@ -33,9 +33,9 @@ function addLink($owner, $link) {
 	$name = mysql_tt_escape_string($name);
 	$url = mysql_tt_escape_string($url);
 	$rss = isset($link['rss']) ? mysql_tt_escape_string(mysql_lessen(trim($link['rss']), 255)) : '';
-	if (fetchQueryCell("SELECT id FROM {$database['prefix']}Links WHERE owner = $owner AND url = '$url'"))
+	if (DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE owner = $owner AND url = '$url'"))
 		return 1;
-	if (executeQuery("INSERT INTO {$database['prefix']}Links VALUES ($owner, null, '$name', '$url', '$rss', UNIX_TIMESTAMP())"))
+	if (DBQuery::execute("INSERT INTO {$database['prefix']}Links VALUES ($owner, null, '$name', '$url', '$rss', UNIX_TIMESTAMP())"))
 		return 0;
 	else
 		return - 1;
@@ -51,7 +51,7 @@ function updateLink($owner, $link) {
 	$name = mysql_tt_escape_string($name);
 	$url = mysql_tt_escape_string($url);
 	$rss = isset($link['rss']) ? mysql_tt_escape_string(mysql_lessen(trim($link['rss']), 255)) : '';
-	return executeQuery("update {$database['prefix']}Links
+	return DBQuery::execute("update {$database['prefix']}Links
 				set
 					name = '$name',
 					url = '$url',

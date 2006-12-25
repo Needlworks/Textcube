@@ -978,7 +978,7 @@ class DBQuery {
 		if ($result = mysql_query($query)) {
 			while ($row = mysql_fetch_array($result, $type))
 			array_push($all, $row);
-			mysql_free_result($result);
+				mysql_free_result($result);
 			return $all;
 		}
 		return null;
@@ -987,6 +987,11 @@ class DBQuery {
 	/*@static@*/
 	function execute($query) {
 		return mysql_query($query) ? true : false;
+	}
+
+	/*@static@*/
+	function query($query) {
+		return DBQuery::execute($query) ? true : false;
 	}
 }
 

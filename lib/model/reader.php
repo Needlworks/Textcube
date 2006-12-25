@@ -5,7 +5,7 @@
 
 function getReaderSetting($owner) {
 	global $database;
-	return fetchQueryRow("SELECT * FROM {$database['prefix']}FeedSettings WHERE owner = $owner");
+	return DBQuery::queryRow("SELECT * FROM {$database['prefix']}FeedSettings WHERE owner = $owner");
 }
 
 function setReaderSetting($owner, $setting) {
@@ -23,17 +23,17 @@ function setReaderSetting($owner, $setting) {
 		$sql .= "allowScript = {$setting['allowScript']}, ";
 	if (!empty($setting['newWindow']))
 		$sql .= "newWindow = {$setting['newWindow']}, ";
-	return executeQuery("$sql owner = owner WHERE owner = $owner");
+	return DBQuery::execute("$sql owner = owner WHERE owner = $owner");
 }
 
 function markAsUnread($owner, $id) {
 	global $database;
-	return executeQuery("DELETE FROM {$database['prefix']}FeedReads WHERE owner = $owner AND item = $id");
+	return DBQuery::execute("DELETE FROM {$database['prefix']}FeedReads WHERE owner = $owner AND item = $id");
 }
 
 function markAsStar($owner, $id, $flag) {
 	global $database;
-	if (fetchQueryCell("SELECT i.id FROM {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr, {$database['prefix']}Feeds f, {$database['prefix']}FeedItems i WHERE g.owner = $owner AND gr.feed = f.id AND gr.owner = g.owner AND gr.groupId = g.id AND f.id = i.feed AND i.id = $id")) {
+	if (DBQuery::queryCell("SELECT i.id FROM {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr, {$database['prefix']}Feeds f, {$database['prefix']}FeedItems i WHERE g.owner = $owner AND gr.feed = f.id AND gr.owner = g.owner AND gr.groupId = g.id AND f.id = i.feed AND i.id = $id")) {
 		if ($flag)
 			mysql_query("REPLACE INTO {$database['prefix']}FeedStarred VALUES($owner, $id)");
 		else
@@ -77,7 +77,7 @@ function getFeedGroups($owner, $starredOnly = false, $searchKeyword = null) {
 					$condition
 				GROUP BY g.id
 				ORDER BY g.title";
-	return fetchQueryAll($sql);
+	return DBQuery::queryAll($sql);
 }
 
 function getFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = null) {
@@ -114,7 +114,7 @@ function getFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = nul
 					$condition
 				GROUP BY f.id
 				ORDER BY f.title";
-	return fetchQueryAll($sql);
+	return DBQuery::queryAll($sql);
 }
 
 function getFeedEntriesTotalCount($owner, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null) {
@@ -156,7 +156,7 @@ function getFeedEntriesTotalCount($owner, $group = 0, $feed = 0, $unreadOnly = f
 					g.id = r.groupId AND
 					r.feed = f.id
 					$condition";
-	return fetchQueryCell($sql);
+	return DBQuery::queryCell($sql);
 }
 
 function getFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $offset = 0) {
@@ -199,7 +199,7 @@ function getFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $sta
 				GROUP BY i.id
 				ORDER BY i.written DESC, i.id DESC";
 	$sql .= " LIMIT $offset, " . ($offset == 0 ? 100 : min($offset, 400));
-	return fetchQueryAll($sql);
+	return DBQuery::queryAll($sql);
 }
 
 function getFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $position = 'current', $markAsRead = 'read') {
@@ -243,7 +243,7 @@ function getFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = f
 					GROUP BY i.id
 					ORDER BY i.written DESC, i.id DESC";
 		if ($position == 'current') {
-			if ($row = fetchQueryRow("$sql LIMIT 1")) {
+			if ($row = DBQuery::queryRow("$sql LIMIT 1")) {
 				$row['description'] = adjustRelativePathImage($row['description'], $row['permalink']);
 				$row['description'] = filterJavaScript($row['description'], ($setting['allowScript'] == 1 ? false : true));
 			}
@@ -296,7 +296,7 @@ function getFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = f
 						r.groupId = g.id AND
 						i.id = $entry AND
 						f.id = i.feed";
-		if ($row = fetchQueryRow($sql)) {
+		if ($row = DBQuery::queryRow($sql)) {
 			$row['description'] = adjustRelativePathImage($row['description'], $row['permalink']);
 			$row['description'] = filterJavaScript($row['description'], ($setting['allowScript'] == 1 ? false : true));
 		}
@@ -309,10 +309,10 @@ function addFeedGroup($owner, $title) {
 	$title = mysql_tt_escape_string(mysql_lessen($title, 255));
 	if (empty($title))
 		return 1;
-	if (fetchQueryCell("SELECT id FROM {$database['prefix']}FeedGroups WHERE owner = $owner AND title = '$title'") !== null) {
+	if (DBQuery::queryCell("SELECT id FROM {$database['prefix']}FeedGroups WHERE owner = $owner AND title = '$title'") !== null) {
 		return 2;
 	}
-	$id = fetchQueryCell("SELECT MAX(id) FROM {$database['prefix']}FeedGroups WHERE owner = $owner") + 1;
+	$id = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}FeedGroups WHERE owner = $owner") + 1;
 	mysql_query("INSERT INTO {$database['prefix']}FeedGroups VALUES($owner, $id, '$title')");
 	if (mysql_affected_rows() != 1)
 		return - 1;
@@ -324,7 +324,7 @@ function editFeedGroup($owner, $id, $title) {
 	$title = mysql_tt_escape_string(mysql_lessen($title, 255));
 	if (empty($title))
 		return 1;
-	$prevTitle = fetchQueryCell("SELECT title FROM {$database['prefix']}FeedGroups WHERE owner = $owner AND id = $id");
+	$prevTitle = DBQuery::queryCell("SELECT title FROM {$database['prefix']}FeedGroups WHERE owner = $owner AND id = $id");
 	if ($prevTitle == $title)
 		return 0;
 	if ($prevTitle === null)
@@ -354,7 +354,7 @@ function addFeed($owner, $group = 0, $url, $getEntireFeed = true, $htmlURL = '',
 	if (DBQuery::queryExistence("SELECT f.id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.owner = $owner AND r.owner = g.owner AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$escapedURL'")) {
 		return 1;
 	}
-	if ($id = fetchQueryCell("SELECT id FROM {$database['prefix']}Feeds WHERE xmlURL = '$escapedURL'")) {
+	if ($id = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Feeds WHERE xmlURL = '$escapedURL'")) {
 		mysql_query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($owner, $id, $group)");
 		return 0;
 	}
@@ -532,7 +532,7 @@ function saveFeedItems($feedId, $xml) {
 	} else
 		return false;
 	$deadLine = 0;
-	$feedLife = fetchQueryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings");
+	$feedLife = DBQuery::queryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings");
 	if($feedLife > 0)
 		$deadLine = gmmktime() - $feedLife * 86400;
 	if($result = mysql_query("SELECT id FROM {$database['prefix']}FeedItems LEFT JOIN {$database['prefix']}FeedStarred ON id = item WHERE item IS NULL AND written < $deadLine"))
@@ -559,10 +559,10 @@ function saveFeedItem($feedId, $item) {
 	if ($item['written'] > gmmktime() + 86400)
 		return false;
 	$deadLine = 0;
-	$feedLife = fetchQueryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings");
+	$feedLife = DBQuery::queryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings");
 	if($feedLife > 0)
 		$deadLine = gmmktime() - $feedLife * 86400;
-	if ($id = fetchQueryCell("SELECT id FROM {$database['prefix']}FeedItems WHERE permalink='{$item['permalink']}'")) {
+	if ($id = DBQuery::queryCell("SELECT id FROM {$database['prefix']}FeedItems WHERE permalink='{$item['permalink']}'")) {
 		mysql_query("UPDATE {$database['prefix']}FeedItems SET author = '{$item['author']}', title = '{$item['title']}', description = '{$item['description']}', tags = '$tagString', enclosure = '$enclosureString', written = {$item['written']} WHERE id = $id");
 		/*
 		TODO : 읽은글이 읽지않은 글로 표시되는 문제 원인이 찾아질때 까지 막아둠
@@ -583,13 +583,13 @@ function editFeed($owner, $feedId, $oldGroupId, $newGroupId, $url) {
 function deleteFeed($owner, $feedId) {
 	global $database;
 	mysql_query("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE owner = $owner AND feed = $feedId");
-	if (fetchQueryCell("SELECT COUNT(*) FROM {$database['prefix']}FeedGroupRelations WHERE owner = $owner AND feed = $feedId") == 0) {
-		foreach (fetchQueryAll("SELECT item FROM {$database['prefix']}FeedStarred s, {$database['prefix']}FeedItems i WHERE s.item = i.id AND s.owner = $owner AND i.feed = $feedId") as $row)
+	if (DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}FeedGroupRelations WHERE owner = $owner AND feed = $feedId") == 0) {
+		foreach (DBQuery::queryAll("SELECT item FROM {$database['prefix']}FeedStarred s, {$database['prefix']}FeedItems i WHERE s.item = i.id AND s.owner = $owner AND i.feed = $feedId") as $row)
 			mysql_query("DELETE FROM {$database['prefix']}FeedStarred WHERE owner = $owner AND item = {$row['item']}");
-		foreach (fetchQueryAll("SELECT item FROM {$database['prefix']}FeedReads r, {$database['prefix']}FeedItems i WHERE r.item = i.id AND r.owner = $owner AND i.feed = $feedId") as $row)
+		foreach (DBQuery::queryAll("SELECT item FROM {$database['prefix']}FeedReads r, {$database['prefix']}FeedItems i WHERE r.item = i.id AND r.owner = $owner AND i.feed = $feedId") as $row)
 			mysql_query("DELETE FROM {$database['prefix']}FeedReads WHERE owner = $owner AND item = {$row['item']}");
 	}
-	if (fetchQueryCell("SELECT COUNT(*) FROM {$database['prefix']}FeedGroupRelations WHERE feed = $feedId") == 0) {
+	if (DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}FeedGroupRelations WHERE feed = $feedId") == 0) {
 		mysql_query("DELETE FROM {$database['prefix']}FeedItems WHERE feed = $feedId");
 		mysql_query("DELETE FROM {$database['prefix']}Feeds WHERE id = $feedId");
 	}
@@ -610,9 +610,9 @@ function deleteReaderTablesByOwner($owner) {
 
 function updateRandomFeed() {
 	global $database;
-	$updateCycle = fetchQueryCell("SELECT updateCycle FROM {$database['prefix']}FeedSettings");
+	$updateCycle = DBQuery::queryCell("SELECT updateCycle FROM {$database['prefix']}FeedSettings");
 	if($updateCycle != 0) {
-		if ($feed = fetchQueryRow("SELECT * FROM {$database['prefix']}Feeds WHERE modified < " . (gmmktime() - ($updateCycle * 60)) . " ORDER BY RAND() LIMIT 1")) {
+		if ($feed = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Feeds WHERE modified < " . (gmmktime() - ($updateCycle * 60)) . " ORDER BY RAND() LIMIT 1")) {
 			return array(updateFeed($feed), $feed['xmlURL']);
 		}
 	}
@@ -625,10 +625,10 @@ function updateFeed($feedRow) {
 		return true;
 	list($status, $feed, $xml) = getRemoteFeed($feedRow['xmlURL']);
 	if ($status > 0) {
-		executeQuery("UPDATE {$database['prefix']}Feeds SET modified = 0 WHERE xmlURL = '{$feedRow['xmlURL']}'");
+		DBQuery::execute("UPDATE {$database['prefix']}Feeds SET modified = 0 WHERE xmlURL = '{$feedRow['xmlURL']}'");
 		return $status;
 	} else {
-		executeQuery("UPDATE {$database['prefix']}Feeds SET blogURL = '{$feed['blogURL']}', title = '{$feed['title']}', description = '{$feed['description']}', language = '{$feed['language']}', modified = " . gmmktime() . " WHERE xmlURL = '{$feedRow['xmlURL']}'");
+		DBQuery::execute("UPDATE {$database['prefix']}Feeds SET blogURL = '{$feed['blogURL']}', title = '{$feed['title']}', description = '{$feed['description']}', language = '{$feed['language']}', modified = " . gmmktime() . " WHERE xmlURL = '{$feedRow['xmlURL']}'");
 		return saveFeedItems($feedRow['id'], $xml) ? 0 : 1;
 	}
 }

@@ -18,7 +18,7 @@ function login($loginid, $password) {
 				setcookie('TSSESSION_LOGINID', '', time() - 31536000, $service['path'] . '/', $service['domain']);
 			else
 				setcookie('TSSESSION_LOGINID', $loginid, time() + 31536000, $service['path'] . '/', $service['domain']);
-			executeQuery("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
+			DBQuery::execute("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
 			return true;
 		}
 	}
@@ -111,7 +111,7 @@ function resetPassword($userid, $loginid) {
 	global $service, $blog, $hostURL, $blogURL;
 	if (!isLoginId($userid, $loginid))
 		return false;
-	$password = fetchQueryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
+	$password = DBQuery::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
 	$headers = "From: Your Tattertools Blog <tattertools@{$service['domain']}>\n" . 'X-Mailer: ' . TATTERTOOLS_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 	$message = file_get_contents(ROOT . "/style/letter/letter.html");
 	$message = str_replace('[##_title_##]', _text('태터툴즈 블로그 로그인 정보'), $message);

@@ -19,7 +19,7 @@ $configVal = '';
 $typeSchema = null;
 
 if (!empty($owner)) {
-	$activePlugins = fetchQueryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE owner = $owner");
+	$activePlugins = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE owner = $owner");
 	$xmls = new XMLStruct();
 	foreach ($activePlugins as $plugin) {
 		$manifest = @file_get_contents(ROOT . "/plugins/$plugin/index.xml");

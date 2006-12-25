@@ -6,7 +6,7 @@
 function getTagId($owner, $name) {
 	global $database;
 	$name = mysql_tt_escape_string($name);
-	return fetchQueryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '$name'");
+	return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '$name'");
 }
 
 function getTags($entry) {
@@ -153,11 +153,11 @@ function getTagFrequencyRange() {
 function getTagFrequency($tag, $max, $min) {
 	global $database, $owner;
 	if (doesHaveOwnership())
-		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, 
+		$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, 
 			`{$database['prefix']}TagRelations` r 
 			WHERE t.id = r.tag AND r.owner = $owner AND t.name = '" . mysql_tt_escape_string($tag) . "'");
 	else
-		$count = fetchQueryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, 
+		$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, 
 			`{$database['prefix']}TagRelations` r, 
 			`{$database['prefix']}Entries` e 
 			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = e.owner AND r.owner = $owner AND t.name = '" . mysql_tt_escape_string($tag) . "'");
