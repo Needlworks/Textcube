@@ -7,7 +7,7 @@ require ROOT . '/lib/includeForOwner.php';
 header("Content-type: application");
 header("Content-Disposition: attachment; filename=tatter_reader_feed_" . date("Ymd") . ".opml");
 header("Content-Description: PHP4 Generated Data");
-$writer = fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
+$writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
 echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n";
 ?>
 <opml version="1.0">

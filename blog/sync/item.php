@@ -23,7 +23,7 @@ if($entry = DBQuery::queryRow("SELECT e.*, c.name AS categoryName FROM {$databas
 	echo '<permalink>', htmlspecialchars("$defaultURL/".($blog['useSlogan'] ? "entry/{$entry['slogan']}": $entry['id'])), '</permalink>', "\r\n";
 	echo '<title>', htmlspecialchars($entry['title']), '</title>', "\r\n";
 	echo '<content>', htmlspecialchars(getEntryContentView($owner, $suri['id'], $entry['content'])), '</content>', "\r\n";
-	echo '<author>', htmlspecialchars(fetchQueryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner")), '</author>', "\r\n";
+	echo '<author>', htmlspecialchars(DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner")), '</author>', "\r\n";
 	echo '<category>', htmlspecialchars($entry['categoryName']), '</category>', "\r\n";
 	$result = mysql_query("SELECT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND owner = $owner AND entry = {$entry['id']} ORDER BY name");
 	while(list($tag) = mysql_fetch_row($result))
