@@ -982,6 +982,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 ?>
 <script type="text/javascript">
 //<![CDATA[
+	function execOnLoadSelect() {
 <?php 
 		if ($parentOfSelected) {
 ?>
@@ -990,6 +991,8 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 		}
 ?>
 	selectNode(<?php echo $selected;?>);
+	}
+	window.addEventListener("load", execOnLoadSelect, false);
 //]]>
 </script>
 <?php 
