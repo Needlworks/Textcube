@@ -22,8 +22,18 @@ function refreshRSS($owner) {
 	}
 
 	if ($blog['publishEolinSyncOnRSS']) {
-		$result = DBQuery::query("SELECT e.*, c.name AS categoryName FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 ORDER BY e.published DESC LIMIT {$blog['entriesOnRSS']}");
-	} else { $result = DBQuery::query("SELECT e.*, c.name AS categoryName FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 AND e.visibility = 3 AND e.category >= 0 ORDER BY e.published DESC LIMIT {$blog['entriesOnRSS']}");
+		$result = DBQuery::query("SELECT e.*, c.name AS categoryName 
+			FROM {$database['prefix']}Entries e 
+			LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
+			WHERE e.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 
+			ORDER BY e.published 
+			DESC LIMIT {$blog['entriesOnRSS']}");
+	} else { $result = DBQuery::query("SELECT e.*, c.name AS categoryName 
+			FROM {$database['prefix']}Entries e 
+			LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
+			WHERE e.owner = $owner AND e.draft = 0 AND e.visibility = 3 AND e.category >= 0 
+			ORDER BY e.published 
+			DESC LIMIT {$blog['entriesOnRSS']}");
 	}
 	if (!$result)
 		return false;
