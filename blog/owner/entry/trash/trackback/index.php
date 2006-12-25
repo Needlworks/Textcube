@@ -29,8 +29,8 @@ $IV = array(
 
 require ROOT . '/lib/includeForOwner.php';
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
-$site = empty($_GET['site']) ? '' : $_GET['site'];
-$ip = empty($_GET['ip']) ? '' : $_GET['ip'];
+$site = empty($_POST['site']) ? '' : $_POST['site'];
+$ip = empty($_POST['ip']) ? '' : $_POST['ip'];
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
 $perPage = getUserSetting('rowsPerPage', 10); 
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
