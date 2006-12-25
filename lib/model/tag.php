@@ -13,13 +13,13 @@ function getTags($entry) {
 	global $database, $owner;
 	$tags = array();
 	if (doesHaveOwnership())
-		$result = DBQuery::query("SELECT * FROM `{$database['prefix']}Tags` t, 
+		$result = mysql_query("SELECT * FROM `{$database['prefix']}Tags` t, 
 			`{$database['prefix']}TagRelations` r 
 			WHERE t.id = r.tag AND r.entry = $entry AND r.owner = $owner 
 			GROUP BY r.tag 
 			ORDER BY t.name");
 	else
-		$result = DBQuery::query("SELECT * FROM `{$database['prefix']}Tags` t,
+		$result = mysql_query("SELECT * FROM `{$database['prefix']}Tags` t,
 			`{$database['prefix']}TagRelations` r, 
 			`{$database['prefix']}Entries` e 
 			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.entry = $entry AND r.owner = $owner 
@@ -38,13 +38,13 @@ function getRandomTags($owner) {
 	$aux = ($skinSetting['tagsOnTagbox'] == - 1) ? '' : "limit {$skinSetting['tagsOnTagbox']}";
 	if ($skinSetting['tagboxAlign'] == 1) { // order by count
 		if (doesHaveOwnership())
-			$result = DBQuery::query("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
+			$result = mysql_query("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r 
 				WHERE t.id = r.tag and r.owner = $owner 
 				GROUP BY r.tag 
 				ORDER BY cnt DESC $aux");
 		else
-			$result = DBQuery::query("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
+			$result = mysql_query("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r, 
 				`{$database['prefix']}Entries` e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $owner 
@@ -52,13 +52,13 @@ function getRandomTags($owner) {
 				ORDER BY `cnt` DESC $aux");
 	} else if ($skinSetting['tagboxAlign'] == 2) {  // order by name
 		if (doesHaveOwnership())
-			$result = DBQuery::query("SELECT DISTINCT name FROM `{$database['prefix']}Tags` t, 
+			$result = mysql_query("SELECT DISTINCT name FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r 
 				WHERE t.id = r.tag AND r.owner = $owner 
 				GROUP BY r.tag 
 				ORDER BY t.name $aux");
 		else
-			$result = DBQuery::query("SELECT DISTINCT name FROM `{$database['prefix']}Tags` t, 
+			$result = mysql_query("SELECT DISTINCT name FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r,
 				`{$database['prefix']}Entries` e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $owner 
@@ -66,12 +66,12 @@ function getRandomTags($owner) {
 				ORDER BY t.name $aux");
 	} else { // random
 		if (doesHaveOwnership())
-			$result = DBQuery::query("SELECT `name` FROM `{$database['prefix']}Tags` t,
+			$result = mysql_query("SELECT `name` FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r
 				WHERE t.id = r.tag AND r.owner = $owner
 				GROUP BY r.tag ORDER BY RAND() $aux");
 		else
-			$result = DBQuery::query("SELECT `name` FROM `{$database['prefix']}Tags` t,
+			$result = mysql_query("SELECT `name` FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r,
 				`{$database['prefix']}Entries` e
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $owner 
@@ -89,14 +89,14 @@ function getSiteTags($owner) {
 	global $database;
 	$names = array();
 	if (doesHaveOwnership())
-		$result = DBQuery::query("SELECT `name` FROM `{$database['prefix']}Tags` t, 
+		$result = mysql_query("SELECT `name` FROM `{$database['prefix']}Tags` t, 
 			`{$database['prefix']}TagRelations` r 
 			WHERE t.id = r.tag AND r.owner = $owner 
 			GROUP BY r.tag 
 			ORDER BY t.name 
 			LIMIT 2000");
 	else
-		$result = DBQuery::query("SELECT `name` FROM `{$database['prefix']}Tags` t, 
+		$result = mysql_query("SELECT `name` FROM `{$database['prefix']}Tags` t, 
 			`{$database['prefix']}TagRelations` r,
 			`{$database['prefix']}Entries` e
 			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $owner 
@@ -114,13 +114,13 @@ function getTagFrequencyRange() {
 	global $database, $owner;
 	$max = $min = 0;
 	if (doesHaveOwnership())
-		$result = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r 
+		$result = mysql_query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r 
 			WHERE r.owner = $owner 
 			GROUP BY r.tag 
 			ORDER BY `cnt` 
 			DESC LIMIT 1");
 	else
-		$result = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r,
+		$result = mysql_query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r,
 			`{$database['prefix']}Entries` e 
 			WHERE r.entry = e.id AND e.visibility > 0 AND r.owner = $owner 
 			GROUP BY r.tag 
@@ -131,13 +131,13 @@ function getTagFrequencyRange() {
 			$max = $count;
 	}
 	if (doesHaveOwnership())
-		$result = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r 
+		$result = mysql_query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r 
 			WHERE r.owner = $owner 
 			GROUP BY r.tag 
 			ORDER BY `cnt` 
 			LIMIT 1");
 	else
-		$result = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r, 
+		$result = mysql_query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r, 
 			`{$database['prefix']}Entries` e 
 			WHERE r.entry = e.id AND e.visibility > 0 AND r.owner = $owner 
 			GROUP BY r.tag 
@@ -177,7 +177,7 @@ function getTagFrequency($tag, $max, $min) {
 function suggestLocalTags($owner, $filter) {
 	global $database;
 	$tags = array();
-	$result = DBQuery::query("select distinct name, count(*) cnt from {$database['prefix']}Tags, 
+	$result = mysql_query("select distinct name, count(*) cnt from {$database['prefix']}Tags, 
 		{$database['prefix']}TagRelations 
 		where id = tag and owner = $owner and $filter 
 		group by tag 

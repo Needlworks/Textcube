@@ -14,7 +14,7 @@ function activatePlugin($name) {
 	if (!file_exists(ROOT . "/plugins/$name/index.xml") || !file_exists(ROOT . "/plugins/$name/index.php"))
 		return false;
 	$name = mysql_tt_escape_string(mysql_lessen($name, 255));
-	DBQuery::query("INSERT INTO {$database['prefix']}Plugins VALUES ($owner, '$name', null)");
+	mysql_query("INSERT INTO {$database['prefix']}Plugins VALUES ($owner, '$name', null)");
 	return (mysql_affected_rows() == 1);
 }
 
@@ -23,7 +23,7 @@ function deactivatePlugin($name) {
 	if (!in_array($name, $activePlugins))
 		return false;
 	$name = mysql_tt_escape_string($name);
-	DBQuery::query("DELETE FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$name'");
+	mysql_query("DELETE FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$name'");
 	return true;
 }
 
@@ -32,7 +32,7 @@ function getCurrentSetting( $name){
 	if( !in_array( $name , $activePlugins))
 		return false;
 	$name = mysql_tt_escape_string( $name ) ;
-	$result = DBQuery::query("SELECT settings FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$name'");
+	$result = mysql_query("SELECT settings FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$name'");
 	if( false === $result ) 
 		return false;
 	$out = mysql_fetch_array($result); 
@@ -44,7 +44,7 @@ function updatePluginConfig( $name , $setVal){
 		return false;
 	$name = mysql_tt_escape_string( mysql_lessen($name, 255) ) ;
 	$setVal = mysql_tt_escape_string( $setVal ) ;
-	DBQuery::query(
+	mysql_query(
 		"UPDATE {$database['prefix']}Plugins 
 			SET settings = '$setVal' 
 			WHERE owner = $owner 
@@ -108,7 +108,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 function clearPluginTable($name) {
 	global $database, $owner;
 	$name = mysql_tt_escape_string($name);
-	DBQuery::query("DELETE FROM {$database['prefix']}{$name} WHERE owner = $owner");
+	mysql_query("DELETE FROM {$database['prefix']}{$name} WHERE owner = $owner");
 	return (mysql_affected_rows() == 1);
 }
 
@@ -116,7 +116,7 @@ function deletePluginTable($name) {
 	global $database, $owner;
 	if($owner !== 0) return false;
 	$name = mysql_tt_escape_string($name);
-	DBQuery::query("DROP {$database['prefix']}{$name}");
+	mysql_query("DROP {$database['prefix']}{$name}");
 	return true;
 } 
 ?>

@@ -425,7 +425,7 @@ function api_addAttachment($owner,$parent,$file){
 	$attachment['mime']=mysql_lessen($attachment['mime'], 32);
 	
 	@chmod($attachment['path'],0666);
-	$result=DBQuery::query("insert into {$database['prefix']}Attachments values ($owner, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
+	$result=mysql_query("insert into {$database['prefix']}Attachments values ($owner, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	if(!$result){
 		@unlink($attachment['path']);
 		return false;
@@ -440,7 +440,7 @@ function api_addAttachment($owner,$parent,$file){
 function api_getAttachments($owner,$parent){
 	global $database;
 	$attachments=array();
-	if($result=DBQuery::query("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent")){
+	if($result=mysql_query("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent")){
 		while($attachment=mysql_fetch_array($result))
 		array_push($attachments,$attachment);
 	}
@@ -459,7 +459,7 @@ function api_deleteAttachment($owner,$parent,$name){
 	{
 		$parent_clause = "parent = $parent and ";
 	}
-	if(DBQuery::query("delete from {$database['prefix']}Attachments where owner = $owner and $parent_clause name = '$name'")&&(mysql_affected_rows()==1)){
+	if(mysql_query("delete from {$database['prefix']}Attachments where owner = $owner and $parent_clause name = '$name'")&&(mysql_affected_rows()==1)){
 		return true;
 	}
 	return false;
@@ -483,12 +483,12 @@ function api_update_attaches( $parent, $attaches = null)
 {
 	global $database, $owner;
 	if (is_null($attaches)) {
-		DBQuery::query( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0");		
+		mysql_query( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0");		
 	} else {
 		foreach( $attaches as $att )
 		{
 			$att = mysql_tt_escape_string($att);
-			DBQuery::query( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0 and name='" . $att . "'");
+			mysql_query( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0 and name='" . $att . "'");
 		}
 	}
 }
@@ -681,13 +681,13 @@ function blogger_deletePost()
 		global $database, $owner;
 		$id = intval( $params[1] );
 		$filter = 'AND id = ' . $id;
-		$ret = DBQuery::query("DELETE FROM {$database['prefix']}Entries " .
+		$ret = mysql_query("DELETE FROM {$database['prefix']}Entries " .
 			"WHERE owner = $owner AND category >= 0 $filter");
 		if(mysql_affected_rows()>0){
-			$result=DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $id");
-			$result=DBQuery::query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id");
-			$result=DBQuery::query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner AND entry = $id");
-			$result=DBQuery::query("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $owner AND entry = $id");
+			$result=mysql_query("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $id");
+			$result=mysql_query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id");
+			$result=mysql_query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner AND entry = $id");
+			$result=mysql_query("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $owner AND entry = $id");
 			api_deleteAttachments($owner,$id);
 			RSS::refresh();
 		}

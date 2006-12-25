@@ -229,7 +229,7 @@ function getEntryWithPaging($owner, $id, $isNotice = false) {
 	$paging = initPaging($folderURL, '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
-	$result = DBQuery::query("SELECT e.*, c.label categoryLabel FROM {$database['prefix']}Entries e 
+	$result = mysql_query("SELECT e.*, c.label categoryLabel FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
 		WHERE e.owner = $owner AND e.draft = 0 $visibility AND $category 
 		ORDER BY e.published DESC");
@@ -269,7 +269,7 @@ function getEntryWithPagingBySlogan($owner, $slogan) {
 	$entries = array();
 	$paging = initPaging("$blogURL/entry", '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
-	$result = DBQuery::query("SELECT e.id, e.slogan, c.label categoryLabel FROM {$database['prefix']}Entries e 
+	$result = mysql_query("SELECT e.id, e.slogan, c.label categoryLabel FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
 		WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 
 		ORDER BY e.published DESC");
@@ -326,7 +326,7 @@ function getRecentEntries($owner) {
 	global $database, $skinSetting;
 	$entries = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
-	$result = DBQuery::query("SELECT e.id, e.title, e.comments FROM {$database['prefix']}Entries e
+	$result = mysql_query("SELECT e.id, e.title, e.comments FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
 		WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 
 		ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
@@ -362,12 +362,12 @@ function addEntry($owner, $entry) {
 		if ($entry['visibility'] == 3) $entry['visibility'] = 2;
 	}
 
-	$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
+	$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 	for ($i = 1; mysql_num_rows($result) > 0; $i++) {
 		if ($i > 1000)
 			return false;
 		$slogan = mysql_tt_escape_string(mysql_lessen($slogan0, 245) . '-' . $i);
-		$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
+		$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 	}
 
 	$content = mysql_tt_escape_string($entry['content']);
@@ -382,7 +382,7 @@ function addEntry($owner, $entry) {
 	$id = getDraftEntryId();
 	if ($id === null)
 		$id = 0;
-	$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries VALUES (
+	$result = mysql_query("INSERT INTO {$database['prefix']}Entries VALUES (
 			$owner,
 			$id,
 			0,
@@ -403,8 +403,8 @@ function addEntry($owner, $entry) {
 	if (!$result)
 		return false;
 	$id = mysql_insert_id();
-	DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
-	DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE owner = $owner AND parent = 0");
+	mysql_query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
+	mysql_query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE owner = $owner AND parent = 0");
 	updateEntriesOfCategory($owner, $entry['category']);
 	if ($entry['visibility'] == 3)
 		syndicateEntry($id, 'create');
@@ -452,14 +452,14 @@ function updateEntry($owner, $entry) {
 		if ($entry['visibility'] == 3) $entry['visibility'] = 2;
 	}
 	
-	$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' AND id = {$entry['id']} LIMIT 1");
+	$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' AND id = {$entry['id']} LIMIT 1");
 	if (mysql_num_rows($result) == 0) { // if changed
-		$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
+		$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 		for ($i = 1; mysql_num_rows($result) > 0; $i++) {
 			if ($i > 1000)
 				return false;
 			$slogan = mysql_tt_escape_string(mysql_lessen($slogan0, 245) . '-' . $i);
-			$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
+			$result = mysql_query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $owner AND slogan = '$slogan' LIMIT 1");
 		}
 	}
 	$tags = getTagsWithEntryString($entry['tag']);
@@ -479,7 +479,7 @@ function updateEntry($owner, $entry) {
 			$entry['visibility'] = 0 - $entry['visibility'];
 			break;
 	}
-	$result = DBQuery::query("UPDATE {$database['prefix']}Entries
+	$result = mysql_query("UPDATE {$database['prefix']}Entries
 			SET
 				visibility = {$entry['visibility']},
 				category = {$entry['category']},
@@ -493,11 +493,11 @@ function updateEntry($owner, $entry) {
 				modified = UNIX_TIMESTAMP()
 			WHERE owner = $owner AND id = {$entry['id']} AND draft = 0");
 	if ($result)
-		DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = {$entry['id']} AND draft = 1");
+		mysql_query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = {$entry['id']} AND draft = 1");
 	updateEntriesOfCategory($owner, $entry['category']);
 	if ($entry['visibility'] == 3)
 		syndicateEntry($entry['id'], 'modify');
-	DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = {$entry['id']} WHERE owner = $owner AND parent = 0");
+	mysql_query("UPDATE {$database['prefix']}Attachments SET parent = {$entry['id']} WHERE owner = $owner AND parent = 0");
 	if ($entry['visibility'] >= 2)
 		clearRSS();
 	return $result ? true : false;
@@ -518,7 +518,7 @@ function saveDraftEntry($entry) {
 	}
 
 	if ($draft) {
-		$result = DBQuery::query("UPDATE {$database['prefix']}Entries
+		$result = mysql_query("UPDATE {$database['prefix']}Entries
 				SET
 					visibility = {$entry['visibility']},
 					category = {$entry['category']},
@@ -535,7 +535,7 @@ function saveDraftEntry($entry) {
 			return false;
 	} else {
 		$password = generatePassword();
-		$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries
+		$result = mysql_query("INSERT INTO {$database['prefix']}Entries
 				VALUES (
 					$owner,
 					{$entry['id']},
@@ -575,11 +575,11 @@ function deleteEntry($owner, $id) {
 	$target = getEntry($owner, $id);
 	if (DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id") == 3)
 		syndicateEntry($id, 'delete');
-	$result = DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id");
+	$result = mysql_query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id");
 	if (mysql_affected_rows() > 0) {
-		$result = DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $id");
-		$result = DBQuery::query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id");
-		$result = DBQuery::query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner AND entry = $id");
+		$result = mysql_query("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $id");
+		$result = mysql_query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id");
+		$result = mysql_query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner AND entry = $id");
 
 		updateEntriesOfCategory($owner, $target['category']);
 		deleteAttachments($owner, $id);
@@ -648,12 +648,12 @@ function setEntryVisibility($id, $visibility) {
 		syndicateEntry($id, 'delete');
 	else if ($visibility == 3) {
 		if (!syndicateEntry($id, 'create')) {
-			DBQuery::query("UPDATE {$database['prefix']}Entries SET visibility = $oldVisibility, modified = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id");
+			mysql_query("UPDATE {$database['prefix']}Entries SET visibility = $oldVisibility, modified = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id");
 			return false;
 		}
 	}
 
-	$result = DBQuery::query("UPDATE {$database['prefix']}Entries SET visibility = $visibility, modified = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id");
+	$result = mysql_query("UPDATE {$database['prefix']}Entries SET visibility = $visibility, modified = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id");
 	if (!$result)
 		return false;
 	if (mysql_affected_rows() == 0)
@@ -673,7 +673,7 @@ function setEntryVisibility($id, $visibility) {
 function protectEntry($id, $password) {
 	global $database, $owner;
 	$password = mysql_tt_escape_string($password);
-	$result = DBQuery::query("UPDATE {$database['prefix']}Entries SET password = '$password', modified = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id AND visibility = 1");
+	$result = mysql_query("UPDATE {$database['prefix']}Entries SET password = '$password', modified = UNIX_TIMESTAMP() WHERE owner = $owner AND id = $id AND visibility = 1");
 	return ($result && (mysql_affected_rows() > 0));
 }
 
@@ -711,7 +711,7 @@ function publishEntries() {
 	if (count($entries) == 0)
 		return;
 	foreach ($entries as $i => $entry) {
-		$result = DBQuery::query("UPDATE {$database['prefix']}Entries SET visibility = 0 WHERE owner = $owner AND id = {$entry['id']} AND draft = 0");
+		$result = mysql_query("UPDATE {$database['prefix']}Entries SET visibility = 0 WHERE owner = $owner AND id = {$entry['id']} AND draft = 0");
 		if ($entry['visibility'] == -3) {
 			if ($result && (mysql_affected_rows() > 0) && setEntryVisibility($entry['id'], 2))
 				setEntryVisibility($entry['id'], 3);

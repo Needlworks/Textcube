@@ -22,8 +22,8 @@ function refreshRSS($owner) {
 	}
 
 	if ($blog['publishEolinSyncOnRSS']) {
-		$result = DBQuery::query("SELECT e.*, c.name AS categoryName FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 ORDER BY e.published DESC LIMIT {$blog['entriesOnRSS']}");
-	} else { $result = DBQuery::query("SELECT e.*, c.name AS categoryName FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 AND e.visibility = 3 AND e.category >= 0 ORDER BY e.published DESC LIMIT {$blog['entriesOnRSS']}");
+		$result = mysql_query("SELECT e.*, c.name AS categoryName FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 ORDER BY e.published DESC LIMIT {$blog['entriesOnRSS']}");
+	} else { $result = mysql_query("SELECT e.*, c.name AS categoryName FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id WHERE e.owner = $owner AND e.draft = 0 AND e.visibility = 3 AND e.category >= 0 ORDER BY e.published DESC LIMIT {$blog['entriesOnRSS']}");
 	}
 	if (!$result)
 		return false;
@@ -52,7 +52,7 @@ function refreshRSS($owner) {
 			}
 		}
 		array_push($item['categories'], $row['categoryName']);
-		$tag_result = DBQuery::query("SELECT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND entry = $row[1] AND owner = $owner ORDER BY name");
+		$tag_result = mysql_query("SELECT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND entry = $row[1] AND owner = $owner ORDER BY name");
 		while (list($tag) = mysql_fetch_array($tag_result))
 			array_push($item['categories'], $tag);
 		array_push($channel['items'], $item);

@@ -15,7 +15,7 @@ function getOwnerBySecondaryDomain($domain) {
 
 function getBlogSetting($owner) {
 	global $database;
-	if ($result = DBQuery::query("select * from {$database['prefix']}BlogSettings where owner = $owner")) {
+	if ($result = mysql_query("select * from {$database['prefix']}BlogSettings where owner = $owner")) {
 		return mysql_fetch_array($result);
 	}
 	return false;
@@ -24,7 +24,7 @@ function getBlogSetting($owner) {
 function getSkinSetting($owner) {
 	global $database, $service;
 	
-	if ($result = DBQuery::query("SELECT * FROM {$database['prefix']}SkinSettings WHERE owner = $owner")) {
+	if ($result = mysql_query("SELECT * FROM {$database['prefix']}SkinSettings WHERE owner = $owner")) {
 		$retval = mysql_fetch_array($result);
 		if ($retval != FALSE) {
 			if (!Validator::directory($retval['skin']) && ($retval['skin'] !="customize/$owner")) {

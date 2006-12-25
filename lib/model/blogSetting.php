@@ -8,7 +8,7 @@ function setBlogTitle($owner, $title) {
 	global $blog;
 	if ($title == $blog['title'])
 		return true;
-	DBQuery::query("update {$database['prefix']}BlogSettings set title = '" . mysql_tt_escape_string(mysql_lessen($title, 255)) . "' where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogSettings set title = '" . mysql_tt_escape_string(mysql_lessen($title, 255)) . "' where owner = $owner");
 	if (mysql_affected_rows() != 1)
 		return false;
 	$blog['title'] = $title;
@@ -21,7 +21,7 @@ function setBlogDescription($owner, $description) {
 	global $blog;
 	if ($description == $blog['description'])
 		return true;
-	DBQuery::query("update {$database['prefix']}BlogSettings set description = '" . mysql_tt_escape_string(mysql_lessen($description, 255)) . "' where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogSettings set description = '" . mysql_tt_escape_string(mysql_lessen($description, 255)) . "' where owner = $owner");
 	if (mysql_affected_rows() != 1)
 		return false;
 	$blog['description'] = $description;
@@ -32,7 +32,7 @@ function setBlogDescription($owner, $description) {
 function removeBlogLogo($owner) {
 	global $database, $blog;
 
-	$result = DBQuery::query("update {$database['prefix']}BlogSettings set logo = '' where owner = $owner");
+	$result = mysql_query("update {$database['prefix']}BlogSettings set logo = '' where owner = $owner");
 	if ($result && (mysql_affected_rows() == 1)) {
 		deleteAttachment($owner, - 1, $blog['logo']);
 		$blog['logo'] = '';
@@ -51,7 +51,7 @@ function changeBlogLogo($owner, $file) {
 		deleteAttachment($owner, - 1, $attachment['name']);
 		return false;
 	}
-	$result = DBQuery::query("update {$database['prefix']}BlogSettings set logo = '{$attachment['name']}' where owner = $owner");
+	$result = mysql_query("update {$database['prefix']}BlogSettings set logo = '{$attachment['name']}' where owner = $owner");
 	if ($result && (mysql_affected_rows() == 1)) {
 		deleteAttachment($owner, - 1, $blog['logo']);
 		$blog['logo'] = $attachment['name'];
@@ -72,11 +72,11 @@ function setPrimaryDomain($owner, $name) {
 		return 0;
 	if (!checkBlogName($name))
 		return 1;
-	if (mysql_num_rows(DBQuery::query("select * from {$database['prefix']}ReservedWords where '$name' like word")) > 0)
+	if (mysql_num_rows(mysql_query("select * from {$database['prefix']}ReservedWords where '$name' like word")) > 0)
 		return 2;
-	if (mysql_num_rows(DBQuery::query("select * from {$database['prefix']}BlogSettings where name = '$name'")) > 0)
+	if (mysql_num_rows(mysql_query("select * from {$database['prefix']}BlogSettings where name = '$name'")) > 0)
 		return 3;
-	DBQuery::query("update {$database['prefix']}BlogSettings set name = '$name' where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogSettings set name = '$name' where owner = $owner");
 	if (mysql_affected_rows() != 1)
 		return 4;
 	$blog['name'] = $name;
@@ -114,7 +114,7 @@ function setDefaultDomain($owner, $default) {
 		return false;
 	if ($default == $blog['defaultDomain'])
 		return true;
-	DBQuery::query("update {$database['prefix']}BlogSettings set defaultDomain = $default where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogSettings set defaultDomain = $default where owner = $owner");
 	if (mysql_affected_rows() != 1)
 		return false;
 	$blog['defaultDomain'] = $default;
@@ -128,7 +128,7 @@ function useBlogSlogan($owner, $useSlogan) {
 	$useSlogan = $useSlogan ? 1 : 0;
 	if ($useSlogan == $blog['useSlogan'])
 		return true;
-	DBQuery::query("update {$database['prefix']}BlogSettings set useSlogan = $useSlogan where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogSettings set useSlogan = $useSlogan where owner = $owner");
 	if (mysql_affected_rows() != 1)
 		return false;
 	$blog['useSlogan'] = $useSlogan;
@@ -142,7 +142,7 @@ function publishPostEolinSyncOnRSS($owner, $publishEolinSyncOnRSS) {
 	$publishEolinSyncOnRSS = $publishEolinSyncOnRSS ? 1 : 0;
 	if ($publishEolinSyncOnRSS == $blog['publishEolinSyncOnRSS'])
 		return true;
-	DBQuery::query("update {$database['prefix']}BlogSettings set publishEolinSyncOnRSS = $publishEolinSyncOnRSS where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogSettings set publishEolinSyncOnRSS = $publishEolinSyncOnRSS where owner = $owner");
 	if (mysql_affected_rows() != 1)
 		return false;
 	$blog['publishEolinSyncOnRSS'] = $publishEolinSyncOnRSS;
@@ -155,7 +155,7 @@ function setEntriesOnRSS($owner, $entriesOnRSS) {
 	global $blog;
 	if ($entriesOnRSS == $blog['entriesOnRSS'])
 		return true;
-	DBQuery::query("update {$database['prefix']}BlogSettings set entriesOnRSS = $entriesOnRSS where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogSettings set entriesOnRSS = $entriesOnRSS where owner = $owner");
 	if (mysql_affected_rows() != 1)
 		return false;
 	$blog['entriesOnRSS'] = $entriesOnRSS;
@@ -169,7 +169,7 @@ function setPublishWholeOnRSS($owner, $publishWholeOnRSS) {
 	$publishWholeOnRSS = $publishWholeOnRSS ? 1 : 0;
 	if ($publishWholeOnRSS == $blog['publishWholeOnRSS'])
 		return true;
-	DBQuery::query("update {$database['prefix']}BlogSettings set publishWholeOnRSS = $publishWholeOnRSS where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogSettings set publishWholeOnRSS = $publishWholeOnRSS where owner = $owner");
 	if (mysql_affected_rows() != 1)
 		return false;
 	$blog['publishWholeOnRSS'] = $publishWholeOnRSS;
@@ -183,7 +183,7 @@ function setBlogLanguage($owner, $language, $blogLanguage) {
 	if (($language == $blog['language']) && ($blogLanguage == $blog['blogLanguage']))
 		return true;
 	$blogLanguage = mysql_lessen($blogLanguage, 5);
-	DBQuery::query("update {$database['prefix']}BlogSettings set language = '$language' , blogLanguage = '$blogLanguage' where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogSettings set language = '$language' , blogLanguage = '$blogLanguage' where owner = $owner");
 	//if (mysql_affected_rows() != 1)
 	//	return false;
 	$blog['language'] = $language;
@@ -197,7 +197,7 @@ function setGuestbook($owner, $write, $comment) {
 	global $blog;
 	if (!is_numeric($write) || !is_numeric($comment))
 		return false;
-	DBQuery::query("update {$database['prefix']}BlogSettings set allowWriteOnGuestbook = $write, allowWriteDoubleCommentOnGuestbook = $comment where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogSettings set allowWriteOnGuestbook = $write, allowWriteDoubleCommentOnGuestbook = $comment where owner = $owner");
 	if (mysql_affected_rows() != 1)
 		return false;
 	return true;
@@ -212,7 +212,7 @@ function changeSetting($owner, $email, $nickname) {
 		return false;
 	}
 	$sql = "UPDATE `{$database['prefix']}Users` SET loginid = '$email', name = '$nickname' WHERE `userid` = $owner";
-	$result = DBQuery::query($sql);
+	$result = mysql_query($sql);
 	if (!$result) {
 		return false;
 	} else {
@@ -246,48 +246,48 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 	$password = generatePassword();
 
 	$blogName = $identify;
-	$result = DBQuery::query("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'");
+	$result = mysql_query("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'");
 	if ($result && (mysql_num_rows($result) > 0)) {
 		return 5;
 	}
-	$result = DBQuery::query("SELECT * FROM `{$database['prefix']}ReservedWords` WHERE word = '$blogName'");
+	$result = mysql_query("SELECT * FROM `{$database['prefix']}ReservedWords` WHERE word = '$blogName'");
 	if ($result && (mysql_num_rows($result) > 0)) {
 		return 60;
 	}
-	$result = DBQuery::query("SELECT * FROM `{$database['prefix']}BlogSettings` WHERE name = '$blogName'");
+	$result = mysql_query("SELECT * FROM `{$database['prefix']}BlogSettings` WHERE name = '$blogName'");
 	if ($result && (mysql_num_rows($result) > 0)) {
 		return 61;
 	}
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, $owner)");
+	$result = mysql_query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, $owner)");
 	if (!$result || (mysql_affected_rows() == 0)) {
 		return 11;
 	} 
 	$id = mysql_insert_id();
 	$baseTimezone = mysql_tt_escape_string($service['timezone']);
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}BlogSettings` (owner, name, language, blogLanguage, timezone) VALUES ($id, '$identify', '{$service['language']}', '{$service['language']}', '{$baseTimezone}')");
+	$result = mysql_query("INSERT INTO `{$database['prefix']}BlogSettings` (owner, name, language, blogLanguage, timezone) VALUES ($id, '$identify', '{$service['language']}', '{$service['language']}', '{$baseTimezone}')");
 	if (!$result || (mysql_affected_rows() == 0)) {
-		DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
+		mysql_query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
 		return 12;
 	}
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}SkinSettings` (owner, skin) VALUES ($id, '{$service['skin']}')");
+	$result = mysql_query("INSERT INTO `{$database['prefix']}SkinSettings` (owner, skin) VALUES ($id, '{$service['skin']}')");
 	if (!$result || (mysql_affected_rows() == 0)) {
-		DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $id");
+		mysql_query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
+		mysql_query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $id");
 		return 13;
 	}
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}FeedSettings` (owner) VALUES ($id)");
+	$result = mysql_query("INSERT INTO `{$database['prefix']}FeedSettings` (owner) VALUES ($id)");
 	if (!$result || (mysql_affected_rows() == 0)) {
-		DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $id");
+		mysql_query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
+		mysql_query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $id");
+		mysql_query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $id");
 		return 62;
 	}
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}FeedGroups` (owner, id) VALUES ($id, 0)");
+	$result = mysql_query("INSERT INTO `{$database['prefix']}FeedGroups` (owner, id) VALUES ($id, 0)");
 	if (!$result || (mysql_affected_rows() == 0)) {
-		DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $id");
+		mysql_query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
+		mysql_query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $id");
+		mysql_query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $id");
+		mysql_query("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $id");
 		return 62;
 	}
 	$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TATTERTOOLS_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";

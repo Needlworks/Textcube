@@ -13,9 +13,9 @@ function setReaderSetting($owner, $setting) {
 	$sql = "UPDATE {$database['prefix']}FeedSettings SET ";
 	if (getUserId() == 1) {
 		if (isset($setting['updateCycle']))
-			DBQuery::query("UPDATE {$database['prefix']}FeedSettings SET updateCycle = {$setting['updateCycle']}");
+			mysql_query("UPDATE {$database['prefix']}FeedSettings SET updateCycle = {$setting['updateCycle']}");
 		if (isset($setting['feedLife']))
-			DBQuery::query("UPDATE {$database['prefix']}FeedSettings SET feedLife = {$setting['feedLife']}");
+			mysql_query("UPDATE {$database['prefix']}FeedSettings SET feedLife = {$setting['feedLife']}");
 	}
 	if (!empty($setting['loadImage']))
 		$sql .= "loadImage = {$setting['loadImage']}, ";
@@ -35,9 +35,9 @@ function markAsStar($owner, $id, $flag) {
 	global $database;
 	if (DBQuery::queryCell("SELECT i.id FROM {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr, {$database['prefix']}Feeds f, {$database['prefix']}FeedItems i WHERE g.owner = $owner AND gr.feed = f.id AND gr.owner = g.owner AND gr.groupId = g.id AND f.id = i.feed AND i.id = $id")) {
 		if ($flag)
-			DBQuery::query("REPLACE INTO {$database['prefix']}FeedStarred VALUES($owner, $id)");
+			mysql_query("REPLACE INTO {$database['prefix']}FeedStarred VALUES($owner, $id)");
 		else
-			DBQuery::query("DELETE FROM {$database['prefix']}FeedStarred WHERE owner = $owner AND item = $id");
+			mysql_query("DELETE FROM {$database['prefix']}FeedStarred WHERE owner = $owner AND item = $id");
 		return true;
 	} else
 		return false;
@@ -249,7 +249,7 @@ function getFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = f
 			}
 			return $row;
 		} else {
-			$result = DBQuery::query($sql);
+			$result = mysql_query($sql);
 			$prevRow = null;
 			while ($row = mysql_fetch_array($result)) {
 				if ($row['id'] == $entry) {
@@ -259,7 +259,7 @@ function getFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = f
 								break;
 						}
 						if ($markAsRead == 'read')
-							DBQuery::query("REPLACE INTO {$database['prefix']}FeedReads VALUES($owner, {$row['id']})");
+							mysql_query("REPLACE INTO {$database['prefix']}FeedReads VALUES($owner, {$row['id']})");
 						if ($row) {
 							$row['description'] = adjustRelativePathImage($row['description'], $row['permalink']);
 							$row['description'] = filterJavaScript($row['description'], ($setting['allowScript'] == 1 ? false : true));
@@ -267,7 +267,7 @@ function getFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = f
 						return $row;
 					} else if ($position == 'after') {
 						if ($markAsRead == 'read')
-							DBQuery::query("REPLACE INTO {$database['prefix']}FeedReads VALUES($owner, {$prevRow['id']})");
+							mysql_query("REPLACE INTO {$database['prefix']}FeedReads VALUES($owner, {$prevRow['id']})");
 						if ($prevRow) {
 							$prevRow['description'] = adjustRelativePathImage($prevRow['description'], $row['permalink']);
 							$prevRow['description'] = filterJavaScript($prevRow['description'], ($setting['allowScript'] == 1 ? false : true));
@@ -281,7 +281,7 @@ function getFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = f
 			return;
 		}
 	} else {
-		DBQuery::query("REPLACE INTO {$database['prefix']}FeedReads VALUES($owner, $entry)");
+		mysql_query("REPLACE INTO {$database['prefix']}FeedReads VALUES($owner, $entry)");
 		$sql = "SELECT
 						i.id, i.title entry_title, i.description, f.title blog_title, i.author, i.written, i.tags, i.permalink, f.language, enclosure
 					FROM
@@ -313,7 +313,7 @@ function addFeedGroup($owner, $title) {
 		return 2;
 	}
 	$id = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}FeedGroups WHERE owner = $owner") + 1;
-	DBQuery::query("INSERT INTO {$database['prefix']}FeedGroups VALUES($owner, $id, '$title')");
+	mysql_query("INSERT INTO {$database['prefix']}FeedGroups VALUES($owner, $id, '$title')");
 	if (mysql_affected_rows() != 1)
 		return - 1;
 	return 0;
@@ -329,7 +329,7 @@ function editFeedGroup($owner, $id, $title) {
 		return 0;
 	if ($prevTitle === null)
 		return - 1;
-	DBQuery::query("UPDATE {$database['prefix']}FeedGroups SET title = '$title' WHERE owner = $owner AND id = $id");
+	mysql_query("UPDATE {$database['prefix']}FeedGroups SET title = '$title' WHERE owner = $owner AND id = $id");
 	if (mysql_affected_rows() != 1)
 		return - 1;
 	return 0;
@@ -339,8 +339,8 @@ function deleteFeedGroup($owner, $id) {
 	global $database;
 	if ($id == 0)
 		return - 1;
-	DBQuery::query("UPDATE {$database['prefix']}FeedGroupRelations SET groupId = 0 WHERE owner = $owner AND groupId = $id");
-	DBQuery::query("DELETE FROM {$database['prefix']}FeedGroups WHERE id = $id");
+	mysql_query("UPDATE {$database['prefix']}FeedGroupRelations SET groupId = 0 WHERE owner = $owner AND groupId = $id");
+	mysql_query("DELETE FROM {$database['prefix']}FeedGroups WHERE id = $id");
 	if (mysql_affected_rows() != 1)
 		return 1;
 	return 0;
@@ -355,24 +355,24 @@ function addFeed($owner, $group = 0, $url, $getEntireFeed = true, $htmlURL = '',
 		return 1;
 	}
 	if ($id = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Feeds WHERE xmlURL = '$escapedURL'")) {
-		DBQuery::query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($owner, $id, $group)");
+		mysql_query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($owner, $id, $group)");
 		return 0;
 	}
 	if ($getEntireFeed) {
 		list($status, $feed, $xml) = getRemoteFeed($url);
 		if ($status > 0)
 			return $status;
-		DBQuery::query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '{$feed['xmlURL']}', '{$feed['blogURL']}', '{$feed['title']}', '{$feed['description']}', '{$feed['language']}', {$feed['modified']})");
+		mysql_query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '{$feed['xmlURL']}', '{$feed['blogURL']}', '{$feed['title']}', '{$feed['description']}', '{$feed['language']}', {$feed['modified']})");
 		$id = mysql_insert_id();
-		DBQuery::query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($owner, $id, $group)");
+		mysql_query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($owner, $id, $group)");
 		saveFeedItems($id, $xml);
 	} else {
 		$htmlURL = mysql_tt_escape_string(mysql_lessen($htmlURL));
 		$blogTitle = mysql_tt_escape_string(mysql_lessen($blogTitle));
 		$blogDescription = mysql_tt_escape_string(mysql_lessen(stripHTML($blogDescription)));
-		DBQuery::query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '$escapedURL', '$htmlURL', '$blogTitle', '$blogDescription', 'en-US', 0)");
+		mysql_query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '$escapedURL', '$htmlURL', '$blogTitle', '$blogDescription', 'en-US', 0)");
 		$id = mysql_insert_id();
-		DBQuery::query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($owner, $id, $group)");
+		mysql_query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($owner, $id, $group)");
 	}
 	return 0;
 }
@@ -535,12 +535,12 @@ function saveFeedItems($feedId, $xml) {
 	$feedLife = DBQuery::queryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings");
 	if($feedLife > 0)
 		$deadLine = gmmktime() - $feedLife * 86400;
-	if($result = DBQuery::query("SELECT id FROM {$database['prefix']}FeedItems LEFT JOIN {$database['prefix']}FeedStarred ON id = item WHERE item IS NULL AND written < $deadLine"))
+	if($result = mysql_query("SELECT id FROM {$database['prefix']}FeedItems LEFT JOIN {$database['prefix']}FeedStarred ON id = item WHERE item IS NULL AND written < $deadLine"))
 		while(list($id) = mysql_fetch_row($result))
-			DBQuery::query("DELETE FROM {$database['prefix']}FeedItems WHERE id = $id");
-	if($result = DBQuery::query("SELECT owner, item FROM FeedReads LEFT JOIN FeedItems ON id = item WHERE id IS NULL"))
+			mysql_query("DELETE FROM {$database['prefix']}FeedItems WHERE id = $id");
+	if($result = mysql_query("SELECT owner, item FROM FeedReads LEFT JOIN FeedItems ON id = item WHERE id IS NULL"))
 		while(list($readsOwner, $readsItem) = mysql_fetch_row($result))
-			DBQuery::query("DELETE FROM FeedReads WHERE owner = $readsOwner AND item = $readsItem");
+			mysql_query("DELETE FROM FeedReads WHERE owner = $readsOwner AND item = $readsItem");
 	return true;
 }
 
@@ -563,44 +563,44 @@ function saveFeedItem($feedId, $item) {
 	if($feedLife > 0)
 		$deadLine = gmmktime() - $feedLife * 86400;
 	if ($id = DBQuery::queryCell("SELECT id FROM {$database['prefix']}FeedItems WHERE permalink='{$item['permalink']}'")) {
-		DBQuery::query("UPDATE {$database['prefix']}FeedItems SET author = '{$item['author']}', title = '{$item['title']}', description = '{$item['description']}', tags = '$tagString', enclosure = '$enclosureString', written = {$item['written']} WHERE id = $id");
+		mysql_query("UPDATE {$database['prefix']}FeedItems SET author = '{$item['author']}', title = '{$item['title']}', description = '{$item['description']}', tags = '$tagString', enclosure = '$enclosureString', written = {$item['written']} WHERE id = $id");
 		/*
 		TODO : 읽은글이 읽지않은 글로 표시되는 문제 원인이 찾아질때 까지 막아둠
 		if (mysql_affected_rows() > 0)
-			DBQuery::query("DELETE FROM {$database['prefix']}FeedReads WHERE item = $id");
+			mysql_query("DELETE FROM {$database['prefix']}FeedReads WHERE item = $id");
 		*/
 	} else if($item['written'] > $deadLine)
-		DBQuery::query("INSERT INTO {$database['prefix']}FeedItems VALUES(null, $feedId, '{$item['author']}', '{$item['permalink']}', '{$item['title']}', '{$item['description']}', '$tagString', '$enclosureString', {$item['written']})");
+		mysql_query("INSERT INTO {$database['prefix']}FeedItems VALUES(null, $feedId, '{$item['author']}', '{$item['permalink']}', '{$item['title']}', '{$item['description']}', '$tagString', '$enclosureString', {$item['written']})");
 	return true;
 }
 
 function editFeed($owner, $feedId, $oldGroupId, $newGroupId, $url) {
 	global $database;
-	DBQuery::query("UPDATE {$database['prefix']}FeedGroupRelations SET groupId = $newGroupId WHERE owner = $owner AND feed = $feedId AND groupId = $oldGroupId");
+	mysql_query("UPDATE {$database['prefix']}FeedGroupRelations SET groupId = $newGroupId WHERE owner = $owner AND feed = $feedId AND groupId = $oldGroupId");
 	return 0;
 }
 
 function deleteFeed($owner, $feedId) {
 	global $database;
-	DBQuery::query("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE owner = $owner AND feed = $feedId");
+	mysql_query("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE owner = $owner AND feed = $feedId");
 	if (DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}FeedGroupRelations WHERE owner = $owner AND feed = $feedId") == 0) {
 		foreach (DBQuery::queryAll("SELECT item FROM {$database['prefix']}FeedStarred s, {$database['prefix']}FeedItems i WHERE s.item = i.id AND s.owner = $owner AND i.feed = $feedId") as $row)
-			DBQuery::query("DELETE FROM {$database['prefix']}FeedStarred WHERE owner = $owner AND item = {$row['item']}");
+			mysql_query("DELETE FROM {$database['prefix']}FeedStarred WHERE owner = $owner AND item = {$row['item']}");
 		foreach (DBQuery::queryAll("SELECT item FROM {$database['prefix']}FeedReads r, {$database['prefix']}FeedItems i WHERE r.item = i.id AND r.owner = $owner AND i.feed = $feedId") as $row)
-			DBQuery::query("DELETE FROM {$database['prefix']}FeedReads WHERE owner = $owner AND item = {$row['item']}");
+			mysql_query("DELETE FROM {$database['prefix']}FeedReads WHERE owner = $owner AND item = {$row['item']}");
 	}
 	if (DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}FeedGroupRelations WHERE feed = $feedId") == 0) {
-		DBQuery::query("DELETE FROM {$database['prefix']}FeedItems WHERE feed = $feedId");
-		DBQuery::query("DELETE FROM {$database['prefix']}Feeds WHERE id = $feedId");
+		mysql_query("DELETE FROM {$database['prefix']}FeedItems WHERE feed = $feedId");
+		mysql_query("DELETE FROM {$database['prefix']}Feeds WHERE id = $feedId");
 	}
 	return 0;
 }
 
 function deleteReaderTablesByOwner($owner) {
 	global $database;
-	DBQuery::query("DELETE FROM {$database['prefix']}FeedGroups WHERE owner = $owner");
-	DBQuery::query("DELETE FROM {$database['prefix']}FeedSettings WHERE owner = $owner");
-	if($result = DBQuery::query("SELECT feed FROM {$database['prefix']}FeedGroupRelations WHERE owner = $owner")) {
+	mysql_query("DELETE FROM {$database['prefix']}FeedGroups WHERE owner = $owner");
+	mysql_query("DELETE FROM {$database['prefix']}FeedSettings WHERE owner = $owner");
+	if($result = mysql_query("SELECT feed FROM {$database['prefix']}FeedGroupRelations WHERE owner = $owner")) {
 		while(list($feed) = mysql_fetch_row($result)) {
 			deleteFeed($owner, $feed);
 		}

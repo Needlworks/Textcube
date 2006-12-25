@@ -6,13 +6,13 @@
 function getStatistics($owner) {
 	global $database;
 	$stats = array('total' => 0, 'today' => 0, 'yesterday' => 0);
-	$result = DBQuery::query("select visits from {$database['prefix']}BlogStatistics where owner = $owner");
+	$result = mysql_query("select visits from {$database['prefix']}BlogStatistics where owner = $owner");
 	if (mysql_num_rows($result) == 1)
 		list($stats['total']) = mysql_fetch_array($result);
-	$result = DBQuery::query("select visits from {$database['prefix']}DailyStatistics where owner = $owner and `date` = " . Timestamp::getDate());
+	$result = mysql_query("select visits from {$database['prefix']}DailyStatistics where owner = $owner and `date` = " . Timestamp::getDate());
 	if (mysql_num_rows($result) == 1)
 		list($stats['today']) = mysql_fetch_array($result);
-	$result = DBQuery::query("select visits from {$database['prefix']}DailyStatistics where owner = $owner and `date` = " . Timestamp::getDate(time() - 86400));
+	$result = mysql_query("select visits from {$database['prefix']}DailyStatistics where owner = $owner and `date` = " . Timestamp::getDate(time() - 86400));
 	if (mysql_num_rows($result) == 1)
 		list($stats['yesterday']) = mysql_fetch_array($result);
 	return $stats;
@@ -26,7 +26,7 @@ function getDailyStatistics($period) {
 function getMonthlyStatistics($owner) {
 	global $database;
 	$statistics = array();
-	if ($result = DBQuery::query("select left(date, 6) date, sum(visits) visits from {$database['prefix']}DailyStatistics where owner = $owner group by left(date, 6) order by date desc")) {
+	if ($result = mysql_query("select left(date, 6) date, sum(visits) visits from {$database['prefix']}DailyStatistics where owner = $owner group by left(date, 6) order by date desc")) {
 		while ($record = mysql_fetch_array($result))
 			array_push($statistics, $record);
 	}
@@ -36,7 +36,7 @@ function getMonthlyStatistics($owner) {
 function getRefererStatistics($owner) {
 	global $database;
 	$statistics = array();
-	if ($result = DBQuery::query("select host, count from {$database['prefix']}RefererStatistics where owner = $owner order by count desc limit 20")) {
+	if ($result = mysql_query("select host, count from {$database['prefix']}RefererStatistics where owner = $owner order by count desc limit 20")) {
 		while ($record = mysql_fetch_array($result))
 			array_push($statistics, $record);
 	}
@@ -60,20 +60,20 @@ function updateVisitorStatistics($owner) {
 	if (doesHaveOwnership())
 		return;
 	$id = session_id();
-	$result = DBQuery::query("select blog from {$database['prefix']}SessionVisits where id = '$id' and address = '{$_SERVER['REMOTE_ADDR']}' and blog = $owner");
+	$result = mysql_query("select blog from {$database['prefix']}SessionVisits where id = '$id' and address = '{$_SERVER['REMOTE_ADDR']}' and blog = $owner");
 	if ($result && (mysql_num_rows($result) > 0))
 		return;
-	if (DBQuery::query("insert into {$database['prefix']}SessionVisits values('$id', '{$_SERVER['REMOTE_ADDR']}', $owner)") && (mysql_affected_rows() > 0)) {
-		DBQuery::query("update {$database['prefix']}BlogStatistics set visits = visits + 1 where owner = $owner");
+	if (mysql_query("insert into {$database['prefix']}SessionVisits values('$id', '{$_SERVER['REMOTE_ADDR']}', $owner)") && (mysql_affected_rows() > 0)) {
+		mysql_query("update {$database['prefix']}BlogStatistics set visits = visits + 1 where owner = $owner");
 		if (mysql_affected_rows() == 0) {
-			if (DBQuery::query("update {$database['prefix']}BlogStatistics set visits = visits + 1 where owner = $owner") || (mysql_affected_rows() == 0))
-				DBQuery::query("insert into {$database['prefix']}BlogStatistics values($owner, 1)");
+			if (mysql_query("update {$database['prefix']}BlogStatistics set visits = visits + 1 where owner = $owner") || (mysql_affected_rows() == 0))
+				mysql_query("insert into {$database['prefix']}BlogStatistics values($owner, 1)");
 		}
 		$period = Timestamp::getDate();
-		DBQuery::query("update {$database['prefix']}DailyStatistics set visits = visits + 1 where owner = $owner and `date` = $period");
+		mysql_query("update {$database['prefix']}DailyStatistics set visits = visits + 1 where owner = $owner and `date` = $period");
 		if (mysql_affected_rows() == 0) {
-			if (!DBQuery::query("insert into {$database['prefix']}DailyStatistics values($owner, $period, 1)") || (mysql_affected_rows() == 0))
-				DBQuery::query("update {$database['prefix']}DailyStatistics set visits = visits + 1 where owner = $owner and `date` = $period");
+			if (!mysql_query("insert into {$database['prefix']}DailyStatistics values($owner, $period, 1)") || (mysql_affected_rows() == 0))
+				mysql_query("update {$database['prefix']}DailyStatistics set visits = visits + 1 where owner = $owner and `date` = $period");
 		}
 		if (!empty($_SERVER['HTTP_REFERER'])) {
 			$referer = parse_url($_SERVER['HTTP_REFERER']);
@@ -85,10 +85,10 @@ function updateVisitorStatistics($owner) {
 					return;
 				$host = mysql_tt_escape_string(mysql_lessen($referer['host'], 64));
 				$url = mysql_tt_escape_string(mysql_lessen($_SERVER['HTTP_REFERER'], 255));
-				DBQuery::query("insert into {$database['prefix']}RefererLogs values($owner, '$host', '$url', UNIX_TIMESTAMP())");
-				DBQuery::query("delete from {$database['prefix']}RefererLogs where referred < UNIX_TIMESTAMP() - 604800");
-				if (!DBQuery::query("update {$database['prefix']}RefererStatistics set count = count + 1 where owner = $owner and host = '$host'") || (mysql_affected_rows() == 0))
-					DBQuery::query("insert into {$database['prefix']}RefererStatistics values($owner, '$host', 1)");
+				mysql_query("insert into {$database['prefix']}RefererLogs values($owner, '$host', '$url', UNIX_TIMESTAMP())");
+				mysql_query("delete from {$database['prefix']}RefererLogs where referred < UNIX_TIMESTAMP() - 604800");
+				if (!mysql_query("update {$database['prefix']}RefererStatistics set count = count + 1 where owner = $owner and host = '$host'") || (mysql_affected_rows() == 0))
+					mysql_query("insert into {$database['prefix']}RefererStatistics values($owner, '$host', 1)");
 			}
 		}
 	}
@@ -100,9 +100,9 @@ function setTotalStatistics($owner) {
 	$prevCount = DBQuery::queryCell("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE owner = $owner");
 	if ((!is_null($prevCount)) && ($prevCount == 0))
 		return true;
-	DBQuery::query("update {$database['prefix']}BlogStatistics set visits = 0 where owner = $owner");
+	mysql_query("update {$database['prefix']}BlogStatistics set visits = 0 where owner = $owner");
 	if (mysql_affected_rows() == 0)
-		DBQuery::query("insert into {$database['prefix']}BlogStatistics values($owner, 0)");
+		mysql_query("insert into {$database['prefix']}BlogStatistics values($owner, 0)");
 	return mysql_affected_rows() ? true : false;
 }
 ?>

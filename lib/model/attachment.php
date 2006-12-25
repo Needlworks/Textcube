@@ -6,7 +6,7 @@
 function getAttachments($owner, $parent, $orderBy = null, $sort='ASC') {
 	global $database;
 	$attachments = array();
-	if ($result = DBQuery::query("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
+	if ($result = mysql_query("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
 		while ($attachment = mysql_fetch_array($result))
 			array_push($attachments, $attachment);
 	}
@@ -161,7 +161,7 @@ function deleteAttachments($owner, $parent) {
 function downloadAttachment($name) {
 	global $database, $owner;
 	$name = mysql_tt_escape_string($name);
-	DBQuery::query("UPDATE {$database['prefix']}Attachments SET downloads = downloads + 1 WHERE owner = $owner AND name = '$name'");
+	mysql_query("UPDATE {$database['prefix']}Attachments SET downloads = downloads + 1 WHERE owner = $owner AND name = '$name'");
 }
 
 function setEnclosure($name, $order) {
