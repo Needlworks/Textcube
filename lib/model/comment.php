@@ -68,8 +68,11 @@ function getCommentsNotifiedWithPagingForOwner($owner, $category, $name, $ip, $s
 		if (!empty($search)) {
 			$preQuery .= " AND (name LIKE '%$search%') OR (homepage LIKE '%$search%') OR (comment LIKE '%$search%') ";
 		}
-		
-		$childList = array_unique(fetchQueryColumn($preQuery));
+	
+		$childListTemp = array_unique(fetchQueryColumn($preQuery));
+		$childList = array();
+		foreach ($childListTemp as $item) 
+			if(!is_null($item)) array_push($childList, $item);
 		$childListStr = (count($childList) == 0) ? '' : ('AND c.id IN ( ' . implode(', ',$childList) . ' ) ') ;
 		
 		$sql = "SELECT 
