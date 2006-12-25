@@ -89,7 +89,7 @@ function getEntryListWithPagingByCategory($owner, $category, $page, $count) {
 function getEntryListWithPagingByTag($owner, $tag, $page, $count) {
 	global $database, $suri, $folderURL;
 	if ($tag === null)
-		return array();
+		return array(array(), array('url'=>'','prefix'=>'','postfix'=>''));	
 	$tag = mysql_tt_escape_string($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
 	$sql = "SELECT e.* FROM {$database['prefix']}Entries e 
