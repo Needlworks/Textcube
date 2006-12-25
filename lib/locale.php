@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 Timezone::set(isset($blog['timezone']) ? $blog['timezone'] : $service['timezone']);
-mysql_query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
+DBQuery::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
 Locale::setDirectory(ROOT . '/language');
 Locale::set(isset($blog['language']) ? $blog['language'] : $service['language']);
 

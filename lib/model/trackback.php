@@ -41,7 +41,7 @@ function getTrackbacksWithPagingForOwner($owner, $category, $site, $ip, $search,
 function getTrackbacks($entry) {
 	global $database, $owner;
 	$trackbacks = array();
-	$result = mysql_query("select * from {$database['prefix']}Trackbacks where owner = $owner AND entry = $entry AND isFiltered = 0 order by written");
+	$result = DBQuery::query("select * from {$database['prefix']}Trackbacks where owner = $owner AND entry = $entry AND isFiltered = 0 order by written");
 	while ($trackback = mysql_fetch_array($result))
 		array_push($trackbacks, $trackback);
 	return $trackbacks;
@@ -52,7 +52,7 @@ function getRecentTrackbacks($owner) {
 	global $skinSetting;
 	$trackbacks = array();
 	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND isFiltered = 0 ORDER BY written DESC LIMIT {$skinSetting['trackbacksOnRecent']}" : "SELECT t.* FROM {$database['prefix']}Trackbacks t, {$database['prefix']}Entries e WHERE t.owner = $owner AND t.owner = e.owner AND t.entry = e.id AND e.draft = 0 AND e.visibility >= 2 AND isFiltered = 0 ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksOnRecent']}";
-	if ($result = mysql_query($sql)) {
+	if ($result = DBQuery::query($sql)) {
 		while ($trackback = mysql_fetch_array($result))
 			array_push($trackbacks, $trackback);
 	}
@@ -192,7 +192,7 @@ function sendTrackback($owner, $entryId, $url) {
 	}
 	if ($isSuccess && (checkResponseXML($request->responseText) === 0)) {
 		$url = mysql_tt_escape_string(mysql_lessen($url, 255));
-		mysql_query("insert into {$database['prefix']}TrackbackLogs values ($owner, '', $entryId, '$url', UNIX_TIMESTAMP())");
+		DBQuery::query("insert into {$database['prefix']}TrackbackLogs values ($owner, '', $entryId, '$url', UNIX_TIMESTAMP())");
 		return true;
 	}
 	return false;
@@ -200,7 +200,7 @@ function sendTrackback($owner, $entryId, $url) {
 
 function getTrackbackLog($owner, $entry) {
 	global $database;
-	$result = mysql_query("select * from {$database['prefix']}TrackbackLogs where owner = $owner and entry = $entry");
+	$result = DBQuery::query("select * from {$database['prefix']}TrackbackLogs where owner = $owner and entry = $entry");
 	$str = '';
 	while ($row = mysql_fetch_array($result)) {
 		$str .= $row['id'] . ',' . $row['url'] . ',' . Timestamp::format5($row['written']) . '*';
@@ -211,7 +211,7 @@ function getTrackbackLog($owner, $entry) {
 function getTrackbackLogs($owner, $entryId) {
 	global $database;
 	$logs = array();
-	$result = mysql_query("select * from {$database['prefix']}TrackbackLogs where owner = $owner and entry = $entryId");
+	$result = DBQuery::query("select * from {$database['prefix']}TrackbackLogs where owner = $owner and entry = $entryId");
 	while ($log = mysql_fetch_array($result))
 		array_push($logs, $log);
 	return $logs;
@@ -219,7 +219,7 @@ function getTrackbackLogs($owner, $entryId) {
 
 function deleteTrackbackLog($owner, $id) {
 	global $database;
-	$result = mysql_query("delete from {$database['prefix']}TrackbackLogs where owner = $owner and id = $id");
+	$result = DBQuery::query("delete from {$database['prefix']}TrackbackLogs where owner = $owner and id = $id");
 	return ($result && (mysql_affected_rows() == 1)) ? true : false;
 }
 

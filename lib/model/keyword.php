@@ -7,7 +7,7 @@ function getKeywordByName($owner, $name) {
 	global $database;
 	$name = mysql_tt_escape_string($name);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	if ($result = mysql_query("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -1 AND title = '$name'"))
+	if ($result = DBQuery::query("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -1 AND title = '$name'"))
 		return mysql_fetch_array($result);
 	return false;	
 }
@@ -22,7 +22,7 @@ function getKeywordNames($owner) {
 	global $database;
 	$names = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$result = mysql_query("SELECT title FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -1");
+	$result = DBQuery::query("SELECT title FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -1");
 	while (list($name) = mysql_fetch_array($result))
 		array_push($names, $name);
 	return $names;

@@ -126,7 +126,7 @@ $workarounds = array(
 
 foreach($workarounds as $work) {
 		setProgress($item++ / $items * 100, _f('%1 테이블을 최적화하고 있습니다.',$work));
-		mysql_query("OPTIMIZE TABLE {$database['prefix']}{$work}");
+		DBQuery::query("OPTIMIZE TABLE {$database['prefix']}{$work}");
 		$optimized++;
 }
 

@@ -103,7 +103,7 @@ setProgress($item++ / $items * 100, _t('분류의 글 정보를 다시 계산해
 requireComponent('Tattertools.Data.Post');
 updateEntriesOfCategory($owner);
 
-if ($result = mysql_query("SELECT id, name, parent, homepage, comment, entry, isFiltered FROM {$database['prefix']}Comments WHERE owner = $owner")) {
+if ($result = DBQuery::query("SELECT id, name, parent, homepage, comment, entry, isFiltered FROM {$database['prefix']}Comments WHERE owner = $owner")) {
 	while ($comment = mysql_fetch_assoc($result)) {
 		setProgress($item++ / $items * 100, _t('댓글과 방명록 데이터를 교정하고 있습니다.'));
 		$correction = '';
@@ -114,11 +114,11 @@ if ($result = mysql_query("SELECT id, name, parent, homepage, comment, entry, is
 		if (!UTF8::validate($comment['comment']))
 			$correction .= ' comment = \'' . mysql_tt_escape_string(UTF8::correct($comment['comment'], '?')) . '\'';
 		if (strlen($correction) > 0) {
-			mysql_query("UPDATE {$database['prefix']}Comments SET $correction WHERE owner = $owner AND id = {$comment['id']}");
+			DBQuery::query("UPDATE {$database['prefix']}Comments SET $correction WHERE owner = $owner AND id = {$comment['id']}");
 			$corrected++;
 		}
 		if (!is_null($comment['parent']) && ($comment['isFiltered'] == 0)) {
-			$r2 = mysql_query("SELECT id FROM {$database['prefix']}Comments WHERE owner = $owner AND id = {$comment['parent']} AND isFiltered = 0");
+			$r2 = DBQuery::query("SELECT id FROM {$database['prefix']}Comments WHERE owner = $owner AND id = {$comment['parent']} AND isFiltered = 0");
 			if (mysql_num_rows($r2) <= 0) {
 				trashCommentInOwner($owner, $comment['id']);
 			}
@@ -128,7 +128,7 @@ if ($result = mysql_query("SELECT id, name, parent, homepage, comment, entry, is
 	mysql_free_result($result);
 }
 
-if ($result = mysql_query("SELECT id, url, site, subject, excerpt FROM {$database['prefix']}Trackbacks WHERE owner = $owner")) {
+if ($result = DBQuery::query("SELECT id, url, site, subject, excerpt FROM {$database['prefix']}Trackbacks WHERE owner = $owner")) {
 	while ($trackback = mysql_fetch_assoc($result)) {
 		setProgress($item++ / $items * 100, _t('걸린 글 데이터를 교정하고 있습니다.'));
 		$correction = '';
@@ -141,7 +141,7 @@ if ($result = mysql_query("SELECT id, url, site, subject, excerpt FROM {$databas
 		if (!UTF8::validate($trackback['excerpt']))
 			$correction .= ' excerpt = \'' . mysql_tt_escape_string(UTF8::correct($trackback['excerpt'], '?')) . '\'';
 		if (strlen($correction) > 0) {
-			mysql_query("UPDATE {$database['prefix']}Trackbacks SET $correction WHERE owner = $owner AND id = {$trackback['id']}");
+			DBQuery::query("UPDATE {$database['prefix']}Trackbacks SET $correction WHERE owner = $owner AND id = {$trackback['id']}");
 			$corrected++;
 		}
 	}

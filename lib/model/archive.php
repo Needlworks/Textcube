@@ -7,10 +7,10 @@ function getArchives($owner) {
 	global $database;
 	$archives = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$query = mysql_query("SELECT archivesOnPage FROM {$database['prefix']}SkinSettings WHERE owner = $owner");
+	$query = DBQuery::query("SELECT archivesOnPage FROM {$database['prefix']}SkinSettings WHERE owner = $owner");
 	$row = mysql_fetch_row($query);
 	$archivesOnPage = $row[0];
-	$result = mysql_query("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(published)) period, COUNT(*) count FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 GROUP BY period ORDER BY period DESC LIMIT $archivesOnPage");
+	$result = DBQuery::query("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(published)) period, COUNT(*) count FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 GROUP BY period ORDER BY period DESC LIMIT $archivesOnPage");
 	if ($result) {
 		while ($archive = mysql_fetch_array($result))
 			array_push($archives, $archive);
@@ -27,7 +27,7 @@ function getCalendar($owner, $period) {
 	$calendar['year'] = substr($period, 0, 4);
 	$calendar['month'] = substr($period, 4, 2);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$result = mysql_query("SELECT DISTINCT DAYOFMONTH(FROM_UNIXTIME(published)) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 AND YEAR(FROM_UNIXTIME(published)) = {$calendar['year']} AND MONTH(FROM_UNIXTIME(published)) = {$calendar['month']}");
+	$result = DBQuery::query("SELECT DISTINCT DAYOFMONTH(FROM_UNIXTIME(published)) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 AND YEAR(FROM_UNIXTIME(published)) = {$calendar['year']} AND MONTH(FROM_UNIXTIME(published)) = {$calendar['month']}");
 	if ($result) {
 		while (list($day) = mysql_fetch_array($result))
 			array_push($calendar['days'], $day);

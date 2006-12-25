@@ -170,7 +170,7 @@ function selectSkin($owner, $skinName) {
 		setUserSetting('singleTrackbackMessage', NULL);
 		$sql = "UPDATE {$database['prefix']}SkinSettings SET skin='{$skinName}' WHERE owner = $owner";
 	}
-	$result = mysql_query($sql);
+	$result = DBQuery::query($sql);
 	if (!$result) {
 		return _t('실패했습니다.');
 	}
@@ -195,7 +195,7 @@ function writeSkinHtml($owner, $contents, $mode) {
 	}
 	$skinSetting['skin'] = "customize/$owner";
 	$sql = "UPDATE {$database['prefix']}SkinSettings SET skin = '{$skinSetting['skin']}' WHERE owner = $owner";
-	$result = mysql_query($sql);
+	$result = DBQuery::query($sql);
 	if (!$result)
 		return _t('실패했습니다.');
 	if ($mode == 'style')
