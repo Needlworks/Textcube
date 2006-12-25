@@ -671,15 +671,19 @@ function getGuestCommentView($entryId, $skin) {
 
 function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) {
 	global $blogURL, $owner;
+	$categoryCount = 0;
 	$tree = array('id' => 0, 'label' => getCategoryNameById($owner, 0), 'value' => $totalPosts, 'link' => "$blogURL/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		if( doesHaveOwnership() || getCategoryVisibility($owner, $category1['id']) > 1) {
 			foreach ($category1['children'] as $category2) {
-				if( doesHaveOwnership() || getCategoryVisibility($owner, $category2['id']) > 1)
+				if( doesHaveOwnership() || getCategoryVisibility($owner, $category2['id']) > 1) {
 					array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 'link' => "$blogURL/category/" . encodeURL($category2['label']), 'children' => array()));
+					$categoryCount = $categoryCount + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
+				}
 			}
-			array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => (doesHaveOwnership() ? $category1['entriesInLogin'] : $category1['entries']), 'link' => "$blogURL/category/" . encodeURL($category1['label']), 'children' => $children));
+			array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $categoryCount, 'link' => "$blogURL/category/" . encodeURL($category1['label']), 'children' => $children));
+			$categoryCount = 0;
 		}
 	}
 	ob_start();
