@@ -991,7 +991,7 @@ class DBQuery {
 
 	/*@static@*/
 	function query($query) {
-		return DBQuery::execute($query) ? true : false;
+		return mysql_query($query);
 	}
 }
 

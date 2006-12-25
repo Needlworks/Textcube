@@ -6,7 +6,7 @@
 function getLinks($owner) {
 	global $database;
 	$links = array();
-	if ($result = mysql_query("select * from {$database['prefix']}Links where owner = $owner ORDER BY name")) {
+	if ($result = DBQuery::query("select * from {$database['prefix']}Links where owner = $owner ORDER BY name")) {
 		while ($link = mysql_fetch_array($result))
 			array_push($links, $link);
 	}
@@ -20,7 +20,7 @@ function getLink($owner, $id) {
 
 function deleteLink($owner, $id) {
 	global $database;
-	$result = mysql_query("delete from {$database['prefix']}Links where owner = $owner and id = $id");
+	$result = DBQuery::query("delete from {$database['prefix']}Links where owner = $owner and id = $id");
 	return ($result && (mysql_affected_rows() == 1)) ? true : false;
 }
 
