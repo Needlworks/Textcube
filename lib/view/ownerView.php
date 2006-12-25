@@ -1644,6 +1644,7 @@ function printEntryEditorPalette() {
 																<td><a href="#void" onclick="insertColorTag('#000000')"><span class="color-000000">#000000</span></a></td>			
 																<td><a href="#void" onclick="insertColorTag('#8E8E8E')"><span class="color-8E8E8E">#8E8E8E</span></a></td>
 																<td><a href="#void" onclick="insertColorTag('#C1C1C1')"><span class="color-C1C1C1">#C1C1C1</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#FFFFFF')"><span class="color-FFFFFF">#FFFFFF</span></a></td>
 															</tr>
 														</table>
 													</div>
@@ -1672,6 +1673,7 @@ function printEntryEditorPalette() {
 																<td><a href="#void" onclick="insertMarkTag('#000000')"><span class="color-000000">#000000</span></a></td>			
 																<td><a href="#void" onclick="insertMarkTag('#8E8E8E')"><span class="color-8E8E8E">#8E8E8E</span></a></td>
 																<td><a href="#void" onclick="insertMarkTag('#C1C1C1')"><span class="color-C1C1C1">#C1C1C1</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#FFFFFF')"><span class="color-FFFFFF">#FFFFFF</span></a></td>
 															</tr>
 														</table>
 													</div>

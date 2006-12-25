@@ -540,6 +540,11 @@ h3
 	background-color                 : #FFDAED;
 }
 
+.color-FFFFFF
+{
+	background-color                 : #FFFFFF;
+}
+
 /* textarea -------------------------------------------------------------------------------------*/
 #editor-textbox
 {
