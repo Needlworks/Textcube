@@ -89,8 +89,12 @@ function getEntryListWithPagingByTag($owner, $tag, $page, $count) {
 	if ($tag === null)
 		return array();
 	$tag = mysql_tt_escape_string($tag);
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$sql = "SELECT e.* FROM {$database['prefix']}Entries e LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' ORDER BY published DESC";
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
+	$sql = "SELECT e.* FROM {$database['prefix']}Entries e 
+		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner 
+		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
+		WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' 
+		ORDER BY published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
