@@ -16,6 +16,8 @@ function mysql_multi_query() {
 	return $result;
 }
 
+/* DO NOT USE THESE FUNCTIONS BELOW : These functions are kept for legacy. Not in use anymore.
+   
 function fetchQueryAll($query, $type = MYSQL_BOTH) {
 	$rows = array();
 	if ($result = mysql_query($query)) {
@@ -59,7 +61,7 @@ function fetchQueryCell($query) {
 function executeQuery($query) {
 	return mysql_query($query) ? true : false;
 }
-
+*/
 function escapeMysqlSearchString($str) {
 	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', mysql_tt_escape_string($str))) : $str;
 }
