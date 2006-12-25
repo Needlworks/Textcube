@@ -5,8 +5,10 @@
 
 function getEntriesTotalCount($owner) {
 	global $database;
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	return fetchQueryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0");
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
+	return fetchQueryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries e
+		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
+		WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0");
 }
 
 function getEntries($owner, $attributes = '*', $condition = false, $order = 'published DESC') {
