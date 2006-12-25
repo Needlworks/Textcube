@@ -62,7 +62,7 @@ function CT_Start_Default_getEntry($owner, $id, $draft = false) {
 		}
 	}
 	if ($draft) {
-		$entry = fetchQueryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
+		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
 		if (!$entry)
 			return;
 		if ($entry['published'] == 1)
@@ -70,11 +70,11 @@ function CT_Start_Default_getEntry($owner, $id, $draft = false) {
 		else if ($entry['published'] != 0)
 			$entry['appointed'] = $entry['published'];
 		if ($id != 0)
-			$entry['published'] = fetchQueryCell("SELECT published FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0");
+			$entry['published'] = DBQuery::queryCell("SELECT published FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0");
 		return $entry;
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-		$entry = fetchQueryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0 $visibility");
+		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0 $visibility");
 		if (!$entry)
 			return;
 		if ($entry['visibility'] < 0)
