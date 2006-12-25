@@ -10,6 +10,9 @@ if (false) {
 if (strlen($suri['value'])) {
 	$tag = getTagId($owner, $suri['value']);
 	$listWithPaging = getEntryListWithPagingByTag($owner, $tag, $suri['page'], $blog['entriesOnList']);
+
+	if (!array_key_exists('total',$listWithPaging[1])) $listWithPaging[1]['total'] = 0;
+
 	$list = array('title' => $suri['value'], 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	list($entries, $paging) = getEntriesWithPagingByTag($owner, $tag, $suri['page'], $blog['entriesOnList']);
 	require ROOT . '/lib/piece/blog/begin.php';
