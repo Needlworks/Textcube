@@ -962,7 +962,7 @@ function printEntryEditorProperty($alt=NULL) {
 												
 											<div id="propertyHyperLink" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyHyperLink-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyHyperLink-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyHyperLink-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('하이퍼링크');?></h4>
@@ -992,7 +992,7 @@ function printEntryEditorProperty($alt=NULL) {
 
 											<div id="propertyInsertObject" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyInsertObject-fix-position" onclick="editor.setPropertyPosition(1)"<?pho echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyInsertObject-fix-position" onclick="editor.setPropertyPosition(1)"<?pho echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyInsertObject-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('오브젝트 삽입');?></h4>
@@ -1027,7 +1027,7 @@ function printEntryEditorProperty($alt=NULL) {
 											
 											<div id="propertyImage1" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyImage1-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyImage1-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyImage1-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('Image');?></h4>
@@ -1062,7 +1062,7 @@ function printEntryEditorProperty($alt=NULL) {
 											
 											<div id="propertyImage2" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyImage2-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyImage2-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyImage2-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('Image');?></h4>
@@ -1126,7 +1126,7 @@ function printEntryEditorProperty($alt=NULL) {
 											
 											<div id="propertyImage3" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyImage3-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyImage3-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyImage3-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('Image');?></h4>
@@ -1218,7 +1218,7 @@ function printEntryEditorProperty($alt=NULL) {
 											
 											<div id="propertyObject" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyObject-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyObject-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyObject-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('Object');?></h4>
@@ -1241,7 +1241,7 @@ function printEntryEditorProperty($alt=NULL) {
 											
 											<div id="propertyObject1" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyObject1-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyObject1-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyObject1-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('Object 1');?></h4>
@@ -1260,7 +1260,7 @@ function printEntryEditorProperty($alt=NULL) {
 											
 											<div id="propertyObject2" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyObject2-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyObject2-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyObject2-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('Object');?></h4>
@@ -1292,7 +1292,7 @@ function printEntryEditorProperty($alt=NULL) {
 											
 											<div id="propertyObject3" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyObject3-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyObject3-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyObject3-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('Object');?></h4>
@@ -1336,7 +1336,7 @@ function printEntryEditorProperty($alt=NULL) {
 											
 											<div id="propertyiMazing" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyiMazing-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyiMazing-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyiMazing-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('iMazing');?></h4>
@@ -1421,7 +1421,7 @@ function printEntryEditorProperty($alt=NULL) {
 											
 											<div id="propertyGallery" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyGallery-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyGallery-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyGallery-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('Gallery');?></h4>
@@ -1460,7 +1460,7 @@ function printEntryEditorProperty($alt=NULL) {
 											
 											<div id="propertyJukebox" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyJukebox-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyJukebox-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyJukebox-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('Jukebox');?></h4>
@@ -1497,7 +1497,7 @@ function printEntryEditorProperty($alt=NULL) {
 											
 											<div id="propertyEmbed" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyEmbed-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyEmbed-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyEmbed-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('Embed');?></h4>
@@ -1520,7 +1520,7 @@ function printEntryEditorProperty($alt=NULL) {
 											
 											<div id="propertyFlash" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyFlash-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyFlash-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyFlash-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('Embed');?></h4>
@@ -1543,7 +1543,7 @@ function printEntryEditorProperty($alt=NULL) {
 											
 											<div id="propertyMoreLess" class="entry-editor-property" style="display: none;">
 												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyMoreLess-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
+													<input type="checkbox" class="checkbox" id="propertyMoreLess-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo ($fixPosition ? ' checked="checked"' : '');?>/>
 													<label for="propertyMoreLess-fix-position"><?php echo _t('위치 고정');?></label>
 												</div>
 												<h4><?php echo _t('More/Less');?></h4>
