@@ -35,5 +35,8 @@ if ($id = addEntry($owner, $entry)){
 	fireEvent('AddPost', $id, $entry);
 	setUserSetting('LatestEditedEntry',$id);
 }
-respondResultPage($id !== false);
+$result = array();
+$result['error'] = (($id !== false) === true ? 0 : 1);
+$result['entryId'] = $id;
+printRespond($result);
 ?>

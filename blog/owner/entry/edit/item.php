@@ -110,6 +110,18 @@ if (defined('__TATTERTOOLS_POST__')) {
 								
 								function EntryManager() {
 									this.savedData = null;
+<?php
+if (defined('__TATTERTOOLS_POST__')) {
+?>
+									this.isSaved = false;
+<?php
+} else {
+?>
+									this.isSaved = true;
+<?php
+}
+?>
+									this.entryId = <?php echo $entry['id'];?>;
 									this.pageHolder = new PageHolder(false, "<?php echo _t('아직 저장되지 않았습니다.');?>");
 									this.pageHolder.isHolding = function () {
 										return (entryManager.savedData != entryManager.getData());
@@ -209,20 +221,18 @@ if (defined('__TATTERTOOLS_POST__')) {
 										if (data == null)
 											return false;
 										this.nowsaving = true;
-<?php
-if (defined('__TATTERTOOLS_POST__')) {
-?>
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/add/");
-<?php
-} else {
-?>
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/<?php echo $entry['id'];?>");
-<?php
-}
-?>
+										if(entryManager.isSaved == true) {
+											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/"+entryManager.entryId);
+										} else {
+											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/add/");
+										}
 										request.message = "<?php echo _t('저장하고 있습니다.');?>";
 										request.onSuccess = function () {
 											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											if(entryManager.isSaved == false) {
+												entryManager.entryId = this.getText("/response/entryId");
+												entryManager.isSaved = true;
+											}
 											PM.removeRequest(this);
 											entryManager.savedData = this.content;
 											if (entryManager.savedData == entryManager.getData())
@@ -241,17 +251,12 @@ if (defined('__TATTERTOOLS_POST__')) {
 										if (data == null)
 											return false;
 										this.nowsaving = true;
-<?php
-if (defined('__TATTERTOOLS_POST__')) {
-?>
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/add/");
-<?php
-} else {
-?>
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/<?php echo $entry['id'];?>");
-<?php
-}
-?>
+
+										if(entryManager.isSaved == true) {
+											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/"+entryManager.entryId);
+										} else {
+											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/add/");
+										}
 										request.message = "<?php echo _t('저장하고 있습니다.');?>";
 										request.onSuccess = function () {
 											entryManager.pageHolder.isHolding = function () {
