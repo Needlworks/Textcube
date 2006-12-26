@@ -219,12 +219,12 @@ if ($selected > 0) {
 }
 ?>												
 										</dl>
-<!--										<dl id="label-visibility-line" class="line">
+										<dl id="label-visibility-line" class="line">
 											<dt><span class="label"><?php echo _t('공개 설정');?></span></dt>
 											<dd>
 												<input type="checkbox" id="currentVisibility" class="checkbox" name="currentVisibility"<?php echo $visibility != 2 ? ' checked="checked"' : '';?> onclick="changeCategoryVisibility();return false;" /><label for="currentVisibility"><?php echo _t('이 카테고리를 비공개로 설정합니다.');?></label>
 											</dd>
-										</dl>-->
+										</dl>
 										<dl id="label-remove-line" class="line">
 											<dt><span class="label"><?php echo _t('분류 삭제');?></span></dt>
 											<dd>
