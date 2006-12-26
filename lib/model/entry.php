@@ -276,16 +276,18 @@ function getEntryWithPaging($owner, $id, $isNotice = false) {
 	return array($entries, $paging);
 }
 
-function getEntryWithPagingBySlogan($owner, $slogan) {
+function getEntryWithPagingBySlogan($owner, $slogan, $isNotice = false) {
 	global $database;
 	global $blogURL;
 	$entries = array();
 	$paging = initPaging("$blogURL/entry", '/');
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
+	$visibility .= $isNotice ? '' : ' AND c.visibility > 1';
+	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
 	$result = DBQuery::query("SELECT e.id, e.slogan, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
-		WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 
+		WHERE e.owner = $owner AND e.draft = 0 $visibility AND $category 
 		ORDER BY e.published DESC");
 	if (!$result)
 		return array($entries, $paging);
