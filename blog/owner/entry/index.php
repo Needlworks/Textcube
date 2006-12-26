@@ -618,13 +618,13 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 foreach (getCategories($owner) as $category) {
 	if ($category['id'] != 0) {
 ?>
-											<option value="<?php echo $category['id'];?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($category['name']);?></option>
+											<option value="<?php echo $category['id'];?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '');?>><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name']);?></option>
 <?php
 	}
 	foreach ($category['children'] as $child) {
 		if ($category['id'] != 0) {
 ?>
-											<option value="<?php echo $child['id'];?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '');?>>&nbsp;― <?php echo htmlspecialchars($child['name']);?></option>
+											<option value="<?php echo $child['id'];?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '');?>>&nbsp;― <?php echo ($category['visibility'] > 1 && $child['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name']);?></option>
 <?php
 		}
 	}
@@ -779,7 +779,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 			foreach ($category['children'] as $child) {
 				if ($category['id']!= 0) {
 ?>
-												<option class="child-category" value="category_<?php echo $child['id'];?>" label="<?php echo htmlspecialchars($category['name']);?>/<?php echo ($child['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name']);?>">― <?php echo htmlspecialchars($child['name']);?></option>
+												<option class="child-category" value="category_<?php echo $child['id'];?>" label="<?php echo htmlspecialchars($category['name']);?>/<?php echo htmlspecialchars($child['name']);?>">― <?php echo ($category['visibility'] > 1 && $child['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name']);?></option>
 <?php
 				}
 			}
