@@ -237,13 +237,16 @@ function getEntryWithPaging($owner, $id, $isNotice = false) {
 	global $folderURL;
 	$entries = array();
 	$paging = initPaging($folderURL, '/');
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
+	//$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
+	$visibility .= $isNotice ? '' : ' AND c.visibility > 1';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
-	$result = DBQuery::query("SELECT e.*, c.label categoryLabel 
+	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
 		WHERE e.owner = $owner AND e.draft = 0 $visibility AND $category 
-		ORDER BY e.published DESC");
+		ORDER BY e.published DESC";
+	$result = DBQuery::query($sql);
 	if (!$result)
 		return array($entries, $paging);
 	$paging['pages'] = mysql_num_rows($result);
