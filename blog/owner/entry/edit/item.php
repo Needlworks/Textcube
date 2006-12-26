@@ -222,6 +222,37 @@ if (defined('__TATTERTOOLS_POST__')) {
 ?>
 										request.message = "<?php echo _t('저장하고 있습니다.');?>";
 										request.onSuccess = function () {
+											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											entryManager.savedData = this.content;
+											if (entryManager.savedData == entryManager.getData())
+												entryManager.pageHolder.release();
+										}
+										request.onError = function () {
+											PM.removeRequest(this);
+											alert("<?php echo _t('저장하지 못했습니다.');?>");
+										}
+										PM.addRequest(request, "<?php echo _t('저장하고 있습니다.');?>");
+										request.send(this.getData());
+									}
+																		
+									this.saveAndReturn = function () {
+										var data = this.getData(true);
+										if (data == null)
+											return false;
+										this.nowsaving = true;
+<?php
+if (defined('__TATTERTOOLS_POST__')) {
+?>
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/add/");
+<?php
+} else {
+?>
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/<?php echo $entry['id'];?>");
+<?php
+}
+?>
+										request.message = "<?php echo _t('저장하고 있습니다.');?>";
+										request.onSuccess = function () {
 											entryManager.pageHolder.isHolding = function () {
 												return false;
 											}
@@ -631,6 +662,8 @@ if (isset($_GET['popupEditor'])) {
 									<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
 									<span class="hidden">|</span>
 									<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
+									<span class="hidden">|</span>
+									<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
 								</div>
 <?php
 } else {
@@ -639,6 +672,8 @@ if (isset($_GET['popupEditor'])) {
 									<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
 									<span class="hidden">|</span>
 							       	<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
+									<span class="hidden">|</span>
+							       	<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
 									<span class="hidden">|</span>
 									<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="window.location.href='<?php echo $blogURL;?>/owner/entry'" />
 								</div>
