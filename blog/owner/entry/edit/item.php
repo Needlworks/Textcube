@@ -223,6 +223,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 										request.message = "<?php echo _t('저장하고 있습니다.');?>";
 										request.onSuccess = function () {
 											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											PM.removeRequest(this);
 											entryManager.savedData = this.content;
 											if (entryManager.savedData == entryManager.getData())
 												entryManager.pageHolder.release();
@@ -256,6 +257,8 @@ if (defined('__TATTERTOOLS_POST__')) {
 											entryManager.pageHolder.isHolding = function () {
 												return false;
 											}
+											PM.removeRequest(this);
+											var returnURI = "";
 											var oForm = document.forms[0];
 											var changedPermalink = trim(oForm.permalink.value);
 <?php
@@ -266,8 +269,6 @@ if (isset($_GET['popupEditor'])) {
 <?php
 } else if (isset($_GET['returnURL'])) {
 ?>
-											PM.removeRequest(this);
-											var returnURI = "";
 											if(originalPermalink == changedPermalink) {
 												returnURI = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
 											} else {
