@@ -237,7 +237,6 @@ function getEntryWithPaging($owner, $id, $isNotice = false) {
 	global $folderURL;
 	$entries = array();
 	$paging = initPaging($folderURL, '/');
-	//$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= $isNotice ? '' : ' AND c.visibility > 1';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
