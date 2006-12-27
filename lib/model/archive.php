@@ -6,11 +6,15 @@
 function getArchives($owner) {
 	global $database;
 	$archives = array();
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$query = DBQuery::query("SELECT archivesOnPage FROM {$database['prefix']}SkinSettings WHERE owner = $owner");
-	$row = mysql_fetch_row($query);
-	$archivesOnPage = $row[0];
-	$result = DBQuery::query("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(published)) period, COUNT(*) count FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 GROUP BY period ORDER BY period DESC LIMIT $archivesOnPage");
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
+	$archivesOnPage = DBQuery::queryCell("SELECT archivesOnPage FROM {$database['prefix']}SkinSettings WHERE owner = $owner");
+	$result = DBQuery::query("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
+		FROM {$database['prefix']}Entries e
+		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner
+		WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 
+		GROUP BY period 
+		ORDER BY period 
+		DESC LIMIT $archivesOnPage");
 	if ($result) {
 		while ($archive = mysql_fetch_array($result))
 			array_push($archives, $archive);
@@ -26,8 +30,11 @@ function getCalendar($owner, $period) {
 	$calendar['period'] = $period;
 	$calendar['year'] = substr($period, 0, 4);
 	$calendar['month'] = substr($period, 4, 2);
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$result = DBQuery::query("SELECT DISTINCT DAYOFMONTH(FROM_UNIXTIME(published)) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 AND YEAR(FROM_UNIXTIME(published)) = {$calendar['year']} AND MONTH(FROM_UNIXTIME(published)) = {$calendar['month']}");
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
+	$result = DBQuery::query("SELECT DISTINCT DAYOFMONTH(FROM_UNIXTIME(e.published)) 
+		FROM {$database['prefix']}Entries e
+		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner
+		WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 AND YEAR(FROM_UNIXTIME(e.published)) = {$calendar['year']} AND MONTH(FROM_UNIXTIME(e.published)) = {$calendar['month']}");
 	if ($result) {
 		while (list($day) = mysql_fetch_array($result))
 			array_push($calendar['days'], $day);
