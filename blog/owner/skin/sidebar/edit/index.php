@@ -67,6 +67,9 @@ foreach($parameters as $item)
 		case 'int':
 			$data['type'] = 'text';
 			break;
+        case 'textarea':
+            $data['type'] = 'textarea';
+            break;
 		default:
 			$data['type'] = 'invalid';
 			break;
@@ -85,20 +88,32 @@ ob_start();
 
 if (count($params) > 0) {
 	foreach($params as $item) {
-		if ($data['type'] != 'invalid') {
-			echo '<div class="line">';
-			echo '<label ';
-			echo 'for="' , $item['name'] , '" ';
-			echo ' >';
-			echo $item['title'];
-			echo '</label>';
-			
-			echo '<input class="input-text" ';
-			echo 'type="' , $item['type'] , '" ';
-			echo 'name="' , $item['name'] , '" ';
-			echo 'value="' , htmlspecialchars($item['value'],ENT_QUOTES) , '" ';
-			echo ' />';
-			echo '</div>';
+        switch ($data['type']) {       
+            case 'text':
+			    echo '<div class="line">';
+			    echo '<label ';
+			    echo 'for="' , $item['name'] , '" ';
+			    echo ' >';
+			    echo $item['title'];
+			    echo '</label>';
+			    
+			    echo '<input class="input-text" ';
+			    echo 'type="' , $item['type'] , '" ';
+			    echo 'name="' , $item['name'] , '" ';
+			    echo 'value="' , htmlspecialchars($item['value'],ENT_QUOTES) , '" ';
+			    echo ' />';
+			    echo '</div>';
+                break;
+            case 'textarea':
+                echo '<div class="line">';
+                echo '<label for="' , $item['name'] , '">';
+			    echo $item['title'];
+			    echo '</label>';
+                echo '<textarea id="' , $item['name'] , '" name="' , $item['name'] , '" cols="50" rows="10">';
+                echo htmlspecialchars($item['value']);
+                echo '</textarea>';
+                echo '</div>';
+                break;
 		}
 	}
 }

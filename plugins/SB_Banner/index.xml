@@ -36,7 +36,7 @@
           <title xml:lang="ko">HTML 코드</title>
           <title xml:lang="en">HTML Code</title>
           <name>text</name>
-          <type>string</type>
+          <type>textarea</type>
         </param>
       </params>
     </sidebar>

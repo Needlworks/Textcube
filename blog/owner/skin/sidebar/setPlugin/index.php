@@ -68,8 +68,8 @@ foreach($parameters as $item)
 				continue;
 				break;
 		}	
+        $newParameter[$item['name']] = $_REQUEST[$item['name']];
 	}
-	$newParameter[$item['name']] = $_REQUEST[$item['name']];
 }
 
 $sidebarOrderData[$sidebarNumber][$modulePos]['parameters'] = $newParameter;

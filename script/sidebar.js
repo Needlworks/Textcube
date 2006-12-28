@@ -223,6 +223,7 @@
 		}
 		if (pNode != null) {
 			var requestURL = blogURL + "/owner/skin/sidebar/setPlugin?sidebarNumber=" + sidebar + "&modulePos=" + modulepos + "&ajaxcall=true" + viewMode;
+            var postData = "";
 			pNode = pNode.firstChild;
 			while (pNode != null) {
 			    if ((pNode.className != null) && (pNode.className.toLowerCase() == 'field-box')) {
@@ -237,7 +238,10 @@
 					while (p2Node != null) {
 						if ((p2Node.tagName != null) && (p2Node.tagName.toLowerCase() == 'input') && p2Node.type.toLowerCase() == 'text') {
 							requestURL += '&' + encodeURIComponent(p2Node.name) + '=' + encodeURIComponent(p2Node.value);
-						}
+						} else if ((p2Node.tagName != null) && (p2Node.tagName.toLowerCase() == 'textarea')) {
+                            if (postData.length > 0) postData += '&';
+                            postData += p2Node.name + '=' + encodeURIComponent(p2Node.value);
+                        }
 						p2Node = p2Node.nextSibling;
 					}
 				}
@@ -257,7 +261,7 @@
 			request.onVerify = function () {
 				return true;
 			}
-			request.send();
+			request.send(postData);
 		}
 
 		dlg.hide();
