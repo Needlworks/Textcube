@@ -28,17 +28,26 @@ class misc {
 		return $array[$key];
 	}
 
-	function getAttributesFromString($str) {
+	function getAttributesFromString($str, $caseSensitive=false) {
 		$attributes = array();
 		preg_match_all('/([^=\s]+)\s*=\s*"([^"]*)/', $str, $matches); 
-		for($i=0; $i<count($matches[0]); $i++)
+		for($i=0; $i<count($matches[0]); $i++) {
+			if(!$caseSensitive)
+				$matches[1][$i] = strtolower($matches[1][$i]);
 			$attributes[$matches[1][$i]] = $matches[2][$i];
+		}
 		preg_match_all('/([^=\s]+)\s*=\s*\'([^\']*)/', $str, $matches);
-		for($i=0; $i<count($matches[0]); $i++)
+		for($i=0; $i<count($matches[0]); $i++) {
+			if(!$caseSensitive)
+				$matches[1][$i] = strtolower($matches[1][$i]);
 			$attributes[$matches[1][$i]] = $matches[2][$i];
+		}
 		preg_match_all('/([^=\s]+)=([^\'"][^\s]*)/', $str, $matches);
-		for($i=0; $i<count($matches[0]); $i++)
+		for($i=0; $i<count($matches[0]); $i++) {
+			if(!$caseSensitive)
+				$matches[1][$i] = strtolower($matches[1][$i]);
 			$attributes[$matches[1][$i]] = $matches[2][$i];
+		}
 		return $attributes;
 	}
 

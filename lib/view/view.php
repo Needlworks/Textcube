@@ -1915,70 +1915,65 @@ function createNewProperty($filename, $imageWidth, $property) {
 	if (!file_exists(ROOT."/attach/$owner/$filename")) return array($property, false);
 	if ($tempInfo = getimagesize(ROOT."/attach/$owner/$filename")) {
 		list($originWidth, $originHeight, $type, $attr) = $tempInfo;
+		if($originWidth <= 0 || $originHeight <= 0 ) return array($property, false);
 	} else {
 		return array($property, false);
 	}
 	
-	//if (eregi('alt=""', $property)) {
-	//	$property = str_replace('alt=""', 'alt="'._text('사용자 삽입 이미지').'"', $property);
-	//} else if (eregi('alt="[^"]+"', $property)) {
-		// 이미 있으므로 통과
-	//} else {
-	//	$property .= ' alt="'._text('사용자 삽입 이미지').'"';	
-	//}
-	
-	// 현재 이미지의 가로 사이즈 계산.
-	if (eregi('width="([0-9]*%?)"', $property, $temp)) {
-		$currentWidth = $temp[1];
-		if (eregi("^([0-9]+)%$", $currentWidth)) {
-			$currentWidth = $originWidth * ($temp[1]/100);
+	$attributes = getAttributesFromString($property, false);
+
+	if(array_key_exists('width', $attributes)) {
+		if(preg_match('/([\d.]+)(%?)/', $attributes['width'], $matches)) {
+			if($matches[2] == '%')
+				$attributes['width'] = round($originWidth * $matches[1] / 100);
+			else
+				$attributes['width'] = intval($matches[1]);
 		}
-	} else {
-		$property .= ' width="1"';
 	}
 	
-	// 현재 이미지의 세로 사이즈 계산.
-	if (eregi('height="([0-9]*%?)"', $property, $temp)) {
-		$currentHeight = $temp[1];
-		if (eregi("^([0-9]+)%$", $currentHeight)) {
-			$currentHeight = $originHeight * ($temp[1]/100);
+	if(array_key_exists('height', $attributes)) {
+		if(preg_match('/([\d.]+)(%?)/', $attributes['height'], $matches)) {
+			if($matches[2] == '%')
+				$attributes['height'] = round($originHeight * $matches[1] / 100);
+			else
+				$attributes['height'] = intval($matches[1]);
 		}
-	} else {
-		$property .= ' height="1"';
+	}
+	
+	// 가로, 세로 어느 쪽이든 0이면 이미지는 표시되지 않음. 따라서 계산할 필요 없음.
+	if ($attributes['width'] === 0 || $attributes['height'] === 0) {
+		return array($property, false);
 	}
 	
 	// 가로만 지정된 이미지의 경우.
-	if (isset($currentWidth) && !isset($currentHeight)) {
+	if (isset($attributes['width']) && !isset($attributes['height'])) {
 		// 비어있는 세로를 가로의 크기를 이용하여 계산.
-		$currentHeight = floor($originHeight * $currentWidth / $originWidth);
+		$attributes['height'] = floor($originHeight * $attributes['width'] / $originWidth);
 	// 세로만 지정된 이미지의 경우.
-	} else if (!isset($currentWidth) && isset($currentHeight)) {
+	} else if (!isset($attributes['width']) && isset($attributes['height'])) {
 		// 비어있는 가로를 세로의 크기를 이용하여 계산.
-		$currentWidth = floor($originWidth * $currentHeight / $originHeight);
+		$attributes['width'] = floor($originWidth * $attributes['height'] / $originHeight);
 	// 둘 다 지정되지 않은 이미지의 경우.
-	} else if (!isset($currentWidth) && !isset($currentHeight)) {
+	} else if (!isset($attributes['width']) && !isset($attributes['height'])) {
 		// 둘 다 비어 있을 경우는 오리지널 사이즈로 대치.
-		$currentWidth = $originWidth;
-		$currentHeight = $originHeight;
+		$attributes['width'] = $originWidth;
+		$attributes['height'] = $originHeight;
 	}
-	
-	if ($currentWidth > $imageWidth) {
+
+	if ($attributes['width'] > $imageWidth) {
 		$tempWidth = $imageWidth;
-		$tempHeight = floor($currentHeight * $imageWidth / $currentWidth);
+		$tempHeight = floor($attributes['height'] * $imageWidth / $attributes['width']);
 	} else {
-		$tempWidth = $currentWidth;
-		$tempHeight = $currentHeight;
+		$tempWidth = $attributes['width'];
+		$tempHeight = $attributes['height'];
 	}
-	
-	$property = eregi_replace('(^| )width="([0-9]+%?)"', '\1width="'.$tempWidth.'"', $property);
-	$property = eregi_replace('(^| )height="([0-9]+%?)"', '\1height="'.$tempHeight.'"', $property);
-	
-	if ($originWidth > $tempWidth || $originHeight > $tempHeight) {
-		$onclickFlag = true;
-	} else {
-		$onclickFlag = false;
-	}
-	
+
+	$properties = array();
+	ksort($attributes);
+	foreach($attributes as $key => $value)
+		array_push($properties, "$key=\"$value\"");
+	$property = implode(' ', $properties);
+	$onclickFlag = ($originWidth > $tempWidth || $originHeight > $tempHeight);
 	return array($property, $onclickFlag);
 }
 ?>
