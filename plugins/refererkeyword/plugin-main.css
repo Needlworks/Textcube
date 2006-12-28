@@ -24,7 +24,7 @@
 
 #total
 {
-	color                            : #50B0C0;
+	color                            : #000000;
 	display                          : block;
 	font-family                      : Arial, Tahoma, Verdana, snas-serif;
 	font-size                        : 300%;
@@ -67,5 +67,6 @@
 
 #part-statistics-log table.data-inbox tbody tr td.rank
 {
+	background-position              : right bottom;
 	text-align                       : center;
 }

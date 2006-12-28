@@ -51,10 +51,12 @@
 	background-color                 : #FFFFFF;
 	border                           : 1px solid #999999;
     display                          : block;
+    font-weight                      : bold;
     line-height                      : 2em;
 	margin                           : 0 auto;
 	padding                          : 3px 5px;
-	width                            : 36px;
+	text-align                       : center;
+	width                            : 50px;
 }
 
 /* month / day ----------------------------------------------------------------------------------*/
@@ -67,4 +69,10 @@
 #statistics-month-inbox tbody tr td
 {
 	cursor                           : pointer;
+}
+
+#statistics-month-inbox tbody tr td.date,
+#statistics-day-inbox tbody tr td.date
+{
+	background-position              : right bottom;
 }

@@ -16,6 +16,12 @@ body
 	margin                           : 0;
 }
 
+em
+{
+	color                            : #FF0000;
+	font-style                       : normal;
+}
+
 form
 {
 	font-size                        : 12px;
@@ -25,6 +31,11 @@ kbd
 {
 	color                            : #FF0000;
 	font-family                      : "Courier New", Courier, monospace;
+}
+
+label
+{
+	cursor                           : pointer;
 }
 
 samp
@@ -138,4 +149,11 @@ h1
 .checkboxcontrol
 {
 	vertical-align                   : middle;
+}
+
+/* Class *****************************************************************************************/
+
+.input-text:focus
+{
+
 }

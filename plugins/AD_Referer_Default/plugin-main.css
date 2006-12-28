@@ -24,6 +24,11 @@
 	text-align                       : center;
 }
 
+#part-statistics-rank table.data-inbox tr td.rank
+{
+	background-position              : right bottom;
+}
+
 #part-statistics-rank table.data-inbox tr td.site
 {
 	font-family                      : "Courier New", Courier, monospace;
@@ -45,6 +50,11 @@
 	width                            : auto;
 }
 
+#part-statistics-log table.data-inbox tr td.date
+{
+	background-position              : right bottom;
+}
+
 #part-statistics-log table.data-inbox tr td.address
 {
 	font-family                      : "Courier New", Courier, monospace;
@@ -54,12 +64,27 @@
 
 #part-statistics-log .data-subbox
 {
+	border                           : none;
+	background-color                 : transparent !important;
 	height                           : auto;
+	margin-right                     : 15px;
+	position                         : relative;
 	width                            : 100%;
+}
+
+#page-section
+{
+	margin-top                       : 22px;
 }
 
 #page-navigation
 {
-	margin                           : 10px 0 0 0;
+	bottom                           : 0;
+	margin                           : 0 0 0 10px;
 	width                            : auto !important;
+}
+
+.page-count
+{
+	top                              : -2px !important;
 }
