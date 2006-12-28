@@ -37,7 +37,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 										</thead>
 										<tbody>
 											<tr><td class="id"><a href="http://gendoh.tistory.com">gendoh</a></td><td class="name">Sang-il, Lee</td></tr>
-											<tr><td class="id"><a href="http://inureyes.tistory.com">inureyes</a></td><td class="name">Jeongkyu Shin</td></tr>
+											<tr><td class="id"><a href="http://forest.nubimaru.com">inureyes</a></td><td class="name">Jeongkyu Shin</td></tr>
 											<tr><td class="id"><a href="http://papacha.net">papacha</a></td><td class="name">Sunju Jahng</td></tr>
 										</tbody>
 									</table>
@@ -94,7 +94,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 												<td class="role"><?php echo _t('UI / sidebar / xhtml specification');?></td>
 											</tr>
 											<tr>
-												<td class="id"><a href="http://inureyes.tistory.com">inureyes</a></td>
+												<td class="id"><a href="http://forest.nubimaru.com">inureyes</a></td>
 												<td class="name">Jeongkyu Shin</td>
 												<td class="role"><?php echo _t('function addition / bug tracking / DB management / documentation');?></td>
 											</tr>
@@ -229,7 +229,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 								<div id="reporter-container" class="container">
 									<h4><?php echo _t('Reporter');?></h4>
 									
-									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, 티즈, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis, leokim</p>
+									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, 티즈, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis, leokim, diasozo, Ikaris C. Faust, DARKLiCH</p>
 								</div>
 							</div>
 						</div>
