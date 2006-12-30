@@ -232,7 +232,7 @@ ob_start();
 
 												<select id="archivesOnPage" name="archivesOnPage">
 <?php
-for ($i = 1; $i <= 30; $i++) {
+for ($i = 1; $i <= 36; $i++) {
 	if ($i == $skinSetting['archivesOnPage'])
 		$checked = ' selected="selected"';
 	else
@@ -289,7 +289,7 @@ ob_start();
 
 												<select id="recentNoticeLength" name="recentNoticeLength">
 <?php
-for ($i = 3; $i <= 40; $i++) {
+for ($i = 3; $i <= 80; $i++) {
 	if ($i == $skinSetting['recentNoticeLength'])
 		$checked = ' selected="selected"';
 	else
@@ -314,7 +314,7 @@ ob_start();
 
 												<select id="recentEntryLength" name="recentEntryLength">
 <?php
-for ($i = 3; $i <= 40; $i++) {
+for ($i = 3; $i <= 80; $i++) {
 	if ($i == $skinSetting['recentEntryLength'])
 		$checked = ' selected="selected"';
 	else
@@ -339,7 +339,7 @@ ob_start();
 
 												<select id="recentCommentLength" name="recentCommentLength">
 <?php
-for ($i = 3; $i <= 40; $i++) {
+for ($i = 3; $i <= 80; $i++) {
 	if ($i == $skinSetting['recentCommentLength'])
 		$checked = ' selected="selected"';
 	else
@@ -364,7 +364,7 @@ ob_start();
 
 												<select id="recentTrackbackLength" name="recentTrackbackLength">
 <?php
-for ($i = 3; $i <= 40; $i++) {
+for ($i = 3; $i <= 80; $i++) {
 	if ($i == $skinSetting['recentTrackbackLength'])
 		$checked = ' selected="selected"';
 	else
@@ -389,7 +389,7 @@ ob_start();
 
 												<select id="linkLength" name="linkLength">
 <?php
-for ($i = 3; $i <= 40; $i++) {
+for ($i = 3; $i <= 80; $i++) {
 	if ($i == $skinSetting['linkLength'])
 		$checked = ' selected="selected"';
 	else
