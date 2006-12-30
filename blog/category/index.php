@@ -17,7 +17,7 @@ if ($skinSetting['showListOnCategory'] == 1 || $skinSetting['showListOnCategory'
 }
 $entries = array();
 if ($skinSetting['showListOnCategory'] == 1 || $skinSetting['showListOnCategory'] == 0)
-	list($entries, $paging) = getEntriesWithPagingByCategory($owner, $category, $suri['page'], $blog['entriesOnList']);
+	list($entries, $paging) = getEntriesWithPagingByCategory($owner, $category, $suri['page'], $blog['entriesOnList'], $blog['entriesOnPage']);
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/list.php';
 require ROOT . '/lib/piece/blog/entries.php';

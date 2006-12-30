@@ -14,7 +14,7 @@ if (strlen($suri['value'])) {
 	if (!array_key_exists('total',$listWithPaging[1])) $listWithPaging[1]['total'] = 0;
 
 	$list = array('title' => $suri['value'], 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
-	list($entries, $paging) = getEntriesWithPagingByTag($owner, $tag, $suri['page'], $blog['entriesOnList']);
+	list($entries, $paging) = getEntriesWithPagingByTag($owner, $tag, $suri['page'], $blog['entriesOnList'],$blog['entriesOnPage']);
 	require ROOT . '/lib/piece/blog/begin.php';
 	require ROOT . '/lib/piece/blog/list.php';
 	require ROOT . '/lib/piece/blog/entries.php';

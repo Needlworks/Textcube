@@ -138,7 +138,7 @@ function getEntriesWithPaging($owner, $page, $count) {
 	return fetchWithPaging($sql, $page, $count);
 }
 
-function getEntriesWithPagingByCategory($owner, $category, $page, $count) {
+function getEntriesWithPagingByCategory($owner, $category, $page, $count, $countItem) {
 	global $database, $folderURL, $suri;
 	if ($category === null)
 		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
@@ -154,10 +154,10 @@ function getEntriesWithPagingByCategory($owner, $category, $page, $count) {
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id 
 		WHERE e.owner = $owner AND e.draft = 0 $visibility $cond 
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=",$countItem);
 }
 
-function getEntriesWithPagingByTag($owner, $tag, $page, $count) {
+function getEntriesWithPagingByTag($owner, $tag, $page, $count, $countItem = null) {
 	global $database, $folderURL, $suri;
 	if ($tag === null)
 		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
@@ -169,7 +169,7 @@ function getEntriesWithPagingByTag($owner, $tag, $page, $count) {
 		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner 
 		WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' 
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
 
 function getEntriesWithPagingByNotice($owner, $page, $count) {

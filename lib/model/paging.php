@@ -7,7 +7,7 @@ function initPaging($url, $prefix = '?page=') {
 	return array('url' => $url, 'prefix' => $prefix, 'postfix' => '', 'total' => 0, 'pages' => 0, 'page' => 0, 'before' => array(), 'after' => array());
 }
 
-function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=') {
+function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $countItem = null) {
 	global $folderURL;
 	if ($url === null)
 		$url = $folderURL;
@@ -35,6 +35,7 @@ function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=') {
 		$paging['next'] = $paging['page'] + 1;
 	$offset = ($paging['page'] - 1) * $count;
 	if ($offset < 0) $offset = 0;
+	if ($countItem != null) $count = $countItem;
 	return array(DBQuery::queryAll("$sql LIMIT $offset, $count"), $paging);
 }
 ?>
