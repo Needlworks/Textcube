@@ -54,7 +54,9 @@ if (isset($_POST['partial'])) {
 	require ROOT . '/lib/piece/blog/entries.php';
 	$view = removeAllTags($view);
 	if ($view != '[##_article_rep_##]')
+		fireEvent('OBStart');
 		print $view;
+		fireEvent('OBEnd');
 } else {
 	require ROOT . '/lib/piece/blog/begin.php';
 	if (empty($entries)) {

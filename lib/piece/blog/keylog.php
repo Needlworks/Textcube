@@ -22,5 +22,7 @@ dress('blog_desc', getEntryContentView($owner, $keyword['id'], $keyword['content
 dress('blog_conform', htmlspecialchars($keyword['title']), $keylogView);
 dress('blog', $keylogView, $out);
 $out = removeAllTags($out);
+fireEvent('OBStart');
 print $out;
+fireEvent('OBEnd');
 ?>

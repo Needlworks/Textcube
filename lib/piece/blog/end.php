@@ -63,5 +63,7 @@ foreach ($sidebarElements as $element) {
 	dress($element, $skin->sidebarStorage[$element], $view);
 }
 $view = removeAllTags($view);
+fireEvent('OBStart');
 print $view;
+fireEvent('OBEnd');
 ?>
