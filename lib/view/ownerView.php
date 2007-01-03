@@ -1645,6 +1645,11 @@ function printEntryEditorPalette() {
 																<td><a href="#void" onclick="insertColorTag('#8E8E8E')"><span class="color-8E8E8E">#8E8E8E</span></a></td>
 																<td><a href="#void" onclick="insertColorTag('#C1C1C1')"><span class="color-C1C1C1">#C1C1C1</span></a></td>
 																<td><a href="#void" onclick="insertColorTag('#FFFFFF')"><span class="color-FFFFFF">#FFFFFF</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#FFDAED')"><span class="color-FFDAED">#FFDAED</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#C9EDFF')"><span class="color-C9EDFF">#C9EDFF</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#D0FF9D')"><span class="color-D0FF9D">#D0FF9D</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#FAFFA9')"><span class="color-FAFFA9">#FAFFA9</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#E4E4E4')"><span class="color-E4E4E4">#E4E4E4</span></a></td>
 															</tr>
 														</table>
 													</div>
@@ -1674,6 +1679,11 @@ function printEntryEditorPalette() {
 																<td><a href="#void" onclick="insertMarkTag('#8E8E8E')"><span class="color-8E8E8E">#8E8E8E</span></a></td>
 																<td><a href="#void" onclick="insertMarkTag('#C1C1C1')"><span class="color-C1C1C1">#C1C1C1</span></a></td>
 																<td><a href="#void" onclick="insertMarkTag('#FFFFFF')"><span class="color-FFFFFF">#FFFFFF</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#FFDAED')"><span class="color-FFDAED">#FFDAED</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#C9EDFF')"><span class="color-C9EDFF">#C9EDFF</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#D0FF9D')"><span class="color-D0FF9D">#D0FF9D</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#FAFFA9')"><span class="color-FAFFA9">#FAFFA9</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#E4E4E4')"><span class="color-E4E4E4">#E4E4E4</span></a></td>
 															</tr>
 														</table>
 													</div>
