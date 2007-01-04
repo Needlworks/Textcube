@@ -238,7 +238,16 @@ ob_start();
 
 												<select id="archivesOnPage" name="archivesOnPage">
 <?php
-for ($i = 1; $i <= 36; $i++) {
+for ($i = 1; $i < 36; $i++) {
+	if ($i == $skinSetting['archivesOnPage'])
+		$checked = ' selected="selected"';
+	else
+		$checked = '';
+?>
+													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
+<?php
+}
+for ($i = 36; $i <= 120; $i = $i + 12) {
 	if ($i == $skinSetting['archivesOnPage'])
 		$checked = ' selected="selected"';
 	else
@@ -295,7 +304,7 @@ ob_start();
 
 												<select id="recentNoticeLength" name="recentNoticeLength">
 <?php
-for ($i = 3; $i <= 80; $i++) {
+for ($i = 3; $i < 50; $i++) {
 	if ($i == $skinSetting['recentNoticeLength'])
 		$checked = ' selected="selected"';
 	else
@@ -304,7 +313,24 @@ for ($i = 3; $i <= 80; $i++) {
 													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
 <?php
 }
+for ($i = 50; $i < 1000; $i = $i + 50) {
+	if ($i == $skinSetting['recentNoticeLength']) {
+		$checked = ' selected="selected"';
+	} else if (($i < $skinSetting['recentNoticeLength']) && ($i > $skinSetting['recentNoticeLength'])) {
+		$checked = ' selected="selected"';
 ?>
+													<option value="<?php echo $skinSetting['recentNoticeLength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentNoticeLength'];?></option>
+<?php
+	} else {
+		$checked = '';
+	}
+?>
+													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
+<?php
+}
+?>
+
+
 												</select>
 <?php
 $arg = ob_get_contents();
@@ -320,12 +346,28 @@ ob_start();
 
 												<select id="recentEntryLength" name="recentEntryLength">
 <?php
-for ($i = 3; $i <= 80; $i++) {
+for ($i = 3; $i < 50; $i++) {
 	if ($i == $skinSetting['recentEntryLength'])
 		$checked = ' selected="selected"';
 	else
 		$checked = '';
 ?>
+													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
+<?php
+}
+for ($i = 50; $i < 1000; $i = $i + 50) {
+	if ($i == $skinSetting['recentEntryLength']) {
+		$checked = ' selected="selected"';
+	} else if (($i < $skinSetting['recentEntryLength']) && ($i > $skinSetting['recentEntryLength'])) {
+		$checked = ' selected="selected"';
+?>
+													<option value="<?php echo $skinSetting['recentEntryLength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentEntryLength'];?></option>
+<?php
+	} else {
+		$checked = '';
+	}
+?>
+
 													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
 <?php
 }
@@ -345,11 +387,26 @@ ob_start();
 
 												<select id="recentCommentLength" name="recentCommentLength">
 <?php
-for ($i = 3; $i <= 80; $i++) {
+for ($i = 3; $i < 50; $i++) {
 	if ($i == $skinSetting['recentCommentLength'])
 		$checked = ' selected="selected"';
 	else
 		$checked = '';
+?>
+													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
+<?php
+}
+for ($i = 50; $i < 1000; $i = $i + 50) {
+	if ($i == $skinSetting['recentCommentLength']) {
+		$checked = ' selected="selected"';
+	} else if (($i < $skinSetting['recentCommentLength']) && ($i > $skinSetting['recentCommentLength'])) {
+		$checked = ' selected="selected"';
+?>
+													<option value="<?php echo $skinSetting['recentCommentLength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentCommentLength'];?></option>
+<?php
+	} else {
+		$checked = '';
+	}
 ?>
 													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
 <?php
@@ -370,11 +427,26 @@ ob_start();
 
 												<select id="recentTrackbackLength" name="recentTrackbackLength">
 <?php
-for ($i = 3; $i <= 80; $i++) {
+for ($i = 3; $i < 50; $i++) {
 	if ($i == $skinSetting['recentTrackbackLength'])
 		$checked = ' selected="selected"';
 	else
 		$checked = '';
+?>
+														<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
+<?php
+}
+for ($i = 50; $i < 1000; $i = $i + 50) {
+	if ($i == $skinSetting['recentTrackbackLength']) {
+		$checked = ' selected="selected"';
+	} else if (($i < $skinSetting['recentTrackbackLength']) && ($i > $skinSetting['recentTrackbackLength'])) {
+		$checked = ' selected="selected"';
+?>
+														<option value="<?php echo $skinSetting['recentTrackbackLength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentTrackbackLength'];?></option>
+<?php
+	} else {
+		$checked = '';
+	}
 ?>
 														<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
 <?php
