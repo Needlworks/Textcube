@@ -31,14 +31,19 @@ $selected = 0;
 										showListOnArchive = 1;
 									
 									if(document.getElementById('expandComment').checked) 
-										expandComment =1;
+										expandComment = 1;
 									else 
 										expandComment = 0;
 									
 									if(document.getElementById('expandTrackback').checked) 
-										expandTrackback =1;
+										expandTrackback = 1;
 									else 
-										expandTrackback =0;
+										expandTrackback = 0;
+
+									if(document.getElementById('useRelTag').checked)
+										useRelTag = 1;
+									else 
+										useRelTag = 0;
 									
 									var tagboxAlign = 1;
 									if (document.getElementById('tagboxAlignUsed')	.checked) {
@@ -68,6 +73,7 @@ $selected = 0;
 									param += 'recentCommentLength='+getValueById('recentCommentLength') +'&';
 									param += 'recentTrackbackLength='+getValueById('recentTrackbackLength') +'&';				
 									param += 'linkLength='+getValueById('linkLength') +'&';
+									param += 'useRelTag='+ useRelTag +'&';
 									var request = new HTTPRequest("POST", '<?php echo $blogURL;?>/owner/skin/setting/skin/');
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
@@ -446,6 +452,12 @@ ob_end_clean();
 										<dl id="tag-count-line" class="line">
 											<dt><span class="label"><?php echo _t('태그상자의 태그 수');?></span></dt>
 											<dd><?php echo _f('태그상자의 태그를 %1개 표시합니다.', $arg);?></dd>
+										</dl>
+										<dl id="tag-rel-line" class="line">
+											<dt><span class="label"><?php echo _t('연관 태그 사용');?></span></dt>
+											<dd>
+												<input type="checkbox" id="useRelTag" class="checkbox" name="useRelTag"<?php echo getUserSetting('useRelTag',0) ? ' checked="checked"' : '';?> /><label for="useRelTag"><?php echo _t('검색엔진이 태그를 따로 인식할 수 있도록 글의 태그에 rel=tag 를 표시합니다. 태그 상자에는 적용되지 않습니다.');?></label>
+											</dd>
 										</dl>
 									</fieldset>
 									

@@ -22,7 +22,8 @@ $IV = array(
 		'recentEntryLength' => array('int'),
 		'recentCommentLength' => array('int'),
 		'recentTrackbackLength' => array('int'),
-		'linkLength' => array('int')
+		'linkLength' => array('int'),
+		'useRelTag' => array('int')
 	)
 );
 require ROOT . '/lib/includeForOwner.php';

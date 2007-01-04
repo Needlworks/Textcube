@@ -231,7 +231,11 @@ function setSkinSetting($owner, $setting) {
 	$skinpath = ROOT . '/skin/' . $skinSetting['skin'];
 	if (!is_dir($skinpath))
 		return _t('실패 했습니다');
-	
+	if($setting['useRelTag'] == "1")
+	    $useRelTag = '1';
+	else
+		$useRelTag = '0';
+
 	foreach ($setting as $key => $value) {
 		$setting[$key] = mysql_tt_escape_string($value);
 	}
@@ -266,7 +270,7 @@ function setSkinSetting($owner, $setting) {
 		entriesOnPage 			= '{$setting['entriesOnPage']}',
 		entriesOnList 			= '{$setting['entriesOnList']}'
 	WHERE owner = $owner ";
-	if (update($sql) > - 1) {
+	if ((update($sql) > - 1) && (setUserSetting('useRelTag',$useRelTag))) {
 		return true;
 	} else {
 		return false;
