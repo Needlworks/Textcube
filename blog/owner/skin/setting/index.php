@@ -454,7 +454,7 @@ ob_end_clean();
 											<dd><?php echo _f('태그상자의 태그를 %1개 표시합니다.', $arg);?></dd>
 										</dl>
 										<dl id="tag-rel-line" class="line">
-											<dt><span class="label"><?php echo _t('연관 태그 사용');?></span></dt>
+											<dt><span class="label"><?php echo _t('태그 연관성 명시');?></span></dt>
 											<dd>
 												<input type="checkbox" id="useRelTag" class="checkbox" name="useRelTag"<?php echo getUserSetting('useRelTag',0) ? ' checked="checked"' : '';?> /><label for="useRelTag"><?php echo _t('검색엔진이 태그를 따로 인식할 수 있도록 글의 태그에 rel=tag 를 표시합니다. 태그 상자에는 적용되지 않습니다.');?></label>
 											</dd>
