@@ -91,7 +91,8 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 		
 		array_unshift($keys, 'owner');
 		$query .= " PRIMARY KEY (" . implode(',',$keys) . ")";
-		$query .= ") TYPE=MyISAM DEFAULT CHARSET=utf8";
+		$query .= ") TYPE=MyISAM "
+		$query .= ($database['utf8'] == true) ? 'DEFAULT CHARSET=utf8' : '';
 		
 		if (DBQuery::execute($query)) {
 				$keyname = mysql_tt_escape_string(mysql_lessen('Database_' . $name, 32));
