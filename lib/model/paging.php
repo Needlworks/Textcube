@@ -21,6 +21,7 @@ function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $
 	$paging['total'] = DBQuery::queryCell("SELECT COUNT(*) $from");
 	if ($paging['total'] === null)
 		return array(array(), $paging);
+	if (empty($count)) $count = 1;
 	$paging['pages'] = intval(ceil($paging['total'] / $count));
 	$paging['page'] = is_numeric($page) ? $page : 1;
 	if ($paging['page'] > $paging['pages']) {
