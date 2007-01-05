@@ -91,7 +91,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 		
 		array_unshift($keys, 'owner');
 		$query .= " PRIMARY KEY (" . implode(',',$keys) . ")";
-		$query .= ") TYPE=MyISAM "
+		$query .= ") TYPE=MyISAM ";
 		$query .= ($database['utf8'] == true) ? 'DEFAULT CHARSET=utf8' : '';
 		
 		if (DBQuery::execute($query)) {
