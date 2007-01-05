@@ -6,7 +6,7 @@
 function getArchives($owner) {
 	global $database;
 	$archives = array();
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
 	$archivesOnPage = DBQuery::queryCell("SELECT archivesOnPage FROM {$database['prefix']}SkinSettings WHERE owner = $owner");
 	$result = DBQuery::query("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
 		FROM {$database['prefix']}Entries e
@@ -30,7 +30,7 @@ function getCalendar($owner, $period) {
 	$calendar['period'] = $period;
 	$calendar['year'] = substr($period, 0, 4);
 	$calendar['month'] = substr($period, 4, 2);
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND c.visibility > 1';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
 	$result = DBQuery::query("SELECT DISTINCT DAYOFMONTH(FROM_UNIXTIME(e.published)) 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner
