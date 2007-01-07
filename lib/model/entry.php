@@ -83,13 +83,13 @@ function getEntryListWithPagingByCategory($owner, $category, $page, $count) {
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
 	}
 
-	$sql = "SELECT owner,id,draft,visibility,category,title,slogan,
-				location,password,acceptComment,acceptTrackback,
-				published,created,modified,comments,trackbacks
+	$sql = "SELECT e.owner,e.id,e.draft,e.visibility,e.category,e.title,e.slogan,
+				e.location,e.password,e.acceptComment,e.acceptTrackback,
+				e.published,e.created,e.modified,e.comments,e.trackbacks
 			FROM {$database['prefix']}Entries e 
 			LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
 			WHERE e.owner = $owner AND e.draft = 0 $visibility $cond 
-			ORDER BY published DESC";
+			ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
