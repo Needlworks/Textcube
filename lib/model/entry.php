@@ -5,7 +5,7 @@
 
 function getEntriesTotalCount($owner) {
 	global $database;
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	return DBQuery::queryCell("SELECT COUNT(*) 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
@@ -80,7 +80,7 @@ function getEntryListWithPagingByCategory($owner, $category, $page, $count) {
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	} else {
 		$cond = 'AND e.category >= 0';
-		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
+		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	}
 
 	$sql = "SELECT e.owner,e.id,e.draft,e.visibility,e.category,e.title,e.slogan,
@@ -98,7 +98,7 @@ function getEntryListWithPagingByTag($owner, $tag, $page, $count) {
 	if ($tag === null)
 		return array(array(), array('url'=>'','prefix'=>'','postfix'=>''));	
 	$tag = mysql_tt_escape_string($tag);
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.* 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner 
@@ -111,7 +111,7 @@ function getEntryListWithPagingByTag($owner, $tag, $page, $count) {
 function getEntryListWithPagingByPeriod($owner, $period, $page, $count) {
 	global $database, $suri, $folderURL;
 	$cond = "AND e.published >= " . getTimeFromPeriod($period) . " AND e.published < " . getTimeFromPeriod(addPeriod($period));
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.* 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
@@ -124,7 +124,7 @@ function getEntryListWithPagingBySearch($owner, $search, $page, $count) {
 	global $database, $suri, $folderURL;
 	$search = escapeMysqlSearchString($search);
 	$cond = empty($search) ? '' : "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR c.id = 0)';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.* 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
@@ -135,7 +135,7 @@ function getEntryListWithPagingBySearch($owner, $search, $page, $count) {
 
 function getEntriesWithPaging($owner, $page, $count) {
 	global $database;
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
@@ -156,7 +156,7 @@ function getEntriesWithPagingByCategory($owner, $category, $page, $count, $count
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	} else {
 		$cond = 'AND e.category >= 0';
-		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
+		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	}
 	$sql = "SELECT e.*, c.label AS categoryLabel 
 		FROM {$database['prefix']}Entries AS e 
@@ -171,7 +171,7 @@ function getEntriesWithPagingByTag($owner, $tag, $page, $count, $countItem = nul
 	if ($tag === null)
 		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
 	$tag = mysql_tt_escape_string($tag);
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
@@ -191,7 +191,7 @@ function getEntriesWithPagingByNotice($owner, $page, $count) {
 function getEntriesWithPagingByPeriod($owner, $period, $page, $count) {
 	global $database, $folderURL, $suri;
 	$cond = "AND published >= " . getTimeFromPeriod($period) . " AND published < " . getTimeFromPeriod(addPeriod($period));
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
@@ -204,7 +204,7 @@ function getEntriesWithPagingBySearch($owner, $search, $page, $count) {
 	global $database, $folderURL, $suri;
 	$search = escapeMysqlSearchString($search);
 	$cond = empty($search) ? '' : "AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR c.id = 0)';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
@@ -247,7 +247,7 @@ function getEntryWithPaging($owner, $id, $isNotice = false) {
 	$entries = array();
 	$paging = initPaging($folderURL, '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$visibility .= $isNotice ? '' : ' AND (c.visibility > 1 OR c.id = 0)';
+	$visibility .= $isNotice ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
@@ -291,7 +291,7 @@ function getEntryWithPagingBySlogan($owner, $slogan, $isNotice = false) {
 	$entries = array();
 	$paging = initPaging("$blogURL/entry", '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$visibility .= $isNotice ? '' : ' AND (c.visibility > 1 OR c.id = 0)';
+	$visibility .= $isNotice ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
 	$result = DBQuery::query("SELECT e.id, e.slogan, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
@@ -350,7 +350,7 @@ function getSlogan($slogan) {
 function getRecentEntries($owner) {
 	global $database, $skinSetting;
 	$entries = array();
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$result = DBQuery::query("SELECT e.id, e.title, e.comments 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
