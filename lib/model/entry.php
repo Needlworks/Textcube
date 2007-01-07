@@ -70,20 +70,26 @@ function getEntryListWithPagingByCategory($owner, $category, $page, $count) {
 	global $database, $suri, $folderURL;
 	if ($category === null)
 		return array();
-	if (!doesHaveOwnership() && getCategoryVisibility($owner, $category) < 2 && !$category == 0)
+	if (!doesHaveOwnership() && getCategoryVisibility($owner, $category) < 2 && $category != 0)
 		return array();
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	if ($category > 0) {
 		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category $visibility");
 		array_push($categories, $category);
-		$cond = 'AND category IN (' . implode(', ', $categories) . ')';
-	} else
-		$cond = 'AND category >= 0';
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
+		$cond = 'AND e.category IN (' . implode(', ', $categories) . ')';
+		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
+	} else {
+		$cond = 'AND e.category >= 0';
+		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
+	}
+
 	$sql = "SELECT owner,id,draft,visibility,category,title,slogan,
 				location,password,acceptComment,acceptTrackback,
 				published,created,modified,comments,trackbacks
-			FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility $cond ORDER BY published DESC";
+			FROM {$database['prefix']}Entries e 
+			LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
+			WHERE e.owner = $owner AND e.draft = 0 $visibility $cond 
+			ORDER BY published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
