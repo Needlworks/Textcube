@@ -54,10 +54,9 @@ if (isset($_POST['partial'])) {
 	require ROOT . '/lib/piece/blog/entries.php';
 	$view = removeAllTags($view);
 	if ($view != '[##_article_rep_##]')
-		fireEvent('OBStart');
 		print $view;
-		fireEvent('OBEnd');
 } else {
+	fireEvent('OBStart');
 	require ROOT . '/lib/piece/blog/begin.php';
 	if (empty($entries)) {
 		header('HTTP/1.1 404 Not Found');
@@ -66,5 +65,6 @@ if (isset($_POST['partial'])) {
 		require ROOT . '/lib/piece/blog/entries.php';
 	}
 	require ROOT . '/lib/piece/blog/end.php';
+	fireEvent('OBEnd');
 }
 ?>
