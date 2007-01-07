@@ -445,5 +445,6 @@ if (preg_match('@\(thumbnail\)/\(\[0\-9\]\+/\.\+\) cache/\$1/\$2@', $content) ==
 ?>
 <?php echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));?>
 </p>
+<a href="<?php echo $blogURL.'/owner/center/dashboard';?>"><?php echo _text('되돌아가기');?></a>
 </body>
 </html>
