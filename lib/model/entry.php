@@ -148,13 +148,16 @@ function getEntriesWithPagingByCategory($owner, $category, $page, $count, $count
 	global $database, $folderURL, $suri;
 	if ($category === null)
 		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
+	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	if ($category > 0) {
-		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
+		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category $visibility");
 		array_push($categories, $category);
 		$cond = 'AND e.category IN (' . implode(', ', $categories) . ')';
-	} else
+		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
+	} else {
 		$cond = 'AND e.category >= 0';
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
+		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR c.id = 0)';
+	}
 	$sql = "SELECT e.*, c.label AS categoryLabel 
 		FROM {$database['prefix']}Entries AS e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id 
