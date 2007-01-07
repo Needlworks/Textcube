@@ -70,7 +70,7 @@ function getEntryListWithPagingByCategory($owner, $category, $page, $count) {
 	global $database, $suri, $folderURL;
 	if ($category === null)
 		return array();
-	if (!doesHaveOwnership() && getCategoryVisibility($owner, $category) < 2)
+	if (!doesHaveOwnership() && getCategoryVisibility($owner, $category) < 2 && !$category == 0)
 		return array();
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	if ($category > 0) {

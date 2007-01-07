@@ -1609,6 +1609,13 @@ function printEntryEditorPalette() {
 															<option value="6">6 (24 pt)</option>
 															<option value="7">7 (36 pt)</option>
 														</optgroup>
+														<optgroup class="header" label="<?php echo _t('제목');?>">
+															<option value="h3">h3</option>
+															<option value="h4">h4</option>
+															<option value="h5">h5</option>
+															<option value="h6">h6</option>
+															<option value="h7">h7</option>
+														</optgroup>
 													</select>
 												</dd>
 											</dl>
