@@ -586,8 +586,35 @@ printEntryEditorProperty();
 												//]]>
 											</script> 
 										</div>
-									</div>
-									
+
+										<hr class="hidden" />
+										
+<?php
+if (isset($_GET['popupEditor'])) {
+?>
+										<div class="button-box two-button-box">
+											<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
+											<span class="hidden">|</span>
+											<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
+											<span class="hidden">|</span>
+											<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
+										</div>
+<?php
+} else {
+?>
+										<div class="button-box three-button-box">
+											<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
+											<span class="hidden">|</span>
+							    	  	 	<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
+											<span class="hidden">|</span>
+							       			<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
+											<span class="hidden">|</span>
+											<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="window.location.href='<?php echo $blogURL;?>/owner/entry'" />
+										</div>
+<?php
+}
+?>
+									</div>							
 									<hr class="hidden" />
 									
 									<div id="upload-section" class="section">
@@ -622,7 +649,7 @@ printEntryFileList(getAttachments($owner, $entry['id'], 'label'), $param);
 printEntryFileUploadButton($entry['id']);
 ?>
 									</div>
-									
+
 									<hr class="hidden" />
 									
 									<div id="power-section" class="section">
@@ -675,33 +702,6 @@ if (defined('__TATTERTOOLS_POST__')) {
 									</div>
 								</div>
 								
-								<hr class="hidden" />
-										
-<?php
-if (isset($_GET['popupEditor'])) {
-?>
-								<div class="button-box two-button-box">
-									<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
-									<span class="hidden">|</span>
-									<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
-									<span class="hidden">|</span>
-									<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
-								</div>
-<?php
-} else {
-?>
-								<div class="button-box three-button-box">
-									<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
-									<span class="hidden">|</span>
-							       	<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
-									<span class="hidden">|</span>
-							       	<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
-									<span class="hidden">|</span>
-									<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="window.location.href='<?php echo $blogURL;?>/owner/entry'" />
-								</div>
-<?php
-}
-?>
 								<input type="hidden" name="categoryAtHome" value="<?php echo (isset($_POST['category']) ? $_POST['category'] : '0');?>" />
 								<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 								<input type="hidden" name="withSearch" value="<?php echo (empty($_POST['search']) ? '' : 'on');?>" />
