@@ -201,6 +201,24 @@ function api_getCategoryNameById( $id )
 	
 }
 
+function api_fix_content( $content )
+{
+	$new_content = "";
+	if( strstr( $_SERVER["HTTP_USER_AGENT"], 'Zoundry' ) )
+	{
+		$new_content = str_replace( "</ul>\n", "</ul>", $content );
+		$new_content = str_replace( "</ol>\n", "</ol>", $new_content );
+		$new_content = str_replace( "</li>\n", "</li>", $new_content );
+		$new_content = str_replace( "</div>\n", "</div>", $new_content );
+		$new_content = str_replace( "</p>\n", "</p>", $new_content );
+	}
+	else
+	{
+		$new_content = $content;
+	}
+	return $new_content;
+}
+
 function api_make_post( $param, $ispublic, $postid = -1 )
 {
 	$post = new Post();
@@ -212,7 +230,7 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 		}
 	}
 	
-	$post->content = $param['description'];
+	$post->content = api_fix_content( $param['description'] );
 	$post->title = $param['title'];
 	
 	$param['mt_excerpt'] = array_key_exists('mt_excerpt', $param) ? $param['mt_excerpt'] : '';
@@ -903,8 +921,9 @@ function metaWeblog_newPost()
 	}
 	if( !$post->add() )
 	{
+		$error = $post->error;
 		$post->close();
-		return new XMLRPCFault( 1, "Tattertools posting error" );
+		return new XMLRPCFault( 1, "Tattertools invalid field: $error" );
 	}
 
 	api_update_attaches($post->id );
