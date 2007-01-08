@@ -1260,33 +1260,37 @@ function bindKeywords($keywords, $content) {
 		# TT special pattern
 		\[\#\#_.*?_\#\#]
 	)@x', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
-
-	$stack = array(); // [0] = top, [count()-1] = bottom
+	$stack = array(); // [0] = root, [count()-1] = leaf ,for dom tree travel
 	$buf = '';
 	$i = 0;
 	$pattern = array();
 	foreach ($keywords as $keyword)
 		$pattern[] = preg_quote($keyword, '/');
-	//$pattern = '/'.implode('|',$pattern).'/ie';
 	$pattern = '/'.implode('|',$pattern).'/e'; //대소문자 구별
+	$inUnableContexts = false;
 	while (true) {
-		if (count($stack)) {
+		if( count($stack) <= 0 || (!$inUnableContexts) ){
+			$buf .= preg_replace($pattern, "fireEvent('BindKeyword', '\\0')", $result[$i]);
+		}else{
 			$buf .= $result[$i];
-		} else {
-			 $buf .= preg_replace($pattern, 'fireEvent("BindKeyword", "$0")', $result[$i]);
 		}
+	
 		if (++$i >= count($result)) break;
 		if ($result[$i]{0} == '<') {
 			if ($result[$i]{1} == '/') {
 				$index = array_search(strtolower($result[$i+1]), $stack);
 				if ($index === false) {
-					$stack = array();
+				//	$stack = array();
 				} else {
 					array_splice($stack, 0, $index + 1);
+					$inUnableContexts = checkKeyWordUnBindableContext($inUnableContexts,$stack);
 				}
 			} else {
-				if (!in_array(strtolower($result[$i+1]), array('br', 'hr', 'img'))) 
+				$t = strlen($result[$i])-2;
+				if ($result[$i]{$t>=0?$t:0} != '/' && !in_array(strtolower($result[$i+1]), array('br', 'hr', 'img' ,'input'))) {
 					array_unshift($stack, strtolower($result[$i+1]));
+					$inUnableContexts = checkKeyWordUnBindableContext($inUnableContexts,$stack);
+				}
 			}
 			$buf .= $result[$i];
 			$i += 4;
@@ -1295,6 +1299,31 @@ function bindKeywords($keywords, $content) {
 		}
 	}
 	return $buf;
+}
+
+function checkKeyWordUnBindableContext($curAblale,$currentContext){
+	$inUnableContexts = false;
+	$inUnableContexts |= array_search('a' , $currentContext )!==false;
+	$inUnableContexts |= array_search('object' , $currentContext )!==false;
+	$inUnableContexts |= array_search('applet' , $currentContext )!==false;
+	$inUnableContexts |= array_search('select' , $currentContext )!==false;
+	$inUnableContexts |= array_search('option' , $currentContext )!==false;
+	$inUnableContexts |= array_search('optgroup' , $currentContext )!==false;
+	$inUnableContexts |= array_search('textarea' , $currentContext )!==false;
+	$inUnableContexts |= array_search('button' , $currentContext )!==false;
+	$inUnableContexts |= array_search('isindex' , $currentContext )!==false;
+	$inUnableContexts |= array_search('title' , $currentContext )!==false;
+	$inUnableContexts |= array_search('meta' , $currentContext )!==false;
+	$inUnableContexts |= array_search('base' , $currentContext )!==false;
+	$inUnableContexts |= array_search('link' , $currentContext )!==false;
+	$inUnableContexts |= array_search('style' , $currentContext )!==false;
+	$inUnableContexts |= array_search('head' , $currentContext )!==false;
+	$inUnableContexts |= array_search('script' , $currentContext )!==false;
+	$inUnableContexts |= array_search('embed' , $currentContext )!==false;
+	$inUnableContexts |= array_search('address' , $currentContext )!==false;
+	$inUnableContexts |= array_search('pre' , $currentContext )!==false;
+	$inUnableContexts |= array_search('param' , $currentContext )!==false;
+	return $inUnableContexts;
 }
 
 function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolutePath = false, $bRssMode = false) {
