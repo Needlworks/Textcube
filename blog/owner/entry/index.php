@@ -22,6 +22,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForOwner.php';
+trashVan();
 publishEntries();
 
 // 카테고리 설정.
