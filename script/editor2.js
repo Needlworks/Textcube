@@ -341,34 +341,10 @@ TTEditor.prototype.ttml2html = function() {
 
 // IFRAME에 작성된 HTML을 태터툴즈 텍스트 에디터에서 볼 수 있는 TTML로 전환
 TTEditor.prototype.html2ttml = function() {
-	var obj = this.contentDocument.body.cloneNode(true);
+	var str = this.contentDocument.body.innerHTML;
 
-	// MORE/LESS 처리
-	while(true) {
-		var divs = obj.getElementsByTagName("div");
-
-		if(divs.length > 0) {
-			var exist = false;
-
-			for(var i=0; i<divs.length; i++) {
-				if(divs[i].className == "tattermoreless") {
-					exist = true;
-					divs[i].className = "removeme";
-					divs[i].innerHTML = "[#M_" + divs[i].getAttribute("more") + "|" + divs[i].getAttribute("less") + "|" + divs[i].innerHTML + "_M#]";
-				}
-
-				if(exist)
-					break;
-			}
-
-			if(!exist)
-				break;
-		}
-		else
-			break;
-	}
-
-	var str = obj.innerHTML;
+	// more/less 처리
+	str = this.morelessConvert(str);
 
 	// 빈줄을 br 태그로
 	str = str.replace(new RegExp("<p[^>]*?>&nbsp;</p>", "gi"), "<br />");
@@ -496,6 +472,35 @@ TTEditor.prototype.html2ttml = function() {
 		str = str.replaceAll(body, '<embed loop="true" menu="false" quality="high" ' + this.parseImageSize(body, "string") + ' type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" src="' + this.parseAttribute(body, "longdesc") + '"></embed>');
 	}
 	return str;
+}
+
+TTEditor.prototype.morelessConvert = function(string) {
+	while(new RegExp("<div.*?class=['\"]?tattermoreless", "i").test(string))
+		string = this.morelessConvert_process(string);
+	return string;
+}
+
+TTEditor.prototype.morelessConvert_process = function(string) {
+	var result = "";
+	var pos1 = pos2 = 0;
+	var head = new RegExp("<div.*?class=['\"]?tattermoreless[^>]*>", "i");
+	if((pos1 = string.indexOfCaseInsensitive(new RegExp("<div\\s", "i"), pos2)) > -1) {
+		result += string.substring(0, pos1);
+		do {
+			if((pos2 = string.indexOfCaseInsensitive(new RegExp("</div", "i"), Math.max(pos1, pos2))) == -1)
+				return result + string.substring(pos1, string.length);
+			pos2 += 6;
+			chunk = string.substring(pos1, pos2);
+		} while(chunk != "" && chunk.count(new RegExp("<div\\s", "gi")) != chunk.count(new RegExp("</div", "gi")));
+		if(head.test(chunk)) {
+			var less = this.parseAttribute(chunk, "less");
+			var more = this.parseAttribute(chunk, "more");
+			chunk = chunk.replace(head, "[#M_" + more + "|" + less + "|");
+			chunk = chunk.replace(new RegExp("</div>$", "i"), "_M#]");
+		}
+		result += chunk;
+	}
+	return result + string.substring(pos2, string.length);
 }
 
 // 위지윅 모드에서 치환자 이미지를 클릭했을때 편집창 옆에 속성창을 보여준다

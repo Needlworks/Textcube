@@ -788,25 +788,39 @@ if(!String.prototype.replaceAll) {
 }
 
 if(!String.prototype.count) {
-	String.prototype.count = function (str) {
-		var matches = this.match(new RegExp(str.replace(new RegExp("(\\W)", "g"), "\\$1"), "g"));
+	String.prototype.count = function(search) {
+		if(typeof search == "string")
+			var matches = this.match(new RegExp(search.replace(new RegExp("(\\W)", "g"), "\\$1"), "g"));
+		else
+			var matches = this.match(search);
 		return matches ? matches.length : 0;
 	}
 }
 
-function getTagChunks(str, tagName) {
+if(!String.prototype.indexOfCaseInsensitive) {
+	String.prototype.indexOfCaseInsensitive = function(search, from) {
+		var string = (typeof from == "undefined") ? this : this.substring(from, this.length);
+		var result = (typeof search == "string") ? new RegExp(search.replace(new RegExp("(\\W)", "g"), "\\$1"), "i").exec(string) : search.exec(string);
+		return result ? result.index + ((typeof from == "number") ? from : 0) : -1;
+	}
+}
+
+function getTagChunks(string, tagName, callback) {
 	var chunks = new Array();
 	var pos1 = pos2 = 0;
-	lowerStr = str.toLowerCase();
-	lowerTagName = tagName.toLowerCase();
-	while((pos1 = lowerStr.indexOf("<" + lowerTagName, pos2)) > -1) {
+	if((pos1 = string.indexOfCaseInsensitive(new RegExp("<" + tagName + "\\s", "i"), pos2)) > -1) {
+		var chunk = "";
 		do {
-			if((pos2 = lowerStr.indexOf("</" + lowerTagName + ">", pos2)) == -1)
+			if((pos2 = string.indexOfCaseInsensitive(new RegExp("</" + tagName, "i"), Math.max(pos1, pos2))) == -1) {
+				alert('return !');
 				return chunks;
-			var temp = str.substring(pos1, pos2 + lowerTagName.length + 3);
-			pos2 += lowerTagName.length + 3;
-		} while(temp.count("<" + lowerTagName) != temp.count("</" + lowerTagName + ">"));
-		chunks[chunks.length] = temp;
+			}
+			pos2 += tagName.length + 3;
+			chunk = string.substring(pos1, pos2);
+		} while(chunk != "" && chunk.count(new RegExp("<" + tagName + "\\s", "gi")) != chunk.count(new RegExp("</" + tagName, "gi")));
+		if(typeof callback == "function")
+			chunk = callback(chunk);
+		chunks[chunks.length] = chunk;
 	}
 	return chunks;
 }
