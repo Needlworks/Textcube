@@ -16,10 +16,16 @@ requireStrictRoute();
 
 //$isAjaxRequest = checkAjaxRequest();
 
-//if ($isAjaxRequest) 
-if (!isset($_GET['command']))
-{
-	respondResultPage(setEntryVisibility($suri['id'], isset($_GET['visibility']) ? $_GET['visibility'] : 0));
+// 이올린에 발행한 적이 있는지 체크.
+$countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `owner` = {$owner} AND `visibility` = 3");
+if ($countResult == false) {
+	$countResult = 0;
+} else {
+	$countResult = 1;
+}
+	
+if (!isset($_GET['command'])) {
+	printRespond(array('error' => setEntryVisibility($suri['id'], isset($_GET['visibility']) ? $_GET['visibility'] : 0), 'countSyndicated' => $countResult));
 } else {
 	switch ($_GET['command']) {
 		case "protect":

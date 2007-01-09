@@ -75,6 +75,11 @@
 }
 
 /* button box -----------------------------------------------------------------------------------*/
+.button-box
+{
+	width                            : auto;
+}
+
 .button-box .input-button
 {
 	padding                          : 2px 0 0 0 !important;
