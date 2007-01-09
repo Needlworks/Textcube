@@ -162,7 +162,7 @@ if (preg_match("/^#?([A-F0-9]{3,6})$/i", $_POST['paddingColor'], $temp)) {
 	$strNewColor = $temp[1];
 	$strOldColor = getUserSetting("thumbnailPaddingColor");
 	
-	if (is_null($strOldColor) && $strNewColor != $strOldColor) {
+	if (is_null($strOldColor) || $strNewColor != $strOldColor) {
 		setUserSetting('thumbnailPaddingColor', $strNewColor);
 		deleteAllThumbnails(ROOT."/cache/thumbnail/$owner");
 	}
