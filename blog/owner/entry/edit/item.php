@@ -607,7 +607,7 @@ if (isset($_GET['popupEditor'])) {
 										<div class="button-box two-button-box">
 											<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
 											<span class="hidden">|</span>
-											<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
+											<input type="submit" value="<?php echo _t('지금저장');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
 											<span class="hidden">|</span>
 											<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
 										</div>
@@ -617,7 +617,7 @@ if (isset($_GET['popupEditor'])) {
 										<div class="button-box three-button-box">
 											<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
 											<span class="hidden">|</span>
-							    	  	 	<input type="submit" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
+							    	  	 	<input type="submit" value="<?php echo _t('지금저장');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
 											<span class="hidden">|</span>
 							       			<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
 											<span class="hidden">|</span>
