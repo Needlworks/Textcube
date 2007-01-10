@@ -8,7 +8,11 @@ function getCommentsWithPagingForOwner($owner, $category, $name, $ip, $search, $
 	
 	$postfix = '';
 	
-	$sql = "SELECT c.*, e.title, c2.name parentName FROM {$database['prefix']}Comments c LEFT JOIN {$database['prefix']}Entries e ON c.owner = e.owner AND c.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.owner = c2.owner WHERE c.owner = $owner AND c.isFiltered = 0";
+	$sql = "SELECT c.*, e.title, c2.name parentName 
+		FROM {$database['prefix']}Comments c 
+		LEFT JOIN {$database['prefix']}Entries e ON c.owner = e.owner AND c.entry = e.id AND e.draft = 0 
+		LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.owner = c2.owner 
+		WHERE c.owner = $owner AND c.isFiltered = 0";
 	if ($category > 0) {
 		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
 		array_push($categories, $category);
@@ -467,7 +471,24 @@ function revertComment($owner, $id, $entry, $password) {
 function getRecentComments($owner) {
 	global $skinSetting, $database;
 	$comments = array();
-	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}Comments WHERE owner = $owner AND entry>0 AND isFiltered = 0 ORDER BY written DESC LIMIT {$skinSetting['commentsOnRecent']}" : "SELECT r.* FROM {$database['prefix']}Comments r, {$database['prefix']}Entries e WHERE r.owner = $owner AND r.owner = e.owner AND r.entry = e.id AND e.draft = 0 AND e.visibility >= 2 AND entry > 0 AND isFiltered = 0 ORDER BY r.written DESC LIMIT {$skinSetting['commentsOnRecent']}";
+	$sql = doesHaveOwnership() ? "SELECT * FROM 
+			{$database['prefix']}Comments 
+		WHERE 
+			owner = $owner AND entry>0 AND isFiltered = 0 
+		ORDER BY 
+			written 
+		DESC LIMIT 
+			{$skinSetting['commentsOnRecent']}" :
+		"SELECT r.* FROM 
+			{$database['prefix']}Comments r
+			LEFT JOIN {$database['prefix']}Entries e ON r.owner = e.owner AND r.entry = e.id
+			LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id
+		WHERE 
+			r.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND (c.visibility > 1 OR e.category = 0) AND entry > 0 AND isFiltered = 0 
+		ORDER BY 
+			r.written 
+		DESC LIMIT 
+			{$skinSetting['commentsOnRecent']}";
 	if ($result = DBQuery::query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {

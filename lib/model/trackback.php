@@ -51,7 +51,26 @@ function getRecentTrackbacks($owner) {
 	global $database;
 	global $skinSetting;
 	$trackbacks = array();
-	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND isFiltered = 0 ORDER BY written DESC LIMIT {$skinSetting['trackbacksOnRecent']}" : "SELECT t.* FROM {$database['prefix']}Trackbacks t, {$database['prefix']}Entries e WHERE t.owner = $owner AND t.owner = e.owner AND t.entry = e.id AND e.draft = 0 AND e.visibility >= 2 AND isFiltered = 0 ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksOnRecent']}";
+	$sql = doesHaveOwnership() ? "SELECT * 
+		FROM 
+			{$database['prefix']}Trackbacks 
+		WHERE 
+			owner = $owner AND isFiltered = 0 
+		ORDER BY 
+			written 
+		DESC LIMIT 
+			{$skinSetting['trackbacksOnRecent']}" : 
+		"SELECT t.* 
+		FROM 
+			{$database['prefix']}Trackbacks t, 
+			LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id
+			LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id
+		WHERE 
+			t.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND (c.visibility > 1 OR e.category = 0) AND isFiltered = 0 
+		ORDER BY 
+			t.written 
+		DESC LIMIT 
+			{$skinSetting['trackbacksOnRecent']}";
 	if ($result = DBQuery::query($sql)) {
 		while ($trackback = mysql_fetch_array($result))
 			array_push($trackbacks, $trackback);
