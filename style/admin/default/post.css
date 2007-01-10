@@ -71,7 +71,7 @@ table.data-inbox tbody tr td.ip
 	font-size                        : 0.93em;
 	font-weight                      : normal;
 	letter-spacing                   : -1px;
-	padding                          : 3px 0 1px 25px;
+	padding                          : 3px 0 1px 29px;
 }
 
 #data-description dl dt
@@ -89,8 +89,8 @@ table.data-inbox tbody tr td.ip
 
 #data-description dl.eolin-description
 {
-	background-image                 : url("./image/icon_trackback_single.gif");
-	background-position              : 6px top;
+	background-image                 : url("./image/icon_syndicated_single.gif");
+	background-position              : 8px top;
 	background-repeat                : no-repeat;
 }
 
