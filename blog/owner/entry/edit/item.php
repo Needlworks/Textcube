@@ -730,7 +730,7 @@ $countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}E
 								<h4><?php echo _t('이올린이란?');?></h4>
 								
 								<p class="message">
-									<?php echo _t('이올린은 태터툴즈와 태터툴즈 기반의 블로그에서 "발행"을 통해 보내진 글들을 추천과 태그, 지역태그 등의 다양한 방법으로 만날 수 있는 공간입니다.');?>
+									<?php echo _t('이올린은 태터툴즈와 태터툴즈 기반의 블로그에서 발행을 통해 보내진 글들을 추천과 태그, 지역태그 등의 다양한 방법으로 만날 수 있는 공간입니다.');?>
 								</p>
 								
 								<h4><?php echo _t('발행 방법');?></h4>
