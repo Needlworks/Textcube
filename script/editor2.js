@@ -439,10 +439,6 @@ TTEditor.prototype.html2ttml = function() {
 		str = str.replaceAll(body, "[##_Jukebox|" + files + this.unHtmlspecialchars(trim(longdesc[longdesc.length-2])) + "|_##]");
 	}
 
-	// MORE/LESS 처리 후 남은 태그 제거
-	str = str.replace(new RegExp("<div[^<>]+class=[\"']?removeme.*?\\[#M_", "gi"), "[#M_");
-	str = str.replace(new RegExp("_M#\\]</div>", "gi"), "_M#]");
-
 	// Object 처리
 	var regObject = new RegExp("<img[^>]*class=[\"']?tatterObject.*?>", "i");
 	while(result = regObject.exec(str)) {
