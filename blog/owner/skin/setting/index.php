@@ -20,6 +20,8 @@ $selected = 0;
 										showListOnCategory = 2;
 									else if(document.getElementById('showListOnCategoryContents').checked) 
 										showListOnCategory = 0;
+									else if(document.getElementById('showListOnCategorySome').checked) 
+										showListOnCategory = 3;
 									else 
 										showListOnCategory = 1;
 									
@@ -27,6 +29,8 @@ $selected = 0;
 										showListOnArchive = 2;
 									else if(document.getElementById('showListOnArchiveContents').checked) 
 										showListOnArchive = 0;
+									else if(document.getElementById('showListOnArchiveSome').checked) 
+										showListOnArchive = 3;
 									else 
 										showListOnArchive = 1;
 
@@ -34,6 +38,8 @@ $selected = 0;
 										showListOnTag = 2;
 									else if(document.getElementById('showListOnTagContents').checked) 
 										showListOnTag = 0;
+									else if(document.getElementById('showListOnTagSome').checked) 
+										showListOnTag = 3;
 									else 
 										showListOnTag = 1;
 									
@@ -284,7 +290,8 @@ ob_end_clean();
 											<dd>
 												<input type="radio" id="showListOnCategoryTitles" class="radio" name="showListOnCategory" value="titles"<?php echo ($skinSetting['showListOnCategory'] == 2) ? ' checked="checked"' : '';?> /> <label for="showListOnCategoryTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
 												<input type="radio" id="showListOnCategoryContents" class="radio" name="showListOnCategory" value="contents"<?php echo ($skinSetting['showListOnCategory'] == 0) ? ' checked="checked"' : '';?> /> <label for="showListOnCategoryContents"><?php echo _t('글 내용을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnCategoryAll" class="radio" name="showListOnCategory" value="all"<?php echo ($skinSetting['showListOnCategory'] == 1) ? ' checked="checked"' : '';?> /> <label for="showListOnCategoryAll"><?php echo _t('글 내용과 목록을 표시합니다.');?></label>
+												<input type="radio" id="showListOnCategorySome" class="radio" name="showListOnCategory" value="some"<?php echo ($skinSetting['showListOnCategory'] == 3) ? ' checked="checked"' : '';?> /> <label for="showListOnCategorySome"><?php echo _t('목록과 한 쪽당 글 수 만큼 글을 표시합니다.');?></label><br />
+												<input type="radio" id="showListOnCategoryAll" class="radio" name="showListOnCategory" value="all"<?php echo ($skinSetting['showListOnCategory'] == 1) ? ' checked="checked"' : '';?> /> <label for="showListOnCategoryAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="archive-click-line" class="line">
@@ -292,7 +299,8 @@ ob_end_clean();
 											<dd>
 												<input type="radio" id="showListOnArchiveTitles" class="radio" name="showListOnArchive" value="titles"<?php echo ($skinSetting['showListOnArchive'] == 2) ? ' checked="checked"' : '';?> /> <label for="showListOnArchiveTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
 												<input type="radio" id="showListOnArchiveContents" class="radio" name="showListOnArchive" value="contents"<?php echo ($skinSetting['showListOnArchive'] == 0) ? ' checked="checked"' : '';?> /> <label for="showListOnArchiveContents"><?php echo _t('글 내용을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnArchiveAll" class="radio" name="showListOnArchive" value="all"<?php echo ($skinSetting['showListOnArchive'] == 1) ? ' checked="checked"' : '';?> /> <label for="showListOnArchiveAll"><?php echo _t('글 내용과 목록을 표시합니다.');?></label>
+												<input type="radio" id="showListOnArchiveSome" class="radio" name="showListOnArchive" value="some"<?php echo ($skinSetting['showListOnArchive'] == 3) ? ' checked="checked"' : '';?> /> <label for="showListOnArchiveSome"><?php echo _t('목록과 한 쪽당 글 수 만큼 글을 표시합니다.');?></label><br />
+												<input type="radio" id="showListOnArchiveAll" class="radio" name="showListOnArchive" value="all"<?php echo ($skinSetting['showListOnArchive'] == 1) ? ' checked="checked"' : '';?> /> <label for="showListOnArchiveAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="tag-click-line" class="line">
@@ -300,7 +308,8 @@ ob_end_clean();
 											<dd>
 												<input type="radio" id="showListOnTagTitles" class="radio" name="showListOnTag" value="titles"<?php echo ($skinSetting['showListOnTag'] == 2) ? ' checked="checked"' : '';?> /> <label for="showListOnTagTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
 												<input type="radio" id="showListOnTagContents" class="radio" name="showListOnTag" value="contents"<?php echo ($skinSetting['showListOnTag'] == 0) ? ' checked="checked"' : '';?> /> <label for="showListOnTagContents"><?php echo _t('글 내용을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnTagAll" class="radio" name="showListOnTag" value="all"<?php echo ($skinSetting['showListOnTag'] == 1) ? ' checked="checked"' : '';?> /> <label for="showListOnTagAll"><?php echo _t('글 내용과 목록을 표시합니다.');?></label>
+												<input type="radio" id="showListOnTagSome" class="radio" name="showListOnTag" value="some"<?php echo ($skinSetting['showListOnTag'] == 3) ? ' checked="checked"' : '';?> /> <label for="showListOnTagSome"><?php echo _t('목록과 한 쪽당 글 수 만큼 글을 표시합니다.');?></label><br />
+												<input type="radio" id="showListOnTagAll" class="radio" name="showListOnTag" value="all"<?php echo ($skinSetting['showListOnTag'] == 1) ? ' checked="checked"' : '';?> /> <label for="showListOnTagAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="post-click-line" class="line">
