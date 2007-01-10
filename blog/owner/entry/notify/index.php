@@ -236,7 +236,7 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 			echo '<span class="divider"> | </span>';
 		}
 		
-		echo empty($comment['parent']) ? '' : "<a href=\"" . $comment['parentUrl'] . "\" onclick=\"window.open(this.href); return false;\">" . _f('님의 댓글에 대한 댓글',$comment['parentName']) . "</a>";
+		echo empty($comment['parent']) ? '' : "<a href=\"" . $comment['parentUrl'] . "\" onclick=\"window.open(this.href); return false;\">" . _f('%1 님의 댓글에 대한 댓글',$comment['parentName']) . "</a>";
 		echo "</a>";
 		echo !empty($comment['title']) || !empty($comment['parent']) ? '<br />' : '';
 	}
