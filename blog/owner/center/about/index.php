@@ -13,7 +13,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 							<h3>Brand yourself! : <?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?></h3>
 							<div class="main-explain-box">
 								<p class="explain">
-									<em><?php echo _t('이 판올림을 JH님께 헌정합니다.');?></em><br />
+									<em><?php echo _t('이 판올림을 태터리안 여러분께 헌정합니다.');?></em><br />
 									<?php echo _t('&copy; 2004 - 2006. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />태터툴즈는 태터앤컴퍼니와 태터앤프렌즈에서 개발합니다.<br />태터툴즈와 태터툴즈 로고는 태터앤컴퍼니의 상표입니다.').CRLF;?>
 								</p>
 							</div>
@@ -220,8 +220,8 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 									<a href="http://barosl.com/blog">랜덤여신</a>,
 									<a href="http://www.mcfuture.net">McFuture</a>,
 									<a href="http://laziel.com">laziel</a>,
-									<a href="http://tokigun.net">tokigun</a>
-									<a href="http://story.isloco.com">linus</a>
+									<a href="http://tokigun.net">tokigun</a>,
+									<a href="http://story.isloco.com">linus</a>,
 									<a href="http://nya.pe.kr">NYA</a>
 									</p>
 								</div>
