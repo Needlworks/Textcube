@@ -215,13 +215,13 @@
 	font-weight                      : normal;
 	padding                          : 3px 3px 4px 3px;
 	text-align                       : right;
-	width                            : 175px;
+	width                            : 170px;
 }
 
 #part-skin-setting dl dd
 {
 	line-height                      : 1.2em;
-	margin-left                      : 195px;
+	margin-left                      : 185px;
 	padding                          : 5px 3px 4px 3px;
 }
 
@@ -256,15 +256,20 @@
 	float                            : left;
 }
 
+#click-container dd
+{
+	line-height                      : 1.4em !important;
+}
+
 #length-container
 {
-	float                            : left;
+	float                            : right;
+	margin-left                      : 22px;
 }
 
 #tag-setting-container
 {
 	float                            : left;
-	margin-left                      : 22px;
 }
 
 #guestbook-setting-container
