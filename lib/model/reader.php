@@ -562,15 +562,18 @@ function saveFeedItem($feedId, $item) {
 	$feedLife = DBQuery::queryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings");
 	if($feedLife > 0)
 		$deadLine = gmmktime() - $feedLife * 86400;
-	if ($id = DBQuery::queryCell("SELECT id FROM {$database['prefix']}FeedItems WHERE permalink='{$item['permalink']}'")) {
+	if ($id = DBQuery::queryCell("SELECT id FROM {$database['prefix']}FeedItems WHERE permalink='{$item['permalink']}'") && $item['written'] != 0) {
 		DBQuery::query("UPDATE {$database['prefix']}FeedItems SET author = '{$item['author']}', title = '{$item['title']}', description = '{$item['description']}', tags = '$tagString', enclosure = '$enclosureString', written = {$item['written']} WHERE id = $id");
 		/*
 		TODO : 읽은글이 읽지않은 글로 표시되는 문제 원인이 찾아질때 까지 막아둠
 		if (mysql_affected_rows() > 0)
 			DBQuery::query("DELETE FROM {$database['prefix']}FeedReads WHERE item = $id");
 		*/
-	} else if($item['written'] > $deadLine)
-		DBQuery::query("INSERT INTO {$database['prefix']}FeedItems VALUES(null, $feedId, '{$item['author']}', '{$item['permalink']}', '{$item['title']}', '{$item['description']}', '$tagString', '$enclosureString', {$item['written']})");
+	} else {
+		if ($item['written'] == 0) $item['written'] = gmmktime();
+		if ($item['written'] > $deadLine)
+			DBQuery::query("INSERT INTO {$database['prefix']}FeedItems VALUES(null, $feedId, '{$item['author']}', '{$item['permalink']}', '{$item['title']}', '{$item['description']}', '$tagString', '$enclosureString', {$item['written']})");
+	}
 	return true;
 }
 
