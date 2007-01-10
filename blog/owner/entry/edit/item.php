@@ -703,7 +703,7 @@ $countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}E
 													<div id="status-private" class="status-private"><input type="radio" id="visibility_private" class="radio" name="visibility" value="0"<?php echo (abs($entry['visibility']) == 0 ? ' checked="checked"' : '');?> /><label for="visibility_private"><?php echo _t('비공개');?></label></div>
 													<div id="status-protected" class="status-protected"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_protected" class="radio" name="visibility" value="1"<?php echo (abs($entry['visibility']) == 1 ? ' checked="checked"' : '');?> /><label for="visibility_protected"><?php echo _t('보호');?></label></div>
 													<div id="status-public" class="status-public"><input type="radio" id="visibility_public" class="radio" name="visibility" value="2"<?php echo (abs($entry['visibility']) == 2 ? ' checked="checked"' : '');?> /><label for="visibility_public"><?php echo _t('공개');?></label></div>
-													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo $countResult == false ? ' onclick="viewWhatIsEolin()"' : NULL; echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?><?php echo $countResult == true ? ' (<a href="#void" onclick="viewWhatIsEolin()"><?php echo _t('설명');?></a>)' : NULL;?></label></div>
+													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo $countResult == false ? ' onclick="viewWhatIsEolin()"' : NULL; echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?><?php echo $countResult == true ? ' (<a href="#void" onclick="viewWhatIsEolin()">'._t('설명').'</a>)' : NULL;?></label></div>
 												</dd>
 											</dl>
 												
@@ -730,7 +730,7 @@ $countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}E
 								<h4><?php echo _t('이올린이란?');?></h4>
 								
 								<p class="message">
-									<?php echo _t('이올린은 태터툴즈와 태터툴즈 기반의 블로그에서 발행을 통해 보내진 글들을 추천과 태그, 지역태그 등의 다양한 방법으로 만날 수 있는 공간입니다.');?>
+									<?php echo _t('이올린은 태터툴즈와 태터툴즈 기반의 블로그에서 "발행"을 통해 보내진 글들을 추천과 태그, 지역태그 등의 다양한 방법으로 만날 수 있는 공간입니다.');?>
 								</p>
 								
 								<h4><?php echo _t('발행 방법');?></h4>
