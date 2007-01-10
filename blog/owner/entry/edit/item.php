@@ -703,7 +703,7 @@ $countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}E
 													<div id="status-private" class="status-private"><input type="radio" id="visibility_private" class="radio" name="visibility" value="0"<?php echo (abs($entry['visibility']) == 0 ? ' checked="checked"' : '');?> /><label for="visibility_private"><?php echo _t('비공개');?></label></div>
 													<div id="status-protected" class="status-protected"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_protected" class="radio" name="visibility" value="1"<?php echo (abs($entry['visibility']) == 1 ? ' checked="checked"' : '');?> /><label for="visibility_protected"><?php echo _t('보호');?></label></div>
 													<div id="status-public" class="status-public"><input type="radio" id="visibility_public" class="radio" name="visibility" value="2"<?php echo (abs($entry['visibility']) == 2 ? ' checked="checked"' : '');?> /><label for="visibility_public"><?php echo _t('공개');?></label></div>
-													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo $countResult == false ? ' onclick="viewWhatIsEolin()"' : NULL; echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?><?php echo $countResult == true ? ' (<a href="#void" onclick="viewWhatIsEolin()">이올린이란?</a>)' : NULL;?></label></div>
+													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo $countResult == false ? ' onclick="viewWhatIsEolin()"' : NULL; echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?><?php echo $countResult == true ? ' (<a href="#void" onclick="viewWhatIsEolin()"><?php echo _t('설명');?></a>)' : NULL;?></label></div>
 												</dd>
 											</dl>
 												
@@ -730,18 +730,18 @@ $countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}E
 								<h4><?php echo _t('이올린이란?');?></h4>
 								
 								<p class="message">
-									<?php echo _t('이올린은 태터툴즈와 태터툴즈 기반의 블로그에서 "발행"을 통해 보내진 글들을 추천과 태그, 지역태그 등을 다양한 방법으로 만날 수 있는 열린 공간입니다.');?>
+									<?php echo _t('이올린은 태터툴즈와 태터툴즈 기반의 블로그에서 "발행"을 통해 보내진 글들을 추천과 태그, 지역태그 등의 다양한 방법으로 만날 수 있는 공간입니다.');?>
 								</p>
 								
-								<h4><?php echo _t('발행은 어떻게 하나요?');?></h4>
+								<h4><?php echo _t('발행 방법');?></h4>
 								
 								<p class="message">
-									<em><?php echo _t('태터툴즈 글목록에서 이올린에 보낼 글의 발행버튼을 클릭 또는 글쓰기시 공개범위를 "발행"으로 체크하시면 됩니다.');?></em>
-									<?php echo _t('발행을 통해 이올린으로 보내진 게시물들의저작권을 포함한 일체에 관한 권리는 별도의 의사표시가 없는 한 각 회원에게 있습니다. 이올린에서는 발행된게시물을 블로거의 동의없이 상업적으로 이용하지 않습니다. 다만 비영리적 목적인 경우는 그러지 아니 하며, 또한 이올린 서비스 내의 개재권, 사용권을 갖습니다.');?>
+									<em><?php echo _t('태터툴즈 글목록에서 이올린에 보낼 글의 발행 버튼을 클릭하거나, 글쓰기시 공개범위를 "발행"으로 선택하시면 됩니다.');?></em>
+									<?php echo _t('발행을 통해 이올린으로 보내진 게시물들의 저작권을 포함한 일체에 관한 권리는 별도의 의사표시가 없는 한 각 회원에게 있습니다. 이올린에서는 발행된 게시물을 작성자의 동의없이 상업적으로 이용하지 않습니다. 다만 비영리적 목적인 경우는 그러지 아니 하며, 또한 이올린 서비스 내의 게재권, 사용권을 갖습니다.');?>
 								</p>
 							
 								<div class="button-box">
-									<button id="eolin-button" class="eolin-button input-button" onclick="window.open('http://www.eolin.com');" title="<?php echo _t('이올린으로 연결합니다.');?>"><span class="text"><?php echo _t('이올린, 지금 만나보세요');?></span></button>
+									<button id="eolin-button" class="eolin-button input-button" onclick="window.open('http://www.eolin.com');" title="<?php echo _t('이올린으로 연결합니다.');?>"><span class="text"><?php echo _t('이올린 방문');?></span></button>
 									<button id="close-button" class="close-button input-button" onclick="closeWhatIsEolin();" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
 					 			</div>
 					 		</div>
