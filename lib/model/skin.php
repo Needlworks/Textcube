@@ -252,6 +252,7 @@ function setSkinSetting($owner, $setting) {
 		trackbacksOnRecent		= ' . $setting['trackbacksOnRecent'] . ',
 		showListOnCategory		= ' . $setting['showListOnCategory'] . ',
 		showListOnArchive		= ' . $setting['showListOnArchive'] . ',
+		showListOnTag			= ' . $setting['showListOnTag'] . ',
 		expandComment				= ' . $setting['expandComment'] . ',
 		expandTrackback			= ' . $setting['expandTrackback'] . ',
 		recentNoticeLength 		= ' . $setting['recentNoticeLength'] . ',

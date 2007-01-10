@@ -16,6 +16,7 @@ $IV = array(
 		'trackbacksOnRecent' => array('int'),
 		'showListOnCategory' => array('int'),
 		'showListOnArchive' => array('int'),
+		'showListOnTag' => array('int'),
 		'expandComment' => array('int'),
 		'expandTrackback' => array('int'),
 		'recentNoticeLength' => array('int'),

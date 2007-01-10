@@ -9,12 +9,15 @@ if (false) {
 }
 if (strlen($suri['value'])) {
 	$tag = getTagId($owner, $suri['value']);
-	$listWithPaging = getEntryListWithPagingByTag($owner, $tag, $suri['page'], $blog['entriesOnList']);
+	if ($skinSetting['showListOnTag'] == 1 || $skinSetting['showListOnTag'] == 2) {
+		$listWithPaging = getEntryListWithPagingByTag($owner, $tag, $suri['page'], $blog['entriesOnList']);
+		if (!array_key_exists('total',$listWithPaging[1])) $listWithPaging[1]['total'] = 0;
+		$list = array('title' => $suri['value'], 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
+		$paging = $listWithPaging[1];
+	}
+	if ($skinSetting['showListOnTag'] == 1 || $skinSetting['showListOnTag'] == 0)
+		list($entries, $paging) = getEntriesWithPagingByTag($owner, $tag, $suri['page'], $blog['entriesOnList'],$blog['entriesOnPage']);
 
-	if (!array_key_exists('total',$listWithPaging[1])) $listWithPaging[1]['total'] = 0;
-
-	$list = array('title' => $suri['value'], 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
-	list($entries, $paging) = getEntriesWithPagingByTag($owner, $tag, $suri['page'], $blog['entriesOnList'],$blog['entriesOnPage']);
 	require ROOT . '/lib/piece/blog/begin.php';
 	require ROOT . '/lib/piece/blog/list.php';
 	require ROOT . '/lib/piece/blog/entries.php';
