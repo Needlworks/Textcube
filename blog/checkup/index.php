@@ -416,7 +416,7 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks isFiltered", 'Key')
 
 if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings showListOnTag")) {
 	$changed = true;
-	echo '<li>', _text('카테고리 테이블에 비공개 카테고리 설정을 위한 필드를 추가합니다.'), ': ';
+	echo '<li>', _text('스킨 설정 테이블에 태그 출력시 목록 및 글 출력 설정을 위한 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnTag INT(1) DEFAULT 1 NOT NULL AFTER showListOnArchive"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
