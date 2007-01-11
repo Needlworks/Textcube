@@ -1598,7 +1598,7 @@ function printEntryEditorPalette() {
 														<option style="font-family: 'Webdings';" value="webdings">Webdings</option>
 														<option style="font-family: 'Wingdings';" value="wingdings,'zapf dingbats'">Wingdings</option>
 													</select>
-													<select id="fontSizeChanger" onchange="editor.execCommand('fontsize', false, this.value); this.selectedIndex=0;">
+													<select id="fontSizeChanger" onchange="TTCommand('FontSize', this.value); this.selectedIndex=0;">
 														<option class="head-option"><?php echo _t('속성');?></option>
 														<optgroup class="size" label="<?php echo _t('크기');?>">														
 															<option value="1">1 (8 pt)</option>

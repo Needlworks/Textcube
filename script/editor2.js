@@ -1076,6 +1076,20 @@ function TTCommand(command, value1, value2) {
 			else
 				insertTag("<del>", "</del>");
 			break;
+		case "FontSize":
+			if(value1.substring(0, 1) == "h") {
+				if(STD.isIE) {
+					if(editor.getSelectionRange().htmlText == "")
+						editor.execCommand("FormatBlock", false, "<" + value1 + ">");
+					else
+						TTCommand("Raw", "<" + value1 + ">", "</" + value1 + ">");
+				}
+				else
+					editor.execCommand("FormatBlock", false, value1);
+			}
+			else
+				editor.execCommand("FontSize", false, value1);
+			break;
 		case "Color":
 			if(isWYSIWYG)
 				editor.execCommand("ForeColor", false, value1);
