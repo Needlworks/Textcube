@@ -62,11 +62,11 @@ function getRecentTrackbacks($owner) {
 			{$skinSetting['trackbacksOnRecent']}" : 
 		"SELECT t.* 
 		FROM 
-			{$database['prefix']}Trackbacks t, 
+			{$database['prefix']}Trackbacks t 
 			LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id
 			LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id
 		WHERE 
-			t.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND (c.visibility > 1 OR e.category = 0) AND isFiltered = 0 
+			t.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND (c.visibility > 1 OR e.category = 0) AND t.isFiltered = 0 
 		ORDER BY 
 			t.written 
 		DESC LIMIT 
