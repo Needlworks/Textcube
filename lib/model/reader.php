@@ -569,6 +569,8 @@ function saveFeedItem($feedId, $item) {
 		if (mysql_affected_rows() > 0)
 			DBQuery::query("DELETE FROM {$database['prefix']}FeedReads WHERE item = $id");
 		*/
+	} else if($id != false) {
+		return false;	
 	} else {
 		if ($item['written'] == 0) $item['written'] = gmmktime();
 		if ($item['written'] > $deadLine)
