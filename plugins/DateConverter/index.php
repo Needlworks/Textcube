@@ -75,9 +75,14 @@ function convertDateFormat($argTarget, $argType) {
 	switch ($argType) {
 		case 'archive date':
 		case 'calendar head':
-			preg_match('@^([0-9]{4})/([0-9]{2})$@', $argTarget, $rgTemp);
-			$strYear = $rgTemp[1];
-			$strMonth = $rgTemp[2];
+			if (preg_match('@^([0-9]{4})/([0-9]{2})$@', $argTarget, $rgTemp)) {
+				$strYear = $rgTemp[1];
+				$strMonth = $rgTemp[2];
+			} else if (preg_match('@^([0-9]{4})/([0-9]{2})/([0-9]{2})$@', $argTarget, $rgTemp)) {
+				$strYear = $rgTemp[1];
+				$strMonth = $rgTemp[2];
+				$strDay = $rgTemp[3];
+			}
 			break;
 		case 'comment list date':
 		case 'list date':
