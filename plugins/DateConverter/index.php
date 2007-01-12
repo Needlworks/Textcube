@@ -18,23 +18,30 @@
 	// %I = 앞의 0을 표시하는 분. [00~59]
 	// %i = 앞의 0을 표시하지 않는 분. [0~59]
 	
+	// %R = AM/PM(대문자) 시간 항목이 출력될 때만 활성화 됨.
+	// %r = am/pm(소문자) 시간 항목이 출력될 때만 활성화 됨.
+	
 	// %S = 앞의 0을 표시하는 초. [00~59]
 	// %s = 앞의 0을 표시하지 않는 초. [0~59]
 
 include_once "language.php";
 	
 function convertDateFormat($argTarget, $argType) {
-	global $pluginURL, $configVal;
-	global $rgDateInformation;
-
-	if (is_null($configVal)) return $argTarget;
+	global $pluginURL, $configVal, $rgDateInformation;
 	
 	$temp = explode('/', $pluginURL);
 	array_shift($temp);
 	array_shift($temp);
 	
-	requireComponent('Tattertools.Function.misc');
-	$tempArray = misc::fetchConfigVal($configVal);
+	if (empty($configVal)) {
+		include 'config.ini.php';
+		$tempArray = $data;
+		unset($data);
+		
+	} else {
+		requireComponent('Tattertools.Function.misc');
+		$tempArray = misc::fetchConfigVal($configVal);
+	}
 	
 	$rgDateFormat = array();
 	$rgDateFormat['archive date'] = array("language" => $tempArray['language'], "format" => $tempArray['archive_date']);
@@ -42,7 +49,7 @@ function convertDateFormat($argTarget, $argType) {
 	$rgDateFormat['comment date'] = array("language" => $tempArray['language'], "format" => $tempArray['comment_date']);
 	$rgDateFormat['comment list date'] = array("language" => $tempArray['language'], "format" => $tempArray['comment_list_date']);
 	$rgDateFormat['guestbook date'] = array("language" => $tempArray['language'], "format" => $tempArray['guestbook_date']);
-	$rgDateFormat['list date'] = array("language" => $tempArray['language'], "format" => $tempArray['archive_date']);
+	$rgDateFormat['list date'] = array("language" => $tempArray['language'], "format" => $tempArray['list_date']);
 	$rgDateFormat['notice date'] = array("language" => $tempArray['language'], "format" => $tempArray['notice_date']);
 	$rgDateFormat['post date'] = array("language" => $tempArray['language'], "format" => $tempArray['post_date']);
 	$rgDateFormat['recent comment date'] = array("language" => $tempArray['language'], "format" => $tempArray['recent_comment_date']);
@@ -104,31 +111,33 @@ function convertDateFormat($argTarget, $argType) {
 			} else if (preg_match('@^([0-9]{2}):([0-9]{2})$@', $argTarget, $rgTemp)) {
 				$strHour = $rgTemp[1];
 				$strMinute = $rgTemp[2];
+			} else if (preg_match('@^([0-9]{4})$@', $argTarget, $rgTemp)) {
+				$strYear = $rgTemp[1];
 			}
 			break;
 	}
 	
 	$rgCustomIdentifier = array();
-	if ($strYear != false) {
+	if (!is_null($strYear)) {
 		$rgCustomIdentifier['%Y'] = $strYear;
-		$rgCustomIdentifier['%y'] = eregi_replace("^0", "", $strYear);
+		$rgCustomIdentifier['%y'] = removeHeadZero($strYear);
 	}
-	if ($strMonth != false) {
+	if (!is_null($strMonth)) {
 		if (isset($rgDateInformation[$strLanguage]['month'][$strMonth])) {
 			$rgCustomIdentifier['%M'] = $rgDateInformation[$strLanguage]['month'][$strMonth];
 			if (isset($rgDateInformation[$strLanguage]['month']['length'])) {
-				$rgCustomIdentifier['%m'] = eregi_replace("^(.{".$rgDateInformation[$strLanguage]['month']['length']."})(.*)$", "\\1", $rgDateInformation[$strLanguage]['month'][$strMonth]);
+				$rgCustomIdentifier['%m'] = preg_replace('@^(.{'.$rgDateInformation[$strLanguage]['month']['length'].'})(.*)$@', '\1', $rgDateInformation[$strLanguage]['month'][$strMonth]);
 			} else {
 				$rgCustomIdentifier['%m'] = $rgCustomIdentifier['%M'];
 			}
 		} else {
 			$rgCustomIdentifier['%M'] = $strMonth;
-			$rgCustomIdentifier['%m'] = eregi_replace("^0", "", $strMonth);
+			$rgCustomIdentifier['%m'] = removeHeadZero($strMonth);
 		}
 	}
-	if ($strDay != false) {
+	if (!is_null($strDay)) {
 		$rgCustomIdentifier['%D'] = $strDay;
-		$rgCustomIdentifier['%d'] = eregi_replace("^0", "", $strDay);
+		$rgCustomIdentifier['%d'] = removeHeadZero($strDay);
 		if (isset($rgDateInformation[$strLanguage]['day ordinal postfix']['00'])) {
 			$rgCustomIdentifier['%o'] = $rgCustomIdentifier['%d'].$rgDateInformation[$strLanguage]['day ordinal postfix']['00'];
 		} else if (isset($rgDateInformation[$strLanguage]['day ordinal postfix'][$strDay])) {
@@ -137,72 +146,74 @@ function convertDateFormat($argTarget, $argType) {
 			$rgCustomIdentifier['%o'] = $rgCustomIdentifier['%d'];
 		}
 	}
-	if ($strHour != false) {
+	if (!is_null($strHour)) {
 		$rgCustomIdentifier['%H'] = $strHour;
-		$rgCustomIdentifier['%h'] = eregi_replace("^0", "", $strHour);
+		$rgCustomIdentifier['%h'] = removeHeadZero($strHour);
 		$rgCustomIdentifier['%f'] = ($rgCustomIdentifier['%h'] > 12) ? $rgCustomIdentifier['%h'] - 12 : $rgCustomIdentifier['%h'];
 		$rgCustomIdentifier['%F'] = ($rgCustomIdentifier['%f'] < 10) ? '0'.$rgCustomIdentifier['%f'] : $rgCustomIdentifier['%f'];
+		$rgCustomIdentifier['%r'] = ($rgCustomIdentifier['%h'] >= 12) ? 'pm' : 'am';
+		$rgCustomIdentifier['%R'] = strtoupper($rgCustomIdentifier['%r']);
 	}
-	if ($strMinute != false) {
+	if (!is_null($strMinute)) {
 		$rgCustomIdentifier['%I'] = $strMinute;
-		$rgCustomIdentifier['%i'] = eregi_replace("^0", "", $strMinute);
+		$rgCustomIdentifier['%i'] = removeHeadZero($strMinute);
 	}
-	if ($strSecond != false) {
+	if (!is_null($strSecond)) {
 		$rgCustomIdentifier['%S'] = $strSecond;
-		$rgCustomIdentifier['%s'] = eregi_replace("^0", "", $strSecond);
+		$rgCustomIdentifier['%s'] = removeHeadZero($strSecond);
 	}
 	
 	$newTarget = strtr($rgDateFormat[$argType]['format'], $rgCustomIdentifier);
-	$newTarget = eregi_replace("\{[^\{]*%[a-z][^\}]*\}", "", $newTarget);
+	$newTarget = preg_replace("/\{[^\{]*%[YyMmDdoHhFfRrIiSs][^\}]*\}/", '', $newTarget);
 	
-	return trim(eregi_replace("\{|\}", "", $newTarget));
+	return trim(preg_replace('@\{|\}@', '', $newTarget));
 }
 
 function removeHeadZero($number) {
-	return eregi_replace("^0", "", $number);
+	return preg_replace('@^0@', '', $number);
 }
 
 function convertDateLangLD($argTarget, $argMother) {
-	return convertDateFormat($argTarget, "list date");
+	return convertDateFormat($argTarget, 'list date');
 }
 
 function convertDateLangCLD($argTarget, $argMother) {
-	return convertDateFormat($argTarget, "comment list date");
+	return convertDateFormat($argTarget, 'comment list date');
 }
 
 function convertDateLangND($argTarget, $argMother) {
-	return convertDateFormat($argTarget, "notice date");
+	return convertDateFormat($argTarget, 'notice date');
 }
 
 function convertDateLangPD($argTarget, $argMother) {
-	return convertDateFormat($argTarget, "post date");
+	return convertDateFormat($argTarget, 'post date');
 }
 
 function convertDateLangTD($argTarget, $argMother) {
-	return convertDateFormat($argTarget, "trackback date");
+	return convertDateFormat($argTarget, 'trackback date');
 }
 
 function convertDateLangCD($argTarget, $argMother) {
-	return convertDateFormat($argTarget, "comment date");
+	return convertDateFormat($argTarget, 'comment date');
 }
 
 function convertDateLangGCD($argTarget, $argMother) {
-	return convertDateFormat($argTarget, "guestbook date");
+	return convertDateFormat($argTarget, 'guestbook date');
 }
 
 function convertDateLangAD($argTarget, $argMother) {
-	return convertDateFormat($argTarget, "archive date");
+	return convertDateFormat($argTarget, 'archive date');
 }
 
 function convertDateLangCH($argTarget, $argMother) {
-	return convertDateFormat($argTarget, "calendar head");
+	return convertDateFormat($argTarget, 'calendar head');
 }
 
 function convertDateLangRTD($argTarget, $argMother) {
-	return convertDateFormat($argTarget, "recent trackback date");
+	return convertDateFormat($argTarget, 'recent trackback date');
 }
 
 function convertDateLangRCD($argTarget, $argMother) {
-	return convertDateFormat($argTarget, "recent comment date");
+	return convertDateFormat($argTarget, 'recent comment date');
 }
 ?>
