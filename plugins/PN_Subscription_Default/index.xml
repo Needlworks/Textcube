@@ -21,7 +21,7 @@
         <method>
           <title xml:lang="en">Feed Subscription</title>
           <title xml:lang="ko">피드 통계</title>
-          <handler>AD_Subscription_Default</handler>
+          <handler>PN_Subscription_Default</handler>
         </method>
       </viewMethods>
     </adminMenu>

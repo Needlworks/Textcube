@@ -23,7 +23,7 @@
  (at your option) any later version.
 
 */
-function AD_Subscription_Default()
+function PN_Subscription_Default()
 {
 	global $owner, $pluginMenuURL, $pluginSelfParam, $totalSubscribers, $updatedSubscribers;
 	requireComponent( "Tattertools.Model.Statistics");

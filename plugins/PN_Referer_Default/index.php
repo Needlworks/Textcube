@@ -23,7 +23,7 @@
  (at your option) any later version.
 
 */
-function AD_Referer_Default()
+function PN_Referer_Default()
 {
 	global $owner, $pluginMenuURL, $pluginSelfParam ;
 	requireComponent( "Tattertools.Model.Statistics");
