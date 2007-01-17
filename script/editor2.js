@@ -483,6 +483,7 @@ TTEditor.prototype.morelessConvert_process = function(data/*[string, result.leng
 	var string = data[0];
 	var pos2 = data[1];
 	var head = new RegExp("<div.*?class=['\"]?tattermoreless[^>]*>", "i");
+	var chunk = undefined;
 	if((pos1 = string.indexOfCaseInsensitive(new RegExp("<div\\s", "i"), pos2)) > -1) {
 		result += string.substring(0, pos1);
 		do {
@@ -494,8 +495,9 @@ TTEditor.prototype.morelessConvert_process = function(data/*[string, result.leng
 		if(head.test(chunk)) {
 			var less = this.parseAttribute(chunk, "less");
 			var more = this.parseAttribute(chunk, "more");
-			chunk = chunk.replace(head, "[#M_" + more + "|" + less + "|");
-			chunk = chunk.replace(new RegExp("</div>$", "i"), "_M#]");
+			chunk = chunk.replace(head, '');
+			chunk = chunk.replace(new RegExp("</div>$", "i"),'' );
+			chunk ="[#M_" + more + "|" + less + "|" + this.morelessConvert(chunk) +"_M#]"
 		}
 		result += chunk;
 	}
