@@ -471,14 +471,17 @@ TTEditor.prototype.html2ttml = function() {
 }
 
 TTEditor.prototype.morelessConvert = function(string) {
-	while(new RegExp("<div.*?class=['\"]?tattermoreless", "i").test(string))
-		string = this.morelessConvert_process(string);
+	var data =[string, 0];
+	while(new RegExp("<div.*?class=['\"]?tattermoreless", "i").test(data[0]))
+		data = this.morelessConvert_process(data);
 	return string;
 }
 
-TTEditor.prototype.morelessConvert_process = function(string) {
+TTEditor.prototype.morelessConvert_process = function(data/*[string, pos2]*/) {
 	var result = "";
-	var pos1 = pos2 = 0;
+	var pos1 =  0;
+	var string = data[0];
+	var pos2 = data[1];
 	var head = new RegExp("<div.*?class=['\"]?tattermoreless[^>]*>", "i");
 	if((pos1 = string.indexOfCaseInsensitive(new RegExp("<div\\s", "i"), pos2)) > -1) {
 		result += string.substring(0, pos1);
@@ -496,7 +499,7 @@ TTEditor.prototype.morelessConvert_process = function(string) {
 		}
 		result += chunk;
 	}
-	return result + string.substring(pos2, string.length);
+	return [result + string.substring(pos2, string.length),pos2];
 }
 
 // 위지윅 모드에서 치환자 이미지를 클릭했을때 편집창 옆에 속성창을 보여준다
