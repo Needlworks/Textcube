@@ -477,7 +477,7 @@ TTEditor.prototype.morelessConvert = function(string) {
 	return string;
 }
 
-TTEditor.prototype.morelessConvert_process = function(data/*[string, pos2]*/) {
+TTEditor.prototype.morelessConvert_process = function(data/*[string, result.length]*/) {
 	var result = "";
 	var pos1 =  0;
 	var string = data[0];
@@ -499,7 +499,7 @@ TTEditor.prototype.morelessConvert_process = function(data/*[string, pos2]*/) {
 		}
 		result += chunk;
 	}
-	return [result + string.substring(pos2, string.length),pos2];
+	return [result + string.substring(pos2, string.length),result.length];
 }
 
 // 위지윅 모드에서 치환자 이미지를 클릭했을때 편집창 옆에 속성창을 보여준다
