@@ -471,37 +471,31 @@ TTEditor.prototype.html2ttml = function() {
 }
 
 TTEditor.prototype.morelessConvert = function(string) {
-	var data =[string, 0];
-	while(new RegExp("<div.*?class=['\"]?tattermoreless", "i").test(data[0]))
-		data = this.morelessConvert_process(data);
+	while(new RegExp("<div[^>]?class=['\"]?tattermoreless", "i").test(string))
+		string = this.morelessConvert_process(string);
 	return string;
 }
 
-TTEditor.prototype.morelessConvert_process = function(data/*[string, result.length]*/) {
+TTEditor.prototype.morelessConvert_process = function(string) {
 	var result = "";
-	var pos1 =  0;
-	var string = data[0];
-	var pos2 = data[1];
-	var head = new RegExp("<div.*?class=['\"]?tattermoreless[^>]*>", "i");
+	var pos1 = pos2 = 0;
+	var head = new RegExp  ("<div[^>]*?class=['\"]?tattermoreless[^>]*>", "i");
 	var chunk = undefined;
-	if((pos1 = string.indexOfCaseInsensitive(new RegExp("<div\\s", "i"), pos2)) > -1) {
+	if((pos1 = string.indexOfCaseInsensitive(head, pos2)) > -1) {
 		result += string.substring(0, pos1);
 		do {
 			if((pos2 = string.indexOfCaseInsensitive(new RegExp("</div", "i"), Math.max(pos1, pos2))) == -1)
-				return result + string.substring(pos1, string.length);
+				return result + string.substring(pos1, string.length).replace(head,'');
 			pos2 += 6;
 			chunk = string.substring(pos1, pos2);
 		} while(chunk != "" && chunk.count(new RegExp("<div\\s", "gi")) != chunk.count(new RegExp("</div", "gi")));
-		if(head.test(chunk)) {
-			var less = this.parseAttribute(chunk, "less");
-			var more = this.parseAttribute(chunk, "more");
-			chunk = chunk.replace(head, '');
-			chunk = chunk.replace(new RegExp("</div>$", "i"),'' );
-			chunk ="[#M_" + more + "|" + less + "|" + this.morelessConvert(chunk) +"_M#]"
-		}
+		var less = this.parseAttribute(chunk, "less").replaceAll("&amp;", "&");
+		var more = this.parseAttribute(chunk, "more").replaceAll("&amp;", "&");
+		chunk = chunk.replace(head, "[#M_" + more + "|" + less + "|");
+		chunk = chunk.replace(new RegExp("</div>$", "i"), "_M#]");
 		result += chunk;
 	}
-	return [result + string.substring(pos2, string.length),result.length];
+	return result + string.substring(pos2, string.length);
 }
 
 // 위지윅 모드에서 치환자 이미지를 클릭했을때 편집창 옆에 속성창을 보여준다
