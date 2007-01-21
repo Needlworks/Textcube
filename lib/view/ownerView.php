@@ -1624,75 +1624,75 @@ function printEntryEditorPalette() {
 													<span class="label"><?php echo _t('폰트 스타일');?></span>
 												</dt>
 												<dd class="command-box">
-													<a id="indicatorBold" class="inactive-class button" href="#void" onclick="TTCommand('Bold')" title="<?php echo _t('굵게');?>"><span class="text"><?php echo _t('굵게');?></span></a>
-													<a id="indicatorItalic" class="inactive-class button" href="#void" onclick="TTCommand('Italic')" title="<?php echo _t('기울임');?>"><span class="text"><?php echo _t('기울임');?></span></a>
-													<a id="indicatorUnderline" class="inactive-class button" href="#void" onclick="TTCommand('Underline')" title="<?php echo _t('밑줄');?>"><span class="text"><?php echo _t('밑줄');?></span></a>
-													<a id="indicatorStrike" class="inactive-class button" href="#void" onclick="TTCommand('StrikeThrough')" title="<?php echo _t('취소선');?>"><span class="text"><?php echo _t('취소선');?></span></a>
-													<a id="indicatorColorPalette" class="inactive-class button" href="#void" onclick="hideLayer('markPalette'); hideLayer('textBox'); toggleLayer('colorPalette'); changeButtonStatus(this, 'colorPalette');" title="<?php echo _t('글자색');?>"><span class="text"><?php echo _t('글자색');?></span></a>
+													<a id="indicatorBold" class="inactive-class button" href="#void" onclick="TTCommand('Bold');return false;" title="<?php echo _t('굵게');?>"><span class="text"><?php echo _t('굵게');?></span></a>
+													<a id="indicatorItalic" class="inactive-class button" href="#void" onclick="TTCommand('Italic');return false;" title="<?php echo _t('기울임');?>"><span class="text"><?php echo _t('기울임');?></span></a>
+													<a id="indicatorUnderline" class="inactive-class button" href="#void" onclick="TTCommand('Underline');return false;" title="<?php echo _t('밑줄');?>"><span class="text"><?php echo _t('밑줄');?></span></a>
+													<a id="indicatorStrike" class="inactive-class button" href="#void" onclick="TTCommand('StrikeThrough');return false;" title="<?php echo _t('취소선');?>"><span class="text"><?php echo _t('취소선');?></span></a>
+													<a id="indicatorColorPalette" class="inactive-class button" href="#void" onclick="hideLayer('markPalette'); hideLayer('textBox'); toggleLayer('colorPalette'); changeButtonStatus(this, 'colorPalette');return false;" title="<?php echo _t('글자색');?>"><span class="text"><?php echo _t('글자색');?></span></a>
 													<div id="colorPalette" style="display: none;">
 														<table cellspacing="0" cellpadding="0">
 															<tr>
-																<td><a href="#void" onclick="insertColorTag('#008000')"><span class="color-008000">#008000</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#009966')"><span class="color-009966">#009966</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#99CC66')"><span class="color-99CC66">#99CC66</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#999966')"><span class="color-999966">#999966</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#CC9900')"><span class="color-CC9900">#CC9900</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#D41A01')"><span class="color-D41A01">#D41A01</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#FF0000')"><span class="color-FF0000">#FF0000</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#FF7635')"><span class="color-FF7635">#FF7635</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#FF9900')"><span class="color-FF9900">#FF9900</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#FF3399')"><span class="color-FF3399">#FF3399</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#9B18C1')"><span class="color-9B18C1">#9B18C1</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#993366')"><span class="color-993366">#993366</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#666699')"><span class="color-666699">#666699</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#0000FF')"><span class="color-0000FF">#0000FF</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#177FCD')"><span class="color-177FCD">#177FCD</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#006699')"><span class="color-006699">#006699</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#003366')"><span class="color-003366">#003366</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#333333')"><span class="color-333333">#333333</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#000000')"><span class="color-000000">#000000</span></a></td>			
-																<td><a href="#void" onclick="insertColorTag('#8E8E8E')"><span class="color-8E8E8E">#8E8E8E</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#C1C1C1')"><span class="color-C1C1C1">#C1C1C1</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#FFFFFF')"><span class="color-FFFFFF">#FFFFFF</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#FFDAED')"><span class="color-FFDAED">#FFDAED</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#C9EDFF')"><span class="color-C9EDFF">#C9EDFF</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#D0FF9D')"><span class="color-D0FF9D">#D0FF9D</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#FAFFA9')"><span class="color-FAFFA9">#FAFFA9</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#E4E4E4')"><span class="color-E4E4E4">#E4E4E4</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#008000');return false;"><span class="color-008000">#008000</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#009966');return false;"><span class="color-009966">#009966</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#99CC66');return false;"><span class="color-99CC66">#99CC66</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#999966');return false;"><span class="color-999966">#999966</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#CC9900');return false;"><span class="color-CC9900">#CC9900</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#D41A01');return false;"><span class="color-D41A01">#D41A01</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#FF0000');return false;"><span class="color-FF0000">#FF0000</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#FF7635');return false;"><span class="color-FF7635">#FF7635</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#FF9900');return false;"><span class="color-FF9900">#FF9900</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#FF3399');return false;"><span class="color-FF3399">#FF3399</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#9B18C1');return false;"><span class="color-9B18C1">#9B18C1</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#993366');return false;"><span class="color-993366">#993366</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#666699');return false;"><span class="color-666699">#666699</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#0000FF');return false;"><span class="color-0000FF">#0000FF</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#177FCD');return false;"><span class="color-177FCD">#177FCD</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#006699');return false;"><span class="color-006699">#006699</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#003366');return false;"><span class="color-003366">#003366</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#333333');return false;"><span class="color-333333">#333333</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#000000');return false;"><span class="color-000000">#000000</span></a></td>			
+																<td><a href="#void" onclick="insertColorTag('#8E8E8E');return false;"><span class="color-8E8E8E">#8E8E8E</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#C1C1C1');return false;"><span class="color-C1C1C1">#C1C1C1</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#FFFFFF');return false;"><span class="color-FFFFFF">#FFFFFF</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#FFDAED');return false;"><span class="color-FFDAED">#FFDAED</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#C9EDFF');return false;"><span class="color-C9EDFF">#C9EDFF</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#D0FF9D');return false;"><span class="color-D0FF9D">#D0FF9D</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#FAFFA9');return false;"><span class="color-FAFFA9">#FAFFA9</span></a></td>
+																<td><a href="#void" onclick="insertColorTag('#E4E4E4');return false;"><span class="color-E4E4E4">#E4E4E4</span></a></td>
 															</tr>
 														</table>
 													</div>
-													<a id="indicatorMarkPalette" class="inactive-class button" href="#void" onclick="hideLayer('colorPalette');hideLayer('textBox');toggleLayer('markPalette'); changeButtonStatus(this, 'markPalette');" title="<?php echo _t('배경색');?>"><span class="text"><?php echo _t('배경색');?></span></a>
+													<a id="indicatorMarkPalette" class="inactive-class button" href="#void" onclick="hideLayer('colorPalette');hideLayer('textBox');toggleLayer('markPalette'); changeButtonStatus(this, 'markPalette');return false;" title="<?php echo _t('배경색');?>"><span class="text"><?php echo _t('배경색');?></span></a>
 													<div id="markPalette" style="display: none;">
 														<table cellspacing="0" cellpadding="0">
 															<tr>
-																<td><a href="#void" onclick="insertMarkTag('#008000')"><span class="color-008000">#008000</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#009966')"><span class="color-009966">#009966</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#99CC66')"><span class="color-99CC66">#99CC66</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#999966')"><span class="color-999966">#999966</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#CC9900')"><span class="color-CC9900">#CC9900</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#D41A01')"><span class="color-D41A01">#D41A01</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#FF0000')"><span class="color-FF0000">#FF0000</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#FF7635')"><span class="color-FF7635">#FF7635</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#FF9900')"><span class="color-FF9900">#FF9900</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#FF3399')"><span class="color-FF3399">#FF3399</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#9B18C1')"><span class="color-9B18C1">#9B18C1</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#993366')"><span class="color-993366">#993366</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#666699')"><span class="color-666699">#666699</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#0000FF')"><span class="color-0000FF">#0000FF</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#177FCD')"><span class="color-177FCD">#177FCD</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#006699')"><span class="color-006699">#006699</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#003366')"><span class="color-003366">#003366</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#333333')"><span class="color-333333">#333333</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#000000')"><span class="color-000000">#000000</span></a></td>			
-																<td><a href="#void" onclick="insertMarkTag('#8E8E8E')"><span class="color-8E8E8E">#8E8E8E</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#C1C1C1')"><span class="color-C1C1C1">#C1C1C1</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#FFFFFF')"><span class="color-FFFFFF">#FFFFFF</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#FFDAED')"><span class="color-FFDAED">#FFDAED</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#C9EDFF')"><span class="color-C9EDFF">#C9EDFF</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#D0FF9D')"><span class="color-D0FF9D">#D0FF9D</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#FAFFA9')"><span class="color-FAFFA9">#FAFFA9</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#E4E4E4')"><span class="color-E4E4E4">#E4E4E4</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#008000');return false;"><span class="color-008000">#008000</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#009966');return false;"><span class="color-009966">#009966</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#99CC66');return false;"><span class="color-99CC66">#99CC66</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#999966');return false;"><span class="color-999966">#999966</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#CC9900');return false;"><span class="color-CC9900">#CC9900</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#D41A01');return false;"><span class="color-D41A01">#D41A01</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#FF0000');return false;"><span class="color-FF0000">#FF0000</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#FF7635');return false;"><span class="color-FF7635">#FF7635</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#FF9900');return false;"><span class="color-FF9900">#FF9900</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#FF3399');return false;"><span class="color-FF3399">#FF3399</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#9B18C1');return false;"><span class="color-9B18C1">#9B18C1</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#993366');return false;"><span class="color-993366">#993366</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#666699');return false;"><span class="color-666699">#666699</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#0000FF');return false;"><span class="color-0000FF">#0000FF</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#177FCD');return false;"><span class="color-177FCD">#177FCD</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#006699');return false;"><span class="color-006699">#006699</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#003366');return false;"><span class="color-003366">#003366</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#333333');return false;"><span class="color-333333">#333333</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#000000');return false;"><span class="color-000000">#000000</span></a></td>			
+																<td><a href="#void" onclick="insertMarkTag('#8E8E8E');return false;"><span class="color-8E8E8E">#8E8E8E</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#C1C1C1');return false;"><span class="color-C1C1C1">#C1C1C1</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#FFFFFF');return false;"><span class="color-FFFFFF">#FFFFFF</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#FFDAED');return false;"><span class="color-FFDAED">#FFDAED</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#C9EDFF');return false;"><span class="color-C9EDFF">#C9EDFF</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#D0FF9D');return false;"><span class="color-D0FF9D">#D0FF9D</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#FAFFA9');return false;"><span class="color-FAFFA9">#FAFFA9</span></a></td>
+																<td><a href="#void" onclick="insertMarkTag('#E4E4E4');return false;"><span class="color-E4E4E4">#E4E4E4</span></a></td>
 															</tr>
 														</table>
 													</div>
@@ -1708,7 +1708,7 @@ function printEntryEditorPalette() {
 															</tr>
 														</table>
 													</div>
-													<a id="indicatorRemoveFormat" class="inactive-class button" href="#void" onclick="TTCommand('RemoveFormat')" title="<?php echo _t('효과 제거');?>"><span class="text"><?php echo _t('효과 제거');?></span></a>
+													<a id="indicatorRemoveFormat" class="inactive-class button" href="#void" onclick="TTCommand('RemoveFormat');return false;" title="<?php echo _t('효과 제거');?>"><span class="text"><?php echo _t('효과 제거');?></span></a>
 												</dd>
 											</dl>
 											<dl class="paragraph">
@@ -1716,14 +1716,14 @@ function printEntryEditorPalette() {
 													<span class="label"><?php echo _t('문단');?></span>
 												</dt>
 												<dd class="command-box">
-													<a id="indicatorJustifyLeft" class="inactive-class button" href="#void" onclick="TTCommand('JustifyLeft')" title="<?php echo _t('왼쪽 정렬');?>"><span class="text"><?php echo _t('왼쪽 정렬');?></span></a>
-													<a id="indicatorJustifyCenter" class="inactive-class button" href="#void" onclick="TTCommand('JustifyCenter')" title="<?php echo _t('가운데 정렬');?>"><span class="text"><?php echo _t('가운데 정렬');?></span></a>
-													<a id="indicatorJustifyRight" class="inactive-class button" href="#void" onclick="TTCommand('JustifyRight')" title="<?php echo _t('오른쪽 정렬');?>"><span class="text"><?php echo _t('오른쪽 정렬');?></span></a>
-													<a id="indicatorUnorderedList" class="inactive-class button" href="#void" onclick="TTCommand('InsertUnorderedList')" title="<?php echo _t('순서없는 리스트');?>"><span class="text"><?php echo _t('순서없는 리스트');?></span></a>
-													<a id="indicatorOrderedList" class="inactive-class button" href="#void" onclick="TTCommand('InsertOrderedList')" title="<?php echo _t('번호 매긴 리스트');?>"><span class="text"><?php echo _t('번호 매긴 리스트');?></span></a>
-													<a id="indicatorOutdent" class="inactive-class button" href="#void" onclick="TTCommand('Outdent')" title="<?php echo _t('내어쓰기');?>"><span class="text"><?php echo _t('내어쓰기');?></span></a>
-													<a id="indicatorIndent" class="inactive-class button" href="#void" onclick="TTCommand('Indent')" title="<?php echo _t('들여쓰기');?>"><span class="text"><?php echo _t('들여쓰기');?></span></a>
-													<a id="indicatorBlockquote" class="inactive-class button" href="#void" onclick="TTCommand('Blockquote')" title="<?php echo _t('인용구');?>"><span class="text"><?php echo _t('인용구');?></span></a>
+													<a id="indicatorJustifyLeft" class="inactive-class button" href="#void" onclick="TTCommand('JustifyLeft');return false;" title="<?php echo _t('왼쪽 정렬');?>"><span class="text"><?php echo _t('왼쪽 정렬');?></span></a>
+													<a id="indicatorJustifyCenter" class="inactive-class button" href="#void" onclick="TTCommand('JustifyCenter');return false;" title="<?php echo _t('가운데 정렬');?>"><span class="text"><?php echo _t('가운데 정렬');?></span></a>
+													<a id="indicatorJustifyRight" class="inactive-class button" href="#void" onclick="TTCommand('JustifyRight');return false;" title="<?php echo _t('오른쪽 정렬');?>"><span class="text"><?php echo _t('오른쪽 정렬');?></span></a>
+													<a id="indicatorUnorderedList" class="inactive-class button" href="#void" onclick="TTCommand('InsertUnorderedList');return false;" title="<?php echo _t('순서없는 리스트');?>"><span class="text"><?php echo _t('순서없는 리스트');?></span></a>
+													<a id="indicatorOrderedList" class="inactive-class button" href="#void" onclick="TTCommand('InsertOrderedList');return false;" title="<?php echo _t('번호 매긴 리스트');?>"><span class="text"><?php echo _t('번호 매긴 리스트');?></span></a>
+													<a id="indicatorOutdent" class="inactive-class button" href="#void" onclick="TTCommand('Outdent');return false;" title="<?php echo _t('내어쓰기');?>"><span class="text"><?php echo _t('내어쓰기');?></span></a>
+													<a id="indicatorIndent" class="inactive-class button" href="#void" onclick="TTCommand('Indent');return false;" title="<?php echo _t('들여쓰기');?>"><span class="text"><?php echo _t('들여쓰기');?></span></a>
+													<a id="indicatorBlockquote" class="inactive-class button" href="#void" onclick="TTCommand('Blockquote');return false;" title="<?php echo _t('인용구');?>"><span class="text"><?php echo _t('인용구');?></span></a>
 												</dd>
 											</dl>
 											<dl class="special">
@@ -1731,9 +1731,9 @@ function printEntryEditorPalette() {
 													<span class="label"><?php echo _t('기타');?></span>
 												</dt>
 												<dd class="command-box">
-													<a id="indicatorCreateLink" class="inactive-class button" href="#void" onclick="TTCommand('CreateLink')" title="<?php echo _t('하이퍼링크');?>"><span class="text"><?php echo _t('하이퍼링크');?></span></a>
-													<a id="indicatorMediaBlock" class="inactive-class button" href="#void" onclick="TTCommand('ObjectBlock')" title="<?php echo _t('미디어 삽입');?>"><span class="text"><?php echo _t('미디어 삽입');?></span></a>
-													<a id="indicatorMoreLessBlock" class="inactive-class button" href="#void" onclick="TTCommand('MoreLessBlock')" title="<?php echo _t('More/Less');?>"><span class="text"><?php echo _t('More/Less');?></span></a>
+													<a id="indicatorCreateLink" class="inactive-class button" href="#void" onclick="TTCommand('CreateLink');return false;" title="<?php echo _t('하이퍼링크');?>"><span class="text"><?php echo _t('하이퍼링크');?></span></a>
+													<a id="indicatorMediaBlock" class="inactive-class button" href="#void" onclick="TTCommand('ObjectBlock');return false;" title="<?php echo _t('미디어 삽입');?>"><span class="text"><?php echo _t('미디어 삽입');?></span></a>
+													<a id="indicatorMoreLessBlock" class="inactive-class button" href="#void" onclick="TTCommand('MoreLessBlock');return false;" title="<?php echo _t('More/Less');?>"><span class="text"><?php echo _t('More/Less');?></span></a>
 												</dd>
 											</dl>
 											<dl class="mode">
@@ -1741,7 +1741,7 @@ function printEntryEditorPalette() {
 													<span class="label"><?php echo _t('편집 환경');?></span>
 												</dt>
 												<dd class="command-box">
-													<a id="indicatorMode" class="inactive-class button" href="#void" onclick="TTCommand('ToggleMode'); changeEditorMode();" title="<?php echo _t('클릭하시면 HTML 편집기로 변경합니다.');?>"><span class="text"><?php echo _t('WYSIWYG 편집기');?></span></a>
+													<a id="indicatorMode" class="inactive-class button" href="#void" onclick="TTCommand('ToggleMode'); changeEditorMode();return false;" title="<?php echo _t('클릭하시면 HTML 편집기로 변경합니다.');?>"><span class="text"><?php echo _t('WYSIWYG 편집기');?></span></a>
 												</dd>
 											</dl>
 										</div>

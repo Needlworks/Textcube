@@ -646,16 +646,16 @@ printEntryFileList(getAttachments($owner, $entry['id'], 'label'), $param);
 										</div>
 										
 										<div id="insert-container" class="container">
-											<a class="image-left" href="#void" onclick="linkImage1('1L')" title="<?php echo _t('선택한 파일을 글의 왼쪽에 정렬합니다.');?>"><span class="text"><?php echo _t('왼쪽 정렬');?></span></a>
-											<a class="image-center" href="#void" onclick="linkImage1('1C')" title="<?php echo _t('선택한 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬');?></span></a>
-											<a class="image-right" href="#void" onclick="linkImage1('1R')" title="<?php echo _t('선택한 파일을 글의 오른쪽에 정렬합니다.');?>"><span class="text"><?php echo _t('오른쪽 정렬');?></span></a>
-											<a class="image-2center" href="#void" onclick="linkImage2()" title="<?php echo _t('선택한 두개의 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬(2 이미지)');?></span></a>
-											<a class="image-3center" href="#void" onclick="linkImage3()" title="<?php echo _t('선택한 세개의 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬(3 이미지)');?></span></a>
-											<a class="image-free" href="#void" onclick="linkImageFree()" title="<?php echo _t('선택한 파일을 글에 삽입합니다. 문단의 모양에 영향을 주지 않습니다.');?>"><span class="text"><?php echo _t('파일 삽입');?></span></a>
-											<a class="image-imazing" href="#void" onclick="viewImazing()" title="<?php echo _t('이메이징(플래쉬 갤러리)을 삽입합니다.');?>"><span class="text"><?php echo _t('이메이징(플래쉬 갤러리) 삽입');?></span></a>
-											<a class="image-sequence" href="#void" onclick="viewGallery()" title="<?php echo _t('이미지 갤러리를 삽입합니다.');?>"><span class="text"><?php echo _t('갤러리 삽입');?></span></a>
-											<a class="image-mp3" href="#void" onclick="viewJukebox()" title="<?php echo _t('쥬크박스를 삽입합니다.');?>"><span class="text"><?php echo _t('쥬크박스 삽입');?></span></a>
-											<a class="image-podcast" href="#void" onclick="setEnclosure(document.getElementById('fileList').value)" title="<?php echo _t('팟캐스트로 지정합니다.');?>"><span class="text"><?php echo _t('팟캐스트 지정');?></span></a>
+											<a class="image-left" href="#void" onclick="linkImage1('1L');return false;" title="<?php echo _t('선택한 파일을 글의 왼쪽에 정렬합니다.');?>"><span class="text"><?php echo _t('왼쪽 정렬');?></span></a>
+											<a class="image-center" href="#void" onclick="linkImage1('1C');return false;" title="<?php echo _t('선택한 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬');?></span></a>
+											<a class="image-right" href="#void" onclick="linkImage1('1R');return false;" title="<?php echo _t('선택한 파일을 글의 오른쪽에 정렬합니다.');?>"><span class="text"><?php echo _t('오른쪽 정렬');?></span></a>
+											<a class="image-2center" href="#void" onclick="linkImage2();return false;" title="<?php echo _t('선택한 두개의 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬(2 이미지)');?></span></a>
+											<a class="image-3center" href="#void" onclick="linkImage3();return false;" title="<?php echo _t('선택한 세개의 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬(3 이미지)');?></span></a>
+											<a class="image-free" href="#void" onclick="linkImageFree();return false;" title="<?php echo _t('선택한 파일을 글에 삽입합니다. 문단의 모양에 영향을 주지 않습니다.');?>"><span class="text"><?php echo _t('파일 삽입');?></span></a>
+											<a class="image-imazing" href="#void" onclick="viewImazing();return false;" title="<?php echo _t('이메이징(플래쉬 갤러리)을 삽입합니다.');?>"><span class="text"><?php echo _t('이메이징(플래쉬 갤러리) 삽입');?></span></a>
+											<a class="image-sequence" href="#void" onclick="viewGallery();return false;" title="<?php echo _t('이미지 갤러리를 삽입합니다.');?>"><span class="text"><?php echo _t('갤러리 삽입');?></span></a>
+											<a class="image-mp3" href="#void" onclick="viewJukebox();return false;" title="<?php echo _t('쥬크박스를 삽입합니다.');?>"><span class="text"><?php echo _t('쥬크박스 삽입');?></span></a>
+											<a class="image-podcast" href="#void" onclick="setEnclosure(document.getElementById('fileList').value);return false;" title="<?php echo _t('팟캐스트로 지정합니다.');?>"><span class="text"><?php echo _t('팟캐스트 지정');?></span></a>
 										</div>
 <?php
 printEntryFileUploadButton($entry['id']);
@@ -703,7 +703,7 @@ $countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}E
 													<div id="status-private" class="status-private"><input type="radio" id="visibility_private" class="radio" name="visibility" value="0"<?php echo (abs($entry['visibility']) == 0 ? ' checked="checked"' : '');?> /><label for="visibility_private"><?php echo _t('비공개');?></label></div>
 													<div id="status-protected" class="status-protected"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_protected" class="radio" name="visibility" value="1"<?php echo (abs($entry['visibility']) == 1 ? ' checked="checked"' : '');?> /><label for="visibility_protected"><?php echo _t('보호');?></label></div>
 													<div id="status-public" class="status-public"><input type="radio" id="visibility_public" class="radio" name="visibility" value="2"<?php echo (abs($entry['visibility']) == 2 ? ' checked="checked"' : '');?> /><label for="visibility_public"><?php echo _t('공개');?></label></div>
-													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo $countResult == false ? ' onclick="viewWhatIsEolin()"' : NULL; echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?><?php echo $countResult == true ? ' (<a href="#void" onclick="viewWhatIsEolin()">'._t('설명').'</a>)' : NULL;?></label></div>
+													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo $countResult == false ? ' onclick="viewWhatIsEolin()"' : NULL; echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?><?php echo $countResult == true ? ' (<a href="#void" onclick="viewWhatIsEolin();return false;">'._t('설명').'</a>)' : NULL;?></label></div>
 												</dd>
 											</dl>
 												
