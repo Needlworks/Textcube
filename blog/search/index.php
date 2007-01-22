@@ -16,7 +16,7 @@ if (!empty($search) && !empty($suri['page'])) {
 	if ($suri['page'] === true || $suri['page'] === '1')
 		$commentList = getCommentList($owner, $search);
 }
-list($entries, $paging) = getEntriesWithPagingBySearch($owner, $search, $suri['page'], ($blog['entriesOnList'] > 2 ? $blog['entriesOnList'] : 2));
+list($entries, $paging) = getEntriesWithPagingBySearch($owner, $search, $suri['page'], ($blog['entriesOnList'] > 2 ? 2 : $blog['entriesOnList']));
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/list.php';
 if ($suri['page'] === true || $suri['page'] === '1')
