@@ -246,8 +246,7 @@ function getEntryWithPaging($owner, $id, $isNotice = false) {
 	global $folderURL;
 	$entries = array();
 	$paging = initPaging($folderURL, '/');
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$visibility .= $isNotice ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
@@ -290,8 +289,7 @@ function getEntryWithPagingBySlogan($owner, $slogan, $isNotice = false) {
 	global $blogURL;
 	$entries = array();
 	$paging = initPaging("$blogURL/entry", '/');
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$visibility .= $isNotice ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
 	$result = DBQuery::query("SELECT e.id, e.slogan, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
