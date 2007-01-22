@@ -471,7 +471,7 @@ TTEditor.prototype.html2ttml = function() {
 }
 
 TTEditor.prototype.morelessConvert = function(string) {
-	while(new RegExp("<div[^>]?class=['\"]?tattermoreless", "i").test(string))
+	while(new RegExp("<div[^>]*?class=['\"]?tattermoreless[^>]*>", "i").test(string))
 		string = this.morelessConvert_process(string);
 	return string;
 }
@@ -479,16 +479,16 @@ TTEditor.prototype.morelessConvert = function(string) {
 TTEditor.prototype.morelessConvert_process = function(string) {
 	var result = "";
 	var pos1 = pos2 = 0;
-	var head = new RegExp  ("<div[^>]*?class=['\"]?tattermoreless[^>]*>", "i");
+	var head = new RegExp("<div[^>]*?class=['\"]?tattermoreless[^>]*>", "i");
 	var chunk = undefined;
 	if((pos1 = string.indexOfCaseInsensitive(head, pos2)) > -1) {
 		result += string.substring(0, pos1);
 		do {
-			if((pos2 = string.indexOfCaseInsensitive(new RegExp("</div", "i"), Math.max(pos1, pos2))) == -1)
+			if((pos2 = string.indexOfCaseInsensitive(new RegExp("</div>", "i"), Math.max(pos1, pos2))) == -1)
 				return result + string.substring(pos1, string.length).replace(head,'');
 			pos2 += 6;
 			chunk = string.substring(pos1, pos2);
-		} while(chunk != "" && chunk.count(new RegExp("<div\\s", "gi")) != chunk.count(new RegExp("</div", "gi")));
+		} while(chunk != "" && chunk.count(new RegExp("<div[>\\s]", "gi")) != chunk.count(new RegExp("</div>", "gi")));
 		var less = this.parseAttribute(chunk, "less").replaceAll("&amp;", "&");
 		var more = this.parseAttribute(chunk, "more").replaceAll("&amp;", "&");
 		chunk = chunk.replace(head, "[#M_" + more + "|" + less + "|");
