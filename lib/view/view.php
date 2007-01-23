@@ -1266,7 +1266,7 @@ function bindKeywords($keywords, $content) {
 	$pattern = array();
 	foreach ($keywords as $keyword)
 		$pattern[] = preg_quote($keyword, '/');
-	$pattern = '/'.implode('|',$pattern).'/e'; //대소문자 구별
+	$pattern = '/(?<![a-zA-Z\x80-\xff])(?:'.implode('|',$pattern).')/e'; // 대소문자 구별 및 키워드의 단어 첫머리 처리	
 	$inUnableContexts = false;
 	while (true) {
 		if( count($stack) <= 0 || (!$inUnableContexts) ){
