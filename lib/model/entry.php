@@ -200,7 +200,7 @@ function getEntriesWithPagingByPeriod($owner, $period, $page, $count) {
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
-function getEntriesWithPagingBySearch($owner, $search, $page, $count) {
+function getEntriesWithPagingBySearch($owner, $search, $page, $count, $countItem) {
 	global $database, $folderURL, $suri;
 	$search = escapeMysqlSearchString($search);
 	$cond = empty($search) ? '' : "AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
@@ -210,7 +210,7 @@ function getEntriesWithPagingBySearch($owner, $search, $page, $count) {
 		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
 		WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 $cond 
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
 
 function getEntriesWithPagingForOwner($owner, $category, $search, $page, $count) {
