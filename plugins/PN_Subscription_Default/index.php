@@ -1,14 +1,14 @@
 <?php
 /* Subscription statistics plugin for Tattertools 1.1
    ----------------------------------
-   Version 1.0
+   Version 1.1
    Tatter and Friends development team.
 
    Creator          : inureyes
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.9.21
-   Last modified at : 2006.10.27
+   Last modified at : 2007.2.4
  
  This plugin shows RSS subscription statistics on administration menu.
  For the detail, visit http://forum.tattertools.com/ko
@@ -23,7 +23,7 @@
  (at your option) any later version.
 
 */
-function AD_Subscription_Default()
+function PN_Subscription_Default()
 {
 	global $owner, $pluginMenuURL, $pluginSelfParam, $totalSubscribers, $updatedSubscribers;
 	requireComponent( "Tattertools.Model.Statistics");
@@ -267,7 +267,7 @@ function updateSubscriptionStatistics($target, $mother) {
 	return $target;
 }
 
-function AD_Subscription_setTime($target) {
+function PN_Subscription_setTime($target) {
 	requireComponent( "Tattertools.Function.misc");
 	misc::setUserSetting('LatestRSSrefresh',time());
 	return true;

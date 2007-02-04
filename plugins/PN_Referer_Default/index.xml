@@ -4,7 +4,7 @@
   <title xml:lang="ko">리퍼러 기록</title>
   <title xml:lang="ja">リファラ統計</title>
   <link>http://forum.tattertools.com/ko/</link>
-  <version>1.0</version>
+  <version>1.1.1.1</version>
   <description xml:lang="en">Referer log Plugin using Tattertools Components.</description>
   <description xml:lang="ko">태터툴즈 컴포넌트를 이용하여 리퍼러 기록을 보여줍니다.</description>
   <description xml:lang="ja">テト・ツールズのコンポーネントを利用して、詳細なリファラ情報を見せます。</description>
@@ -22,7 +22,7 @@
           <title xml:lang="en">Referer Log</title>
           <title xml:lang="ko">리퍼러 기록</title>
           <title xml:lang="ja">リファラ統計</title>
-          <handler>AD_Referer_Default</handler>
+          <handler>PN_Referer_Default</handler>
           <params>
             <param>
               <name>page</name>

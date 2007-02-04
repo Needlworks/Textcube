@@ -1,14 +1,14 @@
 <?php
 /* Visitor statistics plugin for Tattertools 1.1
    ----------------------------------
-   Version 1.0
+   Version 1.1
    Tatter and Friends development team.
 
    Creator          : inureyes
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.9.21
-   Last modified at : 2006.10.27
+   Last modified at : 2007.2.4
  
  This plugin shows visitor statistics on administration menu.
  For the detail, visit http://forum.tattertools.com/ko
@@ -23,7 +23,7 @@
  (at your option) any later version.
 
 */
-function AD_Visitor_Default()
+function PN_Visitor_Default()
 {
 	global $owner, $pluginMenuURL, $pluginAccessURL, $pluginHandlerURL;
 	requireComponent( "Tattertools.Model.Statistics");
@@ -147,7 +147,7 @@ if (isset($date)) {
 <?php 
 }
 
-function AD_Visitor_Default_set()
+function PN_Visitor_Default_set()
 {
 	global $owner;
 	requireComponent( "Tattertools.Model.Statistics");
