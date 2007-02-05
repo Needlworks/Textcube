@@ -86,7 +86,7 @@ function convertDateFormat($argTarget, $argType) {
 			break;
 		case 'comment list date':
 		case 'list date':
-			if (preg_match('@^([0-9]{4})/([0-9]{2}/([0-9]{2})$@', $argTarget, $rgTemp)) {
+			if (preg_match('@^([0-9]{4})/([0-9]{2})/([0-9]{2})$@', $argTarget, $rgTemp)) {
 				$strYear = $rgTemp[1];
 				$strMonth = $rgTemp[2];
 				$strDay = $rgTemp[3];
