@@ -33,7 +33,18 @@ function markAsUnread($owner, $id) {
 
 function markAsStar($owner, $id, $flag) {
 	global $database;
-	if (DBQuery::queryCell("SELECT i.id FROM {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr, {$database['prefix']}Feeds f, {$database['prefix']}FeedItems i WHERE g.owner = $owner AND gr.feed = f.id AND gr.owner = g.owner AND gr.groupId = g.id AND f.id = i.feed AND i.id = $id")) {
+	if (DBQuery::queryCell("SELECT i.id 
+		FROM 
+			{$database['prefix']}FeedGroups g, 
+			{$database['prefix']}FeedGroupRelations gr, 
+			{$database['prefix']}Feeds f, {$database['prefix']}FeedItems i 
+		WHERE 
+			g.owner = $owner AND 
+			gr.feed = f.id AND 
+			gr.owner = g.owner AND 
+			gr.groupId = g.id AND 
+			f.id = i.feed AND 
+			i.id = $id")) {
 		if ($flag)
 			DBQuery::query("REPLACE INTO {$database['prefix']}FeedStarred VALUES($owner, $id)");
 		else
