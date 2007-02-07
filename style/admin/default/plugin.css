@@ -248,6 +248,132 @@
 	margin                           : 40px 0 100px 0;
 }
 
+/* Update notifier *******************************************************************************/
+
+/* common ---------------------------------------------------------------------------------------*/
+#part-plugin-update-blog
+{
+	padding-bottom                   : 20px;
+	margin                           : 0;
+}
+
+#plugin-update-main
+{
+	margin                           : 0 0 0 10px;
+}
+
+#part-plugin-update-blog .data-inbox
+{
+	width                            : 700px !important;
+}
+
+
+/* information box  -----------------------------------------------------------------------------*/
+#plugin-update-info-inbox
+{
+	float                            : left;
+	background-color                 : #EFEFEF;
+	padding                          : 10px 10px 10px 10px;
+	width                            : 210px;
+}
+
+#plugin-update-info-inbox .title
+{
+	background-color                 : #ddd;
+	margin-bottom                    : 8px;
+	padding                          : 7px 0 5px 0; 
+	text-align                       : center;
+}
+
+#plugin-update-info-inbox table
+{
+
+}
+
+#plugin-update-info-inbox .tr
+{
+	height                           : 20px;
+}
+
+#plugin-update-info-inbox th
+{
+	text-align                       : right;
+	font-weight                      : bold;
+}
+
+#plugin-update-info-inbox #yearSelect
+{
+	width                            : 130px;
+}
+
+#plugin-update-info-inbox #monthSelect
+{
+	width                            : 77px;
+}
+
+#plugin-update-info-inbox .label
+{
+	display                          : block;
+	font-weight                      : bold;
+	text-align                       : center;
+}
+
+#plugin-update-info-inbox .divider
+{
+	display                          : none;
+}
+
+#plugin-update-info-inbox .button
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #999999;
+    display                          : block;
+    line-height                      : 2em;
+	margin                           : 0 auto;
+	padding                          : 3px 5px;
+	width                            : 36px;
+}
+
+/* update list  ----------------------------------------------------------------------------------*/
+#plugin-update-list
+{
+	float                            : left;
+}
+
+#plugin-update-list table
+{
+	margin                           : 1px 0 15px 10px;
+}
+
+#plugin-update-list td
+{
+	margin                           : 0;
+	padding                          : 0;
+}
+#plugin-update-list span.update
+{
+	color                            :#4444FF;
+}
+
+#plugin-update-list table.data-inbox tbody tr.active-class td.status
+{
+	background-image                 : url("./image/icon_plugin_on.gif");
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	cursor                           : pointer;
+	margin                           : 0 auto;
+	color                            : #5A8FC9;
+}
+
+#plugin-update-list table.data-inbox tbody tr.inactive-class td.status
+{
+	background-image                 : url("./image/icon_plugin_off.gif");
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	cursor                           : pointer;
+	margin                           : 0 auto;
+}
+
 /* Data Management *******************************************************************************/
 
 #part-plugin-table-list table thead tr th.delete span

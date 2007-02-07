@@ -3,6 +3,7 @@
   <title xml:lang="ko">Blog API</title>
   <title xml:lang="en">Blog API</title>
   <link>http://www.tattertools.com/plugins</link>
+  <updateInfo>http://update.tattersite.com/plugin/BlogAPI.xml</updateInfo>
   <version>1.0</version>
   <description xml:lang="en">This plugin supports RSD link in skin for api</description>
   <description xml:lang="ko">스킨에 RSD link를 추가하여 api를 자동으로 검출되게 합니다.</description>
