@@ -14,7 +14,6 @@ foreach($adminMenuMappings as $path => $adminMenuitem)
 	<?php
 }
 ?>
-						<li id="sub-menu-plugin-notify"><a href="<?php echo $blogURL;?>/owner/plugin/notify"><span class="text"><?php echo _t('업데이트 확인');?></span></a></li>
 						<li id="sub-menu-plugin-tablesetting"><a href="<?php echo $blogURL;?>/owner/plugin/tableSetting"><span class="text"><?php echo _t('플러그인 데이터 관리');?></span></a></li>
 						<li id="sub-menu-helper"><a href="<?php echo getHelpURL('plugin');?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
 					</ul>
