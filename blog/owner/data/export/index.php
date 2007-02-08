@@ -117,18 +117,18 @@ if ($post->open('', '*', 'published, id')) {
 				if($comment->isFiltered == 0) {
 					$writer->write('<comment>' . '<commenter' . ' id="' . $comment->commenter . '">' . '<name>' . htmlspecialchars(UTF8::correct($comment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($comment->homepage)) . '</homepage>' . '<ip>' . $comment->ip . '</ip>' . '</commenter>' . '<content>' . htmlspecialchars($comment->content) . '</content>' . '<password>' . htmlspecialchars($comment->password) . '</password>' . '<secret>' . htmlspecialchars($comment->secret) . '</secret>' . '<written>' . $comment->written . '</written>' . '<isFiltered>' . $comment->isFiltered . '</isFiltered>');
 					$writer->write(CRLF);
+					if ($childComment = $comment->getChildren()) {
+						do {
+							if($childComment->isFiltered == 0) {
+								$writer->write('<comment>' . '<commenter' . ' id="' . $childComment->commenter . '"' . '>' . '<name>' . htmlspecialchars(UTF8::correct($childComment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($childComment->homepage)) . '</homepage>' . '<ip>' . $childComment->ip . '</ip>' . '</commenter>' . '<content>' . htmlspecialchars($childComment->content) . '</content>' . '<password>' . htmlspecialchars($childComment->password) . '</password>' . '<secret>' . htmlspecialchars($childComment->secret) . '</secret>' . '<written>' . $childComment->written . '</written>' . '<isFiltered>' . $childComment->isFiltered . '</isFiltered>' . '</comment>');
+							$writer->write(CRLF);
+							}
+						} while ($childComment->shift());
+						$childComment->close();
+					}
+					$writer->write('</comment>');
+					$writer->write(CRLF);
 				}
-				if ($childComment = $comment->getChildren()) {
-					do {
-						if($childComment->isFiltered == 0) {
-							$writer->write('<comment>' . '<commenter' . ' id="' . $childComment->commenter . '"' . '>' . '<name>' . htmlspecialchars(UTF8::correct($childComment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($childComment->homepage)) . '</homepage>' . '<ip>' . $childComment->ip . '</ip>' . '</commenter>' . '<content>' . htmlspecialchars($childComment->content) . '</content>' . '<password>' . htmlspecialchars($childComment->password) . '</password>' . '<secret>' . htmlspecialchars($childComment->secret) . '</secret>' . '<written>' . $childComment->written . '</written>' . '<isFiltered>' . $childComment->isFiltered . '</isFiltered>' . '</comment>');
-						$writer->write(CRLF);
-						}
-					} while ($childComment->shift());
-					$childComment->close();
-				}
-				$writer->write('</comment>');
-				$writer->write(CRLF);
 			} while ($comment->shift());
 			$comment->close();
 		}
