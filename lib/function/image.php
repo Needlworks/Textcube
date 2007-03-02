@@ -60,11 +60,11 @@ function deleteAllThumbnails($path) {
 
 function getWaterMarkPosition() {
 	$waterMarkPosition = getUserSetting("waterMarkPosition", "left=10|bottom=10");
-	
+
 	list($horizontalPos, $verticalPos) = explode("|", $waterMarkPosition);
 	$horizontalPos = explode("=", $horizontalPos);
 	$verticalPos = explode("=", $verticalPos);
-	
+
 	if ($horizontalPos[0] == "left") {
 		if ($horizontalPos[1] > 0) {
 			$horizontalValue = $horizontalPos[1];
@@ -95,7 +95,7 @@ function getWaterMarkPosition() {
 			$verticalValue = "bottom";
 		}
 	}
-	
+
 	return "$horizontalValue $verticalValue";
 }
 
@@ -128,22 +128,21 @@ function makeThumbnail($imgString, $originSrc, $paddingArray, $waterMarkArray, $
 	}
 	
 	requireComponent('Tattertools.Function.Image');
-
 	if (!is_dir(ROOT."/cache/thumbnail")) {
 		@mkdir(ROOT."/cache/thumbnail");
 		@chmod(ROOT."/cache/thumbnail", 0777);
 	}
-	
-	if (!is_dir(ROOT."/cache/thumbnail/$owner")) { 
+
+	if (!is_dir(ROOT."/cache/thumbnail/$owner")) {
 		@mkdir(ROOT."/cache/thumbnail/$owner");
 		@chmod(ROOT."/cache/thumbnail/$owner", 0777);
 	}
-	
+
 	$contentWidth = getContentWidth();
-	
+
 	if (preg_match('/class="(tt-resampling|tt-watermark)"/i', $imgString, $temp)) {
 		$originFileName = basename($originSrc);
-		
+
 		switch ($temp[1]) {
 			case "tt-resampling":
 				$resampleType = "resampled";
@@ -155,24 +154,24 @@ function makeThumbnail($imgString, $originSrc, $paddingArray, $waterMarkArray, $
 					$resampleType = "watermarked";
 				break;
 		}
-		
-		// 여기로 넘어오는 값은 이미 getAttachmentBinder() 함수에서 고정값으로 변환된 값이므로 % 값은 고려할 필요 없음. 
+
+		// 여기로 넘어오는 값은 이미 getAttachmentBinder() 함수에서 고정값으로 변환된 값이므로 % 값은 고려할 필요 없음.
 		if (preg_match('/width="([1-9][0-9]*)"/i', $imgString, $temp)) {
 			$tempWidth = $temp[1];
 		}
-		
+
 		if (preg_match('/height="([1-9][0-9]*)"/i', $imgString, $temp)) {
 			$tempHeight = $temp[1];
 		}
-		
+
 		$newTempFileName = preg_replace("/\.([[:alnum:]]+)$/i", ".w{$tempWidth}-h{$tempHeight}.{$resampleType}.\\1", $originFileName);
 		$tempSrc = ROOT."/cache/thumbnail/$owner/".$newTempFileName;
-		
+
 		$tempURL = $pathURL."/thumbnail/$owner/".$newTempFileName;
 		if ($useAbsolutePath == true) {
-			$tempURL = "$serviceURL/thumbnail/$owner/$newTempFileName";
+			$tempURL = "$blogURL/thumbnail/$owner/$newTempFileName";
 		}
-		
+
 		$checkResult = Image::checkExistingThumbnail($originSrc, $tempSrc, $tempWidth, $tempHeight, $paddingArray, $waterMarkArray);
 		switch ($checkResult) {
 			case 1:
@@ -181,7 +180,7 @@ function makeThumbnail($imgString, $originSrc, $paddingArray, $waterMarkArray, $
 				$isSuccessful = true;
 				$AttachedImage = new Image();
 				$AttachedImage->imageFile = $originSrc;
-				
+
 				// 리샘플링 시작.
 				if ($AttachedImage->resample($tempWidth, $tempHeight, $paddingArray)) {
 					// 워터마크 적용.
@@ -189,13 +188,13 @@ function makeThumbnail($imgString, $originSrc, $paddingArray, $waterMarkArray, $
 						$waterMarkType = $AttachedImage->getImageType($waterMarkArray['path']);
 						$AttachedImage->impressWaterMark($waterMarkArray['path'], $waterMarkArray['position'], $waterMarkArray['gamma']);
 					}
-					
+
 					// 리샘플링된 파일 저장.
 					if ($AttachedImage->createThumbnailIntoFile($tempSrc)) {
 						$imgString = preg_replace('/src="([^"]+)"/i', 'src="'.$tempURL.'"', $imgString);
 						$imgString = preg_replace('/width="([^"]+)"/i', 'width="'.$tempWidth.'"', $imgString);
 						$imgString = preg_replace('/height="([^"]+)"/i', 'height="'.$tempHeight.'"', $imgString);
-						
+
 						switch ($resampleType) {
 							case "resampled":
 								@unlink(str_replace(".resampled.", ".watermarked.", $tempSrc));
@@ -205,11 +204,11 @@ function makeThumbnail($imgString, $originSrc, $paddingArray, $waterMarkArray, $
 									@unlink(str_replace(".watermarked.", ".resampled.", $tempSrc));
 								break;
 						}
-						
+
 						// 오리지널 파일에 워터마크 적용.
 						$originImageInfo = getimagesize($originSrc);
 						$tempFileName = preg_replace("/\.([[:alnum:]]+)$/i", ".w{$originImageInfo[0]}-h{$originImageInfo[1]}.{$resampleType}.\\1", $originFileName);
-						
+
 						if ($resampleType == "watermarked" && $waterMarkOn == "yes") {
 							if ($AttachedImage->resample($originImageInfo[0], $originImageInfo[1], NULL)) {
 								$AttachedImage->impressWaterMark($waterMarkArray['path'], $waterMarkArray['position'], $waterMarkArray['gamma']);
@@ -227,22 +226,22 @@ function makeThumbnail($imgString, $originSrc, $paddingArray, $waterMarkArray, $
 				} else {
 					$isSuccessful = false;
 				}
-				
+
 				if ($isSuccessful == false) {
 					$imgString = preg_replace('/width="([^"]+)"/i', 'width="'.$tempWidth.'"', $imgString);
 					$imgString = preg_replace('/height="([^"]+)"/i', 'height="'.$tempHeight.'"', $imgString);
 				}
-				
+
 				unset($AttachedImage);
 				break;
 			default:
 				$imgString = preg_replace('/src="([^"]+)"/i', 'src="'.$tempURL.'"', $imgString);
 				$imgString = preg_replace('/width="([^"]+)"/i', 'width="'.$tempWidth.'"', $imgString);
 				$imgString = preg_replace('/height="([^"]+)"/i', 'height="'.$tempHeight.'"', $imgString);
-				
+
 				$originImageInfo = getimagesize($originSrc);
 				$tempFileName = preg_replace("/\.([[:alnum:]]+)$/i", ".w{$originImageInfo[0]}-h{$originImageInfo[1]}.{$resampleType}.\\1", $originFileName);
-				
+
 				if ($resampleType == "watermarked") {
 					if (file_exists(ROOT."/cache/thumbnail/$owner/$tempFileName")) {
 						$imgString = preg_replace('/onclick="open_img\(\'([^\']+)\'\)"/', "onclick=\"open_img('$blogURL/thumbnail/$owner/$tempFileName')\"", $imgString);
@@ -255,7 +254,7 @@ function makeThumbnail($imgString, $originSrc, $paddingArray, $waterMarkArray, $
 				break;
 		}
 	}
-	
+
 	return $imgString;
 }
 ?>
