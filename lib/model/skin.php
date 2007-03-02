@@ -122,6 +122,12 @@ function selectSkin($owner, $skinName) {
 		$value = $xmls->getValue('/skin/default/showListOnArchive');
 		if (isset($value))
 			array_push($assignments, 'showListOnArchive=' . ($value ? '1' : '0'));
+		$value = $xmls->getValue('/skin/default/showListOnTag');
+		if (isset($value))
+			array_push($assignments, 'showListOnTag=' . ($value ? '1' : '0'));
+		$value = $xmls->getValue('/skin/default/showListOnSearch');
+		if (isset($value))
+			array_push($assignments, 'showListOnSearch=' . ($value ? '1' : '0'));
 		$value = $xmls->getValue('/skin/default/tree/color');
 		if (isset($value))
 			array_push($assignments, "colorOnTree='$value'");
@@ -253,6 +259,7 @@ function setSkinSetting($owner, $setting) {
 		showListOnCategory		= ' . $setting['showListOnCategory'] . ',
 		showListOnArchive		= ' . $setting['showListOnArchive'] . ',
 		showListOnTag			= ' . $setting['showListOnTag'] . ',
+		showListOnSearch			= ' . $setting['showListOnSearch'] . ',
 		expandComment				= ' . $setting['expandComment'] . ',
 		expandTrackback			= ' . $setting['expandTrackback'] . ',
 		recentNoticeLength 		= ' . $setting['recentNoticeLength'] . ',

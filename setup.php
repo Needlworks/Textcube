@@ -1269,6 +1269,8 @@ CREATE TABLE {$_POST['dbPrefix']}SkinSettings (
   linkLength int(11) NOT NULL default '30',
   showListOnCategory int(1) NOT NULL default '1',
   showListOnArchive int(1) NOT NULL default '1',
+  showListOnTag int(1) NOT NULL default '1',
+  showListOnSearch int(1) NOT NULL default '1',
   tree varchar(32) NOT NULL default 'base',
   colorOnTree varchar(6) NOT NULL default '000000',
   bgColorOnTree varchar(6) NOT NULL default '',
