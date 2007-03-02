@@ -42,6 +42,11 @@ $selected = 0;
 										showListOnTag = 3;
 									else 
 										showListOnTag = 1;
+
+									if(document.getElementById('showListOnSearchTitles').checked) 
+										showListOnSearch = 2;
+									else 
+										showListOnSearch = 1;
 									
 									if(document.getElementById('expandComment').checked) 
 										expandComment = 1;
@@ -80,6 +85,7 @@ $selected = 0;
 									param += 'showListOnCategory='+showListOnCategory +'&';
 									param += 'showListOnArchive='+showListOnArchive +'&';
 									param += 'showListOnTag='+showListOnTag +'&';
+									param += 'showListOnSearch='+showListOnSearch +'&';
 									param += 'expandComment='+expandComment +'&';				
 									param += 'expandTrackback='+expandTrackback +'&';
 									param += 'recentNoticeLength='+getValueById('recentNoticeLength') +'&';
@@ -310,6 +316,13 @@ ob_end_clean();
 												<input type="radio" id="showListOnTagContents" class="radio" name="showListOnTag" value="contents"<?php echo ($skinSetting['showListOnTag'] == 0) ? ' checked="checked"' : '';?> /> <label for="showListOnTagContents"><?php echo _t('글 내용을 표시합니다.');?></label><br />
 												<input type="radio" id="showListOnTagSome" class="radio" name="showListOnTag" value="some"<?php echo ($skinSetting['showListOnTag'] == 3) ? ' checked="checked"' : '';?> /> <label for="showListOnTagSome"><?php echo _t('목록과 한 쪽당 글 수 만큼 글을 표시합니다.');?></label><br />
 												<input type="radio" id="showListOnTagAll" class="radio" name="showListOnTag" value="all"<?php echo ($skinSetting['showListOnTag'] == 1) ? ' checked="checked"' : '';?> /> <label for="showListOnTagAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
+											</dd>
+										</dl>
+										<dl id="search-click-line" class="line">
+											<dt><span class="label"><?php echo _t('검색 시');?></span></dt>
+											<dd>
+												<input type="radio" id="showListOnSearchTitles" class="radio" name="showListOnSearch" value="titles"<?php echo ($skinSetting['showListOnSearch'] == 2) ? ' checked="checked"' : '';?> /> <label for="showListOnSearchTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
+												<input type="radio" id="showListOnSearchAll" class="radio" name="showListOnSearch" value="all"<?php echo ($skinSetting['showListOnSearch'] == 1) ? ' checked="checked"' : '';?> /> <label for="showListOnSearchAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="post-click-line" class="line">
