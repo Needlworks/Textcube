@@ -52,6 +52,7 @@ if (isset($_GET['showValue']))
 			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 		//]]>
 	</script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js"></script>
 	<style type="text/css">
