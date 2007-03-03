@@ -117,16 +117,12 @@ if (defined('__TATTERTOOLS_POST__')) {
 									this.isSaved = false;
 
 <?php
-
 } else {
-
 ?>
 									this.isSaved = true;
 
 <?php
-
 }
-
 ?>
 
 									this.entryId = <?php echo $entry['id'];?>;
@@ -240,9 +236,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 										request.onSuccess = function () {
 											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 											if(entryManager.isSaved == false) {
-
 												entryManager.entryId = this.getText("/response/entryId");
-
 												entryManager.isSaved = true;
 											}
 
@@ -327,11 +321,12 @@ if (isset($_GET['popupEditor'])) {
 											this.timer = window.setTimeout("entryManager.saveDraft()", 5000);
 											return;
 										}
-										
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/draft/<?php echo $entry['id'];?>");
+
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/draft/"+entryManager.entryId);
 										request.onSuccess = function () {
 											PM.showMessage("<?php echo _t('자동으로 임시 저장되었습니다.');?>", "center", "bottom");
 											entryManager.savedData = this.content;
+											entryManager.entryId = this.getText("/response/entryId");
 											if (entryManager.savedData == entryManager.getData())
 												entryManager.pageHolder.release();
 										}
@@ -347,12 +342,12 @@ if (isset($_GET['popupEditor'])) {
 											return;
 										}
 										
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/draft/<?php echo $entry['id'];?>");
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/draft/"+entryManager.entryId);
 										request.async = false;
 										request.message = "<?php echo _t('미리보기를 준비하고 있습니다.');?>";
 										request.onSuccess = function () {
 											entryManager.savedData = this.content;
-											window.open("<?php echo $blogURL;?>/owner/entry/preview/<?php echo $entry['id'];?>", "previewEntry<?php echo $entry['id'];?>", "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+											window.open("<?php echo $blogURL;?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
 										}
 										request.onError = function () {
 										}

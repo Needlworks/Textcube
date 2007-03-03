@@ -9,6 +9,7 @@ $IV = array(
 		'category' => array('int', 'default' => 0),
 		'title' => array('string'),
 		'content' => array('string'),
+		'permalink' => array('string', 'default' => ''),
 		'location' => array('string', 'default' => '/'),
 		'tag' => array('string', 'default' => ''),
 		'acceptComment' => array(array('0', '1'), 'default' => '0'),
@@ -31,7 +32,10 @@ $entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 $entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
 if (($id = saveDraftEntry($entry)) !== false){
 	setUserSetting('LatestEditedEntry',$id);
-	respondResultPage(0);
+	$result = array();
+	$result['error'] = (($id !== false) === true ? 0 : 1);
+	$result['entryId'] = $id;
+	printRespond($result);
 }
 else
 	respondResultPage(1);
