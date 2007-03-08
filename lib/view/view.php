@@ -12,14 +12,14 @@ function printHtmlHeader($title = '') {
 	<title><?php echo $title;?></title>
 </head>
 <body>
-<?php 
+<?php
 }
 
 function printHtmlFooter() {
 ?>
 </body>
 </html>
-<?php 
+<?php
 }
 
 function dress($tag, $value, & $contents) {
@@ -28,7 +28,7 @@ function dress($tag, $value, & $contents) {
 		return true;
 	} else {
 		return false;
-	}	
+	}
 }
 
 function getUpperView($paging) {
@@ -37,7 +37,7 @@ function getUpperView($paging) {
 ?>
 	<!--
 		<?php echo TATTERTOOLS_NAME." ".TATTERTOOLS_VERSION.CRLF;?>
-		
+
 		Homepage: <?php echo TATTERTOOLS_HOMEPAGE.CRLF;?>
 		<?php echo TATTERTOOLS_COPYRIGHT.CRLF;?>
 	-->
@@ -50,11 +50,11 @@ function getUpperView($paging) {
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js" ></script>
-<?php 
+<?php
 	if (doesHaveOwnership()) {
 ?>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js" ></script>
-<?php 
+<?php
 	}
 ?>
 	<script type="text/javascript">
@@ -65,7 +65,7 @@ function getUpperView($paging) {
 					event = window.event;
 					event.target = event.srcElement;
 				}
-			
+
 				if (event.altKey || event.ctrlKey)
 					return;
 				switch (event.target.nodeName) {
@@ -84,20 +84,20 @@ function getUpperView($paging) {
 					case 84: //T
 						window.location = "<?php echo $blogURL;?>/owner/reader/?forceRefresh";
 						break;
-<?php 
+<?php
 	if (isset($paging['prev'])) {
 ?>
 					case 65: //A
 						window.location = "<?php echo escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}");?>";
 						break;
-<?php 
+<?php
 	}
 	if (isset($paging['next'])) {
 ?>
 					case 83: //S
 						window.location = "<?php echo escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}");?>";
 						break;
-<?php 
+<?php
 	}
 ?>
 					case 90: //Z
@@ -112,7 +112,7 @@ function getUpperView($paging) {
 				}
 			}
 			document.onkeydown = processShortcut;
-			
+
 			function addComment(caller, entryId) {
 				var oForm = findFormObject(caller);
 				if (!oForm)
@@ -130,25 +130,25 @@ function getUpperView($paging) {
 				request.onError = function() {
 					alert(this.getText("/response/description"));
 				}
-				
+
 				var queryString = "key=<?php echo md5(filemtime(ROOT . '/config.php'));?>";
-				
+
 				tempComment = 'comment_' + entryId;
 				tempHomepage = 'homepage_' + entryId;
 				tempName = 'name_' + entryId;
 				tempPassword = 'password_' + entryId;
 				tempSecret = 'secret_' + entryId;
-				
+
 				for (i=0; i<oForm.elements.length; i++) {
 					if (queryString != "")
 						linker = "&";
 					else
 						linker = "";
-					
+
 					// disabled 상태이면 패스.
 					if (oForm.elements[i].disabled == true)
 						continue;
-					
+
 					if (oForm.elements[i].tagName.toLowerCase() == "input") {
 						switch (oForm.elements[i].type) {
 							case "checkbox":
@@ -213,8 +213,8 @@ function getUpperView($paging) {
 				try{ // sometimes fail.
 					win.moveTo(screen.width/2-width/2,screen.height/2-height/2);
 				} catch (e) {}
-			}	
-			
+			}
+
 			function deleteComment(id) {
 				width = 450;
 				height = 400;
@@ -223,8 +223,8 @@ function getUpperView($paging) {
 				openWindow.focus();
 				alignCenter(openWindow,width,height);
 			}
-			
-			function commentComment(parent) {	
+
+			function commentComment(parent) {
 				width = 450;
 				height = 380;
 				if(openWindow != '') openWindow.close();
@@ -232,8 +232,8 @@ function getUpperView($paging) {
 				openWindow.focus();
 				alignCenter(openWindow,width,height);
 			}
-			
-			function editEntry(parent,child) {	
+
+			function editEntry(parent,child) {
 				width =  1020;
 				height = 550;
 				if(openWindow != '') openWindow.close();
@@ -241,8 +241,8 @@ function getUpperView($paging) {
 				openWindow.focus();
 				alignCenter(openWindow,width,height);
 			}
-			
-			function guestbookComment(parent) {	
+
+			function guestbookComment(parent) {
 				width = 450;
 				height = 360;
 				if(openWindow != '') openWindow.close();
@@ -250,7 +250,7 @@ function getUpperView($paging) {
 				openWindow.focus();
 				alignCenter(openWindow,width,height);
 			}
-			
+
 			function sendTrackback(id) {
 				width = 700;
 				height = 500;
@@ -260,18 +260,18 @@ function getUpperView($paging) {
 				alignCenter(openWindow,width,height);
 			}
 
-			function copyUrl(url){		
+			function copyUrl(url){
 				if(isIE) {
 					window.clipboardData.setData('Text',url);
 					window.alert("<?php echo _text('엮인글 주소가 복사되었습니다.');?>");
 				}
 			}
-			
-			
+
+
 			function deleteTrackback(id,entryId) {
-<?php 
+<?php
 	if (doesHaveOwnership()) {
-?> 
+?>
 				if (!confirm("<?php echo _text('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>"))
 					return;
 
@@ -292,15 +292,15 @@ function getUpperView($paging) {
 					alert('<?php echo _text('실패했습니다.');?>');
 				}
 				request.send();
-<?php 
+<?php
 	} else {
 ?>
 				alert('<?php echo _text('실패했습니다.');?>');
-<?php 
+<?php
 	}
 ?>
 			}
-<?php 
+<?php
 	if (doesHaveOwnership()) {
 ?>
 			function changeVisibility(id, visibility) {
@@ -310,7 +310,7 @@ function getUpperView($paging) {
 				}
 				request.send();
 			}
-			
+
 			function deleteEntry(id) {
 				if (!confirm("<?php echo _text('이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?');?>"))
 					return;
@@ -319,8 +319,8 @@ function getUpperView($paging) {
 					window.location.reload();
 				}
 				request.send();
-			}	
-<?php 
+			}
+<?php
 	}
 ?>
 			function reloadEntry(id) {
@@ -334,11 +334,11 @@ function getUpperView($paging) {
 					return;
 				document.cookie = "GUEST_PASSWORD=" + escape(password.value) + ";path=<?php echo $service['path'];?>";
 
-				window.location.href = window.location.href;				
+				window.location.href = window.location.href;
 			}
 		//]]>
 	</script>
-<?php 
+<?php
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;
@@ -359,7 +359,7 @@ function getScriptsOnFoot() {
 			updateFeed();
 		//]]>
 	</script>
-<?php 
+<?php
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;
@@ -383,20 +383,20 @@ function getTrackbacksView($entryId, $skin) {
 		}
 		$trackbacksView .= $trackbackView;
 	}
-	
+
 	if (count($trackbacks) > 0) {
 		dress('tb_rep', $trackbacksView, $trackbacksContainer);
 	} else {
 		$trackbacksContainer = '';
 	}
-	
+
 	if ($skinSetting['expandTrackback'] == 1 || (($suri['url'] != $blogURL.'/index.php' && $suri['url'] != $service['path'].'/index.php') && ($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
 		$style = 'block';
 	} else {
 		$style = 'none';
 	}
 	$trackbacksView = "<div id=\"entry{$entryId}Trackback\" style=\"display:$style\">" . str_replace('[##_tb_container_##]', $trackbacksContainer, $skin->trackbacks) . '</div>';
-	dress('tb_address', "<span onclick=\"copyUrl('$blogURL/trackback/$entryId')\">$blogURL/trackback/$entryId</span>", $trackbacksView);
+	dress('tb_address', "<span onclick=\"copyUrl('$defaultURL/trackback/$entryId')\">$defaultURL/trackback/$entryId</span>", $trackbacksView);
 	return $trackbacksView;
 }
 
@@ -428,7 +428,7 @@ function getCommentView($entryId, $skin) {
 	} else {
 		$comments = getComments($entryId);
 	}
-	
+
 	foreach ($comments as $commentItem) {
 		$commentItemView = ($isComment ? $skin->commentItem : $skin->guestItem);
 		$commentSubItemsView = '';
@@ -453,7 +453,7 @@ function getCommentView($entryId, $skin) {
 				if (!$authorized) $rp_class .= ' hiddenComment';
 			}
 			dress($prefix1 . '_rep_class', $rp_class, $commentSubItemView);
-			
+
 			if (dress($prefix1 . '_rep_id', 'comment' . $commentSubItem['id'], $commentSubItemView) == false) {
 				$commentSubItemView = "<a id=\"comment{$commentSubItem['id']}\"></a>" . $commentSubItemView;
 			}
@@ -492,15 +492,15 @@ function getCommentView($entryId, $skin) {
 		}
 		$commentItemsView .= $commentItemView;
 	}
-	
+
 	$commentContainer = ($isComment ? $skin->commentContainer : $skin->guestContainer);
 	dress(($isComment ? 'rp_rep' : 'guest_rep'), $commentItemsView, $commentContainer);
 	if (count($comments) > 0) {
 		dress($prefix1 . '_container', $commentContainer, $commentView);
-	}	
-	
+	}
+
 	$acceptComment = DBQuery::queryCell("SELECT `acceptComment` FROM `{$database['prefix']}Entries` WHERE `id` = $entryId");
-	
+
 	$useForm = false;
 	if ($isComment) {
 		if (!($skin->commentForm == '')) {
@@ -546,7 +546,7 @@ function getCommentView($entryId, $skin) {
 			dress($prefix1 . '_input_is_secret', 'secret', $commentMemberView);
 			dress($prefix1 . '_member', $commentMemberView, $commentView);
 		}
-		
+
 		dress($prefix1 . '_input_comment', 'comment', $commentView);
 		dress($prefix1 . '_onclick_submit', "addComment(this, $entryId); return false;", $commentView);
 		dress($prefix1 . '_textarea_body', 'comment', $commentView);
@@ -554,14 +554,14 @@ function getCommentView($entryId, $skin) {
 	} else if ($useForm == true) {
 		$commentView = '';
 	}
-	
+
 	if ($useForm == true) {
 		dress($prefix1 . '_input_form', "<form method=\"post\" action=\"$blogURL/comment/add/$entryId\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>', $commentRrevView);
 		$commentView = $commentRrevView;
 	} else {
 		$commentView = "<form method=\"post\" action=\"$blogURL/comment/add/$entryId\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>';
 	}
-	
+
 	return $commentView;
 }
 
@@ -782,17 +782,17 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 	//<![CDATA[
 		var expanded = false;
 		function expandTree() {
-<?php 
+<?php
 	foreach ($tree['children'] as $level1) {
 		if (!empty($level1['children'])) {
 ?>
 			expandFolder(<?php echo $level1['id'];?>, true);
-<?php 
+<?php
 		}
 	}
 ?>
 		}
-		
+
 		function expandFolder(category, expand) {
 			var oLevel1 = document.getElementById("category_" + category);
 			var oImg = oLevel1.getElementsByTagName("img")[0];
@@ -808,7 +808,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 			}
 			return false;
 		}
-		
+
 		function toggleFolder(category) {
 			var oLevel1 = document.getElementById("category_" + category);
 			var oImg = oLevel1.getElementsByTagName("img")[0];
@@ -835,49 +835,49 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 				var prevSelectedNode= root.getAttribute('currentselectednode');
 				var oLevel = document.getElementById("category_" + selectedNode);
 				var oChild = oLevel.getElementsByTagName("table")[0];
-				
+
 				oChild.style.color = "#<?php echo $skin['itemColor'];?>";
-<?php 
+<?php
 	if ($skin['itemBgColor'] != '')
 		echo "				oChild.style.backgroundColor = \"#{$skin['itemBgColor']}\"";
 	else
 		echo "				oChild.style.backgroundColor = \"\"";
-?>			
-				
+?>
+
 				root.setAttribute('currentselectednode',category);
 				document.getElementById('text_'+selectedNode).style.color="#<?php echo $skin['itemColor'];?>";
-				
+
 				var oLevel = document.getElementById("category_" + category);
 				var oChild = oLevel.getElementsByTagName("table")[0];
 				oChild.style.color = "#<?php echo $skin['activeItemColor'];?>";
-<?php 
+<?php
 	if ($skin['activeItemBgColor'] != '')
 		echo "				oChild.style.backgroundColor = \"#{$skin['activeItemBgColor']}\"";
 	else
 		echo "				oChild.style.backgroundColor = \"\"";
-?>			
-				
+?>
+
 				document.getElementById('text_'+category).style.color="#<?php echo $skin['activeItemColor'];?>";
-				
+
 				selectedNode = category;
 			} catch(e) {
 				alert(e.message);
 			}
-			
+
 		}
-		
+
 		function setTreeStyle(skin) {
 			try {
 				treeNodes = document.getElementsByName("treeNode");
-				for(var i=0; i<treeNodes.length; i++) {	
+				for(var i=0; i<treeNodes.length; i++) {
 					if( ('category_'+selectedNode) == (treeNodes[i].getAttribute('id').value) ) {
 						var oLevel = document.getElementById('category_'+i);
 						var oChild = oLevel.getElementsByTagName("table")[0];
 						oChild.style.color ='#'+skin['activeItemColor'];
 						if (skin['activeItemBgColor'] != '' && skin['activeItemBgColor'] != undefined) {
-							oChild.style.backgroundColor ='#'+skin['activeItemBgColor'];						
+							oChild.style.backgroundColor ='#'+skin['activeItemBgColor'];
 						} else {
-							oChild.style.backgroundColor ="";						
+							oChild.style.backgroundColor ="";
 						}
 						alert(oChild.style.backgroundColor);
 					} else{
@@ -887,7 +887,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 						oChild.style.backgroundColor ='#'+skin['bgColorOnTree'];
 						var oLevel = document.getElementById('text_'+i).style.color='#'+skin['colorOnTree'];
 						alert(document.getElementById('text_'+i).style.color);
-					}						
+					}
 				}
 			} catch(e) {
 				alert(e.message);
@@ -895,7 +895,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 		}
 	//]]>
 </script>
-	<?php 
+	<?php
 	if ($skin['itemBgColor'] == "") {
 		$itemBgColor = '';
 	} else {
@@ -907,18 +907,18 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 		<table id="category_0" <?php echo ($embedJava==true) ? 'name="treeNode"' : '';?> cellpadding="0" cellspacing="0"><tr>
 			<td class="ib" style="font-size: 1px"><img src="<?php echo $skin['url'];?>/tab_top.gif" width="16" onclick="expandTree()" alt="" /></td>
 			<td valign="top" style="font-size:9pt; padding-left:3px">
-				<table onclick="<?php 
+				<table onclick="<?php
 	if ($action == 1) {
-?> alert(3);onclick_setimp(window, this, c_ary, t_ary); <?php 
+?> alert(3);onclick_setimp(window, this, c_ary, t_ary); <?php
 	}
 ?>" id="imp0" cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor;?>"><tr>
-					<?php 
+					<?php
 	if (empty($tree['link']))
 		$link = 'onclick="selectNode(0)"';
 	else
 		$link = 'onclick="window.location.href=\'' . escapeJSInAttribute($tree['link']) . '\'"';
 ?>
-					<td class="branch3" <?php echo $link;?>><div id="text_0" style=" color: #<?php echo $skin['itemColor'];?>;"><?php echo htmlspecialchars($tree['label']);?> <?php 
+					<td class="branch3" <?php echo $link;?>><div id="text_0" style=" color: #<?php echo $skin['itemColor'];?>;"><?php echo htmlspecialchars($tree['label']);?> <?php
 	if ($skin['showValue'])
 		print "<span class=\"c_cnt\">({$tree['value']})</span>";
 ?></div></td>
@@ -926,10 +926,10 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 			</td>
 		</tr></table>
 
-<?php 
+<?php
 	$parentOfSelected = false;
 	$i = count($tree['children']);
-	
+
 	foreach ($tree['children'] as $row) {
 		$i--;
 		if (empty($row['link']))
@@ -941,7 +941,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 			<td class="ib" style="width:39px; font-size: 1px; background-image: url('<?php echo $skin['url'];?>/navi_back_noactive<?php echo ($i ? '' : '_end');?>.gif')"><a class="click" onclick="toggleFolder('<?php echo $row['id'];?>')"><img src="<?php echo $skin['url'];?>/tab_<?php echo (count($row['children']) ? 'closed' : 'isleaf');?>.gif" width="39" alt="" /></a></td>
 			<td>
 				<table cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor;?>"><tr>
-					<td class="branch3" <?php echo $link;?>><div id="text_<?php echo $row['id'];?>" style="color: #<?php echo $skin['itemColor'];?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($row['label'], $skin['labelLength']));?> <?php 
+					<td class="branch3" <?php echo $link;?>><div id="text_<?php echo $row['id'];?>" style="color: #<?php echo $skin['itemColor'];?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($row['label'], $skin['labelLength']));?> <?php
 		if ($skin['showValue'])
 			print "<span class=\"c_cnt\">({$row['value']})</span>";
 ?></div></td>
@@ -949,7 +949,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 			</td>
 		</tr></table>
 		<div id="category_<?php echo $row['id'];?>_children" style="display:none">
-<?php 
+<?php
 		$j = count($row['children']);
 		foreach ($row['children'] as $irow) {
 			if ($irow['id'] == $selected)
@@ -965,7 +965,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 				$link = 'onclick="window.location.href=\'' . escapeJSInAttribute($irow['link']) . '\'"';
 ?>
 				<table id="category_<?php echo $irow['id'];?>" <?php echo ($embedJava==true) ? 'name="treeNode"' : '';?> cellpadding="0" cellspacing="0"><tr>
-				<td style="width:39px; font-size: 1px"><img src="<?php echo $skin['url'];?>/navi_back_active<?php echo ($i ? '' : '_end');?>.gif" width="17" height="18" alt="" /><img src="<?php echo $skin['url'];?>/tab_treed<?php 
+				<td style="width:39px; font-size: 1px"><img src="<?php echo $skin['url'];?>/navi_back_active<?php echo ($i ? '' : '_end');?>.gif" width="17" height="18" alt="" /><img src="<?php echo $skin['url'];?>/tab_treed<?php
 			if (!$j)
 				print "_end";
 ?>.gif" width="22" alt="" /></td>
@@ -975,25 +975,25 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 					</tr></table>
 				</td>
 				</tr></table>
-<?php 
+<?php
 		}
 ?>
 		</div>
-<?php 
+<?php
 	}
 ?>
 	</td></tr></table>
-<?php 
+<?php
 	if (is_numeric($selected)) {
 ?>
 <script type="text/javascript">
 //<![CDATA[
 	function execOnLoadSelect() {
-<?php 
+<?php
 		if ($parentOfSelected) {
 ?>
 	expandFolder(<?php echo $parentOfSelected;?>, true);
-<?php 
+<?php
 		}
 ?>
 	selectNode(<?php echo $selected;?>);
@@ -1001,7 +1001,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 	window.addEventListener("load", execOnLoadSelect, false);
 //]]>
 </script>
-<?php 
+<?php
 	}
 }
 
@@ -1028,9 +1028,9 @@ function getCalendarView($calendar) {
 	$firstWeekday = date('w', mktime(0, 0, 0, $calendar['month'], 1, $calendar['year']));
 	$lastDay = date('t', mktime(0, 0, 0, $calendar['month'], 1, $calendar['year']));
 	$today = ($current == Timestamp::get('Ym') ? Timestamp::get('j') : null);
-	
+
 	$currentMonthStr = fireEvent('ViewCalendarHead', Timestamp::format('%Y/%m', getTimeFromPeriod($current)));
-	
+
 	ob_start();
 ?>
 <table class="tt-calendar" cellpadding="0" cellspacing="1" style="width: 100%; table-layout: fixed">
@@ -1057,7 +1057,7 @@ function getCalendarView($calendar) {
 	$day = 0;
 	$totalDays = $firstWeekday + $lastDay;
 	$lastWeek = ceil($totalDays / 7);
-	
+
 	for ($week=0; $week<$lastWeek; $week++) {
 		// 주중에 현재 날짜가 포함되어 있으면 주를 현재 주 class(tt-current-week)를 부여한다.
 		if (($today + $firstWeekday) >= $week * 7 && ($today + $firstWeekday) < ($week + 1) * 7) {
@@ -1065,11 +1065,11 @@ function getCalendarView($calendar) {
 		} else {
 			echo '		<tr class="cal_week">'.CRLF;
 		}
-		
+
 		for($weekday=0; $weekday<7; $weekday++) {
 			$day++;
 			$dayString = isset($calendar['days'][$day]) ? '<a class="cal_click" href="'.$blogURL.'/archive/'.$current.($day > 9 ? $day : "0$day").'">'.$day.'</a>' : $day;
-			
+
 			// 일요일, 평일, 토요일별로 class를 부여한다.
 			switch ($weekday) {
 				case 0:
@@ -1084,10 +1084,10 @@ function getCalendarView($calendar) {
 					$className = " cal_day";
 					break;
 			}
-			
+
 			// 오늘에 현재 class(tt-current-day)를 부여한다.
 			$className .= $day == $today ? " cal_day4" : " cal_day3";
-			
+
 			if ($week == 0) {
 				if ($weekday < $firstWeekday) {
 					$day--;
@@ -1108,7 +1108,7 @@ function getCalendarView($calendar) {
 			}
 		}
 		echo '		</tr>'.CRLF;
-		
+
 		if ($day >= $lastDay) {
 			break;
 		}
@@ -1116,7 +1116,7 @@ function getCalendarView($calendar) {
 ?>
 	</tbody>
 </table>
-<?php 
+<?php
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;
@@ -1266,7 +1266,7 @@ function bindKeywords($keywords, $content) {
 	$pattern = array();
 	foreach ($keywords as $keyword)
 		$pattern[] = preg_quote($keyword, '/');
-	$pattern = '/(?<![a-zA-Z\x80-\xff])(?:'.implode('|',$pattern).')/e'; // 대소문자 구별 및 키워드의 단어 첫머리 처리	
+	$pattern = '/(?<![a-zA-Z\x80-\xff])(?:'.implode('|',$pattern).')/e'; // 대소문자 구별 및 키워드의 단어 첫머리 처리
 	$inUnableContexts = false;
 	while (true) {
 		if( count($stack) <= 0 || (!$inUnableContexts) ){
@@ -1274,7 +1274,7 @@ function bindKeywords($keywords, $content) {
 		}else{
 			$buf .= $result[$i];
 		}
-	
+
 		if (++$i >= count($result)) break;
 		if ($result[$i]{0} == '<') {
 			if ($result[$i]{1} == '/') {
@@ -1369,7 +1369,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				$buf .= "			{$id}.nextText = \"" . _text('다음 이미지 보기 버튼') . "\"; " . CRLF;
 				$buf .= "			{$id}.enlargeText = \"" . _text('원본 크기로 보기 버튼') . "\"; " . CRLF;
 				$buf .= "			{$id}.altText = \"" . _text('갤러리 이미지') . "\"; " . CRLF;
-				
+
 				foreach ($items as $item) {
 					$setWidth = $setHeight = 0;
 					if (list($width, $height) = @getimagesize("$folderPath/$item[0]")) {
@@ -1482,7 +1482,7 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 				} else {
 					$caption = '';
 				}
-				$buf = '<center>'; 
+				$buf = '<center>';
 				$buf .= '<div id="jukeBox' . $id . 'Div" style="width:' . $width . '; height:' . $height . ';"><div id="jukeBoxContainer'.$id.'" style="width:' . $width . '; height:' . $height . ';"></div>';
 				$buf .= '<script type="text/javascript">writeCode(getEmbedCode(\'' . $service['path'] . '/script/jukebox/flash/main.swf\',\'100%\',\'100%\',\'jukeBox' . $id . 'Flash\',\'#FFFFFF\',"sounds=' . $imgStr . '&amp;autoplay=' . $params['autoplay'] . '&amp;visible=' . $params['visible'] . '&amp;id=' . $id . '","false"), "jukeBoxContainer'.$id.'")</script><noscript>';
 				for ($i = 0; $i < count($imgs); $i++) {
@@ -1496,11 +1496,11 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 			}
 		} else {
 			$contentWidth = getContentWidth();
-			
+
 			switch (count($attributes)) {
 				case 4:
 					list($newProperty, $onclickFlag) = createNewProperty($attributes[1], $contentWidth, $attributes[2]);
-					
+
 					if (defined('__TATTERTOOLS_MOBILE__')) {
 						$buf = '<div>' . getAttachmentBinder($attributes[1], $newProperty, $folderPath, $folderURL, 1, $useAbsolutePath) . "</div><div>$attributes[3]</div>";
 					} else {
@@ -1534,8 +1534,8 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 					} else {
 						$cap1 = strlen(trim($attributes[3])) > 0 ? '<p class="cap1">' . $attributes[3] . '</p>' : '';
 						$cap2 = strlen(trim($attributes[6])) > 0 ? '<p class="cap1">' . $attributes[6] . '</p>' : '';
-						$buf = '<div class="imageblock dual" style="text-align: center;"><table cellspacing="5" cellpadding="0" border="0" style="margin: 0 auto;"><tr><td>' 
-							. getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 2, $useAbsolutePath, $bRssMode, $onclickFlag1) . $cap1 . '</td><td>' 
+						$buf = '<div class="imageblock dual" style="text-align: center;"><table cellspacing="5" cellpadding="0" border="0" style="margin: 0 auto;"><tr><td>'
+							. getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 2, $useAbsolutePath, $bRssMode, $onclickFlag1) . $cap1 . '</td><td>'
 							. getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 2, $useAbsolutePath, $bRssMode, $onclickFlag2) . $cap2 . '</td></tr></table></div>';
 					}
 					break;
@@ -1552,12 +1552,12 @@ function bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolu
 						$cap1 = strlen(trim($attributes[3])) > 0 ? '<p class="cap1">' . $attributes[3] . '</p>' : '';
 						$cap2 = strlen(trim($attributes[6])) > 0 ? '<p class="cap1">' . $attributes[6] . '</p>' : '';
 						$cap3 = strlen(trim($attributes[9])) > 0 ? '<p class="cap1">' . $attributes[9] . '</p>' : '';
-						$buf = '<div class="imageblock triple" style="text-align: center"><table cellspacing="5" cellpadding="0" border="0" style="margin: 0 auto;"><tr><td>' 
-							. getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag1) . $cap1 . '</td><td>' 
-							. getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag2) . $cap2 . '</td><td>' 
+						$buf = '<div class="imageblock triple" style="text-align: center"><table cellspacing="5" cellpadding="0" border="0" style="margin: 0 auto;"><tr><td>'
+							. getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag1) . $cap1 . '</td><td>'
+							. getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag2) . $cap2 . '</td><td>'
 							. getAttachmentBinder($attributes[7], $newProperty3, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag3) . $cap3 . '</td></tr></table></div>';
 					}
-					break; 
+					break;
 			}
 		}
 		$view = substr($view, 0, $start) . $buf . substr($view, $end + 4);
@@ -1583,7 +1583,7 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 					if (($waterMarkOn == 'yes') && ($exist == 1)) $bPassing = true;
 				}
 
-				if ($bPassing == false) 
+				if ($bPassing == false)
 					return fireEvent('ViewAttachedImageMobile', "<img src=\"$blogURL/imageResizer/?f=" . urlencode($filename) . "\" alt=\"\" />", $path);
 			}
 			/*if ($bRssMode == true) {
@@ -1594,9 +1594,9 @@ function getAttachmentBinder($filename, $property, $folderPath, $folderURL, $ima
 				if (($onclickFlag == true) && ($bRssMode == false) && ($bPassing == false)) {
 					$imageStr = '<img src="'.$url.'" '.$property.' style="cursor: pointer;" onclick="open_img(\''.$url.'\')" />';
 				} else {
-					$imageStr = '<img src="'.$url.'" '.$property.' />';		
+					$imageStr = '<img src="'.$url.'" '.$property.' />';
 				}
-				
+
 				return makeThumbnail(fireEvent('ViewAttachedImage', $imageStr, $path), $path, $paddingArray, $waterMarkArray, $useAbsolutePath);
 			}
 			break;
@@ -1639,7 +1639,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 															<a class="add-button button" href="#void" onclick="Reader.addGroup(document.getElementById('newGroupTitle').value)"><span class="text"><?php echo _t('추가');?></span></a>
 														</div>
 													</div>
-													
+
 													<ul id="groupList">
 <?php
 	$count = 0;
@@ -1653,14 +1653,14 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 															<div class="title">
 																<a href="#void" onclick="Reader.selectGroup(this, <?php echo $group['id'];?>)"><?php echo htmlspecialchars($group['title']);?></a>
 															</div>
-<?php 
+<?php
 		if ($group['id']) {
 ?>
-															
+
 															<div class="button-box">
 																<a class="edit-button button" href="#void" onclick="Reader.editGroup(<?php echo $group['id'];?>, '<?php echo escapeJSInAttribute($group['title']);?>'); return false;" title="<?php echo _t('이 그룹 정보를 수정합니다.');?>"><span class="text"><?php echo _t('수정');?></span></a>
 															</div>
-<?php 
+<?php
 		}
 ?>
 														</li>
@@ -1669,7 +1669,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 	}
 ?>
 													</ul>
-													
+
 													<div id="groupEditor" style="display: none;">
 														<div class="title"><span><?php echo _t('그룹 수정하기');?></span></div>
 														<div class="input-box">
@@ -1685,7 +1685,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 															</div>
 														</div>
 													</div>
-<?php 
+<?php
 }
 
 function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = null) {
@@ -1699,7 +1699,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 															<?php echo fireEvent('AddFeedURLToolbox', '');?>
 														</div>
 													</div>
-													
+
 													<ul id="feedList">
 <?php
 	$count = 0;
@@ -1726,19 +1726,19 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 	}
 ?>
 													</ul>
-													
+
 													<div id="feedEditor" style="display: none;">
 														<div class="title"><span class="text"><?php echo _t('피드 수정하기');?></span></div>
 														<div class="input-box">
 															<div class="input-field">
 																<select id="changeFeedGroup">
-<?php 
+<?php
 	foreach (getFeedGroups($owner) as $group) {
 		if ($group['id'] == 0)
 			$group['title'] = _t('그룹 없음');
 ?>
 																	<option value="<?php echo $group['id'];?>"><?php echo htmlspecialchars($group['title']);?></option>
-<?php 
+<?php
 	}
 ?>
 																</select>
@@ -1753,7 +1753,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 															</div>
 														</div>
 													</div>
-<?php 
+<?php
 }
 
 
@@ -1767,7 +1767,7 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 														var disscrapedPostText = "<?php echo _t('미스크랩 포스트');?>";
 													//]]>
 												</script>
-												
+
 												<table cellpadding="0" cellspacing="0">
 													<tbody>
 <?php
@@ -1808,26 +1808,26 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 ?>
 													</tbody>
 												</table>
-													
+
 												<div id="additionalFeedContainer"></div>
 												<div id="feedLoadingIndicator" class="system-message" style="display: none;">
 													<?php echo _t('피드를 읽어오고 있습니다.');?>
 												</div>
-												
+
 												<script type="text/javascript">
 													//<![CDATA[
 														Reader.setShownEntries(<?php echo $count;?>);
 														Reader.setTotalEntries(<?php echo getFeedEntriesTotalCount($owner, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword);?>);
-<?php 
+<?php
 	if (isset($firstEntryId)) {
 ?>
 														Reader.selectedEntryObject = document.getElementById("entryTitleList<?php echo $firstEntryId;?>").parentNode;
-<?php 
+<?php
 	}
 ?>
 													//]]>
 												</script>
-<?php 
+<?php
 	return $count;
 }
 
@@ -1870,7 +1870,7 @@ function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false
 	}
 ?>
 												</table>
-<?php 
+<?php
 	return $count;
 }
 
@@ -1885,24 +1885,24 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 													<div class="writing-info"><span class="by">by </span><span class="name"><?php echo htmlspecialchars($entry['author'] ? eregi_replace("^\\((.+)\\)$", "\\1", $entry['author']) : $entry['blog_title']);?></span><span class="divider"> : </span><span class="date"><?php echo date('Y-m-d H:i:s', $entry['written']);?></span></div>
 													<div class="open"><a id="entryPermalink" href="<?php echo htmlspecialchars($entry['permalink']);?>" onclick="window.open(this.href); return false;" title="<?php echo _t('이 포스트를 새 창으로 엽니다.');?>"><span class="text"><?php echo _t('새 창으로');?></span></a></div>
 												</div>
-												
+
 												<div id="entryBody" xml:lang="<?php echo htmlspecialchars($entry['language']);?>">
-<?php 
+<?php
 	if ($entry['enclosure']) {
 		if (preg_match('/\.mp3$/i', $entry['enclosure'])) {
 ?>
 													<p><span class="podcast-icon bullet"><span class="text"><?php echo _t('팟캐스트');?></span></span><a href="<?php echo htmlspecialchars($entry['enclosure']);?>"><?php echo htmlspecialchars($entry['enclosure']);?></a></p>
-<?php 
+<?php
 		} else {
 ?>
 													<p><span class="podcast-icon bullet"><span class="text"><?php echo _t('팟캐스트');?></span></span><a href="<?php echo htmlspecialchars($entry['enclosure']);?>"><?php echo htmlspecialchars($entry['enclosure']);?></a></p>
-<?php 
+<?php
 		}
 	}
 ?>
 													<?php echo $entry['description'];?>
 												</div>
-												
+
 												<script type="text/javascript">
 													//<![CDATA[
 														Reader.selectedEntry = <?php echo escapeJSInAttribute($entry['id']);?>;
@@ -1910,9 +1910,9 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 														Reader.doPostProcessingOnEntry();
 													//]]>
 												</script>
-												
+
 												<div id="entryFoot">
-<?php 
+<?php
 	if ($entry['tags']) {
 ?>
 													<div id="entryTag">
@@ -1925,7 +1925,7 @@ function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly =
 														<a class="non-read-button button" href="#void" onclick="Reader.markAsUnread(<?php echo $entry['id'];?>)"><span class="text"><?php echo _t('안 읽은 글로 표시');?></span></a>
 													</div>
 												</div>
-<?php 
+<?php
 }
 
 function printScript($filename, $obfuscate = true) {
@@ -1940,7 +1940,7 @@ function printScript($filename, $obfuscate = true) {
 
 function createNewProperty($filename, $imageWidth, $property) {
 	global $owner;
-	
+
 	if (!file_exists(ROOT."/attach/$owner/$filename")) return array($property, false);
 	if ($tempInfo = getimagesize(ROOT."/attach/$owner/$filename")) {
 		list($originWidth, $originHeight, $type, $attr) = $tempInfo;
@@ -1948,7 +1948,7 @@ function createNewProperty($filename, $imageWidth, $property) {
 	} else {
 		return array($property, false);
 	}
-	
+
 	$attributes = getAttributesFromString($property, false);
 
 	if(array_key_exists('width', $attributes)) {
@@ -1959,7 +1959,7 @@ function createNewProperty($filename, $imageWidth, $property) {
 				$attributes['width'] = intval($matches[1]);
 		}
 	}
-	
+
 	if(array_key_exists('height', $attributes)) {
 		if(preg_match('/([\d.]+)(%?)/', $attributes['height'], $matches)) {
 			if($matches[2] == '%')
@@ -1968,12 +1968,12 @@ function createNewProperty($filename, $imageWidth, $property) {
 				$attributes['height'] = intval($matches[1]);
 		}
 	}
-	
+
 	// 가로, 세로 어느 쪽이든 0이면 이미지는 표시되지 않음. 따라서 계산할 필요 없음.
 	if ($attributes['width'] === 0 || $attributes['height'] === 0) {
 		return array($property, false);
 	}
-	
+
 	// 가로만 지정된 이미지의 경우.
 	if (isset($attributes['width']) && !isset($attributes['height'])) {
 		// 비어있는 세로를 가로의 크기를 이용하여 계산.
