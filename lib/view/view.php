@@ -120,11 +120,11 @@ function getUpperView($paging) {
 				var request = new HTTPRequest("POST", oForm.action);
 				request.onSuccess = function () {
 					document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
-					if(document.getElementById("recentComments"))
+					if(getObject("recentComments") != null)
 						document.getElementById("recentComments").innerHTML = this.getText("/response/recentCommentBlock");
-					if(document.getElementById("commentCount" + entryId))
+					if(getObject("commentCount" + entryId) != null)
 						document.getElementById("commentCount" + entryId).innerHTML = this.getText("/response/commentView");
-					if(document.getElementById("commentCountOnRecentEntries" + entryId))
+					if(getObject("commentCountOnRecentEntries" + entryId) != null)
 						document.getElementById("commentCountOnRecentEntries" + entryId).innerHTML = "(" + this.getText("/response/commentCount") + ")";
 				}
 				request.onError = function() {
