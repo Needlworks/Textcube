@@ -14,7 +14,7 @@ $IV = array(
 		'showValueOnTree' => array('string', 'mandatory' => false)
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (setTreeSetting($owner, $_POST)) {
 	header("Location: $blogURL/owner/skin/setting");

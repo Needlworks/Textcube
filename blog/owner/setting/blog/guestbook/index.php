@@ -9,7 +9,7 @@ $IV = array(
 		'comment' => array(array('0', '1'))
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (setGuestbook($owner, $_GET['write'], $_GET['comment'])) {
 	respondResultPage(0);

@@ -8,7 +8,7 @@ $IV = array(
 		'names' => array('string', 'default' => null)
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (!empty($_POST['names']) && deleteAttachmentMulti($owner, $suri['id'], $_POST['names']))
 	respondResultPage(0);

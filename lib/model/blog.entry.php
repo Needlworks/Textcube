@@ -448,7 +448,11 @@ function getDraftEntryId($id = 0) {
 	if ($id)
 		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
 	else
-		return DBQuery::queryCell("SELECT d.id FROM {$database['prefix']}Entries d LEFT JOIN {$database['prefix']}Entries e ON d.owner = e.owner AND d.id = e.id AND e.draft = 0 WHERE d.owner = $owner AND d.draft = 1 AND e.id IS NULL ORDER BY d.id LIMIT 1");
+		return DBQuery::queryCell("SELECT d.id 
+				FROM {$database['prefix']}Entries d 
+				LEFT JOIN {$database['prefix']}Entries e ON d.owner = e.owner AND d.id = e.id AND e.draft = 0 
+				WHERE d.owner = $owner AND d.draft = 1 AND e.id IS NULL 
+				ORDER BY d.id LIMIT 1");
 }
 
 function updateEntry($owner, $entry) {

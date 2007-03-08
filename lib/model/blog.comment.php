@@ -468,27 +468,27 @@ function revertComment($owner, $id, $entry, $password) {
 	return false;
 }
 
-function getRecentComments($owner) {
+function getRecentComments($owner,$count = false,$isGuestbook = false) {
 	global $skinSetting, $database;
 	$comments = array();
 	$sql = doesHaveOwnership() ? "SELECT * FROM 
 			{$database['prefix']}Comments 
 		WHERE 
-			owner = $owner AND entry>0 AND isFiltered = 0 
+			owner = $owner".($isGuestbook != false ? " AND entry=0" : " AND entry>0")." AND isFiltered = 0 
 		ORDER BY 
 			written 
-		DESC LIMIT 
-			{$skinSetting['commentsOnRecent']}" :
+		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']) :
 		"SELECT r.* FROM 
 			{$database['prefix']}Comments r
 			LEFT JOIN {$database['prefix']}Entries e ON r.owner = e.owner AND r.entry = e.id
 			LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id
 		WHERE 
-			r.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND (c.visibility > 1 OR e.category = 0) AND entry > 0 AND isFiltered = 0 
+			r.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND (c.visibility > 1 OR e.category = 0) "
+			.($isGuestbook != false ? " AND r.entry = 0" : " AND r.entry > 0")." AND isFiltered = 0 
 		ORDER BY 
 			r.written 
 		DESC LIMIT 
-			{$skinSetting['commentsOnRecent']}";
+			".($count != false ? $count : $skinSetting['commentsOnRecent']);
 	if ($result = DBQuery::query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
@@ -500,6 +500,10 @@ function getRecentComments($owner) {
 		}
 	}
 	return $comments;
+}
+
+function getRecentGuestbook($owner,$count = false) {
+	return getRecentComments($owner,$count,true);
 }
 
 function deleteCommentInOwner($owner, $id) {

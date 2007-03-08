@@ -16,7 +16,7 @@ $IV = array(
 		'published' => array('int', 0, 'default' => 0)
 		)
 	);
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 $entry['id'] = $suri['id'];
 $entry['draft'] = 1;

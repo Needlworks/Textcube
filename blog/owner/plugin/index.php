@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../..');
 
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 if (defined('__TATTERTOOLS_CENTER__')) {
 	require ROOT . '/lib/piece/owner/headerA.php';
 	require ROOT . '/lib/piece/owner/contentMenuA1.php';

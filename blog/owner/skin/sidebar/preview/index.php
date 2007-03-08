@@ -12,7 +12,7 @@ $IV = array(
 		'tag' => array('any', 'mandatory' => false)
 		)
 	);
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 
 $stats = getStatistics($owner);

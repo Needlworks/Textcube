@@ -8,7 +8,7 @@ $IV = array(
 		'title' => array('string', 'default' => '')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (setBlogTitle($owner, trim($_GET['title']))) {
 	respondResultPage(0);

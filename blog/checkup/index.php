@@ -3,8 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../..');
-require ROOT . '/lib/include.php';
-require ROOT . '/lib/model/skin.php';
+require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/lib/model/blog.skin.php';
 if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION)) {
 	if ($fp = fopen(ROOT . '/cache/CHECKUP', 'w')) {
 		fwrite($fp, TATTERTOOLS_VERSION);

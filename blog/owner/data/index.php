@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../..');
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 $backup = null;
 if (file_exists(ROOT . "/cache/backup/$owner.xml.gz"))
 	$backup = filemtime(ROOT . "/cache/backup/$owner.xml.gz");

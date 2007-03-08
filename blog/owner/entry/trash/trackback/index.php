@@ -27,7 +27,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $site = empty($_POST['site']) ? '' : $_POST['site'];
 $ip = empty($_POST['ip']) ? '' : $_POST['ip'];

@@ -28,7 +28,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireComponent('Tattertools.Data.Filter');
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $name = empty($_GET['name']) ? '' : $_GET['name'];

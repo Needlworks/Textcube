@@ -28,7 +28,7 @@ $IV = array(
 		)
 	);
 
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 
 $isAjaxRequest = false; // checkAjaxRequest();
 $errorArray = array();

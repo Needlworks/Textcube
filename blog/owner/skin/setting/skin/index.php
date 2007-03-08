@@ -28,7 +28,7 @@ $IV = array(
 		'useRelTag' => array('int')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (setSkinSetting($owner, $_POST)) {
 	printRespond(array('error' => 0));

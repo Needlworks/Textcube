@@ -8,7 +8,7 @@ $IV = array(
 		'description' => array('string', 'default' => '')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (setBlogDescription($owner, trim($_POST['description']))) {
 	respondResultPage(0);

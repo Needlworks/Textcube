@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
 
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/headerB.php';
 require ROOT . '/lib/piece/owner/contentMenuB1.php';
 

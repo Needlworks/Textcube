@@ -8,7 +8,7 @@ $IV = array(
 		'skinName' => array('directory' ,'mandatory' => false)
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 
 $isAjaxRequest = checkAjaxRequest();

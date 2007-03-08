@@ -80,12 +80,19 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 		return true;
 	} else {
 		$query = "CREATE TABLE {$database['prefix']}{$name} (owner int(11) NOT NULL default '0',";
-
+		$isaiExists = false;
 		foreach($fields as $field) {
+			$ai = '';
+			if( strtolower($field['attribute']) == 'int' || strtolower($field['attribute']) == 'mediumint'  ){
+				if( true == $field['autoincrement']  && ! $isaiExists){
+					$ai = ' AUTO_INCREMENT ';
+					$isaiExists = true;
+				}
+			}
 			$isNull = ($field['isnull'] == 0) ? ' NOT NULL ' : ' NULL ';
 			$defaultValue = is_null($field['default']) ? '' : " DEFAULT '" . mysql_tt_escape_string($field['default']) . "' ";
 			$fieldLength = ($field['length'] >= 0) ? "(".$field['length'].")" : '';
-			$sentence = $field['name'] . " " . $field['attribute'] . $fieldLength . $isNull . $defaultValue . ",";
+			$sentence = $field['name'] . " " . $field['attribute'] . $fieldLength . $isNull . $defaultValue . $ai . ",";
 			$query .= $sentence;
 		}
 		
@@ -93,7 +100,6 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 		$query .= " PRIMARY KEY (" . implode(',',$keys) . ")";
 		$query .= ") TYPE=MyISAM ";
 		$query .= ($database['utf8'] == true) ? 'DEFAULT CHARSET=utf8' : '';
-		
 		if (DBQuery::execute($query)) {
 				$keyname = mysql_tt_escape_string(mysql_lessen('Database_' . $name, 32));
 				$value = mysql_tt_escape_string(mysql_lessen($plugin . '/' . $version , 255));

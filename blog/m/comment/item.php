@@ -1,7 +1,7 @@
 <?php
 define('__TATTERTOOLS_MOBILE__', true);
 define('ROOT', '../../..');
-require ROOT . '/lib/include.php';
+require ROOT . '/lib/includeForBlog.php';
 list($entries, $paging) = getEntryWithPaging($owner, $suri['id']);
 $entry = $entries ? $entries[0] : null;
 printMobileHtmlHeader();

@@ -27,7 +27,7 @@ $IV = array(
 		'perPage' => array('int', 1, 'mandatory' => false)
 	)
 );	
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $site = isset($_GET['site']) && !empty($_GET['site']) ? $_GET['site'] : '';
 $site = isset($_POST['site']) && !empty($_POST['site']) ? $_POST['site'] : $site;

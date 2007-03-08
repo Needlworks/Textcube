@@ -41,7 +41,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 		)
 	);
 }
-require ROOT . '/lib/include.php';
+require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }

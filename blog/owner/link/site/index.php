@@ -8,7 +8,7 @@ $IV = array(
 		'rss' => array('url')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 if (!empty($_GET['rss'])) {
 	list($st, $header, $body, $lmdate, $rval) = @xml_parser($_GET['rss'], '');
 	if ($rval) {

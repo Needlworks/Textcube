@@ -10,7 +10,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 	
 $result = writeSkinHtml($owner, $_POST['body'], $_POST['mode']);

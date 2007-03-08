@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../..');
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 $links = getLinks($owner);
 require ROOT . '/lib/piece/owner/header2.php';
 require ROOT . '/lib/piece/owner/contentMenu20.php';

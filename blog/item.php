@@ -32,7 +32,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 } else {
 	$IV = array();
 }
-require ROOT . '/lib/include.php';
+require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }

@@ -16,7 +16,7 @@ if(count($_POST) > 0) {
 		)
 	);
 }
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 if (!empty($_POST['id']))
 	$selected = $_POST['id'];
 else if (empty($_GET['id']))

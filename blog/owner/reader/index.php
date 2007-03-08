@@ -9,7 +9,7 @@ $IV = array(
 		'forceRefresh' => array('any', 'mandatory' => false)
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header6.php';
 $setting = getReaderSetting($owner);
 ?>

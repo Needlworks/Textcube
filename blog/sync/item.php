@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../..');
-require ROOT . '/lib/include.php';
+require ROOT . '/lib/includeForBlog.php';
 header('Content-Type: text/xml; charset=utf-8');
 echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<response>\r\n";
 list($allComments, $allTrackbacks) = DBQuery::queryRow("SELECT SUM(comments), SUM(trackbacks) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND visibility = 3", MYSQL_NUM);

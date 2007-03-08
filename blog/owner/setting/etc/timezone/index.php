@@ -8,7 +8,7 @@ $IV = array(
 		'timezone' => array('string')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (isset($_GET['timezone'])) {
 	requireComponent('Tattertools.Data.BlogSetting');

@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 if (file_exists(ROOT . "/cache/backup/$owner.xml")) {
 	header('Content-Disposition: attachment; filename="Tattertools-Backup-' . Timestamp::getDate(filemtime(ROOT . "/cache/backup/$owner.xml")) . '.xml"');
 	header('Content-Description: Tattertools Backup Data');

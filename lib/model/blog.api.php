@@ -233,12 +233,13 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 	$post->content = api_fix_content( $param['description'] );
 	$post->title = $param['title'];
 	
-	$param['mt_excerpt'] = array_key_exists('mt_excerpt', $param) ? $param['mt_excerpt'] : '';
-	$param['tagwords'] = array_key_exists('tagwords', $param) ? $param['tagwords'] : array();
+	//$param['mt_excerpt'] = array_key_exists('mt_excerpt', $param) ? $param['mt_excerpt'] : '';
+	//$param['tagwords'] = array_key_exists('tagwords', $param) ? $param['tagwords'] : array();
 	$param['categories'] = array_key_exists('categories', $param) ? $param['categories'] : '';
 	$param['dateCreated'] = array_key_exists('dateCreated', $param) ? $param['dateCreated'] : api_dateiso8601(time());
 	$param['mt_allow_comments'] = array_key_exists('mt_allow_comments', $param) ? $param['mt_allow_comments'] : '';
 	$param['mt_allow_pings'] = array_key_exists('mt_allow_pings', $param) ? $param['mt_allow_pings'] : '';
+	$param['mt_keywords'] = array_key_exists('mt_keywords', $param) ? $param['mt_keywords'] : '';
 
 	global $arr_hint;
 	if( api_checkHint("TagsFromCategories") )
@@ -247,8 +248,11 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 	}
 	else
 	{
-		$post->tags = array_merge( split(",", $param['mt_excerpt']) , $param['tagwords'] );
-		$post->category = api_getCategoryIdByName( $param['categories'] );
+		//$post->tags = array_merge( split(",", $param['mt_excerpt']) , $param['tagwords'] );
+		$post->tags = split(",", $param['mt_keywords']);
+		if (is_array($post->category)) {
+			$post->category = api_getCategoryIdByName( $param['categories'] );
+		}
 	}
 	
 	$post->created = api_timestamp( $param['dateCreated'] );
@@ -289,7 +293,7 @@ function api_get_post( $post, $type = "bl" )
 			"content" => $post->content,
 			"mt_allow_comments" => $post->acceptComment ? 1 : 0,
 			"mt_allow_pings" => $post->acceptTrackback ? 1 : 0,
-			"mt_excerpt" => join( ",", $post->tags )
+			"mt_keywords" => join( ",", $post->tags )
 			);
 }
 
@@ -532,6 +536,7 @@ function api_update_attaches_with_replace($entryId)
 /*--------- API main ---------------*/
 function api_BlogAPI()
 {
+	global $blogApiFunctions;
 	if (!array_key_exists('HTTP_RAW_POST_DATA', $GLOBALS)) {
 		XMLRPC::sendFault(1, 'Invalid Method Call');
 		exit;
@@ -554,11 +559,14 @@ function api_BlogAPI()
 		mt_getPostCategories();
 		mt_setPostCategories();
 		mt_getCategoryList();	
+		mt_supportedMethods();
+		mt_publishPost();
+		mt_getRecentPostTitles();
 	}
 	
 	$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
 
-	$functions = array(
+	$blogApiFunctions = array(
 		"blogger.getUsersBlogs",
 		"blogger.newPost",
 		"blogger.editPost",
@@ -566,6 +574,8 @@ function api_BlogAPI()
 		"blogger.getRecentPosts",
 		"blogger.deletePost", 
 		"blogger.getPost", 
+//		"blogger.getTemplate", // doesn't supported
+//		"blogger.setTemplate", // doesn't supported
 		"metaWeblog.newPost",
 		"metaWeblog.getPost",
 		"metaWeblog.getCategories",
@@ -574,11 +584,17 @@ function api_BlogAPI()
 		"metaWeblog.newMediaObject",
 		"mt.getPostCategories",
 		"mt.setPostCategories",
-		"mt.getCategoryList" );
+		"mt.getCategoryList",
+//		"mt.supportedTextFilters", //지원안함 // 텍스트 처리하는 플러그인 리스트
+		"mt.supportedMethods", // XMLRPC 함수 리스트
+		"mt.publishPost", // rebuild post
+//		"mt.getTrackbackPings", // 인증을 안하므로 무시 // 받은 트랙백 리스트
+		"mt.getRecentPostTitles" // getRecentPosts와 거의 동일, 트래픽 프랜들리 버전
+		 );
 
 	$xmlrpc = new XMLRPC;
 
-	foreach( $functions as $func )
+	foreach( $blogApiFunctions as $func )
 	{
 		$callback = str_replace( ".", "_", $func );
 		$xmlrpc->registerMethod( $func, $callback );
@@ -675,7 +691,7 @@ function blogger_editPost()
 
 	RSS::refresh();
 	if($ret!=false) setUserSetting('LatestEditedEntry',$post->id);
-	return $ret ? 1 : 0;
+	return $ret ? true : false;
 }
 
 function blogger_deletePost()
@@ -712,7 +728,7 @@ function blogger_deletePost()
 	}
 // To here.
 
-	return $ret;
+	return $ret ? true : false;
 
 }
 
@@ -805,7 +821,7 @@ function metaWeblog_getCategories()
 	{
 		array_push( $cat, array( 
 			'htmlUrl' => "$hostURL$blogURL/category/" . $category->label,
-			'rssUrl' => "",
+			//'rssUrl' => "",
 			'categoryName' => $category->label,
 			'description' => $category->label,
 			'title' => $category->label,
@@ -824,10 +840,9 @@ function metaWeblog_getCategories()
 
 }
 
-/*
+
 function mt_getCategoryList()
 {
-	global $service;
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
 	if( $result )
@@ -836,14 +851,13 @@ function mt_getCategoryList()
 	}
 
 	$category = new Category();
-	$category->open();
+	$category->open(false);
 
 	$cat = array();
-	$base_url = "http://" . $service['domain'] . $service['path'] . "/";
 	while(1)
 	{
 		array_push( $cat, array( 
-			'categoryName' => $category->name,
+			'categoryName' => $category->label,
 			'categoryId' => $category->id,
 			'isPrimary' => true ) );
 			
@@ -857,7 +871,7 @@ function mt_getCategoryList()
 	return $cat;
 
 }
-*/
+
 
 function metaWeblog_getRecentPosts()
 {
@@ -952,21 +966,25 @@ function mt_setPostCategories()
 		return new XMLRPCFault( 1, "Posting error" );
 	}
 
-	$category = "";
+	$category = null;
+	if (is_null($params[3])) $params[3] = array();
 	foreach( $params[3] as $index => $cat )
 	{
-		if( $cat['isPrimary'] )
+		if(array_key_exists('isPrimary', $cat) && $cat['isPrimary'] )
 		{
 			$category = $cat['categoryId'];
+		} else {
+			if (is_null($category))
+				$category = $cat['categoryId'];
 		}
 	}
-	if( $category )
+	if( !is_null($category) )
 	{
-		$post->category = $category;
+		$post->category = intval($category);
 		$post->update();
 	}
 	$post->close();
-	return 1;
+	return true;
 }
 
 function mt_getPostCategories()
@@ -1013,7 +1031,7 @@ function metaWeblog_editPost()
 
 	$post->close();
 	if($ret!=false) setUserSetting('LatestEditedEntry',$post->id);
-	return $ret ? 1 : 0;
+	return $ret ? true : false;
 }
 
 function metaWeblog_newMediaObject()
@@ -1053,5 +1071,57 @@ function metaWeblog_newMediaObject()
 	global $service;
 	$attachurl = array ( 'url' => 'http://tt_attach_path/' .  $attachment['name']);
 	return $attachurl;
+}
+
+function mt_supportedMethods()
+{
+	global $blogApiFunctions;
+	return $blogApiFunctions;
+}
+
+function mt_publishPost() /* postid, username, password */
+{
+	// Only check whether the post exists or not
+	$params = func_get_args();
+	$result = api_login( $params[1], $params[2] );
+	if( $result )
+	{
+		return $result;
+	}
+
+	$post = new Post();
+	if (! $post->open( intval( $params[0] ) ) ) {
+		return false;
+	}
+
+	return true;
+}
+
+function mt_getRecentPostTitles() /* blogid, username, password, count */
+{
+	$params = func_get_args();
+	$result = api_login( $params[1], $params[2] );
+	if( $result )
+	{
+		return $result;
+	}
+
+	global $blog;
+
+	$post = new Post();
+	$post->open();
+	$out = array();
+
+	for($i=0; $post->_count > 0 && $i<$params[3]; $i++ )
+	{
+		array_push( $out, api_get_post( $post, "mt" ) );
+		if( !$post->shift() )
+		{
+			break;
+		}
+	}
+
+	$post->close();
+	return $out;
 }
 ?>

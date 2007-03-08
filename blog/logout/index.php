@@ -13,7 +13,7 @@ $IV = array(
 		'requestURI' => array('string', 'default' => null)
 	)
 );
-require ROOT . '/lib/include.php';
+require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }

@@ -19,7 +19,7 @@ $IV = array(
 		'save' => array('any', 'default' => null)
 	)
 );
-require ROOT . '/lib/include.php';
+require ROOT . '/lib/includeForBlog.php';
 
 if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];

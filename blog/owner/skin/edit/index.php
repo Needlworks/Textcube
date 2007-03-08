@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 $skin = @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/skin.html");
 $skin_keyword = @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/skin_keyword.html");
 $style = @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/style.css");

@@ -11,7 +11,7 @@ $IV = array(
 		'url' => array('string')
 	)
 ); 
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 $result = array('error' => editFeed($owner, $_POST['id'], $_POST['old_group'], $_POST['new_group'], $_POST['url']));
 ob_start();

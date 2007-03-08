@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
-require ROOT . '/lib/include.php';
+require ROOT . '/lib/includeForBlog.php';
 requireStrictRoute();
 if ($feed = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Feeds WHERE id = {$suri['id']}"))
 	respondResultPage(updateFeed($feed));

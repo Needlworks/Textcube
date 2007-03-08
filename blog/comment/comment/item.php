@@ -13,7 +13,7 @@ $IV = array(
 		'secret' => array(array('on'), 'default' => null)
 	)
 );
-require ROOT . '/lib/include.php';
+require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }

@@ -1,7 +1,7 @@
 <?php
 define('ROOT', '../../../../../..');
 
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 
 $isAjaxRequest = checkAjaxRequest();
 
