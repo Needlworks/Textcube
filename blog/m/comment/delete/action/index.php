@@ -10,7 +10,7 @@ $IV = array(
 		'password' => array('string', 'mandatory' => false)
 	)
 );
-require ROOT . '/lib/include.php';
+require ROOT . '/lib/includeForBlog.php';
 requireStrictRoute();
 list($entryId) = getCommentAttributes($owner, $_POST['replyId'], 'entry');
 if (deleteComment($owner, $_POST['replyId'], $entryId, isset($_POST['password']) ? $_POST['password'] : '') === false) {

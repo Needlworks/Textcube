@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-require 'correctTT.php';
+require 'common.correctTT.php';
 
 function getTrackbacksWithPagingForOwner($owner, $category, $site, $ip, $search, $page, $count) {
 	global $database;
@@ -47,7 +47,7 @@ function getTrackbacks($entry) {
 	return $trackbacks;
 }
 
-function getRecentTrackbacks($owner) {
+function getRecentTrackbacks($owner, $count = false) {
 	global $database;
 	global $skinSetting;
 	$trackbacks = array();
@@ -58,8 +58,7 @@ function getRecentTrackbacks($owner) {
 			owner = $owner AND isFiltered = 0 
 		ORDER BY 
 			written 
-		DESC LIMIT 
-			{$skinSetting['trackbacksOnRecent']}" : 
+		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']) : 
 		"SELECT t.* 
 		FROM 
 			{$database['prefix']}Trackbacks t 
@@ -69,8 +68,7 @@ function getRecentTrackbacks($owner) {
 			t.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND (c.visibility > 1 OR e.category = 0) AND t.isFiltered = 0 
 		ORDER BY 
 			t.written 
-		DESC LIMIT 
-			{$skinSetting['trackbacksOnRecent']}";
+		DESC LIMIT ".($count = false ? $count : $skinSetting['trackbacksOnRecent']);
 	if ($result = DBQuery::query($sql)) {
 		while ($trackback = mysql_fetch_array($result))
 			array_push($trackbacks, $trackback);

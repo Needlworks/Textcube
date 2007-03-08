@@ -9,7 +9,7 @@ $IV = array(
 		'nickname' => array('string')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (changeSetting($owner, $_POST['email'], $_POST['nickname'])) {
 	respondResultPage(0);

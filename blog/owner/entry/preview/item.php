@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 $entries = array();
 if (!$entry = getEntry($owner, $suri['id'], true))
 	$entry = getEntry($owner, $suri['id'], false);

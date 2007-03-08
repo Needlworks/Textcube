@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('__TATTERTOOLS_MOBILE__', true);
 define('ROOT', '../../../..');
-require ROOT . '/lib/include.php';
+require ROOT . '/lib/includeForBlog.php';
 requireStrictRoute();
 $entryId = $suri['id'];
 $IV = array(

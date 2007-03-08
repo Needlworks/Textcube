@@ -9,7 +9,7 @@ $IV = array(
 		'category' => array('int')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if(changeCategoryOfEntries($owner,$_POST['targets'], $_POST['category'])) {
 	respondResultPage(0);

@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../../..');
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 header("Content-type: application");
 header("Content-Disposition: attachment; filename=tatter_reader_feed_" . date("Ymd") . ".opml");
 header("Content-Description: PHP4 Generated Data");

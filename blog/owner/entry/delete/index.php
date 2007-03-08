@@ -8,7 +8,7 @@ $IV = array(
 		'targets' => array ('list')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 foreach(explode(',', $_POST['targets']) as $target) {
 	if (!deleteEntry($owner, $target))

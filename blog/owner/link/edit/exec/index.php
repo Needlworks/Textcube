@@ -11,7 +11,7 @@ $IV = array(
 		'url' => array( 'string' , 'min' => 0 ,  'max' => 255)
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 respondResultPage(updateLink($owner, $_POST));
 ?>

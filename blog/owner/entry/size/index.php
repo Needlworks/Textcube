@@ -8,7 +8,7 @@ $IV = array(
 		'parent' => array('int')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 $result = getAttachmentSizeLabel($owner, $_GET['parent']);
 printRespond(array ('error' => empty($result) ? 1 : 0, 'result' => $result));
 ?> 

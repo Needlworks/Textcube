@@ -13,7 +13,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 respondResultPage(setReaderSetting($owner, $_POST));
 ?>

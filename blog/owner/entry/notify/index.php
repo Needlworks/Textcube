@@ -22,7 +22,7 @@ if(count($_POST) > 0) {
 		)
 	);
 }
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $name = isset($_GET['name']) && !empty($_GET['name']) ? $_GET['name'] : '';
 $name = isset($_POST['name']) && !empty($_POST['name']) ? $_POST['name'] : $name;

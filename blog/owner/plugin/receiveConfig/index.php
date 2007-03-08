@@ -7,7 +7,7 @@ $IV = array(	'POST' => array(	'Name' => array('string'),
 									'DATA' => array('string')
 									)
 		);
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 if (false) {
     fetchConfigVal();
 }

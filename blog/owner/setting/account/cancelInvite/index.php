@@ -8,7 +8,7 @@ $IV = array(
 		'userid' => array('id')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 $result = cancelInvite($_POST['userid']);
 if ($result) {

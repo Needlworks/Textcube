@@ -9,7 +9,7 @@ $IV = array(
 		'prevPwd' => array('string')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (changePassword($owner, $_POST['pwd'], $_POST['prevPwd'])) {
 	respondResultPage(0);

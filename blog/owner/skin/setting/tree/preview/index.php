@@ -16,7 +16,7 @@ $IV = array(
 	)
 ); 
 
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 $selected = 0;
 
 if (isset($_GET['name']))

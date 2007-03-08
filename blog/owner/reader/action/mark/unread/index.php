@@ -8,7 +8,7 @@ $IV = array(
 		'id' => array('id')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 respondResultPage(markAsUnread($owner, $_POST['id']));
 ?>

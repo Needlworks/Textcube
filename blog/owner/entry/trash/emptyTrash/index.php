@@ -8,7 +8,7 @@ $IV = array (
 			)
 		);
 
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 
 if ($_GET['type'] == 1) {

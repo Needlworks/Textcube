@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../../..');
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 $result = getTrackbackLog($owner, $suri['id']);
 if ($result !== false) {
 	$result = str_replace(' ', '&nbsp;', $result);

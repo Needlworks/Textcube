@@ -10,7 +10,7 @@ $IV = array(
 		'viewMode' => array('string', 'default' => '')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 
 $skin = new Skin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);

@@ -14,7 +14,7 @@ $IV = array(
 		'CONTENT_TYPE' => array('string', 'default' => '')
 	)
 );
-require ROOT . '/lib/include.php';
+require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }

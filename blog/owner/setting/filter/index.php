@@ -15,7 +15,7 @@ $IV = array(
 	//	'history' => array( 'string' , 'default' => null )
 	//)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireComponent('Tattertools.Data.Filter');
 if (isset($_POST['ipValue'])) {
 	$_POST['mode'] = "ip";

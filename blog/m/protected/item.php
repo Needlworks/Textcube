@@ -9,7 +9,7 @@ $IV = array(
 		'password' => array('string','default' => null)
 	)
 );
-require ROOT . '/lib/include.php';
+require ROOT . '/lib/includeForBlog.php';
 $entry = getEntry($owner, $suri['id']);
 if(isset($_POST['password']) && $entry['password'] == $_POST['password']) {
 	setcookie('GUEST_PASSWORD', $_POST['password'], time() + 86400, "$blogURL/");

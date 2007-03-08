@@ -21,7 +21,7 @@ $IV = array(
 		'withSearch' => array(array('on'), 'mandatory' => false)
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 trashVan();
 publishEntries();
 

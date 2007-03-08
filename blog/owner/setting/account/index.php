@@ -8,7 +8,7 @@ $IV = array(
 		'password' => array('any' ,'mandatory' => false)
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header5.php';
 require ROOT . '/lib/piece/owner/contentMenu51.php';
 ?>

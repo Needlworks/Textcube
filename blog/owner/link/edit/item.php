@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 if (!$link = getLink($owner, $suri['id']))
 	respondErrorPage(_t('링크 정보가 존재하지 않습니다.'));
 $method = empty($link['rss']) ? 1 : 0;

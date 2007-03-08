@@ -10,7 +10,7 @@ $IV = array(
 		'url' => array('string')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 respondResultPage(addLink($owner, $_POST));
 ?>

@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-//require 'correctTT.php';
+//require 'common.correctTT.php';
 
 function getTrashTrackbackWithPagingForOwner($owner, $category, $site, $ip, $search, $page, $count) {
 	global $database;

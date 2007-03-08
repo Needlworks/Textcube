@@ -13,7 +13,7 @@ $IV = array(
 		'senderEmail' => array('email')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (($service['type'] == 'single') || (getUserId() > 1))
 	respondResultPage(false);

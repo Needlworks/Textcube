@@ -14,7 +14,7 @@ $IV = array(
 		'search' => array('string', 'default' => '')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 if (false) {
 	fetchConfigVal();
 }

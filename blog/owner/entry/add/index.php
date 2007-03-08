@@ -17,7 +17,7 @@ $IV = array(
 		'published' => array('int', 0, 'default' => 1)
 		)
 	);
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 $entry['visibility'] = $_POST['visibility'];
 $entry['category'] = empty($_POST['category']) ? 0 : $_POST['category'];

@@ -9,7 +9,7 @@ $IV = array(
 		'f' => array('filename')
 	)
 );
-require ROOT . '/lib/include.php';
+require ROOT . '/lib/includeForBlog.php';
 $imagePath = ROOT . "/attach/$owner/{$_GET['f']}";
 if ($fp = @fopen($imagePath, 'r')) {
 	$imageInfo = @getimagesize($imagePath);

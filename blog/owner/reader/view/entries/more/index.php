@@ -13,7 +13,7 @@ $IV = array(
 		'loaded' => array('int', 'default' => 0)
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 $result = array('error' => '0');
 ob_start();
 $count = printFeedEntriesMore($owner, $_POST['group'], $_POST['feed'], $_POST['unread'] == '1', $_POST['starred'] == '1', $_POST['keyword'] == '' ? null : $_POST['keyword'], $_POST['loaded']);

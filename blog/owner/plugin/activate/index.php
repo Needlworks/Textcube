@@ -8,7 +8,7 @@ $IV = array(
 		'name' => array('directory', 'default' => null),
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (!empty($_POST['name']) && activatePlugin($_POST['name']))
 	respondResultPage(0);

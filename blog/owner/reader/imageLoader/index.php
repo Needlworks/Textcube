@@ -8,7 +8,7 @@ $IV = array(
 		'url' => array('url')
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireComponent('Eolin.PHP.HTTPRequest');
 if (preg_match('/\.jpe?g/i', $_GET['url']))
 	header('Content-type: image/jpeg');

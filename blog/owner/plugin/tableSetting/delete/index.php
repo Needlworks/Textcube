@@ -9,7 +9,7 @@ $IV = array(
 		'type' => array('int', 'min' => 1, 'max' => 2),
 	)
 );
-require ROOT . '/lib/includeForOwner.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if ($owner != 1) {
 	respondResultPage(1);

@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('__TATTERTOOLS_MOBILE__', true);
 define('ROOT', '../../../../..');
-require ROOT . '/lib/include.php';
+require ROOT . '/lib/includeForBlog.php';
 requireStrictRoute();
 list($entryId) = getCommentAttributes($owner, $suri['id'], 'entry');
 if (deleteComment($owner, $suri['id'], $entryId, '') === false) {
