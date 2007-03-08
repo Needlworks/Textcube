@@ -155,13 +155,13 @@ function getUpperView($paging) {
 							case "radio":
 								if (oForm.elements[i].checked == true) {
 									if (oForm.elements[i].name == tempSecret)
-										queryString += linker + oForm.elements[i].name + '=' + oForm.elements[i].value;
+										queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
 									else if (oForm.elements[i].id == tempSecret)
-										queryString += linker + oForm.elements[i].id + '=' + oForm.elements[i].value;
+										queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
 									else if (oForm.elements[i].name != '')
-										queryString += linker + oForm.elements[i].name + '_' + entryId + '=' + oForm.elements[i].value;
+										queryString += linker + oForm.elements[i].name + '_' + entryId + '=' + encodeURIComponent(oForm.elements[i].value);
 									else if (oForm.elements[i].id != '')
-										queryString += linker + oForm.elements[i].id + "=" + oForm.elements[i].value;
+										queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
 								}
 								break;
 							case "text":
@@ -170,21 +170,21 @@ function getUpperView($paging) {
 							case "button":
 							case "submit":
 								if (oForm.elements[i].name == tempName)
-									queryString += linker + oForm.elements[i].name + '=' + oForm.elements[i].value;
+									queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
 								else if (oForm.elements[i].id == tempName)
-									queryString += linker + oForm.elements[i].id + '=' + oForm.elements[i].value;
+									queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
 								else if (oForm.elements[i].name == tempPassword)
-									queryString += linker + oForm.elements[i].name + '=' + oForm.elements[i].value;
+									queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
 								else if (oForm.elements[i].id == tempPassword)
-									queryString += linker + oForm.elements[i].id + '=' + oForm.elements[i].value;
+									queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
 								else if (oForm.elements[i].name == tempHomepage)
-									queryString += linker + oForm.elements[i].name + '=' + oForm.elements[i].value;
+									queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
 								else if (oForm.elements[i].id == tempHomepage)
-									queryString += linker + oForm.elements[i].id + '=' + oForm.elements[i].value;
+									queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
 								else if (oForm.elements[i].name != '')
-									queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + oForm.elements[i].value;
+									queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].value);
 								else if (oForm.elements[i].id != '')
-									queryString += linker + oForm.elements[i].id + "=" + oForm.elements[i].value;
+									queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
 								break;
 							//case "file":
 							//	break;
@@ -192,16 +192,16 @@ function getUpperView($paging) {
 					} else if (oForm.elements[i].tagName.toLowerCase() == "select") {
 						num = oForm.elements[i].selectedIndex;
 						if (oForm.elements[i].name != '')
-							queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + oForm.elements[i].options[num].value;
+							queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].options[num].value);
 						else if (oForm.elements[i].id != '')
-							queryString += linker + oForm.elements[i].id + "=" + oForm.elements[i].options[num].value;
+							queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].options[num].value);
 					} else if (oForm.elements[i].tagName.toLowerCase() == "textarea") {
 						if (oForm.elements[i].name == tempComment)
-							queryString += linker + oForm.elements[i].name + '=' + oForm.elements[i].value;
+							queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
 						else if (oForm.elements[i].name != '')
-							queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + oForm.elements[i].value;
+							queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].value);
 						else if (oForm.elements[i].id != '')
-							queryString += linker + oForm.elements[i].id + "=" + oForm.elements[i].value;
+							queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
 					}
 				}
 				request.send(queryString);
