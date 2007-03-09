@@ -22,7 +22,7 @@ function getKeywordNames($owner) {
 	global $database;
 	$names = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$result = DBQuery::query("SELECT title FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -1");
+	$result = DBQuery::query("SELECT title FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -1 ORDER BY char_length(title) DESC");
 	while (list($name) = mysql_fetch_array($result))
 		array_push($names, $name);
 	return $names;
