@@ -432,6 +432,24 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings showListOnS
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (DBQuery::queryCell("DESC {$database['prefix']}Categories owner", 'Key') != 'PRI') { // Since 1.1.2
+	$changed = true;
+	echo '<li>', _text('최상위 카테고리 이름 수정을 위하여 카테고리 테이블의 인덱스를 수정합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Categories DROP PRIMARY KEY, ADD PRIMARY KEY(owner, id)"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
+if (DBQuery::queryCell("DESC {$database['prefix']}Categories id", 'Extra') == 'auto_increment') {
+	$changed = true;
+	echo '<li>', _text('최상위 카테고리 이름 수정을 위하여 카테고리 테이블의 자동 증가 설정을 제거합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Categories CHANGE id id int(11) NOT NULL"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
