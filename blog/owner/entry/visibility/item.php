@@ -15,7 +15,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 
 //$isAjaxRequest = checkAjaxRequest();
-
+	
 if (!isset($_GET['command'])) {
 	$temp = setEntryVisibility($suri['id'], isset($_GET['visibility']) ? $_GET['visibility'] : 0) == true ? 0 : 1;
 	$countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `owner` = {$owner} AND `visibility` = 3");
@@ -24,7 +24,7 @@ if (!isset($_GET['command'])) {
 	} else {
 		$countResult = 1;
 	}
-	printRespond(array('error' => setEntryVisibility($suri['id'], isset($_GET['visibility']) ? $_GET['visibility'] : 0), 'countSyndicated' => $countResult));
+	printRespond(array('error' => $temp, 'countSyndicated' => $countResult), false);
 } else {
 	switch ($_GET['command']) {
 		case "protect":
