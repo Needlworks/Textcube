@@ -5,13 +5,13 @@
 /* shortcut */
 #shortcut-collection h3
 {
-	width                            : 275px;
+	width                            : 180px;
 }
 
 /* total information */
 #total-information h3
 {
-	width                            : 275px;
+	width                            : 180px;
 }
 
 #total-information table
@@ -22,13 +22,13 @@
 /* notice */
 #tattertools-notice h3
 {
-	width                            : 595px;
+	width                            : 390px;
 }
 
 #tattertools-notice table
 {
 	margin                           : -3px 0 20px 0 !important;
-	width                            : 620px;
+	width                            : 410px;
 }
 
 /* quilt */

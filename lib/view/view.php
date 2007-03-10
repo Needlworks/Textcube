@@ -996,7 +996,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 <?php
 		}
 ?>
-	selectNode(<?php echo $selected;?>);
+		selectNode(<?php echo $selected;?>);
 	}
 	window.addEventListener("load", execOnLoadSelect, false);
 //]]>

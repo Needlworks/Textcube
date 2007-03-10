@@ -154,7 +154,7 @@ if($tattertoolsDashboard) {
 		$stats = getStatistics($owner);
 ?>
 							<div id="part-center-dashboard" class="part">
-								<h2 class="caption"><span class="main-text"><?php echo _t('태터툴즈');?></span></h2>
+								<h2 class="caption"><span class="main-text"><?php echo _t('센터');?></span></h2>
 								
 								<div id="shortcut-collection" class="section">
 									<h3><?php echo _t('바로가기');?></h3>
@@ -181,7 +181,7 @@ if($tattertoolsDashboard) {
 								</div>
 								
 								<div id="total-information" class="section">
-									<h3><?php echo _t('종합정보');?></h3>
+									<h3><?php echo _t('요약');?></h3>
 									
 									<table>
 										<tbody>
@@ -206,11 +206,11 @@ if($tattertoolsDashboard) {
 								</div>
 							
 								<div id="tattertools-notice" class="section">
-									<h3><?php echo _t('태터툴즈 공지사항');?></h3>
+									<h3><?php echo _t('공지사항');?></h3>
 									
 <?php
-		$noticeURL = "http://blog.tattertools.com";
-		$noticeURLRSS = "http://blog.tattertools.com/rss";
+		$noticeURL = "http://notice.tattersite.com/";
+		$noticeURLRSS = $noticeURL.(isset($blog['language']) ? $blog['language'] : "ko")."/rss";
 
 		list($result, $feed, $xml) = getRemoteFeed($noticeURLRSS);
 		if ($result == 0) {
@@ -256,7 +256,7 @@ if($tattertoolsDashboard) {
 			
 			if (count($noticeEntries) > 0) {
 				// customize point. 사이트 공지를 넣고 싶다면 이것을 줄이고 또 출력하면 된다~
-				array_splice($noticeEntries, 10, count($noticeEntries) - 10);
+				array_splice($noticeEntries, 5, count($noticeEntries) - 5);
 ?>
 									<table>
 										<tbody>
@@ -264,8 +264,8 @@ if($tattertoolsDashboard) {
 				foreach($noticeEntries as $item) {
 ?>
 											<tr>
-												<td class="title"><a href="<?php echo $item['permalink'];?>" onclick="return openLinkInNewWindow(this);" ><?php echo htmlspecialchars($item['title']);?></a></td>
-												<td class="date"><?php echo Timestamp::format5($item['written']);?></td>
+												<td class="title"><a href="<?php echo $item['permalink'];?>" onclick="return openLinkInNewWindow(this);" ><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],60));?></a></td>
+												<td class="date"><?php echo Timestamp::format2($item['written']);?></td>
 											</tr>
 <?php
 				}
@@ -273,7 +273,6 @@ if($tattertoolsDashboard) {
 										</tbody>
 									</table>
 									
-									<div id="cite">from <a href="<?php echo $noticeURL;?>" onclick="return openLinkInNewWindow(this);" ><?php echo $noticeURL;?></a></div>
 <?php
 			} else {
 ?>
@@ -291,6 +290,101 @@ if($tattertoolsDashboard) {
 <?php
 		}
 ?>
+								</div>
+
+								<div id="myBlogInfo" class="section">
+									<h3><?php echo _t('알림판');?></h3>
+									<div id="infoPanel">
+										<table class="comment">
+											<caption><a href="<?php echo $blogURL."/owner/entry/comment";?>"><?php echo _t('최근 댓글');?></a></caption>
+											<thead>
+												<tr>
+													<th scope="col"><?=_t('내용')?></th>
+													<th scope="col" class="date"><?=_t('날짜')?></th>
+												</tr>
+											</thead>
+											<tbody>
+<?php
+	list($comments,$paging) = getCommentsWithPagingForOwner($owner,0,null,null,null,1,5);
+	foreach ($comments as $comment) {
+?>
+												<tr>
+													<td class="title"><a href="<?php echo $blogURL."/".$comment['entry']."#comment".$comment['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 25));?></a></td>
+													<td class="date"><?php echo Timestamp::format('%m/%d',$comment['written']);?></td>
+												</tr>
+<?php
+	}
+?>
+											</tbody>
+										</table>
+										<table class="commentNotifier">
+											<caption><a href="<?php echo $blogURL."/owner/entry/notify";?>"><?php echo _t('최근 댓글 알리미');?></a></caption>
+											<thead>
+												<tr>
+													<th scope="col"><?=_t('내용')?></th>
+													<th scope="col" class="date"><?=_t('날짜')?></th>
+												</tr>
+											</thead>
+											<tbody>
+<?php
+	list($commentNotifies,$paging) = getCommentsNotifiedWithPagingForOwner($owner,0,null,null,null,1,5);
+	foreach ($commentNotifies as $comment) {
+?>
+												<tr>
+													<td class="title"><?php echo htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 25));?></td>
+													<td class="date"><?php echo Timestamp::format('%m/%d',$comment['written']);?></td>
+												</tr>
+<?php
+	}
+?>
+											</tbody>
+										</table>
+										<table class="guestbook">
+											<caption><a href="<?php echo $blogURL."/guestbook";?>"><?php echo _t('최근 방명록');?></a></caption>
+											<thead>
+												<tr>
+													<th scope="col"><?=_t('내용')?></th>
+													<th scope="col" class="date"><?=_t('날짜')?></th>
+												</tr>
+											</thead>
+											<tbody>
+<?php
+	$guestbooks = getRecentGuestbook($owner,5);
+	foreach ($guestbooks as $guestbook) {
+?>
+												<tr>
+													<td class="title"><a href="<?php echo $blogURL."/guestbook#comment".$guestbook['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($guestbook['comment'], 25));?></a></td>
+													<td class="date"><?php echo Timestamp::format('%m/%d',$guestbook['written']);?></td>
+												</tr>
+<?php
+	}
+?>
+											</tbody>
+										</table>
+										<table class="trackback">
+											<caption><a href="<?php echo $blogURL."/owner/entry/trackback";?>"><?php echo _t('최근 트랙백');?></a></caption>
+											<thead>
+												<tr>
+													<th scope="col"><?=_t('내용')?></th>
+													<th scope="col" class="date"><?=_t('날짜')?></th>
+												</tr>
+											</thead>
+											<tbody>
+<?php
+	$trackbacks = getRecentTrackbacks($owner,5);
+	foreach ($trackbacks as $trackback) {
+?>
+												<tr>
+													<td class="title"><a href="<?php echo $blogURL."/".$trackback['entry']."#trackback".$trackback['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($trackback['subject'], 25));?></a></td>
+													<td class="date"><?php echo Timestamp::format('%m/%d',$trackback['written']);?></td>
+												</tr>
+<?php
+	}
+?>
+											</tbody>
+										</table>
+									</div>
+
 								</div>
 							</div>
 <?php
