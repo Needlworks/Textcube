@@ -37,7 +37,8 @@ function SendRSD()
         <engineLink>http://www.tattertools.com/</engineLink>
         <homePageLink>' . $homeurl . '/</homePageLink>
         <apis>
-                <api name="MetaWeblog" preferred="true" apiLink="' . $apiurl . '" blogID="' . $blogid . '" />
+        		<api name="MovableType" preferred="true" apiLink="' . $apiurl . '" blogID="' . $blogid . '" />
+                <api name="MetaWeblog" preferred="false" apiLink="' . $apiurl . '" blogID="' . $blogid . '" />
                 <api name="Blogger" preferred="false" apiLink="' . $apiurl . '" blogID="' . $blogid . '" />
         </apis>
     </service>
