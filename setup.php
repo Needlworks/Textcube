@@ -1107,7 +1107,7 @@ CREATE TABLE {$_POST['dbPrefix']}DailyStatistics (
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Entries (
   owner int(11) NOT NULL default '0',
-  id int(11) NOT NULL auto_increment,
+  id int(11) NOT NULL,
   draft tinyint(1) NOT NULL default '0',
   visibility tinyint(4) NOT NULL default '0',
   category int(11) NOT NULL default '0',

@@ -450,6 +450,15 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Categories id", 'Extra') == 'a
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (DBQuery::queryCell("DESC {$database['prefix']}Entries id", 'Extra') == 'auto_increment') {
+	$changed = true;
+	echo '<li>', _text('글번호의 교정을 위하여 본문 테이블의 자동 증가 설정을 제거합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries CHANGE id id int(11) NOT NULL"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));

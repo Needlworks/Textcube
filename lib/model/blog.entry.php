@@ -407,7 +407,7 @@ function addEntry($owner, $entry) {
 	}
 	$id = getDraftEntryId();
 	if ($id === null)
-		$id = 0;
+		$id = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE owner = $owner and draft = 0") + 1;
 	$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries VALUES (
 			$owner,
 			$id,
@@ -428,7 +428,6 @@ function addEntry($owner, $entry) {
 			0)");
 	if (!$result)
 		return false;
-	$id = mysql_insert_id();
 	DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
 	DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE owner = $owner AND parent = 0");
 	updateEntriesOfCategory($owner, $entry['category']);
@@ -565,6 +564,8 @@ function saveDraftEntry($entry) {
 			return false;
 	} else {
 		$password = generatePassword();
+		$entry['id'] = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE owner = $owner and draft = 0") + 1;
+		
 		$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries
 				VALUES (
 					$owner,
@@ -587,7 +588,6 @@ function saveDraftEntry($entry) {
 				)");
 		if (!$result)
 			return false;
-		$entry['id'] = mysql_insert_id();
 	}
 	return $entry['id'];
 }
