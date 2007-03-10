@@ -154,8 +154,7 @@ function modifyCategory($owner, $id, $name, $bodyid) {
 	if($id==0) checkRootCategoryExistence($owner);
 	if ((empty($name)) && (empty($bodyid)))
 		return false;
-	$sql = "SELECT p.name, p.id FROM {$database['prefix']}Categories c LEFT JOIN {$database['prefix']}Categories p ON c.parent = p.id WHERE c.owner = $owner AND c.id = $id";
-	$row = DBQuery::queryRow($sql);	
+	$row = DBQuery::queryRow("SELECT p.name, p.id FROM {$database['prefix']}Categories c LEFT JOIN {$database['prefix']}Categories p ON c.parent = p.id WHERE c.owner = $owner AND c.id = $id");
 	$label = $row['name'];
 	$parentId = $row['id'];	
 	if (!empty($parentId)) {
