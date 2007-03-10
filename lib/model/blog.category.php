@@ -135,7 +135,8 @@ function addCategory($owner, $parent, $name) {
 		return false;
 
 	$newPriority = DBQuery::queryCell("SELECT MAX(priority) FROM {$database['prefix']}Categories WHERE owner = $owner") + 1;
-	$result = DBQuery::query("INSERT INTO {$database['prefix']}Categories (owner, id, parent, name, priority, entries, entriesInLogin, label, visibility) VALUES ($owner, NULL, $parent, '$name', $newPriority, 0, 0, '$label', 2)");
+	$newId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE owner = $owner") + 1;
+	$result = DBQuery::query("INSERT INTO {$database['prefix']}Categories (owner, id, parent, name, priority, entries, entriesInLogin, label, visibility) VALUES ($owner, $newId, $parent, '$name', $newPriority, 0, 0, '$label', 2)");
 	updateEntriesOfCategory($owner);
 	return $result ? true : false;
 }

@@ -1024,7 +1024,7 @@ CREATE TABLE {$_POST['dbPrefix']}BlogStatistics (
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Categories (
   owner int(11) NOT NULL default '0',
-  id int(11) NOT NULL auto_increment,
+  id int(11) NOT NULL,
   parent int(11) default NULL,
   name varchar(127) NOT NULL default '',
   priority int(11) NOT NULL default '0',
@@ -1033,8 +1033,7 @@ CREATE TABLE {$_POST['dbPrefix']}Categories (
   label varchar(255) NOT NULL default '',
   visibility tinyint(4) NOT NULL default '2',
   bodyId varchar(20) default NULL,
-  PRIMARY KEY  (id),
-  KEY owner (owner)
+  PRIMARY KEY (owner,id)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Comments (
   owner int(11) NOT NULL default '0',
