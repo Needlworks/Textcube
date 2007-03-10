@@ -711,6 +711,27 @@ $countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}E
 											</dl>
 										</div>
 									</div>
+<?php
+if (isset($_GET['popupEditor'])) {
+?>
+									<div class="button-box two-button-box">
+										<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
+										<span class="hidden">|</span>
+										<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
+										</div>
+<?php
+} else {
+?>
+									<div class="button-box three-button-box">
+										<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
+										<span class="hidden">|</span>
+						       			<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
+										<span class="hidden">|</span>
+										<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="window.location.href='<?php echo $blogURL;?>/owner/entry'" />
+									</div>
+<?php
+}
+?>
 								</div>
 								
 								<input type="hidden" name="categoryAtHome" value="<?php echo (isset($_POST['category']) ? $_POST['category'] : '0');?>" />
