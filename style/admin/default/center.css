@@ -36,12 +36,12 @@
 	position                         : absolute;
 	left                             : 10px;
 	top                              : 40px;
-	width                            : 300px;
+	width                            : 200px;
 }
 
 #shortcut-collection h3
 {
-	background-image                 : url("./image/bg_dashboard_header.png");
+	background-image                 : url("./image/bg_dashboard_header3.png");
 	height                           : 32px;
 }
 
@@ -58,21 +58,19 @@
 /* total information */
 #total-information
 {
-	position                         : absolute;
-	left                             : 10px;
-	top                              : 300px;
-	width                            : 300px;
+	margin-left                      : 220px;
+	width                            : 200px;
 }
 
 #total-information h3
 {
-	background-image                 : url("./image/bg_dashboard_header.png");
+	background-image                 : url("./image/bg_dashboard_header3.png");
 	height                           : 32px;
 }
 
 #total-information table
 {
-	width                            : 300px;
+	width                            : 200px;
 }
 
 #total-information table tbody tr th
@@ -96,20 +94,23 @@
 /* notice */
 #tattertools-notice
 {
-	margin-left                      : 330px;
-	width                            : 620px;
+
+	position                         : absolute;
+	left                             : 10px;
+	top                              : 280px;
+	width                            : 410px;
 }
 
 #tattertools-notice h3
 {
-	background-image                 : url("./image/bg_dashboard_header2.png");
+	background-image                 : url("./image/bg_dashboard_header4.png");
 	height                           : 32px;
 }
 
 #tattertools-notice table
 {
 	margin                           : 0 0 25px 0;
-	width                            : 620px;
+	width                            : 410px;
 }
 
 #tattertools-notice table tbody tr td
@@ -128,16 +129,78 @@
 	text-align                       : right;
 }
 
-#cite
+/* panel */
+
+#part-center-dashboard #myBlogInfo
 {
-	font-size                        : 0.93em;
-	text-align                       : right;
-	padding-right                    : 10px;
+	position                         : relative;
+	width                            : 505px;
+	position                         : absolute;
+	right                            : 20px;
+	top                              : 40px;
 }
 
-#cite a
+#part-center-dashboard #myBlogInfo.section h3
+{ 
+	background-image                 : url("./image/bg_dashboard_header2.png");
+}
+
+#part-center-dashboard #myBlogInfo table
+{
+	width                            : 100%;
+	margin                           : 0 0 20px 0;
+}
+
+#part-center-dashboard #myBlogInfo table caption
 {
 	font-weight                      : bold;
+	text-align                       : left;
+	line-height                      : 23px;
+	border-bottom                    : 1px solid #e2e5e7;
+}
+
+
+#part-center-dashboard #infoPanel
+{
+	border                           : 1px solid #d9dde0;
+	padding                          : 9px;
+	width                            : 485px;
+	float                            : right;
+}
+
+#part-center-dashboard #infoPanel table
+{
+	width                            : 232px;
+	height                           : 130px;
+	float                            : left;
+	margin-right                     : 5px;
+	margin-bottom                    : 26px;
+}
+
+#part-center-dashboard #infoPanel table th
+{
+	display                          : none;
+}
+
+#part-center-dashboard #infoPanel table td
+{
+	height                           : 12px;
+	padding                          : 8px 5px 2px 7px;
+	background                       : url(./image/icon_dot.gif) -1px 10px no-repeat;
+	vertical-align                   : top;
+}
+
+#part-center-dashboard #infoPanel table tr .title
+{
+	width                            : 200px;
+	overflow                         : hidden;
+}
+
+#part-center-dashboard #infoPanel table tr .date
+{
+	width                            : 25px;
+	font                             : 0.8em Tahoma;
+	background                       : none;
 }
 
 /* quilt */
