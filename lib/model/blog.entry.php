@@ -445,8 +445,11 @@ function addEntry($owner, $entry) {
 function getDraftEntryId($id = 0) {
 	global $database, $owner;
 	if ($id)
-		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
+		return DBQuery::queryCell("SELECT id 
+				FROM {$database['prefix']}Entries 
+				WHERE owner = $owner AND id = $id AND draft = 1");
 	else
+	//	return DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE owner = $owner and draft = 0") + 1;
 		return DBQuery::queryCell("SELECT d.id 
 				FROM {$database['prefix']}Entries d 
 				LEFT JOIN {$database['prefix']}Entries e ON d.owner = e.owner AND d.id = e.id AND e.draft = 0 
@@ -540,7 +543,7 @@ function saveDraftEntry($entry) {
 	$title = mysql_tt_escape_string($entry['title']);
 	$content = mysql_tt_escape_string($entry['content']);
 	$draft = getDraftEntryId($entry['id']);
-
+	
 	if ($entry['category'] < 0) {
 		if ($entry['visibility'] == 1) $entry['visibility'] = 0;
 		if ($entry['visibility'] == 3) $entry['visibility'] = 2;
@@ -564,8 +567,8 @@ function saveDraftEntry($entry) {
 			return false;
 	} else {
 		$password = generatePassword();
-		$entry['id'] = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE owner = $owner and draft = 0") + 1;
-		
+		if($entry['id'] == 0)
+			$entry['id'] = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE owner = $owner and draft = 0") + 1;
 		$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries
 				VALUES (
 					$owner,
