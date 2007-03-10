@@ -69,7 +69,7 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 											tempStr = document.getElementById("plugin" + num + "Scope").innerHTML;
 											if (tempStr.match('<?php echo _t('관리자');?>'))
 											{
-												//changeList();
+												changeList();
 											}
 										}
 										request.onError = function() {
