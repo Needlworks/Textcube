@@ -284,7 +284,7 @@ function checkStep($step, $check = true) {
       <tr>
         <th><?php echo _t('데이터베이스 이름');?> :</th>
         <td>
-          <input type="text" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : 'tattertools');?>" class="input<?php echo ($check && (empty($_POST['dbName']) || ($error == 2)) ? ' input_error' : '');?>" />
+          <input type="text" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : NULL);?>" class="input<?php echo ($check && (empty($_POST['dbName']) || ($error == 2)) ? ' input_error' : '');?>" />
         </td>
       </tr>
       <tr>
