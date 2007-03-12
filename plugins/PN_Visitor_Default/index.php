@@ -1,14 +1,14 @@
 <?php
 /* Visitor statistics plugin for Tattertools 1.1
    ----------------------------------
-   Version 1.0
+   Version 1.1
    Tatter and Friends development team.
 
    Creator          : inureyes
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.9.21
-   Last modified at : 2006.10.27
+   Last modified at : 2007.2.4
  
  This plugin shows visitor statistics on administration menu.
  For the detail, visit http://forum.tattertools.com/ko
@@ -23,7 +23,7 @@
  (at your option) any later version.
 
 */
-function AD_Visitor_Default()
+function PN_Visitor_Default()
 {
 	global $owner, $pluginMenuURL, $pluginAccessURL, $pluginHandlerURL;
 	requireComponent( "Tattertools.Model.Statistics");
@@ -35,7 +35,7 @@ function AD_Visitor_Default()
 						<script type="text/javascript">
 							//<![CDATA[
 								function setTotalStatistics() {
-									if (confirm("訪問者統計を初期化すると統計が 0になります。\nよろしいですか?")) {
+									if (confirm("방문자의 수를 초기화하면 방문객의 수가 0이 됩니다.\n정말 초기화하시겠습니까?")) {
 										var request = new HTTPRequest("GET", "<?php echo $pluginHandlerURL;?>/AD_Visitor_Default_set&ajaxcall");
 										request.onSuccess = function() {
 											//document.getElementById("total").innerHTML = 0;
@@ -43,7 +43,7 @@ function AD_Visitor_Default()
 											return true;
 										}
 										request.onError = function() {
-											alert("保存に失敗しました。");
+											alert("저장하지 못했습니다.");
 											return false;
 										}
 										request.send();
@@ -74,15 +74,15 @@ function AD_Visitor_Default()
 					 		
 					 	<form method="post" action="<?php echo $pluginHandlerURL;?>AD_Visitor_Default_set">
 					 		<div id="part-statistics-visitor" class="part">
-					 			<h2 class="caption"><span class="main-text">訪問者統計を表示します。</span></h2>
+					 			<h2 class="caption"><span class="main-text">방문자 통계정보를 보여줍니다</span></h2>
 					 			
 						 		<div id="statistics-counter-inbox" class="data-inbox">
 									<div class="title">
-										<span class="label"><span class="text">全体統計</span></span>
+										<span class="label"><span class="text">현재까지의 방문자 수</span></span>
 										<span class="divider"> : </span>
 										<span id="total"><?php echo number_format($stats['total']);?></span>
 									</div>
-									<a class="init-button button" href="<?php echo $pluginHandlerURL;?>/AD_Visitor_Default_set" onclick="setTotalStatistics(); return false;"><span class="text">初期化</span></a>
+									<a class="init-button button" href="<?php echo $pluginHandlerURL;?>/AD_Visitor_Default_set" onclick="setTotalStatistics(); return false;"><span class="text">초기화</span></a>
 								</div>
 							
 								<hr class="hidden" />
@@ -90,7 +90,7 @@ function AD_Visitor_Default()
 								<table id="statistics-month-inbox" class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th colspan="2"><span class="text">月別統計</span></th>
+											<th colspan="2"><span class="text">월별 방문자 수</span></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -117,7 +117,7 @@ for ($i=0; $i<sizeof($temp); $i++) {
 								<table id="statistics-day-inbox" class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th colspan="2"><span class="text">日別統計</span></th>
+											<th colspan="2"><span class="text">일별 방문자 수</span></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -147,7 +147,7 @@ if (isset($date)) {
 <?php 
 }
 
-function AD_Visitor_Default_set()
+function PN_Visitor_Default_set()
 {
 	global $owner;
 	requireComponent( "Tattertools.Model.Statistics");
