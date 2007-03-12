@@ -206,8 +206,12 @@ function getCommentList($owner, $search) {
 	global $database;
 	$list = array('title' => "$search", 'items' => array());
 	$search = escapeMysqlSearchString($search);
-	$authorized = doesHaveOwnership() ? '' : 'and secret = 0';
-	if ($result = DBQuery::query("select id, entry, parent, name, comment, written from {$database['prefix']}Comments where entry > 0 AND owner = $owner $authorized and isFiltered = 0 and comment like '%$search%'")) {
+	$authorized = doesHaveOwnership() ? '' : 'AND c.secret = 0 AND (ct.visibility > 1 OR e.category = 0)';
+	if ($result = DBQuery::query("SELECT c.id, c.entry, c.parent, c.name, c.comment, c.written 
+		FROM {$database['prefix']}Comments c
+		LEFT JOIN {$database['prefix']}Entries e ON c.entry = e.id AND c.owner = e.owner
+		LEFT JOIN {$database['prefix']}Categories ct ON ct.id = e.category AND ct.owner = c.owner
+		WHERE c.entry > 0 AND c.owner = $owner $authorized and c.isFiltered = 0 and comment like '%$search%'")) {
 		while ($comment = mysql_fetch_array($result))
 			array_push($list['items'], $comment);
 	}

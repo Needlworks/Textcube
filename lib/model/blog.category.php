@@ -407,13 +407,42 @@ function getCategoryVisibility($owner, $id) {
 		return $result;
 }
 
+function getParentCategoryVisibility($owner, $id) {
+	global $database;
+	if($id == 0) return false;
+	$parentId = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $id");
+	if($parentId == NULL) return false;
+	$parentVisibility = DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Categories WHERE owner = $owner AND id = $parentId");
+	if ($parentVisibility == false)
+		return 2;
+	else
+		return $parentVisibility;
+}
+
 function setCategoryVisibility($owner, $id, $visibility) {
 	global $database;
 	if($id == 0) return false;
+	$parentVisibility = getParentCategoryVisibility($owner, $id);
+	if ($parentVisibility && $parentVisibility < 2) return false; // return without changing if parent category is set to hidden.
 	$result = DBQuery::query("UPDATE {$database['prefix']}Categories SET visibility = $visibility WHERE owner = $owner AND id = $id");
-	if ($result && (mysql_affected_rows() > 0))
+	if ($result && $visibility == 1) $result = setChildCategoryVisibility($owner, $id, $visibility);
+	if ($result)
 		clearRSS();
 	updateEntriesOfCategory($owner);
 	return $result ? $visibility : false;
+}
+
+function setChildCategoryVisibility($owner, $id, $visibility) {
+	global $database;
+	if($id == 0) return false;
+	$childCategories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $id");
+	if($childCategories!=false) {
+		foreach($childCategories as $childCategory) {
+			$result = DBQuery::query("UPDATE {$database['prefix']}Categories SET visibility = $visibility WHERE owner = $owner AND id = $childCategory");
+			if($result == false) return false;
+		}
+		return $result ? $visibility : false;
+	}
+	return $visibility;
 }
 ?>
