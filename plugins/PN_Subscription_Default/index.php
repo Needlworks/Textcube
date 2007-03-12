@@ -1,14 +1,14 @@
 <?php
 /* Subscription statistics plugin for Tattertools 1.1
    ----------------------------------
-   Version 1.1
+   Version 1.0
    Tatter and Friends development team.
 
    Creator          : inureyes
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.9.21
-   Last modified at : 2007.2.4
+   Last modified at : 2006.10.27
  
  This plugin shows RSS subscription statistics on administration menu.
  For the detail, visit http://forum.tattertools.com/ko
@@ -23,7 +23,7 @@
  (at your option) any later version.
 
 */
-function PN_Subscription_Default()
+function AD_Subscription_Default()
 {
 	global $owner, $pluginMenuURL, $pluginSelfParam, $totalSubscribers, $updatedSubscribers;
 	requireComponent( "Tattertools.Model.Statistics");
@@ -43,15 +43,15 @@ function PN_Subscription_Default()
 						</script>
 						
 						<div id="part-statistics-total" class="part">
-							<h2 class="caption"><span class="main-text">전체 피드 통계</span></h2>
+							<h2 class="caption"><span class="main-text">RSSフィード統計</span></h2>
 							<dl class="data-inbox">
-								<dt class="number"><span class="text">전체 구독자수</span></dt>
-								<dd class="number"><span class="text"><?php echo $totalSubscribers;?> 명</span></dd>
-								<dt class="aggregator"><span class="text">구독기</span></dt>
-								<dd class="aggregator"><span class="text"><?php echo sizeof($aggregatorInfo);?> 종류의 구독기 및 크롤러가 구독중입니다.</span></dd>
-								<dt class="lastRSSupdate"><span class="text">최종 RSS 갱신일</span></dt>
-								<dd class="lastRSSupdate"><span class="text"><?php echo misc::getUserSetting('LatestRSSrefresh',null)!=null ? Timestamp::format5(misc::getUserSetting('LatestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></dd>
-								<dt class="updatedAggregators"><span class="text">이후 갱신된 RSS 구독기</span></dt>
+								<dt class="number"><span class="text">全体統計</span></dt>
+								<dd class="number"><span class="text"><?php echo $totalSubscribers;?> 人</span></dd>
+								<dt class="aggregator"><span class="text">RSSリーダー</span></dt>
+								<dd class="aggregator"><span class="text"><?php echo sizeof($aggregatorInfo);?> 種のRSSリーダーからRSSフィード情報を受信しています。</span></dd>
+								<dt class="lastRSSupdate"><span class="text">最近 RSS更新日</span></dt>
+								<dd class="lastRSSupdate"><span class="text"><?php echo misc::getUserSetting('LatestRSSrefresh',null)!=null ? Timestamp::format5(misc::getUserSetting('LatestRSSrefresh',null)) : '情報更新に失敗しました。';?></dd>
+								<dt class="updatedAggregators"><span class="text">更新されたRSSリーダー</span></dt>
 								<dd class="updatedAggregators"><span class="text"><?php echo $updatedSubscribers;?></span></dd>
 							</dl>
 						</div>
@@ -59,21 +59,21 @@ function PN_Subscription_Default()
 						<hr class="hidden" />
 
 						<div id="part-statistics-rank" class="part">
-							<h2 class="caption"><span class="main-text">피드 구독 순위</span></h2>
+							<h2 class="caption"><span class="main-text">RSSフィードランキング</span></h2>
 							<div class="main-explain-box">
 								<p class="explain">
-									크롤러에 구독자 수 정보를 넣지 않는 웹 RSS 리더의 경우 정상적인 구독자수를 판별할 수 없습니다.<br />
-									강조 표시된 구독기는 검색 엔진 및 메타 프로그램을 의미합니다.
+									受信者数の情報が含まれていないWeb基盤RSSリーダーからは正確な統計情報が受けられません。<br />
+									強調されたRSSリーダー情報は検索サイトやMetaプログラムのことです。
 								</p>
 							</div>
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
 									<tr>
-										<th class="rank"><span class="text">순위</span></th>
-										<th class="aggregator"><span class="text">구독기</span></th>
-										<th class="count"><span class="text">구독자 수</span></th>
-										<th class="subscribed"><span class="text">구독 시작일</span></th>
-										<th class="referred"><span class="text">최근 구독일</span></th>
+										<th class="rank"><span class="text">ランキング</span></th>
+										<th class="aggregator"><span class="text">リーダー</span></th>
+										<th class="count"><span class="text">受信者数</span></th>
+										<th class="subscribed"><span class="text">受信開始日</span></th>
+										<th class="referred"><span class="text">最近更新日</span></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -90,7 +90,7 @@ function PN_Subscription_Default()
 			echo '<span class="robot">'.$agent.'</span>';
 		else echo $agent;
 ?></td>
-										<td class="count"><?php echo $info["subscribers"];?>명</td>
+										<td class="count"><?php echo $info["subscribers"];?>人</td>
 										<td class="subscribed"><?php echo Timestamp::formatDate($info["subscribed"]);?></td>
 										<td class="referred"><?php echo Timestamp::formatDate($info["referred"]);?></td>
 									</tr>
@@ -108,34 +108,34 @@ function PN_Subscription_Default()
 
 function getAggregatorName($useragent)
 {
-	if($useragent=='') return '알 수 없는 구독기';
+	if($useragent=='') return '未知のRSSリーダー';
 	$agentPattern = array(
 		'Bloglines' => 'Bloglines',
-		'Allblog.net' => '올블로그',
-		'HanRSS' => '한RSS',
+		'Allblog.net' => 'Allblog',
+		'HanRSS' => 'HanRSS',
 		'Netvibes' => 'Netvibes',
 		'SharpReader' => 'Sharp Reader',
 		'BlogBridge' => 'Blog Bridge',
-		'Firefox' => 'Firefox 라이브북마크',
-		'Sage' => 'Sage (Firefox 확장)',
-		'Google Desktop' => '구글 데스크탑',
+		'Firefox' => 'Firefox ライブブックマーク',
+		'Sage' => 'Sage (Firefox プラグイン)',
+		'Google Desktop' => 'Google Desktop',
 		'RSSOwl' => 'RSS Owl',
-		'Eolin' => '태터툴즈 리더',
-		'Safari' => '사파리',
-		'Feedfetcher-Google' => '구글 feedfetcher',
+		'Eolin' => 'テト・ツールズRSSリーダー',
+		'Safari' => 'Safari',
+		'Feedfetcher-Google' => 'Google feedfetcher',
 		'RssBandit' => 'RSS Bandit',
 		'Yahoo! Slurp' => 'Yahoo! Slurp',
-		'Mozilla/4.0 (compatible; MSIE 7.0' => 'MS 익스플로러 7',
+		'Mozilla/4.0 (compatible; MSIE 7.0' => 'MSIE 7',
 		'FeedDemon' => 'FeedDemon',
 		'UniversalFeedParser' => 'Universal Feed Parser',
-		'nhn/1noon' => '첫눈',
-		'MSIE 6.0' => 'MS 익스플로러 6',
-		'YeonMo' => '연모',
-		'RMOM' => '요줌',
-		'msnbot' => 'MSN 검색엔진',
+		'nhn/1noon' => '初雪',
+		'MSIE 6.0' => 'MSIE 6',
+		'YeonMo' => 'YeonMo',
+		'RMOM' => 'RMOM',
+		'msnbot' => 'MSN Search',
 		'FeedOnFeeds' => 'Feed On Feeds Personal aggregator',
-		'Technoratibot' => '테크노라티',
-		'sproose' => 'sproose 봇'
+		'Technoratibot' => 'Technorati',
+		'sproose' => 'sproose bot'
 	);
 	$declinePattern = array(
 		'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'=>'Internet Explorer 5.01'
@@ -267,7 +267,7 @@ function updateSubscriptionStatistics($target, $mother) {
 	return $target;
 }
 
-function PN_Subscription_setTime($target) {
+function AD_Subscription_setTime($target) {
 	requireComponent( "Tattertools.Function.misc");
 	misc::setUserSetting('LatestRSSrefresh',time());
 	return true;

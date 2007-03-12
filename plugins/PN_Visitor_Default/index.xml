@@ -4,7 +4,7 @@
   <title xml:lang="ko">방문자 기록</title>
   <title xml:lang="ja">詳細統計</title>
   <link>http://forum.tattertools.com/ko/</link>
-  <version>1.1.1.1</version>
+  <version>1.0</version>
   <description xml:lang="en">Default Visitor log Plugin</description>
   <description xml:lang="ko">태터툴즈 컴포넌트를 이용하여 방문자 기록을 보여줍니다.</description>
   <description xml:lang="ja">テト・ツールズのコンポーネントを利用して、詳細な統計情報を見せます。</description>
@@ -23,7 +23,7 @@
           <title xml:lang="en">Visitors</title>
           <title xml:lang="ko">방문자 기록</title>
           <title xml:lang="ja">詳細統計</title>
-          <handler>PN_Visitor_Default</handler>
+          <handler>AD_Visitor_Default</handler>
           <params>
             <param>
               <name>date</name>
@@ -35,7 +35,7 @@
       </viewMethods>
       <methods>
         <method>
-          <handler>PN_Visitor_Default_set</handler>
+          <handler>AD_Visitor_Default_set</handler>
           <params>
             <param>
               <name>ajaxcall</name>
