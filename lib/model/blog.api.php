@@ -250,9 +250,7 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 	{
 		//$post->tags = array_merge( split(",", $param['mt_excerpt']) , $param['tagwords'] );
 		$post->tags = split(",", $param['mt_keywords']);
-		if (is_array($post->category)) {
-			$post->category = api_getCategoryIdByName( $param['categories'] );
-		}
+		$post->category = api_getCategoryIdByName( $param['categories'] );
 	}
 	
 	$post->created = api_timestamp( $param['dateCreated'] );
