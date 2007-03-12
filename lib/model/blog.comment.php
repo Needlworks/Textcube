@@ -64,20 +64,20 @@ function getCommentsNotifiedWithPagingForOwner($owner, $category, $name, $ip, $s
 			$search = escapeMysqlSearchString($search);
 		}
 				
-		$preQuery = "SELECT parent FROM {$database['prefix']}CommentsNotified WHERE parent is not null ";
+		$preQuery = "SELECT parent FROM {$database['prefix']}CommentsNotified WHERE owner = $owner AND parent is NOT NULL";
 		if (!empty($name))
 			$preQuery .= ' AND name = \''. mysql_tt_escape_string($name) . '\' ';
 		if (!empty($ip))
 			$preQuery .= ' AND ip = \''. mysql_tt_escape_string($ip) . '\' ';
 		if (!empty($search)) {
-			$preQuery .= " AND (name LIKE '%$search%') OR (homepage LIKE '%$search%') OR (comment LIKE '%$search%') ";
+			$preQuery .= " AND ((name LIKE '%$search%') OR (homepage LIKE '%$search%') OR (comment LIKE '%$search%'))";
 		}
 	
 		$childListTemp = array_unique(DBQuery::queryColumn($preQuery));
 		$childList = array();
 		foreach ($childListTemp as $item) 
 			if(!is_null($item)) array_push($childList, $item);
-		$childListStr = (count($childList) == 0) ? '' : ('AND c.id IN ( ' . implode(', ',$childList) . ' ) ') ;
+		$childListStr = (count($childList) == 0) ? '' : ('OR c.id IN ( ' . implode(', ',$childList) . ' ) ') ;
 		
 		$sql = "SELECT 
 				c.*, 
