@@ -222,14 +222,15 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 									<a href="http://laziel.com">laziel</a>,
 									<a href="http://tokigun.net">tokigun</a>,
 									<a href="http://story.isloco.com">linus</a>,
-									<a href="http://nya.pe.kr">NYA</a>
+									<a href="http://nya.pe.kr">NYA</a>,
+									<a href="http://www.yangkun.pe.kr">희망이아빠</a>
 									</p>
 								</div>
 								
 								<div id="reporter-container" class="container">
 									<h4><?php echo _t('Reporter');?></h4>
 									
-									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, 티즈, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis, leokim, diasozo, Ikaris C. Faust, DARKLiCH</p>
+									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, 티즈, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis, leokim, diasozo, Ikaris C. Faust, DARKLiCH, 주성애비, dikafryo, 이일환, Chiri</p>
 								</div>
 							</div>
 						</div>
