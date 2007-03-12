@@ -316,7 +316,7 @@ function getUpperView($paging) {
 					return;
 				var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/delete/" + id);
 				request.onSuccess = function() {
-					window.location.reload();
+					window.location.href = "<?php echo $blogURL;?>";
 				}
 				request.send();
 			}
