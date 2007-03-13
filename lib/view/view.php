@@ -443,7 +443,7 @@ function getCommentView($entryId, $skin) {
 			}
 			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
 			dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentSubItem['written'])), $commentSubItemView);
-			dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentSubItem['id']}", $commentSubItemView);
+			dress($prefix1 . '_rep_link',"$blogURL/".($entryId == 0 ? "guestbook" : "{$entryId}")."#comment{$commentSubItem['id']}", $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']}); return false;", $commentSubItemView);
 			$rp_class = $prefix1 . '_general';
 			if ($owner == $commentSubItem['replier'])
@@ -478,7 +478,7 @@ function getCommentView($entryId, $skin) {
 		}
 		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']}); return false", $commentItemView);
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
-		dress($prefix1 . '_rep_link', "$blogURL/{$entryId}#comment{$commentItem['id']}", $commentItemView);
+		dress($prefix1 . '_rep_link', "$blogURL/".($entryId == 0 ? "guestbook" : "{$entryId}")."#comment{$commentItem['id']}", $commentItemView);
 		$rp_class = $prefix1 . '_general';
 		if ($owner == $commentItem['replier'])
 			$rp_class = $prefix1 . '_admin';
