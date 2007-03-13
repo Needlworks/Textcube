@@ -1,9 +1,9 @@
 <?php
-function CT_TNF_Notice($target) {
+function CT_TNF_Stories($target) {
 	global $service;
 	requireComponent("Eolin.PHP.Core");
 	$noticeURL = 'http://blog.tatterstory.net/rss';
-	list($result, $feed, $xml) = CT_TNF_Notice_getRemoteFeed($noticeURL);
+	list($result, $feed, $xml) = CT_TNF_Stories_getRemoteFeed($noticeURL);
 	if ($result == 0) {
 		$xmls = new XMLStruct();
 		$noticeEntries = array();
@@ -75,7 +75,7 @@ function CT_TNF_Notice($target) {
 	return $target;
 }
 
-function CT_TNF_Notice_getRemoteFeed($url) {
+function CT_TNF_Stories_getRemoteFeed($url) {
 	global $service;
 	$xml = fireEvent('GetRemoteFeed', null, $url);
 	if (empty($xml)) {

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="en">TNF stories</title>
+  <title xml:lang="ko">TNF 이야기</title>
+  <link>http://www.tattertools.com/</link>
+  <version>1.0</version>
+  <description xml:lang="en">Shows stories from TNF official blog.</description>
+  <description xml:lang="ko">TNF의 이야기 블로그를 보여줍니다.</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://forum.tattersite.com/">Tatter &amp; Friends</author>
+  <author xml:lang="ko" link="http://forum.tattersite.com/">태터앤프렌즈</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
+  <requirements>
+    <tattertools>1.1</tattertools>
+  </requirements>
+  <binding>
+	<center handler="CT_TNF_Stories" />
+  </binding>
+</plugin>
