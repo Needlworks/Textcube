@@ -153,6 +153,12 @@ class Skin {
 		handleSidebars($sval, $this, $previewMode);
 
 		$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
+
+		$this->noneCommentMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->noneCommentMessage);
+		$this->singleCommentMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->singleCommentMessage);
+		$this->noneTrackbackMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->noneTrackbackMessage);
+		$this->singleTrackbackMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->singleTrackbackMessage);
+		
 		list($sval, $this->listItem) = $this->cutSkinTag($sval, 'list_rep');
 		list($sval, $this->list) = $this->cutSkinTag($sval, 'list');
 		list($sval, $this->commentListItem) = $this->cutSkinTag($sval, 'rplist_rep');
