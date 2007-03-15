@@ -712,6 +712,10 @@ function blogger_deletePost()
 	{
 		global $database, $owner;
 		$id = intval( $params[1] );
+		if( $id == 0 )
+		{
+			return new XMLRPCFault( 1, "Can't delete #0 id." );
+		}
 		$filter = 'AND id = ' . $id;
 		$ret = DBQuery::query("DELETE FROM {$database['prefix']}Entries " .
 			"WHERE owner = $owner AND category >= 0 $filter");
