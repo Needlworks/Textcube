@@ -145,12 +145,6 @@
 	background-image                 : url("./image/bg_dashboard_header2.png");
 }
 
-#part-center-dashboard #myBlogInfo table
-{
-	width                            : 100%;
-	margin                           : 0 0 20px 0;
-}
-
 #part-center-dashboard #myBlogInfo table caption
 {
 	font-weight                      : bold;
@@ -174,7 +168,12 @@
 	height                           : 130px;
 	float                            : left;
 	margin-right                     : 5px;
-	margin-bottom                    : 26px;
+	margin-bottom                    : 16px;
+}
+
+#part-center-dashboard #infoPanel table.guestbook
+{
+	clear: left;
 }
 
 #part-center-dashboard #infoPanel table th
@@ -185,22 +184,24 @@
 #part-center-dashboard #infoPanel table td
 {
 	height                           : 12px;
-	padding                          : 8px 5px 2px 7px;
 	background                       : url(./image/icon_dot.gif) -1px 10px no-repeat;
 	vertical-align                   : top;
 }
 
 #part-center-dashboard #infoPanel table tr .title
 {
+	padding                          : 8px 5px 2px 7px;
 	width                            : 200px;
 	overflow                         : hidden;
 }
 
 #part-center-dashboard #infoPanel table tr .date
 {
-	width                            : 25px;
+	padding                          : 8px 0 2px 0;
+	width                            : 45px;
 	font                             : 0.8em Tahoma;
 	background                       : none;
+	text-align: center;
 }
 
 /* quilt */
