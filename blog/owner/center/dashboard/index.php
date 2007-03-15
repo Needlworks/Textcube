@@ -255,7 +255,6 @@ if($tattertoolsDashboard) {
 			}	
 			
 			if (count($noticeEntries) > 0) {
-				// customize point. 사이트 공지를 넣고 싶다면 이것을 줄이고 또 출력하면 된다~
 				array_splice($noticeEntries, 5, count($noticeEntries) - 5);
 ?>
 									<table>
@@ -305,7 +304,7 @@ if($tattertoolsDashboard) {
 											</thead>
 											<tbody>
 <?php
-	list($comments,$paging) = getCommentsWithPagingForOwner($owner,0,null,null,null,1,5);
+	$comments = getRecentComments($owner,5);
 	foreach ($comments as $comment) {
 ?>
 												<tr>
