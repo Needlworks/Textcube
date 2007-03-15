@@ -100,12 +100,11 @@ class Post {
 
 		if (!$query = $this->_buildQuery())
 			return false;
-		if (isset($this->id)) {
-			if ($query->doesExist()) {
-				$this->id = null;
-				$query->setQualifier('id', null);
-			}
+		if (!isset($this->id) || $query->doesExist()) {
+			$this->id = $this->nextEntryId(); // Added (#300)
 		}
+		$query->setQualifier('id', $this->id);
+
 		if (!isset($this->published))
 			$query->setAttribute('published', 'UNIX_TIMESTAMP()');
 		if (!isset($this->created))
@@ -489,6 +488,15 @@ class Post {
 		return $plain ? md5($plain) : md5(microtime());
 	}
 	
+	function nextEntryId($id = 0) {
+		global $database, $owner;
+		$maxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE owner = $owner");
+		if($id==0)
+			return $maxId + 1;
+		else
+			return ($maxId > $id ? $maxId : $id);
+	}
+
 	function _buildQuery() {
 		global $database, $owner;
 		$query = new TableQuery($database['prefix'] . 'Entries');
@@ -497,7 +505,7 @@ class Post {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
 			$query->setQualifier('id', $this->id);
-		}
+		} 
 		if (isset($this->title))
 			$query->setAttribute('title', mysql_lessen($this->title, 255), true);
 		if (isset($this->content))
