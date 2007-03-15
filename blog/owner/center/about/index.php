@@ -14,7 +14,7 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 							<div class="main-explain-box">
 								<p class="explain">
 									<em><?php echo _t('이 판올림을 태터리안 여러분께 헌정합니다.');?></em><br />
-									<?php echo _t('&copy; 2004 - 2006. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />태터툴즈는 태터앤컴퍼니와 태터앤프렌즈에서 개발합니다.<br />태터툴즈와 태터툴즈 로고는 태터앤컴퍼니의 상표입니다.').CRLF;?>
+									<?php echo _t('&copy; 2004 - 2007. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />태터툴즈는 태터앤컴퍼니와 태터앤프렌즈에서 개발합니다.<br />태터툴즈와 태터툴즈 로고는 태터앤컴퍼니의 상표입니다.').CRLF;?>
 								</p>
 							</div>
 							
