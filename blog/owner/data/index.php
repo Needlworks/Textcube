@@ -191,7 +191,7 @@ if (false) forceCheckBlog('');
 							
 							<form id="dataCorrector" method="get" action="<?php echo $blogURL;?>/owner/data/correct" target="blackhole"></form>
 							
-							<div id="correctingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 100;">
+							<div id="correctingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 110;">
 								<h3 id="correctingDataDialogTitle"></h3>
 								<div class="message-sub">
 									<span id="correctingText"></span>
@@ -220,7 +220,7 @@ if (getUserId() == 1) {
 							
 							<form id="dataOptimizer" method="get" action="<?php echo $blogURL;?>/owner/data/optimize" target="blackhole"></form>
 							
-							<div id="optimizingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 100;">
+							<div id="optimizingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 110;">
 								<h3 id="optimizingDataDialogTitle"></h3>
 								<div class="message-sub">
 									<span id="optimizingText"></span>
