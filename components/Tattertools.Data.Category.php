@@ -72,7 +72,7 @@ class Category {
 	
 	function add() {
 		global $database, $owner;
-		$this->id = null;
+		if($this->id != 0) $this->id = null;
 		if (isset($this->parent) && !is_numeric($this->parent))
 			return $this->_error('parent');
 		$this->name = mysql_lessen(trim($this->name), 127);
@@ -104,12 +104,26 @@ class Category {
 			else
 				return $this->_error('update');
 		}
+
+		if (!isset($this->id)) {
+			$this->id = $this->getNextCategoryId();
+			$query->setQualifier('id', $this->id);
+		}
+
 		if (!$query->insert())
 			return $this->_error('insert');
-		$this->id = $query->id;
 		return true;
 	}
-	
+
+	function getNextCategoryId($id = 0) {
+		global $database, $owner;
+		$maxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE owner = $owner"); 
+		if($id==0)
+			return $maxId + 1;
+		else
+			return ($maxId > $id ? $maxId : $id);
+	}
+
 	function getCount() {
 		return (isset($this->_count) ? $this->_count : 0);
 	}

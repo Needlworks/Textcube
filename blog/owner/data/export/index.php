@@ -83,6 +83,12 @@ if ($category->open()) {
 			}
 			$writer->write('</category>');
 			$writer->write(CRLF);
+		} else {
+		   	$category->escape();
+			$writer->write('<category>' . '<name>' . $category->name . '</name>' . '<priority>' . $category->priority . '</priority>');
+			$writer->write('<root>1</root>');
+			$writer->write('</category>');
+			$writer->write(CRLF);
 		}
 	} while ($category->shift());
 	$category->close();
