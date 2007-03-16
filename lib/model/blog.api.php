@@ -418,7 +418,7 @@ function api_addAttachment($owner,$parent,$file){
 	
 	$attachment['path'] = "$path/{$attachment['name']}";
 	
-	api_deleteAttachment($owner,-1,$attachment['name']);
+	deleteAttachment($owner,-1,$attachment['name']);
 	
 	if( $file['content'] )
 	{
@@ -456,42 +456,6 @@ function api_addAttachment($owner,$parent,$file){
 
 /* Up to here, copied from blog/owner/entry/attach/index.php */
 
-/* Work around , copied from blog/owner/entry/delete/item.php -r594 */
-function api_getAttachments($owner,$parent){
-	global $database;
-	$attachments=array();
-	if($result=DBQuery::query("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent")){
-		while($attachment=mysql_fetch_array($result))
-		array_push($attachments,$attachment);
-	}
-	return $attachments;
-}
-function api_deleteAttachment($owner,$parent,$name){
-	global $database;
-	
-	requireComponent('Eolin.PHP.Core');
-	$name = Path::getBaseName($name);
-	
-	@unlink(ROOT . "/attach/$owner/$name");
-	$name=mysql_tt_escape_string($name);
-	$parent_clause = "";
-	if( $parent >= 0 )
-	{
-		$parent_clause = "parent = $parent and ";
-	}
-	if(DBQuery::query("delete from {$database['prefix']}Attachments where owner = $owner and $parent_clause name = '$name'")&&(mysql_affected_rows()==1)){
-		return true;
-	}
-	return false;
-}
-function api_deleteAttachments($owner,$parent){
-	$attachments=api_getAttachments($owner,$parent);
-	foreach($attachments as $attachment)
-		api_deleteAttachment($owner,$parent,$attachment['name']);
-}
-
-/* Work around end */
-
 function api_get_attaches( $content)
 {
 	global $owner;
@@ -524,7 +488,7 @@ function api_update_attaches_with_replace($entryId)
 		$oldFile = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$entryId AND label='{$newfile['label']}'");
 	
 		if (!is_null($oldFile)) {
-			api_deleteAttachment($owner, $entryId, $oldFile);
+			deleteAttachment($owner, $entryId, $oldFile);
 		}
 	}
 	
@@ -694,6 +658,7 @@ function blogger_editPost()
 
 function blogger_deletePost()
 {
+	global $owner;
 	$params = func_get_args();
 	$result = api_login( $params[2], $params[3] );
 	if( $result )
@@ -701,34 +666,11 @@ function blogger_deletePost()
 		return $result;
 	}
 
-/*
 	$post = new Post();
-	$post->count = 1;
-	$ret = $post->remove( intval( $params['blog_post_id'] ) );
-	$post->close();
-*/
-
-// Workaround: TT must fix "DELETE FROM FROM" typo error
-	{
-		global $database, $owner;
-		$id = intval( $params[1] );
-		if( $id == 0 )
-		{
-			return new XMLRPCFault( 1, "Can't delete #0 id." );
-		}
-		$filter = 'AND id = ' . $id;
-		$ret = DBQuery::query("DELETE FROM {$database['prefix']}Entries " .
-			"WHERE owner = $owner AND category >= 0 $filter");
-		if(mysql_affected_rows()>0){
-			$result=DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $id");
-			$result=DBQuery::query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id");
-			$result=DBQuery::query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner AND entry = $id");
-			$result=DBQuery::query("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $owner AND entry = $id");
-			api_deleteAttachments($owner,$id);
-			RSS::refresh();
-		}
-	}
-// To here.
+	$id = intval( $params[1] );
+	$ret = $post->open( $id );
+	$ret = $post->remove();
+	deleteAttachments($owner, $id );
 
 	return $ret ? true : false;
 
