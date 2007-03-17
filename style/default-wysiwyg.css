@@ -102,8 +102,6 @@ img.tatterObject
 {
 	background-image                 : url("../image/owner/wysiwyg/mark_embed.gif");
 	margin                           : 5px;
-	min-width                        : 200px;
-	min-height                       : 200px;
 }
 
 img.tatterFlash
