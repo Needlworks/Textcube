@@ -200,7 +200,10 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 	foreach ($eventMappings[$event] as $mapping) {
 		include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
 		if (function_exists($mapping['listener'])) {
-			$configVal = getCurrentSetting($mapping['plugin']);
+			if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
+				$configVal = getCurrentSetting($mapping['plugin']);
+			else
+				$configVal =null;
 			$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 			$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
 			$target = call_user_func($mapping['listener'], $target, $mother);
@@ -219,7 +222,10 @@ function handleTags( & $content) {
 			foreach ($tagMappings[$tag] as $mapping) {
 				include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
 				if (function_exists($mapping['handler'])) {
-					$configVal = getCurrentSetting($mapping['plugin']);
+					if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
+						$configVal = getCurrentSetting($mapping['plugin']);
+					else
+						$configVal ='';
 					$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 					$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
 					$target = call_user_func($mapping['handler'], $target);
@@ -236,7 +242,10 @@ function handleCenters($mapping) {
 
 	include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
 	if (function_exists($mapping['handler'])) {
-		$configVal = getCurrentSetting($mapping['plugin']);
+		if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
+			$configVal = getCurrentSetting($mapping['plugin']);
+		else
+			$configVal ='';
 		$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 		$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
 		$target = call_user_func($mapping['handler'], $target);
@@ -280,8 +289,11 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 						$parameters = $currentSidebarOrder[$j]['parameters'];
 						$pluginURL = "{$service['path']}/plugins/{$plugin}";
 						$pluginPath = ROOT . "/plugins/{$plugin}";
-						$configVal = getCurrentSetting($plugin);
-				
+						if( !empty( $configMappings[$plugin]['config'] ) ) 				
+							$configVal = getCurrentSetting($plugin);
+						else
+							$configVal ='';
+						
 						if (function_exists($handler)) {
 							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
 						} else {
@@ -325,7 +337,10 @@ function handleDataSet( $plugin , $DATA ){
 		$pluginPath = ROOT . "/plugins/{$plugin}";
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
 		if( function_exists( $configMappings[$plugin]['dataValHandler'] ) ) {
-			$configVal = getCurrentSetting($plugin);
+			if( !empty( $configMappings[$plugin]['config'] ) ) 				
+				$configVal = getCurrentSetting($plugin);
+			else
+				$configVal ='';
 			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , $DATA);
 		}
 		if( true !== $reSetting )	
@@ -389,7 +404,10 @@ function handleConfig($plugin){
 			$oldconfig = $config;
 			include_once (ROOT . "/plugins/$plugin/index.php");
 			if (function_exists($handler)) {
-				$configVal = getCurrentSetting($plugin);
+				if( !empty( $configMappings[$plugin]['config'] ) ) 				
+					$configVal = getCurrentSetting($plugin);
+				else
+					$configVal ='';
 				$manifest = call_user_func( $handler , $plugin );
 			}
 			$newXmls = new XMLStruct();
