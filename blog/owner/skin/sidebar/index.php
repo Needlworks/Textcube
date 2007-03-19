@@ -322,10 +322,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 			}
 			//if (function_exists($handler))
 			{
-				if( !empty( $configMappings[$plugin]['config'] ) ) 				
-					$configVal = getCurrentSetting($plugin);
-				else
-					$configVal ='';
+				$configVal = getCurrentSetting($plugin);
 ?>
 												<li class="sidebar-module sidebar-plugin-module" id="sidebar-element-<?php echo "{$i}-{$j}";?>">
 													<h4 class="module-title"><?php echo $sidebarPluginArray[$sidbarPluginIndex]['display'], '::', $sidebarPluginArray[$sidbarPluginIndex]['title'];?></h4>

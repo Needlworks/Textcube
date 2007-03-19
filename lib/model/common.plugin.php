@@ -30,11 +30,11 @@ function deactivatePlugin($name) {
 function getCurrentSetting( $name){
 	global $database , $owner, $activePlugins;
 	if( !in_array( $name , $activePlugins))
-		return false;
+		return '';
 	$name = mysql_tt_escape_string( $name ) ;
 	$result = DBQuery::query("SELECT settings FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$name'");
 	if( false === $result ) 
-		return false;
+		return '';
 	$out = mysql_fetch_array($result); 
 	return $out['settings'];
 }
