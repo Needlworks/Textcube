@@ -52,6 +52,8 @@ function eolinLocationTagFunction_showSuggestion()
 		for(var i=3; i<arguments.length; i++)
 		{
 			arguments[i] = arguments[i].replaceAll("&quot;", '"');
+			if(STD.isSafari)
+				arguments[i] = decodeURIComponent(arguments[i]);
 			htmlText.append("<li onmouseover=\"this.className='hover'\" onmouseout=\"this.className=''\" onmousedown=\"this.parentNode.instance.suggestionMouseClick(this)\">");
 			htmlText.append(arguments[i].replace(new RegExp("(" + instance.input.value + ")", "gi"), "<em>$1</em>"));
 			htmlText.append("</li>");
@@ -62,6 +64,12 @@ function eolinLocationTagFunction_showSuggestion()
 		var message1 = arguments[3];
 		var message2 = arguments[4];
 		var message3 = arguments[5];
+
+		if(STD.isSafari) {
+			message1 = decodeURIComponent(message1);
+			message2 = decodeURIComponent(message2);
+			message3 = decodeURIComponent(message3);
+		}
 
 		if(instance.locationList.childNodes.length == 1)
 			htmlText.append("<li class=\"disabled\"><em>" + instance.input.value + "</em> - " + message1 + "<br />" + message2 + "</li>");
@@ -434,7 +442,7 @@ LocationTag.prototype.requestSuggestion = function()
 
 	var script = document.createElement("script");
 //	script.setAttribute("id", "eolinLocationScript");
-	script.setAttribute("src", "http://suggest.eolin.com/location/script/?id=" + instance.container.getAttribute("id") + "&cursor=" + instance.cursor + "&language=" + instance.language + "&path=" + encodeURIComponent(instance.getPath()));
+	script.setAttribute("src", "http://suggest.eolin.com/location/script/?id=" + instance.container.getAttribute("id") + "&cursor=" + instance.cursor + "&language=" + instance.language + "&path=" + encodeURIComponent(instance.getPath()) + (STD.isSafari ? "&encode=1" : ""));
 //	if(document.getElementById("eolinLocationScript"))
 //		document.body.removeChild(document.getElementById("eolinLocationScript"));
 	document.body.appendChild(script);

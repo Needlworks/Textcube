@@ -52,7 +52,7 @@ function eolinTagFunction_showLocalSuggestion(id, cursor, filter)
 
 	if(xmlhttp)
 	{
-		xmlhttp.open("GET", blogURL + "/suggest/?id=" + id + "&cursor=" + cursor + "&filter=" + encodeURIComponent(filter), true);
+		xmlhttp.open("GET", blogURL + "/suggest/?id=" + id + "&cursor=" + cursor + "&filter=" + (STD.isSafari ? filter : encodeURIComponent(filter)), true);
 		xmlhttp.onreadystatechange = function()
 		{
 			if(xmlhttp.readyState == 4)
@@ -167,6 +167,8 @@ function eolinTagFunction_showSuggestion()
 		for(var i=3; i<arguments.length; i++)
 		{
 			arguments[i] = arguments[i].replaceAll("&quot;", '"');
+			if(STD.isSafari)
+				arguments[i] = decodeURIComponent(arguments[i]);
 			htmlText.append("<li onmouseover=\"this.className='hover'\" onmouseout=\"this.className=''\" onmousedown=\"this.parentNode.instance.suggestionMouseClick(this)\"><strong>");
 			htmlText.append(arguments[i].substring(0, input.value.length).htmlspecialchars().replace("&amp;", "&"));
 			htmlText.append("</strong>");
@@ -177,6 +179,8 @@ function eolinTagFunction_showSuggestion()
 	// 빈 값을 전송 받았을 때
 	else
 	{
+		if(STD.isSafari)
+			arguments[3] = decodeURIComponent(arguments[3]);
 		htmlText.append("<li class=\"disabled\">");
 		htmlText.append("<strong>");
 		htmlText.append(input.value.htmlspecialchars());
@@ -380,7 +384,7 @@ Tag.prototype.requestSuggestion = function()
 	}
 
 	var script = document.createElement("script");
-	script.setAttribute("src", "http://suggest.eolin.com/tag/tatter/?id=" + instance.container.getAttribute("id") + "&cursor=" + instance.cursor + "&language=" + instance.language + "&word=" + encodeURIComponent(instance.getInput().value));
+	script.setAttribute("src", "http://suggest.eolin.com/tag/tatter/?id=" + instance.container.getAttribute("id") + "&cursor=" + instance.cursor + "&language=" + instance.language + "&word=" + encodeURIComponent(instance.getInput().value) + (STD.isSafari ? "&encode=1" : ""));
 	document.body.appendChild(script);
 }
 
