@@ -423,6 +423,7 @@ function importer($path, $node, $line) {
 		case '/blog/notice':
 			setProgress($item++ / $items * 100, _t('공지를 복원하고 있습니다.'));
 			$notice = new Notice();
+			$notice->id = $node['id'][0]['.value'];
 			$notice->visibility = $node['visibility'][0]['.value'];
 			$notice->title = $node['title'][0]['.value'];
 			$notice->content = $node['content'][0]['.value'];
@@ -473,6 +474,7 @@ function importer($path, $node, $line) {
 		case '/blog/keyword':
 			setProgress($item++ / $items * 100, _t('키워드를 복원하고 있습니다.'));
 			$keyword = new Keyword();
+			$keyword->id = $node['id'][0]['.value'];
 			$keyword->visibility = $node['visibility'][0]['.value'];
 			$keyword->name = $node['name'][0]['.value'];
 			$keyword->description = $node['description'][0]['.value'];

@@ -163,7 +163,7 @@ if ($post->open('', '*', 'published, id')) {
 $notice = new Notice();
 if ($notice->open()) {
 	do {
-		$writer->write('<notice' . $newlineStyle . '>' . '<visibility>' . $notice->visibility . '</visibility>' . '<title>' . htmlspecialchars(UTF8::correct($notice->title)) . '</title>' . '<content>' . htmlspecialchars(UTF8::correct($notice->content)) . '</content>' . '<published>' . $notice->published . '</published>' . '<created>' . $notice->created . '</created>' . '<modified>' . $notice->modified . '</modified>');
+		$writer->write('<notice' . $newlineStyle . '>' . '<id>' . $notice->id . '</id>' . '<visibility>' . $notice->visibility . '</visibility>' . '<title>' . htmlspecialchars(UTF8::correct($notice->title)) . '</title>' . '<content formatter="' . htmlspecialchars($notice->contentFormatter) . '" editor="' . htmlspecialchars($notice->contentEditor) .'">' . htmlspecialchars(UTF8::correct($notice->content)) . '</content>' . '<published>' . $notice->published . '</published>' . '<created>' . $notice->created . '</created>' . '<modified>' . $notice->modified . '</modified>');
 
 		$writer->write(CRLF);
 		if ($attachment = $notice->getAttachments()) {
@@ -187,7 +187,7 @@ if ($notice->open()) {
 $keyword = new Keyword();
 if ($keyword->open()) {
 	do {
-		$writer->write('<keyword' . $newlineStyle . '>' . '<visibility>' . $keyword->visibility . '</visibility>' . '<name>' . htmlspecialchars(UTF8::correct($keyword->name)) . '</name>' . '<description>' . htmlspecialchars(UTF8::correct($keyword->description)) . '</description>' . '<published>' . $keyword->published . '</published>' . '<created>' . $keyword->created . '</created>' . '<modified>' . $keyword->modified . '</modified>');
+		$writer->write('<keyword' . $newlineStyle . '>' . '<id>' . $keyword->id . '</id>' . '<visibility>' . $keyword->visibility . '</visibility>' . '<name>' . htmlspecialchars(UTF8::correct($keyword->name)) . '</name>' . '<description editor="' . htmlspecialchars($keyword->descriptionEditor) . '" formatter="' . htmlspecialchars($keyword->descriptionFormatter) .'">' . htmlspecialchars(UTF8::correct($keyword->description)) . '</description>' . '<published>' . $keyword->published . '</published>' . '<created>' . $keyword->created . '</created>' . '<modified>' . $keyword->modified . '</modified>');
 
 		$writer->write(CRLF);
 		if ($attachment = $keyword->getAttachments()) {
