@@ -77,7 +77,8 @@ class Keyword {
 	
 	function add() {
 		global $database, $owner;
-		unset($this->id);
+		if (isset($this->id) && !Validator::number($this->id, 1))
+			 return $this->_error('id');	
 		$this->name = trim($this->name);
 		if (empty($this->name))
 			return $this->_error('name');
@@ -86,6 +87,11 @@ class Keyword {
 
 		if (!$query = $this->_buildQuery())
 			return false;
+		if (!isset($this->id) || $query->doesExist() || $this->doesExist($this->id)) {
+			$this->id = $this->nextEntryId();
+		}
+		$query->setQualifier('id', $this->id);
+		
 		if (!isset($this->published))
 			$query->setAttribute('published', 'UNIX_TIMESTAMP()');
 		if (!isset($this->created))
@@ -151,6 +157,15 @@ class Keyword {
 		if (!Validator::number($id, 1))
 			return false;
 		return DBQuery::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND category = -1 AND draft = 0");
+	}
+	
+	function nextEntryId($id = 0) {
+		global $database, $owner;
+		$maxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE owner = $owner");
+		if($id==0)
+			return $maxId + 1;
+		else
+			return ($maxId > $id ? $maxId : $id);
 	}
 	
 	function _buildQuery() {

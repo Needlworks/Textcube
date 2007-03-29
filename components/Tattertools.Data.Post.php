@@ -14,6 +14,8 @@ class Post {
 		$this->title =
 		$this->slogan =
 		$this->content =
+		$this->contentFormatter =
+		$this->contentEditor =
 		$this->category =
 		$this->tags =
 		$this->location =
@@ -100,7 +102,7 @@ class Post {
 
 		if (!$query = $this->_buildQuery())
 			return false;
-		if (!isset($this->id) || $query->doesExist()) {
+		if (!isset($this->id) || $query->doesExist() || $this->doesExist($this->id)) {
 			$this->id = $this->nextEntryId(); // Added (#300)
 		}
 		$query->setQualifier('id', $this->id);
