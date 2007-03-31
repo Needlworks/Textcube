@@ -56,6 +56,7 @@ function getMIMEType($ext, $filename = null) {
 		return '';
 	} else {
 		switch (strtolower($ext)) {
+			// Image
 			case 'gif':
 				return 'image/gif';
 			case 'jpeg':case 'jpg':case 'jpe':
@@ -66,6 +67,7 @@ function getMIMEType($ext, $filename = null) {
 				return 'image/tiff';
 			case 'bmp':
 				return 'image/bmp';
+			// Sound
 			case 'wav':
 				return 'audio/x-wav';
 			case 'mpga':case 'mp2':case 'mp3':
@@ -76,6 +78,7 @@ function getMIMEType($ext, $filename = null) {
 				return 'audio/x-msaudio';
 			case 'ra':
 				return 'audio/x-realaudio';
+			// Document
 			case 'css':
 				return 'text/css';
 			case 'html':case 'htm':case 'xhtml':
@@ -86,14 +89,45 @@ function getMIMEType($ext, $filename = null) {
 				return 'text/sgml';
 			case 'xml':case 'xsl':
 				return 'text/xml';
+			case 'hwp':case 'hwpml':
+				return 'application/x-hwp';
+			case 'pdf':
+				return 'application/pdf';
+			case 'odt':case 'ott':
+				return 'application/vnd.oasis.opendocument.text';
+			case 'ods':case 'ots':
+				return 'application/vnd.oasis.opendocument.spreadsheet';	
+			case 'odp':case 'otp':
+				return 'application/vnd.oasis.opendocument.presentation';
+			case 'sxw':case 'stw':	
+				return '	application/vnd.sun.xml.writer';
+			case 'sxc':case 'stc':	
+				return '	application/vnd.sun.xml.calc';
+			case 'sxi':case 'sti':	
+				return '	application/vnd.sun.xml.impress';
+			case 'doc':
+				return 'application/vnd.ms-word';
+			case 'xls':case 'xla':case 'xlt':
+			case 'xlb':
+				return 'application/vnd.ms-excel';			
+			case 'ppt':case 'ppa':case 'pot':case 'pps':
+				return 'application/vnd.mspowerpoint';
+			case 'vsd':case 'vss':case 'vsw':
+				return 'application/vnd.visio';
+			case 'docx':case 'docm':
+			case 'pptx':case 'pptm':
+			case 'xlsx':case 'xlsm':	
+				return 'application/vnd.openxmlformats';
+			case 'csv':
+				return 'text/comma-separated-values'; 
+			// Multimedia
 			case 'mpeg':case 'mpg':case 'mpe':
 				return 'video/mpeg';
 			case 'qt':case 'mov':
 				return 'video/quicktime';
 			case 'avi':case 'wmv':
 				return 'video/x-msvideo';
-			case 'pdf':
-				return 'application/pdf';
+			// Compression
 			case 'bz2':
 				return 'application/x-bzip2';
 			case 'gz':case 'tgz':
@@ -106,6 +140,8 @@ function getMIMEType($ext, $filename = null) {
 				return 'application/x-rar-compressed';
 			case '7z':
 				return 'application/x-7z-compressed';
+			case 'alz':
+				return 'application/x-alzip';				
 		}
 	}
 	return '';
