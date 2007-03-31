@@ -81,12 +81,15 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 	} else {
 		$query = "CREATE TABLE {$database['prefix']}{$name} (owner int(11) NOT NULL default '0',";
 		$isaiExists = false;
+		$index = '';
 		foreach($fields as $field) {
 			$ai = '';
 			if( strtolower($field['attribute']) == 'int' || strtolower($field['attribute']) == 'mediumint'  ){
-				if( true == $field['autoincrement']  && ! $isaiExists){
+				if($field['autoincrement'] == 1 && !$isaiExists){
 					$ai = ' AUTO_INCREMENT ';
 					$isaiExists = true;
+					if(!in_array($field['name'], $keys))
+						$index = ", KEY({$field['name']})";
 				}
 			}
 			$isNull = ($field['isnull'] == 0) ? ' NOT NULL ' : ' NULL ';
@@ -98,6 +101,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 		
 		array_unshift($keys, 'owner');
 		$query .= " PRIMARY KEY (" . implode(',',$keys) . ")";
+		$query .= $index;
 		$query .= ") TYPE=MyISAM ";
 		$query .= ($database['utf8'] == true) ? 'DEFAULT CHARSET=utf8' : '';
 		if (DBQuery::execute($query)) {

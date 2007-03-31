@@ -48,8 +48,9 @@ if (!empty($owner)) {
 							$fieldLength = isset($field['length']) ? $field['length'][0]['.value'] : -1;
 							$fieldIsNull = isset($field['isnull']) ? $field['isnull'][0]['.value'] : 1;
 							$fieldDefault = isset($field['default']) ? $field['default'][0]['.value'] : null;
+							$fieldAutoIncrement = isset($field['autoincrement']) ? $field['autoincrement'][0]['.value'] : 0;
 							
-							array_push($storageMappings, array('name' => $fieldName, 'attribute' => $fieldAttribute, 'length' => $fieldLength, 'isnull' => $fieldIsNull, 'default' => $fieldDefault));
+							array_push($storageMappings, array('name' => $fieldName, 'attribute' => $fieldAttribute, 'length' => $fieldLength, 'isnull' => $fieldIsNull, 'default' => $fieldDefault, 'autoincrement' => $fieldAutoIncrement));
 						}
 					}
 					if (!empty($table['key'][0]['.value'])) {
