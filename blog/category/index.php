@@ -11,7 +11,8 @@ $category = empty($suri['value']) ? 0 : getCategoryIdByLabel($owner, $suri['valu
 if(!doesHaveOwnership() && getCategoryVisibility($owner, $category) < 2)
 	$category = null;
 if ($skinSetting['showListOnCategory'] != 0) {
-	$listWithPaging = getEntryListWithPagingByCategory($owner, $category, $suri['page'], $blog['entriesOnList']);
+	if(!$listWithPaging = getEntryListWithPagingByCategory($owner, $category, $suri['page'], $blog['entriesOnList']))
+		$listWithPaging = array(array(), array('total' => 0));
 	$list = array('title' => (empty($suri['value']) ? _t('전체') : $suri['value']), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 }
