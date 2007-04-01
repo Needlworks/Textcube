@@ -422,7 +422,7 @@ function getCommentView($entryId, $skin) {
 			if ($value['secret'] == 1 && !$authorized) {
 				$comments[$key]['name'] = '';
 				$comments[$key]['homepage'] = '';
-				$comments[$key]['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
+				$comments[$key]['comment'] = _text('관리자만 볼 수 있는 방명록입니다.');
 			}
 		}
 	} else {
