@@ -160,7 +160,7 @@ function getEntriesWithPagingByCategory($owner, $category, $page, $count, $count
 	}
 	$sql = "SELECT e.*, c.label AS categoryLabel 
 		FROM {$database['prefix']}Entries AS e 
-		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id 
+		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
 		WHERE e.owner = $owner AND e.draft = 0 $visibility $cond 
 		ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=",$countItem);
