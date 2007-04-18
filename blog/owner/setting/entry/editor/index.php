@@ -11,10 +11,10 @@ if(array_key_exists('useBlogAPI',  $_REQUEST)) {
 		$useBlogAPI = '0';
 } else $useBlogAPI = '0';
 
-if (!array_key_exists('editorMode',$_REQUEST))
+if (!array_key_exists('defaultEditor',$_REQUEST) || !array_key_exists('defaultFormatter',$_REQUEST))
 	respondResultPage( -1);
 
-if (setEditor($owner, $_REQUEST['editorMode']) && setUserSetting("useBlogAPI", $useBlogAPI)) {
+if (setUserSetting("defaultEditor", $_REQUEST['defaultEditor']) && setUserSetting("defaultFormatter", $_REQUEST['defaultFormatter']) && setUserSetting("useBlogAPI", $useBlogAPI)) {
 	respondResultPage(0);
 }
 respondResultPage( -1);

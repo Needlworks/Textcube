@@ -39,14 +39,14 @@ if (isset($_POST['useResamplingAsDefault']) && ($_POST['useResamplingAsDefault']
 } else if (getUserSetting("resamplingDefault") == "yes") {
 	removeUserSetting("resamplingDefault");
 	removeUserSetting("waterMarkDefault");
-	deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "*");
+	deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", '');
 }
 
 if (isset($_POST['useWatermarkAsDefault']) && ($_POST['useWatermarkAsDefault'] == "yes")) {
 	setUserSetting("waterMarkDefault", "yes");
 } else  if (getUserSetting("waterMarkDefault") == "yes") {
 	removeUserSetting("waterMarkDefault");
-	deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", "*");
+	deleteFilesByRegExp(ROOT."/cache/thumbnail/$owner/", '');
 }
 
 // 워터마크 처리.

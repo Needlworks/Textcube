@@ -282,7 +282,58 @@ if ($service['type'] != 'single') {
 										request.send();
 									}
 								}
+
+								var language = "<?php echo $blog['language'];?>";
+								var skinLanguage = "<?php echo $blog['blogLanguage'];?>";
+								var timezone = "<?php echo $blog['timezone'];?>";
+								var errorType = "";
 								
+								function setLocale() {
+									errorType = "";
+
+									if (document.getElementById('language-form').timezone.value != timezone) {
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/timezone?timezone=" + encodeURIComponent(document.getElementById('language-form').timezone.value));
+										request.onSuccess = function() {
+											timezone = document.getElementById('language-form').timezone.value;
+											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+										}
+										request.onError = function() {
+											if (errorType == "language")
+												errorType = "both";
+											else
+												errorType = "timezone";
+										}
+										request.send();
+									}
+
+									if (document.getElementById('language-form').adminLanguage.value != language || document.getElementById('language-form').blogLanguage.value != skinLanguage) {
+										var needRefresh = false;
+										if (document.getElementById('language-form').adminLanguage.value != language) needRefresh = true;
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/language?language=" + encodeURIComponent(document.getElementById('language-form').adminLanguage.value) + "&blogLanguage=" + encodeURIComponent(document.getElementById('language-form').blogLanguage.value));
+										request.onSuccess = function() {
+											language = document.getElementById('language-form').adminLanguage.value;
+											skinLanguage = document.getElementById('language-form').blogLanguage.value;
+											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											if (needRefresh == true) {
+												window.location.href = "<?php echo $blogURL;?>/owner/setting/blog";
+											}
+										}
+										request.onError = function() {
+											errorType = "language";
+										}
+										request.send();
+									}
+									
+									if (errorType == "language")
+										alert("<?php echo _t('블로그 언어를 변경할 수 없습니다.');?>");
+									else if (errorType == "timezone")
+										alert("<?php echo _t('블로그 시간대를 변경할 수 없습니다.');?>");
+									else if (errorType == "both")
+										alert("<?php echo _t('블로그 언어와 시간대를 변경할 수 없습니다.');?>");
+								}
+
+
+
 							//]]>
 						</script>
 						
@@ -505,6 +556,117 @@ for ($i = 5; $i <= 30; $i += 5) {
 								</div>
 							</form>
 						</div>
+
+						<hr class="hidden" />
+						
+						<div id="part-setting-language" class="part">
+							<h2 class="caption"><span class="main-text"><?php echo _t('언어, 시간대를 설정합니다');?></span></h2>
+							
+							<form id="language-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/blog/language">
+								<div id="language-section" class="section">
+									<fieldset class="container">
+										<legend><?php echo _t('언어 및 시간대');?></legend>
+										
+										<dl id="admin-language-line" class="line">
+											<dt><span class="label"><?php echo _t('관리자 화면 언어');?></span></dt>
+											<dd>
+												<select id="admin-language" name="adminLanguage">
+<?php
+$supportedLanguages = Locale::getSupportedLocales();
+foreach ($supportedLanguages as $locale => $language) {
+?>
+													<option value="<?php echo $locale;?>"<?php echo ($locale == $blog['language'] ? ' selected="selected"' : '');?>><?php echo $language;?></option>
+<?php
+}
+?>
+												</select>
+												<p><?php echo _t('관리자 화면의 언어를 설정합니다.<br />한국어 블로그를 운영하고 계신다면 한국어를 선택해 주십시오.');?></p>
+											</dd>
+										</dl>
+										<dl id="blog-language-line" class="line">
+											<dt><span class="label"><?php echo _t('블로그 언어');?></span></dt>
+											<dd>
+												<select id="blog-language" name="blogLanguage">
+<?php
+foreach ($supportedLanguages as $locale => $language) {
+?>
+													<option value="<?php echo $locale;?>"<?php echo ($locale == $blog['blogLanguage'] ? ' selected="selected"' : '');?>><?php echo $language;?></option>
+<?php
+}
+?>
+												</select>
+												<p><?php echo _t('외부 블로그에 표시되는 메세지의 언어를 설정합니다.<br />달력이나 댓글 입력창에 적용됩니다. 한국어 블로그를 운영하고 계신다면 한국어를 선택해 주십시오.');?></p>
+											</dd>
+										</dl>
+										<dl id="timezone-line" class="line">
+											<dt><span class="label"><?php echo _t('시간대');?></span></dt>
+											<dd>
+												<select id="timezone" name="timezone">
+<?php
+foreach (Timezone::getList() as $timezone) {
+?>
+													<option value="<?php echo $timezone;?>"<?php echo ($timezone == $blog['timezone'] ? ' selected="selected"' : '');?>><?php echo _t($timezone);?></option>
+<?php
+}
+?>
+												</select>
+											</dd>
+										</dl>
+									</fieldset>
+									<div class="button-box">
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setLocale(); return false;" />
+									</div>
+								</div>
+							</form>
+						</div>
+
+						<hr class="hidden" />
+
+						<div id="part-setting-admin" class="part">
+							<h2 class="caption"><span class="main-text"><?php echo _t('관리자 화면 스킨을 설정합니다');?></span></h2>
+							
+							<form id="admin-skin-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/blog/skin">
+								<div id="admin-skin-section" class="section">
+									<fieldset class="container">
+										<legend><?php echo _t('관리자 스킨을 설정합니다');?></legend>
+										
+										<dl id="admin-skin--line" class="line">
+											<dt><span class="label"><?php echo _t('관리자 화면 스킨');?></span></dt>
+											<dd>
+												<select id="adminSkin" name="adminSkin">
+<?php
+$currentAdminSkin = getUserSetting("adminSkin", "default");
+$dir = dir(ROOT . '/style/admin/');
+while ($tempAdminSkin = $dir->read()) {
+	if (!ereg('^[[:alnum:] _-]+$', $tempAdminSkin))
+		continue;
+	if (!is_dir(ROOT . '/style/admin/' . $tempAdminSkin))
+		continue;
+	if (!file_exists(ROOT . "/style/admin/$tempAdminSkin/index.xml"))
+		continue;
+	$xmls = new XMLStruct();
+	if (!$xmls->open(file_get_contents(ROOT . "/style/admin/$tempAdminSkin/index.xml"))) {
+		continue;
+	} else {
+		$skinDir = trim($tempAdminSkin);
+		$skinName = htmlspecialchars($xmls->getValue('/adminSkin/information/name[lang()]'));
+?>
+													<option value="<?php echo $skinDir;?>"<?php echo $currentAdminSkin==$skinDir ?' selected="selected"':'';?>><?php echo $skinName;?></option>
+<?php
+	}
+}
+?>
+												</select>
+											</dd>
+										</dl>
+									</fieldset>
+									<div class="button-box">
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" />
+									</div>
+								</div>
+							</form>
+						</div>
+
 <?php
 
 if (isset($_GET['message'])) {
