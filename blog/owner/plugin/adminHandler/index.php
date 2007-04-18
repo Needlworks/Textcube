@@ -43,6 +43,8 @@ if ((isset($_REQUEST['name'])) && (isset($adminHandlerMappings[$_REQUEST['name']
 		$pluginSelfParam = '?name=' . $plugin . '/' . $handler;
 		
 		$pluginURL = "{$service['path']}/plugins/{$plugin}";
+		$pluginPath = ROOT . "/plugins/{$plugin}";
+		$pluginName = $plugin;
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
 		if (function_exists($handler)) {
 			if( !empty( $configMappings[$plugin]['config'] ) ) 				
