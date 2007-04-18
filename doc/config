@@ -15,3 +15,4 @@ $service['disableEolinSuggestion'] = false; // Disable auto-suggestion using EOL
 //Usually it searches local tag by default.
 $service['useEncodedURL'] = false; // URL encoding using RFC1738
 $serviceURL = ''; // Useful if using other web program under the same domain
+$service['useNumericURLonRSS'] = false; // Can force permalink to numeric format on RSS output.

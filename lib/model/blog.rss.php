@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function refreshRSS($owner) {
-	global $database, $serviceURL, $defaultURL, $blog;
+	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
 	$author = DBQuery::queryCell("SELECT CONCAT(' (', name, ')') FROM {$database['prefix']}Users WHERE userid = $owner");
 	$channel['title'] = $blog['title'];
@@ -54,6 +54,11 @@ function refreshRSS($owner) {
 			'comments' => "$defaultURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']) . '#entry' . $row['id'] . 'comment',
 			'guid' => "$defaultURL/" . $row['id']
 		);
+		if (isset($service['useNumericURLonRSS'])) {
+			if ($service['useNumericURLonRSS']==true) {
+				$item['link'] = $defaultURL."/".$row['id'];
+			}
+		}
 		if (!empty($row['id'])) {
 			$sql = "SELECT name, size, mime FROM {$database['prefix']}Attachments WHERE parent= {$row['id']} AND owner =$owner AND enclosure = 1";
 			$attaches = DBQuery::queryRow($sql);
