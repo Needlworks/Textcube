@@ -1,5 +1,5 @@
 <?php
-/* KeywordUI for Tattertools 1.1
+/* KeywordUI for Textcube 1.1
    ----------------------------------
    Version 1.0
    Tatter and Friends development team.
@@ -10,8 +10,8 @@
    Created at       : 2006.10.3
    Last modified at : 2006.10.26
  
- This plugin enables keyword / keylog feature in Tattertools.
- For the detail, visit http://forum.tattertools.com/ko
+ This plugin enables keyword / keylog feature in Textcube.
+ For the detail, visit http://forum.tattersite.com/ko
 
 
  General Public License
@@ -25,7 +25,7 @@
 */
 function KeywordUI_bindKeyword($target,$mother) {
 	global $blogURL, $configVal;
-	requireComponent('Tattertools.Function.misc');
+	requireComponent('Textcube.Function.misc');
 	$data = misc::fetchConfigVal($configVal);
 	$target = "<a class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/" . rawurlencode($target) . "')\">{$target}</a>";
 

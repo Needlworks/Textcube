@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
@@ -231,7 +231,7 @@ function sendCommentPing($entryId, $permalink, $name, $homepage) {
 		requireComponent('Eolin.PHP.Core');
 		requireComponent('Eolin.PHP.XMLRPC');
 		$rpc = new XMLRPC();
-		$rpc->url = TATTERTOOLS_SYNC_URL;
+		$rpc->url = TEXTCUBE_SYNC_URL;
 		$summary = array(
 			'permalink' => $permalink,
 			'name' => $name,
@@ -248,7 +248,7 @@ function addComment($owner, & $comment) {
 	$filtered = 0;
 	
 	if (!doesHaveOwnership()) {
-		requireComponent('Tattertools.Data.Filter');
+		requireComponent('Textcube.Data.Filter');
 		if (Filter::isFiltered('ip', $comment['ip'])) {
 			$blockType = "ip";
 			$filtered = 1;
@@ -333,7 +333,7 @@ function updateComment($owner, $comment, $password) {
 
 	if (!doesHaveOwnership()) {
 		// if filtered, only block and not send to trash
-		requireComponent('Tattertools.Data.Filter');
+		requireComponent('Textcube.Data.Filter');
 		if (Filter::isFiltered('ip', $comment['ip']))
 			return 'blocked';
 		if (Filter::isFiltered('name', $comment['name']))

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../..');
@@ -67,13 +67,13 @@ if (doesHaveOwnership()) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><?php echo _text('Tattertools - Login');?></title>
+	<title><?php echo _text('Textcube - Login');?></title>
 	
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/login.css" />
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/login.ie.css" /><![endif]-->
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/byTattertools.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/byTextcube.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript">
@@ -95,7 +95,7 @@ if (doesHaveOwnership()) {
 				<div id="data-outbox">
 					<div id="login-box">
 						<div id="logo-box">
-							<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/logo_tattertools.png" alt="<?php echo _text('태터툴즈 로고');?>" />
+							<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고');?>" />
 			            </div>
 			            
 			            <div id="field-box">

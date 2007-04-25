@@ -1,5 +1,5 @@
 <?php
-/* Statistics plugin for Tattertools 1.1
+/* Statistics plugin for Textcube 1.1
    ----------------------------------
    Version 1.0
    Tatter and Friends development team.
@@ -11,7 +11,7 @@
    Last modified at : 2006.10.10
 
  This plugin adds simple statistics information panel on 'quilt'.
- For the detail, visit http://forum.tattertools.com/ko
+ For the detail, visit http://forum.tattersite.com/ko
 
 
  General Public License
@@ -25,7 +25,7 @@
 */
 function CT_Statistics_Default($target) {
 	global $owner;
-	requireComponent( "Tattertools.Model.Statistics");
+	requireComponent( "Textcube.Model.Statistics");
 	$stats = Statistics::getStatistics($owner);
 	
 	$target .= '<ul class="CT_Statistics_Default">';

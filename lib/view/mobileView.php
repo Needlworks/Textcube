@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
@@ -41,7 +41,7 @@ function printMobileHtmlHeader($title = '') {
 function printMobileHtmlFooter() {
 ?>
 		<hr />
-		<p>Powered by <a href="<?php echo TATTERTOOLS_HOMEPAGE;?>"><?php echo TATTERTOOLS_NAME;?></a></p>
+		<p>Powered by <a href="<?php echo TEXTCUBE_HOMEPAGE;?>"><?php echo TEXTCUBE_NAME;?></a></p>
 	</body>
 </html>
 <?php

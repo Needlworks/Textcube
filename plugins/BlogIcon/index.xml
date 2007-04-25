@@ -4,18 +4,18 @@
   <title xml:lang="en">Blog icon</title>
   <title xml:lang="ja">ブログのアイコン表示</title>
   <title xml:lang="zh-CN">表示日志?性??</title>
-  <link>http://www.tattertools.com/plugins</link>
+  <link>http://www.textcube.com/plugins</link>
   <version>1.1</version>
   <description xml:lang="ko">댓글과 방명록의 작성자 홈페이지에 블로그 아이콘(index.gif)이 있으면 같이 표시됩니다.</description>
   <description xml:lang="en">This plugin displays blog icon (index.gif) along with comments or guestbook.</description>
   <description xml:lang="ja">コメントと?示板の作成者ペ?ジにブログのアイコン (index.gif) があったら名前の側に表示します。</description>
   <description xml:lang="zh-CN">??和留言的作者的?站若有?性??(index.gif),???示.</description>
   <license>GPL</license>
-  <author link="http://forum.tattertools.com/en">Tatter &amp; Friends</author>
-  <author xml:lang="ko" link="http://forum.tattertools.com/ko">태터앤프렌즈</author>
+  <author link="http://forum.tattersite.com/en">Tatter &amp; Friends</author>
+  <author xml:lang="ko" link="http://forum.tattersite.com/ko">태터앤프렌즈</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
-    <tattertools>1.1</tattertools>
+    <textcube>1.1</textcube>
   </requirements>
   <binding>
     <listener event="ViewCommenter">BlogIcon_main</listener>

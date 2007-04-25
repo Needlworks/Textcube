@@ -1,5 +1,5 @@
 <?php 
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
@@ -290,7 +290,7 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 		DBQuery::query("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $id");
 		return 62;
 	}
-	$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TATTERTOOLS_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
+	$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TEXTCUBE_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 	if (empty($name))
 		$subject = _textf('귀하를 %1님이 초대합니다', $senderName);
 	else

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
@@ -715,7 +715,7 @@ function syndicateEntry($id, $mode) {
 	requireComponent('Eolin.PHP.Core');
 	requireComponent('Eolin.PHP.XMLRPC');
 	$rpc = new XMLRPC();
-	$rpc->url = TATTERTOOLS_SYNC_URL;
+	$rpc->url = TEXTCUBE_SYNC_URL;
 	$summary = array('blogURL' => $defaultURL, 'syncURL' => "$defaultURL/sync/$id");
 	if($mode == 'create') {
 		$entry = getEntry($owner, $id);

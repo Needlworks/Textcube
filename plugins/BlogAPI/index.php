@@ -1,5 +1,5 @@
 <?php
-/* BlogAPI RSD automarker for Tattertools 1.1
+/* BlogAPI RSD automarker for Textcube 1.1
    ----------------------------------
    Version 1.0
    Tatter and Friends development team.
@@ -11,7 +11,7 @@
    Last modified at : 2006.10.27
  
  This plugin adds RSD link into blog skin.
- For the detail, visit http://forum.tattertools.com/ko
+ For the detail, visit http://forum.tattersite.com/ko
 
 
  General Public License

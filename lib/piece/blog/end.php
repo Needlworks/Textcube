@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
@@ -53,8 +53,8 @@ dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($owner), $skin->r
 dress('link_rep', getLinksView(getLinks($owner), $skin->s_link_rep), $view);
 dress('rss_url', "$blogURL/rss", $view);
 dress('owner_url', "$blogURL/owner", $view);
-dress('tattertools_name', TATTERTOOLS_NAME, $view);
-dress('tattertools_version', TATTERTOOLS_VERSION, $view);
+dress('textcube_name', TEXTCUBE_NAME, $view);
+dress('textcube_version', TEXTCUBE_VERSION, $view);
 if (isset($paging))
 	dress('paging', getPagingView($paging, $skin->paging, $skin->pagingItem), $view);
 

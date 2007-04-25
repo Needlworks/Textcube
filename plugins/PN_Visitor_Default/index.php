@@ -1,5 +1,5 @@
 <?php
-/* Visitor statistics plugin for Tattertools 1.1
+/* Visitor statistics plugin for Textcube 1.1
    ----------------------------------
    Version 1.1
    Tatter and Friends development team.
@@ -11,7 +11,7 @@
    Last modified at : 2007.2.4
  
  This plugin shows visitor statistics on administration menu.
- For the detail, visit http://forum.tattertools.com/ko
+ For the detail, visit http://forum.tattersite.com/ko
 
 
  General Public License
@@ -26,8 +26,8 @@
 function PN_Visitor_Default()
 {
 	global $owner, $pluginMenuURL, $pluginAccessURL, $pluginHandlerURL;
-	requireComponent( "Tattertools.Model.Statistics");
-	requireComponent('Tattertools.Function.misc');
+	requireComponent( "Textcube.Model.Statistics");
+	requireComponent('Textcube.Function.misc');
 	$stats = Statistics::getStatistics($owner);
 	$date = isset($_GET['date']) ? $_GET['date'] : date('Ym', strtotime("now"));
 ?>
@@ -150,7 +150,7 @@ if (isset($date)) {
 function PN_Visitor_Default_set()
 {
 	global $owner;
-	requireComponent( "Tattertools.Model.Statistics");
+	requireComponent( "Textcube.Model.Statistics");
 	$isAjaxRequest = isset($_REQUEST['ajaxcall']) ? true : false;
 	if ($isAjaxRequest) {
 		$result = Statistics::setTotalStatistics($owner) ? 0 : -1;

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 $url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'];
@@ -106,7 +106,7 @@ $blogURL = $pathURL;
 $folderURL = rtrim($blogURL . $suri['directive'], '/');
 
 
-if (defined('__TATTERTOOLS_MOBILE__')) {
+if (defined('__TEXTCUBE_MOBILE__')) {
 	$blogURL .= '/m';
 }
 unset($url, $domain);

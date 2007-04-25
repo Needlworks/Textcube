@@ -171,6 +171,179 @@
 	margin-bottom                    : 16px;
 }
 
+/* Common ****************************************************************************************/
+
+#sub-menu-dashboard
+{
+	background-image                 : none !important;
+}
+
+.part .caption
+{
+	margin-bottom                    : 10px;
+}
+
+/* Dashboard *************************************************************************************/
+
+#part-center-dashboard,
+#part-center-lint
+{
+	height                           : 480px;
+	position                         : relative;
+}
+
+#part-center-dashboard .section h3,
+#part-center-lint .section h3
+{
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	font-weight                      : normal;
+	height                           : 32px;
+	line-height                      : 34px;
+	padding-left                     : 25px;
+}
+
+/* shortcut */
+#shortcut-collection
+{
+	position                         : absolute;
+	left                             : 10px;
+	top                              : 40px;
+	width                            : 200px;
+}
+
+#shortcut-collection h3
+{
+	background-image                 : url("./image/bg_dashboard_header3.png");
+	height                           : 32px;
+}
+
+#shortcut-collection ul li
+{
+	background-image                 : url("./image/icon_newPost.gif");
+	background-position              : 15px center;
+	background-repeat                : no-repeat;
+	border-bottom                    : 1px solid #EEEEEE;
+	padding                          : 6px 10px 5px 32px;
+	text-align                       : left;
+}
+
+/* total information */
+#total-information
+{
+	margin-left                      : 220px;
+	width                            : 200px;
+}
+
+#total-information h3
+{
+	background-image                 : url("./image/bg_dashboard_header3.png");
+	height                           : 32px;
+}
+
+#total-information table
+{
+	width                            : 200px;
+}
+
+#total-information table tbody tr th
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	font-weight                      : normal;
+	height                           : 30px;
+	text-align                       : center;
+	width                            : 50%;
+}
+
+#total-information table tbody tr td
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	border-left                      : 1px solid #EEEEEE;
+	height                           : 24px;
+	padding-right                    : 10px;
+	text-align                       : right;
+}
+
+/* notice */
+#textcube-notice
+{
+
+	position                         : absolute;
+	left                             : 10px;
+	top                              : 280px;
+	width                            : 410px;
+}
+
+#textcube-notice h3
+{
+	background-image                 : url("./image/bg_dashboard_header4.png");
+	height                           : 32px;
+}
+
+#textcube-notice table
+{
+	margin                           : 0 0 25px 0;
+	width                            : 410px;
+}
+
+#textcube-notice table tbody tr td
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	height                           : 28px;
+	padding-left                     : 10px;
+	text-align                       : left;
+}
+
+#textcube-notice table tbody tr td.date
+{
+	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
+	font-size                        : 0.8em;
+	padding-right                    : 10px;
+	text-align                       : right;
+}
+
+/* panel */
+
+#part-center-dashboard #myBlogInfo
+{
+	position                         : relative;
+	width                            : 505px;
+	position                         : absolute;
+	right                            : 20px;
+	top                              : 40px;
+}
+
+#part-center-dashboard #myBlogInfo.section h3
+{ 
+	background-image                 : url("./image/bg_dashboard_header2.png");
+}
+
+#part-center-dashboard #myBlogInfo table caption
+{
+	font-weight                      : bold;
+	text-align                       : left;
+	line-height                      : 23px;
+	border-bottom                    : 1px solid #e2e5e7;
+}
+
+
+#part-center-dashboard #infoPanel
+{
+	border                           : 1px solid #d9dde0;
+	padding                          : 9px;
+	width                            : 485px;
+	float                            : right;
+}
+
+#part-center-dashboard #infoPanel table
+{
+	width                            : 232px;
+	height                           : 130px;
+	float                            : left;
+	margin-right                     : 5px;
+	margin-bottom                    : 16px;
+}
+
 #part-center-dashboard #infoPanel table.guestbook
 {
 	clear: left;
@@ -201,12 +374,14 @@
 	width                            : 45px;
 	font                             : 0.8em Tahoma;
 	background                       : none;
-	text-align: center;
+	text-align                       : center;
 }
 
 /* quilt */
 #part-center-quilt .panel,
-#part-center-quilt-edit .panel
+#part-center-quilt-edit .panel,
+#part-center-lint .panel,
+#part-center-lint-edit .panel
 {
 	float                            : left;
 	margin-left                      : 10px;
@@ -215,7 +390,9 @@
 }
 
 #part-center-quilt .button-box,
-#part-center-quilt-edit .button-box
+#part-center-quilt-edit .button-box,
+#part-center-lint .button-box,
+#part-center-lint-edit .button-box
 {
 	border-top                       : 1px solid #DDDDDD;
 	clear                            : both;
@@ -223,7 +400,9 @@
 }
 
 #part-center-quilt .button-box .input-button,
-#part-center-quilt-edit .button-box .input-button
+#part-center-quilt-edit .button-box .input-button,
+#part-center-lint .button-box .input-button,
+#part-center-lint-edit .button-box .input-button
 {
 	background-color                 : #FFFFFF;
 	background-image                 : none !important;
@@ -239,6 +418,8 @@
 
 #part-center-quilt .section,
 #part-center-quilt-edit .section,
+#part-center-lint .section,
+#part-center-lint-edit .section,
 .ajax-floating-panel
 {
 	font-size                        : 12px;
@@ -246,6 +427,7 @@
 }
 
 #part-center-quilt-edit .section,
+#part-center-lint-edit .section,
 .ajax-floating-panel
 {
 	cursor                           : pointer;
@@ -253,6 +435,8 @@
 
 #part-center-quilt .section h3,
 #part-center-quilt-edit .section h3,
+#part-center-lint .section h3,
+#part-center-lint-edit .section h3,
 .ajax-floating-panel h3
 {
 	background-image                 : url("./image/bg_dashboard_header.png");
@@ -270,6 +454,12 @@
 #part-center-quilt-edit .section h4,
 #part-center-quilt-edit .section h5,
 #part-center-quilt-edit .section h6,
+#part-center-lint .section h4,
+#part-center-lint .section h5,
+#part-center-lint .section h6,
+#part-center-lint-edit .section h4,
+#part-center-lint-edit .section h5,
+#part-center-lint-edit .section h6,
 .ajax-floating-panel h4,
 .ajax-floating-panel h5,
 .ajax-floating-panel h6
@@ -281,6 +471,10 @@
 #part-center-quilt .section ul,
 #part-center-quilt-edit .section ol,
 #part-center-quilt-edit .section ul,
+#part-center-lint .section ol,
+#part-center-lint .section ul,
+#part-center-lint-edit .section ol,
+#part-center-lint-edit .section ul,
 .ajax-floating-panel ol,
 .ajax-floating-panel ul
 {
@@ -291,6 +485,10 @@
 #part-center-quilt .section ul li,
 #part-center-quilt-edit .section ol li,
 #part-center-quilt-edit .section ul li,
+#part-center-lint .section ol li,
+#part-center-lint .section ul li,
+#part-center-lint-edit .section ol li,
+#part-center-lint-edit .section ul li,
 .ajax-floating-panel ol li,
 .ajax-floating-panel ul li
 {
@@ -301,6 +499,8 @@
 
 #part-center-quilt .section table,
 #part-center-quilt-edit .section table,
+#part-center-lint .section table,
+#part-center-lint-edit .section table,
 .ajax-floating-panel table
 {
 	margin                           : 0 12px 25px 0;
@@ -309,6 +509,8 @@
 
 #part-center-quilt .section table tbody tr td,
 #part-center-quilt-edit .section table tbody tr td,
+#part-center-lint .section table tbody tr td,
+#part-center-lint-edit .section table tbody tr td,
 .ajax-floating-panel table tbody tr td
 {
 	border-bottom                    : 1px solid #EEEEEE;
@@ -541,7 +743,7 @@
 
 #part-center-about h3
 {
-	background-image                 : url("./image/img_tattertools_dashboard.png");
+	background-image                 : url("./image/img_textcube_dashboard.png");
 	background-position              : -8px top;
 	background-repeat                : no-repeat;
 	font-family                      : Tahoma, "Lucida Grande", Verdana, sans-serif;

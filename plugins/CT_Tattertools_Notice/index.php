@@ -1,9 +1,9 @@
 <?php
-function CT_Tattertools_Notice($target) {
+function CT_Textcube_Notice($target) {
 	global $service;
 	requireComponent("Eolin.PHP.Core");
-	$noticeURL = 'http://blog.tattertools.com/rss';
-	list($result, $feed, $xml) = CT_Tattertools_Notice_getRemoteFeed($noticeURL);
+	$noticeURL = 'http://blog.textcube.com/rss';
+	list($result, $feed, $xml) = CT_Textcube_Notice_getRemoteFeed($noticeURL);
 	if ($result == 0) {
 		$xmls = new XMLStruct();
 		$noticeEntries = array();
@@ -75,7 +75,7 @@ function CT_Tattertools_Notice($target) {
 	return $target;
 }
 
-function CT_Tattertools_Notice_getRemoteFeed($url) {
+function CT_Textcube_Notice_getRemoteFeed($url) {
 	global $service;
 	$xml = fireEvent('GetRemoteFeed', null, $url);
 	if (empty($xml)) {

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../..');
@@ -11,7 +11,7 @@ if($entry = DBQuery::queryRow("SELECT e.*, c.name AS categoryName FROM {$databas
 	echo '<version>1.1</version>', "\r\n";
 	echo '<status>1</status>', "\r\n";
 	echo '<blog>', "\r\n";
-	echo '<generator>Tattertools/1.1</generator>', "\r\n";
+	echo '<generator>Textcube/1.1</generator>', "\r\n";
 	echo '<language>', htmlspecialchars($blog['language']), '</language>', "\r\n";
 	echo '<url>', htmlspecialchars($defaultURL), '</url>', "\r\n";
 	echo '<title>', htmlspecialchars($blog['title']), '</title>', "\r\n";

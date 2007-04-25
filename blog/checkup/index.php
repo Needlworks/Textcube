@@ -1,13 +1,13 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../..');
 require ROOT . '/lib/includeForBlog.php';
 require ROOT . '/lib/model/blog.skin.php';
-if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION)) {
+if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION)) {
 	if ($fp = fopen(ROOT . '/cache/CHECKUP', 'w')) {
-		fwrite($fp, TATTERTOOLS_VERSION);
+		fwrite($fp, TEXTCUBE_VERSION);
 		fclose($fp);
 		@chmod(ROOT . '/cache/CHECKUP', 0666);
 	}
@@ -17,7 +17,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><?php echo _text('태터툴즈를 점검합니다.');?></title>
+	<title><?php echo _text('텍스트큐브를 점검합니다.');?></title>
 	<style type="text/css" media="screen">
 		body
 		{
@@ -32,7 +32,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 	</style>
 </head>
 <body>
-	<h3><?php echo _text('태터툴즈를 점검합니다.');?></h3>
+	<h3><?php echo _text('텍스트큐브를 점검합니다.');?></h3>
 	
 	<p>
 		<ul>
@@ -342,7 +342,7 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings NoCommentMes
 if (DBQuery::queryCell("DESC {$database['prefix']}Tags name" , 'Key') != 'UNI') {
 	$changed = true;
 	echo '<li>', _text('태그 테이블에 인덱스 키를 추가합니다.'), ': ';
-	requireComponent('Tattertools.Data.Post');
+	requireComponent('Textcube.Data.Post');
 	Post::correctTagsAll();
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Tags ADD UNIQUE INDEX name (name)")){
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';

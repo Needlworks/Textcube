@@ -2,16 +2,16 @@
 <plugin version="1.0">
   <title xml:lang="en">Tatter &amp; Friends notice</title>
   <title xml:lang="ko">태터앤프렌즈 공지</title>
-  <link>http://www.tattertools.com/</link>
+  <link>http://www.textcube.com/</link>
   <version>1.0</version>
   <description xml:lang="en">Shows notices from Tatter and Friends official blog.</description>
   <description xml:lang="ko">태터앤프렌즈 블로그의 공지를 보여줍니다.</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://forum.tattertools.com/">Tatter &amp; Friends</author>
-  <author xml:lang="ko" link="http://forum.tattertools.com/">태터앤프렌즈</author>
+  <author xml:lang="en" link="http://forum.tattersite.com/">Tatter &amp; Friends</author>
+  <author xml:lang="ko" link="http://forum.tattersite.com/">태터앤프렌즈</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <tattertools>1.1</tattertools>
+    <textcube>1.1</textcube>
   </requirements>
   <binding>
 	<center handler="CT_TNF_Notice" />

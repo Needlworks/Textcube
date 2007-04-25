@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../..');
@@ -8,10 +8,10 @@ require ROOT . '/lib/includeForBlog.php';
 requireComponent( "Eolin.PHP.XMLStruct" );
 requireComponent( "Eolin.PHP.XMLTree" );
 requireComponent( "Eolin.PHP.XMLRPC" );
-requireComponent( "Tattertools.Control.RSS" );
-requireComponent( "Tattertools.Control.Auth" );
-requireComponent( "Tattertools.Data.Post" );
-requireComponent( "Tattertools.Data.Category" );
+requireComponent( "Textcube.Control.RSS" );
+requireComponent( "Textcube.Control.Auth" );
+requireComponent( "Textcube.Data.Post" );
+requireComponent( "Textcube.Data.Category" );
 
 /*--------- API main ---------------*/
 
@@ -33,8 +33,8 @@ function SendRSD()
 	print( '<?xml version="1.0" encoding="utf-8" ?> 
 <rsd xmlns="http://archipelago.phrasewise.com/rsd" version="1.0">
     <service xmlns="">
-        <engineName>Tattertools</engineName> 
-        <engineLink>http://www.tattertools.com/</engineLink>
+        <engineName>Textcube</engineName> 
+        <engineLink>http://www.textcube.com/</engineLink>
         <homePageLink>' . $homeurl . '/</homePageLink>
         <apis>
         		<api name="MovableType" preferred="true" apiLink="' . $apiurl . '" blogID="' . $blogid . '" />

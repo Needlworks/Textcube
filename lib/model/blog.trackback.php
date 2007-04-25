@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
@@ -80,7 +80,7 @@ function sendTrackbackPing($entryId, $permalink, $url, $site, $title) {
 	requireComponent('Eolin.PHP.Core');
 	requireComponent('Eolin.PHP.XMLRPC');
 	$rpc = new XMLRPC();
-	$rpc->url = TATTERTOOLS_SYNC_URL;
+	$rpc->url = TEXTCUBE_SYNC_URL;
 	$summary = array(
 		'permalink' => $permalink,
 		'url' => $url,
@@ -95,13 +95,13 @@ function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 	global $database, $blog, $defaultURL;
 	if (empty($url))
 		return 5;
-	requireComponent('Tattertools.Data.Post');
+	requireComponent('Textcube.Data.Post');
 	if (!Post::doesAcceptTrackback($entry))
 		return 3;
 		
 	$filtered = 0;
 	
-	requireComponent('Tattertools.Data.Filter');
+	requireComponent('Textcube.Data.Filter');
 	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $url))
 		$filtered = 1;
 	else if (Filter::isFiltered('content', $excerpt))
@@ -117,7 +117,7 @@ function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 	$title = mysql_lessen($title);
 	$excerpt = mysql_lessen($excerpt);
 
-	requireComponent('Tattertools.Data.Trackback');
+	requireComponent('Textcube.Data.Trackback');
 	$trackback = new Trackback();
 	$trackback->entry = $entry;
 	$trackback->url = $url;

@@ -95,25 +95,25 @@
 }
 
 /* notice */
-#tattertools-notice
+#textcube-notice
 {
 	margin-left                      : 330px;
 	width                            : 620px;
 }
 
-#tattertools-notice h3
+#textcube-notice h3
 {
 	background-image                 : url("./image/bg_dashboard_header2.png");
 	height                           : 32px;
 }
 
-#tattertools-notice table
+#textcube-notice table
 {
 	margin                           : 0 0 25px 0;
 	width                            : 620px;
 }
 
-#tattertools-notice table tbody tr td
+#textcube-notice table tbody tr td
 {
 	border-bottom                    : 1px solid #EEEEEE;
 	height                           : 28px;
@@ -121,7 +121,7 @@
 	text-align                       : left;
 }
 
-#tattertools-notice table tbody tr td.date
+#textcube-notice table tbody tr td.date
 {
 	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
 	font-size                        : 0.8em;
@@ -510,7 +510,7 @@
 
 #part-center-about h3
 {
-	background-image                 : url("./image/img_tattertools_dashboard.png");
+	background-image                 : url("./image/img_textcube_dashboard.png");
 	background-position              : -8px top;
 	background-repeat                : no-repeat;
 	font-family                      : Tahoma, "Lucida Grande", Verdana, sans-serif;

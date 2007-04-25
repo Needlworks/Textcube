@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 function requestHttp($method, $url, $content = false, $contentType = 'application/x-www-form-urlencoded') {
@@ -10,7 +10,7 @@ function requestHttp($method, $url, $content = false, $contentType = 'applicatio
 	$path = empty($info['query']) ? $info['path'] : "{$info['path']}?{$info['query']}";
 	fputs($socket, "$method $path HTTP/1.1\r\n");
 	fputs($socket, "Host: {$info['host']}\r\n");
-	fputs($socket, 'User-Agent: Mozilla/4.0 (compatible; ' . TATTERTOOLS_NAME . ")\r\n");
+	fputs($socket, 'User-Agent: Mozilla/4.0 (compatible; ' . TEXTCUBE_NAME . ")\r\n");
 	if ($content !== false) {
 		fputs($socket, "Content-Type: $contentType\r\n");
 		fputs($socket, "Content-Length: " . strlen($content) . "\r\n");

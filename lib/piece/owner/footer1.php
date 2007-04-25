@@ -5,8 +5,8 @@
 			<hr class="hidden" />
 			
 			<div id="layout-footer">
-				<div id="copyright"><span class="text"><?php echo TATTERTOOLS_COPYRIGHT;?></span></div>
-				<div id="version"><span class="text"><?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?></span></div>
+				<div id="copyright"><span class="text"><?php echo TEXTCUBE_COPYRIGHT;?></span></div>
+				<div id="version"><span class="text"><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?></span></div>
 			</div>
 		</div>
 	</div>
@@ -33,7 +33,7 @@
 				}
 				switch (oEvent.keyCode) {
 <?php
-if (!defined('__TATTERTOOLS_EDIT__')) { ?>
+if (!defined('__TEXTCUBE_EDIT__')) { ?>
 					case 81: //Q
 						try { window.location = "<?php echo $blogURL;?>/"; } catch(e) { };
 						break;
@@ -42,7 +42,7 @@ if (!defined('__TATTERTOOLS_EDIT__')) { ?>
 						break;
 <?php 
 }
-if (defined('__TATTERTOOLS_READER__')) {
+if (defined('__TEXTCUBE_READER__')) {
 ?>
 					case 65: //A
 					case 72: //H

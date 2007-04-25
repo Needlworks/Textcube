@@ -1,5 +1,5 @@
 <?php
-/* Referer statistics plugin for Tattertools 1.1
+/* Referer statistics plugin for Textcube 1.1
    ----------------------------------
    Version 1.0
    Tatter and Friends development team.
@@ -11,7 +11,7 @@
    Last modified at : 2006.10.27
  
  This plugin shows referer statistics on administration menu.
- For the detail, visit http://forum.tattertools.com/ko
+ For the detail, visit http://forum.tattersite.com/ko
 
 
  General Public License
@@ -26,9 +26,9 @@
 function PN_Referer_Default()
 {
 	global $owner, $pluginMenuURL, $pluginSelfParam ;
-	requireComponent( "Tattertools.Model.Statistics");
-	requireComponent( "Tattertools.Model.Paging");
-	requireComponent( "Tattertools.Function.misc");
+	requireComponent( "Textcube.Model.Statistics");
+	requireComponent( "Textcube.Model.Paging");
+	requireComponent( "Textcube.Function.misc");
 	if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['page']))
 		$_GET['page'] = $_POST['page'];
 	

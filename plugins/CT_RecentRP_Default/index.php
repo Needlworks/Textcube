@@ -1,17 +1,18 @@
 <?php
-/* Recent Replies plugin for Tattertools 1.1
+/* Recent Replies plugin for Textcube 1.1
    ----------------------------------
-   Version 1.0
+   Version 1.2
    Tatter and Friends development team.
 
    Creator          : Peris
    Maintainer       : Peris, inureyes, graphittie
+   Editor			: J.Parker
 
    Created at       : 2006.7.25
-   Last modified at : 2006.10.10
+   Last modified at : 2007.01.16
 
  This plugin shows recent eeplies on 'quilt'.
- For the detail, visit http://forum.tattertools.com/ko
+ For the detail, visit http://forum.tattersite.com/ko
 
 
  General Public License
@@ -26,16 +27,19 @@
 
 // lib/model/comment.php : 367 line
 function _getRecentComments($owner) {
-	global $skinSetting, $database;
+	global $skinSetting, $database, $configVal, $pluginURL;
+	$data = fetchConfigVal($configVal);
 	$comments = array();
-	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}Comments WHERE owner = $owner AND entry>0 AND isFiltered = 0 ORDER BY written DESC LIMIT {$skinSetting['commentsOnRecent']}" : "SELECT r.* FROM {$database['prefix']}Comments r, {$database['prefix']}Entries e WHERE r.owner = $owner AND r.owner = e.owner AND r.entry = e.id AND e.draft = 0 AND e.visibility > 0 AND entry > 0 AND isFiltered = 0 ORDER BY r.written DESC LIMIT {$skinSetting['commentsOnRecent']}";
+	$repliesChk = ($data['repliesChk'] == 1)?"":" AND replier is NULL ";
+	$limitLine = ($data['repliesList'])?$data['repliesList']:$skinSetting['commentsOnRecent'];
+	$sql = "SELECT * FROM {$database['prefix']}Comments WHERE owner = {$owner} AND entry>0 AND isFiltered = 0 {$repliesChk} ORDER BY written DESC LIMIT {$limitLine}";
 	if ($result = mysql_query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
-			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
-				$comment['name'] = '';
-				$comment['homepage'] = '';
-				$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
-			}
+			if ($data['repliesChk'] == 2) {
+				$row = DBQuery::queryCell("select count(*) from {$database['prefix']}Comments where owner = $owner AND parent = ".$comment['id']);
+				$comment['replier'] = ($row)?"<img src=\"{$pluginURL}/replier.gif\" width=\"11\" height=\"9\" align=\"top\" style=\"margin-left:2px;\"/>":"";
+			}else{$comment['replier'] = "";}
+			$comment['secret'] = ($comment['secret'] == 1)?"<img src=\"{$pluginURL}/secret.gif\" width=\"9\" height=\"11\" style=\"margin-left:2px;\"/>":"";
 			array_push($comments, $comment);
 		}
 	}
@@ -45,7 +49,7 @@ function _getRecentComments($owner) {
 // lib/view/view.php : 906 line
 function _getRecentCommentsView($comments, $template) {
 	requireComponent("Eolin.PHP.Core");
-	requireComponent("Tattertools.Function.misc");
+	requireComponent("Textcube.Function.misc");
 	global $blogURL, $skinSetting;
 	ob_start();
 	foreach ($comments as $comment) {
@@ -53,7 +57,7 @@ function _getRecentCommentsView($comments, $template) {
 		misc::dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
 		misc::dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 30)), $view);
 		misc::dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::formatTime($comment['written'])), $view);
-		misc::dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm($comment['name'],10)), $view);
+		misc::dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm($comment['name'],10)).$comment['secret'].$comment['replier'], $view);
 		print $view;
 	}
 	$view = ob_get_contents();
@@ -70,5 +74,11 @@ function CT_RecentRP_Default($target) {
 	$target .= '										</ol>'.CRLF;
 
 	return $target;
+}
+
+function CT_RecentRP_Default_DataSet($DATA){
+	requireComponent('Textcube.Function.misc');
+	$cfg = misc::fetchConfigVal($DATA);
+	return true;
 }
 ?>

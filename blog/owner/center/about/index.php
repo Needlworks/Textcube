@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
@@ -8,13 +8,13 @@ require ROOT . '/lib/piece/owner/headerA.php';
 require ROOT . '/lib/piece/owner/contentMenuA2.php';
 ?>
 						<div id="part-center-about" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('태터툴즈 개발진');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('텍스트큐브 개발진');?></span></h2>
 						
-							<h3>Brand yourself! : <?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?></h3>
+							<h3>Brand yourself! : <?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?></h3>
 							<div class="main-explain-box">
 								<p class="explain">
 									<em><?php echo _t('이 판올림을 태터리안 여러분께 헌정합니다.');?></em><br />
-									<?php echo _t('&copy; 2004 - 2007. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />태터툴즈는 태터앤컴퍼니와 태터앤프렌즈에서 개발합니다.<br />태터툴즈와 태터툴즈 로고는 태터앤컴퍼니의 상표입니다.').CRLF;?>
+									<?php echo _t('&copy; 2004 - 2007. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />텍스트큐브는 태터앤컴퍼니와 태터앤프렌즈에서 개발합니다.<br />텍스트큐브와 텍스트큐브 로고는 태터앤컴퍼니의 상표입니다.').CRLF;?>
 								</p>
 							</div>
 							

@@ -1,5 +1,5 @@
 <?php
-/* Subscription statistics plugin for Tattertools 1.1
+/* Subscription statistics plugin for Textcube 1.1
    ----------------------------------
    Version 1.1
    Tatter and Friends development team.
@@ -11,7 +11,7 @@
    Last modified at : 2007.2.4
  
  This plugin shows RSS subscription statistics on administration menu.
- For the detail, visit http://forum.tattertools.com/ko
+ For the detail, visit http://forum.tattersite.com/ko
 
 
  General Public License
@@ -26,8 +26,8 @@
 function PN_Subscription_Default()
 {
 	global $owner, $pluginMenuURL, $pluginSelfParam, $totalSubscribers, $updatedSubscribers;
-	requireComponent( "Tattertools.Model.Statistics");
-	requireComponent( "Tattertools.Function.misc");
+	requireComponent( "Textcube.Model.Statistics");
+	requireComponent( "Textcube.Function.misc");
 
 	$temp = getSubscriptionStatistics($owner);
 	$aggregatorInfo = organizeAggregatorInfo($temp);
@@ -120,7 +120,7 @@ function getAggregatorName($useragent)
 		'Sage' => 'Sage (Firefox 확장)',
 		'Google Desktop' => '구글 데스크탑',
 		'RSSOwl' => 'RSS Owl',
-		'Eolin' => '태터툴즈 리더',
+		'Eolin' => '텍스트큐브 리더',
 		'Safari' => '사파리',
 		'Feedfetcher-Google' => '구글 feedfetcher',
 		'RssBandit' => 'RSS Bandit',
@@ -178,7 +178,7 @@ function robotChecker($useragent)
 
 function organizeAggregatorInfo($info)
 {
-	requireComponent( "Tattertools.Function.misc");
+	requireComponent( "Textcube.Function.misc");
 	global $totalSubscribers, $updatedSubscribers;
 	$aggregatorInfo = array();
 	$totalSubscribers = 0;
@@ -242,7 +242,7 @@ function getSubscriptionStatistics($owner) {
 
 function getSubscriptionLogsWithPage($page, $count) {  
 	global $database, $owner;
-	requireComponent( "Tattertools.Model.Statistics");
+	requireComponent( "Textcube.Model.Statistics");
 	return Statistics::fetchWithPaging("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE owner = $owner ORDER BY referred DESC", $page, $count);  
 }  
 
@@ -254,7 +254,7 @@ function getSubscriptionLogs() {
 function updateSubscriptionStatistics($target, $mother) {
 	global $owner, $database, $blogURL;
 	$period = Timestamp::getDate();
-	requireComponent('Tattertools.Data.Filter');
+	requireComponent('Textcube.Data.Filter');
 	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']))
 		return;
 	$ip = mysql_tt_escape_string($_SERVER['REMOTE_ADDR']);
@@ -268,7 +268,7 @@ function updateSubscriptionStatistics($target, $mother) {
 }
 
 function PN_Subscription_setTime($target) {
-	requireComponent( "Tattertools.Function.misc");
+	requireComponent( "Textcube.Function.misc");
 	misc::setUserSetting('LatestRSSrefresh',time());
 	return true;
 }

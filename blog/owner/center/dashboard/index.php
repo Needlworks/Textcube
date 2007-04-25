@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
@@ -115,21 +115,21 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								window.addEventListener("load", checkTattertoolsVersion, false);
-								function checkTattertoolsVersion() {
+								window.addEventListener("load", checkTextcubeVersion, false);
+								function checkTextcubeVersion() {
 									if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
 										window.location.href = "<?php echo $blogURL;?>/checkup";
 								}
 							//]]>
 						</script>
 <?php
-} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
+} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION) {
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								window.addEventListener("load", checkTattertoolsVersion, false);
-								function checkTattertoolsVersion() {
-									if (confirm("<?php echo _t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
+								window.addEventListener("load", checkTextcubeVersion, false);
+								function checkTextcubeVersion() {
+									if (confirm("<?php echo _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
 										window.location.href = "<?php echo $blogURL;?>/checkup";
 								}
 							//]]>
@@ -143,13 +143,13 @@ if (false) {
 ?>	
 						<form method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
 <?php
-$tattertoolsDashboard = getUserSetting("tattertoolsDashboard");
-if (is_null($tattertoolsDashboard)) {
-	setUserSetting("tattertoolsDashboard", 1);
-	$tattertoolsDashboard = 1;
+$textcubeDashboard = getUserSetting("textcubeDashboard");
+if (is_null($textcubeDashboard)) {
+	setUserSetting("textcubeDashboard", 1);
+	$textcubeDashboard = 1;
 }
 
-if($tattertoolsDashboard) {
+if($textcubeDashboard) {
 	if (!isset($_REQUEST['edit'])) {
 		$stats = getStatistics($owner);
 ?>
@@ -205,7 +205,7 @@ if($tattertoolsDashboard) {
 									</table>
 								</div>
 							
-								<div id="tattertools-notice" class="section">
+								<div id="textcube-notice" class="section">
 									<h3><?php echo _t('공지사항');?></h3>
 									
 <?php

@@ -1,5 +1,5 @@
 <?php
-define('__TATTERTOOLS_MOBILE__', true);
+define('__TEXTCUBE_MOBILE__', true);
 define('ROOT', '../../..');
 require ROOT . '/lib/includeForBlog.php';
 list($entries, $paging) = getEntryWithPaging($owner, $suri['id']);

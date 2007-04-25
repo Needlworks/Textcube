@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
@@ -127,7 +127,7 @@ function makeThumbnail($imgString, $originSrc, $paddingArray, $waterMarkArray, $
 		$waterMarkOn = getUserSetting("waterMarkDefault", "no");
 	}
 	
-	requireComponent('Tattertools.Function.Image');
+	requireComponent('Textcube.Function.Image');
 	if (!is_dir(ROOT."/cache/thumbnail")) {
 		@mkdir(ROOT."/cache/thumbnail");
 		@chmod(ROOT."/cache/thumbnail", 0777);

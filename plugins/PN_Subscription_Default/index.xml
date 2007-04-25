@@ -2,16 +2,16 @@
 <plugin version="1.0">
   <title xml:lang="en">Feed Subscription Log</title>
   <title xml:lang="ko">피드 구독 통계</title>
-  <link>http://forum.tattertools.com/ko/</link>
+  <link>http://forum.tattersite.com/ko/</link>
   <version>1.1.1.1</version>
-  <description xml:lang="en">Shows Feed Subscription Log using Tattertools Components.</description>
-  <description xml:lang="ko">태터툴즈 컴포넌트를 이용하여 피드 구독 통계를 보여줍니다.</description>
+  <description xml:lang="en">Shows Feed Subscription Log using Textcube Components.</description>
+  <description xml:lang="ko">텍스트큐브 컴포넌트를 이용하여 피드 구독 통계를 보여줍니다.</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://forum.tattertools.com/en">Tatter &amp; Friends</author>
-  <author xml:lang="ko" link="http://forum.tattertools.com/ko">태터앤프렌즈</author>
+  <author xml:lang="en" link="http://forum.tattersite.com/en">Tatter &amp; Friends</author>
+  <author xml:lang="ko" link="http://forum.tattersite.com/ko">태터앤프렌즈</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <tattertools>1.1</tattertools>
+    <textcube>1.1</textcube>
   </requirements>
   <binding>
 	<listener event="refreshRSS">PN_Subscription_setTime</listener>

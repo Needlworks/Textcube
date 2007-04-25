@@ -2,16 +2,16 @@
 <plugin version="1.0">
   <title xml:lang="en">Inserter of Replacers</title>
   <title xml:lang="ko">태그 입력기</title>
-  <link>http://www.tattertools.com/</link>
+  <link>http://www.textcube.com/</link>
   <version>1.0</version>
   <description xml:lang="en">Insert replacers for plug-in's tag on sidebar.</description>
   <description xml:lang="ko">사이드바에 플러그인을 위한 치환자를 출력해 줍니다.</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://forum.tattertools.com/en">Tatter &amp; Friends</author>
-  <author xml:lang="ko" link="http://forum.tattertools.com/ko">태터앤프렌즈</author>
+  <author xml:lang="en" link="http://forum.tattersite.com/en">Tatter &amp; Friends</author>
+  <author xml:lang="ko" link="http://forum.tattersite.com/ko">태터앤프렌즈</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
-    <tattertools>1.1</tattertools>
+    <textcube>1.1</textcube>
   </requirements>
   <binding>
     <sidebar title="Replacer" handler="SB_Replacer">

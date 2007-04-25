@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
@@ -36,10 +36,10 @@ function getUpperView($paging) {
 	ob_start();
 ?>
 	<!--
-		<?php echo TATTERTOOLS_NAME." ".TATTERTOOLS_VERSION.CRLF;?>
+		<?php echo TEXTCUBE_NAME." ".TEXTCUBE_VERSION.CRLF;?>
 
-		Homepage: <?php echo TATTERTOOLS_HOMEPAGE.CRLF;?>
-		<?php echo TATTERTOOLS_COPYRIGHT.CRLF;?>
+		Homepage: <?php echo TEXTCUBE_HOMEPAGE.CRLF;?>
+		<?php echo TEXTCUBE_COPYRIGHT.CRLF;?>
 	-->
 	<script type="text/javascript">
 		//<![CDATA[
@@ -1206,7 +1206,7 @@ function getEntryContentView($owner, $id, $content, $keywords = array(), $type =
 	$view = bindAttachments($id, $path, $url, $content, $useAbsolutePath, $bRssMode);
 	$view = is_array($keywords)?bindKeywords($keywords, $view):$view;
 	$view = bindTags($id, $view);
-	if (defined('__TATTERTOOLS_MOBILE__'))
+	if (defined('__TEXTCUBE_MOBILE__'))
 		$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var'));
 	if(!$useAbsolutePath)
 		$view = avoidFlashBorder($view);
@@ -1877,7 +1877,7 @@ function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false
 function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $position = 'current') {
 	global $service;
 	if (!$entry = getFeedEntry($owner, $group, $feed, $entry, $unreadOnly, $starredOnly, $searchKeyword, $position)) {
-		$entry = array('id' => 0, 'author' => 'Tattertools', 'blog_title' => 'Tattertools Reader', 'permalink' => '#', 'entry_title' => _t('포스트가 없습니다.'), 'language' => 'en-US', 'description' => '<div style="height: 369px"></div>', 'tags' => '', 'enclosure' => '', 'written' => time());
+		$entry = array('id' => 0, 'author' => 'Textcube', 'blog_title' => 'Textcube Reader', 'permalink' => '#', 'entry_title' => _t('포스트가 없습니다.'), 'language' => 'en-US', 'description' => '<div style="height: 369px"></div>', 'tags' => '', 'enclosure' => '', 'written' => time());
 	}
 ?>
 												<div id="entryHead">

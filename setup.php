@@ -38,7 +38,7 @@ if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0))
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?> - Setup</title>
+<title><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> - Setup</title>
 <script  type="text/javascript">
 //<![CDATA[
 	function current(){ 
@@ -80,7 +80,7 @@ if (array_key_exists('phpinfo',$_GET)) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?> - Setup</title>
+<title><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> - Setup</title>
 <link rel="stylesheet" media="screen" type="text/css" href="style/setup/style.css" />
 <script type="text/javascript">
 //<![CDATA[
@@ -117,22 +117,22 @@ if (array_key_exists('phpinfo',$_GET)) {
 <body onload="init()">
 <div id="container">
   <form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-  <div id="title"><h1><img src="style/setup/title.gif" width="250" height="54" alt="<?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?> Setup" /></h1></div>
+  <div id="title"><h1><img src="style/setup/title.gif" width="250" height="54" alt="<?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> Setup" /></h1></div>
   <input type="hidden" name="Lang" id="Lang" value="<?php echo $baseLanguage;?>" />
 <?php
 if (empty($_POST['step'])) {
 ?>
   <div id="inner">
     <input type="hidden" name="step" value="1" />
-    <h2><span class="step"><?php echo _f('%1단계', 1);?></span> : <?php echo _t('태터툴즈 설치를 시작합니다.');?></h2>
+    <h2><span class="step"><?php echo _f('%1단계', 1);?></span> : <?php echo _t('텍스트큐브 설치를 시작합니다.');?></h2>
 		<div id="langSel" > <?php drowSetLang( $baseLanguage, 'Norm');?></div> 
-    <div id="info"><b><?php echo TATTERTOOLS_VERSION;?></b><br />
-      <?php echo TATTERTOOLS_COPYRIGHT;?><br />
-      Homepage: <a href="<?php echo TATTERTOOLS_HOMEPAGE;?>"><?php echo TATTERTOOLS_HOMEPAGE;?></a></div>
+    <div id="info"><b><?php echo TEXTCUBE_VERSION;?></b><br />
+      <?php echo TEXTCUBE_COPYRIGHT;?><br />
+      Homepage: <a href="<?php echo TEXTCUBE_HOMEPAGE;?>"><?php echo TEXTCUBE_HOMEPAGE;?></a></div>
     <div id="content">
       <ol>
-        <li><?php echo _t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 태터툴즈)의 저작권자는 Tatter &amp; Company와 Tatter &amp; Friends입니다.');?></li>
-        <li><?php echo _t('태터툴즈는 GPL 라이선스로 제공되며, 모든 사람이 자유롭게 이용할 수 있습니다.');?></li>
+        <li><?php echo _t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 텍스트큐브)의 저작권자는 Tatter &amp; Company와 Tatter &amp; Friends입니다.');?></li>
+        <li><?php echo _t('텍스트큐브는 GPL 라이선스로 제공되며, 모든 사람이 자유롭게 이용할 수 있습니다.');?></li>
         <li><?php echo _t('프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고책임은 모두 사용자에게 있습니다.');?></li>
         <li><?php echo _t('스킨 및 트리, 플러그인의 저작권은 각 제작자에게 있습니다.');?></li>
       </ol>
@@ -193,9 +193,9 @@ function checkStep($step, $check = true) {
     <h2><span class="step"><?php echo _f('%1단계', 2);?></span> : <?php echo _t('작업 유형을 선택해 주십시오.');?></h2>
     <div style="text-align:center">
       <div style="width:300px; padding:40px 0px 40px 0px">
-        <div style="margin:20px;"><input type="button" value="<?php echo _t('새로운 태터툴즈를 설정합니다');?>" style="width:100%; height:40px; font-size:14px" onclick="next('install');return false;" /></div>
-        <div style="margin:20px;"><input type="button" value="<?php echo _t('태터툴즈를 다시 설정합니다');?>" style="width:100%; height:40px; font-size:14px" onclick="next('setup');return false;" /></div>
-        <div style="margin:20px;"><input type="button" value="<?php echo _t('태터툴즈 테이블을 삭제합니다');?>" style="width:100%; height:40px; font-size:14px" onclick="next('uninstall');return false;" /></div>
+        <div style="margin:20px;"><input type="button" value="<?php echo _t('새로운 텍스트큐브를 설정합니다');?>" style="width:100%; height:40px; font-size:14px" onclick="next('install');return false;" /></div>
+        <div style="margin:20px;"><input type="button" value="<?php echo _t('텍스트큐브를 다시 설정합니다');?>" style="width:100%; height:40px; font-size:14px" onclick="next('setup');return false;" /></div>
+        <div style="margin:20px;"><input type="button" value="<?php echo _t('텍스트큐브 테이블을 삭제합니다');?>" style="width:100%; height:40px; font-size:14px" onclick="next('uninstall');return false;" /></div>
       </div>
     </div>
   </div>
@@ -1515,16 +1515,16 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
         
       </p>
       <ul>
-        <li><?php echo _t('태터툴즈 주소');?><br />
+        <li><?php echo _t('텍스트큐브 주소');?><br />
           <a href="<?php echo $blogURL;?>/"><?php echo $blogURL;?>/</a><br />
           <br />
         </li>
-        <li><?php echo _t('태터툴즈 관리 툴 주소');?><br />
+        <li><?php echo _t('텍스트큐브 관리 툴 주소');?><br />
           <a href="<?php echo $blogURL;?>/owner"><?php echo $blogURL;?>/owner</a></li>
       </ul>
       <p>
-        <?php echo _t('태터툴즈 관리 툴로 로그인 하신 후 필요사항을 수정해 주십시오.');?><br />
-        <?php echo _t('태터툴즈를 이용해 주셔서 감사합니다.');?>
+        <?php echo _t('텍스트큐브 관리 툴로 로그인 하신 후 필요사항을 수정해 주십시오.');?><br />
+        <?php echo _t('텍스트큐브를 이용해 주셔서 감사합니다.');?>
       </p>
     </div>
   </div>
@@ -1690,7 +1690,7 @@ function testMyself($host, $path, $port) {
         return false;
     fputs($socket, "GET $path HTTP/1.1\r\n");
     fputs($socket, "Host: $host\r\n");
-    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Tattertools 1.1 Setup)\r\n");
+    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Textcube 1.1 Setup)\r\n");
     fputs($socket, "Connection: close\r\n");
     fputs($socket, "\r\n");
     $response = '';

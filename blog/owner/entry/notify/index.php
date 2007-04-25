@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
@@ -185,7 +185,7 @@ $nameNumber = array();
 for ($i=0; $i<sizeof($mergedComments); $i++) {
 	$comment = $mergedComments[$i];
 	
-	requireComponent('Tattertools.Data.Filter');
+	requireComponent('Textcube.Data.Filter');
 	if (Filter::isFiltered('name', $comment['name']))
 		$isNameFiltered = true;
 	else

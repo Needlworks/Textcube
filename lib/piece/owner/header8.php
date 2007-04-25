@@ -34,7 +34,7 @@ if (file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
 ?>
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/byTattertools.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/byTextcube.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js"></script>
@@ -44,7 +44,7 @@ if (file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
 	<div id="temp-wrap">
 		<div id="all-wrap">
 			<div id="layout-header">
-				<h1><?php echo _t('태터툴즈 관리 페이지');?></h1>
+				<h1><?php echo _t('텍스트큐브 관리 페이지');?></h1>
 			</div>
 			
 			<hr class="hidden" />

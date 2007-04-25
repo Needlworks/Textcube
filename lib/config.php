@@ -1,12 +1,12 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-define('TATTERTOOLS_NAME', 'Tattertools');
-define('TATTERTOOLS_VERSION', '1.1.2');
-define('TATTERTOOLS_COPYRIGHT', 'Copyright &copy; 2004-2007. Tatter &amp; Company / Tatter &amp; Friends. All rights reserved. Licensed under the GPL.');
-define('TATTERTOOLS_HOMEPAGE', 'http://www.tattertools.com/');
-define('TATTERTOOLS_SYNC_URL', 'http://ping.eolin.com/');
+define('TEXTCUBE_NAME', 'Textcube');
+define('TEXTCUBE_VERSION', '1.2 Development Branch a12');
+define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2007. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
+define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.com/');
+define('TEXTCUBE_SYNC_URL', 'http://ping.eolin.com/');
 define('CRLF', "\r\n");
 define('TAB', "	");
 
@@ -35,8 +35,8 @@ function requireComponent($name) {
 }
 requireComponent('Eolin.PHP.UnifiedEnvironment');
 requireComponent('Eolin.PHP.Core');
-requireComponent('Tattertools.Core');
-requireComponent('Tattertools.Core.BackwardCompatibility');
+requireComponent('Textcube.Core');
+requireComponent('Textcube.Core.BackwardCompatibility');
 
 if (isset($IV)) {
 	if (!Validator::validate($IV)) {

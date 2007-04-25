@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
@@ -19,8 +19,8 @@ if (false) {
 	fetchConfigVal();
 }
 $isKeyword = false;
-define('__TATTERTOOLS_EDIT__', true);
-if (defined('__TATTERTOOLS_POST__'))
+define('__TEXTCUBE_EDIT__', true);
+if (defined('__TEXTCUBE_POST__'))
 	$suri['id'] = 0;
 if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
 	$entry = getEntry($owner, $suri['id'], false);
@@ -35,7 +35,7 @@ if (isset($_GET['popupEditor'])) {
 	require ROOT . '/lib/piece/owner/header0.php';
 }
 
-if (defined('__TATTERTOOLS_POST__')) {
+if (defined('__TEXTCUBE_POST__')) {
 	if (isset($_GET['popupEditor']))
 		require ROOT . '/lib/piece/owner/contentMenu81.php';
 	else
@@ -112,7 +112,7 @@ if (defined('__TATTERTOOLS_POST__')) {
 									this.savedData = null;
 <?php
 
-if (defined('__TATTERTOOLS_POST__')) {
+if (defined('__TEXTCUBE_POST__')) {
 ?>
 									this.isSaved = false;
 
@@ -461,7 +461,7 @@ if (isset($_GET['popupEditor'])) {
 								<h2 class="caption"><span class="main-text"><?php
 
 
-if (defined('__TATTERTOOLS_POST__')) {
+if (defined('__TEXTCUBE_POST__')) {
 	echo _t('글을 작성합니다');
 } else {
 	echo _t('선택한 글을 수정합니다');
@@ -580,7 +580,7 @@ printEntryEditorProperty();
 														oTag.setInputClassName("input-text");
 <?php
 		$tags = array();
-		if (!defined('__TATTERTOOLS_POST__')) {
+		if (!defined('__TEXTCUBE_POST__')) {
 			foreach (getTags($entry['id']) as $tag) {
 				array_push($tags, $tag['name']);
 				echo 'oTag.setValue("' . addslashes($tag['name']) . '");';
@@ -588,7 +588,7 @@ printEntryEditorProperty();
 		}
 ?>
 													} catch(e) {
-														document.getElementById("tag").innerHTML = '<input type="text" class="input-text" name="tag" value="<?php echo addslashes(str_replace('"', '&quot;', implode(', ', $tags)));?>" /><br /><?php echo _t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해 주십시오.(예: 태터툴즈, BLOG, 테스트)');?>';
+														document.getElementById("tag").innerHTML = '<input type="text" class="input-text" name="tag" value="<?php echo addslashes(str_replace('"', '&quot;', implode(', ', $tags)));?>" /><br /><?php echo _t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해 주십시오.(예: 텍스트큐브, BLOG, 테스트)');?>';
 													}
 												//]]>
 											</script> 
@@ -672,7 +672,7 @@ printEntryFileUploadButton($entry['id']);
 												<dt><span class="label"><?php echo _t('등록일자');?></span></dt>
 												<dd>
 <?php
-if (defined('__TATTERTOOLS_POST__')) {
+if (defined('__TEXTCUBE_POST__')) {
 ?>
 													<div class="publish-update"><input type="radio" id="publishedUpdate" class="radio" name="published" value="1" checked="checked" /><label for="publishedUpdate"><?php echo _t('갱신');?></label></div>
 <?php
@@ -746,13 +746,13 @@ if (isset($_GET['popupEditor'])) {
 								<h4><?php echo _t('이올린이란?');?></h4>
 								
 								<p class="message">
-									<?php echo _t('이올린은 태터툴즈와 태터툴즈 기반의 블로그에서 "발행"을 통해 보내진 글들을 다양한 방법으로 만날 수 있는 태터툴즈 블로거들의 열린 공간입니다.');?>
+									<?php echo _t('이올린은 텍스트큐브와 텍스트큐브 기반의 블로그에서 "발행"을 통해 보내진 글들을 다양한 방법으로 만날 수 있는 텍스트큐브 블로거들의 열린 공간입니다.');?>
 								</p>
 								
 								<h4><?php echo _t('발행 방법');?></h4>
 								
 								<p class="message">
-									<em><?php echo _t('태터툴즈 글목록에서 발행버튼을 누르거나 글쓰기시 공개범위를 "발행"으로 체크하면 됩니다.');?></em>
+									<em><?php echo _t('텍스트큐브 글목록에서 발행버튼을 누르거나 글쓰기시 공개범위를 "발행"으로 체크하면 됩니다.');?></em>
 									<?php echo _t('발행을 통해 이올린으로 보내진 게시물들의 저작권을 포함한 일체에 관한 권리는 별도의 의사표시가 없는 한 각 회원에게 있습니다. 이올린에서는 발행된 게시물을 블로거의 동의 없이 상업적으로 이용하지 않습니다. 다만 비영리적 목적인 경우는 이용이 가능하며, 또한 이올린 서비스 내의 게재권, 사용권을 갖습니다.');?>
 								</p>
 							

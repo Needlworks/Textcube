@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
@@ -12,7 +12,7 @@ function refreshRSS($owner) {
 	$channel['description'] = $blog['description'];
 	$channel['language'] = $blog['language'];
 	$channel['pubDate'] = Timestamp::getRFC1123();
-	$channel['generator'] = TATTERTOOLS_NAME . ' ' . TATTERTOOLS_VERSION;
+	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
 
 	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$owner/{$blog['logo']}")) {
 		$logoInfo = getimagesize(ROOT."/attach/$owner/{$blog['logo']}");

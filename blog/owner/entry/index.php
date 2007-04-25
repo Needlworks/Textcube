@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../..');
@@ -73,17 +73,17 @@ require ROOT . '/lib/piece/owner/contentMenu00.php';
 <?php
 if (!file_exists(ROOT . '/cache/CHECKUP')) {
 ?>
-								window.addEventListener("load", checkTattertoolsVersion, false);
-								function checkTattertoolsVersion() {
+								window.addEventListener("load", checkTextcubeVersion, false);
+								function checkTextcubeVersion() {
 									if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
 										window.location.href = "<?php echo $blogURL;?>/checkup";
 								}
 <?php
-} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
+} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION) {
 ?>
-								window.addEventListener("load", checkTattertoolsVersion, false);
-								function checkTattertoolsVersion() {
-									if (confirm("<?php echo _t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
+								window.addEventListener("load", checkTextcubeVersion, false);
+								function checkTextcubeVersion() {
+									if (confirm("<?php echo _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
 										window.location.href = "<?php echo $blogURL;?>/checkup";
 								}
 <?php
@@ -902,13 +902,13 @@ for ($i = 10; $i <= 30; $i += 5) {
 								<h4><?php echo _t('이올린이란?');?></h4>
 								
 								<p class="message">
-									<?php echo _t('이올린은 태터툴즈와 태터툴즈 기반의 블로그에서 "발행"을 통해 보내진 글들을 다양한 방법으로 만날 수 있는 태터툴즈 블로거들의 열린 공간입니다.');?>
+									<?php echo _t('이올린은 텍스트큐브와 텍스트큐브 기반의 블로그에서 "발행"을 통해 보내진 글들을 다양한 방법으로 만날 수 있는 텍스트큐브 블로거들의 열린 공간입니다.');?>
 								</p>
 								
 								<h4><?php echo _t('발행 방법');?></h4>
 								
 								<p class="message">
-									<em><?php echo _t('태터툴즈 글목록에서 발행버튼을 클릭하시거나 글쓰기시 공개범위를 "발행"으로 체크하시면 됩니다.');?></em>
+									<em><?php echo _t('텍스트큐브 글목록에서 발행버튼을 클릭하시거나 글쓰기시 공개범위를 "발행"으로 체크하시면 됩니다.');?></em>
 									<?php echo _t('발행을 통해 이올린으로 보내진 게시물들의 저작권을 포함한 일체에 관한 권리는 별도의 의사표시가 없는 한 각 회원에게 있습니다. 이올린에서는 발행된 게시물을 블로거의 동의 없이 상업적으로 이용하지 않습니다. 다만 비영리적 목적인 경우는 이용이 가능하며, 또한 이올린 서비스 내의 게재권, 사용권을 갖습니다.');?>
 								</p>
 							

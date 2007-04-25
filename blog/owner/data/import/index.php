@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 ini_set('display_errors', 'off');
@@ -20,7 +20,7 @@ requireStrictRoute();
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title>Tattertools Data Importing</title>
+	<title>Textcube Data Importing</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<script type="text/javascript">
 		//<![CDATA[
@@ -127,28 +127,28 @@ switch (@$_POST['importFrom']) {
 		}
 		break;
 }
-requireComponent('Tattertools.Data.DataMaintenance');
-requireComponent('Tattertools.Data.BlogSetting');
-requireComponent('Tattertools.Data.Category');
-requireComponent('Tattertools.Data.Post');
-requireComponent('Tattertools.Data.Attachment');
-requireComponent('Tattertools.Data.Tag');
-requireComponent('Tattertools.Data.Comment');
-requireComponent('Tattertools.Data.Trackback');
-requireComponent('Tattertools.Data.TrackbackLog');
-requireComponent('Tattertools.Data.Notice');
-requireComponent('Tattertools.Data.Keyword');
-requireComponent('Tattertools.Data.Link');
-requireComponent('Tattertools.Data.RefererLog');
-requireComponent('Tattertools.Data.RefererStatistics');
-requireComponent('Tattertools.Data.BlogStatistics');
-requireComponent('Tattertools.Data.DailyStatistics');
-requireComponent('Tattertools.Data.SkinSetting');
-requireComponent('Tattertools.Data.PluginSetting');
-requireComponent('Tattertools.Data.Filter');
-requireComponent('Tattertools.Data.GuestComment');
-requireComponent('Tattertools.Data.Feed');
-requireComponent('Tattertools.Data.UserSetting');
+requireComponent('Textcube.Data.DataMaintenance');
+requireComponent('Textcube.Data.BlogSetting');
+requireComponent('Textcube.Data.Category');
+requireComponent('Textcube.Data.Post');
+requireComponent('Textcube.Data.Attachment');
+requireComponent('Textcube.Data.Tag');
+requireComponent('Textcube.Data.Comment');
+requireComponent('Textcube.Data.Trackback');
+requireComponent('Textcube.Data.TrackbackLog');
+requireComponent('Textcube.Data.Notice');
+requireComponent('Textcube.Data.Keyword');
+requireComponent('Textcube.Data.Link');
+requireComponent('Textcube.Data.RefererLog');
+requireComponent('Textcube.Data.RefererStatistics');
+requireComponent('Textcube.Data.BlogStatistics');
+requireComponent('Textcube.Data.DailyStatistics');
+requireComponent('Textcube.Data.SkinSetting');
+requireComponent('Textcube.Data.PluginSetting');
+requireComponent('Textcube.Data.Filter');
+requireComponent('Textcube.Data.GuestComment');
+requireComponent('Textcube.Data.Feed');
+requireComponent('Textcube.Data.UserSetting');
 $migrational = false;
 $items = 0;
 $item = 0;
@@ -186,7 +186,7 @@ function scanner($path, $node, $line) {
 	global $migrational, $items;
 	switch ($path) {
 		case '/blog':
-			if (!preg_match('/^tattertools\/1\.[01]$/', @$node['.attributes']['type']))
+			if (!preg_match('/^textcube\/1\.[01]$/', @$node['.attributes']['type']))
 				finish(_t('지원하지 않는 백업파일입니다.'));
 			$migrational = Validator::getBool(@$node['.attributes']['migrational']);
 			return true;

@@ -1,5 +1,5 @@
 <?php
-/* Sidebar replacer patch example plugin for Tattertools 1.1
+/* Sidebar replacer patch example plugin for Textcube 1.1
    ----------------------------------
    Version 1.0
    Tatter and Friends development team.
@@ -11,7 +11,7 @@
    Last modified at : 2006.11.11
 
  This plugin is an example of replacer patch for sidebar.
- For the detail, visit http://forum.tattertools.com/ko
+ For the detail, visit http://forum.tattersite.com/ko
 
  General Public License
  http://www.gnu.org/licenses/gpl.html

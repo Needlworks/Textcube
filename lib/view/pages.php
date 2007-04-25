@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
@@ -9,13 +9,13 @@ function respondMessagePage($message) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title><?php echo TATTERTOOLS_NAME;?></title>
+	<title><?php echo TEXTCUBE_NAME;?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/style/owner.css" />
 </head>
 <body id="body-message-page">
 	<div class="message-box">
-		<h1><?php echo TATTERTOOLS_NAME;?></h1>
+		<h1><?php echo TEXTCUBE_NAME;?></h1>
 		
 		<div class="message"><?php echo $message;?></div>
 		<div class="button-box">
@@ -33,7 +33,7 @@ function respondAlertPage($message) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title><?php echo TATTERTOOLS_NAME;?></title>
+	<title><?php echo TEXTCUBE_NAME;?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<script type="text/javascript">
 		//<![CDATA[
@@ -52,13 +52,13 @@ function respondErrorPage($message=NULL, $buttonValue=NULL, $buttonLink=NULL) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title><?php echo TATTERTOOLS_NAME;?></title>
+	<title><?php echo TEXTCUBE_NAME;?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/style/owner.css" />
 </head>
 <body id="body-message-page">
 	<div class="message-box">
-		<h1><?php echo TATTERTOOLS_NAME;?></h1>
+		<h1><?php echo TEXTCUBE_NAME;?></h1>
 		
 		<div class="message"><?php echo $message;?></div>
 		<div class="button-box">
@@ -76,7 +76,7 @@ function respondNoticePage($message, $redirection) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title><?php echo TATTERTOOLS_NAME;?></title>
+	<title><?php echo TEXTCUBE_NAME;?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<script type="text/javascript">
 		//<![CDATA[

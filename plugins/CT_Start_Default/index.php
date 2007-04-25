@@ -1,5 +1,5 @@
 <?php
-/* Start plugin for Tattertools 1.1
+/* Start plugin for Textcube 1.1
    ----------------------------------
    Version 1.0
    Tatter and Friends development team.
@@ -11,7 +11,7 @@
    Last modified at : 2006.10.30
 
  This plugin adds start panel on 'quilt'.
- For the detail, visit http://forum.tattertools.com/ko
+ For the detail, visit http://forum.tattersite.com/ko
 
 
  General Public License
@@ -25,7 +25,7 @@
 */
 function CT_Start_Default($target) {
 	requireComponent("Eolin.PHP.Core");
-	requireComponent( "Tattertools.Function.misc");
+	requireComponent( "Textcube.Function.misc");
 	global $owner, $blogURL, $database;
 	$target .= '<ul>';
 	$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새 글을 씁니다').'</a></li>'.CRLF;

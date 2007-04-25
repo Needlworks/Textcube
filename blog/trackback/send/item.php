@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../..');
@@ -114,7 +114,7 @@ $entry = getEntry($owner, $suri['id']);
 	<form name="trackback" method="post" action="<?php echo $suri['url'];?>">
 	
 		<div id="trackback-box">
-			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('태터툴즈 로고');?>" />
+			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
 			
 			<div class="title"><span class="text"><?php echo _text('글걸기를 시도합니다');?></span></div>
 	      	<div id="command-box">

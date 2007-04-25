@@ -1,5 +1,5 @@
 <?php
-/* Recent Entries plugin for Tattertools 1.1
+/* Recent Entries plugin for Textcube 1.1
    ----------------------------------
    Version 1.0
    Tatter and Friends development team.
@@ -11,7 +11,7 @@
    Last modified at : 2006.10.10
  
  This plugin shows recent entries on 'quilt'.
- For the detail, visit http://forum.tattertools.com/ko
+ For the detail, visit http://forum.tattersite.com/ko
 
 
  General Public License
@@ -39,7 +39,7 @@ function _getRecentEntries($owner){
 // lib/view/view.php : 889 line
 function _getRecentEntriesView($entries,$template){
 	requireComponent("Eolin.PHP.Core");
-	requireComponent("Tattertools.Function.misc");
+	requireComponent("Textcube.Function.misc");
 	global $blogURL,$skinSetting;
 	ob_start();
 	foreach($entries as $entry){

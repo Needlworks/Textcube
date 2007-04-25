@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../../..');
@@ -66,7 +66,7 @@ if (!empty($_FILES['waterMark']['tmp_name'])) {
 		header("Location: ".$_SERVER['HTTP_REFERER']);
 		exit;
 	} else { 
-		requireComponent('Tattertools.Data.Attachment');
+		requireComponent('Textcube.Data.Attachment');
 		Attachment::confirmFolder();
 
 		if (move_uploaded_file($_FILES['waterMark']['tmp_name'], ROOT."/attach/$owner/watermark.gif")) {

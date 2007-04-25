@@ -316,7 +316,7 @@ input.text-readonly-input
 }
 
 /* special --------------------------------------------------------------------------------------*/
-#menu-tattertools
+#menu-textcube
 {
 	left                             : 24px;
 	position                         : absolute;
@@ -324,7 +324,7 @@ input.text-readonly-input
 	z-index                          : 100;
 }
 
-#menu-tattertools a
+#menu-textcube a
 {
 	background-image                 : url("./image/controlPanelLogo.gif");
 	display                          : block;
@@ -332,7 +332,7 @@ input.text-readonly-input
 	width                            : 146px;
 }
 
-#menu-tattertools a span
+#menu-textcube a span
 {
 	display                          : none;
 }

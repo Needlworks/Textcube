@@ -46,7 +46,7 @@ if (file_exists(ROOT . "/plugins/$pluginDir/plugin-main.ie7.css")) {
 			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/byTattertools.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/byTextcube.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js"></script>
@@ -56,7 +56,7 @@ if (file_exists(ROOT . "/plugins/$pluginDir/plugin-main.ie7.css")) {
 	<div id="temp-wrap">
 		<div id="all-wrap">
 			<div id="layout-header">
-				<h1><?php echo _t('태터툴즈 관리 페이지');?></h1>
+				<h1><?php echo _t('텍스트큐브 관리 페이지');?></h1>
 				
 				<div id="main-description-box">
 					<ul id="main-description">
@@ -75,7 +75,7 @@ $writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE 
 				
 				<div id="main-menu-box">
 					<ul id="main-menu">
-						<li id="menu-tattertools"><a href="<?php echo TATTERTOOLS_HOMEPAGE;?>" onclick="window.open(this.href); return false;" title="<?php echo _t('태터툴즈 홈페이지로 이동합니다.');?>"><span class="text"><?php echo _t('태터툴즈 홈페이지');?></span></a></li>
+						<li id="menu-textcube"><a href="<?php echo TEXTCUBE_HOMEPAGE;?>" onclick="window.open(this.href); return false;" title="<?php echo _t('텍스트큐브 홈페이지로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브 홈페이지');?></span></a></li>
 						<li id="menu-center"><a href="<?php echo $blogURL;?>/owner/center/dashboard"><span><?php echo _t('센터');?></span></a></li>
 						<li id="menu-post"><a href="<?php echo $blogURL;?>/owner/entry"><span class="text"><?php echo _t('글');?></span></a></li>
 						<li id="menu-link"><a href="<?php echo $blogURL;?>/owner/link"><span class="text"><?php echo _t('링크');?></span></a></li>

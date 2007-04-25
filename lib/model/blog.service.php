@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
@@ -105,6 +105,6 @@ function getBlogURLRule($domain = null, $path = null, $type = null) {
 }
 
 function getHelpURL($path) {
-	return 'http://help.tattertools.com/ko/Menu/'.$path;
+	return 'http://help.textcube.com/ko/Menu/'.$path;
 }
 ?>

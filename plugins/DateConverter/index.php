@@ -33,8 +33,15 @@ function convertDateFormat($argTarget, $argType) {
 	array_shift($temp);
 	array_shift($temp);
 	
-	requireComponent('Tattertools.Function.misc');
-	$tempArray = misc::fetchConfigVal($configVal);
+	if (empty($configVal)) {
+		include 'config.ini.php';
+		$tempArray = $data;
+		unset($data);
+		
+	} else {
+		requireComponent('Textcube.Function.misc');
+		$tempArray = misc::fetchConfigVal($configVal);
+	}
 	
 	$rgDateFormat = array();
 	$rgDateFormat['archive date'] = array("language" => $tempArray['language'], "format" => $tempArray['archive_date']);

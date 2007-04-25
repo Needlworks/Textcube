@@ -5,8 +5,8 @@
 			<hr class="hidden" />
 			
 			<div id="layout-footer">
-				<div id="copyright"><span class="text"><?php echo TATTERTOOLS_COPYRIGHT;?></span></div>
-				<div id="version"><span class="text"><?php echo TATTERTOOLS_NAME;?> <?php echo TATTERTOOLS_VERSION;?></span></div>
+				<div id="copyright"><span class="text"><?php echo TEXTCUBE_COPYRIGHT;?></span></div>
+				<div id="version"><span class="text"><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?></span></div>
 			</div>
 		</div>
 	</div>

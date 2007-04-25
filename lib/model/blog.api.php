@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
@@ -408,7 +408,7 @@ function api_addAttachment($owner,$parent,$file){
 	if ($oldFile !== null) {
 		$attachment['name'] = $oldFile;
 	} else {
-		requireComponent('Tattertools.Data.Attachment');
+		requireComponent('Textcube.Data.Attachment');
 		$attachment['name'] = rand(1000000000, 9999999999) . $extension;
 		
 		while (Attachment::doesExist($attachment['name']))
@@ -875,13 +875,13 @@ function metaWeblog_newPost()
 	$post = api_make_post( $params[3], $params[4] );
 	
 	if ($post === false) {
-		return new XMLRPCFault( 1, "Tattertools posting error" );
+		return new XMLRPCFault( 1, "Textcube posting error" );
 	}
 	if( !$post->add() )
 	{
 		$error = $post->error;
 		$post->close();
-		return new XMLRPCFault( 1, "Tattertools invalid field: $error" );
+		return new XMLRPCFault( 1, "Textcube invalid field: $error" );
 	}
 
 	api_update_attaches($post->id );
@@ -963,7 +963,7 @@ function metaWeblog_editPost()
 	$post->created = null;
 	if( !$post )
 	{
-		return new XMLRPCFault( 1, "Tattertools editing error" );
+		return new XMLRPCFault( 1, "Textcube editing error" );
 	}
 
 	$ret = $post->update();

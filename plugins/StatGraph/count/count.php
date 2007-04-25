@@ -35,7 +35,7 @@ if ((isset($_REQUEST['owner'])) && is_numeric($_REQUEST['owner'])) {
 }
 
 requireComponent('Eolin.PHP.Core');
-requireComponent('Tattertools.Model.Statistics');
+requireComponent('Textcube.Model.Statistics');
 $row = Statistics::getWeeklyStatistics();
 
 $row = array_reverse($row);

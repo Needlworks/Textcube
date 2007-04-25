@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../..');
@@ -147,7 +147,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 <body>
 	<form name="deleteComment" method="post" action="<?php echo $blogURL;?>/comment/delete/<?php echo $suri['id'];?>">
 		<div id="comment-box">
-			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('태터툴즈 로고');?>" />	
+			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />	
 			
 			<div id="command-box">
 				<div class="edit-line">

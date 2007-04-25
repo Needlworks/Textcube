@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
@@ -14,7 +14,7 @@ requireComponent('Eolin.PHP.Base64Stream');
 set_time_limit(0);
 $includeFileContents = Validator::getBool(@$_GET['includeFileContents']);
 $writer = new OutputWriter();
-if (defined('__TATTERTOOLS_BACKUP__')) {
+if (defined('__TEXTCUBE_BACKUP__')) {
 	if (!file_exists(ROOT . '/cache/backup')) {
 		mkdir(ROOT . '/cache/backup');
 		@chmod(ROOT . '/cache/backup', 0777);
@@ -28,33 +28,33 @@ if (defined('__TATTERTOOLS_BACKUP__')) {
 	}
 } else {
 	if ($writer->openStdout()) {
-		header('Content-Disposition: attachment; filename="Tattertools-Backup-' . Timestamp::getDate() . '.xml"');
-		header('Content-Description: Tattertools Backup Data');
+		header('Content-Disposition: attachment; filename="Textcube-Backup-' . Timestamp::getDate() . '.xml"');
+		header('Content-Description: Textcube Backup Data');
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Type: application/xml');
 	} else {
 		exit;
 	}
 }
-requireComponent('Tattertools.Data.BlogSetting');
-requireComponent('Tattertools.Data.Category');
-requireComponent('Tattertools.Data.Post');
-requireComponent('Tattertools.Data.Notice');
-requireComponent('Tattertools.Data.Keyword');
-requireComponent('Tattertools.Data.Link');
-requireComponent('Tattertools.Data.RefererLog');
-requireComponent('Tattertools.Data.RefererStatistics');
-requireComponent('Tattertools.Data.BlogStatistics');
-requireComponent('Tattertools.Data.DailyStatistics');
-requireComponent('Tattertools.Data.SkinSetting');
-requireComponent('Tattertools.Data.PluginSetting');
-requireComponent('Tattertools.Data.GuestComment');
-requireComponent('Tattertools.Data.Filter');
-requireComponent('Tattertools.Data.Feed');
-requireComponent('Tattertools.Data.UserSetting');
+requireComponent('Textcube.Data.BlogSetting');
+requireComponent('Textcube.Data.Category');
+requireComponent('Textcube.Data.Post');
+requireComponent('Textcube.Data.Notice');
+requireComponent('Textcube.Data.Keyword');
+requireComponent('Textcube.Data.Link');
+requireComponent('Textcube.Data.RefererLog');
+requireComponent('Textcube.Data.RefererStatistics');
+requireComponent('Textcube.Data.BlogStatistics');
+requireComponent('Textcube.Data.DailyStatistics');
+requireComponent('Textcube.Data.SkinSetting');
+requireComponent('Textcube.Data.PluginSetting');
+requireComponent('Textcube.Data.GuestComment');
+requireComponent('Textcube.Data.Filter');
+requireComponent('Textcube.Data.Feed');
+requireComponent('Textcube.Data.UserSetting');
 $newlineStyle = (!is_null(getServiceSetting('newlineStyle')) ? ' format="'.getServiceSetting('newlineStyle').'"' : '');
 $writer->write('<?xml version="1.0" encoding="utf-8" ?>');
-$writer->write('<blog type="tattertools/1.1" migrational="false">');
+$writer->write('<blog type="textcube/1.1" migrational="false">');
 $setting = new BlogSetting();
 if ($setting->load()) {
 	$setting->escape();
@@ -308,7 +308,7 @@ if ($feed->open()) {
 }
 $writer->write('</blog>');
 $writer->close();
-if (defined('__TATTERTOOLS_BACKUP__')) {
+if (defined('__TEXTCUBE_BACKUP__')) {
 	@chmod(ROOT . "/cache/backup/$owner.xml", 0666);
 	respondResultPage(true);
 }

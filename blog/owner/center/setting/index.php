@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
@@ -7,8 +7,13 @@ define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 
 require ROOT . '/lib/piece/owner/headerA.php';
-require ROOT . '/lib/piece/owner/contentMenuA1.php';
-$scopeType = 'dashboard';
+if (defined('__TEXTCUBE_METAPAGE__')) {
+	require ROOT . '/lib/piece/owner/contentMenuA4.php';
+	$scopeType = 'lint';
+} else {
+	require ROOT . '/lib/piece/owner/contentMenuA1.php';
+	$scopeType = 'dashboard';
+}
 $_POST['scopeType'] = $scopeType;
 
 if (empty($_POST['sortType'])) {
@@ -115,7 +120,9 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 								}								
 							//]]>
 						</script>
-						
+<?php
+if (!defined('__TEXTCUBE_METAPAGE__')) {
+?>						
 						<form id="<?php echo 'part-center-plugins'; ?>" class="part" method="post" action="<?php echo $blogURL."/owner/center/setting"; ?>">
 							<h2 class="caption"><span class="main-text"><?php echo _t('설치된 자투리 플러그인입니다'); ?></span></h2>
 							
@@ -127,27 +134,28 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 								<legend><?php echo _t('표시될 플러그인 설정');?></legend>
 
 <?php
+if (!defined('__TEXTCUBE_METAPAGE__')) {
 	if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useTTdashboard']))) {
-		$tattertoolsDashboard = getUserSetting("tattertoolsDashboard");
-		if (is_null($tattertoolsDashboard)) {
-			setUserSetting("tattertoolsDashboard", 1);
-			$tattertoolsDashboard = 1;
+		$textcubeDashboard = getUserSetting("textcubeDashboard");
+		if (is_null($textcubeDashboard)) {
+			setUserSetting("textcubeDashboard", 1);
+			$textcubeDashboard = 1;
 		} else {
-			setUserSetting("tattertoolsDashboard", 0);
-			$tattertoolsDashboard = 0;
+			setUserSetting("textcubeDashboard", 0);
+			$textcubeDashboard = 0;
 		}
 	} else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			setUserSetting("tattertoolsDashboard", 1);
-			$tattertoolsDashboard = 1;
+			setUserSetting("textcubeDashboard", 1);
+			$textcubeDashboard = 1;
 	} else {
-		$tattertoolsDashboard = getUserSetting("tattertoolsDashboard");
+		$textcubeDashboard = getUserSetting("textcubeDashboard");
 	}
 ?>
 								<dl id="independent-notice-line" class="line">
 									<dt><?php echo _t('독립패널 설정');?></dt>
 									<dd>
-										<input type="checkbox" class="checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="changeList()"<?php echo $tattertoolsDashboard == 1 ? " checked" : NULL;?> />
-										<label for="useTTdashboard"><?php echo _t('조각보에 태터툴즈 독립 패널을 표시합니다.');?></label>
+										<input type="checkbox" class="checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="changeList()"<?php echo $textcubeDashboard == 1 ? " checked" : NULL;?> />
+										<label for="useTTdashboard"><?php echo _t('조각보에 텍스트큐브 독립 패널을 표시합니다.');?></label>
 									</dd>
 								</dl>
 								<dl id="sorting-line" class="line">
@@ -367,8 +375,8 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('플러그인을 구하려면');?></span></h2>
 							
 <?php
-$linkString = '<a href="http://plugin.tattertools.com/" onclick="window.open(this.href); return false;" title="' . _t('플러그인 업로드 게시판으로 연결합니다.') . '">' . _t('플러그인 업로드 게시판'). '</a>';
-$tempString = _f('태터툴즈 홈페이지의 %1을 방문하시면 다양한 플러그인을 다운로드 하실 수 있습니다. 일반적으로 플러그인 파일을 태터툴즈의 plugin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 플러그인은 이 메뉴에서 사용중으로 전환하여 사용을 시작합니다. 추천 플러그인에 대한 정보는 <a href="http://blog.tattertools.com/plugin" onclick="window.open(this.href); return false;">태터앤 프렌즈의 플러그인 리뷰</a>를 참고하십시오.', $linkString);
+$linkString = '<a href="http://plugin.textcube.com/" onclick="window.open(this.href); return false;" title="' . _t('플러그인 업로드 게시판으로 연결합니다.') . '">' . _t('플러그인 업로드 게시판'). '</a>';
+$tempString = _f('텍스트큐브 홈페이지의 %1을 방문하시면 다양한 플러그인을 다운로드 하실 수 있습니다. 일반적으로 플러그인 파일을 텍스트큐브의 plugin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 플러그인은 이 메뉴에서 사용중으로 전환하여 사용을 시작합니다. 추천 플러그인에 대한 정보는 <a href="http://blog.textcube.com/plugin" onclick="window.open(this.href); return false;">태터앤 프렌즈의 플러그인 리뷰</a>를 참고하십시오.', $linkString);
 ?>
 							<div class="main-explain-box">
 								<p class="explain"><?php echo $tempString;?></p>

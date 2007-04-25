@@ -1,7 +1,7 @@
 <?php
 function BlogIcon_main($target, $mother) {  
 	global $configVal;
-	requireComponent('Tattertools.Function.misc');
+	requireComponent('Textcube.Function.misc');
 	$data = misc::fetchConfigVal( $configVal);
 
 	if (!is_null($data))	$ico_size = $data['ico_size'];

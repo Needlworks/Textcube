@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../..');
@@ -17,8 +17,8 @@ if (isset($checkFunction)) unset($checkFunction);
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								function checkForceTattertoolsVersion() {
-									if (confirm("<?php echo _t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
+								function checkForceTextcubeVersion() {
+									if (confirm("<?php echo _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
 										window.location.href = "<?php echo $blogURL;?>/checkup";
 									else
 										alert("<?php echo _t('점검 없이 이 기능을 사용할 수 없습니다.');?>");
@@ -31,28 +31,28 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								window.addEventListener("load", checkTattertoolsVersion, false);
-								function checkTattertoolsVersion() {
+								window.addEventListener("load", checkTextcubeVersion, false);
+								function checkTextcubeVersion() {
 									if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
 										window.location.href = "<?php echo $blogURL;?>/checkup";
 								}
 							//]]>
 						</script>
 <?php
-	$checkFunction = 'checkForceTattertoolsVersion();';
-} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TATTERTOOLS_VERSION) {
+	$checkFunction = 'checkForceTextcubeVersion();';
+} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION) {
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								window.addEventListener("load", checkTattertoolsVersion, false);
-								function checkTattertoolsVersion() {
-									if (confirm("<?php echo _t('태터툴즈 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
+								window.addEventListener("load", checkTextcubeVersion, false);
+								function checkTextcubeVersion() {
+									if (confirm("<?php echo _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
 										window.location.href = "<?php echo $blogURL;?>/checkup";
 								}
 							//]]>
 						</script>
 <?php
-	$checkFunction = 'checkForceTattertoolsVersion();';
+	$checkFunction = 'checkForceTextcubeVersion();';
 }
 
 function forceCheckBlog($passFunction)
@@ -348,7 +348,7 @@ if ($backup) {
 									<div class="title"><?php echo _t('REMOVE');?></div>
 								</div>
 								<p class="explain">
-									<?php echo _t('태터툴즈의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일로만 가능하므로 먼저 백업을 하시기 바랍니다.');?>
+									<?php echo _t('텍스트큐브의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일로만 가능하므로 먼저 백업을 하시기 바랍니다.');?>
 								</p>
 							</div>
 							
