@@ -49,33 +49,33 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								function togglePlugin(plugin, num, width, height, scope) {
+								function togglePlugin(plugin, num, width, height) {
 									tempStr = document.getElementById("plugin" + num + "Link").innerHTML;
 									
-									if (!tempStr.match('<?php echo _t('사용중');?>')) {
+									if (document.getElementById("plugin" + num + "status").value == 0) {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/activate");
 										request.onSuccess = function() {												
 											document.getElementById("plugin" + num + "Link").className = 'active-class';
 											
 											document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?php echo _t('사용중');?><\/span>';
 											document.getElementById("plugin" + num + "Link").setAttribute('title', '<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>');
-											
+											document.getElementById("plugin" + num + "status").value = 1;
 											objTR = getParentByTagName("TR", document.getElementById("plugin" + num + "Link"));
 											objTR.className = objTR.className.replace('inactive', 'active');
 											
 											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정');?>')) {
 												objTR.cells[5].innerHTML = '<a href="#void" id="config_' + num +'" class="config-enabled-icon bullet" onclick="getCurrentSetting(\'' + plugin + '\',\'Y\',\''+width+'\',\''+height+'\')"><?php echo _t('설정');?><\/a>';
 											}
+											
 											tempStr = document.getElementById("plugin" + num + "Scope").innerHTML;
-											if (tempStr.match('<?php echo _t('관리자');?>'))
-											{
+											if (tempStr.match('<?php echo _t('관리자');?>')) {
 												changeList();
 											}
 										}
 										request.onError = function() {
 											alert("<?php echo _t('플러그인을 활성화하는데 실패했습니다.');?>");
 										}
-										request.send("name=" + plugin + "&scope=" + scope);
+										request.send("name=" + plugin);
 									} else {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/deactivate");
 										request.onSuccess = function() {
@@ -83,23 +83,23 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 											
 											document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?php echo _t('미사용');?><\/span>';
 											document.getElementById("plugin" + num + "Link").setAttribute('title', '<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>');
-											
+											document.getElementById("plugin" + num + "status").value = 0;
 											objTR = getParentByTagName("TR", document.getElementById("plugin" + num + "Link"));
 											objTR.className = objTR.className.replace('active', 'inactive');
 											
 											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정');?>')) {
 												objTR.cells[5].innerHTML = '<span class="config-disabled-icon bullet"><?php echo _t('설정');?><\/span>';
 											}
+											
 											tempStr = document.getElementById("plugin" + num + "Scope").innerHTML;
-											if (tempStr.match('<?php echo _t('관리자');?>'))
-											{
+											if (tempStr.match('<?php echo _t('관리자');?>')) {
 												changeList();
 											}
 										}
 										request.onError = function() {
 											alert("<?php echo _t('플러그인을 비활성화하는데 실패했습니다.');?>");
 										}
-										request.send("name=" + plugin + "&scope=" + scope);
+										request.send("name=" + plugin);
 									}
 								}
 								
@@ -328,6 +328,9 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	$className .= $active ? ' active-class' : ' inactive-class';
 ?>
 									<tr class="<?php echo $className;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+										<td class="selection">
+											<input type="checkbox" class="checkbox" name="entry" value="<?php echo $pluginDir; ?>" onclick="document.getElementById('allChecked').checked=false; toggleThisPlugin(this);" />
+										</td>
 										<td class="title"><?php echo ($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title);?></td>
 										<td class="version"><?php echo $version;?></td>
 										<td id="plugin<?php echo $i;?>Scope" class="scope">
@@ -374,11 +377,11 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 <?php
 	if ($active) {
 ?>
-											<a id="plugin<?php echo $i;?>Link" class="active-class" href="#void" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', '<?php echo $scope;?>')" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>"><span class="text"><?php echo _t('사용중');?></span></a>
+											<input type="hidden" value="1" id="plugin<?php echo $i;?>status"/> <a id="plugin<?php echo $i;?>Link" class="active-class" href="#void" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>'); return false;" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>"><span class="text"><?php echo _t('사용중');?></span></a>
 <?php
 	} else {
 ?>
-											<a id="plugin<?php echo $i;?>Link" class="inactive-class" href="#void" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', '<?php echo $scope;?>')" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>"><span class="text"><?php echo _t('미사용');?></span></a>
+											<input type="hidden" value="0" id="plugin<?php echo $i;?>status" /> <a id="plugin<?php echo $i;?>Link" class="inactive-class" href="#void" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>'); return false;" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>"><span class="text"><?php echo _t('미사용');?></span></a>
 <?php
 	}
 ?>
