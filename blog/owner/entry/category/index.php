@@ -79,8 +79,8 @@ if ((empty($_POST['search'])) || ($searchColumn === true)) {
 	$searchParam[0] = $_POST['searchColumn'];
 	$searchParam[1] = $_POST['search'];
 }
-require ROOT . '/lib/piece/owner/header0.php';
-require ROOT . '/lib/piece/owner/contentMenu03.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -251,5 +251,5 @@ if ($selected == 0) {
 							</div>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

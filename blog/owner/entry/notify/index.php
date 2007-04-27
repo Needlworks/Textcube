@@ -35,8 +35,8 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	setUserSetting('rowsPerPage', $_POST['perPage']);
 }
 list($comments, $paging) = getCommentsNotifiedWithPagingForOwner($owner, '', $name, '', $search, $suri['page'], $perPage);
-require ROOT . '/lib/piece/owner/header0.php';
-require ROOT . '/lib/piece/owner/contentMenu05.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -315,5 +315,5 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 							</form>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

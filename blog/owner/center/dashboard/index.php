@@ -4,10 +4,12 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
+$blogMenu['topMenu'] = 'center';
+$blogMenu['contentMenu'] = 'dashboard';
 
 if (!isset($_REQUEST['ajaxcall'])) {
-	require ROOT . '/lib/piece/owner/headerA.php';
-	require ROOT . '/lib/piece/owner/contentMenuA0.php';
+	require ROOT . '/lib/piece/owner/header.php';
+	require ROOT . '/lib/piece/owner/contentMenu.php';
 	trashVan();
 }
 
@@ -505,5 +507,5 @@ if (isset($_REQUEST['edit'])) {
 <?php
 }
 
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

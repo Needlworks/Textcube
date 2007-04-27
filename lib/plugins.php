@@ -121,12 +121,29 @@ if (!empty($owner)) {
 			}
 			if ($xmls->doesExist('/plugin/binding/adminMenu')){
 				$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
-				
+
 				if ($xmls->doesExist('/plugin/binding/adminMenu/viewMethods')){
 					foreach($xmls->selectNodes('/plugin/binding/adminMenu/viewMethods/method') as $adminViewMenu) {
 						$menutitle = htmlspecialchars(XMLStruct::getValueByLocale($adminViewMenu['title']));
 						if (empty($menutitle)) continue;
-						$menuposition = empty($adminViewMenu['position'][0]['.value'])?'menu-plugin':$adminViewMenu['position'][0]['.value'];
+						if(isset($adminViewMenu['topMenu'][0]['.value'])){
+							$pluginTopMenuLocation = htmlspecialchars($adminViewMenu['topMenu'][0]['.value']);
+							switch($pluginTopMenuLocation) {
+								case 'center':
+								case 'entry':
+								case 'link':
+								case 'skin':
+								case 'plugin':
+								case 'setting':
+									break;
+								default:
+									$pluginTopMenuLocation = 'plugin';
+							}
+						} else {
+							$pluginTopMenuLocation = 'plugin';
+						}
+						//var_dump($pluginTopMenuLocation);
+						$pluginContentMenuOrder = empty($adminViewMenu['contentMenuOrder'][0]['.value'])? '100':$adminViewMenu['contentMenuOrder'][0]['.value'];
 						$menuhelpurl = empty($adminViewMenu['helpurl'][0]['.value'])?'':$adminViewMenu['helpurl'][0]['.value'];
 						
 						if (!isset($adminViewMenu['handler'][0]['.value'])) continue;
@@ -145,8 +162,15 @@ if (!empty($owner)) {
 							}
 						}
 								
-						$adminMenuMappings[$plugin . '/' . $viewhandler] 
-							= array('plugin' => $plugin, 'title' => $menutitle,'position' => $menuposition , 'handler' => $viewhandler, 'params' => $params , 'helpurl'=>$menuhelpurl);
+						$adminMenuMappings[$plugin . '/' . $viewhandler] = array(
+							'plugin'   => $plugin, 
+							'title'    => $menutitle,
+							'handler'  => $viewhandler,
+							'params'   => $params,
+							'helpurl'  => $menuhelpurl,
+							'topMenu'  => $pluginTopMenuLocation,
+							'contentMenuOrder' => $pluginContentMenuOrder
+						);
 					}
 				}
 				

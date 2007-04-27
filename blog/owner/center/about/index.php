@@ -4,8 +4,8 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/piece/owner/headerA.php';
-require ROOT . '/lib/piece/owner/contentMenuA2.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 						<div id="part-center-about" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('텍스트큐브 개발진');?></span></h2>
@@ -235,5 +235,5 @@ require ROOT . '/lib/piece/owner/contentMenuA2.php';
 							</div>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

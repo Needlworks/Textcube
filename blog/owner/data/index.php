@@ -9,8 +9,8 @@ if (file_exists(ROOT . "/cache/backup/$owner.xml.gz"))
 	$backup = filemtime(ROOT . "/cache/backup/$owner.xml.gz");
 else if (file_exists(ROOT . "/cache/backup/$owner.xml"))
 	$backup = filemtime(ROOT . "/cache/backup/$owner.xml");
-require ROOT . '/lib/piece/owner/header5.php';
-require ROOT . '/lib/piece/owner/contentMenu54.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 
 if (isset($checkFunction)) unset($checkFunction);
 
@@ -387,5 +387,5 @@ if ($backup) {
 						
 			 			<iframe id="blackhole" name="blackhole" style="display: none;"></iframe>
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

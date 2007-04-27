@@ -4,8 +4,8 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/piece/owner/header3.php';
-require ROOT . '/lib/piece/owner/contentMenu33.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 
 $stats = getStatistics($owner);
 
@@ -223,7 +223,7 @@ if ($sidebarCount == 0) {
 							</div>
 						</form>
 <?php
-	require ROOT . '/lib/piece/owner/footer1.php';
+	require ROOT . '/lib/piece/owner/footer.php';
 	exit;
 }
 
@@ -613,5 +613,5 @@ foreach ($sidebarPluginArray as $nowKey) {
 							//]]>							
 						</script>						
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

@@ -4,8 +4,8 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/piece/owner/header2.php';
-require ROOT . '/lib/piece/owner/contentMenu21.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -98,5 +98,5 @@ require ROOT . '/lib/piece/owner/contentMenu21.php';
 							</form>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?> 

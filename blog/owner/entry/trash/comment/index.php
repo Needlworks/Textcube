@@ -40,8 +40,8 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	setUserSetting('rowsPerPage', $_POST['perPage']);
 }
 list($comments, $paging) = getTrashCommentsWithPagingForOwner($owner, $categoryId, $name, $ip, $search, $suri['page'], $perPage);
-require ROOT . '/lib/piece/owner/header0.php';
-require ROOT . '/lib/piece/owner/contentMenu06.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -467,5 +467,5 @@ for ($i = 10; $i <= 30; $i += 5) {
 							</div>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

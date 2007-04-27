@@ -1,0 +1,188 @@
+<?php
+// Automatic menu location routine.
+$urlFragments = preg_split('/\//',ltrim($suri['directive'],'/'));
+if(isset($urlFragments[1])) $blogMenu['topMenu'] = $urlFragments[1];
+if(isset($urlFragments[2])) $blogMenu['contentMenu'] = $urlFragments[2];
+else $blogMenu['contentMenu'] = $urlFragments[1];
+if(isset($urlFragments[3])) $blogMenu['contentMenu'] .= $urlFragments[3];
+
+// If admin.panel plugin, set the menu location again.
+if(isset($urlFragments[2])&&strncmp($urlFragments[2],'adminMenu',9) == 0){
+	$plugin = isset($_GET['name']) ? $_GET['name'] : '';
+	$pluginDir = strtok($plugin,'/');
+	$blogMenu['topMenu'] = $adminMenuMappings[$plugin]['topMenu'];
+}
+
+$blogTopMenuItem = array(
+	array('menu'=>'center','title'=>_t('센터'),'link'=>'/owner/center/dashboard'),
+	array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
+	array('menu'=>'link','title'=>_t('링크'),'link'=>'/owner/link'),
+	array('menu'=>'skin','title'=>_t('스킨'),'link'=>'/owner/skin'),
+	array('menu'=>'plugin','title'=>_t('플러그인'),'link'=>'/owner/plugin'),	
+	array('menu'=>'setting','title'=>_t('환경설정'),'link'=>'/owner/setting/blog'),
+	array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader')
+	);
+switch($blogMenu['topMenu']) {
+	case 'center':
+		$blogMenu['title'] = _t('센터');
+		$blogMenu['loadCSS'] = array('center');
+		$blogMenu['loadCSSIE6'] = array('center');
+		$blogMenu['loadCSSIE7'] = array('center');
+		break;
+	case 'entry':
+		$blogMenu['title'] = _t('글');
+		$blogMenu['loadCSS'] = array('post','editor');
+		$blogMenu['loadCSSIE6'] = array('post','editor');
+		$blogMenu['loadCSSIE7'] = array('post','editor');
+		break;
+	case 'link':
+		$blogMenu['title'] = _t('링크');
+		$blogMenu['loadCSS'] = array('link');
+		$blogMenu['loadCSSIE6'] = array('link');
+		$blogMenu['loadCSSIE7'] = array('link');
+		break;
+	case 'skin':
+		$blogMenu['title'] = _t('스킨');
+		$blogMenu['loadCSS'] = array('skin');
+		$blogMenu['loadCSSIE6'] = array('skin');
+		$blogMenu['loadCSSIE7'] = array('skin');
+		break;
+	case 'plugin':
+		$blogMenu['title'] = _t('플러그인');
+		$blogMenu['loadCSS'] = array('plugin');
+		$blogMenu['loadCSSIE6'] = array('plugin');
+		$blogMenu['loadCSSIE7'] = array('plugin');
+		break;
+	case 'setting':
+	case 'data':
+		$blogMenu['title'] = _t('환경설정');
+		$blogMenu['loadCSS'] = array('setting');
+		$blogMenu['loadCSSIE6'] = array('setting');
+		$blogMenu['loadCSSIE7'] = array('setting');
+		break;
+	case 'reader':
+		$blogMenu['title'] = _t('리더');
+		$blogMenu['loadCSS'] = array('reader');
+		$blogMenu['loadCSSIE6'] = array('reader');
+		$blogMenu['loadCSSIE7'] = array('reader');
+		break;
+}
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo (isset($blog['language']) ? $blog['language'] : "ko");?>">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo htmlspecialchars($blog['title']);?> &gt; <?php echo $blogMenu['title'];?></title>
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
+<?php
+foreach($blogMenu['loadCSS'] as $loadCSS){
+?>
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.css" />
+<?php
+}
+if (isset($pluginDir) && file_exists(ROOT . "/plugins/$pluginDir/plugin-main.css")) {
+?>
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/plugin-main.css" />
+<?php
+}
+?>
+	<!--[if lte IE 6]>
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
+<?php
+foreach($blogMenu['loadCSSIE6'] as $loadCSS){
+?>
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.ie.css" />
+<?php
+}
+if (isset($pluginDir) && file_exists(ROOT . "/plugins/$pluginDir/plugin-main.ie.css")) {
+?>
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/plugin-main.css" />
+<?php
+}
+?>	
+	<![endif]-->
+	<!--[if IE 7]>
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie7.css" />
+<?php
+foreach($blogMenu['loadCSSIE7'] as $loadCSS){
+?>
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.ie7.css" />
+<?php
+}
+if (isset($pluginDir) && file_exists(ROOT . "/plugins/$pluginDir/plugin-main.ie7.css")) {
+?>
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/plugin-main.ie7.css" />
+<?php
+}
+?>
+	<![endif]-->
+	<script type="text/javascript">
+		//<![CDATA[
+			var servicePath = "<?php echo $service['path'];?>";
+			var blogURL = "<?php echo $blogURL;?>";
+			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
+<?php
+if (file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
+?>
+			var editorCSS = "<?php echo $adminSkinSetting['editorTemplate'];?>";
+<?php
+} else {
+?>
+			var editorCSS = "/style/default-wysiwyg.css";
+<?php
+}
+?>
+		//]]>
+	</script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/language/messages.php"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/byTextcube.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js"></script>
+<?php
+if($blogMenu['topMenu']=='entry'){
+?>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/editor3.js"></script>
+<?php
+}
+echo fireEvent('ShowAdminHeader', '');
+?>
+</head>
+<body id="body-<?php echo $blogMenu['topMenu'];?>">
+	<div id="temp-wrap">
+		<div id="all-wrap">
+			<div id="layout-header">
+				<h1><?php echo _t('텍스트큐브 관리 페이지');?></h1>
+				
+				<div id="main-description-box">
+					<ul id="main-description">
+<?php
+$writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
+?>
+						<li id="description-blogger"><span class="text"><?php echo _f('환영합니다. <em>%1</em>님.', htmlspecialchars($writer));?></span></li>
+						<li id="description-blog"><a href="<?php echo $blogURL;?>/" title="<?php echo _t('블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('블로그로 이동');?></span></a></li>
+						<li id="description-logout"><a href="<?php echo $blogURL;?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('로그아웃');?></span></a></li>
+					</ul>
+				</div>
+				
+				<hr class="hidden" />
+				
+				<h2><?php echo _t('메인메뉴');?></h2>
+				
+				<div id="main-menu-box">
+					<ul id="main-menu">
+						<li id="menu-textcube"><a href="<?php echo TEXTCUBE_HOMEPAGE;?>" onclick="window.open(this.href); return false;" title="<?php echo _t('텍스트큐브 홈페이지로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브 홈페이지');?></span></a></li>
+						
+<?php
+foreach($blogTopMenuItem as $menuItem){
+?>
+						<li id="menu-<?php echo $menuItem['menu'];?>"<?php echo $menuItem['menu']==$blogMenu['topMenu'] ? ' class="selected"' : '';?>><a href="<?php echo $blogURL.$menuItem['link'];?>"><span><?php echo $menuItem['title'];?></span></a></li>
+<?php
+}
+?>
+					</ul>
+				</div>
+			</div>
+			
+			<hr class="hidden" />

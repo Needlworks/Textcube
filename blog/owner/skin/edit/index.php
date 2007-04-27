@@ -7,8 +7,8 @@ require ROOT . '/lib/includeForBlogOwner.php';
 $skin = @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/skin.html");
 $skin_keyword = @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/skin_keyword.html");
 $style = @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/style.css");
-require ROOT . '/lib/piece/owner/header3.php';
-require ROOT . '/lib/piece/owner/contentMenu31.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -74,5 +74,5 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 							</div>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

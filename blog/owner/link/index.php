@@ -5,8 +5,8 @@
 define('ROOT', '../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 $links = getLinks($owner);
-require ROOT . '/lib/piece/owner/header2.php';
-require ROOT . '/lib/piece/owner/contentMenu20.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -67,5 +67,5 @@ if (sizeof($links) > 0) echo "									</tbody>";
 							</table>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

@@ -19,6 +19,8 @@
     <adminMenu>
       <viewMethods>
         <method>
+          <topMenu>plugin</topMenu>
+          <contentMenuOrder>3</contentMenuOrder>
           <title xml:lang="en">Referer Log</title>
           <title xml:lang="ko">리퍼러 기록</title>
           <title xml:lang="ja">リファラ統計</title>

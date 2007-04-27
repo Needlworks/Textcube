@@ -9,8 +9,8 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/piece/owner/header5.php';
-require ROOT . '/lib/piece/owner/contentMenu51.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -377,5 +377,5 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 <?php
 }
 
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

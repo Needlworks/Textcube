@@ -4,8 +4,8 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/piece/owner/header3.php';
-require ROOT . '/lib/piece/owner/contentMenu30.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 $skins = array();
 $dirHandler = dir(ROOT . "/skin");
 while ($file = $dirHandler->read()) {
@@ -221,5 +221,5 @@ $tempString = _f('텍스트큐브 홈페이지의 %1을 방문하시면 다양�
 							</div>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

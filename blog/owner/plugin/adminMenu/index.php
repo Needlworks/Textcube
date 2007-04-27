@@ -5,8 +5,8 @@
 
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/piece/owner/headerB.php';
-require ROOT . '/lib/piece/owner/contentMenuB0.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 
 if (false) {
 	fetchConfigVal();
@@ -57,5 +57,5 @@ if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))
 		}
 	}
 }
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

@@ -5,14 +5,11 @@
 define('ROOT', '../../..');
 
 require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 if (defined('__TEXTCUBE_CENTER__')) {
-	require ROOT . '/lib/piece/owner/headerA.php';
-	require ROOT . '/lib/piece/owner/contentMenuA1.php';
 	$scopeType = 'dashboard';
 	$_POST['scopeType'] = $scopeType;
-} else {
-	require ROOT . '/lib/piece/owner/headerB.php';
-	require ROOT . '/lib/piece/owner/contentMenuB0.php';
 }
 
 if (empty($_POST['sortType'])) {
@@ -438,5 +435,5 @@ $tempString = _f('텍스트큐브 홈페이지의 %1을 방문하시면 다양�
 							</div>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

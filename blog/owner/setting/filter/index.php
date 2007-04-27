@@ -36,8 +36,8 @@ if (!empty($_POST['mode'])) {
 //if (!empty($_GET['history'])) {
 //	$history = $_GET['history'];
 //}
-require ROOT . '/lib/piece/owner/header5.php';
-require ROOT . '/lib/piece/owner/contentMenu53.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 
 function printFilterBox($mode, $title) {
 	global $service;
@@ -220,5 +220,5 @@ function printFilterBox($mode, $title) {
 							</div>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

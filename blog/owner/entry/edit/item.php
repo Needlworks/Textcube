@@ -30,22 +30,22 @@ if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
 }
 
 if (isset($_GET['popupEditor'])) {
-	require ROOT . '/lib/piece/owner/header8.php';
+	require ROOT . '/lib/piece/owner/headerForPopupEditor.php';
 } else {
-	require ROOT . '/lib/piece/owner/header0.php';
+	require ROOT . '/lib/piece/owner/header.php';
 }
 
 if (defined('__TEXTCUBE_POST__')) {
 	if (isset($_GET['popupEditor']))
-		require ROOT . '/lib/piece/owner/contentMenu81.php';
+		require ROOT . '/lib/piece/owner/contentMenu.php';
 	else
-		require ROOT . '/lib/piece/owner/contentMenu04.php';
+		require ROOT . '/lib/piece/owner/contentMenu.php';
 	printOwnerEditorScript();
 } else {
 	if (isset($_GET['popupEditor']))
-		require ROOT . '/lib/piece/owner/contentMenu81.php';
+		require ROOT . '/lib/piece/owner/contentMenu.php';
 	else
-		require ROOT . '/lib/piece/owner/contentMenu00.php';
+		require ROOT . '/lib/piece/owner/contentMenu.php';
 	printOwnerEditorScript($entry['id']);
 }
 ?>
@@ -770,7 +770,7 @@ if (isset($_GET['popupEditor'])) {
 						</script> 
 <?php
 if (isset($_GET['popupEditor']))
-	require ROOT . '/lib/piece/owner/footer8.php';
+	require ROOT . '/lib/piece/owner/footerForPopupEditor.php';
 else
-	require ROOT . '/lib/piece/owner/footer1.php';
+	require ROOT . '/lib/piece/owner/footer.php';
 ?>

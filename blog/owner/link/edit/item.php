@@ -7,8 +7,8 @@ require ROOT . '/lib/includeForBlogOwner.php';
 if (!$link = getLink($owner, $suri['id']))
 	respondErrorPage(_t('링크 정보가 존재하지 않습니다.'));
 $method = empty($link['rss']) ? 1 : 0;
-require ROOT . '/lib/piece/owner/header2.php';
-require ROOT . '/lib/piece/owner/contentMenu20.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -93,5 +93,5 @@ require ROOT . '/lib/piece/owner/contentMenu20.php';
 							</form>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

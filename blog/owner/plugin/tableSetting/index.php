@@ -5,8 +5,8 @@
 define('ROOT', '../../../..');
 
 require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/piece/owner/headerB.php';
-require ROOT . '/lib/piece/owner/contentMenuB1.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 
 if ($owner == 1) {
 
@@ -161,5 +161,5 @@ foreach($dbtables as $dbname)
 	<h2 class="caption"><span class="main-text"><?php echo _t('블로그 소유자만 테이블을 관리할 수 있습니다.');?></span></h2>
 <?php
 }
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

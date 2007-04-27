@@ -65,8 +65,8 @@ if (!empty($searchKeyword))
 // 이올린에 발행한 적이 있는지 체크.
 $countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `owner` = {$owner} AND `visibility` = 3");
 
-require ROOT . '/lib/piece/owner/header0.php';
-require ROOT . '/lib/piece/owner/contentMenu00.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -919,5 +919,5 @@ for ($i = 10; $i <= 30; $i += 5) {
 					 		</div>
 				 		</div>
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

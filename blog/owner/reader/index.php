@@ -10,7 +10,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/piece/owner/header6.php';
+require ROOT . '/lib/piece/owner/header.php';
 $setting = getReaderSetting($owner);
 ?>
 			<script type="text/javascript">
@@ -323,5 +323,5 @@ if (isset($_GET['forceRefresh'])) {
 						</script>
 <?php
 }
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>

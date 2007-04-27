@@ -122,8 +122,8 @@ $result = ob_get_contents();
 ob_end_clean();
 
 if ($ajaxcall == false) {
-	require ROOT . '/lib/piece/owner/header3.php';
-	require ROOT . '/lib/piece/owner/contentMenu33.php';
+	require ROOT . '/lib/piece/owner/header.php';
+	require ROOT . '/lib/piece/owner/contentMenu.php';
 }
 
 $modeParam = !empty($_REQUEST['viewMode']) ? '&' . $_REQUEST['viewMode'] : '';
@@ -143,7 +143,7 @@ echo '	</div>';
 echo '</form>';
 
 if ($ajaxcall == false) {
-	require ROOT . '/lib/piece/owner/footer1.php';
+	require ROOT . '/lib/piece/owner/footer.php';
 }
 
 

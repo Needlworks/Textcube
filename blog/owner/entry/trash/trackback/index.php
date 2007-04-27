@@ -38,8 +38,8 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	setUserSetting('rowsPerPage', $_POST['perPage']);
 }
 list($trackbacks, $paging) = getTrashTrackbackWithPagingForOwner($owner, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
-require ROOT . '/lib/piece/owner/header0.php';
-require ROOT . '/lib/piece/owner/contentMenu06.php';
+require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -459,5 +459,5 @@ for ($i = 10; $i <= 30; $i += 5) {
 							</div>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer1.php';
+require ROOT . '/lib/piece/owner/footer.php';
 ?>
