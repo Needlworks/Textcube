@@ -9,7 +9,7 @@ $IV = array(
 		'group' => array('int')
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/lib/includeForReader.php';
 requireStrictRoute();
 $result = array('error' => deleteFeed($owner, $_POST['id']));
 ob_start();

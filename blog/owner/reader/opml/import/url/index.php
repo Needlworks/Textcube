@@ -8,7 +8,7 @@ $VI = array(
 		'url' => array('url')
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/lib/includeForReader.php';
 requireStrictRoute();
 set_time_limit(60);
 $result = importOPMLFromURL($owner, $_POST['url']);

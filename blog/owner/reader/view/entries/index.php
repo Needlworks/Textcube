@@ -12,7 +12,7 @@ $IV = array(
 		'keyword'  => array('string', 'mandatory' => false)
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/lib/includeForReader.php';
 $result = array('error' => '0');
 ob_start();
 $count = printFeedEntries($owner, $_POST['group'], $_POST['feed'], $_POST['unread'] == '1', $_POST['starred'] == '1', $_POST['keyword'] == '' ? null : $_POST['keyword']);

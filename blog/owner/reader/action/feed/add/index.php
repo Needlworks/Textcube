@@ -9,7 +9,7 @@ $IV = array(
 		'url' => array('url')
 	) 
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/lib/includeForReader.php';
 requireStrictRoute();
 $result = array('error' => addFeed($owner, $_POST['group'], $_POST['url']));
 ob_start();
