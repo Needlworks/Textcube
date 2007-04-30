@@ -41,6 +41,7 @@ switch($blogMenu['topMenu']) {
 		);
 		break;
 	case 'setting':
+	case 'data':
 		$blogContentMenuItem = array(
 			array('menu'=>'blog','title'=>_t('블로그'),'link'=>'/owner/setting/blog'),
 			array('menu'=>'entry','title'=>_t('글 작성'),'link'=>'/owner/setting/entry'),
