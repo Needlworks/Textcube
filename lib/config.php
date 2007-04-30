@@ -31,7 +31,7 @@ if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && (
 
 function requireComponent($name) {
 	//if (!ereg('^[[:alnum:]]+[[:alnum:].]+$', $name))		return;
-	preg_replace("/Tattertools/","Textcube",$name);
+	$name = preg_replace("/Tattertools/","Textcube",$name);
 	include_once (ROOT . "/components/$name.php");
 }
 requireComponent('Eolin.PHP.UnifiedEnvironment');
