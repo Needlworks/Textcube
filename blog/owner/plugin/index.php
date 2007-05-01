@@ -173,6 +173,7 @@ if (!defined('__TEXTCUBE_CENTER__')) {
 										<input type="radio" class="radio" id="blog-scope" name="scopeType" value="blog" onclick="changeList()"<?php echo $_POST['scopeType'] == "blog" ? ' checked="checked"' : '';?> /><label id="blog-scope-label" for="blog-scope"<?php echo $_POST['scopeType'] == "blog" ? ' class="selected"' : '';?>><?php echo _t('블로그');?></label>
 										<input type="radio" class="radio" id="sidebar-scope" name="scopeType" value="sidebar" onclick="changeList()"<?php echo $_POST['scopeType'] == "sidebar" ? ' checked="checked"' : '';?> /><label id="sidebar-scope-label" for="sidebar-scope"<?php echo $_POST['scopeType'] == "sidebar" ? ' class="selected"' : '';?>><?php echo _t('사이드바');?></label>
 										<input type="radio" class="radio" id="admin-scope" name="scopeType" value="admin" onclick="changeList()"<?php echo $_POST['scopeType'] == "admin" ? ' checked="checked"' : '';?> /><label id="admin-scope-label" for="admin-scope"<?php echo $_POST['scopeType'] == "admin" ? ' class="selected"' : '';?>><?php echo _t('관리자');?></label>
+										<input type="radio" class="radio" id="module-scope" name="scopeType" value="module" onclick="changeList()"<?php echo $_POST['scopeType'] == "module" ? ' checked="checked"' : '';?> /><label id="module-scope-label" for="module-scope"<?php echo $_POST['scopeType'] == "module" ? ' class="selected"' : '';?>><?php echo _t('모듈');?></label>
 										<input type="radio" class="radio" id="none-scope" name="scopeType" value="none" onclick="changeList()"<?php echo $_POST['scopeType'] == "none" ? ' checked="checked"' : '';?> /><label id="none-scope-label" for="none-scope"<?php echo $_POST['scopeType'] == "none" ? ' class="selected"' : '';?>><?php echo _t('분류 없음');?></label>
 									</dd>
 								</dl>
@@ -274,6 +275,9 @@ while ($plugin = $dir->read()) {
 			array_push($pluginAttrs[$pluginDir]['scope'], 'global');
 		if ($xmls->doesExist('/plugin/binding/sidebar'))
 			array_push($pluginAttrs[$pluginDir]['scope'], 'sidebar');
+		if ($xmls->doesExist('/plugin/binding/editor')
+			|| $xmls->doesExist('/plugin/binding/formatter'))
+			array_push($pluginAttrs[$pluginDir]['scope'], 'module');
 
 		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
 	}
