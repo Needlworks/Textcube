@@ -2,13 +2,13 @@
 <plugin version="1.0">
   <title xml:lang="ko">키워드 출력</title>
   <title xml:lang="en">Keyword Interface</title>
-  <link>http://www.textcube.com/plugins</link>
+  <link>http://needlworks.org/</link>
   <version>1.0</version>
   <description xml:lang="en">This plugin enables keyword feature in Textcube.</description>
   <description xml:lang="ko">텍스트큐브의 키워드 기능을 사용합니다.</description>
   <license>GPL</license>
-  <author link="http://forum.tattersite.com/en">Tatter &amp; Friends</author>
-  <author xml:lang="ko" link="http://forum.tattersite.com/ko">태터앤프렌즈</author>
+  <author xml:lang="en" link="http://needlworks.org">Needlworks</author>
+  <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
     <textcube>1.1.0</textcube>

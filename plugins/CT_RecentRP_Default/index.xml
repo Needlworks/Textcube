@@ -3,15 +3,15 @@
   <title xml:lang="en">Recent Replies</title>
   <title xml:lang="ko">최근 댓글</title>
    <title xml:lang="ja">最新コメント</title>
- <link>http://www.textcube.com/</link>
+ <link>http://needlworks.org/</link>
   <version>1.2</version>
   <description xml:lang="en">Shows recent replies</description>
   <description xml:lang="ko">최근에 작성된 댓글들을 보여줍니다</description>
   <description xml:lang="ja">最新コメント・プラグ・イン</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://forum.tattersite.com/">Tatter &amp; Friends</author>
-  <author xml:lang="ko" link="http://forum.tattersite.com/">태터앤프렌즈</author>
-  <author xml:lang="ja" link="http://www.textcube.com/">Tatter &amp; Friends</author>
+  <author xml:lang="en" link="http://needlworks.org">Needlworks</author>
+  <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
+  <author xml:lang="ja" link="http://needlworks.org">Needlworks</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
     <textcube>1.1</textcube>

@@ -2,13 +2,13 @@
 <plugin version="1.0">
   <title xml:lang="en">Spacer</title>
   <title xml:lang="ko">빈 줄 표시</title>
-  <link>http://www.textcube.com/</link>
+  <link>http://needlworks.org/</link>
   <version>1.0</version>
   <description xml:lang="en">Insert spacers on sidebar.</description>
   <description xml:lang="ko">사이드바 플러그인 사이의 간격 조절을 위한 빈 줄을 출력해 줍니다.</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://forum.tattersite.com/en">Tatter &amp; Friends</author>
-  <author xml:lang="ko" link="http://forum.tattersite.com/ko">태터앤프렌즈</author>
+  <author xml:lang="en" link="http://needlworks.org">Needlworks</author>
+  <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
     <textcube>1.1</textcube>

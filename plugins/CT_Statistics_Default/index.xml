@@ -2,13 +2,13 @@
 <plugin version="1.0">
   <title xml:lang="en">Statistics</title>
   <title xml:lang="ko">통계</title>
-  <link>http://www.textcube.com/</link>
+  <link>http://needlworks.org/</link>
   <version>1.0</version>
   <description xml:lang="en">Default Blog Statistics Plugin</description>
   <description xml:lang="ko">텍스트큐브 통계 알리미</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://forum.tattersite.com/">Tatter &amp; Friends</author>
-  <author xml:lang="ko" link="http://forum.tattersite.com/">태터앤프렌즈</author>
+  <author xml:lang="en" link="http://needlworks.org">Needlworks</author>
+  <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
     <textcube>1.1</textcube>

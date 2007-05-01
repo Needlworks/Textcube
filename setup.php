@@ -131,7 +131,7 @@ if (empty($_POST['step'])) {
       Homepage: <a href="<?php echo TEXTCUBE_HOMEPAGE;?>"><?php echo TEXTCUBE_HOMEPAGE;?></a></div>
     <div id="content">
       <ol>
-        <li><?php echo _t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 텍스트큐브)의 저작권자는 Tatter &amp; Company와 Tatter &amp; Friends입니다.');?></li>
+        <li><?php echo _t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 텍스트큐브)의 저작권자는 Needlworks / TNF 입니다.');?></li>
         <li><?php echo _t('텍스트큐브는 GPL 라이선스로 제공되며, 모든 사람이 자유롭게 이용할 수 있습니다.');?></li>
         <li><?php echo _t('프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고책임은 모두 사용자에게 있습니다.');?></li>
         <li><?php echo _t('스킨 및 트리, 플러그인의 저작권은 각 제작자에게 있습니다.');?></li>
@@ -1333,6 +1333,12 @@ CREATE TABLE {$_POST['dbPrefix']}UserSettings (
   value text NOT NULL,
   PRIMARY KEY (user,name)
 ) $charset;
+CREATE TABLE {$_POST['dbPrefix']}XMLRPCPingSettings (
+  owner int(11) NOT NULL default 0,
+  url varchar(255) NOT NULL default '',
+  type varchar(32) NOT NULL default 'xmlrpc',
+  PRIMARY KEY (owner)
+} $charset;
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
 INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, language, blogLanguage, timezone) VALUES (1, '$blog', '$baseLanguage', '$baseLanguage', '$baseTimezone');
@@ -1690,7 +1696,7 @@ function testMyself($host, $path, $port) {
         return false;
     fputs($socket, "GET $path HTTP/1.1\r\n");
     fputs($socket, "Host: $host\r\n");
-    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Textcube 1.1 Setup)\r\n");
+    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Textcube 1.5 Setup)\r\n");
     fputs($socket, "Connection: close\r\n");
     fputs($socket, "\r\n");
     $response = '';

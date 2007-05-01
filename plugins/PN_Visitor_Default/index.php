@@ -36,7 +36,7 @@ function PN_Visitor_Default()
 							//<![CDATA[
 								function setTotalStatistics() {
 									if (confirm("방문자의 수를 초기화하면 방문객의 수가 0이 됩니다.\n정말 초기화하시겠습니까?")) {
-										var request = new HTTPRequest("GET", "<?php echo $pluginHandlerURL;?>/AD_Visitor_Default_set&ajaxcall");
+										var request = new HTTPRequest("GET", "<?php echo $pluginHandlerURL;?>/PN_Visitor_Default_set&ajaxcall");
 										request.onSuccess = function() {
 											//document.getElementById("total").innerHTML = 0;
 											window.location = '<?php echo $pluginMenuURL;?>';
@@ -72,7 +72,7 @@ function PN_Visitor_Default()
 							//]]>
 						</script>
 					 		
-					 	<form method="post" action="<?php echo $pluginHandlerURL;?>AD_Visitor_Default_set">
+					 	<form method="post" action="<?php echo $pluginHandlerURL;?>PN_Visitor_Default_set">
 					 		<div id="part-statistics-visitor" class="part">
 					 			<h2 class="caption"><span class="main-text">방문자 통계정보를 보여줍니다</span></h2>
 					 			
@@ -82,7 +82,7 @@ function PN_Visitor_Default()
 										<span class="divider"> : </span>
 										<span id="total"><?php echo number_format($stats['total']);?></span>
 									</div>
-									<a class="init-button button" href="<?php echo $pluginHandlerURL;?>/AD_Visitor_Default_set" onclick="setTotalStatistics(); return false;"><span class="text">초기화</span></a>
+									<a class="init-button button" href="<?php echo $pluginHandlerURL;?>/PN_Visitor_Default_set" onclick="setTotalStatistics(); return false;"><span class="text">초기화</span></a>
 								</div>
 							
 								<hr class="hidden" />
