@@ -1338,7 +1338,7 @@ CREATE TABLE {$_POST['dbPrefix']}XMLRPCPingSettings (
   url varchar(255) NOT NULL default '',
   type varchar(32) NOT NULL default 'xmlrpc',
   PRIMARY KEY (owner)
-} $charset;
+) $charset;
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
 INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, language, blogLanguage, timezone) VALUES (1, '$blog', '$baseLanguage', '$baseLanguage', '$baseTimezone');

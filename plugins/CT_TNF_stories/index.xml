@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="en">TNF stories</title>
+  <title xml:lang="ko">TNF 이야기</title>
+  <link>http://needlworks.org/</link>
+  <version>1.0</version>
+  <description xml:lang="en">Shows stories from TNF official blog.</description>
+  <description xml:lang="ko">TNF의 이야기 블로그를 보여줍니다.</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://needlworks.org">Needlworks</author>
+  <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
+  <requirements>
+    <textcube>1.1</textcube>
+  </requirements>
+  <binding>
+	<center handler="CT_TNF_Stories" />
+  </binding>
+</plugin>
