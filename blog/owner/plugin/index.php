@@ -329,9 +329,6 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	$className .= $active ? ' active-class' : ' inactive-class';
 ?>
 									<tr class="<?php echo $className;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-										<td class="selection">
-											<input type="checkbox" class="checkbox" name="entry" value="<?php echo $pluginDir; ?>" onclick="document.getElementById('allChecked').checked=false; toggleThisPlugin(this);" />
-										</td>
 										<td class="title"><?php echo ($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title);?></td>
 										<td class="version"><?php echo $version;?></td>
 										<td id="plugin<?php echo $i;?>Scope" class="scope">
