@@ -20,6 +20,8 @@
     <adminMenu>
       <viewMethods>
         <method>
+		  <topMenu>plugin</topMenu>
+		  <contentMenuOrder>3</contentMenuOrder>
           <title xml:lang="en">Visitors</title>
           <title xml:lang="ko">방문자 기록</title>
           <title xml:lang="ja">詳細統計</title>
