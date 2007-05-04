@@ -28,6 +28,8 @@ header('Content-Transfer-Encoding: binary');
 header('Last-Modified: ' . Timestamp::getRFC1123GMT($fstat['mtime']));
 header('Content-Length: ' . $fstat['size']);
 header('Content-Type: ' . $attachment['mime']);
+header('Cache-Control: private');
+header('Pragma: no-cache'); 
 header('Connection: close');
 fpassthru($fp);
 fclose($fp);
