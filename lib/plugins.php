@@ -316,7 +316,6 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 						$parameters = $currentSidebarOrder[$j]['parameters'];
 						$pluginURL = "{$service['path']}/plugins/{$plugin}";
 						$pluginPath = ROOT . "/plugins/{$plugin}";
-						$pluginName = $mapping['plugin'];
 						if( !empty( $configMappings[$plugin]['config'] ) ) 				
 							$configVal = getCurrentSetting($plugin);
 						else
