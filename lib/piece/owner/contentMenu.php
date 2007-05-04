@@ -81,7 +81,7 @@ foreach($blogContentMenuItem as $contentMenuItem){
 <?php
 	} else {
 ?>
-						<li id="sub-menu-<?php echo $contentMenuItem['menu'];?>"<?php echo $blogMenu['contentMenu'] == $contentMenuItem['menu'] ? ' class="selected"' : '';?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
+						<li id="sub-menu-<?php echo $contentMenuItem['menu'];?>"<?php echo (($blogMenu['contentMenu'] == $contentMenuItem['menu'] || (isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu']))) ? ' class="selected"' : '');?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
 <?php
 	}
 }

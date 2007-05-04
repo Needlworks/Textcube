@@ -23,7 +23,7 @@
           <title xml:lang="ko">피드 통계</title>
           <handler>PN_Subscription_Default</handler>
 	      <topMenu>entry</topMenu>
-	      <contentMenuOrder>3</contentMenuOrder>
+	      <contentMenuOrder>6</contentMenuOrder>
         </method>
       </viewMethods>
     </adminMenu>
