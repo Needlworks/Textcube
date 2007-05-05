@@ -113,6 +113,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 			if(recentComment)
 				recentComment.innerHTML = "<?php echo str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));?>";
 			window.close();
+			opener.openWindow = '';
 		} catch(e) {
 			// alert(e.message);
 		}
