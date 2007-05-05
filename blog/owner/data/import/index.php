@@ -186,7 +186,8 @@ function scanner($path, $node, $line) {
 	global $migrational, $items;
 	switch ($path) {
 		case '/blog':
-			if (!preg_match('/^textcube\/1\.[01]$/', @$node['.attributes']['type']))
+			if (!preg_match('/^textcube\/1\.[01]$/', @$node['.attributes']['type'])
+			 && !preg_match('/^textcube\/1\.[01]$/', @$node['.attributes']['type']))
 				finish(_t('지원하지 않는 백업파일입니다.'));
 			$migrational = Validator::getBool(@$node['.attributes']['migrational']);
 			return true;
