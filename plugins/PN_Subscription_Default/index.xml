@@ -3,7 +3,7 @@
   <title xml:lang="en">Feed Subscription Log</title>
   <title xml:lang="ko">피드 구독 통계</title>
   <link>http://forum.tattertools.com/ko/</link>
-  <version>1.1.1.1</version>
+  <version>1.5</version>
   <description xml:lang="en">Shows Feed Subscription Log using Tattertools Components.</description>
   <description xml:lang="ko">태터툴즈 컴포넌트를 이용하여 피드 구독 통계를 보여줍니다.</description>
   <license>GPL</license>
@@ -32,23 +32,26 @@
       <fields>
         <field>
           <name>ip</name>
-            <attribute>int</attribute>
-            <length>11</length>
+            <attribute>varchar</attribute>
+            <length>16</length>
+            <isnull>0</isnull>
           </field>
           <field>
             <name>host</name>
             <attribute>varchar</attribute>
-            <length>24</length>
+            <length>64</length>
           </field>
           <field>
             <name>useragent</name>
             <attribute>varchar</attribute>
             <length>128</length>
+            <isnull>0</isnull>
           </field>
           <field>
             <name>referred</name>
             <attribute>int</attribute>
             <length>11</length>
+            <isnull>0</isnull>
             <default>0</default>
           </field>
       </fields>
@@ -59,14 +62,14 @@
       <fields>
           <field>
             <name>ip</name>
-            <attribute>int</attribute>
-            <length>11</length>
+            <attribute>varchar</attribute>
+            <length>16</length>
             <isnull>0</isnull>
           </field>
           <field>
             <name>host</name>
             <attribute>varchar</attribute>
-            <length>24</length>
+            <length>64</length>
             <isnull>0</isnull>
           </field>
           <field>
