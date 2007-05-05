@@ -1,8 +1,8 @@
 <?php
 /* Subscription statistics plugin for Textcube 1.1
    ----------------------------------
-   Version 1.1
-   Tatter and Friends development team.
+   Version 1.5
+   Needlworks development team.
 
    Creator          : inureyes
    Maintainer       : gendoh, inureyes, graphittie
