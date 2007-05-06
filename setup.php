@@ -1114,6 +1114,8 @@ CREATE TABLE {$_POST['dbPrefix']}Entries (
   title varchar(255) NOT NULL default '',
   slogan varchar(255) NOT NULL default '',
   content mediumtext NOT NULL,
+  contentFormatter varchar(32) DEFAULT '' NOT NULL,
+  contentEditor varchar(32) DEFAULT '' NOT NULL,
   location varchar(255) NOT NULL default '/',
   password varchar(32) default NULL,
   acceptComment int(1) NOT NULL default '1',
@@ -1340,6 +1342,7 @@ CREATE TABLE {$_POST['dbPrefix']}XMLRPCPingSettings (
   PRIMARY KEY (owner)
 ) $charset;
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
+INSERT INTO {$_POST['dbPrefix']}UserSettings VALUES (1, 'defaultEditor', 'modern'), (1, 'defaultFormatter', 'ttml');
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
 INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, language, blogLanguage, timezone) VALUES (1, '$blog', '$baseLanguage', '$baseLanguage', '$baseTimezone');
 INSERT INTO {$_POST['dbPrefix']}SkinSettings (owner) VALUES (1);

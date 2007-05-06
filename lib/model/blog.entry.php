@@ -30,7 +30,7 @@ function getEntry($owner, $id, $draft = false) {
 			if (!doesHaveOwnership())
 				return;
 			deleteAttachments($owner, 0);
-			return array('id' => 0, 'draft' => 0, 'visibility' => 0, 'category' => 0, 'location' => '', 'title' => '', 'content' => '', 'acceptComment' => 1, 'acceptTrackback' => 1, 'published' => time(), 'slogan' => '');
+			return array('id' => 0, 'draft' => 0, 'visibility' => 0, 'category' => 0, 'location' => '', 'title' => '', 'content' => '', 'contentFormatter' => getDefaultFormatter(), 'contentEditor' => getDefaultEditor(), 'acceptComment' => 1, 'acceptTrackback' => 1, 'published' => time(), 'slogan' => '');
 		}
 	}
 	if ($draft) {
@@ -397,6 +397,8 @@ function addEntry($owner, $entry) {
 	}
 
 	$content = mysql_tt_escape_string($entry['content']);
+	$contentFormatter = mysql_tt_escape_string($entry['contentFormatter']);
+	$contentEditor = mysql_tt_escape_string($entry['contentEditor']);
 	$password = mysql_tt_escape_string(generatePassword());
 	$location = mysql_tt_escape_string($entry['location']);
 	if (isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
@@ -417,6 +419,8 @@ function addEntry($owner, $entry) {
 			'$title',
 			'$slogan',
 			'$content',
+			'$contentFormatter',
+			'$contentEditor',
 			'$location',
 			'$password',
 			{$entry['acceptComment']},
@@ -499,6 +503,8 @@ function updateEntry($owner, $entry) {
 	
 	$location = mysql_tt_escape_string($entry['location']);
 	$content = mysql_tt_escape_string($entry['content']);
+	$contentFormatter = mysql_tt_escape_string($entry['contentFormatter']);
+	$contentEditor = mysql_tt_escape_string($entry['contentEditor']);
 	switch ($entry['published']) {
 		case 0:
 			$published = 'published';
@@ -518,6 +524,8 @@ function updateEntry($owner, $entry) {
 				location = '$location',
 				title = '$title',
 				content = '$content',
+				contentFormatter = '$contentFormatter',
+				contentEditor = '$contentEditor',
 				slogan = '$slogan',
 				acceptComment = {$entry['acceptComment']},
 				acceptTrackback = {$entry['acceptTrackback']},
@@ -542,6 +550,8 @@ function saveDraftEntry($entry) {
 	$location = mysql_tt_escape_string($entry['location']);
 	$title = mysql_tt_escape_string($entry['title']);
 	$content = mysql_tt_escape_string($entry['content']);
+	$contentFormatter = mysql_tt_escape_string($entry['contentFormatter']);
+	$contentEditor = mysql_tt_escape_string($entry['contentEditor']);
 	$draft = getDraftEntryId($entry['id']);
 	
 	if ($entry['category'] < 0) {
@@ -557,6 +567,8 @@ function saveDraftEntry($entry) {
 					title = '$title',
 					slogan = '',
 					content = '$content',
+					contentFormatter = '$contentFormatter',
+					contentEditor = '$contentEditor',
 					location = '$location',
 					acceptComment = {$entry['acceptComment']},
 					acceptTrackback = {$entry['acceptTrackback']},
@@ -579,6 +591,8 @@ function saveDraftEntry($entry) {
 					'$title',
 					'',
 					'$content',
+					'$contentFormatter',
+					'$contentEditor',
 					'$location',
 					'$password',
 					{$entry['acceptComment']},
@@ -723,7 +737,7 @@ function syndicateEntry($id, $mode) {
 		$summary['language'] = $blog['language'];
 		$summary['permalink'] = "$defaultURL/".($blog['useSlogan'] ? "entry/{$entry['slogan']}": $entry['id']);
 		$summary['title'] = $entry['title'];
-		$summary['content'] = UTF8::lessenAsByte(stripHTML(getEntryContentView($owner, $entry['id'], $entry['content'])), 1023, '');
+		$summary['content'] = UTF8::lessenAsByte(stripHTML(getEntryContentView($owner, $entry['id'], $entry['content'], $entry['contentFormatter'])), 1023, '');
 		$summary['author'] = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
 		$summary['tags'] = array();
 		foreach(DBQuery::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND owner = $owner AND entry = $id ORDER BY name") as $tag)

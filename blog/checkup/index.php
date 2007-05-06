@@ -459,6 +459,21 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Entries id", 'Extra') == 'auto
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries contentFormatter")) { // Since 1.2
+	$changed = true;
+	echo '<li>', _text('글을 쓸 때 사용할 편집기와 포매터를 선택하는 필드를 추가합니다.'), ': ';
+	$defaultformatter = 'ttml';
+	$defaulteditor = 'modern';
+	$result =
+		DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD contentEditor VARCHAR(32) DEFAULT '' NOT NULL AFTER content, ADD contentFormatter VARCHAR(32) DEFAULT '' NOT NULL AFTER content") &&
+		setUserSetting('defaultFormatter', $defaultformatter) && setUserSetting('defaultEditor', $defaulteditor) &&
+		DBQuery::execute("UPDATE {$database['prefix']}Entries SET contentEditor = '".mysql_tt_escape_string($defaulteditor)."', contentFormatter = '".mysql_tt_escape_string($defaultformatter)."';");
+	if ($result)
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));

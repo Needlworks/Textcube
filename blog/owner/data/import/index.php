@@ -293,6 +293,8 @@ function importer($path, $node, $line) {
 			$post->visibility = $node['visibility'][0]['.value'];
 			$post->title = $node['title'][0]['.value'];
 			$post->content = $node['content'][0]['.value'];
+			$post->contentFormatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : getDefaultFormatter();
+			$post->contentEditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : getDefaultEditor();
 			$post->location = $node['location'][0]['.value'];
 			$post->password = isset($node['password'][0]['.value']) ? $node['password'][0]['.value'] : null;
 			$post->acceptComment = $node['acceptComment'][0]['.value'];
@@ -428,6 +430,8 @@ function importer($path, $node, $line) {
 			$notice->visibility = $node['visibility'][0]['.value'];
 			$notice->title = $node['title'][0]['.value'];
 			$notice->content = $node['content'][0]['.value'];
+			$notice->contentFormatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : getDefaultFormatter();
+			$notice->contentEditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : getDefaultEditor();
 			$notice->published = $node['published'][0]['.value'];
 			$notice->created = @$node['created'][0]['.value'];
 			$notice->modified = @$node['modified'][0]['.value'];
@@ -479,6 +483,8 @@ function importer($path, $node, $line) {
 			$keyword->visibility = $node['visibility'][0]['.value'];
 			$keyword->name = $node['name'][0]['.value'];
 			$keyword->description = $node['description'][0]['.value'];
+			$keyword->descriptionEditor = isset($node['description']['.attributes']['editor']) ? $node['description']['.attributes']['editor'] : getDefaultEditor();
+			$keyword->descriptionFormatter = isset($node['description']['.attributes']['formatter']) ? $node['description']['.attributes']['formatter'] : getDefaultFormatter();
 			$keyword->published = $node['published'][0]['.value'];
 			$keyword->created = @$node['created'][0]['.value'];
 			$keyword->modified = @$node['modified'][0]['.value'];
@@ -505,7 +511,7 @@ function importer($path, $node, $line) {
 							user_error(__LINE__ . $attachment->error);
 						$keyword2 = new Keyword();
 						if ($keyword2->open($keyword->id, 'id, content')) {
-							$keyword2->content = str_replace($cursor['name'][0]['.value'], $attachment->name, $keyword2->content);
+							$keyword2->content= str_replace($cursor['name'][0]['.value'], $attachment->name, $keyword2->content);
 							$keyword2->update();
 							$keyword2->close();
 						}

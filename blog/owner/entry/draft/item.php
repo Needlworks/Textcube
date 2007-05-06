@@ -9,6 +9,8 @@ $IV = array(
 		'category' => array('int', 'default' => 0),
 		'title' => array('string'),
 		'content' => array('string'),
+		'contentFormatter' => array('string'),
+		'contentEditor' => array('string'),
 		'permalink' => array('string', 'default' => ''),
 		'location' => array('string', 'default' => '/'),
 		'tag' => array('string', 'default' => ''),
@@ -25,6 +27,8 @@ $entry['visibility'] = $_POST['visibility'];
 $entry['category'] = empty($_POST['category']) ? 0 : $_POST['category'];
 $entry['title'] = $_POST['title'];
 $entry['content'] = $_POST['content'];
+$entry['contentFormatter'] = $_POST['contentFormatter'];
+$entry['contentEditor'] = $_POST['contentEditor'];
 $entry['location'] = empty($_POST['location']) ? '/' : $_POST['location'];
 $entry['tag'] = empty($_POST['tag']) ? '' : $_POST['tag'];
 $entry['acceptComment'] = empty($_POST['acceptComment']) ? 0 : 1;

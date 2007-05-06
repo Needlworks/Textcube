@@ -18,6 +18,9 @@ $configPost  = '';
 $configVal = '';
 $typeSchema = null;
 
+$formatterMapping = array('html' => array('name' => _t('HTML'), 'editors' => array('plain' => '')));
+$editorMapping = array('plain' => array('name' => _t('편집기 없음')));
+
 if (!empty($owner)) {
 	$activePlugins = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE owner = $owner");
 	$xmls = new XMLStruct();
@@ -206,6 +209,47 @@ if (!empty($owner)) {
 				unset($adminMethods);
 				
 			}
+			if ($xmls->doesExist('/plugin/binding/formatter[lang()]')){
+				foreach (array($xmls->selectNode('/plugin/binding/formatter[lang()]')) as $formatter) {
+					if (!isset($formatter['.attributes']['name'])) continue;
+					if (!isset($formatter['.attributes']['id'])) continue;
+					$formatterid = $formatter['.attributes']['id'];
+					$formatterinfo = array('id' => $formatterid, 'name' => $formatter['.attributes']['name'], 'plugin' => $plugin, 'editors' => array());
+					if (isset($formatter['format'][0]['.value'])) $formatterinfo['formatfunc'] = $formatter['format'][0]['.value'];
+					if (isset($formatter['summary'][0]['.value'])) $formatterinfo['summaryfunc'] = $formatter['summary'][0]['.value'];
+					if (isset($formatter['usedFor'])) {
+						foreach ($formatter['usedFor'] as $usedFor) {
+							if (!isset($usedFor['.attributes']['editor'])) continue;
+							$formatterinfo['editors'][$usedFor['.attributes']['editor']] = @$usedFor['.value'];
+						}
+					}
+					$formatterMapping[$formatterid] = $formatterinfo;
+				}
+				unset($formatter);
+				unset($formatterid);
+				unset($formatterinfo);
+				unset($usedFor);
+			}
+			if ($xmls->doesExist('/plugin/binding/editor[lang()]')){
+				foreach (array($xmls->selectNode('/plugin/binding/editor[lang()]')) as $editor) {
+					if (!isset($editor['.attributes']['name'])) continue;
+					if (!isset($editor['.attributes']['id'])) continue;
+					$editorid = $editor['.attributes']['id'];
+					$editorinfo = array('id' => $editorid, 'name' => $editor['.attributes']['name'], 'plugin' => $plugin);
+					if (isset($editor['initialize'][0]['.value'])) $editorinfo['initfunc'] = $editor['initialize'][0]['.value'];
+					if (isset($editor['usedFor'])) {
+						foreach ($editor['usedFor'] as $usedFor) {
+							if (!isset($usedFor['.attributes']['formatter'])) continue;
+							$formatterMapping[$usedFor['.attributes']['formatter']]['editors'][$editorid] = @$usedFor['.value'];
+						}
+					}
+					$editorMapping[$editorid] = $editorinfo;
+				}
+				unset($editor);
+				unset($editorid);
+				unset($editorinfo);
+				unset($usedFor);
+			}
 		} else {
 			$plugin = mysql_tt_escape_string($plugin);
 			DBQuery::query("DELETE FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$plugin'");
@@ -213,7 +257,25 @@ if (!empty($owner)) {
 	}
 	unset($xmls);
 	unset($plugin);
-	
+
+	// sort mapping by its name, with exception for default formatter and editor
+	function _cmpfuncByFormatterName($x, $y) {
+		if ($x == 'html') return -1;
+		if ($y == 'html') return +1;
+		return strcmp($formatterMapping[$x]['name'], $formatterMapping[$y]['name']);
+	}
+	function _cmpfuncByEditorName($x, $y) {
+		if ($x == 'plain') return -1;
+		if ($y == 'plain') return +1;
+		return strcmp($editorMapping[$x]['name'], $editorMapping[$y]['name']);
+	}
+	uksort($editorMapping, '_cmpfuncByEditorName');
+	uksort($formatterMapping, '_cmpfuncByFormatterName');
+	foreach ($formatterMapping as $formatterid => $formatterentry) {
+		uksort($formatterMapping[$formatterid]['editors'], '_cmpfuncByEditorName');
+	}
+	unset($formatterid);
+	unset($formatterentry);
 }
 
 function fireEvent($event, $target = null, $mother = null, $condition = true) {
@@ -563,4 +625,72 @@ function radioTreat( $cmd, $dfVal, $name){
 	}
 	return $DSP;
 }
+
+
+function getDefaultEditor() {
+	global $editorMapping;
+	reset($editorMapping);
+	return getUserSetting('defaultEditor', key($editorMapping));
+}
+
+function getDefaultFormatter() {
+	global $formatterMapping;
+	reset($formatterMapping);
+	return getUserSetting('defaultFormatter', key($formatterMapping));
+}
+
+function& getAllEditors() { global $editorMapping; return $editorMapping; }
+function& getAllFormatters() { global $formatterMapping; return $formatterMapping; }
+
+function getEditorInfo($editor) {
+	global $editorMapping;
+	if (!isset($editorMapping[$editor])) {
+		reset($editorMapping);
+		$editor = key($editorMapping); // gives first declared (thought to be default) editor
+	}
+	if (isset($editorMapping[$editor]['plugin'])) {
+		include_once ROOT . "/plugins/{$editorMapping[$editor]['plugin']}/index.php";
+	}
+	return $editorMapping[$editor];
+}
+
+function getFormatterInfo($formatter) {
+	global $formatterMapping;
+	if (!isset($formatterMapping[$formatter])) {
+		reset($formatterMapping);
+		$formatter = key($formatterMapping); // gives first declared (thought to be default) formatter
+	}
+	if (isset($formatterMapping[$formatter]['plugin'])) {
+		include_once ROOT . "/plugins/{$formatterMapping[$formatter]['plugin']}/index.php";
+	}
+	return $formatterMapping[$formatter];
+}
+
+function formatContent($owner, $id, $content, $formatter, $keywords = array(), $useAbsolutePath = false) {
+	$info = getFormatterInfo($formatter);
+	$func = (isset($info['formatfunc']) ? $info['formatfunc'] : 'FM_default_format');
+	return $func($owner, $id, $content, $keywords, $useAbsolutePath);
+}
+
+function summarizeContent($owner, $id, $content, $formatter, $keywords = array(), $useAbsolutePath = false) {
+	global $blog;
+	$info = getFormatterInfo($formatter);
+	$func = (isset($info['summaryfunc']) ? $info['summaryfunc'] : 'FM_default_summary');
+	// summary function is responsible for shortening the content if needed
+	return $func($owner, $id, $content, $keywords, $useAbsolutePath);
+}
+
+// default formatter functions.
+function FM_default_format($owner, $id, $content, $keywords = array(), $useAbsolutePath = false) {
+	global $service, $hostURL;
+	$basepath = ($useAbsolutePath ? $hostURL : '');
+	return str_replace('[##_ATTACH_PATH_##]', "$basepath{$service['path']}/attach/$owner", $content);
+}
+
+function FM_default_summary($owner, $id, $content, $keywords = array(), $useAbsolutePath = false) {
+	global $blog;
+	if (!$blog['publishWholeOnRSS']) $content = UTF8::lessen(removeAllTags(stripHTML($content)), 255);
+	return $content;
+}
+
 ?>

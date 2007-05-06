@@ -128,7 +128,9 @@ if (!defined('__TEXTCUBE_METAPAGE__')) {
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('자투리는 조각보에 기능을 추가합니다. 이 곳에서 자투리들의 사용 여부를 결정할 수 있습니다.'); ?></p>
 							</div>
-							
+<?php
+}
+?>
 							<fieldset id="plugin-display-box">
 								<legend><?php echo _t('표시될 플러그인 설정');?></legend>
 
@@ -157,6 +159,9 @@ if (!defined('__TEXTCUBE_METAPAGE__')) {
 										<label for="useTTdashboard"><?php echo _t('조각보에 텍스트큐브 독립 패널을 표시합니다.');?></label>
 									</dd>
 								</dl>
+<?php
+}
+?>
 								<dl id="sorting-line" class="line">
 									<dt><?php echo _t('정렬');?></dt>
 									<dd>

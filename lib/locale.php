@@ -23,7 +23,6 @@ Locale::setSkinLocale(isset($blog['blogLanguage']) ? $blog['blogLanguage'] : $se
 
 function _text($t) {
 	global $__skinText;
-	
 	if (isset($__skinText) && isset($__skinText[$t])) {
 		return $__skinText[$t];
 	} else {

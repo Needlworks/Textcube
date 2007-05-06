@@ -39,11 +39,11 @@ function refreshRSS($owner) {
 		return false;
 	$channel['items'] = array();
 	while ($row = mysql_fetch_array($result)) {
-		if (!$blog['publishWholeOnRSS']) {
-			$content = UTF8::lessen(removeAllTags(stripHTML($row['content'])), 255) . "<p><strong><a href=\"$defaultURL/" . ($blog['useSlogan'] ? "entry/{$row['slogan']}" : $row['id']) . "\">" . _t('글 전체보기') . "</a></strong></p>";
-		} else {
-			$content = $row['content'];
-		}
+		$content = getEntryContentView($owner, $row['id'], $row['content'], $row['contentFormatter'], true, 'Post', true, true);
+ 		if (!$blog['publishWholeOnRSS']) {
+			$content .= "<p><strong><a href=\"$defaultURL/" . ($blog['useSlogan'] ? "entry/{$row['slogan']}" : $row['id']) . "\">" . _t('글 전체보기') . "</a></strong></p>";
+ 		}
+
 		$item = array(
 			'id' => $row['id'], 
 			'title' => $row['title'], 
@@ -122,7 +122,7 @@ function publishRSS($owner, $data) {
 		echo '		<item>', CRLF;
 		echo '			<title>', htmlspecialchars($item['title'], ENT_QUOTES), '</title>', CRLF;
 		echo '			<link>', $item['link'], '</link>', CRLF;
-		echo '			<description>', htmlspecialchars(getEntryContentView($owner, $item['id'], $item['description'], true, 'Post', true, true), ENT_QUOTES), '</description>', CRLF;
+		echo '			<description>', htmlspecialchars($item['description'], ENT_QUOTES), '</description>', CRLF;
 		foreach ($item['categories'] as $category) {
 			if ($category = trim($category))
 				echo '			<category>', htmlspecialchars($category, ENT_QUOTES), '</category>', CRLF; 

@@ -18,6 +18,12 @@
 	padding-right                    : 10px;
 }
 
+/* textarea ------------------------------------------------------------------------------------*/
+#textarea-section dl.line
+{
+	padding-bottom                   : 1px;
+}
+
 /* property box --------------------------------------------------------------------------------*/
 .entry-editor-property dl dt
 {

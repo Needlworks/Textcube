@@ -59,7 +59,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										</thead>
 										<tbody>
 											<tr>
-												<td class="id"><a href="mailto:hojin.choi@gmail.com">coolengineer</a></td>
+												<td class="id"><a href="http://coolengineer.com/">coolengineer</a></td>
 												<td class="name">Hojin Choi</td>
 												<td class="role"><?php echo _t('XML-RPC API interface');?></td>
 											</tr>

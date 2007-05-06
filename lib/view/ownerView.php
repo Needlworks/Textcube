@@ -3,6 +3,70 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+function printFormatterSelectScript() {
+?>
+<script type="text/javascript">
+//<![CDATA[
+	function getEditorsForFormatter(key) {
+		switch (key) {
+<?php
+	foreach (getAllFormatters() as $id => $formatter) {
+		echo "\t\tcase '".addslashes($id)."': return [";
+		$delim = '';
+		foreach ($formatter['editors'] as $key => $value) {
+			echo $delim."'".addslashes($key)."'";
+			$delim = ', ';
+		}
+		echo "];\n";
+	}
+?>
+		}
+		return [];
+	}
+
+	function setFormatter(key, editorselect, correct) {
+		var editoroptions = editorselect.options;
+		var editorsusedfor = getEditorsForFormatter(key);
+		var editormap = {};
+		for (var i = 0; i < editorsusedfor.length; ++i) {
+			editormap[editorsusedfor[i]] = true;
+		}
+		var firsteditor = -1;
+		for (var i = 0; i < editoroptions.length; ++i) {
+			if (editormap[editoroptions[i].value]) {
+				editoroptions[i].disabled = false;
+				editoroptions[i].style.color = '';
+				if (firsteditor < 0) firsteditor = i;
+			} else {
+				editoroptions[i].disabled = true;
+				editoroptions[i].style.color = 'GrayText';
+			}
+		}
+		if (correct && !editormap[editorselect.value] && firsteditor >= 0) {
+			editorselect.selectedIndex = firsteditor;
+			if (typeof correct == 'function') correct(editorselect.value);
+		}
+		return true;
+	}
+
+	function saveEditor(select) {
+		select.prevSelectedIndex = select.selectedIndex;
+		return true;
+	}
+
+	function setEditor(select) {
+		if (select.options[select.selectedIndex].disabled) {
+			select.selectedIndex = select.prevSelectedIndex;
+			return false;
+		}
+		select.prevSelectedIndex = select.selectedIndex;
+		return true;
+	}
+//]]>
+</script>
+<?php
+}
+
 function printOwnerEditorScript($entryId = false) {
 	global $owner, $database, $skin, $hostURL, $blogURL, $service;
 	
@@ -17,28 +81,19 @@ function printOwnerEditorScript($entryId = false) {
 			}
 		}
 	}
+
 ?>
 <script type="text/javascript">
 //<![CDATA[
 	var entryId = <?php echo $entryId ? $entryId : 0;?>; 
 	var skinContentWidth = <?php echo $contentWidth;?>;
-	var s_enterURL = "<?php echo _t('URL을 입력하세요.');?>";
-	var s_unknownFileType = "<?php echo _t('알 수 없는 형식의 파일명입니다.');?>";
-	var s_enterObjectTag = "<?php echo _t('OBJECT 태그만 입력하세요.');?>";
-	var s_enterCorrectObjectTag = "<?php echo _t('잘못된 OBJECT 태그입니다.');?>";
-	var s_selectBoxArea = "<?php echo _t('박스로 둘러쌀 영역을 선택해주세요');?>";
-	var s_selectLinkArea = "<?php echo _t('링크를 만들 영역을 선택해주세요');?>";
 
-	window.addEventListener("scroll", function() { editor.setPropertyPosition(); }, false);
-
-	function savePosition() {
-		if (document.forms[0].content.createTextRange)
-			document.forms[0].content.currentPos = document.selection.createRange().duplicate();
-		return true;
+	function savePosition(oTextarea) {
+		if (oTextarea.createTextRange)
+			oTextarea.currentPos = document.selection.createRange().duplicate();
 	}
-	
-	function insertTag(prefix, postfix) {
-		var oTextarea = document.forms[0].content;
+
+	function insertTag(oTextarea, prefix, postfix) {
 		if(isSafari) 
 			var selection = window.getSelection;
 		else
@@ -64,317 +119,41 @@ function printOwnerEditorScript($entryId = false) {
 			
 		return true;	
 	}
-	
-	function insertColorTag(col1) {
-		hideLayer("colorPalette");
-		TTCommand("Color", col1);
+
+	function editorChanged() {
+		if ((entryManager != undefined) && (entryManager.saveAuto != undefined))
+			entryManager.saveAuto();
 	}
-	
-	function insertMarkTag(col1) {
-		hideLayer("markPalette");
-		TTCommand("Mark", col1);
+
+	function getEditor(key) {
+		switch (key) {
+<?php
+	foreach (getAllEditors() as $id => $editor) {
+		getEditorInfo($id); // explicitly loads plugin code
+		if (function_exists($editor['initfunc'])) {
+			echo "\t\tcase '".addslashes($id)."': {\n".call_user_func($editor['initfunc'], &$editor)."\t\t}\n";
+		}
 	}
-	
-	function linkImage1(align, caption) {
-		var oSelect = document.forms[0].fileList;
-		if (oSelect.selectedIndex < 0) {
-			alert("<?php echo _t('파일을 선택하십시오.');?>");
-			return false;
+?>
 		}
-		var value = oSelect.options[oSelect.selectedIndex].value.split("|");
-		var result_w = new RegExp("width=['\"]?(\\d+)").exec(value[1]);
-		var result_h = new RegExp("height=['\"]?(\\d+)").exec(value[1]);
-		caption = (typeof caption == "undefined") ? "" : caption.replaceAll("|", "");
-		if(result_w && result_h)
-		{
-			width = result_w[1];
-			height = result_h[1];
-			if(width > skinContentWidth)
-			{
-				height = parseInt(height * (skinContentWidth / width));
-				value[1] = value[1].replace(new RegExp("width=['\"]?\\d+['\"]?", "gi"), 'width="' + skinContentWidth + '"');
-				value[1] = value[1].replace(new RegExp("height=['\"]?\\d+['\"]?", "gi"), 'height="' + height + '"');
-			}
+		return new TTDefaultEditor(); //null;
+	}
+
+	var editor = null;
+	function setCurrentEditor(key) {
+		if (editor != null) {
+			try { editor.syncTextarea(); } catch(e) {}
+			editor.finalize();
 		}
-		if(editor.isMediaFile(value[0])) {
-			getObject("propertyInsertObject_type").value = "url";
-			getObject("propertyInsertObject_url").value = "<?php echo "$hostURL$blogURL";?>" + "/attachment/" + value[0];
-			TTCommand("InsertObject");
-			return;
-		}
-		try {
-			if(editor.editMode == "WYSIWYG")
-			{
-				var src = editor.propertyFilePath + value[0];
-				var attributes = editor.addQuot(value[1]);
-				
-				if(!(new RegExp("\.(jpe?g|gif|png|bmp)$", "i").test(value[0])))
-				{
-					src = servicePath + adminSkin + "/image/spacer.gif";
-					value[1] = editor.styleUnknown;
-					attributes = "";				
-				}
-				
-				switch(align)
-				{
-					case "1L":
-						var prefix = "<img class=\"tatterImageLeft\" src=\"" + src + "\" " + value[1] + " longdesc=\"1L|" + value[0] + "|" + attributes + "|" + caption + "\" />";
-						break;
-					case "1C":
-						var prefix = "<img class=\"tatterImageCenter\" src=\"" + src + "\" " + value[1] + " longdesc=\"1C|" + value[0] + "|" + attributes + "|" + caption + "\" />";
-						break;
-					case "1R":
-						var prefix = "<img class=\"tatterImageRight\" src=\"" + src + "\" " + value[1] + " longdesc=\"1R|" + value[0] + "|" + attributes + "|" + caption + "\" />";
-						break;
-				}
-				TTCommand("Raw", prefix);
-				return true;
-			}
-		} catch(e) { }
-		insertTag('[##_' + align + '|' + value[0] + '|' + value[1] + '|' + caption + '_##]', "");
+		editor = getEditor(key);
+		if (editor != null) editor.initialize(document.getElementById("editWindow"));
 		return true;
 	}
-	
-	function linkImage2() {
-		var oSelect = document.forms[0].fileList;
-		var count = 0;
-		var prefix = '';
-		for (var i = 0; i < oSelect.options.length; i++) {
-			if (oSelect.options[i].selected == true) {
-				var value = oSelect.options[i].value.split("|");
-				var result_w = new RegExp("width=['\"]?(\\d+)").exec(value[1]);
-				var result_h = new RegExp("height=['\"]?(\\d+)").exec(value[1]);
-				if(result_w && result_h)
-				{
-					width = result_w[1];
-					height = result_h[1];
-					if(width > skinContentWidth / 2)
-					{
-						height = parseInt(height * (skinContentWidth / 2 / width));
-						value[1] = value[1].replace(new RegExp("width=['\"]?\\d+['\"]?", "gi"), 'width="' + parseInt(skinContentWidth / 2) + '"');
-						value[1] = value[1].replace(new RegExp("height=['\"]?\\d+['\"]?", "gi"), 'height="' + height + '"');
-					}
-				}
-				prefix = prefix + '^' + value[0] + '|' + value[1] + '|';
-				count ++;
-			}
-		}
-		if (count != 2) {
-			alert("<?php echo _t('파일 리스트에서 이미지를 2개 선택해 주십시오. (ctrl + 마우스 왼쪽 클릭)');?>");
-			return false;
-		}
-		var imageinfo = prefix.split("^");
-		try {
-			if(editor.editMode == "WYSIWYG") {			
-				var prefix = '<img class="tatterImageDual" src="' + servicePath + adminSkin + '/image/spacer.gif" width="200" height="100" longdesc="2C|' + editor.addQuot(imageinfo[1]) + '|' + editor.addQuot(imageinfo[2]) + '" />';
-				TTCommand("Raw", prefix);
-				return true;
-			}
-		} catch(e) { }
-		insertTag('[##_2C|' + imageinfo[1] + '|' + imageinfo[2] + '_##]', '');
-		return true;
-	}
-	
-	function linkImage3() {
-		var oSelect = document.forms[0].fileList;
-		var count = 0;
-		var prefix = '';
-		for (var i = 0; i < oSelect.options.length; i++) {
-			if (oSelect.options[i].selected == true) {
-				var value = oSelect.options[i].value.split("|");
-				var result_w = new RegExp("width=['\"]?(\\d+)").exec(value[1]);
-				var result_h = new RegExp("height=['\"]?(\\d+)").exec(value[1]);
-				if(result_w && result_h)
-				{
-					width = result_w[1];
-					height = result_h[1];
-					if(width > skinContentWidth / 3)
-					{
-						height = parseInt(height * (skinContentWidth / 3 / width));
-						value[1] = value[1].replace(new RegExp("width=['\"]?\\d+['\"]?", "gi"), 'width="' + parseInt(skinContentWidth / 3) + '"');
-						value[1] = value[1].replace(new RegExp("height=['\"]?\\d+['\"]?", "gi"), 'height="' + height + '"');
-					}
-				}
-				prefix = prefix + '^' + value[0] + '|' + value[1] + '|';
-				count++;
-			}
-		}
-		if (count != 3) {
-			alert("<?php echo _t('파일 리스트에서 이미지를 3개 선택해 주십시오. (ctrl + 마우스 왼쪽 클릭)');?>");
-			return false;
-		}
-		var imageinfo = prefix.split("^");
-		try {
-			if(editor.editMode == "WYSIWYG") {
-				var prefix = '<img class="tatterImageTriple" src="' + servicePath + adminSkin + '/image/spacer.gif" width="300" height="100" longdesc="3C|' + editor.addQuot(imageinfo[1]) + '|' + editor.addQuot(imageinfo[2]) + '|' + editor.addQuot(imageinfo[3]) + '" />';
-				TTCommand("Raw", prefix);
-				return true;
-			}
-		} catch(e) { }
-		insertTag('[##_3C|' + imageinfo[1] + '|' + imageinfo[2] + '|' + imageinfo[3] + '_##]', '');
-		return true;
-	}
-	
-	function linkImageFree() {
-		var isWYSIWYG = false;
-		try {
-			if(editor.editMode == "WYSIWYG")
-				isWYSIWYG = true;
-		} catch(e) { }		
-		var oSelect = document.forms[0].fileList;
-		var prefix = '';
-		for (var i = 0; i < oSelect.options.length; i++) {
-			if (oSelect.options[i].selected == true) {
-				var value = oSelect.options[i].value.split("|");
-				if(new RegExp("\\.(gif|jpe?g|png|bmp)$", "i").test(value[0])) {
-					if(isWYSIWYG)
-						prefix += '<img class="tatterImageFree" src="' + editor.propertyFilePath + value[0] + '" longdesc="[##_ATTACH_PATH_##]/' + value[0] + '" ' + value[1] + ' />';
-					else
-						prefix += '<img src="[##_ATTACH_PATH_##]/' + value[0] + '" ' + value[1] + ' />';
-				}
-			}
-		}
-		TTCommand("Raw", prefix);
-		return true;
-	}
-	
-	var iMazingProperties = new Array();
-	iMazingProperties['width'] = 450;
-	iMazingProperties['height'] = 350;
-	iMazingProperties['frame'] = 'net_imazing_frame_none';
-	iMazingProperties['transition'] = 'net_imazing_show_window_transition_alpha';
-	iMazingProperties['navigation'] = 'net_imazing_show_window_navigation_simple';
-	iMazingProperties['slideshowInterval'] = 10;
-	iMazingProperties['page'] = 1;
-	iMazingProperties['align'] = 'h';
-	iMazingProperties['skinPath'] = '<?php echo $service['path'];?>/script/gallery/iMazing/';
-	
-	function viewImazing()
-	{
-		try
-		{
-			var oSelect = document.forms[0].fileList;
-			if (oSelect.selectedIndex < 0) {
-				alert("<?php echo _t('파일을 선택하십시오');?>");
-				return false;
-			}
-			var value = oSelect.options[oSelect.selectedIndex].value.split("|");
-			
-			var fileList = '';
-			var ignored = false;
-			for (var i = 0; i<oSelect.length; i++) {
-				if (!oSelect.options[i].selected) continue;
-				file = (oSelect[i].value.substr(oSelect[i].value,oSelect[i].value.indexOf('|')));				
-				if(new RegExp("\\.(jpe?g|gif|png)$", "gi").exec(file))
-					fileList += file+'||';
-				else
-					ignored = true;
-			}
-			if(fileList == '') {
-				alert("<?php echo _t('이미지 파일만 적용할 수 있습니다');?>");
-				return false;
-			}
-			if(ignored)
-				alert("<?php echo _t('iMazing 갤러리는 JPG,PNG,GIF 파일만 지원됩니다\n그 외의 형식은 목록에서 제외했습니다');?>");
-			fileList = fileList.substr(0,fileList.length-1);
-			var Properties = '';
-			for (var name in iMazingProperties) {
-				Properties += name+'='+iMazingProperties[name]+' ';
-			}
-			try {
-				if(editor.editMode == "WYSIWYG") {
-					TTCommand("Raw", '<img class="tatterImazing" src="' + servicePath + adminSkin + '/image/spacer.gif" width="400" height="300" longdesc="iMazing|' + fileList + '|' + Properties + '|" />');
-					return true;
-				}
-			} catch(e) { }
-	
-			insertTag('[##_iMazing|' + fileList + '|' + Properties +'|_##]', '');
-			return true;
-		} catch(e) {
-			return false;
-		}
-	}
-	
-	function viewGallery()
-	{
-		try
-		{
-			var oSelect = document.forms[0].fileList;
-			if (oSelect.selectedIndex < 0) {
-				alert("<?php echo _t('파일을 선택하십시오.');?>");
-				return false;
-			}
-			var value = oSelect.options[oSelect.selectedIndex].value.split("|");
-			
-			var fileList = '';
-			for (var i = 0; i<oSelect.length; i++) {
-				if (!oSelect.options[i].selected) continue;
-				file = (oSelect[i].value.substr(oSelect[i].value,oSelect[i].value.indexOf('|')));
-				if(new RegExp("\\.(gif|jpe?g|png)$", "gi").exec(file))
-					fileList += file+'||';
-			}
-			if(fileList == '') {
-				alert("<?php echo _t('이미지 파일만 삽입 가능합니다.');?>");
-				return false;
-			}
-			fileList = fileList.substr(0,fileList.length-1);
-			try {
-				if(editor.editMode == "WYSIWYG") {
-					TTCommand("Raw", '<img class="tatterGallery" src="' + servicePath + adminSkin + '/image/spacer.gif" width="400" height="300" longdesc="Gallery|' + fileList + '|width=&quot;400&quot; height=&quot;300&quot;" />');
-					return true;
-				}
-			} catch(e) { }
-			insertTag('[##_Gallery|' + fileList + '|width="400" height="300"_##]', '');
-			return true;
-		} catch(e) {
-			return false;
-		}
-	}	
-	
-	function viewJukebox()
-	{
-		try
-		{
-			var oSelect = document.forms[0].fileList;
-			if (oSelect.selectedIndex < 0) {
-				alert("<?php echo _t('파일을 선택하십시오.');?>");
-				return false;
-			}
-			var value = oSelect.options[oSelect.selectedIndex].value.split("|");
-			
-			var fileList = '';
-			for (var i = 0; i<oSelect.length; i++) {
-				if (!oSelect.options[i].selected) continue;
-				file = (oSelect[i].value.substr(oSelect[i].value,oSelect[i].value.indexOf('|')));
-				if(new RegExp("\\.mp3$", "gi").exec(file))
-				{
-					fileList += file + "|";
-					if(result = new RegExp("(.*)\\.mp3", "gi").exec(oSelect.options[i].text))
-						fileList += result[1].replaceAll("|","") + "|";
-					else
-						fileList += "|";
-				}
-			}
-			if(fileList == '') {
-				alert("<?php echo _t('MP3 파일만 삽입 가능합니다.');?>");
-				return false;
-			}
-			fileList = fileList.substr(0,fileList.length-1);
-			try {
-				if(editor.editMode == "WYSIWYG") {
-					TTCommand("Raw", '<img class="tatterJukebox" src="' + servicePath + adminSkin + '/image/spacer.gif" width="200" height="30" longdesc="Jukebox|' + fileList + '|autoplay=0 visible=1|" />');
-					return true;
-				}
-			} catch(e) { }
-			insertTag('[##_Jukebox|' + fileList + '|autoplay=0 visible=1|_##]', '');
-			return true;
-		} catch(e) {
-			return false;
-		}
-	}	
 //]]>
 </script>
 <?php
+
+	printFormatterSelectScript();
 }
 
 function printEntryFileList($attachments, $param) {
@@ -938,812 +717,6 @@ function printEntryFileUploadButton($entryId) {
 												<?php echo getAttachmentSizeLabel($owner, $entryId);?>
 											</div>
 											<div id="fileDownload" class="system-message" style="display: none;"></div>
-										</div>
-<?php
-}
-
-function printEntryEditorProperty($alt=NULL) {
-	global $service;
-	$fixPosition = getUserSetting('editorPropertyPositionFix', 0);
-?>
-											<script type="text/javascript">
-												//<![CDATA[
-													function checkResampling(flag, type, num) {
-														resampleCheckbox = document.getElementById("propertyImage" + type + "_resample" + num);
-														watermarkCheckbox = document.getElementById("propertyImage" + type + "_watermark" + num);
-														
-														if (flag == "resample" && resampleCheckbox.checked == false && watermarkCheckbox.checked == true)
-															watermarkCheckbox.checked = false;
-														else if (flag == "watermark" && watermarkCheckbox.checked == true && resampleCheckbox.checked == false)
-															resampleCheckbox.checked = true;
-													}
-												//]]>
-											</script>
-												
-											<div id="propertyHyperLink" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyHyperLink-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyHyperLink-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('하이퍼링크');?></h4>
-												
-												<div class="group">
-													<dl class="line">
-														<dt class="property-name"><label for="propertyInsertObject_url"><?php echo _t('URL');?></label></dt>
-														<dd><input type="text" id="propertyHyperLink_url" class="input-text" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyInsertObject_type"><?php echo _t('대상');?></label></dt>
-														<dd>
-															<select id="propertyHyperLink_target" style="width: 105px" >
-																<option value="_blank"><?php echo _t('새창');?></option>
-																<option value="_self"><?php echo _t('현재창');?></option>
-																<option value=""><?php echo _t('사용 안함');?></option>
-															</select>
-														</dd>
-													</dl>
-												</div>
-												<div class="button-box">
-													<span class="insert-button button" onclick="TTCommand('ExcuteCreateLink')"><span class="text"><?php echo _t('적용하기');?></span></span>
-													<span class="divider"> | </span>
-													<span class="cancel-button button" onclick="TTCommand('CancelCreateLink')"><span class="text"><?php echo _t('취소하기');?></span></span>
-												</div>
-											</div>
-
-											<div id="propertyInsertObject" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyInsertObject-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyInsertObject-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('오브젝트 삽입');?></h4>
-												
-												<div class="group">
-													<dl class="line">
-														<dt class="property-name"><label for="propertyInsertObject_type"><?php echo _t('유형');?></label></dt>
-														<dd>
-															<select id="propertyInsertObject_type" style="width: 105px" onchange="getObject('propertyInsertObject_part_url').style.display=getObject('propertyInsertObject_part_raw').style.display='none';getObject('propertyInsertObject_part_' + this.value).style.display = 'block'">
-																<option value="url"><?php echo _t('주소입력');?></option>
-																<option value="raw"><?php echo _t('코드 붙여넣기');?></option>
-															</select>
-														</dd>
-													</dl>
-													<dl id="propertyInsertObject_part_url" class="line">
-														<dt class="property-name"><label for="propertyInsertObject_url"><?php echo _t('파일 주소');?></label></dt>
-														<dd><input type="text" id="propertyInsertObject_url" class="input-text" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl id="propertyInsertObject_part_raw" class="line" style="display: none">
-														<dt class="property-name"><label for="propertyInsertObject_chunk"><?php echo _t('코드');?></label></dt>
-														<dd>
-															<textarea id="propertyInsertObject_chunk" cols="30" rows="10"></textarea>
-														</dd>
-													</dl>
-												</div>
-												<div class="button-box">
-													<span class="insert-button button" onclick="TTCommand('InsertObject')"><span class="text"><?php echo _t('삽입하기');?></span></span>
-													<span class="divider"> | </span>
-													<span class="cancel-button button" onclick="TTCommand('HideObjectBlock')"><span class="text"><?php echo _t('취소하기');?></span></span>
-												</div>
-											</div>
-											
-											<div id="propertyImage1" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyImage1-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyImage1-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('Image');?></h4>
-												
-												<div class="group">
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage1_width1"><?php echo _t('폭');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage1_width1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage1_alt1"><?php echo _t('대체 텍스트');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage1_alt1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage1_caption1"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyImage1_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
-													</dl>
-<?php
-	if (extension_loaded('gd')) {
-?>
-													<dl class="resample-property-box line">
-														<dd>
-															<input type="checkbox" id="propertyImage1_resample1" onclick="checkResampling('resample', 1, 1); editor.setProperty()" /> <label for="propertyImage1_resample1"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
-															<input type="checkbox" id="propertyImage1_watermark1" onclick="checkResampling('watermark', 1, 1); editor.setProperty()" /> <label for="propertyImage1_watermark1"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
-														</dd>
-													</dl>
-<?php
-	}
-?>
-												</div>
-											</div>
-											
-											<div id="propertyImage2" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyImage2-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyImage2-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('Image');?></h4>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('첫번째 이미지');?></div>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage2_width1"><?php echo _t('폭');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage2_width1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage2_alt1"><?php echo _t('대체 텍스트');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage2_alt1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage2_caption1"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyImage2_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
-													</dl>
-<?php
-	if (extension_loaded('gd')) {
-?>
-													<dl class="resample-property-box line">
-														<dd>
-															<input type="checkbox" id="propertyImage2_resample1" onclick="checkResampling('resample', 2, 1); editor.setProperty()" /> <label for="propertyImage2_resample1"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
-															<input type="checkbox" id="propertyImage2_watermark1" onclick="checkResampling('watermark', 2, 1); editor.setProperty()" /> <label for="propertyImage2_watermark1"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
-														</dd>
-													</dl>
-<?php
-	}
-?>
-												</div>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('두번째 이미지');?></div>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage2_width2"><?php echo _t('폭');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage2_width2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage2_alt2"><?php echo _t('대체 텍스트');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage2_alt2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage2_resample2"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyImage2_caption2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
-													</dl>
-<?php
-	if (extension_loaded('gd')) {
-?>
-													<dl class="resample-property-box line">
-														<dd>
-															<input type="checkbox" id="propertyImage2_resample2" onclick="checkResampling('resample', 2, 2); editor.setProperty()" /> <label for="propertyImage2_resample2"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
-															<input type="checkbox" id="propertyImage2_watermark2" onclick="checkResampling('watermark', 2, 2); editor.setProperty()" /> <label for="propertyImage2_watermark2"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
-														</dd>
-													</dl>
-<?php
-	}
-?>
-												</div>
-											</div>
-											
-											<div id="propertyImage3" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyImage3-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyImage3-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('Image');?></h4>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('첫번째 이미지');?></div>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_width1"><?php echo _t('폭');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage3_width1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_alt1"><?php echo _t('대체 텍스트');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage3_alt1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_caption1"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyImage3_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
-													</dl>
-<?php
-	if (extension_loaded('gd')) {
-?>
-													<dl class="resample-property-box line">
-														<dd>
-															<input type="checkbox" id="propertyImage3_resample1" onclick="checkResampling('resample', 3, 1); editor.setProperty()" /> <label for="propertyImage3_resample1"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
-															<input type="checkbox" id="propertyImage3_watermark1" onclick="checkResampling('watermark', 3, 1); editor.setProperty()" /> <label for="propertyImage3_watermark1"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
-														</dd>
-													</dl>
-<?php
-	}
-?>
-												</div>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('두번째 이미지');?></div>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_width2"><?php echo _t('폭');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage3_width2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_alt2"><?php echo _t('대체 텍스트');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage3_alt2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_caption2"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyImage3_caption2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
-													</dl>
-<?php
-	if (extension_loaded('gd')) {
-?>
-													<dl class="resample-property-box line">
-														<dd>
-															<input type="checkbox" id="propertyImage3_resample2" onclick="checkResampling('resample', 3, 2); editor.setProperty()" /> <label for="propertyImage3_resample2"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
-															<input type="checkbox" id="propertyImage3_watermark2" onclick="checkResampling('watermark', 3, 2); editor.setProperty()" /> <label for="propertyImage3_watermark2"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
-														</dd>
-													</dl>
-<?php
-	}
-?>
-												</div>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('세번째 이미지');?></div>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_width3"><?php echo _t('폭');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage3_width3" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_alt3"><?php echo _t('대체 텍스트');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyImage3_alt3" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyImage3_caption3"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyImage3_caption3" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
-													</dl>
-<?php
-	if (extension_loaded('gd')) {
-?>
-													<dl class="resample-property-box line">
-														<dd>
-															<input type="checkbox" id="propertyImage3_resample3" onclick="checkResampling('resample', 3, 3); editor.setProperty()" /> <label for="propertyImage3_resample3"><?php echo _t('이미지에 리샘플링을 적용합니다.');?></label><br />
-															<input type="checkbox" id="propertyImage3_watermark3" onclick="checkResampling('watermark', 3, 3); editor.setProperty()" /> <label for="propertyImage3_watermark3"><?php echo _t('이미지에 워터마크를 찍습니다.');?></label>
-														</dd>
-													</dl>
-<?php
-	}
-?>
-												</div>
-											</div>
-											
-											<div id="propertyObject" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyObject-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyObject-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('Object');?></h4>
-												
-												<div class="group">
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject_width"><?php echo _t('폭');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyObject_width" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject_height"><?php echo _t('높이');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyObject_height" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject_chunk"><?php echo _t('코드');?></label></dt>
-														<dd><textarea id="propertyObject_chunk" cols="30" rows="10" onkeyup="editor.setProperty()"></textarea></dd>
-													</dl>
-												</div>
-											</div>
-											
-											<div id="propertyObject1" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyObject1-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyObject1-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('Object 1');?></h4>
-												
-												<div class="group">
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject1_caption1"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyObject1_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject1_filename1"><?php echo _t('파일명');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyObject1_filename1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-												</div>
-											</div>
-											
-											<div id="propertyObject2" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyObject2-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyObject2-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('Object');?></h4>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('첫번째 오브젝트');?></div>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject2_caption1"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyObject2_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject2_filename1"><?php echo _t('파일명');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyObject2_filename1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-												</div>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('두번째 오브젝트');?></div>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject2_caption2"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyObject2_caption2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject2_filename2"><?php echo _t('파일명');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyObject2_filename2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-												</div>
-											</div>
-											
-											<div id="propertyObject3" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyObject3-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyObject3-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('Object');?></h4>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('첫번째 오브젝트');?></div>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject3_caption1"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyObject3_caption1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject3_filename1"><?php echo _t('파일명');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyObject3_filename1" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-												</div>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('두번째 오브젝트');?></div>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject3_caption2"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyObject3_caption2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject3_filename2"><?php echo _t('파일명');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyObject3_filename2" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-												</div>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('세번째 오브젝트');?></div>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject3_caption3"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyObject3_caption3" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyObject3_filename3"><?php echo _t('파일명');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyObject3_filename3" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-												</div>
-											</div>
-											
-											<div id="propertyiMazing" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyiMazing-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyiMazing-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('iMazing');?></h4>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('설정');?></div>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyiMazing_width"><?php echo _t('폭');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyiMazing_width" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyiMazing_height"><?php echo _t('높이');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyiMazing_height" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyiMazing_frame"><?php echo _t('테두리');?></label></dt>
-														<dd>
-															<select id="propertyiMazing_frame" onchange="editor.setProperty()">
-																<option value="net_imazing_frame_none"><?php echo _t('테두리 없음');?></option>
-															</select>
-														</dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyiMazing_tran"><?php echo _t('장면전환효과');?></label></dt>
-														<dd>
-															<select id="propertyiMazing_tran" onchange="editor.setProperty()">
-																<option value="net_imazing_show_window_transition_none"><?php echo _t('효과없음');?></option>
-																<option value="net_imazing_show_window_transition_alpha"><?php echo _t('투명전환');?></option>
-																<option value="net_imazing_show_window_transition_contrast"><?php echo _t('플래쉬');?></option>
-																<option value="net_imazing_show_window_transition_sliding"><?php echo _t('슬라이딩');?></option>
-															</select>
-														</dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyiMazing_nav"><?php echo _t('내비게이션');?></label></dt>
-														<dd>
-															<select id="propertyiMazing_nav" onchange="editor.setProperty()">
-																<option value="net_imazing_show_window_navigation_none"><?php echo _t('기본');?></option>
-																<option value="net_imazing_show_window_navigation_simple"><?php echo _t('심플');?></option>
-																<option value="net_imazing_show_window_navigation_sidebar"><?php echo _t('사이드바');?></option>
-															</select>
-														</dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><?php echo _t('슬라이드쇼 간격');?></dt>
-														<dd><input type="text" class="input-text" id="propertyiMazing_sshow" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><?php echo _t('화면당 이미지 수');?></dt>
-														<dd><input type="text" class="input-text" id="propertyiMazing_page" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyiMazing_align"><?php echo _t('정렬방법');?></label></dt>
-														<dd>
-															<select id="propertyiMazing_align" onchange="editor.setProperty()">
-																<option value="h"><?php echo _t('가로');?></option>
-																<option value="v"><?php echo _t('세로');?></option>
-															</select>
-														</dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyiMazing_caption"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyiMazing_caption" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
-													</dl>
-												</div>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('파일');?></div>
-													<dl class="file-list-line line">
-														<dd>
-															<select id="propertyiMazing_list" class="file-list" size="10" onchange="editor.listChanged('propertyiMazing_list')" onclick="editor.listChanged('propertyiMazing_list')"></select>
-														</dd>
-													</dl>
-													<div class="button-box">
-														<span class="up-button button" onclick="editor.moveUpFileList('propertyiMazing_list')" title="<?php echo _t('선택한 항목을 위로 이동합니다.');?>"><span class="text"><?php echo _t('위로');?></span></span>
-														<span class="divider"> | </span>
-														<span class="dn-button button" onclick="editor.moveDownFileList('propertyiMazing_list')" title="<?php echo _t('선택한 항목을 아래로 이동합니다.');?>"><span class="text"><?php echo _t('아래로');?></span></span>
-													</div>
-													<div id="propertyiMazing_preview" class="preview-box" style="display: none;"></div>
-												</div>
-											</div>
-											
-											<div id="propertyGallery" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyGallery-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyGallery-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('Gallery');?></h4>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('설정');?></div>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyGallery_width"><?php echo _t('최대너비');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyGallery_width" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyGallery_height"><?php echo _t('최대높이');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyGallery_height" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyGallery_caption"><?php echo _t('자막');?></label></dt>
-														<dd><textarea class="input-text" id="propertyGallery_caption" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>
-													</dl>
-												</div>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('파일');?></div>
-													<dl class="file-list-line line">
-														<dd>
-															<select id="propertyGallery_list" class="file-list" size="10" onchange="editor.listChanged('propertyGallery_list')" onclick="editor.listChanged('propertyGallery_list')"></select>
-														</dd>
-													</dl>
-													<div class="button-box">
-														<span class="up-button button" onclick="editor.moveUpFileList('propertyGallery_list')" title="<?php echo _t('선택한 항목을 위로 이동합니다.');?>"><span class="text"><?php echo _t('위로');?></span></span>
-														<span class="divider"> | </span>
-														<span class="dn-button button" onclick="editor.moveDownFileList('propertyGallery_list')" title="<?php echo _t('선택한 항목을 아래로 이동합니다.');?>"><span class="text"><?php echo _t('아래로');?></span></span>
-													</div>
-													<div id="propertyGallery_preview" class="preview-box" style="display: none;"></div>
-												</div>
-											</div>
-											
-											<div id="propertyJukebox" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyJukebox-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyJukebox-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('Jukebox');?></h4>
-												
-												<div class="group">
-													<dl class="line">
-														<dt class="property-name"><label for="propertyJukebox_title"><?php echo _t('제목');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyJukebox_title" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyJukebox_autoplay"><?php echo _t('자동재생');?></label></dt>
-														<dd><input type="checkbox" id="propertyJukebox_autoplay" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyJukebox_visibility"><?php echo _t('플레이어 보이기');?></label></dt>
-														<dd><input type="checkbox" id="propertyJukebox_visibility" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-												</div>
-												
-												<div class="group">
-													<div class="title"><?php echo _t('파일');?></div>
-													<dl class="line">
-														<dd>
-															<select id="propertyJukebox_list" class="file-list" size="10" onchange="editor.listChanged('propertyJukebox_list')" onclick="editor.listChanged('propertyJukebox_list')"></select>
-														</dd>
-													</dl>
-													<div class="button-box">
-														<span class="up-button button" onclick="editor.moveUpFileList('propertyJukebox_list')" title="<?php echo _t('선택한 항목을 위로 이동합니다.');?>"><span class="text"><?php echo _t('위로');?></span></span>
-														<span class="divider"> | </span>
-														<span class="dn-button button" onclick="editor.moveDownFileList('propertyJukebox_list')" title="<?php echo _t('선택한 항목을 아래로 이동합니다.');?>"><span class="text"><?php echo _t('아래로');?></span></span>
-													</div>
-												</div>
-											</div>
-											
-											<div id="propertyEmbed" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyEmbed-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyEmbed-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('Embed');?></h4>
-												
-												<div class="group">
-													<dl class="line">
-														<dt class="property-name"><label for="propertyEmbed_width"><?php echo _t('폭');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyEmbed_width" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyEmbed_height"><?php echo _t('높이');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyEmbed_height" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyEmbed_src"><acronym class="text" title="Uniform Resource Locator">URL</acronym></label></dt>
-														<dd><input type="text" class="input-text" id="propertyEmbed_src" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-												</div>
-											</div>
-											
-											<div id="propertyFlash" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyFlash-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyFlash-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('Embed');?></h4>
-												
-												<div class="group">
-													<dl class="line">
-														<dt class="property-name"><label for="propertyFlash_width"><?php echo _t('폭');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyFlash_width" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyFlash_height"><?php echo _t('높이');?></label></dt>
-														<dd><input type="text" class="input-text" id="propertyFlash_height" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyFlash_src">URL</label></dt>
-														<dd><input type="text" class="input-text" id="propertyFlash_src" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-												</div>
-											</div>
-											
-											<div id="propertyMoreLess" class="entry-editor-property" style="display: none;">
-												<div class="entry-editor-property-option">
-													<input type="checkbox" class="checkbox" id="propertyMoreLess-fix-position" onclick="editor.setPropertyPosition(1)"<?php echo $fixPosition?' checked="checked"' : '';?>/>
-													<label for="propertyMoreLess-fix-position"><?php echo _t('위치 고정');?></label>
-												</div>
-												<h4><?php echo _t('More/Less');?></h4>
-												
-												<div class="group">
-													<dl class="line">
-														<dt class="property-name"><label for="propertyMoreLess_more">More Text</label></dt>
-														<dd><input type="text" class="input-text" id="propertyMoreLess_more" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-													<dl class="line">
-														<dt class="property-name"><label for="propertyMoreLess_less">Less Text</label></dt>
-														<dd><input type="text" class="input-text" id="propertyMoreLess_less" onkeyup="editor.setProperty()" onkeypress="return preventEnter(event);" /></dd>
-													</dl>
-												</div>
-											</div>
-<?php
-}
-function printEntryEditorPalette() {
-	global $owner, $service;
-?>
-										<div id="editor-palette" class="container">
-											<dl class="font-relatives">
-												<dt class="title">
-													<span class="label"><?php echo _t('폰트 설정');?></span>
-												</dt>
-												<dd class="command-box">
-													<select id="fontFamilyChanger" onchange="editor.execCommand('fontname', false, this.value); this.selectedIndex=0;">
-														<option class="head-option"><?php echo _t('글자체');?></option>
-<?php
-	$fontSet = explode('|', _t('fontDisplayName:fontCode:fontFamily'));
-	for($i=1; $i<count($fontSet); $i++) {
-		$fontInfo = explode(':', $fontSet[$i]);
-		if(count($fontInfo) == 3)
-			echo "														<option style=\"font-family: '$fontInfo[1]';\" value=\"'$fontInfo[1]', '$fontInfo[2]'\">$fontInfo[0]</option>";
-		}
-?>
-														<option style="font-family: 'Andale Mono';" value="'andale mono',times">Andale Mono</option>
-														<option style="font-family: 'Arial';" value="arial,helvetica,sans-serif">Arial</option>
-														<option style="font-family: 'Arial Black';" value="'arial black',avant garde">Arial Black</option>
-														<option style="font-family: 'Book Antiqua';" value="'book antiqua',palatino">Book Antiqua</option>
-														<option style="font-family: 'Comic Sans MS';" value="'comic sans ms',sand">Comic Sans MS</option>
-														<option style="font-family: 'Courier New';" value="'courier new',courier,monospace">Courier New</option>
-														<option style="font-family: 'Georgia';" value="georgia,'times new roman',times,serif">Georgia</option>
-														<option style="font-family: 'Helvetica';" value="helvetica">Helvetica</option>
-														<option style="font-family: 'Impact';" value="impact,chicago">Impact</option>
-														<option style="font-family: 'Symbol';" value="symbol">Symbol</option>
-														<option style="font-family: 'Tahoma';" value="tahoma,arial,helvetica,sans-serif">Tahoma</option>
-														<option style="font-family: 'Terminal';" value="terminal,monaco">Terminal</option>
-														<option style="font-family: 'Times New Roman';" value="'times new roman',times,serif">Times New Roman</option>
-														<option style="font-family: 'Trebuchet MS';" value="'trebuchet ms',geneva">Trebuchet MS</option>
-														<option style="font-family: 'Verdana';" value="verdana,arial,helvetica,sans-serif">Verdana</option>
-														<option style="font-family: 'Webdings';" value="webdings">Webdings</option>
-														<option style="font-family: 'Wingdings';" value="wingdings,'zapf dingbats'">Wingdings</option>
-													</select>
-													<select id="fontSizeChanger" onchange="TTCommand('FontSize', this.value); this.selectedIndex=0;">
-														<option class="head-option"><?php echo _t('속성');?></option>
-														<optgroup class="size" label="<?php echo _t('크기');?>">														
-															<option value="1">1 (8 pt)</option>
-															<option value="2">2 (10 pt)</option>
-															<option value="3">3 (12 pt)</option>
-															<option value="4">4 (14 pt)</option>
-															<option value="5">5 (18 pt)</option>
-															<option value="6">6 (24 pt)</option>
-															<option value="7">7 (36 pt)</option>
-														</optgroup>
-														<optgroup class="header" label="<?php echo _t('제목');?>">
-															<option value="h3">h3</option>
-															<option value="h4">h4</option>
-															<option value="h5">h5</option>
-															<option value="h6">h6</option>
-															<option value="h7">h7</option>
-														</optgroup>
-													</select>
-												</dd>
-											</dl>
-											<dl class="font-style">
-												<dt class="title">
-													<span class="label"><?php echo _t('폰트 스타일');?></span>
-												</dt>
-												<dd class="command-box">
-													<a id="indicatorBold" class="inactive-class button" href="#void" onclick="TTCommand('Bold')" title="<?php echo _t('굵게');?>"><span class="text"><?php echo _t('굵게');?></span></a>
-													<a id="indicatorItalic" class="inactive-class button" href="#void" onclick="TTCommand('Italic')" title="<?php echo _t('기울임');?>"><span class="text"><?php echo _t('기울임');?></span></a>
-													<a id="indicatorUnderline" class="inactive-class button" href="#void" onclick="TTCommand('Underline')" title="<?php echo _t('밑줄');?>"><span class="text"><?php echo _t('밑줄');?></span></a>
-													<a id="indicatorStrike" class="inactive-class button" href="#void" onclick="TTCommand('StrikeThrough')" title="<?php echo _t('취소선');?>"><span class="text"><?php echo _t('취소선');?></span></a>
-													<a id="indicatorColorPalette" class="inactive-class button" href="#void" onclick="hideLayer('markPalette'); hideLayer('textBox'); toggleLayer('colorPalette'); changeButtonStatus(this, 'colorPalette');" title="<?php echo _t('글자색');?>"><span class="text"><?php echo _t('글자색');?></span></a>
-													<div id="colorPalette" style="display: none;">
-														<table cellspacing="0" cellpadding="0">
-															<tr>
-																<td><a href="#void" onclick="insertColorTag('#008000')"><span class="color-008000">#008000</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#009966')"><span class="color-009966">#009966</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#99CC66')"><span class="color-99CC66">#99CC66</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#999966')"><span class="color-999966">#999966</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#CC9900')"><span class="color-CC9900">#CC9900</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#D41A01')"><span class="color-D41A01">#D41A01</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#FF0000')"><span class="color-FF0000">#FF0000</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#FF7635')"><span class="color-FF7635">#FF7635</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#FF9900')"><span class="color-FF9900">#FF9900</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#FF3399')"><span class="color-FF3399">#FF3399</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#9B18C1')"><span class="color-9B18C1">#9B18C1</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#993366')"><span class="color-993366">#993366</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#666699')"><span class="color-666699">#666699</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#0000FF')"><span class="color-0000FF">#0000FF</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#177FCD')"><span class="color-177FCD">#177FCD</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#006699')"><span class="color-006699">#006699</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#003366')"><span class="color-003366">#003366</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#333333')"><span class="color-333333">#333333</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#000000')"><span class="color-000000">#000000</span></a></td>			
-																<td><a href="#void" onclick="insertColorTag('#8E8E8E')"><span class="color-8E8E8E">#8E8E8E</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#C1C1C1')"><span class="color-C1C1C1">#C1C1C1</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#FFFFFF')"><span class="color-FFFFFF">#FFFFFF</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#FFDAED')"><span class="color-FFDAED">#FFDAED</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#C9EDFF')"><span class="color-C9EDFF">#C9EDFF</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#D0FF9D')"><span class="color-D0FF9D">#D0FF9D</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#FAFFA9')"><span class="color-FAFFA9">#FAFFA9</span></a></td>
-																<td><a href="#void" onclick="insertColorTag('#E4E4E4')"><span class="color-E4E4E4">#E4E4E4</span></a></td>
-															</tr>
-														</table>
-													</div>
-													<a id="indicatorMarkPalette" class="inactive-class button" href="#void" onclick="hideLayer('colorPalette');hideLayer('textBox');toggleLayer('markPalette'); changeButtonStatus(this, 'markPalette');" title="<?php echo _t('배경색');?>"><span class="text"><?php echo _t('배경색');?></span></a>
-													<div id="markPalette" style="display: none;">
-														<table cellspacing="0" cellpadding="0">
-															<tr>
-																<td><a href="#void" onclick="insertMarkTag('#008000')"><span class="color-008000">#008000</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#009966')"><span class="color-009966">#009966</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#99CC66')"><span class="color-99CC66">#99CC66</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#999966')"><span class="color-999966">#999966</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#CC9900')"><span class="color-CC9900">#CC9900</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#D41A01')"><span class="color-D41A01">#D41A01</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#FF0000')"><span class="color-FF0000">#FF0000</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#FF7635')"><span class="color-FF7635">#FF7635</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#FF9900')"><span class="color-FF9900">#FF9900</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#FF3399')"><span class="color-FF3399">#FF3399</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#9B18C1')"><span class="color-9B18C1">#9B18C1</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#993366')"><span class="color-993366">#993366</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#666699')"><span class="color-666699">#666699</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#0000FF')"><span class="color-0000FF">#0000FF</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#177FCD')"><span class="color-177FCD">#177FCD</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#006699')"><span class="color-006699">#006699</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#003366')"><span class="color-003366">#003366</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#333333')"><span class="color-333333">#333333</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#000000')"><span class="color-000000">#000000</span></a></td>			
-																<td><a href="#void" onclick="insertMarkTag('#8E8E8E')"><span class="color-8E8E8E">#8E8E8E</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#C1C1C1')"><span class="color-C1C1C1">#C1C1C1</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#FFFFFF')"><span class="color-FFFFFF">#FFFFFF</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#FFDAED')"><span class="color-FFDAED">#FFDAED</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#C9EDFF')"><span class="color-C9EDFF">#C9EDFF</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#D0FF9D')"><span class="color-D0FF9D">#D0FF9D</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#FAFFA9')"><span class="color-FAFFA9">#FAFFA9</span></a></td>
-																<td><a href="#void" onclick="insertMarkTag('#E4E4E4')"><span class="color-E4E4E4">#E4E4E4</span></a></td>
-															</tr>
-														</table>
-													</div>
-													<a id="indicatorTextBox" class="inactive-class button" href="#void" onclick="hideLayer('markPalette');hideLayer('colorPalette');toggleLayer('textBox'); changeButtonStatus(this, 'textBox');" title="<?php echo _t('텍스트 상자');?>"><span class="text"><?php echo _t('텍스트 상자');?></span></a>
-													<div id="textBox" style="display: none;">
-														<table cellspacing="0" cellpadding="0">
-															<tr>
-																<td><a href="#void" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FFDAED');"><span class="color-FFDAED">#FFDAED</span></a></td>
-																<td><a href="#void" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#C9EDFF');"><span class="color-C9EDFF">#C9EDFF</span></a></td>
-																<td><a href="#void" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#D0FF9D');"><span class="color-D0FF9D">#D0FF9D</span></a></td>
-																<td><a href="#void" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#FAFFA9');"><span class="color-FAFFA9">#FAFFA9</span></a></td>
-																<td><a href="#void" onclick="hideLayer('textBox'); TTCommand('Box', 'padding:10px; background-color:#E4E4E4');"><span class="color-E4E4E4">#E4E4E4</span></a></td>
-															</tr>
-														</table>
-													</div>
-													<a id="indicatorRemoveFormat" class="inactive-class button" href="#void" onclick="TTCommand('RemoveFormat')" title="<?php echo _t('효과 제거');?>"><span class="text"><?php echo _t('효과 제거');?></span></a>
-												</dd>
-											</dl>
-											<dl class="paragraph">
-												<dt class="title">
-													<span class="label"><?php echo _t('문단');?></span>
-												</dt>
-												<dd class="command-box">
-													<a id="indicatorJustifyLeft" class="inactive-class button" href="#void" onclick="TTCommand('JustifyLeft')" title="<?php echo _t('왼쪽 정렬');?>"><span class="text"><?php echo _t('왼쪽 정렬');?></span></a>
-													<a id="indicatorJustifyCenter" class="inactive-class button" href="#void" onclick="TTCommand('JustifyCenter')" title="<?php echo _t('가운데 정렬');?>"><span class="text"><?php echo _t('가운데 정렬');?></span></a>
-													<a id="indicatorJustifyRight" class="inactive-class button" href="#void" onclick="TTCommand('JustifyRight')" title="<?php echo _t('오른쪽 정렬');?>"><span class="text"><?php echo _t('오른쪽 정렬');?></span></a>
-													<a id="indicatorUnorderedList" class="inactive-class button" href="#void" onclick="TTCommand('InsertUnorderedList')" title="<?php echo _t('순서없는 리스트');?>"><span class="text"><?php echo _t('순서없는 리스트');?></span></a>
-													<a id="indicatorOrderedList" class="inactive-class button" href="#void" onclick="TTCommand('InsertOrderedList')" title="<?php echo _t('번호 매긴 리스트');?>"><span class="text"><?php echo _t('번호 매긴 리스트');?></span></a>
-													<a id="indicatorOutdent" class="inactive-class button" href="#void" onclick="TTCommand('Outdent')" title="<?php echo _t('내어쓰기');?>"><span class="text"><?php echo _t('내어쓰기');?></span></a>
-													<a id="indicatorIndent" class="inactive-class button" href="#void" onclick="TTCommand('Indent')" title="<?php echo _t('들여쓰기');?>"><span class="text"><?php echo _t('들여쓰기');?></span></a>
-													<a id="indicatorBlockquote" class="inactive-class button" href="#void" onclick="TTCommand('Blockquote')" title="<?php echo _t('인용구');?>"><span class="text"><?php echo _t('인용구');?></span></a>
-												</dd>
-											</dl>
-											<dl class="special">
-												<dt class="title">
-													<span class="label"><?php echo _t('기타');?></span>
-												</dt>
-												<dd class="command-box">
-													<a id="indicatorCreateLink" class="inactive-class button" href="#void" onclick="TTCommand('CreateLink')" title="<?php echo _t('하이퍼링크');?>"><span class="text"><?php echo _t('하이퍼링크');?></span></a>
-													<a id="indicatorMediaBlock" class="inactive-class button" href="#void" onclick="TTCommand('ObjectBlock')" title="<?php echo _t('미디어 삽입');?>"><span class="text"><?php echo _t('미디어 삽입');?></span></a>
-													<a id="indicatorMoreLessBlock" class="inactive-class button" href="#void" onclick="TTCommand('MoreLessBlock')" title="<?php echo _t('More/Less');?>"><span class="text"><?php echo _t('More/Less');?></span></a>
-												</dd>
-											</dl>
-											<dl class="mode">
-												<dt class="title">
-													<span class="label"><?php echo _t('편집 환경');?></span>
-												</dt>
-												<dd class="command-box">
-													<a id="indicatorMode" class="inactive-class button" href="#void" onclick="TTCommand('ToggleMode'); changeEditorMode();" title="<?php echo _t('클릭하시면 HTML 편집기로 변경합니다.');?>"><span class="text"><?php echo _t('WYSIWYG 편집기');?></span></a>
-												</dd>
-											</dl>
 										</div>
 <?php
 }

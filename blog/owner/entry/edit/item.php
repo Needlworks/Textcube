@@ -163,8 +163,7 @@ if (defined('__TEXTCUBE_POST__')) {
 										}
 
 										try {
-											if (editor.editMode == "WYSIWYG")
-												oForm.content.value = editor.html2ttml(editor.contentDocument.body.innerHTML);
+											editor.syncTextarea();
 										} catch(e) {
 										}
 										var content = trim(oForm.content.value);
@@ -208,6 +207,8 @@ if (defined('__TEXTCUBE_POST__')) {
 											"&title=" + encodeURIComponent(title) +
 											"&permalink=" + encodeURIComponent(permalink) +
 											"&content=" + encodeURIComponent(content) +
+											"&contentFormatter=" + encodeURIComponent(oForm.contentFormatter.value) +
+											"&contentEditor=" + encodeURIComponent(oForm.contentEditor.value) +
 											"&published=" + published +
 											"&category=" + ((entrytype!=0) ? entrytype : oForm.category.value) +
 											"&location=" + encodeURIComponent(locationValue) +
@@ -260,10 +261,8 @@ if (defined('__TEXTCUBE_POST__')) {
 										this.nowsaving = true;
 
 										if(entryManager.isSaved == true) {
-
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/"+entryManager.entryId);
 										} else {
-
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/add/");
 										}
 
@@ -367,49 +366,6 @@ if (isset($_GET['popupEditor'])) {
 								}
 								window.setInterval("keepSessionAlive()", 600000);
 								
-								function changeEditorMode() {
-									editWindow = document.getElementById("editWindow");
-									var indicatorMode = document.getElementById("indicatorMode");
-									
-									if (editWindow.style.display == "block" || editWindow.style.display == "inline") {
-										if (document.getElementById("visualEditorWindow")) {
-											indicatorMode.className = indicatorMode.className.replace("inactive-class", "active-class");
-											indicatorMode.innerHTML = '<span class="text"><?php echo _t('HTML 모드');?><\/span>';
-											indicatorMode.setAttribute("title", "<?php echo _t('클릭하시면 WYSIWYG 모드로 변경합니다.');?>");
-										} else {
-											indicatorMode.className = indicatorMode.className.replace("inactive-class", "active-class");
-											indicatorMode.innerHTML = '<span class="text"><?php echo _t('HTML 모드');?><\/span>';
-											indicatorMode.removeAttribute("title");
-										}
-									} else {
-										indicatorMode.className = indicatorMode.className.replace("active-class", "inactive-class");
-										indicatorMode.setAttribute("title", "<?php echo _t('클릭하시면 HTML 모드로 변경합니다.');?>");
-										indicatorMode.innerHTML = '<span class="text"><?php echo _t('WYSIWYG 모드');?><\/span>';
-									}
-								}
-								
-								function changeButtonStatus(obj, palette) {
-									if (!document.getElementById('indicatorColorPalette').className.match('inactive-class')) {
-										document.getElementById('indicatorColorPalette').className = document.getElementById('indicatorColorPalette').className.replace('active-class', 'inactive-class');
-									}
-									if (!document.getElementById('indicatorMarkPalette').className.match('inactive-class')) {
-										document.getElementById('indicatorMarkPalette').className = document.getElementById('indicatorMarkPalette').className.replace('active-class', 'inactive-class');
-									}
-									if (!document.getElementById('indicatorTextBox').className.match('inactive-class')) {
-										document.getElementById('indicatorTextBox').className = document.getElementById('indicatorTextBox').className.replace('active-class', 'inactive-class');
-									}
-									
-									if (obj != null) {
-										if (document.getElementById(palette).style.display == "block") {
-											obj.className = obj.className.replace('inactive-class', 'active-class');
-										} else {
-											if (!obj.className.match('inactive-class')) {
-												obj.className = obj.className.replace('active-class', 'inactive-class');
-											}
-										}
-									}
-								}
-								
 								function checkCategory(type) {
 									switch(type) {
 										case "type_keyword":
@@ -511,20 +467,30 @@ if (defined('__TEXTCUBE_POST__')) {
 									
 									<div id="textarea-section" class="section">
 										<h3><?php echo _t('본문');?></h3>
-											
+										
+										<dl class="editoroption">
+											<dt><label for="contentFormatter"><?php echo _t('포매터');?></label></dt>
+											<dd><select id="contentFormatter" name="contentFormatter" onchange="return setFormatter(this.value, document.getElementById('contentEditor'), setCurrentEditor);">
 <?php
-printEntryEditorPalette();
+	foreach (getAllFormatters() as $key => $formatter) {
 ?>
-										<div id="editor-textbox" class="container">
-											<textarea id="editWindow" name="content" cols="80" rows="20" onselect="savePosition(); editorChanged()" onclick="savePosition();editorChanged()" onkeyup="savePosition();editorChanged()"><?php echo htmlspecialchars($entry['content']);?></textarea>
-											<script type="text/javascript" src="<?php echo $service['path'];?>/script/editor2.js"></script>
-											<script type="text/javascript">
-												//<![CDATA[
-													var editor = new TTEditor();
-													editor.initialize(document.getElementById("editWindow"), "<?php echo $service['path'];?>/attach/<?php echo $owner;?>/", "<?php echo getUserSetting('editorMode', 1) == 1 ? 'WYSIWYG' : 'TEXTAREA';?>", "<?php echo true ? 'BR' : 'P';?>");
-												//]]>
-											</script>
-										</div>
+												<option value="<?php echo htmlspecialchars($key);?>"<?php echo ($entry['contentFormatter'] == $key ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($formatter['name']);?></option>
+<?php
+	}
+?>
+											</select></dd>
+											<dt><label for="contentEditor"><?php echo _t('편집기');?></label></dt>
+											<dd><select id="contentEditor" name="contentEditor" onfocus="return saveEditor(this);" onchange="return setEditor(this) && setCurrentEditor(this.value);">
+<?php
+	foreach (getAllEditors() as $key => $editor) {
+?>
+												<option value="<?php echo htmlspecialchars($key);?>"<?php echo ($entry['contentEditor'] == $key ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($editor['name']);?></option>
+<?php
+	}
+?>
+											</select></dd>
+										</dl>
+										<textarea id="editWindow" name="content" cols="80" rows="20"><?php echo htmlspecialchars($entry['content']);?></textarea>
 										<div id="status-container" class="container"><span id="pathStr"><?php echo _t('path');?></span><span class="divider"> : </span><span id="pathContent"></span></div>
 <?php
 	$view = fireEvent('AddPostEditorToolbox', '');
@@ -534,20 +500,14 @@ printEntryEditorPalette();
 <?php
 	}
 ?>
+										<script type="text/javascript">//<![CDATA[
+											var contentFormatterObj = document.getElementById('contentFormatter');
+											var contentEditorObj = document.getElementById('contentEditor');
+											setFormatter(contentFormatterObj.value, contentEditorObj, false);
+											setCurrentEditor(contentEditorObj.value);
+										//]]></script>
 									</div>
 									
-									<hr class="hidden" />
-									
-									<div id="property-section" class="section">
-										<h3><?php echo _t('속성 상자');?></h3>
-										
-										<div id="property-container" class="container">
-<?php
-printEntryEditorProperty();
-?>
-										</div>
-									</div>
-
 									<hr class="hidden" />
 									
 									<div id="taglocal-section" class="section">
@@ -641,15 +601,15 @@ printEntryFileList(getAttachments($owner, $entry['id'], 'label'), $param);
 										</div>
 										
 										<div id="insert-container" class="container">
-											<a class="image-left" href="#void" onclick="linkImage1('1L')" title="<?php echo _t('선택한 파일을 글의 왼쪽에 정렬합니다.');?>"><span class="text"><?php echo _t('왼쪽 정렬');?></span></a>
-											<a class="image-center" href="#void" onclick="linkImage1('1C')" title="<?php echo _t('선택한 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬');?></span></a>
-											<a class="image-right" href="#void" onclick="linkImage1('1R')" title="<?php echo _t('선택한 파일을 글의 오른쪽에 정렬합니다.');?>"><span class="text"><?php echo _t('오른쪽 정렬');?></span></a>
-											<a class="image-2center" href="#void" onclick="linkImage2()" title="<?php echo _t('선택한 두개의 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬(2 이미지)');?></span></a>
-											<a class="image-3center" href="#void" onclick="linkImage3()" title="<?php echo _t('선택한 세개의 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬(3 이미지)');?></span></a>
-											<a class="image-free" href="#void" onclick="linkImageFree()" title="<?php echo _t('선택한 파일을 글에 삽입합니다. 문단의 모양에 영향을 주지 않습니다.');?>"><span class="text"><?php echo _t('파일 삽입');?></span></a>
-											<a class="image-imazing" href="#void" onclick="viewImazing()" title="<?php echo _t('이메이징(플래쉬 갤러리)을 삽입합니다.');?>"><span class="text"><?php echo _t('이메이징(플래쉬 갤러리) 삽입');?></span></a>
-											<a class="image-sequence" href="#void" onclick="viewGallery()" title="<?php echo _t('이미지 갤러리를 삽입합니다.');?>"><span class="text"><?php echo _t('갤러리 삽입');?></span></a>
-											<a class="image-mp3" href="#void" onclick="viewJukebox()" title="<?php echo _t('쥬크박스를 삽입합니다.');?>"><span class="text"><?php echo _t('쥬크박스 삽입');?></span></a>
+											<a class="image-left" href="#void" onclick="editorAddObject(editor, 'Image1L')" title="<?php echo _t('선택한 파일을 글의 왼쪽에 정렬합니다.');?>"><span class="text"><?php echo _t('왼쪽 정렬');?></span></a>
+											<a class="image-center" href="#void" onclick="editorAddObject(editor, 'Image1C')" title="<?php echo _t('선택한 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬');?></span></a>
+											<a class="image-right" href="#void" onclick="editorAddObject(editor, 'Image1R')" title="<?php echo _t('선택한 파일을 글의 오른쪽에 정렬합니다.');?>"><span class="text"><?php echo _t('오른쪽 정렬');?></span></a>
+											<a class="image-2center" href="#void" onclick="editorAddObject(editor, 'Image2C')" title="<?php echo _t('선택한 두개의 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬(2 이미지)');?></span></a>
+											<a class="image-3center" href="#void" onclick="editorAddObject(editor, 'Image3C')" title="<?php echo _t('선택한 세개의 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬(3 이미지)');?></span></a>
+											<a class="image-free" href="#void" onclick="editorAddObject(editor, 'ImageFree')" title="<?php echo _t('선택한 파일을 글에 삽입합니다. 문단의 모양에 영향을 주지 않습니다.');?>"><span class="text"><?php echo _t('파일 삽입');?></span></a>
+											<a class="image-imazing" href="#void" onclick="editorAddObject(editor, 'Imazing')" title="<?php echo _t('이메이징(플래쉬 갤러리)을 삽입합니다.');?>"><span class="text"><?php echo _t('이메이징(플래쉬 갤러리) 삽입');?></span></a>
+											<a class="image-sequence" href="#void" onclick="editorAddObject(editor, 'Gallery')" title="<?php echo _t('이미지 갤러리를 삽입합니다.');?>"><span class="text"><?php echo _t('갤러리 삽입');?></span></a>
+											<a class="image-mp3" href="#void" onclick="editorAddObject(editor, 'Jukebox')" title="<?php echo _t('쥬크박스를 삽입합니다.');?>"><span class="text"><?php echo _t('쥬크박스 삽입');?></span></a>
 											<a class="image-podcast" href="#void" onclick="setEnclosure(document.getElementById('fileList').value)" title="<?php echo _t('팟캐스트로 지정합니다.');?>"><span class="text"><?php echo _t('팟캐스트 지정');?></span></a>
 										</div>
 <?php
@@ -718,7 +678,7 @@ if (isset($_GET['popupEditor'])) {
 										<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
 										<span class="hidden">|</span>
 										<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
-										</div>
+								</div>
 <?php
 } else {
 ?>

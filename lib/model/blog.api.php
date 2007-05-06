@@ -231,6 +231,8 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 	}
 	
 	$post->content = api_fix_content( $param['description'] );
+	$post->contentFormatter = getDefaultFormatter();
+	$post->contentEditor = getDefaultEditor();
 	$post->title = $param['title'];
 	
 	//$param['mt_excerpt'] = array_key_exists('mt_excerpt', $param) ? $param['mt_excerpt'] : '';
@@ -594,6 +596,8 @@ function blogger_newPost()
 	$params = func_get_args();
 	$post = new Post();
 	$post->content = $params[4];
+	$post->contentFormatter = getDefaultFormatter();
+	$post->contentEditor = getDefaultEditor();
 	$post->title = htmlspecialchars(api_get_title($params[4]));
 
 	if( $params[5] )
@@ -638,6 +642,8 @@ function blogger_editPost()
 	$post->title = htmlspecialchars(api_get_title( $params[4] ));
 	$post->id = intval($params[1]);
 	$post->content = htmlspecialchars($params[4]);
+	$post->contentFormatter = getDefaultFormatter();
+	$post->contentEditor = getDefaultEditor();
 
 	if( $params[5] )
 	{

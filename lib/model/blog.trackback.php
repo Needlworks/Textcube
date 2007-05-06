@@ -181,7 +181,7 @@ function sendTrackback($owner, $entryId, $url) {
 		return false;
 	$link = "$defaultURL/$entryId";
 	$title = htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id']));
-	$entry['content'] = getEntryContentView($owner, $entryId, $entry['content'], getKeywordNames($owner));
+	$entry['content'] = getEntryContentView($owner, $entryId, $entry['content'], $entry['contentFormatter'], getKeywordNames($owner));
 	$excerpt = UTF8::lessen(removeAllTags(stripHTML($entry['content'])), 255);
 	$blogTitle = $blog['title'];
 	$isNeedConvert = 

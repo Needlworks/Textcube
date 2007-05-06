@@ -14,6 +14,7 @@
 #editWindow
 {
 	height                           : 450px;/* !important;*/
+	margin                           : 0 -20px; /* workaround on IE/Win inherited margin bug */
 }
 
 /* property box --------------------------------------------------------------------------------*/

@@ -361,10 +361,4 @@ function changePassword($owner, $pwd, $prevPwd) {
 	$sql = "UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $owner";
 	return DBQuery::execute($sql);
 }
-
-function setEditor($owner, $editorMode) {
-	if(!setUserSetting('editorMode', $editorMode))
-		return false;
-	return true;
-}
 ?>

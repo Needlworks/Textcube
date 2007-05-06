@@ -647,7 +647,7 @@ class Locale {
 				if (!is_file($__locale['directory'] . '/' . $entry))
 					continue;
 				$locale = substr($entry, 0, strpos($entry, '.'));
-				if (empty($locale))
+				if (empty($locale) || $locale == 'messages')
 					continue;
 				if ($fp = fopen($__locale['directory'] . '/' . $entry, 'r')) {
 					$desc = fgets($fp);

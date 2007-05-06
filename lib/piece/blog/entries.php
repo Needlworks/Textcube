@@ -21,7 +21,7 @@ foreach ($entries as $entry) {
 		else
 			dress('notice_rep_link', "$blogURL/page/{$entry['id']}", $entryView);
 		
-		dress('notice_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], getKeywordNames($owner), 'Notice'), $entryView);
+		dress('notice_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($owner), 'Notice'), $entryView);
 		$entriesView .= $entryView;
 	} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
 		$entryView = $skin->entry;
@@ -61,7 +61,7 @@ foreach ($entries as $entry) {
 		dress('article_rep_id', $entry['id'], $entryView);
 		dress('article_rep_link', $permalink, $entryView);
 		dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $entryView);
-		dress('article_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], getKeywordNames($owner)), $entryView);
+		dress('article_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($owner)), $entryView);
 		dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['categoryLabel'], $entry['id']), $entryView);
 		dress('article_rep_category_link', empty($entry['category']) ? "$blogURL/category/" : "$blogURL/category/".encodeURL($entry['categoryLabel']) ,$entryView);
 		dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published'])), $entryView);

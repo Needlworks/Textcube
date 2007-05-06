@@ -5,7 +5,7 @@
 
 function printMobileEntryContentView($owner, $entry, $keywords = array()) {
 	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password']))))
-		print (getEntryContentView($owner, $entry['id'], $entry['content'], $keywords));
+		print (getEntryContentView($owner, $entry['id'], $entry['content'], $entry['contentFormatter'], $keywords));
 	else
 	{
 	?>
