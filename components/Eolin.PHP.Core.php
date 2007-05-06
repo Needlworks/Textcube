@@ -565,18 +565,55 @@ class Locale {
 	function set($locale) {
 		global $__locale, $__text;
 		list($common) = explode('-', $locale, 2);
+		Locale::refreshLocaleResource($locale);
 		if (file_exists($__locale['directory'] . '/' . $locale . '.php')) {
 			include($__locale['directory'] . '/' . $locale . '.php');
 			$__locale['locale'] = $locale;
 			return true;
 		} else if (($common != $locale) && file_exists($__locale['directory'] . '/' . $common . '.php')) {
-				include($__locale['directory'] . '/' . $common . '.php');
-				$__locale['locale'] = $common;
-				return true;
-			}
+			include($__locale['directory'] . '/' . $common . '.php');
+			$__locale['locale'] = $common;
+			return true;
+		}
+		return false;
+	}
+
+	function setSkinLocale($locale) {
+		global $__locale, $__skinText;
+		list($common) = explode('-', $locale, 2);
+		Locale::refreshLocaleResource($locale);
+		if (file_exists($__locale['directory'] . '/' . $locale . '.php')) {
+			$__skinText = Locale::includeLocaleFile($__locale['directory'] . '/' . $locale . '.php');
+			return true;
+		} else if (($common != $locale) && file_exists($__locale['directory'] . '/' . $common . '.php')) {
+			$__skinText = Locale::includeLocaleFile($__locale['directory'] . '/' . $common . '.php');
+			return true;
+		}
 		return false;
 	}
 	
+	function includeLocaleFile($languageFile) {
+		include($languageFile);
+		return $__text;
+	}
+
+	function refreshLocaleResource($locale) {
+		global $__locale;
+		// po파일과 php파일의 auto convert 지원을 위한 루틴.
+		$lang_php = $__locale['directory'] . '/' . $locale . ".php";
+		$lang_po = $__locale['directory'] . '/po/' . $locale . ".po";
+		// 두 파일 중 최근에 갱신된 것을 찾는다.
+		$time_po = filemtime( $lang_po );
+		$time_php = filemtime( $lang_php );
+		// po파일이 더 최근에 갱신되었으면 php파일을 갱신한다.
+		if($time_po && $time_po > $time_php ) {
+			$po2php_module = dirname( $lang_po ) . "/po2php.php";
+			require_once( $po2php_module );
+			po2php( $lang_po, $lang_php );
+		}
+		return false;
+	}
+
 	function setDirectory($directory) {
 		global $__locale;
 		if (!is_dir($directory))

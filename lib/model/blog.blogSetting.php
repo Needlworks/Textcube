@@ -182,6 +182,7 @@ function setBlogLanguage($owner, $language, $blogLanguage) {
 	global $blog;
 	if (($language == $blog['language']) && ($blogLanguage == $blog['blogLanguage']))
 		return true;
+	$language = mysql_lessen($language, 5);
 	$blogLanguage = mysql_lessen($blogLanguage, 5);
 	DBQuery::query("update {$database['prefix']}BlogSettings set language = '$language' , blogLanguage = '$blogLanguage' where owner = $owner");
 	//if (mysql_affected_rows() != 1)
