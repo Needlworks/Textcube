@@ -130,7 +130,7 @@ function printOwnerEditorScript($entryId = false) {
 <?php
 	foreach (getAllEditors() as $id => $editor) {
 		getEditorInfo($id); // explicitly loads plugin code
-		if (function_exists($editor['initfunc'])) {
+		if (isset($editor['initfunc']) && function_exists($editor['initfunc'])) {
 			echo "\t\tcase '".addslashes($id)."': {\n".call_user_func($editor['initfunc'], &$editor)."\t\t}\n";
 		}
 	}
