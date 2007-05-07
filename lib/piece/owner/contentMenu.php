@@ -1,15 +1,16 @@
 <?php
-switch($blogMenu['topMenu']) {
-	case 'center':
+if(isset($blogMenu['topMenu'])) {
+	switch($blogMenu['topMenu']) {
+		case 'center':
 		$blogContentMenuItem = array(
-			array('menu'=>'dashboard','title'=>_t('조각보'),'link'=>'/owner/center/dashboard'),
+				array('menu'=>'dashboard','title'=>_t('조각보'),'link'=>'/owner/center/dashboard'),
 			array('menu'=>'setting','title'=>_t('자투리'),'link'=>'/owner/center/setting'),
 			array('menu'=>'metapage','title'=>_t('색동'),'link'=>'/owner/center/metapage'),
 			array('menu'=>'metaSetting','title'=>_t('두루마기'),'link'=>'/owner/center/metaSetting'),
 			array('menu'=>'about','title'=>_t('텍스트큐브는'),'link'=>'/owner/center/about')
 		);
 		break;
-	case 'entry':
+		case 'entry':
 		$blogContentMenuItem = array(
 			array('menu'=>'post','title'=>_t('글쓰기'),'link'=>'/owner/entry/post'),
 			array('menu'=>'entry','title'=>_t('글 목록'),'link'=>'/owner/entry'),
@@ -20,13 +21,13 @@ switch($blogMenu['topMenu']) {
 			array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/entry/trash')
 		);
 		break;
-	case 'link':
+		case 'link':
 		$blogContentMenuItem = array(
 			array('menu'=>'add','title'=>_t('링크 추가'),'link'=>'/owner/link/add'),
 			array('menu'=>'link','title'=>_t('링크 목록'),'link'=>'/owner/link')
 		);
 		break;
-	case 'skin':
+		case 'skin':
 		$blogContentMenuItem = array(
 			array('menu'=>'skin','title'=>_t('스킨 선택'),'link'=>'/owner/skin'),
 			array('menu'=>'edit','title'=>_t('스킨 편집'),'link'=>'/owner/skin/edit'),
@@ -34,14 +35,14 @@ switch($blogMenu['topMenu']) {
 			array('menu'=>'sidebar','title'=>_t('사이드바'),'link'=>'/owner/skin/sidebar')
 		);
 		break;
-	case 'plugin':
+		case 'plugin':
 		$blogContentMenuItem = array(
 			array('menu'=>'plugin','title'=>_t('플러그인 목록'),'link'=>'/owner/plugin'),
 			array('menu'=>'tableSetting','title'=>_t('플러그인 데이터 관리'),'link'=>'/owner/plugin/tableSetting')
 		);
 		break;
-	case 'setting':
-	case 'data':
+		case 'setting':
+		case 'data':
 		$blogContentMenuItem = array(
 			array('menu'=>'blog','title'=>_t('블로그'),'link'=>'/owner/setting/blog'),
 			array('menu'=>'entry','title'=>_t('글 작성'),'link'=>'/owner/setting/entry'),
@@ -50,46 +51,51 @@ switch($blogMenu['topMenu']) {
 			array('menu'=>'data','title'=>_t('데이터 관리'),'link'=>'/owner/data')
 		);
 		break;
-	case 'reader':
+		case 'reader':
 		break;
-}
+	}
 
-foreach($adminMenuMappings as $path => $pluginAdminMenuitem) {
-	if($pluginAdminMenuitem['topMenu'] == $blogMenu['topMenu']){
-		if(count($blogContentMenuItem) < $pluginAdminMenuitem['contentMenuOrder'] 
-			|| $pluginAdminMenuitem['contentMenuOrder'] < 1)
-			$pluginAdminMenuitem['contentMenuOrder'] = count($blogContentMenuItem);
-		array_splice($blogContentMenuItem, $pluginAdminMenuitem['contentMenuOrder'], 0, 
-			array(array('menu'=>'adminMenu?name='.$path,
-			'title'=>$pluginAdminMenuitem['title'],
-			'link'=>'/owner/plugin/adminMenu?name='.$path))
-		);
+	foreach($adminMenuMappings as $path => $pluginAdminMenuitem) {
+		if($pluginAdminMenuitem['topMenu'] == $blogMenu['topMenu']){
+			if(count($blogContentMenuItem) < $pluginAdminMenuitem['contentMenuOrder'] 
+			  || $pluginAdminMenuitem['contentMenuOrder'] < 1)
+				$pluginAdminMenuitem['contentMenuOrder'] = count($blogContentMenuItem);
+			array_splice($blogContentMenuItem, $pluginAdminMenuitem['contentMenuOrder'], 0, 
+				array(array('menu'=>'adminMenu?name='.$path,
+				'title'=>$pluginAdminMenuitem['title'],
+				'link'=>'/owner/plugin/adminMenu?name='.$path))
+			);
+		}
 	}
 }
-
 ?>
 			<div id="layout-body">
 				<h2><?php echo _f('서브메뉴 : %1',$blogMenu['title']);?></h2>
-				
+
+<?php
+if(isset($blogContentMenuItem)) {
+?>	
 				<div id="sub-menu-box">
 					<ul id="sub-menu">
 <?php
-foreach($blogContentMenuItem as $contentMenuItem){
-	if($blogMenu['topMenu']=='entry' && $contentMenuItem['menu']=='post'){
+	foreach($blogContentMenuItem as $contentMenuItem){
+		if($blogMenu['topMenu']=='entry' && $contentMenuItem['menu']=='post'){
 ?>
 						<li id="sub-menu-<?php echo $contentMenuItem['menu'];?>"<?php echo $blogMenu['contentMenu'] == $contentMenuItem['menu'] ? ' class="selected"' : '';?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>" onclick="window.location.href = '<?php echo $blogURL;?>/owner/entry/post'<?php echo (getDraftEntryId() ? "+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')" : '');?>; return false;"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
 <?php
-	} else {
+		} else {
 ?>
 						<li id="sub-menu-<?php echo $contentMenuItem['menu'];?>"<?php echo (($blogMenu['contentMenu'] == $contentMenuItem['menu'] || (isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu']))) ? ' class="selected"' : '');?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
 <?php
+		}
 	}
-}
 ?>
 						<li id="sub-menu-helper"><a href="<?php echo getHelpURL($blogMenu['topMenu']);?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
 					</ul>
 				</div>
-				
+<?php
+}
+?>
 				<hr class="hidden" />
 				
 				<div id="pseudo-box">
