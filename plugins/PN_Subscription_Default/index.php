@@ -8,7 +8,7 @@
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.9.21
-   Last modified at : 2007.2.4
+   Last modified at : 2007.5.5
  
  This plugin shows RSS subscription statistics on administration menu.
  For the detail, visit http://forum.tattersite.com/ko
