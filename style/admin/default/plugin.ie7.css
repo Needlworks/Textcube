@@ -2,19 +2,14 @@
 
 /* Plugin ****************************************************************************************/
 
-#part-plugin-list fieldset
+#part-plugin-list table.data-inbox tbody tr td.config
 {
-	padding                          : 4px 10px;
+	font-family: 돋움, Dotum, sans-serif;
+	font-size: 11px;
+	padding-top: 18px;
 }
 
-#part-plugin-list #sorting-line
+#part-plugin-list table.data-inbox tbody tr td.config ul li
 {
-	bottom                           : 14px;
-	padding-top                      : 5px;
-}
-
-#part-plugin-list #activate-status-line
-{
-	bottom                           : 20px;
-	right                            : 30px;
+	margin: 2px 0;
 }

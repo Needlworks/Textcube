@@ -43,30 +43,114 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 } else {
 	DBQuery::execute("UPDATE `{$database['prefix']}UserSettings` SET `value` = '".implode("|", $_POST['listedPluginStatus'])."' WHERE `user` = $owner AND `name` = 'listedPluginStatus'");
 }
+
+$plugins = array();
+$pluginAttrs = array();
+
+$dir = dir(ROOT . '/plugins/');
+while ($plugin = $dir->read()) {
+	if (!ereg('^[[:alnum:] _-]+$', $plugin))
+		continue;
+	if (!is_dir(ROOT . '/plugins/' . $plugin))
+		continue;
+	if (!file_exists(ROOT . "/plugins/$plugin/index.xml"))
+		continue;
+	$xmls = new XMLStruct();
+	if (!$xmls->open(file_get_contents(ROOT . "/plugins/$plugin/index.xml"))) {
+		continue;
+	} else {
+		$pluginDir = trim($plugin);
+		$pluginAttrs[$pluginDir] = array(
+							"link" => $xmls->getValue('/plugin/link[lang()]'),
+							"title" => htmlspecialchars($xmls->getValue('/plugin/title[lang()]')),
+							"version" => htmlspecialchars($xmls->getValue('/plugin/version[lang()]')),
+							"description" => htmlspecialchars($xmls->getValue('/plugin/description[lang()]')),
+							"authorLink" => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
+							"author" => htmlspecialchars($xmls->getValue('/plugin/author[lang()]')),
+							"scope" => array(),
+							"config" => $xmls->doesExist('/plugin/binding/config'),
+							"width" => $xmls->getAttribute('/plugin/binding/config/window', 'width'),
+							"height" => $xmls->getAttribute('/plugin/binding/config/window', 'height')
+							);
+		if ($xmls->doesExist('/plugin/binding/adminMenu'))
+			array_push($pluginAttrs[$pluginDir]['scope'], 'admin');
+		if ($xmls->doesExist('/plugin/binding/tag'))
+			array_push($pluginAttrs[$pluginDir]['scope'], 'blog');
+		if ($xmls->doesExist('/plugin/binding/center'))
+			array_push($pluginAttrs[$pluginDir]['scope'], 'dashboard');
+		if ($xmls->doesExist('/plugin/binding/listener'))
+			array_push($pluginAttrs[$pluginDir]['scope'], 'global');
+		if ($xmls->doesExist('/plugin/binding/sidebar'))
+			array_push($pluginAttrs[$pluginDir]['scope'], 'sidebar');
+		if ($xmls->doesExist('/plugin/binding/editor')
+			|| $xmls->doesExist('/plugin/binding/formatter'))
+			array_push($pluginAttrs[$pluginDir]['scope'], 'module');
+
+		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
+	}
+}
+
+if ($_POST['sortType'] == "ascend") {
+	asort($plugins);
+} else {
+	arsort($plugins);
+}
+
+$arrayKeys = array_keys($plugins);
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								function togglePlugin(plugin, num, width, height) {
-									tempStr = document.getElementById("plugin" + num + "Link").innerHTML;
+								var pluginInfo = new Array();
+								
+<?php
+for ($i=0; $i<count($arrayKeys); $i++) {
+	$pluginDir = $arrayKeys[$i];
+	
+	$width = $pluginAttrs[$pluginDir]['width']?$pluginAttrs[$pluginDir]['width']:500;
+	$height = $pluginAttrs[$pluginDir]['height']?$pluginAttrs[$pluginDir]['height']:400;
+?>
+								pluginInfo['<?php echo $pluginDir;?>'] = new Array();
+								pluginInfo['<?php echo $pluginDir;?>']['width'] = <?php echo $width;?>;
+								pluginInfo['<?php echo $pluginDir;?>']['height'] = <?php echo $height;?>;
+<?php
+}
+?>
+								
+								function togglePlugin(plugin, num, width, height, obj, force) {
+									tempIcon = document.getElementById("plugin" + num + "Icon");
 									
-									if (document.getElementById("plugin" + num + "status").value == 0) {
+									if (force == 'activate') {
+										command = true;
+									} else if (force == 'deactivate') {
+										command = false;
+									} else if (document.getElementById("plugin" + num + "status").value == 0) {
+										command = true;
+									} else {
+										command = false;
+									}
+									
+									if (command) {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/activate");
 										request.onSuccess = function() {												
-											document.getElementById("plugin" + num + "Link").className = 'active-class';
+											//document.getElementById("plugin" + num + "Link").className = 'active-class';
 											
-											document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?php echo _t('사용중');?><\/span>';
-											document.getElementById("plugin" + num + "Link").setAttribute('title', '<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>');
+											//document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?php echo _t('사용중');?><\/span>';
+											//document.getElementById("plugin" + num + "Link").setAttribute('title', '<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>');
 											document.getElementById("plugin" + num + "status").value = 1;
-											objTR = getParentByTagName("TR", document.getElementById("plugin" + num + "Link"));
+											objTR = getParentByTagName("TR", obj);
 											objTR.className = objTR.className.replace('inactive', 'active');
 											
-											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정');?>')) {
-												objTR.cells[5].innerHTML = '<a href="#void" id="config_' + num +'" class="config-enabled-icon bullet" onclick="getCurrentSetting(\'' + plugin + '\',\'Y\',\''+width+'\',\''+height+'\')"><?php echo _t('설정');?><\/a>';
+											var icon = new Image();
+											if (tempIcon.src.match('<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png')) {
+												icon.src = '<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png';
+											} else {
+												icon.src = '<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_on.png';
 											}
+											tempIcon.src = icon.src;
 											
-											tempStr = document.getElementById("plugin" + num + "Scope").innerHTML;
-											if (tempStr.match('<?php echo _t('관리자');?>')) {
-												changeList();
+											if (getObject('config_' + num) != null) {
+												tempLink = '<a href="#void" class="config-enabled-icon bullet" onclick="getCurrentSetting(\'' + plugin + '\', \'Y\', ' + width + ', ' + height + '); return false;"><?php echo _t('환경설정');?></a>';
+												document.getElementById('config_' + num).innerHTML = tempLink;
 											}
 										}
 										request.onError = function() {
@@ -76,27 +160,93 @@ if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings`
 									} else {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/deactivate");
 										request.onSuccess = function() {
-											document.getElementById("plugin" + num + "Link").className = 'inactive-class';
+											//document.getElementById("plugin" + num + "Link").className = 'inactive-class';
 											
-											document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?php echo _t('미사용');?><\/span>';
-											document.getElementById("plugin" + num + "Link").setAttribute('title', '<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>');
+											//document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?php echo _t('미사용');?><\/span>';
+											//document.getElementById("plugin" + num + "Link").setAttribute('title', '<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>');
 											document.getElementById("plugin" + num + "status").value = 0;
-											objTR = getParentByTagName("TR", document.getElementById("plugin" + num + "Link"));
+											objTR = getParentByTagName("TR", obj);
 											objTR.className = objTR.className.replace('active', 'inactive');
 											
-											if (objTR.cells[5].innerHTML.match('<?php echo _t('설정');?>')) {
-												objTR.cells[5].innerHTML = '<span class="config-disabled-icon bullet"><?php echo _t('설정');?><\/span>';
+											var icon = new Image();
+											if (tempIcon.src.match('<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png')) {
+												icon.src = '<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png';
+											} else {
+												icon.src = '<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_off.png';
 											}
+											tempIcon.src = icon.src;
 											
-											tempStr = document.getElementById("plugin" + num + "Scope").innerHTML;
-											if (tempStr.match('<?php echo _t('관리자');?>')) {
-												changeList();
+											if (getObject('config_' + num) != null) {
+												tempSpan = '<span class="disabled"><?php echo _t('환경설정');?></span>';
+												document.getElementById('config_' + num).innerHTML = tempSpan;
 											}
 										}
 										request.onError = function() {
 											alert("<?php echo _t('플러그인을 비활성화하는데 실패했습니다.');?>");
 										}
 										request.send("name=" + plugin);
+									}
+								}
+
+								function checkAll(checked) {
+									for (i = 0; document.getElementById('part-plugin-list').elements[i]; i++) {
+										if (document.getElementById('part-plugin-list').elements[i].name == "entry") {
+											if (document.getElementById('part-plugin-list').elements[i].checked != checked) {
+												document.getElementById('part-plugin-list').elements[i].checked = checked;
+												toggleThisPlugin(document.getElementById('part-plugin-list').elements[i]);
+											}
+										}
+									}
+								}
+								
+								function toggleDescription(num) {
+									var tempObj = document.getElementById('descriptionExtended_' + num);
+									
+									if (tempObj.style.display == 'block') {
+										tempObj.style.display = 'none';
+									} else {
+										tempObj.style.display = 'block';
+									}
+								}
+								
+								function togglePlugins(action) {
+									try {
+										var oElement;
+										var targets = new Array();
+										for (var i = 0; document.getElementById('part-plugin-list').elements[i]; i++) {
+											oElement = document.getElementById('part-plugin-list').elements[i];
+											if ((oElement.name == 'entry') && oElement.checked)
+												targets[targets.length] = oElement.value;
+										}
+										
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/massActivate");
+										request.onSuccess = function() {
+											//for (var i=0; i<targets.length; i++) {
+											//	togglePlugin(targets[i], i, pluginInfo[targets[i]]['width'], pluginInfo[targets[i]]['height'], getObject('plugin' + i + 'status'), action);
+											//}
+											
+											if (action == 'activate') {
+												alert("<?php echo _t('선택하신 플러그인을 활성화했습니다.');?>");
+											} else {
+												alert("<?php echo _t('선택하신 플러그인을 비활성화했습니다.');?>");
+											}
+											document.getElementById('part-plugin-list').submit();
+										}
+										request.onError = function() {
+											alert("<?php echo _t('선택한 플러그인 일부 혹은 전부를 활성화/비활성화하는 데 실패했습니다.');?>");
+										}
+										request.send("targets=" + targets.join(",") + "&action=" + action);
+									} catch(e) {
+										alert(e.message);
+									}
+								}
+
+								function toggleThisPlugin(obj) {
+									objPl = getParentByTagName("TR", obj);
+									if (objPl.className.match("selected")) {
+										objPl.className = objPl.className.replace('selected', 'unselected');
+									} else {
+										objPl.className = objPl.className.replace('unselected', 'selected');
 									}
 								}
 								
@@ -162,19 +312,37 @@ else
 							<fieldset id="plugin-display-box">
 								<legend><?php echo _t('표시될 플러그인 설정');?></legend>
 
+								<dl id="sorting-line" class="line">
+									<dt><?php echo _t('정렬');?></dt>
+									<dd>
+										<input type="radio" class="radio" id="ascend-sorting" name="sortType" value="ascend" onclick="changeList()"<?php echo $_POST['sortType'] == "ascend" ? ' checked="checked"' : '';?> /><label for="ascend-sorting"><?php echo _t('오름차순');?></label>
+										<input type="radio" class="radio" id="descend-sorting" name="sortType" value="descend" onclick="changeList()"<?php echo $_POST['sortType'] == "descend" ? ' checked="checked"' : '';?> /><label for="descend-sorting"><?php echo _t('내림차순');?></label>
+									</dd>
+								</dl>
+								
+								<dl id="activate-status-line" class="line">
+									<dt><?php echo _t('상태');?></dt>
+									<dd>
+										<input type="checkbox" class="checkbox" id="activated-plugin" name="listedPluginStatus[]" value="activated" onclick="changeList()"<?php echo in_array("activated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /><label for="activated-plugin"><?php echo _t('사용중인 플러그인');?></label>
+										<input type="checkbox" class="checkbox" id="deactivated-plugin" name="listedPluginStatus[]" value="deactivated" onclick="changeList()"<?php echo in_array("deactivated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /><label for="deactivated-plugin"><?php echo _t('사용하지 않는 플러그인');?></label>
+									</dd>
+								</dl>
+								
 <?php
 if (!defined('__TEXTCUBE_CENTER__')) {
 ?>
 								<dl id="scope-line" class="line">
 									<dt><?php echo _t('종류');?></dt>
 									<dd>
-										<input type="radio" class="radio" id="global-scope" name="scopeType" value="all" onclick="changeList()"<?php echo $_POST['scopeType'] == "all" ? ' checked="checked"' : '';?> /><label id="global-scope-label" for="global-scope"<?php echo $_POST['scopeType'] == "all" ? ' class="selected"' : '';?>><?php echo _t('전체');?></label>
-										<input type="radio" class="radio" id="common-scope" name="scopeType" value="global" onclick="changeList()"<?php echo $_POST['scopeType'] == "global" ? ' checked="checked"' : '';?> /><label id="common-scope-label" for="common-scope"<?php echo $_POST['scopeType'] == "global" ? ' class="selected"' : '';?>><?php echo _t('일반');?></label>
-										<input type="radio" class="radio" id="blog-scope" name="scopeType" value="blog" onclick="changeList()"<?php echo $_POST['scopeType'] == "blog" ? ' checked="checked"' : '';?> /><label id="blog-scope-label" for="blog-scope"<?php echo $_POST['scopeType'] == "blog" ? ' class="selected"' : '';?>><?php echo _t('블로그');?></label>
-										<input type="radio" class="radio" id="sidebar-scope" name="scopeType" value="sidebar" onclick="changeList()"<?php echo $_POST['scopeType'] == "sidebar" ? ' checked="checked"' : '';?> /><label id="sidebar-scope-label" for="sidebar-scope"<?php echo $_POST['scopeType'] == "sidebar" ? ' class="selected"' : '';?>><?php echo _t('사이드바');?></label>
-										<input type="radio" class="radio" id="admin-scope" name="scopeType" value="admin" onclick="changeList()"<?php echo $_POST['scopeType'] == "admin" ? ' checked="checked"' : '';?> /><label id="admin-scope-label" for="admin-scope"<?php echo $_POST['scopeType'] == "admin" ? ' class="selected"' : '';?>><?php echo _t('관리자');?></label>
-										<input type="radio" class="radio" id="module-scope" name="scopeType" value="module" onclick="changeList()"<?php echo $_POST['scopeType'] == "module" ? ' checked="checked"' : '';?> /><label id="module-scope-label" for="module-scope"<?php echo $_POST['scopeType'] == "module" ? ' class="selected"' : '';?>><?php echo _t('모듈');?></label>
-										<input type="radio" class="radio" id="none-scope" name="scopeType" value="none" onclick="changeList()"<?php echo $_POST['scopeType'] == "none" ? ' checked="checked"' : '';?> /><label id="none-scope-label" for="none-scope"<?php echo $_POST['scopeType'] == "none" ? ' class="selected"' : '';?>><?php echo _t('분류 없음');?></label>
+										<ul>
+											<li><input type="radio" class="radio" id="global-scope" name="scopeType" value="all" onclick="changeList()"<?php echo $_POST['scopeType'] == "all" ? ' checked="checked"' : '';?> /><label id="global-scope-label" for="global-scope"<?php echo $_POST['scopeType'] == "all" ? ' class="selected"' : '';?>><?php echo _t('전체');?></label></li>
+											<li><input type="radio" class="radio" id="common-scope" name="scopeType" value="global" onclick="changeList()"<?php echo $_POST['scopeType'] == "global" ? ' checked="checked"' : '';?> /><label id="common-scope-label" for="common-scope"<?php echo $_POST['scopeType'] == "global" ? ' class="selected"' : '';?>><?php echo _t('일반');?></label></li>
+											<li><input type="radio" class="radio" id="blog-scope" name="scopeType" value="blog" onclick="changeList()"<?php echo $_POST['scopeType'] == "blog" ? ' checked="checked"' : '';?> /><label id="blog-scope-label" for="blog-scope"<?php echo $_POST['scopeType'] == "blog" ? ' class="selected"' : '';?>><?php echo _t('블로그');?></label></li>
+											<li><input type="radio" class="radio" id="sidebar-scope" name="scopeType" value="sidebar" onclick="changeList()"<?php echo $_POST['scopeType'] == "sidebar" ? ' checked="checked"' : '';?> /><label id="sidebar-scope-label" for="sidebar-scope"<?php echo $_POST['scopeType'] == "sidebar" ? ' class="selected"' : '';?>><?php echo _t('사이드바');?></label></li>
+											<li><input type="radio" class="radio" id="admin-scope" name="scopeType" value="admin" onclick="changeList()"<?php echo $_POST['scopeType'] == "admin" ? ' checked="checked"' : '';?> /><label id="admin-scope-label" for="admin-scope"<?php echo $_POST['scopeType'] == "admin" ? ' class="selected"' : '';?>><?php echo _t('관리자');?></label></li>
+											<li><input type="radio" class="radio" id="module-scope" name="scopeType" value="module" onclick="changeList()"<?php echo $_POST['scopeType'] == "module" ? ' checked="checked"' : '';?> /><label id="module-scope-label" for="module-scope"<?php echo $_POST['scopeType'] == "module" ? ' class="selected"' : '';?>><?php echo _t('모듈');?></label></li>
+											<li><input type="radio" class="radio" id="none-scope" name="scopeType" value="none" onclick="changeList()"<?php echo $_POST['scopeType'] == "none" ? ' checked="checked"' : '';?> /><label id="none-scope-label" for="none-scope"<?php echo $_POST['scopeType'] == "none" ? ' class="selected"' : '';?>><?php echo _t('분류 없음');?></label></li>
+										</ul>
 									</dd>
 								</dl>
 <?php
@@ -203,93 +371,29 @@ if (!defined('__TEXTCUBE_CENTER__')) {
 <?php
 }
 ?>
-								<dl id="sorting-line" class="line">
-									<dt><?php echo _t('정렬');?></dt>
-									<dd>
-										<input type="radio" class="radio" id="ascend-sorting" name="sortType" value="ascend" onclick="changeList()"<?php echo $_POST['sortType'] == "ascend" ? ' checked="checked"' : '';?> /><label for="ascend-sorting"><?php echo _t('오름차순');?></label>
-										<input type="radio" class="radio" id="descend-sorting" name="sortType" value="descend" onclick="changeList()"<?php echo $_POST['sortType'] == "descend" ? ' checked="checked"' : '';?> /><label for="descend-sorting"><?php echo _t('내림차순');?></label>
-									</dd>
-								</dl>
-								<dl id="activate-status-line" class="line">
-									<dt><?php echo _t('상태');?></dt>
-									<dd>
-										<input type="checkbox" class="checkbox" id="activated-plugin" name="listedPluginStatus[]" value="activated" onclick="changeList()"<?php echo in_array("activated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /><label for="activated-plugin"><?php echo _t('사용중인 플러그인');?></label>
-										<input type="checkbox" class="checkbox" id="deactivated-plugin" name="listedPluginStatus[]" value="deactivated" onclick="changeList()"<?php echo in_array("deactivated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /><label for="deactivated-plugin"><?php echo _t('사용하지 않는 플러그인');?></label>
-									</dd>
-								</dl>
 								
 								<div id="submit-button-box" class="button-box">
 									<input type="submit" value="<?php echo _t('플러그인 목록 갱신');?>" />
 								</div>
 							</fieldset>
 							
-							<table class="data-inbox" cellspacing="0" cellpadding="0">
-								<thead>
-									<tr>
-										<th class="title"><span class="text"><?php echo _t('제목');?></span></th>
-										<th class="version"><span class="text"><?php echo _t('버전');?></span></th>
-										<th class="scope"><span class="text"><?php echo _t('종류');?></span></th>
-										<th class="explain"><span class="text"><?php echo _t('설명');?></span></th>
-										<th class="maker"><span class="text"><?php echo _t('만든이');?></span></th>
-										<th class="config"><span class="text"><?php echo _t('설정');?></span></th>
-										<th class="status"><span class="text"><?php echo _t('상태');?></span></th>
-									</tr>
-								</thead>
-								<tbody>
+							<div id="temp-box">
+								<div id="all-selector">
+									<input type="button" class="input-button" onclick="checkAll(true); togglePlugins('activate'); return false;" value="<?php echo _t('전체 활성화');?>" />
+									<input type="button" class="input-button" onclick="checkAll(true); togglePlugins('deactivate'); return false;" value="<?php echo _t('전체 비활성화');?>" />
+								</div>
+								
+								<table class="data-inbox" cellspacing="0" cellpadding="0">
+									<thead>
+										<tr>
+											<th class="selection"><?php echo _t('상태');?></th>
+											<th class="icon"><span class="text"><?php echo _t('아이콘');?></span></th>
+											<th class="description"><span class="text"><?php echo _t('내용');?></span></th>
+											<th class="etc"><span class="text"><?php echo _t('기타');?></span></th>
+										</tr>
+									</thead>
+									<tbody>
 <?php
-$plugins = array();
-$pluginAttrs = array();
-
-$dir = dir(ROOT . '/plugins/');
-while ($plugin = $dir->read()) {
-	if (!ereg('^[[:alnum:] _-]+$', $plugin))
-		continue;
-	if (!is_dir(ROOT . '/plugins/' . $plugin))
-		continue;
-	if (!file_exists(ROOT . "/plugins/$plugin/index.xml"))
-		continue;
-	$xmls = new XMLStruct();
-	if (!$xmls->open(file_get_contents(ROOT . "/plugins/$plugin/index.xml"))) {
-		continue;
-	} else {
-		$pluginDir = trim($plugin);
-		$pluginAttrs[$pluginDir] = array(
-							"link" => $xmls->getValue('/plugin/link[lang()]'),
-							"title" => htmlspecialchars($xmls->getValue('/plugin/title[lang()]')),
-							"version" => htmlspecialchars($xmls->getValue('/plugin/version[lang()]')),
-							"description" => htmlspecialchars($xmls->getValue('/plugin/description[lang()]')),
-							"authorLink" => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
-							"author" => htmlspecialchars($xmls->getValue('/plugin/author[lang()]')),
-							"scope" => array(),
-							"config" => $xmls->doesExist('/plugin/binding/config'),
-							"width" => $xmls->getAttribute('/plugin/binding/config/window', 'width'),
-							"height" => $xmls->getAttribute('/plugin/binding/config/window', 'height')
-							);
-		if ($xmls->doesExist('/plugin/binding/adminMenu'))
-			array_push($pluginAttrs[$pluginDir]['scope'], 'admin');
-		if ($xmls->doesExist('/plugin/binding/tag'))
-			array_push($pluginAttrs[$pluginDir]['scope'], 'blog');
-		if ($xmls->doesExist('/plugin/binding/center'))
-			array_push($pluginAttrs[$pluginDir]['scope'], 'dashboard');
-		if ($xmls->doesExist('/plugin/binding/listener'))
-			array_push($pluginAttrs[$pluginDir]['scope'], 'global');
-		if ($xmls->doesExist('/plugin/binding/sidebar'))
-			array_push($pluginAttrs[$pluginDir]['scope'], 'sidebar');
-		if ($xmls->doesExist('/plugin/binding/editor')
-			|| $xmls->doesExist('/plugin/binding/formatter'))
-			array_push($pluginAttrs[$pluginDir]['scope'], 'module');
-
-		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
-	}
-}
-
-if ($_POST['sortType'] == "ascend") {
-	asort($plugins);
-} else {
-	arsort($plugins);
-}
-
-$arrayKeys = array_keys($plugins);
 $rowCount = 0;
 
 for ($i=0; $i<count($arrayKeys); $i++) {
@@ -328,108 +432,110 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	$className .= ($i == sizeof($plugins) - 1) ? ' last-line' : '';
 	$className .= $active ? ' active-class' : ' inactive-class';
 ?>
-									<tr class="<?php echo $className;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-										<td class="title"><?php echo ($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title);?></td>
-										<td class="version"><?php echo $version;?></td>
-										<td id="plugin<?php echo $i;?>Scope" class="scope">
-<?php
-	echo str_repeat("\t", 11);
-	for($j = 0;$j< count($scope); $j++) {
-		if ($j != 0) {
-			echo ', ';
-		}
-		switch($scope[$j]) {
-			case 'global': echo _t('일반');break;
-			case 'blog': echo _t('블로그');break;
-			case 'admin': echo _t('관리자');break;
-			case 'sidebar': echo _t('사이드바');break;
-			case 'dashboard': echo _t('자투리');break;
-			default : echo _t('미지정');break;
-		}
-	}
-	echo CRLF;
-?>
-										</td>
-										<td class="explain"><?php echo $description;?></td>
-										<td class="maker"><?php echo ($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author);?></td>
-										<td class="config">
-<?php
-	if ($config=='Y') {
-		if ($active) {
-?>
-											<a href="#void" id="config_<?php echo $i;?>" class="config-enabled-icon bullet" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>')"><?php echo _t('설정');?></a>
-<?php
-		} else {
-?>
-											<span class="config-disabled-icon bullet"><?php echo _t('설정');?></span>
-<?php
-		}
-	} else {
-?>
-											<span class="config-none-icon bullet"><?php echo _t('없음');?></span>
-<?php
-	}
-?>
-										</td>
-										<td class="status">
+										<tr class="<?php echo $className;?>"><!-- onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')"-->
 <?php
 	if ($active) {
 ?>
-											<input type="hidden" value="1" id="plugin<?php echo $i;?>status"/> <a id="plugin<?php echo $i;?>Link" class="active-class" href="#void" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>'); return false;" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>"><span class="text"><?php echo _t('사용중');?></span></a>
+											<td class="selection" valign="top">
+												<input type="checkbox" class="checkbox" name="entry" value="<?php echo $pluginDir;?>" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null)" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" checked="checked" />
+											</td>
+											<td class="status" valign="top">
+<?php
+		if (file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_on.png")) {
+?>
+												<img id="plugin<?php echo $i;?>Icon" src="<?php echo $serviceURL . "/plugins/{$pluginDir}/images/icon_plugin_on.png";?>" width="48" height="48" alt="작동 상태" />
+<?php
+		} else {
+?>
+												<img id="plugin<?php echo $i;?>Icon" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/icon_plugin_on.png";?>" width="48" height="48" alt="작동 상태" />
+<?php
+		}
+?>
+												<input type="hidden" id="plugin<?php echo $i;?>status" value="1" />
+											</td>
 <?php
 	} else {
 ?>
-											<input type="hidden" value="0" id="plugin<?php echo $i;?>status" /> <a id="plugin<?php echo $i;?>Link" class="inactive-class" href="#void" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>'); return false;" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>"><span class="text"><?php echo _t('미사용');?></span></a>
+											<td class="selection" valign="top">
+												<input type="checkbox" class="checkbox" name="entry" value="<?php echo $pluginDir;?>" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null)" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
+											</td>
+											<td class="status" valign="top">
+<?php
+		if (file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_off.png")) {
+?>
+												<img id="plugin<?php echo $i;?>Icon" src="<?php echo $serviceURL . "/plugins/{$pluginDir}/images/icon_plugin_off.png";?>" width="48" height="48" alt="멈춤 상태" />
+<?php
+		} else {
+?>
+												<img id="plugin<?php echo $i;?>Icon" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/icon_plugin_off.png";?>" width="48" height="48" alt="멈춤 상태" />
+<?php
+		}
+?>
+												<input type="hidden" id="plugin<?php echo $i;?>status" value="0" />
+											</td>
 <?php
 	}
 ?>
-										</td>
-									</tr>
+											<td class="description" valign="top">
+												<div class="summary">
+													<h3><?php echo ($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title);?></h3>
+												
+													<div class="version"><?php echo $version;?></div>
+												</div>
+
+												<div id="descriptionExtended_<?php echo $i;?>" class="extended" style="display: none;">
+													<p class="explain">
+														<?php echo $description;?>
+													</p>
+													<div class="maker">
+														<?php echo _t('제작자');?> - <?php echo ($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author);?>
+													</div>
+												</div>
+											</td>
+											<td class="config" valign="top">
+												<ul>
+													<li>
+														<a href="#void" onclick="toggleDescription(<?php echo $i;?>);"><?php echo _t('자세히 보기');?></a>
+													</li>
+<?php
+	if ($config=='Y') {
+?>
+													<li id="config_<?php echo $i;?>">
+<?php
+		if ($active) {
+?>
+														<a href="#void" class="config-enabled-icon bullet" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>')"><?php echo _t('환경설정');?></a>
+<?php
+		} else {
+?>
+														<span class="disabled"><?php echo _t('환경설정');?></span>
+<?php
+		}
+?>
+													</li>
+<?php
+	}
+?>
+												</ul>
+											</td>
+										</tr>
 <?php
 	$rowCount++;
 }
 ?>
-								</tbody>
-							</table>
-
-							<div id="data-description">
-								<dl class="title-description">
-									<dt><?php echo _t('제목');?></dt>
-									<dd><?php echo _t('manifest 에서 정의한 플러그인 이름');?></dd>
-								</dl>
-								<dl class="version-description">	
-									<dt><?php echo _t('버전');?></dt>
-									<dd><?php echo _t('플러그인 버전');?></dd>
-								</dl>
-								<dl class="kind-description">	
-									<dt><?php echo _t('종류');?></dt>
-									<dd><?php echo _t('플러그인의 기능별 분류');?></dd>
-								</dl>
-								<dl class="explain-description">	
-									<dt><?php echo _t('설명');?></dt>
-									<dd><?php echo _t('작성자의 설명');?></dd>
-								</dl>
-								<dl class="author-description">	
-									<dt><?php echo _t('작성자');?></dt>
-									<dd><?php echo _t('해당 플러그인의 제작,수정,배포의 권한을 가진 사람 또는 단체');?></dd>
-								</dl>
-								<dl class="setting-description">	
-									<dt><?php echo _t('설정');?></dt>
-									<dd><?php echo _t('설정이 있는경우 각 항목을 클릭하여 설정창을 불러올 수 있습니다.');?></dd>
-								</dl>
-								<dl class="status-description">	
-									<dt><?php echo _t('상태');?></dt>
-									<dd><?php echo _t('상태 항목을 클릭하면 플러그인을 활성화/비활성화 할 수 있습니다.');?></dd>
-								</dl>
-							</div>	
+									</tbody>
+								</table>
+							</div>
 						</form>
+						
+						<hr class="hidden" />
 						
 						<div id="part-plugin-more" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('플러그인을 구하려면');?></span></h2>
 							
 <?php
 $linkString = '<a href="http://plugin.textcube.com/" onclick="window.open(this.href); return false;" title="' . _t('플러그인 업로드 게시판으로 연결합니다.') . '">' . _t('플러그인 업로드 게시판'). '</a>';
-$tempString = _f('텍스트큐브 홈페이지의 %1을 방문하시면 다양한 플러그인을 다운로드 하실 수 있습니다. 일반적으로 플러그인 파일을 텍스트큐브의 plugin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 플러그인은 이 메뉴에서 사용중으로 전환하여 사용을 시작합니다. 추천 플러그인에 대한 정보는 <a href="http://blog.textcube.com/plugin" onclick="window.open(this.href); return false;">태터앤 프렌즈의 플러그인 리뷰</a>를 참고하십시오.', $linkString);
+$tempString = _f('텍스트큐브 홈페이지의 %1을 방문하시면 다양한 플러그인을 다운로드 하실 수 있습니다. 일반적으로 플러그인 파일을 텍스트큐브의 plugin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 플러그인은 이 메뉴에서 사용중으로 전환하여 사용을 시작합니다. 추천 플러그인에 대한 정보는 <a href="http://blog.textcube.com/plugin" onclick="window.open(this.href); return false;">TNF의 플러그인 리뷰</a>를 참고하십시오.', $linkString);
 ?>
 							<div class="main-explain-box">
 								<p class="explain"><?php echo $tempString;?></p>
