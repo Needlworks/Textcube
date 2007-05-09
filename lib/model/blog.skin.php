@@ -118,16 +118,16 @@ function selectSkin($owner, $skinName) {
 			array_push($assignments, "linkLength=$value");
 		$value = $xmls->getValue('/skin/default/showListOnCategory');
 		if (isset($value))
-			array_push($assignments, 'showListOnCategory=' . ($value ? '1' : '0'));
+			array_push($assignments, "showListOnCategory=$value");
 		$value = $xmls->getValue('/skin/default/showListOnArchive');
 		if (isset($value))
-			array_push($assignments, 'showListOnArchive=' . ($value ? '1' : '0'));
+			array_push($assignments, "showListOnArchive=$value");
 		$value = $xmls->getValue('/skin/default/showListOnTag');
 		if (isset($value))
-			array_push($assignments, 'showListOnTag=' . ($value ? '1' : '0'));
+			array_push($assignments, "showListOnTag=$value");
 		$value = $xmls->getValue('/skin/default/showListOnSearch');
 		if (isset($value))
-			array_push($assignments, 'showListOnSearch=' . ($value ? '1' : '0'));
+			array_push($assignments, "showListOnSearch=$value");
 		$value = $xmls->getValue('/skin/default/tree/color');
 		if (isset($value))
 			array_push($assignments, "colorOnTree='$value'");
@@ -185,7 +185,7 @@ function selectSkin($owner, $skinName) {
 	return true;
 }
 
-function writeSkinHtml($owner, $contents, $mode) {
+function writeSkinHtml($owner, $contents, $mode, $file) {
 	global $database;
 	global $skinSetting;
 	if ($mode != 'skin' && $mode != 'skin_keyword' && $mode != 'style')
@@ -204,21 +204,26 @@ function writeSkinHtml($owner, $contents, $mode) {
 	$result = DBQuery::query($sql);
 	if (!$result)
 		return _t('실패했습니다.');
-	if ($mode == 'style')
-		$file = $mode . '.css';
-	else
-		$file = $mode . '.html';
-	if (!is_writable(ROOT . "/skin/{$skinSetting['skin']}/$file"))
-		return ROOT . _t('권한이 없습니다.') . " -> /skin/{$skinSetting['skin']}/$file";
-	$handler = fopen(ROOT . "/skin/{$skinSetting['skin']}/$file", 'w');
+	//if ($mode == 'style')
+	//	$file = $mode . '.css';
+	//else
+	//	$file = $mode . '.html';
+	if (!is_writable(ROOT . "/skin/customize/$owner/$file"))
+		return ROOT . _t('권한이 없습니다.') . " -> /skin/customize/$owner/$file";
+	$handler = fopen(ROOT . "/skin/customize/$owner/$file", 'w');
 	if (fwrite($handler, $contents) === false) {
 		fclose($handler);
 		return _t('실패했습니다.');
 	} else {
 		fclose($handler);
-		@chmod(ROOT . "/skin/{$skinSetting['skin']}/$file", 0666);
+		@chmod(ROOT . "/skin/customize/$owner/$file", 0666);
 		return true;
 	}
+}
+
+function getCSSContent($owner, $file) {
+	global $skinSetting;
+	return @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/$file");
 }
 
 function setSkinSetting($owner, $setting) {
