@@ -117,7 +117,7 @@ if (array_key_exists('phpinfo',$_GET)) {
 <body onload="init()">
 <div id="container">
   <form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-  <div id="title"><h1><img src="style/setup/title.gif" width="250" height="54" alt="<?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> Setup" /></h1></div>
+  <div id="title"><h1><img src="style/setup/title.gif" width="233" height="54" alt="<?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> Setup" /></h1></div>
   <input type="hidden" name="Lang" id="Lang" value="<?php echo $baseLanguage;?>" />
 <?php
 if (empty($_POST['step'])) {
@@ -268,7 +268,7 @@ function checkStep($step, $check = true) {
       <tr>
         <th><?php echo _t('테이블 식별자');?> :</th>
         <td>
-          <input type="text" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : 'tt_');?>" class="input <?php echo ($check && ($error == 3) ? ' input_error' : '');?>" />
+          <input type="text" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : 'tc_');?>" class="input <?php echo ($check && ($error == 3) ? ' input_error' : '');?>" />
         </td>
       </tr>
 <?php
