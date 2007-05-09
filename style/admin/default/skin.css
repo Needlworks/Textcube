@@ -161,14 +161,59 @@
 
 #part-skin-edit .edit-area
 {
-	background-color                 : #F5F5F5;
-	padding                          : 5px;
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #999999;
+	float                            : left;
+	height                           : 400px;
+	overflow-x						 : hidden;
+	overflow-y                       : auto;
+	padding                          : 0;
+	width                            : 124px;
+}
+
+#part-skin-edit .section ul li
+{
+	border: 1px solid #FFFFFF;
 }
 
 #part-skin-edit .edit-area textarea
 {
+	display                          : block;
+	font-family                      : Tahoma, Verdana, 'Lucida Grande', sans-serif;
+	font-size                        : 0.92em;
+	font-weight                      : normal;
+	padding                          : 10px 5px;
+	text-align                       : center;
+}
+
+#part-skin-edit .section ul li.selected a
+{
+	background-color                 : #CDCDCD;
+}
+
+#part-skin-edit .section ul li img
+{
+	border: none;
+	display                          : block;
+	margin                           : auto;
+	width                            : 50px;
+}
+
+#part-skin-edit .section .explain
+{
+	margin-bottom                    : 3px;
+}
+
+#part-skin-edit textarea
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #999999;
+	font-family                      : Courier, 'Courier New', monospace;
+	font-size                        : 12px;
 	height                           : 400px;
-	width                            : 927px;
+	margin-left                      : 5px !important;
+	padding                          : 0 0 0 2px;
+	width                            : 780px !important;
 }
 
 #part-skin-edit .section .button-box
@@ -189,6 +234,14 @@
 	padding-top                      : 8px;
 	padding-bottom                   : 6px;
 	vertical-align                   : middle;
+}
+
+/* Exception */
+
+#htmlSectionForm ul li.selected a
+{
+	color: #666666;
+	text-decoration: none;
 }
 
 /* Setting ***************************************************************************************/

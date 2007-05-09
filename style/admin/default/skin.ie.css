@@ -10,8 +10,20 @@
 
 /* Edit ******************************************************************************************/
 
+#part-skin-edit .section ul
+{
+	height                           : 401px;
+	width                            : 120px;
+}
+
+#part-skin-edit textarea
+{
+	font-family                      : 'courier new', courier, monospace;
+}
+
 #part-skin-edit .section .button-box .input-button
 {
+	font-size                        : 0.9em;
 	line-height                      : 1.6em !important;
 }
 
