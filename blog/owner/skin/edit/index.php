@@ -4,16 +4,43 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
+
+// get style files list in current skin.
+$styleFileList = array();
+$tempStyleFileList = getFileListByRegExp(ROOT . "/skin/{$skinSetting['skin']}", '\.css$', true);
+
+foreach ($tempStyleFileList as $styleFile) {
+	$styleFileList[basename($styleFile)] = $styleFile;
+}
+
+@ksort($styleFileList);
+unset($tempStyleFileList);
+
+// set current css.
+if (isset($_GET['style'])) {
+	$currentStyleFile = $_GET['style'];
+} else {
+	$tempKeys = array_keys($styleFileList);
+	$currentStyleFile = str_replace(ROOT . "/skin/{$skinSetting['skin']}/", '', $styleFileList[$tempKeys[0]]);
+}
+
 $skin = @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/skin.html");
 $skin_keyword = @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/skin_keyword.html");
-$style = @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/style.css");
+
+$htmlFilePerms = preg_replace('@^[0-9]{2}|[0-9]{2}$@', '', strrev(decoct(fileperms(ROOT . "/skin/{$skinSetting['skin']}/skin.html"))));
+$styleFilePerms = preg_replace('@^[0-9]{2}|[0-9]{2}$@', '', $temp = strrev(decoct(fileperms(ROOT . "/skin/{$skinSetting['skin']}/" . $currentStyleFile))));
+
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
+								var skinHTMLSaved = true;
+								var skinStyleSaved = true;
+								
 								function setSkin(mode) {
 									var skin = document.getElementById(mode);
+									var file = document.getElementById(mode + 'FileName');
 									
 									if ((mode == 'skin' && skinHTMLSaved == false) || (mode == 'style' && skinStyleSaved == false)) {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/edit/skin/");
@@ -82,10 +109,7 @@ if (count($styleFileList) > 0 && !empty($currentStyleFile) && file_exists(ROOT .
 										tempLI.childNodes[0].appendChild(tempStrong);
 									}
 									request.onError = function() {
-										if (this.getText("/response/msg"))
-											alert(this.getText("/response/msg"));
-										else
-											alert('<?php echo _t('실패했습니다.');?>');
+										alert('<?php echo _t('실패했습니다.');?>');
 									}
 									request.send('file=' + file);
 								}
@@ -131,10 +155,17 @@ if ($htmlFilePerms < 6) {
 									<div id="html-container">
 										<textarea id="skin" name="skin_html" cols="60" rows="25" onkeyup="skinHTMLSaved=false"><?php echo htmlspecialchars($skin);?></textarea>
 									</div>
+<?php
+if ($htmlFilePerms >= 6) {
+?>
 									<div class="button-box">
+										<input type="hidden" id="skinFileName" name="file" value="skin.html" />
 										<input type="reset" class="reset-button input-button" value="<?php echo _t('되돌리기');?>" />
 										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setSkin('skin'); return false" />
 									</div>
+<?php
+}
+?>
 								</form>
 								
 								<!--form id="keyword-section" class="section">
@@ -143,6 +174,12 @@ if ($htmlFilePerms < 6) {
 									<a class="save-button button" href="#void" onclick="setSkin('skin_keyword');"><span class="text"><?php echo _t('저장하기');?></span></a>		  
 								</form-->
 								
+<?php
+// get current style's contents.
+$currentStyleContents = file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/{$currentStyleFile}");
+
+if (count($styleFileList) > 0) {
+?>
 								<hr class="hidden" />
 								
 								<form id="cssSectionForm" class="section" method="post" action="<?php echo $blogURL;?>/owner/skin/edit/skin/">
@@ -177,11 +214,21 @@ if ($htmlFilePerms < 6) {
 									<div id="style-box">
 										<textarea id="style" name="s_cache_style_css" cols="60" rows="25" onkeyup="skinStyleSaved=false"><?php echo htmlspecialchars($currentStyleContents);?></textarea>
 									</div>
+<?php
+	if ($styleFilePerms >= 6) {
+?>
 									<div class="button-box">
+										<input type="hidden" id="styleFileName" name="file" value="<?php echo $currentStyleFile;?>" />
 										<input type="reset" class="reset-button input-button" value="<?php echo _t('되돌리기');?>" />
 										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setSkin('style'); return false" />
 									</div>
+<?php
+	}
+?>
 								</form>
+<?php
+}
+?>
 							</div>
 						</div>
 <?php
