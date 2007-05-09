@@ -173,4 +173,28 @@ function getContentWidth() {
 	}
 	return $contentWidth;
 }
+
+function getFileListByRegExp($path, $pattern, $deepScan=false) {
+	$path = preg_replace('@/$@', '', $path);
+	
+	$fileList = array();
+	if ($dirHandle = @dir($path)) {
+		while (false !== ($tempSrc = $dirHandle->read())) {
+			if ($tempSrc == '.' || $tempSrc == '..' || preg_match('@^\.@', $tempSrc))
+				continue;
+			if (is_dir($path . '/' . $tempSrc)) {
+				$tempList = getFileListByRegExp($path . '/' . $tempSrc, $pattern, $deepScan);
+				if (is_array($tempList))
+					$fileList = $fileList + $tempList;
+			}
+			if (is_file($path . '/' . $tempSrc)) {
+				if ($pattern == '' || preg_match("@$pattern@", $tempSrc))
+					array_push($fileList, $path . '/' . $tempSrc);
+			}
+		}
+		$dirHandle->close();
+	}
+	
+	return $fileList;
+}
 ?>
