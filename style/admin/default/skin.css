@@ -2,7 +2,7 @@
 
 /* Common *****************************************************************************************/
 
-#sub-menu-list
+#sub-menu-skin
 {
 	background-image                 : none !important;
 }
@@ -143,23 +143,16 @@
 
 #part-skin-edit .section
 {
-	margin-bottom                    : 20px;
-}
-
-#part-skin-edit .section .file-name
-{
-	background-image                 : url("./image/img_skin_edit_bullet.gif");
-	background-position              : left top;
-	background-repeat                : no-repeat;
+	background-color                 : #F5F5F5;
 	color                            : #6B90C3;
 	font-family                      : Verdana, Arial, Tahoma, "Lucida Grande", sans-serif;
 	font-size                        : 1.1em;
 	font-weight                      : bold;
-	margin-left                      : 9px;
-	padding-left                     : 7px;
+	margin                           : 20px 0 3px 9px;
+	padding                          : 7px;
 }
 
-#part-skin-edit .edit-area
+#part-skin-edit .section ul
 {
 	background-color                 : #FFFFFF;
 	border                           : 1px solid #999999;
@@ -176,7 +169,7 @@
 	border: 1px solid #FFFFFF;
 }
 
-#part-skin-edit .edit-area textarea
+#part-skin-edit .section ul li a
 {
 	display                          : block;
 	font-family                      : Tahoma, Verdana, 'Lucida Grande', sans-serif;
@@ -218,8 +211,8 @@
 
 #part-skin-edit .section .button-box
 {
-	background-color                 : #F5F5F5;
-	padding                          : 5px 5px 12px 5px;
+	clear                            : both;
+	padding                          : 20px 5px;
 }
 
 #part-skin-edit .section .button-box .input-button
@@ -593,7 +586,6 @@
 	position                         : absolute;
 	top                              : 7px;
 	right                            : 0;
-	width                            : 13px;
 }
 
 .sidebar-module .edit-button-box,
