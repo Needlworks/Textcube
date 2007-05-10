@@ -13,8 +13,8 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 							<h3>Brand yourself! : <?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?></h3>
 							<div class="main-explain-box">
 								<p class="explain">
-									<em><?php echo _t('이 판올림을 태터리안 여러분께 헌정합니다.');?></em><br />
-									<?php echo _t('&copy; 2004 - 2007. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />텍스트큐브는 태터앤컴퍼니와 태터앤프렌즈에서 개발합니다.<br />텍스트큐브와 텍스트큐브 로고는 태터앤컴퍼니의 상표입니다.').CRLF;?>
+									<em><?php echo _t('부 - 버그야 물렀거라 - 적.');?></em><br />
+									<?php echo _t('&copy; 2004 - 2007. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />텍스트큐브는 니들웍스/TNF에서 개발합니다.<br />텍스트큐브와 텍스트큐브 로고는 니들웍스의 상표입니다.').CRLF;?>
 								</p>
 							</div>
 							
@@ -36,9 +36,9 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 										</thead>
 										<tbody>
-											<tr><td class="id"><a href="http://gendoh.tistory.com">gendoh</a></td><td class="name">Sang-il, Lee</td></tr>
+<!--										<tr><td class="id"><a href="http://gendoh.tistory.com">gendoh</a></td><td class="name">Sang-il, Lee</td></tr>
 											<tr><td class="id"><a href="http://inureyes.tistory.com">inureyes</a></td><td class="name">Jeongkyu Shin</td></tr>
-											<tr><td class="id"><a href="http://papacha.net">papacha</a></td><td class="name">Sunju Jahng</td></tr>
+											<tr><td class="id"><a href="http://papacha.net">papacha</a></td><td class="name">Sunju Jahng</td></tr>-->
 										</tbody>
 									</table>
 								</div>
@@ -58,7 +58,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
+<!--										<tr>
 												<td class="id"><a href="http://coolengineer.com/">coolengineer</a></td>
 												<td class="name">Hojin Choi</td>
 												<td class="role"><?php echo _t('XML-RPC API interface');?></td>
@@ -117,7 +117,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="id"><a href="mailto:cshlacid@gmail.com">peris</a></td>
 												<td class="name">Sang-hoon Choi</td>
 												<td class="role"><?php echo _t('plugin architecture');?></td>
-											</tr>
+											</tr>-->
 										</tbody>
 									</table>
 								</div>
@@ -139,7 +139,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
+<!--										<tr>
 												<td class="id"><a href="mailto:seikanet@gmail.com">Louice P.</a></td>
 												<td class="name">Sangjib Choi</td>
 												<td class="role"><?php echo _t('Japanese');?></td>
@@ -163,7 +163,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="id"><a href="http://memoriesreloaded.net">CK</a></td>
 												<td class="name">CK</td>
 												<td class="role"><?php echo _t('English');?></td>
-											</tr>
+											</tr>-->
 										</tbody>
 									</table>
 								</div>
@@ -185,7 +185,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
+<!--										<tr>
 												<td class="id"><a href="http://www.create74.com">J.Parker</a></td>
 												<td class="name">Yong-ju, Park</td>
 												<td class="role"><?php echo _t('plugin');?></td>
@@ -204,7 +204,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="id"><a href="http://lunamoth.biz">lunamoth</a></td>
 												<td class="name"></td>
 												<td class="role"><?php echo _t('manual');?></td>
-											</tr>
+											</tr>-->
 										</tbody>
 									</table>
 								</div>
@@ -215,7 +215,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								
 								<div id="contributor-container" class="container">
 									<h4><?php echo _t('Code Contributor');?></h4>
-									
+<!--									
 									<p>
 									<a href="http://barosl.com/blog">랜덤여신</a>,
 									<a href="http://www.mcfuture.net">McFuture</a>,
@@ -224,13 +224,13 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									<a href="http://story.isloco.com">linus</a>,
 									<a href="http://nya.pe.kr">NYA</a>,
 									<a href="http://www.yangkun.pe.kr">희망이아빠</a>
-									</p>
+									</p>-->
 								</div>
 								
 								<div id="reporter-container" class="container">
 									<h4><?php echo _t('Reporter');?></h4>
-									
-									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, 티즈, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis, leokim, diasozo, Ikaris C. Faust, DARKLiCH, 주성애비, dikafryo, 이일환, Chiri</p>
+<!--									
+									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, 티즈, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis, leokim, diasozo, Ikaris C. Faust, DARKLiCH, 주성애비, dikafryo, 이일환, Chiri, htna, Milfy, filmstyle, citta, 날개달기</p>-->
 								</div>
 							</div>
 						</div>
