@@ -607,9 +607,10 @@ class Locale {
 		$time_php = filemtime( $lang_php );
 		// po파일이 더 최근에 갱신되었으면 php파일을 갱신한다.
 		if($time_po && $time_po > $time_php ) {
-			$po2php_module = dirname( $lang_po ) . "/po2php.php";
-			require_once( $po2php_module );
-			po2php( $lang_po, $lang_php );
+			requireComponent('Needlworks.Core.Locale');
+			$langConvert = new Po2php;
+			$langConvert->open($lang_po);
+			$langConvert->save($lang_php);
 		}
 		return false;
 	}
