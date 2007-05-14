@@ -1,6 +1,21 @@
 @charset "utf-8";
 
-/* Plugin ****************************************************************************************/
+/* Plugin */
+
+#part-plugin-list fieldset
+{
+	padding                          : 10px 10px 8px 10px;
+}
+
+#sorting-line
+{
+	margin-bottom: 5px;
+}
+
+#scope-line dd
+{
+	top: 15px;
+}
 
 #scope-line ul li
 {
@@ -10,25 +25,14 @@
 #temp-box
 {
 	height: 15em;
+	margin-left: 231px;
 }
 
-#part-plugin-list table.data-inbox tbody tr td.config
-{
-	font-family: 돋움, Dotum, sans-serif;
-	font-size: 11px;
-	padding-top: 20px;
-}
+/* Plugin List */
 
-/* data description */
-#data-description
+#part-plugin-list ul.data-inbox li .summary .plugin-buttons
 {
-	bottom                           : 280px;
-	right                            : 10px;
-	position                         : absolute;
-}
-
-#data-description dl dd
-{
-	font-family                      : 돋움, Dotum, sans-serif !important;
-	font-size                        : 0.98em;
+	font-family: Dotum, 'Lucida Grande', Tahoma, sans-serif;
+	letter-spacing: -1px;
+	margin-top: 3px;
 }

@@ -1,5 +1,3 @@
-/* @override http://www.graphittie.net/sandbox/single/style/admin/default/plugin.css */
-
 @charset "utf-8";
 
 /* Common ****************************************************************************************/
@@ -42,23 +40,28 @@
 	margin-left                      : 5px;
 }
 
-#part-plugin-list #none-scope-label
+#none-scope-label
 {
 	border-right                     : none !important;
 }
 
-#part-plugin-list #scope-line dd
+#scope-line
+{
+	margin: 0 !important;
+}
+
+#scope-line dd
 {
 	border: 1px solid #EFEFEF;
 	padding: 10px;
 	position: absolute;
 	top: 10px;
 	left: -10px;
-	width: 200px;
+	width: 180px;
 }
 
-#part-plugin-list #sorting-line label,
-#part-plugin-list #activate-status-line label
+#sorting-line label,
+#activate-status-line label
 {
 	border                           : none !important;
 	padding                          : 0;
@@ -76,9 +79,9 @@
 
 #temp-box
 {
-	margin-left: 250px;
+	margin-left: 232px;
 	min-height: 15em;
-	width: 690px;
+	width: 730px;
 }
 
 #all-selector
@@ -87,69 +90,80 @@
 	text-align: right;
 }
 
-/* table head */
-#part-plugin-list table.data-inbox thead
+/* plugin list */
+
+#part-plugin-list ul.data-inbox
+{
+	margin: 0;
+	width: 730px;
+}
+
+#part-plugin-list ul.data-inbox li
+{
+	float: left;
+	margin: 2px !important;
+	position: relative;
+	width: 140px;
+}
+
+#part-plugin-list ul.data-inbox li.last-item
+{
+	/*float: none;*/
+}
+
+#part-plugin-list ul.data-inbox li .plugin-box
+{
+	/*background-image: url('./image/bg_plugin_box.jpg');*/
+	border: 1px solid #F4F4F4;
+	padding: 25px 0 0 0;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#part-plugin-list ul.data-inbox li.active-class .plugin-box
+{
+	background-color: #EFF6FF;
+	border: 1px solid #C6DFFF;
+}
+
+#part-plugin-list ul.data-inbox li .plugin-box .plugin-icon
+{
+	background-position: center center;
+	cursor: pointer;
+	height: 90px;
+	margin: 0 auto 25px auto;
+	width: 90px;
+}
+
+#part-plugin-list ul.data-inbox li .plugin-box .plugin-icon img
 {
 	display: none;
+	position: absolute;
+	left: 84px;
+	top: 84px;
 }
 
-/* table body */
-#part-plugin-list table.data-inbox
+#part-plugin-list ul.data-inbox li .summary
 {
-	border-top: 1px solid #E3E3DE;
-	width: 690px;
+	padding: 5px 0 10px 0;
+	text-align: center;
 }
 
-#part-plugin-list table.data-inbox tbody tr td.selection
+#part-plugin-list ul.data-inbox li .summary .input-checkbox
 {
-	padding-top: 22px;
+	left: 5px;
+	position: absolute;
+	top: 5px;
 }
 
-#part-plugin-list table.data-inbox tbody tr td.status
+#part-plugin-list ul.data-inbox li .summary .plugin-buttons
 {
-	padding-left: 0;
-	padding-right: 0;
-	width: 48px;
-}
-
-#part-plugin-list table.data-inbox tbody tr td.status img
-{
-	display: block;
-	height: 48px;
-	width: 48px;
-}
-
-#part-plugin-list table.data-inbox tbody tr td.description
-{
-	text-align: left;
-}
-
-#part-plugin-list table.data-inbox tbody tr td.description .summary
-{
-	padding: 10px 0;
-}
-
-#part-plugin-list table.data-inbox tbody tr td.description .version
-{
+	font-family: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
 	font-size: 0.9em;
 }
 
-#part-plugin-list table.data-inbox tbody tr td.description .maker
-{
-	margin-top: 5px;
-	text-align: right;
-}
-
-
-#part-plugin-list table.data-inbox tbody tr td.config
-{
-	font-size: 0.9em;
-	padding-top: 17px;
-	text-align: left;
-	width: 80px;
-}
-
-#part-plugin-list table.data-inbox tbody tr td.config .disabled
+#part-plugin-list ul.data-inbox li .summary .plugin-buttons .disabled,
+#part-plugin-list ul.data-inbox li .summary .plugin-buttons .dimmed
 {
 	color: #BBBBBB;
 }

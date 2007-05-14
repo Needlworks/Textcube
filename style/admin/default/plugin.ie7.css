@@ -1,15 +1,10 @@
 @charset "utf-8";
 
-/* Plugin ****************************************************************************************/
+/* Plugin List */
 
-#part-plugin-list table.data-inbox tbody tr td.config
+#part-plugin-list ul.data-inbox li .summary .plugin-buttons
 {
-	font-family: 돋움, Dotum, sans-serif;
-	font-size: 11px;
-	padding-top: 18px;
-}
-
-#part-plugin-list table.data-inbox tbody tr td.config ul li
-{
-	margin: 2px 0;
+	font-family: Dotum, 'Lucida Grande', Tahoma, sans-serif;
+	letter-spacing: -1px;
+	margin-top: 3px;
 }

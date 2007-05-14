@@ -117,13 +117,14 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 ?>
 								
 								function togglePlugin(plugin, num, width, height, obj, force) {
-									tempIcon = document.getElementById("plugin" + num + "Icon");
+									var currentIcon = document.getElementById('pluginIcon'+num);
+									var currentSettingButton = document.getElementById('pluginSettingButton'+num);
 									
 									if (force == 'activate') {
 										command = true;
 									} else if (force == 'deactivate') {
 										command = false;
-									} else if (document.getElementById("plugin" + num + "status").value == 0) {
+									} else if (document.getElementById('pluginStatus'+num).value == 0) {
 										command = true;
 									} else {
 										command = false;
@@ -132,25 +133,39 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 									if (command) {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/activate");
 										request.onSuccess = function() {												
-											//document.getElementById("plugin" + num + "Link").className = 'active-class';
+											currentIcon.setAttribute('alt', '<?php echo _t('켜짐');?>');
+											currentIcon.setAttribute('title', '<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>');
+											document.getElementById('pluginStatus'+num).value = 1;
+											objLI = getParentByTagName("LI", obj);
 											
-											//document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?php echo _t('사용중');?><\/span>';
-											//document.getElementById("plugin" + num + "Link").setAttribute('title', '<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>');
-											document.getElementById("plugin" + num + "status").value = 1;
-											objTR = getParentByTagName("TR", obj);
-											objTR.className = objTR.className.replace('inactive', 'active');
-											
-											var icon = new Image();
-											if (tempIcon.src.match('<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png')) {
-												icon.src = '<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png';
+											if (document.getElementById('activated-plugin').checked == false) {
+												objLI.parentNode.removeChild(objLI);
 											} else {
-												icon.src = '<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_on.png';
-											}
-											tempIcon.src = icon.src;
+												objLI.className = objLI.className.replace('inactive', 'active');
 											
-											if (getObject('config_' + num) != null) {
-												tempLink = '<a href="#void" class="config-enabled-icon bullet" onclick="getCurrentSetting(\'' + plugin + '\', \'Y\', ' + width + ', ' + height + '); return false;"><?php echo _t('환경설정');?></a>';
-												document.getElementById('config_' + num).innerHTML = tempLink;
+												var icon = new Image();
+												if (currentIcon.style.backgroundImage == "url(<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png)") {
+													icon.src = '<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png';
+												} else {
+													icon.src = '<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_on.png';
+												}
+												currentIcon.style.backgroundImage = "url('"+icon.src+"')";
+											
+												if (currentSettingButton.className == 'dimmed') {
+													if (STD.isIE) {
+														// tempLink.onclick, tempLink.setAttribute('onclick', ...)은 브라우저 호환성에 문제 있음. 따라서 브라우저를 detect하여 처리함.
+														tempLink = document.createElement('<A onclick="getCurrentSetting(\''+plugin+'\', \'Y\', '+width+', '+height+', \'setting\'); return false;">');
+													} else {
+														tempLink = document.createElement('A');
+														tempLink.setAttribute('onclick', "getCurrentSetting('"+plugin+"', 'Y', "+width+", "+height+", 'setting'); return false;");
+													}
+													tempLink.setAttribute('href', '#void');
+													tempLink.innerHTML = '<?php echo _t('환경설정');?>';
+													
+													currentSettingButton.innerHTML = '';
+													currentSettingButton.className = 'enabled';
+													currentSettingButton.appendChild(tempLink);
+												}
 											}
 										}
 										request.onError = function() {
@@ -160,93 +175,34 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 									} else {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/deactivate");
 										request.onSuccess = function() {
-											//document.getElementById("plugin" + num + "Link").className = 'inactive-class';
+											currentIcon.setAttribute('alt', '<?php echo _t('꺼짐');?>');
+											currentIcon.setAttribute('title', '<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>');
+											document.getElementById('pluginStatus'+num).value = 0;
+											objLI = getParentByTagName("LI", obj);
 											
-											//document.getElementById("plugin" + num + "Link").innerHTML = '<span class="text"><?php echo _t('미사용');?><\/span>';
-											//document.getElementById("plugin" + num + "Link").setAttribute('title', '<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>');
-											document.getElementById("plugin" + num + "status").value = 0;
-											objTR = getParentByTagName("TR", obj);
-											objTR.className = objTR.className.replace('active', 'inactive');
-											
-											var icon = new Image();
-											if (tempIcon.src.match('<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png')) {
-												icon.src = '<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png';
+											if (document.getElementById('deactivated-plugin').checked == false) {
+												objLI.parentNode.removeChild(objLI);
 											} else {
-												icon.src = '<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_off.png';
-											}
-											tempIcon.src = icon.src;
+												objLI.className = objLI.className.replace('active', 'inactive');
 											
-											if (getObject('config_' + num) != null) {
-												tempSpan = '<span class="disabled"><?php echo _t('환경설정');?></span>';
-												document.getElementById('config_' + num).innerHTML = tempSpan;
+												var icon = new Image();
+												if (currentIcon.style.backgroundImage == "url(<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png)") {
+													icon.src = '<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png';
+												} else {
+													icon.src = '<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_off.png';
+												}
+												currentIcon.style.backgroundImage = "url('"+icon.src+"')";
+											
+												if (currentSettingButton.className == 'enabled') {
+													currentSettingButton.innerHTML = '<?php echo _t('환경설정');?>';
+													currentSettingButton.className = 'dimmed';
+												}
 											}
 										}
 										request.onError = function() {
 											alert("<?php echo _t('플러그인을 비활성화하는데 실패했습니다.');?>");
 										}
 										request.send("name=" + plugin);
-									}
-								}
-
-								function checkAll(checked) {
-									for (i = 0; document.getElementById('part-plugin-list').elements[i]; i++) {
-										if (document.getElementById('part-plugin-list').elements[i].name == "entry") {
-											if (document.getElementById('part-plugin-list').elements[i].checked != checked) {
-												document.getElementById('part-plugin-list').elements[i].checked = checked;
-												toggleThisPlugin(document.getElementById('part-plugin-list').elements[i]);
-											}
-										}
-									}
-								}
-								
-								function toggleDescription(num) {
-									var tempObj = document.getElementById('descriptionExtended_' + num);
-									
-									if (tempObj.style.display == 'block') {
-										tempObj.style.display = 'none';
-									} else {
-										tempObj.style.display = 'block';
-									}
-								}
-								
-								function togglePlugins(action) {
-									try {
-										var oElement;
-										var targets = new Array();
-										for (var i = 0; document.getElementById('part-plugin-list').elements[i]; i++) {
-											oElement = document.getElementById('part-plugin-list').elements[i];
-											if ((oElement.name == 'entry') && oElement.checked)
-												targets[targets.length] = oElement.value;
-										}
-										
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/massActivate");
-										request.onSuccess = function() {
-											//for (var i=0; i<targets.length; i++) {
-											//	togglePlugin(targets[i], i, pluginInfo[targets[i]]['width'], pluginInfo[targets[i]]['height'], getObject('plugin' + i + 'status'), action);
-											//}
-											
-											if (action == 'activate') {
-												alert("<?php echo _t('선택하신 플러그인을 활성화했습니다.');?>");
-											} else {
-												alert("<?php echo _t('선택하신 플러그인을 비활성화했습니다.');?>");
-											}
-											document.getElementById('part-plugin-list').submit();
-										}
-										request.onError = function() {
-											alert("<?php echo _t('선택한 플러그인 일부 혹은 전부를 활성화/비활성화하는 데 실패했습니다.');?>");
-										}
-										request.send("targets=" + targets.join(",") + "&action=" + action);
-									} catch(e) {
-										alert(e.message);
-									}
-								}
-
-								function toggleThisPlugin(obj) {
-									objPl = getParentByTagName("TR", obj);
-									if (objPl.className.match("selected")) {
-										objPl.className = objPl.className.replace('selected', 'unselected');
-									} else {
-										objPl.className = objPl.className.replace('unselected', 'selected');
 									}
 								}
 								
@@ -270,13 +226,19 @@ if (defined('__TEXTCUBE_CENTER__')) {
 								
 								function execLoadFunction() {
 									removeItselfById('submit-button-box');
+									
+									for (var i = 0; document.getElementById('part-plugin-list').elements[i]; i++) {
+										oElement = document.getElementById('part-plugin-list').elements[i];
+										if ((oElement.name == 'entry'))
+											oElement.style.display= 'none';
+									}
 								}
 								
 								var currentSetting='';
-								function getCurrentSetting( plugin, setYN, width, height){
-									if( "N" == setYN ) return ;
+								function getCurrentSetting( plugin, setYN, width, height, tab){
+									//if( "N" == setYN ) return ;
 									if( '' != currentSetting ) currentSetting.close();
-									window.open('<?php echo $blogURL;?>/owner/plugin/currentSetting/?Name='+plugin,'CurrentSetting', 'width='+width+', height='+height+', scrollbars=1, status=0, resizable=1');	
+									window.open('<?php echo $blogURL;?>/owner/plugin/currentSetting/?Name='+plugin+'&Tab='+tab, 'CurrentSetting', 'width='+width+', height='+height+', scrollbars=1, status=0, resizable=1');	
 									return;
 								}								
 							//]]>
@@ -378,24 +340,8 @@ if (!defined('__TEXTCUBE_CENTER__')) {
 							</fieldset>
 							
 							<div id="temp-box">
-								<div id="all-selector">
-									<input type="button" class="input-button" onclick="checkAll(true); togglePlugins('activate'); return false;" value="<?php echo _t('전체 활성화');?>" />
-									<input type="button" class="input-button" onclick="checkAll(true); togglePlugins('deactivate'); return false;" value="<?php echo _t('전체 비활성화');?>" />
-								</div>
-								
-								<table class="data-inbox" cellspacing="0" cellpadding="0">
-									<thead>
-										<tr>
-											<th class="selection"><?php echo _t('상태');?></th>
-											<th class="icon"><span class="text"><?php echo _t('아이콘');?></span></th>
-											<th class="description"><span class="text"><?php echo _t('내용');?></span></th>
-											<th class="etc"><span class="text"><?php echo _t('기타');?></span></th>
-										</tr>
-									</thead>
-									<tbody>
+								<ul class="data-inbox">
 <?php
-$rowCount = 0;
-
 for ($i=0; $i<count($arrayKeys); $i++) {
 	$pluginDir = $arrayKeys[$i];
 	
@@ -428,103 +374,95 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	else if ($active == false && !in_array("deactivated", $_POST['listedPluginStatus']))
 		continue;
 	
-	$className = ($rowCount % 2) == 1 ? 'even-line' : 'odd-line';
-	$className .= ($i == sizeof($plugins) - 1) ? ' last-line' : '';
-	$className .= $active ? ' active-class' : ' inactive-class';
+	$className = $active ? 'active-class' : 'inactive-class';
+	$className .= $i == (count($arrayKeys) - 1) ? ' last-item' : NULL;
 ?>
-										<tr class="<?php echo $className;?>"><!-- onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')"-->
+									<li class="<?php echo $className;?>">
+<?php
+	if ($active) {
+		if (file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_on.png")) {
+?>
+										<div class="plugin-box">
+											<div id="pluginIcon<?php echo $i;?>" class="plugin-icon" style="background-image: url('<?php echo $serviceURL . "/plugins/{$pluginDir}/images/icon_plugin_on.png";?>');" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;">
+												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('켜짐');?>" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" />
+											</div>
+<?php
+		} else {
+?>
+										<div class="plugin-box">
+											<div id="pluginIcon<?php echo $i;?>" class="plugin-icon" style="background-image: url('<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/icon_plugin_on.png";?>');" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;">
+												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('켜짐');?>" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" />
+											</div>
+<?php
+		}
+?>
+											<input type="hidden" id="pluginStatus<?php echo $i;?>" value="1" />
+<?php
+	} else {
+		if (file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_off.png")) {
+?>
+										<div class="plugin-box">
+											<div id="pluginIcon<?php echo $i;?>" class="plugin-icon" style="background-image: url('<?php echo $serviceURL . "/plugins/{$pluginDir}/images/icon_plugin_off.png";?>');" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;">
+												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
+											</div>
+<?php
+		} else {
+?>
+										<div class="plugin-box">
+											<div id="pluginIcon<?php echo $i;?>" class="plugin-icon" style="background-image: url('<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/icon_plugin_off.png";?>');" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;">
+												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
+											</div>
+<?php
+		}
+?>
+											<input type="hidden" id="pluginStatus<?php echo $i;?>" value="0" />
+<?php
+	}
+?>
+										</div>
+										<div class="summary">
+											<div class="plugin-title">
 <?php
 	if ($active) {
 ?>
-											<td class="selection" valign="top">
-												<input type="checkbox" class="checkbox" name="entry" value="<?php echo $pluginDir;?>" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null)" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" checked="checked" />
-											</td>
-											<td class="status" valign="top">
-<?php
-		if (file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_on.png")) {
-?>
-												<img id="plugin<?php echo $i;?>Icon" src="<?php echo $serviceURL . "/plugins/{$pluginDir}/images/icon_plugin_on.png";?>" width="48" height="48" alt="작동 상태" />
-<?php
-		} else {
-?>
-												<img id="plugin<?php echo $i;?>Icon" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/icon_plugin_on.png";?>" width="48" height="48" alt="작동 상태" />
-<?php
-		}
-?>
-												<input type="hidden" id="plugin<?php echo $i;?>status" value="1" />
-											</td>
+												<input type="checkbox" class="input-checkbox" name="entry" value="<?php echo $pluginDir;?>" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" checked="checked" />
 <?php
 	} else {
 ?>
-											<td class="selection" valign="top">
-												<input type="checkbox" class="checkbox" name="entry" value="<?php echo $pluginDir;?>" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null)" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
-											</td>
-											<td class="status" valign="top">
-<?php
-		if (file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_off.png")) {
-?>
-												<img id="plugin<?php echo $i;?>Icon" src="<?php echo $serviceURL . "/plugins/{$pluginDir}/images/icon_plugin_off.png";?>" width="48" height="48" alt="멈춤 상태" />
-<?php
-		} else {
-?>
-												<img id="plugin<?php echo $i;?>Icon" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/icon_plugin_off.png";?>" width="48" height="48" alt="멈춤 상태" />
-<?php
-		}
-?>
-												<input type="hidden" id="plugin<?php echo $i;?>status" value="0" />
-											</td>
+												<input type="checkbox" class="input-checkbox" name="entry" value="<?php echo $pluginDir;?>" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
 <?php
 	}
 ?>
-											<td class="description" valign="top">
-												<div class="summary">
-													<h3><?php echo ($link ? '<a href="' . htmlspecialchars($link) . '">' . $title . '</a>' : $title);?></h3>
-												
-													<div class="version"><?php echo $version;?></div>
-												</div>
-
-												<div id="descriptionExtended_<?php echo $i;?>" class="extended" style="display: none;">
-													<p class="explain">
-														<?php echo $description;?>
-													</p>
-													<div class="maker">
-														<?php echo _t('제작자');?> - <?php echo ($authorLink ? '<a href="' . htmlspecialchars($authorLink) . '">' . $author . '</a>' : $author);?>
-													</div>
-												</div>
-											</td>
-											<td class="config" valign="top">
-												<ul>
-													<li>
-														<a href="#void" onclick="toggleDescription(<?php echo $i;?>);"><?php echo _t('자세히 보기');?></a>
-													</li>
+												<?php echo ($link ? "<a href=\"" . htmlspecialchars($link) . "\" title=\"{$title} - " . _t('버전') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</a>' : "<span title=\"{$title} - " . _t('버전') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</span>');?>
+											</div>
+											<div class="plugin-buttons">
+												<a href="#void" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>', 'about'); return false;"><?php echo _t('자세히 보기');?></a> <span class="divider">|</span>
 <?php
 	if ($config=='Y') {
-?>
-													<li id="config_<?php echo $i;?>">
-<?php
 		if ($active) {
 ?>
-														<a href="#void" class="config-enabled-icon bullet" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>')"><?php echo _t('환경설정');?></a>
+												<span id="pluginSettingButton<?php echo $i;?>" class="enabled"><a href="#void" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>', 'setting'); return false;"><?php echo _t('환경설정');?></a></span>
 <?php
 		} else {
 ?>
-														<span class="disabled"><?php echo _t('환경설정');?></span>
+												<span id="pluginSettingButton<?php echo $i;?>" class="dimmed"><?php echo _t('환경설정');?></span>
 <?php
 		}
+	} else {
 ?>
-													</li>
+												<span id="pluginSettingButton<?php echo $i;?>" class="disabled"><?php echo _t('환경설정');?></span>
 <?php
 	}
 ?>
-												</ul>
-											</td>
-										</tr>
+											</div>
+										</div>
+									</li>
 <?php
-	$rowCount++;
 }
 ?>
-									</tbody>
-								</table>
+								</ul>
+								
+								<div class="clear"></div>
 							</div>
 						</form>
 						

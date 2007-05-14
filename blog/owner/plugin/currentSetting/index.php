@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
-$IV = array(	'GET' => array(	'Name' => array('string')	));
+$IV = array('GET' => array(	'Name' => array('string'), 'Tab' => array('string', 'default' => 'about')));
 require ROOT . '/lib/includeForBlogOwner.php';
 
 if (false) { // For optimization process
@@ -15,13 +15,53 @@ if (false) { // For optimization process
 }
 $targetURL = $hostURL.preg_replace( '/(currentSetting)$/' , 'receiveConfig' , $folderURL );
 $pluginName = $_GET['Name'];
+$tabName = $_GET['Tab'];
+$active = in_array($pluginName, $activePlugins);
 $result =  handleConfig($pluginName);
 if( is_null($result) )	respondNotFoundPage();
+
+$xmls = new XMLStruct();
+if (!$xmls->open(file_get_contents(ROOT . "/plugins/{$pluginName}/index.xml"))) {
+	respondNotFoundPage();
+} else {
+	$pluginAttrs = array(
+						"link" => $xmls->getValue('/plugin/link[lang()]'),
+						"title" => htmlspecialchars($xmls->getValue('/plugin/title[lang()]')),
+						"version" => htmlspecialchars($xmls->getValue('/plugin/version[lang()]')),
+						"description" => htmlspecialchars($xmls->getValue('/plugin/description[lang()]')),
+						"authorLink" => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
+						"author" => htmlspecialchars($xmls->getValue('/plugin/author[lang()]')),
+						"license" => htmlspecialchars($xmls->getValue('/plugin/license[lang()]')),
+						"scope" => array(),
+						);
+	if ($xmls->doesExist('/plugin/binding/adminMenu'))
+		array_push($pluginAttrs['scope'], '관리자');
+	if ($xmls->doesExist('/plugin/binding/tag'))
+		array_push($pluginAttrs['scope'], '블로그');
+	if ($xmls->doesExist('/plugin/binding/center'))
+		array_push($pluginAttrs['scope'], '대시보드');
+	if ($xmls->doesExist('/plugin/binding/listener'))
+		array_push($pluginAttrs['scope'], '분류없음');
+	if ($xmls->doesExist('/plugin/binding/sidebar'))
+		array_push($pluginAttrs['scope'], '사이드바');
+	if ($xmls->doesExist('/plugin/binding/editor') || $xmls->doesExist('/plugin/binding/formatter'))
+		array_push($pluginAttrs['scope'], '모듈');
+}
+
+if (!$xmls->doesExist('/plugin/binding/config') || !$active) {
+	$tabName = 'about';
+}
+
+if (file_exists(ROOT . "/plugins/{$pluginName}/images/icon_plugin.png")) {
+	$iconPath = $serviceURL . "/plugins/{$pluginName}/images/icon_plugin.png";
+} else {
+	$iconPath = $serviceURL . $adminSkinSetting['skin'] . "/image/icon_plugin.png";
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title><?php echo _f("%1 설정", $result['title']);?></title>
+	<title><?php echo _f("%1 설정", $pluginAttrs['title']);?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/plugin-config.css" />
 <?php
@@ -32,15 +72,16 @@ if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 }
 ?>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/pluginconfig.js"> </script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/pluginconfig.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			var fiednamelist = <?php echo $result['script'] ;?>;
 			
 			var errorMessage ={
 				"1": "<?php echo _t('데이터처리 오류 발생.');?>",
-				"2": "<?php echo _t('잘못된 입력 입니다.');?>"
+				"2": "<?php echo _t('잘못된 입력입니다.');?>"
 			};
+			
 			function saveConfig(plugin){
 				var xmlcon= new Converter(document, fiednamelist) ; 
 			   	var xmlData = encodeURIComponent(xmlcon.getXMLData());
@@ -68,6 +109,45 @@ if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 				request.send("Name=" + encodeURIComponent(plugin) + "&DATA=" + xmlData);
 				xmlcon = null;
 				request = null;
+			}
+			
+			var currentTabName = '<?php echo $tabName;?>-tab';
+			var objSubmitButton = <?php echo $xmls->doesExist('/plugin/binding/config') && $active && $tabName == 'about' ? 'true' : 'false';?>;
+			
+			function toggleTab(name) {
+				var newTabName = name + '-tab';
+				
+				// hide current tab.
+				document.getElementById(currentTabName).className = '';
+				document.getElementById(currentTabName+'-body').style.display = 'none';
+				
+				document.getElementById(newTabName).className = 'selected';
+				document.getElementById(newTabName+'-body').style.display = 'block';
+				
+				if (getObject('submitButton') != null && name == 'about') {
+					document.getElementById('submitButton').parentNode.removeChild(document.getElementById('submitButton'));
+					objSubmitButton = true;
+				} else if (objSubmitButton == true && name == 'setting') {
+					temp = document.getElementById('layout-foot').innerHTML;
+					document.getElementById('layout-foot').innerHTML = '';
+					
+					if (STD.isIE == true) {
+						tempInput = document.createElement('<INPUT onclick="saveConfig(\'<?php echo $pluginName;?>\'); return false;" />');
+					} else {
+						tempInput = document.createElement('INPUT');
+						tempInput.setAttribute('onclick', "saveConfig('<?php echo $pluginName;?>'); return false;");
+					}
+					tempInput.type = 'submit';
+					tempInput.id = 'submitButton';
+					tempInput.className = 'input-button';
+					tempInput.value = '<?php echo _t('저장');?>';
+					
+					document.getElementById('layout-foot').appendChild(tempInput);
+					document.getElementById('layout-foot').innerHTML += temp;
+					objSubmitButton = false;
+				}
+				
+				currentTabName = newTabName;
 			}	
 		//]]>
 	</script>
@@ -75,15 +155,97 @@ if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 <body>
 	<form method="post" action="<?php echo $targetURL;?>">
 		<div id="layout-head">
-			<h1 class="caption"><?php echo _f("%1 설정", $result['title']);?></h1>
+			<h1 class="caption"><?php echo _f("%1 설정", $pluginAttrs['title']);?></h1>
 		</div>
+		
 		<div id="layout-body">
-			<div id="config_data">
-<?php echo $result['code'];?>
+			<ul id="menu">
+				<li id="about-tab"<?php echo $tabName == 'about' ? ' class="selected"' : '';?> onclick="toggleTab('about'); return false;"><?php echo _t('이 플러그인에 대하여');?></li>
+<?php
+if ($xmls->doesExist('/plugin/binding/config')) {
+	if ($active) {
+?>
+				<li id="setting-tab"<?php echo $tabName == 'setting' ? ' class="selected"' : '';?> onclick="toggleTab('setting'); return false;"><?php echo _t('플러그인 설정');?></li>
+<?php
+	} else {
+?>
+				<li id="setting-tab" onclick="alert('<?php echo _t('플러그인이 활성화 되어 있지 않습니다.');?>')"><?php echo _t('플러그인 설정');?></li>
+<?php
+	}
+}
+?>
+			</ul>
+			
+			<div id="about-tab-body" class="tab"<?php echo $tabName != 'about' ? ' style="display: none"' : '';?>>
+				<div id="iconBox">
+					<img src="<?php echo $iconPath;?>" alt="<?php echo _t('플러그인 아이콘');?>" />
+				</div>
+				<div id="information">
+					<div class="title">
+						<h2><?php echo $pluginAttrs['title'];?></h2>
+						
+						<div id="version"><?php echo _f('버전 %1', $pluginAttrs['version']);?></div>
+						
+<?php
+if ($pluginAttrs['authorLink']) {
+	$authorLink = "<a href=\"{$pluginAttrs['authorLink']}\" target=\"_blank\">{$pluginAttrs['author']}</a>";
+} else {
+	$authorLink = $pluginAttrs['author'];
+}
+?>
+						<div id="author">
+							<?php echo _f('%1 제작', $authorLink);?>
+						</div>
+					</div>
+					
+					<div class="description">
+						<div class="temp-description">
+							<?php echo $pluginAttrs['description'];?>
+						</div>
+					</div>
+				
+<?php
+
+if ($pluginAttrs['license'] == 'GPL') {
+	$licenseText = _f('이 플러그인은 %1 라이센스를 따릅니다.', $pluginAttrs['license']);
+} else if (!empty($pluginAttrs['license'])) {
+	$licenseText = _t('_라이센스') . ' : ' . $pluginAttrs['license'];
+}
+
+if (isset($licenseText)) {
+?>
+					<div class="license">
+						<?php echo $licenseText;?>
+					</div>
+<?php
+}
+?>
+				</div>
+				
+				<div class="clear"></div>
 			</div>
+			
+<?php
+if ($xmls->doesExist('/plugin/binding/config') && $active) {
+?>
+			<div id="setting-tab-body" class="tab"<?php echo $tabName != 'setting' ? ' style="display: none"' : '';?>>
+				<div id="config_data">
+					<?php echo $result['code'];?>
+				</div>
+			</div>
+<?php
+}
+?>
 		</div>
+		
 		<div id="layout-foot" class="button-box">
-			<input type="submit" class="input-button" value="<?php echo _t('저장');?>" onclick="saveConfig('<?php echo $pluginName;?>'); return false;" />
+<?php
+if ($xmls->doesExist('/plugin/binding/config') && $active && $tabName == 'setting') {
+?>
+			<input type="submit" id="submitButton" class="input-button" value="<?php echo _t('저장');?>" onclick="saveConfig('<?php echo $pluginName;?>'); return false;" />
+<?php
+}
+?>
 			<input type="button" class="input-button" value="<?php echo _t('닫기');?>" onclick="self.close();" />
 		</div>
 	</form>
