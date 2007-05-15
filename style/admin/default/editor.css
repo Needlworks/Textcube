@@ -125,6 +125,8 @@ h3
 	width                            : 160px;
 }
 
+/* editor */
+
 #editWindow
 {
 	height                           : 448px;
@@ -647,9 +649,8 @@ dl#permalink-line dd .input-text
 
 dl#permalink-line dd p
 {
-	font-family                      : 돋움, Dotum, sans-serif;
+	font-family                      : 'Lucida Grande', Tahoma, Verdana, sans-serif;
 	font-size                        : 0.9em;
-	letter-spacing                   : -1px;
 	padding-right                    : 5px;
 	text-align                       : right;
 }

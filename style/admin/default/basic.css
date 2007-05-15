@@ -128,11 +128,10 @@ optgroup.delete option
 	color                            : #FF0000;
 }
 
-kbd,
-samp
+kbd, samp
 {
 	font-family                      : "Courier New", Courier, 굴림, Gulim, monospace;
-	font-size                        : 1em;
+	font-size                        : 11px; /* Sarafi에서 상대크기를 제대로 인식하지 못함. */
 }
 
 select

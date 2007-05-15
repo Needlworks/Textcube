@@ -67,10 +67,9 @@ table.data-inbox tbody tr td.ip
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	display                          : inline;
-	font-family                      : 돋움, Dotum, sans-serif;
+	font-family                      : 'Lucida Grande', Tahoma, Verdana, sans-serif;
 	font-size                        : 0.93em;
 	font-weight                      : normal;
-	letter-spacing                   : -1px;
 	padding                          : 3px 0 1px 29px;
 }
 
@@ -90,21 +89,21 @@ table.data-inbox tbody tr td.ip
 #data-description dl.eolin-description
 {
 	background-image                 : url("./image/icon_syndicated_single.gif");
-	background-position              : 8px top;
+	background-position              : 8px 2px;
 	background-repeat                : no-repeat;
 }
 
 #data-description dl.trackback-description
 {
 	background-image                 : url("./image/icon_trackback_single.gif");
-	background-position              : 6px top;
+	background-position              : 6px 2px;
 	background-repeat                : no-repeat;
 }
 
 #data-description dl.protect-description
 {
 	background-image                 : url("./image/icon_protectedsetting_single.gif");
-	background-position              : left 1px;
+	background-position              : left 3px;
 	background-repeat                : no-repeat;
 	padding                          : 3px 0 1px 29px;
 }
@@ -150,7 +149,7 @@ table.data-inbox tbody tr td.ip
 /* table header */
 #part-post-list table.data-inbox tr .status
 {
-	width                            : 51px;
+	width                            : 52px;
 }
 
 #part-post-list table.data-inbox tr .syndicate

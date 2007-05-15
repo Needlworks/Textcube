@@ -22,8 +22,8 @@ requireStrictRoute();
 		<title><?php echo _t('File Uploader');?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.css" />
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.opera.css" />
 		<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.ie.css" /><![endif]-->
+		<!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.ie7.css" /><![endif]-->
 		<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
 		<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 		<script type="text/javascript">
@@ -144,7 +144,6 @@ if (count($_FILES) == 1) {
 		<script type="text/javascript">
 			//<![CDATA[				
 				document.write('<input type="file" class="input-file" name="attachment" onchange="addAttachOption(this.value); document.getElementById(\'uploadForm\').submit();" />');
-				
 			//]]>	
 		</script>
 		<input type="hidden" id="fileNameInput" name="fileName" value="" />
