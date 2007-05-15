@@ -42,15 +42,22 @@ if (isset($_POST['category'])) {
 if (isset($_GET['visibility'])) {
 	$_POST['visibility'] = $_GET['visibility'];
 }
+
+$tabsClass = array();
 if (isset($_POST['visibility'])) {
-	if($_POST['visibility']=='public')
+	if($_POST['visibility']=='public') {
 		$visibility = '>=1';
-	else if($_POST['visibility']=='protected')
-		$visibility = '=1';	
-	else if($_POST['visibility']=='private')
+		$tabsClass['public'] = true;
+	} else if($_POST['visibility']=='protected') {
+		$visibility = '=1';
+		$tabsClass['protected'] = true;
+	} else if($_POST['visibility']=='private') {
 		$visibility = '0';
+		$tabsClass['private'] = true;
+	}
 } else {
 	$visibility = null;
+	$tabsClass['all'] = true;
 }
 
 // 찾기 키워드 설정.
@@ -648,11 +655,17 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 		echo _t('등록된 글 목록입니다');
 	}
 ?></span></h2>
-
+							
+							<ul id="entry-tabs-box">
+								<li<?php echo isset($tabsClass['all']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>"><?php echo _t('모든 글');?></a></li>
+								<li<?php echo isset($tabsClass['private']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=private"><?php echo _t('비공개 글');?></a></li>
+								<li<?php echo isset($tabsClass['public']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=public"><?php echo _t('공개된 글');?></a></li>
+							</ul>
+							
 							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/entry">
 								<div class="section">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
-									
+
 									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
 										<option value="-5"<?php echo ($categoryId == -5 ? ' selected="selected"' : '');?>><?php echo _t('모든 글');?></option>
 										<optgroup class="category" label="<?php echo _t('글 종류');?>">
