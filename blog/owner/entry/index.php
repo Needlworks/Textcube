@@ -56,7 +56,7 @@ if (isset($_POST['visibility'])) {
 		$tabsClass['private'] = true;
 	}
 } else {
-	$visibility = null;
+	$visibility = '>=1';
 	$tabsClass['all'] = true;
 }
 
