@@ -68,14 +68,19 @@ if (!isset($serviceURL))
 switch ($service['type']) {
 	case 'domain':
 		$pathURL = $service['path'];
-		if ($blog['defaultDomain'] && $blog['secondaryDomain']) {
-			$defaultURL = 'http://' . $blog['secondaryDomain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+		$blog['primaryBlogURL'] = 'http://' . $blog['name'] . '.' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+		if( !empty($blog['secondaryDomain']) )
+			$blog['secondaryBlogURL'] = 'http://' . $blog['secondaryDomain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+		else
+			$blog['secondaryBlogURL'] = null;
+		if ($blog['defaultDomain']) {
+			$defaultURL = $blog['secondaryBlogURL'];
 			if ($_SERVER['HTTP_HOST'] == $blog['secondaryDomain'])
 				$baseURL = $service['path'];
 			else
 				$baseURL = $defaultURL;
 		} else {
-			$defaultURL = 'http://' . $blog['name'] . '.' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+			$defaultURL = $blog['primaryBlogURL'];
 			if ($_SERVER['HTTP_HOST'] == ($blog['name'] . '.' . $service['domain']))
 				$baseURL = $service['path'];
 			else
@@ -84,7 +89,9 @@ switch ($service['type']) {
 		break;
 	case 'path':
 		$pathURL = $service['path'] . '/' . $blog['name'];
-		$defaultURL = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+		$blog['primaryBlogURL'] = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+		$blog['secondaryBlogURL'] = null;
+		$defaultURL = $blog['primaryBlogURL'];
 		if ($_SERVER['HTTP_HOST'] == $service['domain'])
 			$baseURL = $service['path'] . '/' . $blog['name'];
 		else
@@ -93,7 +100,9 @@ switch ($service['type']) {
 	case 'single':
 	default:
 		$pathURL = $service['path'];
-		$defaultURL = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+		$blog['primaryBlogURL'] = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+		$blog['secondaryBlogURL'] = null;
+		$defaultURL = $blog['primaryBlogURL'];
 		if ($_SERVER['HTTP_HOST'] == $service['domain'])
 			$baseURL = $service['path'];
 		else
