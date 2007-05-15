@@ -10,11 +10,13 @@ if (isset($_POST['page']))
 $IV = array(
 	'GET' => array(
 		'category' => array('int', 'mandatory' => false),
+		'visibility' => array('string', 'mandatory' => false),		
 		'page' => array('int', 1, 'default' => 1),
 		'search' => array('string', 'mandatory' => false)
 	),
 	'POST' => array(
 		'category' => array('int', 'mandatory' => false),
+		'visibility' => array('string', 'mandatory' => false),		
 		'categoryAtHome' => array('int', 'mandatory' => false),
 		'perPage' => array('int', 1, 'mandatory' => false),
 		'search' => array('string', 'mandatory' => false),
@@ -36,6 +38,21 @@ if (isset($_POST['category'])) {
 	$categoryId = -5;	
 }
 
+// 공개 / 비공개 설정
+if (isset($_GET['visibility'])) {
+	$_POST['visibility'] = $_GET['visibility'];
+}
+if (isset($_POST['visibility'])) {
+	if($_POST['visibility']=='public')
+		$visibility = '>=1';
+	else if($_POST['visibility']=='protected')
+		$visibility = '=1';	
+	else if($_POST['visibility']=='private')
+		$visibility = '0';
+} else {
+	$visibility = null;
+}
+
 // 찾기 키워드 설정.
 $searchKeyword = NULL;
 if (isset($_POST['search']) && !empty($_POST['search']))
@@ -53,7 +70,7 @@ if ( isset($_POST['perPage']) && (in_array($_POST['perPage'], array(10, 15, 20, 
 }
 
 // 컨텐츠 목록 생성.
-list($entries, $paging) = getEntriesWithPagingForOwner($owner, $categoryId, $searchKeyword, $suri['page'], $perPage);
+list($entries, $paging) = getEntriesWithPagingForOwner($owner, $categoryId, $searchKeyword, $suri['page'], $perPage, $visibility);
 
 // query string 생성.
 $paging['postfix'] = NULL;
@@ -61,6 +78,8 @@ if ($categoryId != 0)
 	$paging['postfix'] .= "&amp;category=$categoryId";
 if (!empty($searchKeyword))
 	$paging['postfix'] .= '&amp;search='.urlencode($searchKeyword);
+if (isset($_POST['visibility']))
+	$paging['postfix'] .= '&amp;visibility='.urlencode($_POST['visibility']);
 
 // 이올린에 발행한 적이 있는지 체크.
 $countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `owner` = {$owner} AND `visibility` = 3");

@@ -12,6 +12,7 @@ if(isset($blogMenu['topMenu'])) {
 		break;
 		case 'entry':
 		$blogContentMenuItem = array(
+			array('menu'=>'dashboard','title'=>_t('바로가기'),'link'=>'/owner/entry/dashboard'),
 			array('menu'=>'post','title'=>_t('글쓰기'),'link'=>'/owner/entry/post'),
 			array('menu'=>'entry','title'=>_t('글 목록'),'link'=>'/owner/entry'),
 			array('menu'=>'comment','title'=>_t('댓글'),'link'=>'/owner/entry/comment'),

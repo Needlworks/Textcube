@@ -213,8 +213,9 @@ function getEntriesWithPagingBySearch($owner, $search, $page, $count, $countItem
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
 
-function getEntriesWithPagingForOwner($owner, $category, $search, $page, $count) {
+function getEntriesWithPagingForOwner($owner, $category, $search, $page, $count, $visibility = null) {
 	global $database, $suri;
+	requireComponent('Eolin.PHP.Core');
 	$sql = "SELECT e.*, c.label categoryLabel, d.id draft 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
@@ -232,6 +233,13 @@ function getEntriesWithPagingForOwner($owner, $category, $search, $page, $count)
 		$sql .= ' AND e.category >= 0';
 	} else {
 		$sql .= ' AND e.category = '.$category;
+	}
+	if(isset($visibility)) {
+		if(Validator::isInteger($visibility,0,3)){
+			$sql .= ' AND e.visibility = '.$visibility;
+		} else {
+			$sql .= ' AND e.visibility '.$visibility;
+		}
 	}
 	if (!empty($search)) {
 		$search = escapeMysqlSearchString($search);
