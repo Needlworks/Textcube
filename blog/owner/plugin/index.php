@@ -62,11 +62,11 @@ while ($plugin = $dir->read()) {
 		$pluginDir = trim($plugin);
 		$pluginAttrs[$pluginDir] = array(
 							"link" => $xmls->getValue('/plugin/link[lang()]'),
-							"title" => htmlspecialchars($xmls->getValue('/plugin/title[lang()]')),
-							"version" => htmlspecialchars($xmls->getValue('/plugin/version[lang()]')),
-							"description" => htmlspecialchars($xmls->getValue('/plugin/description[lang()]')),
+							"title" => $xmls->getValue('/plugin/title[lang()]'),
+							"version" => $xmls->getValue('/plugin/version[lang()]'),
+							"description" => $xmls->getValue('/plugin/description[lang()]'),
 							"authorLink" => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
-							"author" => htmlspecialchars($xmls->getValue('/plugin/author[lang()]')),
+							"author" => $xmls->getValue('/plugin/author[lang()]'),
 							"scope" => array(),
 							"config" => $xmls->doesExist('/plugin/binding/config'),
 							"width" => $xmls->getAttribute('/plugin/binding/config/window', 'width'),
@@ -433,7 +433,7 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 <?php
 	}
 ?>
-												<?php echo ($link ? "<a href=\"" . htmlspecialchars($link) . "\" title=\"{$title} - " . _t('버전') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</a>' : "<span title=\"{$title} - " . _t('버전') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</span>');?>
+												<?php echo ($link ? "<a href=\"" . htmlspecialchars($link) . "\" title=\"".htmlspecialchars($title)." - " . _t('버전') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</a>' : "<span title=\"".htmlspecialchars($title)." - " . _t('버전') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</span>');?>
 											</div>
 											<div class="plugin-buttons">
 												<a href="#void" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>', 'about'); return false;"><?php echo _t('자세히 보기');?></a> <span class="divider">|</span>
