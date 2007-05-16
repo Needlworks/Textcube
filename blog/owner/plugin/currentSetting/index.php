@@ -137,7 +137,7 @@ if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 						tempInput = document.createElement('INPUT');
 						tempInput.setAttribute('onclick', "saveConfig('<?php echo $pluginName;?>'); return false;");
 					}
-					tempInput.type = 'submit';
+					tempInput.setAttribute('type','submit');
 					tempInput.id = 'submitButton';
 					tempInput.className = 'input-button';
 					tempInput.value = '<?php echo _t('저장');?>';
