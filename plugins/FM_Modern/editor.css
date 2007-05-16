@@ -1,0 +1,485 @@
+@charset "utf-8";
+
+/* PALETTE ------------------------------------------------------------------ */
+
+#moderneditor-palette
+{
+	height                           : 31px; /*28px*/
+}
+
+#moderneditor-palette .title
+{
+	display                          : none;
+}
+
+#moderneditor-palette .font-relatives
+{
+	border                           : none;
+	clear                            : none;
+	float                            : left;
+	padding                          : 2px 0 0 2px;
+}
+
+#moderneditor-palette .mode
+{
+	border                           : none;
+	clear                            : none;
+	float                            : left;
+	padding                          : 0 0 0 5px; /*2px 0 0 5px*/
+}
+
+#moderneditor-palette .font-style,
+#moderneditor-palette .paragraph,
+#moderneditor-palette .special
+{
+	background-image                 : url("../../style/admin/default/image/edit/dotted_vertical.gif");
+	background-position              : 2px 4px; /*left 3px*/
+	background-repeat                : no-repeat;
+	border                           : none; /*--*/
+	clear                            : none;
+	float                            : left;
+	padding                          : 2px 0 0 0; /*2px 0 0 5px*/
+}
+
+#moderneditor-palette dl dd /*--*/
+{
+	margin-left                      : 0;
+	padding                          : 3px 0 0 7px;
+}
+
+#moderneditor-palette .button
+{
+	background-image                 : none;
+	float                            : left;
+	height                           : 20px;
+	margin                           : 1px 0 0 0; /*0*/
+	padding                          : 0;
+	width                            : 20px;
+}
+
+#moderneditor-palette .button span
+{
+	display                          : none !important;
+}
+
+#moderneditor-palette .button:link,
+#moderneditor-palette .button:visited
+{
+	background-position              : left top;
+}
+
+#moderneditor-palette .button:hover,
+#moderneditor-palette .button:active
+{
+	background-position              : left bottom;
+}
+
+#moderneditor-palette .active-class
+{
+	background-position              : left bottom !important;
+}
+
+#moderneditor-palette .inactive-class
+{
+	background-position              : left top !important;
+}
+
+#moderneditor-palette .inactive-class:hover,
+#moderneditor-palette .inactive-class:active
+{
+	background-position              : left bottom !important;
+}
+
+#moderneditor-palette .mode dd /*--*/
+{
+	padding                          : 2px 0 0 2px !important;
+}
+
+/* PALETTE INDICATORS ------------------------------------------------------- */
+
+.moderneditor-fontFamilyChanger
+{
+	height                           : 19px;
+	margin                           : 0; /*--*/
+	width                            : 116px;
+}
+
+.moderneditor-fontFamilyChanger option
+{
+	background-color                 : #EFEFEF;
+}
+
+.moderneditor-fontFamilyChanger option.head-option
+{
+	background-color                 : #FFFFFF;
+}
+
+.moderneditor-fontSizeChanger
+{
+	height                           : 19px;
+	margin                           : 0 0 0 3px; /*--*/
+	width                            : 60px;
+}
+
+.moderneditor-fontSizeChanger optgroup
+{
+	margin: 0;
+	padding: 0;
+}
+
+.moderneditor-fontSizeChanger option
+{
+	background-color                 : #EFEFEF;
+	padding-left: 5px;
+}
+
+.moderneditor-fontSizeChanger option.head-option
+{
+	background-color                 : #FFFFFF;
+}
+
+.moderneditor-indicatorBold
+{
+	background-image                 : url("../../style/admin/default/image/edit/setBold.gif") !important;
+}
+
+.moderneditor-indicatorItalic
+{
+	background-image                 : url("../../style/admin/default/image/edit/setItalic.gif") !important;
+}
+
+.moderneditor-indicatorUnderline
+{
+	background-image                 : url("../../style/admin/default/image/edit/setUnderLine.gif") !important;
+}
+
+.moderneditor-indicatorStrike
+{
+	background-image                 : url("../../style/admin/default/image/edit/setLineThrough.gif") !important;
+}
+
+.moderneditor-indicatorColorPalette
+{
+	background-image                 : url("../../style/admin/default/image/edit/setColor.gif") !important;
+}
+
+.moderneditor-indicatorMarkPalette
+{
+	background-image                 : url("../../style/admin/default/image/edit/setMark.gif") !important;
+}
+
+.moderneditor-indicatorTextBox
+{
+	background-image                 : url("../../style/admin/default/image/edit/textBox.gif") !important;
+}
+
+.moderneditor-indicatorRemoveFormat
+{
+	background-image                 : url("../../style/admin/default/image/edit/set_remove.gif") !important;
+}
+
+.moderneditor-indicatorJustifyLeft
+{
+	background-image                 : url("../../style/admin/default/image/edit/setAlignLeft.gif") !important;
+}
+
+.moderneditor-indicatorJustifyCenter
+{
+	background-image                 : url("../../style/admin/default/image/edit/setAlignCenter.gif") !important;
+}
+
+.moderneditor-indicatorJustifyRight
+{
+	background-image                 : url("../../style/admin/default/image/edit/setAlignRight.gif") !important;
+}
+
+.moderneditor-indicatorUnorderedList
+{
+	background-image                 : url("../../style/admin/default/image/edit/set_ul.gif") !important;
+}
+
+.moderneditor-indicatorOrderedList
+{
+	background-image                 : url("../../style/admin/default/image/edit/set_ol.gif") !important;
+}
+
+.moderneditor-indicatorOutdent
+{
+	background-image                 : url("../../style/admin/default/image/edit/set_outdent.gif") !important;
+}
+
+.moderneditor-indicatorIndent
+{
+	background-image                 : url("../../style/admin/default/image/edit/set_indent.gif") !important;
+}
+
+.moderneditor-indicatorBlockquote
+{
+	background-image                 : url("../../style/admin/default/image/edit/set_blockquote.gif") !important;
+}
+
+.moderneditor-indicatorCodeBlock
+{
+	background-image                 : url("../../style/admin/default/image/edit/setCode.gif") !important;
+}
+
+.moderneditor-indicatorHtmlBlock
+{
+	background-image                 : url("../../style/admin/default/image/edit/setHtml.gif") !important;
+}
+
+.moderneditor-indicatorCreateLink
+{
+	background-image                 : url("../../style/admin/default/image/edit/setLink.gif") !important;
+}
+
+.moderneditor-indicatorMediaBlock
+{
+	background-image                 : url("../../style/admin/default/image/edit/setEmbed.gif") !important;
+}
+
+.moderneditor-indicatorFlashBlock
+{
+	background-image                 : url("../../style/admin/default/image/edit/setFlash.gif") !important;
+}
+
+.moderneditor-indicatorMoreLessBlock
+{
+	background-image                 : url("../../style/admin/default/image/edit/setMoreLess.gif") !important;
+}
+
+.moderneditor-indicatorMode
+{
+	background-image                 : url("../../style/admin/default/image/edit/set_switch.gif") !important;
+	height                           : 13px !important; /*11px !important*/
+	margin-top                       : 8px !important; /*5px !important*/
+	width                            : 42px !important;
+}
+
+/* PALETTE SUB BOXES -------------------------------------------------------- */
+
+.moderneditor-colorPalette
+{
+	background-color                 : #FFFFFF;
+	position                         : absolute;
+	padding                          : 2px;
+	top                              : 25px; /*88px*/
+	left                             : 80px;
+	z-index                          : 100;
+	border                           : 1px solid #CCCCCC;
+	width                            : 432px; /*336px*/
+}
+
+.moderneditor-markPalette
+{
+	background-color                 : #FFFFFF;
+	position                         : absolute;
+	padding                          : 2px;
+	top                              : 25px; /*88px*/
+	left                             : 100px;
+	z-index                          : 100;
+	border                           : 1px solid #CCCCCC;
+	width                            : 432px; /*336px*/
+}
+
+.moderneditor-textBox
+{
+	background-color                 : #FFFFFF;
+	position                         : absolute;
+	padding                          : 2px;
+	top                              : 25px; /*88px*/
+	left                             : 120px; /*290px*/
+	z-index                          : 100;
+	border                           : 1px solid #CCCCCC;
+	width                            : 80px;
+}
+
+.moderneditor-colorPalette table,
+.moderneditor-markPalette table,
+.moderneditor-textBox table
+{
+	border-collapse                  : collapse;
+	border-spacing                   : 0;
+	background-color                 : #FFFFFF;
+	margin                           : 0;
+	width                            : auto;
+}
+
+.moderneditor-colorPalette table tr td,
+.moderneditor-markPalette table tr td,
+.moderneditor-textBox table tr td
+{
+	border                           : none !important;
+	cursor                           : pointer;
+	height                           : 12px !important; /*16px*/
+	line-height                      : 1.5em; /*--*/
+	padding                          : 0 !important;
+	width                            : 16px;
+}
+
+.moderneditor-colorPalette table tr td span,
+.moderneditor-markPalette table tr td span,
+.moderneditor-textBox table tr td span
+{
+	display                          : block;
+	width                            : 16px;
+	text-indent                      : -5000px;
+}
+
+/* colors */
+.color-000000
+{
+	background-color                 : #000000;
+}
+
+.color-0000FF
+{
+	background-color                 : #0000FF;
+}
+
+.color-003366
+{
+	background-color                 : #003366;
+}
+
+.color-006699
+{
+	background-color                 : #006699;
+}
+
+.color-008000
+{
+	background-color                 : #008000;
+}
+
+.color-009966
+{
+	background-color                 : #009966;
+}
+
+.color-177FCD
+{
+	background-color                 : #177FCD;
+}
+
+.color-333333
+{
+	background-color                 : #333333;
+}
+
+.color-666699
+{
+	background-color                 : #666699;
+}
+
+.color-670787
+{
+	background-color                 : #670787;
+}
+
+.color-8E8E8E
+{
+	background-color                 : #8E8E8E;
+}
+
+.color-993366
+{
+	background-color                 : #993366;
+}
+
+.color-999966
+{
+	background-color                 : #999966;
+}
+
+.color-99CC66
+{
+	background-color                 : #99CC66;
+}
+
+.color-9B18C1
+{
+	background-color                 : #9B18C1;
+}
+
+.color-C1C1C1
+{
+	background-color                 : #C1C1C1;
+}
+
+.color-C9EDFF
+{
+	background-color                 : #C9EDFF;
+}
+
+.color-CC9900
+{
+	background-color                 : #CC9900;
+}
+
+.color-D0FF9D
+{
+	background-color                 : #D0FF9D;
+}
+
+.color-D41A01
+{
+	background-color                 : #D41A01;
+}
+
+.color-E4E4E4
+{
+	background-color                 : #E4E4E4;
+}
+
+.color-FAFFA9
+{
+	background-color                 : #FAFFA9;
+}
+
+.color-FF0000
+{
+	background-color                 : #FF0000;
+}
+
+.color-FF3399
+{
+	background-color                 : #FF3399;
+}
+
+.color-FF7635
+{
+	background-color                 : #FF7635;
+}
+
+.color-FF9900
+{
+	background-color                 : #FF9900;
+}
+
+.color-FFDAED
+{
+	background-color                 : #FFDAED;
+}
+
+.color-FFFFFF
+{
+	background-color                 : #FFFFFF;
+}
+
+/* TEXTBOX ------------------------------------------------------------------ */
+
+#moderneditor-textbox
+{
+	background-color                 : #F2F2F2; /*#EBF2F8*/
+	border                           : 1px solid #999999; /*1px solid #8FA9BF*/
+	clear                            : both;
+	text-align                       : center;
+	overflow-x                       : hidden;
+}
+
+#moderneditor-textbox .moderneditor-textarea
+{
+	border                           : none;
+	display                          : block;
+}
