@@ -35,6 +35,7 @@ function getUpperView($paging) {
 	global $service, $blogURL;
 	ob_start();
 ?>
+
 	<!--
 		<?php echo TEXTCUBE_NAME." ".TEXTCUBE_VERSION.CRLF;?>
 
@@ -42,10 +43,20 @@ function getUpperView($paging) {
 		<?php echo TEXTCUBE_COPYRIGHT.CRLF;?>
 	-->
 	<script type="text/javascript">
-		//<![CDATA[
-			var servicePath = "<?php echo $service['path'];?>";
-			var blogURL = "<?php echo $blogURL;?>";
-		//]]>
+	//<![CDATA[
+		var servicePath = "<?php echo $service['path'];?>";
+		var blogURL = "<?php echo $blogURL;?>";
+		var prevURL = "<?php echo isset($paging['prev']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}") : '';?>";
+		var nextURL = "<?php echo isset($paging['next']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}") : '';?>";
+		var commentKey = "<?php echo md5(filemtime(ROOT . '/config.php'));?>";
+		var doesHaveOwnership = <?php echo doesHaveOwnership() ? 'true' : 'false'; ?>;
+		var messages = {
+			"trackbackUrlCopied": "<?php echo _text('엮인글 주소가 복사되었습니다.');?>",
+			"operationFailed": "<?php echo _text('실패했습니다.');?>",
+			"confirmTrackbackDelete": "<?php echo _text('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>",
+			"confirmEntryDelete": "<?php echo _text('이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?');?>"
+		}
+	//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
@@ -56,289 +67,7 @@ function getUpperView($paging) {
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js" ></script>
 <?php
 	}
-?>
-	<script type="text/javascript">
-		//<![CDATA[
-			function processShortcut(event) {
-				if (isIE)
-				{
-					event = window.event;
-					event.target = event.srcElement;
-				}
 
-				if (event.altKey || event.ctrlKey)
-					return;
-				switch (event.target.nodeName) {
-					case "INPUT":
-					case "SELECT":
-					case "TEXTAREA":
-						return;
-				}
-				switch (event.keyCode) {
-					case 81: //Q
-						window.location = "<?php echo $blogURL;?>/owner";
-						break;
-					case 82: //R
-						window.location = "<?php echo $blogURL;?>/owner/reader";
-						break;
-					case 84: //T
-						window.location = "<?php echo $blogURL;?>/owner/reader/?forceRefresh";
-						break;
-<?php
-	if (isset($paging['prev'])) {
-?>
-					case 65: //A
-						window.location = "<?php echo escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}");?>";
-						break;
-<?php
-	}
-	if (isset($paging['next'])) {
-?>
-					case 83: //S
-						window.location = "<?php echo escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}");?>";
-						break;
-<?php
-	}
-?>
-					case 90: //Z
-						window.location = "#recentEntries";
-						break;
-					case 88: //X
-						window.location = "#recentComments";
-						break;
-					case 67: //C
-						window.location = "#recentTrackback";
-						break;
-				}
-			}
-			document.onkeydown = processShortcut;
-
-			function addComment(caller, entryId) {
-				var oForm = findFormObject(caller);
-				if (!oForm)
-					return false;
-				var request = new HTTPRequest("POST", oForm.action);
-				request.onSuccess = function () {
-					document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
-					if(getObject("recentComments") != null)
-						document.getElementById("recentComments").innerHTML = this.getText("/response/recentCommentBlock");
-					if(getObject("commentCount" + entryId) != null)
-						document.getElementById("commentCount" + entryId).innerHTML = this.getText("/response/commentView");
-					if(getObject("commentCountOnRecentEntries" + entryId) != null)
-						document.getElementById("commentCountOnRecentEntries" + entryId).innerHTML = "(" + this.getText("/response/commentCount") + ")";
-				}
-				request.onError = function() {
-					alert(this.getText("/response/description"));
-				}
-
-				var queryString = "key=<?php echo md5(filemtime(ROOT . '/config.php'));?>";
-
-				tempComment = 'comment_' + entryId;
-				tempHomepage = 'homepage_' + entryId;
-				tempName = 'name_' + entryId;
-				tempPassword = 'password_' + entryId;
-				tempSecret = 'secret_' + entryId;
-
-				for (i=0; i<oForm.elements.length; i++) {
-					if (queryString != "")
-						linker = "&";
-					else
-						linker = "";
-
-					// disabled 상태이면 패스.
-					if (oForm.elements[i].disabled == true)
-						continue;
-
-					if (oForm.elements[i].tagName.toLowerCase() == "input") {
-						switch (oForm.elements[i].type) {
-							case "checkbox":
-							case "radio":
-								if (oForm.elements[i].checked == true) {
-									if (oForm.elements[i].name == tempSecret)
-										queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-									else if (oForm.elements[i].id == tempSecret)
-										queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-									else if (oForm.elements[i].name != '')
-										queryString += linker + oForm.elements[i].name + '_' + entryId + '=' + encodeURIComponent(oForm.elements[i].value);
-									else if (oForm.elements[i].id != '')
-										queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
-								}
-								break;
-							case "text":
-							case "password":
-							case "hidden":
-							case "button":
-							case "submit":
-								if (oForm.elements[i].name == tempName)
-									queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-								else if (oForm.elements[i].id == tempName)
-									queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-								else if (oForm.elements[i].name == tempPassword)
-									queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-								else if (oForm.elements[i].id == tempPassword)
-									queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-								else if (oForm.elements[i].name == tempHomepage)
-									queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-								else if (oForm.elements[i].id == tempHomepage)
-									queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-								else if (oForm.elements[i].name != '')
-									queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].value);
-								else if (oForm.elements[i].id != '')
-									queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
-								break;
-							//case "file":
-							//	break;
-						}
-					} else if (oForm.elements[i].tagName.toLowerCase() == "select") {
-						num = oForm.elements[i].selectedIndex;
-						if (oForm.elements[i].name != '')
-							queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].options[num].value);
-						else if (oForm.elements[i].id != '')
-							queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].options[num].value);
-					} else if (oForm.elements[i].tagName.toLowerCase() == "textarea") {
-						if (oForm.elements[i].name == tempComment)
-							queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-						else if (oForm.elements[i].name != '')
-							queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].value);
-						else if (oForm.elements[i].id != '')
-							queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
-					}
-				}
-				request.send(queryString);
-			}
-
-			var openWindow='';
-
-			function alignCenter(win,width,height) {
-				try{ // sometimes fail.
-					win.moveTo(screen.width/2-width/2,screen.height/2-height/2);
-				} catch (e) {}
-			}
-
-			function deleteComment(id) {
-				width = 450;
-				height = 400;
-				if(openWindow != '') openWindow.close();
-				openWindow = window.open("<?php echo $blogURL;?>/comment/delete/" + id, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-				openWindow.focus();
-				alignCenter(openWindow,width,height);
-			}
-
-			function commentComment(parent) {
-				width = 450;
-				height = 380;
-				if(openWindow != '') openWindow.close();
-				openWindow = window.open("<?php echo $blogURL;?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-				openWindow.focus();
-				alignCenter(openWindow,width,height);
-			}
-
-			function editEntry(parent,child) {
-				width =  1020;
-				height = 550;
-				if(openWindow != '') openWindow.close();
-				openWindow = window.open("<?php echo $blogURL;?>/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child,"tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
-				openWindow.focus();
-				alignCenter(openWindow,width,height);
-			}
-
-			function guestbookComment(parent) {
-				width = 450;
-				height = 360;
-				if(openWindow != '') openWindow.close();
-				openWindow = window.open("<?php echo $blogURL;?>/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-				openWindow.focus();
-				alignCenter(openWindow,width,height);
-			}
-
-			function sendTrackback(id) {
-				width = 700;
-				height = 500;
-				if(openWindow != '') openWindow.close();
-				openWindow = window.open("<?php echo $blogURL;?>/trackback/send/" + id, "tatter", "width=580,height=400,location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
-				openWindow.focus();
-				alignCenter(openWindow,width,height);
-			}
-
-			function copyUrl(url){
-				if(isIE) {
-					window.clipboardData.setData('Text',url);
-					window.alert("<?php echo _text('엮인글 주소가 복사되었습니다.');?>");
-				}
-			}
-
-
-			function deleteTrackback(id,entryId) {
-<?php
-	if (doesHaveOwnership()) {
-?>
-				if (!confirm("<?php echo _text('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>"))
-					return;
-
-				var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/trackback/delete/" + id);
-				request.onSuccess = function() {
-					document.getElementById('entry' + entryId + 'Trackback').innerHTML = this.getText("/response/trackbackList");
-					document.getElementById('entry' + entryId + 'Trackback').style.display = "block";
-					try {
-						obj = document.getElementById('trackbackCount' + entryId);
-						if (obj != null) obj.innerHTML = this.getText("/response/trackbackCount");
-					} catch(e) { }
-					try {
-						obj = document.getElementById("recentTrackbacks");
-						if(obj != null) obj.innerHTML = this.getText("/response/recentTrackbacks");
-					} catch(e) { }
-				}
-				request.onError = function() {
-					alert('<?php echo _text('실패했습니다.');?>');
-				}
-				request.send();
-<?php
-	} else {
-?>
-				alert('<?php echo _text('실패했습니다.');?>');
-<?php
-	}
-?>
-			}
-<?php
-	if (doesHaveOwnership()) {
-?>
-			function changeVisibility(id, visibility) {
-				var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/visibility/" + id + "?visibility=" + visibility);
-				request.onSuccess = function() {
-					window.location.reload();
-				}
-				request.send();
-			}
-
-			function deleteEntry(id) {
-				if (!confirm("<?php echo _text('이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?');?>"))
-					return;
-				var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/delete/" + id);
-				request.onSuccess = function() {
-					window.location.href = "<?php echo $blogURL;?>";
-				}
-				request.send();
-	}
-<?php
-	}
-?>
-			function reloadEntry(id) {
-				var password = document.getElementById("entry" + id + "password");
-				if (!password) {
-					passwords = document.getElementsByName("entry" + id + "password");
-					if (passwords != null && passwords.Count > 0)
-						password = passwords;
-				}
-				if (!password)
-					return;
-				document.cookie = "GUEST_PASSWORD=" + escape(password.value) + ";path=<?php echo $service['path'];?>";
-
-				window.location.href = window.location.href;
-			}
-		//]]>
-	</script>
-<?php
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;
