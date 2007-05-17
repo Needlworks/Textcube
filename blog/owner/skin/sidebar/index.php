@@ -204,7 +204,7 @@ getBlogContentForSideBar();
 							<h2 class="caption"><span class="main-text"><?php echo _t('사이드바 기능을 관리합니다');?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('블로그의 사이드바 구성을 변경하실 수 있습니다. 사이드바에 새로운 요소를 추가/삭제하실 수 있으며 요소들 간의 자유로운 위치 이동기능도 지원합니다.');?></p>
+								<p class="explain"><?php echo _t('블로그의 사이드바 구성을 변경할 수 있습니다. 사이드바에 새로운 요소를 추가/삭제할 수 있으며 자유로운 위치 이동을 할 수 있습니다.');?></p>
 							</div>
 							
 <?php
@@ -214,7 +214,7 @@ if ($sidebarCount == 0) {
 								<fieldset>
 									<legend><?php echo _t('편집 관련 기능');?></legend>
 										
-									<a id="default-mode-button" class="button selected" href="<?php echo $blogURL;?>/owner/skin/sidebar" title="<?php echo _t('실제로 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
+									<a id="default-mode-button" class="button selected" href="<?php echo $blogURL;?>/owner/skin/sidebar" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
 								</fieldset>						
 							</div>
 							
@@ -241,7 +241,7 @@ if (is_null($sidebarConfig)) {
 								<fieldset>
 									<legend><?php echo _t('편집 관련 기능');?></legend>
 									
-									<a id="default-mode-button" class="button<?php echo $defaultModeSelected;?>" href="<?php echo $blogURL;?>/owner/skin/sidebar" title="<?php echo _t('실제로 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
+									<a id="default-mode-button" class="button<?php echo $defaultModeSelected;?>" href="<?php echo $blogURL;?>/owner/skin/sidebar" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
 									<a id="safe-mode-button" class="button<?php echo $safeModeSelected;?>" href="<?php echo $blogURL;?>/owner/skin/sidebar?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a>
 									<a id="tag-mode-button" class="button<?php echo $tagModeSelected;?>" href="<?php echo $blogURL;?>/owner/skin/sidebar?tag" title="<?php echo _t('실제 블로그 사이드바에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a>					
 									<a id="init-button" class="button<?php echo $initModeSelected;?>" href="sidebar/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 사이드바 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('사이드바의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>
