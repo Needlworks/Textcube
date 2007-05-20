@@ -50,12 +50,14 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	
 <?php
 		notifyComment();
+		$tempComments = revertTempTags(removeAllTags(getCommentView($comment['entry'], $skin)));
+		$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));
 ?>
 	var obj = opener.document.getElementById("entry<?php echo $comment['entry'];?>Comment");
-	obj.innerHTML = "<?php echo str_innerHTML(removeAllTags(getCommentView($comment['entry'], $skin)));?>";
+	obj.innerHTML = "<?php echo str_innerHTML($tempComments);?>";
 	try {
 	obj = opener.document.getElementById("recentComments");
-	obj.innerHTML = "<?php echo str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));?>";
+	obj.innerHTML = "<?php echo str_innerHTML($tempRecentComments);?>";
 	} catch(e) { }
 	try {
 <?php

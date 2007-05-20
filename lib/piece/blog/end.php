@@ -62,6 +62,6 @@ $sidebarElements = array_keys($skin->sidebarStorage);
 foreach ($sidebarElements as $element) {
 	dress($element, $skin->sidebarStorage[$element], $view);
 }
-$view = removeAllTags($view);
+$view = revertTempTags(removeAllTags($view));
 print $view;
 ?>

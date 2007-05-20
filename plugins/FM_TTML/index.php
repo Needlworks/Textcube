@@ -353,10 +353,16 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 							. FM_TTML_getAttachmentBinder($attributes[7], $newProperty3, $folderPath, $folderURL, 3, $useAbsolutePath, $bRssMode, $onclickFlag3) . $cap3 . '</td></tr></table></div>';
 					}
 					break;
+				// 어디에도 해당되지 않을 경우 임시 태그를 되살림.
+				default:
+					$buf = '[###_###_###_' . implode('|', $attributes) . '_###_###_###]';
+					break;
 			}
 		}
 		$view = substr($view, 0, $start) . $buf . substr($view, $end + 4);
 	}
+	
+	$view = preg_replace(array("@\[###_###_###_@", "@_###_###_###\]@"), array('[##_', '_##]'), $view);
 	return $view;
 }
 

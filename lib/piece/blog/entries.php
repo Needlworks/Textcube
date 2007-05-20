@@ -21,8 +21,10 @@ if(isset($entries)) {
 				dress('notice_rep_link', "$blogURL/notice/{$entry['id']}", $entryView);
 			else
 				dress('notice_rep_link', "$blogURL/page/{$entry['id']}", $entryView);
-		
-			dress('notice_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($owner), 'Notice'), $entryView);
+			
+			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
+			$contentContainer["notice_{$entry['id']}"] = getEntryContentView($owner, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($owner), 'Notice');
+			dress('notice_rep_desc', setTempTag("notice_{$entry['id']}"), $entryView);
 			$entriesView .= $entryView;
 		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
 			$entryView = $skin->entry;
@@ -32,7 +34,7 @@ if(isset($entries)) {
 			} else {
 				$style = 'none';
 			}
-			dress('rp', "<div id=\"entry{$entry['id']}Comment\" style=\"display:$style\">" . getCommentView($entry['id'], $skin) . '</div>', $entryView);
+			dress('rp', "<div id=\"entry{$entry['id']}Comment\" style=\"display:$style\">" . getCommentView($entry['id'], $skin) . "</div>", $entryView);
 			$tagLabelView = $skin->tagLabel;
 			$entryTags = getTags($entry['id']);
 			if (sizeof($entryTags) > 0) {
@@ -62,7 +64,9 @@ if(isset($entries)) {
 			dress('article_rep_id', $entry['id'], $entryView);
 			dress('article_rep_link', $permalink, $entryView);
 			dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $entryView);
-			dress('article_rep_desc', getEntryContentView($owner, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($owner)), $entryView);
+			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
+			$contentContainer["article_{$entry['id']}"] = getEntryContentView($owner, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($owner));
+			dress('article_rep_desc', setTempTag("article_{$entry['id']}"), $entryView);
 			dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['categoryLabel'], $entry['id']), $entryView);
 			dress('article_rep_category_link', empty($entry['category']) ? "$blogURL/category/" : "$blogURL/category/".encodeURL($entry['categoryLabel']) ,$entryView);
 			dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published'])), $entryView);

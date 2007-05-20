@@ -50,11 +50,14 @@ function _getRecentComments($owner) {
 function _getRecentCommentsView($comments, $template) {
 	requireComponent("Eolin.PHP.Core");
 	requireComponent("Textcube.Function.misc");
-	global $blogURL, $skinSetting;
+	global $blogURL, $skinSetting, $contentContainer;
 	ob_start();
 	foreach ($comments as $comment) {
 		$view = "$template";
 		misc::dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
+		
+		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 30));
+		misc::dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
 		misc::dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 30)), $view);
 		misc::dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::formatTime($comment['written'])), $view);
 		misc::dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm($comment['name'],10)).$comment['secret'].$comment['replier'], $view);
@@ -73,7 +76,7 @@ function CT_RecentRP_Default($target) {
 	$target .= _getRecentCommentsView(_getRecentComments($owner),'											<li><span class="date" style="display: block; font-family: Verdana, 돋움, Dotum, Tahoma, \'Lucida Grande\', sans-serif; font-size: 0.9em;">[##_rctrp_rep_time_##]</span> <a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##]</a> <span class="name" style="color: #ABABAB;">[##_rctrp_rep_name_##]</span></li>'.CRLF);
 	$target .= '										</ol>'.CRLF;
 
-	return $target;
+	return revertTempTags($target);
 }
 
 function CT_RecentRP_Default_DataSet($DATA){

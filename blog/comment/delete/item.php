@@ -33,15 +33,17 @@ if (!empty($_POST['mode'])) {
 			if ($result == true) {
 				$skin = new Skin($skinSetting['skin']);
 				printHtmlHeader();
+				$tempComments = revertTempTags(removeAllTags(getCommentView($entryId, $skin)));
+				$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));
 ?>
 <script type="text/javascript">
 	//<![CDATA[
 		alert("<?php echo _text('댓글이 삭제되었습니다.');?>");
 		var obj = opener.document.getElementById("entry<?php echo $entryId;?>Comment");
-		obj.innerHTML = "<?php echo str_innerHTML(removeAllTags(getCommentView($entryId, $skin)));?>";
+		obj.innerHTML = "<?php echo str_innerHTML($tempComments);?>";
 		obj = opener.document.getElementById("recentComments");
 		if(obj)
-			obj.innerHTML = "<?php echo str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));?>";
+			obj.innerHTML = "<?php echo str_innerHTML($tempRecentComments);?>";
 <?php
 $commentCount = getCommentCount($owner, $entryId);
 $commentCount = ($commentCount > 0) ? $commentCount : '';
@@ -101,6 +103,8 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 				} else if ($result !== false) {
 					$skin = new Skin($skinSetting['skin']);
 					printHtmlHeader();
+					$tempComments = revertTempTags(removeAllTags(getCommentView($comment['entry'], $skin)));
+					$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));
 ?>
 <script type="text/javascript">
 	//<![CDATA[		
@@ -108,10 +112,10 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 		
 		try {
 			var obj = opener.document.getElementById("entry<?php echo $comment['entry'];?>Comment");
-			obj.innerHTML = "<?php echo str_innerHTML(removeAllTags(getCommentView($comment['entry'], $skin)));?>";
+			obj.innerHTML = "<?php echo str_innerHTML($tempComments);?>";
 			var recentComment = opener.document.getElementById("recentComments");
 			if(recentComment)
-				recentComment.innerHTML = "<?php echo str_innerHTML(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));?>";
+				recentComment.innerHTML = "<?php echo str_innerHTML($tempRecentComments);?>";
 			window.close();
 			opener.openWindow = '';
 		} catch(e) {
