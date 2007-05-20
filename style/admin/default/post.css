@@ -136,13 +136,22 @@ table.data-inbox tbody tr td.ip
 	float: left;
 	list-style-type: none;
 	margin: 0 1px;
+}
+
+#entry-tabs-box li a
+{
 	padding: 0 1em;
+	text-decoration: none;
 }
 
 #entry-tabs-box li.selected
 {
 	background-color: #FFFFFF;
 	border-bottom: 1px solid #FFFFFF;
+}
+
+#entry-tabs-box li.selected a
+{
 	cursor: default;
 }
 
@@ -653,7 +662,8 @@ table.data-inbox tbody tr td.ip
 	background-repeat                : no-repeat;
 	border                           : 1px solid #666666;
 	padding                          : 58px 8px 15px 8px;
-	position                         : relative;
+	position                         : absolute;
+	top                              : -300px !important;
 	width                            : 492px;
 }
 
@@ -662,10 +672,11 @@ table.data-inbox tbody tr td.ip
 	border                           : 3px solid #4783B2;
 }
 
-#eolinDialog .temp-box h4
+#eolinDialog .temp-box h3
 {
 	border-bottom                    : 1px solid #E6E6E6;
 	color                            : #284A9F;
+	display                          : block;
 	font-size                        : 1em;
 	font-weight                      : bold;
 	margin                           : 20px 15px 10px 15px;

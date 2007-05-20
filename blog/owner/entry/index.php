@@ -48,16 +48,20 @@ if (isset($_POST['visibility'])) {
 	if($_POST['visibility']=='public') {
 		$visibility = '>=1';
 		$tabsClass['public'] = true;
+		$visibilityText = _t('공개');
 	} else if($_POST['visibility']=='protected') {
 		$visibility = '=1';
 		$tabsClass['protected'] = true;
+		$visibilityText = _t('보호');
 	} else if($_POST['visibility']=='private') {
 		$visibility = '0';
 		$tabsClass['private'] = true;
+		$visibilityText = _t('비공개');
 	}
 } else {
 	$visibility = null;
 	$tabsClass['all'] = true;
+	$visibilityText = _t('모든');
 }
 
 // 찾기 키워드 설정.
@@ -617,7 +621,44 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								window.addEventListener("load", execLoadFunction, false);
 								function execLoadFunction() {
 									document.getElementById('allChecked').disabled = false;
-									removeItselfById('category-move-button');
+									
+									if (document.getElementById('eolinDialog').style.display == 'none') {
+										// eolin button
+										if (STD.isIE) {
+											var tempBUTTON = document.createElement('<button onclick="window.open(\'http://www.eolin.com\'); return false;">');
+										} else {
+											var tempBUTTON = document.createElement('BUTTON');
+											tempBUTTON.setAttribute('onclick', 'window.open(\'http://www.eolin.com\'); return false;');
+										}
+									
+										tempBUTTON.id = 'eolin-button';
+										tempBUTTON.className = 'eolin-button input-button';
+										tempBUTTON.setAttribute('title', '<?php echo _t('이올린으로 연결합니다.');?>');
+										tempSPAN = document.createElement('SPAN');
+										tempSPAN.className = 'text';
+										tempSPAN.innerHTML = '<?php echo _t('이올린, 지금 만나보세요');?>';
+										tempBUTTON.appendChild(tempSPAN);
+									
+										document.getElementById('eolin-button-box').appendChild(tempBUTTON);
+										
+										// close button
+										if (STD.isIE) {
+											var tempBUTTON = document.createElement('<button onclick="closeWhatIsEolin(); return false;">');
+										} else {
+											var tempBUTTON = document.createElement('BUTTON');
+											tempBUTTON.setAttribute('onclick', 'closeWhatIsEolin(); return false;');
+										}
+									
+										tempBUTTON.id = 'close-button';
+										tempBUTTON.className = 'close-button input-button';
+										tempBUTTON.setAttribute('title', '<?php echo _t('이 대화상자를 닫습니다.');?>');
+										tempSPAN = document.createElement('SPAN');
+										tempSPAN.className = 'text';
+										tempSPAN.innerHTML = '<?php echo _t('닫기');?>';
+										tempBUTTON.appendChild(tempSPAN);
+									
+										document.getElementById('eolin-button-box').appendChild(tempBUTTON);
+									}
 								}
 								
 								function toggleThisTr(obj) {
@@ -633,28 +674,42 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								countSyndicated = <?php echo $countResult == true ? 'true' : 'false';?>;
 								
 								function viewWhatIsEolin() {
-									dialog = document.getElementById('eolinDialog');
-									PM.showPanel(dialog);
+									if (document.getElementById('eolinDialog').style.display == 'none') {
+										dialog = document.getElementById('eolinDialog');
+										PM.showPanel(dialog);
+								
+										if (STD.isIE) {
+											document.getElementById('commandBox').style.visibility = 'hidden';
+										}
+									} else {
+										window.open('http://www.eolin.com');
+									}
 								}
 								
 								function closeWhatIsEolin() {
 									document.getElementById('eolinDialog').style.display = 'none';
+									if (STD.isIE) {
+										document.getElementById('commandBox').style.visibility = 'hidden';
+									}
 								}
 							//]]>
 						</script>
 						
 						<div id="part-post-list" class="part">
-							<h2 class="caption"><span class="main-text"><?php
+							<h2 class="caption"><span class="main-text">
+<?php
+	
 	if ($categoryId == -1) { 
-		echo _t('등록된 키워드 목록입니다');
+		echo _f('등록된 %1 키워드 목록입니다', $visibilityText);
 	} else if ($categoryId == -2) {
-		echo _t('등록된 공지 목록입니다');
+		echo _f('등록된 %1 공지 목록입니다', $visibilityText);
 	} else if ($categoryId == -5) {
-		echo _t('공지와 키로그를 포함한 모든 글의 목록입니다');
+		echo _f('공지와 키로그를 포함한 %1 글의 목록입니다', $visibilityText);
 	} else {
-		echo _t('등록된 글 목록입니다');
+		echo _f('등록된 %1 글 목록입니다', $visibilityText);
 	}
-?></span></h2>
+?>
+							</span></h2>
 							
 							<ul id="entry-tabs-box">
 								<li<?php echo isset($tabsClass['all']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>"><?php echo _t('모든 글');?></a></li>
@@ -665,7 +720,8 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/entry">
 								<div class="section">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
-
+									
+									<label for="category"><?php echo _t('종류');?></label>
 									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
 										<option value="-5"<?php echo ($categoryId == -5 ? ' selected="selected"' : '');?>><?php echo _t('모든 글');?></option>
 										<optgroup class="category" label="<?php echo _t('글 종류');?>">
@@ -693,7 +749,6 @@ foreach (getCategories($owner) as $category) {
 											<option value="-3"<?php echo ($categoryId == -3 ? ' selected="selected"' : '');?>><?php echo _t('(분류 없음)');?></option>
 										</optgroup>
 									</select>
-									<input type="submit" id="category-move-button" class="move-button button" value="<?php echo _t('이동');?>" />
 								</div>
 							</form>
 							
@@ -819,8 +874,6 @@ for ($i=0; $i<sizeof($entries); $i++) {
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 									
 									<div id="change-section" class="section">
-										<h2><?php echo _t('페이지 네비게이션');?></h2>
-										
 										<span class="label"><?php echo _t('선택한 글을');?></span>
 										<select name="commandBox" id="commandBox" onchange="toggleDeleteButton(this)"> 
 											<option selected style="font-style:italic"><?php echo _t('[행동을 지정합니다.]');?></option>
@@ -865,10 +918,14 @@ for ($i=0; $i<sizeof($entries); $i++) {
 										<input type="button" id="apply-button" class="apply-button input-button" value="<?php echo _t('적용');?>" onclick="processBatch(document.getElementById('commandBox'));" />
 									</div>
 									
-									<div id="data-description">
+									<hr class="hidden" />
+									
+									<div id="data-description" class="section">
+										<h2><?php echo _t('기능 설명');?></h2>
+
 										<dl class="eolin-description">
 											<dt><?php echo _t('발행');?></dt>
-											<dd><?php echo _t('<a href="#void" onclick="viewWhatIsEolin()">이올린</a>에 글을 공개합니다.');?></dd>
+											<dd><?php echo _f('%1에 글을 공개합니다.', '<a href="http://www.eolin.com" onclick="viewWhatIsEolin(); return false;">' . _t('이올린') . '</a>');?></dd>
 										</dl>
 										<dl class="trackback-description">
 											<dt><?php echo _t('글걸기');?></dt>
@@ -878,9 +935,32 @@ for ($i=0; $i<sizeof($entries); $i++) {
 											<dt><?php echo _t('보호글');?></dt>
 											<dd><?php echo _t('보호글의 패스워드를 설정합니다.');?></dd>
 										</dl>
+										
+										<div id="eolinDialog" class="dialog" style="position: absolute; display: none; z-index: 100;">
+											<div class="temp-box">
+												<h3><?php echo _t('이올린이란?');?></h4>
+
+												<p class="message">
+													<?php echo _t('이올린은 텍스트큐브와 텍스트큐브 기반의 블로그에서 "발행"을 통해 보내진 글들을 다양한 방법으로 만날 수 있는 텍스트큐브 블로거들의 열린 공간입니다.');?>
+												</p>
+
+												<h3><?php echo _t('발행 방법');?></h4>
+
+												<p class="message">
+													<em><?php echo _t('텍스트큐브 글목록에서 발행버튼을 클릭하시거나 글쓰기시 공개범위를 "발행"으로 체크하시면 됩니다.');?></em>
+													<?php echo _t('발행을 통해 이올린으로 보내진 게시물들의 저작권을 포함한 일체에 관한 권리는 별도의 의사표시가 없는 한 각 회원에게 있습니다. 이올린에서는 발행된 게시물을 블로거의 동의 없이 상업적으로 이용하지 않습니다. 다만 비영리적 목적인 경우는 이용이 가능하며, 또한 이올린 서비스 내의 게재권, 사용권을 갖습니다.');?>
+												</p>
+
+												<div id="eolin-button-box" class="button-box"></div>
+									 		</div>
+								 		</div>
 									</div>
 									
+									<hr class="hidden" />
+									
 									<div id="page-section" class="section">
+										<h2><?php echo _t('페이지 네비게이션');?></h2>
+										
 										<div id="page-navigation">
 											<span id="page-list">
 <?php
@@ -928,28 +1008,6 @@ for ($i = 10; $i <= 30; $i += 5) {
 								</div>
 							</form>
 						</div>
-						
-						<div id="eolinDialog" class="dialog" style="position: absolute; display: none; z-index: 100;">
-							<div class="temp-box">
-								<h4><?php echo _t('이올린이란?');?></h4>
-								
-								<p class="message">
-									<?php echo _t('이올린은 텍스트큐브와 텍스트큐브 기반의 블로그에서 "발행"을 통해 보내진 글들을 다양한 방법으로 만날 수 있는 텍스트큐브 블로거들의 열린 공간입니다.');?>
-								</p>
-								
-								<h4><?php echo _t('발행 방법');?></h4>
-								
-								<p class="message">
-									<em><?php echo _t('텍스트큐브 글목록에서 발행버튼을 클릭하시거나 글쓰기시 공개범위를 "발행"으로 체크하시면 됩니다.');?></em>
-									<?php echo _t('발행을 통해 이올린으로 보내진 게시물들의 저작권을 포함한 일체에 관한 권리는 별도의 의사표시가 없는 한 각 회원에게 있습니다. 이올린에서는 발행된 게시물을 블로거의 동의 없이 상업적으로 이용하지 않습니다. 다만 비영리적 목적인 경우는 이용이 가능하며, 또한 이올린 서비스 내의 게재권, 사용권을 갖습니다.');?>
-								</p>
-							
-								<div class="button-box">
-									<button id="eolin-button" class="eolin-button input-button" onclick="window.open('http://www.eolin.com');" title="<?php echo _t('이올린으로 연결합니다.');?>"><span class="text"><?php echo _t('이올린, 지금 만나보세요');?></span></button>
-									<button id="close-button" class="close-button input-button" onclick="closeWhatIsEolin()" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
-					 			</div>
-					 		</div>
-				 		</div>
 <?php
 require ROOT . '/lib/piece/owner/footer.php';
 ?>
