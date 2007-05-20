@@ -59,6 +59,7 @@ class Skin {
 	var $siteTagItem;
 	var $randomTags;
 	var $s_link_rep;
+	var $pageError;
 	var $aux;
 	var $sidebarBasicModules = array();
 	var $sidebarStorage = array();
@@ -244,7 +245,7 @@ class Skin {
 		list($sval, $this->commentForm) = $this->cutSkinTag($sval, 'rp_input_form');
 		list($sval, $this->comment) = $this->cutSkinTag($sval, 'rp');
 		
-		
+		list($sval, $this->pageError) = $this->cutSkinTag($sval, 'page_error'); 
 		list($sval, $this->entry) = $this->cutSkinTag($sval, 'article_rep');
 		list($sval, $this->pagingItem) = $this->cutSkinTag($sval, 'paging_rep');
 		list($sval, $this->paging) = $this->cutSkinTag($sval, 'paging');

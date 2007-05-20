@@ -223,6 +223,14 @@ textarea        { border:1px solid #aaa;}
 .entryProtected input    { width:200px;}
 .entryProtected .submit  { width:50px; padding-top:2px; height:20px; background-color:#ccc;}
 
+/* page error*/ 
+#page-error 
+{ 
+	font-weight          : bold; 
+	padding              : 200px 0; 
+	text-align           : center; 
+}
+
 .article                 { width:500px; margin:5px 5px 30px 5px; overflow:hidden;}
 .article a:link          { color:#5a5194;  text-decoration:none;}
 .article a:visited       { color:#5a5194;  text-decoration:none;}
