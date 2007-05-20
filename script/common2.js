@@ -1074,7 +1074,9 @@ function alignCenter(win,width,height) {
 function deleteComment(id) {
 	width = 450;
 	height = 400;
-	if(openWindow != '') openWindow.close();
+	try {
+		if(openWindow != '') openWindow.close();
+	} catch (e) {}
 	openWindow = window.open(blogURL + "/comment/delete/" + id, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
 	openWindow.focus();
 	alignCenter(openWindow,width,height);
@@ -1083,7 +1085,9 @@ function deleteComment(id) {
 function commentComment(parent) {
 	width = 450;
 	height = 380;
-	if(openWindow != '') openWindow.close();
+	try {
+		if(openWindow != '') openWindow.close();
+	} catch (e) {}
 	openWindow = window.open(blogURL + "/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
 	openWindow.focus();
 	alignCenter(openWindow,width,height);
