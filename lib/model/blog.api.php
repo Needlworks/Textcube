@@ -615,7 +615,7 @@ function blogger_newPost()
 		return $result;
 	}
 
-	if( !$post->add() )
+	if( !$post->add($params[2]) )
 	{
 		$post->close();
 		return new XMLRPCFault( 1, "Posting error" );
@@ -883,7 +883,7 @@ function metaWeblog_newPost()
 	if ($post === false) {
 		return new XMLRPCFault( 1, "Textcube posting error" );
 	}
-	if( !$post->add() )
+	if( !$post->add($params[1]) )
 	{
 		$error = $post->error;
 		$post->close();

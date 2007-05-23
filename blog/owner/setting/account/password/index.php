@@ -11,7 +11,7 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if (changePassword($owner, $_POST['pwd'], $_POST['prevPwd'])) {
+if (changePassword($_SESSION['admin'], $_POST['pwd'], $_POST['prevPwd'])) {
 	respondResultPage(0);
 }
 respondResultPage( - 1);

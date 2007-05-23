@@ -457,6 +457,10 @@ if ($boardbarNumber < 2) {
 	$positionCounter++;
 }
 
+// 팀블로그 :: 관리자 권한이 없으면 센터를 편집할수없다.
+
+if(!empty($ac)){
+
 if (!isset($_REQUEST['edit'])) {
 ?>
 								<div class="button-box">
@@ -506,6 +510,8 @@ if (isset($_REQUEST['edit'])) {
 						</script>
 <?php
 }
+
+} // End TeamBlog
 
 require ROOT . '/lib/piece/owner/footer.php';
 ?>

@@ -11,6 +11,16 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 foreach(explode(',', $_POST['targets']) as $target) {
+	// TeamBlog check
+	if(empty($pc)){
+		$isPosting = DBQuery::queryCell("SELECT team FROM {$database['prefix']}TeamEntryRelations WHERE owner='$owner' and team='".$_SESSION['admin']."' and id='".$suri['id']."'" );
+		if(empty($isPosting)) {
+			respondResultPage(-1);
+			exit;
+		}
+	}
+	// End TeamBlog
+	
 	if (!deleteEntry($owner, $target))
 		respondResultPage(-1);
 }

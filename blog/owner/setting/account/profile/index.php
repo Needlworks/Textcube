@@ -5,13 +5,12 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
-		'email' => array('email'),
-		'nickname' => array('string')
+		'userid'=>array('id')
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if (changeSetting($owner, $_POST['email'], $_POST['nickname'])) {
+if (changeSetting($_SESSION['admin'], $_POST['email'], $_POST['nickname'])) {
 	respondResultPage(0);
 }
 respondResultPage( - 1);

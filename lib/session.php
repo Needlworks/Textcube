@@ -127,11 +127,13 @@ function setSession() {
 		setSessionAnonymous($id);
 }
 
-function authorizeSession($userid) {
+// Teamblog : insert userid to variable admin when member logins.
+function authorizeSession($userid, $admin) {
 	global $database, $service;
 	if (!is_numeric($userid))
 		return false;
 	$_SESSION['userid'] = $userid;
+	$_SESSION['admin'] = $admin;
 	if (isSessionAuthorized(session_id()))
 		return true;
 	for ($i = 0; $i < 100; $i++) {

@@ -216,11 +216,22 @@ function getEntriesWithPagingBySearch($owner, $search, $page, $count, $countItem
 function getEntriesWithPagingForOwner($owner, $category, $search, $page, $count, $visibility = null) {
 	global $database, $suri;
 	requireComponent('Eolin.PHP.Core');
+	
+	// Teamblog
+	$chT_SQL1 = $chT_SQL2 = "";
+	$posting = DBQuery::queryCell("SELECT Posting FROM {$database['prefix']}Teamblog WHERE teams='$owner' and userid='".$_SESSION['admin']."'" );
+	if(empty($posting)){
+		$chT_SQL1 = ", {$database['prefix']}TeamEntryRelations z";
+		$chT_SQL2 = " AND z.Owner=".$owner." AND z.Id=e.id AND z.Team=".$_SESSION['admin'];
+	}
+	// End TeamBlog
+	
 	$sql = "SELECT e.*, c.label categoryLabel, d.id draft 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
 		LEFT JOIN {$database['prefix']}Entries d ON e.owner = d.owner AND e.id = d.id AND d.draft = 1 
-		WHERE e.owner = $owner AND e.draft = 0";
+		$chT_SQL1
+		WHERE e.owner = $owner AND e.draft = 0" . $chT_SQL2;
 	if ($category > 0) {
 		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
 		array_push($categories, $category);
@@ -442,6 +453,7 @@ function addEntry($owner, $entry) {
 		return false;
 	DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
 	DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE owner = $owner AND parent = 0");
+	DBQuery::query("INSERT INTO `{$database['prefix']}TeamEntryRelations` VALUES('$owner', '$id', '".$_SESSION['admin']."')");	
 	updateEntriesOfCategory($owner, $entry['category']);
 	if ($entry['visibility'] == 3)
 		syndicateEntry($id, 'create');

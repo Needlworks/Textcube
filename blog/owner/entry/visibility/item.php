@@ -14,6 +14,15 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 
+// TeamBlog ACL check whether or not current user can edit this post.
+if(empty($pc) && !empty($suri['id'])){
+	$isPosting = DBQuery::queryCell("SELECT team FROM {$database['prefix']}TeamEntryRelations WHERE owner='".$owner."' and team='".$_SESSION['admin']."' and id='".$suri['id']."'" );
+	if(empty($isPosting)) {
+		exit;
+	}
+}
+// End TeamBlog
+
 //$isAjaxRequest = checkAjaxRequest();
 	
 if (!isset($_GET['command'])) {

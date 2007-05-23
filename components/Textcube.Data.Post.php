@@ -88,7 +88,7 @@ class Post {
 		return false;
 	}
 	
-	function add() {
+	function add($userid) {
 		global $database, $owner;
 		if (isset($this->id) && !Validator::number($this->id, 1))
 			return $this->_error('id');
@@ -139,6 +139,8 @@ class Post {
 				$query->update();
 			}
 		}
+		$TN = mysql_fetch_array(mysql_query("SELECT userid FROM {$database['prefix']}Users WHERE loginid='$userid'"));
+		mysql_query("INSERT INTO {$database['prefix']}TeamEntryRelations VALUES('$owner', '$this->id', '$TN[userid]')");
 		return true;
 	}
 	

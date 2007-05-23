@@ -291,6 +291,17 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 		DBQuery::query("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $id");
 		return 62;
 	}
+	
+	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog`  VALUES('".$id."', '".$id."', '0', '1', '1', '"._f("%1 님의 글입니다",$name)."', '', '0', '#000000', '10', '0', UNIX_TIMESTAMP(), '0')");
+	if (!$result || (mysql_affected_rows() == 0)) {
+		DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
+		DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $id");
+		DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $id");
+		DBQuery::query("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $id");
+		DBQuery::query("DELETE FROM `{$database['prefix']}FeedGroups` WHERE `owner` = $id");		
+		return 20;
+	}
+	
 	$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TEXTCUBE_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 	if (empty($name))
 		$subject = _textf('귀하를 %1님이 초대합니다', $senderName);
@@ -331,7 +342,11 @@ function cancelInvite($userid) {
 		if (DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $userid")) {
 			if (DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $userid")) {
 				if (DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $userid")) {
-					return true;
+					if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='".$owner."' and userid='".$_POST['userid']."'")) {
+						return true;
+					} else {
+						return false;
+					}
 				} else {
 					return false;
 				}

@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
-ini_set('display_errors', 'off');
+ini_set('display_errors', 'on');
 if (get_magic_quotes_gpc()) {
     foreach ($_GET as $key => $value)
         $_GET[$key] = stripslashes($value);
@@ -1341,8 +1341,32 @@ CREATE TABLE {$_POST['dbPrefix']}XMLRPCPingSettings (
   type varchar(32) NOT NULL default 'xmlrpc',
   PRIMARY KEY (owner)
 ) $charset;
+CREATE TABLE {$_POST['dbPrefix']}Teamblog (
+  teams int(11) NOT NULL default 0,
+  userid int(11) NOT NULL default 1,
+  enduser int(11) NOT NULL default 0,
+  admin int(11) NOT NULL default 0,
+  posting int(11) NOT NULL default 0,
+  profile text NULL default '',
+  logo varchar(15) default '',
+  font_style int(11) NOT NULL default 0,
+  font_color varchar(10) NOT NULL default '#000000',
+  font_size int(11) NOT NULL default 10,
+  font_bold int(11) NOT NULL default 0,
+  created int(11) NOT NULL default 0,
+  lastLogin int(11) NOT NULL default 0,
+  PRIMARY KEY (teams,userid,admin)
+) $charset;
+CREATE TABLE {$_POST['dbPrefix']}TeamEntryRelations (
+  owner int(11) NOT NULL default 1,
+  id int(11) NOT NULL default 1,
+  team int(11) NOT NULL default 1,
+  PRIMARY KEY (owner,id,team)
+) $charset;
+
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
 INSERT INTO {$_POST['dbPrefix']}UserSettings VALUES (1, 'defaultEditor', 'modern'), (1, 'defaultFormatter', 'ttml');
+INSERT INTO {$_POST['dbPrefix']}Teamblog VALUES (1, 1, 0, 1, 1, '', '', 0, '#000000', 10, 0, UNIX_TIMESTAMP(), 0);
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
 INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, language, blogLanguage, timezone) VALUES (1, '$blog', '$baseLanguage', '$baseLanguage', '$baseTimezone');
 INSERT INTO {$_POST['dbPrefix']}SkinSettings (owner) VALUES (1);
@@ -1383,6 +1407,8 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
 							{$_POST['dbPrefix']}SkinSettings,
 							{$_POST['dbPrefix']}TagRelations,
 							{$_POST['dbPrefix']}Tags,
+							{$_POST['dbPrefix']}Teamblog,
+							{$_POST['dbPrefix']}TeamEntryRelations,
 							{$_POST['dbPrefix']}TrackbackLogs,
 							{$_POST['dbPrefix']}Trackbacks,
 							{$_POST['dbPrefix']}UserSettings,
@@ -1518,7 +1544,7 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
         }
 ?>
   <div id="inner">
-    <h2><span class="step"><?php echo _t('설치완료');?></span> : <?php echo _t('테터툴즈가 성공적으로 설치되었습니다.');?></h2>
+    <h2><span class="step"><?php echo _t('설치완료');?></span> : <?php echo _t('텍스트큐브가 성공적으로 설치되었습니다.');?></h2>
     <div id="content-box">
       <p>
         
@@ -1738,7 +1764,7 @@ function checkTables($version, $prefix) {
 function getTables($version, $prefix) {
 	switch ($version) {
 		case '1.5':
-			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings");
+			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings", "{$prefix}Teamblog", "{$prefix}TeamEntryRelations");
 		case '1.1':
 			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings");
 		case '1.0.2':

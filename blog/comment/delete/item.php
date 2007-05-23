@@ -15,6 +15,24 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlog.php';
+list($replier)=getCommentAttributes($owner,$suri['id'],'replier');
+$ch_res = mysql_fetch_array(mysql_query("SELECT Posting FROM `{$database['prefix']}Teamblog` WHERE teams='$owner' and userid='$_SESSION[admin]'"));
+if(empty($ch_res['Posting']) && $owner != $_SESSION['admin']){
+	if(!empty($replier)){
+		if($owner != $_SESSION['admin']){
+			if($replier != $_SESSION['admin']){
+				echo _t('<script> alert("권한이 없습니다."); window.close(); </script>');
+				exit;	
+			}
+		}
+	}
+	else{
+		if($owner != $_SESSION['admin'] && !empty($_SESSION['admin'])){
+			echo _t('<script> alert("권한이 없습니다."); window.close(); </script>');
+			exit;	
+		}
+	}
+}
 if (false) {
 	fetchConfigVal();
 }

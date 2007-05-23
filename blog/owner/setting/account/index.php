@@ -227,7 +227,17 @@ if ($service['type'] != 'single') {
 }
 ?>							//]]>
 						</script>
-						
+
+
+<?php
+// Teamblog :: Get username.
+ $teamblog_user = DBQuery::queryRow("SELECT name, loginid 
+	 FROM {$database['prefix']}Users 
+	 WHERE userid='".$_SESSION['admin']."'");
+// End TeamBlog
+?>
+
+
 						<div id="part-setting-account" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('회원정보를 관리합니다');?></span></h2>
 							
@@ -238,12 +248,12 @@ if ($service['type'] != 'single') {
 										
 										<dl id="blogger-name-line" class="line">
 											<dt><label for="nickname"><?php echo _t('필명');?></label></dt>
-											<dd><input type="text" id="nickname" class="input-text" value="<?php echo htmlspecialchars($user['name']);?>" onkeydown="if(event.keyCode == 13) save();" /></dd>
+											<dd><input type="text" id="nickname" class="input-text" value="<?php echo htmlspecialchars($teamblog_user['name']);?>" onkeydown="if(event.keyCode == 13) save();" /></dd>
 										</dl>
 										<dl id="blogger-email-line" class="line">
 											<dt><label for="email"><?php echo _t('e-mail');?></label></dt>
 											<dd>
-												<input type="text" id="email" class="input-text" value="<?php echo htmlspecialchars(User::getEmail());?>" />
+												<input type="text" id="email" class="input-text" value="<?php echo htmlspecialchars($teamblog_user['loginid']);?>" />
 												<em><?php echo _t('(로그인시 ID로 사용됩니다)');?></em>
 											</dd>
 										</dl>
@@ -280,7 +290,7 @@ if ($service['type'] != 'single') {
 						</div>
 								
 <?php
-if (($service['type'] != 'single') && (getUserId() == 1)) {
+if (($service['type'] != 'single') && (getUserId() == 1) && ($_SESSION['admin'] == 1)) {
 	$urlRule = getBlogURLRule();
 ?>
 						<div id="part-setting-invite" class="part">
@@ -314,7 +324,8 @@ if (($service['type'] != 'single') && (getUserId() == 1)) {
 												<textarea id="invitation_comment" cols="60" rows="30" name="textarea"><?php echo _t("블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다.");?></textarea>
 											</div>
 											
-											<div id="letter-foot">												<div id="sender-line" class="line">
+											<div id="letter-foot">
+												<div id="sender-line" class="line">
 													<label for="invitation_sender"><?php echo _t('보내는 사람');?></label>
 													<input type="text" id="invitation_sender" class="input-text" name="text2" value="<?php echo htmlspecialchars(htmlspecialchars($user['name']) . '<' . User::getEmail() . '>');?>" />
 												</div>

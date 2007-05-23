@@ -474,6 +474,72 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries contentFormatter
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (!doesExistTable($database['prefix'] . 'Teamblog')) {
+	$changed = true;
+	echo '<li>', _text('팀블로그 기능을 위한 테이블을 추가합니다.'), ': ';
+	$query = "
+		CREATE TABLE {$database['prefix']}Teamblog (
+			teams int(11) NOT NULL default 0,
+			userid int(11) NOT NULL default 1,
+			enduser int(11) NOT NULL default 0,
+			admin int(11) NOT NULL default 0,
+			posting int(11) NOT NULL default 0,
+			profile text NULL default '',
+			logo varchar(15) default '',
+			font_style int(11) NOT NULL default 0,
+			font_color varchar(10) NOT NULL default '#000000',
+			font_size int(11) NOT NULL default 10,
+			font_bold int(11) NOT NULL default 0,
+			created int(11) NOT NULL default 0,
+			lastLogin int(11) NOT NULL default 0,
+			PRIMARY KEY (teams,userid,admin)
+		) TYPE=MyISAM
+	";
+	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query)) {
+		$query = new TableQuery($database['prefix'] . 'Users');
+		if($query->doesExist()) {
+			$changed = true;
+			if ($users = $query->getAll('userid, name, created')) {
+				foreach($users as $user) {
+					DBQuery::execute("INSERT INTO `{$database['prefix']}Teamblog` VALUES('".$user['userid']."', '".$user['userid']."','0','1','1', '".$user['name']."', '', '0', '#000000', '10', '0', '".$user['created']."', '0')");
+				}
+			}
+			unset($users);
+			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		}
+	} else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
+if (!doesExistTable($database['prefix'] . 'TeamEntryRelations')) {
+	$changed = true;
+	echo '<li>', _text('팀블로그 연관글 기능을 위한 테이블을 추가합니다.'), ': ';
+	$query = "
+		CREATE TABLE {$database['prefix']}TeamEntryRelations (
+			owner int(11) NOT NULL default 1,
+			id int(11) NOT NULL default 1,
+			team int(11) NOT NULL default 1,
+			PRIMARY KEY (owner,id,team)
+		) TYPE=MyISAM
+	";
+	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query)) {
+		$query = new TableQuery($database['prefix'] . 'Entries');
+		if($query->doesExist()) {
+			$changed = true;
+			if ($entries = $query->getAll('owner, id')) {
+				foreach($entries as $entry) {
+					DBQuery::execute("INSERT INTO 	`{$database['prefix']}TeamEntryRelations`  VALUES('".$entry['owner']."', '".$entry['id']."','".$entry['owner']."')");
+				
+				}
+			}
+			unset($entries);
+			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		}
+		
+	} else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));

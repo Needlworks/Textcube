@@ -13,15 +13,24 @@ if(isset($urlFragments[2])&&strncmp($urlFragments[2],'adminMenu',9) == 0){
 	$blogMenu['topMenu'] = $adminMenuMappings[$plugin]['topMenu'];
 }
 
-$blogTopMenuItem = array(
-	array('menu'=>'center','title'=>_t('센터'),'link'=>'/owner/center/dashboard'),
-	array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
-	array('menu'=>'link','title'=>_t('링크'),'link'=>'/owner/link'),
-	array('menu'=>'skin','title'=>_t('스킨'),'link'=>'/owner/skin'),
-	array('menu'=>'plugin','title'=>_t('플러그인'),'link'=>'/owner/plugin'),	
-	array('menu'=>'setting','title'=>_t('환경설정'),'link'=>'/owner/setting/blog'),
-	array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader')
-	);
+if(!empty($ac)){
+	$blogTopMenuItem = array(
+		array('menu'=>'center','title'=>_t('센터'),'link'=>'/owner/center/dashboard'),
+		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
+		array('menu'=>'link','title'=>_t('링크'),'link'=>'/owner/link'),
+		array('menu'=>'skin','title'=>_t('스킨'),'link'=>'/owner/skin'),
+		array('menu'=>'plugin','title'=>_t('플러그인'),'link'=>'/owner/plugin'),	
+		array('menu'=>'setting','title'=>_t('환경설정'),'link'=>'/owner/setting/blog'),
+		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader')
+		);
+} else {
+	$blogTopMenuItem = array(
+		array('menu'=>'center','title'=>_t('센터'),'link'=>'/owner/center/dashboard'),
+		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
+		array('menu'=>'setting','title'=>_t('환경설정'),'link'=>'/owner/setting/account'),
+		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader')
+		);
+}
 switch($blogMenu['topMenu']) {
 	case 'center':
 		$blogMenu['title'] = _t('센터');
@@ -162,7 +171,7 @@ echo fireEvent('ShowAdminHeader', '');
 				<div id="main-description-box">
 					<ul id="main-description">
 <?php
-$writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
+$writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".$_SESSION['admin']);
 ?>
 						<li id="description-blogger"><span class="text"><?php echo _f('환영합니다. <em>%1</em>님.', htmlspecialchars($writer));?></span></li>
 						<li id="description-blog"><a href="<?php echo $blogURL;?>/" title="<?php echo _t('블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('블로그로 이동');?></span></a></li>

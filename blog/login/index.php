@@ -16,7 +16,8 @@ $IV = array(
 		'password' => array('string', 'default' => null),
 		'requestURI' => array('string', 'default' => null),
 		'reset' => array(array('on') ,'default' => null),
-		'save' => array('any', 'default' => null)
+		'save' => array('any', 'default' => null),
+		'teamblogPatch' => array('string', 'default' => null)
 	)
 );
 require ROOT . '/lib/includeForBlog.php';
@@ -41,10 +42,15 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 	else
 		$message = _text('권한이 없습니다.');
 } else if (!empty($_POST['loginid']) && !empty($_POST['password'])) {
-	if (!login($_POST['loginid'], $_POST['password'])) {
+	// 팀블로그 :: 로그인
+	$isLogin = login($_POST['loginid'],$_POST['password']);
+	if (!$isLogin) {
 		$message = _text('아이디 또는 비밀번호가 틀렸습니다.');
 		if (!doesHaveMembership() && isLoginId($owner, $_POST['loginid']))
 			$showPasswordReset = true;
+	}
+	else if($isLogin == 2){
+		$message=_t('권한이 없습니다.');
 	}
 }
 
