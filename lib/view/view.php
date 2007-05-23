@@ -67,6 +67,11 @@ function getUpperView($paging) {
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js" ></script>
 <?php
 	}
+?>
+	<script type="text/javascript">
+		document.onkeydown = processShortcut;
+	</script>
+<?php
 
 	$view = ob_get_contents();
 	ob_end_clean();

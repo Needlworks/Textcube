@@ -967,8 +967,6 @@ function processShortcut(event) {
 	}
 }
 
-document.onkeydown = processShortcut;
-
 function addComment(caller, entryId) {
 	var oForm = findFormObject(caller);
 	if (!oForm)
