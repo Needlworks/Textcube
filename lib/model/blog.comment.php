@@ -97,7 +97,7 @@ function getCommentsNotifiedWithPagingForOwner($owner, $category, $name, $ip, $s
 		if (!empty($search)) {
 			$sql .= " AND ((c.name LIKE '%$search%') OR (c.homepage LIKE '%$search%') OR (c.comment LIKE '%$search%')) ";
 		}
-		$sql .= $childListStr . ' ORDER BY c.modified ASC ';
+		$sql .= $childListStr . ' ORDER BY c.modified DESC ';
 	}
 	return fetchWithPaging($sql, $page, $count);
 }
