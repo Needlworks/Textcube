@@ -9,18 +9,20 @@ if (isset($list)) {
 	foreach ($list['items'] as $item) {	
 		$teamblog_name = DBQuery::queryCell("SELECT b.name 
 			FROM {$database['prefix']}TeamEntryRelations a, {$database['prefix']}Users b  
-			WHERE a.Owner=".$item['owner']." AND a.Id=".$item['id']." AND a.Team=b.userid");
+			WHERE a.owner=".$item['owner']." AND a.id=".$item['id']." AND a.team=b.userid");
 		$itemsView .= str_replace(
 			array(
 				'[##_list_rep_regdate_##]',
+				'[##_list_rep_name_##]',
 				'[##_list_rep_link_##]',
 				'[##_list_rep_title_##]',
 				'[##_list_rep_rp_cnt_##]'
 			),
 			array(
 				fireEvent('ViewListDate', Timestamp::format3($item['published'])),
+				fireEvent('ViewListName', htmlspecialchars($teamblog_name)),
 				"$blogURL/" . ($blog['useSlogan'] ? 'entry/' . encodeURL($item['slogan']) : $item['id']),
-				htmlspecialchars('['.$teamblog_name.'] '. fireEvent('ViewListTitle', $item['title'])),
+				fireEvent('ViewListTitle', $item['title']),
 				($item['comments'] > 0) ? "({$item['comments']})" : ''
 			),
 			$skin->listItem

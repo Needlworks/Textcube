@@ -55,6 +55,8 @@ dress('rss_url', "$blogURL/rss", $view);
 dress('owner_url', "$blogURL/owner", $view);
 dress('textcube_name', TEXTCUBE_NAME, $view);
 dress('textcube_version', TEXTCUBE_VERSION, $view);
+dress('tattertools_name', TEXTCUBE_NAME, $view);
+dress('tattertools_version', TEXTCUBE_VERSION, $view);
 if (isset($paging))
 	dress('paging', getPagingView($paging, $skin->paging, $skin->pagingItem), $view);
 

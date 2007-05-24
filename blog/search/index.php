@@ -16,6 +16,7 @@ if (!empty($search) && !empty($suri['page'])) {
 	$list = array('title' => $search, 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	if ($suri['page'] === true || $suri['page'] === '1')
 		$commentList = getCommentList($owner, $search);
+	$paging = $listWithPaging[1];
 }
 
 if ($skinSetting['showListOnSearch'] != 2)

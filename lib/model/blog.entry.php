@@ -99,7 +99,7 @@ function getEntryListWithPagingByTag($owner, $tag, $page, $count) {
 		return array(array(), array('url'=>'','prefix'=>'','postfix'=>''));	
 	$tag = mysql_tt_escape_string($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-	$sql = "SELECT e.* 
+	$sql = "SELECT e.owner, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner 
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
@@ -112,7 +112,7 @@ function getEntryListWithPagingByPeriod($owner, $period, $page, $count) {
 	global $database, $suri, $folderURL;
 	$cond = "AND e.published >= " . getTimeFromPeriod($period) . " AND e.published < " . getTimeFromPeriod(addPeriod($period));
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-	$sql = "SELECT e.* 
+	$sql = "SELECT e.owner, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
 		WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 $cond 
@@ -125,7 +125,7 @@ function getEntryListWithPagingBySearch($owner, $search, $page, $count) {
 	$search = escapeMysqlSearchString($search);
 	$cond = empty($search) ? '' : "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
-	$sql = "SELECT e.* 
+	$sql = "SELECT e.owner, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
 		WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 $cond 
@@ -181,11 +181,14 @@ function getEntriesWithPagingByTag($owner, $tag, $page, $count, $countItem = nul
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
 
-function getEntriesWithPagingByNotice($owner, $page, $count) {
+function getEntriesWithPagingByNotice($owner, $page, $count, $countItem = null) {
 	global $database, $folderURL, $suri;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
-	$sql = "SELECT *, '" . _text('공지') . "' categoryLabel FROM {$database['prefix']}Entries WHERE owner = $owner $visibility AND category = -2 ORDER BY published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
+	$sql = "SELECT * 
+		FROM {$database['prefix']}Entries 
+		WHERE owner = $owner $visibility AND category = -2 
+		ORDER BY published DESC";
+	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
 
 function getEntriesWithPagingByPeriod($owner, $period, $page, $count) {
