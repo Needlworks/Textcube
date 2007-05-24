@@ -12,6 +12,8 @@ $entry = getEntry($owner, $suri['id']);
 	<title><?php echo _text('글걸기 시도');?></title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/popup-trackback.css" />
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $service['path'];?>";
@@ -107,8 +109,6 @@ $entry = getEntry($owner, $suri['id']);
 			}
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
 </head>
 <body>
 	<form name="trackback" method="post" action="<?php echo $suri['url'];?>">
@@ -126,7 +126,7 @@ $entry = getEntry($owner, $suri['id']);
 					<dt><label for="url"><?php echo _text('주소입력');?></label><span class="divider"> | </span></dt>
 					<dd>
 						<input type="text" id="url" class="input-text" name="url" onkeydown="if (event.keyCode == 13) { sendTrackback(<?php echo $suri['id'];?>); return false;}" />
-						<input type="button" class="input-button" name="Submit" value="<?php echo _text('전송');?>" onclick="sendTrackback(<?php echo $suri['id'];?>)" />				
+						<input type="button" class="input-button" name="Submit" value="<?php echo _text('전송');?>" onclick="sendTrackback(<?php echo $suri['id'];?>); return false;" />
 					</dd>
 				</dl>
 				
