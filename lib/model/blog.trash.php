@@ -119,8 +119,12 @@ function restoreTrackbackTrash($owner, $id) {
 
 function trashVan() {
    	global $database;
-	DBQuery::execute("DELETE FROM {$database['prefix']}Comments where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
-	DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
+	requireComponent('Eolin.PHP.Core');
+	if(Timestamp::getUNIXtime() - getUserSetting('lastTrashSweep',0) > 86400) {
+		DBQuery::execute("DELETE FROM {$database['prefix']}Comments where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
+		DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
+		setUserSetting('lastTrashSweep',Timestamp::getUNIXtime());
+	}
 }
 
 function emptyTrash($comment = true)

@@ -906,6 +906,12 @@ class Timestamp {
 	function getISO8601($time = null) {
 		return ((isset($time) ? date('Y-m-d\TH:i:s', $time) : date('Y-m-d\TH:i:s')) . Timezone::getISO8601());
 	}
+
+	/*@static@*/
+	function getUNIXtime($time = null) {
+		return (isset($time) ? date('U', $time) : date('U'));
+	}
+
 }
 
 

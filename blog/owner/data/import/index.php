@@ -523,7 +523,7 @@ function importer($path, $node, $line) {
 			}
 			return true;
 		case '/blog/link':
-			setProgress($item++ / $items * 100, _t('링크을 복원하고 있습니다.'));
+			setProgress($item++ / $items * 100, _t('링크를 복원하고 있습니다.'));
 			$link = new Link();
 			$link->url = $node['url'][0]['.value'];
 			$link->title = $node['title'][0]['.value'];
@@ -612,12 +612,12 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $setting->error);
 			return true;
 		case '/blog/plugin':
-			setProgress($item++ / $items * 100, _t('플러그인 설정을 복원하고 있습니다.'));
-			$setting = new PluginSetting();
-			$setting->name = $node['name'][0]['.value'];
-			$setting->setting = $node['setting'][0]['.value'];
-			if (!$setting->add())
-				user_error(__LINE__ . $setting->error);
+//			setProgress($item++ / $items * 100, _t('플러그인 설정을 복원하고 있습니다.'));
+//			$setting = new PluginSetting();
+//			$setting->name = $node['name'][0]['.value'];
+//			$setting->setting = $node['setting'][0]['.value'];
+//			if (!$setting->add())
+//				user_error(__LINE__ . $setting->error);
 			return true;
 		case '/blog/personalization':
 //			setProgress($item++ / $items * 100, _t('사용자 편의 설정을 복원하고 있습니다.'));
