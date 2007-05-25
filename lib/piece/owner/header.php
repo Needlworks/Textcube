@@ -80,6 +80,23 @@ switch($blogMenu['topMenu']) {
 // mapping data management to setting
 if(isset($blogMenu['topMenu']) && $blogMenu['topMenu']=='data') $blogMenu['topMenu'] = 'setting';
 
+$pluginListForCSS = array();
+if ($blogMenu['topMenu'] == 'center' && $blogMenu['contentMenu'] == 'dashboard') {
+	if (isset($eventMappings['AddPostEditorToolbox'])) {
+		foreach ($centerMappings as $tempPlugin) {
+			array_push($pluginListForCSS, $tempPlugin['plugin']);
+		}
+	}
+} else if ($blogMenu['topMenu'] == 'entry' && ($blogMenu['contentMenu'] == 'post' || $blogMenu['contentMenu'] == 'edit')) {
+	if (isset($eventMappings['AddPostEditorToolbox'])) {
+		foreach ($eventMappings['AddPostEditorToolbox'] as $tempPlugin) {
+			array_push($pluginListForCSS, $tempPlugin['plugin']);
+		}
+	}
+} else if (isset($pluginDir)) {
+	array_push($pluginListForCSS, $pluginDir);
+}
+unset($tempPlugin);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo (isset($blog['language']) ? $blog['language'] : "ko");?>">
@@ -88,45 +105,60 @@ if(isset($blogMenu['topMenu']) && $blogMenu['topMenu']=='data') $blogMenu['topMe
 	<title><?php echo htmlspecialchars($blog['title']);?> &gt; <?php echo $blogMenu['title'];?></title>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
 <?php
+// common CSS.
 foreach($blogMenu['loadCSS'] as $loadCSS){
 ?>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.css" />
 <?php
 }
-if (isset($pluginDir) && file_exists(ROOT . "/plugins/$pluginDir/plugin-main.css")) {
+
+foreach ($pluginListForCSS as $tempPluginDir) {
+	if (isset($tempPluginDir) && file_exists(ROOT . "/plugins/$tempPluginDir/plugin-main.css")) {
 ?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/plugin-main.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $tempPluginDir;?>/plugin-main.css" />
 <?php
+	}
 }
 ?>
 	<!--[if lte IE 6]>
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
 <?php
+// CSS for Internet Explorer 6
 foreach($blogMenu['loadCSSIE6'] as $loadCSS){
 ?>
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.ie.css" />
 <?php
 }
-if (isset($pluginDir) && file_exists(ROOT . "/plugins/$pluginDir/plugin-main.ie.css")) {
+
+foreach ($pluginListForCSS as $tempPluginDir) {
+	if (isset($tempPluginDir) && file_exists(ROOT . "/plugins/$tempPluginDir/plugin-main.ie.css")) {
 ?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/plugin-main.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $tempPluginDir;?>/plugin-main.ie.css" />
 <?php
+	}
 }
 ?>	
 	<![endif]-->
 	<!--[if IE 7]>
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie7.css" />
 <?php
+// CSS for Internet Explorer 7
 foreach($blogMenu['loadCSSIE7'] as $loadCSS){
 ?>
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.ie7.css" />
 <?php
 }
-if (isset($pluginDir) && file_exists(ROOT . "/plugins/$pluginDir/plugin-main.ie7.css")) {
+
+foreach ($pluginListForCSS as $tempPluginDir) {
+	if (isset($tempPluginDir) && file_exists(ROOT . "/plugins/$tempPluginDir/plugin-main.ie7.css")) {
 ?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginDir;?>/plugin-main.ie7.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $tempPluginDir;?>/plugin-main.ie7.css" />
 <?php
+	}
 }
+
+unset($pluginListForCSS);
+unset($tempPluginDir);
 ?>
 	<![endif]-->
 	<script type="text/javascript">
