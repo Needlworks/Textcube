@@ -75,7 +75,7 @@
 	 	</config>
     <config xml:lang="en" dataValHandler="">
       <window width="500" height="310" />
-      <fieldset legend="Selct default language for displaying dates.">
+      <fieldset legend="Select default language for displaying dates.">
         <field title="Default Language : " name="language" type="select">
           <op value="english">English</op>
           <op value="japanese">Japanese</op>
