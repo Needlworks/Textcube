@@ -28,7 +28,7 @@ if(isset($entries)) {
 			$entriesView .= $entryView;
 		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
 			$entryView = $skin->entry;
-			dress('tb', getTrackbacksView($entry['id'], $skin), $entryView);
+			dress('tb', getTrackbacksView($entry['id'], $skin, $entry['acceptTrackback']), $entryView);
 			if ($skinSetting['expandComment'] == 1 || (($suri['url'] != $blogURL.'/index.php' && $suri['url'] != $service['path'].'/index.php') && ($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
 				$style = 'block';
 			} else {
@@ -39,10 +39,11 @@ if(isset($entries)) {
 			$entryTags = getTags($entry['id']);
 			if (sizeof($entryTags) > 0) {
 				$tags = array();
-				foreach ($entryTags as $entryTag)
-					array_push($tags, "<a href=\"$defaultURL/tag/" . encodeURL($entryTag['name']) . '"' . ((count($entries) == 1 && getUserSetting('useRelTag', true)) ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>');
+				foreach ($entryTags as $entryTag) {
+					$tags[$entryTag['name']] = "<a href=\"$defaultURL/tag/" . encodeURL($entryTag['name']) . '"' . ((count($entries) == 1 && getUserSetting('useRelTag', true)) ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
+				}
 				$tags = fireEvent('ViewTagLists', $tags, $entry['id']);
-				dress('tag_label_rep', implode(",\r\n", $tags), $tagLabelView);
+				dress('tag_label_rep', implode(",\r\n", array_values($tags)), $tagLabelView);
 				dress('tag_label', $tagLabelView, $entryView);
 			}
 			$name = teamblogUser::name();
