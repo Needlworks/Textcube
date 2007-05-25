@@ -47,7 +47,7 @@ function viewHelp(id) {
 	} catch(e) { }
 }
 
-var extraClass = ''; // ÀÌ º¯¼ö´Â reader¿¡¼­µµ »ç¿ëµÊ. ÀÓÀÇ·Î º¯°æÇÏÁö ¸» °Í.
+var extraClass = ''; // ì´ ë³€ìˆ˜ëŠ” readerì—ì„œë„ ì‚¬ìš©ë¨. ì„ì˜ë¡œ ë³€ê²½í•˜ì§€ ë§ ê²ƒ.
 
 function rolloverClass(obj, type) {
 	agent = navigator.userAgent.toLowerCase();

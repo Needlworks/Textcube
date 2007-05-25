@@ -209,7 +209,7 @@ if ($pluginAttrs['authorLink']) {
 if ($pluginAttrs['license'] == 'GPL') {
 	$licenseText = _f('이 플러그인은 %1 라이센스를 따릅니다.', $pluginAttrs['license']);
 } else if (!empty($pluginAttrs['license'])) {
-	$licenseText = _t('_라이센스') . ' : ' . $pluginAttrs['license'];
+	$licenseText = _t('라이센스') . ' : ' . $pluginAttrs['license'];
 }
 
 if (isset($licenseText)) {
