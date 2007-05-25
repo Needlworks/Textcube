@@ -211,7 +211,10 @@ function getCommentList($owner, $search) {
 		FROM {$database['prefix']}Comments c
 		LEFT JOIN {$database['prefix']}Entries e ON c.entry = e.id AND c.owner = e.owner
 		LEFT JOIN {$database['prefix']}Categories ct ON ct.id = e.category AND ct.owner = c.owner
-		WHERE c.entry > 0 AND c.owner = $owner $authorized and c.isFiltered = 0 and comment like '%$search%'")) {
+		WHERE c.entry > 0 
+			AND c.owner = $owner $authorized 
+			and c.isFiltered = 0 
+			and (c.comment like '%$search%' OR c.name like '%$search%')")) {
 		while ($comment = mysql_fetch_array($result))
 			array_push($list['items'], $comment);
 	}

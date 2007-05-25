@@ -56,7 +56,10 @@ function getTrackbackList($owner, $search) {
  		FROM {$database['prefix']}Trackbacks t
 			LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.owner = e.owner
 			LEFT JOIN {$database['prefix']}Categories ct ON ct.id = e.category AND ct.owner = t.owner
-			WHERE t.entry > 0 AND t.owner = $owner $authorized and t.isFiltered = 0 and excerpt like '%$search%'")) {
+			WHERE t.entry > 0 
+				AND t.owner = $owner $authorized 
+				AND t.isFiltered = 0 
+				AND (t.excerpt like '%$search%' OR t.subject like '%$search%')")) {
 			while ($comment = mysql_fetch_array($result))
 				array_push($list['items'], $comment);
 	}   
