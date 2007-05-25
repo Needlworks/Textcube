@@ -58,6 +58,7 @@ else
 
 if (!empty($_POST['newCategory'])) {
 	$history = addCategory($owner, ($selected == 0) ? null : $_POST['id'], trim($_POST['newCategory'])) ? 'document.getElementById("newCategory").select();' : '';
+	if(empty($history)) $errorMessage = _t('같은 이름의 카테고리가 이미 존재합니다');
 } else if (!empty($_POST['modifyCategoryName']) || !empty($_POST['modifyCategoryBodyId'])) {
 	$history = modifyCategory($owner, $_POST['id'], trim($_POST['modifyCategoryName']),trim($_POST['modifyCategoryBodyId'])) ? 'document.getElementById("modifyCategoryName").select();' : '';
 	$tempParentId = DBQuery::queryCell("SELECT `parent` FROM `{$database['prefix']}Categories` WHERE `id` = {$_POST['id']}");
@@ -85,7 +86,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 						<script type="text/javascript">
 							//<![CDATA[
 								function removeCategory() {
-									if(confirm('<?php echo _t('삭제하시겠습니까?');?>')) {
+									if(confirm('<?php echo _t('삭제 하시겠습니까?');?>')) {
 										var oform=document.forms[0];  
 										oform.deleteCategory.value=<?php echo $selected;?>; 
 										 
@@ -136,6 +137,13 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								function validateText(str) {
 									return true;
 								}
+<?php
+	if(isset($errorMessage)) {
+?>
+								alert('<?php echo $errorMessage;?>');
+<?php
+	}
+?>
 							//]]>
 						</script>
 						
