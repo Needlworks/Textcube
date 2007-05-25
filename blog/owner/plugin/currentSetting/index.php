@@ -217,6 +217,9 @@ if (isset($licenseText)) {
 					<div class="license">
 						<?php echo $licenseText;?>
 					</div>
+					<div class="pluginDir">
+						<?php echo _t('설치된 플러그인 경로').' : '.$pluginName;?>
+					</div>
 <?php
 }
 ?>

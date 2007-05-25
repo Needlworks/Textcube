@@ -175,7 +175,8 @@ h1
 	height: 100px;
 }
 
-#information .license
+#information .license,
+#information .pluginDir
 {
 	background-color: #FFFFFF;
 	font-family: Dotum, 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
