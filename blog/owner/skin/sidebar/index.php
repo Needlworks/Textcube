@@ -98,8 +98,8 @@ function pretty_dress($view)
 	list($view, $searchView) = Skin::cutSkinTag($view, 'search');
 	dress('search_name', 'search', $searchView);
 	dress('search_text', isset($search) ? htmlspecialchars($search) : '', $searchView);
-	dress('search_onclick_submit', "try{window.location.href='$blogURL/search/' + document.getElementsByName('search')[0].value.replaceAll('%', '%25'); return false;}catch(e){}", $searchView);
-	dress('search', $searchView, $view);
+	dress('search_onclick_submit', 'searchBlog()', $searchView);
+	dress('search', '<form id="TTSearchForm" action="'.$blogURL.'/search/" method="get" onsubmit="return searchBlog()" style="margin:0;padding:0;display:inline">'.$searchView.'</form>', $view);
 	
 	dress('category', $pd_category, $view);
 	dress('category_list', $pd_categoryXhtml, $view);

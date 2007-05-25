@@ -123,7 +123,7 @@ function getEntryListWithPagingByPeriod($owner, $period, $page, $count) {
 function getEntryListWithPagingBySearch($owner, $search, $page, $count) {
 	global $database, $suri, $folderURL;
 	$search = escapeMysqlSearchString($search);
-	$cond = empty($search) ? '' : "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
+	$cond = strlen($search) == 0 ? 'AND 0' : "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.owner, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e
@@ -206,7 +206,7 @@ function getEntriesWithPagingByPeriod($owner, $period, $page, $count) {
 function getEntriesWithPagingBySearch($owner, $search, $page, $count, $countItem) {
 	global $database, $folderURL, $suri;
 	$search = escapeMysqlSearchString($search);
-	$cond = empty($search) ? '' : "AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
+	$cond = strlen($search) == 0 ? 'AND 0' : "AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 

@@ -927,6 +927,20 @@ function preventEnter(event) {
     return true;
 }
 
+function looseURIEncode(string) {
+	string = string.replace(new RegExp("%", "g"), "%25");
+	string = string.replace(new RegExp("\\?", "g"), "%3F");
+	string = string.replace(new RegExp("#", "g"), "%23");
+	return string;
+}
+
+function searchBlog() {
+	var form = document.getElementById("TTSearchForm");
+	if(form && form.search && form.search.value.trim() != "")
+		window.location = blogURL + "/search/" + looseURIEncode(form.search.value);
+	return false;
+}
+
 function processShortcut(event) {
 	event = STD.event(event);
 	if(event.altKey || event.ctrlKey)

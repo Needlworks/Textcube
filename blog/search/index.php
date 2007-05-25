@@ -7,11 +7,11 @@ require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
-$search = $suri['value'];
+$search = isset($_GET['search']) ? $_GET['search'] : $suri['value'];
 $list = array('title' => '', 'items' => array(), 'count' => 0);
 $commentList = array('title' => '', 'items' => array(), 'count' => 0);
 
-if (!empty($search) && !empty($suri['page'])) {
+if (strlen($search) > 0 && !empty($suri['page'])) {
 	$listWithPaging = getEntryListWithPagingBySearch($owner, $search, $suri['page'], $blog['entriesOnList']);
 	$list = array('title' => $search, 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	if ($suri['page'] === true || $suri['page'] === '1')
