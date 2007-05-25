@@ -181,7 +181,7 @@ if (file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
 	</script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/language/messages.php"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/byTextcube.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF3.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js"></script>

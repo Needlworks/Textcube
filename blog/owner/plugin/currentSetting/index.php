@@ -71,7 +71,7 @@ if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 <?php
 }
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF3.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/pluginconfig.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
