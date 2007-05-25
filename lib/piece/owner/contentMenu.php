@@ -119,9 +119,8 @@ if(isset($blogContentMenuItem)) {
 <?php
 		}
 	}
-	requireComponent('Textcube.Core');
 ?>
-						<li id="sub-menu-helper"><?php echo teamblogUser::myBlog();?><a href="<?php echo getHelpURL($blogMenu['topMenu']);?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
+						<li id="sub-menu-helper"><a href="<?php echo getHelpURL($blogMenu['topMenu']);?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
 					</ul>
 				</div>
 <?php

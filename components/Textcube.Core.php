@@ -130,20 +130,13 @@ class teamblogUser{
 		else
 			$Path = str_replace("/".$blog['name'], "", $_SERVER["REQUEST_URI"]);
 	
-		$blogn = ('<script type="text/javascript">
-			function teamblog(){
-				var bs = document.getElementById("teamblog");
-				if(bs.value != "")
-					location.href = "'.$blogURL.'/owner/setting/teamblog/changeBlog/?bs=" + bs.value + "&path='.$Path.'";
-			}
-			</script>');
-		$blogn .= '<select id="teamblog" onChange="teamblog();"><optgroup label="'._t('참여중인 블로그').'">';
+		$blogn = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?bs='+this.value+'&path={$Path}'\">";
 	
 		$isEnd = $_SESSION['admin']+1;
 		$myres = DBQuery::queryRow("SELECT * FROM `{$database['prefix']}Teamblog` WHERE `userid`='".$_SESSION['admin']."' and enduser='".$isEnd."'");
 		if(!empty($myres['profile'])){
-			if($owner == $_SESSION['admin'] && $myres['userid'] > 1) $myblogsel = " selected ";
-			$blogn .= '<option value="'.$myres['userid'].'" '. $myblogsel .'/>'._t('내 블로그').'</option>';
+			if($owner == $_SESSION['admin'] && $myres['userid'] > 1) $myblogsel = ' selected="selected"';
+			$blogn .= '<option value="'.$myres['userid'].'" '. $myblogsel .'>'._t('내 블로그').'</option>';
 		}
 	
 		$teamblogInfo = DBQuery::queryAll("SELECT * FROM ".$database['prefix']."Teamblog WHERE userid='".$_SESSION['admin']."'");
@@ -156,11 +149,11 @@ class teamblogUser{
 					$title = _f('%1 님의 블로그',DBQuery::queryCell("SELECT name FROM ".$database['prefix']."Users WHERE userid='".$res['teams']."'"));
 				}
 				$blogn .= '<option value="' . $res['teams'] . '"';
-				if($res['teams'] == $owner) $blogn .= ' selected';
+				if($res['teams'] == $owner) $blogn .= ' selected="selected"';
 				$blogn .= '>' . $title . '</option>';
 			}
 		}
-		$blogn .= '</optgroup>	</select>&nbsp;&nbsp;&nbsp;&nbsp;';
+		$blogn .= '</select>';
 
 		return $blogn;
 	}

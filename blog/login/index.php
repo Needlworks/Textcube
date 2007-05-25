@@ -98,7 +98,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 		//<![CDATA[
 			window.addEventListener("load", checkTextcubeVersion, false);
 			function checkTextcubeVersion() {
-				if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
+				if (confirm("<?php echo _text('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
 					window.location.href = "<?php echo $blogURL;?>/checkup";
 			}
 		//]]>
@@ -110,7 +110,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 		//<![CDATA[
 			window.addEventListener("load", checkTextcubeVersion, false);
 			function checkTextcubeVersion() {
-				if (confirm("<?php echo _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
+				if (confirm("<?php echo _text('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
 					window.location.href = "<?php echo $blogURL;?>/checkup";
 				}
 		//]]>

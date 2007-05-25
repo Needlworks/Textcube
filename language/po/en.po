@@ -2897,7 +2897,7 @@ msgstr "To Blog Main Page"
 
 #: ../../lib/model/blogSetting.php:304 ../../b11/lib/model/blogSetting.php:304
 msgid "블로그 바로가기"
-msgstr "To my blog"
+msgstr "To this blog"
 
 #: ../../blog/owner/setting/blog/index.php:302
 msgid "블로그 설명"
@@ -3051,7 +3051,7 @@ msgstr "To Blog"
 #: ../../b11/lib/piece/owner/header6.php:42
 #: ../../b11/lib/piece/owner/header7.php:48
 msgid "블로그로 이동"
-msgstr "To my blog"
+msgstr "To this blog"
 
 #: ../../blog/owner/setting/account/index.php:314
 msgid ""
