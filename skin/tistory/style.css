@@ -156,22 +156,28 @@ textarea        { border:1px solid #aaa;}
 #content .entry             { border:5px solid #eee;  padding:10px;  margin-bottom:10px;}
 #content .guestbook, 
 #content .searchList, 
-#content .searchRplist      { padding:10px;}
+#content .searchRplist,
+#content .searchTblist      { padding:10px;}
 
 #content .localog h3, 
 #content .taglog h3, 
 #content .guestbook h3, 
 #content .searchList h3, 
-#content .searchRplist h3   { border-bottom:1px solid #ccc;  margin-bottom:10px;  color:#222;}
+#content .searchRplist h3,
+#content .searchTblist h3   { border-bottom:1px solid #ccc;  margin-bottom:10px;  color:#222;}
 
 .searchList ol, 
-.searchRplist ol            { list-style:none;  padding:5px;  margin:0;}
+.searchRplist ol,
+.searchTblist ol            { list-style:none;  padding:5px;  margin:0;}
 .searchList li, 
-.searchRplist li            { border-bottom:1px solid #eee;  padding-bottom:2px;  margin-bottom:4px;}
+.searchRplist li,
+.searchTblist li            { border-bottom:1px solid #eee;  padding-bottom:2px;  margin-bottom:4px;}
 .searchList .date, 
-.searchRplist .date         { font:0.95em Verdana, Helvetica, Arial, Gulim, sans-serif;  margin-right:10px; }
+.searchRplist .date,
+.searchTblist .date         { font:0.95em Verdana, Helvetica, Arial, Gulim, sans-serif;  margin-right:10px; }
 .searchList .cnt            { font:0.75em Verdana, Helvetica, Arial, Gulim, sans-serif;  color:#f60;} 
-.searchRplist .name         { font:0.95em Dotum, Arial, sans-serif;    color:#999;  padding-left:8px;}
+.searchRplist .name,
+.searchTblist .subject      { font:0.95em Dotum, Arial, sans-serif;    color:#999;  padding-left:8px;}
 
 .localog .spot              { background:url(images/iconIndentArrow_local.gif) 5px 0 no-repeat;  padding-left:20px;  margin-top:5px;}
 .localog .info              { background:url(images/iconIndentArrow_localinfo.gif) 5px 3px no-repeat;  padding-left:15px;  margin-top:2px;}

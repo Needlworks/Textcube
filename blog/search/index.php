@@ -16,6 +16,7 @@ if (!empty($search) && !empty($suri['page'])) {
 	$list = array('title' => $search, 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	if ($suri['page'] === true || $suri['page'] === '1')
 		$commentList = getCommentList($owner, $search);
+		$trackbackList = getTrackbackList($owner, $search);
 	$paging = $listWithPaging[1];
 }
 
@@ -24,8 +25,10 @@ if ($skinSetting['showListOnSearch'] != 2)
 
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/list.php';
-if ($suri['page'] === true || $suri['page'] === '1')
+if ($suri['page'] === true || $suri['page'] === '1'){
 	require ROOT . '/lib/piece/blog/commentList.php';
+	require ROOT . '/lib/piece/blog/trackbackList.php';
+}
 require ROOT . '/lib/piece/blog/entries.php';
 require ROOT . '/lib/piece/blog/end.php';
 ?>

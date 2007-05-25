@@ -47,6 +47,22 @@ function getTrackbacks($entry) {
 	return $trackbacks;
 }
 
+function getTrackbackList($owner, $search) {
+	global $database;
+	$list = array('title' => "$search", 'items' => array());
+	$search = escapeMysqlSearchString($search);
+	$authorized = doesHaveOwnership() ? '' : ' AND (ct.visibility > 1 OR e.category = 0)';
+	if ($result = DBQuery::query("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written
+ 		FROM {$database['prefix']}Trackbacks t
+			LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.owner = e.owner
+			LEFT JOIN {$database['prefix']}Categories ct ON ct.id = e.category AND ct.owner = t.owner
+			WHERE t.entry > 0 AND t.owner = $owner $authorized and t.isFiltered = 0 and excerpt like '%$search%'")) {
+			while ($comment = mysql_fetch_array($result))
+				array_push($list['items'], $comment);
+	}   
+	return $list;
+}
+
 function getRecentTrackbacks($owner, $count = false) {
 	global $database;
 	global $skinSetting;
