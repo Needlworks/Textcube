@@ -128,6 +128,11 @@ optgroup.delete option
 	color                            : #FF0000;
 }
 
+option
+{
+	padding-right                    : 0.5em;
+}
+
 kbd, samp
 {
 	font-family                      : "Courier New", Courier, 굴림, Gulim, monospace;
@@ -363,6 +368,7 @@ textarea
 	background-repeat                : repeat-x;
 	border-left                      : 1px solid #BBBBBB;
 	border-right                     : 1px solid #BBBBBB;
+	margin                           : 0 auto;
 	position                         : relative;
 	width                            : 980px;
 }
@@ -851,6 +857,7 @@ table.data-inbox tbody tr td.inactive-class
 	background-repeat                : repeat-x;
 	font-family                      : Tahoma, sans-serif;
 	font-size                        : 0.9em;
+	margin                           : 0 auto;
 	padding                          : 13px 0 10px 0;
 	text-align                       : center;
 	width                            : 980px;	

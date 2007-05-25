@@ -32,7 +32,7 @@ h2
 	background-repeat                : repeat-x;
 	border-left                      : 1px solid #BBBBBB;
 	border-right                     : 1px solid #BBBBBB;
-	margin-top                       : 5px;
+	margin                           : 5px auto 0 auto;
 	width                            : 980px;
 	padding                          : 5px 0 0 0;
 }

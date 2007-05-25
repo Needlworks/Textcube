@@ -47,6 +47,11 @@
 	padding-top                      : 3px;
 }
 
+#tag
+{
+	word-break                       : break-all;
+}
+
 #location ul li
 {
 	margin-right                     : 2px;

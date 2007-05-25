@@ -361,11 +361,6 @@ h3
 	line-height                      : 20px;
 }
 
-#tag
-{
-	word-break                       : break-all;
-}
-
 #tag ul li
 {
 	background-image                 : url("./image/comma.gif");
