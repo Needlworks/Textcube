@@ -16,5 +16,6 @@
   <binding>
     <listener event="BindKeyword">KeywordUI_bindKeyword</listener>
 	<listener event="setKeylogSkin">KeywordUI_setSkin</listener>
+	<listener event="ViewTagLists">KeywordUI_bindTag</listener>
   </binding>
 </plugin>

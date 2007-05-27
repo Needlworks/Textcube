@@ -43,7 +43,12 @@ function getKeywordsWithPaging($owner, $search, $page, $count) {
 	}
 
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$sql = "SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -1 $aux ORDER BY published DESC";
+	$sql = "SELECT * 
+		FROM {$database['prefix']}Entries 
+		WHERE owner = $owner 
+			AND draft = 0 $visibility 
+			AND category = -1 $aux 
+		ORDER BY published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
@@ -51,6 +56,12 @@ function getKeylog($owner, $keyword) {
 	global $database;
 	$keyword = mysql_tt_escape_string($keyword);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
-	return DBQuery::queryAll("SELECT id, title, content, published, comments FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 AND (title LIKE '%$keyword%' OR content LIKE '%$keyword%') ORDER BY published DESC");
+	return DBQuery::queryAll("SELECT id, title, content, published, comments 
+			FROM {$database['prefix']}Entries 
+			WHERE owner = $owner 
+				AND draft = 0 $visibility 
+				AND category >= 0 
+				AND (title LIKE '%$keyword%' OR content LIKE '%$keyword%') 
+			ORDER BY published DESC");
 }
 ?>
