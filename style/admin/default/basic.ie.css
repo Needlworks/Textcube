@@ -55,7 +55,7 @@
 .input-button
 {
 	height                           : 1.75em;
-	line-height                      : 2.4em !important;
+	/*line-height                      : 2.4em !important;*/ /* Removed by coolengineer */
 	padding                          : 0 1px !important;
 }
 

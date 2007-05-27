@@ -55,6 +55,10 @@ else
 	{
 		api_setHint( "TagsFromCategories" );
 	}
+	if( isset($_GET['category']) ) {
+		api_setHint( "Category", $_GET['category'] );
+	}
 	api_BlogAPI();
 }
+
 ?>

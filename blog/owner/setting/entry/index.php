@@ -20,7 +20,7 @@ printFormatterSelectScript();
 
 								
 								function setEditorConfig() {
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/entry/editor/?defaultEditor=" + document.getElementById('editor-form').defaultEditor.value + "&defaultFormatter=" + document.getElementById('editor-form').defaultFormatter.value + "&useBlogAPI=" + document.getElementById('editor-form').useBlogAPI.checked);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/entry/editor/?defaultEditor=" + document.getElementById('editor-form').defaultEditor.value + "&defaultFormatter=" + document.getElementById('editor-form').defaultFormatter.value + "&useBlogAPI=" + document.getElementById('editor-form').useBlogAPI.checked + "&blogApiPassword=" + document.getElementById('editor-form').blogApiPassword.value );
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 									}
@@ -62,6 +62,19 @@ printFormatterSelectScript();
 												break;
 										}
 									}
+								}
+
+								function clearBlogPassword() {
+									document.getElementById('blogApiPassword').value = "";
+								}
+								function chooseBlogPassword() {
+									var blogApiPassword = document.getElementById('blogApiPassword');
+									var value = "";
+									var asciibase = "0123456789abcdef";
+									for( i=0;i<20;i++) {
+										value += "" + asciibase.charAt(Math.round((Math.random()*15)));
+									}
+									blogApiPassword.value = value;
 								}
 							//]]>
 						</script>
@@ -114,6 +127,15 @@ foreach (getAllEditors() as $key => $value) {
 											<dd>
 												<input type="checkbox" class="checkbox" id="useBlogAPI" name="useBlogAPI" value="yes" <?php echo (getUserSetting("useBlogAPI", 0) == "1") ? ' checked="checked"' : '';?> /><label for="useBlogAPI"><?php echo _t('metaWeblogAPI나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다.');?></label>
 												<p><?php echo _t('API 사용시 주소는 블로그 주소/api 입니다.');?></p>
+											</dd>
+										</dl>
+										<dl id="blogapi-line" class="line">
+											<dt><span class="label"><?php echo _t('블로그 API 용 비밀번호');?></span></dt>
+											<dd>
+												<p><label for="blogApiPassword"><?php echo _t('BlogAPI에 사용할 비밀번호입니다. 관리자 로그인 비밀번호와 동일하게 사용하실 경우 비어두세요.');?></label></p>
+												<input type="text" style="width:14em" class="input-text" id="blogApiPassword" name="blogApiPassword" value="<?php echo getUserSetting("blogApiPassword", "");?>" />
+												<input type="button" class="input-button" value="<?php echo _t('임의로 생성')?>" onclick="chooseBlogPassword()" >
+												<input type="button" class="input-button" value="<?php echo _t('관리자 비밀번호를 그대로 사용')?>" onclick="clearBlogPassword()" >
 											</dd>
 										</dl>
 									</fieldset>

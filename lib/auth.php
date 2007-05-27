@@ -2,16 +2,22 @@
 /// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-function login($loginid, $password) {
+
+function login($loginid, $password, $preKnownPassword = null) {
 	global $database;
 	global $service;
 	global $owner;			// 팀블로그 변수 추가
 	$loginid = mysql_tt_escape_string($loginid);
+
 	if ((strlen($password) == 32) && preg_match('/[0-9a-f]/i', $password))
 		$secret = '(`password` = \'' . md5($password) . "' OR `password` = '$password')";
-	else
+	else if( $preKnownPassword !== null ) {
+		$password = mysql_tt_escape_string($password);
+		$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $preKnownPassword . '\')';
+	} else {
 		$secret = '`password` = \'' . md5($password) . '\'';
-		
+	}
+
 	if ($result = DBQuery::query("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE loginid = '$loginid' AND $secret")) {
 //	if ($result = DBQuery::query("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE name = '$loginid' AND $secret")) {
 		if ($session = mysql_fetch_array($result)) {

@@ -5,17 +5,17 @@
 
 /*--------- Basic functions -----------*/
 
-function api_setHint( $hint )
+function api_setHint( $hint, $value = true )
 {
 	global $arr_hint;
 	if( !$arr_hint )
 	{
 		$arr_hint = array();
 	}
-	$arr_hint[$hint] = true;
+	$arr_hint[$hint] = $value;
 }
 
-function api_checkHint( $hint )
+function api_getHint( $hint )
 {
 	global $arr_hint;
 	if( $arr_hint )
@@ -155,20 +155,27 @@ function api_getCategoryIdByName( $name_array )
 	$category = new Category();
 	$category->open(false);
 	
-	$name = $name_array[0];
+	$name = strtolower( $name_array[0] );
 	$id = 0;
+	$numeric_id = null;
 	
 	while(1)
 	{
-		if( $category->label == $name )
-		{
+		if( strtolower($category->label) == $name ) {
 			$id = $category->id;
 			break;
+		}
+		if( $category->id == $name ) {
+			$numeric_id = $category->id;
 		}
 		if( !$category->shift() )
 		{
 			break;
 		}
+	}
+
+	if( $id == 0 && $numeric_id !== null ) {
+		$id = $numeric_id;
 	}
 	
 	$category->close();
@@ -244,7 +251,7 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 	$param['mt_keywords'] = array_key_exists('mt_keywords', $param) ? $param['mt_keywords'] : '';
 
 	global $arr_hint;
-	if( api_checkHint("TagsFromCategories") )
+	if( api_getHint("TagsFromCategories") )
 	{
 		$post->tags = array_merge( $param['categories'], split(",", $param['mt_excerpt']) , $param['tagwords'] );
 	}
@@ -254,7 +261,11 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 		$post->tags = split(",", $param['mt_keywords']);
 		$post->category = api_getCategoryIdByName( $param['categories'] );
 	}
-	
+
+	$extra_category = api_getHint("Category");
+	if( !empty($extra_category) ) {
+		$post->category = api_getCategoryIdByName( array($extra_category) );
+	}
 	$post->created = api_timestamp( $param['dateCreated'] );
 	$post->modified = api_timestamp( $param['dateCreated'] );
 	

@@ -4,14 +4,17 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 class Auth {
 	function login($loginid, $password) {
-		global $database, $owner;
-		$loginid = mysql_tt_escape_string($loginid);
-		$result = mysql_query("SELECT a.userid FROM {$database['prefix']}Users a, {$database['prefix']}Teamblog b WHERE b.teams = $owner AND a.userid=b.userid AND a.loginid = '$loginid' AND a.password = '" . md5($password) . "'");
-		if ($result && (mysql_num_rows($result) == 1)) {
-			mysql_query("UPDATE {$database['prefix']}Users SET lastLogin = UNIX_TIMESTAMP() WHERE loginid = '$loginid'");
-			return true;
+		if( login($loginid,$password) ) { /* Call login function in lib/auth.php */
+			return true; 
 		}
-		return false;
+
+		$blogApiPassword = getUserSetting("blogApiPassword", "");
+
+		if( empty( $blogApiPassword ) ) {
+			return false;
+		}
+
+		return login($loginid,$password,$blogApiPassword); /* Call login function in lib/auth.php */
 	}
 }
 ?>
