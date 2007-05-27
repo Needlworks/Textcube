@@ -124,6 +124,9 @@ unset($url, $domain);
 $adminSkinSetting = array();
 $adminSkinSetting['skin'] = "/style/admin/".getUserSetting("adminSkin", "default");
 
+// 리샘플링 설정값.
+$useImageResampling = getUserSetting("resamplingDefault");
+
 // content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
 $contentContainer = array();
 
@@ -131,29 +134,6 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/wysiwyg.css"))
 	$adminSkinSetting['editorTemplate'] = "/skin/{$skinSetting['skin']}/wysiwyg.css";
 else
 	$adminSkinSetting['editorTemplate'] = "/style/default-wysiwyg.css";
-
-// 워터 마크 파일이 있는 곳.
-if (file_exists(ROOT."/attach/$owner/watermark.gif")) {
-	$waterMarkPath = ROOT."/attach/$owner/watermark.gif";
-} else {
-	$waterMarkPath = NULL;
-}
-
-$waterMarkArray = array();
-$waterMarkArray['path'] = $waterMarkPath;
-$waterMarkArray['position'] = getWaterMarkPosition();
-$waterMarkArray['gamma'] = getWaterMarkGamma();
-
-$paddingArray = array();
-$padding = getThumbnailPadding();
-$paddingArray['top'] = $padding['top'];
-$paddingArray['right'] = $padding['right'];
-$paddingArray['bottom'] = $padding['bottom'];
-$paddingArray['left'] = $padding['left'];
-$paddingArray['bgColor'] = getThumbnailPaddingColor();
-
-unset($padding);
-unset($waterMarkPath);
 
 if (!file_exists(ROOT . '/config.php')) {
 	header('Location: ' . ROOT . '/setup.php');

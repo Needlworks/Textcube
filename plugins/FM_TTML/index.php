@@ -367,7 +367,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 }
 
 function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderURL, $imageBlocks = 1, $useAbsolutePath = false, $bRssMode = false, $onclickFlag=false) {
-	global $database, $skinSetting, $service, $owner, $blogURL, $hostURL, $waterMarkArray, $paddingArray, $serviceURL;
+	global $database, $skinSetting, $service, $owner, $blogURL, $hostURL, $serviceURL;
 	$path = "$folderPath/$filename";
 	if ($useAbsolutePath)
 		$url = "$serviceURL/attach/$owner/$filename";
@@ -398,7 +398,7 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 					$imageStr = '<img src="'.$url.'" '.$property.' />';
 				}
 
-				return makeThumbnail(fireEvent('ViewAttachedImage', $imageStr, $path), $path, $paddingArray, $waterMarkArray, $useAbsolutePath);
+				return fireEvent('ViewAttachedImage', $imageStr, $path);
 			}
 			break;
 		case 'swf':

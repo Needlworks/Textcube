@@ -1,3 +1,12 @@
+<?php
+$pluginListForCSS = array();
+if (isset($eventMappings['AddPostEditorToolbox'])) {
+	foreach ($eventMappings['AddPostEditorToolbox'] as $tempPlugin) {
+		array_push($pluginListForCSS, $tempPlugin['plugin']);
+	}
+}
+unset($tempPlugin);
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo (isset($blog['language']) ? $blog['language'] : "ko");?>">
 <head>
@@ -6,15 +15,45 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/post.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/popup-editor.css" />
+<?php
+foreach ($pluginListForCSS as $tempPluginDir) {
+	if (isset($tempPluginDir) && file_exists(ROOT . "/plugins/$tempPluginDir/plugin-main.css")) {
+?>
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $tempPluginDir;?>/plugin-main.css" />
+<?php
+	}
+}
+?>
 	<!--[if lte IE 6]>
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/post.ie.css" />
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/popup-editor.ie.css" />
+<?php
+foreach ($pluginListForCSS as $tempPluginDir) {
+	if (isset($tempPluginDir) && file_exists(ROOT . "/plugins/$tempPluginDir/plugin-main.ie.css")) {
+?>
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $tempPluginDir;?>/plugin-main.ie.css" />
+<?php
+	}
+}
+?>
 	<![endif]-->
 	<!--[if IE 7]>
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie7.css" />
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/post.ie7.css" />
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/popup-editor.ie7.css" />
+<?php
+foreach ($pluginListForCSS as $tempPluginDir) {
+	if (isset($tempPluginDir) && file_exists(ROOT . "/plugins/$tempPluginDir/plugin-main.ie7.css")) {
+?>
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $tempPluginDir;?>/plugin-main.ie7.css" />
+<?php
+	}
+}
+
+unset($pluginListForCSS);
+unset($tempPluginDir);
+?>
 	<![endif]-->
 	<script type="text/javascript">
 		//<![CDATA[

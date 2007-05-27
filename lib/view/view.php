@@ -937,6 +937,8 @@ function getRandomTagsView($tags, $template) {
 }
 
 function getEntryContentView($owner, $id, $content, $formatter, $keywords = array(), $type = 'Post', $useAbsolutePath = false, $bRssMode = false) {
+	global $hostURL, $service, $owner, $useImageResampling;
+	
 	$content = fireEvent('Format' . $type . 'Content', $content, $id);
 	$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
 	$view = $func($owner, $id, $content, $formatter, $keywords, $useAbsolutePath);
@@ -944,7 +946,27 @@ function getEntryContentView($owner, $id, $content, $formatter, $keywords = arra
 		$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var'));
 	if(!$useAbsolutePath)
 		$view = avoidFlashBorder($view);
-	return fireEvent('View' . $type . 'Content', $view, $id);
+	
+	$view = fireEvent('View' . $type . 'Content', $view, $id);
+	
+	// image resampling
+	if ($useImageResampling == true) {
+		if ($useAbsolutePath == true) {
+			preg_match("@<img.+src=['\"]{$hostURL}{$service['path']}/attach/{$owner}/(.+)['\"].+/>@Ui", $view, $images, PREG_SET_ORDER);
+			$view = preg_replace("@<img.+src=['\"]{$hostURL}{$service['path']}/attach/{$owner}/(.+)['\"].+/>@Ui", '[#####_#####_#####_image_#####_#####_#####]', $view);
+		} else {
+			preg_match_all("@<img.+src=['\"]{$service['path']}/attach/{$owner}/(.+)['\"].+/>@Ui", $view, $images, PREG_SET_ORDER);
+			$view = preg_replace("@<img.+src=['\"]{$service['path']}/attach/{$owner}/(.+)['\"].+/>@Ui", '[#####_#####_#####_image_#####_#####_#####]', $view);
+		}
+	
+		if (count($images) > 0) {
+			for ($i=0; $i<count($images); $i++) {
+				$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', resampleImage($images[$i][0], ROOT . "/attach/{$owner}/{$images[$i][1]}", $useAbsolutePath), $view, 1);
+			}
+		}
+	}
+	
+	return $view;
 }
 
 function printEntryContentView($owner, $id, $content, $formatter, $keywords = array()) {

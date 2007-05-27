@@ -8,6 +8,11 @@
 	padding                          : 0;
 }
 
+abbr, acronym
+{
+	cursor                           : help;
+}
+
 body
 {
 	background-color                 : #FFFFFF;
@@ -36,6 +41,11 @@ kbd
 label
 {
 	cursor                           : pointer;
+}
+
+option
+{
+	padding-right                    : 0.5em;
 }
 
 samp

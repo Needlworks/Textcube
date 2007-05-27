@@ -10,49 +10,11 @@ class Image {
 			NULL;
 	}
 	
-	function resample($width, $height, $padding=NULL) {
+	function resample($width, $height) {
 		if (empty($width) && empty($height))
 			return false;
 		if (empty($this->imageFile) || !file_exists($this->imageFile))
 			return false;
-		
-		// validate padding values.
-		if (!is_null($padding)) {
-			if (!isset($padding['top']) || !is_int($padding['top'])) {
-				$padding['top'] = 0;
-			}
-			if (!isset($padding['right']) || !is_int($padding['right'])) {
-				$padding['right'] = 0;
-			}
-			if (!isset($padding['bottom']) || !is_int($padding['bottom'])) {
-				$padding['bottom'] = 0;
-			}
-			if (!isset($padding['left']) || !is_int($padding['left'])) {
-				$padding['left'] = 0;
-			}
-		} else {
-			$padding['top'] = 0;
-			$padding['right'] = 0;
-			$padding['bottom'] = 0;
-			$padding['left'] = 0;
-		}
-		
-		// validate background color.
-		if (isset($padding['bgColor'])) {
-			if (!eregi("^[0-9A-F]{3,6}$", $padding['bgColor']))
-				$padding['bgColor'] = "FFFFFF";
-		} else {
-			$padding['bgColor'] = "FFFFFF";
-		}
-		
-		// |---------------------------- $width ---------------------------|
-		// |-- $padding['left'] --|-- $coreWidth --|-- $padding['right'] --|
-		$coreWidth = $width - $padding['left'] - $padding['right'];
-		$coreHeight = $height - $padding['top'] - $padding['bottom'];
-		if ($coreWidth < 0)
-			$coreWidth = 0;
-		if ($coreHeight < 0)
-			$coreHeight = 0;
 		
 		// create an image device as image format.
 		switch ($this->getImageType($this->imageFile)) {
@@ -95,7 +57,9 @@ class Image {
 				return false;
 				break;
 		}
-		$originImageDevice = fireEvent('BeforeResizeImage', $originImageDevice, $this);
+		// 리샘플링은 최종단계에서 리샘플링만을 하는 기능임. 시스템을 예로 들면 OS의 기능에 해당함.
+		// 이미지 프로세스는 어플리케이션의 기능으로 볼 수 있고, 따라서 이미지 리샘플링 중에는 이벤트가 끼어들면 안 됨.
+		//$originImageDevice = fireEvent('BeforeResizeImage', $originImageDevice, $this);
 		
 		if (Path::getExtension($this->imageFile) == ".gif") {
 			$this->resultImageDevice = imagecreate($width, $height);
@@ -103,12 +67,12 @@ class Image {
 			$this->resultImageDevice = imagecreatetruecolor($width, $height);
 		}
 		
-		$bgColorBy16 = $this->hexRGB($padding['bgColor']);
+		$bgColorBy16 = $this->hexRGB("FFFFFF");
 		$temp = imagecolorallocate($this->resultImageDevice, $bgColorBy16['R'], $bgColorBy16['G'], $bgColorBy16['B']);
 		imagefilledrectangle($this->resultImageDevice, 0, 0, $width, $height, $temp);
-		imagecopyresampled($this->resultImageDevice, $originImageDevice, $padding['left'], $padding['top'], 0, 0, $coreWidth, $coreHeight, imagesx($originImageDevice), imagesy($originImageDevice));
+		imagecopyresampled($this->resultImageDevice, $originImageDevice, 0, 0, 0, 0, $width, $height, imagesx($originImageDevice), imagesy($originImageDevice));
 		imagedestroy($originImageDevice);
-		$this->resultImageDevice = fireEvent('AfterResizeImage', $this->resultImageDevice, $this);
+		//$this->resultImageDevice = fireEvent('AfterResizeImage', $this->resultImageDevice, $this);
 		
 		return true;
 	}
@@ -348,36 +312,6 @@ class Image {
 		}
 		
 		return array($imgWidth, $imgHeight);
-	}
-	
-	function checkExistingThumbnail($originSrc, $thumbnailSrc, $argWidth, $argHeight, $paddingArray=NULL, $waterMarkArray=NULL) {
-		if (!file_exists($originSrc)) {
-			return 0;
-		}
-		$originImageInfo = getimagesize($originSrc);
-		list($tempWidth, $tempHeight) = Image::calcOptimizedImageSize($originImageInfo[0], $originImageInfo[1], $argWidth, $argHeight);
-		
-		if (!file_exists($thumbnailSrc)) {
-			// in the case of a reduced image.
-			if ($originImageInfo[0] > $tempWidth || $originImageInfo[1] > $tempHeight) {
-				return 2;
-			// even if a original size image or a magnified image, create a thumbnail in the case of existing a watermark file or padding value.
-			} else if (($originImageInfo[0] <= $tempWidth || $originImageInfo[1] <= $tempHeight) && (file_exists($waterMarkArray['path']) || !empty($paddingArray))) {
-				return 2;
-			}
-		} else {
-			$thumbnailImageInfo = getimagesize($thumbnailSrc);
-			$resizedWidth = $tempWidth;
-			$resizedHeight = $tempHeight;
-			
-			// in the case of a reduced image.
-			if ($thumbnailImageInfo[0] > $resizedWidth || $thumbnailImageInfo[1] > $resizedHeight) {
-				return 1;
-			// no process.
-			} else {
-				return 0;
-			}
-		}
 	}
 	
 	function getImageType($filename) {

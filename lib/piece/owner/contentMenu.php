@@ -100,7 +100,7 @@ if(isset($blogMenu['topMenu'])) {
 }
 ?>
 			<div id="layout-body">
-				<h2><?php echo _f('서브메뉴 : %1',$blogMenu['title']);?></h2>
+				<h2><?php echo isset($blogMenu['title']) ? _f('서브메뉴 : %1', $blogMenu['title']) : _t('서브메뉴');?></h2>
 
 <?php
 if(isset($blogContentMenuItem)) {

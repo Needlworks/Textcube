@@ -607,12 +607,6 @@ TTModernEditor.prototype.showProperty = function(obj)
 			getObject(propertyWindowId + "_width1").value = trim(this.removeQuot(this.parseAttribute(values[2], "width")));
 			getObject(propertyWindowId + "_alt1").value = trim(this.unHtmlspecialchars(this.removeQuot(this.parseAttribute(values[2], "alt"))));
 			getObject(propertyWindowId + "_caption1").value = trim(this.unHtmlspecialchars(this.removeQuot(values[3])));
-			if (this.parseAttribute(values[2], "class").match("tt-resampling")) {
-				getObject(propertyWindowId + "_resample1").checked = true;
-			} else if (this.parseAttribute(values[2], "class").match("tt-watermark")) {
-				getObject(propertyWindowId + "_watermark1").checked = true;
-				getObject(propertyWindowId + "_resample1").checked = true;
-			}
 
 			this.propertyFilename1 = values[1];
 
@@ -654,12 +648,6 @@ TTModernEditor.prototype.showProperty = function(obj)
 				getObject(propertyWindowId + "_width2").value = trim(this.removeQuot(this.parseAttribute(values[5], "width")));
 				getObject(propertyWindowId + "_alt2").value = trim(this.unHtmlspecialchars(this.removeQuot(this.parseAttribute(values[5], "alt"))));
 				getObject(propertyWindowId + "_caption2").value = trim(this.unHtmlspecialchars(this.removeQuot(values[6])));
-				if (this.parseAttribute(values[5], "class").match("tt-resampling")) {
-					getObject(propertyWindowId + "_resample2").checked = true;
-				} else if (this.parseAttribute(values[5], "class").match("tt-watermark")) {
-					getObject(propertyWindowId + "_watermark2").checked = true;
-					getObject(propertyWindowId + "_resample2").checked = true;
-				}
 			}
 
 			this.propertyFilename2 = values[4];
@@ -669,12 +657,6 @@ TTModernEditor.prototype.showProperty = function(obj)
 				getObject(propertyWindowId + "_width3").value = trim(this.removeQuot(this.parseAttribute(values[8], "width")));
 				getObject(propertyWindowId + "_alt3").value = trim(this.unHtmlspecialchars(this.removeQuot(this.parseAttribute(values[8], "alt"))));
 				getObject(propertyWindowId + "_caption3").value = trim(this.unHtmlspecialchars(this.removeQuot(values[9])));
-				if (this.parseAttribute(values[8], "class").match("tt-resampling")) {
-					getObject(propertyWindowId + "_resample3").checked = true;
-				} else if (this.parseAttribute(values[8], "class").match("tt-watermark")) {
-					getObject(propertyWindowId + "_watermark3").checked = true;
-					getObject(propertyWindowId + "_resample3").checked = true;
-				}
 			}
 
 			this.propertyFilename3 = values[7];
@@ -2295,17 +2277,6 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	//$fixPosition = getUserSetting('editorPropertyPositionFix', 0);
 	var fixPosition = this.fixPosition, hasGD = this.hasGD;
 
-	var imagefunc = function (p, q) {
-		if (!hasGD) return '';
-		return '' + ///
-			'<dl class="resample-property-box line">' +
-				'<dd>' +
-					'<input type="checkbox" id="__ID__propertyImage' + p + '_resample' + q + '" onclick="__EDITOR__.checkResampling(\'resample\', ' + p + ', ' + q + '); __EDITOR__.setProperty()" /> <label for="__ID__propertyImage' + p + '_resample' + q + '">' + _t('이미지에 리샘플링을 적용합니다.') + '</label><br />' +
-					'<input type="checkbox" id="__ID__propertyImage' + p + '_watermark' + q + '" onclick="checkResampling(\'watermark\', ' + p + ', ' + q + '); __EDITOR__.setProperty()" /> <label for="__ID__propertyImage' + p + '_watermark' + q + '">' + _t('이미지에 워터마크를 찍습니다.') + '</label>' +
-				'</dd>' +
-			'</dl>';
-	}
-
 	// hyperlink
 	var html = ////
 		'<div id="__ID__propertyHyperLink" class="entry-editor-property" style="display: none;">' +
@@ -2394,7 +2365,6 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 					'<dt class="property-name"><label for="__ID__propertyImage1_caption1">' + _t('자막') + '</label></dt>' +
 					'<dd><textarea class="input-text" id="__ID__propertyImage1_caption1" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>' +
 				'</dl>' +
-				imagefunc(1, 1) +
 			'</div>' +
 		'</div>';
 
@@ -2420,7 +2390,6 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 					'<dt class="property-name"><label for="__ID__propertyImage2_caption1">' + _t('자막') + '</label></dt>' +
 					'<dd><textarea class="input-text" id="__ID__propertyImage2_caption1" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>' +
 				'</dl>' +
-				imagefunc(2, 1) +
 			'</div>' +
 			'<div class="group">' +
 				'<div class="title">' + _t('두번째 이미지') + '</div>' +
@@ -2436,7 +2405,6 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 					'<dt class="property-name"><label for="__ID__propertyImage2_resample2">' + _t('자막') + '</label></dt>' +
 					'<dd><textarea class="input-text" id="__ID__propertyImage2_caption2" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>' +
 				'</dl>' +
-				imagefunc(2, 2) +
 			'</div>' +
 		'</div>';
 
@@ -2462,7 +2430,6 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 					'<dt class="property-name"><label for="__ID__propertyImage3_caption1">' + _t('자막') + '</label></dt>' +
 					'<dd><textarea class="input-text" id="__ID__propertyImage3_caption1" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>' +
 				'</dl>' +
-				imagefunc(3, 1) +
 			'</div>' +
 			'<div class="group">' +
 				'<div class="title">' + _t('두번째 이미지') + '</div>' +
@@ -2478,7 +2445,6 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 					'<dt class="property-name"><label for="__ID__propertyImage3_caption2">' + _t('자막') + '</label></dt>' +
 					'<dd><textarea class="input-text" id="__ID__propertyImage3_caption2" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>' +
 				'</dl>' +
-				imagefunc(3, 2) +
 			'</div>' +
 			'<div class="group">' +
 				'<div class="title">' + _t('세번째 이미지') + '</div>' +
@@ -2494,7 +2460,6 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 					'<dt class="property-name"><label for="__ID__propertyImage3_caption3">' + _t('자막') + '</label></dt>' +
 					'<dd><textarea class="input-text" id="__ID__propertyImage3_caption3" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>' +
 				'</dl>' +
-				imagefunc(3, 3) +
 			'</div>' +
 		'</div>';
 

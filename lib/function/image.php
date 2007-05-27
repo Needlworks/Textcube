@@ -118,6 +118,68 @@ function getThumbnailPaddingColor() {
 }
 
 // img의 width/height에 맞춰 이미지를 리샘플링하는 함수. 썸네일 함수가 아님! 주의.
+function resampleImage($imgString, $originSrc, $useAbsolutePath) {
+	global $database, $owner, $serviceURL, $pathURL;
+	
+	if (!extension_loaded('gd')) {
+		return $imgString;
+	}
+	
+	requireComponent('Textcube.Function.Image');
+	if (!is_dir(ROOT."/cache/thumbnail")) {
+		@mkdir(ROOT."/cache/thumbnail");
+		@chmod(ROOT."/cache/thumbnail", 0777);
+	}
+
+	if (!is_dir(ROOT."/cache/thumbnail/$owner")) {
+		@mkdir(ROOT."/cache/thumbnail/$owner");
+		@chmod(ROOT."/cache/thumbnail/$owner", 0777);
+	}
+
+	$originFileName = basename($originSrc);
+
+	// 여기로 넘어오는 값은 이미 getAttachmentBinder() 함수에서 고정값으로 변환된 값이므로 % 값은 고려할 필요 없음.
+	if (preg_match('/width="([1-9][0-9]*)"/i', $imgString, $temp)) {
+		$tempWidth = $temp[1];
+	}
+
+	if (preg_match('/height="([1-9][0-9]*)"/i', $imgString, $temp)) {
+		$tempHeight = $temp[1];
+	}
+
+	$newTempFileName = preg_replace("/\.([[:alnum:]]+)$/i", ".w{$tempWidth}-h{$tempHeight}.\\1", $originFileName);
+	$tempSrc = ROOT."/cache/thumbnail/$owner/".$newTempFileName;
+
+	$tempURL = $pathURL."/thumbnail/$owner/".$newTempFileName;
+	if ($useAbsolutePath == true) {
+		$tempURL = "$serviceURL/thumbnail/$owner/$newTempFileName";
+	}
+
+	if (file_exists($tempSrc)) {
+		$imgString = preg_replace('/src="([^"]+)"/i', 'src="'.$tempURL.'"', $imgString);
+		$imgString = preg_replace('/width="([^"]+)"/i', 'width="'.$tempWidth.'"', $imgString);
+		$imgString = preg_replace('/height="([^"]+)"/i', 'height="'.$tempHeight.'"', $imgString);
+		$imgString = preg_replace('/onclick="open_img\(\'([^\']+)\'\)"/', "onclick=\"open_img('$serviceURL/attach/$owner/$originFileName')\"", $imgString);
+	} else {
+		$AttachedImage = new Image();
+		$AttachedImage->imageFile = $originSrc;
+
+		// 리샘플링 시작.
+		if ($AttachedImage->resample($tempWidth, $tempHeight)) {
+			// 리샘플링된 파일 저장.
+			$AttachedImage->createThumbnailIntoFile($tempSrc);
+			$imgString = preg_replace('/src="([^"]+)"/i', 'src="'.$tempURL.'"', $imgString);
+			$imgString = preg_replace('/width="([^"]+)"/i', 'width="'.$tempWidth.'"', $imgString);
+			$imgString = preg_replace('/height="([^"]+)"/i', 'height="'.$tempHeight.'"', $imgString);
+			$imgString = preg_replace('/onclick="open_img\(\'([^\']+)\'\)"/', "onclick=\"open_img('$serviceURL/attach/$owner/$originFileName')\"", $imgString);
+		}
+
+		unset($AttachedImage);
+	}
+
+	return $imgString;
+}
+
 function makeThumbnail($imgString, $originSrc, $paddingArray, $waterMarkArray, $useAbsolutePath) {
 	global $database, $owner, $blogURL, $serviceURL, $pathURL;
 	
