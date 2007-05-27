@@ -1412,7 +1412,8 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
 							{$_POST['dbPrefix']}TrackbackLogs,
 							{$_POST['dbPrefix']}Trackbacks,
 							{$_POST['dbPrefix']}UserSettings,
-							{$_POST['dbPrefix']}Users"
+							{$_POST['dbPrefix']}Users,
+							{$_POST['dbPrefix']}XMLRPCPingSettings"
 					);
 					echo '<script type="text/javascript">alert("', _t('테이블을 생성하지 못했습니다.'), '")</script>';
 					$error = 1;

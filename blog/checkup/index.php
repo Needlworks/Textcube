@@ -540,6 +540,23 @@ if (!doesExistTable($database['prefix'] . 'TeamEntryRelations')) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (!doesExistTable($database['prefix'] . 'XMLRPCPingSettings')) {
+	$changed = true;
+	echo '<li>', _text('XML-RPC ping 설정을 위한 테이블을 추가합니다.'), ': ';
+	$query = "
+		CREATE TABLE {$database['prefix']}XMLRPCPingSettings (
+			owner int(11) NOT NULL default 0,
+			url varchar(255) NOT NULL default '',
+			type varchar(32) NOT NULL default 'xmlrpc',
+			PRIMARY KEY (owner)
+		) TYPE=MyISAM
+	";
+	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
