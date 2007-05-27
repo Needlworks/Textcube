@@ -281,8 +281,15 @@ function getURLForFilter($value) {
 function getTrackbackCount($owner, $entryId = null) {
 	global $database;
 	if (is_null($entryId))
-		return DBQuery::queryCell("SELECT SUM(trackbacks) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft= 0");
-	return DBQuery::queryCell("SELECT trackbacks FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entryId AND draft= 0");
+		return DBQuery::queryCell("SELECT SUM(trackbacks) 
+				FROM {$database['prefix']}Entries 
+				WHERE owner = $owner 
+					AND draft= 0");
+	return DBQuery::queryCell("SELECT trackbacks 
+			FROM {$database['prefix']}Entries 
+			WHERE owner = $owner 
+				AND id = $entryId 
+				AND draft= 0");
 }
 
 

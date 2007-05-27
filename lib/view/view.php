@@ -99,7 +99,7 @@ function getScriptsOnFoot() {
 	return $view;
 }
 
-function getTrackbacksView($entryId, $skin) {
+function getTrackbacksView($entryId, $skin, $acceptTrackback) {
 	global $suri, $defaultURL, $skinSetting, $blogURL, $service;
 	$trackbacksContainer = $skin->trackbackContainer;
 	$trackbacksView = '';
@@ -130,7 +130,13 @@ function getTrackbacksView($entryId, $skin) {
 		$style = 'none';
 	}
 	$trackbacksView = "<div id=\"entry{$entryId}Trackback\" style=\"display:$style\">" . str_replace('[##_tb_container_##]', $trackbacksContainer, $skin->trackbacks) . '</div>';
-	dress('tb_address', "<span onclick=\"copyUrl('$defaultURL/trackback/$entryId')\">$defaultURL/trackback/$entryId</span>", $trackbacksView);
+
+
+	if($acceptTrackback)
+		dress('tb_address', "<span onclick=\"copyUrl('$defaultURL/trackback/$entryId')\">$defaultURL/trackback/$entryId</span>", $trackbacksView);
+	else
+		dress('tb_address', _t('이 글에는 트랙백을 보낼 수 없습니다'), $trackbacksView);
+
 	return $trackbacksView;
 }
 
