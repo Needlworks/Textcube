@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="ko">OpenID 인증 </title>
+  <title xml:lang="en">OpenID Consumer</title>
+  <link>http://coolengineer.com/</link>
+  <version>1.0</version>
+  <description xml:lang="en">This plugin supports OpenID authentication</description>
+  <description xml:lang="ko">OpenID 인증을 가능하게 합니다</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://coolengineer.com/tags/openid">Hojin Choi</author>
+  <author xml:lang="ko" link="http://coolengineer.com/tags/openid">Coolengineer</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
+  <scope>blog</scope>
+  <requirements>
+    <tattertools>1.1.1</tattertools>
+  </requirements>
+  <binding>
+	<listener event="/plugin/openid/try_auth">openid_try_auth</listener>
+	<listener event="/plugin/openid/finish">openid_finish</listener>
+	<listener event="/plugin/openid/login">openid_login</listener>
+	<listener event="/plugin/openid/logout">openid_logout</listener>
+	<listener event="AddComment">openid_comment_add</listener>
+	<listener event="AddGuestComment">openid_comment_add</listener>
+	<listener event="ViewCommenter">openid_view_commenter</listener>
+	<listener event="ViewGuestCommenter">openid_view_commenter</listener>
+	<listener event="/plugin/openid/comment/comment">openid_comment_comment</listener>
+	<listener event="/plugin/openid/comment/delete">openid_comment_del</listener>
+	<tag name="SKIN_head_start" handler="openid_hardcore_login" />
+	<tag name="SKIN_head_start" handler="openid_add_delegate" />
+	<tag name="SKIN_body_end" handler="openid_add_controller" />
+    <adminMenu>
+      <viewMethods>
+        <method>
+          <title xml:lang="en">OpenID List</title>
+          <title xml:lang="ko">오픈아이디 목록</title>
+          <handler>openid_manage</handler>
+        </method>
+      </viewMethods>
+    </adminMenu>
+  </binding>
+  <storage>
+    <table>
+      <name>OpenIDComments</name>
+      <fields>
+          <field>
+            <name>id</name>
+            <attribute>int</attribute>
+            <length>11</length>
+            <isnull>0</isnull>
+          </field>
+          <field>
+            <name>openid</name>
+            <attribute>varchar</attribute>
+            <length>128</length>
+          </field>
+      </fields>
+      <key>id</key>
+    </table>
+    <table>
+      <name>OpenIDUsers</name>
+      <fields>
+          <field>
+            <name>openid</name>
+            <attribute>varchar</attribute>
+            <length>128</length>
+            <isnull>0</isnull>
+          </field>
+          <field>
+            <name>delegatedid</name>
+            <attribute>varchar</attribute>
+            <length>128</length>
+          </field>
+          <field>
+            <name>firstLogin</name>
+            <attribute>int</attribute>
+            <length>11</length>
+          </field>
+          <field>
+            <name>lastLogin</name>
+            <attribute>int</attribute>
+            <length>11</length>
+          </field>
+          <field>
+            <name>loginCount</name>
+            <attribute>int</attribute>
+            <length>11</length>
+          </field>
+          <field>
+            <name>data</name>
+            <attribute>text</attribute>
+          </field>
+      </fields>
+      <key>openid</key>
+    </table>
+  </storage>
+</plugin>
