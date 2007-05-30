@@ -64,6 +64,9 @@ function openid_login()
 	global $openid_session_id;
 
 	$redirect = $_GET['redirect'];
+
+	require "affiliate.php";
+
 	$img_url = $hostURL . $service['path'] . "/plugins/" . basename(dirname( __file__ )) . "/login-bg.gif";
 
 	if( !empty($_COOKIE['openid']) ) {
@@ -80,21 +83,19 @@ function openid_login()
 <link rel="stylesheet" type="text/css" href="' . $service['path'] . '/style/admin/default/basic.css" />
 <link rel="stylesheet" type="text/css" href="' . $service['path'] . '/style/admin/default/login.css" />
 <style>
-#login-button
+.login-button
 {
+	position						 : static;
 	background-color                 : #FFFFFF;
-	background-image                 : url(../image/bg_button.png);
 	background-position              : left top;
-	display                          : block;
+	display                          : inline;
 	font-weight                      : bold;
 	height                           : 3em;
 	line-height                      : 3em;
-	position                         : absolute;
-	left                             : 0px;
-	top                              : 120px;
-	width                            : 74px;
+	width                            : 6em;
 	border                           : 1px solid #777777;
 	cursor                           : pointer;
+	margin-right					 : 5px;
 }
 
 #logo-box
@@ -108,6 +109,7 @@ dl
 }
 dd
 {
+	margin-top						 : 1em;
 	margin-left                      : 0;
 }
 dd .input-text
@@ -129,8 +131,11 @@ dd .input-text
 #openid_identifier {
 	padding-left: 30px; 
 	background: url(' . $img_url . ') no-repeat; 
-	height: 20px; 
+	height: 1.5em; 
 	width:400px;
+	font-size: 1.5em;
+	font-weight: bold;
+	font-family: arial;
 }
 </style>
 </head>
@@ -147,15 +152,14 @@ dd .input-text
 			            
 			            <div id="field-box">
 			            	<dl id="email-line">
-			            		<dt><label for="loginid">OpenID</label></dt>
+			            		<dt><label for="loginid">' . _text('OpenID 예) http://testid.example.com') . '</label></dt>
 
 			            		<dd><input type="text" class="input-text" id="openid_identifier" name="openid_identifier" value="' . $_COOKIE['openid']. '" maxlength="256" tabindex="1" /></dd>
-			            		<dd id="rember_login"><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_auto">' . _text('OpenID 기억') . '</label></dd>
-								<input type="submit" id="login-button" value="로그인" />
-							</div>
+			            		<dd><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_auto">' . _text('OpenID 기억') . '</label></dd>
+			            		<dd><input type="submit" class="login-button" name="login" value="로그인" /><input type="submit" class="login-button" name="cancel" value="취소" /></dd>
+			            		<dd><a href="' . $openid_help_link . '">' . _text('OpenID란?') . '</a> | <a href="' . $openid_signup_link . '">' . _text('OpenID 발급하기') . '</a></dd>
+							</dl>
 						</div>
-
-						
 					</div>
 				</div>
         		<input type="hidden" name="action" value="verify" />
@@ -163,7 +167,6 @@ dd .input-text
 			</form>
 		</div>
 	</div>
-	<img src="http://www.idtail.com/favicon.ico" width=0 height=0>
 </body>
 </html>
 ';
@@ -287,9 +290,15 @@ function openid_try_auth()
 		$redirect = $blogURL;
 	}
 
+	if( isset($_GET['cancel']) || isset($_GET['cancel_x']) ) {
+		header( "Location: " . urldecode($redirect));
+		exit(0);
+	}
+
 	if (empty($openid)) {
 		openid_setcookie( 'openid_auto', 'n' );
-		print "<html><body><script>alert('" . _text("오픈ID를 입력하세요") . "');document.location.href='" . $redirect . ".';</script></body></html>";
+		print "<html><body><script>alert('" . _text("오픈ID를 입력하세요") . "');";
+		print "document.location.href='$blogURL/plugin/openid/login?redirect=$redirect';</script></body></html>";
 		exit(0);
 	}
 
@@ -337,7 +346,7 @@ function _openid_try_auth( $openid, $redirect, $openid_remember = true )
 	header("Location: ".$redirect_url);
 
 	// Hack for avoiding textcube zero-length content
-	print( "<html><body></body></html>" );
+	print( "<html><body>Textcube</body></html>" );
 	exit(0);
 }
 
