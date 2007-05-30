@@ -671,6 +671,11 @@ $__locale = array(
 	'domain' => null,
 	);
 
+function _t_noop($t) {
+	/* just for extracting by xgettext */
+	return $t;
+}
+
 function _t($t) {
 	global $__locale, $__text;
 	if (isset($__locale['domain']) && isset($__text[$__locale['domain']][$t]))
@@ -779,24 +784,24 @@ class Timezone {
 	/*@static@*/
 	function getList() {
 		return array(
-			'Asia/Seoul',
-			'Asia/Tokyo',
-			'Asia/Shanghai',
-			'Asia/Taipei',
-			'Asia/Calcutta',
-			'Europe/Berlin',
-			'Europe/Paris',
-			'Europe/London',
-			'GMT',
-			'America/New_York',
-			'America/Chicago',
-			'America/Denver',
-			'America/Los_Angeles',
-			'Australia/Sydney',
-			'Australia/Melbourne',
-			'Australia/Adelaide',
-			'Australia/Darwin',
-			'Australia/Perth',
+			_t_noop('Asia/Seoul'),
+			_t_noop('Asia/Tokyo'),
+			_t_noop('Asia/Shanghai'),
+			_t_noop('Asia/Taipei'),
+			_t_noop('Asia/Calcutta'),
+			_t_noop('Europe/Berlin'),
+			_t_noop('Europe/Paris'),
+			_t_noop('Europe/London'),
+			_t_noop('GMT'),
+			_t_noop('America/New_York'),
+			_t_noop('America/Chicago'),
+			_t_noop('America/Denver'),
+			_t_noop('America/Los_Angeles'),
+			_t_noop('Australia/Sydney'),
+			_t_noop('Australia/Melbourne'),
+			_t_noop('Australia/Adelaide'),
+			_t_noop('Australia/Darwin'),
+			_t_noop('Australia/Perth'),
 			);
 	}
 	
