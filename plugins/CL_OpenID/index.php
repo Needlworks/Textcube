@@ -23,39 +23,13 @@ requireComponent( "Eolin.PHP.Core" );
 
 openid_session_read();
 
-/*--*/
-if( !function_exists( 'doesHaveOwnership' ) )
+function _openid_error( $errno, $errstr, $errfile, $errline )
 {
-	function doesHaveOwnership(){
-		global $owner;
-		if(empty($_session['userid'])||($_session['userid']!=$owner))
-			return false;
-		return true;
-	}
+	print( "$errstr($errno)<br />" );
+	print( "File: $errfile:$errline<br /><hr size='1'/>" );
 }
 
-if( !function_exists('_text') )
-{
-	function _text($a)
-	{
-		return $a;
-	}
-}
-
-if( !function_exists('mysql_tt_escape_string') )
-{
-	if(function_exists('mysql_real_escape_string')&&(mysql_real_escape_string('ㅋ')=='ㅋ')){
-		function mysql_tt_escape_string($string,$link=null){
-			return is_null($link)?mysql_real_escape_string($string):mysql_real_escape_string($string,$link);
-		}
-	}else{
-		function mysql_tt_escape_string($string,$link=null){
-			return mysql_escape_string($string);
-		}
-	}
-}
-
-/*---*/
+set_error_handler( "_openid_error" );
 
 function openid_login()
 {
@@ -213,6 +187,7 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage)
 		if( !empty($homepage) ) $data['homepage'] = $homepage;
 		$openid_session['nickname'] = $data['nickname'];
 		$openid_session['homepage'] = $data['homepage'];
+
 		if( !isset($data['acl']) ) {
 			$data['acl'] = array();
 		}
@@ -311,13 +286,13 @@ function _openid_try_auth( $openid, $redirect, $openid_remember = true )
 	require_once  "common.php";
 	require_once  "xmlwrapper.php";
 
+    global $__Services_Yadis_defaultParser;
 	Services_Yadis_setDefaultParser( new Services_Textcube_xmlparser() );
 
 	$process_url = $hostURL . $blogURL . "/plugin/openid/finish?redirect=" . $redirect;
 	$trust_root = $hostURL . $blogURL;
 
 	// Begin the OpenID authentication process.
-	ob_flush();
 	ob_start();
 	$auth_request = $consumer->begin($openid);
 	ob_end_clean();
@@ -401,7 +376,6 @@ function openid_finish()
 function openid_logout()
 {
 	global $openid_session;
-	ob_end_clean();
 	openid_session_destroy();
 
 	$openid_session['id'] = '';
@@ -463,7 +437,7 @@ function openid_add_controller($target)
 	$openid_id = "";
 	$openid_nickname = "";
 
-	if( $openid_session['id'] )
+	if( isset($openid_session['id']) )
 	{
 		$openid_id = $openid_session['id'];
 		$openid_nickname = $openid_session['nickname'];

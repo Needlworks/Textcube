@@ -74,6 +74,7 @@ function openid_session_write()
 	global $database, $service;
 	global $openid_session_name, $openid_session_id, $openid_session;
 	global $openid_session_path;
+	global $sessionMicrotime;
 
 	if (strlen($openid_session_id) < 32)
 		return false;
