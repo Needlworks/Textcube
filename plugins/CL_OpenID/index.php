@@ -29,7 +29,8 @@ function _openid_error( $errno, $errstr, $errfile, $errline )
 	print( "File: $errfile:$errline<br /><hr size='1'/>" );
 }
 
-set_error_handler( "_openid_error" );
+#DEBUG ONLY: remove leading '#' mark in below line.
+#set_error_handler( "_openid_error" );
 
 function openid_login()
 {
