@@ -72,7 +72,7 @@ if(isset($entries)) {
 			dress('article_rep_desc', setTempTag("article_{$entry['id']}"), $entryView);
 			dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['categoryLabel'], $entry['id']), $entryView);
 			dress('article_rep_category_link', empty($entry['category']) ? "$blogURL/category/" : "$blogURL/category/".encodeURL($entry['categoryLabel']) ,$entryView);
-			dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published'])).$name[0], $entryView);
+			dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published'])), $entryView);
 			dress('entry_archive_link', "$blogURL/archive/" . Timestamp::getDate($entry['published']), $entryView);
 			if ($entry['acceptComment'] || ($entry['comments'] > 0))
 				dress('article_rep_rp_link', "toggleLayer('entry{$entry['id']}Comment'); return false", $entryView);
