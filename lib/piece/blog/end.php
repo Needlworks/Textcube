@@ -5,10 +5,18 @@
 
 $writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
 $pageTitle = trim($pageTitle);
-
-dress('page_title', htmlspecialchars($pageTitle), $view);
-dress('blogger', htmlspecialchars($writer), $view);
+if (!empty($pageTitle)) {
+	$pageTitleView = $skin->pageTitle;
+	if(!empty($pageTitleView)){
+		dress('page_post_title', htmlspecialchars($pageTitle), $pageTitleView);
+		dress('page_title', $pageTitleView, $view);
+	} else {
+		// Legacy. (for 1.0/1.1 skins)
+		dress('page_title', htmlspecialchars($pageTitle), $view);
+	}
+}
 dress('title', htmlspecialchars($blog['title']), $view);
+dress('blogger', htmlspecialchars($writer), $view);
 dress('desc', htmlspecialchars($blog['description']), $view);
 if (!empty($blog['logo']))
 	dress('image', "{$service['path']}/attach/$owner/{$blog['logo']}", $view);
