@@ -524,6 +524,17 @@ function getGuestbookPageById($owner, $id) {
 		ORDER BY
 			written DESC");
 	$order = array_search($id, $totalGuestbookId);
+	if($order == false) {
+		$parentCommentId = DBQuery::queryCell("SELECT parent
+			FROM {$database['prefix']}Comments
+			WHERE
+				owner = $owner AND entry = 0 AND isFiltered = 0 AND id = $id");
+		if($parentCommentId != false) {
+			$order = array_search($parentCommentId, $totalGuestbookId);
+		} else {
+			return false;
+		}
+	}
 	return intval($order / $skinSetting['commentsOnGuestbook'])+1;
 }
 
