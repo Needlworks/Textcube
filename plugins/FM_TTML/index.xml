@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
 	<title xml:lang="en">TTML Formatter</title>
-	<title xml:lang="ko">텍스트큐브 TTML 포매터</title>
+	<title xml:lang="ko">TTML 포매터</title>
 	<link>http://needlworks.org/</link>
 	<version>1.0</version>
 	<description xml:lang="en">Implements TTML formatter, dedicated HTML-like syntax for Textcube.</description>
