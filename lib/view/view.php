@@ -141,11 +141,10 @@ function getTrackbacksView($entryId, $skin, $acceptTrackback) {
 }
 
 function getCommentView($entryId, $skin) {
-	global $database, $blogURL, $service, $owner, $suri, $paging, $contentContainer;
+	global $database, $blogURL, $service, $owner, $suri, $paging, $contentContainer, $skinSetting;
 	//if ($entryId <= 0)
 	//	return getGuestCommentView($entryId, $skin);
 	$authorized = doesHaveOwnership();
-	$skinValue = getSkinSetting($owner);
 	$blogSetting = getBlogSetting($owner);
 	if ($entryId > 0) {
 		$prefix1 = 'rp';
@@ -157,7 +156,7 @@ function getCommentView($entryId, $skin) {
 	$commentView = ($isComment ? $skin->comment : $skin->guest);
 	$commentItemsView = '';
 	if ($isComment == false) {
-		list($comments, $paging) = getCommentsWithPagingForGuestbook($owner, $suri['page'], $skinValue['commentsOnGuestbook']);
+		list($comments, $paging) = getCommentsWithPagingForGuestbook($owner, $suri['page'], $skinSetting['commentsOnGuestbook']);
 		foreach ($comments as $key => $value) {
 			if ($value['secret'] == 1 && !$authorized) {
 				$comments[$key]['name'] = '';
