@@ -16,7 +16,7 @@ function addTeamPic($file){
 		
 	$attachment=array();
 	$attachment['label']=Path::getBaseName($file['name']);
-	$label=mysql_escape_string($attachment['label']);
+	$label=mysql_tt_escape_string($attachment['label']);
 	$attachment['size']=$file['size'];
 	$extension=Path::getExtension($attachment['label']);
 	
