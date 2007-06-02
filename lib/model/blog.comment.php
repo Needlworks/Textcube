@@ -86,9 +86,9 @@ function getCommentsNotifiedWithPagingForOwner($owner, $category, $name, $ip, $s
 				csiteinfo.url AS siteUrl,
 				csiteinfo.modified AS siteModified
 			FROM 
-					{$database['prefix']}CommentsNotified c 
+				{$database['prefix']}CommentsNotified c 
 				LEFT JOIN 
-					{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
+				{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
 			WHERE c.owner = $owner AND (c.parent is null) ";
 		if (!empty($name))
 			$sql .= ' AND ( c.name = \'' . mysql_tt_escape_string($name) . '\') ' ;
@@ -113,9 +113,9 @@ function getCommentCommentsNotified($parent) {
 				csiteinfo.url AS siteUrl,
 				csiteinfo.modified AS siteModified
 			FROM 
-					{$database['prefix']}CommentsNotified c 
+				{$database['prefix']}CommentsNotified c 
 				LEFT JOIN 
-					{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
+				{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
 			WHERE c.owner = $owner AND c.parent=$parent";
 	$sql .= ' ORDER BY c.written ASC';
 	if ($result = DBQuery::query($sql)) {
@@ -184,7 +184,9 @@ function isCommentWriter($owner, $commentId) {
 	global $database;
 	if (!doesHaveMembership())
 		return false;
-	$result = DBQuery::query("select replier from {$database['prefix']}Comments where owner = $owner and id = $commentId and replier = " . getUserId());
+	$result = DBQuery::query("select replier 
+			FROM {$database['prefix']}Comments 
+			WHERE owner = $owner and id = $commentId and replier = " . getUserId());
 	return mysql_num_rows($result) > 0 ? true : false;
 }
 
@@ -511,6 +513,18 @@ function getRecentComments($owner,$count = false,$isGuestbook = false) {
 
 function getRecentGuestbook($owner,$count = false) {
 	return getRecentComments($owner,$count,true);
+}
+
+function getGuestbookPageById($owner, $id) {
+	global $database, $skinSetting;
+	$totalGuestbookId = DBQuery::queryColumn("SELECT id
+		FROM {$database['prefix']}Comments
+		WHERE
+			owner = $owner AND entry = 0 AND isFiltered = 0 AND parent is null
+		ORDER BY
+			written DESC");
+	$order = array_search($id, $totalGuestbookId);
+	return intval($order / $skinSetting['commentsOnGuestbook'])+1;
 }
 
 function deleteCommentInOwner($owner, $id) {

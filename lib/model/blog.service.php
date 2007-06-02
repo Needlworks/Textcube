@@ -22,7 +22,7 @@ function getBlogSetting($owner) {
 }
 
 function getSkinSetting($owner) {
-	global $database, $service;
+	global $database, $service, $skinSetting;
 	
 	if ($result = DBQuery::query("SELECT * FROM {$database['prefix']}SkinSettings WHERE owner = $owner")) {
 		$retval = mysql_fetch_array($result);

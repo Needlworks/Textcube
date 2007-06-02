@@ -184,7 +184,7 @@ function getCommentView($entryId, $skin) {
 			$contentContainer["{$prefix1}_{$commentSubItem['id']}"] = fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem);
 			dress($prefix1 . '_rep_desc', setTempTag("{$prefix1}_{$commentSubItem['id']}"), $commentSubItemView);
 			dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentSubItem['written'])), $commentSubItemView);
-			dress($prefix1 . '_rep_link',"$blogURL/".($entryId == 0 ? "guestbook" : "{$entryId}")."#comment{$commentSubItem['id']}", $commentSubItemView);
+			dress($prefix1 . '_rep_link',"$blogURL/".($entryId == 0 ? "guestbook/{$commentSubItem['id']}#guestbook{$commentSubItem['id']}" : "{$entryId}#comment{$commentSubItem['id']}"), $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']}); return false;", $commentSubItemView);
 			$rp_class = $prefix1 . '_general';
 			if ($owner == $commentSubItem['replier'])
@@ -195,7 +195,7 @@ function getCommentView($entryId, $skin) {
 			}
 			dress($prefix1 . '_rep_class', $rp_class, $commentSubItemView);
 
-			if (dress($prefix1 . '_rep_id', 'comment' . $commentSubItem['id'], $commentSubItemView) == false) {
+			if (dress($prefix1 . '_rep_id',($entryId == 0 ? 'guestbook' : 'comment') . $commentSubItem['id'], $commentSubItemView) == false) {
 				$commentSubItemView = "<a id=\"comment{$commentSubItem['id']}\"></a>" . $commentSubItemView;
 			}
 			$commentSubItemsView .= $commentSubItemView;
@@ -220,7 +220,7 @@ function getCommentView($entryId, $skin) {
 		}
 		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']}); return false", $commentItemView);
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
-		dress($prefix1 . '_rep_link', "$blogURL/".($entryId == 0 ? "guestbook" : "{$entryId}")."#comment{$commentItem['id']}", $commentItemView);
+		dress($prefix1 . '_rep_link', "$blogURL/".($entryId == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentItem['id']}" : "{$entryId}#comment{$commentItem['id']}"), $commentItemView);
 		$rp_class = $prefix1 . '_general';
 		if ($owner == $commentItem['replier'])
 			$rp_class = $prefix1 . '_admin';
@@ -229,7 +229,7 @@ function getCommentView($entryId, $skin) {
 			if (!$authorized) $rp_class .= ' hiddenComment';
 		}
 		dress($prefix1 . '_rep_class', $rp_class, $commentItemView);
-		if (dress($prefix1 . '_rep_id', 'comment' . $commentItem['id'], $commentItemView) == false) {
+		if (dress($prefix1 . '_rep_id', ($entryId == 0 ? 'guestbook' : 'comment') . $commentItem['id'], $commentItemView) == false) {
 			$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . $commentItemView;
 		}
 		$commentItemsView .= $commentItemView;
