@@ -62,7 +62,7 @@ function changeAdmin($owner,$stype,$userid){
 			$name = DBQuery::queryCell("SELECT name 
 					FROM {$database['prefix']}Users 
 					WHERE userid = '$userid'");
-			$profile = _f('%1 ´ÔÀÇ ±ÛÀÔ´Ï´Ù.',$name);
+			$profile = _f('%1 ë‹˜ì˜ ê¸€ì…ë‹ˆë‹¤.',$name);
 			DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog`  
 					VALUES('$userid', '$userid', '1', '1', '1', '$profile', '', '0', '#000000', '10', '0', UNIX_TIMESTAMP(), '0')");
 		}

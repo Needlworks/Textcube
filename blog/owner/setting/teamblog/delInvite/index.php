@@ -115,8 +115,8 @@ function TeamcancelInvite($profile,$is){
 			$enduser = 1;
 		}
 				
-			// ÆÀºí·Î±× DB ¿¡ »ç¿ëÀÚ Á¤º¸ Ãß°¡	
-		  $Nprofile = $name . '´ÔÀÇ ±ÛÀÔ´Ï´Ù.';
+			// íŒ€ë¸”ë¡œê·¸ DB ì— ì‚¬ìš©ì ì •ë³´ ì¶”ê°€	
+		  $Nprofile = $name . 'ë‹˜ì˜ ê¸€ì…ë‹ˆë‹¤.';
 
 			$time = time();
 			$result=DBQuery::query("UPDATE `{$database['prefix']}Teamblog` SET userid='$id', `create`=$time, profile='$Nprofile', enduser='$enduser' WHERE md5(profile)='$KEYprofile'");
@@ -137,32 +137,32 @@ function TeamcancelInvite($profile,$is){
 			$senderEmail = $result['loginid'];
 			
 			if(empty($is_inputpass)){
-				$comment = 'ºí·Î±×ÀÇ ÆÀ¿øÀ¸·Î ÃÊ´ë¿Ï·áµÇ¾ú½À´Ï´Ù<br />À§ÀÇ ÁÖ¼Ò¿¡ Á¢¼ÓÇØ¼­ ÆĞ½º¿öµå¸¦ º¯°æÇØÁÖ¼¼¿ä.';
+				$comment = 'ë¸”ë¡œê·¸ì˜ íŒ€ì›ìœ¼ë¡œ ì´ˆëŒ€ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤<br />ìœ„ì˜ ì£¼ì†Œì— ì ‘ì†í•´ì„œ íŒ¨ìŠ¤ì›Œë“œë¥¼ ë³€ê²½í•´ì£¼ì„¸ìš”.';
 			}
 			else{
-				$comment = 'ºí·Î±× »ç¿ë ½ÂÀÎÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.';
+				$comment = 'ë¸”ë¡œê·¸ ì‚¬ìš© ìŠ¹ì¸ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.';
 				$isold = 1;
 			}
 				
 			$headers='From: '.encodeMail($senderName).'<'.$senderEmail.">\n".'X-Mailer: '.TATTERTOOLS_NAME."\n"."MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 			if(empty($name))
-				$subject=_textf('±ÍÇÏ¸¦ %1´ÔÀÌ ÃÊ´ëÇÕ´Ï´Ù',$senderName);
+				$subject=_textf(_text('ê·€í•˜ë¥¼ %1ë‹˜ì´ ì´ˆëŒ€í•©ë‹ˆë‹¤'),$senderName);
 			else
-				$subject=_textf('%1´ÔÀ» %2´ÔÀÌ ÃÊ´ëÇÕ´Ï´Ù',$name,$senderName);
+				$subject=_textf(_text('%1ë‹˜ì„ %2ë‹˜ì´ ì´ˆëŒ€í•©ë‹ˆë‹¤'),$name,$senderName);
 			$message=file_get_contents("../../../../../style/letter/letter.html");
-			$message=str_replace('[##_title_##]',_text('ÃÊ´ëÀå'),$message);
+			$message=str_replace('[##_title_##]',_text('ì´ˆëŒ€ì¥'),$message);
 			$message=str_replace('[##_content_##]',$comment,$message);
 			$message=str_replace('[##_images_##]',"$hostURL{$service['path']}/style/letter",$message);
 			if($isold == 1) $message=str_replace('[##_link_##]',getDefaultURL($owner).'/login?loginid='.rawurlencode($email).'&requestURI='.rawurlencode(getDefaultURL($owner)."/owner/center/dashboard/"),$message);	
 			else $message=str_replace('[##_link_##]',getDefaultURL($owner).'/login?loginid='.rawurlencode($email).'&password='.rawurlencode($password).'&requestURI='.rawurlencode(getDefaultURL($owner)."/owner/setting/account?password=".rawurlencode($password)),$message);
 			$message=str_replace('[##_go_blog_##]',getDefaultURL($owner),$message);
-			$message=str_replace('[##_link_title_##]',_text('ºí·Î±× ¹Ù·Î°¡±â'),$message);
+			$message=str_replace('[##_link_title_##]',_text('ë¸”ë¡œê·¸ ë°”ë¡œê°€ê¸°'),$message);
 			if(empty($name)){
 				$message=str_replace('[##_to_##]','',$message);
 			}else{
-				$message=str_replace('[##_to_##]',_text('¹Ş´Â »ç¶÷').': '.$name,$message);
+				$message=str_replace('[##_to_##]',_text('ë°›ëŠ” ì‚¬ëŒ').': '.$name,$message);
 			}
-			$message=str_replace('[##_sender_##]',_text('º¸³»´Â »ç¶÷').': '.$senderName,$message);
+			$message=str_replace('[##_sender_##]',_text('ë³´ë‚´ëŠ” ì‚¬ëŒ').': '.$senderName,$message);
 			@mail($email,encodeMail($subject),$message,$headers);
 			return true;
 
