@@ -99,7 +99,7 @@ if(count($_FILES)==1){
 
 		$file=array_pop($_FILES);
 		if(($label = changeTeamPic($file))===false){
-			print ('alert("'._t('º¯°æÇÏÁö ¸øÇß½À´Ï´Ù.').'");');
+			print ('alert("'._t('ë³€ê²½í•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.').'");');
 		}else{
 			$logo = $label['name'];
 			$width = $label['width'];
