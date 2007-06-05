@@ -82,9 +82,10 @@ while ($plugin = $dir->read()) {
 			array_push($pluginAttrs[$pluginDir]['scope'], 'global');
 		if ($xmls->doesExist('/plugin/binding/sidebar'))
 			array_push($pluginAttrs[$pluginDir]['scope'], 'sidebar');
-		if ($xmls->doesExist('/plugin/binding/editor')
-			|| $xmls->doesExist('/plugin/binding/formatter'))
+		if ($xmls->doesExist('/plugin/binding/editor'))
 			array_push($pluginAttrs[$pluginDir]['scope'], 'editor');
+		if ($xmls->doesExist('/plugin/binding/formatter'))
+			array_push($pluginAttrs[$pluginDir]['scope'], 'formatter');
 
 		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
 	}
@@ -314,6 +315,7 @@ if (!defined('__TEXTCUBE_CENTER__')) {
 									<dd id="scope-line-module">
 										<ul>
 											<li><input type="radio" class="radio" id="editor-scope" name="scopeType" value="editor" onclick="changeList()"<?php echo $_POST['scopeType'] == "editor" ? ' checked="checked"' : '';?> /><label id="editor-scope-label" for="editor-scope"<?php echo $_POST['scopeType'] == "editor" ? ' class="selected"' : '';?>><?php echo _t('에디터');?></label></li>
+											<li><input type="radio" class="radio" id="formatter-scope" name="scopeType" value="formatter" onclick="changeList()"<?php echo $_POST['scopeType'] == "formatter" ? ' checked="checked"' : '';?> /><label id="formatter-scope-label" for="formatter-scope"<?php echo $_POST['scopeType'] == "formatter" ? ' class="selected"' : '';?>><?php echo _t('포매터');?></label></li>
 										</ul>
 									</dd>
 								</dl>
