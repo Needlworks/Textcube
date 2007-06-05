@@ -10,33 +10,9 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-function TeamcancelInvite($userid){
-	global $owner,$database;
-	if(DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `lastLogin` = 0")==0)
-		return false;
-	if(DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = $owner")===0)
-		return false;
-	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid")){
-		if(DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $userid")){
-			if(DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $userid")){
-				if(DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $userid")){
-					DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='$owner' and userid='$userid'");
-					return true;
-				}else{
-					return false;
-				}
-			}else{
-				return false;
-			}
-		}else{
-			return false;
-		}
-	}else{
-		return false;
-	}
-}
-if (TeamcancelInvite($_POST['userid'])) {
+
+if (cancelInviteAsTeam($_POST['userid'])) {
 	respondResultPage(0);
 }
-respondResultPage( - 1);
+respondResultPage(-1);
 ?>

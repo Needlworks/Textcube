@@ -376,4 +376,36 @@ function changePassword($owner, $pwd, $prevPwd) {
 	$sql = "UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $owner";
 	return DBQuery::execute($sql);
 }
+
+function deleteUser($userid){
+	global $owner, $database;
+
+	$result = DBQuery::queryColumn("SELECT id 
+		FROM `{$database['prefix']}TeamEntryRelations` 
+		WHERE owner='$owner' 
+			AND team='$userid'");
+	foreach($result as $id){	// Make all posts belong to owner.
+		DBQuery::execute("UPDATE `{$database['prefix']}TeamEntryRelations` 
+			SET team='$owner' 
+			WHERE owner=".$owner." AND id=".$id);
+	}
+
+	$enduser = DBQuery::queryCell("SELECT enduser FROM `{$database['prefix']}Teamblog` WHERE teams='$owner' AND userid='$userid'"));
+	$isp = intval($enduser - $userid);
+	if($isp == 0 || $isp == 1){
+		DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='$userid' and userid='$userid'");
+	}
+	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='$owner' and userid='$userid'")){
+		$En=DBQuery::queryCell("SELECT userid FROM `{$database['prefix']}Teamblog` WHERE userid='$userid'");
+		if(empty($En)){
+			@DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid");
+			@DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $userid");
+			@DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $userid");
+			@DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $userid");
+		}
+		return true;
+	} else {
+		return false;
+	}
+}
 ?>
