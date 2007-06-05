@@ -65,9 +65,14 @@ dress('textcube_name', TEXTCUBE_NAME, $view);
 dress('textcube_version', TEXTCUBE_VERSION, $view);
 dress('tattertools_name', TEXTCUBE_NAME, $view);
 dress('tattertools_version', TEXTCUBE_VERSION, $view);
-if (isset($paging))
+if (isset($paging)){
+	$url = encodeURL($paging['url']);
+	$prefix = $paging['prefix'];
+	$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
 	dress('paging', getPagingView($paging, $skin->paging, $skin->pagingItem), $view);
-
+	dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : '',$view);
+	dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : '',$view);
+}
 $sidebarElements = array_keys($skin->sidebarStorage);
 foreach ($sidebarElements as $element) {
 	dress($element, $skin->sidebarStorage[$element], $view);
