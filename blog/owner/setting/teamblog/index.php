@@ -247,7 +247,7 @@ if($owner == $_SESSION['admin']){?>
 								
 								function teamblog_admin(stype, userid) {
 									
-									var request = new HTTPRequest("POST", "<?php	echo $blogURL;?>/owner/setting/teamblog/isAdmin/");
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/teamblog/isAdmin/");
 									request.onSuccess = function() {
 										PM.showMessage("<?php	echo _t('설정을 변경했습니다.');?>", "center", "bottom");
 									}
