@@ -33,6 +33,7 @@ require 'model/blog.statistics.php';
 require 'model/blog.trackback.php';
 require 'model/blog.trash.php';
 require 'model/blog.tag.php';
+require 'model/blog.teamblog.php';
 require 'model/common.setting.php';
 require 'model/blog.skin.php';
 require 'model/reader.common.php';

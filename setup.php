@@ -1366,7 +1366,7 @@ CREATE TABLE {$_POST['dbPrefix']}TeamEntryRelations (
 
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
 INSERT INTO {$_POST['dbPrefix']}UserSettings VALUES (1, 'defaultEditor', 'modern'), (1, 'defaultFormatter', 'ttml');
-INSERT INTO {$_POST['dbPrefix']}Teamblog VALUES (1, 1, 0, 1, 1, '', '', 0, '#000000', 10, 0, UNIX_TIMESTAMP(), 0);
+INSERT INTO {$_POST['dbPrefix']}Teamblog VALUES (1, 1, 1, 1, 1, '', '', 0, '#000000', 10, 0, UNIX_TIMESTAMP(), 0);
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
 INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, language, blogLanguage, timezone) VALUES (1, '$blog', '$baseLanguage', '$baseLanguage', '$baseTimezone');
 INSERT INTO {$_POST['dbPrefix']}SkinSettings (owner) VALUES (1);

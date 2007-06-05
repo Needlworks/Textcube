@@ -152,54 +152,54 @@ if($owner == $_SESSION['admin']){?>
 										alert(errorStr);
 										return false;
 									}
-									var request = new HTTPRequest("POST", "<?php	echo $blogURL;?>/owner/setting/teamblog/Invite/");
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/teamblog/Invite/");
 									request.onVerify = function() {
 										return this.getText("/response/error") == 15;
 									}
 									request.onSuccess = function() {
-										PM.showMessage("<?php	echo _t('초대장을 발송했습니다.');?>", "center", "bottom");
+										PM.showMessage("<?php echo _t('초대장을 발송했습니다.');?>", "center", "bottom");
 										window.location.href='<?php	echo $blogURL;?>/owner/setting/teamblog/';
 									}
 									request.onError = function() {
 										switch(Number(this.getText("/response/error"))) {
 											case 2:
-												alert('<?php	echo _t('이메일이 바르지 않습니다.');?>');
+												alert('<?php echo _t('이메일이 바르지 않습니다.');?>');
 												break;
 											case 4:
-												alert('<?php	echo _t('블로그 식별자는 영문으로 입력하셔야 합니다.');?>');
+												alert('<?php echo _t('블로그 식별자는 영문으로 입력하셔야 합니다.');?>');
 												break;
 											case 5:
-												alert('<?php	echo _t('이미 존재하는 이메일입니다.');?>');
+												alert('<?php echo _t('이미 존재하는 이메일입니다.');?>');
 												break;
 											case 60:
-												alert('<?php	echo _t('이미 존재하는 블로그 식별자입니다.');?>');
+												alert('<?php echo _t('이미 존재하는 블로그 식별자입니다.');?>');
 												break;
 											case 61:
-												alert('<?php	echo _t('이미 존재하는 블로그 식별자입니다.');?>');
+												alert('<?php echo _t('이미 존재하는 블로그 식별자입니다.');?>');
 												break;
 											case 62:
-												alert('<?php	echo _t('실패했습니다.');?>');
+												alert('<?php echo _t('실패했습니다.');?>');
 												break;
 											case 11:
-												alert('<?php	echo _t('실패했습니다.');?>');
+												alert('<?php echo _t('실패했습니다.');?>');
 												break;
 											case 12:
-												alert('<?php	echo _t('실패했습니다.');?>');
+												alert('<?php echo _t('실패했습니다.');?>');
 												break;
 											case 13:
-												alert('<?php	echo _t('실패했습니다.');?>');
+												alert('<?php echo _t('실패했습니다.');?>');
 												break;
 											case 14:
-												alert('<?php	echo _t('메일 전송에 실패하였습니다.');?>');
+												alert('<?php echo _t('메일 전송에 실패하였습니다.');?>');
 												break;
 											case 20:
-												alert('<?php	echo _t('팀원 추가에 실패했습니다.');?>');
+												alert('<?php echo _t('팀원 추가에 실패했습니다.');?>');
 												break;
 											case 21:
-												alert('<?php	echo _t('이미 팀원으로 등록된 사용자입니다.');?>');
+												alert('<?php echo _t('이미 팀원으로 등록된 사용자입니다.');?>');
 												break;
 											default:
-												alert('<?php	echo _t('실패했습니다.');?>');
+												alert('<?php echo _t('실패했습니다.');?>');
 										}
 									}
 									request.send("&senderName="+encodeURIComponent(sender[0][0])+"&senderEmail="+encodeURIComponent(sender[0][1])+"&email="+inviteList[0][1]+"&name="+encodeURIComponent(inviteList[0][0])+"&password="+password.value+"&comment="+encodeURIComponent(comment.value));
