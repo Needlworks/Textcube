@@ -390,7 +390,7 @@ function deleteUser($userid){
 			WHERE owner=".$owner." AND id=".$id);
 	}
 
-	$enduser = DBQuery::queryCell("SELECT enduser FROM `{$database['prefix']}Teamblog` WHERE teams='$owner' AND userid='$userid'"));
+	$enduser = DBQuery::queryCell("SELECT enduser FROM `{$database['prefix']}Teamblog` WHERE teams='$owner' AND userid='$userid'");
 	$isp = intval($enduser - $userid);
 	if($isp == 0 || $isp == 1){
 		DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='$userid' and userid='$userid'");
