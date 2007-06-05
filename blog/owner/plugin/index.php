@@ -84,7 +84,7 @@ while ($plugin = $dir->read()) {
 			array_push($pluginAttrs[$pluginDir]['scope'], 'sidebar');
 		if ($xmls->doesExist('/plugin/binding/editor')
 			|| $xmls->doesExist('/plugin/binding/formatter'))
-			array_push($pluginAttrs[$pluginDir]['scope'], 'module');
+			array_push($pluginAttrs[$pluginDir]['scope'], 'editor');
 
 		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
 	}
@@ -294,16 +294,26 @@ else
 if (!defined('__TEXTCUBE_CENTER__')) {
 ?>
 								<dl id="scope-line" class="line">
-									<dt><?php echo _t('종류');?></dt>
-									<dd>
+									<dt><?php echo _t('일반');?></dt>
+									<dd id="scope-line-general">
 										<ul>
 											<li><input type="radio" class="radio" id="global-scope" name="scopeType" value="all" onclick="changeList()"<?php echo $_POST['scopeType'] == "all" ? ' checked="checked"' : '';?> /><label id="global-scope-label" for="global-scope"<?php echo $_POST['scopeType'] == "all" ? ' class="selected"' : '';?>><?php echo _t('전체');?></label></li>
-											<li><input type="radio" class="radio" id="common-scope" name="scopeType" value="global" onclick="changeList()"<?php echo $_POST['scopeType'] == "global" ? ' checked="checked"' : '';?> /><label id="common-scope-label" for="common-scope"<?php echo $_POST['scopeType'] == "global" ? ' class="selected"' : '';?>><?php echo _t('일반');?></label></li>
-											<li><input type="radio" class="radio" id="blog-scope" name="scopeType" value="blog" onclick="changeList()"<?php echo $_POST['scopeType'] == "blog" ? ' checked="checked"' : '';?> /><label id="blog-scope-label" for="blog-scope"<?php echo $_POST['scopeType'] == "blog" ? ' class="selected"' : '';?>><?php echo _t('블로그');?></label></li>
-											<li><input type="radio" class="radio" id="sidebar-scope" name="scopeType" value="sidebar" onclick="changeList()"<?php echo $_POST['scopeType'] == "sidebar" ? ' checked="checked"' : '';?> /><label id="sidebar-scope-label" for="sidebar-scope"<?php echo $_POST['scopeType'] == "sidebar" ? ' class="selected"' : '';?>><?php echo _t('사이드바');?></label></li>
-											<li><input type="radio" class="radio" id="admin-scope" name="scopeType" value="admin" onclick="changeList()"<?php echo $_POST['scopeType'] == "admin" ? ' checked="checked"' : '';?> /><label id="admin-scope-label" for="admin-scope"<?php echo $_POST['scopeType'] == "admin" ? ' class="selected"' : '';?>><?php echo _t('관리자');?></label></li>
-											<li><input type="radio" class="radio" id="module-scope" name="scopeType" value="module" onclick="changeList()"<?php echo $_POST['scopeType'] == "module" ? ' checked="checked"' : '';?> /><label id="module-scope-label" for="module-scope"<?php echo $_POST['scopeType'] == "module" ? ' class="selected"' : '';?>><?php echo _t('모듈');?></label></li>
 											<li><input type="radio" class="radio" id="none-scope" name="scopeType" value="none" onclick="changeList()"<?php echo $_POST['scopeType'] == "none" ? ' checked="checked"' : '';?> /><label id="none-scope-label" for="none-scope"<?php echo $_POST['scopeType'] == "none" ? ' class="selected"' : '';?>><?php echo _t('분류 없음');?></label></li>
+										</ul>
+									</dd>
+									<dt><?php echo _t('플러그인');?></dt>
+									<dd id="scope-line-plugin">
+										<ul>
+											<li><input type="radio" class="radio" id="common-scope" name="scopeType" value="global" onclick="changeList()"<?php echo $_POST['scopeType'] == "global" ? ' checked="checked"' : '';?> /><label id="common-scope-label" for="common-scope"<?php echo $_POST['scopeType'] == "global" ? ' class="selected"' : '';?>><?php echo _t('일반');?></label></li>
+											<li><input type="radio" class="radio" id="blog-scope" name="scopeType" value="blog" onclick="changeList()"<?php echo $_POST['scopeType'] == "blog" ? ' checked="checked"' : '';?> /><label id="blog-scope-label" for="blog-scope"<?php echo $_POST['scopeType'] == "blog" ? ' class="selected"' : '';?>><?php echo _t('블로그 출력');?></label></li>
+											<li><input type="radio" class="radio" id="sidebar-scope" name="scopeType" value="sidebar" onclick="changeList()"<?php echo $_POST['scopeType'] == "sidebar" ? ' checked="checked"' : '';?> /><label id="sidebar-scope-label" for="sidebar-scope"<?php echo $_POST['scopeType'] == "sidebar" ? ' class="selected"' : '';?>><?php echo _t('사이드바');?></label></li>
+											<li><input type="radio" class="radio" id="admin-scope" name="scopeType" value="admin" onclick="changeList()"<?php echo $_POST['scopeType'] == "admin" ? ' checked="checked"' : '';?> /><label id="admin-scope-label" for="admin-scope"<?php echo $_POST['scopeType'] == "admin" ? ' class="selected"' : '';?>><?php echo _t('관리 패널');?></label></li>
+										</ul>
+									</dd>
+									<dt><?php echo _t('모듈');?></dt>
+									<dd id="scope-line-module">
+										<ul>
+											<li><input type="radio" class="radio" id="editor-scope" name="scopeType" value="editor" onclick="changeList()"<?php echo $_POST['scopeType'] == "editor" ? ' checked="checked"' : '';?> /><label id="editor-scope-label" for="editor-scope"<?php echo $_POST['scopeType'] == "editor" ? ' class="selected"' : '';?>><?php echo _t('에디터');?></label></li>
 										</ul>
 									</dd>
 								</dl>
