@@ -24,6 +24,11 @@ function login($loginid, $password, $preKnownPassword = null) {
 			
 			// 팀블로그 :: 로그인 인증 (팀원이 맞을 경우 admin 변수에 사용자의 userid 를 넣는다.
 			$check = DBQuery::queryCell("SELECT teams FROM {$database['prefix']}Teamblog WHERE userid='{$session['userid']}' and teams='$owner'");
+			if($owner == $session['userid']) {
+				Acl::setCurrentAro($owner, 'group.administrators', Aro::getCanonicalName($admin) );
+			} else {
+				Acl::setCurrentAro($owner, 'group.members', Aro::getCanonicalName($admin) );
+			}
 			if(!empty($check)) authorizeSession($owner, $session['userid']);
 			else return 2;
 			// End TeamBlog
@@ -62,7 +67,7 @@ function requireLogin() {
 }
 
 function doesHaveMembership() {
-	return empty($_SESSION['userid']) ? false : true;
+	return Acl::check( "group.members" );
 }
 
 function requireMembership() {
@@ -78,10 +83,7 @@ function getUserId() {
 }
 
 function doesHaveOwnership() {
-	global $owner;
-	if (empty($_SESSION['userid']) || ($_SESSION['userid'] != $owner))
-		return false;
-	return true;
+	return Acl::check( "group.administrators" );
 }
 
 function requireOwnership() {

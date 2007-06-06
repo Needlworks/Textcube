@@ -11,6 +11,82 @@ function encodeURL($url) {
 		return str_replace(array('%', ' ', '"', '#', '&', '\'', '<', '>', '?'), array('%25', '%20', '%22', '%23', '%26', '%27', '%3C', '%3E', '%3F'), $url);
 }
 
+/* Access Request Object: i.e. user */
+class Aro {
+	var $_aro = array( 
+		/* role => array( <available actions>, [<reference group>...] ) */
+		'group.administrators' => array( 'blog-read', 'blog-write', 'blog-manage', 'comment-manage' ),
+		'group.blogwriters' => array( 'blog-read', 'blog-write' ),
+		'group.members' => array( 'comment-read', 'comment-writer' ),
+		'group.guests' => array( 'comment-read', 'comment-write' )
+		);
+
+	function Aro() {
+	}
+
+	function getCanonicalName( $userid ) {
+		return "textcube:$userid";
+	}
+
+}
+
+/* Access Control Object: i.e. uri, component, function */
+class Aco {
+	function Aco() {
+	}
+}
+
+class Acl {
+	function check($aco = null, $aco_action = '*') {
+		global $owner;
+
+		if( $aco == null ) {
+			if (empty($_SESSION['userid']) || ($_SESSION['userid'] != $owner))
+				return false;
+			return true;
+		}
+
+		if( !Acl::isAvailable() )  {
+			return false;
+		}
+
+		if( !is_array( $aco ) ) {
+			$aco = array( $aco );
+		}
+
+		foreach( $aco as $obj ) {
+			/*owner = blogid*/
+			if( in_array( $obj, $_SESSION['acl'][$owner] ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function setCurrentAro( $blogid, $group, $user, $add = false ) {
+		if( !isset( $_SESSION['acl'] ) ) {
+			$_SESSION['acl'] = array();
+		}
+		if( $add ) {
+			$_SESSION['acl'][$blogid] = array_merge( $_SESSION['acl'][$blogid], array( $group, $user ) );
+		} else {
+			$_SESSION['acl'][$blogid] = array( $group, $user );
+		}
+	}
+
+	function isAvailable() {
+		global $owner; /*blogid*/
+
+		if( !isset( $_SESSION['acl'] ) || 
+			!is_array( $_SESSION['acl'] ) || 
+			!isset( $_SESSION['acl'][$owner] ) ) {
+			return false;
+		}
+
+		return true;
+	}
+}
+
 class User {
 	/*@static@*/
 	function getName($userid = null) {
