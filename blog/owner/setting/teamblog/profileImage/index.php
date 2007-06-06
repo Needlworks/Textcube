@@ -62,7 +62,7 @@ function addTeamPic($file){
 		return false;
 	@chmod($attachment['path'],0666);
 
-	$logoFilePath = DBQuery::queryCell("SELECT logo FROM {$database['prefix']}Teamblog WHERE teams='".$owner."' and userid='."$_SESSION['admin']."'");	
+	$logoFilePath = DBQuery::queryCell("SELECT logo FROM {$database['prefix']}Teamblog WHERE teams='".$owner."' and userid='".$_SESSION['admin']."'");	
 	$result = DBQuery::query("UPDATE {$database['prefix']}Teamblog SET `logo`='$attachment[name]' WHERE teams='$owner' AND userid='$_SESSION[admin]' ");
 	if(!$result){
 		@unlink($attachment['path']);
