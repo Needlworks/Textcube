@@ -2501,8 +2501,8 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 					'<dd><textarea class="input-text" id="__ID__propertyObject1_caption1" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>' +
 				'</dl>' +
 				'<dl class="line">' +
-					'<dt class="property-name"><label for="__ID__propertyObject1_filename1">' + _t('파일명') + '</label></dt>' +
-					'<dd><input type="text" class="input-text" id="__ID__propertyObject1_filename1" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);" /></dd>' +
+					'<dt class="property-name"><label for="__ID__propertyObject1_filename1">' + _t('파일명(수정불가)') + '</label></dt>' +
+					'<dd><input type="text" class="input-text" id="__ID__propertyObject1_filename1" readonly="readonly" /></dd>' +
 				'</dl>' +
 			'</div>' +
 		'</div>';

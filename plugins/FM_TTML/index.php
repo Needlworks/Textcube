@@ -421,8 +421,8 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 			return "<span id=\"$id\"><script type=\"text/javascript\">writeCode(" . '\'<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="400px" height="300px"><param name="src" value="' . $url . '" /><param name="controller" value="true" /><param name="pluginspage" value="http://www.apple.com/QuickTime/download/" /><!--[if !IE]> <--><object type="video/quicktime" data="' . $url . '" width="400px" height="300px" class="mov"><param name="controller" value="true" /><param name="pluginspage" value="http://www.apple.com/QuickTime/download/" /></object><!--> <![endif]--></object>\'' . ", \"$id\")</script></span>";
 			break;
 		default:
-			if (file_exists(ROOT . '/image/extension/' . getFileExtension($filename) . '.gif')) {
-				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/' . getFileExtension($filename) . '.gif" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
+			if (file_exists(ROOT . '/image/extension/' . getFileExtension($fileInfo['label']) . '.gif')) {
+				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/' . getFileExtension($fileInfo['label']) . '.gif" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			} else {
 				return '<a href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/unknown.gif" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			}
