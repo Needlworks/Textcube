@@ -67,8 +67,7 @@ function requireLogin() {
 }
 
 function doesHaveMembership() {
-	return empty($_SESSION['userid']) ? false : true;
-	/* return Acl::check( "group.members" ); */
+	return Acl::check( "group.members" );
 }
 
 function requireMembership() {

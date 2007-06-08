@@ -28,50 +28,94 @@ class Aro {
 		return "textcube:$userid";
 	}
 
+	function adjust( $aco, $aco_action )
+	{
+		global $owner;
+		if( !Acl::isAvailable() ) {
+			Acl::setCurrentAro( $owner );
+		}
+
+		$aro = Acl::getCurrentAro();
+		foreach( $aco as $obj ) {
+			if( $obj == "group.members" && !empty($_SESSION['userid']) && $_SESSION['userid'] != $owner ) {
+				$aro[] = "group.members";
+			}
+			if( function_exists("fireEvent") ) {
+				$aro = call_user_func( "fireEvent", "AclAdjustAro", $aro, $obj );
+			}
+		}
+		return $aro;
+	}
 }
 
-/* Access Control Object: i.e. uri, component, function */
+/* Access Control Object: i.e. uri, components, functions */
 class Aco {
-	function Aco() {
+	var $predefiend;
+
+	function Aco( $predefined = null ) {
+		$this->predefined = $predefined;
+	}
+
+	function adjust( $aco, $aco_action ) {
+		// $aco is an string array
+		if( function_exists("fireEvent") ) {
+			$aco = call_user_func("fireEvent", "AclAdjustAco", $aco );
+		}
+		return $aco;
 	}
 }
 
 class Acl {
 	function check($aco = null, $aco_action = '*') {
-		global $owner;
-
-		if( $aco == null ) {
-			if (empty($_SESSION['userid']) || ($_SESSION['userid'] != $owner))
-				return false;
-			return true;
-		}
-
-		if( !Acl::isAvailable() )  {
-			return false;
-		}
+		global $owner; /*blogid*/
 
 		if( !is_array( $aco ) ) {
 			$aco = array( $aco );
 		}
 
+		/* Adujsting access controll object from plugins */
+		$aco = Aco::adjust($aco, $aco_action);
+
+		/* Adujsting required object from plugins by aco*/
+		$aro = Aro::adjust($aco, $aco_action);
+
+		/* We need one of aco elements is in aro array */
+
 		foreach( $aco as $obj ) {
-			/*owner = blogid*/
-			if( in_array( $obj, $_SESSION['acl'][$owner] ) ) {
+			if(in_array($obj, $aro)) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
-	function setCurrentAro( $blogid, $group, $user, $add = false ) {
+	function setCurrentAro( $blogid, $group = null, $user = null, $add = false ) {
 		if( !isset( $_SESSION['acl'] ) ) {
 			$_SESSION['acl'] = array();
 		}
+
+		if( !isset( $_SESSION['acl'][$blogid] ) ) {
+			$_SESSION['acl'][$blogid] = array();
+		}
+
+		if( $group === null ) {
+			return;
+		}
+
 		if( $add ) {
 			$_SESSION['acl'][$blogid] = array_merge( $_SESSION['acl'][$blogid], array( $group, $user ) );
 		} else {
 			$_SESSION['acl'][$blogid] = array( $group, $user );
 		}
+	}
+
+	function getCurrentAro() {
+		global $owner; /*blogid*/
+		if( Acl::isAvailable() ) {
+			return $_SESSION['acl'][$owner];
+		}
+		return array();
 	}
 
 	function isAvailable() {
