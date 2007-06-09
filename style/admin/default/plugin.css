@@ -33,20 +33,9 @@
 	width                            : 200px;
 }
 
-#part-plugin-list .line .checkbox,
-#part-plugin-list .line .radio
+#part-plugin-list fieldset dl
 {
-	margin-left                      : 5px;
-}
-
-#plugin-tabs-box
-{
-	margin-bottom                    : 20px;
-}
-
-#none-scope-label
-{
-	border-right                     : none !important;
+	position                         : static;
 }
 
 #part-plugin-list fieldset dl dt
@@ -62,6 +51,22 @@
 	margin                           : 3px 0 10px 0;
 	padding                          : 5px 10px;
 	position                         : static;
+}
+
+#part-plugin-list .line .checkbox,
+#part-plugin-list .line .radio
+{
+	margin-left                      : 5px;
+}
+
+#plugin-tabs-box
+{
+	margin-bottom                    : 20px;
+}
+
+#none-scope-label
+{
+	border-right                     : none !important;
 }
 
 #scope-line
@@ -97,15 +102,9 @@
 
 #temp-box
 {
-	margin-left                      : 232px;
+	margin-left                      : 225px;
 	min-height                       : 15em;
 	width                            : 730px;
-}
-
-#all-selector
-{
-	padding                          : 5px 0;
-	text-align                       : right;
 }
 
 /* plugin list */
@@ -119,7 +118,6 @@
 {
 	float                            : left;
 	margin                           : 2px !important;
-	position                         : relative;
 	width                            : 140px;
 }
 
@@ -150,9 +148,6 @@
 #part-plugin-list ul.data-inbox li .plugin-box .plugin-icon img
 {
 	display                          : none;
-	position                         : absolute;
-	left                             : 84px;
-	top                              : 84px;
 }
 
 #part-plugin-list ul.data-inbox li .summary
@@ -162,13 +157,6 @@
 	overflow                         : hidden;
 	padding-top                      : 0.5em;
 	text-align                       : center;
-}
-
-#part-plugin-list ul.data-inbox li .summary .input-checkbox
-{
-	left                             : 5px;
-	position                         : absolute;
-	top                              : 5px;
 }
 
 #part-plugin-list ul.data-inbox li .summary .plugin-buttons

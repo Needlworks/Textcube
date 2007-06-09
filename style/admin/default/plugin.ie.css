@@ -2,30 +2,14 @@
 
 /* Plugin */
 
-#part-plugin-list fieldset
+#sorting-line-align
 {
-	padding                          : 10px 10px 8px 10px;
-}
-
-#sorting-line
-{
-	margin-bottom: 5px;
-}
-
-#scope-line dd
-{
-	top: 15px;
-}
-
-#scope-line ul li
-{
-	padding: 2px 0 !important;
+	right                            : 20px;
 }
 
 #temp-box
 {
 	height: 15em;
-	margin-left: 231px;
 }
 
 /* Plugin List */
