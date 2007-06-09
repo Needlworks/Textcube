@@ -7,105 +7,120 @@ define('ROOT', '../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
-if (defined('__TEXTCUBE_CENTER__')) {
-	$scopeType = 'dashboard';
-	$_POST['scopeType'] = $scopeType;
+
+// set the selected tab.
+if (isset($_GET['visibility'])) {
+	$_POST['visibility'] = $_GET['visibility'];
+} else if (!isset($_POST['visibility'])) {
+	$_POST['visibility'] = 'blog';
 }
 
-if (empty($_POST['sortType'])) {
-	$sortType = getUserSetting("pluginListSortType","ascend");
-	$_POST['sortType'] = $sortType;
-}
-setUserSetting("pluginListSortType",$_POST['sortType']);
-
-if (empty($_POST['scopeType'])) {
-	$scopeType = getUserSetting("pluginListScopeType", "all");
-	$_POST['scopeType'] = $scopeType;
-}
-if (!defined('__TEXTCUBE_CENTER__')) {
-	setUserSetting("pluginListScopeType",$_POST['scopeType']);
-}
-
-if (empty($_POST['listedPluginStatus'])) {
-	$listType = DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'listedPluginStatus'");
-	$_POST['listedPluginStatus'] = ($listType == false) ? array("activated", "deactivated") : explode("|", $listType);
-} else if (is_array($_POST['listedPluginStatus'])) {
-	sort($_POST['listedPluginStatus']);
-	if ($_POST['listedPluginStatus'] != array("activated") && $_POST['listedPluginStatus'] != array("deactivated") && $_POST['listedPluginStatus'] != array("activated", "deactivated")) {
-		$_POST['listedPluginStatus'] = array("activated", "deactivated");
-	}
-} else {
-	$_POST['listedPluginStatus'] = array("activated", "deactivated");
+switch ($_POST['visibility']) {
+	case 'center':
+		define('__TAB_CENTER__', true);
+		$memberScopes = 'center';
+		break;
+	case 'metapage':
+		define('__TAB_METAPAGE__', true);
+		$memberScopes = 'metapage'; // 임시.
+		break;
+	case 'blog':
+	default:
+		define('__TAB_BLOG__', true);
+		$memberScopes = 'global|blog|sidebar|admin|editor|formatter|none';
+		$_POST['visibility'] = 'blog';
+		break;
 }
 
-if (!DBQuery::queryCell("SELECT `value` FROM `{$database['prefix']}UserSettings` WHERE `user` = $owner AND `name` = 'listedPluginStatus'")) {
-	DBQuery::execute("INSERT `{$database['prefix']}UserSettings` (`user`, `name`, `value`) VALUES ($owner, 'listedPluginStatus', '".implode("|", $_POST['listedPluginStatus'])."')");
-} else {
-	DBQuery::execute("UPDATE `{$database['prefix']}UserSettings` SET `value` = '".implode("|", $_POST['listedPluginStatus'])."' WHERE `user` = $owner AND `name` = 'listedPluginStatus'");
-}
+$tabsClass = array();
+$tabsClass[$_POST['visibility']] = true;
 
+// get and set align type, scope type and status type.
+$selectedSort = getUserSetting('pluginListSortType', 'ascend');
+$selectedScopes = explode('|', getUserSetting("pluginListScopeType_{$_POST['visibility']}", $memberScopes));
+$selectedStatus = explode('|', getUserSetting("pluginListStatusType_{$_POST['visibility']}", 'activated|deactivated'));
+
+// get all plugin list.
 $plugins = array();
 $pluginAttrs = array();
 
+$xmls = new XMLStruct();
 $dir = dir(ROOT . '/plugins/');
-while ($plugin = $dir->read()) {
-	if (!ereg('^[[:alnum:] _-]+$', $plugin))
+while (false !== ($plugin = $dir->read())) { // 이게 php.net에서 권장하는 올바른 디렉토리 읽는 법.
+	if (!preg_match('@^[A-Za-z0-9 _-]+$@', $plugin))
 		continue;
 	if (!is_dir(ROOT . '/plugins/' . $plugin))
 		continue;
 	if (!file_exists(ROOT . "/plugins/$plugin/index.xml"))
 		continue;
-	$xmls = new XMLStruct();
+	
 	if (!$xmls->open(file_get_contents(ROOT . "/plugins/$plugin/index.xml"))) {
 		continue;
 	} else {
+		// filter the plugins as the selected scopes.
+		$tempXMLPath = array(
+								'admin' => '/plugin/binding/adminMenu',
+								'blog' => '/plugin/binding/tag',
+								'center' => '/plugin/binding/center',
+								//'metapage', '/plugin/binding/metapage',
+								'global' => '/plugin/binding/listener',
+								'sidebar' => '/plugin/binding/sidebar',
+								'editor' => '/plugin/binding/editor',
+								'formatter' => '/plugin/binding/formatter'
+							);
+		
+		$acceptedPathCount = 0;
+		$tempXMLPathCount = 0;
+		foreach ($tempXMLPath as $key => $value) {
+			if ($xmls->doesExist($value)) {
+				$tempXMLPathCount++;
+				if (in_array($key, $selectedScopes)) {
+					$acceptedPathCount++;
+				}
+			}
+		}
+		
+		if ($acceptedPathCount > 0 || ($tempXMLPathCount == 0 && in_array('none', $selectedScopes))) {
+			// path.
+		} else {
+			continue;
+		}
+		
+		// load plugin information.
 		$pluginDir = trim($plugin);
 		$pluginAttrs[$pluginDir] = array(
-							"link" => $xmls->getValue('/plugin/link[lang()]'),
-							"title" => $xmls->getValue('/plugin/title[lang()]'),
-							"version" => $xmls->getValue('/plugin/version[lang()]'),
-							"description" => $xmls->getValue('/plugin/description[lang()]'),
-							"authorLink" => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
-							"author" => $xmls->getValue('/plugin/author[lang()]'),
-							"scope" => array(),
-							"config" => $xmls->doesExist('/plugin/binding/config'),
-							"width" => $xmls->getAttribute('/plugin/binding/config/window', 'width'),
-							"height" => $xmls->getAttribute('/plugin/binding/config/window', 'height')
+							'link' => $xmls->getValue('/plugin/link[lang()]'),
+							'title' => $xmls->getValue('/plugin/title[lang()]'),
+							'version' => $xmls->getValue('/plugin/version[lang()]'),
+							'description' => $xmls->getValue('/plugin/description[lang()]'),
+							'authorLink' => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
+							'author' => $xmls->getValue('/plugin/author[lang()]'),
+							'config' => $xmls->doesExist('/plugin/binding/config'),
+							'width' => $xmls->getAttribute('/plugin/binding/config/window', 'width'),
+							'height' => $xmls->getAttribute('/plugin/binding/config/window', 'height')
 							);
-		if ($xmls->doesExist('/plugin/binding/adminMenu'))
-			array_push($pluginAttrs[$pluginDir]['scope'], 'admin');
-		if ($xmls->doesExist('/plugin/binding/tag'))
-			array_push($pluginAttrs[$pluginDir]['scope'], 'blog');
-		if ($xmls->doesExist('/plugin/binding/center'))
-			array_push($pluginAttrs[$pluginDir]['scope'], 'dashboard');
-		if ($xmls->doesExist('/plugin/binding/listener'))
-			array_push($pluginAttrs[$pluginDir]['scope'], 'global');
-		if ($xmls->doesExist('/plugin/binding/sidebar'))
-			array_push($pluginAttrs[$pluginDir]['scope'], 'sidebar');
-		if ($xmls->doesExist('/plugin/binding/editor'))
-			array_push($pluginAttrs[$pluginDir]['scope'], 'editor');
-		if ($xmls->doesExist('/plugin/binding/formatter'))
-			array_push($pluginAttrs[$pluginDir]['scope'], 'formatter');
 
 		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
 	}
 }
+unset($xmls);
 
-if ($_POST['sortType'] == "ascend") {
+// sort as value of $selectedSort.
+if ($selectedSort == 'ascend') {
 	asort($plugins);
 } else {
 	arsort($plugins);
 }
 
-$arrayKeys = array_keys($plugins);
+$pluginKeys = array_keys($plugins);
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
 								var pluginInfo = new Array();
 								
 <?php
-for ($i=0; $i<count($arrayKeys); $i++) {
-	$pluginDir = $arrayKeys[$i];
+for ($i=0; $i<count($pluginKeys); $i++) {
+	$pluginDir = $pluginKeys[$i];
 	
 	$width = $pluginAttrs[$pluginDir]['width']?$pluginAttrs[$pluginDir]['width']:500;
 	$height = $pluginAttrs[$pluginDir]['height']?$pluginAttrs[$pluginDir]['height']:400;
@@ -207,31 +222,52 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 									}
 								}
 								
-<?php
-if (defined('__TEXTCUBE_CENTER__')) {
-?>
-								function changeList() {
-									document.getElementById("part-center-plugins").submit();
+								function changeList(obj) {
+									var currentTab = getObject('currentTab');
+									
+									var scope = new Array();
+									var status = new Array();
+									
+									var scopeCount = 0;
+									var statusCount = 0;
+									
+									for (var i=0; getObject('part-plugin-list').elements[i]; i++) {
+										oElement = getObject('part-plugin-list').elements[i];
+										if (oElement.name == 'scopeType' && oElement.checked == true) {
+											scope[scopeCount] = oElement.value;
+											scopeCount++;
+										} else if (oElement.name == 'pluginStatus' && oElement.checked == true) {
+											status[statusCount] = oElement.value;
+											statusCount++;
+										} else if (oElement.name == 'sortType' && oElement.checked == true) {
+											var sort = oElement.value;
+										}
+									}
+									
+									if (scope.length == 0 || status.length == 0) {
+										obj.checked = true;
+										return false;
+									}
+									
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/saveScope");
+									request.onSuccess = function() {
+										window.location.reload(true);
+									}
+									
+									request.onError = function() {
+										alert("<?php echo _t('선택하신 조건을 적용하지 못했습니다.');?>");
+									}
+									
+									request.send("visibility=" + currentTab.value + "&scope=" + scope.join('|') + "&status=" + status.join('|') + "&sort=" + sort);
 								}
-<?php
-} else {
-?>
-								function changeList() {
-									document.getElementById("part-plugin-list").submit();
-								}
-<?php
-}
-?>
 								
 								window.addEventListener("load", execLoadFunction, false);
 								
 								function execLoadFunction() {
-									removeItselfById('submit-button-box');
-									
-									for (var i = 0; document.getElementById('part-plugin-list').elements[i]; i++) {
-										oElement = document.getElementById('part-plugin-list').elements[i];
-										if ((oElement.name == 'entry'))
-											oElement.style.display= 'none';
+									for (var i=0; getObject('part-plugin-list').elements[i]; i++) {
+										oElement = getObject('part-plugin-list').elements[i];
+										if ((oElement.name == 'plugin'))
+											oElement.style.display = 'none';
 									}
 								}
 								
@@ -245,117 +281,80 @@ if (defined('__TEXTCUBE_CENTER__')) {
 							//]]>
 						</script>
 						
-						<form id="<?php
-if (defined('__TEXTCUBE_CENTER__'))
-	echo 'part-center-plugins';
-else
-	echo 'part-plugin-list';
-						?>" class="part" method="post" action="<?php
-if (defined('__TEXTCUBE_CENTER__'))
-	echo $blogURL."/owner/center/setting";
-else
-	echo $blogURL."/owner/plugin";
-?>">
-							<h2 class="caption"><span class="main-text"><?php
-if (defined('__TEXTCUBE_CENTER__'))
-	echo _t('설치된 자투리 플러그인입니다');
-else 
-	echo _t('설치된 플러그인입니다');
-?></span></h2>
+						<form id="part-plugin-list" class="part" method="post" action="<?php echo $blogURL."/owner/plugin";?>">
+							<h2 class="caption"><span class="main-text"><?php echo _t('설치된 플러그인 목록입니다');?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php
-if (defined('__TEXTCUBE_CENTER__'))
-	echo _t('자투리는 조각보에 기능을 추가합니다. 이 곳에서 자투리들의 사용 여부를 결정할 수 있습니다.');
-else
-	echo _t('플러그인은 텍스트큐브의 기능을 확장합니다. 이 곳에서 설치된 플러그인의 사용 여부를 결정할 수 있습니다.');
-?></p>
+								<p class="explain"><?php echo _t('플러그인은 텍스트큐브의 기능을 확장합니다. 이 곳에서 설치된 플러그인의 사용 여부를 결정할 수 있습니다.');?></p>
 							</div>
 							
+							<ul id="plugin-tabs-box" class="tabs-box">
+								<li<?php echo isset($tabsClass['blog']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('블로그/관리자 플러그인');?></a></li>
+								<li<?php echo isset($tabsClass['center']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin?visibility=center"><?php echo _t('센터 플러그인');?></a></li>
+								<li<?php echo isset($tabsClass['metapage']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin?visibility=metapage"><?php echo _t('메타 페이지 플러그인');?></a></li>
+							</ul>
+							
 							<fieldset id="plugin-display-box">
-								<legend><?php echo _t('표시될 플러그인 설정');?></legend>
-
-								<dl id="sorting-line" class="line">
-									<dt><?php echo _t('정렬');?></dt>
-									<dd>
-										<input type="radio" class="radio" id="ascend-sorting" name="sortType" value="ascend" onclick="changeList()"<?php echo $_POST['sortType'] == "ascend" ? ' checked="checked"' : '';?> /><label for="ascend-sorting"><?php echo _t('오름차순');?></label>
-										<input type="radio" class="radio" id="descend-sorting" name="sortType" value="descend" onclick="changeList()"<?php echo $_POST['sortType'] == "descend" ? ' checked="checked"' : '';?> /><label for="descend-sorting"><?php echo _t('내림차순');?></label>
-									</dd>
-								</dl>
+								<legend><?php echo _t('표시할 플러그인의 종류를 선택하세요.');?></legend>
 								
-								<dl id="activate-status-line" class="line">
-									<dt><?php echo _t('상태');?></dt>
-									<dd>
-										<input type="checkbox" class="checkbox" id="activated-plugin" name="listedPluginStatus[]" value="activated" onclick="changeList()"<?php echo in_array("activated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /><label for="activated-plugin"><?php echo _t('사용중인 플러그인 / 모듈');?></label>
-										<input type="checkbox" class="checkbox" id="deactivated-plugin" name="listedPluginStatus[]" value="deactivated" onclick="changeList()"<?php echo in_array("deactivated", $_POST['listedPluginStatus']) ? ' checked="checked"' : '';?> /><label for="deactivated-plugin"><?php echo _t('사용하지 않는 플러그인 / 모듈');?></label>
-									</dd>
-								</dl>
-								
-<?php
-if (!defined('__TEXTCUBE_CENTER__')) {
-?>
 								<dl id="scope-line" class="line">
-									<dt><?php echo _t('일반');?></dt>
-									<dd id="scope-line-general">
-										<ul>
-											<li><input type="radio" class="radio" id="global-scope" name="scopeType" value="all" onclick="changeList()"<?php echo $_POST['scopeType'] == "all" ? ' checked="checked"' : '';?> /><label id="global-scope-label" for="global-scope"<?php echo $_POST['scopeType'] == "all" ? ' class="selected"' : '';?>><?php echo _t('전체');?></label></li>
-											<li><input type="radio" class="radio" id="none-scope" name="scopeType" value="none" onclick="changeList()"<?php echo $_POST['scopeType'] == "none" ? ' checked="checked"' : '';?> /><label id="none-scope-label" for="none-scope"<?php echo $_POST['scopeType'] == "none" ? ' class="selected"' : '';?>><?php echo _t('분류 없음');?></label></li>
-										</ul>
-									</dd>
-									<dt><?php echo _t('플러그인');?></dt>
+									<dt><?php echo _t('기능');?></dt>
 									<dd id="scope-line-plugin">
 										<ul>
-											<li><input type="radio" class="radio" id="common-scope" name="scopeType" value="global" onclick="changeList()"<?php echo $_POST['scopeType'] == "global" ? ' checked="checked"' : '';?> /><label id="common-scope-label" for="common-scope"<?php echo $_POST['scopeType'] == "global" ? ' class="selected"' : '';?>><?php echo _t('일반');?></label></li>
-											<li><input type="radio" class="radio" id="blog-scope" name="scopeType" value="blog" onclick="changeList()"<?php echo $_POST['scopeType'] == "blog" ? ' checked="checked"' : '';?> /><label id="blog-scope-label" for="blog-scope"<?php echo $_POST['scopeType'] == "blog" ? ' class="selected"' : '';?>><?php echo _t('블로그 출력');?></label></li>
-											<li><input type="radio" class="radio" id="sidebar-scope" name="scopeType" value="sidebar" onclick="changeList()"<?php echo $_POST['scopeType'] == "sidebar" ? ' checked="checked"' : '';?> /><label id="sidebar-scope-label" for="sidebar-scope"<?php echo $_POST['scopeType'] == "sidebar" ? ' class="selected"' : '';?>><?php echo _t('사이드바');?></label></li>
-											<li><input type="radio" class="radio" id="admin-scope" name="scopeType" value="admin" onclick="changeList()"<?php echo $_POST['scopeType'] == "admin" ? ' checked="checked"' : '';?> /><label id="admin-scope-label" for="admin-scope"<?php echo $_POST['scopeType'] == "admin" ? ' class="selected"' : '';?>><?php echo _t('관리 패널');?></label></li>
-										</ul>
-									</dd>
-									<dt><?php echo _t('모듈');?></dt>
-									<dd id="scope-line-module">
-										<ul>
-											<li><input type="radio" class="radio" id="editor-scope" name="scopeType" value="editor" onclick="changeList()"<?php echo $_POST['scopeType'] == "editor" ? ' checked="checked"' : '';?> /><label id="editor-scope-label" for="editor-scope"<?php echo $_POST['scopeType'] == "editor" ? ' class="selected"' : '';?>><?php echo _t('에디터');?></label></li>
-											<li><input type="radio" class="radio" id="formatter-scope" name="scopeType" value="formatter" onclick="changeList()"<?php echo $_POST['scopeType'] == "formatter" ? ' checked="checked"' : '';?> /><label id="formatter-scope-label" for="formatter-scope"<?php echo $_POST['scopeType'] == "formatter" ? ' class="selected"' : '';?>><?php echo _t('포매터');?></label></li>
-										</ul>
-									</dd>
-								</dl>
 <?php
-} else {
-	if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useTTdashboard']))) {
-		$textcubeDashboard = getUserSetting("textcubeDashboard");
-		if (is_null($textcubeDashboard)) {
-			setUserSetting("textcubeDashboard", 1);
-			$textcubeDashboard = 1;
-		} else {
-			setUserSetting("textcubeDashboard", 0);
-			$textcubeDashboard = 0;
-		}
-	} else {
-		setUserSetting("textcubeDashboard", 1);
-		$textcubeDashboard = 1;
-	}
+if (defined('__TAB_BLOG__')) {
 ?>
-								<dl id="independent-notice-line" class="line">
-									<dt><?php echo _t('독립패널 설정');?></dt>
-									<dd>
-										<input type="checkbox" class="checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="changeList()"<?php echo $textcubeDashboard == 1 ? " checked" : NULL;?> />
-										<label for="useTTdashboard"><?php echo _t('조각보에 텍스트큐브 독립 패널을 표시합니다.');?></label>
+											<li><input type="checkbox" class="checkbox" id="blog-scope" name="scopeType" value="blog" onclick="changeList(this)"<?php echo in_array('blog', $selectedScopes) ? ' checked="checked"' : '';?> /><label id="blog-scope-label" for="blog-scope"<?php echo in_array('blog', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('블로그 플러그인');?></label></li>
+											<li><input type="checkbox" class="checkbox" id="sidebar-scope" name="scopeType" value="sidebar" onclick="changeList(this)"<?php echo in_array('sidebar', $selectedScopes) ? ' checked="checked"' : '';?> /><label id="sidebar-scope-label" for="sidebar-scope"<?php echo in_array('sidebar', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('사이드바 플러그인');?></label></li>
+											<li><input type="checkbox" class="checkbox" id="admin-scope" name="scopeType" value="admin" onclick="changeList(this)"<?php echo in_array('admin', $selectedScopes) ? ' checked="checked"' : '';?> /><label id="admin-scope-label" for="admin-scope"<?php echo in_array('admin', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('관리자 플러그인');?></label></li>
+											<li><input type="checkbox" class="checkbox" id="common-scope" name="scopeType" value="global" onclick="changeList(this)"<?php echo in_array('global', $selectedScopes) ? ' checked="checked"' : '';?> /><label id="common-scope-label" for="common-scope"<?php echo in_array('global', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('기타 플러그인');?></label></li>
+											<li><input type="checkbox" class="checkbox" id="none-scope" name="scopeType" value="none" onclick="changeList(this)"<?php echo in_array('none', $selectedScopes) ? ' checked="checked"' : '';?> /><label id="none-scope-label" for="none-scope"<?php echo in_array('none', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('분류 없음');?></label></li>
+										</ul>
 									</dd>
 								</dl>
+								<dl id="module-line" class="line">
+									<dt><?php echo _t('모듈');?></dt>
+									<dd>
+										<ul>
+											<li><input type="checkbox" class="checkbox" id="editor-scope" name="scopeType" value="editor" onclick="changeList(this)"<?php echo in_array('editor', $selectedScopes) ? ' checked="checked"' : '';?> /><label id="editor-scope-label" for="editor-scope"<?php echo in_array('editor', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('에디터 모듈');?></label></li>
+											<li><input type="checkbox" class="checkbox" id="formatter-scope" name="scopeType" value="formatter" onclick="changeList(this)"<?php echo in_array('formatter', $selectedScopes) ? ' checked="checked"' : '';?> /><label id="formatter-scope-label" for="formatter-scope"<?php echo in_array('formatter', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('포매터 모듈');?></label></li>
+<?php
+} else if (defined('__TAB_CENTER__')) {
+?>
+											<li><input type="checkbox" class="checkbox" id="center-scope" name="scopeType" value="center" onclick="this.checked=true;" checked="checked" /><label id="center-scope-label" for="center-scope"<?php echo in_array('center', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('센터 플러그인');?></label></li>
+<?php
+} else if (defined('__TAB_METAPAGE__')) {
+?>
+											<li><input type="checkbox" class="checkbox" id="metapage-scope" name="scopeType" value="metapage" onclick="this.checked=true;" checked="checked" /><label id="metapage-scope-label" for="metapage-scope"<?php echo in_array('metapage', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('메타 페이지 플러그인');?></label></li>
 <?php
 }
 ?>
+										</ul>
+									</dd>
+								</dl>
 								
-								<div id="submit-button-box" class="button-box">
-									<input type="submit" value="<?php echo _t('플러그인 목록 갱신');?>" />
-								</div>
+								<dl id="status-line" class="line">
+									<dt><?php echo _t('상태');?></dt>
+									<dd id="sorting-line-status">
+										<label for="activated-plugin"><input type="checkbox" class="checkbox" id="activated-plugin" name="pluginStatus" value="activated" onclick="changeList(this)"<?php echo in_array('activated', $selectedStatus) ? ' checked="checked"' : '';?> /><?php echo defined('__TAB_ETC__') ? _t('사용중인 플러그인/모듈') : _t('사용중인 플러그인');?></label>
+										<label for="deactivated-plugin"><input type="checkbox" class="checkbox" id="deactivated-plugin" name="pluginStatus" value="deactivated" onclick="changeList(this)"<?php echo in_array('deactivated', $selectedStatus) ? ' checked="checked"' : '';?> /><?php echo defined('__TAB_ETC__') ? _t('사용중이 아닌 플러그인/모듈') : _t('사용하지 않는 플러그인');?></label>
+									</dd>
+								</dl>
+								
+								<dl id="sorting-line" class="line">
+									<dt class="hidden"><?php echo _t('정렬');?></dt>
+									<dd id="sorting-line-align">
+										<input type="radio" class="radio" id="ascend-sorting" name="sortType" value="ascend" onclick="changeList(this)"<?php echo $selectedSort == 'ascend' ? ' checked="checked"' : '';?> /><label for="ascend-sorting"><?php echo _t('오름차순');?></label>
+										<input type="radio" class="radio" id="descend-sorting" name="sortType" value="descend" onclick="changeList(this)"<?php echo $selectedSort == 'descend' ? ' checked="checked"' : '';?> /><label for="descend-sorting"><?php echo _t('내림차순');?></label>
+									</dd>
+								</dl>
 							</fieldset>
 							
 							<div id="temp-box">
 								<ul class="data-inbox">
 <?php
-for ($i=0; $i<count($arrayKeys); $i++) {
-	$pluginDir = $arrayKeys[$i];
+for ($i=0; $i<count($pluginKeys); $i++) {
+	$pluginDir = $pluginKeys[$i];
 	
 	$link = $pluginAttrs[$pluginDir]['link'];
 	$title = $pluginAttrs[$pluginDir]['title'];
@@ -363,31 +362,18 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 	$description = $pluginAttrs[$pluginDir]['description'];
 	$authorLink = $pluginAttrs[$pluginDir]['authorLink'];
 	$author = $pluginAttrs[$pluginDir]['author'];
-	$scope = $pluginAttrs[$pluginDir]['scope'];
-	$config = $pluginAttrs[$pluginDir]['config']? 'Y':'N';
-	$width = $pluginAttrs[$pluginDir]['width']?$pluginAttrs[$pluginDir]['width']:500;
-	$height = $pluginAttrs[$pluginDir]['height']?$pluginAttrs[$pluginDir]['height']:400;
+	$config = $pluginAttrs[$pluginDir]['config'] ? 'Y':'N';
+	$width = $pluginAttrs[$pluginDir]['width'] ? $pluginAttrs[$pluginDir]['width'] : 500;
+	$height = $pluginAttrs[$pluginDir]['height'] ? $pluginAttrs[$pluginDir]['height'] : 400;
 	$active = in_array($pluginDir, $activePlugins);
 	
-	if (count($scope) == 0)
-		$scope = array('none');
-		
-	if ($_POST['scopeType'] != 'all')
-		if (!in_array($_POST['scopeType'], $scope))
-			continue;
-	if (!defined('__TEXTCUBE_CENTER__')) {
-		if (in_array('dashboard', $scope) && (count($scope) == 1)) {
-			continue;
-		}
-	}
-	
-	if ($active == true && !in_array("activated", $_POST['listedPluginStatus']))
+	if ($active == true && !in_array('activated', $selectedStatus))
 		continue;
-	else if ($active == false && !in_array("deactivated", $_POST['listedPluginStatus']))
+	else if ($active == false && !in_array('deactivated', $selectedStatus))
 		continue;
 	
 	$className = $active ? 'active-class' : 'inactive-class';
-	$className .= $i == (count($arrayKeys) - 1) ? ' last-item' : NULL;
+	$className .= $i == (count($pluginKeys) - 1) ? ' last-item' : NULL;
 ?>
 									<li class="<?php echo $className;?>">
 <?php
@@ -437,11 +423,11 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 <?php
 	if ($active) {
 ?>
-												<input type="checkbox" class="input-checkbox" name="entry" value="<?php echo $pluginDir;?>" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" checked="checked" />
+												<input type="checkbox" class="input-checkbox" name="plugin" value="<?php echo $pluginDir;?>" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" checked="checked" />
 <?php
 	} else {
 ?>
-												<input type="checkbox" class="input-checkbox" name="entry" value="<?php echo $pluginDir;?>" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
+												<input type="checkbox" class="input-checkbox" name="plugin" value="<?php echo $pluginDir;?>" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
 <?php
 	}
 ?>
@@ -476,6 +462,8 @@ for ($i=0; $i<count($arrayKeys); $i++) {
 								
 								<div class="clear"></div>
 							</div>
+							
+							<input type="hidden" id="currentTab" name="currentTab" value="<?php echo $_POST['visibility'];?>" />
 						</form>
 						
 						<hr class="hidden" />
