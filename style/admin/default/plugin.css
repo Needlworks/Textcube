@@ -157,7 +157,10 @@
 
 #part-plugin-list ul.data-inbox li .summary
 {
-	padding                          : 5px 0 10px 0;
+	height                           : 3em;
+	margin-bottom                    : 7px;
+	overflow                         : hidden;
+	padding-top                      : 0.5em;
 	text-align                       : center;
 }
 
@@ -178,61 +181,6 @@
 #part-plugin-list ul.data-inbox li .summary .plugin-buttons .dimmed
 {
 	color                            : #BBBBBB;
-}
-
-/* data description */
-#data-description
-{
-	bottom                           : -8px;
-	right                            : 5px;
-	position                         : absolute;
-}
-
-#data-description dl
-{
-	background-repeat                : no-repeat;
-	display                          : inline;
-	font-family                      : 돋움, Dotum, sans-serif;
-	font-size                        : 0.93em;
-	font-weight                      : normal;
-	letter-spacing                   : -1px;
-	padding                          : 3px 0 1px 17px;
-}
-
-#data-description dl dt
-{
-	display                          : none;
-}
-
-#data-description dl dd
-{
-	display                          : inline;
-	margin                           : 0;
-	padding-right                    : 10px;
-	position                         : static;
-}
-
-#data-description dl.title-description,
-#data-description dl.version-description,
-#data-description dl.kind-description,
-#data-description dl.explain-description,
-#data-description dl.author-description
-{
-	display                          : none;
-}
-
-#data-description dl.setting-description
-{
-	background-image                 : url("./image/icon_config_on.gif");
-	background-position              : left 3px;
-	padding                          : 3px 0 1px 21px;
-}
-
-#data-description dl.status-description
-{
-	background-image                 : url("./image/icon_plugin_on.gif");
-	background-position              : left 1px;
-	padding                          : 3px 0 1px 15px;
 }
 
 #part-plugin-more
