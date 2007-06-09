@@ -114,46 +114,6 @@ table.data-inbox tbody tr td.ip
 {
 	margin-bottom: 20px;
 }
-/* tab */
-
-#entry-tabs-box
-{
-	background-image: url('./image/bg_tabbox.jpg');
-	background-position: left bottom;
-	line-height: 2.3em;
-	list-style-type: none;
-	height: 2.55em;
-	overflow: hidden;
-	padding-left: 10px;
-}
-
-#entry-tabs-box li
-{
-	background-color: #EFEFEF;
-	border: 1px solid #D9D9D9;
-	cursor: pointer;
-	display: block;
-	float: left;
-	list-style-type: none;
-	margin: 0 1px;
-}
-
-#entry-tabs-box li a
-{
-	padding: 0 1em;
-	text-decoration: none;
-}
-
-#entry-tabs-box li.selected
-{
-	background-color: #FFFFFF;
-	border-bottom: 1px solid #FFFFFF;
-}
-
-#entry-tabs-box li.selected a
-{
-	cursor: default;
-}
 
 /* table header */
 #part-post-list table.data-inbox tr .status

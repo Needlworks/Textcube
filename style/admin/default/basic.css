@@ -430,6 +430,46 @@ h2.caption span
 	text-decoration                  : underline;
 }
 
+/* tab */
+.tabs-box
+{
+	background-image: url('./image/bg_tabbox.jpg');
+	background-position: left bottom;
+	line-height: 2.3em;
+	list-style-type: none;
+	height: 2.55em;
+	overflow: hidden;
+	padding-left: 10px;
+}
+
+.tabs-box li
+{
+	background-color: #EFEFEF;
+	border: 1px solid #D9D9D9;
+	cursor: pointer;
+	display: block;
+	float: left;
+	list-style-type: none;
+	margin: 0 1px;
+}
+
+.tabs-box li a
+{
+	padding: 0 1em;
+	text-decoration: none;
+}
+
+.tabs-box li.selected
+{
+	background-color: #FFFFFF;
+	border-bottom: 1px solid #FFFFFF;
+}
+
+.tabs-box li.selected a
+{
+	cursor: default;
+}
+
 /* category form */
 #category-form
 {

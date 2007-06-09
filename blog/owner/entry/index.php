@@ -10,7 +10,7 @@ if (isset($_POST['page']))
 $IV = array(
 	'GET' => array(
 		'category' => array('int', 'mandatory' => false),
-		'visibility' => array('string', 'mandatory' => false),		
+		'tab' => array('string', 'mandatory' => false),
 		'page' => array('int', 1, 'default' => 1),
 		'search' => array('string', 'mandatory' => false)
 	),
@@ -39,8 +39,8 @@ if (isset($_POST['category'])) {
 }
 
 // 공개 / 비공개 설정
-if (isset($_GET['visibility'])) {
-	$_POST['visibility'] = $_GET['visibility'];
+if (isset($_GET['tab'])) {
+	$_POST['visibility'] = $_GET['tab'];
 }
 
 $tabsClass = array();
@@ -85,12 +85,17 @@ list($entries, $paging) = getEntriesWithPagingForOwner($owner, $categoryId, $sea
 
 // query string 생성.
 $paging['postfix'] = NULL;
-if ($categoryId != 0)
+if ($categoryId != 0) {
 	$paging['postfix'] .= "&amp;category=$categoryId";
-if (!empty($searchKeyword))
+}
+if (!empty($searchKeyword)) {
 	$paging['postfix'] .= '&amp;search='.urlencode($searchKeyword);
-if (isset($_POST['visibility']))
-	$paging['postfix'] .= '&amp;visibility='.urlencode($_POST['visibility']);
+}
+
+$tab['postfix'] = $paging['postfix'];
+if (isset($_POST['visibility'])) {
+	$paging['postfix'] .= '&amp;tab='.urlencode($_POST['visibility']);
+}
 
 // 이올린에 발행한 적이 있는지 체크.
 $countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `owner` = {$owner} AND `visibility` = 3");
@@ -711,10 +716,11 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 ?>
 							</span></h2>
 							
-							<ul id="entry-tabs-box">
+							<ul id="entry-tabs-box" class="tabs-box">
+								<!-- TODO : $tab['postfix'] 버그 -->
 								<li<?php echo isset($tabsClass['all']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>"><?php echo _t('모든 글');?></a></li>
-								<li<?php echo isset($tabsClass['private']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=private"><?php echo _t('비공개 글');?></a></li>
-								<li<?php echo isset($tabsClass['public']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=public"><?php echo _t('공개된 글');?></a></li>
+								<li<?php echo isset($tabsClass['private']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;tab=private"><?php echo _t('비공개 글');?></a></li>
+								<li<?php echo isset($tabsClass['public']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;tab=public"><?php echo _t('공개된 글');?></a></li>
 							</ul>
 							
 							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/entry">
