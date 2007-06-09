@@ -178,7 +178,7 @@ if ($xmls->doesExist('/plugin/binding/config')) {
 			
 			<div id="about-tab-body" class="tab"<?php echo $tabName != 'about' ? ' style="display: none"' : '';?>>
 				<div id="iconBox">
-					<img src="<?php echo $iconPath;?>" alt="<?php echo _t('플러그인 아이콘');?>" />
+					<img src="<?php echo $iconPath;?>" width="150" alt="<?php echo _t('플러그인 아이콘');?>" />
 				</div>
 				<div id="information">
 					<div class="title">
