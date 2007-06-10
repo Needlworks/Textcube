@@ -46,8 +46,7 @@ if(isset($entries)) {
 				dress('tag_label_rep', implode(",\r\n", array_values($tags)), $tagLabelView);
 				dress('tag_label', $tagLabelView, $entryView);
 			}
-			$name = teamblogUser::name();
-			if (doesHaveOwnership() && !empty($name[2])) {
+			if (doesHaveOwnership()) {
 				$managementView = $skin->management;
 				dress('s_ad_m_link', "$blogURL/owner/entry/edit/{$entry['id']}?returnURL=" . (@$service['useEncodedURL'] ? $permalink : str_replace('%2F', '/', rawurlencode($permalink))), $managementView);
 				dress('s_ad_m_onclick', "editEntry({$entry['id']},'".(@$service['useEncodedURL'] ? $permalink : str_replace('%2F', '/', rawurlencode($permalink)))."'); return false;", $managementView);
@@ -63,10 +62,11 @@ if(isset($entries)) {
 				dress('s_ad_d_onclick', "deleteEntry({$entry['id']}); return false;", $managementView);
 				dress('ad_div', $managementView, $entryView);
 			}
-			if(!empty($name[3])) dress('teamblog_name',$name[3],$entryView);
+			$author = teamblogUser::authorName($owner, $entry['id']);
+			dress('article_rep_author',$author,$entryView);
 			dress('article_rep_id', $entry['id'], $entryView);
 			dress('article_rep_link', $permalink, $entryView);
-			dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])).$name[1], $entryView);
+			dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $entryView);
 			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
 			$contentContainer["article_{$entry['id']}"] = getEntryContentView($owner, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($owner));
 			dress('article_rep_desc', setTempTag("article_{$entry['id']}"), $entryView);
@@ -94,13 +94,13 @@ if(isset($entries)) {
 	
 			$entriesView .= $entryView;
 		} else {
-			$name = teamblogUser::name();
-			if(!empty($name[3])) dress('teamblog_name',$name[3],$entryView);
+			$author = teamblogUser::authorName($owner,$entry['id']);
+			dress('article_rep_author',$author,$entryView);
 			$protectedEntryView = $skin->entryProtected;
 			dress('article_rep_id', $entry['id'], $protectedEntryView);
 			dress('article_rep_link', $permalink, $protectedEntryView);
-			dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])).$name[1], $protectedEntryView);
-			dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published'])).$name[0], $protectedEntryView);
+			dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $protectedEntryView);
+			dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published'])), $protectedEntryView);
 			dress('article_password', "entry{$entry['id']}password", $protectedEntryView);
 			dress('article_dissolve', "reloadEntry({$entry['id']});", $protectedEntryView);
 			if (isset($_POST['partial']))

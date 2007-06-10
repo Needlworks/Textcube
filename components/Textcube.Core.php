@@ -158,86 +158,27 @@ class User {
 
 
 class teamblogUser{
-	function name(){
+	function authorName($owner,$entryId){
 		requireComponent('Eolin.PHP.Core');
 		global $database, $owner, $entry;
 
-		$res = DBQuery::queryRow("SELECT * FROM ".$database['prefix']."Teamblog 
-				WHERE teams='$owner' AND userid='$owner' " );
-    
-		$name = array(4);
-		$name[0] = '';
-		$name[1] = '';
-		$name[2] = 0;
-		$name[3] = '';
- 
-		$styleS = '';
-		$styleE = '';
-		if(!isset($_SESSION['admin'])) $_SESSION['admin'] = $owner;
-
-		$ttmp = DBQuery::queryRow("SELECT * 
-				FROM ".$database['prefix']."Teamblog 
-				WHERE teams='".$owner."' 
-					and userid='".$_SESSION['admin']."'");
-		$stmp = DBQuery::queryRow("SELECT * 
+		// Read userId of entry from relation table.
+		$userId = DBQuery::queryCell("SELECT team 
 				FROM ".$database['prefix']."TeamEntryRelations 
-				WHERE owner='".$owner."' 
-					and id='".$entry['id']."'");
-		$itmp = DBQuery::queryRow("SELECT a.*, b.name 
-				FROM {$database['prefix']}Teamblog a, 
-					{$database['prefix']}Users b 
-				WHERE a.teams='".$owner."' 
-					AND a.userid='".$stmp['team']."' 
-					AND a.userid=b.userid");
- 
-		if(empty($font_style)){
-			if(empty($is_style)){
-				if(empty($is_admin)) $ures = $itmp;
-				else $ures = $res;
- 			
-				$font_bold = $ures['font_bold'] & 1;
-				if(empty($font_bold)) $font_bold = '';
-				else $font_bold = 'bold';
- 				
-				$font_italic = $ures['font_bold'] & 2;
-				if(empty($font_italic)) $font_italic = '';
-				else $font_italic = 'italic';
- 				
- 				
-				$styleS = '<font style="font-Weight:'.$font_bold.';font-Style:'.$font_italic.';font-Size:'.$ures['font_size'].'pt;color:'.$ures['font_color'].';">';
-				$styleE = '</font>';
-			}
-			if(empty($is_ch)){
-				if(empty($isname)) $name[0] = '&nbsp;&nbsp;&nbsp;by ' . $styleS  . $itmp['name'] . $styleE;
-				else $name[1] = '&nbsp;&nbsp;&nbsp;by ' . $styleS . $itmp['name'] . $styleE; 			
-			} else {
-				$name[3] = $styleS . $itmp['name'] . $styleE;
-			}
+				WHERE owner =".$owner." 
+					AND id = ".$entryId);
+		if(isset($userId)) {
+			$author = DBQuery::queryCell("SELECT profile
+					FROM {$database['prefix']}Teamblog
+					WHERE teams=".$owner."
+						AND userid = ".$userId);
+			return $author;
+		} else {
+			return false;
 		}
-	
-		if(($ttmp['posting'] == 1) || ($stmp['team'] == $_SESSION['admin'])) $name[2] = 1;
- 
-		return $name;
 	}
 
-	function PC(){
-		global $database, $owner;
-		$itmp = DBQuery::queryRow("SELECT * FROM ".$database['prefix']."Teamblog WHERE teams='".$owner."' and userid='".$_SESSION['admin']."'");
-		$access = 0;
-		if(!empty($itmp['posting'])) $access = 1;
-		return $access;
-	 }
-	  
-	 function AC(){
-		global $database, $owner;
-		$itmp = DBQuery::queryRow("SELECT * FROM ".$database['prefix']."Teamblog WHERE teams='".$owner."' and userid='".$_SESSION['admin']."'");
-		$access = 0;
-		if(!empty($itmp['admin'])) $access = 1;
-		if(($itmp['userid'] == $itmp['teams']) && ($itmp['enduser'] !=0)) $access = 2;
-		return $access;
-	 }
-	 
-	 function myBlog(){
+	function myBlog(){
 		global $database, $owner, $blogURL, $_SERVER, $blog, $service;
 		
 		if($service['type'] == "path")
