@@ -288,7 +288,7 @@ if ($service['type'] != 'single') {
 								</form>
 							</div>
 						</div>
-								
+
 <?php
 if (($service['type'] != 'single') && (getUserId() == 1) && ($_SESSION['admin'] == 1)) {
 	$urlRule = getBlogURLRule();

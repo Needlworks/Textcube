@@ -557,6 +557,19 @@ if (!doesExistTable($database['prefix'] . 'XMLRPCPingSettings')) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (DBQuery::queryExistence("DESC {$database['prefix']}Teamblog font_color")) {
+	$changed = true;
+	echo '<li>', _text('팀블로그 테이블의 유저 출력 설정 필드를 삭제합니다.'), ': ';
+	if(DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP logo") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_style") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_color") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_size") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_bold"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
