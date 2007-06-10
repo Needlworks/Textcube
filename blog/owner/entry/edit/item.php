@@ -29,10 +29,13 @@ if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
 	$isKeyword = ($entry['category'] == -1);
 }
 
-
-// 팀블로그 :: 현재 포스트를 내가 편집할 수 있는지 권한확인
-if(empty($pc) && !empty($suri['id'])){
-	$isPosting = DBQuery::queryCell("SELECT Team FROM {$database['prefix']}TeamEntryRelations WHERE Owner='$owner' and Team='$_SESSION[admin]' and Id='$suri[id]' " );
+// Check whether or not user has permission to edit.
+if(Acl::Check('group.blogwriters')===false && !empty($suri['id'])){
+	$isPosting = DBQuery::queryCell("SELECT team 
+			FROM {$database['prefix']}TeamEntryRelations 
+			WHERE owner = '".$owner."'
+				and team = '".$_SESSION['admin']."'
+				and id = '".$suri['id']);
 	if(empty($isPosting)) { @header("location:".$blogURL ."/owner/entry"); exit; }
 }
 // End TeamBlog

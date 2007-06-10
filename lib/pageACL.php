@@ -25,8 +25,8 @@ if(!empty($_SESSION['admin'])){
 		'/delete',
 		'/edit');
 
-	$pc = teamblogUser::PC();	// Teamblog moderator
-	$ac = teamblogUser::AC();	// Teamblog administrator
+	$pc = Acl::Check('group.blogwriters');	// Teamblog moderator
+	$ac = Acl::Check('group.administrators');	// Teamblog administrator
 
 	if(empty($ac) && !eregi('/owner/entry', $suri['directive'])){
 		$setAC = 0;
