@@ -39,7 +39,7 @@ function login($loginid, $password, $preKnownPassword = null) {
 				setcookie('TSSESSION_LOGINID', $loginid, time() + 31536000, $service['path'] . '/', $service['domain']);
 			
 			// 팀블로그 :: 로그인 성공시 로그인한 시간을 DB 에 기록한다.
-			DBQuery::execute("UPDATE  {$database['prefix']}Teamblog SET last = unix_timestamp() WHERE teams='$owner' AND userid='$session[userid]'");
+			DBQuery::execute("UPDATE  {$database['prefix']}Teamblog SET last = unix_timestamp() WHERE teams='$owner' AND userid='".$session['userid']);
 			// End TeamBlog
 			
 			DBQuery::execute("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
@@ -119,7 +119,12 @@ function isLoginId($userid, $loginid) {
 	$loginid = mysql_tt_escape_string($loginid);
 	
 	// 팀블로그 :: 팀원 확인
-	$result=DBQuery::query("select a.userid from {$database['prefix']}Users a, {$database['prefix']}Teamblog b where b.teams = $userid and a.loginid = '$loginid' and b.userid=a.userid");
+	$result=DBQuery::query("select a.userid 
+			from {$database['prefix']}Users a, 
+				{$database['prefix']}Teamblog b 
+			where b.teams = $userid 
+				and a.loginid = '$loginid' 
+				and b.userid=a.userid");
 	// End TeamBlog
 	
 	if ($result && (mysql_num_rows($result) == 1))

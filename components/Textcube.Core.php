@@ -50,7 +50,7 @@ class Aro {
 
 /* Access Control Object: i.e. uri, components, functions */
 class Aco {
-	var $predefiend;
+	var $predefined;
 
 	function Aco( $predefined = null ) {
 		$this->predefined = $predefined;
@@ -73,10 +73,10 @@ class Acl {
 			$aco = array( $aco );
 		}
 
-		/* Adujsting access controll object from plugins */
+		/* Adjusting access control object from plugins */
 		$aco = Aco::adjust($aco, $aco_action);
 
-		/* Adujsting required object from plugins by aco*/
+		/* Adjusting required object from plugins by aco*/
 		$aro = Aro::adjust($aco, $aco_action);
 
 		/* We need one of aco elements is in aro array */
@@ -165,11 +165,6 @@ class teamblogUser{
 		$res = DBQuery::queryRow("SELECT * FROM ".$database['prefix']."Teamblog 
 				WHERE teams='$owner' AND userid='$owner' " );
     
-		$is_style = $res['font_style'] & 1;	
-		$is_admin = $res['font_style'] & 2;	
-		$font_style = $res['font_style'] & 4;
-		$isname = $res['font_style'] & 8;
-		$is_ch = $res['font_style'] & 16;
 		$name = array(4);
 		$name[0] = '';
 		$name[1] = '';

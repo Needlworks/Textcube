@@ -28,51 +28,6 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									sInString = sInString.replace( /^\s+/g, "" );// strip leading
 									return sInString.replace( /\s+$/g, "" );// strip trailing
 								}
-								
-								function Trim(sInString) {
-									sInString = sInString.replace( /^\s+/g, "" );// strip leading
-									return sInString.replace( /\s+$/g, "" );// strip trailing
-								}
-								
-								function saveName() {
-									try{
-										var Astyle = document.getElementById('admin_style');
-										var Apos = document.getElementById('stylePos');
-										var Ais_style = document.getElementById('is_style');
-										
-										var Sbold = document.getElementById('font_bold');
-										var Sitalic = document.getElementById('font_i');
-										var Ssize = document.getElementById('font_size');
-										var Scolor = document.getElementById('font_color');
-
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/teamblog/nameStyle/");
-										request.onSuccess = function() {
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
-										}
-										request.onError = function() {
-											alert("<?php echo _t('저장하지 못했습니다.');?>");
-										}
-										
-										var SendValue;
-										SendValue = "&bold=" + encodeURIComponent(Sbold.checked);
-										SendValue += "&italic=" + encodeURIComponent(Sitalic.checked);
-										SendValue += "&size=" + encodeURIComponent(Ssize.value);
-										SendValue += "&color=" + encodeURIComponent(Scolor.value);
-										
-										if(Astyle){
-											SendValue += "&style=" + encodeURIComponent(Astyle.checked);
-										}
-										if(Apos){
-											SendValue += "&pos=" + encodeURIComponent(Apos.value);
-										}
-										if(Ais_style){
-											SendValue += "&is_style=" + encodeURIComponent(Ais_style.checked);
-										}
-										
-										request.send(SendValue);
-									}catch(e){
-									}
-								}
 
 <?php
 if($owner == $_SESSION['admin']){?>
@@ -297,66 +252,81 @@ if($owner == $_SESSION['admin']){?>
 									}
 									if(mycheck == 0) alert("선택된 사용자가 없습니다.");
 								}
+
+								function buttonchange(){
+									if( document.getElementById('target-role').value == 'delete'){
+										document.getElementById('apply-button').value = '<?php echo _t('탈퇴');?>';
+									} else {
+										document.getElementById('apply-button').value = '<?php echo _t('적용');?>';
+									}
+								}
 <?php
-}?>							//]]>
+}
+?>
+						//]]>
 						</script>
 
-
+						<div id="part-setting-account" class="part">
+							<h2 class="caption"><span class="main-text"><?php echo _t('팀블로그를 관리합니다');?></span></h2>
+							<div id="list-section" class="section">
+								<table cellspacing="0" cellpadding="0">
+									<thead>
+										<tr>
+											<th class="status"><input type="checkbox" name="Aclick" onclick="Check_rev()"></th>
+											<th class="acl"><span class="text"><?php echo _t('권한 ');?></span></th>
+											<th class="name"><span class="text"><?php echo _t('이름 ');?></span></th>
+											<th class="blog"><span class="text"><?php echo _t('대표 블로그');?></span></th>											
+											<th class="email"><span class="text"><?php echo _t('이메일');?></span></th>
+											<th class="date"><span class="text"><?php echo _t('가입일');?></span></th>
+											<th class="date"><span class="text"><?php echo _t('작성한 글 수');?></span></th>
+											<th class="cancel"><span class="text"><?php	echo _t('초대취소');?></span></th>
+										</tr>
+									</thead>
+									<tbody>
 <?php
 	$teamblog_owner = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Teamblog 
 			WHERE userid='".$owner."' 
 				AND teams='".$owner."'");
 	$teamblog_user = DBQuery::queryRow("SELECT a.*, b.name 
-			FROM {$database['prefix']}Teamblog a, {$database['prefix']}Users b  
+			FROM {$database['prefix']}Teamblog a, 
+				{$database['prefix']}Users b  
 			WHERE a.userid = '".$_SESSION['admin']."' 
 				AND a.teams = '".$_SESSION['userid']."' 
 				AND b.userid = a.userid");
-	$invited_user = DBQuery::queryAll("SELECT a.*, b.* 
-		FROM {$database['prefix']}Teamblog a, 
-		 	{$database['prefix']}Users b 
-		WHERE teams = '$owner' 
-			AND b.userid = a.userid 
-			AND a.userid != '$owner'
-		ORDER BY b.created DESC"); 
-?>
-						<div id="part-setting-account" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('팀블로그를 관리합니다');?></span></h2>
-							<div id="list-section" class="section">
-								<dl>
-									<dt class="title"><span class="label"><?php	echo _t('팀원 명단');?></span></dt>
-									<dd>
-										<table cellspacing="0" cellpadding="0">
-											<thead>
-												<tr>
-													<th class="status"><input type="checkbox" name="Aclick" onclick="Check_rev()"></th>
-													<th class="email"><span class="text"><?php echo _t('이름 (e-mail)');?></span></th>
-													<th class="date"><span class="text"><?php echo _t('초대일');?></span></th>
-													<th class="status"><span class="text"><?php	echo _t('경과');?></span></th>
-													<th class="password"><span class="text"><?php echo _t('비밀번호');?> / <?php echo _t('권한 관리');?></span></th>
-													<th class="cancel"><span class="text"><?php	echo _t('초대취소');?></span></th>
-												</tr>
-											</thead>
-											<tbody>
-<?php
+	$invited_user = DBQuery::queryAll("SELECT t.*, u.* 
+		FROM {$database['prefix']}Teamblog t, 
+		 	{$database['prefix']}Users u 
+		WHERE t.teams = '$owner' 
+			AND u.userid = t.userid 
+			AND t.userid != '$owner'
+		ORDER BY u.created DESC"); 
+
 	$count=0;
+
 	if(isset($invited_user)) {
 		foreach($invited_user as $value) {
-			$className=($count%2)==1?'even-line':'odd-line';
-			$className.=($count==sizeof($invited_user)-1)?' last-line':'';
+			$className= ($count%2)==1 ? 'even-line' : 'odd-line';
+			$className.=($count==sizeof($invited_user)-1) ? ' last-line':'';
 ?>
 												<tr class="<?php echo $className;?> inactive-class">
 													<td class="status"><input type="checkbox" id="check_<?php echo $count; ?>"><input type="hidden" name="chh<?php echo $count; ?>" value="<?php echo $value['userid']; ?>"><input type="hidden" name="cht<?php echo $count; ?>" value="<?php if($value['last'] == '0' && $value['lastLogin'] =='0') echo "0"; else echo "1"; ?>"></td>
-													<td class="email"><?php		echo htmlspecialchars($value['name']);?>(<?php echo htmlspecialchars($value['loginid']);?>)</td>
-													<td class="date"><?php echo Timestamp::format5($value['create']);?></td>
+													<td class="acl">test</td>
+													<td class="name"><?php echo $value['name'];?></td>
+													<td class="blog">test</td>
+													<td class="email"><?php		echo  htmlspecialchars($value['loginid']);?></td>
+													<td class="date"><?php echo Timestamp::format5($value['created']);?></td>
+													<td class="posting"><?php echo $value['posting'];?></td>
 <?php
 			if($value['lastLogin'] == 0) {
+				if($value['lastLogin'] == 0) { 
 ?>
-													<td class="status"><?php echo _f('%1 전',timeInterval($value['created'],time()));?></td>
-													<td class="password"><?php echo DBQuery::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']} AND host = $owner AND lastLogin = 0");?></td>
-													<?php if($value['lastLogin'] == 0){ ?><td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?php	echo $value['userid'];?>);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대취소');?></span></a></td>
-													<?php } else{ ?><td class="cancel"><a class="cancel-button button" href="#void" onclick="deleteUser(<?php	echo $value['userid'];?>,0);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대 취소');?></span></a></td>
-														<?php } ?>
+													<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?php	echo $value['userid'];?>);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대취소');?></span></a></td>
 <?php
+				} else {
+?>
+													<td class="cancel"><a class="cancel-button button" href="#void" onclick="deleteUser(<?php	echo $value['userid'];?>,0);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대 취소');?></span></a></td>
+<?php
+				} 
 			} else {
 				$pblog = $value['enduser'] - $value['userid'];
 				if($pblog == 1) 
@@ -396,20 +366,30 @@ if($owner == $_SESSION['admin']){?>
 
 ?>
 											</tbody>
-<?php 
-	if($count) {
-?>
-											<tr>
-												<td colspan="6"><input type="button" value="<?php echo _t('선택된 사용자 삭제');?>" onclick="deleteSelectedUsers(<?php echo $count;?>)";></td>
-											</tr>
-<?php
-	}
-?>
 										</table>
-									</dd>
-								</dl>
+							</div>
+							
+							<div id="role-action" class="part" >
+								<span class="text" >선택한 구성원을 </span>
+								<select name="t-role" id="target-role" onchange="buttonchange();" >
+									<option value=''>행동을 지정합니다</option>
+									<optgroup label="다음 권한으로 변경합니다">
+										<option value='manager'>관리자</option>
+										<option value='editor'>편집자</option>
+										<option value='writer'>필자</option>
+									</optgroup>
+									<optgroup label="탈퇴 처리 합니다">
+										<option value='delete'>탈퇴</option>
+									</optgroup>
+								</select>
+								<input type="submit" id="apply-button" class="apply-button input-button" value="적용"  />
 							</div>
 						</div>
+
+						
+						
+						
+						
 <?php
 if($owner == $_SESSION['admin'] && empty($enduser)) {
 	$urlRule=getBlogURLRule();

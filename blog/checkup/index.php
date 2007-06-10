@@ -481,15 +481,8 @@ if (!doesExistTable($database['prefix'] . 'Teamblog')) {
 		CREATE TABLE {$database['prefix']}Teamblog (
 			teams int(11) NOT NULL default 0,
 			userid int(11) NOT NULL default 1,
-			enduser int(11) NOT NULL default 0,
-			admin int(11) NOT NULL default 0,
-			posting int(11) NOT NULL default 0,
+			acl	int(11) NOT NULL default 0,
 			profile text NULL default '',
-			logo varchar(15) default '',
-			font_style int(11) NOT NULL default 0,
-			font_color varchar(10) NOT NULL default '#000000',
-			font_size int(11) NOT NULL default 10,
-			font_bold int(11) NOT NULL default 0,
 			created int(11) NOT NULL default 0,
 			lastLogin int(11) NOT NULL default 0,
 			PRIMARY KEY (teams,userid,admin)
@@ -501,7 +494,7 @@ if (!doesExistTable($database['prefix'] . 'Teamblog')) {
 			$changed = true;
 			if ($users = $query->getAll('userid, name, created')) {
 				foreach($users as $user) {
-					DBQuery::execute("INSERT INTO `{$database['prefix']}Teamblog` VALUES('".$user['userid']."', '".$user['userid']."','0','1','1', '".$user['name']."', '', '0', '#000000', '10', '0', '".$user['created']."', '0')");
+					DBQuery::execute("INSERT INTO `{$database['prefix']}Teamblog` VALUES('".$user['userid']."', '".$user['userid']."','9', '".$user['name']."','".$user['created']."', '0')");
 				}
 			}
 			unset($users);
@@ -557,14 +550,18 @@ if (!doesExistTable($database['prefix'] . 'XMLRPCPingSettings')) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-if (DBQuery::queryExistence("DESC {$database['prefix']}Teamblog font_color")) {
+if (DBQuery::queryExistence("DESC {$database['prefix']}Teamblog enduser")) {
 	$changed = true;
 	echo '<li>', _text('팀블로그 테이블의 유저 출력 설정 필드를 삭제합니다.'), ': ';
 	if(DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP logo") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP enduser") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP admin") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP posting") &&
 	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_style") &&
 	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_color") &&
 	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_size") &&
-	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_bold"))
+	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_bold") &&
+	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog ADD acl int(11) not null AFTER userid"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';

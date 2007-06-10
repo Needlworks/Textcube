@@ -1344,15 +1344,7 @@ CREATE TABLE {$_POST['dbPrefix']}XMLRPCPingSettings (
 CREATE TABLE {$_POST['dbPrefix']}Teamblog (
   teams int(11) NOT NULL default 0,
   userid int(11) NOT NULL default 1,
-  enduser int(11) NOT NULL default 0,
-  admin int(11) NOT NULL default 0,
-  posting int(11) NOT NULL default 0,
-  profile text NULL default '',
-  logo varchar(15) default '',
-  font_style int(11) NOT NULL default 0,
-  font_color varchar(10) NOT NULL default '#000000',
-  font_size int(11) NOT NULL default 10,
-  font_bold int(11) NOT NULL default 0,
+  acl int(11) NOT NULL default 0,
   created int(11) NOT NULL default 0,
   lastLogin int(11) NOT NULL default 0,
   PRIMARY KEY (teams,userid,admin)
@@ -1366,7 +1358,7 @@ CREATE TABLE {$_POST['dbPrefix']}TeamEntryRelations (
 
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
 INSERT INTO {$_POST['dbPrefix']}UserSettings VALUES (1, 'defaultEditor', 'modern'), (1, 'defaultFormatter', 'ttml');
-INSERT INTO {$_POST['dbPrefix']}Teamblog VALUES (1, 1, 1, 1, 1, '', '', 0, '#000000', 10, 0, UNIX_TIMESTAMP(), 0);
+INSERT INTO {$_POST['dbPrefix']}Teamblog VALUES (1, 1, 9, UNIX_TIMESTAMP(), 0);
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
 INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, language, blogLanguage, timezone) VALUES (1, '$blog', '$baseLanguage', '$baseLanguage', '$baseTimezone');
 INSERT INTO {$_POST['dbPrefix']}SkinSettings (owner) VALUES (1);

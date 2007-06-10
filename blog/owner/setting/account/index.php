@@ -239,7 +239,7 @@ if ($service['type'] != 'single') {
 
 
 						<div id="part-setting-account" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('회원정보를 관리합니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('팀블로그 구성원 목록');?></span></h2>
 							
 							<div class="data-inbox">
 								<form id="info-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/account">
