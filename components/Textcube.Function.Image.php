@@ -77,6 +77,79 @@ class Image {
 		return true;
 	}
 	
+	function resizeImageToContent($property, $originSrc, $imageWidth) {
+		if ($tempInfo = getimagesize($originSrc)) {
+			list($originWidth, $originHeight, $type, $attr) = $tempInfo;
+
+				return array($property, false);
+		} else {
+			return array($property, false);
+		}
+		
+		$attributes = getAttributesFromString($property, false);
+		
+		// 단위 변환.
+		$onclickFlag = false;
+		if (array_key_exists('width', $attributes)) {
+			if (preg_match('/(.+)(%?)/', $attributes['width'], $matches)) {
+				if($matches[2] == '%')
+					$attributes['width'] = round($originWidth * $matches[1] / 100);
+				else
+					$attributes['width'] = intval($matches[1]);
+				
+			}
+		}
+
+		if (array_key_exists('height', $attributes)) {
+			if (preg_match('/(.+)(%?)/', $attributes['height'], $matches)) {
+				if ($matches[2] == '%')
+					$attributes['height'] = round($originHeight * $matches[1] / 100);
+				else
+					$attributes['height'] = intval($matches[1]);
+				
+			}
+		}
+
+		// 가로, 세로 어느 쪽이든 0이면 이미지는 표시되지 않음. 따라서 계산할 필요 없음.
+		if (@$attributes['width'] <= 0 || @$attributes['height'] <= 0) {
+			return array($property, false);
+		}
+
+		// 가로만 지정된 이미지의 경우.
+		if (isset($attributes['width']) && !isset($attributes['height'])) {
+			// 비어있는 세로를 가로의 크기를 이용하여 계산.
+			$attributes['height'] = floor($originHeight * $attributes['width'] / $originWidth);
+		// 세로만 지정된 이미지의 경우.
+		} else if (!isset($attributes['width']) && isset($attributes['height'])) {
+			// 비어있는 가로를 세로의 크기를 이용하여 계산.
+			$attributes['width'] = floor($originWidth * $attributes['height'] / $originHeight);
+		// 둘 다 지정되지 않은 이미지의 경우.
+		} else if (!isset($attributes['width']) && !isset($attributes['height'])) {
+			// 둘 다 비어 있을 경우는 오리지널 사이즈로 대치.
+			$attributes['width'] = $originWidth;
+			$attributes['height'] = $originHeight;
+		}
+
+		if ($attributes['width'] > $imageWidth) {
+			$attributes['height'] = floor($attributes['height'] * $imageWidth / $attributes['width']);
+			$attributes['width'] = $imageWidth;
+		}
+		
+		if ($attributes['width'] < $originWidth || $attributes['height'] < $originHeight) {
+			$onclickFlag = true;
+		} else {
+			$onclickFlag = false;
+		}
+
+		$properties = array();
+		ksort($attributes);
+		foreach($attributes as $key => $value) {
+			array_push($properties, "$key=\"$value\"");
+		}
+		
+		return array(implode(' ', $properties), $onclickFlag);
+	}
+	
 	function impressWaterMark($waterMarkFile, $position="left=10|bottom=10", $gamma=100) {
 		if ($this->getImageType($waterMarkFile) == "png")
 			return $this->_impressWaterMarkCore("PNG", $waterMarkFile, $position);

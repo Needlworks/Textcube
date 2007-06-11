@@ -432,69 +432,8 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 
 function FM_TTML_createNewProperty($filename, $imageWidth, $property) {
 	global $owner;
-
-	if (!file_exists(ROOT."/attach/$owner/$filename")) return array($property, false);
-	if ($tempInfo = getimagesize(ROOT."/attach/$owner/$filename")) {
-		list($originWidth, $originHeight, $type, $attr) = $tempInfo;
-		if($originWidth <= 0 || $originHeight <= 0 ) return array($property, false);
-	} else {
-		return array($property, false);
-	}
-
-	$attributes = getAttributesFromString($property, false);
-
-	if(array_key_exists('width', $attributes)) {
-		if(preg_match('/([\d.]+)(%?)/', $attributes['width'], $matches)) {
-			if($matches[2] == '%')
-				$attributes['width'] = round($originWidth * $matches[1] / 100);
-			else
-				$attributes['width'] = intval($matches[1]);
-		}
-	}
-
-	if(array_key_exists('height', $attributes)) {
-		if(preg_match('/([\d.]+)(%?)/', $attributes['height'], $matches)) {
-			if($matches[2] == '%')
-				$attributes['height'] = round($originHeight * $matches[1] / 100);
-			else
-				$attributes['height'] = intval($matches[1]);
-		}
-	}
-
-	// 가로, 세로 어느 쪽이든 0이면 이미지는 표시되지 않음. 따라서 계산할 필요 없음.
-	if (@$attributes['width'] === 0 || @$attributes['height'] === 0) {
-		return array($property, false);
-	}
-
-	// 가로만 지정된 이미지의 경우.
-	if (isset($attributes['width']) && !isset($attributes['height'])) {
-		// 비어있는 세로를 가로의 크기를 이용하여 계산.
-		$attributes['height'] = floor($originHeight * $attributes['width'] / $originWidth);
-	// 세로만 지정된 이미지의 경우.
-	} else if (!isset($attributes['width']) && isset($attributes['height'])) {
-		// 비어있는 가로를 세로의 크기를 이용하여 계산.
-		$attributes['width'] = floor($originWidth * $attributes['height'] / $originHeight);
-	// 둘 다 지정되지 않은 이미지의 경우.
-	} else if (!isset($attributes['width']) && !isset($attributes['height'])) {
-		// 둘 다 비어 있을 경우는 오리지널 사이즈로 대치.
-		$attributes['width'] = $originWidth;
-		$attributes['height'] = $originHeight;
-	}
-
-	if ($attributes['width'] > $imageWidth) {
-		$tempWidth = $imageWidth;
-		$tempHeight = floor($attributes['height'] * $imageWidth / $attributes['width']);
-	} else {
-		$tempWidth = $attributes['width'];
-		$tempHeight = $attributes['height'];
-	}
-
-	$properties = array();
-	ksort($attributes);
-	foreach($attributes as $key => $value)
-		array_push($properties, "$key=\"$value\"");
-	$property = implode(' ', $properties);
-	$onclickFlag = ($originWidth > $tempWidth || $originHeight > $tempHeight);
-	return array($property, $onclickFlag);
+	
+	requireComponent('Textcube.Function.Image');
+	return Image::resizeImageToContent($property, ROOT."/attach/$owner/$filename", $imageWidth);
 }
 ?>
