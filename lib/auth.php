@@ -4,52 +4,32 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function login($loginid, $password, $preKnownPassword = null) {
-	global $database;
 	global $service;
 	global $owner;			// 팀블로그 변수 추가
 	$loginid = mysql_tt_escape_string($loginid);
+	$userid = Auth::authenticate( $owner, $loginid, $password );
+	$blogid = $owner;
 
-	if ((strlen($password) == 32) && preg_match('/[0-9a-f]/i', $password))
-		$secret = '(`password` = \'' . md5($password) . "' OR `password` = '$password')";
-	else if( $preKnownPassword !== null ) {
-		$password = mysql_tt_escape_string($password);
-		$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $preKnownPassword . '\')';
+	if( $userid === false ) {
+		return false;
+	}
+
+	if (empty($_POST['save'])) {
+		setcookie('TSSESSION_LOGINID', '', time() - 31536000, $service['path'] . '/', $service['domain']);
 	} else {
-		$secret = '`password` = \'' . md5($password) . '\'';
+		setcookie('TSSESSION_LOGINID', $loginid, time() + 31536000, $service['path'] . '/', $service['domain']);
 	}
 
-	if ($result = DBQuery::query("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE loginid = '$loginid' AND $secret")) {
-//	if ($result = DBQuery::query("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE name = '$loginid' AND $secret")) {
-		if ($session = mysql_fetch_array($result)) {
-			
-			// 팀블로그 :: 로그인 인증 (팀원이 맞을 경우 admin 변수에 사용자의 userid 를 넣는다.
-			$check = DBQuery::queryCell("SELECT teams FROM {$database['prefix']}Teamblog WHERE userid='{$session['userid']}' and teams='$owner'");
-			if($owner == $session['userid']) {
-				Acl::setCurrentAro($owner, 'group.administrators', Aro::getCanonicalName($session['userid']) );
-			} else {
-				Acl::setCurrentAro($owner, 'group.blogwriters', Aro::getCanonicalName($session['userid']) );
-			}
-			if(!empty($check)) authorizeSession($owner, $session['userid']);
-			else return 2;
-			// End TeamBlog
-			
-			if (empty($_POST['save']))
-				setcookie('TSSESSION_LOGINID', '', time() - 31536000, $service['path'] . '/', $service['domain']);
-			else
-				setcookie('TSSESSION_LOGINID', $loginid, time() + 31536000, $service['path'] . '/', $service['domain']);
-			
-			// 팀블로그 :: 로그인 성공시 로그인한 시간을 DB 에 기록한다.
-			DBQuery::execute("UPDATE  {$database['prefix']}Teamblog SET last = unix_timestamp() WHERE teams='$owner' AND userid='".$session['userid']);
-			// End TeamBlog
-			
-			DBQuery::execute("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
-			return true;
-		}
+	if( in_array( "group.teambloggers", Acl::getAro() ) ) {
+		authorizeSession($blogid, $userid);
+	} else {
+		authorizeSession($blogid, null);
 	}
-	return false;
+	return true;
 }
 
 function logout() {
+	Acl::clearAro();
 	session_destroy();
 }
 
@@ -83,7 +63,7 @@ function getUserId() {
 }
 
 function doesHaveOwnership() {
-	return Acl::check( "group.administrators" );
+	return Acl::check( array("group.administrators","group.writers","group.editors") );
 }
 
 function requireOwnership() {
