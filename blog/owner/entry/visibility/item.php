@@ -15,7 +15,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 
 // TeamBlog ACL check whether or not current user can edit this post.
-if(Acl::Check('group.blogwriters') === false && !empty($suri['id'])){
+if(Acl::check('group.writers') === false && !empty($suri['id'])){
 	$isPosting = DBQuery::queryCell("SELECT team 
 			FROM {$database['prefix']}TeamEntryRelations 
 			WHERE owner='".$owner."' 

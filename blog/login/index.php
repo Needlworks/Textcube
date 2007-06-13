@@ -53,10 +53,10 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 		$message=_t('권한이 없습니다.');
 	}
 }
-
 if (doesHaveOwnership()) {
 	if (!empty($_POST['requestURI'])) {
-		if (($url = parse_url($_POST['requestURI'])) && isset($url['host']) && !String::endsWith($url['host'], '.' . $service['domain']))
+		$url = parse_url($_POST['requestURI']);
+		if (($url = parse_url($_POST['requestURI'])) && isset($url['host']) && !String::endsWith( '.' . $url['host'], '.' . $service['domain']))
 			header("Location: {$blogURL}/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id()));
 		else
 			header("Location: {$_POST['requestURI']}");

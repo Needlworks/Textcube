@@ -30,7 +30,7 @@ if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
 }
 
 // Check whether or not user has permission to edit.
-if(Acl::Check('group.blogwriters')===false && !empty($suri['id'])){
+if(Acl::check('group.writers')===false && !empty($suri['id'])){
 	$isPosting = DBQuery::queryCell("SELECT team 
 			FROM {$database['prefix']}TeamEntryRelations 
 			WHERE owner = '".$owner."'

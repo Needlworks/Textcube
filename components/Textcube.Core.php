@@ -70,16 +70,14 @@ class teamblogUser{
 	
 		$blogn = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?bs='+this.value+'&path={$Path}'\">";
 	
-		$isEnd = $_SESSION['admin']+1;
-		$myres = DBQuery::queryRow("SELECT * FROM `{$database['prefix']}Teamblog` WHERE `userid`='".$_SESSION['admin']."' and enduser='".$isEnd."'");
-		if(!empty($myres['profile'])){
-			if($owner == $_SESSION['admin'] && $myres['userid'] > 1) $myblogsel = ' selected="selected"';
-			$blogn .= '<option value="'.$myres['userid'].'" '. $myblogsel .'>'._t('내 블로그').'</option>';
+		if( Acl::check('group.administrators') && Acl::check('group.teambloggers') ) {
+			if($owner == $_SESSION['admin']) $myblogsel = ' selected="selected"';
+			$blogn .= '<option value="'.$owner.'" '. $myblogsel .'>'._t('내 블로그').'</option>';
 		}
 	
 		$teamblogInfo = DBQuery::queryAll("SELECT * FROM ".$database['prefix']."Teamblog WHERE userid='".$_SESSION['admin']."'");
 		foreach($teamblogInfo as $res){
-			if($res['teams'] == $res['userid'] && $res['enduser'] > '0'){
+			if($res['teams'] == $owner && $owner == $_SESSION['admin'] ){
 				continue;
 			} else {
 				$title = DBQuery::queryCell("SELECT title FROM ".$database['prefix']."BlogSettings WHERE owner='".$res['teams']."'");
