@@ -300,9 +300,9 @@ if($owner == $_SESSION['admin']){?>
 
 	if(isset($invited_user)) {
 		foreach($invited_user as $value) {
-			$value['posting'] = DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}TeamEntryRelations where team = {$_SESSION['admin']}");
-			$value['admin'] = Acl::check('group.administrators');
-			$value['editor'] = Acl::check('group.editors');
+			$value['posting'] = DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}TeamEntryRelations where team = {$value['userid']}");
+			$value['admin'] = $value['acl'] & BITWISE_ADMINISTRATOR;
+			$value['editor'] = $value['acl'] & BITWISE_EDITOR;
 			if(isset($teamblog_owner)) $value['acl'] = _t('소유자');
 			else if(isset($value['admin'])) $value['acl'] = _t('관리자');
 			else if(isset($value['editor'])) $value['acl'] = _t('편집자');
@@ -347,9 +347,8 @@ if($owner == $_SESSION['admin']){?>
 										</table>
 							</div>
 						</div>
-						
 <?php
-if($owner == $_SESSION['admin'] && empty($enduser)) {
+if( Acl::check('group.owners')) {
 	$urlRule=getBlogURLRule();
 ?>
 						<div id="part-setting-invite" class="part">

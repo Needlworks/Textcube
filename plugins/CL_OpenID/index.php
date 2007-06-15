@@ -23,15 +23,6 @@ requireComponent( "Eolin.PHP.Core" );
 
 openid_session_read();
 
-function _openid_error( $errno, $errstr, $errfile, $errline )
-{
-	print( "$errstr($errno)<br />" );
-	print( "File: $errfile:$errline<br /><hr size='1'/>" );
-}
-
-#DEBUG ONLY: remove leading '#' mark in below line.
-#set_error_handler( "_openid_error" );
-
 function openid_login()
 {
 	global $hostURL, $blogURL, $service;

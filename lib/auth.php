@@ -20,7 +20,7 @@ function login($loginid, $password, $preKnownPassword = null) {
 		setcookie('TSSESSION_LOGINID', $loginid, time() + 31536000, $service['path'] . '/', $service['domain']);
 	}
 
-	if( in_array( "group.teambloggers", Acl::getAro() ) ) {
+	if( in_array( "group.writers", Acl::getAro() ) ) {
 		authorizeSession($blogid, $userid);
 	} else {
 		authorizeSession($blogid, null);
@@ -47,7 +47,7 @@ function requireLogin() {
 }
 
 function doesHaveMembership() {
-	return Acl::check( "group.members" );
+	return empty($_SESSION['userid']) ? false : true;
 }
 
 function requireMembership() {

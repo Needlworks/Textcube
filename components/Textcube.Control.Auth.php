@@ -7,20 +7,58 @@
 class Aro {
 
 /* predefined Aros
+	group.owners:         Owners of $owner's blog system. (Usually unique id.);
 	group.administrators: Administrators of $owner's blog system.
-	group.members:        Logged in users.
-	group.teambloggers:   Blogging team members;
 	group.editors:        Adminitrators of $owner's $owner's postings.
 	group.writers:        Writers to $owners's blog.
 	group.readers:        Readers to $owners's blog.
 	group.guests:         Guests
 */
+	static $predefined = 
+		array(	"group.owners"         => array( "group.administrators", "group.editors" ),
+			"group.administrators" => array( "group.writers" ),
+			"group.editors"        => array( "group.writers" ),
+			"group.writers"	       => array( "group.readers" )
+			);
 
 	function Aro() {
 	}
 
 	function getCanonicalName( $userid ) {
 		return "user.$userid";
+	}
+
+
+	function expand($aro) {
+		$predefined_aros = array_keys( Aro::$predefined );
+		do {
+			$done = true;
+			$new_added_obj = array();
+			foreach( $aro as $obj ) {
+				if( !in_array( $obj, $predefined_aros ) ) {
+					continue;
+				}
+
+				foreach( Aro::$predefined[$obj] as $expand_obj ) {
+					if( in_array( $expand_obj, $aro ) ) {
+						continue;
+					}
+					array_push( $new_added_obj, $expand_obj );
+				}
+			}
+			if( !empty( $new_added_obj ) ) {
+				$aro = array_merge( $aro, $new_added_obj );
+				$done = false;
+			}
+		} while( ! $done );
+
+		$arranged_objs = array();
+		foreach( $aro as $obj ) {
+			if( !in_array( $obj, $arranged_objs ) ) {
+				array_push( $arranged_objs, $obj );
+			}
+		}
+		return $arranged_objs;
 	}
 
 	function adjust( $aco, $aco_action )
@@ -32,13 +70,11 @@ class Aro {
 
 		$aro = Acl::getAro();
 		foreach( $aco as $obj ) {
-			if( $obj == "group.members" && !empty($_SESSION['userid']) && $_SESSION['userid'] != $owner ) {
-				array_push($aro, "group.members");
-			}
 			if( function_exists("fireEvent") ) {
 				$aro = call_user_func( "fireEvent", "AclAdjustAro", $aro, $obj );
 			}
 		}
+
 		return $aro;
 	}
 }
@@ -90,6 +126,7 @@ class Acl {
 	}
 
 	function setAro( $blogid, $aro = null, $user = null, $add = false ) {
+
 		if( !isset( $_SESSION['acl'] ) ) {
 			$_SESSION['acl'] = array();
 		}
@@ -107,15 +144,14 @@ class Acl {
 		}
 
 		if( $add ) {
-			$_SESSION['acl'][$blogid] = array_merge( $_SESSION['acl'][$blogid], $aro );
-		} else {
-			$_SESSION['acl'][$blogid] = $aro;
+			$aro = array_merge( $_SESSION['acl'][$blogid], $aro );
 		}
 
-		if( $user !== null && !in_array($user,$_SESSION['acl'][$blogid]) ) {
-			array_push( $_SESSION['acl'][$blogid], $user );
+		if( !empty($user) ) {
+			array_push( $aro, $user );
 		}
 
+		$_SESSION['acl'][$blogid] = Aro::expand($aro);
 	}
 
 	function getAro($blogid=null) {
@@ -162,8 +198,6 @@ class Auth {
 
 	function authenticate( $blogid, $loginid, $password, $blogapi = false ) {
 		global $database;
-		$aro = array();
-		/* $aro := groups $blogid can be taken */
 		$loginid = mysql_tt_escape_string($loginid);
 
 		$blogApiPassword = getUserSetting("blogApiPassword", "");
@@ -184,21 +218,15 @@ class Auth {
 		}
 		$userid = $session['userid'];
 
-		Acl::clearAro();
-		array_push($aro, "group.members");
-		if( $userid == $blogid ) {
-			array_push($aro, "group.owners" );
-			array_push($aro, "group.administrators" );
-			Acl::setAro($blogid, $aro, Aro::getCanonicalName($userid), false );
-		} else {
-			Acl::setAro($blogid, $aro, Aro::getCanonicalName($userid), false );
-			Acl::setAro($userid, array("group.owners", "group.adminitrators"), Aro::getCanonicalName($userid), false );
-		}
-
-		DBQuery::execute("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
-
+		Auth::setBasicAro($userid);
 		Auth::setTeamblogAro($userid);
+		DBQuery::execute("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
 		return $userid;
+	}
+
+	function setBasicAro( $userid ) {
+		Acl::clearAro();
+		Acl::setAro($userid, "group.owners", Aro::getCanonicalName($userid), false );
 	}
 
 	function setTeamblogAro( $userid ) {
@@ -206,7 +234,7 @@ class Auth {
 
 		$result = DBQuery::query("SELECT teams,acl FROM {$database['prefix']}Teamblog WHERE userid='$userid'");
 		while( ($session = mysql_fetch_array($result) ) ) {
-			$aro = array("group.teambloggers", "group.writers" );
+			$aro = array();
 
 			if( $session['acl'] & BITWISE_EDITOR ) {
 				array_push($aro, "group.editors");
@@ -222,4 +250,5 @@ class Auth {
 		return;
 	}	
 }
+
 ?>

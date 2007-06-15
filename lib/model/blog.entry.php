@@ -222,8 +222,7 @@ function getEntriesWithPagingForOwner($owner, $category, $search, $page, $count,
 	
 	// Teamblog
 	$chT_SQL1 = $chT_SQL2 = "";
-	$posting = DBQuery::queryCell("SELECT Posting FROM {$database['prefix']}Teamblog WHERE teams='$owner' and userid='".$_SESSION['admin']."'" );
-	if(empty($posting)){
+	if( ! Acl::check( "group.editors" ) ) {
 		$chT_SQL1 = ", {$database['prefix']}TeamEntryRelations z";
 		$chT_SQL2 = " AND z.Owner=".$owner." AND z.Id=e.id AND z.Team=".$_SESSION['admin'];
 	}

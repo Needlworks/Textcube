@@ -57,10 +57,10 @@ function openid_session_read()
 	if ($result = mysql_query("SELECT data FROM {$database['prefix']}Sessions WHERE id = '$openid_session_id' AND address = '" . _openid_ip_address() . "' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
 		if ( ($openid_session_rec = mysql_fetch_array($result)) )
 		{
-			$openid_session = @unserialize( $openid_session_rec['data'] );
-			if( !$openid_session )
-			{
+			if( !isset( $openid_session_rec['data'] ) ) {
 				$openid_session = array();
+			} else {
+				$openid_session = @unserialize( $openid_session_rec['data'] );
 			}
 			return true;
 		}
