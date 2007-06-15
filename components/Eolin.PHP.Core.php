@@ -739,7 +739,7 @@ class Timezone {
 	
 	/*@static@*/
 	function set($timezone) {
-		if (@strncmp($_ENV['OS'], 'Windows', 7) == 0)
+		if ( isset( $_ENV['OS'] ) && strncmp($_ENV['OS'], 'Windows', 7) == 0)
 			$timezone = Timezone::getAlternative($timezone);
 		
 		return putenv('TZ=' . $timezone);
