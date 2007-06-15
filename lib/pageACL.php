@@ -12,9 +12,6 @@ if(!empty($_SESSION['admin'])){
 		'/setting/account/profile',
 		'/setting/account/password',
 		'/setting/teamblog',
-		'/setting/teamblog/profileText',
-		'/setting/teamblog/profileImage',
-		'/setting/teamblog/nameStyle',
 		'/setting/teamblog/changeBlog',
 		'/reader');
 	$acceptPC = array('',
@@ -25,7 +22,7 @@ if(!empty($_SESSION['admin'])){
 		'/edit');
 
 	$pc = Acl::check('group.writers');	// Teamblog moderator
-	$ac = Acl::check('group.editors');	// Teamblog administrator
+	$ac = Acl::check('group.editors') || Acl::check('group.owners');	// Teamblog administrator
 
 	if(empty($ac) && !eregi('/owner/entry', $suri['directive'])){
 		$setAC = 0;

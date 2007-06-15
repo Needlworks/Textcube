@@ -13,7 +13,7 @@ if(isset($urlFragments[2])&&strncmp($urlFragments[2],'adminMenu',9) == 0){
 	$blogMenu['topMenu'] = $adminMenuMappings[$plugin]['topMenu'];
 }
 
-if(Acl::Check('group.administrators')){
+if(Acl::check('group.administrators')){
 	$blogTopMenuItem = array(
 		array('menu'=>'center','title'=>_t('센터'),'link'=>'/owner/center/dashboard'),
 		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),

@@ -494,7 +494,7 @@ if (!doesExistTable($database['prefix'] . 'Teamblog')) {
 			$changed = true;
 			if ($users = $query->getAll('userid, name, created')) {
 				foreach($users as $user) {
-					DBQuery::execute("INSERT INTO `{$database['prefix']}Teamblog` VALUES('".$user['userid']."', '".$user['userid']."','9', '".$user['name']."','".$user['created']."', '0')");
+					DBQuery::execute("INSERT INTO `{$database['prefix']}Teamblog` (teams,userid,acl,profile,created,lastLogin) VALUES('".$user['userid']."', '".$user['userid']."','0', '".$user['name']."','".$user['created']."', '0')");
 				}
 			}
 			unset($users);
