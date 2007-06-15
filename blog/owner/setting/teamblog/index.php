@@ -253,13 +253,6 @@ if($owner == $_SESSION['admin']){?>
 									if(mycheck == 0) alert("선택된 사용자가 없습니다.");
 								}
 
-								function buttonchange(){
-									if( document.getElementById('target-role').value == 'delete'){
-										document.getElementById('apply-button').value = '<?php echo _t('탈퇴');?>';
-									} else {
-										document.getElementById('apply-button').value = '<?php echo _t('적용');?>';
-									}
-								}
 <?php
 }
 ?>
@@ -273,8 +266,8 @@ if($owner == $_SESSION['admin']){?>
 									<thead>
 										<tr>
 											<th class="status"><input type="checkbox" name="Aclick" onclick="Check_rev()"></th>
-											<th class="acl"><span class="text"><?php echo _t('권한 ');?></span></th>
-											<th class="name"><span class="text"><?php echo _t('이름 ');?></span></th>
+											<th class="acl"><span class="text"><?php echo _t('권한');?></span></th>
+											<th class="name"><span class="text"><?php echo _t('이름');?></span></th>
 											<th class="blog"><span class="text"><?php echo _t('대표 블로그');?></span></th>											
 											<th class="email"><span class="text"><?php echo _t('이메일');?></span></th>
 											<th class="date"><span class="text"><?php echo _t('가입일');?></span></th>
@@ -310,12 +303,16 @@ if($owner == $_SESSION['admin']){?>
 			$value['posting'] = DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}TeamEntryRelations where team = {$_SESSION['admin']}");
 			$value['admin'] = Acl::check('group.administrators');
 			$value['editor'] = Acl::check('group.editors');
+			if(isset($teamblog_owner)) $value['acl'] = _t('소유자');
+			else if(isset($value['admin'])) $value['acl'] = _t('관리자');
+			else if(isset($value['editor'])) $value['acl'] = _t('편집자');
+			else $value['acl'] = _t('블로거');	
 			$className= ($count%2)==1 ? 'even-line' : 'odd-line';
 			$className.=($count==sizeof($invited_user)-1) ? ' last-line':'';
 ?>
 												<tr class="<?php echo $className;?> inactive-class">
 													<td class="status"><input type="checkbox" id="check_<?php echo $count; ?>"><input type="hidden" name="chh<?php echo $count; ?>" value="<?php echo $value['userid']; ?>"><input type="hidden" name="cht<?php echo $count; ?>" value="<?php if($value['last'] == '0' && $value['lastLogin'] =='0') echo "0"; else echo "1"; ?>"></td>
-													<td class="acl">test</td>
+													<td class="acl"><?php echo $value['acl'];?></td>
 													<td class="name"><?php echo $value['name'];?></td>
 													<td class="blog">test</td>
 													<td class="email"><?php		echo  htmlspecialchars($value['loginid']);?></td>
@@ -349,27 +346,7 @@ if($owner == $_SESSION['admin']){?>
 											</tbody>
 										</table>
 							</div>
-							
-							<div id="role-action" class="part" >
-								<span class="text" >선택한 구성원을 </span>
-								<select name="t-role" id="target-role" onchange="buttonchange();" >
-									<option value=''>행동을 지정합니다</option>
-									<optgroup label="다음 권한으로 변경합니다">
-										<option value='manager'>관리자</option>
-										<option value='editor'>편집자</option>
-										<option value='writer'>필자</option>
-									</optgroup>
-									<optgroup label="탈퇴 처리 합니다">
-										<option value='delete'>탈퇴</option>
-									</optgroup>
-								</select>
-								<input type="submit" id="apply-button" class="apply-button input-button" value="적용"  />
-							</div>
 						</div>
-
-						
-						
-						
 						
 <?php
 if($owner == $_SESSION['admin'] && empty($enduser)) {
