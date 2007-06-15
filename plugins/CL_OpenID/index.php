@@ -46,8 +46,10 @@ function openid_login()
 
 	if( !empty($_COOKIE['openid']) ) {
 		$openid_remember_check = "checked";
+		$cookie_openid = $_COOKIE['openid'];
 	} else {
 		$openid_remember_check = "";
+		$cookie_openid = '';
 	}
 
 	if( strlen($openid_session_id) >= 32 ) {
@@ -129,7 +131,7 @@ dd .input-text
 			            	<dl id="email-line">
 			            		<dt><label for="loginid">' . _text('OpenID 예) http://testid.example.com') . '</label></dt>
 
-			            		<dd><input type="text" class="input-text" id="openid_identifier" name="openid_identifier" value="' . $_COOKIE['openid']. '" maxlength="256" tabindex="1" /></dd>
+			            		<dd><input type="text" class="input-text" id="openid_identifier" name="openid_identifier" value="' . $cookie_openid . '" maxlength="256" tabindex="1" /></dd>
 			            		<dd><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_auto">' . _text('OpenID 기억') . '</label></dd>
 			            		<dd><input type="submit" class="login-button" name="login" value="로그인" /><input type="submit" class="login-button" name="cancel" value="취소" /></dd>
 			            		<dd><a href="' . $openid_help_link . '">' . _text('OpenID란?') . '</a> | <a href="' . $openid_signup_link . '">' . _text('OpenID 발급하기') . '</a></dd>
@@ -287,7 +289,7 @@ function _openid_try_auth( $openid, $redirect, $openid_remember = true )
 	require_once  "common.php";
 	require_once  "xmlwrapper.php";
 
-    global $__Services_Yadis_defaultParser;
+	global $__Services_Yadis_defaultParser;
 	Services_Yadis_setDefaultParser( new Services_Textcube_xmlparser() );
 
 	$process_url = $hostURL . $blogURL . "/plugin/openid/finish?redirect=" . $redirect;

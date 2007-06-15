@@ -49,7 +49,7 @@ function openid_session_read()
 	global $database, $service;
 	global $openid_session_name, $openid_session_id, $openid_session;
 
-	if( $_COOKIE[$openid_session_name] )
+	if( !empty($_COOKIE[$openid_session_name]) )
 	{
 		$openid_session_id = $_COOKIE[$openid_session_name];
 	}
