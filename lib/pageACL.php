@@ -20,13 +20,12 @@ if(!empty($_SESSION['admin'])){
 	$acceptPC = array('',
 		'/post',
 		'/add',
-		'/post',
 		'/visibility',
 		'/delete',
 		'/edit');
 
-	$pc = Acl::Check('group.writers');	// Teamblog moderator
-	$ac = Acl::Check('group.administrators');	// Teamblog administrator
+	$pc = Acl::check('group.writers');	// Teamblog moderator
+	$ac = Acl::check('group.editors');	// Teamblog administrator
 
 	if(empty($ac) && !eregi('/owner/entry', $suri['directive'])){
 		$setAC = 0;

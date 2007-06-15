@@ -109,7 +109,7 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 	
 	// Add user information to Teamblog table.
 	$profile = $name;
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog`  VALUES('$owner', '$id', '$enduser', '0', '0', '$profile', '', '0', '#000000', '10', '0', UNIX_TIMESTAMP(), '0')");
+	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` (teams,userid,acl,profile,created,lastLogin) VALUES('$owner', '$id', '0', '$profile', UNIX_TIMESTAMP(), '0')");
 	if(!$result||(mysql_affected_rows()==0)){
 		if(empty($isold)){  // If user is just added, delete user information.
 			DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
@@ -173,39 +173,48 @@ function cancelInviteAsTeam($userid){
 	}
 }
 
-function changeACLonTeamblog($owner,$stype,$userid){  // Change user priviledge on the blog.
+function changeACLonTeamblog($owner,$stype,$userid,$switch){  // Change user priviledge on the blog.
 	global $database;
 	if(empty($stype) || empty($userid))
 		return false;
 
-	$res = DBQuery::queryRow("SELECT admin, posting, enduser 
+	$acl = DBQuery::queryCell("SELECT acl
 			FROM {$database['prefix']}Teamblog 
 			WHERE teams='$owner' and userid='$userid'");
 
-	if($stype == 1){	// When changing permission,
-		if(empty($res['admin'])) $admin = 1;
-		else $admin = 0;
-		$sql = "UPDATE `{$database['prefix']}Teamblog` 
-			SET admin = ".$admin." 
-			WHERE teams = ".$owner." and userid = ".$userid;
-	} else if($stype == 2){
-		if(empty($res['posting'])) $post = 1;
-		else $post = 0;
-		$sql = "UPDATE `{$database['prefix']}Teamblog` 
-			SET posting = ".$post."
-			WHERE teams = ".$owner." and userid = ".$userid;
-	} else {	// When changing identity,
-		$result = DBQuery::query("SELECT * 
-				FROM `{$database['prefix']}Teamblog` 
-				WHERE teams = '$userid' and userid = '$userid'");
-		if(!$result||(mysql_affected_rows()==0)){
-			$name = DBQuery::queryCell("SELECT name 
-					FROM {$database['prefix']}Users 
-					WHERE userid = '$userid'");
-			$profile = _f('%1 님의 글입니다.',$name);
-			DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog`  
-					VALUES('$userid', '$userid', '1', '1', '1', '$profile', '', '0', '#000000', '10', '0', UNIX_TIMESTAMP(), '0')");
-		}
+	if( $acl === null ) {
+		$name = DBQuery::queryCell("SELECT name 
+				FROM {$database['prefix']}Users 
+				WHERE userid = '$userid'");
+		$profile = _f('%1 님의 글입니다.',$name);
+		DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog`  
+				VALUES('$owner', '$userid', '0', '$profile', UNIX_TIMESTAMP(), '0')");
+		$acl = 0;
+	}
+
+	$bitwise = null;
+	switch( $stype ) {
+	case 'admin':
+		$bitwise = BITWISE_ADMINISTRATOR;
+		break;
+	case 'editor':
+		$bitwise = BITWISE_EDITOR;
+		break;
+	default:
+		return false;
+	}
+
+	if( $switch ) {
+		$acl |= $bitwise;
+	} else {
+		$acl &= ~$bitwise;
+	}
+
+	$sql = "UPDATE `{$database['prefix']}Teamblog` 
+		SET acl = ".$acl." 
+		WHERE teams = ".$owner." and userid = ".$userid;
+	$result = DBQuery::query($sql);
+	/*
 		
 		$enduser = $res['enduser'] - $userid;
 		if(empty($enduser)){
@@ -222,6 +231,7 @@ function changeACLonTeamblog($owner,$stype,$userid){  // Change user priviledge 
 			SET enduser = '$enduser' 
 			WHERE teams='$owner' and userid = '$userid'";
 	}
+	*/
 	
 	return DBQuery::execute($sql);
 }

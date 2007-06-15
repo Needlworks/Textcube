@@ -43,6 +43,9 @@ class Aro {
 	}
 }
 
+define( 'BITWISE_EDITOR', 0x1 );
+define( 'BITWISE_ADMINISTRATOR', 0x2 );
+
 /* Access Control Object: i.e. uri, components, functions */
 class Aco {
 
@@ -184,11 +187,12 @@ class Auth {
 		Acl::clearAro();
 		array_push($aro, "group.members");
 		if( $userid == $blogid ) {
-			array_push($aro, "group.administrators");
-			Acl::setAro($userid, $aro, Aro::getCanonicalName($userid), false );
-		} else {
-			Acl::setAro($userid, "group.adminitrators", Aro::getCanonicalName($userid), false );
+			array_push($aro, "group.owners" );
+			array_push($aro, "group.administrators" );
 			Acl::setAro($blogid, $aro, Aro::getCanonicalName($userid), false );
+		} else {
+			Acl::setAro($blogid, $aro, Aro::getCanonicalName($userid), false );
+			Acl::setAro($userid, array("group.owners", "group.adminitrators"), Aro::getCanonicalName($userid), false );
 		}
 
 		DBQuery::execute("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
@@ -204,8 +208,11 @@ class Auth {
 		while( ($session = mysql_fetch_array($result) ) ) {
 			$aro = array("group.teambloggers", "group.writers" );
 
-			if( $session['acl'] & 0x1 ) {
+			if( $session['acl'] & BITWISE_EDITOR ) {
 				array_push($aro, "group.editors");
+			}
+			if( $session['acl'] & BITWISE_ADMINISTRATOR ) {
+				array_push($aro, "group.administrators");
 			}
 
 			Acl::setAro( $session['teams'], $aro, Aro::getCanonicalName($userid), true );

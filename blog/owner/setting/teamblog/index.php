@@ -186,7 +186,7 @@ if($owner == $_SESSION['admin']){?>
 									request.send("userid=" + userid);
 								}
 
-								function teamblog_admin(stype, userid) {
+								function teamblog_admin(stype, userid, checked) {
 
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/teamblog/isAdmin/");
 									request.onSuccess = function() {
@@ -195,7 +195,7 @@ if($owner == $_SESSION['admin']){?>
 									request.onError = function() {
 										alert('<?php 	echo _t('실패했습니다.');?>');
 									}
-									request.send("stype=" + stype + "&userid=" + userid);
+									request.send("stype=" + stype + "&userid=" + userid + "&switch=" + checked);
 								}
 								
 								var CHCrev=false;
@@ -280,6 +280,8 @@ if($owner == $_SESSION['admin']){?>
 											<th class="date"><span class="text"><?php echo _t('가입일');?></span></th>
 											<th class="date"><span class="text"><?php echo _t('작성한 글 수');?></span></th>
 											<th class="cancel"><span class="text"><?php	echo _t('초대취소');?></span></th>
+											<th class="status"><span class="text"><?php echo _t('권한');?></span></th>
+											<th class="status"><span class="text"><?php	echo _t('계정삭제');?></span></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -305,6 +307,9 @@ if($owner == $_SESSION['admin']){?>
 
 	if(isset($invited_user)) {
 		foreach($invited_user as $value) {
+			$value['posting'] = DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}TeamEntryRelations where team = {$_SESSION['admin']}");
+			$value['admin'] = Acl::check('group.administrators');
+			$value['editor'] = Acl::check('group.editors');
 			$className= ($count%2)==1 ? 'even-line' : 'odd-line';
 			$className.=($count==sizeof($invited_user)-1) ? ' last-line':'';
 ?>
@@ -317,47 +322,23 @@ if($owner == $_SESSION['admin']){?>
 													<td class="date"><?php echo Timestamp::format5($value['created']);?></td>
 													<td class="posting"><?php echo $value['posting'];?></td>
 <?php
-			if($value['lastLogin'] == 0) {
-				if($value['lastLogin'] == 0) { 
+			if($value['lastLogin'] == 0) { 
 ?>
 													<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?php	echo $value['userid'];?>);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대취소');?></span></a></td>
 <?php
-				} else {
-?>
-													<td class="cancel"><a class="cancel-button button" href="#void" onclick="deleteUser(<?php	echo $value['userid'];?>,0);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대 취소');?></span></a></td>
-<?php
-				} 
-			} else {
-				$pblog = $value['enduser'] - $value['userid'];
-				if($pblog == 1) 
-					$sblog = ($value['enduser']-1) & $value['userid'];
-				else if($pblog == 0)	
-					$sblog = $value['enduser'] & $value['userid'];
-				else 
-					$sblog = 0;
-				if($value['userid'] == 1){
-					$pblog = 0;
-					$sblog = 0;	
-				}
+			} else { 
 ?>
 													<td class="status"></td>
-													<td class="password">
-														<input type="checkbox" onclick="teamblog_admin('1',<?php echo $value['userid'];?>);" <?php echo(!empty($value['admin']) ? "checked" : "");?>><?php echo _t('관리자');?>
-														<input type="checkbox" onclick="teamblog_admin('2',<?php echo $value['userid'];?>);" <?php echo(!empty($value['posting']) ? "checked" : "");?> ><?php echo _t('글관리');?>
-<?php 
-				if(!empty($sblog) && ($service['type']!='single')) {
-?>
-														<input type="checkbox" onclick="teamblog_admin('3',<?php echo $value['userid'];?>);" <?php echo( $pblog==1 ? "checked" : "");?>><?php echo _t('개인 블로그');?>
 <?php
-				}
+			}
 ?>
+													<td class="password">
+														<input type="checkbox" onclick="teamblog_admin('admin',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo(!empty($value['admin']) ? "checked" : "");?>><?php echo _t('관리자');?><br />
+														<input type="checkbox" onclick="teamblog_admin('editor',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo(!empty($value['editor']) ? "checked" : "");?> ><?php echo _t('글관리');?>
 													</td>
 													<td class="cancel">
 														<a class="cancel-button button" href="#void" onclick="deleteUser(<?php	echo $value['userid'];?>,1);return false;" title="<?php echo _t('현재 사용자를 팀블로그에서 제외합니다.');?>"><span class="text"><?php echo _t('계정삭제');?></span></a>
 													</td>
-<?php
-			} 
-?>
 												</tr>
 <?php
 			$count++;
@@ -404,7 +385,7 @@ if($owner == $_SESSION['admin'] && empty($enduser)) {
 										<dd id="letter">
 											<div id="letter-head">
 												<div id="receiver-line" class="line">
-													<label for="invitation_receiver"><?php	echo _t('받는 사람');?></label>
+													<label for="invitation_receiver"><?php	echo _t('받는 사람'); ?> (<?php echo _t('이메일의 @ 앞부분이 블로그 식별자로 사용됩니다.');?>)</label>
 													<input type="text" id="invitation_receiver" class="input-text" name="text" value="<?php	echo _t('이름&lt;이메일&gt; 혹은 이메일');?>" onclick="if(!this.selected) this.select();this.selected=true;" onblur="this.selected=false;" onkeydown="refreshReceiver(event)" />
 												</div>
 												<div id="blog-address-line" class="line">
@@ -416,7 +397,8 @@ if($owner == $_SESSION['admin'] && empty($enduser)) {
 											</div>
 														
 											<div id="letter-body">
-												<textarea id="invitation_comment" cols="60" rows="30" name="textarea"><?php echo _f("%1님께서 블로그의 팀원으로 초대합니다",htmlspecialchars($user['name']));?></textarea>
+												<label for="invitation_comment"><?php echo _t('초대 메시지');?></label>
+												<textarea id="invitation_comment" cols="60" rows="3" name="textarea"><?php echo _f("%1님께서 블로그의 팀원으로 초대합니다",htmlspecialchars($user['name']));?></textarea>
 											</div>
 											
 											<div id="letter-foot">

@@ -5,13 +5,14 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
-		'stype'=>array('int'),
-		'userid'=>array('int')
+		'stype'=>array('string'),
+		'userid'=>array('int'),
+		'switch'=>array('int')
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if (changeACLonTeamblog($owner,$_POST['stype'],$_POST['userid'])) {
+if (changeACLonTeamblog($owner,$_POST['stype'],$_POST['userid'],$_POST['switch'])) {
 	respondResultPage(0);
 }
 respondResultPage(-1);
