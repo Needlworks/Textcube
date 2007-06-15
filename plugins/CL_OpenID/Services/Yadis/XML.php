@@ -354,6 +354,10 @@ function &Services_Yadis_getXMLParser()
     }
 
     if (!isset($p)) {
+	    $p = new Services_Textcube_xmlparser();
+    }
+
+    if (!isset($p)) {
         trigger_error('No XML parser was found', E_USER_ERROR);
     } else {
         Services_Yadis_setDefaultParser($p);
