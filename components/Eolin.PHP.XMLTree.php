@@ -46,9 +46,10 @@ class XMLTree {
 	}
 	
 	function & selectNode($path) {
+		static $null_node = null;
 		$p = explode('/', $path);
 		if (array_shift($p) != '')
-			return null;
+			return $null_node;
 		$c = &$this->tree;
 		
 		while ($d = array_shift($p)) {
@@ -63,7 +64,7 @@ class XMLTree {
 			}
 			for ($i = 0; $i < count($c); $i++) {
 				if (isset($c['children'][$i]['name']) && ($c['children'][$i]['name'] == $d)) {
-					if ($o == 0) {
+					if ($o <= 1) {
 						$c = &$c['children'][$i];
 						$i = true;
 						break;
@@ -72,7 +73,7 @@ class XMLTree {
 				}
 			}
 			if ($i !== true)
-				return null;
+				return $null_node;
 		}
 		return $c;
 	}
