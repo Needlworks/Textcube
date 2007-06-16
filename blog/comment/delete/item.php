@@ -18,17 +18,12 @@ require ROOT . '/lib/includeForBlog.php';
 list($replier) = getCommentAttributes($owner,$suri['id'],'replier');
 
 if(!Acl::check('group.administrators') && !Acl::check('group.owners')){ // If no administration permission,
-	if(!empty($replier)){	// If replier exists, (member of the installed blog)
+	if(!empty($replier)){	// If replier exists, (member of the blog system)
 		if(!Acl::check('group.owners')){ // If not blog owner,
-			if($replier != $_SESSION['admin']){
+			if(!doesHaveMembership() || $replier != getUserId()){
 				echo "<script> alert('"._t('권한이 없습니다.')."'); window.close(); </script>";
 				exit;	
 			}
-		}
-	} else {	// No replier exists (visitor)
-		if(!Acl::check('group.owners') || !Acl::check('group.administrators')){
-			echo "<script> alert('"._t('권한이 없습니다.')."'); window.close(); </script>";
-			exit;	
 		}
 	}
 }
