@@ -16,19 +16,18 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlog.php';
 list($replier) = getCommentAttributes($owner,$suri['id'],'replier');
-$ch_res = mysql_fetch_array(mysql_query("SELECT posting FROM `{$database['prefix']}Teamblog` WHERE teams='$owner' and userid='{$_SESSION['admin']}'"));
-if(empty($ch_res['posting']) && $owner != $_SESSION['admin']){
-	if(!empty($replier)){
-		if($owner != $_SESSION['admin']){
+
+if(!Acl::check('group.administrators') && !Acl::check('group.owners')){ // If no administration permission,
+	if(!empty($replier)){	// If replier exists, (member of the installed blog)
+		if(!Acl::check('group.owners')){ // If not blog owner,
 			if($replier != $_SESSION['admin']){
-				echo _t('<script> alert("권한이 없습니다."); window.close(); </script>');
+				echo "<script> alert('"._t('권한이 없습니다.')."'); window.close(); </script>";
 				exit;	
 			}
 		}
-	}
-	else{
-		if($owner != $_SESSION['admin'] && !empty($_SESSION['admin'])){
-			echo _t('<script> alert("권한이 없습니다."); window.close(); </script>');
+	} else {	// No replier exists (visitor)
+		if(!Acl::check('group.owners') || !Acl::check('group.administrators')){
+			echo "<script> alert('"._t('권한이 없습니다.')."'); window.close(); </script>";
 			exit;	
 		}
 	}
