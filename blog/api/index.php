@@ -12,6 +12,7 @@ requireComponent( "Textcube.Control.RSS" );
 requireComponent( "Textcube.Control.Auth" );
 requireComponent( "Textcube.Data.Post" );
 requireComponent( "Textcube.Data.Category" );
+requireModel( "blog.api" );
 
 /*--------- API main ---------------*/
 

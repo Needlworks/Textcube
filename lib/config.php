@@ -34,6 +34,16 @@ function requireComponent($name) {
 	$name = preg_replace("/Tattertools/","Textcube",$name);
 	include_once (ROOT . "/components/$name.php");
 }
+
+function requireModel($name) {
+	include_once (ROOT . "/lib/model/$name.php");
+}
+
+
+function requireView($name) {
+	include_once (ROOT . "/lib/view/$name.php");
+}
+
 requireComponent('Eolin.PHP.UnifiedEnvironment');
 requireComponent('Eolin.PHP.Core');
 requireComponent('Textcube.Core');

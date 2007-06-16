@@ -4,6 +4,8 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../..');
 require ROOT . '/lib/includeForBlog.php';
+requireModel("blog.rss");
+
 if (false) {
 	fetchConfigVal();
 }
