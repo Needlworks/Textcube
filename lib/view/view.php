@@ -101,6 +101,8 @@ function getScriptsOnFoot() {
 
 function getTrackbacksView($entryId, $skin, $acceptTrackback) {
 	global $suri, $defaultURL, $skinSetting, $blogURL, $service;
+	requireModel("blog.trackback");
+
 	$trackbacksContainer = $skin->trackbackContainer;
 	$trackbacksView = '';
 	$trackbacks = getTrackbacks($entryId);
@@ -142,6 +144,8 @@ function getTrackbacksView($entryId, $skin, $acceptTrackback) {
 
 function getCommentView($entryId, $skin) {
 	global $database, $blogURL, $service, $owner, $suri, $paging, $contentContainer, $skinSetting;
+	requireModel("blog.entry");
+	requireModel("blog.comment");
 	//if ($entryId <= 0)
 	//	return getGuestCommentView($entryId, $skin);
 	$authorized = doesHaveOwnership();

@@ -4,6 +4,11 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/lib/blog.skin.php';
+
+requireModel("blog.trash");
+requireModel("blog.trackback");
+
 requireStrictRoute();
 $entryId = trashTrackback($owner, $suri['id']);
 if ($entryId !== false) {
