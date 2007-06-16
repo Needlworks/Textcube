@@ -9,6 +9,8 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.link");
+
 if (!empty($_GET['rss'])) {
 	list($st, $header, $body, $lmdate, $rval) = @xml_parser($_GET['rss'], '');
 	if ($rval) {

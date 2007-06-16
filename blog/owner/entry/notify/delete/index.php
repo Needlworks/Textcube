@@ -9,6 +9,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.comment");
 requireStrictRoute();
 foreach(explode(',', $_POST['targets']) as $target)
 	deleteCommentNotifiedInOwner($owner, $target, false);

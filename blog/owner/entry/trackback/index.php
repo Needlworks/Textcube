@@ -28,6 +28,8 @@ $IV = array(
 	)
 );	
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.trackback");
+
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $site = isset($_GET['site']) && !empty($_GET['site']) ? $_GET['site'] : '';
 $site = isset($_POST['site']) && !empty($_POST['site']) ? $_POST['site'] : $site;

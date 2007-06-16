@@ -30,6 +30,8 @@ $IV = array(
 );	
 require ROOT . '/lib/includeForBlogOwner.php';
 requireComponent('Textcube.Data.Filter');
+requireModel("blog.comment");
+requireModel("blog.entry");
 
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $name = isset($_GET['name']) && !empty($_GET['name']) ? $_GET['name'] : '';

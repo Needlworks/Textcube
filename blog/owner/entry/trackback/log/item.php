@@ -4,6 +4,8 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.trackback");
+
 $result = getTrackbackLog($owner, $suri['id']);
 if ($result !== false) {
 	$result = str_replace(' ', '&nbsp;', $result);

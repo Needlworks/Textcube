@@ -5,6 +5,8 @@
 define('ROOT', '../../../../../..');
 
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.comment");
+
 $isAjaxRequest = checkAjaxRequest();
 if (deleteCommentInOwner($owner, $suri['id']) === true)
 	$isAjaxRequest ? respondResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);

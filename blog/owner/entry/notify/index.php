@@ -23,6 +23,9 @@ if(count($_POST) > 0) {
 	);
 }
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.comment");
+requireModel("blog.entry");
+
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $name = isset($_GET['name']) && !empty($_GET['name']) ? $_GET['name'] : '';
 $name = isset($_POST['name']) && !empty($_POST['name']) ? $_POST['name'] : $name;

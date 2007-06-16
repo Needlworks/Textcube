@@ -4,6 +4,17 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/lib/blog.skin.php';
+requireModel("blog.sidebar");
+requireModel("blog.statistics");
+requireModel("blog.entry");
+requireModel("blog.archive");
+requireModel("blog.tag");
+requireModel("blog.notice");
+requireModel("blog.comment");
+requireModel("blog.trackback");
+requireModel("blog.link");
+
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 

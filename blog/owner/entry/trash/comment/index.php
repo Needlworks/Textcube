@@ -29,6 +29,9 @@ $IV = array(
 );
 
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.comment");
+requireModel("blog.trash");
+
 requireComponent('Textcube.Data.Filter');
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $name = empty($_GET['name']) ? '' : $_GET['name'];

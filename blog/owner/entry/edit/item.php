@@ -15,6 +15,11 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.entry");
+requireModel("blog.tag");
+requireModel("blog.locative");
+requireModel("blog.attachment");
+
 if (false) {
 	fetchConfigVal();
 }

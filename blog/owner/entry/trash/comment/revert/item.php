@@ -5,6 +5,7 @@
 define('ROOT', '../../../../../..');
 
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.comment");
 
 $isAjaxRequest = checkAjaxRequest();
 

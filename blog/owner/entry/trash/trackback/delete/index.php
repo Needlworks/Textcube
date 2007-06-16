@@ -4,6 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.trackback");
 
 $targets = explode('~*_)', $_POST['targets']);
 for ($i = 0; $i < count($targets); $i++) {

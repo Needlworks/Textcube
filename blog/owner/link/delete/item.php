@@ -4,6 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.link");
 requireStrictRoute();
 respondResultPage(deleteLink($owner, $suri['id']));
 ?>

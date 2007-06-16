@@ -2,6 +2,7 @@
 define('ROOT', '../../../../../..');
 
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.trackback");
 
 $isAjaxRequest = checkAjaxRequest();
 

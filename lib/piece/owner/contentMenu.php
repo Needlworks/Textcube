@@ -117,6 +117,7 @@ if(isset($blogContentMenuItem)) {
 <?php
 	foreach($blogContentMenuItem as $contentMenuItem){
 		if($blogMenu['topMenu']=='entry' && $contentMenuItem['menu']=='post'){
+			requireModel("blog.entry");
 ?>
 						<li id="sub-menu-<?php echo $contentMenuItem['menu'];?>"<?php echo $blogMenu['contentMenu'] == $contentMenuItem['menu'] ? ' class="selected"' : '';?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>" onclick="window.location.href = '<?php echo $blogURL;?>/owner/entry/post'<?php echo (getDraftEntryId() ? "+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')" : '');?>; return false;"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
 <?php

@@ -24,6 +24,8 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.trash");
+requireModel("blog.entry");
 trashVan();
 publishEntries();
 

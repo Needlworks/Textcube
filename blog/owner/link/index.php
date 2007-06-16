@@ -4,6 +4,8 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.link");
+
 $links = getLinks($owner);
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';

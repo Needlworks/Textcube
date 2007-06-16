@@ -4,6 +4,8 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.comment");
+
 requireStrictRoute();
 
 $isAjaxRequest = checkAjaxRequest();
