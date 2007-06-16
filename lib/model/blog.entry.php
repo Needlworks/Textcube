@@ -385,6 +385,11 @@ function getRecentEntries($owner) {
 
 function addEntry($owner, $entry) {
 	global $database, $blog;
+	requireModel("blog.attachment");
+	requireModel("blog.rss");
+	requireModel("blog.category");
+	requireModel("blog.tag");
+
 	$entry['title'] = mysql_lessen(trim($entry['title']), 255);
 	$entry['location'] = mysql_lessen(trim($entry['location']), 255);
 	$entry['slogan'] = array_key_exists('slogan', $entry) ? trim($entry['slogan']) : '';
@@ -641,6 +646,11 @@ function updateTrackbacksOfEntry($owner, $id) {
 
 function deleteEntry($owner, $id) {
 	global $database, $blog;
+	requireModel("blog.rss");
+	requireModel("blog.category");
+	requireModel("blog.attachment");
+	requireModel("blog.tag");
+
 	$target = getEntry($owner, $id);
 	if (DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id") == 3)
 		syndicateEntry($id, 'delete');
@@ -663,6 +673,7 @@ function deleteEntry($owner, $id) {
 
 function changeCategoryOfEntries($owner, $entries, $category) {
 	global $database;
+	requireModel("blog.category");
 
 	$targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));
 	if ( count($targets)<1 || !is_numeric($category) ) 
@@ -699,6 +710,9 @@ function changeCategoryOfEntries($owner, $entries, $category) {
 
 function setEntryVisibility($id, $visibility) {
 	global $database, $owner;
+	requireModel("blog.rss");
+	requireModel("blog.category");
+
 	if (($visibility < 0) || ($visibility > 3))
 		return false;
 	list($oldVisibility, $category) = DBQuery::queryRow("SELECT visibility, category FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0");

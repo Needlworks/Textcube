@@ -9,6 +9,8 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.entry");
+
 requireStrictRoute();
 foreach(explode(',', $_POST['targets']) as $target) {
 	// TeamBlog check

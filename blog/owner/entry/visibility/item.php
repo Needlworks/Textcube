@@ -12,6 +12,7 @@ $IV = array(
 	);
 
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.entry");
 requireStrictRoute();
 
 // TeamBlog ACL check whether or not current user can edit this post.
