@@ -468,7 +468,7 @@ if ($boardbarNumber < 2) {
 
 // 팀블로그 :: 관리자 권한이 없으면 센터를 편집할수없다.
 
-if(!empty($ac)){
+if(Acl::check('group.administrators')){
 
 if (!isset($_REQUEST['edit'])) {
 ?>

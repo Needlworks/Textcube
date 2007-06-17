@@ -3,6 +3,44 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+define( 'BITWISE_EDITOR', 0x1 );
+define( 'BITWISE_ADMINISTRATOR', 0x2 );
+
+/* static */
+global $sAcoPredefinedChain;
+$sAcoPredefinedChain = 
+	array(	"group.owners"         => array( "group.administrators", "group.editors" ),
+		"group.administrators" => array( "group.writers" ),
+		"group.editors"        => array( "group.writers" ),
+		"group.writers"	       => array( "group.readers" )
+		);
+
+/* static */
+global $sAcoFromUri;
+$sAcoFromUri = array(
+		"group.administrators" => array( 
+			'/owner/center/dashboard',
+			'/owner/center/about',
+			'/owner/reader',
+			'/owner/setting*',
+			'/owner/entry*'
+			),
+		"group.editors" => array(
+			'/owner/center/dashboard',
+			'/owner/entry*'
+			),
+		"group.writers" => array(
+			'/owner/center/dashboard',
+			'/owner/entry/post',
+			'/owner/entry/edit/*',
+			'/owner/entry/add',
+			'/owner/entry/update',
+			'/owner/entry',
+			'/owner/setting/account*',
+			'/owner/reader'
+			)
+		);
+
 /* Access Request Object: i.e. user */
 class Aro {
 
@@ -14,13 +52,6 @@ class Aro {
 	group.readers:        Readers to $owners's blog.
 	group.guests:         Guests
 */
-	static $predefined = 
-		array(	"group.owners"         => array( "group.administrators", "group.editors" ),
-			"group.administrators" => array( "group.writers" ),
-			"group.editors"        => array( "group.writers" ),
-			"group.writers"	       => array( "group.readers" )
-			);
-
 	function Aro() {
 	}
 
@@ -30,7 +61,8 @@ class Aro {
 
 
 	function expand($aro) {
-		$predefined_aros = array_keys( Aro::$predefined );
+		global $sAcoPredefinedChain;
+		$predefined_aros = array_keys( $sAcoPredefinedChain );
 		do {
 			$done = true;
 			$new_added_obj = array();
@@ -39,7 +71,7 @@ class Aro {
 					continue;
 				}
 
-				foreach( Aro::$predefined[$obj] as $expand_obj ) {
+				foreach( $sAcoPredefinedChain[$obj] as $expand_obj ) {
 					if( in_array( $expand_obj, $aro ) ) {
 						continue;
 					}
@@ -61,7 +93,7 @@ class Aro {
 		return $arranged_objs;
 	}
 
-	function adjust( $aco, $aco_action )
+	function adjust( $aco )
 	{
 		global $owner;
 		if( !Acl::isAvailable() ) {
@@ -79,20 +111,45 @@ class Aro {
 	}
 }
 
-define( 'BITWISE_EDITOR', 0x1 );
-define( 'BITWISE_ADMINISTRATOR', 0x2 );
-
 /* Access Control Object: i.e. uri, components, functions */
 class Aco {
-
 	function Aco() {
 	}
 
-	function adjust( $aco, $aco_action ) {
+	function adjust( $aco, $extra_aco ) {
 		// $aco is an string array
-		if( function_exists("fireEvent") ) {
-			$aco = call_user_func("fireEvent", "AclAdjustAco", $aco );
+		if( !empty($extra_aco) ) {
+			if( is_array($extra_aco) ) {
+				$aco = array_merge($aco, $extra_aco);
+			} else {
+				array_push($aco, $extra_aco);
+			}
 		}
+		if( function_exists("fireEvent") ) {
+			$aco = call_user_func("fireEvent", "AclAdjustAco", $aco);
+		}
+		return $aco;
+	}
+
+	function getAcoFromUri( $testingUri ) {
+		global $sAcoFromUri;
+		$aco = array( "group.owners" );
+//		print "<pre>Testing: " . $testingUri. "\n";
+		foreach( $sAcoFromUri as $acoObj => $uriArray ) {
+			foreach( $uriArray as $uri ) {
+				if ($testingUri == $uri ) {
+					array_push( $aco, $acoObj );
+					break;
+				} elseif( substr($uri,-1) == "*" ) {
+					if( substr($testingUri, 0, strlen($uri)-1) == substr($uri,0,-1) ) {
+						array_push( $aco, $acoObj );
+						break;
+					}
+				} 
+
+			}
+		}
+//		print "\nReturn: " . print_r($aco,true) . "</pre>";
 		return $aco;
 	}
 }
@@ -102,7 +159,7 @@ class Acl {
 	function Acl() {
 	}
 
-	function check($aco = null, $aco_action = '*') {
+	function check($aco = null, $extra_aco = null) {
 		global $owner; /*blogid*/
 
 		if( !is_array( $aco ) ) {
@@ -110,10 +167,10 @@ class Acl {
 		}
 
 		/* Adujsting access control object from plugins */
-		$aco = Aco::adjust($aco, $aco_action);
+		$aco = Aco::adjust($aco, $extra_aco);
 
 		/* Adujsting required object from plugins by aco*/
-		$aro = Aro::adjust($aco, $aco_action);
+		$aro = Aro::adjust($aco);
 
 		/* We need one of aco elements is in aro array */
 		foreach( $aco as $obj ) {
@@ -166,7 +223,7 @@ class Acl {
 	}
 
 	function clearAro() {
-		if( !isset( $_SESSION['acl'] ) ) {
+		if( isset( $_SESSION['acl'] ) ) {
 			unset($_SESSION['acl']);
 		}
 	}
@@ -198,6 +255,8 @@ class Auth {
 
 	function authenticate( $blogid, $loginid, $password, $blogapi = false ) {
 		global $database;
+
+		Acl::clearAro();
 		$loginid = mysql_tt_escape_string($loginid);
 
 		$blogApiPassword = getUserSetting("blogApiPassword", "");
@@ -225,7 +284,6 @@ class Auth {
 	}
 
 	function setBasicAro( $userid ) {
-		Acl::clearAro();
 		Acl::setAro($userid, "group.owners", Aro::getCanonicalName($userid), false );
 	}
 
@@ -234,7 +292,7 @@ class Auth {
 
 		$result = DBQuery::query("SELECT teams,acl FROM {$database['prefix']}Teamblog WHERE userid='$userid'");
 		while( ($session = mysql_fetch_array($result) ) ) {
-			$aro = array();
+			$aro = array("group.writers");
 
 			if( $session['acl'] & BITWISE_EDITOR ) {
 				array_push($aro, "group.editors");

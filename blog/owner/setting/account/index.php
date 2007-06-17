@@ -290,7 +290,7 @@ if ($service['type'] != 'single') {
 						</div>
 
 <?php
-if (($service['type'] != 'single') && (getUserId() == 1) && ($_SESSION['admin'] == 1)) {
+if ($service['type'] != 'single' && Acl::check("group.owners" ) ) {
 	$urlRule = getBlogURLRule();
 ?>
 						<div id="part-setting-invite" class="part">

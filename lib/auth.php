@@ -62,8 +62,8 @@ function getUserId() {
 	return empty($_SESSION['userid']) ? false : $_SESSION['userid'];
 }
 
-function doesHaveOwnership() {
-	return Acl::check( array("group.administrators","group.writers","group.editors") );
+function doesHaveOwnership($extra_aco=null) {
+	return Acl::check( array("group.administrators","group.writers"), $extra_aco);
 }
 
 function requireOwnership() {

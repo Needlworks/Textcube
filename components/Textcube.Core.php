@@ -70,8 +70,7 @@ class teamblogUser{
 	
 		$blogn = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?bs='+this.value+'&path={$Path}'\">";
 	
-		//if( Acl::check('group.administrators') && Acl::check('group.teambloggers') ) {
-		if( Acl::check('group.owners')) {
+		if( Acl::check('group.owners') ) {
 			if($owner == $_SESSION['admin']) $myblogsel = ' selected="selected"';
 			$blogn .= '<option value="'.$owner.'" '. $myblogsel .'>'._t('내 블로그').'</option>';
 		}
