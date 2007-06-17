@@ -61,7 +61,7 @@ class teamblogUser{
 	}
 
 	function myBlog(){
-		global $database, $owner, $blogURL, $_SERVER, $blog, $service;
+		global $database, $owner, $blogURL, $blog, $service;
 		
 		if($service['type'] == "path")
 			$Path = str_replace($service['path']."/".$blog['name'], "", $_SERVER["REQUEST_URI"]);
@@ -70,22 +70,26 @@ class teamblogUser{
 	
 		$blogn = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?bs='+this.value+'&path={$Path}'\">";
 	
-		if( Acl::check('group.administrators') && Acl::check('group.teambloggers') ) {
+		//if( Acl::check('group.administrators') && Acl::check('group.teambloggers') ) {
+		if( Acl::check('group.owners')) {
 			if($owner == $_SESSION['admin']) $myblogsel = ' selected="selected"';
 			$blogn .= '<option value="'.$owner.'" '. $myblogsel .'>'._t('내 블로그').'</option>';
 		}
 	
-		$teamblogInfo = DBQuery::queryAll("SELECT * FROM ".$database['prefix']."Teamblog WHERE userid='".$_SESSION['admin']."'");
-		foreach($teamblogInfo as $res){
-			if($res['teams'] == $owner && $owner == $_SESSION['admin'] ){
+		$teamblogInfo = DBQuery::queryAll("SELECT t.teams, b.title, u.name
+				FROM {$database['prefix']}Teamblog t 
+				LEFT JOIN {$database['prefix']}BlogSettings b ON b.owner = t.teams
+				LEFT JOIN {$database['prefix']}Users u ON u.userid = t.teams
+				WHERE t.userid='".$_SESSION['admin']."'");
+		foreach($teamblogInfo as $teamInfo){
+			if($teamInfo['teams'] == $owner && $owner == $_SESSION['admin'] ){
 				continue;
 			} else {
-				$title = DBQuery::queryCell("SELECT title FROM ".$database['prefix']."BlogSettings WHERE owner='".$res['teams']."'");
-				if(empty($title)){
-					$title = _f('%1 님의 블로그',DBQuery::queryCell("SELECT name FROM ".$database['prefix']."Users WHERE userid='".$res['teams']."'"));
+				if(empty($teamInfo['title'])){
+					$title = _f('%1 님의 블로그',$teamInfo['name']);
 				}
-				$blogn .= '<option value="' . $res['teams'] . '"';
-				if($res['teams'] == $owner) $blogn .= ' selected="selected"';
+				$blogn .= '<option value="' . $teamInfo['teams'] . '"';
+				if($teamInfo['teams'] == $owner) $blogn .= ' selected="selected"';
 				$blogn .= '>' . $title . '</option>';
 			}
 		}
