@@ -95,8 +95,5 @@ if (isset($paging['next'])) {
 			}
 		//]]>
 	</script>
-	<?php
-echo "<pre>".print_r($_SESSION['acl'],true)."</pre>";
-	?>
 </body>
 </html>
