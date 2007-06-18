@@ -34,7 +34,7 @@ require 'view/pages.php';
 require 'view/ownerView.php';
 require 'view/paging.php';
 require 'view/view.php';
-require 'pageACL.php';
 header('Content-Type: text/html; charset=utf-8');
 requireOwnership();
+require 'pageACL.php';
 ?>
