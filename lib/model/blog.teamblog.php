@@ -96,10 +96,10 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 			FROM {$database['prefix']}Users a, {$database['prefix']}Teamblog b 
 			WHERE `a.loginid`='$loginid' AND b.userid=a.userid");
 		if(empty($userid)){ // If user is not registered as a teamblog member,
-			$enduser = DBQuery::queryCell("SELECT userid 
+			$userid = DBQuery::queryCell("SELECT userid 
 				FROM `{$database['prefix']}Users` 
 				WHERE loginid = '$loginid'");
-			if(empty($enduser)) return 20;
+			if(empty($userid)) return 20;
 		} else {  // If user is already registered as a teamblog member,
 			$enduser = 1;
 		}
