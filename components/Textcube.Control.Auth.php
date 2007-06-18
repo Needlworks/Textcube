@@ -305,7 +305,7 @@ class Auth {
 			Acl::setAro( $session['teams'], $aro, Aro::getCanonicalName($userid), true );
 		}
 
-		DBQuery::execute("UPDATE  {$database['prefix']}Teamblog SET last = unix_timestamp() WHERE userid='$userid'");
+		DBQuery::execute("UPDATE  {$database['prefix']}Teamblog SET lastLogin = unix_timestamp() WHERE userid='$userid'");
 		return;
 	}	
 }

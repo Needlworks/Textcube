@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/blog.skin.php';
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.statistics");
 requireModel("blog.entry");

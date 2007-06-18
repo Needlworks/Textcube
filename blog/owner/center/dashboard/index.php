@@ -4,14 +4,15 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/blog.skin.php';
 
-requireModel("reader.common");
-requireModel("blog.statistics");
-requireModel("blog.comment");
-requireModel("blog.trackback");
-requireModel("blog.entry");
-requireModel("blog.trash");
+requireLibrary('blog.skin');
+
+requireModel('reader.common');
+requireModel('blog.statistics');
+requireModel('blog.comment');
+requireModel('blog.trackback');
+requireModel('blog.entry');
+requireModel('blog.trash');
 
 $blogMenu['topMenu'] = 'center';
 $blogMenu['contentMenu'] = 'dashboard';

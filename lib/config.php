@@ -44,6 +44,11 @@ function requireView($name) {
 	include_once (ROOT . "/lib/view/$name.php");
 }
 
+
+function requireLibrary($name) {
+	include_once (ROOT . "/lib/$name.php");
+}
+
 requireComponent('Eolin.PHP.UnifiedEnvironment');
 requireComponent('Eolin.PHP.Core');
 requireComponent('Textcube.Core');

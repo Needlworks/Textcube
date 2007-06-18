@@ -101,7 +101,8 @@ function getScriptsOnFoot() {
 
 function getTrackbacksView($entryId, $skin, $acceptTrackback) {
 	global $suri, $defaultURL, $skinSetting, $blogURL, $service;
-	requireModel("blog.trackback");
+	requireModel('blog.trackback');
+	requireLibrary('blog.skin');
 
 	$trackbacksContainer = $skin->trackbackContainer;
 	$trackbacksView = '';
@@ -146,6 +147,7 @@ function getCommentView($entryId, $skin) {
 	global $database, $blogURL, $service, $owner, $suri, $paging, $contentContainer, $skinSetting;
 	requireModel("blog.entry");
 	requireModel("blog.comment");
+	requireLibrary('blog.skin');
 	//if ($entryId <= 0)
 	//	return getGuestCommentView($entryId, $skin);
 	$authorized = doesHaveOwnership();
@@ -312,6 +314,9 @@ function getCommentView($entryId, $skin) {
 
 function getGuestCommentView($entryId, $skin) {
 	global $blogURL, $owner, $suri, $paging, $blog, $skinSetting;
+	requireModel('blog.comment');
+	requireLibrary('blog.skin');
+
 	$authorized = doesHaveOwnership();
 	if ($entryId > 0) {
 		$prefix1 = 'rp';
@@ -416,6 +421,9 @@ function getGuestCommentView($entryId, $skin) {
 
 function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) {
 	global $blogURL, $owner;
+	requireModel('blog.category');
+	requireLibrary('blog.skin');
+
 	$categoryCount = 0;
 	$categoryCountAll = 0;
 	$parentCategoryCount = 0;
@@ -446,6 +454,9 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 
 function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 	global $blogURL, $owner;
+	requireModel('blog.category');
+	requireLibrary('blog.skin');
+
 	$tree = array('id' => 0, 'label' => getCategoryNameById($owner, 0), 'value' => $totalPosts, 'link' => "$blogURL/owner/entry/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
@@ -466,6 +477,9 @@ function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 }
 
 function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
+	requireModel('blog.category');
+	requireLibrary('blog.skin');
+
 	global $owner;
 	$tree = array('id' => 0, 'label' => getCategoryNameById($owner, 0), 'value' => $totalPosts, 'link' => "", 'children' => array());
 	foreach ($categories as $category1) {
@@ -483,6 +497,8 @@ function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 }
 
 function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
+	requireLibrary('blog.skin');
+
 	global $skinSetting;
 	$skin = $skinSetting;
 	if ($embedJava == false) { // not from getCategoriesViewInSkinSetting
@@ -947,7 +963,10 @@ function getRandomTagsView($tags, $template) {
 
 function getEntryContentView($owner, $id, $content, $formatter, $keywords = array(), $type = 'Post', $useAbsolutePath = false, $bRssMode = false) {
 	global $hostURL, $service, $owner, $useImageResampling;
-	
+	requireModel('blog.attachment');
+	requireModel('blog.keyword');
+	requireLibrary('blog.skin');
+
 	$content = fireEvent('Format' . $type . 'Content', $content, $id);
 	$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
 	$view = $func($owner, $id, $content, $formatter, $keywords, $useAbsolutePath);

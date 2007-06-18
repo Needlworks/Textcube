@@ -155,7 +155,7 @@ function receiveTrackback($owner, $entry, $title, $url, $excerpt, $site) {
 
 function deleteTrackback($owner, $id) {
 	global $database;
-	requireModel("blog.entry");
+	requireModel('blog.entry');
 	if (!is_numeric($id)) return null;
 	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
@@ -169,7 +169,7 @@ function deleteTrackback($owner, $id) {
 
 function trashTrackback($owner, $id) {
 	global $database;
-	requireModel("blog.entry");
+	requireModel('blog.entry');
 	if (!is_numeric($id)) return null;
 	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
@@ -183,7 +183,7 @@ function trashTrackback($owner, $id) {
 
 function revertTrackback($owner, $id) {
 	global $database;
-	requireModel("blog.entry");
+	requireModel('blog.entry');
 	if (!is_numeric($id)) return null;
 	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
 	if ($entry === null)
@@ -198,8 +198,8 @@ function revertTrackback($owner, $id) {
 function sendTrackback($owner, $entryId, $url) {
 	global $database, $defaultURL, $blog;
 	requireComponent('Eolin.PHP.HTTPRequest');
-	requireModel("blog.entry");
-	requireModel("blog.keyword");
+	requireModel('blog.entry');
+	requireModel('blog.keyword');
 	
 	$entry = getEntry($owner, $entryId);
 	if (!$entry)
