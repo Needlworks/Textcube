@@ -84,9 +84,7 @@ class teamblogUser{
 			if($teamInfo['teams'] == $owner && $owner == $_SESSION['admin'] ){
 				continue;
 			} else {
-				if(empty($teamInfo['title'])){
-					$title = _f('%1 님의 블로그',$teamInfo['name']);
-				}
+				$title = empty($teamInfo['title']) ? _f('%1 님의 블로그',$teamInfo['name']) : $teamInfo['title'];
 				$blogn .= '<option value="' . $teamInfo['teams'] . '"';
 				if($teamInfo['teams'] == $owner) $blogn .= ' selected="selected"';
 				$blogn .= '>' . $title . '</option>';

@@ -5,7 +5,8 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
-		'userid'=>array('id')
+		'email'=>array('email'),
+		'nickname'=>array('string')
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
