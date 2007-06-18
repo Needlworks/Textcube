@@ -485,7 +485,7 @@ if (!doesExistTable($database['prefix'] . 'Teamblog')) {
 			profile text NULL default '',
 			created int(11) NOT NULL default 0,
 			lastLogin int(11) NOT NULL default 0,
-			PRIMARY KEY (teams,userid,admin)
+			PRIMARY KEY (teams,userid)
 		) TYPE=MyISAM
 	";
 	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query)) {
