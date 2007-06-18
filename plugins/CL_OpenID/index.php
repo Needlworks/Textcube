@@ -464,6 +464,9 @@ function _openid_set_temp_password( $owner, $id )
 function _openid_get_auth_id()
 {
 	global $openid_session;
+	if( !isset( $openid_session['id'] ) ) {
+		return '';
+	}
 	return $openid_session['id'];
 }
 

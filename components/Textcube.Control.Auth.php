@@ -21,21 +21,19 @@ $sAcoFromUri = array(
 		"group.administrators" => array( 
 			'/owner/center/dashboard',
 			'/owner/center/about',
+			'/owner/entry*',
 			'/owner/reader',
 			'/owner/setting*',
-			'/owner/entry*'
 			),
 		"group.editors" => array(
 			'/owner/center/dashboard',
+			'/owner/center/about',
 			'/owner/entry*'
 			),
 		"group.writers" => array(
 			'/owner/center/dashboard',
-			'/owner/entry/post',
-			'/owner/entry/edit/*',
-			'/owner/entry/add',
-			'/owner/entry/update',
-			'/owner/entry',
+			'/owner/center/about',
+			'/owner/entry*',
 			'/owner/setting/account*',
 			'/owner/reader'
 			)
@@ -133,6 +131,9 @@ class Aco {
 
 	function getAcoFromUri( $testingUri ) {
 		global $sAcoFromUri;
+		if( substr($testingUri, 0, 6) != "/owner" ) {
+			return array();
+		}
 		$aco = array( "group.owners" );
 //		print "<pre>Testing: " . $testingUri. "\n";
 		foreach( $sAcoFromUri as $acoObj => $uriArray ) {

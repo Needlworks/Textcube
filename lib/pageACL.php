@@ -6,7 +6,7 @@
 // Teamblog - Check ACL and move pages if ACL is not enough.
 if(!empty($_SESSION['admin'])){
 	$uriAco = Aco::getAcoFromUri( $suri['directive'] );
-	if( !Acl::check($uriAco) ) {
+	if( !empty($uriAco) && !Acl::check($uriAco) ) {
 		if( in_array( 'group.administrators', $uriAco ) ) {
 			header("location:".$blogURL ."/owner/center/dashboard"); exit;
 		} else {

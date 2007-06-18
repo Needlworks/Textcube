@@ -48,8 +48,12 @@ if(isset($entries)) {
 			}
 			if (doesHaveOwnership()) {
 				$managementView = $skin->management;
-				dress('s_ad_m_link', "$blogURL/owner/entry/edit/{$entry['id']}?returnURL=" . (@$service['useEncodedURL'] ? $permalink : str_replace('%2F', '/', rawurlencode($permalink))), $managementView);
-				dress('s_ad_m_onclick', "editEntry({$entry['id']},'".(@$service['useEncodedURL'] ? $permalink : str_replace('%2F', '/', rawurlencode($permalink)))."'); return false;", $managementView);
+				$useEncodedURL = false;
+				if( isset($service['useEncodedURL'])) {
+					$useEncodedURL = $service['useEncodedURL'];
+				}
+				dress('s_ad_m_link', "$blogURL/owner/entry/edit/{$entry['id']}?returnURL=" . ($useEncodedURL ? $permalink : str_replace('%2F', '/', rawurlencode($permalink))), $managementView);
+				dress('s_ad_m_onclick', "editEntry({$entry['id']},'".($useEncodedURL ? $permalink : str_replace('%2F', '/', rawurlencode($permalink)))."'); return false;", $managementView);
 				dress('s_ad_s1_label', getEntryVisibilityName($entry['visibility']), $managementView);
 				if ($entry['visibility'] < 2) {
 					dress('s_ad_s2_label', _text('공개로 변경합니다'), $managementView);
