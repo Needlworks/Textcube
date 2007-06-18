@@ -199,6 +199,8 @@ function sendTrackback($owner, $entryId, $url) {
 	global $database, $defaultURL, $blog;
 	requireComponent('Eolin.PHP.HTTPRequest');
 	requireModel("blog.entry");
+	requireModel("blog.keyword");
+	
 	$entry = getEntry($owner, $entryId);
 	if (!$entry)
 		return false;
