@@ -213,26 +213,6 @@ function changeACLonTeamblog($owner,$stype,$userid,$switch){  // Change user pri
 	$sql = "UPDATE `{$database['prefix']}Teamblog` 
 		SET acl = ".$acl." 
 		WHERE teams = ".$owner." and userid = ".$userid;
-	$result = DBQuery::query($sql);
-	/*
-		
-		$enduser = $res['enduser'] - $userid;
-		if(empty($enduser)){
-			$enduser = $userid + 1;
-			$new_name = CHgetIdentify($userid);
-		} else {
-			$enduser = $userid;
-			$new_name = substr(md5(time()),4,9);
-		}
-		DBQuery::execute("UPDATE `{$database['prefix']}BlogSettings` 
-			SET name='$new_name' 
-			WHERE owner='$userid'");
-		$sql = "UPDATE `{$database['prefix']}Teamblog` 
-			SET enduser = '$enduser' 
-			WHERE teams='$owner' and userid = '$userid'";
-	}
-	*/
-	
 	return DBQuery::execute($sql);
 }
 
