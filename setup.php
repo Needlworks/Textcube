@@ -1347,7 +1347,7 @@ CREATE TABLE {$_POST['dbPrefix']}Teamblog (
   acl int(11) NOT NULL default 0,
   created int(11) NOT NULL default 0,
   lastLogin int(11) NOT NULL default 0,
-  PRIMARY KEY (teams,userid,admin)
+  PRIMARY KEY (teams,userid)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}TeamEntryRelations (
   owner int(11) NOT NULL default 1,
