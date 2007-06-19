@@ -6,7 +6,7 @@
 function refreshRSS($owner) {
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
-	$author = DBQuery::queryCell("SELECT CONCAT(' (', name, ')') FROM {$database['prefix']}Users WHERE userid = $owner");
+//	$author = DBQuery::queryCell("SELECT CONCAT(' (', name, ')') FROM {$database['prefix']}Users WHERE userid = $owner");
 	$channel['title'] = $blog['title'];
 	$channel['link'] = "$defaultURL/";
 	$channel['description'] = $blog['description'];
@@ -22,15 +22,31 @@ function refreshRSS($owner) {
 	}
 
 	if ($blog['publishEolinSyncOnRSS']) {
-		$result = DBQuery::query("SELECT e.*, c.name AS categoryName 
+		$result = DBQuery::query("SELECT 
+				e.*, 
+				c.name AS categoryName, 
+				t.profile AS author
 			FROM {$database['prefix']}Entries e 
-			LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
+			LEFT JOIN {$database['prefix']}Categories c
+				ON e.owner = c.owner AND e.category = c.id
+			LEFT JOIN {$database['prefix']}TeamEntryRelations r
+				ON e.id = r.id
+			LEFT JOIN {$database['prefix']}Teamblog t
+				ON e.owner = t.teams AND r.team = t.userid
 			WHERE e.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
 			ORDER BY e.published 
 			DESC LIMIT {$blog['entriesOnRSS']}");
-	} else { $result = DBQuery::query("SELECT e.*, c.name AS categoryName 
+	} else { $result = DBQuery::query("SELECT 
+				e.*, 
+				c.name AS categoryName,
+				t.profile AS author
 			FROM {$database['prefix']}Entries e 
-			LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
+			LEFT JOIN {$database['prefix']}Categories c 
+				ON e.owner = c.owner AND e.category = c.id 
+			LEFT JOIN {$database['prefix']}TeamEntryRelations r
+				ON e.id = r.id
+			LEFT JOIN {$database['prefix']}Teamblog t
+				ON e.owner = t.teams AND r.team = t.userid
 			WHERE e.owner = $owner AND e.draft = 0 AND e.visibility = 3 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
 			ORDER BY e.published 
 			DESC LIMIT {$blog['entriesOnRSS']}");
@@ -49,7 +65,7 @@ function refreshRSS($owner) {
 			'title' => $row['title'], 
 			'link' => "$defaultURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']), 
 			'categories' => array(), 'description' => $content, 
-			'author' => $author, 
+			'author' => '('.$row['author'].')', 
 			'pubDate' => Timestamp::getRFC1123($row['published']),
 			'comments' => "$defaultURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']) . '#entry' . $row['id'] . 'comment',
 			'guid' => "$defaultURL/" . $row['id']
