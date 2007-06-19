@@ -30,7 +30,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								}
 
 <?php
-if($owner == $_SESSION['admin']){?>
+if($owner == getUserId()){?>
 								function refreshReceiver(event) {
 									if (event.keyCode == 188) {
 										var receivers = createReceiver();

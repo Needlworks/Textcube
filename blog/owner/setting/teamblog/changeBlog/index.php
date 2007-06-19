@@ -10,7 +10,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
-if($_GET['bs'] == 0 || empty($_GET['bs'])) $bs = $_SESSION['admin'];
+if($_GET['bs'] == 0 || empty($_GET['bs'])) $bs = getUserId();
 else $bs = $_GET['bs'];
 
 $sql = "SELECT *  FROM `{$database['prefix']}BlogSettings` WHERE owner='$bs'";

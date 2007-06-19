@@ -15,7 +15,7 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if ($owner != $_SESSION['admin'])
+if (acl::check('blog.owners'))
 	respondResultPage(false);
 
 $result = addTeamUser($_POST['email'], $_POST['name'], $_POST['password'], $_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);

@@ -5,7 +5,9 @@
 
 if (doesHaveMembership()) {
 	$user = array('id' => getUserId());
-	$user['name'] = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = {$_SESSION['admin']}");
+	$user['name'] = DBQuery::queryCell("SELECT name 
+			FROM {$database['prefix']}Users 
+			WHERE userid = ".getUserId());
 	$user['homepage'] = getDefaultURL($user['id']);
 } else {
 	$user = null;

@@ -284,7 +284,7 @@ function addComment($owner, & $comment) {
 	}
 	$parent = $comment['parent'] == null ? 'null' : "'{$comment['parent']}'";
 	if ($user !== null) {
-		$comment['replier'] = $_SESSION['admin'];
+		$comment['replier'] = getUserId();
 		$name = mysql_tt_escape_string($user['name']);
 		$password = '';
 		$homepage = mysql_tt_escape_string($user['homepage']);
@@ -358,7 +358,7 @@ function updateComment($owner, $comment, $password) {
 	
 	$setPassword = '';
 	if ($user !== null) {
-		$comment['replier'] = $_SESSION['admin'];
+		$comment['replier'] = getUserId();
 		$name = mysql_tt_escape_string($user['name']);
 		$setPassword = 'password = \'\',';
 		$homepage = mysql_tt_escape_string($user['homepage']);

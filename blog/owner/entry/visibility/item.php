@@ -19,8 +19,8 @@ requireStrictRoute();
 if(Acl::check('group.writers') === false && !empty($suri['id'])){
 	$isPosting = DBQuery::queryCell("SELECT team 
 			FROM {$database['prefix']}TeamEntryRelations 
-			WHERE owner='".$owner."' 
-				and team='".$_SESSION['admin']."' 
+			WHERE owner = '".$owner."' 
+				and userid = '".getUserId()."' 
 				and id='".$suri['id']."'" );
 	if(empty($isPosting)) {
 		exit;

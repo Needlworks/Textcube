@@ -224,7 +224,7 @@ function getEntriesWithPagingForOwner($owner, $category, $search, $page, $count,
 	$chT_SQL1 = $chT_SQL2 = "";
 	if( ! Acl::check("group.editors", "entry.list") ) {
 		$chT_SQL1 = ", {$database['prefix']}TeamEntryRelations z";
-		$chT_SQL2 = " AND z.Owner=".$owner." AND z.Id=e.id AND z.Team=".$_SESSION['admin'];
+		$chT_SQL2 = " AND z.Owner=".$owner." AND z.Id=e.id AND z.Team=".getUserId();
 	}
 	// End TeamBlog
 	
@@ -460,7 +460,7 @@ function addEntry($owner, $entry) {
 		return false;
 	DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
 	DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE owner = $owner AND parent = 0");
-	DBQuery::query("INSERT INTO `{$database['prefix']}TeamEntryRelations` VALUES('$owner', '$id', '".$_SESSION['admin']."')");	
+	DBQuery::query("INSERT INTO `{$database['prefix']}TeamEntryRelations` VALUES('$owner', '$id', '".getUserId()."')");	
 	updateEntriesOfCategory($owner, $entry['category']);
 	if ($entry['visibility'] == 3)
 		syndicateEntry($id, 'create');
