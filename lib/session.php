@@ -44,7 +44,7 @@ function writeSession($id, $data) {
 
 function destroySession($id, $setCookie = false) {
 	global $database;
-	if (!isset($_SESSION['userid']))
+	if (!isset($_SESSION['blogid']))
 		return;
 	@mysql_query("DELETE FROM {$database['prefix']}Sessions WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 	gcSession();
@@ -128,12 +128,13 @@ function setSession() {
 }
 
 // Teamblog : insert userid to variable admin when member logins.
-function authorizeSession($userid, $admin) {
+function authorizeSession($blogid, $userid) {
 	global $database, $service;
 	if (!is_numeric($userid))
 		return false;
 	$_SESSION['userid'] = $userid;
-	$_SESSION['admin'] = $admin;
+	$_SESSION['blogid'] = $blogid;
+	$_SESSION['admin'] = $userid;
 	if (isSessionAuthorized(session_id()))
 		return true;
 	for ($i = 0; $i < 100; $i++) {

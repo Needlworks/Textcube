@@ -62,6 +62,11 @@ function getUserId() {
 	return empty($_SESSION['userid']) ? false : $_SESSION['userid'];
 }
 
+
+function getBlogId() {
+	return empty($_SESSION['blogid']) ? false : $_SESSION['blogid'];
+}
+
 function doesHaveOwnership($extra_aco=null) {
 	return Acl::check( array("group.administrators","group.writers"), $extra_aco);
 }
