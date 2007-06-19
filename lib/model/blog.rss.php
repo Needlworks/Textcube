@@ -46,7 +46,7 @@ function refreshRSS($owner) {
 			LEFT JOIN {$database['prefix']}TeamEntryRelations r
 				ON e.id = r.id
 			LEFT JOIN {$database['prefix']}Teamblog t
-				ON e.owner = t.teams AND r.team = t.userid
+				ON e.owner = t.teams AND r.userid = t.userid
 			WHERE e.owner = $owner AND e.draft = 0 AND e.visibility = 3 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
 			ORDER BY e.published 
 			DESC LIMIT {$blog['entriesOnRSS']}");

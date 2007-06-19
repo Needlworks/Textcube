@@ -1352,8 +1352,8 @@ CREATE TABLE {$_POST['dbPrefix']}Teamblog (
 CREATE TABLE {$_POST['dbPrefix']}TeamEntryRelations (
   owner int(11) NOT NULL default 1,
   id int(11) NOT NULL default 1,
-  team int(11) NOT NULL default 1,
-  PRIMARY KEY (owner,id,team)
+  userid int(11) NOT NULL default 1,
+  PRIMARY KEY (owner,id,userid)
 ) $charset;
 
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);

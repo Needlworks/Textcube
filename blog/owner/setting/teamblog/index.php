@@ -300,7 +300,9 @@ if($owner == $_SESSION['admin']){?>
 
 	if(isset($invited_user)) {
 		foreach($invited_user as $value) {
-			$value['posting'] = DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}TeamEntryRelations where team = {$value['userid']}");
+			$value['posting'] = DBQuery::queryCell("SELECT count(*) 
+					FROM {$database['prefix']}TeamEntryRelations 
+					WHERE userid = {$value['userid']}");
 			$value['admin'] = $value['acl'] & BITWISE_ADMINISTRATOR;
 			$value['editor'] = $value['acl'] & BITWISE_EDITOR;
 			if(isset($teamblog_owner)) $value['acl'] = _t('소유자');

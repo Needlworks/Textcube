@@ -511,7 +511,7 @@ if (!doesExistTable($database['prefix'] . 'TeamEntryRelations')) {
 		CREATE TABLE {$database['prefix']}TeamEntryRelations (
 			owner int(11) NOT NULL default 1,
 			id int(11) NOT NULL default 1,
-			team int(11) NOT NULL default 1,
+			userid int(11) NOT NULL default 1,
 			PRIMARY KEY (owner,id,team)
 		) TYPE=MyISAM
 	";
@@ -562,6 +562,15 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}Teamblog enduser")) {
 	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_size") &&
 	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_bold") &&
 	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog ADD acl int(11) not null AFTER userid"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
+if (DBQuery::queryExistence("DESC {$database['prefix']}TeamEntryRelations team")) {
+	$changed = true;
+	echo '<li>', _text('팀블로그 테이블의 필드 이름을 변경합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}TeamEntryRelations CHANGE team userid int(11) NOT NULL DEFAULT 1"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
