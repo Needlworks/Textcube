@@ -71,7 +71,7 @@ class teamblogUser{
 		$blogn = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?bs='+this.value+'&path={$Path}'\">";
 	
 		if( Acl::check('group.owners') ) {
-			if($owner == $_SESSION['admin']) $myblogsel = ' selected="selected"';
+			if(getBlogId() == getUserId()) $myblogsel = ' selected="selected"';
 			$blogn .= '<option value="'.$owner.'" '. $myblogsel .'>'._t('내 블로그').'</option>';
 		}
 	
@@ -79,9 +79,9 @@ class teamblogUser{
 				FROM {$database['prefix']}Teamblog t 
 				LEFT JOIN {$database['prefix']}BlogSettings b ON b.owner = t.teams
 				LEFT JOIN {$database['prefix']}Users u ON u.userid = t.teams
-				WHERE t.userid='".$_SESSION['admin']."'");
+				WHERE t.userid='".getUserId()."'");
 		foreach($teamblogInfo as $teamInfo){
-			if($teamInfo['teams'] == $owner && $owner == $_SESSION['admin'] ){
+			if($teamInfo['teams'] == $owner && getBlogId() == getUserId()){
 				continue;
 			} else {
 				$title = empty($teamInfo['title']) ? _f('%1 님의 블로그',$teamInfo['name']) : $teamInfo['title'];

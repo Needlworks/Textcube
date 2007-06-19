@@ -203,7 +203,7 @@ echo fireEvent('ShowAdminHeader', '');
 				<div id="main-description-box">
 					<ul id="main-description">
 <?php
-$writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".$_SESSION['admin']);
+$writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".getUserId());
 requireComponent('Textcube.Core');
 ?>
 						<li id="description-blogger"><span class="text"><?php echo _f('환영합니다. <em>%1</em>님.', htmlspecialchars($writer));?></span></li>
