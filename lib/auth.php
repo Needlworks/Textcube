@@ -7,7 +7,7 @@ function login($loginid, $password, $preKnownPassword = null) {
 	global $service, $owner;
 	$loginid = mysql_tt_escape_string($loginid);
 	$userid = Auth::authenticate($owner , $loginid, $password );
-//	$blogid = getBlogId();
+	//$blogid = getBlogId();
 	$blogid = $owner;
 
 	if( $userid === false ) {
@@ -66,7 +66,6 @@ function getUserId() {
 function getBlogId() {
 	return empty($_SESSION['blogid']) ? false : $_SESSION['blogid'];
 }
-
 
 function setBlogId($id) {
 	$_SESSION['blogid'] = $id;

@@ -141,7 +141,6 @@ if (!file_exists(ROOT . '/config.php')) {
 	header('Location: ' . ROOT . '/setup.php');
 	exit;
 }
-
 function respondNotFoundPage() {
 	header('HTTP/1.1 404 Not Found');
 	header("Connection: close");

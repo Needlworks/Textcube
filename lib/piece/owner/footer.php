@@ -95,6 +95,5 @@ if (isset($paging['next'])) {
 			}
 		//]]>
 	</script>
-	<?php print_r($_SESSION);?>
 </body>
 </html>

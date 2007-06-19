@@ -28,7 +28,8 @@ if (doesHaveMembership()) {
 	if (!empty($_POST['requestURI']))
 		header("Location: {$_POST['requestURI']}");
 	else
-		header("Location: {$user['homepage']}");
+		//header("Location: {$user['homepage']}");
+		header("Location: $blogURL");
 } else {
 	header("Location: $blogURL");
 }
