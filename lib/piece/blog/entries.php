@@ -23,7 +23,7 @@ if(isset($entries)) {
 				dress('notice_rep_link', "$blogURL/page/{$entry['id']}", $entryView);
 			
 			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
-			$contentContainer["notice_{$entry['id']}"] = getEntryContentView($owner, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($owner), 'Notice');
+			$contentContainer["notice_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid), 'Notice');
 			dress('notice_rep_desc', setTempTag("notice_{$entry['id']}"), $entryView);
 			$entriesView .= $entryView;
 		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
@@ -66,13 +66,13 @@ if(isset($entries)) {
 				dress('s_ad_d_onclick', "deleteEntry({$entry['id']}); return false;", $managementView);
 				dress('ad_div', $managementView, $entryView);
 			}
-			$author = teamblogUser::authorName($owner, $entry['id']);
+			$author = teamblogUser::authorName($blogid, $entry['id']);
 			dress('article_rep_author',$author,$entryView);
 			dress('article_rep_id', $entry['id'], $entryView);
 			dress('article_rep_link', $permalink, $entryView);
 			dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $entryView);
 			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
-			$contentContainer["article_{$entry['id']}"] = getEntryContentView($owner, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($owner));
+			$contentContainer["article_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid));
 			dress('article_rep_desc', setTempTag("article_{$entry['id']}"), $entryView);
 			dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['categoryLabel'], $entry['id']), $entryView);
 			dress('article_rep_category_link', empty($entry['category']) ? "$blogURL/category/" : "$blogURL/category/".encodeURL($entry['categoryLabel']) ,$entryView);
@@ -98,7 +98,7 @@ if(isset($entries)) {
 	
 			$entriesView .= $entryView;
 		} else {
-			$author = teamblogUser::authorName($owner,$entry['id']);
+			$author = teamblogUser::authorName($blogid,$entry['id']);
 			dress('article_rep_author',$author,$entryView);
 			$protectedEntryView = $skin->entryProtected;
 			dress('article_rep_id', $entry['id'], $protectedEntryView);

@@ -388,7 +388,7 @@ function api_file_hash( $content )
 }
 
 
-function api_addAttachment($owner,$parent,$file){
+function api_addAttachment($blogid,$parent,$file){
 	global $database;
 	
 	$attachment=array();
@@ -408,7 +408,7 @@ function api_addAttachment($owner,$parent,$file){
 	}
 	
 	/* Create directory for owner */
-	$path = ROOT . "/attach/$owner";
+	$path = ROOT . "/attach/$blogid";
 	if(!is_dir($path)){
 		mkdir($path);
 		if(!is_dir($path))
@@ -416,7 +416,7 @@ function api_addAttachment($owner,$parent,$file){
 		@chmod($path,0777);
 	}
 	
-	$oldFile = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$parent AND label = '$label'");
+	$oldFile = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE owner=$blogid AND parent=$parent AND label = '$label'");
 	
 	if ($oldFile !== null) {
 		$attachment['name'] = $oldFile;
@@ -431,7 +431,7 @@ function api_addAttachment($owner,$parent,$file){
 	
 	$attachment['path'] = "$path/{$attachment['name']}";
 	
-	deleteAttachment($owner,-1,$attachment['name']);
+	deleteAttachment($blogid,-1,$attachment['name']);
 	
 	if( $file['content'] )
 	{
@@ -458,7 +458,7 @@ function api_addAttachment($owner,$parent,$file){
 	$attachment['mime']=mysql_lessen($attachment['mime'], 32);
 	
 	@chmod($attachment['path'],0666);
-	$result=DBQuery::query("insert into {$database['prefix']}Attachments values ($owner, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
+	$result=DBQuery::query("insert into {$database['prefix']}Attachments values ($blogid, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	if(!$result){
 		@unlink($attachment['path']);
 		return false;
@@ -994,7 +994,6 @@ function metaWeblog_editPost()
 
 function metaWeblog_newMediaObject()
 {
-	global $owner;
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
 	if( $result )
@@ -1020,7 +1019,7 @@ function metaWeblog_newMediaObject()
 		'size' => count($params[3]['bits']) 
 		);
 		
-	$attachment = api_addAttachment( $owner, 0, $file );
+	$attachment = api_addAttachment( getBlogId(), 0, $file );
 	if( !$attachment )
 	{
 		return new XMLRPCFault( 1, "Can't create file" );

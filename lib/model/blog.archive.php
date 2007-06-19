@@ -3,15 +3,15 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-function getArchives($owner) {
+function getArchives($blogid) {
 	global $database;
 	$archives = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-	$archivesOnPage = DBQuery::queryCell("SELECT archivesOnPage FROM {$database['prefix']}SkinSettings WHERE owner = $owner");
+	$archivesOnPage = DBQuery::queryCell("SELECT archivesOnPage FROM {$database['prefix']}SkinSettings WHERE owner = $blogid");
 	$result = DBQuery::query("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner
-		WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 
+		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		GROUP BY period 
 		ORDER BY period 
 		DESC LIMIT $archivesOnPage");
@@ -22,7 +22,7 @@ function getArchives($owner) {
 	return $archives;
 }
 
-function getCalendar($owner, $period) {
+function getCalendar($blogid, $period) {
 	global $database;
 	$calendar = array('days' => array());
 	if (($period === true) || !checkPeriod($period))
@@ -34,7 +34,7 @@ function getCalendar($owner, $period) {
 	$result = DBQuery::query("SELECT DISTINCT DAYOFMONTH(FROM_UNIXTIME(e.published)) 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner
-		WHERE e.owner = $owner AND e.draft = 0 $visibility AND e.category >= 0 AND YEAR(FROM_UNIXTIME(e.published)) = {$calendar['year']} AND MONTH(FROM_UNIXTIME(e.published)) = {$calendar['month']}");
+		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND YEAR(FROM_UNIXTIME(e.published)) = {$calendar['year']} AND MONTH(FROM_UNIXTIME(e.published)) = {$calendar['month']}");
 	if ($result) {
 		while (list($day) = mysql_fetch_array($result))
 			array_push($calendar['days'], $day);

@@ -3,9 +3,9 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-function printMobileEntryContentView($owner, $entry, $keywords = array()) {
+function printMobileEntryContentView($blogid, $entry, $keywords = array()) {
 	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password']))))
-		print (getEntryContentView($owner, $entry['id'], $entry['content'], $entry['contentFormatter'], $keywords));
+		print (getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], $keywords));
 	else
 	{
 	?>

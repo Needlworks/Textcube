@@ -13,28 +13,28 @@ function getOwnerBySecondaryDomain($domain) {
 	return DBQuery::queryCell("SELECT owner FROM {$database['prefix']}BlogSettings WHERE secondaryDomain = '$domain' OR  secondaryDomain = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "'");
 }
 
-function getBlogSetting($owner) {
+function getBlogSetting($blogid) {
 	global $database;
-	if ($result = DBQuery::query("select * from {$database['prefix']}BlogSettings where owner = $owner")) {
+	if ($result = DBQuery::query("select * from {$database['prefix']}BlogSettings where owner = $blogid")) {
 		return mysql_fetch_array($result);
 	}
 	return false;
 }
 
-function getSkinSetting($owner) {
+function getSkinSetting($blogid) {
 	global $database, $service, $skinSetting;
 	
-	if ($result = DBQuery::query("SELECT * FROM {$database['prefix']}SkinSettings WHERE owner = $owner")) {
+	if ($result = DBQuery::query("SELECT * FROM {$database['prefix']}SkinSettings WHERE owner = $blogid")) {
 		$retval = mysql_fetch_array($result);
 		if ($retval != FALSE) {
-			if (!Validator::directory($retval['skin']) && ($retval['skin'] !="customize/$owner")) {
+			if (!Validator::directory($retval['skin']) && ($retval['skin'] !="customize/$blogid")) {
 				$retval['skin'] = $service['skin'];
 			}
 			return $retval;
 		}
 	}
 	
-	$retval = array( 'owner' => $owner , 'skin' => $service['skin'], 
+	$retval = array( 'owner' => $blogid , 'skin' => $service['skin'], 
 		'entriesOnRecent' => 5, 'commentsOnRecent' => 5, 'commentsOnGuestbook' => 5,
 		'tagsOnTagbox' => 30, 'tagboxAlign' => 3, 'trackbacksOnRecent' => 5, 
 		'expandComment' => 1, 'expandTrackback' => 1, 

@@ -3,10 +3,10 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-function refreshRSS($owner) {
+function refreshRSS($blogid) {
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
-//	$author = DBQuery::queryCell("SELECT CONCAT(' (', name, ')') FROM {$database['prefix']}Users WHERE userid = $owner");
+//	$author = DBQuery::queryCell("SELECT CONCAT(' (', name, ')') FROM {$database['prefix']}Users WHERE userid = $blogid");
 	$channel['title'] = $blog['title'];
 	$channel['link'] = "$defaultURL/";
 	$channel['description'] = $blog['description'];
@@ -14,9 +14,9 @@ function refreshRSS($owner) {
 	$channel['pubDate'] = Timestamp::getRFC1123();
 	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
 
-	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$owner/{$blog['logo']}")) {
-		$logoInfo = getimagesize(ROOT."/attach/$owner/{$blog['logo']}");
-		$channel['url'] = $serviceURL."/attach/".$owner."/".$blog['logo'];
+	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
+		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
 		$channel['width'] = $logoInfo[0];
 		$channel['height'] = $logoInfo[1];
 	}
@@ -33,7 +33,7 @@ function refreshRSS($owner) {
 				ON e.id = r.id
 			LEFT JOIN {$database['prefix']}Teamblog t
 				ON e.owner = t.teams AND r.team = t.userid
-			WHERE e.owner = $owner AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
+			WHERE e.owner = $blogid AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
 			ORDER BY e.published 
 			DESC LIMIT {$blog['entriesOnRSS']}");
 	} else { $result = DBQuery::query("SELECT 
@@ -47,7 +47,7 @@ function refreshRSS($owner) {
 				ON e.id = r.id
 			LEFT JOIN {$database['prefix']}Teamblog t
 				ON e.owner = t.teams AND r.userid = t.userid
-			WHERE e.owner = $owner AND e.draft = 0 AND e.visibility = 3 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
+			WHERE e.owner = $blogid AND e.draft = 0 AND e.visibility = 3 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
 			ORDER BY e.published 
 			DESC LIMIT {$blog['entriesOnRSS']}");
 	}
@@ -55,7 +55,7 @@ function refreshRSS($owner) {
 		return false;
 	$channel['items'] = array();
 	while ($row = mysql_fetch_array($result)) {
-		$content = getEntryContentView($owner, $row['id'], $row['content'], $row['contentFormatter'], true, 'Post', true, true);
+		$content = getEntryContentView($blogid, $row['id'], $row['content'], $row['contentFormatter'], true, 'Post', true, true);
  		if (!$blog['publishWholeOnRSS']) {
 			$content .= "<p><strong><a href=\"$defaultURL/" . ($blog['useSlogan'] ? "entry/{$row['slogan']}" : $row['id']) . "\">" . _t('글 전체보기') . "</a></strong></p>";
  		}
@@ -76,14 +76,14 @@ function refreshRSS($owner) {
 			}
 		}
 		if (!empty($row['id'])) {
-			$sql = "SELECT name, size, mime FROM {$database['prefix']}Attachments WHERE parent= {$row['id']} AND owner =$owner AND enclosure = 1";
+			$sql = "SELECT name, size, mime FROM {$database['prefix']}Attachments WHERE parent= {$row['id']} AND owner =$blogid AND enclosure = 1";
 			$attaches = DBQuery::queryRow($sql);
 			if (count($attaches) > 0) {
-				$item['enclosure'] = array('url' => "$serviceURL/attach/$owner/{$attaches['name']}", 'length' => $attaches['size'], 'type' => $attaches['mime']);
+				$item['enclosure'] = array('url' => "$serviceURL/attach/$blogid/{$attaches['name']}", 'length' => $attaches['size'], 'type' => $attaches['mime']);
 			}
 		}
 		array_push($item['categories'], $row['categoryName']);
-		$tag_result = DBQuery::query("SELECT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND entry = $row[1] AND owner = $owner ORDER BY name");
+		$tag_result = DBQuery::query("SELECT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND entry = $row[1] AND owner = $blogid ORDER BY name");
 		while (list($tag) = mysql_fetch_array($tag_result))
 			array_push($item['categories'], $tag);
 		array_push($channel['items'], $item);
@@ -97,10 +97,10 @@ function refreshRSS($owner) {
 			return false;
 		@chmod($path, 0777);
 	}
-	$path .= "/$owner.xml";
+	$path .= "/$blogid.xml";
 	$fileHandle = fopen($path, 'w');
 	$rss = array('channel' => $channel);
-	if (fwrite($fileHandle, publishRSS($owner, $rss))) {
+	if (fwrite($fileHandle, publishRSS($blogid, $rss))) {
 		fclose($fileHandle);
 		@chmod($path, 0666);
 		fireEvent('refreshRSS',$rss);
@@ -110,8 +110,9 @@ function refreshRSS($owner) {
 	return false;
 }
 
-function publishRSS($owner, $data) {
-	global $blog, $owner;
+function publishRSS($blogid, $data) {
+	global $blog;
+	$blogid = getBlogId();
 	ob_start();
 	echo '<?xml version="1.0" encoding="UTF-8"?>', CRLF;
 	echo '<rss version="2.0">', CRLF;
@@ -123,7 +124,7 @@ function publishRSS($owner, $data) {
 	echo '		<pubDate>', $data['channel']['pubDate'], '</pubDate>', CRLF;
 	echo '		<generator>', $data['channel']['generator'], '</generator>', CRLF;
 
-	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$owner/{$blog['logo']}")) {
+	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
 		echo '		<image>', CRLF;
 		echo '		<title>', htmlspecialchars($data['channel']['title'], ENT_QUOTES), '</title>', CRLF;
 		echo '		<url>', $data['channel']['url'], '</url>', CRLF;
@@ -160,7 +161,6 @@ function publishRSS($owner, $data) {
 }
 
 function clearRSS() {
-	global $owner;
-	@unlink(ROOT . "/cache/rss/$owner.xml");
+	@unlink(ROOT . "/cache/rss/".getBlogId().".xml");
 }
 ?>

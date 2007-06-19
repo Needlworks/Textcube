@@ -3,59 +3,59 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-function getAttachments($owner, $parent, $orderBy = null, $sort='ASC') {
+function getAttachments($blogid, $parent, $orderBy = null, $sort='ASC') {
 	global $database;
 	$attachments = array();
-	if ($result = DBQuery::query("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
+	if ($result = DBQuery::query("select * from {$database['prefix']}Attachments where owner = $blogid and parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
 		while ($attachment = mysql_fetch_array($result))
 			array_push($attachments, $attachment);
 	}
 	return $attachments;
 }
 
-function getAttachmentByName($owner, $parent, $name) {
+function getAttachmentByName($blogid, $parent, $name) {
 	global $database;
 	$name = mysql_tt_escape_string($name);
-	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'");
+	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where owner = $blogid and parent = $parent and name = '$name'");
 }
 
-function getAttachmentByOnlyName($owner, $name) {
+function getAttachmentByOnlyName($blogid, $name) {
 	global $database;
 	$name = mysql_tt_escape_string($name);
-	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where owner = $owner and name = '$name'");
+	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where owner = $blogid and name = '$name'");
 }
 
-function getAttachmentByLabel($owner, $parent, $label) {
+function getAttachmentByLabel($blogid, $parent, $label) {
 	global $database;
 	if ($parent === false)
 		$parent = 0;
 	$label = mysql_tt_escape_string($label);
-	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where owner = $owner and parent = $parent and label = '$label'");
+	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where owner = $blogid and parent = $parent and label = '$label'");
 }
 
-function getAttachmentSize($owner=null, $parent = null) {
+function getAttachmentSize($blogid=null, $parent = null) {
 	global $database;	
-	$ownerStr = '';
+	$blogidStr = '';
 	$parentStr = '';	
 
-	if (!empty($owner))
-		$ownerStr = "owner = $owner ";
+	if (!empty($blogid))
+		$blogidStr = "owner = $blogid ";
 	if ($parent == 0 || !empty($parent))
 		$parentStr = "and parent = $parent";
-	return DBQuery::queryCell("select sum(size) from {$database['prefix']}Attachments where $ownerStr $parentStr");
+	return DBQuery::queryCell("select sum(size) from {$database['prefix']}Attachments where $blogidStr $parentStr");
 }
 
-function getAttachmentSizeLabel($owner=null, $parent = null) {
-	//return number_format(ceil(getAttachmentSize($owner,$parent)/1024)).' / '.number_format(ceil(getAttachmentSize($owner)/1024)).' (KByte)';
-	return number_format(ceil(getAttachmentSize($owner,$parent)/1024)).' (KByte)';
+function getAttachmentSizeLabel($blogid=null, $parent = null) {
+	//return number_format(ceil(getAttachmentSize($blogid,$parent)/1024)).' / '.number_format(ceil(getAttachmentSize($blogid)/1024)).' (KByte)';
+	return number_format(ceil(getAttachmentSize($blogid,$parent)/1024)).' (KByte)';
 }
 
-function addAttachment($owner, $parent, $file) {
+function addAttachment($blogid, $parent, $file) {
 	global $database;	
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
 	$filename = mysql_tt_escape_string($file['name']);
-	if (DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$parent AND label='$filename'")>0) {
+	if (DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE owner=$blogid AND parent=$parent AND label='$filename'")>0) {
 		return false;
 	}
 	$attachment = array();
@@ -71,7 +71,7 @@ function addAttachment($owner, $parent, $file) {
 	if ((strlen($extension) > 6) || ($extension == '')) {
 		$extension = 'xxx';
 	}
-	$path = ROOT . "/attach/$owner";
+	$path = ROOT . "/attach/$blogid";
 	if (!is_dir($path)) {
 		mkdir($path);
 		if (!is_dir($path))
@@ -98,7 +98,7 @@ function addAttachment($owner, $parent, $file) {
 	$label = mysql_tt_escape_string(mysql_lessen($attachment['label'], 64));
 	$attachment['mime'] = mysql_lessen($attachment['mime'], 32);
 	
-	$result = DBQuery::execute("insert into {$database['prefix']}Attachments values ($owner, {$attachment['parent']}, '$name', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
+	$result = DBQuery::execute("insert into {$database['prefix']}Attachments values ($blogid, {$attachment['parent']}, '$name', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	if (!$result) {
 		@unlink($attachment['path']);
 		return false;
@@ -106,14 +106,14 @@ function addAttachment($owner, $parent, $file) {
 	return $attachment;
 }
 
-function deleteAttachment($owner, $parent, $name) {
+function deleteAttachment($blogid, $parent, $name) {
 	global $database;
 	if (!Validator::filename($name)) 
 		return false;
 	$origname = $name;
 	$name = mysql_tt_escape_string($name);
-	if (DBQuery::execute("delete from {$database['prefix']}Attachments where owner = $owner and name = '$name'") && (mysql_affected_rows() == 1)) {
-		@unlink(ROOT . "/attach/$owner/$origname");
+	if (DBQuery::execute("delete from {$database['prefix']}Attachments where owner = $blogid and name = '$name'") && (mysql_affected_rows() == 1)) {
+		@unlink(ROOT . "/attach/$blogid/$origname");
 		clearRSS();
 		return true;
 	}
@@ -131,7 +131,7 @@ function deleteTotalAttachment($userid) {
 	return true;
 }
 
-function deleteAttachmentMulti($owner, $parent, $names) {
+function deleteAttachmentMulti($blogid, $parent, $names) {
 	global $database;
 	$files = explode('!^|', $names);
 	foreach ($files as $name) {
@@ -141,8 +141,8 @@ function deleteAttachmentMulti($owner, $parent, $names) {
 			continue;
 		$origname = $name;
 		$name = mysql_tt_escape_string($name);
-		if (DBQuery::execute("delete from {$database['prefix']}Attachments where owner = $owner and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
-			unlink(ROOT . "/attach/$owner/$origname");
+		if (DBQuery::execute("delete from {$database['prefix']}Attachments where owner = $blogid and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
+			unlink(ROOT . "/attach/$blogid/$origname");
 		} else {
 		}
 	}
@@ -152,10 +152,10 @@ function deleteAttachmentMulti($owner, $parent, $names) {
 
 
 
-function deleteAttachments($owner, $parent) {
-	$attachments = getAttachments($owner, $parent);
+function deleteAttachments($blogid, $parent) {
+	$attachments = getAttachments($blogid, $parent);
 	foreach ($attachments as $attachment)
-		deleteAttachment($owner, $parent, $attachment['name']);
+		deleteAttachment($blogid, $parent, $attachment['name']);
 }
 
 function downloadAttachment($name) {

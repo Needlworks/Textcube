@@ -18,7 +18,7 @@ foreach ($keylog as $item) {
 	$itemsView .= $itemView;
 }
 dress('blog_rep', $itemsView, $keylogView);
-$contentContainer["keyword_{$keyword['id']}"] = getEntryContentView($owner, $keyword['id'], $keyword['content'], $keyword['contentFormatter'], getKeywordNames($owner), 'Keyword');
+$contentContainer["keyword_{$keyword['id']}"] = getEntryContentView($blogid, $keyword['id'], $keyword['content'], $keyword['contentFormatter'], getKeywordNames($blogid), 'Keyword');
 dress('blog_desc', setTempTag("keyword_{$keyword['id']}"), $keylogView);
 dress('blog_conform', htmlspecialchars($keyword['title']), $keylogView);
 dress('blog', $keylogView, $out);

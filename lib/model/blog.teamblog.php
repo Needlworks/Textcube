@@ -3,7 +3,9 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
-	global $database,$service,$blogURL,$hostURL,$user,$blog,$owner;
+	global $database,$service,$blogURL,$hostURL,$user,$blog;
+
+	$blogid = getBlogId();
 	if(empty($email))
 		return 1;
 	if(!ereg('^[^@]+@([[:alnum:]]+(-[[:alnum:]]+)*\.)+[[:alnum:]]+(-[[:alnum:]]+)*$',$email))
@@ -39,7 +41,7 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 	$result = DBQuery::queryRow("SELECT * 
 		FROM `{$database['prefix']}Teamblog` a, `{$database['prefix']}Users` b 
 		WHERE b.loginid = '$loginid' 
-			and a.teams = '$owner'
+			and a.teams = '$blogid'
 			and a.userid = b.userid");
 	if(!empty($result)){
 		return 21;
@@ -58,7 +60,7 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 		if($result&&(mysql_num_rows($result)>0)){
 			return 61;
 		}
-		$result=DBQuery::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '".md5($password)."', '$name', UNIX_TIMESTAMP(), 0, $owner)");
+		$result=DBQuery::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '".md5($password)."', '$name', UNIX_TIMESTAMP(), 0, $blogid)");
 		if(!$result||(mysql_affected_rows()==0)){
 			return 11;
 		}
@@ -109,7 +111,7 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 	
 	// Add user information to Teamblog table.
 	$profile = $name;
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` (teams,userid,acl,profile,created,lastLogin) VALUES('$owner', '$id', '0', '$profile', UNIX_TIMESTAMP(), '0')");
+	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` (teams,userid,acl,profile,created,lastLogin) VALUES('$blogid', '$id', '0', '$profile', UNIX_TIMESTAMP(), '0')");
 	if(!$result||(mysql_affected_rows()==0)){
 		if(empty($isold)){  // If user is just added, delete user information.
 			DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
@@ -130,9 +132,9 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 	$message = str_replace('[##_title_##]',_text('초대장'),$message);
 	$message = str_replace('[##_content_##]',$comment,$message);
 	$message = str_replace('[##_images_##]',"$hostURL{$service['path']}/style/letter",$message);
-	if($isold == 1) $message = str_replace('[##_link_##]',getDefaultURL($owner).'/login?loginid='.rawurlencode($email).'&requestURI='.rawurlencode(getDefaultURL($owner)."/owner/center/dashboard/"),$message);	
-	else $message = str_replace('[##_link_##]',getDefaultURL($owner).'/login?loginid='.rawurlencode($email).'&password='.rawurlencode(md5($password)).'&requestURI='.rawurlencode(getDefaultURL($owner)."/owner/setting/account?password=".rawurlencode(md5($password))),$message);
-	$message = str_replace('[##_go_blog_##]',getDefaultURL($owner),$message);
+	if($isold == 1) $message = str_replace('[##_link_##]',getDefaultURL($blogid).'/login?loginid='.rawurlencode($email).'&requestURI='.rawurlencode(getDefaultURL($blogid)."/owner/center/dashboard/"),$message);	
+	else $message = str_replace('[##_link_##]',getDefaultURL($blogid).'/login?loginid='.rawurlencode($email).'&password='.rawurlencode(md5($password)).'&requestURI='.rawurlencode(getDefaultURL($blogid)."/owner/setting/account?password=".rawurlencode(md5($password))),$message);
+	$message = str_replace('[##_go_blog_##]',getDefaultURL($blogid),$message);
 	$message = str_replace('[##_link_title_##]',_text('블로그 바로가기'),$message);
 	if(empty($name)){
 		$message = str_replace('[##_to_##]','',$message);
@@ -148,16 +150,18 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 }
 
 function cancelInviteAsTeam($userid){
-	global $owner,$database;
+	global $database;
+
+	$blogId = getBlogId();
 	if(DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `lastLogin` = 0")==0)
 		return false;
-	if(DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = $owner")===0)
+	if(DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = $blogid")===0)
 		return false;
 	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid")){
 		if(DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $userid")){
 			if(DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $userid")){
 				if(DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $userid")){
-					DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='$owner' and userid='$userid'");
+					DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='$blogid' and userid='$userid'");
 					return true;
 				} else {
 					return false;
@@ -173,14 +177,14 @@ function cancelInviteAsTeam($userid){
 	}
 }
 
-function changeACLonTeamblog($owner,$stype,$userid,$switch){  // Change user priviledge on the blog.
+function changeACLonTeamblog($blogid,$stype,$userid,$switch){  // Change user priviledge on the blog.
 	global $database;
 	if(empty($stype) || empty($userid))
 		return false;
 
 	$acl = DBQuery::queryCell("SELECT acl
 			FROM {$database['prefix']}Teamblog 
-			WHERE teams='$owner' and userid='$userid'");
+			WHERE teams='$blogid' and userid='$userid'");
 
 	if( $acl === null ) {
 		$name = DBQuery::queryCell("SELECT name 
@@ -188,7 +192,7 @@ function changeACLonTeamblog($owner,$stype,$userid,$switch){  // Change user pri
 				WHERE userid = '$userid'");
 		$profile = _f('%1 님의 글입니다.',$name);
 		DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog`  
-				VALUES('$owner', '$userid', '0', '$profile', UNIX_TIMESTAMP(), '0')");
+				VALUES('$blogid', '$userid', '0', '$profile', UNIX_TIMESTAMP(), '0')");
 		$acl = 0;
 	}
 
@@ -212,7 +216,7 @@ function changeACLonTeamblog($owner,$stype,$userid,$switch){  // Change user pri
 
 	$sql = "UPDATE `{$database['prefix']}Teamblog` 
 		SET acl = ".$acl." 
-		WHERE teams = ".$owner." and userid = ".$userid;
+		WHERE teams = ".$blogid." and userid = ".$userid;
 	return DBQuery::execute($sql);
 }
 

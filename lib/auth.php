@@ -6,9 +6,8 @@
 function login($loginid, $password, $preKnownPassword = null) {
 	global $service, $owner;
 	$loginid = mysql_tt_escape_string($loginid);
-	$userid = Auth::authenticate($owner , $loginid, $password );
-	//$blogid = getBlogId();
-	$blogid = $owner;
+	$blogid = getBlogId();
+	$userid = Auth::authenticate($blogid , $loginid, $password );
 
 	if( $userid === false ) {
 		return false;
@@ -51,7 +50,6 @@ function doesHaveMembership() {
 }
 
 function requireMembership() {
-	global $owner;
 	if (empty($_SESSION['userid']))
 		requireLogin();
 	else

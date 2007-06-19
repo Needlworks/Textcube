@@ -119,7 +119,7 @@ function getThumbnailPaddingColor() {
 
 // img의 width/height에 맞춰 이미지를 리샘플링하는 함수. 썸네일 함수가 아님! 주의.
 function resampleImage($imgString, $originSrc, $useAbsolutePath) {
-	global $database, $owner, $serviceURL, $pathURL;
+	global $database, $serviceURL, $pathURL;
 	
 	if (!extension_loaded('gd')) {
 		return $imgString;
@@ -131,9 +131,9 @@ function resampleImage($imgString, $originSrc, $useAbsolutePath) {
 		@chmod(ROOT."/cache/thumbnail", 0777);
 	}
 
-	if (!is_dir(ROOT."/cache/thumbnail/$owner")) {
-		@mkdir(ROOT."/cache/thumbnail/$owner");
-		@chmod(ROOT."/cache/thumbnail/$owner", 0777);
+	if (!is_dir(ROOT."/cache/thumbnail/".getBlogId())) {
+		@mkdir(ROOT."/cache/thumbnail/".getBlogId());
+		@chmod(ROOT."/cache/thumbnail/".getBlogId(), 0777);
 	}
 
 	$originFileName = basename($originSrc);
@@ -148,18 +148,18 @@ function resampleImage($imgString, $originSrc, $useAbsolutePath) {
 	}
 
 	$newTempFileName = preg_replace("/\.([[:alnum:]]+)$/i", ".w{$tempWidth}-h{$tempHeight}.\\1", $originFileName);
-	$tempSrc = ROOT."/cache/thumbnail/$owner/".$newTempFileName;
+	$tempSrc = ROOT."/cache/thumbnail/".getBlogId()."/".$newTempFileName;
 
-	$tempURL = $pathURL."/thumbnail/$owner/".$newTempFileName;
+	$tempURL = $pathURL."/thumbnail/".getBlogId()."/".$newTempFileName;
 	if ($useAbsolutePath == true) {
-		$tempURL = "$serviceURL/thumbnail/$owner/$newTempFileName";
+		$tempURL = "$serviceURL/thumbnail/".getBlogId()."/".$newTempFileName;
 	}
 
 	if (file_exists($tempSrc)) {
 		$imgString = preg_replace('/src="([^"]+)"/i', 'src="'.$tempURL.'"', $imgString);
 		$imgString = preg_replace('/width="([^"]+)"/i', 'width="'.$tempWidth.'"', $imgString);
 		$imgString = preg_replace('/height="([^"]+)"/i', 'height="'.$tempHeight.'"', $imgString);
-		$imgString = preg_replace('/onclick="open_img\(\'([^\']+)\'\)"/', "onclick=\"open_img('$serviceURL/attach/$owner/$originFileName')\"", $imgString);
+		$imgString = preg_replace('/onclick="open_img\(\'([^\']+)\'\)"/', "onclick=\"open_img('$serviceURL/attach/".getBlogId()."/".$originFileName."')\"", $imgString);
 	} else {
 		$AttachedImage = new Image();
 		$AttachedImage->imageFile = $originSrc;
@@ -171,7 +171,7 @@ function resampleImage($imgString, $originSrc, $useAbsolutePath) {
 			$imgString = preg_replace('/src="([^"]+)"/i', 'src="'.$tempURL.'"', $imgString);
 			$imgString = preg_replace('/width="([^"]+)"/i', 'width="'.$tempWidth.'"', $imgString);
 			$imgString = preg_replace('/height="([^"]+)"/i', 'height="'.$tempHeight.'"', $imgString);
-			$imgString = preg_replace('/onclick="open_img\(\'([^\']+)\'\)"/', "onclick=\"open_img('$serviceURL/attach/$owner/$originFileName')\"", $imgString);
+			$imgString = preg_replace('/onclick="open_img\(\'([^\']+)\'\)"/', "onclick=\"open_img('$serviceURL/attach/".getBlogId()."/".$originFileName."')\"", $imgString);
 		}
 
 		unset($AttachedImage);

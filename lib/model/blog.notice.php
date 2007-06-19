@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-function getNoticesWithPaging($owner, $search, $page, $count) {
+function getNoticesWithPaging($blogid, $search, $page, $count) {
 	global $database, $folderURL, $suri;
 	$aux = '';
 	if (($search !== true) && $search) {
@@ -11,19 +11,19 @@ function getNoticesWithPaging($owner, $search, $page, $count) {
 		$aux = "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	}
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
-	$sql = "SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -2 $aux ORDER BY published DESC";
+	$sql = "SELECT * FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 $visibility AND category = -2 $aux ORDER BY published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
-function getNotice($owner, $id) {
+function getNotice($blogid, $id) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
-	return DBQuery::queryAll("SELECT id, title, content, published FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -2 AND id = $id");
+	return DBQuery::queryAll("SELECT id, title, content, published FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 $visibility AND category = -2 AND id = $id");
 }
 
-function getNotices($owner) {
+function getNotices($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
-	return DBQuery::queryAll("SELECT id, title, published FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category = -2 ORDER BY published DESC");
+	return DBQuery::queryAll("SELECT id, title, published FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 $visibility AND category = -2 ORDER BY published DESC");
 }
 ?>

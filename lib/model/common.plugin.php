@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function activatePlugin($name) {
-	global $database, $owner, $activePlugins;
+	global $database, $blogid, $activePlugins;
 	if (in_array($name, $activePlugins))
 		return true;
 	if (!ereg("^[[:alnum:] _\-]+$", $name))
@@ -14,32 +14,37 @@ function activatePlugin($name) {
 	if (!file_exists(ROOT . "/plugins/$name/index.xml") || !file_exists(ROOT . "/plugins/$name/index.php"))
 		return false;
 	$name = mysql_tt_escape_string(mysql_lessen($name, 255));
-	DBQuery::query("INSERT INTO {$database['prefix']}Plugins VALUES ($owner, '$name', null)");
+	DBQuery::query("INSERT INTO {$database['prefix']}Plugins VALUES ($blogid, '$name', null)");
 	return (mysql_affected_rows() == 1);
 }
 
 function deactivatePlugin($name) {
-	global $database, $owner, $activePlugins;
+	global $database, $activePlugins;
 	if (!in_array($name, $activePlugins))
 		return false;
 	$name = mysql_tt_escape_string($name);
-	DBQuery::query("DELETE FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$name'");
+	DBQuery::query("DELETE FROM {$database['prefix']}Plugins 
+			WHERE owner = ".getBlogId()."
+				AND name = '$name'");
 	return true;
 }
 
 function getCurrentSetting( $name){
-	global $database , $owner, $activePlugins;
+	global $database, $activePlugins;
 	if( !in_array( $name , $activePlugins))
 		return false;
 	$name = mysql_tt_escape_string( $name ) ;
-	$result = DBQuery::query("SELECT settings FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$name'");
+	$result = DBQuery::query("SELECT settings 
+			FROM {$database['prefix']}Plugins 
+			WHERE owner = ".getBlogId()."
+				AND name = '$name'");
 	if( false === $result ) 
 		return false;
 	$out = mysql_fetch_array($result); 
 	return $out['settings'];
 }
 function updatePluginConfig( $name , $setVal){
-	global $database, $owner, $activePlugins;
+	global $database,  $activePlugins;
 	if (!in_array($name, $activePlugins))
 		return false;
 	$name = mysql_tt_escape_string( mysql_lessen($name, 255) ) ;
@@ -47,7 +52,7 @@ function updatePluginConfig( $name , $setVal){
 	DBQuery::query(
 		"UPDATE {$database['prefix']}Plugins 
 			SET settings = '$setVal' 
-			WHERE owner = $owner 
+			WHERE owner = ".getBlogId()."
 			AND name = '$name'"
 		);
 	if( mysql_affected_rows() == 1 )
@@ -117,15 +122,15 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 }
 
 function clearPluginTable($name) {
-	global $database, $owner;
+	global $database;
 	$name = mysql_tt_escape_string($name);
-	DBQuery::query("DELETE FROM {$database['prefix']}{$name} WHERE owner = $owner");
+	DBQuery::query("DELETE FROM {$database['prefix']}{$name} WHERE owner = ".getBlogId());
 	return (mysql_affected_rows() == 1);
 }
 
 function deletePluginTable($name) {
-	global $database, $owner;
-	if($owner !== 0) return false;
+	global $database;
+	if(getBlogId() !== 0) return false;
 	$name = mysql_tt_escape_string($name);
 	DBQuery::query("DROP {$database['prefix']}{$name}");
 	return true;

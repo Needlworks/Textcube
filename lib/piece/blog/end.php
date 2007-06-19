@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-$writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
+$writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $blogid");
 $pageTitle = trim($pageTitle);
 if (!empty($pageTitle)) {
 	$pageTitleView = $skin->pageTitle;
@@ -19,7 +19,7 @@ dress('title', htmlspecialchars($blog['title']), $view);
 dress('blogger', htmlspecialchars($writer), $view);
 dress('desc', htmlspecialchars($blog['description']), $view);
 if (!empty($blog['logo']))
-	dress('image', "{$service['path']}/attach/$owner/{$blog['logo']}", $view);
+	dress('image', "{$service['path']}/attach/$blogid/{$blog['logo']}", $view);
 else
 	dress('image', "{$service['path']}/image/spacer.gif", $view);
 dress('blog_link', "$blogURL/", $view);
@@ -32,18 +32,18 @@ dress('search_name', 'search', $searchView);
 dress('search_text', isset($search) ? htmlspecialchars($search) : '', $searchView);
 dress('search_onclick_submit', 'searchBlog()', $searchView);
 dress('search', '<form id="TTSearchForm" action="'.$blogURL.'/search/" method="get" onsubmit="return searchBlog()" style="margin:0;padding:0;display:inline">'.$searchView.'</form>', $view);
-$totalPosts = getEntriesTotalCount($owner);
-$categories = getCategories($owner);
+$totalPosts = getEntriesTotalCount($blogid);
+$categories = getCategories($blogid);
 dress('category', getCategoriesView($totalPosts, $categories, isset($category) ? $category : true), $view);
 dress('category_list', getCategoriesView($totalPosts, $categories, isset($category) ? $category : true, true), $view);
 dress('count_total', $stats['total'], $view);
 dress('count_today', $stats['today'], $view);
 dress('count_yesterday', $stats['yesterday'], $view);
-dress('archive_rep', getArchivesView(getArchives($owner), $skin->archive), $view);
-dress('calendar', getCalendarView(getCalendar($owner, isset($period) ? $period : true)), $view);
-dress('random_tags', getRandomTagsView(getRandomTags($owner), $skin->randomTags), $view);
+dress('archive_rep', getArchivesView(getArchives($blogid), $skin->archive), $view);
+dress('calendar', getCalendarView(getCalendar($blogid, isset($period) ? $period : true)), $view);
+dress('random_tags', getRandomTagsView(getRandomTags($blogid), $skin->randomTags), $view);
 $noticeView = $skin->recentNotice;
-$notices = getNotices($owner);
+$notices = getNotices($blogid);
 if (sizeof($notices) > 0) {
 	$itemsView = '';
 	foreach ($notices as $notice) {
@@ -55,10 +55,10 @@ if (sizeof($notices) > 0) {
 	dress('rct_notice_rep', $itemsView, $noticeView);
 	dress('rct_notice', $noticeView, $view);
 }
-dress('rctps_rep', getRecentEntriesView(getRecentEntries($owner), $skin->recentEntry), $view);
-dress('rctrp_rep', getRecentCommentsView(getRecentComments($owner), $skin->recentComments), $view);
-dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($owner), $skin->recentTrackback), $view);
-dress('link_rep', getLinksView(getLinks($owner), $skin->s_link_rep), $view);
+dress('rctps_rep', getRecentEntriesView(getRecentEntries($blogid), $skin->recentEntry), $view);
+dress('rctrp_rep', getRecentCommentsView(getRecentComments($blogid), $skin->recentComments), $view);
+dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($blogid), $skin->recentTrackback), $view);
+dress('link_rep', getLinksView(getLinks($blogid), $skin->s_link_rep), $view);
 dress('rss_url', "$blogURL/rss", $view);
 dress('owner_url', "$blogURL/owner", $view);
 dress('textcube_name', TEXTCUBE_NAME, $view);

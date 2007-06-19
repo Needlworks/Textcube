@@ -5,13 +5,13 @@
 
 //require 'common.correctTT.php';
 
-function getTrashTrackbackWithPagingForOwner($owner, $category, $site, $ip, $search, $page, $count) {
+function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count) {
 	global $database;
 	
 	$postfix = '';
-	$sql = "SELECT t.*, c.name categoryName FROM {$database['prefix']}Trackbacks t LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Categories c ON t.owner = c.owner AND e.category = c.id WHERE t.owner = $owner AND t.isFiltered > 0";
+	$sql = "SELECT t.*, c.name categoryName FROM {$database['prefix']}Trackbacks t LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Categories c ON t.owner = c.owner AND e.category = c.id WHERE t.owner = $blogid AND t.isFiltered > 0";
 	if ($category > 0) {
-		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $owner AND parent = $category");
+		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $blogid AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 		$postfix .= '&category=' . rawurlencode($category);
@@ -39,9 +39,9 @@ function getTrashTrackbackWithPagingForOwner($owner, $category, $site, $ip, $sea
 }
 
 
-function getTrashCommentsWithPagingForOwner($owner, $category, $name, $ip, $search, $page, $count) {
+function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count) {
 	global $database;
-	$sql = "SELECT c.*, e.title, c2.name parentName FROM {$database['prefix']}Comments c LEFT JOIN {$database['prefix']}Entries e ON c.owner = e.owner AND c.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.owner = c2.owner WHERE c.owner = $owner AND c.isFiltered > 0";
+	$sql = "SELECT c.*, e.title, c2.name parentName FROM {$database['prefix']}Comments c LEFT JOIN {$database['prefix']}Entries e ON c.owner = e.owner AND c.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.owner = c2.owner WHERE c.owner = $blogid AND c.isFiltered > 0";
 
 	$postfix = '';	
 	if ($category > 0) {
@@ -73,19 +73,23 @@ function getTrashCommentsWithPagingForOwner($owner, $category, $name, $ip, $sear
 }
 
 function getTrackbackTrash($entry) {
-	global $database, $owner;
+	global $database;
 	$trackbacks = array();
-	$result = DBQuery::query("select * from {$database['prefix']}Trackbacks where owner = $owner AND entry = $entry order by written");
+	$result = DBQuery::query("select * 
+			from {$database['prefix']}Trackbacks 
+			where owner = ".getBlogId()."
+				AND entry = $entry 
+			order by written");
 	while ($trackback = mysql_fetch_array($result))
 		array_push($trackbacks, $trackback);
 	return $trackbacks;
 }
 
-function getRecentTrackbackTrash($owner) {
+function getRecentTrackbackTrash($blogid) {
 	global $database;
 	global $skinSetting;
 	$trackbacks = array();
-	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}Trackbacks WHERE owner = $owner ORDER BY written DESC LIMIT {$skinSetting['trackbacksOnRecent']}" : "SELECT t.* FROM {$database['prefix']}Trackbacks t, {$database['prefix']}Entries e WHERE t.owner = $owner AND t.owner = e.owner AND t.entry = e.id AND e.draft = 0 AND e.visibility >= 2 ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksOnRecent']}";
+	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}Trackbacks WHERE owner = $blogid ORDER BY written DESC LIMIT {$skinSetting['trackbacksOnRecent']}" : "SELECT t.* FROM {$database['prefix']}Trackbacks t, {$database['prefix']}Entries e WHERE t.owner = $blogid AND t.owner = e.owner AND t.entry = e.id AND e.draft = 0 AND e.visibility >= 2 ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksOnRecent']}";
 	if ($result = DBQuery::query($sql)) {
 		while ($trackback = mysql_fetch_array($result))
 			array_push($trackbacks, $trackback);
@@ -93,26 +97,26 @@ function getRecentTrackbackTrash($owner) {
 	return $trackbacks;
 }
 
-function deleteTrackbackTrash($owner, $id) {
+function deleteTrackbackTrash($blogid, $id) {
 	global $database;
-	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
+	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id"))
+	if (!DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $blogid AND id = $id"))
 		return false;
-	if (updateTrackbacksOfEntry($owner, $entry))
+	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
 	return false;
 }
 
-function restoreTrackbackTrash($owner, $id) {
+function restoreTrackbackTrash($blogid, $id) {
    	global $database;
-	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND id = $id");
+	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!DBQuery::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 0 WHERE owner = $owner AND id = $id"))
+	if (!DBQuery::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 0 WHERE owner = $blogid AND id = $id"))
 		return false;
-	if (updateTrackbacksOfEntry($owner, $entry))
+	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
 	return false;
 }

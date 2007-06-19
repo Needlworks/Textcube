@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-function setTreeSetting($owner, $setting) {
+function setTreeSetting($blogid, $setting) {
 	global $database;
 	foreach ($setting as $key => $value)
 		$setting[$key] = mysql_tt_escape_string($value);
@@ -17,17 +17,17 @@ function setTreeSetting($owner, $setting) {
 		activeBgColorOnTree 	= '{$setting['activeBgColorOnTree']}',
 		labelLengthOnTree 		= {$setting['labelLengthOnTree']},
 		showValueOnTree 		= " . (empty($setting['showValueOnTree']) ? 0 : 1) . "
-	WHERE owner = $owner";
+	WHERE owner = $blogid";
 	if (update($sql) > - 1)
 		return true;
 	else
 		respondErrorPage(mysql_error());
 }
 
-function reloadSkin($owner)
+function reloadSkin($blogid)
 {
 	global $database, $service;
-	$skinSetting = getSkinSetting($owner);
+	$skinSetting = getSkinSetting($blogid);
 	$skinName = $skinSetting['skin'];
 	if (file_exists(ROOT . "/skin/$skinName/index.xml")) {
 		$xml = file_get_contents(ROOT . "/skin/$skinName/index.xml");
@@ -57,13 +57,13 @@ function reloadSkin($owner)
 	}
 }
 
-function selectSkin($owner, $skinName) {
+function selectSkin($blogid, $skinName) {
 	global $database, $service;
 	if (empty($skinName))
 		return _t('실패했습니다.');
 		
 	if (strncmp($skinName, 'customize/', 10) == 0) {
-		if (strcmp($skinName, "customize/$owner") != 0)
+		if (strcmp($skinName, "customize/$blogid") != 0)
 			return _t('실패 했습니다');
 	} else {
 		$skinName = Path::getBaseName($skinName);
@@ -146,7 +146,7 @@ function selectSkin($owner, $skinName) {
 		$value = $xmls->getValue('/skin/default/tree/showValue');
 		if (isset($value))
 			array_push($assignments, 'showValueOnTree=' . ($value ? '1' : '0'));
-		$sql = "UPDATE {$database['prefix']}SkinSettings SET " . implode(',', $assignments) . " WHERE owner = $owner";
+		$sql = "UPDATE {$database['prefix']}SkinSettings SET " . implode(',', $assignments) . " WHERE owner = $blogid";
 		
 		// none/single/multiple
 		$value = $xmls->getValue('/skin/default/commentMessage/none'); 
@@ -174,7 +174,7 @@ function selectSkin($owner, $skinName) {
 		setUserSetting('singleCommentMessage', NULL);
 		setUserSetting('noneTrackbackMessage', NULL);
 		setUserSetting('singleTrackbackMessage', NULL);
-		$sql = "UPDATE {$database['prefix']}SkinSettings SET skin='{$skinName}' WHERE owner = $owner";
+		$sql = "UPDATE {$database['prefix']}SkinSettings SET skin='{$skinName}' WHERE owner = $blogid";
 	}
 	$result = DBQuery::query($sql);
 	if (!$result) {
@@ -185,22 +185,22 @@ function selectSkin($owner, $skinName) {
 	return true;
 }
 
-function writeSkinHtml($owner, $contents, $mode, $file) {
+function writeSkinHtml($blogid, $contents, $mode, $file) {
 	global $database;
 	global $skinSetting;
 	if ($mode != 'skin' && $mode != 'skin_keyword' && $mode != 'style')
 		return _t('실패했습니다.');
-	if ($skinSetting['skin'] != "customize/$owner") {
-		if (!@file_exists(ROOT . "/skin/customize/$owner")) {
-			if (!@mkdir(ROOT . "/skin/customize/$owner"))
+	if ($skinSetting['skin'] != "customize/$blogid") {
+		if (!@file_exists(ROOT . "/skin/customize/$blogid")) {
+			if (!@mkdir(ROOT . "/skin/customize/$blogid"))
 				return _t('권한이 없습니다.');
-			@chmod(ROOT . "/skin/customize/$owner", 0777);
+			@chmod(ROOT . "/skin/customize/$blogid", 0777);
 		}
-		deltree(ROOT . "/skin/customize/$owner");
-		copyRecusive(ROOT . "/skin/{$skinSetting['skin']}", ROOT . "/skin/customize/$owner");
+		deltree(ROOT . "/skin/customize/$blogid");
+		copyRecusive(ROOT . "/skin/{$skinSetting['skin']}", ROOT . "/skin/customize/$blogid");
 	}
-	$skinSetting['skin'] = "customize/$owner";
-	$sql = "UPDATE {$database['prefix']}SkinSettings SET skin = '{$skinSetting['skin']}' WHERE owner = $owner";
+	$skinSetting['skin'] = "customize/$blogid";
+	$sql = "UPDATE {$database['prefix']}SkinSettings SET skin = '{$skinSetting['skin']}' WHERE owner = $blogid";
 	$result = DBQuery::query($sql);
 	if (!$result)
 		return _t('실패했습니다.');
@@ -208,30 +208,30 @@ function writeSkinHtml($owner, $contents, $mode, $file) {
 	//	$file = $mode . '.css';
 	//else
 	//	$file = $mode . '.html';
-	if (!is_writable(ROOT . "/skin/customize/$owner/$file"))
-		return ROOT . _t('권한이 없습니다.') . " -> /skin/customize/$owner/$file";
-	$handler = fopen(ROOT . "/skin/customize/$owner/$file", 'w');
+	if (!is_writable(ROOT . "/skin/customize/$blogid/$file"))
+		return ROOT . _t('권한이 없습니다.') . " -> /skin/customize/$blogid/$file";
+	$handler = fopen(ROOT . "/skin/customize/$blogid/$file", 'w');
 	if (fwrite($handler, $contents) === false) {
 		fclose($handler);
 		return _t('실패했습니다.');
 	} else {
 		fclose($handler);
-		@chmod(ROOT . "/skin/customize/$owner/$file", 0666);
+		@chmod(ROOT . "/skin/customize/$blogid/$file", 0666);
 		return true;
 	}
 }
 
-function getCSSContent($owner, $file) {
+function getCSSContent($blogid, $file) {
 	global $skinSetting;
 	return @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/$file");
 }
 
-function setSkinSetting($owner, $setting) {
+function setSkinSetting($blogid, $setting) {
 	global $database;
 	global $skinSetting;
 
 	if (strncmp($skinSetting['skin'], 'customize/', 10) == 0) {
-		if (strcmp($skinSetting['skin'], "customize/$owner") != 0)
+		if (strcmp($skinSetting['skin'], "customize/$blogid") != 0)
 			return false;
 	} else {
 		$skinSetting['skin'] = Path::getBaseName($skinSetting['skin']);
@@ -272,7 +272,7 @@ function setSkinSetting($owner, $setting) {
 		recentCommentLength 		= ' . $setting['recentCommentLength'] . ',
 		recentTrackbackLength 	= ' . $setting['recentTrackbackLength'] . ',
 		linkLength 				= ' . $setting['linkLength'] . '
-	WHERE owner =' . $owner;
+	WHERE owner =' . $blogid;
 	if (update($sql) > - 1) {
 	} else {
 		return false;
@@ -282,7 +282,7 @@ function setSkinSetting($owner, $setting) {
 	SET 
 		entriesOnPage 			= '{$setting['entriesOnPage']}',
 		entriesOnList 			= '{$setting['entriesOnList']}'
-	WHERE owner = $owner ";
+	WHERE owner = $blogid ";
 	if ((update($sql) > - 1) && (setUserSetting('useRelTag',$useRelTag))) {
 		return true;
 	} else {

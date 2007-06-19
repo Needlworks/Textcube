@@ -144,14 +144,15 @@ function getTrackbacksView($entryId, $skin, $acceptTrackback) {
 }
 
 function getCommentView($entryId, $skin) {
-	global $database, $blogURL, $service, $owner, $suri, $paging, $contentContainer, $skinSetting;
+	global $database, $blogURL, $service, $suri, $paging, $contentContainer, $skinSetting;
+	$blogid = getBlogId();
 	requireModel("blog.entry");
 	requireModel("blog.comment");
 	requireLibrary('blog.skin');
 	//if ($entryId <= 0)
 	//	return getGuestCommentView($entryId, $skin);
 	$authorized = doesHaveOwnership();
-	$blogSetting = getBlogSetting($owner);
+	$blogSetting = getBlogSetting($blogid);
 	if ($entryId > 0) {
 		$prefix1 = 'rp';
 		$isComment = true;
@@ -162,7 +163,7 @@ function getCommentView($entryId, $skin) {
 	$commentView = ($isComment ? $skin->comment : $skin->guest);
 	$commentItemsView = '';
 	if ($isComment == false) {
-		list($comments, $paging) = getCommentsWithPagingForGuestbook($owner, $suri['page'], $skinSetting['commentsOnGuestbook']);
+		list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
 		foreach ($comments as $key => $value) {
 			if ($value['secret'] == 1 && !$authorized) {
 				$comments[$key]['name'] = '';
@@ -192,7 +193,7 @@ function getCommentView($entryId, $skin) {
 			dress($prefix1 . '_rep_link',"$blogURL/".($entryId == 0 ? "guestbook/{$commentSubItem['id']}#guestbook{$commentSubItem['id']}" : "{$entryId}#comment{$commentSubItem['id']}"), $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']}); return false;", $commentSubItemView);
 			$rp_class = $prefix1 . '_general';
-			if ($owner == $commentSubItem['replier'])
+			if ($blogid == $commentSubItem['replier'])
 				$rp_class = $prefix1 . '_admin';
 			else if ($commentSubItem['secret'] == 1) {
 				$rp_class = $prefix1 . '_secret';
@@ -227,7 +228,7 @@ function getCommentView($entryId, $skin) {
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
 		dress($prefix1 . '_rep_link', "$blogURL/".($entryId == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentItem['id']}" : "{$entryId}#comment{$commentItem['id']}"), $commentItemView);
 		$rp_class = $prefix1 . '_general';
-		if ($owner == $commentItem['replier'])
+		if ($blogid == $commentItem['replier'])
 			$rp_class = $prefix1 . '_admin';
 		else if ($commentItem['secret'] == 1) {
 			$rp_class = $prefix1 . '_secret';
@@ -313,9 +314,10 @@ function getCommentView($entryId, $skin) {
 }
 
 function getGuestCommentView($entryId, $skin) {
-	global $blogURL, $owner, $suri, $paging, $blog, $skinSetting;
+	global $blogURL, $suri, $paging, $blog, $skinSetting;
 	requireModel('blog.comment');
 	requireLibrary('blog.skin');
+	$blogid = getBlogId();
 
 	$authorized = doesHaveOwnership();
 	if ($entryId > 0) {
@@ -328,7 +330,7 @@ function getGuestCommentView($entryId, $skin) {
 	$commentView = "<form method=\"post\" action=\"$blogURL/comment/add/$entryId\" onsubmit=\"return false\" style=\"margin: 0\">" . ($isComment ? $skin->comment : $skin->guest) . '</form>';
 	$commentItemsView = '';
 	if ($entryId == 0) {
-		list($comments, $paging) = getCommentsWithPagingForGuestbook($owner, $suri['page'], $skinSetting['commentsOnGuestbook']);
+		list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
 		foreach ($comments as $key => $value) {
 			if ($value['secret'] == 1 && !$authorized) {
 				$comments[$key]['name'] = '';
@@ -420,19 +422,19 @@ function getGuestCommentView($entryId, $skin) {
 }
 
 function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) {
-	global $blogURL, $owner;
+	global $blogURL;
 	requireModel('blog.category');
 	requireLibrary('blog.skin');
-
+	$blogid = getBlogId();
 	$categoryCount = 0;
 	$categoryCountAll = 0;
 	$parentCategoryCount = 0;
-	$tree = array('id' => 0, 'label' => getCategoryNameById($owner, 0), 'value' => $totalPosts, 'link' => "$blogURL/category", 'children' => array());
+	$tree = array('id' => 0, 'label' => getCategoryNameById($blogid, 0), 'value' => $totalPosts, 'link' => "$blogURL/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
-		if(doesHaveOwnership() || getCategoryVisibility($owner, $category1['id']) > 1) {
+		if(doesHaveOwnership() || getCategoryVisibility($blogid, $category1['id']) > 1) {
 			foreach ($category1['children'] as $category2) {
-				if( doesHaveOwnership() || getCategoryVisibility($owner, $category2['id']) > 1) {
+				if( doesHaveOwnership() || getCategoryVisibility($blogid, $category2['id']) > 1) {
 					array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 'link' => "$blogURL/category/" . encodeURL($category2['label']), 'children' => array()));
 					$categoryCount = $categoryCount + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
 				}
@@ -460,13 +462,13 @@ function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
-			if(getCategoryVisibility($owner, $category1['id']) == 2) {
-				array_push($children, array('id' => $category2['id'], 'label' => (getCategoryVisibility($owner, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+			if(getCategoryVisibility($blogid, $category1['id']) == 2) {
+				array_push($children, array('id' => $category2['id'], 'label' => (getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
 			} else {
-				array_push($children, array('id' => $category2['id'], 'label' => '[!] '.(getCategoryVisibility($owner, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+				array_push($children, array('id' => $category2['id'], 'label' => '[!] '.(getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
 			}
 		}
-		array_push($tree['children'], array('id' => $category1['id'], 'label' => (getCategoryVisibility($owner, $category1['id'])==2 ? $category1['name'] : _t('(비공개)').' '.$category1['name']), 'value' => $category1['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
+		array_push($tree['children'], array('id' => $category1['id'], 'label' => (getCategoryVisibility($blogid, $category1['id'])==2 ? $category1['name'] : _t('(비공개)').' '.$category1['name']), 'value' => $category1['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
 	}
 	ob_start();
 	printTreeView($tree, $selected);
@@ -479,8 +481,7 @@ function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 	requireModel('blog.category');
 	requireLibrary('blog.skin');
 
-	global $owner;
-	$tree = array('id' => 0, 'label' => getCategoryNameById($owner, 0), 'value' => $totalPosts, 'link' => "", 'children' => array());
+	$tree = array('id' => 0, 'label' => getCategoryNameById(getBlogId(), 0), 'value' => $totalPosts, 'link' => "", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
@@ -960,15 +961,16 @@ function getRandomTagsView($tags, $template) {
 	return $view;
 }
 
-function getEntryContentView($owner, $id, $content, $formatter, $keywords = array(), $type = 'Post', $useAbsolutePath = false, $bRssMode = false) {
-	global $hostURL, $service, $owner, $useImageResampling;
+function getEntryContentView($blogid, $id, $content, $formatter, $keywords = array(), $type = 'Post', $useAbsolutePath = false, $bRssMode = false) {
+	global $hostURL, $service, $useImageResampling;
 	requireModel('blog.attachment');
 	requireModel('blog.keyword');
 	requireLibrary('blog.skin');
+	$blogid = getBlogId();
 
 	$content = fireEvent('Format' . $type . 'Content', $content, $id);
 	$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
-	$view = $func($owner, $id, $content, $formatter, $keywords, $useAbsolutePath);
+	$view = $func($blogid, $id, $content, $formatter, $keywords, $useAbsolutePath);
 	if (defined('__TEXTCUBE_MOBILE__'))
 		$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var'));
 	if(!$useAbsolutePath)
@@ -979,16 +981,16 @@ function getEntryContentView($owner, $id, $content, $formatter, $keywords = arra
 	// image resampling
 	if ($useImageResampling == true) {
 		if ($useAbsolutePath == true) {
-			preg_match("@<img.+src=['\"]{$hostURL}{$service['path']}/attach/{$owner}/(.+)['\"].+/>@Ui", $view, $images, PREG_SET_ORDER);
-			$view = preg_replace("@<img.+src=['\"]{$hostURL}{$service['path']}/attach/{$owner}/(.+)['\"].+/>@Ui", '[#####_#####_#####_image_#####_#####_#####]', $view);
+			preg_match("@<img.+src=['\"]{$hostURL}{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Ui", $view, $images, PREG_SET_ORDER);
+			$view = preg_replace("@<img.+src=['\"]{$hostURL}{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Ui", '[#####_#####_#####_image_#####_#####_#####]', $view);
 		} else {
-			preg_match_all("@<img.+src=['\"]{$service['path']}/attach/{$owner}/(.+)['\"].+/>@Ui", $view, $images, PREG_SET_ORDER);
-			$view = preg_replace("@<img.+src=['\"]{$service['path']}/attach/{$owner}/(.+)['\"].+/>@Ui", '[#####_#####_#####_image_#####_#####_#####]', $view);
+			preg_match_all("@<img.+src=['\"]{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Ui", $view, $images, PREG_SET_ORDER);
+			$view = preg_replace("@<img.+src=['\"]{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Ui", '[#####_#####_#####_image_#####_#####_#####]', $view);
 		}
 	
 		if (count($images) > 0) {
 			for ($i=0; $i<count($images); $i++) {
-				$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', resampleImage($images[$i][0], ROOT . "/attach/{$owner}/{$images[$i][1]}", $useAbsolutePath), $view, 1);
+				$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', resampleImage($images[$i][0], ROOT . "/attach/{$blogid}/{$images[$i][1]}", $useAbsolutePath), $view, 1);
 			}
 		}
 	}
@@ -996,11 +998,11 @@ function getEntryContentView($owner, $id, $content, $formatter, $keywords = arra
 	return $view;
 }
 
-function printEntryContentView($owner, $id, $content, $formatter, $keywords = array()) {
-	print (getEntryContentView($owner, $id, $content, $formatter, $keywords));
+function printEntryContentView($blogid, $id, $content, $formatter, $keywords = array()) {
+	print (getEntryContentView($blogid, $id, $content, $formatter, $keywords));
 }
 
-function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $searchKeyword = null) {
+function printFeedGroups($blogid, $selectedGroup = 0, $starredOnly = false, $searchKeyword = null) {
 	global $service;
 ?>
 													<div id="groupAdder">
@@ -1014,7 +1016,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 													<ul id="groupList">
 <?php
 	$count = 0;
-	foreach (getFeedGroups($owner, $starredOnly, $searchKeyword) as $group) {
+	foreach (getFeedGroups($blogid, $starredOnly, $searchKeyword) as $group) {
 		if ($group['id'] == 0)
 			$group['title'] = _t('전체보기');
 		$className = ($count % 2) == 1 ? 'even-line' : 'odd-line';
@@ -1059,7 +1061,7 @@ function printFeedGroups($owner, $selectedGroup = 0, $starredOnly = false, $sear
 <?php
 }
 
-function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = null) {
+function printFeeds($blogid, $group = 0, $starredOnly = false, $searchKeyword = null) {
 	global $service;
 ?>
 													<div id="feedAdder">
@@ -1074,7 +1076,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 													<ul id="feedList">
 <?php
 	$count = 0;
-	foreach (getFeeds($owner, $group, $starredOnly, $searchKeyword) as $feed) {
+	foreach (getFeeds($blogid, $group, $starredOnly, $searchKeyword) as $feed) {
 		if ($feed['modified'] > time() - 86400)
 			$status = 'Update';
 		else if ($feed['modified'] == 0)
@@ -1104,7 +1106,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 															<div class="input-field">
 																<select id="changeFeedGroup">
 <?php
-	foreach (getFeedGroups($owner) as $group) {
+	foreach (getFeedGroups($blogid) as $group) {
 		if ($group['id'] == 0)
 			$group['title'] = _t('그룹 없음');
 ?>
@@ -1129,7 +1131,7 @@ function printFeeds($owner, $group = 0, $starredOnly = false, $searchKeyword = n
 
 
 
-function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null) {
+function printFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null) {
 	global $service;
 ?>
 												<script type="text/javascript">
@@ -1143,7 +1145,7 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 													<tbody>
 <?php
 	$count = 0;
-	foreach (getFeedEntries($owner, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword) as $entry) {
+	foreach (getFeedEntries($blogid, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword) as $entry) {
 		if ($count == 0)
 			$firstEntryId = $entry['id'];
 		$className = $entry['wasread'] ? 'read' : 'unread';
@@ -1188,7 +1190,7 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 												<script type="text/javascript">
 													//<![CDATA[
 														Reader.setShownEntries(<?php echo $count;?>);
-														Reader.setTotalEntries(<?php echo getFeedEntriesTotalCount($owner, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword);?>);
+														Reader.setTotalEntries(<?php echo getFeedEntriesTotalCount($blogid, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword);?>);
 <?php
 	if (isset($firstEntryId)) {
 ?>
@@ -1202,13 +1204,13 @@ function printFeedEntries($owner, $group = 0, $feed = 0, $unreadOnly = false, $s
 	return $count;
 }
 
-function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $offset) {
+function printFeedEntriesMore($blogid, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $offset) {
 	global $service;
 ?>
 												<table cellpadding="0" cellspacing="0">
 <?php
 	$count = 1;
-	foreach (getFeedEntries($owner, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword, $offset) as $entry) {
+	foreach (getFeedEntries($blogid, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword, $offset) as $entry) {
 		$class = $entry['wasread'] ? 'read' : 'unread';
 		$class .= ($count % 2) == 1 ? ' odd-line' : ' even-line';
 		$class .= ' inactive-class';
@@ -1245,9 +1247,9 @@ function printFeedEntriesMore($owner, $group = 0, $feed = 0, $unreadOnly = false
 	return $count;
 }
 
-function printFeedEntry($owner, $group = 0, $feed = 0, $entry = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $position = 'current') {
+function printFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $position = 'current') {
 	global $service;
-	if (!$entry = getFeedEntry($owner, $group, $feed, $entry, $unreadOnly, $starredOnly, $searchKeyword, $position)) {
+	if (!$entry = getFeedEntry($blogid, $group, $feed, $entry, $unreadOnly, $starredOnly, $searchKeyword, $position)) {
 		$entry = array('id' => 0, 'author' => 'Textcube', 'blog_title' => 'Textcube Reader', 'permalink' => '#', 'entry_title' => _t('포스트가 없습니다.'), 'language' => 'en-US', 'description' => '<div style="height: 369px"></div>', 'tags' => '', 'enclosure' => '', 'written' => time());
 	}
 ?>

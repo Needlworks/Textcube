@@ -667,28 +667,28 @@ function getFormatterInfo($formatter) {
 	return $formatterMapping[$formatter];
 }
 
-function formatContent($owner, $id, $content, $formatter, $keywords = array(), $useAbsolutePath = false) {
+function formatContent($blogid, $id, $content, $formatter, $keywords = array(), $useAbsolutePath = false) {
 	$info = getFormatterInfo($formatter);
 	$func = (isset($info['formatfunc']) ? $info['formatfunc'] : 'FM_default_format');
-	return $func($owner, $id, $content, $keywords, $useAbsolutePath);
+	return $func($blogid, $id, $content, $keywords, $useAbsolutePath);
 }
 
-function summarizeContent($owner, $id, $content, $formatter, $keywords = array(), $useAbsolutePath = false) {
+function summarizeContent($blogid, $id, $content, $formatter, $keywords = array(), $useAbsolutePath = false) {
 	global $blog;
 	$info = getFormatterInfo($formatter);
 	$func = (isset($info['summaryfunc']) ? $info['summaryfunc'] : 'FM_default_summary');
 	// summary function is responsible for shortening the content if needed
-	return $func($owner, $id, $content, $keywords, $useAbsolutePath);
+	return $func($blogid, $id, $content, $keywords, $useAbsolutePath);
 }
 
 // default formatter functions.
-function FM_default_format($owner, $id, $content, $keywords = array(), $useAbsolutePath = false) {
+function FM_default_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false) {
 	global $service, $hostURL;
 	$basepath = ($useAbsolutePath ? $hostURL : '');
-	return str_replace('[##_ATTACH_PATH_##]', "$basepath{$service['path']}/attach/$owner", $content);
+	return str_replace('[##_ATTACH_PATH_##]', "$basepath{$service['path']}/attach/$blogid", $content);
 }
 
-function FM_default_summary($owner, $id, $content, $keywords = array(), $useAbsolutePath = false) {
+function FM_default_summary($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false) {
 	global $blog;
 	if (!$blog['publishWholeOnRSS']) $content = UTF8::lessen(removeAllTags(stripHTML($content)), 255);
 	return $content;

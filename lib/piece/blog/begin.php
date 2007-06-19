@@ -3,8 +3,10 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-updateVisitorStatistics($owner);
-$stats = getStatistics($owner);
+$blogid = getBlogId();
+
+updateVisitorStatistics($blogid);
+$stats = getStatistics($blogid);
 if (!empty($entries) && (count($entries) == 1))
 	$pageTitle = $entries[0]['title'];
 else
@@ -15,7 +17,7 @@ if (!isset($skin))
 $view = str_replace('[##_t3_##]', getUpperView(isset($paging) ? $paging : null) . $skin->skin . getLowerView() . getScriptsOnFoot(), $skin->outter);
 
 if (!empty($category)) {
-	dress('body_id',getCategoryBodyIdById($owner,$category) ? getCategoryBodyIdById($owner,$category) : 'tt-body-category',$view);
+	dress('body_id',getCategoryBodyIdById($blogid,$category) ? getCategoryBodyIdById($blogid,$category) : 'tt-body-category',$view);
 } else if (!empty($search)) {
 	dress('body_id',"tt-body-search",$view);
 } else if (!empty($period)) {
