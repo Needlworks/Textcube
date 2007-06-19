@@ -221,10 +221,10 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 	requireComponent('Eolin.PHP.Core');
 	
 	// Teamblog
-	$chT_SQL1 = $chT_SQL2 = "";
+	$teamMemberFilter1 = $teamMemberFilter2 = "";
 	if( ! Acl::check("group.editors", "entry.list") ) {
-		$chT_SQL1 = ", {$database['prefix']}TeamEntryRelations z";
-		$chT_SQL2 = " AND z.Owner=".$blogid." AND z.Id=e.id AND z.Team=".getUserId();
+		$teamMemberFilter1 = ", {$database['prefix']}TeamEntryRelations t";
+		$teamMemberFilter2 = " AND t.owner=".$blogid." AND t.id = e.id AND t.userid = ".getUserId();
 	}
 	// End TeamBlog
 	
@@ -232,8 +232,8 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
 		LEFT JOIN {$database['prefix']}Entries d ON e.owner = d.owner AND e.id = d.id AND d.draft = 1 
-		$chT_SQL1
-		WHERE e.owner = $blogid AND e.draft = 0" . $chT_SQL2;
+		$teamMemberFilter1
+		WHERE e.owner = $blogid AND e.draft = 0" . $teamMemberFilter2;
 	if ($category > 0) {
 		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $blogid AND parent = $category");
 		array_push($categories, $category);
