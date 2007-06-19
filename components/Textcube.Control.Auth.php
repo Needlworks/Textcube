@@ -24,18 +24,21 @@ $sAcoFromUri = array(
 			'/owner/entry*',
 			'/owner/reader',
 			'/owner/setting*',
+			'/owner/plugin/admin*'
 			),
 		"group.editors" => array(
 			'/owner/center/dashboard',
 			'/owner/center/about',
-			'/owner/entry*'
+			'/owner/entry*',
+			'/owner/plugin/admin*'
 			),
 		"group.writers" => array(
 			'/owner/center/dashboard',
 			'/owner/center/about',
 			'/owner/entry*',
 			'/owner/setting/account*',
-			'/owner/reader'
+			'/owner/reader',
+			'/owner/plugin/admin*'
 			)
 		);
 
