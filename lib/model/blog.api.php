@@ -471,37 +471,36 @@ function api_addAttachment($owner,$parent,$file){
 
 function api_get_attaches( $content)
 {
-	global $owner;
-	preg_match_all( "/attach\/$owner\/(ta.{7}tt.{7}er.{7}\.[a-z]{2,5})/", $content, $matches );
+	preg_match_all( "/attach\/".getBlogId()."\/(ta.{7}tt.{7}er.{7}\.[a-z]{2,5})/", $content, $matches );
 	return $matches[1];
 }
 
 function api_update_attaches( $parent, $attaches = null)
 {
-	global $database, $owner;
+	global $database;
 	if (is_null($attaches)) {
-		DBQuery::query( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0");		
+		DBQuery::query( "update {$database['prefix']}Attachments set parent=$parent where owner=".getBlogId()." and parent=0");		
 	} else {
 		foreach( $attaches as $att )
 		{
 			$att = mysql_tt_escape_string($att);
-			DBQuery::query( "update {$database['prefix']}Attachments set parent=$parent where owner=$owner and parent=0 and name='" . $att . "'");
+			DBQuery::query( "update {$database['prefix']}Attachments set parent=$parent where owner=".getBlogId()." and parent=0 and name='" . $att . "'");
 		}
 	}
 }
 
 function api_update_attaches_with_replace($entryId)
 {
-	global $database, $owner;
+	global $database;
 	
 	requireComponent('Eolin.PHP.Core');
-	$newFiles = DBQuery::queryAll("SELECT name, label FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=0");
+	$newFiles = DBQuery::queryAll("SELECT name, label FROM {$database['prefix']}Attachments WHERE owner=".getBlogId()." AND parent=0");
 	foreach($newFiles as $newfile) {
 		$newfile['label'] = mysql_tt_escape_string(mysql_lessen($newfile['label'], 64));
-		$oldFile = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE owner=$owner AND parent=$entryId AND label='{$newfile['label']}'");
+		$oldFile = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE owner=".getBlogId()." AND parent=$entryId AND label='{$newfile['label']}'");
 	
 		if (!is_null($oldFile)) {
-			deleteAttachment($owner, $entryId, $oldFile);
+			deleteAttachment(getBlogId(), $entryId, $oldFile);
 		}
 	}
 	
@@ -583,7 +582,6 @@ function api_BlogAPI()
 function blogger_getUsersBlogs()
 {
 	global $blog, $hostURL, $blogURL;
-	global $owner;
 
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
@@ -595,7 +593,7 @@ function blogger_getUsersBlogs()
 	$blogs = array( 
 		array( 
 				"url" => $hostURL . $blogURL,
-				"blogid" => "$owner",
+				"blogid" => getBlogId(),
 				"blogName" => $blog['title'],
 		) 
 	);
@@ -675,7 +673,6 @@ function blogger_editPost()
 
 function blogger_deletePost()
 {
-	global $owner;
 	$params = func_get_args();
 	$result = api_login( $params[2], $params[3] );
 	if( $result )
@@ -687,7 +684,7 @@ function blogger_deletePost()
 	$id = intval( $params[1] );
 	$ret = $post->open( $id );
 	$ret = $post->remove();
-	deleteAttachments($owner, $id );
+	deleteAttachments(getBlogId(), $id );
 
 	return $ret ? true : false;
 

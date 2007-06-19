@@ -17,6 +17,7 @@ $IV = array(
 ); 
 
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel('blog.entry');
 $selected = 0;
 
 if (isset($_GET['name']))
@@ -65,6 +66,6 @@ if (isset($_GET['showValue']))
 	</style>
 </head>
 <body id="tree-iframe">
-<?php echo getCategoriesViewInSkinSetting(getEntriesTotalCount($owner), getCategories($owner), $selected);?>
+<?php echo getCategoriesViewInSkinSetting(getEntriesTotalCount(getBlogId()), getCategories(getBlogId()), $selected);?>
 </body>
 </html>

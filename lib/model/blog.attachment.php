@@ -159,19 +159,19 @@ function deleteAttachments($owner, $parent) {
 }
 
 function downloadAttachment($name) {
-	global $database, $owner;
+	global $database;
 	$name = mysql_tt_escape_string($name);
-	DBQuery::query("UPDATE {$database['prefix']}Attachments SET downloads = downloads + 1 WHERE owner = $owner AND name = '$name'");
+	DBQuery::query("UPDATE {$database['prefix']}Attachments SET downloads = downloads + 1 WHERE owner = ".getBlogId()." AND name = '$name'");
 }
 
 function setEnclosure($name, $order) {
-	global $database, $owner;
+	global $database;
 	$name = mysql_tt_escape_string($name);
-	if (($parent = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE owner = $owner AND name = '$name'")) !== null) {
+	if (($parent = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE owner = ".getBlogId()." AND name = '$name'")) !== null) {
 		DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent");
 		if ($order) {
 			clearRSS();
-			return DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 1 WHERE owner = $owner AND name = '$name'") ? 1 : 2;
+			return DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 1 WHERE owner = ".getBlogId()." AND name = '$name'") ? 1 : 2;
 		} else
 			return 0;
 	} else
@@ -179,10 +179,10 @@ function setEnclosure($name, $order) {
 }
 
 function getEnclosure($entry) {
-	global $database, $owner;
+	global $database;
 	if ($entry < 0)
 		return null;
-	return DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE parent = $entry AND enclosure = 1 AND owner = $owner");
+	return DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE parent = $entry AND enclosure = 1 AND owner = ".getBlogId());
 }
 
 function return_bytes($val) {

@@ -21,8 +21,8 @@ $typeSchema = null;
 $formatterMapping = array('html' => array('name' => _t('HTML'), 'editors' => array('plain' => '')));
 $editorMapping = array('plain' => array('name' => _t('편집기 없음')));
 
-if (!empty($owner)) {
-	$activePlugins = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE owner = $owner");
+if (getBlogId()) {
+	$activePlugins = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE owner = ".getBlogId());
 	$xmls = new XMLStruct();
 	foreach ($activePlugins as $plugin) {
 		$manifest = @file_get_contents(ROOT . "/plugins/$plugin/index.xml");
@@ -252,7 +252,8 @@ if (!empty($owner)) {
 			}
 		} else {
 			$plugin = mysql_tt_escape_string($plugin);
-			DBQuery::query("DELETE FROM {$database['prefix']}Plugins WHERE owner = $owner AND name = '$plugin'");
+			DBQuery::query("DELETE FROM {$database['prefix']}Plugins 
+					WHERE owner = ".getBlogId()." AND name = '$plugin'");
 		}
 	}
 	unset($xmls);

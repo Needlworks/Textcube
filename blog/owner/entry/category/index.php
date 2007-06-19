@@ -17,6 +17,7 @@ if(count($_POST) > 0) {
 	);
 }
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel('blog.category');
 
 if (!empty($_POST['id']))
 	$selected = $_POST['id'];
@@ -155,7 +156,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								<div id="tree-preview-box">
 									<div class="title"><?php echo _t('미리보기');?></div>
 									<div id="treePreview">
-<?php echo getCategoriesViewInOwner(getEntriesTotalCount($owner), $categories, $selected);?>
+<?php echo getCategoriesViewInOwner(getEntriesTotalCount(getBlogId()), $categories, $selected);?>
 									</div>
 								</div>
 								

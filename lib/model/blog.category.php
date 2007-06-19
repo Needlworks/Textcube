@@ -78,11 +78,17 @@ function getCategories($owner) {
 }
 
 function getCategoriesSkin() {
-	global $database;
-	global $owner, $service;
-	$sql = "select * from {$database['prefix']}SkinSettings where owner = $owner";
+	global $database, $service;
+	$sql = "SELECT * FROM {$database['prefix']}SkinSettings WHERE owner = ".getBlogId();
 	$setting = DBQuery::queryRow($sql);
-	$skin = array('name' => "{$setting['skin']}", 'url' => $service['path'] . "/image/tree/{$setting['tree']}", 'labelLength' => $setting['labelLengthOnTree'], 'showValue' => $setting['showValueOnTree'], 'itemColor' => "{$setting['colorOnTree']}", 'itemBgColor' => "{$setting['bgColorOnTree']}", 'activeItemColor' => "{$setting['activeColorOnTree']}", 'activeItemBgColor' => "{$setting['activeBgColorOnTree']}", );
+	$skin = array('name' => "{$setting['skin']}", 
+			'url'               => $service['path'] . "/image/tree/{$setting['tree']}", 
+			'labelLength'       => $setting['labelLengthOnTree'], 
+			'showValue'         => $setting['showValueOnTree'], 
+			'itemColor'         => "{$setting['colorOnTree']}", 
+			'itemBgColor'       => "{$setting['bgColorOnTree']}", 
+			'activeItemColor'   => "{$setting['activeColorOnTree']}", 
+			'activeItemBgColor' => "{$setting['activeBgColorOnTree']}", );
 	return $skin;
 }
 
@@ -92,15 +98,15 @@ function getParentCategoryId($owner, $id) {
 }
 
 function getNumberChildCategory($id = null) {
-	global $database, $owner;
-	$sql = "SELECT * FROM {$database['prefix']}Categories WHERE owner = $owner AND parent " . ($id == null ? 'IS NULL' : "= $id");
+	global $database;
+	$sql = "SELECT * FROM {$database['prefix']}Categories WHERE owner = ".getBlogId()." AND parent " . ($id == null ? 'IS NULL' : "= $id");
 	$result = DBQuery::queryRow($sql);
 	return DBQuery::queryCell($sql);
 }
 
 function getNumberEntryInCategories($id) {
-	global $database, $owner;
-	return DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND category " . ($id == null ? 'IS NULL' : "= $id"));
+	global $database;
+	return DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE owner = ".getBlogId()." AND draft = 0 AND category " . ($id == null ? 'IS NULL' : "= $id"));
 }
 
 function addCategory($owner, $parent, $name) {

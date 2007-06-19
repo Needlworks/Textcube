@@ -453,11 +453,10 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 }
 
 function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
-	global $blogURL, $owner;
+	global $blogURL;
 	requireModel('blog.category');
 	requireLibrary('blog.skin');
-
-	$tree = array('id' => 0, 'label' => getCategoryNameById($owner, 0), 'value' => $totalPosts, 'link' => "$blogURL/owner/entry/category", 'children' => array());
+	$tree = array('id' => 0, 'label' => getCategoryNameById(getBlogId(), 0), 'value' => $totalPosts, 'link' => "$blogURL/owner/entry/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {

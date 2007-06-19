@@ -134,7 +134,6 @@ function authorizeSession($blogid, $userid) {
 		return false;
 	$_SESSION['userid'] = $userid;
 	$_SESSION['blogid'] = $blogid;
-//	$_SESSION['admin'] = $userid;
 	if (isSessionAuthorized(session_id()))
 		return true;
 	for ($i = 0; $i < 100; $i++) {

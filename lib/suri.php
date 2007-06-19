@@ -44,8 +44,10 @@ if ($service['type'] == 'single') {
 		respondNotFoundPage();
 }
 
+setBlogId($owner);
 $blog = getBlogSetting($owner);
 $skinSetting = getSkinSetting($owner);
+
 $depth = substr_count(ROOT, '/');
 if ($depth > 0) {
 	if (ereg("^((/+[^/]+){{$depth}})/*(.*)$", $url, $matches)) {

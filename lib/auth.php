@@ -4,10 +4,10 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function login($loginid, $password, $preKnownPassword = null) {
-	global $service;
-	global $owner;			// 팀블로그 변수 추가
+	global $service, $owner;
 	$loginid = mysql_tt_escape_string($loginid);
-	$userid = Auth::authenticate( $owner, $loginid, $password );
+	$userid = Auth::authenticate($owner , $loginid, $password );
+//	$blogid = getBlogId();
 	$blogid = $owner;
 
 	if( $userid === false ) {
@@ -67,6 +67,11 @@ function getBlogId() {
 	return empty($_SESSION['blogid']) ? false : $_SESSION['blogid'];
 }
 
+
+function setBlogId($id) {
+	$_SESSION['blogid'] = $id;
+}
+
 function doesHaveOwnership($extra_aco=null) {
 	return Acl::check( array("group.administrators","group.writers"), $extra_aco);
 }
@@ -104,14 +109,13 @@ function isLoginId($userid, $loginid) {
 	$loginid = mysql_tt_escape_string($loginid);
 	
 	// 팀블로그 :: 팀원 확인
-	$result=DBQuery::query("select a.userid 
-			from {$database['prefix']}Users a, 
-				{$database['prefix']}Teamblog b 
-			where b.teams = $userid 
-				and a.loginid = '$loginid' 
-				and b.userid=a.userid");
+	$result = DBQuery::query("SELECT u.userid 
+			from {$database['prefix']}Users u, 
+				{$database['prefix']}Teamblog t 
+			where t.teams = $userid 
+				and u.loginid = '$loginid' 
+				and t.userid = u.userid");
 	// End TeamBlog
-	
 	if ($result && (mysql_num_rows($result) == 1))
 		return true;
 	return false;

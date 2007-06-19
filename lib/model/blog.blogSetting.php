@@ -229,7 +229,7 @@ function getCertificationLink($owner) {
 }
 
 function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) {
-	global $database, $service, $blogURL, $hostURL, $user, $blog, $owner;
+	global $database, $service, $blogURL, $hostURL, $user, $blog;
 	if (empty($email) || empty($identify))
 		return 1;
 	if (!ereg('^[^@]+@([[:alnum:]]+(-[[:alnum:]]+)*\.)+[[:alnum:]]+(-[[:alnum:]]+)*$', $email))
@@ -259,7 +259,7 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 	if ($result && (mysql_num_rows($result) > 0)) {
 		return 61;
 	}
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, $owner)");
+	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getBlogId().")");
 	if (!$result || (mysql_affected_rows() == 0)) {
 		return 11;
 	} 
@@ -329,20 +329,24 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 
 function getInvited($owner) {
 	global $database;
-	return DBQuery::queryAll("SELECT _users.*,_blogSettings.name AS blogName FROM `{$database['prefix']}Users` AS _users LEFT JOIN `{$database['prefix']}BlogSettings` AS _blogSettings ON _users.userid = _blogSettings.owner WHERE `host` = $owner ORDER BY created ASC");
+	return DBQuery::queryAll("SELECT 
+			_users.*,_blogSettings.name AS blogName 
+		FROM `{$database['prefix']}Users` AS _users 
+		LEFT JOIN `{$database['prefix']}BlogSettings` AS _blogSettings ON _users.userid = _blogSettings.owner 
+		WHERE `host` = $owner ORDER BY created ASC");
 }
 
 function cancelInvite($userid) {
-	global $owner, $database;
+	global $database;
 	if (DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `lastLogin` = 0") == 0)
 		return false;
-	if (DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = $owner") === 0)
+	if (DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = ".getBlogId()) === 0)
 		return false;
 	if (DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid")) {
 		if (DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $userid")) {
 			if (DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $userid")) {
 				if (DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $userid")) {
-					if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='".$owner."' and userid='".$_POST['userid']."'")) {
+					if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='".getBlogId()."' and userid='".$_POST['userid']."'")) {
 						return true;
 					} else {
 						return false;
@@ -378,25 +382,20 @@ function changePassword($owner, $pwd, $prevPwd) {
 }
 
 function deleteUser($userid){
-	global $owner, $database;
+	global $database;
 
 	$result = DBQuery::queryColumn("SELECT id 
 		FROM `{$database['prefix']}TeamEntryRelations` 
-		WHERE owner='$owner' 
-			AND team='$userid'");
+		WHERE owner = ".getBlogId()." 
+			AND userid = '$userid'");
 	foreach($result as $id){	// Make all posts belong to owner.
 		DBQuery::execute("UPDATE `{$database['prefix']}TeamEntryRelations` 
-			SET team='$owner' 
-			WHERE owner=".$owner." AND id=".$id);
+			SET userid = ".getBlogId()." 
+			WHERE owner = ".getBlogId()." AND id = ".$id);
 	}
 
-	$enduser = DBQuery::queryCell("SELECT enduser FROM `{$database['prefix']}Teamblog` WHERE teams='$owner' AND userid='$userid'");
-	$isp = intval($enduser - $userid);
-	if($isp == 0 || $isp == 1){
-		DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='$userid' and userid='$userid'");
-	}
-	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='$owner' and userid='$userid'")){
-		$En=DBQuery::queryCell("SELECT userid FROM `{$database['prefix']}Teamblog` WHERE userid='$userid'");
+	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams = ".getBlogId()." and userid='$userid'")){
+		$En = DBQuery::queryCell("SELECT userid FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'");
 		if(empty($En)){
 			@DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid");
 			@DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $userid");

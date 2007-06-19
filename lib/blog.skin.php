@@ -74,7 +74,6 @@ class Skin {
 	
 	function Skin($name, $previewMode = false) {
 		global $service, $blogURL;
-		global $owner;
 		
 		$this->noneCommentMessage = getUserSetting('noneCommentMessage');
 		$this->singleCommentMessage = getUserSetting('singleCommentMessage');
@@ -82,7 +81,7 @@ class Skin {
 		$this->singleTrackbackMessage = getUserSetting('singleTrackbackMessage');
 		
 		if (strncmp($name, 'customize/', 10) == 0) {
-			$name = "customize/$owner";
+			$name = "customize/".getBlogId();
 		} else {
 			$name = Path::getBaseName($name);
 		}
