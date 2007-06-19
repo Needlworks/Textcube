@@ -64,11 +64,13 @@ function getUserId() {
 
 
 function getBlogId() {
-	return empty($_SESSION['blogid']) ? false : $_SESSION['blogid'];
+	return $owner;
+//	return empty($_SESSION['blogid']) ? false : $_SESSION['blogid'];
 }
 
 function setBlogId($id) {
-	$_SESSION['blogid'] = $id;
+	$owner = $id;
+//	$_SESSION['blogid'] = $id;
 }
 
 function doesHaveOwnership($extra_aco=null) {
