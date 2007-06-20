@@ -233,7 +233,7 @@ if ($service['type'] != 'single') {
 // Teamblog :: Get username.
  $teamblog_user = DBQuery::queryRow("SELECT name, loginid 
 	 FROM {$database['prefix']}Users 
-	 WHERE userid='".$_SESSION['admin']."'");
+	 WHERE userid='".getUserId()."'");
 // End TeamBlog
 ?>
 
