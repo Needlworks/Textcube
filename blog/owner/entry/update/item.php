@@ -20,6 +20,8 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel('blog.entry');
+
 requireStrictRoute();
 if ($entry = getEntry($owner, $suri['id'])) {
 	$entry['visibility'] = $_POST['visibility'];

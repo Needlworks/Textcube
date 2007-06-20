@@ -21,8 +21,6 @@ $IV = array(
 	);
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.entry");
-requireModel("blog.tag");
-requireModel("blog.locative");
 
 requireStrictRoute();
 $entry['visibility'] = $_POST['visibility'];

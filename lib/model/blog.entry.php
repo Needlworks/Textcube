@@ -389,6 +389,7 @@ function addEntry($blogid, $entry) {
 	requireModel("blog.rss");
 	requireModel("blog.category");
 	requireModel("blog.tag");
+	requireModel("blog.locative");
 
 	$entry['title'] = mysql_lessen(trim($entry['title']), 255);
 	$entry['location'] = mysql_lessen(trim($entry['location']), 255);
