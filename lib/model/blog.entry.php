@@ -496,6 +496,7 @@ function updateEntry($blogid, $entry) {
 	requireModel('blog.locative');
 	requireModel('blog.attachment');
 	requireModel('blog.category');
+	requireModel('blog.rss');
 
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
