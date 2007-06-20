@@ -659,6 +659,7 @@ function deleteEntry($blogid, $id) {
 		$result = DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE owner = $blogid AND entry = $id");
 		$result = DBQuery::query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $blogid AND entry = $id");
 		$result = DBQuery::query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $blogid AND entry = $id");
+		$result = DBQuery::query("DELETE FROM {$database['prefix']}TeamEntryRelations WHERE owner = $blogid AND id = $id AND userid = " . getUserId());
 
 		updateEntriesOfCategory($blogid, $target['category']);
 		deleteAttachments($blogid, $id);
