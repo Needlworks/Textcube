@@ -492,6 +492,10 @@ function getDraftEntryId($id = 0) {
 function updateEntry($blogid, $entry) {
 	global $database;
 	global $blog;
+	requireModel('blog.tag');
+	requireModel('blog.locative');
+	requireModel('blog.attachment');
+	requireModel('blog.category');
 
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
