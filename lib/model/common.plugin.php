@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function activatePlugin($name) {
-	global $database, $blogid, $activePlugins;
+	global $database, $activePlugins;
 	if (in_array($name, $activePlugins))
 		return true;
 	if (!ereg("^[[:alnum:] _\-]+$", $name))
@@ -14,7 +14,7 @@ function activatePlugin($name) {
 	if (!file_exists(ROOT . "/plugins/$name/index.xml") || !file_exists(ROOT . "/plugins/$name/index.php"))
 		return false;
 	$name = mysql_tt_escape_string(mysql_lessen($name, 255));
-	DBQuery::query("INSERT INTO {$database['prefix']}Plugins VALUES ($blogid, '$name', null)");
+	DBQuery::query("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
 	return (mysql_affected_rows() == 1);
 }
 
