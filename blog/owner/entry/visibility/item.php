@@ -17,7 +17,7 @@ requireStrictRoute();
 
 // TeamBlog ACL check whether or not current user can edit this post.
 if(Acl::check('group.writers') === false && !empty($suri['id'])){
-	$isPosting = DBQuery::queryCell("SELECT team 
+	$isPosting = DBQuery::queryCell("SELECT userid 
 			FROM {$database['prefix']}TeamEntryRelations 
 			WHERE owner = '".$owner."' 
 				and userid = '".getUserId()."' 

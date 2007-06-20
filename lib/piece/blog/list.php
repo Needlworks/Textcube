@@ -9,7 +9,7 @@ if (isset($list)) {
 	foreach ($list['items'] as $item) {	
 		$teamblog_name = DBQuery::queryCell("SELECT b.name 
 			FROM {$database['prefix']}TeamEntryRelations a, {$database['prefix']}Users b  
-			WHERE a.owner=".$item['owner']." AND a.id=".$item['id']." AND a.team=b.userid");
+			WHERE a.owner=".$item['owner']." AND a.id=".$item['id']." AND a.userid=b.userid");
 		$itemsView .= str_replace(
 			array(
 				'[##_list_rep_regdate_##]',
