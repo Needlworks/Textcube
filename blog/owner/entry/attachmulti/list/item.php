@@ -10,6 +10,7 @@ $IV = array(
 );
 
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.attachment");
 $file = array_pop($_FILES);
 $attachment = getAttachmentByLabel($owner, $suri['id'], $_GET['name']);
 $result = escapeJSInCData(getPrettyAttachmentLabel($attachment)) . '!^|' . escapeJSInCData(getAttachmentValue($attachment));

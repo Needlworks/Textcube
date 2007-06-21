@@ -9,6 +9,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.attachment");
 requireStrictRoute();
 if (!empty($_POST['names']) && deleteAttachmentMulti($owner, $suri['id'], $_POST['names']))
 	respondResultPage(0);

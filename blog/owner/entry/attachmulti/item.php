@@ -14,6 +14,7 @@ $IV = array(
 if (!empty($_GET['TSSESSION']))
 	$_COOKIE['TSSESSION'] = $_GET['TSSESSION'];
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.attachment");
 $file = array_pop($_FILES);
 $attachment = addAttachment($owner, $suri['id'], $file);
 echo "&success";

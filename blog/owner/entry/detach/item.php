@@ -4,6 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.attachment");
 requireStrictRoute();
 if (!empty($_GET['name']) && deleteAttachment($owner, $suri['id'], $_GET['name']))
 	respondResultPage(0);
