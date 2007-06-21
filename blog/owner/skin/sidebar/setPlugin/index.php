@@ -19,6 +19,8 @@ if (isset($_REQUEST['ajaxcall'])) {
 if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
 
 require ROOT . '/lib/includeForBlogOwner.php';
+requireLibrary('blog.skin');
+requireModel("blog.sidebar");
 requireStrictRoute();
 
 $skin = new Skin($skinSetting['skin']);
