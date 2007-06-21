@@ -13,6 +13,16 @@ $IV = array(
 		)
 	);
 require ROOT . '/lib/includeForBlogOwner.php';
+requireLibrary('blog.skin');
+requireModel("blog.sidebar");
+requireModel('blog.statistics');
+requireModel('blog.entry');
+requireModel("blog.archive");
+requireModel("blog.tag");
+requireModel("blog.notice");
+requireModel("blog.comment");
+requireModel("blog.trackback");
+requireModel("blog.link");
 requireStrictRoute();
 
 $stats = getStatistics($owner);

@@ -11,6 +11,8 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
+requireLibrary('blog.skin');
+requireModel("blog.sidebar");
 
 $skin = new Skin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
