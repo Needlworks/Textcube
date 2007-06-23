@@ -229,7 +229,7 @@ textarea
 	background-image                 : url("./image/img_to_my_blog.gif");
 	background-position              : right center;
 	background-repeat                : no-repeat;
-	color                            : #517DB9;
+	color                            : #222;
 	font-weight                      : bold;
 	padding                          : 4px 20px 0 0;
 }
@@ -239,7 +239,7 @@ textarea
 	background-image                 : url("./image/img_logout.gif");
 	background-position              : right center;
 	background-repeat                : no-repeat;
-	color                            : #517DB9;
+	color                            : #222;
 	padding                          : 4px 20px 0 0;
 }
 
