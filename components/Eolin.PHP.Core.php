@@ -1426,6 +1426,9 @@ class XMLStruct {
 				}
 			} else { // lang() expression.
 				for ($i = 0; $i < count($cursor[$name]); $i++) {
+					if( !isset( $cursor[$name][$i]['.attributes']['xml:lang'])) {
+						continue;
+					}
 					switch (Locale::match(@$cursor[$name][$i]['.attributes']['xml:lang'])) {
 						case 3:
 							$cursor = &$cursor[$name][$i];
