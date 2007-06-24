@@ -67,7 +67,7 @@ if(isset($entries)) {
 				dress('ad_div', $managementView, $entryView);
 			}
 			$author = teamblogUser::authorName($blogid, $entry['id']);
-			dress('article_rep_author',$author,$entryView);
+			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $entryView);
 			dress('article_rep_id', $entry['id'], $entryView);
 			dress('article_rep_link', $permalink, $entryView);
 			dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $entryView);
@@ -99,7 +99,7 @@ if(isset($entries)) {
 			$entriesView .= $entryView;
 		} else {
 			$author = teamblogUser::authorName($blogid,$entry['id']);
-			dress('article_rep_author',$author,$entryView);
+			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $entryView);
 			$protectedEntryView = $skin->entryProtected;
 			dress('article_rep_id', $entry['id'], $protectedEntryView);
 			dress('article_rep_link', $permalink, $protectedEntryView);
