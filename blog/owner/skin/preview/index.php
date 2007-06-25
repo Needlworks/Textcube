@@ -3,7 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/lib/includeForBlog.php';
+requireModel('blog.entry');
 list($entries, $paging) = getEntriesWithPaging($owner, $suri['page'], $blog['entriesOnPage']);
 if(!Validator::filename($_GET['skin']) && $_GET['skin'] != "customize/$owner")
 	respondNotFoundPage();
