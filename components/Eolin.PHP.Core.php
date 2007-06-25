@@ -629,8 +629,11 @@ class Locale {
 		return true;
 	}
 	
-	function match($locale) {
+	function match(&$locale) {
 		global $__locale;
+		if( !isset($locale) ) {
+			return 0;
+		}
 		if (strcasecmp($locale, $__locale['locale']) == 0)
 			return 3;
 		else if (strncasecmp($locale, $__locale['locale'], 2) == 0)
@@ -1426,9 +1429,6 @@ class XMLStruct {
 				}
 			} else { // lang() expression.
 				for ($i = 0; $i < count($cursor[$name]); $i++) {
-					if( !isset( $cursor[$name][$i]['.attributes']['xml:lang'])) {
-						continue;
-					}
 					switch (Locale::match(@$cursor[$name][$i]['.attributes']['xml:lang'])) {
 						case 3:
 							$cursor = &$cursor[$name][$i];
