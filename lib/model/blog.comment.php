@@ -231,7 +231,8 @@ function updateCommentsOfEntry($blogid, $entryId) {
 }
 
 function sendCommentPing($entryId, $permalink, $name, $homepage) {
-	global $database, $blogid, $blog;
+	global $database, $blog;
+	$blogid = getBlogId();
 	if($slogan = DBQuery::queryCell("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $entryId AND draft = 0 AND visibility = 3 AND acceptComment = 1")) {
 		requireComponent('Eolin.PHP.Core');
 		requireComponent('Eolin.PHP.XMLRPC');
@@ -596,7 +597,8 @@ function deleteCommentNotifiedInOwner($blogid, $id) {
 }
 
 function notifyComment() {
-	global $database, $blogid, $service, $blog, $defaultURL;
+	global $database, $service, $blog, $defaultURL;
+	$blogid = getBlogId();
 	$sql = "
 			select
 				CN.*,
@@ -670,7 +672,8 @@ function notifyComment() {
 function receiveNotifiedComment($post) {
 	if (empty($post['mode']) || $post['mode'] != 'fb')
 		return 1;
-	global $database, $blogid;
+	global $database;
+	$blogid = getBlogId();
 	$title = mysql_tt_escape_string(mysql_lessen($post['s_home_title'], 255));
 	$name = mysql_tt_escape_string(mysql_lessen($post['s_name'], 255));
 	$entryId = mysql_tt_escape_string($post['s_no']);

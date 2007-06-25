@@ -14,6 +14,8 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlog.php';
+requireModel('blog.comment');
+
 if (false) {
 	fetchConfigVal();
 }
