@@ -84,7 +84,6 @@ if(isset($blogMenu['topMenu'])) {
 		} else {
 			$blogContentMenuItem = array(
 				array('menu'=>'account','title'=>_t('계정 정보'),'link'=>'/owner/setting/account'),
-				array('menu'=>'teamblog','title'=>_t('팀블로그'),'link'=>'/owner/setting/teamblog')
 			);
 		}
 		break;
