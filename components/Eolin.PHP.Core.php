@@ -629,11 +629,8 @@ class Locale {
 		return true;
 	}
 	
-	function match(&$locale) {
+	function match($locale) {
 		global $__locale;
-		if( !isset($locale) ) {
-			return 0;
-		}
 		if (strcasecmp($locale, $__locale['locale']) == 0)
 			return 3;
 		else if (strncasecmp($locale, $__locale['locale'], 2) == 0)
