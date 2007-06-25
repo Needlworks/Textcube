@@ -2167,7 +2167,6 @@ TTModernEditor.prototype.getEditorPalette = function() {
 						'<option value="h4">h4</option>' +
 						'<option value="h5">h5</option>' +
 						'<option value="h6">h6</option>' +
-						'<option value="h7">h7</option>' +
 					'</optgroup>' +
 				'</select>' +
 			'</dd>' +
