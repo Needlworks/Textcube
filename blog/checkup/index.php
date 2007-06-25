@@ -512,7 +512,7 @@ if (!doesExistTable($database['prefix'] . 'TeamEntryRelations')) {
 			owner int(11) NOT NULL default 1,
 			id int(11) NOT NULL default 1,
 			userid int(11) NOT NULL default 1,
-			PRIMARY KEY (owner,id,team)
+			PRIMARY KEY (owner,id,userid)
 		) TYPE=MyISAM
 	";
 	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query)) {
