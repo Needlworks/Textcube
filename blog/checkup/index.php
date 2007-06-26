@@ -32,14 +32,6 @@ function getBlogSettingForMigration($blogid, $name, $default = null) {
 	return ($value === null) ? $default : $value;
 }
 
-function getBlogSettingForMigration($blogid, $name, $default = null) {
-	global $database;
-	$value = DBQuery::queryCell("SELECT value 
-		FROM {$database['prefix']}UserSettings 
-		WHERE user = ".getBlogId()."
-		AND name = '".mysql_tt_escape_string($name)."'");
-	return ($value === null) ? $default : $value;
-}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
