@@ -30,17 +30,27 @@ function getBlogSetting($name, $default = null) {
 	return ($value === null) ? $default : $value;
 }
 
-function setBlogSetting($name, $value) {
+function setBlogSetting($name, $value, $blogid = null) {
 	global $database;
 	$name = mysql_tt_escape_string($name);
 	$value = mysql_tt_escape_string($value);
-	return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
+	if($blogid == null)
+		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
+	else if(is_numeric($blogid)){
+		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$name', '$value')");
+	}
+	return null;
 }
 
-function removeBlogSetting($name) {
+function removeBlogSetting($name, $blogid = null) {
 	global $database;
-	return DBQuery::execute("DELETE FROM {$database['prefix']}BlogSettings 
+	if($blogid == null) {
+		return DBQuery::execute("DELETE FROM {$database['prefix']}BlogSettings 
 			WHERE blogid = ".getBlogId()." AND name = '".mysql_tt_escape_string($name)."'");
+	} else if(is_numeric($blogid)) {
+		return DBQuery::execute("DELETE FROM {$database['prefix']}BlogSettings 
+			WHERE blogid = $blogid AND name = '".mysql_tt_escape_string($name)."'");
+	}
 }
 
 function getUserSetting($name, $default = null) {
