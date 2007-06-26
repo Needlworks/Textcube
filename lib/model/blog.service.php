@@ -19,10 +19,13 @@ function getBlogSettings($blogid) {
 	if($query->doesExist()){
 		$query->setQualifier('blogid',$blogid);
 		$blogSettings = $query->getAll('*');
-		foreach($blogSettings as $blogSetting){
-			$result[$blogSetting['name']] = $blogSetting['value'];
+		if( $blogSettings ) {
+			$result = array();
+			foreach($blogSettings as $blogSetting){
+				$result[$blogSetting['name']] = $blogSetting['value'];
+			}
+			return $result;
 		}
-		return $result;
 	}
 	return false;
 }
