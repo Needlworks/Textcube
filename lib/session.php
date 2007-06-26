@@ -44,8 +44,6 @@ function writeSession($id, $data) {
 
 function destroySession($id, $setCookie = false) {
 	global $database;
-	if (!isset($_SESSION['blogid']))
-		return;
 	@mysql_query("DELETE FROM {$database['prefix']}Sessions WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 	gcSession();
 }
