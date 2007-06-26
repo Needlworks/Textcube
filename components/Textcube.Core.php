@@ -75,9 +75,9 @@ class teamblogUser{
 			$blogn .= '<option value="'.$owner.'" '. $myblogsel .'>'._t('내 블로그').'</option>';
 		}
 	
-		$teamblogInfo = DBQuery::queryAll("SELECT t.teams, b.title, u.name
+		$teamblogInfo = DBQuery::queryAll("SELECT t.teams, b.value AS title, u.name
 				FROM {$database['prefix']}Teamblog t 
-				LEFT JOIN {$database['prefix']}BlogSettings b ON b.owner = t.teams
+				LEFT JOIN {$database['prefix']}BlogSettings b ON b.blogid = t.teams AND b.name = 'title'
 				LEFT JOIN {$database['prefix']}Users u ON u.userid = t.teams
 				WHERE t.userid='".getUserId()."'");
 		foreach($teamblogInfo as $teamInfo){

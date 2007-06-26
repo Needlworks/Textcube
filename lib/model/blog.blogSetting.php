@@ -4,21 +4,19 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function setBlogTitle($blogid, $title) {
-	global $database;
-	global $blog;
+	global $database, $blog;
+	requireModel('blog.rss');
 	if ($title == $blog['title'])
 		return true;
-	DBQuery::query("update {$database['prefix']}BlogSettings set title = '" . mysql_tt_escape_string(mysql_lessen($title, 255)) . "' where owner = $blogid");
-	if (mysql_affected_rows() != 1)
-		return false;
+	if(setBlogSetting('title', mysql_lessen($title, 255)) === false) return false;
 	$blog['title'] = $title;
 	clearRSS();
 	return true;
 }
 
 function setBlogDescription($blogid, $description) {
-	global $database;
-	global $blog;
+	global $database, $blog;
+	requireModel('blog.rss');
 	if ($description == $blog['description'])
 		return true;
 	if(setBlogSetting('description',mysql_lessen($description, 255)) === false) return false;
@@ -64,6 +62,7 @@ function checkBlogName($name) {
 function setPrimaryDomain($blogid, $name) {
 	global $database;
 	global $service, $blog;
+	requireModel('blog.rss');
 	$name = mysql_lessen(strtolower(trim($name)), 32);
 	if ($name == $blog['name'])
 		return 0;
@@ -82,8 +81,8 @@ function setPrimaryDomain($blogid, $name) {
 }
 
 function setSecondaryDomain($blogid, $domain) {
-	global $database;
-	global $blog;
+	global $database, $blog;
+	requireModel('blog.rss');
 	$domain = mysql_lessen(strtolower(trim($domain)), 64);
 	if ($domain == $blog['secondaryDomain'])
 		return 0;
@@ -105,8 +104,8 @@ function setSecondaryDomain($blogid, $domain) {
 }
 
 function setDefaultDomain($blogid, $default) {
-	global $database;
-	global $blog;
+	global $database, $blog;
+	requireModel('blog.rss');
 	$default = $default == 1 ? 1 : 0;
 	if (empty($blog['secondaryDomain']) && $default == 1)
 		return false;
@@ -121,8 +120,8 @@ function setDefaultDomain($blogid, $default) {
 }
 
 function useBlogSlogan($blogid, $useSlogan) {
-	global $database;
-	global $blog;
+	global $database, $blog;
+	requireModel('blog.rss');
 	$useSlogan = $useSlogan ? 1 : 0;
 	if ($useSlogan == $blog['useSlogan'])
 		return true;
@@ -135,8 +134,8 @@ function useBlogSlogan($blogid, $useSlogan) {
 }
 
 function publishPostEolinSyncOnRSS($blogid, $publishEolinSyncOnRSS) {
-	global $database;
-	global $blog;
+	global $database, $blog;
+	requireModel('blog.rss');
 	$publishEolinSyncOnRSS = $publishEolinSyncOnRSS ? 1 : 0;
 	if ($publishEolinSyncOnRSS == $blog['publishEolinSyncOnRSS'])
 		return true;
@@ -148,8 +147,8 @@ function publishPostEolinSyncOnRSS($blogid, $publishEolinSyncOnRSS) {
 }
 
 function setEntriesOnRSS($blogid, $entriesOnRSS) {
-	global $database;
-	global $blog;
+	global $database, $blog;
+	requireModel('blog.rss');
 	if ($entriesOnRSS == $blog['entriesOnRSS'])
 		return true;
 	if(setBlogSetting('entriesOnRSS',$entriesOnRSS) === false) return false;
@@ -159,8 +158,8 @@ function setEntriesOnRSS($blogid, $entriesOnRSS) {
 }
 
 function setPublishWholeOnRSS($blogid, $publishWholeOnRSS) {
-	global $database;
-	global $blog;
+	global $database, $blog;
+	requireModel('blog.rss');
 	$publishWholeOnRSS = $publishWholeOnRSS ? 1 : 0;
 	if ($publishWholeOnRSS == $blog['publishWholeOnRSS'])
 		return true;
@@ -171,8 +170,8 @@ function setPublishWholeOnRSS($blogid, $publishWholeOnRSS) {
 }
 
 function setBlogLanguage($blogid, $language, $blogLanguage) {
-	global $database;
-	global $blog;
+	global $database, $blog;
+	requireModel('blog.rss');
 	if (($language == $blog['language']) && ($blogLanguage == $blog['blogLanguage']))
 		return true;
 	$language = mysql_lessen($language, 5);
@@ -186,8 +185,7 @@ function setBlogLanguage($blogid, $language, $blogLanguage) {
 }
 
 function setGuestbook($blogid, $write, $comment) {
-	global $database;
-	global $blog;
+	global $database, $blog;
 	if (!is_numeric($write) || !is_numeric($comment))
 		return false;
 	if(setBlogSetting('allowWriteOnGuestbook',$write) && setBlogSetting('allowWriteDblCommentOnGuestbook',$comment)) {

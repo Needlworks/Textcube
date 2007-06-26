@@ -217,7 +217,7 @@ if ($service['type'] != 'single') {
 								var publishEolinSyncOnRSS = "<?php echo $blog['publishEolinSyncOnRSS'];?>";
 								var entriesOnRSS = "<?php echo $blog['entriesOnRSS'];?>";
 								var publishWholeOnRSS = "<?php echo $blog['publishWholeOnRSS'];?>";
-								var allowCommentGuestbook = <?php echo $blog['allowWriteDoubleCommentOnGuestbook'];?>;
+								var allowCommentGuestbook = <?php echo $blog['allowWriteDblCommentOnGuestbook'];?>;
 								//var allowWriteGuestbook = <?php echo $blog['allowWriteOnGuestbook'];?>;
 								function setRSS() {
 									if (document.getElementById('rss-form').useSlogan[useSlogan].checked == true) {
@@ -362,7 +362,7 @@ if ($service['type'] != 'single') {
 $urlRule = getBlogURLRule();
 if ($service['type'] != 'single') {
 ?>
-								<form id="multi-form" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/blog/domain">
+								<form id="multi-form" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/blog">
 									<fieldset class="container">
 										<legend><?php echo _t('블로그 주소');?></legend>
 									
@@ -546,7 +546,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 											<dt><label for="allowCommentGuestbook"><?php echo _t('방명록 사용 권한');?></label></dt>
 											<dd>
 												<!--input type="checkbox" id="allowWriteGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /><label for="allowWriteGuestbook"><?php echo _t('손님이 글쓰기 허용');?></label-->
-												<input type="checkbox" id="allowCommentGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteDoubleCommentOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /><label for="allowCommentGuestbook"><?php echo _t('손님이 댓글을 쓰는 것을 허용합니다.');?></label>
+												<input type="checkbox" id="allowCommentGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteDblCommentOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /><label for="allowCommentGuestbook"><?php echo _t('손님이 댓글을 쓰는 것을 허용합니다.');?></label>
 											</dd>
 										</dl>
 									</fieldset>

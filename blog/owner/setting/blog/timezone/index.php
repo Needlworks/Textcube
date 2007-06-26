@@ -10,10 +10,9 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if (isset($_GET['timezone'])) {
-	requireComponent('Textcube.Data.BlogSetting');
-	if (BlogSetting::setTimezone($_GET['timezone']))
-		respondResultPage(0);
+if (isset($_GET['timezone']) && Timezone::set($_GET['timezone'])) {
+	setBlogSetting('timezone',$_GET['timezone']);
+	respondResultPage(0);
 }
 respondResultPage( - 1);
 ?>

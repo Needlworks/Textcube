@@ -10,7 +10,7 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if (setBlogTitle($owner, trim($_GET['title']))) {
+if (setBlogTitle(getBlogId(), trim($_GET['title']))) {
 	respondResultPage(0);
 }
 respondResultPage( - 1);

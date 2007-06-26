@@ -374,7 +374,7 @@ function getGuestCommentView($entryId, $skin) {
 		}
 		dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentItem), $commentItemView);
 		dress($prefix1 . '_rep_date', Timestamp::format5($commentItem['written']), $commentItemView);
-		if ($prefix1 == 'guest' && $authorized != true && $blog['allowWriteDoubleCommentOnGuestbook'] == 0) {
+		if ($prefix1 == 'guest' && $authorized != true && $blog['allowWriteDblCommentOnGuestbook'] == 0) {
 			$doubleCommentPermissionScript = 'alert(\'' . _t('댓글을 사용할 수 없습니다') . '\');return false;';
 		} else {
 			$doubleCommentPermissionScript = '';
