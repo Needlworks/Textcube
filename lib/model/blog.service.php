@@ -13,10 +13,16 @@ function getOwnerBySecondaryDomain($domain) {
 	return DBQuery::queryCell("SELECT owner FROM {$database['prefix']}BlogSettings WHERE secondaryDomain = '$domain' OR  secondaryDomain = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "'");
 }
 
-function getBlogSetting($blogid) {
+function getBlogSettings($blogid) {
 	global $database;
-	if ($result = DBQuery::query("select * from {$database['prefix']}BlogSettings where owner = $blogid")) {
-		return mysql_fetch_array($result);
+	$query = new TableQuery($database['prefix'] . 'BlogSettings');
+	if($query->doesExist()){
+		$query->setQualifier('blogid',$blogid);
+		$blogSettings = $query->getAll('*');
+		foreach($blogSettings as $blogSetting){
+			$result[$blogSetting['name']] = $blogSetting['value'];
+		}
+		return $result;
 	}
 	return false;
 }

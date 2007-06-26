@@ -3,7 +3,7 @@ define('ROOT', '..');
 require ROOT . '/lib/includeForBlog.php';
 
 // TODO: generalize for multiple language support e.g. skin language
-$setting = getBlogSetting($owner);
+$setting = getBlogSettings($owner);
 require $setting['language'].'.php';
 
 header('Content-Type: text/javascript');

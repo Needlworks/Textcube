@@ -12,6 +12,34 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 		@chmod(ROOT . '/cache/CHECKUP', 0666);
 	}
 }
+
+function setBlogSettingForMigration($blogid, $name, $value, $mig = null) {
+	global $database;
+	$name = mysql_tt_escape_string($name);
+	$value = mysql_tt_escape_string($value);
+	if($mig == null) 
+		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettingsMig VALUES('$blogid', '$name', '$value')");
+	else
+		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES('$blogid', '$name', '$value')");
+}
+
+function getBlogSettingForMigration($blogid, $name, $default = null) {
+	global $database;
+	$value = DBQuery::queryCell("SELECT value 
+		FROM {$database['prefix']}BlogSettingsMig 
+		WHERE blogid = '$blogid'
+		AND name = '".mysql_tt_escape_string($name)."'");
+	return ($value === null) ? $default : $value;
+}
+
+function getUserSettingForMigration($blogid, $name, $default = null) {
+	global $database;
+	$value = DBQuery::queryCell("SELECT value 
+		FROM {$database['prefix']}UserSettings 
+		WHERE user = ".getBlogId()."
+		AND name = '".mysql_tt_escape_string($name)."'");
+	return ($value === null) ? $default : $value;
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
@@ -177,7 +205,8 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Categories label", 'Type') == 
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
-if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings timezone", 'Type') != 'varchar(32)') { // Since 1.0.5
+if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings timezone", 'Type') != 'varchar(32)'
+	&& !DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings value")) { // Since 1.0.5
 	$changed = true;
 	echo '<li>', _text('블로그 설정 테이블의 시간대 필드 속성을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings CHANGE timezone timezone VARCHAR(32) NOT NULL DEFAULT 'GMT'")) {
@@ -189,7 +218,8 @@ if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings timezone", 'Type'
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 	}
 }
-if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type') != 'varchar(5)') { // Since 1.0.6
+if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type') != 'varchar(5)'
+	&& !DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings value")) { // Since 1.0.6
 	$changed = true;
 	echo '<li>', _text('블로그 설정 테이블의 언어 필드 속성을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings CHANGE language language VARCHAR(5) NOT NULL DEFAULT 'en'"))
@@ -205,7 +235,8 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings archivesOnP
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
-if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings publishEolinSyncOnRSS")) {
+if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings publishEolinSyncOnRSS")
+	&& !DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings value")) {
 	$changed = true;
 	echo '<li>', _text('블로그 설정 테이블에 RSS 공개 정도 설정 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD publishEolinSyncOnRSS INT(1) DEFAULT 1 NOT NULL AFTER publishWholeOnRSS"))
@@ -315,7 +346,8 @@ if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSett
 	setServiceSetting('newlineStyle', '1.1');
 }
 
-if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings blogLanguage")) {
+if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings blogLanguage")
+	&& !DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings value")) {
 	$changed = true;
 	echo '<li>', _text('설정 테이블에 블로그 언어 설정을 위한 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD blogLanguage varchar(5) not null default 'en' after language")) {
@@ -574,6 +606,70 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}TeamEntryRelations team")
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
+if (DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings defaultDomain")) {
+	$changed = true;
+	echo '<li>', _text('블로그 설정 테이블과 사용자 설정 테이블의 구조를 변경합니다.'), ': ';
+	$query = "
+		CREATE TABLE {$database['prefix']}BlogSettingsMig (
+			blogid int(11) NOT NULL default 0,
+			name varchar(32) NOT NULL default '',
+			value text NOT NULL default '',
+			PRIMARY KEY (blogid,name)
+		) TYPE=MyISAM
+	";
+	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query)) {
+		$query = new TableQuery($database['prefix'] . 'BlogSettings');
+		if($query->doesExist()) {
+			$changed = true;
+			if ($blogSettings = $query->getAll('owner, name, secondaryDomain, defaultDomain, url, title, description, logo, logoLabel, logoWidth, logoHeight, useSlogan, entriesOnPage, entriesOnList, entriesOnRSS, publishWholeOnRSS, publishEolinSyncOnRSS, allowWriteOnGuestbook, allowWriteDoubleCommentOnGuestbook, language, blogLanguage,timezone')) {
+				$fieldnames = array('owner', 'name', 'secondaryDomain', 'defaultDomain', 'url', 'title', 'description', 'logo', 'logoLabel', 'logoWidth', 'logoHeight', 'useSlogan', 'entriesOnPage', 'entriesOnList', 'entriesOnRSS', 'publishWholeOnRSS', 'publishEolinSyncOnRSS', 'allowWriteOnGuestbook', 'language', 'blogLanguage','timezone');
+				foreach($blogSettings as $blogSetting) {
+					foreach($fieldnames as $fieldname) {
+						setBlogSettingForMigration($blogSetting['owner'],$fieldname,$blogSetting[$fieldname]);
+					}
+					setBlogSettingForMigration($blogSetting['owner'],'allowWriteDblCommentOnGuestbook',$blogSetting['allowWriteDoubleCommentOnGuestbook']);
+				}
+				$checked = true;
+				foreach($blogSettings as $blogSetting) {
+					foreach($fieldnames as $fieldname) {
+						if(getBlogSettingForMigration($blogSetting['owner'],$fieldname) != $blogSetting[$fieldname]) {$checked = false;break;}
+					}
+					if(getBlogSettingForMigration($blogSetting['owner'],'allowWriteDblCommentOnGuestbook') != $blogSetting['allowWriteDoubleCommentOnGuestbook']) {$checked = false;break;}
+				}
+				unset($blogSettings);
+				if($checked == false) {
+					DBQuery::execute("DROP TABLE {$database['prefix']}BlogSettingsMig");
+					echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+				} else {
+					// Change Table
+					DBQuery::execute("DROP TABLE {$database['prefix']}BlogSettings");
+					DBQuery::execute("RENAME TABLE {$database['prefix']}BlogSettingsMig TO {$database['prefix']}BlogSettings");
+					// Migrate UserSettings
+					$query = new TableQuery($database['prefix'] . 'UserSettings');
+					if($query->doesExist()){
+						$oldUserSettings = $query->getAll('user, name, value');
+						foreach($oldUserSettings as $oldUserSetting){
+							setBlogSettingForMigration($oldUserSetting['user'],$oldUserSetting['name'],$oldUserSetting['value'],true);
+						}
+						DBQuery::execute("DROP TABLE {$database['prefix']}UserSettings");
+						$query = "
+							CREATE TABLE {$database['prefix']}UserSettings (
+							userid int(11) NOT NULL default 0,
+							name varchar(32) NOT NULL default '',
+							value text NOT NULL default '',
+							PRIMARY KEY (userid,name)
+						) TYPE=MyISAM
+						";
+						if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query)) {
+							echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+						} else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+					} else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+				}
+			} else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		}
+	} else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
 $filename = ROOT . '/.htaccess';

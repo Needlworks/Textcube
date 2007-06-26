@@ -144,7 +144,7 @@ function getTrackbacksView($entryId, $skin, $acceptTrackback) {
 }
 
 function getCommentView($entryId, $skin) {
-	global $database, $blogURL, $service, $suri, $paging, $contentContainer, $skinSetting;
+	global $database, $blogURL, $service, $suri, $paging, $contentContainer, $skinSetting, $blog;
 	$blogid = getBlogId();
 	requireModel("blog.entry");
 	requireModel("blog.comment");
@@ -152,7 +152,7 @@ function getCommentView($entryId, $skin) {
 	//if ($entryId <= 0)
 	//	return getGuestCommentView($entryId, $skin);
 	$authorized = doesHaveOwnership();
-	$blogSetting = getBlogSetting($blogid);
+//	$blogSetting = getBlogSettings($blogid);
 	if ($entryId > 0) {
 		$prefix1 = 'rp';
 		$isComment = true;
@@ -219,7 +219,7 @@ function getCommentView($entryId, $skin) {
 		$contentContainer["{$prefix1}_{$commentItem['id']}"] = fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense(htmlspecialchars($commentItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentItem);
 		dress($prefix1 . '_rep_desc', setTempTag("{$prefix1}_{$commentItem['id']}"), $commentItemView);
 		dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentItem['written'])), $commentItemView);
-		if ($prefix1 == 'guest' && $authorized != true && $blogSetting['allowWriteDoubleCommentOnGuestbook'] == 0) {
+		if ($prefix1 == 'guest' && $authorized != true && $blog['allowWriteDblCommentOnGuestbook'] == 0) {
 			$doubleCommentPermissionScript = 'alert(\'' . _text('댓글을 사용할 수 없습니다.') . '\'); return false;';
 		} else {
 			$doubleCommentPermissionScript = '';

@@ -44,7 +44,7 @@ if ($service['type'] == 'single') {
 		respondNotFoundPage();
 }
 
-$blog = getBlogSetting($owner);
+$blog = getBlogSettings($owner);
 $skinSetting = getSkinSetting($owner);
 
 $depth = substr_count(ROOT, '/');

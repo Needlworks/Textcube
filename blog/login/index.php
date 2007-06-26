@@ -61,7 +61,7 @@ if (doesHaveOwnership()) {
 		else
 			header("Location: {$_POST['requestURI']}");
 	} else {
-		$blog = getBlogSetting($_SESSION['userid']);
+		$blog = getBlogSettings($_SESSION['userid']);
 		header("Location: $blogURL");
 	}
 	exit;
