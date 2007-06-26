@@ -28,6 +28,7 @@ function login($loginid, $password, $preKnownPassword = null) {
 }
 
 function logout() {
+	fireEvent("Logout");
 	Acl::clearAro();
 	session_destroy();
 }

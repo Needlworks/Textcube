@@ -21,7 +21,6 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlog.php';
-
 if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];
 if (isset($_GET['password']))
@@ -53,6 +52,8 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 		$message=_t('권한이 없습니다.');
 	}
 }
+$authResult = fireEvent('LOGIN_try_auth', false);
+
 if (doesHaveOwnership()) {
 	if (!empty($_POST['requestURI'])) {
 		$url = parse_url($_POST['requestURI']);
@@ -122,15 +123,14 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 <body id="body-login">
 	<div id="temp-wrap">
 		<div id="all-wrap">
-			<form method="post" action="">
-				<input type="hidden" name="requestURI" value="<?php echo htmlspecialchars($_POST['requestURI']);?>" />
-				
-				<div id="data-outbox">
-					<div id="login-box">
-						<div id="logo-box">
-							<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고');?>" />
-			            </div>
+			<div id="data-outbox">
+				<div id="login-box">
+					<div id="logo-box">
+						<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고');?>" />
+					</div>
 			            
+						<form method="post" action="">
+						<input type="hidden" name="requestURI" value="<?php echo htmlspecialchars($_POST['requestURI']);?>" />
 			            <div id="field-box">
 			            	<dl id="email-line">
 			            		<dt><label for="loginid"><?php echo _text('이메일');?></label></dt>
@@ -149,11 +149,13 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 							</dl>
 							
 							<div class="button-box">
-								<input type="submit" class="login-button input-button" value="<?php echo _text('로그인');?>" />
+								<input type="submit" class="login-button input-button" name="button_login" value="<?php echo _text('로그인');?>" />
 							</div>
 						</div>
+						</form>
 						
 <?php
+						echo fireEvent('LOGIN_add_form', '', $_POST['requestURI'] );
 if (!empty($message)) {
 ?>
 						<div id="message-box">
@@ -162,9 +164,8 @@ if (!empty($message)) {
 <?php
 }
 ?>
-					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
 </body>

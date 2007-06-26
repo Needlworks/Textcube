@@ -380,7 +380,7 @@ class Auth_OpenID_Consumer {
 
         if ($endpoint === null) {
             $response = new Auth_OpenID_FailureResponse(null,
-                                                   'No session state found');
+                                                   'No session state found.');
         } else {
             $response = $this->consumer->complete($query, $endpoint);
             $this->session->del($this->_token_key);

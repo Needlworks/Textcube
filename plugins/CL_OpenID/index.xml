@@ -25,6 +25,12 @@
 	<listener event="ViewGuestCommenter">openid_view_commenter</listener>
 	<listener event="/plugin/openid/comment/comment">openid_comment_comment</listener>
 	<listener event="/plugin/openid/comment/delete">openid_comment_del</listener>
+	<listener event="LOGIN_add_form">openid_add_loginform</listener>
+	<listener event="Logout">openid_logout_session</listener>
+	<listener event="OpenIDGetCurrent">openid_get_current</listener>
+	<listener event="OpenIDFetch">openid_fetch</listener>
+	<listener event="OpenIDSetUserId">openid_set_userid</listener>
+	<listener event="OpenIDResetUserId">openid_reset_userid</listener>
 	<tag name="SKIN_head_start" handler="openid_hardcore_login" />
 	<tag name="SKIN_head_start" handler="openid_add_delegate" />
 	<tag name="SKIN_body_end" handler="openid_add_controller" />
@@ -32,7 +38,7 @@
       <viewMethods>
         <method>
           <title xml:lang="en">OpenID List</title>
-          <title xml:lang="ko">오픈아이디 목록</title>
+          <title xml:lang="ko">오픈아이디</title>
           <handler>openid_manage</handler>
         </method>
       </viewMethods>

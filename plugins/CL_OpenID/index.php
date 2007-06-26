@@ -1,16 +1,8 @@
 <?php
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
+/// All rights reserved. Licensed under the GPL.
+/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-/* Terminating functions:
-openid_login
-_openid_try_auth
-openid_finish
-openid_logout
-openid_add_controller
-openid_comment_add
-openid_view_commenter
-openid_comment_del
-openid_manage
-*/
 define( 'OPENID_PLUGIN_VERSION', 1.0 ); 
 define( 'OPENID_PASSWORD', "-OPENID-" );
 
@@ -29,7 +21,7 @@ function openid_login()
 	global $openid_session;
 	global $openid_session_id;
 
-	$redirect = $_GET['redirect'];
+	$requestURI = $_GET['requestURI'];
 
 	require "affiliate.php";
 
@@ -124,14 +116,13 @@ dd .input-text
 
 			            		<dd><input type="text" class="input-text" id="openid_identifier" name="openid_identifier" value="' . $cookie_openid . '" maxlength="256" tabindex="1" /></dd>
 			            		<dd><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_auto">' . _text('OpenID 기억') . '</label></dd>
-			            		<dd><input type="submit" class="login-button" name="login" value="로그인" /><input type="submit" class="login-button" name="cancel" value="취소" /></dd>
+			            		<dd><input type="submit" class="login-button" name="openid_login" value="로그인" /><input type="submit" class="login-button" name="openid_cancel" value="취소" /></dd>
 			            		<dd><a href="' . $openid_help_link . '">' . _text('OpenID란?') . '</a> | <a href="' . $openid_signup_link . '">' . _text('OpenID 발급하기') . '</a></dd>
 							</dl>
 						</div>
 					</div>
 				</div>
-        		<input type="hidden" name="action" value="verify" />
-        		<input type="hidden" name="redirect" value="' . $redirect . '" />
+        		<input type="hidden" name="requestURI" value="' . $requestURI . '" />
 			</form>
 		</div>
 	</div>
@@ -157,7 +148,7 @@ alert("Session creation error' . $openid_session_id . '");
 	}
 }
 
-function _openid_update_id($openid,$delegatedid,$nickname,$homepage)
+function _openid_update_id($openid,$delegatedid,$nickname,$homepage,$userid=null)
 {
 	global $database, $owner;
 	global $openid_session;
@@ -168,7 +159,7 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage)
 	$result = DBQuery::queryCell($query);
 
 	if (is_null($result)) {
-		$data = serialize( array( 'nickname' => $nickname, 'homepage' => $homepage, 'acl' => array() ) );
+		$data = serialize( array( 'nickname' => $nickname, 'homepage' => $homepage, 'acl' => '' ) );
 		$openid_session['nickname'] = $nickname;
 		$openid_session['homepage'] = $homepage;
 
@@ -179,11 +170,13 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage)
 
 		if( !empty($nickname) ) $data['nickname'] = $nickname;
 		if( !empty($homepage) ) $data['homepage'] = $homepage;
+		if( !empty($userid) ) $data['acl'] = $userid > 0 ? $userid : '';
+
 		$openid_session['nickname'] = $data['nickname'];
 		$openid_session['homepage'] = $data['homepage'];
 
 		if( !isset($data['acl']) ) {
-			$data['acl'] = array();
+			$data['acl'] = '';
 		}
 
 		$data = serialize( $data );
@@ -227,21 +220,40 @@ function _openid_authorizeSession($userid) {
 
 function _openid_set_acl($openid)
 {
-	global $owner, $database;
-	$query = "SELECT * FROM {$database['prefix']}OpenIDUsers WHERE owner={$owner} and openid='{$openid}'";
+	global $database;
+	$blogid = getBlogId();
+	$query = "SELECT * FROM {$database['prefix']}OpenIDUsers WHERE owner={$blogid} and openid='{$openid}'";
 	$result = DBQuery::queryRow($query);
 	$data = unserialize( $result['data'] );
 
-	$blogID = $owner;
-
-	if( !isset($data['acl']) || !isset($data['acl'][$blogID]) ) {
+	if( !isset($data['acl']) ) {
 		return;
 	}
 
-	if( in_array( 'admin', $data['acl'][$blogID] ) )
-	{
-		_openid_authorizeSession($blogID);
+	$userid = $data['acl'];
+
+	if( empty($userid) || !class_exists( "Acl" ) ) {
+		return;
 	}
+
+	/* Check Acl class and use Auth class.. this is normal */
+	Auth::setBasicAro($userid);
+	Auth::setTeamblogAro($userid);
+
+	if( in_array( "group.writers", Acl::getAro() ) ) {
+		authorizeSession($blogid, $userid);
+	} else {
+		authorizeSession($blogid, null);
+	}
+}
+
+function openid_get_current($target)
+{
+	global $openid_session;
+	if( empty($openid_session['id'] )) {
+		return $target;
+	}
+	return $openid_session['id'];
 }
 
 function openid_try_auth()
@@ -254,36 +266,75 @@ function openid_try_auth()
 	}
 
 	$openid = $_GET['openid_identifier'];
-	$redirect = urlencode($_GET['redirect']);
-	if( empty($redirect) ) {
-		$redirect = $blogURL;
+	$requestURI = $_GET['requestURI'];
+	if( empty($requestURI) ) {
+		$requestURI = $blogURL;
 	}
 
-	if( isset($_GET['cancel']) || isset($_GET['cancel_x']) ) {
-		header( "Location: " . urldecode($redirect));
+	if( isset($_GET['openid_cancel']) || isset($_GET['openid_cancel_x']) ) {
+		header( "Location: " . $requestURI);
 		exit(0);
 	}
 
 	if (empty($openid)) {
 		openid_setcookie( 'openid_auto', 'n' );
 		print "<html><body><script>alert('" . _text("오픈ID를 입력하세요") . "');";
-		print "document.location.href='$blogURL/plugin/openid/login?redirect=$redirect';</script></body></html>";
+		print "document.location.href='$blogURL/plugin/openid/login?requestURI=" . urlencode($requestURI) . "';</script></body></html>";
 		exit(0);
 	}
 
-	return _openid_try_auth( $openid, $redirect, $openid_remember );
+	return _openid_try_auth( $openid, $requestURI, $openid_remember );
 }
 
-function _openid_try_auth( $openid, $redirect, $openid_remember = true )
+function openid_fetch( $openid )
+{
+	require_once  "common.php";
+	require_once  "xmlwrapper.php";
+
+	static $xmlparser = null;
+	if( !$xmlparser ) $xmlparser = new Services_Textcube_xmlparser();
+	Services_Yadis_setDefaultParser( $xmlparser );
+
+	// Begin the OpenID authentication process.
+	ob_start();
+	$auth_request = $consumer->begin($openid);
+	ob_end_clean();
+
+	if (!$auth_request) {
+		return "";
+	}
+
+	return $auth_request->endpoint->identity_url;
+}
+
+function openid_set_userid($openid)
+{
+	global $owner;
+	$userid = $owner;
+	if( function_exists( "getUserId" ) ) {
+		$userid = getUserId();
+	}
+	_openid_update_id( $openid, null, null, null, $userid );
+	return "";
+}
+
+function openid_reset_userid($openid)
+{
+	_openid_update_id( $openid, null, null, null, "-1" );
+	return "";
+}
+
+function _openid_try_auth( $openid, $requestURI, $openid_remember = true )
 {
 	global $hostURL, $blogURL;
 	require_once  "common.php";
 	require_once  "xmlwrapper.php";
 
-	global $__Services_Yadis_defaultParser;
-	Services_Yadis_setDefaultParser( new Services_Textcube_xmlparser() );
+    static $xmlparser = null;
+    if( !$xmlparser ) $xmlparser = new Services_Textcube_xmlparser();
+	Services_Yadis_setDefaultParser( $xmlparser );
 
-	$process_url = $hostURL . $blogURL . "/plugin/openid/finish?redirect=" . $redirect;
+	$process_url = $hostURL . $blogURL . "/plugin/openid/finish?requestURI=" . urlencode($requestURI);
 	$trust_root = $hostURL . $blogURL;
 
 	// Begin the OpenID authentication process.
@@ -294,7 +345,7 @@ function _openid_try_auth( $openid, $redirect, $openid_remember = true )
 	// Handle failure status return values.
 	if (!$auth_request) {
 		openid_setcookie( 'openid_auto', 'n' );
-		print "<html><body><script>alert('" . _text("인증하지 못하였습니다. 아이디를 확인하세요") . "');//document.location.href='" . urldecode($redirect) . "';</script></body></html>";
+		print "<html><body><script>alert('" . _text("인증하지 못하였습니다. 아이디를 확인하세요") . "');//document.location.href='" . $requestURI . "';</script></body></html>";
 		exit(0);
 	}
 
@@ -338,10 +389,13 @@ function openid_finish()
 		// This means the authentication succeeded.
 		$openid = $response->identity_url;
 		$sreg = $response->extensionResponse('sreg');
+		if( !isset($sreg['nickname']) ) {
+			$sreg['nickname'] = "";
+		}
 
 		$openid_session['id'] = $openid;
 		$openid_session['delegatedid'] = $response->endpoint->delegate;
-		_openid_update_id( $response->identity_url, $response->endpoint->delegate, $sreg['nickname'] );
+		_openid_update_id( $response->identity_url, $response->endpoint->delegate, $sreg['nickname'],null );
 		_openid_set_acl( $response->identity_url );
 		openid_session_write();
 	}
@@ -352,14 +406,14 @@ function openid_finish()
 		openid_setcookie( 'openid_auto', 'n' );
 		header("HTTP/1.0 200 OK");
 		header("Content-type: text/html");
-		print "<html><body><script>alert(\"$msg\"); document.location.href=\"{$_GET['redirect']}\";</script></body></html>";
+		print "<html><body><script>alert(\"$msg\"); document.location.href=\"{$_GET['requestURI']}\";</script></body></html>";
 	}
 	else
 	{
 		ob_end_clean();
 		openid_setcookie( 'openid_auto', 'y' );
 		header("HTTP/1.0 302 Moved Temporarily");
-		header("Location: ".$_GET['redirect']);
+		header("Location: ".$_GET['requestURI']);
 
 		// Hack for avoiding textcube zero-length content
 		print( "<html><body></body></html>" );
@@ -367,21 +421,28 @@ function openid_finish()
 	ob_flush();
 }
 
-function openid_logout()
+function openid_logout_session($target)
 {
 	global $openid_session;
 	openid_session_destroy();
 
 	$openid_session['id'] = '';
 	$openid_session['nickname'] = '';
-	openid_setcookie( 'openid_auto', 'n' );
-
 	openid_session_write();
+	openid_setcookie( 'openid_auto', 'n' );
+	return "";
+}
+
+function openid_logout()
+{
+	openid_logout_session();
+
 	header("HTTP/1.0 302 Moved Temporarily");
-	header("Location: ".$_GET['redirect']);
+	header("Location: ".$_GET['requestURI']);
 
 	// Hack for avoiding textcube zero-length content
 	print( "<html><body></body></html>" );
+	exit;
 }
 
 function _openid_additional_script()
@@ -449,6 +510,60 @@ function openid_add_controller($target)
 		_openid_additional_script() .
 		"</script>\n" .
 		"<script type=\"text/javascript\" src=\"$script_url\"></script>\n";
+	return $target;
+}
+
+function openid_add_loginform($target, $requestURI)
+{
+	global $hostURL, $blogURL, $service;
+	global $openid_session;
+	global $openid_session_id;
+
+	$img_url = $hostURL . $service['path'] . "/plugins/" . basename(dirname( __file__ )) . "/login-bg.gif";
+
+	require "affiliate.php";
+
+	if( !empty($_COOKIE['openid']) ) {
+		$openid_remember_check = "checked";
+		$cookie_openid = $_COOKIE['openid'];
+	} else {
+		$openid_remember_check = "";
+		$cookie_openid = '';
+	}
+	$target .= '
+<style type="text/css">
+#openid-temp-wrap {width: 230px; margin: 0 -10px 0 340px;}
+#openid-line { margin: 0; padding-right: 5px;}
+#openid-all-wrap { position:relative; width: 230px; }
+#openid-field-box { width: 230px; }
+#openid_identifier { font-size: 1.3em; margin: 10px 0; padding-left: 30px; width: 183px; background: url(' . $img_url . ') no-repeat; }
+.openid-login-button { display: inline; width: 74px; height: 3em; cursor: pointer; padding: 0pt 5px; font-size: 1em; font-weight: bold; font-family:\'Lucida Grande\',Arial,굴림,Gulim,Tahoma,Verdana,sans-serif; background-color: #fff; border: 1px solid ; vertical-align: middle}
+#openid-login-button { margin: 5px 0 5px 40px; left: 0px }
+#openid-cancel-button { margin: 5px 0px 5px 20px; left: 100px }
+#openid-remember { display:block; }
+#openid-help { display:block; }
+</style>
+	<form method="get" name="openid_form" action="' . $blogURL . '/plugin/openid/try_auth">
+	<div id="openid-temp-wrap">
+		<hr size="1">
+		<div id="openid-all-wrap">
+			<div id="openid-field-box">
+				<dl id="openid-line">
+					<dt><label for="loginid">' . _text('OpenID 예) http://testid.example.com') . '</label></dt>
+
+					<dd><input type="text" class="input-text" id="openid_identifier" name="openid_identifier" value="' . $cookie_openid . '" maxlength="256" /></dd>
+					<dd id="openid-remember"><input type="checkbox" class="checkbox" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_auto">' . _text('OpenID 기억') . '</label></dd>
+					<input type="submit" class="openid-login-button" id="openid-login-button" name="openid_login" value="로그인" />
+					<input type="submit" class="openid-login-button" id="openid-cancel-button" name="openid_cancel" value="취소" />
+					<dd id="openid-help"><a href="' . $openid_help_link . '">' . _text('OpenID란?') . '</a> | <a href="' . $openid_signup_link . '">' . _text('OpenID 발급하기') . '</a></dd>
+				</dl>
+			</div>
+			<input type="hidden" name="requestURI" value="' . $requestURI . '" />
+		</div>
+	</div>
+	</form>
+	<script type="text/javascript">function focus_openid(){document.getElementById("openid_identifier").focus();}</script>
+	';
 	return $target;
 }
 
@@ -756,7 +871,7 @@ $data = unserialize($record['data']);
 $nickname = "({$data['nickname']})";
 
 $className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
-$className .= ($i == sizeof($referers) - 1) ? ' last-line' : '';
+$className .= ($i == sizeof($rec) - 1) ? ' last-line' : '';
 ?>
 			<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 				<td><?php echo "{$record['openid']} {$nickname}";?></td>

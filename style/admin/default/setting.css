@@ -318,6 +318,7 @@ dl dd
 /* invite list */
 #list-section table
 {
+	margin-left                      : 100px;
 	width                            : 750px;
 }
 
@@ -345,6 +346,7 @@ dl dd
 #list-section table tbody tr td.cancel
 {
 	text-align                       : center;
+	border-right                     : 1px solid #DDDDDD;
 }
 
 /* Filter ****************************************************************************************/

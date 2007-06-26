@@ -3,6 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
+define('OPENID_REGISTERS', 10);
 $IV = array(
 	'GET' => array(
 		'password' => array('any' ,'mandatory' => false)
@@ -289,6 +290,58 @@ if ($service['type'] != 'single') {
 							</div>
 						</div>
 
+<!-- OPENID -->
+						<div id="part-setting-account" class="part">
+							<h2 class="caption"><span class="main-text"><?php echo _t('오픈아이디');?></span></h2>
+							
+						<table class="data-inbox" cellspacing="0" cellpadding="0">
+							<thead>
+								<tr>
+									<th class="site"><span class="text"><?php echo _text('오픈아이디')?></span></th>
+									<th class="site"><span class="text"></span></th>
+								</tr>
+							</thead>
+							<tbody>
+					<?php
+$currentOpenID = fireEvent("OpenIDGetCurrent", null);
+$openid_list = array();
+for( $i=0; $i<OPENID_REGISTERS; $i++ )
+{
+	$openid = getUserSetting( "openid." . $i );
+	if( !empty($openid) ) {
+		array_push( $openid_list, $openid );
+	}
+}
+					for ($i=0; $i<count($openid_list); $i++) {
+						$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
+						$className .= ($i == count($openid_list) - 1) ? ' last-line' : '';
+					?>
+								<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+									<td><?php echo $openid_list[$i] ?></td>
+									<td><a href="<?php echo $blogURL?>/owner/setting/account/openid?mode=del&openid_identifier=<?php echo urlencode($openid_list[$i])?>">Delete</a></td>
+								</tr>
+					<?php
+					}
+					?>
+							</tbody>
+						</table>
+							<div class="data-inbox">
+								<form id="info-section" class="section" method="get" action="<?php echo $blogURL;?>/owner/setting/account/openid">
+									<fieldset class="container">
+										<legend><?php echo _t('오픈아이디');?></legend>
+										
+										<dl id="blogger-name-line" class="line">
+											<dt><label for="nickname"><?php echo _t('오픈아이디');?></label></dt>
+											<dd><input type="text" name="openid_identifier" class="input-text" value="<?php echo $currentOpenID ?>" />
+												<input type="submit" class="save-button input-button" value="<?php echo _t('추가하기');?>" />
+											</dd>
+										</dl>
+									</fieldset>
+									<input type="hidden" name="mode" value="add">
+								</form>
+							</div>
+						</div>
+<!-- OPENID END -->
 <?php
 if ($service['type'] != 'single' && Acl::check("group.owners" ) ) {
 	$urlRule = getBlogURLRule();
@@ -321,7 +374,7 @@ if ($service['type'] != 'single' && Acl::check("group.owners" ) ) {
 											</div>
 														
 											<div id="letter-body">
-												<textarea id="invitation_comment" cols="60" rows="30" name="textarea"><?php echo _t("블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다.");?></textarea>
+												<textarea id="invitation_comment" cols="60" rows="3" name="textarea"><?php echo _t("블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다.");?></textarea>
 											</div>
 											
 											<div id="letter-foot">
@@ -370,6 +423,10 @@ if ($service['type'] != 'single' && Acl::check("group.owners" ) ) {
 														<td class="status"><?php echo _f('%1 전', timeInterval($value['created'], time()));?></td>
 														<td class="password"><?php echo DBQuery::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']} AND host = $owner AND lastLogin = 0");?></td>
 														<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?php echo $value['userid'];?>,this);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대취소');?></span></a></td>
+<?php
+		} else {
+?>
+														<td></td<td></td><td></td>
 <?php
 		}
 ?>

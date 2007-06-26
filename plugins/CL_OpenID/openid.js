@@ -5,8 +5,8 @@ function openid_makeworld()
 
 	openid_title = openid_id ? openid_id + " logout" : "Login OpenID";
 	target = openid_id ? 
-				openid_entryurl + "logout?redirect=" + escape(document.location.href) :
-				openid_entryurl + "login?redirect=" + escape(document.location.href);
+				openid_entryurl + "logout?requestURI=" + escape(document.location.href):
+				openid_entryurl + "login?requestURI=" + escape(document.location.href);
 
 	var inputs = document.getElementsByTagName("input");
 	for( var i=0; i<inputs.length; i++ )

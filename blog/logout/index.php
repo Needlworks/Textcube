@@ -19,12 +19,13 @@ if (false) {
 }
 
 if (substr($blogURL, -1) != '/') $blogURL .= '/';
+if (!isset($user['homepage']) ) $user['homepage'] = '/';
 if (substr($user['homepage'], -1) != '/') $user['homepage'] .= '/';
 
 if (isset($_GET['requestURI']))
 	$_POST['requestURI'] = $_GET['requestURI'];
+logout();
 if (doesHaveMembership()) {
-	logout();
 	if (!empty($_POST['requestURI']))
 		header("Location: {$_POST['requestURI']}");
 	else

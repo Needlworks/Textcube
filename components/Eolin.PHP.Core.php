@@ -1245,7 +1245,12 @@ class XMLStruct {
 	{
 		if (!is_array($param)) return $param;
 		for ($i = 0; $i < count($param); $i++) {
-			switch (Locale::match(@$param[$i]['.attributes']['xml:lang'])) {
+			if( isset($param[$i]['.attributes']['xml:lang'])) {
+				$lang = $param[$i]['.attributes']['xml:lang'];
+			} else {
+				$lang = "";
+			}
+			switch (Locale::match($lang)) {
 				case 3:
 					$matched = $param[$i];
 					unset($secondBest);
@@ -1426,7 +1431,12 @@ class XMLStruct {
 				}
 			} else { // lang() expression.
 				for ($i = 0; $i < count($cursor[$name]); $i++) {
-					switch (Locale::match(@$cursor[$name][$i]['.attributes']['xml:lang'])) {
+					if( isset($cursor[$name][$i]['.attributes']['xml:lang'])) {
+						$lang = $cursor[$name][$i]['.attributes']['xml:lang'];
+					} else {
+						$lang = "";
+					}
+					switch (Locale::match($lang)) {
 						case 3:
 							$cursor = &$cursor[$name][$i];
 							return $cursor;
