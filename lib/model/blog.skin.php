@@ -36,24 +36,24 @@ function reloadSkin($blogid)
 			return;
 		$value = $xmls->getValue('/skin/default/commentMessage/none'); 
 		if (is_null($value)) 
-			setUserSetting('noneCommentMessage', NULL);
+			setBlogSetting('noneCommentMessage', NULL);
 		else
-			setUserSetting('noneCommentMessage', $value);
+			setBlogSetting('noneCommentMessage', $value);
 		$value = $xmls->getValue('/skin/default/commentMessage/single'); 
 		if (is_null($value))
-			setUserSetting('singleCommentMessage', NULL);
+			setBlogSetting('singleCommentMessage', NULL);
 		else
-			setUserSetting('singleCommentMessage', $value);
+			setBlogSetting('singleCommentMessage', $value);
 		$value = $xmls->getValue('/skin/default/trackbackMessage/none'); 
 		if (is_null($value))
-			setUserSetting('noneTrackbackMessage', NULL);
+			setBlogSetting('noneTrackbackMessage', NULL);
 		else
-			setUserSetting('noneTrackbackMessage', $value);
+			setBlogSetting('noneTrackbackMessage', $value);
 		$value = $xmls->getValue('/skin/default/trackbackMessage/single'); 
 		if (is_null($value))
-			setUserSetting('singleTrackbackMessage', NULL);
+			setBlogSetting('singleTrackbackMessage', NULL);
 		else
-			setUserSetting('singleTrackbackMessage', $value);
+			setBlogSetting('singleTrackbackMessage', $value);
 	}
 }
 
@@ -151,29 +151,29 @@ function selectSkin($blogid, $skinName) {
 		// none/single/multiple
 		$value = $xmls->getValue('/skin/default/commentMessage/none'); 
 		if (is_null($value)) 
-			setUserSetting('noneCommentMessage', NULL);
+			setBlogSetting('noneCommentMessage', NULL);
 		else
-			setUserSetting('noneCommentMessage', $value);
+			setBlogSetting('noneCommentMessage', $value);
 		$value = $xmls->getValue('/skin/default/commentMessage/single'); 
 		if (is_null($value))
-			setUserSetting('singleCommentMessage', NULL);
+			setBlogSetting('singleCommentMessage', NULL);
 		else
-			setUserSetting('singleCommentMessage', $value);
+			setBlogSetting('singleCommentMessage', $value);
 		$value = $xmls->getValue('/skin/default/trackbackMessage/none'); 
 		if (is_null($value))
-			setUserSetting('noneTrackbackMessage', NULL);
+			setBlogSetting('noneTrackbackMessage', NULL);
 		else
-			setUserSetting('noneTrackbackMessage', $value);
+			setBlogSetting('noneTrackbackMessage', $value);
 		$value = $xmls->getValue('/skin/default/trackbackMessage/single'); 
 		if (is_null($value))
-			setUserSetting('singleTrackbackMessage', NULL);
+			setBlogSetting('singleTrackbackMessage', NULL);
 		else
-			setUserSetting('singleTrackbackMessage', $value);
+			setBlogSetting('singleTrackbackMessage', $value);
 	} else {
-		setUserSetting('noneCommentMessage', NULL);
-		setUserSetting('singleCommentMessage', NULL);
-		setUserSetting('noneTrackbackMessage', NULL);
-		setUserSetting('singleTrackbackMessage', NULL);
+		setBlogSetting('noneCommentMessage', NULL);
+		setBlogSetting('singleCommentMessage', NULL);
+		setBlogSetting('noneTrackbackMessage', NULL);
+		setBlogSetting('singleTrackbackMessage', NULL);
 		$sql = "UPDATE {$database['prefix']}SkinSettings SET skin='{$skinName}' WHERE owner = $blogid";
 	}
 	$result = DBQuery::query($sql);
@@ -181,7 +181,7 @@ function selectSkin($blogid, $skinName) {
 		return _t('실패했습니다.');
 	}
 	
-	removeUserSetting("sidebarOrder");
+	removeBlogSetting("sidebarOrder");
 	return true;
 }
 
@@ -283,7 +283,7 @@ function setSkinSetting($blogid, $setting) {
 		entriesOnPage 			= '{$setting['entriesOnPage']}',
 		entriesOnList 			= '{$setting['entriesOnList']}'
 	WHERE owner = $blogid ";
-	if ((update($sql) > - 1) && (setUserSetting('useRelTag',$useRelTag))) {
+	if ((update($sql) > - 1) && (setBlogSetting('useRelTag',$useRelTag))) {
 		return true;
 	} else {
 		return false;

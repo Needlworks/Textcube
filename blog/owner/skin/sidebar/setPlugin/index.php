@@ -75,7 +75,7 @@ foreach($parameters as $item)
 }
 
 $sidebarOrderData[$sidebarNumber][$modulePos]['parameters'] = $newParameter;
-setUserSetting("sidebarOrder", serialize($sidebarOrderData));
+setBlogSetting("sidebarOrder", serialize($sidebarOrderData));
 
 if ($ajaxcall == false) {
 	if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];

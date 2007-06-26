@@ -36,7 +36,7 @@ if ($entry = getEntry($owner, $suri['id'])) {
 	$entry['acceptComment'] = empty($_POST['acceptComment']) ? 0 : 1;
 	$entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 	$entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
-	setUserSetting('LatestEditedEntry',$suri['id']);
+	setBlogSetting('LatestEditedEntry',$suri['id']);
 	respondResultPage(updateEntry($owner, $entry));
 }
 respondResultPage(1);

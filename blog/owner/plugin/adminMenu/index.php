@@ -10,8 +10,8 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 
 if (false) {
 	fetchConfigVal();
-	getUserSetting();
-	setUserSetting();
+	getBlogSetting();
+	setBlogSetting();
 }
 
 if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))) 

@@ -566,7 +566,7 @@ ob_end_clean();
 										<dl id="tag-rel-line" class="line">
 											<dt><span class="label"><?php echo _t('태그 연관성 명시');?></span></dt>
 											<dd>
-												<input type="checkbox" id="useRelTag" class="checkbox" name="useRelTag"<?php echo getUserSetting('useRelTag',1) ? ' checked="checked"' : '';?> /><label for="useRelTag"><?php echo _t('검색엔진이 태그를 따로 인식할 수 있도록 글의 태그에 rel=tag 를 표시합니다. 태그 상자에는 적용되지 않습니다.');?></label>
+												<input type="checkbox" id="useRelTag" class="checkbox" name="useRelTag"<?php echo getBlogSetting('useRelTag',1) ? ' checked="checked"' : '';?> /><label for="useRelTag"><?php echo _t('검색엔진이 태그를 따로 인식할 수 있도록 글의 태그에 rel=tag 를 표시합니다. 태그 상자에는 적용되지 않습니다.');?></label>
 											</dd>
 										</dl>
 									</fieldset>

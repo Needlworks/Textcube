@@ -39,7 +39,7 @@ $entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 $entry['published'] = empty($_POST['published']) ? 1 : $_POST['published'];
 if ($id = addEntry($owner, $entry)){
 	fireEvent('AddPost', $id, $entry);
-	setUserSetting('LatestEditedEntry',$id);
+	setBlogSetting('LatestEditedEntry',$id);
 }
 $result = array();
 $result['error'] = (($id !== false) === true ? 0 : 1);

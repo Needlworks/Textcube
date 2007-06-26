@@ -123,10 +123,10 @@ unset($url, $domain);
 
 // 어드민 스킨 및 에디터 템플릿 설정.
 $adminSkinSetting = array();
-$adminSkinSetting['skin'] = "/style/admin/".getUserSetting("adminSkin", "default");
+$adminSkinSetting['skin'] = "/style/admin/".getBlogSetting("adminSkin", "default");
 
 // 리샘플링 설정값.
-$useImageResampling = getUserSetting("resamplingDefault");
+$useImageResampling = getBlogSetting("resamplingDefault");
 
 // content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
 $contentContainer = array();

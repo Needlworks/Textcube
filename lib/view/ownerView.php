@@ -729,9 +729,9 @@ function printEntryFileUploadButton($entryId) {
 function getAttachmentValue($attachment) {
 	global $g_attachmentFolderPath;
 	if (strpos($attachment['mime'], 'image') === 0) {
-		if (getUserSetting("waterMarkDefault") == "yes")
+		if (getBlogSetting("waterMarkDefault") == "yes")
 			$classString = 'class="tt-watermark" ';
-		else if (getUserSetting("resamplingDefault") == "yes")
+		else if (getBlogSetting("resamplingDefault") == "yes")
 			$classString = 'class="tt-resampling" ';
 		else
 			$classString = "";

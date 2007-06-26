@@ -667,7 +667,7 @@ function blogger_editPost()
 	$post->close();
 
 	RSS::refresh();
-	if($ret!=false) setUserSetting('LatestEditedEntry',$post->id);
+	if($ret!=false) setBlogSetting('LatestEditedEntry',$post->id);
 	return $ret ? true : false;
 }
 
@@ -904,7 +904,7 @@ function metaWeblog_newPost()
 
 	$id = "{$post->id}";
 	$post->close();
-	if($id) setUserSetting('LatestEditedEntry',$id);
+	if($id) setBlogSetting('LatestEditedEntry',$id);
 	return $id;
 }
  
@@ -988,7 +988,7 @@ function metaWeblog_editPost()
 	RSS::refresh();
 
 	$post->close();
-	if($ret!=false) setUserSetting('LatestEditedEntry',$post->id);
+	if($ret!=false) setBlogSetting('LatestEditedEntry',$post->id);
 	return $ret ? true : false;
 }
 

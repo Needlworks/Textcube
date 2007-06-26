@@ -16,9 +16,9 @@ $isAjaxRequest = false; // checkAjaxRequest();
 
 // 기본 설정
 if (isset($_POST['useResamplingAsDefault']) && ($_POST['useResamplingAsDefault'] == "yes")) {
-	setUserSetting("resamplingDefault", "yes");
+	setBlogSetting("resamplingDefault", "yes");
 } else {
-	removeUserSetting("resamplingDefault");
+	removeBlogSetting("resamplingDefault");
 }
 
 $isAjaxRequest ? printRespond($errorResult) : header("Location: ".$_SERVER['HTTP_REFERER']);

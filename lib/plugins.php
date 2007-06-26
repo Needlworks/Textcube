@@ -408,7 +408,7 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 	
 	if (count($newSidebarAllOrders) > 0) {
 		if ($previewMode == false)
-			setUserSetting("sidebarOrder", serialize($newSidebarAllOrders));
+			setBlogSetting("sidebarOrder", serialize($newSidebarAllOrders));
 	}
 }
 
@@ -631,13 +631,13 @@ function radioTreat( $cmd, $dfVal, $name){
 function getDefaultEditor() {
 	global $editorMapping;
 	reset($editorMapping);
-	return getUserSetting('defaultEditor', key($editorMapping));
+	return getBlogSetting('defaultEditor', key($editorMapping));
 }
 
 function getDefaultFormatter() {
 	global $formatterMapping;
 	reset($formatterMapping);
-	return getUserSetting('defaultFormatter', key($formatterMapping));
+	return getBlogSetting('defaultFormatter', key($formatterMapping));
 }
 
 function& getAllEditors() { global $editorMapping; return $editorMapping; }

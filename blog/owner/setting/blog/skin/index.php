@@ -12,7 +12,7 @@ $IV = array(
 
 require ROOT . '/lib/includeForBlogOwner.php';
 
-if (empty($_POST['adminSkin']) || !file_exists(ROOT."/style/admin/{$_POST['adminSkin']}/index.xml") || !setUserSetting("adminSkin", $_POST['adminSkin']))
+if (empty($_POST['adminSkin']) || !file_exists(ROOT."/style/admin/{$_POST['adminSkin']}/index.xml") || !setBlogSetting("adminSkin", $_POST['adminSkin']))
 	header("Location: ".$_SERVER['HTTP_REFERER']);
 else
 	header("Location: ".$_SERVER['HTTP_REFERER']);

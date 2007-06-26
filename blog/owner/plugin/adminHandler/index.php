@@ -9,8 +9,8 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (false) {
 	fetchConfigVal();
-	getUserSetting();
-	setUserSetting();
+	getBlogSetting();
+	setBlogSetting();
 }
 
 if ((isset($_REQUEST['name'])) && (isset($adminHandlerMappings[$_REQUEST['name']]))) 

@@ -50,7 +50,7 @@ function PN_Subscription_Default()
 								<dt class="aggregator"><span class="text">구독기</span></dt>
 								<dd class="aggregator"><span class="text"><?php echo sizeof($aggregatorInfo);?> 종류의 구독기 및 크롤러가 구독중입니다.</span></dd>
 								<dt class="lastRSSupdate"><span class="text">최종 RSS 갱신일</span></dt>
-								<dd class="lastRSSupdate"><span class="text"><?php echo misc::getUserSetting('LatestRSSrefresh',null)!=null ? Timestamp::format5(misc::getUserSetting('LatestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></dd>
+								<dd class="lastRSSupdate"><span class="text"><?php echo misc::getBlogSetting('LatestRSSrefresh',null)!=null ? Timestamp::format5(misc::getBlogSetting('LatestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></dd>
 								<dt class="updatedAggregators"><span class="text">이후 갱신된 RSS 구독기</span></dt>
 								<dd class="updatedAggregators"><span class="text"><?php echo $updatedSubscribers;?></span></dd>
 							</dl>
@@ -183,7 +183,7 @@ function organizeAggregatorInfo($info)
 	$aggregatorInfo = array();
 	$totalSubscribers = 0;
 	$updatedSubscribers = 0;
-	$latestUpdatedTime = misc::getUserSetting('LatestRSSrefresh',null);
+	$latestUpdatedTime = misc::getBlogSetting('LatestRSSrefresh',null);
 	for ($i=0; $i<sizeof($info); $i++) {
 		$record = $info[$i];
 		$aggregatorName = getAggregatorName($record['useragent']);
@@ -269,7 +269,7 @@ function updateSubscriptionStatistics($target, $mother) {
 
 function PN_Subscription_setTime($target) {
 	requireComponent( "Textcube.Function.misc");
-	misc::setUserSetting('LatestRSSrefresh',time());
+	misc::setBlogSetting('LatestRSSrefresh',time());
 	return true;
 }
 ?>

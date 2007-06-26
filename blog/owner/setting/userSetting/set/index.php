@@ -4,5 +4,5 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
-respondResultPage(setUserSetting($_POST['name'], $_POST['value']));
+respondResultPage(setBlogSetting($_POST['name'], $_POST['value']));
 ?>

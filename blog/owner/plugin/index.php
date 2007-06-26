@@ -36,9 +36,9 @@ $tabsClass = array();
 $tabsClass[$_POST['visibility']] = true;
 
 // get and set align type, scope type and status type.
-$selectedSort = getUserSetting('pluginListSortType', 'ascend');
-$selectedScopes = explode('|', getUserSetting("pluginListScopeType_{$_POST['visibility']}", $memberScopes));
-$selectedStatus = explode('|', getUserSetting("pluginListStatusType_{$_POST['visibility']}", 'activated|deactivated'));
+$selectedSort = getBlogSetting('pluginListSortType', 'ascend');
+$selectedScopes = explode('|', getBlogSetting("pluginListScopeType_{$_POST['visibility']}", $memberScopes));
+$selectedStatus = explode('|', getBlogSetting("pluginListStatusType_{$_POST['visibility']}", 'activated|deactivated'));
 
 // get all plugin list.
 $plugins = array();

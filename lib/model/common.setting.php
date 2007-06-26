@@ -21,7 +21,7 @@ function removeServiceSetting($name) {
 	return DBQuery::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".mysql_tt_escape_string($name)."'");
 }
 
-function getUserSetting($name, $default = null) {
+function getBlogSetting($name, $default = null) {
 	global $database;
 	$value = DBQuery::queryCell("SELECT value 
 			FROM {$database['prefix']}BlogSettings 
@@ -30,16 +30,39 @@ function getUserSetting($name, $default = null) {
 	return ($value === null) ? $default : $value;
 }
 
-function setUserSetting($name, $value) {
+function setBlogSetting($name, $value) {
 	global $database;
 	$name = mysql_tt_escape_string($name);
 	$value = mysql_tt_escape_string($value);
 	return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
 }
 
-function removeUserSetting($name) {
+function removeBlogSetting($name) {
 	global $database;
 	return DBQuery::execute("DELETE FROM {$database['prefix']}BlogSettings 
 			WHERE blogid = ".getBlogId()." AND name = '".mysql_tt_escape_string($name)."'");
 }
+
+function getUserSetting($name, $default = null) {
+	global $database;
+	$value = DBQuery::queryCell("SELECT value 
+			FROM {$database['prefix']}UserSettings 
+			WHERE userid = ".getBlogId()."
+				AND name = '".mysql_tt_escape_string($name)."'");
+	return ($value === null) ? $default : $value;
+}
+
+function setUserSetting($name, $value) {
+	global $database;
+	$name = mysql_tt_escape_string($name);
+	$value = mysql_tt_escape_string($value);
+	return DBQuery::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES(".getUserId().", '$name', '$value')");
+}
+
+function removeUserSetting($name) {
+	global $database;
+	return DBQuery::execute("DELETE FROM {$database['prefix']}UserSettings 
+			WHERE userid = ".getBlogId()." AND name = '".mysql_tt_escape_string($name)."'");
+}
+
 ?>

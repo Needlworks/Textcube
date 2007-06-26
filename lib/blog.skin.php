@@ -75,10 +75,10 @@ class Skin {
 	function Skin($name, $previewMode = false) {
 		global $service, $blogURL;
 		
-		$this->noneCommentMessage = getUserSetting('noneCommentMessage');
-		$this->singleCommentMessage = getUserSetting('singleCommentMessage');
-		$this->noneTrackbackMessage = getUserSetting('noneTrackbackMessage');
-		$this->singleTrackbackMessage = getUserSetting('singleTrackbackMessage');
+		$this->noneCommentMessage = getBlogSetting('noneCommentMessage');
+		$this->singleCommentMessage = getBlogSetting('singleCommentMessage');
+		$this->noneTrackbackMessage = getBlogSetting('noneTrackbackMessage');
+		$this->singleTrackbackMessage = getBlogSetting('singleTrackbackMessage');
 		
 		if (strncmp($name, 'customize/', 10) == 0) {
 			$name = "customize/".getBlogId();

@@ -263,7 +263,7 @@ class Auth {
 		Acl::clearAro();
 		$loginid = mysql_tt_escape_string($loginid);
 
-		$blogApiPassword = getUserSetting("blogApiPassword", "");
+		$blogApiPassword = getBlogSetting("blogApiPassword", "");
 
 		if ((strlen($password) == 32) && preg_match('/[0-9a-f]/i', $password)) {
 			$secret = '(`password` = \'' . md5($password) . "' OR `password` = '$password')";

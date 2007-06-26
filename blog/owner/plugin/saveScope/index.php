@@ -14,15 +14,15 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 
-$backupScope = getUserSetting("pluginListScopeType_{$_POST['visibility']}");
-$backupStatus = getUserSetting("pluginListStatusType_{$_POST['visibility']}");
-$backupSort = getUserSetting('pluginListSortType');
+$backupScope = getBlogSetting("pluginListScopeType_{$_POST['visibility']}");
+$backupStatus = getBlogSetting("pluginListStatusType_{$_POST['visibility']}");
+$backupSort = getBlogSetting('pluginListSortType');
 
 // 하나라도 저장에 실패하면 롤백.
-if (!setUserSetting("pluginListScopeType_{$_POST['visibility']}", $_POST['scope']) || !setUserSetting("pluginListStatusType_{$_POST['visibility']}", $_POST['status']) || !setUserSetting("pluginListSortType", $_POST['sort'])) {
-	setUserSetting("pluginListScopeType_{$_POST['visibility']}", $backupScope);
-	setUserSetting("pluginListStatusType_{$_POST['visibility']}", $backupStatus);
-	setUserSetting("pluginListSortType", $backupSort);
+if (!setBlogSetting("pluginListScopeType_{$_POST['visibility']}", $_POST['scope']) || !setBlogSetting("pluginListStatusType_{$_POST['visibility']}", $_POST['status']) || !setBlogSetting("pluginListSortType", $_POST['sort'])) {
+	setBlogSetting("pluginListScopeType_{$_POST['visibility']}", $backupScope);
+	setBlogSetting("pluginListStatusType_{$_POST['visibility']}", $backupStatus);
+	setBlogSetting("pluginListSortType", $backupSort);
 	
 	respondResultPage(1);
 } else {

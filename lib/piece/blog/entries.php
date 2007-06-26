@@ -40,7 +40,7 @@ if(isset($entries)) {
 			if (sizeof($entryTags) > 0) {
 				$tags = array();
 				foreach ($entryTags as $entryTag) {
-					$tags[$entryTag['name']] = "<a href=\"$defaultURL/tag/" . encodeURL($entryTag['name']) . '"' . ((count($entries) == 1 && getUserSetting('useRelTag', true)) ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
+					$tags[$entryTag['name']] = "<a href=\"$defaultURL/tag/" . encodeURL($entryTag['name']) . '"' . ((count($entries) == 1 && getBlogSetting('useRelTag', true)) ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
 				}
 				$tags = fireEvent('ViewTagLists', $tags, $entry['id']);
 				dress('tag_label_rep', implode(",\r\n", array_values($tags)), $tagLabelView);

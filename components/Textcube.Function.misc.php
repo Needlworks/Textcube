@@ -195,20 +195,20 @@ class misc {
 		return ( $outVal);
 	}
 	
-	function getUserSetting($name, $default = null) {
+	function getBlogSetting($name, $default = null) {
 		global $database, $owner;
 		$name = 'plugin_' . $name;
 		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE user = $owner AND name = '".mysql_tt_escape_string($name)."'");
 		return ($value === null) ? $default : $value;
 	}
 
-	function getUserSettingGlobal($name, $default = null) {
+	function getBlogSettingGlobal($name, $default = null) {
 		global $database, $owner;
 		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE user = $owner AND name = '".mysql_tt_escape_string($name)."'");
 		return ($value === null) ? $default : $value;
 	}
 	
-	function setUserSetting($name, $value) {
+	function setBlogSetting($name, $value) {
 		global $database, $owner;
 		$name = 'plugin_' . $name;
 		$name = mysql_tt_escape_string($name);
@@ -216,7 +216,7 @@ class misc {
 		return DBQuery::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES($owner, '$name', '$value')");
 	}
 	
-	function removeUserSetting($name) {
+	function removeBlogSetting($name) {
 		global $database, $owner;
 		$name = 'plugin_' . $name;
 		return DBQuery::execute("DELETE FROM {$database['prefix']}UserSettings WHERE user = $owner AND name = '".mysql_tt_escape_string($name)."'");
@@ -243,13 +243,13 @@ class misc {
 		return DBQuery::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".mysql_tt_escape_string($name)."'");
 	}
 	
-	function getUserSettingRowsPerPage($default = null) {
+	function getBlogSettingRowsPerPage($default = null) {
 		global $database, $owner;
 		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE user = $owner AND name = 'rowsPerPage'");
 		return ($value === null) ? $default : $value;
 	}
 
-	function setUserSettingRowsPerPage($value) {
+	function setBlogSettingRowsPerPage($value) {
 		global $database, $owner;
 		$value = mysql_tt_escape_string($value);
 		return DBQuery::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES($owner, 'rowsPerPage', '$value')");

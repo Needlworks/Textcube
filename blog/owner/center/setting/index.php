@@ -16,13 +16,13 @@ if (defined('__TEXTCUBE_METAPAGE__')) {
 $_POST['scopeType'] = $scopeType;
 
 if (empty($_POST['sortType'])) {
-	$sortType = getUserSetting("pluginListSortType","ascend");
+	$sortType = getBlogSetting("pluginListSortType","ascend");
 	$_POST['sortType'] = $sortType;
 }
-setUserSetting("pluginListSortType",$_POST['sortType']);
+setBlogSetting("pluginListSortType",$_POST['sortType']);
 
 if (empty($_POST['scopeType'])) {
-	$scopeType = getUserSetting("pluginListScopeType", "all");
+	$scopeType = getBlogSetting("pluginListScopeType", "all");
 	$_POST['scopeType'] = $scopeType;
 }
 
@@ -137,19 +137,19 @@ if (!defined('__TEXTCUBE_METAPAGE__')) {
 <?php
 if (!defined('__TEXTCUBE_METAPAGE__')) {
 	if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useTTdashboard']))) {
-		$textcubeDashboard = getUserSetting("textcubeDashboard");
+		$textcubeDashboard = getBlogSetting("textcubeDashboard");
 		if (is_null($textcubeDashboard)) {
-			setUserSetting("textcubeDashboard", 1);
+			setBlogSetting("textcubeDashboard", 1);
 			$textcubeDashboard = 1;
 		} else {
-			setUserSetting("textcubeDashboard", 0);
+			setBlogSetting("textcubeDashboard", 0);
 			$textcubeDashboard = 0;
 		}
 	} else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			setUserSetting("textcubeDashboard", 1);
+			setBlogSetting("textcubeDashboard", 1);
 			$textcubeDashboard = 1;
 	} else {
-		$textcubeDashboard = getUserSetting("textcubeDashboard");
+		$textcubeDashboard = getBlogSetting("textcubeDashboard");
 	}
 ?>
 								<dl id="independent-notice-line" class="line">

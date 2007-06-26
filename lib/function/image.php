@@ -59,7 +59,7 @@ function deleteAllThumbnails($path) {
 }
 
 function getWaterMarkPosition() {
-	$waterMarkPosition = getUserSetting("waterMarkPosition", "left=10|bottom=10");
+	$waterMarkPosition = getBlogSetting("waterMarkPosition", "left=10|bottom=10");
 
 	list($horizontalPos, $verticalPos) = explode("|", $waterMarkPosition);
 	$horizontalPos = explode("=", $horizontalPos);
@@ -100,11 +100,11 @@ function getWaterMarkPosition() {
 }
 
 function getWaterMarkGamma() {
-	return 100;//intval(getUserSetting("gammaForWaterMark", "100"));
+	return 100;//intval(getBlogSetting("gammaForWaterMark", "100"));
 }
 
 function getThumbnailPadding() {
-	$thumbnailPadding = getUserSetting("thumbnailPadding", false);
+	$thumbnailPadding = getBlogSetting("thumbnailPadding", false);
 	if ($thumbnailPadding == false) {
 		return array("top" => 0, "right" => 0, "bottom" => 0, "left" => 0);
 	} else {
@@ -114,7 +114,7 @@ function getThumbnailPadding() {
 }
 
 function getThumbnailPaddingColor() {
-	return getUserSetting("thumbnailPaddingColor", "FFFFFF");
+	return getBlogSetting("thumbnailPaddingColor", "FFFFFF");
 }
 
 // img의 width/height에 맞춰 이미지를 리샘플링하는 함수. 썸네일 함수가 아님! 주의.

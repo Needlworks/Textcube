@@ -16,7 +16,7 @@ requireModel( "blog.api" );
 
 /*--------- API main ---------------*/
 
-if (getUserSetting('useBlogAPI', 0) != 1) {
+if (getBlogSetting('useBlogAPI', 0) != 1) {
 	respondNotFoundPage();
 	exit;
 }

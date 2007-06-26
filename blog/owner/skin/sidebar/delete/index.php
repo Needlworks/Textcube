@@ -17,7 +17,7 @@ requireModel("blog.sidebar");
 $skin = new Skin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
 $sidebarOrder = deleteSidebarModuleOrderData(getSidebarModuleOrderData($sidebarCount), $_GET['sidebarNumber'], $_GET['modulePos']);
-setUserSetting("sidebarOrder", serialize($sidebarOrder));
+setBlogSetting("sidebarOrder", serialize($sidebarOrder));
 
 //printRespond(array('error' => 0));
 if ($_GET['viewMode'] != '') $_GET['viewMode'] = '?' . $_GET['viewMode'];

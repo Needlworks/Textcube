@@ -32,12 +32,12 @@ function PN_Referer_Default()
 	if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['page']))
 		$_GET['page'] = $_POST['page'];
 	
-	$page = misc::getUserSettingRowsPerPage(20);
+	$page = misc::getBlogSettingRowsPerPage(20);
 	
 	if (empty($_POST['perPage'])) {  
 		$perPage = $page;  
 	} else if ($page != $_POST['perPage']) {  
-		misc::setUserSettingRowsPerPage($_POST['perPage']);  
+		misc::setBlogSettingRowsPerPage($_POST['perPage']);  
 		$perPage = $_POST['perPage'];  
 	} else {  
 		$perPage = $_POST['perPage'];  

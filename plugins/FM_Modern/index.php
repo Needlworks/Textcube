@@ -17,13 +17,13 @@ function FM_Modern_editorinit(&$editor) {
 		$config = misc::fetchConfigVal($configVal);
 	}
 	if (!isset($config['defaultmode'])) {
-		$config['defaultmode'] = (getUserSetting('editorMode', 1) == 1 ? 'WYSIWYG' : 'TEXTAREA');
+		$config['defaultmode'] = (getBlogSetting('editorMode', 1) == 1 ? 'WYSIWYG' : 'TEXTAREA');
 	}
 
 	ob_start();
 ?>
 			var editor = new TTModernEditor();
-			editor.fixPosition = <?php echo getUserSetting('editorPropertyPositionFix', 0);?>;
+			editor.fixPosition = <?php echo getBlogSetting('editorPropertyPositionFix', 0);?>;
 			editor.hasGD = <?php echo extension_loaded('gd');?>;
 			editor.propertyFilePath = "<?php echo $service['path'];?>/attach/<?php echo $owner;?>/";
 			editor.editMode = "<?php echo $config['defaultmode'];?>";

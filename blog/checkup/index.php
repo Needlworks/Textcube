@@ -32,7 +32,7 @@ function getBlogSettingForMigration($blogid, $name, $default = null) {
 	return ($value === null) ? $default : $value;
 }
 
-function getUserSettingForMigration($blogid, $name, $default = null) {
+function getBlogSettingForMigration($blogid, $name, $default = null) {
 	global $database;
 	$value = DBQuery::queryCell("SELECT value 
 		FROM {$database['prefix']}UserSettings 
@@ -498,7 +498,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries contentFormatter
 	$defaulteditor = 'modern';
 	$result =
 		DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD contentEditor VARCHAR(32) DEFAULT '' NOT NULL AFTER content, ADD contentFormatter VARCHAR(32) DEFAULT '' NOT NULL AFTER content") &&
-		setUserSetting('defaultFormatter', $defaultformatter) && setUserSetting('defaultEditor', $defaulteditor) &&
+		setBlogSetting('defaultFormatter', $defaultformatter) && setBlogSetting('defaultEditor', $defaulteditor) &&
 		DBQuery::execute("UPDATE {$database['prefix']}Entries SET contentEditor = '".mysql_tt_escape_string($defaulteditor)."', contentFormatter = '".mysql_tt_escape_string($defaultformatter)."';");
 	if ($result)
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';

@@ -39,10 +39,10 @@ $name = isset($_POST['name']) && !empty($_POST['name']) ? $_POST['name'] : $name
 $ip = isset($_GET['ip']) && !empty($_GET['ip']) ? $_GET['ip'] : '';
 $ip = isset($_POST['ip']) && !empty($_POST['ip']) ? $_POST['ip'] : $ip;
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
-$perPage = getUserSetting('rowsPerPage', 10); 
+$perPage = getBlogSetting('rowsPerPage', 10); 
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
-	setUserSetting('rowsPerPage', $_POST['perPage']);
+	setBlogSetting('rowsPerPage', $_POST['perPage']);
 }
 list($comments, $paging) = getCommentsWithPagingForOwner($owner, $categoryId, $name, $ip, $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header.php';

@@ -36,10 +36,10 @@ $site = isset($_POST['site']) && !empty($_POST['site']) ? $_POST['site'] : $site
 $ip = isset($_GET['ip']) && !empty($_GET['ip']) ? $_GET['ip'] : '';
 $ip = isset($_POST['ip']) && !empty($_POST['ip']) ? $_POST['ip'] : $ip;
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
-$perPage = getUserSetting('rowsPerPage', 10);
+$perPage = getBlogSetting('rowsPerPage', 10);
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
-	setUserSetting('rowsPerPage', $_POST['perPage']);
+	setBlogSetting('rowsPerPage', $_POST['perPage']);
 }
 list($trackbacks, $paging) = getTrackbacksWithPagingForOwner($owner, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header.php';

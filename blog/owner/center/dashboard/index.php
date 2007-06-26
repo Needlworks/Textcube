@@ -28,14 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (isset($_POST['rel'])) $_GET['rel'] = $_POST['rel'];
 }
 
-$layout = getUserSetting('centerLayout', '');
+$layout = getBlogSetting('centerLayout', '');
 $newlayout = array();
 $addedlayout = array();
 $oldcenterlayout = array();
 
 if (count($centerMappings) == 0) {
 	$layout = '';
-	setUserSetting('centerLayout', '');
+	setBlogSetting('centerLayout', '');
 	unset($_GET['pos']);
 	unset($_GET['rel']);
 }
@@ -102,7 +102,7 @@ if ((count($centerMappings) > 0) || (count($addedlayout) > 0) || ($modified == t
 	{
 		unset($saveLayout[$i]['title']);
 	}
-	setUserSetting('centerLayout', serialize($saveLayout));
+	setBlogSetting('centerLayout', serialize($saveLayout));
 }
 
 unset($addedlayout);
@@ -155,9 +155,9 @@ if (false) {
 ?>	
 						<form method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
 <?php
-$textcubeDashboard = getUserSetting("textcubeDashboard");
+$textcubeDashboard = getBlogSetting("textcubeDashboard");
 if (is_null($textcubeDashboard)) {
-	setUserSetting("textcubeDashboard", 1);
+	setBlogSetting("textcubeDashboard", 1);
 	$textcubeDashboard = 1;
 }
 
@@ -174,7 +174,7 @@ if($textcubeDashboard) {
 									<ul>
 										<li><a href="<?php echo $blogURL;?>/owner/entry/post"><?php echo _t('새글 쓰기');?></a></li>
 <?php
-		$latestEntryId = getUserSetting('LatestEditedEntry',0);
+		$latestEntryId = getBlogSetting('LatestEditedEntry',0);
 		if($latestEntryId !== 0){
 			$latestEntry = getEntry($owner,$latestEntryId);
 			if($latestEntry!=false){

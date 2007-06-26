@@ -30,7 +30,7 @@ function CT_Start_Default($target) {
 	$target .= '<ul>';
 	$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새 글을 씁니다').'</a></li>'.CRLF;
 
-	$latestEntryId = misc::getUserSettingGlobal('LatestEditedEntry',0);
+	$latestEntryId = misc::getBlogSettingGlobal('LatestEditedEntry',0);
 	if($latestEntryId !== 0){
 		$latestEntry = CT_Start_Default_getEntry($owner,$latestEntryId);
 		if($latestEntry!=false){
