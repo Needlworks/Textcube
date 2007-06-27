@@ -252,7 +252,7 @@ function openid_get_current($target)
 {
 	global $openid_session;
 	if( empty($openid_session['id'] )) {
-		return $target;
+		return '';
 	}
 	return $openid_session['id'];
 }
@@ -350,7 +350,7 @@ function _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate
 	$auth_request = $consumer->begin($openid);
 	ob_end_clean();
 
-	unset($_SESSION['openid']);
+	unset($_SESSION['verified_openid']);
 
 	// Handle failure status return values.
 	if (!$auth_request) {
@@ -406,7 +406,7 @@ function openid_finish()
 			$sreg['nickname'] = "";
 		}
 
-		$_SESSION['openid'] = $openid;
+		$_SESSION['verified_openid'] = $openid;
 		if( empty($_GET['authenticate_only']) ) {
 			$openid_session['id'] = $openid;
 			$openid_session['delegatedid'] = $response->endpoint->delegate;

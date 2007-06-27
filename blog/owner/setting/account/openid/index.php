@@ -39,8 +39,8 @@ function addOpenID()
 	global $blogURL;
 
 	$currentOpenID = '';
-	if( !empty($_SESSION['openid']) ) {
-		$currentOpenID = $_SESSION['openid'];
+	if( !empty($_SESSION['verified_openid']) ) {
+		$currentOpenID = $_SESSION['verified_openid'];
 	}
 	$claimedOpenID = fireEvent("OpenIDFetch", $_GET['openid_identifier']);
 

@@ -326,6 +326,9 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 							</tbody>
 						</table>
 							<div class="data-inbox">
+					<?php $openidPluginCheck = fireEvent("OpenIDGetCurrent","*NONE*");
+							if( $openidPluginCheck != "*NONE*" ) {
+					?>
 								<form id="info-section" class="section" method="get" action="<?php echo $blogURL;?>/owner/setting/account/openid">
 									<fieldset class="container">
 										<legend><?php echo _t('오픈아이디');?></legend>
@@ -339,6 +342,13 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 									</fieldset>
 									<input type="hidden" name="mode" value="add">
 								</form>
+					<?php  } else { ?>
+										<dl id="blogger-name-line" class="line">
+											<dd><em>
+					<?php echo _t('오픈아이디 인증 플러그인을 활성화하십시오'); ?>
+											</em></dd>
+										</dl>
+					<?php } ?>
 							</div>
 						</div>
 <!-- OPENID END -->
