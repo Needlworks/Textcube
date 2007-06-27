@@ -285,7 +285,7 @@ function openid_try_auth()
 
 	if (empty($openid)) {
 		openid_setcookie( 'openid_auto', 'n' );
-		print "<html><body><script>alert('" . _text("오픈ID를 입력하세요") . "');";
+		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script>alert('" . _text("오픈ID를 입력하세요") . "');";
 		print "document.location.href='$blogURL/plugin/openid/login?requestURI=" . urlencode($requestURI) . "';</script></body></html>";
 		exit(0);
 	}
@@ -358,7 +358,7 @@ function _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate
 		if( !empty($authenticate_only) ) {
 			$requestURI .= (strchr($requestURI,'?')===false ? "?":"&" ) . "authenticated=0";
 		}
-		print "<html><body><script>alert('" . _text("인증하지 못하였습니다. 아이디를 확인하세요") . "');document.location.href='" . $requestURI . "';</script></body></html>";
+		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script>alert('" . _text("인증하지 못하였습니다. 아이디를 확인하세요") . "');document.location.href='" . $requestURI . "';</script></body></html>";
 		exit(0);
 	}
 
@@ -427,7 +427,7 @@ function openid_finish()
 		openid_setcookie( 'openid_auto', 'n' );
 		header("HTTP/1.0 200 OK");
 		header("Content-type: text/html");
-		print "<html><body><script>alert(\"$msg\"); document.location.href=\"$requestURI\";</script></body></html>";
+		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script>alert(\"$msg\"); document.location.href=\"$requestURI\";</script></body></html>";
 	}
 	else
 	{
