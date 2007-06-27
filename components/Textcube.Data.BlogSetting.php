@@ -34,9 +34,11 @@ class BlogSetting {
 		$query = new TableQuery($database['prefix'] . 'BlogSettings');
 		if($query->doesExist()){
 			$query->setQualifier('blogid',$blogid);
-			$blogSettings = $query -> getAll('*');
+			$blogSettings = $query -> getAll('name,value');
 			if(isset($blogSettings)){
-				foreach ($blogSettings as $name => $value) {
+				foreach ($blogSettings as $blogSetting) {
+					$name  = $blogSetting['name'];
+					$value = $blogSetting['value']; 
 					switch ($name) {
 						case 'logo':
 							$name = 'banner';
