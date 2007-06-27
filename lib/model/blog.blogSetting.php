@@ -345,7 +345,7 @@ function cancelInvite($userid) {
 		if (DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $userid")) {
 			if (DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $userid")) {
 				if (DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $userid")) {
-					if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='".getBlogId()."' and userid='".$_POST['userid']."'")) {
+					if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='".getBlogId()."' and userid='$userid'")) {
 						return true;
 					} else {
 						return false;

@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 $url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'];
 $suri = array('url' => $url, 'value' => '');
-$owner = null;
+$blogid = null;
 $depth = substr_count($service['path'], '/');
 if ($depth > 0) {
 	if (ereg("^((/+[^/]+){{$depth}})(.*)$", $url, $matches))
@@ -13,38 +13,38 @@ if ($depth > 0) {
 		respondNotFoundPage();
 }
 if ($service['type'] == 'single') {
-	$owner = 1;
+	$blogid = 1;
 } else {
 	if ($service['type'] == 'domain') {
 		if ($_SERVER['HTTP_HOST'] == $service['domain']) {
-			$owner = 1;
+			$blogid = 1;
 		} else {
 			$domain = explode('.', $_SERVER['HTTP_HOST'], 2);
 			if ($domain[1] == $service['domain']) {
-				$owner = getOwner($domain[0]);
-				if ($owner === null)
-					$owner = getOwnerBySecondaryDomain($_SERVER['HTTP_HOST']);
+				$blogid = getBlogidByName($domain[0]);
+				if ($blogid === null)
+					$blogid = getBlogidBySecondaryDomain($_SERVER['HTTP_HOST']);
 			} else {
-				$owner = getOwnerBySecondaryDomain($_SERVER['HTTP_HOST']);
+				$blogid = getBlogidBySecondaryDomain($_SERVER['HTTP_HOST']);
 			}
 		}
 	} else {
 		if ($url == '/') {
-			$owner = 1;
+			$blogid = 1;
 		} else if (ereg('^/+([^/]+)(.*)$', $url, $matches)) {
-			$owner = getOwner($matches[1]);
-			if ($owner === null)
-				$owner = 1;
+			$blogid = getBlogidByName($matches[1]);
+			if ($blogid === null)
+				$blogid = 1;
 			$url = $matches[2];
 		} else {
 			respondNotFoundPage();
 		}
 	}
-	if ($owner === null)
+	if ($blogid === null)
 		respondNotFoundPage();
 }
 
-$blogid = $owner;
+$owner = $blogid; // For legacy.(<1.5)
 $blog = getBlogSettings($blogid);
 $skinSetting = getSkinSetting($blogid);
 

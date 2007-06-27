@@ -3,14 +3,20 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-function getOwner($name) {
+function getBlogidByName($name) {
 	global $database;
-	return DBQuery::queryCell("select owner from {$database['prefix']}BlogSettings where name = '$name'");
+	$query = new TableQuery($database['prefix'] . 'BlogSettings');
+	if($query->doesExist()) {
+		$query->setQualifier('name','name');
+		$query->setQualifier('value',$name);
+		return $query->getCell('blogid');
+	}
+	return false;
 }
 
-function getOwnerBySecondaryDomain($domain) {
+function getBlogidBySecondaryDomain($domain) {
 	global $database;
-	return DBQuery::queryCell("SELECT owner FROM {$database['prefix']}BlogSettings WHERE secondaryDomain = '$domain' OR  secondaryDomain = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "'");
+	return DBQuery::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE secondaryDomain = '$domain' OR  secondaryDomain = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "'");
 }
 
 function getBlogSettings($blogid) {
