@@ -17,12 +17,14 @@ function getBlogSettings($blogid) {
 	global $database;
 	$query = new TableQuery($database['prefix'] . 'BlogSettings');
 	if($query->doesExist()){
-		$query->setQualifier('blogid',$blogid);
-		$blogSettings = $query->getAll('*');
+		$query->setQualifier('owner',$blogid);
+		$blogSettings = $query->getRow('*');
 		if( $blogSettings ) {
 			$result = array();
-			foreach($blogSettings as $blogSetting){
-				$result[$blogSetting['name']] = $blogSetting['value'];
+			foreach($blogSettings as $key => $value){
+				if (is_int($key))
+					continue;
+				$result[$key] = $value;
 			}
 			return $result;
 		}
