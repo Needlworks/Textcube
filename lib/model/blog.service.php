@@ -8,7 +8,7 @@ function getBlogidByName($name) {
 	$query = new TableQuery($database['prefix'] . 'BlogSettings');
 	if($query->doesExist()) {
 		$query->setQualifier('name','name');
-		$query->setQualifier('value',$name);
+		$query->setQualifier('value', $name, true);
 		return $query->getCell('blogid');
 	}
 	return false;
