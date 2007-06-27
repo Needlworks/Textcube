@@ -44,7 +44,7 @@ if ($service['type'] == 'single') {
 		respondNotFoundPage();
 }
 
-$blogid = $owner
+$blogid = $owner;
 $blog = getBlogSettings($blogid);
 $skinSetting = getSkinSetting($blogid);
 
