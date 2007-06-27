@@ -28,13 +28,15 @@ class BlogSetting {
 	}
 	
 	function load($fields = '*') {
-		global $database, $owner;
+		global $database;
+		$blogid = getBlogId();
 		$this->reset();
-		if ($result = mysql_query("SELECT $fields FROM {$database['prefix']}BlogSettings WHERE owner = $owner")) {
-			if ($row = mysql_fetch_assoc($result)) {
-				foreach ($row as $name => $value) {
-					if ($name == 'owner')
-						continue;
+		$query = new TableQuery($database['prefix'] . 'BlogSettings');
+		if($query->doesExist()){
+			$query->serQualifier('blogid',$blogid);
+			$blogSettings = $query -> getAll('*');
+			if(isset($blogSettings)){
+				foreach ($blogSettings as $name => $value) {
 					switch ($name) {
 						case 'logo':
 							$name = 'banner';
@@ -54,11 +56,9 @@ class BlogSetting {
 						case 'allowWriteOnGuestbook':
 							$name = 'acceptGuestComment';
 							break;
-						case 'allowWriteDoubleCommentOnGuestbook':
+						case 'allowWriteDblCommentOnGuestbook':
 							$name = 'acceptCommentOnGuestComment';
 							break;
-					}
-					switch ($name) {
 						case 'defaultDomain':
 						case 'useSlogan':
 						case 'acceptGuestComment':
@@ -69,90 +69,76 @@ class BlogSetting {
 					$this->$name = $value;
 				}
 			}
-			mysql_free_result($result);
 			return true;
 		}
 		return false;
 	}
 	
 	function save() {
-		global $database, $owner;
-		
-		$query = new TableQuery($database['prefix'] . 'BlogSettings');
-		$query->setQualifier('owner', $owner);
+		global $database;
+		requireModel('common.setting');
 
 		if (isset($this->name)) {
 			$this->name = trim($this->name);
 			if (!BlogSetting::validateName($this->name))
 				return $this->_error('name');
-			$query->setAttribute('name', $this->name, true);
+			setBlogSetting('name', $this->name);
 		}
 		if (isset($this->secondaryDomain)) {
 			$this->secondaryDomain = trim($this->secondaryDomain);
 			if (!Validator::domain($this->secondaryDomain))
 				return $this->_error('secondaryDomain');
-			$query->setAttribute('secondaryDomain', $this->secondaryDomain, true);
+			setBlogSetting('secondaryDomain', $this->secondaryDomain);
 		}
 		if (isset($this->defaultDomain))
-			$query->setAttribute('defaultDomain', Validator::getBit($this->defaultDomain));
+			setBlogSetting('defaultDomain', Validator::getBit($this->defaultDomain));
 		if (isset($this->title)) {
 			$this->title = trim($this->title);
-			$query->setAttribute('title', $this->title, true);
+			setBlogSetting('title', $this->title);
 		}
 		if (isset($this->description)) {
 			$this->description = trim($this->description);
-			$query->setAttribute('description', $this->description, true);
+			setBlogSetting('description', $this->description);
 		}
 		if (isset($this->banner)) {
 			if ((strlen($this->banner) != 0) && !Validator::filename($this->banner))
 				return $this->_error('banner');
-			$query->setAttribute('logo', $this->banner, true);
+			setBlogSetting('logo', $this->banner);
 		}
 		if (isset($this->useSlogan))
-			$query->setAttribute('useSlogan', Validator::getBit($this->useSlogan));
+			setBlogSetting('useSlogan', Validator::getBit($this->useSlogan));
 		if (isset($this->postsOnPage)) {
 			if (!Validator::number($this->postsOnPage, 1))
 				return $this->_error('postsOnPage');
-			$query->setAttribute('entriesOnPage', $this->postsOnPage);
+			setBlogSetting('entriesOnPage', $this->postsOnPage);
 		}
 		if (isset($this->postsOnList)) {
 			if (!Validator::number($this->postsOnList, 1))
 				return $this->_error('postsOnList');
-			$query->setAttribute('entriesOnList', $this->postsOnList);
+			setBlogSetting('entriesOnList', $this->postsOnList);
 		}
 		if (isset($this->postsOnFeed)) {
 			if (!Validator::number($this->postsOnFeed, 1))
 				return $this->_error('postsOnFeed');
-			$query->setAttribute('entriesOnRSS', $this->postsOnFeed);
+			setBlogSetting('entriesOnRSS', $this->postsOnFeed);
 		}
 		if (isset($this->publishWholeOnFeed))
-			$query->setAttribute('publishWholeOnRSS', Validator::getBit($this->publishWholeOnFeed));
+			setBlogSetting('publishWholeOnRSS', Validator::getBit($this->publishWholeOnFeed));
 		if (isset($this->acceptGuestComment))
-			$query->setAttribute('allowWriteOnGuestbook', Validator::getBit($this->acceptGuestComment));
+			setBlogSetting('allowWriteOnGuestbook', Validator::getBit($this->acceptGuestComment));
 		if (isset($this->acceptCommentOnGuestComment))
-			$query->setAttribute('allowWriteDoubleCommentOnGuestbook', Validator::getBit($this->acceptCommentOnGuestComment));
+			setBlogSetting('allowWriteDblCommentOnGuestbook', Validator::getBit($this->acceptCommentOnGuestComment));
 		if (isset($this->language)) {
 			if (!Validator::language($this->language))
 				return $this->_error('language');
-			$query->setAttribute('language', $this->language, false);
+			setBlogSetting('language', $this->language);
 		}
 		if (isset($this->timezone)) {
 			if (empty($this->timezone))
 				return $this->_error('timezone');
-			$query->setAttribute('timezone', $this->timezone, false);
+			setBlogSetting('timezone', $this->timezone);
 		}
-		if (!$query->getQualifiersCount())
-			return $this->_error('nothing');
-		
-		if ($query->doesExist()) {
-			if ($query->update())
-				return true;
-			else
-				return $this->_error('update');
-		} else if ($query->insert()) {
-			return true;
-		}
-		return $this->_error('insert');
+		return true;
 	}
 	
 	function escape($escape = true) {
