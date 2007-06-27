@@ -28,6 +28,7 @@ if (!$xmls->open(file_get_contents(ROOT . "/plugins/{$pluginName}/index.xml"))) 
 						"link" => $xmls->getValue('/plugin/link[lang()]'),
 						"title" => htmlspecialchars($xmls->getValue('/plugin/title[lang()]')),
 						"version" => htmlspecialchars($xmls->getValue('/plugin/version[lang()]')),
+						"requirements" => $xmls->doesExist('/plugin/requirements/tattertools') ? $xmls->getValue('/plugin/requirements/tattertools') : $xmls->getValue('/plugin/requirements/textcube'),
 						"description" => htmlspecialchars($xmls->getValue('/plugin/description[lang()]')),
 						"authorLink" => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
 						"author" => htmlspecialchars($xmls->getValue('/plugin/author[lang()]')),
@@ -46,6 +47,9 @@ if (!$xmls->open(file_get_contents(ROOT . "/plugins/{$pluginName}/index.xml"))) 
 		array_push($pluginAttrs['scope'], '사이드바');
 	if ($xmls->doesExist('/plugin/binding/editor') || $xmls->doesExist('/plugin/binding/formatter'))
 		array_push($pluginAttrs['scope'], '모듈');
+	
+	list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
+	$requirements = $currentTextcubeVersion >= $pluginAttrs['requirements'] ? true : false;
 }
 
 if (!$xmls->doesExist('/plugin/binding/config') || !$active) {
@@ -199,6 +203,13 @@ if ($pluginAttrs['authorLink']) {
 					</div>
 					
 					<div class="description">
+<?php
+if ($requirements == false) {
+?>
+  						<p class="requirement"><em><?php echo _f('이 플러그인을 사용하시려면 Textcube %1으로 업그레이드하셔야 합니다.', $pluginAttrs['requirements']);?></em></p>
+<?php
+}
+?>
 						<div class="temp-description">
 							<?php echo $pluginAttrs['description'];?>
 						</div>

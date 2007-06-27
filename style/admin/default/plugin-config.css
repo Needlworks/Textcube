@@ -180,6 +180,14 @@ h1
 	padding: 10px;
 }
 
+#information .description .requirement
+{
+	background-color: #FFEAE7;
+	border: 1px solid #FFD2CC;
+	margin-bottom: 8px;
+	padding: 5px 10px;
+}
+
 #information .description .temp-description
 {
 	height: 100px;

@@ -13,6 +13,27 @@ function activatePlugin($name) {
 		return false;
 	if (!file_exists(ROOT . "/plugins/$name/index.xml") || !file_exists(ROOT . "/plugins/$name/index.php"))
 		return false;
+	
+	$xmls = new XMLStruct();
+	$manifest = @file_get_contents(ROOT . "/plugins/$name/index.xml");
+	if ($xmls->open($manifest)) {
+		list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
+		$requiredTattertoolsVersion = $xmls->getValue('/plugin/requirements/tattertools');
+		$requiredTextcubeVersion = $xmls->getValue('/plugin/requirements/textcube');
+		
+		if (!is_null($requiredTattertoolsVersion) && !is_null($requiredTextcubeVersion)) {
+			if ($currentTextcubeVersion < $requiredTattertoolsVersion && $currentTextcubeVersion < $requiredTextcubeVersion)
+				return false;
+		} else if (!is_null($requiredTattertoolsVersion) && is_null($requiredTextcubeVersion)) {
+			if ($currentTextcubeVersion < $requiredTattertoolsVersion)
+				return false;
+		} else if (is_null($requiredTattertoolsVersion) && !is_null($requiredTextcubeVersion)) {
+			if ($currentTextcubeVersion < $requiredTextcubeVersion)
+				return false;
+		}
+	} else {
+		return false;
+	}
 	$name = mysql_tt_escape_string(mysql_lessen($name, 255));
 	DBQuery::query("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
 	return (mysql_affected_rows() == 1);
@@ -29,7 +50,7 @@ function deactivatePlugin($name) {
 	return true;
 }
 
-function getCurrentSetting( $name){
+function getCurrentSetting($name){
 	global $database, $activePlugins;
 	if( !in_array( $name , $activePlugins))
 		return false;

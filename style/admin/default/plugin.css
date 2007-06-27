@@ -145,6 +145,11 @@
 	width                            : 90px;
 }
 
+#part-plugin-list ul.data-inbox li .plugin-box .plugin-disabled-icon
+{
+	cursor                           : default;
+}
+
 #part-plugin-list ul.data-inbox li .plugin-box .plugin-icon img
 {
 	display                          : none;

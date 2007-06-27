@@ -87,11 +87,25 @@ while (false !== ($plugin = $dir->read())) { // 이게 php.net에서 권장하�
 		}
 		
 		// load plugin information.
+		$requiredTattertoolsVersion = $xmls->getValue('/plugin/requirements/tattertools');
+		$requiredTextcubeVersion = $xmls->getValue('/plugin/requirements/textcube');
+		
+		if (!is_null($requiredTattertoolsVersion) && !is_null($requiredTextcubeVersion))
+			$requiredVersion = $requiredTattertoolsVersion > $requiredTextcubeVersion ? $requiredTextcubeVersion : $requiredTattertoolsVersion;
+		else if (!is_null($requiredTattertoolsVersion) && is_null($requiredTextcubeVersion))
+			$requiredVersion = $requiredTattertoolsVersion;
+		else if (is_null($requiredTattertoolsVersion) && !is_null($requiredTextcubeVersion))
+			$requiredVersion = $requiredTextcubeVersion;
+		else
+			$requiredVersion = 0;
+		unset($requiredTattertoolsVersion, $requiredTextcubeVersion);
+		
 		$pluginDir = trim($plugin);
 		$pluginAttrs[$pluginDir] = array(
 							'link' => $xmls->getValue('/plugin/link[lang()]'),
 							'title' => $xmls->getValue('/plugin/title[lang()]'),
 							'version' => $xmls->getValue('/plugin/version[lang()]'),
+							'requirements' => $requiredVersion,
 							'description' => $xmls->getValue('/plugin/description[lang()]'),
 							'authorLink' => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
 							'author' => $xmls->getValue('/plugin/author[lang()]'),
@@ -99,8 +113,9 @@ while (false !== ($plugin = $dir->read())) { // 이게 php.net에서 권장하�
 							'width' => $xmls->getAttribute('/plugin/binding/config/window', 'width'),
 							'height' => $xmls->getAttribute('/plugin/binding/config/window', 'height')
 							);
-
+		
 		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
+		unset($requiredVersion);
 	}
 }
 unset($xmls);
@@ -353,12 +368,15 @@ if (defined('__TAB_BLOG__')) {
 							<div id="temp-box">
 								<ul class="data-inbox">
 <?php
+list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
+
 for ($i=0; $i<count($pluginKeys); $i++) {
 	$pluginDir = $pluginKeys[$i];
 	
 	$link = $pluginAttrs[$pluginDir]['link'];
 	$title = $pluginAttrs[$pluginDir]['title'];
 	$version = $pluginAttrs[$pluginDir]['version'];
+	$requirements = $currentTextcubeVersion >= $pluginAttrs[$pluginDir]['requirements'] ? true : false;
 	$description = $pluginAttrs[$pluginDir]['description'];
 	$authorLink = $pluginAttrs[$pluginDir]['authorLink'];
 	$author = $pluginAttrs[$pluginDir]['author'];
@@ -373,11 +391,28 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 		continue;
 	
 	$className = $active ? 'active-class' : 'inactive-class';
+	$className .= $requirements ? NULL : ' disabled-class';
 	$className .= $i == (count($pluginKeys) - 1) ? ' last-item' : NULL;
 ?>
 									<li class="<?php echo $className;?>">
 <?php
-	if ($active) {
+	if ($requirements == false) {
+		if (file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_on.png")) {
+?>
+										<div class="plugin-box">
+											<div class="plugin-icon plugin-disabled-icon" style="background-image: url('<?php echo $serviceURL . "/plugins/{$pluginDir}/images/icon_plugin_off.png";?>');">
+												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 사용불가능한 버전입니다. 최신 버전으로 업데이트하십시오.');?>" />
+											</div>
+<?php
+		} else {
+?>
+										<div class="plugin-box">
+											<div class="plugin-icon plugin-disabled-icon" style="background-image: url('<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/icon_plugin_off.png";?>');">
+												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 사용불가능한 버전입니다. 최신 버전으로 업데이트하십시오.');?>" />
+											</div>
+<?php
+		}
+	} else if ($active) {
 		if (file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_on.png")) {
 ?>
 										<div class="plugin-box">
@@ -421,7 +456,11 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 										<div class="summary">
 											<div class="plugin-title">
 <?php
-	if ($active) {
+	if ($requirements == false) {
+?>
+												<input type="checkbox" class="input-checkbox" name="plugin" title="<?php echo _t('이 플러그인은 사용불가능한 버전입니다. 최신 버전으로 업데이트하십시오.');?>" disabled="disabled" />
+<?php
+	} else if ($active) {
 ?>
 												<input type="checkbox" class="input-checkbox" name="plugin" value="<?php echo $pluginDir;?>" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" checked="checked" />
 <?php
@@ -434,22 +473,30 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 												<?php echo ($link ? "<a href=\"" . htmlspecialchars($link) . "\" title=\"".htmlspecialchars($title)." - " . _t('버전') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</a>' : "<span title=\"".htmlspecialchars($title)." - " . _t('버전') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</span>');?>
 											</div>
 											<div class="plugin-buttons">
+<?php
+	if ($requirements == false) {
+?>
+												<a href="#void" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>', 'about'); return false;"><?php echo _t('사용불가능한 버전');?></a>
+<?php
+	} else {
+?>
 												<a href="#void" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>', 'about'); return false;"><?php echo _t('자세히 보기');?></a> <span class="divider">|</span>
 <?php
-	if ($config=='Y') {
-		if ($active) {
+		if ($config=='Y') {
+			if ($active) {
 ?>
 												<span id="pluginSettingButton<?php echo $i;?>" class="enabled"><a href="#void" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>', 'setting'); return false;"><?php echo _t('환경설정');?></a></span>
 <?php
-		} else {
+			} else {
 ?>
 												<span id="pluginSettingButton<?php echo $i;?>" class="dimmed"><?php echo _t('환경설정');?></span>
 <?php
-		}
-	} else {
+			}
+		} else {
 ?>
 												<span id="pluginSettingButton<?php echo $i;?>" class="disabled"><?php echo _t('환경설정');?></span>
 <?php
+		}
 	}
 ?>
 											</div>
