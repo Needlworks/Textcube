@@ -270,7 +270,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 									}
 									
 									request.onError = function() {
-										alert("<?php echo _t('선택하신 조건을 적용하지 못했습니다.');?>");
+										alert("<?php echo _t('선택하신 조건을 적용할 수 없었습니다.');?>");
 									}
 									
 									request.send("visibility=" + currentTab.value + "&scope=" + scope.join('|') + "&status=" + status.join('|') + "&sort=" + sort);
@@ -401,14 +401,14 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 ?>
 										<div class="plugin-box">
 											<div class="plugin-icon plugin-disabled-icon" style="background-image: url('<?php echo $serviceURL . "/plugins/{$pluginDir}/images/icon_plugin_off.png";?>');">
-												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 사용불가능한 버전입니다. 최신 버전으로 업데이트하십시오.');?>" />
+												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 현재 텍스트큐브와 호환되지 않습니다. 플러그인의 업데이트가 필요합니다.');?>" />
 											</div>
 <?php
 		} else {
 ?>
 										<div class="plugin-box">
 											<div class="plugin-icon plugin-disabled-icon" style="background-image: url('<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/icon_plugin_off.png";?>');">
-												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 사용불가능한 버전입니다. 최신 버전으로 업데이트하십시오.');?>" />
+												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 현재 텍스트큐브와 호환되지 않습니다. 플러그인의 업데이트가 필요합니다.');?>" />
 											</div>
 <?php
 		}
@@ -458,7 +458,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 <?php
 	if ($requirements == false) {
 ?>
-												<input type="checkbox" class="input-checkbox" name="plugin" title="<?php echo _t('이 플러그인은 사용불가능한 버전입니다. 최신 버전으로 업데이트하십시오.');?>" disabled="disabled" />
+												<input type="checkbox" class="input-checkbox" name="plugin" title="<?php echo _t('이 플러그인은 현재 텍스트큐브와 호환되지 않습니다. 플러그인의 업데이트가 필요합니다.');?>" disabled="disabled" />
 <?php
 	} else if ($active) {
 ?>
@@ -470,13 +470,13 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 <?php
 	}
 ?>
-												<?php echo ($link ? "<a href=\"" . htmlspecialchars($link) . "\" title=\"".htmlspecialchars($title)." - " . _t('버전') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</a>' : "<span title=\"".htmlspecialchars($title)." - " . _t('버전') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</span>');?>
+												<?php echo ($link ? "<a href=\"" . htmlspecialchars($link) . "\" title=\"".htmlspecialchars($title)." - " . _t('판번호') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</a>' : "<span title=\"".htmlspecialchars($title)." - " . _t('판번호') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</span>');?>
 											</div>
 											<div class="plugin-buttons">
 <?php
 	if ($requirements == false) {
 ?>
-												<a href="#void" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>', 'about'); return false;"><?php echo _t('사용불가능한 버전');?></a>
+												<a href="#void" onclick="getCurrentSetting('<?php echo $pluginDir;?>','<?php echo $config;?>','<?php echo $width;?>','<?php echo $height;?>', 'about'); return false;"><?php echo _t('사용 불가능한 판번호');?></a>
 <?php
 	} else {
 ?>
