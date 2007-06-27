@@ -38,7 +38,7 @@ function openid_login()
 	if( strlen($openid_session_id) >= 32 ) {
 	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html><head>
-<title>Textcube OpenID Authentication</title>
+<title>텍스트큐브 오픈아이디 인증</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="' . $service['path'] . '/style/admin/default/basic.css" />
 <link rel="stylesheet" type="text/css" href="' . $service['path'] . '/style/admin/default/login.css" />
@@ -107,17 +107,17 @@ dd .input-text
 					<div id="login-box">
 						<div id="logo-box">
 							<img src="' . $service['path'] . '/style/admin/default/image/logo_textcube.png" alt="텍스트큐브 로고" />
-			            	<p><b>Textcube OpenID Login</b></p>
+			            	<p><b>텍스트큐브 오픈아이디 로그인</b></p>
 			            </div>
 			            
 			            <div id="field-box">
 			            	<dl id="email-line">
-			            		<dt><label for="loginid">' . _text('OpenID 예) http://testid.example.com') . '</label></dt>
+			            		<dt><label for="loginid">' . _text('오픈아이디') . '</label></dt>
 
 			            		<dd><input type="text" class="input-text" id="openid_identifier" name="openid_identifier" value="' . $cookie_openid . '" maxlength="256" tabindex="1" /></dd>
-			            		<dd><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_auto">' . _text('OpenID 기억') . '</label></dd>
+			            		<dd><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_auto">' . _text('오픈아이디 기억') . '</label></dd>
 			            		<dd><input type="submit" class="login-button" name="openid_login" value="로그인" /><input type="submit" class="login-button" name="openid_cancel" value="취소" /></dd>
-			            		<dd><a href="' . $openid_help_link . '">' . _text('OpenID란?') . '</a> | <a href="' . $openid_signup_link . '">' . _text('OpenID 발급하기') . '</a></dd>
+			            		<dd><a href="' . $openid_help_link . '">' . _text('오픈아이디란?') . '</a> | <a href="' . $openid_signup_link . '">' . _text('오픈아이디 발급하기') . '</a></dd>
 							</dl>
 						</div>
 					</div>
@@ -133,7 +133,7 @@ dd .input-text
 	echo '
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html><head>
-<title>Textcube OpenID Authentication</title>
+<title>텍스트큐브 오픈아이디 인증</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="' . $service['path'] . '/style/admin/default/basic.css" />
 <link rel="stylesheet" type="text/css" href="' . $service['path'] . '/style/admin/default/login.css" />
@@ -148,7 +148,7 @@ alert("Session creation error' . $openid_session_id . '");
 	}
 }
 
-function _openid_update_id($openid,$delegatedid,$nickname,$homepage,$userid=null)
+function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null,$userid=null)
 {
 	global $database, $owner;
 	global $openid_session;
@@ -170,7 +170,7 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage,$userid=null
 
 		if( !empty($nickname) ) $data['nickname'] = $nickname;
 		if( !empty($homepage) ) $data['homepage'] = $homepage;
-		if( !empty($userid) ) $data['acl'] = $userid > 0 ? $userid : '';
+		if( $userid !== null ) $data['acl'] = $userid;
 
 		$openid_session['nickname'] = $data['nickname'];
 		$openid_session['homepage'] = $data['homepage'];
@@ -245,6 +245,7 @@ function _openid_set_acl($openid)
 	} else {
 		authorizeSession($blogid, null);
 	}
+
 }
 
 function openid_get_current($target)
@@ -265,6 +266,12 @@ function openid_try_auth()
 		$openid_remember = false;
 	}
 
+	if( !empty($_GET['authenticate_only'])) {
+		$authenticate_only = '1';
+	} else {
+		$authenticate_only = '';
+	}
+
 	$openid = $_GET['openid_identifier'];
 	$requestURI = $_GET['requestURI'];
 	if( empty($requestURI) ) {
@@ -272,7 +279,7 @@ function openid_try_auth()
 	}
 
 	if( isset($_GET['openid_cancel']) || isset($_GET['openid_cancel_x']) ) {
-		header( "Location: " . $requestURI);
+		header( "Location: " . $blogURL);
 		exit(0);
 	}
 
@@ -283,7 +290,7 @@ function openid_try_auth()
 		exit(0);
 	}
 
-	return _openid_try_auth( $openid, $requestURI, $openid_remember );
+	return _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate_only );
 }
 
 function openid_fetch( $openid )
@@ -320,21 +327,22 @@ function openid_set_userid($openid)
 
 function openid_reset_userid($openid)
 {
-	_openid_update_id( $openid, null, null, null, "-1" );
+	_openid_update_id( $openid, null, null, null, "" );
 	return "";
 }
 
-function _openid_try_auth( $openid, $requestURI, $openid_remember = true )
+function _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate_only )
 {
 	global $hostURL, $blogURL;
 	require_once  "common.php";
 	require_once  "xmlwrapper.php";
 
-    static $xmlparser = null;
-    if( !$xmlparser ) $xmlparser = new Services_Textcube_xmlparser();
+	static $xmlparser = null;
+	if( !$xmlparser ) $xmlparser = new Services_Textcube_xmlparser();
+
 	Services_Yadis_setDefaultParser( $xmlparser );
 
-	$process_url = $hostURL . $blogURL . "/plugin/openid/finish?requestURI=" . urlencode($requestURI);
+	$process_url = $hostURL . $blogURL . "/plugin/openid/finish?authenticate_only=$authenticate_only&requestURI=" . urlencode($requestURI);
 	$trust_root = $hostURL . $blogURL;
 
 	// Begin the OpenID authentication process.
@@ -342,10 +350,15 @@ function _openid_try_auth( $openid, $requestURI, $openid_remember = true )
 	$auth_request = $consumer->begin($openid);
 	ob_end_clean();
 
+	unset($_SESSION['openid']);
+
 	// Handle failure status return values.
 	if (!$auth_request) {
 		openid_setcookie( 'openid_auto', 'n' );
-		print "<html><body><script>alert('" . _text("인증하지 못하였습니다. 아이디를 확인하세요") . "');//document.location.href='" . $requestURI . "';</script></body></html>";
+		if( !empty($authenticate_only) ) {
+			$requestURI .= (strchr($requestURI,'?')===false ? "?":"&" ) . "authenticated=0";
+		}
+		print "<html><body><script>alert('" . _text("인증하지 못하였습니다. 아이디를 확인하세요") . "');document.location.href='" . $requestURI . "';</script></body></html>";
 		exit(0);
 	}
 
@@ -382,9 +395,9 @@ function openid_finish()
 
 	if ($response->status == Auth_OpenID_CANCEL) {
 		// This means the authentication was cancelled.
-		$msg = 'Verification cancelled.';
+		$msg = '인증이 취소되었습니다.';
 	} else if ($response->status == Auth_OpenID_FAILURE) {
-		$msg = "OpenID authentication failed: " . $response->message;
+		$msg = "오픈아이디 인증이 실패하였습니다: " . $response->message;
 	} else if ($response->status == Auth_OpenID_SUCCESS) {
 		// This means the authentication succeeded.
 		$openid = $response->identity_url;
@@ -393,11 +406,19 @@ function openid_finish()
 			$sreg['nickname'] = "";
 		}
 
-		$openid_session['id'] = $openid;
-		$openid_session['delegatedid'] = $response->endpoint->delegate;
-		_openid_update_id( $response->identity_url, $response->endpoint->delegate, $sreg['nickname'],null );
-		_openid_set_acl( $response->identity_url );
-		openid_session_write();
+		$_SESSION['openid'] = $openid;
+		if( empty($_GET['authenticate_only']) ) {
+			$openid_session['id'] = $openid;
+			$openid_session['delegatedid'] = $response->endpoint->delegate;
+			_openid_update_id( $response->identity_url, $response->endpoint->delegate, $sreg['nickname'] );
+			_openid_set_acl( $response->identity_url );
+			openid_session_write();
+		}
+	}
+
+	$requestURI = $_GET['requestURI'];
+	if( !empty($_GET['authenticate_only']) && $msg ) {
+		$requestURI .= (strchr($requestURI,'?')===false ? "?":"&" ) . "authenticated=0";
 	}
 
 	if( $msg )
@@ -406,14 +427,14 @@ function openid_finish()
 		openid_setcookie( 'openid_auto', 'n' );
 		header("HTTP/1.0 200 OK");
 		header("Content-type: text/html");
-		print "<html><body><script>alert(\"$msg\"); document.location.href=\"{$_GET['requestURI']}\";</script></body></html>";
+		print "<html><body><script>alert(\"$msg\"); document.location.href=\"$requestURI\";</script></body></html>";
 	}
 	else
 	{
 		ob_end_clean();
 		openid_setcookie( 'openid_auto', 'y' );
 		header("HTTP/1.0 302 Moved Temporarily");
-		header("Location: ".$_GET['requestURI']);
+		header("Location: $requestURI");
 
 		// Hack for avoiding textcube zero-length content
 		print( "<html><body></body></html>" );
@@ -477,7 +498,7 @@ function openid_hardcore_login($target)
 	if( !empty($openid_session['id']) ) {
 		return $target;
 	}
-	_openid_try_auth( $_COOKIE['openid'], $_SERVER["REQUEST_URI"] );
+	_openid_try_auth( $_COOKIE['openid'], $_SERVER["REQUEST_URI"], true, '' );
 	/* Never return */
 	return $target;
 }
@@ -532,15 +553,14 @@ function openid_add_loginform($target, $requestURI)
 	}
 	$target .= '
 <style type="text/css">
-#openid-temp-wrap {width: 230px; margin: 0 -10px 0 340px;}
+#openid-temp-wrap {width: 230px; margin: 20px -10px 0 340px;}
 #openid-line { margin: 0; padding-right: 5px;}
 #openid-all-wrap { position:relative; width: 230px; }
 #openid-field-box { width: 230px; }
-#openid_identifier { font-size: 1.3em; margin: 10px 0; padding-left: 30px; width: 183px; background: url(' . $img_url . ') no-repeat; }
+#openid_identifier { font-size: 1.3em; padding-left: 30px; width: 183px; background: url(' . $img_url . ') no-repeat; }
 .openid-login-button { display: inline; width: 74px; height: 3em; cursor: pointer; padding: 0pt 5px; font-size: 1em; font-weight: bold; font-family:\'Lucida Grande\',Arial,굴림,Gulim,Tahoma,Verdana,sans-serif; background-color: #fff; border: 1px solid ; vertical-align: middle}
-#openid-login-button { margin: 5px 0 5px 40px; left: 0px }
-#openid-cancel-button { margin: 5px 0px 5px 20px; left: 100px }
-#openid-remember { display:block; }
+#openid-login-button { float: right; margin: 15px 10px 5px 20px; left: 100px }
+#openid-remember { display:block; margin-top: 10px; }
 #openid-help { display:block; }
 </style>
 	<form method="get" name="openid_form" action="' . $blogURL . '/plugin/openid/try_auth">
@@ -549,13 +569,13 @@ function openid_add_loginform($target, $requestURI)
 		<div id="openid-all-wrap">
 			<div id="openid-field-box">
 				<dl id="openid-line">
-					<dt><label for="loginid">' . _text('OpenID 예) http://testid.example.com') . '</label></dt>
+					<dt><label for="loginid">' . _text('오픈아이디') . '</label></dt>
 
 					<dd><input type="text" class="input-text" id="openid_identifier" name="openid_identifier" value="' . $cookie_openid . '" maxlength="256" /></dd>
-					<dd id="openid-remember"><input type="checkbox" class="checkbox" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_auto">' . _text('OpenID 기억') . '</label></dd>
-					<input type="submit" class="openid-login-button" id="openid-login-button" name="openid_login" value="로그인" />
-					<input type="submit" class="openid-login-button" id="openid-cancel-button" name="openid_cancel" value="취소" />
-					<dd id="openid-help"><a href="' . $openid_help_link . '">' . _text('OpenID란?') . '</a> | <a href="' . $openid_signup_link . '">' . _text('OpenID 발급하기') . '</a></dd>
+					<input onfocus="alert(\"hi\");" type="submit" class="openid-login-button" id="openid-login-button" name="openid_login" value="로그인" />
+					<dd id="openid-remember"><input type="checkbox" class="checkbox" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_auto">' . _text('오픈아이디 저장') . '</label></dd>
+					<dd id="openid-help"><a href="' . $openid_help_link . '">' . _text('오픈아이디란?') . '</a> </dd>
+					<dd><a href="' . $openid_signup_link . '">' . _text('오픈아이디 발급하기') . '</a></dd>
 				</dl>
 			</div>
 			<input type="hidden" name="requestURI" value="' . $requestURI . '" />
@@ -690,7 +710,7 @@ function openid_comment_comment()
 		exit(0);
 	}
 
-	$pageTitle = _text('댓글에 댓글 달기') . ": " . _text("로그인한 OpenID") . " (" . $openid_session['id'] . ")";
+	$pageTitle = _text('댓글에 댓글 달기') . ": " . _text("로그인한 오픈아이디") . " (" . $openid_session['id'] . ")";
 	$comment = array('name' => '', 'password' => '', 'homepage' => 'http://', 'secret' => 0, 'comment' => '');
 	require 'openid_replyedit.php';
 }
@@ -758,7 +778,7 @@ function openid_comment_del()
 /*-------------------------------------------------------------------------------------------*/
 if( ! _openid_has_ownership($comment['openid']) ) { ?>
 					<div class="edit-line">
-						<label>로그인된 OpenID의 권한으로는 수정/삭제가 불가능합니다.</label>
+						<label>로그인된 오픈아이디의 권한으로는 수정/삭제가 불가능합니다.</label>
 					</div>
 					<div class="password-line">
 						<input type="button" class="input-button" name="Submit" value="<?php echo _text('닫기');?>" onclick="window.close()" />				

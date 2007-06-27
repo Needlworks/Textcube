@@ -318,7 +318,7 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 					?>
 								<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 									<td><?php echo $openid_list[$i] ?></td>
-									<td><a href="<?php echo $blogURL?>/owner/setting/account/openid?mode=del&openid_identifier=<?php echo urlencode($openid_list[$i])?>">Delete</a></td>
+									<td><a href="<?php echo $blogURL?>/owner/setting/account/openid?mode=del&openid_identifier=<?php echo urlencode($openid_list[$i])?>">삭제</a></td>
 								</tr>
 					<?php
 					}

@@ -8,8 +8,8 @@ define('OPENID_REGISTERS', 10); /* check also ../index.php */
 $IV = array(
 	'GET' => array(
 		'openid_identifier' => array('string'),
-		'random' => array('int', 'default'=>'' ),
-		'mode' => array('string')
+		'mode' => array('string'),
+		'authenticated' => array('string', 'default'=>null)
 	)
 );
 
@@ -29,17 +29,25 @@ function loginOpenIDforAdding()
 {
 	global $blogURL;
 	header( "Location: $blogURL/plugin/openid/try_auth" .
-		"?openid_identifier=" . urlencode($_GET['openid_identifier']) . 
-		"&requestURI=" .  urlencode( $blogURL . "/owner/setting/account/openid" . "?mode=add&openid_identifier=" . urlencode($_GET['openid_identifier']) ) );
+		"?authenticate_only=1&openid_identifier=" . urlencode($_GET['openid_identifier']) . 
+		"&requestURI=" .  urlencode( $blogURL . "/owner/setting/account/openid" . "?mode=add&authenticate_only=1&openid_identifier=" . urlencode($_GET['openid_identifier']) ) );
 }
 
 function addOpenID()
 {
 	global $openid_list;
 	global $blogURL;
-	global $openid_session;
-	$currentOpenID = fireEvent("OpenIDGetCurrent", null);
+
+	$currentOpenID = '';
+	if( !empty($_SESSION['openid']) ) {
+		$currentOpenID = $_SESSION['openid'];
+	}
 	$claimedOpenID = fireEvent("OpenIDFetch", $_GET['openid_identifier']);
+
+	if( $_GET['authenticated'] === "0" ) {
+		header( "Location: $blogURL/owner/setting/account" );
+		exit(0);
+	}
 
 	if( empty($currentOpenID) || $claimedOpenID != $currentOpenID ) {
 		loginOpenIDforAdding();
@@ -88,5 +96,4 @@ switch( $_GET['mode'] ) {
 		addOpenID();
 		break;
 }
-
 ?>
