@@ -33,7 +33,7 @@ class BlogSetting {
 		$this->reset();
 		$query = new TableQuery($database['prefix'] . 'BlogSettings');
 		if($query->doesExist()){
-			$query->serQualifier('blogid',$blogid);
+			$query->setQualifier('blogid',$blogid);
 			$blogSettings = $query -> getAll('*');
 			if(isset($blogSettings)){
 				foreach ($blogSettings as $name => $value) {
