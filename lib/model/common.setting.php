@@ -57,7 +57,7 @@ function getUserSetting($name, $default = null) {
 	global $database;
 	$value = DBQuery::queryCell("SELECT value 
 			FROM {$database['prefix']}UserSettings 
-			WHERE userid = ".getBlogId()."
+			WHERE userid = ".getUserId()."
 				AND name = '".mysql_tt_escape_string($name)."'");
 	return ($value === null) ? $default : $value;
 }
