@@ -153,28 +153,15 @@ function cancelInviteAsTeam($userid){
 	global $database;
 
 	$blogId = getBlogId();
-	if(DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `lastLogin` = 0")==0)
-		return false;
-	if(DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = $blogid")===0)
-		return false;
-	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid")){
-		if(DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $userid")){
-			if(DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $userid")){
-				if(DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $userid")){
-					DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='$blogid' and userid='$userid'");
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	} else {
+	if( 0 != DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}TeamEntryRelations WHERE userid = {$userid}")) {
 		return false;
 	}
+	DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid");
+	DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $userid");
+	DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $userid");
+	DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $userid");
+	DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='$blogid' and userid='$userid'");
+	return true;
 }
 
 function changeACLonTeamblog($blogid,$stype,$userid,$switch){  // Change user priviledge on the blog.

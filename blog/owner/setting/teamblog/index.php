@@ -266,9 +266,7 @@ if($owner == getUserId()){?>
 									<thead>
 										<tr>
 											<th class="status"><input type="checkbox" name="Aclick" onclick="Check_rev()"></th>
-											<th class="acl"><span class="text"><?php echo _t('권한');?></span></th>
 											<th class="name"><span class="text"><?php echo _t('이름');?></span></th>
-											<th class="blog"><span class="text"><?php echo _t('대표 블로그');?></span></th>											
 											<th class="email"><span class="text"><?php echo _t('이메일');?></span></th>
 											<th class="date"><span class="text"><?php echo _t('가입일');?></span></th>
 											<th class="date"><span class="text"><?php echo _t('작성한 글 수');?></span></th>
@@ -303,25 +301,18 @@ if($owner == getUserId()){?>
 			$value['posting'] = DBQuery::queryCell("SELECT count(*) 
 					FROM {$database['prefix']}TeamEntryRelations 
 					WHERE userid = {$value['userid']}");
-			$value['admin'] = $value['acl'] & BITWISE_ADMINISTRATOR;
-			$value['editor'] = $value['acl'] & BITWISE_EDITOR;
-			if(isset($teamblog_owner)) $value['acl'] = _t('소유자');
-			else if(isset($value['admin'])) $value['acl'] = _t('관리자');
-			else if(isset($value['editor'])) $value['acl'] = _t('편집자');
-			else $value['acl'] = _t('블로거');	
 			$className= ($count%2)==1 ? 'even-line' : 'odd-line';
 			$className.=($count==sizeof($invited_user)-1) ? ' last-line':'';
+			print_r($value);
 ?>
 												<tr class="<?php echo $className;?> inactive-class">
 													<td class="status"><input type="checkbox" id="check_<?php echo $count; ?>"><input type="hidden" name="chh<?php echo $count; ?>" value="<?php echo $value['userid']; ?>"><input type="hidden" name="cht<?php echo $count; ?>" value="<?php if($value['last'] == '0' && $value['lastLogin'] =='0') echo "0"; else echo "1"; ?>"></td>
-													<td class="acl"><?php echo $value['acl'];?></td>
 													<td class="name"><?php echo $value['name'];?></td>
-													<td class="blog">test</td>
 													<td class="email"><?php		echo  htmlspecialchars($value['loginid']);?></td>
 													<td class="date"><?php echo Timestamp::format5($value['created']);?></td>
 													<td class="posting"><?php echo $value['posting'];?></td>
 <?php
-			if($value['lastLogin'] == 0) { 
+			if($value['posting'] == 0) { 
 ?>
 													<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?php	echo $value['userid'];?>);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대취소');?></span></a></td>
 <?php
@@ -332,8 +323,8 @@ if($owner == getUserId()){?>
 			}
 ?>
 													<td class="password">
-														<input type="checkbox" onclick="teamblog_admin('admin',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo(!empty($value['admin']) ? "checked" : "");?>><?php echo _t('관리자');?><br />
-														<input type="checkbox" onclick="teamblog_admin('editor',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo(!empty($value['editor']) ? "checked" : "");?> ><?php echo _t('글관리');?>
+														<input type="checkbox" onclick="teamblog_admin('admin',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] | BITWISE_ADMINISTRATOR) ? "checked" : "");?>><?php echo _t('관리자');?>
+														<input type="checkbox" onclick="teamblog_admin('editor',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] | BITWISE_EDITOR) ? "checked" : "");?> ><?php echo _t('글관리');?>
 													</td>
 													<td class="cancel">
 														<a class="cancel-button button" href="#void" onclick="deleteUser(<?php	echo $value['userid'];?>,1);return false;" title="<?php echo _t('현재 사용자를 팀블로그에서 제외합니다.');?>"><span class="text"><?php echo _t('계정삭제');?></span></a>
