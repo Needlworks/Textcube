@@ -992,30 +992,10 @@ CREATE TABLE {$_POST['dbPrefix']}Attachments (
   PRIMARY KEY  (owner,name)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}BlogSettings (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   name varchar(32) NOT NULL default '',
-  secondaryDomain varchar(64) NOT NULL default '',
-  defaultDomain int(1) NOT NULL default '0',
-  url varchar(80) NOT NULL default '',
-  title varchar(255) NOT NULL default '',
-  description varchar(255) NOT NULL default '',
-  logo varchar(64) NOT NULL default '',
-  logoLabel varchar(255) NOT NULL default '',
-  logoWidth int(11) NOT NULL default '0',
-  logoHeight int(11) NOT NULL default '0',
-  useSlogan int(1) NOT NULL default '1',
-  entriesOnPage int(11) NOT NULL default '10',
-  entriesOnList int(11) NOT NULL default '10',
-  entriesOnRSS int(11) NOT NULL default '10',
-  publishWholeOnRSS int(1) NOT NULL default '1',
-  publishEolinSyncOnRSS int(1) NOT NULL default '1',
-  allowWriteOnGuestbook int(1) NOT NULL default '1',
-  allowWriteDoubleCommentOnGuestbook char(1) NOT NULL default '1',
-  language VARCHAR(5) NOT NULL DEFAULT 'en',
-  blogLanguage VARCHAR(5) NOT NULL DEFAULT 'en',
-  timezone VARCHAR(32) NOT NULL DEFAULT 'GMT',
-  PRIMARY KEY  (owner),
-  UNIQUE KEY name (name)
+  value text NOT NULL default '',
+  PRIMARY KEY (blogid, name)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}BlogStatistics (
   owner int(11) NOT NULL default '0',
@@ -1125,10 +1105,11 @@ CREATE TABLE {$_POST['dbPrefix']}Entries (
   modified int(11) NOT NULL default '0',
   comments int(11) NOT NULL default '0',
   trackbacks int(11) NOT NULL default '0',
-  PRIMARY KEY (owner, id, draft),
-  KEY owner (owner),
-  KEY category (category),
-  KEY id (id)
+  PRIMARY KEY (owner, id, category, published),
+  KEY visibility (visibility),
+  KEY published (published),
+  KEY id (id, category, visibility),
+  KEY owner (owner, published)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}FeedGroupRelations (
   owner int(11) NOT NULL default '0',
@@ -1330,10 +1311,10 @@ CREATE TABLE {$_POST['dbPrefix']}Users (
   UNIQUE KEY loginid (loginid)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}UserSettings (
-  user int(11) NOT NULL default '0',
+  userid int(11) NOT NULL default '0',
   name varchar(32) NOT NULL default '',
   value text NOT NULL,
-  PRIMARY KEY (user,name)
+  PRIMARY KEY (userid,name)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}XMLRPCPingSettings (
   owner int(11) NOT NULL default 0,
@@ -1357,10 +1338,13 @@ CREATE TABLE {$_POST['dbPrefix']}TeamEntryRelations (
 ) $charset;
 
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
-INSERT INTO {$_POST['dbPrefix']}UserSettings VALUES (1, 'defaultEditor', 'modern'), (1, 'defaultFormatter', 'ttml');
 INSERT INTO {$_POST['dbPrefix']}Teamblog VALUES (1, 1, 9, UNIX_TIMESTAMP(), 0);
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
-INSERT INTO {$_POST['dbPrefix']}BlogSettings (owner, name, language, blogLanguage, timezone) VALUES (1, '$blog', '$baseLanguage', '$baseLanguage', '$baseTimezone');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings (1, 'name', '$blog');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings (1, 'language', '$baseLanguage');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings (1, 'blogLanguage', '$baseLanguage');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings (1, 'timezone', '$baseTimezone');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultEditor', 'modern'), (1, 'defaultFormatter', 'ttml');
 INSERT INTO {$_POST['dbPrefix']}SkinSettings (owner) VALUES (1);
 INSERT INTO {$_POST['dbPrefix']}FeedSettings (owner) values(1);
 INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";

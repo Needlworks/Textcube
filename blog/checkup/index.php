@@ -664,6 +664,23 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings defaultDomai
 	} else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (DBQuery::queryCell("DESC {$database['prefix']}Entries published", 'Key') != 'PRI') { 
+	$changed = true;
+	echo '<li>', _text('본문 테이블의 인덱스를 수정합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries 
+		DROP PRIMARY KEY, 
+		DROP INDEX owner, 
+		DROP INDEX id, 
+		ADD PRIMARY KEY (owner,id,category,published), 
+		ADD index visibility (visibility),
+		ADD index published (published),
+		ADD index id (id, category, visibility),
+		ADD index owner (owner, published)"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
