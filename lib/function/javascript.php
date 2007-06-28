@@ -28,7 +28,7 @@ function filterJavaScript($str, $removeScript = true) {
 				$strippedTag = str_replace($attribute, '', $strippedTag);
 			$str = str_replace($tag, $strippedTag, $str);
 		}
-		$patterns = arrary(
+		$patterns = array(
 			'/&#x09;/i',
 			'/<\/?iframe.*?>/si',
 			'/<script.*?<\/script>/si',
