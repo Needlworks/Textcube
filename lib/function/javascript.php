@@ -28,8 +28,8 @@ function filterJavaScript($str, $removeScript = true) {
 				$strippedTag = str_replace($attribute, '', $strippedTag);
 			$str = str_replace($tag, $strippedTag, $str);
 		}
+		$str = preg_replace('/&#x0*([9ad]);?/ie', "chr(hexdec('\\1'))", $str);
 		$patterns = array(
-			'/&#x09;/i',
 			'/<\/?iframe.*?>/si',
 			'/<script.*?<\/script>/si',
 			'/<object.*?type=["\']?text\/x-scriptlet["\']?.*?>(.*?<\/object>)?/si',
