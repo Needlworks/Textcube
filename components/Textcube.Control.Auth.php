@@ -138,6 +138,7 @@ class Aco {
 			return array();
 		}
 		//$aco = array( "group.owners" );
+		$aco = array();
 		foreach( $sAcoFromUri as $acoObj => $uriArray ) {
 			foreach( $uriArray as $uri ) {
 				if ($testingUri == $uri ) {
