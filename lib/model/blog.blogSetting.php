@@ -291,8 +291,9 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 		return 62;
 	}
 	
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog`  VALUES('".$id."', '".$id."', '0', '1', '1', '"._f("%1 님의 글입니다",$name)."', '', '0', '#000000', '10', '0', UNIX_TIMESTAMP(), '0')");
+	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog`  VALUES('".$id."', '".$id."', '0', UNIX_TIMESTAMP(), '0')");
 	if (!$result || (mysql_affected_rows() == 0)) {
+		header( 'x-debug: ' . mysql_errno() );
 		DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
 		DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $id");
 		DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $id");
