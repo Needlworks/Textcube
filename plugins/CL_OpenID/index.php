@@ -343,7 +343,7 @@ function _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate
 	Services_Yadis_setDefaultParser( $xmlparser );
 
 	$process_url = $hostURL . $blogURL . "/plugin/openid/finish?authenticate_only=$authenticate_only&requestURI=" . urlencode($requestURI);
-	$trust_root = $hostURL . $blogURL;
+	$trust_root = $hostURL . "/";
 
 	// Begin the OpenID authentication process.
 	ob_start();

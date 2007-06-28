@@ -5,7 +5,7 @@ global $openid_session_name, $openid_session_id, $openid_session, $openid_sessio
 $openid_session_name = 'openid_sessid';
 $openid_session_id = '';
 $openid_session = array();
-$openid_session_path = $service['path'] ? $service['path'] : '/';
+$openid_session_path = "/";
 
 function _openid_ip_address()
 {
