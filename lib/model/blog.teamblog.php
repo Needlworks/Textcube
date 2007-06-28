@@ -111,7 +111,7 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 	
 	// Add user information to Teamblog table.
 	$profile = $name;
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` (teams,userid,acl,profile,created,lastLogin) VALUES('$blogid', '$id', '0', '$profile', UNIX_TIMESTAMP(), '0')");
+	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` (teams,userid,acl,created,lastLogin) VALUES('$blogid', '$id', '0', UNIX_TIMESTAMP(), '0')");
 	if(!$result||(mysql_affected_rows()==0)){
 		if(empty($isold)){  // If user is just added, delete user information.
 			DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
