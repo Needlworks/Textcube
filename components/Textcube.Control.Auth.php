@@ -137,8 +137,7 @@ class Aco {
 		if( substr($testingUri, 0, 6) != "/owner" ) {
 			return array();
 		}
-		$aco = array( "group.owners" );
-//		print "<pre>Testing: " . $testingUri. "\n";
+		//$aco = array( "group.owners" );
 		foreach( $sAcoFromUri as $acoObj => $uriArray ) {
 			foreach( $uriArray as $uri ) {
 				if ($testingUri == $uri ) {
@@ -153,7 +152,6 @@ class Aco {
 
 			}
 		}
-//		print "\nReturn: " . print_r($aco,true) . "</pre>";
 		return $aco;
 	}
 }
