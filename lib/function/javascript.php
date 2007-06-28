@@ -28,10 +28,14 @@ function filterJavaScript($str, $removeScript = true) {
 				$strippedTag = str_replace($attribute, '', $strippedTag);
 			$str = str_replace($tag, $strippedTag, $str);
 		}
-		$str = preg_replace('/<\/?iframe.*?>/si', '', $str);
-		$str = preg_replace('/<script.*?<\/script>/si', '', $str);
-		$str = preg_replace('/<object.*?type=["\']?text\/x-scriptlet["\']?.*?>(.*?<\/object>)?/si', '', $str);
-		$str = preg_replace('/j\s*?a\s*?v\s*?a\s*?s\s*?c\s*?r\s*?i\s*?p\s*?t\s*?:/si', '', $str);
+		$patterns = arrary(
+			'/&#x09;/i',
+			'/<\/?iframe.*?>/si',
+			'/<script.*?<\/script>/si',
+			'/<object.*?type=["\']?text\/x-scriptlet["\']?.*?>(.*?<\/object>)?/si',
+			'/j\s*?a\s*?v\s*?a\s*?s\s*?c\s*?r\s*?i\s*?p\s*?t\s*?:/si'
+		);
+		$str = preg_replace($patterns, '', $str);
 	} else
 		$str = str_replace('<script', '<script defer="defer"', $str);
 	return $str;
