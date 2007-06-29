@@ -41,7 +41,7 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 	$result = DBQuery::queryRow("SELECT * 
 		FROM `{$database['prefix']}Teamblog` a, `{$database['prefix']}Users` b 
 		WHERE b.loginid = '$loginid' 
-			and a.teams = '$blogid'
+			and a.blogid = '$blogid'
 			and a.userid = b.userid");
 	if(!empty($result)){
 		return 21;
@@ -111,7 +111,7 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 	
 	// Add user information to Teamblog table.
 	$profile = $name;
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` (teams,userid,acl,created,lastLogin) VALUES('$blogid', '$id', '0', UNIX_TIMESTAMP(), '0')");
+	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` (blogid,userid,acl,created,lastLogin) VALUES('$blogid', '$id', '0', UNIX_TIMESTAMP(), '0')");
 	if(!$result||(mysql_affected_rows()==0)){
 		if(empty($isold)){  // If user is just added, delete user information.
 			DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
@@ -161,7 +161,7 @@ function cancelInviteAsTeam($userid){
 	DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `owner` = $userid");
 	DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $userid");
 	DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $userid");
-	DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='$blogid' and userid='$userid'");
+	DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid='$blogid' and userid='$userid'");
 	return true;
 }
 
@@ -172,7 +172,7 @@ function changeACLonTeamblog($blogid,$stype,$userid,$switch){  // Change user pr
 
 	$acl = DBQuery::queryCell("SELECT acl
 			FROM {$database['prefix']}Teamblog 
-			WHERE teams='$blogid' and userid='$userid'");
+			WHERE blogid='$blogid' and userid='$userid'");
 
 	if( $acl === null ) {
 		$name = DBQuery::queryCell("SELECT name 
@@ -204,7 +204,7 @@ function changeACLonTeamblog($blogid,$stype,$userid,$switch){  // Change user pr
 
 	$sql = "UPDATE `{$database['prefix']}Teamblog` 
 		SET acl = ".$acl." 
-		WHERE teams = ".$blogid." and userid = ".$userid;
+		WHERE blogid = ".$blogid." and userid = ".$userid;
 	return DBQuery::execute($sql);
 }
 

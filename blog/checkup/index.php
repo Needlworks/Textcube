@@ -503,13 +503,13 @@ if (!doesExistTable($database['prefix'] . 'Teamblog')) {
 	echo '<li>', _text('팀블로그 기능을 위한 테이블을 추가합니다.'), ': ';
 	$query = "
 		CREATE TABLE {$database['prefix']}Teamblog (
-			teams int(11) NOT NULL default 0,
+			blogid int(11) NOT NULL default 0,
 			userid int(11) NOT NULL default 1,
 			acl	int(11) NOT NULL default 0,
 			profile text NULL default '',
 			created int(11) NOT NULL default 0,
 			lastLogin int(11) NOT NULL default 0,
-			PRIMARY KEY (teams,userid)
+			PRIMARY KEY (blogid,userid)
 		) TYPE=MyISAM
 	";
 	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query)) {
@@ -518,7 +518,7 @@ if (!doesExistTable($database['prefix'] . 'Teamblog')) {
 			$changed = true;
 			if ($users = $query->getAll('userid, name, created')) {
 				foreach($users as $user) {
-					DBQuery::execute("INSERT INTO `{$database['prefix']}Teamblog` (teams,userid,acl,profile,created,lastLogin) VALUES('".$user['userid']."', '".$user['userid']."','0', '".$user['name']."','".$user['created']."', '0')");
+					DBQuery::execute("INSERT INTO `{$database['prefix']}Teamblog` (blogid,userid,acl,profile,created,lastLogin) VALUES('".$user['userid']."', '".$user['userid']."','0', '".$user['name']."','".$user['created']."', '0')");
 				}
 			}
 			unset($users);
@@ -557,15 +557,6 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}Teamblog enduser")) {
 	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_size") &&
 	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_bold") &&
 	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog ADD acl int(11) not null AFTER userid"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
-
-if (DBQuery::queryExistence("DESC {$database['prefix']}TeamEntryRelations team")) {
-	$changed = true;
-	echo '<li>', _text('팀블로그 테이블의 필드 이름을 변경합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}TeamEntryRelations CHANGE team userid int(11) NOT NULL DEFAULT 1"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
@@ -655,7 +646,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries userid")) {
 	}
 }
 
-if (DBQuery::queryCell("DESC {$database['prefix']}Entries published", 'Key') != 'PRI') { 
+if (DBQuery::queryCell("DESC {$database['prefix']}Entries published", 'Key') != 'PRI') {
 	$changed = true;
 	echo '<li>', _text('본문 테이블의 인덱스를 수정합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries 
@@ -668,6 +659,15 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Entries published", 'Key') != 
 		ADD index userid (userid),
 		ADD index id (id, category, visibility),
 		ADD index owner (owner, published)"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
+if (DBQuery::queryExistence("DESC {$database['prefix']}Teamblog teams")) {
+	$changed = true;
+	echo '<li>', _text('팀블로그 테이블의 필드 이름을 변경합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog CHANGE teams blogid int(11) NOT NULL DEFAULT 0"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';

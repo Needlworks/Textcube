@@ -346,7 +346,7 @@ function cancelInvite($userid) {
 		if (DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $userid")) {
 			if (DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $userid")) {
 				if (DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $userid")) {
-					if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='".getBlogId()."' and userid='$userid'")) {
+					if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid='".getBlogId()."' and userid='$userid'")) {
 						return true;
 					} else {
 						return false;
@@ -388,7 +388,7 @@ function deleteUser($userid){
 		SET userid = ".getBlogId()." 
 		WHERE owner = ".getBlogId()." AND userid = ".$userid);
 
-	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams = ".getBlogId()." and userid='$userid'")){
+	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid = ".getBlogId()." and userid='$userid'")){
 		$En = DBQuery::queryCell("SELECT userid FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'");
 		if(empty($En)){
 			@DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid");

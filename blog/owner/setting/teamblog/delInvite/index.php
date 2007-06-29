@@ -15,13 +15,13 @@ function TeamcancelInvite($profile,$is){
 	global $owner,$database,$service ,$blogURL,$hostURL,$user,$blog;
 	$KEYprofile = $profile;
 	if($is == 1){
-		if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams='$owner' and userid='0' AND md5(profile)='$KEYprofile'")){
+		if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid='$owner' and userid='0' AND md5(profile)='$KEYprofile'")){
 			return true;
 		}
 		else return false;
 	}
 	else if($is == 2){
-		$row = DBQuery::queryRow("SELECT * FROM `{$database['prefix']}Teamblog` WHERE teams='$owner' and userid='0' AND md5(profile)='$KEYprofile'");
+		$row = DBQuery::queryRow("SELECT * FROM `{$database['prefix']}Teamblog` WHERE blogid='$owner' and userid='0' AND md5(profile)='$KEYprofile'");
 		if(empty($row['profile'])) return false;
 		$ttmp = explode("::", $row['profile']);
 		$email = trim($ttmp[0]);
@@ -63,7 +63,7 @@ function TeamcancelInvite($profile,$is){
 		$identify=mysql_tt_escape_string(mysql_lessen($identify,32));
 		$blogName=$identify;
 		
-			$result=DBQuery::query("SELECT * FROM `{$database['prefix']}Teamblog` a, `{$database['prefix']}Users` b WHERE b.loginid = '$loginid' and a.teams='$owner' and a.userid=b.userid");
+			$result=DBQuery::query("SELECT * FROM `{$database['prefix']}Teamblog` a, `{$database['prefix']}Users` b WHERE b.loginid = '$loginid' and a.blogid='$owner' and a.userid=b.userid");
 			if($result&&(mysql_num_rows($result)>0)){
 				return false;
 			}

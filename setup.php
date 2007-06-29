@@ -1325,12 +1325,12 @@ CREATE TABLE {$_POST['dbPrefix']}XMLRPCPingSettings (
   PRIMARY KEY (owner)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Teamblog (
-  teams int(11) NOT NULL default 0,
+  blogid int(11) NOT NULL default 0,
   userid int(11) NOT NULL default 1,
   acl int(11) NOT NULL default 0,
   created int(11) NOT NULL default 0,
   lastLogin int(11) NOT NULL default 0,
-  PRIMARY KEY (teams,userid)
+  PRIMARY KEY (blogid,userid)
 ) $charset;
 
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);

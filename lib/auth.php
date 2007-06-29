@@ -112,7 +112,7 @@ function isLoginId($userid, $loginid) {
 	$result = DBQuery::query("SELECT u.userid 
 			from {$database['prefix']}Users u, 
 				{$database['prefix']}Teamblog t 
-			where t.teams = $userid 
+			where t.blogid = $userid 
 				and u.loginid = '$loginid' 
 				and t.userid = u.userid");
 	// End TeamBlog

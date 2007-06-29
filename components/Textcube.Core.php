@@ -49,7 +49,7 @@ class teamblogUser{
 		if(isset($userId)) {
 			$author = DBQuery::queryCell("SELECT profile
 					FROM {$database['prefix']}Teamblog
-					WHERE teams=".$owner."
+					WHERE blogid=".$owner."
 						AND userid = ".$userId);
 			return $author;
 		} else {
@@ -72,18 +72,18 @@ class teamblogUser{
 			$blogn .= '<option value="'.$owner.'" '. $myblogsel .'>'._t('내 블로그').'</option>';
 		}
 	
-		$teamblogInfo = DBQuery::queryAll("SELECT t.teams, b.value AS title, u.name
+		$teamblogInfo = DBQuery::queryAll("SELECT t.blogid, b.value AS title, u.name
 				FROM {$database['prefix']}Teamblog t 
-				LEFT JOIN {$database['prefix']}BlogSettings b ON b.blogid = t.teams AND b.name = 'title'
-				LEFT JOIN {$database['prefix']}Users u ON u.userid = t.teams
+				LEFT JOIN {$database['prefix']}BlogSettings b ON b.blogid = t.blogid AND b.name = 'title'
+				LEFT JOIN {$database['prefix']}Users u ON u.userid = t.blogid
 				WHERE t.userid='".getUserId()."'");
 		foreach($teamblogInfo as $teamInfo){
-			if($teamInfo['teams'] == $owner && getBlogId() == getUserId()){
+			if($teamInfo['blogid'] == $owner && getBlogId() == getUserId()){
 				continue;
 			} else {
 				$title = empty($teamInfo['title']) ? _f('%1 님의 블로그',$teamInfo['name']) : $teamInfo['title'];
-				$blogn .= '<option value="' . $teamInfo['teams'] . '"';
-				if($teamInfo['teams'] == $owner) $blogn .= ' selected="selected"';
+				$blogn .= '<option value="' . $teamInfo['blogid'] . '"';
+				if($teamInfo['blogid'] == $owner) $blogn .= ' selected="selected"';
 				$blogn .= '>' . $title . '</option>';
 			}
 		}

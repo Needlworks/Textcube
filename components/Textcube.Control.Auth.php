@@ -293,7 +293,7 @@ class Auth {
 	function setTeamblogAro( $userid ) {
 		global $database;
 
-		$result = DBQuery::query("SELECT teams,acl FROM {$database['prefix']}Teamblog WHERE userid='$userid'");
+		$result = DBQuery::query("SELECT blogid,acl FROM {$database['prefix']}Teamblog WHERE userid='$userid'");
 		while( ($session = mysql_fetch_array($result) ) ) {
 			$aro = array("group.writers");
 
@@ -304,7 +304,7 @@ class Auth {
 				array_push($aro, "group.administrators");
 			}
 
-			Acl::setAro( $session['teams'], $aro, Aro::getCanonicalName($userid), true );
+			Acl::setAro( $session['blogid'], $aro, Aro::getCanonicalName($userid), true );
 		}
 
 		DBQuery::execute("UPDATE  {$database['prefix']}Teamblog SET lastLogin = unix_timestamp() WHERE userid='$userid'");

@@ -279,17 +279,17 @@ if($owner == getUserId()){?>
 <?php
 	$teamblog_owner = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Teamblog 
 			WHERE userid='".$owner."' 
-				AND teams='".$owner."'");
+				AND blogid='".$owner."'");
 	$teamblog_user = DBQuery::queryRow("SELECT a.*, b.name 
 			FROM {$database['prefix']}Teamblog a, 
 				{$database['prefix']}Users b  
 			WHERE a.userid = '".$_SESSION['admin']."' 
-				AND a.teams = '".$_SESSION['userid']."' 
+				AND a.blogid = '".$_SESSION['userid']."' 
 				AND b.userid = a.userid");
 	$invited_user = DBQuery::queryAll("SELECT t.*, u.* 
 		FROM {$database['prefix']}Teamblog t, 
 		 	{$database['prefix']}Users u 
-		WHERE t.teams = '$owner' 
+		WHERE t.blogid = '$owner' 
 			AND u.userid = t.userid 
 			AND t.userid != '$owner'
 		ORDER BY u.created DESC"); 
