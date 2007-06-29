@@ -72,7 +72,7 @@ function setUserSetting($name, $value) {
 function removeUserSetting($name) {
 	global $database;
 	return DBQuery::execute("DELETE FROM {$database['prefix']}UserSettings 
-			WHERE userid = ".getBlogId()." AND name = '".mysql_tt_escape_string($name)."'");
+			WHERE userid = ".getUserId()." AND name = '".mysql_tt_escape_string($name)."'");
 }
 
 ?>

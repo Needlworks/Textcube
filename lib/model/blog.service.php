@@ -20,15 +20,43 @@ function getBlogidBySecondaryDomain($domain) {
 }
 
 function getBlogSettings($blogid) {
-	global $database;
+	global $database, $service;
 	$query = new TableQuery($database['prefix'] . 'BlogSettings');
 	if($query->doesExist()){
 		$query->setQualifier('blogid',$blogid);
 		$blogSettings = $query->getAll('*');
 		if( $blogSettings ) {
 			$result = array();
+			$blogSettingFields = array();
 			foreach($blogSettings as $blogSetting){
 				$result[$blogSetting['name']] = $blogSetting['value'];
+				array_push($blogSettingFields, $blogSetting['name']);
+			}
+			$defaultValues = array(
+					'name'                     => '',
+					'defaultDomain'            => 0,
+					'title'                    => '', 
+					'description'              => '', 
+					'logo'                     => '', 
+					'logoLabel'                => '', 
+					'logoWidth'                => 0,
+					'logoHeight'               => 0,
+					'useSlogan'                => 1,
+					'entriesOnPage'            => 10, 
+					'entriesOnList'            => 10, 
+					'entriesOnRSS'             => 10, 
+					'publishWholeOnRSS'        => 1,
+					'publishEolinSyncOnRSS'    => 0,
+					'allowWriteOnGuestbook'    => 1,
+					'allowWriteDblCommentOnGuestbook' => 1,
+					'language'     => $service['language'],
+					'blogLanguage' => $service['language'],
+					'timezone'     => $service['timezone']);
+			foreach($defaultValues as $name => $value){
+				if(!in_array($name,$blogSettingFields)) {
+					$result[$name] = $value;
+					setBlogSetting($name,$value);
+				}
 			}
 			return $result;
 		}
@@ -65,8 +93,7 @@ function getSkinSetting($blogid) {
 }
 
 function getDefaultURL($blogid) {
-	global $database, $service;
-	$blog = getBlogSettings($blogid);
+	global $database, $service, $blog;
 	switch ($service['type']) {
 		case 'domain':
 			if ($blog['defaultDomain'] && $blog['secondaryDomain'])

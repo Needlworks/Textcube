@@ -5,12 +5,12 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'GET' => array(
-		'title' => array('string', 'default' => '')
+		'title' => array('string','default' => '')
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if (setBlogTitle(getBlogId(), trim($_GET['title']))) {
+if (!empty($_GET['title']) && setBlogTitle(getBlogId(), trim($_GET['title']))) {
 	respondResultPage(0);
 }
 respondResultPage( - 1);
