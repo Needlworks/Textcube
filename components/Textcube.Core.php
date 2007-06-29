@@ -45,10 +45,7 @@ class teamblogUser{
 		global $database, $owner, $entry;
 
 		// Read userId of entry from relation table.
-		$userId = DBQuery::queryCell("SELECT userid 
-				FROM ".$database['prefix']."TeamEntryRelations 
-				WHERE owner =".$owner." 
-					AND id = ".$entryId);
+		$userId = getUserIdOfEntry($owner,$entryId);
 		if(isset($userId)) {
 			$author = DBQuery::queryCell("SELECT profile
 					FROM {$database['prefix']}Teamblog

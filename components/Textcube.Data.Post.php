@@ -9,6 +9,7 @@ class Post {
 
 	function reset() {
 		$this->error =
+		$this->userid = 
 		$this->id =
 		$this->visibility =
 		$this->title =
@@ -32,7 +33,8 @@ class Post {
 
 	/*@polymorphous(numeric $id, $fields, $sort)@*/
 	function open($filter = '', $fields = '*', $sort = 'published DESC') {
-		global $database, $owner;
+		global $database;
+		$blogid = getBlogId();
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
@@ -40,7 +42,7 @@ class Post {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND category >= 0 $filter $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 AND category >= 0 $filter $sort");
 		if ($this->_result)
 			$this->_count = mysql_num_rows($this->_result);
 		return $this->shift();
@@ -113,7 +115,8 @@ class Post {
 			$query->setAttribute('created', 'UNIX_TIMESTAMP()');
 		if (!isset($this->modified))
 			$query->setAttribute('modified', 'UNIX_TIMESTAMP()');
-
+		if (!isset($this->userid))
+			$query->setAttribute('userid',getUserId());
 		if (!$query->insert())
 			return $this->_error('insert');
 		
@@ -139,8 +142,6 @@ class Post {
 				$query->update();
 			}
 		}
-		$TN = mysql_fetch_array(mysql_query("SELECT userid FROM {$database['prefix']}Users WHERE loginid='$userid'"));
-		mysql_query("INSERT INTO {$database['prefix']}TeamEntryRelations VALUES('$owner', '$this->id', '$TN[userid]')");
 		return true;
 	}
 	
@@ -261,11 +262,14 @@ class Post {
 		global $database, $owner;
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
+		if (!Validator::number($this->userid, 1))
+			return $this->_error('userid');
 		if (isset($slogan))
 			$this->slogan = $slogan;
 
 		$query = new TableQuery($database['prefix'] . 'Entries');
 		$query->setQualifier('owner', $owner);
+		$query->setQualifier('userid', $this->userid);
 		$query->setQualifier('id', $this->id);
 		if (!$query->doesExist())
 			return $this->_error('id');

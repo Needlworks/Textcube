@@ -384,15 +384,9 @@ function changePassword($blogid, $pwd, $prevPwd) {
 function deleteUser($userid){
 	global $database;
 
-	$result = DBQuery::queryColumn("SELECT id 
-		FROM `{$database['prefix']}TeamEntryRelations` 
-		WHERE owner = ".getBlogId()." 
-			AND userid = '$userid'");
-	foreach($result as $id){	// Make all posts belong to owner.
-		DBQuery::execute("UPDATE `{$database['prefix']}TeamEntryRelations` 
-			SET userid = ".getBlogId()." 
-			WHERE owner = ".getBlogId()." AND id = ".$id);
-	}
+	DBQuery::execute("UPDATE `{$database['prefix']}Entries` 
+		SET userid = ".getBlogId()." 
+		WHERE owner = ".getBlogId()." AND userid = ".$userid);
 
 	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE teams = ".getBlogId()." and userid='$userid'")){
 		$En = DBQuery::queryCell("SELECT userid FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'");

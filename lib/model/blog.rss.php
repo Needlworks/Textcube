@@ -29,10 +29,8 @@ function refreshRSS($blogid) {
 			FROM {$database['prefix']}Entries e 
 			LEFT JOIN {$database['prefix']}Categories c
 				ON e.owner = c.owner AND e.category = c.id
-			LEFT JOIN {$database['prefix']}TeamEntryRelations r
-				ON e.id = r.id
 			LEFT JOIN {$database['prefix']}Teamblog t
-				ON e.owner = t.teams AND r.userid = t.userid
+				ON e.owner = t.teams AND e.userid = t.userid
 			WHERE e.owner = $blogid AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
 			ORDER BY e.published 
 			DESC LIMIT {$blog['entriesOnRSS']}");
@@ -43,10 +41,8 @@ function refreshRSS($blogid) {
 			FROM {$database['prefix']}Entries e 
 			LEFT JOIN {$database['prefix']}Categories c 
 				ON e.owner = c.owner AND e.category = c.id 
-			LEFT JOIN {$database['prefix']}TeamEntryRelations r
-				ON e.id = r.id
 			LEFT JOIN {$database['prefix']}Teamblog t
-				ON e.owner = t.teams AND r.userid = t.userid
+				ON e.owner = t.teams AND e.userid = t.userid
 			WHERE e.owner = $blogid AND e.draft = 0 AND e.visibility = 3 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
 			ORDER BY e.published 
 			DESC LIMIT {$blog['entriesOnRSS']}");

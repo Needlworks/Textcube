@@ -30,7 +30,7 @@ function getEntry($blogid, $id, $draft = false) {
 			if (!doesHaveOwnership())
 				return;
 			deleteAttachments($blogid, 0);
-			return array('id' => 0, 'draft' => 0, 'visibility' => 0, 'category' => 0, 'location' => '', 'title' => '', 'content' => '', 'contentFormatter' => getDefaultFormatter(), 'contentEditor' => getDefaultEditor(), 'acceptComment' => 1, 'acceptTrackback' => 1, 'published' => time(), 'slogan' => '');
+			return array('id' => 0, 'userid' => 0, 'draft' => 0, 'visibility' => 0, 'category' => 0, 'location' => '', 'title' => '', 'content' => '', 'contentFormatter' => getDefaultFormatter(), 'contentEditor' => getDefaultEditor(), 'acceptComment' => 1, 'acceptTrackback' => 1, 'published' => time(), 'slogan' => '');
 		}
 	}
 	if ($draft) {
@@ -53,6 +53,14 @@ function getEntry($blogid, $id, $draft = false) {
 			$entry['appointed'] = $entry['published'];
 		return $entry;
 	}
+}
+
+function getUserIdOfEntry($blogid, $id) {
+	global $database;
+	$result = DBQuery::queryCell("SELECT userid FROM {$database['prefix']}Entries
+			WHERE owner = $blogid AND id = $id");
+	if(!empty($result)) return $result;
+	else return null;
 }
 
 function getEntryAttributes($blogid, $id, $attributeNames) {
@@ -218,20 +226,16 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 	global $database, $suri;
 	requireComponent('Eolin.PHP.Core');
 	
-	// Teamblog
-	$teamMemberFilter1 = $teamMemberFilter2 = "";
+	$teamMemberFilter = "";
 	if( ! Acl::check("group.editors", "entry.list") ) {
-		$teamMemberFilter1 = ", {$database['prefix']}TeamEntryRelations t";
-		$teamMemberFilter2 = " AND t.owner=".$blogid." AND t.id = e.id AND t.userid = ".getUserId();
+		$teamMemberFilter = " AND e.userid = ".getUserId();
 	}
-	// End TeamBlog
 	
 	$sql = "SELECT e.*, c.label categoryLabel, d.id draft 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
 		LEFT JOIN {$database['prefix']}Entries d ON e.owner = d.owner AND e.id = d.id AND d.draft = 1 
-		$teamMemberFilter1
-		WHERE e.owner = $blogid AND e.draft = 0" . $teamMemberFilter2;
+		WHERE e.owner = $blogid AND e.draft = 0" . $teamMemberFilter;
 	if ($category > 0) {
 		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $blogid AND parent = $category");
 		array_push($categories, $category);
@@ -312,7 +316,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= ($isNotice || doesHaveOwnership()) ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
-	$result = DBQuery::query("SELECT e.id, e.slogan, c.label categoryLabel 
+	$result = DBQuery::query("SELECT e.id, e.userid, e.slogan, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
 		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND $category 
@@ -370,7 +374,7 @@ function getRecentEntries($blogid) {
 	global $database, $skinSetting;
 	$entries = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-	$result = DBQuery::query("SELECT e.id, e.title, e.comments 
+	$result = DBQuery::query("SELECT e.id, e.userid, e.title, e.comments 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
 		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
@@ -388,7 +392,7 @@ function addEntry($blogid, $entry) {
 	requireModel("blog.category");
 	requireModel("blog.tag");
 	requireModel("blog.locative");
-
+	$entry['userid'] = getUserId();
 	$entry['title'] = mysql_lessen(trim($entry['title']), 255);
 	$entry['location'] = mysql_lessen(trim($entry['location']), 255);
 	$entry['slogan'] = array_key_exists('slogan', $entry) ? trim($entry['slogan']) : '';
@@ -420,7 +424,7 @@ function addEntry($blogid, $entry) {
 		$slogan = mysql_tt_escape_string(mysql_lessen($slogan0, 245) . '-' . $i);
 		$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $blogid AND slogan = '$slogan' LIMIT 1");
 	}
-
+	$userid = $entry['userid'];
 	$content = mysql_tt_escape_string($entry['content']);
 	$contentFormatter = mysql_tt_escape_string($entry['contentFormatter']);
 	$contentEditor = mysql_tt_escape_string($entry['contentEditor']);
@@ -435,8 +439,13 @@ function addEntry($blogid, $entry) {
 	$id = getDraftEntryId();
 	if ($id === null)
 		$id = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE owner = $blogid and draft = 0") + 1;
-	$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries VALUES (
+	$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries 
+			(owner, userid, id, draft, visibility, category, title, slogan, content, contentFormatter,
+			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
+			 comments, trackbacks) 
+			VALUES (
 			$blogid,
+			$userid,
 			$id,
 			0,
 			{$entry['visibility']},
@@ -459,7 +468,6 @@ function addEntry($blogid, $entry) {
 		return false;
 	DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $id AND draft = 1");
 	DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE owner = $blogid AND parent = 0");
-	DBQuery::query("INSERT INTO `{$database['prefix']}TeamEntryRelations` VALUES('$blogid', '$id', '".getUserId()."')");	
 	updateEntriesOfCategory($blogid, $entry['category']);
 	if ($entry['visibility'] == 3)
 		syndicateEntry($id, 'create');
@@ -496,6 +504,7 @@ function updateEntry($blogid, $entry) {
 	requireModel('blog.category');
 	requireModel('blog.rss');
 
+	if(empty($entry['userid'])) $entry['userid'] = getUserId(); 
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
 	$entry['slogan'] = array_key_exists('slogan', $entry) ? trim($entry['slogan']) : '';
@@ -550,18 +559,19 @@ function updateEntry($blogid, $entry) {
 	}
 	$result = DBQuery::query("UPDATE {$database['prefix']}Entries
 			SET
-				visibility = {$entry['visibility']},
-				category = {$entry['category']},
-				location = '$location',
-				title = '$title',
-				content = '$content',
-				contentFormatter = '$contentFormatter',
-				contentEditor = '$contentEditor',
-				slogan = '$slogan',
-				acceptComment = {$entry['acceptComment']},
-				acceptTrackback = {$entry['acceptTrackback']},
-				published = $published,
-				modified = UNIX_TIMESTAMP()
+				userid             = {$entry['userid']},
+				visibility         = {$entry['visibility']},
+				category           = {$entry['category']},
+				location           = '$location',
+				title              = '$title',
+				content            = '$content',
+				contentFormatter   = '$contentFormatter',
+				contentEditor      = '$contentEditor',
+				slogan             = '$slogan',
+				acceptComment      = {$entry['acceptComment']},
+				acceptTrackback    = {$entry['acceptTrackback']},
+				published          = $published,
+				modified           = UNIX_TIMESTAMP()
 			WHERE owner = $blogid AND id = {$entry['id']} AND draft = 0");
 	if ($result)
 		DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = {$entry['id']} AND draft = 1");
@@ -576,6 +586,7 @@ function updateEntry($blogid, $entry) {
 
 function saveDraftEntry($entry) {
 	global $database;
+	if(empty($entry['userid'])) $entry['userid'] = getUserId();
 	$entry['title'] = mysql_lessen(trim($entry['title']));
 	$entry['location'] = mysql_lessen(trim($entry['location']));
 	$location = mysql_tt_escape_string($entry['location']);
@@ -593,18 +604,19 @@ function saveDraftEntry($entry) {
 	if ($draft) {
 		$result = DBQuery::query("UPDATE {$database['prefix']}Entries
 				SET
-					visibility = {$entry['visibility']},
-					category = {$entry['category']},
-					title = '$title',
-					slogan = '',
-					content = '$content',
+					userid           = {$entry['userid']},
+					visibility       = {$entry['visibility']},
+					category         = {$entry['category']},
+					title            = '$title',
+					slogan           = '',
+					content          = '$content',
 					contentFormatter = '$contentFormatter',
-					contentEditor = '$contentEditor',
-					location = '$location',
-					acceptComment = {$entry['acceptComment']},
-					acceptTrackback = {$entry['acceptTrackback']},
-					published = {$entry['published']},
-					modified = UNIX_TIMESTAMP()
+					contentEditor    = '$contentEditor',
+					location         = '$location',
+					acceptComment    = {$entry['acceptComment']},
+					acceptTrackback  = {$entry['acceptTrackback']},
+					published        = {$entry['published']},
+					modified         = UNIX_TIMESTAMP()
 				WHERE owner = ".getBlogId()." AND id = $draft AND draft = 1");
 		if (!$result)
 			return false;
@@ -613,8 +625,12 @@ function saveDraftEntry($entry) {
 		if($entry['id'] == 0)
 			$entry['id'] = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE owner = ".getBlogId()." and draft = 0") + 1;
 		$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries
+			(owner, userid, id, draft, visibility, category, title, slogan, content, contentFormatter,
+			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
+			 comments, trackbacks) 
 				VALUES (
 					".getBlogId().",
+					{$entry['userid']},
 					{$entry['id']},
 					1,
 					{$entry['visibility']},
@@ -663,7 +679,6 @@ function deleteEntry($blogid, $id) {
 		$result = DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE owner = $blogid AND entry = $id");
 		$result = DBQuery::query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $blogid AND entry = $id");
 		$result = DBQuery::query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $blogid AND entry = $id");
-		$result = DBQuery::query("DELETE FROM {$database['prefix']}TeamEntryRelations WHERE owner = $blogid AND id = $id AND userid = " . getUserId());
 
 		updateEntriesOfCategory($blogid, $target['category']);
 		deleteAttachments($blogid, $id);
@@ -781,7 +796,7 @@ function syndicateEntry($id, $mode) {
 		$summary['permalink'] = "$defaultURL/".($blog['useSlogan'] ? "entry/{$entry['slogan']}": $entry['id']);
 		$summary['title'] = $entry['title'];
 		$summary['content'] = UTF8::lessenAsByte(stripHTML(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'])), 1023, '');
-		$summary['author'] = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $blogid");
+		$summary['author'] = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = {$entry['userid']}");
 		$summary['tags'] = array();
 		foreach(DBQuery::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND owner = $blogid AND entry = $id ORDER BY name") as $tag)
 			array_push($summary['tags'], $tag['name']);

@@ -153,7 +153,8 @@ function cancelInviteAsTeam($userid){
 	global $database;
 
 	$blogId = getBlogId();
-	if( 0 != DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}TeamEntryRelations WHERE userid = {$userid}")) {
+	if( 0 != DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Entries 
+		WHERE owner = $blogid AND userid = $userid")) {
 		return false;
 	}
 	DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid");
