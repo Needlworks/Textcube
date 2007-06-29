@@ -88,6 +88,7 @@ class teamblogUser{
 			}
 		}
 		$blogn .= '</select>';
+		var_dump($_SESSION);
 		return $blogn;
 	}
 }

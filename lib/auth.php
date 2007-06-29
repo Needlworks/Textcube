@@ -69,7 +69,6 @@ function getBlogId() {
 
 function setBlogId($id) {
 	global $blogid;
-	$_SESSION['blogid'] = $id;
 	$blogid = $id;
 }
 

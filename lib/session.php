@@ -131,7 +131,6 @@ function authorizeSession($blogid, $userid) {
 	if (!is_numeric($userid))
 		return false;
 	$_SESSION['userid'] = $userid;
-	$_SESSION['blogid'] = $blogid;
 	if (isSessionAuthorized(session_id()))
 		return true;
 	for ($i = 0; $i < 100; $i++) {
