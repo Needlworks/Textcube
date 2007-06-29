@@ -241,12 +241,12 @@ if ($service['type'] != 'single') {
 
 
 						<div id="part-setting-account" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('팀블로그 구성원 목록');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('계정 정보');?></span></h2>
 							
 							<div class="data-inbox">
 								<form id="info-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/account">
 									<fieldset class="container">
-										<legend><?php echo _t('아이디 및 이메일');?></legend>
+										<legend><?php echo _t('계정 정보');?></legend>
 										
 										<dl id="blogger-name-line" class="line">
 											<dt><label for="nickname"><?php echo _t('필명');?></label></dt>

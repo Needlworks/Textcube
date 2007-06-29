@@ -287,6 +287,7 @@ class Auth {
 	}
 
 	function setBasicAro( $userid ) {
+		$_SESSION['userid'] = $userid;
 		Acl::setAro($userid, "group.owners", Aro::getCanonicalName($userid), false );
 	}
 

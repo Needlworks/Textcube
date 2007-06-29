@@ -65,6 +65,7 @@ class User {
 		$blogn = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?blogid='+this.value+'&path={$path}'\">";
 	
 		if( Acl::check('group.owners') ) {
+			$myblogsel = '';
 			if($blogid == getUserId()) $myblogsel = ' selected="selected"';
 			$blogn .= '<option value="'.$blogid.'" '. $myblogsel .'>'._t('내 블로그').'</option>';
 		}
