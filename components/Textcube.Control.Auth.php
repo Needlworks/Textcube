@@ -46,11 +46,11 @@ $sAcoFromUri = array(
 class Aro {
 
 /* predefined Aros
-	group.owners:         Owners of $owner's blog system. (Usually unique id.);
-	group.administrators: Administrators of $owner's blog system.
-	group.editors:        Adminitrators of $owner's $owner's postings.
-	group.writers:        Writers to $owners's blog.
-	group.readers:        Readers to $owners's blog.
+	group.owners:         Owners of $blogid's blog system. (Usually unique id.);
+	group.administrators: Administrators of $blogid's blog system.
+	group.editors:        Adminitrators of $blogid's $blogid's postings.
+	group.writers:        Writers to $blogids's blog.
+	group.readers:        Readers to $blogids's blog.
 	group.guests:         Guests
 */
 	function Aro() {
@@ -96,9 +96,9 @@ class Aro {
 
 	function adjust( $aco )
 	{
-		global $owner;
+		global $blogid;
 		if( !Acl::isAvailable() ) {
-			Acl::setAro( $owner );
+			Acl::setAro( $blogid );
 		}
 
 		$aro = Acl::getAro();
@@ -163,7 +163,7 @@ class Acl {
 	}
 
 	function check($aco = null, $extra_aco = null) {
-		global $owner; /*blogid*/
+		global $blogid; /*blogid*/
 
 		if( !is_array( $aco ) ) {
 			$aco = array( $aco );
@@ -215,9 +215,9 @@ class Acl {
 	}
 
 	function getAro($blogid=null) {
-		global $owner; /*blogid*/
+		global $blogid; /*blogid*/
 		if( $blogid === null ) {
-			$blogid = $owner;
+			$blogid = $blogid;
 		}
 		if( Acl::isAvailable($blogid) ) {
 			return $_SESSION['acl'][$blogid];
@@ -232,9 +232,9 @@ class Acl {
 	}
 
 	function isAvailable($blogid=null) {
-		global $owner; /*blogid*/
+		global $blogid; /*blogid*/
 		if( $blogid === null ) {
-			$blogid = $owner;
+			$blogid = $blogid;
 		}
 
 		if( !isset( $_SESSION['acl'] ) || 
@@ -249,8 +249,8 @@ class Acl {
 
 class Auth {
 	function login($loginid, $password) {
-		global $owner;
-		if( Auth::authenticate($owner,$loginid,$password,true) === false ) {
+		global $blogid;
+		if( Auth::authenticate($blogid,$loginid,$password,true) === false ) {
 			return false;
 		}
 		return true;
