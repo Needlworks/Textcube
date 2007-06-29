@@ -883,7 +883,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
         <tr>
           <th style="width:100px"><?php echo _t('이메일');?> : </th>
           <td>
-            <input type="text" name="email" value="<?php echo (isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '');?>" class="input_email"<?php echo ($check && (empty($_POST['email']) || ($error == 51)) ? ' style="border-color:red"' : '');?> />
+            <input type="text" id="email" name="email" value="<?php echo (isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '');?>" class="input_email"<?php echo ($check && (empty($_POST['email']) || ($error == 51)) ? ' style="border-color:red"' : '');?> />
           </td>
         </tr>
         <tr>
@@ -929,6 +929,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
     <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
   </div>
   </div>
+  <script type="text/javascript">document.getElementById('email').focus();</script>
 <?php
     }
     else if ($step == 7) {
@@ -1340,11 +1341,12 @@ CREATE TABLE {$_POST['dbPrefix']}TeamEntryRelations (
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
 INSERT INTO {$_POST['dbPrefix']}Teamblog VALUES (1, 1, 9, UNIX_TIMESTAMP(), 0);
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
-INSERT INTO {$_POST['dbPrefix']}BlogSettings (1, 'name', '$blog');
-INSERT INTO {$_POST['dbPrefix']}BlogSettings (1, 'language', '$baseLanguage');
-INSERT INTO {$_POST['dbPrefix']}BlogSettings (1, 'blogLanguage', '$baseLanguage');
-INSERT INTO {$_POST['dbPrefix']}BlogSettings (1, 'timezone', '$baseTimezone');
-INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultEditor', 'modern'), (1, 'defaultFormatter', 'ttml');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'name', '$blog');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'language', '$baseLanguage');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'blogLanguage', '$baseLanguage');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'timezone', '$baseTimezone');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultEditor', 'modern');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultFormatter', 'ttml');
 INSERT INTO {$_POST['dbPrefix']}SkinSettings (owner) VALUES (1);
 INSERT INTO {$_POST['dbPrefix']}FeedSettings (owner) values(1);
 INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
