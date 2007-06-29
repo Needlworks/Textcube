@@ -54,10 +54,8 @@ class HTTPRequest {
 			}
 			fwrite($socket, "Connection: close\r\n");
 			fwrite($socket, "\r\n");
-			if ($this->content !== false) {
+			if ($this->content !== false)
 				fwrite($socket, $this->content);
-				fwrite($socket, "\r\n");
-			}
 			if($this->async)
 				return true;
 			
