@@ -36,10 +36,7 @@ class User {
 		$password = md5($password);
 		return DBQuery::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = $owner AND password = '$password'");
 	}
-}
 
-
-class teamblogUser{
 	function authorName($owner,$entryId){
 		requireComponent('Eolin.PHP.Core');
 		global $database, $owner, $entry;
@@ -57,7 +54,7 @@ class teamblogUser{
 		}
 	}
 
-	function myBlog(){
+	function changeBlog(){
 		global $database, $blogURL, $blog, $service;
 		$blogid = getBlogId();	
 		if($service['type'] == "path")

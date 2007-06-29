@@ -66,7 +66,7 @@ if(isset($entries)) {
 				dress('s_ad_d_onclick', "deleteEntry({$entry['id']}); return false;", $managementView);
 				dress('ad_div', $managementView, $entryView);
 			}
-			$author = teamblogUser::authorName($blogid, $entry['id']);
+			$author = User::authorName($blogid, $entry['id']);
 			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $entryView);
 			dress('article_rep_id', $entry['id'], $entryView);
 			dress('article_rep_link', $permalink, $entryView);
@@ -98,7 +98,7 @@ if(isset($entries)) {
 	
 			$entriesView .= $entryView;
 		} else {
-			$author = teamblogUser::authorName($blogid,$entry['id']);
+			$author = User::authorName($blogid,$entry['id']);
 			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $entryView);
 			$protectedEntryView = $skin->entryProtected;
 			dress('article_rep_id', $entry['id'], $protectedEntryView);
