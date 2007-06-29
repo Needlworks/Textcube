@@ -66,10 +66,23 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 		}
 		$id = mysql_insert_id();
 		$baseTimezone = mysql_tt_escape_string($service['timezone']);
-		$result = DBQuery::query("INSERT INTO `{$database['prefix']}BlogSettings` (owner, name, language, blogLanguage, timezone) VALUES ('$id', '$identify', '$service[language]', '$service[language]', '$baseTimezone')");
-		if(!$result||(mysql_affected_rows()==0)){
-			DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
-			return 12;
+		$sqls = split( ';',
+			"INSERT INTO {$database['prefix']}BlogSettings VALUES ($id, 'name', '$identify');
+			INSERT INTO {$database['prefix']}BlogSettings VALUES ($id, 'language', '{$service['language']}');
+			INSERT INTO {$database['prefix']}BlogSettings VALUES ($id, 'blogLanguage', '{$service['language']}');
+			INSERT INTO {$database['prefix']}BlogSettings VALUES ($id, 'timezone', '$baseTimezone');
+			INSERT INTO {$database['prefix']}BlogSettings VALUES ($id, 'defaultEditor', 'modern');
+			INSERT INTO {$database['prefix']}BlogSettings VALUES ($id, 'defaultFormatter', 'ttml');" );
+		foreach( $sqls as $sql ) {
+			if( empty($sql) ) {
+				break;
+			}
+			$result = DBQuery::query($sql);
+			error_log(mysql_error());
+			if(!$result||(mysql_affected_rows()==0)){
+				DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
+				return 12;
+			}
 		}
 		$result=DBQuery::query("INSERT INTO `{$database['prefix']}SkinSettings` (owner, skin) VALUES ($id, '{$service['skin']}')");
 		if(!$result||(mysql_affected_rows()==0)){
@@ -180,7 +193,7 @@ function changeACLonTeamblog($blogid,$stype,$userid,$switch){  // Change user pr
 				WHERE userid = '$userid'");
 		$profile = _f('%1 님의 글입니다.',$name);
 		DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog`  
-				VALUES('$blogid', '$userid', '0', '$profile', UNIX_TIMESTAMP(), '0')");
+				VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
 		$acl = 0;
 	}
 

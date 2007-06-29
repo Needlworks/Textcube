@@ -322,8 +322,8 @@ if($owner == getUserId()){?>
 			}
 ?>
 													<td class="password">
-														<input type="checkbox" onclick="teamblog_admin('admin',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] | BITWISE_ADMINISTRATOR) ? "checked" : "");?>><?php echo _t('관리자');?>
-														<input type="checkbox" onclick="teamblog_admin('editor',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] | BITWISE_EDITOR) ? "checked" : "");?> ><?php echo _t('글관리');?>
+														<input type="checkbox" onclick="teamblog_admin('admin',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_ADMINISTRATOR) ? "checked" : "");?>><?php echo _t('관리자');?>
+														<input type="checkbox" onclick="teamblog_admin('editor',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_EDITOR) ? "checked" : "");?> ><?php echo _t('글관리');?>
 													</td>
 													<td class="cancel">
 														<a class="cancel-button button" href="#void" onclick="deleteUser(<?php	echo $value['userid'];?>,1);return false;" title="<?php echo _t('현재 사용자를 팀블로그에서 제외합니다.');?>"><span class="text"><?php echo _t('계정삭제');?></span></a>
