@@ -13,7 +13,6 @@ require ROOT . '/lib/includeForBlogOwner.php';
 if($_GET['blogid'] == 0 || empty($_GET['blogid'])) $newBlogid = getBlogId();
 else $newBlogid = $_GET['blogid'];
 
-setBlogId($newBlogid);
 $url = getDefaultURL($newBlogid) . $_GET['path'];
 header("location:".$url);
 exit;
