@@ -1108,6 +1108,7 @@ CREATE TABLE {$_POST['dbPrefix']}Entries (
   trackbacks int(11) NOT NULL default '0',
   PRIMARY KEY (owner, id, category, published),
   KEY visibility (visibility),
+  KEY userid (userid),
   KEY published (published),
   KEY id (id, category, visibility),
   KEY owner (owner, published)
