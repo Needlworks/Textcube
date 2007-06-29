@@ -528,35 +528,6 @@ if (!doesExistTable($database['prefix'] . 'Teamblog')) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-if (!doesExistTable($database['prefix'] . 'TeamEntryRelations')) {
-	$changed = true;
-	echo '<li>', _text('팀블로그 연관글 기능을 위한 테이블을 추가합니다.'), ': ';
-	$query = "
-		CREATE TABLE {$database['prefix']}TeamEntryRelations (
-			owner int(11) NOT NULL default 1,
-			id int(11) NOT NULL default 1,
-			userid int(11) NOT NULL default 1,
-			PRIMARY KEY (owner,id,userid)
-		) TYPE=MyISAM
-	";
-	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query)) {
-		$query = new TableQuery($database['prefix'] . 'Entries');
-		if($query->doesExist()) {
-			$changed = true;
-			if ($entries = $query->getAll('owner, id')) {
-				foreach($entries as $entry) {
-					DBQuery::execute("INSERT INTO 	`{$database['prefix']}TeamEntryRelations`  VALUES('".$entry['owner']."', '".$entry['id']."','".$entry['owner']."')");
-				
-				}
-			}
-			unset($entries);
-			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-		}
-		
-	} else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
-
 if (!doesExistTable($database['prefix'] . 'XMLRPCPingSettings')) {
 	$changed = true;
 	echo '<li>', _text('XML-RPC ping 설정을 위한 테이블을 추가합니다.'), ': ';
@@ -664,6 +635,26 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings defaultDomai
 	} else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries userid")) {
+	$changed = true;
+	echo '<li>', _text('본문 테이블에 작성자 정보를 위한 필드를 추가합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD userid INT(11) DEFAULT 0 NOT NULL AFTER owner")){
+		if($blogids = DBQuery::queryColumn("SELECT DISTINCT owner FROM {$database['prefix']}Entries")) {
+			foreach($blogids as $blogid) {
+				DBQuery::execute("UPDATE {$database['prefix']}Entries 
+					SET userid = '".$blogid['owner']."'
+					WHERE owner = '".$blogid['owner']."'");
+			}
+			DBQuery::execute("DROP TABLE {$database['prefix']}TeamEntryRelations");
+			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		} else {
+			echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		}
+	} else {
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+	}
+}
+
 if (DBQuery::queryCell("DESC {$database['prefix']}Entries published", 'Key') != 'PRI') { 
 	$changed = true;
 	echo '<li>', _text('본문 테이블의 인덱스를 수정합니다.'), ': ';
@@ -674,6 +665,7 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Entries published", 'Key') != 
 		ADD PRIMARY KEY (owner,id,category,published), 
 		ADD index visibility (visibility),
 		ADD index published (published),
+		ADD index userid (userid),
 		ADD index id (id, category, visibility),
 		ADD index owner (owner, published)"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';

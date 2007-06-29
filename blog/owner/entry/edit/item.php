@@ -36,14 +36,11 @@ if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
 
 // Check whether or not user has permission to edit.
 if(Acl::check('group.writers')===false && !empty($suri['id'])){
-	$isPosting = DBQuery::queryCell("SELECT userid 
-			FROM {$database['prefix']}TeamEntryRelations 
-			WHERE owner = '".$owner."'
-				and userid = '".getUserId()."'
-				and id = '".$suri['id']);
-	if(empty($isPosting)) { @header("location:".$blogURL ."/owner/entry"); exit; }
+	if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) { 
+		@header("location:".$blogURL ."/owner/entry");
+		exit; 
+	}
 }
-// End TeamBlog
 
 if (isset($_GET['popupEditor'])) {
 	require ROOT . '/lib/piece/owner/headerForPopupEditor.php';

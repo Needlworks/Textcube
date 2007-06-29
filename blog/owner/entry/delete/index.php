@@ -15,17 +15,11 @@ requireStrictRoute();
 foreach(explode(',', $_POST['targets']) as $target) {
 	// TeamBlog check
 	if(!Acl::check( 'group.writers', 'entry.delete.' . $target )){
-		$isPosting = DBQuery::queryCell("SELECT userid 
-				FROM {$database['prefix']}TeamEntryRelations 
-				WHERE owner='$owner' 
-					and userid = '".getUserId()."' 
-					and id='".$suri['id']."'" );
-		if(empty($isPosting)) {
+		if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) { 
 			respondResultPage(-1);
 			exit;
 		}
 	}
-	// End TeamBlog
 	
 	if (!deleteEntry($owner, $target))
 		respondResultPage(-1);

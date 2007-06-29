@@ -17,16 +17,11 @@ requireStrictRoute();
 
 // TeamBlog ACL check whether or not current user can edit this post.
 if(Acl::check('group.writers') === false && !empty($suri['id'])){
-	$isPosting = DBQuery::queryCell("SELECT userid 
-			FROM {$database['prefix']}TeamEntryRelations 
-			WHERE owner = '".$owner."' 
-				and userid = '".getUserId()."' 
-				and id='".$suri['id']."'" );
-	if(empty($isPosting)) {
+	if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) { 
+		@header("location:".$blogURL ."/owner/entry");
 		exit;
 	}
 }
-// End TeamBlog
 
 //$isAjaxRequest = checkAjaxRequest();
 	

@@ -12,17 +12,11 @@ $isAjaxRequest = checkAjaxRequest();
 
 // TeamBlog check.
 if(!Acl::check("group.editors")){
-	$isPosting = DBQuery::queryCell("SELECT userid 
-			FROM {$database['prefix']}TeamEntryRelations 
-			WHERE owner='".$owner."' 
-				and userid = '".getUserId()."' 
-				and id='".$suri['id']."'" );
-	if(empty($isPosting)) {
+    if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) {
 		respondResultPage(-1);
 		exit;
 	}
-}
-// End TeamBlog
+}			
 
 if ($isAjaxRequest) {
 	if (deleteEntry($owner, $suri['id']) === true)

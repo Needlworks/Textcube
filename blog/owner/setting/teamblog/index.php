@@ -299,11 +299,10 @@ if($owner == getUserId()){?>
 	if(isset($invited_user)) {
 		foreach($invited_user as $value) {
 			$value['posting'] = DBQuery::queryCell("SELECT count(*) 
-					FROM {$database['prefix']}TeamEntryRelations 
-					WHERE userid = {$value['userid']}");
+					FROM {$database['prefix']}Entries 
+					WHERE owner = $owner AND userid = {$value['userid']}");
 			$className= ($count%2)==1 ? 'even-line' : 'odd-line';
 			$className.=($count==sizeof($invited_user)-1) ? ' last-line':'';
-			print_r($value);
 ?>
 												<tr class="<?php echo $className;?> inactive-class">
 													<td class="status"><input type="checkbox" id="check_<?php echo $count; ?>"><input type="hidden" name="chh<?php echo $count; ?>" value="<?php echo $value['userid']; ?>"><input type="hidden" name="cht<?php echo $count; ?>" value="<?php if($value['last'] == '0' && $value['lastLogin'] =='0') echo "0"; else echo "1"; ?>"></td>
