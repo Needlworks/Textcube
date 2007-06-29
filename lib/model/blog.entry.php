@@ -268,7 +268,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= ($isNotice || doesHaveOwnership())  ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
-	$sql = "SELECT e.id, c.label categoryLabel 
+	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
 		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND $category 
