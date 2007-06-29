@@ -1,0 +1,10 @@
+Textcube 1.5 Requirements
+-------------------------
+
+Minimum requirements :
+ * Apache 1.3 or above
+   * With mod_rewrite module
+ * PHP 4.3 or above
+ * Mysql 3.23 or above
+
+
