@@ -63,14 +63,14 @@ function getUserId() {
 
 
 function getBlogId() {
-	global $owner;
-	return $owner;
+	global $blogid;
+	return $blogid;
 }
 
 function setBlogId($id) {
-	global $owner;
+	global $blogid;
 	$_SESSION['blogid'] = $id;
-	$owner = $id;
+	$blogid = $id;
 }
 
 function doesHaveOwnership($extra_aco=null) {

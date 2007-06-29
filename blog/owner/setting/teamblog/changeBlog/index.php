@@ -10,11 +10,11 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
-if($_GET['blogid'] == 0 || empty($_GET['blogid'])) $blogid = getBlogId();
-else $blogid = $_GET['blogid'];
+if($_GET['blogid'] == 0 || empty($_GET['blogid'])) $newBlogid = getBlogId();
+else $newBlogid = $_GET['blogid'];
 
-setBlogId($blogid);
-$url = getDefaultURL($blogid) . $_GET['path'];
+setBlogId($newBlogid);
+$url = getDefaultURL($newBlogid) . $_GET['path'];
 header("location:".$url);
-echo "<script> location.href = $url; </script>";
+exit;
 ?>
