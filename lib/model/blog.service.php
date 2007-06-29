@@ -64,9 +64,9 @@ function getSkinSetting($blogid) {
 	return $retval;	
 }
 
-function getDefaultURL($uid) {
+function getDefaultURL($blogid) {
 	global $database, $service;
-	$blog = DBQuery::queryRow("SELECT name, secondaryDomain, defaultDomain FROM {$database['prefix']}BlogSettings WHERE owner = $uid");
+	$blog = getBlogSettings($blogid);
 	switch ($service['type']) {
 		case 'domain':
 			if ($blog['defaultDomain'] && $blog['secondaryDomain'])

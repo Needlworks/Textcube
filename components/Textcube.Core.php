@@ -58,18 +58,18 @@ class teamblogUser{
 	}
 
 	function myBlog(){
-		global $database, $owner, $blogURL, $blog, $service;
-		
+		global $database, $blogURL, $blog, $service;
+		$blogid = getBlogId();	
 		if($service['type'] == "path")
-			$Path = str_replace($service['path']."/".$blog['name'], "", $_SERVER["REQUEST_URI"]);
+			$path = str_replace($service['path']."/".$blog['name'], "", $_SERVER["REQUEST_URI"]);
 		else
-			$Path = str_replace("/".$blog['name'], "", $_SERVER["REQUEST_URI"]);
+			$path = str_replace("/".$blog['name'], "", $_SERVER["REQUEST_URI"]);
 	
-		$blogn = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?bs='+this.value+'&path={$Path}'\">";
+		$blogn = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?blogid='+this.value+'&path={$path}'\">";
 	
 		if( Acl::check('group.owners') ) {
-			if(getBlogId() == getUserId()) $myblogsel = ' selected="selected"';
-			$blogn .= '<option value="'.$owner.'" '. $myblogsel .'>'._t('내 블로그').'</option>';
+			if($blogid == getUserId()) $myblogsel = ' selected="selected"';
+			$blogn .= '<option value="'.$blogid.'" '. $myblogsel .'>'._t('내 블로그').'</option>';
 		}
 	
 		$teamblogInfo = DBQuery::queryAll("SELECT t.blogid, b.value AS title, u.name
@@ -78,17 +78,16 @@ class teamblogUser{
 				LEFT JOIN {$database['prefix']}Users u ON u.userid = t.blogid
 				WHERE t.userid='".getUserId()."'");
 		foreach($teamblogInfo as $teamInfo){
-			if($teamInfo['blogid'] == $owner && getBlogId() == getUserId()){
+			if($teamInfo['blogid'] == $blogid && $blogid == getUserId()){
 				continue;
 			} else {
 				$title = empty($teamInfo['title']) ? _f('%1 님의 블로그',$teamInfo['name']) : $teamInfo['title'];
 				$blogn .= '<option value="' . $teamInfo['blogid'] . '"';
-				if($teamInfo['blogid'] == $owner) $blogn .= ' selected="selected"';
+				if($teamInfo['blogid'] == $blogid) $blogn .= ' selected="selected"';
 				$blogn .= '>' . $title . '</option>';
 			}
 		}
 		$blogn .= '</select>';
-
 		return $blogn;
 	}
 }

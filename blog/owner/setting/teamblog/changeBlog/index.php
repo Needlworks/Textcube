@@ -5,18 +5,16 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'GET'=>array(
-		'bs'=>array('int','default'=>''),
+		'blogid'=>array('int','default'=>''),
 		'path'=>array('string')
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
-if($_GET['bs'] == 0 || empty($_GET['bs'])) $bs = getUserId();
-else $bs = $_GET['bs'];
+if($_GET['blogid'] == 0 || empty($_GET['blogid'])) $blogid = getBlogId();
+else $blogid = $_GET['blogid'];
 
-$sql = "SELECT *  FROM `{$database['prefix']}BlogSettings` WHERE owner='$bs'";
-$res = mysql_fetch_array(DBQuery::query($sql));
-$_SESSION['userid'] = $bs;
-$url = getDefaultURL($bs) . $_GET['path'];
+setBlogId($blogid);
+$url = getDefaultURL($blogid) . $_GET['path'];
 header("location:".$url);
 echo "<script> location.href = $url; </script>";
 ?>

@@ -196,6 +196,7 @@ if ($service['type'] != 'single') {
 												alert('<?php echo _t('메일 전송에 실패하였습니다.');?>');
 												break;
 											default:
+												alert(Number(this.getText("/response/error")));
 												alert('<?php echo _t('실패했습니다.');?>');
 										}
 									}
