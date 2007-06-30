@@ -187,14 +187,28 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				$buf .= '	</script>' . CRLF;
 				$buf .= '	<noscript>' . CRLF;
 				foreach ($items as $item) {
-					$buf .= '<div class="imageblock center" style="text-align: center; clear: both;">';
-					if ($useAbsolutePath)
-						$buf .= '		<img src="' . $hostURL . $service['path'] . "/attach/" . $owner . "/" . $item[0] . '" alt="' . _text('사용자 삽입 이미지') . '" />' . CRLF;
-					else
-						$buf .= '		<img src="' . $folderURL . "/" . $item[0] . '" alt="' . _text('사용자 삽입 이미지') . '" />' . CRLF;
-					if(!empty($item[1]))
-						$buf .= '		<p class="cap1">'. $item[1] .'</p>' . CRLF;
-					$buf .= '</div>';
+				$setWidth = $setHeight = 0;
+					if (list($width, $height) = @getimagesize("$folderPath/$item[0]")) {
+						$setWidth = $width;
+						$setHeight = $height;
+						if (isset($galleryAttributes['width']) && $galleryAttributes['width'] < $setWidth) {
+							$setHeight = $setHeight * $galleryAttributes['width'] / $setWidth;
+							$setWidth = $galleryAttributes['width'];
+						}
+						if (isset($galleryAttributes['height']) && $galleryAttributes['height'] < $setHeight) {
+							$setWidth = $setWidth * $galleryAttributes['height'] / $setHeight;
+							$setHeight = $galleryAttributes['height'];
+						}
+					
+						$buf .= '<div class="imageblock center" style="text-align: center; clear: both;">';
+						if ($useAbsolutePath)
+							$buf .= '		<img src="' . $hostURL . $service['path'] . "/attach/" . $owner . "/" . $item[0] . '" width="' . intval($setWidth) . '" height="' . intval($setHeight) . '" alt="' . _text('사용자 삽입 이미지') . '" />' . CRLF;
+						else
+							$buf .= '		<img src="' . $folderURL . "/" . $item[0] . '" width="' . intval($setWidth) . '" height="' . intval($setHeight) . '" alt="' . _text('사용자 삽입 이미지') . '" />' . CRLF;
+						if(!empty($item[1]))
+							$buf .= '		<p class="cap1">'. $item[1] .'</p>' . CRLF;
+						$buf .= '</div>';
+					}
 				}
 				$buf .= '	</noscript>' . CRLF;
 				$buf .= '</div>' . CRLF;
