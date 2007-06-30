@@ -23,6 +23,7 @@ if(isset($entries)) {
 			dress('keylog_rep_desc', setTempTag("keylog_{$entry['id']}"), $entryView);
 			dress('keylog_rep_author', User::authorName($blogid, $entry['id']), $entryView);
 			$entriesView .= $entryView;
+			$isKeylog = true;
 		} else if ($entry['category'] == - 2) { // This is notice
 			$entryView = $skin->noticeItem;
 			dress('notice_rep_date', fireEvent('ViewNoticeDate', Timestamp::format5($entry['published'])), $entryView);
