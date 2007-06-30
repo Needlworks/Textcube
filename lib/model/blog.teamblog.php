@@ -123,7 +123,6 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 	}
 	
 	// Add user information to Teamblog table.
-	$profile = $name;
 	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` (blogid,userid,acl,created,lastLogin) VALUES('$blogid', '$id', '0', UNIX_TIMESTAMP(), '0')");
 	if(!$result||(mysql_affected_rows()==0)){
 		if(empty($isold)){  // If user is just added, delete user information.
@@ -191,7 +190,6 @@ function changeACLonTeamblog($blogid,$stype,$userid,$switch){  // Change user pr
 		$name = DBQuery::queryCell("SELECT name 
 				FROM {$database['prefix']}Users 
 				WHERE userid = '$userid'");
-		$profile = _f('%1 님의 글입니다.',$name);
 		DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog`  
 				VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
 		$acl = 0;

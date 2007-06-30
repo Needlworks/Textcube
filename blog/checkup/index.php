@@ -506,7 +506,6 @@ if (!doesExistTable($database['prefix'] . 'Teamblog')) {
 			blogid int(11) NOT NULL default 0,
 			userid int(11) NOT NULL default 1,
 			acl	int(11) NOT NULL default 0,
-			profile text NULL default '',
 			created int(11) NOT NULL default 0,
 			lastLogin int(11) NOT NULL default 0,
 			PRIMARY KEY (blogid,userid)
@@ -668,6 +667,16 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}Teamblog teams")) {
 	$changed = true;
 	echo '<li>', _text('팀블로그 테이블의 필드 이름을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog CHANGE teams blogid int(11) NOT NULL DEFAULT 0"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
+
+if (DBQuery::queryExistence("DESC {$database['prefix']}Teamblog profile")) {
+	$changed = true;
+	echo '<li>', _text('팀블로그 테이블의 사용자 이름 필드를 삭제합니다.'), ': ';
+	if(DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP profile"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';

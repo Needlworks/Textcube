@@ -25,24 +25,24 @@ function refreshRSS($blogid) {
 		$result = DBQuery::query("SELECT 
 				e.*, 
 				c.name AS categoryName, 
-				t.profile AS author
+				u.name AS author
 			FROM {$database['prefix']}Entries e 
 			LEFT JOIN {$database['prefix']}Categories c
 				ON e.owner = c.owner AND e.category = c.id
-			LEFT JOIN {$database['prefix']}Teamblog t
-				ON e.owner = t.blogid AND e.userid = t.userid
+			LEFT JOIN {$database['prefix']}Users u
+				ON e.userid = u.userid
 			WHERE e.owner = $blogid AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
 			ORDER BY e.published 
 			DESC LIMIT {$blog['entriesOnRSS']}");
 	} else { $result = DBQuery::query("SELECT 
 				e.*, 
 				c.name AS categoryName,
-				t.profile AS author
+				u.name AS author
 			FROM {$database['prefix']}Entries e 
 			LEFT JOIN {$database['prefix']}Categories c 
 				ON e.owner = c.owner AND e.category = c.id 
-			LEFT JOIN {$database['prefix']}Teamblog t
-				ON e.owner = t.blogid AND e.userid = t.userid
+			LEFT JOIN {$database['prefix']}Users u
+				ON e.userid = u.userid
 			WHERE e.owner = $blogid AND e.draft = 0 AND e.visibility = 3 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
 			ORDER BY e.published 
 			DESC LIMIT {$blog['entriesOnRSS']}");
