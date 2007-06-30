@@ -7,9 +7,7 @@ if (isset($list)) {
 	$listView = $skin->list;
 	$itemsView = '';
 	foreach ($list['items'] as $item) {	
-		$teamblog_name = DBQuery::queryCell("SELECT b.name 
-			FROM {$database['prefix']}TeamEntryRelations a, {$database['prefix']}Users b  
-			WHERE a.owner=".$item['owner']." AND a.id=".$item['id']." AND a.userid=b.userid");
+		$author = User::authorName($blogid, $item['id']);
 		$itemsView .= str_replace(
 			array(
 				'[##_list_rep_regdate_##]',
@@ -20,7 +18,7 @@ if (isset($list)) {
 			),
 			array(
 				fireEvent('ViewListDate', Timestamp::format3($item['published'])),
-				fireEvent('ViewListName', htmlspecialchars($teamblog_name)),
+				fireEvent('ViewListName', htmlspecialchars($author)),
 				"$blogURL/" . ($blog['useSlogan'] ? 'entry/' . encodeURL($item['slogan']) : $item['id']),
 				fireEvent('ViewListTitle', $item['title']),
 				($item['comments'] > 0) ? "({$item['comments']})" : ''
