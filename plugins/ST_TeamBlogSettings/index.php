@@ -141,9 +141,9 @@ function getTeamBlogSettings() {
 							<dt><label for="title"><?php echo _t('필명 스타일');?></label></dt>
 							<dd>by <span id="nicknameStyle" style="<?php echo $authorStyle;?>"><?php echo htmlspecialchars($teamblog_user['name']);?></span></dd>
 							<dd>
-								<span><input <?php echo $boldCheck;?> type="checkbox" value="1" id="fontBold" onclick="styleExecCommand('fontBold', 'fontbold', 'bold');" /> <label for="fontBold"><b>굵게</b></label></span>
-								<span><input <?php echo $italicCheck;?> type="checkbox" id="fontItalic" onclick="styleExecCommand('fontItalic', 'fontitalic', 'italic');" /> <label for="fontItalic"><i>기울임</i></label></span>
-								<span><input <?php echo $underlineCheck;?> type="checkbox" id="fontUnderline" onclick="styleExecCommand('fontUnderline', 'fontunderline', 'underline');" /> <label for="fontUnderline"><u>밑줄</u></label></span>
+								<span><input <?php echo $boldCheck;?> type="checkbox" value="1" id="fontBold" onclick="styleExecCommand('fontBold', 'fontbold', 'bold');" /> <label for="fontBold"><b><?php echo _t('굵게'); ?></b></label></span>
+								<span><input <?php echo $italicCheck;?> type="checkbox" id="fontItalic" onclick="styleExecCommand('fontItalic', 'fontitalic', 'italic');" /> <label for="fontItalic"><i><?php echo _t('기울임'); ?></i></label></span>
+								<span><input <?php echo $underlineCheck;?> type="checkbox" id="fontUnderline" onclick="styleExecCommand('fontUnderline', 'fontunderline', 'underline');" /> <label for="fontUnderline"><u><?php echo _t('밑줄'); ?></u></label></span>
 								<span id="fontStyleElement">
 									<script type="text/javascript">
 										var colorCheck;
@@ -152,7 +152,7 @@ function getTeamBlogSettings() {
 										var html = ////
 											'<input type="text" id="fontColor" class="input-text2" style="color:<?php echo $color;?>;" value="<?php echo $color;?>" />' + 
 											'<select id="fontColorList" style="width:80px;height:19px;" onchange="styleExecCommand(\'fontColor\', \'fontcolor\', this.value);">' +
-												'<option class="head-option" value="">글자색</option>';
+												'<option class="head-option" value=""><?php echo _t('글자색'); ?></option>';
 										for (var i = 0; i < colors.length; ++i) {
 											<?php
 												if($style[3]) echo "colorCheck = (colors[i] == '".str_replace("#","",$color)."')?' selected ':'';";
@@ -163,7 +163,7 @@ function getTeamBlogSettings() {
 										
 										html += ////
 											'<select id="fontFamilyList" style="width:120px;height:19px;" onchange="styleExecCommand(\'\', \'fontname\', this.value); ">' +
-												'<option class="head-option" value="">글자체</option>';
+												'<option class="head-option" value=""><?php echo _t('글자체'); ?></option>';
 										var fontset = _t('fontDisplayName:fontCode:fontFamily').split('|');
 										for (var i = 1; i < fontset.length; ++i) {
 											var fontinfo = fontset[i].split(':');
@@ -184,7 +184,7 @@ function getTeamBlogSettings() {
 
 										html += ////
 											'<select id="fontSizeList" style="width:50px;height:19px;" onchange="styleExecCommand(\'\', \'fontsize\', this.value); ">' +
-												'<option class="head-option" value="">크기</option>';
+												'<option class="head-option" value=""><?php echo _t('크기'); ?></option>';
 										for (var i = 8; i < 16; ++i) {
 											<?php
 												if($style[5]) echo "sizeCheck = (i == ".$size.")?' selected ':'';";
@@ -209,7 +209,7 @@ function getTeamBlogSettings() {
 								<form id="file_upload_form" method="post" target="uploadTarget" enctype="multipart/form-data" action="<?php echo $blogURL;?>/plugin/teamFileUpload/">
 									<input type="hidden" name="type" value="" />
 									<input type="file" name="teamImageFile" id="teamImageFile" size="35" onchange="uploadImage(this.form, 'upload');" /> <a href="http://mypictr.com/?size=<?php echo $data['imageSize']?>x<?php echo $data['imageSize']?>" onclick="window.open(this.href); return false;"><font color="#527A98"><u>mypictr.com</u></font></a>에서 사진 편집.<br />
-									<div class="tip">(찾아보기를 이용하여 사진을 선택하시면 바로 <b>변경</b> 저장됩니다)</div>
+									<div class="tip"><?php echo _t('(찾아보기를 이용하여 사진을 선택하시면 바로 <b>변경</b> 저장됩니다)'); ?></div>
 									<div class="tip">
 										<input type="checkbox" name="imageRemove" id="imageRemove" onclick="uploadImage(this.form, 'delete');" <?php echo $imageRemoveCheck;?> />
 										<label for="imageRemove"><?php echo _t('프로필 사진 초기화');?></label>
@@ -268,19 +268,19 @@ function getImageFileUpload($target){
 		if($type == "upload"){
 			$fileExt=Path::getExtension($file['name']);
 			if(($fileExt!='.gif')&&($fileExt!='.jpg')&&($fileExt!='.png')){
-				$errmsg = "잘못된 파일 형식입니다. 다시 시도하세요";
+				$errmsg = _t('잘못된 파일 형식입니다. 다시 시도하세요');
 				$errcode = 1;
 			}else{
 				$result = getAddAttachment($file);
-				$errmsg = "새로운 프로필 사진을 저장 했습니다.";
+				$errmsg = _t('새로운 프로필 사진을 저장 했습니다.');
 			}
 		}else if($type == "delete"){
 			$tmpImage = DBQuery::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE owner=".getBlogId()." and userid=".getUserId());
 			if($tmpImage){
 				$result = getDeleteAttachment();
-				$errmsg = "등록된 프로필 사진을 삭제 하였습니다.";
+				$errmsg = _t('등록된 프로필 사진을 삭제 하였습니다.');
 			}else{
-				$errmsg = "삭제할 파일이 없습니다. 다시 시도하세요";
+				$errmsg = _t('삭제할 파일이 없습니다. 다시 시도하세요');
 				$errcode = 1;
 			}
 		}
