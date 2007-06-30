@@ -1,0 +1,93 @@
+/* basic setting */
+#part-setting-teams
+{
+
+}
+
+#part-setting-teams .data-inbox
+{
+
+}
+
+#part-setting-teams fieldset
+{
+	margin-bottom                    : 10px !important;
+}
+
+#part-setting-teams dl
+{
+	border-bottom                    : 1px solid #DDDDDD;
+	border-top                       : 1px solid #FFFFFF;
+}
+
+#part-setting-teams dl dt
+{
+	line-height                      : 1.2em;
+	font-weight                      : bold;
+	padding                          : 5px 3px 4px 3px;
+	text-align                       : right;
+	left                             : 0;
+	width                            : 170px;
+}
+
+#part-setting-teams dl dd
+{
+	line-height                      : 1.2em;
+	margin-left                      : 190px;
+	padding                          : 5px 3px 4px 3px;
+}
+
+#part-setting-teams dl dd .input-text
+{
+	border                           : 1px solid #999999;
+	width                            : 300px;
+}
+
+#part-setting-teams dl dd .input-text2
+{
+
+	width                            : 60px;
+	margin-right                     : 1px;
+	height:17px;
+	vertical-align                   : middle;
+}
+
+#part-setting-teams dl dd textarea
+{
+	width                            : 492px;
+}
+*html #part-setting-teams dl dd textarea
+{
+	width                            : 520px;
+}
+
+#part-setting-teams dl dd span
+{
+	margin-right                     : 10px;
+	vertical-align                   : middle;
+}
+
+#part-setting-teams dl dd select
+{
+	margin-right                     : 5px;
+	vertical-align                   : middle;
+}
+
+#part-setting-teams dl dd .teamImage
+{
+	vertical-align                   : middle;
+}
+#part-setting-teams dl dd .tip
+{
+	margin-top                       : 3px;
+}
+
+#part-setting-teams .button-box
+{
+	width                            : 460px;
+}
+
+#part-setting-teams .button-box .input-button
+{
+	margin                           : 4px auto;
+}

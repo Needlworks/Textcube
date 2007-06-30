@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="en">Team Blog Settings</title>
+  <title xml:lang="ko">팀블로그 설정</title>
+  <link>http://needlworks.org/</link>
+  <version>1.630</version>
+  <description xml:lang="en">Team Blog Settings</description>
+  <description xml:lang="ko">팀블로그 설정</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://needlworks.org">Needlworks</author>
+  <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
+  <requirements>
+    <textcube>1.5</textcube>
+  </requirements>
+  <binding>
+  	<tag name="SKIN_head_end" handler="getTeamBlogStyle" />
+	<listener event="ViewPostAuthor">getTeamAuthorStyle</listener>
+	<listener event="ViewPostContent">getTeamProfileView</listener>
+	<listener event="ViewNoticeContent">getTeamProfileView</listener>
+	<listener event="/plugin/teamContentsSave/">getTeamContentsSave</listener>
+	<listener event="/plugin/teamFileUpload/">getImageFileUpload</listener>
+	<listener event="/plugin/teamBlogStyle/">getTeamBlogStyleSet</listener>
+	<config dataValHandler = "getTeamBlog_DataSet" >
+		<window width="500" height="530" />
+		<fieldset legend="Writer profile" >
+			<field title="적용 항목 :" name="postCheck" type="checkbox"  >
+				<op name="p1" value="1" checked="checked"><![CDATA[본문&nbsp;(]]></op>
+				<op name="p2" value="1"><![CDATA[본문 치환자 사용)]]></op>
+				<caption><![CDATA[* 본문용 치환자 : <b>[##_TeamBlogProfileTag_##]</b><br>* 치환자는 사용하는 스킨 skin.html파일에 추가 삽입.]]></caption>
+			</field>
+			<field title="사진 크기 :" name="imageSize" type="text" size="5" value="80" />
+			<field title="테두리 색 :" name="lineColor" type="text" size="10" value="#e3e3e3" />
+		</fieldset>
+		<fieldset legend="Post profile HTML">
+			<field title="# Hearder" name="postHeader" cols="52" rows="1"  type="textarea" titledirection="bk" ><![CDATA[<fieldset><legend>Writer profile</legend>]]></field>
+			<field title="# Footer" name="postFooter" cols="52" rows="1"  type="textarea" titledirection="bk" ><![CDATA[</fieldset>]]></field>
+		</fieldset>
+	</config>
+    <adminMenu>
+      <viewMethods>
+        <method>
+		  <topMenu>setting</topMenu>
+		  <contentMenuOrder>4</contentMenuOrder>
+          <title xml:lang="en">Team Blog Settings</title>
+          <title xml:lang="ko">팀블로그 설정</title>
+          <handler>getTeamBlogSettings</handler>
+        </method>
+      </viewMethods>
+    </adminMenu>
+  </binding>
+  <storage>
+    <table>
+      <name>TeamUserSettings</name>
+      <fields>
+          <field>
+            <name>userid</name>
+			<attribute>int</attribute>
+			<length>11</length>
+			<isnull>0</isnull>
+			<default>1</default>
+          </field>
+          <field>
+            <name>style</name>
+            <attribute>varchar</attribute>
+            <length>255</length>
+            <isnull>1</isnull>
+			<default></default>
+          </field>
+          <field>
+            <name>image</name>
+            <attribute>varchar</attribute>
+            <length>32</length>
+            <isnull>1</isnull>
+			<default></default>
+          </field>
+          <field>
+            <name>profile</name>
+            <attribute>text</attribute>
+            <isnull>1</isnull>
+			<default></default>
+          </field>
+          <field>
+            <name>updated</name>
+            <attribute>int</attribute>
+            <length>11</length>
+            <isnull>0</isnull>
+            <default>0</default>
+          </field>
+      </fields>
+	  <key>userid</key>
+    </table>
+  </storage>
+</plugin>
