@@ -24,9 +24,7 @@
 
 */
 function KeywordUI_bindKeyword($target,$mother) {
-	global $blogURL, $configVal;
-	requireComponent('Textcube.Function.misc');
-	$data = misc::fetchConfigVal($configVal);
+	global $blogURL;
 	$target = "<a class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/" . rawurlencode($target) . "')\">{$target}</a>";
 
 	return $target;
@@ -50,4 +48,12 @@ function KeywordUI_bindTag($target,$mother) {
 	}
 	return $target;
 }
+
+function KeywordUI_handleConfig($data){
+	requireComponent('Textcube.Function.misc');
+	$config = misc::fetchConfigVal($data);
+	if($config['useKeywordAsTag'] == true) misc::setBlogSettingGlobal('useKeywordAsTag',true);
+	return true;
+}
+
 ?>

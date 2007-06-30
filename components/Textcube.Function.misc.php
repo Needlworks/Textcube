@@ -196,57 +196,64 @@ class misc {
 	}
 	
 	function getBlogSetting($name, $default = null) {
-		global $database, $owner;
+		global $database, $blogid;
 		$name = 'plugin_' . $name;
-		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}BlogSettings WHERE blogid = $owner AND name = '".mysql_tt_escape_string($name)."'");
+		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid AND name = '".mysql_tt_escape_string($name)."'");
 		return ($value === null) ? $default : $value;
 	}
 
 	function getBlogSettingGlobal($name, $default = null) {
-		global $database, $owner;
-		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}BlogSettings WHERE blogid = $owner AND name = '".mysql_tt_escape_string($name)."'");
+		global $database, $blogid;
+		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid AND name = '".mysql_tt_escape_string($name)."'");
 		return ($value === null) ? $default : $value;
 	}
 	
 	function setBlogSetting($name, $value) {
-		global $database, $owner;
+		global $database, $blogid;
 		$name = 'plugin_' . $name;
 		$name = mysql_tt_escape_string($name);
 		$value = mysql_tt_escape_string($value);
-		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($owner, '$name', '$value')");
+		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$name', '$value')");
 	}
 	
+	function setBlogSettingGlobal($name, $value) {
+		global $database, $blogid;
+		$name = mysql_tt_escape_string($name);
+		$value = mysql_tt_escape_string($value);
+		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
+	}
+
 	function removeBlogSetting($name) {
-		global $database, $owner;
+		global $database, $blogid;
 		$name = 'plugin_' . $name;
-		return DBQuery::execute("DELETE FROM {$database['prefix']}BlogSettings WHERE blogid = $owner AND name = '".mysql_tt_escape_string($name)."'");
+		return DBQuery::execute("DELETE FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid AND name = '".mysql_tt_escape_string($name)."'");
 	}
 
 	function getUserSetting($name, $default = null) {
-		global $database, $owner;
+		global $database;
 		$name = 'plugin_' . $name;
-		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = $owner AND name = '".mysql_tt_escape_string($name)."'");
+		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = ".getUserId()." AND name = '".mysql_tt_escape_string($name)."'");
 		return ($value === null) ? $default : $value;
 	}
 
 	function getUserSettingGlobal($name, $default = null) {
-		global $database, $owner;
-		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = $owner AND name = '".mysql_tt_escape_string($name)."'");
+		global $database;
+		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = ".getUserId()." AND name = '".mysql_tt_escape_string($name)."'");
 		return ($value === null) ? $default : $value;
 	}
 	
 	function setUserSetting($name, $value) {
-		global $database, $owner;
+		global $database;
 		$name = 'plugin_' . $name;
 		$name = mysql_tt_escape_string($name);
 		$value = mysql_tt_escape_string($value);
-		return DBQuery::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES($owner, '$name', '$value')");
+		return DBQuery::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES(".getUserId().", '$name', '$value')");
 	}
 	
 	function removeUserSetting($name) {
-		global $database, $owner;
+		global $database;
 		$name = 'plugin_' . $name;
-		return DBQuery::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = $owner AND name = '".mysql_tt_escape_string($name)."'");
+		return DBQuery::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = ".getUserId()." AND name = '".mysql_tt_escape_string($name)."'");
 	}
 
 	function getServiceSetting($name, $default = null) {
@@ -271,15 +278,15 @@ class misc {
 	}
 	
 	function getBlogSettingRowsPerPage($default = null) {
-		global $database, $owner;
-		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE user = $owner AND name = 'rowsPerPage'");
+		global $database, $blogid;
+		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}BlogSettings WHERE user = $blogid AND name = 'rowsPerPage'");
 		return ($value === null) ? $default : $value;
 	}
 
 	function setBlogSettingRowsPerPage($value) {
-		global $database, $owner;
+		global $database, $blogid;
 		$value = mysql_tt_escape_string($value);
-		return DBQuery::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES($owner, 'rowsPerPage', '$value')");
+		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, 'rowsPerPage', '$value')");
 	}
 
 	function respondResultPage($error) {

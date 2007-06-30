@@ -13,7 +13,15 @@ if(isset($entries)) {
 			$permalink = "$blogURL/page/{$entry['id']}";
 		else
 			$permalink = "$blogURL/" . ($blog['useSlogan'] ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
-		if ($entry['category'] == - 2) {
+
+		if ($entry['category'] == - 1) { // This is keylog
+			$entryView = $skin->keylogItem;
+			dress('keylog_rep_title', htmlspecialchars(fireEvent('ViewKeylogTitle', $entry['title'], $entry['id'])), $entryView);
+			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
+			$contentContainer["keylog_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], null, 'Keylog');
+			dress('keylog_rep_desc', setTempTag("keylog_{$entry['id']}"), $entryView);
+			$entriesView .= $entryView;
+		} else if ($entry['category'] == - 2) { // This is notice
 			$entryView = $skin->noticeItem;
 			dress('notice_rep_date', fireEvent('ViewNoticeDate', Timestamp::format5($entry['published'])), $entryView);
 			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', $entry['title'], $entry['id'])), $entryView);
@@ -26,6 +34,7 @@ if(isset($entries)) {
 			$contentContainer["notice_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid), 'Notice');
 			dress('notice_rep_desc', setTempTag("notice_{$entry['id']}"), $entryView);
 			$entriesView .= $entryView;
+
 		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
 			$entryView = $skin->entry;
 			dress('tb', getTrackbacksView($entry['id'], $skin, $entry['acceptTrackback']), $entryView);
@@ -95,7 +104,6 @@ if(isset($entries)) {
 			dress('article_rep_tb_cnt_id', "trackbackCount{$entry['id']}", $entryView);
 			list($tempTag, $trackbackView) = getTrackbackCountPart($entry['trackbacks'], $skin);
 			dress($tempTag, $trackbackView, $entryView);
-	
 			$entriesView .= $entryView;
 		} else {
 			$author = User::authorName($blogid,$entry['id']);
@@ -114,5 +122,10 @@ if(isset($entries)) {
 		}
 	}
 }
-dress('article_rep', $entriesView, $view);
+if($isKeylog) {
+	dressInsertBefore('list', $entriesView, $view);
+	$isKeylog = false;
+} else {
+	dress('article_rep', $entriesView, $view);
+}
 ?>

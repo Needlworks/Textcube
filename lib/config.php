@@ -5,7 +5,7 @@
 define('TEXTCUBE_NAME', 'Textcube');
 define('TEXTCUBE_VERSION', '1.5 Beta 1');
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2007. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
-define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.com/');
+define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
 define('TEXTCUBE_SYNC_URL', 'http://ping.eolin.com/');
 define('CRLF', "\r\n");
 define('TAB', "	");

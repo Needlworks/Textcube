@@ -31,6 +31,16 @@ function dress($tag, $value, & $contents) {
 	}
 }
 
+function dressInsertBefore($tag, $value, & $contents) {
+	if (preg_match("@\\[##_{$tag}_##\\]@iU", $contents)) {
+		$tempContents = preg_split("@\\[##_{$tag}_##\\]@iU", $contents, 2);
+		$contents = $tempContents[0].$value.'[##_'.$tag.'_##]'.$tempContents[1];
+		return true;
+	} else {
+		return false;
+	}
+}
+
 function getUpperView($paging) {
 	global $service, $blogURL;
 	ob_start();

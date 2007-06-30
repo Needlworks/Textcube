@@ -59,6 +59,7 @@ function reloadSkin($blogid)
 
 function selectSkin($blogid, $skinName) {
 	global $database, $service;
+	$blogid = getBlogId();
 	if (empty($skinName))
 		return _t('실패했습니다.');
 		
@@ -229,7 +230,7 @@ function getCSSContent($blogid, $file) {
 function setSkinSetting($blogid, $setting) {
 	global $database;
 	global $skinSetting;
-
+	$blogid = getBlogId();
 	if (strncmp($skinSetting['skin'], 'customize/', 10) == 0) {
 		if (strcmp($skinSetting['skin'], "customize/$blogid") != 0)
 			return false;
@@ -277,16 +278,8 @@ function setSkinSetting($blogid, $setting) {
 	} else {
 		return false;
 	}
-	$sql = "
-	UPDATE {$database['prefix']}BlogSettings 
-	SET 
-		entriesOnPage 			= '{$setting['entriesOnPage']}',
-		entriesOnList 			= '{$setting['entriesOnList']}'
-	WHERE owner = $blogid ";
-	if ((update($sql) > - 1) && (setBlogSetting('useRelTag',$useRelTag))) {
-		return true;
-	} else {
-		return false;
-	}
+	setBlogSetting('entriesOnPage',$setting['entriesOnPage']);
+	setBlogSetting('entriesOnList',$setting['entriesOnList']);
+	return true;
 }
 ?>

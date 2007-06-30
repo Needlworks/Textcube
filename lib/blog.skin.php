@@ -173,6 +173,7 @@ class Skin {
 		list($sval, $this->keywordGroup) = $this->cutSkinTag($sval, 'keyword_date_rep');
 		list($sval, $this->keyword) = $this->cutSkinTag($sval, 'keyword');
 		list($sval, $this->noticeItem) = $this->cutSkinTag($sval, 'notice_rep');
+		list($sval, $this->keylogItem) = $this->cutSkinTag($sval, 'keylog_rep');
 		list($sval, $this->recentNoticeItem) = $this->cutSkinTag($sval, 'rct_notice_rep');
 		list($sval, $this->recentNotice) = $this->cutSkinTag($sval, 'rct_notice');
 		list($sval, $this->locativeEntry) = $this->cutSkinTag($sval, 'local_info_rep');
