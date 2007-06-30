@@ -125,7 +125,7 @@ if(isset($entries)) {
 		}
 	}
 }
-if($isKeylog) {
+if(isset($isKeylog) && $isKeylog) {
 	dressInsertBefore('list', $entriesView, $view);
 	$isKeylog = false;
 } else {
