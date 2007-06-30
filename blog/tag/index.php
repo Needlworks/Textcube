@@ -13,9 +13,11 @@ if (strlen($suri['value'])) {
 	require ROOT . '/lib/piece/blog/begin.php';
 	if(getBlogSetting('useKeywordAsTag',true)==true){
 		$entries = getKeylog(getBlogId(), $suri['value']);
-		$isKeylog = true;	//Used to tell to the entry interpreter that this is keylog
-		require ROOT . '/lib/piece/blog/entries.php';
-		unset($entries);
+		if(isset($entries)) {
+			$isKeylog = true;	//Used to tell to the entry interpreter that this is keylog
+			require ROOT . '/lib/piece/blog/entries.php';
+			unset($entries);
+		}
 	}
 	
 	if ($skinSetting['showListOnTag'] != 0) {
