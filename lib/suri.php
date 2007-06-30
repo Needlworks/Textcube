@@ -2,7 +2,11 @@
 /// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-$url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'];
+
+$url = $_SERVER['REQUEST_URI'];
+if (($url_fix_pos=strpos($url, '?', 1))!==false) $url = substr($url, 0, $url_fix_pos);
+//$url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'];
+
 $suri = array('url' => $url, 'value' => '');
 $blogid = null;
 $depth = substr_count($service['path'], '/');
@@ -62,6 +66,9 @@ if ($depth > 0) {
 }
 if (is_numeric($suri['value']))
 	$suri['id'] = $suri['value'];
+else
+	$suri['value'] = urldecode($suri['value']);
+	
 $suri['page'] = empty($_POST['page']) ? (empty($_GET['page']) ? true : $_GET['page']) : $_POST['page'];
 
 if (!isset($serviceURL))
