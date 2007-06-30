@@ -16,10 +16,12 @@ if(isset($entries)) {
 
 		if ($entry['category'] == - 1) { // This is keylog
 			$entryView = $skin->keylogItem;
+			dress('keylog_rep_date', fireEvent('ViewKeylogDate', Timestamp::format5($entry['published'])), $entryView);
 			dress('keylog_rep_title', htmlspecialchars(fireEvent('ViewKeylogTitle', $entry['title'], $entry['id'])), $entryView);
 			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
 			$contentContainer["keylog_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], null, 'Keylog');
 			dress('keylog_rep_desc', setTempTag("keylog_{$entry['id']}"), $entryView);
+			dress('keylog_rep_author', User::authorName($blogid, $entry['id']), $entryView);
 			$entriesView .= $entryView;
 		} else if ($entry['category'] == - 2) { // This is notice
 			$entryView = $skin->noticeItem;
@@ -33,6 +35,7 @@ if(isset($entries)) {
 			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
 			$contentContainer["notice_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid), 'Notice');
 			dress('notice_rep_desc', setTempTag("notice_{$entry['id']}"), $entryView);
+			dress('notice_rep_author', User::authorName($blogid, $entry['id']), $entryView);
 			$entriesView .= $entryView;
 
 		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
