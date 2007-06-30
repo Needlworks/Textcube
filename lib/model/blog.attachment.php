@@ -108,6 +108,7 @@ function addAttachment($blogid, $parent, $file) {
 
 function deleteAttachment($blogid, $parent, $name) {
 	global $database;
+	requireModel('blog.rss');
 	if (!Validator::filename($name)) 
 		return false;
 	$origname = $name;
@@ -121,6 +122,7 @@ function deleteAttachment($blogid, $parent, $name) {
 }
 
 function deleteTotalAttachment($userid) {
+	requireModel('blog.rss');
 	$d = dir(ROOT."/attach/$userid");
 	while($file = $d->read()) {
 		if(is_file(ROOT."/attach/$userid/$file"))
@@ -133,6 +135,7 @@ function deleteTotalAttachment($userid) {
 
 function deleteAttachmentMulti($blogid, $parent, $names) {
 	global $database;
+	requireModel('blog.rss');
 	$files = explode('!^|', $names);
 	foreach ($files as $name) {
 		if ($name == '')
@@ -159,6 +162,7 @@ function deleteAttachments($blogid, $parent) {
 }
 
 function downloadAttachment($name) {
+	requireModel('blog.rss');
 	global $database;
 	$name = mysql_tt_escape_string($name);
 	DBQuery::query("UPDATE {$database['prefix']}Attachments SET downloads = downloads + 1 WHERE owner = ".getBlogId()." AND name = '$name'");
