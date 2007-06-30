@@ -15,14 +15,22 @@ body
 	
 	margin                           : 150px auto 0 auto;
 	position                         : relative;
-	width                            : 520px;
+	width                            : 560px;
 }
 
 #logo-box
 {
-	left                             : 0;
+	left                             : 65px;
 	position                         : absolute;
-	top                              : 15px;
+	top                              : 30px;
+}
+
+#login-box
+{
+	/*background-image                 : url("./image/logo_textcube_mirror.png");
+	background-position              : 55px 167px;
+	background-repeat                : no-repeat;
+	height                           : 300px;*/
 }
 
 #field-box
@@ -81,7 +89,7 @@ dd .input-text
 	height                           : 3em;
 	line-height                      : 3em;
 	position                         : absolute;
-	right                            : -25px;
+	right                            : 15px;
 	top                              : 153px;
 	width                            : 74px;
 }
