@@ -44,10 +44,9 @@ class User {
 		// Read userId of entry from relation table.
 		$userId = getUserIdOfEntry($owner,$entryId);
 		if(isset($userId)) {
-			$author = DBQuery::queryCell("SELECT profile
-					FROM {$database['prefix']}Teamblog
-					WHERE blogid=".$owner."
-						AND userid = ".$userId);
+			$author = DBQuery::queryCell("SELECT name
+					FROM {$database['prefix']}Users
+					WHERE userid = ".$userId);
 			return $author;
 		} else {
 			return false;
