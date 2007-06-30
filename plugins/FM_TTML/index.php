@@ -127,6 +127,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 	$view = str_replace('http://tt_attach_path/', ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$owner/" : ($folderURL . '/')), $view);
 	$count = 0;
 	$bWritedGalleryJS = false;
+	
 	while ((($start = strpos($view, '[##_')) !== false) && (($end = strpos($view, '_##]', $start + 4)) !== false)) {
 		$count++;
 		$attributes = explode('|', substr($view, $start + 4, $end - $start - 4));
@@ -135,7 +136,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 		if ($attributes[0] == 'Gallery') {
 			if (count($attributes) % 2 == 1)
 				array_pop($attributes);
-			if (defined('__TEXTCUBE_MOBILE__') || ($bRssMode == true)) {
+			if (defined('__TEXTCUBE_MOBILE__')) {
 				$images = array_slice($attributes, 1, count($attributes) - 2);
 				for ($i = 0; $i < count($images); $i++) {
 					if (!empty($images[$i])) {
@@ -145,13 +146,62 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 							$buf .= "<div align=\"center\">$images[$i]</div>";
 					}
 				}
-			} else {
-				$id = "gallery$entryId$count";
-				$cssId = "tt-gallery-$entryId-$count";
+			} else if ($bRssMode == true) {
 				$items = array();
 				for ($i = 1; $i < sizeof($attributes) - 2; $i += 2)
 					array_push($items, array($attributes[$i], $attributes[$i + 1]));
 				$galleryAttributes = getAttributesFromString($attributes[sizeof($attributes) - 1]);
+				
+				$images = array_slice($attributes, 1, count($attributes) - 2);
+				for ($i = 0; $i < count($images); $i++) {
+					if (!empty($images[$i])) {
+						if ($i % 2 == 0) {
+							$setWidth = $setHeight = 0;
+							if (list($width, $height) = @getimagesize("$folderPath/{$images[$i]}")) {
+								
+								$setWidth = $width;
+								$setHeight = $height;
+								if (isset($galleryAttributes['width']) && $galleryAttributes['width'] < $setWidth) {
+									$setHeight = $setHeight * $galleryAttributes['width'] / $setWidth;
+									$setWidth = $galleryAttributes['width'];
+								}
+								if (isset($galleryAttributes['height']) && $galleryAttributes['height'] < $setHeight) {
+									$setWidth = $setWidth * $galleryAttributes['height'] / $setHeight;
+									$setHeight = $galleryAttributes['height'];
+								}
+								
+								if (intval($setWidth > 0) && intval($setHeight) > 0)
+									$tempProperty = 'width="' . intval($setWidth) . '" height="' . intval($setHeight) . '"';
+								else
+									$tempProperty = '';
+								
+								$buf .= '<div align="center">' . FM_TTML_getAttachmentBinder($images[$i], $tempProperty, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . '</div>';
+							}
+						} else if (strlen($images[$i]) > 0) {
+							$buf .= "<div align=\"center\">{$images[$i]}</div>";
+						}
+					}
+				}
+			} else {
+				$id = "gallery$entryId$count";
+				$cssId = "tt-gallery-$entryId-$count";
+				$contentWidth = getContentWidth();
+				
+				$items = array();
+				for ($i = 1; $i < sizeof($attributes) - 2; $i += 2)
+					array_push($items, array($attributes[$i], $attributes[$i + 1]));
+				$galleryAttributes = getAttributesFromString($attributes[sizeof($attributes) - 1]);
+				
+				if (!isset($galleryAttributes['width']))
+					$galleryAttributes['width'] = $contentWidth;
+				if (!isset($galleryAttributes['height']))
+					$galleryAttributes['height'] = 3/4 * $galleryAttributes['width'];
+				
+				if ($galleryAttributes['width'] > $contentWidth) {
+					$galleryAttributes['height'] = $galleryAttributes['height'] * $contentWidth / $galleryAttributes['width'];
+					$galleryAttributes['width'] = $contentWidth;
+				}
+				
 				if (($useAbsolutePath == true) && ($bWritedGalleryJS == false)) {
 					$bWritedGalleryJS = true;
 					$buf .= printScript('gallery.js');
@@ -160,9 +210,9 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				$buf .= '	<script type="text/javascript">' . CRLF;
 				$buf .= '		//<![CDATA[' . CRLF;
 				$buf .= "			var {$id} = new TTGallery(\"{$cssId}\");" . CRLF;
-				$buf .= "			{$id}.prevText = \"" . _text('이전 이미지 보기 버튼') . "\"; " . CRLF;
-				$buf .= "			{$id}.nextText = \"" . _text('다음 이미지 보기 버튼') . "\"; " . CRLF;
-				$buf .= "			{$id}.enlargeText = \"" . _text('원본 크기로 보기 버튼') . "\"; " . CRLF;
+				$buf .= "			{$id}.prevText = \"" . _text('이전 이미지 보기') . "\"; " . CRLF;
+				$buf .= "			{$id}.nextText = \"" . _text('다음 이미지 보기') . "\"; " . CRLF;
+				$buf .= "			{$id}.enlargeText = \"" . _text('원본 크기로 보기') . "\"; " . CRLF;
 				$buf .= "			{$id}.altText = \"" . _text('갤러리 이미지') . "\"; " . CRLF;
 
 				foreach ($items as $item) {
