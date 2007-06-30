@@ -36,9 +36,8 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 										</thead>
 										<tbody>
-<!--										<tr><td class="id"><a href="http://gendoh.tistory.com">gendoh</a></td><td class="name">Sang-il, Lee</td></tr>
+										<tr><td class="id"><a href="http://gendoh.tistory.com">gendoh</a></td><td class="name">Sang-il, Lee</td></tr>
 											<tr><td class="id"><a href="http://inureyes.tistory.com">inureyes</a></td><td class="name">Jeongkyu Shin</td></tr>
-											<tr><td class="id"><a href="http://papacha.net">papacha</a></td><td class="name">Sunju Jahng</td></tr>-->
 										</tbody>
 									</table>
 								</div>
@@ -58,15 +57,10 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 										</thead>
 										<tbody>
-<!--										<tr>
+										<tr>
 												<td class="id"><a href="http://coolengineer.com/">coolengineer</a></td>
 												<td class="name">Hojin Choi</td>
-												<td class="role"><?php echo _t('XML-RPC API interface');?></td>
-											</tr>
-											<tr>
-												<td class="id"><a href="http://crizin.net">crizin</a></td>
-												<td class="name">JaeYong Lee</td>
-												<td class="role"><?php echo _t('reader / editor');?></td>
+												<td class="role"><?php echo _t('ACO / ACL / i18n / XML-RPC API interface / OpenID');?></td>
 											</tr>
 											<tr>
 												<td class="id"><a href="http://daybreaker.info">daybreaker</a></td>
@@ -74,50 +68,20 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="role"><?php echo _t('xhtml specification / quality assurance');?></td>
 											</tr>
 											<tr>
-												<td class="id"><a href="http://egoing.net">egoing</a></td>
-												<td class="name">Kim tae kyong</td>
-												<td class="role"><?php echo _t('imazing / owner function');?></td>
-											</tr>
-											<tr>
-												<td class="id"><a href="http://gendoh.tistory.com">gendoh</a></td>
-												<td class="name">Sang-il, Lee</td>
-												<td class="role"><?php echo _t('security / EAS / quality assurance');?></td>
-											</tr>
-											<tr>
-												<td class="id"><span class="text">ghost_ghost</span></td>
-												<td class="name">&nbsp;</td>
-												<td class="role"><?php echo _t('plugin setting / xml schema');?></td>
-											</tr>
-											<tr>
 												<td class="id"><span class="text">graphittie</span></td>
 												<td class="name">&nbsp;</td>
 												<td class="role"><?php echo _t('UI / sidebar / xhtml specification');?></td>
 											</tr>
 											<tr>
-												<td class="id"><a href="http://inureyes.tistory.com">inureyes</a></td>
+												<td class="id"><a href="http://forest.nubimaru.com">inureyes</a></td>
 												<td class="name">Jeongkyu Shin</td>
-												<td class="role"><?php echo _t('function addition / bug tracking / DB management / documentation');?></td>
+												<td class="role"><?php echo _t('core / DB management / bug tracking / documentation');?></td>
 											</tr>
 											<tr>
-												<td class="id"><a href="http://plyfly.net">leezche</a></td>
-												<td class="name">Leezche Lee</td>
-												<td class="role"><?php echo _t('skin');?></td>
+												<td class="id"><a href="http://www.create74.com">J.Parker</a></td>
+												<td class="name">Yong-ju, Park</td>
+												<td class="role"><?php echo _t('teamblog / plugin');?></td>
 											</tr>
-											<tr>
-												<td class="id"><a href="http://sangsangbox.net">nani</a></td>
-												<td class="name">Jonggil Ko</td>
-												<td class="role"><?php echo _t('skin');?></td>
-											</tr>
-											<tr>
-												<td class="id"><a href="http://papacha.net">papacha</a></td>
-												<td class="name">Sunju Jahng</td>
-												<td class="role"><?php echo _t('library / component / quality assurance');?></td>
-											</tr>
-											<tr>
-												<td class="id"><a href="mailto:cshlacid@gmail.com">peris</a></td>
-												<td class="name">Sang-hoon Choi</td>
-												<td class="role"><?php echo _t('plugin architecture');?></td>
-											</tr>-->
 										</tbody>
 									</table>
 								</div>
@@ -139,14 +103,9 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 										</thead>
 										<tbody>
-<!--										<tr>
+										<tr>
 												<td class="id"><a href="mailto:seikanet@gmail.com">Louice P.</a></td>
 												<td class="name">Sangjib Choi</td>
-												<td class="role"><?php echo _t('Japanese');?></td>
-											</tr>
-											<tr>
-												<td class="id"><a href="http://nekoto.poporu.net">!Nazu NT</a></td>
-												<td class="name">Ha-neul Seo</td>
 												<td class="role"><?php echo _t('Japanese');?></td>
 											</tr>
 											<tr>
@@ -163,7 +122,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="id"><a href="http://memoriesreloaded.net">CK</a></td>
 												<td class="name">CK</td>
 												<td class="role"><?php echo _t('English');?></td>
-											</tr>-->
+											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -185,7 +144,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 										</thead>
 										<tbody>
-<!--										<tr>
+											<tr>
 												<td class="id"><a href="http://www.create74.com">J.Parker</a></td>
 												<td class="name">Yong-ju, Park</td>
 												<td class="role"><?php echo _t('plugin');?></td>
@@ -204,7 +163,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="id"><a href="http://lunamoth.biz">lunamoth</a></td>
 												<td class="name"></td>
 												<td class="role"><?php echo _t('manual');?></td>
-											</tr>-->
+											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -215,22 +174,24 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								
 								<div id="contributor-container" class="container">
 									<h4><?php echo _t('Code Contributor');?></h4>
-<!--									
+									
 									<p>
 									<a href="http://barosl.com/blog">랜덤여신</a>,
+									<a href="http://blog.laco.pe.kr">lacovnk</a>,
 									<a href="http://www.mcfuture.net">McFuture</a>,
 									<a href="http://laziel.com">laziel</a>,
 									<a href="http://tokigun.net">tokigun</a>,
 									<a href="http://story.isloco.com">linus</a>,
 									<a href="http://nya.pe.kr">NYA</a>,
-									<a href="http://www.yangkun.pe.kr">희망이아빠</a>
-									</p>-->
+									<a href="http://www.yangkun.pe.kr">희망이아빠</a>,
+									<a href="#">우수한</a>
+									</p>
 								</div>
 								
 								<div id="reporter-container" class="container">
 									<h4><?php echo _t('Reporter');?></h4>
-<!--									
-									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, 티즈, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis, leokim, diasozo, Ikaris C. Faust, DARKLiCH, 주성애비, dikafryo, 이일환, Chiri, htna, Milfy, filmstyle, citta, 날개달기</p>-->
+									
+									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, 티즈, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis, leokim, diasozo, Ikaris C. Faust, DARKLiCH, 주성애비, dikafryo, 이일환, Chiri, htna, Milfy, filmstyle, citta, 날개달기, vampelf</p>
 								</div>
 							</div>
 						</div>
