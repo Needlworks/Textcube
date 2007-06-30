@@ -11,7 +11,7 @@ if (strlen($suri['value'])) {
 	$tag = getTagId($owner, $suri['value']);
 	
 	require ROOT . '/lib/piece/blog/begin.php';
-	if(getBlogSetting('useKeywordAsTag')==true){
+	if(getBlogSetting('useKeywordAsTag',true)==true){
 		$entries = getKeylog(getBlogId(), $suri['value']);
 		$isKeylog = true;	//Used to tell to the entry interpreter that this is keylog
 		require ROOT . '/lib/piece/blog/entries.php';
