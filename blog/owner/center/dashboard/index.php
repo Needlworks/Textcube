@@ -122,44 +122,63 @@ if (isset($_REQUEST['edit'])) {
 <script src="<?php echo $service['path'];?>/script/dashboard.js" type="text/javascript"></script>
 <?php
 }
-
-if (!file_exists(ROOT . '/cache/CHECKUP')) {
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
+								function changeList() {
+									document.getElementById("tempForm").submit();
+								}
+<?php
+if (!file_exists(ROOT . '/cache/CHECKUP')) {
+?>
+								
 								window.addEventListener("load", checkTextcubeVersion, false);
 								function checkTextcubeVersion() {
 									if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
 										window.location.href = "<?php echo $blogURL;?>/checkup";
 								}
-							//]]>
-						</script>
 <?php
 } else if (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION) {
 ?>
-						<script type="text/javascript">
-							//<![CDATA[
+								
 								window.addEventListener("load", checkTextcubeVersion, false);
 								function checkTextcubeVersion() {
 									if (confirm("<?php echo _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
 										window.location.href = "<?php echo $blogURL;?>/checkup";
 								}
+<?php
+}
+?>
 							//]]>
 						</script>
 <?php
-}
-
 if (false) {
 	fetchConfigVal();
 }
 ?>	
-						<form method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
+						<form id="tempForm" method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
 <?php
-$textcubeDashboard = getBlogSetting("textcubeDashboard");
-if (is_null($textcubeDashboard)) {
-	setBlogSetting("textcubeDashboard", 1);
-	$textcubeDashboard = 1;
+if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useTTdashboard']))) {
+	$textcubeDashboard = getBlogSetting("textcubeDashboard");
+	if (is_null($textcubeDashboard)) {
+		setBlogSetting("textcubeDashboard", 1);
+		$textcubeDashboard = 1;
+	} else {
+		setBlogSetting("textcubeDashboard", 0);
+		$textcubeDashboard = 0;
+	}
+} else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		setBlogSetting("textcubeDashboard", 1);
+		$textcubeDashboard = 1;
+} else {
+	$textcubeDashboard = getBlogSetting("textcubeDashboard");
 }
+
+//$textcubeDashboard = getBlogSetting("textcubeDashboard");
+//if (is_null($textcubeDashboard)) {
+//	setBlogSetting("textcubeDashboard", 1);
+//	$textcubeDashboard = 1;
+//}
 
 if($textcubeDashboard) {
 	if (!isset($_REQUEST['edit'])) {
@@ -408,7 +427,26 @@ if($textcubeDashboard) {
 
 							<div id="part-center-quilt<?php echo $editClass;?>" class="part">
 								<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
-									
+								
+<?php
+if (!isset($_REQUEST['edit'])) {
+?>
+								<dl id="independent-notice-line" class="line">
+									<dt><?php echo _t('독립패널 설정');?></dt>
+									<dd>
+										<input type="checkbox" class="checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="changeList()"<?php echo $textcubeDashboard == 1 ? " checked" : NULL;?> />
+										<label for="useTTdashboard"><?php echo _t('독립 패널을 표시합니다');?></label>
+									</dd>
+								</dl>
+<?php
+}
+?>
+								<dl id="direct-link-line" class="line">
+									<dt><?php echo _t('플러그인 설정');?></dt>
+									<dd>
+										<a class="button" href="<?php echo $blogURL;?>/owner/plugin?visibility=center"><?php echo _t('플러그인 설정 페이지로 바로가기');?></a>
+									</dd>
+								</dl>
 <?php
 $boardbarNumber = 0;
 $positionCounter = 0;

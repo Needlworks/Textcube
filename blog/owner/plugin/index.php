@@ -363,6 +363,21 @@ if (defined('__TAB_BLOG__')) {
 										<input type="radio" class="radio" id="descend-sorting" name="sortType" value="descend" onclick="changeList(this)"<?php echo $selectedSort == 'descend' ? ' checked="checked"' : '';?> /><label for="descend-sorting"><?php echo _t('내림차순');?></label>
 									</dd>
 								</dl>
+								
+<?php
+if (defined('__TAB_CENTER__') || defined('__TAB_METAPAGE__')) {
+	$text = defined('__TAB_CENTER__') ? _t('센터로 바로 가기') : _t('메타 페이지로 바로가기');
+	$link = defined('__TAB_CENTER__') ? $blogURL . '/owner/center/dashboard' : $blogURL . '/owner/center/metapage';
+?>
+								<dl id="direct-link-line" class="line">
+									<dt><?php echo _t('메인 화면으로 이동');?></dt>
+									<dd>
+										<a class="button" href="<?php echo $link;?>"><?php echo $text;?></a>
+									</dd>
+								</dl>
+<?php
+}
+?>
 							</fieldset>
 							
 							<div id="temp-box">

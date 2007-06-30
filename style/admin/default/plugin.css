@@ -100,6 +100,24 @@
 	top                              : 6.5em;
 }
 
+#direct-link-line dt
+{
+	display: none;
+}
+
+#direct-link-line dd
+{
+	border-width: 3px !important;
+}
+
+#direct-link-line dd .button
+{
+	background-image                 : url('./image/img_link_bullet2.jpg');
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	padding-left                     : 15px;
+}
+
 #temp-box
 {
 	margin-left                      : 225px;

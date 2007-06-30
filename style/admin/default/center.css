@@ -520,6 +520,38 @@
 	text-align                       : left;
 }
 
+#independent-notice-line
+{
+	margin: -37px 10px 0 0;
+}
+
+#independent-notice-line dt, #direct-link-line dt
+{
+	display: none;
+}
+
+#direct-link-line
+{
+	margin: 20px 10px;
+	text-align: right;	
+}
+
+#direct-link-line dd
+{
+	border                           : 3px solid #EFEFEF;
+	display: inline;
+	padding: 10px;
+	text-align: right;
+}
+
+#direct-link-line dd .button
+{
+	background-image                 : url('./image/img_link_bullet.jpg');
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	padding-right                    : 15px;
+}
+
 /* Setting ***************************************************************************************/
 
 #part-center-plugins
