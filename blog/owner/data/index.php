@@ -280,7 +280,7 @@ if (getUserId() == 1) {
 									<div class="title"><?php echo _t('IMPORT');?></div>
 								</div>
 								<p class="explain">
-									<?php echo _t('백업파일을 읽어서 데이터를 복원합니다.<br />백업파일에 첨부파일이 포함되어 있으면 첨부파일도 자동으로 복원됩니다.<br />마이그레이션 데이터도 복원을 통해 가져올 수 있습니다.');?>
+									<?php echo _t('백업파일을 읽어서 데이터를 복원합니다.<br />백업파일에 첨부파일이 포함되어 있으면 첨부파일도 자동으로 복원됩니다.<br />이전 버전으로부터의 데이터도 복원을 통해 가져올 수 있습니다.');?>
 								</p>
 							</div>
 							<div id="DBImportDialog" class="dialog" style="position: absolute; display: none; z-index: 100;">

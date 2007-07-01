@@ -338,7 +338,7 @@ if ($service['type'] != 'single') {
 						</script>
 						
 						<div id="part-setting-basic" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 기본 정보를 설정합니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('블로그의 기본 정보를 설정합니다');?></span></h2>
 							
 							<div class="data-inbox">
 								<form id="common-form" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/blog/title">

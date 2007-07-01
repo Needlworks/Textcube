@@ -215,7 +215,7 @@ getBlogContentForSideBar();
 							<h2 class="caption"><span class="main-text"><?php echo _t('사이드바 기능을 관리합니다');?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('블로그의 사이드바 구성을 변경할 수 있습니다. 사이드바에 새로운 요소를 추가/삭제할 수 있으며 자유로운 위치 이동을 할 수 있습니다.');?></p>
+								<p class="explain"><?php echo _t('블로그의 사이드바 구성을 변경할 수 있습니다. 사이드바는 블로그 화면에서 양 옆이나 위아래에 표시되는 메뉴가 있는 부분을 말합니다. 사이드바에 새로운 요소를 추가/삭제할 수 있으며 자유로운 위치 이동을 할 수 있습니다.');?></p>
 							</div>
 							
 <?php
@@ -489,7 +489,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 							</div>
 							
 							<p id="sidebar-description" class="pseudo-clear">
-								<em>* <?php echo _t('복수의 사이드바 사용시 사이드바의 위치는 스킨의 구조에 따라 달라집니다.');?></em>
+								<em>* <?php echo _t('여러개의 사이드바 사용시 사이드바의 위치는 스킨의 구조에 따라 달라집니다.');?></em>
 							</p>
 						</form>
 						
