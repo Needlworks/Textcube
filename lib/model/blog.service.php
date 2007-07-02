@@ -93,7 +93,8 @@ function getSkinSetting($blogid) {
 }
 
 function getDefaultURL($blogid) {
-	global $database, $service, $blog;
+	global $database, $service;
+	$blog = getBlogSettings( $blogid );
 	switch ($service['type']) {
 		case 'domain':
 			if ($blog['defaultDomain'] && $blog['secondaryDomain'])
