@@ -13,7 +13,7 @@ $IV = array (
 		);
 
 require ROOT . '/lib/includeForBlogOwner.php';
-require("blog.trash");
+requireModel("blog.trash");
 
 requireStrictRoute();
 
