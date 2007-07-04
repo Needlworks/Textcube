@@ -15,13 +15,13 @@ if ($skinSetting['showListOnCategory'] != 0) {
 		$listWithPaging = array(array(), array('total' => 0));
 	$list = array('title' => (empty($suri['value']) ? _t('전체') : $suri['value']), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
+	require ROOT . '/lib/piece/blog/list.php';
 }
 $entries = array();
-if ($skinSetting['showListOnCategory'] != 2)
+if ($skinSetting['showListOnCategory'] != 2) {
 	list($entries, $paging) = getEntriesWithPagingByCategory($owner, $category, $suri['page'], $blog['entriesOnList'], ($skinSetting['showListOnCategory'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
-
+	require ROOT . '/lib/piece/blog/entries.php';
+}
 require ROOT . '/lib/piece/blog/begin.php';
-require ROOT . '/lib/piece/blog/list.php';
-require ROOT . '/lib/piece/blog/entries.php';
 require ROOT . '/lib/piece/blog/end.php';
 ?>
