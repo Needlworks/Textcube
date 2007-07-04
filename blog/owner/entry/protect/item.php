@@ -9,6 +9,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel("blog.entry");
 requireStrictRoute();
 respondResultPage(protectEntry($suri['id'], isset($_POST['password']) ? $_POST['password'] : ''));
 ?>
