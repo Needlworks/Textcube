@@ -4,6 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 $blogid = getBlogId();
+requireModel('blog.statistics');
 
 updateVisitorStatistics($blogid);
 $stats = getStatistics($blogid);

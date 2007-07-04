@@ -22,6 +22,7 @@ function getEntries($blogid, $attributes = '*', $condition = false, $order = 'pu
 
 function getEntry($blogid, $id, $draft = false) {
 	global $database;
+	requireModel('blog.attachment');
 	if ($id == 0) {
 		if ($draft) {
 			if (!$id = getDraftEntryId())
@@ -30,11 +31,27 @@ function getEntry($blogid, $id, $draft = false) {
 			if (!doesHaveOwnership())
 				return;
 			deleteAttachments($blogid, 0);
-			return array('id' => 0, 'userid' => 0, 'draft' => 0, 'visibility' => 0, 'category' => 0, 'location' => '', 'title' => '', 'content' => '', 'contentFormatter' => getDefaultFormatter(), 'contentEditor' => getDefaultEditor(), 'acceptComment' => 1, 'acceptTrackback' => 1, 'published' => time(), 'slogan' => '');
+			return array('id'    => 0, 
+					'userid'     => 0, 
+					'draft'      => 0, 
+					'visibility' => 0, 
+					'category'   => 0, 
+					'location'   => '', 
+					'title'      => '', 
+					'content'    => '', 
+					'contentFormatter' => getDefaultFormatter(), 
+					'contentEditor'    => getDefaultEditor(), 
+					'acceptComment'    => 1, 
+					'acceptTrackback'  => 1, 
+					'published'  => time(), 
+					'slogan'     => '');
 		}
 	}
 	if ($draft) {
-		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $id AND draft = 1");
+		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries 
+				WHERE owner = $blogid 
+					AND id = $id 
+					AND draft = 1");
 		if (!$entry)
 			return;
 		if ($entry['published'] == 1)
@@ -42,11 +59,15 @@ function getEntry($blogid, $id, $draft = false) {
 		else if ($entry['published'] != 0)
 			$entry['appointed'] = $entry['published'];
 		if ($id != 0)
-			$entry['published'] = DBQuery::queryCell("SELECT published FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $id AND draft = 0");
+			$entry['published'] = DBQuery::queryCell("SELECT published 
+					FROM {$database['prefix']}Entries 
+					WHERE owner = $blogid AND id = $id AND draft = 0");
 		return $entry;
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $id AND draft = 0 $visibility");
+		$entry = DBQuery::queryRow("SELECT * 
+				FROM {$database['prefix']}Entries 
+				WHERE owner = $blogid AND id = $id AND draft = 0 $visibility");
 		if (!$entry)
 			return;
 		if ($entry['visibility'] < 0)

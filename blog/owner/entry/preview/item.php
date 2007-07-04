@@ -3,14 +3,15 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/lib/includeForBlog.php';
+requireModel('blog.entry');
 $entries = array();
-if (!$entry = getEntry($owner, $suri['id'], true))
-	$entry = getEntry($owner, $suri['id'], false);
+if (!$entry = getEntry($blogid, $suri['id'], true))
+	$entry = getEntry($blogid, $suri['id'], false);
 if ($entry && ($entry['category'] >= 0)) {
 	if (isset($entry['appointed']))
 		$entry['published'] = $entry['appointed'];
-	$entry['categoryLabel'] = getCategoryLabelById($owner, $entry['category']);
+	$entry['categoryLabel'] = getCategoryLabelById($blogid, $entry['category']);
 	$entries[0] = $entry;
 }
 unset($entry);

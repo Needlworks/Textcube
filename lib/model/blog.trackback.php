@@ -9,7 +9,11 @@ function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search
 	global $database;
 	
 	$postfix = '';
-	$sql = "SELECT t.*, c.name categoryName FROM {$database['prefix']}Trackbacks t LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Categories c ON t.owner = c.owner AND e.category = c.id WHERE t.owner = $blogid AND t.isFiltered = 0";
+	$sql = "SELECT t.*, c.name categoryName 
+		FROM {$database['prefix']}Trackbacks t 
+		LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id AND e.draft = 0 
+		LEFT JOIN {$database['prefix']}Categories c ON t.owner = c.owner AND e.category = c.id 
+		WHERE t.owner = $blogid AND t.isFiltered = 0";
 	if ($category > 0) {
 		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $blogid AND parent = $category");
 		array_push($categories, $category);
@@ -41,7 +45,12 @@ function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search
 function getTrackbacks($entry) {
 	global $database;
 	$trackbacks = array();
-	$result = DBQuery::query("select * from {$database['prefix']}Trackbacks where owner = ".getBlogId()." AND entry = $entry AND isFiltered = 0 order by written");
+	$result = DBQuery::query("select * 
+			from {$database['prefix']}Trackbacks 
+			where owner = ".getBlogId()." 
+				AND entry = $entry 
+				AND isFiltered = 0 
+			order by written");
 	while ($trackback = mysql_fetch_array($result))
 		array_push($trackbacks, $trackback);
 	return $trackbacks;
