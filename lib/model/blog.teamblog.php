@@ -84,7 +84,7 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 				return 12;
 			}
 		}
-		$result=DBQuery::query("INSERT INTO `{$database['prefix']}SkinSettings` (owner, skin) VALUES ($id, '{$service['skin']}')");
+		$result=DBQuery::query("INSERT INTO `{$database['prefix']}SkinSettings` (blogid, skin) VALUES ($id, '{$service['skin']}')");
 		if(!$result||(mysql_affected_rows()==0)){
 			DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
 			DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $id");
@@ -94,14 +94,14 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 		if(!$result||(mysql_affected_rows()==0)){
 			DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
 			DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $id");
-			DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $id");
+			DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $id");
 			return 62;
 		}
 		$result=DBQuery::query("INSERT INTO `{$database['prefix']}FeedGroups` (owner, id) VALUES ($id, 0)");
 		if(!$result||(mysql_affected_rows()==0)){
 			DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
 			DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $id");
-			DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $id");
+			DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $id");
 			DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $id");
 			return 62;
 		}
@@ -128,7 +128,7 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 		if(empty($isold)){  // If user is just added, delete user information.
 			DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
 			DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $id");
-			DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $id");
+			DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $id");
 			DBQuery::query("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $id");
 			DBQuery::query("DELETE FROM `{$database['prefix']}FeedGroups` WHERE `owner` = $id");
 		}
@@ -171,7 +171,7 @@ function cancelInviteAsTeam($userid){
 	}
 	DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid");
 	DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $userid");
-	DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `owner` = $userid");
+	DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $userid");
 	DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `owner` = $userid");
 	DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid='$blogid' and userid='$userid'");
 	return true;

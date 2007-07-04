@@ -7,7 +7,7 @@ function getArchives($blogid) {
 	global $database;
 	$archives = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-	$archivesOnPage = DBQuery::queryCell("SELECT archivesOnPage FROM {$database['prefix']}SkinSettings WHERE owner = $blogid");
+	$archivesOnPage = DBQuery::queryCell("SELECT archivesOnPage FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid");
 	$result = DBQuery::query("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner

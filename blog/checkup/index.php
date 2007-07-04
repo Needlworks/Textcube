@@ -682,6 +682,15 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}Teamblog profile")) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings owner")) {
+	$changed = true;
+	echo '<li>', _text('스킨 테이블의 필드 이름을 변경합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings CHANGE owner blogid int(11) NOT NULL DEFAULT 0"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));

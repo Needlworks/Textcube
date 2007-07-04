@@ -17,7 +17,7 @@ function setTreeSetting($blogid, $setting) {
 		activeBgColorOnTree 	= '{$setting['activeBgColorOnTree']}',
 		labelLengthOnTree 		= {$setting['labelLengthOnTree']},
 		showValueOnTree 		= " . (empty($setting['showValueOnTree']) ? 0 : 1) . "
-	WHERE owner = $blogid";
+	WHERE blogid = $blogid";
 	if (update($sql) > - 1)
 		return true;
 	else
@@ -147,7 +147,7 @@ function selectSkin($blogid, $skinName) {
 		$value = $xmls->getValue('/skin/default/tree/showValue');
 		if (isset($value))
 			array_push($assignments, 'showValueOnTree=' . ($value ? '1' : '0'));
-		$sql = "UPDATE {$database['prefix']}SkinSettings SET " . implode(',', $assignments) . " WHERE owner = $blogid";
+		$sql = "UPDATE {$database['prefix']}SkinSettings SET " . implode(',', $assignments) . " WHERE blogid = $blogid";
 		
 		// none/single/multiple
 		$value = $xmls->getValue('/skin/default/commentMessage/none'); 
@@ -175,7 +175,7 @@ function selectSkin($blogid, $skinName) {
 		setBlogSetting('singleCommentMessage', NULL);
 		setBlogSetting('noneTrackbackMessage', NULL);
 		setBlogSetting('singleTrackbackMessage', NULL);
-		$sql = "UPDATE {$database['prefix']}SkinSettings SET skin='{$skinName}' WHERE owner = $blogid";
+		$sql = "UPDATE {$database['prefix']}SkinSettings SET skin='{$skinName}' WHERE blogid = $blogid";
 	}
 	$result = DBQuery::query($sql);
 	if (!$result) {
@@ -201,7 +201,7 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 		copyRecusive(ROOT . "/skin/{$skinSetting['skin']}", ROOT . "/skin/customize/$blogid");
 	}
 	$skinSetting['skin'] = "customize/$blogid";
-	$sql = "UPDATE {$database['prefix']}SkinSettings SET skin = '{$skinSetting['skin']}' WHERE owner = $blogid";
+	$sql = "UPDATE {$database['prefix']}SkinSettings SET skin = '{$skinSetting['skin']}' WHERE blogid = $blogid";
 	$result = DBQuery::query($sql);
 	if (!$result)
 		return _t('실패했습니다.');
@@ -273,7 +273,7 @@ function setSkinSetting($blogid, $setting) {
 		recentCommentLength 		= ' . $setting['recentCommentLength'] . ',
 		recentTrackbackLength 	= ' . $setting['recentTrackbackLength'] . ',
 		linkLength 				= ' . $setting['linkLength'] . '
-	WHERE owner =' . $blogid;
+	WHERE blogid =' . $blogid;
 	if (update($sql) > - 1) {
 	} else {
 		return false;

@@ -35,12 +35,12 @@ class SkinSetting {
 	}
 	
 	function load($fields = '*') {
-		global $database, $owner;
+		global $database;
 		$this->reset();
-		if ($result = mysql_query("SELECT $fields FROM {$database['prefix']}SkinSettings WHERE owner = $owner")) {
+		if ($result = mysql_query("SELECT $fields FROM {$database['prefix']}SkinSettings WHERE blogid = ".getBlogId())) {
 			if ($row = mysql_fetch_assoc($result)) {
 				foreach ($row as $name => $value) {
-					if ($name == 'owner')
+					if ($name == 'blogid')
 						continue;
 					switch ($name) {
 						case 'tagboxAlign':
@@ -58,10 +58,10 @@ class SkinSetting {
 	}
 	
 	function save() {
-		global $database, $owner;
+		global $database;
 		
 		$query = new TableQuery($database['prefix'] . 'SkinSettings');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->skin)) {
 			if (strncmp($this->skin, 'customize/', 10) == 0) {
 				if (strcmp($this->skin, "customize/$owner") != 0)

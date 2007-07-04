@@ -1242,7 +1242,7 @@ CREATE TABLE {$_POST['dbPrefix']}Sessions (
   PRIMARY KEY  (id,address)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}SkinSettings (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   skin varchar(32) NOT NULL default 'tistory',
   entriesOnRecent int(11) NOT NULL default '10',
   commentsOnRecent int(11) NOT NULL default '10',
@@ -1349,7 +1349,7 @@ INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'blogLanguage', '$baseLa
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'timezone', '$baseTimezone');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultEditor', 'modern');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultFormatter', 'ttml');
-INSERT INTO {$_POST['dbPrefix']}SkinSettings (owner) VALUES (1);
+INSERT INTO {$_POST['dbPrefix']}SkinSettings (blogid) VALUES (1);
 INSERT INTO {$_POST['dbPrefix']}FeedSettings (owner) values(1);
 INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
             $query = explode(';', trim($schema));

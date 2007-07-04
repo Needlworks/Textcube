@@ -67,7 +67,7 @@ function getBlogSettings($blogid) {
 function getSkinSetting($blogid) {
 	global $database, $service, $skinSetting;
 	
-	if ($result = DBQuery::query("SELECT * FROM {$database['prefix']}SkinSettings WHERE owner = $blogid")) {
+	if ($result = DBQuery::query("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid")) {
 		$retval = mysql_fetch_array($result);
 		if ($retval != FALSE) {
 			if (!Validator::directory($retval['skin']) && ($retval['skin'] !="customize/$blogid")) {

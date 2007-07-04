@@ -79,7 +79,7 @@ function getCategories($blogid) {
 
 function getCategoriesSkin() {
 	global $database, $service;
-	$sql = "SELECT * FROM {$database['prefix']}SkinSettings WHERE owner = ".getBlogId();
+	$sql = "SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = ".getBlogId();
 	$setting = DBQuery::queryRow($sql);
 	$skin = array('name' => "{$setting['skin']}", 
 			'url'               => $service['path'] . "/image/tree/{$setting['tree']}", 
