@@ -3,7 +3,12 @@
 define( 'Auth_OpenID_NO_MATH_SUPPORT', 1 );
 $path_extra = dirname(__FILE__);
 $path = ini_get('include_path');
-$path = $path_extra . ':' . $path;
+if( strstr( $_ENV['OS'], 'Windows' ) === false ) {
+	$path .= ':' . $path_extra;
+} else {
+	defined('Auth_OpenID_RAND_SOURCE', null);
+	$path .= ';' . $path_extra;
+}
 ini_set('include_path', $path);
 
 /**

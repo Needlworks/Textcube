@@ -569,7 +569,7 @@ function openid_add_loginform($target, $requestURI)
 		<div id="openid-all-wrap">
 			<div id="openid-field-box">
 				<dl id="openid-line">
-					<dt><label for="loginid">' . _text('오픈아이디') . '</label></dt>
+					<dt><label for="loginid">' . _text('관리자 계정과 연결된 오픈아이디') . '</label></dt>
 
 					<dd><input type="text" class="input-text" id="openid_identifier" name="openid_identifier" value="' . $cookie_openid . '" maxlength="256" /></dd>
 					<input onfocus="alert(\"hi\");" type="submit" class="openid-login-button" id="openid-login-button" name="openid_login" value="로그인" />
