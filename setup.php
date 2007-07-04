@@ -849,6 +849,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
                     $error = 52;
                 else if (($_POST['type'] != 'single') && !ereg('^[[:alnum:]]+$', $_POST['blog']))
                     $error = 53;
+                else if (strlen($_POST['password']) < 6 || strlen($_POST['password2']) < 6)
+					$error = 54;
                 else
                     return true;
             }
@@ -859,9 +861,10 @@ RewriteRule ^testrewrite$ setup.php [L]"
 				$_POST['password2'] = $_POST['password'];
 				mysql_free_result($result);
 			}
-			if ($result = mysql_query("SELECT name FROM {$_POST['dbPrefix']}BlogSettings WHERE owner = 1")) {
-				@list($_POST['blog']) = mysql_fetch_row($result);
-				mysql_free_result($result);
+			if ($result = DBQuery::queryCell("SELECT value FROM {$_POST['dbPrefix']}BlogSettings 
+						WHERE blogid = 1 
+							AND name = 'name'")) {
+				$_POST['blog'] = $result;
 			}
 		}
 		
@@ -890,6 +893,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
           <th><?php echo _t('비밀번호');?> : </th>
           <td>
             <input type="password" name="password" value="<?php echo (isset($_POST['password']) ? htmlspecialchars($_POST['password']) : '');?>" class="input_password"<?php echo ($check && empty($_POST['password']) ? ' style="border-color:red"' : '');?> />
+			<legend><?php echo _t('비밀번호는 최소 6자 이상이어야 합니다');?></legend>
           </td>
         </tr>
         <tr>
@@ -918,6 +922,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
            echo _t('비밀번호가 일치하지 않습니다.');
         else if ($error == 53)
            echo _t('블로그 식별자가 올바르지 않습니다.');
+        else if ($error == 54)
+           echo _t('비밀번호는 최소 6자 이상이어야 합니다.');
         else if ($check)
            echo _t('표시된 정보가 부족합니다.');
         else
