@@ -25,11 +25,11 @@
 */
 function PN_Subscription_Default()
 {
-	global $owner, $pluginMenuURL, $pluginSelfParam, $totalSubscribers, $updatedSubscribers;
+	global $pluginMenuURL, $pluginSelfParam, $totalSubscribers, $updatedSubscribers;
 	requireComponent( "Textcube.Model.Statistics");
 	requireComponent( "Textcube.Function.misc");
-
-	$temp = getSubscriptionStatistics($owner);
+	$blogid = getBlogId();
+	$temp = getSubscriptionStatistics($blogid);
 	$aggregatorInfo = organizeAggregatorInfo($temp);
 ?>
 						<script type="text/javascript">
@@ -230,10 +230,10 @@ function organizeRobotInfo($info)
 {
 }
 
-function getSubscriptionStatistics($owner) {
+function getSubscriptionStatistics($blogid) {
 	global $database;
 	$statistics = array();
-	if ($result = mysql_query("select ip, host, useragent, subscribed, referred from {$database['prefix']}SubscriptionStatistics where owner = $owner order by referred desc")) {
+	if ($result = mysql_query("select ip, host, useragent, subscribed, referred from {$database['prefix']}SubscriptionStatistics where blogid = $blogid order by referred desc")) {
 		while ($record = mysql_fetch_array($result))
 			array_push($statistics, $record);
 	}
@@ -241,18 +241,21 @@ function getSubscriptionStatistics($owner) {
 }
 
 function getSubscriptionLogsWithPage($page, $count) {  
-	global $database, $owner;
+	global $database;
+	$blogid = getBlogId();
 	requireComponent( "Textcube.Model.Statistics");
-	return Statistics::fetchWithPaging("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE owner = $owner ORDER BY referred DESC", $page, $count);  
+	return Statistics::fetchWithPaging("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE blogid = $blogid ORDER BY referred DESC", $page, $count);  
 }  
 
 function getSubscriptionLogs() {
-	global $database, $owner;
-	return DBQuery::queryAll("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE owner = $owner ORDER BY referred DESC LIMIT 1000");
+	global $database;
+	$blogid = getBlogId();
+	return DBQuery::queryAll("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE blogid = $blogid ORDER BY referred DESC LIMIT 1000");
 }
 
 function updateSubscriptionStatistics($target, $mother) {
-	global $owner, $database, $blogURL;
+	global $database, $blogURL;
+	$blogid = getBlogId();
 	$period = Timestamp::getDate();
 	requireComponent('Textcube.Data.Filter');
 	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']))
@@ -260,10 +263,10 @@ function updateSubscriptionStatistics($target, $mother) {
 	$ip = mysql_tt_escape_string($_SERVER['REMOTE_ADDR']);
 	$host = mysql_tt_escape_string(isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '');
 	$useragent = mysql_tt_escape_string(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
-	mysql_query("insert into {$database['prefix']}SubscriptionLogs values($owner, '$ip', '$host', '$useragent', UNIX_TIMESTAMP())");
+	mysql_query("insert into {$database['prefix']}SubscriptionLogs values($blogid, '$ip', '$host', '$useragent', UNIX_TIMESTAMP())");
 	mysql_query("delete from {$database['prefix']}SubscriptionLogs where referred < UNIX_TIMESTAMP() - 604800");
-	if (!mysql_query("update {$database['prefix']}SubscriptionStatistics set referred = UNIX_TIMESTAMP() where owner = $owner and ip = '$ip' and host = '$host' and useragent = '$useragent'") || (mysql_affected_rows() == 0))
-		mysql_query("insert into {$database['prefix']}SubscriptionStatistics values($owner, '$ip', '$host', '$useragent', UNIX_TIMESTAMP(),UNIX_TIMESTAMP())");
+	if (!mysql_query("update {$database['prefix']}SubscriptionStatistics set referred = UNIX_TIMESTAMP() where blogid = $blogid and ip = '$ip' and host = '$host' and useragent = '$useragent'") || (mysql_affected_rows() == 0))
+		mysql_query("insert into {$database['prefix']}SubscriptionStatistics values($blogid, '$ip', '$host', '$useragent', UNIX_TIMESTAMP(),UNIX_TIMESTAMP())");
 	return $target;
 }
 

@@ -16,14 +16,14 @@ function getTags($entry) {
 	if (doesHaveOwnership())
 		$result = DBQuery::query("SELECT * FROM `{$database['prefix']}Tags` t, 
 			`{$database['prefix']}TagRelations` r 
-			WHERE t.id = r.tag AND r.entry = $entry AND r.owner = $blogid 
+			WHERE t.id = r.tag AND r.entry = $entry AND r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY t.name");
 	else
 		$result = DBQuery::query("SELECT * FROM `{$database['prefix']}Tags` t,
 			`{$database['prefix']}TagRelations` r, 
 			`{$database['prefix']}Entries` e 
-			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.entry = $entry AND r.owner = $blogid 
+			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.entry = $entry AND r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY t.name");
 	if ($result) {
@@ -41,41 +41,41 @@ function getRandomTags($blogid) {
 		if (doesHaveOwnership())
 			$result = DBQuery::query("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r 
-				WHERE t.id = r.tag and r.owner = $blogid 
+				WHERE t.id = r.tag and r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY cnt DESC $aux");
 		else
 			$result = DBQuery::query("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r, 
 				`{$database['prefix']}Entries` e 
-				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $blogid 
+				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY `cnt` DESC $aux");
 	} else if ($skinSetting['tagboxAlign'] == 2) {  // order by name
 		if (doesHaveOwnership())
 			$result = DBQuery::query("SELECT DISTINCT name FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r 
-				WHERE t.id = r.tag AND r.owner = $blogid 
+				WHERE t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY t.name $aux");
 		else
 			$result = DBQuery::query("SELECT DISTINCT name FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r,
 				`{$database['prefix']}Entries` e 
-				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $blogid 
+				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY t.name $aux");
 	} else { // random
 		if (doesHaveOwnership())
 			$result = DBQuery::query("SELECT `name` FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r
-				WHERE t.id = r.tag AND r.owner = $blogid
+				WHERE t.id = r.tag AND r.blogid = $blogid
 				GROUP BY r.tag ORDER BY RAND() $aux");
 		else
 			$result = DBQuery::query("SELECT `name` FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r,
 				`{$database['prefix']}Entries` e
-				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $blogid 
+				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY RAND() $aux");
 	}
@@ -92,7 +92,7 @@ function getSiteTags($blogid) {
 	if (doesHaveOwnership())
 		$result = DBQuery::query("SELECT `name` FROM `{$database['prefix']}Tags` t, 
 			`{$database['prefix']}TagRelations` r 
-			WHERE t.id = r.tag AND r.owner = $blogid 
+			WHERE t.id = r.tag AND r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY t.name 
 			LIMIT 2000");
@@ -100,7 +100,7 @@ function getSiteTags($blogid) {
 		$result = DBQuery::query("SELECT `name` FROM `{$database['prefix']}Tags` t, 
 			`{$database['prefix']}TagRelations` r,
 			`{$database['prefix']}Entries` e
-			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = $blogid 
+			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY t.name 
 			LIMIT 2000");
@@ -117,14 +117,14 @@ function getTagFrequencyRange() {
 	$max = $min = 0;
 	if (doesHaveOwnership())
 		$result = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r 
-			WHERE r.owner = $blogid 
+			WHERE r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY `cnt` 
 			DESC LIMIT 1");
 	else
 		$result = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r,
 			`{$database['prefix']}Entries` e 
-			WHERE r.entry = e.id AND e.visibility > 0 AND r.owner = $blogid 
+			WHERE r.entry = e.id AND e.visibility > 0 AND r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY `cnt` 
 			DESC LIMIT 1");
@@ -134,14 +134,14 @@ function getTagFrequencyRange() {
 	}
 	if (doesHaveOwnership())
 		$result = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r 
-			WHERE r.owner = $blogid 
+			WHERE r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY `cnt` 
 			LIMIT 1");
 	else
 		$result = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r, 
 			`{$database['prefix']}Entries` e 
-			WHERE r.entry = e.id AND e.visibility > 0 AND r.owner = $blogid 
+			WHERE r.entry = e.id AND e.visibility > 0 AND r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY `cnt` 
 			LIMIT 1");
@@ -158,12 +158,12 @@ function getTagFrequency($tag, $max, $min) {
 	if (doesHaveOwnership())
 		$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, 
 			`{$database['prefix']}TagRelations` r 
-			WHERE t.id = r.tag AND r.owner = $blogid AND t.name = '" . mysql_tt_escape_string($tag) . "'");
+			WHERE t.id = r.tag AND r.blogid = $blogid AND t.name = '" . mysql_tt_escape_string($tag) . "'");
 	else
 		$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, 
 			`{$database['prefix']}TagRelations` r, 
 			`{$database['prefix']}Entries` e 
-			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.owner = e.owner AND r.owner = $blogid AND t.name = '" . mysql_tt_escape_string($tag) . "'");
+			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = e.blogid AND r.blogid = $blogid AND t.name = '" . mysql_tt_escape_string($tag) . "'");
 	$dist = $max / 3;
 	if ($count == $min)
 		return 5;
@@ -182,7 +182,7 @@ function suggestLocalTags($blogid, $filter) {
 	$tags = array();
 	$result = DBQuery::query("select distinct name, count(*) cnt from {$database['prefix']}Tags, 
 		{$database['prefix']}TagRelations 
-		where id = tag and owner = $blogid and $filter 
+		where id = tag and blogid = $blogid and $filter 
 		group by tag 
 		order by cnt 
 		desc limit 10");
@@ -233,7 +233,7 @@ function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 										name in ( $tagliststr ) AND  
 										t.id NOT IN 
 											( SELECT tag FROM {$database['prefix']}TagRelations WHERE 
-												(tag = t.id) AND (entry = $entry) AND (owner = $blogid)
+												(tag = t.id) AND (entry = $entry) AND (blogid = $blogid)
 											)
 							)");
 	*/
@@ -264,7 +264,7 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 	}
 	
 	// step 1. Get deleted Tag
-	$toldlist = DBQuery::queryColumn("SELECT tag FROM {$database['prefix']}TagRelations WHERE owner = $blogid AND entry = $entry");
+	$toldlist = DBQuery::queryColumn("SELECT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid AND entry = $entry");
 	$tmpoldtaglist	 = null;
 	if (count($toldlist) > 0) {
 		$toldliststr = implode(', ', $toldlist);
@@ -296,7 +296,7 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 											name in ( $tagliststr ) AND  
 											t.id NOT IN 
 												( SELECT tag FROM {$database['prefix']}TagRelations WHERE 
-													(tag = t.id) AND (entry = $entry) AND (owner = $blogid)
+													(tag = t.id) AND (entry = $entry) AND (blogid = $blogid)
 												)
 								)");
 		*/
@@ -322,7 +322,7 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 		$t1liststr = implode(', ', $t1list);
 		$taglist = DBQuery::queryColumn(
 				"SELECT tag FROM {$database['prefix']}TagRelations 
-						WHERE owner = $blogid AND entry = $entry AND tag in ( $t1liststr )");
+						WHERE blogid = $blogid AND entry = $entry AND tag in ( $t1liststr )");
 		if ($taglist == null) 
 			return; // What?
 		
@@ -330,7 +330,7 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 		$tagliststr = implode(', ', $taglist);
 	
 	// step 5. Delete Relation
-		DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $blogid AND entry = $entry AND tag in ( $tagliststr )");
+		DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid AND entry = $entry AND tag in ( $tagliststr )");
 	
 	// step 6. Delete Tag
 		$nottargets = DBQuery::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");
@@ -347,11 +347,11 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 function deleteTagsWithEntryId($blogid, $entry)
 {
 	global $database;
-	$taglist = DBQuery::queryColumn("SELECT tag FROM {$database['prefix']}TagRelations WHERE owner = $blogid AND entry = $entry");
+	$taglist = DBQuery::queryColumn("SELECT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid AND entry = $entry");
 	if ($taglist != null) {
 		$tagliststr = implode(',', $taglist);
 		
-		DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $blogid AND entry = $entry");
+		DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid AND entry = $entry");
 		$nottargets = DBQuery::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");
 		if (count($nottargets) > 0) {
 			$nottargetstr	= implode(', ', $nottargets);

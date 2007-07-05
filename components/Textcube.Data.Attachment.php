@@ -23,13 +23,14 @@ class Attachment {
 	}
 	
 	function open($filter = '', $fields = '*', $sort = 'attached') {
-		global $database, $owner;
+		global $database;
+		$blogid = getBlogId();
 		if (!empty($filter))
 			$filter = 'AND ' . $filter;
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Attachments WHERE owner = $owner $filter $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Attachments WHERE blogid = $blogid $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = mysql_num_rows($this->_result))
 				return $this->shift();
@@ -53,7 +54,7 @@ class Attachment {
 		$this->reset();
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'owner')
+				if ($name == 'blogid')
 					continue;
 				switch ($name) {
 					case 'enclosure':
@@ -96,18 +97,18 @@ class Attachment {
 	
 	/*@static@*/
 	function doesExist($name) {
-		global $database, $owner;
+		global $database;
 		if (!Validator::filename($name))
 			return null;
-		return DBQuery::queryExistence("SELECT parent FROM {$database['prefix']}Attachments WHERE owner = $owner AND name = '$name'");
+		return DBQuery::queryExistence("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'");
 	}
 	
 	/*@static@*/
 	function getParent($name) {
-		global $database, $owner;
+		global $database;
 		if (!Validator::filename($name))
 			return null;
-		return DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE owner = $owner AND name = '$name'");
+		return DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'");
 	}
 	
 	/*@static@*/
@@ -123,8 +124,8 @@ class Attachment {
 	
 	/*@static@*/
 	function confirmFolder() {
-		global $owner, $service;
-		$path = ROOT . "/attach/$owner";
+		global $service;
+		$path = ROOT . "/attach/".getBlogId();
 		if (!file_exists($path)) {
 			mkdir($path);
 			if (isset($service['umask']))
@@ -137,7 +138,7 @@ class Attachment {
 	}
 	
 	function _generateName() {
-		global $owner;
+		$blogid = getBlogId();
 		if (isset($this->name)) {
 			if (!Validator::filename($this->name, false))
 				return $this->_error('name');
@@ -167,9 +168,9 @@ class Attachment {
 		if (!Validator::filename($this->name))
 			return $this->_error('name');
 
-		global $database, $owner;
+		global $database;
 		$query = new TableQuery($database['prefix'] . 'Attachments');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('name', $this->name, true);
 		if (isset($this->parent)) {
 			if (!Validator::number($this->parent, -1))

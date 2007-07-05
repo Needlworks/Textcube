@@ -150,7 +150,7 @@ alert("Session creation error' . $openid_session_id . '");
 
 function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null,$userid=null)
 {
-	global $database, $owner;
+	global $database, $blogid;
 	global $openid_session;
 	$openid = mysql_tt_escape_string($openid);
 	$delegatedid = mysql_tt_escape_string($delegatedid);
@@ -164,7 +164,7 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null,$userid
 		$openid_session['homepage'] = $homepage;
 
 		/* Owner column is used for reference, all openid records are shared */
-		DBQuery::execute("insert into {$database['prefix']}OpenIDUsers (owner,openid,delegatedid,firstLogin,lastLogin,loginCount,data) values ($owner,'{$openid}','{$delegatedid}',UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),1,'{$data}')");
+		DBQuery::execute("insert into {$database['prefix']}OpenIDUsers (blogid,openid,delegatedid,firstLogin,lastLogin,loginCount,data) values ($blogid,'{$openid}','{$delegatedid}',UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),1,'{$data}')");
 	} else {
 		$data = unserialize( $result );
 
@@ -187,10 +187,10 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null,$userid
 
 function _openid_existed($openid)
 {
-	global $database, $owner;
+	global $database, $blogid;
 	$openid = mysql_tt_escape_string($openid);
 
-	$query = "SELECT openid FROM {$database['prefix']}OpenIDUsers WHERE owner={$owner} and openid='{$openid}'";
+	$query = "SELECT openid FROM {$database['prefix']}OpenIDUsers WHERE blogid={$blogid} and openid='{$openid}'";
 	$result = DBQuery::queryCell($query);
 
 	if (is_null($result)) {
@@ -222,7 +222,7 @@ function _openid_set_acl($openid)
 {
 	global $database;
 	$blogid = getBlogId();
-	$query = "SELECT * FROM {$database['prefix']}OpenIDUsers WHERE owner={$blogid} and openid='{$openid}'";
+	$query = "SELECT * FROM {$database['prefix']}OpenIDUsers WHERE blogid={$blogid} and openid='{$openid}'";
 	$result = DBQuery::queryRow($query);
 	$data = unserialize( $result['data'] );
 
@@ -316,8 +316,8 @@ function openid_fetch( $openid )
 
 function openid_set_userid($openid)
 {
-	global $owner;
-	$userid = $owner;
+	global $blogid;
+	$userid = $blogid;
 	if( function_exists( "getUserId" ) ) {
 		$userid = getUserId();
 	}
@@ -587,12 +587,12 @@ function openid_add_loginform($target, $requestURI)
 	return $target;
 }
 
-function _openid_set_temp_password( $owner, $id )
+function _openid_set_temp_password( $blogid, $id )
 {
 	global $database;
 	$pw = md5( 'seed for hash' . time() . filemtime( ROOT . 'config.php') );
 	$pw = substr($pw, 0, 32);
-	DBQuery::execute("UPDATE {$database['prefix']}Comments SET password = '" . md5($pw) . "' WHERE owner = $owner and id = $id" );
+	DBQuery::execute("UPDATE {$database['prefix']}Comments SET password = '" . md5($pw) . "' WHERE blogid = $blogid and id = $id" );
 	return $pw;
 }
 
@@ -605,7 +605,7 @@ function _openid_get_auth_id()
 	return $openid_session['id'];
 }
 
-function _openid_has_ownership($trying_openid)
+function _openid_has_blogidship($trying_openid)
 {
 	global $openid_session;
 	if( empty($trying_openid) ) return false;
@@ -641,12 +641,12 @@ function _openid_fix_table()
 	}
 
 	if( $fix3 ) {
-		$rows = DBQuery::queryAll("select owner,openid,nickname from {$database['prefix']}OpenIDUsers");
+		$rows = DBQuery::queryAll("select blogid,openid,nickname from {$database['prefix']}OpenIDUsers");
 		foreach( $rows as $row ) {
-			$owner = $row["owner"];
+			$blogid = $row["blogid"];
 			$openid = $row["openid"];
 			$data = serialize( array( "nickname" => $row["nickname"], "homepage" => $openid ) );
-			DBQuery::execute("update {$database['prefix']}OpenIDUsers set data='{$data}' where owner={$owner} and openid='{$openid}'");
+			DBQuery::execute("update {$database['prefix']}OpenIDUsers set data='{$data}' where blogid={$blogid} and openid='{$openid}'");
 		}
 		DBQuery::execute("alter table {$database['prefix']}OpenIDUsers drop column nickname");
 	}
@@ -659,27 +659,27 @@ function openid_comment_add( $id, $comment )
 	/* Assert $id is numeric by the caller function in lib/model/comment.php */
 
 	global $openid_session;
-	global $database, $owner;
+	global $database, $blogid;
 
 	_openid_fix_table();
 
 	$auth_id = _openid_get_auth_id();
 	if( $auth_id )
 	{ 
-		$result = _openid_getCommentAttributes($owner,$id,"name,homepage");
+		$result = _openid_getCommentAttributes($blogid,$id,"name,homepage");
 		_openid_update_id( $openid_session['id'], $openid_session['delegatedid'], $result['name'], $result['homepage']);
 		openid_session_write();
 
-		DBQuery::execute("UPDATE {$database['prefix']}Comments SET password = '" . OPENID_PASSWORD . "' WHERE owner = $owner and id = $id" );
-		DBQuery::execute("DELETE FROM {$database['prefix']}OpenIDComments WHERE owner = $owner and id = $id" );
-		DBQuery::execute("INSERT INTO {$database['prefix']}OpenIDComments (owner,id,openid) values " .
-			"( {$owner}, {$id}, '{$auth_id}' )");
+		DBQuery::execute("UPDATE {$database['prefix']}Comments SET password = '" . OPENID_PASSWORD . "' WHERE blogid = $blogid and id = $id" );
+		DBQuery::execute("DELETE FROM {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = $id" );
+		DBQuery::execute("INSERT INTO {$database['prefix']}OpenIDComments (blogid,id,openid) values " .
+			"( {$blogid}, {$id}, '{$auth_id}' )");
 	}
 }
 
 function openid_view_commenter($name, $item)
 {
-	global $database, $owner;
+	global $database, $blogid;
 	global $hostURL, $service, $blogURL;
 	global $openid_pluginbase;
 
@@ -688,14 +688,14 @@ function openid_view_commenter($name, $item)
 	if( $item['secret'] ) {
 		return $name;
 	}
-	$row = DBQuery::queryAll("SELECT * from {$database['prefix']}OpenIDComments WHERE owner = $owner and id = {$item['id']}" );
+	$row = DBQuery::queryAll("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$item['id']}" );
 	return $name . ($row ? "<img src=\"" . $openid_pluginbase . "/openid16x16.gif\" hspace=\"2\" align=\"absmiddle\" title=\"" .
 		sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] ) . "\">" : "");
 }
 
 function openid_comment_comment()
 {
-	global $owner, $defaultURL, $blog, $user, $skinSetting;
+	global $blogid, $defaultURL, $blog, $user, $skinSetting;
 	global $service, $adminSkinSetting, $blogURL, $pageTitle, $comment, $suri;
 	global $openid_session;
 	$entryId = $_GET['id'];
@@ -716,15 +716,15 @@ function openid_comment_comment()
 }
 
 /* Get and rename from original code */
-function _openid_getCommentAttributes($owner, $id, $attributeNames) {
+function _openid_getCommentAttributes($blogid, $id, $attributeNames) {
 	global $database;
-	return DBQuery::queryRow("select $attributeNames from {$database['prefix']}Comments where owner = $owner and id = $id");
+	return DBQuery::queryRow("select $attributeNames from {$database['prefix']}Comments where blogid = $blogid and id = $id");
 }
 
-function _openid_getCommentInfo($owner,$id){
+function _openid_getCommentInfo($blogid,$id){
 	global $database;
 
-	$sql="select a.*, openid from {$database['prefix']}Comments a left join {$database['prefix']}OpenIDComments b on a.id = b.id where a.owner = $owner and a.id = $id";
+	$sql="select a.*, openid from {$database['prefix']}Comments a left join {$database['prefix']}OpenIDComments b on a.id = b.id where a.blogid = $blogid and a.id = $id";
 	if($result=DBQuery::query($sql))
 		return mysql_fetch_array($result);
 	return false;
@@ -733,7 +733,7 @@ function _openid_getCommentInfo($owner,$id){
 
 function openid_comment_del()
 {
-	global $owner, $defaultURL, $blog, $user, $skinSetting;
+	global $blogid, $defaultURL, $blog, $user, $skinSetting;
 	global $service, $adminSkinSetting, $blogURL, $pageTitle, $comment, $suri;
 	global $openid_session;
 
@@ -751,8 +751,8 @@ function openid_comment_del()
 		exit(0);
 	}
 
-	list($replier) = _openid_getCommentAttributes($owner, $suri['id'], 'replier');
-	$comment = _openid_getCommentInfo($owner, $suri['id']);
+	list($replier) = _openid_getCommentAttributes($blogid, $suri['id'], 'replier');
+	$comment = _openid_getCommentInfo($blogid, $suri['id']);
 	?>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
@@ -776,7 +776,7 @@ function openid_comment_del()
 				<div id="command-box">
 <? 
 /*-------------------------------------------------------------------------------------------*/
-if( ! _openid_has_ownership($comment['openid']) ) { ?>
+if( ! _openid_has_blogidship($comment['openid']) ) { ?>
 					<div class="edit-line">
 						<label>로그인된 오픈아이디의 권한으로는 수정/삭제가 불가능합니다.</label>
 					</div>
@@ -787,8 +787,8 @@ if( ! _openid_has_ownership($comment['openid']) ) { ?>
 } else { 
 	if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId())) )
 	{
-		if( _openid_has_ownership($comment['openid']) ) {
-			$tmp_password = _openid_set_temp_password( $owner, $suri['id'] );
+		if( _openid_has_blogidship($comment['openid']) ) {
+			$tmp_password = _openid_set_temp_password( $blogid, $suri['id'] );
 		}
 		else
 		{
@@ -807,7 +807,7 @@ if( ! _openid_has_ownership($comment['openid']) ) { ?>
 	<?php
 	if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId())) )
 	{
-		if( !_openid_has_ownership($comment['openid']) ) {
+		if( !_openid_has_blogidship($comment['openid']) ) {
 	?>				  
 						<label for="password"><?php echo _text('비밀번호');?><span class="divider"> | </span></label><input type="password" id="password" class="input-text" name="password" />
 	<?php
@@ -833,7 +833,7 @@ function openid_manage()
 {
 	global $database, $blogURL, $hostURL;
 
-	$menu_url = $hostURL . $blogURL . "/owner/plugin/adminMenu?name=" . $_GET['name'];
+	$menu_url = $hostURL . $blogURL . "/blogid/plugin/adminMenu?name=" . $_GET['name'];
 	$menu1 = $menu_url . "&amp;mode=1";
 	$menu2 = $menu_url . "&amp;mode=3";
 	$menu3 = $menu_url . "&amp;mode=5";

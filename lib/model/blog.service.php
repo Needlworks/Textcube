@@ -77,7 +77,7 @@ function getSkinSetting($blogid) {
 		}
 	}
 	
-	$retval = array( 'owner' => $blogid , 'skin' => $service['skin'], 
+	$retval = array( 'blogid' => $blogid , 'skin' => $service['skin'], 
 		'entriesOnRecent' => 5, 'commentsOnRecent' => 5, 'commentsOnGuestbook' => 5,
 		'tagsOnTagbox' => 30, 'tagboxAlign' => 3, 'trackbacksOnRecent' => 5, 
 		'expandComment' => 1, 'expandTrackback' => 1, 

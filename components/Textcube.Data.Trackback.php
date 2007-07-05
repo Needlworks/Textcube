@@ -22,7 +22,7 @@ class Trackback {
 	}
 	
 	function open($filter = '', $fields = '*', $sort = 'written') {
-		global $database, $owner;
+		global $database;
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
@@ -30,7 +30,7 @@ class Trackback {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Trackbacks WHERE owner = $owner $filter $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = mysql_num_rows($this->_result))
 				return $this->shift();
@@ -54,7 +54,7 @@ class Trackback {
 		$this->reset();
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'owner')
+				if ($name == 'blogid')
 					continue;
 				switch ($name) {
 					case 'subject':
@@ -72,7 +72,7 @@ class Trackback {
 	}
 	
 	function add() {
-		global $database, $owner;
+		global $database;
 		$this->id = null;
 		if (!isset($this->entry))
 			return $this->_error('entry');
@@ -92,7 +92,7 @@ class Trackback {
 		$this->id = $query->id;
 
 		if ($this->isFiltered == 0) {
-			mysql_query("UPDATE {$database['prefix']}Entries SET trackbacks = trackbacks + 1 WHERE owner = $owner AND id = {$this->entry}");
+			mysql_query("UPDATE {$database['prefix']}Entries SET trackbacks = trackbacks + 1 WHERE blogid = ".getBlogId()." AND id = {$this->entry}");
 		}
 		return true;
 	}
@@ -102,9 +102,9 @@ class Trackback {
 	}
 	
 	function _buildQuery() {
-		global $database, $owner;
+		global $database;
 		$query = new TableQuery($database['prefix'] . 'Trackbacks');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');

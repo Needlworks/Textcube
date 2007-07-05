@@ -26,13 +26,13 @@
 function CT_Start_Default($target) {
 	requireComponent("Eolin.PHP.Core");
 	requireComponent( "Textcube.Function.misc");
-	global $owner, $blogURL, $database;
+	global $blogid, $blogURL, $database;
 	$target .= '<ul>';
 	$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새 글을 씁니다').'</a></li>'.CRLF;
 
 	$latestEntryId = misc::getBlogSettingGlobal('LatestEditedEntry',0);
 	if($latestEntryId !== 0){
-		$latestEntry = CT_Start_Default_getEntry($owner,$latestEntryId);
+		$latestEntry = CT_Start_Default_getEntry($blogid,$latestEntryId);
 		if($latestEntry!=false){
 			$target .= '<li><a href="'.$blogURL.'/owner/entry/edit/'.$latestEntry['id'].'">'. _f('최근글(%1) 수정', htmlspecialchars(UTF8::lessenAsEm($latestEntry['title'],10))).'</a></li>';
 		}
@@ -48,7 +48,7 @@ function CT_Start_Default($target) {
 	return $target;
 }
 
-function CT_Start_Default_getEntry($owner, $id, $draft = false) {
+function CT_Start_Default_getEntry($blogid, $id, $draft = false) {
 	global $database;
 	if ($id == 0) {
 		if ($draft) {
@@ -57,12 +57,12 @@ function CT_Start_Default_getEntry($owner, $id, $draft = false) {
 		} else {
 			if (!doesHaveOwnership())
 				return;
-			deleteAttachments($owner, 0);
+			deleteAttachments($blogid, 0);
 			return array('id' => 0, 'draft' => 0, 'visibility' => 0, 'category' => 0, 'location' => '', 'title' => '', 'content' => '', 'acceptComment' => 1, 'acceptTrackback' => 1, 'published' => time(), 'slogan' => '');
 		}
 	}
 	if ($draft) {
-		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 1");
+		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 1");
 		if (!$entry)
 			return;
 		if ($entry['published'] == 1)
@@ -70,11 +70,11 @@ function CT_Start_Default_getEntry($owner, $id, $draft = false) {
 		else if ($entry['published'] != 0)
 			$entry['appointed'] = $entry['published'];
 		if ($id != 0)
-			$entry['published'] = DBQuery::queryCell("SELECT published FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0");
+			$entry['published'] = DBQuery::queryCell("SELECT published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0");
 		return $entry;
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0 $visibility");
+		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
 		if (!$entry)
 			return;
 		if ($entry['visibility'] < 0)

@@ -691,6 +691,37 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings owner")) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (DBQuery::queryExistence("DESC {$database['prefix']}Entries owner")) {
+	$changed = true;
+	echo '<li>', _text('본문 테이블의 필드 이름을 변경합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Attachments CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}BlogStatistics CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Categories CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Comments CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}CommentsNotified CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedQueue CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}DailyStatistics CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}FeedGroupRelations CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}FeedGroups CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}FeedReads CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}FeedSettings CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}FeedStarred CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Filters CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Links CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Plugins CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}RefererLogs CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}RefererStatistics CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}TagRelations CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}TrackbackLogs CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}XMLRPCPingSettings CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
+	)
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));

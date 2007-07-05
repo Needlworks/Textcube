@@ -21,9 +21,9 @@ class UserInfo {
 	}
 	
 	function getUser() {
-		global $database, $owner;
+		global $database;
 		if (is_null($this->userid)) {
-			$_result = fetchQueryRow("SELECT * FROM {$database['prefix']}Users WHERE userid = $owner");
+			$_result = fetchQueryRow("SELECT * FROM {$database['prefix']}Users WHERE userid = ".getUserId());
 			foreach($_result as $key => $value) {
 				if(!is_numeric($key)) {
 					$this->$key = $value;
@@ -35,7 +35,7 @@ class UserInfo {
 	}
 	
 	function add() {
-		global $database, $owner;
+		global $database;
 		if(isset($this->userid))
 			return $this->_error('insert');
 		if(!isset($this->password))		
@@ -59,7 +59,7 @@ class UserInfo {
 	}
 	
 	function update() {
-		global $database, $owner;
+		global $database;
 		if(!isset($this->userid))		
 			return $this->_error('insert');
 		if (!$query = $this->_buildQuery())
@@ -125,9 +125,9 @@ class UserInfo {
 	}
 
 	function _buildQuery() {
-		global $database, $owner;
+		global $database;
 		$query = new TableQuery($database['prefix'] . 'Users');
-		$query->setQualifier('userid', $owner);
+		$query->setQualifier('userid', getUserId());
 		
 		if (isset($this->userid)) {
 			if (!Validator::number($this->userid, 1))

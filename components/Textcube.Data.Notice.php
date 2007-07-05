@@ -23,7 +23,7 @@ class Notice {
 
 	/*@polymorphous(numeric $id, $fields, $sort)@*/
 	function open($filter = '', $fields = '*', $sort = 'published DESC') {
-		global $database, $owner;
+		global $database;
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
@@ -31,7 +31,7 @@ class Notice {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 AND category = -2 $filter $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND draft = 0 AND category = -2 $filter $sort");
 		if ($this->_result)
 			$this->_count = mysql_num_rows($this->_result);
 		return $this->shift();
@@ -51,7 +51,7 @@ class Notice {
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
 				switch ($name) {
-					case 'owner':
+					case 'blogid':
 					case 'draft':
 					case 'category':
 						unset($name);
@@ -72,7 +72,7 @@ class Notice {
 	}
 	
 	function add() {
-		global $database, $owner;
+		global $database;
 		if (isset($this->id) && !Validator::number($this->id, 1))
 			 return $this->_error('id');
 		$this->title = trim($this->title);
@@ -103,11 +103,11 @@ class Notice {
 	}
 	
 	function remove($id) {
-		global $database, $owner;
+		global $database;
 		if (is_numeric($id)) {
 			return false;
 		}
-		$result = mysql_query("DELETE FROM FROM {$database['prefix']}Entries WHERE owner = $owner AND category = -2 AND id = $id");
+		$result = mysql_query("DELETE FROM FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category = -2 AND id = $id");
 		if ($result && ($this->_count = mysql_affected_rows()))
 			return true;
 		return false;
@@ -149,15 +149,15 @@ class Notice {
 
 	/*@static@*/
 	function doesExist($id) {
-		global $database, $owner;
+		global $database;
 		if (!Validator::number($id, 1))
 			return false;
-		return DBQuery::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND category = -2 AND draft = 0");
+		return DBQuery::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $id AND category = -2 AND draft = 0");
 	}
 
 	function nextEntryId($id = 0) {
-		global $database, $owner;
-		$maxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE owner = $owner");
+		global $database;
+		$maxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId());
 		if($id==0)
 			return $maxId + 1;
 		else
@@ -165,9 +165,9 @@ class Notice {
 	}
 	
 	function _buildQuery() {
-		global $database, $owner;
+		global $database;
 		$query = new TableQuery($database['prefix'] . 'Entries');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('category', -2);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))

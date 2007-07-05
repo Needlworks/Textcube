@@ -25,7 +25,7 @@ class Comment {
 	}
 	
 	function open($filter = '', $fields = '*', $sort = 'id') {
-		global $database, $owner;
+		global $database;
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
@@ -33,7 +33,7 @@ class Comment {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Comments WHERE owner = $owner $filter $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = mysql_num_rows($this->_result))
 				return $this->shift();
@@ -57,7 +57,7 @@ class Comment {
 		$this->reset();
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'owner')
+				if ($name == 'blogid')
 					continue;
 				switch ($name) {
 					case 'replier':
@@ -75,7 +75,7 @@ class Comment {
 	}
 	
 	function add() {
-		global $database, $owner;
+		global $database;
 		if (!isset($this->entry))
 			return $this->_error('entry');
 		if (!isset($this->commenter) && !isset($this->name))
@@ -99,7 +99,7 @@ class Comment {
 		if (isset($this->parent))
 			$this->entry = Comment::getEntry($this->parent);
 		if ((isset($this->entry)) && ($this->isFiltered == 0))
-			DBQuery::execute("UPDATE {$database['prefix']}Entries SET comments = comments + 1 WHERE owner = $owner AND id = {$this->entry}");
+			DBQuery::execute("UPDATE {$database['prefix']}Entries SET comments = comments + 1 WHERE blogid = ".getBlogId()." AND id = {$this->entry}");
 		return true;
 	}
 	
@@ -117,16 +117,16 @@ class Comment {
 	
 	/*@static@*/
 	function getEntry($id) {
-		global $database, $owner;
+		global $database;
 		if (!Validator::number($id, 1))
 			return null;
-		return DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE owner = $owner AND id = {$id}");
+		return DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND id = {$id}");
 	}
 	
 	function _buildQuery() {
-		global $database, $owner;
+		global $database;
 		$query = new TableQuery($database['prefix'] . 'Comments');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');

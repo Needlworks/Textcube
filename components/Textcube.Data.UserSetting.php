@@ -15,13 +15,13 @@ class UserSetting {
 	}
 	
 	function open($name = '', $fields = '*', $sort = 'name') {
-		global $database, $owner;
+		global $database;
 		if (!empty($name))
 			$name = 'AND name = \'' . $name . '\'';
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}UserSettings WHERE user = $owner $name $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}UserSettings WHERE userid = ".getUserId()." $name $sort");
 		if ($this->_result)
 			$this->_count = mysql_num_rows($this->_result);
 		return $this->shift();
@@ -73,9 +73,9 @@ class UserSetting {
 	}
 
 	function _buildQuery() {
-		global $database, $owner;
+		global $database;
 		$query = new TableQuery($database['prefix'] . 'UserSettings');
-		$query->setQualifier('user', $owner);
+		$query->setQualifier('userid', getUserId());
 		$query->setQualifier('name', $this->name, false);
 		if (isset($this->value))
 			$query->setAttribute('value', $this->value, true);

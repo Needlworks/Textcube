@@ -1,8 +1,8 @@
 <?
 class PluginCustomConfig{
 	var $usable = false;
- 	function PluginCustomConfig($owner, $pluginName){
-		$this->owner = $owner;
+ 	function PluginCustomConfig($blogid, $pluginName){
+		$this->blogid = $blogid;
 		$this->pluginName = $pluginName;
 		$this->reset();
 	}
@@ -13,7 +13,7 @@ class PluginCustomConfig{
 	/* public bool */
 	function load(){
 		global $configMappings;
-		if( false == Validator::id( $this->owner ) ){
+		if( false == Validator::id( $this->blogid ) ){
 			$this->usable = false;
 			return false;
 		}
@@ -43,7 +43,7 @@ class PluginCustomConfig{
 				return $__globalCache_data['pluginSettings'][$this->pluginName];
 			}
 		}
-		$configXml = DBQuery::queryCell("SELECT settings FROM {$database['prefix']}Plugins WHERE owner = {$this->owner} AND name = '{$this->pluginName}'");
+		$configXml = DBQuery::queryCell("SELECT settings FROM {$database['prefix']}Plugins WHERE blogid = {$this->blogid} AND name = '{$this->pluginName}'");
 		requireComponent("Textcube.Function.misc");
 		$t= misc::fetchConfigVal($configXml);
 		return false==is_array($t)?array():$t;
@@ -65,12 +65,12 @@ class PluginCustomConfig{
 
 		if (defined('__TISTORY__')) {
 			requireComponent('Eolin.PHP.PageCache');
-			expireGlobalDressing($this->owner);
-			DataCache::expireData('SkinCache', $this->owner);
-			globalCacheExpire($this->owner);
+			expireGlobalDressing($this->blogid);
+			DataCache::expireData('SkinCache', $this->blogid);
+			globalCacheExpire($this->blogid);
 		}
 
-		return DBQuery::query("REPLACE INTO {$database['prefix']}Plugins (owner, name, settings) VALUES({$this->owner},'{$this->pluginName}', '$xml')");
+		return DBQuery::query("REPLACE INTO {$database['prefix']}Plugins (blogid, name, settings) VALUES({$this->blogid},'{$this->pluginName}', '$xml')");
 	}
 	
 	/* public string null*/

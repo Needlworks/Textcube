@@ -17,7 +17,7 @@ class TrackbackLog {
 	}
 	
 	function open($filter = '', $fields = '*', $sort = 'written') {
-		global $database, $owner;
+		global $database;
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
@@ -25,7 +25,7 @@ class TrackbackLog {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner $filter $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}TrackbackLogs WHERE blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = mysql_num_rows($this->_result))
 				return $this->shift();
@@ -49,7 +49,7 @@ class TrackbackLog {
 		$this->reset();
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'owner')
+				if ($name == 'blogid')
 					continue;
 				switch ($name) {
 					case 'written':
@@ -87,9 +87,9 @@ class TrackbackLog {
 	}
 	
 	function _buildQuery() {
-		global $database, $owner;
+		global $database;
 		$query = new TableQuery($database['prefix'] . 'TrackbackLogs');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');

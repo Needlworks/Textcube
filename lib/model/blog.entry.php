@@ -8,8 +8,8 @@ function getEntriesTotalCount($blogid) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	return DBQuery::queryCell("SELECT COUNT(*) 
 		FROM {$database['prefix']}Entries e
-		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
-		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND e.category >= 0");
+		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0");
 }
 
 function getEntries($blogid, $attributes = '*', $condition = false, $order = 'published DESC') {
@@ -17,7 +17,7 @@ function getEntries($blogid, $attributes = '*', $condition = false, $order = 'pu
 	if (!empty($condition))
 		$condition = 'AND ' . $condition;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	return DBQuery::queryAll("SELECT $attributes FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 $visibility $condition ORDER BY $order");
+	return DBQuery::queryAll("SELECT $attributes FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility $condition ORDER BY $order");
 }
 
 function getEntry($blogid, $id, $draft = false) {
@@ -49,7 +49,7 @@ function getEntry($blogid, $id, $draft = false) {
 	}
 	if ($draft) {
 		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries 
-				WHERE owner = $blogid 
+				WHERE blogid = $blogid 
 					AND id = $id 
 					AND draft = 1");
 		if (!$entry)
@@ -61,13 +61,13 @@ function getEntry($blogid, $id, $draft = false) {
 		if ($id != 0)
 			$entry['published'] = DBQuery::queryCell("SELECT published 
 					FROM {$database['prefix']}Entries 
-					WHERE owner = $blogid AND id = $id AND draft = 0");
+					WHERE blogid = $blogid AND id = $id AND draft = 0");
 		return $entry;
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
 		$entry = DBQuery::queryRow("SELECT * 
 				FROM {$database['prefix']}Entries 
-				WHERE owner = $blogid AND id = $id AND draft = 0 $visibility");
+				WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
 		if (!$entry)
 			return;
 		if ($entry['visibility'] < 0)
@@ -79,7 +79,7 @@ function getEntry($blogid, $id, $draft = false) {
 function getUserIdOfEntry($blogid, $id) {
 	global $database;
 	$result = DBQuery::queryCell("SELECT userid FROM {$database['prefix']}Entries
-			WHERE owner = $blogid AND id = $id");
+			WHERE blogid = $blogid AND id = $id");
 	if(!empty($result)) return $result;
 	else return null;
 }
@@ -91,7 +91,7 @@ function getEntryAttributes($blogid, $id, $attributeNames) {
 		return null;
 	
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$attributes = DBQuery::queryRow("SELECT $attributeNames FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $id AND draft = 0 $visibility");
+	$attributes = DBQuery::queryRow("SELECT $attributeNames FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
 	return $attributes;
 }
 
@@ -103,7 +103,7 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 		return array();
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	if ($category > 0) {
-		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $blogid AND parent = $category $visibility");
+		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category $visibility");
 		array_push($categories, $category);
 		$cond = 'AND e.category IN (' . implode(', ', $categories) . ')';
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
@@ -112,10 +112,10 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	}
 
-	$sql = "SELECT e.owner,e.id,e.title,e.comments,e.slogan,e.published
+	$sql = "SELECT e.blogid,e.id,e.title,e.comments,e.slogan,e.published
 			FROM {$database['prefix']}Entries e 
-			LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
-			WHERE e.owner = $blogid AND e.draft = 0 $visibility $cond 
+			LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
+			WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond 
 			ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
@@ -126,11 +126,11 @@ function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
 		return array(array(), array('url'=>'','prefix'=>'','postfix'=>''));	
 	$tag = mysql_tt_escape_string($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-	$sql = "SELECT e.owner, e.id, e.title, e.comments, e.slogan, e.published
+	$sql = "SELECT e.blogid, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e 
-		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner 
-		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
-		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' 
+		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.blogid = t.blogid 
+		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' 
 		ORDER BY published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
@@ -139,10 +139,10 @@ function getEntryListWithPagingByPeriod($blogid, $period, $page, $count) {
 	global $database, $suri, $folderURL;
 	$cond = "AND e.published >= " . getTimeFromPeriod($period) . " AND e.published < " . getTimeFromPeriod(addPeriod($period));
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-	$sql = "SELECT e.owner, e.id, e.title, e.comments, e.slogan, e.published
+	$sql = "SELECT e.blogid, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e
-		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
-		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
+		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
 		ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
@@ -152,10 +152,10 @@ function getEntryListWithPagingBySearch($blogid, $search, $page, $count) {
 	$search = escapeMysqlSearchString($search);
 	$cond = strlen($search) == 0 ? 'AND 0' : "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
-	$sql = "SELECT e.owner, e.id, e.title, e.comments, e.slogan, e.published
+	$sql = "SELECT e.blogid, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e
-		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
-		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
+		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
 		ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
@@ -165,8 +165,8 @@ function getEntriesWithPaging($blogid, $page, $count) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
-		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
-		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
+		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count);
 }
@@ -177,7 +177,7 @@ function getEntriesWithPagingByCategory($blogid, $category, $page, $count, $coun
 		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	if ($category > 0) {
-		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $blogid AND parent = $category $visibility");
+		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category $visibility");
 		array_push($categories, $category);
 		$cond = 'AND e.category IN (' . implode(', ', $categories) . ')';
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
@@ -187,8 +187,8 @@ function getEntriesWithPagingByCategory($blogid, $category, $page, $count, $coun
 	}
 	$sql = "SELECT e.*, c.label AS categoryLabel 
 		FROM {$database['prefix']}Entries AS e 
-		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
-		WHERE e.owner = $blogid AND e.draft = 0 $visibility $cond 
+		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond 
 		ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=",$countItem);
 }
@@ -201,9 +201,9 @@ function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = nu
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e
-		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
-		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.owner = t.owner 
-		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' 
+		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
+		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.blogid = t.blogid 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' 
 		ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
@@ -213,7 +213,7 @@ function getEntriesWithPagingByNotice($blogid, $page, $count, $countItem = null)
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
 	$sql = "SELECT * 
 		FROM {$database['prefix']}Entries 
-		WHERE owner = $blogid $visibility AND category = -2 
+		WHERE blogid = $blogid $visibility AND category = -2 
 		ORDER BY published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
@@ -224,8 +224,8 @@ function getEntriesWithPagingByPeriod($blogid, $period, $page, $count) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
-		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
-		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
+		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
 		ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
@@ -237,8 +237,8 @@ function getEntriesWithPagingBySearch($blogid, $search, $page, $count, $countIte
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
-		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
-		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
+		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
 		ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
@@ -254,11 +254,11 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 	
 	$sql = "SELECT e.*, c.label categoryLabel, d.id draft 
 		FROM {$database['prefix']}Entries e 
-		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner 
-		LEFT JOIN {$database['prefix']}Entries d ON e.owner = d.owner AND e.id = d.id AND d.draft = 1 
-		WHERE e.owner = $blogid AND e.draft = 0" . $teamMemberFilter;
+		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
+		LEFT JOIN {$database['prefix']}Entries d ON e.blogid = d.blogid AND e.id = d.id AND d.draft = 1 
+		WHERE e.blogid = $blogid AND e.draft = 0" . $teamMemberFilter;
 	if ($category > 0) {
-		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $blogid AND parent = $category");
+		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 	} else if ($category == -3) {
@@ -295,8 +295,8 @@ function getEntryWithPaging($blogid, $id, $isNotice = false) {
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
-		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
-		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND $category 
+		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND $category 
 		ORDER BY e.published DESC";
 	$result = DBQuery::query($sql);
 	if (!$result)
@@ -339,8 +339,8 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false) {
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
 	$result = DBQuery::query("SELECT e.id, e.userid, e.slogan, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
-		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
-		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND $category 
+		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND $category 
 		ORDER BY e.published DESC");
 	if (!$result)
 		return array($entries, $paging);
@@ -397,8 +397,8 @@ function getRecentEntries($blogid) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$result = DBQuery::query("SELECT e.id, e.userid, e.title, e.comments 
 		FROM {$database['prefix']}Entries e
-		LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id 
-		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
+		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
 	while ($entry = mysql_fetch_array($result)) {
 		array_push($entries, $entry);
@@ -429,7 +429,7 @@ function addEntry($blogid, $entry) {
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
 			return false;
-		if(DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 AND title = '$title' AND category = -1") > 0)
+		if(DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND title = '$title' AND category = -1") > 0)
 			return false;
 	}
 	
@@ -438,12 +438,12 @@ function addEntry($blogid, $entry) {
 		if ($entry['visibility'] == 3) $entry['visibility'] = 2;
 	}
 
-	$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $blogid AND slogan = '$slogan' LIMIT 1");
+	$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' LIMIT 1");
 	for ($i = 1; mysql_num_rows($result) > 0; $i++) {
 		if ($i > 1000)
 			return false;
 		$slogan = mysql_tt_escape_string(mysql_lessen($slogan0, 245) . '-' . $i);
-		$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $blogid AND slogan = '$slogan' LIMIT 1");
+		$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' LIMIT 1");
 	}
 	$userid = $entry['userid'];
 	$content = mysql_tt_escape_string($entry['content']);
@@ -459,9 +459,9 @@ function addEntry($blogid, $entry) {
 	}
 	$id = getDraftEntryId();
 	if ($id === null)
-		$id = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE owner = $blogid and draft = 0") + 1;
+		$id = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid and draft = 0") + 1;
 	$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries 
-			(owner, userid, id, draft, visibility, category, title, slogan, content, contentFormatter,
+			(blogid, userid, id, draft, visibility, category, title, slogan, content, contentFormatter,
 			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
 			 comments, trackbacks) 
 			VALUES (
@@ -487,8 +487,8 @@ function addEntry($blogid, $entry) {
 			0)");
 	if (!$result)
 		return false;
-	DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $id AND draft = 1");
-	DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE owner = $blogid AND parent = 0");
+	DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 1");
+	DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE blogid = $blogid AND parent = 0");
 	updateEntriesOfCategory($blogid, $entry['category']);
 	if ($entry['visibility'] == 3)
 		syndicateEntry($id, 'create');
@@ -506,13 +506,13 @@ function getDraftEntryId($id = 0) {
 	if ($id)
 		return DBQuery::queryCell("SELECT id 
 				FROM {$database['prefix']}Entries 
-				WHERE owner = ".getBlogId()." AND id = $id AND draft = 1");
+				WHERE blogid = ".getBlogId()." AND id = $id AND draft = 1");
 	else
-	//	return DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE owner = $blogid and draft = 0") + 1;
+	//	return DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid and draft = 0") + 1;
 		return DBQuery::queryCell("SELECT d.id 
 				FROM {$database['prefix']}Entries d 
-				LEFT JOIN {$database['prefix']}Entries e ON d.owner = e.owner AND d.id = e.id AND e.draft = 0 
-				WHERE d.owner = ".getBlogId()." AND d.draft = 1 AND e.id IS NULL 
+				LEFT JOIN {$database['prefix']}Entries e ON d.blogid = e.blogid AND d.id = e.id AND e.draft = 0 
+				WHERE d.blogid = ".getBlogId()." AND d.draft = 1 AND e.id IS NULL 
 				ORDER BY d.id LIMIT 1");
 }
 
@@ -540,7 +540,7 @@ function updateEntry($blogid, $entry) {
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
 			return false;
-		if(DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE owner = $blogid AND id <> {$entry['id']} AND draft = 0 AND title = '$title' AND category = -1") > 0)
+		if(DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id <> {$entry['id']} AND draft = 0 AND title = '$title' AND category = -1") > 0)
 			return false;
 	}
 
@@ -549,14 +549,14 @@ function updateEntry($blogid, $entry) {
 		if ($entry['visibility'] == 3) $entry['visibility'] = 2;
 	}
 	
-	$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $blogid AND slogan = '$slogan' AND id = {$entry['id']} LIMIT 1");
+	$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND id = {$entry['id']} LIMIT 1");
 	if (mysql_num_rows($result) == 0) { // if changed
-		$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $blogid AND slogan = '$slogan' LIMIT 1");
+		$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' LIMIT 1");
 		for ($i = 1; mysql_num_rows($result) > 0; $i++) {
 			if ($i > 1000)
 				return false;
 			$slogan = mysql_tt_escape_string(mysql_lessen($slogan0, 245) . '-' . $i);
-			$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $blogid AND slogan = '$slogan' LIMIT 1");
+			$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' LIMIT 1");
 		}
 	}
 	$tags = getTagsWithEntryString($entry['tag']);
@@ -593,13 +593,13 @@ function updateEntry($blogid, $entry) {
 				acceptTrackback    = {$entry['acceptTrackback']},
 				published          = $published,
 				modified           = UNIX_TIMESTAMP()
-			WHERE owner = $blogid AND id = {$entry['id']} AND draft = 0");
+			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 0");
 	if ($result)
-		DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = {$entry['id']} AND draft = 1");
+		DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
 	updateEntriesOfCategory($blogid, $entry['category']);
 	if ($entry['visibility'] == 3)
 		syndicateEntry($entry['id'], 'modify');
-	DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = {$entry['id']} WHERE owner = $blogid AND parent = 0");
+	DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = {$entry['id']} WHERE blogid = $blogid AND parent = 0");
 	if ($entry['visibility'] >= 2)
 		clearRSS();
 	return $result ? true : false;
@@ -638,15 +638,15 @@ function saveDraftEntry($entry) {
 					acceptTrackback  = {$entry['acceptTrackback']},
 					published        = {$entry['published']},
 					modified         = UNIX_TIMESTAMP()
-				WHERE owner = ".getBlogId()." AND id = $draft AND draft = 1");
+				WHERE blogid = ".getBlogId()." AND id = $draft AND draft = 1");
 		if (!$result)
 			return false;
 	} else {
 		$password = generatePassword();
 		if($entry['id'] == 0)
-			$entry['id'] = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE owner = ".getBlogId()." and draft = 0") + 1;
+			$entry['id'] = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." and draft = 0") + 1;
 		$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries
-			(owner, userid, id, draft, visibility, category, title, slogan, content, contentFormatter,
+			(blogid, userid, id, draft, visibility, category, title, slogan, content, contentFormatter,
 			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
 			 comments, trackbacks) 
 				VALUES (
@@ -679,10 +679,10 @@ function saveDraftEntry($entry) {
 
 function updateTrackbacksOfEntry($blogid, $id) {
 	global $database;
-	$trackbacks = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE owner = $blogid AND entry = $id AND isFiltered = 0");
+	$trackbacks = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND entry = $id AND isFiltered = 0");
 	if ($trackbacks === null)
 		return false;
-	return DBQuery::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks WHERE owner = $blogid AND id = $id");
+	return DBQuery::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks WHERE blogid = $blogid AND id = $id");
 }
 
 function deleteEntry($blogid, $id) {
@@ -693,13 +693,13 @@ function deleteEntry($blogid, $id) {
 	requireModel("blog.tag");
 
 	$target = getEntry($blogid, $id);
-	if (DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $id") == 3)
+	if (DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id") == 3)
 		syndicateEntry($id, 'delete');
-	$result = DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $id");
+	$result = DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id");
 	if (mysql_affected_rows() > 0) {
-		$result = DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE owner = $blogid AND entry = $id");
-		$result = DBQuery::query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $blogid AND entry = $id");
-		$result = DBQuery::query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $blogid AND entry = $id");
+		$result = DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND entry = $id");
+		$result = DBQuery::query("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND entry = $id");
+		$result = DBQuery::query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND entry = $id");
 
 		updateEntriesOfCategory($blogid, $target['category']);
 		deleteAttachments($blogid, $id);
@@ -722,14 +722,14 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 		
 	if ($category == -1) { // Check Keyword duplication
 		foreach($targets as $entryId) {
-			$title = DBQuery::queryCell("SELECT title FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $entryId AND draft = 0");
+			$title = DBQuery::queryCell("SELECT title FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
 			if (is_null($title)) return false;
-			if (DBQuery::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE owner = $blogid AND id <> $entryId AND draft = 0 AND title = '$title' AND category = -1") == true) return false;
+			if (DBQuery::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id <> $entryId AND draft = 0 AND title = '$title' AND category = -1") == true) return false;
 		}
 	}
 	
 	foreach($targets as $entryId) {
-		$oldVisibility = DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $entryId AND draft = 0");
+		$oldVisibility = DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
 		$visibility = 	$oldVisibility;
 		if ($category < 0) {
 			if ($visibility == 1) $visibility = 0;
@@ -739,7 +739,7 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 		if (($oldVisibility == 3) && ($visibility != 3))
 			syndicateEntry($entryId, 'delete');
 			
-		DBQuery::execute("UPDATE {$database['prefix']}Entries SET category = $category , visibility = $visibility WHERE owner = $blogid AND id = $entryId");
+		DBQuery::execute("UPDATE {$database['prefix']}Entries SET category = $category , visibility = $visibility WHERE blogid = $blogid AND id = $entryId");
 	}	
 
 	if(updateEntriesOfCategory($blogid)) {
@@ -757,7 +757,7 @@ function setEntryVisibility($id, $visibility) {
 	$blogid = getBlogId();
 	if (($visibility < 0) || ($visibility > 3))
 		return false;
-	list($oldVisibility, $category) = DBQuery::queryRow("SELECT visibility, category FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $id AND draft = 0");
+	list($oldVisibility, $category) = DBQuery::queryRow("SELECT visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0");
 
 	if ($category < 0) {
 		if ($visibility == 1) $visibility = 0;
@@ -773,12 +773,12 @@ function setEntryVisibility($id, $visibility) {
 		syndicateEntry($id, 'delete');
 	else if ($visibility == 3) {
 		if (!syndicateEntry($id, 'create')) {
-			DBQuery::query("UPDATE {$database['prefix']}Entries SET visibility = $oldVisibility, modified = UNIX_TIMESTAMP() WHERE owner = $blogid AND id = $id");
+			DBQuery::query("UPDATE {$database['prefix']}Entries SET visibility = $oldVisibility, modified = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id");
 			return false;
 		}
 	}
 
-	$result = DBQuery::query("UPDATE {$database['prefix']}Entries SET visibility = $visibility, modified = UNIX_TIMESTAMP() WHERE owner = $blogid AND id = $id");
+	$result = DBQuery::query("UPDATE {$database['prefix']}Entries SET visibility = $visibility, modified = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id");
 	if (!$result)
 		return false;
 	if (mysql_affected_rows() == 0)
@@ -798,7 +798,7 @@ function setEntryVisibility($id, $visibility) {
 function protectEntry($id, $password) {
 	global $database;
 	$password = mysql_tt_escape_string($password);
-	$result = DBQuery::query("UPDATE {$database['prefix']}Entries SET password = '$password', modified = UNIX_TIMESTAMP() WHERE owner = ".getBlogId()." AND id = $id AND visibility = 1");
+	$result = DBQuery::query("UPDATE {$database['prefix']}Entries SET password = '$password', modified = UNIX_TIMESTAMP() WHERE blogid = ".getBlogId()." AND id = $id AND visibility = 1");
 	return ($result && (mysql_affected_rows() > 0));
 }
 
@@ -819,7 +819,7 @@ function syndicateEntry($id, $mode) {
 		$summary['content'] = UTF8::lessenAsByte(stripHTML(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'])), 1023, '');
 		$summary['author'] = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = {$entry['userid']}");
 		$summary['tags'] = array();
-		foreach(DBQuery::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND owner = $blogid AND entry = $id ORDER BY name") as $tag)
+		foreach(DBQuery::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND blogid = $blogid AND entry = $id ORDER BY name") as $tag)
 			array_push($summary['tags'], $tag['name']);
 		$summary['location'] = $entry['location'];
 		$summary['written'] = Timestamp::getRFC1123($entry['published']);
@@ -834,11 +834,11 @@ function syndicateEntry($id, $mode) {
 function publishEntries() {
 	global $database;
 	$blogid = getBlogId();
-	$entries = DBQuery::queryAll("SELECT id, visibility FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 AND visibility < 0 AND published < UNIX_TIMESTAMP()");
+	$entries = DBQuery::queryAll("SELECT id, visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published < UNIX_TIMESTAMP()");
 	if (count($entries) == 0)
 		return;
 	foreach ($entries as $i => $entry) {
-		$result = DBQuery::query("UPDATE {$database['prefix']}Entries SET visibility = 0 WHERE owner = $blogid AND id = {$entry['id']} AND draft = 0");
+		$result = DBQuery::query("UPDATE {$database['prefix']}Entries SET visibility = 0 WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 0");
 		if ($entry['visibility'] == -3) {
 			if ($result && (mysql_affected_rows() > 0) && setEntryVisibility($entry['id'], 2))
 				setEntryVisibility($entry['id'], 3);
@@ -888,7 +888,7 @@ function getEntryVisibilityName($visibility) {
 
 function getSloganById($blogid, $id) {
 	global $database;
-	$result = DBQuery::queryCell("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $id");
+	$result = DBQuery::queryCell("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id");
 	if (is_null($result))
 		return false;
 	else

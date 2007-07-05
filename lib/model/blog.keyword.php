@@ -7,7 +7,7 @@ function getKeywordByName($blogid, $name) {
 	global $database;
 	$name = mysql_tt_escape_string($name);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	if ($result = DBQuery::query("SELECT * FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 $visibility AND category = -1 AND title = '$name'"))
+	if ($result = DBQuery::query("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1 AND title = '$name'"))
 		return mysql_fetch_array($result);
 	return false;	
 }
@@ -15,14 +15,14 @@ function getKeywordByName($blogid, $name) {
 function getKeywordCount($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	return DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 $visibility AND category = -1");
+	return DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1");
 }
 
 function getKeywordNames($blogid) {
 	global $database;
 	$names = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$result = DBQuery::query("SELECT title FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 $visibility AND category = -1 ORDER BY char_length(title) DESC");
+	$result = DBQuery::query("SELECT title FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1 ORDER BY char_length(title) DESC");
 	while (list($name) = mysql_fetch_array($result))
 		array_push($names, $name);
 	return $names;
@@ -31,7 +31,7 @@ function getKeywordNames($blogid) {
 function getKeywords($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	return DBQuery::queryAll("SELECT * FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 $visibility AND category = -1 ORDER BY published DESC");
+	return DBQuery::queryAll("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1 ORDER BY published DESC");
 }
 
 function getKeywordsWithPaging($blogid, $search, $page, $count) {
@@ -45,7 +45,7 @@ function getKeywordsWithPaging($blogid, $search, $page, $count) {
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
 	$sql = "SELECT * 
 		FROM {$database['prefix']}Entries 
-		WHERE owner = $blogid 
+		WHERE blogid = $blogid 
 			AND draft = 0 $visibility 
 			AND category = -1 $aux 
 		ORDER BY published DESC";
@@ -58,7 +58,7 @@ function getKeylog($blogid, $keyword) {
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	return DBQuery::queryAll("SELECT id, userid, title, category, content, published 
 			FROM {$database['prefix']}Entries 
-			WHERE owner = $blogid 
+			WHERE blogid = $blogid 
 				AND draft = 0 $visibility 
 				AND category = -1 
 				AND title = '$keyword' 

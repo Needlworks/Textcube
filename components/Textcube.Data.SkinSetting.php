@@ -64,7 +64,7 @@ class SkinSetting {
 		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->skin)) {
 			if (strncmp($this->skin, 'customize/', 10) == 0) {
-				if (strcmp($this->skin, "customize/$owner") != 0)
+				if (strcmp($this->skin, "customize/".getBlogId()) != 0)
 					return $this->_error('skin');
 			} else {
 				if (!Validator::filename($this->skin))

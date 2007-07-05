@@ -8,10 +8,10 @@ function getCategoryId($blogid, $name, $parentName = false) {
 	
 	$name = mysql_tt_escape_string($name);
 	if ($parentName === false)
-		$sql = "SELECT id FROM {$database['prefix']}Categories WHERE owner = $blogid AND name = '$name'";
+		$sql = "SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name = '$name'";
 	else {
 		$parentName = mysql_tt_escape_string($parentName);
-		$sql = "SELECT c.id FROM {$database['prefix']}Categories c LEFT JOIN {$database['prefix']}Categories c2 ON c.parent = c2.id AND c.owner = c2.owner WHERE c.owner = $blogid AND c.name = '$name' AND c2.name = '$parentName'";
+		$sql = "SELECT c.id FROM {$database['prefix']}Categories c LEFT JOIN {$database['prefix']}Categories c2 ON c.parent = c2.id AND c.blogid = c2.blogid WHERE c.blogid = $blogid AND c.name = '$name' AND c2.name = '$parentName'";
 	}
 	return DBQuery::queryCell($sql);
 }
@@ -21,12 +21,12 @@ function getCategoryIdByLabel($blogid, $label) {
 	if (empty($label))
 		return 0;
 	$label = mysql_tt_escape_string($label);
-	return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Categories WHERE owner = $blogid AND label = '$label'");
+	return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND label = '$label'");
 }
 
 function getCategoryNameById($blogid, $id) {
 	global $database;
-	$result = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $blogid AND id = $id");
+	$result = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
 	if (is_null($result))
 		return _text('전체');
 	else
@@ -35,7 +35,7 @@ function getCategoryNameById($blogid, $id) {
 
 function getCategoryBodyIdById($blogid, $id) {
 	global $database;
-	$result = DBQuery::queryCell("SELECT bodyId FROM {$database['prefix']}Categories WHERE owner = $blogid AND id = $id");
+	$result = DBQuery::queryCell("SELECT bodyId FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
 	if (($id === 0) || ($result == '') || ($id === null))
 		return 'tt-body-category';
 	return $result;
@@ -47,7 +47,7 @@ function getCategoryLabelById($blogid, $id) {
 		return '';
 //	if ($id === 0)
 //		return _text('분류 전체보기');
-	return DBQuery::queryCell("SELECT label FROM {$database['prefix']}Categories WHERE owner = $blogid AND id = $id");
+	return DBQuery::queryCell("SELECT label FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
 }
 
 function getCategoryLinkById($blogid, $id) {
@@ -65,7 +65,7 @@ function getCategoryLinkById($blogid, $id) {
 
 function getCategories($blogid) {
 	global $database;
-	$rows = DBQuery::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE owner = $blogid AND id > 0 ORDER BY parent, priority");
+	$rows = DBQuery::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id > 0 ORDER BY parent, priority");
 	$categories = array();
 	foreach ($rows as $category) {
 		if ($category['parent'] == null) {
@@ -94,19 +94,19 @@ function getCategoriesSkin() {
 
 function getParentCategoryId($blogid, $id) {
 	global $database;
-	return DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Categories WHERE owner = $blogid AND id = $id");
+	return DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
 }
 
 function getNumberChildCategory($id = null) {
 	global $database;
-	$sql = "SELECT * FROM {$database['prefix']}Categories WHERE owner = ".getBlogId()." AND parent " . ($id == null ? 'IS NULL' : "= $id");
+	$sql = "SELECT * FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND parent " . ($id == null ? 'IS NULL' : "= $id");
 	$result = DBQuery::queryRow($sql);
 	return DBQuery::queryCell($sql);
 }
 
 function getNumberEntryInCategories($id) {
 	global $database;
-	return DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE owner = ".getBlogId()." AND draft = 0 AND category " . ($id == null ? 'IS NULL' : "= $id"));
+	return DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND draft = 0 AND category " . ($id == null ? 'IS NULL' : "= $id"));
 }
 
 function addCategory($blogid, $parent, $name) {
@@ -117,7 +117,7 @@ function addCategory($blogid, $parent, $name) {
 	if (!is_null($parent) && !Validator::id($parent))
 		return false;
 	if ($parent !== null) {
-		$label = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE owner = $blogid AND id = $parent");
+		$label = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $parent");
 		if ($label === null)
 			return false;
 		$label .= '/' . $name;
@@ -135,14 +135,14 @@ function addCategory($blogid, $parent, $name) {
 		$parentStr = "AND parent = $parent";
 	}
 
-	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $blogid AND name = '$name' $parentStr";
+	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name = '$name' $parentStr";
 	
 	if (DBQuery::queryCell($sql) > 0)
 		return false;
 
-	$newPriority = DBQuery::queryCell("SELECT MAX(priority) FROM {$database['prefix']}Categories WHERE owner = $blogid") + 1;
-	$newId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE owner = $blogid") + 1;
-	$result = DBQuery::query("INSERT INTO {$database['prefix']}Categories (owner, id, parent, name, priority, entries, entriesInLogin, label, visibility) VALUES ($blogid, $newId, $parent, '$name', $newPriority, 0, 0, '$label', 2)");
+	$newPriority = DBQuery::queryCell("SELECT MAX(priority) FROM {$database['prefix']}Categories WHERE blogid = $blogid") + 1;
+	$newId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE blogid = $blogid") + 1;
+	$result = DBQuery::query("INSERT INTO {$database['prefix']}Categories (blogid, id, parent, name, priority, entries, entriesInLogin, label, visibility) VALUES ($blogid, $newId, $parent, '$name', $newPriority, 0, 0, '$label', 2)");
 	updateEntriesOfCategory($blogid);
 	return $result ? true : false;
 }
@@ -152,7 +152,7 @@ function deleteCategory($blogid, $id) {
 	
 	if (!is_numeric($id))
 		return false;
-	return DBQuery::execute("DELETE FROM {$database['prefix']}Categories WHERE owner = $blogid AND id = $id");
+	return DBQuery::execute("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
 }
 
 function modifyCategory($blogid, $id, $name, $bodyid) {
@@ -161,7 +161,7 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	if($id==0) checkRootCategoryExistence($blogid);
 	if ((empty($name)) && (empty($bodyid)))
 		return false;
-	$row = DBQuery::queryRow("SELECT p.name, p.id FROM {$database['prefix']}Categories c LEFT JOIN {$database['prefix']}Categories p ON c.parent = p.id WHERE c.owner = $blogid AND c.id = $id");
+	$row = DBQuery::queryRow("SELECT p.name, p.id FROM {$database['prefix']}Categories c LEFT JOIN {$database['prefix']}Categories p ON c.parent = p.id WHERE c.blogid = $blogid AND c.id = $id");
 	$label = $row['name'];
 	$parentId = $row['id'];	
 	if (!empty($parentId)) {
@@ -171,13 +171,13 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	
 	$label = mysql_tt_escape_string(mysql_lessen(empty($label) ? $name : "$label/$name", 255));
 	$name = mysql_tt_escape_string(mysql_lessen($name, 127));
-	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $blogid AND id=$id";
-	// $sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $blogid AND name='$name' $parentStr";	
+	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id=$id";
+	// $sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name='$name' $parentStr";	
 	if(DBQuery::queryCell($sql) == false)
 		return false;
 	$bodyid = mysql_tt_escape_string(mysql_lessen($bodyid, 20));
 	
-	$result = DBQuery::query("UPDATE {$database['prefix']}Categories SET name = '$name', label = '$label', bodyId = '$bodyid'  WHERE owner = $blogid AND id = $id");
+	$result = DBQuery::query("UPDATE {$database['prefix']}Categories SET name = '$name', label = '$label', bodyId = '$bodyid'  WHERE blogid = $blogid AND id = $id");
 	if ($result && (mysql_affected_rows() > 0))
 		clearRSS();
 	updateEntriesOfCategory($blogid);
@@ -186,24 +186,24 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 
 function updateEntriesOfCategory($blogid, $id = - 1) {
 	global $database;
-	$result = DBQuery::query("SELECT * FROM {$database['prefix']}Categories WHERE owner = $blogid AND parent IS NULL");
+	$result = DBQuery::query("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent IS NULL");
 	while ($row = mysql_fetch_array($result)) {
 		$parent = $row['id'];
 		$parentName = mysql_lessen($row['name'], 127);
 		$row['name'] = mysql_tt_escape_string($parentName);
-		$countParent = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 AND visibility > 0 AND category = $parent");
-		$countInLoginParent = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 AND category = $parent");
-		$result2 = DBQuery::query("SELECT * FROM {$database['prefix']}Categories WHERE owner = $blogid AND parent = $parent");
+		$countParent = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = $parent");
+		$countInLoginParent = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = $parent");
+		$result2 = DBQuery::query("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $parent");
 		while ($rowChild = mysql_fetch_array($result2)) {
 			$label = mysql_tt_escape_string(mysql_lessen($parentName . '/' . $rowChild['name'], 255));
 			$rowChild['name'] = mysql_tt_escape_string(mysql_lessen($rowChild['name'], 127));
-			$countChild = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
-			$countInLogInChild = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 AND category = {$rowChild['id']}");
-			DBQuery::query("UPDATE {$database['prefix']}Categories SET entries = $countChild, entriesInLogin = $countInLogInChild, `label` = '$label' WHERE owner = $blogid AND id = {$rowChild['id']}");
+			$countChild = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
+			$countInLogInChild = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = {$rowChild['id']}");
+			DBQuery::query("UPDATE {$database['prefix']}Categories SET entries = $countChild, entriesInLogin = $countInLogInChild, `label` = '$label' WHERE blogid = $blogid AND id = {$rowChild['id']}");
 			$countParent += $countChild;
 			$countInLoginParent += $countInLogInChild;
 		}
-		DBQuery::query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesInLogin = $countInLoginParent, `label` = '{$row['name']}' WHERE owner = $blogid AND id = $parent");
+		DBQuery::query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesInLogin = $countInLoginParent, `label` = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
 	}
 	return true;
 }
@@ -235,7 +235,7 @@ function moveCategory($blogid, $id, $direction) {
 				_my.parent AS myParent
 			FROM {$database['prefix']}Categories AS _my 
 				LEFT JOIN {$database['prefix']}Categories AS _parent ON _parent.id = _my.parent 
-			WHERE _my.id = $id AND _my.owner = $blogid";
+			WHERE _my.id = $id AND _my.blogid = $blogid";
 	$result = DBQuery::query($sql);
 	$row = mysql_fetch_array($result);
 	$myParent = is_null($row['myParent']) ? 'NULL' : $row['myParent'];
@@ -243,10 +243,10 @@ function moveCategory($blogid, $id, $direction) {
 	$parentPriority = is_null($row['parentPriority']) ? 'NULL' : $row['parentPriority'];
 	$parentParent = is_null($row['parentParent']) ? 'NULL' : $row['parentParent'];
 	$myPriority = $row['myPriority'];
-	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE parent = $myId AND owner = $blogid";
+	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE parent = $myId AND blogid = $blogid";
 	$myIsHaveChild = (mysql_result(DBQuery::query($sql), 0, 0) > 0) ? true : false;
 	$aux = $parentId == 'NULL' ? 'parent is null' : "parent = $parentId";
-	$sql = "SELECT id, parent, priority FROM {$database['prefix']}Categories WHERE $aux AND owner = $blogid AND priority $sign $myPriority ORDER BY priority $arrange LIMIT 1";
+	$sql = "SELECT id, parent, priority FROM {$database['prefix']}Categories WHERE $aux AND blogid = $blogid AND priority $sign $myPriority ORDER BY priority $arrange LIMIT 1";
 	$result = DBQuery::query($sql);
 	$canMove = (mysql_num_rows($result) > 0) ? true : false;
 	$row = mysql_fetch_array($result);
@@ -261,13 +261,13 @@ function moveCategory($blogid, $id, $direction) {
 						SET
 							priority = $myPriority
 						WHERE
-							id = $nextId AND owner = $blogid";
+							id = $nextId AND blogid = $blogid";
 			DBQuery::query($sql);
 			$sql = "UPDATE {$database['prefix']}Categories
 						SET
 							priority = $nextPriority
 						WHERE
-							id = $myId AND owner = $blogid";
+							id = $myId AND blogid = $blogid";
 			DBQuery::query($sql);
 		// 자신이 2 depth를 가지지 않은 1 depth 카테고리이거나, 위치를 바꿀 대상이 없는 경우.
 		} else {
@@ -280,9 +280,9 @@ function moveCategory($blogid, $id, $direction) {
 							SET
 								parent = $nextId
 							WHERE
-								id = $myId AND owner = $blogid";
+								id = $myId AND blogid = $blogid";
 				DBQuery::query($sql);
-				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent = $nextId AND owner = $blogid ORDER BY priority LIMIT 1";
+				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent = $nextId AND blogid = $blogid ORDER BY priority LIMIT 1";
 				$result = DBQuery::query($sql);
 				$row = mysql_fetch_array($result);
 				$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
@@ -292,13 +292,13 @@ function moveCategory($blogid, $id, $direction) {
 								SET
 									priority = " . max($nextPriority, $myPriority) . "
 								WHERE
-									id = $nextId AND owner = $blogid";
+									id = $nextId AND blogid = $blogid";
 					DBQuery::query($sql);
 					$sql = "UPDATE {$database['prefix']}Categories
 								SET
 									priority = " . min($nextPriority, $myPriority) . "
 								WHERE
-									id = $myId AND owner = $blogid";
+									id = $myId AND blogid = $blogid";
 					DBQuery::query($sql);
 				}
 			// 같은 이름이 있으면.
@@ -307,13 +307,13 @@ function moveCategory($blogid, $id, $direction) {
 							SET
 								priority = $myPriority
 							WHERE
-								id = $nextId AND owner = $blogid";
+								id = $nextId AND blogid = $blogid";
 				DBQuery::query($sql);
 				$sql = "UPDATE {$database['prefix']}Categories
 							SET
 								priority = $nextPriority
 							WHERE
-								id = $myId AND owner = $blogid";
+								id = $myId AND blogid = $blogid";
 				DBQuery::query($sql);
 			}
 		}
@@ -325,7 +325,7 @@ function moveCategory($blogid, $id, $direction) {
 			$overlapCount = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` IS NULL");
 			// 1 depth에 같은 이름이 있으면 2 depth로 직접 이동.
 			if ($overlapCount > 0) {
-				$sql = "SELECT `id`, `parent`, `priority` FROM `{$database['prefix']}Categories` WHERE `parent` IS NULL AND `owner` = $blogid AND `priority` $sign $parentPriority ORDER BY `priority` $arrange";
+				$sql = "SELECT `id`, `parent`, `priority` FROM `{$database['prefix']}Categories` WHERE `parent` IS NULL AND `blogid` = $blogid AND `priority` $sign $parentPriority ORDER BY `priority` $arrange";
 				$result = DBQuery::query($sql);
 				while ($row = mysql_fetch_array($result)) {
 					$nextId = $row['id'];
@@ -341,32 +341,32 @@ function moveCategory($blogid, $id, $direction) {
 									SET
 										`parent` = $nextId
 									WHERE
-										`id` = $myId AND `owner` = $blogid";
+										`id` = $myId AND `blogid` = $blogid";
 						DBQuery::query($sql);
 							break;
 					}
 				}
 			// 같은 이름이 없으면 1 depth로 이동.
 			} else {
-				$sql = "UPDATE {$database['prefix']}Categories SET parent = NULL WHERE id = $myId AND owner = $blogid";
+				$sql = "UPDATE {$database['prefix']}Categories SET parent = NULL WHERE id = $myId AND blogid = $blogid";
 				DBQuery::query($sql);
-				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent is null AND owner = $blogid AND priority $sign $parentPriority ORDER BY priority $arrange LIMIT 1";
+				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent is null AND blogid = $blogid AND priority $sign $parentPriority ORDER BY priority $arrange LIMIT 1";
 				$result = DBQuery::query($sql);
 				$row = mysql_fetch_array($result);
 				$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
 				$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
 				if ($nextId == 'NULL') {
 					$operator = ($direction == 'up') ? '-' : '+';
-					$sql = "UPDATE {$database['prefix']}Categories SET priority = $parentPriority $operator 1 WHERE id = $myId AND owner = $blogid";
+					$sql = "UPDATE {$database['prefix']}Categories SET priority = $parentPriority $operator 1 WHERE id = $myId AND blogid = $blogid";
 					DBQuery::query($sql);
 					return;
 				}
 				if ($direction == 'up') {
-					$aux = "SET priority = priority+1 WHERE priority >= $parentPriority AND owner = $blogid";
-					$aux2 = "SET priority = $parentPriority WHERE id = $myId AND owner = $blogid";
+					$aux = "SET priority = priority+1 WHERE priority >= $parentPriority AND blogid = $blogid";
+					$aux2 = "SET priority = $parentPriority WHERE id = $myId AND blogid = $blogid";
 				} else {
-					$aux = "SET priority = priority+1 WHERE priority >= $nextPriority AND owner = $blogid";
-					$aux2 = "SET priority = $nextPriority WHERE id = $myId AND owner = $blogid";
+					$aux = "SET priority = priority+1 WHERE priority >= $nextPriority AND blogid = $blogid";
+					$aux2 = "SET priority = $nextPriority WHERE id = $myId AND blogid = $blogid";
 				}
 				$sql = "UPDATE {$database['prefix']}Categories $aux";
 				DBQuery::query($sql);
@@ -379,13 +379,13 @@ function moveCategory($blogid, $id, $direction) {
 						SET
 							priority = $myPriority
 						WHERE
-							id = $nextId AND owner = $blogid";
+							id = $nextId AND blogid = $blogid";
 			DBQuery::query($sql);
 			$sql = "UPDATE {$database['prefix']}Categories
 						SET
 							priority = $nextPriority
 						WHERE
-							id = $myId AND owner = $blogid";
+							id = $myId AND blogid = $blogid";
 			DBQuery::query($sql);
 		}
 	}
@@ -394,12 +394,12 @@ function moveCategory($blogid, $id, $direction) {
 
 function checkRootCategoryExistence($blogid) {
 	global $database;
-	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE owner = $blogid AND id = 0";
+	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = 0";
 	if(!(DBQuery::queryCell($sql))) {
 		$name = _text('전체');
 		addCategory($blogid,null,'tempRootCategory');
-		$id = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE owner = $blogid");
-		$result = DBQuery::query("UPDATE {$database['prefix']}Categories SET id = 0 AND name = '$name' AND priority = 1 WHERE owner = $blogid AND id = $id LIMIT 1");
+		$id = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE blogid = $blogid");
+		$result = DBQuery::query("UPDATE {$database['prefix']}Categories SET id = 0 AND name = '$name' AND priority = 1 WHERE blogid = $blogid AND id = $id LIMIT 1");
 		return $result ? true : false;
 	}
 	return false;
@@ -407,7 +407,7 @@ function checkRootCategoryExistence($blogid) {
 
 function getCategoryVisibility($blogid, $id) {
 	global $database;
-	$result = DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Categories WHERE owner = $blogid AND id = $id");
+	$result = DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
 	if ($result==false)
 		return 2;
 	else
@@ -417,9 +417,9 @@ function getCategoryVisibility($blogid, $id) {
 function getParentCategoryVisibility($blogid, $id) {
 	global $database;
 	if($id == 0) return false;
-	$parentId = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Categories WHERE owner = $blogid AND id = $id");
+	$parentId = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
 	if($parentId == NULL) return false;
-	$parentVisibility = DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Categories WHERE owner = $blogid AND id = $parentId");
+	$parentVisibility = DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $parentId");
 	if ($parentVisibility == false)
 		return 2;
 	else
@@ -431,7 +431,7 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 	if($id == 0) return false;
 	$parentVisibility = getParentCategoryVisibility($blogid, $id);
 	if ($parentVisibility && $parentVisibility < 2) return false; // return without changing if parent category is set to hidden.
-	$result = DBQuery::query("UPDATE {$database['prefix']}Categories SET visibility = $visibility WHERE owner = $blogid AND id = $id");
+	$result = DBQuery::query("UPDATE {$database['prefix']}Categories SET visibility = $visibility WHERE blogid = $blogid AND id = $id");
 	if ($result && $visibility == 1) $result = setChildCategoryVisibility($blogid, $id, $visibility);
 	if ($result)
 		clearRSS();
@@ -442,10 +442,10 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 function setChildCategoryVisibility($blogid, $id, $visibility) {
 	global $database;
 	if($id == 0) return false;
-	$childCategories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $blogid AND parent = $id");
+	$childCategories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $id");
 	if($childCategories!=false) {
 		foreach($childCategories as $childCategory) {
-			$result = DBQuery::query("UPDATE {$database['prefix']}Categories SET visibility = $visibility WHERE owner = $blogid AND id = $childCategory");
+			$result = DBQuery::query("UPDATE {$database['prefix']}Categories SET visibility = $visibility WHERE blogid = $blogid AND id = $childCategory");
 			if($result == false) return false;
 		}
 		return $result ? $visibility : false;

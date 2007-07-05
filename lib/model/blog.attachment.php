@@ -6,7 +6,7 @@
 function getAttachments($blogid, $parent, $orderBy = null, $sort='ASC') {
 	global $database;
 	$attachments = array();
-	if ($result = DBQuery::query("select * from {$database['prefix']}Attachments where owner = $blogid and parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
+	if ($result = DBQuery::query("select * from {$database['prefix']}Attachments where blogid = $blogid and parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
 		while ($attachment = mysql_fetch_array($result))
 			array_push($attachments, $attachment);
 	}
@@ -16,13 +16,13 @@ function getAttachments($blogid, $parent, $orderBy = null, $sort='ASC') {
 function getAttachmentByName($blogid, $parent, $name) {
 	global $database;
 	$name = mysql_tt_escape_string($name);
-	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where owner = $blogid and parent = $parent and name = '$name'");
+	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where blogid = $blogid and parent = $parent and name = '$name'");
 }
 
 function getAttachmentByOnlyName($blogid, $name) {
 	global $database;
 	$name = mysql_tt_escape_string($name);
-	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where owner = $blogid and name = '$name'");
+	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where blogid = $blogid and name = '$name'");
 }
 
 function getAttachmentByLabel($blogid, $parent, $label) {
@@ -30,7 +30,7 @@ function getAttachmentByLabel($blogid, $parent, $label) {
 	if ($parent === false)
 		$parent = 0;
 	$label = mysql_tt_escape_string($label);
-	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where owner = $blogid and parent = $parent and label = '$label'");
+	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where blogid = $blogid and parent = $parent and label = '$label'");
 }
 
 function getAttachmentSize($blogid=null, $parent = null) {
@@ -39,7 +39,7 @@ function getAttachmentSize($blogid=null, $parent = null) {
 	$parentStr = '';	
 
 	if (!empty($blogid))
-		$blogidStr = "owner = $blogid ";
+		$blogidStr = "blogid = $blogid ";
 	if ($parent == 0 || !empty($parent))
 		$parentStr = "and parent = $parent";
 	return DBQuery::queryCell("select sum(size) from {$database['prefix']}Attachments where $blogidStr $parentStr");
@@ -55,7 +55,7 @@ function addAttachment($blogid, $parent, $file) {
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
 	$filename = mysql_tt_escape_string($file['name']);
-	if (DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE owner=$blogid AND parent=$parent AND label='$filename'")>0) {
+	if (DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE blogid=$blogid AND parent=$parent AND label='$filename'")>0) {
 		return false;
 	}
 	$attachment = array();
@@ -113,7 +113,7 @@ function deleteAttachment($blogid, $parent, $name) {
 		return false;
 	$origname = $name;
 	$name = mysql_tt_escape_string($name);
-	if (DBQuery::execute("delete from {$database['prefix']}Attachments where owner = $blogid and name = '$name'") && (mysql_affected_rows() == 1)) {
+	if (DBQuery::execute("delete from {$database['prefix']}Attachments where blogid = $blogid and name = '$name'") && (mysql_affected_rows() == 1)) {
 		@unlink(ROOT . "/attach/$blogid/$origname");
 		clearRSS();
 		return true;
@@ -144,7 +144,7 @@ function deleteAttachmentMulti($blogid, $parent, $names) {
 			continue;
 		$origname = $name;
 		$name = mysql_tt_escape_string($name);
-		if (DBQuery::execute("delete from {$database['prefix']}Attachments where owner = $blogid and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
+		if (DBQuery::execute("delete from {$database['prefix']}Attachments where blogid = $blogid and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
 			unlink(ROOT . "/attach/$blogid/$origname");
 		} else {
 		}
@@ -165,17 +165,17 @@ function downloadAttachment($name) {
 	requireModel('blog.rss');
 	global $database;
 	$name = mysql_tt_escape_string($name);
-	DBQuery::query("UPDATE {$database['prefix']}Attachments SET downloads = downloads + 1 WHERE owner = ".getBlogId()." AND name = '$name'");
+	DBQuery::query("UPDATE {$database['prefix']}Attachments SET downloads = downloads + 1 WHERE blogid = ".getBlogId()." AND name = '$name'");
 }
 
 function setEnclosure($name, $order) {
 	global $database;
 	$name = mysql_tt_escape_string($name);
-	if (($parent = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE owner = ".getBlogId()." AND name = '$name'")) !== null) {
+	if (($parent = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'")) !== null) {
 		DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent");
 		if ($order) {
 			clearRSS();
-			return DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 1 WHERE owner = ".getBlogId()." AND name = '$name'") ? 1 : 2;
+			return DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 1 WHERE blogid = ".getBlogId()." AND name = '$name'") ? 1 : 2;
 		} else
 			return 0;
 	} else
@@ -186,7 +186,7 @@ function getEnclosure($entry) {
 	global $database;
 	if ($entry < 0)
 		return null;
-	return DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE parent = $entry AND enclosure = 1 AND owner = ".getBlogId());
+	return DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE parent = $entry AND enclosure = 1 AND blogid = ".getBlogId());
 }
 
 function return_bytes($val) {

@@ -25,10 +25,11 @@
 */
 function PN_Visitor_Default()
 {
-	global $owner, $pluginMenuURL, $pluginAccessURL, $pluginHandlerURL;
+	global $pluginMenuURL, $pluginAccessURL, $pluginHandlerURL;
+	$blogid = getBlogId();
 	requireComponent( "Textcube.Model.Statistics");
 	requireComponent('Textcube.Function.misc');
-	$stats = Statistics::getStatistics($owner);
+	$stats = Statistics::getStatistics($blogid);
 	$date = isset($_GET['date']) ? $_GET['date'] : date('Ym', strtotime("now"));
 ?>
 <!-- This tab space below this line is inserted for the indentation of original admin page -->
@@ -95,7 +96,7 @@ function PN_Visitor_Default()
 									</thead>
 									<tbody>
 <?php
-$temp = Statistics::getMonthlyStatistics($owner);
+$temp = Statistics::getMonthlyStatistics($blogid);
 for ($i=0; $i<sizeof($temp); $i++) {
 	$record = $temp[$i];
 	
@@ -149,11 +150,11 @@ if (isset($date)) {
 
 function PN_Visitor_Default_set()
 {
-	global $owner;
+	$blogid = getBlogId();
 	requireComponent( "Textcube.Model.Statistics");
 	$isAjaxRequest = isset($_REQUEST['ajaxcall']) ? true : false;
 	if ($isAjaxRequest) {
-		$result = Statistics::setTotalStatistics($owner) ? 0 : -1;
+		$result = Statistics::setTotalStatistics($blogid) ? 0 : -1;
 		header('Content-Type: text/xml; charset=utf-8');
 		print ("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<response>\n<error>$result</error>\n</response>");
 		exit;

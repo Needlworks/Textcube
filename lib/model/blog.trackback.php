@@ -11,11 +11,11 @@ function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search
 	$postfix = '';
 	$sql = "SELECT t.*, c.name categoryName 
 		FROM {$database['prefix']}Trackbacks t 
-		LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id AND e.draft = 0 
-		LEFT JOIN {$database['prefix']}Categories c ON t.owner = c.owner AND e.category = c.id 
-		WHERE t.owner = $blogid AND t.isFiltered = 0";
+		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
+		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
+		WHERE t.blogid = $blogid AND t.isFiltered = 0";
 	if ($category > 0) {
-		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE owner = $blogid AND parent = $category");
+		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 		$postfix .= '&category=' . rawurlencode($category);
@@ -47,7 +47,7 @@ function getTrackbacks($entry) {
 	$trackbacks = array();
 	$result = DBQuery::query("select * 
 			from {$database['prefix']}Trackbacks 
-			where owner = ".getBlogId()." 
+			where blogid = ".getBlogId()." 
 				AND entry = $entry 
 				AND isFiltered = 0 
 			order by written");
@@ -63,10 +63,10 @@ function getTrackbackList($blogid, $search) {
 	$authorized = doesHaveOwnership() ? '' : ' AND (ct.visibility > 1 OR e.category = 0)';
 	if ($result = DBQuery::query("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written
  		FROM {$database['prefix']}Trackbacks t
-			LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.owner = e.owner
-			LEFT JOIN {$database['prefix']}Categories ct ON ct.id = e.category AND ct.owner = t.owner
+			LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid
+			LEFT JOIN {$database['prefix']}Categories ct ON ct.id = e.category AND ct.blogid = t.blogid
 			WHERE t.entry > 0 
-				AND t.owner = $blogid $authorized 
+				AND t.blogid = $blogid $authorized 
 				AND t.isFiltered = 0 
 				AND (t.excerpt like '%$search%' OR t.subject like '%$search%')")) {
 			while ($comment = mysql_fetch_array($result))
@@ -83,17 +83,17 @@ function getRecentTrackbacks($blogid, $count = false) {
 		FROM 
 			{$database['prefix']}Trackbacks 
 		WHERE 
-			owner = $blogid AND isFiltered = 0 
+			blogid = $blogid AND isFiltered = 0 
 		ORDER BY 
 			written 
 		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']) : 
 		"SELECT t.* 
 		FROM 
 			{$database['prefix']}Trackbacks t 
-			LEFT JOIN {$database['prefix']}Entries e ON t.owner = e.owner AND t.entry = e.id
-			LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id
+			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id
+			LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
 		WHERE 
-			t.owner = $blogid AND e.draft = 0 AND e.visibility >= 2 AND (c.visibility > 1 OR e.category = 0) AND t.isFiltered = 0 
+			t.blogid = $blogid AND e.draft = 0 AND e.visibility >= 2 AND (c.visibility > 1 OR e.category = 0) AND t.isFiltered = 0 
 		ORDER BY 
 			t.written 
 		DESC LIMIT ".($count = false ? $count : $skinSetting['trackbacksOnRecent']);
@@ -166,10 +166,10 @@ function deleteTrackback($blogid, $id) {
 	global $database;
 	requireModel('blog.entry');
 	if (!is_numeric($id)) return null;
-	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $blogid AND id = $id");
+	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $blogid AND id = $id"))
+	if (!DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
@@ -180,10 +180,10 @@ function trashTrackback($blogid, $id) {
 	global $database;
 	requireModel('blog.entry');
 	if (!is_numeric($id)) return null;
-	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $blogid AND id = $id");
+	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!DBQuery::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = UNIX_TIMESTAMP() WHERE owner = $blogid AND id = $id"))
+	if (!DBQuery::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
@@ -194,10 +194,10 @@ function revertTrackback($blogid, $id) {
 	global $database;
 	requireModel('blog.entry');
 	if (!is_numeric($id)) return null;
-	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE owner = $blogid AND id = $id");
+	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!DBQuery::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 0 WHERE owner = $blogid AND id = $id"))
+	if (!DBQuery::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
@@ -251,7 +251,7 @@ function sendTrackback($blogid, $entryId, $url) {
 
 function getTrackbackLog($blogid, $entry) {
 	global $database;
-	$result = DBQuery::query("select * from {$database['prefix']}TrackbackLogs where owner = $blogid and entry = $entry");
+	$result = DBQuery::query("select * from {$database['prefix']}TrackbackLogs where blogid = $blogid and entry = $entry");
 	$str = '';
 	while ($row = mysql_fetch_array($result)) {
 		$str .= $row['id'] . ',' . $row['url'] . ',' . Timestamp::format5($row['written']) . '*';
@@ -262,7 +262,7 @@ function getTrackbackLog($blogid, $entry) {
 function getTrackbackLogs($blogid, $entryId) {
 	global $database;
 	$logs = array();
-	$result = DBQuery::query("select * from {$database['prefix']}TrackbackLogs where owner = $blogid and entry = $entryId");
+	$result = DBQuery::query("select * from {$database['prefix']}TrackbackLogs where blogid = $blogid and entry = $entryId");
 	while ($log = mysql_fetch_array($result))
 		array_push($logs, $log);
 	return $logs;
@@ -270,7 +270,7 @@ function getTrackbackLogs($blogid, $entryId) {
 
 function deleteTrackbackLog($blogid, $id) {
 	global $database;
-	$result = DBQuery::query("delete from {$database['prefix']}TrackbackLogs where owner = $blogid and id = $id");
+	$result = DBQuery::query("delete from {$database['prefix']}TrackbackLogs where blogid = $blogid and id = $id");
 	return ($result && (mysql_affected_rows() == 1)) ? true : false;
 }
 
@@ -298,11 +298,11 @@ function getTrackbackCount($blogid, $entryId = null) {
 	if (is_null($entryId))
 		return DBQuery::queryCell("SELECT SUM(trackbacks) 
 				FROM {$database['prefix']}Entries 
-				WHERE owner = $blogid 
+				WHERE blogid = $blogid 
 					AND draft= 0");
 	return DBQuery::queryCell("SELECT trackbacks 
 			FROM {$database['prefix']}Entries 
-			WHERE owner = $blogid 
+			WHERE blogid = $blogid 
 				AND id = $entryId 
 				AND draft= 0");
 }

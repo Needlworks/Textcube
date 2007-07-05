@@ -26,17 +26,17 @@
 */
 
 // lib/model/comment.php : 367 line
-function _getRecentComments($owner) {
+function _getRecentComments($blogid) {
 	global $skinSetting, $database, $configVal, $pluginURL;
 	$data = fetchConfigVal($configVal);
 	$comments = array();
 	$repliesChk = ($data['repliesChk'] == 1)?"":" AND replier is NULL ";
 	$limitLine = ($data['repliesList'])?$data['repliesList']:$skinSetting['commentsOnRecent'];
-	$sql = "SELECT * FROM {$database['prefix']}Comments WHERE owner = {$owner} AND entry>0 AND isFiltered = 0 {$repliesChk} ORDER BY written DESC LIMIT {$limitLine}";
+	$sql = "SELECT * FROM {$database['prefix']}Comments WHERE blogid = {$blogid} AND entry>0 AND isFiltered = 0 {$repliesChk} ORDER BY written DESC LIMIT {$limitLine}";
 	if ($result = mysql_query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
 			if ($data['repliesChk'] == 2) {
-				$row = DBQuery::queryCell("select count(*) from {$database['prefix']}Comments where owner = $owner AND parent = ".$comment['id']);
+				$row = DBQuery::queryCell("select count(*) from {$database['prefix']}Comments where blogid = $blogid AND parent = ".$comment['id']);
 				$comment['replier'] = ($row)?"<img src=\"{$pluginURL}/replier.gif\" width=\"11\" height=\"9\" align=\"top\" style=\"margin-left:2px;\"/>":"";
 			}else{$comment['replier'] = "";}
 			$comment['secret'] = ($comment['secret'] == 1)?"<img src=\"{$pluginURL}/secret.gif\" width=\"9\" height=\"11\" style=\"margin-left:2px;\"/>":"";
@@ -70,10 +70,10 @@ function _getRecentCommentsView($comments, $template) {
 
 // lib/piece/blog/end.php : 48 line
 function CT_RecentRP_Default($target) {
-	global $owner;
+	global $blogid;
 
 	$target .= '<ol>'.CRLF;
-	$target .= _getRecentCommentsView(_getRecentComments($owner),'											<li><span class="date" style="display: block; font-family: Verdana, 돋움, Dotum, Tahoma, \'Lucida Grande\', sans-serif; font-size: 0.9em;">[##_rctrp_rep_time_##]</span> <a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##]</a> <span class="name" style="color: #ABABAB;">[##_rctrp_rep_name_##]</span></li>'.CRLF);
+	$target .= _getRecentCommentsView(_getRecentComments($blogid),'											<li><span class="date" style="display: block; font-family: Verdana, 돋움, Dotum, Tahoma, \'Lucida Grande\', sans-serif; font-size: 0.9em;">[##_rctrp_rep_time_##]</span> <a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##]</a> <span class="name" style="color: #ABABAB;">[##_rctrp_rep_name_##]</span></li>'.CRLF);
 	$target .= '										</ol>'.CRLF;
 
 	return revertTempTags($target);

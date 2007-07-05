@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function login($loginid, $password, $preKnownPassword = null) {
-	global $service, $owner;
+	global $service;
 	$loginid = mysql_tt_escape_string($loginid);
 	$blogid = getBlogId();
 	$userid = Auth::authenticate($blogid , $loginid, $password );

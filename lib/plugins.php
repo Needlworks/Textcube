@@ -23,7 +23,7 @@ $editorMapping = array('plain' => array('name' => _t('편집기 없음')));
 list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
 
 if (getBlogId()) {
-	$activePlugins = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE owner = ".getBlogId());
+	$activePlugins = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE blogid = ".getBlogId());
 	$xmls = new XMLStruct();
 	foreach ($activePlugins as $plugin) {
 		$version = '';
@@ -274,7 +274,7 @@ if (getBlogId()) {
 		}
 		
 		if ($disablePlugin == true) {
-			$query = sprintf("DELETE FROM `{$database['prefix']}Plugins` WHERE `owner` = %1 AND name = '%2'", getBlogId(), mysql_tt_escape_string($plugin));
+			$query = sprintf("DELETE FROM `{$database['prefix']}Plugins` WHERE `blogid` = %1 AND name = '%2'", getBlogId(), mysql_tt_escape_string($plugin));
 			DBQuery::query($query);
 		}
 	}

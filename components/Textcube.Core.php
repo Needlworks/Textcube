@@ -16,33 +16,33 @@ function encodeURL($url) {
 class User {
 	/*@static@*/
 	function getName($userid = null) {
-		global $database, $owner;
+		global $database;
 		if (!isset($userid))
-			$userid = $owner;
+			$userid = getUserId();
 		return DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
 	
 	/*@static@*/
 	function getEmail($userid = null) {
-		global $database, $owner;
+		global $database;
 		if (!isset($userid))
-			$userid = $owner;
+			$userid = getUserId();
 		return DBQuery::queryCell("SELECT loginid FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
 	
 	/*@static@*/
 	function confirmPassword($password) {
-		global $database, $owner;
+		global $database;
 		$password = md5($password);
-		return DBQuery::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = $owner AND password = '$password'");
+		return DBQuery::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = ".getBlogId()." AND password = '$password'");
 	}
 
 	function authorName($owner,$entryId){
 		requireComponent('Eolin.PHP.Core');
-		global $database, $owner, $entry;
+		global $database, $entry;
 
 		// Read userId of entry from relation table.
-		$userId = getUserIdOfEntry($owner,$entryId);
+		$userId = getUserIdOfEntry(getBlogId(),$entryId);
 		if(isset($userId)) {
 			$author = DBQuery::queryCell("SELECT name
 					FROM {$database['prefix']}Users

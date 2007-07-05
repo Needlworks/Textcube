@@ -15,7 +15,7 @@ class SubscriptionStatistics {
 	}
 	
 	function open($filter = '', $fields = '*', $sort = 'subscribed DESC') {
-		global $database, $owner;
+		global $database;
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
@@ -23,7 +23,7 @@ class SubscriptionStatistics {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}SubscriptionStatistics WHERE owner = $owner $filter $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}SubscriptionStatistics WHERE blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = mysql_num_rows($this->_result))
 				return $this->shift();
@@ -47,7 +47,7 @@ class SubscriptionStatistics {
 		$this->reset();
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'owner')
+				if ($name == 'blogid')
 					continue;
 				$this->$name = $value;
 			}
@@ -94,12 +94,12 @@ class SubscriptionStatistics {
 	}
 	
 	function _buildQuery() {
-		global $database, $owner;
+		global $database;
 		$this->host = trim($this->host);
 		if (empty($this->host))
 			return $this->_error('host');
 		$query = new TableQuery($database['prefix'] . 'SubscriptionStatistics');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->ip)) {
 			if (!Validator::ip($this->ip))
 				return $this->_error('ip');

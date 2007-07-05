@@ -25,11 +25,11 @@
 */
 
 // lib/model/entry.php : 263 line
-function _getRecentEntries($owner){
+function _getRecentEntries($blogid){
 	global $database,$skinSetting;
 	$entries=array();
 	$visibility=doesHaveOwnership()?'':'AND visibility > 0';
-	$result=mysql_query("SELECT id, title, comments FROM {$database['prefix']}Entries WHERE owner = $owner AND draft = 0 $visibility AND category >= 0 ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
+	$result=mysql_query("SELECT id, title, comments FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category >= 0 ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
 	while($entry=mysql_fetch_array($result)){
 		array_push($entries,$entry);
 	}
@@ -45,7 +45,7 @@ function _getRecentEntriesView($entries,$template){
 	foreach($entries as $entry){
 		$view = $template;
 		misc::dress('rctps_rep_link',"$blogURL/{$entry['id']}",$view);
-		misc::dress('rctps_rep_edit_link',"$blogURL/owner/entry/edit/{$entry['id']}",$view);	
+		misc::dress('rctps_rep_edit_link',"$blogURL/blogid/entry/edit/{$entry['id']}",$view);	
 		misc::dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],30)),$view);
 		misc::dress('rctps_rep_rp_cnt',"<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments']>0?"({$entry['comments']})":'').'</span>',$view);
 		print $view;
@@ -57,10 +57,10 @@ function _getRecentEntriesView($entries,$template){
 
 // lib/piece/blog/end.php : 47 line
 function CT_RecentPS_Default($target) {
-	global $owner,$pluginURL;
+	global $blogid,$pluginURL;
 
 	$target .= '<ol>'.CRLF;
-	$target .= _getRecentEntriesView(_getRecentEntries($owner),'											<li><a class="edit-link" href="[##_rctps_rep_edit_link_##]" style="background-image: url(\'' . $pluginURL . '/images/edit.gif\'); background-position: left center; background-repeat: no-repeat; display: block; float: left; height: 12px; margin: 2px 5px 0 0; width: 12px;" title="' . _t('이 포스트를 편집합니다.') . '"><span class="text" style="display: none;">[편집하기]</span></a> <a href="[##_rctps_rep_link_##]" title="' . _t('포스트를 보여줍니다.') . '">[##_rctps_rep_title_##]</a> <span class="cnt">[##_rctps_rep_rp_cnt_##]</span></li>'.CRLF);
+	$target .= _getRecentEntriesView(_getRecentEntries($blogid),'											<li><a class="edit-link" href="[##_rctps_rep_edit_link_##]" style="background-image: url(\'' . $pluginURL . '/images/edit.gif\'); background-position: left center; background-repeat: no-repeat; display: block; float: left; height: 12px; margin: 2px 5px 0 0; width: 12px;" title="' . _t('이 포스트를 편집합니다.') . '"><span class="text" style="display: none;">[편집하기]</span></a> <a href="[##_rctps_rep_link_##]" title="' . _t('포스트를 보여줍니다.') . '">[##_rctps_rep_title_##]</a> <span class="cnt">[##_rctps_rep_rp_cnt_##]</span></li>'.CRLF);
 	$target .= '										</ol>'.CRLF;
 
 	return $target;

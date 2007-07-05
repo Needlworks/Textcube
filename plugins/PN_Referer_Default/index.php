@@ -25,7 +25,7 @@
 */
 function PN_Referer_Default()
 {
-	global $owner, $pluginMenuURL, $pluginSelfParam ;
+	global $pluginMenuURL, $pluginSelfParam ;
 	requireComponent( "Textcube.Model.Statistics");
 	requireComponent( "Textcube.Model.Paging");
 	requireComponent( "Textcube.Function.misc");
@@ -66,7 +66,7 @@ function PN_Referer_Default()
 								</thead>
 								<tbody>
 <?php
-	$temp = Statistics::getRefererStatistics($owner);
+	$temp = Statistics::getRefererStatistics(getBlogId());
 	for ($i=0; $i<count($temp); $i++) {
 		$record = $temp[$i];
 		

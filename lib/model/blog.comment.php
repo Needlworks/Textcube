@@ -10,9 +10,9 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 	
 	$sql = "SELECT c.*, e.title, c2.name parentName 
 		FROM {$database['prefix']}Comments c 
-		LEFT JOIN {$database['prefix']}Entries e ON c.owner = e.owner AND c.entry = e.id AND e.draft = 0 
-		LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.owner = c2.owner 
-		WHERE c.owner = $blogid AND c.isFiltered = 0";
+		LEFT JOIN {$database['prefix']}Entries e ON c.blogid = e.blogid AND c.entry = e.id AND e.draft = 0 
+		LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.blogid = c2.blogid 
+		WHERE c.blogid = $blogid AND c.isFiltered = 0";
 	if ($category > 0) {
 		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
 		array_push($categories, $category);
@@ -57,14 +57,14 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 					{$database['prefix']}CommentsNotified c
 				LEFT JOIN 
 						{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
-				WHERE c.owner = $blogid AND (c.parent is null)";
+				WHERE c.blogid = $blogid AND (c.parent is null)";
 		$sql .= ' ORDER BY c.modified DESC';
 	} else {
 		if (!empty($search)) {
 			$search = escapeMysqlSearchString($search);
 		}
 				
-		$preQuery = "SELECT parent FROM {$database['prefix']}CommentsNotified WHERE owner = $blogid AND parent is NOT NULL";
+		$preQuery = "SELECT parent FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND parent is NOT NULL";
 		if (!empty($name))
 			$preQuery .= ' AND name = \''. mysql_tt_escape_string($name) . '\' ';
 		if (!empty($ip))
@@ -89,7 +89,7 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 				{$database['prefix']}CommentsNotified c 
 				LEFT JOIN 
 				{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
-			WHERE c.owner = $blogid AND (c.parent is null) ";
+			WHERE c.blogid = $blogid AND (c.parent is null) ";
 		if (!empty($name))
 			$sql .= ' AND ( c.name = \'' . mysql_tt_escape_string($name) . '\') ' ;
 		if (!empty($ip))
@@ -116,7 +116,7 @@ function getCommentCommentsNotified($parent) {
 				{$database['prefix']}CommentsNotified c 
 				LEFT JOIN 
 				{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
-			WHERE c.owner = ".getBlogId()." AND c.parent=$parent";
+			WHERE c.blogid = ".getBlogId()." AND c.parent=$parent";
 	$sql .= ' ORDER BY c.written ASC';
 	if ($result = DBQuery::query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
@@ -133,7 +133,7 @@ function getCommentCommentsNotified($parent) {
 
 function getCommentsWithPagingForGuestbook($blogid, $page, $count) {
 	global $database;
-	$sql = "SELECT * FROM {$database['prefix']}Comments WHERE owner = $blogid";
+	$sql = "SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid";
 	$sql .= ' AND entry = 0 AND parent is null AND isFiltered = 0';
 	$sql .= ' ORDER BY written DESC';
 	return fetchWithPaging($sql, $page, $count);
@@ -141,7 +141,7 @@ function getCommentsWithPagingForGuestbook($blogid, $page, $count) {
 
 function getCommentAttributes($blogid, $id, $attributeNames) {
 	global $database;
-	return DBQuery::queryRow("select $attributeNames from {$database['prefix']}Comments where owner = $blogid and id = $id");
+	return DBQuery::queryRow("select $attributeNames from {$database['prefix']}Comments where blogid = $blogid and id = $id");
 }
 
 function getComments($entry) {
@@ -149,7 +149,7 @@ function getComments($entry) {
 	$comments = array();
 	$authorized = doesHaveOwnership();
 	$aux = ($entry == 0 ? 'ORDER BY written DESC' : 'order by id ASC');
-	$sql = "select * from {$database['prefix']}Comments where owner = ".getBlogId()." and entry = $entry and parent is null and isFiltered = 0 $aux";
+	$sql = "select * from {$database['prefix']}Comments where blogid = ".getBlogId()." and entry = $entry and parent is null and isFiltered = 0 $aux";
 	if ($result = DBQuery::query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
 			if (($comment['secret'] == 1) && !$authorized) {
@@ -167,7 +167,7 @@ function getCommentComments($parent) {
 	global $database;
 	$comments = array();
 	$authorized = doesHaveOwnership();
-	if ($result = DBQuery::query("select * from {$database['prefix']}Comments where owner = ".getBlogId()." and parent = $parent and isFiltered = 0 order by id")) {
+	if ($result = DBQuery::query("select * from {$database['prefix']}Comments where blogid = ".getBlogId()." and parent = $parent and isFiltered = 0 order by id")) {
 		while ($comment = mysql_fetch_array($result)) {
 			if (($comment['secret'] == 1) && !$authorized) {
 				$comment['name'] = '';
@@ -186,13 +186,13 @@ function isCommentWriter($blogid, $commentId) {
 		return false;
 	$result = DBQuery::query("select replier 
 			FROM {$database['prefix']}Comments 
-			WHERE owner = $blogid and id = $commentId and replier = " . getUserId());
+			WHERE blogid = $blogid and id = $commentId and replier = " . getUserId());
 	return mysql_num_rows($result) > 0 ? true : false;
 }
 
 function getComment($blogid, $id, $password) {
 	global $database;
-	$sql = "select * from {$database['prefix']}Comments where owner = $blogid and id = $id";
+	$sql = "select * from {$database['prefix']}Comments where blogid = $blogid and id = $id";
 	if (!doesHaveOwnership()) {
 		if (doesHaveMembership())
 			$sql .= ' and replier = ' . getUserId();
@@ -211,10 +211,10 @@ function getCommentList($blogid, $search) {
 	$authorized = doesHaveOwnership() ? '' : 'AND c.secret = 0 AND (ct.visibility > 1 OR e.category = 0)';
 	if ($result = DBQuery::query("SELECT c.id, c.entry, c.parent, c.name, c.comment, c.written 
 		FROM {$database['prefix']}Comments c
-		LEFT JOIN {$database['prefix']}Entries e ON c.entry = e.id AND c.owner = e.owner
-		LEFT JOIN {$database['prefix']}Categories ct ON ct.id = e.category AND ct.owner = c.owner
+		LEFT JOIN {$database['prefix']}Entries e ON c.entry = e.id AND c.blogid = e.blogid
+		LEFT JOIN {$database['prefix']}Categories ct ON ct.id = e.category AND ct.blogid = c.blogid
 		WHERE c.entry > 0 
-			AND c.owner = $blogid $authorized 
+			AND c.blogid = $blogid $authorized 
 			and c.isFiltered = 0 
 			and (c.comment like '%$search%' OR c.name like '%$search%')")) {
 		while ($comment = mysql_fetch_array($result))
@@ -225,15 +225,15 @@ function getCommentList($blogid, $search) {
 
 function updateCommentsOfEntry($blogid, $entryId) {
 	global $database;
-	$commentCount = DBQuery::queryCell("SELECT COUNT(*) From {$database['prefix']}Comments WHERE owner = $blogid AND entry = $entryId AND isFiltered = 0");
-	DBQuery::query("UPDATE {$database['prefix']}Entries SET comments = $commentCount WHERE owner = $blogid AND id = $entryId");
+	$commentCount = DBQuery::queryCell("SELECT COUNT(*) From {$database['prefix']}Comments WHERE blogid = $blogid AND entry = $entryId AND isFiltered = 0");
+	DBQuery::query("UPDATE {$database['prefix']}Entries SET comments = $commentCount WHERE blogid = $blogid AND id = $entryId");
 	return $commentCount;
 }
 
 function sendCommentPing($entryId, $permalink, $name, $homepage) {
 	global $database, $blog;
 	$blogid = getBlogId();
-	if($slogan = DBQuery::queryCell("SELECT slogan FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $entryId AND draft = 0 AND visibility = 3 AND acceptComment = 1")) {
+	if($slogan = DBQuery::queryCell("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0 AND visibility = 3 AND acceptComment = 1")) {
 		requireComponent('Eolin.PHP.Core');
 		requireComponent('Eolin.PHP.XMLRPC');
 		$rpc = new XMLRPC();
@@ -279,7 +279,7 @@ function addComment($blogid, & $comment) {
 	$comment['comment'] = mysql_lessen($comment['comment'], 65535);
 	
 	if (!doesHaveOwnership() && $comment['entry'] != 0) {
-		$result = DBQuery::query("SELECT * FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = {$comment['entry']} AND draft = 0 AND visibility > 0 AND acceptComment = 1");
+		$result = DBQuery::query("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$comment['entry']} AND draft = 0 AND visibility > 0 AND acceptComment = 1");
 		if (mysql_num_rows($result) == 0)
 			return false;
 	}
@@ -298,7 +298,7 @@ function addComment($blogid, & $comment) {
 	$comment0 = mysql_tt_escape_string($comment['comment']);
 	$filteredAux = ($filtered == 1 ? "UNIX_TIMESTAMP()" : 0);
 	$result = DBQuery::query("INSERT INTO {$database['prefix']}Comments 
-		(owner,replier,entry,parent,name,password,homepage,secret,comment,ip,written,isFiltered)
+		(blogid,replier,entry,parent,name,password,homepage,secret,comment,ip,written,isFiltered)
 		VALUES (
 			$blogid,
 			{$comment['replier']},
@@ -319,7 +319,7 @@ function addComment($blogid, & $comment) {
 			DBQuery::execute("
 				INSERT INTO 
 					`{$database['prefix']}CommentsNotifiedQueue` 
-					( `owner` , `commentId` , `sendStatus` , `checkDate` , `written` ) 
+					( `blogid` , `commentId` , `sendStatus` , `checkDate` , `written` ) 
 				VALUES 
 					($blogid , '" . $id . "', '0', '0', UNIX_TIMESTAMP());");
 		}
@@ -372,7 +372,7 @@ function updateComment($blogid, $comment, $password) {
 	$comment0 = mysql_tt_escape_string($comment['comment']);
 	
 	$guestcomment = false;
-	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE owner = $blogid AND id = {$comment['id']} AND replier IS NULL")) {
+	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comment['id']} AND replier IS NULL")) {
 		$guestcomment = true;
 	}
 	
@@ -402,7 +402,7 @@ function updateComment($blogid, $comment, $password) {
 					written = UNIX_TIMESTAMP(),
 					isFiltered = {$comment['isFiltered']},
 					replier = {$replier}
-				where owner = $blogid and id = {$comment['id']} $wherePassword");
+				where blogid = $blogid and id = {$comment['id']} $wherePassword");
 	return $result ? true : false;
 }
 
@@ -413,13 +413,13 @@ function deleteComment($blogid, $id, $entry, $password) {
 	if (!is_numeric($entry)) return false;
 		
 	$guestcomment = false;
-	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE owner = $blogid AND id = $id AND replier IS NULL")) {
+	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id AND replier IS NULL")) {
 		$guestcomment = true;
 	}
 	
 	$wherePassword = '';
 	
-	$sql = "delete from {$database['prefix']}Comments where owner = $blogid and id = $id and entry = $entry";
+	$sql = "delete from {$database['prefix']}Comments where blogid = $blogid and id = $id and entry = $entry";
 	if (!doesHaveOwnership()) {
 		if ($guestcomment == false) {
 			if (!doesHaveMembership()) {
@@ -434,7 +434,7 @@ function deleteComment($blogid, $id, $entry, $password) {
 	}
 	$result = DBQuery::query($sql . $wherePassword);
 	if (mysql_affected_rows() > 0) {
-		DBQuery::query("delete from {$database['prefix']}Comments where owner = $blogid and parent = $id");
+		DBQuery::query("delete from {$database['prefix']}Comments where blogid = $blogid and parent = $id");
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
@@ -448,10 +448,10 @@ function trashComment($blogid, $id, $entry, $password) {
 	}
 	if (!is_numeric($id)) return false;
 	if (!is_numeric($entry)) return false;
-	$sql = "update {$database['prefix']}Comments set isFiltered = UNIX_TIMESTAMP() where owner = $blogid and id = $id and entry = $entry";
+	$sql = "update {$database['prefix']}Comments set isFiltered = UNIX_TIMESTAMP() where blogid = $blogid and id = $id and entry = $entry";
 	$result = DBQuery::query($sql);
 	$affected = mysql_affected_rows();
-	$sql = "update {$database['prefix']}Comments set isFiltered = UNIX_TIMESTAMP() where owner = $blogid and parent = $id and entry = $entry";
+	$sql = "update {$database['prefix']}Comments set isFiltered = UNIX_TIMESTAMP() where blogid = $blogid and parent = $id and entry = $entry";
 	$result = DBQuery::query($sql);
 	if ($affected + mysql_affected_rows() > 0) {
 		updateCommentsOfEntry($blogid, $entry);
@@ -469,7 +469,7 @@ function revertComment($blogid, $id, $entry, $password) {
 	}
 	if (!is_numeric($id)) return false;
 	if (!is_numeric($entry)) return false;
-	$sql = "update {$database['prefix']}Comments set isFiltered = 0 where owner = $blogid and id = $id and entry = $entry";
+	$sql = "update {$database['prefix']}Comments set isFiltered = 0 where blogid = $blogid and id = $id and entry = $entry";
 	$result = DBQuery::query($sql);
 	if (mysql_affected_rows() > 0) {
 		updateCommentsOfEntry($blogid, $entry);
@@ -484,16 +484,16 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false) {
 	$sql = doesHaveOwnership() ? "SELECT * FROM 
 			{$database['prefix']}Comments 
 		WHERE 
-			owner = $blogid".($isGuestbook != false ? " AND entry=0" : " AND entry>0")." AND isFiltered = 0 
+			blogid = $blogid".($isGuestbook != false ? " AND entry=0" : " AND entry>0")." AND isFiltered = 0 
 		ORDER BY 
 			written 
 		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']) :
 		"SELECT r.* FROM 
 			{$database['prefix']}Comments r
-			LEFT JOIN {$database['prefix']}Entries e ON r.owner = e.owner AND r.entry = e.id
-			LEFT JOIN {$database['prefix']}Categories c ON e.owner = c.owner AND e.category = c.id
+			LEFT JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id
+			LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
 		WHERE 
-			r.owner = $blogid AND e.draft = 0 AND e.visibility >= 2 AND (c.visibility > 1 OR e.category = 0) "
+			r.blogid = $blogid AND e.draft = 0 AND e.visibility >= 2 AND (c.visibility > 1 OR e.category = 0) "
 			.($isGuestbook != false ? " AND r.entry = 0" : " AND r.entry > 0")." AND isFiltered = 0 
 		ORDER BY 
 			r.written 
@@ -521,7 +521,7 @@ function getGuestbookPageById($blogid, $id) {
 	$totalGuestbookId = DBQuery::queryColumn("SELECT id
 		FROM {$database['prefix']}Comments
 		WHERE
-			owner = $blogid AND entry = 0 AND isFiltered = 0 AND parent is null
+			blogid = $blogid AND entry = 0 AND isFiltered = 0 AND parent is null
 		ORDER BY
 			written DESC");
 	$order = array_search($id, $totalGuestbookId);
@@ -529,7 +529,7 @@ function getGuestbookPageById($blogid, $id) {
 		$parentCommentId = DBQuery::queryCell("SELECT parent
 			FROM {$database['prefix']}Comments
 			WHERE
-				owner = $blogid AND entry = 0 AND isFiltered = 0 AND id = $id");
+				blogid = $blogid AND entry = 0 AND isFiltered = 0 AND id = $id");
 		if($parentCommentId != false) {
 			$order = array_search($parentCommentId, $totalGuestbookId);
 		} else {
@@ -542,10 +542,10 @@ function getGuestbookPageById($blogid, $id) {
 function deleteCommentInOwner($blogid, $id) {
 	global $database;
 	if (!is_numeric($id)) return false;
-	$entryId = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE owner = $blogid AND id = $id");
-	$result = DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE owner = $blogid AND id = $id");
+	$entryId = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
+	$result = DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
 	if ($result && (mysql_affected_rows() == 1)) {
-		if (DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE owner = $blogid AND parent = $id")) {
+		if (DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND parent = $id")) {
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
@@ -556,10 +556,10 @@ function deleteCommentInOwner($blogid, $id) {
 function trashCommentInOwner($blogid, $id) {
 	global $database;
 	if (!is_numeric($id)) return false;
-	$entryId = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE owner = $blogid AND id = $id");
-	$result = DBQuery::query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE owner = $blogid AND id = $id");
+	$entryId = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
+	$result = DBQuery::query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id");
 	if ($result && (mysql_affected_rows() == 1)) {
-		if (DBQuery::query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE owner = $blogid AND parent = $id")) {
+		if (DBQuery::query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND parent = $id")) {
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
@@ -570,11 +570,11 @@ function trashCommentInOwner($blogid, $id) {
 function revertCommentInOwner($blogid, $id) {
 	global $database;
 	if (!is_numeric($id)) return false;
-	$entryId = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE owner = $blogid AND id = $id");
-	$parent = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Comments WHERE owner = $blogid AND id = $id");
-	$result = DBQuery::query("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE owner = $blogid AND id = $id");
+	$entryId = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
+	$parent = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
+	$result = DBQuery::query("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE blogid = $blogid AND id = $id");
 	if ($result && (mysql_affected_rows() == 1)) {
-		if (is_null($parent) || DBQuery::query("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE owner = $blogid AND id = $parent")) {
+		if (is_null($parent) || DBQuery::query("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE blogid = $blogid AND id = $parent")) {
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
@@ -585,10 +585,10 @@ function revertCommentInOwner($blogid, $id) {
 function deleteCommentNotifiedInOwner($blogid, $id) {
 	global $database;
 	if (!is_numeric($id)) return false;
-	$entryId = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}CommentsNotified WHERE owner = $blogid AND id = $id");
-	$result = DBQuery::query("DELETE FROM {$database['prefix']}CommentsNotified WHERE owner = $blogid AND id = $id");
+	$entryId = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND id = $id");
+	$result = DBQuery::query("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND id = $id");
 	if ($result && (mysql_affected_rows() == 1)) {
-		if (DBQuery::query("DELETE FROM {$database['prefix']}CommentsNotified WHERE owner = $blogid AND parent = $id")) {
+		if (DBQuery::query("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND parent = $id")) {
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
@@ -622,17 +622,17 @@ function notifyComment() {
 		//DBQuery::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
-	$comments = (DBQuery::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE owner = $blogid AND id = {$queue['commentId']}"));
+	$comments = (DBQuery::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$queue['commentId']}"));
 	if (empty($comments['parent']) || $comments['secret'] == 1) {
 		DBQuery::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
-	$parentComments = (DBQuery::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE owner = $blogid AND id = {$comments['parent']}"));
+	$parentComments = (DBQuery::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comments['parent']}"));
 	if (empty($parentComments['homepage'])) {
 		DBQuery::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
-	$entry = (DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $blogid AND id={$comments['entry']}"));
+	$entry = (DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id={$comments['entry']}"));
 	if( $entry['id'] == 0){
 		$r1_comment_check_url = rawurlencode("$defaultURL/guestbook#comment" . $parentComments['id']);
 		$r2_comment_check_url = rawurlencode("$defaultURL/guestbook#comment" . $comments['id']);
@@ -702,9 +702,9 @@ function receiveNotifiedComment($post) {
 		else
 			return 2;
 	}
-	$parentId = DBQuery::queryCell("SELECT id FROM {$database['prefix']}CommentsNotified WHERE entry = $entryId AND siteId = $siteId AND owner = $blogid AND remoteId = $parent_id");
+	$parentId = DBQuery::queryCell("SELECT id FROM {$database['prefix']}CommentsNotified WHERE entry = $entryId AND siteId = $siteId AND blogid = $blogid AND remoteId = $parent_id");
 	if (empty($parentId)) {
-		$sql = "INSERT INTO {$database['prefix']}CommentsNotified ( owner , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteId , isNew , url , remoteId ,entryTitle , entryUrl ) 
+		$sql = "INSERT INTO {$database['prefix']}CommentsNotified ( blogid , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteId , isNew , url , remoteId ,entryTitle , entryUrl ) 
 VALUES (
 $blogid, NULL , '', " . $entryId . ", " . (empty($parent_parent) ? 'null' : $parent_parent) . ", '" . $parent_name . "', '', '" . $parent_homepage . "', '', '" . $parent_comment . "', '', " . $parent_written . ",UNIX_TIMESTAMP(), " . $siteId . ", 1, '" . $parent_url . "'," . $parent_id . ", '" . $entryTitle . "', '" . $entryUrl . "'
 );";
@@ -714,7 +714,7 @@ $blogid, NULL , '', " . $entryId . ", " . (empty($parent_parent) ? 'null' : $par
 	}
 	if (DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}CommentsNotified WHERE siteId=$siteId AND remoteId=$child_id") > 0)
 		return 4;
-	$sql = "INSERT INTO {$database['prefix']}CommentsNotified ( owner , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteId , isNew , url , remoteId ,entryTitle , entryUrl ) 
+	$sql = "INSERT INTO {$database['prefix']}CommentsNotified ( blogid , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteId , isNew , url , remoteId ,entryTitle , entryUrl ) 
 VALUES (
 $blogid, NULL , '', " . $entryId . ", $parentId, '$child_name', '', '$child_homepage', '', '$child_comment', '', $child_written, UNIX_TIMESTAMP(), $siteId, 1, '$child_url',$child_id, '$entryTitle', '$entryUrl');";
 	if (!DBQuery::execute($sql))
@@ -728,8 +728,8 @@ $blogid, NULL , '', " . $entryId . ", $parentId, '$child_name', '', '$child_home
 function getCommentCount($blogid, $entryId = null) {
 	global $database;
 	if (is_null($entryId))
-		return DBQuery::queryCell("SELECT SUM(comments) FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft= 0 ");
-	return DBQuery::queryCell("SELECT comments FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $entryId AND draft = 0");
+		return DBQuery::queryCell("SELECT SUM(comments) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft= 0 ");
+	return DBQuery::queryCell("SELECT comments FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
 }
 
 function getCommentCountPart($commentCount, &$skin) {

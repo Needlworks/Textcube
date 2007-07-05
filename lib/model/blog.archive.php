@@ -10,8 +10,8 @@ function getArchives($blogid) {
 	$archivesOnPage = DBQuery::queryCell("SELECT archivesOnPage FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid");
 	$result = DBQuery::query("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
 		FROM {$database['prefix']}Entries e
-		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner
-		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
+		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		GROUP BY period 
 		ORDER BY period 
 		DESC LIMIT $archivesOnPage");
@@ -33,8 +33,8 @@ function getCalendar($blogid, $period) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$result = DBQuery::query("SELECT DISTINCT DAYOFMONTH(FROM_UNIXTIME(e.published)) 
 		FROM {$database['prefix']}Entries e
-		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.owner = c.owner
-		WHERE e.owner = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND YEAR(FROM_UNIXTIME(e.published)) = {$calendar['year']} AND MONTH(FROM_UNIXTIME(e.published)) = {$calendar['month']}");
+		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND YEAR(FROM_UNIXTIME(e.published)) = {$calendar['year']} AND MONTH(FROM_UNIXTIME(e.published)) = {$calendar['month']}");
 	if ($result) {
 		while (list($day) = mysql_fetch_array($result))
 			array_push($calendar['days'], $day);

@@ -16,7 +16,7 @@ class Filter {
 	}
 	
 	function open($filter = '', $sort = 'id') {
-		global $database, $owner;
+		global $database;
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
@@ -24,7 +24,7 @@ class Filter {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT * FROM {$database['prefix']}Filters WHERE owner = $owner $filter $sort");
+		$this->_result = mysql_query("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = mysql_num_rows($this->_result))
 				return $this->shift();
@@ -48,7 +48,7 @@ class Filter {
 		$this->reset();
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'owner')
+				if ($name == 'blogid')
 					continue;
 				$this->$name = $value;
 			}
@@ -102,16 +102,16 @@ class Filter {
 	
 	/*@static@*/
 	function isFiltered($type, $value) {
-		global $database, $owner;
+		global $database;
 		$type = mysql_tt_escape_string($type);
 		$value = mysql_tt_escape_string($value);
-		return DBQuery::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE owner = $owner AND type = '$type' AND '$value' LIKE CONCAT('%', pattern, '%')");
+		return DBQuery::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = '$type' AND '$value' LIKE CONCAT('%', pattern, '%')");
 	}
 	
 	function _buildQuery() {
-		global $database, $owner;
+		global $database;
 		$query = new TableQuery($database['prefix'] . 'Filters');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');

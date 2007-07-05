@@ -42,7 +42,7 @@ class Post {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Entries WHERE owner = $blogid AND draft = 0 AND category >= 0 $filter $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category >= 0 $filter $sort");
 		if ($this->_result)
 			$this->_count = mysql_num_rows($this->_result);
 		return $this->shift();
@@ -61,7 +61,7 @@ class Post {
 		$this->reset();
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'owner')
+				if ($name == 'blogid')
 					continue;
 				switch ($name) {
 					case 'visibility':
@@ -91,7 +91,7 @@ class Post {
 	}
 	
 	function add($userid) {
-		global $database, $owner;
+		global $database;
 		if (isset($this->id) && !Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (isset($this->category) && !Validator::number($this->category, 0))
@@ -123,9 +123,9 @@ class Post {
 		if (isset($this->category)) {
 			$target = ($parentCategory = Category::getParent($this->category)) ? '(id = ' . $this->category . ' OR id = ' . $parentCategory . ')' : 'id = ' . $this->category;
 			if (isset($this->visibility) && ($this->visibility != 'private'))
-				mysql_query("UPDATE {$database['prefix']}Categories SET entries = entries + 1, entriesInLogin = entriesInLogin + 1 WHERE owner = $owner AND " . $target);
+				mysql_query("UPDATE {$database['prefix']}Categories SET entries = entries + 1, entriesInLogin = entriesInLogin + 1 WHERE blogid = ".getBlogId()." AND " . $target);
 			else
-				mysql_query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin + 1 WHERE owner = $owner AND " . $target);
+				mysql_query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin + 1 WHERE blogid = ".getBlogId()." AND " . $target);
 		}
 		$this->saveSlogan();
 		$this->addTags();
@@ -146,7 +146,7 @@ class Post {
 	}
 	
 	function remove($id) { // attachment & category is own your risk!
-		global $database, $owner;
+		global $database;
 		// step 0. Get Information
 		if (!isset($this->id) || !Validator::number($this->id, 1))
 			return $this->_error('id');
@@ -164,16 +164,16 @@ class Post {
 		}
 		
 		// step 2. Delete Entry
-		$result = DBQuery::execute("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $this->id");
+		$result = DBQuery::execute("DELETE FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $this->id");
 		if (mysql_affected_rows() > 0) {
 		// step 3. Delete Comment
-			DBQuery::execute("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $this->id");
+			DBQuery::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND entry = $this->id");
 		
 		// step 4. Delete Trackback
-			DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $this->id");
+			DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId()." AND entry = $this->id");
 		
 		// step 5. Delete Trackback Logs
-			DBQuery::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner AND entry = $this->id");
+			DBQuery::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = ".getBlogId()." AND entry = $this->id");
 		
 		// step 6. update Category
 			// TODO : Update Category
@@ -259,7 +259,7 @@ class Post {
 	}
 	
 	function saveSlogan($slogan = null) {
-		global $database, $owner;
+		global $database;
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (!Validator::number($this->userid, 1))
@@ -268,7 +268,7 @@ class Post {
 			$this->slogan = $slogan;
 
 		$query = new TableQuery($database['prefix'] . 'Entries');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('userid', $this->userid);
 		$query->setQualifier('id', $this->id);
 		if (!$query->doesExist())
@@ -286,7 +286,7 @@ class Post {
 			$query->setAttribute('slogan', $checkSlogan, false);
 			if (!DBQuery::queryExistence(
 				"SELECT id FROM {$database['prefix']}Entries " 
-				. "WHERE owner = $owner AND id <> {$this->id} AND slogan ='{$checkSlogan}'")
+				. "WHERE blogid = ".getBlogId()." AND id <> {$this->id} AND slogan ='{$checkSlogan}'")
 				) 
 			{
 				if (!$query->update())
@@ -300,11 +300,14 @@ class Post {
 	}
 	
 	function loadTags() {
-		global $database, $owner;
+		global $database;
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		$this->tags = array();
-		if ($result = mysql_query("SELECT name FROM {$database['prefix']}TagRelations LEFT JOIN {$database['prefix']}Tags ON id = tag WHERE owner = $owner AND entry = {$this->id} ORDER BY name")) {
+		if ($result = mysql_query("SELECT name FROM {$database['prefix']}TagRelations 
+			LEFT JOIN {$database['prefix']}Tags ON id = tag 
+			WHERE blogid = ".getBlogId()." AND entry = {$this->id} 
+			ORDER BY name")) {
 			while ($row = mysql_fetch_row($result))
 				array_push($this->tags, $row[0]);
 			mysql_free_result($result);
@@ -343,7 +346,7 @@ class Post {
 	/*@protected@*/
 	function addTags() {
 		// Don't call outside of object!
-		global $database, $owner;
+		global $database;
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (!is_array($this->tags)) {
@@ -353,7 +356,7 @@ class Post {
 			return;
 		
 		requireComponent('Textcube.Data.Tag');
-		Tag::addTagsWithEntryId($owner, $this->id, $this->tags);
+		Tag::addTagsWithEntryId(getBlogId(), $this->id, $this->tags);
 
 		return true;
 	}
@@ -361,7 +364,7 @@ class Post {
 	/*@protected@*/
 	function updateTags() {
 		// Don't call outside of object!
-		global $database, $owner;
+		global $database;
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (!is_array($this->tags)) {
@@ -370,7 +373,7 @@ class Post {
 		}
 		
 		requireComponent('Textcube.Data.Tag');
-		Tag::modifyTagsWithEntryId($owner, $this->id, $this->tags);
+		Tag::modifyTagsWithEntryId(getBlogId(), $this->id, $this->tags);
 		
 		return true;
 	}
@@ -378,12 +381,12 @@ class Post {
 	/*@protected@*/
 	function deleteTags() {
 		// Don't call outside of object!
-		global $database, $owner;
+		global $database;
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		
 		requireComponent('Textcube.Data.Tag');
-		Tag::deleteTagsWithEntryId($owner, $this->id);
+		Tag::deleteTagsWithEntryId(getBlogId(), $this->id);
 		
 		return true;
 	}
@@ -417,36 +420,38 @@ class Post {
 	
 	/*@static@*/
 	function doesExist($id) {
-		global $database, $owner;
+		global $database;
 		if (!Validator::number($id, 1))
 			return false;
-		return DBQuery::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND category >= 0 AND draft = 0");
+		return DBQuery::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $id AND category >= 0 AND draft = 0");
 	}
 	
 	/*@static@*/
 	function doesAcceptTrackback($id) {
-		global $database, $owner;
+		global $database;
 		if (!Validator::number($id, 1))
 			return false;
-		return DBQuery::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $id AND draft = 0 AND visibility > 0 AND category >= 0 AND acceptTrackback = 1");
+		return DBQuery::queryExistence("SELECT id 
+			FROM {$database['prefix']}Entries 
+			WHERE blogid = ".getBlogId()." AND id = $id AND draft = 0 AND visibility > 0 AND category >= 0 AND acceptTrackback = 1");
 	}
 	
 	/*@static@*/
 	function updateComments($id = null) {
-		global $database, $owner;
+		global $database;
 
 		if (($id !== null) && !is_numeric($id)) {
 			return false;
 		}
 
-		$posts = ($id === null ? DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND category >= 0 AND draft = 0") : array($id));
+		$posts = ($id === null ? DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category >= 0 AND draft = 0") : array($id));
 		if (!is_array($posts))
 			return false;
 		$succeeded = true;
 		foreach ($posts as $id) {
-			$comments = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = $id AND isFiltered = 0");
+			$comments = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND entry = $id AND isFiltered = 0");
 			if ($comments !== null) {
-				if (DBQuery::execute("UPDATE {$database['prefix']}Entries SET comments = $comments WHERE owner = $owner AND id = $id"))
+				if (DBQuery::execute("UPDATE {$database['prefix']}Entries SET comments = $comments WHERE blogid = ".getBlogId()." AND id = $id"))
 					continue;
 			}
 			$succeeded = false;
@@ -456,20 +461,21 @@ class Post {
 	
 	/*@static@*/
 	function updateTrackbacks($id = null) {
-		global $database, $owner;
+		global $database;
 
 		if (($id !== null) && !is_numeric($id)) {
 			return false;
 		}
 
-		$posts = ($id === null ? DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE owner = $owner AND category >= 0 AND draft = 0") : array($id));
+		$posts = ($id === null ? DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category >= 0 AND draft = 0") : array($id));
 		if (!is_array($posts))
 			return false; 
 		$succeeded = true;
 		foreach ($posts as $id) {
-			$trackbacks = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE owner = $owner AND entry = $id AND isFiltered = 0");
+			$trackbacks = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId()." AND entry = $id AND isFiltered = 0");
 			if ($trackbacks !== null) { 
-				if (DBQuery::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks WHERE owner = $owner AND id = $id"))
+				if (DBQuery::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks 
+					WHERE blogid = ".getBlogId()." AND id = $id"))
 					continue;
 			}
 			$succeeded = false;
@@ -497,8 +503,8 @@ class Post {
 	}
 	
 	function nextEntryId($id = 0) {
-		global $database, $owner;
-		$maxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE owner = $owner");
+		global $database;
+		$maxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlgoId());
 		if($id==0)
 			return $maxId + 1;
 		else
@@ -506,9 +512,9 @@ class Post {
 	}
 
 	function _buildQuery() {
-		global $database, $owner;
+		global $database;
 		$query = new TableQuery($database['prefix'] . 'Entries');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
@@ -583,15 +589,15 @@ class Post {
 				if ($oldtag != null) {		
 					$tagid = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . mysql_tt_escape_string($oldtag['name']) . "' LIMIT 1 ");
 					if ($tagid == null) { 
-						DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE owner = {$target['owner']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
+						DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 					} else {
 						if ($tagid == $oldtag['id']) continue;
-						if (DBQuery::execute("UPDATE {$database['prefix']}TagRelations SET tag = $tagid WHERE owner = {$target['owner']} AND tag = {$target['tag']} AND entry = {$target['entry']}") == false) { // maybe duplicated tag
-							DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE owner = {$target['owner']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
+						if (DBQuery::execute("UPDATE {$database['prefix']}TagRelations SET tag = $tagid WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}") == false) { // maybe duplicated tag
+							DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 						}
 					}
 				} else { // Ooops!
-					DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE owner = {$target['owner']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
+					DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 				}
 			}
 			mysql_free_result($targetresult);

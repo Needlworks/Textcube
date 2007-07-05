@@ -8,8 +8,8 @@ function FM_Modern_handleconfig($configVal) {
 }
 
 function FM_Modern_editorinit(&$editor) {
-	global $service, $configVal, $owner;
-
+	global $service, $configVal;
+	$blogid = getBlogId();
 	if (is_null($configVal)) {
 		$config = array('paragraphdelim' => 'BR');
 	} else {
@@ -25,7 +25,7 @@ function FM_Modern_editorinit(&$editor) {
 			var editor = new TTModernEditor();
 			editor.fixPosition = <?php echo getBlogSetting('editorPropertyPositionFix', 0);?>;
 			editor.hasGD = <?php echo extension_loaded('gd');?>;
-			editor.propertyFilePath = "<?php echo $service['path'];?>/attach/<?php echo $owner;?>/";
+			editor.propertyFilePath = "<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/";
 			editor.editMode = "<?php echo $config['defaultmode'];?>";
 			editor.newLineToParagraph = <?php echo ($config['paragraphdelim'] == 'P' ? 'true' : 'false');?>;
 			return editor;

@@ -1,17 +1,17 @@
 <?php
-function FM_TTML_format($owner, $id, $content, $keywords = array(), $useAbsolutePath = false, $bRssMode = false) {
+function FM_TTML_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false, $bRssMode = false) {
 	global $service;
-	$path = ROOT . "/attach/$owner";
-	$url = "{$service['path']}/attach/$owner";
+	$path = ROOT . "/attach/$blogid";
+	$url = "{$service['path']}/attach/$blogid";
 	$view = FM_TTML_bindAttachments($id, $path, $url, $content, $useAbsolutePath, $bRssMode);
 	if (is_array($keywords)) $view = FM_TTML_bindKeywords($keywords, $view);
 	$view = FM_TTML_bindTags($id, $view);
 	return $view;
 }
 
-function FM_TTML_summary($owner, $id, $content, $keywords = array(), $useAbsolutePath = false) {
+function FM_TTML_summary($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false) {
 	global $blog;
-	$view = FM_TTML_format($owner, $id, $content, $keywords, $useAbsolutePath, true);
+	$view = FM_TTML_format($blogid, $id, $content, $keywords, $useAbsolutePath, true);
 	if (!$blog['publishWholeOnRSS']) $view = UTF8::lessen(removeAllTags(stripHTML($view)), 255);
 	return $view;
 }
@@ -122,9 +122,10 @@ function FM_TTML_bindKeywords($keywords, $content) {
 }
 
 function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolutePath = false, $bRssMode = false) {
-	global $service, $owner, $hostURL, $blogURL;
-	$view = str_replace('[##_ATTACH_PATH_##]', ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$owner" : $folderURL), $content);
-	$view = str_replace('http://tt_attach_path/', ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$owner/" : ($folderURL . '/')), $view);
+	global $service, $hostURL, $blogURL;
+	$blogid = getBlogId();
+	$view = str_replace('[##_ATTACH_PATH_##]', ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$blogid" : $folderURL), $content);
+	$view = str_replace('http://tt_attach_path/', ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$blogid/" : ($folderURL . '/')), $view);
 	$count = 0;
 	$bWritedGalleryJS = false;
 	
@@ -229,7 +230,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 							$setHeight = $galleryAttributes['height'];
 						}
 						$item[1] = str_replace("'", '&#39;', $item[1]);
-						$buf .= $id . '.appendImage("' . ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$owner/$item[0]" : "$folderURL/$item[0]") . '", "' . htmlspecialchars($item[1]) . '", ' . intval($setWidth) . ', ' . intval($setHeight) . ");";
+						$buf .= $id . '.appendImage("' . ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$blogid/$item[0]" : "$folderURL/$item[0]") . '", "' . htmlspecialchars($item[1]) . '", ' . intval($setWidth) . ', ' . intval($setHeight) . ");";
 					}
 				}
 				$buf .= "			{$id}.show();" . CRLF;
@@ -252,7 +253,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 					
 						$buf .= '<div class="imageblock center" style="text-align: center; clear: both;">';
 						if ($useAbsolutePath)
-							$buf .= '		<img src="' . $hostURL . $service['path'] . "/attach/" . $owner . "/" . $item[0] . '" width="' . intval($setWidth) . '" height="' . intval($setHeight) . '" alt="' . _text('사용자 삽입 이미지') . '" />' . CRLF;
+							$buf .= '		<img src="' . $hostURL . $service['path'] . "/attach/" . $blogid . "/" . $item[0] . '" width="' . intval($setWidth) . '" height="' . intval($setHeight) . '" alt="' . _text('사용자 삽입 이미지') . '" />' . CRLF;
 						else
 							$buf .= '		<img src="' . $folderURL . "/" . $item[0] . '" width="' . intval($setWidth) . '" height="' . intval($setHeight) . '" alt="' . _text('사용자 삽입 이미지') . '" />' . CRLF;
 						if(!empty($item[1]))
@@ -278,7 +279,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				$imgStr = '';
 				for ($i = 0; $i < count($imgs); $i += 2) {
 					if ($imgs[$i] != '') {
-						$imgStr .= $service['path'] . '/attach/' . $owner . '/' . $imgs[$i];
+						$imgStr .= $service['path'] . '/attach/' . $blogid . '/' . $imgs[$i];
 						if ($i < (count($imgs) - 2))
 							$imgStr .= '*!';
 					}
@@ -288,13 +289,13 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				} else {
 					$caption = '';
 				}
-				$buf .= '<center><img src="' . ($useAbsolutePath ? $hostURL : $service['path']) . '/image/gallery/gallery_enlarge.gif" alt="' . _text('확대') . '" style="cursor:pointer" onclick="openFullScreen(\'' . $service['path'] . '/script/gallery/iMazing/embed.php?d=' . urlencode($id) . '&f=' . urlencode($params['frame']) . '&t=' . urlencode($params['transition']) . '&n=' . urlencode($params['navigation']) . '&si=' . urlencode($params['slideshowInterval']) . '&p=' . urlencode($params['page']) . '&a=' . urlencode($params['align']) . '&o=' . $owner . '&i=' . $imgStr . '\',\'' . htmlspecialchars(str_replace("'", "&#39;", $attributes[count($attributes) - 1])) . '\',\'' . $service['path'] . '\')" />';
+				$buf .= '<center><img src="' . ($useAbsolutePath ? $hostURL : $service['path']) . '/image/gallery/gallery_enlarge.gif" alt="' . _text('확대') . '" style="cursor:pointer" onclick="openFullScreen(\'' . $service['path'] . '/script/gallery/iMazing/embed.php?d=' . urlencode($id) . '&f=' . urlencode($params['frame']) . '&t=' . urlencode($params['transition']) . '&n=' . urlencode($params['navigation']) . '&si=' . urlencode($params['slideshowInterval']) . '&p=' . urlencode($params['page']) . '&a=' . urlencode($params['align']) . '&o=' . $blogid . '&i=' . $imgStr . '\',\'' . htmlspecialchars(str_replace("'", "&#39;", $attributes[count($attributes) - 1])) . '\',\'' . $service['path'] . '\')" />';
 				$buf .= '<table>';
 				$buf .= '<tr>';
 				$buf .= '<td width="' . $params['width'] . '" height="' . $params['height'] . '">';
 				$buf .= '<div id="iMazingContainer'.$id.'" style="width:'.$params['width'].'px; height:'.$params['height'].'px;"></div><script type="text/javascript">iMazing' . $id . 'Str = getEmbedCode(\'' . $service['path'] . '/script/gallery/iMazing/main.swf\',\'100%\',\'100%\',\'iMazing' . $id . '\',\'#FFFFFF\',"image=' . $imgStr . '&amp;frame=' . $params['frame'] . '&amp;transition=' . $params['transition'] . '&amp;navigation=' . $params['navigation'] . '&amp;slideshowInterval=' . $params['slideshowInterval'] . '&amp;page=' . $params['page'] . '&amp;align=' . $params['align'] . '&amp;skinPath=' . $service['path'] . '/script/gallery/iMazing/&amp;","false"); writeCode(iMazing' . $id . 'Str, "iMazingContainer'.$id.'");</script><noscript>';
 				for ($i = 0; $i < count($imgs); $i += 2)
-				    $buf .= '<img src="'.($useAbsolutePath ? $hostURL : $service['path']).'/attach/'.$owner.'/'.$imgs[$i].'" alt="" />';
+				    $buf .= '<img src="'.($useAbsolutePath ? $hostURL : $service['path']).'/attach/'.$blogid.'/'.$imgs[$i].'" alt="" />';
 				$buf .= '</noscript>';
 				$buf .= '</td>';
 				$buf .= '</tr>';
@@ -333,7 +334,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 						continue;
 					} else {
 						if ($i < (count($imgs) - 1))
-							$imgStr .= "{$service['path']}/attach/$owner/" . urlencode($imgs[$i]) . '*!';
+							$imgStr .= "{$service['path']}/attach/$blogid/" . urlencode($imgs[$i]) . '*!';
 					}
 				}
 				if (!empty($attributes[count($attributes) - 1])) {
@@ -346,7 +347,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				$buf .= '<script type="text/javascript">writeCode(getEmbedCode(\'' . $service['path'] . '/script/jukebox/flash/main.swf\',\'100%\',\'100%\',\'jukeBox' . $id . 'Flash\',\'#FFFFFF\',"sounds=' . $imgStr . '&amp;autoplay=' . $params['autoplay'] . '&amp;visible=' . $params['visible'] . '&amp;id=' . $id . '","false"), "jukeBoxContainer'.$id.'")</script><noscript>';
 				for ($i = 0; $i < count($imgs); $i++) {
 					if ($i % 2 == 0)
-						$buf .= '<a href="'.($useAbsolutePath ? $hostURL : $service['path']).'/attach/'.$owner.'/'.$imgs[$i].'">';
+						$buf .= '<a href="'.($useAbsolutePath ? $hostURL : $service['path']).'/attach/'.$blogid.'/'.$imgs[$i].'">';
 					else
 						$buf .= htmlspecialchars($imgs[$i]).'</a><br/>';
 				}
@@ -431,13 +432,14 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 }
 
 function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderURL, $imageBlocks = 1, $useAbsolutePath = false, $bRssMode = false, $onclickFlag=false) {
-	global $database, $skinSetting, $service, $owner, $blogURL, $hostURL, $serviceURL;
+	global $database, $skinSetting, $service, $blogURL, $hostURL, $serviceURL;
+	$blogid = getBlogId();
 	$path = "$folderPath/$filename";
 	if ($useAbsolutePath)
-		$url = "$serviceURL/attach/$owner/$filename";
+		$url = "$serviceURL/attach/$blogid/$filename";
 	else
 		$url = "$folderURL/$filename";
-	$fileInfo = getAttachmentByOnlyName($owner, $filename);
+	$fileInfo = getAttachmentByOnlyName($blogid, $filename);
 	switch (getFileExtension($filename)) {
 		case 'jpg':case 'jpeg':case 'gif':case 'png':case 'bmp':
 			$bPassing = false;
@@ -495,9 +497,8 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 }
 
 function FM_TTML_createNewProperty($filename, $imageWidth, $property) {
-	global $owner;
-	
+	$blogid = getBlogId();	
 	requireComponent('Textcube.Function.Image');
-	return Image::resizeImageToContent($property, ROOT."/attach/$owner/$filename", $imageWidth);
+	return Image::resizeImageToContent($property, ROOT."/attach/$blogid/$filename", $imageWidth);
 }
 ?>

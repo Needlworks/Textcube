@@ -80,7 +80,7 @@ function EAS_AddingTrackback($target, $mother)
 
 function EAS_AddingComment($target, $mother)
 {
-	global $owner, $user;
+	global $user;
 	if ($mother['secret'] ==  true) // it's secret(only owner can see it)
 	{
 		// Don't touch

@@ -12,7 +12,7 @@ function getTeamBlogInitConfigVal( &$data ){
 
 function getTeamAuthorStyle($target, $mother){
 	global $database, $entry;
-	$row = DBQuery::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE owner=" . getBlogId() . " AND userid=" . $entry['userid']);
+	$row = DBQuery::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =" . getBlogId() . " AND userid=" . $entry['userid']);
 	if($row['style']){
 		$style = explode("|", $row['style']);
 		if($style[0]=="true"){
@@ -57,7 +57,7 @@ function getTeamProfile($userid){
 	requireComponent('Textcube.Function.misc');
 	$data = misc::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
-	$row = DBQuery::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE owner=".getBlogId()." and userid=".$userid);
+	$row = DBQuery::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." and userid=".$userid);
 	$imageSrc = "{$blogURL}/attach/".getBlogId()."/team/".$row['image'];
 	if($row['image']){
 		$imageTag = "<img src=\"".$imageSrc."\" align=\"top\" />";
@@ -84,9 +84,9 @@ function getTeamBlogSettings() {
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/plugin-main.js"></script>
 <?php
 	$teamblog_user = DBQuery::queryRow("SELECT name, loginid FROM {$database['prefix']}Users WHERE userid=".getUserId());
-	$row = DBQuery::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE owner=".getBlogId()." and userid=".getUserId());
+	$row = DBQuery::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." and userid=".getUserId());
 	if(!$row){
-		DBQuery::execute("INSERT INTO {$database['prefix']}TeamUserSettings (owner,userid,style,image,profile,updated) VALUES('".getBlogId()."','".getUserId()."','','', '',UNIX_TIMESTAMP())");
+		DBQuery::execute("INSERT INTO {$database['prefix']}TeamUserSettings (blogid,userid,style,image,profile,updated) VALUES('".getBlogId()."','".getUserId()."','','', '',UNIX_TIMESTAMP())");
 	}
 	if($row['image']){
 		$image = "{$blogURL}/attach/".getBlogId()."/team/".$row['image'];
@@ -246,12 +246,12 @@ function getTeamContentsSave($target){
 	$profile = $_POST['profile'];
 	if(doesHaveOwnership() && doesHaveMembership()){
 		if($flag == "style"){
-			if(DBQuery::execute("UPDATE {$database['prefix']}TeamUserSettings SET style=\"{$style}\", updated=UNIX_TIMESTAMP() WHERE owner=".getBlogId()." and userid=".getUserId())){
+			if(DBQuery::execute("UPDATE {$database['prefix']}TeamUserSettings SET style=\"{$style}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
 				respondResultPage(0);
 			}
 		}else if($flag == "profile"){
 			$profile = mysql_tt_escape_string(mysql_lessen($profile, 65535));
-			if(DBQuery::execute("UPDATE {$database['prefix']}TeamUserSettings SET profile=\"{$profile}\", updated=UNIX_TIMESTAMP() WHERE owner=".getBlogId()." and userid=".getUserId())){
+			if(DBQuery::execute("UPDATE {$database['prefix']}TeamUserSettings SET profile=\"{$profile}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
 				respondResultPage(0);
 			}
 		}
@@ -275,7 +275,7 @@ function getImageFileUpload($target){
 				$errmsg = _t('새로운 프로필 사진을 저장 했습니다.');
 			}
 		}else if($type == "delete"){
-			$tmpImage = DBQuery::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE owner=".getBlogId()." and userid=".getUserId());
+			$tmpImage = DBQuery::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
 			if($tmpImage){
 				$result = getDeleteAttachment();
 				$errmsg = _t('등록된 프로필 사진을 삭제 하였습니다.');
@@ -317,8 +317,8 @@ function getAddAttachment($file){
 	if(!move_uploaded_file($file['tmp_name'],$attachment['path']))
 		return false;
 	@chmod($attachment['path'],0666);
-	$tmpImage = DBQuery::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE owner=".getBlogId()." and userid=".getUserId());
-	if(!DBQuery::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='".$attachment['name']."', updated=UNIX_TIMESTAMP() WHERE owner=".getBlogId()." and userid=".getUserId())){
+	$tmpImage = DBQuery::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
+	if(!DBQuery::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='".$attachment['name']."', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
 		@unlink($attachment['path']);
 		$result = "{$blogURL}/image/spacer.gif";
 	}else{
@@ -331,9 +331,9 @@ function getAddAttachment($file){
 
 function getDeleteAttachment($filename){
 	global $database, $blogURL;
-	$tmpImage = DBQuery::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE owner=".getBlogId()." and userid=".getUserId());
+	$tmpImage = DBQuery::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
 	if($tmpImage){
-		DBQuery::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='', updated=UNIX_TIMESTAMP() WHERE owner=".getBlogId()." and userid=".getUserId());
+		DBQuery::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId());
 		@unlink(ROOT."/attach/".getBlogId()."/team/".$tmpImage);
 	}
 	$result = "{$blogURL}/image/spacer.gif";

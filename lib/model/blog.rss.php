@@ -28,10 +28,10 @@ function refreshRSS($blogid) {
 				u.name AS author
 			FROM {$database['prefix']}Entries e 
 			LEFT JOIN {$database['prefix']}Categories c
-				ON e.owner = c.owner AND e.category = c.id
+				ON e.blogid = c.blogid AND e.category = c.id
 			LEFT JOIN {$database['prefix']}Users u
 				ON e.userid = u.userid
-			WHERE e.owner = $blogid AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
+			WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
 			ORDER BY e.published 
 			DESC LIMIT {$blog['entriesOnRSS']}");
 	} else { $result = DBQuery::query("SELECT 
@@ -40,10 +40,10 @@ function refreshRSS($blogid) {
 				u.name AS author
 			FROM {$database['prefix']}Entries e 
 			LEFT JOIN {$database['prefix']}Categories c 
-				ON e.owner = c.owner AND e.category = c.id 
+				ON e.blogid = c.blogid AND e.category = c.id 
 			LEFT JOIN {$database['prefix']}Users u
 				ON e.userid = u.userid
-			WHERE e.owner = $blogid AND e.draft = 0 AND e.visibility = 3 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
+			WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility = 3 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
 			ORDER BY e.published 
 			DESC LIMIT {$blog['entriesOnRSS']}");
 	}
@@ -72,14 +72,14 @@ function refreshRSS($blogid) {
 			}
 		}
 		if (!empty($row['id'])) {
-			$sql = "SELECT name, size, mime FROM {$database['prefix']}Attachments WHERE parent= {$row['id']} AND owner =$blogid AND enclosure = 1";
+			$sql = "SELECT name, size, mime FROM {$database['prefix']}Attachments WHERE parent= {$row['id']} AND blogid =$blogid AND enclosure = 1";
 			$attaches = DBQuery::queryRow($sql);
 			if (count($attaches) > 0) {
 				$item['enclosure'] = array('url' => "$serviceURL/attach/$blogid/{$attaches['name']}", 'length' => $attaches['size'], 'type' => $attaches['mime']);
 			}
 		}
 		array_push($item['categories'], $row['categoryName']);
-		$tag_result = DBQuery::query("SELECT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND entry = $row[1] AND owner = $blogid ORDER BY name");
+		$tag_result = DBQuery::query("SELECT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND entry = $row[1] AND blogid = $blogid ORDER BY name");
 		while (list($tag) = mysql_fetch_array($tag_result))
 			array_push($item['categories'], $tag);
 		array_push($channel['items'], $item);

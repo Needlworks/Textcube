@@ -45,7 +45,7 @@ function deactivatePlugin($name) {
 		return false;
 	$name = mysql_tt_escape_string($name);
 	DBQuery::query("DELETE FROM {$database['prefix']}Plugins 
-			WHERE owner = ".getBlogId()."
+			WHERE blogid = ".getBlogId()."
 				AND name = '$name'");
 	return true;
 }
@@ -57,7 +57,7 @@ function getCurrentSetting($name){
 	$name = mysql_tt_escape_string( $name ) ;
 	$result = DBQuery::query("SELECT settings 
 			FROM {$database['prefix']}Plugins 
-			WHERE owner = ".getBlogId()."
+			WHERE blogid = ".getBlogId()."
 				AND name = '$name'");
 	if( false === $result ) 
 		return false;
@@ -73,7 +73,7 @@ function updatePluginConfig( $name , $setVal){
 	DBQuery::query(
 		"UPDATE {$database['prefix']}Plugins 
 			SET settings = '$setVal' 
-			WHERE owner = ".getBlogId()."
+			WHERE blogid = ".getBlogId()."
 			AND name = '$name'"
 		);
 	if( mysql_affected_rows() == 1 )
@@ -105,7 +105,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 		}
 		return true;
 	} else {
-		$query = "CREATE TABLE {$database['prefix']}{$name} (owner int(11) NOT NULL default '0',";
+		$query = "CREATE TABLE {$database['prefix']}{$name} (blogid int(11) NOT NULL default '0',";
 		$isaiExists = false;
 		$index = '';
 		foreach($fields as $field) {
@@ -125,7 +125,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 			$query .= $sentence;
 		}
 		
-		array_unshift($keys, 'owner');
+		array_unshift($keys, 'blogid');
 		$query .= " PRIMARY KEY (" . implode(',',$keys) . ")";
 		$query .= $index;
 		$query .= ") TYPE=MyISAM ";
@@ -145,7 +145,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 function clearPluginTable($name) {
 	global $database;
 	$name = mysql_tt_escape_string($name);
-	DBQuery::query("DELETE FROM {$database['prefix']}{$name} WHERE owner = ".getBlogId());
+	DBQuery::query("DELETE FROM {$database['prefix']}{$name} WHERE blogid = ".getBlogId());
 	return (mysql_affected_rows() == 1);
 }
 

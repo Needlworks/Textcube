@@ -18,7 +18,7 @@ class Link {
 	}
 	
 	function open($filter = '', $fields = '*', $sort = 'id') {
-		global $database, $owner;
+		global $database;
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
@@ -26,7 +26,7 @@ class Link {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Links WHERE owner = $owner $filter $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Links WHERE blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result)
 			$this->_count = mysql_num_rows($this->_result);
 		return $this->shift();
@@ -45,7 +45,7 @@ class Link {
 		$this->reset();
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'owner')
+				if ($name == 'blogid')
 					continue;
 				switch ($name) {
 					case 'name':
@@ -101,24 +101,24 @@ class Link {
 	
 	/*@static@*/
 	function getId($url) {
-		global $database, $owner;
+		global $database;
 		if (empty($url))
 			return null;
-		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE owner = $owner AND url = '" . mysql_tt_escape_string($url) . "'");
+		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = ".getBlogId()." AND url = '" . mysql_tt_escape_string($url) . "'");
 	}
 	
 	/*@static@*/
 	function getURL($id) {
-		global $database, $owner;
+		global $database;
 		if (!Validator::number($id, 1))
 			return null;
-		return DBQuery::queryCell("SELECT label FROM {$database['prefix']}Links WHERE owner = $owner AND id = $id");
+		return DBQuery::queryCell("SELECT label FROM {$database['prefix']}Links WHERE blogid = ".getBlogId()." AND id = $id");
 	}
 
 	function _buildQuery() {
-		global $database, $owner;
+		global $database;
 		$query = new TableQuery($database['prefix'] . 'Links');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');

@@ -5,7 +5,7 @@
 
 function getReaderSetting($blogid) {
 	global $database;
-	return DBQuery::queryRow("SELECT * FROM {$database['prefix']}FeedSettings WHERE owner = $blogid");
+	return DBQuery::queryRow("SELECT * FROM {$database['prefix']}FeedSettings WHERE blogid = $blogid");
 }
 
 function setReaderSetting($blogid, $setting) {
@@ -23,21 +23,21 @@ function setReaderSetting($blogid, $setting) {
 		$sql .= "allowScript = {$setting['allowScript']}, ";
 	if (!empty($setting['newWindow']))
 		$sql .= "newWindow = {$setting['newWindow']}, ";
-	return DBQuery::execute("$sql owner = owner WHERE owner = $blogid");
+	return DBQuery::execute("$sql blogid = blogid WHERE blogid = $blogid");
 }
 
 function markAsUnread($blogid, $id) {
 	global $database;
-	return DBQuery::execute("DELETE FROM {$database['prefix']}FeedReads WHERE owner = $blogid AND item = $id");
+	return DBQuery::execute("DELETE FROM {$database['prefix']}FeedReads WHERE blogid = $blogid AND item = $id");
 }
 
 function markAsStar($blogid, $id, $flag) {
 	global $database;
-	if (DBQuery::queryCell("SELECT i.id FROM {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr, {$database['prefix']}Feeds f, {$database['prefix']}FeedItems i WHERE g.owner = $blogid AND gr.feed = f.id AND gr.owner = g.owner AND gr.groupId = g.id AND f.id = i.feed AND i.id = $id")) {
+	if (DBQuery::queryCell("SELECT i.id FROM {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr, {$database['prefix']}Feeds f, {$database['prefix']}FeedItems i WHERE g.blogid = $blogid AND gr.feed = f.id AND gr.blogid = g.blogid AND gr.groupId = g.id AND f.id = i.feed AND i.id = $id")) {
 		if ($flag)
 			DBQuery::query("REPLACE INTO {$database['prefix']}FeedStarred VALUES($blogid, $id)");
 		else
-			DBQuery::query("DELETE FROM {$database['prefix']}FeedStarred WHERE owner = $blogid AND item = $id");
+			DBQuery::query("DELETE FROM {$database['prefix']}FeedStarred WHERE blogid = $blogid AND item = $id");
 		return true;
 	} else
 		return false;
@@ -60,8 +60,8 @@ function getFeedGroups($blogid, $starredOnly = false, $searchKeyword = null) {
 				LEFT JOIN
 					{$database['prefix']}FeedGroupRelations r
 				ON
-					r.owner = $blogid AND
-					r.owner = g.owner AND
+					r.blogid = $blogid AND
+					r.blogid = g.blogid AND
 					g.id = r.groupId
 				LEFT JOIN
 					{$database['prefix']}FeedItems i
@@ -70,10 +70,10 @@ function getFeedGroups($blogid, $starredOnly = false, $searchKeyword = null) {
 				LEFT JOIN
 					{$database['prefix']}FeedStarred s
 				ON
-					s.owner = $blogid AND
+					s.blogid = $blogid AND
 					i.id = s.item
 				WHERE
-					g.owner = $blogid
+					g.blogid = $blogid
 					$condition
 				GROUP BY g.id
 				ORDER BY g.title";
@@ -104,11 +104,11 @@ function getFeeds($blogid, $group = 0, $starredOnly = false, $searchKeyword = nu
 				LEFT JOIN
 					{$database['prefix']}FeedStarred s
 				ON
-					s.owner = $blogid AND
+					s.blogid = $blogid AND
 					i.id = s.item
 				WHERE
-					r.owner = $blogid AND
-					r.owner = g.owner AND
+					r.blogid = $blogid AND
+					r.blogid = g.blogid AND
 					g.id = r.groupId AND
 					r.feed = f.id
 					$condition
@@ -143,16 +143,16 @@ function getFeedEntriesTotalCount($blogid, $group = 0, $feed = 0, $unreadOnly = 
 				LEFT JOIN					
 					{$database['prefix']}FeedStarred s
 				ON
-					s.owner = $blogid AND
+					s.blogid = $blogid AND
 					i.id = s.item
 				LEFT JOIN					
 					{$database['prefix']}FeedReads rd
 				ON
-					rd.owner = $blogid AND
+					rd.blogid = $blogid AND
 					i.id = rd.item
 				WHERE
-					r.owner = $blogid AND
-					r.owner = g.owner AND
+					r.blogid = $blogid AND
+					r.blogid = g.blogid AND
 					g.id = r.groupId AND
 					r.feed = f.id
 					$condition";
@@ -182,16 +182,16 @@ function getFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $st
 				LEFT JOIN					
 					{$database['prefix']}FeedStarred s
 				ON
-					s.owner = $blogid AND
+					s.blogid = $blogid AND
 					i.id = s.item
 				LEFT JOIN					
 					{$database['prefix']}FeedReads rd
 				ON
-					rd.owner = $blogid AND
+					rd.blogid = $blogid AND
 					i.id = rd.item
 				WHERE
-					r.owner = $blogid AND
-					r.owner = g.owner AND
+					r.blogid = $blogid AND
+					r.blogid = g.blogid AND
 					g.id = r.groupId AND
 					r.feed = f.id AND
 					f.id = i.feed
@@ -226,16 +226,16 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 					LEFT JOIN					
 						{$database['prefix']}FeedStarred s
 					ON
-						s.owner = $blogid AND
+						s.blogid = $blogid AND
 						i.id = s.item
 					LEFT JOIN					
 						{$database['prefix']}FeedReads rd
 					ON
-						rd.owner = $blogid AND
+						rd.blogid = $blogid AND
 						i.id = rd.item
 					WHERE
-						r.owner = $blogid AND
-						r.owner = g.owner AND
+						r.blogid = $blogid AND
+						r.blogid = g.blogid AND
 						g.id = r.groupId AND
 						r.feed = f.id AND
 						f.id = i.feed
@@ -290,8 +290,8 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 						{$database['prefix']}Feeds f,
 						{$database['prefix']}FeedItems i
 					WHERE
-						r.owner = $blogid AND
-						r.owner = g.owner AND
+						r.blogid = $blogid AND
+						r.blogid = g.blogid AND
 						r.feed = f.id AND
 						r.groupId = g.id AND
 						i.id = $entry AND
@@ -309,10 +309,10 @@ function addFeedGroup($blogid, $title) {
 	$title = mysql_tt_escape_string(mysql_lessen($title, 255));
 	if (empty($title))
 		return 1;
-	if (DBQuery::queryCell("SELECT id FROM {$database['prefix']}FeedGroups WHERE owner = $blogid AND title = '$title'") !== null) {
+	if (DBQuery::queryCell("SELECT id FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid AND title = '$title'") !== null) {
 		return 2;
 	}
-	$id = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}FeedGroups WHERE owner = $blogid") + 1;
+	$id = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid") + 1;
 	DBQuery::query("INSERT INTO {$database['prefix']}FeedGroups VALUES($blogid, $id, '$title')");
 	if (mysql_affected_rows() != 1)
 		return - 1;
@@ -324,12 +324,12 @@ function editFeedGroup($blogid, $id, $title) {
 	$title = mysql_tt_escape_string(mysql_lessen($title, 255));
 	if (empty($title))
 		return 1;
-	$prevTitle = DBQuery::queryCell("SELECT title FROM {$database['prefix']}FeedGroups WHERE owner = $blogid AND id = $id");
+	$prevTitle = DBQuery::queryCell("SELECT title FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid AND id = $id");
 	if ($prevTitle == $title)
 		return 0;
 	if ($prevTitle === null)
 		return - 1;
-	DBQuery::query("UPDATE {$database['prefix']}FeedGroups SET title = '$title' WHERE owner = $blogid AND id = $id");
+	DBQuery::query("UPDATE {$database['prefix']}FeedGroups SET title = '$title' WHERE blogid = $blogid AND id = $id");
 	if (mysql_affected_rows() != 1)
 		return - 1;
 	return 0;
@@ -339,7 +339,7 @@ function deleteFeedGroup($blogid, $id) {
 	global $database;
 	if ($id == 0)
 		return - 1;
-	DBQuery::query("UPDATE {$database['prefix']}FeedGroupRelations SET groupId = 0 WHERE owner = $blogid AND groupId = $id");
+	DBQuery::query("UPDATE {$database['prefix']}FeedGroupRelations SET groupId = 0 WHERE blogid = $blogid AND groupId = $id");
 	DBQuery::query("DELETE FROM {$database['prefix']}FeedGroups WHERE id = $id");
 	if (mysql_affected_rows() != 1)
 		return 1;
@@ -351,7 +351,7 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 	if(strpos(strtolower($url), 'http://') !== 0)
 		$url = 'http://'.$url;
 	$escapedURL = mysql_tt_escape_string($url);
-	if (DBQuery::queryExistence("SELECT f.id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.owner = $blogid AND r.owner = g.owner AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$escapedURL'")) {
+	if (DBQuery::queryExistence("SELECT f.id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.blogid = $blogid AND r.blogid = g.blogid AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$escapedURL'")) {
 		return 1;
 	}
 	if ($id = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Feeds WHERE xmlURL = '$escapedURL'")) {
@@ -538,9 +538,9 @@ function saveFeedItems($feedId, $xml) {
 	if($result = DBQuery::query("SELECT id FROM {$database['prefix']}FeedItems LEFT JOIN {$database['prefix']}FeedStarred ON id = item WHERE item IS NULL AND written < $deadLine"))
 		while(list($id) = mysql_fetch_row($result))
 			DBQuery::query("DELETE FROM {$database['prefix']}FeedItems WHERE id = $id");
-	if($result = DBQuery::query("SELECT owner, item FROM {$database['prefix']}FeedReads LEFT JOIN {$database['prefix']}FeedItems ON id = item WHERE id IS NULL"))
+	if($result = DBQuery::query("SELECT blogid, item FROM {$database['prefix']}FeedReads LEFT JOIN {$database['prefix']}FeedItems ON id = item WHERE id IS NULL"))
 		while(list($readsOwner, $readsItem) = mysql_fetch_row($result))
-			DBQuery::query("DELETE FROM {$database['prefix']}FeedReads WHERE owner = $readsOwner AND item = $readsItem");
+			DBQuery::query("DELETE FROM {$database['prefix']}FeedReads WHERE blogid = $readsOwner AND item = $readsItem");
 	return true;
 }
 
@@ -581,18 +581,18 @@ function saveFeedItem($feedId, $item) {
 
 function editFeed($blogid, $feedId, $oldGroupId, $newGroupId, $url) {
 	global $database;
-	DBQuery::query("UPDATE {$database['prefix']}FeedGroupRelations SET groupId = $newGroupId WHERE owner = $blogid AND feed = $feedId AND groupId = $oldGroupId");
+	DBQuery::query("UPDATE {$database['prefix']}FeedGroupRelations SET groupId = $newGroupId WHERE blogid = $blogid AND feed = $feedId AND groupId = $oldGroupId");
 	return 0;
 }
 
 function deleteFeed($blogid, $feedId) {
 	global $database;
-	DBQuery::query("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE owner = $blogid AND feed = $feedId");
-	if (DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}FeedGroupRelations WHERE owner = $blogid AND feed = $feedId") == 0) {
-		foreach (DBQuery::queryAll("SELECT item FROM {$database['prefix']}FeedStarred s, {$database['prefix']}FeedItems i WHERE s.item = i.id AND s.owner = $blogid AND i.feed = $feedId") as $row)
-			DBQuery::query("DELETE FROM {$database['prefix']}FeedStarred WHERE owner = $blogid AND item = {$row['item']}");
-		foreach (DBQuery::queryAll("SELECT item FROM {$database['prefix']}FeedReads r, {$database['prefix']}FeedItems i WHERE r.item = i.id AND r.owner = $blogid AND i.feed = $feedId") as $row)
-			DBQuery::query("DELETE FROM {$database['prefix']}FeedReads WHERE owner = $blogid AND item = {$row['item']}");
+	DBQuery::query("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid AND feed = $feedId");
+	if (DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid AND feed = $feedId") == 0) {
+		foreach (DBQuery::queryAll("SELECT item FROM {$database['prefix']}FeedStarred s, {$database['prefix']}FeedItems i WHERE s.item = i.id AND s.blogid = $blogid AND i.feed = $feedId") as $row)
+			DBQuery::query("DELETE FROM {$database['prefix']}FeedStarred WHERE blogid = $blogid AND item = {$row['item']}");
+		foreach (DBQuery::queryAll("SELECT item FROM {$database['prefix']}FeedReads r, {$database['prefix']}FeedItems i WHERE r.item = i.id AND r.blogid = $blogid AND i.feed = $feedId") as $row)
+			DBQuery::query("DELETE FROM {$database['prefix']}FeedReads WHERE blogid = $blogid AND item = {$row['item']}");
 	}
 	if (DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}FeedGroupRelations WHERE feed = $feedId") == 0) {
 		DBQuery::query("DELETE FROM {$database['prefix']}FeedItems WHERE feed = $feedId");
@@ -603,9 +603,9 @@ function deleteFeed($blogid, $feedId) {
 
 function deleteReaderTablesByOwner($blogid) {
 	global $database;
-	DBQuery::query("DELETE FROM {$database['prefix']}FeedGroups WHERE owner = $blogid");
-	DBQuery::query("DELETE FROM {$database['prefix']}FeedSettings WHERE owner = $blogid");
-	if($result = DBQuery::query("SELECT feed FROM {$database['prefix']}FeedGroupRelations WHERE owner = $blogid")) {
+	DBQuery::query("DELETE FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid");
+	DBQuery::query("DELETE FROM {$database['prefix']}FeedSettings WHERE blogid = $blogid");
+	if($result = DBQuery::query("SELECT feed FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid")) {
 		while(list($feed) = mysql_fetch_row($result)) {
 			deleteFeed($blogid, $feed);
 		}

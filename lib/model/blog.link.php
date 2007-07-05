@@ -6,7 +6,7 @@
 function getLinks($blogid) {
 	global $database;
 	$links = array();
-	if ($result = DBQuery::query("select * from {$database['prefix']}Links where owner = $blogid ORDER BY name")) {
+	if ($result = DBQuery::query("select * from {$database['prefix']}Links where blogid = $blogid ORDER BY name")) {
 		while ($link = mysql_fetch_array($result))
 			array_push($links, $link);
 	}
@@ -15,12 +15,12 @@ function getLinks($blogid) {
 
 function getLink($blogid, $id) {
 	global $database;
-	return DBQuery::queryRow("select * from {$database['prefix']}Links where owner = $blogid and id = $id");
+	return DBQuery::queryRow("select * from {$database['prefix']}Links where blogid = $blogid and id = $id");
 }
 
 function deleteLink($blogid, $id) {
 	global $database;
-	$result = DBQuery::query("delete from {$database['prefix']}Links where owner = $blogid and id = $id");
+	$result = DBQuery::query("delete from {$database['prefix']}Links where blogid = $blogid and id = $id");
 	return ($result && (mysql_affected_rows() == 1)) ? true : false;
 }
 
@@ -33,7 +33,7 @@ function addLink($blogid, $link) {
 	$name = mysql_tt_escape_string($name);
 	$url = mysql_tt_escape_string($url);
 	$rss = isset($link['rss']) ? mysql_tt_escape_string(mysql_lessen(trim($link['rss']), 255)) : '';
-	if (DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE owner = $blogid AND url = '$url'"))
+	if (DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = $blogid AND url = '$url'"))
 		return 1;
 	if (DBQuery::execute("INSERT INTO {$database['prefix']}Links VALUES ($blogid, null, '$name', '$url', '$rss', UNIX_TIMESTAMP())"))
 		return 0;
@@ -58,6 +58,6 @@ function updateLink($blogid, $link) {
 					rss = '$rss',
 					written = UNIX_TIMESTAMP()
 				where
-					owner = $blogid and id = {$link['id']}");
+					blogid = $blogid and id = {$link['id']}");
 }
 ?>

@@ -14,7 +14,7 @@ class DailyStatistics {
 	}
 	
 	function open($filter = '', $fields = '*', $sort = 'date DESC') {
-		global $database, $owner;
+		global $database;
 		if (is_numeric($filter))
 			$filter = 'AND date = ' . $filter;
 		else if (!empty($filter))
@@ -22,7 +22,7 @@ class DailyStatistics {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}DailyStatistics WHERE owner = $owner $filter $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}DailyStatistics WHERE blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = mysql_num_rows($this->_result))
 				return $this->shift();
@@ -46,7 +46,7 @@ class DailyStatistics {
 		$this->reset();
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'owner')
+				if ($name == 'blogid')
 					continue;
 				$this->$name = $value;
 			}
@@ -109,9 +109,9 @@ class DailyStatistics {
 		if (!DailyStatistics::validateDate($this->date))
 			return $this->_error('date');
 			
-		global $database, $owner;
+		global $database;
 		$query = new TableQuery($database['prefix'] . 'DailyStatistics');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('date', $this->date);
 		if (isset($this->visits)) {
 			if (!Validator::number($this->visits, 1))

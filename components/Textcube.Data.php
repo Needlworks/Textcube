@@ -5,32 +5,33 @@
 class TData {
 	/*@static@*/
 	function removeAll($removeAttachments = true) {
-		global $database, $owner;
-		mysql_query("UPDATE {$database['prefix']}BlogStatistics SET visits = 0 WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}DailyStatistics WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}Categories WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}Attachments WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}Comments WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}Trackbacks WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}TagRelations WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}Entries WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}Links WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}Filters WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}RefererLogs WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}RefererStatistics WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}Plugins WHERE owner = $owner");
+		global $database;
+		$blogid = getBlogId();
+		mysql_query("UPDATE {$database['prefix']}BlogStatistics SET visits = 0 WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}Links WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}Filters WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}RefererStatistics WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}Plugins WHERE blogid = $blogid");
 		
-		mysql_query("DELETE FROM {$database['prefix']}FeedStarred WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}FeedReads WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE owner = $owner");
-		mysql_query("DELETE FROM {$database['prefix']}FeedGroups WHERE owner = $owner");
+		mysql_query("DELETE FROM {$database['prefix']}FeedStarred WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}FeedReads WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid");
 		
-		if (file_exists(ROOT . "/cache/rss/$owner.xml"))
-			unlink(ROOT . "/cache/rss/$owner.xml");
+		if (file_exists(ROOT . "/cache/rss/$blogid.xml"))
+			unlink(ROOT . "/cache/rss/$blogid.xml");
 		
 		if ($removeAttachments)
-			Path::removeFiles(Path::combine(ROOT, 'attach', $owner));
+			Path::removeFiles(Path::combine(ROOT, 'attach', $blogid));
 	}
 }
 ?>

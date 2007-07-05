@@ -5,12 +5,12 @@
 class FeedGroup {
 	/*@static@*/
 	function getId($name, $add = false) {
-		global $database, $owner;
+		global $database;
 		$name = mysql_lessen($name);
 		if (empty($name))
 			return 0;
 		$query = new TableQuery($database['prefix'] . 'FeedGroups');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('title', $name, true);
 		$id = $query->getCell('id');
 		if (($id === null) && $add) {
@@ -28,13 +28,13 @@ class FeedGroup {
 
 	/*@static@*/
 	function getName($id) {
-		global $database, $owner;
+		global $database;
 		if (!Validator::number($id, 0))
 			return null;
 		if ($id == 0)
 			return '';
 		$query = new TableQuery($database['prefix'] . 'FeedGroups');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('id', $id);
 		return $query->getCell('title');
 	}
@@ -59,7 +59,7 @@ class Feed {
 	}
 	
 	function open($filter = '', $fields = 'f.*, g.groupId', $sort = 'id') {
-		global $database, $owner;
+		global $database;
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
@@ -67,7 +67,7 @@ class Feed {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Feeds f JOIN {$database['prefix']}FeedGroupRelations g ON f.id = g.feed WHERE g.owner = $owner $filter $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Feeds f JOIN {$database['prefix']}FeedGroupRelations g ON f.id = g.feed WHERE g.blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = mysql_num_rows($this->_result))
 				return $this->shift();
@@ -91,7 +91,7 @@ class Feed {
 		$this->reset();
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'owner')
+				if ($name == 'blogid')
 					continue;
 				switch ($name) {
 					case 'xmlURL':
@@ -115,7 +115,7 @@ class Feed {
 	}
 	
 	function add() {
-		global $database, $owner;
+		global $database;
 		$this->id = null;
 		$this->url = trim($this->url);
 		if (empty($this->url))
@@ -133,7 +133,7 @@ class Feed {
 		$this->id = $query->getCell('id');
 		
 		$query->reset($database['prefix'] . 'FeedGroupRelations');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', $blogid);
 		$query->setQualifier('feed', $this->id);
 		$query->setQualifier('groupId', $this->group);
 		if (!$query->doesExist()) {
@@ -187,7 +187,7 @@ class FeedItem {
 	}
 	
 	function open($filter = '', $fields = 'i.*', $sort = 'id') {
-		global $database, $owner;
+		global $database;
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
@@ -195,7 +195,10 @@ class FeedItem {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}FeedItems i JOIN {$database['prefix']}FeedGroupRelations g ON i.feed = g.feed WHERE g.owner = $owner $filter $sort");
+		$this->_result = mysql_query("SELECT $fields 
+				FROM {$database['prefix']}FeedItems i 
+				JOIN {$database['prefix']}FeedGroupRelations g ON i.feed = g.feed 
+				WHERE g.blogid = $blogid $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = mysql_num_rows($this->_result))
 				return $this->shift();
@@ -219,7 +222,7 @@ class FeedItem {
 		$this->reset();
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'owner')
+				if ($name == 'blogid')
 					continue;
 				switch ($name) {
 					case 'permalink':
@@ -237,7 +240,7 @@ class FeedItem {
 	}
 	
 	function add() {
-		global $database, $owner;
+		global $database;
 		$this->id = null;
 		$this->link = mysql_lessen(trim($this->link), 255);
 		if (empty($this->link))
@@ -279,30 +282,31 @@ class FeedItem {
 	}
 	
 	function isRead() {
-		global $database, $owner;
+		global $database;
 		if (isset($this->id))
-			return DBQuery::queryExistence("SELECT * FROM {$database['prefix']}FeedReads WHERE owner = $owner AND item = {$this->id}");
+			return DBQuery::queryExistence("SELECT * FROM {$database['prefix']}FeedReads WHERE blogid = ".getBlogId()." AND item = {$this->id}");
 		return false;
 	}
 	
 	function setRead() {
-		global $database, $owner;
+		global $database;
 		if (isset($this->id))
-			return DBQuery::execute("INSERT INTO {$database['prefix']}FeedReads VALUES($owner, {$this->id})");
+			return DBQuery::execute("INSERT INTO {$database['prefix']}FeedReads VALUES(".getBlogId().", {$this->id})");
 		return false;
 	}
 	
 	function isStarred() {
-		global $database, $owner;
+		global $database;
 		if (isset($this->id))
-			return DBQuery::queryExistence("SELECT * FROM {$database['prefix']}FeedStarred WHERE owner = $owner AND item = {$this->id}");
+			return DBQuery::queryExistence("SELECT * FROM {$database['prefix']}FeedStarred 
+					WHERE blogid = ".getBlogId()." AND item = {$this->id}");
 		return false;
 	}
 	
 	function setStarred() {
-		global $database, $owner;
+		global $database;
 		if (isset($this->id))
-			return DBQuery::execute("INSERT INTO {$database['prefix']}FeedStarred VALUES($owner, {$this->id})");
+			return DBQuery::execute("INSERT INTO {$database['prefix']}FeedStarred VALUES(".getBlogId().", {$this->id})");
 		return false;
 	}
 }

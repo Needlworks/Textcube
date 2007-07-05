@@ -23,7 +23,7 @@ class GuestComment {
 	}
 	
 	function open($filter = '', $fields = '*', $sort = 'id') {
-		global $database, $owner;
+		global $database;
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
@@ -31,7 +31,7 @@ class GuestComment {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Comments WHERE owner = $owner AND entry = 0 $filter $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()," AND entry = 0 $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = mysql_num_rows($this->_result))
 				return $this->shift();
@@ -55,7 +55,7 @@ class GuestComment {
 		$this->reset();
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'owner')
+				if ($name == 'blogid')
 					continue;
 				switch ($name) {
 					case 'replier':
@@ -73,7 +73,7 @@ class GuestComment {
 	}
 	
 	function add() {
-		global $database, $owner;
+		global $database;
 		if (!isset($this->commenter) && !isset($this->name))
 			return $this->_error('commenter');
 		if (!isset($this->content))
@@ -106,9 +106,9 @@ class GuestComment {
 	}
 	
 	function _buildQuery() {
-		global $database, $owner;
+		global $database;
 		$query = new TableQuery($database['prefix'] . 'Comments');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('entry', 0);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))

@@ -15,13 +15,13 @@ class PluginSetting {
 	}
 	
 	function open($name = '', $fields = '*', $sort = 'name') {
-		global $database, $owner;
+		global $database;
 		if (!empty($name))
 			$name = 'AND name = \'' . $name . '\'';
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Plugins WHERE owner = $owner $name $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Plugins WHERE blogid = ".getBlogId()." $name $sort");
 		if ($this->_result)
 			$this->_count = mysql_num_rows($this->_result);
 		return $this->shift();
@@ -40,7 +40,7 @@ class PluginSetting {
 		$this->reset();
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'owner')
+				if ($name == 'blogid')
 					continue;
 				switch ($name) {
 					case 'settings':
@@ -76,9 +76,9 @@ class PluginSetting {
 		if (!Validator::directory($this->name))
 			return $this->_error('name');
 		
-		global $database, $owner;
+		global $database;
 		$query = new TableQuery($database['prefix'] . 'Plugins');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('name', mysql_tt_escape_string(mysql_lessen($this->name, 255)), true);
 		if (isset($this->setting))
 			$query->setAttribute('settings', mysql_tt_escape_string($this->setting), true);

@@ -985,7 +985,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
         if ($_POST['mode'] == 'install') {
             $schema = "
 CREATE TABLE {$_POST['dbPrefix']}Attachments (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   parent int(11) NOT NULL default '0',
   name varchar(32) NOT NULL default '',
   label varchar(64) NOT NULL default '',
@@ -996,7 +996,7 @@ CREATE TABLE {$_POST['dbPrefix']}Attachments (
   attached int(11) NOT NULL default '0',
   downloads int(11) NOT NULL default '0',
   enclosure tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (owner,name)
+  PRIMARY KEY  (blogid,name)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}BlogSettings (
   blogid int(11) NOT NULL default '0',
@@ -1005,12 +1005,12 @@ CREATE TABLE {$_POST['dbPrefix']}BlogSettings (
   PRIMARY KEY (blogid, name)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}BlogStatistics (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   visits int(11) NOT NULL default '0',
-  PRIMARY KEY  (owner)
+  PRIMARY KEY  (blogid)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Categories (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   id int(11) NOT NULL,
   parent int(11) default NULL,
   name varchar(127) NOT NULL default '',
@@ -1020,10 +1020,10 @@ CREATE TABLE {$_POST['dbPrefix']}Categories (
   label varchar(255) NOT NULL default '',
   visibility tinyint(4) NOT NULL default '2',
   bodyId varchar(20) default NULL,
-  PRIMARY KEY (owner,id)
+  PRIMARY KEY (blogid,id)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Comments (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   replier int(11) default NULL,
   id int(11) NOT NULL auto_increment,
   entry int(11) NOT NULL default '0',
@@ -1037,13 +1037,13 @@ CREATE TABLE {$_POST['dbPrefix']}Comments (
   written int(11) NOT NULL default '0',
   isFiltered int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
-  KEY owner (owner),
+  KEY blogid (blogid),
   KEY entry (entry),
   KEY parent (parent),
   KEY isFiltered (isFiltered)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}CommentsNotified (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   replier int(11) default NULL,
   id int(11) NOT NULL auto_increment,
   entry int(11) NOT NULL default '0',
@@ -1063,11 +1063,11 @@ CREATE TABLE {$_POST['dbPrefix']}CommentsNotified (
   entryTitle varchar(255) NOT NULL default '',
   entryUrl varchar(255) NOT NULL default '',
   PRIMARY KEY  (id),
-  KEY owner (owner),
+  KEY blogid (blogid),
   KEY entry (entry)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}CommentsNotifiedQueue (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
   commentId int(11) NOT NULL default '0',
   sendStatus int(1) NOT NULL default '0',
@@ -1087,13 +1087,13 @@ CREATE TABLE {$_POST['dbPrefix']}CommentsNotifiedSiteInfo (
   UNIQUE KEY id (id)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}DailyStatistics (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   date int(11) NOT NULL default '0',
   visits int(11) NOT NULL default '0',
-  PRIMARY KEY  (owner,date)
+  PRIMARY KEY  (blogid,date)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Entries (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   userid int(11) NOT NULL default '0',
   id int(11) NOT NULL,
   draft tinyint(1) NOT NULL default '0',
@@ -1113,24 +1113,24 @@ CREATE TABLE {$_POST['dbPrefix']}Entries (
   modified int(11) NOT NULL default '0',
   comments int(11) NOT NULL default '0',
   trackbacks int(11) NOT NULL default '0',
-  PRIMARY KEY (owner, id, category, published),
+  PRIMARY KEY (blogid, id, category, published),
   KEY visibility (visibility),
   KEY userid (userid),
   KEY published (published),
   KEY id (id, category, visibility),
-  KEY owner (owner, published)
+  KEY blogid (blogid, published)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}FeedGroupRelations (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   feed int(11) NOT NULL default '0',
   groupId int(11) NOT NULL default '0',
-  PRIMARY KEY  (owner,feed,groupId)
+  PRIMARY KEY  (blogid,feed,groupId)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}FeedGroups (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   id int(11) NOT NULL default '0',
   title varchar(255) NOT NULL default '',
-  PRIMARY KEY  (owner,id)
+  PRIMARY KEY  (blogid,id)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}FeedItems (
   id int(11) NOT NULL auto_increment,
@@ -1148,23 +1148,23 @@ CREATE TABLE {$_POST['dbPrefix']}FeedItems (
   KEY permalink (permalink)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}FeedReads (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   item int(11) NOT NULL default '0',
-  PRIMARY KEY  (owner,item)
+  PRIMARY KEY  (blogid,item)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}FeedSettings (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   updateCycle int(11) NOT NULL default '120',
   feedLife int(11) NOT NULL default '30',
   loadImage int(11) NOT NULL default '1',
   allowScript int(11) NOT NULL default '1',
   newWindow int(11) NOT NULL default '1',
-  PRIMARY KEY  (owner)
+  PRIMARY KEY  (blogid)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}FeedStarred (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   item int(11) NOT NULL default '0',
-  PRIMARY KEY  (owner,item)
+  PRIMARY KEY  (blogid,item)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Feeds (
   id int(11) NOT NULL auto_increment,
@@ -1178,39 +1178,39 @@ CREATE TABLE {$_POST['dbPrefix']}Feeds (
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Filters (
   id int(11) NOT NULL auto_increment,
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   type enum('content','ip','name','url') NOT NULL default 'content',
   pattern varchar(255) NOT NULL default '',
   PRIMARY KEY (id),
-  UNIQUE KEY owner (owner, type, pattern)
+  UNIQUE KEY blogid (blogid, type, pattern)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Links (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
   name varchar(255) NOT NULL default '',
   url varchar(255) NOT NULL default '',
   rss varchar(255) NOT NULL default '',
   written int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
-  UNIQUE KEY owner (owner,url)
+  UNIQUE KEY blogid (blogid,url)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Plugins (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   name varchar(255) NOT NULL default '',
   settings text,
-  PRIMARY KEY  (owner,name)
+  PRIMARY KEY  (blogid,name)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}RefererLogs (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   host varchar(64) NOT NULL default '',
   url varchar(255) NOT NULL default '',
   referred int(11) NOT NULL default '0'
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}RefererStatistics (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   host varchar(64) NOT NULL default '',
   count int(11) NOT NULL default '0',
-  PRIMARY KEY  (owner,host)
+  PRIMARY KEY  (blogid,host)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}ReservedWords (
   word varchar(16) NOT NULL default '',
@@ -1272,11 +1272,11 @@ CREATE TABLE {$_POST['dbPrefix']}SkinSettings (
   PRIMARY KEY  (blogid)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}TagRelations (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   tag int(11) NOT NULL default '0',
   entry int(11) NOT NULL default '0',
-  PRIMARY KEY  (owner, tag, entry),
-  KEY owner (owner)
+  PRIMARY KEY  (blogid, tag, entry),
+  KEY blogid (blogid)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Tags (
   id int(11) NOT NULL auto_increment,
@@ -1285,7 +1285,7 @@ CREATE TABLE {$_POST['dbPrefix']}Tags (
   UNIQUE KEY name (name)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}TrackbackLogs (
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
   entry int(11) NOT NULL default '0',
   url varchar(255) NOT NULL default '',
@@ -1294,7 +1294,7 @@ CREATE TABLE {$_POST['dbPrefix']}TrackbackLogs (
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Trackbacks (
   id int(11) NOT NULL auto_increment,
-  owner int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   entry int(11) NOT NULL default '0',
   url varchar(255) NOT NULL default '',
   writer int(11) default NULL,
@@ -1305,7 +1305,7 @@ CREATE TABLE {$_POST['dbPrefix']}Trackbacks (
   written int(11) NOT NULL default '0',
   isFiltered int(11) NOT NULL default '0',
   PRIMARY KEY (id),
-  UNIQUE KEY owner (owner, entry, url),
+  UNIQUE KEY blogid (blogid, entry, url),
   KEY isFiltered (isFiltered)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Users (
@@ -1326,10 +1326,10 @@ CREATE TABLE {$_POST['dbPrefix']}UserSettings (
   PRIMARY KEY (userid,name)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}XMLRPCPingSettings (
-  owner int(11) NOT NULL default 0,
+  blogid int(11) NOT NULL default 0,
   url varchar(255) NOT NULL default '',
   type varchar(32) NOT NULL default 'xmlrpc',
-  PRIMARY KEY (owner)
+  PRIMARY KEY (blogid)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Teamblog (
   blogid int(11) NOT NULL default 0,
@@ -1350,8 +1350,8 @@ INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'timezone', '$baseTimezo
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultEditor', 'modern');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultFormatter', 'ttml');
 INSERT INTO {$_POST['dbPrefix']}SkinSettings (blogid) VALUES (1);
-INSERT INTO {$_POST['dbPrefix']}FeedSettings (owner) values(1);
-INSERT INTO {$_POST['dbPrefix']}FeedGroups (owner) values(1)";
+INSERT INTO {$_POST['dbPrefix']}FeedSettings (blogid) values(1);
+INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
                 if (!mysql_query($sub)) {
