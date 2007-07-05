@@ -7,13 +7,13 @@ function getStatistics($blogid) {
 	global $database;
 	$stats = array('total' => 0, 'today' => 0, 'yesterday' => 0);
 	$result = DBQuery::query("select visits from {$database['prefix']}BlogStatistics where blogid = $blogid");
-	if (mysql_num_rows($result) == 1)
+	if (!empty($result) && mysql_num_rows($result) == 1)
 		list($stats['total']) = mysql_fetch_array($result);
 	$result = DBQuery::query("select visits from {$database['prefix']}DailyStatistics where blogid = $blogid and `date` = " . Timestamp::getDate());
-	if (mysql_num_rows($result) == 1)
+	if (!empty($result) && mysql_num_rows($result) == 1)
 		list($stats['today']) = mysql_fetch_array($result);
 	$result = DBQuery::query("select visits from {$database['prefix']}DailyStatistics where blogid = $blogid and `date` = " . Timestamp::getDate(time() - 86400));
-	if (mysql_num_rows($result) == 1)
+	if (!empty($result) && mysql_num_rows($result) == 1)
 		list($stats['yesterday']) = mysql_fetch_array($result);
 	return $stats;
 }
