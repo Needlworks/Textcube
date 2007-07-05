@@ -961,7 +961,7 @@ class Timestamp {
 class DBQuery {	
 	/*@static@*/ 
 	function queryExistence($query) {
-		$query = ($service['useLegacySupport'] == true ? preg_replace("/ owner/"," blogid",$query) : $query);
+		$query = DBQuery::queryPostProcessing($query);
 		if ($result = mysql_query($query)) {
 			if (mysql_num_rows($result) > 0) {
 				mysql_free_result($result);
@@ -974,7 +974,7 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryCount($query) {
-		$query = ($service['useLegacySupport'] == true ? preg_replace("/ owner/"," blogid",$query) : $query);
+		$query = DBQuery::queryPostProcessing($query);
 		$count = 0;
 		if ($result = mysql_query($query)) {
 			$count = mysql_num_rows($result);
@@ -985,7 +985,7 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryCell($query, $field = 0) {
-		$query = ($service['useLegacySupport'] == true ? preg_replace("/ owner/"," blogid",$query) : $query);
+		$query = DBQuery::queryPostProcessing($query);
 		if ($result = mysql_query($query)) {
 			if (is_numeric($field)) {
 				$row = mysql_fetch_row($result);
@@ -1002,7 +1002,7 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryRow($query, $type = MYSQL_BOTH) {
-		$query = ($service['useLegacySupport'] == true ? preg_replace("/ owner/"," blogid",$query) : $query);
+		$query = DBQuery::queryPostProcessing($query);
 		if ($result = mysql_query($query)) {
 			if ($row = mysql_fetch_array($result, $type)) {
 				mysql_free_result($result);
@@ -1015,7 +1015,7 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryColumn($query) {
-		$query = ($service['useLegacySupport'] == true ? preg_replace("/ owner/"," blogid",$query) : $query);
+		$query = DBQuery::queryPostProcessing($query);
 		$column = array();
 		if ($result = mysql_query($query)) {
 			while ($row = mysql_fetch_row($result))
@@ -1028,7 +1028,7 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryAll($query, $type = MYSQL_BOTH) {
-		$query = ($service['useLegacySupport'] == true ? preg_replace("/ owner/"," blogid",$query) : $query);
+		$query = DBQuery::queryPostProcessing($query);
 		$all = array();
 		if ($result = mysql_query($query)) {
 			while ($row = mysql_fetch_array($result, $type))
@@ -1041,14 +1041,19 @@ class DBQuery {
 	
 	/*@static@*/
 	function execute($query) {
-		$query = ($service['useLegacySupport'] == true ? preg_replace("/ owner/"," blogid",$query) : $query);
+		$query = DBQuery::queryPostProcessing($query);
 		return mysql_query($query) ? true : false;
 	}
 
 	/*@static@*/
 	function query($query) {
-		$query = ($service['useLegacySupport'] == true ? preg_replace("/ owner/"," blogid",$query) : $query);
+		$query = DBQuery::queryPostProcessing($query);
 		return mysql_query($query);
+	}
+	function queryPostProcessing($query) {
+		global $service;
+		return (isset($service['useLegacySupport']) && $service['useLegacySupport'] == true ? preg_replace("/ owner/"," blogid",$query) : $query);
+
 	}
 }
 
