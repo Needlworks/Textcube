@@ -57,6 +57,10 @@ while (false !== ($plugin = $dir->read())) { // 이게 php.net에서 권장하�
 	if (!$xmls->open(file_get_contents(ROOT . "/plugins/$plugin/index.xml"))) {
 		continue;
 	} else {
+		$needPrivilege = $xmls->getValue('/plugin/requirements/privilege');
+		if(!is_null($needPrivilege)){
+			if($needPrivilege == 'administrator' && getBlogId() != 1) continue;
+		}
 		// filter the plugins as the selected scopes.
 		$tempXMLPath = array(
 								'admin' => '/plugin/binding/adminMenu',
