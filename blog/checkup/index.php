@@ -141,7 +141,8 @@ if (DBQuery::queryExistence("SELECT * FROM {$database['prefix']}Users WHERE name
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
-if (DBQuery::queryCell("DESC {$database['prefix']}Entries owner", 'Key') != 'PRI') { // Since 1.0.2
+if (DBQuery::queryCell("DESC {$database['prefix']}Entries owner", 'Key') != 'PRI'
+	&& DBQuery::queryCell("DESC {$database['prefix']}Entries blogid", 'Key') != 'PRI') { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('엔트리 테이블의 인덱스를 수정합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries DROP PRIMARY KEY, ADD PRIMARY KEY(owner, id, draft)"))
@@ -149,7 +150,8 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Entries owner", 'Key') != 'PRI
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
-if (DBQuery::queryCell("DESC {$database['prefix']}TagRelations owner", 'Key') != 'PRI') { // Since 1.0.2
+if (DBQuery::queryCell("DESC {$database['prefix']}TagRelations owner", 'Key') != 'PRI'
+	&& DBQuery::queryCell("DESC {$database['prefix']}TagRelations blogid", 'Key') != 'PRI') { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('태그관계 테이블의 인덱스를 수정합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}TagRelations DROP PRIMARY KEY, ADD PRIMARY KEY(owner, tag, entry)"))
@@ -157,7 +159,8 @@ if (DBQuery::queryCell("DESC {$database['prefix']}TagRelations owner", 'Key') !=
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
-if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks owner", 'Key') != 'MUL') { // Since 1.0.2
+if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks owner", 'Key') != 'MUL'
+	&& DBQuery::queryCell("DESC {$database['prefix']}Trackbacks blogid", 'Key') != 'MUL') { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('걸린글 테이블의 인덱스를 수정합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX entry, ADD UNIQUE owner (owner, entry, url)"))
@@ -456,7 +459,8 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings showListOnS
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-if (DBQuery::queryCell("DESC {$database['prefix']}Categories owner", 'Key') != 'PRI') { // Since 1.1.2
+if (DBQuery::queryCell("DESC {$database['prefix']}Categories owner", 'Key') != 'PRI'
+	&& DBQuery::queryCell("DESC {$database['prefix']}Categories blogid", 'Key') != 'PRI') { // Since 1.1.2
 	$changed = true;
 	echo '<li>', _text('최상위 카테고리 이름 수정을 위하여 카테고리 테이블의 인덱스를 수정합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Categories DROP PRIMARY KEY, ADD PRIMARY KEY(owner, id)"))
