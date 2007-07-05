@@ -157,6 +157,7 @@ function deleteCategory($blogid, $id) {
 
 function modifyCategory($blogid, $id, $name, $bodyid) {
 	global $database;
+	requireModel('blog.rss');
 	if($id==0) checkRootCategoryExistence($blogid);
 	if ((empty($name)) && (empty($bodyid)))
 		return false;
