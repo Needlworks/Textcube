@@ -289,6 +289,10 @@ class misc {
 		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, 'rowsPerPage', '$value')");
 	}
 
+	function isMetaBlog() {
+		return (getBlogId() == 1 ? true : false);
+	}
+
 	function respondResultPage($error) {
 		if ($error === true)
 			$error = 0;
