@@ -1269,7 +1269,7 @@ CREATE TABLE {$_POST['dbPrefix']}SkinSettings (
   activeBgColorOnTree varchar(6) NOT NULL default '00ADEF',
   labelLengthOnTree int(11) NOT NULL default '30',
   showValueOnTree int(1) NOT NULL default '1',
-  PRIMARY KEY  (owner)
+  PRIMARY KEY  (blogid)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}TagRelations (
   owner int(11) NOT NULL default '0',
