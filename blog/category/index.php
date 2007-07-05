@@ -7,6 +7,7 @@ require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
+require ROOT . '/lib/piece/blog/begin.php';
 $category = empty($suri['value']) ? 0 : getCategoryIdByLabel($owner, $suri['value']);
 if(!doesHaveOwnership() && getCategoryVisibility($owner, $category) < 2)
 	$category = null;
@@ -22,6 +23,5 @@ if ($skinSetting['showListOnCategory'] != 2) {
 	list($entries, $paging) = getEntriesWithPagingByCategory($owner, $category, $suri['page'], $blog['entriesOnList'], ($skinSetting['showListOnCategory'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
 	require ROOT . '/lib/piece/blog/entries.php';
 }
-require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/end.php';
 ?>
