@@ -734,7 +734,6 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								<div class="section">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 									<input type="hidden" name="visibility" value="<?php echo $_POST['visibility'];?>" />
-									
 									<label for="category"><?php echo _t('종류');?></label>
 									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
 										<option value="-5"<?php echo ($categoryId == -5 ? ' selected="selected"' : '');?>><?php echo _t('모든 글');?></option>
@@ -767,6 +766,15 @@ foreach (getCategories($owner) as $category) {
 							</form>
 							
 							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/entry">
+								<input type="hidden" name="category" value="<?php echo $categoryId;?>" />
+<?php
+$returnURLpostfix = '';
+if(isset($_GET['page'])) $returnURLpostfix .= '?page='.$_GET['page'];
+if(isset($_GET['category'])) $returnURLpostfix .= (empty($returnURLpostfix) ? '?' : '&amp;').'category='.$categoryId;
+if(isset($_POST['visibility'])) $returnURLpostfix .= (empty($returnURLpostfix) ? '?' : '&amp;').'visibility='.$_POST['visibility'];
+?>
+								<input type="hidden" name="returnURL" value="<?php echo $blogURL.'/owner/entry'.$returnURLpostfix;?>" />
+								<input type="hidden" name="page" value="<?php echo $_POST['page'];?>" />
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>

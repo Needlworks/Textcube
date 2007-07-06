@@ -11,7 +11,8 @@ $IV = array(
 	),
 	'POST' => array(
 		'category' => array('int', 'default' => 0),
-		'search' => array('string', 'default' => '')
+		'search' => array('string', 'default' => ''),
+		'returnURL' => array('string', 'mandatory' => false)
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
@@ -19,7 +20,6 @@ requireModel("blog.entry");
 requireModel("blog.tag");
 requireModel("blog.locative");
 requireModel("blog.attachment");
-
 if (false) {
 	fetchConfigVal();
 }
@@ -46,6 +46,10 @@ if (isset($_GET['popupEditor'])) {
 	require ROOT . '/lib/piece/owner/headerForPopupEditor.php';
 } else {
 	require ROOT . '/lib/piece/owner/header.php';
+}
+
+if (isset($_POST['returnURL']) && !empty($_POST['returnURL'])) {
+	$_GET['returnURL'] = $_POST['returnURL'];
 }
 
 if (defined('__TEXTCUBE_POST__')) {
