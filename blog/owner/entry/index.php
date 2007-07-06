@@ -733,6 +733,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/entry">
 								<div class="section">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
+									<input type="hidden" name="visibility" value="<?php echo $_POST['visibility'];?>" />
 									
 									<label for="category"><?php echo _t('종류');?></label>
 									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">

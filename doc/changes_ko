@@ -130,6 +130,24 @@ a3 * 설치     - DB 제거시 XMLRPCPingSettings 가 삭제되지 않는 문제
 		/* public bool */
 		function setAllValue(/* array */ $configVal ){
 
+ * 플러그인에서 접근할 수 있는 필드명 변경
+ 기존에 플러그인이 블로그를 구분하기 위하여 사용되었었던 owner 필드가 blogid 필드로 변경되었습니다. 기존의 태터툴즈 플러그인을 텍스트큐브에서 사용하기 위해서는 위 필드 호출 부분을 변경해야 합니다. 만약 데이터베이스 입출력이 컴포넌트의 DBQuery 클래스로 규격화되어 있다면, 호환성을 위하여 루트 디렉토리의 config.php에 $service['useLegacySupport'] 를 true로 주어서 임시로 호환성을 개선할 수 있습니다.
+
+ * index.xml의 requirement 필드의 privilege 안내
+ 용도에 따라 전체 관리자만이 사용할 수 있는 플러그인을 지정할 수 있습니다. 전체 관리자만을 위한 플러그인이라면 <requirement> 안에 <previlege>를 지정하고, administrator를 명기하면 됩니다.
+ 따라서
+ <requirements>
+   <textcube>1.5</textcube>
+   <previlege>administrator</previlege>
+ </requirements>
+ 와 같이 지정할 수 있습니다.
+
+ 또한 플러그인에서 현재 블로그가 전체 메타 페이지인지 개인 블로그인지 구분해서 동작하기 위해서는 misc::isMetaBlog를 사용하실 수 있습니다.
+   requireComponent('Textcube.Function.misc');
+   $isMetaBlog = misc::isMetaBlog();
+ 와 같이 사용하면 됩니다.
+
+ 
 === BlogAPI 관련 변경점 및 추가 안내 ===
  * BlogAPI 전용 비밀번호 설정 기능
  BlogAPI를 사용하여 글을 작성하실 경우 로컬 프로그램을 사용하는 경우는 관계없지만 다른 서비스를 글 에디터로 사용하는 경우가 있습니다. 이 경우 본인의 블로그 암호를 해당 서비스에 노출하고 싶지 않은 경우를 위하여 BlogAPI에만 적용되는 비밀번호를 따로 지정할 수 있습니다. '환경설정'-'글 작성' 의 글 작성 환경 설정에서 비밀번호를 지정하시면 됩니다.
