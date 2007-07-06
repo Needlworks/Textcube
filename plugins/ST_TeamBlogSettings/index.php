@@ -53,12 +53,12 @@ function getTeamProfileView($target, $mother){
 }
 
 function getTeamProfile($userid){
-	global $database, $service, $configVal;
+	global $database, $serviceURL, $configVal;
 	requireComponent('Textcube.Function.misc');
 	$data = misc::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
 	$row = DBQuery::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." and userid=".$userid);
-	$imageSrc = "{$service['path']}/attach/".getBlogId()."/team/".$row['image'];
+	$imageSrc = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];
 	if($row['image']){
 		$imageTag = "<img src=\"".$imageSrc."\" align=\"top\" />";
 		$imageStyle = "style=\"width:".($data['imageSize']+6)."px; margin-right:10px;\"";
@@ -76,7 +76,7 @@ function getTeamProfile($userid){
 }
 
 function getTeamBlogSettings() {
-	global $database, $service, $blogURL, $pluginURL, $configVal;
+	global $database, $serviceURL, $blogURL, $pluginURL, $configVal;
 	requireComponent('Textcube.Function.misc');
 	$data = misc::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
@@ -89,10 +89,10 @@ function getTeamBlogSettings() {
 		DBQuery::execute("INSERT INTO {$database['prefix']}TeamUserSettings (blogid,userid,style,image,profile,updated) VALUES('".getBlogId()."','".getUserId()."','','', '',UNIX_TIMESTAMP())");
 	}
 	if($row['image']){
-		$image = "{$service['path']}/attach/".getBlogId()."/team/".$row['image'];
+		$image = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];
 		$imageRemoveCheck = "";
 	}else{
-		$image = "{$service['path']}/image/spacer.gif";
+		$image = "{$serviceURL}/image/spacer.gif";
 		$imageRemoveCheck = " disabled ";
 	}
 
@@ -296,7 +296,7 @@ function getImageFileUpload($target){
 }
 
 function getAddAttachment($file){
-	global $database, $service;
+	global $database, $serviceURL;
 	requireComponent('Textcube.Function.misc');
 	if(empty($file['name'])||($file['error']!=0))
 		return false;
@@ -320,9 +320,9 @@ function getAddAttachment($file){
 	$tmpImage = DBQuery::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
 	if(!DBQuery::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='".$attachment['name']."', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
 		@unlink($attachment['path']);
-		$result = "{$service['path']}/image/spacer.gif";
+		$result = "{$serviceURL}/image/spacer.gif";
 	}else{
-		$result = "{$service['path']}/attach/".getBlogId()."/team/".$attachment['name'];
+		$result = "{$serviceURL}/attach/".getBlogId()."/team/".$attachment['name'];
 	}
 	if(!empty($tmpImage))
 	@unlink($path."/".$tmpImage);
@@ -330,13 +330,13 @@ function getAddAttachment($file){
 }
 
 function getDeleteAttachment($filename){
-	global $database, $service;
+	global $database, $serviceURL;
 	$tmpImage = DBQuery::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
 	if($tmpImage){
 		DBQuery::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId());
 		@unlink(ROOT."/attach/".getBlogId()."/team/".$tmpImage);
 	}
-	$result = "{$service['path']}/image/spacer.gif";
+	$result = "{$serviceURL}/image/spacer.gif";
 	return $result;
 }
 
