@@ -89,6 +89,9 @@ class Po2php
 
 	function save( $target_file )
 	{
+		if( !is_writable( $target_file ) ) {
+			return 0;
+		}
 		$ftarget = fopen( $target_file, "w+" );
 		if( !$ftarget )
 		{

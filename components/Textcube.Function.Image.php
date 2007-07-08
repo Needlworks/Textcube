@@ -78,6 +78,9 @@ class Image {
 	}
 	
 	function resizeImageToContent($property, $originSrc, $imageWidth) {
+		if ( !is_readable($originSrc) ) {
+			return array($property, false);
+		}
 		if ($tempInfo = getimagesize($originSrc)) {
 			list($originWidth, $originHeight, $type, $attr) = $tempInfo;
 
