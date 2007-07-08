@@ -618,17 +618,22 @@ function _openid_has_ownership($trying_openid)
 function _openid_fix_table()
 {
 	global $database;
+	$fix0 = false;
 	$fix1 = false;
 	$fix2 = true;
 	$fix3 = false;
 
 	$rows = DBQuery::queryAll("DESC {$database['prefix']}OpenIDUsers");
 	foreach( $rows as $row ) {
+		if( $row['Field'] == 'owner' )    { $fix0 = true; }
 		if( $row['Field'] == 'blocked' )  { $fix1 = true; }
 		if( $row['Field'] == 'data' )     { $fix2 = false; }
 		if( $row['Field'] == 'nickname' ) { $fix3 = true; }
 	}
 
+	if( $fix0 ) {
+		DBQuery::execute("alter table {$database['prefix']}OpenIDUsers change column owner blogid int(11) not null default 0");
+	}
 	if( $fix1 ) {
 		DBQuery::execute("alter table {$database['prefix']}OpenIDUsers drop column blocked");
 		DBQuery::execute("alter table {$database['prefix']}OpenIDUsers drop column admin");
