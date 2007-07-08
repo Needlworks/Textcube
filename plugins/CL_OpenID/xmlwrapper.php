@@ -1,5 +1,5 @@
 <?php
-requireComponent( "Eolin.PHP.XMLTree" );
+requireComponent( "Eolin.PHP.Core" );
 
 class Services_Textcube_xmlparser extends Services_Yadis_XMLParser
 {
@@ -14,7 +14,7 @@ class Services_Textcube_xmlparser extends Services_Yadis_XMLParser
     function setXML($xml_string)
     {
         $this->xml = $xml_string;
-        $this->tree = new XMLTree();
+        $this->tree = new XMLStruct();
         return $this->tree->open($xml_string);
     }
 

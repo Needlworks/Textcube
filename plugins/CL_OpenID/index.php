@@ -605,7 +605,7 @@ function _openid_get_auth_id()
 	return $openid_session['id'];
 }
 
-function _openid_has_blogidship($trying_openid)
+function _openid_has_ownership($trying_openid)
 {
 	global $openid_session;
 	if( empty($trying_openid) ) return false;
@@ -776,7 +776,7 @@ function openid_comment_del()
 				<div id="command-box">
 <? 
 /*-------------------------------------------------------------------------------------------*/
-if( ! _openid_has_blogidship($comment['openid']) ) { ?>
+if( ! _openid_has_ownership($comment['openid']) ) { ?>
 					<div class="edit-line">
 						<label>로그인된 오픈아이디의 권한으로는 수정/삭제가 불가능합니다.</label>
 					</div>
@@ -787,7 +787,7 @@ if( ! _openid_has_blogidship($comment['openid']) ) { ?>
 } else { 
 	if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId())) )
 	{
-		if( _openid_has_blogidship($comment['openid']) ) {
+		if( _openid_has_ownership($comment['openid']) ) {
 			$tmp_password = _openid_set_temp_password( $blogid, $suri['id'] );
 		}
 		else
@@ -807,7 +807,7 @@ if( ! _openid_has_blogidship($comment['openid']) ) { ?>
 	<?php
 	if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId())) )
 	{
-		if( !_openid_has_blogidship($comment['openid']) ) {
+		if( !_openid_has_ownership($comment['openid']) ) {
 	?>				  
 						<label for="password"><?php echo _text('비밀번호');?><span class="divider"> | </span></label><input type="password" id="password" class="input-text" name="password" />
 	<?php
