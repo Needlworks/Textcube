@@ -284,7 +284,7 @@ if (getBlogId()) {
 		activatePlugin('FM_TTML');
 	}
 	if(!isset($isEditorExists)) { // Any editor is used, add the textcube editor.
-		activatePlugin('FM_MODERN');
+		activatePlugin('FM_Modern');
 	}
 	unset($xmls);
 	unset($currentTextcubeVersion, $disablePlugin, $plugin, $query, $requiredTattertoolsVersion, $requiredTextcubeVersion);
