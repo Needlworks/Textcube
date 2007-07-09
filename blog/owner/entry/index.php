@@ -774,7 +774,6 @@ if(isset($_GET['category'])) $returnURLpostfix .= (empty($returnURLpostfix) ? '?
 if(isset($_POST['visibility'])) $returnURLpostfix .= (empty($returnURLpostfix) ? '?' : '&amp;').'visibility='.$_POST['visibility'];
 ?>
 								<input type="hidden" name="returnURL" value="<?php echo $blogURL.'/owner/entry'.$returnURLpostfix;?>" />
-								<input type="hidden" name="page" value="<?php echo $_POST['page'];?>" />
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>

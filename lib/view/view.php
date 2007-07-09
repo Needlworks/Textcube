@@ -990,8 +990,9 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	
 	// image resampling
 	if ($useImageResampling == true) {
+		$images = array();
 		if ($useAbsolutePath == true) {
-			preg_match("@<img.+src=['\"]{$hostURL}{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Ui", $view, $images, PREG_SET_ORDER);
+			preg_match("@<img.+src=['\"]{$hostURL}{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Ui", $view, $images);
 			$view = preg_replace("@<img.+src=['\"]{$hostURL}{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Ui", '[#####_#####_#####_image_#####_#####_#####]', $view);
 		} else {
 			preg_match_all("@<img.+src=['\"]{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Ui", $view, $images, PREG_SET_ORDER);
