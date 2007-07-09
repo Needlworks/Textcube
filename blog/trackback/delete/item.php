@@ -3,22 +3,24 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../..');
-require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/blog.skin.php';
 
-requireModel("blog.trash");
-requireModel("blog.trackback");
+require ROOT . '/lib/includeForBlogOwner.php';
+
+requireModel('blog.trash');
+requireModel('blog.trackback');
+requireModel('blog.sidebar');
+requireLibrary('blog.skin');
 
 requireStrictRoute();
-$entryId = trashTrackback($owner, $suri['id']);
+$blogid = getBlogId();
+$entryId = trashTrackback($blogid, $suri['id']);
 if ($entryId !== false) {
 	$skin = new Skin($skinSetting['skin']);
 	
-	$trackbackCount = getTrackbackCount($owner, $entryId);
+	$trackbackCount = getTrackbackCount($blogid, $entryId);
 	list($tempTag, $trackbackCountContent) = getTrackbackCountPart($trackbackCount, $skin);
-	$recentTrackbackContent = getRecentTrackbacksView(getRecentTrackbacks($owner), $skin->recentTrackback);
-	$trackbackListContent = getTrackbacksView($entryId, $skin);
-	
+	$recentTrackbackContent = getRecentTrackbacksView(getRecentTrackbacks($blogid), $skin->recentTrackback);
+	$trackbackListContent = getTrackbacksView($entryId, $skin, true);
 }
 if ($trackbackListContent === false)
 	printRespond(array('error' => 1));

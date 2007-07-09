@@ -80,7 +80,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											<tr>
 												<td class="id"><a href="http://www.create74.com">J.Parker</a></td>
 												<td class="name">Yong-ju, Park</td>
-												<td class="role"><?php echo _t('teamblog / plugin');?></td>
+												<td class="role"><?php echo _t('Teamblog / metapage / plugin');?></td>
 											</tr>
 										</tbody>
 									</table>
