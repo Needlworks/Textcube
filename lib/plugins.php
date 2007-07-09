@@ -228,6 +228,7 @@ if (getBlogId()) {
 				
 				}
 				if ($xmls->doesExist('/plugin/binding/formatter[lang()]')){
+					$isFormatterExists = true;
 					foreach (array($xmls->selectNode('/plugin/binding/formatter[lang()]')) as $formatter) {
 						if (!isset($formatter['.attributes']['name'])) continue;
 						if (!isset($formatter['.attributes']['id'])) continue;
@@ -249,6 +250,7 @@ if (getBlogId()) {
 					unset($usedFor);
 				}
 				if ($xmls->doesExist('/plugin/binding/editor[lang()]')){
+					$isEditorExists = true;
 					foreach (array($xmls->selectNode('/plugin/binding/editor[lang()]')) as $editor) {
 						if (!isset($editor['.attributes']['name'])) continue;
 						if (!isset($editor['.attributes']['id'])) continue;
@@ -277,6 +279,12 @@ if (getBlogId()) {
 			$query = sprintf("DELETE FROM `{$database['prefix']}Plugins` WHERE `blogid` = %1 AND name = '%2'", getBlogId(), mysql_tt_escape_string($plugin));
 			DBQuery::query($query);
 		}
+	}
+	if(!isset($isFormatterExists)) { // Any formatter is used, add the ttml formatter.
+		activatePlugin('FM_TTML');
+	}
+	if(!isset($isEditorExists)) { // Any editor is used, add the textcube editor.
+		activatePlugin('FM_MODERN');
 	}
 	unset($xmls);
 	unset($currentTextcubeVersion, $disablePlugin, $plugin, $query, $requiredTattertoolsVersion, $requiredTextcubeVersion);

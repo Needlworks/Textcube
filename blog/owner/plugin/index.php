@@ -57,6 +57,7 @@ while (false !== ($plugin = $dir->read())) { // 이게 php.net에서 권장하�
 	if (!$xmls->open(file_get_contents(ROOT . "/plugins/$plugin/index.xml"))) {
 		continue;
 	} else {
+		// Check privilege as blog service owner.
 		$needPrivilege = $xmls->getValue('/plugin/requirements/privilege');
 		if(!is_null($needPrivilege)){
 			if($needPrivilege == 'administrator' && getBlogId() != 1) continue;
@@ -132,6 +133,8 @@ if ($selectedSort == 'ascend') {
 }
 
 $pluginKeys = array_keys($plugins);
+
+//array_search($plugins[]'
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
