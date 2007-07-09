@@ -134,7 +134,6 @@ if ($selectedSort == 'ascend') {
 
 $pluginKeys = array_keys($plugins);
 
-//array_search($plugins[]'
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
