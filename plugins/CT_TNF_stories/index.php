@@ -9,7 +9,7 @@ function CT_TNF_Stories($target) {
 		$noticeEntries = array();
 		if ($xmls->open($xml, $service['encoding'])) {
 			if ($xmls->getAttribute('/rss', 'version')) {
-				for ($i = 0; $link = $xmls->getValue("/rss/channel/item[$i]/link"); $i++) {
+				for ($i = 1; $link = $xmls->getValue("/rss/channel/item[$i]/link"); $i++) {
 					$item = array('permalink' => rawurldecode($link));
 					$item['title'] = $xmls->getValue("/rss/channel/item[$i]/title");
 					if ($xmls->getValue("/rss/channel/item[$i]/pubDate"))
@@ -21,8 +21,8 @@ function CT_TNF_Stories($target) {
 					array_push($noticeEntries, $item);
 				}
 			} else if ($xmls->getAttribute('/feed', 'version')) {
-				for ($i = 0; $link = $xmls->getValue("/feed/entry[$i]/id"); $i++) {
-					for ($j = 0; $rel = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'rel'); $j++) {
+				for ($i = 1; $link = $xmls->getValue("/feed/entry[$i]/id"); $i++) {
+					for ($j = 1; $rel = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'rel'); $j++) {
 						if($rel == 'alternate') {
 							$link = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'href');
 							break;
@@ -35,7 +35,7 @@ function CT_TNF_Stories($target) {
 					array_push($noticeEntries, $item);
 				}
 			} else if ($xmls->getAttribute('/rdf:RDF', 'xmlns')) {
-				for ($i = 0; $link = $xmls->getValue("/rdf:RDF/item[$i]/link"); $i++) {
+				for ($i = 1; $link = $xmls->getValue("/rdf:RDF/item[$i]/link"); $i++) {
 					$item = array('permalink' => rawurldecode($link));
 					$item['author'] = $xmls->getValue("/rdf:RDF/item[$i]/dc:creator");
 					$item['title'] = $xmls->getValue("/rdf:RDF/item[$i]/title");
