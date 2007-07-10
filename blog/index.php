@@ -1,4 +1,4 @@
-<?php
+癤�<?php
 /// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
@@ -64,7 +64,6 @@ publishEntries();
 list($entries, $paging) = getEntriesWithPaging($owner, $suri['page'], $blog['entriesOnPage']);
 require ROOT . '/lib/piece/blog/begin.php';
 
-//메타페이지 설정항목 -- 개선여지 필요
 if(empty($suri['value']) && $suri["directive"] == "/" && $suri['page'] == 1 && getBlogSetting("metapageInitView")) {
 	$metaView = $skin->meta;
 	dress('article_rep', '', $view);
