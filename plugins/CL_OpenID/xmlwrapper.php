@@ -13,6 +13,7 @@ class Services_Textcube_xmlparser extends Services_Yadis_XMLParser
     {
         $this->xml = $xml_string;
         $this->xmlstruct = new XMLStruct();
+        $this->xmlstruct->setXPathBaseIndex(1);
         return $this->xmlstruct->open($xml_string,"utf-8",true);
     }
 
