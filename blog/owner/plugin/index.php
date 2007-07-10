@@ -67,7 +67,7 @@ while (false !== ($plugin = $dir->read())) { // 이게 php.net에서 권장하�
 								'admin' => '/plugin/binding/adminMenu',
 								'blog' => '/plugin/binding/tag',
 								'center' => '/plugin/binding/center',
-								//'metapage', '/plugin/binding/metapage',
+								'metapage' => '/plugin/binding/metapage',
 								'global' => '/plugin/binding/listener',
 								'sidebar' => '/plugin/binding/sidebar',
 								'editor' => '/plugin/binding/editor',
