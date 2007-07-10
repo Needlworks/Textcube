@@ -240,7 +240,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useMetapageInit']))
 							</div>
 							<dl id="direct-link-line" class="line">
 								<dt><?php echo _t('플러그인 설정');?></dt>
-								<dd><a class="button" href="/testbed_/tt_trunk/meme/owner/plugin?visibility=metapage"><?php echo _t('플러그인 설정 페이지로 바로가기');?></a></dd>
+								<dd><a class="button" href="<?php echo $blogURL;?>/owner/plugin?visibility=metapage"><?php echo _t('플러그인 설정 페이지로 바로가기');?></a></dd>
 							</dl>	
 <?php
 if ($metapageCount == 0) {
