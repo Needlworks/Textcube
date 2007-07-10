@@ -35,7 +35,7 @@ function SendRSD()
 <rsd xmlns="http://archipelago.phrasewise.com/rsd" version="1.0">
     <service xmlns="">
         <engineName>Textcube</engineName> 
-        <engineLink>http://www.textcube.com/</engineLink>
+        <engineLink>http://www.textcube.org/</engineLink>
         <homePageLink>' . $homeurl . '/</homePageLink>
         <apis>
         		<api name="MovableType" preferred="true" apiLink="' . $apiurl . '" blogID="' . $blogid . '" />
