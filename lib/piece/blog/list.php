@@ -7,17 +7,19 @@ if (isset($list)) {
 	$listView = $skin->list;
 	$itemsView = '';
 	foreach ($list['items'] as $item) {	
-		$author = User::authorName($blogid, $item['id']);
+		$author = User::getName($item['userid']);
 		$itemsView .= str_replace(
 			array(
 				'[##_list_rep_regdate_##]',
 				'[##_list_rep_name_##]',
+				'[##_list_rep_author_##]',
 				'[##_list_rep_link_##]',
 				'[##_list_rep_title_##]',
 				'[##_list_rep_rp_cnt_##]'
 			),
 			array(
 				fireEvent('ViewListDate', Timestamp::format3($item['published'])),
+				fireEvent('ViewListName', htmlspecialchars($author)),
 				fireEvent('ViewListName', htmlspecialchars($author)),
 				"$blogURL/" . ($blog['useSlogan'] ? 'entry/' . encodeURL($item['slogan']) : $item['id']),
 				fireEvent('ViewListTitle', $item['title']),

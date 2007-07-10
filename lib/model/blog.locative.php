@@ -4,6 +4,6 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function getLocatives($blogid) {
-	return getEntries($blogid, 'id, title, slogan, location', 'length(location) > 1', 'location');
+	return getEntries($blogid, 'id, userid, title, slogan, location', 'length(location) > 1', 'location');
 }
 ?>
