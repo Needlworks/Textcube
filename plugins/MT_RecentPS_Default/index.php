@@ -56,7 +56,6 @@ function MT_getRecentEntries($parameters){
 		$imageName = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid = {$owner} AND parent = {$entry['id']} AND width > 0 AND height > 0 ORDER BY attached ASC");
 		$imagePreview = ($imageName)?"<div class=\"img_preview\" style=\"background:url({$blogURL}/plugin/mtimageresizer?f={$imageName}) top center no-repeat #ffffff;\" onclick=\"window.location.href='{$permalink};?>';\"></div>":"";
 
-		$html .= '<div class="clear"></div>'.CRLF;
 		$html .= '<div class="metapost">'.CRLF;
 		$html .=	$imagePreview;
 		$html .= '	<h2><a href="'.$permalink.'">'.$entry['title'].'</a></h2>'.CRLF;
