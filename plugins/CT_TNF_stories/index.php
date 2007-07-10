@@ -6,6 +6,7 @@ function CT_TNF_Stories($target) {
 	list($result, $feed, $xml) = CT_TNF_Stories_getRemoteFeed($noticeURL);
 	if ($result == 0) {
 		$xmls = new XMLStruct();
+		$xmls->setXPathBaseIndex(1);
 		$noticeEntries = array();
 		if ($xmls->open($xml, $service['encoding'])) {
 			if ($xmls->getAttribute('/rss', 'version')) {
@@ -88,6 +89,7 @@ function CT_TNF_Stories_getRemoteFeed($url) {
 	}
 	$feed = array('xmlURL' => $url);
 	$xmls = new XMLStruct();
+	$xmls->setXPathBaseIndex(1);
 	if (!$xmls->open($xml, $service['encoding'])) {
 		if(preg_match_all('/<link .*?rel\s*=\s*[\'"]?alternate.*?>/i', $xml, $matches)) {
 			foreach($matches[0] as $link) {

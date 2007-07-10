@@ -246,6 +246,7 @@ if($textcubeDashboard) {
 		list($result, $feed, $xml) = getRemoteFeed($noticeURLRSS);
 		if ($result == 0) {
 			$xmls = new XMLStruct();
+			$xmls->setXPathBaseIndex(1);
 			$noticeEntries = array();
 			if ($xmls->open($xml, $service['encoding'])) {
 				if ($xmls->getAttribute('/rss', 'version')) {

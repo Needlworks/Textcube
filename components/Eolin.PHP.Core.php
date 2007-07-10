@@ -1298,6 +1298,11 @@ class XMLStruct {
 	
 	function XMLStruct() {
 		$this->ns = array();
+		$this->baseindex = 0;
+	}
+
+	function setXPathBaseIndex($baseindex=1) {
+		$this->baseindex = $baseindex;
 	}
 
 	function setNameSpacePrefix( $prefix, $url ) {
@@ -1305,6 +1310,9 @@ class XMLStruct {
 	}
 
 	function expandNS($item) {
+		if( !$this->nsenabled ) {
+			return $item;
+		}
 		foreach( $this->ns as $prefix => $url ) {
 			if( substr( $item, 0, strlen($prefix) + 1) == "$prefix:" ) {
 				return "$url:" . substr( $item, strlen($prefix) + 1 );
@@ -1330,6 +1338,7 @@ class XMLStruct {
 			if (substr($xml, 0, 3) == "\xEF\xBB\xBF")
 				$xml = substr($xml, 3);
 		}
+		$this->nsenabled = $nsenabled;
 		if( $nsenabled ) {
 			$p = xml_parser_create_ns();
 		} else {
@@ -1454,8 +1463,12 @@ class XMLStruct {
 					return $null;
 				}
 			} else if ($matches[3] != 'lang()') { // Position.
-				if (isset($cursor[$name][$matches[3]-1])) { /* see http://dev.textcube.org/ticket/430 */
-					$cursor = &$cursor[$name][$matches[3]-1];
+				/* see http://dev.textcube.org/ticket/430 */
+				$index = $matches[3];
+				$index -= $this->baseindex;
+
+				if (isset($cursor[$name][$index])) {
+					$cursor = &$cursor[$name][$index];
 				} else {
 					$null = null;
 					return $null;
@@ -1523,7 +1536,8 @@ class XMLStruct {
 					$null = null;
 					return $null;
 				}
-				$o--; /* see http://dev.textcube.org/ticket/430 */
+
+				$o -= $this->baseindex; /* see http://dev.textcube.org/ticket/430 */
 			}
 			$d = $this->expandNS($d);
 			if (empty($p)) {
