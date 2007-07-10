@@ -6,26 +6,25 @@ class Services_Textcube_xmlparser extends Services_Yadis_XMLParser
 	function Services_Textcube_xmlparser()
 	{
         $this->xml = null;
-        $this->tree = null;
-        $this->xpath = null;
-        $this->errors = array();
+        $this->xmlstruct = null;
     }
 
     function setXML($xml_string)
     {
         $this->xml = $xml_string;
-        $this->tree = new XMLStruct();
-        return $this->tree->open($xml_string);
+        $this->xmlstruct = new XMLStruct();
+        return $this->xmlstruct->open($xml_string,"utf-8",true);
     }
 
     function registerNamespace($prefix, $uri)
     {
+    	$this->xmlstruct->setNameSpacePrefix( $prefix, $uri );
         return true;
     }
 
-    function &evalXPath($xpath, $node = null)
+    function evalXPath($xpath, $node = null)
     {
-        return $this->tree->selectNode( $xpath );
+        return $this->xmlstruct->selectNodes( $xpath );
     }
 
     function content($node)
@@ -35,12 +34,8 @@ class Services_Textcube_xmlparser extends Services_Yadis_XMLParser
 
     function attributes($node)
     {
-        if ($node) {
-			$n = &$this->selectNode($path);
-			if ( $n !== null )
-				return $n['attributes'];
-			else
-				return null;
+        if (isset($node['.attributes'])) {
+				return $node['.attributes'];
         }
 		return null;
     }

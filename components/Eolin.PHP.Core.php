@@ -1297,10 +1297,23 @@ class XMLStruct {
 	}
 	
 	function XMLStruct() {
-	
+		$this->ns = array();
+	}
+
+	function setNameSpacePrefix( $prefix, $url ) {
+		$this->ns[$prefix] = $url;
+	}
+
+	function expandNS($item) {
+		foreach( $this->ns as $prefix => $url ) {
+			if( substr( $item, 0, strlen($prefix) + 1) == "$prefix:" ) {
+				return "$url:" . substr( $item, strlen($prefix) + 1 );
+			}
+		}
+		return $item;
 	}
 	
-	function open($xml, $encoding = null) {
+	function open($xml, $encoding = null, $nsenabled = false) {
 		if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !UTF8::validate($xml)) {
 			if (preg_match('/^<\?xml[^<]*\s+encoding=["\']?([\w-]+)["\']?/', $xml, $matches)) {
 				$encoding = $matches[1];
@@ -1317,7 +1330,11 @@ class XMLStruct {
 			if (substr($xml, 0, 3) == "\xEF\xBB\xBF")
 				$xml = substr($xml, 3);
 		}
-		$p = xml_parser_create();
+		if( $nsenabled ) {
+			$p = xml_parser_create_ns();
+		} else {
+			$p = xml_parser_create();
+		}
 		xml_set_object($p, $this);
 		xml_parser_set_option($p, XML_OPTION_CASE_FOLDING, 0);
 		xml_set_element_handler($p, 'o', 'c');
@@ -1418,6 +1435,7 @@ class XMLStruct {
 		$cursor = &$this->struct;
 		
 		while (is_array($cursor) && ($step = array_shift($path))) {
+			$step = $this->expandNS($step);
 			if (!preg_match('/^([^[]+)(\[(\d+|lang\(\))\])?$/', $step, $matches)) {
 				$null = null;
 				return $null;
@@ -1436,8 +1454,8 @@ class XMLStruct {
 					return $null;
 				}
 			} else if ($matches[3] != 'lang()') { // Position.
-				if (isset($cursor[$name][$matches[3]])) {
-					$cursor = &$cursor[$name][$matches[3]];
+				if (isset($cursor[$name][$matches[3]-1])) { /* see http://dev.textcube.org/ticket/430 */
+					$cursor = &$cursor[$name][$matches[3]-1];
 				} else {
 					$null = null;
 					return $null;
@@ -1479,10 +1497,12 @@ class XMLStruct {
 	}
 	
 	function & selectNodes($path) {
+		/*
 		if ($path{strlen($path) - 1} == ']') {
 			$null = null;
 			return $null;
 		}
+		*/
 		$p = explode('/', $path);
 		if (array_shift($p) != '') {
 			$null = null;
@@ -1503,7 +1523,9 @@ class XMLStruct {
 					$null = null;
 					return $null;
 				}
+				$o--; /* see http://dev.textcube.org/ticket/430 */
 			}
+			$d = $this->expandNS($d);
 			if (empty($p)) {
 				if (isset($c[$d])) {
 					return $c[$d];
