@@ -961,3 +961,356 @@
 {
 	margin                           : 10px 0 10px 10px;
 }
+
+/* Metapage ***************************************************************************************/
+
+#part-metapage-order
+{
+	background-image                 : url("./image/bg_sidebar.png");
+	background-position              : 309px 135px;
+	background-repeat                : no-repeat;	
+}
+
+
+
+#part-metapage-order .pseudo-clear
+{
+	clear                            : both;
+	font-family                      : 돋움, Dotum, sans-serif;
+	font-size                        : 0.9em;
+	letter-spacing                   : -1px;
+	padding-top                      : 15px;
+	text-align                       : right;
+}
+
+#part-metapage-order .pseudo-clear a
+{
+	font-weight                      : bold;
+}
+
+#metapage-preview-mode
+{
+	background-image                 : url("./image/bg_sidebar_mode.gif");
+	background-position              : left 18px;
+	background-repeat                : repeat-x;
+	margin                           : 0 10px 13px 10px;
+}
+
+#metapage-preview-mode fieldset
+{
+	background-color                 : transparent !important;
+	background-image                 : none;
+	border                           : none !important;
+	margin                           : 0;
+	padding                          : 0;
+}
+
+#metapage-preview-mode a
+{
+	background-color                 : #DDDDDD;
+	border-top                       : 4px solid #DDDDDD;
+	border-right                     : 4px solid #DDDDDD;
+	border-bottom                    : none;
+	border-left                      : 4px solid #DDDDDD;
+	color                            : #000000;
+	float                            : left;
+	margin-left                      : 5px;
+	padding                          : 0 15px;
+	line-height                      : 2.8em;
+}
+
+#metapage-preview-mode a.selected
+{
+	background-color                 : #FFFFFF;
+	border-top                       : 4px solid #999999;
+	border-right                     : 4px solid #999999;
+	border-bottom                    : 1px solid #FFFFFF;
+	border-left                      : 4px solid #999999;
+	font-weight                      : bold;
+}
+
+#metapage-box
+{
+	float                            : right;
+	height                           : 903px;
+	margin                           : 0 5px 0 30px;
+	overflow                         : auto;
+	position                         : relative;
+	width                            : 600px;
+	z-index                          : 100;
+}
+
+#metapage-box .section
+{
+	vertical-align                   : top;
+	width                            : 575px;
+}
+
+#metapage-box .section h3
+{
+	color                            : #FF6600;
+	font-size                        : 1em;
+	margin                           : 7px 0 0 10px;
+}
+
+#metapage-box .section ul.metapage
+{
+	min-height                       : 400px;
+}
+
+#metapage-box .section ul li.metapage-module *
+{
+	color                            : inherit;
+	font-size                        : 1em;
+	font-weight                      : inherit;
+}
+
+#metapage-box-disabled
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #DDDDDD;
+	height                           : 400px;
+}
+
+#metapage-box-disabled p
+{
+	margin-top                       : 190px;
+	text-align                       : center;
+}
+
+.metapage-module,
+.ajax-floating-panel
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #CCCCCC;
+	cursor                           : move;
+	font-size                        : 12px;
+	list-style-type                  : none;
+	margin                           : 2px 0px 2px 0;
+	max-height                       : 200px;
+	overflow                         : hidden;
+	position                         : relative;
+	text-align                       : left;
+	width                            : 575px;
+	z-index                          : 50;
+}
+
+.metapage-module *
+{
+	font-size                        : 1em;
+}
+
+.metapage-module a,
+.metapage-module input-button
+{
+	cursor                           : pointer;
+}
+
+.metapage-module h4.module-title,
+.ajax-floating-panel h4.module-title
+{
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	border-bottom                    : 1px solid #CCCCCC;
+	font-weight                      : bold !important;
+	padding                          : 5px 5px 4px 5px;
+}
+
+.metapage-module h4 .radio
+{
+	display                          : none;
+}
+
+.metapage-module .module-close
+{
+	position                         : absolute;
+	top                              : 7px;
+	right                            : 0;
+}
+
+.metapage-module .edit-button-box,
+.ajax-floating-panel .edit-button-box
+{
+	text-align                       : center;
+}
+
+.metapage-module .edit-button-box a,
+.ajax-floating-panel .edit-button-box a
+{
+	border                           : 1px solid #DDDDDD;
+	display                          : block;
+	height                           : 1.5em;
+	line-height                      : 1.5em;
+	margin                           : 10px auto 0 auto !important;
+	padding-top                      : 3px;
+	width                            : 40px;
+}
+
+.metapage-module .module-content,
+.ajax-floating-panel .module-content
+{
+	padding                          : 5px 5px 4px 5px;
+}
+
+/* main-content 내부 스타일 */
+.metapage-module .module-content h1,
+.metapage-module .module-content h2,
+.metapage-module .module-content h3,
+.metapage-module .module-content h4,
+.metapage-module .module-content h5,
+.metapage-module .module-content h6
+{
+	color                            : #000000 !important;
+	/* display                       : none; */
+}
+
+.metapage-module .module-content ul li
+{
+	list-style-type                  : disc;
+	margin-left                      : 18px;
+}
+
+.metapage-module .module-content .calendar caption,
+.metapage-module .module-content .calendar table tr td,
+.metapage-module .module-content .calendar table tr th
+{
+	text-align                       : center;
+}
+
+.metapage-plugin-module h4.module-title,
+#metapage-plugin-module-box ul li.metapage-module h4
+{
+	background-color                 : #DDDDDD;
+}
+
+#metapage-element-box
+{
+	background-image                 : none;
+	float                            : left;
+	width                            : 287px;
+}
+
+#metapage-element-box h3
+{
+	display                          : none;
+}
+
+#metapage-element-box fieldset
+{
+	background-image                 : none;
+	border                           : 1px solid #CCCCCC;
+	margin-bottom                    : 5px;
+	padding                          : 7px;
+}
+
+#metapage-element-box fieldset legend
+{
+	color                            : #476db4;
+	display                          : inline;
+	font-weight                      : bold;
+	padding                          : 0 4px;
+}
+
+#metapage-element-box fieldset ul.module-list
+{
+	height                           : 840px;
+	overflow-y                       : scroll;
+	position                         : relative;
+	z-index                          : 100;
+}
+
+#metapage-element-box fieldset ul.module-list li.metapage-module
+{
+	width                            : 247px;
+}
+
+#metapage-element-box fieldset ul.module-list li.metapage-module .edit-button-box,
+.ajax-floating-panel .edit-button-box
+{
+	margin-top                       : 0;
+}
+
+#metapage-element-box .metapage-module h4,
+.ajax-floating-panel h4
+{
+	background-image                 : url("./image/icon_sidebar_module.gif");
+}
+
+#metapage-description
+{
+	padding-top                      : 5px !important;
+}
+
+/* classes for AJAX *******************************************************************************/
+
+.ajax-popup-window
+{
+	background-color                 : #FFFFFF;
+	border                           : 4px solid black;
+	font-size                        : 12px;
+	padding                          : 20px;
+	width                            : 40%;
+}
+
+.ajax-popup-window form
+{
+	text-align                       : center;
+}
+
+.ajax-popup-window .line
+{
+	clear                            : both;
+	display                          : block;
+	line-height                      : 2em;
+	text-align                       : right;
+}
+
+.ajax-popup-window .input-text
+{
+	width                            : 70%;
+}
+
+.ajax-popup-window label
+{
+	float                            : left;
+}
+
+.ajax-popup-window .button-box
+{
+	margin-top                       : 15px;
+	text-align                       : center;
+}
+
+.ajax-popup-window .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : 3em;
+	line-height                      : 3em;
+	padding-top                      : 8px;
+	padding-bottom                   : 6px;
+	vertical-align                   : middle;
+}
+
+.ajax-popup-window .waiting-string,
+.ajax-popup-window .error-string
+{
+	text-align                       : center;
+}
+
+#independent-meta-line
+{
+	margin: -36px 10px 0 0;
+}
+
+#independent-meta-line dt
+{
+	display: none;
+}
+#independent-meta-line dd
+{
+	text-align                       : right;
+}

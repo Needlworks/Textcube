@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title>Metapage Recent Entries</title>
+  <link>http://needlworks.org/</link>
+  <version>1.0</version>
+  <description>Shows metapage recent entries</description>
+  <license>GPL</license>
+  <author link="http://needlworks.org">Needlworks</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
+  <requirements>
+    <textcube>1.5</textcube>
+  </requirements>
+  <binding>
+	<tag name="SKIN_head_end" handler="MT_getRecentEntryStyle" />
+	<listener event="/plugin/mtimageresizer">MT_getImageResizer</listener>
+    <metapage title="최근 글목록" handler="MT_getRecentEntries">
+      <params>
+        <param>
+          <title>출력 글 길이</title>
+          <name>entryLength</name>
+          <type>int</type>
+		  <default>5</default>
+        </param>
+	  </params>
+	</metapage>
+  </binding>
+</plugin>

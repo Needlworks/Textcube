@@ -63,6 +63,16 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 publishEntries();
 list($entries, $paging) = getEntriesWithPaging($owner, $suri['page'], $blog['entriesOnPage']);
 require ROOT . '/lib/piece/blog/begin.php';
+
+//메타페이지 설정항목 -- 개선여지 필요
+if(empty($suri['value']) && $suri["directive"] == "/" && $suri['page'] == 1 && getBlogSetting("metapageInitView")) {
+	$metaView = $skin->meta;
+	dress('article_rep', '', $view);
+	dress('paging', '', $view);
+	dress('metapage', $metapageModule, $metaView);
+	dress('meta', $metaView, $view);
+}
+
 require ROOT . '/lib/piece/blog/entries.php';
 require ROOT . '/lib/piece/blog/end.php';
 ?>

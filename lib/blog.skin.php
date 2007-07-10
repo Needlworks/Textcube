@@ -66,7 +66,14 @@ class Skin {
 	var $sidebarStorage = array();
 	var $sidebarOriginalContent = array();
 	var $sidebarName = array();
-	
+
+	var $meta;
+	var $metapage;
+	var $metapageBasicModules = array();
+	var $metapageStorage = array();
+	var $metapageOriginalContent = array();
+	var $metapageName = array();
+
 	var $noneCommentMessage;
 	var $singleCommentMessage;
 	var $noneTrackbackMessage;
@@ -108,7 +115,7 @@ class Skin {
 		$sidebarCount = 0;
 		$noNameCount = 1;
 		// - 사이드바가 여러개일 수 있으므로 루프로 돌린다.
-	while (ereg("<s_sidebar>", $sval)) {
+		while (ereg("<s_sidebar>", $sval)) {
 			if (!isset($this->sidebarBasicModules[$sidebarCount]))
 				$this->sidebarBasicModules[$sidebarCount] = array();
 			list($sval, $this->sidebarOriginalContent[$sidebarCount]) = $this->cutSkinTag($sval, "sidebar", "[##_sidebar_{$sidebarCount}_##]");
@@ -152,6 +159,25 @@ class Skin {
 		}
 
 		handleSidebars($sval, $this, $previewMode);
+
+		// 메타페이지 작업.
+		$metapageCount = 0;
+		if (ereg("<s_meta>", $sval) && ereg("<s_metapage>", $sval)) {
+			if (!isset($this->metapageBasicModules[$metapageCount]))
+				$this->metapageBasicModules[$metapageCount] = array();
+			list($sval, $this->metapageOriginalContent[$metapageCount]) = $this->cutSkinTag($sval, "metapage");
+			list($sval, $this->meta) = $this->cutSkinTag($sval, 'meta');
+					
+			$firstPos = strlen($this->metapageOriginalContent[$metapageCount]);
+			preg_match("/<!\-\-(.+)\-\->/", substr($this->metapageOriginalContent[$metapageCount],0,$firstPos - 1), $temp);
+			if (isset($temp[1])) {
+				$tempTitle = trim($temp[1]);
+			} else {
+				$tempTitle = _t('메타페이지');
+			}
+			$this->metapageName[$metapageCount] = $tempTitle;
+		}
+		handleMetapages($sval, $this, $previewMode);
 
 		$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
 

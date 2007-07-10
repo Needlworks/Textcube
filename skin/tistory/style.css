@@ -157,7 +157,8 @@ textarea        { border:1px solid #aaa;}
 #content .guestbook, 
 #content .searchList, 
 #content .searchRplist,
-#content .searchTblist      { padding:10px;}
+#content .searchTblist,
+#content .metapage			{ padding:10px;}
 
 #content .localog h3, 
 #content .taglog h3, 

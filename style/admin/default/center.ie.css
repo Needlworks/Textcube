@@ -83,3 +83,59 @@
 {
 	height                           : 2.45em;
 }
+
+/* Metapage ***************************************************************************************/
+
+#part-metapage-order
+{
+	background-position              : 308px 135px;	
+}
+
+#metapage-preview-mode
+{
+	margin                           : 30px 10px 13px 10px;
+}
+
+#metapage-box
+{
+	margin-right                     : 3px !important;
+	width                            : 603px;
+}
+
+#metapage-box .section ul.sidebar
+{
+	height                       : 200px;
+}
+
+#metapage-element-box
+{
+	margin-left                      : 5px;
+}
+
+#metapage-element-box fieldset ul.module-list
+{
+	height                           : 418px;
+	overflow-y                       : scroll;
+}
+
+#metapage-element-box fieldset ul li.metapage-module
+{
+	width                            : auto;
+}
+
+#metapage-description
+{
+	padding-top                      : 0 !important;
+}
+
+/* classes for AJAX *******************************************************************************/
+
+.ajax-popup-window .button-box .input-button
+{
+	padding-top                      : 2px !important;
+}
+
+#independent-meta-line
+{
+	margin: -31px 10px 0 0;
+}

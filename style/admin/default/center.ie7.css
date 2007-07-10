@@ -19,3 +19,10 @@
 	bottom                           : -22px;
 	right                            : 0;
 }
+
+/* Metapage ***************************************************************************************/
+
+#metapage-preview-mode
+{
+	background-position              : left 19px;
+}
