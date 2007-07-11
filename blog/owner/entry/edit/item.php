@@ -27,8 +27,8 @@ $isKeyword = false;
 define('__TEXTCUBE_EDIT__', true);
 if (defined('__TEXTCUBE_POST__'))
 	$suri['id'] = 0;
-if (!isset($_GET['draft']) || (!$entry = getEntry($owner, $suri['id'], true))) {
-	$entry = getEntry($owner, $suri['id'], false);
+if (!isset($_GET['draft']) || (!$entry = getEntry(getBlogId(), $suri['id'], true))) {
+	$entry = getEntry(getBlogId(), $suri['id'], false);
 	if (!$entry)
 		respondErrorPage(_t('포스트 정보가 존재하지 않습니다.'));
 	$isKeyword = ($entry['category'] == -1);
@@ -667,7 +667,7 @@ if (defined('__TEXTCUBE_POST__')) {
 												</dd>
 											</dl>
 <?php
-$countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `owner` = {$owner} AND `visibility` = 3");
+$countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `blogid` = ".getBlogId()." AND `visibility` = 3");
 ?>
 											<dl id="status-line" class="line">
 												<dt><span class="label"><?php echo _t('공개여부');?></span></dt>

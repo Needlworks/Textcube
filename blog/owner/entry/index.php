@@ -87,7 +87,7 @@ if ( isset($_POST['perPage']) && (in_array($_POST['perPage'], array(10, 15, 20, 
 }
 
 // 컨텐츠 목록 생성.
-list($entries, $paging) = getEntriesWithPagingForOwner($owner, $categoryId, $searchKeyword, $suri['page'], $perPage, $visibility);
+list($entries, $paging) = getEntriesWithPagingForOwner(getBlogId(), $categoryId, $searchKeyword, $suri['page'], $perPage, $visibility);
 
 // query string 생성.
 $paging['postfix'] = NULL;
@@ -104,7 +104,7 @@ if (isset($_POST['visibility'])) {
 }
 
 // 이올린에 발행한 적이 있는지 체크.
-$countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `owner` = {$owner} AND `visibility` = 3");
+$countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `blogid` = ".getBlogId()." AND `visibility` = 3");
 
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
