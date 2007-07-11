@@ -427,11 +427,9 @@
 #part-sidebar-order
 {
 	background-image                 : url("./image/bg_sidebar.png");
-	background-position              : 309px 135px;
+	background-position              : 309px 175px;
 	background-repeat                : no-repeat;	
 }
-
-
 
 #part-sidebar-order .pseudo-clear
 {
@@ -448,45 +446,46 @@
 	font-weight                      : bold;
 }
 
-#sidebar-preview-mode
+#part-sidebar-order .main-explain-box
 {
-	background-image                 : url("./image/bg_sidebar_mode.gif");
-	background-position              : left 18px;
-	background-repeat                : repeat-x;
-	margin                           : 0 10px 13px 10px;
+	margin-top                       : 13px;
 }
 
-#sidebar-preview-mode fieldset
+#part-sidebar-order .main-explain-box .explain
 {
-	background-color                 : transparent !important;
-	background-image                 : none;
-	border                           : none !important;
-	margin                           : 0;
-	padding                          : 0;
+	margin-bottom                    : 15px;
 }
 
-#sidebar-preview-mode a
+#part-sidebar-order #direct-link-line
 {
-	background-color                 : #DDDDDD;
-	border-top                       : 4px solid #DDDDDD;
-	border-right                     : 4px solid #DDDDDD;
-	border-bottom                    : none;
-	border-left                      : 4px solid #DDDDDD;
-	color                            : #000000;
-	float                            : left;
-	margin-left                      : 5px;
-	padding                          : 0 15px;
-	line-height                      : 2.8em;
+	margin: 0px 10px;
+	text-align: right;	
 }
 
-#sidebar-preview-mode a.selected
+#part-sidebar-order #direct-link-line dt
 {
-	background-color                 : #FFFFFF;
-	border-top                       : 4px solid #999999;
-	border-right                     : 4px solid #999999;
-	border-bottom                    : 1px solid #FFFFFF;
-	border-left                      : 4px solid #999999;
-	font-weight                      : bold;
+	display                          : none;
+}
+
+#part-sidebar-order #direct-link-line dd
+{
+	border                           : 3px solid #EFEFEF;
+	display: inline;
+	padding: 10px;
+	text-align: right;
+}
+
+#part-sidebar-order #direct-link-line dd .button
+{
+	background-image                 : url('./image/img_link_bullet.jpg');
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	padding-right                    : 15px;
+}
+
+#sidebar-tabs-box
+{
+	margin-bottom                    : 30px;
 }
 
 #sidebar-box

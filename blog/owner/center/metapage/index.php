@@ -163,10 +163,10 @@ function pretty_dress($view)
 ?>
 
 <?php
-$defaultModeSelected = "";
-$safeModeSelected = "";
-$tagModeSelected = "";
-$initModeSelected = "";
+$defaultModeSelected = false;
+$safeModeSelected = false;
+$tagModeSelected = false;
+$initModeSelected = false;
 
 $viewMode = '';
 $viewMode2 = '';
@@ -174,21 +174,21 @@ $viewMode3 = '';
 $previewMode = '';
 
 if ((!isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
-	$defaultModeSelected = " selected";
+	$defaultModeSelected = true;
 } else if ((isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
-	$safeModeSelected = " selected";
+	$safeModeSelected = true;
 	$viewMode = '&amp;viewMode=safe';
 	$viewMode2 = '?viewMode=safe';
 	$viewMode3 = '&viewMode=safe';
 	$previewMode = '&safe';
 } else if ((!isset($_REQUEST['safe'])) && (isset($_REQUEST['tag']))) {
-	$tagModeSelected = " selected";
+	$tagModeSelected = true;
 	$viewMode = '&amp;viewMode=tag';
 	$viewMode2 = '?viewMode=tag';
 	$viewMode3 = '&viewMode=tag';
 	$previewMode = '&tag';
 } else if ((isset($_REQUEST['safe'])) && (isset($_REQUEST['tag']))) {
-		$initModeSelected = " selected";
+		$initModeSelected = true;
 }
 
 $metapagePluginArray = array();
@@ -234,10 +234,11 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useMetapageInit']))
 								</dd>
 							</dl>							
 							
-							<div class="main-explain-box" style="margin-top:13px;">
+							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('블로그의 메타 페이지 구성을 변경할 수 있습니다. 메타 페이지는 블로그 첫 화면에 표시되는 부분입니다. 메타 페이지에 새로운 요소를 추가/삭제할 수 있으며 패널들을 자유롭게 배치 할 수 있습니다.');?>
 								<?php echo ($service['type'] == 'path' || $service['type'] == 'domain') ?  _t('다중 사용자 모드로 설치시 블로그 관리자는 메타 페이지를 이용하여 전체 블로그들에 대한 메타 페이지를 구성할 수 있습니다.') : '';?></p>
 							</div>
+							
 							<dl id="direct-link-line" class="line">
 								<dt><?php echo _t('플러그인 설정');?></dt>
 								<dd><a class="button" href="<?php echo $blogURL;?>/owner/plugin?visibility=metapage"><?php echo _t('플러그인 설정 페이지로 바로가기');?></a></dd>
@@ -245,12 +246,8 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useMetapageInit']))
 <?php
 if ($metapageCount == 0) {
 ?>
-							<div id="metapage-preview-mode">
-								<fieldset>
-									<legend><?php echo _t('편집 관련 기능');?></legend>
-										
-									<a id="default-mode-button" class="button selected" href="<?php echo $blogURL;?>/owner/center/metapage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
-								</fieldset>						
+							<ul id="metapage-tabs-box" class="tabs-box">
+								<li class="selected"><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
 							</div>
 							
 							<div id="metapage-box-disabled" class="data-inbox">
@@ -271,16 +268,12 @@ if (is_null($metapageConfig)) {
 	}
 }
 ?>
-							<div id="metapage-preview-mode">
-								<fieldset>
-									<legend><?php echo _t('편집 관련 기능');?></legend>
-									
-									<a id="default-mode-button" class="button<?php echo $defaultModeSelected;?>" href="<?php echo $blogURL;?>/owner/center/metapage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
-									<a id="safe-mode-button" class="button<?php echo $safeModeSelected;?>" href="<?php echo $blogURL;?>/owner/center/metapage?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a>
-									<a id="tag-mode-button" class="button<?php echo $tagModeSelected;?>" href="<?php echo $blogURL;?>/owner/center/metapage?tag" title="<?php echo _t('실제 블로그 메타 페이지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a>					
-									<a id="init-button" class="button<?php echo $initModeSelected;?>" href="metapage/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 메타 페이지의 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('메타 페이지의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>
-								</fieldset>
-							</div>
+							<ul id="metapage-tabs-box" class="tabs-box">
+								<li<?php echo $defaultModeSelected ? ' class="selected"' : NULL;?>><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
+								<li<?php echo $safeModeSelected ? ' class="selected"' : NULL;?>><a id="safe-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a>
+								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage?tag" title="<?php echo _t('실제 블로그 메타 페이지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a>					
+								<li<?php echo $initModeSelected ? ' class="selected"' : NULL;?>><a id="init-button" class="button" href="metapage/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 메타 페이지의 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('메타 페이지의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>
+							</ul>
 							
 							<div id="metapage-box" class="data-inbox">
 								<table border="0">

@@ -165,10 +165,10 @@ function pretty_dress($view)
 ?>
 
 <?php
-$defaultModeSelected = "";
-$safeModeSelected = "";
-$tagModeSelected = "";
-$initModeSelected = "";
+$defaultModeSelected = false;
+$safeModeSelected = false;
+$tagModeSelected = false;
+$initModeSelected = false;
 
 $viewMode = '';
 $viewMode2 = '';
@@ -176,21 +176,21 @@ $viewMode3 = '';
 $previewMode = '';
 
 if ((!isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
-	$defaultModeSelected = " selected";
+	$defaultModeSelected = true;
 } else if ((isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
-	$safeModeSelected = " selected";
+	$safeModeSelected = v;
 	$viewMode = '&amp;viewMode=safe';
 	$viewMode2 = '?viewMode=safe';
 	$viewMode3 = '&viewMode=safe';
 	$previewMode = '&safe';
 } else if ((!isset($_REQUEST['safe'])) && (isset($_REQUEST['tag']))) {
-	$tagModeSelected = " selected";
+	$tagModeSelected = true;
 	$viewMode = '&amp;viewMode=tag';
 	$viewMode2 = '?viewMode=tag';
 	$viewMode3 = '&viewMode=tag';
 	$previewMode = '&tag';
 } else if ((isset($_REQUEST['safe'])) && (isset($_REQUEST['tag']))) {
-		$initModeSelected = " selected";
+		$initModeSelected = true;
 }
 
 $sidebarPluginArray = array();
@@ -218,16 +218,17 @@ getBlogContentForSideBar();
 								<p class="explain"><?php echo _t('블로그의 사이드바 구성을 변경할 수 있습니다. 사이드바는 블로그 화면에서 양 옆이나 위아래에 표시되는 메뉴가 있는 부분을 말합니다. 사이드바에 새로운 요소를 추가/삭제할 수 있으며 자유로운 위치 이동을 할 수 있습니다.');?></p>
 							</div>
 							
+							<dl id="direct-link-line" class="line">
+								<dt><?php echo _t('플러그인 설정');?></dt>
+								<dd><a class="button" href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('플러그인 설정 페이지로 바로가기');?></a></dd>
+							</dl>
+							
 <?php
 if ($sidebarCount == 0) {
 ?>
-							<div id="sidebar-preview-mode">
-								<fieldset>
-									<legend><?php echo _t('편집 관련 기능');?></legend>
-										
-									<a id="default-mode-button" class="button selected" href="<?php echo $blogURL;?>/owner/skin/sidebar" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
-								</fieldset>						
-							</div>
+							<ul id="sidebar-tabs-box" class="tabs-box">
+								<li class="selected"><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/sidebar" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
+							</ul>
 							
 							<div id="sidebar-box-disabled" class="data-inbox">
 								<p><?php echo _t('사용중인 스킨이 사이드바 기능을 지원하지 않습니다.');?></p>
@@ -248,16 +249,12 @@ if (is_null($sidebarConfig)) {
 	}
 }
 ?>
-							<div id="sidebar-preview-mode">
-								<fieldset>
-									<legend><?php echo _t('편집 관련 기능');?></legend>
-									
-									<a id="default-mode-button" class="button<?php echo $defaultModeSelected;?>" href="<?php echo $blogURL;?>/owner/skin/sidebar" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
-									<a id="safe-mode-button" class="button<?php echo $safeModeSelected;?>" href="<?php echo $blogURL;?>/owner/skin/sidebar?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a>
-									<a id="tag-mode-button" class="button<?php echo $tagModeSelected;?>" href="<?php echo $blogURL;?>/owner/skin/sidebar?tag" title="<?php echo _t('실제 블로그 사이드바에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a>					
-									<a id="init-button" class="button<?php echo $initModeSelected;?>" href="sidebar/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 사이드바 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('사이드바의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>
-								</fieldset>						
-							</div>
+							<ul id="sidebar-tabs-box" class="tabs-box">
+								<li<?php echo $defaultModeSelected ? ' class="selected"' : NULL;?>><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/sidebar" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
+								<li<?php echo $safeModeSelected ? ' class="selected"' : NULL;?>><a id="safe-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/sidebar?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a>
+								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/sidebar?tag" title="<?php echo _t('실제 블로그 사이드바에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a>
+								<li<?php echo $initModeSelected ? ' class="selected"' : NULL;?>><a id="init-button" class="button" href="sidebar/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 사이드바 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('사이드바의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>
+							</ul>
 							
 							<div id="sidebar-box" class="data-inbox">
 								<table border="0">

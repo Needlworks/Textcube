@@ -967,7 +967,7 @@
 #part-metapage-order
 {
 	background-image                 : url("./image/bg_sidebar.png");
-	background-position              : 309px 135px;
+	background-position              : 309px 175px;
 	background-repeat                : no-repeat;	
 }
 
@@ -988,45 +988,25 @@
 	font-weight                      : bold;
 }
 
-#metapage-preview-mode
+#part-metapage-order .main-explain-box
 {
-	background-image                 : url("./image/bg_sidebar_mode.gif");
-	background-position              : left 18px;
-	background-repeat                : repeat-x;
-	margin                           : 0 10px 13px 10px;
+	margin-top                       : 13px;
 }
 
-#metapage-preview-mode fieldset
+#part-metapage-order .main-explain-box .explain
 {
-	background-color                 : transparent !important;
-	background-image                 : none;
-	border                           : none !important;
-	margin                           : 0;
-	padding                          : 0;
+	margin-bottom                    : 15px;
 }
 
-#metapage-preview-mode a
+#part-metapage-order #direct-link-line
 {
-	background-color                 : #DDDDDD;
-	border-top                       : 4px solid #DDDDDD;
-	border-right                     : 4px solid #DDDDDD;
-	border-bottom                    : none;
-	border-left                      : 4px solid #DDDDDD;
-	color                            : #000000;
-	float                            : left;
-	margin-left                      : 5px;
-	padding                          : 0 15px;
-	line-height                      : 2.8em;
+	margin-bottom                    : 0px;
+	margin-top                       : 0px !important;
 }
 
-#metapage-preview-mode a.selected
+#metapage-tabs-box
 {
-	background-color                 : #FFFFFF;
-	border-top                       : 4px solid #999999;
-	border-right                     : 4px solid #999999;
-	border-bottom                    : 1px solid #FFFFFF;
-	border-left                      : 4px solid #999999;
-	font-weight                      : bold;
+	margin-bottom                    : 30px;
 }
 
 #metapage-box
