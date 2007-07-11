@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-if (isset($list)) {
+if (isset($list) && isset($skin)) {
 	$listView = $skin->list;
 	$itemsView = '';
 	foreach ($list['items'] as $item) {	

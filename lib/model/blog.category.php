@@ -67,6 +67,9 @@ function getCategories($blogid) {
 	global $database;
 	$rows = DBQuery::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id > 0 ORDER BY parent, priority");
 	$categories = array();
+	if( empty($rows) ) {
+		$rows = array();
+	}
 	foreach ($rows as $category) {
 		if ($category['parent'] == null) {
 			$category['children'] = array();
