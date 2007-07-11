@@ -193,7 +193,7 @@ if($textcubeDashboard) {
 									<ul>
 										<li><a href="<?php echo $blogURL;?>/owner/entry/post"><?php echo _t('새글 쓰기');?></a></li>
 <?php
-		$latestEntryId = getBlogSetting('LatestEditedEntry',0);
+		$latestEntryId = getBlogSetting('LatestEditedEntry_user'.getUserId(),0);
 		if($latestEntryId !== 0){
 			$latestEntry = getEntry($owner,$latestEntryId);
 			if($latestEntry!=false){
