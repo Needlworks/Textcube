@@ -6,7 +6,6 @@ if(isset($blogMenu['topMenu'])) {
 				$blogContentMenuItem = array(
 					array('menu'=>'dashboard','title'=>_t('조각보'),'link'=>'/owner/center/dashboard'),
 					array('menu'=>'metapage','title'=>_t('색동'),'link'=>'/owner/center/metapage'),
-					array('menu'=>'metaSetting','title'=>_t('두루마기'),'link'=>'/owner/center/metaSetting'),
 					array('menu'=>'about','title'=>_t('텍스트큐브는'),'link'=>'/owner/center/about')
 				);
 			}
