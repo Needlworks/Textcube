@@ -63,7 +63,7 @@ if (!empty($_POST['newCategory'])) {
 	if(empty($history)) $errorMessage = _t('같은 이름의 카테고리가 이미 존재합니다');
 } else if (!empty($_POST['modifyCategoryName']) || !empty($_POST['modifyCategoryBodyId'])) {
 	$history = modifyCategory($owner, $_POST['id'], trim($_POST['modifyCategoryName']),trim($_POST['modifyCategoryBodyId'])) ? 'document.getElementById("modifyCategoryName").select();' : '';
-	$tempParentId = DBQuery::queryCell("SELECT `parent` FROM `{$database['prefix']}Categories` WHERE `id` = {$_POST['id']}");
+	$tempParentId = DBQuery::queryCell("SELECT `parent` FROM `{$database['prefix']}Categories` WHERE `id` = {$_POST['id']} AND `blogid` = ".getBlogId());
 	if (preg_match('/^[0-9]+$/', $tempParentId, $temp)) {
 		$depth = 2;
 	} else {
