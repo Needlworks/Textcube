@@ -54,7 +54,7 @@ requireComponent('Textcube.Data.Feed');
 requireComponent('Textcube.Data.UserSetting');
 $newlineStyle = (!is_null(getServiceSetting('newlineStyle')) ? ' format="'.getServiceSetting('newlineStyle').'"' : '');
 $writer->write('<?xml version="1.0" encoding="utf-8" ?>');
-$writer->write('<blog type="textcube/1.1" migrational="false">');
+$writer->write('<blog type="tattertools/1.1" migrational="false">');
 $setting = new BlogSetting();
 if ($setting->load()) {
 	$setting->escape();
