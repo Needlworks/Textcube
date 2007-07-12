@@ -773,19 +773,26 @@
 	position                         : relative;
 }
 
+
+#part-center-about
+{
+	background-image                 : url("./image/logo_textcube_full.png");
+	background-position              : 20px 50px;
+	background-repeat                : no-repeat;
+}
+
 #part-center-about h3
 {
-	background-image                 : url("./image/img_textcube_dashboard.png");
-	background-position              : -8px top;
-	background-repeat                : no-repeat;
 	font-family                      : Tahoma, "Lucida Grande", Verdana, sans-serif;
-	padding-top                      : 55px;
-	margin                           : 30px 0 5px 30px;
+	padding-top                      : 105px;
+	margin                           : 30px 0 5px 330px;
 }
 
 #part-center-about .main-explain-box p
 {
-	margin-left                      : 10px;
+	width                            : 350px;
+	margin-left                      : 220px;
+	text-align                       : right;
 }
 
 #part-center-about .main-explain-box p em
@@ -861,14 +868,14 @@
 {
 	position                         : absolute;
 	right                            : 5px;
-	top                              : 219px;
+	top                              : 169px;
 }
 
 #support-container
 {
 	position                         : absolute;
 	right                            : 5px;
-	top                              : 465px;
+	top                              : 405px;
 }
 
 #maintainer-container table,

@@ -37,7 +37,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										</thead>
 										<tbody>
 										<tr><td class="id"><a href="http://gendoh.tistory.com">gendoh</a></td><td class="name">Sang-il, Lee</td></tr>
-											<tr><td class="id"><a href="http://inureyes.tistory.com">inureyes</a></td><td class="name">Jeongkyu Shin</td></tr>
+											<tr><td class="id"><a href="http://forest.nubimaru.com">inureyes</a></td><td class="name">Jeongkyu Shin</td></tr>
 										</tbody>
 									</table>
 								</div>
@@ -163,6 +163,11 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="id"><a href="http://lunamoth.biz">lunamoth</a></td>
 												<td class="name"></td>
 												<td class="role"><?php echo _t('manual');?></td>
+											</tr>
+											<tr>
+												<td class="id"><a href="http://design.funny4u.com">funny4u</a></td>
+												<td class="name">Guihwan Yu</td>
+												<td class="role"><?php echo _t('Icon design');?></td>
 											</tr>
 										</tbody>
 									</table>
