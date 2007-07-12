@@ -268,7 +268,7 @@ class Auth {
 			$secret = '(`password` = \'' . md5($password) . "' OR `password` = '$password')";
 		} else if( $blogapi && !empty($blogApiPassword) ) {
 			$password = mysql_tt_escape_string($password);
-			$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $preKnownPassword . '\')';
+			$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $blogApiPassword . '\')';
 		} else {
 			$secret = '`password` = \'' . md5($password) . '\'';
 		}

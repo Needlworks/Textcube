@@ -504,7 +504,7 @@ class Post {
 	
 	function nextEntryId($id = 0) {
 		global $database;
-		$maxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlgoId());
+		$maxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId());
 		if($id==0)
 			return $maxId + 1;
 		else

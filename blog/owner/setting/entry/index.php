@@ -127,8 +127,8 @@ foreach (getAllEditors() as $key => $value) {
 											<dd>
 												<input type="checkbox" class="checkbox" id="useBlogAPI" name="useBlogAPI" value="yes" <?php echo (getBlogSetting("useBlogAPI", 0) == "1") ? ' checked="checked"' : '';?> /><label for="useBlogAPI"><?php echo _t('metaWeblogAPI나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다.');?></label>
 											</dd>
-											<dd>
-												이하는 외부 편집기가 사용할 수 있는 주소를 만들어 주는 <b>도우미</b>입니다. 보통 많은 편집기들은 'API 주소'에 해당하는 것을 사용합니다. 그러나 분류설정이 기능이 없거나 혹은 강제로 하나의 분류로 보내고자 할 때 사용할 수 있는 주소도 있습니다. <br /><b>원하시는 주소를 복사해서 사용하시면 됩니다</b></dd>
+											<dd><?php echo _t("블로그 API는 MovableType 혹은 MetaWeblog API를 선택하시면 됩니다."); ?></dd>
+											<dd><?php echo _t("이하는 외부 편집기가 사용할 수 있는 주소를 만들어 주는 <b>도우미</b>입니다. 보통 많은 편집기들은 'API 주소'에 해당하는 것을 사용합니다. 그러나 분류설정이 기능이 없거나 혹은 강제로 하나의 분류로 보내고자 할 때 사용할 수 있는 주소도 있습니다. <br /><b>원하시는 주소를 복사해서 사용하시면 됩니다</b>"); ?></dd>
 											<dd>
 											<div class="section">
 												<script type="text/javascript">//<![CDATA[

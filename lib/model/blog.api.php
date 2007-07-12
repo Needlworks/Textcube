@@ -18,7 +18,7 @@ function api_setHint( $hint, $value = true )
 function api_getHint( $hint )
 {
 	global $arr_hint;
-	if( $arr_hint )
+	if( $arr_hint && isset( $arr_hint[$hint] ) )
 	{
 		return $arr_hint[$hint];
 	}
