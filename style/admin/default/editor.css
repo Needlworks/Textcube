@@ -701,8 +701,10 @@ dl#power-line
 	background-image                 : url('./image/img_eolin_head.jpg');
 	background-repeat                : no-repeat;
 	border                           : 1px solid #666666;
+	left                             : 220px !important;
 	padding                          : 58px 8px 15px 8px;
 	position                         : relative;
+	top                              : 600px !important;
 	width                            : 492px;
 }
 

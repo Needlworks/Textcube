@@ -40,9 +40,16 @@ switch($blogMenu['topMenu']) {
 		break;
 	case 'entry':
 		$blogMenu['title'] = _t('글');
-		$blogMenu['loadCSS'] = array('post','editor');
-		$blogMenu['loadCSSIE6'] = array('post','editor');
-		$blogMenu['loadCSSIE7'] = array('post','editor');
+		if ($blogMenu['contentMenu'] == 'post') {
+			$blogMenu['loadCSS'] = array('post','editor');
+			$blogMenu['loadCSSIE6'] = array('post','editor');
+			$blogMenu['loadCSSIE7'] = array('post','editor');
+		} else {
+			$blogMenu['loadCSS'] = array('post');
+			$blogMenu['loadCSSIE6'] = array('post');
+			$blogMenu['loadCSSIE7'] = array('post');
+		}
+		
 		break;
 	case 'link':
 		$blogMenu['title'] = _t('링크');

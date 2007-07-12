@@ -675,7 +675,7 @@ $countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}E
 													<div id="status-private" class="status-private"><input type="radio" id="visibility_private" class="radio" name="visibility" value="0"<?php echo (abs($entry['visibility']) == 0 ? ' checked="checked"' : '');?> /><label for="visibility_private"><?php echo _t('비공개');?></label></div>
 													<div id="status-protected" class="status-protected"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_protected" class="radio" name="visibility" value="1"<?php echo (abs($entry['visibility']) == 1 ? ' checked="checked"' : '');?> /><label for="visibility_protected"><?php echo _t('보호');?></label></div>
 													<div id="status-public" class="status-public"><input type="radio" id="visibility_public" class="radio" name="visibility" value="2"<?php echo (abs($entry['visibility']) == 2 ? ' checked="checked"' : '');?> /><label for="visibility_public"><?php echo _t('공개');?></label></div>
-													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo $countResult == false ? ' onclick="viewWhatIsEolin();return false;"' : NULL; echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?><?php echo $countResult == true ? ' (<a href="#void" onclick="viewWhatIsEolin();return false;">'._t('설명').'</a>)' : NULL;?></label></div>
+													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo $countResult == false ? ' onclick="viewWhatIsEolin();"' : NULL; echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?><?php echo $countResult == true ? ' (<a href="#void" onclick="viewWhatIsEolin();">'._t('설명').'</a>)' : NULL;?></label></div>
 												</dd>
 											</dl>
 												
@@ -734,7 +734,7 @@ if (isset($_GET['popupEditor'])) {
 								</p>
 							
 								<div class="button-box">
-									<button id="eolin-button" class="eolin-button input-button" onclick="window.open('http://www.eolin.com');" title="<?php echo _t('이올린으로 연결합니다.');?>"><span class="text"><?php echo _t('이올린 방문');?></span></button>
+									<button id="eolin-button" class="eolin-button input-button" onclick="window.open('http://www.eolin.com');" title="<?php echo _t('이올린으로 연결합니다.');?>"><span class="text"><?php echo _t('이올린, 지금 만나보세요');?></span></button>
 									<button id="close-button" class="close-button input-button" onclick="closeWhatIsEolin();" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
 					 			</div>
 					 		</div>

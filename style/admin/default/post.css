@@ -621,8 +621,10 @@ table.data-inbox tbody tr td.ip
 	background-image                 : url('./image/img_eolin_head.jpg');
 	background-repeat                : no-repeat;
 	border                           : 1px solid #666666;
+	left                             : 220px !important;
 	padding                          : 58px 8px 15px 8px;
 	position                         : absolute;
+	text-align                       : left;
 	top                              : -300px !important;
 	width                            : 492px;
 }
@@ -632,11 +634,10 @@ table.data-inbox tbody tr td.ip
 	border                           : 3px solid #4783B2;
 }
 
-#eolinDialog .temp-box h3
+#eolinDialog .temp-box h4
 {
 	border-bottom                    : 1px solid #E6E6E6;
 	color                            : #284A9F;
-	display                          : block;
 	font-size                        : 1em;
 	font-weight                      : bold;
 	margin                           : 20px 15px 10px 15px;
