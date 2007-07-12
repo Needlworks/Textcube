@@ -126,13 +126,58 @@ foreach (getAllEditors() as $key => $value) {
 											<dt><span class="label"><?php echo _t('블로그 API 사용 여부');?></span></dt>
 											<dd>
 												<input type="checkbox" class="checkbox" id="useBlogAPI" name="useBlogAPI" value="yes" <?php echo (getBlogSetting("useBlogAPI", 0) == "1") ? ' checked="checked"' : '';?> /><label for="useBlogAPI"><?php echo _t('metaWeblogAPI나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다.');?></label>
-												<p><?php echo _t('API 사용시 주소는 블로그 주소/api 입니다.');?></p>
+											</dd>
+											<dd>
+												이하는 외부 편집기가 사용할 수 있는 주소를 만들어 주는 <b>도우미</b>입니다. 보통 많은 편집기들은 'API 주소'에 해당하는 것을 사용합니다. 그러나 분류설정이 기능이 없거나 혹은 강제로 하나의 분류로 보내고자 할 때 사용할 수 있는 주소도 있습니다. <br /><b>원하시는 주소를 복사해서 사용하시면 됩니다</b></dd>
+											<dd>
+											<div class="section">
+												<script type="text/javascript">//<![CDATA[
+												function showapi() {
+													var selectedIndex = document.getElementById('category').selectedIndex;
+													var cid = document.getElementById('category').options[selectedIndex].value;
+													document.getElementById('apientry').value = "<?php echo $defaultURL?>" + "/api";
+													if( cid != "" ) {
+														document.getElementById('apientry').value += "?category="+cid;
+													}
+												}
+												setTimeout( "showapi()", 100 );
+												//]]></script>
+												<select id="category" name="category" onchange="showapi()">
+													<option value=""><?php echo _t('API 주소');?></option>
+													<optgroup class="category" label="<?php echo _t('글 종류');?>">
+														<option value="-2"><?php echo _t('공지');?></option>
+														<option value="-1"><?php echo _t('키워드');?></option>
+													</optgroup>
+													<optgroup class="category" label="<?php echo _t('분류');?>">
+														<option value="0"><?php echo htmlspecialchars(getCategoryNameById(getBlogId(),0) ? getCategoryNameById(getBlogId(),0) : _t('전체'));?></option>
+			<?php
+			foreach (getCategories(getBlogId()) as $category) {
+				if ($category['id'] != 0) {
+			?>
+														<option value="<?php echo $category['id'];?>"><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name']);?></option>
+			<?php
+				}
+				foreach ($category['children'] as $child) {
+					if ($category['id'] != 0) {
+			?>
+														<option value="<?php echo $child['id'];?>">&nbsp;― <?php echo ($category['visibility'] > 1 && $child['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name']);?></option>
+			<?php
+					}
+				}
+			}
+			?>
+													</optgroup>
+												</select>
+												<input type="text" style="width:400px" id="apientry">
+											</div>
 											</dd>
 										</dl>
 										<dl id="blogapi-line" class="line">
 											<dt><span class="label"><?php echo _t('블로그 API 용 비밀번호');?></span></dt>
 											<dd>
 												<p><label for="blogApiPassword"><?php echo _t('BlogAPI에 사용할 비밀번호입니다. 관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두세요.');?></label></p>
+											</dd>
+											<dd>
 												<input type="text" style="width:14em" class="input-text" id="blogApiPassword" name="blogApiPassword" value="<?php echo getBlogSetting("blogApiPassword", "");?>" />
 												<input type="button" class="input-button" value="<?php echo _t('임의로 생성')?>" onclick="chooseBlogPassword()" >
 												<input type="button" class="input-button" value="<?php echo _t('관리자 비밀번호를 그대로 사용')?>" onclick="clearBlogPassword()" >
