@@ -29,7 +29,7 @@ if($entry = DBQuery::queryRow("SELECT e.*, c.name AS categoryName
 	echo '<permalink>', htmlspecialchars("$defaultURL/".($blog['useSlogan'] ? "entry/{$entry['slogan']}": $entry['id'])), '</permalink>', "\r\n";
 	echo '<title>', htmlspecialchars($entry['title']), '</title>', "\r\n";
 	echo '<content>', htmlspecialchars(getEntryContentView($blogid, $suri['id'], $entry['content'], $entry['contentFormatter'])), '</content>', "\r\n";
-	echo '<author>', htmlspecialchars(DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".getUserId())), '</author>', "\r\n";
+	echo '<author>', htmlspecialchars(DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".$entry['userid'])), '</author>', "\r\n";
 	echo '<category>', htmlspecialchars($entry['categoryName']), '</category>', "\r\n";
 	$result = DBQuery::query("SELECT name 
 			FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations 
