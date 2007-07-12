@@ -329,7 +329,7 @@ if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSett
 				$query->setQualifier('draft', $entry['draft']);
 				$originalEntry = $query->getCell('content');
 				$newContent = mysql_tt_escape_string(nl2brWithHTML($originalEntry));
-				DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE blogid = {$entry['owner']} AND id = {$entry['id']} AND draft = {$entry['draft']}");
+				DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE owner = {$entry['owner']} AND id = {$entry['id']} AND draft = {$entry['draft']}");
 				$query->resetQualifiers();
 			}
 			echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
@@ -637,7 +637,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries userid")) {
 			foreach($blogids as $blogid) {
 				DBQuery::execute("UPDATE {$database['prefix']}Entries 
 					SET userid = '".$blogid['owner']."'
-					WHERE blogid = '".$blogid['owner']."'");
+					WHERE owner = '".$blogid['owner']."'");
 			}
 			DBQuery::execute("DROP TABLE {$database['prefix']}TeamEntryRelations");
 			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
