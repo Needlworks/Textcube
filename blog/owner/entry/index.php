@@ -63,7 +63,11 @@ if (isset($_POST['visibility'])) {
 		$visibility = '<-1';
 		$tabsClass['reserved'] = true;
 		$visibilityText = _t('예약');
-	} 
+	} else {
+		$visibility = null;
+		$tabsClass['all'] = true;
+		$visibilityText = _t('모든');
+	}
 } else {
 	$visibility = null;
 	$tabsClass['all'] = true;
