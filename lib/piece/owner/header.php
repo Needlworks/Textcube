@@ -40,7 +40,7 @@ switch($blogMenu['topMenu']) {
 		break;
 	case 'entry':
 		$blogMenu['title'] = _t('글');
-		if ($blogMenu['contentMenu'] == 'post') {
+		if ($blogMenu['contentMenu'] == 'post' || $blogMenu['contentMenu'] == 'edit') {
 			$blogMenu['loadCSS'] = array('post','editor');
 			$blogMenu['loadCSSIE6'] = array('post','editor');
 			$blogMenu['loadCSSIE7'] = array('post','editor');
