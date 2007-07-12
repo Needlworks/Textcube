@@ -213,49 +213,98 @@ function changeSetting($blogid, $email, $nickname) {
 function getCertificationLink($blogid) {
 	global $database;
 	$blogName = getBlogSetting('name');
-	$users = DBQuery::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE userid=$blogid");
+	$users = DBQuery::queryRow("SELECT * FROM `{$database['prefix']}Users` 
+		WHERE host = $blogid");
 	return getBlogURL($blogName) . '/login?loginid=' . rawurlencode($users['loginid']) . '&password=' . rawurlencode($users['password']) . '&requestURI=' . rawurlencode(getBlogURL($blogName) . "/owner/setting/account?password=" . rawurlencode($users['password']));
 }
 
-function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) {
-	global $database, $service, $blogURL, $hostURL, $user, $blog;
-	if (empty($email) || empty($identify))
+function addUser($email, $name) {
+	global $database, $service, $user, $blog;
+	if (empty($email))
 		return 1;
 	if (!ereg('^[^@]+@([[:alnum:]]+(-[[:alnum:]]+)*\.)+[[:alnum:]]+(-[[:alnum:]]+)*$', $email))
 		return 2;
-	if (!ereg('^[[:alnum:]]+$', $identify))
-		return 4;
-	if (empty($name))
-		$name = $identify;
-		
+
 	if (strcmp($email, mysql_lessen($email, 64)) != 0) return 11;
 
 	$loginid = mysql_tt_escape_string(mysql_lessen($email, 64));	
 	$name = mysql_tt_escape_string(mysql_lessen($name, 32));
-	$identify = mysql_tt_escape_string(mysql_lessen($identify, 32));
 	$password = generatePassword();
 
-	$blogName = $identify;
 	$result = DBQuery::query("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'");
 	if ($result && (mysql_num_rows($result) > 0)) {
 		return 5;
 	}
-	$result = DBQuery::query("SELECT * FROM `{$database['prefix']}ReservedWords` WHERE word = '$blogName'");
-	if ($result && (mysql_num_rows($result) > 0)) {
-		return 60;
-	}
-	$result = DBQuery::query("SELECT value FROM `{$database['prefix']}BlogSettings` WHERE name = 'name' AND value = '$blogName'");
-	if ($result && (mysql_num_rows($result) > 0)) {
-		return 61;
-	}
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getBlogId().")");
+
+	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, 0)");
 	if (!$result || (mysql_affected_rows() == 0)) {
 		return 11;
-	} 
-	
-	$id = mysql_insert_id();
-	$baseTimezone = mysql_tt_escape_string($service['timezone']);
-	$basicInformation = array(
+	}
+	return true;
+}
+
+function addBlog($blogid, $userid, $identify) {
+	global $database, $service, $blogURL, $hostURL, $user, $blog;
+
+	if(empty($userid)) {
+		$userid = 1; // If no userid, choose the service administrator.
+	} else {
+		if(!DBQuery::queryExistence("SELECT userid
+			FROM {$database['prefix']}Users
+			WHERE userid = ".$userid)) return 3; // 3: No user exists with specific userid
+	}
+
+	if(!empty($blogid)) { // If blogid,
+		if(!DBQuery::queryExistence("SELECT blogid
+			FROM {$database['prefix']}BlogSettings
+			WHERE blogid = ".$blogid)) {
+			return 2; // 2: No blog exists with specific blogid
+		}
+		// Thus, blog and user exists. Now combine both.
+		$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` 
+			(blogid,userid,acl,created,lastLogin) 
+			VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
+		return $result;
+	} else { // If no blogid, create a new blog.
+		$email = getUserEmail($userid);
+		$password = DBQuery::queryCell("SELECT password
+			FROM {$database['prefix']}Users
+			WHERE userid = ".$userid);
+		$blogName = getBlogName($blogid);
+		if (empty($email) || empty($identify))
+			return 1; // Not enough information to create blog.
+		if (!ereg('^[^@]+@([[:alnum:]]+(-[[:alnum:]]+)*\.)+[[:alnum:]]+(-[[:alnum:]]+)*$', $email))
+			return 2; // Wrong E-mail address
+		if (!ereg('^[[:alnum:]]+$', $identify))
+			return 4; // Wrong Blog name
+		if (empty($name))
+			$name = User::getName($userid);
+
+		if (strcmp($email, mysql_lessen($email, 64)) != 0) return 11;
+
+		$loginid = mysql_tt_escape_string(mysql_lessen($email, 64));	
+		$name = mysql_tt_escape_string(mysql_lessen($name, 32));
+		$identify = mysql_tt_escape_string(mysql_lessen($identify, 32));
+		$password = generatePassword();
+
+		$blogName = $identify;
+
+		$result = DBQuery::query("SELECT * 
+			FROM `{$database['prefix']}ReservedWords` 
+			WHERE word = '$blogName'");
+		if ($result && (mysql_num_rows($result) > 0)) {
+			return 60;	// Reserved blog name.
+		}
+		$result = DBQuery::query("SELECT value 
+			FROM `{$database['prefix']}BlogSettings` 
+			WHERE name = 'name' AND value = '$blogName'");
+		if ($result && (mysql_num_rows($result) > 0)) {
+			return 61; // Same blogname is already exists.
+		}
+		$blogid = DBQuery::queryCell("SELECT max(blogid)
+			FROM `{$database['prefix']}BlogSettings`") + 1;
+		$baseTimezone = mysql_tt_escape_string($service['timezone']);
+		$basicInformation = array(
 			'name'         => $identify,
 			'defaultDomain'            => 0,
 			'title'                    => '',
@@ -275,48 +324,97 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 			'language'     => $service['language'],
 			'blogLanguage' => $service['language'],
 			'timezone'     => $baseTimezone);
-	$isFalse = false;
-	foreach($basicInformation as $fieldname => $fieldvalue){
-		if(setBlogSetting($fieldname,$fieldvalue,$id) === false) {$isFalse = true;}
-	}
-	if($isFalse == true) {
-		DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
-		return 12;
-	}
+		$isFalse = false;
+		foreach($basicInformation as $fieldname => $fieldvalue){
+			if(setBlogSetting($fieldname,$fieldvalue,$blogid) === false) {
+				$isFalse = true;
+			}
+		}
+		if($isFalse == true) {
+			DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid");
+			return 12;
+		}
 	
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}SkinSettings` (blogid, skin) VALUES ($id, '{$service['skin']}')");
-	if (!$result || (mysql_affected_rows() == 0)) {
-		DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $id");
-		return 13;
-	}
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}FeedSettings` (blogid) VALUES ($id)");
-	if (!$result || (mysql_affected_rows() == 0)) {
-		DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $id");
-		return 62;
-	}
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}FeedGroups` (blogid, id) VALUES ($id, 0)");
-	if (!$result || (mysql_affected_rows() == 0)) {
-		DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $id");
-		return 62;
-	}
+		$result = DBQuery::query("INSERT INTO `{$database['prefix']}SkinSettings` 
+			(blogid, skin) 
+			VALUES ($blogid, '{$service['skin']}')");
+		if (!$result || (mysql_affected_rows() == 0)) {
+			DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid");
+			return 13;
+		}
+		$result = DBQuery::query("INSERT INTO `{$database['prefix']}FeedSettings` 
+			(blogid) VALUES ($blogid)");
+		if (!$result || (mysql_affected_rows() == 0)) {
+			DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid");
+			DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $blogid");
+			return 62;
+		}
+		
+		$result = DBQuery::query("INSERT INTO `{$database['prefix']}FeedGroups` 
+			(blogid, id) 
+			VALUES ($blogid, 0)");
+		if (!$result || (mysql_affected_rows() == 0)) {
+			DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid");
+			DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $blogid");
+			DBQuery::query("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $blogid");
+			return 62;
+		}
 	
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog`  VALUES('".$id."', '".$id."', '0', UNIX_TIMESTAMP(), '0')");
-	if (!$result || (mysql_affected_rows() == 0)) {
-		header( 'x-debug: ' . mysql_errno() );
-		DBQuery::query("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $id");
-		DBQuery::query("DELETE FROM `{$database['prefix']}FeedGroups` WHERE `blogid` = $id");		
-		return 20;
+		$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` 
+			VALUES('".$blogid."', '".$userid."', '0', UNIX_TIMESTAMP(), '0')");
+		if (!$result || (mysql_affected_rows() == 0)) {
+			header( 'x-debug: ' . mysql_errno() );
+			DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid");
+			DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $blogid");
+			DBQuery::query("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $blogid");
+			DBQuery::query("DELETE FROM `{$database['prefix']}FeedGroups` WHERE `blogid` = $blogid");		
+			return 20;
+		}
 	}
-	
+	return true;
+}
+
+function getInvited($blogid) {
+	global $database;
+	return DBQuery::queryAll("SELECT 
+			_users.*,_blogSettings.value AS blogName 
+		FROM `{$database['prefix']}Users` AS _users 
+		LEFT JOIN `{$database['prefix']}BlogSettings` AS _blogSettings 
+			ON _users.userid = _blogSettings.blogid AND _blogSettings.name = 'name'
+		WHERE `host` = $blogid ORDER BY created ASC");
+}
+
+function getBlogName($blogid) {
+	global $database;
+	return DBQuery::queryCell("SELECT value
+		FROM {$database['prefix']}BlogSettings
+		WHERE name = 'name'");
+}
+
+function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $senderEmail) {
+	global $database, $service, $blogURL, $hostURL, $user, $blog;
+	if(empty($blogid)) {
+		$blogid = DBQuery::queryCell("SELECT max(blogid)
+			FROM {$database['prefix']}BlogSettings"); // If no blogid, get the latest created blogid.
+	}
+	$email = getUserEmail($userid);
+	$password = DBQuery::queryCell("SELECT password
+		FROM {$database['prefix']}Users
+		WHERE userid = ".$userid);
+	$blogName = getBlogName($blogid);
+
+	if (empty($email))
+		return 1;
+	if (!ereg('^[^@]+@([[:alnum:]]+(-[[:alnum:]]+)*\.)+[[:alnum:]]+(-[[:alnum:]]+)*$', $email))
+		return 2;
+	if (empty($name))
+		$name = User::getName($userid);
+
+	if (strcmp($email, mysql_lessen($email, 64)) != 0) return 11;
+
+	$loginid = mysql_tt_escape_string(mysql_lessen($email, 64));	
+	$name = mysql_tt_escape_string(mysql_lessen($name, 32));
+
 	$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TEXTCUBE_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 	if (empty($name))
 		$subject = _textf('귀하를 %1님이 초대합니다', $senderName);
@@ -342,14 +440,6 @@ function addUser($email, $name, $identify, $comment, $senderName, $senderEmail) 
 	}
 }
 
-function getInvited($blogid) {
-	global $database;
-	return DBQuery::queryAll("SELECT 
-			_users.*,_blogSettings.value AS blogName 
-		FROM `{$database['prefix']}Users` AS _users 
-		LEFT JOIN `{$database['prefix']}BlogSettings` AS _blogSettings ON _users.userid = _blogSettings.blogid AND _blogSettings.name = 'name'
-		WHERE `host` = $blogid ORDER BY created ASC");
-}
 
 function cancelInvite($userid) {
 	global $database;

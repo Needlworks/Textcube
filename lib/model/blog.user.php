@@ -12,4 +12,18 @@ if (doesHaveMembership()) {
 } else {
 	$user = null;
 }
+
+function getUserEmail($userid) {
+	global $database;
+	return DBQuery::queryCell("SELECT loginid
+		FROM {$database['prefix']}Users
+		WHERE userid = ".$userid);
+}
+
+function getUserIdByEmail($email) {
+	global $database;
+	return DBQuery::queryCell("SELECT userid 
+		FROM {$database['prefix']}Users
+		WHERE loginid = ".$email);
+}
 ?>

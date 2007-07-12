@@ -17,7 +17,14 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (($service['type'] == 'single') || (getUserId() > 1))
 	respondResultPage(false);
-$result = addUser($_POST['email'], $_POST['name'], $_POST['identify'], $_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
-
+$result = addUser($_POST['email'], $_POST['name']);
+if($result !== true) {
+	respondResultPage($result);
+}
+$result = addBlog(null, getUserIdByEmail($_POST['email']),$_POST['identify']);
+if($result !== true) {
+	respondResultPage($result);
+}
+$result = sendInvitationMail(null, getUserIdByEmail($_POST['email']),$_POST['name'],$_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
 respondResultPage($result);
 ?>
