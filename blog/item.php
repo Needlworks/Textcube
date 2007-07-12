@@ -46,7 +46,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 } else {
 	notifyComment();
 }
-list($entries, $paging) = getEntryWithPaging($owner, $suri['id']);
+list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
 if (isset($_POST['partial'])) {
 	header('Content-Type: text/plain; charset=utf-8');
 	$skin = new Skin($skinSetting['skin']);

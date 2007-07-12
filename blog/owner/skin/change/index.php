@@ -12,7 +12,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 
 $isAjaxRequest = checkAjaxRequest();
-$result = $isAjaxRequest ? selectSkin($owner, $_POST['skinName']) : selectSkin($owner, $_GET['skinName']);
+$result = $isAjaxRequest ? selectSkin($blogid, $_POST['skinName']) : selectSkin($blogid, $_GET['skinName']);
 
 if ($result === true) {
 	$isAjaxRequest ? printRespond(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);

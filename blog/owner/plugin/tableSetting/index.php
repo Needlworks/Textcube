@@ -8,7 +8,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 
-if ($owner == 1) {
+if ($blogid == 1) {
 
 ?>
 						<script type="text/javascript">

@@ -5,8 +5,8 @@
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlog.php';
 requireModel('blog.entry');
-list($entries, $paging) = getEntriesWithPaging($owner, $suri['page'], $blog['entriesOnPage']);
-if(!Validator::filename($_GET['skin']) && $_GET['skin'] != "customize/$owner")
+list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
+if(!Validator::filename($_GET['skin']) && $_GET['skin'] != "customize/$blogid")
 	respondNotFoundPage();
 $skinSetting['skin'] = $_GET['skin'];
 $skin = new Skin($skinSetting['skin'], true);

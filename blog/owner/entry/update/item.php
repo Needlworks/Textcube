@@ -23,7 +23,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.entry');
 
 requireStrictRoute();
-if ($entry = getEntry($owner, $suri['id'])) {
+if ($entry = getEntry($blogid, $suri['id'])) {
 	$entry['visibility'] = $_POST['visibility'];
 	$entry['category'] = $_POST['category'];
 	$entry['location'] = empty($_POST['location']) ? '/' : $_POST['location'];
@@ -37,7 +37,7 @@ if ($entry = getEntry($owner, $suri['id'])) {
 	$entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 	$entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
 	setBlogSetting('LatestEditedEntry_user'.getUserId(),$suri['id']);
-	respondResultPage(updateEntry($owner, $entry));
+	respondResultPage(updateEntry($blogid, $entry));
 }
 respondResultPage(1);
 ?>

@@ -10,5 +10,5 @@ $IV = array(
 );
 require ROOT . '/lib/includeForReader.php';
 requireStrictRoute();
-respondResultPage(markAsUnread($owner, $_POST['id']));
+respondResultPage(markAsUnread($blogid, $_POST['id']));
 ?>

@@ -32,7 +32,7 @@ if (!doesHaveOwnership() && empty($_POST["name_$entryId"])) {
 	$comment['secret'] = empty($_POST["secret_$entryId"]) ? 0 : 1;
 	$comment['comment'] = $_POST["comment_$entryId"];
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
-	$result = addComment($owner, $comment);
+	$result = addComment($blogid, $comment);
 	if ($result === 'blocked') {
 	} else if ($result === false) {
 		printMobileErrorPage(_text('답글을 쓸 수 없습니다.'), "$blogURL/comment/$entryId");

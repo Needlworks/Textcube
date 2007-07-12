@@ -6,12 +6,12 @@ define('__TEXTCUBE_MOBILE__', true);
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForBlog.php';
 requireStrictRoute();
-list($entryId) = getCommentAttributes($owner, $suri['id'], 'entry');
-if (deleteComment($owner, $suri['id'], $entryId, '') === false) {
+list($entryId) = getCommentAttributes($blogid, $suri['id'], 'entry');
+if (deleteComment($blogid, $suri['id'], $entryId, '') === false) {
 	printMobileErrorPage(_t('답글을 삭제할 수 없습니다'), _t('관리자가 아닙니다'), "$blogURL/comment/delete/{$suri['id']}");
 	exit();
 }
-list($entries, $paging) = getEntryWithPaging($owner, $entryId);
+list($entries, $paging) = getEntryWithPaging($blogid, $entryId);
 $entry = $entries ? $entries[0] : null;
 printMobileHtmlHeader();
 ?>

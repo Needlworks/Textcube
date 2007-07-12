@@ -10,7 +10,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlog.php';
-$imagePath = ROOT . "/attach/$owner/{$_GET['f']}";
+$imagePath = ROOT . "/attach/$blogid/{$_GET['f']}";
 if ($fp = @fopen($imagePath, 'r')) {
 	$imageInfo = @getimagesize($imagePath);
 	if (function_exists('gd_info')) {

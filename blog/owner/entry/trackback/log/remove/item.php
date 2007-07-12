@@ -6,7 +6,7 @@ define('ROOT', '../../../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.trackback");
 requireStrictRoute();
-if (deleteTrackbackLog($owner, $suri['id']) !== false)
+if (deleteTrackbackLog($blogid, $suri['id']) !== false)
 	respondResultPage(0);
 else
 	respondResultPage( - 1);

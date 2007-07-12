@@ -6,7 +6,7 @@ define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.link");
 
-if (!$link = getLink($owner, $suri['id']))
+if (!$link = getLink($blogid, $suri['id']))
 	respondErrorPage(_t('링크 정보가 존재하지 않습니다.'));
 $method = empty($link['rss']) ? 1 : 0;
 require ROOT . '/lib/piece/owner/header.php';

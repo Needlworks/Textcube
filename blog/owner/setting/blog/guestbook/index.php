@@ -11,7 +11,7 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if (setGuestbook($owner, $_GET['write'], $_GET['comment'])) {
+if (setGuestbook($blogid, $_GET['write'], $_GET['comment'])) {
 	respondResultPage(0);
 }
 respondResultPage( - 1);

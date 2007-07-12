@@ -72,7 +72,7 @@ requireStrictRoute();
 <?php
 if (count($_FILES) == 1) {
 	$file = array_pop($_FILES);
-	if (getAttachmentByLabel($owner, $suri['id'], Path::getBaseName($file['name']))) {
+	if (getAttachmentByLabel($blogid, $suri['id'], Path::getBaseName($file['name']))) {
 		print ('alert("' . _t('동일한 이름을 가진 파일이 이미 첨부되었습니다.') . '");');
 ?>
 
@@ -82,7 +82,7 @@ if (count($_FILES) == 1) {
 					}
 				}
 <?php
-	} else if (($attachment = addAttachment($owner, $suri['id'], $file)) === false) {
+	} else if (($attachment = addAttachment($blogid, $suri['id'], $file)) === false) {
 		print ('alert("' . _t('첨부하지 못했습니다.') . '");');
 ?>
 				
@@ -113,7 +113,7 @@ if (count($_FILES) == 1) {
 ?>
 					oSelect.appendChild(oOption);
 					//oSelect.selectedIndex = oSelect.options.length - 1;
-					//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$owner/{$attachment['name']}" : "{$blogURL}/image/spacer.gif");?>";
+					//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$blogid/{$attachment['name']}" : "{$blogURL}/image/spacer.gif");?>";
 					parent.refreshFileSize();
 				} catch(e) {
 				alert('['+e.message+']');

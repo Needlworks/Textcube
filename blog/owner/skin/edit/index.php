@@ -130,7 +130,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 	$xml = file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/index.xml");
 	$xmls = new XMLStruct();
 	$xmls->open($xml, $service['encoding']);
-	$skinName = $xmls->getValue('/skin/information/name') . ($skinSetting['skin'] == "customize/$owner" ? _t('(사용자 수정본)') : NULL);
+	$skinName = $xmls->getValue('/skin/information/name') . ($skinSetting['skin'] == "customize/$blogid" ? _t('(사용자 수정본)') : NULL);
 } else {
 	$skinName = $skinSetting['skin'];
 }

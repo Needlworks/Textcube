@@ -15,5 +15,5 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.link");
 
 requireStrictRoute();
-respondResultPage(updateLink($owner, $_POST));
+respondResultPage(updateLink($blogid, $_POST));
 ?>

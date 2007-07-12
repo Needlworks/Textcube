@@ -23,7 +23,7 @@ if ($cursor !== false)
 	echo " cursor=\"$cursor\"";
 echo ">\r\n";
 $tags = array();
-foreach (suggestLocalTags($owner, $filter) as $tag)
+foreach (suggestLocalTags($blogid, $filter) as $tag)
 	echo "<tag>" . htmlspecialchars($tag) . "</tag>\r\n";
 echo "</response>\r\n";
 ?>

@@ -10,7 +10,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlog.php';
-$entry = getEntry($owner, $suri['id']);
+$entry = getEntry($blogid, $suri['id']);
 if(isset($_POST['password']) && $entry['password'] == $_POST['password']) {
 	setcookie('GUEST_PASSWORD', $_POST['password'], time() + 86400, "$blogURL/");
 	header("Location: $blogURL/{$suri['id']}");

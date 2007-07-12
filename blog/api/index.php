@@ -24,10 +24,10 @@ if (getBlogSetting('useBlogAPI', 0) != 1) {
 function SendRSD()
 {
 	global $hostURL, $blogURL;
-	global $owner;
+	global $blogid;
 	$homeurl = $hostURL.$blogURL;
 	$apiurl = $homeurl . "/api";
-	$blogid = $owner;
+	$blogid = $blogid;
 
 	header( "Content-type: text/xml", true );
 

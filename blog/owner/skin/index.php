@@ -32,7 +32,7 @@ function writeValue($value, $label, $className) {
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								var isSkinModified = <?php echo ($skinSetting['skin'] == "customize/$owner") ? 'true' : 'false';?>;
+								var isSkinModified = <?php echo ($skinSetting['skin'] == "customize/$blogid") ? 'true' : 'false';?>;
 								
 								function selectSkin(name) {
 									if(isSkinModified) {
@@ -104,7 +104,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 	$xml = file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/index.xml");
 	$xmls = new XMLStruct();
 	$xmls->open($xml, $service['encoding']);
-	writeValue('<span class="skin-name">' . $xmls->getValue('/skin/information/name') . '</span> <span class="version">ver.' . $xmls->getValue('/skin/information/version') . ($skinSetting['skin'] == "customize/$owner" ? _t('(사용자 수정본)') : NULL) . '</span>', _t('제목'), "title");
+	writeValue('<span class="skin-name">' . $xmls->getValue('/skin/information/name') . '</span> <span class="version">ver.' . $xmls->getValue('/skin/information/version') . ($skinSetting['skin'] == "customize/$blogid" ? _t('(사용자 수정본)') : NULL) . '</span>', _t('제목'), "title");
 	writeValue($xmls->getValue('/skin/information/license'), _t('저작권'), "license");
 	writeValue($xmls->getValue('/skin/author/name'), _t('만든이'), "maker");
 	writeValue($xmls->getValue('/skin/author/homepage'), _t('홈페이지'), "homepage");

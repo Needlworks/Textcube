@@ -5,7 +5,7 @@
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if (setPublishWholeOnRSS($owner, $suri['id'])) {
+if (setPublishWholeOnRSS($blogid, $suri['id'])) {
 	respondResultPage(0);
 }
 respondResultPage( - 1);

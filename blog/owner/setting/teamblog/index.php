@@ -30,7 +30,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								}
 
 <?php
-if($owner == getUserId()){?>
+if($blogid == getUserId()){?>
 								function refreshReceiver(event) {
 									if (event.keyCode == 188) {
 										var receivers = createReceiver();
@@ -278,8 +278,8 @@ if($owner == getUserId()){?>
 									<tbody>
 <?php
 	$teamblog_owner = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Teamblog 
-			WHERE userid='".$owner."' 
-				AND blogid='".$owner."'");
+			WHERE userid='".$blogid."' 
+				AND blogid='".$blogid."'");
 	$teamblog_user = DBQuery::queryRow("SELECT a.*, b.name 
 			FROM {$database['prefix']}Teamblog a, 
 				{$database['prefix']}Users b  
@@ -289,9 +289,9 @@ if($owner == getUserId()){?>
 	$invited_user = DBQuery::queryAll("SELECT t.*, u.* 
 		FROM {$database['prefix']}Teamblog t, 
 		 	{$database['prefix']}Users u 
-		WHERE t.blogid = '$owner' 
+		WHERE t.blogid = '$blogid' 
 			AND u.userid = t.userid 
-			AND t.userid != '$owner'
+			AND t.userid != '$blogid'
 		ORDER BY u.created DESC"); 
 
 	$count=0;
@@ -300,7 +300,7 @@ if($owner == getUserId()){?>
 		foreach($invited_user as $value) {
 			$value['posting'] = DBQuery::queryCell("SELECT count(*) 
 					FROM {$database['prefix']}Entries 
-					WHERE owner = $owner AND userid = {$value['userid']}");
+					WHERE owner = $blogid AND userid = {$value['userid']}");
 			$className= ($count%2)==1 ? 'even-line' : 'odd-line';
 			$className.=($count==sizeof($invited_user)-1) ? ' last-line':'';
 ?>

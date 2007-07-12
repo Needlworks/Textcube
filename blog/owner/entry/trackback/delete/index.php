@@ -13,6 +13,6 @@ requireModel("blog.trackback");
 
 requireStrictRoute();
 foreach(explode(',', $_POST['targets']) as $target)
-	trashTrackback($owner, $target);
+	trashTrackback($blogid, $target);
 respondResultPage(0);
 ?>

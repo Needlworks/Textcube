@@ -7,7 +7,7 @@ require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
-list($entries, $paging) = getEntryWithPagingBySlogan($owner, $suri['value']);
+list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
 require ROOT . '/lib/piece/blog/begin.php';
 if (empty($entries)) {
 	header('HTTP/1.1 404 Not Found');

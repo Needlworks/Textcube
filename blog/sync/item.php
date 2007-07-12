@@ -28,7 +28,7 @@ if($entry = DBQuery::queryRow("SELECT e.*, c.name AS categoryName
 	echo '<entry>', "\r\n";
 	echo '<permalink>', htmlspecialchars("$defaultURL/".($blog['useSlogan'] ? "entry/{$entry['slogan']}": $entry['id'])), '</permalink>', "\r\n";
 	echo '<title>', htmlspecialchars($entry['title']), '</title>', "\r\n";
-	echo '<content>', htmlspecialchars(getEntryContentView($owner, $suri['id'], $entry['content'], $entry['contentFormatter'])), '</content>', "\r\n";
+	echo '<content>', htmlspecialchars(getEntryContentView($blogid, $suri['id'], $entry['content'], $entry['contentFormatter'])), '</content>', "\r\n";
 	echo '<author>', htmlspecialchars(DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".getUserId())), '</author>', "\r\n";
 	echo '<category>', htmlspecialchars($entry['categoryName']), '</category>', "\r\n";
 	$result = DBQuery::query("SELECT name 
@@ -42,7 +42,7 @@ if($entry = DBQuery::queryRow("SELECT e.*, c.name AS categoryName
 	echo '<comments>', $entry['comments'], '</comments>', "\r\n";
 	echo '<trackbacks>', $entry['trackbacks'], '</trackbacks>', "\r\n";
 	echo '<written>', Timestamp::getRFC1123($entry['published']), '</written>', "\r\n";
-	foreach(getAttachments($owner, $entry['id']) as $attachment) {
+	foreach(getAttachments($blogid, $entry['id']) as $attachment) {
 		echo '<attachment>', "\r\n";
 		echo '<mimeType>', $attachment['mime'], '</mimeType>', "\r\n";
 		echo '<filename>', $attachment['label'], '</filename>', "\r\n";

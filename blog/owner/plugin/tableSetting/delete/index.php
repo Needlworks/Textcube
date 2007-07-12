@@ -11,7 +11,7 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if ($owner != 1) {
+if ($blogid != 1) {
 	respondResultPage(1);
 	exit;
 }

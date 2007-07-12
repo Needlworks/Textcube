@@ -6,7 +6,7 @@ define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
-$categories = getCategories($owner);
+$categories = getCategories($blogid);
 $selected = 0;
 ?>
 						<script type="text/javascript">

@@ -6,7 +6,7 @@ define('ROOT', '../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.link");
 
-$links = getLinks($owner);
+$links = getLinks($blogid);
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>

@@ -19,12 +19,12 @@ if(!Acl::check("group.editors")){
 }			
 
 if ($isAjaxRequest) {
-	if (deleteEntry($owner, $suri['id']) === true)
+	if (deleteEntry($blogid, $suri['id']) === true)
 		respondResultPage(0);
 	else
 		respondResultPage(-1);
 } else {
-	deleteEntry($owner, $suri['id']);
+	deleteEntry($blogid, $suri['id']);
 	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 ?>

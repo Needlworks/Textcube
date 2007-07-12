@@ -6,7 +6,7 @@ define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.attachment");
 $entryId = $suri['id'];
-$attachments = getAttachments($owner, $entryId, 'label');
+$attachments = getAttachments($blogid, $entryId, 'label');
 $initialFileListForFlash = '';
 $enclosureFileName = '';
 ?>

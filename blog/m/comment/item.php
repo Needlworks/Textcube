@@ -2,7 +2,7 @@
 define('__TEXTCUBE_MOBILE__', true);
 define('ROOT', '../../..');
 require ROOT . '/lib/includeForBlog.php';
-list($entries, $paging) = getEntryWithPaging($owner, $suri['id']);
+list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
 $entry = $entries ? $entries[0] : null;
 printMobileHtmlHeader();
 ?>

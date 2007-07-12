@@ -10,7 +10,7 @@ requireView("mobileView");
 if (false) {
 	fetchConfigVal();
 }
-list($entry, $paging) = getEntriesWithPaging($owner, 1, 1);
+list($entry, $paging) = getEntriesWithPaging($blogid, 1, 1);
 if(empty($entry))
 	printMobileErrorPage(_text('페이지 오류'), _text('글이 하나도 없습니다.'), $blogURL);
 else

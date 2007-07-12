@@ -16,6 +16,6 @@ if (!empty($_GET['TSSESSION']))
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.attachment");
 $file = array_pop($_FILES);
-$attachment = addAttachment($owner, $suri['id'], $file);
+$attachment = addAttachment($blogid, $suri['id'], $file);
 echo "&success";
 ?>

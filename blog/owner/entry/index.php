@@ -748,9 +748,9 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 											<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '');?>><?php echo _t('키워드');?></option>
 										</optgroup>
 										<optgroup class="category" label="<?php echo _t('분류');?>">
-											<option value="0"<?php echo ($categoryId == 0 ? ' selected="selected"' : '');?>><?php echo htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'));?></option>
+											<option value="0"<?php echo ($categoryId == 0 ? ' selected="selected"' : '');?>><?php echo htmlspecialchars(getCategoryNameById($blogid,0) ? getCategoryNameById($blogid,0) : _t('전체'));?></option>
 <?php
-foreach (getCategories($owner) as $category) {
+foreach (getCategories($blogid) as $category) {
 	if ($category['id'] != 0) {
 ?>
 											<option value="<?php echo $category['id'];?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '');?>><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name']);?></option>
@@ -905,7 +905,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 										<select name="commandBox" id="commandBox" onchange="toggleDeleteButton(this)"> 
 											<option selected style="font-style:italic"><?php echo _t('[행동을 지정합니다.]');?></option>
 <?php
-	$categories = getCategories($owner);
+	$categories = getCategories($blogid);
 	if (count($categories) >0) {
 ?>
 											<optgroup class="category" label="<?php echo _t('아래의 분류로 변경합니다.');?>">

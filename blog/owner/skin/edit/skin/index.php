@@ -14,7 +14,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 	
-$result = writeSkinHtml($owner, $_POST['body'], $_POST['mode'], $_POST['file']);
+$result = writeSkinHtml($blogid, $_POST['body'], $_POST['mode'], $_POST['file']);
 if ($result === true)
 	printRespond(array('error' => 0));
 else

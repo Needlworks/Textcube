@@ -58,7 +58,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	$comment['comment'] = $userComment;
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
 	
-	$result = addComment($owner, $comment);
+	$result = addComment($blogid, $comment);
 	
 	if (in_array($result, array("ip", "name", "homepage", "comment", "etc"))) {
 		switch ($result) {
@@ -83,7 +83,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 		echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _text('댓글을 달 수 없습니다.'), ']]></description></response>';
 	} else {
 		if(!$comment['secret']) {
-			if($row = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = $entryId AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
+			if($row = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $entryId AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
 				sendCommentPing($entryId, "$defaultURL/".($blog['useSlogan'] ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
 		$skin = new Skin($skinSetting['skin']);
@@ -91,8 +91,8 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			$commentBlock = getCommentView($entryId, $skin);
 			dress('article_rep_id', $entryId, $commentBlock);
 			$commentBlock = escapeCData(revertTempTags(removeAllTags($commentBlock)));
-			$recentCommentBlock = escapeCData(revertTempTags(getRecentCommentsView(getRecentComments($owner), $skin->recentComments)));
-			$commentCount = getCommentCount($owner, $entryId);
+			$recentCommentBlock = escapeCData(revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments)));
+			$commentCount = getCommentCount($blogid, $entryId);
 			$commentCount = ($commentCount > 0) ? $commentCount : 0;
 			list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 		} else {
@@ -101,7 +101,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			dress('article_rep_id', $entryId, $commentBlock);
 			$commentBlock = escapeCData(revertTempTags(removeAllTags($commentBlock)));
 			$commentCount = 0;
-			$recentCommentBlock = escapeCData(revertTempTags(getRecentCommentsView(getRecentComments($owner), $skin->recentComments)));
+			$recentCommentBlock = escapeCData(revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments)));
 		}
 		echo '<?xml version="1.0" encoding="utf-8"?><response><error>0</error><commentView>'.$commentView.'</commentView><commentCount>'.$commentCount.'</commentCount><commentBlock><![CDATA[', $commentBlock, ']]></commentBlock><recentCommentBlock><![CDATA[', $recentCommentBlock, ']]></recentCommentBlock></response>';
 	}

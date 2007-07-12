@@ -9,6 +9,6 @@ requireStrictRoute();
 if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
 else $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
 
-DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = {$owner} AND `name` = 'metapageOrder'");
+DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = {$blogid} AND `name` = 'metapageOrder'");
 header('Location: '. $blogURL . '/owner/center/metapage' . $_REQUEST['viewMode']);
 ?>

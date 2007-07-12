@@ -4,6 +4,6 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
-$categories = getCategories($owner);
-printRespond(array('code' => urlencode(getCategoriesViewInSkinSetting(getEntriesTotalCount($owner), getCategories($owner), $suri['id']))));
+$categories = getCategories($blogid);
+printRespond(array('code' => urlencode(getCategoriesViewInSkinSetting(getEntriesTotalCount($blogid), getCategories($blogid), $suri['id']))));
 ?>

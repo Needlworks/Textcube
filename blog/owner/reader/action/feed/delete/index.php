@@ -11,9 +11,9 @@ $IV = array(
 );
 require ROOT . '/lib/includeForReader.php';
 requireStrictRoute();
-$result = array('error' => deleteFeed($owner, $_POST['id']));
+$result = array('error' => deleteFeed($blogid, $_POST['id']));
 ob_start();
-printFeeds($owner, $_POST['group']);
+printFeeds($blogid, $_POST['group']);
 $result['view'] = escapeCData(ob_get_contents());
 ob_end_clean();
 printRespond($result);

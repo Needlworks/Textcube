@@ -18,7 +18,7 @@ $IV = array(
 );
 if(!Validator::validate($IV))
 	respondNotFoundPage();
-list($entryId) = getCommentAttributes($owner, $replyId, 'entry');
+list($entryId) = getCommentAttributes($blogid, $replyId, 'entry');
 if (!doesHaveOwnership() && empty($_POST["name_$replyId"])) {
 	printMobileErrorPage(_text('답글을 작성할 수 없습니다.'), _text('이름을 입력해 주십시오.'), "$blogURL/comment/comment/$replyId");
 } else if (!doesHaveOwnership() && empty($_POST["comment_$replyId"])) {
@@ -33,7 +33,7 @@ if (!doesHaveOwnership() && empty($_POST["name_$replyId"])) {
 	$comment['secret'] = empty($_POST["secret_$replyId"]) ? 0 : 1;
 	$comment['comment'] = $_POST["comment_$replyId"];
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
-	$result = addComment($owner, $comment);
+	$result = addComment($blogid, $comment);
 	if ($result === 'blocked') {
 		printMobileErrorPage(_text('답글쓰기가 차단됐습니다.'), "$blogURL/comment/$entryId");
 	} else if ($result === false) {

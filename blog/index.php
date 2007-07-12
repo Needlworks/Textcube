@@ -61,7 +61,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	notifyComment();
 }
 publishEntries();
-list($entries, $paging) = getEntriesWithPaging($owner, $suri['page'], $blog['entriesOnPage']);
+list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
 require ROOT . '/lib/piece/blog/begin.php';
 
 if(empty($suri['value']) && $suri["directive"] == "/" && $suri['page'] == 1 && getBlogSetting("metapageInitView")) {

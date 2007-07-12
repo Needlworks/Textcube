@@ -8,7 +8,7 @@ if (false) {
 	fetchConfigVal();
 }
 if (strlen($suri['value'])) {
-	$tag = getTagId($owner, $suri['value']);
+	$tag = getTagId($blogid, $suri['value']);
 	
 	require ROOT . '/lib/piece/blog/begin.php';
 	if(getBlogSetting('useKeywordAsTag',true)==true){
@@ -20,18 +20,18 @@ if (strlen($suri['value'])) {
 	}
 	
 	if ($skinSetting['showListOnTag'] != 0) {
-		$listWithPaging = getEntryListWithPagingByTag($owner, $tag, $suri['page'], $blog['entriesOnList']);
+		$listWithPaging = getEntryListWithPagingByTag($blogid, $tag, $suri['page'], $blog['entriesOnList']);
 		if (!array_key_exists('total',$listWithPaging[1])) $listWithPaging[1]['total'] = 0;
 		$list = array('title' => $suri['value'], 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 		$paging = $listWithPaging[1];
 		require ROOT . '/lib/piece/blog/list.php';
 	}
 	if ($skinSetting['showListOnTag'] != 2) {
-		list($entries, $paging) = getEntriesWithPagingByTag($owner, $tag, $suri['page'], $blog['entriesOnList'],($skinSetting['showListOnTag'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
+		list($entries, $paging) = getEntriesWithPagingByTag($blogid, $tag, $suri['page'], $blog['entriesOnList'],($skinSetting['showListOnTag'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
 		require ROOT . '/lib/piece/blog/entries.php';
 	}
 } else {
-	$siteTags = getSiteTags($owner);
+	$siteTags = getSiteTags($blogid);
 	require ROOT . '/lib/piece/blog/begin.php';
 	require ROOT . '/lib/piece/blog/siteTags.php';
 }

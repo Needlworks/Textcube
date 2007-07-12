@@ -23,7 +23,7 @@ set_time_limit(60);
 		<script type="text/javascript">
 		<?php
 if ($xml = @file_get_contents($_FILES['opmlFile']['tmp_name'])) {
-	list($status, $result) = importOPMLFromFile($owner, $xml);
+	list($status, $result) = importOPMLFromFile($blogid, $xml);
 	if ($status == 0) {
 		if($result['total'] == 1) {
 ?>

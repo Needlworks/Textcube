@@ -12,6 +12,6 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.comment");
 requireStrictRoute();
 foreach(explode(',', $_POST['targets']) as $target)
-	trashCommentInOwner($owner, $target, false);
+	trashCommentInOwner($blogid, $target, false);
 respondResultPage(0);
 ?>

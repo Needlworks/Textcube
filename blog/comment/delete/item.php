@@ -15,7 +15,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlog.php';
-list($replier) = getCommentAttributes($owner,$suri['id'],'replier');
+list($replier) = getCommentAttributes($blogid,$suri['id'],'replier');
 
 if(!Acl::check('group.administrators') && !Acl::check('group.owners')){ // If no administration permission,
 	if(!empty($replier)){	// If replier exists, (member of the blog system)
@@ -30,23 +30,23 @@ if(!Acl::check('group.administrators') && !Acl::check('group.owners')){ // If no
 if (false) {
 	fetchConfigVal();
 }
-list($replier) = getCommentAttributes($owner, $suri['id'], 'replier');
+list($replier) = getCommentAttributes($blogid, $suri['id'], 'replier');
 if (!empty($_POST['mode'])) {
 	switch ($_POST['mode']) {
 		case 'delete':
-			if (!list($entryId) = getCommentAttributes($owner, $suri['id'], 'entry'))
+			if (!list($entryId) = getCommentAttributes($blogid, $suri['id'], 'entry'))
 				respondErrorPage(_text('댓글이 존재하지 않습니다.'));
 			$result = false;
 			if (doesHaveOwnership()) {
-				$result = trashComment($owner, $suri['id'], $entryId, isset($_POST['password']) ? $_POST['password'] : '');
+				$result = trashComment($blogid, $suri['id'], $entryId, isset($_POST['password']) ? $_POST['password'] : '');
 			} else {
-				$result = deleteComment($owner, $suri['id'], $entryId, isset($_POST['password']) ? $_POST['password'] : '');
+				$result = deleteComment($blogid, $suri['id'], $entryId, isset($_POST['password']) ? $_POST['password'] : '');
 			}			
 			if ($result == true) {
 				$skin = new Skin($skinSetting['skin']);
 				printHtmlHeader();
 				$tempComments = revertTempTags(removeAllTags(getCommentView($entryId, $skin)));
-				$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));
+				$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));
 ?>
 <script type="text/javascript">
 	//<![CDATA[
@@ -57,7 +57,7 @@ if (!empty($_POST['mode'])) {
 		if(obj)
 			obj.innerHTML = "<?php echo str_innerHTML($tempRecentComments);?>";
 <?php
-$commentCount = getCommentCount($owner, $entryId);
+$commentCount = getCommentCount($blogid, $entryId);
 $commentCount = ($commentCount > 0) ? $commentCount : '';
 list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 ?>
@@ -81,14 +81,14 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 			}
 			
 		case 'edit':
-			$comment = getComment($owner, $suri['id'], isset($_POST['password']) ? $_POST['password'] : '');
+			$comment = getComment($blogid, $suri['id'], isset($_POST['password']) ? $_POST['password'] : '');
 			if ($comment === false)
 				respondErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
 			$pageTitle = _text('댓글을 수정합니다');
 			require ROOT . '/lib/view/replyEditorView.php';
 			exit;
 		case 'commit':
-			$comment = getComment($owner, $suri['id'], isset($_POST['oldPassword']) ? $_POST['oldPassword'] : '');
+			$comment = getComment($blogid, $suri['id'], isset($_POST['oldPassword']) ? $_POST['oldPassword'] : '');
 			if ($comment === false)
 				respondErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
 			if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment'])) {
@@ -101,7 +101,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 				//$comment['email'] = empty($_POST['email']) || ($_POST['email'] == '') ? '' : $_POST['email'];
 				$comment['secret'] = empty($_POST['secret']) ? 0 : 1;
 				$comment['comment'] = $_POST['comment'];
-				$result = updateComment($owner, $comment, isset($_POST['oldPassword']) ? $_POST['oldPassword'] : '');
+				$result = updateComment($blogid, $comment, isset($_POST['oldPassword']) ? $_POST['oldPassword'] : '');
 				if ($result === 'blocked') {
 					printHtmlHeader();
 ?>
@@ -116,7 +116,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					$skin = new Skin($skinSetting['skin']);
 					printHtmlHeader();
 					$tempComments = revertTempTags(removeAllTags(getCommentView($comment['entry'], $skin)));
-					$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));
+					$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));
 ?>
 <script type="text/javascript">
 	//<![CDATA[		

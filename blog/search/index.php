@@ -12,16 +12,16 @@ $list = array('title' => '', 'items' => array(), 'count' => 0);
 $commentList = array('title' => '', 'items' => array(), 'count' => 0);
 
 if (strlen($search) > 0 && !empty($suri['page'])) {
-	$listWithPaging = getEntryListWithPagingBySearch($owner, $search, $suri['page'], $blog['entriesOnList']);
+	$listWithPaging = getEntryListWithPagingBySearch($blogid, $search, $suri['page'], $blog['entriesOnList']);
 	$list = array('title' => $search, 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	if ($suri['page'] === true || $suri['page'] === '1')
-		$commentList = getCommentList($owner, $search);
-		$trackbackList = getTrackbackList($owner, $search);
+		$commentList = getCommentList($blogid, $search);
+		$trackbackList = getTrackbackList($blogid, $search);
 	$paging = $listWithPaging[1];
 }
 
 if ($skinSetting['showListOnSearch'] != 2)
-	list($entries, $paging) = getEntriesWithPagingBySearch($owner, $search, $suri['page'], $blog['entriesOnList'], $blog['entriesOnList']);
+	list($entries, $paging) = getEntriesWithPagingBySearch($blogid, $search, $suri['page'], $blog['entriesOnList'], $blog['entriesOnList']);
 
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/list.php';

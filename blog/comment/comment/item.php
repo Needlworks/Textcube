@@ -29,7 +29,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 			setcookie('guestHomepage', 'http://' . $_POST['homepage'], time() + 2592000, "$blogURL/");
 	}
 	$comment = array();
-	list($comment['entry']) = getCommentAttributes($owner, $suri['id'], 'entry');
+	list($comment['entry']) = getCommentAttributes($blogid, $suri['id'], 'entry');
 	if (count($comment) == 0)
 		respondErrorPage(_text('댓글이 존재하지 않습니다.'));
 	$comment['parent'] = $suri['id'];
@@ -39,9 +39,9 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	$comment['secret'] = empty($_POST['secret']) ? 0 : 1;
 	$comment['comment'] = $_POST['comment'];
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
-	if (addComment($owner, $comment) !== false) {
+	if (addComment($blogid, $comment) !== false) {
 		if(!$comment['secret']) {
-			if($row = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $owner AND id = {$comment['entry']} AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
+			if($row = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = {$comment['entry']} AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
 				sendCommentPing($comment['entry'], "$defaultURL/".($blog['useSlogan'] ? "entry/{$row['slogan']}": $comment['entry']), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
 		$skin = new Skin($skinSetting['skin']);
@@ -53,7 +53,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 <?php
 		notifyComment();
 		$tempComments = revertTempTags(removeAllTags(getCommentView($comment['entry'], $skin)));
-		$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($owner), $skin->recentComments));
+		$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));
 ?>
 	var obj = opener.document.getElementById("entry<?php echo $comment['entry'];?>Comment");
 	obj.innerHTML = "<?php echo str_innerHTML($tempComments);?>";
@@ -63,7 +63,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	} catch(e) { }
 	try {
 <?php
-		$commentCount = getCommentCount($owner, $comment['entry']);
+		$commentCount = getCommentCount($blogid, $comment['entry']);
 		list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 		$commentCount = ($commentCount > 0) ? "($commentCount)" : '';
 ?>

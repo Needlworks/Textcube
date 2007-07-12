@@ -7,7 +7,7 @@ require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
-list($entries, $paging) = getEntryWithPaging($owner, $suri['id'], true);
+list($entries, $paging) = getEntryWithPaging($blogid, $suri['id'], true);
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/entries.php';
 require ROOT . '/lib/piece/blog/end.php';

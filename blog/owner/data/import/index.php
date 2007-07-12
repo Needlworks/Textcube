@@ -103,7 +103,7 @@ switch (@$_POST['importFrom']) {
 		finish(_t('잘못된 요청입니다.'));
 		break;
 	case 'server':
-		$backup = ROOT . "/cache/backup/$owner.xml";
+		$backup = ROOT . "/cache/backup/$blogid.xml";
 		break;
 	case 'uploaded':
 		if (@$_FILES['backupPath']['error'] !== 0)
@@ -120,7 +120,7 @@ switch (@$_POST['importFrom']) {
 		}
 		requireComponent('Eolin.PHP.HTTPRequest');
 		$request = new HTTPRequest($_POST['backupURL']);
-		$backup = ROOT . "/cache/import/$owner.xml";
+		$backup = ROOT . "/cache/import/$blogid.xml";
 		$request->pathToSave = $backup;
 		if (!$request->send()) {
 			finish(_t('백업파일이 손상되었거나 가져올 수 없습니다.'));
@@ -176,8 +176,8 @@ if (!$xmls->openFile($backup, Validator::getBool(@$_POST['correctData']))) {
 }
 
 $xmls->close();
-if (file_exists(ROOT . "/cache/import/$owner.xml"))
-	@unlink(ROOT . "/cache/import/$owner.xml");
+if (file_exists(ROOT . "/cache/import/$blogid.xml"))
+	@unlink(ROOT . "/cache/import/$blogid.xml");
 setProgress(100, _t('완료되었습니다.'));
 finish();
 
@@ -225,7 +225,7 @@ function scanner($path, $node, $line) {
 
 /*@callback@*/
 function importer($path, $node, $line) {
-	global $owner, $migrational, $items, $item;
+	global $blogid, $migrational, $items, $item;
 	switch ($path) {
 		case '/blog/setting':
 			setProgress($item++ / $items * 100, _t('블로그 설정을 복원하고 있습니다.'));
@@ -258,8 +258,8 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $setting->error);
 			if (!empty($setting->banner) && !empty($node['banner'][0]['content'][0]['.stream'])) {
 				Attachment::confirmFolder();
-				Base64Stream::decode($node['banner'][0]['content'][0]['.stream'], Path::combine(ROOT, 'attach', $owner, $setting->banner));
-				Attachment::adjustPermission(Path::combine(ROOT, 'attach', $owner, $setting->banner));
+				Base64Stream::decode($node['banner'][0]['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $setting->banner));
+				Attachment::adjustPermission(Path::combine(ROOT, 'attach', $blogid, $setting->banner));
 				fclose($node['banner'][0]['content'][0]['.stream']);
 				unset($node['banner'][0]['content'][0]['.stream']);
 			}
@@ -343,8 +343,8 @@ function importer($path, $node, $line) {
 						unset($post2);
 					}
 					if (!empty($cursor['content'][0]['.stream'])) {
-						Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $owner, $attachment->name));
-						Attachment::adjustPermission(Path::combine(ROOT, 'attach', $owner, $attachment->name));
+						Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $attachment->name));
+						Attachment::adjustPermission(Path::combine(ROOT, 'attach', $blogid, $attachment->name));
 						fclose($cursor['content'][0]['.stream']);
 						unset($cursor['content'][0]['.stream']);
 					}
@@ -468,8 +468,8 @@ function importer($path, $node, $line) {
 							user_error(__LINE__ . $attachment->error);
 					}
 					if (!empty($cursor['content'][0]['.stream'])) {
-						Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $owner, $attachment->name));
-						Attachment::adjustPermission(Path::combine(ROOT, 'attach', $owner, $attachment->name));
+						Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $attachment->name));
+						Attachment::adjustPermission(Path::combine(ROOT, 'attach', $blogid, $attachment->name));
 						fclose($cursor['content'][0]['.stream']);
 						unset($cursor['content'][0]['.stream']);
 					}
@@ -521,8 +521,8 @@ function importer($path, $node, $line) {
 							user_error(__LINE__ . $attachment->error);
 					}
 					if (!empty($cursor['content'][0]['.stream'])) {
-						Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $owner, $attachment->name));
-						Attachment::adjustPermission(Path::combine(ROOT, 'attach', $owner, $attachment->name));
+						Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $attachment->name));
+						Attachment::adjustPermission(Path::combine(ROOT, 'attach', $blogid, $attachment->name));
 						fclose($cursor['content'][0]['.stream']);
 						unset($cursor['content'][0]['.stream']);
 					}

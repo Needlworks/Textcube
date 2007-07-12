@@ -7,7 +7,7 @@ require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
-$locatives = getLocatives($owner);
+$locatives = getLocatives($blogid);
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/locatives.php';
 require ROOT . '/lib/piece/blog/end.php';

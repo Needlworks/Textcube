@@ -10,11 +10,11 @@ if (false) {
 	fetchConfigVal();
 }
 publishEntries();
-if (!file_exists(ROOT . "/cache/rss/$owner.xml"))
-	refreshRSS($owner);
+if (!file_exists(ROOT . "/cache/rss/$blogid.xml"))
+	refreshRSS($blogid);
 header('Content-Type: text/xml; charset=utf-8');
-$fileHandle = fopen(ROOT . "/cache/rss/$owner.xml", 'r+');
-$result = fread($fileHandle, filesize(ROOT . "/cache/rss/$owner.xml"));
+$fileHandle = fopen(ROOT . "/cache/rss/$blogid.xml", 'r+');
+$result = fread($fileHandle, filesize(ROOT . "/cache/rss/$blogid.xml"));
 fclose($fileHandle);
 echo fireEvent('ViewRSS', $result);
 ?>

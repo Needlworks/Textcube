@@ -12,12 +12,12 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlog.php';
 requireStrictRoute();
-list($entryId) = getCommentAttributes($owner, $_POST['replyId'], 'entry');
-if (deleteComment($owner, $_POST['replyId'], $entryId, isset($_POST['password']) ? $_POST['password'] : '') === false) {
+list($entryId) = getCommentAttributes($blogid, $_POST['replyId'], 'entry');
+if (deleteComment($blogid, $_POST['replyId'], $entryId, isset($_POST['password']) ? $_POST['password'] : '') === false) {
 	printMobileErrorPage(_text('답글을 삭제할 수 없습니다.'), _text('비밀번호가 일치하지 않습니다.'), "$blogURL/comment/delete/{$_POST['replyId']}");
 	exit();
 }
-list($entries, $paging) = getEntryWithPaging($owner, $entryId);
+list($entries, $paging) = getEntryWithPaging($blogid, $entryId);
 $entry = $entries ? $entries[0] : null;
 printMobileHtmlHeader();
 ?>

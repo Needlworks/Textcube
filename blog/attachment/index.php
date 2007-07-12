@@ -6,9 +6,9 @@ define('ROOT', '../..');
 require ROOT . '/lib/includeForBlog.php';
 if (empty($suri['value']))
 	respondNotFoundPage();
-if (!$attachment = getAttachmentByOnlyName($owner, $suri['value']))
+if (!$attachment = getAttachmentByOnlyName($blogid, $suri['value']))
 	respondNotFoundPage();
-$fp = fopen(ROOT . "/attach/$owner/{$attachment['name']}", 'rb');
+$fp = fopen(ROOT . "/attach/$blogid/{$attachment['name']}", 'rb');
 if (!$fp)
 	respondNotFoundPage();
 $fstat = fstat($fp);

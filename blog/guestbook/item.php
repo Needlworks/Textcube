@@ -8,7 +8,7 @@ if (false) {
 	fetchConfigVal();
 }
 notifyComment();
-$suri['page'] = getGuestbookPageById($owner,$suri['value']);
+$suri['page'] = getGuestbookPageById($blogid,$suri['value']);
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/guestbook.php';
 require ROOT . '/lib/piece/blog/end.php';

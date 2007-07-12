@@ -21,7 +21,7 @@ foreach(explode(',', $_POST['targets']) as $target) {
 		}
 	}
 	
-	if (!deleteEntry($owner, $target))
+	if (!deleteEntry($blogid, $target))
 		respondResultPage(-1);
 }
 respondResultPage(0);

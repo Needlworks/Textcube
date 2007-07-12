@@ -5,18 +5,18 @@
 define('__TEXTCUBE_MOBILE__', true);
 define('ROOT', '../../..');
 require ROOT . '/lib/includeForBlog.php';
-list($entries, $paging) = getEntryWithPaging($owner, $suri['id']);
+list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
 $entry = $entries ? $entries[0] : null;
 printMobileHtmlHeader(htmlspecialchars($blog['title']));
 ?>
 <div id="pannels">
 	<!--
 	<h2><?php echo _t('카테고리');?></h2>
-	<?php echo getCategoriesView(getEntriesTotalCount($owner), getCategories($owner), true, true);?>
+	<?php echo getCategoriesView(getEntriesTotalCount($blogid), getCategories($blogid), true, true);?>
 	-->
 	<h2><?php echo _text('최근에 달린 답글');?></h2>
 	<?php
-		$comments = getRecentComments($owner);
+		$comments = getRecentComments($blogid);
 		if(count($comments) > 0)
 			echo '<ul>';
 		foreach ($comments as $comment) {
@@ -29,7 +29,7 @@ printMobileHtmlHeader(htmlspecialchars($blog['title']));
 		?>
 	<h2><?php echo _text('최근에 걸린글');?></h2>
 	<?php
-		$trackbacks = getRecentTrackbacks($owner);
+		$trackbacks = getRecentTrackbacks($blogid);
 		if(count($trackbacks) > 0)
 			echo '<ul>';
 		foreach ($trackbacks as $trackback) {
@@ -44,7 +44,7 @@ printMobileHtmlHeader(htmlspecialchars($blog['title']));
 	<h2><?php echo _text('글 보관함');?></h2>
 	<ul>
 	<?php
-foreach (getArchives($owner) as $archive) {
+foreach (getArchives($blogid) as $archive) {
 ?>
 	<li><a href="<?php echo $blogURL;?>/archive/<?php echo $archive['period'];?>"><?php echo getPeriodLabel($archive['period']);?></a> (<?php echo $archive['count'];?>)</li>
 	<?php

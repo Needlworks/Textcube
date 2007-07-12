@@ -22,7 +22,7 @@ if (defined('__TEXTCUBE_BACKUP__')) {
 	if (!is_dir(ROOT . '/cache/backup')) {
 		exit;
 	}
-	if ($writer->openFile(ROOT . "/cache/backup/$owner.xml")) {
+	if ($writer->openFile(ROOT . "/cache/backup/$blogid.xml")) {
 	} else {
 		exit;
 	}
@@ -59,10 +59,10 @@ $setting = new BlogSetting();
 if ($setting->load()) {
 	$setting->escape();
 	$writer->write('<setting>' . '<name>' . $setting->name . '</name>' . '<secondaryDomain>' . $setting->secondaryDomain . '</secondaryDomain>' . '<defaultDomain>' . Validator::getBit($setting->defaultDomain) . '</defaultDomain>' . '<title>' . $setting->title . '</title>' . '<description>' . UTF8::correct($setting->description) . '</description>' . '<banner><name>' . $setting->banner . '</name>');
-	if ($includeFileContents && file_exists(ROOT . "/attach/$owner/{$setting->banner}")) {
+	if ($includeFileContents && file_exists(ROOT . "/attach/$blogid/{$setting->banner}")) {
 		$writer->write('<content>');
-		if (!empty($setting->banner) && file_exists(ROOT . "/attach/$owner/" . $setting->banner))
-			Base64Stream::encode(ROOT . "/attach/$owner/{$setting->banner}", $writer);
+		if (!empty($setting->banner) && file_exists(ROOT . "/attach/$blogid/" . $setting->banner))
+			Base64Stream::encode(ROOT . "/attach/$blogid/{$setting->banner}", $writer);
 		$writer->write('</content>');
 	}
 	$writer->write('</banner>' . '<useSlogan>' . Validator::getBit($setting->useSlogan) . '</useSlogan>' . '<postsOnPage>' . $setting->postsOnPage . '</postsOnPage>' . '<postsOnList>' . $setting->postsOnList . '</postsOnList>' . '<postsOnFeed>' . $setting->postsOnFeed . '</postsOnFeed>' . '<publishWholeOnFeed>' . Validator::getBit($setting->publishWholeOnFeed) . '</publishWholeOnFeed>' . '<acceptGuestComment>' . Validator::getBit($setting->acceptGuestComment) . '</acceptGuestComment>' . '<acceptCommentOnGuestComment>' . Validator::getBit($setting->acceptCommentOnGuestComment) . '</acceptCommentOnGuestComment>' . '<language>' . $setting->language . '</language>' . '<timezone>' . $setting->timezone . '</timezone>' . '</setting>');
@@ -108,9 +108,9 @@ if ($post->open('', '*', 'published, id')) {
 		if ($attachment = $post->getAttachments()) {
 			do {
 				$writer->write('<attachment' . ' mime="' . htmlspecialchars($attachment->mime) . '"' . ' size="' . $attachment->size . '"' . ' width="' . $attachment->width . '"' . ' height="' . $attachment->height . '"' . '>' . '<name>' . htmlspecialchars($attachment->name) . '</name>' . '<label>' . htmlspecialchars($attachment->label) . '</label>' . '<enclosure>' . ($attachment->enclosure ? 1 : 0) . '</enclosure>' . '<attached>' . $attachment->attached . '</attached>' . '<downloads>' . $attachment->downloads . '</downloads>');
-				if ($includeFileContents && file_exists(ROOT . "/attach/$owner/{$attachment->name}")) {
+				if ($includeFileContents && file_exists(ROOT . "/attach/$blogid/{$attachment->name}")) {
 					$writer->write('<content>');
-					Base64Stream::encode(ROOT . "/attach/$owner/{$attachment->name}", $writer);
+					Base64Stream::encode(ROOT . "/attach/$blogid/{$attachment->name}", $writer);
 					$writer->write('</content>');
 				}
 				$writer->write('</attachment>');
@@ -169,9 +169,9 @@ if ($notice->open()) {
 		if ($attachment = $notice->getAttachments()) {
 			do {
 				$writer->write('<attachment' . ' mime="' . htmlspecialchars($attachment->mime) . '"' . ' size="' . $attachment->size . '"' . ' width="' . $attachment->width . '"' . ' height="' . $attachment->height . '"' . '>' . '<name>' . htmlspecialchars($attachment->name) . '</name>' . '<label>' . htmlspecialchars($attachment->label) . '</label>' . '<enclosure>' . ($attachment->enclosure ? 1 : 0) . '</enclosure>' . '<attached>' . $attachment->attached . '</attached>' . '<downloads>' . $attachment->downloads . '</downloads>');
-				if ($includeFileContents && file_exists(ROOT . "/attach/$owner/{$attachment->name}")) {
+				if ($includeFileContents && file_exists(ROOT . "/attach/$blogid/{$attachment->name}")) {
 					$writer->write('<content>');
-					Base64Stream::encode(ROOT . "/attach/$owner/{$attachment->name}", $writer);
+					Base64Stream::encode(ROOT . "/attach/$blogid/{$attachment->name}", $writer);
 					$writer->write('</content>');
 				}
 				$writer->write('</attachment>');
@@ -193,9 +193,9 @@ if ($keyword->open()) {
 		if ($attachment = $keyword->getAttachments()) {
 			do {
 				$writer->write('<attachment' . ' mime="' . htmlspecialchars($attachment->mime) . '"' . ' size="' . $attachment->size . '"' . ' width="' . $attachment->width . '"' . ' height="' . $attachment->height . '"' . '>' . '<name>' . htmlspecialchars($attachment->name) . '</name>' . '<label>' . htmlspecialchars($attachment->label) . '</label>' . '<enclosure>' . ($attachment->enclosure ? 1 : 0) . '</enclosure>' . '<attached>' . $attachment->attached . '</attached>' . '<downloads>' . $attachment->downloads . '</downloads>');
-				if ($includeFileContents && file_exists(ROOT . "/attach/$owner/{$attachment->name}")) {
+				if ($includeFileContents && file_exists(ROOT . "/attach/$blogid/{$attachment->name}")) {
 					$writer->write('<content>');
-					Base64Stream::encode(ROOT . "/attach/$owner/{$attachment->name}", $writer);
+					Base64Stream::encode(ROOT . "/attach/$blogid/{$attachment->name}", $writer);
 					$writer->write('</content>');
 				}
 				$writer->write('</attachment>');
@@ -309,7 +309,7 @@ if ($feed->open()) {
 $writer->write('</blog>');
 $writer->close();
 if (defined('__TEXTCUBE_BACKUP__')) {
-	@chmod(ROOT . "/cache/backup/$owner.xml", 0666);
+	@chmod(ROOT . "/cache/backup/$blogid.xml", 0666);
 	respondResultPage(true);
 }
 ?>

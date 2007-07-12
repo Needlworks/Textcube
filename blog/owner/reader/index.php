@@ -11,7 +11,7 @@ $IV = array(
 );
 require ROOT . '/lib/includeForReader.php';
 require ROOT . '/lib/piece/owner/header.php';
-$setting = getReaderSetting($owner);
+$setting = getReaderSetting($blogid);
 ?>
 			<script type="text/javascript">
 				//<![CDATA[
@@ -111,7 +111,7 @@ if ($setting['newWindow'] == 2) {
 										
 										<div id="groupBox" class="container" style="height: <?php echo getBlogSetting('readerPannelHeight', 150);?>px;">
 <?php
-printFeedGroups($owner);
+printFeedGroups($blogid);
 ?>
 										</div>									</div>
 									
@@ -122,7 +122,7 @@ printFeedGroups($owner);
 									
 										<div id="feedBox" class="section" style="height: <?php echo getBlogSetting('readerPannelHeight', 150);?>px;">
 <?php
-printFeeds($owner);
+printFeeds($blogid);
 ?>
 										</div>									</div>
 								</div>
@@ -261,7 +261,7 @@ if (getUserId() == 1) {
 									
 									<div id="listup" class="section" onscroll="Reader.listScroll(0)">
 <?php
-printFeedEntries($owner);
+printFeedEntries($blogid);
 ?>
 									</div>
 									
@@ -306,7 +306,7 @@ printFeedEntries($owner);
 									<div id="floatingList" class="section">
 										<div id="entry">
 <?php
-printFeedEntry($owner);
+printFeedEntry($blogid);
 ?>
 										</div>
 									</div>

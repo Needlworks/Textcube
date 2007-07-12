@@ -41,7 +41,7 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
 	setBlogSetting('rowsPerPage', $_POST['perPage']);
 }
-list($trackbacks, $paging) = getTrackbacksWithPagingForOwner($owner, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
+list($trackbacks, $paging) = getTrackbacksWithPagingForOwner($blogid, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
@@ -170,7 +170,7 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
 										<option value="0"><?php echo _t('전체');?></option>
 <?php
-foreach (getCategories($owner) as $category) {
+foreach (getCategories($blogid) as $category) {
 ?>
 										<option value="<?php echo $category['id'];?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($category['name']);?></option>
 <?php

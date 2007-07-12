@@ -6,5 +6,5 @@ define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.link");
 requireStrictRoute();
-respondResultPage(deleteLink($owner, $suri['id']));
+respondResultPage(deleteLink($blogid, $suri['id']));
 ?>

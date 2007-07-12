@@ -5,7 +5,7 @@
 define('__TEXTCUBE_MOBILE__', true);
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlog.php';
-list($entryId) = getCommentAttributes($owner, $suri['id'], 'entry');
+list($entryId) = getCommentAttributes($blogid, $suri['id'], 'entry');
 printMobileHtmlHeader();
 ?>
 <div id="content">

@@ -7,7 +7,7 @@ require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
-$fp = @fopen(ROOT . "/attach/$owner/index.gif", 'rb');
+$fp = @fopen(ROOT . "/attach/$blogid/index.gif", 'rb');
 if (!$fp) {
 	$fp = @fopen(ROOT . '/image/icon_blogIcon_default.png', 'rb');
 	if (!$fp)

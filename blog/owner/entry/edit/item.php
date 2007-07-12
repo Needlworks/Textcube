@@ -459,9 +459,9 @@ if (defined('__TEXTCUBE_POST__')) {
 												<div class="entrytype-post">
 													<input type="radio" id="type_post" class="radio" name="entrytype" value="0" onclick="checkCategory('type_post')"<?php echo ($entry['category'] >= 0 ? ' checked="checked"' : '');?> /><label for="type_post"><?php echo _t('글');?></label>
 													<select id="category" name="category"<?php if($isKeyword) echo ' disabled="disabled"';?>>
-														<option value="0"><?php echo htmlspecialchars(getCategoryNameById($owner,0) ? getCategoryNameById($owner,0) : _t('전체'));?></option>
+														<option value="0"><?php echo htmlspecialchars(getCategoryNameById($blogid,0) ? getCategoryNameById($blogid,0) : _t('전체'));?></option>
 <?php
-		foreach (getCategories($owner) as $category) {
+		foreach (getCategories($blogid) as $category) {
 			if ($category['id']!= 0) {
 ?>
 														<option value="<?php echo $category['id'];?>"<?php echo ($category['id'] == $entry['category'] ? ' selected="selected"' : '');?>><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name']);?></option>
@@ -613,7 +613,7 @@ $param = array(
 		'labelingPath'=> "$blogURL/owner/entry/attachmulti/list/{$entry['id']}", 
 		'refreshPath'=> "$blogURL/owner/entry/attachmulti/refresh/". ($entry['id'] ? $entry['id'] : '0') , 
 		'fileSizePath'=> "$blogURL/owner/entry/size?parent={$entry['id']}");		
-printEntryFileList(getAttachments($owner, $entry['id'], 'label'), $param);
+printEntryFileList(getAttachments($blogid, $entry['id'], 'label'), $param);
 ?>
 										</div>
 										

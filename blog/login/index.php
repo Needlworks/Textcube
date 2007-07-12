@@ -36,7 +36,7 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 	header('Location: ' . $_GET['requestURI']);
 	exit;
 } else if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
-	if (resetPassword($owner, $_POST['loginid']))
+	if (resetPassword($blogid, $_POST['loginid']))
 		$message = _text('지정된 이메일로 로그인 정보가 전달되었습니다.');
 	else
 		$message = _text('권한이 없습니다.');
@@ -45,7 +45,7 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 	$isLogin = login($_POST['loginid'],$_POST['password']);
 	if (!$isLogin) {
 		$message = _text('아이디 또는 비밀번호가 틀렸습니다.');
-		if (!doesHaveMembership() && isLoginId($owner, $_POST['loginid']))
+		if (!doesHaveMembership() && isLoginId($blogid, $_POST['loginid']))
 			$showPasswordReset = true;
 	}
 	else if($isLogin == 2){

@@ -12,5 +12,5 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.trackback");
 
 requireStrictRoute();
-respondResultPage(!empty($_GET['url']) && sendTrackback($owner, $suri['id'], $_GET['url']));
+respondResultPage(!empty($_GET['url']) && sendTrackback($blogid, $suri['id'], $_GET['url']));
 ?>

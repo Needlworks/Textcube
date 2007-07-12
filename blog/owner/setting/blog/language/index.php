@@ -11,7 +11,7 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if (!empty($_GET['language']) && setBlogLanguage($owner, $_GET['language'], $_GET['blogLanguage'])) {
+if (!empty($_GET['language']) && setBlogLanguage($blogid, $_GET['language'], $_GET['blogLanguage'])) {
 	respondResultPage(true);
 }
 respondResultPage(false);

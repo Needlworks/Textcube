@@ -7,7 +7,7 @@ require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
-$fp = @fopen(ROOT . "/attach/$owner/favicon.ico", 'rb');
+$fp = @fopen(ROOT . "/attach/$blogid/favicon.ico", 'rb');
 if (!$fp) {
 	$fp = @fopen(ROOT . '/image/icon_favicon_default.ico', 'rb');
 	if (!$fp)

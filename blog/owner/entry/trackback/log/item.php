@@ -6,7 +6,7 @@ define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.trackback");
 
-$result = getTrackbackLog($owner, $suri['id']);
+$result = getTrackbackLog($blogid, $suri['id']);
 if ($result !== false) {
 	$result = str_replace(' ', '&nbsp;', $result);
 	printRespond(array('error' => 0, 'result' => $result));

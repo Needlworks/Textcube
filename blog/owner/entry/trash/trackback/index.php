@@ -40,7 +40,7 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
 	setBlogSetting('rowsPerPage', $_POST['perPage']);
 }
-list($trackbacks, $paging) = getTrashTrackbackWithPagingForOwner($owner, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
+list($trackbacks, $paging) = getTrashTrackbackWithPagingForOwner($blogid, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
@@ -196,7 +196,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									trashOption.value = "0";
 									trashSelect.appendChild(trashOption);
 <?php
-foreach (getCategories($owner) as $category) {
+foreach (getCategories($blogid) as $category) {
 ?>
 									trashOption = document.createElement("OPTION");
 									trashOption.innerHTML = "<?php echo htmlspecialchars($category['name']);?>";

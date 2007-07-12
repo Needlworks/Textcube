@@ -37,7 +37,7 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
 	setBlogSetting('rowsPerPage', $_POST['perPage']);
 }
-list($comments, $paging) = getCommentsNotifiedWithPagingForOwner($owner, '', $name, '', $search, $suri['page'], $perPage);
+list($comments, $paging) = getCommentsNotifiedWithPagingForOwner($blogid, '', $name, '', $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>

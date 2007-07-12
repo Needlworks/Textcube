@@ -182,7 +182,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useTTdashboard'])))
 
 if($textcubeDashboard) {
 	if (!isset($_REQUEST['edit'])) {
-		$stats = getStatistics($owner);
+		$stats = getStatistics($blogid);
 ?>
 							<div id="part-center-dashboard" class="part">
 								<h2 class="caption"><span class="main-text"><?php echo _t('센터');?></span></h2>
@@ -195,7 +195,7 @@ if($textcubeDashboard) {
 <?php
 		$latestEntryId = getBlogSetting('LatestEditedEntry_user'.getUserId(),0);
 		if($latestEntryId !== 0){
-			$latestEntry = getEntry($owner,$latestEntryId);
+			$latestEntry = getEntry($blogid,$latestEntryId);
 			if($latestEntry!=false){
 ?>
 										<li><a href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', htmlspecialchars(UTF8::lessenAsEm($latestEntry['title'],10)));?></a></li>
@@ -226,11 +226,11 @@ if($textcubeDashboard) {
 											</tr>
 											<tr>
 												<th><?php echo _t('글 개수');?></th>
-												<td><?php echo number_format(getEntriesTotalCount($owner));?></td>
+												<td><?php echo number_format(getEntriesTotalCount($blogid));?></td>
 											</tr>
 											<tr>
 												<th><?php echo _t('댓글/걸린글 개수');?></th>
-												<td><?php echo number_format(getCommentCount($owner)) . '/' . number_format(getTrackbackCount($owner));?></td>
+												<td><?php echo number_format(getCommentCount($blogid)) . '/' . number_format(getTrackbackCount($blogid));?></td>
 											</tr>
 										</tbody>
 									</table>
@@ -336,7 +336,7 @@ if($textcubeDashboard) {
 											</thead>
 											<tbody>
 <?php
-	$comments = getRecentComments($owner,5);
+	$comments = getRecentComments($blogid,5);
 	foreach ($comments as $comment) {
 ?>
 												<tr>
@@ -358,7 +358,7 @@ if($textcubeDashboard) {
 											</thead>
 											<tbody>
 <?php
-	list($commentNotifies,$paging) = getCommentsNotifiedWithPagingForOwner($owner,0,null,null,null,1,5);
+	list($commentNotifies,$paging) = getCommentsNotifiedWithPagingForOwner($blogid,0,null,null,null,1,5);
 	foreach ($commentNotifies as $comment) {
 ?>
 												<tr>
@@ -380,7 +380,7 @@ if($textcubeDashboard) {
 											</thead>
 											<tbody>
 <?php
-	$guestbooks = getRecentGuestbook($owner,5);
+	$guestbooks = getRecentGuestbook($blogid,5);
 	foreach ($guestbooks as $guestbook) {
 ?>
 												<tr>
@@ -402,7 +402,7 @@ if($textcubeDashboard) {
 											</thead>
 											<tbody>
 <?php
-	$trackbacks = getRecentTrackbacks($owner,5);
+	$trackbacks = getRecentTrackbacks($blogid,5);
 	foreach ($trackbacks as $trackback) {
 ?>
 												<tr>

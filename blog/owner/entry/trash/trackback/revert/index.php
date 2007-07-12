@@ -6,7 +6,7 @@ $targets = explode('~*_)', $_POST['targets']);
 for ($i = 0; $i < count($targets); $i++) {
 	if ($targets[$i] == '')
 		continue;
-	revertTrackback($owner, $targets[$i]);
+	revertTrackback($blogid, $targets[$i]);
 }
 respondResultPage(0);
 ?>

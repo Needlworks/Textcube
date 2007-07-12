@@ -28,21 +28,21 @@ else
 
 if (!empty($_POST['visibility'])) {
 	$setVisibility = $_POST['visibility'];
-	$visibility = setCategoryVisibility($owner,$selected,$setVisibility);
+	$visibility = setCategoryVisibility($blogid,$selected,$setVisibility);
 } else {
-	$visibility = getCategoryVisibility($owner, $selected);
+	$visibility = getCategoryVisibility($blogid, $selected);
 }
 
 if (!empty($_POST['deleteCategory'])) {
-	$parent = getParentCategoryId($owner, $_POST['deleteCategory']);
+	$parent = getParentCategoryId($blogid, $_POST['deleteCategory']);
 	$selected = (is_null($parent)) ? 0 : $parent;
 	$_POST['modifyCategoryName'] = '';
 	$_POST['modifyCategoryBodyId'] = '';
-	deleteCategory($owner, $_POST['deleteCategory']);
+	deleteCategory($blogid, $_POST['deleteCategory']);
 }
 
 if (!empty($_POST['direction']))
-	moveCategory($owner, $selected, $_POST['direction']);
+	moveCategory($blogid, $selected, $_POST['direction']);
 
 if ($selected == 0)
 	$depth = 0;
@@ -59,10 +59,10 @@ else
 	$entries = $_GET['entries'];
 
 if (!empty($_POST['newCategory'])) {
-	$history = addCategory($owner, ($selected == 0) ? null : $_POST['id'], trim($_POST['newCategory'])) ? 'document.getElementById("newCategory").select();' : '';
+	$history = addCategory($blogid, ($selected == 0) ? null : $_POST['id'], trim($_POST['newCategory'])) ? 'document.getElementById("newCategory").select();' : '';
 	if(empty($history)) $errorMessage = _t('같은 이름의 카테고리가 이미 존재합니다');
 } else if (!empty($_POST['modifyCategoryName']) || !empty($_POST['modifyCategoryBodyId'])) {
-	$history = modifyCategory($owner, $_POST['id'], trim($_POST['modifyCategoryName']),trim($_POST['modifyCategoryBodyId'])) ? 'document.getElementById("modifyCategoryName").select();' : '';
+	$history = modifyCategory($blogid, $_POST['id'], trim($_POST['modifyCategoryName']),trim($_POST['modifyCategoryBodyId'])) ? 'document.getElementById("modifyCategoryName").select();' : '';
 	$tempParentId = DBQuery::queryCell("SELECT `parent` FROM `{$database['prefix']}Categories` WHERE `id` = {$_POST['id']} AND `blogid` = ".getBlogId());
 	if (preg_match('/^[0-9]+$/', $tempParentId, $temp)) {
 		$depth = 2;
@@ -73,9 +73,9 @@ if (!empty($_POST['newCategory'])) {
 	$history = '';
 }
 
-$categories = getCategories($owner);
-$name = getCategoryNameById($owner, $selected) ? getCategoryNameById($owner, $selected) : _t('전체');
-$bodyid = getCategoryBodyIdById($owner, $selected);
+$categories = getCategories($blogid);
+$name = getCategoryNameById($blogid, $selected) ? getCategoryNameById($blogid, $selected) : _t('전체');
+$bodyid = getCategoryBodyIdById($blogid, $selected);
 if ((empty($_POST['search'])) || ($searchColumn === true)) {
 	$searchParam = true;
 } else {

@@ -9,9 +9,9 @@ if (false) {
 	fetchConfigVal();
 }
 if (strlen($suri['value'])) {
-	if (!$keyword = getKeywordByName($owner, $suri['value']))
+	if (!$keyword = getKeywordByName($blogid, $suri['value']))
 		respondErrorPage();
-	$keylog = getKeylog($owner, $keyword['title']);
+	$keylog = getKeylog($blogid, $keyword['title']);
 	$skinSetting['keylogSkin'] = fireEvent('setKeylogSkin');
 	if($skinSetting['keylogSkin']!= null) {
 		require ROOT . '/lib/piece/blog/keylog.php';
@@ -19,7 +19,7 @@ if (strlen($suri['value'])) {
 		respondErrorPage(_t('No handling plugin'));
 	}
 } else {
-	$keywords = getKeywords($owner, true);
+	$keywords = getKeywords($blogid, true);
 	$skinSetting['keylogSkin'] = fireEvent('setKeylogSkin');
 	if($skinSetting['keylogSkin']!= null) {
 		require ROOT . '/lib/piece/blog/begin.php';

@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
-if (setDefaultDomain($owner, $suri['id'])) {
+if (setDefaultDomain($blogid, $suri['id'])) {
 	respondResultPage(0);
 }
 respondResultPage( - 1);

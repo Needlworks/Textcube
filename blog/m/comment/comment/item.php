@@ -5,8 +5,8 @@
 define('__TEXTCUBE_MOBILE__', true);
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlog.php';
-list($entryId) = getCommentAttributes($owner, $suri['id'], 'entry');
-list($entries, $paging) = getEntryWithPaging($owner, $entryId);
+list($entryId) = getCommentAttributes($blogid, $suri['id'], 'entry');
+list($entries, $paging) = getEntryWithPaging($blogid, $entryId);
 $entry = $entries ? $entries[0] : null;
 printMobileHtmlHeader();
 ?>

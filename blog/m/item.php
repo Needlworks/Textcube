@@ -8,14 +8,14 @@ require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
-list($entries, $paging) = getEntryWithPaging($owner, $suri['id']);
+list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
 $entry = $entries ? $entries[0] : null;
 printMobileHtmlHeader();
 ?>
 <div id="content">
 	<h2><?php echo htmlspecialchars($entry['title']);?></h2>	
 	<hr />
-	<?php printMobileEntryContentView($owner, $entry, getKeywordNames($owner)); ?>
+	<?php printMobileEntryContentView($blogid, $entry, getKeywordNames($blogid)); ?>
 </div>
 <?php
 printMobileNavigation($entry, true, true, $paging);

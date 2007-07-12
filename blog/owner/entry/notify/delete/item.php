@@ -10,7 +10,7 @@ requireStrictRoute();
 
 $isAjaxRequest = checkAjaxRequest();
 
-if (deleteCommentNotifiedInOwner($owner, $suri['id']) === true)
+if (deleteCommentNotifiedInOwner($blogid, $suri['id']) === true)
 	$isAjaxRequest ? respondResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 else
 	$isAjaxRequest ? respondResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);

@@ -10,5 +10,5 @@ $IV = array(
 );
 require ROOT . '/lib/includeForReader.php';
 requireStrictRoute();
-respondResultPage(markAsStar($owner, $_POST['id'], false));
+respondResultPage(markAsStar($blogid, $_POST['id'], false));
 ?>

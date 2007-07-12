@@ -25,7 +25,7 @@ requireModel("blog.trackback");
 requireModel("blog.link");
 requireStrictRoute();
 
-$stats = getStatistics($owner);
+$stats = getStatistics($blogid);
 
 function correctSidebarImage( $subject ){
 	$pattern_with_src = '/(?:\ssrc\s*=\s*["\']?)([^\s^"^>^\']+)(?:[\s">\'])/i';
@@ -58,30 +58,30 @@ if (false) correctImagePath('');
 
 function getBlogContentForSideBar()
 {
-	global $owner, $blog, $blogURL, $database, $service, $stats, $skinSetting;
+	global $blogid, $blog, $blogURL, $database, $service, $stats, $skinSetting;
 	
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
 	global $pd_recentComment, $pd_recentTrackback, $pd_link;
 	
-	$categories = getCategories($owner);
-	$totalPosts = getEntriesTotalCount($owner);
+	$categories = getCategories($blogid);
+	$totalPosts = getEntriesTotalCount($blogid);
 	
 	$pd_category = getCategoriesView($totalPosts, $categories, isset($category) ? $category : true);
 	$pd_categoryXhtml = getCategoriesView($totalPosts, $categories, isset($category) ? $category : true, true);
-	$pd_archive = getArchives($owner);
-	$pd_calendar = getCalendarView(getCalendar($owner, true));
-	$pd_tags = getRandomTags($owner);
-	$pd_notices = getNotices($owner);
-	$pd_recentEntry = getRecentEntries($owner);
-	$pd_recentComment = getRecentComments($owner);
-	$pd_recentTrackback = getRecentTrackbacks($owner);
-	$pd_link = getLinks($owner);
+	$pd_archive = getArchives($blogid);
+	$pd_calendar = getCalendarView(getCalendar($blogid, true));
+	$pd_tags = getRandomTags($blogid);
+	$pd_notices = getNotices($blogid);
+	$pd_recentEntry = getRecentEntries($blogid);
+	$pd_recentComment = getRecentComments($blogid);
+	$pd_recentTrackback = getRecentTrackbacks($blogid);
+	$pd_link = getLinks($blogid);
 }
 
 
 function pretty_dress($view)
 {
-	global $owner, $blog, $blogURL, $database, $service, $stats, $skinSetting;
+	global $blogid, $blog, $blogURL, $database, $service, $stats, $skinSetting;
 	
 	/* local static */
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
@@ -96,7 +96,7 @@ function pretty_dress($view)
 		return '<div class="sidebar-element-safebox"><p>' . nl2br(htmlspecialchars($view, ENT_QUOTES)) . '</p></div>';
 	}
 	
-	$writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $owner");
+	$writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $blogid");
 	$pageTitle = _t('페이지 제목');
 	
 	dress('page_title', htmlspecialchars($pageTitle), $view);
@@ -104,7 +104,7 @@ function pretty_dress($view)
 	dress('title', htmlspecialchars($blog['title']), $view);
 	dress('desc', htmlspecialchars($blog['description']), $view);
 	if (!empty($blog['logo']))
-		dress('image', "{$service['path']}/attach/$owner/{$blog['logo']}", $view);
+		dress('image', "{$service['path']}/attach/$blogid/{$blog['logo']}", $view);
 	else
 		dress('image', "{$service['path']}/image/spacer.gif", $view);
 	dress('blog_link', "$blogURL/", $view);

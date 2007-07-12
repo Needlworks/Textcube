@@ -12,7 +12,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 	
-$result = getCSSContent($owner, $_POST['file']);
+$result = getCSSContent($blogid, $_POST['file']);
 if ($result === false)
 	printRespond(array('error' => 1));
 else

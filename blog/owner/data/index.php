@@ -5,10 +5,10 @@
 define('ROOT', '../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 $backup = null;
-if (file_exists(ROOT . "/cache/backup/$owner.xml.gz"))
-	$backup = filemtime(ROOT . "/cache/backup/$owner.xml.gz");
-else if (file_exists(ROOT . "/cache/backup/$owner.xml"))
-	$backup = filemtime(ROOT . "/cache/backup/$owner.xml");
+if (file_exists(ROOT . "/cache/backup/$blogid.xml.gz"))
+	$backup = filemtime(ROOT . "/cache/backup/$blogid.xml.gz");
+else if (file_exists(ROOT . "/cache/backup/$blogid.xml"))
+	$backup = filemtime(ROOT . "/cache/backup/$blogid.xml");
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 
