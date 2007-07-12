@@ -83,7 +83,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 		echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _text('댓글을 달 수 없습니다.'), ']]></description></response>';
 	} else {
 		if(!$comment['secret']) {
-			if($row = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = $entryId AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
+			if($row = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
 				sendCommentPing($entryId, "$defaultURL/".($blog['useSlogan'] ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
 		$skin = new Skin($skinSetting['skin']);

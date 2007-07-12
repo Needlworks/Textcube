@@ -30,7 +30,7 @@ if (!empty($_SERVER["CONTENT_TYPE"]) && strpos($_SERVER["CONTENT_TYPE"], 'charse
 }
 $result = receiveTrackback($blogid, $suri['id'], $title, $url, $excerpt, $blog_name);
 if ($result == 0) {
-	if($row = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = {$suri['id']} AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
+	if($row = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$suri['id']} AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
 		sendTrackbackPing($suri['id'], "$defaultURL/".($blog['useSlogan'] ? "entry/{$row['slogan']}": $suri['id']), $url, $blog_name, $title);
 	respondResultPage(0);
 } else {

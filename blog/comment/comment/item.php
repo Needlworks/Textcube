@@ -41,7 +41,8 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
 	if (addComment($blogid, $comment) !== false) {
 		if(!$comment['secret']) {
-			if($row = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE owner = $blogid AND id = {$comment['entry']} AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
+			if($row = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries 
+				WHERE blogid = $blogid AND id = {$comment['entry']} AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
 				sendCommentPing($comment['entry'], "$defaultURL/".($blog['useSlogan'] ? "entry/{$row['slogan']}": $comment['entry']), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
 		$skin = new Skin($skinSetting['skin']);

@@ -85,7 +85,7 @@ function setProgress($progress, $text = null, $sub = null) {
 }
 
 setProgress(0, _t('교정 대상을 확인하고 있습니다.'));
-$items = 3 + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE owner = $blogid") + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE owner = $blogid");
+$items = 3 + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = $blogid") + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid");
 
 set_time_limit(0);
 $item = 0;
@@ -103,7 +103,7 @@ setProgress($item++ / $items * 100, _t('분류의 글 정보를 다시 계산해
 requireComponent('Textcube.Data.Post');
 updateEntriesOfCategory($blogid);
 
-if ($result = DBQuery::query("SELECT id, name, parent, homepage, comment, entry, isFiltered FROM {$database['prefix']}Comments WHERE owner = $blogid")) {
+if ($result = DBQuery::query("SELECT id, name, parent, homepage, comment, entry, isFiltered FROM {$database['prefix']}Comments WHERE blogid = $blogid")) {
 	while ($comment = mysql_fetch_assoc($result)) {
 		setProgress($item++ / $items * 100, _t('댓글과 방명록 데이터를 교정하고 있습니다.'));
 		$correction = '';
@@ -114,11 +114,11 @@ if ($result = DBQuery::query("SELECT id, name, parent, homepage, comment, entry,
 		if (!UTF8::validate($comment['comment']))
 			$correction .= ' comment = \'' . mysql_tt_escape_string(UTF8::correct($comment['comment'], '?')) . '\'';
 		if (strlen($correction) > 0) {
-			DBQuery::query("UPDATE {$database['prefix']}Comments SET $correction WHERE owner = $blogid AND id = {$comment['id']}");
+			DBQuery::query("UPDATE {$database['prefix']}Comments SET $correction WHERE blogid = $blogid AND id = {$comment['id']}");
 			$corrected++;
 		}
 		if (!is_null($comment['parent']) && ($comment['isFiltered'] == 0)) {
-			$r2 = DBQuery::query("SELECT id FROM {$database['prefix']}Comments WHERE owner = $blogid AND id = {$comment['parent']} AND isFiltered = 0");
+			$r2 = DBQuery::query("SELECT id FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comment['parent']} AND isFiltered = 0");
 			if (mysql_num_rows($r2) <= 0) {
 				trashCommentInOwner($blogid, $comment['id']);
 			}
@@ -128,7 +128,7 @@ if ($result = DBQuery::query("SELECT id, name, parent, homepage, comment, entry,
 	mysql_free_result($result);
 }
 
-if ($result = DBQuery::query("SELECT id, url, site, subject, excerpt FROM {$database['prefix']}Trackbacks WHERE owner = $blogid")) {
+if ($result = DBQuery::query("SELECT id, url, site, subject, excerpt FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid")) {
 	while ($trackback = mysql_fetch_assoc($result)) {
 		setProgress($item++ / $items * 100, _t('걸린 글 데이터를 교정하고 있습니다.'));
 		$correction = '';
@@ -141,7 +141,7 @@ if ($result = DBQuery::query("SELECT id, url, site, subject, excerpt FROM {$data
 		if (!UTF8::validate($trackback['excerpt']))
 			$correction .= ' excerpt = \'' . mysql_tt_escape_string(UTF8::correct($trackback['excerpt'], '?')) . '\'';
 		if (strlen($correction) > 0) {
-			DBQuery::query("UPDATE {$database['prefix']}Trackbacks SET $correction WHERE owner = $blogid AND id = {$trackback['id']}");
+			DBQuery::query("UPDATE {$database['prefix']}Trackbacks SET $correction WHERE blogid = $blogid AND id = {$trackback['id']}");
 			$corrected++;
 		}
 	}

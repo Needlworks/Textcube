@@ -300,7 +300,7 @@ if($blogid == getUserId()){?>
 		foreach($invited_user as $value) {
 			$value['posting'] = DBQuery::queryCell("SELECT count(*) 
 					FROM {$database['prefix']}Entries 
-					WHERE owner = $blogid AND userid = {$value['userid']}");
+					WHERE blogid = $blogid AND userid = {$value['userid']}");
 			$className= ($count%2)==1 ? 'even-line' : 'odd-line';
 			$className.=($count==sizeof($invited_user)-1) ? ' last-line':'';
 ?>
