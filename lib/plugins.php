@@ -192,11 +192,19 @@ if (getBlogId()) {
 							if (isset($adminViewMenu['params'][0]['param'])) {
 								foreach($adminViewMenu['params'][0]['param'] as $methodParam) {
 										if (!isset($methodParam['name'][0]['.value']) || !isset($methodParam['type'][0]['.value'])) continue;
+										$mandatory = null;
+										$default   = null;
+										if( isset($methodParam['mandatory'][0]['.value']) ) {
+											$mandatory = $methodParam['mandatory'][0]['.value'];
+										}
+										if( isset($methodParam['default'][0]['.value']) ) {
+											$default = $methodParam['default'][0]['.value'];
+										}
 										array_push($params,array(
 												'name' => $methodParam['name'][0]['.value'],
 												'type' => $methodParam['type'][0]['.value'],
-												'mandatory' => @$methodParam['mandatory'][0]['.value'],
-												'default' => @$methodParam['default'][0]['.value']
+												'mandatory' => $mandatory,
+												'default' => $default
 												));
 								}
 							}
@@ -228,11 +236,19 @@ if (getBlogId()) {
 								if (isset($adminMethods['params'][0]['param'])) {
 								foreach($adminMethods['params'][0]['param'] as $methodParam) {
 									if (!isset($methodParam['name'][0]['.value']) || !isset($methodParam['type'][0]['.value'])) continue;
+									$mandatory = null;
+									$default   = null;
+									if( isset($methodParam['mandatory'][0]['.value']) ) {
+										$mandatory = $methodParam['mandatory'][0]['.value'];
+									}
+									if( isset($methodParam['default'][0]['.value']) ) {
+										$default = $methodParam['default'][0]['.value'];
+									}
 									array_push($method['params'],array(
 										'name' => $methodParam['name'][0]['.value'],
 										'type' => $methodParam['type'][0]['.value'],
-										'mandatory' => @$methodParam['mandatory'][0]['.value'],
-										'default' => @$methodParam['default'][0]['.value']
+										'mandatory' => $mandatory,
+										'default' => $default
 									));
 								}
 							}
