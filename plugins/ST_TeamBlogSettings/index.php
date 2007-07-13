@@ -13,6 +13,7 @@ function getTeamBlogInitConfigVal( &$data ){
 function getTeamAuthorStyle($target, $mother){
 	global $database, $entry;
 	$row = DBQuery::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =" . getBlogId() . " AND userid=" . $entry['userid']);
+	$authorStyle = '';
 	if($row['style']){
 		$style = explode("|", $row['style']);
 		if($style[0]=="true"){
@@ -43,10 +44,10 @@ function getTeamProfileView($target, $mother){
 	requireComponent('Textcube.Function.misc');
 	$data = misc::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
-	if ($suri['directive'] != "/rss" && $suri['directive'] != "/sync" && $data['p1'] && !$data['p2']) {
+	if ($suri['directive'] != "/rss" && $suri['directive'] != "/sync" && $data['p1'] && empty($data['p2']) ) {
 		$target .= getTeamProfile($entry['userid']);
 	}
-	if ($suri['directive'] != "/rss" && $suri['directive'] != "/sync" && $data['p1'] && $data['p2']) {
+	if ($suri['directive'] != "/rss" && $suri['directive'] != "/sync" && $data['p1'] && !empty($data['p2']) ) {
 		misc::dress('TeamBlogProfileTag', getTeamProfile($entry['userid']), $entryView);
 	}
 	return $target;
@@ -59,6 +60,7 @@ function getTeamProfile($userid){
 	getTeamBlogInitConfigVal($data);
 	$row = DBQuery::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." and userid=".$userid);
 	$imageSrc = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];
+	$imageStyle = $imageTag = '';
 	if($row['image']){
 		$imageTag = "<img src=\"".$imageSrc."\" align=\"top\" />";
 		$imageStyle = "style=\"width:".($data['imageSize']+6)."px; margin-right:10px;\"";
