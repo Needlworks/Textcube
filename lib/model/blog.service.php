@@ -28,10 +28,6 @@ function getBlogSettings($blogid) {
 		if( $blogSettings ) {
 			$result = array();
 			$blogSettingFields = array();
-			foreach($blogSettings as $blogSetting){
-				$result[$blogSetting['name']] = $blogSetting['value'];
-				array_push($blogSettingFields, $blogSetting['name']);
-			}
 			$defaultValues = array(
 					'name'                     => '',
 					'defaultDomain'            => 0,
@@ -52,6 +48,12 @@ function getBlogSettings($blogid) {
 					'language'     => $service['language'],
 					'blogLanguage' => $service['language'],
 					'timezone'     => $service['timezone']);
+			foreach($blogSettings as $blogSetting){
+				if(array_key_exists($blogSetting['name'],$defaultValues)) {
+					$result[$blogSetting['name']] = $blogSetting['value'];
+					array_push($blogSettingFields, $blogSetting['name']);
+				}
+			}
 			foreach($defaultValues as $name => $value){
 				if(!in_array($name,$blogSettingFields)) {
 					$result[$name] = $value;
