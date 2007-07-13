@@ -308,78 +308,7 @@ function api_get_post( $post, $type = "bl" )
 			);
 }
 
-/* Copied from blog/owner/entry/attach/index.php:getMIMEType,addAttachment */
-
-function api_getMIMEType($ext,$filename=null){
-	if($filename){
-		return '';
-	}else{
-		switch(strtolower($ext)){
-			case 'gif':
-				return 'image/gif';
-			case 'jpeg':
-			case 'jpg':
-			case 'jpe':
-				return 'image/jpeg';
-			case 'png':
-				return 'image/png';
-			case 'tiff':
-			case 'tif':
-				return 'image/tiff';
-			case 'bmp':
-				return 'image/bmp';
-			case 'wav':
-				return 'audio/x-wav';
-			case 'mpga':
-			case 'mp2':
-			case 'mp3':
-				return 'audio/mpeg';
-			case 'm3u':
-				return 'audio/x-mpegurl';
-			case 'wma':
-				return 'audio/x-msaudio';
-			case 'ra':
-				return 'audio/x-realaudio';
-			case 'css':
-				return 'text/css';
-			case 'html':
-			case 'htm':
-			case 'xhtml':
-				return 'text/html';
-			case 'rtf':
-				return 'text/rtf';
-			case 'sgml':
-			case 'sgm':
-				return 'text/sgml';
-			case 'xml':
-			case 'xsl':
-				return 'text/xml';
-			case 'mpeg':
-			case 'mpg':
-			case 'mpe':
-				return 'video/mpeg';
-			case 'qt':
-			case 'mov':
-				return 'video/quicktime';
-			case 'avi':
-			case 'wmv':
-				return 'video/x-msvideo';
-			case 'pdf':
-				return 'application/pdf';
-			case 'bz2':
-				return 'application/x-bzip2';
-			case 'gz':
-			case 'tgz':
-				return 'application/x-gzip';
-			case 'tar':
-				return 'application/x-tar';
-			case 'zip':
-				return 'application/zip';
-		}
-	}
-	return '';
-}
-
+/* Copied from blog/owner/entry/attach/index.php:addAttachment */
 
 function api_file_hash( $content )
 {
@@ -391,6 +320,7 @@ function api_file_hash( $content )
 function api_addAttachment($blogid,$parent,$file){
 	global $database;
 	
+	requireComponent('Textcube.Function.misc');
 	$attachment=array();
 	$attachment['parent']=$parent?$parent:0;
 	$attachment['label']=Path::getBaseName($file['name']);
