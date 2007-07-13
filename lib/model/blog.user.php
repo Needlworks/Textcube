@@ -24,6 +24,6 @@ function getUserIdByEmail($email) {
 	global $database;
 	return DBQuery::queryCell("SELECT userid 
 		FROM {$database['prefix']}Users
-		WHERE loginid = ".$email);
+		WHERE loginid = '".$email."'");
 }
 ?>

@@ -406,7 +406,7 @@ if ($service['type'] != 'single' && Acl::check("group.owners" ) ) {
 										<dt class="title"><span class="label"><?php echo _t('초대명단');?></span></dt>
 										<dd>
 <?php
-	$invitedList = getInvited($blogid);
+	$invitedList = getInvited(getUserId());
 ?>
 											<table cellspacing="0" cellpadding="0">
 												<thead>
@@ -426,18 +426,20 @@ if ($service['type'] != 'single' && Acl::check("group.owners" ) ) {
 		$className .= ($count == sizeof($invitedList) - 1) ? ' last-line' : '';
 ?>
 													<tr class="<?php echo $className;?> inactive-class">
-														<td class="email"><a href="<?php echo getBlogURL($value['blogName']);?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($value['name']);?>(<?php echo htmlspecialchars($value['loginid']);?>)</a></td>
+														<td class="email"><?php echo htmlspecialchars($value['name']);?>(<?php echo htmlspecialchars($value['loginid']);?>)</td>
 														<td class="date"><?php echo Timestamp::format5($value['created']);?></td>
 <?php
 		if ($value['lastLogin'] == 0) {
 ?>
 														<td class="status"><?php echo _f('%1 전', timeInterval($value['created'], time()));?></td>
-														<td class="password"><?php echo DBQuery::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']} AND host = $blogid AND lastLogin = 0");?></td>
+														<td class="password"><?php echo DBQuery::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = {$value['userid']} AND host = ".getUserId()." AND lastLogin = 0");?></td>
 														<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?php echo $value['userid'];?>,this);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대취소');?></span></a></td>
 <?php
 		} else {
 ?>
-														<td></td<td></td><td></td>
+														<td class="status"><?php echo _t('가입');?></td>
+														<td></td>
+														<td></td>
 <?php
 		}
 ?>

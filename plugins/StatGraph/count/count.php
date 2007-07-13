@@ -30,8 +30,8 @@ include ("src/jpgraph.php");
 include ("src/jpgraph_scatter.php");
 include ("src/jpgraph_line.php");
 
-if ((isset($_REQUEST['owner'])) && is_numeric($_REQUEST['owner'])) {
-	$owner = intval($_REQUEST['owner']);
+if ((isset($_REQUEST['blogid'])) && is_numeric($_REQUEST['blogid'])) {
+	$blogid = intval($_REQUEST['blogid']);
 }
 
 requireComponent('Eolin.PHP.Core');

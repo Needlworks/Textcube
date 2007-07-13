@@ -6,7 +6,7 @@
 function DisplayStatisticsGraph($target) 
 { 
 	global $pluginURL;
-	$target = '<div><img src="' . $pluginURL .  '/count/count.php?owner=' . getBlogId() . '" alt="Statistics Graph" title="Blog Visitors" /></div>';
+	$target = '<div><img src="' . $pluginURL .  '/count/count.php?blogid=' . getBlogId() . '" alt="Statistics Graph" title="Blog Visitors" /></div>';
 	return $target;
 }
 ?>

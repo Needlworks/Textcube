@@ -236,7 +236,7 @@ function addUser($email, $name) {
 		return 5;
 	}
 
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, 0)");
+	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
 	if (!$result || (mysql_affected_rows() == 0)) {
 		return 11;
 	}
@@ -374,21 +374,19 @@ function addBlog($blogid, $userid, $identify) {
 	return true;
 }
 
-function getInvited($blogid) {
+function getInvited($userid) {
 	global $database;
-	return DBQuery::queryAll("SELECT 
-			_users.*,_blogSettings.value AS blogName 
-		FROM `{$database['prefix']}Users` AS _users 
-		LEFT JOIN `{$database['prefix']}BlogSettings` AS _blogSettings 
-			ON _users.userid = _blogSettings.blogid AND _blogSettings.name = 'name'
-		WHERE `host` = $blogid ORDER BY created ASC");
+	return DBQuery::queryAll("SELECT *
+		FROM {$database['prefix']}Users
+		WHERE `host` = '".$userid."'
+		ORDER BY created ASC");
 }
 
 function getBlogName($blogid) {
 	global $database;
 	return DBQuery::queryCell("SELECT value
 		FROM {$database['prefix']}BlogSettings
-		WHERE name = 'name'");
+		WHERE blogid = $blogid AND name = 'name'");
 }
 
 function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $senderEmail) {
