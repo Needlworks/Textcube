@@ -24,6 +24,7 @@
 
 */
 function CT_Start_Default($target) {
+	requireModel("blog.attachment");
 	requireComponent("Eolin.PHP.Core");
 	requireComponent( "Textcube.Function.misc");
 	global $blogid, $blogURL, $database;
