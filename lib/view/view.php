@@ -466,6 +466,7 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 
 function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 	global $blogURL;
+	$blogid = getBlogId();
 	requireModel('blog.category');
 	requireLibrary('blog.skin');
 	$tree = array('id' => 0, 'label' => getCategoryNameById(getBlogId(), 0), 'value' => $totalPosts, 'link' => "$blogURL/owner/entry/category", 'children' => array());
@@ -976,7 +977,6 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	requireModel('blog.attachment');
 	requireModel('blog.keyword');
 	requireLibrary('blog.skin');
-	$blogid = getBlogId();
 
 	$content = fireEvent('Format' . $type . 'Content', $content, $id);
 	$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
