@@ -726,6 +726,60 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}Entries owner")) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+// Plugin Table update.
+$likeEscape = array ( '/_/' , '/%/' );
+$likeReplace = array ( '\\_' , '\\%' );
+$escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
+$query = "show tables like '{$escapename}%'";
+$dbtables = DBQuery::queryColumn($query);
+
+$result = DBQuery::queryRow("show variables like 'lower_case_table_names'");
+$dbCaseInsensitive = ($result['Value'] == 1) ? true : false;
+
+$prefix = $database['prefix'];
+$definedTables = array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}Teamblog", "{$prefix}TeamEntryRelations", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings");
+
+$dbtables = array_values(array_diff($dbtables, $definedTables));
+if ($dbCaseInsensitive == true) {
+	$tempTables = $definedTables;
+	$definedTables = array();
+	foreach($tempTables as $table) {
+		$table = strtolower($table);
+		array_push($definedTables, $table);
+	}
+	$tempTables = $dbtables;
+	$dbtables = array();
+	foreach($tempTables as $table) {
+		$table = strtolower($table);
+		array_push($dbtables, $table);
+	}
+	$dbtables = array_values(array_diff($dbtables, $definedTables));
+}
+
+$query = "select name, value from {$database['prefix']}ServiceSettings WHERE name like 'Database\_%'";
+$plugintablesraw = DBQuery::queryAll($query);
+$plugintables = array();
+foreach($plugintablesraw as $table) {
+	$dbname = $database['prefix'] . substr($table['name'], 9);
+	$values = explode('/', $table['value'], 2);
+
+	$plugin = $values[0];
+	$version = $values[1];
+	if (!array_key_exists($plugin .'/'. $version, $plugintables)) {
+		$plugintables[$plugin .'/'. $version] = array('plugin' => $plugin, 'version' => $version, 'tables' => array());
+	}
+	array_push($plugintables[$plugin .'/'. $version]['tables'], $dbname);
+	
+	if ($dbCaseInsensitive == true) $dbname = strtolower($dbname);
+	if(DBQuery::queryExistence("DESC $dbname owner")){
+		echo '<li>', _textf('플러그인이 생성한 %1 테이블의 owner 필드를 변경합니다.'), ': ';
+		if(DBQuery::execute("ALTER TABLE $dbname CHANGE owner blogid int(11) NOT NULL DEFAULT 0"))
+			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		else
+			echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+	}
+}
+
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));

@@ -97,10 +97,7 @@ $plugintables = array();
 foreach($plugintablesraw as $table) {
 	$dbname = $database['prefix'] . substr($table['name'], 9);
 	$values = explode('/', $table['value'], 2);
-	// legacy for TC < 1.5
-	if(!DBQuery::queryExistence("DESC $dbname owner")){
-		DBQuery::execute("ALTER TABLE $dbname CHANGE owner blogid int(11) NOT NULL DEFAULT 0");
-	}
+
 	$plugin = $values[0];
 	$version = $values[1];
 	if (!array_key_exists($plugin .'/'. $version, $plugintables)) {
