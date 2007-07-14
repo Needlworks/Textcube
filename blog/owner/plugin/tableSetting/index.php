@@ -97,6 +97,10 @@ $plugintables = array();
 foreach($plugintablesraw as $table) {
 	$dbname = $database['prefix'] . substr($table['name'], 9);
 	$values = explode('/', $table['value'], 2);
+	// legacy for TC < 1.5
+	if(!DBQuery::queryExistence("DESC $dbname owner")){
+		DBQuery::execute("ALTER TABLE $dbname CHANGE owner blogid int(11) NOT NULL DEFAULT 0");
+	}
 	$plugin = $values[0];
 	$version = $values[1];
 	if (!array_key_exists($plugin .'/'. $version, $plugintables)) {
@@ -156,7 +160,7 @@ foreach($dbtables as $dbname)
 							</table>
 						</form>
 <?php
-} else { // when not owner ==1
+} else { // when not blogid == 1
 ?>
 	<h2 class="caption"><span class="main-text"><?php echo _t('블로그 소유자만 테이블을 관리할 수 있습니다.');?></span></h2>
 <?php
