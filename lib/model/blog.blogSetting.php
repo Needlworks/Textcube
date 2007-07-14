@@ -27,6 +27,7 @@ function setBlogDescription($blogid, $description) {
 
 function removeBlogLogo($blogid) {
 	global $database, $blog;
+	requireModel('blog.attachment');
 	
 	if(setBlogSetting('logo','') === false) return false;
 	else {
@@ -40,6 +41,7 @@ function removeBlogLogo($blogid) {
 function changeBlogLogo($blogid, $file) {
 	global $database;
 	global $blog;
+	requireModel('blog.attachment');
 	if (($attachment = addAttachment($blogid, - 1, $file)) === false) {
 		return false;
 	}
