@@ -24,7 +24,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 			$sql .= ' url = \'' . mysql_tt_escape_string($url) . '\'';
 			$sql .= ' AND isFiltered > 0';
 			
-			if ($result = mysql_query($sql)) {
+			if ($result = mysql_tc_query($sql)) {
 				$row = mysql_fetch_row($result);
 				$count += @$row[0];
 			}

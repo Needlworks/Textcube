@@ -8,9 +8,9 @@ function mysql_multi_query() {
 	foreach (func_get_args() as $query) {
 		if (is_array($query)) {
 			foreach ($query as $subquery)
-				if (($result = mysql_query($subquery)) === false)
+				if (($result = mysql_tc_query($subquery)) === false)
 					return false;
-		} else if (($result = mysql_query($query)) === false)
+		} else if (($result = mysql_tc_query($query)) === false)
 			return false;
 	}
 	return $result;
@@ -50,7 +50,7 @@ function fetchQueryColumn($query) {
 }
 
 function fetchQueryCell($query) {
-	if ($result = mysql_query($query)) {
+	if ($result = mysql_tc_query($query)) {
 		list($cell) = mysql_fetch_row($result);
 		mysql_free_result($result);
 		return $cell;
@@ -59,7 +59,7 @@ function fetchQueryCell($query) {
 }
 
 function executeQuery($query) {
-	return mysql_query($query) ? true : false;
+	return mysql_tc_query($query) ? true : false;
 }
 */
 function escapeMysqlSearchString($str) {
@@ -71,7 +71,7 @@ function doesExistTable($tablename)
 	$likeEscape = array ( '/_/' , '/%/' );
 	$likeReplace = array ( '\\_' , '\\%' );
 	$escapename = preg_replace($likeEscape, $likeReplace, $tablename);
-	$result = mysql_query("SHOW TABLES LIKE '$escapename' ");
+	$result = mysql_tc_query("SHOW TABLES LIKE '$escapename' ");
 	if ($result == false) return false;
 	if (mysql_num_rows($result) > 0) return true;
 	return false;
