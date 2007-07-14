@@ -83,4 +83,5 @@ foreach ($metapageElements as $element) {
 }
 $view = revertTempTags(removeAllTags($view));
 print $view;
+if( function_exists('__tcSqlLogDump') ) { __tcSqlLogDump(); }
 ?>

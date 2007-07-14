@@ -957,12 +957,11 @@ class Timestamp {
 
 }
 
-
 class DBQuery {	
 	/*@static@*/ 
 	function queryExistence($query) {
 		$query = DBQuery::queryPostProcessing($query);
-		if ($result = mysql_query($query)) {
+		if ($result = mysql_tc_query($query)) {
 			if (mysql_num_rows($result) > 0) {
 				mysql_free_result($result);
 				return true;
@@ -976,7 +975,7 @@ class DBQuery {
 	function queryCount($query) {
 		$query = DBQuery::queryPostProcessing($query);
 		$count = 0;
-		if ($result = mysql_query($query)) {
+		if ($result = mysql_tc_query($query)) {
 			$count = mysql_num_rows($result);
 			mysql_free_result($result);
 		}
@@ -986,7 +985,7 @@ class DBQuery {
 	/*@static@*/
 	function queryCell($query, $field = 0) {
 		$query = DBQuery::queryPostProcessing($query);
-		if ($result = mysql_query($query)) {
+		if ($result = mysql_tc_query($query)) {
 			if (is_numeric($field)) {
 				$row = mysql_fetch_row($result);
 				$cell = @$row[$field];
@@ -1003,7 +1002,7 @@ class DBQuery {
 	/*@static@*/
 	function queryRow($query, $type = MYSQL_BOTH) {
 		$query = DBQuery::queryPostProcessing($query);
-		if ($result = mysql_query($query)) {
+		if ($result = mysql_tc_query($query)) {
 			if ($row = mysql_fetch_array($result, $type)) {
 				mysql_free_result($result);
 				return $row;
@@ -1017,7 +1016,7 @@ class DBQuery {
 	function queryColumn($query) {
 		$query = DBQuery::queryPostProcessing($query);
 		$column = array();
-		if ($result = mysql_query($query)) {
+		if ($result = mysql_tc_query($query)) {
 			while ($row = mysql_fetch_row($result))
 			array_push($column, $row[0]);
 			mysql_free_result($result);
@@ -1030,7 +1029,7 @@ class DBQuery {
 	function queryAll($query, $type = MYSQL_BOTH) {
 		$query = DBQuery::queryPostProcessing($query);
 		$all = array();
-		if ($result = mysql_query($query)) {
+		if ($result = mysql_tc_query($query)) {
 			while ($row = mysql_fetch_array($result, $type))
 			array_push($all, $row);
 				mysql_free_result($result);
@@ -1042,13 +1041,13 @@ class DBQuery {
 	/*@static@*/
 	function execute($query) {
 		$query = DBQuery::queryPostProcessing($query);
-		return mysql_query($query) ? true : false;
+		return mysql_tc_query($query) ? true : false;
 	}
 
 	/*@static@*/
 	function query($query) {
 		$query = DBQuery::queryPostProcessing($query);
-		return mysql_query($query);
+		return mysql_tc_query($query);
 	}
 	function queryPostProcessing($query) {
 		global $service;
@@ -1152,7 +1151,7 @@ class TableQuery {
 		if (empty($attributes))
 			return false;
 		$this->_query = 'INSERT INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
-		if (mysql_query($this->_query)) {
+		if (mysql_tc_query($this->_query)) {
 			$this->id = mysql_insert_id();
 			return true;
 		}
@@ -1166,7 +1165,7 @@ class TableQuery {
 		foreach ($this->_attributes as $name => $value)
 			array_push($attributes, $name . '=' . $value);
 		$this->_query = 'UPDATE ' . $this->table . ' SET ' . implode(',', $attributes) . $this->_makeWhereClause();
-		if (mysql_query($this->_query))
+		if (mysql_tc_query($this->_query))
 			return true;
 		return false;
 	}
@@ -1179,7 +1178,7 @@ class TableQuery {
 		if (empty($attributes))
 			return false;
 		$this->_query = 'REPLACE INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
-		if (mysql_query($this->_query)) {
+		if (mysql_tc_query($this->_query)) {
 			$this->id = mysql_insert_id();
 			return true;
 		}
@@ -1190,7 +1189,7 @@ class TableQuery {
 		if (empty($this->table))
 			return false;
 		$this->_query = 'DELETE FROM ' . $this->table . $this->_makeWhereClause();
-		if (mysql_query($this->_query))
+		if (mysql_tc_query($this->_query))
 			return true;
 		return false;
 	}
