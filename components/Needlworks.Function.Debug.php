@@ -129,7 +129,7 @@ function __tcSqlLogDump()
 		print "</tr>";
 		$count++;
 	}
-	print "<tr><td colspan='6'>$count Queries, $elapsed_total ms elapesed</td></tr>";
+	print "<tr><td colspan='6'>$count Queries, $elapsed_total ms elapsed</td></tr>";
 	print "</table>";
 }
 ?>
