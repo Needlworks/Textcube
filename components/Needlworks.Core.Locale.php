@@ -21,6 +21,7 @@ class Po2php
 		$this->msgs = array();
 		$this->nomsgs = array();
 		$this->comments = array();
+		$comment = '';
 		while( !feof( $fsource ) )
 		{
 			$line = fgets( $fsource, 4096 );
