@@ -16,52 +16,6 @@ function mysql_multi_query() {
 	return $result;
 }
 
-/* DO NOT USE THESE FUNCTIONS BELOW : These functions are kept for legacy. Not in use anymore.
-   
-function fetchQueryAll($query, $type = MYSQL_BOTH) {
-	$rows = array();
-	if ($result = mysql_query($query)) {
-		while ($row = mysql_fetch_array($result, $type))
-			array_push($rows, $row);
-		mysql_free_result($result);
-	}
-	return $rows;
-}
-
-function fetchQueryRow($query) {
-	if ($result = mysql_query($query)) {
-		if ($row = mysql_fetch_array($result)) {
-			mysql_free_result($result);
-			return $row;
-		}
-		mysql_free_result($result);
-	}
-	return;
-}
-
-function fetchQueryColumn($query) {
-	$column = array();
-	if ($result = mysql_query($query)) {
-		while ($row = mysql_fetch_row($result))
-			array_push($column, $row[0]);
-		mysql_free_result($result);
-	}
-	return $column;
-}
-
-function fetchQueryCell($query) {
-	if ($result = mysql_tc_query($query)) {
-		list($cell) = mysql_fetch_row($result);
-		mysql_free_result($result);
-		return $cell;
-	}
-	return;
-}
-
-function executeQuery($query) {
-	return mysql_tc_query($query) ? true : false;
-}
-*/
 function escapeMysqlSearchString($str) {
 	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', mysql_tt_escape_string($str))) : $str;
 }
