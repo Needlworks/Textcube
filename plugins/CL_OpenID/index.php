@@ -625,6 +625,7 @@ function _openid_fix_table()
 	$fix1 = false;
 	$fix2 = true;
 	$fix3 = false;
+	$fix4 = false;
 
 	$rows = DBQuery::queryAll("DESC {$database['prefix']}OpenIDUsers");
 	foreach( $rows as $row ) {
@@ -632,6 +633,10 @@ function _openid_fix_table()
 		if( $row['Field'] == 'blocked' )  { $fix1 = true; }
 		if( $row['Field'] == 'data' )     { $fix2 = false; }
 		if( $row['Field'] == 'nickname' ) { $fix3 = true; }
+	}
+	$rows = DBQuery::queryAll("DESC {$database['prefix']}OpenIDComments");
+	foreach( $rows as $row ) {
+		if( $row['Field'] == 'owner' )    { $fix4 = true; }
 	}
 
 	if( $fix0 ) {
@@ -657,6 +662,9 @@ function _openid_fix_table()
 			DBQuery::execute("update {$database['prefix']}OpenIDUsers set data='{$data}' where blogid={$blogid} and openid='{$openid}'");
 		}
 		DBQuery::execute("alter table {$database['prefix']}OpenIDUsers drop column nickname");
+	}
+	if( $fix4 ) {
+		DBQuery::execute("alter table {$database['prefix']}OpenIDComments change column owner blogid int(11) not null default 0");
 	}
 }
 
