@@ -28,12 +28,14 @@ function __tcSqlLogBegin( $sql )
 	array_shift($backtrace);
 
 	$__tcSqlLog[$__tcSqlLogCount] = array( 'sql' => trim($sql), 'backtrace' => $backtrace );
-	$__tcSqlLogBeginTime = microtime(true);
+	$__tcSqlLogBeginTime = explode(' ', microtime());
 }
 function __tcSqlLogEnd( $result, $cachedResult = false )
 {
 	global $__tcSqlLog, $__tcSqlLogBeginTime, $__tcSqlLogCount;
 	static $client_encoding = '';
+	$tcSqlLogEndTime = explode(' ', microtime());
+	$elapsed = ($tcSqlLogEndTime[1] - $__tcSqlLogBeginTime[1]) + ($tcSqlLogEndTime[0] - $__tcSqlLogBeginTime[0]);
 	if( !$client_encoding ) {
 		$client_encoding = str_replace('_','-',mysql_client_encoding());
 	}
@@ -46,7 +48,7 @@ function __tcSqlLogEnd( $result, $cachedResult = false )
 	}
 	$__tcSqlLog[$__tcSqlLogCount]['errno'] = mysql_errno();
 
-	$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = ceil((microtime(true) - $__tcSqlLogBeginTime) * 10000) / 10;
+	$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = ceil($elapsed * 10000) / 10;
 	$__tcSqlLog[$__tcSqlLogCount]['cached'] = $cachedResult;
 	$__tcSqlLog[$__tcSqlLogCount]['rows'] = 0;
 	if( mysql_errno() == 0 ) {
