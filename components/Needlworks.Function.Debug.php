@@ -9,7 +9,7 @@ function __error( $errno, $errstr, $errfile, $errline )
 {
 	if(in_array($errno, array(2048))) return;
 	print("$errstr($errno)<br />");
-	print("File: $errfile:$errline<br /><hr size='1'/>");
+	print("File: $errfile:$errline<br /><hr size='1' />");
 }
 
 global $__tcSqlLog;
@@ -71,14 +71,85 @@ function __tcSqlLogEnd( $result, $cachedResult = false )
 function __tcSqlLogDump()
 {
 	global $__tcSqlLog, $__tcSqlLogBeginTime, $__tcSqlLogCount;
-	print "<style type='text/css'>";
-	print ".debugsql {background: #fff; border-collapse: collapse; margin: auto}";
-	print ".debugsql tr.dbgnormal {line-height: 1.3em;}";
-	print ".debugsql tr.dbgwarning {background:#fe0; line-height: 1.3em;}";
-	print ".debugsql td, .debugsql th {border:1px solid; border-color: #000; font-size: 10pt; font-family: arial; padding:2px;}";
-	print ".debugsql .sql {display:block; width: 500px;}";
-	print ".debugsql .error {display:block; width: 500px; line-height: 1.3em; height: 100%;}";
-	print "</style>";
+	print <<<EOS
+<style type='text/css'>
+	.debugTable
+	{
+		border-left: 1px solid #999;
+		border-top: 1px solid #999;
+		border-collapse: collapse;
+		margin-bottom: 20px;
+	}
+	
+	.debugTable *
+	{
+		border: none;
+		margin: 0;
+		padding: 0;
+	}
+	
+	.debugTable td, .debugTable th
+	{
+		border-bottom: 1px solid #999;
+		border-right: 1px solid #999;
+		color: #000;
+		font-family: Arial, Tahoma, Verdana, sans-serif;
+		font-size: 12px;
+		padding: 3px 5px;
+	}
+	
+	.debugTable th
+	{
+		background-color: #dedede;
+		text-align: center;
+	}
+	
+	tr.debugSQLLine .elapsed, tr.debugSQLLine .rows, tr.debugSQLLine .error
+	{
+		text-align: center;
+	}
+	
+	tr.debugSQLLine code
+	{
+		cursor: pointer;
+	}
+	
+	.debugActiveLines
+	{
+		color: #555;
+		font-family: verdana;
+		font-size: 11px;
+		padding: 5px 5px 5px 10px;
+	}
+	
+	tr.debugWarning *
+	{
+		background-color: #fee5e5;
+		color: #961f1d !important;
+	}
+	
+	tr.debugWarning th
+	{
+		background-color: #fccbca;
+	}
+	
+	tr.debugWarning, tr.debugWarning td, tr.debugWarning th
+	{
+		/*border: 1px solid #c72927 !important;*/
+	}
+	
+	tr.debugWarning .debugActiveLines
+	{
+		color: #974c4c !important;
+	}
+	
+	tfoot td
+	{
+		padding: 15px !important;
+		text-align: center;
+	}
+</style>'
+EOS;
 
 	$elapsed_total = 0;
 
@@ -97,8 +168,15 @@ function __tcSqlLogDump()
 	}
 
 	$count = 1;
-	print "<table class='debugsql' style='border:1px solid;'>";
-	print "<tr bgcolor='#eff'><th>Count</th><th class='sql'>SQL</th><th>Elapsed</th><th>Rows</th><th>error</th></tr>";
+	print '<table class="debugTable">';
+	print <<<THEAD
+		<thead>
+			<tr>
+				<th>count</th><th class="sql">query string</th><th>elapsed</th><th>rows</th><th>error</th>
+			</tr>
+		</thead>
+THEAD;
+	print '<tbody>';
 	foreach( $__tcSqlLog as $c => $log ) {
 		$error = '';
 		$backtrace = '';
@@ -108,30 +186,45 @@ function __tcSqlLogDump()
 			$fn = isset($frame['function']) ? "{$frame['function']}" : '';
 			$fl = isset($frame['file']) ? "{$frame['file']}:" : '';
 			$ln = isset($frame['line']) ? "{$frame['line']}" : '';
-			$line = "$fl$ln $cl$fn";
+			$line = "$fl$ln in <code>$cl$fn</code>";
 			$backtrace .= "$frame_count: $line<br />";
 			$frame_count++;
 		}
 		if( $log['errno'] ) {
 			$error = "{$log['errno']}:{$log['error']}";
 		}
-		$trclass = "dbgnormal";
+		$trclass = '';
 		if( isset( $top5[$count] ) ) {
-			$trclass = "dbgwarning";
+			$trclass = ' debugWarning';
 		}
-		print "<tr class='$trclass'>";
-		print "<td style='text-align:center'; rowspan='2'>$count</td>";
-		print "<td class='sql'>{$log['sql']}</td>";
-		print "<td>{$log['elapsed']} ms</td>";
-		print "<td>{$log['rows']}</td>";
-		print "<td class='error'>$error &nbsp;</td>";
-		print "</tr>";
-		print "<tr class='$trclass'>";
-		print "<td colspan='4'>$backtrace</td>";
-		print "</tr>";
+		
+		$log['elapsed'] = $log['elapsed'] / 1000;
+		
+		print <<<TBODY
+		<tr class='debugSQLLine{$trclass}'>
+			<th>{$count}</th>
+			<td class="code">
+				<code onclick="document.getElementById('debugLine_{$count}').style.display == 'none' ? document.getElementById('debugLine_{$count}').style.display = 'block' : document.getElementById('debugLine_{$count}').style.display = 'none';">{$log['sql']}</code>
+				<div id='debugLine_{$count}' class='debugActiveLines' style='display: none;'>{$backtrace}</div>
+			</td>
+			<td class="elapsed">{$log['elapsed']}</td>
+			<td class="rows">{$log['rows']}</td>
+			<td class="error">{$error} &nbsp;</td>
+		</tr>
+TBODY;
 		$count++;
 	}
-	print "<tr><td colspan='6'>$count Queries, $elapsed_total ms elapsed</td></tr>";
-	print "</table>";
+	print '</tbody>';
+	
+	$elapsed_total = $elapsed_total / 1000;
+	
+	print <<<TFOOT
+<tfoot>
+	<tr>
+		<td colspan='6'>$count Queries, $elapsed_total seconds elapsed</td>
+	</tr>
+</tfoot>
+TFOOT;
+	print '</table>';
 }
 ?>
