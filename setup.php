@@ -1001,7 +1001,7 @@ CREATE TABLE {$_POST['dbPrefix']}Attachments (
 CREATE TABLE {$_POST['dbPrefix']}BlogSettings (
   blogid int(11) NOT NULL default '0',
   name varchar(32) NOT NULL default '',
-  value text NOT NULL default '',
+  value text NOT NULL,
   PRIMARY KEY (blogid, name)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}BlogStatistics (

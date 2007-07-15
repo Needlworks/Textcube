@@ -572,7 +572,7 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings defaultDomai
 		CREATE TABLE {$database['prefix']}BlogSettingsMig (
 			blogid int(11) NOT NULL default 0,
 			name varchar(32) NOT NULL default '',
-			value text NOT NULL default '',
+			value text NOT NULL,
 			PRIMARY KEY (blogid,name)
 		) TYPE=MyISAM
 	";
@@ -615,7 +615,7 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings defaultDomai
 							CREATE TABLE {$database['prefix']}UserSettings (
 							userid int(11) NOT NULL default 0,
 							name varchar(32) NOT NULL default '',
-							value text NOT NULL default '',
+							value text NOT NULL,
 							PRIMARY KEY (userid,name)
 						) TYPE=MyISAM
 						";
