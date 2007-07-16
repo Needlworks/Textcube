@@ -1051,7 +1051,7 @@ class DBQuery {
 	}
 	function queryPostProcessing($query) {
 		global $service;
-		return (isset($service['useLegacySupport']) && $service['useLegacySupport'] == true ? preg_replace("/ owner/"," blogid",$query) : $query);
+		return (isset($service['useLegacySupport']) && $service['useLegacySupport'] == true ? preg_replace(array("/ owner/","/.owner/"),array(" blogid",".blogid"),$query) : $query);
 
 	}
 }
