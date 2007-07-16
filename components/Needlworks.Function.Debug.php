@@ -40,7 +40,7 @@ function __tcSqlLogEnd( $result, $cachedResult = false )
 		$client_encoding = str_replace('_','-',mysql_client_encoding());
 	}
 
-	if( $client_encoding != 'utf-8' && function_exists('iconv') ) {
+	if( $client_encoding != 'utf8' && function_exists('iconv') ) {
 		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv( $client_encoding, 'utf-8', mysql_error());
 	}
 	else {
