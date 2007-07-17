@@ -84,7 +84,7 @@ function setProgress($progress, $text = null, $sub = null) {
 }
 
 setProgress(0, _t('최적화 작업을 진행할 테이블을 확인하고 있습니다.'));
-$items = 33;
+$items = 35;
 set_time_limit(0);
 $item = 0;
 $optimized = 0;
@@ -119,10 +119,12 @@ $workarounds = array(
 	'SkinSettings',
 	'TagRelations',
 	'Tags',
+	'Teamblog',
 	'TrackbackLogs',
 	'Trackbacks',
 	'Users',
-	'UserSettings');
+	'UserSettings',
+	'XMLRPCPingSettings');
 
 foreach($workarounds as $work) {
 		setProgress($item++ / $items * 100, _f('%1 테이블을 최적화하고 있습니다.',$work));
