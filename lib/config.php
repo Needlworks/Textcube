@@ -53,6 +53,7 @@ requireComponent('Eolin.PHP.UnifiedEnvironment');
 requireComponent('Eolin.PHP.Core');
 requireComponent('Textcube.Core');
 requireComponent('Textcube.Core.BackwardCompatibility');
+requireLibrary('database');
 
 if (isset($IV)) {
 	if (!Validator::validate($IV)) {
