@@ -54,6 +54,12 @@ function getCurrentSetting($name){
 	global $database, $activePlugins;
 	if( !in_array( $name , $activePlugins))
 		return false;
+	static $pluginSettingCheck = array();
+	static $pluginSettingValue = array();
+	if( isset( $pluginSettingCheck[$name] ) ) {
+		return $pluginSettingValue[$name];
+	}
+
 	$name = mysql_tt_escape_string( $name ) ;
 	$result = DBQuery::query("SELECT settings 
 			FROM {$database['prefix']}Plugins 
@@ -62,6 +68,8 @@ function getCurrentSetting($name){
 	if( false === $result ) 
 		return false;
 	$out = mysql_fetch_array($result); 
+	$pluginSettingCheck[$name] = true;
+	$pluginSettingValue[$name] = $out['settings'];
 	return $out['settings'];
 }
 function updatePluginConfig( $name , $setVal){
