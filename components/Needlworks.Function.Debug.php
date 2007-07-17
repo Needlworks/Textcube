@@ -198,7 +198,7 @@ THEAD;
 			$trclass = ' debugWarning';
 		}
 		
-		$log['elapsed'] = $log['elapsed'] / 1000;
+		$log['elapsed'] = sprintf("%01.4f",$log['elapsed'] / 1000);
 		
 		print <<<TBODY
 		<tr class='debugSQLLine{$trclass}'>
