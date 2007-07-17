@@ -52,16 +52,29 @@ function getKeywordsWithPaging($blogid, $search, $page, $count) {
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
-function getKeylog($blogid, $keyword) {	
+function getKeyword($blogid, $keyword) {	
 	global $database;
 	$keyword = mysql_tt_escape_string($keyword);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
-	return DBQuery::queryAll("SELECT id, userid, title, category, content, published 
+	return DBQuery::queryAll("SELECT * 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND draft = 0 $visibility 
 				AND category = -1 
 				AND title = '$keyword' 
 			ORDER BY published DESC LIMIT 1");
+}
+
+function getKeylogs($blogid, $keyword) {	
+	global $database;
+	$keyword = mysql_tt_escape_string($keyword);
+	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
+	return DBQuery::queryAll("SELECT id, userid, title, category, comments, published 
+			FROM {$database['prefix']}Entries 
+			WHERE blogid = $blogid 
+				AND draft = 0 $visibility 
+				AND category >= 0 
+				AND (title LIKE '%$keyword%' OR content LIKE '%$keyword%')
+			ORDER BY published DESC");
 }
 ?>

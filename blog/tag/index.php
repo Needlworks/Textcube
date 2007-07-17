@@ -12,7 +12,7 @@ if (strlen($suri['value'])) {
 	
 	require ROOT . '/lib/piece/blog/begin.php';
 	if(getBlogSetting('useKeywordAsTag',true)==true){
-		$entries = getKeylog(getBlogId(), $suri['value']);
+		$entries = getKeyword(getBlogId(), $suri['value']);
 		if(isset($entries)) {
 			require ROOT . '/lib/piece/blog/entries.php';
 			unset($entries);
