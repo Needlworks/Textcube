@@ -84,51 +84,20 @@ function setProgress($progress, $text = null, $sub = null) {
 }
 
 setProgress(0, _t('최적화 작업을 진행할 테이블을 확인하고 있습니다.'));
-$items = 35;
+$items = 0;
 set_time_limit(0);
 $item = 0;
 $optimized = 0;
 
-$workarounds = array(
-	'Attachments',
-	'BlogSettings',
-	'BlogStatistics',
-	'Categories',
-	'Comments',
-	'CommentsNotified',
-	'CommentsNotifiedQueue',
-	'CommentsNotifiedSiteInfo',
-	'DailyStatistics',
-	'Entries',
-	'FeedGroupRelations',
-	'FeedGroups',
-	'FeedItems',
-	'FeedReads',
-	'Feeds',
-	'FeedSettings',
-	'FeedStarred',
-	'Filters',
-	'Links',
-	'Plugins',
-	'RefererLogs',
-	'RefererStatistics',
-	'ReservedWords',
-	'ServiceSettings',
-	'Sessions',
-	'SessionVisits',
-	'SkinSettings',
-	'TagRelations',
-	'Tags',
-	'Teamblog',
-	'TrackbackLogs',
-	'Trackbacks',
-	'Users',
-	'UserSettings',
-	'XMLRPCPingSettings');
+$tcTables = getDefinedTableNames();
+$tcPluginTables = getPluginTableName();
+$workarounds = array_merge($tcTables, $tcPluginTables);
+
+$items = $items + count($tcTables) + count($tcPluginTables);
 
 foreach($workarounds as $work) {
 		setProgress($item++ / $items * 100, _f('%1 테이블을 최적화하고 있습니다.',$work));
-		DBQuery::query("OPTIMIZE TABLE {$database['prefix']}{$work}");
+		DBQuery::query("OPTIMIZE TABLE {$work}");
 		$optimized++;
 }
 
