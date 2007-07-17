@@ -1001,7 +1001,12 @@ class DBQuery {
 	}
 	
 	/*@static@*/
-	function queryCell($query, $field = 0) {
+	function queryCell($query, $field = 0, $useCache=true) {
+		global $cachedResult;
+		if( $useCache && isset( $cachedResult[$query] ) ) {
+			$cachedResult[$query][0]++;
+			return $cachedResult[$query][1][$field];
+		}
 		$query = DBQuery::queryPostProcessing($query);
 		if ($result = mysql_tc_query($query)) {
 			if (is_numeric($field)) {
@@ -1010,6 +1015,9 @@ class DBQuery {
 			} else {
 				$row = mysql_fetch_assoc($result);
 				$cell = @$row[$field];
+			}
+			if( $useCache ) {
+				$cachedResult[$query] = array( 1, $row );
 			}
 			mysql_free_result($result);
 			return $cell;
