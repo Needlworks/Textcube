@@ -1056,6 +1056,17 @@ class DBQuery {
 		return null;
 	}
 	
+	function queryAllWithCache($query) {
+		global $cachedResult;
+		if( isset( $cachedResult[$query] ) ) {
+			$cachedResult[$query][0]++;
+			return $cachedResult[$query][1];
+		}
+		$all = DBQuery::queryAll($query);
+		$cachedResult[$query] = array( 1, $all );
+		return $all;
+	}
+	
 	/*@static@*/
 	function execute($query) {
 		$query = DBQuery::queryPostProcessing($query);

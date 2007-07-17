@@ -65,7 +65,7 @@ function getCategoryLinkById($blogid, $id) {
 
 function getCategories($blogid) {
 	global $database;
-	$rows = DBQuery::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id > 0 ORDER BY parent, priority");
+	$rows = DBQuery::queryAllWithCache("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id > 0 ORDER BY parent, priority");
 	$categories = array();
 	if( empty($rows) ) {
 		$rows = array();
@@ -409,12 +409,13 @@ function checkRootCategoryExistence($blogid) {
 }
 
 function getCategoryVisibility($blogid, $id) {
-	global $database;
-	$result = DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
-	if ($result==false)
-		return 2;
-	else
-		return $result;
+	$categories = getCategories($blogid);
+	if( isset($categories[$id]) ) {
+		if( isset( $categories[$id]['visibility'] ) ) {
+			return $categories[$id]['visibility'];
+		}
+	}
+	return 2;
 }
 
 function getParentCategoryVisibility($blogid, $id) {
