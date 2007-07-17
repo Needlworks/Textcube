@@ -155,5 +155,39 @@ function deletePluginTable($name) {
 	$name = mysql_tt_escape_string($name);
 	DBQuery::query("DROP {$database['prefix']}{$name}");
 	return true;
-} 
+}
+
+function getPluginTableName(){
+	global $database;
+	requireModel('common.setting');
+
+	$likeEscape = array ( '/_/' , '/%/' );
+	$likeReplace = array ( '\\_' , '\\%' );
+	$escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
+	$query = "show tables like '{$escapename}%'";
+	$dbtables = DBQuery::queryColumn($query);
+
+	$result = DBQuery::queryRow("show variables like 'lower_case_table_names'");
+	$dbCaseInsensitive = ($result['Value'] == 1) ? true : false;
+
+	$definedTables = getDefinedTableNames();
+
+	$dbtables = array_values(array_diff($dbtables, $definedTables));
+	if ($dbCaseInsensitive == true) {
+		$tempTables = $definedTables;
+		$definedTables = array();
+		foreach($tempTables as $table) {
+			$table = strtolower($table);
+			array_push($definedTables, $table);
+		}
+		$tempTables = $dbtables;
+		$dbtables = array();
+		foreach($tempTables as $table) {
+			$table = strtolower($table);
+			array_push($dbtables, $table);
+		}
+		$dbtables = array_values(array_diff($dbtables, $definedTables));
+	}
+	return $dbtables;
+}
 ?>

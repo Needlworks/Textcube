@@ -957,6 +957,24 @@ class Timestamp {
 
 }
 
+function mysql_tc_query($query) {
+	global $_queryCache;
+	$cachedResult = false;
+	if( function_exists( '__tcSqlLogBegin' ) ) {
+		__tcSqlLogBegin($query);
+	}
+	$result = mysql_query($query);
+	if( function_exists( '__tcSqlLogEnd' ) ) {
+		__tcSqlLogEnd($result,$cachedResult);
+	}
+	return $result;
+}
+
+function mysql_tc_clear_cache() {
+	global $_queryCache;
+	$_queryCache = array();
+}
+
 class DBQuery {	
 	/*@static@*/ 
 	function queryExistence($query) {
