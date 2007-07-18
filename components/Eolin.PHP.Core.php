@@ -1002,40 +1002,35 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryCell($query, $field = 0, $useCache=true) {
-		global $cachedResult;
-		if( $useCache && isset( $cachedResult[$query] ) ) {
-			$cachedResult[$query][0]++;
-			return $cachedResult[$query][1][$field];
+		$type = MYSQL_BOTH;
+		if (is_numeric($field)) {
+			$type = MYSQL_NUM;
+		} else {
+			$type = MYSQL_ASSOC;
 		}
-		$query = DBQuery::queryPostProcessing($query);
-		if ($result = mysql_tc_query($query)) {
-			if (is_numeric($field)) {
-				$row = mysql_fetch_row($result);
-				$cell = @$row[$field];
-			} else {
-				$row = mysql_fetch_assoc($result);
-				$cell = @$row[$field];
-			}
-			if( $useCache ) {
-				$cachedResult[$query] = array( 1, $row );
-			}
-			mysql_free_result($result);
-			return $cell;
+
+		if( $useCache ) {
+			$result = DBQuery::queryAllWithCache($query, $type);
+		} else {
+			$result = DBQuery::queryAll($query, $type);
 		}
-		return null;
+		if( $result == null ) {
+			return null;
+		}
+		return $result[0][$field];
 	}
 	
 	/*@static@*/
-	function queryRow($query, $type = MYSQL_BOTH) {
-		$query = DBQuery::queryPostProcessing($query);
-		if ($result = mysql_tc_query($query)) {
-			if ($row = mysql_fetch_array($result, $type)) {
-				mysql_free_result($result);
-				return $row;
-			}
-			mysql_free_result($result);
+	function queryRow($query, $type = MYSQL_BOTH, $useCache=true) {
+		if( $useCache ) {
+			$result = DBQuery::queryAllWithCache($query, $type, 1);
+		} else {
+			$result = DBQuery::queryAll($query, $type, 1);
 		}
-		return null;
+		if( $result == null ) {
+			return null;
+		}
+		return $result[0];
 	}
 	
 	/*@static@*/
@@ -1044,7 +1039,7 @@ class DBQuery {
 		$column = array();
 		if ($result = mysql_tc_query($query)) {
 			while ($row = mysql_fetch_row($result))
-			array_push($column, $row[0]);
+				array_push($column, $row[0]);
 			mysql_free_result($result);
 			return $column;
 		}
@@ -1052,25 +1047,29 @@ class DBQuery {
 	}
 	
 	/*@static@*/
-	function queryAll($query, $type = MYSQL_BOTH) {
+	function queryAll($query, $type = MYSQL_BOTH, $count = -1) {
 		$query = DBQuery::queryPostProcessing($query);
 		$all = array();
 		if ($result = mysql_tc_query($query)) {
-			while ($row = mysql_fetch_array($result, $type))
-			array_push($all, $row);
-				mysql_free_result($result);
+			while ( ($count-- !=0) && $row = mysql_fetch_array($result, $type))
+				array_push($all, $row);
+			mysql_free_result($result);
 			return $all;
 		}
 		return null;
 	}
 	
-	function queryAllWithCache($query) {
+	function queryAllWithCache($query, $type = MYSQL_BOTH, $count = -1) {
 		global $cachedResult;
 		if( isset( $cachedResult[$query] ) ) {
+			if( function_exists( '__tcSqlLogBegin' ) ) {
+				__tcSqlLogBegin($query);
+				__tcSqlLogEnd(null,true);
+			}
 			$cachedResult[$query][0]++;
 			return $cachedResult[$query][1];
 		}
-		$all = DBQuery::queryAll($query);
+		$all = DBQuery::queryAll($query,$type,$count);
 		$cachedResult[$query] = array( 1, $all );
 		return $all;
 	}

@@ -48,10 +48,14 @@ function __tcSqlLogEnd( $result, $cachedResult = false )
 	}
 	$__tcSqlLog[$__tcSqlLogCount]['errno'] = mysql_errno();
 
-	$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = ceil($elapsed * 10000) / 10;
+	if( ! $cachedResult ) {
+		$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = ceil($elapsed * 10000) / 10;
+	} else {
+		$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = 0;
+	}
 	$__tcSqlLog[$__tcSqlLogCount]['cached'] = $cachedResult;
 	$__tcSqlLog[$__tcSqlLogCount]['rows'] = 0;
-	if( mysql_errno() == 0 ) {
+	if( ! $cachedResult && mysql_errno() == 0 ) {
 		switch( strtolower(substr($__tcSqlLog[$__tcSqlLogCount]['sql'], 0, 6 )) )
 		{
 			case 'select':
@@ -122,6 +126,11 @@ function __tcSqlLogDump()
 		padding: 5px 5px 5px 10px;
 	}
 	
+	tr.debugCached *
+	{
+		color: #888888 !important;
+	}
+	
 	tr.debugWarning *
 	{
 		background-color: #fee5e5;
@@ -155,6 +164,7 @@ EOS;
 
 	$elapsed = array();
 	$count = 1;
+	$cached_count = 0;
 	foreach( $__tcSqlLog as $c => $log ) {
 		$elapsed[$count] = array( $log['elapsed'], $count );
 		$elapsed_total += $log['elapsed'];
@@ -197,6 +207,11 @@ THEAD;
 		if( isset( $top5[$count] ) ) {
 			$trclass = ' debugWarning';
 		}
+		if( $log['cached'] ) {
+			$error = "(cached)";
+			$trclass .= ' debugCached';
+			$cached_count++;
+		}
 		
 		$log['elapsed'] = sprintf("%01.4f",$log['elapsed'] / 1000);
 		
@@ -209,7 +224,7 @@ THEAD;
 			</td>
 			<td class="elapsed">{$log['elapsed']}</td>
 			<td class="rows">{$log['rows']}</td>
-			<td class="error">{$error} &nbsp;</td>
+			<td class="error">{$error}</td>
 		</tr>
 TBODY;
 		$count++;
@@ -221,7 +236,7 @@ TBODY;
 	print <<<TFOOT
 <tfoot>
 	<tr>
-		<td colspan='6'>$count Queries, $elapsed_total seconds elapsed</td>
+		<td colspan='6'>$count Queries, $elapsed_total seconds elapsed, $cached_count cached</td>
 	</tr>
 </tfoot>
 TFOOT;
