@@ -726,6 +726,26 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}Entries owner")) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (DBQuery::queryCell("DESC {$database['prefix']}Filters type", 'Key') != 'MUL') {
+	$changed = true;
+	echo '<li>', _text('테이블의 필드 인덱스를 변경합니다.'), ': ';
+	if (
+	   DBQuery::execute("ALTER TABLE {$database['prefix']}Categories DROP INDEX owner, ADD INDEX blogid (blogid)")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Comments DROP INDEX owner, ADD INDEX blogid (blogid)")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}CommentsNotified DROP INDEX owner, ADD INDEX blogid (blogid)")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Entries DROP INDEX owner, ADD INDEX blogid (blogid, published)")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Filters DROP INDEX owner, ADD INDEX blogid (blogid, type, pattern)")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Links DROP INDEX owner, ADD INDEX blogid (blogid, url)")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}RefererLogs ADD PRIMARY KEY (blogid, referred)")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}TagRelations DROP INDEX owner, ADD INDEX blogid (blogid)")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX owner, ADD INDEX blogid (blogid, entry, url)")
+	)
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+	
+	
 // Plugin Table update.
 $likeEscape = array ( '/_/' , '/%/' );
 $likeReplace = array ( '\\_' , '\\%' );
