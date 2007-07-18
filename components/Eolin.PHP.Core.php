@@ -959,20 +959,19 @@ class Timestamp {
 
 function mysql_tc_query($query) {
 	global $_queryCache;
-	$cachedResult = false;
 	if( function_exists( '__tcSqlLogBegin' ) ) {
 		__tcSqlLogBegin($query);
 	}
 	$result = mysql_query($query);
 	if( function_exists( '__tcSqlLogEnd' ) ) {
-		__tcSqlLogEnd($result,$cachedResult);
+		__tcSqlLogEnd($result,false);
 	}
 	return $result;
 }
 
 function mysql_tc_clear_cache() {
-	global $_queryCache;
-	$_queryCache = array();
+	global $cachedResult;
+	$cachedResult = array();
 }
 
 class DBQuery {	
@@ -1034,16 +1033,32 @@ class DBQuery {
 	}
 	
 	/*@static@*/
-	function queryColumn($query) {
+	function queryColumn($query, $useCache=true) {
 		$query = DBQuery::queryPostProcessing($query);
-		$column = array();
+
+		global $cachedResult;
+		$cacheKey = "{$query}_queryColumn";
+		if( $useCache && isset( $cachedResult[$cacheKey] ) ) {
+			if( function_exists( '__tcSqlLogBegin' ) ) {
+				__tcSqlLogBegin($query);
+				__tcSqlLogEnd(null,true);
+			}
+			$cachedResult[$cacheKey][0]++;
+			return $cachedResult[$cacheKey][1];
+		}
+
+		$column = null;
 		if ($result = mysql_tc_query($query)) {
+			$column = array();
 			while ($row = mysql_fetch_row($result))
 				array_push($column, $row[0]);
 			mysql_free_result($result);
-			return $column;
 		}
-		return null;
+
+		if( $useCache ) {
+			$cachedResult[$cacheKey] = array( 1, $column );
+		}
+		return $column;
 	}
 	
 	/*@static@*/
@@ -1061,16 +1076,17 @@ class DBQuery {
 	
 	function queryAllWithCache($query, $type = MYSQL_BOTH, $count = -1) {
 		global $cachedResult;
-		if( isset( $cachedResult[$query] ) ) {
+		$cacheKey = "{$query}_{$type}_{$count}";
+		if( isset( $cachedResult[$cacheKey] ) ) {
 			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,true);
 			}
-			$cachedResult[$query][0]++;
-			return $cachedResult[$query][1];
+			$cachedResult[$cacheKey][0]++;
+			return $cachedResult[$cacheKey][1];
 		}
 		$all = DBQuery::queryAll($query,$type,$count);
-		$cachedResult[$query] = array( 1, $all );
+		$cachedResult[$cacheKey] = array( 1, $all );
 		return $all;
 	}
 	
