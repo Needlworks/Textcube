@@ -7,10 +7,9 @@ require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
+$cache = new pageCache;
 if (strlen($suri['value'])) {
 	$tag = getTagId($blogid, $suri['value']);
-
-	$cache = new pageCache;
 
 	require ROOT . '/lib/piece/blog/begin.php';
 	if(getBlogSetting('useKeywordAsTag',true)==true){
@@ -47,7 +46,11 @@ if (strlen($suri['value'])) {
 	}
 } else {
 	require ROOT . '/lib/piece/blog/begin.php';
-	$siteTags = getSiteTags($blogid);
+	$cache->reset();
+	$cache->name = 'tagPage';
+	if(!$cache->load()){
+		$siteTags = getSiteTags($blogid);
+	}
 	require ROOT . '/lib/piece/blog/siteTags.php';
 }
 require ROOT . '/lib/piece/blog/end.php';
