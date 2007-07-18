@@ -155,6 +155,7 @@ function deleteCategory($blogid, $id) {
 	
 	if (!is_numeric($id))
 		return false;
+	CacheControl::flushCategory($id);
 	return DBQuery::execute("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
 }
 
@@ -184,6 +185,7 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	if ($result && (mysql_affected_rows() > 0))
 		clearRSS();
 	updateEntriesOfCategory($blogid);
+	CacheControl::flushCategory($id);
 	return $result ? true : false;
 }
 
@@ -208,6 +210,7 @@ function updateEntriesOfCategory($blogid, $id = - 1) {
 		}
 		DBQuery::query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesInLogin = $countInLoginParent, `label` = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
 	}
+	CacheControl::flushCategory($id);
 	return true;
 }
 
@@ -393,6 +396,7 @@ function moveCategory($blogid, $id, $direction) {
 		}
 	}
 	updateEntriesOfCategory($blogid);
+	CacheControl::flushCategory($id);
 }
 
 function checkRootCategoryExistence($blogid) {
@@ -440,6 +444,7 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 	if ($result)
 		clearRSS();
 	updateEntriesOfCategory($blogid);
+	CacheControl::flushCategory($id);
 	return $result ? $visibility : false;
 }
 

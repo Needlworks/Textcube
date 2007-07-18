@@ -191,6 +191,7 @@ function removeEmptyTagHelper($var)
 function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 {
 	global $database;
+	requireComponent('Needlworks.Cache.PageCache');
 	if ($taglist == null)
 		return;
 		
@@ -218,14 +219,14 @@ function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 	$tagliststr =  '\'' . implode('\' , \'', $taglist) . '\'';
 	/*
 	DBQuery::execute("INSERT INTO {$database['prefix']}TagRelations
-							(SELECT $blogid, t.id, $entry FROM {$database['prefix']}Tags as t 
-									WHERE 
-										name in ( $tagliststr ) AND  
-										t.id NOT IN 
-											( SELECT tag FROM {$database['prefix']}TagRelations WHERE 
-												(tag = t.id) AND (entry = $entry) AND (blogid = $blogid)
-											)
-							)");
+			(SELECT $blogid, t.id, $entry FROM {$database['prefix']}Tags as t 
+			WHERE 
+				name in ( $tagliststr ) AND  
+				t.id NOT IN 
+				( SELECT tag FROM {$database['prefix']}TagRelations WHERE 
+				(tag = t.id) AND (entry = $entry) AND (blogid = $blogid)
+			)
+	)");
 	*/
 	// For MySQL 3, Simple Query Version
 	$tagIDs = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Tags WHERE name in ( $tagliststr )");
@@ -233,6 +234,7 @@ function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 	foreach($tagIDs as $tagid)
 	{
 		array_push($tagrelations, " ($blogid, $tagid, $entry) ");
+		CacheControl::flushTag($tagid);	
 	}
 	$tagRelationStr = implode(', ', $tagrelations);
 	DBQuery::execute("INSERT IGNORE INTO {$database['prefix']}TagRelations VALUES $tagRelationStr");
@@ -281,14 +283,14 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 		$tagliststr =  '\'' . implode('\' , \'', $insertedTagList) . '\'';
 		/*
 		DBQuery::execute("INSERT INTO {$database['prefix']}TagRelations
-								(SELECT $blogid, t.id, $entry FROM {$database['prefix']}Tags as t 
-										WHERE 
-											name in ( $tagliststr ) AND  
-											t.id NOT IN 
-												( SELECT tag FROM {$database['prefix']}TagRelations WHERE 
-													(tag = t.id) AND (entry = $entry) AND (blogid = $blogid)
-												)
-								)");
+			(SELECT $blogid, t.id, $entry FROM {$database['prefix']}Tags as t 
+			WHERE 
+				name in ( $tagliststr ) AND  
+				t.id NOT IN 
+					( SELECT tag FROM {$database['prefix']}TagRelations WHERE 
+					(tag = t.id) AND (entry = $entry) AND (blogid = $blogid)
+				)
+			)");
 		*/
 		// For MySQL 3, Simple Query Version
 		$tagIDs = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Tags WHERE name in ( $tagliststr )");
@@ -296,6 +298,7 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 		foreach($tagIDs as $tagid)
 		{
 			array_push($tagrelations, " ($blogid, $tagid, $entry) ");
+			CacheControl::flushTag($tagid);	
 		}
 		$tagRelationStr = implode(', ', $tagrelations);
 		DBQuery::execute("INSERT IGNORE INTO {$database['prefix']}TagRelations VALUES $tagRelationStr");
@@ -309,6 +312,11 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 		$t1list = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Tags WHERE name in ( $tagliststr )");
 		if ($t1list == null) 
 			return; // What?
+		// Flushing pageCache
+		foreach($t1list as $tagids){
+			CacheControl::flushTag($tagids);
+		}
+		// Make string
 		$t1liststr = implode(', ', $t1list);
 		$taglist = DBQuery::queryColumn(
 				"SELECT tag FROM {$database['prefix']}TagRelations 
@@ -337,17 +345,30 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 function deleteTagsWithEntryId($blogid, $entry)
 {
 	global $database;
-	$taglist = DBQuery::queryColumn("SELECT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid AND entry = $entry");
+	$taglist = DBQuery::queryColumn("SELECT tag 
+		FROM {$database['prefix']}TagRelations 
+		WHERE blogid = $blogid 
+			AND entry = $entry");
 	if ($taglist != null) {
 		$tagliststr = implode(',', $taglist);
 		
-		DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid AND entry = $entry");
-		$nottargets = DBQuery::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");
+		foreach($taglist as $tagid) {
+			CacheControl::flushTag($tagid);
+		}
+		DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations 
+			WHERE blogid = $blogid 
+				AND entry = $entry");
+		$nottargets = DBQuery::queryColumn("SELECT DISTINCT tag 
+			FROM {$database['prefix']}TagRelations 
+			WHERE tag in ( $tagliststr )");
 		if (count($nottargets) > 0) {
 			$nottargetstr	= implode(', ', $nottargets);
-			DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");
+			DBQuery::execute("DELETE FROM {$database['prefix']}Tags 
+				WHERE id IN ( $tagliststr ) 
+					AND id NOT IN ( $nottargetstr )");
 		} else {
-			DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr )");
+			DBQuery::execute("DELETE FROM {$database['prefix']}Tags 
+				WHERE id IN ( $tagliststr )");
 		}
 	}
 }

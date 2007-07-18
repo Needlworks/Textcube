@@ -14,7 +14,7 @@ if (strlen($suri['value'])) {
 
 	require ROOT . '/lib/piece/blog/begin.php';
 	if(getBlogSetting('useKeywordAsTag',true)==true){
-		$cache->name = 'keyword_'.$suri['value'];
+		$cache->name = 'keyword_'.$tag;
 		if($cache->load()) {
 			require ROOT . '/lib/piece/blog/entries.php';
 		} else {

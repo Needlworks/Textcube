@@ -146,10 +146,9 @@ class CacheControl{
 		return true;
 	}
 
-	function flushTag($tag) {
+	function flushTag($tagId) {
 		global $database;
 
-		$tagId = getTagId($blogid, $tag);
 		$cache = new pageCache;
 		$tagLists = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
@@ -164,7 +163,7 @@ class CacheControl{
 		$keywordEntries = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND name like 'keyword_".$tag."_%'");
+			AND name like 'keyword_".$tagId."_%'");
 		foreach($keywordEntries as $keywordEntryName){
 			$cache->reset();
 			$cache->name = $keywordEntryName;

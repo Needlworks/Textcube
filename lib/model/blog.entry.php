@@ -753,7 +753,7 @@ function setEntryVisibility($id, $visibility) {
 	global $database;
 	requireModel("blog.rss");
 	requireModel("blog.category");
-	
+
 	$blogid = getBlogId();
 	if (($visibility < 0) || ($visibility > 3))
 		return false;
@@ -769,6 +769,7 @@ function setEntryVisibility($id, $visibility) {
 	if ($visibility == $oldVisibility)
 		return true;
 
+	CacheControl::flushCategory($category);
 	if ($oldVisibility == 3)
 		syndicateEntry($id, 'delete');
 	else if ($visibility == 3) {
