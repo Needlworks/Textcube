@@ -836,3 +836,4 @@ if (preg_match('@\(thumbnail\)/\(\[0\-9\]\+/\.\+\) cache/\$1/\$2@', $content) ==
 </p>
 </body>
 </html>
+<?php if( function_exists('__tcSqlLogDump') ) { __tcSqlLogDump(); } ?>
