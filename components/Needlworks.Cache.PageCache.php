@@ -91,10 +91,11 @@ class pageCache {
 		if(empty($this->name)) return $this->_error('invalid name');
 		$this->realName = $this->name."_".getBlogId().(doesHaveOwnership() ? '_owner' : '');
 		$this->filename = md5($this->realName);
-		$this->realNameOwner = $this->name."_".getBlogId()."_owner");
+		$this->realNameOwner = $this->name."_".getBlogId()."_owner";
 		$this->realNameGuest = $this->name."_".getBlogId();
 		$this->filenameOwner = md5($this->realNameOwner);
 		$this->filenameGuest = md5($this->realNameGuest);
+		$this->absoluteFilePath = ROOT.'/cache/pageCache/'.getBlogId()."/".$this->filename;
 		$this->absoluteFilePathOwner = ROOT.'/cache/pageCache/'.getBlogId()."/".$this->filenameOwner;
 		$this->absoluteFilePathGuest = ROOT.'/cache/pageCache/'.getBlogId()."/".$this->filenameGuest;
 		return true;
