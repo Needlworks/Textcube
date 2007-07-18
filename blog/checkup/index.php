@@ -736,7 +736,7 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Filters type", 'Key') != 'MUL'
 	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Entries DROP INDEX owner, ADD INDEX blogid (blogid, published)")
 	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Filters DROP INDEX owner, ADD INDEX blogid (blogid, type, pattern)")
 	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Links DROP INDEX owner, ADD INDEX blogid (blogid, url)")
-	   && DBQuery::execute("ALTER TABLE {$database['prefix']}RefererLogs ADD PRIMARY KEY (blogid, referred)")
+	   && DBQuery::execute("ALTER TABLE {$database['prefix']}RefererLogs ADD INDEX blogid (blogid, referred)")
 	   && DBQuery::execute("ALTER TABLE {$database['prefix']}TagRelations DROP INDEX owner, ADD INDEX blogid (blogid)")
 	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX owner, ADD INDEX blogid (blogid, entry, url)")
 	)
