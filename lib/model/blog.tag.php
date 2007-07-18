@@ -39,13 +39,13 @@ function getRandomTags($blogid) {
 	$aux = ($skinSetting['tagsOnTagbox'] == - 1) ? '' : "limit {$skinSetting['tagsOnTagbox']}";
 	if ($skinSetting['tagboxAlign'] == 1) { // order by count
 		if (doesHaveOwnership())
-			$result = DBQuery::query("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
+			$tags = DBQuery::queryColumn("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r 
 				WHERE t.id = r.tag and r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY cnt DESC $aux");
 		else
-			$result = DBQuery::query("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
+			$tags = DBQuery::queryColumn("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r, 
 				`{$database['prefix']}Entries` e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
@@ -53,13 +53,13 @@ function getRandomTags($blogid) {
 				ORDER BY `cnt` DESC $aux");
 	} else if ($skinSetting['tagboxAlign'] == 2) {  // order by name
 		if (doesHaveOwnership())
-			$result = DBQuery::query("SELECT DISTINCT name FROM `{$database['prefix']}Tags` t, 
+			$tags = DBQuery::queryColumn("SELECT DISTINCT name FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r 
 				WHERE t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY t.name $aux");
 		else
-			$result = DBQuery::query("SELECT DISTINCT name FROM `{$database['prefix']}Tags` t, 
+			$tags = DBQuery::queryColumn("SELECT DISTINCT name FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r,
 				`{$database['prefix']}Entries` e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
@@ -67,21 +67,17 @@ function getRandomTags($blogid) {
 				ORDER BY t.name $aux");
 	} else { // random
 		if (doesHaveOwnership())
-			$result = DBQuery::query("SELECT `name` FROM `{$database['prefix']}Tags` t,
+			$tags = DBQuery::queryColumn("SELECT `name` FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r
 				WHERE t.id = r.tag AND r.blogid = $blogid
 				GROUP BY r.tag ORDER BY RAND() $aux");
 		else
-			$result = DBQuery::query("SELECT `name` FROM `{$database['prefix']}Tags` t,
+			$tags = DBQuery::queryColumn("SELECT `name` FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r,
 				`{$database['prefix']}Entries` e
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY RAND() $aux");
-	}
-	if ($result) {
-		while (list($tag) = mysql_fetch_row($result))
-			array_push($tags, $tag);
 	}
 	return $tags;
 }
@@ -116,39 +112,33 @@ function getTagFrequencyRange() {
 	$blogid = getBlogId();
 	$max = $min = 0;
 	if (doesHaveOwnership())
-		$result = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r 
+		$max = DBQuery::queryCell("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r 
 			WHERE r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY `cnt` 
 			DESC LIMIT 1");
 	else
-		$result = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r,
+		$max = DBQuery::queryCell("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r,
 			`{$database['prefix']}Entries` e 
 			WHERE r.entry = e.id AND e.visibility > 0 AND r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY `cnt` 
 			DESC LIMIT 1");
-	if ($result) {
-		if (list($count) = mysql_fetch_array($result))
-			$max = $count;
-	}
 	if (doesHaveOwnership())
-		$result = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r 
+		$min = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r 
 			WHERE r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY `cnt` 
 			LIMIT 1");
 	else
-		$result = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r, 
+		$min = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r, 
 			`{$database['prefix']}Entries` e 
 			WHERE r.entry = e.id AND e.visibility > 0 AND r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY `cnt` 
 			LIMIT 1");
-	if ($result) {
-		if (list($count) = mysql_fetch_array($result))
-			$min = $count;
-	}
+	$max = $max == null ? 0 : $max;
+	$min = $min == null ? 0 : $min;
 	return array($max, $min);
 }
 
