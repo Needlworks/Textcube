@@ -139,8 +139,6 @@ function getTagFrequencyRange() {
 			LIMIT 1");
 	$max = ($max == null ? 0 : $max);
 	$min = ($min == null ? 0 : $min);
-	var_dump($max);
-	var_dump($min);
 	return array($max, $min);
 }
 
