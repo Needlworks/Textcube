@@ -125,20 +125,22 @@ function getTagFrequencyRange() {
 			ORDER BY `cnt` 
 			DESC LIMIT 1");
 	if (doesHaveOwnership())
-		$min = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r 
+		$min = DBQuery::queryCell("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r 
 			WHERE r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY `cnt` 
 			LIMIT 1");
 	else
-		$min = DBQuery::query("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r, 
+		$min = DBQuery::queryCell("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r, 
 			`{$database['prefix']}Entries` e 
 			WHERE r.entry = e.id AND e.visibility > 0 AND r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY `cnt` 
 			LIMIT 1");
-	$max = $max == null ? 0 : $max;
-	$min = $min == null ? 0 : $min;
+	$max = ($max == null ? 0 : $max);
+	$min = ($min == null ? 0 : $min);
+	var_dump($max);
+	var_dump($min);
 	return array($max, $min);
 }
 
