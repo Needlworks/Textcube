@@ -6,18 +6,30 @@
 class pageCache {
 	var $name;
 	var $realName;
+	var $realNameOwner;
+	var $realNameGuest;
 	var $filename;
+	var $filenameOwner;
+	var $filenameGuest;
 	var $contents;
 	var $absoluteFilePath;
+	var $absoluteFilePathOwner;
+	var $absoluteFilePathGuest;
 	var $error;
 
 	function reset() {
 		$this->name = 
 		$this->realName = 
-		$this->error = 
+		$this->realNameOwner = 
+		$this->realNameGuest = 
 		$this->filename =
+		$this->filenameOwner =
+		$this->filenameGuest =
 		$this->absoluteFilePath =
+		$this->absoluteFilePathOwner =
+		$this->absoluteFilePathGuest =
 		$this->contents =
+		$this->error = 
 		null;
 	}
 
@@ -60,12 +72,14 @@ class pageCache {
 	}
 	function purge () {
 		$this->getFileName();
-		if(!file_exists($this->absoluteFilePath)) {
+		if(!file_exists($this->absoluteFilePathOwner) 
+			&& !file_exists($this->absoluteFilePathGuest)) {
 			$this->removePageCacheLog();
 			return true;
 		}
-		if($this->getFileName() && chmod($this->absoluteFilePath,0777)){
-			@unlink($this->absoluteFilePath);
+		if(chmod($this->absoluteFilePathOwner, 0777) || chmod($this->absoluteFilePathGuest, 0777)){
+			@unlink($this->absoluteFilePathOwner);
+			@unlink($this->absoluteFilePathGuest);
 			$this->removePageCacheLog();
 			return true;
 		} else {
@@ -75,9 +89,14 @@ class pageCache {
 
 	function getFileName(){
 		if(empty($this->name)) return $this->_error('invalid name');
-		$this->realName = $this->name."_".getBlogId()."_".(doesHaveOwnership() ? 'owner' : '');
+		$this->realName = $this->name."_".getBlogId().(doesHaveOwnership() ? '_owner' : '');
 		$this->filename = md5($this->realName);
-		$this->absoluteFilePath = ROOT.'/cache/pageCache/'.getBlogId()."/".$this->filename;
+		$this->realNameOwner = $this->name."_".getBlogId()."_owner");
+		$this->realNameGuest = $this->name."_".getBlogId();
+		$this->filenameOwner = md5($this->realNameOwner);
+		$this->filenameGuest = md5($this->realNameGuest);
+		$this->absoluteFilePathOwner = ROOT.'/cache/pageCache/'.getBlogId()."/".$this->filenameOwner;
+		$this->absoluteFilePathGuest = ROOT.'/cache/pageCache/'.getBlogId()."/".$this->filenameGuest;
 		return true;
 	}
 
@@ -109,7 +128,10 @@ class pageCache {
 		global $database;
 		return DBQuery::execute("DELETE FROM {$database['prefix']}PageCacheLog 
 			WHERE blogid = ".getBlogId()."
-			AND name = '".mysql_tt_escape_string($this->realName)."'");
+			AND name = '".mysql_tt_escape_string($this->realNameOwner)."'") ||
+			DBQuery::execute("DELETE FROM {$database['prefix']}PageCacheLog 
+				WHERE blogid = ".getBlogId()."
+				AND name = '".mysql_tt_escape_string($this->realNameGuest)."'");
 	}
 
 	function _error($error) {
@@ -169,6 +191,9 @@ class CacheControl{
 			$cache->name = $keywordEntryName;
 			$cache->purge();
 		}
+		$cache->reset();
+		$cache->name = 'tagPage';
+		$cache->purge();
 		unset($cache);
 		return true;
 	}
