@@ -53,6 +53,7 @@ requireComponent('Eolin.PHP.UnifiedEnvironment');
 requireComponent('Eolin.PHP.Core');
 requireComponent('Textcube.Core');
 requireComponent('Textcube.Core.BackwardCompatibility');
+requireComponent('Needlworks.Cache.PageCache');
 
 if (isset($IV)) {
 	if (!Validator::validate($IV)) {

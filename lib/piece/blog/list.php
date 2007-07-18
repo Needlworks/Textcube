@@ -3,7 +3,10 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-if (isset($list) && isset($skin)) {
+
+if (isset($cache->contents)) {
+	dress('list', $cache->contents, $view);
+} else if (isset($list) && isset($skin)) {
 	$listView = $skin->list;
 	$itemsView = '';
 	foreach ($list['items'] as $item) {	
@@ -32,5 +35,9 @@ if (isset($list) && isset($skin)) {
 	dress('list_conform', fireEvent('ViewListHeadTitle', htmlspecialchars($list['title']) ), $listView);
 	dress('list_count', isset($list['count']) ? $list['count'] : '0', $listView);
 	dress('list', fireEvent('ViewList', $listView, $list), $view);
+	if(isset($cache)) { 
+		$cache->contents = $listView;
+		$cache->update();
+	}
 }
 ?>

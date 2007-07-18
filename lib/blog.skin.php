@@ -80,12 +80,16 @@ class Skin {
 	var $singleTrackbackMessage;
 	
 	function Skin($name, $previewMode = false) {
-		global $service, $blogURL;
+		global $service, $blogURL, $suri, $blog;
 		
-		$this->noneCommentMessage = getBlogSetting('noneCommentMessage');
-		$this->singleCommentMessage = getBlogSetting('singleCommentMessage');
-		$this->noneTrackbackMessage = getBlogSetting('noneTrackbackMessage');
-		$this->singleTrackbackMessage = getBlogSetting('singleTrackbackMessage');
+		//$this->noneCommentMessage = getBlogSetting('noneCommentMessage');
+		//$this->singleCommentMessage = getBlogSetting('singleCommentMessage');
+		//$this->noneTrackbackMessage = getBlogSetting('noneTrackbackMessage');
+		//$this->singleTrackbackMessage = getBlogSetting('singleTrackbackMessage');
+		$this->noneCommentMessage = $blog['noneCommentMessage'];
+		$this->singleCommentMessage = $blog['singleCommentMessage'];
+		$this->noneTrackbackMessage = $blog['noneTrackbackMessage'];
+		$this->singleTrackbackMessage = $blog['singleTrackbackMessage'];
 		
 		if (strncmp($name, 'customize/', 10) == 0) {
 			$name = "customize/".getBlogId();
@@ -177,7 +181,13 @@ class Skin {
 			}
 			$this->metapageName[$metapageCount] = $tempTitle;
 		}
-		handleMetapages($sval, $this, $previewMode);
+
+		if(empty($suri['value']) 
+			&& $suri["directive"] == "/" 
+			&& $suri['page'] == 1 
+			&& getBlogSetting("metapageInitView")) {
+			handleMetapages($sval, $this, $previewMode);
+		}
 
 		$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
 
@@ -379,7 +389,7 @@ function revertTempTags($content) {
 	$keys = array_keys($contentContainer);
 	for ($i=0; $i<count($keys); $i++) {
 		$content = str_replace("[#####_#####_#####_{$keys[$i]}_#####_#####_#####]", $contentContainer[$keys[$i]], $content);
-		unset($contentContainer[$keys[$i]]);
+//		unset($contentContainer[$keys[$i]]);
 	}
 	return $content;
 }

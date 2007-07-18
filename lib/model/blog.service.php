@@ -47,7 +47,11 @@ function getBlogSettings($blogid) {
 					'allowWriteDblCommentOnGuestbook' => 1,
 					'language'     => $service['language'],
 					'blogLanguage' => $service['language'],
-					'timezone'     => $service['timezone']);
+					'timezone'     => $service['timezone'],
+					'noneCommentMessage'       => '',
+					'singleCommentMessage'     => '',
+					'noneTrackbackMessage'     => '',
+					'singleTrackbackMessage'   => '');
 			foreach($blogSettings as $blogSetting){
 				if(array_key_exists($blogSetting['name'],$defaultValues)) {
 					$result[$blogSetting['name']] = $blogSetting['value'];

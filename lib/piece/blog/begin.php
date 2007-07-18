@@ -5,7 +5,6 @@
 
 $blogid = getBlogId();
 requireModel('blog.statistics');
-
 updateVisitorStatistics($blogid);
 $stats = getStatistics($blogid);
 if (!empty($entries) && (count($entries) == 1))

@@ -5,7 +5,9 @@
 
 $entriesView = '';
 
-if(isset($entries)) {
+if (isset($cache->contents)) {
+	$entriesView = $cache->contents;
+} else if(isset($entries)) {
 	foreach ($entries as $entry) {
 		if ($suri['directive'] == '/notice')
 			$permalink = "$blogURL/notice/{$entry['id']}";
@@ -124,6 +126,10 @@ if(isset($entries)) {
 			else
 				$entriesView .= "<div id=\"entry{$entry['id']}\">$protectedEntryView</div>";
 		}
+	}
+	if(isset($cache)) {
+		$cache->contents = revertTempTags(removeAllTags($entriesView));
+		$cache->update();
 	}
 }
 if(isset($isKeylog) && $isKeylog) {

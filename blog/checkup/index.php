@@ -726,7 +726,7 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}Entries owner")) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-if (DBQuery::queryCell("DESC {$database['prefix']}Filters type", 'Key') != 'MUL') {
+if (DBQuery::queryCell("DESC {$database['prefix']}Filters blogid", 'Key') != 'MUL') {
 	$changed = true;
 	echo '<li>', _text('테이블의 필드 인덱스를 변경합니다.'), ': ';
 	if (
@@ -746,6 +746,22 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Filters type", 'Key') != 'MUL'
 }
 	
 	
+if (!doesExistTable($database['prefix'] . 'PageCacheLog')) {
+	$changed = true;
+	echo '<li>', _text('페이지 캐싱을 위한 테이블을 추가합니다.'), ': ';
+	$query = "
+		CREATE TABLE {$database['prefix']}PageCacheLog (
+			blogid int(11) NOT NULL default 0,
+			name varchar(255) NOT NULL default '',
+			PRIMARY KEY (blogid,name)
+		) TYPE=MyISAM
+	";
+	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 // Plugin Table update.
 $likeEscape = array ( '/_/' , '/%/' );
 $likeReplace = array ( '\\_' , '\\%' );

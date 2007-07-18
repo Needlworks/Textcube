@@ -61,7 +61,6 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	notifyComment();
 }
 publishEntries();
-list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
 require ROOT . '/lib/piece/blog/begin.php';
 
 if(empty($suri['value']) && $suri["directive"] == "/" && $suri['page'] == 1 && getBlogSetting("metapageInitView")) {
@@ -70,8 +69,10 @@ if(empty($suri['value']) && $suri["directive"] == "/" && $suri['page'] == 1 && g
 	dress('paging', '', $view);
 	dress('metapage', $metapageModule, $metaView);
 	dress('meta', $metaView, $view);
+} else {
+	list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
+	require ROOT . '/lib/piece/blog/entries.php';
 }
 
-require ROOT . '/lib/piece/blog/entries.php';
 require ROOT . '/lib/piece/blog/end.php';
 ?>
