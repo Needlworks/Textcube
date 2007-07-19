@@ -233,7 +233,7 @@ function organizeRobotInfo($info)
 function getSubscriptionStatistics($blogid) {
 	global $database;
 	$statistics = array();
-	if ($result = mysql_query("select ip, host, useragent, subscribed, referred from {$database['prefix']}SubscriptionStatistics where blogid = $blogid order by referred desc")) {
+	if ($result = DBQuery::query("select ip, host, useragent, subscribed, referred from {$database['prefix']}SubscriptionStatistics where blogid = $blogid order by referred desc")) {
 		while ($record = mysql_fetch_array($result))
 			array_push($statistics, $record);
 	}

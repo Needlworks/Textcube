@@ -957,28 +957,14 @@ class Timestamp {
 
 }
 
-function mysql_tc_query($query) {
-	global $_queryCache;
-	if( function_exists( '__tcSqlLogBegin' ) ) {
-		__tcSqlLogBegin($query);
-	}
-	$result = mysql_query($query);
-	if( function_exists( '__tcSqlLogEnd' ) ) {
-		__tcSqlLogEnd($result,false);
-	}
-	return $result;
-}
-
-function mysql_tc_clear_cache() {
-	global $cachedResult;
-	$cachedResult = array();
-}
+global $cachedResult;
+global $fileCachedResult;
+$cachedResult = array();
 
 class DBQuery {	
 	/*@static@*/ 
 	function queryExistence($query) {
-		$query = DBQuery::queryPostProcessing($query);
-		if ($result = mysql_tc_query($query)) {
+		if ($result = DBQuery::query($query)) {
 			if (mysql_num_rows($result) > 0) {
 				mysql_free_result($result);
 				return true;
@@ -990,9 +976,8 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryCount($query) {
-		$query = DBQuery::queryPostProcessing($query);
 		$count = 0;
-		if ($result = mysql_tc_query($query)) {
+		if ($result = DBQuery::query($query)) {
 			$count = mysql_num_rows($result);
 			mysql_free_result($result);
 		}
@@ -1034,8 +1019,6 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryColumn($query, $useCache=true) {
-		$query = DBQuery::queryPostProcessing($query);
-
 		global $cachedResult;
 		$cacheKey = "{$query}_queryColumn";
 		if( $useCache && isset( $cachedResult[$cacheKey] ) ) {
@@ -1048,7 +1031,7 @@ class DBQuery {
 		}
 
 		$column = null;
-		if ($result = mysql_tc_query($query)) {
+		if ($result = DBQuery::query($query)) {
 			$column = array();
 			while ($row = mysql_fetch_row($result))
 				array_push($column, $row[0]);
@@ -1063,9 +1046,8 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryAll($query, $type = MYSQL_BOTH, $count = -1) {
-		$query = DBQuery::queryPostProcessing($query);
 		$all = array();
-		if ($result = mysql_tc_query($query)) {
+		if ($result = DBQuery::query($query)) {
 			while ( ($count-- !=0) && $row = mysql_fetch_array($result, $type))
 				array_push($all, $row);
 			mysql_free_result($result);
@@ -1092,20 +1074,52 @@ class DBQuery {
 	
 	/*@static@*/
 	function execute($query) {
-		$query = DBQuery::queryPostProcessing($query);
-		return mysql_tc_query($query) ? true : false;
+		return DBQuery::query($query) ? true : false;
 	}
 
 	/*@static@*/
-	function query($query) {
-		$query = DBQuery::queryPostProcessing($query);
-		return mysql_tc_query($query);
-	}
 	function queryPostProcessing($query) {
 		global $service;
 		return (isset($service['useLegacySupport']) && $service['useLegacySupport'] == true ? preg_replace(array("/ owner/","/.owner/"),array(" blogid",".blogid"),$query) : $query);
 
 	}
+
+	/*@static@*/
+	function query($query) {
+		$query = DBQuery::queryPostProcessing($query);
+		if( function_exists( '__tcSqlLogBegin' ) ) {
+			__tcSqlLogBegin($query);
+			$result = mysql_query($query);
+			__tcSqlLogEnd($result,false);
+		} else {
+			$result = mysql_query($query);
+		}
+		if( stristr($query, 'update ') ||
+			stristr($query, 'insert ') ||
+			stristr($query, 'update ') ||
+			stristr($query, 'replace ') ) {
+			DBQuery::clearCache();
+		}
+		return $result;
+	}
+
+	function clearCache() {
+		global $cachedResult;
+		$cachedResult = array();
+		if( function_exists( '__tcSqlLogBegin' ) ) {
+			__tcSqlLogBegin("Cache cleared");
+			__tcSqlLogEnd(null,true);
+		}
+	}
+
+	function cacheSave() {
+	}
+}
+
+register_shutdown_function( array('DBQuery',cacheSave) );
+
+function mysql_tc_query($sql) {
+	return DBQuery::query($sql);
 }
 
 
@@ -1203,7 +1217,7 @@ class TableQuery {
 		if (empty($attributes))
 			return false;
 		$this->_query = 'INSERT INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
-		if (mysql_tc_query($this->_query)) {
+		if (DBQuery::query($this->_query)) {
 			$this->id = mysql_insert_id();
 			return true;
 		}
@@ -1217,7 +1231,7 @@ class TableQuery {
 		foreach ($this->_attributes as $name => $value)
 			array_push($attributes, $name . '=' . $value);
 		$this->_query = 'UPDATE ' . $this->table . ' SET ' . implode(',', $attributes) . $this->_makeWhereClause();
-		if (mysql_tc_query($this->_query))
+		if (DBQuery::query($this->_query))
 			return true;
 		return false;
 	}
@@ -1230,7 +1244,7 @@ class TableQuery {
 		if (empty($attributes))
 			return false;
 		$this->_query = 'REPLACE INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
-		if (mysql_tc_query($this->_query)) {
+		if (DBQuery::query($this->_query)) {
 			$this->id = mysql_insert_id();
 			return true;
 		}
@@ -1241,7 +1255,7 @@ class TableQuery {
 		if (empty($this->table))
 			return false;
 		$this->_query = 'DELETE FROM ' . $this->table . $this->_makeWhereClause();
-		if (mysql_tc_query($this->_query))
+		if (DBQuery::query($this->_query))
 			return true;
 		return false;
 	}
