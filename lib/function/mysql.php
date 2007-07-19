@@ -22,12 +22,17 @@ function escapeMysqlSearchString($str) {
 
 function doesExistTable($tablename)
 {
+	global $database;
+	static $tables = array();
 	$likeEscape = array ( '/_/' , '/%/' );
 	$likeReplace = array ( '\\_' , '\\%' );
-	$escapename = preg_replace($likeEscape, $likeReplace, $tablename);
-	$result = mysql_tc_query("SHOW TABLES LIKE '$escapename' ");
-	if ($result == false) return false;
-	if (mysql_num_rows($result) > 0) return true;
+	$escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
+	if( empty($tables) ) {
+		$tables = DBQuery::queryColumn( "SHOW TABLES LIKE '{$escapename}%'" );
+	}
+	if( in_array( $tablename, $tables ) ) {
+		return true;
+	}
 	return false;
 }
 ?>
