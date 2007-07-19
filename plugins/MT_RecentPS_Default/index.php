@@ -66,6 +66,7 @@ function MT_getRecentEntries($parameters){
 		$html .= '	</div>'.CRLF;
 		$html .= '	<div class="post_content">'.htmlspecialchars(UTF8::lessenAsEm(removeAllTags(stripHTML($entry['content'])),250)).'</div>'.CRLF;
 		$html .=	$tagLabelView;
+		$html .= '	<div class="clear"></div>'.CRLF;
 		$html .= '</div>'.CRLF;
 	}
 	$target = $html;
@@ -87,7 +88,7 @@ function MT_getRecentEntryStyle($target){
 	.metapage .metapost .post_content { margin:5px 0;line-height:125%;overflow:hidden;}
 	.metapage .metapost .post_tags {padding:5px 5px 5px 40px;  background:url(<?php echo $pluginURL;?>/images/entryTag.gif) center left no-repeat; clear:both;}
 	.metapage .metapost .post_tags span {display:none;}
-	.metapage .clear { clear:both;height:0px;}
+	.metapage .clear { clear:both;}
 </style>
 <?php
 	$target .= ob_get_contents();
