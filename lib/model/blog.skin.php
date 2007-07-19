@@ -280,6 +280,8 @@ function setSkinSetting($blogid, $setting) {
 	}
 	setBlogSetting('entriesOnPage',$setting['entriesOnPage']);
 	setBlogSetting('entriesOnList',$setting['entriesOnList']);
+	CacheControl::flushCategory();
+	CacheControl::flushTag();
 	return true;
 }
 ?>
