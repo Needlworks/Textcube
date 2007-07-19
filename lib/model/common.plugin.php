@@ -3,6 +3,16 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+global $pluginSetting;
+$pluginSetting = array();
+function clearPluginSettingCache()
+{
+	global $pluginSetting;
+	if( !empty($pluginSetting) ) {
+		$pluginSetting = array();
+	}
+}
+
 function activatePlugin($name) {
 	global $database, $activePlugins;
 	if (in_array($name, $activePlugins))
@@ -36,6 +46,7 @@ function activatePlugin($name) {
 	}
 	$name = mysql_tt_escape_string(mysql_lessen($name, 255));
 	DBQuery::query("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
+	clearPluginSettingCache();
 	return (mysql_affected_rows() == 1);
 }
 
@@ -47,30 +58,27 @@ function deactivatePlugin($name) {
 	DBQuery::query("DELETE FROM {$database['prefix']}Plugins 
 			WHERE blogid = ".getBlogId()."
 				AND name = '$name'");
+	clearPluginSettingCache();
 	return true;
 }
 
 function getCurrentSetting($name){
 	global $database, $activePlugins;
+	global $pluginSetting;
 	if( !in_array( $name , $activePlugins))
 		return false;
-	static $pluginSettingCheck = array();
-	static $pluginSettingValue = array();
-	if( isset( $pluginSettingCheck[$name] ) ) {
-		return $pluginSettingValue[$name];
+	if( empty($pluginSetting) ) {
+		$settings = DBQuery::queryAllWithCache("SELECT name, settings 
+				FROM {$database['prefix']}Plugins 
+				WHERE blogid = ".getBlogId(), MYSQL_NUM );
+		foreach( $settings as $k => $v ) {
+			$pluginSetting[ $v[0] ] = $v[1];
+		}
 	}
-
-	$name = mysql_tt_escape_string( $name ) ;
-	$result = DBQuery::query("SELECT settings 
-			FROM {$database['prefix']}Plugins 
-			WHERE blogid = ".getBlogId()."
-				AND name = '$name'");
-	if( false === $result ) 
-		return false;
-	$out = mysql_fetch_array($result); 
-	$pluginSettingCheck[$name] = true;
-	$pluginSettingValue[$name] = $out['settings'];
-	return $out['settings'];
+	if( isset($pluginSetting[$name]) ) {
+		return $pluginSetting[$name];
+	}
+	return null;
 }
 function updatePluginConfig( $name , $setVal){
 	global $database,  $activePlugins;
@@ -84,6 +92,7 @@ function updatePluginConfig( $name , $setVal){
 			WHERE blogid = ".getBlogId()."
 			AND name = '$name'"
 		);
+	clearPluginSettingCache();
 	if( mysql_affected_rows() == 1 )
 		return '0';
 	return (mysql_error() == '') ? '0' : '1';
@@ -94,7 +103,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 		$keyname = 'Database_' . $name;
 		$value = $plugin;		
 		$query = "SELECT value FROM {$database['prefix']}ServiceSettings WHERE name='{$keyname}'";
-		$result = DBQuery::queryCell($query);
+		$result = getServiceSetting($keyname, null);
 		if (is_null($result)) {
 			$keyname = mysql_tt_escape_string(mysql_lessen($keyname, 32));
 			$value = mysql_tt_escape_string(mysql_lessen($plugin . '/' . $version , 255));
