@@ -232,11 +232,13 @@ TBODY;
 	print '</tbody>';
 	
 	$elapsed_total = $elapsed_total / 1000;
+	$count--;
+	$real_query_count = $count - $cached_count;
 	
 	print <<<TFOOT
 <tfoot>
 	<tr>
-		<td colspan='6'>$count Queries, $elapsed_total seconds elapsed, $cached_count cached</td>
+		<td colspan='6'>$count ($real_query_count+$cached_count cache) Queries, $elapsed_total seconds elapsed</td>
 	</tr>
 </tfoot>
 TFOOT;
