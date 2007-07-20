@@ -16,8 +16,8 @@ $sAcoPredefinedChain =
 		);
 
 /* static */
-global $sAcoFromUri;
-$sAcoFromUri = array(
+global $requiredPrivFromUri;
+$requiredPrivFromUri = array(
 		"group.administrators" => array( 
 			'/owner/center/dashboard',
 			'/owner/center/about',
@@ -43,7 +43,7 @@ $sAcoFromUri = array(
 		);
 
 /* Access Request Object: i.e. user */
-class Aro {
+class Privilege {
 
 /* predefined Aros
 	group.owners:         Owners of $blogid's blog system. (Usually unique id.);
@@ -53,40 +53,35 @@ class Aro {
 	group.readers:        Readers to $blogids's blog.
 	group.guests:         Guests
 */
-	function Aro() {
+	function Privilege() {
 	}
 
-	function getCanonicalName( $userid ) {
-		return "user.$userid";
-	}
-
-
-	function expand($aro) {
+	function expand($priv) {
 		global $sAcoPredefinedChain;
 		$predefined_aros = array_keys( $sAcoPredefinedChain );
 		do {
 			$done = true;
 			$new_added_obj = array();
-			foreach( $aro as $obj ) {
+			foreach( $priv as $obj ) {
 				if( !in_array( $obj, $predefined_aros ) ) {
 					continue;
 				}
 
 				foreach( $sAcoPredefinedChain[$obj] as $expand_obj ) {
-					if( in_array( $expand_obj, $aro ) ) {
+					if( in_array( $expand_obj, $priv ) ) {
 						continue;
 					}
 					array_push( $new_added_obj, $expand_obj );
 				}
 			}
 			if( !empty( $new_added_obj ) ) {
-				$aro = array_merge( $aro, $new_added_obj );
+				$priv = array_merge( $priv, $new_added_obj );
 				$done = false;
 			}
 		} while( ! $done );
 
 		$arranged_objs = array();
-		foreach( $aro as $obj ) {
+		foreach( $priv as $obj ) {
 			if( !in_array( $obj, $arranged_objs ) ) {
 				array_push( $arranged_objs, $obj );
 			}
@@ -94,21 +89,21 @@ class Aro {
 		return $arranged_objs;
 	}
 
-	function adjust( $aco )
+	function adjust( $priv )
 	{
 		global $blogid;
-		if( !Acl::isAvailable() ) {
-			Acl::setAro( $blogid );
+		if( !Acl::isAvailable($blogid) ) {
+			Acl::setAcl( $blogid );
 		}
 
-		$aro = Acl::getAro();
-		foreach( $aco as $obj ) {
+		$currpriv = Acl::getCurrentPrivilege();
+		foreach( $priv as $obj ) {
 			if( function_exists("fireEvent") ) {
-				$aro = call_user_func( "fireEvent", "AclAdjustAro", $aro, $obj );
+				$currpriv = call_user_func( "fireEvent", "AclAdjustPrivilege", $currpriv, $obj );
 			}
 		}
 
-		return $aro;
+		return $currpriv;
 	}
 }
 
@@ -117,43 +112,43 @@ class Aco {
 	function Aco() {
 	}
 
-	function adjust( $aco, $extra_aco ) {
-		// $aco is an string array
-		if( !empty($extra_aco) ) {
-			if( is_array($extra_aco) ) {
-				$aco = array_merge($aco, $extra_aco);
+	function adjust( $priv, $otherPriv ) {
+		// $priv is an string array
+		if( !empty($otherPriv) ) {
+			if( is_array($otherPriv) ) {
+				$priv = array_merge($priv, $otherPriv);
 			} else {
-				array_push($aco, $extra_aco);
+				array_push($priv, $otherPriv);
 			}
 		}
 		if( function_exists("fireEvent") ) {
-			$aco = call_user_func("fireEvent", "AclAdjustAco", $aco);
+			$priv = call_user_func("fireEvent", "AclAdjustAco", $priv);
 		}
-		return $aco;
+		return $priv;
 	}
 
-	function getAcoFromUri( $testingUri ) {
-		global $sAcoFromUri;
+	function getRequiredPrivFromUrl( $testingUri ) {
+		global $requiredPrivFromUri;
 		if( substr($testingUri, 0, 6) != "/owner" ) {
 			return array();
 		}
-		//$aco = array( "group.owners" );
-		$aco = array();
-		foreach( $sAcoFromUri as $acoObj => $uriArray ) {
+		//$priv = array( "group.owners" );
+		$priv = array();
+		foreach( $requiredPrivFromUri as $acoObj => $uriArray ) {
 			foreach( $uriArray as $uri ) {
 				if ($testingUri == $uri ) {
-					array_push( $aco, $acoObj );
+					array_push( $priv, $acoObj );
 					break;
 				} elseif( substr($uri,-1) == "*" ) {
 					if( substr($testingUri, 0, strlen($uri)-1) == substr($uri,0,-1) ) {
-						array_push( $aco, $acoObj );
+						array_push( $priv, $acoObj );
 						break;
 					}
 				} 
 
 			}
 		}
-		return $aco;
+		return $priv;
 	}
 }
 
@@ -162,22 +157,42 @@ class Acl {
 	function Acl() {
 	}
 
-	function check($aco = null, $extra_aco = null) {
-		global $blogid; /*blogid*/
+	function authorize( $domain, $identity ) {
+		if( !isset( $_SESSION['identity'] ) ) {
+			$_SESSION['identity'] = array();
+		}
+		if( !isset( $_SESSION['identity'][$domain] ) ) {
+			$_SESSION['identity'][$domain] = array();
+		}
+		$_SESSION['identity'][$domain] = $identity;
 
-		if( !is_array( $aco ) ) {
-			$aco = array( $aco );
+		/* Support code for legacy */
+		if( $domain == 'textcube' ) {
+			$_SESSION['userid'] = $identity;
+		}
+	}
+
+	function getIdentity( $domain ) {
+		if( empty($_SESSION['identity'][$domain]) ) {
+			return null;
+		}
+		return $_SESSION['identity'][$domain];
+	}
+
+	function check($requiredPriv = null, $otherPriv = null) {
+		if( !is_array( $requiredPriv ) ) {
+			$requiredPriv = array( $requiredPriv );
 		}
 
 		/* Adujsting access control object from plugins */
-		$aco = Aco::adjust($aco, $extra_aco);
+		$requiredPriv = Aco::adjust($requiredPriv, $otherPriv);
 
-		/* Adujsting required object from plugins by aco*/
-		$aro = Aro::adjust($aco);
+		/* Adujsting required object from plugins by requiredPriv*/
+		$currentPriv = Privilege::adjust($requiredPriv);
 
-		/* We need one of aco elements is in aro array */
-		foreach( $aco as $obj ) {
-			if(in_array($obj, $aro)) {
+		/* We need one of requiredPriv elements is in currentPriv array */
+		foreach( $requiredPriv as $obj ) {
+			if(in_array($obj, $currentPriv)) {
 				return true;
 			}
 		}
@@ -185,66 +200,84 @@ class Acl {
 		return false;
 	}
 
-	function setAro( $blogid, $aro = null, $user = null, $add = false ) {
+	function setAcl( $blogid, $priv = null, $add = false ) {
 
 		if( !isset( $_SESSION['acl'] ) ) {
 			$_SESSION['acl'] = array();
 		}
 
-		if( !isset( $_SESSION['acl'][$blogid] ) ) {
-			$_SESSION['acl'][$blogid] = array();
+		if( !isset( $_SESSION['acl']["blog.$blogid"] ) ) {
+			$_SESSION['acl']["blog.$blogid"] = array();
 		}
 
-		if( $aro === null ) {
+		if( $priv === null ) {
 			return;
 		}
 
-		if( !is_array($aro) ) {
-			$aro = array( $aro );
+		if( !is_array($priv) ) {
+			$priv = array( $priv );
 		}
 
 		if( $add ) {
-			$aro = array_merge( $_SESSION['acl'][$blogid], $aro );
+			$priv = array_merge( $_SESSION['acl']["blog.$blogid"], $priv );
 		}
 
-		if( !empty($user) ) {
-			array_push( $aro, $user );
-		}
-
-		$_SESSION['acl'][$blogid] = Aro::expand($aro);
+		$_SESSION['acl']["blog.$blogid"] = Privilege::expand($priv);
 	}
 
-	function getAro($blogid=null) {
-		global $blogid; /*blogid*/
+	function getCurrentPrivilege($blogid=null) {
 		if( $blogid === null ) {
-			$blogid = $blogid;
+			$blogid = getBlogId();
 		}
 		if( Acl::isAvailable($blogid) ) {
-			return $_SESSION['acl'][$blogid];
+			return $_SESSION['acl']["blog.$blogid"];
 		}
 		return array();
 	}
 
-	function clearAro() {
+	function clearAcl() {
 		if( isset( $_SESSION['acl'] ) ) {
 			unset($_SESSION['acl']);
 		}
+		if( isset( $_SESSION['identity'] ) ) {
+			unset($_SESSION['identity']);
+		}
 	}
 
-	function isAvailable($blogid=null) {
-		global $blogid; /*blogid*/
-		if( $blogid === null ) {
-			$blogid = $blogid;
-		}
-
+	function isAvailable($blogid) {
 		if( !isset( $_SESSION['acl'] ) || 
 			!is_array( $_SESSION['acl'] ) || 
-			!isset( $_SESSION['acl'][$blogid] ) ) {
+			!isset( $_SESSION['acl']["blog.$blogid"] ) ) {
 			return false;
 		}
 
 		return true;
 	}
+
+	function setBasicAcl( $userid ) {
+		Acl::setAcl($userid, array("group.owners", "textcube.$userid"), false );
+	}
+
+	function setTeamAcl( $userid ) {
+		global $database;
+
+		$result = DBQuery::queryAllWithCache("SELECT blogid,acl FROM {$database['prefix']}Teamblog WHERE userid='$userid'");
+		foreach( $result as $session ) {
+			$priv = array("group.writers");
+
+			if( $session['acl'] & BITWISE_EDITOR ) {
+				array_push($priv, "group.editors");
+			}
+			if( $session['acl'] & BITWISE_ADMINISTRATOR ) {
+				array_push($priv, "group.administrators");
+			}
+
+			Acl::setAcl( $session['blogid'], array_merge( $priv, "textcube.$userid" ), true );
+		}
+
+		DBQuery::execute("UPDATE  {$database['prefix']}Teamblog SET lastLogin = unix_timestamp() WHERE userid='$userid'");
+		return;
+	}	
 }
 
 class Auth {
@@ -259,7 +292,7 @@ class Auth {
 	function authenticate( $blogid, $loginid, $password, $blogapi = false ) {
 		global $database;
 
-		Acl::clearAro();
+		Acl::clearAcl();
 		$loginid = mysql_tt_escape_string($loginid);
 
 		$blogApiPassword = getBlogSetting("blogApiPassword", "");
@@ -280,37 +313,13 @@ class Auth {
 		}
 		$userid = $session['userid'];
 
-		Auth::setBasicAro($userid);
-		Auth::setTeamblogAro($userid);
+		Acl::authorize( 'textcube', $userid );
+		Acl::setBasicAcl($userid);
+		Acl::setTeamAcl($userid);
 		DBQuery::execute("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
 		return $userid;
 	}
 
-	function setBasicAro( $userid ) {
-		$_SESSION['userid'] = $userid;
-		Acl::setAro($userid, "group.owners", Aro::getCanonicalName($userid), false );
-	}
-
-	function setTeamblogAro( $userid ) {
-		global $database;
-
-		$result = DBQuery::query("SELECT blogid,acl FROM {$database['prefix']}Teamblog WHERE userid='$userid'");
-		while( ($session = mysql_fetch_array($result) ) ) {
-			$aro = array("group.writers");
-
-			if( $session['acl'] & BITWISE_EDITOR ) {
-				array_push($aro, "group.editors");
-			}
-			if( $session['acl'] & BITWISE_ADMINISTRATOR ) {
-				array_push($aro, "group.administrators");
-			}
-
-			Acl::setAro( $session['blogid'], $aro, Aro::getCanonicalName($userid), true );
-		}
-
-		DBQuery::execute("UPDATE  {$database['prefix']}Teamblog SET lastLogin = unix_timestamp() WHERE userid='$userid'");
-		return;
-	}	
 }
 
 ?>

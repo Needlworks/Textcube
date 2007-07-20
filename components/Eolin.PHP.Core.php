@@ -1112,10 +1112,15 @@ class DBQuery {
 		}
 	}
 
+	function cacheLoad() {
+		global $fileCachedResult;
+	}
 	function cacheSave() {
+		global $fileCachedResult;
 	}
 }
 
+DBQuery::cacheLoad();
 register_shutdown_function( array('DBQuery',cacheSave) );
 
 function mysql_tc_query($sql) {

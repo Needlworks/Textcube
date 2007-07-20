@@ -19,7 +19,7 @@ function login($loginid, $password, $preKnownPassword = null) {
 		setcookie('TSSESSION_LOGINID', $loginid, time() + 31536000, $service['path'] . '/', $service['domain']);
 	}
 
-	if( in_array( "group.writers", Acl::getAro() ) ) {
+	if( in_array( "group.writers", Acl::getCurrentPrivilege() ) ) {
 		authorizeSession($blogid, $userid);
 	} else {
 		authorizeSession($blogid, null);
@@ -29,7 +29,7 @@ function login($loginid, $password, $preKnownPassword = null) {
 
 function logout() {
 	fireEvent("Logout");
-	Acl::clearAro();
+	Acl::clearAcl();
 	session_destroy();
 }
 
@@ -58,7 +58,7 @@ function requireMembership() {
 }
 
 function getUserId() {
-	return empty($_SESSION['userid']) ? false : $_SESSION['userid'];
+	return Acl::getIdentity('textcube');
 }
 
 

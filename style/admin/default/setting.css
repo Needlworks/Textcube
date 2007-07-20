@@ -253,6 +253,12 @@ dl dd
 	margin-bottom                    : 10px;
 }
 
+#part-setting-account .openid-account-help
+{
+	text-align                       : right;
+	font-size                        : 0.9em;
+}
+
 /* invite letter */
 #part-setting-invite
 {

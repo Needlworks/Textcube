@@ -168,5 +168,6 @@ if (!empty($message)) {
 			</div>
 		</div>
 	</div>
+	<?php if( function_exists('__tcSqlLogDump') ) { __tcSqlLogDump(); } ?>
 </body>
 </html>

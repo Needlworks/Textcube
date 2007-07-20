@@ -38,10 +38,7 @@ function addOpenID()
 	global $openid_list;
 	global $blogURL;
 
-	$currentOpenID = '';
-	if( !empty($_SESSION['verified_openid']) ) {
-		$currentOpenID = $_SESSION['verified_openid'];
-	}
+	$currentOpenID = Acl::getIdentity( 'openid_temp' );
 	$claimedOpenID = fireEvent("OpenIDFetch", $_GET['openid_identifier']);
 
 	if( $_GET['authenticated'] === "0" ) {

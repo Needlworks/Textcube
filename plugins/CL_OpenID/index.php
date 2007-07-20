@@ -237,10 +237,11 @@ function _openid_set_acl($openid)
 	}
 
 	/* Check Acl class and use Auth class.. this is normal */
-	Auth::setBasicAro($userid);
-	Auth::setTeamblogAro($userid);
+	Acl::authorize('textcube', $userid);
+	Acl::setBasicAcl($userid);
+	Acl::setTeamAcl($userid);
 
-	if( in_array( "group.writers", Acl::getAro() ) ) {
+	if( in_array( "group.writers", Acl::getCurrentPrivilege() ) ) {
 		authorizeSession($blogid, $userid);
 	} else {
 		authorizeSession($blogid, null);
@@ -406,13 +407,15 @@ function openid_finish()
 			$sreg['nickname'] = "";
 		}
 
-		$_SESSION['verified_openid'] = $openid;
 		if( empty($_GET['authenticate_only']) ) {
+			Acl::authorize('openid', $openid);
 			$openid_session['id'] = $openid;
 			$openid_session['delegatedid'] = $response->endpoint->delegate;
 			_openid_update_id( $response->identity_url, $response->endpoint->delegate, $sreg['nickname'] );
 			_openid_set_acl( $response->identity_url );
 			openid_session_write();
+		} else {
+			Acl::authorize('openid_temp', $openid);
 		}
 	}
 

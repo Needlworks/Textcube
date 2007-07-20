@@ -329,8 +329,8 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 					<?php if( $i > 0 ) { /* 출력된것이 하나라도 있다면*/?>
 						<div class="openid-account-help">
 						<?php echo _text('삭제: 오픈아이디에 부과된 관리자 권한을 제거합니다.'); ?>
-						</div> DEBUG:
-					<?php echo fireEvent("OpenIDFetch", "coolengineer.com"); } ?>
+						</div> 
+					<?php  } ?>
 							<div class="data-inbox">
 					<?php $openidPluginCheck = fireEvent("OpenIDGetCurrent","*NONE*");
 							if( $openidPluginCheck != "*NONE*" ) {

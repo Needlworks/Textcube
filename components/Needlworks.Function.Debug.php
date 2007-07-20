@@ -243,5 +243,12 @@ TBODY;
 </tfoot>
 TFOOT;
 	print '</table>';
+
+	global $service;
+	if( ! empty($service['debug_session_dump'])) {
+		print '<pre> $_SESSION = ';
+		print_r( $_SESSION );
+		print '</pre>';
+	}
 }
 ?>
