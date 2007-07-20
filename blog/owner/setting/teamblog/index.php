@@ -283,8 +283,8 @@ if($blogid == getUserId()){?>
 	$teamblog_user = DBQuery::queryRow("SELECT a.*, b.name 
 			FROM {$database['prefix']}Teamblog a, 
 				{$database['prefix']}Users b  
-			WHERE a.userid = '".$_SESSION['admin']."' 
-				AND a.blogid = '".$_SESSION['userid']."' 
+			WHERE a.userid = '".getUserId()."' 
+				AND a.blogid = '".getBlogId()."' 
 				AND b.userid = a.userid");
 	$invited_user = DBQuery::queryAll("SELECT t.*, u.* 
 		FROM {$database['prefix']}Teamblog t, 
