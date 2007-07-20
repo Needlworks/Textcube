@@ -144,7 +144,7 @@ function addTeamUser($email,$name,$password,$comment,$senderName,$senderEmail){
 	$message = str_replace('[##_title_##]',_text('초대장'),$message);
 	$message = str_replace('[##_content_##]',$comment,$message);
 	$message = str_replace('[##_images_##]',"$hostURL{$service['path']}/style/letter",$message);
-	if($isold == 1) $message = str_replace('[##_link_##]',getDefaultURL($blogid).'/login?loginid='.rawurlencode($email).'&requestURI='.rawurlencode(getDefaultURL($blogid)."/blogid/center/dashboard/"),$message);	
+	if($isold == 1) $message = str_replace('[##_link_##]',getDefaultURL($blogid).'/login?loginid='.rawurlencode($email).'&requestURI='.rawurlencode(getDefaultURL($blogid)."/owner/center/dashboard/"),$message);	
 	else $message = str_replace('[##_link_##]',getDefaultURL($blogid).'/login?loginid='.rawurlencode($email).'&password='.rawurlencode(md5($password)).'&requestURI='.rawurlencode(getDefaultURL($blogid)."/blogid/setting/account?password=".rawurlencode(md5($password))),$message);
 	$message = str_replace('[##_go_blog_##]',getDefaultURL($blogid),$message);
 	$message = str_replace('[##_link_title_##]',_text('블로그 바로가기'),$message);
