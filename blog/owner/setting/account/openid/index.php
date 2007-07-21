@@ -57,13 +57,13 @@ function addOpenID()
 			$openid = getUserSetting( "openid." . $i );
 			if( empty($openid) ) {
 				setUserSetting( "openid." . $i, $currentOpenID );
-				fireEvent("OpenIDSetUserId", $currentOpenID);
 				break;
 			}
 		}
 	}
+	fireEvent("OpenIDSetUserId", $currentOpenID);
 
-	echo "<html><head><script>alert('" . _t('추가하였습니다.') . "'); document.location.href='" . $blogURL . "/owner/setting/account'</script></head></html>";
+	echo "<html><head><script>alert('" . _t('추가하였습니다.') . " : " . $currentOpenID . "'); document.location.href='" . $blogURL . "/owner/setting/account'</script></head></html>";
 
 }
 

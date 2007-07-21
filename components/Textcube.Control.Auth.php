@@ -91,7 +91,7 @@ class Privilege {
 
 	function adjust( $priv )
 	{
-		global $blogid;
+		$blogid = getBlogId();
 		if( !Acl::isAvailable($blogid) ) {
 			Acl::setAcl( $blogid );
 		}

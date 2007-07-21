@@ -221,9 +221,13 @@ function _openid_authorizeSession($userid) {
 function _openid_set_acl($openid)
 {
 	global $database;
+
+	Acl::authorize('openid', $openid);
+
 	$blogid = getBlogId();
 	$query = "SELECT * FROM {$database['prefix']}OpenIDUsers WHERE blogid={$blogid} and openid='{$openid}'";
 	$result = DBQuery::queryRow($query);
+print_r($result);
 	$data = unserialize( $result['data'] );
 
 	if( !isset($data['acl']) ) {
@@ -317,12 +321,7 @@ function openid_fetch( $openid )
 
 function openid_set_userid($openid)
 {
-	global $blogid;
-	$userid = $blogid;
-	if( function_exists( "getUserId" ) ) {
-		$userid = getUserId();
-	}
-	_openid_update_id( $openid, null, null, null, $userid );
+	_openid_update_id( $openid, null, null, null, getUserId() );
 	return "";
 }
 
@@ -408,7 +407,6 @@ function openid_finish()
 		}
 
 		if( empty($_GET['authenticate_only']) ) {
-			Acl::authorize('openid', $openid);
 			$openid_session['id'] = $openid;
 			$openid_session['delegatedid'] = $response->endpoint->delegate;
 			_openid_update_id( $response->identity_url, $response->endpoint->delegate, $sreg['nickname'] );
@@ -449,6 +447,7 @@ function openid_logout_session($target)
 {
 	global $openid_session;
 	openid_session_destroy();
+	Acl::authorize('openid', null );
 
 	$openid_session['id'] = '';
 	$openid_session['nickname'] = '';
