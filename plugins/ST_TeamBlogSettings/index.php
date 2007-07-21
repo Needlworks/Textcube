@@ -98,6 +98,9 @@ function getTeamBlogSettings() {
 		$imageRemoveCheck = " disabled ";
 	}
 
+	$authorStyle = "";
+	$italicCheck = "";
+	$underlineCheck = "";
 	if($row['style']){
 		$style = explode("|", $row['style']);
 		if($style[0]=="true"){
