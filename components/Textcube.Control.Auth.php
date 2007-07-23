@@ -272,7 +272,7 @@ class Acl {
 				array_push($priv, "group.administrators");
 			}
 
-			Acl::setAcl( $session['blogid'], array_merge( $priv, "textcube.$userid" ), true );
+			Acl::setAcl( $session['blogid'], $priv, true );
 		}
 
 		DBQuery::execute("UPDATE  {$database['prefix']}Teamblog SET lastLogin = unix_timestamp() WHERE userid='$userid'");
