@@ -191,7 +191,10 @@ function scanner($path, $node, $line) {
 				finish(_t('지원하지 않는 백업파일입니다.'));
 			$migrational = Validator::getBool(@$node['.attributes']['migrational']);
 			return true;
-		case '/blog/setting/banner/content':case '/blog/post/attachment/content':case '/blog/notice/attachment/content':case '/blog/keyword/attachment/content':
+		case '/blog/setting/banner/content':
+		case '/blog/post/attachment/content':
+		case '/blog/notice/attachment/content':
+		case '/blog/keyword/attachment/content':
 			if (!empty($node['.stream'])) {
 				fclose($node['.stream']);
 				unset($node['.stream']);

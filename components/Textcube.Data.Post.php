@@ -115,8 +115,10 @@ class Post {
 			$query->setAttribute('created', 'UNIX_TIMESTAMP()');
 		if (!isset($this->modified))
 			$query->setAttribute('modified', 'UNIX_TIMESTAMP()');
-		if (!isset($this->userid))
+		if (!isset($this->userid)){
+			$this->userid = getUserId();
 			$query->setAttribute('userid',getUserId());
+		}
 		if (!$query->insert())
 			return $this->_error('insert');
 		
@@ -269,7 +271,7 @@ class Post {
 
 		$query = new TableQuery($database['prefix'] . 'Entries');
 		$query->setQualifier('blogid', getBlogId());
-		$query->setQualifier('userid', $this->userid);
+		if(isset($this->userid)) $query->setQualifier('userid', $this->userid);
 		$query->setQualifier('id', $this->id);
 		if (!$query->doesExist())
 			return $this->_error('id');

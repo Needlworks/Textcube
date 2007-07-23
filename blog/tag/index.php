@@ -38,7 +38,7 @@ if (strlen($suri['value'])) {
 	}
 	if ($skinSetting['showListOnTag'] != 2) {
 		$cache->reset();
-		$cache->name = 'tagList_'.$tag.'_'.$suri['page'];
+		$cache->name = 'tagEntries_'.$tag.'_'.$suri['page'];
 		if(!$cache->load()){
 			list($entries, $paging) = getEntriesWithPagingByTag($blogid, $tag, $suri['page'], $blog['entriesOnList'],($skinSetting['showListOnTag'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
 		}

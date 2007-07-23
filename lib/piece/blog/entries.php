@@ -7,6 +7,7 @@ $entriesView = '';
 
 if (isset($cache->contents)) {
 	$entriesView = $cache->contents;
+	if(strpos($cache->name,'keyword')!==false) $isKeylog = true;
 } else if(isset($entries)) {
 	foreach ($entries as $entry) {
 		if ($suri['directive'] == '/notice')

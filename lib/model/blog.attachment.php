@@ -55,7 +55,11 @@ function addAttachment($blogid, $parent, $file) {
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
 	$filename = mysql_tt_escape_string($file['name']);
-	if (DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Attachments WHERE blogid=$blogid AND parent=$parent AND label='$filename'")>0) {
+	if (DBQuery::queryCell("SELECT count(*) 
+		FROM {$database['prefix']}Attachments 
+		WHERE blogid=$blogid 
+			AND parent=$parent 
+			AND label='$filename'")>0) {
 		return false;
 	}
 	$attachment = array();
