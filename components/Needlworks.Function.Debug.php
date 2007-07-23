@@ -30,7 +30,7 @@ function __tcSqlLogBegin( $sql )
 	$__tcSqlLog[$__tcSqlLogCount] = array( 'sql' => trim($sql), 'backtrace' => $backtrace );
 	$__tcSqlLogBeginTime = explode(' ', microtime());
 }
-function __tcSqlLogEnd( $result, $cachedResult = false )
+function __tcSqlLogEnd( $result, $cachedResult = 0 )
 {
 	global $__tcSqlLog, $__tcSqlLogBeginTime, $__tcSqlLogCount;
 	static $client_encoding = '';
@@ -48,7 +48,7 @@ function __tcSqlLogEnd( $result, $cachedResult = false )
 	}
 	$__tcSqlLog[$__tcSqlLogCount]['errno'] = mysql_errno();
 
-	if( ! $cachedResult ) {
+	if( $cachedResult == 0 ) {
 		$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = ceil($elapsed * 10000) / 10;
 	} else {
 		$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = 0;
@@ -207,27 +207,35 @@ THEAD;
 		if( isset( $top5[$count] ) ) {
 			$trclass = ' debugWarning';
 		}
-		if( $log['cached'] ) {
+		$count_label = $count;
+		if( $log['cached'] == 1) {
 			$error = "(cached)";
 			$trclass .= ' debugCached';
 			$cached_count++;
+		}
+		else if( $log['cached'] == 2 ) {
+			$error = "";
+			$trclass .= ' debugCached';
+			$count_label = '';
 		}
 		
 		$log['elapsed'] = sprintf("%01.4f",$log['elapsed'] / 1000);
 		
 		print <<<TBODY
 		<tr class='debugSQLLine{$trclass}'>
-			<th>{$count}</th>
+			<th>{$count_label}</th>
 			<td class="code">
-				<code onclick="document.getElementById('debugLine_{$count}').style.display == 'none' ? document.getElementById('debugLine_{$count}').style.display = 'block' : document.getElementById('debugLine_{$count}').style.display = 'none';">{$log['sql']}</code>
-				<div id='debugLine_{$count}' class='debugActiveLines' style='display: none;'>{$backtrace}</div>
+				<code onclick="document.getElementById('debugLine_{$count_label}').style.display == 'none' ? document.getElementById('debugLine_{$count_label}').style.display = 'block' : document.getElementById('debugLine_{$count_label}').style.display = 'none';">{$log['sql']}</code>
+				<div id='debugLine_{$count_label}' class='debugActiveLines' style='display: none;'>{$backtrace}</div>
 			</td>
 			<td class="elapsed">{$log['elapsed']}</td>
 			<td class="rows">{$log['rows']}</td>
 			<td class="error">{$error}</td>
 		</tr>
 TBODY;
-		$count++;
+		if( $log['cached'] < 2 ) {
+			$count++;
+		}
 	}
 	print '</tbody>';
 	

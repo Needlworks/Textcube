@@ -1024,7 +1024,7 @@ class DBQuery {
 		if( $useCache && isset( $cachedResult[$cacheKey] ) ) {
 			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
-				__tcSqlLogEnd(null,true);
+				__tcSqlLogEnd(null,1);
 			}
 			$cachedResult[$cacheKey][0]++;
 			return $cachedResult[$cacheKey][1];
@@ -1062,7 +1062,7 @@ class DBQuery {
 		if( isset( $cachedResult[$cacheKey] ) ) {
 			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
-				__tcSqlLogEnd(null,true);
+				__tcSqlLogEnd(null,1);
 			}
 			$cachedResult[$cacheKey][0]++;
 			return $cachedResult[$cacheKey][1];
@@ -1090,7 +1090,7 @@ class DBQuery {
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
 			$result = mysql_query($query);
-			__tcSqlLogEnd($result,false);
+			__tcSqlLogEnd($result,0);
 		} else {
 			$result = mysql_query($query);
 		}
@@ -1108,7 +1108,7 @@ class DBQuery {
 		$cachedResult = array();
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin("Cache cleared");
-			__tcSqlLogEnd(null,true);
+			__tcSqlLogEnd(null,2);
 		}
 	}
 
