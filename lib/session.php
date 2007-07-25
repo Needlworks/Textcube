@@ -129,6 +129,10 @@ function setSession() {
 // Teamblog : insert userid to variable admin when member logins.
 function authorizeSession($blogid, $userid) {
 	global $database, $service;
+	$session_cookie_path = "/";
+	if( !empty($service['session_cookie_path']) ) {
+		$session_cookie_path = $service['session_cookie_path'];
+	}
 	if (!is_numeric($userid))
 		return false;
 	$_SESSION['userid'] = $userid;
@@ -139,7 +143,7 @@ function authorizeSession($blogid, $userid) {
 		$result = mysql_tc_query("INSERT INTO {$database['prefix']}Sessions(id, address, userid, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if ($result && (mysql_affected_rows() == 1)) {
 			@session_id($id);
-			header("Set-Cookie: TSSESSION=$id; path=/; domain={$service['domain']}");
+			header("Set-Cookie: TSSESSION=$id; path={$session_cookie_path}; domain={$service['domain']}");
 			return true;
 		}
 	}

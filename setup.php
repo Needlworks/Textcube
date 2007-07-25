@@ -1453,6 +1453,7 @@ ini_set('display_errors', 'off');
 //\$serviceURL = 'http://{$_POST['domain']}{$path}' ; // for path of Skin, plugin and etc.
 //requireComponent(\"Needlworks.Function.Debug\"); // for debugging, e.g. displaying DB Query or Session info
 //\$service['debug_session_dump'] = 1; // session info debuging.
+//\$service['session_cookie_path'] = \$service['path']; // for avoiding spoiling other textcube's session id sharing root.
 ?>"
             );
             fclose($fp);
