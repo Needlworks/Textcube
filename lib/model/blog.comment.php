@@ -121,9 +121,11 @@ function getCommentCommentsNotified($parent) {
 	if ($result = DBQuery::query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
 			if (($comment['secret'] == 1) && !$authorized) {
-				$comment['name'] = '';
-				$comment['homepage'] = '';
-				$comment['comment'] = _t('관리자만 볼 수 있는 댓글입니다.');
+				if( !fireEvent('ShowSecretComment', false, $comment) ) {
+					$comment['name'] = '';
+					$comment['homepage'] = '';
+					$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
+				}
 			}
 			array_push($comments, $comment);
 		}
@@ -153,9 +155,11 @@ function getComments($entry) {
 	if ($result = DBQuery::query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
 			if (($comment['secret'] == 1) && !$authorized) {
-				$comment['name'] = '';
-				$comment['homepage'] = '';
-				$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
+				if( !fireEvent('ShowSecretComment', false, $comment) ) {
+					$comment['name'] = '';
+					$comment['homepage'] = '';
+					$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
+				}
 			}
 			array_push($comments, $comment);
 		}
@@ -170,9 +174,11 @@ function getCommentComments($parent) {
 	if ($result = DBQuery::query("select * from {$database['prefix']}Comments where blogid = ".getBlogId()." and parent = $parent and isFiltered = 0 order by id")) {
 		while ($comment = mysql_fetch_array($result)) {
 			if (($comment['secret'] == 1) && !$authorized) {
-				$comment['name'] = '';
-				$comment['homepage'] = '';
-				$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
+				if( !fireEvent('ShowSecretComment', false, $comment) ) {
+					$comment['name'] = '';
+					$comment['homepage'] = '';
+					$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
+				}
 			}
 			array_push($comments, $comment);
 		}
@@ -502,9 +508,11 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false) {
 	if ($result = DBQuery::query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
-				$comment['name'] = '';
-				$comment['homepage'] = '';
-				$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
+				if( !fireEvent('ShowSecretComment', false, $comment) ) {
+					$comment['name'] = '';
+					$comment['homepage'] = '';
+					$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
+				}
 			}
 			array_push($comments, $comment);
 		}

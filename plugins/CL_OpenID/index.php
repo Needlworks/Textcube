@@ -11,7 +11,6 @@ global $openid_pluginbase;
 $openid_pluginbase = $hostURL . $service['path'] . "/plugins/" . basename(dirname( __FILE__ ));
 
 require_once  "openid_session.php";
-requireComponent( "Eolin.PHP.Core" );
 
 openid_session_read();
 
@@ -887,7 +886,31 @@ function openid_manage()
 		$menu1 = $menu_url . "&amp;mode=0"; $order = "order by openid desc";
 		break;
 	}
+
+	$checked_oo = '';
 ?>
+	<script type="text/javascript">
+	function toggle_openid_only() {
+		oo = document.getElementById( 'openidonlycomment' );
+		if( ! oo ) {
+			return false;
+		}
+		alert( oo.checked );
+	}
+	</script>
+	<h2 class="caption"><span class="main-text"><?php echo _text('댓글/방명록 설정')?></span></h2>
+	<table class="data-inbox" cellspacing="0" cellpadding="0">
+		<tbody>
+		<tr class="site">
+		<td><span class="text">
+		<input id="openidonlycomment" type="checkbox" name="openidonlycomment" <?php echo $checked_oo?>
+			onclick="toggle_openid_only();"
+		/>
+		<label for="openidonlycomment">체크할 경우, 오픈아이디 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다.</label>
+		</span></td>
+		</tr>
+		</tbody>
+	</table>
 	<h2 class="caption"><span class="main-text"><?php echo _text('오픈아이디 사용현황')?></span></h2>
 	
 	<table class="data-inbox" cellspacing="0" cellpadding="0">
