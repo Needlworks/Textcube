@@ -157,7 +157,7 @@ function __tcSqlLogDump()
 		padding: 15px !important;
 		text-align: center;
 	}
-</style>'
+</style>
 EOS;
 
 	$elapsed_total = 0;
