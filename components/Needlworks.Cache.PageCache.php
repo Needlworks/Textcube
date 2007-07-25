@@ -242,8 +242,8 @@ class CacheControl{
 			if ($xmls->doesExist('/plugin/binding/listener')) { //event listener가 있는 경우
 				foreach ($xmls->selectNodes('/plugin/binding/listener') as $listener) {
 					if (!empty($listener['.attributes']['event']) && !empty($listener['.value'])) { // Event가 있는 경우
-						if(stripos($listener['.attribites']['event'],'View')) {
-							flushCategory();
+						if(stripos($listener['.attributes']['event'],'View')) {
+							CacheControl::flushCategory();
 						}
 					}
 				}
@@ -252,8 +252,8 @@ class CacheControl{
 			if ($xmls->doesExist('/plugin/binding/tag')) {
 				foreach ($xmls->selectNodes('/plugin/binding/tag') as $tag) {
 					if (!empty($tag['.attributes']['name']) && !empty($tag['.attributes']['handler'])) {
-						flushCategory();
-						flushTag();
+						CacheControl::flushCategory();
+						CacheControl::flushTag();
 					}
 				}
 				unset($tag);
@@ -262,7 +262,7 @@ class CacheControl{
 //			TODO:	사이드바 캐시때 처리하도록 하지요.				
 //			}
 			if ($xmls->doesExist('/plugin/binding/formatter[lang()]')){
-				flushCategory();
+				CacheControl::flushCategory();
 			}
 			
 		}
