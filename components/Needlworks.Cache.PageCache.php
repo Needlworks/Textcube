@@ -182,7 +182,7 @@ class CacheControl{
 		$tagLists = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND name like 'tagList_".$tagId."%'");
+			AND (name like 'tagList_".$tagId."%' OR name like 'tagEntries_".$tagId."%'");
 		foreach($tagLists as $tagListName){
 			$cache->reset();
 			$cache->name = $tagListName;
@@ -215,7 +215,22 @@ class CacheControl{
 	}
 	
 	function flushEntry($entryId) {
-	
+		global $database;
+
+		if(empty($entryId)) $entryId = '';
+		else $entryId = $entryId.'_';
+		$cache = new pageCache;
+		$Entries = DBQuery::queryColumn("SELECT name
+			FROM {$database['prefix']}PageCacheLog
+			WHERE blogid = ".getBlogId()."
+			AND name like 'entry_".$tagId."%'");
+		foreach($Entries as $EntryName){
+			$cache->reset();
+			$cache->name = $EntryName;
+			$cache->purge();
+		}
+		unset($cache);
+		return true;
 	}
 
 	function flushItemsByPlugin($pluginName) {
@@ -224,12 +239,12 @@ class CacheControl{
 		$xmls = new XMLStruct();
 		$manifest = @file_get_contents(ROOT . "/plugins/$pluginName/index.xml");
 		if ($manifest && $xmls->open($manifest)) {
-			if ($xmls->doesExist('/plugin/binding/listener')) {
+			if ($xmls->doesExist('/plugin/binding/listener')) { //event listener가 있는 경우
 				foreach ($xmls->selectNodes('/plugin/binding/listener') as $listener) {
-					if (!empty($listener['.attributes']['event']) && !empty($listener['.value'])) {
-						if (!isset($eventMappings[$listener['.attributes']['event']]))
-							$eventMappings[$listener['.attributes']['event']] = array();
-						array_push($eventMappings[$listener['.attributes']['event']], array('plugin' => $plugin, 'listener' => $listener['.value']));
+					if (!empty($listener['.attributes']['event']) && !empty($listener['.value'])) { // Event가 있는 경우
+						if(stripos($listener['.attribites']['event'],'View')) {
+							flushCategory();
+						}
 					}
 				}
 				unset($listener);
@@ -237,51 +252,17 @@ class CacheControl{
 			if ($xmls->doesExist('/plugin/binding/tag')) {
 				foreach ($xmls->selectNodes('/plugin/binding/tag') as $tag) {
 					if (!empty($tag['.attributes']['name']) && !empty($tag['.attributes']['handler'])) {
-						if (!isset($tagMappings[$tag['.attributes']['name']]))
-							$tagMappings[$tag['.attributes']['name']] = array();
-						array_push($tagMappings[$tag['.attributes']['name']], array('plugin' => $plugin, 'handler' => $tag['.attributes']['handler']));
+						flushCategory();
+						flushTag();
 					}
 				}
 				unset($tag);
 			}
-			if ($xmls->doesExist('/plugin/binding/sidebar')) {
-				$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
-				foreach ($xmls->selectNodes('/plugin/binding/sidebar') as $sidebar) {
-					if (!empty($sidebar['.attributes']['handler'])) {
-						// parameter parsing
-						$parameters = array();
-						if (isset($sidebar['params']) && isset($sidebar['params'][0]) && isset($sidebar['params'][0]['param'])) {
-							foreach($sidebar['params'][0]['param'] as $param) {
-								$parameter = array('name' => $param['name'][0]['.value'], 'type' => $param['type'][0]['.value'], 'title' => XMLStruct::getValueByLocale($param['title']));
-								array_push($parameters, $parameter);				
-							}
-						}
-						array_push($sidebarMappings, array('plugin' => $plugin, 'title' => $sidebar['.attributes']['title'], 'display' => $title, 'handler' => $sidebar['.attributes']['handler'], 'parameters' => $parameters));
-					}
-				}
-				unset($sidebar);
-			}
+//			if ($xmls->doesExist('/plugin/binding/sidebar')) {
+//			TODO:	사이드바 캐시때 처리하도록 하지요.				
+//			}
 			if ($xmls->doesExist('/plugin/binding/formatter[lang()]')){
-				$isFormatterExists = true;
-				foreach (array($xmls->selectNode('/plugin/binding/formatter[lang()]')) as $formatter) {
-					if (!isset($formatter['.attributes']['name'])) continue;
-					if (!isset($formatter['.attributes']['id'])) continue;
-					$formatterid = $formatter['.attributes']['id'];
-					$formatterinfo = array('id' => $formatterid, 'name' => $formatter['.attributes']['name'], 'plugin' => $plugin, 'editors' => array());
-					if (isset($formatter['format'][0]['.value'])) $formatterinfo['formatfunc'] = $formatter['format'][0]['.value'];
-					if (isset($formatter['summary'][0]['.value'])) $formatterinfo['summaryfunc'] = $formatter['summary'][0]['.value'];
-					if (isset($formatter['usedFor'])) {
-						foreach ($formatter['usedFor'] as $usedFor) {
-							if (!isset($usedFor['.attributes']['editor'])) continue;
-							$formatterinfo['editors'][$usedFor['.attributes']['editor']] = @$usedFor['.value'];
-						}
-					}
-					$formatterMapping[$formatterid] = $formatterinfo;
-				}
-				unset($formatter);
-				unset($formatterid);
-				unset($formatterinfo);
-				unset($usedFor);
+				flushCategory();
 			}
 			
 		}

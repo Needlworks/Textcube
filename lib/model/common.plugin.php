@@ -44,9 +44,11 @@ function activatePlugin($name) {
 	} else {
 		return false;
 	}
+	$pluginName = $name;
 	$name = mysql_tt_escape_string(mysql_lessen($name, 255));
 	DBQuery::query("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
 	clearPluginSettingCache();
+	CacheControl::flushItemsByPlugin($pluginName);
 	return (mysql_affected_rows() == 1);
 }
 
@@ -54,11 +56,13 @@ function deactivatePlugin($name) {
 	global $database, $activePlugins;
 	if (!in_array($name, $activePlugins))
 		return false;
+	$pluginName = $name;
 	$name = mysql_tt_escape_string($name);
 	DBQuery::query("DELETE FROM {$database['prefix']}Plugins 
 			WHERE blogid = ".getBlogId()."
 				AND name = '$name'");
 	clearPluginSettingCache();
+	CacheControl::flushItemsByPlugin($pluginName);
 	return true;
 }
 
@@ -84,6 +88,7 @@ function updatePluginConfig( $name , $setVal){
 	global $database,  $activePlugins;
 	if (!in_array($name, $activePlugins))
 		return false;
+	$pluginName = $name;
 	$name = mysql_tt_escape_string( mysql_lessen($name, 255) ) ;
 	$setVal = mysql_tt_escape_string( $setVal ) ;
 	DBQuery::query(
@@ -93,6 +98,7 @@ function updatePluginConfig( $name , $setVal){
 			AND name = '$name'"
 		);
 	clearPluginSettingCache();
+	CacheControl::flushItemsByPlugin($pluginName);
 	if( mysql_affected_rows() == 1 )
 		return '0';
 	return (mysql_error() == '') ? '0' : '1';
