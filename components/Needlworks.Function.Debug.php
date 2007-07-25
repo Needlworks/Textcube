@@ -68,27 +68,8 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 				break;
 		}
 	}
-	$__tcSqlLog[$__tcSqlLogCount]['callstack'] = __tcGetCallstack(1);
 	$__tcSqlLogCount++;
 	$__tcSqlLogBeginTime = 0;
-}
-
-function __tcGetCallstack($level) {
-	$callstack = '';
-	$backtrace = debug_backtrace();
-	for ($i = $level; $i < count($backtrace); $i++) {
-		if (isset($backtrace[$i]['file'])) {
-			$callstack .= "{$backtrace[$i]['file']}:{$backtrace[$i]['line']}";
-			if (!empty($backtrace[$i + 1]['type']))
-				$callstack .= " {$backtrace[$i + 1]['class']}{$backtrace[$i + 1]['type']}{$backtrace[$i + 1]['function']}";
-			else if (isset($backtrace[$i + 1]['function']))
-				$callstack .= " {$backtrace[$i + 1]['function']}";
-			$callstack .= "<BR/>";
-		}
-	}
-	if (empty($callstack))
-		$callstack = $_SERVER['SCRIPT_FILENAME'];
-	return $callstack;
 }
 
 function __tcSqlLogDump()
@@ -176,7 +157,7 @@ function __tcSqlLogDump()
 		padding: 15px !important;
 		text-align: center;
 	}
-</style>
+</style>'
 EOS;
 
 	$elapsed_total = 0;
@@ -201,7 +182,7 @@ EOS;
 	print <<<THEAD
 		<thead>
 			<tr>
-				<th>count</th><th class="sql">query string</th><th>elapsed</th><th>rows</th><th>CallStack</th><th>error</th>
+				<th>count</th><th class="sql">query string</th><th>elapsed</th><th>rows</th><th>error</th>
 			</tr>
 		</thead>
 THEAD;
@@ -249,7 +230,6 @@ THEAD;
 			</td>
 			<td class="elapsed">{$log['elapsed']}</td>
 			<td class="rows">{$log['rows']}</td>
-			<td class="callstack">{$log['callstack']}</td>
 			<td class="error">{$error}</td>
 		</tr>
 TBODY;
