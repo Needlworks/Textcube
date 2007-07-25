@@ -4,7 +4,7 @@
   <title xml:lang="en">OpenID</title>
   <link>http://www.needlworks.org/</link>
   <version>1.0</version>
-  <description xml:lang="en">This plugin enables OpenID facility</description>
+  <description xml:lang="en">This plugin enables OpenID facility.</description>
   <description xml:lang="ko">OpenID 사용을 가능하게 합니다. 오픈아이디 가입링크를 수정하시려면, CL_OpenID 플러그인 디렉토리안의 affiliate.php를 수정하세요.</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://www.needlworks.org/">Hojin Choi</author>
