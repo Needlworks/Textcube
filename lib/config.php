@@ -9,6 +9,11 @@ define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
 define('TEXTCUBE_SYNC_URL', 'http://ping.eolin.com/');
 define('CRLF', "\r\n");
 define('TAB', "	");
+if( strstr( PHP_OS, "WIN") !== false ) {
+	define('DS', "\\");
+} else {
+	define('DS', "/");
+}
 
 $database['server'] = 'localhost';
 $database['database'] = '';
