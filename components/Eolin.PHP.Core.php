@@ -1121,7 +1121,7 @@ class DBQuery {
 }
 
 DBQuery::cacheLoad();
-register_shutdown_function( array('DBQuery',cacheSave) );
+register_shutdown_function( array('DBQuery','cacheSave') );
 
 function mysql_tc_query($sql) {
 	return DBQuery::query($sql);
