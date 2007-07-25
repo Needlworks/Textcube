@@ -75,6 +75,7 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 function __tcSqlLogDump()
 {
 	global $__tcSqlLog, $__tcSqlLogBeginTime, $__tcSqlLogCount;
+	global $service;
 	print <<<EOS
 <style type='text/css'>
 	.debugTable
@@ -167,7 +168,6 @@ EOS;
 	$cached_count = 0;
 	foreach( $__tcSqlLog as $c => $log ) {
 		$elapsed[$count] = array( $log['elapsed'], $count );
-		$elapsed_total += $log['elapsed'];
 		$count++;
 	}
 
@@ -182,11 +182,12 @@ EOS;
 	print <<<THEAD
 		<thead>
 			<tr>
-				<th>count</th><th class="sql">query string</th><th>elapsed</th><th>rows</th><th>error</th>
+				<th>count</th><th class="sql">query string</th><th>elapsed</th><th>elapsed sum</th><th>rows</th><th>error</th>
 			</tr>
 		</thead>
 THEAD;
 	print '<tbody>';
+	$install_base = dirname(dirname(__FILE__)) . DS;
 	foreach( $__tcSqlLog as $c => $log ) {
 		$error = '';
 		$backtrace = '';
@@ -195,6 +196,9 @@ THEAD;
 			$cl = isset($frame['class']) ? "{$frame['class']}::" : '';
 			$fn = isset($frame['function']) ? "{$frame['function']}" : '';
 			$fl = isset($frame['file']) ? "{$frame['file']}:" : '';
+			if( !empty($service['debug_dbquery_strip_install_path'] )) {
+				$fl = str_replace($install_base, '', $fl );
+			}
 			$ln = isset($frame['line']) ? "{$frame['line']}" : '';
 			$line = "$fl$ln in <code>$cl$fn</code>";
 			$backtrace .= "$frame_count: $line<br />";
@@ -220,6 +224,7 @@ THEAD;
 		}
 		
 		$log['elapsed'] = sprintf("%01.4f",$log['elapsed'] / 1000);
+		$elapsed_total += $log['elapsed'];
 		
 		print <<<TBODY
 		<tr class='debugSQLLine{$trclass}'>
@@ -229,6 +234,7 @@ THEAD;
 				<div id='debugLine_{$count_label}' class='debugActiveLines' style='display: none;'>{$backtrace}</div>
 			</td>
 			<td class="elapsed">{$log['elapsed']}</td>
+			<td class="elapsed">{$elapsed_total}</td>
 			<td class="rows">{$log['rows']}</td>
 			<td class="error">{$error}</td>
 		</tr>
