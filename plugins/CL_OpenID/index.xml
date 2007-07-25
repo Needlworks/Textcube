@@ -25,6 +25,7 @@
 	<listener event="ViewGuestCommenter">openid_view_commenter</listener>
 	<listener event="/plugin/openid/comment/comment">openid_comment_comment</listener>
 	<listener event="/plugin/openid/comment/delete">openid_comment_del</listener>
+	<listener event="/plugin/openid/setcomment">openid_set_comment_mode</listener>
 	<listener event="LOGIN_add_form">openid_add_loginform</listener>
 	<listener event="Logout">openid_logout_session</listener>
 	<listener event="OpenIDGetCurrent">openid_get_current</listener>
