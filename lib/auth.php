@@ -21,8 +21,6 @@ function login($loginid, $password, $preKnownPassword = null) {
 
 	if( in_array( "group.writers", Acl::getCurrentPrivilege() ) ) {
 		authorizeSession($blogid, $userid);
-	} else {
-		authorizeSession($blogid, null);
 	}
 	return true;
 }
@@ -47,14 +45,12 @@ function requireLogin() {
 }
 
 function doesHaveMembership() {
-	return empty($_SESSION['userid']) ? false : true;
+	return Acl::getIdentity('textcube') != null;
 }
 
 function requireMembership() {
-	if (empty($_SESSION['userid']))
-		requireLogin();
-	else
-		return true;
+	if( doesHaveOwnership() ) return true;
+	requireLogin();
 }
 
 function getUserId() {

@@ -30,7 +30,8 @@ function writeSession($id, $data) {
 	global $sessionMicrotime;
 	if (strlen($id) < 32)
 		return false;
-	$userid = isset($_SESSION['userid']) ? $_SESSION['userid'] : 'null';
+	$userid = Acl::getIdentity('textcube');
+	if( empty($userid) ) $userid = 'null';
 	$data = mysql_tt_escape_string($data);
 	$server = mysql_tt_escape_string($_SERVER['HTTP_HOST']);
 	$request = mysql_tt_escape_string($_SERVER['REQUEST_URI']);
