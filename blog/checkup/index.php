@@ -816,6 +816,17 @@ foreach($plugintablesraw as $table) {
 	}
 }
 
+if($blogids = DBQuery::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
+	$changed = true;
+	$errorlog = false;
+	echo '<li>', _textf('페이지 캐시를 초기화합니다.'), ': ';
+	foreach($blogids as $ids) {
+		if(CacheControl::flushAll($ids) == false) $errorlog = true; 
+	}
+	if($errorlog == false) echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));

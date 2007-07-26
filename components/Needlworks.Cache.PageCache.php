@@ -58,6 +58,10 @@ class pageCache {
 	function load () {
 		$this->initialize();
 		if(!$this->getFileName()) return false;
+		if(!$this->getPageCacheLog()) {
+			$this->purge();
+			return false;
+		}
 		if($this->getFileContents())
 			return true;
 		else return false;
@@ -85,15 +89,15 @@ class pageCache {
 
 	function getFileName(){
 		if(empty($this->name)) return $this->_error('invalid name');
-		$this->realName = $this->name."_".getBlogId().(doesHaveOwnership() ? '_owner' : '');
-		$this->filename = md5($this->realName);
+		$this->realName = $this->name;
 		$this->realNameOwner = $this->name."_".getBlogId()."_owner";
 		$this->realNameGuest = $this->name."_".getBlogId();
 		$this->filenameOwner = md5($this->realNameOwner);
 		$this->filenameGuest = md5($this->realNameGuest);
-		$this->absoluteFilePath = ROOT.'/cache/pageCache/'.getBlogId()."/".$this->filename;
+		$this->filename = doesHaveOwnership() ? $this->filenameOwner : $this->filenameGuest;
 		$this->absoluteFilePathOwner = ROOT.'/cache/pageCache/'.getBlogId()."/".$this->filenameOwner;
 		$this->absoluteFilePathGuest = ROOT.'/cache/pageCache/'.getBlogId()."/".$this->filenameGuest;
+		$this->absoluteFilePath = doesHaveOwnership() ? $this->absoluteFilePathOwner : $this->absoluteFilePathGuest;
 		return true;
 	}
 
@@ -125,10 +129,7 @@ class pageCache {
 		global $database;
 		return DBQuery::execute("DELETE FROM {$database['prefix']}PageCacheLog 
 			WHERE blogid = ".getBlogId()."
-			AND name = '".mysql_tt_escape_string($this->realNameOwner)."'") ||
-			DBQuery::execute("DELETE FROM {$database['prefix']}PageCacheLog 
-				WHERE blogid = ".getBlogId()."
-				AND name = '".mysql_tt_escape_string($this->realNameGuest)."'");
+			AND name = '".mysql_tt_escape_string($this->realName)."'"); 
 	}
 
 	function _error($error) {
@@ -139,6 +140,19 @@ class pageCache {
 }
 
 class CacheControl{
+	function flushAll($blogid = null) {
+		if(empty($blogid)) $blogid = getBlogId();
+		
+		$dir = ROOT . '/cache/pageCache/'.$blogid;
+		if(!$dirHandle = opendir($dir)) return true;
+		while(($object = readdir($dirHandle))) {
+			if($object == '.' || $object == '..') continue;
+			if(!@unlink($dir.'/'.$object)) return false;
+		}
+		DBQuery::query("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$blogid);
+		return true;
+	}
+	
 	function flushCategory($categoryId = null) {
 		global $database;
 
