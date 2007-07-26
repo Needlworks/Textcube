@@ -98,10 +98,11 @@ function updatePluginConfig( $name , $setVal){
 			WHERE blogid = ".getBlogId()."
 			AND name = '$name'"
 		);
+	if( mysql_affected_rows() == 1 )
+		$result = '0';
 	clearPluginSettingCache();
 	CacheControl::flushItemsByPlugin($pluginName);
-	if( mysql_affected_rows() == 1 )
-		return '0';
+	if(isset($result) && $result = '0') return $result;
 	return (mysql_error() == '') ? '0' : '1';
 }
 function treatPluginTable($plugin, $name, $fields, $keys, $version){
