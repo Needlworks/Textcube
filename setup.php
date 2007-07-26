@@ -1417,7 +1417,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
 				UPDATE {$_POST['dbPrefix']}BlogSettings SET value = '$baseTimezone' where blogid = 1 AND name = 'timezone';";
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
-                if (!mysql_query($sub)) {
+                if (!empty($sub) && !mysql_query($sub)) {
 					echo '<script type="text/javascript">alert("', _t('정보를 갱신하지 못했습니다.'), '")</script>';
 					$error = 2;
 					break;
