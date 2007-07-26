@@ -67,7 +67,7 @@ function getBlogSettings($blogid) {
 		foreach($defaultValues as $name => $value){
 			if(!in_array($name,$blogSettingFields)) {
 				$result[$name] = $value;
-				setBlogSetting($name,$value);
+				setBlogSettingDefault($name,$value);
 			}
 		}
 		$__gCacheBlogSettings[$blogid] = $result;

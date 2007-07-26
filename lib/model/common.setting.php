@@ -89,6 +89,18 @@ function setBlogSetting($name, $value, $blogid = null) {
 	return DBQuery::execute("INSERT INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
 }
 
+function setBlogSettingDefault($name, $value, $blogid = null) {
+	global $database;
+	$name = mysql_tt_escape_string($name);
+	$value = mysql_tt_escape_string($value);
+	if($blogid == null)
+		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
+	else if(is_numeric($blogid)){
+		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$name', '$value')");
+	}
+	return null;
+}
+
 function removeBlogSetting($name, $blogid = null) {
 	global $database;
 	global $__gCacheBlogSettings; // share blog.service.php
