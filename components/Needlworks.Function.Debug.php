@@ -175,6 +175,13 @@ function __tcSqlLogDump()
 		text-align: right;
 	}
 	
+	tr.debugSQLLine .backtrace
+	{
+		font-family: Courier, 'Courier new', monospace;
+		font-size: 11px;
+		letter-spacing: -1px;
+	}
+	
 	tr.debugCached *, tr.debugSystem *
 	{
 		color: #888888 !important;
@@ -281,7 +288,7 @@ THEAD;
 			<td class="elapsedSum">{$log['endtime']}</td>
 			<td class="rows">{$log['rows']}</td>
 			<td class="error">{$error}</td>
-			<td class="code">{$backtrace}</td>
+			<td class="backtrace"><pre>{$backtrace}</pre></td>
 		</tr>
 TBODY;
 	
