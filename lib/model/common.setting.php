@@ -4,23 +4,14 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 global $serviceSetting;
-global $blogSetting;
 global $userSetting;
 $serviceSetting = array();
-$blogSetting = array();
 $userSetting = array();
 
 function clearServiceSettingCache() {
 	global $serviceSetting;
 	if( !empty($serviceSetting) ) {
 		$serviceSetting = array();
-	}
-}
-
-function clearBlogSettingCache() {
-	global $blogSetting;
-	if( !empty($blogSetting) ) {
-		$blogSetting = array();
 	}
 }
 
@@ -60,46 +51,70 @@ function removeServiceSetting($name) {
 	return DBQuery::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".mysql_tt_escape_string($name)."'");
 }
 
-function getBlogSetting($name, $default = null) {
-	global $database;
-	global $blogSetting;
-	if( empty($blogSetting) ) {
-		$settings = DBQuery::queryAllWithCache("SELECT name, value 
-				FROM {$database['prefix']}BlogSettings 
-				WHERE blogid = ".getBlogId(), MYSQL_NUM );
-		foreach( $settings as $k => $v ) {
-			$blogSetting[ $v[0] ] = $v[1];
-		}
-	}
-	if( isset($blogSetting[$name]) ) {
-		return $blogSetting[$name];
+function getBlogSetting($name, $default = null, $blogid = null) {
+	$settings = getBlogSettings(getBlogId()); // from blog.service.php
+	if ($settings === false) return $default;
+	if( isset($settings[$name]) ) {
+		return $settings[$name];
 	}
 	return $default;
 }
 
 function setBlogSetting($name, $value, $blogid = null) {
 	global $database;
-	$name = mysql_tt_escape_string($name);
-	$value = mysql_tt_escape_string($value);
-	clearBlogSettingCache();
-	if($blogid == null)
-		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
-	else if(is_numeric($blogid)){
-		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$name', '$value')");
+	global $__gCacheBlogSettings; // share blog.service.php
+
+	if (is_null($blogid)) $blogid = getBlogId();
+	if (!is_numeric($blogid)) return null;
+
+	if (!array_key_exists($blogid, $__gCacheBlogSettings)) {
+		// force loading
+		getBlogSettings($blogid);
 	}
-	return null;
+	if ($__gCacheBlogSettings[$blogid] === false) {
+		return null;
+	}
+	
+	$escape_name = mysql_tt_escape_string($name);
+	$escape_value = mysql_tt_escape_string($value);
+	
+	if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
+		// overwrite value
+		$__gCacheBlogSettings[$blogid][$name] = $value;
+		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
+	}
+	
+	// insert new value
+	$__gCacheBlogSettings[$blogid][$name] = $value;
+	return DBQuery::execute("INSERT INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
 }
 
 function removeBlogSetting($name, $blogid = null) {
 	global $database;
-	clearBlogSettingCache();
-	if($blogid == null) {
-		return DBQuery::execute("DELETE FROM {$database['prefix']}BlogSettings 
-			WHERE blogid = ".getBlogId()." AND name = '".mysql_tt_escape_string($name)."'");
-	} else if(is_numeric($blogid)) {
-		return DBQuery::execute("DELETE FROM {$database['prefix']}BlogSettings 
-			WHERE blogid = $blogid AND name = '".mysql_tt_escape_string($name)."'");
+	global $__gCacheBlogSettings; // share blog.service.php
+
+	if (is_null($blogid)) $blogid = getBlogId();
+	if (!is_numeric($blogid)) return null;
+
+	if (!array_key_exists($blogid, $__gCacheBlogSettings)) {
+		// force loading
+		getBlogSettings($blogid);
 	}
+	if ($__gCacheBlogSettings[$blogid] === false) {
+		return null;
+	}
+	
+	$escape_name = mysql_tt_escape_string($name);
+	
+	if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
+		// overwrite value
+		unset($__gCacheBlogSettings[$blogid][$name]);
+		return DBQuery::execute("DELETE FROM {$database['prefix']}BlogSettings 
+			WHERE blogid = $blogid AND name = '$escape_name'");
+	}
+	
+	// already not exist
+	return true;
 }
 
 function getUserSetting($name, $default = null) {
