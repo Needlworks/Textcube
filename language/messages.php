@@ -1,12 +1,14 @@
 <?php
-define('ROOT', '..');
-require ROOT . '/lib/includeForBlog.php';
+if (!defined('ROOT')) {
+	header('HTTP/1.1 403 Forbidden');
+	header("Connection: close");
+	exit;
+}
 
 // TODO: generalize for multiple language support e.g. skin language
 $setting = getBlogSettings($owner);
 require $setting['language'].'.php';
 
-header('Content-Type: text/javascript');
 echo "__text = {\n";
 foreach ($__text as $key => $value) {
 	$key = str_replace("\n", "\\n", addslashes($key));
