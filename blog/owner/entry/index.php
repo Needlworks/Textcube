@@ -63,6 +63,11 @@ if (isset($_POST['visibility'])) {
 		$visibility = '<-1';
 		$tabsClass['reserved'] = true;
 		$visibilityText = _t('예약');
+	} else if($_POST['visibility']=='template') {
+//		$categoryId = -4;
+		$visibility = null;
+		$tabsClass['template'] = true;
+		$visibilityText = _t('서식');
 	} else {
 		$visibility = null;
 		$tabsClass['all'] = true;
@@ -91,7 +96,10 @@ if ( isset($_POST['perPage']) && (in_array($_POST['perPage'], array(10, 15, 20, 
 }
 
 // 컨텐츠 목록 생성.
-list($entries, $paging) = getEntriesWithPagingForOwner(getBlogId(), $categoryId, $searchKeyword, $suri['page'], $perPage, $visibility);
+if($_POST['visibility'] == 'template') $categoryIdforPrint = -4;
+else $categoryIdforPrint = $categoryId;	// preserves category selection even if template tab is activated.
+
+list($entries, $paging) = getEntriesWithPagingForOwner(getBlogId(), $categoryIdforPrint, $searchKeyword, $suri['page'], $perPage, $visibility);
 
 // query string 생성.
 $paging['postfix'] = NULL;
@@ -715,8 +723,9 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 						<div id="part-post-list" class="part">
 							<h2 class="caption"><span class="main-text">
 <?php
-	
-	if ($categoryId == -1) { 
+	if($tabsClass['template'] == true) {
+		echo _t('등록된 서식 목록입니다');
+	} else if ($categoryId == -1) { 
 		echo _f('등록된 %1 키워드 목록입니다', $visibilityText);
 	} else if ($categoryId == -2) {
 		echo _f('등록된 %1 공지 목록입니다', $visibilityText);
@@ -734,6 +743,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								<li<?php echo isset($tabsClass['private']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=private"><?php echo _t('비공개 글');?></a></li>
 								<li<?php echo isset($tabsClass['public']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=public"><?php echo _t('공개된 글');?></a></li>
 								<li<?php echo isset($tabsClass['reserved']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=reserved"><?php echo _t('예약된 글');?></a></li>
+								<li<?php echo isset($tabsClass['template']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=template"><?php echo _t('서식');?></a></li>
 							</ul>
 							
 							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/entry">
@@ -746,6 +756,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										<optgroup class="category" label="<?php echo _t('글 종류');?>">
 											<option value="-2"<?php echo ($categoryId == -2 ? ' selected="selected"' : '');?>><?php echo _t('공지');?></option>
 											<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '');?>><?php echo _t('키워드');?></option>
+											<option value="-4"<?php echo ($categoryId == -4 ? ' selected="selected"' : '');?>><?php echo _t('서식');?></option>
 										</optgroup>
 										<optgroup class="category" label="<?php echo _t('분류');?>">
 											<option value="0"<?php echo ($categoryId == 0 ? ' selected="selected"' : '');?>><?php echo htmlspecialchars(getCategoryNameById($blogid,0) ? getCategoryNameById($blogid,0) : _t('전체'));?></option>
@@ -811,7 +822,12 @@ for ($i=0; $i<sizeof($entries); $i++) {
 											<td class="date"><?php echo Timestamp::formatDate($entry['published']);?></td>
 											<td class="status">
 <?php
-	if ($entry['visibility'] == 0) {
+	if($entry['category'] == -4) {
+?>
+												<span id="templateInstruction"><?php echo _t('서식');?></span>
+<?php
+
+	} else if ($entry['visibility'] == 0) {
 ?>
 												<span id="privateIcon_<?php echo $entry['id'];?>" class="private-on-icon" title="<?php echo _t('현재 비공개 상태입니다.');?>"><span class="text"><?php echo _t('비공개');?></span></span>
 												<span id="protectedIcon_<?php echo $entry['id'];?>" class="protected-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=protect" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.');?>"><span class="text"><?php echo _t('보호');?></span></a></span>
@@ -834,7 +850,9 @@ for ($i=0; $i<sizeof($entries); $i++) {
 											</td>
 											<td class="syndicate">
 <?php
-	if ($entry['visibility'] == 3) {
+	if($entry['category'] == -4) {
+		echo '';
+	} else if ($entry['visibility'] == 3) {
 ?>
 												<span id="syndicatedIcon_<?php echo $entry['id'];?>" class="syndicated-on-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=public" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 발행을 취소합니다.');?>"><span class="text"><?php echo _t('발행');?></span></a></span>
 <?php

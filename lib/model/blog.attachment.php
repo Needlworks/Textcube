@@ -125,14 +125,14 @@ function deleteAttachment($blogid, $parent, $name) {
 	return false;
 }
 
-function deleteTotalAttachment($userid) {
+function deleteTotalAttachment($blogid) {
 	requireModel('blog.rss');
-	$d = dir(ROOT."/attach/$userid");
+	$d = dir(ROOT."/attach/$blogid");
 	while($file = $d->read()) {
-		if(is_file(ROOT."/attach/$userid/$file"))
-			unlink(ROOT."/attach/$userid/$file");
+		if(is_file(ROOT."/attach/$blogid/$file"))
+			unlink(ROOT."/attach/$blogid/$file");
 	}
-	rmdir(ROOT."/attach/$userid/");
+	rmdir(ROOT."/attach/$blogid/");
 	clearRSS();
 	return true;
 }

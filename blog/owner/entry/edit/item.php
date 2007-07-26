@@ -128,20 +128,16 @@ if (defined('__TEXTCUBE_POST__')) {
 								function EntryManager() {
 									this.savedData = null;
 <?php
-
 if (defined('__TEXTCUBE_POST__')) {
 ?>
 									this.isSaved = false;
-
 <?php
 } else {
 ?>
 									this.isSaved = true;
-
 <?php
 }
 ?>
-
 									this.entryId = <?php echo $entry['id'];?>;
 
 									this.pageHolder = new PageHolder(false, "<?php echo _t('아직 저장되지 않았습니다.');?>");
@@ -238,7 +234,34 @@ if (defined('__TEXTCUBE_POST__')) {
 									this.setEnclosure = function(fileName) {
 										
 									}
-									
+									this.loadTemplate = function (templateId) {
+										var oForm = document.forms[0];
+										var content = trim(oForm.content.value);
+										if (content.length != 0) {
+											if(confirm("<?php echo _t('본문에 내용이 있습니다. 서식이 현재 본문 내용을 덮어쓰게 됩니다. 계속하시겠습니까?');?>")!=1)
+												return null;
+										}
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/loadTemplate/");
+										request.message = "<?php echo _t('불러오고 있습니다');?>";
+										request.onSuccess = function () {
+											PM.showMessage("<?php echo _t('서식을 반영하였습니다.');?>", "center", "bottom");
+											templateContents = this.getText("/response/content");
+											PM.removeRequest(this);
+											oForm.content.value = templateContents;
+											editor.contentDocument.body.innerHTML = templateContents;
+											try {
+												editor.syncTextarea();
+											} catch(e) {
+											}
+										}
+										request.onError = function() {
+											PM.removeRequest(this);
+											alert("<?php echo _t('불러오지 못했습니다');?>");
+										}
+										PM.addRequest(request, "<?php echo _t('불러오고 있습니다');?>");
+										request.send("templateId="+templateId);
+									}
+
 									this.save = function () {
 										var data = this.getData(true);
 										if (data == null)
@@ -393,11 +416,15 @@ if (isset($_GET['popupEditor'])) {
 											document.getElementById("title-line-label").innerHTML = "<?php echo _t('제목');?>";
 											document.getElementById("category").disabled = true;
 											break;
+										case "type_template":
+											document.getElementById("title-line-label").innerHTML = "<?php echo _t('서식이름');?>";
+											document.getElementById("category").disabled = true;
+											break;
 										case "type_post":
 											document.getElementById("title-line-label").innerHTML = "<?php echo _t('제목');?>";
 											document.getElementById("category").disabled = false;
 									}
-									if(type == "type_keyword") {
+									if(type == "type_keyword" || type == "type_template") {
 										var radio = document.forms[0].visibility;
 										if(radio[1].checked)
 											radio[0].checked = true;
@@ -407,6 +434,10 @@ if (isset($_GET['popupEditor'])) {
 										document.getElementById("status-protected").style.display = "none";
 										document.getElementById("status-syndicated").style.display = "none";
 										document.getElementById("power-line").style.display = "none";
+										if(type == "type_template") {
+											document.getElementById("date-line").style.display = "none";
+											document.getElementById("status-line").style.display = "none";
+										}
 									}
 									else {
 										document.getElementById("permalink-line").style.display = "";
@@ -425,6 +456,10 @@ if (isset($_GET['popupEditor'])) {
 								function closeWhatIsEolin() {
 									document.getElementById('fileList').style.visibility = 'visible';
 									document.getElementById('eolinDialog').style.display = 'none';
+								}
+
+								function closeTemplateDialog() {
+									document.getElementById('templateDialog').style.display = 'none';
 								}
 							//]]>
 						</script>
@@ -456,6 +491,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											<dd>
 												<div class="entrytype-notice"><input type="radio" id="type_notice" class="radio" name="entrytype" value="-2" onclick="checkCategory('type_notice')"<?php echo ($entry['category'] == -2 ? ' checked="checked"' : '');?> /><label for="type_notice"><?php echo _t('공지');?></label></div>
 												<div class="entrytype-keyword"><input type="radio" id="type_keyword" class="radio" name="entrytype" value="-1" onclick="checkCategory('type_keyword')"<?php echo ($entry['category'] == -1 ? ' checked="checked"' : '');?> /><label for="type_keyword"><?php echo _t('키워드');?></label></div>
+												<div class="entrytype-template"><input type="radio" id="type_template" class="radio" name="entrytype" value="-4" onclick="checkCategory('type_template')"<?php echo ($entry['category'] == -4 ? ' checked="checked"' : '');?> /><label for="type_template"><?php echo _t('서식');?></label></div>
 												<div class="entrytype-post">
 													<input type="radio" id="type_post" class="radio" name="entrytype" value="0" onclick="checkCategory('type_post')"<?php echo ($entry['category'] >= 0 ? ' checked="checked"' : '');?> /><label for="type_post"><?php echo _t('글');?></label>
 													<select id="category" name="category"<?php if($isKeyword) echo ' disabled="disabled"';?>>
@@ -735,11 +771,34 @@ if (isset($_GET['popupEditor'])) {
 							
 								<div class="button-box">
 									<button id="eolin-button" class="eolin-button input-button" onclick="window.open('http://www.eolin.com');" title="<?php echo _t('이올린으로 연결합니다.');?>"><span class="text"><?php echo _t('이올린, 지금 만나보세요');?></span></button>
-									<button id="close-button" class="close-button input-button" onclick="closeWhatIsEolin();" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
+									<button id="close-button" class="close-button input-button" onclick="closeWhatIsEolin();return false;" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
 					 			</div>
 					 		</div>
 				 		</div>
 				 		
+						<div id="templateDialog" class="entry-editor-property" style="display: block; z-index: 100;">
+							<div class="temp-box">
+								<h4><?php echo _t('서식 선택');?></h4>
+								
+								<p class="message">
+									<?php echo _t('새 글을 쓰거나 아래의 서식들 중 하나를 선택하여 글을 쓸 수 있습니다. 서식은 자유롭게 작성하여 저장할 수 있습니다.');?>
+								</p>
+								
+								<dl>
+									<dt><?php echo _t('서식 목록');?></dt>
+<?php
+$templateLists = getTemplates(getBlogId(),'id,title');
+foreach($templateLists as $templateList){
+	echo '									<dd><a href="#void" onclick="entryManager.loadTemplate('.$templateList['id'].');return false;">'.$templateList['title'].'</a></dd>'.CRLF;
+}
+?>
+								</dl>
+							
+								<div class="button-box">
+									<button id="close-button" class="close-button input-button" onclick="closeTemplateDialog();return false;" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
+					 			</div>
+					 		</div>
+				 		</div>
 						<script type="text/javascript">
 							//<![CDATA[
 								entryManager = new EntryManager();

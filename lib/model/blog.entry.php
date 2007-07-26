@@ -20,6 +20,18 @@ function getEntries($blogid, $attributes = '*', $condition = false, $order = 'pu
 	return DBQuery::queryAll("SELECT $attributes FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility $condition ORDER BY $order");
 }
 
+
+function getTemplates($blogid, $attributes = '*', $condition = false, $order = 'published DESC') {
+	global $database;
+	if (!empty($condition))
+		$condition = 'AND ' . $condition;
+	return DBQuery::queryAll("SELECT $attributes 
+			FROM {$database['prefix']}Entries 
+			WHERE blogid = $blogid 
+				AND draft = 0 AND category = -4 $condition 
+				ORDER BY $order");
+}
+
 function getEntry($blogid, $id, $draft = false) {
 	global $database;
 	requireModel('blog.attachment');
@@ -437,6 +449,9 @@ function addEntry($blogid, $entry) {
 		if ($entry['visibility'] == 1) $entry['visibility'] = 0;
 		if ($entry['visibility'] == 3) $entry['visibility'] = 2;
 	}
+	if ($entry['category'] == -4) {
+		$entry['visibility'] = 0;
+	}
 
 	$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' LIMIT 1");
 	for ($i = 1; mysql_num_rows($result) > 0; $i++) {
@@ -547,6 +562,9 @@ function updateEntry($blogid, $entry) {
 	if ($entry['category'] < 0) {
 		if ($entry['visibility'] == 1) $entry['visibility'] = 0;
 		if ($entry['visibility'] == 3) $entry['visibility'] = 2;
+	}
+	if ($entry['category'] == -4) {
+		$entry['visibility'] = 0;
 	}
 	
 	$result = DBQuery::query("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND id = {$entry['id']} LIMIT 1");
@@ -715,6 +733,7 @@ function deleteEntry($blogid, $id) {
 function changeCategoryOfEntries($blogid, $entries, $category) {
 	global $database;
 	requireModel("blog.category");
+	requireModel("blog.rss");
 
 	$targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));
 	if ( count($targets)<1 || !is_numeric($category) ) 
