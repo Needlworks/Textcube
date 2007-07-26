@@ -72,17 +72,13 @@ class pageCache {
 	}
 	function purge () {
 		$this->getFileName();
-		if(!file_exists($this->absoluteFilePathOwner) 
-			&& !file_exists($this->absoluteFilePathGuest)) {
-			$this->removePageCacheLog();
-			return true;
-		}
 		if(chmod($this->absoluteFilePathOwner, 0777) || chmod($this->absoluteFilePathGuest, 0777)){
-			@unlink($this->absoluteFilePathOwner);
-			@unlink($this->absoluteFilePathGuest);
+			if(file_exists($this->absoluteFilePathOwner)) @unlink($this->absoluteFilePathOwner);
+			if(file_exists($this->absoluteFilePathGuest)) @unlink($this->absoluteFilePathGuest);
 			$this->removePageCacheLog();
 			return true;
 		} else {
+			$this->removePageCacheLog();
 			return false;
 		}
 	}
