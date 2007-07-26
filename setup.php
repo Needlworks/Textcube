@@ -562,6 +562,7 @@ xml_set_object
 					case 'feeds':
 					case 'filters':
                     case 'links':
+					case 'pagecachelog':
 					case 'plugins':
                     case 'refererlogs':
                     case 'refererstatistics':
@@ -572,10 +573,12 @@ xml_set_object
                     case 'skinsettings':
                     case 'tagrelations':
                     case 'tags':
+                    case 'teamblog':
                     case 'trackbacklogs':
                     case 'trackbacks':
-					case 'UserSettings':
+					case 'usersettings':
                     case 'users':
+                    case 'xmlrpcpingsettings':
                         $tables[count($tables)] = $table[0];
                         break;
                 }
@@ -1194,13 +1197,11 @@ CREATE TABLE {$_POST['dbPrefix']}Links (
   PRIMARY KEY  (id),
   UNIQUE KEY blogid (blogid,url)
 ) $charset;
-
 CREATE TABLE {$_POST['dbPrefix']}PageCacheLog (
   blogid int(11) NOT NULL default '0',
   name varchar(255) NOT NULL default '',
   PRIMARY KEY (blogid,name)
 ) $charset;
-
 CREATE TABLE {$_POST['dbPrefix']}Plugins (
   blogid int(11) NOT NULL default '0',
   name varchar(255) NOT NULL default '',
@@ -1384,6 +1385,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
 							{$_POST['dbPrefix']}Feeds,
 							{$_POST['dbPrefix']}Filters,
 							{$_POST['dbPrefix']}Links,
+							{$_POST['dbPrefix']}PageCacheLog,
 							{$_POST['dbPrefix']}Plugins,
 							{$_POST['dbPrefix']}RefererLogs,
 							{$_POST['dbPrefix']}RefererStatistics,
@@ -1756,7 +1758,7 @@ function checkTables($version, $prefix) {
 function getTables($version, $prefix) {
 	switch ($version) {
 		case '1.5':
-			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings", "{$prefix}Teamblog");
+			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings", "{$prefix}Teamblog", "{$prefix}PageCacheLog");
 		case '1.1':
 			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings");
 		case '1.0.2':

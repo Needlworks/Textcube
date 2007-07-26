@@ -776,7 +776,7 @@ if (isset($_GET['popupEditor'])) {
 					 		</div>
 				 		</div>
 				 		
-						<div id="templateDialog" class="entry-editor-property" style="display: block; z-index: 100;">
+						<div id="templateDialog" class="entry-editor-property" style="display: <?php echo (defined('__TEXTCUBE_POST__') ? 'block' : 'none');?>; z-index: 100;">
 							<div class="temp-box">
 								<h4><?php echo _t('서식 선택');?></h4>
 								
