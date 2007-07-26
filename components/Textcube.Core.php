@@ -5,6 +5,10 @@
 
 requireComponent( "Textcube.Control.Auth" );
 
+// for Global Cache
+global $__gCacheUserNames;
+$__gCacheUserNames = array();
+
 function encodeURL($url) {
 	global $service;
 	if (isset($service['useEncodedURL']) && $service['useEncodedURL'])
@@ -16,10 +20,13 @@ function encodeURL($url) {
 class User {
 	/*@static@*/
 	function getName($userid = null) {
-		global $database;
+		global $database, $__gCacheUserNames;
 		if (!isset($userid))
 			$userid = getUserId();
-		return DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $userid");
+		if (array_key_exists($userid, $__gCacheUserNames)) {
+			return $__gCacheUserNames[$userid];
+		}
+		return $__gCacheUserNames[$userid] = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
 	
 	/*@static@*/

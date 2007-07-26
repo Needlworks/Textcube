@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-$writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $blogid");
+$writer = User::getName($blogid);
 $pageTitle = trim($pageTitle);
 if (!empty($pageTitle)) {
 	$pageTitleView = $skin->pageTitle;

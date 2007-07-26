@@ -81,7 +81,8 @@ function getCategories($blogid) {
 }
 
 function getCategoriesSkin() {
-	global $database, $service;
+	global $database, $service, $__gCacheCategorySkin;
+	if (!is_null($__gCacheCategorySkin)) return $__gCacheCategorySkin;
 	$sql = "SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = ".getBlogId();
 	$setting = DBQuery::queryRow($sql);
 	$skin = array('name' => "{$setting['skin']}", 
@@ -92,7 +93,7 @@ function getCategoriesSkin() {
 			'itemBgColor'       => "{$setting['bgColorOnTree']}", 
 			'activeItemColor'   => "{$setting['activeColorOnTree']}", 
 			'activeItemBgColor' => "{$setting['activeBgColorOnTree']}", );
-	return $skin;
+	return $__gCacheCategorySkin = $skin;
 }
 
 function getParentCategoryId($blogid, $id) {

@@ -62,7 +62,7 @@ function MT_getRecentEntries($parameters){
 		$html .= '	<div class="post_info">'.CRLF;
 		$html .= '		<span class="category"><a href="'.$categoryLink.'">'.$categoryName.'</a></span>'.CRLF;
 		$html .= '		<span class="date">'.Timestamp::format5($entry['published']).'</span>'.CRLF;
-		$html .= '		<span class="author">by '.User::authorName($owner,$entry['id']).'</span>'.CRLF;
+		$html .= '		<span class="author">by '.User::getName($owner,$entry['userid']).'</span>'.CRLF;
 		$html .= '	</div>'.CRLF;
 		$html .= '	<div class="post_content">'.htmlspecialchars(UTF8::lessenAsEm(removeAllTags(stripHTML($entry['content'])),250)).'</div>'.CRLF;
 		$html .=	$tagLabelView;
