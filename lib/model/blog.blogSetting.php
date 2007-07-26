@@ -328,7 +328,7 @@ function addBlog($blogid, $userid, $identify) {
 			'timezone'     => $baseTimezone);
 		$isFalse = false;
 		foreach($basicInformation as $fieldname => $fieldvalue){
-			if(setBlogSetting($fieldname,$fieldvalue,$blogid) === false) {
+			if(setBlogSettingDefault($fieldname,$fieldvalue,$blogid) === false) {
 				$isFalse = true;
 			}
 		}
