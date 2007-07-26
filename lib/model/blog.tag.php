@@ -39,13 +39,13 @@ function getRandomTags($blogid) {
 	$aux = ($skinSetting['tagsOnTagbox'] == - 1) ? '' : "limit {$skinSetting['tagsOnTagbox']}";
 	if ($skinSetting['tagboxAlign'] == 1) { // order by count
 		if (doesHaveOwnership())
-			$tags = DBQuery::queryColumn("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
+			$tags = DBQuery::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r 
 				WHERE t.id = r.tag and r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY cnt DESC $aux");
 		else
-			$tags = DBQuery::queryColumn("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
+			$tags = DBQuery::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r, 
 				`{$database['prefix']}Entries` e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
@@ -53,13 +53,13 @@ function getRandomTags($blogid) {
 				ORDER BY `cnt` DESC $aux");
 	} else if ($skinSetting['tagboxAlign'] == 2) {  // order by name
 		if (doesHaveOwnership())
-			$tags = DBQuery::queryColumn("SELECT DISTINCT name FROM `{$database['prefix']}Tags` t, 
+			$tags = DBQuery::queryAll("SELECT DISTINCT name, count(*) 'cnt' FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r 
 				WHERE t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY t.name $aux");
 		else
-			$tags = DBQuery::queryColumn("SELECT DISTINCT name FROM `{$database['prefix']}Tags` t, 
+			$tags = DBQuery::queryAll("SELECT DISTINCT name, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r,
 				`{$database['prefix']}Entries` e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
@@ -67,12 +67,12 @@ function getRandomTags($blogid) {
 				ORDER BY t.name $aux");
 	} else { // random
 		if (doesHaveOwnership())
-			$tags = DBQuery::queryColumn("SELECT `name` FROM `{$database['prefix']}Tags` t,
+			$tags = DBQuery::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r
 				WHERE t.id = r.tag AND r.blogid = $blogid
 				GROUP BY r.tag ORDER BY RAND() $aux");
 		else
-			$tags = DBQuery::queryColumn("SELECT `name` FROM `{$database['prefix']}Tags` t,
+			$tags = DBQuery::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r,
 				`{$database['prefix']}Entries` e
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
@@ -145,15 +145,21 @@ function getTagFrequencyRange() {
 function getTagFrequency($tag, $max, $min) {
 	global $database;
 	$blogid = getBlogId();
-	if (doesHaveOwnership())
-		$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, 
-			`{$database['prefix']}TagRelations` r 
-			WHERE t.id = r.tag AND r.blogid = $blogid AND t.name = '" . mysql_tt_escape_string($tag) . "'");
-	else
-		$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, 
-			`{$database['prefix']}TagRelations` r, 
-			`{$database['prefix']}Entries` e 
-			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = e.blogid AND r.blogid = $blogid AND t.name = '" . mysql_tt_escape_string($tag) . "'");
+	if (is_array($tag) && array_key_exists('cnt', $tag)) $count = $tag['cnt'];
+	else {
+		if (!is_array($tag)) {
+			$tag = array('name' => $tag);
+		} 
+		if (doesHaveOwnership())
+			$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, 
+				`{$database['prefix']}TagRelations` r 
+				WHERE t.id = r.tag AND r.blogid = $blogid AND t.name = '" . mysql_tt_escape_string($tag['name']) . "'");
+		else
+			$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, 
+				`{$database['prefix']}TagRelations` r, 
+				`{$database['prefix']}Entries` e 
+				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = e.blogid AND r.blogid = $blogid AND t.name = '" . mysql_tt_escape_string($tag['name']) . "'");
+	}
 	$dist = $max / 3;
 	if ($count == $min)
 		return 5;
