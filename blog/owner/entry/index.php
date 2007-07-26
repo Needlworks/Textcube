@@ -643,49 +643,6 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 									}
 								}
 								
-								window.addEventListener("load", execLoadFunction, false);
-								function execLoadFunction() {
-									document.getElementById('allChecked').disabled = false;
-									
-									if (document.getElementById('eolinDialog').style.display == 'none') {
-										// eolin button
-										if (STD.isIE) {
-											var tempBUTTON = document.createElement('<button onclick="window.open(\'http://www.eolin.com\'); return false;">');
-										} else {
-											var tempBUTTON = document.createElement('BUTTON');
-											tempBUTTON.setAttribute('onclick', 'window.open(\'http://www.eolin.com\'); return false;');
-										}
-									
-										tempBUTTON.id = 'eolin-button';
-										tempBUTTON.className = 'eolin-button input-button';
-										tempBUTTON.setAttribute('title', '<?php echo _t('이올린으로 연결합니다.');?>');
-										tempSPAN = document.createElement('SPAN');
-										tempSPAN.className = 'text';
-										tempSPAN.innerHTML = '<?php echo _t('이올린, 지금 만나보세요');?>';
-										tempBUTTON.appendChild(tempSPAN);
-									
-										document.getElementById('eolin-button-box').appendChild(tempBUTTON);
-										
-										// close button
-										if (STD.isIE) {
-											var tempBUTTON = document.createElement('<button onclick="closeWhatIsEolin(); return false;">');
-										} else {
-											var tempBUTTON = document.createElement('BUTTON');
-											tempBUTTON.setAttribute('onclick', 'closeWhatIsEolin(); return false;');
-										}
-									
-										tempBUTTON.id = 'close-button';
-										tempBUTTON.className = 'close-button input-button';
-										tempBUTTON.setAttribute('title', '<?php echo _t('이 대화상자를 닫습니다.');?>');
-										tempSPAN = document.createElement('SPAN');
-										tempSPAN.className = 'text';
-										tempSPAN.innerHTML = '<?php echo _t('닫기');?>';
-										tempBUTTON.appendChild(tempSPAN);
-									
-										document.getElementById('eolin-button-box').appendChild(tempBUTTON);
-									}
-								}
-								
 								function toggleThisTr(obj) {
 									objTR = getParentByTagName("TR", obj);
 									
