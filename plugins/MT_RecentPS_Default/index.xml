@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title>Metapage Recent Entries</title>
+  <title xml:lang="en">Metapage Recent Entries</title>
+  <title xml:lang="ko">메타 페이지 최근 글</title>
   <link>http://needlworks.org/</link>
   <version>1.0</version>
-  <description>Shows metapage recent entries</description>
+  <description xml:lang="en">Shows metapage recent entries</description>
+  <description xml:lang="ko">최근에 작성된 글들을 메타 페이지에 보여줍니다</description>
   <license>GPL</license>
-  <author link="http://needlworks.org">Needlworks</author>
+  <author xml:lang="en" link="http://needlworks.org">Needlworks</author>
+  <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
     <textcube>1.5</textcube>
   </requirements>
   <binding>
 	<tag name="SKIN_head_end" handler="MT_getRecentEntryStyle" />
-	<listener event="/plugin/mtimageresizer">MT_getImageResizer</listener>
-    <metapage title="최근 글목록" handler="MT_getRecentEntries">
+    <metapage title="Recent Posts" handler="MT_getRecentEntries">
       <params>
         <param>
-          <title>출력 글 길이</title>
+          <title xml:lang="en">Show recent posts per list</title>
+		  <title xml:lang="ko">출력될 최근 글 수</title>
           <name>entryLength</name>
           <type>int</type>
 		  <default>5</default>
