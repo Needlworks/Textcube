@@ -59,8 +59,8 @@ function getBlogSettings($blogid) {
 				'noneTrackbackMessage'     => '',
 				'singleTrackbackMessage'   => '');
 		foreach($blogSettings as $blogSetting){
+			$result[$blogSetting['name']] = $blogSetting['value'];
 			if(array_key_exists($blogSetting['name'],$defaultValues)) {
-				$result[$blogSetting['name']] = $blogSetting['value'];
 				array_push($blogSettingFields, $blogSetting['name']);
 			}
 		}
