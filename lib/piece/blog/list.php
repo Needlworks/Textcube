@@ -34,7 +34,8 @@ if (isset($cache->contents)) {
 	dress('list_rep', $itemsView, $listView);
 	dress('list_conform', fireEvent('ViewListHeadTitle', htmlspecialchars($list['title']) ), $listView);
 	dress('list_count', isset($list['count']) ? $list['count'] : '0', $listView);
-	dress('list', fireEvent('ViewList', $listView, $list), $view);
+	$listView = fireEvent('ViewList', $listView, $list);
+	dress('list', $listView, $view);
 	if(isset($cache)) { 
 		$cache->contents = $listView;
 		$cache->update();
