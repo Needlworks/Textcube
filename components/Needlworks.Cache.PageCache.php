@@ -72,7 +72,7 @@ class pageCache {
 	}
 	function purge () {
 		$this->getFileName();
-		if(chmod($this->absoluteFilePathOwner, 0777) || chmod($this->absoluteFilePathGuest, 0777)){
+		if(@chmod($this->absoluteFilePathOwner, 0777) || @chmod($this->absoluteFilePathGuest, 0777)){
 			if(file_exists($this->absoluteFilePathOwner)) @unlink($this->absoluteFilePathOwner);
 			if(file_exists($this->absoluteFilePathGuest)) @unlink($this->absoluteFilePathGuest);
 			$this->removePageCacheLog();
