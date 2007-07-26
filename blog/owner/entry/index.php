@@ -96,7 +96,7 @@ if ( isset($_POST['perPage']) && (in_array($_POST['perPage'], array(10, 15, 20, 
 }
 
 // 컨텐츠 목록 생성.
-if($_POST['visibility'] == 'template') $categoryIdforPrint = -4;
+if(isset($_POST['visibility']) && $_POST['visibility'] == 'template') $categoryIdforPrint = -4;
 else $categoryIdforPrint = $categoryId;	// preserves category selection even if template tab is activated.
 
 list($entries, $paging) = getEntriesWithPagingForOwner(getBlogId(), $categoryIdforPrint, $searchKeyword, $suri['page'], $perPage, $visibility);
@@ -680,7 +680,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 						<div id="part-post-list" class="part">
 							<h2 class="caption"><span class="main-text">
 <?php
-	if($tabsClass['template'] == true) {
+	if(isset($tabsClass['template']) && $tabsClass['template'] == true) {
 		echo _t('등록된 서식 목록입니다');
 	} else if ($categoryId == -1) { 
 		echo _f('등록된 %1 키워드 목록입니다', $visibilityText);
