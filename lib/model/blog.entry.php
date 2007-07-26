@@ -620,7 +620,7 @@ function updateEntry($blogid, $entry) {
 	DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = {$entry['id']} WHERE blogid = $blogid AND parent = 0");
 	if ($entry['visibility'] >= 2)
 		clearRSS();
-	return $result ? true : false;
+	return $result ? $entry['id'] : false;
 }
 
 function saveDraftEntry($entry) {

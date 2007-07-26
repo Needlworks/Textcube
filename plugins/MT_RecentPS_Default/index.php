@@ -2,6 +2,7 @@
 function MT_getRecentEntries($parameters){
 	global $database,$blogid,$blogURL,$blog,$defaultURL;
 	requireComponent('Textcube.Core');
+	requireComponent('Needlworks.Cache.PageCache');
 	requireModel("blog.entry");
 	requireModel("blog.tag");
 	if (isset($parameters['preview'])) {
@@ -16,6 +17,11 @@ function MT_getRecentEntries($parameters){
 		@chmod(ROOT."/attach/{$blogid}/metaPostThumbnail/", 0777);
 	}
 
+	$cache = new PageCache;
+	$cache->name = 'MT_RecentPS';
+	if($cache->load()) {
+		return $cache->contents;
+	} else {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$entries = DBQuery::queryAll("SELECT e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, c.label 
 		FROM {$database['prefix']}Entries e
@@ -56,6 +62,19 @@ function MT_getRecentEntries($parameters){
 		$html .= '</div>'.CRLF;
 	}
 	$target = $html;
+	$cache->contents = $target;
+	$cache->update();
+	unset($cache);
+	return $target;
+	}
+}
+
+function MT_getRecentEntries_purgeCache($mother, $target) {
+	requireComponent('Needlworks.Cache.PageCache');
+
+	$cache = new PageCache;
+	$cache->name = 'MT_RecentPS';
+	$cache->purge();
 	return $target;
 }
 
