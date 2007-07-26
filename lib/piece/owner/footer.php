@@ -95,6 +95,5 @@ if (isset($paging['next'])) {
 			}
 		//]]>
 	</script>
-	<?php if( function_exists('__tcSqlLogDump') ) { __tcSqlLogDump(); } ?>
 </body>
 </html>

@@ -15,6 +15,9 @@ function __error( $errno, $errstr, $errfile, $errline )
 global $__tcSqlLog;
 global $__tcSqlLogCount;
 global $__tcSqlLogBeginTime;
+global $__tcSqlLogStartTime;
+
+$__tcSqlLogStartTime = explode(' ', microtime());
 
 $__tcSqlLog= array();
 $__tcSqlLogCount = 0;
@@ -32,7 +35,7 @@ function __tcSqlLogBegin( $sql )
 }
 function __tcSqlLogEnd( $result, $cachedResult = 0 )
 {
-	global $__tcSqlLog, $__tcSqlLogBeginTime, $__tcSqlLogCount;
+	global $__tcSqlLog, $__tcSqlLogBeginTime, $__tcSqlLogCount, $__tcSqlLogStartTime;
 	static $client_encoding = '';
 	$tcSqlLogEndTime = explode(' ', microtime());
 	$elapsed = ($tcSqlLogEndTime[1] - $__tcSqlLogBeginTime[1]) + ($tcSqlLogEndTime[0] - $__tcSqlLogBeginTime[0]);
@@ -55,6 +58,8 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 	}
 	$__tcSqlLog[$__tcSqlLogCount]['cached'] = $cachedResult;
 	$__tcSqlLog[$__tcSqlLogCount]['rows'] = 0;
+	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlLogEndTime[1] - $__tcSqlLogStartTime[1]) + ($tcSqlLogEndTime[0] - $__tcSqlLogStartTime[0]);
+	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10;
 	if( ! $cachedResult && mysql_errno() == 0 ) {
 		switch( strtolower(substr($__tcSqlLog[$__tcSqlLogCount]['sql'], 0, 6 )) )
 		{
@@ -72,10 +77,39 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 	$__tcSqlLogBeginTime = 0;
 }
 
+function __tcSqlLogPoint($description = null)
+{
+	global $__tcSqlLog, $__tcSqlLogBeginTime, $__tcSqlLogCount, $__tcSqlLogStartTime;
+	if (is_null($description)) $description = 'Point'; 
+	$backtrace = debug_backtrace();
+	array_shift($backtrace);
+	array_shift($backtrace);
+	$__tcSqlLog[$__tcSqlLogCount] = array( 'sql' => '['. trim($description) .']', 'backtrace' => $backtrace );
+	$__tcSqlLogBeginTime = explode(' ', microtime());
+	$tcSqlLogEndTime = explode(' ', microtime());
+	$__tcSqlLog[$__tcSqlLogCount]['error'] = '';
+	$__tcSqlLog[$__tcSqlLogCount]['errno'] = '';
+	$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = '';
+	$__tcSqlLog[$__tcSqlLogCount]['cached'] = '';
+	$__tcSqlLog[$__tcSqlLogCount]['rows'] = '';
+	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlLogEndTime[1] - $__tcSqlLogStartTime[1]) + ($tcSqlLogEndTime[0] - $__tcSqlLogStartTime[0]);
+	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10;
+	$__tcSqlLog[$__tcSqlLogCount]['rows'] = '';
+	$__tcSqlLogCount++;
+	$__tcSqlLogBeginTime = 0;
+}
+
 function __tcSqlLogDump()
 {
 	global $__tcSqlLog, $__tcSqlLogBeginTime, $__tcSqlLogCount;
 	global $service;
+	global $__tcSqlLogPumped;
+	
+	if (isset($__tcSqlLogPumped)) return;
+	$__tcSqlLogPumped = true;
+	
+	__tcSqlLogPoint('shutdown');
+	
 	print <<<EOS
 <style type='text/css'>
 	.debugTable
@@ -182,7 +216,7 @@ EOS;
 	print <<<THEAD
 		<thead>
 			<tr>
-				<th>count</th><th class="sql">query string</th><th>elapsed</th><th>elapsed sum</th><th>rows</th><th>error</th>
+				<th>count</th><th class="sql">query string</th><th>elapsed</th><th>elapsed sum</th><th>rows</th><th>error</th><th>stack</th>
 			</tr>
 		</thead>
 THEAD;
@@ -229,14 +263,12 @@ THEAD;
 		print <<<TBODY
 		<tr class='debugSQLLine{$trclass}'>
 			<th>{$count_label}</th>
-			<td class="code">
-				<code onclick="document.getElementById('debugLine_{$count_label}').style.display == 'none' ? document.getElementById('debugLine_{$count_label}').style.display = 'block' : document.getElementById('debugLine_{$count_label}').style.display = 'none';">{$log['sql']}</code>
-				<div id='debugLine_{$count_label}' class='debugActiveLines' style='display: none;'>{$backtrace}</div>
-			</td>
+			<td class="code">{$log['sql']}</td>
 			<td class="elapsed">{$log['elapsed']}</td>
-			<td class="elapsed">{$elapsed_total}</td>
+			<td class="elapsed">{$log['endtime']}</td>
 			<td class="rows">{$log['rows']}</td>
 			<td class="error">{$error}</td>
+			<td class="code">{$backtrace}</td>
 		</tr>
 TBODY;
 		if( $log['cached'] < 2 ) {
@@ -252,7 +284,7 @@ TBODY;
 	print <<<TFOOT
 <tfoot>
 	<tr>
-		<td colspan='6'>$count ($real_query_count+$cached_count cache) Queries, $elapsed_total seconds elapsed</td>
+		<td colspan='7'>$count ($real_query_count+$cached_count cache) Queries, $elapsed_total seconds elapsed</td>
 	</tr>
 </tfoot>
 TFOOT;
@@ -265,4 +297,6 @@ TFOOT;
 		print '</pre>';
 	}
 }
+
+register_shutdown_function('__tcSqlLogDump');
 ?>
