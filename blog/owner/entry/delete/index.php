@@ -23,6 +23,9 @@ foreach(explode(',', $_POST['targets']) as $target) {
 	
 	if (!deleteEntry($blogid, $target))
 		respondResultPage(-1);
+	else {
+		fireEvent('DeletePost', $target, null);
+	}
 }
 respondResultPage(0);
 ?>
