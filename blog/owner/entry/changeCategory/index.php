@@ -11,7 +11,9 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if(changeCategoryOfEntries($blogid,$_POST['targets'], $_POST['category'])) {
+requireModel("blog.entry");
+
+if(changeCategoryOfEntries($blogid, $_POST['targets'], $_POST['category'])) {
 	respondResultPage(0);
 } else {
 	respondResultPage(1);

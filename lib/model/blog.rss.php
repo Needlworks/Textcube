@@ -157,6 +157,7 @@ function publishRSS($blogid, $data) {
 }
 
 function clearRSS() {
-	@unlink(ROOT . "/cache/rss/".getBlogId().".xml");
+	if (file_exists(ROOT . "/cache/rss/".getBlogId().".xml"))
+		@unlink(ROOT . "/cache/rss/".getBlogId().".xml");
 }
 ?>
