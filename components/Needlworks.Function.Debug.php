@@ -99,6 +99,23 @@ function __tcSqlLogPoint($description = null)
 	$__tcSqlLogBeginTime = 0;
 }
 
+function __tcSqlLoggetCallstack($backtrace, $level = 1) {
+	$callstack = '';
+	for ($i = $level; $i < count($backtrace); $i++) {
+		if (isset($backtrace[$i]['file'])) {
+			$callstack .= "{$backtrace[$i]['file']}:{$backtrace[$i]['line']}";
+			if (!empty($backtrace[$i + 1]['type']))
+				$callstack .= " {$backtrace[$i + 1]['class']}{$backtrace[$i + 1]['type']}{$backtrace[$i + 1]['function']}";
+			else if (isset($backtrace[$i + 1]['function']))
+				$callstack .= " {$backtrace[$i + 1]['function']}";
+			$callstack .= "\r\n";
+		}
+	}
+	if (empty($callstack))
+		$callstack = $_SERVER['SCRIPT_FILENAME'] . "\r\n";
+	return $callstack;
+}
+
 function __tcSqlLogDump()
 {
 	global $__tcSqlLog, $__tcSqlLogBeginTime, $__tcSqlLogCount;
@@ -226,18 +243,7 @@ THEAD;
 		$error = '';
 		$backtrace = '';
 		$frame_count = 1;
-		foreach($log['backtrace'] as $frame) {
-			$cl = isset($frame['class']) ? "{$frame['class']}::" : '';
-			$fn = isset($frame['function']) ? "{$frame['function']}" : '';
-			$fl = isset($frame['file']) ? "{$frame['file']}:" : '';
-			if( !empty($service['debug_dbquery_strip_install_path'] )) {
-				$fl = str_replace($install_base, '', $fl );
-			}
-			$ln = isset($frame['line']) ? "{$frame['line']}" : '';
-			$line = "$fl$ln in <code>$cl$fn</code>";
-			$backtrace .= "$frame_count: $line<br />";
-			$frame_count++;
-		}
+		$backtrace = __tcSqlLoggetCallstack($log['backtrace']);
 		if( $log['errno'] ) {
 			$error = "{$log['errno']}:{$log['error']}";
 		}
