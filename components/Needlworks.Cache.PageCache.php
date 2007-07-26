@@ -183,10 +183,12 @@ class CacheControl{
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'tagList_".$tagId."%' OR name like 'tagEntries_".$tagId."%'");
-		foreach($tagLists as $tagListName){
-			$cache->reset();
-			$cache->name = $tagListName;
-			$cache->purge();
+		if (!is_null($tagLists)) {
+			foreach($tagLists as $tagListName){
+				$cache->reset();
+				$cache->name = $tagListName;
+				$cache->purge();
+			}
 		}
 		$cache->reset();
 		$cache->name = 'tagPage';

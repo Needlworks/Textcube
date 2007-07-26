@@ -47,9 +47,10 @@ function activatePlugin($name) {
 	$pluginName = $name;
 	$name = mysql_tt_escape_string(mysql_lessen($name, 255));
 	DBQuery::query("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
+	$result = mysql_affected_rows();
 	clearPluginSettingCache();
 	CacheControl::flushItemsByPlugin($pluginName);
-	return (mysql_affected_rows() == 1);
+	return ($result == 1);
 }
 
 function deactivatePlugin($name) {
