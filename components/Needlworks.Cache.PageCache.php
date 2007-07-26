@@ -254,7 +254,7 @@ class CacheControl{
 			if ($xmls->doesExist('/plugin/binding/listener')) { //event listener가 있는 경우
 				foreach ($xmls->selectNodes('/plugin/binding/listener') as $listener) {
 					if (!empty($listener['.attributes']['event']) && !empty($listener['.value'])) { // Event가 있는 경우
-						if(stripos($listener['.attributes']['event'],'View')!==false) {
+						if(strpos(strtolower($listener['.attributes']['event']),'view')!==false) {
 							CacheControl::flushCategory();
 						}
 					}
