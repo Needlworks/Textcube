@@ -160,48 +160,48 @@ function __tcSqlLogDump()
 		text-align: center;
 	}
 	
-	tr.debugSQLLine .elapsed, tr.debugSQLLine .rows, tr.debugSQLLine .error
+	tr.debugSQLLine .rows
 	{
 		text-align: center;
 	}
 	
-	tr.debugSQLLine code
+	tr.debugSQLLine .error
 	{
-		cursor: pointer;
+		text-align: left;
 	}
 	
-	.debugActiveLines
+	tr.debugSQLLine .elapsed, tr.debugSQLLine .elapsedSum
 	{
-		color: #555;
-		font-family: verdana;
-		font-size: 11px;
-		padding: 5px 5px 5px 10px;
+		text-align: right;
 	}
 	
-	tr.debugCached *
+	tr.debugCached *, tr.debugSystem *
 	{
 		color: #888888 !important;
 	}
 	
+	/* warning */
 	tr.debugWarning *
+	{
+		background-color: #fefff1;
+		color: #4b4b3b !important;
+	}
+	
+	tr.debugWarning th
+	{
+		background-color: #e5e5ca;
+	}
+	
+	/* error */
+	tr.debugError *
 	{
 		background-color: #fee5e5;
 		color: #961f1d !important;
 	}
 	
-	tr.debugWarning th
+	tr.debugError th
 	{
 		background-color: #fccbca;
-	}
-	
-	tr.debugWarning, tr.debugWarning td, tr.debugWarning th
-	{
-		/*border: 1px solid #c72927 !important;*/
-	}
-	
-	tr.debugWarning .debugActiveLines
-	{
-		color: #974c4c !important;
 	}
 	
 	tfoot td
@@ -245,21 +245,28 @@ THEAD;
 		$frame_count = 1;
 		$backtrace = __tcSqlLoggetCallstack($log['backtrace']);
 		if( $log['errno'] ) {
-			$error = "{$log['errno']}:{$log['error']}";
+			$error = "Error no. {$log['errno']} : {$log['error']}";
 		}
+		
 		$trclass = '';
-		if( isset( $top5[$count] ) ) {
-			$trclass = ' debugWarning';
-		}
 		$count_label = $count;
-		if( $log['cached'] == 1) {
+		if (!empty($error)) {
+			$trclass = ' debugError';
+		} else if( isset( $top5[$count] ) ) {
+			$trclass = ' debugWarning';
+		} else if( $log['cached'] == 1) {
 			$error = "(cached)";
 			$trclass .= ' debugCached';
 			$cached_count++;
-		}
-		else if( $log['cached'] == 2 ) {
+		} else if( $log['cached'] == 2 ) {
 			$error = "";
 			$trclass .= ' debugCached';
+			$count_label = '';
+		}
+		if ($log['sql'] == '[shutdown]') {
+			$error = "";
+			$log['sql'] = 'Shutdown';
+			$trclass .= ' debugSystem';
 			$count_label = '';
 		}
 		
@@ -267,16 +274,17 @@ THEAD;
 		$elapsed_total += $log['elapsed'];
 		
 		print <<<TBODY
-		<tr class='debugSQLLine{$trclass}'>
+		<tr class="debugSQLLine{$trclass}">
 			<th>{$count_label}</th>
-			<td class="code">{$log['sql']}</td>
+			<td class="code"><code>{$log['sql']}</code></td>
 			<td class="elapsed">{$log['elapsed']}</td>
-			<td class="elapsed">{$log['endtime']}</td>
+			<td class="elapsedSum">{$log['endtime']}</td>
 			<td class="rows">{$log['rows']}</td>
 			<td class="error">{$error}</td>
 			<td class="code">{$backtrace}</td>
 		</tr>
 TBODY;
+	
 		if( $log['cached'] < 2 ) {
 			$count++;
 		}
