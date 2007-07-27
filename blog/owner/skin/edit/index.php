@@ -24,8 +24,14 @@ if (isset($_GET['style'])) {
 	$currentStyleFile = str_replace(ROOT . "/skin/{$skinSetting['skin']}/", '', $styleFileList[$tempKeys[0]]);
 }
 
-$skin = @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/skin.html");
-$skin_keyword = @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/skin_keyword.html");
+$skin = '';
+if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/skin.html")) {
+	$skin = @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/skin.html");
+}
+$skin_keyword = '';
+if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/skin_keyword.html")) {
+	$skin_keyword = @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/skin_keyword.html");
+}
 
 $htmlFilePerms = preg_replace('@^[0-9]{2}|[0-9]{2}$@', '', strrev(decoct(fileperms(ROOT . "/skin/{$skinSetting['skin']}/skin.html"))));
 $styleFilePerms = preg_replace('@^[0-9]{2}|[0-9]{2}$@', '', $temp = strrev(decoct(fileperms(ROOT . "/skin/{$skinSetting['skin']}/" . $currentStyleFile))));
