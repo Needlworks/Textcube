@@ -11,7 +11,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 
-if (cancelInviteAsTeam($_POST['userid'])) {
+if (cancelTeamblogInvite($_POST['userid'])) {
 	respondResultPage(0);
 }
 respondResultPage(-1);

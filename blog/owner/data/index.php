@@ -125,6 +125,8 @@ if (false) forceCheckBlog('');
 								}
 								
 								function importData() {
+									if(confirm("<?php echo _t('일반적으로 복원시 기존의 데이터를 덮어씁니다. \n덮어쓰지 않고 백업파일을 추가하기 위해서는 백업파일을 열어 migrational=false 를 migrational=true로 바꾸셔야 합니다. 확인하신 후에 진행하시기 바랍니다.\n계속 하시겠습니까?');?>")!=1) return null;
+									
 									var dataImporter = document.getElementById("dataImporter");
 									if (document.getElementById("importFromUploaded").checked) {
 										if (!dataImporter.elements["backupPath"].value) {

@@ -30,7 +30,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								}
 
 <?php
-if($blogid == getUserId()){?>
+if( Acl::check('group.owners')) {?>
 								function refreshReceiver(event) {
 									if (event.keyCode == 188) {
 										var receivers = createReceiver();
@@ -186,7 +186,7 @@ if($blogid == getUserId()){?>
 									request.send("userid=" + userid);
 								}
 
-								function teamblog_admin(stype, userid, checked) {
+								function changeACL(acltype, userid, checked) {
 
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/teamblog/isAdmin/");
 									request.onSuccess = function() {
@@ -195,7 +195,7 @@ if($blogid == getUserId()){?>
 									request.onError = function() {
 										alert('<?php 	echo _t('실패했습니다.');?>');
 									}
-									request.send("stype=" + stype + "&userid=" + userid + "&switch=" + checked);
+									request.send("acltype=" + acltype + "&userid=" + userid + "&switch=" + checked);
 								}
 								
 								var CHCrev=false;
@@ -322,8 +322,8 @@ if($blogid == getUserId()){?>
 			}
 ?>
 													<td class="password">
-														<input type="checkbox" onclick="teamblog_admin('admin',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_ADMINISTRATOR) ? "checked" : "");?>><?php echo _t('관리자');?>
-														<input type="checkbox" onclick="teamblog_admin('editor',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_EDITOR) ? "checked" : "");?> ><?php echo _t('글관리');?>
+														<input type="checkbox" onclick="changeACL('admin',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_ADMINISTRATOR) ? "checked" : "");?>><?php echo _t('관리자');?>
+														<input type="checkbox" onclick="changeACL('editor',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_EDITOR) ? "checked" : "");?> ><?php echo _t('글관리');?>
 													</td>
 													<td class="cancel">
 														<a class="cancel-button button" href="#void" onclick="deleteUser(<?php	echo $value['userid'];?>,1);return false;" title="<?php echo _t('현재 사용자를 팀블로그에서 제외합니다.');?>"><span class="text"><?php echo _t('계정삭제');?></span></a>
@@ -355,12 +355,6 @@ if( Acl::check('group.owners')) {
 												<div id="receiver-line" class="line">
 													<label for="invitation_receiver"><?php	echo _t('받는 사람'); ?> (<?php echo _t('이메일의 @ 앞부분이 블로그 식별자로 사용됩니다.');?>)</label>
 													<input type="text" id="invitation_receiver" class="input-text" name="text" value="<?php	echo _t('이름&lt;이메일&gt; 혹은 이메일');?>" onclick="if(!this.selected) this.select();this.selected=true;" onblur="this.selected=false;" onkeydown="refreshReceiver(event)" />
-												</div>
-												<div id="blog-address-line" class="line">
-													<label for="invite_password" onclick="toggleLayer('teamblog_pass');clearPASS();"><?php	echo _t('패스워드 지정');?></label>
-													<div id="teamblog_pass" style="display:none;">
-													<input type="password" id="invite_password" class="input-text" name="text" disable/>
-													</div>
 												</div>
 											</div>
 														

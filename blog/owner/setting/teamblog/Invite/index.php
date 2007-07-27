@@ -7,7 +7,6 @@ $IV = array(
 	'POST' => array(
 		'email' => array('email'),
 		'name' => array('string', 'default' => ''),
-		'password'=>array('string','default'=>''),
 		'comment' => array('string', 'default' => ''),
 		'senderName' => array('string', 'default' => ''),
 		'senderEmail' => array('email')
@@ -18,6 +17,6 @@ requireStrictRoute();
 if (!acl::check('group.owners'))
 	respondResultPage(false);
 
-$result = addTeamUser($_POST['email'], $_POST['name'], $_POST['password'], $_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
+$result = addTeamUser($_POST['email'], $_POST['name'], $_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
 respondResultPage($result);
 ?>
