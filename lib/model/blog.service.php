@@ -77,8 +77,18 @@ function getBlogSettings($blogid) {
 	return false;
 }
 
-function getSkinSetting($blogid) {
+function getSkinSetting($blogid, $forceReload = false) {
 	global $database, $service, $skinSetting;
+	global $__gCacheSkinSetting;
+	
+	if (
+		($forceReload == false) 
+		&& (isset($__gCacheSkinSetting)) 
+		&& (array_key_exists($blogid, $__gCacheSkinSetting))
+		) 
+	{
+		return $__gCacheSkinSetting[$blogid];
+	}
 	
 	if ($result = DBQuery::query("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid")) {
 		$retval = mysql_fetch_array($result);
@@ -86,6 +96,7 @@ function getSkinSetting($blogid) {
 			if (!Validator::directory($retval['skin']) && ($retval['skin'] !="customize/$blogid")) {
 				$retval['skin'] = $service['skin'];
 			}
+			$__gCacheSkinSetting[$blogid] = $retval;
 			return $retval;
 		}
 	}
@@ -102,6 +113,7 @@ function getSkinSetting($blogid) {
 		'activeColorOnTree' => 'FFFFFF', 'activeBgColorOnTree' => '00ADEF', 
 		'labelLengthOnTree' => 27, 'showValueOnTree' => 1 );
 	
+	$__gCacheSkinSetting[$blogid] = $retval;
 	return $retval;	
 }
 

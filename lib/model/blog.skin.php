@@ -18,10 +18,12 @@ function setTreeSetting($blogid, $setting) {
 		labelLengthOnTree 		= {$setting['labelLengthOnTree']},
 		showValueOnTree 		= " . (empty($setting['showValueOnTree']) ? 0 : 1) . "
 	WHERE blogid = $blogid";
-	if (update($sql) > - 1)
+	if (update($sql) > - 1) {
+		getSkinSetting($blogid, true); // refresh skin cache
 		return true;
-	else
+	} else {
 		respondErrorPage(mysql_error());
+	}
 }
 
 function reloadSkin($blogid)
@@ -183,6 +185,7 @@ function selectSkin($blogid, $skinName) {
 	}
 	
 	removeBlogSetting("sidebarOrder");
+	getSkinSetting($blogid, true); // refresh skin cache
 	return true;
 }
 
@@ -282,6 +285,7 @@ function setSkinSetting($blogid, $setting) {
 	setBlogSetting('entriesOnList',$setting['entriesOnList']);
 	CacheControl::flushCategory();
 	CacheControl::flushTag();
+	getSkinSetting($blogid, true); // refresh skin cache
 	return true;
 }
 ?>
