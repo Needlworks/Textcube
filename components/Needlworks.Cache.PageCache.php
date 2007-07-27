@@ -116,7 +116,7 @@ class pageCache {
 	}
 	function getPageCacheLog() {
 		global $database;
-		return DBQuery::queryCell("DESC {$database['prefix']}PageCacheLog 
+		return DBQuery::queryExistence("DESC {$database['prefix']}PageCacheLog 
 			WHERE blogid = ".getBlogId()."
 			AND name = '".mysql_tt_escape_string($this->realName)."'");
 	}
