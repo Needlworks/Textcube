@@ -127,6 +127,28 @@ function __tcSqlLogDump()
 	
 	__tcSqlLogPoint('shutdown');
 	
+	$headers = array();
+	
+	if (function_exists('apache_response_headers') || function_exists('headers_list')) {
+		if (function_exists('apache_response_headers')) {
+			flush();
+			$headers = apache_response_headers();
+		} else  {
+			$headers = headers_list();
+		}
+	}
+	
+	$commentBlosk = false;
+	
+	foreach ($headers as $row) {
+		if (strpos($row, 'text/xml') !== false) {
+			$commentBlosk = true;
+			break;
+		}
+	}
+	
+	if ($commentBlosk == true) echo '<!--';
+	
 	print <<<EOS
 <style type='text/css'>
 	.debugTable
@@ -317,6 +339,8 @@ TFOOT;
 		print_r( $_SESSION );
 		print '</pre>';
 	}
+	
+	if ($commentBlosk == true) echo '-->';
 }
 
 register_shutdown_function('__tcSqlLogDump');
