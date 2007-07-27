@@ -435,6 +435,7 @@ function getParentCategoryVisibility($blogid, $id) {
 
 function setCategoryVisibility($blogid, $id, $visibility) {
 	global $database;
+	requireModel('blog.rss');
 	if($id == 0) return false;
 	$parentVisibility = getParentCategoryVisibility($blogid, $id);
 	if ($parentVisibility && $parentVisibility < 2) return false; // return without changing if parent category is set to hidden.
