@@ -8,6 +8,7 @@ if (false) {
 	fetchConfigVal();
 }
 
+$cache = new pageCache;
 $category = empty($suri['value']) ? 0 : getCategoryIdByLabel($blogid, $suri['value']);
 require ROOT . '/lib/piece/blog/begin.php';
 
@@ -15,9 +16,7 @@ if(!doesHaveOwnership() && getCategoryVisibility($blogid, $category) < 2)
 	$category = null;
 
 if ($skinSetting['showListOnCategory'] != 0) {
-	$cache = new pageCache;
 	$cache->name = 'categoryList_'.$category."_".$suri['page'];
-
 	if (!$cache->load()) {
 		if(!$listWithPaging = getEntryListWithPagingByCategory($blogid, $category, $suri['page'], $blog['entriesOnList']))
 			$listWithPaging = array(array(), array('total' => 0));
