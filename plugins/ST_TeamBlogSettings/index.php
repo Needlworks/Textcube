@@ -101,6 +101,7 @@ function getTeamBlogSettings() {
 	$authorStyle = "";
 	$italicCheck = "";
 	$underlineCheck = "";
+	$boldCheck = "";
 	if($row['style']){
 		$style = explode("|", $row['style']);
 		if($style[0]=="true"){
