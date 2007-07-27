@@ -56,6 +56,7 @@ class pageCache {
 	}
 
 	function load () {
+		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return false;
 		$this->initialize();
 		if(!$this->getFileName()) return false;
 		if(!$this->getPageCacheLog()) {
@@ -75,6 +76,7 @@ class pageCache {
 		 }
 	}
 	function purge () {
+		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return true;
 		$this->getFileName();
 		if(@chmod($this->absoluteFilePathOwner, 0777) || @chmod($this->absoluteFilePathGuest, 0777)){
 			if(file_exists($this->absoluteFilePathOwner)) @unlink($this->absoluteFilePathOwner);
