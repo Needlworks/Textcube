@@ -59,10 +59,6 @@ class pageCache {
 		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return false;
 		$this->initialize();
 		if(!$this->getFileName()) return false;
-		if(!$this->getPageCacheLog()) {
-			$this->purge();
-			return false;
-		}
 		if($this->getFileContents())
 			return true;
 		else return false;
