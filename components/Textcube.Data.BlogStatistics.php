@@ -16,7 +16,7 @@ class BlogStatistics {
 	function load() {
 		global $database, $owner;
 		$this->reset();
-		if ($result = mysql_query("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE owner = $owner")) {
+		if ($result = mysql_query("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE blogid = ".getBlogId())) {
 			if ($row = mysql_fetch_assoc($result)) {
 				foreach ($row as $name => $value) {
 					if ($name == 'owner')
