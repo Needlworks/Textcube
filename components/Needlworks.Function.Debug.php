@@ -334,7 +334,7 @@ TBODY;
 	print <<<TFOOT
 <tfoot>
 	<tr>
-		<td colspan='7'>
+		<td colspan='8'>
 		$count ($real_query_count+$cached_count cache) Queries <br />
 		$elapsed_total_db ms elapsed in db query, overall $elapsed_total ms elapsed
 		</td>
