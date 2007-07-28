@@ -44,17 +44,14 @@ class User {
 		return DBQuery::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = ".getBlogId()." AND password = '$password'");
 	}
 
-	function authorName($owner,$entryId){
+	function authorName($blogid = getBlogId(),$entryId){
 		requireComponent('Eolin.PHP.Core');
 		global $database, $entry;
 
 		// Read userId of entry from relation table.
-		$userId = getUserIdOfEntry(getBlogId(),$entryId);
-		if(isset($userId)) {
-			$author = DBQuery::queryCell("SELECT name
-					FROM {$database['prefix']}Users
-					WHERE userid = ".$userId);
-			return $author;
+		$userid = getUserIdOfEntry($blogid,$entryId);
+		if(isset($userid)) {
+			return User::getName($userid);
 		} else {
 			return false;
 		}

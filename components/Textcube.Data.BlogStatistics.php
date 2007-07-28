@@ -14,7 +14,7 @@ class BlogStatistics {
 	}
 	
 	function load() {
-		global $database, $owner;
+		global $database;
 		$this->reset();
 		if ($result = mysql_query("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE blogid = ".getBlogId())) {
 			if ($row = mysql_fetch_assoc($result)) {
@@ -73,9 +73,9 @@ class BlogStatistics {
 	}
 	
 	function _buildQuery() {
-		global $database, $owner;
+		global $database;
 		$query = new TableQuery($database['prefix'] . 'BlogStatistics');
-		$query->setQualifier('owner', $owner);
+		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->visits)) {
 			if (!Validator::number($this->visits, 0))
 				return $this->_error('visits');
