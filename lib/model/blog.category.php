@@ -3,6 +3,10 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+// global variables for Category information cache
+$__gCacheCategoryTree = array();
+$__gCacheCategoryRaw = array();
+
 function getCategoryId($blogid, $name, $parentName = false) {
 	global $database;
 	
@@ -63,12 +67,28 @@ function getCategoryLinkById($blogid, $id) {
 	return $result;
 }	
 
-function getCategories($blogid) {
+function getCategories($blogid, $format = 'tree') {
 	global $database;
-	$rows = DBQuery::queryAllWithCache("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id > 0 ORDER BY parent, priority");
+	global $__gCacheCategoryTree, $__gCacheCategoryRaw;
+	if($format == 'tree' && !empty($__gCacheCategoryTree))
+		return $__gCacheCategoryTree;
+	else if($format == 'raw' && !empty($__gCacheCategoryRaw))
+		return $__gCacheCategoryRaw;
+	$rows = DBQuery::queryAllWithCache("SELECT * 
+			FROM {$database['prefix']}Categories 
+			WHERE blogid = $blogid 
+				AND id > 0 
+			ORDER BY parent, priority");
 	$categories = array();
 	if( empty($rows) ) {
 		$rows = array();
+	}
+	if($format == 'raw') {
+		foreach ($rows as $category) {
+			$categories[$category['id']] = $category;
+		}
+		$__gCacheCategoryRaw = $categories;
+		return $categories;
 	}
 	foreach ($rows as $category) {
 		if ($category['parent'] == null) {
@@ -77,6 +97,7 @@ function getCategories($blogid) {
 		} else if (isset($categories[$category['parent']]))
 			array_push($categories[$category['parent']]['children'], $category);
 	}
+	$__gCacheCategoryTree = $categories;
 	return $categories;
 }
 
@@ -412,7 +433,7 @@ function checkRootCategoryExistence($blogid) {
 }
 
 function getCategoryVisibility($blogid, $id) {
-	$categories = getCategories($blogid);
+	$categories = getCategories($blogid,'raw');
 	if( isset($categories[$id]) ) {
 		if( isset( $categories[$id]['visibility'] ) ) {
 			return $categories[$id]['visibility'];
@@ -424,10 +445,11 @@ function getCategoryVisibility($blogid, $id) {
 function getParentCategoryVisibility($blogid, $id) {
 	global $database;
 	if($id == 0) return false;
-	$parentId = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
-	if($parentId == NULL) return false;
-	$parentVisibility = DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $parentId");
-	if ($parentVisibility == false)
+	$categories = getCategories($blogid,'raw');
+	$parentId = $categories[$id]['parent'];
+	if(!isset($parentId) || $parentId == NULL) return false;
+	$parentVisibility = $categories[$parentId]['visibility'];
+	if (empty($parentVisibility))
 		return 2;
 	else
 		return $parentVisibility;
@@ -438,8 +460,11 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 	requireModel('blog.rss');
 	if($id == 0) return false;
 	$parentVisibility = getParentCategoryVisibility($blogid, $id);
-	if ($parentVisibility && $parentVisibility < 2) return false; // return without changing if parent category is set to hidden.
-	$result = DBQuery::query("UPDATE {$database['prefix']}Categories SET visibility = $visibility WHERE blogid = $blogid AND id = $id");
+	if ($parentVisibility!==false && $parentVisibility < 2) return false; // return without changing if parent category is set to hidden.
+	$result = DBQuery::query("UPDATE {$database['prefix']}Categories 
+		SET visibility = $visibility 
+		WHERE blogid = $blogid 
+			AND id = $id");
 	if ($result && $visibility == 1) $result = setChildCategoryVisibility($blogid, $id, $visibility);
 	if ($result)
 		clearRSS();
@@ -451,10 +476,13 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 function setChildCategoryVisibility($blogid, $id, $visibility) {
 	global $database;
 	if($id == 0) return false;
-	$childCategories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $id");
+	$childCategories = DBQuery::queryColumn("SELECT id 
+		FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $id");
 	if($childCategories!=false) {
 		foreach($childCategories as $childCategory) {
-			$result = DBQuery::query("UPDATE {$database['prefix']}Categories SET visibility = $visibility WHERE blogid = $blogid AND id = $childCategory");
+			$result = DBQuery::query("UPDATE {$database['prefix']}Categories 
+				SET visibility = $visibility 
+				WHERE blogid = $blogid AND id = $childCategory");
 			if($result == false) return false;
 		}
 		return $result ? $visibility : false;
