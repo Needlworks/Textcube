@@ -14,31 +14,32 @@ function __error( $errno, $errstr, $errfile, $errline )
 
 global $__tcSqlLog;
 global $__tcSqlLogCount;
-global $__tcSqlLogBeginTime;
-global $__tcSqlLogStartTime;
+global $__tcSqlQueryBeginTime;
+global $__tcPageStartTime;
+global $__tcPageEndTime;
 
-$__tcSqlLogStartTime = explode(' ', microtime());
+$__tcPageStartTime = explode(' ', microtime());
 
 $__tcSqlLog= array();
 $__tcSqlLogCount = 0;
 
 function __tcSqlLogBegin( $sql )
 {
-	global $__tcSqlLog, $__tcSqlLogBeginTime, $__tcSqlLogCount;
+	global $__tcSqlLog, $__tcSqlQueryBeginTime, $__tcSqlLogCount;
 
 	$backtrace = debug_backtrace();
 	array_shift($backtrace);
 	array_shift($backtrace);
 
 	$__tcSqlLog[$__tcSqlLogCount] = array( 'sql' => trim($sql), 'backtrace' => $backtrace );
-	$__tcSqlLogBeginTime = explode(' ', microtime());
+	$__tcSqlQueryBeginTime = explode(' ', microtime());
 }
 function __tcSqlLogEnd( $result, $cachedResult = 0 )
 {
-	global $__tcSqlLog, $__tcSqlLogBeginTime, $__tcSqlLogCount, $__tcSqlLogStartTime;
+	global $__tcSqlLog, $__tcSqlQueryBeginTime, $__tcSqlLogCount, $__tcPageStartTime;
 	static $client_encoding = '';
-	$tcSqlLogEndTime = explode(' ', microtime());
-	$elapsed = ($tcSqlLogEndTime[1] - $__tcSqlLogBeginTime[1]) + ($tcSqlLogEndTime[0] - $__tcSqlLogBeginTime[0]);
+	$tcSqlQueryEndTime = explode(' ', microtime());
+	$elapsed = ($tcSqlQueryEndTime[1] - $__tcSqlQueryBeginTime[1]) + ($tcSqlQueryEndTime[0] - $__tcSqlQueryBeginTime[0]);
 	if( !$client_encoding ) {
 		$client_encoding = str_replace('_','-',mysql_client_encoding());
 	}
@@ -56,10 +57,11 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 	} else {
 		$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = 0;
 	}
+	$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = sprintf("%4.1f", $__tcSqlLog[$__tcSqlLogCount]['elapsed'] );
 	$__tcSqlLog[$__tcSqlLogCount]['cached'] = $cachedResult;
 	$__tcSqlLog[$__tcSqlLogCount]['rows'] = 0;
-	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlLogEndTime[1] - $__tcSqlLogStartTime[1]) + ($tcSqlLogEndTime[0] - $__tcSqlLogStartTime[0]);
-	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10;
+	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlQueryEndTime[1] - $__tcPageStartTime[1]) + ($tcSqlQueryEndTime[0] - $__tcPageStartTime[0]);
+	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = sprintf("%4.1f",ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10);
 	if( ! $cachedResult && mysql_errno() == 0 ) {
 		switch( strtolower(substr($__tcSqlLog[$__tcSqlLogCount]['sql'], 0, 6 )) )
 		{
@@ -74,29 +76,30 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 		}
 	}
 	$__tcSqlLogCount++;
-	$__tcSqlLogBeginTime = 0;
+	$__tcSqlQueryBeginTime = 0;
 }
 
 function __tcSqlLogPoint($description = null)
 {
-	global $__tcSqlLog, $__tcSqlLogBeginTime, $__tcSqlLogCount, $__tcSqlLogStartTime;
+	global $__tcSqlLog, $__tcSqlQueryBeginTime, $__tcSqlLogCount, $__tcPageStartTime, $__tcPageEndTime;
 	if (is_null($description)) $description = 'Point'; 
 	$backtrace = debug_backtrace();
 	array_shift($backtrace);
 	array_shift($backtrace);
 	$__tcSqlLog[$__tcSqlLogCount] = array( 'sql' => '['. trim($description) .']', 'backtrace' => $backtrace );
-	$__tcSqlLogBeginTime = explode(' ', microtime());
-	$tcSqlLogEndTime = explode(' ', microtime());
+	$__tcSqlQueryBeginTime = explode(' ', microtime());
+	$tcSqlQueryEndTime = explode(' ', microtime());
 	$__tcSqlLog[$__tcSqlLogCount]['error'] = '';
 	$__tcSqlLog[$__tcSqlLogCount]['errno'] = '';
 	$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = '';
 	$__tcSqlLog[$__tcSqlLogCount]['cached'] = '';
 	$__tcSqlLog[$__tcSqlLogCount]['rows'] = '';
-	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlLogEndTime[1] - $__tcSqlLogStartTime[1]) + ($tcSqlLogEndTime[0] - $__tcSqlLogStartTime[0]);
-	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10;
+	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlQueryEndTime[1] - $__tcPageStartTime[1]) + ($tcSqlQueryEndTime[0] - $__tcPageStartTime[0]);
+	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = sprintf("%4.1f",ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10);
+	$__tcPageEndTime = $__tcSqlLog[$__tcSqlLogCount]['endtime'];
 	$__tcSqlLog[$__tcSqlLogCount]['rows'] = '';
 	$__tcSqlLogCount++;
-	$__tcSqlLogBeginTime = 0;
+	$__tcSqlQueryBeginTime = 0;
 }
 
 function __tcSqlLoggetCallstack($backtrace, $level = 1) {
@@ -118,12 +121,12 @@ function __tcSqlLoggetCallstack($backtrace, $level = 1) {
 
 function __tcSqlLogDump()
 {
-	global $__tcSqlLog, $__tcSqlLogBeginTime, $__tcSqlLogCount;
+	global $__tcSqlLog, $__tcPageEndTime;
 	global $service;
-	global $__tcSqlLogPumped;
+	static $sLogPumped = false;
 	
-	if (isset($__tcSqlLogPumped)) return;
-	$__tcSqlLogPumped = true;
+	if (!empty($sLogPumped)) return;
+	$sLogPumped = true;
 	
 	__tcSqlLogPoint('shutdown');
 	
@@ -241,13 +244,14 @@ function __tcSqlLogDump()
 </style>
 EOS;
 
-	$elapsed_total = 0;
+	$elapsed_total_db = 0;
 
 	$elapsed = array();
 	$count = 1;
 	$cached_count = 0;
 	foreach( $__tcSqlLog as $c => $log ) {
 		$elapsed[$count] = array( $log['elapsed'], $count );
+		$__tcSqlLog[$c]['percent'] = sprintf("%4.1f", $log['endtime']*100/$__tcPageEndTime);
 		$count++;
 	}
 
@@ -262,7 +266,7 @@ EOS;
 	print <<<THEAD
 		<thead>
 			<tr>
-				<th>count</th><th class="sql">query string</th><th>elapsed</th><th>elapsed sum</th><th>rows</th><th>error</th><th>stack</th>
+				<th>count</th><th class="sql">query string</th><th>elapsed (ms)</th><th>elapsed sum (ms)</th><th></th><th>rows</th><th>error</th><th>stack</th>
 			</tr>
 		</thead>
 THEAD;
@@ -291,23 +295,27 @@ THEAD;
 			$error = "";
 			$trclass .= ' debugCached';
 			$count_label = '';
+			$backtrace = '';
 		}
 		if ($log['sql'] == '[shutdown]') {
 			$error = "";
 			$log['sql'] = 'Shutdown';
 			$trclass .= ' debugSystem';
 			$count_label = '';
+			$backtrace = '';
 		}
 		
-		$log['elapsed'] = sprintf("%01.4f",$log['elapsed'] / 1000);
-		$elapsed_total += $log['elapsed'];
-		
+		$elapsed_total_db += $log['elapsed'];
+		$elapsed_total = $log['endtime'];
+		$progress_bar = $log['percent'] / 2; //Max 50px;
+		$log['percent'] = "<div style='background:#f00;line-height:10px;width:{$progress_bar}px'>&nbsp;<div>";
 		print <<<TBODY
 		<tr class="debugSQLLine{$trclass}">
 			<th>{$count_label}</th>
 			<td class="code"><code>{$log['sql']}</code></td>
 			<td class="elapsed">{$log['elapsed']}</td>
 			<td class="elapsedSum">{$log['endtime']}</td>
+			<td class="elapsedSum">{$log['percent']}</td>
 			<td class="rows">{$log['rows']}</td>
 			<td class="error">{$error}</td>
 			<td class="backtrace"><pre>{$backtrace}</pre></td>
@@ -320,14 +328,16 @@ TBODY;
 	}
 	print '</tbody>';
 	
-	$elapsed_total = $elapsed_total / 1000;
 	$count--;
 	$real_query_count = $count - $cached_count;
 	
 	print <<<TFOOT
 <tfoot>
 	<tr>
-		<td colspan='7'>$count ($real_query_count+$cached_count cache) Queries, $elapsed_total seconds elapsed</td>
+		<td colspan='7'>
+		$count ($real_query_count+$cached_count cache) Queries <br />
+		$elapsed_total_db ms elapsed in db query, overall $elapsed_total ms elapsed
+		</td>
 	</tr>
 </tfoot>
 TFOOT;
@@ -335,7 +345,8 @@ TFOOT;
 
 	global $service;
 	if( ! empty($service['debug_session_dump'])) {
-		print '<pre> $_SESSION = ';
+		print '<pre> session_id = ' . session_id() . "\r\n";
+		print '$_SESSION = ';
 		print_r( $_SESSION );
 		print '</pre>';
 	}
