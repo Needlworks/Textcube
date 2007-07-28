@@ -580,7 +580,7 @@ function blogger_editPost()
 	$post = new Post();
 	$post->title = htmlspecialchars(api_get_title( $params[4] ));
 	$post->id = intval($params[1]);
-	$post->content = htmlspecialchars($params[4]);
+	$post->content = $params[4];
 	$post->contentFormatter = getDefaultFormatter();
 	$post->contentEditor = getDefaultEditor();
 
