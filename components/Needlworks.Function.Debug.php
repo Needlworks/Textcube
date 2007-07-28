@@ -3,6 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+define( 'TCDEBUG', true );
+
 set_error_handler( "__error" );
 
 function __error( $errno, $errstr, $errfile, $errline )
