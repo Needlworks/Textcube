@@ -990,7 +990,6 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	
 	// image resampling
 	if ($useImageResampling == true) {
-		$images = array();
 		preg_match_all("@<img.+src=['\"](.+)['\"].*/>@Usi", $view, $images, PREG_SET_ORDER);
 		$view = preg_replace("@<img.+src=['\"](.+)['\"].*/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
 		
