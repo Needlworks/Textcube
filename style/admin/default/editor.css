@@ -780,3 +780,23 @@ dl#power-line
 {
 	display                          : none;
 }
+
+/* Template Dialogue ********************************************************************************/
+
+#templateDialog dl dt
+{
+	margin: 10px 0 3px 0;
+	font-wieght: bold !important;
+}
+
+#templateDialog dl dd.noItem
+{
+	border: 1px dotted #DBDBDB;
+	text-align: center;
+	padding: 10px;
+}
+
+#templateDialog .button-box
+{
+	padding: 10px 0 5px 0 !important;
+}

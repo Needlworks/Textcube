@@ -553,6 +553,35 @@ if (defined('__TEXTCUBE_POST__')) {
 <?php
 	}
 ?>
+										
+										<div id="templateDialog" class="entry-editor-property" style="display: <?php echo (defined('__TEXTCUBE_POST__') ? 'block' : 'none');?>; z-index: 100;">
+											<div class="temp-box">
+												<h4><?php echo _t('서식 선택');?></h4>
+
+												<p class="message">
+													<?php echo _t('새 글을 쓰거나 아래의 서식들 중 하나를 선택하여 글을 쓸 수 있습니다. 서식은 자유롭게 작성하여 저장할 수 있습니다.');?>
+												</p>
+
+												<dl>
+													<dt><?php echo _t('서식 목록');?></dt>
+<?php
+$templateLists = getTemplates(getBlogId(),'id,title');
+if (count($templateLists) == 0) {
+	echo '												<dd class="noItem">' . _t('등록된 서식이 없습니다.') . '</dd>' . CRLF;
+} else {
+	foreach($templateLists as $templateList){
+		echo '												<dd><a href="#void" onclick="entryManager.loadTemplate('.$templateList['id'].');return false;">'.$templateList['title'].'</a></dd>'.CRLF;
+	}
+}
+?>
+												</dl>
+												
+												<div class="button-box">
+													<button id="close-button" class="close-button input-button" onclick="closeTemplateDialog();return false;" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
+									 			</div>
+									 		</div>
+								 		</div>
+										
 										<script type="text/javascript">//<![CDATA[
 											var contentFormatterObj = document.getElementById('contentFormatter');
 											var contentEditorObj = document.getElementById('contentEditor');
@@ -776,29 +805,6 @@ if (isset($_GET['popupEditor'])) {
 					 		</div>
 				 		</div>
 				 		
-						<div id="templateDialog" class="entry-editor-property" style="display: <?php echo (defined('__TEXTCUBE_POST__') ? 'block' : 'none');?>; z-index: 100;">
-							<div class="temp-box">
-								<h4><?php echo _t('서식 선택');?></h4>
-								
-								<p class="message">
-									<?php echo _t('새 글을 쓰거나 아래의 서식들 중 하나를 선택하여 글을 쓸 수 있습니다. 서식은 자유롭게 작성하여 저장할 수 있습니다.');?>
-								</p>
-								
-								<dl>
-									<dt><?php echo _t('서식 목록');?></dt>
-<?php
-$templateLists = getTemplates(getBlogId(),'id,title');
-foreach($templateLists as $templateList){
-	echo '									<dd><a href="#void" onclick="entryManager.loadTemplate('.$templateList['id'].');return false;">'.$templateList['title'].'</a></dd>'.CRLF;
-}
-?>
-								</dl>
-							
-								<div class="button-box">
-									<button id="close-button" class="close-button input-button" onclick="closeTemplateDialog();return false;" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
-					 			</div>
-					 		</div>
-				 		</div>
 						<script type="text/javascript">
 							//<![CDATA[
 								entryManager = new EntryManager();
