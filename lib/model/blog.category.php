@@ -230,7 +230,8 @@ function updateEntriesOfCategory($blogid, $id = - 1) {
 		}
 		DBQuery::query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesInLogin = $countInLoginParent, `label` = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
 	}
-	CacheControl::flushCategory($id);
+	if($id >=0) CacheControl::flushCategory($id);
+	clearCategoryCache();
 	return true;
 }
 
@@ -470,6 +471,7 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 		clearRSS();
 	updateEntriesOfCategory($blogid);
 	CacheControl::flushCategory($id);
+	clearCategoryCache();
 	return $result ? $visibility : false;
 }
 
@@ -488,5 +490,13 @@ function setChildCategoryVisibility($blogid, $id, $visibility) {
 		return $result ? $visibility : false;
 	}
 	return $visibility;
+}
+
+function clearCategoryCache() {
+	global $__gCacheCategoryTree, $__gCacheCategoryRaw;
+	if(isset($__gCacheCategoryTree))
+		$__gCacheCategoryTree = array();
+	if(isset($__gCacheCategoryRaw)) 
+		$__gCacheCategoryRaw = array();
 }
 ?>
