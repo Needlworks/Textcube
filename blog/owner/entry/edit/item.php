@@ -444,6 +444,8 @@ if (isset($_GET['popupEditor'])) {
 										document.getElementById("status-protected").style.display = "";
 										document.getElementById("status-syndicated").style.display = "";
 										document.getElementById("power-line").style.display = "";
+										document.getElementById("date-line").style.display = "";
+										document.getElementById("status-line").style.display = "";
 									}
 								}
 								
