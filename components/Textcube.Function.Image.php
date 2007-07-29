@@ -81,14 +81,8 @@ class Image {
 		if ( !is_readable($originSrc) ) {
 			return array($property, false);
 		}
-		if ($tempInfo = getimagesize($originSrc)) {
-			list($originWidth, $originHeight, $type, $attr) = $tempInfo;
-
-				return array($property, false);
-		} else {
-			return array($property, false);
-		}
 		
+		list($originWidth, $originHeight, $type, $attr) = getimagesize($originSrc);		
 		$attributes = getAttributesFromString($property, false);
 		
 		// 단위 변환.
