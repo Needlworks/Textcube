@@ -121,7 +121,7 @@ function getThumbnailPaddingColor() {
 function resampleImage($imgString, $originSrc, $useAbsolutePath) {
 	global $database, $serviceURL, $pathURL;
 	
-	if (!extension_loaded('gd')) {
+	if (!extension_loaded('gd') || !file_exists($originSrc)) {
 		return $imgString;
 	}
 	
