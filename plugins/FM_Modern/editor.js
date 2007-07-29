@@ -23,6 +23,8 @@ var TTModernEditor = function() {
 	this.isItalic = false;
 	this.isUnderline = false;
 	this.isStrike = false;
+	this.fontName = null;
+	this.fontSize = null;
 
 	// MORE/LESS 블럭을 선택했을때의 임시변수
 	this.textMore = "";
@@ -30,6 +32,50 @@ var TTModernEditor = function() {
 
 	this.editMode = "TEXTAREA";
 	this.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-image: url(\'' + servicePath + '/image/extension/unknown.gif\')"';
+
+	this.buildFontMap();
+}
+
+TTModernEditor.prototype.buildFontMap = function() {
+	var fontset = _t('fontDisplayName:fontCode:fontFamily').split('|');
+	var defaultfonts = [
+		['Andale Mono', 'times'],
+		['Arial', 'helvetica', 'sans-serif'],
+		['Arial Black', 'avant garde'],
+		['Book Antiqua', 'palatino'],
+		['Comic Sans MS', 'sand'],
+		['Courier New', 'courier', 'monospace'],
+		['Georgia', 'times new roman', 'times', 'serif'],
+		['Helvetica'],
+		['Impact', 'chicago'],
+		['Symbol'],
+		['Tahoma', 'arial', 'helvetica', 'sans-serif'],
+		['Terminal', 'monaco'],
+		['Times New Roman', 'times', 'serif'],
+		['Trebuchet MS', 'geneva'],
+		['Verdana', 'arial', 'helvetica', 'sans-serif'],
+		['Webdings'],
+		['Wingdings', 'zapf dingbats']
+	];
+	var fontlist = [], fontmap = {};
+
+	for (var i = 1; i < fontset.length; ++i) {
+		var fontinfo = fontset[i].split(':');
+		if (fontinfo.length != 3) continue;
+		var value = "'" + fontinfo[1] + "', " + fontinfo[2];
+		fontlist.push([fontinfo[0], value]);
+		fontmap[fontinfo[0]] = value;
+		fontmap[fontinfo[1]] = value;
+	}
+	for (var i = 0; i < defaultfonts.length; ++i) {
+		var entry = defaultfonts[i];
+		var value = "'" + entry.join("','") + "'";
+		fontlist.push([entry[0], value]);
+		for (var j = 0; j < entry.length; ++j) fontmap[entry[j]] = value;
+	}
+
+	this.allFontList = fontlist;
+	this.allFontMap = fontmap;
 }
 
 TTModernEditor.editors = {};
@@ -1690,6 +1736,8 @@ TTModernEditor.prototype.activeButton = function(node) {
 	this.isItalic = false;
 	this.isUnderline = false;
 	this.isStrike = false;
+	this.fontName = null;
+	this.fontSize = null;
 
 	while(typeof(node) != "undefined" && node.tagName && node.tagName.toLowerCase() != "body") {
 		switch(node.tagName.toLowerCase()) {
@@ -1709,17 +1757,48 @@ TTModernEditor.prototype.activeButton = function(node) {
 			case "strike":
 				this.isStrike = true;
 				break;
+			case "font":
+				if (this.fontName == null && node.face)
+					this.fontName = node.face;
+				if (this.fontSize == null && node.size)
+					this.fontSize = node.size;
+				break;
+			case "h1":
+			case "h2":
+			case "h3":
+			case "h4":
+			case "h5":
+			case "h6":
+				if (this.fontSize == null)
+					this.fontSize = node.tagName.toLowerCase();
+				break;
 			default:
 				if(node.style.fontWeight.toLowerCase() == "bold")
 					this.isBold = true;
-				else if(node.style.fontStyle.toLowerCase() == "italic")
+				if(node.style.fontStyle.toLowerCase() == "italic")
 					this.isItalic = true;
-				else if(node.style.textDecoration.toLowerCase() == "underline")
+				if(node.style.textDecoration.toLowerCase() == "underline")
 					this.isUnderline = true;
-				else if(node.style.textDecoration.toLowerCase() == "line-through")
+				if(node.style.textDecoration.toLowerCase() == "line-through")
 					this.isStrike = true;
+				if (this.fontName == null && node.style.fontFamily)
+					this.fontName = node.style.fontFamily;
 		}
 		node = node.parentNode;
+	}
+
+	// parse fontName and map to appropriate value in the font list
+	if (this.fontName != null) {
+		var fontnamelist = this.fontName.split(',');
+		var realfont = null;
+		for (var i = 0; i < fontnamelist.length; ++i) {
+			var name = fontnamelist[i].replace(new RegExp("^[\\s\"']*|[\\s\"']*$", "g"), "");
+			if (typeof this.allFontMap[name] != 'undefined') {
+				realfont = this.allFontMap[name];
+				break;
+			}
+		}
+		this.fontName = realfont;
 	}
 
 	if (this.isBold) {
@@ -1749,6 +1828,16 @@ TTModernEditor.prototype.activeButton = function(node) {
 		if (!getObject(this.id + "indicatorStrike").className.match('inactive')) {
 			getObject(this.id + "indicatorStrike").className = getObject(this.id + "indicatorStrike").className.replace("active-class", "inactive-class");
 		}
+	}
+	if (this.fontName != null) {
+		getObject(this.id + "fontFamilyChanger").value = this.fontName;
+	} else {
+		getObject(this.id + "fontFamilyChanger").value = '';
+	}
+	if (this.fontSize != null) {
+		getObject(this.id + "fontSizeChanger").value = this.fontSize;
+	} else {
+		getObject(this.id + "fontSizeChanger").value = '';
 	}
 }
 
@@ -2105,25 +2194,6 @@ TTModernEditor.prototype.addObject = function(data) {
 // moved from lib/view/ownerView.php, printEntryEditorPalette()
 
 TTModernEditor.prototype.getEditorPalette = function() {
-	var defaultfonts = [
-		['Andale Mono', 'times'],
-		['Arial', 'helvetica', 'sans-serif'],
-		['Arial Black', 'avant garde'],
-		['Book Antiqua', 'palatino'],
-		['Comic Sans MS', 'sand'],
-		['Courier New', 'courier', 'monospace'],
-		['Georgia', 'times new roman', 'times', 'serif'],
-		['Helvetica'],
-		['Impact', 'chicago'],
-		['Symbol'],
-		['Tahoma', 'arial', 'helvetica', 'sans-serif'],
-		['Terminal', 'monaco'],
-		['Times New Roman', 'times', 'serif'],
-		['Trebuchet MS', 'geneva'],
-		['Verdana', 'arial', 'helvetica', 'sans-serif'],
-		['Webdings'],
-		['Wingdings', 'zapf dingbats']
-	];
 	var colors = ['008000', '009966', '99CC66', '999966', 'CC9900', 'D41A01',
 	              'FF0000', 'FF7635', 'FF9900', 'FF3399', '9B18C1', '993366',
 	              '666699', '0000FF', '177FCD', '006699', '003366', '333333',
@@ -2138,21 +2208,16 @@ TTModernEditor.prototype.getEditorPalette = function() {
 			'</dt>' +
 			'<dd class="command-box">' +
 				'<select id="__ID__fontFamilyChanger" class="moderneditor-fontFamilyChanger" onchange="__EDITOR__.execCommand(\'fontname\', false, this.value); this.selectedIndex=0;">' +
-					'<option class="head-option">' + _t('글자체') + '</option>';
+					'<option class="head-option" value="">' + _t('글자체') + '</option>';
 	var fontset = _t('fontDisplayName:fontCode:fontFamily').split('|');
-	for (var i = 1; i < fontset.length; ++i) {
-		var fontinfo = fontset[i].split(':');
-		if (fontinfo.length != 3) continue;
-		html += '<option style="font-family: \'' + fontinfo[1] + '\';" value="\'' + fontinfo[1] + '\', \'' + fontinfo[2] + '\'">' + fontinfo[0] + '</option>';
-	}
-	for (var i = 0; i < defaultfonts.length; ++i) {
-		var entry = defaultfonts[i];
-		html += '<option style="font-family: \'' + entry[0] + '\';" value="\'' + entry.join("','") + '\'">' + entry[0] + '</option>';
+	for (var i = 0; i < this.allFontList.length; ++i) {
+		var entry = this.allFontList[i];
+		html += '<option style="font-family: ' + entry[1] + ';" value="' + entry[1] + '">' + entry[0] + '</option>';
 	}
 	html += ////
 				'</select>' +
 				'<select id="__ID__fontSizeChanger" class="moderneditor-fontSizeChanger" onchange="__EDITOR__.command(\'FontSize\', this.value); this.selectedIndex=0;">' +
-					'<option class="head-option">' + _t('속성') + '</option>' +
+					'<option class="head-option" value="">' + _t('속성') + '</option>' +
 					'<optgroup class="size" label="' + _t('크기') + '">' +
 						'<option value="1">1 (8 pt)</option>' +
 						'<option value="2">2 (10 pt)</option>' +

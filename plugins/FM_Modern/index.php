@@ -22,6 +22,7 @@ function FM_Modern_editorinit(&$editor) {
 
 	ob_start();
 ?>
+			if (typeof(document.execCommand) == "undefined" || !(STD.isIE || STD.isFirefox)) return null;
 			var editor = new TTModernEditor();
 			editor.fixPosition = <?php echo getBlogSetting('editorPropertyPositionFix', 0);?>;
 			editor.hasGD = <?php echo extension_loaded('gd');?>;

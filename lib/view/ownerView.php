@@ -137,17 +137,27 @@ function printOwnerEditorScript($entryId = false) {
 	}
 ?>
 		}
-		return new TTDefaultEditor(); //null;
+		return new TTDefaultEditor();
 	}
 
 	var editor = null;
 	function setCurrentEditor(key) {
+		var neweditor = getEditor(key);
+		if (neweditor == null) {
+			if (editor == null) {
+				// this indicates currently selected editor is unavailable;
+				// we fallback into the default editor.
+				neweditor = new TTDefaultEditor();
+			} else {
+				return false;
+			}
+		}
 		if (editor != null) {
 			try { editor.syncTextarea(); } catch(e) {}
 			editor.finalize();
 		}
-		editor = getEditor(key);
-		if (editor != null) editor.initialize(document.getElementById("editWindow"));
+		editor = neweditor;
+		editor.initialize(document.getElementById("editWindow"));
 		return true;
 	}
 //]]>
