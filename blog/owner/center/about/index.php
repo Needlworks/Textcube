@@ -152,7 +152,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											<tr>
 												<td class="id"><a href="http://blog.2pink.net">LonnieNa</a></td>
 												<td class="name">Shik Yoon</td>
-												<td class="role"><?php echo _t('manual / design');?></td>
+												<td class="role"><?php echo _t('design manual');?></td>
 											</tr>
 											<tr>
 												<td class="id"><a href="http://lunamoth.biz">lunamoth</a></td>
@@ -180,6 +180,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									<a href="http://blog.laco.pe.kr">lacovnk</a>,
 									<a href="http://www.mcfuture.net">McFuture</a>,
 									<a href="http://laziel.com">laziel</a>,
+									<a href="http://sangsangbox.net">나니</a>,
 									<a href="http://tokigun.net">tokigun</a>,
 									<a href="http://story.isloco.com">linus</a>,
 									<a href="http://nya.pe.kr">NYA</a>,
