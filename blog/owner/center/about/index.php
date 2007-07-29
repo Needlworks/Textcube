@@ -13,7 +13,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 							<h3>Brand yourself! : <?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?></h3>
 							<div class="main-explain-box">
 								<p class="explain">
-									<em><?php echo _t('부 - 버그야 물렀거라 - 적.');?></em><br />
+									<em><?php echo _t('Omnis mundi creatura quasi liber et pictura nobis est, et speculum');?></em><br />
 									<?php echo _t('&copy; 2004 - 2007. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />텍스트큐브는 니들웍스/TNF에서 개발합니다.<br />텍스트큐브와 텍스트큐브 로고는 니들웍스의 상표입니다.').CRLF;?>
 								</p>
 							</div>
@@ -36,8 +36,8 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 										</thead>
 										<tbody>
-										<tr><td class="id"><a href="http://gendoh.tistory.com">gendoh</a></td><td class="name">Sang-il, Lee</td></tr>
 											<tr><td class="id"><a href="http://forest.nubimaru.com">inureyes</a></td><td class="name">Jeongkyu Shin</td></tr>
+											<tr><td class="id"><a href="http://gendoh.tistory.com">gendoh</a></td><td class="name">Sang-il, Lee</td></tr>
 										</tbody>
 									</table>
 								</div>
@@ -65,22 +65,27 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											<tr>
 												<td class="id"><a href="http://daybreaker.info">daybreaker</a></td>
 												<td class="name">Kim Joongi</td>
-												<td class="role"><?php echo _t('xhtml specification / quality assurance');?></td>
+												<td class="role"><?php echo _t('XHTML specification / Quality Assurance');?></td>
 											</tr>
 											<tr>
 												<td class="id"><span class="text">graphittie</span></td>
 												<td class="name">&nbsp;</td>
-												<td class="role"><?php echo _t('UI / sidebar / xhtml specification');?></td>
+												<td class="role"><?php echo _t('UI / Sidebar / XHTML specification');?></td>
 											</tr>
 											<tr>
 												<td class="id"><a href="http://forest.nubimaru.com">inureyes</a></td>
 												<td class="name">Jeongkyu Shin</td>
-												<td class="role"><?php echo _t('core / DB management / bug tracking / documentation');?></td>
+												<td class="role"><?php echo _t('Core / DB management / Bug tracking / Documentation');?></td>
 											</tr>
 											<tr>
 												<td class="id"><a href="http://www.create74.com">J.Parker</a></td>
 												<td class="name">Yong-ju, Park</td>
-												<td class="role"><?php echo _t('Teamblog / metapage / plugin');?></td>
+												<td class="role"><?php echo _t('Teamblog / Metapage / Plugin');?></td>
+											</tr>
+											<tr>
+												<td class="id"><a href="http://tokigun.net">lifthrasiir</a></td>
+												<td class="name">Seong-Hoon Kang</td>
+												<td class="role"><?php echo _t('Editor / Formatter / Module');?></td>
 											</tr>
 										</tbody>
 									</table>
@@ -118,11 +123,6 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="name">John.K</td>
 												<td class="role"><?php echo _t('English');?></td>
 											</tr>
-											<tr>
-												<td class="id"><a href="http://memoriesreloaded.net">CK</a></td>
-												<td class="name">CK</td>
-												<td class="role"><?php echo _t('English');?></td>
-											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -150,14 +150,9 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="role"><?php echo _t('plugin');?></td>
 											</tr>
 											<tr>
-												<td class="id"><a href="http://sangsangbox.net">nani</a></td>
-												<td class="name">Jonggil Ko</td>
-												<td class="role"><?php echo _t('skin');?></td>
-											</tr>
-											<tr>
 												<td class="id"><a href="http://blog.2pink.net">LonnieNa</a></td>
 												<td class="name">Shik Yoon</td>
-												<td class="role"><?php echo _t('manual');?></td>
+												<td class="role"><?php echo _t('manual / design');?></td>
 											</tr>
 											<tr>
 												<td class="id"><a href="http://lunamoth.biz">lunamoth</a></td>
@@ -167,7 +162,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											<tr>
 												<td class="id"><a href="http://design.funny4u.com">funny4u</a></td>
 												<td class="name">Guihwan Yu</td>
-												<td class="role"><?php echo _t('Icon design');?></td>
+												<td class="role"><?php echo _t('icon design');?></td>
 											</tr>
 										</tbody>
 									</table>
