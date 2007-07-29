@@ -11,7 +11,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 
-if (deleteUser($_POST['userid'])) {
+if (deleteTeamblogUser($_POST['userid'])) {
 	respondResultPage(0);
 }
 respondResultPage(-1);

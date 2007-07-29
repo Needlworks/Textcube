@@ -80,4 +80,18 @@ function changeACLonBlog($blogid, $ACLtype, $userid, $switch){  // Change user p
 		WHERE blogid = ".$blogid." and userid = ".$userid;
 	return DBQuery::execute($sql);
 }
+
+function deleteTeamblogUser($userid){
+	global $database;
+
+	DBQuery::execute("UPDATE `{$database['prefix']}Entries` 
+		SET userid = ".getBlogId()." 
+		WHERE blogid = ".getBlogId()." AND userid = ".$userid);
+
+	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid = ".getBlogId()." and userid='$userid'")) {
+		return true;
+	} else {
+		return false;
+	}
+}
 ?>

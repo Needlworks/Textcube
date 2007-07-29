@@ -77,7 +77,6 @@ if( Acl::check('group.owners')) {?>
 								
 								function sendInvitation() {
 									var receiver = document.getElementById('invitation_receiver');
-									var password = document.getElementById('invite_password');
 									var comment = document.getElementById('invitation_comment');
 									var sender = document.getElementById('invitation_sender');
 									
@@ -96,13 +95,14 @@ if( Acl::check('group.owners')) {?>
 									}
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/teamblog/invite/");
 									request.onVerify = function() {
-										return this.getText("/response/error") == 15;
+										return this.getText("/response/error") == 0;
 									}
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('초대장을 발송했습니다.');?>", "center", "bottom");
 										window.location.href='<?php	echo $blogURL;?>/owner/setting/teamblog/';
 									}
 									request.onError = function() {
+										alert(Number(this.getText("/response/error")));
 										switch(Number(this.getText("/response/error"))) {
 											case 2:
 												alert('<?php echo _t('이메일이 바르지 않습니다.');?>');
@@ -144,7 +144,7 @@ if( Acl::check('group.owners')) {?>
 												alert('<?php echo _t('실패했습니다.');?>');
 										}
 									}
-									request.send("&senderName="+encodeURIComponent(sender[0][0])+"&senderEmail="+encodeURIComponent(sender[0][1])+"&email="+inviteList[0][1]+"&name="+encodeURIComponent(inviteList[0][0])+"&password="+password.value+"&comment="+encodeURIComponent(comment.value));
+									request.send("&senderName="+encodeURIComponent(sender[0][0])+"&senderEmail="+encodeURIComponent(sender[0][1])+"&email="+inviteList[0][1]+"&name="+encodeURIComponent(inviteList[0][0])+"&comment="+encodeURIComponent(comment.value));
 								}
 								
 								function createBlogIdentify(receivers) {
@@ -171,7 +171,7 @@ if( Acl::check('group.owners')) {?>
 								
 								function deleteUser(userid, atype) {
 									if(atype == 1){
-										if(!confirm('<?php	echo _t('선택된 사용자를 삭제합니다.\n삭제되는 사용자가 쓴 글은 전부 관리자의 글로 변환됩니다.\n개인블로그가 설정되어있으면 개인블로그가 폐쇄됩니다.\n(글이 전부 삭제되는것은 아니고 팀블로그의 로그인데이터만 삭제됩니다)\n\n\n잘못된 삭제는 복원이 어렵습니다. 정말 삭제하시겠습니까?');?>')) return false;
+										if(!confirm('<?php	echo _t('선택된 사용자를 삭제합니다.\n삭제되는 사용자가 쓴 글은 전부 관리자의 글로 변환됩니다.\n\n백업하지 않으시면 실수로 삭제하였을 경우 되돌릴 수 없습니다.\n정말 삭제하시겠습니까?');?>')) return false;
 									} else {
 										if(!confirm('<?php	echo _t('삭제 하시겠습니까?');?>')) 
 											return false;
@@ -347,7 +347,7 @@ if( Acl::check('group.owners')) {
 							<h2 class="caption"><span class="main-text"><?php	echo _t('친구를 팀원으로 초대합니다');?></span></h2>
 							
 							<div class="data-inbox">
-								<form id="letter-section" class="section" method="post" action="<?php	echo $blogURL;?>/owner/setting/teamblog/Invite">
+								<form id="letter-section" class="section" method="post" action="<?php	echo $blogURL;?>/owner/setting/teamblog/invite">
 									<dl>
 										<dt class="title"><span class="label"><?php	echo _t('초대장');?></span></dt>
 										<dd id="letter">

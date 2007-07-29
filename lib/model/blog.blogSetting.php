@@ -494,6 +494,7 @@ function deleteUser($userid){
 		WHERE blogid = ".getBlogId()." AND userid = ".$userid);
 
 	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid = ".getBlogId()." and userid='$userid'")){
+		// TODO : blogid is not match with userid. need to remake this part.
 		$En = DBQuery::queryCell("SELECT userid FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'");
 		if(empty($En)){
 			@DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid");
