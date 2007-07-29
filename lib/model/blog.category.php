@@ -471,7 +471,6 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 		clearRSS();
 	updateEntriesOfCategory($blogid);
 	CacheControl::flushCategory($id);
-	clearCategoryCache();
 	return $result ? $visibility : false;
 }
 
