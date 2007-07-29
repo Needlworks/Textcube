@@ -1108,7 +1108,9 @@ function commentComment(parent) {
 function editEntry(parent,child) {
 	width =  1020;
 	height = 550;
-	if(openWindow != '') openWindow.close();
+	try {
+		if(openWindow != '') openWindow.close();
+	} catch (e) {}
 	openWindow = window.open(blogURL + "/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child,"tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
 	openWindow.focus();
 	alignCenter(openWindow,width,height);
@@ -1117,7 +1119,9 @@ function editEntry(parent,child) {
 function guestbookComment(parent) {
 	width = 450;
 	height = 360;
-	if(openWindow != '') openWindow.close();
+	try {
+		if(openWindow != '') openWindow.close();
+	} catch (e) {}
 	openWindow = window.open(blogURL + "/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
 	openWindow.focus();
 	alignCenter(openWindow,width,height);
@@ -1126,7 +1130,9 @@ function guestbookComment(parent) {
 function sendTrackback(id) {
 	width = 700;
 	height = 500;
-	if(openWindow != '') openWindow.close();
+	try {
+		if(openWindow != '') openWindow.close();
+	} catch (e) {}
 	openWindow = window.open(blogURL + "/trackback/send/" + id, "tatter", "width=580,height=400,location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
 	openWindow.focus();
 	alignCenter(openWindow,width,height);
