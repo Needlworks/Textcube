@@ -17,6 +17,15 @@ function encodeURL($url) {
 		return str_replace(array('%', ' ', '"', '#', '&', '\'', '<', '>', '?'), array('%25', '%20', '%22', '%23', '%26', '%27', '%3C', '%3E', '%3F'), $url);
 }
 
+
+function decodeURL($url) {
+	global $service;
+	if (isset($service['useEncodedURL']) && $service['useEncodedURL'])
+		return rawurldecode($url);
+	else
+		return urldecode($url);
+}
+
 class User {
 	/*@static@*/
 	function getName($userid = null) {

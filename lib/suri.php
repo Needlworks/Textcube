@@ -67,7 +67,7 @@ if ($depth > 0) {
 if (is_numeric($suri['value']))
 	$suri['id'] = $suri['value'];
 else
-	$suri['value'] = urldecode($suri['value']);
+	$suri['value'] = decodeURL($suri['value']);
 	
 $suri['page'] = empty($_POST['page']) ? (empty($_GET['page']) ? true : $_GET['page']) : $_POST['page'];
 
