@@ -125,6 +125,43 @@ function deleteAttachment($blogid, $parent, $name) {
 	return false;
 }
 
+function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
+	global $database;
+	$path = ROOT . "/attach/$blogid";
+	$attachments = getAttachments($blogid, $originalEntryId);
+	if(empty($attachments)) return true;
+	if(!DBQuery::queryCell("SELECT id 
+		from {$database['prefix']}Entries
+		where blogid = $blogid
+			and id = $originalEntryId")) return 2; // original entry does not exists;
+	if(!DBQuery::queryCell("SELECT id 
+		from {$database['prefix']}Entries
+		where blogid = $blogid
+			and id = $targetEntryId")) return 3; // target entry does not exists;
+
+	foreach($attachments as $attachment) {
+		$extension = getFileExtension($attachment['label']);
+		$originalPath = "$path/{$attachment['name']}";
+		do {
+			$attachment['name'] = rand(1000000000, 9999999999) . ".$extension";
+			$attachment['path'] = "$path/{$attachment['name']}";
+		} while (file_exists($attachment['path']));
+		if(!copy($originalPath, $attachment['path'])) return 4; // copy failed.
+		if(!DBQuery::execute("insert into {$database['prefix']}Attachments 
+			values ($blogid, $targetEntryId,
+				'{$attachment['name']}',
+				'{$attachment['label']}',
+				'{$attachment['mime']}',
+				{$attachment['size']},
+				{$attachment['width']},
+				{$attachment['height']}, 
+				UNIX_TIMESTAMP(), 
+				0,
+				0)"))
+			return false;
+	}
+	return true;
+}
 function deleteTotalAttachment($blogid) {
 	requireModel('blog.rss');
 	$d = dir(ROOT."/attach/$blogid");

@@ -6,18 +6,35 @@ define('ROOT', '../../../..');
 
 $IV = array(
 	'POST' => array(
-		'templateId' => array('int', 'default' => 0)
+		'templateId' => array('int', 'default' => 0),
+		'isSaved' => array('bool', 'default' => false),
+		'entryId' => array('int', 'default' => 0)
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.entry');
 
 requireStrictRoute();
+
 if ($entry = getEntry($blogid, $_POST['templateId'])) {
-	
-	
-	$result = array("error"=>"0","content"=>$entry['content']);
-	printRespond($result);
+	if(!$_POST['isSaved']) {
+		$entry['category'] = 0;
+		$entry['visibility'] = 0;
+		$entry['published'] = 'UNIX_TIMESTAMP()';
+		$id = addEntry($blogid,$entry);
+	} else {
+		if($_POST['entryId'] == 0) respondResultPage(1);
+		$id = $_POST['entryId'];
+	}
+	// Delete original attachments.
+	deleteAttachments($blogid, $id);
+	if(copyAttachments($blogid, $_POST['templateId'], $id) === true) {
+		$result = array("error"=>"0",
+			"title"=>$entry['title'],
+			"content"=>$entry['content'],
+			"entryId"=>$id);
+		printRespond($result);
+	}
 }
 respondResultPage(1);
 ?>

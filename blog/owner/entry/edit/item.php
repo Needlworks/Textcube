@@ -146,6 +146,7 @@ if (defined('__TEXTCUBE_POST__')) {
 									}
 									this.delay = false;
 									this.nowsaving = false;
+
 									this.getData = function (check) {
 										if (check == undefined)
 											check = false;
@@ -234,19 +235,24 @@ if (defined('__TEXTCUBE_POST__')) {
 									this.setEnclosure = function(fileName) {
 										
 									}
-									this.loadTemplate = function (templateId) {
+									this.loadTemplate = function (templateId,title) {
 										var oForm = document.forms[0];
 										var content = trim(oForm.content.value);
 										if (content.length != 0) {
 											if(confirm("<?php echo _t('본문에 내용이 있습니다. 서식이 현재 본문 내용을 덮어쓰게 됩니다. 계속하시겠습니까?');?>")!=1)
 												return null;
 										}
+
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/loadTemplate/");
 										request.message = "<?php echo _t('불러오고 있습니다');?>";
 										request.onSuccess = function () {
 											PM.showMessage("<?php echo _t('서식을 반영하였습니다.');?>", "center", "bottom");
+											templateTitle = this.getText("/response/title");
 											templateContents = this.getText("/response/content");
+											entryManager.entryId = this.getText("/response/entryId");
+											entryManager.isSaved = true;
 											PM.removeRequest(this);
+											oForm.title.value = templateTitle;
 											oForm.content.value = templateContents;
 											editor.contentDocument.body.innerHTML = templateContents;
 											try {
@@ -259,14 +265,16 @@ if (defined('__TEXTCUBE_POST__')) {
 											alert("<?php echo _t('불러오지 못했습니다');?>");
 										}
 										PM.addRequest(request, "<?php echo _t('불러오고 있습니다');?>");
-										request.send("templateId="+templateId);
+										request.send("templateId="+templateId
+											+"&isSaved="+entryManager.isSaved
+											+"&entryId="+entryManager.entryId);
 									}
 
 									this.save = function () {
+										this.nowsaving = true;
 										var data = this.getData(true);
 										if (data == null)
 											return false;
-										this.nowsaving = true;
 										if(entryManager.isSaved == true) {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/"+entryManager.entryId);
 										} else {
@@ -285,20 +293,22 @@ if (defined('__TEXTCUBE_POST__')) {
 											entryManager.savedData = this.content;
 											if (entryManager.savedData == entryManager.getData())
 												entryManager.pageHolder.release();
+											this.nowsaving = false;
 										}
 										request.onError = function () {
 											PM.removeRequest(this);
 											alert("<?php echo _t('저장하지 못했습니다.');?>");
+											this.nowsaving = false;
 										}
 										PM.addRequest(request, "<?php echo _t('저장하고 있습니다.');?>");
 										request.send(this.getData());
 									}
 																		
 									this.saveAndReturn = function () {
+										this.nowsaving = true;
 										var data = this.getData(true);
 										if (data == null)
 											return false;
-										this.nowsaving = true;
 
 										if(entryManager.isSaved == true) {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/"+entryManager.entryId);
@@ -340,6 +350,7 @@ if (isset($_GET['popupEditor'])) {
 										request.onError = function () {
 											PM.removeRequest(this);
 											alert("<?php echo _t('저장하지 못했습니다.');?>");
+											this.nowsaving = false;
 										}
 										PM.addRequest(request, "<?php echo _t('저장하고 있습니다.');?>");
 										request.send(this.getData());
@@ -572,7 +583,7 @@ if (count($templateLists) == 0) {
 	echo '												<dd class="noItem">' . _t('등록된 서식이 없습니다.') . '</dd>' . CRLF;
 } else {
 	foreach($templateLists as $templateList){
-		echo '												<dd><a href="#void" onclick="entryManager.loadTemplate('.$templateList['id'].');return false;">'.$templateList['title'].'</a></dd>'.CRLF;
+		echo '												<dd><a href="#void" onclick="entryManager.loadTemplate('.$templateList['id'].',\''.$templateList['title'].'\');return false;">'.$templateList['title'].'</a></dd>'.CRLF;
 	}
 }
 ?>
