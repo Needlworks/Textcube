@@ -992,13 +992,13 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	if ($useImageResampling == true) {
 		$images = array();
 		if ($useAbsolutePath == true) {
-			preg_match("@<img.+src=['\"]{$hostURL}{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Ui", $view, $images);
-			$view = preg_replace("@<img.+src=['\"]{$hostURL}{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Ui", '[#####_#####_#####_image_#####_#####_#####]', $view);
+			preg_match_all("@<img.+src=['\"]{$hostURL}{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Usi", $view, $images, PREG_SET_ORDER);
+			$view = preg_replace("@<img.+src=['\"]{$hostURL}{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
 		} else {
 			preg_match_all("@<img.+src=['\"]{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Ui", $view, $images, PREG_SET_ORDER);
-			$view = preg_replace("@<img.+src=['\"]{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Ui", '[#####_#####_#####_image_#####_#####_#####]', $view);
+			$view = preg_replace("@<img.+src=['\"]{$service['path']}/attach/{$blogid}/(.+)['\"].+/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
 		}
-	
+		
 		if (count($images) > 0) {
 			for ($i=0; $i<count($images); $i++) {
 				$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', resampleImage($images[$i][0], ROOT . "/attach/{$blogid}/{$images[$i][1]}", $useAbsolutePath), $view, 1);
