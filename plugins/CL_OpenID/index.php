@@ -11,6 +11,7 @@ global $openid_pluginbase;
 $openid_pluginbase = $hostURL . $service['path'] . "/plugins/" . basename(dirname( __FILE__ ));
 
 require_once  "openid_session.php";
+requireComponent( "Textcube.Function.misc" );
 
 openid_session_read();
 
@@ -527,10 +528,18 @@ function openid_add_controller($target)
 	{
 		$openid_loggedin = 0;
 	}
+	if( misc::getBlogSettingGlobal('AddCommentMode', '') == 'openid' ) {
+		$openid_add_comment_only_by_openid = 1;
+	} else {
+		$openid_add_comment_only_by_openid = 0;
+	}
+	$openid_add_comment_only_by_openid_msg = _t('관리자의 설정에 의해 오픈아이디로 로그인한 사용자만 댓글을 남길 수 있습니다');
 	$target .= "<script type='text/javascript'>\n" .
 		"var openid_entryurl = \"$hostURL$blogURL/plugin/openid/\";\n" .
 		"var openid_pluginbase = \"$openid_pluginbase/\";\n" .
 		"var openid_id = '$openid_id';\n" .
+		"var openid_add_comment_only_by_openid = $openid_add_comment_only_by_openid;\n" .
+		"var openid_add_comment_only_by_openid_msg = '$openid_add_comment_only_by_openid_msg';\n" .
 		"var openid_nickname = '$openid_nickname';\n" .
 		_openid_additional_script() .
 		"</script>\n" .
@@ -671,6 +680,27 @@ function _openid_fix_table()
 
 _openid_fix_table();
 
+function openid_set_comment_mode()
+{
+	if( !Acl::check( array("group.administrators") ) ) {
+		respondResultPage( -1);
+		return;
+	}
+	if( misc::setBlogSettingGlobal( "AddCommentMode", empty($_GET['mode']) ? "" : "openid" ) ) {
+		respondResultPage(0);
+	} else {
+		respondResultPage(-1);
+	}
+}
+
+function openid_comment_acl_check( $target, $comment )
+{
+	if( misc::getBlogSettingGlobal('AddCommentMode', '') == 'openid' ) {
+		return Acl::getIdentity( 'openid' ) ? true : false;
+	}
+	return true;
+}
+
 function openid_comment_add( $id, $comment )
 {
 	/* Assert $id is numeric by the caller function in lib/model/comment.php */
@@ -717,6 +747,16 @@ function openid_comment_comment()
 	global $openid_session;
 	$entryId = $_GET['id'];
 	$suri['id'] = $entryId;
+
+	if( misc::getBlogSettingGlobal('AddCommentMode', '') == 'openid' ) {
+		if( empty($openid_session['id']) ) {
+			ob_end_clean();
+			header("HTTP/1.0 302 Moved Temporarily");
+			header("Location: $hostURL$blogURL/comment/comment/$entryId");
+			print( "<html><body></body></html>" );
+			exit(0);
+		}
+	}
 
 	if( !$openid_session['id'] || doesHaveOwnership() || doesHaveMembership() )
 	{
@@ -887,15 +927,31 @@ function openid_manage()
 		break;
 	}
 
-	$checked_oo = '';
+	$mode = misc::getBlogSettingGlobal( "AddCommentMode", "" );
+	if( $mode === 'openid' ) {
+		$mode = "checked='checked'";
+	} else {
+		$mode = "";
+	}
 ?>
 	<script type="text/javascript">
 	function toggle_openid_only() {
-		oo = document.getElementById( 'openidonlycomment' );
-		if( ! oo ) {
-			return false;
+		try {
+			var oo = document.getElementById( 'openidonlycomment' );
+			if( ! oo ) {
+				return false;
+			}
+			oo = oo.checked ? "1" : "0";
+			var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/plugin/openid/setcomment?mode=" + oo);
+			request.onSuccess = function() {
+				PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+			}
+			request.onError = function() {
+				alert("<?php echo _t('저장하지 못했습니다.');?>");
+			}
+			request.send("");
+		} catch(e) {
 		}
-		alert( oo.checked );
 	}
 	</script>
 	<h2 class="caption"><span class="main-text"><?php echo _text('댓글/방명록 설정')?></span></h2>
@@ -903,7 +959,7 @@ function openid_manage()
 		<tbody>
 		<tr class="site">
 		<td><span class="text">
-		<input id="openidonlycomment" type="checkbox" name="openidonlycomment" <?php echo $checked_oo?>
+		<input id="openidonlycomment" type="checkbox" name="openidonlycomment" <?php echo $mode?>
 			onclick="toggle_openid_only();"
 		/>
 		<label for="openidonlycomment">체크할 경우, 오픈아이디 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다.</label>

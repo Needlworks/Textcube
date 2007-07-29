@@ -67,7 +67,7 @@ if (!doesHaveMembership()) {
 		<input type="hidden" name="oldPassword" value="<?php echo isset($_POST['password']) ? $_POST['password'] : '';?>" />
 		
 		<div id="comment-reply-box">
-			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('태터툴즈 로고');?>" />
+			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
 			
 			<div class="title"><span class="text"><?php echo $pageTitle ;?></span></div>
 	      	<div id="command-box">

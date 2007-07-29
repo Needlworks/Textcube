@@ -21,6 +21,7 @@
 	<listener event="/plugin/openid/logout">openid_logout</listener>
 	<listener event="AddComment">openid_comment_add</listener>
 	<listener event="AddGuestComment">openid_comment_add</listener>
+	<listener event="AddingComment">openid_comment_acl_check</listener>
 	<listener event="ViewCommenter">openid_view_commenter</listener>
 	<listener event="ViewGuestCommenter">openid_view_commenter</listener>
 	<listener event="/plugin/openid/comment/comment">openid_comment_comment</listener>
