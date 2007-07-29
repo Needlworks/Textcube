@@ -70,6 +70,8 @@ if (file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
 			var editorCSS = "/style/default-wysiwyg.css";
 <?php
 }
+
+include ROOT . '/language/messages.php';
 ?>
 		//]]>
 	</script>
