@@ -32,7 +32,7 @@ body
 #comment-box img
 {
 	position                         : absolute;
-	top                              : 15px;
+	top                              : 10px;
 	left                             : 12px;
 }
 
@@ -104,7 +104,7 @@ body
 #comment-reply-box img
 {
 	position                         : absolute;
-	top                              : 15px;
+	top                              : 10px;
 	left                             : 12px;
 }
 
