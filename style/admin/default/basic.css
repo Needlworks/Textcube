@@ -200,7 +200,7 @@ textarea
 #description-blogger
 {
 	float                            : left;
-	margin-left                      : 160px;
+	margin-left                      : 180px;
 }
 
 #description-teamblog
@@ -289,12 +289,12 @@ textarea
 {
 	background-image                 : url("./image/img_header_textcube.gif");
 	background-repeat                : no-repeat;
-	height                           : 22px;
+	height                           : 33px;
 	left                             : 16px;
 	position                         : absolute;
 	text-indent                      : -1000px;
-	top                              : 14px;
-	width                            : 130px;
+	top                              : 9px;
+	width                            : 151px;
 	z-index                          : 100;
 }
 
