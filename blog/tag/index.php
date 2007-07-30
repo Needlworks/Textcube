@@ -43,6 +43,8 @@ if (strlen($suri['value'])) {
 			list($entries, $paging) = getEntriesWithPagingByTag($blogid, $tag, $suri['page'], $blog['entriesOnList'],($skinSetting['showListOnTag'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
 		}
 		require ROOT . '/lib/piece/blog/entries.php';
+		$cache->reset();
+		$cache->name = 'tagPaging_'.$tag."_".$suri['page'];
 	}
 } else {
 	require ROOT . '/lib/piece/blog/begin.php';
@@ -52,6 +54,7 @@ if (strlen($suri['value'])) {
 		$siteTags = getSiteTags($blogid);
 	}
 	require ROOT . '/lib/piece/blog/siteTags.php';
+	unset($cache);
 }
 require ROOT . '/lib/piece/blog/end.php';
 ?>

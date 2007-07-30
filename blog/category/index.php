@@ -35,6 +35,8 @@ if ($skinSetting['showListOnCategory'] != 2) {
 	}
 	require ROOT . '/lib/piece/blog/entries.php';
 }
+$cache->reset();
+$cache->name = 'categoryPaging_'.$category."_".$suri['page'];
 require ROOT . '/lib/piece/blog/end.php';
 
 ?>

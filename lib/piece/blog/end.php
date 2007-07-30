@@ -63,16 +63,31 @@ dress('rss_url', "$blogURL/rss", $view);
 dress('owner_url', "$blogURL/owner", $view);
 dress('textcube_name', TEXTCUBE_NAME, $view);
 dress('textcube_version', TEXTCUBE_VERSION, $view);
-dress('tattertools_name', TEXTCUBE_NAME, $view);
+dress('tattertools_name', TEXTCUBE_NAME, $view); // For skin legacy.
 dress('tattertools_version', TEXTCUBE_VERSION, $view);
+
 if (isset($paging)){
+	if(isset($cache) && strpos($cache->name,'Paging')!==false) {
+		if($cache->load()) {
+			$pagingView = $cache->contents;
+		} else {
+			$pagingView = getPagingView($paging, $skin->paging, $skin->pagingItem);
+			$cache->contents = $pagingView;
+			$cache->update();
+		}
+	} else {
+		$pagingView = getPagingView($paging, $skin->paging, $skin->pagingItem);
+	}
+	dress('paging', $pagingView, $view);
 	$url = encodeURL($paging['url']);
 	$prefix = $paging['prefix'];
 	$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
-	dress('paging', getPagingView($paging, $skin->paging, $skin->pagingItem), $view);
 	dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : '',$view);
 	dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : '',$view);
+} else if(isset($cache) && strpos($cache->name,'Paging')!==false && $cache->load()) {
+	dress('paging', $cache->contents, $view);
 }
+
 $sidebarElements = array_keys($skin->sidebarStorage);
 foreach ($sidebarElements as $element) {
 	dress($element, $skin->sidebarStorage[$element], $view);
