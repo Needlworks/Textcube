@@ -751,7 +751,7 @@ if(isset($_POST['visibility'])) $returnURLpostfix .= (empty($returnURLpostfix) ?
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" /></th>
+											<th class="selection"><input type="checkbox" id="allChecked" class="input-checkbox" onclick="checkAll(this.checked);" /></th>
 											<th class="date"><span class="text"><?php echo _t('등록일자');?></span></th>
 											<th class="status"><span class="text"><?php echo _t('상태');?></span></th>
 											<th class="syndicate"><span class="text"><?php echo _t('발행');?></span></th>
@@ -775,7 +775,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 		$className .= ' notice-line';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $entry['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
+											<td class="selection"><input type="checkbox" class="input-checkbox" name="entry" value="<?php echo $entry['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
 											<td class="date"><?php echo Timestamp::formatDate($entry['published']);?></td>
 											<td class="status">
 <?php

@@ -143,8 +143,8 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 							<dl id="checkbox-line">
 								<dt><span class="label"><?php echo _text('선택사항');?></span></dt>
 								<dd>
-									<div id="email-save"><input type="checkbox" id="save" class="checkbox" name="save"<?php echo (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"');?> /><label for="save"><?php echo _text('이메일 저장');?></label></div>
-									<?php echo ($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /><label for="reset">' . _text('암호 초기화') . '</label></div>'.CRLF : '');?>
+									<div id="email-save"><input type="checkbox" id="save" class="input-checkbox" name="save"<?php echo (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"');?> /><label for="save"><?php echo _text('이메일 저장');?></label></div>
+									<?php echo ($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="input-checkbox" id="reset" name="reset" /><label for="reset">' . _text('암호 초기화') . '</label></div>'.CRLF : '');?>
 								</dd>
 							</dl>
 							

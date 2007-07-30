@@ -112,15 +112,24 @@ if(isset($blogContentMenuItem)) {
 				<div id="sub-menu-box">
 					<ul id="sub-menu">
 <?php
-	foreach($blogContentMenuItem as $contentMenuItem){
+	for ($i=0; $i<count($blogContentMenuItem); $i++) {
+		$contentMenuItem = $blogContentMenuItem[$i];
+		$classArray = array();
+		if ($i == 0)
+			array_push($classArray, 'first');
+		
 		if($blogMenu['topMenu']=='entry' && $contentMenuItem['menu']=='post'){
 			requireModel("blog.entry");
+			if ($blogMenu['contentMenu'] == $contentMenuItem['menu'])
+				array_push($classArray, 'selected');
 ?>
-						<li id="sub-menu-<?php echo $contentMenuItem['menu'];?>"<?php echo $blogMenu['contentMenu'] == $contentMenuItem['menu'] ? ' class="selected"' : '';?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>" onclick="window.location.href = '<?php echo $blogURL;?>/owner/entry/post'<?php echo (getDraftEntryId() ? "+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')" : '');?>; return false;"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
+						<li id="sub-menu-<?php echo $contentMenuItem['menu'];?>"<?php echo count($classArray) > 0 ? ' class="' . implode(' ', $classArray) . '"' : NULL;?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>" onclick="window.location.href = '<?php echo $blogURL;?>/owner/entry/post'<?php echo (getDraftEntryId() ? "+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')" : '');?>; return false;"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
 <?php
 		} else {
+			if ($blogMenu['contentMenu'] == $contentMenuItem['menu'] || (isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])))
+				array_push($classArray, 'selected');
 ?>
-						<li id="sub-menu-<?php echo $contentMenuItem['menu'];?>"<?php echo (($blogMenu['contentMenu'] == $contentMenuItem['menu'] || (isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu']))) ? ' class="selected"' : '');?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
+						<li id="sub-menu-<?php echo $contentMenuItem['menu'];?>"<?php echo count($classArray) > 0 ? ' class="' . implode(' ', $classArray) . '"' : NULL;?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
 <?php
 		}
 	}

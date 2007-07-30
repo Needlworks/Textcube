@@ -24,13 +24,13 @@ input.text-readonly-input
 	padding                          : 3px !important;
 }
 
-.checkbox
+.input-checkbox
 {
 	margin                           : -4px -3px -2px 0;
 	vertical-align                   : baseline;
 }
 
-.radio
+.input-radio
 {
 	margin                           : -4px -5px -2px 0;
 	vertical-align                   : baseline;

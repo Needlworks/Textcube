@@ -168,10 +168,10 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 			
 			<div id="command-box">
 				<div class="edit-line">
-					<input type="radio" id="edit" class="radio" name="mode" value="edit" checked="checked" /><label for="edit"><?php echo _text('댓글을 수정합니다.');?></label>
+					<input type="radio" id="edit" class="input-radio" name="mode" value="edit" checked="checked" /><label for="edit"><?php echo _text('댓글을 수정합니다.');?></label>
 				</div>
 				<div class="delete-line">			
-					<input type="radio" id="delete" class="radio" name="mode" value="delete" /><label for="delete"><?php echo _text('댓글을 삭제합니다.');?></label>
+					<input type="radio" id="delete" class="input-radio" name="mode" value="delete" /><label for="delete"><?php echo _text('댓글을 삭제합니다.');?></label>
 				</div>
 				<div class="password-line">
 <?php

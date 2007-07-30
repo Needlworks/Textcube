@@ -91,7 +91,7 @@ if (!doesHaveOwnership()) {
 ?>
 				<dl class="secret-line">
 					<dd>
-						<input type="checkbox" class="checkbox" id="secret" name="secret"<?php echo ($comment['secret'] ? ' checked="checked"' : false);?> />
+						<input type="checkbox" class="input-checkbox" id="secret" name="secret"<?php echo ($comment['secret'] ? ' checked="checked"' : false);?> />
 						<label for="secret"><?php echo _text('비밀글로 등록');?></label>
 					</dd>
 				</dl>

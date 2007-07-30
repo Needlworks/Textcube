@@ -101,7 +101,7 @@ body
 	margin                           : 4px 0 0 80px;
 }
 
-#trackback-box #command-box .checkbox
+#trackback-box #command-box .input-checkbox
 {
 	vertical-align                   : middle;
 }

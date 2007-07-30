@@ -59,8 +59,8 @@
 	padding                          : 0 1px !important;
 }
 
-input.checkbox,
-input.radio
+input.input-checkbox,
+input.input-radio
 {
 	margin                           : -3px 0 0 0;
 }

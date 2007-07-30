@@ -190,7 +190,8 @@ if ($depth <= 1) {
 											<dd><p><?php echo _t('분류는 2단까지 허용됩니다.');?></p></dd>
 <?php
 }
-?>											
+?>
+											
 										</dl>
 										<dl id="label-change-line" class="line">
 											<dt><label for="modifyCategoryName"><?php echo _t('이름 변경');?></label></dt>
@@ -208,7 +209,7 @@ if ($depth <= 1) {
 													<input type="text" id="modifyCategoryBodyId" class="input-text" name="modifyCategoryBodyId" onkeyup="if (event.keyCode == '13' &amp;&amp; validateText(this.value)) modifyCategory();" value="<?php echo htmlspecialchars($bodyid);?>" <?php if ($selected == 0) echo "readonly";?> />
 													<input type="button" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="modifyCategory(); return false;" />
 												</div>
-												<p><?php echo _t('Body id는 블로그 스킨의 <acronym title="Cascading Style Sheet">CSS</acronym> 활용을 위해 사용합니다.<br /> 기본값인 "tt-body-category"를 그냥 사용하셔도 사용에 지장은 없습니다.');?> <em class="attention"><span class="text"><?php echo _t('현재 테스트 중인 기능입니다.');?></span></em></p>
+												<p><?php echo _t('Body id는 블로그 스킨의 <acronym title="Cascading Style Sheet">CSS</acronym> 활용을 위해 사용합니다.<br /> 기본값인 "tt-body-category"를 그냥 사용하셔도 사용에 지장은 없습니다.');?></p>
 											</dd>
 										</dl>
 										<dl id="label-move-line" class="line">
@@ -227,12 +228,13 @@ if ($selected > 0) {
 											<dd><p><?php echo _t('최상단 분류는 이동할 수 없습니다.');?></p></dd>
 <?php
 }
-?>												
+?>
+												
 										</dl>
 										<dl id="label-visibility-line" class="line">
 											<dt><span class="label"><?php echo _t('공개 설정');?></span></dt>
 											<dd>
-												<input type="checkbox" id="currentVisibility" class="checkbox" name="currentVisibility"<?php echo $visibility != 2 ? ' checked="checked"' : '';?> onclick="changeCategoryVisibility();return false;" /><label for="currentVisibility"><?php echo _t('이 카테고리를 비공개로 설정합니다.');?></label>
+												<input type="checkbox" id="currentVisibility" class="input-checkbox" name="currentVisibility"<?php echo $visibility != 2 ? ' checked="checked"' : '';?> onclick="changeCategoryVisibility();return false;" /><label for="currentVisibility"><?php echo _t('이 카테고리를 비공개로 설정합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="label-remove-line" class="line">

@@ -372,13 +372,13 @@ if ($service['type'] != 'single') {
 										<dl id="first-blog-address-line" class="line">
 											<dt><label for="primaryDomain"><?php echo _t('1차 블로그 주소');?></label></dt>
 											<dd>
-												<input type="radio" class="radio" name="defaultDomain" <?php echo ($blog['defaultDomain'] ? '' : 'checked="checked"');?> title="<?php echo _t('기본 도메인');?>" /> http://<input type="text" id="primaryDomain" class="input-text" name="primaryDomain" value="<?php echo htmlspecialchars($blog['name']);?>" /><?php echo $urlRule[1];?>
+												<input type="radio" class="input-radio" name="defaultDomain" <?php echo ($blog['defaultDomain'] ? '' : 'checked="checked"');?> title="<?php echo _t('기본 도메인');?>" /> http://<input type="text" id="primaryDomain" class="input-text" name="primaryDomain" value="<?php echo htmlspecialchars($blog['name']);?>" /><?php echo $urlRule[1];?>
 											</dd>
 										</dl>
 										<dl id="second-blog-address-line" class="line">
 											<dt><label for="secondaryDomain"><?php echo _t('2차 블로그 주소');?></label></dt>
 											<dd>
-												<input type="radio" class="radio" name="defaultDomain" <?php echo ($blog['defaultDomain'] ? 'checked="checked"' : '');?>title="<?php echo _t('기본 도메인');?>" /> http://<input type="text" id="secondaryDomain" class="input-text" name="secondaryDomain" value="<?php echo htmlspecialchars($blog['secondaryDomain']);?>" /><?php echo $blogURL;?>
+												<input type="radio" class="input-radio" name="defaultDomain" <?php echo ($blog['defaultDomain'] ? 'checked="checked"' : '');?>title="<?php echo _t('기본 도메인');?>" /> http://<input type="text" id="secondaryDomain" class="input-text" name="secondaryDomain" value="<?php echo htmlspecialchars($blog['secondaryDomain']);?>" /><?php echo $blogURL;?>
 											</dd>
 										</dl>
 <?php
@@ -431,7 +431,7 @@ if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")
 ?>
 
 												<input type="file" class="input-file" name="logo" />
-												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteLogo" name="deleteLogo" value="yes"<?php echo empty($blog['logo']) ? ' disabled="disabled"' : '';?> /><label for="deleteLogo"><?php echo _t('로고를 초기화합니다.');?></label></div>
+												<div class="init-box"><input type="checkbox" class="input-checkbox" id="deleteLogo" name="deleteLogo" value="yes"<?php echo empty($blog['logo']) ? ' disabled="disabled"' : '';?> /><label for="deleteLogo"><?php echo _t('로고를 초기화합니다.');?></label></div>
 											</dd>
 										</dl>
 										<dl id="favicon-line" class="line">
@@ -449,7 +449,7 @@ if (file_exists(ROOT."/attach/$blogid/favicon.ico") && !eregi(' MSIE', $_SERVER[
 }
 ?>
 												<input type="file" class="input-file" name="favicon" />
-												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteFavicon" name="deleteFavicon" value="yes"<?php echo file_exists(ROOT."/attach/$blogid/favicon.ico") ? '' : ' disabled="disabled"';?> /><label for="deleteFavicon"><?php echo _t('파비콘을 초기화합니다.');?></label></div>
+												<div class="init-box"><input type="checkbox" class="input-checkbox" id="deleteFavicon" name="deleteFavicon" value="yes"<?php echo file_exists(ROOT."/attach/$blogid/favicon.ico") ? '' : ' disabled="disabled"';?> /><label for="deleteFavicon"><?php echo _t('파비콘을 초기화합니다.');?></label></div>
 												<p><?php echo _t('파비콘은 웹 브라우저의 즐겨찾기나 주소 입력줄에 보이는 그림입니다.');?></p>
 											</dd>
 										</dl>
@@ -474,7 +474,7 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 }
 ?>
 												<input type="file" class="input-file" name="blogIcon" />
-												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteBlogIcon" name="deleteBlogIcon" value="yes"<?php echo file_exists(ROOT."/attach/$blogid/index.gif") ? '' : ' disabled="disabled"';?> /><label for="deleteBlogIcon"><?php echo _t('블로그 아이콘을 초기화합니다.');?></label></div>
+												<div class="init-box"><input type="checkbox" class="input-checkbox" id="deleteBlogIcon" name="deleteBlogIcon" value="yes"<?php echo file_exists(ROOT."/attach/$blogid/index.gif") ? '' : ' disabled="disabled"';?> /><label for="deleteBlogIcon"><?php echo _t('블로그 아이콘을 초기화합니다.');?></label></div>
 												<p><?php echo _t('블로그 아이콘은 댓글과 방명록에서 사용됩니다. 크기는 16×16 이상, 48×48 이하까지 지원합니다.');?></p>
 											</dd>
 										</dl>
@@ -499,8 +499,8 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 										<dl id="open-type-line" class="line">
 											<dt><span class="label"><?php echo _t('공개 정도');?></span></dt>
 											<dd>
-												<input type="radio" id="publishEolinSyncOnRSS1" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ? ' checked="checked"' : '');?> /><label for="publishEolinSyncOnRSS1"><span class="text"><?php echo _t('공개된 모든 글을 <acronym title="Rich Site Summary">RSS</acronym>로 내보냅니다.');?></span></label><br />
-												<input type="radio" id="publishEolinSyncOnRSS0" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ?   '' : 'checked="checked"');?> /><label for="publishEolinSyncOnRSS0"><span class="text"><?php echo _t('이올린에 발행된 글만을 RSS로 내보냅니다.');?></span></label>
+												<input type="radio" id="publishEolinSyncOnRSS1" class="input-radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ? ' checked="checked"' : '');?> /><label for="publishEolinSyncOnRSS1"><span class="text"><?php echo _t('공개된 모든 글을 <acronym title="Rich Site Summary">RSS</acronym>로 내보냅니다.');?></span></label><br />
+												<input type="radio" id="publishEolinSyncOnRSS0" class="input-radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ?   '' : 'checked="checked"');?> /><label for="publishEolinSyncOnRSS0"><span class="text"><?php echo _t('이올린에 발행된 글만을 RSS로 내보냅니다.');?></span></label>
 											</dd>
 
 										</dl>
@@ -538,15 +538,15 @@ for ($i = 5; $i <= 30; $i += 5) {
 										<dl id="post-address-line" class="line">
 											<dt><span class="label"><?php echo _t('글 주소');?></span></dt>
 											<dd>
-												<input type="radio" id="useSlogan1" class="radio" name="useSlogan"<?php echo ($blog['useSlogan'] ? ' checked="checked"' : '');?> /><label for="useSlogan1"><span class="text"><?php echo _t('문자를 사용합니다.');?> <samp><?php echo _f('(예: %1/entry/텍스트큐브로-오신-것을-환영합니다)',link_cut(getBlogURL()));?></samp></span></label><br />
-												<input type="radio" id="useSlogan0" class="radio" name="useSlogan"<?php echo ($blog['useSlogan'] ? '' : ' checked="checked"');?> /><label for="useSlogan0"><span class="text"><?php echo _t('숫자를 사용합니다.');?> <samp><?php echo _f('(예: %1/123)', link_cut(getBlogURL()));?></samp></span></label>
+												<input type="radio" id="useSlogan1" class="input-radio" name="useSlogan"<?php echo ($blog['useSlogan'] ? ' checked="checked"' : '');?> /><label for="useSlogan1"><span class="text"><?php echo _t('문자를 사용합니다.');?> <samp><?php echo _f('(예: %1/entry/텍스트큐브로-오신-것을-환영합니다)',link_cut(getBlogURL()));?></samp></span></label><br />
+												<input type="radio" id="useSlogan0" class="input-radio" name="useSlogan"<?php echo ($blog['useSlogan'] ? '' : ' checked="checked"');?> /><label for="useSlogan0"><span class="text"><?php echo _t('숫자를 사용합니다.');?> <samp><?php echo _f('(예: %1/123)', link_cut(getBlogURL()));?></samp></span></label>
 											</dd>
 										</dl>
 										<dl id="guestbook-authority-line" class="line">
 											<dt><label for="allowCommentGuestbook"><?php echo _t('방명록 사용 권한');?></label></dt>
 											<dd>
-												<!--input type="checkbox" id="allowWriteGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /><label for="allowWriteGuestbook"><?php echo _t('손님이 글쓰기 허용');?></label-->
-												<input type="checkbox" id="allowCommentGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteDblCommentOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /><label for="allowCommentGuestbook"><?php echo _t('손님이 댓글을 쓰는 것을 허용합니다.');?></label>
+												<!--input type="checkbox" id="allowWriteGuestbook" class="input-checkbox" value=""<?php echo $blog['allowWriteOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /><label for="allowWriteGuestbook"><?php echo _t('손님이 글쓰기 허용');?></label-->
+												<input type="checkbox" id="allowCommentGuestbook" class="input-checkbox" value=""<?php echo $blog['allowWriteDblCommentOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /><label for="allowCommentGuestbook"><?php echo _t('손님이 댓글을 쓰는 것을 허용합니다.');?></label>
 											</dd>
 										</dl>
 									</fieldset>

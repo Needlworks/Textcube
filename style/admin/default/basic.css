@@ -200,7 +200,7 @@ textarea
 #description-blogger
 {
 	float                            : left;
-	margin-left                      : 160px;
+	margin-left                      : 180px;
 }
 
 #description-teamblog
@@ -246,7 +246,7 @@ textarea
 /* main menu */
 #main-menu-box
 {
-	background-color                 : #7A9BC9;
+	background-color                 : #333;
 	background-image                 : url("./image/bg_menu.png");
 	background-position              : center bottom;
 	background-repeat                : repeat-x;
@@ -277,7 +277,7 @@ textarea
 
 #main-menu li.selected
 {
-	background-color                 : #6881B8;
+	background-color                 : #000;
 	background-image                 : url("./image/bg_menu_selected.png");
 	background-position              : center bottom;
 	background-repeat                : repeat-x;
@@ -289,12 +289,12 @@ textarea
 {
 	background-image                 : url("./image/img_header_textcube.gif");
 	background-repeat                : no-repeat;
-	height                           : 22px;
+	height                           : 33px;
 	left                             : 16px;
 	position                         : absolute;
 	text-indent                      : -1000px;
-	top                              : 14px;
-	width                            : 130px;
+	top                              : 9px;
+	width                            : 151px;
 	z-index                          : 100;
 }
 
@@ -334,6 +334,11 @@ textarea
 	text-decoration                  : underline;
 }
 
+#sub-menu li.first
+{
+	background-image: none;
+}
+
 #sub-menu li.selected a
 {
 	color                            : #000000;
@@ -370,7 +375,6 @@ textarea
 	border-right                     : 1px solid #BBBBBB;
 	margin                           : 0 auto;
 	position                         : relative;
-	width                            : 980px;
 }
 
 #data-outbox
@@ -378,8 +382,7 @@ textarea
 	padding                          : 10px;
 }
 
-.part .caption,
-h2.caption
+.part .caption, h2.caption
 {
 	background-color                 : #D2D2CC;
 	background-image                 : url("./image/bg_title_left.gif");
@@ -900,7 +903,6 @@ table.data-inbox tbody tr td.inactive-class
 	margin                           : 0 auto;
 	padding                          : 13px 0 10px 0;
 	text-align                       : center;
-	width                            : 980px;	
 }
 
 #layout-footer div
@@ -987,11 +989,10 @@ table.data-inbox tbody tr td.inactive-class
 	vertical-align                   : middle;
 }
 
-input.checkbox,
-input.radio
+input.input-checkbox,
+input.input-radio
 {
 	margin-right                     : 3px;
-	vertical-align                   : middle;
 }
 
 input.input-text
