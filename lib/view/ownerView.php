@@ -729,7 +729,9 @@ function printEntryFileUploadButton($entryId) {
 												
 											<input type="button" id="deleteBtn" class="input-button" value="<?php echo _t('삭제하기');?>" onclick="deleteAttachment();" />
 											<div id="fileSize">
-												<?php echo getAttachmentSizeLabel($blogid, $entryId);?>
+<?php 
+echo getAttachmentSizeLabel($blogid, $entryId);											
+?>
 											</div>
 											<div id="fileDownload" class="system-message" style="display: none;"></div>
 										</div>
