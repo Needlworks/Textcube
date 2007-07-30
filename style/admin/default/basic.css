@@ -9,24 +9,26 @@
 	padding                          : 0;
 }
 
-a:link,
-a:visited
+a:link, a:visited
 {
 	color                            : #666666;
 	text-decoration                  : none;
 }
 
-a:hover,
-a:active
+a:hover, a:active
 {
 	color                            : #4163A2;
 	text-decoration                  : underline;
 }
 
-abbr,
-acronym
+abbr, acronym
 {
 	cursor                           : help;
+}
+
+address
+{
+	font-style: normal;
 }
 
 body

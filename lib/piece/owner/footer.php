@@ -5,8 +5,8 @@
 			<hr class="hidden" />
 			
 			<div id="layout-footer">
-				<div id="copyright"><span class="text"><?php echo TEXTCUBE_COPYRIGHT;?></span></div>
-				<div id="version"><span class="text"><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?></span></div>
+				<address><?php echo TEXTCUBE_COPYRIGHT;?></address>
+				<div id="version"><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?></div>
 			</div>
 		</div>
 	</div>
