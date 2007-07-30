@@ -90,10 +90,11 @@ function MT_getImageResizer($filename){
 		if(!file_exists($savePath)){
 			$imageInfo = getimagesize($imagePath);
 			$attachedImage = new Image();
-			$tempSize = $attachedImage->calcOptimizedImageSize($imageInfo[0],$imageInfo[1],null,90);
-			if($imageInfo[1] < 90){
-				$tempSize[0] = round($tempSize[0] * (90 / $tempSize[1]));
-				$tempSize[1] = 90;
+			$tempSizeCheck = $attachedImage->calcOptimizedImageSize($imageInfo[0],$imageInfo[1],90,null);
+			if($tempSizeCheck[1] < 90){
+				$tempSize = $attachedImage->calcOptimizedImageSize($imageInfo[0],$imageInfo[1],null,90);
+			}else{
+				$tempSize = array($tempSizeCheck[0], $tempSizeCheck[1]);
 			}
 			$attachedImage->imageFile = $imagePath;
 			if ($attachedImage->resample($tempSize[0], $tempSize[1])) {
