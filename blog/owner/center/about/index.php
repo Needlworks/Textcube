@@ -11,9 +11,10 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 							<h2 class="caption"><span class="main-text"><?php echo _t('텍스트큐브 개발진');?></span></h2>
 						
 							<h3>Brand yourself! : <?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?></h3>
+							
 							<div class="main-explain-box">
 								<p class="explain">
-									<em><?php echo _t('Omnis mundi creatura quasi liber et pictura nobis est, et speculum');?></em><br />
+									<em lang="la"><?php echo _t('Omnis mundi creatura quasi liber et pictura nobis est, et speculum');?></em><br />
 									<?php echo _t('&copy; 2004 - 2007. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />텍스트큐브는 니들웍스/TNF에서 개발합니다.<br />텍스트큐브와 텍스트큐브 로고는 니들웍스의 상표입니다.').CRLF;?>
 								</p>
 							</div>

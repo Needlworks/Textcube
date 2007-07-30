@@ -777,15 +777,17 @@
 #part-center-about
 {
 	background-image                 : url("./image/logo_textcube_full.png");
-	background-position              : 20px 50px;
+	background-position              : 30px 70px;
 	background-repeat                : no-repeat;
 }
 
 #part-center-about h3
 {
 	font-family                      : Tahoma, "Lucida Grande", Verdana, sans-serif;
-	padding-top                      : 105px;
-	margin                           : 30px 0 5px 330px;
+	padding-top                      : 55px;
+	margin                           : 30px 0 5px 240px;
+	text-align: center;
+	width                            : 350px;
 }
 
 #part-center-about .main-explain-box p
@@ -937,6 +939,8 @@
 	margin                           : 30px 0 10px 0;
 	overflow                         : hidden;
 	padding                          : 0 0 0 35px;
+	text-align: left;
+	width: 100%;
 }
 
 #supporter-description h3 span
