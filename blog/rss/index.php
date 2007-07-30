@@ -5,6 +5,7 @@
 define('ROOT', '../..');
 require ROOT . '/lib/includeForBlog.php';
 requireModel("blog.rss");
+requireModel("blog.entry");
 
 if (false) {
 	fetchConfigVal();

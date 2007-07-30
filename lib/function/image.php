@@ -119,7 +119,7 @@ function getThumbnailPaddingColor() {
 
 // img의 width/height에 맞춰 이미지를 리샘플링하는 함수. 썸네일 함수가 아님! 주의.
 function resampleImage($imgString, $originSrc, $useAbsolutePath) {
-	global $database, $serviceURL, $pathURL;
+	global $database, $serviceURL, $pathURL, $defaultURL;
 	
 	if (!extension_loaded('gd') || !file_exists($originSrc)) {
 		return $imgString;
@@ -149,10 +149,10 @@ function resampleImage($imgString, $originSrc, $useAbsolutePath) {
 
 	$newTempFileName = preg_replace("/\.([[:alnum:]]+)$/i", ".w{$tempWidth}-h{$tempHeight}.\\1", $originFileName);
 	$tempSrc = ROOT."/cache/thumbnail/".getBlogId()."/".$newTempFileName;
-
-	$tempURL = $pathURL."/thumbnail/".getBlogId()."/".$newTempFileName;
+	
+	$tempURL = "{$pathURL}/thumbnail/".getBlogId()."/".$newTempFileName;
 	if ($useAbsolutePath == true) {
-		$tempURL = "$serviceURL/thumbnail/".getBlogId()."/".$newTempFileName;
+		$tempURL = "{$defaultURL}/thumbnail/".getBlogId()."/".$newTempFileName;
 	}
 
 	if (file_exists($tempSrc)) {
