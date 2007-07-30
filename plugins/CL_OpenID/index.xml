@@ -15,24 +15,26 @@
     <tattertools>1.5</tattertools>
   </requirements>
   <binding>
+	<listener event="AddComment">openid_AddComment</listener>
+	<listener event="AddGuestComment">openid_AddComment</listener>
+	<listener event="AddingComment">openid_AddingComment</listener>
+	<listener event="ViewCommenter">openid_ViewCommenter</listener>
+	<listener event="ViewGuestCommenter">openid_ViewCommenter</listener>
+	<listener event="ShowSecretComment">openid_ShowSecretComment</listener>
+	<listener event="LOGIN_add_form">openid_LOGIN_add_form</listener>
+	<listener event="Logout">openid_SessionLogout</listener>
+	<listener event="OpenIDGetCurrent">openid_GetCurrent</listener>
+	<listener event="OpenIDFetch">openid_Fetch</listener>
+	<listener event="OpenIDSetUserId">openid_SetUserId</listener>
+	<listener event="OpenIDResetUserId">openid_ResetUserId</listener>
+
 	<listener event="/plugin/openid/try_auth">openid_try_auth</listener>
 	<listener event="/plugin/openid/finish">openid_finish</listener>
 	<listener event="/plugin/openid/login">openid_login</listener>
 	<listener event="/plugin/openid/logout">openid_logout</listener>
-	<listener event="AddComment">openid_comment_add</listener>
-	<listener event="AddGuestComment">openid_comment_add</listener>
-	<listener event="AddingComment">openid_comment_acl_check</listener>
-	<listener event="ViewCommenter">openid_view_commenter</listener>
-	<listener event="ViewGuestCommenter">openid_view_commenter</listener>
 	<listener event="/plugin/openid/comment/comment">openid_comment_comment</listener>
 	<listener event="/plugin/openid/comment/delete">openid_comment_del</listener>
-	<listener event="/plugin/openid/setcomment">openid_set_comment_mode</listener>
-	<listener event="LOGIN_add_form">openid_add_loginform</listener>
-	<listener event="Logout">openid_logout_session</listener>
-	<listener event="OpenIDGetCurrent">openid_get_current</listener>
-	<listener event="OpenIDFetch">openid_fetch</listener>
-	<listener event="OpenIDSetUserId">openid_set_userid</listener>
-	<listener event="OpenIDResetUserId">openid_reset_userid</listener>
+	<listener event="/plugin/openid/setcomment">openid_setcomment</listener>
 	<tag name="SKIN_head_start" handler="openid_hardcore_login" />
 	<tag name="SKIN_head_start" handler="openid_add_delegate" />
 	<tag name="SKIN_body_end" handler="openid_add_controller" />

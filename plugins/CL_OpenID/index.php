@@ -253,7 +253,7 @@ print_r($result);
 
 }
 
-function openid_get_current($target)
+function openid_GetCurrent($target)
 {
 	global $openid_session;
 	if( empty($openid_session['id'] )) {
@@ -298,7 +298,7 @@ function openid_try_auth()
 	return _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate_only );
 }
 
-function openid_fetch( $openid )
+function openid_Fetch( $openid )
 {
 	require_once  "common.php";
 	require_once  "xmlwrapper.php";
@@ -319,13 +319,13 @@ function openid_fetch( $openid )
 	return $auth_request->endpoint->identity_url;
 }
 
-function openid_set_userid($openid)
+function openid_SetUserId($openid)
 {
 	_openid_update_id( $openid, null, null, null, getUserId() );
 	return "";
 }
 
-function openid_reset_userid($openid)
+function openid_ResetUserId($openid)
 {
 	_openid_update_id( $openid, null, null, null, "" );
 	return "";
@@ -443,7 +443,7 @@ function openid_finish()
 	ob_flush();
 }
 
-function openid_logout_session($target)
+function openid_SessionLogout($target)
 {
 	global $openid_session;
 	openid_session_destroy();
@@ -547,7 +547,7 @@ function openid_add_controller($target)
 	return $target;
 }
 
-function openid_add_loginform($target, $requestURI)
+function openid_LOGIN_add_form($target, $requestURI)
 {
 	global $hostURL, $blogURL, $service;
 	global $openid_session;
@@ -630,12 +630,20 @@ function _openid_has_ownership($trying_openid)
 
 function _openid_fix_table()
 {
-	global $database;
+	global $database, $store_path;
+	$checkup_path = ROOT . "/cache/_php_consumer/checkup";
+	$openid_check_magic = '2007-07-31';
 	$fix0 = false;
 	$fix1 = false;
 	$fix2 = true;
 	$fix3 = false;
 	$fix4 = false;
+
+	if( file_exists($checkup_path) && ($fixed = file_get_contents( $checkup_path) ) ) {
+		if( $fixed == $openid_check_magic ) {
+			return;
+		}
+	}
 
 	$rows = DBQuery::queryAll("DESC {$database['prefix']}OpenIDUsers");
 	foreach( $rows as $row ) {
@@ -676,11 +684,16 @@ function _openid_fix_table()
 	if( $fix4 ) {
 		DBQuery::execute("alter table {$database['prefix']}OpenIDComments change column owner blogid int(11) not null default 0");
 	}
+	$f = fopen( $checkup_path, "w");
+	if( $f ) {
+		fwrite($f,$openid_check_magic);
+		fclose($f);
+	}
 }
 
 _openid_fix_table();
 
-function openid_set_comment_mode()
+function openid_setcomment()
 {
 	if( !Acl::check( array("group.administrators") ) ) {
 		respondResultPage( -1);
@@ -693,22 +706,21 @@ function openid_set_comment_mode()
 	}
 }
 
-function openid_comment_acl_check( $target, $comment )
+function openid_AddingComment( $target, $comment )
 {
+	global $openid_session;
 	if( misc::getBlogSettingGlobal('AddCommentMode', '') == 'openid' ) {
-		return Acl::getIdentity( 'openid' ) ? true : false;
+		return $openid_session['id'] ? true : false;
 	}
 	return true;
 }
 
-function openid_comment_add( $id, $comment )
+function openid_AddComment( $id, $comment )
 {
 	/* Assert $id is numeric by the caller function in lib/model/comment.php */
 
 	global $openid_session;
 	global $database, $blogid;
-
-	_openid_fix_table();
 
 	$auth_id = _openid_get_auth_id();
 	if( $auth_id )
@@ -722,9 +734,55 @@ function openid_comment_add( $id, $comment )
 		DBQuery::execute("INSERT INTO {$database['prefix']}OpenIDComments (blogid,id,openid) values " .
 			"( {$blogid}, {$id}, '{$auth_id}' )");
 	}
+
+	/* Check if parent's comment is written by openid and secret. */
+	if( ! Acl::check('group.writers') ) {
+		return;
+	}
+	if( empty($comment['parent']) )
+	{
+		return;
+	}
+	$result = _openid_getCommentAttributes($blogid,$comment['parent'],"secret");
+	if( ! $result ) {
+		return;
+	}
+	$row = DBQuery::queryRow("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['parent']}" );
+	if( empty($row) ) {
+		return;
+	}
+	/* Then, this administor's comment can be secret */
+	DBQuery::execute("UPDATE {$database['prefix']}Comments SET secret = 1 WHERE blogid = $blogid and id = $id" );
+	return;
 }
 
-function openid_view_commenter($name, $item)
+function openid_ShowSecretComment($target, $comment)
+{
+	global $database, $blogid;
+	global $hostURL, $service, $blogURL;
+	global $openid_session;
+
+	if( !$comment['secret'] || empty($openid_session['id']) ) {
+		return $target;
+	}
+	$row = DBQuery::queryRow("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['id']}" );
+	if( !empty($row) && $row['openid'] == $openid_session['id'] ) {
+		return true;
+	}
+	if( empty($comment['parent']) ) {
+		return false;
+	}
+	$row = DBQuery::queryRow("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['parent']}" );
+	if( empty($row) ) {
+		return $target;
+	}
+	if( $row['openid'] == $openid_session['id'] ) {
+		return true;
+	}
+	return false;
+}
+
+function openid_ViewCommenter($name, $comment)
 {
 	global $database, $blogid;
 	global $hostURL, $service, $blogURL;
@@ -732,17 +790,17 @@ function openid_view_commenter($name, $item)
 
 	$openid_pluginbase = $hostURL . $service['path'] . "/plugins/" . basename(dirname( __FILE__ ));
 
-	if( $item['secret'] ) {
+	if( $comment['secret'] ) {
 		return $name;
 	}
-	$row = DBQuery::queryAll("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$item['id']}" );
+	$row = DBQuery::queryAll("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['id']}" );
 	return $name . ($row ? "<img src=\"" . $openid_pluginbase . "/openid16x16.gif\" hspace=\"2\" align=\"absmiddle\" title=\"" .
 		sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] ) . "\">" : "");
 }
 
 function openid_comment_comment()
 {
-	global $blogid, $defaultURL, $blog, $user, $skinSetting;
+	global $blogid, $hostURL, $blog, $user, $skinSetting;
 	global $service, $adminSkinSetting, $blogURL, $pageTitle, $comment, $suri;
 	global $openid_session;
 	$entryId = $_GET['id'];
@@ -750,7 +808,6 @@ function openid_comment_comment()
 
 	if( misc::getBlogSettingGlobal('AddCommentMode', '') == 'openid' ) {
 		if( empty($openid_session['id']) ) {
-			ob_end_clean();
 			header("HTTP/1.0 302 Moved Temporarily");
 			header("Location: $hostURL$blogURL/comment/comment/$entryId");
 			print( "<html><body></body></html>" );
@@ -760,7 +817,6 @@ function openid_comment_comment()
 
 	if( !$openid_session['id'] || doesHaveOwnership() || doesHaveMembership() )
 	{
-		ob_end_clean();
 		header("HTTP/1.0 302 Moved Temporarily");
 		header("Location: $hostURL$blogURL/comment/comment/$entryId");
 		print( "<html><body></body></html>" );
@@ -791,17 +847,14 @@ function _openid_getCommentInfo($blogid,$id){
 function openid_comment_del()
 {
 	global $blogid, $defaultURL, $blog, $user, $skinSetting;
-	global $service, $adminSkinSetting, $blogURL, $pageTitle, $comment, $suri;
+	global $service, $adminSkinSetting, $hostURL, $blogURL, $pageTitle, $comment, $suri;
 	global $openid_session;
-
-	$openid_id = $openid_session['id'];
 
 	$entryId = $_GET['id'];
 	$suri['id'] = $entryId;
 
-	if( !$openid_session['id'] || doesHaveOwnership() || doesHaveMembership() )
+	if( empty($openid_session['id']) || doesHaveOwnership() || doesHaveMembership() )
 	{
-		ob_end_clean();
 		header("HTTP/1.0 302 Moved Temporarily");
 		header("Location: $hostURL$blogURL/comment/delete/$entryId");
 		print( "<html><body></body></html>" );
