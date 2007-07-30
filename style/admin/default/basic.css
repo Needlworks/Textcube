@@ -246,7 +246,7 @@ textarea
 /* main menu */
 #main-menu-box
 {
-	background-color                 : #7A9BC9;
+	background-color                 : #333;
 	background-image                 : url("./image/bg_menu.png");
 	background-position              : center bottom;
 	background-repeat                : repeat-x;
@@ -277,7 +277,7 @@ textarea
 
 #main-menu li.selected
 {
-	background-color                 : #6881B8;
+	background-color                 : #000;
 	background-image                 : url("./image/bg_menu_selected.png");
 	background-position              : center bottom;
 	background-repeat                : repeat-x;
