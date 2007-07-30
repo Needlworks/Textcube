@@ -167,7 +167,7 @@ class CacheControl{
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'categoryList_".$categoryId."%'
 				OR name like 'categoryEntries_".$categoryId."%'
-				OR name like 'categoryPaging_".$categoryId."%'");
+				OR name like 'categoryPaging_".$categoryId."%')");
 		foreach($categoryLists as $categoryListName){
 			$cache->reset();
 			$cache->name = $categoryListName;
@@ -189,7 +189,7 @@ class CacheControl{
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'tagList_".$tagId."%' 
 				OR name like 'tagEntries_".$tagId."%'
-				OR name like 'tagPaging_".$tagId."%'");
+				OR name like 'tagPaging_".$tagId."%')");
 		if (!is_null($tagLists)) {
 			foreach($tagLists as $tagListName){
 				$cache->reset();
