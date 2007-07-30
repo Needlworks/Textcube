@@ -279,8 +279,8 @@
 	padding-right                    : 10px;
 }
 
-#part-center-plugins fieldset .input-checkbox,
-#part-center-plugins fieldset .input-radio
+#part-center-plugins fieldset .checkbox,
+#part-center-plugins fieldset .radio
 {
 	margin-left                      : 5px;
 }

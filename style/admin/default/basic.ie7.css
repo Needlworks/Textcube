@@ -35,8 +35,8 @@
 	padding                          : 0 !important;
 }
 
-input.input-checkbox,
-input.input-radio
+input.checkbox,
+input.radio
 {
 	margin                           : 0;
 }

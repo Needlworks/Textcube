@@ -232,7 +232,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useMetapageInit']))
 							<dl id="independent-meta-line" class="line">
 								<dt><?php echo _t('독립패널 설정');?></dt>
 								<dd>
-									<input type="checkbox" class="input-checkbox" id="useMetapageInit" name="useMetapageInit" value="on" onclick="changeList()"<?php echo $metapageInitView == 1 ? " checked" : NULL;?> />
+									<input type="checkbox" class="checkbox" id="useMetapageInit" name="useMetapageInit" value="on" onclick="changeList()"<?php echo $metapageInitView == 1 ? " checked" : NULL;?> />
 									<label for="useMetapageInit"><?php echo _t('메타 페이지를 첫 화면으로 설정합니다');?></label>
 								</dd>
 							</dl>							
@@ -290,7 +290,7 @@ for ($i=0; $i<$metapageCount; $i++) {
 		$orderConfig = array();
 ?>
 										<td class="section">
-											<h3><input type="radio" id="metapage-<?php echo $i + 1;?>" class="input-radio" name="metapageNumber" value="<?php echo $i;?>"<?php echo $bFirstRadio ? " checked" : NULL;?> /><label for="metapage-<?php echo $i + 1;?>"><?php echo $skin->metapageName[$i];?></label></h3>
+											<h3><input type="radio" id="metapage-<?php echo $i + 1;?>" class="radio" name="metapageNumber" value="<?php echo $i;?>"<?php echo $bFirstRadio ? " checked" : NULL;?> /><label for="metapage-<?php echo $i + 1;?>"><?php echo $skin->metapageName[$i];?></label></h3>
 											<ul id="metapage-ul-<?php echo $i;?>" class="metapage">
 <?php
 	for ($j=0; $j<count($orderConfig); $j++) {
@@ -412,7 +412,7 @@ for ($i=0; $i<$metapageCount; $i++) {
 foreach ($metapagePluginArray as $nowKey) {
 ?>
 										<li class="metapage-module" id="<?php echo "add-metapage-module-{$nowKey['identifier']}";?>">
-											<h4 class="module-title"><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="input-radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey;?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label></h4>
+											<h4 class="module-title"><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey;?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label></h4>
 																			
 											<div class="edit-button-box">
 											</div>

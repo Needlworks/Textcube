@@ -113,8 +113,7 @@ if ($setting['newWindow'] == 2) {
 <?php
 printFeedGroups($blogid);
 ?>
-										</div>
-									</div>
+										</div>									</div>
 									
 									<hr class="hidden" />
 									
@@ -125,8 +124,7 @@ printFeedGroups($blogid);
 <?php
 printFeeds($blogid);
 ?>
-										</div>
-									</div>
+										</div>									</div>
 								</div>
 							</div>
 							
@@ -176,23 +174,23 @@ if (getUserId() == 1) {
 											<dl id="image-line" class="line">
 												<dt><span class="label"><?php echo _t('링크가 차단된 이미지');?></span></dt>
 												<dd>
-													<div class="image-get-yes"><input type="radio" id="loadImage2" class="input-radio" name="loadImage" value="2"<?php echo $setting['loadImage'] == 2 ? ' checked="checked"' : '';?> /><label for="loadImage2"><?php echo _t('강제로 읽어오기');?></label></div>
-													<div class="image-get-no"><input type="radio" id="loadImage1" class="input-radio" name="loadImage" value="1"<?php echo $setting['loadImage'] == 1 ? ' checked="checked"' : '';?> /><label for="loadImage1"><?php echo _t('그대로 두기');?></label></div>
+													<div class="image-get-yes"><input type="radio" id="loadImage2" class="radio" name="loadImage" value="2"<?php echo $setting['loadImage'] == 2 ? ' checked="checked"' : '';?> /><label for="loadImage2"><?php echo _t('강제로 읽어오기');?></label></div>
+													<div class="image-get-no"><input type="radio" id="loadImage1" class="radio" name="loadImage" value="1"<?php echo $setting['loadImage'] == 1 ? ' checked="checked"' : '';?> /><label for="loadImage1"><?php echo _t('그대로 두기');?></label></div>
 												</dd>
 											</dl>
 											<dl id="javascript-line" class="line">
 												<dt><span class="label"><?php echo _t('자바스크립트 허용');?></span></dt>
 												<dd>
-													<div class="javascript-yes"><input type="radio" id="allowScript1" class="input-radio" name="allowScript" value="1"<?php echo $setting['allowScript'] == 1 ? ' checked="checked"' : '';?> /><label for="allowScript1"><?php echo _t('허용');?></label></div>
-													<div class="javascript-no"><input type="radio" id="allowScript2" class="input-radio" name="allowScript" value="2"<?php echo $setting['allowScript'] == 2 ? ' checked="checked"' : '';?> /><label for="allowScript2"><?php echo _t('거부');?></label></div>
+													<div class="javascript-yes"><input type="radio" id="allowScript1" class="radio" name="allowScript" value="1"<?php echo $setting['allowScript'] == 1 ? ' checked="checked"' : '';?> /><label for="allowScript1"><?php echo _t('허용');?></label></div>
+													<div class="javascript-no"><input type="radio" id="allowScript2" class="radio" name="allowScript" value="2"<?php echo $setting['allowScript'] == 2 ? ' checked="checked"' : '';?> /><label for="allowScript2"><?php echo _t('거부');?></label></div>
 													<em><?php echo _t('허용 시 문제가 발생할 수 있습니다.');?></em>
 												</dd>
 											</dl>
 											<dl id="link-line" class="line">
 												<dt><span class="label"><?php echo _t('링크');?></span></dt>
 												<dd>
-													<div class="window-self"><input type="radio" id="newWindow1" class="input-radio" name="newWindow" value="1"<?php echo $setting['newWindow'] == 1 ? ' checked="checked"' : '';?> /><label for="newWindow1"><?php echo _t('기본값');?></label></div>
-													<div class="window-blank"><input type="radio" id="newWindow2" class="input-radio" name="newWindow" value="2"<?php echo $setting['newWindow'] == 2 ? ' checked="checked"' : '';?> /><label for="newWindow2"><?php echo _t('새 창으로');?></label></div>
+													<div class="window-self"><input type="radio" id="newWindow1" class="radio" name="newWindow" value="1"<?php echo $setting['newWindow'] == 1 ? ' checked="checked"' : '';?> /><label for="newWindow1"><?php echo _t('기본값');?></label></div>
+													<div class="window-blank"><input type="radio" id="newWindow2" class="radio" name="newWindow" value="2"<?php echo $setting['newWindow'] == 2 ? ' checked="checked"' : '';?> /><label for="newWindow2"><?php echo _t('새 창으로');?></label></div>
 												</dd>
 											</dl>
 										</fieldset>
@@ -209,8 +207,8 @@ if (getUserId() == 1) {
 											<dl id="get-line" class="line">
 												<dt><span class="label"><?php echo _t('가져오기');?></span></dt>
 												<dd>
-													<div id="get-upload"><input type="radio" id="opmlMethod1" class="input-radio" name="opmlMethod" value="1" checked="checked" onclick="document.getElementById('opmlUpload').style.display='block';document.getElementById('opmlRequest').style.display='none';" /><label for="opmlMethod1"><span class="text"><?php echo _t('파일 업로드');?></span></label></div>
-													<div id="get-url"><input type="radio" id="opmlMethod2" class="input-radio" name="opmlMethod" value="2" onclick="document.getElementById('opmlUpload').style.display='none';document.getElementById('opmlRequest').style.display='block';" /><label for="opmlMethod2"><span class="text"><?php echo _t('<acronym title="Uniform Resource Locator">URL</acronym> 입력');?></span></label></div>
+													<div id="get-upload"><input type="radio" id="opmlMethod1" class="radio" name="opmlMethod" value="1" checked="checked" onclick="document.getElementById('opmlUpload').style.display='block';document.getElementById('opmlRequest').style.display='none';" /><label for="opmlMethod1"><span class="text"><?php echo _t('파일 업로드');?></span></label></div>
+													<div id="get-url"><input type="radio" id="opmlMethod2" class="radio" name="opmlMethod" value="2" onclick="document.getElementById('opmlUpload').style.display='none';document.getElementById('opmlRequest').style.display='block';" /><label for="opmlMethod2"><span class="text"><?php echo _t('<acronym title="Uniform Resource Locator">URL</acronym> 입력');?></span></label></div>
 												</dd>
 											</dl>
 											<dl id="opmlUpload" class="line">

@@ -135,8 +135,8 @@ input.text-readonly-input
 	padding                          : 2px;
 }
 
-.input-checkbox,
-.input-radio
+.checkbox,
+.radio
 {
 	vertical-align                   : middle;
 }

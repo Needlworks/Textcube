@@ -190,7 +190,7 @@ foreach (getCategories($blogid) as $category) {
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="selection"><input type="checkbox" id="allChecked" class="input-checkbox" onclick="checkAll(this.checked);" disabled="disabled" /></th>
+											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" disabled="disabled" /></th>
 											<th class="date"><span class="text"><?php echo _t('등록일자');?></span></th>
 											<th class="site"><span class="text"><?php echo _t('사이트명');?></span></th>
 											<th class="category"><span class="text"><?php echo _t('분류');?></span></th>
@@ -227,7 +227,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="input-checkbox" name="entry" value="<?php echo $trackback['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $trackback['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
 											<td class="date"><?php echo Timestamp::formatDate($trackback['written']);?></td>
 											<td class="site">
 <?php

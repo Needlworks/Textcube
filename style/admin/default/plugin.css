@@ -53,8 +53,8 @@
 	position                         : static;
 }
 
-#part-plugin-list .line .input-checkbox,
-#part-plugin-list .line .input-radio
+#part-plugin-list .line .checkbox,
+#part-plugin-list .line .radio
 {
 	margin-left                      : 5px;
 }

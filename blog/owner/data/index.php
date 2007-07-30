@@ -257,8 +257,8 @@ if (getUserId() == 1) {
 										<span><?php echo _t('첨부파일을 포함하시겠습니까?');?></span>
 									</p>
 									<div class="selection">
-										<div class="select-yes" title="<?php echo _t('첨부 파일이 포함된 백업파일을 사용하여 복원할 경우, 첨부 파일의 내용은 백업파일의 내용으로 다시 작성됩니다.');?>"><input type="radio" id="includeFileContents-yes" class="input-radio" name="includeFileContents" value="1" /><label for="includeFileContents-yes"><span class="text"><?php echo _t('첨부파일을 포함합니다.');?></span></label></div>
-										<div class="select-no" title="<?php echo _t('첨부 파일이 포함되지 않는 백업파일을 사용하여 복원하여도 기존 첨부 파일을 삭제하거나 훼손시키지 않습니다.');?>"><input type="radio" id="includeFileContents-no" class="input-radio" name="includeFileContents" value="0" checked="checked" /><label for="includeFileContents-no"><span class="text"><?php echo _t('첨부파일을 포함하지 않습니다.');?></span></label></div>
+										<div class="select-yes" title="<?php echo _t('첨부 파일이 포함된 백업파일을 사용하여 복원할 경우, 첨부 파일의 내용은 백업파일의 내용으로 다시 작성됩니다.');?>"><input type="radio" id="includeFileContents-yes" class="radio" name="includeFileContents" value="1" /><label for="includeFileContents-yes"><span class="text"><?php echo _t('첨부파일을 포함합니다.');?></span></label></div>
+										<div class="select-no" title="<?php echo _t('첨부 파일이 포함되지 않는 백업파일을 사용하여 복원하여도 기존 첨부 파일을 삭제하거나 훼손시키지 않습니다.');?>"><input type="radio" id="includeFileContents-no" class="radio" name="includeFileContents" value="0" checked="checked" /><label for="includeFileContents-no"><span class="text"><?php echo _t('첨부파일을 포함하지 않습니다.');?></span></label></div>
 									</div>
 								</div>
 								<div class="button-box">
@@ -306,13 +306,13 @@ if ($backup) {
 <?php
 if ($backup) {
 ?>
-											<div id="select-server" title="<?php echo _t('데이터 백업 기능을 통해 서버에 저장해 두었던 기존 파일을 이용해 데이터베이스를 복원합니다. 데이터 파일에 대해서는 위의 정보를 참고하십시오.');?>"><input type="radio" id="importFromServer" class="input-radio" name="importFrom" value="server" checked="checked" onclick="if (this.checked) {hideLayer('uploadBackup'); hideLayer('remoteBackup'); document.getElementById('backupPath').disabled = true; document.getElementById('backupURL').disabled = true;}" /><label for="importFromServer"><?php echo _t('서버에 저장된 백업파일.');?></label></div>
+											<div id="select-server" title="<?php echo _t('데이터 백업 기능을 통해 서버에 저장해 두었던 기존 파일을 이용해 데이터베이스를 복원합니다. 데이터 파일에 대해서는 위의 정보를 참고하십시오.');?>"><input type="radio" id="importFromServer" class="radio" name="importFrom" value="server" checked="checked" onclick="if (this.checked) {hideLayer('uploadBackup'); hideLayer('remoteBackup'); document.getElementById('backupPath').disabled = true; document.getElementById('backupURL').disabled = true;}" /><label for="importFromServer"><?php echo _t('서버에 저장된 백업파일.');?></label></div>
 <?php
 }
 ?>
-											<div id="select-upload" title="<?php echo _t('백업파일을 자신의 하드디스크로부터 직접 선택하여 데이터베이스를 복원합니다. 백업파일의 용량이 업로드 허용용량을 초과하지 않는지 주의하십시오.');?>"><input type="radio" id="importFromUploaded" class="input-radio" name="importFrom" value="uploaded"<?php echo ($backup ? '' : ' checked="checked"');?> onclick="if (this.checked) {showLayer('uploadBackup'); hideLayer('remoteBackup'); document.getElementById('backupPath').disabled = false; document.getElementById('backupURL').disabled = true;}" /><label for="importFromUploaded"><?php echo _t('백업파일 올리기.');?></label></div>
-											<div id="select-web" title="<?php echo _t('백업파일의 크기가 업로드 허용 용량을 초과하는 경우, FTP 등을 이용하여 계정의 홈페이지에 직접 업로드한 후 이 파일의 위치를 지정하여 데이터베이스를 복원할 수 있습니다.');?>"><input type="radio" id="importFromWeb" class="input-radio" name="importFrom" value="web" onclick="if (this.checked) {hideLayer('uploadBackup'); showLayer('remoteBackup'); document.getElementById('backupPath').disabled = true; document.getElementById('backupURL').disabled = false;}" /><label for="importFromWeb"><?php echo _t('웹에서 백업파일 가져오기.');?></label></div>
-											<div id="select-correct" title="<?php echo _t('백업파일에 비정상적인 글자가 포함된 경우 복원에 실패할 수 있습니다. 비정상적인 글자를 교정하여 복원이 가능하도록 합니다. 이를 사용할 경우 복원에 많은 시간이 소요될 수 있습니다.');?>"><input type="checkbox" id="correctData" class="input-checkbox" name="correctData" value="on" /><label for="correctData"><?php echo _t('백업파일에 포함된 비정상적인 글자를 교정합니다.');?></label></div>
+											<div id="select-upload" title="<?php echo _t('백업파일을 자신의 하드디스크로부터 직접 선택하여 데이터베이스를 복원합니다. 백업파일의 용량이 업로드 허용용량을 초과하지 않는지 주의하십시오.');?>"><input type="radio" id="importFromUploaded" class="radio" name="importFrom" value="uploaded"<?php echo ($backup ? '' : ' checked="checked"');?> onclick="if (this.checked) {showLayer('uploadBackup'); hideLayer('remoteBackup'); document.getElementById('backupPath').disabled = false; document.getElementById('backupURL').disabled = true;}" /><label for="importFromUploaded"><?php echo _t('백업파일 올리기.');?></label></div>
+											<div id="select-web" title="<?php echo _t('백업파일의 크기가 업로드 허용 용량을 초과하는 경우, FTP 등을 이용하여 계정의 홈페이지에 직접 업로드한 후 이 파일의 위치를 지정하여 데이터베이스를 복원할 수 있습니다.');?>"><input type="radio" id="importFromWeb" class="radio" name="importFrom" value="web" onclick="if (this.checked) {hideLayer('uploadBackup'); showLayer('remoteBackup'); document.getElementById('backupPath').disabled = true; document.getElementById('backupURL').disabled = false;}" /><label for="importFromWeb"><?php echo _t('웹에서 백업파일 가져오기.');?></label></div>
+											<div id="select-correct" title="<?php echo _t('백업파일에 비정상적인 글자가 포함된 경우 복원에 실패할 수 있습니다. 비정상적인 글자를 교정하여 복원이 가능하도록 합니다. 이를 사용할 경우 복원에 많은 시간이 소요될 수 있습니다.');?>"><input type="checkbox" id="correctData" class="checkbox" name="correctData" value="on" /><label for="correctData"><?php echo _t('백업파일에 포함된 비정상적인 글자를 교정합니다.');?></label></div>
 										</div>
 										<div id="uploadBackup" style="display: <?php echo ($backup ? 'none' : 'block');?>;">
 											<label for="backupPath"><?php echo _t('백업파일 경로');?></label><span class="divider"> : </span><input type="file" id="backupPath" class="input-file" name="backupPath" <?php echo ($backup ? 'disabled="disabled"' : '');?> />
@@ -371,8 +371,8 @@ if ($backup) {
 										<?php echo _t('첨부파일을 포함하여 삭제하시겠습니까?');?>
 									</div>
 									<div class="selection">
-										<div class="select-yes"><input type="radio" id="removeAttachments-yes" class="input-radio" name="removeAttachments" value="1" /><label for="removeAttachments-yes"><?php echo _t('첨부파일을 포함합니다.');?></label></div>
-										<div class="select-no"><input type="radio" id="removeAttachments-no" class="input-radio" name="removeAttachments" value="0" checked="checked" /><label for="removeAttachments-no"><?php echo _t('첨부파일을 포함하지 않습니다.');?></label></div>
+										<div class="select-yes"><input type="radio" id="removeAttachments-yes" class="radio" name="removeAttachments" value="1" /><label for="removeAttachments-yes"><?php echo _t('첨부파일을 포함합니다.');?></label></div>
+										<div class="select-no"><input type="radio" id="removeAttachments-no" class="radio" name="removeAttachments" value="0" checked="checked" /><label for="removeAttachments-no"><?php echo _t('첨부파일을 포함하지 않습니다.');?></label></div>
 									</div>
 									<div id="admin-password">
 										<label for="confirmativePassword"><?php echo _t('데이터를 삭제하시려면 관리자 비밀번호를 입력하십시오.');?></label>

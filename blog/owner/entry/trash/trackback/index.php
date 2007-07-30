@@ -278,10 +278,10 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 										<dt><?php echo _t('종류');?></dt>
 										<dd>
 											<div id="track-radio-comment">
-												<input type="radio" class="input-radio" id="track-type-comment" name="trashType" value="comment" onclick="document.getElementById('trash-form').submit()" /><label for="track-type-comment"><?php echo _t('댓글');?></label>
+												<input type="radio" class="radio" id="track-type-comment" name="trashType" value="comment" onclick="document.getElementById('trash-form').submit()" /><label for="track-type-comment"><?php echo _t('댓글');?></label>
 											</div>
 											<div id="track-radio-trackback">
-												<input type="radio" class="input-radio" id="track-type-trackback" name="trashType" value="trackback" onclick="document.getElementById('trash-form').submit()" checked="checked" /><label for="track-type-trackback"><?php echo _t('글걸기');?></label>
+												<input type="radio" class="radio" id="track-type-trackback" name="trashType" value="trackback" onclick="document.getElementById('trash-form').submit()" checked="checked" /><label for="track-type-trackback"><?php echo _t('글걸기');?></label>
 											</div>
 										</dd>
 									</dl>
@@ -294,7 +294,7 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="selection"><input type="checkbox" id="allChecked" class="input-checkbox" onclick="checkAll(this.checked);" disabled="disabled" /></th>
+											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" disabled="disabled" /></th>
 											<th class="date"><span class="text"><?php echo _t('등록일자');?></span></th>
 											<th class="site"><span class="text"><?php echo _t('사이트명');?></span></th>
 											<th class="category"><span class="text"><?php echo _t('분류');?></span></th>
@@ -333,7 +333,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="input-checkbox" name="entry" value="<?php echo $trackback['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $trackback['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
 											<td class="date"><?php echo Timestamp::formatDate($trackback['written']);?></td>
 											<td class="site">
 <?php

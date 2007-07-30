@@ -435,7 +435,7 @@ if (!isset($_REQUEST['edit'])) {
 								<dl id="independent-notice-line" class="line">
 									<dt><?php echo _t('독립패널 설정');?></dt>
 									<dd>
-										<input type="checkbox" class="input-checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="changeList()"<?php echo $textcubeDashboard == 1 ? " checked" : NULL;?> />
+										<input type="checkbox" class="checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="changeList()"<?php echo $textcubeDashboard == 1 ? " checked" : NULL;?> />
 										<label for="useTTdashboard"><?php echo _t('독립 패널을 표시합니다');?></label>
 									</dd>
 								</dl>

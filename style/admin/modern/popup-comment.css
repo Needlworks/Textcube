@@ -54,12 +54,12 @@ body
 	display                          : inline;
 }
 
-#comment-box #command-box .input-radio
+#comment-box #command-box .radio
 {
 	vertical-align                   : middle;
 }
 
-#comment-box #command-box .delete-line .input-radio
+#comment-box #command-box .delete-line .radio
 {
 	margin                           : 0 0 0 10px;
 }
@@ -166,7 +166,7 @@ body
 	margin                           : 4px 0 0 80px;
 }
 
-#comment-reply-box #command-box .input-checkbox
+#comment-reply-box #command-box .checkbox
 {
 	vertical-align                   : middle;
 }
