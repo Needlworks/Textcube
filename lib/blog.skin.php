@@ -147,7 +147,7 @@ class Skin {
 				$moduleCount++;
 			}
 			$matchcount = preg_match('@<s_sidebar_element>@', $this->sidebarOriginalContent[$sidebarCount],$matches, PREG_OFFSET_CAPTURE);
-			if ($matchcount === false) {
+			if (($matchcount === false) || ($matchcount == 0)) {
 				$firstPos = strlen($this->sidebarOriginalContent[$sidebarCount]);
 			} else {
 				$firstPos = $matches[0][1];
