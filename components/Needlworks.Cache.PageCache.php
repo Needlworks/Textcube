@@ -143,6 +143,7 @@ class pageCache {
 
 class CacheControl{
 	function flushAll($blogid = null) {
+		global $database;
 		if(empty($blogid)) $blogid = getBlogId();
 		
 		$dir = ROOT . '/cache/pageCache/'.$blogid;
