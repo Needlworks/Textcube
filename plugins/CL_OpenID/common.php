@@ -6,9 +6,17 @@ $path = ini_get('include_path');
 if( !isset( $_ENV['OS'] ) || strstr( $_ENV['OS'], 'Windows' ) === false ) {
 	$path .= ':' . $path_extra;
 } else {
-	defined('Auth_OpenID_RAND_SOURCE', null);
 	$path .= ';' . $path_extra;
 }
+
+if( file_exists( "/dev/urandom" ) ) {
+	define('Auth_OpenID_RAND_SOURCE', '/dev/urandom');
+} else if( file_exists( "/dev/random" ) ) {
+	define('Auth_OpenID_RAND_SOURCE', '/dev/random');
+} else {
+	define('Auth_OpenID_RAND_SOURCE', null);
+}
+
 ini_set('include_path', $path);
 
 /**
