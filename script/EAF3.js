@@ -20,13 +20,14 @@ function getObject(target) {
 Standardizer.prototype.namespace = "Eolin.Application.Framework";
 Standardizer.prototype.name      = "Eolin Standardizer";
 Standardizer.prototype.verion    = "1.0";
-Standardizer.prototype.copyright = "Copyright (c) 2005, Tatter & Company. All rights reserved.";
+Standardizer.prototype.copyright = "Copyright (c) 2005,2007 Needlworks / Tatter & Company. All rights reserved.";
 
 function Standardizer(){};
 
 Standardizer.prototype.isIE = (navigator.userAgent.indexOf("MSIE")>=0);
 Standardizer.prototype.isFirefox = (navigator.userAgent.indexOf("Firefox")>=0 || navigator.userAgent.indexOf("IceWeasel")>=0);
 Standardizer.prototype.isSafari = (navigator.userAgent.indexOf("Safari")>=0);
+Standardizer.prototype.isSafari3 = (navigator.userAgent.indexOf("Safari")>=0 && navigator.userAgent.indexOf("Version/3")>0);
 Standardizer.prototype.isOpera = (!Standardizer.prototype.isIE&&(navigator.userAgent.indexOf("Opera")>=0));
 Standardizer.prototype.isMozilla = (!Standardizer.prototype.isIE && !Standardizer.prototype.isFirefox && !Standardizer.prototype.isSafari && !Standardizer.prototype.isOpera && (navigator.userAgent.indexOf("Mozilla")>=0));
 

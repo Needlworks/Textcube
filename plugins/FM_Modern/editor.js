@@ -82,8 +82,8 @@ TTModernEditor.editors = {};
 
 // 각종 환경 초기화
 TTModernEditor.prototype.initialize = function(textarea) {
-	// execCommand가 사용가능한 경우에만 위지윅을 쓸 수 있다. (지금은 Internet Explorer, Firefox만 지원한다)
-	if(typeof(document.execCommand) == "undefined" || !(STD.isIE || STD.isFirefox))
+	// execCommand가 사용가능한 경우에만 위지윅을 쓸 수 있다. (지금은 Internet Explorer, Firefox, Safari 3만 지원한다)
+	if(typeof(document.execCommand) == "undefined" || !(STD.isIE || STD.isFirefox || STD.isSafari3))
 		return;
 
 	for (var x in TTModernEditor.editors) return x; // ignore if there is any other instance
@@ -265,6 +265,10 @@ TTModernEditor.prototype.syncTextarea = function() {
 // TTML로 작성된 파일을 HTML 뷰에 뿌려주기 위해 변환
 TTModernEditor.prototype.ttml2html = function() {
 	var str = this.textarea.value;
+
+	// Safari 3 / webkit에서 디자인모드에 자동으로 붙이는 주석 제거
+	str = str.replaceAll('class="Apple-style-span"','');
+	str = str.replaceAll('class="webkit-block-placeholder"','');
 
 	// MORE/LESS 처리
 	while(true) {
