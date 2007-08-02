@@ -26,7 +26,6 @@ requireStrictRoute();
 $entry['visibility'] = $_POST['visibility'];
 $entry['category'] = empty($_POST['category']) ? 0 : $_POST['category'];
 $entry['title'] = $_POST['title'];
-$entry['autosave'] = ($_POST['autosave'] == 1) ? true : false;
 if ((isset($_POST['permalink'])) && ($_POST['permalink'] != '')) {
 	$entry['slogan'] = $_POST['permalink'];
 }
