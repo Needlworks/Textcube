@@ -139,14 +139,16 @@ if (defined('__TEXTCUBE_POST__')) {
 <?php
 }
 ?>
+									this.autoSave = false;
+									this.delay = false;
+									this.nowsaving = false;
+
 									this.entryId = <?php echo $entry['id'];?>;
 
 									this.pageHolder = new PageHolder(false, "<?php echo _t('아직 저장되지 않았습니다.');?>");
 									this.pageHolder.isHolding = function () {
 										return (entryManager.savedData != entryManager.getData());
 									}
-									this.delay = false;
-									this.nowsaving = false;
 
 									this.getData = function (check) {
 										if (check == undefined)
@@ -156,11 +158,22 @@ if (defined('__TEXTCUBE_POST__')) {
 										var title = trim(oForm.title.value);
 										var permalink = trim(oForm.permalink.value);
 										if (check && (title.length == 0)) {
-											alert("<?php echo _t('제목을 입력해 주십시오.');?>");
-											oForm.title.focus();
-											return null;
+											if(entryManager.autoSave == true) {
+												title = trim("<?php echo _t('[자동 저장 문서]');?>");
+												oForm.title.value = title;
+												permalink = "TCDraftPost";
+												oForm.permalink.value = permalink;
+											} else {
+												alert("<?php echo _t('제목을 입력해 주십시오.');?>");
+												oForm.title.focus();
+												return null;
+											}
+										} else if (title != trim("<?php echo _t('[자동 저장 문서]');?>")) {
+											if(permalink.indexOf("TCDraftPost") != -1) {
+												permalink = "";
+												oForm.permalink.value = permalink;
+											}
 										}
-										
 										var visibility = 0;
 										for (var i = 0; i < oForm.visibility.length; i++) {
 											if (oForm.visibility[i].checked) {
@@ -183,6 +196,9 @@ if (defined('__TEXTCUBE_POST__')) {
 										}
 										var content = trim(oForm.content.value);
 										if (check && (content.length == 0)) {
+											if(entryManager.autoSave == true) {
+												return null;
+											}
 											alert("<?php echo _t('본문을 입력해 주십시오.');?>");
 											return null;
 										}
@@ -217,6 +233,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											}
 											published = Math.floor(published / 1000);
 										}
+
 										return (
 											"visibility=" + visibility +
 											"&title=" + encodeURIComponent(title) +
@@ -272,6 +289,8 @@ if (defined('__TEXTCUBE_POST__')) {
 									}
 
 									this.save = function () {
+										if(this.nowsaving == true)
+											return false;
 										this.nowsaving = true;
 										var data = this.getData(true);
 										if (data == null)
@@ -284,7 +303,12 @@ if (defined('__TEXTCUBE_POST__')) {
 
 										request.message = "<?php echo _t('저장하고 있습니다.');?>";
 										request.onSuccess = function () {
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											if(entryManager.autoSave == true) {
+												PM.showMessage("<?php echo _t('자동으로 저장되었습니다.');?>", "center", "bottom");
+												entryManager.autoSave = false;
+											} else {
+												PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											}
 											if(entryManager.isSaved == false) {
 												entryManager.entryId = this.getText("/response/entryId");
 												entryManager.isSaved = true;
@@ -294,7 +318,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											entryManager.savedData = this.content;
 											if (entryManager.savedData == entryManager.getData())
 												entryManager.pageHolder.release();
-											this.nowsaving = false;
+											entryManager.nowsaving = false;
 										}
 										request.onError = function () {
 											PM.removeRequest(this);
@@ -302,7 +326,8 @@ if (defined('__TEXTCUBE_POST__')) {
 											this.nowsaving = false;
 										}
 										PM.addRequest(request, "<?php echo _t('저장하고 있습니다.');?>");
-										request.send(this.getData());
+										//request.send(this.getData());
+										request.send(data);
 									}
 																		
 									this.saveAndReturn = function () {
@@ -363,25 +388,20 @@ if (isset($_GET['popupEditor'])) {
 											this.delay = true;
 									}
 									this.saveDraft = function () {
-										var data = this.getData();
-										if ((data == null) || (data == this.savedData) || (this.nowsaving == true))
+										this.autoSave = true;
+										if (this.nowsaving == true) {
+											this.timer = null;
+											this.autoSave = false;
 											return;
+										}
 										this.timer = null;
 										if (this.delay) {
 											this.delay = false;
 											this.timer = window.setTimeout("entryManager.saveDraft()", 5000);
 											return;
 										}
-
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/draft/"+entryManager.entryId);
-										request.onSuccess = function () {
-											PM.showMessage("<?php echo _t('자동으로 임시 저장되었습니다.');?>", "center", "bottom");
-											entryManager.savedData = this.content;
-											entryManager.entryId = this.getText("/response/entryId");
-											if (entryManager.savedData == entryManager.getData())
-												entryManager.pageHolder.release();
-										}
-										request.send(data);
+										this.save();
+										return;
 									}
 									this.preview = function () {
 										var data = this.getData();
@@ -822,6 +842,7 @@ if (isset($_GET['popupEditor'])) {
 						<script type="text/javascript">
 							//<![CDATA[
 								entryManager = new EntryManager();
+								window.setInterval("entryManager.saveDraft();", 300000);
 							//]]>
 						</script> 
 <?php
