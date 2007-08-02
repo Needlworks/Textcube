@@ -5,7 +5,7 @@
   <title xml:lang="ja">URLkeeper</title>
   <title xml:lang="zh-CN">URLkeeper</title>
   <link>http://www.needlworks.org</link>
-  <version>1.0</version>
+  <version>1.1</version>
   <description xml:lang="ko">퍼머링크를 보존하기 위하여 자신의 블로그를 프레임에 넣어 호출하는 외부사이트에 원래 주소로 접속해달라는 경고창을 띄우거나, 자신의 블로그로 이동하게 합니다.</description>
   <description xml:lang="en">Breaks frame or iframe to prevent permalink.</description>
   <license>GPL</license>
