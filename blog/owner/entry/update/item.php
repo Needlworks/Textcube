@@ -32,11 +32,7 @@ if ($entry = getEntry($blogid, $suri['id'])) {
 	$entry['content'] = $_POST['content'];
 	$entry['contentFormatter'] = $_POST['contentFormatter'];
 	$entry['contentEditor'] = $_POST['contentEditor'];
-	if($_POST['permalink'] == _t('드래프트')) {
-		$entry['slogan'] == 'test';
-	} else {
-		$entry['slogan'] = $_POST['permalink'];
-	}
+	$entry['slogan'] = $_POST['permalink'];
 	$entry['acceptComment'] = empty($_POST['acceptComment']) ? 0 : 1;
 	$entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 	$entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
