@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-12 16:48:56+0000\n"
-"PO-Revision-Date: 2007-07-12 16:48:56+0000\n"
+"POT-Creation-Date: 2007-08-04 16:13:00+0000\n"
+"PO-Revision-Date: 2007-08-04 16:13:00+0000\n"
 "Last-Translator: TEXTCUBE\n"
 "Language-Team: TEXTCUBE\n"
 "MIME-Version: 1.0\n"
@@ -31,6 +31,9 @@ msgstr "%1 前"
 
 msgid "%1 테이블을 최적화하고 있습니다."
 msgstr "%1 优化数据"
+
+msgid "%1 파일을 수정하실 수 있는 권한이 없습니다."
+msgstr "无权限修改%1 文件。"
 
 msgid "%1개의 피드를 가져왔습니다.\\n피드를 업데이트 해 주십시오."
 msgstr "读取了%1个FEED.\\\\n请确认更新"
@@ -101,9 +104,6 @@ msgstr "<p style=\"border: 1px solid #EEEEEE; height: 75px; padding-top: 45px; t
 msgid "<p>공지사항이 없습니다.</p>"
 msgstr "<p>目前尚无公告.</p>"
 
-msgid "API 사용시 주소는 블로그 주소/api 입니다."
-msgstr "使用API时，地址为：日志地址/api"
-
 msgid "America/Chicago"
 msgstr "芝加哥(美国)"
 
@@ -152,6 +152,12 @@ msgstr "更改 Body Id"
 msgid "Body id는 블로그 스킨의 <acronym title=\"Cascading Style Sheet\">CSS</acronym> 활용을 위해 사용합니다.<br /> 기본값인 \"tt-body-category\"를 그냥 사용하셔도 사용에 지장은 없습니다."
 msgstr "Body id可以让模板的 <acronym title=\"Cascading Style Sheet\">CSS</acronym> 更灵活.<br /> 使用默认值\"tt-body-category\"不会影响页面效果."
 
+msgid "Chinese"
+msgstr "中文"
+
+msgid "English"
+msgstr "英文"
+
 msgid "Europe/Berlin"
 msgstr "德国"
 
@@ -161,11 +167,17 @@ msgstr "英国"
 msgid "Europe/Paris"
 msgstr "法国"
 
+msgid "File Uploader"
+msgstr "文件上传"
+
 msgid "GMT"
 msgstr "格林尼治标准时间"
 
 msgid "IP 필터링"
 msgstr "IP过滤"
+
+msgid "Japanese"
+msgstr "日文"
 
 msgid "MP3만 사용할 수 있습니다."
 msgstr "只能使用 MP3"
@@ -237,22 +249,28 @@ msgid "[HTML][/HTML] 블럭을 제거합니다"
 msgstr "去除 [HTML][/HTML]标签"
 
 msgid "[임시]"
-msgstr "临时"
+msgstr "[临时]"
 
 msgid "[차단됨]"
-msgstr "过滤"
+msgstr "[被过滤]"
 
 msgid "[행동을 지정합니다.]"
 msgstr "[指定行为.]"
 
 msgid "[허용됨]"
-msgstr "允许"
+msgstr "[允许]"
+
+msgid "default:Asia/Seoul"
+msgstr "韩国"
 
 msgid "fontDisplayName:fontCode:fontFamily"
 msgstr "fontDisplayName:fontCode:fontFamily|MingLiU:MingLiU:Serif|PMingLiU:PMingLiU:Serif|SimHei:SimHei:Sans-serif|SimSun:SimSun:Serif|NSimSun:NSimSun:Serif"
 
 msgid "metaWeblogAPI나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다."
 msgstr "允许使用metaWeblogAPI或 Blogger API来发布文章."
+
+msgid "skin.html 파일을 수정하실 수 있는 권한이 없습니다."
+msgstr "无权限修改skin.html 文件。"
 
 msgid "가져오기"
 msgstr "读取"
@@ -284,6 +302,15 @@ msgstr "更新"
 msgid "거부"
 msgstr "拒绝"
 
+msgid "걸린 글 데이터를 교정하고 있습니다."
+msgstr "矫正引用文章相关数据库信息"
+
+msgid "걸린 글 보기"
+msgstr "浏览引用"
+
+msgid "걸린 글이 없습니다"
+msgstr "尚无引用"
+
 msgid "걸린글"
 msgstr "文章引用"
 
@@ -297,7 +324,7 @@ msgid "걸린글 테이블의 미사용 필드를 삭제합니다."
 msgstr "删除引用文章数据库中未使用数据表"
 
 msgid "걸린글 테이블의 인덱스를 수정합니다."
-msgstr "修改引用文章数据库属性"
+msgstr "修改引用文章数据库索引"
 
 msgid "걸린글을 기본으로 펼칩니다."
 msgstr "默认展开引用"
@@ -315,7 +342,7 @@ msgid "경과"
 msgstr "经过"
 
 msgid "계속보관"
-msgstr "永久保管"
+msgstr "继续保管"
 
 msgid "계정 정보"
 msgstr "帐户信息"
@@ -388,6 +415,9 @@ msgstr "设定管理页面语言.<br />若您要以中文管理,请选择中文.
 
 msgid "관리자 화면의 환경 설정에서 데이터 교정을 수행하시기 바랍니다."
 msgstr "请在管理页面的选项内执行数据矫正."
+
+msgid "관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.\\n계속 하시겠습니까?"
+msgstr "管理员修改访客的回复，回复者昵称会被管理员昵称覆盖！\\\\n确定要继续吗？"
 
 msgid "관리자가 아닙니다"
 msgstr "不是管理员"
@@ -923,6 +953,9 @@ msgstr "登录"
 msgid "로딩 중.."
 msgstr "加载中"
 
+msgid "로딩되었습니다."
+msgstr "已完成"
+
 msgid "리더"
 msgstr "阅读"
 
@@ -1166,6 +1199,9 @@ msgstr "跳转到新的默认网站地址"
 msgid "변경된 블로그 주소로 이동합니다"
 msgstr "跳转到新的网站地址"
 
+msgid "변경된 스타일이 아직 저장되지 않았습니다.\\n저장하시겠습니까?"
+msgstr "更改的样式未保存。\\\\n现在保存吗？"
+
 msgid "변경하고 있습니다."
 msgstr "正在更新设置"
 
@@ -1216,6 +1252,9 @@ msgstr "复原"
 
 msgid "본문"
 msgstr "正文"
+
+msgid "본문 테이블에 태그 검색 향상을 위한 인덱스를 추가합니다."
+msgstr "正文数据表中添加Tag搜索相关的索引。"
 
 msgid "본문 필터링"
 msgstr "内容过滤"
@@ -1621,6 +1660,9 @@ msgstr "选择的引用将发送到回收站,继续吗?"
 
 msgid "선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?"
 msgstr "将删除选择的文章及图片. 继续吗?\\\\t"
+
+msgid "선택된 글걸기를 삭제합니다. 계속 하시겠습니까?"
+msgstr "删除选择的引用,继续吗?"
 
 msgid "선택된 글자색"
 msgstr "选择时分类文字颜色"
@@ -2267,9 +2309,6 @@ msgstr "无法连接到输入的URL"
 msgid "입력하지 않으면 글의 제목이 절대 주소가 됩니다."
 msgstr "不输入按默认设置"
 
-msgid "자동으로 임시 저장되었습니다."
-msgstr "临时自动保存"
-
 msgid "자바스크립트 허용"
 msgstr "允许使用 Javascript"
 
@@ -2353,6 +2392,9 @@ msgstr "查看全部"
 
 msgid "절대 주소"
 msgstr "固定地址"
+
+msgid "점검 없이 이 기능을 사용할 수 없습니다."
+msgstr "检查系统前无法使用此功能"
 
 msgid "정렬"
 msgstr "排列"
@@ -2762,9 +2804,6 @@ msgstr "感谢使用Tatter Tools"
 msgid "텍스트큐브를 점검합니다."
 msgstr "更新,检查Textcube"
 
-msgid "텍스트큐브의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일로만 가능하므로 먼저 백업을 하시기 바랍니다."
-msgstr "删除所有TatterTools数据.可以选择不删除附件.数据还原只能用备份文件进行还原,所以请先备份."
-
 msgid "토요일"
 msgstr "六"
 
@@ -2848,9 +2887,6 @@ msgstr "页面标题"
 
 msgid "편집"
 msgstr "编辑"
-
-msgid "편집 관련 기능"
-msgstr "编辑相关功能"
 
 msgid "편집하기"
 msgstr "编辑"
@@ -3040,9 +3076,6 @@ msgstr "更改为不公开"
 
 msgid "현재 상태의 데이터를 백업하여 다운로드합니다. 서버에 저장된 백업파일은 갱신되지 않습니다."
 msgstr "备份并下载现在的数据，服务器上的备份数据文件将不做更新."
-
-msgid "현재 테스트 중인 기능입니다."
-msgstr "正在测试中的功能."
 
 msgid "현재글 스크랩"
 msgstr "标记本文"
