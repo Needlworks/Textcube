@@ -12,9 +12,10 @@ function MT_getRecentEntries($parameters){
 	}
 	$entryLength = isset($parameters['entryLength'])?$parameters['entryLength']:10;
 
-	if (!is_dir(ROOT."/attach/{$blogid}/metaPostThumbnail/")) {
-		@mkdir(ROOT."/attach/{$blogid}/metaPostThumbnail/");
-		@chmod(ROOT."/attach/{$blogid}/metaPostThumbnail/", 0777);
+	if (!is_dir(ROOT."/cache/metaPostThumbnail/{$blogid}/")) {
+		@mkdir(ROOT."/cache/metaPostThumbnail/");
+		@mkdir(ROOT."/cache/metaPostThumbnail/{$blogid}/");
+		@chmod(ROOT."/cache/metaPostThumbnail/{$blogid}/", 0777);
 	}
 
 	$cache = new PageCache;
@@ -47,7 +48,7 @@ function MT_getRecentEntries($parameters){
 			$html .= '<div class="metapost">'.CRLF;
 			if($imageName = MT_getAttachmentExtract($entry['content'])){
 				if($tempImageSrc = MT_getImageResizer($imageName)){
-					$html .= '<div class="img_preview" style="background:url('.$tempImageSrc.') top center no-repeat #ffffff;\"><img src="'.$blogURL.'/image/spacer.gif" onclick="window.location.href=\''.$permalink.'\'; return false;" /></div>'.CRLF;
+					$html .= '<div class="img_preview" style="background:url('.$tempImageSrc.') top center no-repeat #ffffff;\"><img src="'.$serviceURL.'/image/spacer.gif" onclick="window.location.href=\''.$permalink.'\'; return false;" /></div>'.CRLF;
 				}
 			}
 			$html .= '	<h2><a href="'.$permalink.'">'.$entry['title'].'</a></h2>'.CRLF;
@@ -79,12 +80,13 @@ function MT_getRecentEntries_purgeCache($mother, $target) {
 }
 
 function MT_getImageResizer($filename){
-	global $blogid, $blogURL;
+	global $blogURL;
+	$blogid = getBlogId();
 	requireComponent('Textcube.Function.Image');
 
-	$imagePath = ROOT . "/attach/{$blogid}/{$filename}";
-	$savePath = ROOT . "/attach/{$blogid}/metaPostThumbnail/th_{$filename}";
-	$srcPath = "{$blogURL}/attach/{$blogid}/metaPostThumbnail/th_{$filename}";
+	$imagePath = ROOT . "/cache/metaPostThumbnail/{$blogid}/{$filename}";
+	$savePath = ROOT . "/cache/metaPostThumbnail/{$blogid}/th_{$filename}";
+	$srcPath = "{$serviceURL}/cache/metaPostThumbnail/{$blogid}/th_{$filename}";
 
 	if(file_exists($imagePath)){
 		if(!file_exists($savePath)){
