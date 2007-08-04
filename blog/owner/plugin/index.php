@@ -541,7 +541,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 							
 <?php
 $linkString = '<a href="http://plugin.textcube.org/" onclick="window.open(this.href); return false;" title="' . _t('플러그인 업로드 게시판으로 연결합니다.') . '">' . _t('플러그인 업로드 게시판'). '</a>';
-$tempString = _f('텍스트큐브 홈페이지의 %1을 방문하시면 다양한 플러그인을 다운로드 하실 수 있습니다. 일반적으로 플러그인 파일을 텍스트큐브의 plugin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 플러그인은 이 메뉴에서 사용중으로 전환하여 사용을 시작합니다. 추천 플러그인에 대한 정보는 <a href="http://blog.textcube.org/plugin" onclick="window.open(this.href); return false;">TNF의 플러그인 리뷰</a>를 참고하십시오.', $linkString);
+$tempString = _f('텍스트큐브 홈페이지의 %1을 방문하시면 다양한 플러그인을 받을 수 있습니다. 받은 플러그인 파일을 텍스트큐브의 plugin 디렉토리(폴더)로 업로드하면 설치가 완료됩니다. 업로드 후, 이 페이지에서 해당 플러그인을 사용중으로 전환하여 사용을 시작할 수 있습니다. 추천 플러그인에 대한 정보는 <a href="http://addons.textcube.org/plugin" onclick="window.open(this.href); return false;">TNF의 플러그인 리뷰</a>를 참고하시기 바랍니다.', $linkString);
 ?>
 							<div class="main-explain-box">
 								<p class="explain"><?php echo $tempString;?></p>

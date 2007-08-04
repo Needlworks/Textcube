@@ -173,6 +173,6 @@ function getBlogURLRule($domain = null, $path = null, $type = null) {
 }
 
 function getHelpURL($path) {
-	return 'http://help.textcube.com/ko/Menu/'.$path;
+	return 'http://help.textcube.org/Menu/'.$path;
 }
 ?>

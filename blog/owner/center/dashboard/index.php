@@ -433,10 +433,10 @@ if($textcubeDashboard) {
 if (!isset($_REQUEST['edit'])) {
 ?>
 								<dl id="independent-notice-line" class="line">
-									<dt><?php echo _t('독립패널 설정');?></dt>
+									<dt><?php echo _t('정보 패널 설정');?></dt>
 									<dd>
 										<input type="checkbox" class="checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="changeList()"<?php echo $textcubeDashboard == 1 ? " checked" : NULL;?> />
-										<label for="useTTdashboard"><?php echo _t('독립 패널을 표시합니다');?></label>
+										<label for="useTTdashboard"><?php echo _t('블로그 정보를 보여주는 패널을 사용합니다');?></label>
 									</dd>
 								</dl>
 <?php

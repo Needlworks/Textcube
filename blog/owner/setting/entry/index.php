@@ -132,7 +132,7 @@ foreach (getAllEditors() as $key => $value) {
 										<dl id="blogapi-line" class="line">
 											<dt><span class="label"><?php echo _t('블로그 API 용 비밀번호');?></span></dt>
 											<dd>
-												<p><label for="blogApiPassword"><?php echo _t('BlogAPI에 사용할 비밀번호입니다. 관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두세요.');?></label></p>
+												<p><label for="blogApiPassword"><?php echo _t('BlogAPI에 사용할 비밀번호입니다. 관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두시기 바랍니다.');?></label></p>
 											</dd>
 											<dd>
 												<input type="text" style="width:14em" class="input-text" id="blogApiPassword" name="blogApiPassword" value="<?php echo getBlogSetting("blogApiPassword", "");?>" />
@@ -181,7 +181,10 @@ foreach (getAllEditors() as $key => $value) {
 												<span style="width:400px" id="apientry" ></span>
 											</div>
 											</dd>
-											<dd><?php echo _t("외부 편집기가 사용할 수 있는 주소를 만들어 주는 <b>도우미</b>입니다. 보통 많은 편집기들은 'API 주소'에 해당하는 것을 사용합니다. 그러나,분류설정이 기능이 없거나 혹은 강제로 하나의 분류로 보내고자 할 때 사용할 수 있는 주소도 있습니다. <br /><b>원하시는 주소를 복사해서 사용하시면 됩니다</b>"); ?></dd>
+											<dd><?php echo _t("외부 편집기가 사용할 수 있는 주소를 만들어 주는 <b>도우미</b>입니다.");?>
+											<br />
+											<?php echo _t("BlogAPI를 사용하는 편집기들은 이 블로그로 글을 보내기 위하여 'API 주소'를 사용합니다.");?>
+											<?php echo _t("편집기에 미리 정한 분류로 글을 보내는 기능이 없거나, 글들을 일괄적으로 하나의 분류로 작성하고자 할 때 이 도우미를 사용해서 주소를 만든 후 복사해서 사용하시기 바랍니다.");?></dd>
 										</dl>
 									</fieldset>
 									<div class="button-box">
