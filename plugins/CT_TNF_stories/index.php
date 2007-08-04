@@ -64,10 +64,10 @@ function CT_TNF_Stories($target) {
 			//$target .= '<li><span> from '.$noticeURL.'</span></li>'.CRLF;
 			//$target .= '</ul>'.CRLF;
 		} else {
-			$target .= _t('<p>공지사항이 없습니다.</p>');
+			$target .= '<p>'._t('공지사항이 없습니다.').'</p>';
 		}
 	} else {
-		$target .= _t('<p style="border: 1px solid #EEEEEE; height: 75px; padding-top: 45px; text-align: center;">공지사항을 가져올 수 없습니다.<br />잠시 후 다시 시도해 주십시오.</p>');
+		$target .= '<p style="border: 1px solid #EEEEEE; height: 75px; padding-top: 45px; text-align: center;">'._t("공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 주십시오.").'</p>';
 	}
 
 	unset($feed);

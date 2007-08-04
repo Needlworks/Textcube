@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-12 16:49:04+0000\n"
-"PO-Revision-Date: 2007-07-12 16:49:04+0000\n"
+"POT-Creation-Date: 2007-08-04 16:28:10+0000\n"
+"PO-Revision-Date: 2007-08-04 16:28:10+0000\n"
 "Last-Translator: TEXTCUBE\n"
 "Language-Team: TEXTCUBE\n"
 "MIME-Version: 1.0\n"
@@ -107,15 +107,6 @@ msgstr "<acronym title=\"Rich Site Summary\">RSS</acronym> address"
 msgid "<acronym title=\"Uniform Resource Locator\">URL</acronym> 입력"
 msgstr "Typing <acronym title=\"Uniform Resource Locator\">URL</acronym>"
 
-msgid "<p style=\"border: 1px solid #EEEEEE; height: 75px; padding-top: 45px; text-align: center;\">공지사항을 가져올 수 없습니다.<br />잠시 후 다시 시도해 주십시오.</p>"
-msgstr "<p style=\"border: 1px solid #EEEEEE; height: 75px; padding-top: 45px; text-align: center;\">Could not find notice.<br />Try again later.</p>"
-
-msgid "<p>공지사항이 없습니다.</p>"
-msgstr "<p>Could not find notice.</p>"
-
-msgid "API 사용시 주소는 블로그 주소/api 입니다."
-msgstr "API can be called from the URL [blog address/api]"
-
 msgid "Asia/Calcutta"
 msgstr "India"
 
@@ -130,9 +121,6 @@ msgstr "Taiwan"
 
 msgid "Asia/Tokyo"
 msgstr "Japan"
-
-msgid "BlogAPI에 사용할 비밀번호입니다. 관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두세요."
-msgstr "Password for BlogAPI. Leave it blank if uses BlogAPI password same as blog login password."
 
 msgid "Body Id 변경"
 msgstr "Body Id"
@@ -2249,9 +2237,6 @@ msgstr "Could not access the URL you entered."
 msgid "입력하지 않으면 글의 제목이 절대 주소가 됩니다."
 msgstr "Subject will be the permalink in default, if there is no input."
 
-msgid "자동으로 임시 저장되었습니다."
-msgstr "Draft auto-saved."
-
 msgid "자바스크립트 허용"
 msgstr "Allow Javascript"
 
@@ -2723,9 +2708,6 @@ msgstr "Go to Textcube Official Site"
 msgid "텍스트큐브 홈페이지의 %1을 방문하시면 다양한 스킨을 다운로드 하실 수 있습니다. 일반적으로 스킨 파일을 텍스트큐브의 skin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 스킨은 이 메뉴에서 적용 버튼을 눌러 사용하실 수 있습니다."
 msgstr "More themes can be found at %1. To use the theme, upload the theme file onto the skin directory, find the downloaded theme from the list, and click to select."
 
-msgid "텍스트큐브 홈페이지의 %1을 방문하시면 다양한 플러그인을 다운로드 하실 수 있습니다. 일반적으로 플러그인 파일을 텍스트큐브의 plugin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 플러그인은 이 메뉴에서 사용중으로 전환하여 사용을 시작합니다. 추천 플러그인에 대한 정보는 <a href=\"http://blog.textcube.com/plugin\" onclick=\"window.open(this.href); return false;\">TNF의 플러그인 리뷰</a>를 참고하십시오."
-msgstr "More plugins can be found at %1. To use the plugin, upload the plugin file onto the plugin directory, find the downloaded plugin from the list, and click to activate. For recommended plugin list, see <a href=\"http://blog.textcube.com/plugin\" onclick=\"window.open(this.href); return false;\"> Textcube plugin review </a>."
-
 msgid "텍스트큐브 홈페이지의 스킨 업로드 게시판으로 연결합니다."
 msgstr "Connecting to the Theme upload BBS on Textcube official homepage."
 
@@ -2743,9 +2725,6 @@ msgstr "Thank you for choosing Textcube."
 
 msgid "텍스트큐브를 점검합니다."
 msgstr "Checking up Textcube."
-
-msgid "텍스트큐브의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일로만 가능하므로 먼저 백업을 하시기 바랍니다."
-msgstr "Delete all data of Textcube.<br />You can choose whether or not to delete the attached files. <br />Data can only be restored in the form of a backup file, so creating a backup file is recommended."
 
 msgid "토요일"
 msgstr "S"
@@ -2830,9 +2809,6 @@ msgstr "Page Title"
 
 msgid "편집"
 msgstr "Edit"
-
-msgid "편집 관련 기능"
-msgstr "Edit Functions"
 
 msgid "편집하기"
 msgstr "Edit"
@@ -3022,9 +2998,6 @@ msgstr "Change the status to Private"
 
 msgid "현재 상태의 데이터를 백업하여 다운로드합니다. 서버에 저장된 백업파일은 갱신되지 않습니다."
 msgstr "Download after backing up the current data. Backup file on the server will not be updated."
-
-msgid "현재 테스트 중인 기능입니다."
-msgstr "Testing function now."
 
 msgid "현재글 스크랩"
 msgstr "Star This Article"

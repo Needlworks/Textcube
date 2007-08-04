@@ -25,6 +25,7 @@ $__text['Australia/Perth'] = '珀斯(澳大利亚)';
 $__text["%1 설정"] = '%1设定';
 //$__text["%1님께서 블로그의 팀원으로 초대합니다"] = "";
 //$__text["BlogAPI를 사용하는 편집기들은 이 블로그로 글을 보내기 위하여 'API 주소'를 사용합니다."] = "";
+$__text["공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 주십시오."] = '无法读取公告，请稍后再试.';
 //$__text["로그인한 오픈아이디"] = "";
 //$__text["블로그 API는 MovableType 혹은 MetaWeblog API를 선택하시면 됩니다."] = "";
 //$__text["블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다."] = "";
@@ -78,8 +79,6 @@ $__text['2차 블로그 주소를 변경하지 못했습니다'] = '为能更改
 $__text['<acronym title="Outline Processor Markup Language">OPML</acronym> 업로드'] = '上传<acronym title="Outline Processor Markup Language">OPML</acronym>';
 $__text['<acronym title="Rich Site Summary">RSS</acronym> 주소'] = '<acronym title="Rich Site Summary">RSS</acronym> 地址';
 $__text['<acronym title="Uniform Resource Locator">URL</acronym> 입력'] = '输入 <acronym title="Uniform Resource Locator">URL</acronym>';
-$__text['<p style="border: 1px solid #EEEEEE; height: 75px; padding-top: 45px; text-align: center;">공지사항을 가져올 수 없습니다.<br />잠시 후 다시 시도해 주십시오.</p>'] = '<p style="border: 1px solid #EEEEEE; height: 75px; padding-top: 45px; text-align: center;">无法读取公告.<br />请稍后再试.</p>';
-$__text['<p>공지사항이 없습니다.</p>'] = '<p>目前尚无公告.</p>';
 //$__text['ACO / ACL / i18n / XML-RPC API interface / OpenID'] = '';
 //$__text['API 주소'] = '';
 //$__text['Apache Rewrite Engine'] = '';
@@ -1326,4 +1325,4 @@ $__text['휴지통에 버려진 걸린글은 15일이 지나면 자동으로 지
 $__text['휴지통에 버려진 댓글은 15일이 지나면 자동으로 지워집니다. 광고 댓글의 차단 및 분석을 위하여 휴지통의 데이터를 사용하는 플러그인이 있을 수 있으므로 수동으로 지우지 않는 것을 권장합니다.'] = '回收站内的回复在过15天后就会被自动删除. <br />因为有些插件会分析回收站内数据来过滤广告回复，建议不要手动删除.';
 $__text['휴지통의 걸린글을 한 번에 삭제합니다.'] = '删除回收站内引用文章.';
 $__text['휴지통의 댓글을 한 번에 삭제합니다.'] = '删除回收站内回复.';
-?>
+?>

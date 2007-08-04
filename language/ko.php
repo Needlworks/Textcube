@@ -5,6 +5,7 @@
 //$__text["%1 설정"] = "";
 //$__text["%1님께서 블로그의 팀원으로 초대합니다"] = "";
 //$__text["BlogAPI를 사용하는 편집기들은 이 블로그로 글을 보내기 위하여 'API 주소'를 사용합니다."] = "";
+//$__text["공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 주십시오."] = "";
 //$__text["로그인한 오픈아이디"] = "";
 //$__text["블로그 API는 MovableType 혹은 MetaWeblog API를 선택하시면 됩니다."] = "";
 //$__text["블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다."] = "";
@@ -58,8 +59,6 @@
 //$__text['<acronym title="Outline Processor Markup Language">OPML</acronym> 업로드'] = '';
 //$__text['<acronym title="Rich Site Summary">RSS</acronym> 주소'] = '';
 //$__text['<acronym title="Uniform Resource Locator">URL</acronym> 입력'] = '';
-//$__text['<p style="border: 1px solid #EEEEEE; height: 75px; padding-top: 45px; text-align: center;">공지사항을 가져올 수 없습니다.<br />잠시 후 다시 시도해 주십시오.</p>'] = '';
-//$__text['<p>공지사항이 없습니다.</p>'] = '';
 //$__text['ACO / ACL / i18n / XML-RPC API interface / OpenID'] = '';
 //$__text['API 주소'] = '';
 //$__text['Apache Rewrite Engine'] = '';
