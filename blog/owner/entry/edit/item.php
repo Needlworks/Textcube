@@ -300,11 +300,13 @@ if (defined('__TEXTCUBE_POST__')) {
 										} else {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/add/");
 										}
-
-										request.message = "<?php echo _t('저장하고 있습니다.');?>";
+										if(entryManager.autoSave != true) {
+											request.message = "<?php echo _t('저장하고 있습니다.');?>";
+										}
 										request.onSuccess = function () {
 											if(entryManager.autoSave == true) {
-												PM.showMessage("<?php echo _t('자동으로 저장되었습니다.');?>", "center", "bottom");
+												document.getElementById("saveButton").value = "<?php echo _t('자동으로 저장됨');?>";
+												document.getElementById("saveButton").style.color = "#BBB";
 												entryManager.autoSave = false;
 											} else {
 												PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
@@ -382,6 +384,8 @@ if (isset($_GET['popupEditor'])) {
 										request.send(this.getData());
 									}
 									this.saveAuto = function () {
+										document.getElementById("saveButton").value = "<?php echo _t('저장하기');?>";
+										document.getElementById("saveButton").style.color = "#000";
 										if (this.timer == null)
 											this.timer = window.setTimeout("entryManager.saveDraft()", 5000);
 										else
@@ -678,9 +682,9 @@ if (isset($_GET['popupEditor'])) {
 										<div class="button-box two-button-box">
 											<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
 											<span class="hidden">|</span>
-											<input type="submit" value="<?php echo _t('지금저장');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
+											<input type="submit" id="saveButton" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
 											<span class="hidden">|</span>
-											<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
+											<input type="submit" value="<?php echo _t('저장 후 닫기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
 										</div>
 <?php
 } else {
@@ -688,9 +692,9 @@ if (isset($_GET['popupEditor'])) {
 										<div class="button-box three-button-box">
 											<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
 											<span class="hidden">|</span>
-							    	  	 	<input type="submit" value="<?php echo _t('지금저장');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
+							    	  	 		<input type="submit" id="saveButton" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
 											<span class="hidden">|</span>
-							       			<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
+							       			<input type="submit" value="<?php echo _t('저장 후 닫기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
 											<span class="hidden">|</span>
 											<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="window.location.href='<?php echo $blogURL;?>/owner/entry'" />
 										</div>
@@ -791,17 +795,17 @@ $countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}E
 if (isset($_GET['popupEditor'])) {
 ?>
 									<div class="button-box two-button-box">
-										<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
+										<input type="button" value="<?php echo _t('미리 보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
 										<span class="hidden">|</span>
-										<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
+										<input type="submit" value="<?php echo _t('저장 후 닫기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
 								</div>
 <?php
 } else {
 ?>
 									<div class="button-box three-button-box">
-										<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
+										<input type="button" value="<?php echo _t('미리 보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
 										<span class="hidden">|</span>
-						       			<input type="submit" value="<?php echo _t('완료하기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
+						       			<input type="submit" value="<?php echo _t('저장 후 닫기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
 										<span class="hidden">|</span>
 										<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="window.location.href='<?php echo $blogURL;?>/owner/entry'" />
 									</div>
