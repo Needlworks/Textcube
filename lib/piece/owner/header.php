@@ -7,13 +7,13 @@ else $blogMenu['contentMenu'] = $urlFragments[1];
 if(isset($urlFragments[3])) $blogMenu['contentMenu'] .= $urlFragments[3];
 
 // If admin.panel plugin, set the menu location again.
-if(isset($urlFragments[2])&&strncmp($urlFragments[2],'adminMenu',9) == 0){
+if(isset($urlFragments[2])&&strncmp($urlFragments[2],'adminMenu',9) == 0) {
 	$plugin = isset($_GET['name']) ? $_GET['name'] : '';
 	$pluginDir = strtok($plugin,'/');
 	$blogMenu['topMenu'] = $adminMenuMappings[$plugin]['topMenu'];
 }
 
-if(Acl::check('group.administrators')){
+if(Acl::check('group.administrators')) {
 	$blogTopMenuItem = array(
 		array('menu'=>'center','title'=>_t('센터'),'link'=>'/owner/center/dashboard'),
 		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
@@ -113,7 +113,7 @@ unset($tempPlugin);
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
 <?php
 // common CSS.
-foreach($blogMenu['loadCSS'] as $loadCSS){
+foreach($blogMenu['loadCSS'] as $loadCSS) {
 ?>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.css" />
 <?php
@@ -131,7 +131,7 @@ foreach ($pluginListForCSS as $tempPluginDir) {
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
 <?php
 // CSS for Internet Explorer 6
-foreach($blogMenu['loadCSSIE6'] as $loadCSS){
+foreach($blogMenu['loadCSSIE6'] as $loadCSS) {
 ?>
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.ie.css" />
 <?php
@@ -150,7 +150,7 @@ foreach ($pluginListForCSS as $tempPluginDir) {
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie7.css" />
 <?php
 // CSS for Internet Explorer 7
-foreach($blogMenu['loadCSSIE7'] as $loadCSS){
+foreach($blogMenu['loadCSSIE7'] as $loadCSS) {
 ?>
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.ie7.css" />
 <?php
@@ -194,7 +194,7 @@ include ROOT . '/language/messages.php';
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js"></script>
 <?php
-if($blogMenu['topMenu']=='entry'){
+if($blogMenu['topMenu']=='entry') {
 ?>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/editor3.js"></script>
 <?php
@@ -232,7 +232,7 @@ requireComponent('Textcube.Core');
 						<li id="menu-textcube"><a href="<?php echo TEXTCUBE_HOMEPAGE;?>" onclick="window.open(this.href); return false;" title="<?php echo _t('텍스트큐브 홈페이지로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브 홈페이지');?></span></a></li>
 						
 <?php
-foreach($blogTopMenuItem as $menuItem){
+foreach($blogTopMenuItem as $menuItem) {
 ?>
 						<li id="menu-<?php echo $menuItem['menu'];?>"<?php echo $menuItem['menu']==$blogMenu['topMenu'] ? ' class="selected"' : '';?>><a href="<?php echo $blogURL.$menuItem['link'];?>"><span><?php echo $menuItem['title'];?></span></a></li>
 <?php

@@ -58,13 +58,13 @@ function getBlogSettings($blogid) {
 				'singleCommentMessage'     => '',
 				'noneTrackbackMessage'     => '',
 				'singleTrackbackMessage'   => '');
-		foreach($blogSettings as $blogSetting){
+		foreach($blogSettings as $blogSetting) {
 			$result[$blogSetting['name']] = $blogSetting['value'];
 			if(array_key_exists($blogSetting['name'],$defaultValues)) {
 				array_push($blogSettingFields, $blogSetting['name']);
 			}
 		}
-		foreach($defaultValues as $name => $value){
+		foreach($defaultValues as $name => $value) {
 			if(!in_array($name,$blogSettingFields)) {
 				$result[$name] = $value;
 				setBlogSettingDefault($name,$value);

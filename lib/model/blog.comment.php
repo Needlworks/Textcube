@@ -641,7 +641,7 @@ function notifyComment() {
 		return false;
 	}
 	$entry = (DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id={$comments['entry']}"));
-	if( $entry['id'] == 0){
+	if( $entry['id'] == 0) {
 		$r1_comment_check_url = rawurlencode("$defaultURL/guestbook#comment" . $parentComments['id']);
 		$r2_comment_check_url = rawurlencode("$defaultURL/guestbook#comment" . $comments['id']);
 	}else{

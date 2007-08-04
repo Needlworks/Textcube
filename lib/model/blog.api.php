@@ -317,7 +317,7 @@ function api_file_hash( $content )
 }
 
 
-function api_addAttachment($blogid,$parent,$file){
+function api_addAttachment($blogid,$parent,$file) {
 	global $database;
 	
 	requireComponent('Textcube.Function.misc');
@@ -327,7 +327,7 @@ function api_addAttachment($blogid,$parent,$file){
 	$label=mysql_tt_escape_string(mysql_lessen($attachment['label'],64));
 	$attachment['size']=$file['size'];
 	$extension=Path::getExtension($attachment['label']);
-	switch(strtolower($extension)){
+	switch(strtolower($extension)) {
 		case '.exe':
 		case '.php':
 		case '.sh':
@@ -339,7 +339,7 @@ function api_addAttachment($blogid,$parent,$file){
 	
 	/* Create directory for owner */
 	$path = ROOT . "/attach/$blogid";
-	if(!is_dir($path)){
+	if(!is_dir($path)) {
 		mkdir($path);
 		if(!is_dir($path))
 			return false;
@@ -375,7 +375,7 @@ function api_addAttachment($blogid,$parent,$file){
 		$file['tmp_name'] = $attachment['path'];
 	}
 	
-	if($imageAttributes=@getimagesize($file['tmp_name'])){
+	if($imageAttributes=@getimagesize($file['tmp_name'])) {
 		$attachment['mime']=$imageAttributes['mime'];
 		$attachment['width']=$imageAttributes[0];
 		$attachment['height']=$imageAttributes[1];
@@ -389,7 +389,7 @@ function api_addAttachment($blogid,$parent,$file){
 	
 	@chmod($attachment['path'],0666);
 	$result=DBQuery::query("insert into {$database['prefix']}Attachments values ($blogid, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
-	if(!$result){
+	if(!$result) {
 		@unlink($attachment['path']);
 		return false;
 	}

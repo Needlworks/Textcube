@@ -67,7 +67,7 @@ function deactivatePlugin($name) {
 	return true;
 }
 
-function getCurrentSetting($name){
+function getCurrentSetting($name) {
 	global $database, $activePlugins;
 	global $pluginSetting;
 	if( !in_array( $name , $activePlugins))
@@ -85,7 +85,7 @@ function getCurrentSetting($name){
 	}
 	return null;
 }
-function updatePluginConfig( $name , $setVal){
+function updatePluginConfig( $name , $setVal) {
 	global $database,  $activePlugins;
 	if (!in_array($name, $activePlugins))
 		return false;
@@ -105,9 +105,9 @@ function updatePluginConfig( $name , $setVal){
 	if(isset($result) && $result = '0') return $result;
 	return (mysql_error() == '') ? '0' : '1';
 }
-function treatPluginTable($plugin, $name, $fields, $keys, $version){
+function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 	global $database;
-	if(doesExistTable($database['prefix'] . $name)){
+	if(doesExistTable($database['prefix'] . $name)) {
 		$keyname = 'Database_' . $name;
 		$value = $plugin;		
 		$query = "SELECT value FROM {$database['prefix']}ServiceSettings WHERE name='{$keyname}'";
@@ -135,8 +135,8 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version){
 		$index = '';
 		foreach($fields as $field) {
 			$ai = '';
-			if( strtolower($field['attribute']) == 'int' || strtolower($field['attribute']) == 'mediumint'  ){
-				if($field['autoincrement'] == 1 && !$isaiExists){
+			if( strtolower($field['attribute']) == 'int' || strtolower($field['attribute']) == 'mediumint'  ) {
+				if($field['autoincrement'] == 1 && !$isaiExists) {
 					$ai = ' AUTO_INCREMENT ';
 					$isaiExists = true;
 					if(!in_array($field['name'], $keys))
@@ -182,7 +182,7 @@ function deletePluginTable($name) {
 	return true;
 }
 
-function getPluginTableName(){
+function getPluginTableName() {
 	global $database;
 	requireModel('common.setting');
 

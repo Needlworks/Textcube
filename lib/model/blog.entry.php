@@ -283,7 +283,7 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 		$sql .= ' AND e.category = '.$category;
 	}
 	if(isset($visibility)) {
-		if(Validator::isInteger($visibility,0,3)){
+		if(Validator::isInteger($visibility,0,3)) {
 			$sql .= ' AND e.visibility = '.$visibility;
 		} else {
 			$sql .= ' AND e.visibility '.$visibility;

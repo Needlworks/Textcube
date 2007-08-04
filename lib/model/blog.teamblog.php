@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-function addTeamUser($email, $name, $comment, $senderName, $senderEmail){
+function addTeamUser($email, $name, $comment, $senderName, $senderEmail) {
 	requireModel('blog.user');
 	requireModel('blog.blogSetting');
 	global $database,$service,$blogURL,$hostURL,$user,$blog;
@@ -28,7 +28,7 @@ function addTeamUser($email, $name, $comment, $senderName, $senderEmail){
 	return false;
 }
 
-function cancelTeamblogInvite($userid){
+function cancelTeamblogInvite($userid) {
 	global $database;
 
 	$blogId = getBlogId();
@@ -41,7 +41,7 @@ function cancelTeamblogInvite($userid){
 	return DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid='$blogid' and userid='$userid'");
 }
 
-function changeACLonBlog($blogid, $ACLtype, $userid, $switch){  // Change user priviledge on the blog.
+function changeACLonBlog($blogid, $ACLtype, $userid, $switch) {  // Change user priviledge on the blog.
 	global $database;
 	if(empty($stype) || empty($userid))
 		return false;
@@ -81,7 +81,7 @@ function changeACLonBlog($blogid, $ACLtype, $userid, $switch){  // Change user p
 	return DBQuery::execute($sql);
 }
 
-function deleteTeamblogUser($userid){
+function deleteTeamblogUser($userid) {
 	global $database;
 
 	DBQuery::execute("UPDATE `{$database['prefix']}Entries` 

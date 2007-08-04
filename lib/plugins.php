@@ -150,7 +150,7 @@ if (getBlogId()) {
 					}
 					unset($metapage);
 				}
-				if($xmls->doesExist('/plugin/binding/config')){
+				if($xmls->doesExist('/plugin/binding/config')) {
 					$config = $xmls->selectNode('/plugin/binding/config');
 					if( !empty( $config['.attributes']['dataValHandler'] ) )
 						$configMappings[$plugin] = 
@@ -158,14 +158,14 @@ if (getBlogId()) {
 					else
 						$configMappings[$plugin] = array( 'config' => 'ok') ;
 				}
-				if ($xmls->doesExist('/plugin/binding/adminMenu')){
+				if ($xmls->doesExist('/plugin/binding/adminMenu')) {
 					$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
 
-					if ($xmls->doesExist('/plugin/binding/adminMenu/viewMethods')){
+					if ($xmls->doesExist('/plugin/binding/adminMenu/viewMethods')) {
 						foreach($xmls->selectNodes('/plugin/binding/adminMenu/viewMethods/method') as $adminViewMenu) {
 							$menutitle = htmlspecialchars(XMLStruct::getValueByLocale($adminViewMenu['title']));
 							if (empty($menutitle)) continue;
-							if(isset($adminViewMenu['topMenu'][0]['.value'])){
+							if(isset($adminViewMenu['topMenu'][0]['.value'])) {
 								$pluginTopMenuLocation = htmlspecialchars($adminViewMenu['topMenu'][0]['.value']);
 								switch($pluginTopMenuLocation) {
 									case 'center':
@@ -226,7 +226,7 @@ if (getBlogId()) {
 					unset($adminViewMenu);
 					unset($params);
 				
-					if ($xmls->doesExist('/plugin/binding/adminMenu/methods')){
+					if ($xmls->doesExist('/plugin/binding/adminMenu/methods')) {
 						foreach($xmls->selectNodes('/plugin/binding/adminMenu/methods/method') as $adminMethods) {
 							$method = array();
 							$method['plugin'] = $plugin;
@@ -261,7 +261,7 @@ if (getBlogId()) {
 					unset($adminMethods);
 				
 				}
-				if ($xmls->doesExist('/plugin/binding/formatter[lang()]')){
+				if ($xmls->doesExist('/plugin/binding/formatter[lang()]')) {
 					$isFormatterExists = true;
 					foreach (array($xmls->selectNode('/plugin/binding/formatter[lang()]')) as $formatter) {
 						if (!isset($formatter['.attributes']['name'])) continue;
@@ -283,7 +283,7 @@ if (getBlogId()) {
 					unset($formatterinfo);
 					unset($usedFor);
 				}
-				if ($xmls->doesExist('/plugin/binding/editor[lang()]')){
+				if ($xmls->doesExist('/plugin/binding/editor[lang()]')) {
 					$isEditorExists = true;
 					foreach (array($xmls->selectNode('/plugin/binding/editor[lang()]')) as $editor) {
 						if (!isset($editor['.attributes']['name'])) continue;
@@ -520,7 +520,7 @@ function handleMetapages(& $sval, & $obj, $previewMode) {
 	}
 }
 
-function handleDataSet( $plugin , $DATA ){
+function handleDataSet( $plugin , $DATA ) {
 	global $configMappings, $activePlugins, $service, $pluginURL, $pluginPath, $pluginName, $configMapping, $configVal;
 	$xmls = new XMLStruct();
 	if( ! $xmls->open($DATA) ) {
@@ -530,7 +530,7 @@ function handleDataSet( $plugin , $DATA ){
 	if( ! in_array($plugin, $activePlugins) ) 
 		return array('error' => '9' , 'customError'=> _t($plugin.' : 플러그인이 활성화되어 있지 않아 설정을 저장하지 못했습니다.')) ;
 	$reSetting = true;
-	if( !empty( $configMappings[$plugin]['dataValHandler'] ) ){
+	if( !empty( $configMappings[$plugin]['dataValHandler'] ) ) {
 		$pluginURL = "{$service['path']}/plugins/{$plugin}";
 		$pluginPath = ROOT . "/plugins/{$plugin}";
 		$pluginName = $plugin;
@@ -549,19 +549,19 @@ function handleDataSet( $plugin , $DATA ){
 	return array('error' => $result , 'customError'=> '' ) ;
 }
 
-function fetchConfigVal( $DATA ){
+function fetchConfigVal( $DATA ) {
 	$xmls = new XMLStruct();
 	$outVal = array();
 	if( ! $xmls->open($DATA) ) {
 		unset($xmls);	
 		return null;
 	}
-	if( is_null(  $xmls->selectNodes('/config/field') )){
+	if( is_null(  $xmls->selectNodes('/config/field') )) {
 	 	unset($xmls);	
 		return null;
 	}
 	foreach ($xmls->selectNodes('/config/field') as $field) {
-		if( empty( $field['.attributes']['name'] )  || empty( $field['.attributes']['type'] ) ){
+		if( empty( $field['.attributes']['name'] )  || empty( $field['.attributes']['type'] ) ) {
 		 	unset($xmls);	
 			return null;
 		}
@@ -573,7 +573,7 @@ function fetchConfigVal( $DATA ){
 
 
 
-function handleConfig($plugin){
+function handleConfig($plugin) {
 	global $service , $typeSchema, $pluginURL, $pluginPath, $pluginName, $configMappings, $configVal, $adminSkinSetting;
 	
 	$typeSchema = array(
@@ -598,7 +598,7 @@ function handleConfig($plugin){
 		//설정 핸들러가 존재시 바꿈
 		$config = $xmls->selectNode('/plugin/binding/config[lang()]');
 		unset( $xmls );
-		if( !empty($config['.attributes']['manifestHandler']) ){
+		if( !empty($config['.attributes']['manifestHandler']) ) {
 			$handler = $config['.attributes']['manifestHandler'] ;
 			$oldconfig = $config;
 			$pluginURL = "{$service['path']}/plugins/{$plugin}";
@@ -613,7 +613,7 @@ function handleConfig($plugin){
 				$manifest = call_user_func( $handler , $plugin );
 			}
 			$newXmls = new XMLStruct();
-			if($newXmls->open( $manifest) ){	 
+			if($newXmls->open( $manifest) ) {	 
 				unset( $config );
 				$config = $newXmls->selectNode('/config[lang()]');
 			}
@@ -624,8 +624,8 @@ function handleConfig($plugin){
 		foreach ($config['fieldset'] as $fieldset) {
 			$legend = !empty($fieldset['.attributes']['legend']) ? htmlspecialchars($fieldset['.attributes']['legend']) :'';
 			$CDSPval .= CRLF.TAB."<fieldset>".CRLF.TAB.TAB."<legend><span class=\"text\">$legend</span></legend>".CRLF;
-			if( !empty( $fieldset['field'] ) ){
-				foreach( $fieldset['field'] as $field ){
+			if( !empty( $fieldset['field'] ) ) {
+				foreach( $fieldset['field'] as $field ) {
 					if( empty( $field['.attributes']['name'] ) ) continue;
 					$name = $field['.attributes']['name'] ;
 					$clientData .= getFieldName($field , $name) ;
@@ -639,17 +639,17 @@ function handleConfig($plugin){
 	return array( 'code' => $CDSPval , 'script' => $clientData, 'title' => $title ) ;
 }
 
-function getFieldName( $field , $name ){
+function getFieldName( $field , $name ) {
 	if( 'checkbox' != $field['.attributes' ]['type'] ) return '"' . $name . '",';
 	$tname ='';
-	foreach( $field['op'] as $op ){
+	foreach( $field['op'] as $op ) {
 		if( !empty( $op['.attributes']['name'] ) )
 			$tname .= '"' . $op['.attributes']['name'] . '",';
 	}
 	return $tname;
 }
 
-function TreatType(  $cmd , $dfVal , $name ){
+function TreatType(  $cmd , $dfVal , $name ) {
 	global $typeSchema;
 	if( empty($cmd['.attributes']['type']) || !in_array($cmd['.attributes']['type'] , $typeSchema  ) ) return '';
 	if( empty($cmd['.attributes']['title']) || empty($cmd['.attributes']['name'])) return '';
@@ -663,7 +663,7 @@ function TreatType(  $cmd , $dfVal , $name ){
 		return	TAB.TAB.'<div class="field" id="div_'.htmlspecialchars($cmd['.attributes']['name']).'">'.CRLF.$fieldControl.CRLF.$fieldTitle.CRLF.$caption.TAB.TAB."</div>\n";
 }
 
-function textTreat( $cmd , $dfVal , $name ){
+function textTreat( $cmd , $dfVal , $name ) {
 	$dfVal = ( !is_null( $dfVal[$name]  ) ) ? $dfVal[$name]  :  (empty($cmd['.attributes']['value'] )?null:$cmd['.attributes']['value'] );
 	$DSP = TAB.TAB.TAB.TAB.'<input type="text" class="textcontrol" ';
 	$DSP .= ' id="'.$name.'" ';
@@ -672,7 +672,7 @@ function textTreat( $cmd , $dfVal , $name ){
 	$DSP .= ' />'.CRLF ;
 	return $DSP;
 }
-function textareaTreat( $cmd, $dfVal , $name){
+function textareaTreat( $cmd, $dfVal , $name) {
 	$dfVal = ( !is_null( $dfVal[$name]  ) ) ? $dfVal[$name] :  (empty($cmd['.value'] )?null:$cmd['.value'] );
 	$DSP = TAB.TAB.TAB.TAB.'<textarea class="textareacontrol"';
 	$DSP .= ' id="'.$name.'" ';
@@ -683,10 +683,10 @@ function textareaTreat( $cmd, $dfVal , $name){
 	$DSP .= '</textarea>'.CRLF ;
 	return $DSP;
 }
-function selectTreat( $cmd, $dfVal , $name){
+function selectTreat( $cmd, $dfVal , $name) {
 	$DSP = TAB.TAB.TAB.TAB.'<select id="'.$name.'" class="selectcontrol">'.CRLF;	
     $df = empty($dfVal[$name] ) ? NULL: $dfVal[$name];
-	foreach( $cmd['op']  as $option ){
+	foreach( $cmd['op']  as $option ) {
 		$ov = empty($option['.attributes']['value']) ? NULL :$option['.attributes']['value']; 
 		$oc = empty($option['.attributes']['checked']) ? NULL:$option['.attributes']['checked'];
 		
@@ -701,9 +701,9 @@ function selectTreat( $cmd, $dfVal , $name){
 	$DSP .= TAB.TAB.TAB.TAB.'</select>'.CRLF ;
 	return $DSP;
 }
-function checkboxTreat( $cmd, $dfVal, $name){
+function checkboxTreat( $cmd, $dfVal, $name) {
 	$DSP = '';	
-	foreach( $cmd['op']  as $option ){
+	foreach( $cmd['op']  as $option ) {
 		if( empty($option['.attributes']['name']) || !is_string( $option['.attributes']['name'] ) ) continue;
 		$df = empty( $dfVal[$option['.attributes']['name']] ) ? NULL : $dfVal[$option['.attributes']['name']];
 		$oc = empty( $option['.attributes']['checked'] ) ? NULL : $option['.attributes']['checked'];
@@ -719,10 +719,10 @@ function checkboxTreat( $cmd, $dfVal, $name){
 	}
 	return $DSP;
 }
-function radioTreat( $cmd, $dfVal, $name){
+function radioTreat( $cmd, $dfVal, $name) {
 	$DSP = '';
 	$df = empty( $dfVal[$name]) ? NULL :$dfVal[$name];
-	foreach( $cmd['op']  as $option ){
+	foreach( $cmd['op']  as $option ) {
 		$DSP .= TAB.TAB.TAB.TAB.'<input type="radio"  class="radiocontrol" ';
 		$DSP .= ' name="'.$name.'" ';
 		$oc = empty( $option['.attributes']['checked'] ) ? NULL: $option['.attributes']['checked'];

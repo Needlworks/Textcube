@@ -22,7 +22,7 @@ function addSidebarModuleOrderData($dataArray, $sidebarNumber, $modulePos, $newM
 	
 	if ($modulePos < 0) {
 		$modulePos = count($dataArray[$sidebarNumber]);
-	} else if ($modulePos > count($dataArray[$sidebarNumber])){
+	} else if ($modulePos > count($dataArray[$sidebarNumber])) {
 		$modulePos = count($dataArray[$sidebarNumber]);
 	}
 	

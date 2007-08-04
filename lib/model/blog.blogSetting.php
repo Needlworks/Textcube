@@ -327,7 +327,7 @@ function addBlog($blogid, $userid, $identify) {
 			'blogLanguage' => $service['language'],
 			'timezone'     => $baseTimezone);
 		$isFalse = false;
-		foreach($basicInformation as $fieldname => $fieldvalue){
+		foreach($basicInformation as $fieldname => $fieldvalue) {
 			if(setBlogSettingDefault($fieldname,$fieldvalue,$blogid) === false) {
 				$isFalse = true;
 			}
@@ -486,17 +486,17 @@ function changePassword($blogid, $pwd, $prevPwd) {
 	return DBQuery::execute($sql);
 }
 
-function deleteUser($userid){
+function deleteUser($userid) {
 	global $database;
 
 	DBQuery::execute("UPDATE `{$database['prefix']}Entries` 
 		SET userid = ".getBlogId()." 
 		WHERE blogid = ".getBlogId()." AND userid = ".$userid);
 
-	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid = ".getBlogId()." and userid='$userid'")){
+	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid = ".getBlogId()." and userid='$userid'")) {
 		// TODO : blogid is not match with userid. need to remake this part.
 		$En = DBQuery::queryCell("SELECT userid FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'");
-		if(empty($En)){
+		if(empty($En)) {
 			@DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid");
 			@DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $userid");
 			@DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $userid");

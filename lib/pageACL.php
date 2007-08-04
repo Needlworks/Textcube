@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 // Teamblog - Check ACL and move pages if ACL is not enough.
-if(!empty($_SESSION['acl'])){
+if(!empty($_SESSION['acl'])) {
 	$requiredPriv = Aco::getRequiredPrivFromUrl( $suri['directive'] );
 	if( !empty($requiredPriv) && !Acl::check($requiredPriv) ) {
 		if( in_array( 'group.administrators', $requiredPriv ) ) {

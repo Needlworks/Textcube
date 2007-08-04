@@ -21,7 +21,7 @@ function addMetapageModuleOrderData($dataArray, $metapageNumber, $modulePos, $ne
 	
 	if ($modulePos < 0) {
 		$modulePos = count($dataArray[$metapageNumber]);
-	} else if ($modulePos > count($dataArray[$metapageNumber])){
+	} else if ($modulePos > count($dataArray[$metapageNumber])) {
 		$modulePos = count($dataArray[$metapageNumber]);
 	}
 	

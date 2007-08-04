@@ -7,7 +7,7 @@ $writer = User::getName($blogid);
 $pageTitle = trim($pageTitle);
 if (!empty($pageTitle)) {
 	$pageTitleView = $skin->pageTitle;
-	if(!empty($pageTitleView)){
+	if(!empty($pageTitleView)) {
 		dress('page_post_title', htmlspecialchars($pageTitle), $pageTitleView);
 		dress('page_title', $pageTitleView, $view);
 	} else {
@@ -66,7 +66,7 @@ dress('textcube_version', TEXTCUBE_VERSION, $view);
 dress('tattertools_name', TEXTCUBE_NAME, $view); // For skin legacy.
 dress('tattertools_version', TEXTCUBE_VERSION, $view);
 
-if (isset($paging)){
+if (isset($paging)) {
 	if(isset($cache) && strpos($cache->name,'Paging')!==false) {
 		if($cache->load()) {
 			$pagingView = $cache->contents;

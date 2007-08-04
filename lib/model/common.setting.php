@@ -95,7 +95,7 @@ function setBlogSettingDefault($name, $value, $blogid = null) {
 	$value = mysql_tt_escape_string($value);
 	if($blogid == null)
 		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
-	else if(is_numeric($blogid)){
+	else if(is_numeric($blogid)) {
 		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$name', '$value')");
 	}
 	return null;

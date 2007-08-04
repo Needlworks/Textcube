@@ -319,7 +319,7 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 		if ($t1list == null) 
 			return; // What?
 		// Flushing pageCache
-		foreach($t1list as $tagids){
+		foreach($t1list as $tagids) {
 			CacheControl::flushTag($tagids);
 		}
 		// Make string
