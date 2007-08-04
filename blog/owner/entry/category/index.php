@@ -177,7 +177,7 @@ if ($depth <= 1) {
 ?>
 											<dd>
 												<div class="field-box">
-													<input type="text" id="newCategory" class="input-text" name="newCategory" onkeyup="if (event.keyCode == 13 &amp;&amp; validateText(this.value)){addCategory()}" />
+													<input type="text" id="newCategory" class="input-text" name="newCategory" onkeyup="if (event.keyCode == 13 &amp;&amp; validateText(this.value)) {addCategory()}" />
 													<input type="button" class="add-button input-button" value="<?php echo _t('추가하기');?>" onclick="addCategory(); return false;" />
 												</div>
 												<p>

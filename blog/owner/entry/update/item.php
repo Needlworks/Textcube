@@ -37,7 +37,7 @@ if ($entry = getEntry($blogid, $suri['id'])) {
 	$entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 	$entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
 	setBlogSetting('LatestEditedEntry_user'.getUserId(),$suri['id']);
-	if($id = updateEntry($blogid, $entry)){
+	if($id = updateEntry($blogid, $entry)) {
 		fireEvent('UpdatePost', $id, $entry);
 		respondResultPage(0);
 	}

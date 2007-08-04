@@ -49,7 +49,7 @@ function findPlugin($item, $arrays)
 	return false;
 }
 
-if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ){
+if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ) {
 	
 	$seperatorCount = 0;
 	
@@ -194,9 +194,9 @@ if($textcubeDashboard) {
 										<li><a href="<?php echo $blogURL;?>/owner/entry/post"><?php echo _t('새글 쓰기');?></a></li>
 <?php
 		$latestEntryId = getBlogSetting('LatestEditedEntry_user'.getUserId(),0);
-		if($latestEntryId !== 0){
+		if($latestEntryId !== 0) {
 			$latestEntry = getEntry($blogid,$latestEntryId);
-			if($latestEntry!=false){
+			if($latestEntry!=false) {
 ?>
 										<li><a href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', htmlspecialchars(UTF8::lessenAsEm($latestEntry['title'],10)));?></a></li>
 <?php
@@ -508,7 +508,7 @@ if ($boardbarNumber < 2) {
 
 // 팀블로그 :: 관리자 권한이 없으면 센터를 편집할수없다.
 
-if(Acl::check('group.administrators')){
+if(Acl::check('group.administrators')) {
 
 if (!isset($_REQUEST['edit'])) {
 ?>

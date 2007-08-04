@@ -37,7 +37,7 @@ $entry['tag'] = empty($_POST['tag']) ? '' : $_POST['tag'];
 $entry['acceptComment'] = empty($_POST['acceptComment']) ? 0 : 1;
 $entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 $entry['published'] = empty($_POST['published']) ? 1 : $_POST['published'];
-if ($id = addEntry($blogid, $entry)){
+if ($id = addEntry($blogid, $entry)) {
 	fireEvent('AddPost', $id, $entry);
 	setBlogSetting('LatestEditedEntry_user'.getUserId(),$id);
 }

@@ -34,7 +34,7 @@ $entry['tag'] = empty($_POST['tag']) ? '' : $_POST['tag'];
 $entry['acceptComment'] = empty($_POST['acceptComment']) ? 0 : 1;
 $entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 $entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
-if (($id = saveDraftEntry($entry)) !== false){
+if (($id = saveDraftEntry($entry)) !== false) {
 	setBlogSetting('LatestEditedEntry',$id);
 	$result = array();
 	$result['error'] = (($id !== false) === true ? 0 : 1);

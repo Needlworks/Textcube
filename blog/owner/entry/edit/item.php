@@ -35,7 +35,7 @@ if (!isset($_GET['draft']) || (!$entry = getEntry(getBlogId(), $suri['id'], true
 }
 
 // Check whether or not user has permission to edit.
-if(Acl::check('group.writers')===false && !empty($suri['id'])){
+if(Acl::check('group.writers')===false && !empty($suri['id'])) {
 	if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) { 
 		@header("location:".$blogURL ."/owner/entry");
 		exit; 
@@ -612,7 +612,7 @@ $templateLists = getTemplates(getBlogId(),'id,title');
 if (count($templateLists) == 0) {
 	echo '												<dd class="noItem">' . _t('등록된 서식이 없습니다.') . '</dd>' . CRLF;
 } else {
-	foreach($templateLists as $templateList){
+	foreach($templateLists as $templateList) {
 		echo '												<dd><a href="#void" onclick="entryManager.loadTemplate('.$templateList['id'].',\''.$templateList['title'].'\');return false;">'.$templateList['title'].'</a></dd>'.CRLF;
 	}
 }

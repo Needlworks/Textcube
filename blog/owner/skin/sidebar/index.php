@@ -20,7 +20,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 
 $stats = getStatistics($blogid);
 
-function correctSidebarImage( $subject ){
+function correctSidebarImage( $subject ) {
 	$pattern_with_src = '/(?:\ssrc\s*=\s*["\']?)([^\s^"^>^\']+)(?:[\s">\'])/i';
 	$pattern_with_background = '/(?:\sbackground\s*=\s*["\']??)([^\s^"^>^\']+)(?:[\s">\'])/i';
 	$pattern_with_url_func = '/(?:url\s*\(\s*\'?)([^)]+)(?:\'?\s*\))/i';
@@ -30,7 +30,7 @@ function correctSidebarImage( $subject ){
 	return $return_val;
 } 
 
-function correctImagePath($match ){
+function correctImagePath($match ) {
 	global $skinSetting, $serviceURL;
 	$pathArr = explode( "/" , $match[1]);
 	if( false === $pathArr  ) 
@@ -423,7 +423,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 	}
 }
 
-for ($i=0;$i<$sidebarCount; $i++){
+for ($i=0;$i<$sidebarCount; $i++) {
 	$orderConfig = array_key_exists($i,$sidebarConfig) ? $sidebarConfig[$i] : array();
 	for ($j=0; $j<count($orderConfig) ; $j++) {
 		if ($orderConfig[$j]['type'] == 1) {

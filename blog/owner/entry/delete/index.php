@@ -14,7 +14,7 @@ requireModel("blog.entry");
 requireStrictRoute();
 foreach(explode(',', $_POST['targets']) as $target) {
 	// TeamBlog check
-	if(!Acl::check( 'group.writers', 'entry.delete.' . $target )){
+	if(!Acl::check( 'group.writers', 'entry.delete.' . $target )) {
 		if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) { 
 			respondResultPage(-1);
 			exit;

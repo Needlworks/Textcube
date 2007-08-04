@@ -27,7 +27,7 @@ requireStrictRoute();
 
 $stats = getStatistics($blogid);
 
-function correctSidebarImage( $subject ){
+function correctSidebarImage( $subject ) {
 	$pattern_with_src = '/(?:\ssrc\s*=\s*["\']?)([^\s^"^>^\']+)(?:[\s">\'])/i';
 	$pattern_with_background = '/(?:\sbackground\s*=\s*["\']??)([^\s^"^>^\']+)(?:[\s">\'])/i';
 	$pattern_with_url_func = '/(?:url\s*\(\s*\'?)([^)]+)(?:\'?\s*\))/i';
@@ -37,7 +37,7 @@ function correctSidebarImage( $subject ){
 	return $return_val;
 } 
 
-function correctImagePath($match ){
+function correctImagePath($match ) {
 	global $skinSetting, $serviceURL;
 	$pathArr = explode( "/" , $match[1]);
 	if( false === $pathArr  ) 

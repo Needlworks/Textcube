@@ -70,7 +70,7 @@ if( Acl::check('group.owners')) {?>
 										return receivers;
 								}
 								
-								function clearPASS(){
+								function clearPASS() {
 									var password = document.getElementById('invite_password');
 									password.value = '';
 								}
@@ -170,7 +170,7 @@ if( Acl::check('group.owners')) {?>
 								}
 								
 								function deleteUser(userid, atype) {
-									if(atype == 1){
+									if(atype == 1) {
 										if(!confirm('<?php	echo _t('선택된 사용자를 삭제합니다.\n삭제되는 사용자가 쓴 글은 전부 관리자의 글로 변환됩니다.\n\n백업하지 않으시면 실수로 삭제하였을 경우 되돌릴 수 없습니다.\n정말 삭제하시겠습니까?');?>')) return false;
 									} else {
 										if(!confirm('<?php	echo _t('삭제 하시겠습니까?');?>')) 
@@ -199,12 +199,12 @@ if( Acl::check('group.owners')) {?>
 								}
 								
 								var CHCrev=false;
-								function Check_rev(){
+								function Check_rev() {
 									if(CHCrev == false) CHCrev = true;
 									else CHCrev = false;
 
-									for(var chr=0;;chr++){
-										if(document.getElementById('check_'+chr)){
+									for(var chr=0;;chr++) {
+										if(document.getElementById('check_'+chr)) {
 											document.getElementById('check_'+chr).checked = CHCrev;
 										}
 										else{
@@ -213,17 +213,17 @@ if( Acl::check('group.owners')) {?>
 							
 									}
 								}
-								function deleteSelectedUsers(auser){
+								function deleteSelectedUsers(auser) {
 									if(!confirm('<?php	echo _t('선택된 사용자들을 정말 삭제하시겠습니까?\n삭제되는 기존사용자의 글은 전부 관리자의 글로 변환됩니다.\n개인블로그가 설정되어있으면 개인블로그가 폐쇄됩니다.\n(글이 전부 삭제되는것은 아니고 팀블로그의 로그인데이터만 삭제됩니다)\n잘못된 삭제는 복원이 어렵습니다. 정말 삭제하시겠습니까?');?>')) return false;
 									PM.showMessage("<?php	echo _t('삭제 중입니다. 잠시만 기다려주세요.');?>", "center", "middle");
 									var mysend = 0;
 									var mycheck = 0;
-									for(var chr=0; chr< auser ;chr++){
-										if(document.getElementById('check_'+chr).checked == true){
+									for(var chr=0; chr< auser ;chr++) {
+										if(document.getElementById('check_'+chr).checked == true) {
 											mycheck++;
 											var users = document.getElementById('chh'+chr).value
 											var type = document.getElementById('cht'+chr).value
-											if(type == 0){
+											if(type == 0) {
 												var request = new HTTPRequest("POST", "<?php	echo $blogURL;?>/owner/setting/teamblog/cancelInvite/");
 												request.onSuccess = function() {
 													mysend--;

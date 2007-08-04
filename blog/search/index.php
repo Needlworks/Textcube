@@ -25,7 +25,7 @@ if ($skinSetting['showListOnSearch'] != 2)
 
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/list.php';
-if ($suri['page'] === true || $suri['page'] === '1'){
+if ($suri['page'] === true || $suri['page'] === '1') {
 	require ROOT . '/lib/piece/blog/commentList.php';
 	require ROOT . '/lib/piece/blog/trackbackList.php';
 }

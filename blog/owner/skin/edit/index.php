@@ -53,7 +53,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 											
-											if (mode == 'skin'){
+											if (mode == 'skin') {
 												skinHTMLSaved = true;
 											} else {
 												skinStyleSaved = true;

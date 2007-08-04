@@ -374,7 +374,7 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Tags name" , 'Key') != 'UNI') 
 	echo '<li>', _text('태그 테이블에 인덱스 키를 추가합니다.'), ': ';
 	requireComponent('Textcube.Data.Post');
 	Post::correctTagsAll();
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Tags ADD UNIQUE INDEX name (name)")){
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Tags ADD UNIQUE INDEX name (name)")) {
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	} else {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span>';
@@ -608,9 +608,9 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings defaultDomai
 					DBQuery::execute("RENAME TABLE {$database['prefix']}BlogSettingsMig TO {$database['prefix']}BlogSettings");
 					// Migrate UserSettings
 					$query = new TableQuery($database['prefix'] . 'UserSettings');
-					if($query->doesExist()){
+					if($query->doesExist()) {
 						$oldUserSettings = $query->getAll('user, name, value');
-						foreach($oldUserSettings as $oldUserSetting){
+						foreach($oldUserSettings as $oldUserSetting) {
 							setBlogSettingForMigration($oldUserSetting['user'],$oldUserSetting['name'],$oldUserSetting['value'],true);
 						}
 						DBQuery::execute("DROP TABLE {$database['prefix']}UserSettings");
@@ -635,7 +635,7 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings defaultDomai
 if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries userid")) {
 	$changed = true;
 	echo '<li>', _text('본문 테이블에 작성자 정보를 위한 필드를 추가합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD userid INT(11) DEFAULT 0 NOT NULL AFTER owner")){
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD userid INT(11) DEFAULT 0 NOT NULL AFTER owner")) {
 		if($blogids = DBQuery::queryColumn("SELECT DISTINCT owner FROM {$database['prefix']}Entries")) {
 			foreach($blogids as $blogid) {
 				DBQuery::execute("UPDATE {$database['prefix']}Entries 
@@ -809,7 +809,7 @@ foreach($plugintablesraw as $table) {
 	array_push($plugintables[$plugin .'/'. $version]['tables'], $dbname);
 	
 	if ($dbCaseInsensitive == true) $dbname = strtolower($dbname);
-	if(DBQuery::queryExistence("DESC $dbname owner")){
+	if(DBQuery::queryExistence("DESC $dbname owner")) {
 		echo '<li>', _textf('플러그인이 생성한 %1 테이블의 owner 필드를 변경합니다.'), ': ';
 		if(DBQuery::execute("ALTER TABLE $dbname CHANGE owner blogid int(11) NOT NULL DEFAULT 0"))
 			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';

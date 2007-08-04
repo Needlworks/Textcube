@@ -86,7 +86,7 @@ if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 				"2": "<?php echo _t('잘못된 입력입니다.');?>"
 			};
 			
-			function saveConfig(plugin){
+			function saveConfig(plugin) {
 				var xmlcon= new Converter(document, fiednamelist) ; 
 			   	var xmlData = encodeURIComponent(xmlcon.getXMLData());
 				var request = new HTTPRequest("POST", "<?php echo $targetURL;?>");

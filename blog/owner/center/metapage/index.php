@@ -21,7 +21,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 
 $stats = getStatistics($blogid);
 
-function correctMetapageImage( $subject ){
+function correctMetapageImage( $subject ) {
 	$pattern_with_src = '/(?:\ssrc\s*=\s*["\']?)([^\s^"^>^\']+)(?:[\s">\'])/i';
 	$pattern_with_background = '/(?:\sbackground\s*=\s*["\']??)([^\s^"^>^\']+)(?:[\s">\'])/i';
 	$pattern_with_url_func = '/(?:url\s*\(\s*\'?)([^)]+)(?:\'?\s*\))/i';
@@ -31,7 +31,7 @@ function correctMetapageImage( $subject ){
 	return $return_val;
 } 
 
-function correctImagePath($match ){
+function correctImagePath($match ) {
 	global $skinSetting, $serviceURL;
 	$pathArr = explode( "/" , $match[1]);
 	if( false === $pathArr  ) 

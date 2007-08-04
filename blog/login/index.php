@@ -48,7 +48,7 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 		if (!doesHaveMembership() && isLoginId($blogid, $_POST['loginid']))
 			$showPasswordReset = true;
 	}
-	else if($isLogin == 2){
+	else if($isLogin == 2) {
 		$message=_t('권한이 없습니다.');
 	}
 }

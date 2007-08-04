@@ -11,7 +11,7 @@ requireStrictRoute();
 $isAjaxRequest = checkAjaxRequest();
 
 // TeamBlog check.
-if(!Acl::check("group.editors")){
+if(!Acl::check("group.editors")) {
     if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) {
 		respondResultPage(-1);
 		exit;

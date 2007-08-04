@@ -59,7 +59,7 @@ while (false !== ($plugin = $dir->read())) { // 이게 php.net에서 권장하�
 	} else {
 		// Check privilege as blog service owner.
 		$needPrivilege = $xmls->getValue('/plugin/requirements/privilege');
-		if(!is_null($needPrivilege)){
+		if(!is_null($needPrivilege)) {
 			if($needPrivilege == 'administrator' && getBlogId() != 1) continue;
 		}
 		// filter the plugins as the selected scopes.
@@ -293,7 +293,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 								}
 								
 								var currentSetting='';
-								function getCurrentSetting( plugin, setYN, width, height, tab){
+								function getCurrentSetting( plugin, setYN, width, height, tab) {
 									//if( "N" == setYN ) return ;
 									if( '' != currentSetting ) currentSetting.close();
 									window.open('<?php echo $blogURL;?>/owner/plugin/currentSetting/?Name='+plugin+'&Tab='+tab, 'CurrentSetting', 'width='+width+', height='+height+', scrollbars=1, status=0, resizable=1');	

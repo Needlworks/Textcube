@@ -282,7 +282,7 @@ function importer($path, $node, $line) {
 					$cursor = & $node['category'][$i];
 					$childCategory->name = $cursor['name'][0]['.value'];
 					$childCategory->priority = $cursor['priority'][0]['.value'];
-					if (!$childCategory->add()){
+					if (!$childCategory->add()) {
 						user_error(__LINE__ . $childCategory->error);
 					}
 				}
