@@ -699,6 +699,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								<li<?php echo isset($tabsClass['all']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>"><?php echo _t('모든 글');?></a></li>
 								<li<?php echo isset($tabsClass['private']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=private"><?php echo _t('비공개 글');?></a></li>
 								<li<?php echo isset($tabsClass['public']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=public"><?php echo _t('공개된 글');?></a></li>
+								<li<?php echo isset($tabsClass['protected']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=protected"><?php echo _t('보호된 글');?></a></li>
 								<li<?php echo isset($tabsClass['reserved']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=reserved"><?php echo _t('예약된 글');?></a></li>
 								<li<?php echo isset($tabsClass['template']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=template"><?php echo _t('서식');?></a></li>
 							</ul>
