@@ -475,7 +475,7 @@ function openid_SessionLogout($target)
 
 function openid_logout()
 {
-	openid_logout_session('');
+	openid_SessionLogout('');
 
 	header("HTTP/1.0 302 Moved Temporarily");
 	header("Location: ".$_GET['requestURI']);
