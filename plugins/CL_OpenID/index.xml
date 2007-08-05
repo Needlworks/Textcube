@@ -18,6 +18,7 @@
 	<listener event="AddComment">openid_AddComment</listener>
 	<listener event="AddGuestComment">openid_AddComment</listener>
 	<listener event="AddingComment">openid_AddingComment</listener>
+	<listener event="AddingCommentViewTail">openid_AddingCommentViewTail</listener>
 	<listener event="ViewCommenter">openid_ViewCommenter</listener>
 	<listener event="ViewGuestCommenter">openid_ViewCommenter</listener>
 	<listener event="ShowSecretComment">openid_ShowSecretComment</listener>

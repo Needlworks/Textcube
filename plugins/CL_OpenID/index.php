@@ -230,7 +230,6 @@ function _openid_set_acl($openid)
 	$blogid = getBlogId();
 	$query = "SELECT * FROM {$database['prefix']}OpenIDUsers WHERE blogid={$blogid} and openid='{$openid}'";
 	$result = DBQuery::queryRow($query);
-print_r($result);
 	$data = unserialize( $result['data'] );
 
 	if( !isset($data['acl']) ) {
@@ -766,6 +765,38 @@ function openid_setdelegate()
 	}
 }
 
+function openid_AddingCommentViewTail( $comment_id )
+{
+	global $database, $blogid;
+	global $hostURL, $service, $blogURL;
+	global $openid_session;
+
+	if( empty($openid_session['id']) ) {
+		return '';
+	}
+	$comment = _openid_getCommentInfo( getBlogId(), $comment_id );
+	if( $comment['secret'] ) {
+		$secret_checked = "true";
+	} else {
+		$secret_checked = "false";
+	}
+	if( !empty( $comment['parent'] ) ) {
+		$parent = _openid_getCommentInfo( getBlogId(), $comment['parent'] );
+		if( $parent['secret'] ) {
+			$secret_checked = "true";
+		}
+	} else {
+		$parent = array();
+	}
+	$scr = "<script type='text/javascript'>
+document.getElementById('password').disabled = true;
+document.getElementById('name').value = '{$openid_session['nickname']}';
+document.getElementById('title').innerHTML += ' ( <img style=\"position:relative;top:3px;left:0\"; src=\"$hostURL{$service['path']}/plugins/CL_OpenID/openid16x16.gif\" alt=\"OpenID Logo\" /> {$openid_session['id']} )';
+document.getElementById('secret').checked = $secret_checked;
+</script>";
+	return $scr;
+}
+
 function openid_AddingComment( $target, $comment )
 {
 	global $openid_session;
@@ -787,7 +818,7 @@ function openid_AddComment( $id, $comment )
 	$auth_id = _openid_get_auth_id();
 	if( $auth_id )
 	{ 
-		$result = _openid_getCommentAttributes($blogid,$id,"name,homepage");
+		$result = getCommentAttributes($blogid,$id,"name,homepage");
 		_openid_update_id( $openid_session['id'], $openid_session['delegatedid'], $result['name'], $result['homepage']);
 		openid_session_write();
 
@@ -797,15 +828,19 @@ function openid_AddComment( $id, $comment )
 			"( {$blogid}, {$id}, '{$auth_id}' )");
 	}
 
-	/* Check if parent's comment is written by openid and secret. */
-	if( ! Acl::check('group.writers') ) {
-		return;
-	}
 	if( empty($comment['parent']) )
 	{
 		return;
 	}
-	$result = _openid_getCommentAttributes($blogid,$comment['parent'],"secret");
+
+	$parent_comment = _openid_getCommentInfo( $blogid, $comment['parent'] );
+
+	/* Check if parent's comment is written by openid and secret. */
+	if( ! Acl::check('group.writers') && !_openid_has_ownership( $parent_comment['openid'] ) ) {
+		return;
+	}
+
+	$result = getCommentAttributes($blogid,$comment['parent'],"secret");
 	if( ! $result ) {
 		return;
 	}
@@ -862,20 +897,12 @@ function openid_ViewCommenter($name, $comment)
 
 function openid_comment_comment()
 {
-	global $blogid, $hostURL, $blog, $user, $skinSetting;
-	global $service, $adminSkinSetting, $blogURL, $pageTitle, $comment, $suri;
+	global $hostURL, $blogURL;
 	global $openid_session;
-	$entryId = $_GET['id'];
-	$suri['id'] = $entryId;
 
-	if( misc::getBlogSettingGlobal('AddCommentMode', '') == 'openid' ) {
-		if( !empty($openid_session['id']) ) {
-			header("HTTP/1.0 302 Moved Temporarily");
-			header("Location: $hostURL$blogURL/comment/comment/$entryId");
-			print( "<html><body></body></html>" );
-			exit(0);
-		} else {
-			$msg = _t('관리자의 설정에 의해 오픈아이디로 로그인한 사용자만 댓글을 남길 수 있습니다.\r\n로그인하시겠습니까?' + $entryId);
+	if( !Acl::check('group.writers') && misc::getBlogSettingGlobal('AddCommentMode', '') == 'openid' ) {
+		if( empty($openid_session['id']) ) {
+			$msg = _t('관리자의 설정에 의해 오픈아이디로 로그인한 사용자만 댓글을 남길 수 있습니다.\r\n로그인하시겠습니까?');
 			print( "<html><body><script type='text/javascript'> " );
 			print( "var yn = confirm('" . $msg . "');\n" );
 			print( "if(yn && window.opener) window.opener.document.location.href='$hostURL$blogURL/plugin/openid/login?requestURI='+escape( window.opener.document.location.href );" );
@@ -884,32 +911,18 @@ function openid_comment_comment()
 		}
 	}
 
-	if( !$openid_session['id'] || doesHaveOwnership() || doesHaveMembership() )
-	{
-		header("HTTP/1.0 302 Moved Temporarily");
-		header("Location: $hostURL$blogURL/comment/comment/$entryId");
-		print( "<html><body></body></html>" );
-		exit(0);
-	}
-
-	$pageTitle = _text('댓글에 댓글 달기') . ": " . _text("로그인한 오픈아이디") . " (" . $openid_session['id'] . ")";
-	$comment = array('name' => '', 'password' => '', 'homepage' => 'http://', 'secret' => 0, 'comment' => '');
-	require 'openid_replyedit.php';
-}
-
-/* Get and rename from original code */
-function _openid_getCommentAttributes($blogid, $id, $attributeNames) {
-	global $database;
-	return DBQuery::queryRow("select $attributeNames from {$database['prefix']}Comments where blogid = $blogid and id = $id");
+	$entryId = $_GET['id'];
+	header("HTTP/1.0 302 Moved Temporarily");
+	header("Location: $hostURL$blogURL/comment/comment/$entryId");
+	print( "<html><body></body></html>" );
+	exit(0);
 }
 
 function _openid_getCommentInfo($blogid,$id){
 	global $database;
 
 	$sql="select a.*, openid from {$database['prefix']}Comments a left join {$database['prefix']}OpenIDComments b on a.id = b.id where a.blogid = $blogid and a.id = $id";
-	if($result=DBQuery::query($sql))
-		return mysql_fetch_array($result);
-	return false;
+	return DBQuery::queryRow($sql, MYSQL_ASSOC);
 }
 /* Get and rename from original code */
 
@@ -930,7 +943,7 @@ function openid_comment_del()
 		exit(0);
 	}
 
-	list($replier) = _openid_getCommentAttributes($blogid, $suri['id'], 'replier');
+	list($replier) = getCommentAttributes($blogid, $suri['id'], 'replier');
 	$comment = _openid_getCommentInfo($blogid, $suri['id']);
 	?>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
