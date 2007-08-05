@@ -8,9 +8,9 @@ function mysql_multi_query() {
 	foreach (func_get_args() as $query) {
 		if (is_array($query)) {
 			foreach ($query as $subquery)
-				if (($result = mysql_tc_query($subquery)) === false)
+				if (($result = DBQuery::query($subquery)) === false)
 					return false;
-		} else if (($result = mysql_tc_query($query)) === false)
+		} else if (($result = DBQuery::query($query)) === false)
 			return false;
 	}
 	return $result;

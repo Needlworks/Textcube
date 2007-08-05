@@ -33,7 +33,7 @@ function _getRecentComments($blogid) {
 	$repliesChk = ($data['repliesChk'] == 1)?"":" AND replier is NULL ";
 	$limitLine = ($data['repliesList'])?$data['repliesList']:$skinSetting['commentsOnRecent'];
 	$sql = "SELECT * FROM {$database['prefix']}Comments WHERE blogid = {$blogid} AND entry>0 AND isFiltered = 0 {$repliesChk} ORDER BY written DESC LIMIT {$limitLine}";
-	if ($result = mysql_tc_query($sql)) {
+	if ($result = DBQuery::query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
 			if ($data['repliesChk'] == 2) {
 				$row = DBQuery::queryCell("select count(*) from {$database['prefix']}Comments where blogid = $blogid AND parent = ".$comment['id']);

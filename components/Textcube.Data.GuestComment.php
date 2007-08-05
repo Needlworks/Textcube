@@ -31,7 +31,7 @@ class GuestComment {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_tc_query("SELECT $fields 
+		$this->_result = DBQuery::query("SELECT $fields 
 			FROM {$database['prefix']}Comments 
 			WHERE blogid = ".getBlogId()." 
 				AND entry = 0 

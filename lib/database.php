@@ -5,7 +5,7 @@
 mysql_connect($database['server'], $database['username'], $database['password']);
 mysql_select_db($database['database']);
 
-if (mysql_tc_query('SET CHARACTER SET utf8')) {
+if (DBQuery::query('SET CHARACTER SET utf8')) {
 	$database['utf8'] = true;
 	function mysql_lessen($str, $length = 255, $tail = '..') {
 		return UTF8::lessen($str, $length, $tail);
@@ -16,7 +16,7 @@ if (mysql_tc_query('SET CHARACTER SET utf8')) {
 		return UTF8::lessenAsByte($str, $length, $tail);
 	}
 }
-@mysql_tc_query('SET SESSION collation_connection = \'utf8_general_ci\'');
+@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 
 if (function_exists('mysql_real_escape_string') && (mysql_real_escape_string('ㅋ') == 'ㅋ')) {
 	function mysql_tt_escape_string($string, $link = null) {

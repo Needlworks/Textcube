@@ -20,7 +20,7 @@ function _openid_new_session()
 
 	# OPENID용 세션은 그 ID가 "77XXX..." 형식으로 된다.
 	$openid_session_id = dechex(rand(0x77000000, 0x77FFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-	$result = mysql_tc_query("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$openid_session_id', '" . _openid_ip_address() . "', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+	$result = DBQuery::query("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$openid_session_id', '" . _openid_ip_address() . "', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 	if ( !headers_sent() && ($result !== false) && (mysql_affected_rows() > 0)) {
 		setcookie( $openid_session_name, $openid_session_id, time()+$service['timeout'], $openid_session_path );
 		gcSession();
@@ -39,7 +39,7 @@ function openid_session_destroy()
 		return;
 	}
 
-	mysql_tc_query("DELETE FROM {$database['prefix']}Sessions WHERE id = '$openid_session_id'");
+	DBQuery::query("DELETE FROM {$database['prefix']}Sessions WHERE id = '$openid_session_id'");
 	setcookie( $openid_session_name, '', time()-3600, $openid_session_path );
 	$openid_session_id = "";
 }
@@ -54,7 +54,7 @@ function openid_session_read()
 		$openid_session_id = $_COOKIE[$openid_session_name];
 	}
 
-	if ($result = mysql_tc_query("SELECT data FROM {$database['prefix']}Sessions WHERE id = '$openid_session_id' AND address = '" . _openid_ip_address() . "' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
+	if ($result = DBQuery::query("SELECT data FROM {$database['prefix']}Sessions WHERE id = '$openid_session_id' AND address = '" . _openid_ip_address() . "' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
 		if ( ($openid_session_rec = mysql_fetch_array($result)) )
 		{
 			if( !isset( $openid_session_rec['data'] ) ) {
@@ -84,7 +84,7 @@ function openid_session_write()
 	$request = mysql_tt_escape_string($_SERVER['REQUEST_URI']);
 	$referer = isset($_SERVER['HTTP_REFERER']) ? mysql_tt_escape_string($_SERVER['HTTP_REFERER']) : '';
 	$timer = getMicrotimeAsFloat() - $sessionMicrotime;
-	$result = mysql_tc_query("UPDATE {$database['prefix']}Sessions SET data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() WHERE id = '$openid_session_id' AND address = '" . _openid_ip_address() . "'");
+	$result = DBQuery::query("UPDATE {$database['prefix']}Sessions SET data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() WHERE id = '$openid_session_id' AND address = '" . _openid_ip_address() . "'");
 
 	if ($result && (mysql_affected_rows() == 1)) {
 		@setcookie( $openid_session_name, $openid_session_id, time()+$service['timeout'], $openid_session_path );
