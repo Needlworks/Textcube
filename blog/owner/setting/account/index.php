@@ -3,7 +3,9 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
-define('OPENID_REGISTERS', 10);
+if( !defined( 'OPENID_REGISTERS' ) ) {
+	define('OPENID_REGISTERS', 10);
+}
 $IV = array(
 	'GET' => array(
 		'password' => array('any' ,'mandatory' => false)
@@ -298,7 +300,7 @@ if ($service['type'] != 'single') {
 						<table class="data-inbox" cellspacing="0" cellpadding="0">
 							<thead>
 								<tr>
-									<th class="site"><span class="text"><?php echo _text('오픈아이디')?></span></th>
+									<th class="site"><span class="text"><?php echo _t('오픈아이디')?></span></th>
 									<th class="site"><span class="text"></span></th>
 								</tr>
 							</thead>
@@ -328,7 +330,7 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 						</table>
 					<?php if( $i > 0 ) { /* 출력된것이 하나라도 있다면*/?>
 						<div class="openid-account-help">
-						<?php echo _text('삭제: 오픈아이디에 부과된 관리자 권한을 제거합니다.'); ?>
+						<?php echo _t('삭제: 오픈아이디에 부과된 관리자 권한을 제거합니다.'); ?>
 						</div> 
 					<?php  } ?>
 							<div class="data-inbox">
@@ -342,7 +344,7 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 										<dl id="blogger-name-line" class="line">
 											<dt><label for="nickname"><?php echo _t('오픈아이디');?></label></dt>
 											<dd><input type="text" name="openid_identifier" class="input-text" value="<?php echo $currentOpenID ?>" />
-												<input type="submit" class="save-button input-button" value="<?php echo _t('추가하기');?>" />
+												<input type="submit" class="save-button input-button" value="<?php echo _t('추가하기');?>" /> (<a href="<?php echo $blogURL?>/owner/plugin/adminMenu?name=CL_OpenID/openid_manage"><?php echo _t('오픈아이디 플러그인 설정 바로가기')?></a>)
 											</dd>
 										</dl>
 									</fieldset>
@@ -350,9 +352,9 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 								</form>
 					<?php  } else { ?>
 										<dl id="blogger-name-line" class="line">
-											<dd><em>
-					<?php echo _t('오픈아이디 인증 플러그인을 활성화하십시오'); ?>
-											</em></dd>
+											<dd><em><?php echo _t('오픈아이디 인증 플러그인을 활성화하십시오'); ?></em>
+					<a href="<?php echo $blogURL?>/owner/plugin">(<?php echo _t('플러그인 설정 바로가기'); ?></a>)
+											</dd>
 										</dl>
 					<?php } ?>
 							</div>

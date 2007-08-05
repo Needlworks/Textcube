@@ -5,6 +5,9 @@
 
 define( 'OPENID_PLUGIN_VERSION', 1.0 ); 
 define( 'OPENID_PASSWORD', "-OPENID-" );
+if( !defined( 'OPENID_REGISTERS' ) ) {
+	define('OPENID_REGISTERS', 10);
+}
 
 global $hostURL, $service;
 global $openid_pluginbase;
@@ -298,7 +301,7 @@ function openid_try_auth()
 	return _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate_only );
 }
 
-function openid_Fetch( $openid )
+function openid_Fetch( $openid, $xrdsuri = false )
 {
 	require_once  "common.php";
 	require_once  "xmlwrapper.php";
@@ -306,6 +309,9 @@ function openid_Fetch( $openid )
 	static $xmlparser = null;
 	if( !$xmlparser ) $xmlparser = new Services_Textcube_xmlparser();
 	Services_Yadis_setDefaultParser( $xmlparser );
+
+	global $TextCubeLastXRDSUri;
+	$TextCubeLastXRDSUri = '';
 
 	// Begin the OpenID authentication process.
 	ob_start();
@@ -316,6 +322,17 @@ function openid_Fetch( $openid )
 		return "";
 	}
 
+	if( $xrdsuri ) {
+		if( $auth_request->endpoint->delegate ) {
+			$IdPIdentity = $auth_request->endpoint->delegate; 
+		} else {
+			$IdPIdentity = $auth_request->endpoint->identity_url; 
+		}
+		return array( 
+			$IdPIdentity,
+			$auth_request->endpoint->server_url, 
+			$TextCubeLastXRDSUri );
+	}
 	return $auth_request->endpoint->identity_url;
 }
 
@@ -508,6 +525,28 @@ function openid_hardcore_login($target)
 	return $target;
 }
 
+function openid_add_delegate($target)
+{
+	global $suri;
+	$openid_delegate = misc::getBlogSettingGlobal( 'OpenIDDelegate', '' );
+	$openid_server = misc::getBlogSettingGlobal( 'OpenIDServer', '' );
+	$openid_xrduri = misc::getBlogSettingGlobal( 'OpenIDXRDSUri', '' );
+	if( empty($openid_delegate) ) {
+		return $target;
+	}
+	if( $suri['directive'] != '/' ) {
+		return $target;
+	}
+	$target ="<!--OpenID Delegation Begin-->
+<link rel='openid.server' href='$openid_server' />
+<link rel='openid.delegate' href='$openid_delegate' />
+<meta http-equiv='X-XRDS-Location' content='$openid_xrduri' />
+<!--OpenID Delegation End-->
+$target";
+	header( "X-XRDS-Location: $openid_xrduri" );
+	return $target;
+}
+
 function openid_add_controller($target)
 {
 	global $hostURL, $service, $blogURL;
@@ -528,7 +567,7 @@ function openid_add_controller($target)
 	{
 		$openid_loggedin = 0;
 	}
-	if( misc::getBlogSettingGlobal('AddCommentMode', '') == 'openid' ) {
+	if( misc::getBlogSettingGlobal('AddCommentMode', '') == 'openid' && !Acl::check('group.writers') ) {
 		$openid_add_comment_only_by_openid = 1;
 	} else {
 		$openid_add_comment_only_by_openid = 0;
@@ -706,11 +745,34 @@ function openid_setcomment()
 	}
 }
 
+function openid_setdelegate()
+{
+	if( !Acl::check( array("group.administrators") ) ) {
+		respondResultPage( -1);
+		return;
+	}
+	$openid = empty($_GET['openid']) ? '' : $_GET['openid'];
+	$openid_server = '';
+	$xrds_uri = '';
+	if( $openid ) {
+		list( $openid, $openid_server, $xrds_uri ) = openid_Fetch( $openid, true );
+	}
+	if( misc::setBlogSettingGlobal( "OpenIDDelegate", $openid ) && 
+		misc::setBlogSettingGlobal( "OpenIDServer", $openid_server ) && 
+		misc::setBlogSettingGlobal( "OpenIDXRDSUri", $xrds_uri ) ) {
+		respondResultPage(0);
+	} else {
+		respondResultPage(-1);
+	}
+}
+
 function openid_AddingComment( $target, $comment )
 {
 	global $openid_session;
-	if( misc::getBlogSettingGlobal('AddCommentMode', '') == 'openid' ) {
-		return $openid_session['id'] ? true : false;
+	if( !Acl::check( "group.writers" ) ) {
+		if( misc::getBlogSettingGlobal('AddCommentMode', '') == 'openid' ) {
+			return $openid_session['id'] ? true : false;
+		}
 	}
 	return true;
 }
@@ -807,10 +869,17 @@ function openid_comment_comment()
 	$suri['id'] = $entryId;
 
 	if( misc::getBlogSettingGlobal('AddCommentMode', '') == 'openid' ) {
-		if( empty($openid_session['id']) ) {
+		if( !empty($openid_session['id']) ) {
 			header("HTTP/1.0 302 Moved Temporarily");
 			header("Location: $hostURL$blogURL/comment/comment/$entryId");
 			print( "<html><body></body></html>" );
+			exit(0);
+		} else {
+			$msg = _t('관리자의 설정에 의해 오픈아이디로 로그인한 사용자만 댓글을 남길 수 있습니다.\r\n로그인하시겠습니까?' + $entryId);
+			print( "<html><body><script type='text/javascript'> " );
+			print( "var yn = confirm('" . $msg . "');\n" );
+			print( "if(yn && window.opener) window.opener.document.location.href='$hostURL$blogURL/plugin/openid/login?requestURI='+escape( window.opener.document.location.href );" );
+			print( "window.close();</script></body></html>" );
 			exit(0);
 		}
 	}
@@ -986,6 +1055,16 @@ function openid_manage()
 	} else {
 		$mode = "";
 	}
+
+	/* Fetch registerred openid */
+	$openid_list = array();
+	for( $i=0; $i<OPENID_REGISTERS; $i++ )
+	{
+		$openid = getUserSetting( "openid." . $i );
+		if( !empty($openid) ) {
+			array_push( $openid_list, $openid );
+		}
+	}
 ?>
 	<script type="text/javascript">
 	function toggle_openid_only() {
@@ -1006,6 +1085,24 @@ function openid_manage()
 		} catch(e) {
 		}
 	}
+	function setDelegate() {
+		try {
+			delegatedid = document.getElementById( 'openid_for_delegation' ).value;
+			if( !delegatedid ) {
+				alert( "<?php echo _text('블로그 주소를 오픈아이디로 사용하지 않습니다.') ?>");
+			}
+
+			var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/plugin/openid/setdelegate?openid=" + escape(delegatedid));
+			request.onSuccess = function() {
+				PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+			}
+			request.onError = function() {
+				alert("<?php echo _t('저장하지 못했습니다.');?>");
+			}
+			request.send("");
+		} catch(e) {
+		}
+	}
 	</script>
 	<h2 class="caption"><span class="main-text"><?php echo _text('댓글/방명록 설정')?></span></h2>
 	<table class="data-inbox" cellspacing="0" cellpadding="0">
@@ -1016,6 +1113,36 @@ function openid_manage()
 			onclick="toggle_openid_only();"
 		/>
 		<label for="openidonlycomment">체크할 경우, 오픈아이디 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다.</label>
+		</span></td>
+		</tr>
+		</tbody>
+	</table>
+	<h2 class="caption"><span class="main-text"><?php echo _text('블로그 주소를 오픈아이디로 사용')?></span></h2>
+	<table class="data-inbox" cellspacing="0" cellpadding="0">
+		<tbody>
+		<tr class="site">
+		<td>
+<?php
+		$currentDelegate = misc::getBlogSettingGlobal( 'OpenIDDelegate', 'HIHI' );
+?>
+		<select id="openid_for_delegation">
+<?php
+		print "<option value='' >" . _text('블로그 주소를 오픈아이디로 사용하지 않음');
+		foreach( $openid_list as $openid ) {
+			$selected = '';
+			if( $openid == $currentDelegate ) {
+				$selected = "selected";
+			}
+			print "<option value='$openid' $selected>" . $openid;
+		}
+?>
+		</select>
+		<input type="button" onclick="setDelegate(); return false" value="<?php echo _text('확인') ?>" class="save-button input-button"/>
+		</td>
+		</tr>
+		<td><span class="text">
+		<?php echo sprintf( _text('블로그 주소(%s)를 관리자로 등록된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.'), "$hostURL$blogURL"); ?>
+		(<a href="<?php echo $blogURL?>/owner/setting/account"><?php echo _text('관리자 계정에 추가하기')?></a>)
 		</span></td>
 		</tr>
 		</tbody>

@@ -256,6 +256,11 @@ class Services_Yadis_Yadis {
             }
         }
 
+		/* Textcube patch */
+		global $TextCubeLastXRDSUri;
+        $TextCubeLastXRDSUri = $xrds_uri;
+        /* Upto here */
+
         $xrds = Services_Yadis_XRDS::parseXRDS($body, $extra_ns_map);
 
         if ($xrds !== null) {
@@ -267,7 +272,6 @@ class Services_Yadis_Yadis {
             $y->xrds_uri = $xrds_uri;
             $y->body = $body;
             $y->content_type = $content_type;
-
             return $y;
         } else {
             return null;
