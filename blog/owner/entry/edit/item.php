@@ -293,8 +293,10 @@ if (defined('__TEXTCUBE_POST__')) {
 											return false;
 										this.nowsaving = true;
 										var data = this.getData(true);
-										if (data == null)
+										if (data == null) {
+											this.nowsaving = false;
 											return false;
+										}
 										if(entryManager.isSaved == true) {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/"+entryManager.entryId);
 										} else {
