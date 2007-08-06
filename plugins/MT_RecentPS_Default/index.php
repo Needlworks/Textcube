@@ -1,6 +1,7 @@
 <?php
 function MT_getRecentEntries($parameters){
-	global $database,$blogid,$blogURL,$blog,$defaultURL;
+	global $database,$blogURL,$blog,$defaultURL,$serviceURL;
+	$blogid = getBlogId();
 	requireComponent('Textcube.Core');
 	requireComponent('Needlworks.Cache.PageCache');
 	requireModel("blog.entry");
@@ -12,10 +13,17 @@ function MT_getRecentEntries($parameters){
 	}
 	$entryLength = isset($parameters['entryLength'])?$parameters['entryLength']:10;
 
-	if (!is_dir(ROOT."/cache/metaPostThumbnail/{$blogid}/")) {
-		@mkdir(ROOT."/cache/metaPostThumbnail/");
-		@mkdir(ROOT."/cache/metaPostThumbnail/{$blogid}/");
-		@chmod(ROOT."/cache/metaPostThumbnail/{$blogid}/", 0777);
+	if (!is_dir(ROOT."/cache/thumbnail")) {
+		@mkdir(ROOT."/cache/thumbnail");
+		@chmod(ROOT."/cache/thumbnail", 0777);
+	}
+	if (!is_dir(ROOT."/cache/thumbnail/".$blogid)) {
+		@mkdir(ROOT."/cache/thumbnail/".$blogid);
+		@chmod(ROOT."/cache/thumbnail/".$blogid, 0777);
+	}
+	if (!is_dir(ROOT."/cache/thumbnail/{$blogid}/metaPostThumbnail/")) {
+		@mkdir(ROOT."/cache/thumbnail/{$blogid}/metaPostThumbnail/");
+		@chmod(ROOT."/cache/thumbnail/{$blogid}/metaPostThumbnail/", 0777);
 	}
 
 	$cache = new PageCache;
@@ -80,13 +88,13 @@ function MT_getRecentEntries_purgeCache($mother, $target) {
 }
 
 function MT_getImageResizer($filename){
-	global $blogURL;
+	global $defaultURL;
 	$blogid = getBlogId();
 	requireComponent('Textcube.Function.Image');
-
-	$imagePath = ROOT . "/cache/metaPostThumbnail/{$blogid}/{$filename}";
-	$savePath = ROOT . "/cache/metaPostThumbnail/{$blogid}/th_{$filename}";
-	$srcPath = "{$serviceURL}/cache/metaPostThumbnail/{$blogid}/th_{$filename}";
+	
+	$imagePath = ROOT . "/attach/{$blogid}/{$filename}"; 
+	$savePath = ROOT . "/cache/thumbnail/{$blogid}/metaPostThumbnail/th_{$filename}";
+	$srcPath = "{$defaultURL}/thumbnail/{$blogid}/metaPostThumbnail/th_{$filename}";
 
 	if(file_exists($imagePath)){
 		if(!file_exists($savePath)){
