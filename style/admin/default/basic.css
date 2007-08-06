@@ -137,14 +137,14 @@ option
 
 kbd, samp
 {
-	font-family                      : "Courier New", Courier, 굴림, Gulim, monospace;
+	font-family                      : "Courier New", Courier, '굴림', Gulim, monospace;
 	font-size                        : 11px; /* Sarafi에서 상대크기를 제대로 인식하지 못함. */
 }
 
 select
 {
 	font-size                        : 1em;
-	font-family                      : 'Lucida Grande', Arial, 굴림, Gulim, Tahoma, Verdana, sans-serif;
+	font-family                      : 'Lucida Grande', Arial, '굴림', Gulim, Tahoma, Verdana, sans-serif;
 	vertical-align                   : middle;
 }
 
@@ -379,12 +379,12 @@ textarea
 /* pseudo box */
 #pseudo-box
 {
-	background-color                 : #FFFFFF;
+	background-color                 : #FFF;
 	background-image                 : url("./image/bg_body_top.png");
 	background-position              : left top;
 	background-repeat                : repeat-x;
-	border-left                      : 1px solid #BBBBBB;
-	border-right                     : 1px solid #BBBBBB;
+	border-left                      : 1px solid #BBB;
+	border-right                     : 1px solid #BBB;
 	margin                           : 0 auto;
 	position                         : relative;
 	width                            : 980px;
@@ -403,7 +403,7 @@ h2.caption
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	clear                            : both;
-	color                            : #000000;
+	color                            : #000;
 	display                          : block;
 	height                           : 30px;
 	font-size                        : 1em;
@@ -478,8 +478,8 @@ h2.caption span
 
 .tabs-box li.selected
 {
-	background-color: #FFFFFF;
-	border-bottom: 1px solid #FFFFFF;
+	background-color: #FFF;
+	border-bottom: 1px solid #FFF;
 }
 
 .tabs-box li.selected a

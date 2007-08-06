@@ -8,7 +8,7 @@ require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 						<div id="part-center-about" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('텍스트큐브 개발진');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('텍스트큐브 개발자');?></span></h2>
 						
 							<h3>Brand yourself! : <?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?></h3>
 							
