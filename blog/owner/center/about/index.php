@@ -147,7 +147,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="role"><?php echo _t('Icon design');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://1upz.com">Won-oop Jo</a></td>
+												<td class="name"><a href="http://1upz.com">Won-eob Cho</a></td>
 												<td class="role"><?php echo _t('Default skin');?></td>
 											</tr>
 											<tr>
