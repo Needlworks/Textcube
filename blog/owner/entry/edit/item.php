@@ -506,6 +506,14 @@ if (isset($_GET['popupEditor'])) {
 								function closeTemplateDialog() {
 									document.getElementById('templateDialog').style.display = 'none';
 								}
+								
+								function returnToList() {
+									if(confirm("<?php echo _t('저장하지 않은 데이터는 삭제됩니다. 목록으로 돌아가시겠습니까?');?>")!=1)
+										return null;
+									window.location.href='<?php echo $blogURL;?>/owner/entry';
+									return true;
+								}
+
 							//]]>
 						</script>
 						
@@ -703,7 +711,7 @@ if (isset($_GET['popupEditor'])) {
 											<span class="hidden">|</span>
 							       			<input type="submit" value="<?php echo _t('저장 후 닫기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
 											<span class="hidden">|</span>
-											<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="window.location.href='<?php echo $blogURL;?>/owner/entry'" />
+											<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="returnToList();return false;" />
 										</div>
 <?php
 }
@@ -814,7 +822,7 @@ if (isset($_GET['popupEditor'])) {
 										<span class="hidden">|</span>
 						       			<input type="submit" value="<?php echo _t('저장 후 닫기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
 										<span class="hidden">|</span>
-										<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="window.location.href='<?php echo $blogURL;?>/owner/entry'" />
+										<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="returnToList();return false;" />
 									</div>
 <?php
 }
