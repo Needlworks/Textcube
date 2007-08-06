@@ -765,6 +765,18 @@ if (!doesExistTable($database['prefix'] . 'PageCacheLog')) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (DBQuery::queryCell("DESC {$database['prefix']}SkinSettings skin", 'Default') != 'coolant') {
+	$changed = true;
+	echo '<li>', _text('기본 스킨을 변경합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings CHANGE skin skin varchar(32) NOT NULL DEFAULT 'coolant'")) {
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	} else {
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+	}
+}
+
+
+
 // Plugin Table update.
 $likeEscape = array ( '/_/' , '/%/' );
 $likeReplace = array ( '\\_' , '\\%' );

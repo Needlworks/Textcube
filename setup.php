@@ -1251,7 +1251,7 @@ CREATE TABLE {$_POST['dbPrefix']}Sessions (
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}SkinSettings (
   blogid int(11) NOT NULL default '0',
-  skin varchar(32) NOT NULL default 'tistory',
+  skin varchar(32) NOT NULL default 'coolant',
   entriesOnRecent int(11) NOT NULL default '10',
   commentsOnRecent int(11) NOT NULL default '10',
   commentsOnGuestbook int(11) NOT NULL default '5',
@@ -1451,7 +1451,7 @@ ini_set('display_errors', 'off');
 \$service['type'] = '{$_POST['type']}';
 \$service['domain'] = '{$_POST['domain']}';
 \$service['path'] = '$path';
-\$service['skin'] = 'tistory';
+\$service['skin'] = 'coolant';
 //\$serviceURL = 'http://{$_POST['domain']}{$path}' ; // for path of Skin, plugin and etc.
 //requireComponent(\"Needlworks.Function.Debug\"); // for debugging, e.g. displaying DB Query or Session info
 //\$service['debug_session_dump'] = 1; // session info debuging.
