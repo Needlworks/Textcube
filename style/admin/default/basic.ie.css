@@ -7,6 +7,23 @@
 	padding-right                    : 7px;
 }
 
+/* main menu */
+#main-menu-box
+{
+	height                           : 2.7em;
+	line-height                      : 2.7em;
+}
+
+#main-menu li
+{
+	height                           : 2.7em;
+}
+
+#menu-center
+{
+	margin-left                     : 15px !important;
+}
+
 /* Layout Body ***********************************************************************************/
 
 .part .caption

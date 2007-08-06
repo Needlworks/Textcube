@@ -792,9 +792,10 @@
 
 #part-center-about .main-explain-box p
 {
-	width                            : 350px;
 	margin-left                      : 220px;
+	padding                          : 0;
 	text-align                       : right;
+	width                            : 360px;
 }
 
 #part-center-about .main-explain-box p em
