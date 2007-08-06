@@ -374,6 +374,10 @@ if (defined('__TAB_BLOG__')) {
 if (defined('__TAB_CENTER__') || defined('__TAB_METAPAGE__')) {
 	$text = defined('__TAB_CENTER__') ? _t('센터로 바로 가기') : _t('메타 페이지로 바로가기');
 	$link = defined('__TAB_CENTER__') ? $blogURL . '/owner/center/dashboard' : $blogURL . '/owner/center/metapage';
+} else {
+	$text = _t('사이드바로 바로 가기');
+	$link = $blogURL . '/owner/skin/sidebar';
+}
 ?>
 								<dl id="direct-link-line" class="line">
 									<dt><?php echo _t('메인 화면으로 이동');?></dt>
@@ -381,9 +385,6 @@ if (defined('__TAB_CENTER__') || defined('__TAB_METAPAGE__')) {
 										<a class="button" href="<?php echo $link;?>"><?php echo $text;?></a>
 									</dd>
 								</dl>
-<?php
-}
-?>
 							</fieldset>
 							
 							<div id="temp-box">

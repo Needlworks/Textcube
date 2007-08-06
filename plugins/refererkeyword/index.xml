@@ -20,8 +20,8 @@
           <title xml:lang="en">Keyword Statistics</title>
           <title xml:lang="ko">키워드 통계</title>
           <handler>refererkeyword</handler>
-		  <topMenu>entry</topMenu>
-		  <contentMenuOrder>6</contentMenuOrder>
+		  <topMenu>center</topMenu>
+		  <contentMenuOrder>5</contentMenuOrder>
           <params>
           </params>
         </method>
