@@ -567,7 +567,7 @@ xml_set_object
                     case 'refererlogs':
                     case 'refererstatistics':
                     case 'reservedwords':
-					case 'ServiceSetting':
+					case 'servicesetting':
                     case 'sessionvisits':
                     case 'sessions':
                     case 'skinsettings':
@@ -600,7 +600,7 @@ xml_set_object
 				break;
 			case 'setup':
 				echo '<h3>', _t('데이터베이스 테이블 확인'), '</h3>';
-				if ((count($tables) == 32) || ((count($tables) == 31) && !in_array('Filters', $tables))) {
+				if ((count($tables) == 36) || ((count($tables) == 35) && !in_array('Filters', $tables))) {
 					echo '<ul><li>OK</li></ul>';
 				} else {
 					$error = 7;
