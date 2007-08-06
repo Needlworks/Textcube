@@ -22,7 +22,7 @@ function refreshRSS($blogid) {
 	}
 
 	if ($blog['publishEolinSyncOnRSS']) {
-		$result = DBQuery::query("SELECT 
+		$result = DBQuery::queryAll("SELECT 
 				e.*, 
 				c.name AS categoryName, 
 				u.name AS author
@@ -34,7 +34,7 @@ function refreshRSS($blogid) {
 			WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
 			ORDER BY e.published 
 			DESC LIMIT {$blog['entriesOnRSS']}");
-	} else { $result = DBQuery::query("SELECT 
+	} else { $result = DBQuery::queryAll("SELECT 
 				e.*, 
 				c.name AS categoryName,
 				u.name AS author
@@ -50,7 +50,7 @@ function refreshRSS($blogid) {
 	if (!$result)
 		return false;
 	$channel['items'] = array();
-	while ($row = mysql_fetch_array($result)) {
+	foreach($result as $row) {
 		$content = getEntryContentView($blogid, $row['id'], $row['content'], $row['contentFormatter'], true, 'Post', true, true);
  		if (!$blog['publishWholeOnRSS']) {
 			$content .= "<p><strong><a href=\"$defaultURL/" . ($blog['useSlogan'] ? "entry/{$row['slogan']}" : $row['id']) . "\">" . _t('글 전체보기') . "</a></strong></p>";
@@ -79,9 +79,16 @@ function refreshRSS($blogid) {
 			}
 		}
 		array_push($item['categories'], $row['categoryName']);
-		$tag_result = DBQuery::query("SELECT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND entry = $row[1] AND blogid = $blogid ORDER BY name");
-		while (list($tag) = mysql_fetch_array($tag_result))
+		$tag_result = DBQuery::queryColumn("SELECT name 
+				FROM {$database['prefix']}Tags, 
+					{$database['prefix']}TagRelations 
+				WHERE id = tag 
+					AND entry = {$row['id']}
+					AND blogid = $blogid 
+				ORDER BY name");
+		foreach($tag_result as $tag) {
 			array_push($item['categories'], $tag);
+		}
 		array_push($channel['items'], $item);
 	}
 	$path = ROOT . '/cache/rss';
