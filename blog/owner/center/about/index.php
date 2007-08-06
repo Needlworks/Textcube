@@ -27,18 +27,17 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									
 									<table>
 										<colgroup>
-											<col class="id"></col>
 											<col class="name"></col>
 										</colgroup>
 										<thead>
 											<tr>
-												<th class="id"><?php echo _t('id');?></th>
 												<th class="name"><?php echo _t('이름');?></th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr><td class="id"><a href="http://forest.nubimaru.com">inureyes</a></td><td class="name">Jeongkyu Shin</td></tr>
-											<tr><td class="id"><a href="http://gendoh.tistory.com">gendoh</a></td><td class="name">Sang-il, Lee</td></tr>
+											<tr>
+												<td class="name"><a href="http://forest.nubimaru.com">Jeongkyu Shin</a></td>
+											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -52,40 +51,33 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										</colgroup>
 										<thead>
 											<tr>
-												<th class="id"><?php echo _t('id');?></th>
 												<th class="name"><?php echo _t('이름');?></th>
 												<th class="role"><?php echo _t('분야');?></th>
 											</tr>
 										</thead>
 										<tbody>
 										<tr>
-												<td class="id"><a href="http://coolengineer.com/">coolengineer</a></td>
-												<td class="name">Hojin Choi</td>
+												<td class="name"><a href="http://coolengineer.com/">Hojin Choi</a></td>
 												<td class="role"><?php echo _t('ACO / ACL / i18n / XML-RPC API interface / OpenID');?></td>
 											</tr>
 											<tr>
-												<td class="id"><a href="http://daybreaker.info">daybreaker</a></td>
-												<td class="name">Kim Joongi</td>
+												<td class="name"><a href="http://daybreaker.info">Kim Joongi</a></td>
 												<td class="role"><?php echo _t('XHTML specification / Quality Assurance');?></td>
 											</tr>
 											<tr>
-												<td class="id"><span class="text">graphittie</span></td>
-												<td class="name">&nbsp;</td>
-												<td class="role"><?php echo _t('UI / Sidebar / XHTML specification');?></td>
+												<td class="name"><span class="text">graphittie</span></td>
+												<td class="role"><?php echo _t('UI / Sidebar / XHTML specification / Bug tracking');?></td>
 											</tr>
 											<tr>
-												<td class="id"><a href="http://forest.nubimaru.com">inureyes</a></td>
-												<td class="name">Jeongkyu Shin</td>
-												<td class="role"><?php echo _t('Core / DB management / Bug tracking / Documentation');?></td>
+												<td class="name"><a href="http://forest.nubimaru.com">Jeongkyu Shin</a></td>
+												<td class="role"><?php echo _t('Core / DB management / Editor / Documentation');?></td>
 											</tr>
 											<tr>
-												<td class="id"><a href="http://www.create74.com">J.Parker</a></td>
-												<td class="name">Yong-ju, Park</td>
+												<td class="name"><a href="http://www.create74.com">Yong-ju, Park</a></td>
 												<td class="role"><?php echo _t('Teamblog / Metapage / Plugin');?></td>
 											</tr>
 											<tr>
-												<td class="id"><a href="http://tokigun.net">lifthrasiir</a></td>
-												<td class="name">Seong-Hoon Kang</td>
+												<td class="name"><a href="http://tokigun.net">Seong-Hoon Kang</a></td>
 												<td class="role"><?php echo _t('Editor / Formatter / Module');?></td>
 											</tr>
 										</tbody>
@@ -97,31 +89,34 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									
 									<table>
 										<colgroup>
-											<col class="id"></col>
 											<col class="name"></col>
 											<col class="role"></col>
 										</colgroup>
 										<thead>
 											<tr>
-												<th class="id"><?php echo _t('id');?></th>
 												<th class="name"><?php echo _t('이름');?></th>
 												<th class="role"><?php echo _t('언어');?></th>
 											</tr>
 										</thead>
 										<tbody>
-										<tr>
-												<td class="id"><a href="mailto:seikanet@gmail.com">Louice P.</a></td>
-												<td class="name">Sangjib Choi</td>
+											<tr>
+												<td class="name"><a href="http://spirited.tistory.com">Youyoung Song</a></td>
+												<td class="role"><?php echo _t('Korean');?></td>
+											</tr>
+											<tr>
+												<td class="name"><a href="mailto:seikanet@gmail.com">Sangjib Choi</a></td>
 												<td class="role"><?php echo _t('Japanese');?></td>
 											</tr>
 											<tr>
-												<td class="id"><span class="text">KIM</span></td>
 												<td class="name">KIM</td>
 												<td class="role"><?php echo _t('Chinese');?></td>
 											</tr>
 											<tr>
-												<td class="id"><a href="http://blog.kangjang.net">건더기</a></td>
-												<td class="name">John.K</td>
+												<td class="name"><a href="http://blog.kangjang.net">John.K</a></td>
+												<td class="role"><?php echo _t('English');?></td>
+											</tr>
+											<tr>
+												<td class="name">Terry Lee</td>
 												<td class="role"><?php echo _t('English');?></td>
 											</tr>
 										</tbody>
@@ -129,41 +124,35 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								</div>
 								
 								<div id="support-container" class="container">
-									<h4><span class="text"><?php echo _t('Support manager');?></span></h4>
+									<h4><span class="text"><?php echo _t('Designs and Supports');?></span></h4>
 									
 									<table>
 										<colgroup>
-											<col class="id"></col>
 											<col class="name"></col>
 											<col class="role"></col>
 										</colgroup>
 										<thead>
 											<tr>
-												<th class="id"><?php echo _t('id');?></th>
 												<th class="name"><?php echo _t('이름');?></th>
 												<th class="role"><?php echo _t('역할');?></th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
-												<td class="id"><a href="http://www.create74.com">J.Parker</a></td>
-												<td class="name">Yong-ju, Park</td>
-												<td class="role"><?php echo _t('plugin');?></td>
+												<td class="name"><a href="http://blog.2pink.net">Shik Yoon</a></td>
+												<td class="role"><?php echo _t('Design / Manual');?></td>
 											</tr>
 											<tr>
-												<td class="id"><a href="http://blog.2pink.net">LonnieNa</a></td>
-												<td class="name">Shik Yoon</td>
-												<td class="role"><?php echo _t('design manual');?></td>
+												<td class="name"><a href="http://design.funny4u.com">Guihwan Yu</a></td>
+												<td class="role"><?php echo _t('Icon design');?></td>
 											</tr>
 											<tr>
-												<td class="id"><a href="http://lunamoth.biz">lunamoth</a></td>
-												<td class="name"></td>
-												<td class="role"><?php echo _t('manual');?></td>
+												<td class="name"><a href="http://1upz.com">Won-oop Jo</a></td>
+												<td class="role"><?php echo _t('Default skin');?></td>
 											</tr>
 											<tr>
-												<td class="id"><a href="http://design.funny4u.com">funny4u</a></td>
-												<td class="name">Guihwan Yu</td>
-												<td class="role"><?php echo _t('icon design');?></td>
+												<td class="name"><a href="http://lunamoth.biz">Namsoo Ryu</a></td>
+												<td class="role"><?php echo _t('Online manual');?></td>
 											</tr>
 										</tbody>
 									</table>

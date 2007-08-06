@@ -717,7 +717,7 @@
 {
 	background-repeat                : no-repeat;
 	display                          : inline;
-	font-family                      : 돋움, Dotum, sans-serif;
+	font-family                      : '돋움', Dotum, sans-serif;
 	font-size                        : 0.93em;
 	font-weight                      : normal;
 	letter-spacing                   : -1px;
@@ -856,7 +856,7 @@
 #part-center-about .section .container table tbody tr td.name,
 #part-center-about .section .container table tbody tr td.id
 {
-	width                            : 100px;
+	width                            : 130px;
 }
 
 #maintainer-container
@@ -870,14 +870,14 @@
 {
 	position                         : absolute;
 	right                            : 5px;
-	top                              : 169px;
+	top                              : 100px;
 }
 
 #support-container
 {
 	position                         : absolute;
 	right                            : 5px;
-	top                              : 405px;
+	top                              : 330px;
 }
 
 #maintainer-container table,
@@ -940,7 +940,7 @@
 	overflow                         : hidden;
 	padding                          : 0 0 0 35px;
 	text-align: left;
-	width: 100%;
+	width: 96%;
 }
 
 #supporter-description h3 span
