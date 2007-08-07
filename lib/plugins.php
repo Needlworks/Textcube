@@ -310,7 +310,9 @@ if (getBlogId()) {
 		}
 		
 		if ($disablePlugin == true) {
-			$query = sprintf("DELETE FROM `{$database['prefix']}Plugins` WHERE `blogid` = %1 AND name = '%2'", getBlogId(), mysql_tt_escape_string($plugin));
+			$query = "DELETE FROM `{$database['prefix']}Plugins` 
+				WHERE `blogid` = ".getBlogId()." 
+				AND name = '".mysql_tt_escape_string($plugin)."'";
 			DBQuery::query($query);
 		}
 	}

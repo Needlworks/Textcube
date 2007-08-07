@@ -830,6 +830,23 @@ foreach($plugintablesraw as $table) {
 	}
 }
 
+if(!file_exists(ROOT . '/attach/icon')) {
+	$changed = true;
+	echo '<li>', _textf('데이터베이스 로드 감소를 위하여 파비콘과 블로그 아이콘의 처리 방식을 변경합니다.'), ': ';
+	if(mkdir(ROOT . '/attach/icon')) {
+		@chmod(ROOT . '/attach/icon', 0777);
+		$result = DBQuery::queryAll("SELECT blogid, value FROM {$database['prefix']}BlogSettings
+			WHERE name = 'name'");
+		foreach ($result as $blogs) {
+			@rename(ROOT . '/attach/'.$blogs['blogid'].'/index.gif', ROOT . '/attach/icon/'.$blogs['value'].'.gif');
+			@rename(ROOT . '/attach/'.$blogs['blogid'].'/favicon.ico', ROOT . '/attach/icon/'.$blogs['value'].'.ico');
+		}
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	} else {
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+	}
+}
+
 if($blogids = DBQuery::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
 	$changed = true;
 	$errorlog = false;
@@ -851,7 +868,7 @@ if (preg_match('@\(thumbnail\)/\(\[0\-9\]\+/\.\+\) cache/\$1/\$2@', $content) ==
 	else
 		$insertLine = 'RewriteRule ^(thumbnail)/([0-9]+/.+) cache/$1/$2 [E=SURI:1,L]'.CRLF;
 	$findStr = 'RewriteRule !^(blog|cache)/ - [L]';
-	echo '<Li>.htaccess thumbnail rule - ', _text('수정');
+	echo '<li>.htaccess thumbnail rule - ', _text('수정');
 	if (strpos($content, $findStr) == false)
 		echo ': <span style="color:#33CC33;">', _text('실패'), '</span></li>';
 	else {
