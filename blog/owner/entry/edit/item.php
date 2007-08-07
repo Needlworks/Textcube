@@ -270,7 +270,10 @@ if (defined('__TEXTCUBE_POST__')) {
 											entryManager.entryId = this.getText("/response/entryId");
 											entryManager.isSaved = true;
 											PM.removeRequest(this);
-											oForm.title.value = templateTitle;
+											var title = trim(oForm.title.value);
+											if(title.length == 0) {
+												oForm.title.value = templateTitle;
+											}
 											oForm.content.value = templateContents;
 											
 											try {
