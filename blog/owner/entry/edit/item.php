@@ -131,19 +131,19 @@ if (defined('__TEXTCUBE_POST__')) {
 <?php
 if (defined('__TEXTCUBE_POST__')) {
 ?>
-									this.isSaved = false;
+									this.isSaved   = false;
 <?php
 } else {
 ?>
-									this.isSaved = true;
+									this.isSaved   = true;
 <?php
 }
 ?>
-									this.autoSave = false;
-									this.delay = false;
+									this.autoSave  = false;
+									this.delay     = false;
 									this.nowsaving = false;
-
-									this.entryId = <?php echo $entry['id'];?>;
+									this.preview   = false;
+									this.entryId   = <?php echo $entry['id'];?>;
 
 									this.pageHolder = new PageHolder(false, "<?php echo _t('아직 저장되지 않았습니다.');?>");
 									this.pageHolder.isHolding = function () {
@@ -327,6 +327,10 @@ if (defined('__TEXTCUBE_POST__')) {
 											if (entryManager.savedData == entryManager.getData())
 												entryManager.pageHolder.release();
 											entryManager.nowsaving = false;
+											if (entryManager.preview == true) {
+												window.open("<?php echo $blogURL;?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+												entryManager.preview = false;
+											}
 										}
 										request.onError = function () {
 											PM.removeRequest(this);
@@ -415,25 +419,9 @@ if (isset($_GET['popupEditor'])) {
 										return;
 									}
 									this.preview = function () {
-										var data = this.getData();
-										if (data == null)
-											return;
-
-										if (data == this.savedData) {
-											window.open("<?php echo $blogURL;?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
-											return;
-										}
-										
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/draft/"+entryManager.entryId);
-										request.async = false;
-										request.message = "<?php echo _t('미리보기를 준비하고 있습니다.');?>";
-										request.onSuccess = function () {
-											entryManager.savedData = this.content;
-											window.open("<?php echo $blogURL;?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
-										}
-										request.onError = function () {
-										}
-										request.send(data);
+										this.preview = true;
+										this.save();
+										return;
 									}
 									this.savedData = this.getData();
 								}
