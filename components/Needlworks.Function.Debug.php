@@ -260,7 +260,8 @@ EOS;
 	arsort( $elapsed );
 	$bgcolor = array();
 	foreach( array_splice($elapsed,0,5) as $e ) {
-		$top5[$e[1]] = true;
+		if($e[2] !=  "cached")
+			$top5[$e[1]] = true;
 	}
 
 	$count = 1;
