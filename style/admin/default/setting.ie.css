@@ -11,6 +11,13 @@
 	line-height                      : 2.5em;
 }
 
+/* Account ***************************************************************************************/
+
+#letter-section .button-box .input-button
+{
+	padding                          : 0 !important;
+}
+
 /* Filter ****************************************************************************************/
 
 #part-setting-filter div.data-inbox .section

@@ -271,6 +271,7 @@ dl dd
 }
 
 #letter-head label,
+#letter-body label,
 #letter-foot label
 {
 	display                          : block;
@@ -289,7 +290,7 @@ dl dd
 #invitation_receiver,
 #invitation_sender
 {
-	font-family                      : "Courier New", Courier, monospace;
+	font-size                        : inherit;
 	width                            : 550px;
 }
 
@@ -307,7 +308,7 @@ dl dd
 
 #letter-body textarea
 {
-	width                            : 550px;
+	width                            : 546px;
 }
 
 #letter-section .button-box
@@ -317,7 +318,7 @@ dl dd
 
 #letter-section .button-box .input-button
 {
-	padding                          : 0 10px;
+	padding                          : 0 10px !important;
 	width                            : auto;
 }
 

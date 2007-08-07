@@ -262,7 +262,7 @@ if( Acl::check('group.owners')) {?>
 						<div id="part-setting-account" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('팀블로그를 관리합니다');?></span></h2>
 							<div id="list-section" class="section">
-								<table cellspacing="0" cellpadding="0">
+								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
 											<th class="status"><input type="checkbox" name="Aclick" onclick="Check_rev()"></th>
@@ -375,10 +375,8 @@ if( Acl::check('group.owners')) {
 										<input type="submit" class="input-button" value="<?php	echo _t('초대장 발송');?>" onclick="sendInvitation(); return false;" />
 									</div>
 								</form>
+							</div>
 						</div>
-				</div>
-				</div>
-			</div>
 <?php
 	}
 require ROOT . '/lib/piece/owner/footer.php';
