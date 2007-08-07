@@ -185,10 +185,10 @@ function getFileListByRegExp($path, $pattern, $deepScan=false) {
 			if (is_dir($path . '/' . $tempSrc)) {
 				$tempList = getFileListByRegExp($path . '/' . $tempSrc, $pattern, $deepScan);
 				if (is_array($tempList))
-					$fileList = $fileList + $tempList;
+					$fileList = array_merge($fileList, $tempList);
 			}
 			if (is_file($path . '/' . $tempSrc)) {
-				if ($pattern == '' || preg_match("@$pattern@", $tempSrc))
+				if ($pattern == '' || preg_match("@{$pattern}@", $tempSrc))
 					array_push($fileList, $path . '/' . $tempSrc);
 			}
 		}
