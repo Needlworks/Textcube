@@ -497,8 +497,11 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 }
 
 function FM_TTML_createNewProperty($filename, $imageWidth, $property) {
-	$blogid = getBlogId();	
+	$blogid = getBlogId();
 	requireComponent('Textcube.Function.Image');
-	return Image::resizeImageToContent($property, ROOT."/attach/$blogid/$filename", $imageWidth);
+	if (in_array(Image::getImageType(ROOT."/attach/$blogid/$filename"), array('gif', 'png', 'jpg', 'bmp')))
+		return Image::resizeImageToContent($property, ROOT."/attach/$blogid/$filename", $imageWidth);
+	else
+		return array($property, false);
 }
 ?>

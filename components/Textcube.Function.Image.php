@@ -106,9 +106,9 @@ class Image {
 				
 			}
 		}
-
+		
 		// 가로, 세로 어느 쪽이든 0이면 이미지는 표시되지 않음. 따라서 계산할 필요 없음.
-		if (@$attributes['width'] <= 0 || @$attributes['height'] <= 0) {
+		if ((isset($attributes['width']) && $attributes['width'] <= 0) || (isset($attributes['height']) && $attributes['height'] <= 0)) {
 			return array($property, false);
 		}
 
