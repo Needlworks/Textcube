@@ -259,6 +259,12 @@ TTModernEditor.prototype.finalize = function() {
 TTModernEditor.prototype.syncTextarea = function() {
 	if (this.editMode == "WYSIWYG") {
 		this.textarea.value = this.html2ttml(this.contentDocument.body.innerHTML);
+	} 
+}
+
+TTModernEditor.prototype.syncEditorWindow = function() {
+	if (this.editMode == "WYSIWYG") {
+		this.contentDocument.body.innerHTML = this.ttml2html(this.textarea.value);	
 	}
 }
 

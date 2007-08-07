@@ -272,9 +272,9 @@ if (defined('__TEXTCUBE_POST__')) {
 											PM.removeRequest(this);
 											oForm.title.value = templateTitle;
 											oForm.content.value = templateContents;
-											editor.contentDocument.body.innerHTML = templateContents;
+											
 											try {
-												editor.syncTextarea();
+												editor.syncEditorWindow();
 											} catch(e) {
 											}
 										}

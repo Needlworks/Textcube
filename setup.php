@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
-ini_set('display_errors', 'on');
+ini_set('display_errors', 'off');
 if (get_magic_quotes_gpc()) {
     foreach ($_GET as $key => $value)
         $_GET[$key] = stripslashes($value);
