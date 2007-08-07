@@ -669,7 +669,13 @@ function _openid_has_ownership($trying_openid)
 function _openid_fix_table()
 {
 	global $database, $store_path;
-	$checkup_path = ROOT . "/cache/_php_consumer/checkup";
+
+	$checkup_path = ROOT .DS."cache".DS."_php_consumer";
+	if( ! file_exists( $checkup_path ) ) {
+		mkdir( $checkup_path, 0777 );
+	}
+
+	$checkup_path = ROOT .DS."cache".DS."_php_consumer".DS."checkup";
 	$openid_check_magic = '2007-07-31';
 	$fix0 = false;
 	$fix1 = false;
