@@ -31,7 +31,15 @@ ob_implicit_flush();
 			//]]>
 		</script>
 <?php
-$feeds = DBQuery::queryAll("SELECT f.* FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr WHERE g.owner = $blogid AND gr.feed = f.id AND gr.owner = g.owner AND gr.groupId = g.id ORDER BY f.title");
+$feeds = DBQuery::queryAll("SELECT f.* 
+		FROM {$database['prefix']}Feeds f, 
+			{$database['prefix']}FeedGroups g, 
+			{$database['prefix']}FeedGroupRelations gr 
+		WHERE g.blogid = $blogid 
+			AND gr.feed = f.id 
+			AND gr.blogid = g.blogid 
+			AND gr.groupId = g.id 
+		ORDER BY f.title");
 $count = 0;
 foreach ($feeds as $feed) {
 ?>
