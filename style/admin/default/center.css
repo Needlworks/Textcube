@@ -1071,7 +1071,7 @@
 }
 
 .metapage-module,
-.ajax-floating-panel
+.metapage-module .ajax-floating-panel
 {
 	background-color                 : #FFFFFF;
 	border                           : 1px solid #CCCCCC;
@@ -1099,7 +1099,7 @@
 }
 
 .metapage-module h4.module-title,
-.ajax-floating-panel h4.module-title
+.metapage-module .ajax-floating-panel h4.module-title
 {
 	background-position              : right center;
 	background-repeat                : no-repeat;
@@ -1121,13 +1121,13 @@
 }
 
 .metapage-module .edit-button-box,
-.ajax-floating-panel .edit-button-box
+.metapage-module .ajax-floating-panel .edit-button-box
 {
 	text-align                       : center;
 }
 
 .metapage-module .edit-button-box a,
-.ajax-floating-panel .edit-button-box a
+.metapage-module .ajax-floating-panel .edit-button-box a
 {
 	border                           : 1px solid #DDDDDD;
 	display                          : block;
@@ -1217,13 +1217,13 @@
 }
 
 #metapage-element-box fieldset ul.module-list li.metapage-module .edit-button-box,
-.ajax-floating-panel .edit-button-box
+.metapage-module .ajax-floating-panel .edit-button-box
 {
 	margin-top                       : 0;
 }
 
 #metapage-element-box .metapage-module h4,
-.ajax-floating-panel h4
+.metapage-module .ajax-floating-panel h4
 {
 	background-image                 : url("./image/icon_sidebar_module.gif");
 }
