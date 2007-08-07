@@ -358,4 +358,10 @@ TFOOT;
 }
 
 register_shutdown_function('__tcSqlLogDump');
+
+function dump($data) {
+	echo '<pre>';
+	var_dump($data);
+	echo'</pre>';
+}
 ?>
