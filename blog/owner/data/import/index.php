@@ -296,8 +296,8 @@ function importer($path, $node, $line) {
 			$post->visibility = $node['visibility'][0]['.value'];
 			$post->title = $node['title'][0]['.value'];
 			$post->content = $node['content'][0]['.value'];
-			$post->contentFormatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : getDefaultFormatter();
-			$post->contentEditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : getDefaultEditor();
+			$post->contentFormatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : 'ttml';
+			$post->contentEditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : 'modern';
 			$post->location = $node['location'][0]['.value'];
 			$post->password = isset($node['password'][0]['.value']) ? $node['password'][0]['.value'] : null;
 			$post->acceptComment = $node['acceptComment'][0]['.value'];
