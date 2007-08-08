@@ -125,7 +125,7 @@ if (empty($_POST['step'])) {
   <div id="inner">
     <input type="hidden" name="step" value="1" />
     <h2><span class="step"><?php echo _f('%1단계', 1);?></span> : <?php echo _t('텍스트큐브 설치를 시작합니다.');?></h2>
-		<div id="langSel" > <?php drowSetLang( $baseLanguage, 'Norm');?></div> 
+		<div id="langSel" > <?php drawSetLang( $baseLanguage, 'Norm');?></div> 
     <div id="info"><b><?php echo TEXTCUBE_VERSION;?></b><br />
       <?php echo TEXTCUBE_COPYRIGHT;?><br />
       Homepage: <a href="<?php echo TEXTCUBE_HOMEPAGE;?>"><?php echo TEXTCUBE_HOMEPAGE;?></a></div>
@@ -1704,11 +1704,11 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
 	}
 }
  
-function drowSetLang( $currentLang = "ko"  ,$curPosition = 'Norm' /*or 'Err'*/ ){ 
+function drawSetLang( $currentLang = "ko"  ,$curPosition = 'Norm' /*or 'Err'*/ ){ 
 	if( Locale::setDirectory('language'))   $availableLanguages =   Locale::getSupportedLocales(); 
 	else return false; 
 ?> 
-Select Default Language : <select name="Lang" id = "Lang" onchange= "current();" > 
+Select Default Language : <select name="Lang" id = "Lang" onchange= "current();return false;" > 
 <?php      foreach( $availableLanguages as $key => $value) 
 			print('<option value="'.$key.'" '.( $key == $currentLang ? ' selected="selected" ' : '').' >'.$value.'</option>'); 
 ?></select> 
