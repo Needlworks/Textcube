@@ -141,10 +141,14 @@ function resampleImage($imgString, $originSrc, $useAbsolutePath) {
 	// 여기로 넘어오는 값은 이미 getAttachmentBinder() 함수에서 고정값으로 변환된 값이므로 % 값은 고려할 필요 없음.
 	if (preg_match('/width="([1-9][0-9]*)"/i', $imgString, $temp)) {
 		$tempWidth = $temp[1];
+	} else {
+		$tempWidth = '';
 	}
 
 	if (preg_match('/height="([1-9][0-9]*)"/i', $imgString, $temp)) {
 		$tempHeight = $temp[1];
+	} else {
+		$tempHeight = '';
 	}
 
 	$newTempFileName = preg_replace("/\.([[:alnum:]]+)$/i", ".w{$tempWidth}-h{$tempHeight}.\\1", $originFileName);
