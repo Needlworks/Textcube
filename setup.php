@@ -664,13 +664,7 @@ xml_set_object
             }
         } else if (mkdir($filename)) {
 			@chmod($filename, 0777);
-			if (mkdir($filename . '/icon')) {
-				@chmod($filename, 0777);
-				echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
-			} else {
-				$error = 13;
-           		echo '<li style="color:red">', _t('첨부 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $filename, 'icon', '0777'), '</li>';
-			}
+           echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
         } else {
             $error = 13;
            echo '<li style="color:red">', _t('첨부 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'attach', '0777'), '</li>';
@@ -1484,10 +1478,10 @@ RewriteRule ^(.+[^/])$ $1/ [L]
 RewriteRule ^$ blog/index.php [E=SURI:1,L]
 RewriteRule ^[[:alnum:]]+/*$ blog/index.php [E=SURI:1,L]
 RewriteRule ^[[:alnum:]]+/+[0-9]+$ blog/item.php [E=SURI:1,L]
-RewriteRule ^favicon\.ico$ attach/icon/favicon.ico [E=SURI:1,L]
-RewriteRule ^([[:alnum:]]+)/+favicon\.ico$ attach/icon/$1.ico [E=SURI:1,L]
-RewriteRule ^index\.gif$ attach/icon/index.gif [E=SURI:1,L]
-RewriteRule ^([[:alnum:]]+)/+index\.gif$ attach/icon/$1.gif [E=SURI:1,L]
+RewriteRule ^favicon\.ico$ blog/favicon.ico.php [E=SURI:1,L]
+RewriteRule ^[[:alnum:]]+/+favicon\.ico$ blog/favicon.ico.php [E=SURI:1,L]
+RewriteRule ^index\.gif$ blog/index.gif.php [E=SURI:1,L]
+RewriteRule ^[[:alnum:]]+/+index\.gif$ blog/index.gif.php [E=SURI:1,L]
 RewriteCond %{QUERY_STRING} (^|&)pl=([0-9]+)
 RewriteRule ^([[:alnum:]]+)/+index\.php$ $1/%2 [NE,L]
 RewriteRule ^[[:alnum:]]+/+index\.php$ blog/index.php [E=SURI:1,L]
