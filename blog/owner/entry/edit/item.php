@@ -364,6 +364,7 @@ if (defined('__TEXTCUBE_POST__')) {
 												return false;
 											}
 											PM.removeRequest(this);
+											window.onbeforeunload = null;
 											var returnURI = "";
 											var oForm = document.forms[0];
 											var changedPermalink = trim(oForm.permalink.value);
@@ -443,6 +444,13 @@ if (isset($_GET['popupEditor'])) {
 									request.send();
 								}
 								window.setInterval("keepSessionAlive()", 600000);
+								
+								window.onbeforeunload = unloadPage;
+								
+								function unloadPage() {
+									var message = "<?php echo _t('지금 페이지를 이동하면 저장하지 않은 내용은 유실됩니다.');?>";
+									return message;
+								}
 								
 								function checkCategory(type) {
 									switch(type) {
