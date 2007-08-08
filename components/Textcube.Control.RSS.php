@@ -4,7 +4,9 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 class RSS {
 	function refresh() {
-		@unlink(ROOT . "/cache/rss/".getBlogId().".xml");
+		if( file_exists(ROOT . "/cache/rss/".getBlogId().".xml") ) {
+			@unlink(ROOT . "/cache/rss/".getBlogId().".xml");
+		}
 	}
 }
 ?>
