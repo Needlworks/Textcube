@@ -940,7 +940,9 @@ function metaWeblog_newMediaObject()
 		{
 			return new XMLRPCFault( 1, "Can't Create Directory $tmp_dir" );
 		}
-		@chmod( $path, 0777 );
+		if( file_exists($path) ) {
+			@chmod( $path, 0777 );
+		}
 	}
 
 	$file = array( 
