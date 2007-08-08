@@ -177,7 +177,8 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									<a href="http://nya.pe.kr">NYA</a>,
 									<a href="http://www.yangkun.pe.kr">희망이아빠</a>,
 									<a href="#">우수한</a>,
-									<a href="#">엽기민원</a>
+									<a href="#">엽기민원</a>,
+									<a href="http://chakani.net">차칸아이</a>
 									</p>
 								</div>
 								

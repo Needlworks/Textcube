@@ -213,7 +213,7 @@ for ($i = 0; $i < count($skins); $i++) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('스킨을 구하려면');?></span></h2>
 							
 <?php
-$linkString = '<a href="http://skin.textcube.org/" onclick="window.open(this.href); return false;" title="' . _t('텍스트큐브 홈페이지의 스킨 업로드 게시판으로 연결합니다.') . '">' . _t('스킨 업로드 게시판'). '</a>';
+$linkString = '<a href="http://www.textcube.org/skin" onclick="window.open(this.href); return false;" title="' . _t('텍스트큐브 홈페이지의 스킨 업로드 게시판으로 연결합니다.') . '">' . _t('스킨 업로드 게시판'). '</a>';
 $tempString = _f('텍스트큐브 홈페이지의 %1을 방문하시면 다양한 스킨을 다운로드 하실 수 있습니다. 일반적으로 스킨 파일을 텍스트큐브의 skin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 스킨은 이 메뉴에서 적용 버튼을 눌러 사용하실 수 있습니다.', $linkString);
 ?>
 							<div class="main-explain-box">
