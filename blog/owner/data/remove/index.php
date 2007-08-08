@@ -15,5 +15,6 @@ requireComponent('Textcube.Data.DataMaintenance');
 if (empty($_POST['confirmativePassword']) || !User::confirmPassword($_POST['confirmativePassword']))
 	respondResultPage(1);
 DataMaintenance::removeAll(Validator::getBool(@$_POST['removeAttachments']));
+CacheControl::flushAll();
 respondResultPage(0);
 ?>

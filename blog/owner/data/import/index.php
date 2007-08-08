@@ -169,6 +169,7 @@ if ($items == 0)
 if (!$migrational) {
 	setProgress(0, _t('복원 위치를 준비하고 있습니다.'));
 	DataMaintenance::removeAll(false);
+	CacheControl::flushAll();
 }
 $xmls->setConsumer('importer');
 if (!$xmls->openFile($backup, Validator::getBool(@$_POST['correctData']))) {
