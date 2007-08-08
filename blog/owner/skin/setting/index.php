@@ -626,7 +626,7 @@ ob_end_clean();
 											<dl id="tree-skin-line" class="line">
 												<dt><span class="label"><?php echo _t('분류 스킨 선택');?></span></dt>
 												<dd>
-													<select name="tree" onchange="changeTreeStyle()">
+													<select name="tree" id="tree" onchange="changeTreeStyle()">
 <?php
 $skinPath = ROOT . '/image/tree';
 if ($dh = opendir($skinPath)) {
