@@ -537,6 +537,12 @@ h3 a:hover, h3 a:active
 	vertical-align: middle;
 }
 
+.imageblock .extensionIcon img
+{
+	border: none !important;
+	margin-right: 2px;
+}
+
 .imageblock .cap1
 {
 	color: #999;
@@ -820,6 +826,25 @@ h3 a:hover, h3 a:active
 	padding: 2px;
 	background-color: #fff;
 	border: 1px solid #ddd;
+}
+
+/* special classes */
+.list ol li.rp_secret p.author cite
+{
+	background-image: url('./images/ico_lock.jpg');
+	background-position: left center;
+	background-repeat: no-repeat;
+	padding-left: 14px;
+}
+
+.list ol li.rp_secret span.hiddenCommentTag_name
+{
+	color: #999;
+}
+
+.list ol li.rp_secret span.hiddenCommentTag_content
+{
+	display: none;
 }
 
 /* Write area */
