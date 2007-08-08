@@ -837,7 +837,11 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?php
 	} else if ($entry['category'] == -1) {
 ?>
-												<a id="category_<?php echo $entry['id'];?>" class="notice" href="<?php echo $blogURL;?>/owner/entry?category=-1"><?php echo _t('키워드');?></a>
+												<a id="category_<?php echo $entry['id'];?>" class="keyword" href="<?php echo $blogURL;?>/owner/entry?category=-1"><?php echo _t('키워드');?></a>
+<?php
+	} else if ($entry['category'] == -4) {
+?>
+												<a id="category_<?php echo $entry['id'];?>" class="template" href="<?php echo $blogURL;?>/owner/entry?category=-1"><?php echo _t('서식');?></a>
 <?php
 	}
 ?>
@@ -858,9 +862,19 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	}
 ?>
 											</td>
+<?php
+if ($entry['category'] != -4) {
+?>
 											<td class="trackback">
 												<a id="trackbackIcon_<?php echo $entry['id'];?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?php echo $entry['id'];?>,event)" title="<?php echo _t('관련된 글에 글을 겁니다.');?>"><span class="text"><?php echo _t('글걸기');?></span></a>
 											</td>
+<?php
+} else {
+?>
+											<td class="empty"></td>
+<?php
+}
+?>
 											<td class="delete">
 												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/delete/<?php echo $entry['id'];?>" onclick="deleteEntry(<?php echo $entry['id'];?>); return false;" title="<?php echo _t('이 포스트를 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 											</td>
