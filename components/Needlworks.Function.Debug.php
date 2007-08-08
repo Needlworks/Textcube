@@ -158,6 +158,7 @@ function __tcSqlLogDump()
 <style type='text/css'>
 	.debugTable
 	{
+		background-color: #fff;
 		border-left: 1px solid #999;
 		border-top: 1px solid #999;
 		border-collapse: collapse;
