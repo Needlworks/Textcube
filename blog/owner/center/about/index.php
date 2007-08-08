@@ -37,7 +37,6 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										<tbody>
 											<tr>
 												<td class="name"><a href="http://forest.nubimaru.com">Jeongkyu Shin</a></td>
-												<td class="name"><a href="http://gendoh.tistory.com">Sang-il Lee</a></td>
 											</tr>
 										</tbody>
 									</table>

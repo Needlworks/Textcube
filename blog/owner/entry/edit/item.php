@@ -395,9 +395,13 @@ if (isset($_GET['popupEditor'])) {
 											this.nowsaving = false;
 										}
 										PM.addRequest(request, "<?php echo _t('저장하고 있습니다.');?>");
-										request.send(this.getData());
+										request.send(data);
 									}
 									this.saveAuto = function () {
+										if(document.getElementById('templateDialog').style.display != 'none') {
+											toggleTemplateDialog();											
+										}
+										
 										document.getElementById("saveButton").value = "<?php echo _t('저장하기');?>";
 										document.getElementById("saveButton").style.color = "#000";
 										if (this.timer == null)
@@ -493,11 +497,16 @@ if (isset($_GET['popupEditor'])) {
 									document.getElementById('fileList').style.visibility = 'visible';
 									document.getElementById('eolinDialog').style.display = 'none';
 								}
-
-								function closeTemplateDialog() {
-									document.getElementById('templateDialog').style.display = 'none';
-								}
 								
+								function toggleTemplateDialog() {
+									if(document.getElementById('templateDialog').style.display != 'none') {
+										document.getElementById('templateDialog').style.display = 'none';
+									} else {
+										document.getElementById('templateDialog').style.display = 'block';
+									}
+									return false;
+								}
+
 								function returnToList() {
 									if(confirm("<?php echo _t('저장하지 않은 데이터는 삭제됩니다. 목록으로 돌아가시겠습니까?');?>")!=1)
 										return null;
@@ -621,7 +630,7 @@ if (count($templateLists) == 0) {
 												</dl>
 												
 												<div class="button-box">
-													<button id="close-button" class="close-button input-button" onclick="closeTemplateDialog();return false;" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
+													<button id="close-button" class="close-button input-button" onclick="toggleTemplateDialog();return false;" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
 									 			</div>
 									 		</div>
 								 		</div>
