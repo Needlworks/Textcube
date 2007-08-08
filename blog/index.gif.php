@@ -2,11 +2,10 @@
 /// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
 define('ROOT', '..');
-require ROOT . '/lib/includeForBlog.php';
-if (false) {
-	fetchConfigVal();
-}
+require ROOT . '/lib/includeForIcon.php';
+
 $fp = @fopen(ROOT . "/attach/$blogid/index.gif", 'rb');
 if (!$fp) {
 	$fp = @fopen(ROOT . '/image/icon_blogIcon_default.png', 'rb');
