@@ -771,14 +771,14 @@ function openid_setdelegate()
 	}
 }
 
-function openid_AddingCommentViewTail( $comment_id )
+function openid_AddingCommentViewTail( $target, $comment_id )
 {
 	global $database, $blogid;
 	global $hostURL, $service, $blogURL;
 	global $openid_session;
 
 	if( empty($openid_session['id']) ) {
-		return '';
+		return $target;
 	}
 	$comment = _openid_getCommentInfo( getBlogId(), $comment_id );
 	if( $comment['secret'] ) {
@@ -800,7 +800,7 @@ document.getElementById('name').value = '{$openid_session['nickname']}';
 document.getElementById('title').innerHTML += ' ( <img style=\"position:relative;top:3px;left:0\"; src=\"$hostURL{$service['path']}/plugins/CL_OpenID/openid16x16.gif\" alt=\"OpenID Logo\" /> {$openid_session['id']} )';
 document.getElementById('secret').checked = $secret_checked;
 </script>";
-	return $scr;
+	return "$target$scr";
 }
 
 function openid_AddingComment( $target, $comment )

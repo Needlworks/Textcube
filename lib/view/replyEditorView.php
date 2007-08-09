@@ -113,6 +113,6 @@ if (doesHaveOwnership() && array_key_exists('replier', $comment) && (is_null($co
 			</div>
 		</div>
 	</form>
-	<?php echo fireEvent( 'AddingCommentViewTail', $suri['id'] ) ?>
+	<?php echo fireEvent( 'AddingCommentViewTail', '', $suri['id'] ) ?>
 </body>
 </html>
