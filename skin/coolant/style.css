@@ -134,7 +134,7 @@ h3 a:hover, h3 a:active
 
 #container
 {
-	width: 930px;
+	width: 800px;
 	margin: 0 auto;
 }
 
@@ -237,7 +237,7 @@ h3 a:hover, h3 a:active
 #contentColumn
 {
 	float: left;
-	width: 610px;
+	width: 480px;
 	overflow: hidden;
 }
 
