@@ -247,20 +247,24 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useMetapageInit']))
 								<dd><a class="button" href="<?php echo $blogURL;?>/owner/plugin?visibility=metapage"><?php echo _t('플러그인 설정 페이지로 바로가기');?></a></dd>
 							</dl>	
 <?php
-if ($metapageCount == 0) {
+if ($metapageCount == 0 || count($metapageMappings) == 0) {
+	if ($metapageCount == 0)
+		$errmsg = '사용중인 스킨이 메타 페이지를 지원하지 않습니다.';
+	else
+		$errmsg = '사용중인 메타 페이지 플러그인이 없습니다.';
 ?>
 							<ul id="metapage-tabs-box" class="tabs-box">
 								<li class="selected"><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
 							</div>
 							
 							<div id="metapage-box-disabled" class="data-inbox">
-								<p><?php echo _t('사용중인 스킨이 메타 페이지를 지원하지 않습니다.');?></p>
+								<p><?php echo _t($errmsg);?></p>
 							</div>
 						</form>
 <?php
 	require ROOT . '/lib/piece/owner/footer.php';
 	exit;
-}
+}}
 
 // 사용중인 메타 페이지 모듈 리스트 출력.
 $bFirstRadio = true;
