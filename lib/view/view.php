@@ -192,18 +192,19 @@ function getCommentView($entryId, $skin) {
 		foreach ($subComments as $commentSubItem) {
 			$commentSubItemView = ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
 			
+			$commentSubItem['name'] = htmlspecialchars($commentSubItem['name']);
+			$commentSubItem['comment'] = htmlspecialchars($commentSubItem['comment']);
+			
 			$rp_class = $prefix1 . '_general';
 			if ($blogid == $commentSubItem['replier'])
 				$rp_class = $prefix1 . '_admin';
 			else if ($commentSubItem['secret'] == 1) {
 				$rp_class = $prefix1 . '_secret';
 				if ($authorized) {
-					$commentSubItem['name'] = htmlspecialchars($commentSubItem['name']);
-					$commentSubItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . htmlspecialchars($commentSubItem['comment']);
+					$commentSubItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $commentSubItem['comment'];
 				} else {
 					$rp_class .= ' hiddenComment';
 					$commentSubItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>';
-					//$commentSubItem['comment'] = htmlspecialchars($commentSubItem['comment']);
 				}
 			}
 			dress($prefix1 . '_rep_class', $rp_class, $commentSubItemView);
@@ -230,18 +231,19 @@ function getCommentView($entryId, $skin) {
 			dress(($isComment ? 'rp2_container' : 'guest_reply_container'), $commentSubContainer, $commentItemView);
 		}
 		
+		$commentItem['name'] = htmlspecialchars($commentItem['name']);
+		$commentItem['comment'] = htmlspecialchars($commentItem['comment']);
+		
 		$rp_class = $prefix1 . '_general';
 		if ($blogid == $commentItem['replier'])
 			$rp_class = $prefix1 . '_admin';
 		else if ($commentItem['secret'] == 1) {
 			$rp_class = $prefix1 . '_secret';
 			if ($authorized) {
-				$commentItem['name'] = htmlspecialchars($commentItem['name']);
-				$commentItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . htmlspecialchars($commentItem['comment']);
+				$commentItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $commentItem['comment'];
 			} else {
 				$rp_class .= ' hiddenComment';
 				$commentItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>';
-				////$commentItem['comment'] = htmlspecialchars($commentItem['comment']);
 			}
 		}
 		dress($prefix1 . '_rep_class', $rp_class, $commentItemView);
