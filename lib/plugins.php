@@ -689,7 +689,7 @@ function selectTreat( $cmd, $dfVal , $name) {
 	$DSP = TAB.TAB.TAB.TAB.'<select id="'.$name.'" class="selectcontrol">'.CRLF;	
     $df = empty($dfVal[$name] ) ? NULL: $dfVal[$name];
 	foreach( $cmd['op']  as $option ) {
-		$ov = empty($option['.attributes']['value']) ? NULL :$option['.attributes']['value']; 
+		$ov = (!isset($option['.attributes']['value']) || trim($option['.attributes']['value']) == '') ? NULL :$option['.attributes']['value']; 
 		$oc = empty($option['.attributes']['checked']) ? NULL:$option['.attributes']['checked'];
 		
 		$DSP .= TAB.TAB.TAB.TAB.TAB.'<option ';
