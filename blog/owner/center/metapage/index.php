@@ -226,7 +226,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useMetapageInit']))
 	$metapageInitView = getBlogSetting("metapageInitView");
 }
 ?>
-						<form id="part-metapage-order<?php if ($metapageCount == 0) echo '-disabled';?>" class="part" method="post" action="<?php echo $blogURL; ?>/owner/center/metapage">
+						<form id="part-metapage-order" class="part" method="post" action="<?php echo $blogURL; ?>/owner/center/metapage">
 							<h2 class="caption"><span class="main-text"><?php echo _t('메타 페이지를 관리합니다');?></span></h2>
 
 							<dl id="independent-meta-line" class="line">
