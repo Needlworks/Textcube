@@ -403,8 +403,6 @@ function printEntryFileList($attachments, $param) {
 															entryManager.pageHolder.isHolding = function () {
 																return false;
 															}
-//															STD.removeEventListener(window);					
-//															window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);					
 														} catch(e) {
 														}
 														return true;
@@ -417,8 +415,6 @@ function printEntryFileList($attachments, $param) {
 													function enablePageManager() {
 														try {
 															entryManager.pageHolder.isHolding = entryManager.isContentSaved;
-//															STD.addEventListener(window);
-												//			window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);				
 														} catch(e) {
 														}
 														return true;
