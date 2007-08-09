@@ -515,6 +515,7 @@ function PageHolder(hold,message){
 		default:
 		case 2:
 			this.message=message;
+			this._holding=hold;
 		case 1:
 			this._holding=hold;
 			break;

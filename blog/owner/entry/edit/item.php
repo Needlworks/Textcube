@@ -146,10 +146,13 @@ if (defined('__TEXTCUBE_POST__')) {
 									this.entryId   = <?php echo $entry['id'];?>;
 
 									this.pageHolder = new PageHolder(false, "<?php echo _t('아직 저장되지 않았습니다.');?>");
-									this.pageHolder.isHolding = function () {
+
+									this.isContentSaved = function () {
 										return (entryManager.savedData != entryManager.getData());
 									}
-
+									
+									this.pageHolder.isHolding = this.isContentSaved;
+									
 									this.getData = function (check) {
 										if (check == undefined)
 											check = false;
@@ -364,7 +367,6 @@ if (defined('__TEXTCUBE_POST__')) {
 												return false;
 											}
 											PM.removeRequest(this);
-											window.onbeforeunload = null;
 											var returnURI = "";
 											var oForm = document.forms[0];
 											var changedPermalink = trim(oForm.permalink.value);
@@ -400,9 +402,9 @@ if (isset($_GET['popupEditor'])) {
 									}
 									this.saveAuto = function () {
 										if(document.getElementById('templateDialog').style.display != 'none') {
-											toggleTemplateDialog();											
+											toggleTemplateDialog();
 										}
-										
+										this.pageHolder.isHolding = this.isContentSaved;	
 										document.getElementById("saveButton").value = "<?php echo _t('저장하기');?>";
 										document.getElementById("saveButton").style.color = "#000";
 										if (this.timer == null)
@@ -444,13 +446,6 @@ if (isset($_GET['popupEditor'])) {
 									request.send();
 								}
 								window.setInterval("keepSessionAlive()", 600000);
-								
-								window.onbeforeunload = unloadPage;
-								
-								function unloadPage() {
-									var message = "<?php echo _t('지금 페이지를 이동하면 저장하지 않은 내용은 유실됩니다.');?>";
-									return message;
-								}
 								
 								function checkCategory(type) {
 									switch(type) {
@@ -516,8 +511,6 @@ if (isset($_GET['popupEditor'])) {
 								}
 
 								function returnToList() {
-									if(confirm("<?php echo _t('저장하지 않은 데이터는 삭제됩니다. 목록으로 돌아가시겠습니까?');?>")!=1)
-										return null;
 									window.location.href='<?php echo $blogURL;?>/owner/entry';
 									return true;
 								}

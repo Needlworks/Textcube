@@ -232,14 +232,9 @@ function printEntryFileList($attachments, $param) {
 											<script type="text/javascript">
 												//<![CDATA[
 													function addAttachment() {
-														if(isIE) {
-															document.frames[0].document.forms[0].action = "<?php echo $param['singleUploadPath'];?>";
-															document.frames[0].document.forms[0].attachment.click();
-														} else {
-															var attachHidden = document.getElementById('attachHiddenNest');
-															attachHidden.contentDocument.forms[0].action = "<?php echo $param['singleUploadPath'];?>";
-															attachHidden.contentDocument.forms[0].attachment.click();
-														}
+														var attachHidden = document.getElementById('attachHiddenNest');
+														attachHidden.contentDocument.forms[0].action = "<?php echo $param['singleUploadPath'];?>";
+														attachHidden.contentDocument.forms[0].attachment.click();
 													}
 													
 													function deleteAttachment() {
@@ -405,26 +400,28 @@ function printEntryFileList($attachments, $param) {
 
 													function disablePageManager() {
 														try {
-															pageHolding = entryManager.pageHolder.isHolding;
 															entryManager.pageHolder.isHolding = function () {
 																return false;
 															}
-															STD.removeEventListener(window);					
-															window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);					
+//															STD.removeEventListener(window);					
+//															window.removeEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);					
 														} catch(e) {
 														}
+														return true;
 													}
 													
 													STD.addEventListener(window);
 													window.addEventListener("load", disablePageManager, false);
+													window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);				
 													
 													function enablePageManager() {
 														try {
-															entryManager.pageHolder.isHolding = pageHolding ;
-															STD.addEventListener(window);
-															window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);				
+															entryManager.pageHolder.isHolding = entryManager.isContentSaved;
+//															STD.addEventListener(window);
+												//			window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);				
 														} catch(e) {
-														}	
+														}
+														return true;
 													}
 													
 													function stripLabelToValue(fileLabel) {
