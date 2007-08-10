@@ -31,7 +31,7 @@ var TTModernEditor = function() {
 	this.textLess = "";
 
 	this.editMode = "TEXTAREA";
-	this.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-image: url(\'' + servicePath + '/image/extension/unknown.gif\')"';
+	this.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + servicePath + '/image/extension/unknown.gif\')"';
 
 	this.buildFontMap();
 }
@@ -138,7 +138,8 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	this.iframe.setAttribute("allowtransparency", "true");
 	this.iframe.style.height = STD.isIE ? "448px" : "452px";
 	this.iframe.style.margin = "0px auto";
-	this.iframe.style.width = Math.min(skinContentWidth + (STD.isIE ? 36 : 39), 650) + "px";
+	this.iframe.style.overflowY = "scroll";
+	this.iframe.style.width = Math.min(skinContentWidth + (STD.isIE ? 56 : 64), 650) + "px";
 
 	// IFRAME을 감싸는 DIV
 	//this.iframeWrapper = document.createElement("div");
@@ -1530,7 +1531,7 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 								'<param name="Filename" value="' + url + '"/>' +
 								'<param name="AutoStart" value="false"/>' +
 								'<!--[if !IE]> <-->' +
-								'<object type="' + type + '" data="' + url + '" width="320" height="' + (type == "audio/mpeg" ? "20" : "240") + '">' +
+								'<object type="' + type + '" data="' + url + '" width="320" height="' + (type == "audio/mpeg" ? "50" : "240") + '">' +
 								'<param name="AutoStart" value="0"/>' +
 								'<embed pluginspage="http://www.microsoft.com/Windows/Downloads/Contents/Products/MediaPlayer/" src="' + url + '" width="320" height="' + (type == "audio/mpeg" ? "20" : "240") + '" type="application/x-mplayer2" autostart="0"></embed>' +
 								'</object>' +
