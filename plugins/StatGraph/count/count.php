@@ -2,37 +2,11 @@
 
 define('ROOT', '../../..');
 
-function requireComponent($name) {
-	if (!ereg('^[[:alnum:]]+[[:alnum:].]+$', $name))
-		return;
-	include_once (ROOT . "/components/$name.php");
-}
-
-include_once ROOT . '/config.php';
-
-mysql_connect($database['server'], $database['username'], $database['password']);
-mysql_select_db($database['database']);
-if (mysql_query('SET CHARACTER SET utf8')) {
-	$database['utf8'] = true;
-	function mysql_lessen($str, $length = 255, $tail = '..') {
-		return UTF8::lessen($str, $length, $tail);
-	}
-} else {
-	$database['utf8'] = false;
-	function mysql_lessen($str, $length = 255, $tail = '..') {
-		return UTF8::lessenAsByte($str, $length, $tail);
-	}
-}
-@mysql_query('SET SESSION collation_connection = \'utf8_general_ci\'');
-
+require ROOT . '/lib/includeForIcon.php';
 
 include ("src/jpgraph.php");
 include ("src/jpgraph_scatter.php");
 include ("src/jpgraph_line.php");
-
-if ((isset($_REQUEST['blogid'])) && is_numeric($_REQUEST['blogid'])) {
-	$blogid = intval($_REQUEST['blogid']);
-}
 
 requireComponent('Eolin.PHP.Core');
 requireComponent('Textcube.Model.Statistics');
