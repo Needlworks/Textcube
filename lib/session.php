@@ -143,7 +143,7 @@ function authorizeSession($blogid, $userid) {
 		$result = DBQuery::query("INSERT INTO {$database['prefix']}Sessions(id, address, userid, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if ($result && (mysql_affected_rows() == 1)) {
 			@session_id($id);
-			header("Set-Cookie: TSSESSION=$id; path={$session_cookie_path}; domain={$service['domain']}");
+			setcookie('TSSESSION', $id, 0, $session_cookie_path, $service['domain']);
 			return true;
 		}
 	}
