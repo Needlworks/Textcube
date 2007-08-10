@@ -14,7 +14,7 @@ html
 
 body
 {
-	background: url('./images/bg_bodyTop.gif') 50% top repeat-x;
+	/*background: url('./images/bg_bodyTop.gif') 50% top repeat-x;*/
 	font: 1.2em/1.7 Gulim, Helvetica, AppleGothic, Sans-serif;
 	color: #666;
 	padding-top: 30px;
@@ -111,11 +111,6 @@ h3
 	color: #accb53;
 }
 
-h4
-{
-	font-size: 1.1em;
-}
-
 h3 a:link, h3 a:visited
 {
 	color: #669818;
@@ -124,6 +119,11 @@ h3 a:link, h3 a:visited
 h3 a:hover, h3 a:active
 {
 	color: #7ab61a;
+}
+
+h4
+{
+	font-size: 1.1em;
 }
 
 /*-------------------------------*/
