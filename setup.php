@@ -1464,8 +1464,12 @@ ini_set('display_errors', 'off');
         
         $filename = $root . '/.htaccess';
         $fp = fopen($filename, 'w+');
-        if ($fp) {
-            fwrite($fp, $_POST['type'] == 'path' ?
+        
+        $htaccessContent = '';
+        
+        switch ($_POST['type']) {
+        	case 'path':
+        		$htaccessContent = 
 "#<IfModule mod_url.c>
 #CheckURL Off
 #</ifModule>
@@ -1493,8 +1497,43 @@ RewriteRule ^[[:alnum:]]+/+(thumbnail)/([0-9]+/.+) cache/$1/$2 [E=SURI:1,L]
 RewriteRule ^[[:alnum:]]+/+(entry|attachment|category|keylog|tag|search|plugin)/? blog/$1/index.php [E=SURI:1,L]
 RewriteRule ^[[:alnum:]]+/+(.+)/[0-9]+$ blog/$1/item.php [E=SURI:1,L]
 RewriteRule ^[[:alnum:]]+/+(.+)$ blog/$1/index.php [E=SURI:1,L]
-"
-                    :
+";
+				break;
+        	case 'single':
+        		$prefixPath = empty($path) ? '' : $path . '/';        		
+        		$htaccessContent = 
+"#<IfModule mod_url.c>
+#CheckURL Off
+#</IfModule>
+RewriteEngine On
+RewriteBase $path/
+RewriteCond %{ENV:REDIRECT_SURI} !^$
+RewriteRule (.*) - [L]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.+[^/])$ $1/ [L]
+RewriteRule ^$ blog/index.php [E=SURI:1,L]
+RewriteRule ^[0-9]+$ blog/item.php [E=SURI:1,L]
+RewriteCond %{DOCUMENT_ROOT}/{$prefixPath}attach/1/favicon.ico -f
+RewriteRule ^favicon\.ico$ attach/1/favicon.ico [E=SURI:1,L]
+RewriteRule ^favicon\.ico$ image/icon_favicon_default.ico [E=SURI:1,L]
+RewriteCond %{DOCUMENT_ROOT}/{$prefixPath}attach/1/index.gif -f
+RewriteRule ^index\.gif$ attach/1/index.gif [E=SURI:1,L]
+RewriteRule ^index\.gif$ image/icon_blogIcon_default.png [E=SURI:1,L]
+RewriteCond %{QUERY_STRING} (^|&)pl=([0-9]+)
+RewriteRule ^index\.php$ %2 [NE,L]
+RewriteRule ^index\.php$ blog/index.php [E=SURI:1,L]
+RewriteRule ^index\.xml$ blog/rss/index.php [E=SURI:1,L]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule !^(blog|cache)/ - [L]
+RewriteRule ^(thumbnail)/([0-9]+/.+) cache/$1/$2 [E=SURI:1,L]
+RewriteRule ^(entry|attachment|category|keylog|tag|search|plugin)/? blog/$1/index.php [E=SURI:1,L]
+RewriteRule ^(.+)/[0-9]+$ blog/$1/item.php [E=SURI:1,L]
+RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
+";
+	       		break;
+        	default :
+        		$htaccessContent = 
 "#<IfModule mod_url.c>
 #CheckURL Off
 #</IfModule>
@@ -1519,8 +1558,11 @@ RewriteRule ^(thumbnail)/([0-9]+/.+) cache/$1/$2 [E=SURI:1,L]
 RewriteRule ^(entry|attachment|category|keylog|tag|search|plugin)/? blog/$1/index.php [E=SURI:1,L]
 RewriteRule ^(.+)/[0-9]+$ blog/$1/item.php [E=SURI:1,L]
 RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
-"
-            );
+";
+			break;
+        }
+        if ($fp) {
+            fwrite($fp, $htaccessContent);
             fclose($fp);
             @chmod($filename, 0666);
         }
