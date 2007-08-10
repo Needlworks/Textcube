@@ -862,22 +862,8 @@ h4
 
 fieldset
 {
-	padding: 1em;
+	padding: 1em 0;
 	border: 1px solid #f0f0e6;
-}
-
-* html fieldset
-{
-	/
-
-* \ Not Mac */
-	position: relative;
-	clear: both;
-	margin-top: 1.8em;
-	padding: 2em 1em 1em;
-/*
-
-*/
 }
 
 legend
@@ -886,22 +872,10 @@ legend
 	color: #999;
 }
 
-* html fieldset legend
-{
-	/
-
-* \ Not Mac */
-	position: absolute;
-	top: -.8em;
-	left: .4em;
-/*
-
-*/
-}
-
 fieldset div
 {
-	margin: .3em 0;
+	margin: .3em 14px;
+	width: 435px;
 }
 
 label
@@ -929,7 +903,7 @@ input
 
 textarea
 {
-	width: 565px;
+	width: 435px;
 	height: 12em;
 	padding: 2px .5em;
 	background-color: #faf9f8;
