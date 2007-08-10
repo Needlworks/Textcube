@@ -609,8 +609,8 @@ table.data-inbox tbody tr td.ip
 	line-height                      : 1.7em;
 	padding                          : 0 5px;
 	position                         : absolute;
-	right                            : 25px;
-	bottom                           : 95px;
+	left                             : 25px;
+	bottom                           : 75px;
 }
 
 /* Eolin Dialogue ********************************************************************************/

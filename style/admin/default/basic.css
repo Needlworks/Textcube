@@ -166,7 +166,7 @@ textarea
 {
 	width                            : 100%;
 }
-	
+
 #all-wrap
 {
 	font-size                        : 0.925em;
@@ -861,6 +861,7 @@ table.data-inbox tbody tr td.inactive-class
 {
 	display                          : block;
 	margin-bottom                    : 5px;
+	height                           : 15px;
 }
 
 #page-list a
@@ -918,7 +919,7 @@ table.data-inbox tbody tr td.inactive-class
 	margin                           : 0 auto;
 	padding                          : 13px 0 10px 0;
 	text-align                       : center;
-	width                            : 980px;	
+	width                            : 980px;
 }
 
 #layout-footer div
