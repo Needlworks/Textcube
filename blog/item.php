@@ -66,6 +66,7 @@ if (isset($_POST['partial'])) {
 			dress('article_rep', NULL, $view); 
 			dress('page_error', $skin->pageError, $view);
 		}
+		unset($paging);
 	} else {
 		require ROOT . '/lib/piece/blog/entries.php';
 	}
