@@ -519,6 +519,33 @@ h4
 	border-left: 2px solid #ddd;
 }
 
+.article ol
+{
+	margin: 1em 0 1.5em 50px;
+}
+
+.article ul
+{
+	list-style: none;
+	margin: 1em 0 1.5em 30px;
+}
+
+.article ul li
+{
+	padding-left: 20px;
+	background: url('./images/bullet_atricleUl.gif') no-repeat 0 .5em;
+}
+
+.tt-gallery-box
+{
+	clear: both;
+}
+
+.galleryControl a
+{
+	border-bottom: none !important;
+}
+
 .imageblock
 {
 	margin: 0 0 1.5em;
@@ -581,23 +608,6 @@ h4
 	border-top: solid 1px #eee;
 	border-bottom: solid 1px #eee;
 	background-color: #faf9f8;
-}
-
-.article ol
-{
-	margin: 1em 0 1.5em 50px;
-}
-
-.article ul
-{
-	list-style: none;
-	margin: 1em 0 1.5em 30px;
-}
-
-.article ul li
-{
-	padding-left: 20px;
-	background: url('./images/bullet_atricleUl.gif') no-repeat 0 .5em;
 }
 
 /* tag, comments btn */
