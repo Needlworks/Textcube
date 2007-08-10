@@ -264,7 +264,7 @@ if ($metapageCount == 0 || count($metapageMappings) == 0) {
 <?php
 	require ROOT . '/lib/piece/owner/footer.php';
 	exit;
-}}
+}
 
 // 사용중인 메타 페이지 모듈 리스트 출력.
 $bFirstRadio = true;
