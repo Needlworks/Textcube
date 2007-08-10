@@ -11,7 +11,8 @@ function FM_Modern_editorinit(&$editor) {
 	global $service, $configVal;
 	$blogid = getBlogId();
 	if (is_null($configVal)) {
-		$config = array('paragraphdelim' => 'BR');
+		$config = array('paragraphdelim' => 'BR',
+			'defaultmode' => 'WYSIWYG');
 	} else {
 		requireComponent('Textcube.Function.misc');
 		$config = misc::fetchConfigVal($configVal);
