@@ -384,11 +384,6 @@ h4
 	background: url('./images/bullet_folder.gif') no-repeat 0 50%;
 }
 
-.subject .infoAuthor
-{
-	background: url('./images/bullet_author.gif') no-repeat 0 50%;
-}
-
 .subject li a
 {
 	font-family: Dotum, 돋움, Helvetica, AppleGothic, Sans-Serif;
@@ -517,6 +512,12 @@ h4
 	width: 80%;
 	color: #50b4ca;
 	border-left: 2px solid #ddd;
+}
+
+.article .infoAuthor
+{
+	margin-top: 20px;
+	text-align: right;
 }
 
 .article ol
