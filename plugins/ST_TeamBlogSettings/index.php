@@ -102,34 +102,37 @@ function getTeamBlogSettings() {
 	$italicCheck = "";
 	$underlineCheck = "";
 	$boldCheck = "";
+	$color = "";
 	if($row['style']){
 		$style = explode("|", $row['style']);
-		if($style[0]=="true"){
+		if(isset($style[0]) && ($style[0]=="true")) {
 			$authorStyle = "font-weight:bold;";
 			$boldCheck = " checked ";
 		}
-		if($style[1]=="true"){
+		if(isset($style[1]) && ($style[1]=="true")) {
 			$authorStyle .= "font-style:italic;";
 			$italicCheck = " checked ";
 		}
-		if($style[2]=="true"){
+		if(isset($style[2]) && ($style[2]=="true")) {
 			$authorStyle .= "text-decoration:underline;";
 			$underlineCheck = " checked ";
 		}
-		if($style[3]){
+		if(isset($style[3]) && !empty($style[3])){
 			$authorStyle .= "color:{$style[3]};";
 			$color = $style[3];
 		}
-		if($style[4]){
+		if(isset($style[4]) && !empty($style[4])){
 			$authorStyle .= "font-family:{$style[4]};";
 			$family = explode(",",$style[4]);
 			
 		}
-		if($style[5]){
+		if(isset($style[5]) && !empty($style[5])){
 			$authorStyle .= "font-size:{$style[5]}pt;";
 			$size = $style[5];
 			
 		}
+	} else {
+		$style = array();
 	}
 	$profile = "";
 	if($row['profile']){
@@ -156,12 +159,12 @@ function getTeamBlogSettings() {
 										var familyCheck;
 										var sizeCheck;
 										var html = ////
-											'<input type="text" id="fontColor" class="input-text2" style="color:<?php echo $color;?>;" value="<?php echo $color;?>" />' + 
+											'<input type="text" id="fontColor" class="input-text2" style="<?php echo empty($color) ? '' : 'color:$color'; ?>;" value="<?php echo $color;?>" />' + 
 											'<select id="fontColorList" style="width:80px;height:19px;" onchange="styleExecCommand(\'fontColor\', \'fontcolor\', this.value);">' +
 												'<option class="head-option" value=""><?php echo _t('글자색'); ?></option>';
 										for (var i = 0; i < colors.length; ++i) {
 											<?php
-												if($style[3]) echo "colorCheck = (colors[i] == '".str_replace("#","",$color)."')?' selected ':'';";
+												if(isset($style[3]) && !empty($style[3])) echo "colorCheck = (colors[i] == '".str_replace("#","",$color)."')?' selected ':'';";
 											?>
 											html += '<option style="color:#' + colors[i] + ';" value="#' + colors[i] + '" ' + colorCheck + '>#' + colors[i] + '</option>';
 										}
@@ -175,14 +178,14 @@ function getTeamBlogSettings() {
 											var fontinfo = fontset[i].split(':');
 											if (fontinfo.length != 3) continue;
 											<?php
-												if($style[4]) echo "familyCheck = (fontinfo[1] == ".$family[0].")?' selected ':'';";
+												if(isset($style[4]) && !empty($style[4])) echo "familyCheck = (fontinfo[1] == ".$family[0].")?' selected ':'';";
 											?>
 											html += '<option style="font-family: \'' + fontinfo[1] + '\';" value="\'' + fontinfo[1] + '\', \'' + fontinfo[2] + '\'"' + familyCheck + '>' + fontinfo[0] + '</option>';
 										}
 										for (var i = 0; i < defaultfonts.length; ++i) {
 											var entry = defaultfonts[i];
 											<?php
-												if($style[4]) echo "familyCheck = (entry[0] == ".$family[0].")?' selected ':'';";
+												if(isset($style[4]) && !empty($style[4])) echo "familyCheck = (entry[0] == ".$family[0].")?' selected ':'';";
 											?>
 											html += '<option style="font-family: \'' + entry[0] + '\';" value="\'' + entry.join("','") + '\'" ' + familyCheck + '>' + entry[0] + '</option>';
 										}
@@ -193,7 +196,7 @@ function getTeamBlogSettings() {
 												'<option class="head-option" value=""><?php echo _t('크기'); ?></option>';
 										for (var i = 8; i < 16; ++i) {
 											<?php
-												if($style[5]) echo "sizeCheck = (i == ".$size.")?' selected ':'';";
+												if(isset($style[5]) && !empty($style[5])) echo "sizeCheck = (i == ".$size.")?' selected ':'';";
 											?>
 											html += '<option value="' + i + '" ' + sizeCheck + '>' + i + 'pt</option>';
 										}
@@ -247,9 +250,9 @@ function getTeamBlogSettings() {
 
 function getTeamContentsSave($target){
 	global $database;
-	$flag = $_POST['flag'];
-	$style = $_POST['fontstyle'];
-	$profile = $_POST['profile'];
+	$flag = isset($_POST['flag']) ? $_POST['flag'] : '';
+	$style = isset($_POST['fontstyle']) ? $_POST['fontstyle'] : '';
+	$profile = isset($_POST['profile']) ? $_POST['profile'] : '';
 	if(doesHaveOwnership() && doesHaveMembership()){
 		if($flag == "style"){
 			if(DBQuery::execute("UPDATE {$database['prefix']}TeamUserSettings SET style=\"{$style}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
