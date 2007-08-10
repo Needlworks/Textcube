@@ -279,7 +279,7 @@ class misc {
 	
 	function getBlogSettingRowsPerPage($default = null) {
 		global $database, $blogid;
-		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}BlogSettings WHERE user = $blogid AND name = 'rowsPerPage'");
+		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid AND name = 'rowsPerPage'");
 		return ($value === null) ? $default : $value;
 	}
 
