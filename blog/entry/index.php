@@ -17,6 +17,7 @@ if (empty($entries)) {
 		dress('article_rep', NULL, $view); 
 		dress('page_error', $skin->pageError, $view);
 	}
+	unset($paging);
 } else {
 	require ROOT . '/lib/piece/blog/entries.php';
 }
