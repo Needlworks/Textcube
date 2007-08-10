@@ -1084,23 +1084,23 @@ function alignCenter(win,width,height) {
 }
 
 function deleteComment(id) {
-	width = 450;
+	width = 460;
 	height = 400;
 	try {
 		if(openWindow != '') openWindow.close();
 	} catch (e) {}
-	openWindow = window.open(blogURL + "/comment/delete/" + id, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+	openWindow = window.open(blogURL + "/comment/delete/" + id, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=0,status=0,toolbar=0");
 	openWindow.focus();
 	alignCenter(openWindow,width,height);
 }
 
 function commentComment(parent) {
-	width = 450;
+	width = 460;
 	height = 380;
 	try {
 		if(openWindow != '') openWindow.close();
 	} catch (e) {}
-	openWindow = window.open(blogURL + "/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+	openWindow = window.open(blogURL + "/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=0,status=0,toolbar=0");
 	openWindow.focus();
 	alignCenter(openWindow,width,height);
 }
@@ -1117,12 +1117,12 @@ function editEntry(parent,child) {
 }
 
 function guestbookComment(parent) {
-	width = 450;
+	width = 460;
 	height = 360;
 	try {
 		if(openWindow != '') openWindow.close();
 	} catch (e) {}
-	openWindow = window.open(blogURL + "/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+	openWindow = window.open(blogURL + "/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=0,status=0,toolbar=0");
 	openWindow.focus();
 	alignCenter(openWindow,width,height);
 }
