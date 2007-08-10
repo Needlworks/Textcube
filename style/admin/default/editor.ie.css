@@ -52,6 +52,11 @@
 	word-break                       : break-all;
 }
 
+#location
+{
+	word-break                       : break-all;
+}
+
 #location ul li
 {
 	margin-right                     : 2px;

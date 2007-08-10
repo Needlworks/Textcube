@@ -379,11 +379,6 @@ h3
 	vertical-align                   : middle;
 }
 
-#location
-{
-	word-break                       : break-all;
-}
-
 #location ul li
 {
 	background-image                 : url("./image/location_divider.gif");
@@ -786,7 +781,7 @@ dl#power-line
 #templateDialog dl dt
 {
 	margin: 10px 0 3px 0;
-	font-wieght: bold !important;
+	font-weight: bold !important;
 }
 
 #templateDialog dl dd.noItem
