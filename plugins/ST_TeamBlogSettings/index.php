@@ -62,7 +62,7 @@ function getTeamProfile($userid){
 	$imageSrc = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];
 	$imageStyle = $imageTag = '';
 	if($row['image']){
-		$imageTag = "<img src=\"".$imageSrc."\" align=\"top\" />";
+		$imageTag = "<img src=\"".$imageSrc."\" alt=\"author image\" align=\"top\" />";
 		$imageStyle = "style=\"width:".($data['imageSize']+6)."px; margin-right:10px;\"";
 	}
 	$profile = nl2br(addLinkSense(htmlspecialchars($row['profile']), ' onclick="return openLinkInNewWindow(this)"'));
