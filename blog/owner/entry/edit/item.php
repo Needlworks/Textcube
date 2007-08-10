@@ -404,7 +404,7 @@ if (isset($_GET['popupEditor'])) {
 										if(document.getElementById('templateDialog').style.display != 'none') {
 											toggleTemplateDialog();
 										}
-										if(this.nowsaving == false) {
+										if(this.nowsaving == false && this.pageHolder.isHolding != this.isContentSaved) {
 											this.pageHolder.isHolding = this.isContentSaved;
 										}
 										document.getElementById("saveButton").value = "<?php echo _t('저장하기');?>";
