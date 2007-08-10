@@ -451,9 +451,14 @@ function printEntryFileList($attachments, $param) {
 															
 															document.getElementById('uploaderNest').innerHTML = uploaderStr
 															refreshFileSize();						
-															setTimeout("enablePageManager()", 2000);						
+															setTimeout("enablePageManager()", 2000);
+															entryManager.nowsaving = false;
 														}
-														request.onError = function() {}
+														request.onError = function() {
+															setTimeout("enablePageManager()", 2000);
+															entryManager.nowsaving = false;
+														
+														}
 														request.send();					
 													}
 													
@@ -479,7 +484,6 @@ function printEntryFileList($attachments, $param) {
 																break;
 															}
 														}
-														entryManager.nowsaving = false;
 													}
 													
 													function addFileList(list) {
@@ -588,13 +592,12 @@ function printEntryFileList($attachments, $param) {
 													
 													function browser() {
 														disablePageManager();
-//														entryManager.nowsaving = true;
+														entryManager.nowsaving = true;
 														getUploadObj().SetVariable('/:openBrowser','true');
 													}
 													
 													function stopUpload() {
 														getUploadObj().SetVariable('/:stopUpload','true');
-														entryManager.nowsaving = false;
 													}
 													
 													function refreshFileSize() {
