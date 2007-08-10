@@ -56,7 +56,7 @@ function MT_getRecentEntries($parameters){
 			$html .= '<div class="metapost">'.CRLF;
 			if($imageName = MT_getAttachmentExtract($entry['content'])){
 				if($tempImageSrc = MT_getImageResizer($imageName)){
-					$html .= '<div class="img_preview" style="background:url('.$tempImageSrc.') top center no-repeat #ffffff;\"><img src="'.$serviceURL.'/image/spacer.gif" onclick="window.location.href=\''.$permalink.'\'; return false;" /></div>'.CRLF;
+					$html .= '<div class="img_preview" style="background:url('.$tempImageSrc.') top center no-repeat #ffffff;\"><img src="'.$serviceURL.'/image/spacer.gif" alt="" onclick="window.location.href=\''.$permalink.'\'; return false;" /></div>'.CRLF;
 				}
 			}
 			$html .= '	<h2><a href="'.$permalink.'">'.$entry['title'].'</a></h2>'.CRLF;
