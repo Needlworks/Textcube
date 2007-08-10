@@ -11,7 +11,7 @@
   <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
-    <textcube>1.2.0</textcube>
+    <textcube>1.5</textcube>
   </requirements>
   <binding>
     <listener event="BindKeyword">KeywordUI_bindKeyword</listener>

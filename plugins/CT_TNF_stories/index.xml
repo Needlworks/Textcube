@@ -11,7 +11,7 @@
   <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.1</textcube>
+    <textcube>1.5</textcube>
   </requirements>
   <binding>
 	<center handler="CT_TNF_Stories" />

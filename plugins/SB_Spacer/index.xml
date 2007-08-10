@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
   <title xml:lang="en">Spacer</title>
   <title xml:lang="ko">빈 줄 표시</title>
@@ -11,7 +11,7 @@
   <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
-    <textcube>1.1</textcube>
+    <textcube>1.5</textcube>
   </requirements>
   <binding>
     <sidebar title="Spacer" handler="SB_Spacer"></sidebar>

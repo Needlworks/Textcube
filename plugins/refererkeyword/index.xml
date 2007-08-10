@@ -11,7 +11,7 @@
   <author xml:lang="ko" link="http://forum.tattertools.com/ko">태터앤프렌즈 (치리)</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.1</textcube>
+    <textcube>1.5</textcube>
   </requirements>
   <binding>
     <adminMenu>

@@ -14,7 +14,7 @@
   <author xml:lang="ja" link="http://needlworks.org">Needlworks</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.1</textcube>
+    <textcube>1.5</textcube>
   </requirements>
   <binding>
     <adminMenu>

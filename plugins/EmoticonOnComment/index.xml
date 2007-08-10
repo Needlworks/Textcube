@@ -16,7 +16,7 @@ The strings are :) ;) :P $D :( --;</description>
   <author xml:lang="ko" link="http://www.tattertools.com">태터앤컴퍼니</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
-    <textcube>1.0</textcube>
+    <textcube>1.5</textcube>
   </requirements>
   <binding>
     <listener event="ViewCommentContent">EmoticonOnComment_main</listener>
