@@ -19,7 +19,7 @@ if (isset($cache->contents)) {
 
 		if ($entry['category'] == - 1) { // This is keylog
 			$entryView = $skin->keylogItem;
-			dress('keylog_rep_date', fireEvent('ViewKeylogDate', Timestamp::format5($entry['published'])), $entryView);
+			dress('keylog_rep_date', fireEvent('ViewKeylogDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
 			dress('keylog_rep_title', htmlspecialchars(fireEvent('ViewKeylogTitle', $entry['title'], $entry['id'])), $entryView);
 			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
 			$contentContainer["keylog_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], null, 'Keylog');
@@ -29,7 +29,7 @@ if (isset($cache->contents)) {
 			$isKeylog = true;
 		} else if ($entry['category'] == - 2) { // This is notice
 			$entryView = $skin->noticeItem;
-			dress('notice_rep_date', fireEvent('ViewNoticeDate', Timestamp::format5($entry['published'])), $entryView);
+			dress('notice_rep_date', fireEvent('ViewNoticeDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
 			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', $entry['title'], $entry['id'])), $entryView);
 			if ($suri['directive'] == '/notice')
 				dress('notice_rep_link', "$blogURL/notice/{$entry['id']}", $entryView);
@@ -92,7 +92,7 @@ if (isset($cache->contents)) {
 			dress('article_rep_desc', setTempTag("article_{$entry['id']}"), $entryView);
 			dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['categoryLabel'], $entry['id']), $entryView);
 			dress('article_rep_category_link', empty($entry['category']) ? "$blogURL/category/" : "$blogURL/category/".encodeURL($entry['categoryLabel']) ,$entryView);
-			dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published'])), $entryView);
+			dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
 			dress('entry_archive_link', "$blogURL/archive/" . Timestamp::getDate($entry['published']), $entryView);
 			if ($entry['acceptComment'] || ($entry['comments'] > 0))
 				dress('article_rep_rp_link', "toggleLayer('entry{$entry['id']}Comment'); return false", $entryView);
