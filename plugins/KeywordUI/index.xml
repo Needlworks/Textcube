@@ -18,7 +18,7 @@
 	<listener event="setKeylogSkin">KeywordUI_setSkin</listener>
 	<listener event="ViewTagLists">KeywordUI_bindTag</listener>
 	<config xml:lang="ko" dataValHandler="KeywordUI_handleConfig">
-       <window width="500" height="310" />
+       <window width="500" height="525" />
        <fieldset legend="태그 설명 설정">
          <field title="태그 설명" type="checkbox" name="tag">
            <op name="useKeywordAsTag" value="1" checked="checked"><![CDATA[태그 설명에 키워드를 사용합니다]]></op>

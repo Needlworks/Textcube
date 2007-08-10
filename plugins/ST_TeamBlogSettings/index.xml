@@ -22,7 +22,7 @@
 	<listener event="/plugin/teamFileUpload/">getImageFileUpload</listener>
 	<listener event="/plugin/teamBlogStyle/">getTeamBlogStyleSet</listener>
 	<config dataValHandler = "getTeamBlog_DataSet" >
-		<window width="500" height="530" />
+		<window width="500" height="525" />
 		<fieldset legend="Writer profile" >
 			<field title="적용 항목 :" name="postCheck" type="checkbox"  >
 				<op name="p1" value="1" checked="checked"><![CDATA[본문&nbsp;(]]></op>

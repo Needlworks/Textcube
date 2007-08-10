@@ -19,7 +19,7 @@
   <binding>
 	<tag name="SKIN_head_end" handler="URLkeeper" />
 	<config dataValHandler="">
-			<window width="500" height="200" />
+			<window width="500" height="525" />
 			<fieldset legend="설정">
 				<field title="처리방식" name="viewForm" type="select">
 					<op value="0" checked="checked">경고창을 띄운 후, 방문자가 선택합니다</op>

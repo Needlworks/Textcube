@@ -16,7 +16,7 @@
   <binding>
     <sidebar title="Spacer" handler="SB_Spacer"></sidebar>
 	  <config xml:lang="ko" dataValHandler = "SB_Spacer_DataSet">
-		  <window width="300" height="300" />
+		  <window width="500" height="525" />
 		  <fieldset legend="Spacer">
 			  <field title="간격" name="height" type="text" value="20" size="3">
 				  <caption><![CDATA[빈 줄 길이를 조절합니다. 단위는 픽셀입니다.]]></caption>
@@ -24,7 +24,7 @@
 		  </fieldset>
 	  </config>
     <config xml:lang="en" dataValHandler = "SB_Spacer_DataSet">
-      <window width="300" height="300" />
+      <window width="500" height="525" />
       <fieldset legend="Spacer">
         <field title="Space" name="height" type="text" value="20" size="3">
           <caption><![CDATA[Specify a height of the space with 'Pixel'.]]></caption>

@@ -30,7 +30,7 @@
 		</editor>
 		
 		<config xml:lang="ko" dataValHandler="FM_Modern_handleconfig">
-			<window width="500" height="310" />
+			<window width="500" height="525" />
 			<fieldset legend="기본 설정">
 				<field title="기본 작성 모드" type="select" name="defaultmode">
 					<op value="WYSIWYG" checked="checked"><![CDATA[위지윅 편집기]]></op>

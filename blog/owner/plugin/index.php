@@ -144,7 +144,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 	$pluginDir = $pluginKeys[$i];
 	
 	$width = $pluginAttrs[$pluginDir]['width']?$pluginAttrs[$pluginDir]['width']:500;
-	$height = $pluginAttrs[$pluginDir]['height']?$pluginAttrs[$pluginDir]['height']:400;
+	$height = $pluginAttrs[$pluginDir]['height']?$pluginAttrs[$pluginDir]['height']:525;
 ?>
 								pluginInfo['<?php echo $pluginDir;?>'] = new Array();
 								pluginInfo['<?php echo $pluginDir;?>']['width'] = <?php echo $width;?>;
@@ -404,7 +404,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 	$author = $pluginAttrs[$pluginDir]['author'];
 	$config = $pluginAttrs[$pluginDir]['config'] ? 'Y':'N';
 	$width = $pluginAttrs[$pluginDir]['width'] ? $pluginAttrs[$pluginDir]['width'] : 500;
-	$height = $pluginAttrs[$pluginDir]['height'] ? $pluginAttrs[$pluginDir]['height'] : 400;
+	$height = $pluginAttrs[$pluginDir]['height'] ? $pluginAttrs[$pluginDir]['height'] : 525;
 	$active = in_array($pluginDir, $activePlugins);
 	
 	if ($active == true && !in_array('activated', $selectedStatus))

@@ -27,7 +27,7 @@
 		<listener event="ViewTrackbackDate">convertDateLangTD</listener>
 		
 		<config xml:lang="ko" dataValHandler="">
-			<window width="500" height="310" />
+			<window width="500" height="525" />
 			<fieldset legend="날짜 표현에 사용할 기본언어를 선택해 주세요.">
 				<field title="기본 언어 : " name="language" type="select">
 					<op value="english">영어</op>
@@ -74,7 +74,7 @@
 			</fieldset>
 	 	</config>
     <config xml:lang="en" dataValHandler="">
-      <window width="500" height="310" />
+      <window width="500" height="525" />
       <fieldset legend="Select default language for displaying dates.">
         <field title="Default Language : " name="language" type="select">
           <op value="english">English</op>
