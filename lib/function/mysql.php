@@ -23,11 +23,9 @@ function escapeMysqlSearchString($str) {
 function doesExistTable($tablename)
 {
 	global $database;
-	static $tables = array();
-	$likeEscape = array ( '/_/' , '/%/' );
-	$likeReplace = array ( '\\_' , '\\%' );
-	$escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
+	static $tables = array();	
 	if( empty($tables) ) {
+		$escapename = escapeMysqlSearchString($database['prefix']);
 		$tables = DBQuery::queryColumn( "SHOW TABLES LIKE '{$escapename}%'" );
 	}
 	if( in_array( $tablename, $tables ) ) {
