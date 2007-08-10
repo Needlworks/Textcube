@@ -132,6 +132,13 @@ h1
 	cursor: default;
 }
 
+#menu li.dimmed
+{
+	background-color: #FFFFFF;
+	color: #cdcdcd;
+	cursor: default;
+}
+
 /* @end */
 
 /* @group About Tab */

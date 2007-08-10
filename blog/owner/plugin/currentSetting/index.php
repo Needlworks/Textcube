@@ -173,7 +173,7 @@ if ($xmls->doesExist('/plugin/binding/config')) {
 <?php
 	} else {
 ?>
-				<li id="setting-tab" onclick="alert('<?php echo _t('플러그인이 활성화 되어 있지 않습니다.');?>')"><?php echo _t('플러그인 설정');?></li>
+				<li id="setting-tab" class="dimmed"><?php echo _t('플러그인 설정');?></li>
 <?php
 	}
 }
