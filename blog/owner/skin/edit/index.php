@@ -148,7 +148,6 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 								<form id="htmlSectionForm" class="section" method="post" action="<?php echo $blogURL;?>/owner/skin/edit/skin/">
 									<ul>
 										<li class="selected"><a><img src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/img_html_document_on.gif" alt="" /><strong>skin.html</strong></a></li>
-										<!--a href="<?php echo $blogURL;?>/owner/skin/edit/?html=<?php echo $tempFile;?>">...</a-->
 									</ul>
 
 <?php
