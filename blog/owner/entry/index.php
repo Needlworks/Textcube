@@ -77,6 +77,7 @@ if (isset($_POST['visibility'])) {
 	$visibility = null;
 	$tabsClass['all'] = true;
 	$visibilityText = _t('모든');
+	$_POST['visibility'] = '';
 }
 
 // 찾기 키워드 설정.
