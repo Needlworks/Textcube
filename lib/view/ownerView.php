@@ -478,7 +478,8 @@ function printEntryFileList($attachments, $param) {
 																fileListObj[i].innerHTML = target+" "+(Math.ceil(100*loaded/total))+"%";
 																break;
 															}
-														}				
+														}
+														entryManager.nowsaving = false;
 													}
 													
 													function addFileList(list) {
@@ -587,11 +588,13 @@ function printEntryFileList($attachments, $param) {
 													
 													function browser() {
 														disablePageManager();
+//														entryManager.nowsaving = true;
 														getUploadObj().SetVariable('/:openBrowser','true');
 													}
 													
 													function stopUpload() {
 														getUploadObj().SetVariable('/:stopUpload','true');
+														entryManager.nowsaving = false;
 													}
 													
 													function refreshFileSize() {
@@ -612,7 +615,7 @@ function printEntryFileList($attachments, $param) {
 															
 															request.onError = function() {
 															}
-															//disablePageManager();
+															disablePageManager();
 															request.send();
 															
 														} catch(e) {
