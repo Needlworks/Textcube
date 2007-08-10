@@ -89,26 +89,26 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 							//<![CDATA[
 								function removeCategory() {
 									if(confirm('<?php echo _t('삭제 하시겠습니까?');?>')) {
-										var oform=document.forms[0];  
-										oform.deleteCategory.value=<?php echo $selected;?>; 
-										 
+										var oform=document.forms[0];
+										oform.deleteCategory.value=<?php echo $selected;?>;
+
 										oform.submit()
 									}
 								}
-								
+
 								function moveCategory(direction) {
 									var oform=document.forms[0];
 									oform.direction.value=direction
 									oform.id.value=<?php echo $selected;?>;
 									oform.submit()
 								}
-								
+
 								function addCategory() {
 									var oform=document.forms[0];
 									oform.id.value=<?php echo $selected;?>;
 									oform.submit()
 								}
-								
+
 								function modifyCategory() {
 									var oform=document.forms[0];
 									oform.id.value=<?php echo $selected;?>;
@@ -125,7 +125,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									oform.id.value=<?php echo $selected;?>;
 									oform.submit()
 								}
-								
+
 								window.addEventListener("load", expandTreeInit, false);
 								function expandTreeInit() {
 									try {
@@ -135,7 +135,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										alert(e.message);
 									}
 								}
-								
+
 								function validateText(str) {
 									return true;
 								}
@@ -148,10 +148,10 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 							//]]>
 						</script>
-						
+
 						<div id="part-post-tree" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('분류를 관리합니다');?></span></h2>
-							
+
 							<div class="data-inbox">
 								<div id="tree-preview-box">
 									<div class="title"><?php echo _t('미리보기');?></div>
@@ -159,17 +159,17 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 <?php echo getCategoriesViewInOwner(getEntriesTotalCount(getBlogId()), $categories, $selected);?>
 									</div>
 								</div>
-								
+
 								<form class="section" method="post" action="<?php echo $blogURL;?>/owner/entry/category">
 									<fieldset id="property-box" class="container">
 										<legend><?php echo _t('분류 관리 및 설정');?></legend>
-										
+
 										<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 										<input type="hidden" name="deleteCategory" />
 										<input type="hidden" name="direction" />
 										<input type="hidden" name="id" />
 										<input type="hidden" name="visibility" />
-																					
+
 										<dl id="label-create-line" class="line">
 											<dt><label for="newCategory"><?php echo _t('만들기');?></label></dt>
 <?php
@@ -191,7 +191,7 @@ if ($depth <= 1) {
 <?php
 }
 ?>
-											
+
 										</dl>
 										<dl id="label-change-line" class="line">
 											<dt><label for="modifyCategoryName"><?php echo _t('이름 변경');?></label></dt>
@@ -229,18 +229,28 @@ if ($selected > 0) {
 <?php
 }
 ?>
-												
+
 										</dl>
 										<dl id="label-visibility-line" class="line">
 											<dt><span class="label"><?php echo _t('공개 설정');?></span></dt>
 											<dd>
+<?php
+if ($selected > 0) {
+?>
 												<input type="checkbox" id="currentVisibility" class="checkbox" name="currentVisibility"<?php echo $visibility != 2 ? ' checked="checked"' : '';?> onclick="changeCategoryVisibility();return false;" /><label for="currentVisibility"><?php echo _t('이 카테고리를 비공개로 설정합니다.');?></label>
+<?php
+} else {
+?>
+												<p><?php echo _t('최상단 분류는 비공개로 설정할 수 없습니다.');?></p>
+<?php
+}
+?>
 											</dd>
 										</dl>
 										<dl id="label-remove-line" class="line">
 											<dt><span class="label"><?php echo _t('분류 삭제');?></span></dt>
 											<dd>
-												
+
 <?php
 if ($selected == 0) {
 	echo '<p>'._t('최상단 분류는 삭제할 수 없습니다.').'</p>';

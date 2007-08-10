@@ -863,7 +863,7 @@ if (preg_match('@\(thumbnail\)/\(\[0\-9\]\+/\.\+\) cache/\$1/\$2@', $content) ==
 	else
 		$insertLine = 'RewriteRule ^(thumbnail)/([0-9]+/.+) cache/$1/$2 [E=SURI:1,L]'.CRLF;
 	$findStr = 'RewriteRule !^(blog|cache)/ - [L]';
-	echo '<Li>.htaccess thumbnail rule - ', _text('수정');
+	echo '<li>.htaccess thumbnail rule - ', _text('수정');
 	if (strpos($content, $findStr) == false)
 		echo ': <span style="color:#33CC33;">', _text('실패'), '</span></li>';
 	else {
