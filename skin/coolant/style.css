@@ -862,7 +862,7 @@ h4
 
 fieldset
 {
-	padding: 1em 0;
+	padding: 1.2em;
 	border: 1px solid #f0f0e6;
 }
 
@@ -874,7 +874,7 @@ legend
 
 fieldset div
 {
-	margin: .3em 14px;
+	margin: .3em 0;
 	width: 435px;
 }
 
@@ -925,6 +925,11 @@ input:focus, textarea:focus
 	padding: 0;
 	border: 0 none;
 	background: none;
+}
+
+.submit
+{
+	height: 3.2em;
 }
 
 .submit input
