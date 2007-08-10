@@ -36,14 +36,16 @@ require 'model/blog.trackback.php';
 require 'model/blog.tag.php';
 require 'model/reader.common.php';
 require 'suri.php';
-require 'session.php';
+if (!defined('NO_SESSION')) require 'session.php';
 require 'model/blog.user.php';
 require 'locale.php';
 require 'plugins.php';
+if (defined( 'TCDEBUG')) __tcSqlLogPoint('end of plugins.php');
 require 'view/html.php';
 require 'view/pages.php';
 require 'view/paging.php';
 require 'view/view.php';
 require 'blog.skin.php';
+if (defined( 'TCDEBUG')) __tcSqlLogPoint('end of blog.skin.php');
 header('Content-Type: text/html; charset=utf-8');
 ?>

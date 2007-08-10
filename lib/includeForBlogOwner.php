@@ -25,7 +25,7 @@ require 'model/common.setting.php';
 require 'model/blog.skin.php';
 require 'model/common.plugin.php';
 require 'suri.php';
-require 'session.php';
+if (!defined('NO_SESSION')) require 'session.php';
 require 'model/blog.user.php';
 require 'locale.php';
 require 'plugins.php';
