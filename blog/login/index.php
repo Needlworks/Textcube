@@ -57,7 +57,7 @@ $authResult = fireEvent('LOGIN_try_auth', false);
 if (doesHaveOwnership()) {
 	if (!empty($_POST['requestURI'])) {
 		$url = parse_url($_POST['requestURI']);
-		if (($url = parse_url($_POST['requestURI'])) && isset($url['host']) && !String::endsWith( '.' . $url['host'], '.' . $service['domain']))
+		if ($url && isset($url['host']) && !String::endsWith( '.' . $url['host'], '.' . $service['domain']))
 			header("Location: {$blogURL}/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id()));
 		else
 			header("Location: {$_POST['requestURI']}");
