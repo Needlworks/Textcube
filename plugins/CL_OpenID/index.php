@@ -142,7 +142,7 @@ dd .input-text
 <link rel="stylesheet" type="text/css" href="' . $service['path'] . '/style/admin/default/login.css" />
 </head>
 <body id="body-login">
-<script>
+<script type="text/javascript">
 alert("Session creation error' . $openid_session_id . '");
 </script>
 </body>
@@ -292,7 +292,7 @@ function openid_try_auth()
 
 	if (empty($openid)) {
 		openid_setcookie( 'openid_auto', 'n' );
-		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script>alert('" . _text("오픈ID를 입력하세요") . "');";
+		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script type='text/javascript'>alert('" . _text("오픈ID를 입력하세요") . "');";
 		print "document.location.href='$blogURL/plugin/openid/login?requestURI=" . urlencode($requestURI) . "';</script></body></html>";
 		exit(0);
 	}
@@ -374,7 +374,7 @@ function _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate
 		if( !empty($authenticate_only) ) {
 			$requestURI .= (strchr($requestURI,'?')===false ? "?":"&" ) . "authenticated=0";
 		}
-		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script>alert('" . _text("인증하지 못하였습니다. 아이디를 확인하세요") . "');document.location.href='" . $requestURI . "';</script></body></html>";
+		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script type='text/javascript'>alert('" . _text("인증하지 못하였습니다. 아이디를 확인하세요") . "');document.location.href='" . $requestURI . "';</script></body></html>";
 		exit(0);
 	}
 
@@ -444,7 +444,7 @@ function openid_finish()
 		openid_setcookie( 'openid_auto', 'n' );
 		header("HTTP/1.0 200 OK");
 		header("Content-type: text/html");
-		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script>alert(\"$msg\"); document.location.href=\"$requestURI\";</script></body></html>";
+		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script type='text/javascript'>alert(\"$msg\"); document.location.href=\"$requestURI\";</script></body></html>";
 	}
 	else
 	{
@@ -847,9 +847,10 @@ function openid_AddComment( $id, $comment )
 	}
 
 	$result = getCommentAttributes($blogid,$comment['parent'],"secret");
-	if( ! $result ) {
+	if( empty($result) || empty($result['secret']) ) {
 		return;
 	}
+
 	$row = DBQuery::queryRow("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['parent']}" );
 	if( empty($row) ) {
 		return;
