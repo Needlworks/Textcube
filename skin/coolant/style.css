@@ -489,7 +489,7 @@ h4
 .article
 {
 	margin: 1em 0 1.8em;
-	text-align: justify;
+	text-align: left;
 }
 
 .article a:link, .article a:visited
@@ -710,7 +710,7 @@ h4
 .trackback li p
 {
 	margin: .8em 0;
-	text-align: justify;
+	text-align: left;
 }
 
 .trackback cite
@@ -1002,7 +1002,7 @@ input:focus, textarea:focus
 #taglog ul
 {
 	list-style: none;
-	text-align: justify;
+	text-align: left;
 }
 
 #taglog li
