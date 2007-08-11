@@ -128,12 +128,14 @@ function getPluginInformation($plugin) {
 			'formatter' => '/plugin/binding/formatter'
 		);
 		$pluginScope = array();
-		$acceptedPathCount = 0;
+		$scopeCount = 0;
 		foreach ($scopeByXMLPath as $key => $value) {
 			if ($xmls->doesExist($value)) {
 				array_push($pluginScope, $key);
+				$scopeCount = $scopeCount + 1;
 			}
 		}
+		if($scopeCount == 0) array_push($pluginScope, 'none');
 		// load plugin information.
 		$maxVersion = max($xmls->getValue('/plugin/requirements/tattertools'),$xmls->getValue('/plugin/requirements/textcube'));
 		$requiredVersion = empty($maxVersion) ? 0 : $maxVersion; 
@@ -148,6 +150,7 @@ function getPluginInformation($plugin) {
 			'authorLink'   => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
 			'author'       => $xmls->getValue('/plugin/author[lang()]'),
 			'config'       => $xmls->doesExist('/plugin/binding/config'),
+			'directory'    => trim($plugin),
 			'width'        => $xmls->getAttribute('/plugin/binding/config/window', 'width'),
 			'height'       => $xmls->getAttribute('/plugin/binding/config/window', 'height'),
 			'privilege'    => $xmls->getValue('/plugin/requirements/privilege')

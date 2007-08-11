@@ -7,6 +7,8 @@ define('ROOT', '../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
+requireModel('common.plugin');
+
 // set the selected tab.
 if (isset($_GET['visibility'])) {
 	$_POST['visibility'] = $_GET['visibility'];
@@ -43,78 +45,29 @@ $selectedStatus = explode('|', getBlogSetting("pluginListStatusType_{$_POST['vis
 $plugins = array();
 $pluginAttrs = array();
 
-$xmls = new XMLStruct();
 $dir = dir(ROOT . '/plugins/');
 while (false !== ($plugin = $dir->read())) { // 이게 php.net에서 권장하는 올바른 디렉토리 읽는 법.
-	if (!preg_match('@^[A-Za-z0-9 _-]+$@', $plugin))
-		continue;
-	if (!is_dir(ROOT . '/plugins/' . $plugin))
-		continue;
-	if (!file_exists(ROOT . "/plugins/$plugin/index.xml"))
-		continue;
-	
-	if (!$xmls->open(file_get_contents(ROOT . "/plugins/$plugin/index.xml"))) {
-		continue;
-	} else {
-		// Check privilege as blog service owner.
-		$needPrivilege = $xmls->getValue('/plugin/requirements/privilege');
-		if(!is_null($needPrivilege)) {
-			if($needPrivilege == 'administrator' && getBlogId() != 1) continue;
-		}
-		// filter the plugins as the selected scopes.
-		$tempXMLPath = array(
-								'admin' => '/plugin/binding/adminMenu',
-								'blog' => '/plugin/binding/tag',
-								'center' => '/plugin/binding/center',
-								'metapage' => '/plugin/binding/metapage',
-								'global' => '/plugin/binding/listener',
-								'sidebar' => '/plugin/binding/sidebar',
-								'editor' => '/plugin/binding/editor',
-								'formatter' => '/plugin/binding/formatter'
-							);
-		$pluginScope = array();
-		$acceptedPathCount = 0;
-		$tempXMLPathCount = 0;
-		foreach ($tempXMLPath as $key => $value) {
-			if ($xmls->doesExist($value)) {
-				$tempXMLPathCount++;
-				array_push($pluginScope, $key);
-				if (in_array($key, $selectedScopes)) {
-					$acceptedPathCount++;
-				}
-			}
-		}
-		
-		if ($acceptedPathCount > 0 || ($tempXMLPathCount == 0 && in_array('none', $selectedScopes))) {
-			// path.
-		} else {
-			continue;
-		}
-		
-		// load plugin information.
-		$maxVersion = max($xmls->getValue('/plugin/requirements/tattertools'),$xmls->getValue('/plugin/requirements/textcube'));
-		$requiredVersion = empty($maxVersion) ? 0 : $maxVersion; 
+	$plugin = trim($plugin);
+	$pluginInfo = getPluginInformation($plugin);
+	if(empty($pluginInfo)) continue;
+	if($pluginInfo['privilege'] == 'administrator' && getBlogId() != 1) continue;
 
-		$pluginDir = trim($plugin);
-		$pluginAttrs[$pluginDir] = array(
-							'link'         => $xmls->getValue('/plugin/link[lang()]'),
-							'title'        => $xmls->getValue('/plugin/title[lang()]'),
-							'version'      => $xmls->getValue('/plugin/version[lang()]'),
-							'requirements' => $requiredVersion,
-							'scope'        => $pluginScope,
-							'description'  => $xmls->getValue('/plugin/description[lang()]'),
-							'authorLink'   => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
-							'author'       => $xmls->getValue('/plugin/author[lang()]'),
-							'config'       => $xmls->doesExist('/plugin/binding/config'),
-							'width'        => $xmls->getAttribute('/plugin/binding/config/window', 'width'),
-							'height'       => $xmls->getAttribute('/plugin/binding/config/window', 'height')
-							);
-		
-		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
-		unset($requiredVersion);
+	$acceptedPathCount = 0;
+	$tempXMLPathCount = 0;
+
+	if(empty($pluginInfo['scope'])) continue;
+	
+	foreach($pluginInfo['scope'] as $pluginScope) {
+		if (in_array($pluginScope, $selectedScopes)) {
+			$acceptedPathCount++;
+		}
 	}
+	if($acceptedPathCount == 0) continue;
+
+	$pluginDir = $pluginInfo['directory'];
+	$pluginAttrs[$pluginDir] = $pluginInfo;
+	$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
 }
-unset($xmls);
 
 // sort as value of $selectedSort.
 if ($selectedSort == 'ascend') {
