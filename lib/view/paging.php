@@ -4,8 +4,16 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function getPagingView( & $paging, & $template, & $itemTemplate) {
-	if (($paging === false) || empty($paging['page']))
-		return '[1]';
+	if (($paging === false) || empty($paging['page'])) {
+		$paging['url'] = NULL;
+		$paging['prefix'] = NULL;
+		$paging['postfix'] = NULL;
+		$paging['total'] = NULL;
+		$paging['pages'] = 1;
+		$paging['page'] = 1;
+		$paging['next'] = NULL;
+	}
+	
 	$url = encodeURL($paging['url']);
 	$prefix = $paging['prefix'];
 	$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
