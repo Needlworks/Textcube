@@ -227,7 +227,14 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 											}
 										}
 										request.onError = function() {
-											alert("<?php echo _t('플러그인을 비활성화하는데 실패했습니다.');?>");
+											switch(parseInt(this.getText("/response/error"))) {
+												case 1:
+													alert("<?php echo _t('플러그인을 비활성화하지 못하였습니다.');?>");
+													break;
+												case 2:
+													alert("<?php echo _t('모듈을 비활성화하지 못하였습니다.');?>\n\n<?php echo _t('텍스트큐브의 동작을 위하여 모듈이 필요한 부분마다 최소 하나 이상이 필요합니다.\n현재 해당 모듈이 하나밖에 존재하지 않기 때문에 이 모듈의 동작을 중지시킬 수 없습니다.');?>");
+													break;
+											}
 										}
 										request.send("name=" + plugin);
 									}

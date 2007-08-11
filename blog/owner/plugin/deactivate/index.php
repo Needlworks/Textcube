@@ -9,8 +9,17 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel('common.plugin');
 requireStrictRoute();
-if (!empty($_POST['name']) && deactivatePlugin($_POST['name']))
+
+if(empty($_POST['name'])) respondResultPage(1);
+$pluginInfo = getPluginInformation(trim($_POST['name']));
+$pluginScope = $pluginInfo['scope'];
+if(in_array('editor',$pluginScope) && $editorCount == 1)
+	respondResultPage(2);
+if(in_array('formatter',$pluginScope) && $formatterCount == 1)
+	respondResultPage(2);
+if (deactivatePlugin($_POST['name']))
 	respondResultPage(0);
 respondResultPage(1);
 ?>

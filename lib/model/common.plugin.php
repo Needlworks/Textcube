@@ -105,6 +105,58 @@ function updatePluginConfig( $name , $setVal) {
 	if(isset($result) && $result = '0') return $result;
 	return (mysql_error() == '') ? '0' : '1';
 }
+
+function getPluginInformation($plugin) {
+	$xmls = new XMLStruct();
+	// Error checking routine
+	if (!preg_match('@^[A-Za-z0-9 _-]+$@', $plugin))
+		return false;
+	if (!file_exists(ROOT . "/plugins/$plugin/index.xml"))
+		return false;
+	if (!$xmls->open(file_get_contents(ROOT . "/plugins/$plugin/index.xml"))) {
+		return false;
+	} else {
+		// Determine plugin scopes.
+		$scopeByXMLPath = array(
+			'admin'     => '/plugin/binding/adminMenu',
+			'blog'      => '/plugin/binding/tag',
+			'center'    => '/plugin/binding/center',
+			'metapage'  => '/plugin/binding/metapage',
+			'global'    => '/plugin/binding/listener',
+			'sidebar'   => '/plugin/binding/sidebar',
+			'editor'    => '/plugin/binding/editor',
+			'formatter' => '/plugin/binding/formatter'
+		);
+		$pluginScope = array();
+		$acceptedPathCount = 0;
+		foreach ($scopeByXMLPath as $key => $value) {
+			if ($xmls->doesExist($value)) {
+				array_push($pluginScope, $key);
+			}
+		}
+		// load plugin information.
+		$maxVersion = max($xmls->getValue('/plugin/requirements/tattertools'),$xmls->getValue('/plugin/requirements/textcube'));
+		$requiredVersion = empty($maxVersion) ? 0 : $maxVersion; 
+
+		$pluginInformation = array(
+			'link'         => $xmls->getValue('/plugin/link[lang()]'),
+			'title'        => $xmls->getValue('/plugin/title[lang()]'),
+			'version'      => $xmls->getValue('/plugin/version[lang()]'),
+			'requirements' => $requiredVersion,
+			'scope'        => $pluginScope,
+			'description'  => $xmls->getValue('/plugin/description[lang()]'),
+			'authorLink'   => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
+			'author'       => $xmls->getValue('/plugin/author[lang()]'),
+			'config'       => $xmls->doesExist('/plugin/binding/config'),
+			'width'        => $xmls->getAttribute('/plugin/binding/config/window', 'width'),
+			'height'       => $xmls->getAttribute('/plugin/binding/config/window', 'height'),
+			'privilege'    => $xmls->getValue('/plugin/requirements/privilege')
+		);
+		return $pluginInformation;
+	}
+	return null;
+}
+
 function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 	global $database;
 	if(doesExistTable($database['prefix'] . $name)) {

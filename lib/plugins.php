@@ -26,6 +26,8 @@ list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
 if (getBlogId()) {
 	$activePlugins = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE blogid = ".getBlogId());
 	$xmls = new XMLStruct();
+	$editorCount     = 0;
+	$formatterCount  = 0;
 	foreach ($activePlugins as $plugin) {
 		$version = '';
 		$disablePlugin= false;
@@ -262,7 +264,7 @@ if (getBlogId()) {
 				
 				}
 				if ($xmls->doesExist('/plugin/binding/formatter[lang()]')) {
-					$isFormatterExists = true;
+					$formatterCount = $formatterCount + 1;
 					foreach (array($xmls->selectNode('/plugin/binding/formatter[lang()]')) as $formatter) {
 						if (!isset($formatter['.attributes']['name'])) continue;
 						if (!isset($formatter['.attributes']['id'])) continue;
@@ -284,7 +286,7 @@ if (getBlogId()) {
 					unset($usedFor);
 				}
 				if ($xmls->doesExist('/plugin/binding/editor[lang()]')) {
-					$isEditorExists = true;
+					$editorCount = $editorCount + 1;
 					foreach (array($xmls->selectNode('/plugin/binding/editor[lang()]')) as $editor) {
 						if (!isset($editor['.attributes']['name'])) continue;
 						if (!isset($editor['.attributes']['id'])) continue;
@@ -316,10 +318,10 @@ if (getBlogId()) {
 			DBQuery::query($query);
 		}
 	}
-	if(!isset($isFormatterExists)) { // Any formatter is used, add the ttml formatter.
+	if(empty($formatterCount)) { // Any formatter is used, add the ttml formatter.
 		activatePlugin('FM_TTML');
 	}
-	if(!isset($isEditorExists)) { // Any editor is used, add the textcube editor.
+	if(empty($editorCount)) { // Any editor is used, add the textcube editor.
 		activatePlugin('FM_Modern');
 	}
 	unset($xmls);
