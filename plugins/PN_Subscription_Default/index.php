@@ -41,7 +41,11 @@ function PN_Subscription_Default()
 								}
 							//]]>
 						</script>
-						
+						<style>
+							.robot {
+								font-weight : bold;
+							}
+						</style>
 						<div id="part-statistics-total" class="part">
 							<h2 class="caption"><span class="main-text">전체 피드 통계</span></h2>
 							<dl class="data-inbox">
@@ -111,17 +115,21 @@ function getAggregatorName($useragent)
 	if($useragent=='') return '알 수 없는 구독기';
 	$agentPattern = array(
 		'Bloglines' => 'Bloglines',
-		'Allblog.net' => '올블로그',
+		'Allblog.net' => '올블로그 피드 로봇',
 		'HanRSS' => '한RSS',
 		'Netvibes' => 'Netvibes',
 		'SharpReader' => 'Sharp Reader',
 		'BlogBridge' => 'Blog Bridge',
 		'Firefox' => 'Firefox 라이브북마크',
+		'Fastladder' => 'Fastladder',
 		'Sage' => 'Sage (Firefox 확장)',
+		'NewsGatorOnline' => 'NewsGator',
+		'NewsLife' => 'NewsLife',
 		'Google Desktop' => '구글 데스크탑',
 		'RSSOwl' => 'RSS Owl',
-		'Eolin' => '텍스트큐브 리더',
+		'Eolin' => '태터툴즈/텍스트큐브 리더',
 		'Safari' => '사파리',
+		'NetNewsWire' => 'NetNewsWire',
 		'Feedfetcher-Google' => '구글 feedfetcher',
 		'RssBandit' => 'RSS Bandit',
 		'Yahoo! Slurp' => 'Yahoo! Slurp',
@@ -135,10 +143,22 @@ function getAggregatorName($useragent)
 		'msnbot' => 'MSN 검색엔진',
 		'FeedOnFeeds' => 'Feed On Feeds Personal aggregator',
 		'Technoratibot' => '테크노라티',
-		'sproose' => 'sproose 봇'
+		'sproose' => 'sproose 봇',
+		'Thunderbird' => 'Mozilla Thunderbird',
+		'NaverBot' => '네이버 검색로봇',
+		'Googlebot' => '구글 검색로봇',
+		'TechnoratiSnoop' => '테크노라티 피드 로봇',
+		'CazoodleBot' => 'CazoodleBot',
+		'UCLA CS Dept' => '연구용 로봇 (UCLA 컴퓨터공학과)',
+		'Windows-RSS-Platform/1.0 (MSIE 7.0' => '윈도우 비스타 RSS 개짓',
+		'HTTPClientBox' => 'HTTPClientBox',
+		'ONNET-OPENAPI' => '온네트 API 로봇'
 	);
 	$declinePattern = array(
-		'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'=>'Internet Explorer 5.01'
+		//법칙이 있으면 사용하겠는데, 제멋대로다...
+		'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'=>'Internet Explorer 5.01',
+		'Mozilla/4.0 (compatible; MS; Windows NT 5.0'=>'Internet Explorer',
+		'Mozilla/4.0 (compatible;MSIE 5.5; Windows NT 5.0'=>'Internet Explorer'
 	);
 	foreach ($agentPattern as $agentName => $realname)
 		if(strpos($useragent,$agentName)!==false) return $realname;
@@ -152,7 +172,9 @@ function getNumberOfSubscribers($useragent)
 	$agentPattern = array(
 		'Bloglines' => 'subscribers',
 		'HanRSS' => 'subscribers',
-		'Netvibes' => 'subscribers'
+		'Netvibes' => 'subscribers',
+		'NewsGatorOnline' => 'subscribers',
+		'Fastladder' => 'subscribers'
 	);
 	foreach ($agentPattern as $agentName => $keyword)
 		if(preg_match('/([0-9]+)\s*'.$keyword.'/',$useragent,$matches)) return $matches[1];
@@ -162,14 +184,22 @@ function getNumberOfSubscribers($useragent)
 function robotChecker($useragent)
 {
 	$robotPattern = array(
+		'Googlebot' => 1,
+		'NaverBot' => 1,
+		'TechnoratiSnoop' => 1,
 		'Allblog.net' => 1,
+		'CazoodleBot' => 1,
 		'nhn/1noon' => 1,
 		'Feedfetcher-Google' => 1,
 		'Yahoo! Slurp' => 1,
 		'RMOM' => 1,
 		'msnbot' => 1,
 		'Technoratibot' => 1,
-		'sproose' => 1
+		'sproose' => 1,
+		'CazoodleBot' => 1,
+		'ONNET-OPENAPI' => 1,
+		'UCLA CS Dept' => 1,
+		'RMOM' => 1
 	);
 	foreach ($robotPattern as $agentName => $isRobot)
 		if((strpos($useragent,$agentName)!==false)&&($isRobot)) return true;
