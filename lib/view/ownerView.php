@@ -233,7 +233,7 @@ function printEntryFileList($attachments, $param) {
 												//<![CDATA[
 													function addAttachment() {
 														var attachHidden = document.getElementById('attachHiddenNest');
-														attachHidden.contentDocument.forms[0].action = "<?php echo $param['singleUploadPath'];?>";
+														attachHidden.contentDocument.forms[0].action = "<?php echo $param['singleUploadPath'];?>"+entryManager.entryId;
 														attachHidden.contentDocument.forms[0].attachment.click();
 													}
 													
@@ -260,7 +260,7 @@ function printEntryFileList($attachments, $param) {
 															alert("<?php echo _t('파일을 삭제하지 못했습니다');?> ::"+e.message);
 														}
 												
-														var request = new HTTPRequest("POST", "<?php echo $param['deletePath'];?>");
+														var request = new HTTPRequest("POST", "<?php echo $param['deletePath'];?>"+entryManager.entryId);
 														request.onVerify = function () { 
 															return true 
 														}
@@ -431,7 +431,7 @@ function printEntryFileList($attachments, $param) {
 													}
 													
 													function refreshAttachList() {
-														var request = new HTTPRequest("POST", "<?php echo $param['refreshPath'];?>");
+														var request = new HTTPRequest("POST", "<?php echo $param['refreshPath'];?>"+entryManager.entryId);
 														request.onVerify = function () { 	
 															return true 
 														}
@@ -449,7 +449,7 @@ function printEntryFileList($attachments, $param) {
 																document.getElementById('uploadBtn').disabled = false;					
 															}
 															
-															document.getElementById('uploaderNest').innerHTML = uploaderStr
+															document.getElementById('uploaderNest').innerHTML = uploaderStr;
 															refreshFileSize();						
 															setTimeout("enablePageManager()", 2000);
 															entryManager.nowsaving = false;
@@ -602,7 +602,7 @@ function printEntryFileList($attachments, $param) {
 													
 													function refreshFileSize() {
 														try {
-															var request = new HTTPRequest("POST", "<?php echo $param['fileSizePath'];?>");
+															var request = new HTTPRequest("POST", "<?php echo $param['fileSizePath'];?>"+entryManager.entryId);
 															request.onVerify = function () {
 																return true;
 															}
@@ -625,6 +625,7 @@ function printEntryFileList($attachments, $param) {
 															alert(e.message);
 														}
 													}
+ 
 													function getUploadObj() {
 														try {		
 															var result;			
@@ -649,26 +650,36 @@ function printEntryFileList($attachments, $param) {
 	$maxSize = min( return_bytes(ini_get('upload_max_filesize')) , return_bytes(ini_get('post_max_size')) );
 ?>
 
-											<div id="uploaderNest">
 												<script type="text/javascript">
 													//<![CDATA[
+													var uploaderStr = '';
+													function reloadUploader() {
 														var requiredMajorVersion = 8;
 														var requiredMinorVersion = 0;
 														var requiredRevision = 0;
 														var jsVersion = 1.0;
-														
 														var hasRightVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
 														uploaderStr = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
 															+ 'width="0" height="0"'
 															+ 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
-															+ '<param name="movie" value="<?php echo $service['path'];?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="uploadPath=<?php echo $param['uploadPath'];?>&labelingPath=<?php echo $param['labelingPath'];?>&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION'];?>" />'
-															+ '<embed id="uploader2" src="<?php echo $service['path'];?>/script/uploader/uploader.swf" flashvars="uploadPath=<?php echo $param['uploadPath'];?>&labelingPath=<?php echo $param['labelingPath'];?>&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION'];?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
-														
+															+ '<param name="movie" value="<?php echo $service['path'];?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="uploadPath=<?php echo $param['uploadPath'];?>'
+															+ entryManager.entryId
+															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
+															+ entryManager.entryId
+															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION'];?>" />'
+															+ '<embed id="uploader2" src="<?php echo $service['path'];?>/script/uploader/uploader.swf" flashvars="uploadPath=<?php echo $param['uploadPath'];?>'
+															+ entryManager.entryId
+															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
+															+ entryManager.entryId
+															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION'];?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
 														if (hasRightVersion && (isMoz || isIE)) {
-															if(<?php echo (isset($service['flashuploader']) && $service['flashuploader'] === false) ? 'false' : 'true';?>) { writeCode(uploaderStr); }
+															if(<?php echo (isset($service['flashuploader']) && $service['flashuploader'] === false) ? 'false' : 'true';?>) { writeCode(uploaderStr,'uploaderNest'); }
 														}
+														refreshUploadButton();
+													}
 													//]]>
 												</script>
+											<div id="uploaderNest">
 											</div>
 <?php
 }
@@ -678,10 +689,12 @@ function printEntryFileUploadButton($entryId) {
 
 	$blogid = getBlogId();
 ?>
-										<div id="fileUploadNest" class="container">
+
 											<script type="text/javascript">
 												//<![CDATA[
-													//var attachId = 0;
+
+													var fileUploadNestOriginal = false;													
+
 													function makeCrossDamainSubmit(uri,userAgent) {
 														var property =new Array();
 														property['ie'] = new Array();
@@ -698,7 +711,7 @@ function printEntryFileUploadButton($entryId) {
 														
 																
 														var str = '<iframe id="attachHiddenNest" src="' + uri + '" style="display: block; height: ' + property[userAgent]['height']+'; width: ' + property[userAgent]['width'] + ';" frameborder="no" scrolling="no"><\/iframe>';						
-														document.getElementById('fileUploadNest').innerHTML = str + document.getElementById('fileUploadNest').innerHTML;
+														document.getElementById('fileUploadNest').innerHTML = str + fileUploadNestOriginal;
 														/*if (document.getElementById('attachHiddenNest_' + (attachId - 1))) {
 															document.getElementById('attachHiddenNest_' + (attachId - 1)).style.display = "none";
 															document.getElementById('attachHiddenNest_' + (attachId - 1)).style.width = 0;
@@ -706,26 +719,32 @@ function printEntryFileUploadButton($entryId) {
 														}
 														attachId++;*/
 													}
-													
-													if (getUploadObj()) {
-														try {
-															document.write('<input type="button" id="uploadBtn" class="upload-button input-button" value="<?php echo _t('파일 업로드');?>" onclick="browser(); return false;" />');
-															document.write('<input type="button" id="stopUploadBtn" class="stop-button input-button" value="<?php echo _t('업로드 중지');?>" onclick="stopUpload(); return false;" style="display: none;" />');			
-														} catch(e) {
-															
-														}								
-													} else {
-														if(isIE) {
-															makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?php echo $entryId;?>","ie");
-														} else if(isMoz) {
-															makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?php echo $entryId;?>","moz");
+
+													function refreshUploadButton() {
+														if (getUploadObj()) {
+															try {
+																if(fileUploadNestOriginal == false) {
+																	fileUploadNestOriginal = document.getElementById('fileUploadNest').innerHTML;
+																}
+																var str1 = '<input type="button" id="uploadBtn" class="upload-button input-button" value="<?php echo _t('파일 업로드');?>" onclick="browser(); return false;" />';
+																var str2 = '<input type="button" id="stopUploadBtn" class="stop-button input-button" value="<?php echo _t('업로드 중지');?>" onclick="stopUpload(); return false;" style="display: none;" />';
+																document.getElementById('fileUploadNest').innerHTML = str1 + str2 + fileUploadNestOriginal;
+															} catch(e) {
+																
+															}								
 														} else {
-															makeCrossDamainSubmit(blogURL + "/owner/entry/attach/<?php echo $entryId;?>","etc");
+															if(isIE) {
+																makeCrossDamainSubmit(blogURL + "/owner/entry/attach/" + entryManager.entryId,"ie");
+															} else if(isMoz) {
+																makeCrossDamainSubmit(blogURL + "/owner/entry/attach/" + entryManager.entryId,"moz");
+															} else {
+																makeCrossDamainSubmit(blogURL + "/owner/entry/attach/" + entryManager.entryId,"etc");
+															}
 														}
 													}
 												//]]>
 											</script>
-												
+										<div id="fileUploadNest" class="container">												
 											<input type="button" id="deleteBtn" class="input-button" value="<?php echo _t('삭제하기');?>" onclick="deleteAttachment();" />
 											<div id="fileSize">
 <?php 

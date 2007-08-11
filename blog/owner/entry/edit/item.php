@@ -324,6 +324,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											if(entryManager.isSaved == false) {
 												entryManager.entryId = this.getText("/response/entryId");
 												entryManager.isSaved = true;
+												reloadUploader();
 											}
 
 											if(entryManager.autoSave != true) {
@@ -728,12 +729,12 @@ if (isset($_GET['popupEditor'])) {
 										<div id="attachment-container" class="container">
 <?php
 $param = array(
-		'uploadPath'=> "$blogURL/owner/entry/attachmulti/{$entry['id']}", 
-		'singleUploadPath'=> "$blogURL/owner/entry/attach/{$entry['id']}", 
-		'deletePath'=>"$blogURL/owner/entry/detach/multi/". ($entry['id'] ? $entry['id'] : '0') ,
-		'labelingPath'=> "$blogURL/owner/entry/attachmulti/list/{$entry['id']}", 
-		'refreshPath'=> "$blogURL/owner/entry/attachmulti/refresh/". ($entry['id'] ? $entry['id'] : '0') , 
-		'fileSizePath'=> "$blogURL/owner/entry/size?parent={$entry['id']}");		
+		'uploadPath'=> "$blogURL/owner/entry/attachmulti/", 
+		'singleUploadPath'=> "$blogURL/owner/entry/attach/", 
+		'deletePath'=>"$blogURL/owner/entry/detach/multi/",
+		'labelingPath'=> "$blogURL/owner/entry/attachmulti/list/", 
+		'refreshPath'=> "$blogURL/owner/entry/attachmulti/refresh/", 
+		'fileSizePath'=> "$blogURL/owner/entry/size?parent=");		
 printEntryFileList(getAttachments($blogid, $entry['id'], 'label'), $param);
 ?>
 										</div>
@@ -864,6 +865,7 @@ if (isset($_GET['popupEditor'])) {
 						<script type="text/javascript">
 							//<![CDATA[
 								entryManager = new EntryManager();
+								reloadUploader();
 								window.setInterval("entryManager.saveDraft();", 300000);
 							//]]>
 						</script> 

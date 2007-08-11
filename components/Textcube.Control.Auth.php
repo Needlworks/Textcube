@@ -269,7 +269,7 @@ class Acl {
 
 	function setTeamAcl( $userid ) {
 		global $database;
-
+		$blogid = getBlogId();
 		$result = DBQuery::queryAllWithCache("SELECT blogid,acl FROM {$database['prefix']}Teamblog WHERE userid='$userid'");
 		foreach( $result as $session ) {
 			$priv = array("group.writers");
@@ -284,7 +284,7 @@ class Acl {
 			Acl::setAcl( $session['blogid'], $priv, true );
 		}
 
-		DBQuery::execute("UPDATE  {$database['prefix']}Teamblog SET lastLogin = unix_timestamp() WHERE userid='$userid'");
+		DBQuery::execute("UPDATE  {$database['prefix']}Teamblog SET lastLogin = unix_timestamp() WHERE blogid='$blogid' AND userid='$userid'");
 		return;
 	}	
 }
