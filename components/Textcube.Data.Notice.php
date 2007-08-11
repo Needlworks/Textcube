@@ -9,6 +9,7 @@ class Notice {
 
 	function reset() {
 		$this->error =
+		$this->userid = 
 		$this->id =
 		$this->visibility =
 		$this->title =
@@ -71,7 +72,7 @@ class Notice {
 		return false;
 	}
 	
-	function add() {
+	function add($userid) {
 		global $database;
 		if (isset($this->id) && !Validator::number($this->id, 1))
 			 return $this->_error('id');
@@ -94,7 +95,10 @@ class Notice {
 			$query->setAttribute('created', 'UNIX_TIMESTAMP()');
 		if (!isset($this->modified))
 			$query->setAttribute('modified', 'UNIX_TIMESTAMP()');
-
+		if (!isset($this->userid)){
+			$this->userid = getUserId();
+			$query->setAttribute('userid',getUserId());
+		}
 		if (!$query->insert())
 			return $this->_error('insert');
 		$this->id = $query->id;
