@@ -113,16 +113,12 @@ if(isset($blogContentMenuItem)) {
 					<ul id="sub-menu">
 <?php
 	foreach($blogContentMenuItem as $contentMenuItem) {
-		if($blogMenu['topMenu']=='entry' && $contentMenuItem['menu']=='post') {
-			requireModel("blog.entry");
 ?>
-						<li id="sub-menu-<?php echo $contentMenuItem['menu'];?>"<?php echo $blogMenu['contentMenu'] == $contentMenuItem['menu'] ? ' class="selected"' : '';?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>" onclick="window.location.href = '<?php echo $blogURL;?>/owner/entry/post'<?php echo (getDraftEntryId() ? "+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')" : '');?>; return false;"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
+						<li id="sub-menu-<?php echo $contentMenuItem['menu'];?>"<?php echo 
+						(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || 
+							(isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) ||
+							($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false)) ? ' class="selected"' : '');?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
 <?php
-		} else {
-?>
-						<li id="sub-menu-<?php echo $contentMenuItem['menu'];?>"<?php echo (($blogMenu['contentMenu'] == $contentMenuItem['menu'] || (isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu']))) ? ' class="selected"' : '');?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
-<?php
-		}
 	}
 ?>
 						<li id="sub-menu-helper"><a href="<?php echo getHelpURL($blogMenu['topMenu']);?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
