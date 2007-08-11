@@ -65,7 +65,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 											<tr>
 												<td class="name"><a href="http://daybreaker.info">Kim Joongi</a></td>
-												<td class="role"><?php echo _t('XHTML specification / Quality Assurance');?></td>
+												<td class="role"><?php echo _t('XHTML specification / Textcube main page / Quality Assurance');?></td>
 											</tr>
 											<tr>
 												<td class="name"><span class="text">graphittie</span></td>
@@ -180,10 +180,15 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									<a href="http://www.yangkun.pe.kr">희망이아빠</a>,
 									<a href="#">우수한</a>,
 									<a href="#">엽기민원</a>,
+									<a href="http://offree.net">도아</a>,
 									<a href="http://rsef.net/">Peris</a>,
 									<a href="http://chakani.net">차칸아이</a>,
 									<a href="http://blog.creorix.com">Creorix</a>
 									</p>
+								</div>
+								<div id="tester-container" class="container">
+									<h4><?php echo _t('Tester');?></h4>
+									<p>유마, DARKLiCH, 맥퓨처, 심민규, 엽기민원, xizhu, 헤이, chester, 엔씨_Fly, FeelSoGood, adeurian, laotzu</p>
 								</div>
 								
 								<div id="reporter-container" class="container">

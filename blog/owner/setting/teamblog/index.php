@@ -307,7 +307,7 @@ if( Acl::check('group.owners')) {?>
 												<tr class="<?php echo $className;?> inactive-class">
 													<td class="status"><input type="checkbox" id="check_<?php echo $count; ?>"><input type="hidden" name="chh<?php echo $count; ?>" value="<?php echo $value['userid']; ?>"><input type="hidden" name="cht<?php echo $count; ?>" value="<?php if($value['last'] == '0' && $value['lastLogin'] =='0') echo "0"; else echo "1"; ?>"></td>
 													<td class="name"><?php echo $value['name'];?></td>
-													<td class="email"><?php		echo  htmlspecialchars($value['loginid']);?></td>
+													<td class="email"><?php	echo  htmlspecialchars($value['loginid']);?></td>
 													<td class="date"><?php echo Timestamp::format5($value['created']);?></td>
 													<td class="posting"><?php echo $value['posting'];?></td>
 <?php
