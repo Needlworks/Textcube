@@ -35,30 +35,7 @@ function getTemplates($blogid, $attributes = '*', $condition = false, $order = '
 function getEntry($blogid, $id, $draft = false) {
 	global $database;
 	requireModel('blog.attachment');
-	if ($id == 0) {
-		if ($draft) {
-			if (!$id = getDraftEntryId())
-				return;
-		} else {
-			if (!doesHaveOwnership())
-				return;
-			deleteAttachments($blogid, 0);
-			return array('id'    => 0, 
-					'userid'     => 0, 
-					'draft'      => 0, 
-					'visibility' => 0, 
-					'category'   => 0, 
-					'location'   => '', 
-					'title'      => '', 
-					'content'    => '', 
-					'contentFormatter' => getDefaultFormatter(), 
-					'contentEditor'    => getDefaultEditor(), 
-					'acceptComment'    => 1, 
-					'acceptTrackback'  => 1, 
-					'published'  => time(), 
-					'slogan'     => '');
-		}
-	}
+	if($id == 0) return false;
 	if ($draft) {
 		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries 
 				WHERE blogid = $blogid 
@@ -472,9 +449,7 @@ function addEntry($blogid, $entry) {
 	} else {
 		$published = 'UNIX_TIMESTAMP()';
 	}
-	$id = getDraftEntryId();
-	if ($id === null)
-		$id = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid and draft = 0") + 1;
+	$id = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid and draft = 0") + 1;
 	$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries 
 			(blogid, userid, id, draft, visibility, category, title, slogan, content, contentFormatter,
 			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
@@ -514,21 +489,6 @@ function addEntry($blogid, $entry) {
 		addTagsWithEntryId($blogid, $id, $tags);
 	}
 	return $id;
-}
-
-function getDraftEntryId($id = 0) {
-	global $database;
-	if ($id)
-		return DBQuery::queryCell("SELECT id 
-				FROM {$database['prefix']}Entries 
-				WHERE blogid = ".getBlogId()." AND id = $id AND draft = 1");
-	else
-	//	return DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid and draft = 0") + 1;
-		return DBQuery::queryCell("SELECT d.id 
-				FROM {$database['prefix']}Entries d 
-				LEFT JOIN {$database['prefix']}Entries e ON d.blogid = e.blogid AND d.id = e.id AND e.draft = 0 
-				WHERE d.blogid = ".getBlogId()." AND d.draft = 1 AND e.id IS NULL 
-				ORDER BY d.id LIMIT 1");
 }
 
 function updateEntry($blogid, $entry) {
@@ -621,78 +581,6 @@ function updateEntry($blogid, $entry) {
 	if ($entry['visibility'] >= 2)
 		clearRSS();
 	return $result ? $entry['id'] : false;
-}
-
-function saveDraftEntry($entry) {
-	global $database;
-	if(empty($entry['userid'])) $entry['userid'] = getUserId();
-	$entry['title'] = mysql_lessen(trim($entry['title']));
-	$entry['location'] = mysql_lessen(trim($entry['location']));
-	$location = mysql_tt_escape_string($entry['location']);
-	$title = mysql_tt_escape_string($entry['title']);
-	$content = mysql_tt_escape_string($entry['content']);
-	$contentFormatter = mysql_tt_escape_string($entry['contentFormatter']);
-	$contentEditor = mysql_tt_escape_string($entry['contentEditor']);
-	$draft = getDraftEntryId($entry['id']);
-	
-	if ($entry['category'] < 0) {
-		if ($entry['visibility'] == 1) $entry['visibility'] = 0;
-		if ($entry['visibility'] == 3) $entry['visibility'] = 2;
-	}
-
-	if ($draft) {
-		$result = DBQuery::query("UPDATE {$database['prefix']}Entries
-				SET
-					userid           = {$entry['userid']},
-					visibility       = {$entry['visibility']},
-					category         = {$entry['category']},
-					title            = '$title',
-					slogan           = '',
-					content          = '$content',
-					contentFormatter = '$contentFormatter',
-					contentEditor    = '$contentEditor',
-					location         = '$location',
-					acceptComment    = {$entry['acceptComment']},
-					acceptTrackback  = {$entry['acceptTrackback']},
-					published        = {$entry['published']},
-					modified         = UNIX_TIMESTAMP()
-				WHERE blogid = ".getBlogId()." AND id = $draft AND draft = 1");
-		if (!$result)
-			return false;
-	} else {
-		$password = generatePassword();
-		if($entry['id'] == 0)
-			$entry['id'] = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." and draft = 0") + 1;
-		$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries
-			(blogid, userid, id, draft, visibility, category, title, slogan, content, contentFormatter,
-			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
-			 comments, trackbacks) 
-				VALUES (
-					".getBlogId().",
-					{$entry['userid']},
-					{$entry['id']},
-					1,
-					{$entry['visibility']},
-					{$entry['category']},
-					'$title',
-					'',
-					'$content',
-					'$contentFormatter',
-					'$contentEditor',
-					'$location',
-					'$password',
-					{$entry['acceptComment']},
-					{$entry['acceptTrackback']},
-					{$entry['published']},
-					UNIX_TIMESTAMP(),
-					UNIX_TIMESTAMP(),
-					0,
-					0
-				)");
-		if (!$result)
-			return false;
-	}
-	return $entry['id'];
 }
 
 function updateTrackbacksOfEntry($blogid, $id) {

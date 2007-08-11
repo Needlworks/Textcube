@@ -49,38 +49,17 @@ function CT_Start_Default($target) {
 	return $target;
 }
 
-function CT_Start_Default_getEntry($blogid, $id, $draft = false) {
+function CT_Start_Default_getEntry($blogid, $id) {
 	global $database;
 	if ($id == 0) {
-		if ($draft) {
-			if (!$id = getDraftEntryId())
-				return;
-		} else {
-			if (!doesHaveOwnership())
-				return;
-			deleteAttachments($blogid, 0);
-			return array('id' => 0, 'draft' => 0, 'visibility' => 0, 'category' => 0, 'location' => '', 'title' => '', 'content' => '', 'acceptComment' => 1, 'acceptTrackback' => 1, 'published' => time(), 'slogan' => '');
-		}
+		return null;
 	}
-	if ($draft) {
-		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 1");
-		if (!$entry)
-			return;
-		if ($entry['published'] == 1)
-			$entry['republish'] = true;
-		else if ($entry['published'] != 0)
-			$entry['appointed'] = $entry['published'];
-		if ($id != 0)
-			$entry['published'] = DBQuery::queryCell("SELECT published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0");
-		return $entry;
-	} else {
-		$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
-		if (!$entry)
-			return;
-		if ($entry['visibility'] < 0)
-			$entry['appointed'] = $entry['published'];
-		return $entry;
-	}
+	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
+	$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
+	if (!$entry)
+		return;
+	if ($entry['visibility'] < 0)
+		$entry['appointed'] = $entry['published'];
+	return $entry;
 }
 ?>
