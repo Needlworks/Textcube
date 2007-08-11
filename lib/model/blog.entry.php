@@ -449,7 +449,12 @@ function addEntry($blogid, $entry) {
 	} else {
 		$published = 'UNIX_TIMESTAMP()';
 	}
-	$id = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid and draft = 0") + 1;
+	$currentMaxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid and draft = 0");
+	if(!empty($currentMaxId) && $currentMaxId > 0) {
+		$id = $currentMaxId + 1;
+	} else {
+		$id = 1;
+	}
 	$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries 
 			(blogid, userid, id, draft, visibility, category, title, slogan, content, contentFormatter,
 			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
