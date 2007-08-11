@@ -1226,7 +1226,7 @@ CREATE TABLE {$_POST['dbPrefix']}ReservedWords (
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}ServiceSettings (
   name varchar(32) NOT NULL default '',
-  value varchar(255) NOT NULL default '',
+  value text NOT NULL,
   PRIMARY KEY  (name)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}SessionVisits (
@@ -1346,6 +1346,7 @@ CREATE TABLE {$_POST['dbPrefix']}Teamblog (
   created int(11) NOT NULL default 0,
   lastLogin int(11) NOT NULL default 0,
   PRIMARY KEY (blogid,userid)
+  KEY userid (userid)
 ) $charset;
 
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);

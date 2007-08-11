@@ -13,6 +13,7 @@ requireModel('blog.comment');
 requireModel('blog.trackback');
 requireModel('blog.entry');
 requireModel('blog.trash');
+requireModel('common.setting');
 
 $blogMenu['topMenu'] = 'center';
 $blogMenu['contentMenu'] = 'dashboard';
@@ -240,79 +241,77 @@ if($textcubeDashboard) {
 									<h3><?php echo _t('공지사항');?></h3>
 									
 <?php
-		$noticeURL = "http://notice.tattersite.com/";
+		$noticeURL = "http://notice.textcube.org/";
 		$noticeURLRSS = $noticeURL.(isset($blog['language']) ? $blog['language'] : "ko")."/rss";
 
-		list($result, $feed, $xml) = getRemoteFeed($noticeURLRSS);
-		if ($result == 0) {
-			$xmls = new XMLStruct();
-			$xmls->setXPathBaseIndex(1);
-			$noticeEntries = array();
-			if ($xmls->open($xml, $service['encoding'])) {
-				if ($xmls->getAttribute('/rss', 'version')) {
-					for ($i = 1; $link = $xmls->getValue("/rss/channel/item[$i]/link"); $i++) {
-						$item = array('permalink' => rawurldecode($link));
-						$item['title'] = $xmls->getValue("/rss/channel/item[$i]/title");
-						if ($xmls->getValue("/rss/channel/item[$i]/pubDate"))
-							$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/pubDate"));
-						else if ($xmls->getValue("/rss/channel/item[$i]/dc:date"))
-							$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/dc:date"));
-						else
-							$item['written'] = 0;
-						array_push($noticeEntries, $item);
-					}
-				} else if ($xmls->getAttribute('/feed', 'version')) {
-					for ($i = 1; $link = $xmls->getValue("/feed/entry[$i]/id"); $i++) {
-						for ($j = 1; $rel = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'rel'); $j++) {
-							if($rel == 'alternate') {
-								$link = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'href');
-								break;
-							}
+		if(getServiceSetting('Textcube_Notice') != null) {
+			$noticeEntries = unserialize(getServiceSetting('Textcube_Notice'));
+		} else {
+			list($result, $feed, $xml) = getRemoteFeed($noticeURLRSS);
+			if ($result == 0) {
+				$xmls = new XMLStruct();
+				$xmls->setXPathBaseIndex(1);
+				$noticeEntries = array();
+				if ($xmls->open($xml, $service['encoding'])) {
+					if ($xmls->getAttribute('/rss', 'version')) {
+						for ($i = 1; $link = $xmls->getValue("/rss/channel/item[$i]/link"); $i++) {
+							$item = array('permalink' => rawurldecode($link));
+							$item['title'] = $xmls->getValue("/rss/channel/item[$i]/title");
+							if ($xmls->getValue("/rss/channel/item[$i]/pubDate"))
+								$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/pubDate"));
+							else if ($xmls->getValue("/rss/channel/item[$i]/dc:date"))
+								$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/dc:date"));
+							else
+								$item['written'] = 0;
+								array_push($noticeEntries, $item);
 						}
-						$item = array('permalink' => rawurldecode($link));
-						$item['author'] = $xmls->getValue("/feed/entry[$i]/author/name");
-						$item['title'] = $xmls->getValue("/feed/entry[$i]/title");
-						$item['written'] = parseDate($xmls->getValue("/feed/entry[$i]/issued"));
-						array_push($noticeEntries, $item);
-					}
-				} else if ($xmls->getAttribute('/rdf:RDF', 'xmlns')) {
-					for ($i = 1; $link = $xmls->getValue("/rdf:RDF/item[$i]/link"); $i++) {
-						$item = array('permalink' => rawurldecode($link));
-						$item['author'] = $xmls->getValue("/rdf:RDF/item[$i]/dc:creator");
-						$item['title'] = $xmls->getValue("/rdf:RDF/item[$i]/title");
-						$item['written'] = parseDate($xmls->getValue("/rdf:RDF/item[$i]/dc:date"));
-						array_push($noticeEntries, $item);
+					} else if ($xmls->getAttribute('/feed', 'version')) {
+						for ($i = 1; $link = $xmls->getValue("/feed/entry[$i]/id"); $i++) {
+							for ($j = 1; $rel = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'rel'); $j++) {
+								if($rel == 'alternate') {
+									$link = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'href');
+									break;
+								}
+							}
+							$item = array('permalink' => rawurldecode($link));
+							$item['author'] = $xmls->getValue("/feed/entry[$i]/author/name");
+							$item['title'] = $xmls->getValue("/feed/entry[$i]/title");
+							$item['written'] = parseDate($xmls->getValue("/feed/entry[$i]/issued"));
+							array_push($noticeEntries, $item);
+						}
+					} else if ($xmls->getAttribute('/rdf:RDF', 'xmlns')) {
+						for ($i = 1; $link = $xmls->getValue("/rdf:RDF/item[$i]/link"); $i++) {
+							$item = array('permalink' => rawurldecode($link));
+							$item['author'] = $xmls->getValue("/rdf:RDF/item[$i]/dc:creator");
+							$item['title'] = $xmls->getValue("/rdf:RDF/item[$i]/title");
+							$item['written'] = parseDate($xmls->getValue("/rdf:RDF/item[$i]/dc:date"));
+							array_push($noticeEntries, $item);
+						}
 					}
 				}
-			}	
-			
-			if (count($noticeEntries) > 0) {
-				array_splice($noticeEntries, 5, count($noticeEntries) - 5);
+				setServiceSetting('Textcube_Notice',serialize($noticeEntries));
+			}
+		}
+
+		if (count($noticeEntries) > 0) {
+			array_splice($noticeEntries, 5, count($noticeEntries) - 5);
 ?>
 									<table>
 										<tbody>
 <?php
-				foreach($noticeEntries as $item) {
+			foreach($noticeEntries as $item) {
 ?>
 											<tr>
 												<td class="title"><a href="<?php echo $item['permalink'];?>" onclick="return openLinkInNewWindow(this);" ><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],60));?></a></td>
 												<td class="date"><?php echo Timestamp::format2($item['written']);?></td>
 											</tr>
 <?php
-				}
+			}
 ?>
 										</tbody>
 									</table>
 									
 <?php
-			} else {
-?>
-									<div id="empty-notice">
-										<?php echo _t('공지사항이 없습니다.');?>
-									</div>
-<?php
-			}
-			
 		} else {
 ?>
 									<div id="fail-notice">

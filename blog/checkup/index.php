@@ -853,15 +853,6 @@ if($blogids = DBQuery::queryColumn("SELECT blogid FROM {$database['prefix']}Page
 	else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-if (DBQuery::queryCell("DESC {$database['prefix']}Teamblog userid", 'Key') != 'MUL') {
-	$changed = true;
-	echo '<li>', _text('팀블로그 테이블의 필드 인덱스를 변경합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog ADD INDEX userid (userid, acl)"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
-
 if (DBQuery::queryCell("SELECT acl FROM {$database['prefix']}Teamblog WHERE blogid = 1 AND userid = 1") == 0) {
 	$changed = true;
 	echo '<li>', _text('팀블로그 테이블의 소유 관계를 정의합니다.'), ': ';
@@ -870,6 +861,16 @@ if (DBQuery::queryCell("SELECT acl FROM {$database['prefix']}Teamblog WHERE blog
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
+if (DBQuery::queryCell("DESC {$database['prefix']}ServiceSettings value", 'Type') != 'text') {
+	$changed = true;
+	echo '<li>', _text('사용자 설정값 테이블의 필드 속성을 변경합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}ServiceSettings CHANGE value value text NOT NULL")) {
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	} else {
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+	}
 }
 
 $filename = ROOT . '/.htaccess';
