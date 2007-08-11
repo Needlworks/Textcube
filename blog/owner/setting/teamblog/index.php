@@ -158,22 +158,22 @@ if( Acl::check('group.owners')) {?>
 								}
 								
 								function cancelInvite(userid) {
-									if(!confirm('<?php	echo _t('삭제하시겠습니까?');?>')) return false;
+									if(!confirm("<?php echo _t('초대를 취소하시겠습니까?');?>")) return false;
 									var request = new HTTPRequest("POST", "<?php	echo $blogURL;?>/owner/setting/teamblog/cancelInvite/");
 									request.onSuccess = function() {
 										window.location.href="<?php 	echo $blogURL;?>/owner/setting/teamblog";
 									}
 									request.onError = function() {
-										alert('<?php 	echo _t('실패했습니다.');?>');
+										alert('<?php echo _t('실패했습니다.');?>');
 									}
 									request.send("userid=" + userid);
 								}
 								
 								function deleteUser(userid, atype) {
-									if(atype == 1) {
-										if(!confirm('<?php	echo _t('선택된 사용자를 삭제합니다.\n삭제되는 사용자가 쓴 글은 전부 관리자의 글로 변환됩니다.\n\n백업하지 않으시면 실수로 삭제하였을 경우 되돌릴 수 없습니다.\n정말 삭제하시겠습니까?');?>')) return false;
-									} else {
-										if(!confirm('<?php	echo _t('삭제 하시겠습니까?');?>')) 
+									if(atype == 1) { // If there are posts from user.
+										if(!confirm("<?php echo _t('선택된 사용자를 정말 삭제하시겠습니까?');?>\n\n<?php echo _t('삭제되는 기존 사용자의 글은 전부 관리자의 글로 변환됩니다.');?>\n(<?php echo _t('글이 전부 삭제되지는 않고 팀블로그의 로그인 데이터만 삭제됩니다');?>)\n<?php echo _t('삭제 이후에는 복원이 불가능합니다.');?> <?php echo _t('정말 삭제 하시겠습니까?');?>")) return false;
+									} else { // No post from user.
+										if(!confirm('<?php echo _t('삭제 하시겠습니까?');?>')) 
 											return false;
 									}
 									var request = new HTTPRequest("POST", "<?php	echo $blogURL;?>/owner/setting/teamblog/deleteUser/");
@@ -181,19 +181,19 @@ if( Acl::check('group.owners')) {?>
 										window.location.href="<?php 	echo $blogURL;?>/owner/setting/teamblog";
 									}
 									request.onError = function() {
-										alert('<?php 	echo _t('실패했습니다.');?>');
+										alert("<?php echo _t('실패했습니다.');?>");
 									}
 									request.send("userid=" + userid);
 								}
 
 								function changeACL(acltype, userid, checked) {
 
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/teamblog/isAdmin/");
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/teamblog/changeACL/");
 									request.onSuccess = function() {
-										PM.showMessage("<?php	echo _t('설정을 변경했습니다.');?>", "center", "bottom");
+										PM.showMessage("<?php echo _t('설정을 변경했습니다.');?>", "center", "bottom");
 									}
 									request.onError = function() {
-										alert('<?php 	echo _t('실패했습니다.');?>');
+										alert("<?php echo _t('실패했습니다.');?>");
 									}
 									request.send("acltype=" + acltype + "&userid=" + userid + "&switch=" + checked);
 								}
@@ -203,9 +203,9 @@ if( Acl::check('group.owners')) {?>
 									if(CHCrev == false) CHCrev = true;
 									else CHCrev = false;
 
-									for(var chr=0;;chr++) {
-										if(document.getElementById('check_'+chr)) {
-											document.getElementById('check_'+chr).checked = CHCrev;
+									for(var i = 0;;i++) {
+										if(document.getElementById('check_'+ i)) {
+											document.getElementById('check_'+ i).checked = CHCrev;
 										}
 										else{
 											break;
@@ -213,46 +213,6 @@ if( Acl::check('group.owners')) {?>
 							
 									}
 								}
-								function deleteSelectedUsers(auser) {
-									if(!confirm('<?php	echo _t('선택된 사용자들을 정말 삭제하시겠습니까?\n삭제되는 기존사용자의 글은 전부 관리자의 글로 변환됩니다.\n개인블로그가 설정되어있으면 개인블로그가 폐쇄됩니다.\n(글이 전부 삭제되는것은 아니고 팀블로그의 로그인데이터만 삭제됩니다)\n잘못된 삭제는 복원이 어렵습니다. 정말 삭제하시겠습니까?');?>')) return false;
-									PM.showMessage("<?php	echo _t('삭제 중입니다. 잠시만 기다려주세요.');?>", "center", "middle");
-									var mysend = 0;
-									var mycheck = 0;
-									for(var chr=0; chr< auser ;chr++) {
-										if(document.getElementById('check_'+chr).checked == true) {
-											mycheck++;
-											var users = document.getElementById('chh'+chr).value
-											var type = document.getElementById('cht'+chr).value
-											if(type == 0) {
-												var request = new HTTPRequest("POST", "<?php	echo $blogURL;?>/owner/setting/teamblog/cancelInvite/");
-												request.onSuccess = function() {
-													mysend--;
-													if(mysend == 0) window.location.href="<?php	echo $blogURL;?>/owner/setting/teamblog";
-												}
-												request.onError = function() {
-													mysend--;
-													if(mysend == 0) window.location.href="<?php	echo $blogURL;?>/owner/setting/teamblog";
-												}
-												request.send("userid=" + users);
-												mysend++;
-											} else {
-												var request = new HTTPRequest("POST", "<?php	echo $blogURL;?>/owner/setting/teamblog/deleteUser/");
-												request.onSuccess = function() {
-													mysend--;
-													if(mysend == 0) window.location.href="<?php	echo $blogURL;?>/owner/setting/teamblog";
-												}
-												request.onError = function() {
-													mysend--;
-													if(mysend == 0) window.location.href="<?php	echo $blogURL;?>/owner/setting/teamblog";
-												}
-												request.send("userid=" + users);
-												mysend++;
-											}
-										}					
-									}
-									if(mycheck == 0) alert("선택된 사용자가 없습니다.");
-								}
-
 <?php
 }
 ?>
@@ -272,61 +232,71 @@ if( Acl::check('group.owners')) {?>
 											<th class="date"><span class="text"><?php echo _t('작성한 글 수');?></span></th>
 											<th class="cancel"><span class="text"><?php	echo _t('초대취소');?></span></th>
 											<th class="status"><span class="text"><?php echo _t('권한');?></span></th>
-											<th class="status"><span class="text"><?php	echo _t('계정삭제');?></span></th>
+											<th class="status"><span class="text"><?php	echo _t('팀블로그 제외');?></span></th>
 										</tr>
 									</thead>
 									<tbody>
 <?php
-	$teamblog_owner = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Teamblog 
-			WHERE userid='".$blogid."' 
-				AND blogid='".$blogid."'");
-	$teamblog_user = DBQuery::queryRow("SELECT a.*, b.name 
-			FROM {$database['prefix']}Teamblog a, 
-				{$database['prefix']}Users b  
-			WHERE a.userid = '".getUserId()."' 
-				AND a.blogid = '".getBlogId()."' 
-				AND b.userid = a.userid");
-	$invited_user = DBQuery::queryAll("SELECT t.*, u.* 
+	$teamblog_user = DBQuery::queryAll("SELECT t.*, u.loginid, u.password, u.name, u.created
 		FROM {$database['prefix']}Teamblog t, 
 		 	{$database['prefix']}Users u 
 		WHERE t.blogid = '$blogid' 
 			AND u.userid = t.userid 
-			AND t.userid != '$blogid'
 		ORDER BY u.created DESC"); 
 
-	$count=0;
+	$count = 0;
 
-	if(isset($invited_user)) {
-		foreach($invited_user as $value) {
+	if(isset($teamblog_user)) {
+		foreach($teamblog_user as $value) {
 			$value['posting'] = DBQuery::queryCell("SELECT count(*) 
 					FROM {$database['prefix']}Entries 
 					WHERE blogid = $blogid AND userid = {$value['userid']}");
 			$className= ($count%2)==1 ? 'even-line' : 'odd-line';
-			$className.=($count==sizeof($invited_user)-1) ? ' last-line':'';
+			$className.=($count==sizeof($teamblog_user)-1) ? ' last-line':'';
 ?>
 												<tr class="<?php echo $className;?> inactive-class">
-													<td class="status"><input type="checkbox" id="check_<?php echo $count; ?>"><input type="hidden" name="chh<?php echo $count; ?>" value="<?php echo $value['userid']; ?>"><input type="hidden" name="cht<?php echo $count; ?>" value="<?php if($value['last'] == '0' && $value['lastLogin'] =='0') echo "0"; else echo "1"; ?>"></td>
+													<td class="status">
+														<input type="checkbox" id="check_<?php echo $count;?>">
+													</td>
 													<td class="name"><?php echo $value['name'];?></td>
 													<td class="email"><?php	echo  htmlspecialchars($value['loginid']);?></td>
 													<td class="date"><?php echo Timestamp::format5($value['created']);?></td>
 													<td class="posting"><?php echo $value['posting'];?></td>
 <?php
-			if($value['posting'] == 0) { 
+			if($value['lastLogin'] == 0) { 
 ?>
-													<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?php	echo $value['userid'];?>);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대취소');?></span></a></td>
+													<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?php	echo $value['userid'];?>);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대 취소');?></span></a></td>
 <?php
 			} else { 
 ?>
-													<td class="status"></td>
+													<td class="status"><?php echo _t('참여중');?></td>
 <?php
 			}
 ?>
 													<td class="password">
+<?php
+			if($value['acl'] & BITWISE_OWNER) {
+				echo _t('블로그 소유자');
+			} else {
+?>										
 														<input type="checkbox" onclick="changeACL('admin',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_ADMINISTRATOR) ? "checked" : "");?>><?php echo _t('관리자');?>
 														<input type="checkbox" onclick="changeACL('editor',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_EDITOR) ? "checked" : "");?> ><?php echo _t('글관리');?>
+<?php
+			}
+?>
 													</td>
 													<td class="cancel">
-														<a class="cancel-button button" href="#void" onclick="deleteUser(<?php	echo $value['userid'];?>,1);return false;" title="<?php echo _t('현재 사용자를 팀블로그에서 제외합니다.');?>"><span class="text"><?php echo _t('계정삭제');?></span></a>
+<?php
+			if($value['acl'] & BITWISE_OWNER) {
+?>													
+													<span class="text"><?php echo _t('제외할 수 없습니다');?></span>
+<?php
+			} else {
+?>
+													<a class="cancel-button button" href="#void" onclick="deleteUser(<?php echo $value['userid'];?>,1);return false;" title="<?php echo _t('이 사용자를 팀블로그에서 제외합니다.');?>"><span class="text"><?php echo _t('사용자 제외');?></span></a>
+<?php
+			}
+?>
 													</td>
 												</tr>
 <?php

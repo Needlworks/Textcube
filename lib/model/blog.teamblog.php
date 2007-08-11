@@ -38,12 +38,18 @@ function cancelTeamblogInvite($userid) {
 		return false;
 	}
 	// Delete ACL relation.
-	return DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid='$blogid' and userid='$userid'");
+	if(!DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid='$blogid' and userid='$userid'"))
+		return false;
+	// And if there is no blog related to the specific user, delete user.
+	if(DBQuery::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'")) {
+		deleteUser($userid);
+	}
+	return true;
 }
 
 function changeACLonBlog($blogid, $ACLtype, $userid, $switch) {  // Change user priviledge on the blog.
 	global $database;
-	if(empty($stype) || empty($userid))
+	if(empty($ACLtype) || empty($userid))
 		return false;
 
 	$acl = DBQuery::queryCell("SELECT acl
@@ -59,14 +65,14 @@ function changeACLonBlog($blogid, $ACLtype, $userid, $switch) {  // Change user 
 
 	$bitwise = null;
 	switch( $ACLtype ) {
-	case 'admin':
-		$bitwise = BITWISE_ADMINISTRATOR;
-		break;
-	case 'editor':
-		$bitwise = BITWISE_EDITOR;
-		break;
-	default:
-		return false;
+		case 'admin':
+			$bitwise = BITWISE_ADMINISTRATOR;
+			break;
+		case 'editor':
+			$bitwise = BITWISE_EDITOR;
+			break;
+		default:
+			return false;
 	}
 
 	if( $switch ) {

@@ -19,5 +19,4 @@ if (!acl::check('group.owners'))
 
 $result = addTeamUser($_POST['email'], $_POST['name'], $_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
 respondResultPage($result);
-//echo "test";
 ?>

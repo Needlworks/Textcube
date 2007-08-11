@@ -5,6 +5,7 @@
 
 define( 'BITWISE_EDITOR', 0x1 );
 define( 'BITWISE_ADMINISTRATOR', 0x2 );
+define( 'BITWISE_OWNER', 0x10 );
 
 /* static */
 global $sAcoPredefinedChain;
@@ -255,7 +256,15 @@ class Acl {
 	}
 
 	function setBasicAcl( $userid ) {
-		Acl::setAcl($userid, array("group.owners", "textcube.$userid"), false );
+		global $database;
+		$result = DBQuery::queryColumn("SELECT blogid
+			FROM {$database['prefix']}Teamblog
+			WHERE userid = $userid
+				AND acl > 15");
+		foreach( $result as $blogids) {
+			Acl::setAcl($blogids, array("group.owners", "textcube.$userid"), false );
+		}
+		//Acl::setAcl($userid, array("group.owners", "textcube.$userid"), false );
 	}
 
 	function setTeamAcl( $userid ) {

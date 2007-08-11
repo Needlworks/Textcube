@@ -27,4 +27,10 @@ function getUserIdByEmail($email) {
 		FROM {$database['prefix']}Users
 		WHERE loginid = '".$email."'");
 }
+
+function deleteUser($userid) {
+	global $database;
+	return DBQuery::execute("DELETE FROM {$database['prefix']}Users
+		WHERE userid = $userid");
+}
 ?>

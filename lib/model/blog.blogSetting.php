@@ -265,7 +265,7 @@ function addBlog($blogid, $userid, $identify) {
 		// Thus, blog and user exists. Now combine both.
 		$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` 
 			(blogid,userid,acl,created,lastLogin) 
-			VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
+			VALUES('$blogid', '$userid', '16', UNIX_TIMESTAMP(), '0')");
 		return $result;
 	} else { // If no blogid, create a new blog.
 		$email = getUserEmail($userid);
@@ -372,6 +372,10 @@ function addBlog($blogid, $userid, $identify) {
 			DBQuery::query("DELETE FROM `{$database['prefix']}FeedGroups` WHERE `blogid` = $blogid");		
 			return 20;
 		}
+		//Combine user and blog.
+		if(DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` 
+			(blogid,userid,acl,created,lastLogin) 
+			VALUES('$blogid', '$userid', '16', UNIX_TIMESTAMP(), '0')")) return true;
 	}
 	return true;
 }
@@ -486,7 +490,7 @@ function changePassword($blogid, $pwd, $prevPwd) {
 	return DBQuery::execute($sql);
 }
 
-function deleteUser($userid) {
+function deleteUserWithBlogs($userid) {
 	global $database;
 
 	DBQuery::execute("UPDATE `{$database['prefix']}Entries` 
