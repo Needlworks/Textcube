@@ -7,7 +7,6 @@ define('ROOT', '../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
-
 // set the selected tab.
 if (isset($_GET['visibility'])) {
 	$_POST['visibility'] = $_GET['visibility'];
@@ -73,12 +72,13 @@ while (false !== ($plugin = $dir->read())) { // 이게 php.net에서 권장하�
 								'editor' => '/plugin/binding/editor',
 								'formatter' => '/plugin/binding/formatter'
 							);
-		
+		$pluginScope = array();
 		$acceptedPathCount = 0;
 		$tempXMLPathCount = 0;
 		foreach ($tempXMLPath as $key => $value) {
 			if ($xmls->doesExist($value)) {
 				$tempXMLPathCount++;
+				array_push($pluginScope, $key);
 				if (in_array($key, $selectedScopes)) {
 					$acceptedPathCount++;
 				}
@@ -92,31 +92,22 @@ while (false !== ($plugin = $dir->read())) { // 이게 php.net에서 권장하�
 		}
 		
 		// load plugin information.
-		$requiredTattertoolsVersion = $xmls->getValue('/plugin/requirements/tattertools');
-		$requiredTextcubeVersion = $xmls->getValue('/plugin/requirements/textcube');
-		
-		if (!is_null($requiredTattertoolsVersion) && !is_null($requiredTextcubeVersion))
-			$requiredVersion = $requiredTattertoolsVersion > $requiredTextcubeVersion ? $requiredTextcubeVersion : $requiredTattertoolsVersion;
-		else if (!is_null($requiredTattertoolsVersion) && is_null($requiredTextcubeVersion))
-			$requiredVersion = $requiredTattertoolsVersion;
-		else if (is_null($requiredTattertoolsVersion) && !is_null($requiredTextcubeVersion))
-			$requiredVersion = $requiredTextcubeVersion;
-		else
-			$requiredVersion = 0;
-		unset($requiredTattertoolsVersion, $requiredTextcubeVersion);
-		
+		$maxVersion = max($xmls->getValue('/plugin/requirements/tattertools'),$xmls->getValue('/plugin/requirements/textcube'));
+		$requiredVersion = empty($maxVersion) ? 0 : $maxVersion; 
+
 		$pluginDir = trim($plugin);
 		$pluginAttrs[$pluginDir] = array(
-							'link' => $xmls->getValue('/plugin/link[lang()]'),
-							'title' => $xmls->getValue('/plugin/title[lang()]'),
-							'version' => $xmls->getValue('/plugin/version[lang()]'),
+							'link'         => $xmls->getValue('/plugin/link[lang()]'),
+							'title'        => $xmls->getValue('/plugin/title[lang()]'),
+							'version'      => $xmls->getValue('/plugin/version[lang()]'),
 							'requirements' => $requiredVersion,
-							'description' => $xmls->getValue('/plugin/description[lang()]'),
-							'authorLink' => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
-							'author' => $xmls->getValue('/plugin/author[lang()]'),
-							'config' => $xmls->doesExist('/plugin/binding/config'),
-							'width' => $xmls->getAttribute('/plugin/binding/config/window', 'width'),
-							'height' => $xmls->getAttribute('/plugin/binding/config/window', 'height')
+							'scope'        => $pluginScope,
+							'description'  => $xmls->getValue('/plugin/description[lang()]'),
+							'authorLink'   => $xmls->getAttribute('/plugin/author[lang()]', 'link'),
+							'author'       => $xmls->getValue('/plugin/author[lang()]'),
+							'config'       => $xmls->doesExist('/plugin/binding/config'),
+							'width'        => $xmls->getAttribute('/plugin/binding/config/window', 'width'),
+							'height'       => $xmls->getAttribute('/plugin/binding/config/window', 'height')
 							);
 		
 		$plugins[$pluginDir] = $pluginAttrs[$pluginDir]['title'];
@@ -133,7 +124,6 @@ if ($selectedSort == 'ascend') {
 }
 
 $pluginKeys = array_keys($plugins);
-
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -419,57 +409,38 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 									<li class="<?php echo $className;?>">
 <?php
 	if ($requirements == false) {
-		if (file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_on.png")) {
 ?>
 										<div class="plugin-box">
-											<div class="plugin-icon plugin-disabled-icon" style="background-image: url('<?php echo $serviceURL . "/plugins/{$pluginDir}/images/icon_plugin_off.png";?>');">
+											<div class="plugin-icon plugin-disabled-icon" style="background-image: url('<?php 
+		echo $serviceURL . 
+			(file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_off.png") ?
+				"/plugins/{$pluginDir}/images/icon_plugin_off.png" :
+				$adminSkinSetting['skin'] . "/image/icon_plugin_off.png")	;?>');">
 												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 현재 텍스트큐브와 호환되지 않습니다. 플러그인의 업데이트가 필요합니다.');?>" />
 											</div>
 <?php
-		} else {
-?>
-										<div class="plugin-box">
-											<div class="plugin-icon plugin-disabled-icon" style="background-image: url('<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/icon_plugin_off.png";?>');">
-												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 현재 텍스트큐브와 호환되지 않습니다. 플러그인의 업데이트가 필요합니다.');?>" />
-											</div>
-<?php
-		}
 	} else if ($active) {
-		if (file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_on.png")) {
 ?>
 										<div class="plugin-box">
-											<div id="pluginIcon<?php echo $i;?>" class="plugin-icon" style="background-image: url('<?php echo $serviceURL . "/plugins/{$pluginDir}/images/icon_plugin_on.png";?>');" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;">
+											<div id="pluginIcon<?php echo $i;?>" class="plugin-icon" style="background-image: url('<?php 
+		echo $serviceURL . 
+			(file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_on.png") ? 
+				"/plugins/{$pluginDir}/images/icon_plugin_on.png" :
+				$adminSkinSetting['skin'] . "/image/icon_plugin_on.png");?>');" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;">
 												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('켜짐');?>" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" />
 											</div>
-<?php
-		} else {
-?>
-										<div class="plugin-box">
-											<div id="pluginIcon<?php echo $i;?>" class="plugin-icon" style="background-image: url('<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/icon_plugin_on.png";?>');" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;">
-												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('켜짐');?>" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" />
-											</div>
-<?php
-		}
-?>
 											<input type="hidden" id="pluginStatus<?php echo $i;?>" value="1" />
 <?php
 	} else {
-		if (file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_off.png")) {
 ?>
 										<div class="plugin-box">
-											<div id="pluginIcon<?php echo $i;?>" class="plugin-icon" style="background-image: url('<?php echo $serviceURL . "/plugins/{$pluginDir}/images/icon_plugin_off.png";?>');" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;">
-												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
+										<div id="pluginIcon<?php echo $i;?>" class="plugin-icon" style="background-image: url('<?php 
+		echo $serviceURL . 
+			(file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_off.png") ? 
+				"/plugins/{$pluginDir}/images/icon_plugin_off.png" : 
+				$adminSkinSetting['skin'] . "/image/icon_plugin_off.png");?>');" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;">
+												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 사용 중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
 											</div>
-<?php
-		} else {
-?>
-										<div class="plugin-box">
-											<div id="pluginIcon<?php echo $i;?>" class="plugin-icon" style="background-image: url('<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/icon_plugin_off.png";?>');" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;">
-												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
-											</div>
-<?php
-		}
-?>
 											<input type="hidden" id="pluginStatus<?php echo $i;?>" value="0" />
 <?php
 	}
@@ -488,7 +459,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 <?php
 	} else {
 ?>
-												<input type="checkbox" class="input-checkbox" name="plugin" value="<?php echo $pluginDir;?>" title="<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
+												<input type="checkbox" class="input-checkbox" name="plugin" value="<?php echo $pluginDir;?>" title="<?php echo _t('이 플러그인은 사용 중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
 <?php
 	}
 ?>
