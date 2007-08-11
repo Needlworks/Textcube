@@ -840,7 +840,7 @@ h4
 }
 
 /* special classes */
-.list ol li.rp_secret p.author cite
+.list ol li.rp_secret p.author cite, .list ol li.guest_secret p.author cite
 {
 	background-image: url('./images/ico_lock.jpg');
 	background-position: left center;
@@ -848,12 +848,12 @@ h4
 	padding-left: 14px;
 }
 
-.list ol li.rp_secret span.hiddenCommentTag_name
+.list ol li.rp_secret span.hiddenCommentTag_name, .list ol li.guest_secret span.hiddenCommentTag_name
 {
 	color: #999;
 }
 
-.list ol li.rp_secret span.hiddenCommentTag_content
+.list ol li.rp_secret span.hiddenCommentTag_content, .list ol li.guest_secret span.hiddenCommentTag_content
 {
 	display: none;
 }
