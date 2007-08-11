@@ -114,6 +114,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					exit;
 				} else if ($result !== false) {
 					$skin = new Skin($skinSetting['skin']);
+					$suri['page'] = getGuestbookPageById($blogid, $suri['id']);
 					printHtmlHeader();
 					$tempComments = revertTempTags(removeAllTags(getCommentView($comment['entry'], $skin)));
 					$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));
