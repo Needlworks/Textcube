@@ -5,7 +5,7 @@
 
 function getPagingView( & $paging, & $template, & $itemTemplate) {
 	if (($paging === false) || empty($paging['page']))
-		return '';
+		return '[1]';
 	$url = encodeURL($paging['url']);
 	$prefix = $paging['prefix'];
 	$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
