@@ -35,7 +35,25 @@ function getTemplates($blogid, $attributes = '*', $condition = false, $order = '
 function getEntry($blogid, $id, $draft = false) {
 	global $database;
 	requireModel('blog.attachment');
-	if($id == 0) return false;
+	if($id == 0) {
+		if (!doesHaveOwnership())
+			return;
+		deleteAttachments($blogid, 0);
+		return array('id'    => 0,
+				'userid'     => 0,
+				'draft'      => 0,
+				'visibility' => 0,
+				'category'   => 0,
+				'location'   => '',
+				'title'      => '',
+				'content'    => '',
+				'contentFormatter' => getDefaultFormatter(),
+				'contentEditor'    => getDefaultEditor(),
+				'acceptComment'    => 1,
+				'acceptTrackback'  => 1,
+				'published'  => time(),
+				'slogan'     => '');
+	}
 	if ($draft) {
 		$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries 
 				WHERE blogid = $blogid 
@@ -504,6 +522,8 @@ function updateEntry($blogid, $entry) {
 	requireModel('blog.attachment');
 	requireModel('blog.category');
 	requireModel('blog.rss');
+
+	if($entry['id'] == 0) return false;
 
 	if(empty($entry['userid'])) $entry['userid'] = getUserId(); 
 	$entry['title'] = mysql_lessen(trim($entry['title']));
