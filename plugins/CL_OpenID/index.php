@@ -641,7 +641,7 @@ function openid_LOGIN_add_form($target, $requestURI)
 function _openid_set_temp_password( $blogid, $id )
 {
 	global $database;
-	$pw = md5( 'seed for hash' . time() . filemtime( ROOT . 'config.php') );
+	$pw = md5( 'seed for hash' . time() . filemtime( ROOT .DS.'config.php') );
 	$pw = substr($pw, 0, 32);
 	DBQuery::execute("UPDATE {$database['prefix']}Comments SET password = '" . md5($pw) . "' WHERE blogid = $blogid and id = $id" );
 	return $pw;
@@ -968,7 +968,7 @@ function openid_comment_del()
 		</script>
 		<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	</head>
-	<body><?php echo $pluginURL ?>
+	<body>
 		<form name="deleteComment" method="post" action="<?php echo $blogURL;?>/comment/delete/<?php echo $entryId;?>">
 			<div id="comment-box">
 				<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />	
