@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('TEXTCUBE_NAME', 'Textcube');
-define('TEXTCUBE_VERSION', '1.5 pre-RC2');
+define('TEXTCUBE_VERSION', '1.5 Release Candidate 2');
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2007. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
 define('TEXTCUBE_SYNC_URL', 'http://ping.eolin.com/');
