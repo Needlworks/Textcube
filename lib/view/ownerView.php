@@ -452,10 +452,12 @@ function printEntryFileList($attachments, $param) {
 															document.getElementById('uploaderNest').innerHTML = uploaderStr;
 															refreshFileSize();						
 															setTimeout("enablePageManager()", 2000);
+															entryManager.delay     = true;
 															entryManager.nowsaving = false;
 														}
 														request.onError = function() {
 															setTimeout("enablePageManager()", 2000);
+															entryManager.delay     = true;
 															entryManager.nowsaving = false;
 														
 														}
@@ -592,6 +594,7 @@ function printEntryFileList($attachments, $param) {
 													
 													function browser() {
 														disablePageManager();
+														entryManager.delay     = true;
 														entryManager.nowsaving = true;
 														getUploadObj().SetVariable('/:openBrowser','true');
 													}
