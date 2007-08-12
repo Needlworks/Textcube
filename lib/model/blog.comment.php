@@ -3,6 +3,27 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+function decorateComment( & $comment )
+{
+	$authorized = doesHaveOwnership();
+	$comment['hidden'] = false;
+	$comment['name'] = htmlspecialchars($comment['name']);
+	if ($comment['secret'] == 1) {
+		if($authorized) {
+			$comment['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $comment['comment'];
+		} else {
+			if( !fireEvent('ShowSecretComment', false, $comment) ) {
+				$comment['hidden'] = true;
+				$comment['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>';
+				$comment['homepage'] = '';
+				$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
+			} else {
+				$comment['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>'. $comment['name'];
+			}
+		}
+	}
+}
+
 function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count) {
 	global $database;
 	
@@ -105,7 +126,6 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 function getCommentCommentsNotified($parent) {
 	global $database;
 	$comments = array();
-	$authorized = doesHaveOwnership();
 	$sql = "SELECT
 				c.*, 
 				csiteinfo.title AS siteTitle,
@@ -120,13 +140,7 @@ function getCommentCommentsNotified($parent) {
 	$sql .= ' ORDER BY c.written ASC';
 	if ($result = DBQuery::query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
-			if (($comment['secret'] == 1) && !$authorized) {
-				if( !fireEvent('ShowSecretComment', false, $comment) ) {
-					$comment['name'] = '';
-					$comment['homepage'] = '';
-					$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
-				}
-			}
+			decorateComment( $comment );
 			array_push($comments, $comment);
 		}
 	}
@@ -149,18 +163,11 @@ function getCommentAttributes($blogid, $id, $attributeNames) {
 function getComments($entry) {
 	global $database;
 	$comments = array();
-	$authorized = doesHaveOwnership();
 	$aux = ($entry == 0 ? 'ORDER BY written DESC' : 'order by id ASC');
 	$sql = "select * from {$database['prefix']}Comments where blogid = ".getBlogId()." and entry = $entry and parent is null and isFiltered = 0 $aux";
 	if ($result = DBQuery::query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
-			if (($comment['secret'] == 1) && !$authorized) {
-				if( !fireEvent('ShowSecretComment', false, $comment) ) {
-					$comment['name'] = '';
-					$comment['homepage'] = '';
-					$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
-				}
-			}
+			decorateComment($comment);
 			array_push($comments, $comment);
 		}
 	}
@@ -170,16 +177,9 @@ function getComments($entry) {
 function getCommentComments($parent) {
 	global $database;
 	$comments = array();
-	$authorized = doesHaveOwnership();
 	if ($result = DBQuery::query("select * from {$database['prefix']}Comments where blogid = ".getBlogId()." and parent = $parent and isFiltered = 0 order by id")) {
 		while ($comment = mysql_fetch_array($result)) {
-			if (($comment['secret'] == 1) && !$authorized) {
-				if( !fireEvent('ShowSecretComment', false, $comment) ) {
-					$comment['name'] = '';
-					$comment['homepage'] = '';
-					$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
-				}
-			}
+			decorateComment($comment);
 			array_push($comments, $comment);
 		}
 	}
@@ -507,13 +507,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false) {
 			".($count != false ? $count : $skinSetting['commentsOnRecent']);
 	if ($result = DBQuery::query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
-			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
-				if( !fireEvent('ShowSecretComment', false, $comment) ) {
-					$comment['name'] = '';
-					$comment['homepage'] = '';
-					$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
-				}
-			}
+			decorateComment($comment);
 			array_push($comments, $comment);
 		}
 	}

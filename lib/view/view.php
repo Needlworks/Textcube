@@ -175,11 +175,7 @@ function getCommentView($entryId, $skin) {
 	if ($isComment == false) {
 		list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
 		foreach ($comments as $key => $value) {
-			if ($value['secret'] == 1 && !$authorized) {
-				$comments[$key]['name'] = '';
-				$comments[$key]['homepage'] = '';
-				$comments[$key]['comment'] = _text('관리자만 볼 수 있는 방명록입니다.');
-			}
+			decorateComment( $comments[$key] );
 		}
 	} else {
 		$comments = getComments($entryId);
@@ -192,7 +188,6 @@ function getCommentView($entryId, $skin) {
 		foreach ($subComments as $commentSubItem) {
 			$commentSubItemView = ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
 			
-			$commentSubItem['name'] = htmlspecialchars($commentSubItem['name']);
 			$commentSubItem['comment'] = htmlspecialchars($commentSubItem['comment']);
 			
 			$rp_class = $prefix1 . '_general';
@@ -200,11 +195,8 @@ function getCommentView($entryId, $skin) {
 				$rp_class = $prefix1 . '_admin';
 			else if ($commentSubItem['secret'] == 1) {
 				$rp_class = $prefix1 . '_secret';
-				if ($authorized) {
-					$commentSubItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $commentSubItem['comment'];
-				} else {
+				if (!$authorized) {
 					$rp_class .= ' hiddenComment';
-					$commentSubItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>';
 				}
 			}
 			dress($prefix1 . '_rep_class', $rp_class, $commentSubItemView);
@@ -231,7 +223,6 @@ function getCommentView($entryId, $skin) {
 			dress(($isComment ? 'rp2_container' : 'guest_reply_container'), $commentSubContainer, $commentItemView);
 		}
 		
-		$commentItem['name'] = htmlspecialchars($commentItem['name']);
 		$commentItem['comment'] = htmlspecialchars($commentItem['comment']);
 		
 		$rp_class = $prefix1 . '_general';
@@ -239,11 +230,8 @@ function getCommentView($entryId, $skin) {
 			$rp_class = $prefix1 . '_admin';
 		else if ($commentItem['secret'] == 1) {
 			$rp_class = $prefix1 . '_secret';
-			if ($authorized) {
-				$commentItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $commentItem['comment'];
-			} else {
+			if (!$authorized) {
 				$rp_class .= ' hiddenComment';
-				$commentItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>';
 			}
 		}
 		dress($prefix1 . '_rep_class', $rp_class, $commentItemView);
@@ -361,11 +349,7 @@ function getGuestCommentView($entryId, $skin) {
 	if ($entryId == 0) {
 		list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
 		foreach ($comments as $key => $value) {
-			if ($value['secret'] == 1 && !$authorized) {
-				$comments[$key]['name'] = '';
-				$comments[$key]['homepage'] = '';
-				$comments[$key]['comment'] = _t('관리자만 볼 수 있는 댓글입니다');
-			}
+			decorateComment( $comments[$key] );
 		}
 	} else {
 		$comments = getComments($entryId);
@@ -376,7 +360,7 @@ function getGuestCommentView($entryId, $skin) {
 		foreach (getCommentComments($commentItem['id']) as $commentSubItem) {
 			$commentSubItemView = "<a id=\"comment{$commentSubItem['id']}\"></a>" . ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
 			if (empty($commentSubItem['homepage']))
-				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentSubItem['name']), $commentSubItem), $commentSubItemView);
+				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), $commentSubItem['name'], $commentSubItem), $commentSubItemView);
 			else
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentSubItem['name']) . '</a>', $commentSubItem), $commentSubItemView);
 			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentSubItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
@@ -386,9 +370,9 @@ function getGuestCommentView($entryId, $skin) {
 			$commentSubItemsView .= $commentSubItemView;
 			dress(($isComment ? 'rp2_rep' : 'guest_reply_rep'), $commentSubItemsView, $commentItemView);
 			if (empty($commentItem['homepage']))
-				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), htmlspecialchars($commentItem['name']), $commentItem), $commentItemView);
+				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), $commentItem['name'], $commentItem), $commentItemView);
 			else
-				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentItem['name']) . '</a>', $commentItem), $commentItemView);
+				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . $commentItem['name'] . '</a>', $commentItem), $commentItemView);
 			dress($prefix1 . '_rep_desc', fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), ($commentSubItem['secret'] && $authorized ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment']), ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem), $commentSubItemView);
 			dress($prefix1 . '_rep_date', Timestamp::format5($commentSubItem['written']), $commentSubItemView);
 			dress($prefix1 . '_rep_link',"$blogURL/{$entryId}#comment{$commentSubItem['id']}", $commentSubItemView);
@@ -397,7 +381,7 @@ function getGuestCommentView($entryId, $skin) {
 		}
 		dress(($isComment ? 'rp2_rep' : 'guest_reply_rep'), $commentSubItemsView, $commentItemView);
 		if (empty($commentItem['homepage'])) {
-			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a id="comment' . $commentItem['id'] . '">' . htmlspecialchars($commentItem['name']) . '</a>', $commentItem), $commentItemView);
+			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a id="comment' . $commentItem['id'] . '">' . $commentItem['name'] . '</a>', $commentItem), $commentItemView);
 		} else {
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" id="comment' . $commentItem['id'] . '" onclick="return openLinkInNewWindow(this)">' . htmlspecialchars($commentItem['name']) . '</a>', $commentItem), $commentItemView);
 		}
@@ -938,7 +922,7 @@ function getRecentCommentsView($comments, $template) {
 		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm($comment['comment'], $skinSetting['recentCommentLength']));
 		dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
 		dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format2($comment['written']), $comment['written']), $view);
-		dress('rctrp_rep_name', htmlspecialchars($comment['name']), $view);
+		dress('rctrp_rep_name', $comment['name'], $view);
 		print $view;
 	}
 	$view = ob_get_contents();
