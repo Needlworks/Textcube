@@ -517,13 +517,6 @@
 	min-height                       : 400px;
 }
 
-#sidebar-box .section ul li.sidebar-module *
-{
-	color                            : inherit;
-	font-size                        : 1em;
-	font-weight                      : inherit;
-}
-
 #sidebar-box-disabled
 {
 	background-color                 : #FFFFFF;
@@ -605,8 +598,7 @@
 	width                            : 40px;
 }
 
-.sidebar-module .module-content,
-.ajax-floating-panel .module-content
+.sidebar-module .module-content, .ajax-floating-panel .module-content
 {
 	padding                          : 5px 5px 4px 5px;
 }
@@ -623,10 +615,49 @@
 	/* display                       : none; */
 }
 
+.sidebar-module .module-content *
+{
+	color                            : inherit;
+	font-size                        : 1em;
+	font-weight                      : inherit;
+}
+
+.sidebar-module .module-content ol
+{
+	list-style-type                  : disc;
+	margin                           : 5px;
+	padding-left                     : 10px;
+}
+
+.sidebar-module .module-content ol li
+{
+	list-style-type                  : decimal;
+	margin-left                      : 18px;
+}
+
+.sidebar-module .module-content ul
+{
+	list-style-type                  : disc;
+	margin                           : 5px;
+	padding-left                     : 10px;
+}
+
 .sidebar-module .module-content ul li
 {
 	list-style-type                  : disc;
 	margin-left                      : 18px;
+}
+
+.sidebar-module .module-content dl dt
+{
+	position                            : static;
+	margin-left                         : 15px;
+}
+
+.sidebar-module .module-content dl dd
+{
+	position                            : static;
+	margin-left                         : 25px;
 }
 
 .sidebar-module .module-content .calendar caption,
