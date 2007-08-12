@@ -375,6 +375,11 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
             return null;
         }
 
+		/* patched by textcube */
+        if( !file_exists($filename) ) {
+        	return null;
+        }
+
         $assoc_file = @fopen($filename, 'rb');
 
         if ($assoc_file === false) {
