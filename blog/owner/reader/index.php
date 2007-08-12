@@ -113,7 +113,8 @@ if ($setting['newWindow'] == 2) {
 <?php
 printFeedGroups($blogid);
 ?>
-										</div>									</div>
+										</div>
+									</div>
 									
 									<hr class="hidden" />
 									
@@ -124,7 +125,8 @@ printFeedGroups($blogid);
 <?php
 printFeeds($blogid);
 ?>
-										</div>									</div>
+										</div>
+									</div>
 								</div>
 							</div>
 							
@@ -239,7 +241,7 @@ if (getUserId() == 1) {
 									var show_str = '<?php echo _t('패널 보기');?>';
 									var hide_str = '<?php echo _t('패널 가리기');?>';
 									
-									document.write('<a id="toggleButton" class="pannel-<?php echo getBlogSetting('readerPannelVisibility', 1) == 1 ? 'show' : 'hide';?>" href="#void" onclick="Reader.togglePannel(event)">');
+									document.write('<a id="toggleButton" class="pannel-<?php echo getBlogSetting('readerPannelVisibility', 1) == 1 ? 'show' : 'hide';?>" href="#void" onclick="Reader.togglePannel(event); return false;">');
 									document.write('<span class="text"><?php echo getBlogSetting('readerPannelVisibility', 1) == 1 ? _t('패널 가리기') : _t('패널 보기');?><\/span>');
 									document.write('<\/a>');
 								//]]>

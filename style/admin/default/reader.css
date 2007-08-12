@@ -755,6 +755,11 @@ ul#feedList li .edit-button span
 	width                            : 69px;
 }
 
+#toggleButton span
+{
+	display: none;
+}
+
 .pannel-hide
 {
 	background-position              : left bottom !important;
