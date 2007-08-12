@@ -234,12 +234,12 @@ function addUser($email, $name) {
 	$password = generatePassword();
 
 	$result = DBQuery::query("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'");
-	if ($result && (mysql_num_rows($result) > 0)) {
-		return 5;
+	if (!empty($result)) {
+		return true;	// User already exists.
 	}
 
 	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
-	if (!$result || (mysql_affected_rows() == 0)) {
+	if (empty($result)) {
 		return 11;
 	}
 	return true;
@@ -265,7 +265,7 @@ function addBlog($blogid, $userid, $identify) {
 		// Thus, blog and user exists. Now combine both.
 		$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` 
 			(blogid,userid,acl,created,lastLogin) 
-			VALUES('$blogid', '$userid', '16', UNIX_TIMESTAMP(), '0')");
+			VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
 		return $result;
 	} else { // If no blogid, create a new blog.
 		$email = getUserEmail($userid);
