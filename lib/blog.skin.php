@@ -182,10 +182,11 @@ class Skin {
 			$this->metapageName[$metapageCount] = $tempTitle;
 		}
 
-		if(empty($suri['value']) 
+		if((empty($suri['value']) 
 			&& $suri["directive"] == "/" 
 			&& $suri['page'] == 1 
-			&& getBlogSetting("metapageInitView")) {
+			&& getBlogSetting("metapageInitView")) ||
+		  	$suri['directive'] == "/meta"){
 			handleMetapages($sval, $this, $previewMode);
 		}
 

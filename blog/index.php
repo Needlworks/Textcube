@@ -63,7 +63,6 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 publishEntries();
 fireEvent('OBStart');
 require ROOT . '/lib/piece/blog/begin.php';
-
 if(empty($suri['value']) && $suri["directive"] == "/" && $suri['page'] == 1 && count($metapageMappings) > 0 && getBlogSetting("metapageInitView")) {
 	$metaView = $skin->meta;
 	dress('article_rep', '', $view);
