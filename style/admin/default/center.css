@@ -678,7 +678,7 @@
 	width                            : 350px;
 }
 
-#part-center-about .main-explain-box p
+#part-center-about .main-explain-box
 {
 	margin-left                      : 240px;
 	padding                          : 0;
@@ -686,14 +686,30 @@
 	width                            : 360px;
 }
 
-#part-center-about .main-explain-box p em
+#part-center-about .main-explain-box p
 {
 	border                           : 1px solid #DDDDDD;
 	display                          : block;
 	margin-top                       : 20px;
-	padding                          : 5px;
-	text-align                       : center;
+	padding                          : 10px;
 	width                            : 350px;
+}
+
+#part-center-about .main-explain-box p q
+{
+	display                          : block;
+	text-align                       : left !important;
+}
+
+#part-center-about .main-explain-box p br
+{
+	display                          : none;
+}
+
+#part-center-about .main-explain-box cite
+{
+	/*font-style                       : normal;*/
+	text-align                       : right;
 }
 
 #developer-description
@@ -798,7 +814,7 @@
 
 #developer-description
 {
-	margin-top                       : 99px;
+	margin-top                       : 68px;
 }
 
 #developer-description .container h4
