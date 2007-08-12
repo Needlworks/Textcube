@@ -14,7 +14,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 							
 							<div class="main-explain-box">
 								<p class="explain">
-									<q xml:lang="la" title="<?php echo _t('모든 만물들은 책이요 그림이요 또한 거울이니');?>">Omnis mundi creatura quasi liber et pictura nobis est, et speculum</q><br />
+									<q xml:lang="la" title="<?php echo _t('모든 만물은 책이요 그림이요 또한 거울이니');?>">Omnis mundi creatura quasi liber et pictura nobis est, et speculum</q><br />
 									<cite><?php echo _t('움베르트 에코 \'장미의 이름\' 중');?></cite>
 								</p>
 								<?php echo _t('&copy; 2004 - 2007. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />텍스트큐브는 니들웍스/TNF에서 개발합니다.<br />텍스트큐브와 텍스트큐브 로고는 니들웍스의 상표입니다.').CRLF;?>
