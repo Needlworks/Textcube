@@ -176,7 +176,9 @@ function deleteCategory($blogid, $id) {
 	if (!is_numeric($id))
 		return false;
 	CacheControl::flushCategory($id);
-	return DBQuery::execute("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
+	DBQuery::execute("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
+	updateEntriesOfCategory($blogid);
+	return true;
 }
 
 function modifyCategory($blogid, $id, $name, $bodyid) {
