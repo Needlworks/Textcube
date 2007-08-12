@@ -14,7 +14,7 @@ html
 
 body
 {
-	/*background: url('./images/bg_bodyTop.gif') 50% top repeat-x;*/
+	background: url('./images/bg_bodyTop.gif') 50% top repeat-x;
 	font: 1.2em/1.7 Gulim, Helvetica, AppleGothic, Sans-serif;
 	color: #666;
 	padding-top: 30px;
