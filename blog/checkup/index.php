@@ -865,7 +865,7 @@ if (DBQuery::queryCell("SELECT acl FROM {$database['prefix']}Teamblog WHERE blog
 
 if (DBQuery::queryCell("DESC {$database['prefix']}ServiceSettings value", 'Type') != 'text') {
 	$changed = true;
-	echo '<li>', _text('사용자 설정값 테이블의 필드 속성을 변경합니다.'), ': ';
+	echo '<li>', _text('서비스 설정값 테이블의 필드 속성을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}ServiceSettings CHANGE value value text NOT NULL")) {
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	} else {

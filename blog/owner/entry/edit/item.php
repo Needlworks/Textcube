@@ -278,7 +278,7 @@ if (defined('__TEXTCUBE_POST__')) {
 												oForm.title.value = templateTitle;
 											}
 											oForm.content.value = templateContents;
-											
+											reloadUploader();
 											try {
 												editor.syncEditorWindow();
 											} catch(e) {
