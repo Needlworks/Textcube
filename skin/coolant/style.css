@@ -194,18 +194,7 @@ h4
 
 #header h1
 {
-	position: relative;
-	display: inline;
-	float: left;
 	padding-left: 25px;
-}
-
-#header ul
-{
-	float: right;
-	display: inline;
-	text-align: right;
-	padding: .5em 20px 0 0;
 }
 
 #mBody:after
@@ -224,15 +213,6 @@ h4
 	display: inline-block;
 	background-color: #fff;
 }
-
-/* Hides from IE-mac \*/
-
-* html #mBody
-{
-	height: 1%;
-}
-
-/* */
 
 #contentColumn
 {
@@ -296,6 +276,7 @@ h4
 {
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	list-style: none;
+	padding: .5em 20px 0 0;
 	text-align: right;
 }
 
@@ -386,7 +367,7 @@ h4
 
 .subject li a
 {
-	font-family: Dotum, 돋움, Helvetica, AppleGothic, Sans-Serif;
+	font-family: Dotum, Helvetica, AppleGothic, Sans-Serif;
 }
 
 .subject p
@@ -474,7 +455,7 @@ h4
 .subject .admin li
 {
 	padding-right: .5em;
-	font-family: Dotum, 돋움, AppleGothic, Sans-Serif;
+	font-family: Dotum, AppleGothic, Sans-Serif;
 }
 
 .subject .admin li:after
@@ -715,7 +696,7 @@ h4
 
 .trackback cite
 {
-	font-family: Dotum, 돋움, Helvetica, AppleGothic, Sans-Serif;
+	font-family: Dotum, Helvetica, AppleGothic, Sans-Serif;
 }
 
 /*-------------------------------*/
@@ -908,7 +889,7 @@ textarea
 	padding: 2px .5em;
 	background-color: #faf9f8;
 	border: 1px solid #ddd;
-	font: 1em Dotum, 돋움, AppleGothic, Sans-Serif;
+	font: 1em Dotum, AppleGothic, Sans-Serif;
 	color: #666;
 }
 
@@ -1167,7 +1148,7 @@ input:focus, textarea:focus
 
 #category
 {
-	font: .9em/2 Dotum, 돋움, AppleGothic, Sans-Serif;
+	font: .9em/2 Dotum, AppleGothic, Sans-Serif;
 }
 
 #category ul
@@ -1265,7 +1246,7 @@ input:focus, textarea:focus
 
 .recent li
 {
-	font: 0.9em/1.5 Dotum, 돋움, AppleGothic, Sans-Serif;
+	font: 0.9em/1.5 Dotum, AppleGothic, Sans-Serif;
 	letter-spacing: -1px;
 	border-bottom: 1px solid #eee;
 }
@@ -1321,7 +1302,7 @@ input:focus, textarea:focus
 #calendar th
 {
 	height: 1.2em;
-	font: normal .9em 돋움, AppleGothic, Sans-Serif !important;
+	font: normal .9em Dotum, AppleGothic, Sans-Serif !important;
 }
 
 #calendar tr.cal_week
@@ -1393,7 +1374,7 @@ input:focus, textarea:focus
 	border-top: 1px solid #d7d7cc;
 	border-left: 1px solid #d7d7cc;
 	background-color: #f6f6f4;
-	font: 1em Dotum, 돋움, AppleGothic, Sans-Serif;
+	font: 1em Dotum, AppleGothic, Sans-Serif;
 	vertical-align: middle;
 	color: #333;
 }
