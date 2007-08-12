@@ -6,13 +6,11 @@ if(isset($blogMenu['topMenu'])) {
 				$blogContentMenuItem = array(
 					array('menu'=>'dashboard','title'=>_t('조각보'),'link'=>'/owner/center/dashboard'),
 					array('menu'=>'metapage','title'=>_t('색동'),'link'=>'/owner/center/metapage'),
-					array('menu'=>'about','title'=>_t('텍스트큐브는'),'link'=>'/owner/center/about')
 				);
 			}
 			else{
 				$blogContentMenuItem = array(
 					array('menu'=>'dashboard','title'=>_t('조각보'),'link'=>'/owner/center/dashboard'),
-					array('menu'=>'about','title'=>_t('텍스트큐브는'),'link'=>'/owner/center/about')
 				);
 			}
 		break;
@@ -100,6 +98,10 @@ if(isset($blogMenu['topMenu'])) {
 				'link'=>'/owner/plugin/adminMenu?name='.$path))
 			);
 		}
+	}
+
+	if($blogMenu['topMenu'] == 'center') {  // exception handling for 'about.' about menu will hold the end of center.
+		$blogContentMenuItem = array_merge($blogContentMenuItem, array(array('menu'=>'about','title'=>_t('텍스트큐브는'),'link'=>'/owner/center/about')));
 	}
 }
 ?>
