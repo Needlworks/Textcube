@@ -183,8 +183,11 @@ if ($service['type'] != 'single') {
 												alert('<?php echo _t('이미 존재하는 블로그 식별자입니다.');?>');
 												break;
 											case 62:
-												alert('<?php echo _t('실패했습니다.');?>');
+												alert('<?php echo _t('리더를 만드는 과정에서 오류가 발생하였습니다.');?>');
 												break;
+											case 65:
+												alert('<?php echo _t('블로그 권한 설정 과정에서 오류가 발생하였습니다.');?>');
+												break;												
 											case 11:
 												alert('<?php echo _t('실패했습니다.');?>');
 												break;
@@ -201,6 +204,7 @@ if ($service['type'] != 'single') {
 												alert(Number(this.getText("/response/error")));
 												alert('<?php echo _t('실패했습니다.');?>');
 										}
+										window.location.href='<?php echo $blogURL;?>/owner/setting/account/';
 									}
 									request.send("&senderName="+encodeURIComponent(sender[0][0])+"&senderEmail="+encodeURIComponent(sender[0][1])+"&email="+inviteList[0][1]+"&name="+encodeURIComponent(inviteList[0][0])+"&identify="+identify.value+"&comment="+encodeURIComponent(comment.value));
 								}

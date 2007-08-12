@@ -233,9 +233,9 @@ function addUser($email, $name) {
 	$name = mysql_tt_escape_string(mysql_lessen($name, 32));
 	$password = generatePassword();
 
-	$result = DBQuery::query("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'");
+	$result = DBQuery::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'");
 	if (!empty($result)) {
-		return true;	// User already exists.
+		return 9;	// User already exists.
 	}
 
 	$result = DBQuery::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
@@ -337,45 +337,28 @@ function addBlog($blogid, $userid, $identify) {
 			return 12;
 		}
 	
-		$result = DBQuery::query("INSERT INTO `{$database['prefix']}SkinSettings` 
-			(blogid, skin) 
-			VALUES ($blogid, '{$service['skin']}')");
-		if (!$result || (mysql_affected_rows() == 0)) {
-			DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid");
+		if(!DBQuery::query("INSERT INTO `{$database['prefix']}SkinSettings` (blogid) VALUES ($blogid)")) {
+			deleteBlog($blogid);
 			return 13;
 		}
-		$result = DBQuery::query("INSERT INTO `{$database['prefix']}FeedSettings` 
-			(blogid) VALUES ($blogid)");
-		if (!$result || (mysql_affected_rows() == 0)) {
-			DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid");
-			DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $blogid");
+		if(!DBQuery::query("INSERT INTO `{$database['prefix']}FeedSettings` 
+			(blogid) VALUES ($blogid)")) {
+			deleteBlog($blogid);
 			return 62;
 		}
 		
-		$result = DBQuery::query("INSERT INTO `{$database['prefix']}FeedGroups` 
+		if(!DBQuery::query("INSERT INTO `{$database['prefix']}FeedGroups` 
 			(blogid, id) 
-			VALUES ($blogid, 0)");
-		if (!$result || (mysql_affected_rows() == 0)) {
-			DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid");
-			DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $blogid");
-			DBQuery::query("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $blogid");
+			VALUES ($blogid, 0)")) {
+			deleteBlog($blogid);
 			return 62;
 		}
-	
-		$result = DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` 
-			VALUES('".$blogid."', '".$userid."', '0', UNIX_TIMESTAMP(), '0')");
-		if (!$result || (mysql_affected_rows() == 0)) {
-			header( 'x-debug: ' . mysql_errno() );
-			DBQuery::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid");
-			DBQuery::query("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $blogid");
-			DBQuery::query("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $blogid");
-			DBQuery::query("DELETE FROM `{$database['prefix']}FeedGroups` WHERE `blogid` = $blogid");		
-			return 20;
-		}
+
 		//Combine user and blog.
 		if(DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` 
 			(blogid,userid,acl,created,lastLogin) 
 			VALUES('$blogid', '$userid', '16', UNIX_TIMESTAMP(), '0')")) return true;
+		else return 65;
 	}
 	return true;
 }
@@ -444,34 +427,25 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 	}
 }
 
-
 function cancelInvite($userid) {
 	global $database;
+	requireModel('blog.user');
 	if (DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `lastLogin` = 0") == 0)
 		return false;
 	if (DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = ".getBlogId()) === 0)
 		return false;
-	if (DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid")) {
-		if (DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $userid")) {
-			if (DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $userid")) {
-				if (DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $userid")) {
-					if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE userid='$userid'")) {
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	} else {
-		return false;
+	
+	$blogidWithOwner = DBQuery::queryColumn("SELECT blogid 
+		FROM `{$database['prefix']}Teamblog` 
+		WHERE userid = $userid
+			AND acl > 15");
+	foreach($blogidWithOwner as $blogids) {
+		if(deleteBlog($blogids) === false) return false;
 	}
+	if(deleteUser($userid) != false)
+		return true;
+	else return false;
+	
 }
 
 function changePassword($blogid, $pwd, $prevPwd) {
@@ -490,25 +464,30 @@ function changePassword($blogid, $pwd, $prevPwd) {
 	return DBQuery::execute($sql);
 }
 
-function deleteUserWithBlogs($userid) {
+function deleteBlog($blogid) {
 	global $database;
-
-	DBQuery::execute("UPDATE `{$database['prefix']}Entries` 
-		SET userid = ".getBlogId()." 
-		WHERE blogid = ".getBlogId()." AND userid = ".$userid);
-
-	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid = ".getBlogId()." and userid='$userid'")) {
-		// TODO : blogid is not match with userid. need to remake this part.
-		$En = DBQuery::queryCell("SELECT userid FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'");
-		if(empty($En)) {
-			@DBQuery::execute("DELETE FROM `{$database['prefix']}Users` WHERE `userid` = $userid");
-			@DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $userid");
-			@DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $userid");
-			@DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $userid");
+	if($blogid == 1) return false;
+	if (DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid")) {
+		if (DBQuery::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $blogid")) {
+			if (DBQuery::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $blogid")) {
+				if(DBQuery::execute("DELETE FROM `{$database['prefix']}FeedGroups` WHERE `blogid` = $blogid")) {
+					if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE `blogid` = '$blogid'")) {
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		} else {
+			return false;
 		}
-		return true;
 	} else {
 		return false;
 	}
+	return true;
 }
 ?>

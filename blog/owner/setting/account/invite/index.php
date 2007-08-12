@@ -14,16 +14,20 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel('blog.user');
 requireStrictRoute();
 if (($service['type'] == 'single') || (getUserId() > 1))
 	respondResultPage(false);
-$result = addUser($_POST['email'], $_POST['name']);
-if($result !== true) {
-	respondResultPage($result);
+$useradd = addUser($_POST['email'], $_POST['name']);
+if($useradd !== true && $useradd != 9) {
+	respondResultPage($useradd);
 }
-$result = addBlog(null, getUserIdByEmail($_POST['email']),$_POST['identify']);
-if($result !== true) {
-	respondResultPage($result);
+$blogadd = addBlog(null, getUserIdByEmail($_POST['email']),$_POST['identify']);
+if($blogadd !== true) {
+	if($useradd != 9) { // If user is created at this time, delete that user.
+		deleteUser(getUserIdByEmail($_POST['email']));
+	}
+	respondResultPage($blogadd);
 }
 $result = sendInvitationMail(null, getUserIdByEmail($_POST['email']),$_POST['name'],$_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
 respondResultPage($result);
