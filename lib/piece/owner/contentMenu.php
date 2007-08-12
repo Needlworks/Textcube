@@ -87,6 +87,11 @@ if(isset($blogMenu['topMenu'])) {
 		break;
 	}
 
+	if( empty($blogContentMenuItem) ) {
+		echo _t('접근권한이 없습니다');
+		exit;
+	}
+
 	foreach($adminMenuMappings as $path => $pluginAdminMenuitem) {
 		if($pluginAdminMenuitem['topMenu'] == $blogMenu['topMenu']) {
 			if(count($blogContentMenuItem) < $pluginAdminMenuitem['contentMenuOrder'] 

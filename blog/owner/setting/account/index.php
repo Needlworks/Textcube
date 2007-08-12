@@ -348,16 +348,23 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 										<dl id="blogger-name-line" class="line">
 											<dt><label for="nickname"><?php echo _t('오픈아이디');?></label></dt>
 											<dd><input type="text" name="openid_identifier" class="input-text" value="<?php echo $currentOpenID ?>" />
-												<input type="submit" class="save-button input-button" value="<?php echo _t('추가하기');?>" /> (<a href="<?php echo $blogURL?>/owner/plugin/adminMenu?name=CL_OpenID/openid_manage"><?php echo _t('오픈아이디 플러그인 설정 바로가기')?></a>)
+												<input type="submit" class="save-button input-button" value="<?php echo _t('추가하기');?>" />
+					<?php if( Acl::check( 'group.administrators' ) ) { ?>(<a href="<?php echo $blogURL?>/owner/plugin/adminMenu?name=CL_OpenID/openid_manage"><?php echo _t('오픈아이디 플러그인 설정 바로가기')?></a>)
+					<?php } ?>
 											</dd>
 										</dl>
 									</fieldset>
 									<input type="hidden" name="mode" value="add">
 								</form>
-					<?php  } else { ?>
+					<?php  } else if( Acl::check('group.administrators') ) { ?>
 										<dl id="blogger-name-line" class="line">
 											<dd><em><?php echo _t('오픈아이디 인증 플러그인을 활성화하십시오'); ?></em>
 					<a href="<?php echo $blogURL?>/owner/plugin">(<?php echo _t('플러그인 설정 바로가기'); ?></a>)
+											</dd>
+										</dl>
+					<?php } else { ?>
+										<dl id="blogger-name-line" class="line">
+											<dd><em><?php echo _t('오픈아이디 플러그인을 사용하고 있지 않으므로, 오픈아이디는 설정할 수 없습니다. 관리자에게 문의 하십시오'); ?></em>
 											</dd>
 										</dl>
 					<?php } ?>
