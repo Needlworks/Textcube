@@ -8,6 +8,7 @@ if (false) {
 	fetchConfigVal();
 }
 list($entries, $paging) = getEntryWithPaging($blogid, $suri['id'], true);
+fireEvent('OBStart');
 require ROOT . '/lib/piece/blog/begin.php';
 if (empty($entries)) {
 	header('HTTP/1.1 404 Not Found');
@@ -22,4 +23,5 @@ if (empty($entries)) {
 	require ROOT . '/lib/piece/blog/entries.php';
 }
 require ROOT . '/lib/piece/blog/end.php';
+fireEvent('OBEnd');
 ?>

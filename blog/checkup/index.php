@@ -842,17 +842,6 @@ foreach($plugintablesraw as $table) {
 	}
 }
 
-if($blogids = DBQuery::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
-	$changed = true;
-	$errorlog = false;
-	echo '<li>', _textf('페이지 캐시를 초기화합니다.'), ': ';
-	foreach($blogids as $ids) {
-		if(CacheControl::flushAll($ids) == false) $errorlog = true; 
-	}
-	if($errorlog == false) echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
-
 if (DBQuery::queryCell("SELECT acl FROM {$database['prefix']}Teamblog WHERE blogid = 1 AND userid = 1") == 0) {
 	$changed = true;
 	echo '<li>', _text('팀블로그 테이블의 소유 관계를 정의합니다.'), ': ';
@@ -871,6 +860,17 @@ if (DBQuery::queryCell("DESC {$database['prefix']}ServiceSettings value", 'Type'
 	} else {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 	}
+}
+
+if(doesHaveOwnership() && $blogids = DBQuery::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
+	$changed = true;
+	$errorlog = false;
+	echo '<li>', _textf('페이지 캐시를 초기화합니다.'), ': ';
+	foreach($blogids as $ids) {
+		if(CacheControl::flushAll($ids) == false) $errorlog = true; 
+	}
+	if($errorlog == false) echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
 $filename = ROOT . '/.htaccess';

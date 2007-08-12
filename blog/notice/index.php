@@ -8,7 +8,9 @@ if (false) {
 	fetchConfigVal();
 }
 list($entries, $paging) = getEntriesWithPagingByNotice($blogid, $suri['page'], $blog['entriesOnPage']);
+fireEvent('OBStart');
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/entries.php';
 require ROOT . '/lib/piece/blog/end.php';
+fireEvent('OBEnd');
 ?>

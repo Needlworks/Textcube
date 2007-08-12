@@ -359,7 +359,7 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 			if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
 				$configVal = getCurrentSetting($mapping['plugin']);
 			else
-				$configVal =null;
+				$configVal = null;
 			$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 			$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
 			$target = call_user_func($mapping['listener'], $target, $mother);

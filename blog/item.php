@@ -40,9 +40,9 @@ publishEntries();
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	$result = receiveNotifiedComment($_POST);
 	if ($result > 0)
-		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><response><error>1</error><message>error($result)</message></response>";
+		echo '<?xml version="1.0" encoding="utf-8"?><response><error>1</error><message>error('.$result.')</message></response>';
 	else
-		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><response><error>0</error></response>";
+		echo '<?xml version="1.0" encoding="utf-8"?><response><error>0</error></response>';
 } else {
 	notifyComment();
 }

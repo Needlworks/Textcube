@@ -50,9 +50,9 @@ if (false) {
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	$result = receiveNotifiedComment($_POST);
 	if ($result > 0)
-	    	echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><response><error>1</error><message>error($result)</message></response>";
+	    	echo '<?xml version="1.0" encoding="utf-8"?><response><error>1</error><message>error('.$result.')</message></response>';
 	else
-		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><response><error>0</error></response>";
+		echo '<?xml version="1.0" encoding="utf-8"?><response><error>0</error></response>';
 	exit;
 } else {
 	$IV = array('POST' => array());
@@ -61,6 +61,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	notifyComment();
 }
 publishEntries();
+fireEvent('OBStart');
 require ROOT . '/lib/piece/blog/begin.php';
 
 if(empty($suri['value']) && $suri["directive"] == "/" && $suri['page'] == 1 && count($metapageMappings) > 0 && getBlogSetting("metapageInitView")) {
@@ -75,4 +76,5 @@ if(empty($suri['value']) && $suri["directive"] == "/" && $suri['page'] == 1 && c
 }
 
 require ROOT . '/lib/piece/blog/end.php';
+fireEvent('OBEnd');
 ?>

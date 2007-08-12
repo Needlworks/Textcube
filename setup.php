@@ -1346,7 +1346,6 @@ CREATE TABLE {$_POST['dbPrefix']}Teamblog (
   created int(11) NOT NULL default 0,
   lastLogin int(11) NOT NULL default 0,
   PRIMARY KEY (blogid,userid)
-  KEY userid (userid)
 ) $charset;
 
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
