@@ -51,7 +51,7 @@ dt
 {
 	font-weight                      : normal !important;
 	line-height                      : 1em !important;
-	padding-top                      : 15px;
+	padding                          : 15px 0 3px 0;
 	position                         : static !important;
 }
 	
