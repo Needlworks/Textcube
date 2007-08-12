@@ -37,51 +37,15 @@
 	height                           : 100px;
 }
 
+#independent-notice-line dd
+{
+	padding-top                      : 6px;
+}
+
 #cite
 {
 	padding-right                    : 0;
 	width                            : 620px;
-}
-
-/* Setting ***************************************************************************************/
-
-#sorting-line
-{
-	bottom                           : 239px;
-	padding-top                      : 8px;
-}
-
-#activate-status-line
-{
-	bottom                           : 244px;
-	right                            : 30px;
-}
-
-/* data description */
-#data-description
-{
-	bottom                           : 242px;
-	right                            : 10px;
-	position                         : absolute;
-}
-
-#data-description dl dd
-{
-	font-size                        : 0.98em;
-}
-
-/* Credit ****************************************************************************************/
-
-#maintainer-container,
-#internationalization-container,
-#support-container
-{
-	right                            : 15px;
-}
-
-#supporter-description h3
-{
-	height                           : 2.45em;
 }
 
 /* Metapage ***************************************************************************************/
@@ -126,6 +90,20 @@
 #metapage-description
 {
 	padding-top                      : 0 !important;
+}
+
+/* Credit ****************************************************************************************/
+
+#maintainer-container,
+#internationalization-container,
+#support-container
+{
+	right                            : 15px;
+}
+
+#supporter-description h3
+{
+	height                           : 2.45em;
 }
 
 /* classes for AJAX *******************************************************************************/

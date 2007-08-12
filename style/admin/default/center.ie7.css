@@ -1,26 +1,11 @@
 @charset "utf-8";
 
-/* Setting ***************************************************************************************/
-
-#sorting-line
-{
-	bottom                           : -1px;
-	padding-top                      : 5px;
-}
-
-#activate-status-line
-{
-	bottom                           : 4px;
-}
-
-/* data description */
-#data-description
-{
-	bottom                           : -22px;
-	right                            : 0;
-}
-
 /* Metapage ***************************************************************************************/
+
+#independent-meta-line
+{
+	margin-top: -38px;
+}
 
 #metapage-preview-mode
 {

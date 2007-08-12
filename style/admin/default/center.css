@@ -14,177 +14,6 @@
 
 /* Dashboard *************************************************************************************/
 
-#part-center-dashboard
-{
-	height                           : 480px;
-	position                         : relative;
-}
-
-#part-center-dashboard .section h3
-{
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	font-weight                      : normal;
-	height                           : 32px;
-	line-height                      : 34px;
-	padding-left                     : 25px;
-}
-
-/* shortcut */
-#shortcut-collection
-{
-	position                         : absolute;
-	left                             : 10px;
-	top                              : 40px;
-	width                            : 200px;
-}
-
-#shortcut-collection h3
-{
-	background-image                 : url("./image/bg_dashboard_header3.png");
-	height                           : 32px;
-}
-
-#shortcut-collection ul li
-{
-	background-image                 : url("./image/icon_newPost.gif");
-	background-position              : 15px center;
-	background-repeat                : no-repeat;
-	border-bottom                    : 1px solid #EEEEEE;
-	padding                          : 6px 10px 5px 32px;
-	text-align                       : left;
-}
-
-/* total information */
-#total-information
-{
-	margin-left                      : 220px;
-	width                            : 200px;
-}
-
-#total-information h3
-{
-	background-image                 : url("./image/bg_dashboard_header3.png");
-	height                           : 32px;
-}
-
-#total-information table
-{
-	width                            : 200px;
-}
-
-#total-information table tbody tr th
-{
-	border-bottom                    : 1px solid #EEEEEE;
-	font-weight                      : normal;
-	height                           : 30px;
-	text-align                       : center;
-	width                            : 50%;
-}
-
-#total-information table tbody tr td
-{
-	border-bottom                    : 1px solid #EEEEEE;
-	border-left                      : 1px solid #EEEEEE;
-	height                           : 24px;
-	padding-right                    : 10px;
-	text-align                       : right;
-}
-
-/* notice */
-#tattertools-notice
-{
-
-	position                         : absolute;
-	left                             : 10px;
-	top                              : 280px;
-	width                            : 410px;
-}
-
-#tattertools-notice h3
-{
-	background-image                 : url("./image/bg_dashboard_header4.png");
-	height                           : 32px;
-}
-
-#tattertools-notice table
-{
-	margin                           : 0 0 25px 0;
-	width                            : 410px;
-}
-
-#tattertools-notice table tbody tr td
-{
-	border-bottom                    : 1px solid #EEEEEE;
-	height                           : 28px;
-	padding-left                     : 10px;
-	text-align                       : left;
-}
-
-#tattertools-notice table tbody tr td.date
-{
-	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
-	font-size                        : 0.8em;
-	padding-right                    : 10px;
-	text-align                       : right;
-}
-
-/* panel */
-
-#part-center-dashboard #myBlogInfo
-{
-	position                         : relative;
-	width                            : 505px;
-	position                         : absolute;
-	right                            : 20px;
-	top                              : 40px;
-}
-
-#part-center-dashboard #myBlogInfo.section h3
-{ 
-	background-image                 : url("./image/bg_dashboard_header2.png");
-}
-
-#part-center-dashboard #myBlogInfo table caption
-{
-	font-weight                      : bold;
-	text-align                       : left;
-	line-height                      : 23px;
-	border-bottom                    : 1px solid #e2e5e7;
-}
-
-
-#part-center-dashboard #infoPanel
-{
-	border                           : 1px solid #d9dde0;
-	padding                          : 9px;
-	width                            : 485px;
-	float                            : right;
-}
-
-#part-center-dashboard #infoPanel table
-{
-	width                            : 232px;
-	height                           : 130px;
-	float                            : left;
-	margin-right                     : 5px;
-	margin-bottom                    : 16px;
-}
-
-/* Common ****************************************************************************************/
-
-#sub-menu-dashboard
-{
-	background-image                 : none !important;
-}
-
-.part .caption
-{
-	margin-bottom                    : 10px;
-}
-
-/* Dashboard *************************************************************************************/
-
 #part-center-dashboard,
 #part-center-lint
 {
@@ -552,428 +381,6 @@
 	padding-right                    : 15px;
 }
 
-/* Setting ***************************************************************************************/
-
-#part-center-plugins
-{
-	padding-bottom                   : 35px;
-	position                         : relative;
-}
-
-#part-center-plugins .main-explain-box
-{
-	margin-bottom                    : 30px;
-}
-
-#part-center-plugins fieldset
-{
-	background-image                 : none;
-	border                           : none;
-	margin-bottom                    : 0;
-	padding-right                    : 10px;
-}
-
-#part-center-plugins fieldset .checkbox,
-#part-center-plugins fieldset .radio
-{
-	margin-left                      : 5px;
-}
-
-#independent-notice-line dd
-{
-	text-align                       : right;
-}
-
-#sorting-line
-{
-	background-color                 : #EEEEEE;
-	border-top                       : 1px solid #BBBBBB;
-	bottom                           : 0;
-	left                             : 10px;
-	padding                          : 5px 10px;
-	position                         : absolute;
-	width                            : 920px;
-}
-
-#activate-status-line
-{
-	bottom                           : 5px;
-	position                         : absolute;
-	right                            : 20px;
-	z-index                          : 100;
-}
-
-#part-center-plugins fieldset dl dt
-{
-	display                          : none;
-}
-
-#part-center-plugins fieldset dl dd
-{
-	margin-left                      : 0;
-}
-
-/* table head */
-#part-center-plugins table.data-inbox tbody tr .title
-{
-	width                            : 170px;
-}
-
-#part-center-plugins table.data-inbox tbody tr .version
-{
-	border                           : 1px solid #E3E3DE;
-	width                            : 60px;
-}
-
-#part-center-plugins table.data-inbox tbody tr .explain
-{
-	border                           : 1px solid #E3E3DE;
-}
-
-#part-center-plugins table.data-inbox tbody tr .maker
-{
-	border                           : 1px solid #E3E3DE;
-	width                            : 100px;
-}
-
-#part-center-plugins table.data-inbox tbody tr .config
-{
-	border                           : 1px solid #E3E3DE;
-	width                            : 100px;
-}
-
-#part-center-plugins table.data-inbox tbody tr .status
-{
-	border                           : 1px solid #E3E3DE;
-	width                            : 70px;
-}
-
-/* table body */
-#part-center-plugins table.data-inbox tbody tr td.title
-{
-	background-position              : right bottom;
-}
-
-#part-center-plugins table.data-inbox tbody tr td.title,
-#part-center-plugins table.data-inbox tbody tr td.version,
-#part-center-plugins table.data-inbox tbody tr td.scope,
-#part-center-plugins table.data-inbox tbody tr td.explain,
-#part-center-plugins table.data-inbox tbody tr td.maker
-{
-	text-align                       : left;
-}
-
-/* plugin icons */
-#part-center-plugins table.data-inbox tbody tr td.config a
-{
-	background-image                 : url("./image/icon_config_on.gif");
-	background-position              : left center;
-	background-repeat                : no-repeat;
-	color                            : #5A8FC9;
-	cursor                           : pointer;
-	margin                           : 0 auto;
-	padding                          : 1px 0 1px 22px;
-}
-
-#part-center-plugins table.data-inbox tbody tr td.config span
-{
-	background-image                 : url("./image/icon_config_off.gif");
-	background-position              : left center;
-	background-repeat                : no-repeat;
-	cursor                           : pointer;
-	margin                           : 0 auto;
-	padding                          : 1px 0 1px 22px;
-}
-
-#part-center-plugins table.data-inbox tbody tr td.status a
-{
-	background-position              : left center;
-	background-repeat                : no-repeat;
-	cursor                           : pointer;
-	margin                           : 0 auto;
-	padding                          : 1px 0 1px 14px;
-}
-
-#part-center-plugins table.data-inbox tbody tr.active-class td.status a
-{
-	background-image                 : url("./image/icon_plugin_on.gif");
-	color                            : #5A8FC9;
-}
-
-#part-center-plugins table.data-inbox tbody tr.inactive-class td.status a
-{
-	background-image                 : url("./image/icon_plugin_off.gif");
-}
-
-/* data description */
-#data-description
-{
-	bottom                           : -23px;
-	right                            : 5px;
-	position                         : absolute;
-}
-
-#data-description dl
-{
-	background-repeat                : no-repeat;
-	display                          : inline;
-	font-family                      : '돋움', Dotum, sans-serif;
-	font-size                        : 0.93em;
-	font-weight                      : normal;
-	letter-spacing                   : -1px;
-	padding                          : 3px 0 1px 17px;
-}
-
-#data-description dl dt
-{
-	display                          : none;
-}
-
-#data-description dl dd
-{
-	display                          : inline;
-
-	margin                           : 0;
-	padding-right                    : 10px;
-	position                         : static;
-}
-
-#data-description dl.title-description,
-#data-description dl.version-description,
-#data-description dl.kind-description,
-#data-description dl.explain-description,
-#data-description dl.author-description
-{
-	display                          : none;
-}
-
-#data-description dl.setting-description
-{
-	background-image                 : url("./image/icon_config_on.gif");
-	background-position              : left 3px;
-	padding                          : 3px 0 1px 21px;
-}
-
-#data-description dl.status-description
-{
-	background-image                 : url("./image/icon_plugin_on.gif");
-	background-position              : left 1px;
-	padding                          : 3px 0 1px 15px;
-}
-
-#part-plugin-more
-{
-	margin                           : 40px 0 100px 0;
-}
-
-/* Credit ****************************************************************************************/
-
-#part-center-about
-{
-	position                         : relative;
-}
-
-
-#part-center-about
-{
-	background-image                 : url("./image/logo_textcube_full.png");
-	background-position              : 30px 70px;
-	background-repeat                : no-repeat;
-}
-
-#part-center-about h3
-{
-	font-family                      : Tahoma, "Lucida Grande", Verdana, sans-serif;
-	padding-top                      : 55px;
-	margin                           : 30px 0 5px 225px;
-	text-align: center;
-	width                            : 350px;
-}
-
-#part-center-about .main-explain-box p
-{
-	margin-left                      : 220px;
-	padding                          : 0;
-	text-align                       : right;
-	width                            : 360px;
-}
-
-#part-center-about .main-explain-box p em
-{
-	border                           : 1px solid #DDDDDD;
-	display                          : block;
-	margin-top                       : 20px;
-	padding                          : 5px;
-	text-align                       : center;
-	width                            : 350px;
-}
-
-#developer-description
-{
-	margin-left                      : 10px;
-}
-
-#part-center-about .section h3
-{
-	display                          : none;
-}
-
-#part-center-about table
-{
-	border-top                       : 1px solid #D2D2CC;
-}
-
-#part-center-about table thead tr
-{
-	background-color                 : #F3F3F1;
-	background-image                 : url("./image/bg_thead.png");
-	background-position              : left bottom;
-	background-repeat                : repeat-x;
-}
-
-#part-center-about table thead tr th
-{
-	color                            : #333333;
-	font-weight                      : normal;
-	padding                          : 8px;
-	text-align                       : center;
-}
-
-#part-center-about table tbody tr td
-{
-	background-image                 : url("./image/bg_tbody.gif");
-	background-position              : left bottom;
-	background-repeat                : no-repeat;
-	padding                          : 8px;
-	text-align                       : center;
-	/*vertical-align                   : top;*/
-}
-
-#part-center-about table tbody tr td.selection
-{
-	background-position              : right bottom;
-}
-
-#part-center-about .section .container table tbody tr td.name,
-#part-center-about .section .container table tbody tr td.id
-{
-	width                            : 130px;
-}
-
-#maintainer-container
-{
-	position                         : absolute;
-	right                            : 5px;
-	top                              : 0;
-}
-
-#internationalization-container
-{
-	position                         : absolute;
-	right                            : 5px;
-	top                              : 120px;
-}
-
-#support-container
-{
-	position                         : absolute;
-	right                            : 5px;
-	top                              : 330px;
-}
-
-#maintainer-container table,
-#internationalization-container table,
-#support-container table
-{
-	width                            : 320px;
-}
-
-#maintainer-container table tr td.id a,
-#developer-container table tr td.id a,
-#internationalization-container table tr td.id a,
-#support-container table tr td.id a
-{
-	font-weight                      : bold;
-
-}
-
-#developer-container table tr td.id span,
-#internationalization-container table tr td.id span
-{
-	font-weight                      : bold;
-}
-
-#developer-description .container h4
-{
-	color                            : #000000;
-	font-family                      : Arial, Tahoma, "Lucida Grande", Verdana, sans-serif;
-	font-size                        : 1.2em;
-	font-weight                      : normal;
-	margin                           : 50px 0 3px 15px;
-}
-
-#developer-description .container table tbody tr td
-{
-	background-position              : right bottom;
-	padding-left                     : 20px;
-	text-align                       : left;
-}
-
-#developer-container table
-{
-	width                            : 610px;
-}
-
-#supporter-description h3
-{
-	background-color                 : #D2D2CC;
-	background-image                 : url("./image/bg_title_left.gif");
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	clear                            : both;
-	color                            : #000000;
-	display                          : block !important;
-	height                           : 2.5em;
-	font-size                        : 1em;
-	font-weight                      : normal;
-	line-height                      : 2.8em;
-	margin                           : 30px 0 10px 0;
-	overflow                         : hidden;
-	padding                          : 0 0 0 35px;
-	text-align: left;
-	width: 96%;
-}
-
-#supporter-description h3 span
-{
-	background-color                 : #D2D2CC;
-	background-image                 : url("./image/bg_title_right.gif");
-	background-position              : right top;
-	background-repeat                : no-repeat;
-	display                          : block;
-	height                           : 2.5em;
-	line-height                      : 2.7em;
-}
-
-#supporter-description .container
-{
-	margin-left                      : 10px;
-}
-
-#supporter-description .container h4
-{
-	color                            : #000000;
-	font-family                      : Arial, Tahoma, "Lucida Grande", Verdana, sans-serif;
-	font-size                        : 1.2em;
-	font-weight                      : normal;
-	margin                           : 20px 0 3px 10px;
-}
-
-#supporter-description .container p
-{
-	margin                           : 10px 0 10px 10px;
-}
-
 /* Metapage ***************************************************************************************/
 
 #part-metapage-order
@@ -1233,6 +640,238 @@
 	padding-top                      : 5px !important;
 }
 
+#independent-meta-line
+{
+	margin: -36px 10px 0 0;
+}
+
+#independent-meta-line dt
+{
+	display: none;
+}
+#independent-meta-line dd
+{
+	text-align                       : right;
+}
+
+/* Credit ****************************************************************************************/
+
+#part-center-about
+{
+	position                         : relative;
+}
+
+
+#part-center-about
+{
+	background-image                 : url("./image/logo_textcube_full.png");
+	background-position              : 30px 70px;
+	background-repeat                : no-repeat;
+}
+
+#part-center-about h3
+{
+	font-family                      : Tahoma, "Lucida Grande", Verdana, sans-serif;
+	padding-top                      : 55px;
+	margin                           : 30px 0 5px 245px;
+	text-align                       : center;
+	width                            : 350px;
+}
+
+#part-center-about .main-explain-box p
+{
+	margin-left                      : 240px;
+	padding                          : 0;
+	text-align                       : right;
+	width                            : 360px;
+}
+
+#part-center-about .main-explain-box p em
+{
+	border                           : 1px solid #DDDDDD;
+	display                          : block;
+	margin-top                       : 20px;
+	padding                          : 5px;
+	text-align                       : center;
+	width                            : 350px;
+}
+
+#developer-description
+{
+	margin-left                      : 10px;
+}
+
+#part-center-about .section h3
+{
+	display                          : none;
+}
+
+#part-center-about table
+{
+	border-top                       : 1px solid #D2D2CC;
+}
+
+#part-center-about table thead tr
+{
+	background-color                 : #F3F3F1;
+	background-image                 : url("./image/bg_thead.png");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+}
+
+#part-center-about table thead tr th
+{
+	color                            : #333333;
+	font-weight                      : normal;
+	padding                          : 8px;
+	text-align                       : center;
+}
+
+#part-center-about table tbody tr td
+{
+	background-image                 : url("./image/bg_tbody.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	padding                          : 8px;
+	text-align                       : center;
+	/*vertical-align                   : top;*/
+}
+
+#part-center-about table tbody tr td.selection
+{
+	background-position              : right bottom;
+}
+
+#part-center-about .section .container table tbody tr td.name,
+#part-center-about .section .container table tbody tr td.id
+{
+	width                            : 130px;
+}
+
+#part-center-about .section .container h4
+{
+	margin-top                       : 0;
+}
+
+#maintainer-container
+{
+	position                         : absolute;
+	right                            : 5px;
+	top                              : 60px;
+}
+
+#internationalization-container
+{
+	position                         : absolute;
+	right                            : 5px;
+	top                              : 200px;
+}
+
+#support-container
+{
+	position                         : absolute;
+	right                            : 5px;
+	top                              : 430px;
+}
+
+#maintainer-container table,
+#internationalization-container table,
+#support-container table
+{
+	width                            : 320px;
+}
+
+#maintainer-container table tr td.id a,
+#developer-container table tr td.id a,
+#internationalization-container table tr td.id a,
+#support-container table tr td.id a
+{
+	font-weight                      : bold;
+
+}
+
+#developer-container table tr td.id span,
+#internationalization-container table tr td.id span
+{
+	font-weight                      : bold;
+}
+
+#developer-description
+{
+	margin-top                       : 99px;
+}
+
+#developer-description .container h4
+{
+	color                            : #000000;
+	font-family                      : Arial, Tahoma, "Lucida Grande", Verdana, sans-serif;
+	font-size                        : 1.2em;
+	font-weight                      : normal;
+	margin                           : 0 0 3px 15px;
+}
+
+#developer-description .container table tbody tr td
+{
+	background-position              : right bottom;
+	padding-left                     : 20px;
+	text-align                       : left;
+}
+
+#developer-container table
+{
+	width                            : 610px;
+}
+
+#supporter-description h3
+{
+	background-color                 : #D2D2CC;
+	background-image                 : url("./image/bg_title_left.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	clear                            : both;
+	color                            : #000000;
+	display                          : block !important;
+	height                           : 2.5em;
+	font-size                        : 1em;
+	font-weight                      : normal;
+	line-height                      : 2.8em;
+	margin                           : 30px 0 10px 0;
+	overflow                         : hidden;
+	padding                          : 0 0 0 35px;
+	text-align: left;
+	width: 96%;
+}
+
+#supporter-description h3 span
+{
+	background-color                 : #D2D2CC;
+	background-image                 : url("./image/bg_title_right.gif");
+	background-position              : right top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 2.5em;
+	line-height                      : 2.7em;
+}
+
+#supporter-description .container
+{
+	margin-left                      : 10px;
+}
+
+#supporter-description .container h4
+{
+	color                            : #000000;
+	font-family                      : Arial, Tahoma, "Lucida Grande", Verdana, sans-serif;
+	font-size                        : 1.2em;
+	font-weight                      : normal;
+	margin                           : 20px 0 3px 10px;
+}
+
+#supporter-description .container p
+{
+	margin                           : 10px 0 10px 10px;
+}
+
 /* classes for AJAX *******************************************************************************/
 
 .ajax-popup-window
@@ -1291,18 +930,4 @@
 .ajax-popup-window .error-string
 {
 	text-align                       : center;
-}
-
-#independent-meta-line
-{
-	margin: -36px 10px 0 0;
-}
-
-#independent-meta-line dt
-{
-	display: none;
-}
-#independent-meta-line dd
-{
-	text-align                       : right;
 }
