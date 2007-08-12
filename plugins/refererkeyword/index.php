@@ -93,19 +93,20 @@ for ($i=0; $i<sizeof($refereres); $i++) {
 $referredstart = array_key_exists('referred', $record) ? $record['referred'] : '';
 ?>
 				 		<div id="part-statistics-visitor" class="part">
-					 			<h2 class="caption"><span class="main-text"><?php echo _t('키워드 통계')." (".Timestamp::formatDate($referredstart)." ~ ".Timestamp::formatDate($referredend)." )";?></span></h2>
-					 			
-						 		<div id="statistics-counter-inbox" class="data-inbox">
-									<div class="title">
-										<span class="label"><span class="text"><?php echo _t('총 키워드 개수');?></span></span>
-										<span class="divider"> : </span>
-										<span id="total"><?php echo count($keywordlist);?></span>
-									</div>
+					 		<h2 class="caption"><span class="main-text"><?php echo _t('키워드 통계')." (".Timestamp::formatDate($referredstart)." ~ ".Timestamp::formatDate($referredend)." )";?></span></h2>
+					 		
+							<div id="statistics-counter-inbox" class="data-inbox">
+								<div class="title">
+									<span class="label"><span class="text"><?php echo _t('총 키워드 개수');?></span></span>
+									<span class="divider"> : </span>
+									<span id="total"><?php echo count($keywordlist);?></span>
 								</div>
-
-							</div>
-								<hr class="hidden" />
-							<div id="part-statistics-log" class="part">
+							</div>	
+						</div>
+						
+						<hr class="hidden" />
+						
+						<div id="part-statistics-log" class="part">
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
 									<tr>
@@ -145,6 +146,8 @@ for ($i=0; $i<sizeof($keywordlist); $i++) {
 								</tbody>
 							</table>
 						</div>
+						
+						<div class="clear"></div>
 
 <?php
 }
