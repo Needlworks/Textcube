@@ -745,7 +745,7 @@ h4
 	padding: 0 1em 0;
 }
 
-.list span
+.list span.command
 {
 	float: left;
 	display: block;
@@ -794,13 +794,6 @@ h4
 	border: 0 none;
 	border-top: 1px solid #f0f0e6;
 	background-color: #faf9f8;
-}
-
-.list ol li ol li strong a:before
-{
-	content: "re:";
-	font-weight: normal;
-	color: #999;
 }
 
 .list img
