@@ -137,6 +137,10 @@ if(isset($isKeylog) && $isKeylog) {
 	dressInsertBefore('list', $entriesView, $view);
 	$isKeylog = false;
 } else {
-	dress('article_rep', $entriesView, $view);
+	if (isset($cache->contents)) {
+		dressInsertBefore('article_rep', $entriesView, $view);
+	}else{
+		dress('article_rep', $entriesView, $view);
+	}
 }
 ?>

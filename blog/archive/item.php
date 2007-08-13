@@ -14,8 +14,8 @@ if ($skinSetting['showListOnArchive'] != 0) {
 	$paging = $listWithPaging[1];
 }
 $entries = array();
-if ($skinSetting['showListOnCategory'] != 2)
-	list($entries, $paging) = getEntriesWithPagingByPeriod($blogid, $period, $suri['page'], ($skinSetting['showListOnCategory'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList'] ));
+if ($skinSetting['showListOnArchive'] != 2)
+	list($entries, $paging) = getEntriesWithPagingByPeriod($blogid, $period, $suri['page'], ($skinSetting['showListOnArchive'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList'] ));
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/list.php';
 require ROOT . '/lib/piece/blog/entries.php';
