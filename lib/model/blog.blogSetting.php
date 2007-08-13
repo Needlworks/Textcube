@@ -353,6 +353,9 @@ function addBlog($blogid, $userid, $identify) {
 			deleteBlog($blogid);
 			return 62;
 		}
+		
+		setBlogSetting('defaultEditor', 'modern', $blogid);
+		setBlogSetting('defaultFormatter', 'ttml', $blogid);
 
 		//Combine user and blog.
 		if(DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog` 

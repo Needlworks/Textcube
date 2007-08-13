@@ -237,6 +237,7 @@ if( Acl::check('group.owners')) {?>
 									</thead>
 									<tbody>
 <?php
+	$blogid = getBlogId();
 	$teamblog_user = DBQuery::queryAll("SELECT t.*, u.loginid, u.password, u.name, u.created
 		FROM {$database['prefix']}Teamblog t, 
 		 	{$database['prefix']}Users u 
