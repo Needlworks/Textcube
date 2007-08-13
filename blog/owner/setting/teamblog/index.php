@@ -323,7 +323,7 @@ if( Acl::check('group.owners')) {
 										<dd id="letter">
 											<div id="letter-head">
 												<div id="receiver-line" class="line">
-													<label for="invitation_receiver"><?phpecho _t('받는 사람'); ?></label>
+													<label for="invitation_receiver"><?php echo _t('받는 사람'); ?></label>
 													<input type="text" id="invitation_receiver" class="input-text" name="text" value="<?php	echo _t('이름&lt;이메일&gt; 혹은 이메일');?>" onclick="if(!this.selected) this.select();this.selected=true;" onblur="this.selected=false;" onkeydown="refreshReceiver(event)" />
 												</div>
 											</div>
