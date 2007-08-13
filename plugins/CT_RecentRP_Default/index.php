@@ -56,11 +56,11 @@ function _getRecentCommentsView($comments, $template) {
 		$view = "$template";
 		misc::dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
 		
-		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 30));
+		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), 30));
 		misc::dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
-		misc::dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 30)), $view);
+		misc::dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), 30)), $view);
 		misc::dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format3($comment['written'])), $view);
-		misc::dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm($comment['name'],10)).$comment['secret'].$comment['replier'], $view);
+		misc::dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['name']),10)).$comment['secret'].$comment['replier'], $view);
 		print $view;
 	}
 	$view = ob_get_contents();
