@@ -182,11 +182,11 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="role"><?php echo _t('Notice moderator (English)');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://lunamoth.biz">Namsoo Ryu</a></td>
+												<td class="name"><a href="http://lunamoth.biz">lunamoth</a></td>
 												<td class="role"><?php echo _t('Online manual');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://bringbring.net">Jaepil Ko</a></td>
+												<td class="name"><a href="http://bringbring.net">Jaepil Koh</a></td>
 												<td class="role"><?php echo _t('TatterCamp moderator');?></td>
 											</tr>
 										</tbody>
