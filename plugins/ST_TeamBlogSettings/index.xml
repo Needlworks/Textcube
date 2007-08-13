@@ -22,7 +22,7 @@
 	<listener event="/plugin/teamFileUpload/">getImageFileUpload</listener>
 	<listener event="/plugin/teamBlogStyle/">getTeamBlogStyleSet</listener>
 	<config dataValHandler = "getTeamBlog_DataSet" >
-		<window width="500" height="525" />
+		<window width="500" height="550" />
 		<fieldset legend="Writer profile" >
 			<field title="적용 항목 :" name="postCheck" type="checkbox"  >
 				<op name="p1" value="1" checked="checked"><![CDATA[본문&nbsp;(]]></op>
@@ -31,6 +31,10 @@
 			</field>
 			<field title="사진 크기 :" name="imageSize" type="text" size="5" value="80" />
 			<field title="테두리 색 :" name="lineColor" type="text" size="10" value="#e3e3e3" />
+			<field title="CSS 적용 :" name="cssSelect" type="radio"  >
+				<op value="1" checked="checked">적용</op>
+				<op value="2">미적용</op>
+			</field>
 		</fieldset>
 		<fieldset legend="Post profile HTML">
 			<field title="# Hearder" name="postHeader" cols="52" rows="1"  type="textarea" titledirection="bk" ><![CDATA[<fieldset><legend>Writer profile</legend>]]></field>

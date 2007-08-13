@@ -8,6 +8,7 @@ function getTeamBlogInitConfigVal( &$data ){
 	$data['imageSize']	= !isset($data['imageSize'])?80:$data['imageSize'];
 	$data['imagePosition']	= !isset($data['imagePosition'])?'left':$data['imagePosition'];
 	$data['lineColor']	= !isset($data['lineColor'])?'#e3e3e3':$data['lineColor'];
+	$data['cssSelect']	= !isset($data['cssSelect'])?1:$data['cssSelect'];
 }
 
 function getTeamAuthorStyle($target, $mother){
@@ -59,21 +60,23 @@ function getTeamProfile($userid){
 	$data = misc::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
 	$row = DBQuery::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." and userid=".$userid);
-	$imageSrc = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];
-	$imageStyle = $imageTag = '';
-	if($row['image']){
+	$imageStyle = $imageTag = $html = '';
+	if(!empty($row['image'])){
+		$imageSrc = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];
 		$imageTag = "<img src=\"".$imageSrc."\" alt=\"author image\" align=\"top\" />";
 		$imageStyle = "style=\"width:".($data['imageSize']+6)."px; margin-right:10px;\"";
 	}
-	$profile = nl2br(addLinkSense(htmlspecialchars($row['profile']), ' onclick="return openLinkInNewWindow(this)"'));
-	$html  = "<div class=\"teamProfile\">";
-	$html .= $data['postHeader'];
-	$html .= "<div class=\"teamMain\">";
-	$html .= "<div class=\"teamImage\" {$imageStyle}>".$imageTag."</div>";
-	$html .= "<div class=\"teamDesc\">".$profile."</div>";
-	$html .= "</div>";
-	$html .= $data['postFooter'];
-	$html .= "</div>";
+	if(!empty($row['image']) || !empty($row['profile'])){
+		$profile = nl2br(addLinkSense(htmlspecialchars($row['profile']), ' onclick="return openLinkInNewWindow(this)"'));
+		$html  = "<div class=\"teamProfile\">";
+		$html .= $data['postHeader'];
+		$html .= "<div class=\"teamMain\">";
+		$html .= "<div class=\"teamImage\" {$imageStyle}>".$imageTag."</div>";
+		$html .= "<div class=\"teamDesc\">".$profile."</div>";
+		$html .= "</div>";
+		$html .= $data['postFooter'];
+		$html .= "</div>";
+	}
 	return $html;
 }
 
@@ -350,8 +353,13 @@ function getDeleteAttachment($filename){
 }
 
 function getTeamBlogStyle($target) {
-	global $blogURL;
-	$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"{$blogURL}/plugin/teamBlogStyle/\" />".CRLF;
+	global $blogURL, $configVal;
+	requireComponent('Textcube.Function.misc');
+	$data = misc::fetchConfigVal($configVal);
+	getTeamBlogInitConfigVal($data);
+	if($data['cssSelect'] == 1){
+		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"{$blogURL}/plugin/teamBlogStyle/\" />".CRLF;
+	}
 	return $target;
 }
 
