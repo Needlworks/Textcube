@@ -15,7 +15,7 @@ html
 body
 {
 	background: url('./images/bg_bodyTop.gif') 50% top repeat-x;
-	font: 1.2em/1.7 Helvetica, AppleGothic, Gulim, '굴림', Sans-serif;
+	font: 1.2em/1.7 AppleGothic, Gulim, '굴림', Helvetica, sans-serif;
 	color: #666;
 	padding-top: 30px;
 }
@@ -70,7 +70,7 @@ dfn, em, cite, address
 
 h1
 {
-	font: normal 2.3em arial, 'Trebuchet MS', Verdana, Sans-Serif;
+	font: normal 2.3em arial, 'Trebuchet MS', Verdana, sans-serif;
 }
 
 h1 a:link, h1 a:visited
@@ -105,7 +105,7 @@ h2 a:hover, h2 a:active
 
 h3
 {
-	font: bold 1.2em/1.5 Arial, Helvetica, Sans-Serif;
+	font: bold 1.2em/1.5 Arial, Helvetica, sans-serif;
 	background-color: #faf9f8;
 	border-bottom: 1px solid #eee;
 	color: #accb53;
@@ -244,6 +244,12 @@ h4
 
 /*-------------------------------*/
 
+#author span::before
+{
+	content: url('./images/bullet_star.gif');
+	margin-right: .4em;
+}
+
 #author li
 {
 	display: inline;
@@ -340,7 +346,7 @@ h4
 .subject li
 {
 	display: inline;
-	font: .9em/2 'Trebuchet MS', Helvetica, Sans-Serif;
+	font: .9em/2 'Trebuchet MS', Helvetica, sans-serif;
 	color: #999;
 }
 
@@ -361,7 +367,7 @@ h4
 
 .subject li a
 {
-	font-family: Dotum, '돋움', Helvetica, AppleGothic, Sans-Serif;
+	font-family: AppleGothic, Dotum, '돋움', Helvetica, sans-serif;
 }
 
 .subject p
@@ -369,7 +375,7 @@ h4
 	padding: .3em 10px .3em 20px;
 	background: #faf9f8 url('./images/bullet_info.gif') no-repeat 0 50%;
 	border-bottom: 1px solid #e8e8e8;
-	font: .9em 'Trebuchet MS', Helvetica, Sans-Serif;
+	font: .9em 'Trebuchet MS', Helvetica, sans-serif;
 	color: #999;
 }
 
@@ -449,7 +455,7 @@ h4
 .subject .admin li
 {
 	padding-right: .5em;
-	font-family: Dotum, '돋움', AppleGothic, Sans-Serif;
+	font-family: AppleGothic, Dotum, '돋움', sans-serif;
 }
 
 .subject .admin li:after
@@ -638,7 +644,7 @@ h4
 {
 	background: url('./images/bullet_uri.gif') no-repeat 5px 50%;
 	padding-left: 20px;
-	font: 0.9em 'Trebuchet MS', Helvetica, Sans-Serif;
+	font: 0.9em 'Trebuchet MS', Helvetica, sans-serif;
 }
 
 /* Trackback list */
@@ -668,7 +674,7 @@ h4
 
 .trackback li span
 {
-	font: .9em 'Franklin Gothic Medium', Helvetica, Sans-Serif;
+	font: .9em 'Franklin Gothic Medium', Helvetica, sans-serif;
 	color: #999;
 }
 
@@ -690,7 +696,7 @@ h4
 
 .trackback cite
 {
-	font-family: Dotum, '돋움', Helvetica, AppleGothic, Sans-Serif;
+	font-family: AppleGothic, Dotum, '돋움', Helvetica, sans-serif;
 }
 
 /*-------------------------------*/
@@ -750,7 +756,7 @@ h4
 	float: left;
 	display: block;
 	margin-bottom: 1em;
-	font: .9em 'Franklin Gothic Medium', Helvetica, Sans-Serif;
+	font: .9em 'Franklin Gothic Medium', Helvetica, sans-serif;
 	color: #999;
 }
 
@@ -836,7 +842,7 @@ fieldset
 
 legend
 {
-	font: 1.3em 'Franklin Gothic Medium', Helvetica, Sans-Serif;
+	font: 1.3em 'Franklin Gothic Medium', Helvetica, sans-serif;
 	color: #999;
 }
 
@@ -850,7 +856,7 @@ label
 {
 	padding-left: .2em;
 	vertical-align: middle;
-	font: 1em 'Franklin Gothic Medium', Helvetica, Sans-Serif;
+	font: 1em 'Franklin Gothic Medium', Helvetica, sans-serif;
 }
 
 label em
@@ -864,7 +870,7 @@ input
 	padding: 2px .5em;
 	background-color: #faf9f8;
 	border: 1px solid #ddd;
-	font: 1em AppleGothic, Gulim, '굴림', Sans-Serif;
+	font: 1em AppleGothic, Gulim, '굴림', sans-serif;
 	vertical-align: middle;
 	color: #666;
 }
@@ -876,7 +882,7 @@ textarea
 	padding: 2px .5em;
 	background-color: #faf9f8;
 	border: 1px solid #ddd;
-	font: 1em AppleGothic, Dotum, '돋움', Sans-Serif;
+	font: 1em AppleGothic, Dotum, '돋움', sans-serif;
 	color: #666;
 }
 
@@ -1025,7 +1031,7 @@ input:focus, textarea:focus
 .paging
 {
 	margin: 4.5em 0 6em;
-	font: 0.9em 'Trebuchet MS', Helvetica, Sans-Serif;
+	font: 0.9em 'Trebuchet MS', Helvetica, sans-serif;
 	text-align: center;
 	color: #ccc;
 }
@@ -1135,7 +1141,7 @@ input:focus, textarea:focus
 
 #category
 {
-	font: .9em/2 AppleGothic, Dotum, '돋움', Sans-Serif;
+	font: .9em/2 AppleGothic, Dotum, '돋움', sans-serif;
 }
 
 #category ul
@@ -1199,6 +1205,11 @@ input:focus, textarea:focus
 	background: url('./images/bg_tree.gif') no-repeat 22px 45%;
 }
 
+#category ul li ul li ul li:last-child a
+{
+	background: url('./images/bg_treeEnd.gif') no-repeat 22px 45%;
+}
+
 /* selected */
 
 #category .selected
@@ -1228,7 +1239,7 @@ input:focus, textarea:focus
 
 .recent li
 {
-	font: 0.9em/1.5 AppleGothic, Dotum, '돋움', Sans-Serif;
+	font: 0.9em/1.5 AppleGothic, Dotum, '돋움', sans-serif;
 	letter-spacing: -1px;
 	border-bottom: 1px solid #eee;
 }
@@ -1278,18 +1289,18 @@ input:focus, textarea:focus
 {
 	margin-top: .8em;
 	text-align: left;
-	font: .8em Arial, Helvetica, Sans-Serif;
+	font: .8em Arial, Helvetica, sans-serif;
 }
 
 #calendar th
 {
 	height: 1.2em;
-	font: normal .9em AppleGothic, Dotum, '돋움', Sans-Serif !important;
+	font: normal .9em AppleGothic, Dotum, '돋움', sans-serif !important;
 }
 
 #calendar tr.cal_week
 {
-	font: .8em/2 'Trebuchet MS', Helvetica, Sans-Serif !important;
+	font: .8em/2 'Trebuchet MS', Helvetica, sans-serif !important;
 }
 
 #calendar td.cal_day4
@@ -1326,7 +1337,7 @@ input:focus, textarea:focus
 #counter dl
 {
 	margin-top: 1em;
-	font: .9em 'Trebuchet MS', Helvetica, Sans-Serif;
+	font: .9em 'Trebuchet MS', Helvetica, sans-serif;
 }
 
 #counter dt
@@ -1342,7 +1353,7 @@ input:focus, textarea:focus
 	background: url('./images/btn_rss.gif') left 50% no-repeat;
 	margin-top: 10px;
 	padding: .1em 0 .1em 20px;
-	font: 0.9em/4 Tahoma, Helvetica, Sans-Serif;
+	font: 0.9em/4 Tahoma, Helvetica, sans-serif;
 	color: #999;
 }
 
@@ -1356,7 +1367,7 @@ input:focus, textarea:focus
 	border-top: 1px solid #d7d7cc;
 	border-left: 1px solid #d7d7cc;
 	background-color: #f6f6f4;
-	font: 1em AppleGothic, Dotum, '돋움', Sans-Serif;
+	font: 1em AppleGothic, Dotum, '돋움', sans-serif;
 	vertical-align: middle;
 	color: #333;
 }
@@ -1392,7 +1403,7 @@ input:focus, textarea:focus
 	right: -5px;
 	padding: 2em 5px 0 0;
 	background: url('./images/bg_footerRight.gif') no-repeat 100% 0;
-	font: small-caps 1em 'Trebuchet MS', Helvetica, Sans-Serif;
+	font: small-caps 1em 'Trebuchet MS', Helvetica, sans-serif;
 	text-align: center;
 	color: #fff;
 }
