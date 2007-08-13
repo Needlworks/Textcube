@@ -133,25 +133,7 @@ function MT_Meta_getAttachmentExtract($content){
 
 function MT_Meta_getRecentEntryStyle($target){
 	global $pluginURL;
-	ob_start();
-?>
-<style type="text/css">
-	.metapage .metapost {clear:both; border-bottom:1px solid #ddd; margin:10px 0;}
-	.metapage .metapost h2{ font-size: 120%; padding-right:5px; } 
-	.metapage .metapost h2 a{letter-spacing:-1px;line-height:125%;}
-	.metapage .metapost .img_preview{ float:left; margin:0 7px 7px 0;width:80px; height:80px;border:1px solid #ccc;overflow:hidden;text-align:center;background-color:#fff;}
-	.metapage .metapost .img_preview img { width:80px; height:80px; cursor:pointer;}
-	.metapage .metapost .post_info {}
-	.metapage .metapost .post_info .category a   { font:1em Dotum, Arial, sans-serif;  color:#888;  margin-right:6px;}
-	.metapage .metapost .post_info .date         { font:0.9em Verdana, Helvetica, Arial, Gulim, sans-serif;  color:#888;}
-	.metapage .metapost .post_content { margin:5px 0;line-height:125%;overflow:hidden;}
-	.metapage .metapost .post_tags {padding:5px 5px 5px 40px;  background:url(<?php echo $pluginURL;?>/images/entryTag.gif) center left no-repeat; clear:both;}
-	.metapage .metapost .post_tags span {display:none;}
-	.metapage .clear {clear:both;}
-</style>
-<?php
-	$target .= ob_get_contents();
-	ob_end_clean();
+	$target .= '<link rel="stylesheet" media="screen" type="text/css" href="' . $pluginURL . '/style.css" />' . CRLF;
 	return $target;
 }
 ?>
