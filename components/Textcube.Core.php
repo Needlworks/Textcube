@@ -77,8 +77,8 @@ class User {
 		else
 			$path = str_replace("/".$blog['name'], "", $_SERVER["REQUEST_URI"]);
 	
-		$blogn = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?blogid='+this.value+'&path={$path}'\">";
-	
+		$blogn = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?blogid='+this.value+'&amp;path={$path}'\">";
+		
 		if( Acl::check('group.owners') ) {
 			$myblogsel = '';
 			if($blogid == getUserId()) $myblogsel = ' selected="selected"';
