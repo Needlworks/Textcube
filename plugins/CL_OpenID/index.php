@@ -1124,28 +1124,33 @@ function openid_manage()
 		}
 	}
 	</script>
-	<h2 class="caption"><span class="main-text"><?php echo _text('댓글/방명록 설정')?></span></h2>
-	<table class="data-inbox" cellspacing="0" cellpadding="0">
-		<tbody>
-		<tr class="site">
-		<td><span class="text">
-		<input id="openidonlycomment" type="checkbox" name="openidonlycomment" <?php echo $mode?>
-			onclick="toggle_openid_only();"
-		/>
-		<label for="openidonlycomment">체크할 경우, 오픈아이디 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다.</label>
-		</span></td>
-		</tr>
-		</tbody>
-	</table>
-	<h2 class="caption"><span class="main-text"><?php echo _text('블로그 주소를 오픈아이디로 사용')?></span></h2>
-	<table class="data-inbox" cellspacing="0" cellpadding="0">
-		<tbody>
-		<tr class="site">
-		<td>
+	
+	<div id="part-openid-comment" class="part">
+		<h2 class="caption"><span class="main-text"><?php echo _text('댓글/방명록 설정')?></span></h2>
+		<table class="data-inbox" cellspacing="0" cellpadding="0">
+			<tbody>
+			<tr class="site">
+			<td><span class="text">
+			<input id="openidonlycomment" type="checkbox" name="openidonlycomment" <?php echo $mode?>
+				onclick="toggle_openid_only();"
+			/>
+			<label for="openidonlycomment">체크할 경우, 오픈아이디 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다.</label>
+			</span></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div id="part-openid-blogaddress" class="part">
+		<h2 class="caption"><span class="main-text"><?php echo _text('블로그 주소를 오픈아이디로 사용')?></span></h2>
+		<table class="data-inbox" cellspacing="0" cellpadding="0">
+			<tbody>
+				<tr class="site">
+					<td>
 <?php
 		$currentDelegate = misc::getBlogSettingGlobal( 'OpenIDDelegate', 'HIHI' );
 ?>
-		<select id="openid_for_delegation">
+						<select id="openid_for_delegation">
 <?php
 		print "<option value='' >" . _text('블로그 주소를 오픈아이디로 사용하지 않음');
 		foreach( $openid_list as $openid ) {
@@ -1156,29 +1161,34 @@ function openid_manage()
 			print "<option value='$openid' $selected>" . $openid;
 		}
 ?>
-		</select>
-		<input type="button" onclick="setDelegate(); return false" value="<?php echo _text('확인') ?>" class="save-button input-button"/>
-		</td>
-		</tr>
-		<td><span class="text">
-		<?php echo sprintf( _text('블로그 주소(%s)를 관리자로 등록된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.'), "$hostURL$blogURL"); ?>
-		(<a href="<?php echo $blogURL?>/owner/setting/account"><?php echo _text('관리자 계정에 추가하기')?></a>)
-		</span></td>
-		</tr>
-		</tbody>
-	</table>
-	<h2 class="caption"><span class="main-text"><?php echo _text('오픈아이디 사용현황')?></span></h2>
+						</select>
+						<input type="button" onclick="setDelegate(); return false" value="<?php echo _text('확인') ?>" class="save-button input-button"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="text"><?php echo sprintf( _text('블로그 주소(%s)를 관리자로 등록된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.'), "$hostURL$blogURL"); ?>
+						(<a href="<?php echo $blogURL?>/owner/setting/account"><?php echo _text('관리자 계정에 추가하기')?></a>)
+						</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 	
-	<table class="data-inbox" cellspacing="0" cellpadding="0">
-		<thead>
-			<tr>
-				<th class="site"><span class="text"><a href="<?php echo $menu1?>"><?php echo _text('오픈아이디 주소(이름)')?></a></span></th>
-				<th class="site"><span class="text"><a href="<?php echo $menu2?>"><?php echo _text('위임주소')?></a></span></th>
-				<th class="site"><span class="text"><a href="<?php echo $menu3?>"><?php echo _text('로그인 회수')?></a></span></th>
-				<th class="site"><span class="text"><a href="<?php echo $menu4?>"><?php echo _text('마지막 로그인')?></a></span></th>
-			</tr>
-		</thead>
-		<tbody>
+	<div class="part">
+		<h2 class="caption"><span class="main-text"><?php echo _text('오픈아이디 사용현황')?></span></h2>
+	
+		<table class="data-inbox" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<th class="site"><span class="text"><a href="<?php echo $menu1?>"><?php echo _text('오픈아이디 주소(이름)')?></a></span></th>
+					<th class="site"><span class="text"><a href="<?php echo $menu2?>"><?php echo _text('위임주소')?></a></span></th>
+					<th class="site"><span class="text"><a href="<?php echo $menu3?>"><?php echo _text('로그인 회수')?></a></span></th>
+					<th class="site"><span class="text"><a href="<?php echo $menu4?>"><?php echo _text('마지막 로그인')?></a></span></th>
+				</tr>
+			</thead>
+			<tbody>
 <?php
 $sql="select * from {$database['prefix']}OpenIDUsers $order";
 $rec = DBQuery::queryAll( $sql );
@@ -1190,17 +1200,18 @@ $nickname = "({$data['nickname']})";
 $className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 $className .= ($i == sizeof($rec) - 1) ? ' last-line' : '';
 ?>
-			<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-				<td><?php echo "{$record['openid']} {$nickname}";?></td>
-				<td><?php echo $record['delegatedid'];?></td>
-				<td><?php echo $record['loginCount'];?></td>
-				<td><?php echo Timestamp::format5($record['lastLogin']);?></td>
-			</tr>
+				<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+					<td><?php echo "{$record['openid']} {$nickname}";?></td>
+					<td><?php echo $record['delegatedid'];?></td>
+					<td><?php echo $record['loginCount'];?></td>
+					<td><?php echo Timestamp::format5($record['lastLogin']);?></td>
+				</tr>
 <?php
 }
 ?>
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 <?
 }
 
