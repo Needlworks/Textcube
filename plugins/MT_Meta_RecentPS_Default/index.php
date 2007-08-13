@@ -51,7 +51,7 @@ function MT_Meta_getRecentEntries($parameters){
 				$tagLabelView = "<div class=\"post_tags\"><span>TAG : </span>".implode(",\r\n", array_values($tags))."</div>";
 			}
 			$categoryName = htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['label']);
-			$categoryLink = "{$defaultURL}/" . empty($entry['category']) ? "category/" : "category/".encodeURL($categoryName);
+			$categoryLink = "{$defaultURL}/" . (empty($entry['category']) ? "category/" : "category/".encodeURL($categoryName));
 			$permalink = "{$defaultURL}/" . ($blog['useSlogan'] ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
 	
 			$html .= '<div class="metapost">'.CRLF;
