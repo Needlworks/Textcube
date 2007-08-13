@@ -918,7 +918,7 @@ function getRecentCommentsView($comments, $template) {
 		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), $skinSetting['recentCommentLength']));
 		dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
 		dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format2($comment['written']), $comment['written']), $view);
-		dress('rctrp_rep_name', $comment['name'], $view);
+		dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['name']), $skinSetting['recentCommentLength'])), $view);
 		print $view;
 	}
 	$view = ob_get_contents();
