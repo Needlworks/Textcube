@@ -14,5 +14,5 @@ requireModel("blog.attachment");
 $file = array_pop($_FILES);
 $attachment = getAttachmentByLabel($blogid, $suri['id'], $_GET['name']);
 $result = escapeJSInCData(getPrettyAttachmentLabel($attachment)) . '!^|' . escapeJSInCData(getAttachmentValue($attachment));
-echo 'result=' . trim($result);
+echo 'result=' . base64_encode(trim($result));
 ?>
