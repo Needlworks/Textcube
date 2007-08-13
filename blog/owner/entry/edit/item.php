@@ -675,7 +675,7 @@ if (count($templateLists) == 0) {
 <?php
 		$tags = array();
 		if (!defined('__TEXTCUBE_POST__')) {
-			foreach (getTags($entry['id']) as $tag) {
+			foreach (getTags($entry['blogid'], $entry['id']) as $tag) {
 				array_push($tags, $tag['name']);
 				echo 'oTag.setValue("' . addslashes($tag['name']) . '");';
 			}

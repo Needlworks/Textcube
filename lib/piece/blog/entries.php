@@ -52,7 +52,7 @@ if (isset($cache->contents)) {
 			}
 			dress('rp', "<div id=\"entry{$entry['id']}Comment\" style=\"display:$style\">" . getCommentView($entry['id'], $skin) . "</div>", $entryView);
 			$tagLabelView = $skin->tagLabel;
-			$entryTags = getTags($entry['id']);
+			$entryTags = getTags($entry['blogid'], $entry['id']);
 			if (sizeof($entryTags) > 0) {
 				$tags = array();
 				foreach ($entryTags as $entryTag) {

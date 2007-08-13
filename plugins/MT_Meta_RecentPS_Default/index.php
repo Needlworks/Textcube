@@ -1,6 +1,6 @@
 <?php
 function MT_Meta_getRecentEntries($parameters){
-	global $database,$blogURL,$blog,$defaultURL,$serviceURL;
+	global $database,$blog,$serviceURL;
 	$blogid = getBlogId();
 	requireComponent('Textcube.Core');
 	requireComponent('Needlworks.Cache.PageCache');
@@ -32,7 +32,7 @@ function MT_Meta_getRecentEntries($parameters){
 		return $cache->contents;
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-		$entries = DBQuery::queryAll("SELECT e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, c.label 
+		$entries = DBQuery::queryAll("SELECT e.blogid, e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, c.label 
 			FROM {$database['prefix']}Entries e
 			LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 			WHERE e.draft = 0 $visibility AND e.category >= 0 
@@ -41,17 +41,18 @@ function MT_Meta_getRecentEntries($parameters){
 		$html = '';
 		foreach ($entries as $entry){
 			$tagLabelView = "";
-			$entryTags = getTags($entry['id']);
+			$entryTags = getTags($entry['blogid'], $entry['id']);
+			$defaultURL = getDefaultURL($entry['blogid']);
 			if (sizeof($entryTags) > 0) {
 				$tags = array();
 				foreach ($entryTags as $entryTag) {
-					$tags[$entryTag['name']] = "<a href=\"$defaultURL/tag/" . encodeURL($entryTag['name']) . '"' . ((count($entries) == 1 && getBlogSetting('useRelTag', true)) ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
+					$tags[$entryTag['name']] = "<a href=\"{$defaultURL}/tag/" . encodeURL($entryTag['name']) . '"' . ((count($entries) == 1 && getBlogSetting('useRelTag', true)) ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
 				}
 				$tagLabelView = "<div class=\"post_tags\"><span>TAG : </span>".implode(",\r\n", array_values($tags))."</div>";
 			}
 			$categoryName = htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['label']);
-			$categoryLink = empty($entry['category']) ? "$blogURL/category/" : "$blogURL/category/".encodeURL($categoryName);
-			$permalink = "$blogURL/" . ($blog['useSlogan'] ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
+			$categoryLink = "{$defaultURL}/" . empty($entry['category']) ? "category/" : "category/".encodeURL($categoryName);
+			$permalink = "{$defaultURL}/" . ($blog['useSlogan'] ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
 	
 			$html .= '<div class="metapost">'.CRLF;
 			if($imageName = MT_Meta_getAttachmentExtract($entry['content'])){

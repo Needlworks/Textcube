@@ -9,9 +9,8 @@ function getTagId($blogid, $name) {
 	return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '$name'");
 }
 
-function getTags($entry) {
+function getTags($entry['blogid'], $entry) {
 	global $database;
-	$blogid = getBlogId();
 	$tags = array();
 	if (doesHaveOwnership())
 		$result = DBQuery::query("SELECT * FROM `{$database['prefix']}Tags` t, 
