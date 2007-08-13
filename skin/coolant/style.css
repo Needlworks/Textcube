@@ -52,6 +52,18 @@ hr
 	display: none;
 }
 
+fieldset
+{
+	border: 1px solid #f0f0e6;
+	display: block;
+	padding: 1.2em;
+}
+
+legend
+{
+	color: #999;
+}
+
 p
 {
 	margin-bottom: 1.7em;
@@ -834,37 +846,30 @@ h4
 
 /* Write area */
 
-fieldset
-{
-	padding: 1.2em;
-	border: 1px solid #f0f0e6;
-}
-
-legend
+form legend
 {
 	font: 1.3em 'Franklin Gothic Medium', Helvetica, sans-serif;
-	color: #999;
 }
 
-fieldset div
+form fieldset div
 {
 	margin: .3em 0;
 	width: 435px;
 }
 
-label
+form label
 {
 	padding-left: .2em;
 	vertical-align: middle;
 	font: 1em 'Franklin Gothic Medium', Helvetica, sans-serif;
 }
 
-label em
+form label em
 {
 	color: #999;
 }
 
-input
+form input
 {
 	width: 180px;
 	padding: 2px .5em;
@@ -875,7 +880,7 @@ input
 	color: #666;
 }
 
-textarea
+form textarea
 {
 	width: 435px;
 	height: 12em;
@@ -886,7 +891,7 @@ textarea
 	color: #666;
 }
 
-input:focus, textarea:focus
+form input:focus, textarea:focus
 {
 	background-color: #fff;
 	border-top-color: #aaa;
