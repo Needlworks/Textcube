@@ -5,15 +5,14 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'GET'=>array(
-		'blogid'=>array('int','default'=>''),
-		'path'=>array('string')
+		'blogid'=>array('int','default'=>'')
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 if($_GET['blogid'] == 0 || empty($_GET['blogid'])) $newBlogid = getBlogId();
 else $newBlogid = $_GET['blogid'];
 
-$url = getDefaultURL($newBlogid) . $_GET['path'];
+$url = getDefaultURL($newBlogid) . '/owner/center/dashboard';
 header("location:".$url);
 exit;
 ?>

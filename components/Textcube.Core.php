@@ -85,31 +85,20 @@ class User {
 		else
 			$path = str_replace("/".$blog['name'], "", $_SERVER["REQUEST_URI"]);
 	
-		$blogn = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?blogid='+this.value+'&amp;path={$path}'\">";
+		$changeBlogView = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?blogid='+this.value'\">";
 		
-		if( Acl::check('group.owners') ) {
-			$myblogsel = '';
-			if($blogid == getUserId()) $myblogsel = ' selected="selected"';
-			$blogn .= '<option value="'.$blogid.'" '. $myblogsel .'>'._t('내 블로그').'</option>';
-		}
-	
-		$teamblogInfo = DBQuery::queryAll("SELECT t.blogid, b.value AS title, u.name
+		$teamblogListInfo = DBQuery::queryAll("SELECT t.blogid, b.value AS title
 				FROM {$database['prefix']}Teamblog t 
 				LEFT JOIN {$database['prefix']}BlogSettings b ON b.blogid = t.blogid AND b.name = 'title'
-				LEFT JOIN {$database['prefix']}Users u ON u.userid = t.blogid
 				WHERE t.userid='".getUserId()."'");
-		foreach($teamblogInfo as $teamInfo){
-			if($teamInfo['blogid'] == $blogid && $blogid == getUserId()){
-				continue;
-			} else {
-				$title = empty($teamInfo['title']) ? _f('%1 님의 블로그',$teamInfo['name']) : $teamInfo['title'];
-				$blogn .= '<option value="' . $teamInfo['blogid'] . '"';
-				if($teamInfo['blogid'] == $blogid) $blogn .= ' selected="selected"';
-				$blogn .= '>' . $title . '</option>';
-			}
+		foreach($teamblogListInfo as $info){
+			$title = empty($info['title']) ? _f('%1 님의 블로그',User::getBlogOwnerName($info['blogid'])) : $info['title'];
+			$changeBlogView .= '<option value="' . $info['blogid'] . '"';
+			if($info['blogid'] == $blogid) $changeBlogView .= ' selected="selected"';
+			$changeBlogView .= '>' . $title . '</option>';
 		}
-		$blogn .= '</select>';
-		return $blogn;
+		$changeBlogView .= '</select>';
+		return $changeBlogView;
 	}
 }
 
