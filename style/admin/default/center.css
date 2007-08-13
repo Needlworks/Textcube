@@ -697,6 +697,7 @@
 	display                          : block;
 	margin-top                       : 20px;
 	padding                          : 10px;
+	text-align                       : center;
 }
 
 #part-center-about .main-explain-box p q
