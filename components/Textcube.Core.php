@@ -85,7 +85,7 @@ class User {
 		else
 			$path = str_replace("/".$blog['name'], "", $_SERVER["REQUEST_URI"]);
 	
-		$changeBlogView = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?blogid='+this.value'\">";
+		$changeBlogView = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?blogid='+this.value\">";
 		
 		$teamblogListInfo = DBQuery::queryAll("SELECT t.blogid, b.value AS title
 				FROM {$database['prefix']}Teamblog t 
