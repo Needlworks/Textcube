@@ -40,7 +40,9 @@ function openid_session_destroy()
 	}
 
 	DBQuery::query("DELETE FROM {$database['prefix']}Sessions WHERE id = '$openid_session_id'");
-	setcookie( $openid_session_name, '', time()-3600, $openid_session_path );
+	if( !headers_sent() ) {
+		setcookie( $openid_session_name, '', time()-3600, $openid_session_path );
+	}
 	$openid_session_id = "";
 }
 
@@ -87,7 +89,9 @@ function openid_session_write()
 	$result = DBQuery::query("UPDATE {$database['prefix']}Sessions SET data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() WHERE id = '$openid_session_id' AND address = '" . _openid_ip_address() . "'");
 
 	if ($result && (mysql_affected_rows() == 1)) {
-		@setcookie( $openid_session_name, $openid_session_id, time()+$service['timeout'], $openid_session_path );
+		if( !headers_sent() ) {
+			setcookie( $openid_session_name, $openid_session_id, time()+$service['timeout'], $openid_session_path );
+		}
 		return true;
 	}
 	return false;
@@ -96,13 +100,17 @@ function openid_session_write()
 function openid_setcookie( $key, $value )
 {
 	global $openid_session_path;
-	@setcookie( $key, $value, time()+3600*24*30, $openid_session_path );
+	if( !headers_sent() ) {
+		setcookie( $key, $value, time()+3600*24*30, $openid_session_path );
+	}
 }
 
 function openid_clearcookie( $key )
 {
 	global $openid_session_path;
-	@setcookie( $key, '', time()-3600, $openid_session_path );
+	if( !headers_sent() ) {
+		setcookie( $key, '', time()-3600, $openid_session_path );
+	}
 }
 
 ?>
