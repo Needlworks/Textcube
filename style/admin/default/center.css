@@ -354,6 +354,11 @@
 	margin: -37px 10px 0 0;
 }
 
+#independent-notice-line dd
+{
+	text-align: right;
+}
+
 #independent-notice-line dt, #direct-link-line dt
 {
 	display: none;
@@ -649,6 +654,7 @@
 {
 	display: none;
 }
+
 #independent-meta-line dd
 {
 	text-align                       : right;
