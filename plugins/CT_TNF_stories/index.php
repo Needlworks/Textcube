@@ -53,7 +53,7 @@ function CT_TNF_Stories($target) {
 				$target .= '<li>'.CRLF;
 				$target .= '<a href="' .$item['permalink'].'" onclick="return openLinkInNewWindow(this);" >'.CRLF;
 				$target .= '<span class="date">'.Timestamp::formatDate($item['written']).'</span>'.CRLF;
-				$target .= '<span class="title">'.UTF8::lessenAsEm(htmlspecialchars($item['title']),30).'</span>'.CRLF;
+				$target .= '<span class="title">'.htmlspecialchars(UTF8::lessenAsEm($item['title'],30)).'</span>'.CRLF;
 				$target .= '</a>'.CRLF;
 				$target .= '</li>'.CRLF;
 				if($i>3) break;
