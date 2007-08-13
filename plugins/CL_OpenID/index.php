@@ -623,7 +623,7 @@ function openid_LOGIN_add_form($target, $requestURI)
 					<dt><label for="loginid">' . _text('관리자 계정과 연결된 오픈아이디') . '</label></dt>
 
 					<dd><input type="text" class="input-text" id="openid_identifier" name="openid_identifier" value="' . $cookie_openid . '" maxlength="256" /></dd>
-					<input onfocus="alert(\"hi\");" type="submit" class="openid-login-button" id="openid-login-button" name="openid_login" value="로그인" />
+					<input type="submit" class="openid-login-button" id="openid-login-button" name="openid_login" value="로그인" />
 					<dd id="openid-remember"><input type="checkbox" class="checkbox" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_auto">' . _text('오픈아이디 저장') . '</label></dd>
 					<dd id="openid-help"><a href="' . $openid_help_link . '">' . _text('오픈아이디란?') . '</a> </dd>
 					<dd><a href="' . $openid_signup_link . '">' . _text('오픈아이디 발급하기') . '</a></dd>
