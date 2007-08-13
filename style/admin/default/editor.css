@@ -190,7 +190,7 @@ h3
 {
 	color                            : #000000;
 	display                          : block;
-	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 굴림, Gulim, sans-serif;
+	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 'Apple Gothic', '굴림', Gulim, sans-serif;
 	font-size                        : 1em;
 	font-weight                      : bold;
 	margin                           : 10px 0 5px 0;
@@ -201,7 +201,7 @@ h3
 {
 	border-bottom                    : 1px solid #666666;
 	color                            : #666666;
-	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 굴림, Gulim, sans-serif;
+	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 'Apple Gothic', '굴림', Gulim, sans-serif;
 	font-weight                      : bold;
 	margin                           : 10px 0 3px 0;
 }

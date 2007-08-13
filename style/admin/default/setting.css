@@ -608,7 +608,7 @@ dl dd
 .part .dialog .message-body .explain
 {
 	border-bottom                    : 1px dotted #CCCCCC;
-	font-family                      : 돋움, Dotum, 굴림, Gulim, sans-serif;
+	font-family                      : 'Apple Gothic', '돋움', Dotum, '굴림', Gulim, sans-serif;
 	font-size                        : 90%;
 	padding                          : 5px 5px 3px 5px;
 }
