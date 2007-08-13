@@ -8,6 +8,7 @@ function decorateComment( & $comment )
 	$authorized = doesHaveOwnership();
 	$comment['hidden'] = false;
 	$comment['name'] = htmlspecialchars($comment['name']);
+	$comment['comment'] = htmlspecialchars($comment['comment']);
 	if ($comment['secret'] == 1) {
 		if($authorized) {
 			$comment['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $comment['comment'];
