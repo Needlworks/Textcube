@@ -37,7 +37,15 @@ class User {
 		}
 		return $__gCacheUserNames[$userid] = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
-	
+	/*@static@*/
+	function getBlogOwnerName($blogid) {
+		global $database;
+		$ownerUserId = DBQuery::queryCell("SELECT userid 
+			FROM {$database['prefix']}Teamblog
+			WHERE blogid = $blogid
+				AND acl > 15");
+		return User::getName($ownerUserId);
+	}
 	/*@static@*/
 	function getEmail($userid = null) {
 		global $database;
