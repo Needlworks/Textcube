@@ -15,7 +15,7 @@ html
 body
 {
 	background: url('./images/bg_bodyTop.gif') 50% top repeat-x;
-	font: 1.2em/1.7 Gulim, Helvetica, AppleGothic, Sans-serif;
+	font: 1.2em/1.7 Helvetica, AppleGothic, Gulim, 굴림, Sans-serif;
 	color: #666;
 	padding-top: 30px;
 }
@@ -244,12 +244,6 @@ h4
 
 /*-------------------------------*/
 
-#author span::before
-{
-	content: url('./images/bullet_star.gif');
-	margin-right: .4em;
-}
-
 #author li
 {
 	display: inline;
@@ -367,7 +361,7 @@ h4
 
 .subject li a
 {
-	font-family: Dotum, Helvetica, AppleGothic, Sans-Serif;
+	font-family: Dotum, 돋움, Helvetica, AppleGothic, Sans-Serif;
 }
 
 .subject p
@@ -455,7 +449,7 @@ h4
 .subject .admin li
 {
 	padding-right: .5em;
-	font-family: Dotum, AppleGothic, Sans-Serif;
+	font-family: Dotum, 돋움, AppleGothic, Sans-Serif;
 }
 
 .subject .admin li:after
@@ -696,7 +690,7 @@ h4
 
 .trackback cite
 {
-	font-family: Dotum, Helvetica, AppleGothic, Sans-Serif;
+	font-family: Dotum, 돋움, Helvetica, AppleGothic, Sans-Serif;
 }
 
 /*-------------------------------*/
@@ -877,7 +871,7 @@ input
 	padding: 2px .5em;
 	background-color: #faf9f8;
 	border: 1px solid #ddd;
-	font: 1em Gulim, AppleGothic,Sans-Serif;
+	font: 1em AppleGothic, Gulim, 굴림, Sans-Serif;
 	vertical-align: middle;
 	color: #666;
 }
@@ -889,7 +883,7 @@ textarea
 	padding: 2px .5em;
 	background-color: #faf9f8;
 	border: 1px solid #ddd;
-	font: 1em Dotum, AppleGothic, Sans-Serif;
+	font: 1em AppleGothic, Dotum, 돋움, Sans-Serif;
 	color: #666;
 }
 
@@ -1148,7 +1142,7 @@ input:focus, textarea:focus
 
 #category
 {
-	font: .9em/2 Dotum, AppleGothic, Sans-Serif;
+	font: .9em/2 AppleGothic, Dotum, 돋움, Sans-Serif;
 }
 
 #category ul
@@ -1212,11 +1206,6 @@ input:focus, textarea:focus
 	background: url('./images/bg_tree.gif') no-repeat 22px 45%;
 }
 
-#category ul li ul li ul li:last-child a
-{
-	background: url('./images/bg_treeEnd.gif') no-repeat 22px 45%;
-}
-
 /* selected */
 
 #category .selected
@@ -1246,7 +1235,7 @@ input:focus, textarea:focus
 
 .recent li
 {
-	font: 0.9em/1.5 Dotum, AppleGothic, Sans-Serif;
+	font: 0.9em/1.5 AppleGothic, Dotum, 돋움, Sans-Serif;
 	letter-spacing: -1px;
 	border-bottom: 1px solid #eee;
 }
@@ -1302,7 +1291,7 @@ input:focus, textarea:focus
 #calendar th
 {
 	height: 1.2em;
-	font: normal .9em Dotum, AppleGothic, Sans-Serif !important;
+	font: normal .9em AppleGothic, Dotum, 돋움, Sans-Serif !important;
 }
 
 #calendar tr.cal_week
@@ -1374,7 +1363,7 @@ input:focus, textarea:focus
 	border-top: 1px solid #d7d7cc;
 	border-left: 1px solid #d7d7cc;
 	background-color: #f6f6f4;
-	font: 1em Dotum, AppleGothic, Sans-Serif;
+	font: 1em AppleGothic, Dotum, 돋움, Sans-Serif;
 	vertical-align: middle;
 	color: #333;
 }
