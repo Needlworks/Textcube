@@ -398,26 +398,8 @@ function printEntryFileList($attachments, $param) {
 														}
 													}
 
-													function disablePageManager() {
-														try {
-															entryManager.pageHolder.isHolding = function () {
-																return false;
-															}
-														} catch(e) {
-														}
-														return true;
-													}
-													
 													STD.addEventListener(window);													
 													window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);				
-													
-													function enablePageManager() {
-														try {
-															entryManager.pageHolder.isHolding = entryManager.isContentSaved;
-														} catch(e) {
-														}
-														return true;
-													}
 													
 													function stripLabelToValue(fileLabel) {
 														var pos = fileLabel.lastIndexOf('(');
@@ -450,12 +432,10 @@ function printEntryFileList($attachments, $param) {
 															
 															document.getElementById('uploaderNest').innerHTML = uploaderStr;
 															refreshFileSize();						
-															setTimeout("enablePageManager()", 2000);
 															entryManager.delay     = true;
 															entryManager.nowsaving = false;
 														}
 														request.onError = function() {
-															setTimeout("enablePageManager()", 2000);
 															entryManager.delay     = true;
 															entryManager.nowsaving = false;
 														

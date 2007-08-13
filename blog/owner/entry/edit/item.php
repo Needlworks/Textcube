@@ -147,11 +147,9 @@ if (defined('__TEXTCUBE_POST__')) {
 
 									this.pageHolder = new PageHolder(false, "<?php echo _t('아직 저장되지 않았습니다.');?>");
 
-									this.isContentSaved = function () {
+									this.pageHolder.isHolding = function () {
 										return (entryManager.savedData != entryManager.getData());
 									}
-									
-									this.pageHolder.isHolding = this.isContentSaved;
 									
 									this.getData = function (check) {
 										if (check == undefined)
@@ -404,9 +402,6 @@ if (isset($_GET['popupEditor'])) {
 									this.saveAuto = function () {
 										if(document.getElementById('templateDialog').style.display != 'none') {
 											toggleTemplateDialog();
-										}
-										if(this.nowsaving == false && this.pageHolder.isHolding != this.isContentSaved) {
-											this.pageHolder.isHolding = this.isContentSaved;
 										}
 										document.getElementById("saveButton").value = "<?php echo _t('저장하기');?>";
 										document.getElementById("saveButton").style.color = "#000";
