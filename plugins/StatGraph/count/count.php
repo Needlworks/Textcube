@@ -8,6 +8,10 @@ include ("src/jpgraph.php");
 include ("src/jpgraph_scatter.php");
 include ("src/jpgraph_line.php");
 
+if ((isset($_REQUEST['blogid'])) && is_numeric($_REQUEST['blogid'])) {
+	$blogid = intval($_REQUEST['blogid']);
+}
+
 requireComponent('Eolin.PHP.Core');
 requireComponent('Textcube.Model.Statistics');
 $row = Statistics::getWeeklyStatistics();
