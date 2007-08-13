@@ -1,13 +1,4 @@
 /* basic setting */
-#part-setting-teams
-{
-
-}
-
-#part-setting-teams .data-inbox
-{
-
-}
 
 #part-setting-teams fieldset
 {
@@ -55,10 +46,6 @@
 #part-setting-teams dl dd textarea
 {
 	width                            : 492px;
-}
-*html #part-setting-teams dl dd textarea
-{
-	width                            : 520px;
 }
 
 #part-setting-teams dl dd span
