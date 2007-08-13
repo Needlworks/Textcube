@@ -18,7 +18,7 @@ function _openid_new_session()
 	global $database, $service, $blogURL;
 	global $openid_session_path;
 
-	# OPENID용 세션은 그 ID가 "77XXX..." 형식으로 된다.
+	# OpenID Session Key will be recognized by "77XXX..." format.
 	$openid_session_id = dechex(rand(0x77000000, 0x77FFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
 	$result = DBQuery::query("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$openid_session_id', '" . _openid_ip_address() . "', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 	if ( !headers_sent() && ($result !== false) && (mysql_affected_rows() > 0)) {
