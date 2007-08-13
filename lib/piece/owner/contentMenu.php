@@ -121,7 +121,13 @@ if(isset($blogContentMenuItem)) {
 <?php
 	foreach($blogContentMenuItem as $contentMenuItem) {
 ?>
-						<li id="sub-menu-<?php echo $contentMenuItem['menu'];?>"<?php echo 
+						<li id="sub-menu-<?php 
+	if(strstr($contentMenuItem['menu'], 'adminMenu?name=') !== false) {
+		$pluginMenuValue = explode('/',substr($contentMenuItem['menu'], 15));
+		echo $pluginMenuValue[0];
+	} else {
+		echo $contentMenuItem['menu'];
+	}?>"<?php echo 
 						(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || 
 							(isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) ||
 							($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false)) ? ' class="selected"' : '');?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
