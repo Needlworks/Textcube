@@ -789,15 +789,24 @@
 	top                              : 200px;
 }
 
-#support-container
+#painter-container
 {
 	position                         : absolute;
 	right                            : 5px;
 	top                              : 430px;
 }
 
+
+#support-container
+{
+	position                         : absolute;
+	right                            : 5px;
+	top                              : 600px;
+}
+
 #maintainer-container table,
 #internationalization-container table,
+#painter-container table,
 #support-container table
 {
 	width                            : 320px;
@@ -813,6 +822,7 @@
 }
 
 #developer-container table tr td.id span,
+#painter-container table tr td.id span,
 #internationalization-container table tr td.id span
 {
 	font-weight                      : bold;

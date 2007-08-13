@@ -120,15 +120,46 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="role"><?php echo _t('English');?></td>
 											</tr>
 											<tr>
-												<td class="name">Terry Lee</td>
+												<td class="name">Steve Yum</td>
 												<td class="role"><?php echo _t('English');?></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div id="painter-container" class="container">
+								<h4><span class="text"><?php echo _t('Painter');?></span></h4>
+									
+									<table>
+										<colgroup>
+											<col class="name"></col>
+											<col class="role"></col>
+										</colgroup>
+										<thead>
+											<tr>
+												<th class="name"><?php echo _t('이름');?></th>
+												<th class="role"><?php echo _t('분야');?></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="name"><a href="http://design.funny4u.com">Guihwan Yu</a></td>
+												<td class="role"><?php echo _t('Icon design');?></td>
+											</tr>
+											<tr>
+												<td class="name"><a href="http://1upz.com">Won-eob Cho</a></td>
+												<td class="role"><?php echo _t('Default skin');?></td>
+											</tr>
+											<tr>
+												<td class="name"><a href="http://cyworld.com/madskillz">Hyunsang Hwang</a></td>
+												<td class="role"><?php echo _t('Logo design');?></td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
 								
 								<div id="support-container" class="container">
-									<h4><span class="text"><?php echo _t('Designs and Supports');?></span></h4>
+									<h4><span class="text"><?php echo _t('Supports');?></span></h4>
 									
 									<table>
 										<colgroup>
@@ -144,19 +175,19 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										<tbody>
 											<tr>
 												<td class="name"><a href="http://blog.2pink.net">Shik Yoon</a></td>
-												<td class="role"><?php echo _t('Design / Manual');?></td>
+												<td class="role"><?php echo _t('Site design / Manual');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://design.funny4u.com">Guihwan Yu</a></td>
-												<td class="role"><?php echo _t('Icon design');?></td>
-											</tr>
-											<tr>
-												<td class="name"><a href="http://1upz.com">Won-eob Cho</a></td>
-												<td class="role"><?php echo _t('Default skin');?></td>
+												<td class="name"><a href="http://ilmol.com">Sem Kim</a></td>
+												<td class="role"><?php echo _t('Notice moderator (English)');?></td>
 											</tr>
 											<tr>
 												<td class="name"><a href="http://lunamoth.biz">Namsoo Ryu</a></td>
 												<td class="role"><?php echo _t('Online manual');?></td>
+											</tr>
+											<tr>
+												<td class="name"><a href="http://bringbring.net">Jaepil Ko</a></td>
+												<td class="role"><?php echo _t('TatterCamp moderator');?></td>
 											</tr>
 										</tbody>
 									</table>
