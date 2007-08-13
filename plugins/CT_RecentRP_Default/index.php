@@ -37,9 +37,9 @@ function _getRecentComments($blogid) {
 		while ($comment = mysql_fetch_array($result)) {
 			if ($data['repliesChk'] == 2) {
 				$row = DBQuery::queryCell("select count(*) from {$database['prefix']}Comments where blogid = $blogid AND parent = ".$comment['id']);
-				$comment['replier'] = ($row)?"<img src=\"{$pluginURL}/replier.gif\" width=\"11\" height=\"9\" align=\"top\" style=\"margin-left:2px;\"/>":"";
+				$comment['replier'] = ($row)?"<img src=\"{$pluginURL}/replier.gif\" width=\"11\" height=\"9\" align=\"top\" style=\"margin-left:2px;\" alt=\"\" />":"";
 			}else{$comment['replier'] = "";}
-			$comment['secret'] = ($comment['secret'] == 1)?"<img src=\"{$pluginURL}/secret.gif\" width=\"9\" height=\"11\" style=\"margin-left:2px;\"/>":"";
+			$comment['secret'] = ($comment['secret'] == 1)?"<img src=\"{$pluginURL}/secret.gif\" width=\"9\" height=\"11\" style=\"margin-left:2px;\" alt=\"\" />":"";
 			array_push($comments, $comment);
 		}
 	}
