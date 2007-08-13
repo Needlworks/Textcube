@@ -91,6 +91,7 @@ for ($i=0; $i<sizeof($refereres); $i++) {
 
 }
 $referredstart = array_key_exists('referred', $record) ? $record['referred'] : null;
+if (!isset($referredend)) $referredend = $referredstart; 
 ?>
 				 		<div id="part-statistics-visitor" class="part">
 					 		<h2 class="caption"><span class="main-text"><?php echo _t('키워드 통계')." (".Timestamp::formatDate($referredstart)." ~ ".Timestamp::formatDate($referredend)." )";?></span></h2>
