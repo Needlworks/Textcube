@@ -245,7 +245,7 @@ h4
 {
 	clear: both;
 	position: relative;
-	height: 6em;
+	height: 3em;
 	margin-right: 5px;
 	background: url('./images/bg_footerLeft.gif') no-repeat 0 0;
 }
@@ -1334,9 +1334,6 @@ form input:focus, textarea:focus
 
 #calendar td.cal_day4
 {
-
-
-/* Today */
 	background-color: #faf9f8;
 	font-weight: bold;
 	border-bottom: 1px solid #ddd;
@@ -1374,6 +1371,18 @@ form input:focus, textarea:focus
 	float: left;
 	margin-right: .3em;
 }
+
+/* banner */
+
+#rightColumn .banner
+{
+	text-align: center;
+}
+
+/*#textcubeBanner img
+{
+	border: 1px solid #999;
+}*/
 
 /* RSS button */
 
@@ -1420,30 +1429,78 @@ form input:focus, textarea:focus
 	cursor: pointer;
 }
 
+address.credit
+{
+	clear: both;
+	color: #333;
+	font-family: 'Lucida Grande', 'Myriad Pro', 'Trebuchet MS', Tahoma, Helvetica, sans-serif;
+	font-size: 0.9em;
+	margin: 0 0 15px 0;
+	text-align: center;
+}
+
+address.credit a
+{
+	color: #555;
+	border-bottom: 1px dashed #b4e7f3;
+}
+
+address.credit a:hover
+{
+	color: #017c99;
+}
+
 /*-------------------------------*/
 
 /* footer */
 
 /*-------------------------------*/
 
-#footer address
+#footer .pseudoBox
 {
+	font-size: 3px;
 	position: relative;
 	right: -5px;
-	padding: 2em 5px 0 0;
+	padding: 1em 5px 0 0;
 	background: url('./images/bg_footerRight.gif') no-repeat 100% 0;
-	font: small-caps 1em 'Trebuchet MS', Helvetica, sans-serif;
-	text-align: center;
-	color: #fff;
 }
 
-#footer address a
+.letterT
 {
-	color: #fff;
-	border-bottom: 1px dashed #b4e7f3;
+	color: #009bd5;
 }
 
-#footer address a:hover
+.letterE
 {
-	background-color: #43b3cd;
+	color: #0083ae;
+}
+
+.letterX
+{
+	color: #e80478;
+}
+
+.letterT2
+{
+	color: #b71767;
+}
+
+.letterC
+{
+	color: #fdc11f;
+}
+
+.letterU
+{
+	color: #f39424;
+}
+
+.letterB
+{
+	color: #b1d04d;
+}
+
+.letterE2
+{
+	color: #8daa41;
 }
