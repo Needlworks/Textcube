@@ -12,6 +12,6 @@ foreach ($keywords as $item) {
 	dress('onclick_keyword', "openKeyword('$blogURL/keylog/" . escapeJSInAttribute($item['title']) . "'); return false;", $itemView);
 	$itemsView .= $itemView;
 }
-dress('keyword_date_rep', $itemsView, $keywordView);
+dress('keyword_rep', $itemsView, $keywordView);
 dress('keyword', $keywordView, $view);
 ?>
