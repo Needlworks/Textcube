@@ -675,6 +675,11 @@ h4
 
 /* Trackback list */
 
+.trackback h3
+{
+	display: none;
+}
+
 .trackback
 {
 	padding-bottom: .5em;
@@ -742,6 +747,11 @@ h4
 }
 
 /* Comment list */
+
+.list h3
+{
+	display: none;
+}
 
 .list ol
 {

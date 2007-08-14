@@ -7,7 +7,9 @@
 body
 {
 	background-color: #fff;
-	font: 10pt Gulim, 굴림, Helvetica, AppleGothic, Sans-serif;
+	font-family: serif;
+	font-size: 9pt;
+	padding: 50px;
 	color: #000;
 }
 
@@ -52,20 +54,26 @@ dfn, em, cite, address
 
 h1
 {
-	font: bold 12pt arial, 'Trebuchet MS', Verdana, Sans-Serif;
-	border-bottom: 1px solid #ccc;
-	margin-bottom: 20px;
+	font-family: sans-serif;
+	font-size: 25pt;
+	margin-bottom: 50px;
+	padding: 20px;
+	text-align: center;
 }
 
 h2
 {
-	font-size: 13pt;
-	color: #accb53;
+	font-size: 16pt;
 }
 
 h2 a
 {
-	color: #accb53;
+	color: #000;
+}
+
+h3
+{
+	font-size: 13pt
 }
 
 h4
@@ -84,9 +92,12 @@ h3 a
 
 /*-------------------------------*/
 
-#author span
+#author
 {
-	
+	font-family: sans-serif;
+	font-size: 14px;
+	margin-top: 20px;
+	text-align: center;
 }
 
 #author ul
@@ -140,7 +151,7 @@ h3 a
 .subject li
 {
 	display: inline;
-	font: 9pt 'Trebuchet MS', Helvetica, Sans-Serif;
+	font: 9pt 'Trebuchet MS', Helvetica, sans-serif;
 	color: #666;
 }
 
@@ -167,6 +178,11 @@ h3 a
 
 /* article */
 
+.article
+{
+	margin-bottom: 40px;
+}
+
 .article blockquote
 {
 	margin: 1.7em auto;
@@ -174,6 +190,12 @@ h3 a
 	width: 80%;
 	color: #226094;
 	border-left: 2px solid #ddd;
+}
+
+.infoAuthor
+{
+	padding-right: 10px;
+	text-align: right;
 }
 
 .imageblock
@@ -214,9 +236,7 @@ h3 a
 
 .miscInfo
 {
-	border-top: 1px solid #ccc;
-	font-size: 8pt;
-	margin-bottom: 20px;
+	display: none;
 }
 
 .miscInfo dl
@@ -261,6 +281,11 @@ h3 a
 	padding-bottom: 5px;
 }
 
+.trackback h3
+{
+	margin: 30px 0 10px 0;
+}
+
 .trackback ol
 {
 	list-style: none;
@@ -278,7 +303,7 @@ h3 a
 
 .trackback li span
 {
-	font: 8pt 'Franklin Gothic Medium', Helvetica, Sans-Serif;
+	font: 8pt 'Franklin Gothic Medium', Helvetica, sans-serif;
 	color: #666;
 }
 
@@ -289,7 +314,7 @@ h3 a
 
 .trackback cite
 {
-	font-family: Dotum, 돋움, Helvetica, AppleGothic, Sans-Serif;
+	font-family: Dotum, 돋움, Helvetica, AppleGothic, sans-serif;
 }
 
 /*-------------------------------*/
@@ -297,6 +322,11 @@ h3 a
 /* Comments, Guestbook */
 
 /*-------------------------------*/
+
+.list h3
+{
+	margin: 30px 0 10px 0;
+}
 
 .list ol
 {
@@ -314,7 +344,7 @@ h3 a
 {
 	display: block;
 	margin-bottom: 5px;
-	font: 8pt 'Franklin Gothic Medium', Helvetica, Sans-Serif;
+	font: 8pt 'Franklin Gothic Medium', Helvetica, sans-serif;
 	color: #666;
 }
 
@@ -333,11 +363,16 @@ h3 a
 	border: 0 none;
 }
 
+.list p.content img
+{
+	display: none;
+}
+
 /* Reply */
 
 .list ol li ol
 {
-	margin-left: 40px;
+	margin-left: 20px;
 }
 
 .list ol li ol li
