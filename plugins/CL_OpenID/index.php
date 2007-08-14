@@ -904,8 +904,8 @@ function openid_ViewCommenter($name, $comment)
 		return $name;
 	}
 	$row = DBQuery::queryAll("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['id']}" );
-	return $name . ($row ? "<img src=\"" . $openid_pluginbase . "/openid16x16.gif\" hspace=\"2\" align=\"absmiddle\" title=\"" .
-		sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] ) . "\">" : "");
+	return $name . ($row ? "<img src=\"" . $openid_pluginbase . "/openid16x16.gif\" hspace=\"2\" alt=\"OpenID Logo\" align=\"absmiddle\" title=\"" .
+		sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] ) . "\" />" : "");
 }
 
 function openid_comment_comment()
