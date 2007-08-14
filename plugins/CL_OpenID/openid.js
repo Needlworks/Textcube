@@ -1,24 +1,44 @@
-function openid_makeworld()
+var openid_hint = "OpenID Enabled";
+
+function add_openid_link_before(s)
 {
-	var openid_title = "";
 	var target = "";
+	var openid_title = "";
 
 	openid_title = openid_id ? openid_id + " 로그아웃" : "오픈아이디 로그인";
 	target = openid_id ? 
 				openid_entryurl + "logout?requestURI=" + escape(document.location.href):
 				openid_entryurl + "login?requestURI=" + escape(document.location.href);
 
+	var openid_pannel = document.createElement("div");
+	openid_pannel.innerHTML = "<a style='a:link:none' href=\"" + target + "\"><img style='margin:0; padding:0 0 0 0' align='absmiddle' hspace='2' src=\"" + openid_pluginbase + "openid16x16.gif" + "\"> <span style='padding:-10 0 0 0'>" + openid_title + "</span></a>";
+	openid_pannel.innerHTML += " | <a target='_blank' href=\"http://www.google.co.kr/search?q=OpenID&lr=lang_ko\">오픈아이디란?</a>";
+	s.parentNode.insertBefore( openid_pannel, s );
+	s.title = openid_hint;
+}
+
+function openid_makeworld()
+{
+	var labels = document.getElementsByTagName("label");
+	var added_links_before_label = false;
+	for( var i=0; i<labels.length; i++ )
+	{
+		if( labels[i].getAttribute('rel') == 'openidlinkbeforethis' ) {
+			if( labels[i].title != openid_hint ) {
+				add_openid_link_before( labels[i] );
+			}
+			added_links_before_label = true;
+		}
+	}
+
 	var inputs = document.getElementsByTagName("input");
 	for( var i=0; i<inputs.length; i++ )
 	{
-		var openid_hint = "OpenID Enabled";
 		if( inputs[i].name == "name" && inputs[i].title != openid_hint )
 		{
-			var openid_pannel = document.createElement("div");
-			openid_pannel.innerHTML = "<a style='a:link:none' href=\"" + target + "\"><img style='margin:0; padding:0 0 0 0' align='absmiddle' hspace='2' src=\"" + openid_pluginbase + "openid16x16.gif" + "\"> <span style='padding:-10 0 0 0'>" + openid_title + "</span></a>";
-			openid_pannel.innerHTML += " | <a target='_blank' href=\"http://www.google.co.kr/search?q=OpenID&lr=lang_ko\">오픈아이디란?</a>";
-			inputs[i].parentNode.insertBefore( openid_pannel, inputs[i] );
-
+			if( !added_links_before_label ) {
+				add_openid_link_before( inputs[i] );
+			}
 			if( openid_nickname )
 			{
 				inputs[i].value = openid_nickname;
@@ -31,7 +51,6 @@ function openid_makeworld()
 				inputs[i].readonly = true;
 				inputs[i].style.background = "#ffcccc";
 			}
-			inputs[i].title = openid_hint;
 		}
 
 		if( inputs[i].name == "homepage" && inputs[i].title != openid_hint )
