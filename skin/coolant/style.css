@@ -364,17 +364,17 @@ h4
 
 .subject .postInfo li
 {
-	padding: .3em .6em .3em 20px;
+	padding: .3em .6em .3em 25px;
 }
 
 .subject .infoDate
 {
-	background: url('./images/bullet_clock.gif') no-repeat 0 50%;
+	background: url('./images/bullet_clock.gif') no-repeat 7px 50%;
 }
 
 .subject .infoCategory
 {
-	background: url('./images/bullet_folder.gif') no-repeat 0 50%;
+	background: url('./images/bullet_folder.gif') no-repeat 5px 50%;
 }
 
 .subject li a
