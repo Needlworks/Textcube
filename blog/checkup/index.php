@@ -842,7 +842,7 @@ foreach($plugintablesraw as $table) {
 	}
 }
 
-if (DBQuery::queryCell("SELECT acl FROM {$database['prefix']}Teamblog WHERE blogid = 1 AND userid = 1") == 0) {
+if (DBQuery::queryCell("SELECT acl FROM {$database['prefix']}Teamblog WHERE blogid = 1 AND userid = 1") == '0') {
 	$changed = true;
 	echo '<li>', _text('팀블로그 테이블의 소유 관계를 정의합니다.'), ': ';
 	if (DBQuery::execute("UPDATE {$database['prefix']}Teamblog SET acl = 16

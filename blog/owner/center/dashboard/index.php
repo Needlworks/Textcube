@@ -339,7 +339,7 @@ if($textcubeDashboard) {
 	foreach ($comments as $comment) {
 ?>
 												<tr>
-													<td class="title"><a href="<?php echo $blogURL."/".$comment['entry']."#comment".$comment['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), 25));?></a></td>
+													<td class="title"><a href="<?php echo $blogURL."/".$comment['entry']."#comment".$comment['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 25));?></a></td>
 													<td class="date"><?php echo Timestamp::format('%m/%d',$comment['written']);?></td>
 												</tr>
 <?php
@@ -361,7 +361,7 @@ if($textcubeDashboard) {
 	foreach ($commentNotifies as $comment) {
 ?>
 												<tr>
-													<td class="title"><?php echo htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), 25));?></td>
+													<td class="title"><?php echo htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 25));?></td>
 													<td class="date"><?php echo Timestamp::format('%m/%d',$comment['written']);?></td>
 												</tr>
 <?php
@@ -383,7 +383,7 @@ if($textcubeDashboard) {
 	foreach ($guestbooks as $guestbook) {
 ?>
 												<tr>
-													<td class="title"><a href="<?php echo $blogURL."/guestbook#comment".$guestbook['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm(strip_tags($guestbook['comment']), 25));?></a></td>
+													<td class="title"><a href="<?php echo $blogURL."/guestbook#comment".$guestbook['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($guestbook['comment'], 25));?></a></td>
 													<td class="date"><?php echo Timestamp::format('%m/%d',$guestbook['written']);?></td>
 												</tr>
 <?php
