@@ -125,16 +125,27 @@ if(isset($blogContentMenuItem)) {
 	if(strstr($contentMenuItem['menu'], 'adminMenu?name=') !== false) {
 		$pluginMenuValue = explode('/',substr($contentMenuItem['menu'], 15));
 		echo $pluginMenuValue[0];
+		if(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || 
+			(isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) ||
+				($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false)))
+			$submenuURL = $pluginMenuValue[0];
 	} else {
 		echo $contentMenuItem['menu'];
+		if(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || 
+			(isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) ||
+				($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false)))
+		$submenuURL = $blogMenu['contentMenu'];
 	}?>"<?php echo 
 						(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || 
 							(isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) ||
 							($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false)) ? ' class="selected"' : '');?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
 <?php
 	}
+	
+	$helpURL = $blogMenu['topMenu'].(isset($blogMenu['contentMenu']) ? '/'.$submenuURL : '');
+	
 ?>
-						<li id="sub-menu-helper"><a href="<?php echo getHelpURL($blogMenu['topMenu']);?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
+						<li id="sub-menu-helper"><a href="<?php echo getHelpURL($helpURL);?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
 					</ul>
 				</div>
 <?php
