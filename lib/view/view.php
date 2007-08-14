@@ -79,7 +79,9 @@ function getUpperView($paging) {
 	}
 ?>
 	<script type="text/javascript">
-		document.onkeydown = processShortcut;
+		//<![CDATA[
+			document.onkeydown = processShortcut;
+		//]]>
 	</script>
 <?php
 
@@ -1331,10 +1333,11 @@ function printScript($filename, $obfuscate = true) {
 	global $service, $hostURL, $blogURL;
 	if (!$file = @file_get_contents(ROOT . "/script/$filename"))
 		return '';
-	$file = "<script type=\"text/javascript\">var servicePath=\"$hostURL{$service['path']}\"; var blogURL=\"$hostURL$blogURL/\";$file";
+	$file = "<script type=\"text/javascript\">//<![CDATA[" . CRLF
+		. "var servicePath=\"$hostURL{$service['path']}\"; var blogURL=\"$hostURL$blogURL/\";$file";
 	if ($obfuscate) {
 	}
-	return "$file</script>";
+	return "$file //]]></script>";
 }
 
 ?>
