@@ -3,9 +3,12 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-$url = str_replace('index.php?pl=','',$_SERVER['REQUEST_URI']);
-if (($url_fix_pos=strpos($url, '?', 1))!==false) $url = substr($url, 0, $url_fix_pos);
-//$url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'];
+if(isset($service['useFastCGI']) && $service['useFastCGI'] == true) {
+	$url = str_replace('index.php?pl=','',$_SERVER['REQUEST_URI']);
+	if (($url_fix_pos=strpos($url, '?', 1))!==false) $url = substr($url, 0, $url_fix_pos);
+} else {
+	$url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'];
+}
 
 $suri = array('url' => $url, 'value' => '');
 $blogid = null;
