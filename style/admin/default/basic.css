@@ -1031,3 +1031,28 @@ input.input-text
 {
 	text-decoration                  : none;
 }
+
+.ajaxMessage
+{
+	font-weight: bold !important;
+	padding: 10px 15px !important;
+	color: #000 !important;
+}
+
+.ajaxProcessingMessage
+{
+	background-color: #ffddb5 !important;
+	border: 1px solid #805624 !important;
+}
+
+.ajaxSuccessMessage
+{
+	background-color: #cfebf7 !important;
+	border: 1px solid #2580b2 !important;
+}
+
+.ajaxErrorMessage
+{
+	border: 1px solid #ff5f62 !important;
+	background-color: #ffb7b8 !important;
+}

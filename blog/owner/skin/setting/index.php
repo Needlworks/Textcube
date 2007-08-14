@@ -99,7 +99,7 @@ $selected = 0;
 										PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 									}
 									request.onError = function() {
-										PM.showMessage("<?php echo _t('저장하지 못했습니다.');?>", "center", "bottom");
+										PM.showErrorMessage("<?php echo _t('저장하지 못했습니다.');?>", "center", "bottom");
 									}
 									request.send(param);
 								}

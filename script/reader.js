@@ -224,7 +224,7 @@ TTReader.prototype.refreshFeedGroup = function()
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				PM.showMessage(s_unknownError + " (refreshFeedGroup)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (refreshFeedGroup)", "center", "bottom");
 		}
 	}
 	request.send("group=0&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
@@ -242,7 +242,7 @@ TTReader.prototype.refreshFeedList = function(group)
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				PM.showMessage(s_unknownError + " (refreshFeedList)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (refreshFeedList)", "center", "bottom");
 		}
 	}
 	request.send("group=" + group + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
@@ -266,7 +266,7 @@ TTReader.prototype.refreshEntryList = function(group, feed)
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				PM.showMessage(s_unknownError + " (refreshEntryList)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (refreshEntryList)", "center", "bottom");
 		}
 	}
 	request.send("group=" + (group == undefined ? 0  : group) + "&feed=" + ( feed == undefined ? 0 : feed) + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
@@ -324,7 +324,7 @@ TTReader.prototype.refreshEntry = function(group, feed, entry)
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				PM.showMessage(s_unknownError + " (refreshEntry)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (refreshEntry)", "center", "bottom");
 		}
 	}
 	request.send("group=" + (group == undefined ? 0 : group) + "&feed=" + ( feed == undefined ? 0 : feed) + "&entry=" + entry + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
@@ -339,14 +339,14 @@ TTReader.prototype.prevEntry = function()
 			Reader.selectEntry(Reader.selectedEntry);
 		}
 		else {
-			PM.showMessage(s_notFoundPrevPost, "center", "bottom");
+			PM.showErrorMessage(s_notFoundPrevPost, "center", "bottom");
 		}
 	}
 	request.onError= function () {
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				PM.showMessage(s_unknownError + " (prevEntry)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (prevEntry)", "center", "bottom");
 		}
 	}
 	request.send("group=" + this.selectedGroup + "&feed=" + this.selectedFeed + "&entry=" + this.selectedEntry + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
@@ -363,14 +363,14 @@ TTReader.prototype.nextEntry = function()
 			Reader.selectEntry(Reader.selectedEntry);
 		}
 		else {
-			PM.showMessage(s_notFoundNextPost, "center", "bottom");
+			PM.showErrorMessage(s_notFoundNextPost, "center", "bottom");
 		}
 	}
 	request.onError= function () {
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				PM.showMessage(s_unknownError + " (nextEntry)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (nextEntry)", "center", "bottom");
 		}
 	}
 	request.send("group=" + this.selectedGroup + "&feed=" + this.selectedFeed + "&entry=" + this.selectedEntry + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
@@ -397,7 +397,7 @@ TTReader.prototype.addGroup = function(title)
 				alert(s_groupExists);
 				break;
 			default:
-				PM.showMessage(s_unknownError + " (addGroup)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (addGroup)", "center", "bottom");
 		}
 	}
 	PM.addRequest(request, s_addingGroup);
@@ -442,7 +442,7 @@ TTReader.prototype.editGroupExecute = function()
 			case 2:
 				break;
 			default:
-				PM.showMessage(s_unknownError + " (editGroupExecute)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (editGroupExecute)", "center", "bottom");
 		}
 	}
 	PM.addRequest(request, s_editingGroup);
@@ -469,7 +469,7 @@ TTReader.prototype.deleteGroup = function()
 				alert(s_groupNotFound);
 				break;
 			default:
-				PM.showMessage(s_unknownError + " (deleteGroup)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (deleteGroup)", "center", "bottom");
 		}
 	}
 	PM.addRequest(request, s_removingGroup);
@@ -502,7 +502,7 @@ TTReader.prototype.addFeed = function(url)
 				alert(s_feedBroken);
 				break;
 			default:
-				PM.showMessage(s_unknownError + " (addFeed)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (addFeed)", "center", "bottom");
 		}
 	}
 	PM.addRequest(request, s_requestFeed);
@@ -548,7 +548,7 @@ TTReader.prototype.editFeedExecute = function()
 			case 2:
 				break;
 			default:
-				PM.showMessage(s_unknownError + " (editFeedExecute)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (editFeedExecute)", "center", "bottom");
 		}
 	}
 	PM.addRequest(request, s_editingFeed);
@@ -574,7 +574,7 @@ TTReader.prototype.deleteFeed = function()
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				PM.showMessage(s_unknownError + " (deleteFeed)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (deleteFeed)", "center", "bottom");
 		}
 	}
 	PM.addRequest(request, s_removingFeed);
@@ -595,7 +595,7 @@ TTReader.prototype.saveSetting = function()
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
-				PM.showMessage(s_unknownError + " (saveSetting)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (saveSetting)", "center", "bottom");
 		}
 	}
 	var f = document.getElementById('reader-section');
@@ -709,7 +709,7 @@ TTReader.prototype.listScroll = function(force)
 			switch(parseInt(this.getText("/response/error")))
 			{
 				default:
-					PM.showMessage(s_unknownError + " (listScroll)", "center", "bottom");
+					PM.showErrorMessage(s_unknownError + " (listScroll)", "center", "bottom");
 			}
 		}
 		PM.addRequest(request, s_loadingList);
@@ -766,7 +766,7 @@ TTReader.prototype.updateFeed = function(id, message)
 				alert(s_feedBroken);
 				break;
 			default:
-				PM.showMessage(s_unknownError + " (updateFeed)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (updateFeed)", "center", "bottom");
 		}
 	}
 	request.send();
@@ -812,7 +812,7 @@ TTReader.prototype.importOPMLURL = function()
 				alert(s_opmlBroken);
 				break;
 			default:
-				PM.showMessage(s_unknownError + " (importOPMLURL)", "center", "bottom");
+				PM.showErrorMessage(s_unknownError + " (importOPMLURL)", "center", "bottom");
 		}
 	}
 	PM.addRequest(request, s_loadingOPML);

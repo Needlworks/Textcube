@@ -114,7 +114,7 @@ function setStyleSave() {
 			PM.showMessage("필명 스타일이 저장 되었습니다.", "center", "bottom");
 		}
 		request.onError = function() {
-			PM.showMessage("저장하지 못했습니다. 다시 시도 해주세요.", "center", "bottom");
+			PM.showErrorMessage("저장하지 못했습니다. 다시 시도 해주세요.", "center", "bottom");
 		}
 		request.send(queryString);
 	} catch(e) {}
@@ -130,7 +130,7 @@ function setProfileSave() {
 			PM.showMessage("프로필 설명이 저장 되었습니다.", "center", "bottom");
 		}
 		request.onError = function() {
-			PM.showMessage("저장하지 못했습니다. 다시 시도 해주세요.", "center", "bottom");
+			PM.showErrorMessage("저장하지 못했습니다. 다시 시도 해주세요.", "center", "bottom");
 		}
 		request.send(queryString);
 	} catch(e) {}

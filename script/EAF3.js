@@ -101,6 +101,7 @@ function PageMaster() {
 PageMaster.prototype._onLoad = function(event) {
 	PM._status = document.createElement("div");
 	PM._status.style.position = "absolute";
+	PM._status.className = "ajaxMessage ajaxProcessingMessage";
 	PM._status.style.color = "white";
 	PM._status.style.backgroundColor = "navy";
 	PM._status.style.margin = "0px";
@@ -136,8 +137,34 @@ PageMaster.prototype.showMessage = function(message,align,valign,timeout) {
 	if(timeout==undefined) timeout=3000;
 	var oMessage = document.createElement("div");
 	oMessage.innerHTML = message;oMessage.style.position="absolute";
+	oMessage.className = "ajaxMessage ajaxSuccessMessage";
 	oMessage.style.color = "white";
 	oMessage.style.backgroundColor = "green";
+	oMessage.style.margin = "0px";
+	oMessage.style.paddingLeft = "10px";
+	oMessage.style.paddingRight = "10px";
+	oMessage._align = align;
+	oMessage._valign = valign;
+	document.body.appendChild(oMessage);
+	
+	var index=this._messages.push(oMessage)-1;
+	
+	this.updateMessages();
+	window.setTimeout("PM._hideMessage("+index+")",timeout);
+	
+	return index;
+};
+
+PageMaster.prototype.showErrorMessage = function(message,align,valign,timeout) {
+	if((typeof(message) != "string")||(message.length == 0)) return-1;
+	if(align==undefined) align = "center";
+	if(valign==undefined) valign="middle";
+	if(timeout==undefined) timeout=3000;
+	var oMessage = document.createElement("div");
+	oMessage.innerHTML = message;oMessage.style.position="absolute";
+	oMessage.className = "ajaxMessage ajaxErrorMessage";
+	oMessage.style.color = "white";
+	oMessage.style.backgroundColor = "red";
 	oMessage.style.margin = "0px";
 	oMessage.style.paddingLeft = "10px";
 	oMessage.style.paddingRight = "10px";
