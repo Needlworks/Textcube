@@ -42,6 +42,7 @@ function getBlogSettingForMigration($blogid, $name, $default = null) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo _text('텍스트큐브를 점검합니다.');?></title>
 	<style type="text/css" media="screen">
+	/*<![CDATA[*/
 		body
 		{
 			font                : 12px/1.5 Verdana, Gulim;
@@ -52,6 +53,7 @@ function getBlogSettingForMigration($blogid, $name, $default = null) {
 			color               :#0099FF;
 			padding-bottom      :5px;
 		}
+	/*]]>*/
 	</style>
 </head>
 <body>

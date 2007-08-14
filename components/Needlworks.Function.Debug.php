@@ -156,6 +156,7 @@ function __tcSqlLogDump()
 	
 	print <<<EOS
 <style type='text/css'>
+/*<![CDATA[*/
 	.debugTable
 	{
 		background-color: #fff;
@@ -244,6 +245,7 @@ function __tcSqlLogDump()
 		padding: 15px !important;
 		text-align: center;
 	}
+/*]]>*/
 </style>
 EOS;
 

@@ -163,11 +163,13 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	this.contentDocument.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">');
 	this.contentDocument.write('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko"><head><meta http-equiv="content-type" content="text/html; charset=utf-8" />');
 	this.contentDocument.write('<link rel="stylesheet" type="text/css" href="' + servicePath + editorCSS + '" />');
-	this.contentDocument.write('<style type="text/css">')
+	this.contentDocument.write('<style type="text/css">');
+	this.contentDocument.write('/*<![CDATA[*/');
 	if(STD.isIE)
 		this.contentDocument.write("body { padding: 10px; }");
 	else
 		this.contentDocument.write("html { padding: 10px; }");
+	this.contentDocument.write('/*]]>*/');
 	this.contentDocument.write("</style>");
 	this.contentDocument.write("</head><body>");
 	this.contentDocument.write(this.ttml2html());
@@ -260,12 +262,12 @@ TTModernEditor.prototype.finalize = function() {
 TTModernEditor.prototype.syncTextarea = function() {
 	if (this.editMode == "WYSIWYG") {
 		this.textarea.value = this.html2ttml(this.contentDocument.body.innerHTML);
-	} 
+	}
 }
 
 TTModernEditor.prototype.syncEditorWindow = function() {
 	if (this.editMode == "WYSIWYG") {
-		this.contentDocument.body.innerHTML = this.ttml2html(this.textarea.value);	
+		this.contentDocument.body.innerHTML = this.ttml2html(this.textarea.value);
 	}
 }
 

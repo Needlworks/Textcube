@@ -9,7 +9,7 @@ function compareVersions(sVersion1, sVersion2) {
 
     var aVersion1 = sVersion1.split(".");
     var aVersion2 = sVersion2.split(".");
-    
+
     if (aVersion1.length > aVersion2.length) {
         for (var i=0; i < aVersion1.length - aVersion2.length; i++) {
             aVersion2.push("0");
@@ -17,15 +17,15 @@ function compareVersions(sVersion1, sVersion2) {
     } else if (aVersion1.length < aVersion2.length) {
         for (var i=0; i < aVersion2.length - aVersion1.length; i++) {
             aVersion1.push("0");
-        }    
+        }
     }
     for (var i=0; i < aVersion1.length; i++) {
- 
+
         if (aVersion1[i] < aVersion2[i]) {
             return -1;
         } else if (aVersion1[i] > aVersion2[i]) {
             return 1;
-        }    
+        }
     }
     return 0;
 
@@ -51,10 +51,10 @@ if (isOpera) {
     isMinOpera7_5 = fOperaVersion >= 7.5;
 }
 
-var isKHTML = sUserAgent.indexOf("KHTML") > -1 
-              || sUserAgent.indexOf("Konqueror") > -1 
-              || sUserAgent.indexOf("AppleWebKit") > -1; 
-              
+var isKHTML = sUserAgent.indexOf("KHTML") > -1
+              || sUserAgent.indexOf("Konqueror") > -1
+              || sUserAgent.indexOf("AppleWebKit") > -1;
+
 var isMinSafari1 = isMinSafari1_2 = false;
 var isMinKonq2_2 = isMinKonq3 = isMinKonq3_1 = isMinKonq3_2 = false;
 var isSafari = false;
@@ -77,14 +77,14 @@ if (isKHTML) {
         isMinKonq3 = compareVersions(RegExp["$1"], "3.0") >= 0;
         isMinKonq3_1 = compareVersions(RegExp["$1"], "3.1") >= 0;
         isMinKonq3_2 = compareVersions(RegExp["$1"], "3.2") >= 0;
-    } 
-    
+    }
+
 }
 
-var isIE = sUserAgent.indexOf("compatible") > -1 
+var isIE = sUserAgent.indexOf("compatible") > -1
            && sUserAgent.indexOf("MSIE") > -1
            && !isOpera;
- 
+
 var isMinIE4 = isMinIE5 = isMinIE5_5 = isMinIE6 = false;
 
 if (isIE) {
@@ -111,9 +111,9 @@ if (isMoz) {
     isMinMoz1_5 = compareVersions(RegExp["$1"], "1.5") >= 0;
 }
 
-var isNS4 = !isIE && !isOpera && !isMoz && !isKHTML 
-            && (sUserAgent.indexOf("Mozilla") == 0) 
-            && (navigator.appName == "Netscape") 
+var isNS4 = !isIE && !isOpera && !isMoz && !isKHTML
+            && (sUserAgent.indexOf("Mozilla") == 0)
+            && (navigator.appName == "Netscape")
             && (fAppVersion >= 4.0 && fAppVersion < 5.0);
 
 var isMinNS4 = isMinNS4_5 = isMinNS4_7 = isMinNS4_8 = false;
@@ -126,7 +126,7 @@ if (isNS4) {
 }
 
 var isWin = (navigator.platform == "Win32") || (navigator.platform == "Windows");
-var isMac = (navigator.platform == "Mac68K") || (navigator.platform == "MacPPC") 
+var isMac = (navigator.platform == "Mac68K") || (navigator.platform == "MacPPC")
             || (navigator.platform == "Macintosh");
 
 var isUnix = (navigator.platform == "X11") && !isWin && !isMac;
@@ -136,28 +136,28 @@ var isMac68K = isMacPPC = false;
 var isSunOS = isMinSunOS4 = isMinSunOS5 = isMinSunOS5_5 = false;
 
 if (isWin) {
-    isWin95 = sUserAgent.indexOf("Win95") > -1 
+    isWin95 = sUserAgent.indexOf("Win95") > -1
               || sUserAgent.indexOf("Windows 95") > -1;
-    isWin98 = sUserAgent.indexOf("Win98") > -1 
+    isWin98 = sUserAgent.indexOf("Win98") > -1
               || sUserAgent.indexOf("Windows 98") > -1;
-    isWinME = sUserAgent.indexOf("Win 9x 4.90") > -1 
+    isWinME = sUserAgent.indexOf("Win 9x 4.90") > -1
               || sUserAgent.indexOf("Windows ME") > -1;
-    isWin2K = sUserAgent.indexOf("Windows NT 5.0") > -1 
+    isWin2K = sUserAgent.indexOf("Windows NT 5.0") > -1
               || sUserAgent.indexOf("Windows 2000") > -1;
-    isWinXP = sUserAgent.indexOf("Windows NT 5.1") > -1 
+    isWinXP = sUserAgent.indexOf("Windows NT 5.1") > -1
               || sUserAgent.indexOf("Windows XP") > -1;
-    isWinNT4 = sUserAgent.indexOf("WinNT") > -1 
-              || sUserAgent.indexOf("Windows NT") > -1 
-              || sUserAgent.indexOf("WinNT4.0") > -1 
-              || sUserAgent.indexOf("Windows NT 4.0") > -1 
+    isWinNT4 = sUserAgent.indexOf("WinNT") > -1
+              || sUserAgent.indexOf("Windows NT") > -1
+              || sUserAgent.indexOf("WinNT4.0") > -1
+              || sUserAgent.indexOf("Windows NT 4.0") > -1
               && (!isWinME && !isWin2K && !isWinXP);
-} 
+}
 
 if (isMac) {
-    isMac68K = sUserAgent.indexOf("Mac_68000") > -1 
+    isMac68K = sUserAgent.indexOf("Mac_68000") > -1
                || sUserAgent.indexOf("68K") > -1;
-    isMacPPC = sUserAgent.indexOf("Mac_PowerPC") > -1 
-               || sUserAgent.indexOf("PPC") > -1;  
+    isMacPPC = sUserAgent.indexOf("Mac_PowerPC") > -1
+               || sUserAgent.indexOf("PPC") > -1;
 }
 
 if (isUnix) {
@@ -205,7 +205,7 @@ function trace(msg,mode) {
 		var traceWin = window.open('', "traceWin");
 		traceWin.document.write(result);
 	}
-	
+
 }
 
 function openLinkInNewWindow(callee) {
@@ -225,7 +225,7 @@ function toggleLayer(id) {
 	var obj = document.getElementById(id);
 	obj.style.display = (obj.style.display == "none") ? "block" : "none";
 	} catch (e) {
-		
+
 	}
 	return true;
 }
@@ -240,7 +240,7 @@ function hideLayer(id) {
 
 function findFormObject(caller) {
 	for (var obj = caller; obj; obj = obj.parentNode) {
-		
+
 		if (obj.nodeName == "FORM")
 			return obj;
 	}
@@ -275,7 +275,7 @@ function checkValue(oField, message) {
 		}
 		return true;
 	} catch(e) {
-		
+
 		return false;
 	}
 }
@@ -335,13 +335,13 @@ if(isMoz) {
 	XMLDocument.prototype.selectSingleNode = function(path) {
 		var oEvaluator = new XPathEvaluator();
 		var oResult = oEvaluator.evaluate(path, this, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
-		return oResult.singleNodeValue;	
+		return oResult.singleNodeValue;
 	}
 	Node.prototype.__defineGetter__("xml",function() {
 		var os = new XMLSerializer();
 		return os.serializeToString(this,"text/xml");
 	});
-} 
+}
 
 function createHttp() {
 	try {
@@ -371,7 +371,7 @@ loadingIntervaler = function(loading) {
 		}
 		window.status = loading;
 	} catch(e) {
-		
+
 	}
 }
 
@@ -394,9 +394,9 @@ function getResponse(uri,content) {
 		else aux = '&';
 		oHttp.open("POST", uri + aux+"time=" + (new Date()).getTime(), false);
 		if(content == undefined) {
-			content = '';	
+			content = '';
 		} else {
-			oHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");	
+			oHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		}
 		oHttp.send(content);
 		result = new Array();
@@ -417,13 +417,13 @@ function getResponse(uri,content) {
 			}
 			loading = false
 			delete oHttp;
-			return result;		
+			return result;
 		} else {
 			loading = false
 			var returnValue = oHttp.responseXML.selectNodes("/response/descendant::*");
 			delete oHttp;
 			return returnValue;
-		} 
+		}
 		delete oHttp;
 	} catch(e) {
 		alert("exception");
@@ -431,14 +431,14 @@ function getResponse(uri,content) {
 		var escapeSpace = document.getElementsByName('body');
 		var iframeElement = document.createElement('div');
 		document.body.appendChild(iframeElement);
-		iframeElement.innerHTML = '<iframe src="'+uri+'"style="display:none" onload="location.href=location.href"><\/iframe>';	
-		
+		iframeElement.innerHTML = '<iframe src="'+uri+'"style="display:none" onload="location.href=location.href"><\/iframe>';
+
 		return false;
 	}
 }
 
 function requestHttp(uri) {
-	try{		
+	try{
 		var oHttp = createHttp();
 		oHttp.open("GET", uri + "&time=" + (new Date()).getTime(), false);
 		oHttp.send("");
@@ -499,7 +499,7 @@ function setRequestBody(elementName, elementValue, boundary)
 	var body = "";
 	body += "--" + boundary + "\r\n";
 	body += "Content-Disposition: form-data; name=\"" + elementName + "\"" + "\r\n\r\n";
-	body += elementValue + "\r\n"; 
+	body += elementValue + "\r\n";
 	return body;
 }
 
@@ -515,54 +515,56 @@ function isNull(field,message) {
 function open_img(img_src) {
 	img_view = window.open("", "TatterImagePopup", "width=0, height=0, left=0, top=0, scrollbars=yes, resizable=yes");
 	img_view.document.write(
-		'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">\n' + 
-		'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">\n' + 
-		'	<head>\n' + 
-		'		<title> :: View :: <\/title>\n' + 
-		'		<meta http-equiv="content-type" content="text/html; charset=utf-8" />\n' + 
-		'		<script type="text/javascript">\n' + 
-		'			function getWindowCleintHeight() {\n' + 
-		'				return (window.innerHeight != null) ? window.innerHeight : document.documentElement.clientHeight;\n' + 
-		'			}\n' + 
-		'			function getWindowCleintWidth() {\n' + 
-		'				return (window.innerWidth != null) ? window.innerWidth : document.documentElement.clientWidth;\n' + 
-		'			}\n' + 
-		'			function resize(img) {\n' + 
-		'				var imageWidth = img.width+5;\n' + 
+		'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">\n' +
+		'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">\n' +
+		'	<head>\n' +
+		'		<title> :: View :: <\/title>\n' +
+		'		<meta http-equiv="content-type" content="text/html; charset=utf-8" />\n' +
+		'		<script type="text/javascript">\n' +
+		'		//<![CDATA\n' +
+		'			function getWindowCleintHeight() {\n' +
+		'				return (window.innerHeight != null) ? window.innerHeight : document.documentElement.clientHeight;\n' +
+		'			}\n' +
+		'			function getWindowCleintWidth() {\n' +
+		'				return (window.innerWidth != null) ? window.innerWidth : document.documentElement.clientWidth;\n' +
+		'			}\n' +
+		'			function resize(img) {\n' +
+		'				var imageWidth = img.width+5;\n' +
 		'				var imageHeight = img.height+5;\n' +
-		'				var screenWidth = screen.availWidth;\n' + 
-		'				var screenHeight = screen.availHeight;\n' + 
-		'				var windowWidth = imageWidth;\n' + 
-		'				var windowHeight = imageHeight;\n' + 
-		'				var positionX = (screenWidth - imageWidth) / 2;\n' + 
-		'				var positionY = (screenHeight - imageHeight) / 2;\n' + 
-		'				if(imageWidth > screenWidth * 0.8) {\n' + 
-		'					windowWidth = screenWidth * 0.8;\n' + 
-		'					document.body.scroll ="yes";\n' + 
+		'				var screenWidth = screen.availWidth;\n' +
+		'				var screenHeight = screen.availHeight;\n' +
+		'				var windowWidth = imageWidth;\n' +
+		'				var windowHeight = imageHeight;\n' +
+		'				var positionX = (screenWidth - imageWidth) / 2;\n' +
+		'				var positionY = (screenHeight - imageHeight) / 2;\n' +
+		'				if(imageWidth > screenWidth * 0.8) {\n' +
+		'					windowWidth = screenWidth * 0.8;\n' +
+		'					document.body.scroll ="yes";\n' +
 		'					positionX = 0;\n' +
-		'				}\n' + 
-		'				if(imageHeight > screenHeight * 0.8 ) {\n' + 
-		'					windowHeight = screenHeight * 0.8;\n' + 
-		'					document.body.scroll ="yes";\n' + 
+		'				}\n' +
+		'				if(imageHeight > screenHeight * 0.8 ) {\n' +
+		'					windowHeight = screenHeight * 0.8;\n' +
+		'					document.body.scroll ="yes";\n' +
 		'					positionY = 0;\n' +
-		'				}\n' + 
-        '               iWidth = windowWidth - getWindowCleintWidth();\n' + 
-        '               iHeight = windowHeight - getWindowCleintHeight();\n' + 
-        '               window.resizeBy(iWidth, iHeight);\n' + 
-		'				window.moveTo(positionX, positionY);\n' + 
-		'			}\n' + 
-		'		<\/script>\n' + 
-		'	<\/head>\n' + 
-		'	<body style="margin: 0px; padding: 0;">\n' + 
-		'		<a href="javascript:window.close()"><img src="' + img_src + '" style="border: 0px; padding: 0; margin:0;" onload="resize(this)" /><\/a>\n' + 
-		'	<\/body>\n' + 
+		'				}\n' +
+        '               iWidth = windowWidth - getWindowCleintWidth();\n' +
+        '               iHeight = windowHeight - getWindowCleintHeight();\n' +
+        '               window.resizeBy(iWidth, iHeight);\n' +
+		'				window.moveTo(positionX, positionY);\n' +
+		'			}\n' +
+		'		\/\/]]>\n' +
+		'		<\/script>\n' +
+		'	<\/head>\n' +
+		'	<body style="margin: 0px; padding: 0;">\n' +
+		'		<a href="javascript:window.close()"><img src="' + img_src + '" style="border: 0px; padding: 0; margin:0;" onload="resize(this)" /><\/a>\n' +
+		'	<\/body>\n' +
 		'<\/html>');
 
-	try { 
+	try {
     	img_view.document.close(); // 팝업창의 문서를 닫는다.
 	}
 	catch(e) { }
-	try { 
+	try {
 	    img_view.document.focus();// 팝업창 문서에 포커스
 	}
 	catch(e) { }
@@ -600,23 +602,23 @@ function openFullScreen(content,caption,root) {
 	catch(e) { }
 }
 
-function scroller(target, acceleration) {	
+function scroller(target, acceleration) {
 	try {
 		var target = document.getElementById(target);
-		var dest = document.body.scrollTop;		
+		var dest = document.body.scrollTop;
 		status = target.scrollTop+'  '+document.body.scrollTop+'  '+acceleration+' = '+((target.offsetTop - document.body.scrollTop)/acceleration)
 		dest += (target.offsetTop - document.body.scrollTop)/acceleration
-		if ( document.body.scrollTop == dest) 
+		if ( document.body.scrollTop == dest)
 			clearInterval(scrollerId);
 		window.scroll(0, dest);
 	} catch(e) {
 		clearInterval(scrollerId);
-		alert(e.message);	
+		alert(e.message);
 	}
 }
 
 function eleganceScroll(target, acceleration) {
-	if(acceleration == undefined) 
+	if(acceleration == undefined)
 		acceleration = 8;
 	scrollerId = window.setInterval("scroller('"+target+"',"+acceleration+")",1000/30);
 }
@@ -679,7 +681,7 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 	try {
 		if(movie == undefined || width == undefined || height == undefined)
 			return false;
-		
+
 		if ( FlashVars == undefined) {
 			var _FlashVars_object = '';
 			var _FlashVars_embed = '';
@@ -687,7 +689,7 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 			var _FlashVars_object = '<param name="FlashVars" value="'+FlashVars+'" />';
 			var _FlashVars_embed = ' FlashVars="'+FlashVars+'" ';
 		}
-		
+
 		if ( menu == undefined) {
 			var _menu_object = '';
 			var _menu_embed = '';
@@ -695,7 +697,7 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 			var _menu_object = '<param name="menu" value="'+menu+'" />';
 			var _menu_embed = ' menu="'+menu+'" ';
 		}
-		
+
 		if ( transparent == undefined) {
 			var _transparent_object = '';
 			var _transparent_embed = '';
@@ -703,7 +705,7 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 			var _transparent_object = '<param name="wmode" value="'+transparent+'" />';
 			var _transparent_embed = ' wmode="'+transparent+'" ';
 		}
-		
+
 		if ( quality == undefined) {
 			var _quality_object = '';
 			var _quality_embed = '';
@@ -711,7 +713,7 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 			var _quality_object = '<param name="quality" value="'+quality+'" />';
 			var _quality_embed = ' quality="'+quality+'" ';
 		}
-		
+
 		if ( bgcolor == undefined) {
 			var _bgcolor_object = '';
 			var _bgcolor_embed = '';
@@ -719,7 +721,7 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 			var _bgcolor_object = '<param name="bgcolor" value="'+bgcolor+'" />';
 			var _bgcolor_embed = ' bgcolor="'+bgcolor+'" ';
 		}
-		
+
 		if ( allowScriptAccess == undefined) {
 			var _allowScriptAccess_object = '';
 			var _allowScriptAccess_embed = '';
@@ -727,22 +729,22 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 			var _allowScriptAccess_object = '<param name="allowScriptAccess" value="'+allowScriptAccess+'" />';
 			var _allowScriptAccess_embed = ' allowScriptAccess="'+allowScriptAccess+'" ';
 		}
-	
+
 		if  (version == undefined) {
 			version = '7,0,0,0';
 		}
-	
+
 		var flashStr=
 		'<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version='+version+'" width="'+width+'" height="'+height+'" id="'+id+'" align="middle"><param name="movie" value="'+movie+'" />'+_allowScriptAccess_object+_FlashVars_object+_menu_object+_quality_object+_bgcolor_object+_transparent_object;
 		flashStr += '<embed type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" src="'+movie+'"'+' width="'+width+'"'+' height="'+height+'"'+_allowScriptAccess_embed+_FlashVars_embed+_menu_embed+_quality_embed+_bgcolor_embed+_transparent_embed+' />'+
 		'</object>';
-		
+
 		return flashStr;
 	} catch(e) {
 		return false;
 	}
-	
-} 
+
+}
 
 function writeCode(str, id) {
         str = str.replace('src="', 'src="http://' + document.domain);
@@ -754,7 +756,7 @@ function writeCode2(str, id) {
 	if(id == undefined) document.write(str);
 	else document.getElementById(id).innerHTML = str;
 }
-    
+
 var StringBuffer = function()
 { this.buffer = new Array(); }
 
@@ -829,30 +831,30 @@ function toggleMoreLess(obj, num, txtMore, txtLess)
 {
 	oMore = document.getElementById('more' + num);
 	oContent = document.getElementById('content' + num);
-	
+
 	if (txtMore.Length == 0) txtMore = 'more...';
 	if (txtLess.Length == 0) txtLess = 'less...';
-	
+
 	if (oContent.style.display == 'none') {
 		oContent.style.display = 'block';
 		oMore.className = "moreless_top";
 		obj.innerHTML = txtLess;
-		
+
 		oLess = document.createElement("P");
 		oLess.id = "less" + num;
 		oLess.className = "moreless_bottom";
 		var txtMore2 = txtMore.replace(/&/g,'&amp;');
 		var txtLess2 = txtLess.replace(/&/g,'&amp;');
-		
+
 		oLess.innerHTML = '<span style="cursor: pointer;" onclick="toggleMoreLess(this, \'' + num + '\', \'' + txtMore2 + '\', \'' + txtLess2 + '\'); return false;">' + txtLess + '<\/span>';
-		
+
 		after = oContent.nextSibling;
 		oContent.parentNode.insertBefore(oLess, after);
 	} else {
 		oContent.style.display = 'none';
 		oMore.className = "moreless_fold";
 		oMore.childNodes[0].innerHTML = txtMore;
-		
+
 		oLess = document.getElementById('less' + num);
 		oContent.parentNode.removeChild(oLess);
 	}
@@ -873,17 +875,17 @@ function removeItselfById(id) {
 function makeQueryStringByForm(formId) {
 	queryString = "";
 	tempForm = document.getElementById(formId);
-	
+
 	for (i=0; i<tempForm.elements.length; i++) {
 		if (queryString != "")
 			linker = "&";
 		else
 			linker = "";
-		
+
 		// disabled 상태이면 패스.
 		if (tempForm.elements[i].disabled == true)
 			continue;
-		
+
 		if (tempForm.elements[i].tagName.toLowerCase() == "input") {
 			switch (tempForm.elements[i].type) {
 				case "checkbox":
@@ -906,7 +908,7 @@ function makeQueryStringByForm(formId) {
 			queryString += linker + tempForm.elements[i].name + "=" + tempForm.elements[i].value;
 		}
 	}
-	
+
 	return queryString;
 }
 
@@ -917,10 +919,10 @@ function showMessage(str) {
 function preventEnter(event) {
     if (!event) event = window.event;
     if (event.keyCode == 13) {
-        event.returnValue = false; 
+        event.returnValue = false;
         event.cancelBubble = true;
-        try { 
-            event.preventDefault(); 
+        try {
+            event.preventDefault();
         } catch(e) { }
         return false;
     }

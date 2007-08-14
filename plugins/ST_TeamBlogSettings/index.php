@@ -158,53 +158,55 @@ function getTeamBlogSettings() {
 								<span><input <?php echo $underlineCheck;?> type="checkbox" id="fontUnderline" onclick="styleExecCommand('fontUnderline', 'fontunderline', 'underline');" /> <label for="fontUnderline"><u><?php echo _t('밑줄'); ?></u></label></span>
 								<span id="fontStyleElement">
 									<script type="text/javascript">
-										var colorCheck;
-										var familyCheck;
-										var sizeCheck;
-										var html = ////
-											'<input type="text" id="fontColor" class="input-text2" style="<?php echo empty($color) ? '' : 'color:$color'; ?>;" value="<?php echo $color;?>" />' + 
-											'<select id="fontColorList" style="width:80px;height:19px;" onchange="styleExecCommand(\'fontColor\', \'fontcolor\', this.value);">' +
-												'<option class="head-option" value=""><?php echo _t('글자색'); ?></option>';
-										for (var i = 0; i < colors.length; ++i) {
-											<?php
-												if(isset($style[3]) && !empty($style[3])) echo "colorCheck = (colors[i] == '".str_replace("#","",$color)."')?' selected ':'';";
-											?>
-											html += '<option style="color:#' + colors[i] + ';" value="#' + colors[i] + '" ' + colorCheck + '>#' + colors[i] + '</option>';
-										}
-										html += '</select>';
-										
-										html += ////
-											'<select id="fontFamilyList" style="width:120px;height:19px;" onchange="styleExecCommand(\'\', \'fontname\', this.value); ">' +
-												'<option class="head-option" value=""><?php echo _t('글자체'); ?></option>';
-										var fontset = _t('fontDisplayName:fontCode:fontFamily').split('|');
-										for (var i = 1; i < fontset.length; ++i) {
-											var fontinfo = fontset[i].split(':');
-											if (fontinfo.length != 3) continue;
-											<?php
-												if(isset($style[4]) && !empty($style[4])) echo "familyCheck = (fontinfo[1] == ".$family[0].")?' selected ':'';";
-											?>
-											html += '<option style="font-family: \'' + fontinfo[1] + '\';" value="\'' + fontinfo[1] + '\', \'' + fontinfo[2] + '\'"' + familyCheck + '>' + fontinfo[0] + '</option>';
-										}
-										for (var i = 0; i < defaultfonts.length; ++i) {
-											var entry = defaultfonts[i];
-											<?php
-												if(isset($style[4]) && !empty($style[4])) echo "familyCheck = (entry[0] == ".$family[0].")?' selected ':'';";
-											?>
-											html += '<option style="font-family: \'' + entry[0] + '\';" value="\'' + entry.join("','") + '\'" ' + familyCheck + '>' + entry[0] + '</option>';
-										}
-										html += '</select>';
+										//<![CDATA[
+											var colorCheck;
+											var familyCheck;
+											var sizeCheck;
+											var html = ////
+												'<input type="text" id="fontColor" class="input-text2" style="<?php echo empty($color) ? '' : 'color:$color'; ?>;" value="<?php echo $color;?>" />' + 
+												'<select id="fontColorList" style="width:80px;height:19px;" onchange="styleExecCommand(\'fontColor\', \'fontcolor\', this.value);">' +
+													'<option class="head-option" value=""><?php echo _t('글자색'); ?></option>';
+											for (var i = 0; i < colors.length; ++i) {
+												<?php
+													if(isset($style[3]) && !empty($style[3])) echo "colorCheck = (colors[i] == '".str_replace("#","",$color)."')?' selected ':'';";
+												?>
+												html += '<option style="color:#' + colors[i] + ';" value="#' + colors[i] + '" ' + colorCheck + '>#' + colors[i] + '</option>';
+											}
+											html += '</select>';
+											
+											html += ////
+												'<select id="fontFamilyList" style="width:120px;height:19px;" onchange="styleExecCommand(\'\', \'fontname\', this.value); ">' +
+													'<option class="head-option" value=""><?php echo _t('글자체'); ?></option>';
+											var fontset = _t('fontDisplayName:fontCode:fontFamily').split('|');
+											for (var i = 1; i < fontset.length; ++i) {
+												var fontinfo = fontset[i].split(':');
+												if (fontinfo.length != 3) continue;
+												<?php
+													if(isset($style[4]) && !empty($style[4])) echo "familyCheck = (fontinfo[1] == ".$family[0].")?' selected ':'';";
+												?>
+												html += '<option style="font-family: \'' + fontinfo[1] + '\';" value="\'' + fontinfo[1] + '\', \'' + fontinfo[2] + '\'"' + familyCheck + '>' + fontinfo[0] + '</option>';
+											}
+											for (var i = 0; i < defaultfonts.length; ++i) {
+												var entry = defaultfonts[i];
+												<?php
+													if(isset($style[4]) && !empty($style[4])) echo "familyCheck = (entry[0] == ".$family[0].")?' selected ':'';";
+												?>
+												html += '<option style="font-family: \'' + entry[0] + '\';" value="\'' + entry.join("','") + '\'" ' + familyCheck + '>' + entry[0] + '</option>';
+											}
+											html += '</select>';
 
-										html += ////
-											'<select id="fontSizeList" style="width:50px;height:19px;" onchange="styleExecCommand(\'\', \'fontsize\', this.value); ">' +
-												'<option class="head-option" value=""><?php echo _t('크기'); ?></option>';
-										for (var i = 8; i < 16; ++i) {
-											<?php
-												if(isset($style[5]) && !empty($style[5])) echo "sizeCheck = (i == ".$size.")?' selected ':'';";
-											?>
-											html += '<option value="' + i + '" ' + sizeCheck + '>' + i + 'pt</option>';
-										}
-										html +=	'</select>';
-										document.getElementById('fontStyleElement').innerHTML = html;
+											html += ////
+												'<select id="fontSizeList" style="width:50px;height:19px;" onchange="styleExecCommand(\'\', \'fontsize\', this.value); ">' +
+													'<option class="head-option" value=""><?php echo _t('크기'); ?></option>';
+											for (var i = 8; i < 16; ++i) {
+												<?php
+													if(isset($style[5]) && !empty($style[5])) echo "sizeCheck = (i == ".$size.")?' selected ':'';";
+												?>
+												html += '<option value="' + i + '" ' + sizeCheck + '>' + i + 'pt</option>';
+											}
+											html +=	'</select>';
+											document.getElementById('fontStyleElement').innerHTML = html;
+										//]]>
 									</script>
 								</span>
 							</dd>
@@ -298,12 +300,12 @@ function getImageFileUpload($target){
 		}
 	}
 	
-	$script  = '<script type="text/javascript">';
+	$script  = '<script type="text/javascript">//<![CDATA'.CRLF;
 	if($errcode != 1){
 		$script .= '	window.parent.top.document.getElementById("teamImage").src = "'.$result.'";';
 	}
 	$script .= '	window.parent.top.PM.showMessage("'.$errmsg.'", "center", "bottom");';
-	$script .= '</script>';
+	$script .= '//]]></script>';
 	echo $script;
 }
 

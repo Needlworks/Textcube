@@ -125,7 +125,7 @@ if (count($_FILES) == 1) {
 		//]]>
 	</script>
 	<style type="text/css">
-		<!--
+		/*<![CDATA[*/
 			body,
 			form
 			{
@@ -138,7 +138,7 @@ if (count($_FILES) == 1) {
 				font-size                        : 75%;
 				width:180px;
 			}
-		-->
+		/*]]>*/
 	</style>
 </head>
 <body id="body-editor-attachment">

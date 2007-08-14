@@ -2,7 +2,7 @@
  All rights reserved. Licensed under the GPL.
  See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)-->
 											<script type="text/vbscript">
-												<!-- // Visual basic helper required to detect Flash Player ActiveX control version information
+												//<![CDATA[
 													Function VBGetSwfVer(i)
 														on error resume next
 														Dim swControl, swVersion
@@ -14,7 +14,7 @@
 														end if
 														VBGetSwfVer = swVersion
 													End Function
-												// -->
+												//]]>
 											</script>
 											
 											<script type="text/javascript">

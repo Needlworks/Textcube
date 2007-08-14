@@ -46,6 +46,7 @@ function openid_login()
 <link rel="stylesheet" type="text/css" href="' . $service['path'] . '/style/admin/default/basic.css" />
 <link rel="stylesheet" type="text/css" href="' . $service['path'] . '/style/admin/default/login.css" />
 <style>
+/*<![CDATA[*/
 .login-button
 {
 	position						 : static;
@@ -100,6 +101,7 @@ dd .input-text
 	font-weight: bold;
 	font-family: arial;
 }
+/*]]>*/
 </style>
 </head>
 <body id="body-login" onload="document.getElementById(\'openid_identifier\').focus()">
@@ -610,6 +612,7 @@ function openid_LOGIN_add_form($target, $requestURI)
 	}
 	$target .= '
 <style type="text/css">
+/*<![CDATA[*/
 #openid-temp-wrap {width: 230px; margin: 20px -10px 0 340px;}
 #openid-line { margin: 0; padding-right: 5px;}
 #openid-all-wrap { position:relative; width: 230px; }
@@ -619,6 +622,7 @@ function openid_LOGIN_add_form($target, $requestURI)
 #openid-login-button { float: right; margin: 15px 10px 5px 20px; left: 100px }
 #openid-remember { display:block; margin-top: 10px; }
 #openid-help { display:block; }
+/*]]>*/
 </style>
 	<form method="get" name="openid_form" action="' . $blogURL . '/plugin/openid/try_auth">
 	<div id="openid-temp-wrap">
@@ -805,7 +809,7 @@ if( document.getElementById('password') ) document.getElementById('password').di
 document.getElementById('name').value = '{$openid_session['nickname']}';
 document.getElementById('title').innerHTML += ' ( <img style=\"position:relative;top:3px;left:0\"; src=\"$hostURL{$service['path']}/plugins/CL_OpenID/openid16x16.gif\" alt=\"OpenID Logo\" /> {$openid_session['id']} )';
 document.getElementById('secret').checked = $secret_checked;
-//]]>\n</script><style type='text/css'>.password-line{display:none}</style>";
+//]]>\n</script><style type='text/css'>/*<![CDATA[*/.password-line{display:none}/*]]>*/</style>";
 	return "$target$scr";
 }
 

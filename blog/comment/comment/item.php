@@ -48,34 +48,36 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		$skin = new Skin($skinSetting['skin']);
 		printHtmlHeader();
 ?>
-<script type="text/javascript">	
-	alert("<?php echo _text('댓글이 등록되었습니다.');?>");
-	
+<script type="text/javascript">
+	//<![CDATA[
+		alert("<?php echo _text('댓글이 등록되었습니다.');?>");
+		
 <?php
-		notifyComment();
-		$tempComments = revertTempTags(removeAllTags(getCommentView($comment['entry'], $skin)));
-		$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));
+			notifyComment();
+			$tempComments = revertTempTags(removeAllTags(getCommentView($comment['entry'], $skin)));
+			$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));
 ?>
-	var obj = opener.document.getElementById("entry<?php echo $comment['entry'];?>Comment");
-	obj.innerHTML = "<?php echo str_innerHTML($tempComments);?>";
-	try {
-	obj = opener.document.getElementById("recentComments");
-	obj.innerHTML = "<?php echo str_innerHTML($tempRecentComments);?>";
-	} catch(e) { }
-	try {
+		var obj = opener.document.getElementById("entry<?php echo $comment['entry'];?>Comment");
+		obj.innerHTML = "<?php echo str_innerHTML($tempComments);?>";
+		try {
+		obj = opener.document.getElementById("recentComments");
+		obj.innerHTML = "<?php echo str_innerHTML($tempRecentComments);?>";
+		} catch(e) { }
+		try {
 <?php
-		$commentCount = getCommentCount($blogid, $comment['entry']);
-		list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
-		$commentCount = ($commentCount > 0) ? "($commentCount)" : '';
+			$commentCount = getCommentCount($blogid, $comment['entry']);
+			list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
+			$commentCount = ($commentCount > 0) ? "($commentCount)" : '';
 ?>
-	obj = opener.document.getElementById("commentCount<?php echo $comment['entry'];?>");
-	if (obj != null) obj.innerHTML = "<?php echo str_innerHTML($commentView);?>";
-	} catch(e) { }
-	try {
-	obj = opener.document.getElementById("commentCountOnRecentEntries<?php echo $comment['entry'];?>");
-	if (obj != null) obj.innerHTML = "<?php echo str_innerHTML($commentCount);?>";
-	} catch(e) { }
-	window.close();
+		obj = opener.document.getElementById("commentCount<?php echo $comment['entry'];?>");
+		if (obj != null) obj.innerHTML = "<?php echo str_innerHTML($commentView);?>";
+		} catch(e) { }
+		try {
+		obj = opener.document.getElementById("commentCountOnRecentEntries<?php echo $comment['entry'];?>");
+		if (obj != null) obj.innerHTML = "<?php echo str_innerHTML($commentCount);?>";
+		} catch(e) { }
+		window.close();
+	//]]>
 </script>
 <?php
 		printHtmlFooter();

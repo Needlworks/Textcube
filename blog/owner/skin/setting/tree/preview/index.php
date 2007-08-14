@@ -57,12 +57,12 @@ if (isset($_GET['showValue']))
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js"></script>
 	<style type="text/css">
-		<!--
+		/*<![CDATA[*/
 			body
 			{
 				background-color                    : #FFFFFF;
 			}
-		-->
+		/*]]>*/
 	</style>
 </head>
 <body id="tree-iframe">

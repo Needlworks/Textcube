@@ -16,12 +16,11 @@ set_time_limit(60);
 	<head profile="http://gmpg.org/xfn/11">
 		<title>OPML Uploading</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<script type="text/javascript">
-		</script>
 	</head>
 	<body>
 		<script type="text/javascript">
-		<?php
+			//<![CDATA[
+<?php
 if ($xml = @file_get_contents($_FILES['opmlFile']['tmp_name'])) {
 	list($status, $result) = importOPMLFromFile($blogid, $xml);
 	if ($status == 0) {
@@ -49,6 +48,7 @@ if ($xml = @file_get_contents($_FILES['opmlFile']['tmp_name'])) {
 } else
 	echo 'alert("' . _t('파일 업로드에 실패했습니다.') . '");';
 ?>
+			//]]>
 		</script>
 	</body>
 </html>

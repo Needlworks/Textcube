@@ -27,7 +27,7 @@ foreach($images as $value) {
 		<script type="text/javascript" src="<?php echo $service['path'].'/script/flash.js';?>"></script>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<style type="text/css">
-			<!--
+			/*<![CDATA[*/
 				body
 				{
 					margin-left             : 0;
@@ -37,11 +37,12 @@ foreach($images as $value) {
 					width                   : 100%;
 					height                  : 100%;
 				}
-				-->
+			/*]]>*/
 		</style>
 	</head>
 	<body>
 		<script type="text/javascript">
+		//<![CDATA[
 			AC_FL_RunContent( 
 			   "classid","clsid:d27cdb6e-ae6d-11cf-96b8-444553540000", 
 			   "codebase","http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0", 
@@ -51,6 +52,7 @@ foreach($images as $value) {
 			   "FlashVars", "image=<?php echo $imageStr;?>&frame=<?php echo $_GET["f"];?>&transition=<?php echo $_GET["t"];?>&navigation=<?php echo $_GET["n"];?>&slideshowInterval=<?php echo $_GET["si"];?>&page=<?php echo $_GET["p"];?>&align=<?php echo $_GET["a"];?>&skinPath=<?php echo $service['path'];?>/script/gallery/iMazing/&",
 			   "allowScriptAccess", "sameDomain", 
 			   "menu", "false");
+		//]]>
 		</script>
 	</body>
 </html>

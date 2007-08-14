@@ -46,9 +46,9 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 
 	// 마우스로 클릭했을때 클릭한 위치의 오브젝트의 인스턴스를 저장할 변수
 	this.selectedElement = null;
-	
+
 	// 선택된 위치 상위노드에 a 태그가 있으면 여기에 저장된다
-	this.selectedAnchorElement = null;	
+	this.selectedAnchorElement = null;
 
 	// 포커스가 벗어나도 선택영역을 유지하기 위해 selection을 저장해둔다
 	this.selection = null;
@@ -81,7 +81,7 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 
 	//textarea.parentNode.insertBefore(this.iframeWrapper, textarea);
 	textarea.parentNode.insertBefore(this.iframe, textarea);
-	
+
 	// 자주 참조하는 핸들을 지정해둔다
 	this.contentWindow = this.iframe.contentWindow;
 	this.contentDocument = this.contentWindow.document;
@@ -95,11 +95,13 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	this.contentDocument.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">');
 	this.contentDocument.write('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko"><head><meta http-equiv="content-type" content="text/html; charset=utf-8" />');
 	this.contentDocument.write('<link rel="stylesheet" type="text/css" href="' + servicePath + editorCSS + '" />');
-	this.contentDocument.write('<style type="text/css">')
+	this.contentDocument.write('<style type="text/css">');
+	this.contentDocument.write('/*<![CDATA[*/');
 	if(STD.isIE)
 		this.contentDocument.write("body { padding: 10px; }");
 	else
 		this.contentDocument.write("html { padding: 10px; }");
+	this.contentDocument.write("/*]]>*/");
 	this.contentDocument.write("</style>");
 	this.contentDocument.write("</head><body>");
 	this.contentDocument.write(this.ttml2html());
@@ -115,7 +117,7 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	this.contentDocument.addEventListener("keypress", this.eventHandler, false);
 	this.contentDocument.addEventListener("paste", this.eventHandler, false);
 	this.contentDocument.addEventListener("keyup", this.eventHandler, false);
-	
+
 	// editor height resize event
 	STD.addEventListener(document);
 	document.addEventListener("mousemove", docEventHandler, false);
@@ -125,10 +127,10 @@ TTEditor.prototype.initialize = function(textarea, imageFilePath, mode, newLine)
 	editor.contentDocument.addEventListener("mousemove", docEventHandler, false);
 	editor.contentDocument.addEventListener("mousedown", docEventHandler, false);
 	editor.contentDocument.addEventListener("mouseup", docEventHandler, false);
-	
+
 	if(this.editMode == "TEXTAREA")
 		this.iframe.style.display = "none";
-	
+
 	// 가끔씩 Firefox에서 커서가 움직이지 않는 문제 수정
 	setTimeout("try{editor.contentDocument.designMode='on'}catch(e){}", 100);
 }
@@ -238,7 +240,7 @@ TTEditor.prototype.ttml2html = function() {
 			var imageName = servicePath + adminSkin + "/image/spacer.gif";
 			var imageAttr = this.styleUnknown;
 		}
-		
+
 		switch(imageType) {
 			case "1L":
 				var replace = '<img class="tatterImageLeft" src="' + imageName + '" ' + imageAttr + longDesc + " />";
@@ -260,7 +262,7 @@ TTEditor.prototype.ttml2html = function() {
 	}
 
 	// iMazing 처리
-	var regImazing = new RegExp("\\[##_iMazing\\|(.*?)_##\\]", ""); 
+	var regImazing = new RegExp("\\[##_iMazing\\|(.*?)_##\\]", "");
 	while(result = regImazing.exec(str)) {
 		var search = result[0];
 
@@ -348,7 +350,7 @@ TTEditor.prototype.html2ttml = function() {
 
 	// 빈줄을 br 태그로
 	str = str.replace(new RegExp("<p[^>]*?>&nbsp;</p>", "gi"), "<br />");
-	
+
 	// <br> 을 <br />로
 	str = str.replaceAll("<br>", "<br />");
 	str = str.replaceAll("<BR>", "<br />");
@@ -393,28 +395,28 @@ TTEditor.prototype.html2ttml = function() {
 	}
 
 	// Gallery 처리
-	var regGallery = new RegExp("<img[^>]*class=[\"']?tatterGallery[^>]*>", "i"); 
-	while(result = regGallery.exec(str)) { 
-		var body = result[0]; 
+	var regGallery = new RegExp("<img[^>]*class=[\"']?tatterGallery[^>]*>", "i");
+	while(result = regGallery.exec(str)) {
+		var body = result[0];
 
-		var size = this.parseImageSize(body, "array"); 
+		var size = this.parseImageSize(body, "array");
 
-		var longdesc = this.parseAttribute(result[0], "longdesc"); 
-		longdesc = this.removeQuot(longdesc); 
-		longdesc = longdesc.replace(new RegExp("(width=[\"']?)\\d*", "i"), "$1" + size[0]); 
-		longdesc = longdesc.replace(new RegExp("(height=[\"']?)\\d*", "i"), "$1" + size[1]); 
-		longdesc = longdesc.split("|"); 
+		var longdesc = this.parseAttribute(result[0], "longdesc");
+		longdesc = this.removeQuot(longdesc);
+		longdesc = longdesc.replace(new RegExp("(width=[\"']?)\\d*", "i"), "$1" + size[0]);
+		longdesc = longdesc.replace(new RegExp("(height=[\"']?)\\d*", "i"), "$1" + size[1]);
+		longdesc = longdesc.split("|");
 
-		// TT 1.0 alpha ~ 1.0.1까지 쓰던 Gallery 치환자를 위한 코드 
-		if(longdesc.length % 2 == 1) 
-			longdesc.length--; 
+		// TT 1.0 alpha ~ 1.0.1까지 쓰던 Gallery 치환자를 위한 코드
+		if(longdesc.length % 2 == 1)
+			longdesc.length--;
 
-		var files = ""; 
- 
-		for(var i=1; i<longdesc.length-1; i++) 
-			files += longdesc[i].replace(new RegExp("&amp;", "gi"), "&") + "|"; 
+		var files = "";
 
-		str = str.replaceAll(body, "[##_Gallery|" + files + this.unHtmlspecialchars(trim(longdesc[longdesc.length-1])) + "_##]"); 
+		for(var i=1; i<longdesc.length-1; i++)
+			files += longdesc[i].replace(new RegExp("&amp;", "gi"), "&") + "|";
+
+		str = str.replaceAll(body, "[##_Gallery|" + files + this.unHtmlspecialchars(trim(longdesc[longdesc.length-1])) + "_##]");
 	}
 
 	// Jukebox 처리
@@ -507,8 +509,8 @@ TTEditor.prototype.showProperty = function(obj)
 	var attribute = obj.getAttribute("longdesc");
 
 	getObject("textBox").style.display = "none";
-	getObject("colorPalette").style.display = "none"; 
-	getObject("markPalette").style.display = "none"; 
+	getObject("colorPalette").style.display = "none";
+	getObject("markPalette").style.display = "none";
 	getObject("propertyImage1").style.display = "none";
 	getObject("propertyImage2").style.display = "none";
 	getObject("propertyImage3").style.display = "none";
@@ -577,9 +579,9 @@ TTEditor.prototype.showProperty = function(obj)
 				getObject(propertyWindowId + "_watermark1").checked = true;
 				getObject(propertyWindowId + "_resample1").checked = true;
 			}
-			
+
 			editor.propertyFilename1 = values[1];
-			
+
 			// 1번 이미지.
 			if(objectCount == 1) {
 				var size = editor.parseImageSize(editor.selectedElement, "array");
@@ -612,7 +614,7 @@ TTEditor.prototype.showProperty = function(obj)
 					editor.propertyCurrentProportion3 = size[1] / size[0];
 				}
 			}
-			
+
 			// 2번 이미지.
 			if(objectCount > 1) {
 				getObject(propertyWindowId + "_width2").value = trim(editor.removeQuot(editor.parseAttribute(values[5], "width")));
@@ -627,7 +629,7 @@ TTEditor.prototype.showProperty = function(obj)
 			}
 
 			editor.propertyFilename2 = values[4];
-			
+
 			// 3번 이미지.
 			if(objectCount > 2) {
 				getObject(propertyWindowId + "_width3").value = trim(editor.removeQuot(editor.parseAttribute(values[8], "width")));
@@ -741,12 +743,12 @@ TTEditor.prototype.showProperty = function(obj)
 
 			node = node.parentNode;
 		}
-		
+
 		if(STD.isIE)
 			var isEmpty = (editor.getSelectionRange().htmlText == "");
 		else
 			var isEmpty = (editor.getSelectionRange().startOffset == editor.getSelectionRange().endOffset);
-		
+
 		if (editor.selectedAnchorElement == null && isEmpty)
 			getObject("propertyHyperLink").style.display = "none";
 	}
@@ -806,7 +808,7 @@ TTEditor.prototype.setProperty = function()
 			var imageAlt = "";
 			var imageCaption = "";
 			var imageResample = "";
-			
+
 			try {
 				var value = parseInt(getObject(editor.propertyWindowId + "_width1").value);
 				if(!isNaN(value) && value > 0 && value < 10000)
@@ -831,16 +833,16 @@ TTEditor.prototype.setProperty = function()
 					getObject(editor.propertyWindowId + "_resample1").checked = false;
 				}
 			} catch(e) { imageResample = ''; }
-			
+
 			var longdesc = editor.propertyHeader + '|' + editor.propertyFilename1 + '|' + imageSize + imageResample + imageAlt + '|' + imageCaption;
-			
+
 			// 2번 이미지.
 			if(objectCount > 1) {
 				imageSize = "";
 				imageAlt = "";
 				imageCaption = "";
 				imageResample = "";
-				
+
 				try {
 					var value = parseInt(getObject(editor.propertyWindowId + "_width2").value);
 					if(!isNaN(value) && value > 0 && value < 10000)
@@ -865,17 +867,17 @@ TTEditor.prototype.setProperty = function()
 						getObject(editor.propertyWindowId + "_resample2").checked = false;
 					}
 				} catch(e) { imageResample = ''; }
-				
+
 				longdesc += '|' + editor.propertyFilename2 + '|' + imageSize + imageResample + imageAlt + '|' + imageCaption;
 			}
-			
+
 			// 3번 이미지.
 			if(objectCount > 2) {
 				imageSize = "";
 				imageAlt = "";
 				imageCaption = "";
 				imageResample = "";
-				
+
 				try {
 					var value = parseInt(getObject(editor.propertyWindowId + "_width3").value);
 					if(!isNaN(value) && value > 0 && value < 10000)
@@ -900,7 +902,7 @@ TTEditor.prototype.setProperty = function()
 						getObject(editor.propertyWindowId + "_resample3").checked = false;
 					}
 				} catch(e) { imageResample = ''; }
-				
+
 				longdesc += '|' + editor.propertyFilename3 + '|' + imageSize + imageResample + imageAlt + '|' + imageCaption;
 			}
 

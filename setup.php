@@ -938,7 +938,11 @@ RewriteRule ^testrewrite$ setup.php [L]"
     <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
   </div>
   </div>
-  <script type="text/javascript">document.getElementById('email').focus();</script>
+  <script type="text/javascript">
+    //<![CDATA[
+      document.getElementById('email').focus();
+    //]]>
+  </script>
 <?php
     }
     else if ($step == 7) {
@@ -1404,7 +1408,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
 							{$_POST['dbPrefix']}Users,
 							{$_POST['dbPrefix']}XMLRPCPingSettings"
 					);
-					echo '<script type="text/javascript">alert("', _t('테이블을 생성하지 못했습니다.'), '")</script>';
+					echo '<script type="text/javascript">//<![CDATA['.CRLF.'alert("', _t('테이블을 생성하지 못했습니다.'), '")//]]></script>';
 					$error = 1;
 					break;
 				}
@@ -1421,14 +1425,14 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
                 if (!empty($sub) && !mysql_query($sub)) {
-					echo '<script type="text/javascript">alert("', _t('정보를 갱신하지 못했습니다.'), '")</script>';
+					echo '<script type="text/javascript">//<![CDATA['.CRLF.'alert("', _t('정보를 갱신하지 못했습니다.'), '")//]]></script>';
 					$error = 2;
 					break;
 				}
 			}
 		}
 		if (!$error)
-			echo '<script type="text/javascript">next()</script>';
+			echo '<script type="text/javascript">//<![CDATA['.CRLF'.next() //]]></script>';
 ?>
 </body>
 </html>
