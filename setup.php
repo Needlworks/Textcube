@@ -1200,6 +1200,7 @@ CREATE TABLE {$_POST['dbPrefix']}Links (
 CREATE TABLE {$_POST['dbPrefix']}PageCacheLog (
   blogid int(11) NOT NULL default '0',
   name varchar(255) NOT NULL default '',
+  value text NOT NULL,
   PRIMARY KEY (blogid,name)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Plugins (

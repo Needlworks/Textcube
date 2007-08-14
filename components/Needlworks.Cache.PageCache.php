@@ -12,6 +12,7 @@ class pageCache {
 	var $filenameOwner;
 	var $filenameGuest;
 	var $contents;
+	var $dbContents;
 	var $absoluteFilePath;
 	var $absoluteFilePathOwner;
 	var $absoluteFilePathGuest;
@@ -29,6 +30,7 @@ class pageCache {
 		$this->absoluteFilePathOwner =
 		$this->absoluteFilePathGuest =
 		$this->contents =
+		$this->dbContents =
 		$this->error = 
 		null;
 	}
@@ -124,7 +126,7 @@ class pageCache {
 	function setPageCacheLog() {
 		global $database;
 		return DBQuery::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
-			VALUES(".getBlogId().", '".mysql_tt_escape_string($this->realName)."')");
+			VALUES(".getBlogId().", '".mysql_tt_escape_string($this->realName)."', '".mysql_tt_escape_string($this->dbContents)."')");
 	}
 
 	function removePageCacheLog() {

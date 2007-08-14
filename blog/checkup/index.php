@@ -862,6 +862,17 @@ if (DBQuery::queryCell("DESC {$database['prefix']}ServiceSettings value", 'Type'
 	}
 }
 
+if (!DBQuery::queryExistence("DESC {$database['prefix']}PageCacheLog value")) {
+	$changed = true;
+	echo '<li>', _text('페이지 캐싱을 위한 테이블을 추가합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}PageCacheLog ADD value text NOT NULL AFTER name"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
+
+// Common parts.
 if(doesHaveOwnership() && $blogids = DBQuery::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
 	$changed = true;
 	$errorlog = false;

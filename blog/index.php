@@ -62,8 +62,8 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 }
 publishEntries();
 fireEvent('OBStart');
-require ROOT . '/lib/piece/blog/begin.php';
 if(empty($suri['value']) && $suri["directive"] == "/" && $suri['page'] == 1 && count($metapageMappings) > 0 && getBlogSetting("metapageInitView")) {
+	require ROOT . '/lib/piece/blog/begin.php';
 	$metaView = $skin->meta;
 	dress('article_rep', '', $view);
 	dress('paging', '', $view);
@@ -71,6 +71,7 @@ if(empty($suri['value']) && $suri["directive"] == "/" && $suri['page'] == 1 && c
 	dress('meta', $metaView, $view);
 } else {
 	list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
+	require ROOT . '/lib/piece/blog/begin.php';
 	require ROOT . '/lib/piece/blog/entries.php';
 }
 

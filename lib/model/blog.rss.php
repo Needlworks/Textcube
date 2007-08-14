@@ -48,7 +48,7 @@ function refreshRSS($blogid) {
 			DESC LIMIT {$blog['entriesOnRSS']}");
 	}
 	if (!$result)
-		return false;
+		$result = array();
 	$channel['items'] = array();
 	foreach($result as $row) {
 		$content = getEntryContentView($blogid, $row['id'], $row['content'], $row['contentFormatter'], true, 'Post', true, true);
