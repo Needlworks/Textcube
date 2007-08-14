@@ -443,7 +443,7 @@ for ($i=0;$i<$sidebarCount; $i++) {
 foreach ($sortedArray as $nowKey) {
 ?>
 										<li class="sidebar-module" id="<?php echo "add-sidebar-element-{$nowKey['identifier']}";?>">
-											<h4 class="module-title"><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey['title'];?>"><?php echo $nowKey['title'];?></label></h4>
+											<h4 class="module-title"><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey['identifier'];?>"><?php echo $nowKey['title'];?></label></h4>
 											
 											<div class="module-content"><?php echo pretty_dress($nowKey['body']);?></div>
 										</li>
@@ -462,7 +462,7 @@ foreach ($sortedArray as $nowKey) {
 foreach ($sidebarPluginArray as $nowKey) {
 ?>
 										<li class="sidebar-module" id="<?php echo "add-sidebar-module-{$nowKey['identifier']}";?>">
-											<h4 class="module-title"><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey;?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label></h4>
+											<h4 class="module-title"><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey['identifier'];?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label></h4>
 																			
 											<div class="edit-button-box">
 											</div>
