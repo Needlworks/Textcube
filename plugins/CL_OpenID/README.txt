@@ -12,6 +12,7 @@
 Version 1.0:
 + Add: 타임아웃으로 종료될 경우, 자동으로 로그인가능하게함
 + Chg: IdP 아이디대신 제시한 아이디를 오픈아이디로 사용함
++ Add: <label rel="openidlinkbeforethis"> blah </label> 과 같은 태그가 있으면 이름 태그 대신 그 앞에 링크 삽입
 
 Version 0.9:
 
@@ -24,3 +25,9 @@ Version 0.9:
 Version 0.2:
 
 + 인증된 세션에 대해서는 댓글 수정/삭제가 바로 되도록 추가함.
+
+
+HELP!
+* OpenID 링크때문에 스킨이 깨집니다.
+> input 태그중에 이름부분을 찾아서 그 앞에 넣는 것이 기본 동작입니다. 만약 이 동작이 스킨을 망가뜨리면, 스킨을 편집하셔야합니다.
+> 원하는 적당한 위치에 있는 <label> 태그를 찾아 주시고, 그 태그안에 <label rel="openidlinkbeforethis"> Name </label> 과 같은  형식이 되도록 맞춰주세요.
