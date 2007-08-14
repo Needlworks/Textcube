@@ -3,9 +3,11 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-define( 'BITWISE_EDITOR', 0x1 );
-define( 'BITWISE_ADMINISTRATOR', 0x2 );
-define( 'BITWISE_OWNER', 0x10 );
+// Of course, BITWISE must be BITWISE! (2^)
+define( 'BITWISE_EDITOR', 0x1 );              // 00001
+define( 'BITWISE_ADMINISTRATOR', 0x2 );       // 00010
+define( 'BITWISE_INVITER', 0x8 );             // 01000
+define( 'BITWISE_OWNER', 0x10 );              // 10000
 
 /* static */
 global $sAcoPredefinedChain;
@@ -263,8 +265,10 @@ class Acl {
 				AND acl > 15");
 		foreach( $result as $blogids) {
 			Acl::setAcl($blogids, array("group.owners", "textcube.$userid"), false );
+			if($userid == 1) {	// Give invite privilege to super administrator
+				Acl::setAcl(getBlogId(), array("group.inviters", "textcube.$userid"), true );
+			}
 		}
-		//Acl::setAcl($userid, array("group.owners", "textcube.$userid"), false );
 	}
 
 	function setTeamAcl( $userid ) {

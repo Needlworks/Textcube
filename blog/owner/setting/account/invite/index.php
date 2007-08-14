@@ -16,7 +16,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.user');
 requireStrictRoute();
-if (($service['type'] == 'single') || (getUserId() > 1))
+if (($service['type'] == 'single') || !Acl::check("group.inviters"))
 	respondResultPage(false);
 $useradd = addUser($_POST['email'], $_POST['name']);
 if($useradd !== true && $useradd != 9) {

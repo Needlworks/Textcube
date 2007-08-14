@@ -94,7 +94,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								}
 
 <?php
-if ($service['type'] != 'single') {
+if ($service['type'] != 'single' &&  Acl::check("group.inviters")) {
 ?>
 								function refreshReceiver(event) {
 									if (event.keyCode == 188) {
@@ -372,7 +372,7 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 						</div>
 <!-- OPENID END -->
 <?php
-if ($service['type'] != 'single' && Acl::check("group.owners" ) ) {
+if ($service['type'] != 'single' && Acl::check("group.inviters")) {
 	$urlRule = getBlogURLRule();
 ?>
 						<div id="part-setting-invite" class="part">
