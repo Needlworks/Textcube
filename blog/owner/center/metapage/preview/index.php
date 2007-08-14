@@ -164,8 +164,8 @@ function pretty_dress($view)
 	dress('textcube_version', TEXTCUBE_VERSION, $view);
 	
 	$tagSearches = array ( '@<a @i' , '@</a *>@i', '@ id *= *".*"@isU', '@ onkey(down|up|press) *="@i', '@ on(click|load|unload) *="@i', '@<input +@i'      , '@<script.*</script *>@siU', '@<form @siU', '@</form>@siU' );
-	$tagReplaces = array ( '<span ' , '</span>'  , ''                , ' onnothing="'                , ' onnothing="'                 , '<input disabled ' , ''                        , '<div ' , '</div>');
-		
+	$tagReplaces = array ( '<span ' , '</span>'  , ''                , ' onnothing="'                , ' onnothing="'                 , '<input disabled="disabled" ' , ''                        , '<div ' , '</div>');
+			
 	$view = preg_replace($tagSearches, $tagReplaces, $view);
 	
 	return correctMetapageImage($view);
