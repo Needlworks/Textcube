@@ -153,8 +153,7 @@ table.data-inbox tbody tr td.ip
 
 #part-post-list table.data-inbox thead tr th.title
 {
-	padding-left                     : 65px;
-	text-align                       : left;
+	text-align                       : center;
 }
 
 #part-post-list table.data-inbox tr .delete
