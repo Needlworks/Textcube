@@ -63,7 +63,8 @@ function addOpenID()
 	}
 	fireEvent("OpenIDSetUserId", $currentOpenID);
 
-	echo "<html><head><script>alert('" . _t('추가하였습니다.') . " : " . $currentOpenID . "'); document.location.href='" . $blogURL . "/owner/setting/account'</script></head></html>";
+	echo "<html><head><script type=\"text/javascript\">//<![CDATA[".CRLF
+		."alert('" . _t('추가하였습니다.') . " : " . $currentOpenID . "'); document.location.href='" . $blogURL . "/owner/setting/account'; //]]></script></head></html>";
 
 }
 
@@ -80,7 +81,8 @@ function deleteOpenID($openidForDel)
 		}
 	}
 
-	echo "<html><head><script>alert('" . _t('삭제되었습니다.') . "'); document.location.href='" . $blogURL . "/owner/setting/account'</script></head></html>";
+	echo "<html><head><script type=\"text/javascript\">//<![CDATA[".CRLF
+		."alert('" . _t('삭제되었습니다.') . "'); document.location.href='" . $blogURL . "/owner/setting/account'; //]]></script></head></html>";
 
 }
 

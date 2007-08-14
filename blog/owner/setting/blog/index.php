@@ -672,7 +672,11 @@ while ($tempAdminSkin = $dir->read()) {
 if (isset($_GET['message'])) {
 	$msg = escapeJSInCData($_GET['message']);
 ?>
-	<script> window.onload = function() { PM.showMessage("<?php echo $msg;?>", "center", "bottom"); } </script>
+	<script type="text/javascript">
+		//<![CDATA[
+			window.onload = function() { PM.showMessage("<?php echo $msg;?>", "center", "bottom"); }
+		//]]>
+	</script>
 <?php
 }
 

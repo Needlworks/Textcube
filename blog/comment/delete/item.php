@@ -21,7 +21,8 @@ if(!Acl::check('group.administrators') && !Acl::check('group.owners')) { // If n
 	if(!empty($replier)) {	// If replier exists, (member of the blog system)
 		if(!Acl::check('group.owners')) { // If not blog owner,
 			if(!doesHaveMembership() || $replier != getUserId()) {
-				echo "<script> alert('"._t('권한이 없습니다.')."'); window.close(); </script>";
+				echo "<script type=\"text/javascript\">//<![CDATA[".CRLF
+					."alert('"._t('권한이 없습니다.')."'); window.close(); //]]></script>";
 				exit;	
 			}
 		}
@@ -106,8 +107,10 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					printHtmlHeader();
 ?>
 <script type="text/javascript">
-	alert("<?php echo _text('귀하는 차단되었으므로 사용하실 수 없습니다.');?>");
-	window.close();
+	//<![CDATA[
+		alert("<?php echo _text('귀하는 차단되었으므로 사용하실 수 없습니다.');?>");
+		window.close();
+	//]]>
 </script>
 <?php
 					printHtmlFooter();

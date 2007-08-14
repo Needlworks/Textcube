@@ -139,7 +139,13 @@ for ($i=0; $i<sizeof($keywordlist); $i++) {
 									<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="rank"><?php echo $rank.".";?></td>
 										<td class="rank"><?php echo $keywordvalue;?></td>
-										<td class="address"><script>document.write(unescape("<?php echo $keywordkey;?>"));</script> </td>
+										<td class="address">
+											<script type="text/javascript">
+												//<![CDATA[
+													document.write(unescape("<?php echo $keywordkey;?>"));
+												//]]>
+											</script>
+										</td>
 									</tr>
 <?php
 }
