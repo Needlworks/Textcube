@@ -2,7 +2,7 @@
 body
 {
 	margin                  : 0;
-	background              : #FFF url(./Images/bg.png) top left repeat-x;
+	background              : #FFF url(./images/bg.png) top left repeat-x;
 }
 
 #keyword
@@ -31,7 +31,7 @@ body
 	color                   : #FFF;
 	font-size               : .75em;
 	font-family             : Tahoma, Helvetica, Arial, Gulim, sans-serif;
-	background              : url(./Images/bullet.gif) 0% 50% no-repeat;
+	background              : url(./images/bullet.gif) 0% 50% no-repeat;
 }
 
 #keyword .view
