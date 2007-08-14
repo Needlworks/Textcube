@@ -842,7 +842,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?php
 	} else if ($entry['category'] == -4) {
 ?>
-												<a id="category_<?php echo $entry['id'];?>" class="template" href="<?php echo $blogURL;?>/owner/entry?category=-1"><?php echo _t('서식');?></a>
+												<a id="category_<?php echo $entry['id'];?>" class="template" href="<?php echo $blogURL;?>/owner/entry?category=-4"><?php echo _t('서식');?></a>
 <?php
 	}
 ?>
