@@ -423,7 +423,11 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 	
 	$sidebarCount = count($obj->sidebarBasicModules);
 	$sidebarAllOrders = getSidebarModuleOrderData($sidebarCount);
-	if ($previewMode == true) $sidebarAllOrders = null;
+	if ($previewMode == true) {
+		$sidebarAllOrders = null;
+	} else {
+		if (is_null($sidebarAllOrders)) $sidebarAllOrders = array();
+	}
 	
 	for ($i=0; $i<$sidebarCount; $i++) {
 		$str = "";
@@ -469,14 +473,16 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 				$str .= $obj->sidebarBasicModules[$i][$j]['body'];
 				array_push($newSidebarAllOrders[$i], array('type' => '1', 'id' => "$i", 'parameters' => "$j"));
 			}
+			
+			if (!is_null($sidebarAllOrders)) $sidebarAllOrders[$i] = $newSidebarAllOrders[$i];  
 		}
 		
 		dress("sidebar_{$i}", $str, $sval);
 	}
 	
 	if (count($newSidebarAllOrders) > 0) {
-		if ($previewMode == false)
-			setBlogSetting("sidebarOrder", serialize($newSidebarAllOrders));
+		if (($previewMode == false) && !is_null($sidebarAllOrders))
+			setBlogSetting("sidebarOrder", serialize($sidebarAllOrders));
 	}
 }
 
