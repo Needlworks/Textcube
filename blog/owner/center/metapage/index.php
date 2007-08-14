@@ -163,9 +163,7 @@ function pretty_dress($view)
 	
 	return correctMetapageImage($view);
 }
-?>
 
-<?php
 $defaultModeSelected = false;
 $safeModeSelected = false;
 $tagModeSelected = false;
@@ -230,15 +228,19 @@ getBlogContentForMetaPage();
 ?>
 						<form id="part-metapage-order" class="part" method="post" action="<?php echo $blogURL; ?>/owner/center/metapage">
 							<h2 class="caption"><span class="main-text"><?php echo _t('메타 페이지를 관리합니다');?></span></h2>
-
+<?php
+	if(isset($skin->meta)) {
+?>
 							<dl id="independent-meta-line" class="line">
 								<dt><?php echo _t('독립패널 설정');?></dt>
 								<dd>
-									<input type="checkbox" class="checkbox" id="useMetapageInit" name="useMetapageInit" value="on" onclick="changeList()"<?php echo $metapageInitView == 1 ? ' checked="checked"' : NULL;?> />
+									<input type="checkbox" class="checkbox" id="useMetapageInit" name="useMetapageInit" value="on" onclick="changeList();return false;"<?php echo $metapageInitView == 1 ? ' checked="checked"' : NULL;?> />
 									<label for="useMetapageInit"><?php echo _t('메타 페이지를 첫 화면으로 설정합니다');?></label>
 								</dd>
 							</dl>							
-							
+<?php
+	}
+?>
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('블로그의 메타 페이지 구성을 변경할 수 있습니다. 메타 페이지는 블로그 첫 화면에 표시되는 부분입니다. 메타 페이지에 새로운 요소를 추가/삭제할 수 있으며 패널들을 자유롭게 배치 할 수 있습니다.');?>
 								<?php echo ($service['type'] == 'path' || $service['type'] == 'domain') ?  _t('다중 사용자 모드로 설치된 경우 블로그 관리자는 메타 페이지 기능을 이용하여 대표 블로그를 다른 블로그들에 대한 센터 기능을 하는 메타 페이지로 구성할 수 있습니다.') : '';?></p>
