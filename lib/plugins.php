@@ -725,16 +725,18 @@ function checkboxTreat( $cmd, $dfVal, $name) {
 }
 function radioTreat( $cmd, $dfVal, $name) {
 	$DSP = '';
+	$cnt = 0;
 	$df = empty( $dfVal[$name]) ? NULL :$dfVal[$name];
 	foreach( $cmd['op']  as $option ) {
+		$cnt++;
 		$DSP .= TAB.TAB.TAB.TAB.'<input type="radio"  class="radiocontrol" ';
-		$DSP .= ' name="'.$name.'" ';
+		$DSP .= ' name="'.$name.'" id="'.$name.$cnt.'" ';
 		$oc = empty( $option['.attributes']['checked'] ) ? NULL: $option['.attributes']['checked'];
 		$DSP .= !is_string( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
 		$DSP .= is_string( $oc ) && 'checked' == $oc && is_null($dfVal) ? 'checked="checked" ' : '';
 		$DSP .= is_string($df) && (!is_string( $option['.attributes']['value'] ) ? false : $option['.attributes']['value']== $df ) ? 'checked="checked" ' : '';
 		$DSP .= ' />' ;
-		$DSP .= "<label class='radiolabel' for='".$name."'>{$option['.value']}</label >".CRLF;
+		$DSP .= "<label class='radiolabel' for='".$name.$cnt."'>{$option['.value']}</label >".CRLF;
 	}
 	return $DSP;
 }

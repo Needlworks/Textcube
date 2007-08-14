@@ -1,11 +1,14 @@
 <?php
 function MT_Meta_getRecentEntries($parameters){
-	global $database,$blog,$serviceURL;
-	$blogid = getBlogId();
+	global $database,$blog,$serviceURL,$configVal;
 	requireComponent('Textcube.Core');
 	requireComponent('Needlworks.Cache.PageCache');
+	requireComponent('Textcube.Function.misc');
 	requireModel("blog.entry");
 	requireModel("blog.tag");
+	$data = misc::fetchConfigVal($configVal);
+	$data['metaMode']	= !isset($data['metaMode'])?1:$data['metaMode'];
+
 	if (isset($parameters['preview'])) {
 		// preview mode
 		$retval = '메타페이지에 최신 글 목록을 보여줍니다.';
@@ -17,13 +20,13 @@ function MT_Meta_getRecentEntries($parameters){
 		@mkdir(ROOT."/cache/thumbnail");
 		@chmod(ROOT."/cache/thumbnail", 0777);
 	}
-	if (!is_dir(ROOT."/cache/thumbnail/".$blogid)) {
-		@mkdir(ROOT."/cache/thumbnail/".$blogid);
-		@chmod(ROOT."/cache/thumbnail/".$blogid, 0777);
+	if (!is_dir(ROOT."/cache/thumbnail/" . getBlogId())) {
+		@mkdir(ROOT."/cache/thumbnail/" . getBlogId());
+		@chmod(ROOT."/cache/thumbnail/" . getBlogId(), 0777);
 	}
-	if (!is_dir(ROOT."/cache/thumbnail/{$blogid}/metaPostThumbnail/")) {
-		@mkdir(ROOT."/cache/thumbnail/{$blogid}/metaPostThumbnail/");
-		@chmod(ROOT."/cache/thumbnail/{$blogid}/metaPostThumbnail/", 0777);
+	if (!is_dir(ROOT."/cache/thumbnail/" . getBlogId() . "/metaPostThumbnail/")) {
+		@mkdir(ROOT."/cache/thumbnail/" . getBlogId() . "/metaPostThumbnail/");
+		@chmod(ROOT."/cache/thumbnail/" . getBlogId() . "/metaPostThumbnail/", 0777);
 	}
 
 	$cache = new PageCache;
@@ -32,17 +35,19 @@ function MT_Meta_getRecentEntries($parameters){
 		return $cache->contents;
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
+		$multiple = ($data['metaMode']==2) ? '' : 'e.blogid = ' . getBlogId() . ' AND';
 		$entries = DBQuery::queryAll("SELECT e.blogid, e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, c.label 
 			FROM {$database['prefix']}Entries e
 			LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
-			WHERE e.draft = 0 $visibility AND e.category >= 0 
+			WHERE $multiple e.draft = 0 $visibility AND e.category >= 0 
 			ORDER BY published DESC LIMIT $entryLength");	
 		
 		$html = '';
 		foreach ($entries as $entry){
 			$tagLabelView = "";
-			$entryTags = getTags($entry['blogid'], $entry['id']);
-			$defaultURL = getDefaultURL($entry['blogid']);
+			$blogid = ($data['metaMode']==2) ? $entry['blogid'] : getBlogId();
+			$entryTags = getTags($blogid, $entry['id']);
+			$defaultURL = getDefaultURL($blogid);
 			if (sizeof($entryTags) > 0) {
 				$tags = array();
 				foreach ($entryTags as $entryTag) {
@@ -56,7 +61,7 @@ function MT_Meta_getRecentEntries($parameters){
 	
 			$html .= '<div class="metapost">'.CRLF;
 			if($imageName = MT_Meta_getAttachmentExtract($entry['content'])){
-				if($tempImageSrc = MT_Meta_getImageResizer($imageName)){
+				if($tempImageSrc = MT_Meta_getImageResizer($blogid, $imageName)){
 					$html .= '<div class="img_preview" style="background:url('.$tempImageSrc.') top center no-repeat #ffffff;\"><img src="'.$serviceURL.'/image/spacer.gif" alt="" onclick="window.location.href=\''.$permalink.'\'; return false;" /></div>'.CRLF;
 				}
 			}
@@ -88,14 +93,13 @@ function MT_Meta_getRecentEntries_purgeCache($mother, $target) {
 	return $target;
 }
 
-function MT_Meta_getImageResizer($filename){
+function MT_Meta_getImageResizer($blogid, $filename){
 	global $defaultURL;
-	$blogid = getBlogId();
 	requireComponent('Textcube.Function.Image');
 	
 	$imagePath = ROOT . "/attach/{$blogid}/{$filename}"; 
-	$savePath = ROOT . "/cache/thumbnail/{$blogid}/metaPostThumbnail/th_{$filename}";
-	$srcPath = "{$defaultURL}/thumbnail/{$blogid}/metaPostThumbnail/th_{$filename}";
+	$savePath = ROOT . "/cache/thumbnail/" . getBlogId() . "/metaPostThumbnail/th_{$filename}";
+	$srcPath = "{$defaultURL}/thumbnail/" . getBlogId() . "/metaPostThumbnail/th_{$filename}";
 
 	if(file_exists($imagePath)){
 		if(!file_exists($savePath)){
@@ -136,5 +140,54 @@ function MT_Meta_getRecentEntryStyle($target){
 	global $pluginURL;
 	$target .= '<link rel="stylesheet" media="screen" type="text/css" href="' . $pluginURL . '/style.css" />' . CRLF;
 	return $target;
+}
+
+function MT_Meta_getRecentEntries_DataSet($DATA){
+	requireComponent('Textcube.Function.misc');
+	requireComponent('Needlworks.Cache.PageCache');
+	$cfg = misc::fetchConfigVal($DATA);
+
+	$cache = new PageCache;
+	$cache->name = 'MT_Meta_RecentPS';
+	$cache->purge();
+	return true;
+}
+
+function MT_Meta_getRecentEntries_ConfigOut_ko($plugin) {
+	global $service;
+	
+	$manifest = NULL;
+
+	$manifest .= '<?xml version="1.0" encoding="utf-8"?>'.CRLF;
+	$manifest .= '<config dataValHandler="MT_Meta_getRecentEntries_DataSet" >'.CRLF;
+	$manifest .= '	<window width="500" height="244" />'.CRLF;
+	$manifest .= '	<fieldset legend="메타 출력 설정">'.CRLF;
+	$manifest .= '		<field title="출력 형태 :" name="metaMode" type="radio"  >'.CRLF;
+	$manifest .= '			<op value="1" checked="checked"><![CDATA[단일 사용자&nbsp;]]></op>'.CRLF;
+	$manifest .= '			<op value="2">다중 사용자</op>'.CRLF;
+	$manifest .= '		</field>'.CRLF;
+	$manifest .= '	</fieldset>'.CRLF;
+	$manifest .= '</config>'.CRLF;
+	
+	return $manifest;
+}
+
+function MT_Meta_getRecentEntries_ConfigOut_en($plugin) {
+	global $service;
+	
+	$manifest = NULL;
+
+	$manifest .= '<?xml version="1.0" encoding="utf-8"?>'.CRLF;
+	$manifest .= '<config dataValHandler="MT_Meta_getRecentEntries_DataSet" >'.CRLF;
+	$manifest .= '	<window width="500" height="244" />'.CRLF;
+	$manifest .= '	<fieldset legend="Meta list setup">'.CRLF;
+	$manifest .= '		<field title="List mode :" name="metaMode" type="radio"  >'.CRLF;
+	$manifest .= '			<op value="1" checked="checked"><![CDATA[Single user&nbsp;]]></op>'.CRLF;
+	$manifest .= '			<op value="2">Multi user</op>'.CRLF;
+	$manifest .= '		</field>'.CRLF;
+	$manifest .= '	</fieldset>'.CRLF;
+	$manifest .= '</config>'.CRLF;
+	
+	return $manifest;
 }
 ?>

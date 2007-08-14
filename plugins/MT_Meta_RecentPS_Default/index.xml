@@ -30,5 +30,11 @@
         </param>
 	  </params>
 	</metapage>
+	<config xml:lang="ko" dataValHandler="MT_Meta_getRecentEntries_DataSet" manifestHandler="MT_Meta_getRecentEntries_ConfigOut_ko">
+		<window width="500" height="244" />
+	</config>
+	<config xml:lang="en" dataValHandler="MT_Meta_getRecentEntries_DataSet" manifestHandler="MT_Meta_getRecentEntries_ConfigOut_en">
+		<window width="500" height="244" />
+	</config>
   </binding>
 </plugin>
