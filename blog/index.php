@@ -62,7 +62,8 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 }
 publishEntries();
 fireEvent('OBStart');
-if(empty($suri['value']) && $suri["directive"] == "/" && $suri['page'] == 1 && count($metapageMappings) > 0 && getBlogSetting("metapageInitView")) {
+$skin = new Skin($skinSetting['skin']);
+if(empty($suri['value']) && $suri["directive"] == "/" && $suri['page'] == 1 && count($metapageMappings) > 0 && getBlogSetting("metapageInitView") && isset($skin->meta)) {
 	require ROOT . '/lib/piece/blog/begin.php';
 	$metaView = $skin->meta;
 	dress('article_rep', '', $view);
