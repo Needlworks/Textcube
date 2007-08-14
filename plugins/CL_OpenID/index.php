@@ -294,8 +294,8 @@ function openid_try_auth()
 
 	if (empty($openid)) {
 		openid_setcookie( 'openid_auto', 'n' );
-		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script type='text/javascript'>//<![CDATA[alert('" . _text("오픈ID를 입력하세요") . "');";
-		print "document.location.href='$blogURL/plugin/openid/login?requestURI=" . urlencode($requestURI) . "';//]]></script></body></html>";
+		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script type='text/javascript'>//<![CDATA[" . CRLF . "alert('" . _text("오픈ID를 입력하세요") . "');";
+		print "document.location.href='$blogURL/plugin/openid/login?requestURI=" . urlencode($requestURI) . "';//]]>" . CRLF . "</script></body></html>";
 		exit(0);
 	}
 
@@ -376,7 +376,7 @@ function _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate
 		if( !empty($authenticate_only) ) {
 			$requestURI .= (strchr($requestURI,'?')===false ? "?":"&" ) . "authenticated=0";
 		}
-		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script type='text/javascript'>//<![CDATA[alert('" . _text("인증하지 못하였습니다. 아이디를 확인하세요") . "');document.location.href='" . $requestURI . "';//]]></script></body></html>";
+		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script type='text/javascript'>//<![CDATA[" . CRLF . "alert('" . _text("인증하지 못하였습니다. 아이디를 확인하세요") . "');document.location.href='" . $requestURI . "';//]]>" . CRLF . "</script></body></html>";
 		exit(0);
 	}
 
@@ -446,7 +446,7 @@ function openid_finish()
 		openid_setcookie( 'openid_auto', 'n' );
 		header("HTTP/1.0 200 OK");
 		header("Content-type: text/html");
-		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script type='text/javascript'>//<![CDATA[alert(\"$msg\"); document.location.href=\"$requestURI\";//]]></script></body></html>";
+		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script type='text/javascript'>//<![CDATA[" . CRLF . "alert(\"$msg\"); document.location.href=\"$requestURI\";//]]>" . CRLF . "</script></body></html>";
 	}
 	else
 	{
@@ -585,7 +585,7 @@ function openid_add_controller($target)
 		"var openid_add_comment_only_by_openid = $openid_add_comment_only_by_openid;\n" .
 		"var openid_add_comment_only_by_openid_msg = '$openid_add_comment_only_by_openid_msg';\n" .
 		"var openid_nickname = '$openid_nickname';\n" .
-		_openid_additional_script() .
+		_openid_additional_script() . CRLF
 		"//]]></script>\n" .
 		"<script type=\"text/javascript\" src=\"$script_url\"></script>\n";
 	return $target;
@@ -639,7 +639,7 @@ function openid_LOGIN_add_form($target, $requestURI)
 		</div>
 	</div>
 	</form>
-	<script type="text/javascript">//<![CDATA[function focus_openid(){document.getElementById("openid_identifier").focus();}//]]></script>
+	<script type="text/javascript">//<![CDATA[' . CRLF . 'function focus_openid(){document.getElementById("openid_identifier").focus();}//]]>' . CRLF . '</script>
 	';
 	return $target;
 }
@@ -800,12 +800,12 @@ function openid_AddingCommentViewTail( $target, $comment_id )
 	} else {
 		$parent = array();
 	}
-	$scr = "<script type='text/javascript'>//<![CDATA[
+	$scr = "<script type='text/javascript'>//<![CDATA[\n
 document.getElementById('password').disabled = true;
 document.getElementById('name').value = '{$openid_session['nickname']}';
 document.getElementById('title').innerHTML += ' ( <img style=\"position:relative;top:3px;left:0\"; src=\"$hostURL{$service['path']}/plugins/CL_OpenID/openid16x16.gif\" alt=\"OpenID Logo\" /> {$openid_session['id']} )';
 document.getElementById('secret').checked = $secret_checked;
-//]]></script>";
+//]]>\n</script>";
 	return "$target$scr";
 }
 
@@ -916,10 +916,10 @@ function openid_comment_comment()
 	if( !Acl::check('group.writers') && misc::getBlogSettingGlobal('AddCommentMode', '') == 'openid' ) {
 		if( empty($openid_session['id']) ) {
 			$msg = _t('관리자의 설정에 의해 오픈아이디로 로그인한 사용자만 댓글을 남길 수 있습니다.\r\n로그인하시겠습니까?');
-			print( "<html><body><script type='text/javascript'>//<![CDATA[" );
+			print( "<html><body><script type='text/javascript'>//<![CDATA[\n" );
 			print( "var yn = confirm('" . $msg . "');\n" );
 			print( "if(yn && window.opener) window.opener.document.location.href='$hostURL$blogURL/plugin/openid/login?requestURI='+escape( window.opener.document.location.href );" );
-			print( "window.close();//]]></script></body></html>" );
+			print( "window.close();//]]>\n</script></body></html>" );
 			exit(0);
 		}
 	}
