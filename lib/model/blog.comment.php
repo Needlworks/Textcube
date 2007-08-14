@@ -141,7 +141,6 @@ function getCommentCommentsNotified($parent) {
 	$sql .= ' ORDER BY c.written ASC';
 	if ($result = DBQuery::query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
-			decorateComment( $comment );
 			array_push($comments, $comment);
 		}
 	}
@@ -168,7 +167,6 @@ function getComments($entry) {
 	$sql = "select * from {$database['prefix']}Comments where blogid = ".getBlogId()." and entry = $entry and parent is null and isFiltered = 0 $aux";
 	if ($result = DBQuery::query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
-			decorateComment($comment);
 			array_push($comments, $comment);
 		}
 	}
@@ -180,7 +178,6 @@ function getCommentComments($parent) {
 	$comments = array();
 	if ($result = DBQuery::query("select * from {$database['prefix']}Comments where blogid = ".getBlogId()." and parent = $parent and isFiltered = 0 order by id")) {
 		while ($comment = mysql_fetch_array($result)) {
-			decorateComment($comment);
 			array_push($comments, $comment);
 		}
 	}
@@ -508,7 +505,6 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false) {
 			".($count != false ? $count : $skinSetting['commentsOnRecent']);
 	if ($result = DBQuery::query($sql)) {
 		while ($comment = mysql_fetch_array($result)) {
-			decorateComment($comment);
 			array_push($comments, $comment);
 		}
 	}
