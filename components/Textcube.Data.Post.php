@@ -90,7 +90,7 @@ class Post {
 		return false;
 	}
 	
-	function add($userid) {
+	function add($userid = null) {
 		global $database;
 		if (isset($this->id) && !Validator::number($this->id, 1))
 			return $this->_error('id');
