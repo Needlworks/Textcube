@@ -356,6 +356,7 @@
 
 #independent-notice-line dd
 {
+	color: #fff;
 	text-align: right;
 }
 
@@ -657,6 +658,7 @@
 
 #independent-meta-line dd
 {
+	color: #fff;
 	text-align                       : right;
 }
 
@@ -877,7 +879,7 @@
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	clear                            : both;
-	color                            : #000000;
+	color                            : #fff;
 	display                          : block !important;
 	height                           : 2.5em;
 	font-size                        : 1em;
@@ -892,10 +894,10 @@
 
 #supporter-description h3 span
 {
-	background-color                 : #D2D2CC;
+	background-color                 : #000;
 	background-image                 : url("./image/bg_title_right.gif");
-	background-position              : right top;
-	background-repeat                : no-repeat;
+	background-position              : left top;
+	background-repeat                : repeat-x;
 	display                          : block;
 	height                           : 2.5em;
 	line-height                      : 2.7em;

@@ -399,12 +399,12 @@ textarea
 .part .caption,
 h2.caption
 {
-	background-color                 : #D2D2CC;
+	background-color                 : #000;
 	background-image                 : url("./image/bg_title_left.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	clear                            : both;
-	color                            : #000;
+	color                            : #fff;
 	display                          : block;
 	height                           : 30px;
 	font-size                        : 1em;
@@ -418,10 +418,10 @@ h2.caption
 .part .caption span,
 h2.caption span
 {
-	background-color                 : #D2D2CC;
+	background-color                 : #000;
 	background-image                 : url("./image/bg_title_right.gif");
-	background-position              : right top;
-	background-repeat                : no-repeat;
+	background-position              : left top;
+	background-repeat                : repeat-x;
 	display                          : block;
 	height                           : 30px;
 	line-height                      : 2.7em;
