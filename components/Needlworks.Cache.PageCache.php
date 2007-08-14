@@ -13,6 +13,7 @@ class pageCache {
 	var $filenameGuest;
 	var $contents;
 	var $dbContents;
+	var $_dbContents;
 	var $absoluteFilePath;
 	var $absoluteFilePathOwner;
 	var $absoluteFilePathGuest;
@@ -31,6 +32,7 @@ class pageCache {
 		$this->absoluteFilePathGuest =
 		$this->contents =
 		$this->dbContents =
+		$this->_dbContents =
 		$this->error = 
 		null;
 	}
@@ -61,8 +63,10 @@ class pageCache {
 		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return false;
 		$this->initialize();
 		if(!$this->getFileName()) return false;
-		if($this->getFileContents())
+		if($this->getFileContents()) {
+			$this->getdbContents();
 			return true;
+		}
 		else return false;
 	}
 
@@ -116,17 +120,33 @@ class pageCache {
 		}
 		return true;
 	}
+
+	function getdbContents() {
+		global $database;
+		return $this->getPageCacheLog();
+	}
+
 	function getPageCacheLog() {
 		global $database;
-		return DBQuery::queryExistence("DESC {$database['prefix']}PageCacheLog 
+		$result = DBQuery::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
 			WHERE blogid = ".getBlogId()."
 			AND name = '".mysql_tt_escape_string($this->realName)."'");
+		if($result !== false) {
+			$this->_dbContents = unserialize($result);
+			if(doesHaveOwnership()) $this->dbContents = $this->_dbContents['owner'];
+			else $this->dbContents = $this->_dbContents['user'];
+		} else {
+			return false;
+		}
+		return true;
 	}
 
 	function setPageCacheLog() {
 		global $database;
+		if(doesHaveOwnership()) $this->_dbContents['owner'] = $this->dbContents;
+		else $this->_dbConents['user'] = $this->dbContents;
 		return DBQuery::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
-			VALUES(".getBlogId().", '".mysql_tt_escape_string($this->realName)."', '".mysql_tt_escape_string($this->dbContents)."')");
+			VALUES(".getBlogId().", '".mysql_tt_escape_string($this->realName)."', '".mysql_tt_escape_string(serialize($this->_dbContents))."')");
 	}
 
 	function removePageCacheLog() {

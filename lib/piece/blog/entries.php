@@ -130,6 +130,7 @@ if (isset($cache->contents)) {
 	}
 	if(isset($cache)) {
 		$cache->contents = revertTempTags(removeAllTags($entriesView));
+		if(isset($paging)) $cache->dbContents = $paging;
 		$cache->update();
 	}
 }

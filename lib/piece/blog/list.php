@@ -38,6 +38,7 @@ if (isset($cache->contents)) {
 	dress('list', $listView, $view);
 	if(isset($cache)) { 
 		$cache->contents = $listView;
+		$cache->dbContents = $paging;
 		$cache->update();
 	}
 }
