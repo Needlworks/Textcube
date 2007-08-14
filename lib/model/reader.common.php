@@ -203,6 +203,7 @@ function getFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $st
 }
 
 function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $position = 'current', $markAsRead = 'read') {
+	// if failed, return false or null. check both!
 	global $database;
 	$setting = getReaderSetting($blogid);
 	$searchKeyword = escapeMysqlSearchString($searchKeyword);
@@ -278,7 +279,7 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 				if ($unreadOnly == false || !$row['wasread'])
 					$prevRow = $row;
 			}
-			return;
+			return null;
 		}
 	} else {
 		DBQuery::query("REPLACE INTO {$database['prefix']}FeedReads VALUES($blogid, $entry)");
