@@ -10,24 +10,24 @@
 * Fixed: Services/Yadis/XML.php to port Textcube XML-Parser
 
 Version 1.0:
-+ Add: Å¸ÀÓ¾Æ¿ôÀ¸·Î Á¾·áµÉ °æ¿ì, ÀÚµ¿À¸·Î ·Î±×ÀÎ°¡´ÉÇÏ°ÔÇÔ
-+ Chg: IdP ¾ÆÀÌµð´ë½Å Á¦½ÃÇÑ ¾ÆÀÌµð¸¦ ¿ÀÇÂ¾ÆÀÌµð·Î »ç¿ëÇÔ
-+ Add: <label rel="openidlinkbeforethis"> blah </label> °ú °°Àº ÅÂ±×°¡ ÀÖÀ¸¸é ÀÌ¸§ ÅÂ±× ´ë½Å ±× ¾Õ¿¡ ¸µÅ© »ðÀÔ
++ Add: íƒ€ìž„ì•„ì›ƒìœ¼ë¡œ ì¢…ë£Œë  ê²½ìš°, ìžë™ìœ¼ë¡œ ë¡œê·¸ì¸ê°€ëŠ¥í•˜ê²Œí•¨
++ Chg: IdP ì•„ì´ë””ëŒ€ì‹  ì œì‹œí•œ ì•„ì´ë””ë¥¼ ì˜¤í”ˆì•„ì´ë””ë¡œ ì‚¬ìš©í•¨
++ Add: <label rel="openidlinkbeforethis"> blah </label> ê³¼ ê°™ì€ íƒœê·¸ê°€ ìžˆìœ¼ë©´ ì´ë¦„ íƒœê·¸ ëŒ€ì‹  ê·¸ ì•žì— ë§í¬ ì‚½ìž…
 
 Version 0.9:
 
-+ Add: °ü¸®ÀÚ ¸Þ´º¿¡¼­ Á¢¼Ó Åë°è¸¦ º¼ ¼ö ÀÖÀ½.
-+ Add: ¿ÀÇÂ¾ÆÀÌµð·Î ÀÛ¼ºÇÑ ±Û ¿·¿¡´Â µüÁö¸¦ ºÙ¿© ÁÜ.
-+ Fix: ´ñ±ÛÀÇ Perma-url¿¡¼­ ·Î±×ÀÎ ½ÃµµÇÏ´Â °æ¿ì ¿À·ù³ª´Â °Í ¼öÁ¤.
-+ Fix: ·Î±×ÀÎ ½Ãµµ ¸µÅ©¸¦ ¾ÆÀÌÄÜ¿¡¼­ ±æ°Ô ¹Ù²Þ.
-+ Chg: ¹öÀüÀ» 0.9·Î ²±Ãæ ¿Ã¸².
++ Add: ê´€ë¦¬ìž ë©”ë‰´ì—ì„œ ì ‘ì† í†µê³„ë¥¼ ë³¼ ìˆ˜ ìžˆìŒ.
++ Add: ì˜¤í”ˆì•„ì´ë””ë¡œ ìž‘ì„±í•œ ê¸€ ì˜†ì—ëŠ” ë”±ì§€ë¥¼ ë¶™ì—¬ ì¤Œ.
++ Fix: ëŒ“ê¸€ì˜ Perma-urlì—ì„œ ë¡œê·¸ì¸ ì‹œë„í•˜ëŠ” ê²½ìš° ì˜¤ë¥˜ë‚˜ëŠ” ê²ƒ ìˆ˜ì •.
++ Fix: ë¡œê·¸ì¸ ì‹œë„ ë§í¬ë¥¼ ì•„ì´ì½˜ì—ì„œ ê¸¸ê²Œ ë°”ê¿ˆ.
++ Chg: ë²„ì „ì„ 0.9ë¡œ ê»‘ì¶© ì˜¬ë¦¼.
 
 Version 0.2:
 
-+ ÀÎÁõµÈ ¼¼¼Ç¿¡ ´ëÇØ¼­´Â ´ñ±Û ¼öÁ¤/»èÁ¦°¡ ¹Ù·Î µÇµµ·Ï Ãß°¡ÇÔ.
++ ì¸ì¦ëœ ì„¸ì…˜ì— ëŒ€í•´ì„œëŠ” ëŒ“ê¸€ ìˆ˜ì •/ì‚­ì œê°€ ë°”ë¡œ ë˜ë„ë¡ ì¶”ê°€í•¨.
 
 
 HELP!
-* OpenID ¸µÅ©¶§¹®¿¡ ½ºÅ²ÀÌ ±úÁý´Ï´Ù.
-> input ÅÂ±×Áß¿¡ ÀÌ¸§ºÎºÐÀ» Ã£¾Æ¼­ ±× ¾Õ¿¡ ³Ö´Â °ÍÀÌ ±âº» µ¿ÀÛÀÔ´Ï´Ù. ¸¸¾à ÀÌ µ¿ÀÛÀÌ ½ºÅ²À» ¸Á°¡¶ß¸®¸é, ½ºÅ²À» ÆíÁýÇÏ¼Å¾ßÇÕ´Ï´Ù.
-> ¿øÇÏ´Â Àû´çÇÑ À§Ä¡¿¡ ÀÖ´Â <label> ÅÂ±×¸¦ Ã£¾Æ ÁÖ½Ã°í, ±× ÅÂ±×¾È¿¡ <label rel="openidlinkbeforethis"> Name </label> °ú °°Àº  Çü½ÄÀÌ µÇµµ·Ï ¸ÂÃçÁÖ¼¼¿ä.
+* OpenID ë§í¬ë•Œë¬¸ì— ìŠ¤í‚¨ì´ ê¹¨ì§‘ë‹ˆë‹¤.
+> input íƒœê·¸ì¤‘ì— ì´ë¦„ë¶€ë¶„ì„ ì°¾ì•„ì„œ ê·¸ ì•žì— ë„£ëŠ” ê²ƒì´ ê¸°ë³¸ ë™ìž‘ìž…ë‹ˆë‹¤. ë§Œì•½ ì´ ë™ìž‘ì´ ìŠ¤í‚¨ì„ ë§ê°€ëœ¨ë¦¬ë©´, ìŠ¤í‚¨ì„ íŽ¸ì§‘í•˜ì…”ì•¼í•©ë‹ˆë‹¤.
+> ì›í•˜ëŠ” ì ë‹¹í•œ ìœ„ì¹˜ì— ìžˆëŠ” <label> íƒœê·¸ë¥¼ ì°¾ì•„ ì£¼ì‹œê³ , ê·¸ íƒœê·¸ì•ˆì— <label rel="openidlinkbeforethis"> Name </label> ê³¼ ê°™ì€  í˜•ì‹ì´ ë˜ë„ë¡ ë§žì¶°ì£¼ì„¸ìš”.
