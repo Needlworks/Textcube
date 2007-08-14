@@ -874,7 +874,7 @@
 
 #supporter-description h3
 {
-	background-color                 : #000;
+	background-color                 : #666;
 	background-image                 : url("./image/bg_title_left.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
@@ -894,7 +894,7 @@
 
 #supporter-description h3 span
 {
-	background-color                 : #000;
+	background-color                 : #666;
 	background-image                 : url("./image/bg_title_right.gif");
 	background-position              : left top;
 	background-repeat                : repeat-x;

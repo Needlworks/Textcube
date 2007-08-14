@@ -399,7 +399,7 @@ textarea
 .part .caption,
 h2.caption
 {
-	background-color                 : #000;
+	background-color                 : #666;
 	background-image                 : url("./image/bg_title_left.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
@@ -418,7 +418,7 @@ h2.caption
 .part .caption span,
 h2.caption span
 {
-	background-color                 : #000;
+	background-color                 : #666;
 	background-image                 : url("./image/bg_title_right.gif");
 	background-position              : left top;
 	background-repeat                : repeat-x;
