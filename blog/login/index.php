@@ -168,7 +168,8 @@ if (!empty($message)) {
 						</div>
 <?php
 }
-?>					</div>
+?>
+					</div>
 				</div>
 			</div>
 		</div>
