@@ -1160,17 +1160,17 @@ function openid_manage()
 ?>
 						<select id="openid_for_delegation">
 <?php
-		print "<option value='' >" . _text('블로그 주소를 오픈아이디로 사용하지 않음');
+		print "<option value='' >" . _text('블로그 주소를 오픈아이디로 사용하지 않음') . "</option>";
 		foreach( $openid_list as $openid ) {
 			$selected = '';
 			if( $openid == $currentDelegate ) {
 				$selected = "selected";
 			}
-			print "<option value='$openid' $selected>" . $openid;
+			print "<option value='$openid' $selected>" . $openid . "</option>";
 		}
 ?>
 						</select>
-						<input type="button" onclick="setDelegate(); return false" value="<?php echo _text('확인') ?>" class="save-button input-button"/>
+						<input type="button" onclick="setDelegate(); return false" value="<?php echo _text('확인') ?>" class="save-button input-button" />
 					</td>
 				</tr>
 				<tr>

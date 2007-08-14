@@ -41,7 +41,7 @@ function PN_Subscription_Default()
 								}
 							//]]>
 						</script>
-						<style>
+						<style type="text/css">
 							.robot {
 								font-weight : bold;
 							}
@@ -54,7 +54,7 @@ function PN_Subscription_Default()
 								<dt class="aggregator"><span class="text">구독기</span></dt>
 								<dd class="aggregator"><span class="text"><?php echo sizeof($aggregatorInfo);?> 종류의 구독기 및 크롤러가 구독중입니다.</span></dd>
 								<dt class="lastRSSupdate"><span class="text">최종 RSS 갱신일</span></dt>
-								<dd class="lastRSSupdate"><span class="text"><?php echo misc::getBlogSetting('LatestRSSrefresh',null)!=null ? Timestamp::format5(misc::getBlogSetting('LatestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></dd>
+								<dd class="lastRSSupdate"><span class="text"><?php echo misc::getBlogSetting('LatestRSSrefresh',null)!=null ? Timestamp::format5(misc::getBlogSetting('LatestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></span></dd>
 								<dt class="updatedAggregators"><span class="text">이후 갱신된 RSS 구독기</span></dt>
 								<dd class="updatedAggregators"><span class="text"><?php echo $updatedSubscribers;?></span></dd>
 							</dl>

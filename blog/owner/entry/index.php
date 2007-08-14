@@ -894,7 +894,7 @@ if ($entry['category'] != -4) {
 									<div id="change-section" class="section">
 										<span class="label"><?php echo _t('선택한 글을');?></span>
 										<select name="commandBox" id="commandBox" onchange="toggleDeleteButton(this)"> 
-											<option selected style="font-style:italic"><?php echo _t('[행동을 지정합니다.]');?></option>
+											<option selected="selected" style="font-style:italic"><?php echo _t('[행동을 지정합니다.]');?></option>
 <?php
 	$categories = getCategories($blogid);
 	if (count($categories) >0) {

@@ -136,8 +136,8 @@ foreach (getAllEditors() as $key => $value) {
 											</dd>
 											<dd>
 												<input type="text" style="width:14em" class="input-text" id="blogApiPassword" name="blogApiPassword" value="<?php echo getBlogSetting("blogApiPassword", "");?>" />
-												<input type="button" class="input-button" value="<?php echo _t('임의로 생성')?>" onclick="chooseBlogPassword()" >
-												<input type="button" class="input-button" value="<?php echo _t('관리자 비밀번호를 그대로 사용')?>" onclick="clearBlogPassword()" >
+												<input type="button" class="input-button" value="<?php echo _t('임의로 생성')?>" onclick="chooseBlogPassword()" />
+												<input type="button" class="input-button" value="<?php echo _t('관리자 비밀번호를 그대로 사용')?>" onclick="clearBlogPassword()" />
 											</dd>
 										</dl>
 										<dl id="blogapi-line" class="line">
@@ -156,7 +156,7 @@ foreach (getAllEditors() as $key => $value) {
 												setTimeout( "showapi()", 100 );
 												//]]></script>
 												<select id="category" name="category" onchange="showapi()">
-													<optgroup class="category">
+													<optgroup class="category" label="">
 													<option value=""><?php echo _t('API 주소');?></option>
 													</optgroup>
 													<optgroup class="category" label="<?php echo _t('분류');?>">

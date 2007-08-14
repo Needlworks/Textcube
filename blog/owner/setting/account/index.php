@@ -354,7 +354,7 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 											</dd>
 										</dl>
 									</fieldset>
-									<input type="hidden" name="mode" value="add">
+									<input type="hidden" name="mode" value="add" />
 								</form>
 					<?php  } else if( Acl::check('group.administrators') ) { ?>
 										<dl id="blogger-name-line" class="line">

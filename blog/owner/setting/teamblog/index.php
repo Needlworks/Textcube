@@ -225,7 +225,7 @@ if( Acl::check('group.owners')) {?>
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="status"><input type="checkbox" name="Aclick" onclick="Check_rev()"></th>
+											<th class="status"><input type="checkbox" name="Aclick" onclick="Check_rev()" /></th>
 											<th class="name"><span class="text"><?php echo _t('이름');?></span></th>
 											<th class="email"><span class="text"><?php echo _t('이메일');?></span></th>
 											<th class="date"><span class="text"><?php echo _t('가입일');?></span></th>
@@ -257,7 +257,7 @@ if( Acl::check('group.owners')) {?>
 ?>
 												<tr class="<?php echo $className;?> inactive-class">
 													<td class="status">
-														<input type="checkbox" id="check_<?php echo $count;?>">
+														<input type="checkbox" id="check_<?php echo $count;?>" />
 													</td>
 													<td class="name"><?php echo $value['name'];?></td>
 													<td class="email"><?php	echo  htmlspecialchars($value['loginid']);?></td>
@@ -280,8 +280,8 @@ if( Acl::check('group.owners')) {?>
 				echo _t('블로그 소유자');
 			} else {
 ?>										
-														<input type="checkbox" onclick="changeACL('admin',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_ADMINISTRATOR) ? "checked" : "");?>><?php echo _t('관리자');?>
-														<input type="checkbox" onclick="changeACL('editor',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_EDITOR) ? "checked" : "");?> ><?php echo _t('글관리');?>
+														<input type="checkbox" onclick="changeACL('admin',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_ADMINISTRATOR) ? 'checked="checked"' : '');?>><?php echo _t('관리자');?>
+														<input type="checkbox" onclick="changeACL('editor',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_EDITOR) ? 'checked="checked"' : '');?> ><?php echo _t('글관리');?>
 <?php
 			}
 ?>

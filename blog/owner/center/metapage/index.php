@@ -234,7 +234,7 @@ getBlogContentForMetaPage();
 							<dl id="independent-meta-line" class="line">
 								<dt><?php echo _t('독립패널 설정');?></dt>
 								<dd>
-									<input type="checkbox" class="checkbox" id="useMetapageInit" name="useMetapageInit" value="on" onclick="changeList()"<?php echo $metapageInitView == 1 ? " checked" : NULL;?> />
+									<input type="checkbox" class="checkbox" id="useMetapageInit" name="useMetapageInit" value="on" onclick="changeList()"<?php echo $metapageInitView == 1 ? ' checked="checked"' : NULL;?> />
 									<label for="useMetapageInit"><?php echo _t('메타 페이지를 첫 화면으로 설정합니다');?></label>
 								</dd>
 							</dl>							
@@ -257,7 +257,7 @@ if ($metapageCount == 0 || count($metapageMappings) == 0) {
 ?>
 							<ul id="metapage-tabs-box" class="tabs-box">
 								<li class="selected"><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
-							</div>
+							</ul>
 							
 							<div id="metapage-box-disabled" class="data-inbox">
 								<p><?php echo _t($errmsg);?></p>
@@ -278,10 +278,10 @@ if (is_null($metapageConfig)) {
 }
 ?>
 							<ul id="metapage-tabs-box" class="tabs-box">
-								<li<?php echo $defaultModeSelected ? ' class="selected"' : NULL;?>><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a>
-								<li<?php echo $safeModeSelected ? ' class="selected"' : NULL;?>><a id="safe-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a>
-								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage?tag" title="<?php echo _t('실제 블로그 메타 페이지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a>					
-								<li<?php echo $initModeSelected ? ' class="selected"' : NULL;?>><a id="init-button" class="button" href="metapage/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 메타 페이지의 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('메타 페이지의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a>
+								<li<?php echo $defaultModeSelected ? ' class="selected"' : NULL;?>><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
+								<li<?php echo $safeModeSelected ? ' class="selected"' : NULL;?>><a id="safe-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a></li>
+								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage?tag" title="<?php echo _t('실제 블로그 메타 페이지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a></li>
+								<li<?php echo $initModeSelected ? ' class="selected"' : NULL;?>><a id="init-button" class="button" href="metapage/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 메타 페이지의 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('메타 페이지의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a></li>
 							</ul>
 							
 							<div id="metapage-box" class="data-inbox">
@@ -296,7 +296,7 @@ for ($i=0; $i<$metapageCount; $i++) {
 		$orderConfig = array();
 ?>
 										<td class="section">
-											<h3><input type="radio" id="metapage-<?php echo $i + 1;?>" class="radio" name="metapageNumber" value="<?php echo $i;?>"<?php echo $bFirstRadio ? " checked" : NULL;?> /><label for="metapage-<?php echo $i + 1;?>"><?php echo $skin->metapageName[$i];?></label></h3>
+											<h3><input type="radio" id="metapage-<?php echo $i + 1;?>" class="radio" name="metapageNumber" value="<?php echo $i;?>"<?php echo $bFirstRadio ? ' checked="checked"' : NULL;?> /><label for="metapage-<?php echo $i + 1;?>"><?php echo $skin->metapageName[$i];?></label></h3>
 											<ul id="metapage-ul-<?php echo $i;?>" class="metapage">
 <?php
 	for ($j=0; $j<count($orderConfig); $j++) {
