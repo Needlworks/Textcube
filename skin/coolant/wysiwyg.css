@@ -107,7 +107,9 @@ img.tatterImageLeft
 {
 	border: 5px solid #eee !important;
 	cursor: move !important;
+	display: block;
 	float: left;
+	margin: 0 10px .5em 0 !important;
 }
 
 img.tatterImageCenter
@@ -123,7 +125,9 @@ img.tatterImageRight
 {
 	border: 5px solid #eee !important;
 	cursor: move !important;
+	display: block;
 	float: right;
+	margin: 0 0 .5em 10px !important;
 }
 
 img.tatterImageDual

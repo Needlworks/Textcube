@@ -256,16 +256,11 @@ h4
 
 /*-------------------------------*/
 
-#author span::before
-{
-	content: url('./images/bullet_star.gif');
-	margin-right: .4em;
-}
-
 #author li
 {
 	display: inline;
 	margin-left: 1em;
+	font-family: 'Lucida Grande', 'Myriad Pro', Tahoma, sans-serif;
 }
 
 #author li a:link, #author li a:visited
@@ -542,8 +537,24 @@ h4
 
 .imageblock
 {
-	margin: 0 0 1.5em;
-	border: 0 none;
+	margin: 0 0 1.5em 0;
+	padding: 0;
+	border: none;
+}
+
+.imageblock.left, .imageblock.right
+{
+	margin: 0 0 .5em 0 !important;
+}
+
+.imageblock.left
+{
+	padding-right: 10px;
+}
+
+.imageblock.right
+{
+	padding-left: 7px;
 }
 
 .imageblock *
@@ -567,9 +578,12 @@ h4
 .imageblock .cap1
 {
 	color: #999;
+	font-family: AppleGothic, Dotum, '돋움', Helvetica, sans-serif;
 	font-size: 0.9em;
-	text-align: center;
-	margin-top: .5em;
+	line-height: 1.3;
+	padding: 3px;
+	text-align: left;
+	margin: 5px 0 0 0;
 }
 
 .moreless_fold
