@@ -118,7 +118,7 @@ dd .input-text
 			            		<dt><label for="loginid">' . _text('오픈아이디') . '</label></dt>
 
 			            		<dd><input type="text" class="input-text" id="openid_identifier" name="openid_identifier" value="' . $cookie_openid . '" maxlength="256" tabindex="1" /></dd>
-			            		<dd><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_auto">' . _text('오픈아이디 기억') . '</label></dd>
+			            		<dd><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_remember">' . _text('오픈아이디 기억') . '</label></dd>
 			            		<dd><input type="submit" class="login-button" name="openid_login" value="로그인" /><input type="submit" class="login-button" name="openid_cancel" value="취소" /></dd>
 			            		<dd><a href="' . $openid_help_link . '">' . _text('오픈아이디란?') . '</a> | <a href="' . $openid_signup_link . '">' . _text('오픈아이디 발급하기') . '</a></dd>
 							</dl>
