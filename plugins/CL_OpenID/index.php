@@ -585,7 +585,7 @@ function openid_add_controller($target)
 		"var openid_add_comment_only_by_openid = $openid_add_comment_only_by_openid;\n" .
 		"var openid_add_comment_only_by_openid_msg = '$openid_add_comment_only_by_openid_msg';\n" .
 		"var openid_nickname = '$openid_nickname';\n" .
-		_openid_additional_script() . CRLF
+		_openid_additional_script() . CRLF .
 		"//]]></script>\n" .
 		"<script type=\"text/javascript\" src=\"$script_url\"></script>\n";
 	return $target;
