@@ -801,11 +801,11 @@ function openid_AddingCommentViewTail( $target, $comment_id )
 		$parent = array();
 	}
 	$scr = "<script type='text/javascript'>//<![CDATA[\n
-document.getElementById('password').disabled = true;
+if( document.getElementById('password') ) document.getElementById('password').disabled = true;
 document.getElementById('name').value = '{$openid_session['nickname']}';
 document.getElementById('title').innerHTML += ' ( <img style=\"position:relative;top:3px;left:0\"; src=\"$hostURL{$service['path']}/plugins/CL_OpenID/openid16x16.gif\" alt=\"OpenID Logo\" /> {$openid_session['id']} )';
 document.getElementById('secret').checked = $secret_checked;
-//]]>\n</script>";
+//]]>\n</script><style type='text/css'>.password-line{display:none}</style>";
 	return "$target$scr";
 }
 
