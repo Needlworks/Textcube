@@ -1108,7 +1108,7 @@ form input:focus, textarea:focus
 
 #rightColumn div
 {
-	margin-bottom: 2em;
+	margin-top: 2em;
 }
 
 /* tag cloud (sidebar only) */
@@ -1271,6 +1271,27 @@ form input:focus, textarea:focus
 	color: #f90;
 }
 
+/* blogger instruction */
+
+#bloggerTag img
+{
+	border: 2px solid #dedede;
+	display: block;
+	margin: 0 auto;
+}
+
+#bloggerTag p.description
+{
+	font: 0.9em/1.2 AppleGothic, Dotum, '돋움', sans-serif;
+	margin: 10px 0 5px 0;
+}
+
+#bloggerTag p.owner
+{
+	margin-bottom: 0;
+	text-align: right;
+}
+
 /* recently */
 
 .recent ol, .recent ul
@@ -1392,25 +1413,36 @@ form input:focus, textarea:focus
 	text-align: center;
 }
 
-/*#textcubeBanner img
+#eolinBanner
 {
-	border: 1px solid #999;
-}*/
+	margin-top: 15px !important;
+}
 
 /* RSS button */
 
-#meta .rss
+#subscription
+{
+	margin-top: 20px !important;
+	text-align: center;
+}
+
+#subscription .rss
 {
 	background: url('./images/btn_rss.gif') left 50% no-repeat;
 	margin-top: 10px;
 	padding: .1em 0 .1em 20px;
-	font: 0.9em/4 Tahoma, Helvetica, sans-serif;
+	font: 0.9em/2 Tahoma, Helvetica, sans-serif;
 	color: #999;
 }
 
 /* search form */
 
-#meta .sInput
+#searchBox
+{
+	text-align: center;
+}
+
+#searchBox .sInput
 {
 	width: 150px;
 	padding: .3em .3em;
@@ -1423,14 +1455,14 @@ form input:focus, textarea:focus
 	color: #333;
 }
 
-#meta .sInput:focus
+#searchBox .sInput:focus
 {
 	background-color: #f2f2ed;
 	border-top-color: #cacabc;
 	border-left-color: #cacabc;
 }
 
-#meta .searchSubmit
+#searchBox .searchSubmit
 {
 	width: 23px;
 	height: 23px;

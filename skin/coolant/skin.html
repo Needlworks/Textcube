@@ -14,7 +14,7 @@
 <s_t3>
 <div id="container">
 	<div id="author">
-		<span>[##_blogger_##]'s blog : [##_desc_##]</span>
+		<span>&nbsp;</span>
 		<ul>
 			<li><a href="[##_owner_url_##]">Control Panel</a></li>
 			<li><a href="[##_owner_url_##]/entry/post">Write a Post</a></li>
@@ -401,10 +401,19 @@
 		<div id="rightColumn">
 			<s_sidebar>
 			<!-- Sidebar 1 -->
-
+			
+			<s_sidebar_element>
+			<!-- blogger instroduction -->
+			<div id="bloggerTag" class="module">
+				<img src="[##_image_##]" alt="블로그 이미지" />
+				<p class="description">[##_desc_##]</p>
+				<p class="owner">- [##_blogger_##]</p>
+			</div>
+			</s_sidebar_element>
+			
 			<s_sidebar_element>
 			<!-- Tag -->
-			<div id="tagbox">
+			<div id="tagbox" class="module">
 				<h3>Tag Cloud</h3>
 				<ul>
 					<s_random_tags>
@@ -413,14 +422,10 @@
 				</ul>
 			</div>
 			</s_sidebar_element>
-
+			
 			<s_sidebar_element>
-			<!-- meta -->
-			<div id="meta">
-				<a href="[##_rss_url_##]" class="rss" rel="alternate" type="application/rss+xml">
-					Subscribe to <abbr title="Really Simple Syndication">RSS</abbr> articles
-				</a>
-
+			<!-- Search box -->
+			<div id="searchBox" class="module">
 				<s_search>
 				<input type="text" name="[##_search_name_##]" value="[##_search_text_##]" onkeypress="if (event.keyCode == 13) { [##_search_onclick_submit_##] }" class="sInput" />
 				<input type="image" onclick="[##_search_onclick_submit_##]" src="./images/btn_search.gif" alt="search" class="searchSubmit" />
@@ -430,7 +435,7 @@
 			
 			<s_sidebar_element>
 			<!-- Categories -->
-			<div id="category">
+			<div id="category" class="module">
 				<h3>Categories</h3>
 				[##_category_list_##]
 			</div>
@@ -438,7 +443,7 @@
 
 			<s_sidebar_element>
 			<!-- Recent posts -->
-			<div class="recent">
+			<div class="recent" class="module">
 				<h3>Recent Posts</h3>
 				<ol>
 					<s_rctps_rep>
@@ -455,7 +460,7 @@
 
 			<s_sidebar_element>
 			<!-- Recent comments -->
-			<div class="recent">
+			<div class="recent" class="module">
 				<h3>Recent Comments</h3>
 				<ol id="recentComments">
 					<s_rctrp_rep>
@@ -472,7 +477,7 @@
 
 			<s_sidebar_element>
 			<!-- Recent trackbacks -->
-			<div class="recent">
+			<div class="recent" class="module">
 				<h3>Recent Trackbacks</h3>
 				<ol id="recentTrackbacks">
 					<s_rcttb_rep>
@@ -489,7 +494,7 @@
 
 			<s_sidebar_element>
 			<!-- Calendar -->
-			<div id="calendar">
+			<div id="calendar" class="module">
 				<h3>Calendar</h3>
 				[##_calendar_##]
 			</div>
@@ -497,7 +502,7 @@
 
 			<s_sidebar_element>
 			<!-- Bookmarks -->
-			<div class="recent">
+			<div class="recent" class="module">
 				<h3>Bookmarks</h3>
 				<ol>
 					<s_link_rep>
@@ -509,7 +514,7 @@
 
 			<s_sidebar_element>
 			<!-- Stats -->
-			<div id="counter">
+			<div id="counter" class="module">
 				<h3>Site Stats</h3>
 				<dl>
 					<dt>Total hits:</dt>
@@ -521,24 +526,32 @@
 				</dl>
 			</div>
 			</s_sidebar_element>
-
 		</s_sidebar>
 		<s_sidebar>
 			<!-- Sidebar 2 -->
 			
 			<s_sidebar_element>
-			<!-- 배너 모듈 - 텍스트큐브 -->
-			<div id="textcubeBanner" class="banner">
+			<!-- 텍스트큐브 배너 -->
+			<div id="textcubeBanner" class="banner module">
 				<a href="http://www.textcube.org" onclick="window.open(this.href); return false"><img src="./images/banner_textcube_120-60.jpg" alt="Textcube" /></a>
 			</div>
 			</s_sidebar_element>
 
 			<s_sidebar_element>
-			<!-- 배너 모듈 - 이올린 -->
-			<div id="eolinBanner" class="banner">
+			<!-- 이올린 배너 -->
+			<div id="eolinBanner" class="banner module">
 				<a href="http://www.eolin.com" onclick="window.open(this.href); return false"><img src="http://tattertools.com/images/logo_eolin.gif" alt="Eolin" /></a>
 			</div>
-			</s_sidebar_element>	
+			</s_sidebar_element>
+			
+			<s_sidebar_element>
+			<!-- RSS 아이콘 -->
+			<div id="subscription" class="module">
+				<a href="[##_rss_url_##]" class="rss" rel="alternate" type="application/rss+xml">
+					Subscribe to <abbr title="Really Simple Syndication">RSS</abbr> articles
+				</a>
+			</div>
+			</s_sidebar_element>
 		</s_sidebar>
 		</div>
 	</div>
