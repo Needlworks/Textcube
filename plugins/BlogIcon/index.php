@@ -10,6 +10,8 @@ function BlogIcon_main($target, $mother) {
 	if ($mother['secret'] == 1) {
 		if (empty($mother['homepage'])) {
 			$imageStr = "<img src=\"{$pluginURL}/images/secret.png\" alt=\"\" width=\"{$ico_size}\" height=\"{$ico_size}\" />";
+		} else if(strpos('http://',$mother['homepage'])!==0) {
+			$imageStr = '';
 		} else {
 			$slash = ($mother['homepage']{strlen($mother['homepage']) - 1} == '/' ? '' : '/');
 			$imageStr = "<img src=\"{$mother['homepage']}{$slash}index.gif\" alt=\"\" width=\"{$ico_size}\" height=\"{$ico_size}\" onerror=\"this.src = '{$pluginURL}/images/secret.png'\" />";
@@ -17,6 +19,8 @@ function BlogIcon_main($target, $mother) {
 	} else {
 		if (empty($mother['homepage'])) {
 			$imageStr = "<img src=\"{$pluginURL}/images/default.png\" alt=\"\" width=\"{$ico_size}\" height=\"{$ico_size}\" />";
+		} else if(strpos('http://',$mother['homepage'])!==0) {
+			$imageStr = '';
 		} else {
 			$slash = ($mother['homepage']{strlen($mother['homepage']) - 1} == '/' ? '' : '/');
 			$imageStr = "<img src=\"{$mother['homepage']}{$slash}index.gif\" alt=\"\" width=\"{$ico_size}\" height=\"{$ico_size}\" onerror=\"this.src = '{$pluginURL}/images/default.png'\" />";
