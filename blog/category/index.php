@@ -30,14 +30,9 @@ if ($skinSetting['showListOnCategory'] != 0) {
 
 $entries = array();
 if ($skinSetting['showListOnCategory'] != 2) {
-	$cache->reset();
-	$cache->name = 'categoryEntries_'.$category."_".$suri['page'];
-	if (!$cache->load()) {
-		list($entries, $paging) = getEntriesWithPagingByCategory($blogid, $category, $suri['page'], $blog['entriesOnList'], ($skinSetting['showListOnCategory'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
-	} else {
-		$paging = $cache->dbContents;
-	}
-	require ROOT . '/lib/piece/blog/begin.php';
+	unset($cache);
+	list($entries, $paging) = getEntriesWithPagingByCategory($blogid, $category, $suri['page'], $blog['entriesOnList'], ($skinSetting['showListOnCategory'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
+	if($skinSetting['showListOnCategory'] == 0) require ROOT . '/lib/piece/blog/begin.php';
 	require ROOT . '/lib/piece/blog/entries.php';
 }
 require ROOT . '/lib/piece/blog/end.php';

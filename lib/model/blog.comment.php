@@ -253,8 +253,10 @@ function getCommentList($blogid, $search) {
 
 function updateCommentsOfEntry($blogid, $entryId) {
 	global $database;
+	requireComponent('Needlworks.Cache.PageCache');
 	$commentCount = DBQuery::queryCell("SELECT COUNT(*) From {$database['prefix']}Comments WHERE blogid = $blogid AND entry = $entryId AND isFiltered = 0");
 	DBQuery::query("UPDATE {$database['prefix']}Entries SET comments = $commentCount WHERE blogid = $blogid AND id = $entryId");
+	if($entryId >=0) CacheControl::flushEntry($entryId);
 	return $commentCount;
 }
 

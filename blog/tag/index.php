@@ -31,15 +31,8 @@ if (strlen($suri['value'])) {
 	}
 
 	if ($skinSetting['showListOnTag'] != 2) {
-		$cache->reset();
-		$cache->name = 'tagEntries_'.$tag.'_'.$suri['page'];
-		if(!$cache->load()) {
-			list($entries, $paging) = getEntriesWithPagingByTag($blogid, $tag, $suri['page'], $blog['entriesOnList'],($skinSetting['showListOnTag'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
-			$preservedEntries = $entries;
-		} else {
-			$paging = $cache->dbContents;
-			$entryCache = $cache;	//preserve for ordering
-		}
+		list($entries, $paging) = getEntriesWithPagingByTag($blogid, $tag, $suri['page'], $blog['entriesOnList'],($skinSetting['showListOnTag'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
+		$preservedEntries = $entries;
 		unset($entries);
 	}
 
@@ -63,8 +56,8 @@ if (strlen($suri['value'])) {
 		$cache = $listCache;
 		require ROOT . '/lib/piece/blog/list.php';
 	}
+	unset($cache);
 	if ($skinSetting['showListOnTag'] != 2) {
-		$cache = $entryCache;
 		$entries = $preservedEntries;
 		require ROOT . '/lib/piece/blog/entries.php';
 	}
