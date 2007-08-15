@@ -1822,7 +1822,6 @@ function getTables($version, $prefix) {
 	return null;
 }
 ?>
-  </div><!-- inner -->
   </form>
 </div><!-- container -->
 </body>
