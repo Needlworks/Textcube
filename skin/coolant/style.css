@@ -506,6 +506,7 @@ h4
 
 .article .infoAuthor
 {
+	line-height: 1.2em;
 	margin-top: 20px;
 	text-align: right;
 }
@@ -513,7 +514,7 @@ h4
 .article .infoAuthor dfn
 {
 	background: url('./images/bullet_author.gif') no-repeat 0 50%;
-	padding-left: 18px;
+	padding: 2px 0 2px 18px;
 }
 
 .article .infoAuthor span
