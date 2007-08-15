@@ -2797,17 +2797,15 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 					'<dd><input type="text" class="input-text" id="__ID__propertyJukebox_title" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);" /></dd>' +
 				'</dl>' +
 				'<dl class="line">' +
-					'<dt class="property-name"><label for="__ID__propertyJukebox_autoplay">' + _t('자동재생') + '</label></dt>' +
-					'<dd><input type="checkbox" id="__ID__propertyJukebox_autoplay" onclick="__EDITOR__.setProperty()" /></dd>' +
+					'<dd><input type="checkbox" id="__ID__propertyJukebox_autoplay" onclick="__EDITOR__.setProperty()" /> <label for="__ID__propertyJukebox_autoplay">' + _t('자동재생') + '</label></dd>' +
 				'</dl>' +
 				'<dl class="line">' +
-					'<dt class="property-name"><label for="__ID__propertyJukebox_visibility">' + _t('플레이어 보이기') + '</label></dt>' +
-					'<dd><input type="checkbox" id="__ID__propertyJukebox_visibility" onclick="__EDITOR__.setProperty()" /></dd>' +
+					'<dd><input type="checkbox" id="__ID__propertyJukebox_visibility" onclick="__EDITOR__.setProperty()" /> <label for="__ID__propertyJukebox_visibility">' + _t('플레이어 보이기') + '</label></dd>' +
 				'</dl>' +
 			'</div>' +
 			'<div class="group">' +
 				'<div class="title">' + _t('파일') + '</div>' +
-				'<dl class="line">' +
+				'<dl class="file-list-line line">' +
 					'<dd>' +
 						'<select id="__ID__propertyJukebox_list" class="file-list" size="10" onchange="__EDITOR__.listChanged(\'propertyJukebox_list\')" onclick="__EDITOR__.listChanged(\'propertyJukebox_list\')"></select>' +
 					'</dd>' +
