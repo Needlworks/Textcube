@@ -125,10 +125,10 @@ function MT_Meta_getImageResizer($blogid, $filename){
 
 function MT_Meta_getAttachmentExtract($content){
 	$result = null;
-	if(preg_match_all('/\[##_(1R|1L|1C|2C|3C|iMazing|Gallery)\|[-a-zA-Z0-9_]*\.(gif|jpg|jpeg|png|bmp|GIF|JPG|JPEG|PNG|BMP)\|.*_##\]/si', $content, $matches)) {
+	if(preg_match_all('/\[##_(1R|1L|1C|2C|3C|iMazing|Gallery)\|[^|]*\.(gif|jpg|jpeg|png|bmp|GIF|JPG|JPEG|PNG|BMP)\|.*_##\]/si', $content, $matches)) {
 		$split = explode("|", $matches[0][0]);
 		$result = $split[1];
-	}else if(preg_match_all('/<img[^>]+?src=("|\')?(.*?)("|\')/si', $content, $matches)) {
+	}else if(preg_match_all('/<img[^>]+?src=("|\')?([^\'">]*?)("|\')/si', $content, $matches)) {
 		if( !eregi("http://", $matches[2][0]) ){
 			$result = basename($matches[2][0]);
 		}
