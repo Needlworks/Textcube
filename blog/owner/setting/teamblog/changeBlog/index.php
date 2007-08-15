@@ -9,7 +9,6 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
-requireStrictRoute();
 if($_GET['blogid'] == 0 || empty($_GET['blogid'])) $newBlogid = getBlogId();
 else $newBlogid = $_GET['blogid'];
 
