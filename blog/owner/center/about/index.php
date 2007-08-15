@@ -112,12 +112,8 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="role"><?php echo _t('Japanese');?></td>
 											</tr>
 											<tr>
-												<td class="name">KIM</td>
+												<td class="name">DX.KIM</td>
 												<td class="role"><?php echo _t('Chinese');?></td>
-											</tr>
-											<tr>
-												<td class="name"><a href="http://blog.kangjang.net">John.K</a></td>
-												<td class="role"><?php echo _t('English');?></td>
 											</tr>
 											<tr>
 												<td class="name">Steve Yum</td>
@@ -203,7 +199,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									<p>
 									<a href="http://barosl.com/blog">랜덤여신</a>,
 									<a href="http://blog.laco.pe.kr">lacovnk</a>,
-									<a href="http://www.mcfuture.net">McFuture</a>,
+									<a href="http://mcfuture.net">McFuture</a>,
 									<a href="http://laziel.com">laziel</a>,
 									<a href="http://sangsangbox.net">나니</a>,
 									<a href="http://tokigun.net">tokigun</a>,
@@ -220,7 +216,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								</div>
 								<div id="tester-container" class="container">
 									<h4><?php echo _t('Tester');?></h4>
-									<p>유마, DARKLiCH, 맥퓨처, 심민규, 엽기민원, xizhu, 헤이, chester, NC_Fly, FeelSoGood, adeurian, laotzu</p>
+									<p>유마, DARKLiCH, McFuture, 심민규, 엽기민원, xizhu, 헤이, chester, NC_Fly, FeelSoGood, adeurian, laotzu</p>
 								</div>
 								
 								<div id="reporter-container" class="container">
