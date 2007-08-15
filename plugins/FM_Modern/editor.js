@@ -2798,11 +2798,11 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 				'</dl>' +
 				'<dl class="line">' +
 					'<dt class="property-name"><label for="__ID__propertyJukebox_autoplay">' + _t('자동재생') + '</label></dt>' +
-					'<dd><input type="checkbox" id="__ID__propertyJukebox_autoplay" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);" /></dd>' +
+					'<dd><input type="checkbox" id="__ID__propertyJukebox_autoplay" onclick="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);" /></dd>' +
 				'</dl>' +
 				'<dl class="line">' +
 					'<dt class="property-name"><label for="__ID__propertyJukebox_visibility">' + _t('플레이어 보이기') + '</label></dt>' +
-					'<dd><input type="checkbox" id="__ID__propertyJukebox_visibility" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);" /></dd>' +
+					'<dd><input type="checkbox" id="__ID__propertyJukebox_visibility" onclick="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);" /></dd>' +
 				'</dl>' +
 			'</div>' +
 			'<div class="group">' +
