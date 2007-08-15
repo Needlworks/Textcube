@@ -66,9 +66,9 @@ if (isKHTML) {
         var reAppleWebKit = new RegExp("AppleWebKit\\/(\\d+(?:\\.\\d*)?)");
         reAppleWebKit.test(sUserAgent);
         var fAppleWebKitVersion = parseFloat(RegExp["$1"]);
-
         isMinSafari1 = fAppleWebKitVersion >= 85;
         isMinSafari1_2 = fAppleWebKitVersion >= 124;
+        isMinSafari3 = fAppleWebKitVersion >= 510;
     } else if (isKonq) {
 
         var reKonq = new RegExp("Konqueror\\/(\\d+(?:\\.\\d+(?:\\.\\d)?)?)");

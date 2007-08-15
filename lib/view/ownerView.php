@@ -95,11 +95,11 @@ function printOwnerEditorScript($entryId = false) {
 	}
 
 	function insertTag(oTextarea, prefix, postfix) {
-		if(isSafari) 
+		if(isSafari && !isMinSafari3)
 			var selection = window.getSelection;
 		else
 			var selection = document.selection;
-		
+
 		if (selection) {			
 			if (oTextarea.createTextRange && oTextarea.currentPos) {				
 				oTextarea.currentPos.text = prefix + oTextarea.currentPos.text + postfix;
