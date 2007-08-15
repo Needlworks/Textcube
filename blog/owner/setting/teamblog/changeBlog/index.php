@@ -5,7 +5,7 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'GET'=>array(
-		'blogid'=>array('int','default'=>'')
+		'blogid'=>array('int','default'=>1)
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
