@@ -307,9 +307,9 @@ if ($service['type'] != 'single' &&  Acl::check("group.inviters")) {
 										<th class="site"><span class="text"><?php echo _t('오픈아이디')?></span></th>
 										<th class="site"><span class="text"></span></th>
 									</tr>
-									</thead>
+								</thead>
 								<tbody>
-					<?php
+<?php
 $currentOpenID = fireEvent("OpenIDGetCurrent", null);
 $openid_list = array();
 for( $i=0; $i<OPENID_REGISTERS; $i++ )
@@ -319,28 +319,33 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 		array_push( $openid_list, $openid );
 	}
 }
-					for ($i=0; $i<count($openid_list); $i++) {
-						$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
-						$className .= ($i == count($openid_list) - 1) ? ' last-line' : '';
-					?>
+for ($i=0; $i<count($openid_list); $i++) {
+	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
+	$className .= ($i == count($openid_list) - 1) ? ' last-line' : '';
+?>
 									<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td><?php echo $openid_list[$i] ?></td>
 										<td><a href="<?php echo $blogURL?>/owner/setting/account/openid?mode=del&amp;openid_identifier=<?php echo urlencode($openid_list[$i])?>">삭제</a></td>
-										</tr>
-					<?php
-					}
-					?>
+									</tr>
+<?php
+}
+?>
 								</tbody>
 							</table>
-					<?php if( $i > 0 ) { /* 출력된것이 하나라도 있다면*/?>
+<?php
+if( $i > 0 ) { /* 출력된것이 하나라도 있다면*/
+?>
 							<div class="openid-account-help">
-							<?php echo _t('삭제: 오픈아이디에 부과된 관리자 권한을 제거합니다.'); ?>
+								<?php echo _t('삭제: 오픈아이디에 부과된 관리자 권한을 제거합니다.'); ?>
 							</div> 
-					<?php  } ?>
+<?php
+}
+?>
 							<div class="data-inbox">
-					<?php $openidPluginCheck = fireEvent("OpenIDGetCurrent","*NONE*");
-							if( $openidPluginCheck != "*NONE*" ) {
-					?>
+<?php
+$openidPluginCheck = fireEvent("OpenIDGetCurrent","*NONE*");
+if( $openidPluginCheck != "*NONE*" ) {
+?>
 								<form id="openid-section" class="section" method="get" action="<?php echo $blogURL;?>/owner/setting/account/openid">
 									<fieldset class="container">
 										<legend><?php echo _t('오픈아이디');?></legend>
@@ -349,25 +354,36 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 											<dt><label for="nickname"><?php echo _t('오픈아이디');?></label></dt>
 											<dd><input type="text" name="openid_identifier" class="input-text" value="<?php echo $currentOpenID ?>" />
 												<input type="submit" class="save-button input-button" value="<?php echo _t('추가하기');?>" />
-					<?php if( Acl::check( 'group.administrators' ) ) { ?>(<a href="<?php echo $blogURL?>/owner/plugin/adminMenu?name=CL_OpenID/openid_manage"><?php echo _t('오픈아이디 플러그인 설정 바로가기')?></a>)
-					<?php } ?>
+<?php 
+	if( Acl::check( 'group.administrators' ) ) { 
+?>
+												(<a href="<?php echo $blogURL?>/owner/plugin/adminMenu?name=CL_OpenID/openid_manage"><?php echo _t('오픈아이디 플러그인 설정 바로가기')?></a>)
+<?php
+	} 
+?>
 											</dd>
 										</dl>
 									</fieldset>
 									<input type="hidden" name="mode" value="add" />
 								</form>
-					<?php  } else if( Acl::check('group.administrators') ) { ?>
+<?php
+} else if( Acl::check('group.administrators') ) { 
+?>
 								<dl id="blogger-openid-activate-line" class="line">
 									<dd><em><?php echo _t('오픈아이디 인증 플러그인을 활성화하십시오'); ?></em>
-					<a href="<?php echo $blogURL?>/owner/plugin">(<?php echo _t('플러그인 설정 바로가기'); ?></a>)
+									<a href="<?php echo $blogURL?>/owner/plugin">(<?php echo _t('플러그인 설정 바로가기'); ?></a>)
 									</dd>
 								</dl>
-					<?php } else { ?>
+<?php
+} else {
+?>
 								<dl id="blogger-name-line" class="line">
 									<dd><em><?php echo _t('오픈아이디 플러그인을 사용하고 있지 않으므로, 오픈아이디는 설정할 수 없습니다. 관리자에게 문의 하십시오'); ?></em>
 									</dd>
 								</dl>
-					<?php } ?>
+<?php
+}
+?>
 							</div>
 						</div>
 <!-- OPENID END -->
