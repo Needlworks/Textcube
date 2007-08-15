@@ -25,7 +25,7 @@
 */
 function KeywordUI_bindKeyword($target,$mother) {
 	global $blogURL;
-	$target = "<a href=\"#\" class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/" . rawurlencode($target) . "')\">{$target}</a>";
+	$target = "<a href=\"#\" class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/" . rawurlencode($target) . "'); return false\">{$target}</a>";
 
 	return $target;
 }
@@ -43,7 +43,7 @@ function KeywordUI_bindTag($target,$mother) {
 		$keywordNames = getKeywordNames($blogid);
 		foreach($target as $tag => $tagLink) {
 			if(array_search($tag,$keywordNames) !== false)
-				$tagsWithKeywords[$tag] = $tagLink."<a href=\"#\" class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/".encodeURL($tag)."')\"><img src=\"".$pluginURL."/images/flag_green.gif\" alt=\"Keyword ".$tag."\"/></a>";
+				$tagsWithKeywords[$tag] = $tagLink."<a href=\"#\" class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/".encodeURL($tag)."'); return false\"><img src=\"".$pluginURL."/images/flag_green.gif\" alt=\"Keyword ".$tag."\"/></a>";
 			else $tagsWithKeywords[$tag] = $tagLink;
 		}
 		$target = $tagsWithKeywords;
