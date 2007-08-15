@@ -921,10 +921,13 @@ function openid_ViewCommenter($name, $comment)
 		return $name;
 	}
 	$row = DBQuery::queryAll("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['id']}" );
+	if( !$row ) {
+		return $name;
+	}
 	$openidlogodisplay = misc::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
 	if( $openidlogodisplay ) {
-		$name = ($row ? "<img src=\"" . $openid_pluginbase . "/openid16x16.gif\" alt=\"OpenID Logo\" title=\"" .
-			sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] ) . "\" />" : "") . $name;
+		$name = "<img src=\"" . $openid_pluginbase . "/openid16x16.gif\" alt=\"OpenID Logo\" title=\"" .
+			sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] ) . "\" />" . $name;
 	} else {
 		$_tmp = trim(strip_tags($name));
 		$name = str_replace( $_tmp, "<span title='" .sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] )."'>".$_tmp."</span>", $name );
