@@ -933,17 +933,21 @@ function getCalendarView($calendar) {
 }
 
 function getRecentEntriesView($entries, $template) {
-	global $blogURL, $skinSetting;
+	global $blogURL, $skinSetting, $contentContainer;
 	ob_start();
 	foreach ($entries as $entry) {
 		$view = "$template";
 		dress('rctps_rep_link', "$blogURL/{$entry['id']}", $view);
-		dress('rctps_rep_title', htmlspecialchars(UTF8::lessenAsEm($entry['title'], $skinSetting['recentEntryLength'])), $view);
+		$contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(UTF8::lessenAsEm($entry['title'], $skinSetting['recentEntryLength']));
+		dress('rctps_rep_title', setTempTag("recent_entry_{$entry['id']}"), $view);
 		dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments'] > 0 ? "({$entry['comments']})" : '').'</span>', $view);
 		print $view;
 	}
 	$view = ob_get_contents();
 	ob_end_clean();
+	
+	$view = revertTempTags(removeAllTags($view));
+	
 	return $view;
 }
 
