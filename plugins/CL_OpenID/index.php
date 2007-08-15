@@ -938,8 +938,8 @@ function openid_ViewCommenter($name, $comment)
 		preg_match_all('@<a(.*)>(.*)</a>@Usi', $name, $temp);
 		
 		for ($i=0; $i<count($temp[0]); $i++) {
-			if ($temp[2][$i] == $comment['name'])
-				$name = str_replace($temp[0][$i], "<a{$temp[1][$i]} title='" .sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] )."'>".$comment['name']."</a>", $name);
+			if (strip_tags($temp[2][$i]) == $comment['name'])
+				$name = str_replace($temp[0][$i], "<a{$temp[1][$i]} title='" .sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] )."'>".$temp[2][$i]."</a>", $name);
 		}
 	}
 	return $name;
