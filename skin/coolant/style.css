@@ -8,7 +8,7 @@
 
 html
 {
-	background-image: url('./images/bg_main.gif');
+	background-color: #5bc9e3;
 	font-size: 62.5%;
 }
 
@@ -172,6 +172,7 @@ h4
 	padding-left: 30px;
 	background: url('./images/bg_authorBarLeft.gif') no-repeat 0 0;
 	color: #ccc;
+
 }
 
 #author ul
@@ -1429,6 +1430,20 @@ form input:focus, textarea:focus
 	cursor: pointer;
 }
 
+/*-------------------------------*/
+
+/* footer */
+
+/*-------------------------------*/
+
+#footer address
+{
+	position: relative;
+	right: -5px;
+	padding: 1em 5px 0 0;
+	background: url('./images/bg_footerRight.gif') no-repeat 100% 0;
+}
+
 address.credit
 {
 	clear: both;
@@ -1436,6 +1451,7 @@ address.credit
 	font-family: 'Lucida Grande', 'Myriad Pro', 'Trebuchet MS', Tahoma, Helvetica, sans-serif;
 	font-size: 0.9em;
 	margin: 0 0 15px 0;
+	padding-top: 20px !important;
 	text-align: center;
 }
 
@@ -1448,21 +1464,6 @@ address.credit a
 address.credit a:hover
 {
 	color: #017c99;
-}
-
-/*-------------------------------*/
-
-/* footer */
-
-/*-------------------------------*/
-
-#footer .pseudoBox
-{
-	font-size: 3px;
-	position: relative;
-	right: -5px;
-	padding: 1em 5px 0 0;
-	background: url('./images/bg_footerRight.gif') no-repeat 100% 0;
 }
 
 .letterT
