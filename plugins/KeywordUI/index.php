@@ -8,7 +8,7 @@
    Maintainer       : inureyes
 
    Created at       : 2006.10.3
-   Last modified at : 2007.5.25
+   Last modified at : 2007.8.15
  
  This plugin enables keyword / keylog feature in Textcube.
  For the detail, visit http://forum.tattersite.com/ko
