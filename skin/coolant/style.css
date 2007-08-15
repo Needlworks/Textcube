@@ -1249,7 +1249,7 @@ form input:focus, textarea:focus
 	background: url('./images/bg_tree.gif') no-repeat 22px 45%;
 }
 
-#category ul li ul li ul li:last-child a
+#category ul li ul li ul li.lastChild a
 {
 	background: url('./images/bg_treeEnd.gif') no-repeat 22px 45%;
 }

@@ -540,22 +540,38 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 	if ($xhtml) {
 		echo '<ul>';
 		$isSelected = ($tree['id'] === $selected) ? ' class="selected"' : '';
+		
 		echo "<li$isSelected><a href=\"", htmlspecialchars($tree['link']), '">', htmlspecialchars($tree['label']);
 		if ($skin['showValue'])
 			echo " <span class=\"c_cnt\">({$tree['value']})</span>";
 		echo "</a>";
 		if (sizeof($tree['children']) > 0)
 			echo '<ul>';
-		foreach ($tree['children'] as $child) {
-			$isSelected = ($child['id'] === $selected) ? ' class="selected"' : '';
+		for ($i=0; $i<count($tree['children']); $i++) {
+			$child = $tree['children'][$i];
+			
+			$classNames = array();
+			if ($child['id'] === $selected)
+				array_push($classNames, 'selected');
+			if ($i == count($tree['children']) - 1)
+				array_push($classNames, 'lastChild');
+			$isSelected = count($classNames) > 0 ? ' class="' . implode(' ', $classNames) . '"' : '';
+			
 			echo "<li$isSelected><a href=\"", htmlspecialchars($child['link']), '">', htmlspecialchars($child['label']);
 			if ($skin['showValue'])
 				echo " <span class=\"c_cnt\">({$child['value']})</span>";
 			echo "</a>";
 			if (sizeof($child['children']) > 0)
 				echo '<ul>';
-			foreach ($child['children'] as $leaf) {
-				$isSelected = ($leaf['id'] === $selected) ? ' class="selected"' : '';
+			for ($j=0; $j<count($child['children']); $j++) {
+				$leaf = $child['children'][$j];
+				$classNames = array();
+				if ($leaf['id'] === $selected)
+					array_push($classNames, 'selected');
+				if ($j == count($child['children']) - 1)
+					array_push($classNames, 'lastChild');
+				$isSelected = count($classNames) > 0 ? ' class="' . implode(' ', $classNames) . '"' : '';
+				
 				echo "<li$isSelected><a href=\"", htmlspecialchars($leaf['link']), '">', htmlspecialchars($leaf['label']);
 				if ($skin['showValue'])
 					echo " <span class=\"c_cnt\">({$leaf['value']})</span>";
