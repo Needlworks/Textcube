@@ -499,7 +499,6 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries contentFormatter
 	$defaulteditor = 'modern';
 	$result =
 		DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD contentEditor VARCHAR(32) DEFAULT '' NOT NULL AFTER content, ADD contentFormatter VARCHAR(32) DEFAULT '' NOT NULL AFTER content") &&
-		setBlogSetting('defaultFormatter', $defaultformatter) && setBlogSetting('defaultEditor', $defaulteditor) &&
 		DBQuery::execute("UPDATE {$database['prefix']}Entries SET contentEditor = '".mysql_tt_escape_string($defaulteditor)."', contentFormatter = '".mysql_tt_escape_string($defaultformatter)."'");
 	if ($result)
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
@@ -597,12 +596,16 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings defaultDomai
 		$query = new TableQuery($database['prefix'] . 'BlogSettings');
 		if($query->doesExist()) {
 			$changed = true;
+			$defaultformatter = 'ttml';
+			$defaulteditor = 'modern';
 			if ($blogSettings = $query->getAll('owner, name, secondaryDomain, defaultDomain, url, title, description, logo, logoLabel, logoWidth, logoHeight, useSlogan, entriesOnPage, entriesOnList, entriesOnRSS, publishWholeOnRSS, publishEolinSyncOnRSS, allowWriteOnGuestbook, allowWriteDoubleCommentOnGuestbook, language, blogLanguage,timezone')) {
 				$fieldnames = array('owner', 'name', 'secondaryDomain', 'defaultDomain', 'url', 'title', 'description', 'logo', 'logoLabel', 'logoWidth', 'logoHeight', 'useSlogan', 'entriesOnPage', 'entriesOnList', 'entriesOnRSS', 'publishWholeOnRSS', 'publishEolinSyncOnRSS', 'allowWriteOnGuestbook', 'language', 'blogLanguage','timezone');
 				foreach($blogSettings as $blogSetting) {
 					foreach($fieldnames as $fieldname) {
 						setBlogSettingForMigration($blogSetting['owner'],$fieldname,$blogSetting[$fieldname]);
 					}
+					setBlogSettingForMigration($blogSetting['owner'],'defaultEditor',$defaulteditor);
+					setBlogSettingForMigration($blogSetting['owner'],'defaultFormatter',$defaultformatter);
 					setBlogSettingForMigration($blogSetting['owner'],'allowWriteDblCommentOnGuestbook',$blogSetting['allowWriteDoubleCommentOnGuestbook']);
 				}
 				$checked = true;
