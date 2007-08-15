@@ -90,6 +90,10 @@ if (doesHaveOwnership()) {
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
+			var servicePath = "<?php echo $service['path'];?>";
+			var blogURL = "<?php echo $blogURL;?>";
+			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
+
 			window.addEventListener("load", execLoadFunction, false);
 			
 			function execLoadFunction() {

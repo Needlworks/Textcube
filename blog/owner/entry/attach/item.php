@@ -30,6 +30,9 @@ requireStrictRoute();
 		<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
+				var servicePath = "<?php echo $service['path'];?>";
+				var blogURL = "<?php echo $blogURL;?>";
+				var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 				var oSelect = window.parent.document.getElementById('fileList');
 				
 				function addAttachOption(value) {
