@@ -1190,8 +1190,10 @@ function deleteEntry(id) {
 	if (!confirm(messages.confirmEntryDelete))
 		return;
 	var request = new HTTPRequest("GET", blogURL + "/owner/entry/delete/" + id);
+	var redirectedURL = blogURL;
+	if ((blogURL == null) || (blogURL.length <= 0)) redirectedURL = "/";
 	request.onSuccess = function() {
-		window.location.href = blogURL;
+		window.location.href = redirectedURL;
 	}
 	request.send();
 }
