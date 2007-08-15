@@ -760,6 +760,19 @@ function openid_setcomment()
 	}
 }
 
+function openid_setopenidlogodisplay()
+{
+	if( !Acl::check( array("group.administrators") ) ) {
+		respondResultPage( -1);
+		return;
+	}
+	if( misc::setBlogSettingGlobal( "OpenIDLogoDisplay", empty($_GET['mode']) ? "0" : "1" ) ) {
+		respondResultPage(0);
+	} else {
+		respondResultPage(-1);
+	}
+}
+
 function openid_setdelegate()
 {
 	if( !Acl::check( array("group.administrators") ) ) {
@@ -806,9 +819,9 @@ function openid_AddingCommentViewTail( $target, $comment_id )
 	}
 	$scr = "<script type='text/javascript'>//<![CDATA[\n
 if( document.getElementById('password') ) document.getElementById('password').disabled = true;
-document.getElementById('name').value = '{$openid_session['nickname']}';
+if( document.getElementById('name') ) document.getElementById('name').value = '{$openid_session['nickname']}';
 document.getElementById('title').innerHTML += ' ( <img style=\"position:relative;top:3px;left:0\"; src=\"$hostURL{$service['path']}/plugins/CL_OpenID/openid16x16.gif\" alt=\"OpenID Logo\" /> {$openid_session['id']} )';
-document.getElementById('secret').checked = $secret_checked;
+if( document.getElementById('secret') ) document.getElementById('secret').checked = $secret_checked;
 //]]>\n</script><style type='text/css'>/*<![CDATA[*/.password-line{display:none}/*]]>*/</style>";
 	return "$target$scr";
 }
@@ -908,8 +921,15 @@ function openid_ViewCommenter($name, $comment)
 		return $name;
 	}
 	$row = DBQuery::queryAll("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['id']}" );
-	return ($row ? "<img src=\"" . $openid_pluginbase . "/openid16x16.gif\" alt=\"OpenID Logo\" title=\"" .
-		sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] ) . "\" />" : "") . $name;
+	$openidlogodisplay = misc::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
+	if( $openidlogodisplay ) {
+		$name = ($row ? "<img src=\"" . $openid_pluginbase . "/openid16x16.gif\" alt=\"OpenID Logo\" title=\"" .
+			sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] ) . "\" />" : "") . $name;
+	} else {
+		$_tmp = trim(strip_tags($name));
+		$name = str_replace( $_tmp, "<span title='" .sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] )."'>".$_tmp."</span>", $name );
+	}
+	return $name;
 }
 
 function openid_comment_comment()
@@ -1086,6 +1106,13 @@ function openid_manage()
 		$mode = "";
 	}
 
+	$openidlogodisplay = misc::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
+	if( $openidlogodisplay ) {
+		$openidlogodisplay = "checked='checked'";
+	} else {
+		$openidlogodisplay = "";
+	}
+
 	/* Fetch registerred openid */
 	$openid_list = array();
 	for( $i=0; $i<OPENID_REGISTERS; $i++ )
@@ -1106,6 +1133,24 @@ function openid_manage()
 			}
 			oo = oo.checked ? "1" : "0";
 			var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/plugin/openid/setcomment?mode=" + oo);
+			request.onSuccess = function() {
+				PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+			}
+			request.onError = function() {
+				alert("<?php echo _t('저장하지 못했습니다.');?>");
+			}
+			request.send("");
+		} catch(e) {
+		}
+	}
+	function toggle_openidlogodisplay() {
+		try {
+			var oo = document.getElementById( 'openidlogodisplay' );
+			if( ! oo ) {
+				return false;
+			}
+			oo = oo.checked ? "1" : "0";
+			var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/plugin/openid/setopenidlogo?mode=" + oo);
 			request.onSuccess = function() {
 				PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 			}
@@ -1146,7 +1191,15 @@ function openid_manage()
 			<input id="openidonlycomment" type="checkbox" name="openidonlycomment" <?php echo $mode?>
 				onclick="toggle_openid_only();"
 			/>
-			<label for="openidonlycomment">체크할 경우, 오픈아이디 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다.</label>
+			<label for="openidonlycomment"><?php echo _text('오픈아이디로 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다.') ?></label>
+			</span></td>
+			</tr>
+			<tr class="site">
+			<td><span class="text">
+			<input id="openidlogodisplay" type="checkbox" name="openidlogodisplay" <?php echo $openidlogodisplay?>
+				onclick="toggle_openidlogodisplay();"
+			/>
+			<label for="openidlogodisplay"><?php echo _text('오픈아이디로 로그인하여 쓴 댓글/방명록에 오픈아이디 아이콘을 표시합니다.') ?></label>
 			</span></td>
 			</tr>
 			</tbody>
