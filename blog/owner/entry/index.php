@@ -804,12 +804,18 @@ for ($i=0; $i<sizeof($entries); $i++) {
 												<span id="protectedIcon_<?php echo $entry['id'];?>" class="protected-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=protect" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.');?>"><span class="text"><?php echo _t('보호');?></span></a></span>
 												<span id="publicIcon_<?php echo $entry['id'];?>" class="public-on-icon" title="<?php echo _t('현재 공개 상태입니다.');?>"><span class="text"><?php echo _t('공개');?></span></span>
 <?php
+	} else {
+?>
+												<span id="privateIcon_<?php echo $entry['id'];?>" class="private-off-icon"><span class="text"><?php echo _t('비공개');?></span></span>
+												<span id="protectedIcon_<?php echo $entry['id'];?>" class="protected-off-icon"><span class="text"><?php echo _t('보호');?></span></span>
+												<span id="publicIcon_<?php echo $entry['id'];?>" class="public-off-icon"><span class="text"><?php echo _t('공개');?></span></span>
+<?php
 	}
 ?>
 											</td>
 											<td class="syndicate">
 <?php
-	if($entry['category'] == -4) {
+	if($entry['category'] == -4 || $entry['visibility'] < 0) {
 		echo '';
 	} else if ($entry['visibility'] == 3) {
 ?>
@@ -826,23 +832,23 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?php
 	if ($entry['category'] == 0) {
 ?>
-												<a id="category_<?php echo $entry['id'];?>" class="uncategorized" href="<?php echo $blogURL;?>/owner/entry?category=-3"><?php echo _t('분류 없음');?></a>
+<a id="category_<?php echo $entry['id'];?>" class="uncategorized" href="<?php echo $blogURL;?>/owner/entry?category=-3"><?php echo _t('분류 없음');?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
 <?php
 	} else if (!empty($entry['categoryLabel'])) {
 ?>
-												<a id="category_<?php echo $entry['id'];?>" class="categorized" href="<?php echo $blogURL;?>/owner/entry?category=<?php echo $entry['category'];?>"><?php echo htmlspecialchars($entry['categoryLabel']);?></a>
+												<a id="category_<?php echo $entry['id'];?>" class="categorized" href="<?php echo $blogURL;?>/owner/entry?category=<?php echo $entry['category'];?>"><?php echo htmlspecialchars($entry['categoryLabel']);?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
 <?php
 	} else if ($entry['category'] == -2) {
 ?>
-												<a id="category_<?php echo $entry['id'];?>" class="notice" href="<?php echo $blogURL;?>/owner/entry?category=-2"><?php echo _t('공지');?></a>
+												<a id="category_<?php echo $entry['id'];?>" class="notice" href="<?php echo $blogURL;?>/owner/entry?category=-2"><?php echo _t('공지');?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
 <?php
 	} else if ($entry['category'] == -1) {
 ?>
-												<a id="category_<?php echo $entry['id'];?>" class="keyword" href="<?php echo $blogURL;?>/owner/entry?category=-1"><?php echo _t('키워드');?></a>
+												<a id="category_<?php echo $entry['id'];?>" class="keyword" href="<?php echo $blogURL;?>/owner/entry?category=-1"><?php echo _t('키워드');?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
 <?php
 	} else if ($entry['category'] == -4) {
 ?>
-												<a id="category_<?php echo $entry['id'];?>" class="template" href="<?php echo $blogURL;?>/owner/entry?category=-4"><?php echo _t('서식');?></a>
+												<a id="category_<?php echo $entry['id'];?>" class="template" href="<?php echo $blogURL;?>/owner/entry?category=-4"><?php echo _t('서식');?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
 <?php
 	}
 ?>
