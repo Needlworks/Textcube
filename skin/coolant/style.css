@@ -169,10 +169,11 @@ h4
 	position: relative;
 	left: -5px;
 	float: left;
+	font-family: AppleGothic, Dotum, '돋움', 'Lucida Grande', 'Myriad Pro', Helvetica, Tahoma, sans-serif;
 	padding-left: 30px;
 	background: url('./images/bg_authorBarLeft.gif') no-repeat 0 0;
 	color: #ccc;
-
+	line-height: 3.4em;
 }
 
 #author ul
@@ -507,6 +508,18 @@ h4
 {
 	margin-top: 20px;
 	text-align: right;
+}
+
+.article .infoAuthor dfn
+{
+	background: url('./images/bullet_author.gif') no-repeat 0 50%;
+	padding-left: 18px;
+}
+
+.article .infoAuthor span
+{
+	color: #999;
+	font: .9em/2 'Trebuchet MS', Helvetica, sans-serif;
 }
 
 .article ol
