@@ -623,7 +623,7 @@ TTModernEditor.prototype.showProperty = function(obj)
 
 	if(obj.className == "tatterObject") {
 		this.propertyHeader = "tatterObject";
-		this.propertyWindowId = "propertyObject";
+		this.propertyWindowId = this.id + "propertyObject";
 		var size = this.parseImageSize(this.selectedElement, "array");
 		getObject(this.id + "propertyObject_width").value = size[0];
 		getObject(this.id + "propertyObject_height").value = size[1];
@@ -634,7 +634,7 @@ TTModernEditor.prototype.showProperty = function(obj)
 	}
 	else if(obj.className == "tatterEmbed") {
 		this.propertyHeader = "tatterEmbed";
-		this.propertyWindowId = "propertyEmbed";
+		this.propertyWindowId = this.id + "propertyEmbed";
 		var size = this.parseImageSize(this.selectedElement, "array");
 		getObject(this.id + "propertyEmbed_width").value = size[0];
 		getObject(this.id + "propertyEmbed_height").value = size[1];
@@ -797,7 +797,7 @@ TTModernEditor.prototype.showProperty = function(obj)
 				getObject(this.id + "propertyMoreLess").style.display = "block";
 				getObject(this.id + "propertyMoreLess_more").value = trim(this.unHtmlspecialchars(moreText));
 				getObject(this.id + "propertyMoreLess_less").value = trim(this.unHtmlspecialchars(lessText));
-				this.propertyWindowId = "propertyMoreLess";
+				this.propertyWindowId = this.id + "propertyMoreLess";
 				getObject(this.id + "propertyHyperLink").style.display = "none";
 				this.setPropertyPosition();
 				return;
@@ -808,7 +808,7 @@ TTModernEditor.prototype.showProperty = function(obj)
 				if(getObject(this.id + "propertyHyperLink_target").selectedIndex == -1)
 					getObject(this.id + "propertyHyperLink_target").value = "_self";
 				this.selectedAnchorElement = node;
-				this.propertyWindowId = "propertyHyperLink";
+				this.propertyWindowId = this.id + "propertyHyperLink";
 				getObject(this.id + "propertyMoreLess").style.display = "none";
 				getObject(this.id + "propertyInsertObject").style.display = "none";
 				getObject(this.id + "propertyObject").style.display = "none";
@@ -2787,7 +2787,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyJukebox" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyJukebox-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyJukebox-fix-position" onchange="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyJukebox-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('Jukebox') + '</h4>' +
