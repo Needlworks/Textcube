@@ -143,9 +143,9 @@ function pretty_dress($view)
 	}
 	
 	list($view, $recentEntry) = Skin::cutSkinTag($view, 'rctps_rep');	
-	dress('rctps_rep', getRecentEntriesView($pd_recentEntry, $recentEntry), $view);
+	dress('rctps_rep', revertTempTags(getRecentEntriesView($pd_recentEntry, $recentEntry)), $view);
 	list($view, $recentComments) = Skin::cutSkinTag($view, 'rctrp_rep');	
-	dress('rctrp_rep', getRecentCommentsView($pd_recentComment, $recentComments), $view);
+	dress('rctrp_rep', revertTempTags(getRecentCommentsView($pd_recentComment, $recentComments)), $view);
 	list($view, $recentTrackback) = Skin::cutSkinTag($view, 'rcttb_rep');	
 	dress('rcttb_rep', getRecentTrackbacksView($pd_recentTrackback, $recentTrackback), $view);
 	list($view, $s_link_rep) = Skin::cutSkinTag($view, 'link_rep');	
