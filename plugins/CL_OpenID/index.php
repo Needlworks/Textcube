@@ -935,8 +935,12 @@ function openid_ViewCommenter($name, $comment)
 		$name = "<img src=\"" . $openid_pluginbase . "/openid16x16.gif\" alt=\"OpenID Logo\" title=\"" .
 			sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] ) . "\" />" . $name;
 	} else {
-		$_tmp = trim(strip_tags($name));
-		$name = str_replace( $_tmp, "<span title='" .sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] )."'>".$_tmp."</span>", $name );
+		preg_match_all('@<a(.*)>(.*)</a>@Usi', $name, $temp);
+		
+		for ($i=0; $i<count($temp[0]); $i++) {
+			if ($temp[2][$i] == $comment['name'])
+				$name = str_replace($temp[0][$i], "<a{$temp[1][$i]} title='" .sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row[0]['openid'] )."'>".$comment['name']."</a>", $name);
+		}
 	}
 	return $name;
 }
