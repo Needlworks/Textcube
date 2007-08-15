@@ -40,6 +40,7 @@ $requiredPrivFromUri = array(
 			'/owner/center/about',
 			'/owner/entry*',
 			'/owner/setting/account*',
+			'/owner/setting/teamblog/changeBlog',
 			'/owner/reader',
 			'/owner/plugin/admin*'
 			)

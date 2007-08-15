@@ -80,12 +80,8 @@ class User {
 	function changeBlog(){
 		global $database, $blogURL, $blog, $service;
 		$blogid = getBlogId();	
-		if($service['type'] == "path")
-			$path = str_replace($service['path']."/".$blog['name'], "", $_SERVER["REQUEST_URI"]);
-		else
-			$path = str_replace("/".$blog['name'], "", $_SERVER["REQUEST_URI"]);
 	
-		$changeBlogView = "<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?blogid='+this.value\">";
+		$changeBlogView = str_repeat(TAB,7)."<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
 		
 		$teamblogListInfo = DBQuery::queryAll("SELECT t.blogid, b.value AS title
 				FROM {$database['prefix']}Teamblog t 
@@ -93,11 +89,11 @@ class User {
 				WHERE t.userid='".getUserId()."'");
 		foreach($teamblogListInfo as $info){
 			$title = empty($info['title']) ? _f('%1 님의 블로그',User::getBlogOwnerName($info['blogid'])) : $info['title'];
-			$changeBlogView .= '<option value="' . $info['blogid'] . '"';
+			$changeBlogView .= str_repeat(TAB,8).'<option value="' . $info['blogid'] . '"';
 			if($info['blogid'] == $blogid) $changeBlogView .= ' selected="selected"';
-			$changeBlogView .= '>' . $title . '</option>';
+			$changeBlogView .= '>' . $title . '</option>'.CRLF;
 		}
-		$changeBlogView .= '</select>';
+		$changeBlogView .= str_repeat(TAB,7).'</select>'.CRLF;
 		return $changeBlogView;
 	}
 }
