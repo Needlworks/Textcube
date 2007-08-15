@@ -19,6 +19,8 @@ requireModel("blog.link");
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 
+$service['disablePageCache'] = true; // For plugin settting update.
+
 $stats = getStatistics($blogid);
 
 function correctMetapageImage( $subject ) {
