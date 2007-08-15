@@ -1039,25 +1039,25 @@ input.input-text
 
 .ajaxMessage
 {
-	font-weight: bold !important;
-	padding: 10px 15px !important;
+	background-repeat: no-repeat;
+	background-position: center 11px;
+	font-weight: normal !important;
+	padding: 27px 25px 13px 25px!important;
 	color: #000 !important;
-}
-
-.ajaxProcessingMessage
-{
-	background-color: #ffddb5 !important;
-	border: 1px solid #805624 !important;
 }
 
 .ajaxSuccessMessage
 {
-	background-color: #cfebf7 !important;
-	border: 1px solid #2580b2 !important;
+	background-image: url('./image/bg_gray_textcube.gif') !important;
+	background-color: #dedede !important;
+	border: 1px solid #999 !important;
+	color: #000 !important;
 }
 
 .ajaxErrorMessage
 {
+	background-image: url('./image/bg_pink_textcube.gif') !important;
 	border: 1px solid #ff5f62 !important;
-	background-color: #ffb7b8 !important;
+	background-color: #fcebeb !important;
+	color: #000 !important;
 }
