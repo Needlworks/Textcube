@@ -585,7 +585,7 @@ if (defined('__TEXTCUBE_POST__')) {
 ?>
 											</select></dd>
 											<dt><label for="contentEditor"><?php echo _t('편집기');?></label></dt>
-											<dd><select id="contentEditor" name="contentEditor" onfocus="return saveEditor(this);" onchange="return setEditor(this) && setCurrentEditor(this.value);">
+											<dd><select id="contentEditor" name="contentEditor" onfocus="return saveEditor(this);" onchange="return setEditor(this) &amp;&amp; setCurrentEditor(this.value);">
 <?php
 	foreach (getAllEditors() as $key => $editor) {
 ?>
@@ -629,7 +629,7 @@ if (count($templateLists) == 0) {
 												</dl>
 												
 												<div class="button-box">
-													<button id="close-button" class="close-button input-button" onclick="toggleTemplateDialog();return false;" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
+													<button class="close-button input-button" onclick="toggleTemplateDialog();return false;" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
 									 			</div>
 									 		</div>
 								 		</div>
