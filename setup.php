@@ -1432,7 +1432,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
 			}
 		}
 		if (!$error)
-			echo '<script type="text/javascript">//<![CDATA['.CRLF.'.next() //]]></script>';
+			echo '<script type="text/javascript">//<![CDATA['.CRLF.'next() //]]></script>';
 ?>
 </body>
 </html>
