@@ -1,5 +1,11 @@
 <?php
 
+if (!defined('ROOT')) {
+	header('HTTP/1.1 403 Forbidden');
+	header("Connection: close");
+	exit;
+}
+
 define( 'Auth_OpenID_NO_MATH_SUPPORT', 1 );
 $path_extra = dirname(__FILE__);
 $path = ini_get('include_path');

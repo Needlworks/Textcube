@@ -1,4 +1,11 @@
 <?php
+
+if (!defined('ROOT')) {
+	header('HTTP/1.1 403 Forbidden');
+	header("Connection: close");
+	exit;
+}
+
 $another_config = __FILE__;
 $another_config = str_replace( $another_config, ".php", ".local.php" );
 if( file_exists( $another_config ) ) {

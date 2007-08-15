@@ -1,4 +1,10 @@
 <?
+if (!defined('ROOT')) {
+	header('HTTP/1.1 403 Forbidden');
+	header("Connection: close");
+	exit;
+}
+
 global $service;
 global $openid_session_name, $openid_session_id, $openid_session, $openid_session_path;
 
