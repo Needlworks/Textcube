@@ -429,7 +429,7 @@ if($textcubeDashboard) {
 								<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
 								
 <?php
-if (!isset($_REQUEST['edit'])) {
+if (!isset($_REQUEST['edit']) && Acl::check('group.owners')) {
 ?>
 								<dl id="independent-notice-line" class="line">
 									<dt><?php echo _t('정보 패널 설정');?></dt>
@@ -440,6 +440,7 @@ if (!isset($_REQUEST['edit'])) {
 								</dl>
 <?php
 }
+if(Acl::check('group.owners')) {
 ?>
 								<dl id="direct-link-line" class="line">
 									<dt><?php echo _t('플러그인 설정');?></dt>
@@ -448,6 +449,7 @@ if (!isset($_REQUEST['edit'])) {
 									</dd>
 								</dl>
 <?php
+}
 $boardbarNumber = 0;
 $positionCounter = 0;
 $secondposition = array(0, 0);
