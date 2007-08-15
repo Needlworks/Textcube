@@ -853,18 +853,16 @@ h4
 	background-color: #faf9f8;
 }
 
-.list img
+.list .author cite img
 {
 	float: left;
-	width: 25px;
-	height: 25px;
-	margin-right: .5em;
-	padding: 2px;
+	margin: 0 .5em 3px 0;
 	background-color: #fff;
 	border: 1px solid #ddd;
+	padding: 2px;
 }
 
-/* special classes */
+/* special classes
 .list ol li.rp_secret p.author cite, .list ol li.guest_secret p.author cite
 {
 	background-image: url('./images/ico_lock.jpg');
@@ -881,7 +879,7 @@ h4
 .list ol li.rp_secret span.hiddenCommentTag_content, .list ol li.guest_secret span.hiddenCommentTag_content
 {
 	display: none;
-}
+} */
 
 /* Write area */
 
@@ -1464,8 +1462,7 @@ address.credit
 	color: #333;
 	font-family: 'Lucida Grande', 'Myriad Pro', 'Trebuchet MS', Tahoma, Helvetica, sans-serif;
 	font-size: 0.9em;
-	margin: 0 0 15px 0;
-	padding-top: 20px !important;
+	padding: 20px 0 15px !important;
 	text-align: center;
 }
 
