@@ -836,7 +836,9 @@ function printEntryFileUploadButton($entryId) {
 														property['etc']['width'] = '240px';
 														property['etc']['height'] = '22px';
 														
-																
+														if(fileUploadNestOriginal == false) {
+															fileUploadNestOriginal = document.getElementById('fileUploadNest').innerHTML;
+														}
 														var str = '<iframe id="attachHiddenNest" src="' + uri + '" style="display: block; height: ' + property[userAgent]['height']+'; width: ' + property[userAgent]['width'] + ';" frameborder="no" scrolling="no"><\/iframe>';						
 														document.getElementById('fileUploadNest').innerHTML = str + fileUploadNestOriginal;
 														/*if (document.getElementById('attachHiddenNest_' + (attachId - 1))) {
@@ -871,8 +873,8 @@ function printEntryFileUploadButton($entryId) {
 													}
 												//]]>
 											</script>
-										<div id="fileUploadNest" class="container">												
-											<input type="button" id="deleteBtn" class="input-button" value="<?php echo _t('삭제하기');?>" onclick="deleteAttachment();" />
+										<div id="fileUploadNest" class="container">											
+											<input type="button" id="deleteBtn" class="input-button" value="<?php echo _t('삭제하기');?>" onclick="deleteAttachment();return false" />
 											<div id="fileSize">
 <?php 
 echo getAttachmentSizeLabel($blogid, $entryId);											
