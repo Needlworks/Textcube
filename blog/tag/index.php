@@ -10,9 +10,42 @@ if (false) {
 $cache = new pageCache;
 if (strlen($suri['value'])) {
 	$tag = getTagId($blogid, $suri['value']);
-	$skin = new Skin($skinSetting['skin']);
-	require ROOT . '/lib/piece/blog/begin.php';
 
+	$preservedEntries =
+	$entryCache =
+	$listCache =
+		null;
+
+	if ($skinSetting['showListOnTag'] != 0) {
+		$cache->reset();
+		$cache->name = 'tagList_'.$tag.'_'.$suri['page'];
+		if(!$cache->load()) {
+			$listWithPaging = getEntryListWithPagingByTag($blogid, $tag, $suri['page'], $blog['entriesOnList']);
+			if (!array_key_exists('total',$listWithPaging[1])) $listWithPaging[1]['total'] = 0;
+			$list = array('title' => $suri['value'], 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
+			$paging = $listWithPaging[1];
+		} else {
+			$paging = $cache->dbContents;
+			$listCache = $cache;	//preserve for ordering
+		}
+	}
+
+	if ($skinSetting['showListOnTag'] != 2) {
+		$cache->reset();
+		$cache->name = 'tagEntries_'.$tag.'_'.$suri['page'];
+		if(!$cache->load()) {
+			list($entries, $paging) = getEntriesWithPagingByTag($blogid, $tag, $suri['page'], $blog['entriesOnList'],($skinSetting['showListOnTag'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
+			$preservedEntries = $entries;
+		} else {
+			$paging = $cache->dbContents;
+			$entryCache = $cache;	//preserve for ordering
+		}
+		unset($entries);
+	}
+
+	// Now, print starts.
+	require ROOT . '/lib/piece/blog/begin.php';
+	$cache->reset();
 	if(getBlogSetting('useKeywordAsTag',true)==true) {
 		$cache->name = 'keyword_'.$tag;
 		if($cache->load()) {
@@ -27,29 +60,15 @@ if (strlen($suri['value'])) {
 	}
 	
 	if ($skinSetting['showListOnTag'] != 0) {
-		$cache->reset();
-		$cache->name = 'tagList_'.$tag.'_'.$suri['page'];
-		if(!$cache->load()) {
-			$listWithPaging = getEntryListWithPagingByTag($blogid, $tag, $suri['page'], $blog['entriesOnList']);
-			if (!array_key_exists('total',$listWithPaging[1])) $listWithPaging[1]['total'] = 0;
-			$list = array('title' => $suri['value'], 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
-			$paging = $listWithPaging[1];
-		} else {
-			$paging = $cache->dbContents;
-		}
+		$cache = $listCache;
 		require ROOT . '/lib/piece/blog/list.php';
 	}
 	if ($skinSetting['showListOnTag'] != 2) {
-		$cache->reset();
-		$cache->name = 'tagEntries_'.$tag.'_'.$suri['page'];
-		if(!$cache->load()) {
-			list($entries, $paging) = getEntriesWithPagingByTag($blogid, $tag, $suri['page'], $blog['entriesOnList'],($skinSetting['showListOnTag'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
-		} else {
-			$paging = $cache->dbContents;
-		}
+		$cache = $entryCache;
+		$entries = $preservedEntries;
 		require ROOT . '/lib/piece/blog/entries.php';
 	}
-
+	
 } else {
 	require ROOT . '/lib/piece/blog/begin.php';
 	$cache->reset();
