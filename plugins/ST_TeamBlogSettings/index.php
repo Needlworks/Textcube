@@ -165,18 +165,18 @@ function getTeamBlogSettings() {
 											var html = ////
 												'<input type="text" id="fontColor" class="input-text2" style="<?php echo empty($color) ? '' : 'color:$color'; ?>;" value="<?php echo $color;?>" />' + 
 												'<select id="fontColorList" style="width:80px;height:19px;" onchange="styleExecCommand(\'fontColor\', \'fontcolor\', this.value);">' +
-													'<option class="head-option" value=""><?php echo _t('글자색'); ?></option>';
+													'<option class="head-option" value=""><?php echo _t('글자색'); ?><\/option>';
 											for (var i = 0; i < colors.length; ++i) {
 												<?php
 													if(isset($style[3]) && !empty($style[3])) echo "colorCheck = (colors[i] == '".str_replace("#","",$color)."')?' selected ':'';";
 												?>
-												html += '<option style="color:#' + colors[i] + ';" value="#' + colors[i] + '" ' + colorCheck + '>#' + colors[i] + '</option>';
+												html += '<option style="color:#' + colors[i] + ';" value="#' + colors[i] + '" ' + colorCheck + '>#' + colors[i] + '<\/option>';
 											}
-											html += '</select>';
+											html += '<\/select>';
 											
 											html += ////
 												'<select id="fontFamilyList" style="width:120px;height:19px;" onchange="styleExecCommand(\'\', \'fontname\', this.value); ">' +
-													'<option class="head-option" value=""><?php echo _t('글자체'); ?></option>';
+													'<option class="head-option" value=""><?php echo _t('글자체'); ?><\/option>';
 											var fontset = _t('fontDisplayName:fontCode:fontFamily').split('|');
 											for (var i = 1; i < fontset.length; ++i) {
 												var fontinfo = fontset[i].split(':');
@@ -184,27 +184,27 @@ function getTeamBlogSettings() {
 												<?php
 													if(isset($style[4]) && !empty($style[4])) echo "familyCheck = (fontinfo[1] == ".$family[0].")?' selected ':'';";
 												?>
-												html += '<option style="font-family: \'' + fontinfo[1] + '\';" value="\'' + fontinfo[1] + '\', \'' + fontinfo[2] + '\'"' + familyCheck + '>' + fontinfo[0] + '</option>';
+												html += '<option style="font-family: \'' + fontinfo[1] + '\';" value="\'' + fontinfo[1] + '\', \'' + fontinfo[2] + '\'"' + familyCheck + '>' + fontinfo[0] + '<\/option>';
 											}
 											for (var i = 0; i < defaultfonts.length; ++i) {
 												var entry = defaultfonts[i];
 												<?php
 													if(isset($style[4]) && !empty($style[4])) echo "familyCheck = (entry[0] == ".$family[0].")?' selected ':'';";
 												?>
-												html += '<option style="font-family: \'' + entry[0] + '\';" value="\'' + entry.join("','") + '\'" ' + familyCheck + '>' + entry[0] + '</option>';
+												html += '<option style="font-family: \'' + entry[0] + '\';" value="\'' + entry.join("','") + '\'" ' + familyCheck + '>' + entry[0] + '<\/option>';
 											}
-											html += '</select>';
+											html += '<\/select>';
 
 											html += ////
 												'<select id="fontSizeList" style="width:50px;height:19px;" onchange="styleExecCommand(\'\', \'fontsize\', this.value); ">' +
-													'<option class="head-option" value=""><?php echo _t('크기'); ?></option>';
+													'<option class="head-option" value=""><?php echo _t('크기'); ?><\/option>';
 											for (var i = 8; i < 16; ++i) {
 												<?php
 													if(isset($style[5]) && !empty($style[5])) echo "sizeCheck = (i == ".$size.")?' selected ':'';";
 												?>
-												html += '<option value="' + i + '" ' + sizeCheck + '>' + i + 'pt</option>';
+												html += '<option value="' + i + '" ' + sizeCheck + '>' + i + 'pt<\/option>';
 											}
-											html +=	'</select>';
+											html +=	'<\/select>';
 											document.getElementById('fontStyleElement').innerHTML = html;
 										//]]>
 									</script>
@@ -212,14 +212,14 @@ function getTeamBlogSettings() {
 							</dd>
 						</dl>
 						<dl>
-							<div class="button-box">
+							<dd class="button-box">
 								<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setStyleSave(); return false;" />
-							</div>
+							</dd>
 						</dl>
 						<dl id="team-image-line" class="line">
 							<dt><label for="profile"><?php echo _t('프로필 사진');?></label></dt>
 							<dd>
-								<img id="teamImage" src="<?php echo $image;?>" width="80" height="80" border="1" /><br />(Size : <?php echo $data['imageSize']?> x <?php echo $data['imageSize']?>)<br />
+								<img id="teamImage" src="<?php echo $image;?>" width="80" height="80" border="1" alt="<?php echo _t('프로필 사진');?>" /><br />(Size : <?php echo $data['imageSize']?> x <?php echo $data['imageSize']?>)<br />
 								<form id="file_upload_form" method="post" target="uploadTarget" enctype="multipart/form-data" action="<?php echo $blogURL;?>/plugin/teamFileUpload/">
 									<input type="hidden" name="type" value="" />
 									<input type="file" name="teamImageFile" id="teamImageFile" size="35" onchange="uploadImage(this.form, 'upload');" /> <a href="http://mypictr.com/?size=<?php echo $data['imageSize']?>x<?php echo $data['imageSize']?>" onclick="window.open(this.href); return false;"><font color="#527A98"><u>mypictr.com</u></font></a>에서 사진 편집.<br />
@@ -228,7 +228,7 @@ function getTeamBlogSettings() {
 										<input type="checkbox" name="imageRemove" id="imageRemove" onclick="uploadImage(this.form, 'delete');" <?php echo $imageRemoveCheck;?> />
 										<label for="imageRemove"><?php echo _t('프로필 사진 초기화');?></label>
 									</div>
-									<iframe id="uploadTarget" name="uploadTarget" src="" style="width:0;height:0;border:0px solid;"></iframe>
+									<iframe id="uploadTarget" name="uploadTarget" style="width:0;height:0;border:0px solid;"></iframe>
 								</form>
 						</dd>
 						</dl>
@@ -239,9 +239,9 @@ function getTeamBlogSettings() {
 							</dd>
 						</dl>
 						<dl>
-							<div class="button-box">
+							<dd class="button-box">
 								<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setProfileSave(); return false;" />
-							</div>
+							</dd>
 						</dl>
 					</fieldset>
 				</div>
