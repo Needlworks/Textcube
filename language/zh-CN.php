@@ -2,7 +2,7 @@
 /* contributed by DX.Kim                        */
 /* contributed by Baro (http://ddokbaro.com)    */
 /* contributed by AIR (http://www.fsun.cn/blog) */
-
+ 
 /* Timezones */
 $__text['Asia/Seoul'] = '韩国';
 $__text['Asia/Tokyo'] = '日本';

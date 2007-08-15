@@ -38,7 +38,7 @@ $__text['%1은 올바른 이메일이 아닙니다.'] = '%1 is not a valid e-mai
 //$__text['&copy; 2004 - 2007. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />텍스트큐브는 니들웍스/TNF에서 개발합니다.<br />텍스트큐브와 텍스트큐브 로고는 니들웍스의 상표입니다.'] = '';
 $__text['(로그인시 ID로 사용됩니다)'] = '(Default ID)';
 $__text['(분류 없음)'] = '(No Category)';
-//$__text['(비공개)'] = '';
+$__text['(비공개)'] = '(Private)';
 $__text['(사용자 수정본)'] = '(User modified theme)';
 $__text['(예: %1/123)'] = '(e.g. %1/123)';
 $__text['(예: %1/entry/텍스트큐브로-오신-것을-환영합니다)'] = '(ex: %1/entry/Welcome-to-Textcube)';
@@ -116,7 +116,7 @@ $__text['UTF8 미지원 (경고: 한글 지원이 불완전할 수 있습니다.
 //$__text['XHTML specification / Textcube main page / Quality Assurance'] = '';
 //$__text['XML-RPC ping 설정을 위한 테이블을 추가합니다.'] = '';
 $__text['[HTML][/HTML] 블럭을 제거합니다'] = '[Delete [HTML][/HTML] block]';
-//$__text['[비밀댓글]'] = '';
+//$__text['[비밀댓글]'] = '[Secret comment]';
 $__text['[임시]'] = '[temp]';
 //$__text['[자동 저장 문서]'] = '';
 $__text['[차단됨]'] = '[blocked]';

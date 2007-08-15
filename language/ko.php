@@ -1,6 +1,6 @@
 <?php // 한국어
 /* contributed by inureyes */
-/* contributed by spirited */
+/* contributed by spirited */ 
 
 //$__text["%1 설정"] = "";
 //$__text["%1님께서 블로그의 팀원으로 초대합니다"] = "";
