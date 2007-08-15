@@ -55,6 +55,7 @@ class pageCache {
 	}
 
 	function update () {
+		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return false;
 		$this->purge();
 		$this->create();
 	}
