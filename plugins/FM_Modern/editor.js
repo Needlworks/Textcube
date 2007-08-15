@@ -1554,9 +1554,9 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 				}
 			}
 
-			if(isWYSIWYG)
+			if(isWYSIWYG) {
 				this.command("Raw", '<img class="tatterObject" src="' + servicePath + adminSkin + '/image/spacer.gif"' + this.parseImageSize(code, "string", "css") + ' longDesc="' + this.objectSerialize(code) + '" />', "");
-			else
+			} else
 				insertTag(this.textarea, code,"");
 			getObject(this.id + "propertyInsertObject").style.display = "none";
 			break;

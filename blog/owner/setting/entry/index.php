@@ -129,7 +129,7 @@ foreach (getAllEditors() as $key => $value) {
 											</dd>
 											<dd><?php echo _t("블로그 API는 MovableType 혹은 MetaWeblog API를 선택하시면 됩니다."); ?></dd>
 										</dl>
-										<dl id="blogapi-line" class="line">
+										<dl id="blogapi-password-line" class="line">
 											<dt><span class="label"><?php echo _t('블로그 API 용 비밀번호');?></span></dt>
 											<dd>
 												<p><label for="blogApiPassword"><?php echo _t('BlogAPI에 사용할 비밀번호입니다. 관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두시기 바랍니다.');?></label></p>
@@ -140,7 +140,7 @@ foreach (getAllEditors() as $key => $value) {
 												<input type="button" class="input-button" value="<?php echo _t('관리자 비밀번호를 그대로 사용')?>" onclick="clearBlogPassword()" />
 											</dd>
 										</dl>
-										<dl id="blogapi-line" class="line">
+										<dl id="blogapi-helper-line" class="line">
 											<dt><span class="label"><?php echo _t('블로그 API 주소 도우미');?></span></dt>
 											<dd>
 											<div class="section">

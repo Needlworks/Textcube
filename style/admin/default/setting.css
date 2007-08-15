@@ -778,7 +778,9 @@ dl dd
 	width                            : 50px;
 }
 
-#blogapi-line dd p
+#blogapi-line dd p,
+#blogapi-password-line dd p,
+#blogapi-helper-line dd p
 {
 	margin-top                       : 5px;
 }

@@ -174,6 +174,6 @@ function getBlogURLRule($domain = null, $path = null, $type = null) {
 
 function getHelpURL($path) {
 	global $blog;
-	return 'http://help.tattertools.com/'.$blog['language'].'/TextCube/Menu/'.$path;
+	return 'http://help.tattertools.com/'.$blog['language'].'/Textcube/Menu/'.$path;
 }
 ?>
