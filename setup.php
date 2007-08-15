@@ -1345,7 +1345,7 @@ CREATE TABLE {$_POST['dbPrefix']}XMLRPCPingSettings (
   PRIMARY KEY (blogid)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Teamblog (
-  blogid int(11) NOT NULL default 0,
+  blogid int(11) NOT NULL default 1,
   userid int(11) NOT NULL default 1,
   acl int(11) NOT NULL default 0,
   created int(11) NOT NULL default 0,

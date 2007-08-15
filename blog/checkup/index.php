@@ -524,7 +524,7 @@ if (!doesExistTable($database['prefix'] . 'Teamblog')) {
 	echo '<li>', _text('팀블로그 기능을 위한 테이블을 추가합니다.'), ': ';
 	$query = "
 		CREATE TABLE {$database['prefix']}Teamblog (
-			blogid int(11) NOT NULL default 0,
+			blogid int(11) NOT NULL default 1,
 			userid int(11) NOT NULL default 1,
 			acl	int(11) NOT NULL default 0,
 			created int(11) NOT NULL default 0,
@@ -538,7 +538,7 @@ if (!doesExistTable($database['prefix'] . 'Teamblog')) {
 			$changed = true;
 			if ($users = $query->getAll('userid, name, created')) {
 				foreach($users as $user) {
-					DBQuery::execute("INSERT INTO `{$database['prefix']}Teamblog` (blogid,userid,acl,profile,created,lastLogin) VALUES('".$user['userid']."', '".$user['userid']."','0', '".$user['name']."','".$user['created']."', '0')");
+					DBQuery::execute("INSERT INTO `{$database['prefix']}Teamblog` (blogid,userid,acl,created,lastLogin) VALUES('".$user['userid']."', '".$user['userid']."','16','".$user['created']."', '0')");
 				}
 			}
 			unset($users);
