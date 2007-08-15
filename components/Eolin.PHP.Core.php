@@ -1307,9 +1307,10 @@ class Path {
 	
 	/*@static@*/
 	function removeFiles($directory) {
-		if (!$dir = dir($directory))
+		if (!is_dir($directory))
 			return false;
-		while ($file = $dir->read()) {
+		$dir = dir($directory);
+		while (($file = $dir->read()) !== false) {
 			if (is_file(Path::combine($directory, $file)))
 				unlink(Path::combine($directory, $file));
 		}
