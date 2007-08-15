@@ -5,6 +5,7 @@
 
 if(isset($service['useFastCGI']) && $service['useFastCGI'] == true) {
 	$url = rtrim(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['SCRIPT_NAME'], '/');
+	$url = preg_replace('/\?[\w\&=]+/', '', $url);
 } else {
 	$url = rtrim(isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'], '/');
 }
