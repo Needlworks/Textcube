@@ -208,6 +208,11 @@ dl dd
 /* Account ***************************************************************************************/
 
 /* account management */
+#part-setting-openid
+{
+	margin-top: 50px;
+}
+
 #part-setting-account fieldset,
 #part-setting-openid fieldset
 {
@@ -264,6 +269,11 @@ dl dd
 {
 	text-align                       : right;
 	font-size                        : 0.9em;
+}
+
+#blogger-openid-activate-line dd, #blogger-name-line dd
+{
+	padding                          : 9px 3px 8px 3px !important;
 }
 
 /* invite letter */

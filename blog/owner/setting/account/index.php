@@ -370,14 +370,16 @@ if( $openidPluginCheck != "*NONE*" ) {
 } else if( Acl::check('group.administrators') ) { 
 ?>
 								<dl id="blogger-openid-activate-line" class="line">
+									<dt><label for="nickname"><?php echo _t('오픈아이디');?></label></dt>
 									<dd><em><?php echo _t('오픈아이디 인증 플러그인을 활성화하십시오'); ?></em>
-									<a href="<?php echo $blogURL?>/owner/plugin">(<?php echo _t('플러그인 설정 바로가기'); ?></a>)
+									<a class="button" href="<?php echo $blogURL?>/owner/plugin">(<?php echo _t('플러그인 설정 바로가기'); ?></a>)
 									</dd>
 								</dl>
 <?php
 } else {
 ?>
 								<dl id="blogger-name-line" class="line">
+									<dt><label for="nickname"><?php echo _t('오픈아이디');?></label></dt>
 									<dd><em><?php echo _t('오픈아이디 플러그인을 사용하고 있지 않으므로, 오픈아이디는 설정할 수 없습니다. 관리자에게 문의 하십시오'); ?></em>
 									</dd>
 								</dl>
