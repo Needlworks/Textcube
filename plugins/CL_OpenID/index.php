@@ -3,6 +3,12 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+if (!defined('ROOT')) {
+	header('HTTP/1.1 403 Forbidden');
+	header("Connection: close");
+	exit;
+}
+
 define( 'OPENID_PLUGIN_VERSION', 1.0 ); 
 define( 'OPENID_PASSWORD', "-OPENID-" );
 if( !defined( 'OPENID_REGISTERS' ) ) {
