@@ -1396,7 +1396,7 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 					return;
 				}
 			}
-			this.propertyWindowId = "propertyHyperLink";
+			this.propertyWindowId = this.id + "propertyHyperLink";
 			getObject(this.id + "propertyMoreLess").style.display = "none";
 			getObject(this.id + "propertyInsertObject").style.display = "none";
 			getObject(this.id + "propertyObject").style.display = "none";
@@ -1459,7 +1459,7 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 			getObject(this.id + "propertyHyperLink").style.display = "none";
 			break;
 		case "ObjectBlock":
-			this.propertyWindowId = "propertyInsertObject";
+			this.propertyWindowId = this.id + "propertyInsertObject";
 			getObject(this.id + "propertyMoreLess").style.display = "none";
 			getObject(this.id + "propertyHyperLink").style.display = "none";
 			getObject(this.id + "propertyObject").style.display = "none";
@@ -2254,41 +2254,41 @@ TTModernEditor.prototype.getEditorPalette = function() {
 				'<span class="label">' + _t('폰트 스타일') + '</span>' +
 			'</dt>' +
 			'<dd class="command-box">' +
-				'<a id="__ID__indicatorBold" class="inactive-class button moderneditor-indicatorBold" href="#void" onclick="__EDITOR__.command(\'Bold\')" title="' + _t('굵게') + '"><span class="text">' + _t('굵게') + '</span></a>' +
-				'<a id="__ID__indicatorItalic" class="inactive-class button moderneditor-indicatorItalic" href="#void" onclick="__EDITOR__.command(\'Italic\')" title="' + _t('기울임') + '"><span class="text">' + _t('기울임') + '</span></a>' +
-				'<a id="__ID__indicatorUnderline" class="inactive-class button moderneditor-indicatorUnderline" href="#void" onclick="__EDITOR__.command(\'Underline\')" title="' + _t('밑줄') + '"><span class="text">' + _t('밑줄') + '</span></a>' +
-				'<a id="__ID__indicatorStrike" class="inactive-class button moderneditor-indicatorStrike" href="#void" onclick="__EDITOR__.command(\'StrikeThrough\')" title="' + _t('취소선') + '"><span class="text">' + _t('취소선') + '</span></a>' +
-				'<a id="__ID__indicatorColorPalette" class="inactive-class button moderneditor-indicatorColorPalette" href="#void" onclick="hideLayer(\'__ID__markPalette\'); hideLayer(\'__ID__textBox\'); toggleLayer(\'__ID__colorPalette\'); __EDITOR__.changeButtonStatus(this, \'colorPalette\');" title="' + _t('글자색') + '"><span class="text">' + _t('글자색') + '</span></a>' +
+				'<a id="__ID__indicatorBold" class="inactive-class button moderneditor-indicatorBold" href="#void" onclick="__EDITOR__.command(\'Bold\'); return false" title="' + _t('굵게') + '"><span class="text">' + _t('굵게') + '</span></a>' +
+				'<a id="__ID__indicatorItalic" class="inactive-class button moderneditor-indicatorItalic" href="#void" onclick="__EDITOR__.command(\'Italic\'); return false" title="' + _t('기울임') + '"><span class="text">' + _t('기울임') + '</span></a>' +
+				'<a id="__ID__indicatorUnderline" class="inactive-class button moderneditor-indicatorUnderline" href="#void" onclick="__EDITOR__.command(\'Underline\'); return false" title="' + _t('밑줄') + '"><span class="text">' + _t('밑줄') + '</span></a>' +
+				'<a id="__ID__indicatorStrike" class="inactive-class button moderneditor-indicatorStrike" href="#void" onclick="__EDITOR__.command(\'StrikeThrough\'); return false" title="' + _t('취소선') + '"><span class="text">' + _t('취소선') + '</span></a>' +
+				'<a id="__ID__indicatorColorPalette" class="inactive-class button moderneditor-indicatorColorPalette" href="#void" onclick="hideLayer(\'__ID__markPalette\'); hideLayer(\'__ID__textBox\'); toggleLayer(\'__ID__colorPalette\'); __EDITOR__.changeButtonStatus(this, \'colorPalette\'); return false" title="' + _t('글자색') + '"><span class="text">' + _t('글자색') + '</span></a>' +
 				'<div id="__ID__colorPalette" class="moderneditor-colorPalette" style="display: none;">' +
 					'<table cellspacing="0" cellpadding="0">' +
 						'<tr>';
 	for (var i = 0; i < colors.length; ++i)
-		html += '<td><a href="#void" onclick="__EDITOR__.insertColorTag(\'#' + colors[i] + '\')"><span class="color-' + colors[i] + '">#' + colors[i] + '</span></a></td>';
+		html += '<td><a href="#void" onclick="__EDITOR__.insertColorTag(\'#' + colors[i] + '\'); return false"><span class="color-' + colors[i] + '">#' + colors[i] + '</span></a></td>';
 	html += ////
 						'</tr>' +
 					'</table>' +
 				'</div>' +
-				'<a id="__ID__indicatorMarkPalette" class="inactive-class button moderneditor-indicatorMarkPalette" href="#void" onclick="hideLayer(\'__ID__colorPalette\');hideLayer(\'__ID__textBox\');toggleLayer(\'__ID__markPalette\'); __EDITOR__.changeButtonStatus(this, \'markPalette\');" title="' + _t('배경색') + '"><span class="text">' + _t('배경색') + '</span></a>' +
+				'<a id="__ID__indicatorMarkPalette" class="inactive-class button moderneditor-indicatorMarkPalette" href="#void" onclick="hideLayer(\'__ID__colorPalette\');hideLayer(\'__ID__textBox\');toggleLayer(\'__ID__markPalette\'); __EDITOR__.changeButtonStatus(this, \'markPalette\'); return false" title="' + _t('배경색') + '"><span class="text">' + _t('배경색') + '</span></a>' +
 				'<div id="__ID__markPalette" class="moderneditor-markPalette" style="display: none;">' +
 					'<table cellspacing="0" cellpadding="0">' +
 						'<tr>';
 	for (var i = 0; i < colors.length; ++i)
-		html += '<td><a href="#void" onclick="__EDITOR__.insertMarkTag(\'#' + colors[i] + '\')"><span class="color-' + colors[i] + '">#' + colors[i] + '</span></a></td>';
+		html += '<td><a href="#void" onclick="__EDITOR__.insertMarkTag(\'#' + colors[i] + '\'); return false"><span class="color-' + colors[i] + '">#' + colors[i] + '</span></a></td>';
 	html += ////
 						'</tr>' +
 					'</table>' +
 				'</div>' +
-				'<a id="__ID__indicatorTextBox" class="inactive-class button moderneditor-indicatorTextBox" href="#void" onclick="hideLayer(\'__ID__markPalette\');hideLayer(\'__ID__colorPalette\');toggleLayer(\'__ID__textBox\'); __EDITOR__.changeButtonStatus(this, \'textBox\');" title="' + _t('텍스트 상자') + '"><span class="text">' + _t('텍스트 상자') + '</span></a>' +
+				'<a id="__ID__indicatorTextBox" class="inactive-class button moderneditor-indicatorTextBox" href="#void" onclick="hideLayer(\'__ID__markPalette\');hideLayer(\'__ID__colorPalette\');toggleLayer(\'__ID__textBox\'); __EDITOR__.changeButtonStatus(this, \'textBox\'); return false" title="' + _t('텍스트 상자') + '"><span class="text">' + _t('텍스트 상자') + '</span></a>' +
 				'<div id="__ID__textBox" class="moderneditor-textBox" style="display: none;">' +
 					'<table cellspacing="0" cellpadding="0">' +
 						'<tr>';
 	for (var i = 0; i < boxcolors.length; ++i)
-		html += '<td><a href="#void" onclick="hideLayer(\'__ID__textBox\'); __EDITOR__.command(\'Box\', \'padding:10px; background-color:#' + boxcolors[i] + '\');"><span class="color-' + boxcolors[i] + '">#' + boxcolors[i] + '</span></a></td>';
+		html += '<td><a href="#void" onclick="hideLayer(\'__ID__textBox\'); __EDITOR__.command(\'Box\', \'padding:10px; background-color:#' + boxcolors[i] + '\'); return false"><span class="color-' + boxcolors[i] + '">#' + boxcolors[i] + '</span></a></td>';
 	html += ////
 						'</tr>' +
 					'</table>' +
 				'</div>' +
-				'<a id="__ID__indicatorRemoveFormat" class="inactive-class button moderneditor-indicatorRemoveFormat" href="#void" onclick="__EDITOR__.command(\'RemoveFormat\')" title="' + _t('효과 제거') + '"><span class="text">' + _t('효과 제거') + '</span></a>' +
+				'<a id="__ID__indicatorRemoveFormat" class="inactive-class button moderneditor-indicatorRemoveFormat" href="#void" onclick="__EDITOR__.command(\'RemoveFormat\')" title="' + _t('효과 제거') + '; return false"><span class="text">' + _t('효과 제거') + '</span></a>' +
 			'</dd>' +
 		'</dl>' +
 		'<dl class="paragraph">' +
@@ -2296,14 +2296,14 @@ TTModernEditor.prototype.getEditorPalette = function() {
 				'<span class="label">' + _t('문단') + '</span>' +
 			'</dt>' +
 			'<dd class="command-box">' +
-				'<a id="__ID__indicatorJustifyLeft" class="inactive-class button moderneditor-indicatorJustifyLeft" href="#void" onclick="__EDITOR__.command(\'JustifyLeft\')" title="' + _t('왼쪽 정렬') + '"><span class="text">' + _t('왼쪽 정렬') + '</span></a>' +
-				'<a id="__ID__indicatorJustifyCenter" class="inactive-class button moderneditor-indicatorJustifyCenter" href="#void" onclick="__EDITOR__.command(\'JustifyCenter\')" title="' + _t('가운데 정렬') + '"><span class="text">' + _t('가운데 정렬') + '</span></a>' +
-				'<a id="__ID__indicatorJustifyRight" class="inactive-class button moderneditor-indicatorJustifyRight" href="#void" onclick="__EDITOR__.command(\'JustifyRight\')" title="' + _t('오른쪽 정렬') + '"><span class="text">' + _t('오른쪽 정렬') + '</span></a>' +
-				'<a id="__ID__indicatorUnorderedList" class="inactive-class button moderneditor-indicatorUnorderedList" href="#void" onclick="__EDITOR__.command(\'InsertUnorderedList\')" title="' + _t('순서없는 리스트') + '"><span class="text">' + _t('순서없는 리스트') + '</span></a>' +
-				'<a id="__ID__indicatorOrderedList" class="inactive-class button moderneditor-indicatorOrderedList" href="#void" onclick="__EDITOR__.command(\'InsertOrderedList\')" title="' + _t('번호 매긴 리스트') + '"><span class="text">' + _t('번호 매긴 리스트') + '</span></a>' +
-				'<a id="__ID__indicatorOutdent" class="inactive-class button moderneditor-indicatorOutdent" href="#void" onclick="__EDITOR__.command(\'Outdent\')" title="' + _t('내어쓰기') + '"><span class="text">' + _t('내어쓰기') + '</span></a>' +
-				'<a id="__ID__indicatorIndent" class="inactive-class button moderneditor-indicatorIndent" href="#void" onclick="__EDITOR__.command(\'Indent\')" title="' + _t('들여쓰기') + '"><span class="text">' + _t('들여쓰기') + '</span></a>' +
-				'<a id="__ID__indicatorBlockquote" class="inactive-class button moderneditor-indicatorBlockquote" href="#void" onclick="__EDITOR__.command(\'Blockquote\')" title="' + _t('인용구') + '"><span class="text">' + _t('인용구') + '</span></a>' +
+				'<a id="__ID__indicatorJustifyLeft" class="inactive-class button moderneditor-indicatorJustifyLeft" href="#void" onclick="__EDITOR__.command(\'JustifyLeft\'); return false" title="' + _t('왼쪽 정렬') + '"><span class="text">' + _t('왼쪽 정렬') + '</span></a>' +
+				'<a id="__ID__indicatorJustifyCenter" class="inactive-class button moderneditor-indicatorJustifyCenter" href="#void" onclick="__EDITOR__.command(\'JustifyCenter\'); return false" title="' + _t('가운데 정렬') + '"><span class="text">' + _t('가운데 정렬') + '</span></a>' +
+				'<a id="__ID__indicatorJustifyRight" class="inactive-class button moderneditor-indicatorJustifyRight" href="#void" onclick="__EDITOR__.command(\'JustifyRight\'); return false" title="' + _t('오른쪽 정렬') + '"><span class="text">' + _t('오른쪽 정렬') + '</span></a>' +
+				'<a id="__ID__indicatorUnorderedList" class="inactive-class button moderneditor-indicatorUnorderedList" href="#void" onclick="__EDITOR__.command(\'InsertUnorderedList\'); return false" title="' + _t('순서없는 리스트') + '"><span class="text">' + _t('순서없는 리스트') + '</span></a>' +
+				'<a id="__ID__indicatorOrderedList" class="inactive-class button moderneditor-indicatorOrderedList" href="#void" onclick="__EDITOR__.command(\'InsertOrderedList\'); return false" title="' + _t('번호 매긴 리스트') + '"><span class="text">' + _t('번호 매긴 리스트') + '</span></a>' +
+				'<a id="__ID__indicatorOutdent" class="inactive-class button moderneditor-indicatorOutdent" href="#void" onclick="__EDITOR__.command(\'Outdent\'); return false" title="' + _t('내어쓰기') + '"><span class="text">' + _t('내어쓰기') + '</span></a>' +
+				'<a id="__ID__indicatorIndent" class="inactive-class button moderneditor-indicatorIndent" href="#void" onclick="__EDITOR__.command(\'Indent\'); return false" title="' + _t('들여쓰기') + '"><span class="text">' + _t('들여쓰기') + '</span></a>' +
+				'<a id="__ID__indicatorBlockquote" class="inactive-class button moderneditor-indicatorBlockquote" href="#void" onclick="__EDITOR__.command(\'Blockquote\'); return false" title="' + _t('인용구') + '"><span class="text">' + _t('인용구') + '</span></a>' +
 			'</dd>' +
 		'</dl>' +
 		'<dl class="special">' +
@@ -2311,9 +2311,9 @@ TTModernEditor.prototype.getEditorPalette = function() {
 				'<span class="label">' + _t('기타') + '</span>' +
 			'</dt>' +
 			'<dd class="command-box">' +
-				'<a id="__ID__indicatorCreateLink" class="inactive-class button moderneditor-indicatorCreateLink" href="#void" onclick="__EDITOR__.command(\'CreateLink\')" title="' + _t('하이퍼링크') + '"><span class="text">' + _t('하이퍼링크') + '</span></a>' +
-				'<a id="__ID__indicatorMediaBlock" class="inactive-class button moderneditor-indicatorMediaBlock" href="#void" onclick="__EDITOR__.command(\'ObjectBlock\')" title="' + _t('미디어 삽입') + '"><span class="text">' + _t('미디어 삽입') + '</span></a>' +
-				'<a id="__ID__indicatorMoreLessBlock" class="inactive-class button moderneditor-indicatorMoreLessBlock" href="#void" onclick="__EDITOR__.command(\'MoreLessBlock\')" title="' + _t('More/Less') + '"><span class="text">' + _t('More/Less') + '</span></a>' +
+				'<a id="__ID__indicatorCreateLink" class="inactive-class button moderneditor-indicatorCreateLink" href="#void" onclick="__EDITOR__.command(\'CreateLink\'); return false" title="' + _t('하이퍼링크') + '"><span class="text">' + _t('하이퍼링크') + '</span></a>' +
+				'<a id="__ID__indicatorMediaBlock" class="inactive-class button moderneditor-indicatorMediaBlock" href="#void" onclick="__EDITOR__.command(\'ObjectBlock\'); return false" title="' + _t('미디어 삽입') + '"><span class="text">' + _t('미디어 삽입') + '</span></a>' +
+				'<a id="__ID__indicatorMoreLessBlock" class="inactive-class button moderneditor-indicatorMoreLessBlock" href="#void" onclick="__EDITOR__.command(\'MoreLessBlock\'); return false" title="' + _t('More/Less') + '"><span class="text">' + _t('More/Less') + '</span></a>' +
 			'</dd>' +
 		'</dl>' +
 		'<dl class="mode">' +
@@ -2321,7 +2321,7 @@ TTModernEditor.prototype.getEditorPalette = function() {
 				'<span class="label">' + _t('편집 환경') + '</span>' +
 			'</dt>' +
 			'<dd class="command-box">' +
-				'<a id="__ID__indicatorMode" class="inactive-class button moderneditor-indicatorMode" href="#void" onclick="__EDITOR__.command(\'ToggleMode\'); __EDITOR__.changeEditorMode();" title="' + _t('클릭하시면 HTML 편집기로 변경합니다.') + '"><span class="text">' + _t('WYSIWYG 편집기') + '</span></a>' +
+				'<a id="__ID__indicatorMode" class="inactive-class button moderneditor-indicatorMode" href="#void" onclick="__EDITOR__.command(\'ToggleMode\'); __EDITOR__.changeEditorMode(); return false" title="' + _t('클릭하시면 HTML 편집기로 변경합니다.') + '"><span class="text">' + _t('WYSIWYG 편집기') + '</span></a>' +
 			'</dd>' +
 		'</dl>';
 
@@ -2379,9 +2379,9 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 				'</dl>' +
 			'</div>' +
 			'<div class="button-box">' +
-				'<span class="insert-button button" onclick="__EDITOR__.command(\'ExcuteCreateLink\')"><span class="text">' + _t('적용하기') + '</span></span>' +
+				'<span class="insert-button button" onclick="__EDITOR__.command(\'ExcuteCreateLink\'); return false"><span class="text">' + _t('적용하기') + '</span></span>' +
 				'<span class="divider"> | </span>' +
-				'<span class="cancel-button button" onclick="__EDITOR__.command(\'CancelCreateLink\')"><span class="text">' + _t('취소하기') + '</span></span>' +
+				'<span class="cancel-button button" onclick="__EDITOR__.command(\'CancelCreateLink\'); return false"><span class="text">' + _t('취소하기') + '</span></span>' +
 			'</div>' +
 		'</div>';
 
@@ -2415,9 +2415,9 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 				'</dl>' +
 			'</div>' +
 			'<div class="button-box">' +
-				'<span class="insert-button button" onclick="__EDITOR__.command(\'InsertObject\')"><span class="text">' + _t('삽입하기') + '</span></span>' +
+				'<span class="insert-button button" onclick="__EDITOR__.command(\'InsertObject\'); return false"><span class="text">' + _t('삽입하기') + '</span></span>' +
 				'<span class="divider"> | </span>' +
-				'<span class="cancel-button button" onclick="__EDITOR__.command(\'HideObjectBlock\')"><span class="text">' + _t('취소하기') + '</span></span>' +
+				'<span class="cancel-button button" onclick="__EDITOR__.command(\'HideObjectBlock\'); return false"><span class="text">' + _t('취소하기') + '</span></span>' +
 			'</div>' +
 		'</div>';
 
@@ -2736,9 +2736,9 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 					'</dd>' +
 				'</dl>' +
 				'<div class="button-box">' +
-					'<span class="up-button button" onclick="__EDITOR__.moveUpFileList(\'__ID__propertyiMazing_list\')" title="' + _t('선택한 항목을 위로 이동합니다.') + '"><span class="text">' + _t('위로') + '</span></span>' +
+					'<span class="up-button button" onclick="__EDITOR__.moveUpFileList(\'__ID__propertyiMazing_list\'); return false" title="' + _t('선택한 항목을 위로 이동합니다.') + '"><span class="text">' + _t('위로') + '</span></span>' +
 					'<span class="divider"> | </span>' +
-					'<span class="dn-button button" onclick="__EDITOR__.moveDownFileList(\'__ID__propertyiMazing_list\')" title="' + _t('선택한 항목을 아래로 이동합니다.') + '"><span class="text">' + _t('아래로') + '</span></span>' +
+					'<span class="dn-button button" onclick="__EDITOR__.moveDownFileList(\'__ID__propertyiMazing_list\'); return false" title="' + _t('선택한 항목을 아래로 이동합니다.') + '"><span class="text">' + _t('아래로') + '</span></span>' +
 				'</div>' +
 				'<div id="__ID__propertyiMazing_preview" class="preview-box" style="display: none;"></div>' +
 			'</div>' +
@@ -2771,7 +2771,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 				'<div class="title">' + _t('파일') + '</div>' +
 				'<dl class="file-list-line line">' +
 					'<dd>' +
-						'<select id="__ID__propertyGallery_list" class="file-list" size="10" onchange="__EDITOR__.listChanged(\'propertyGallery_list\')" onclick="__EDITOR__.listChanged(\'propertyGallery_list\')"></select>' +
+						'<select id="__ID__propertyGallery_list" class="file-list" size="10" onchange="__EDITOR__.listChanged(\'propertyGallery_list\')" onclick="__EDITOR__.listChanged(\'propertyGallery_list\'); return false"></select>' +
 					'</dd>' +
 				'</dl>' +
 				'<div class="button-box">' +
@@ -2787,7 +2787,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyJukebox" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyJukebox-fix-position" onchange="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyJukebox-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyJukebox-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('Jukebox') + '</h4>' +
@@ -2798,11 +2798,11 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 				'</dl>' +
 				'<dl class="line">' +
 					'<dt class="property-name"><label for="__ID__propertyJukebox_autoplay">' + _t('자동재생') + '</label></dt>' +
-					'<dd><input type="checkbox" id="__ID__propertyJukebox_autoplay" onclick="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);" /></dd>' +
+					'<dd><input type="checkbox" id="__ID__propertyJukebox_autoplay" onclick="__EDITOR__.setProperty()" /></dd>' +
 				'</dl>' +
 				'<dl class="line">' +
 					'<dt class="property-name"><label for="__ID__propertyJukebox_visibility">' + _t('플레이어 보이기') + '</label></dt>' +
-					'<dd><input type="checkbox" id="__ID__propertyJukebox_visibility" onclick="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);" /></dd>' +
+					'<dd><input type="checkbox" id="__ID__propertyJukebox_visibility" onclick="__EDITOR__.setProperty()" /></dd>' +
 				'</dl>' +
 			'</div>' +
 			'<div class="group">' +
