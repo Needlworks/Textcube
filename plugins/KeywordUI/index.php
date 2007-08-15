@@ -35,10 +35,12 @@ function KeywordUI_setSkin($target,$mother) {
 	return $pluginPath."/keylogSkin.html";
 }
 function KeywordUI_bindTag($target,$mother) {
-	global $owner, $entries, $blogURL, $pluginURL, $configVal;
+	global $blogURL, $pluginURL, $configVal;
+	requireModel('blog.keyword');
+	$blogid = getBlogId();
 	if(isset($mother) && isset($target)){
 		$tagsWithKeywords = array();
-		$keywordNames = getKeywordNames($owner);
+		$keywordNames = getKeywordNames($blogid);
 		foreach($target as $tag => $tagLink) {
 			if(array_search($tag,$keywordNames) !== false)
 				$tagsWithKeywords[$tag] = $tagLink."<a class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/".encodeURL($tag)."')\"><img src=\"".$pluginURL."/images/flag_green.gif\" alt=\"Keyword ".$tag."\"/></a>";
