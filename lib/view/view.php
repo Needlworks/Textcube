@@ -946,8 +946,6 @@ function getRecentEntriesView($entries, $template) {
 	$view = ob_get_contents();
 	ob_end_clean();
 	
-	$view = revertTempTags(removeAllTags($view));
-	
 	return $view;
 }
 
@@ -965,8 +963,6 @@ function getRecentCommentsView($comments, $template) {
 	}
 	$view = ob_get_contents();
 	ob_end_clean();
-	
-	$view = revertTempTags(removeAllTags($view));
 	
 	return $view;
 }
