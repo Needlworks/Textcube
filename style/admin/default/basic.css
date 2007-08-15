@@ -353,6 +353,11 @@ textarea
 	font-weight                      : bold;
 }
 
+#sub-menu li.firstChild
+{
+	background-image                 : none !important;
+}
+
 #sub-menu-helper
 {
 	background-image                 : url("./image/bg_menu_right.png") !important;
