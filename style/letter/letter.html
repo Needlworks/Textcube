@@ -13,18 +13,26 @@
 	</style>
 </head>
 <body>
- 	<div id="letter" style="width: 547px;">
-		<div class="head" style="background-image: url('./letterHeader.gif'); background-repeat: no-repeat; height: 90px; overflow: hidden;">
-			[##_title_##]
-		</div>
-		<div class="body" style="background-image: url('./letterBody.gif'); background-repeat: repeat-y; height: 400px; overflow: hidden;">
-			<div class="pseudoBox" style="min-height: 400px;">
-        		<p class="reciever" style="padding: 0 35px;"><a href="[##_link_##]">[##_link_title_##]</a></p>
-        		<div class="content" style="background-image: url('./letterLine.gif'); background-position: left -2px; line-height: 17px; margin: 15px 30px;">[##_content_##]</div>
-				<p class="sender" style="padding: 0 35px; text-align: right;">From : [##_sender_##]</p>
-			</div>
-        </div>
-		<div class="foot" style="background-image: url('./letterFooter.gif'); background-repeat: no-repeat; height: 17px; overflow: hidden;">&nbsp;</div>
+ 	<table id="letter" width="547" cellpadding="0" cellspacing="0" border="0">
+ 		<tr>
+ 			<td class="head" valign="bottom" background="./letterHeader.gif" height="90" style="padding: 0 25px; overflow: hidden;">
+				[##_title_##]
+			</td>
+ 		</tr>
+ 		<tr>
+			<td class="body" valign="top" background="./letterBody.gif" height="400" style="padding-top: 15px; overflow: hidden;">
+				<div class="pseudoBox" style="min-height: 400px;">
+	        		<p class="reciever" style="padding: 0 35px;"><a href="[##_link_##]">[##_link_title_##]</a></p>
+	        		<div class="content" style="background-image: url('./letterLine.gif'); line-height: 17px; margin: 15px 30px;">[##_content_##]</div>
+					<p class="sender" style="padding: 0 35px; text-align: right;">From : [##_sender_##]</p>
+				</div>
+	        </td>
+ 		</tr>
+	 	<tr>
+			<td class="foot" background="./letterFooter.gif" height="17" style="overflow: hidden;">
+				&nbsp;
+			</td>
+	 	</tr>
 	</div>
 </body>
 </html>
