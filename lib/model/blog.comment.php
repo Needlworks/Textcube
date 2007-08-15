@@ -615,6 +615,9 @@ function revertCommentInOwner($blogid, $id) {
 function deleteCommentNotifiedInOwner($blogid, $id) {
 	global $database;
 	if (!is_numeric($id)) return false;
+	
+	fireEvent('DeleteCommentNotified', $id);
+	
 	$entryId = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND id = $id");
 	$result = DBQuery::query("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND id = $id");
 	if ($result && (mysql_affected_rows() == 1)) {
@@ -703,6 +706,10 @@ function receiveNotifiedComment($post) {
 	if (empty($post['mode']) || $post['mode'] != 'fb')
 		return 1;
 	global $database;
+	
+	$post = fireEvent('ReceiveNotifiedComment', $post);
+	if ($post === false) return 7;
+	
 	$blogid = getBlogId();
 	$title = mysql_tt_escape_string(mysql_lessen($post['s_home_title'], 255));
 	$name = mysql_tt_escape_string(mysql_lessen($post['s_name'], 255));
