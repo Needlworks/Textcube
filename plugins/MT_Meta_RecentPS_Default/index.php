@@ -65,7 +65,7 @@ function MT_Meta_getRecentEntries($parameters){
 					$html .= '<div class="img_preview" style="background:url('.$tempImageSrc.') top center no-repeat #ffffff;"><img src="'.$serviceURL.'/image/spacer.gif" alt="" onclick="window.location.href=\''.$permalink.'\'; return false;" /></div>'.CRLF;
 				}
 			}
-			$html .= '	<h2><a href="'.$permalink.'">'.$entry['title'].'</a></h2>'.CRLF;
+			$html .= '	<h2><a href="'.$permalink.'">'.htmlspecialchars($entry['title']).'</a></h2>'.CRLF;
 			$html .= '	<div class="post_info">'.CRLF;
 			$html .= '		<span class="category"><a href="'.$categoryLink.'">'.$categoryName.'</a></span>'.CRLF;
 			$html .= '		<span class="date">'.Timestamp::format5($entry['published']).'</span>'.CRLF;
