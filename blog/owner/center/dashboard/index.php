@@ -509,16 +509,23 @@ if ($boardbarNumber < 2) {
 
 // 팀블로그 :: 관리자 권한이 없으면 센터를 편집할수없다.
 
-if(Acl::check('group.owners') && !isset($_REQUEST['edit'])) {
+if(Acl::check('group.owners')) {
+	if(!isset($_REQUEST['edit'])) {
 ?>
 								<div class="button-box">
 									<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" />
 								</div>
 <?php
-} else {
+	} else {
 ?>
 								<div class="button-box">
 									<input type="button" class="input-button" value="<?php echo _t('돌아가기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard'; return false;" />
+								</div>
+<?php
+	}
+} else {
+?>
+								<div class="button-box">
 								</div>
 <?php
 }
