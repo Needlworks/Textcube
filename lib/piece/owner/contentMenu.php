@@ -119,25 +119,22 @@ if(isset($blogContentMenuItem)) {
 				<div id="sub-menu-box">
 					<ul id="sub-menu">
 <?php
-	for ($i=0; $i<count($blogContentMenuItem); $i++) {
-		$contentMenuItem = $blogContentMenuItem[$i];
-		$submenuURL = NULL;
-		$PostIdStr = NULL;
-		
-		if ($i == 0)
-			$firstChildClass = ' firstChild';
-		else
-			$firstChildClass = NULL;
+	$firstChildClass = ' firstChild';
+	$submenuURL = null;
+	foreach($blogContentMenuItem as $contentMenuItem) { 
+		$PostIdStr = null;
 		
 		if(strstr($contentMenuItem['menu'], 'adminMenu?name=') !== false) {
 			$pluginMenuValue = explode('/',substr($contentMenuItem['menu'], 15));
 			$PostIdStr = $pluginMenuValue[0];
-			if(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || (isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) || ($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false)))
+			if(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || (isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) || ($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false))) {
 				$submenuURL = $pluginMenuValue[0];
+			}
 		} else {
 			$PostIdStr = $contentMenuItem['menu'];
-			if(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || (isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) || ($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false)))
+			if(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || (isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) || ($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false))) {
 				$submenuURL = $blogMenu['contentMenu'];
+			}
 		}
 ?>
 						<li id="sub-menu-<?php echo $PostIdStr;?>"<?php echo 
@@ -145,6 +142,7 @@ if(isset($blogContentMenuItem)) {
 							(isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) ||
 							($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false)) ? " class=\"selected{$firstChildClass}\"" : '');?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
 <?php
+		$firstChildClass = null;
 	}
 	
 	$helpURL = $blogMenu['topMenu'].(isset($blogMenu['contentMenu']) ? '/'.$submenuURL : '');
