@@ -10,71 +10,21 @@
 			font-family: AppleGothic, Gulim, '굴림', Helvetica, Tahoma, sans-serif;
 			font-size: 9pt;
 		}
-		
-		#letter
-		{
-			width: 547px;
-		}
-		
-		.head
-		{
-			background-image: url('[##_images_##]/letterHeader.gif');
-			background-repeat: no-repeat;
-			height: 90px;
-			overflow: hidden;
-		}
-		
-		.body
-		{
-			background-image: url('[##_images_##]/letterBody.gif');
-			background-repeat: repeat-y;
-			height: 400px;
-			overflow: hidden;
-		}
-		
-		.body .pseudoBox
-		{
-			min-height: 400px;
-		}
-		
-		.foot
-		{
-			background-image: url('[##_images_##]/letterFooter.gif');
-			background-repeat: no-repeat;
-			height: 17px;
-			overflow: hidden;
-		}
-		
-		.body p
-		{
-			padding: 0 35px;
-		}
-		
-		.body .content
-		{
-			background-image: url('[##_images_##]/letterLine.gif');
-			background-position: left -2px;
-			line-height: 17px;
-			margin: 15px 30px;
-		}
-		
-		.body p.sender
-		{
-			text-align: right;
-		}
 	</style>
 </head>
 <body>
- 	<div id="letter">
-		<div class="head">[##_title_##]</div>
-		<div class="body">
-			<div class="pseudoBox">
-        		<p class="reciever"><a href="[##_link_##]">[##_link_title_##]</a></p>
-        		<div class="content">[##_content_##]</div>
-				<p class="sender">From : [##_sender_##]</p>
+ 	<div id="letter" style="width: 547px;">
+		<div class="head" style="background-image: url('./letterHeader.gif'); background-repeat: no-repeat; height: 90px; overflow: hidden;">
+			[##_title_##]
+		</div>
+		<div class="body" style="background-image: url('./letterBody.gif'); background-repeat: repeat-y; height: 400px; overflow: hidden;">
+			<div class="pseudoBox" style="min-height: 400px;">
+        		<p class="reciever" style="padding: 0 35px;"><a href="[##_link_##]">[##_link_title_##]</a></p>
+        		<div class="content" style="background-image: url('./letterLine.gif'); background-position: left -2px; line-height: 17px; margin: 15px 30px;">[##_content_##]</div>
+				<p class="sender" style="padding: 0 35px; text-align: right;">From : [##_sender_##]</p>
 			</div>
         </div>
-		<div class="foot">&nbsp;</div>
+		<div class="foot" style="background-image: url('./letterFooter.gif'); background-repeat: no-repeat; height: 17px; overflow: hidden;">&nbsp;</div>
 	</div>
 </body>
 </html>
