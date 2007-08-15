@@ -43,17 +43,6 @@ function PN_Referer_Default()
 		$perPage = $_POST['perPage'];  
 	}  
 ?>
-						<script type="text/javascript">
-							//<![CDATA[
-								window.addEventListener("load", execLoadFunction, false);
-								
-								function execLoadFunction() {
-									removeItselfById('log-pages-submit');
-								}
-							//]]>
-						</script>
-						
-						
 						<div id="part-statistics-rank" class="part">
 							<h2 class="caption"><span class="main-text">리퍼러 순위</span></h2>
 							
@@ -146,8 +135,6 @@ function PN_Referer_Default()
 ?>
 										</select>
 										<?php echo Misc::getArrayValue(explode('%1', '한 페이지에 목록 %1건 표시'), 1);?>
-										
-										<input type="submit" id="log-pages-submit" value="갱신" />
 									</div>
 								</div>
 							</div>

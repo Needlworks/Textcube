@@ -5,8 +5,17 @@
 class Paging {
 	function getPagingView( & $paging, & $template, & $itemTemplate) {
 		requireComponent('Textcube.Function.misc');
-		if (($paging === false) || empty($paging['page']))
-			return '';
+		
+		if (($paging === false) || empty($paging['page'])) {
+			$paging['url'] = NULL;
+			$paging['prefix'] = NULL;
+			$paging['postfix'] = NULL;
+			$paging['total'] = NULL;
+			$paging['pages'] = 1;
+			$paging['page'] = 1;
+			$paging['next'] = NULL;
+		}
+		
 		$url = encodeURL($paging['url']);
 		$prefix = $paging['prefix'];
 		$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';

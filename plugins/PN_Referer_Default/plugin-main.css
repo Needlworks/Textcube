@@ -10,7 +10,7 @@
 
 #part-statistics-rank table.data-inbox
 {
-	width                            : auto;
+	width                            : 93%;
 }
 
 #part-statistics-rank table.data-inbox tr th.number
@@ -47,7 +47,7 @@
 
 #part-statistics-log table.data-inbox
 {
-	width                            : auto;
+	width                            : 97%;
 }
 
 #part-statistics-log table.data-inbox tr td.date
@@ -86,5 +86,6 @@
 
 .page-count
 {
-	top                              : -2px !important;
+	margin-top                       : -22px !important;
+	position                         : static !important;
 }
