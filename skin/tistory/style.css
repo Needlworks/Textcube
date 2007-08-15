@@ -145,7 +145,7 @@ textarea        { border:1px solid #aaa;}
 
 #header .blogMenu ul   { margin:0;  padding:0;  list-style:none;}
 #header .blogMenu li   { display:inline;  background:url(images/bullBar.gif) no-repeat;  margin-left:3px;  padding-left:7px;}
-#header li.tab_localog { background:none;}
+#header li.tab_meta { background:none;}
 
 
 /* ***** content ***** */
