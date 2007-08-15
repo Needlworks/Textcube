@@ -1,16 +1,29 @@
 <?php
 function BlogIcon_main($target, $mother) {  
-	global $configVal;
+	global $configVal, $pluginURL;
 	requireComponent('Textcube.Function.misc');
 	$data = misc::fetchConfigVal( $configVal);
 
 	if (!is_null($data))	$ico_size = $data['ico_size'];
 	if (!isset($ico_size) || is_null($ico_size))	$ico_size = 16;
-  
-	if (empty($mother['homepage']))
-		return $target;
-	$slash = ($mother['homepage']{strlen($mother['homepage']) - 1} == '/' ? '' : '/');
-	return "<img src=\"{$mother['homepage']}{$slash}index.gif\" alt=\"\" width=\"{$ico_size}\" height=\"{$ico_size}\" onerror=\"this.parentNode.removeChild(this)\" /> $target";
+	
+	if ($mother['secret'] == 1) {
+		if (empty($mother['homepage'])) {
+			$imageStr = "<img src=\"{$pluginURL}/images/secret.png\" alt=\"\" width=\"{$ico_size}\" height=\"{$ico_size}\" />";
+		} else {
+			$slash = ($mother['homepage']{strlen($mother['homepage']) - 1} == '/' ? '' : '/');
+			$imageStr = "<img src=\"{$mother['homepage']}{$slash}index.gif\" alt=\"\" width=\"{$ico_size}\" height=\"{$ico_size}\" onerror=\"this.src = '{$pluginURL}/images/secret.png'\" />";
+		}
+	} else {
+		if (empty($mother['homepage'])) {
+			$imageStr = "<img src=\"{$pluginURL}/images/default.png\" alt=\"\" width=\"{$ico_size}\" height=\"{$ico_size}\" />";
+		} else {
+			$slash = ($mother['homepage']{strlen($mother['homepage']) - 1} == '/' ? '' : '/');
+			$imageStr = "<img src=\"{$mother['homepage']}{$slash}index.gif\" alt=\"\" width=\"{$ico_size}\" height=\"{$ico_size}\" onerror=\"this.src = '{$pluginURL}/images/default.png'\" />";
+		}
+	}
+	
+	return "{$imageStr} {$target}";
 }
 
 function BlogIcon_ConfigOut_ko($plugin) {
