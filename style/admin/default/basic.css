@@ -1046,7 +1046,7 @@ input.input-text
 	color: #000 !important;
 }
 
-.ajaxSuccessMessage
+.ajaxProcessingMessage, .ajaxSuccessMessage
 {
 	background-image: url('./image/bg_gray_textcube.gif') !important;
 	background-color: #dedede !important;
