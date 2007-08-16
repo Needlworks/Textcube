@@ -422,7 +422,7 @@ for ($i=0; $i<$metapageCount; $i++) {
 foreach ($metapagePluginArray as $nowKey) {
 ?>
 										<li class="metapage-module" id="<?php echo "add-metapage-module-{$nowKey['identifier']}";?>">
-											<h4 class="module-title"><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey;?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label></h4>
+											<h4 class="module-title"><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey['identifier'];?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label></h4>
 																			
 											<div class="edit-button-box">
 											</div>
