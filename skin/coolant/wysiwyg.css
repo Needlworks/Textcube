@@ -4,16 +4,12 @@
 	padding: 0;
 }
 
-html
-{
-	font-size: 62.5%;
-}
-
 body
 {
 	background-color: #fff;
 	color: #666;
 	font: 1.2em/1.7 Gulim, Helvetica, AppleGothic, Sans-serif;
+	font-size: 75%;
 }
 
 a
@@ -39,7 +35,7 @@ dfn, em, cite, address
 
 h1
 {
-	font: normal 2.3em arial, 'Trebuchet MS', Verdana, Sans-Serif;
+	font: normal 2.17em arial, 'Trebuchet MS', Verdana, Sans-Serif;
 }
 
 h1 a
@@ -52,14 +48,14 @@ h2
 	padding-bottom: .5em;
 	background: #fff url('./images/bg_h2.gif') repeat-x 0 100%;
 	border-bottom: 1px solid #fff;
-	font-size: 1.6em;
+	font-size: 1.5em;
 	letter-spacing: -1px;
 	color: #accb53;
 }
 
 h3
 {
-	font: bold 1.2em/1.5 Arial, Helvetica, Sans-Serif;
+	font: bold 1.17em/1.5 Arial, Helvetica, Sans-Serif;
 	background-color: #faf9f8;
 	border-bottom: 1px solid #eee;
 	color: #accb53;
@@ -67,7 +63,7 @@ h3
 
 h4
 {
-	font-size: 1.1em;
+	font-size: 1.08em;
 }
 
 p
