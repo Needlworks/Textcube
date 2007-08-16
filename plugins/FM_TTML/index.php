@@ -344,8 +344,8 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				} else {
 					$caption = '';
 				}
-				$buf = '<center>';
-				$buf .= '<div id="jukeBox' . $id . 'Div" style="width:' . $width . '; height:' . $height . ';"><div id="jukeBoxContainer'.$id.'" style="width:' . $width . '; height:' . $height . ';"></div>';
+				
+				$buf .= '<div id="jukeBox' . $id . 'Div" style="margin-left: auto; margin-right: auto; width:' . $width . '; height:' . $height . ';"><div id="jukeBoxContainer'.$id.'" style="width:' . $width . '; height:' . $height . ';"></div>';
 				$buf .= '<script type="text/javascript">//<![CDATA['.CRLF;
 				$buf .= 'writeCode(getEmbedCode(\'' . $service['path'] . '/script/jukebox/flash/main.swf\',\'100%\',\'100%\',\'jukeBox' . $id . 'Flash\',\'#FFFFFF\',"sounds=' . $imgStr . '&amp;autoplay=' . $params['autoplay'] . '&amp;visible=' . $params['visible'] . '&amp;id=' . $id . '","false"), "jukeBoxContainer'.$id.'")';
 				$buf .= '//]]></script><noscript>';
@@ -356,7 +356,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 						$buf .= htmlspecialchars($imgs[$i]).'</a><br/>';
 				}
 				$buf .= '</noscript>';
-				$buf .= '</div>' . $caption . '</center>';
+				$buf .= '</div>';
 			}
 		} else {
 			$contentWidth = getContentWidth();
