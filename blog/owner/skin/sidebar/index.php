@@ -211,7 +211,7 @@ $sidebarCount = count($skin->sidebarBasicModules);
 
 getBlogContentForSideBar();
 ?>
-						<form id="part-sidebar-order<?php if ($sidebarCount == 0) echo '-disabled';?>" class="part" method="post" action="<?php echo $blogURL; ?>/owner/skin/sidebar/register<?php echo $viewMode2;?>">
+						<form id="part-sidebar-order" class="part" method="post" action="<?php echo $blogURL; ?>/owner/skin/sidebar/register<?php echo $viewMode2;?>">
 							<h2 class="caption"><span class="main-text"><?php echo _t('사이드바 기능을 관리합니다');?></span></h2>
 							
 							<div class="main-explain-box">
