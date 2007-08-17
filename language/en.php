@@ -7,7 +7,7 @@ $__text["공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해
 //$__text["블로그 API는 MovableType 혹은 MetaWeblog API를 선택하시면 됩니다."] = "";
 $__text["블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다."] = "Your blog is ready.\nYou may begin using it immediately.";
 $__text["아래로"] = 'Move down';
-//$__text["오픈ID를 입력하세요"] = "";
+$__text["오픈ID를 입력하세요"] = "Please input your OpenID";
 //$__text["오픈아이디(%s)로 작성하였습니다"] = "";
 //$__text["외부 편집기가 사용할 수 있는 주소를 만들어 주는 <b>도우미</b>입니다."] = "";
 $__text["위로"] = 'Move Up';
