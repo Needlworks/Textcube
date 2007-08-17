@@ -694,7 +694,7 @@ function textareaTreat( $cmd, $dfVal , $name) {
 	$DSP = TAB.TAB.TAB.TAB.'<textarea class="textareacontrol"';
 	$DSP .= ' id="'.$name.'"';
 	$DSP .= ' rows="'.treatDefaultValue($cmd['.attributes']['rows'], '2', false).'"';
-	$DSP .= ' cols="'.treatDefaultValue($cmd['.attributes']['cols'], '23', false)'"';
+	$DSP .= ' cols="'.treatDefaultValue($cmd['.attributes']['cols'], '23', false).'"';
 	$DSP .= '>';
 	$DSP .= is_null( $dfVal  )  ? '' : htmlspecialchars($dfVal);
 	$DSP .= '</textarea>'.CRLF ;
