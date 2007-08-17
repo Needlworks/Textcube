@@ -12,7 +12,6 @@
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
     <textcube>1.5</textcube>
-	<privilege>administrator</privilege>
   </requirements>
   <binding>
   	<listener event="AddPost">MT_Meta_getRecentEntries_purgeCache</listener>

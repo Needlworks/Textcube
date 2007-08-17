@@ -8,6 +8,7 @@ function MT_Meta_getRecentEntries($parameters){
 	requireModel("blog.tag");
 	$data = misc::fetchConfigVal($configVal);
 	$data['metaMode']	= !isset($data['metaMode'])?1:$data['metaMode'];
+	if(misc::isMetaBlog() != true) $data['metaMode'] = 1;
 
 	if (isset($parameters['preview'])) {
 		// preview mode
