@@ -66,6 +66,11 @@ h4
 	font-size: 1.08em;
 }
 
+fieldset
+{
+	clear: both;
+}
+
 p
 {
 	margin-bottom: 1.7em;
