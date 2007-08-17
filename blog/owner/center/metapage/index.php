@@ -19,7 +19,7 @@ requireModel("blog.link");
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 
-$service['disablePageCache'] = true; // For plugin settting update.
+$service['disablePageCache'] = true; // For plugin setting update.
 
 $stats = getStatistics($blogid);
 

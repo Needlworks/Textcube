@@ -197,26 +197,26 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									<h4><?php echo _t('Code Contributor');?></h4>
 									
 									<p>
-									<a href="http://barosl.com/blog">랜덤여신</a>,
+									<a href="http://blog.creorix.com">Creorix</a>,
 									<a href="http://blog.laco.pe.kr">lacovnk</a>,
-									<a href="http://mcfuture.net">McFuture</a>,
 									<a href="http://laziel.com">laziel</a>,
-									<a href="http://sangsangbox.net">나니</a>,
-									<a href="http://tokigun.net">tokigun</a>,
 									<a href="http://story.isloco.com">linus</a>,
+									<a href="http://mcfuture.net">McFuture</a>,
 									<a href="http://nya.pe.kr">NYA</a>,
-									<a href="http://www.yangkun.pe.kr">희망이아빠</a>,
-									<a href="#">우수한</a>,
-									<a href="#">엽기민원</a>,
-									<a href="http://offree.net">도아</a>,
+									<a href="http://tokigun.net">tokigun</a>,
 									<a href="http://rsef.net/">Peris</a>,
+									<a href="http://sangsangbox.net">나니</a>,
+									<a href="http://offree.net">도아</a>,
+									<a href="http://barosl.com/blog">랜덤여신</a>,	
+									<a href="#">엽기민원</a>,
+									<a href="#">우수한</a>,
 									<a href="http://chakani.net">차칸아이</a>,
-									<a href="http://blog.creorix.com">Creorix</a>
+									<a href="http://www.yangkun.pe.kr">희망이아빠</a>
 									</p>
 								</div>
 								<div id="tester-container" class="container">
 									<h4><?php echo _t('Tester');?></h4>
-									<p>유마, DARKLiCH, McFuture, 심민규, 엽기민원, xizhu, 헤이, chester, NC_Fly, FeelSoGood, adeurian, laotzu</p>
+									<p>adeurian, chester, DARKLiCH, FeelSoGood, laotzu, McFuture,  NC_Fly, xizhu, 심민규, 엽기민원, 유마, 헤이</p>
 								</div>
 								
 								<div id="reporter-container" class="container">
