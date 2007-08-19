@@ -35,7 +35,11 @@ function MT_Meta_getRecentEntries($parameters){
 	if($cache->load()) {
 		return $cache->contents;
 	} else {
-		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
+		if((misc::isMetaBlog() == true) && doesHaveOwnership()) {
+			$visibility = 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
+		} else {
+			$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
+		}
 		$multiple = ($data['metaMode']==2) ? '' : 'e.blogid = ' . getBlogId() . ' AND';
 		$entries = DBQuery::queryAll("SELECT e.blogid, e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, c.label 
 			FROM {$database['prefix']}Entries e
