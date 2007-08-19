@@ -11,6 +11,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlog.php';
+requireView('mobileView');
 requireStrictRoute();
 list($entryId) = getCommentAttributes($blogid, $_POST['replyId'], 'entry');
 if (deleteComment($blogid, $_POST['replyId'], $entryId, isset($_POST['password']) ? $_POST['password'] : '') === false) {
