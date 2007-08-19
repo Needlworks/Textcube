@@ -1016,7 +1016,7 @@ function openid_comment_del()
 			<div id="comment-box">
 				<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />	
 				<div id="command-box">
-<? 
+<?php 
 /*-------------------------------------------------------------------------------------------*/
 if( ! _openid_has_ownership($comment['openid']) ) { ?>
 					<div class="edit-line">
@@ -1025,7 +1025,7 @@ if( ! _openid_has_ownership($comment['openid']) ) { ?>
 					<div class="password-line">
 						<input type="button" class="input-button" name="Submit" value="<?php echo _text('닫기');?>" onclick="window.close()" />				
 					</div>
-<? 
+<?php 
 } else { 
 	if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId())) )
 	{
@@ -1055,14 +1055,16 @@ if( ! _openid_has_ownership($comment['openid']) ) { ?>
 	<?php
 		} else {
 	?>
-						<input type="hidden" id="password" class="input-text" name="password" value="<? echo $tmp_password ?>"/>
-	<?
+						<input type="hidden" id="password" class="input-text" name="password" value="<?php echo $tmp_password ?>"/>
+	<?php
 		}
 	}
 	?>
 						<input type="button" class="input-button" name="Submit" value="<?php echo _text('다음');?>" onclick="document.deleteComment.submit()" />				
 					</div>
-<? } ?>
+<?php
+}
+?>
 				</div>
 			</div>
 		</form>
@@ -1290,7 +1292,7 @@ $className .= ($i == sizeof($rec) - 1) ? ' last-line' : '';
 			</tbody>
 		</table>
 	</div>
-<?
+<?php
 }
 
 ?>
