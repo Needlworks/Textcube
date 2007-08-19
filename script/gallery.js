@@ -88,7 +88,6 @@ TTGallery.prototype.getCaption = function()
 	var caption = document.createElement("div");
 	caption.style.textAlign = "center";
 	caption.style.marginTop = "8px";
-	caption.style.color = "#627e89";
 	caption.className = "galleryCaption";
 	caption.appendChild(document.createTextNode(captionText));
 

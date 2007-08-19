@@ -769,8 +769,13 @@ TTModernEditor.prototype.showProperty = function(obj)
 
 			list.innerHTML = "";
 
-			for(var i=1; i<values.length-2; i+=2)
+			for(var i=1; i<values.length-2; i+=2) {
 				list.options[list.length] = new Option(this.getFilenameFromFilelist(values[i]), values[i] + "|" + this.unHtmlspecialchars(values[i+1]), false, false);
+				if (i == 1) {
+					list.selectedIndex = 0;
+					this.listChanged('propertyGallery_list');
+				}
+			}
 		}
 		else if(objectType == "Jukebox") {
 			getObject(propertyWindowId + "_autoplay").checked = this.parseAttribute(values[values.length-2], "autoplay") == 1;
@@ -1871,6 +1876,7 @@ TTModernEditor.prototype.listChanged = function(id) {
 			var values = list[list.selectedIndex].value.split("|");
 			getObject(this.id + "propertyGallery_preview").style.display = "block";
 			getObject(this.id + "propertyGallery_preview").innerHTML = '<img src="' + this.propertyFilePath + values[0] + '" width="198" />';
+			getObject(this.id + "propertyGallery_captionLine").style.display = "block";
 			getObject(this.id + "propertyGallery_caption").value = values[1];
 		}
 	}
@@ -2762,7 +2768,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 					'<dt class="property-name"><label for="__ID__propertyGallery_height">' + _t('최대높이') + '</label></dt>' +
 					'<dd><input type="text" class="input-text" id="__ID__propertyGallery_height" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);" /></dd>' +
 				'</dl>' +
-				'<dl class="line">' +
+				'<dl id="__ID__propertyGallery_captionLine" class="line" style="display: none;">' +
 					'<dt class="property-name"><label for="__ID__propertyGallery_caption">' + _t('자막') + '</label></dt>' +
 					'<dd><textarea class="input-text" id="__ID__propertyGallery_caption" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>' +
 				'</dl>' +
