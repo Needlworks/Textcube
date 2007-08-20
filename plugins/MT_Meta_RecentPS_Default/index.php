@@ -32,61 +32,65 @@ function MT_Meta_getRecentEntries($parameters){
 
 	$cache = new PageCache;
 	$cache->name = 'MT_Meta_RecentPS';
-	if($cache->load()) {
-		return $cache->contents;
-	} else {
-		if((misc::isMetaBlog() == true) && doesHaveOwnership()) {
-			$visibility = 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-		} else {
-			$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-		}
-		$multiple = ($data['metaMode']==2) ? '' : 'e.blogid = ' . getBlogId() . ' AND';
-		$entries = DBQuery::queryAll("SELECT e.blogid, e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, c.label 
-			FROM {$database['prefix']}Entries e
-			LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
-			WHERE $multiple e.draft = 0 $visibility AND e.category >= 0 
-			ORDER BY published DESC LIMIT $entryLength");	
-		
-		$html = '';
-		foreach ($entries as $entry){
-			$tagLabelView = "";
-			$blogid = ($data['metaMode']==2) ? $entry['blogid'] : getBlogId();
-			$entryTags = getTags($blogid, $entry['id']);
-			$defaultURL = getDefaultURL($blogid);
-			if (sizeof($entryTags) > 0) {
-				$tags = array();
-				foreach ($entryTags as $entryTag) {
-					$tags[$entryTag['name']] = "<a href=\"{$defaultURL}/tag/" . encodeURL($entryTag['name']) . '"' . ((count($entries) == 1 && getBlogSetting('useRelTag', true)) ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
-				}
-				$tagLabelView = "<div class=\"post_tags\"><span>TAG : </span>".implode(",\r\n", array_values($tags))."</div>";
-			}
-			$categoryName = htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['label']);
-			$categoryLink = "{$defaultURL}/" . (empty($entry['category']) ? "category/" : "category/".encodeURL($categoryName));
-			$permalink = "{$defaultURL}/" . ($blog['useSlogan'] ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
-	
-			$html .= '<div class="metapost">'.CRLF;
-			if($imageName = MT_Meta_getAttachmentExtract($entry['content'])){
-				if($tempImageSrc = MT_Meta_getImageResizer($blogid, $imageName)){
-					$html .= '<div class="img_preview" style="background:url('.$tempImageSrc.') top center no-repeat #ffffff;"><img src="'.$serviceURL.'/image/spacer.gif" alt="" onclick="window.location.href=\''.$permalink.'\'; return false;" /></div>'.CRLF;
-				}
-			}
-			$html .= '	<h2><a href="'.$permalink.'">'.htmlspecialchars($entry['title']).'</a></h2>'.CRLF;
-			$html .= '	<div class="post_info">'.CRLF;
-			$html .= '		<span class="category"><a href="'.$categoryLink.'">'.$categoryName.'</a></span>'.CRLF;
-			$html .= '		<span class="date">'.Timestamp::format5($entry['published']).'</span>'.CRLF;
-			$html .= '		<span class="author">by '.User::getName($entry['userid']).'</span>'.CRLF;
-			$html .= '	</div>'.CRLF;
-			$html .= '	<div class="post_content">'.htmlspecialchars(UTF8::lessenAsEm(removeAllTags(stripHTML($entry['content'])),250)).'</div>'.CRLF;
-			$html .=	$tagLabelView;
-			$html .= '	<div class="clear"></div>'.CRLF;
-			$html .= '</div>'.CRLF;
-		}
-		$target = $html;
-		$cache->contents = $target;
-		$cache->update();
-		unset($cache);
-		return $target;
+	if($cache->load()) { //If successful loads
+		// If metapage is single mode OR metapage is metablog and cache is not expired, return cache contents.
+		if($data['metaMode']==1 || ($data['metaMode']==2 && (Timestamp::getUNIXtime() - $cache->dbContents < 300))) {
+			return $cache->contents;
+		}	
 	}
+	
+	if((misc::isMetaBlog() == true) && doesHaveOwnership()) {
+		$visibility = 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
+	} else {
+		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
+	}
+	$multiple = ($data['metaMode']==2) ? '' : 'e.blogid = ' . getBlogId() . ' AND';
+	$entries = DBQuery::queryAll("SELECT e.blogid, e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, c.label 
+		FROM {$database['prefix']}Entries e
+		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
+		WHERE $multiple e.draft = 0 $visibility AND e.category >= 0 
+		ORDER BY published DESC LIMIT $entryLength");	
+	
+	$html = '';
+	foreach ($entries as $entry){
+		$tagLabelView = "";
+		$blogid = ($data['metaMode']==2) ? $entry['blogid'] : getBlogId();
+		$entryTags = getTags($blogid, $entry['id']);
+		$defaultURL = getDefaultURL($blogid);
+		if (sizeof($entryTags) > 0) {
+			$tags = array();
+			foreach ($entryTags as $entryTag) {
+				$tags[$entryTag['name']] = "<a href=\"{$defaultURL}/tag/" . encodeURL($entryTag['name']) . '"' . ((count($entries) == 1 && getBlogSetting('useRelTag', true)) ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
+			}
+			$tagLabelView = "<div class=\"post_tags\"><span>TAG : </span>".implode(",\r\n", array_values($tags))."</div>";
+		}
+		$categoryName = htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['label']);
+		$categoryLink = "{$defaultURL}/" . (empty($entry['category']) ? "category/" : "category/".encodeURL($categoryName));
+		$permalink = "{$defaultURL}/" . ($blog['useSlogan'] ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
+
+		$html .= '<div class="metapost">'.CRLF;
+		if($imageName = MT_Meta_getAttachmentExtract($entry['content'])){
+			if($tempImageSrc = MT_Meta_getImageResizer($blogid, $imageName)){
+				$html .= '<div class="img_preview" style="background:url('.$tempImageSrc.') top center no-repeat #ffffff;"><img src="'.$serviceURL.'/image/spacer.gif" alt="" onclick="window.location.href=\''.$permalink.'\'; return false;" /></div>'.CRLF;
+			}
+		}
+		$html .= '	<h2><a href="'.$permalink.'">'.htmlspecialchars($entry['title']).'</a></h2>'.CRLF;
+		$html .= '	<div class="post_info">'.CRLF;
+		$html .= '		<span class="category"><a href="'.$categoryLink.'">'.$categoryName.'</a></span>'.CRLF;
+		$html .= '		<span class="date">'.Timestamp::format5($entry['published']).'</span>'.CRLF;
+		$html .= '		<span class="author">by '.User::getName($entry['userid']).'</span>'.CRLF;
+		$html .= '	</div>'.CRLF;
+		$html .= '	<div class="post_content">'.htmlspecialchars(UTF8::lessenAsEm(removeAllTags(stripHTML($entry['content'])),250)).'</div>'.CRLF;
+		$html .=	$tagLabelView;
+		$html .= '	<div class="clear"></div>'.CRLF;
+		$html .= '</div>'.CRLF;
+	}
+	$target = $html;
+	$cache->contents = $target;
+	$cache->dbContents = Timestamp::getUNIXtime();
+	$cache->update();
+	unset($cache);
+	return $target;
 }
 
 function MT_Meta_getRecentEntries_purgeCache($mother, $target) {
