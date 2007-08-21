@@ -181,7 +181,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
 												tempTr = tempTd.parentNode;
-												tempTr.cells[6].innerHTML = "";
+												tempTr.cells[7].innerHTML = "";
 												
 												break;
 											case 1:
@@ -210,7 +210,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
 												tempTr = tempTd.parentNode;
-												tempTr.cells[6].appendChild(tempLink);
+												tempTr.cells[7].appendChild(tempLink);
 												
 												break;
 											case 2:
@@ -231,7 +231,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
 												tempTr = tempTd.parentNode;
-												tempTr.cells[6].innerHTML = "";
+												tempTr.cells[7].innerHTML = "";
 																							
 												break;
 											case 3:
@@ -252,7 +252,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
 												tempTr = tempTd.parentNode;
-												tempTr.cells[6].innerHTML = "";
+												tempTr.cells[7].innerHTML = "";
 												
 												if (countSyndicated == false) {
 													viewWhatIsEolin();
@@ -538,7 +538,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 											newRow.className = "hidden-layer";
 											
 											newCell = newRow.insertCell(0);
-											newCell.colSpan = 9;
+											newCell.colSpan = 10;
 											newCell.setAttribute("align", "right");
 											newSection = document.createElement("DIV");
 											newSection.className = "layer-section";
@@ -580,7 +580,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										newRow.className = "hidden-layer";
 										
 										newCell = newRow.insertCell(0);
-										newCell.colSpan = 9;
+										newCell.colSpan = 10;
 										newCell.setAttribute("align", "right");
 										
 										newSection = document.createElement("DIV");
