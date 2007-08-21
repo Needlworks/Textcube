@@ -140,12 +140,12 @@ function emptyTrash($comment = true)
 {
    	global $database;
 	requireModel('common.setting');
+	$blogid = getBlogId();
 	if ($comment == true) {
-		DBQuery::execute("DELETE FROM {$database['prefix']}Comments where isFiltered > 0");
+		DBQuery::execute("DELETE FROM {$database['prefix']}Comments where blogid = ".$blogid." and isFiltered > 0");
 	} else {
-		DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks where isFiltered > 0");
+		DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks where blogid = ".$blogid." and isFiltered > 0");
 	}
-	removeServiceSetting('Textcube_Notice');
 }
 
 ?>
