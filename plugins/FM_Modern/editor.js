@@ -151,8 +151,13 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	textarea.parentNode.insertBefore(this.iframe, textarea.nextSibling);
 
 	// 자주 참조하는 핸들을 지정해둔다
-	this.contentWindow = this.iframe.contentWindow;
-	this.contentDocument = this.contentWindow.document;
+	if (STD.isIE) {
+		this.contentDocument = document.frames["tatterVisualEditor"].document;
+		this.contentWindow = this.contentDocument.parentWindow;
+	} else {
+		this.contentWindow = this.iframe.contentWindow;
+		this.contentDocument = this.contentWindow.document;
+	}
 
 	// 디자인모드로 변경한다
 	try { this.contentDocument.designMode = "on"; }

@@ -148,9 +148,11 @@ function getAggregatorName($useragent)
 		'sproose' => 'sproose 봇',
 		'Thunderbird' => 'Mozilla Thunderbird',
 		'NaverBot' => '네이버 검색로봇',
+		'DAUM RSS Robot' => '다음 RSS 검색로봇',
 		'Googlebot' => '구글 검색로봇',
 		'TechnoratiSnoop' => '테크노라티 피드 로봇',
 		'CazoodleBot' => 'CazoodleBot',
+		'Snapbot' => 'Snapbot (snap.com 서비스용)',
 		'UCLA CS Dept' => '연구용 로봇 (UCLA 컴퓨터공학과)',
 		'Windows-RSS-Platform/1.0 (MSIE 7.0' => '윈도우 비스타 RSS 개짓',
 		'HTTPClientBox' => 'HTTPClientBox',
@@ -201,6 +203,8 @@ function robotChecker($useragent)
 		'CazoodleBot' => 1,
 		'ONNET-OPENAPI' => 1,
 		'UCLA CS Dept' => 1,
+		'Snapbot' => 1,
+		'DAUM RSS Robot' => 1,
 		'RMOM' => 1
 	);
 	foreach ($robotPattern as $agentName => $isRobot)
