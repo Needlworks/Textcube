@@ -7,6 +7,11 @@
 			<div id="layout-footer">
 				<address><?php echo TEXTCUBE_COPYRIGHT;?></address>
 				<div id="version"><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?></div>
+				<div id="validator">
+					<a href="http://validator.w3.org/check/referer">
+						<span class="text">XHTML 1 / CSS</span>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
