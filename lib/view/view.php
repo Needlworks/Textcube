@@ -1256,7 +1256,7 @@ function printFeedEntriesMore($blogid, $group = 0, $feed = 0, $unreadOnly = fals
 ?>
 												<table cellpadding="0" cellspacing="0">
 <?php
-	$count = 1;
+	$count = 0;
 	foreach (getFeedEntries($blogid, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword, $offset) as $entry) {
 		$class = $entry['wasread'] ? 'read' : 'unread';
 		$class .= ($count % 2) == 1 ? ' odd-line' : ' even-line';
