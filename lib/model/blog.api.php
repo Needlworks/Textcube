@@ -454,12 +454,12 @@ function api_BlogAPI()
 		blogger_getRecentPosts();
 		blogger_deletePost();
 		blogger_getPost();
-		metaWeblog_newPost();
-		metaWeblog_getPost();
-		metaWeblog_getCategories();
-		metaWeblog_getRecentPosts();
-		metaWeblog_editPost();
-		metaWeblog_newMediaObject();
+		coverWeblog_newPost();
+		coverWeblog_getPost();
+		coverWeblog_getCategories();
+		coverWeblog_getRecentPosts();
+		coverWeblog_editPost();
+		coverWeblog_newMediaObject();
 		mt_getPostCategories();
 		mt_setPostCategories();
 		mt_getCategoryList();	
@@ -480,12 +480,12 @@ function api_BlogAPI()
 		"blogger.getPost", 
 //		"blogger.getTemplate", // doesn't supported
 //		"blogger.setTemplate", // doesn't supported
-		"metaWeblog.newPost",
-		"metaWeblog.getPost",
-		"metaWeblog.getCategories",
-		"metaWeblog.getRecentPosts",
-		"metaWeblog.editPost",
-		"metaWeblog.newMediaObject",
+		"coverWeblog.newPost",
+		"coverWeblog.getPost",
+		"coverWeblog.getCategories",
+		"coverWeblog.getRecentPosts",
+		"coverWeblog.editPost",
+		"coverWeblog.newMediaObject",
 		"mt.getPostCategories",
 		"mt.setPostCategories",
 		"mt.getCategoryList",
@@ -688,9 +688,9 @@ function blogger_getTemplate()
 	return htmlspecialchars($template);
 }
 
-/*--------- MetaWebLog API functions -----------*/
+/*--------- CoverWebLog API functions -----------*/
 
-function metaWeblog_getCategories()
+function coverWeblog_getCategories()
 {
 	global $hostURL, $blogURL;
 	$params = func_get_args();
@@ -761,7 +761,7 @@ function mt_getCategoryList()
 }
 
 
-function metaWeblog_getRecentPosts()
+function coverWeblog_getRecentPosts()
 {
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
@@ -789,7 +789,7 @@ function metaWeblog_getRecentPosts()
 	return $out;
 }
 
-function metaWeblog_getPost()
+function coverWeblog_getPost()
 {
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
@@ -807,7 +807,7 @@ function metaWeblog_getPost()
 	return $ret;
 }
 
-function metaWeblog_newPost()
+function coverWeblog_newPost()
 {
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
@@ -894,7 +894,7 @@ function mt_getPostCategories()
 	return $cat;
 }
 
-function metaWeblog_editPost()
+function coverWeblog_editPost()
 {
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
@@ -922,7 +922,7 @@ function metaWeblog_editPost()
 	return $ret ? true : false;
 }
 
-function metaWeblog_newMediaObject()
+function coverWeblog_newMediaObject()
 {
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );

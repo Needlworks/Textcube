@@ -71,7 +71,7 @@ function FM_TTML_bindKeywords($keywords, $content) {
 
 	// list of unbindable & (always) singleton elements
 	$unbindables = array('a', 'object', 'applet', 'select', 'option', 'optgroup', 'textarea',
-		'button', 'isindex', 'title', 'meta', 'base', 'link', 'style', 'head', 'script', 'embed',
+		'button', 'isindex', 'title', 'cover', 'base', 'link', 'style', 'head', 'script', 'embed',
 		'address', 'pre', 'param');
 	$singletons = array('br', 'hr', 'img', 'input');
 

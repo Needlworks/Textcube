@@ -121,7 +121,7 @@ function getPluginInformation($plugin) {
 			'admin'     => '/plugin/binding/adminMenu',
 			'blog'      => '/plugin/binding/tag',
 			'center'    => '/plugin/binding/center',
-			'metapage'  => '/plugin/binding/metapage',
+			'coverpage'  => '/plugin/binding/coverpage',
 			'global'    => '/plugin/binding/listener',
 			'sidebar'   => '/plugin/binding/sidebar',
 			'editor'    => '/plugin/binding/editor',

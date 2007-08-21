@@ -2,8 +2,8 @@
 /// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-function getMetapageModuleOrderData() {
-	if (!is_null($tempValue = getBlogSetting("metapageOrder", NULL))) {
+function getCoverpageModuleOrderData() {
+	if (!is_null($tempValue = getBlogSetting("coverpageOrder", NULL))) {
 		$emptyArray = unserialize($tempValue);
 	} else {
 		$emptyArray = false;
@@ -13,16 +13,16 @@ function getMetapageModuleOrderData() {
 	return $emptyArray;
 }
 
-function addMetapageModuleOrderData($dataArray, $metapageNumber, $modulePos, $newModuleData) {
-	global $skin, $metapageMappings;
+function addCoverpageModuleOrderData($dataArray, $coverpageNumber, $modulePos, $newModuleData) {
+	global $skin, $coverpageMappings;
 	
-	if (!isset($dataArray[$metapageNumber]) || empty($dataArray[$metapageNumber]))
-		$dataArray[$metapageNumber] = array();
+	if (!isset($dataArray[$coverpageNumber]) || empty($dataArray[$coverpageNumber]))
+		$dataArray[$coverpageNumber] = array();
 	
 	if ($modulePos < 0) {
-		$modulePos = count($dataArray[$metapageNumber]);
-	} else if ($modulePos > count($dataArray[$metapageNumber])) {
-		$modulePos = count($dataArray[$metapageNumber]);
+		$modulePos = count($dataArray[$coverpageNumber]);
+	} else if ($modulePos > count($dataArray[$coverpageNumber])) {
+		$modulePos = count($dataArray[$coverpageNumber]);
 	}
 	
 	if ($newModuleData[0] == 3) {
@@ -31,9 +31,9 @@ function addMetapageModuleOrderData($dataArray, $metapageNumber, $modulePos, $ne
 		
 		$matched = false;
 		
-		foreach($metapageMappings as $item) {
+		foreach($coverpageMappings as $item) {
 			if (($item['plugin'] == $newModuleData[1]) && ($item['handler'] == $newModuleData[2])) {
-				array_splice($dataArray[$metapageNumber], $modulePos, 0, 
+				array_splice($dataArray[$coverpageNumber], $modulePos, 0, 
 					array(array('type' => 3, 'id' => array('plugin' => $newModuleData[1], 'handler' => $newModuleData[2]),
 					'parameters' => '')));
 				$matched = true;
@@ -46,11 +46,11 @@ function addMetapageModuleOrderData($dataArray, $metapageNumber, $modulePos, $ne
 	return $dataArray;
 }
 
-function deleteMetapageModuleOrderData($dataArray, $metapageNumber, $modulePos) {
-	if (!isset($dataArray[$metapageNumber]))
-		$dataArray[$metapageNumber] = array();
+function deleteCoverpageModuleOrderData($dataArray, $coverpageNumber, $modulePos) {
+	if (!isset($dataArray[$coverpageNumber]))
+		$dataArray[$coverpageNumber] = array();
 	
-	array_splice($dataArray[$metapageNumber], $modulePos, 1);
+	array_splice($dataArray[$coverpageNumber], $modulePos, 1);
 	
 	return $dataArray;
 }

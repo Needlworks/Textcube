@@ -67,12 +67,12 @@ class Skin {
 	var $sidebarOriginalContent = array();
 	var $sidebarName = array();
 
-	var $meta;
-	var $metapage;
-	var $metapageBasicModules = array();
-	var $metapageStorage = array();
-	var $metapageOriginalContent = array();
-	var $metapageName = array();
+	var $cover;
+	var $coverpage;
+	var $coverpageBasicModules = array();
+	var $coverpageStorage = array();
+	var $coverpageOriginalContent = array();
+	var $coverpageName = array();
 
 	var $noneCommentMessage;
 	var $singleCommentMessage;
@@ -165,29 +165,29 @@ class Skin {
 		handleSidebars($sval, $this, $previewMode);
 
 		// 메타페이지 작업.
-		$metapageCount = 0;
-		if (ereg("<s_meta>", $sval) && ereg("<s_metapage>", $sval)) {
-			if (!isset($this->metapageBasicModules[$metapageCount]))
-				$this->metapageBasicModules[$metapageCount] = array();
-			list($sval, $this->metapageOriginalContent[$metapageCount]) = $this->cutSkinTag($sval, "metapage");
-			list($sval, $this->meta) = $this->cutSkinTag($sval, 'meta');
+		$coverpageCount = 0;
+		if (ereg("<s_cover>", $sval) && ereg("<s_coverpage>", $sval)) {
+			if (!isset($this->coverpageBasicModules[$coverpageCount]))
+				$this->coverpageBasicModules[$coverpageCount] = array();
+			list($sval, $this->coverpageOriginalContent[$coverpageCount]) = $this->cutSkinTag($sval, "coverpage");
+			list($sval, $this->cover) = $this->cutSkinTag($sval, 'cover');
 					
-			$firstPos = strlen($this->metapageOriginalContent[$metapageCount]);
-			preg_match("/<!\-\-(.+)\-\->/", substr($this->metapageOriginalContent[$metapageCount],0,$firstPos - 1), $temp);
+			$firstPos = strlen($this->coverpageOriginalContent[$coverpageCount]);
+			preg_match("/<!\-\-(.+)\-\->/", substr($this->coverpageOriginalContent[$coverpageCount],0,$firstPos - 1), $temp);
 			if (isset($temp[1])) {
 				$tempTitle = trim($temp[1]);
 			} else {
 				$tempTitle = _t('메타페이지');
 			}
-			$this->metapageName[$metapageCount] = $tempTitle;
+			$this->coverpageName[$coverpageCount] = $tempTitle;
 		}
 
 		if((empty($suri['value']) 
 			&& $suri["directive"] == "/" 
 			&& $suri['page'] == 1 
-			&& getBlogSetting("metapageInitView")) ||
-		  	$suri['directive'] == "/meta"){
-			handleMetapages($sval, $this, $previewMode);
+			&& getBlogSetting("coverpageInitView")) ||
+		  	$suri['directive'] == "/cover"){
+			handleCoverpages($sval, $this, $previewMode);
 		}
 
 		$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);

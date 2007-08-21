@@ -1,13 +1,13 @@
 @charset "utf-8";
 
-/* Metapage ***************************************************************************************/
+/* Coverpage ***************************************************************************************/
 
-#independent-meta-line
+#independent-cover-line
 {
 	margin-top: -38px;
 }
 
-#metapage-preview-mode
+#coverpage-preview-mode
 {
 	background-position              : left 19px;
 }

@@ -92,9 +92,9 @@ $sidebarElements = array_keys($skin->sidebarStorage);
 foreach ($sidebarElements as $element) {
 	dress($element, $skin->sidebarStorage[$element], $view);
 }
-$metapageElements = array_keys($skin->metapageStorage);
-foreach ($metapageElements as $element) {
-	dress($element, $skin->metapageStorage[$element], $view);
+$coverpageElements = array_keys($skin->coverpageStorage);
+foreach ($coverpageElements as $element) {
+	dress($element, $skin->coverpageStorage[$element], $view);
 }
 $view = revertTempTags(removeAllTags($view));
 print $view;

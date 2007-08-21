@@ -144,7 +144,7 @@ class Services_Yadis_ParseHTML {
      * @return array $tag_list Array of tags; each tag is an array of
      * attribute -> value.
      */
-    function getMetaTags($html_string)
+    function getCoverTags($html_string)
     {
         $key_tags = array($this->tagPattern('html', false, false),
                           $this->tagPattern('head', false, false),
@@ -190,7 +190,7 @@ class Services_Yadis_ParseHTML {
         $link_data = array();
         $link_matches = array();
         
-        if (!preg_match_all($this->tagPattern('meta', false, 'maybe'),
+        if (!preg_match_all($this->tagPattern('cover', false, 'maybe'),
                             $html_string, $link_matches)) {
             return array();
         }
@@ -224,10 +224,10 @@ class Services_Yadis_ParseHTML {
      */
     function getHTTPEquiv($html_string)
     {
-        $meta_tags = $this->getMetaTags($html_string);
+        $cover_tags = $this->getCoverTags($html_string);
 
-        if ($meta_tags) {
-            foreach ($meta_tags as $tag) {
+        if ($cover_tags) {
+            foreach ($cover_tags as $tag) {
                 if (array_key_exists('http-equiv', $tag) &&
                     (in_array(strtolower($tag['http-equiv']),
                               array('x-xrds-location', 'x-yadis-location'))) &&

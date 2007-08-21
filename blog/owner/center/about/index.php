@@ -78,7 +78,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 											<tr>
 												<td class="name"><a href="http://www.create74.com">Yong-ju, Park</a></td>
-												<td class="role"><?php echo _t('Teamblog / Metapage / Plugin');?></td>
+												<td class="role"><?php echo _t('Teamblog / Coverpage / Plugin');?></td>
 											</tr>
 											<tr>
 												<td class="name"><a href="http://tokigun.net">Seong-Hoon Kang</a></td>

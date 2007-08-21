@@ -6,7 +6,7 @@ $activePlugins = array();
 $eventMappings = array();
 $tagMappings = array();
 $sidebarMappings = array();
-$metapageMappings = array();
+$coverpageMappings = array();
 $centerMappings = array();
 $storageMappings = array();
 $storageKeymappings = array();
@@ -135,22 +135,22 @@ if (getBlogId()) {
 					}
 					unset($sidebar);
 				}
-				if ($xmls->doesExist('/plugin/binding/metapage')) {
+				if ($xmls->doesExist('/plugin/binding/coverpage')) {
 					$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
-					foreach ($xmls->selectNodes('/plugin/binding/metapage') as $metapage) {
-						if (!empty($metapage['.attributes']['handler'])) {
+					foreach ($xmls->selectNodes('/plugin/binding/coverpage') as $coverpage) {
+						if (!empty($coverpage['.attributes']['handler'])) {
 							// parameter parsing
 							$parameters = array();
-							if (isset($metapage['params']) && isset($metapage['params'][0]) && isset($metapage['params'][0]['param'])) {
-								foreach($metapage['params'][0]['param'] as $param) {
+							if (isset($coverpage['params']) && isset($coverpage['params'][0]) && isset($coverpage['params'][0]['param'])) {
+								foreach($coverpage['params'][0]['param'] as $param) {
 									$parameter = array('name' => $param['name'][0]['.value'], 'type' => $param['type'][0]['.value'], 'title' => XMLStruct::getValueByLocale($param['title']));
 									array_push($parameters, $parameter);				
 								}
 							}
-							array_push($metapageMappings, array('plugin' => $plugin, 'title' => $metapage['.attributes']['title'], 'display' => $title, 'handler' => $metapage['.attributes']['handler'], 'parameters' => $parameters));
+							array_push($coverpageMappings, array('plugin' => $plugin, 'title' => $coverpage['.attributes']['title'], 'display' => $title, 'handler' => $coverpage['.attributes']['handler'], 'parameters' => $parameters));
 						}
 					}
-					unset($metapage);
+					unset($coverpage);
 				}
 				if($xmls->doesExist('/plugin/binding/config')) {
 					$config = $xmls->selectNode('/plugin/binding/config');
@@ -487,29 +487,29 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 }
 
 // 저장된 메타페이지 정렬 순서 정보를 가져온다.
-function handleMetapages(& $sval, & $obj, $previewMode) {
-	global $service, $pluginURL, $pluginPath, $pluginName, $configVal, $configMappings, $metapageModule;
-	requireModel("blog.metapage");
-	// [metapage id][element id](type, id, parameters)
+function handleCoverpages(& $sval, & $obj, $previewMode) {
+	global $service, $pluginURL, $pluginPath, $pluginName, $configVal, $configMappings, $coverpageModule;
+	requireModel("blog.coverpage");
+	// [coverpage id][element id](type, id, parameters)
 	// type : 3=plug-in
-	// id : type1=metapage i, type2=handler id, type3=plug-in handler name
-	// parameters : type1=metapage j, blah blah~
+	// id : type1=coverpage i, type2=handler id, type3=plug-in handler name
+	// parameters : type1=coverpage j, blah blah~
 	
-	$metapageAllOrders = getMetapageModuleOrderData();
-	if ($previewMode == true) $metapageAllOrders = null;
+	$coverpageAllOrders = getCoverpageModuleOrderData();
+	if ($previewMode == true) $coverpageAllOrders = null;
 	
 	$i = 0;
-	$metapageModule = "";
-	if ((!is_null($metapageAllOrders)) && ((array_key_exists($i, $metapageAllOrders)))) {
-		$currentMetapageOrder = $metapageAllOrders[$i];
-		for ($j=0; $j<count($currentMetapageOrder); $j++) {
-			if ($currentMetapageOrder[$j]['type'] == 3) { // plugin
-				$plugin = $currentMetapageOrder[$j]['id']['plugin'];
-				$handler = $currentMetapageOrder[$j]['id']['handler'];
+	$coverpageModule = "";
+	if ((!is_null($coverpageAllOrders)) && ((array_key_exists($i, $coverpageAllOrders)))) {
+		$currentCoverpageOrder = $coverpageAllOrders[$i];
+		for ($j=0; $j<count($currentCoverpageOrder); $j++) {
+			if ($currentCoverpageOrder[$j]['type'] == 3) { // plugin
+				$plugin = $currentCoverpageOrder[$j]['id']['plugin'];
+				$handler = $currentCoverpageOrder[$j]['id']['handler'];
 				include_once (ROOT . "/plugins/{$plugin}/index.php");
 				if (function_exists($handler)) {
-					$metapageModule .= "[##_temp_metapage_element_{$i}_{$j}_##]";
-					$parameters = $currentMetapageOrder[$j]['parameters'];
+					$coverpageModule .= "[##_temp_coverpage_element_{$i}_{$j}_##]";
+					$parameters = $currentCoverpageOrder[$j]['parameters'];
 					$pluginURL = "{$service['path']}/plugins/{$plugin}";
 					$pluginPath = ROOT . "/plugins/{$plugin}";
 					if( !empty( $configMappings[$plugin]['config'] ) ) 				
@@ -518,9 +518,9 @@ function handleMetapages(& $sval, & $obj, $previewMode) {
 						$configVal ='';
 					
 					if (function_exists($handler)) {
-						$obj->metapageStorage["temp_metapage_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
+						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
 					} else {
-						$obj->metapageStorage["temp_metapage_element_{$i}_{$j}"] = "";
+						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = "";
 					}
 				}
 			} else {

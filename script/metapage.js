@@ -14,7 +14,7 @@
 		this.dragClass = "ajax-floating-panel";
 		this.opacity = 0.9;
 		
-        if (this.domNode.metapageNumber != null) decorateDragPanel(this.domNode);		
+        if (this.domNode.coverpageNumber != null) decorateDragPanel(this.domNode);		
 	}
 	
 	dojo.inherits(DragPanel, dojo.dnd.HtmlDragSource);
@@ -45,7 +45,7 @@
 			{
 				var newNode = document.createElement(e.dragObject.domNode.tagName);
 				newNode.id = 'newDragPanel_' + globalNewNodeCounter++;
-				newNode.className = 'metapage-module metapage-plugin-module';
+				newNode.className = 'coverpage-module coverpage-plugin-module';
 				newNode.ajaxtype = 'register';
 				newNode.moduleCategory = e.dragObject.domNode.moduleCategory;
 				newNode.identifier = e.dragObject.domNode.identifier;
@@ -54,9 +54,9 @@
 
 				e.dragObject.domNode = newNode;
 				
-				new DragPanel(newNode, ["metapage"]);
+				new DragPanel(newNode, ["coverpage"]);
 			}
-			if ((e.dragObject.domNode.ajaxtype == 'register') && (e.dragObject.domNode.moduleCategory == 'metapage_element')) 
+			if ((e.dragObject.domNode.ajaxtype == 'register') && (e.dragObject.domNode.moduleCategory == 'coverpage_element')) 
 			{
 				//decorateDragPanel(e.dragObject.domNode);
 			}
@@ -65,12 +65,12 @@
 			delete this.parentMethod;
 			
 			if ((retVal == true) && (globalChker == true)) {
-				var targetMetapage = this.domNode.metapage;
+				var targetCoverpage = this.domNode.coverpage;
 				var targetPosition = 0;
 				
 				var prevNode = e.dragObject.domNode.previousSibling;
 				while (prevNode != null) {
-					if ((prevNode.nodeType != 3/* TEXT_NODE */) && (prevNode.className.indexOf("metapage-module") != -1)) break;
+					if ((prevNode.nodeType != 3/* TEXT_NODE */) && (prevNode.className.indexOf("coverpage-module") != -1)) break;
 					prevNode = prevNode.previousSibling;
 				}
 				if (prevNode != null) {
@@ -78,11 +78,11 @@
 				}
 				
 				if (e.dragObject.domNode.ajaxtype == 'reorder') {
-					var sourceMetapage = e.dragObject.domNode.metapageNumber;
+					var sourceCoverpage = e.dragObject.domNode.coverpageNumber;
 					var sourcePostion = e.dragObject.domNode.modulePos;
-					e.dragObject.domNode.metapageNumber = targetMetapage;
+					e.dragObject.domNode.coverpageNumber = targetCoverpage;
 				
-					var requestURL = blogURL + "/owner/center/metapage/order?metapageNumber=" + sourceMetapage + "&targetMetapageNumber=" + targetMetapage + "&modulePos=" + sourcePostion + "&targetPos=" + targetPosition + viewMode;
+					var requestURL = blogURL + "/owner/center/coverpage/order?coverpageNumber=" + sourceCoverpage + "&targetCoverpageNumber=" + targetCoverpage + "&modulePos=" + sourcePostion + "&targetPos=" + targetPosition + viewMode;
 					
 					var request = new HTTPRequest("POST", requestURL);
 					request.onSuccess = function () {
@@ -98,18 +98,18 @@
 					request.send();
 					waitServerResponse();
 				} else if (e.dragObject.domNode.ajaxtype == 'register') {
-					e.dragObject.domNode.metapageNumber = targetMetapage;
+					e.dragObject.domNode.coverpageNumber = targetCoverpage;
 					e.dragObject.domNode.ajaxtype = 'reorder';
 					
-					var requestURL = blogURL + "/owner/center/metapage/register?metapageNumber=" + targetMetapage + "&modulePos=" + targetPosition + "&moduleId=" + e.dragObject.domNode.identifier + viewMode;
+					var requestURL = blogURL + "/owner/center/coverpage/register?coverpageNumber=" + targetCoverpage + "&modulePos=" + targetPosition + "&moduleId=" + e.dragObject.domNode.identifier + viewMode;
 
 					var request = new HTTPRequest("POST", requestURL);
-					request.metapage = targetMetapage;
+					request.coverpage = targetCoverpage;
 					request.modulepos = targetPosition;
 					request.moduleCategory = e.dragObject.domNode.moduleCategory;
 					request.onSuccess = function () {
 					    clearWaitServerResponse();
-						if (this.moduleCategory == 'plugin') previewPlugin(this.metapage, this.modulepos);
+						if (this.moduleCategory == 'plugin') previewPlugin(this.coverpage, this.modulepos);
 						decorateDragPanel(e.dragObject.domNode);
 					}
 					request.onError = function () {
@@ -155,14 +155,14 @@
 		        return false;
 			}
 			
-			var sourceMetapage = e.dragObject.domNode.metapageNumber;
+			var sourceCoverpage = e.dragObject.domNode.coverpageNumber;
 			var sourcePostion = e.dragObject.domNode.modulePos;
 
 			this.parentMethod = DropPanel.superclass.onDrop;
 			var retVal = this.parentMethod(e);
 			delete this.parentMethod;
 			
-			window.location.href = blogURL + "/owner/center/metapage/delete?metapageNumber=" + sourceMetapage + "&modulePos=" + sourcePostion + viewMode;
+			window.location.href = blogURL + "/owner/center/coverpage/delete?coverpageNumber=" + sourceCoverpage + "&modulePos=" + sourcePostion + viewMode;
 			
 			return retVal;
 		},
@@ -213,7 +213,7 @@
     	}
     );
 
-	function submitMetapagePlugin(metapage, modulepos) {
+	function submitCoverpagePlugin(coverpage, modulepos) {
 		var pNode = dlg.domNode.firstChild;
 		while (pNode != null) {
 			if ((pNode.tagName != null) && (pNode.tagName.toLowerCase() == 'form')) {
@@ -222,7 +222,7 @@
 			pNode = pNode.nextSibling;
 		}
 		if (pNode != null) {
-			var requestURL = blogURL + "/owner/center/metapage/setPlugin?metapageNumber=" + metapage + "&modulePos=" + modulepos + "&ajaxcall=true" + viewMode;
+			var requestURL = blogURL + "/owner/center/coverpage/setPlugin?coverpageNumber=" + coverpage + "&modulePos=" + modulepos + "&ajaxcall=true" + viewMode;
             var postData = "";
 			pNode = pNode.firstChild;
 			while (pNode != null) {
@@ -248,10 +248,10 @@
 				pNode = pNode.nextSibling;
 			}
 			var request = new HTTPRequest("POST", requestURL);
-			request.metapage = metapage;
+			request.coverpage = coverpage;
 			request.modulepos = modulepos;
 			request.onSuccess = function () {
-				previewPlugin(this.metapage, this.modulepos);
+				previewPlugin(this.coverpage, this.modulepos);
 				return true;
 			}
 			request.onError = function () {
@@ -267,14 +267,14 @@
 		dlg.hide();
 	}
 
-	function previewPlugin(metapage, modulepos) {
-		var requestURL = blogURL + "/owner/center/metapage/preview?metapageNumber=" + metapage + "&modulePos=" + modulepos + previewMode;
+	function previewPlugin(coverpage, modulepos) {
+		var requestURL = blogURL + "/owner/center/coverpage/preview?coverpageNumber=" + coverpage + "&modulePos=" + modulepos + previewMode;
 		
 		var request = new HTTPRequest("GET", requestURL);
-		request.metapage = metapage;
+		request.coverpage = coverpage;
 		request.modulepos = modulepos
 		request.onSuccess = function () {
-			var pNode = document.getElementById('metapage-ul-' + this.metapage);
+			var pNode = document.getElementById('coverpage-ul-' + this.coverpage);
 			if (pNode != null) pNode = pNode.firstChild;
 			
 			while (pNode != null) {
@@ -304,7 +304,7 @@
 	}
 
 	function decorateDragPanel(node) {
-		var sourceMetapage = node.metapageNumber;
+		var sourceCoverpage = node.coverpageNumber;
 		var sourcePostion = node.modulePos;
 		var pNode = node.firstChild;
 		while (pNode != null) {
@@ -314,7 +314,7 @@
 		if (pNode != null) {
 			var newNode = document.createElement('a');
 			newNode.className = "module-close";
-			newNode.href = blogURL + "/owner/center/metapage/delete/?metapageNumber=" + sourceMetapage + "&modulePos=" + sourcePostion + viewMode;
+			newNode.href = blogURL + "/owner/center/coverpage/delete/?coverpageNumber=" + sourceCoverpage + "&modulePos=" + sourcePostion + viewMode;
 			newNode.title = decorateDragPanelString_deleteTitle;
 			newNode.innerHTML = '<img src="' + servicePath + adminSkin + '/image/img_delete_module.gif" border="0" alt="'+ commonString_delete +'" />';
 			if (pNode.nextSibling != null) {		
@@ -332,8 +332,8 @@
 		}
 	}
 
-	function editMetapagePlugin(metapage, modulepos) {
-		var requestURL = blogURL + "/owner/center/metapage/edit?metapageNumber=" + metapage + "&modulePos=" + modulepos + "&ajaxcall=submitMetapagePlugin(" + metapage + "," + modulepos + ")" + viewMode;
+	function editCoverpagePlugin(coverpage, modulepos) {
+		var requestURL = blogURL + "/owner/center/coverpage/edit?coverpageNumber=" + coverpage + "&modulePos=" + modulepos + "&ajaxcall=submitCoverpagePlugin(" + coverpage + "," + modulepos + ")" + viewMode;
 
 		var request = new HTTPRequest("GET", requestURL);
 		request.onSuccess = function () {

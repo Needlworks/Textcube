@@ -17,12 +17,12 @@ if (false) {
 }
 fireEvent('OBStart');
 require ROOT . '/lib/piece/blog/begin.php';
-if(count($metapageMappings) > 0) {
-	$metaView = $skin->meta;
+if(count($coverpageMappings) > 0) {
+	$coverView = $skin->cover;
 	dress('article_rep', '', $view);
 	dress('paging', '', $view);
-	dress('metapage', $metapageModule, $metaView);
-	dress('meta', $metaView, $view);
+	dress('coverpage', $coverpageModule, $coverView);
+	dress('cover', $coverView, $view);
 }
 require ROOT . '/lib/piece/blog/end.php';
 fireEvent('OBEnd');

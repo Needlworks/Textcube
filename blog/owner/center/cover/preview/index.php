@@ -6,7 +6,7 @@ define('ROOT', '../../../../..');
 
 $IV = array(
 	'REQUEST' => array(
-		'metapageNumber' => array('int'),
+		'coverpageNumber' => array('int'),
 		'modulePos' => array('int'),
 		'safe' => array('any', 'mandatory' => false),
 		'tag' => array('any', 'mandatory' => false)
@@ -15,7 +15,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
-requireModel("blog.metapage");
+requireModel("blog.coverpage");
 requireModel('blog.statistics');
 requireModel('blog.entry');
 requireModel("blog.archive");
@@ -28,7 +28,7 @@ requireStrictRoute();
 
 $stats = getStatistics($blogid);
 
-function correctMetapageImage( $subject ) {
+function correctCoverpageImage( $subject ) {
 	$pattern_with_src = '/(?:\ssrc\s*=\s*["\']?)([^\s^"^>^\']+)(?:[\s">\'])/i';
 	$pattern_with_background = '/(?:\sbackground\s*=\s*["\']??)([^\s^"^>^\']+)(?:[\s">\'])/i';
 	$pattern_with_url_func = '/(?:url\s*\(\s*\'?)([^)]+)(?:\'?\s*\))/i';
@@ -90,11 +90,11 @@ function pretty_dress($view)
 	
 	if (isset($_REQUEST['safe'])) {
 		// safe mode
-		return '<div class="metapage-element-safebox">&hellip;</div>';
+		return '<div class="coverpage-element-safebox">&hellip;</div>';
 	}
 	if (isset($_REQUEST['tag'])) {
 		// safe mode
-		return '<div class="metapage-element-safebox"><p>' . nl2br(htmlspecialchars($view, ENT_QUOTES)) . '</p></div>';
+		return '<div class="coverpage-element-safebox"><p>' . nl2br(htmlspecialchars($view, ENT_QUOTES)) . '</p></div>';
 	}
 	
 	$writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $blogid");
@@ -168,34 +168,34 @@ function pretty_dress($view)
 			
 	$view = preg_replace($tagSearches, $tagReplaces, $view);
 	
-	return correctMetapageImage($view);
+	return correctCoverpageImage($view);
 }
 
 $skin = new Skin($skinSetting['skin']);
-$metapageCount = count($skin->metapageBasicModules);
+$coverpageCount = count($skin->coverpageBasicModules);
 getBlogContentForSideBar();
 
-if (($_REQUEST['metapageNumber'] >= 0) 	&& ($_REQUEST['metapageNumber'] < $metapageCount))
+if (($_REQUEST['coverpageNumber'] >= 0) 	&& ($_REQUEST['coverpageNumber'] < $coverpageCount))
 {
-	$metapageOrder = getMetapageModuleOrderData($metapageCount);
-	$target = $metapageOrder[$_REQUEST['metapageNumber']][$_REQUEST['modulePos']];
+	$coverpageOrder = getCoverpageModuleOrderData($coverpageCount);
+	$target = $coverpageOrder[$_REQUEST['coverpageNumber']][$_REQUEST['modulePos']];
 	
-	$metapagePluginArray = array();
-	for ($i=0; $i<count($metapageMappings); $i++) {
-		$metapagePluginArray[$metapageMappings[$i]['plugin'] . '/' . $metapageMappings[$i]['handler']]=
+	$coverpagePluginArray = array();
+	for ($i=0; $i<count($coverpageMappings); $i++) {
+		$coverpagePluginArray[$coverpageMappings[$i]['plugin'] . '/' . $coverpageMappings[$i]['handler']]=
 			array( 
-				'type' => 3, 'id' => $metapageMappings[$i]['handler'],
-				'plugin' => $metapageMappings[$i]['plugin'], 'title' =>$metapageMappings[$i]['title'], 
-				'display' => $metapageMappings[$i]['display'],
-				'identifier' => implode(':', array(3,$metapageMappings[$i]['plugin'],$metapageMappings[$i]['handler'])),
-				'parameters' => $metapageMappings[$i]['parameters']
+				'type' => 3, 'id' => $coverpageMappings[$i]['handler'],
+				'plugin' => $coverpageMappings[$i]['plugin'], 'title' =>$coverpageMappings[$i]['title'], 
+				'display' => $coverpageMappings[$i]['display'],
+				'identifier' => implode(':', array(3,$coverpageMappings[$i]['plugin'],$coverpageMappings[$i]['handler'])),
+				'parameters' => $coverpageMappings[$i]['parameters']
 				);
 	}
 
 	if ($target['type'] == 3) {
 		$sidbarPluginIndex = $target['id']['plugin'] . '/' . $target['id']['handler'];
 			
-		if (array_key_exists($sidbarPluginIndex,  $metapagePluginArray)) {
+		if (array_key_exists($sidbarPluginIndex,  $coverpagePluginArray)) {
 			$pluginURL = "{$service['path']}/plugins/{$target['id']['plugin']}";
 			include_once (ROOT . "/plugins/{$target['id']['plugin']}/index.php");
 			echo pretty_dress(call_user_func($target['id']['handler'], $target['parameters']));
