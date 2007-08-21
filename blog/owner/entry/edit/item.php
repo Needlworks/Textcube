@@ -420,6 +420,7 @@ if (isset($_GET['popupEditor'])) {
 										this.timer = null;
 										if (this.delay) {
 											this.delay = false;
+											this.autoSave = false;
 											this.timer = window.setTimeout("entryManager.saveDraft()", 5000);
 											return;
 										}

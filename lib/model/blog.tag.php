@@ -261,12 +261,9 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 	}
 	
 	// step 1. Get deleted Tag
-	$toldlist = DBQuery::queryColumn("SELECT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid AND entry = $entry");
-	$tmpoldtaglist	 = null;
-	if (count($toldlist) > 0) {
-		$toldliststr = implode(', ', $toldlist);
-		$tmpoldtaglist = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Tags WHERE id IN ( $toldliststr )");
-	}
+	$tmpoldtaglist = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Tags
+		LEFT JOIN {$database['prefix']}TagRelations ON tag = id 
+		WHERE blogid = $blogid AND entry = $entry");
 	if ($tmpoldtaglist == null)
 		$tmpoldtaglist = array();
 	$oldtaglist = array();
