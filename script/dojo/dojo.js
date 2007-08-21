@@ -4008,7 +4008,7 @@ evt.key=evt.which;
 break;
 default:
 var _3a1=evt.which;
-if((evt.ctrlKey||evt.altKey||evt.coverKey)&&(evt.which>=65&&evt.which<=90&&evt.shiftKey==false)){
+if((evt.ctrlKey||evt.altKey||evt.metaKey)&&(evt.which>=65&&evt.which<=90&&evt.shiftKey==false)){
 _3a1+=32;
 }
 evt.key=String.fromCharCode(_3a1);

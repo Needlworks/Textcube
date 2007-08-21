@@ -18,7 +18,7 @@
   	<listener event="UpdatePost">MT_Meta_getRecentEntries_purgeCache</listener>
   	<listener event="DeletePost">MT_Meta_getRecentEntries_purgeCache</listener>
 	<tag name="SKIN_head_end" handler="MT_Meta_getRecentEntryStyle" />
-    <metapage title="Recent Posts" handler="MT_Meta_getRecentEntries">
+    <coverpage title="Recent Posts" handler="MT_Meta_getRecentEntries">
       <params>
         <param>
           <title xml:lang="en">Show recent posts per list</title>
