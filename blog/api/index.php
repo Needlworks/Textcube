@@ -39,7 +39,7 @@ function SendRSD()
         <homePageLink>' . $homeurl . '/</homePageLink>
         <apis>
         		<api name="MovableType" preferred="true" apiLink="' . $apiurl . '" blogID="' . $blogid . '" />
-                <api name="CoverWeblog" preferred="false" apiLink="' . $apiurl . '" blogID="' . $blogid . '" />
+                <api name="MetaWeblog" preferred="false" apiLink="' . $apiurl . '" blogID="' . $blogid . '" />
                 <api name="Blogger" preferred="false" apiLink="' . $apiurl . '" blogID="' . $blogid . '" />
         </apis>
     </service>
