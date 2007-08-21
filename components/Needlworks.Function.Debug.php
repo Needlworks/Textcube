@@ -367,4 +367,21 @@ function dump($data) {
 	var_dump($data);
 	echo'</pre>';
 }
+function dumpAsFile($data) {
+	if(!is_dir(ROOT."/cache")) {
+		@mkdir(ROOT."/cache");
+		@chmod(ROOT."/cache",0777);
+	}
+
+	$dumpFile = ROOT.'/cache/dump';
+	if(file_exists($dumpFile)) {
+		$dumpedLog = @file_get_contents($dumpFile);
+	} else {
+		$dumpedLog = '';
+	}
+	$dumpedLog = $dumpedLog.Timestamp::format5()." : ".print_r($data,true).CRLF;
+	$fileHandle = fopen($dumpFile,'w');
+	fwrite($fileHandle, $dumpedLog);
+	fclose($fileHandle);
+}
 ?>
