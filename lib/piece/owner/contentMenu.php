@@ -5,7 +5,7 @@ if(isset($blogMenu['topMenu'])) {
 			if(Acl::check('group.administrators')) {
 				$blogContentMenuItem = array(
 					array('menu'=>'dashboard','title'=>_t('조각보'),'link'=>'/owner/center/dashboard'),
-					array('menu'=>'metapage','title'=>_t('색동'),'link'=>'/owner/center/metapage'),
+					array('menu'=>'cover','title'=>_t('색동'),'link'=>'/owner/center/cover'),
 				);
 			}
 			else{
