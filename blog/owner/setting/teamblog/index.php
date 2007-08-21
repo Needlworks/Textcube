@@ -280,8 +280,8 @@ if( Acl::check('group.owners')) {?>
 				echo _t('블로그 소유자');
 			} else {
 ?>										
-														<input type="checkbox" onclick="changeACL('admin',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_ADMINISTRATOR) ? 'checked="checked"' : '');?>><?php echo _t('관리자');?>
-														<input type="checkbox" onclick="changeACL('editor',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_EDITOR) ? 'checked="checked"' : '');?> ><?php echo _t('글관리');?>
+														<input type="checkbox" onclick="changeACL('admin',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_ADMINISTRATOR) ? 'checked="checked"' : '');?> /><?php echo _t('관리자');?>
+														<input type="checkbox" onclick="changeACL('editor',<?php echo $value['userid']; ?>,this.checked?'1':'0');" <?php echo( ($value['acl'] & BITWISE_EDITOR) ? 'checked="checked"' : '');?> /><?php echo _t('글관리');?>
 <?php
 			}
 ?>

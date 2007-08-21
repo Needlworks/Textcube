@@ -305,7 +305,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.inviters")) {
 								<thead>
 									<tr>
 										<th class="site"><span class="text"><?php echo _t('오픈아이디')?></span></th>
-										<th class="site"><span class="text"></span></th>
+										<th class="site"><span class="text"><?php echo _t('삭제');?></span></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -489,7 +489,7 @@ if ($service['type'] != 'single' && Acl::check("group.inviters")) {
 										</dd>
 									</dl>
 								</div>
-							</form>
+							</div>
 						</div>
 <?php
 }

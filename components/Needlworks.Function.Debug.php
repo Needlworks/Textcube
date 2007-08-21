@@ -314,7 +314,7 @@ THEAD;
 		$elapsed_total_db += $log['elapsed'];
 		$elapsed_total = $log['endtime'];
 		$progress_bar = $log['percent'] / 2; //Max 50px;
-		$log['percent'] = "<div style='background:#f00;line-height:10px;width:{$progress_bar}px'>&nbsp;<div>";
+		$log['percent'] = "<div style='background:#f00;line-height:10px;width:{$progress_bar}px'>&nbsp;</div>";
 		print <<<TBODY
 		<tr class="debugSQLLine{$trclass}">
 			<th>{$count_label}</th>

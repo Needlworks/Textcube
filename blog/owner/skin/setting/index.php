@@ -173,7 +173,7 @@ for ($i = 1; $i <= 30; $i++) {
 $arg = ob_get_contents();
 ob_end_clean();
 ?>
-										<dl id="post-per-count-line" class="line">
+										<dl id="list-per-count-line" class="line">
 											<dt><span class="label"><?php echo _t('목록 한 쪽당 글 수');?></span></dt>
 											<dd><?php echo _f('글목록을 한 쪽당 %1개 보여줍니다.', $arg);?></dd>
 										</dl>
