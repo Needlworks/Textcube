@@ -229,7 +229,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useMetapageInit']))
 getBlogContentForMetaPage();
 ?>
 						<form id="part-metapage-order" class="part" method="post" action="<?php echo $blogURL; ?>/owner/center/metapage">
-							<h2 class="caption"><span class="main-text"><?php echo _t('메타 페이지를 관리합니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('표지를 관리합니다');?></span></h2>
 <?php
 	if(isset($skin->meta)) {
 ?>
@@ -237,15 +237,15 @@ getBlogContentForMetaPage();
 								<dt><?php echo _t('독립패널 설정');?></dt>
 								<dd>
 									<input type="checkbox" class="checkbox" id="useMetapageInit" name="useMetapageInit" value="on" onclick="changeList();return false;"<?php echo $metapageInitView == 1 ? ' checked="checked"' : NULL;?> />
-									<label for="useMetapageInit"><?php echo _t('메타 페이지를 첫 화면으로 설정합니다');?></label>
+									<label for="useMetapageInit"><?php echo _t('표지를 첫 화면으로 사용합니다');?></label>
 								</dd>
 							</dl>							
 <?php
 	}
 ?>
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('블로그의 메타 페이지 구성을 변경할 수 있습니다. 메타 페이지는 블로그 첫 화면에 표시되는 부분입니다. 메타 페이지에 새로운 요소를 추가/삭제할 수 있으며 패널들을 자유롭게 배치 할 수 있습니다.');?>
-								<?php echo ($service['type'] == 'path' || $service['type'] == 'domain') ?  _t('다중 사용자 모드로 설치된 경우 블로그 관리자는 메타 페이지 기능을 이용하여 대표 블로그를 다른 블로그들에 대한 센터 기능을 하는 메타 페이지로 구성할 수 있습니다.') : '';?></p>
+								<p class="explain"><?php echo _t('블로그의 표지 구성을 변경할 수 있습니다.');?> <?php echo _f('표지는 블로그 첫 화면 또는 %1/cover 에 표시되는 부분입니다.',$defaultURL);?> <?php echo _t('표지에 새로운 요소를 추가/삭제할 수 있으며 패널들을 자유롭게 배치 할 수 있습니다.');?>
+								<?php echo ($service['type'] == 'path' || $service['type'] == 'domain') ?  _t('다중 사용자 모드로 설치된 경우 블로그 관리자는 표지 기능을 이용하여 대표 블로그를 다른 블로그들에 대한 센터 기능을 하도록 구성할 수 있습니다.') : '';?></p>
 							</div>
 							
 							<dl id="direct-link-line" class="line">
@@ -255,9 +255,9 @@ getBlogContentForMetaPage();
 <?php
 if ($metapageCount == 0 || count($metapageMappings) == 0) {
 	if ($metapageCount == 0)
-		$errmsg = '사용중인 스킨이 메타 페이지를 지원하지 않습니다.';
+		$errmsg = '사용중인 스킨이 표지를 지원하지 않습니다.';
 	else
-		$errmsg = '사용중인 메타 페이지 플러그인이 없습니다.';
+		$errmsg = '사용중인 표지 플러그인이 없습니다.';
 ?>
 							<ul id="metapage-tabs-box" class="tabs-box">
 								<li class="selected"><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
@@ -272,7 +272,7 @@ if ($metapageCount == 0 || count($metapageMappings) == 0) {
 	exit;
 }
 
-// 사용중인 메타 페이지 모듈 리스트 출력.
+// 사용중인 표지 모듈 리스트 출력.
 $bFirstRadio = true;
 $metapageConfig = getMetapageModuleOrderData();
 if (is_null($metapageConfig)) {
@@ -284,8 +284,8 @@ if (is_null($metapageConfig)) {
 							<ul id="metapage-tabs-box" class="tabs-box">
 								<li<?php echo $defaultModeSelected ? ' class="selected"' : NULL;?>><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
 								<li<?php echo $safeModeSelected ? ' class="selected"' : NULL;?>><a id="safe-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a></li>
-								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage?tag" title="<?php echo _t('실제 블로그 메타 페이지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a></li>
-								<li<?php echo $initModeSelected ? ' class="selected"' : NULL;?>><a id="init-button" class="button" href="metapage/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 메타 페이지의 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('메타 페이지의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a></li>
+								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage?tag" title="<?php echo _t('실제 블로그 표지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a></li>
+								<li<?php echo $initModeSelected ? ' class="selected"' : NULL;?>><a id="init-button" class="button" href="metapage/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 표지의 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('표지의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a></li>
 							</ul>
 							
 							<div id="metapage-box" class="data-inbox">
@@ -338,7 +338,7 @@ for ($i=0; $i<$metapageCount; $i++) {
 <?php
 				} else {
 ?>
-														<a href="<?php echo $blogURL; ?>/owner/center/metapage/order/?metapageNumber=<?php echo $i;?>&amp;targetmetapageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j - 1;?><?php echo $viewMode;?>" title="<?php echo _t('이 메타 페이지 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
+														<a href="<?php echo $blogURL; ?>/owner/center/metapage/order/?metapageNumber=<?php echo $i;?>&amp;targetmetapageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j - 1;?><?php echo $viewMode;?>" title="<?php echo _t('이 표지 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
 <?php
 				}
 				
@@ -348,11 +348,11 @@ for ($i=0; $i<$metapageCount; $i++) {
 <?php
 				} else {
 ?>
-														<a href="<?php echo $blogURL; ?>/owner/center/metapage/order/?metapageNumber=<?php echo $i;?>&amp;targetmetapageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j + 2;?><?php echo $viewMode;?>" title="<?php echo _t('이 메타 페이지 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
+														<a href="<?php echo $blogURL; ?>/owner/center/metapage/order/?metapageNumber=<?php echo $i;?>&amp;targetmetapageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j + 2;?><?php echo $viewMode;?>" title="<?php echo _t('이 표지 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
 <?php
 				}
 ?>
-														<a href="<?php echo $blogURL; ?>/owner/center/metapage/delete/?metapageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?><?php echo $viewMode;?>" title="<?php echo _t('이 메타 페이지 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
+														<a href="<?php echo $blogURL; ?>/owner/center/metapage/delete/?metapageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?><?php echo $viewMode;?>" title="<?php echo _t('이 표지 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
 														<!-- TODO : metapage plugin settting -->									
 													</div>
 <?php 
@@ -397,7 +397,7 @@ for ($i=0; $i<$metapageCount; $i++) {
 							<div id="metapage-element-box" class="data-inbox">
 								<h3><?php echo _t('추가 가능한 모듈');?></h3>
 <?php
-// 사용중이지 않은 스킨 내장형 메타 페이지 모듈 리스트 출력.
+// 사용중이지 않은 스킨 내장형 표지 모듈 리스트 출력.
 $sortedArray = array();
 for ($i=0; $i<$metapageCount; $i++) {
 	$moduleCountInMetapage = count($skin->metapageBasicModules[$i]);
@@ -418,7 +418,7 @@ for ($i=0; $i<$metapageCount; $i++) {
 									
 									<ul class="module-list">
 <?php
-// 메타 페이지 플러그인 모듈을 리스트에 포함시킨다.
+// 표지 플러그인 모듈을 리스트에 포함시킨다.
 foreach ($metapagePluginArray as $nowKey) {
 ?>
 										<li class="metapage-module" id="<?php echo "add-metapage-module-{$nowKey['identifier']}";?>">
@@ -441,12 +441,12 @@ foreach ($metapagePluginArray as $nowKey) {
 								</fieldset>
 								
 								<div class="button-box">
-									<input type="submit" class="input-button" value="<?php echo _t('모듈 추가');?>" title="<?php echo _t('선택된 모듈을 메타 페이지에 추가합니다.');?>"/>									
+									<input type="submit" class="input-button" value="<?php echo _t('모듈 추가');?>" title="<?php echo _t('선택된 모듈을 표지에 추가합니다.');?>"/>									
 								</div>
 							</div>
 							
 							<p id="metapage-description" class="pseudo-clear">
-								<em>* <?php echo _t('메타 페이지의 위치는 스킨의 구조에 따라 달라집니다.');?></em>
+								<em>* <?php echo _t('표지의 위치는 스킨의 구조에 따라 달라집니다.');?></em>
 							</p>
 						</form>
 						
@@ -454,7 +454,7 @@ foreach ($metapagePluginArray as $nowKey) {
 						<script src="<?php echo $service['path'];?>/script/metapage.js" type="text/javascript"></script>
 						<script type="text/javascript">
 							//<![CDATA[
-								var decorateDragPanelString_deleteTitle = "<?php echo _t('이 메타 페이지 모듈을 삭제합니다.');?>";
+								var decorateDragPanelString_deleteTitle = "<?php echo _t('이 표지 모듈을 삭제합니다.');?>";
 								var commonString_delete = "<?php echo _t('삭제');?>";
 								var commonString_cancel = "<?php echo _t('취소');?>";
 								var commonString_close = "<?php echo _t('닫기');?>";
