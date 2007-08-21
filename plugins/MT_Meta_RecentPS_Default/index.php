@@ -8,7 +8,7 @@ function MT_Cover_getRecentEntries($parameters){
 	requireModel("blog.tag");
 	$data = misc::fetchConfigVal($configVal);
 	$data['coverMode']	= !isset($data['coverMode'])?1:$data['coverMode'];
-	if(misc::isCoverBlog() != true) $data['coverMode'] = 1;
+	if(misc::isMetaBlog() != true) $data['coverMode'] = 1;
 
 	if (isset($parameters['preview'])) {
 		// preview mode
@@ -39,7 +39,7 @@ function MT_Cover_getRecentEntries($parameters){
 		}	
 	}
 	
-	if((misc::isCoverBlog() == true) && doesHaveOwnership()) {
+	if((misc::isMetaBlog() == true) && doesHaveOwnership()) {
 		$visibility = 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
