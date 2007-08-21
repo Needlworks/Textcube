@@ -335,15 +335,15 @@ if($textcubeDashboard) {
 											</thead>
 											<tbody>
 <?php
-	$comments = getRecentComments($blogid,5);
-	foreach ($comments as $comment) {
+		$comments = getRecentComments($blogid,5);
+		foreach ($comments as $comment) {
 ?>
 												<tr>
 													<td class="title"><a href="<?php echo $blogURL."/".$comment['entry']."#comment".$comment['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 25));?></a></td>
 													<td class="date"><?php echo Timestamp::format('%m/%d',$comment['written']);?></td>
 												</tr>
 <?php
-	}
+		}
 ?>
 											</tbody>
 										</table>
@@ -357,15 +357,15 @@ if($textcubeDashboard) {
 											</thead>
 											<tbody>
 <?php
-	list($commentNotifies,$paging) = getCommentsNotifiedWithPagingForOwner($blogid,0,null,null,null,1,5);
-	foreach ($commentNotifies as $comment) {
+		list($commentNotifies,$paging) = getCommentsNotifiedWithPagingForOwner($blogid,0,null,null,null,1,5);
+		foreach ($commentNotifies as $comment) {
 ?>
 												<tr>
 													<td class="title"><?php echo htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 25));?></td>
 													<td class="date"><?php echo Timestamp::format('%m/%d',$comment['written']);?></td>
 												</tr>
 <?php
-	}
+		}
 ?>
 											</tbody>
 										</table>
@@ -379,15 +379,15 @@ if($textcubeDashboard) {
 											</thead>
 											<tbody>
 <?php
-	$guestbooks = getRecentGuestbook($blogid,5);
-	foreach ($guestbooks as $guestbook) {
+		$guestbooks = getRecentGuestbook($blogid,5);
+		foreach ($guestbooks as $guestbook) {
 ?>
 												<tr>
 													<td class="title"><a href="<?php echo $blogURL."/guestbook#comment".$guestbook['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($guestbook['comment'], 25));?></a></td>
 													<td class="date"><?php echo Timestamp::format('%m/%d',$guestbook['written']);?></td>
 												</tr>
 <?php
-	}
+		}
 ?>
 											</tbody>
 										</table>
@@ -401,15 +401,15 @@ if($textcubeDashboard) {
 											</thead>
 											<tbody>
 <?php
-	$trackbacks = getRecentTrackbacks($blogid,5);
-	foreach ($trackbacks as $trackback) {
+		$trackbacks = getRecentTrackbacks($blogid,5);
+		foreach ($trackbacks as $trackback) {
 ?>
 												<tr>
 													<td class="title"><a href="<?php echo $blogURL."/".$trackback['entry']."#trackback".$trackback['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($trackback['subject'], 25));?></a></td>
 													<td class="date"><?php echo Timestamp::format('%m/%d',$trackback['written']);?></td>
 												</tr>
 <?php
-	}
+		}
 ?>
 											</tbody>
 										</table>
