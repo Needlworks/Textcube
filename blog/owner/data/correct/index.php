@@ -85,7 +85,7 @@ function setProgress($progress, $text = null, $sub = null) {
 }
 
 setProgress(0, _t('교정 대상을 확인하고 있습니다.'));
-$items = 3 + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = $blogid") + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid");
+$items = 4 + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = $blogid") + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid");
 
 set_time_limit(0);
 $item = 0;
@@ -102,6 +102,10 @@ Post::updateTrackbacks();
 setProgress($item++ / $items * 100, _t('분류의 글 정보를 다시 계산해서 저장합니다.'));
 requireComponent('Textcube.Data.Post');
 updateEntriesOfCategory($blogid);
+
+setProgress($item++ / $items * 100, _t('태그와 태그 관계 정보를 다시 계산해서 저장합니다.'));
+requireComponent('Textcube.Data.Post');
+Post::correctTagsAll();
 
 if ($result = DBQuery::query("SELECT id, name, parent, homepage, comment, entry, isFiltered FROM {$database['prefix']}Comments WHERE blogid = $blogid")) {
 	while ($comment = mysql_fetch_assoc($result)) {
