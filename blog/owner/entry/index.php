@@ -759,6 +759,7 @@ if(isset($_POST['visibility'])) $returnURLpostfix .= (empty($returnURLpostfix) ?
 											<th class="syndicate"><span class="text"><?php echo _t('발행');?></span></th>
 											<th class="category"><span class="text"><?php echo _t('분류');?></span></th>
 											<th class="title"><span class="text"><?php echo _t('제목');?></span></th>
+											<th class="author"><span class="text"><?php echo _t('필자');?></span></th>
 											<th class="protect"><span class="text"><?php echo _t('보호설정');?></span></th>
 											<th class="trackback"><span class="text"><?php echo _t('글걸기');?></span></th>
 											<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
@@ -859,6 +860,9 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	$editmode = 'entry';
 ?>
 												<a href="<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entry['id'];?>" onclick="document.getElementById('list-form').action='<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entry['id'];?>'<?php echo ($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '');?>; document.getElementById('list-form').submit(); return false;"><?php echo htmlspecialchars($entry['title']);?></a>
+											</td>
+											<td class="author">
+												<?php echo User::getName($entry['userid']);?>
 											</td>
 											<td class="protect">
 <?php
