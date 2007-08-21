@@ -28,7 +28,7 @@
 		  <default>5</default>
         </param>
 	  </params>
-	</metapage>
+	</coverpage>
 	<config xml:lang="ko" dataValHandler="MT_Cover_getRecentEntries_DataSet" manifestHandler="MT_Cover_getRecentEntries_ConfigOut_ko">
 		<window width="500" height="244" />
 	</config>

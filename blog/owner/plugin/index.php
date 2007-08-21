@@ -54,7 +54,6 @@ while (false !== ($plugin = $dir->read())) { // 이게 php.net에서 권장하�
 
 	$acceptedPathCount = 0;
 	$tempXMLPathCount = 0;
-
 	if(empty($pluginInfo['scope'])) continue;
 	
 	foreach($pluginInfo['scope'] as $pluginScope) {
